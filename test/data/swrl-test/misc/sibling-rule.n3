@@ -1,0 +1,35 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix swrl: <http://www.w3.org/2003/11/swrl#>.
+@prefix : <foo:bla#>.
+
+ <family:Person> a owl:Class.
+ <family:child> a owl:ObjectProperty.
+ <family:sibling> a owl:ObjectProperty.
+ <family:age> a owl:FunctionalProperty; a owl:DatatypeProperty.
+ <family:john> a <family:Person>; <family:name> "John";  <family:age> 35;
+               <family:child> <family:alice>, <family:bob> .
+ <family:alice> a <family:Person>; <family:name> "Alice"; <family:age> 10 .
+ <family:bob> a <family:Person>; <family:name> "Bob"; <family:age> 8 .
+
+ <family:name> a owl:FunctionalProperty; a owl:DatatypeProperty.
+#  <family:bob> owl:differentFrom <family:alice>.
+
+ :x a swrl:Variable.
+ :y a swrl:Variable.
+ :z a swrl:Variable.
+   :r a swrl:Imp;
+     swrl:head ([ a swrl:IndividualPropertyAtom;
+                   swrl:propertyPredicate <family:sibling>;
+                   swrl:argument1 :y ;
+                   swrl:argument2 :z ]);
+     swrl:body ([ a swrl:IndividualPropertyAtom;
+                   swrl:propertyPredicate <family:child>;
+                   swrl:argument1 :x ;
+                   swrl:argument2 :y ]
+                [ a swrl:IndividualPropertyAtom;
+                   swrl:propertyPredicate <family:child>;
+                   swrl:argument1 :x ;
+                   swrl:argument2 :z ]
+                [ a swrl:DifferentIndividualsAtom;
+                   swrl:argument1 :y ;
+                   swrl:argument2 :z ]).

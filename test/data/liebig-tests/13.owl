@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/13.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>17.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>nominal/UNA test (OWL DL), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="player" />
+
+<owl:Class>
+   <owl:oneOf rdf:parseType="Collection">
+      <owl:Thing rdf:ID="D10S"/>
+      <owl:Thing rdf:ID="HandOfGod"/>
+      <owl:Thing rdf:ID="Kaiser"/>
+   </owl:oneOf>
+   <owl:equivalentClass>
+      <owl:Class>
+         <owl:oneOf rdf:parseType="Collection">
+         <owl:Thing rdf:ID="Maradona"/>
+         <owl:Thing rdf:ID="Beckenbauer"/>
+         </owl:oneOf>
+      </owl:Class>
+   </owl:equivalentClass>
+ </owl:Class>
+
+<owl:Thing rdf:about="#Beckenbauer">
+  <owl:differentFrom rdf:resource="#Maradona"/>
+</owl:Thing>
+
+<owl:Class rdf:ID="TwoPlayerTeam">
+ <owl:equivalentClass>
+   <owl:Restriction>
+     <owl:onProperty rdf:resource="#player" />
+     <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+   </owl:Restriction>
+ </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="ThreePlayerTeam">
+ <owl:equivalentClass>
+   <owl:Restriction>
+     <owl:onProperty rdf:resource="#player" />
+     <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:minCardinality>
+   </owl:Restriction>
+ </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="SoccerDreamTeam">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#player" />
+      <owl:hasValue rdf:resource="#D10S" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#player" />
+      <owl:hasValue rdf:resource="#HandOfGod" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#player" />
+      <owl:hasValue rdf:resource="#Kaiser" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+
+<!--
+  consequence: SoccerDreamTeam is a sub-class of TwoTeamPlayer
+               but not of ThreePlayerTeam (because two of the
+               three individuals need to be the same)
+
+<owl:Class rdf:about="#SoccerDreamTeam">
+  <rdfs:subClassOf rdf:resource="#TwoPlayerTeam" />
+</owl:Class>
+
+<owl:Class>
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#SoccerDreamTeam" />
+    <owl:Class>
+      <owl:complementOf>
+        <owl:Class rdf:about="#ThreePlayerTeam" />
+      </owl:complementOf>
+    </owl:Class>
+  </owl:intersectionOf>
+  <owl:disjointWith rdf:resource="&owl;Nothing"/>
+</owl:Class>
+
+-->
+
+</rdf:RDF>

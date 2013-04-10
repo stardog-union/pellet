@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY prem "http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/32b.owl#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xmlns:prem ="&prem;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/32a.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>08.11.2006, version 0.1</owl:versionInfo>
+ <rdfs:comment>Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:Class>
+  <owl:oneOf rdf:parseType="Collection">
+      <owl:Thing rdf:ID="John"/>
+  </owl:oneOf>
+  <rdfs:subClassOf>
+    <owl:Class rdf:ID="Man"/>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<!--
+<owl:Class>
+  <owl:oneOf rdf:parseType="Collection">
+      <owl:Thing rdf:ID="&prem;John"/>
+  </owl:oneOf>
+  <rdfs:subClassOf>
+    <owl:Class rdf:ID="&prem;Man"/>
+  </rdfs:subClassOf>
+</owl:Class>
+-->
+
+<!--
+
+SELECT *
+WHERE (?x, rdf:type, a:Man)
+USING
+   owl FOR <http://www.w3.org/2002/07/owl#>,
+   rdf FOR <http://www.w3.org/1999/02/22-rdf-syntax-ns#>,
+   rdfs FOR <http://www.w3.org/2000/01/rdf-schema#>,
+   a FOR <http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/32a.owl#>
+
+consequence: John is an individual of Man
+
+<Man rdf:about="#John"/>
+
+-->
+
+</rdf:RDF>

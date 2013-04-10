@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE owl [
+       <!ENTITY xsd "http://www.w3.org/2001/XMLSchema" >
+       <!ENTITY family "http://www.mindswap.org/ontologies/family.owl" >
+       <!ENTITY intervals "file:test/data/misc/intervals.xsd" >
+]>
+
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:family="http://www.mindswap.org/ontologies/family.owl#">
+
+<owl:Ontology rdf:about="">
+   <owl:imports rdf:resource="file:test/data/misc/family-mindswap.owl"/>
+</owl:Ontology>
+
+<rdfs:Datatype rdf:about="&intervals;#lessThan10"/>
+<rdfs:Datatype rdf:about="&intervals;#between10and20"/>
+<rdfs:Datatype rdf:about="&intervals;#greaterThan20"/>
+
+<rdfs:Datatype rdf:about="&intervals;#greaterThan65"/>
+
+<owl:DatatypeProperty rdf:about="&family;#hasAge"/>
+
+<owl:Class rdf:about="&family;#Child">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="&family;#Person"/>
+    <owl:Restriction>
+    	<owl:onProperty rdf:resource="&family;#hasAge"/>
+    	<owl:allValuesFrom rdf:resource="&intervals;#lessThan10"/>
+    </owl:Restriction>
+
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="&family;#Teenage">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="&family;#Person"/>
+    <owl:Restriction>
+    	<owl:onProperty rdf:resource="&family;#hasAge"/>
+    	<owl:allValuesFrom rdf:resource="&intervals;#between10and20"/>
+    </owl:Restriction>
+
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="&family;#Adult">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="&family;#Person"/>
+    <owl:Restriction>
+    	<owl:onProperty rdf:resource="&family;#hasAge"/>
+    	<owl:allValuesFrom rdf:resource="&intervals;#greaterThan20"/>
+    </owl:Restriction>
+
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="&family;#Senior">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="&family;#Person"/>
+    <owl:Restriction>
+    	<owl:onProperty rdf:resource="&family;#hasAge"/>
+    	<owl:allValuesFrom rdf:resource="&intervals;#greaterThan65"/>
+    </owl:Restriction>
+
+  </owl:intersectionOf>
+</owl:Class>
+
+<family:Person rdf:about="&family;#Dad">
+  <family:hasAge rdf:datatype="&xsd;#int">38</family:hasAge>
+</family:Person>
+
+<family:Person rdf:about="&family;#Son">
+  <family:hasAge rdf:datatype="&xsd;#int">17</family:hasAge>
+</family:Person>
+
+<family:Person rdf:about="&family;#Daughter">
+
+   <family:hasAge rdf:datatype="&xsd;#int">9</family:hasAge>
+</family:Person>
+
+<family:Person rdf:about="&family;#Grandpa">
+  <family:hasAge rdf:datatype="&xsd;#int">66</family:hasAge>
+</family:Person>
+
+</rdf:RDF>

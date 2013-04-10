@@ -1,0 +1,61 @@
+<?xml version='1.0'?>
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.lancs.ac.uk/ug/dobsong/owl/decimal_test.owl#"
+	xml:base="http://www.lancs.ac.uk/ug/dobsong/owl/decimal_test.owl">
+	<owl:Ontology rdf:about="" />
+
+	<rdfs:Datatype
+		rdf:about="http://www.lancs.ac.uk/ug/dobsong/xsd/owl_datatypes.xsd#decimalProbability" />
+
+	<owl:DatatypeProperty rdf:ID="hasValue" />
+	<owl:FunctionalProperty rdf:about="#hasValue" />
+
+	<owl:Class rdf:ID="ThingWithIntegerValue">
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasValue" />
+				<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#integer" />
+			</owl:Restriction>
+		</owl:equivalentClass>
+	</owl:Class>
+
+	<owl:Class rdf:ID="ThingWithDecimalValue">
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasValue" />				<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#decimal" />			</owl:Restriction>		</owl:equivalentClass>
+	</owl:Class>
+
+	<owl:Class rdf:ID="ThingWithDecimalProbability">
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasValue" />
+				<owl:allValuesFrom>
+					<rdfs:Datatype>
+						<owl:onDatatype rdf:resource="http://www.w3.org/2001/XMLSchema#decimal" />
+						<owl:withRestrictions rdf:parseType="Collection">
+							<rdf:Description>
+								<xsd:minInclusive rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">0.0
+								</xsd:minInclusive>
+							</rdf:Description>
+							<rdf:Description>
+								<xsd:maxInclusive rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0
+								</xsd:maxInclusive>
+							</rdf:Description>
+						</owl:withRestrictions>
+					</rdfs:Datatype>
+				</owl:allValuesFrom>
+			</owl:Restriction>
+		</owl:equivalentClass>
+	</owl:Class>
+
+	<owl:Thing rdf:ID="exampleThingWithDecimalValue">
+		<hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">10.14</hasValue>
+	</owl:Thing>
+
+	<owl:Thing rdf:ID="exampleThingWithDecimalProbability">
+		<hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">1.0</hasValue>
+	</owl:Thing>
+
+</rdf:RDF>

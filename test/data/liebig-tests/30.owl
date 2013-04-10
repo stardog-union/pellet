@@ -1,0 +1,579 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/30.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>12.6.2006, version 0.9</owl:versionInfo>
+ <rdfs:comment>Cons-cell style list representation in OWL DL, Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="first">
+  <rdfs:comment>Relates a Lisp-style cons element to the head entry</rdfs:comment>
+  <rdf:type rdf:resource="&owl;FunctionalProperty" />
+  <rdfs:domain rdf:resource="#List" />
+</owl:ObjectProperty>
+ 
+<owl:TransitiveProperty rdf:ID="rest-plus" />
+
+<owl:TransitiveProperty rdf:ID="inv-rest-plus">
+  <owl:inverseOf rdf:resource="#rest-plus" />
+</owl:TransitiveProperty>
+
+<owl:ObjectProperty rdf:ID="rest">
+  <rdfs:comment>Relates a Lisp-style cons element to the tail entry</rdfs:comment>
+  <rdf:type rdf:resource="&owl;FunctionalProperty" />
+  <rdfs:subPropertyOf rdf:resource="#rest-plus" />
+  <rdfs:domain rdf:resource="#List" />
+  <!-- <rdfs:range rdf:resource="#List" /> -->
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="inv-rest">
+  <rdfs:comment>Inverse relationship to rest</rdfs:comment>
+  <owl:inverseOf rdf:resource="#rest" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="inv-first">
+  <rdfs:comment>Inverse relationship to first</rdfs:comment>
+  <owl:inverseOf rdf:resource="#first" />
+</owl:ObjectProperty>
+
+<owl:Class rdf:ID="List">
+  <rdfs:comment>A List is either empty or a proper non-empty list</rdfs:comment>
+  <owl:unionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#EmptyList" />
+    <owl:Class rdf:about="#NonEmptyList" />
+  </owl:unionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="NonList">
+  <owl:disjointWith rdf:resource="#List" />
+</owl:Class>
+
+<owl:Class rdf:ID="EmptyList" >
+  <rdfs:comment>An empty list is a Lisp-style Nil</rdfs:comment>
+  <owl:oneOf rdf:parseType="Collection">
+    <owl:Thing rdf:about="#ListNil" />
+  </owl:oneOf>
+  <owl:disjointWith rdf:resource="#NonEmptyList" />
+</owl:Class>
+
+<owl:Class rdf:ID="NonEmptyList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#first" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#EndOfList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#NonEmptyList" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:allValuesFrom rdf:resource="#EmptyList" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="NotBeginOfList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#NonEmptyList" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#inv-rest" />
+      <owl:someValuesFrom rdf:resource="#NonEmptyList" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="NonFlatList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <owl:Restriction> 
+          <owl:onProperty rdf:resource="#first" />
+          <owl:someValuesFrom rdf:resource="#NonEmptyList" />
+        </owl:Restriction>
+        <owl:Restriction> 
+          <owl:onProperty rdf:resource="#rest-plus" />
+          <owl:someValuesFrom rdf:resource="#NonFlatList" />
+        </owl:Restriction>
+      </owl:unionOf>
+    </owl:Class>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="CyclicList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:allValuesFrom rdf:resource="#MiddleListElement" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="ExactOneRest">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#NotEndOfList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#NonEmptyList" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:someValuesFrom>
+        <owl:Class>
+          <owl:complementOf rdf:resource="#EmptyList" />
+        </owl:Class>
+      </owl:someValuesFrom>
+   </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#MiddleListElement">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#NotEndOfList" />
+    <owl:Class rdf:about="#NotBeginOfList" />
+  </owl:intersectionOf>
+</owl:Class>
+
+
+<!-- everything is either a List or a NonList -->
+<!-- temporary -->
+<owl:Class>
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class>
+      <owl:complementOf rdf:resource="#List" />
+    </owl:Class>
+    <owl:Class>
+      <owl:complementOf rdf:resource="#NonList" />
+    </owl:Class>
+  </owl:intersectionOf>
+   <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+
+<owl:Class rdf:ID="DottedPair">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#first" />
+      <owl:someValuesFrom rdf:resource="#NonList" />
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:someValuesFrom rdf:resource="#NonList" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="MinLenght2List">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:someValuesFrom>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#rest" />
+          <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+        </owl:Restriction>
+      </owl:someValuesFrom>
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+
+<!-- will not work because of OWA -->
+<owl:Class rdf:about="#BeginOfList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#NonEmptyList" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#inv-rest" />
+      <owl:allValuesFrom rdf:resource="#NonList" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+
+<!-- A singers example list -->
+
+<owl:Class rdf:ID="Singer">
+  <owl:disjointWith rdf:resource="#EmptyList" />
+</owl:Class>
+
+<owl:Class rdf:about="#SingersList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#first" />
+      <owl:allValuesFrom rdf:resource="#Singer" />
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:allValuesFrom>
+        <owl:Class>
+	  <owl:unionOf rdf:parseType="Collection">
+	    <owl:Class rdf:about="#SingersList" />
+	    <owl:Class rdf:about="#EmptyList" />
+          </owl:unionOf>
+        </owl:Class>
+      </owl:allValuesFrom>
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<!-- An actors example list -->
+
+<owl:Class rdf:ID="Actor" />
+
+<owl:Class rdf:about="#ActorsList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#first" />
+      <owl:allValuesFrom rdf:resource="#Actor" />
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:allValuesFrom>
+        <owl:Class>
+	  <owl:unionOf rdf:parseType="Collection">
+	    <owl:Class rdf:about="#ActorsList" />
+	    <owl:Class rdf:about="#EmptyList" />
+          </owl:unionOf>
+        </owl:Class>
+      </owl:allValuesFrom>
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<!-- Individuals -->
+
+<SingersList rdf:ID="Sing1">
+  <first> <Singer rdf:about="#JanetJackson" /> </first>
+  <rest>
+    <SingersList rdf:ID="Sing2">
+      <first> <Singer rdf:about="#MikeOldfield" /> </first>
+      <rest>
+        <SingersList rdf:ID="Sing3">
+          <first> <Singer rdf:about="#Madonna" /> </first>
+          <rest>
+            <SingersList rdf:ID="Sing4">
+              <first> <Singer rdf:about="#GloriaEstefan" /> </first>
+	      <rest rdf:resource="#ListNil" />
+            </SingersList>
+          </rest>
+        </SingersList>
+      </rest>
+    </SingersList>
+  </rest>
+</SingersList>
+
+<ActorsList rdf:ID="Act1">
+  <first> <Actor rdf:about="#SharonStone" /> </first>
+  <rest>
+    <ActorsList rdf:ID="Act2">
+      <first> <Actor rdf:about="#ArnoldSchwarzenegger" /> </first>
+      <rest>
+        <ActorsList rdf:ID="Act3">
+          <first> <Actor rdf:about="#TomCruise" /> </first>
+          <rest>
+            <ActorsList rdf:ID="Act4">
+              <first> <Actor rdf:about="#HenryFonda" /> </first>
+               <rest>
+                 <ActorsList rdf:ID="Act5">
+                   <first> <Actor rdf:about="#Madonna" /> </first>
+	           <rest rdf:resource="#ListNil" />
+                 </ActorsList>
+               </rest>
+            </ActorsList>
+          </rest>
+        </ActorsList>
+      </rest>
+    </ActorsList>
+  </rest>
+</ActorsList>
+
+<!-- The class of all lists containing Madonna: -->
+
+<owl:Class rdf:about="#MadonnaList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <owl:Restriction> 
+          <owl:onProperty rdf:resource="#first" />
+	  <owl:hasValue rdf:resource="#Madonna" />
+        </owl:Restriction>
+        <owl:Restriction>
+          <owl:onProperty rdf:resource="#rest-plus" />
+          <owl:someValuesFrom rdf:resource="#MadonnaList" />
+	</owl:Restriction>
+      </owl:unionOf>
+    </owl:Class>
+  </owl:intersectionOf>
+</owl:Class>
+
+<!-- An anonymous list -->
+
+<List rdf:ID="Ano1">
+  <first>
+    <owl:Thing rdf:ID="Indiv1" />
+  </first>
+  <rest>
+    <List>
+      <first>
+        <owl:Thing rdf:ID="Indiv2" />
+      </first>
+      <rest>
+        <List>
+          <first>
+            <owl:Thing rdf:ID="Indiv3" />
+          </first>
+          <rest rdf:resource="#ListNil" />
+        </List>
+      </rest>
+    </List>
+  </rest>
+</List>
+
+<!-- A dotted list -->
+
+<NonList rdf:ID="AntiList1" />
+<NonList rdf:ID="AntiList2" />
+
+<List rdf:ID="DotList">
+  <first rdf:resource="#AntiList1" />
+  <rest rdf:resource="#AntiList1" />
+</List>
+
+
+<!-- A non flat list -->
+
+<owl:Class rdf:ID="Leaf">
+<!--  <rdfs:subClassOf rdf:resource="#NonList" /> -->
+</owl:Class>
+
+
+<List rdf:ID="TreeRoot">
+  <first>
+     <List rdf:ID="LeftBranch">
+       <first>
+          <List rdf:ID="LeftLeftBranch">
+             <first>
+                <Leaf rdf:ID="Eins" />
+             </first>
+             <rest rdf:resource="#ListNil" />
+          </List>
+       </first>
+       <rest>
+          <List rdf:ID="LeftRightBranch">
+             <first>
+                <Leaf rdf:ID="Zwei" />
+             </first>
+             <rest rdf:resource="#ListNil" />
+          </List>
+       </rest>
+     </List>
+  </first>
+  <rest>
+     <List rdf:ID="RightBranch">
+       <first>
+          <Leaf rdf:ID="Drei" />
+       </first>
+       <rest rdf:resource="#ListNil" />
+     </List>
+  </rest>
+</List>
+
+<owl:Class rdf:ID="TreeLeafList">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#first" />
+      <owl:someValuesFrom rdf:resource="#Leaf" />
+   </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#rest" />
+      <owl:hasValue rdf:resource="#ListNil" />
+   </owl:Restriction>
+ </owl:intersectionOf>
+</owl:Class>
+
+
+<owl:Class rdf:about="#BalancedTreeNode2D">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#List" />
+    <owl:Class>
+      <owl:unionOf rdf:parseType="Collection">
+        <owl:Class>
+          <owl:intersectionOf rdf:parseType="Collection">
+            <owl:Restriction> 
+              <owl:onProperty rdf:resource="#first" />
+	      <owl:someValuesFrom rdf:resource="#BalancedTreeNode2D" />
+            </owl:Restriction>
+            <owl:Restriction> 
+              <owl:onProperty rdf:resource="#rest" />
+	      <owl:someValuesFrom rdf:resource="#BalancedTreeNode2D" />
+            </owl:Restriction>
+          </owl:intersectionOf>
+        </owl:Class>
+        <owl:Class>
+          <owl:intersectionOf rdf:parseType="Collection">
+            <owl:Restriction>
+              <owl:onProperty rdf:resource="#first" />
+              <owl:someValuesFrom rdf:resource="#Leaf" />
+	    </owl:Restriction>
+            <owl:Restriction>
+              <owl:onProperty rdf:resource="#inv-first" />
+              <owl:someValuesFrom>
+                <owl:Restriction>
+                  <owl:onProperty rdf:resource="#rest" />
+		  <owl:someValuesFrom rdf:resource="#TreeLeafList" />
+                </owl:Restriction>
+              </owl:someValuesFrom>
+	    </owl:Restriction>
+          </owl:intersectionOf>
+        </owl:Class>
+        <owl:Class>
+          <owl:intersectionOf rdf:parseType="Collection">
+            <owl:Restriction>
+              <owl:onProperty rdf:resource="#first" />
+              <owl:someValuesFrom rdf:resource="#Leaf" />
+	    </owl:Restriction>
+            <owl:Restriction>
+              <owl:onProperty rdf:resource="#inv-rest" />
+              <owl:someValuesFrom>
+                <owl:Restriction>
+                  <owl:onProperty rdf:resource="#first" />
+		  <owl:someValuesFrom rdf:resource="#TreeLeafList" />
+                </owl:Restriction>
+              </owl:someValuesFrom>
+	    </owl:Restriction>
+          </owl:intersectionOf>
+        </owl:Class>
+      </owl:unionOf>
+    </owl:Class>
+  </owl:intersectionOf>
+</owl:Class>
+
+
+<!-- a cyclic list -->
+
+<owl:Class rdf:ID="Element">
+  <owl:disjointWith rdf:resource="#EmptyList" />
+</owl:Class>
+
+<List rdf:ID="Cycle1">
+  <first>
+    <Element rdf:ID="Elem1" />
+  </first>
+  <rest>
+    <List rdf:ID="Cycle2">
+      <first>
+        <Element rdf:ID="Elem2" />
+      </first>
+      <rest>
+        <List rdf:ID="Cycle3">
+          <first>
+            <Element rdf:ID="Elem3" />
+          </first>
+          <rest rdf:resource="#Cycle1" />
+        </List>
+      </rest>
+    </List>
+  </rest>
+</List>
+
+
+<!-- test (unsatisfiable because SharonStone is neither an
+           ActorsList nor the empty element -->
+<!--
+<ActorsList rdf:ID="Act100">
+  <first rdf:resource="#Madonna" />
+  <rest rdf:resource="#SharonStone" />
+</ActorsList>
+-->
+
+<!--
+conclusions:
+
+Pellet doesn't infer that:
+
+<rdf:Description rdf:about="#Act5">
+  <rdf:type rdf:resource="#SingersList" />
+</rdf:Description>
+
+
+other stuff:
+
+<rdf:Description rdf:about="#ListNil">
+  <rdf:type rdf:resource="#EmptyList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Sing4">
+  <rdf:type rdf:resource="#EndOfList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Act5">
+  <rdf:type rdf:resource="#EndOfList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Sing2">
+  <rdf:type rdf:resource="#NotBeginOfList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Sing3">
+  <rdf:type rdf:resource="#NotBeginOfList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Sing4">
+  <rdf:type rdf:resource="#NotBeginOfList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Act2">
+  <rdf:type rdf:resource="#NotBeginOfList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Act3">
+  <rdf:type rdf:resource="#NotBeginOfList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Act4">
+  <rdf:type rdf:resource="#NotBeginOfList" />
+</rdf:Description>
+
+<rdf:Description rdf:about="#Act5">
+  <rdf:type rdf:resource="#NotBeginOfList" />
+</rdf:Description>
+
+-->
+<!--
+Plus: NonEmptyList Sing1..4 and Act1..5
+      MadonnaLists: all
+-->
+
+</rdf:RDF>
+
+

@@ -1,0 +1,4772 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY MechanicalEngineeringOntology "http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#" >
+    <!ENTITY Force "http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Force/" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2011/7/Ontology1313421913455.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2011/7/Ontology1313421913455.owl"
+     xmlns:Force="&MechanicalEngineeringOntology;Force/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:MechanicalEngineeringOntology="http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/2011/7/Ontology1313421913455.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ANSYS_Definition -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ANSYS_Definition">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ApplicationOntology"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AbrasiveBeltPlaningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AbrasiveBeltPlaningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlaningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AbrasiveBlastingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AbrasiveBlastingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AbrasiveJetPlaningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AbrasiveJetPlaningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlaningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AdhesiveAlloyAdhesiveBondingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AdhesiveAlloyAdhesiveBondingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;AdhesiveBondingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AdhesiveBondingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AdhesiveBondingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Joining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AirAcetyleneOxyfuelGasWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AirAcetyleneOxyfuelGasWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OxyfuelGasWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Aluminum -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Aluminum">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Nonferrous"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AnnealingSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AnnealingSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ApplicationOntology -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ApplicationOntology">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ApplicationWatchdog -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ApplicationWatchdog">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AtomicHydrogenArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AtomicHydrogenArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AtomizeMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AtomizeMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#AxialFlowGasPencilWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;AxialFlowGasPencilWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PencilWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BRep -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BRep">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometryElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BallMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BallMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BaseUnit -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BaseUnit">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Unit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BendingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BendingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Forming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Binary -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Binary">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BiscuitJoineryWoodworkingOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BiscuitJoineryWoodworkingOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;JoineryWoodworkingOtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BlankingPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BlankingPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BlastFurnaceSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BlastFurnaceSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BlastingMiningOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BlastingMiningOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiningOtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BlendMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BlendMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Block -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Block">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CSGPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BoilingPoint -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BoilingPoint">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PhysicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Boolean -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Boolean">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BoringTurningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BoringTurningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;TurningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BossFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BossFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BoxHeadByShapeFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BoxHeadByShapeFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ByShapeFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BrazingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BrazingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Joining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BroachingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BroachingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BuffingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BuffingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BuhrstoneMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BuhrstoneMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BulgingDrawingPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BulgingDrawingPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DrawingPressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BurnishingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BurnishingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ByMaterialFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ByMaterialFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ByShapeFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ByShapeFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#BySlotFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;BySlotFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CO2PressureOxyfuelGasWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CO2PressureOxyfuelGasWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PressureOxyfuelGasWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CSGPrimitive -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CSGPrimitive">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometryElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CarbonArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CarbonArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Casting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Casting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ManufacturingProcess"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CastingSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CastingSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CentrifugalCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CentrifugalCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Centrifugal_disintegrationMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Centrifugal_disintegrationMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ChemicalMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ChemicalMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ChemicalMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ChemicalMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ClinchingFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ClinchingFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CoatingSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CoatingSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CoiningShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CoiningShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ColdRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ColdRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ColdSizingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ColdSizingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ColdSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ColdSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Composite -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Composite">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ConstantValue -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ConstantValue">
+        <owl:equivalentClass rdf:resource="&MechanicalEngineeringOntology;Real"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ANSYS_Definition"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ContinuousCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ContinuousCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CoredForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CoredForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Cost -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Cost">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CostDriver -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CostDriver">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostEngineeringViewpoint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CostEngineeringViewpoint -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CostEngineeringViewpoint">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;EngineeringViewpoint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CostFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CostFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostDriver"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometryElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CostProperty -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CostProperty">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MaterialProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CotterPiningFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CotterPiningFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiningFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CountersinkDrillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CountersinkDrillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DrillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CrackMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CrackMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CrossFlowGasPencilWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CrossFlowGasPencilWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PencilWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CrossRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CrossRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CrushingMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CrushingMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CryoRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CryoRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Cube -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Cube">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CSGPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CurlMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CurlMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CutMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CutMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CutoffPiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CutoffPiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiercingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#CutoffTurningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;CutoffTurningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;TurningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Cylinder -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Cylinder">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CSGPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DOF -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DOF">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Data -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Data">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DecamberingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DecamberingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DeepDrawingPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DeepDrawingPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Density -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Density">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PhysicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DerivedUnit -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DerivedUnit">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Unit"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DieCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DieCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DielectricWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DielectricWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DiffusionSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DiffusionSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DinkingOperationPiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DinkingOperationPiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiercingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DipBrazingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DipBrazingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BrazingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DipSolderingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DipSolderingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolderingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DiscMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DiscMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Displacement -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Displacement">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Loads"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Structural"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DoubleHousingPlaningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DoubleHousingPlaningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlaningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DrawingPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DrawingPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DrillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DrillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#DropForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;DropForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Edge -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Edge">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BRep"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EdgeOrPlatePlaningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EdgeOrPlatePlaningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlaningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EdgeRunnerCrushingMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EdgeRunnerCrushingMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CrushingMillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectricalDischargeMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectricalDischargeMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectricalProperties -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectricalProperties">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MaterialProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectricalResistivity -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectricalResistivity">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ElectricalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectroChemicalGrindingHoningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectroChemicalGrindingHoningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;HoningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectroForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectroForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectrochemicalMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectrochemicalMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectrogasGasMetalArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectrogasGasMetalArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GasMetalArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectromagneticWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectromagneticWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectronBeamMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectronBeamMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectronBeamWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectronBeamWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectroplatingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectroplatingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectropolishingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectropolishingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElectroslagArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElectroslagArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElementDivisions -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElementDivisions">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GlobalElementSize"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElementEdgeLength -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElementEdgeLength">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GlobalElementSize"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElementType -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElementType">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Structural"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Thermal"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ElementTypeOption -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ElementTypeOption">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Ellipse -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Ellipse">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometricPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Elongation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Elongation">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MechanicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EmbossingPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EmbossingPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EndTubeForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EndTubeForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Forming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EngineeringViewpoint -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EngineeringViewpoint">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EntityInstanceName -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EntityInstanceName">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EnumerationValue -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EnumerationValue">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EpoxyAdhesiveBondingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EpoxyAdhesiveBondingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;AdhesiveBondingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EtchingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EtchingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#EvaporativePatternCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;EvaporativePatternCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ExistingPart -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ExistingPart">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;UserDefinedFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ExplosiveForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ExplosiveForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ExplosiveSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ExplosiveSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ExtrusionForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ExtrusionForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Forming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FEAViewpoint -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FEAViewpoint">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;EngineeringViewpoint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Face -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Face">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BRep"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FaceMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FaceMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FacingTurningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FacingTurningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;TurningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Joining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Ferrous -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Ferrous">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Metal"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FiberizeMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FiberizeMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FilingSawingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FilingSawingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SawingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FlangingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FlangingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FlashButtWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FlashButtWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FlatHeadByShapeFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FlatHeadByShapeFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ByShapeFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FlatteningForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FlatteningForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FlowWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FlowWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FluffMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FluffMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FluxCoredArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FluxCoredArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Force/Moment -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Force/Moment">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Loads"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Structural"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ForgeSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ForgeSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Forming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Forming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Forming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ManufacturingProcess"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FrictionSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FrictionSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FrictionWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FrictionWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FullMoldCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FullMoldCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;EvaporativePatternCasting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FurnaceBrazingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FurnaceBrazingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BrazingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#FusedDepositionModelingRapidManufacturing -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;FusedDepositionModelingRapidManufacturing">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RapidManufacturing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GasMetalArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GasMetalArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GasTungstenArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GasTungstenArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GashingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GashingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GeometricPrimitive -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GeometricPrimitive">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometryElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GeometryElement -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GeometryElement">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GeometryModel -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GeometryModel">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Glass -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Glass">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GlobalElementSize -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GlobalElementSize">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SizeControls"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GranulateMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GranulateMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GrindingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GrindingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GristMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GristMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GroovePiningFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GroovePiningFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiningFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GuerinProcessForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GuerinProcessForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GussetFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GussetFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#GyratoryCrusherCrushingMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;GyratoryCrusherCrushingMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CrushingMillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HammerForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HammerForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HammerMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HammerMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HardTurningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HardTurningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;TurningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HeatedMetalPlateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HeatedMetalPlateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HemmingBendingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HemmingBendingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BendingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HexByShapeFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HexByShapeFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ByShapeFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#High-energy-rateForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;High-energy-rateForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HighFrequencyInductionWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HighFrequencyInductionWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;InductionWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HighFrequencyResistanceWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HighFrequencyResistanceWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HobbingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HobbingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HoleFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HoleFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HoningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HoningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HorizontalShapingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HorizontalShapingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ShappingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HotAirWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HotAirWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HotPlateSolderingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HotPlateSolderingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolderingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HotPressDiffusionSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HotPressDiffusionSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DiffusionSolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HotRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HotRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HowPencilMadePencilWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HowPencilMadePencilWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PencilWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HubbingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HubbingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#HullMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;HullMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ImpactForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ImpactForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ImpregnatedTapeArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ImpregnatedTapeArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#IncrementalForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;IncrementalForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#InductionBrazingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;InductionBrazingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BrazingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#InductionSolderingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;InductionSolderingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolderingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#InductionWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;InductionWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Inertia -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Inertia">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Loads"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Structural"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#InertiaSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;InertiaSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#InfraredWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;InfraredWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Injection_Molding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Injection_Molding">
+        <owl:equivalentClass rdf:resource="&MechanicalEngineeringOntology;PlasticInjectionMolding"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#InsertFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;InsertFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Integer -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Integer">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Iron -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Iron">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Ferrous"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#IronSolderingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;IronSolderingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolderingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#IroningForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;IroningForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#IsostaticHotGasDiffusionSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;IsostaticHotGasDiffusionSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DiffusionSolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#JawCrusherCrushingMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;JawCrusherCrushingMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CrushingMillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#JoineryWoodworkingOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;JoineryWoodworkingOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WoodworkingOtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Joining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Joining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ManufacturingProcess"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#K3 -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;K3">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ElementTypeOption"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#K5 -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;K5">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ElementTypeOption"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#K6 -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;K6">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ElementTypeOption"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#KnurlingTurningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;KnurlingTurningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;TurningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LaborCost -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LaborCost">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Cost"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LagByShapeFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LagByShapeFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ByShapeFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LaminatedObjectRapidManufacturing -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LaminatedObjectRapidManufacturing">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RapidManufacturing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LancingPiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LancingPiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiercingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LappingJoineryWoodworkingOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LappingJoineryWoodworkingOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;JoineryWoodworkingOtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LaserBeamMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LaserBeamMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LaserEngineeredNetShapingRapidManufacturing -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LaserEngineeredNetShapingRapidManufacturing">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RapidManufacturing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LaserWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LaserWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LatheTurningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LatheTurningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;TurningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LeatherStampingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LeatherStampingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;StampingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Line -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Line">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometricPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LinishingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LinishingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Loads -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Loads">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Logical -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Logical">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LostFoamCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LostFoamCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;EvaporativePatternCasting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LowFrequencyInductionWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LowFrequencyInductionWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;InductionWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#LowPressureCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;LowPressureCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MachineByMaterialFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MachineByMaterialFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ByMaterialFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Machining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Machining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ManufacturingProcess"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MagneticPulseForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MagneticPulseForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MagneticsWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MagneticsWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ManualMetalArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ManualMetalArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ManufacturingProcess -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ManufacturingProcess">
+        <owl:equivalentClass rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostDriver"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SeerParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MassFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MassFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Material -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Material">
+        <owl:equivalentClass rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostDriver"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SeerParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MaterialCost -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MaterialCost">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Cost"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MaterialProperties -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MaterialProperties">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostDriver"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MechanicalProperties -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MechanicalProperties">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MaterialProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MeltingPoint -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MeltingPoint">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PhysicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Meshing -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Meshing">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Structural"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Thermal"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Metal -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Metal">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MetalStampingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MetalStampingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;StampingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MethylacetylenePropadieneOxyfuelGasWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MethylacetylenePropadieneOxyfuelGasWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OxyfuelGasWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MiningOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MiningOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MiscOtherAdhesiveBondingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MiscOtherAdhesiveBondingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;AdhesiveBondingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MiscOtherForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MiscOtherForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Forming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ModifiedEpoxyAdhesiveBondingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ModifiedEpoxyAdhesiveBondingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;AdhesiveBondingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ModulusofElasticity -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ModulusofElasticity">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MechanicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Molding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Molding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ManufacturingProcess"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#MorticingJoineryWoodworkingOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;MorticingJoineryWoodworkingOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;JoineryWoodworkingOtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#NailingFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;NailingFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#NeckingDrawingPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;NeckingDrawingPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DrawingPressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#NibblingPiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;NibblingPiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiercingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#NoDraftForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;NoDraftForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Nonferrous -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Nonferrous">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Metal"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#NosingDrawingPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;NosingDrawingPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DrawingPressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#NotchingPiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;NotchingPiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiercingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#NutAndBoltFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;NutAndBoltFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OilCanningDrawingPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OilCanningDrawingPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DrawingPressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OpenSidePlaningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OpenSidePlaningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlaningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OrbitalRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OrbitalRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ManufacturingProcess"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OtherWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OtherWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OvenSolderingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OvenSolderingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolderingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OxyAcetyleneOxyfuelGasWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OxyAcetyleneOxyfuelGasWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OxyfuelGasWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OxyfuelGasWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OxyfuelGasWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#OxyhydrogenOxyfuelGasWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;OxyhydrogenOxyfuelGasWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OxyfuelGasWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PRODUCT_DESCRIPTION_-_Finished_Weight_(gm) -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Finished_Weight_(gm)">
+        <owl:equivalentClass rdf:resource="&MechanicalEngineeringOntology;Weight"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostDriver"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SeerParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PRODUCT_DESCRIPTION_-_Material -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostDriver"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SeerParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PRODUCT_DESCRIPTION_-_Process -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostDriver"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SeerParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PRODUCT_DESCRIPTION_-_Raw_Material_Cost__Per_Kg. -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Raw_Material_Cost__Per_Kg.">
+        <owl:equivalentClass rdf:resource="&MechanicalEngineeringOntology;RawMaterialCost"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostProperty"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SeerParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Part -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Part">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PassivateSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PassivateSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PeeningForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PeeningForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PencilWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PencilWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PercussionWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PercussionWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PerforatingPiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PerforatingPiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiercingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PeripheralMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PeripheralMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PermanentMoldCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PermanentMoldCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PhenolicsAdhesiveBondingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PhenolicsAdhesiveBondingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;AdhesiveBondingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PhillipsBySlotFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PhillipsBySlotFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BySlotFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PhotochemicalMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PhotochemicalMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PhysicalProperties -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PhysicalProperties">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MaterialProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PicklingSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PicklingSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PiningFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PiningFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PitTypePlaningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PitTypePlaningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlaningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Plane -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Plane">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometricPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlaningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlaningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasmaArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasmaArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasmaMIGArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasmaMIGArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Plastic -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Plastic">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticBlowMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticBlowMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticCompressionMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticCompressionMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticDipMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticDipMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticExpandableBeadMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticExpandableBeadMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticExtrusionMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticExtrusionMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticFoamMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticFoamMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticInjectionMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticInjectionMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticLaminatingMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticLaminatingMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticMatchedMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticMatchedMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticMoldCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticMoldCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Molding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticPressurePlugAssistMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticPressurePlugAssistMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticRotationalMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticRotationalMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticRotoMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticRotoMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticThermoformingMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticThermoformingMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticTransferMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticTransferMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlasticVacuumPlugAssitMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlasticVacuumPlugAssitMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlasticMolding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PlatingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PlatingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Point -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Point">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometricPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PoissionRatio -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PoissionRatio">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MechanicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PolishingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PolishingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Polygon -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Polygon">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometricPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Polymer -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Polymer">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PolyurethaneAdhesiveBondingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PolyurethaneAdhesiveBondingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;AdhesiveBondingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PowderForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PowderForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PowderMetallurgyCompactionPlusSinteringMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PowderMetallurgyCompactionPlusSinteringMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PowderMetallurgyMolding"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Powdered_Metals"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PowderMetallurgyHotIsostaticPressingMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PowderMetallurgyHotIsostaticPressingMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PowderMetallurgyMolding"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Powdered_Metals"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PowderMetallurgyMetalInjectionMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PowderMetallurgyMetalInjectionMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PowderMetallurgyMolding"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Powdered_Metals"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PowderMetallurgyMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PowderMetallurgyMolding">
+        <owl:equivalentClass rdf:resource="&MechanicalEngineeringOntology;Powdered_Metals"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Molding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PowderMetallurgySprayFormingMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PowderMetallurgySprayFormingMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PowderMetallurgyMolding"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Powdered_Metals"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Powdered_Metals -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Powdered_Metals">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Molding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PressFittingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PressFittingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Joining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PressForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PressForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Forming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Pressure -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Pressure">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Loads"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Structural"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PressureOxyfuelGasWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PressureOxyfuelGasWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OxyfuelGasWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ProgressiveStampingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ProgressiveStampingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;StampingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ProjectionWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ProjectionWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PulsedGasMetalArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PulsedGasMetalArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GasMetalArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#PulverizeMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;PulverizeMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Pyramid -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Pyramid">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CSGPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#QuarryingMiningOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;QuarryingMiningOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiningOtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#QuickReleasePiningFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;QuickReleasePiningFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiningFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RadioFrequencyWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RadioFrequencyWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RapidManufacturing -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RapidManufacturing">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ManufacturingProcess"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Process"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RawMaterialCost -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RawMaterialCost">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostProperty"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SeerParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Real -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Real">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ANSYS_Definition"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ReamDrillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ReamDrillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DrillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RedrawingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RedrawingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ReductionSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ReductionSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RefineMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RefineMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RefiningSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RefiningSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RetainingRingPiningFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RetainingRingPiningFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiningFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RibFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RibFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RimFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RimFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RingRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RingRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RivetingFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RivetingFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RollPiningFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RollPiningFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiningFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RollSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RollSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RollersCrushingMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RollersCrushingMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CrushingMillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Forming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RoundHeadByShapeFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RoundHeadByShapeFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ByShapeFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RoutingJoineryWoodworkingOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RoutingJoineryWoodworkingOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;JoineryWoodworkingOtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RoutingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RoutingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#RubMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;RubMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SEERWatchdog -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SEERWatchdog">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ApplicationWatchdog"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Part"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SandCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SandCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SawMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SawMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SawingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SawingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ScrewFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ScrewFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ScrewingFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ScrewingFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SeamWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SeamWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SeamingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SeamingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SeerParameter -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SeerParameter">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ApplicationOntology"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SelectiveLaserSinteringRapidManufacturing -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SelectiveLaserSinteringRapidManufacturing">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RapidManufacturing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShapeRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShapeRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShappingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShappingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShavingPiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShavingPiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiercingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShearMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShearMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShearModulus -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShearModulus">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MechanicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Forming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SheetMetalRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SheetMetalRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShellCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShellCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShieldedMetalArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShieldedMetalArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShortCircuitGasMetalArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShortCircuitGasMetalArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GasMetalArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShredMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShredMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShrinkFittingMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShrinkFittingMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Molding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShrinkWrappingMolding -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShrinkWrappingMolding">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Molding"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ShrinkageFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ShrinkageFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SinteringJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SinteringJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Joining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SizeControls -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SizeControls">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Meshing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SlittingStraightShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SlittingStraightShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;StraightShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Slot -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Slot">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CSGPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SlushCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SlushCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SmeltingSteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SmeltingSteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SteelMillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SmithForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SmithForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SolderingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SolderingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Joining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SolidStatePencilWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SolidStatePencilWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PencilWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SolventWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SolventWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SpecialPurposeShapingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SpecialPurposeShapingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ShappingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Sphere -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Sphere">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CSGPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SpindleTumblingMassFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SpindleTumblingMassFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;TumblingMassFinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SpinningForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SpinningForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SpinningTurningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SpinningTurningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;TurningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SplineCurve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SplineCurve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometricPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SprayFormingCasting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SprayFormingCasting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Casting"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SprayTransferGasMetalArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SprayTransferGasMetalArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GasMetalArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Stainless_steel -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Stainless_steel">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Steel"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StakingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StakingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StampingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StampingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StaplingFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StaplingFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Steel -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Steel">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Ferrous"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SteelMillMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SteelMillMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StereolithographyRapidManufacturing -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StereolithographyRapidManufacturing">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RapidManufacturing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StitchingFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StitchingFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Stone -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Stone">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StraightBySlotFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StraightBySlotFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BySlotFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StraightShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StraightShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StraighteningForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StraighteningForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StretchPressingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StretchPressingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PressingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#String -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;String">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Data"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Structural -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Structural">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FEAViewpoint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#StudArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;StudArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SubmergedArcWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SubmergedArcWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ArcWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SuperFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SuperFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SurfaceFinishFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SurfaceFinishFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostFeature"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#SwagingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;SwagingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TaperedPiningFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TaperedPiningFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiningFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TappingDrillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TappingDrillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DrillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Temperature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Temperature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Loads"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Structural"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Thermal -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Thermal">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FEAViewpoint"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ThermalConductivity -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ThermalConductivity">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ThermalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ThermalExpansionCoefficient -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ThermalExpansionCoefficient">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ThermalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ThermalProperties -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ThermalProperties">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MaterialProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ThermiteWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ThermiteWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ThermoSettingAndThermoplasticAdhesiveBondingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ThermoSettingAndThermoplasticAdhesiveBondingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;AdhesiveBondingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Thermoplastic -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Thermoplastic">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Plastic"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Thermosetting -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Thermosetting">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Plastic"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ThreadRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ThreadRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ThreeDimensionalPrintingRapidManufacturing -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ThreeDimensionalPrintingRapidManufacturing">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RapidManufacturing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TimeCost -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TimeCost">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Cost"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ToolingCost -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ToolingCost">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Cost"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TorchBrazingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TorchBrazingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BrazingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Toroid -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Toroid">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CSGPrimitive"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TransverseRollingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TransverseRollingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;RollingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TrimmingPiercingShearingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TrimmingPiercingShearingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PiercingShearingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TubeBeadingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TubeBeadingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;EndTubeForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TumblingMassFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TumblingMassFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MassFinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TurningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TurningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#TwistMillingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;TwistMillingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MillingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#UltimateStrength -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;UltimateStrength">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MechanicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#UltrasonicMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;UltrasonicMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Machining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#UltrasonicSolderingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;UltrasonicSolderingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolderingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#UltrasonicSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;UltrasonicSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#UltrasonicWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;UltrasonicWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Unit -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Unit">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#UpsetForgingForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;UpsetForgingForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ForgingForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#UpsetWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;UpsetWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;WeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#UserDefinedFeature -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;UserDefinedFeature">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;GeometryElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#VacuumFurnaceDiffusionSolidStateWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;VacuumFurnaceDiffusionSolidStateWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;DiffusionSolidStateWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#VacuumWeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;VacuumWeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherWeldingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#VerticalShapingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;VerticalShapingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ShappingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Vertice -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Vertice">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;BRep"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#VibratoryMassFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;VibratoryMassFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MassFinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#WaterJetCuttingPlaningMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;WaterJetCuttingPlaningMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PlaningMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#WaveSolderingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;WaveSolderingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SolderingJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Weight -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Weight">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;CostDriver"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;SeerParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#WeldingJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;WeldingJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Joining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#WheelonProcessForming -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;WheelonProcessForming">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MiscOtherForming"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#WireBrushingFinishingMachining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;WireBrushingFinishingMachining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;FinishingMachining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#Wood -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;Wood">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;Material"/>
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;PRODUCT_DESCRIPTION_-_Material"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#WoodScrewByMaterialFasteningWoodAndMetalJoining -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;WoodScrewByMaterialFasteningWoodAndMetalJoining">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;ByMaterialFasteningWoodAndMetalJoining"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#WoodworkingOtherTrade -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;WoodworkingOtherTrade">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;OtherTrade"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#YieldStrength -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;YieldStrength">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;MechanicalProperties"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#advanced_brep_shape_representation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;advanced_brep_shape_representation">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;shape_representation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#advanced_face -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;advanced_face">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#axis1_placement -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;axis1_placement">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#axis2_placement_2d -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;axis2_placement_2d">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#axis2_placement_3d -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;axis2_placement_3d">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#b_spline_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;b_spline_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#b_spline_curve_with_knots -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;b_spline_curve_with_knots">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#b_spline_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;b_spline_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#b_spline_surface_with_knots -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;b_spline_surface_with_knots">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#bezier_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;bezier_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#bezier_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;bezier_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#boundary_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;boundary_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#bounded_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;bounded_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#bounded_pcurve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;bounded_pcurve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#bounded_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;bounded_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#bounded_surface_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;bounded_surface_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#brep_with_voids -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;brep_with_voids">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#cartesian_point -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;cartesian_point">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#cartesian_transformation_operator -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;cartesian_transformation_operator">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#cartesian_transformation_operator_3d -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;cartesian_transformation_operator_3d">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#circle -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;circle">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#closed_shell -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;closed_shell">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#composite_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;composite_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#composite_curve_on_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;composite_curve_on_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#conic -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;conic">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#conical_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;conical_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#connected_edge_set -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;connected_edge_set">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#connected_face_set -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;connected_face_set">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#curve_bounded_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;curve_bounded_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#curve_replica -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;curve_replica">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#cylindrical_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;cylindrical_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#degenerate_pcurve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;degenerate_pcurve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#degenerate_toroidal_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;degenerate_toroidal_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#direction -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;direction">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#edge -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;edge">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#edge_based_wireframe_model -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;edge_based_wireframe_model">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#edge_based_wireframe_shape_representation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;edge_based_wireframe_shape_representation">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;shape_representation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#edge_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;edge_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#edge_loop -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;edge_loop">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#elementary_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;elementary_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#ellipse -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;ellipse">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#evaluated_degenerate_pcurve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;evaluated_degenerate_pcurve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#face -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;face">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#face_bound -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;face_bound">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#face_outer_bound -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;face_outer_bound">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#face_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;face_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#faceted_brep -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;faceted_brep">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#faceted_brep_shape_representation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;faceted_brep_shape_representation">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;shape_representation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#geometric_curve_set -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;geometric_curve_set">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#geometric_representation_item -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;geometric_representation_item">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#geometric_set -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;geometric_set">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#geometrically_bounded_surface_shape_representation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;geometrically_bounded_surface_shape_representation">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;shape_representation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#geometrically_bounded_wireframe_shape_representation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;geometrically_bounded_wireframe_shape_representation">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;shape_representation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#hyperbola -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;hyperbola">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#intersection_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;intersection_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#line -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;line">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#loop -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;loop">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#manifold_solid_brep -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;manifold_solid_brep">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#manifold_surface_shape_representation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;manifold_surface_shape_representation">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;shape_representation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#mapped_item -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;mapped_item">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#offset_curve_3d -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;offset_curve_3d">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#offset_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;offset_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#open_shell -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;open_shell">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#oriented_closed_shell -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;oriented_closed_shell">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#oriented_edge -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;oriented_edge">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#oriented_face -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;oriented_face">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#oriented_open_shell -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;oriented_open_shell">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#oriented_path -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;oriented_path">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#outer_boundary_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;outer_boundary_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#parabola -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;parabola">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#path -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;path">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#pcurve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;pcurve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#placement -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;placement">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#plane -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;plane">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#point -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;point">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#point_on_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;point_on_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#point_on_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;point_on_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#point_replica -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;point_replica">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#poly_loop -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;poly_loop">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#polyline -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;polyline">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#quasi_uniform_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;quasi_uniform_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#quasi_uniform_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;quasi_uniform_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#rational_b_spline_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;rational_b_spline_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#rational_b_spline_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;rational_b_spline_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#rectangular_composite_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;rectangular_composite_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#rectangular_trimmed_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;rectangular_trimmed_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#representation_context -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;representation_context">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#representation_item -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;representation_item">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#seam_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;seam_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#shape_representation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;shape_representation">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#shell_based_surface_model -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;shell_based_surface_model">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#shell_based_wireframe_model -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;shell_based_wireframe_model">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#shell_based_wireframe_shape_representation -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;shell_based_wireframe_shape_representation">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;shape_representation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#si_prefix -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;si_prefix">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#si_unit_name -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;si_unit_name">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#solid_model -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;solid_model">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#spherical_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;spherical_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#surface_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;surface_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#surface_of_linear_extrusion -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;surface_of_linear_extrusion">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#surface_of_revolution -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;surface_of_revolution">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#surface_replica -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;surface_replica">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#swept_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;swept_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#topological_representation_item -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;topological_representation_item">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#toroidal_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;toroidal_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#trimmed_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;trimmed_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#uniform_curve -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;uniform_curve">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#uniform_surface -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;uniform_surface">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#vector -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;vector">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#vertex -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;vertex">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#vertex_loop -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;vertex_loop">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#vertex_point -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;vertex_point">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#vertex_shell -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;vertex_shell">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+    
+
+
+    <!-- http://people.bath.ac.uk/cll25/ontologies/2009/10/29/MechanicalEngineeringOntology.owl#wire_shell -->
+
+    <owl:Class rdf:about="&MechanicalEngineeringOntology;wire_shell">
+        <rdfs:subClassOf rdf:resource="&MechanicalEngineeringOntology;representation_item"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.3.1799) http://owlapi.sourceforge.net -->
+

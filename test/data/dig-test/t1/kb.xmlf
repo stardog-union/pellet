@@ -1,0 +1,50 @@
+    <defconcept name="p1"/>
+    <impliesc>
+        <catom name="p1"/>
+        <and>
+            <not>
+                <or>
+                    <catom name="p2"/>
+                    <catom name="p3"/>
+                    <catom name="p4"/>
+                    <catom name="p5"/>
+                </or>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="p2"/>
+    <impliesc>
+        <catom name="p2"/>
+        <and>
+            <not>
+                <or>
+                    <catom name="p3"/>
+                    <catom name="p4"/>
+                    <catom name="p5"/>
+                </or>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="p3"/>
+    <impliesc>
+        <catom name="p3"/>
+        <and>
+            <not>
+                <or>
+                    <catom name="p4"/>
+                    <catom name="p5"/>
+                </or>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="p4"/>
+    <impliesc>
+        <catom name="p4"/>
+        <and>
+            <not>
+                <catom name="p5"/>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="p5"/>
+    <defrole name="r"/>

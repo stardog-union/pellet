@@ -1,0 +1,52 @@
+@prefix   rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix      :  <http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql1/manifest#> .
+@prefix  rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix    mf:  <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#> .
+@prefix    qt:  <http://www.w3.org/2001/sw/DataAccess/tests/test-query#> .
+@prefix dawgt:  <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
+
+<>  rdf:type mf:Manifest ;
+    rdfs:comment "Queries from the SPARQL-DL paper" ;
+    mf:entries
+    ( 
+	:paper-sparqldl-Q1
+	:paper-sparqldl-Q2
+	:paper-sparqldl-Q3
+	:paper-sparqldl-Q4
+	:paper-sparqldl-Q5
+    ).
+
+:paper-sparqldl-Q1  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "paper-sparqldl-Q1" ;
+         mf:action 
+		[ qt:query  <paper-sparqldl-Q1.rq> ; 
+		qt:data <paper-sparqldl-data.ttl> ] ;
+         mf:result  <paper-sparqldl-Q1.srx> .
+	
+:paper-sparqldl-Q2  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "paper-sparqldl-Q2" ;
+         mf:action 
+		[ qt:query  <paper-sparqldl-Q2.rq> ; 
+		qt:data <paper-sparqldl-data.ttl> ] ;
+         mf:result  <paper-sparqldl-Q2.srx> .
+
+:paper-sparqldl-Q3  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "paper-sparqldl-Q3" ;
+         mf:action 
+		[ qt:query  <paper-sparqldl-Q3.rq> ; 
+		qt:data <paper-sparqldl-data.ttl> ] ;
+         mf:result  <paper-sparqldl-Q3.srx> .
+
+:paper-sparqldl-Q4  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "paper-sparqldl-Q4" ;
+         mf:action 
+		[ qt:query  <paper-sparqldl-Q4.rq> ; 
+		qt:data <paper-sparqldl-data.ttl> ] ;
+         mf:result  <paper-sparqldl-Q4.srx> .
+
+:paper-sparqldl-Q5  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "paper-sparqldl-Q5" ;
+         mf:action 
+		[ qt:query  <paper-sparqldl-Q5.rq> ; 
+		qt:data <paper-sparqldl-data.ttl> ] ;
+         mf:result  <paper-sparqldl-Q5.srx> .

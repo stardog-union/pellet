@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl11xml "http://www.w3.org/2006/12/owl11-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.example.org/test#"
+	xml:base="http://www.example.org/test"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#">
+	<owl:Ontology rdf:about="" />
+
+	<owl:Class rdf:ID="Male">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#maleProperty" />
+				<owl:hasSelf rdf:datatype="&xsd;boolean">true</owl:hasSelf>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>
+	<owl:Class rdf:ID="Female">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#femaleProperty" />
+				<owl:someValuesFrom
+					rdf:resource="http://www.w3.org/2002/07/owl#Thing" />
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:ObjectProperty rdf:ID="hasBrother" />
+	<owl:ObjectProperty rdf:ID="hasSister" />
+	<owl:ObjectProperty rdf:ID="hasSibling" />
+	<owl:ObjectProperty rdf:ID="maleProperty" />
+	<owl:ObjectProperty rdf:ID="femaleProperty" />
+
+	<rdf:Description rdf:about="#hasBrother">
+		<owl:propertyChainAxiom rdf:parseType="Collection">
+			<rdf:Description rdf:about="#hasSibling" />
+			<rdf:Description rdf:about="#maleProperty" />
+		</owl:propertyChainAxiom>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="#hasSister">
+		<owl:propertyChainAxiom rdf:parseType="Collection">
+			<rdf:Description rdf:about="#hasSibling" />
+			<rdf:Description rdf:about="#femaleProperty" />
+			<rdf:Description>
+				<owl:inverseOf rdf:resource="#femaleProperty" />
+			</rdf:Description>
+		</owl:propertyChainAxiom>
+	</rdf:Description>
+
+	<owl:Thing rdf:ID="Bob">
+		<hasSibling>
+			<Male rdf:ID="John"/>
+		</hasSibling>
+		<hasSibling>
+			<Female rdf:ID="Jane"/>
+		</hasSibling>
+		<hasSibling>
+			<rdf:Description rdf:ID="Sam"/>
+		</hasSibling>
+	</owl:Thing>
+</rdf:RDF>

@@ -1,0 +1,28 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix mon: <http://www.semwebtech.org/mondial/10/meta#>.
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#>.
+@prefix : <foo://bla/>.
+_:Longitude a rdfs:Datatype; owl:onDatatype xsd:int; 
+   owl:withRestrictions (_:long1 _:long2).
+_:long1 xsd:minInclusive -180 .
+_:long2 xsd:maxInclusive 180 .
+#_:Latitude a rdfs:Datatype; owl:onDatatype xsd:int;
+#   owl:withRestrictions (_:lat1 _:lat2).
+#_:lat1 xsd:minInclusive -90 .
+#_:lat2 xsd:maxInclusive 90 .
+# ********** with that it complains:*************************
+_:EasternLongitude a rdfs:Datatype; owl:onDatatype _:Longitude; 
+  owl:withRestrictions (_:eastlong).
+# ********** with that it works:*************************
+# _:EasternLongitude a rdfs:Datatype; owl:onDatatype xsd:int;
+#  owl:withRestrictions (_:eastlong).
+_:eastlong xsd:minInclusive 0 .
+:EasternHemispherePlace  owl:equivalentClass [a owl:Restriction;
+  owl:onProperty mon:longitude; owl:someValuesFrom _:EasternLongitude].
+mon:longitude rdfs:range _:Longitude.
+#mon:latitude rdfs:range _:Latitude.
+:Berlin a mon:City; :name "Berlin"; mon:longitude 13; mon:latitude 52 .
+#:Atlantis a mon:City; :name "Atlantis"; mon:longitude -200; mon:latitude 100 .
+:Lisbon a mon:City; :name "Lisbon"; mon:longitude -9; mon:latitude 38 .
+

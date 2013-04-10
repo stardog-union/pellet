@@ -1,0 +1,124 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql1/manifest#> .
+@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix mf:     <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#> .
+@prefix qt:     <http://www.w3.org/2001/sw/DataAccess/tests/test-query#> .
+@prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
+
+<>  rdf:type mf:Manifest ;
+    rdfs:comment "SPARQL DL ad-hoc tests" ;
+    mf:entries
+    ( 
+	:sparqldl-01
+	:sparqldl-01a
+	:sparqldl-01b 
+	:sparqldl-02 
+	:sparqldl-03
+	:sparqldl-04
+	:sparqldl-05
+	:sparqldl-06
+	:sparqldl-07
+	:sparqldl-08
+	:sparqldl-09
+	:sparqldl-10
+    :sparqldl-11
+    ).
+
+:sparqldl-01  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-01.rq: triple pattern" ;
+         mf:action  
+		[ qt:query  <sparqldl-01.rq> ; 
+		qt:data <data-01.ttl> ] ;
+         mf:result  <sparqldl-01.srx> .
+         
+:sparqldl-01a  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-01a.rq: ground type query - true" ;
+         mf:action  
+		[ qt:query  <sparqldl-01a.rq> ; 
+		qt:data <data-01.ttl> ] ;
+         mf:result  <sparqldl-01a.srx> .
+         
+:sparqldl-01b  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-01b.rq: ground direct type query - true" ;
+         mf:action  
+		[ qt:query  <sparqldl-01b.rq> ; 
+		qt:data <data-01.ttl> ] ;
+         mf:result  <sparqldl-01b.srx> .                  
+	
+:sparqldl-02  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-02.rq: simple combined query" ;
+         mf:action  
+		[ qt:query  <sparqldl-02.rq> ; 
+		qt:data <data-01.ttl> ] ;
+         mf:result  <sparqldl-02.srx> .
+	
+:sparqldl-03  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-03.rq: combined query with complex class description" ;
+         mf:action 
+		[ qt:query  <sparqldl-03.rq> ; 
+		qt:data <data-02.ttl> ] ;
+         mf:result  <sparqldl-03.srx> .
+
+:sparqldl-04  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-04.rq: bug fixing test" ;
+         mf:action 
+		[ qt:query  <sparqldl-04.rq> ; 
+		qt:data <data-03.ttl> ] ;
+         mf:result  <sparqldl-04.srx> .
+
+:sparqldl-05  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-05.rq: simple undistinguished variable test." ;
+         mf:action 
+		[ qt:query  <sparqldl-05.rq> ; 
+		qt:data <data-05.ttl> ] ;
+         mf:result  <sparqldl-05.srx> .
+
+:sparqldl-06  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-06.rq: cycle of undistinguished variables" ;
+         mf:action 
+		[ qt:query  <sparqldl-06.rq> ; 
+		qt:data <data-06.ttl> ] ;
+         mf:result  <sparqldl-06.srx> .
+
+:sparqldl-07  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-07.rq: two distinguished variables + undist." ;
+         mf:action 
+		[ qt:query  <sparqldl-07.rq> ; 
+		qt:data <data-06.ttl> ] ;
+         mf:result  <sparqldl-07.srx> .
+
+:sparqldl-08  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-08.rq: two distinguished variables + undist." ;
+         mf:action 
+		[ qt:query  <sparqldl-08.rq> ; 
+		qt:data <data-06.ttl> ] ;
+         mf:result  <sparqldl-08.srx> .
+
+:sparqldl-09  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-09.rq: undist vars test" ;
+         mf:action 
+		[ qt:query  <sparqldl-09.rq> ; 
+		qt:data <data-07.ttl> ] .
+
+:sparqldl-10  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-10.rq: undist vars test" ;
+         mf:action 
+		[ qt:query  <sparqldl-10.rq> ; 
+		qt:data <data-07.ttl> ] .
+
+:sparqldl-11  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-11.rq: domain test" ;
+         mf:action 
+		[ qt:query  <sparqldl-11.rq> ; 
+		qt:data <data-11.ttl> ] ;
+         mf:result  <sparqldl-11.srx> .
+
+
+:sparqldl-12  rdf:type   mf:QueryEvaluationTest ;
+	 mf:name  "sparqldl-12.rq: range test" ;
+         mf:action 
+		[ qt:query  <sparqldl-12.rq> ; 
+		qt:data <data-11.ttl> ] ;
+         mf:result  <sparqldl-12.srx> .
+
+

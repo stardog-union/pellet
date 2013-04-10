@@ -1,0 +1,74 @@
+We're happy to announce the release of Pellet 2.1. This release is
+available for download at the usual location:
+
+  http://clarkparsia.com/pellet/download
+
+Since the last major point release, we closed 26 tickets, including
+numerous enhancements and bug fixes. Please see CHANGES.txt in the
+distribution for a complete change log; some highlights include:
+
+* Support for Terp syntactic sugar: Manchester Syntax in SPARQL
+  queries; see *.terp files in examples/data for examples. For
+  example, query two versions of the same query to find all 
+  people who work for an organization:
+
+  Standard SPARQL syntax
+  ----------------------  
+  SELECT ?person 
+  WHERE {?person a [owl:intersectionOf (:Person
+         [owl:onProperty :worksFor ;
+          owl:someValuesFrom :Organization])].
+        } 
+
+  Terp syntax
+  -----------------
+  SELECT ?person 
+  WHERE {?person a (:Person and (:worksFor some :Organization)).}
+
+  Terp makes SPARQL queries of OWL easier, more comprehensible, 
+  and more concise.
+
+* Disk persistence of classification and realization results via 
+  OWLAPI 3.0 when using Pellet's incremental classifier (available 
+  via command-line in a future release).
+
+* New datatype reasoner implementation that is more complete, more
+  performant, and more correct compared to earlier versions of
+  Pellet's datatype reasoner.
+
+* Substantially complete OWL2 support; please report missing OWL2
+  features as bugs to pellet-users mailing list.
+
+* New command-line subcommand (pellet info) that reports ontology 
+  information, statistics, metadata, including OWL2 profile 
+  information.
+
+* Bug fixes as described in
+  http://clark-parsia.trac.cvsdude.com/pellet-devel/report/11
+  
+We are also releasing two versions of the Protege plug-in for Pellet;
+one plug-in for Protege 4.0 and one plug-in for Protege 4.1 Alpha. The
+plug-in for Protege 4.1 exposes incremental classifier of Pellet for
+updating classification results faster as you edit your ontology in
+Protege. These plug-ins are available via the auto-update feature of 
+Protege.  
+ 
+Pellet 2.1 is available for use in open source projects under the AGPL
+v.3 license; for commercial usage, alternative license terms are
+available. Long-term support contracts are available for Pellet. Contact
+inquiries@clarkparsia.com for more information about licensing and
+commercial support.
+
+Pellet 2.1 is the first release in the new time-based development
+process we're now using; three additional quarterly releases are planned
+for 2010: 28 June, 27 September, and 20 December.
+
+Please note that this release officially DEPRECATES OWLAPI 2.x support,
+which will be removed entirely in a future release, but not before 2.3.
+If you have commercial support requirements for OWLAPI < 3.0, please
+contact us.
+
+Finally, with the release of Pellet 2.1, we will no longer provide free
+technical support of earlier versions via the pellet-users mailing list.
+Please upgrade to the latest release if you want technical support on
+the mailing list.

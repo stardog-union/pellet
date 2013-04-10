@@ -1,0 +1,5297 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY dcterm "http://purl.org/dc/terms/" >
+    <!ENTITY wot "http://xmlns.com/wot/0.1/" >
+    <!ENTITY foaf "http://xmlns.com/foaf/0.1/" >
+    <!ENTITY wordnet "http://xmlns.com/wordnet/1.6/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY swrlb "http://www.w3.org/2003/11/swrlb#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY tzont "http://www.w3.org/2006/timezone#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rel "http://purl.org/vocab/relationship/" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY iso "http://www.daml.org/2001/09/countries/iso#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY contact "http://www.w3.org/2000/10/swap/pim/contact#" >
+    <!ENTITY vs "http://www.w3.org/2003/06/sw-vocab-status/ns#" >
+    <!ENTITY protege "http://protege.stanford.edu/plugins/owl/protege#" >
+    <!ENTITY p6 "http://www.daml.org/2001/02/geofile/geofile-ont#" >
+    <!ENTITY xsp "http://www.owl-ontologies.com/2005/08/07/xsp.owl#" >
+    <!ENTITY p3 "http://www.daml.org/2001/09/countries/iso-3166-ont#" >
+    <!ENTITY p1 "http://schemars.ericsson.com/ontologies/media/foaf.owl#" >
+    <!ENTITY dis "http://schemars.ericsson.com/ontologies/media/discovery#" >
+    <!ENTITY geo "http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#" >
+    <!ENTITY continent "http://schemars.ericsson.com/ontologies/media/discovery#continent.north_&amp;" >
+]>
+
+
+<rdf:RDF xmlns="http://schemars.ericsson.com/ontologies/media/discovery#"
+     xml:base="http://schemars.ericsson.com/ontologies/media/discovery"
+     xmlns:p6="http://www.daml.org/2001/02/geofile/geofile-ont#"
+     xmlns:tzont="http://www.w3.org/2006/timezone#"
+     xmlns:p3="http://www.daml.org/2001/09/countries/iso-3166-ont#"
+     xmlns:p1="http://schemars.ericsson.com/ontologies/media/foaf.owl#"
+     xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"
+     xmlns:contact="http://www.w3.org/2000/10/swap/pim/contact#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:wot="http://xmlns.com/wot/0.1/"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:dis="http://schemars.ericsson.com/ontologies/media/discovery#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+     xmlns:geo="http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#"
+     xmlns:iso="http://www.daml.org/2001/09/countries/iso#"
+     xmlns:foaf="http://xmlns.com/foaf/0.1/"
+     xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+     xmlns:dcterm="http://purl.org/dc/terms/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:continent="&dis;continent.north_&amp;"
+     xmlns:rel="http://purl.org/vocab/relationship/"
+     xmlns:wordnet="http://xmlns.com/wordnet/1.6/">
+    <owl:Ontology rdf:about="">
+	    <owl:imports rdf:resource="file:./test/data/trans-tree-tests/cont.rdf"/>
+    </owl:Ontology> 
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;date"/>
+    <owl:AnnotationProperty rdf:about="&vs;term_status"/>
+    <owl:AnnotationProperty rdf:about="&dc;title"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/vocab/relationship/acquaintanceOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;acquaintanceOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Acquaintance Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person having more than slight or superficial knowledge of this person but short of friendship.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/ambivalentOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;ambivalentOf">
+        <rdfs:label xml:lang="en">Ambivalent Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person towards whom this person has mixed feelings or emotions.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/ancestorOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;ancestorOf">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">Ancestor Of</rdfs:label>
+        <rdfs:label xml:lang="en">Ancestor Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who is a descendant of this person.</rdfs:comment>
+        <owl:inverseOf rdf:resource="&rel;descendantOf"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/antagonistOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;antagonistOf">
+        <rdfs:label xml:lang="en">Antagonist Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who opposes and contends against this person.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/apprenticeTo -->
+
+    <owl:ObjectProperty rdf:about="&rel;apprenticeTo">
+        <rdfs:label rdf:datatype="&xsd;string">Apprentice To</rdfs:label>
+        <rdfs:label xml:lang="en">Apprentice To</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person to whom this person serves as a trusted counselor or teacher.</rdfs:comment>
+        <owl:inverseOf rdf:resource="&rel;mentorOf"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/childOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;childOf">
+        <rdfs:label rdf:datatype="&xsd;string">Child Of</rdfs:label>
+        <rdfs:label xml:lang="en">Child Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who was given birth to or nurtured and raised by this person.</rdfs:comment>
+        <owl:inverseOf rdf:resource="&rel;parentOf"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/closeFriendOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;closeFriendOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Close Friend Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who shares a close mutual friendship with this person.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/collaboratesWith -->
+
+    <owl:ObjectProperty rdf:about="&rel;collaboratesWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en"
+            >Collaborates With</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who works towards a common goal with this person.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/colleagueOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;colleagueOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Colleague Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who is a member of the same profession as this person.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/descendantOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;descendantOf">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">Descendant Of</rdfs:label>
+        <rdfs:label xml:lang="en">Descendant Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person from whom this person is descended.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/employedBy -->
+
+    <owl:ObjectProperty rdf:about="&rel;employedBy">
+        <rdfs:label rdf:datatype="&xsd;string">Employed By</rdfs:label>
+        <rdfs:label xml:lang="en">Employed By</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person for whom this person&#39;s services have been engaged.</rdfs:comment>
+        <owl:inverseOf rdf:resource="&rel;employerOf"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/employerOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;employerOf">
+        <rdfs:label rdf:datatype="&xsd;string">Employer Of</rdfs:label>
+        <rdfs:label xml:lang="en">Employer Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who engages the services of this person.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/enemyOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;enemyOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Enemy Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person towards whom this person feels hatred, intends injury to, or opposes the interests of.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/engagedTo -->
+
+    <owl:ObjectProperty rdf:about="&rel;engagedTo">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Engaged To</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person to whom this person is betrothed.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/friendOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;friendOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Friend Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who shares mutual friendship with this person.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/grandchildOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;grandchildOf">
+        <rdfs:label rdf:datatype="&xsd;string">Grandchild Of</rdfs:label>
+        <rdfs:label xml:lang="en">Grandchild Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who is a child of any of this person&#39;s children.</rdfs:comment>
+        <owl:inverseOf rdf:resource="&rel;grandparentOf"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/grandparentOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;grandparentOf">
+        <rdfs:label rdf:datatype="&xsd;string">Grandparent Of</rdfs:label>
+        <rdfs:label xml:lang="en">Grandparent Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who is the parent of any of this person&#39;s parents.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/hasMet -->
+
+    <owl:ObjectProperty rdf:about="&rel;hasMet">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Has Met</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who has met this person whether in passing or longer.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/knowsByReputation -->
+
+    <owl:ObjectProperty rdf:about="&rel;knowsByReputation">
+        <rdfs:label xml:lang="en"
+            >Knows By Reputation</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person known by this person primarily for a particular action, position or field of endeavour.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/knowsInPassing -->
+
+    <owl:ObjectProperty rdf:about="&rel;knowsInPassing">
+        <rdfs:label xml:lang="en"
+            >Knows In Passing</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person whom this person has slight or superficial knowledge of.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/knowsOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;knowsOf">
+        <rdfs:label xml:lang="en">Knows Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who has come to be known to this person through their actions or position.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/lifePartnerOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;lifePartnerOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Life Partner Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who has made a long-term commitment to this person&#39;s.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/livesWith -->
+
+    <owl:ObjectProperty rdf:about="&rel;livesWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label xml:lang="en">Lives With</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who shares a residence with this person.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/lostContactWith -->
+
+    <owl:ObjectProperty rdf:about="&rel;lostContactWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en"
+            >Lost Contact With</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who was once known by this person but has subsequently become uncontactable.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/mentorOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;mentorOf">
+        <rdfs:label rdf:datatype="&xsd;string">Mentor Of</rdfs:label>
+        <rdfs:label xml:lang="en">Mentor Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who serves as a trusted counselor or teacher to this person.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/neighborOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;neighborOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label xml:lang="en">Neighbor Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who lives in the same locality as this person.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/parentOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;parentOf">
+        <rdfs:label rdf:datatype="&xsd;string">Parent Of</rdfs:label>
+        <rdfs:label xml:lang="en">Parent Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who has given birth to or nurtured and raised this person.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/participant -->
+
+    <owl:ObjectProperty rdf:about="&rel;participant">
+        <rdfs:label xml:lang="en">Participant</rdfs:label>
+        <rdfs:domain rdf:resource="&rel;Relationship"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/participantIn -->
+
+    <owl:ObjectProperty rdf:about="&rel;participantIn">
+        <rdfs:label xml:lang="en">Participant In</rdfs:label>
+        <rdfs:range rdf:resource="&rel;Relationship"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/siblingOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;siblingOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Sibling Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person having one or both parents in common with this person.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/spouseOf -->
+
+    <owl:ObjectProperty rdf:about="&rel;spouseOf">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label xml:lang="en">Spouse Of</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who is married to this person.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/worksWith -->
+
+    <owl:ObjectProperty rdf:about="&rel;worksWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:label xml:lang="en">Works With</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person who works for the same employer as this person.</rdfs:comment>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/vocab/relationship/wouldLikeToKnow -->
+
+    <owl:ObjectProperty rdf:about="&rel;wouldLikeToKnow">
+        <rdfs:label xml:lang="en"
+            >Would Like to Know</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A person whom this person would desire to know more closely.</rdfs:comment>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#actIn -->
+
+    <owl:ObjectProperty rdf:about="#actIn">
+        <rdfs:domain rdf:resource="#Actor"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+        <owl:inverseOf rdf:resource="#hasActor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#adaptedFrom -->
+
+    <owl:ObjectProperty rdf:about="#adaptedFrom">
+        <rdfs:domain rdf:resource="#Work"/>
+        <rdfs:range rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#alsoKnownAs -->
+
+    <owl:ObjectProperty rdf:about="#alsoKnownAs">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <owl:inverseOf rdf:resource="#alsoKnownAs"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#awardHonor.award -->
+
+    <owl:ObjectProperty rdf:about="#awardHonor.award">
+        <rdfs:range rdf:resource="#Award"/>
+        <rdfs:domain rdf:resource="#AwardHonor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#awardHonor.awardCategory -->
+
+    <owl:ObjectProperty rdf:about="#awardHonor.awardCategory">
+        <rdfs:range rdf:resource="#AwardCategory"/>
+        <rdfs:domain rdf:resource="#AwardHonor"/>
+        <owl:inverseOf rdf:resource="#awardHonor.isAwardCategoryOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#awardHonor.contributor -->
+
+    <owl:ObjectProperty rdf:about="#awardHonor.contributor">
+        <rdfs:domain rdf:resource="#AwardHonor"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Organization"/>
+                    <rdf:Description rdf:about="#Person"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#awardHonor.contributorOf -->
+
+    <owl:ObjectProperty rdf:about="#awardHonor.contributorOf">
+        <rdfs:range rdf:resource="#AwardHonor"/>
+        <owl:inverseOf rdf:resource="#awardHonor.contributor"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Organization"/>
+                    <rdf:Description rdf:about="#Person"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#awardHonor.isAwardCategoryOf -->
+
+    <owl:ObjectProperty rdf:about="#awardHonor.isAwardCategoryOf">
+        <rdfs:domain rdf:resource="#AwardCategory"/>
+        <rdfs:range rdf:resource="#AwardHonor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#awardHonor.isAwardOf -->
+
+    <owl:ObjectProperty rdf:about="#awardHonor.isAwardOf">
+        <rdfs:domain rdf:resource="#Award"/>
+        <rdfs:range rdf:resource="#AwardHonor"/>
+        <owl:inverseOf rdf:resource="#awardHonor.award"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#awardHonor.work -->
+
+    <owl:ObjectProperty rdf:about="#awardHonor.work">
+        <rdfs:domain rdf:resource="#AwardHonor"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#awardHonor.workOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#awardHonor.workOf -->
+
+    <owl:ObjectProperty rdf:about="#awardHonor.workOf">
+        <rdfs:range rdf:resource="#AwardHonor"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#belongToGenre -->
+
+    <owl:ObjectProperty rdf:about="#belongToGenre">
+        <rdfs:range rdf:resource="#Genre"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#birthLocation -->
+
+    <owl:ObjectProperty rdf:about="#birthLocation">
+        <rdfs:range rdf:resource="#Location"/>
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#operateCameraIn -->
+
+    <owl:ObjectProperty rdf:about="#operateCameraIn">
+        <rdfs:domain rdf:resource="#Cinematographer"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+        <owl:inverseOf rdf:resource="#hasCinematographer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#companyProduce -->
+
+    <owl:ObjectProperty rdf:about="#companyProduce">
+        <rdfs:domain rdf:resource="#ProductionCompany"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#contributeTo -->
+
+    <owl:ObjectProperty rdf:about="#contributeTo">
+        <rdfs:range rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#hasContributor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#datesWith -->
+
+    <owl:ObjectProperty rdf:about="#datesWith">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <owl:inverseOf rdf:resource="#datesWith"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;knows"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#direct -->
+
+    <owl:ObjectProperty rdf:about="#direct">
+        <rdfs:domain rdf:resource="#Director"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#distribute -->
+
+    <owl:ObjectProperty rdf:about="#distribute">
+        <rdfs:domain rdf:resource="#Distributor"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+        <owl:inverseOf rdf:resource="#hasDistributor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#edit -->
+
+    <owl:ObjectProperty rdf:about="#edit">
+        <rdfs:domain rdf:resource="#Editor"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#employment.employee -->
+
+    <owl:ObjectProperty rdf:about="#employment.employee">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Employment"/>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#employment.employer -->
+
+    <owl:ObjectProperty rdf:about="#employment.employer">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Employment"/>
+        <rdfs:range rdf:resource="&foaf;Organization"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#employment.isEmployee -->
+
+    <owl:ObjectProperty rdf:about="#employment.isEmployee">
+        <rdfs:range rdf:resource="#Employment"/>
+        <owl:inverseOf rdf:resource="#employment.employee"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#employment.isEmployer -->
+
+    <owl:ObjectProperty rdf:about="#employment.isEmployer">
+        <rdfs:range rdf:resource="#Employment"/>
+        <owl:inverseOf rdf:resource="#employment.employer"/>
+        <rdfs:domain rdf:resource="&foaf;Organization"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#followedBy -->
+
+    <owl:ObjectProperty rdf:about="#followedBy">
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#follows -->
+
+    <owl:ObjectProperty rdf:about="#follows">
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#followedBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasActor -->
+
+    <owl:ObjectProperty rdf:about="#hasActor">
+        <rdfs:range rdf:resource="#Actor"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasAdaptation -->
+
+    <owl:ObjectProperty rdf:about="#hasAdaptation">
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#adaptedFrom"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasAnnotationLocation -->
+
+    <owl:ObjectProperty rdf:about="#hasAnnotationLocation">
+        <rdfs:range rdf:resource="#Location"/>
+        <rdfs:domain rdf:resource="#MediaSegment"/>
+        <owl:inverseOf rdf:resource="#isAnnotationLocation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasCinematographer -->
+
+    <owl:ObjectProperty rdf:about="#hasCinematographer">
+        <rdfs:range rdf:resource="#Cinematographer"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasComponent -->
+
+    <owl:ObjectProperty rdf:about="#hasComponent">
+        <rdfs:domain rdf:resource="#Work"/>
+        <rdfs:range rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasContributor -->
+
+    <owl:ObjectProperty rdf:about="#hasContributor">
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasDirector -->
+
+    <owl:ObjectProperty rdf:about="#hasDirector">
+        <rdfs:range rdf:resource="#Director"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#direct"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasDistributor -->
+
+    <owl:ObjectProperty rdf:about="#hasDistributor">
+        <rdfs:range rdf:resource="#Distributor"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasEditor -->
+
+    <owl:ObjectProperty rdf:about="#hasEditor">
+        <rdfs:range rdf:resource="#Editor"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#edit"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasFilmingLocation -->
+
+    <owl:ObjectProperty rdf:about="#hasFilmingLocation">
+        <rdfs:range rdf:resource="#Location"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasImage -->
+
+    <owl:ObjectProperty rdf:about="#hasImage">
+        <rdfs:range rdf:resource="#Image"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasLanguage -->
+
+    <owl:ObjectProperty rdf:about="#hasLanguage"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasMusicproducer -->
+
+    <owl:ObjectProperty rdf:about="#hasMusicproducer">
+        <rdfs:range rdf:resource="#Musicproducer"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#musicproduce"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasOriginCountry -->
+
+    <owl:ObjectProperty rdf:about="#hasOriginCountry">
+        <rdfs:domain rdf:resource="#Work"/>
+        <rdfs:range rdf:resource="&tzont;Country"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasProduceCompany -->
+
+    <owl:ObjectProperty rdf:about="#hasProduceCompany">
+        <rdfs:range rdf:resource="#ProductionCompany"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#companyProduce"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasProducer -->
+
+    <owl:ObjectProperty rdf:about="#hasProducer">
+        <rdfs:range rdf:resource="#Producer"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#produce"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasReference -->
+
+    <owl:ObjectProperty rdf:about="#hasReference">
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >literature, book, website</rdfs:comment>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasSegment -->
+
+    <owl:ObjectProperty rdf:about="#hasSegment">
+        <rdfs:range rdf:resource="#MediaSegment"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#hasWriter -->
+
+    <owl:ObjectProperty rdf:about="#hasWriter">
+        <rdfs:domain rdf:resource="#Work"/>
+        <rdfs:range rdf:resource="#Writer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#influencedBy -->
+
+    <owl:ObjectProperty rdf:about="#influencedBy">
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#interpretation -->
+
+    <owl:ObjectProperty rdf:about="#interpretation"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isAnnotationLocation -->
+
+    <owl:ObjectProperty rdf:about="#isAnnotationLocation">
+        <rdfs:domain rdf:resource="#Location"/>
+        <rdfs:range rdf:resource="#MediaSegment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isBirthLocation -->
+
+    <owl:ObjectProperty rdf:about="#isBirthLocation">
+        <rdfs:domain rdf:resource="#Location"/>
+        <rdfs:range rdf:resource="#Person"/>
+        <owl:inverseOf rdf:resource="#birthLocation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isChildGenre -->
+
+    <owl:ObjectProperty rdf:about="#isChildGenre">
+        <rdfs:range rdf:resource="#Genre"/>
+        <rdfs:domain rdf:resource="#Genre"/>
+        <owl:inverseOf rdf:resource="#isParentGenre"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isComponent -->
+
+    <owl:ObjectProperty rdf:about="#isComponent">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#hasComponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isFilmingLocation -->
+
+    <owl:ObjectProperty rdf:about="#isFilmingLocation">
+        <rdfs:domain rdf:resource="#Location"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#hasFilmingLocation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isGenre -->
+
+    <owl:ObjectProperty rdf:about="#isGenre">
+        <rdfs:domain rdf:resource="#Genre"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#belongToGenre"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isLivingLocation -->
+
+    <owl:ObjectProperty rdf:about="#isLivingLocation">
+        <rdfs:domain rdf:resource="#Location"/>
+        <rdfs:range rdf:resource="#Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isLocatedLocation -->
+
+    <owl:ObjectProperty rdf:about="#isLocatedLocation">
+        <rdfs:domain rdf:resource="#Location"/>
+        <rdfs:range rdf:resource="#Organization"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isOriginCountry -->
+
+    <owl:ObjectProperty rdf:about="#isOriginCountry">
+        <rdfs:range rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#hasOriginCountry"/>
+        <rdfs:domain rdf:resource="&tzont;Country"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isParentGenre -->
+
+    <owl:ObjectProperty rdf:about="#isParentGenre">
+        <rdfs:range rdf:resource="#Genre"/>
+        <rdfs:domain rdf:resource="#Genre"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#isReference -->
+
+    <owl:ObjectProperty rdf:about="#isReference">
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#hasReference"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#liveIn -->
+
+    <owl:ObjectProperty rdf:about="#liveIn">
+        <rdfs:range rdf:resource="#Location"/>
+        <owl:inverseOf rdf:resource="#isLivingLocation"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#locatedIn -->
+
+    <owl:ObjectProperty rdf:about="#locatedIn">
+        <rdfs:range rdf:resource="#Location"/>
+        <rdfs:domain rdf:resource="#Organization"/>
+        <owl:inverseOf rdf:resource="#isLocatedLocation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#musicproduce -->
+
+    <owl:ObjectProperty rdf:about="#musicproduce">
+        <rdfs:domain rdf:resource="#Musicproducer"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#performance.actor -->
+
+    <owl:ObjectProperty rdf:about="#performance.actor">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="#Actor"/>
+        <rdfs:domain rdf:resource="#Performance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#performance.character -->
+
+    <owl:ObjectProperty rdf:about="#performance.character">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Performance"/>
+        <rdfs:range rdf:resource="#WorkCharacter"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#performance.isActor -->
+
+    <owl:ObjectProperty rdf:about="#performance.isActor">
+        <rdfs:domain rdf:resource="#Actor"/>
+        <rdfs:range rdf:resource="#Performance"/>
+        <owl:inverseOf rdf:resource="#performance.actor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#performance.isCharacter -->
+
+    <owl:ObjectProperty rdf:about="#performance.isCharacter">
+        <rdfs:range rdf:resource="#Performance"/>
+        <rdfs:domain rdf:resource="#WorkCharacter"/>
+        <owl:inverseOf rdf:resource="#performance.character"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#performance.work -->
+
+    <owl:ObjectProperty rdf:about="#performance.work">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Performance"/>
+        <rdfs:range rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#produce -->
+
+    <owl:ObjectProperty rdf:about="#produce">
+        <rdfs:domain rdf:resource="#Producer"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#reEdit -->
+
+    <owl:ObjectProperty rdf:about="#reEdit"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#segmentOf -->
+
+    <owl:ObjectProperty rdf:about="#segmentOf">
+        <rdfs:domain rdf:resource="#MediaSegment"/>
+        <rdfs:range rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#hasSegment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#similarTo -->
+
+    <owl:ObjectProperty rdf:about="#similarTo">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <owl:inverseOf rdf:resource="#similarTo"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#translated -->
+
+    <owl:ObjectProperty rdf:about="#translated"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#unionRelation.isPersonIn -->
+
+    <owl:ObjectProperty rdf:about="#unionRelation.isPersonIn">
+        <rdfs:domain rdf:resource="#Person"/>
+        <rdfs:range rdf:resource="#UnionRelation"/>
+        <owl:inverseOf rdf:resource="#unionRelation.person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#unionRelation.isUnionTypeOf -->
+
+    <owl:ObjectProperty rdf:about="#unionRelation.isUnionTypeOf">
+        <rdfs:range rdf:resource="#UnionRelation"/>
+        <rdfs:domain rdf:resource="#UnionType"/>
+        <owl:inverseOf rdf:resource="#unionRelation.unionType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#unionRelation.isWorkDuring -->
+
+    <owl:ObjectProperty rdf:about="#unionRelation.isWorkDuring">
+        <rdfs:range rdf:resource="#UnionRelation"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#unionRelation.work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#unionRelation.person -->
+
+    <owl:ObjectProperty rdf:about="#unionRelation.person">
+        <rdfs:range rdf:resource="#Person"/>
+        <rdfs:domain rdf:resource="#UnionRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#unionRelation.unionType -->
+
+    <owl:ObjectProperty rdf:about="#unionRelation.unionType">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#UnionRelation"/>
+        <rdfs:range rdf:resource="#UnionType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#unionRelation.work -->
+
+    <owl:ObjectProperty rdf:about="#unionRelation.work">
+        <rdfs:domain rdf:resource="#UnionRelation"/>
+        <rdfs:range rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#versionOf -->
+
+    <owl:ObjectProperty rdf:about="#versionOf">
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#workStarring -->
+
+    <owl:ObjectProperty rdf:about="#workStarring">
+        <rdfs:range rdf:resource="#Performance"/>
+        <rdfs:domain rdf:resource="#Work"/>
+        <owl:inverseOf rdf:resource="#performance.work"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#write -->
+
+    <owl:ObjectProperty rdf:about="#write">
+        <rdfs:range rdf:resource="#Work"/>
+        <rdfs:domain rdf:resource="#Writer"/>
+        <rdfs:subPropertyOf rdf:resource="#contributeTo"/>
+        <owl:inverseOf rdf:resource="#hasWriter"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#alt -->
+
+    <owl:ObjectProperty rdf:about="&geo;alt">
+        <rdfs:label rdf:datatype="&xsd;string">altitude</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The WGS84 altitude of a SpatialThing (decimal meters 
+above the local reference ellipsoid).</rdfs:comment>
+        <rdfs:domain rdf:resource="&geo;SpatialThing"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#location -->
+
+    <owl:ObjectProperty rdf:about="&geo;location">
+        <rdfs:label rdf:datatype="&xsd;string">location</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The relation between something and the point, 
+ or other geometrical thing in space, where it is.  For example, the realtionship between
+ a radio tower and a Point with a given lat and long.
+ Or a relationship between a park and its outline as a closed arc of points, or a road and
+ its location as a arc (a sequence of points).
+ Clearly in practice there will be limit to the accuracy of any such statement, but one would expect
+ an accuracy appropriate for the size of the object and uses such as mapping .</rdfs:comment>
+        <rdfs:range rdf:resource="&geo;SpatialThing"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;based_near"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#argument1 -->
+
+    <owl:ObjectProperty rdf:about="&swrl;argument1"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#body -->
+
+    <owl:ObjectProperty rdf:about="&swrl;body"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#classPredicate -->
+
+    <owl:ObjectProperty rdf:about="&swrl;classPredicate"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#head -->
+
+    <owl:ObjectProperty rdf:about="&swrl;head"/>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#countryOf -->
+
+    <owl:ObjectProperty rdf:about="&tzont;countryOf">
+        <rdfs:range rdf:resource="&tzont;Country"/>
+        <rdfs:subPropertyOf rdf:resource="&tzont;hasParentRegion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#exceptionalRegion -->
+
+    <owl:ObjectProperty rdf:about="&tzont;exceptionalRegion">
+        <rdfs:domain rdf:resource="&tzont;Region"/>
+        <rdfs:range rdf:resource="&tzont;Region"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#hasAncestorRegion -->
+
+    <owl:ObjectProperty rdf:about="&tzont;hasAncestorRegion">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:domain rdf:resource="&tzont;Region"/>
+        <rdfs:range rdf:resource="&tzont;Region"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#hasDaylightSavingsPolicy -->
+
+    <owl:ObjectProperty rdf:about="&tzont;hasDaylightSavingsPolicy">
+        <rdfs:range rdf:resource="&tzont;DaylightSavingsPolicy"/>
+        <rdfs:domain rdf:resource="&tzont;Region"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#hasParentRegion -->
+
+    <owl:ObjectProperty rdf:about="&tzont;hasParentRegion">
+        <rdfs:subPropertyOf rdf:resource="&tzont;hasAncestorRegion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#hasTimeZone -->
+
+    <owl:ObjectProperty rdf:about="&tzont;hasTimeZone">
+        <rdfs:domain rdf:resource="&tzont;Region"/>
+        <rdfs:range rdf:resource="&tzont;TimeZone"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#stateOf -->
+
+    <owl:ObjectProperty rdf:about="&tzont;stateOf">
+        <rdfs:range rdf:resource="&tzont;State"/>
+        <rdfs:subPropertyOf rdf:resource="&tzont;hasParentRegion"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#timeZonePart -->
+
+    <owl:ObjectProperty rdf:about="&tzont;timeZonePart">
+        <rdfs:range rdf:resource="&tzont;Region"/>
+        <rdfs:domain rdf:resource="&tzont;Region"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/accountServiceHomepage -->
+
+    <owl:ObjectProperty rdf:about="&foaf;accountServiceHomepage">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >account service homepage</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Indicates a homepage of the service provide for this online account.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:domain rdf:resource="&foaf;OnlineAccount"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/based_near -->
+
+    <owl:ObjectProperty rdf:about="&foaf;based_near">
+        <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">based near</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A location that something is based near, for some broadly human notion of near.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+        <rdfs:range rdf:resource="&geo;SpatialThing"/>
+        <rdfs:domain rdf:resource="&geo;SpatialThing"/>
+        <owl:inverseOf rdf:resource="&foaf;based_near"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/currentProject -->
+
+    <owl:ObjectProperty rdf:about="&foaf;currentProject">
+        <rdfs:label rdf:datatype="&xsd;string">current project</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A current project this person works on.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Project"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/depiction -->
+
+    <owl:ObjectProperty rdf:about="&foaf;depiction">
+        <rdfs:label rdf:datatype="&xsd;string">depiction</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A depiction of some thing.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Image"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/depicts -->
+
+    <owl:ObjectProperty rdf:about="&foaf;depicts">
+        <rdfs:label rdf:datatype="&xsd;string">depicts</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A thing depicted in this representation.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Image"/>
+        <owl:inverseOf rdf:resource="&foaf;depiction"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/fundedBy -->
+
+    <owl:ObjectProperty rdf:about="&foaf;fundedBy">
+        <rdfs:label rdf:datatype="&xsd;string">funded by</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An organization funding a project or person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/holdsAccount -->
+
+    <owl:ObjectProperty rdf:about="&foaf;holdsAccount">
+        <rdfs:label rdf:datatype="&xsd;string">holds account</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Indicates an account held by this agent.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:range rdf:resource="&foaf;OnlineAccount"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/homepage -->
+
+    <owl:ObjectProperty rdf:about="&foaf;homepage">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">homepage</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A homepage for some thing.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;isPrimaryTopicOf"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;page"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/img -->
+
+    <owl:ObjectProperty rdf:about="&foaf;img">
+        <rdfs:label rdf:datatype="&xsd;string">image</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An image that can be used to represent some thing (ie. those depictions which are particularly representative of something, eg. one&#39;s photo on a homepage).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Image"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;depiction"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/interest -->
+
+    <owl:ObjectProperty rdf:about="&foaf;interest">
+        <rdfs:label rdf:datatype="&xsd;string">interest</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A page about a topic of interest to this person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/isPrimaryTopicOf -->
+
+    <owl:ObjectProperty rdf:about="&foaf;isPrimaryTopicOf">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >is primary topic of</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A document that this thing is the primary topic of.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;page"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/knows -->
+
+    <owl:ObjectProperty rdf:about="&foaf;knows">
+        <rdfs:label rdf:datatype="&xsd;string">knows</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A person known by this person (indicating some level of reciprocated interaction between the parties).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Person"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/logo -->
+
+    <owl:ObjectProperty rdf:about="&foaf;logo">
+        <rdfs:label rdf:datatype="&xsd;string">logo</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A logo representing some thing.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/made -->
+
+    <owl:ObjectProperty rdf:about="&foaf;made">
+        <rdfs:label rdf:datatype="&xsd;string">made</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Something that was made by this agent.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+        <rdfs:domain rdf:resource="#WorkCharacter"/>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/maker -->
+
+    <owl:ObjectProperty rdf:about="&foaf;maker">
+        <rdfs:label rdf:datatype="&xsd;string">maker</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An agent that made this thing.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+        <owl:inverseOf rdf:resource="&foaf;made"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/mbox -->
+
+    <owl:ObjectProperty rdf:about="&foaf;mbox">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string"
+            >personal mailbox</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A personal mailbox, ie. an Internet mailbox associated with exactly one owner, the first owner of this mailbox. This is a &#39;static inverse functional property&#39;, in that  there is (across time and change) at most one individual that ever has any particular value for foaf:mbox.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/member -->
+
+    <owl:ObjectProperty rdf:about="&foaf;member">
+        <rdfs:label rdf:datatype="&xsd;string">member</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Indicates a member of a Group.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Agent"/>
+        <rdfs:domain rdf:resource="&foaf;Group"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/membershipClass -->
+
+    <owl:ObjectProperty rdf:about="&foaf;membershipClass">
+        <rdfs:label rdf:datatype="&xsd;string">membershipClass</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Indicates the class of individuals that are a member of a Group.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/openid -->
+
+    <owl:ObjectProperty rdf:about="&foaf;openid">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">openid</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A OpenID for an Agent.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:range rdf:resource="&foaf;Image"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;isPrimaryTopicOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/page -->
+
+    <owl:ObjectProperty rdf:about="&foaf;page">
+        <rdfs:label rdf:datatype="&xsd;string">page</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A page or document about this thing.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/pastProject -->
+
+    <owl:ObjectProperty rdf:about="&foaf;pastProject">
+        <rdfs:label rdf:datatype="&xsd;string">past project</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A project this person has previously worked on.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+        <rdfs:range rdf:resource="&foaf;Project"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/plan -->
+
+    <owl:ObjectProperty rdf:about="&foaf;plan">
+        <rdfs:label rdf:datatype="&xsd;string">plan</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A .plan comment, in the tradition of finger and &#39;.plan&#39; files.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/primaryTopic -->
+
+    <owl:ObjectProperty rdf:about="&foaf;primaryTopic">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">primary topic</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The primary topic of some page or document.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Document"/>
+        <owl:inverseOf rdf:resource="&foaf;isPrimaryTopicOf"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/publications -->
+
+    <owl:ObjectProperty rdf:about="&foaf;publications">
+        <rdfs:label rdf:datatype="&xsd;string">publications</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A link to the publications of this person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/schoolHomepage -->
+
+    <owl:ObjectProperty rdf:about="&foaf;schoolHomepage">
+        <rdfs:label rdf:datatype="&xsd;string">schoolHomepage</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A homepage of a school attended by the person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/theme -->
+
+    <owl:ObjectProperty rdf:about="&foaf;theme">
+        <rdfs:label rdf:datatype="&xsd;string">theme</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">A theme.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/thumbnail -->
+
+    <owl:ObjectProperty rdf:about="&foaf;thumbnail">
+        <rdfs:label rdf:datatype="&xsd;string">thumbnail</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A derived thumbnail image.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Image"/>
+        <rdfs:range rdf:resource="&foaf;Image"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/tipjar -->
+
+    <owl:ObjectProperty rdf:about="&foaf;tipjar">
+        <rdfs:label rdf:datatype="&xsd;string">tipjar</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A tipjar document for this agent, describing means for payment and reward.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;page"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/topic -->
+
+    <owl:ObjectProperty rdf:about="&foaf;topic">
+        <rdfs:label rdf:datatype="&xsd;string">topic</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A topic of some page or document.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Document"/>
+        <owl:inverseOf rdf:resource="&foaf;page"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/topic_interest -->
+
+    <owl:ObjectProperty rdf:about="&foaf;topic_interest">
+        <rdfs:label rdf:datatype="&xsd;string">interest_topic</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A thing of interest to this person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/weblog -->
+
+    <owl:ObjectProperty rdf:about="&foaf;weblog">
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">weblog</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A weblog of some thing (whether person, group, company etc.).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;page"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/workInfoHomepage -->
+
+    <owl:ObjectProperty rdf:about="&foaf;workInfoHomepage">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >work info homepage</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A work info homepage of some person; a page about their work for some organization.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/workplaceHomepage -->
+
+    <owl:ObjectProperty rdf:about="&foaf;workplaceHomepage">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >workplace homepage</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A workplace homepage of some person; the homepage of an organization they work for.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:range rdf:resource="&foaf;Document"/>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#also_known_as -->
+
+    <owl:DatatypeProperty rdf:about="#also_known_as">
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#award_result -->
+
+    <owl:DatatypeProperty rdf:about="#award_result">
+        <rdfs:domain rdf:resource="#AwardHonor"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#award_year -->
+
+    <owl:DatatypeProperty rdf:about="#award_year">
+        <rdfs:domain rdf:resource="#AwardHonor"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#birth_date -->
+
+    <owl:DatatypeProperty rdf:about="#birth_date">
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#birth_year -->
+
+    <owl:DatatypeProperty rdf:about="#birth_year">
+        <rdfs:domain rdf:resource="#Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#currently_in_production -->
+
+    <owl:DatatypeProperty rdf:about="#currently_in_production">
+        <rdfs:domain rdf:resource="#Series"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#date_of_final_episode -->
+
+    <owl:DatatypeProperty rdf:about="#date_of_final_episode">
+        <rdfs:domain rdf:resource="#ComposedWork"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#date_of_first_episode -->
+
+    <owl:DatatypeProperty rdf:about="#date_of_first_episode">
+        <rdfs:domain rdf:resource="#ComposedWork"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#description -->
+
+    <owl:DatatypeProperty rdf:about="#description">
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#employment.endDate -->
+
+    <owl:DatatypeProperty rdf:about="#employment.endDate">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Employment"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#employment.startDate -->
+
+    <owl:DatatypeProperty rdf:about="#employment.startDate">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Employment"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#episode_number -->
+
+    <owl:DatatypeProperty rdf:about="#episode_number">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Episode"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#genre_name -->
+
+    <owl:DatatypeProperty rdf:about="#genre_name">
+        <rdfs:domain rdf:resource="#Genre"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#image_dimension_x -->
+
+    <owl:DatatypeProperty rdf:about="#image_dimension_x">
+        <rdfs:domain rdf:resource="#Image"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#image_dimension_y -->
+
+    <owl:DatatypeProperty rdf:about="#image_dimension_y">
+        <rdfs:domain rdf:resource="#Image"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#image_source -->
+
+    <owl:DatatypeProperty rdf:about="#image_source">
+        <rdfs:domain rdf:resource="#Image"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#imdbID -->
+
+    <owl:DatatypeProperty rdf:about="#imdbID">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#language -->
+
+    <owl:DatatypeProperty rdf:about="#language">
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#media_duration -->
+
+    <owl:DatatypeProperty rdf:about="#media_duration">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >PddDThhHmmMssSnnNffF (d:Days, h:Hours, m: Minutes, s:Seconds, n:Number of frames, f:Number of frames per second)</rdfs:comment>
+        <rdfs:domain rdf:resource="#MediaSegment"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#media_time_point -->
+
+    <owl:DatatypeProperty rdf:about="#media_time_point">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Thh:mm:ss:nnnFfff (d:Days, h:Hours, m: Minutes, s:Seconds, n:Number of frames, f:Number of frames per second)</rdfs:comment>
+        <rdfs:domain rdf:resource="#MediaSegment"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#number_of_episodes -->
+
+    <owl:DatatypeProperty rdf:about="#number_of_episodes">
+        <rdfs:domain rdf:resource="#ComposedWork"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#number_of_seasons -->
+
+    <owl:DatatypeProperty rdf:about="#number_of_seasons">
+        <rdfs:domain rdf:resource="#Series"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#original_air_date -->
+
+    <owl:DatatypeProperty rdf:about="#original_air_date">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#Episode"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#performance.weight -->
+
+    <owl:DatatypeProperty rdf:about="#performance.weight">
+        <rdfs:domain rdf:resource="#Performance"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#release_date -->
+
+    <owl:DatatypeProperty rdf:about="#release_date">
+        <rdfs:domain rdf:resource="#Work"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#run_time -->
+
+    <owl:DatatypeProperty rdf:about="#run_time">
+        <rdfs:domain rdf:resource="#Work"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#scene -->
+
+    <owl:DatatypeProperty rdf:about="#scene">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >outdoor or indoor</rdfs:comment>
+        <rdfs:domain rdf:resource="#MediaSegment"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#unionRelation.endDate -->
+
+    <owl:DatatypeProperty rdf:about="#unionRelation.endDate">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#UnionRelation"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#unionRelation.startDate -->
+
+    <owl:DatatypeProperty rdf:about="#unionRelation.startDate">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="#UnionRelation"/>
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#lat -->
+
+    <owl:DatatypeProperty rdf:about="&geo;lat">
+        <rdfs:label rdf:datatype="&xsd;string">latitude</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The WGS84 latitude of a SpatialThing (decimal degrees).</rdfs:comment>
+        <rdfs:domain rdf:resource="&geo;SpatialThing"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#lat_long -->
+
+    <owl:DatatypeProperty rdf:about="&geo;lat_long">
+        <rdfs:label rdf:datatype="&xsd;string">lat/long</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A comma-separated representation of a latitude, longitude coordinate.</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#long -->
+
+    <owl:DatatypeProperty rdf:about="&geo;long">
+        <rdfs:label rdf:datatype="&xsd;string">longitude</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The WGS84 longitude of a SpatialThing (decimal degrees).</rdfs:comment>
+        <rdfs:domain rdf:resource="&geo;SpatialThing"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.daml.org/2001/09/countries/iso-3166-ont#name -->
+
+    <owl:DatatypeProperty rdf:about="&p3;name">
+        <owl:equivalentProperty rdf:resource="&tzont;name"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrlb#args -->
+
+    <owl:DatatypeProperty rdf:about="&swrlb;args"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrlb#maxArgs -->
+
+    <owl:DatatypeProperty rdf:about="&swrlb;maxArgs"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrlb#minArgs -->
+
+    <owl:DatatypeProperty rdf:about="&swrlb;minArgs"/>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#DLSendDate -->
+
+    <owl:DatatypeProperty rdf:about="&tzont;DLSendDate">
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#DLSstartDate -->
+
+    <owl:DatatypeProperty rdf:about="&tzont;DLSstartDate">
+        <rdfs:range rdf:resource="&xsd;date"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#GMToffset -->
+
+    <owl:DatatypeProperty rdf:about="&tzont;GMToffset">
+        <rdfs:range rdf:resource="&xsd;duration"/>
+        <rdfs:domain rdf:resource="&tzont;TimeZone"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#name -->
+
+    <owl:DatatypeProperty rdf:about="&tzont;name"/>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#observesDaylightSavingsTime -->
+
+    <owl:DatatypeProperty rdf:about="&tzont;observesDaylightSavingsTime">
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+        <rdfs:domain rdf:resource="&tzont;Region"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/accountName -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;accountName">
+        <rdfs:label rdf:datatype="&xsd;string">account name</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Indicates the name (identifier) associated with this online account.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;OnlineAccount"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/aimChatID -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;aimChatID">
+        <rdfs:label rdf:datatype="&xsd;string">AIM chat ID</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">An AIM chat ID.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;nick"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/birthday -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;birthday">
+        <rdfs:label rdf:datatype="&xsd;string">birthday</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The birthday of this Agent, represented in mm-dd string form, eg. &#39;12-31&#39;.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/family_name -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;family_name">
+        <rdfs:label rdf:datatype="&xsd;string">family_name</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The family_name of some person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/firstName -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;firstName">
+        <rdfs:label rdf:datatype="&xsd;string">firstName</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The first name of a person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/geekcode -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;geekcode">
+        <rdfs:label rdf:datatype="&xsd;string">geekcode</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A textual geekcode for this person, see http://www.geekcode.com/geek.html</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/gender -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;gender">
+        <rdfs:label rdf:datatype="&xsd;string">gender</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The gender of this Agent (typically but not necessarily &#39;male&#39; or &#39;female&#39;).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:domain rdf:resource="&wordnet;Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/givenname -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;givenname">
+        <rdfs:label rdf:datatype="&xsd;string">Given name</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The given name of a person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/icqChatID -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;icqChatID">
+        <rdfs:label rdf:datatype="&xsd;string">ICQ chat ID</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">An ICQ chat ID.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;nick"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/jabberID -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;jabberID">
+        <rdfs:label rdf:datatype="&xsd;string">jabber ID</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A jabber ID for something.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/mbox_sha1sum -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;mbox_sha1sum">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >sha1sum of a personal mailbox URI name</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The sha1sum of the URI of an Internet mailbox associated with exactly one owner, the  first owner of the mailbox.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/msnChatID -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;msnChatID">
+        <rdfs:label rdf:datatype="&xsd;string">MSN chat ID</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">An MSN chat ID.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;nick"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/myersBriggs -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;myersBriggs">
+        <rdfs:label rdf:datatype="&xsd;string">myersBriggs</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A Myers Briggs (MBTI) personality classification.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/name -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;name"/>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/nick -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;nick">
+        <rdfs:label rdf:datatype="&xsd;string">nickname</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A short informal nickname characterising an agent (includes login identifiers, IRC and other chat nicknames).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/phone -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;phone">
+        <rdfs:label rdf:datatype="&xsd;string">phone</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A phone,  specified using fully qualified tel: URI scheme (refs: http://www.w3.org/Addressing/schemes.html#tel).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/sha1 -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;sha1">
+        <rdfs:label rdf:datatype="&xsd;string">sha1sum (hex)</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A sha1sum hash, in hex.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Document"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/surname -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;surname">
+        <rdfs:label rdf:datatype="&xsd;string">Surname</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >The surname of some person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Person"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/title -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;title">
+        <rdfs:label rdf:datatype="&xsd;string">title</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Title (Mr, Mrs, Ms, Dr. etc).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/yahooChatID -->
+
+    <owl:DatatypeProperty rdf:about="&foaf;yahooChatID">
+        <rdfs:label rdf:datatype="&xsd;string">Yahoo chat ID</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A Yahoo chat ID.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+        <rdfs:domain rdf:resource="&foaf;Agent"/>
+        <rdfs:subPropertyOf rdf:resource="&foaf;nick"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://purl.org/vocab/relationship/Relationship -->
+
+    <owl:Class rdf:about="&rel;Relationship">
+        <rdfs:label xml:lang="en">Relationship</rdfs:label>
+        <rdfs:comment xml:lang="en"
+            >A particular type of connection existing between people related to or having dealings with each other.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Actor -->
+
+    <owl:Class rdf:about="#Actor">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Award -->
+
+    <owl:Class rdf:about="#Award"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#AwardCategory -->
+
+    <owl:Class rdf:about="#AwardCategory"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#AwardHonor -->
+
+    <owl:Class rdf:about="#AwardHonor"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Building -->
+
+    <owl:Class rdf:about="#Building">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf rdf:resource="&tzont;Region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Cinematographer -->
+
+    <owl:Class rdf:about="#Cinematographer">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#ComposedWork -->
+
+    <owl:Class rdf:about="#ComposedWork">
+        <rdfs:subClassOf rdf:resource="#Work"/>
+        <owl:disjointWith rdf:resource="#SingleWork"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Continent -->
+
+    <owl:Class rdf:about="#Continent">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf rdf:resource="&tzont;Region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Director -->
+
+    <owl:Class rdf:about="#Director">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Distributor -->
+
+    <owl:Class rdf:about="#Distributor">
+        <rdfs:subClassOf rdf:resource="#Organization"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Editor -->
+
+    <owl:Class rdf:about="#Editor">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Employment -->
+
+    <owl:Class rdf:about="#Employment"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Episode -->
+
+    <owl:Class rdf:about="#Episode">
+        <rdfs:subClassOf rdf:resource="#SingleWork"/>
+        <owl:disjointWith rdf:resource="#Movie"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#FictionalCharacter -->
+
+    <owl:Class rdf:about="#FictionalCharacter">
+        <rdfs:subClassOf rdf:resource="#WorkCharacter"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Some are person, some are not (those in cartoon or science fiction movies).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Genre -->
+
+    <owl:Class rdf:about="#Genre"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Image -->
+
+    <owl:Class rdf:about="#Image">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf rdf:resource="&foaf;Image"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Location -->
+
+    <owl:Class rdf:about="#Location">
+        <rdfs:subClassOf rdf:resource="&geo;SpatialThing"/>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf rdf:resource="&tzont;Region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#MediaSegment -->
+
+    <owl:Class rdf:about="#MediaSegment"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Movie -->
+
+    <owl:Class rdf:about="#Movie">
+        <rdfs:subClassOf rdf:resource="#SingleWork"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Musicproducer -->
+
+    <owl:Class rdf:about="#Musicproducer">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Organization -->
+
+    <owl:Class rdf:about="#Organization">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf rdf:resource="&foaf;Organization"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >company contributor</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Performance -->
+
+    <owl:Class rdf:about="#Performance"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Person -->
+
+    <owl:Class rdf:about="#Person">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf rdf:resource="&foaf;Person"/>
+        <owl:disjointWith rdf:resource="#WorkCharacter"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Person contributes to Media Fabric (e.g. actor, director, photographer, etc).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Place -->
+
+    <owl:Class rdf:about="#Place">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf rdf:resource="&tzont;Region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Producer -->
+
+    <owl:Class rdf:about="#Producer">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#ProductionCompany -->
+
+    <owl:Class rdf:about="#ProductionCompany">
+        <rdfs:subClassOf rdf:resource="#Organization"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#RealCharacter -->
+
+    <owl:Class rdf:about="#RealCharacter">
+        <rdfs:subClassOf rdf:resource="#WorkCharacter"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Characters that based on real person. e.g. John Nash is a character in movie &quot;A Beautiful Heart&quot; and is based on John Forbes Nash, who is a scientist famous for &quot;original theory&quot;.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Season -->
+
+    <owl:Class rdf:about="#Season">
+        <rdfs:subClassOf rdf:resource="#ComposedWork"/>
+        <owl:disjointWith rdf:resource="#Series"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Series -->
+
+    <owl:Class rdf:about="#Series">
+        <rdfs:subClassOf rdf:resource="#ComposedWork"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#SingleWork -->
+
+    <owl:Class rdf:about="#SingleWork">
+        <rdfs:subClassOf rdf:resource="#Work"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Street -->
+
+    <owl:Class rdf:about="#Street">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf rdf:resource="&tzont;Region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#UnionRelation -->
+
+    <owl:Class rdf:about="#UnionRelation"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#UnionType -->
+
+    <owl:Class rdf:about="#UnionType"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Work -->
+
+    <owl:Class rdf:about="#Work"/>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#WorkCharacter -->
+
+    <owl:Class rdf:about="#WorkCharacter">
+        <rdfs:subClassOf rdf:resource="&geo;SpatialThing"/>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#Writer -->
+
+    <owl:Class rdf:about="#Writer">
+        <rdfs:subClassOf rdf:resource="#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#Point -->
+
+    <owl:Class rdf:about="&geo;Point">
+        <rdfs:label rdf:datatype="&xsd;string">point</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&geo;SpatialThing"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A point, typically described using a coordinate system relative to Earth, such as WGS84.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Uniquely identified by lat/long/alt. i.e.
+
+spaciallyIntersects(P1, P2) :- lat(P1, LAT), long(P1, LONG), alt(P1, ALT),
+  lat(P2, LAT), long(P2, LONG), alt(P2, ALT).
+
+sameThing(P1, P2) :- type(P1, Point), type(P2, Point), spaciallyIntersects(P1, P2).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/wgs84_pos.owl#SpatialThing -->
+
+    <owl:Class rdf:about="&geo;SpatialThing">
+        <rdfs:label rdf:datatype="&xsd;string">SpatialThing</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >Anything with spatial extent, i.e. size, shape, or position.
+ e.g. people, places, bowling balls, as well as abstract areas like cubes.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2000/10/swap/pim/contact#Person -->
+
+    <owl:Class rdf:about="&contact;Person"/>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#AtomList -->
+
+    <owl:Class rdf:about="&swrl;AtomList"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#Builtin -->
+
+    <owl:Class rdf:about="&swrl;Builtin"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#ClassAtom -->
+
+    <owl:Class rdf:about="&swrl;ClassAtom"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#Imp -->
+
+    <owl:Class rdf:about="&swrl;Imp"/>
+    
+
+
+    <!-- http://www.w3.org/2003/11/swrl#Variable -->
+
+    <owl:Class rdf:about="&swrl;Variable"/>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#City -->
+
+    <owl:Class rdf:about="&tzont;City">
+        <rdfs:subClassOf rdf:resource="&tzont;PoliticalRegion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#Country -->
+
+    <owl:Class rdf:about="&tzont;Country">
+        <rdfs:subClassOf rdf:resource="&tzont;PoliticalRegion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#County -->
+
+    <owl:Class rdf:about="&tzont;County">
+        <rdfs:subClassOf rdf:resource="&tzont;PoliticalRegion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#DaylightSavingsPolicy -->
+
+    <owl:Class rdf:about="&tzont;DaylightSavingsPolicy"/>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#EnumeratedDaylightSavingsPolicy -->
+
+    <owl:Class rdf:about="&tzont;EnumeratedDaylightSavingsPolicy">
+        <rdfs:subClassOf rdf:resource="&tzont;DaylightSavingsPolicy"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#PoliticalRegion -->
+
+    <owl:Class rdf:about="&tzont;PoliticalRegion">
+        <rdfs:subClassOf rdf:resource="&tzont;Region"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#Region -->
+
+    <owl:Class rdf:about="&tzont;Region"/>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#Reservation -->
+
+    <owl:Class rdf:about="&tzont;Reservation">
+        <rdfs:subClassOf rdf:resource="&tzont;PoliticalRegion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#State -->
+
+    <owl:Class rdf:about="&tzont;State">
+        <rdfs:subClassOf rdf:resource="&tzont;PoliticalRegion"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#TimeZone -->
+
+    <owl:Class rdf:about="&tzont;TimeZone"/>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/Agent -->
+
+    <owl:Class rdf:about="&foaf;Agent">
+        <rdfs:label rdf:datatype="&xsd;string">Agent</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&wordnet;Agent-3"/>
+        <owl:disjointWith rdf:resource="&foaf;Document"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An agent (eg. person, group, software for physical artifact).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/Document -->
+
+    <owl:Class rdf:about="&foaf;Document">
+        <rdfs:label rdf:datatype="&xsd;string">Document</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&wordnet;Document"/>
+        <owl:disjointWith rdf:resource="&foaf;Organization"/>
+        <owl:disjointWith rdf:resource="&foaf;Person"/>
+        <owl:disjointWith rdf:resource="&foaf;Project"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An document.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/Group -->
+
+    <owl:Class rdf:about="&foaf;Group">
+        <rdfs:label rdf:datatype="&xsd;string">Group</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&foaf;Agent"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A class of Agents.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/Image -->
+
+    <owl:Class rdf:about="&foaf;Image">
+        <rdfs:label rdf:datatype="&xsd;string">Image</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&wordnet;Document"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An image.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/OnlineAccount -->
+
+    <owl:Class rdf:about="&foaf;OnlineAccount">
+        <rdfs:label rdf:datatype="&xsd;string">Online Account</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An online account.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/OnlineChatAccount -->
+
+    <owl:Class rdf:about="&foaf;OnlineChatAccount">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >Online Chat Account</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&foaf;OnlineAccount"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An online chat account.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/OnlineEcommerceAccount -->
+
+    <owl:Class rdf:about="&foaf;OnlineEcommerceAccount">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >Online E-commerce Account</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&foaf;OnlineAccount"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An online e-commerce account.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/OnlineGamingAccount -->
+
+    <owl:Class rdf:about="&foaf;OnlineGamingAccount">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >Online Gaming Account</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&foaf;OnlineAccount"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An online gaming account.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/Organization -->
+
+    <owl:Class rdf:about="&foaf;Organization">
+        <rdfs:label rdf:datatype="&xsd;string">Organization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&foaf;Agent"/>
+        <rdfs:subClassOf rdf:resource="&wordnet;Organization"/>
+        <owl:disjointWith rdf:resource="&foaf;Person"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >An organization.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/Person -->
+
+    <owl:Class rdf:about="&foaf;Person">
+        <rdfs:label rdf:datatype="&xsd;string">Person</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&geo;SpatialThing"/>
+        <rdfs:subClassOf rdf:resource="&foaf;Agent"/>
+        <rdfs:subClassOf rdf:resource="&wordnet;Agent"/>
+        <rdfs:subClassOf rdf:resource="&wordnet;Person"/>
+        <owl:disjointWith rdf:resource="&foaf;Project"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A person.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">stable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/PersonalProfileDocument -->
+
+    <owl:Class rdf:about="&foaf;PersonalProfileDocument">
+        <rdfs:label rdf:datatype="&xsd;string"
+            >PersonalProfileDocument</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&foaf;Document"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A personal profileRDF document.</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">testing</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/foaf/0.1/Project -->
+
+    <owl:Class rdf:about="&foaf;Project">
+        <rdfs:label rdf:datatype="&xsd;string">Project</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&wordnet;Project"/>
+        <rdfs:comment rdf:datatype="&xsd;string"
+            >A project (a collective endeavour of some kind).</rdfs:comment>
+        <vs:term_status rdf:datatype="&xsd;string">unstable</vs:term_status>
+    </owl:Class>
+    
+
+
+    <!-- http://xmlns.com/wordnet/1.6/Agent -->
+
+    <owl:Class rdf:about="&wordnet;Agent"/>
+    
+
+
+    <!-- http://xmlns.com/wordnet/1.6/Agent-3 -->
+
+    <owl:Class rdf:about="&wordnet;Agent-3"/>
+    
+
+
+    <!-- http://xmlns.com/wordnet/1.6/Document -->
+
+    <owl:Class rdf:about="&wordnet;Document"/>
+    
+
+
+    <!-- http://xmlns.com/wordnet/1.6/Organization -->
+
+    <owl:Class rdf:about="&wordnet;Organization"/>
+    
+
+
+    <!-- http://xmlns.com/wordnet/1.6/Person -->
+
+    <owl:Class rdf:about="&wordnet;Person"/>
+    
+
+
+    <!-- http://xmlns.com/wordnet/1.6/Project -->
+
+    <owl:Class rdf:about="&wordnet;Project"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#continent.africa -->
+
+    <Continent rdf:about="#continent.africa">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Africa</tzont:name>
+    </Continent>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#continent.america -->
+
+    <Continent rdf:about="#continent.america">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </Continent>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#continent.asia -->
+
+    <Continent rdf:about="#continent.asia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Asia</tzont:name>
+    </Continent>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#continent.europe -->
+
+    <owl:Thing rdf:about="#continent.europe">
+        <rdf:type rdf:resource="#Continent"/>
+        <tzont:name rdf:datatype="&xsd;string">Europe</tzont:name>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#continent.north_&amp;_central_america -->
+
+    <owl:Thing rdf:about="#continent.north_&amp;_central_america">
+        <rdf:type rdf:resource="#Continent"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >North &amp; Central America</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#continent.oceania -->
+
+    <Continent rdf:about="#continent.oceania">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Oceania</tzont:name>
+    </Continent>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#continent.south_america -->
+
+    <owl:Thing rdf:about="#continent.south_america">
+        <rdf:type rdf:resource="#Continent"/>
+        <tzont:name rdf:datatype="&xsd;string">South America</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Afghanistan -->
+
+    <owl:Thing rdf:about="#country.Afghanistan">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Afghanistan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Albania -->
+
+    <owl:Thing rdf:about="#country.Albania">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Albania</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Algeria -->
+
+    <owl:Thing rdf:about="#country.Algeria">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Algeria</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.American_Samoa -->
+
+    <tzont:Country rdf:about="#country.American_Samoa">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">American Samoa</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Andorra -->
+
+    <tzont:Country rdf:about="#country.Andorra">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Andorra</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Angola -->
+
+    <tzont:Country rdf:about="#country.Angola">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Angola</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Antigua_and_Barbuda -->
+
+    <tzont:Country rdf:about="#country.Antigua_and_Barbuda">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Antigua and Barbuda</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Argentina -->
+
+    <tzont:Country rdf:about="#country.Argentina">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Argentina</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Armenia -->
+
+    <owl:Thing rdf:about="#country.Armenia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Armenia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Australia -->
+
+    <tzont:Country rdf:about="#country.Australia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Australia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Austria -->
+
+    <tzont:Country rdf:about="#country.Austria">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Austria</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Azerbaijan -->
+
+    <owl:Thing rdf:about="#country.Azerbaijan">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Azerbaijan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Bahamas -->
+
+    <owl:Thing rdf:about="#country.Bahamas">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Bahamas</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Bahrain -->
+
+    <owl:Thing rdf:about="#country.Bahrain">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Bahrain</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Bangladesh -->
+
+    <tzont:Country rdf:about="#country.Bangladesh">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Bangladesh</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Barbados -->
+
+    <owl:Thing rdf:about="#country.Barbados">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Barbados</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Belarus -->
+
+    <owl:Thing rdf:about="#country.Belarus">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Belarus</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Belgium -->
+
+    <tzont:Country rdf:about="#country.Belgium">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Belgium</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Belize -->
+
+    <owl:Thing rdf:about="#country.Belize">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Belize</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Benin -->
+
+    <tzont:Country rdf:about="#country.Benin">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Benin</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Bhutan -->
+
+    <tzont:Country rdf:about="#country.Bhutan">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Bhutan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Bolivia -->
+
+    <tzont:Country rdf:about="#country.Bolivia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Bolivia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Bosnia -->
+
+    <owl:Thing rdf:about="#country.Bosnia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Bosnia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Botswana -->
+
+    <tzont:Country rdf:about="#country.Botswana">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Botswana</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Brazil -->
+
+    <owl:Thing rdf:about="#country.Brazil">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Brazil</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Brunei -->
+
+    <tzont:Country rdf:about="#country.Brunei">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Brunei</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Bulgaria -->
+
+    <tzont:Country rdf:about="#country.Bulgaria">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Bulgaria</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Burkina_Faso -->
+
+    <tzont:Country rdf:about="#country.Burkina_Faso">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Burkina Faso</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Burundi -->
+
+    <owl:Thing rdf:about="#country.Burundi">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Burundi</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Cambodia -->
+
+    <owl:Thing rdf:about="#country.Cambodia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Cambodia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Cameroon -->
+
+    <tzont:Country rdf:about="#country.Cameroon">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Cameroon</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Canada -->
+
+    <tzont:Country rdf:about="#country.Canada">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Canada</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Cape_Verde -->
+
+    <tzont:Country rdf:about="#country.Cape_Verde">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Cape Verde</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Cee_dIvoire -->
+
+    <tzont:Country rdf:about="#country.Cee_dIvoire">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">C&#244;te d&#39;Ivoire</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Central_African_Republic -->
+
+    <tzont:Country rdf:about="#country.Central_African_Republic">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Central African Republic</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Chad -->
+
+    <tzont:Country rdf:about="#country.Chad">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Chad</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Chile -->
+
+    <tzont:Country rdf:about="#country.Chile">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Chile</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.China -->
+
+    <tzont:Country rdf:about="#country.China">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">China</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Colombia -->
+
+    <tzont:Country rdf:about="#country.Colombia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Colombia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Comoros -->
+
+    <tzont:Country rdf:about="#country.Comoros">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Comoros</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Cook_Islands -->
+
+    <owl:Thing rdf:about="#country.Cook_Islands">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Cook Islands</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Costa_Rica -->
+
+    <tzont:Country rdf:about="#country.Costa_Rica">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Costa Rica</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Croatia -->
+
+    <owl:Thing rdf:about="#country.Croatia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Croatia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Cuba -->
+
+    <owl:Thing rdf:about="#country.Cuba">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Cuba</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Cyprus -->
+
+    <tzont:Country rdf:about="#country.Cyprus">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Cyprus</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Czech_Republic -->
+
+    <owl:Thing rdf:about="#country.Czech_Republic">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Czech Republic</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Democratic_Republic_of_the_Congo -->
+
+    <tzont:Country rdf:about="#country.Democratic_Republic_of_the_Congo">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Democratic Republic of the Congo</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Denmark -->
+
+    <tzont:Country rdf:about="#country.Denmark">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Denmark</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Djibouti -->
+
+    <owl:Thing rdf:about="#country.Djibouti">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Djibouti</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Dominica -->
+
+    <tzont:Country rdf:about="#country.Dominica">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Dominica</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Dominican_Republic -->
+
+    <owl:Thing rdf:about="#country.Dominican_Republic">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Dominican Republic</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.East_Timor -->
+
+    <tzont:Country rdf:about="#country.East_Timor">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">East Timor</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Ecuador -->
+
+    <tzont:Country rdf:about="#country.Ecuador">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Ecuador</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Egypt -->
+
+    <owl:Thing rdf:about="#country.Egypt">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Egypt</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.El_Salvador -->
+
+    <tzont:Country rdf:about="#country.El_Salvador">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">El Salvador</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Equatorial_Guinea -->
+
+    <owl:Thing rdf:about="#country.Equatorial_Guinea">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Equatorial Guinea</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Eritrea -->
+
+    <owl:Thing rdf:about="#country.Eritrea">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Eritrea</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Estonia -->
+
+    <owl:Thing rdf:about="#country.Estonia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Estonia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Ethiopia -->
+
+    <owl:Thing rdf:about="#country.Ethiopia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Ethiopia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Federated_States_of_Micronesia -->
+
+    <owl:Thing rdf:about="#country.Federated_States_of_Micronesia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Federated States of Micronesia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Fiji -->
+
+    <owl:Thing rdf:about="#country.Fiji">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Fiji</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Finland -->
+
+    <owl:Thing rdf:about="#country.Finland">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Finland</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.France -->
+
+    <owl:Thing rdf:about="#country.France">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">France</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.French_Guiana -->
+
+    <tzont:Country rdf:about="#country.French_Guiana">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">French Guiana</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.French_Polynesia -->
+
+    <owl:Thing rdf:about="#country.French_Polynesia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >French Polynesia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Gabon -->
+
+    <owl:Thing rdf:about="#country.Gabon">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Gabon</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Georgia -->
+
+    <owl:Thing rdf:about="#country.Georgia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Georgia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Germany -->
+
+    <tzont:Country rdf:about="#country.Germany">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Germany</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Ghana -->
+
+    <tzont:Country rdf:about="#country.Ghana">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Ghana</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Greece -->
+
+    <tzont:Country rdf:about="#country.Greece">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Greece</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Grenada -->
+
+    <tzont:Country rdf:about="#country.Grenada">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Grenada</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Guam -->
+
+    <owl:Thing rdf:about="#country.Guam">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Guam</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Guatemala -->
+
+    <owl:Thing rdf:about="#country.Guatemala">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Guatemala</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Guinea -->
+
+    <tzont:Country rdf:about="#country.Guinea">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Guinea</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Guyana -->
+
+    <tzont:Country rdf:about="#country.Guyana">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Guyana</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Haiti -->
+
+    <owl:Thing rdf:about="#country.Haiti">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Haiti</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Honduras -->
+
+    <tzont:Country rdf:about="#country.Honduras">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Honduras</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Hungary -->
+
+    <tzont:Country rdf:about="#country.Hungary">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Hungary</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Iceland -->
+
+    <owl:Thing rdf:about="#country.Iceland">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Iceland</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.India -->
+
+    <tzont:Country rdf:about="#country.India">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">India</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Indonesia -->
+
+    <tzont:Country rdf:about="#country.Indonesia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Indonesia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Iran -->
+
+    <owl:Thing rdf:about="#country.Iran">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Iran</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Iraq -->
+
+    <owl:Thing rdf:about="#country.Iraq">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Iraq</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Ireland -->
+
+    <tzont:Country rdf:about="#country.Ireland">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Ireland</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Israel -->
+
+    <tzont:Country rdf:about="#country.Israel">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Israel</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Italy -->
+
+    <owl:Thing rdf:about="#country.Italy">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Italy</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Jamaica -->
+
+    <owl:Thing rdf:about="#country.Jamaica">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Jamaica</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Japan -->
+
+    <owl:Thing rdf:about="#country.Japan">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Japan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Jordan -->
+
+    <owl:Thing rdf:about="#country.Jordan">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Jordan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Kazakhstan -->
+
+    <tzont:Country rdf:about="#country.Kazakhstan">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Kazakhstan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Kenya -->
+
+    <owl:Thing rdf:about="#country.Kenya">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Kenya</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Kiribati -->
+
+    <owl:Thing rdf:about="#country.Kiribati">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Kiribati</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Kuwait -->
+
+    <owl:Thing rdf:about="#country.Kuwait">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Kuwait</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Kyrgyzstan -->
+
+    <tzont:Country rdf:about="#country.Kyrgyzstan">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Kyrgyzstan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Laos -->
+
+    <owl:Thing rdf:about="#country.Laos">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Laos</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Latvia -->
+
+    <owl:Thing rdf:about="#country.Latvia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Latvia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Lebanon -->
+
+    <owl:Thing rdf:about="#country.Lebanon">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Lebanon</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Lesotho -->
+
+    <owl:Thing rdf:about="#country.Lesotho">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Lesotho</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Liberia -->
+
+    <owl:Thing rdf:about="#country.Liberia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Liberia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Libya -->
+
+    <owl:Thing rdf:about="#country.Libya">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Libya</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Liechtenstein -->
+
+    <tzont:Country rdf:about="#country.Liechtenstein">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Liechtenstein</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Lithuania -->
+
+    <tzont:Country rdf:about="#country.Lithuania">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Lithuania</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Luxembourg -->
+
+    <tzont:Country rdf:about="#country.Luxembourg">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Luxembourg</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Madagascar -->
+
+    <owl:Thing rdf:about="#country.Madagascar">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Madagascar</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Malawi -->
+
+    <owl:Thing rdf:about="#country.Malawi">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Malawi</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Malaysia -->
+
+    <tzont:Country rdf:about="#country.Malaysia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Malaysia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Maldives -->
+
+    <owl:Thing rdf:about="#country.Maldives">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Maldives</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Mali -->
+
+    <owl:Thing rdf:about="#country.Mali">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Mali</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Malta -->
+
+    <tzont:Country rdf:about="#country.Malta">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Malta</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Marshall_Islands -->
+
+    <tzont:Country rdf:about="#country.Marshall_Islands">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Marshall Islands</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Mauritania -->
+
+    <owl:Thing rdf:about="#country.Mauritania">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Mauritania</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Mauritius -->
+
+    <owl:Thing rdf:about="#country.Mauritius">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Mauritius</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Mexico -->
+
+    <owl:Thing rdf:about="#country.Mexico">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Mexico</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Moldova -->
+
+    <tzont:Country rdf:about="#country.Moldova">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Moldova</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Monaco -->
+
+    <owl:Thing rdf:about="#country.Monaco">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Monaco</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Mongolia -->
+
+    <tzont:Country rdf:about="#country.Mongolia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Mongolia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Montenegro -->
+
+    <owl:Thing rdf:about="#country.Montenegro">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Montenegro</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Morocco -->
+
+    <tzont:Country rdf:about="#country.Morocco">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Morocco</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Mozambique -->
+
+    <owl:Thing rdf:about="#country.Mozambique">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Mozambique</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Myanmar -->
+
+    <tzont:Country rdf:about="#country.Myanmar">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Myanmar</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Namibia -->
+
+    <owl:Thing rdf:about="#country.Namibia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Namibia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Nauru -->
+
+    <owl:Thing rdf:about="#country.Nauru">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Nauru</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Nepal -->
+
+    <owl:Thing rdf:about="#country.Nepal">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Nepal</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Netherlands -->
+
+    <owl:Thing rdf:about="#country.Netherlands">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Netherlands</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.New_Caledonia -->
+
+    <owl:Thing rdf:about="#country.New_Caledonia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">New Caledonia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.New_Zealand -->
+
+    <tzont:Country rdf:about="#country.New_Zealand">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">New Zealand</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Nicaragua -->
+
+    <owl:Thing rdf:about="#country.Nicaragua">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Nicaragua</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Niger -->
+
+    <tzont:Country rdf:about="#country.Niger">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Niger</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Nigeria -->
+
+    <tzont:Country rdf:about="#country.Nigeria">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Nigeria</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Niue -->
+
+    <tzont:Country rdf:about="#country.Niue">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Niue</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.North_Korea -->
+
+    <tzont:Country rdf:about="#country.North_Korea">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">North Korea</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Northern_Mariana_Islands -->
+
+    <tzont:Country rdf:about="#country.Northern_Mariana_Islands">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Northern Mariana Islands</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Norway -->
+
+    <tzont:Country rdf:about="#country.Norway">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Norway</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Oman -->
+
+    <tzont:Country rdf:about="#country.Oman">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Oman</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Pakistan -->
+
+    <tzont:Country rdf:about="#country.Pakistan">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Pakistan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Palau -->
+
+    <tzont:Country rdf:about="#country.Palau">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Palau</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Panama -->
+
+    <tzont:Country rdf:about="#country.Panama">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Panama</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Papua_New_Guinea -->
+
+    <tzont:Country rdf:about="#country.Papua_New_Guinea">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Papua New Guinea</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Paraguay -->
+
+    <owl:Thing rdf:about="#country.Paraguay">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Paraguay</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Peru -->
+
+    <owl:Thing rdf:about="#country.Peru">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Peru</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Philippines -->
+
+    <owl:Thing rdf:about="#country.Philippines">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Philippines</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Pitcairn_Islands -->
+
+    <tzont:Country rdf:about="#country.Pitcairn_Islands">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Pitcairn Islands</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Poland -->
+
+    <tzont:Country rdf:about="#country.Poland">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Poland</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Portugal -->
+
+    <tzont:Country rdf:about="#country.Portugal">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Portugal</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Puerto_Rico -->
+
+    <owl:Thing rdf:about="#country.Puerto_Rico">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Puerto Rico</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Qatar -->
+
+    <tzont:Country rdf:about="#country.Qatar">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Qatar</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Republic_of_Macedonia -->
+
+    <owl:Thing rdf:about="#country.Republic_of_Macedonia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Republic of Macedonia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Republic_of_the_Congo -->
+
+    <owl:Thing rdf:about="#country.Republic_of_the_Congo">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Republic of the Congo</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Romania -->
+
+    <owl:Thing rdf:about="#country.Romania">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Romania</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Russia -->
+
+    <owl:Thing rdf:about="#country.Russia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Russia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Rwanda -->
+
+    <tzont:Country rdf:about="#country.Rwanda">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Rwanda</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Saint_Kitts_and_Nevis -->
+
+    <tzont:Country rdf:about="#country.Saint_Kitts_and_Nevis">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Saint Kitts and Nevis</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Saint_Lucia -->
+
+    <tzont:Country rdf:about="#country.Saint_Lucia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Saint Lucia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Saint_Vincent_and_the_Grenadines -->
+
+    <tzont:Country rdf:about="#country.Saint_Vincent_and_the_Grenadines">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Saint Vincent and the Grenadines</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Samoa -->
+
+    <tzont:Country rdf:about="#country.Samoa">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Samoa</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.San_Marino -->
+
+    <owl:Thing rdf:about="#country.San_Marino">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">San Marino</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Saudi_Arabia -->
+
+    <tzont:Country rdf:about="#country.Saudi_Arabia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Saudi Arabia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Senegal -->
+
+    <tzont:Country rdf:about="#country.Senegal">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Senegal</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Serbia -->
+
+    <owl:Thing rdf:about="#country.Serbia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Serbia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Seychelles -->
+
+    <owl:Thing rdf:about="#country.Seychelles">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Seychelles</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Sierra_Leone -->
+
+    <tzont:Country rdf:about="#country.Sierra_Leone">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Sierra Leone</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Singapore -->
+
+    <tzont:Country rdf:about="#country.Singapore">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Singapore</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Slovakia -->
+
+    <tzont:Country rdf:about="#country.Slovakia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Slovakia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Slovenia -->
+
+    <owl:Thing rdf:about="#country.Slovenia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Slovenia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Solomon_Islands -->
+
+    <tzont:Country rdf:about="#country.Solomon_Islands">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Solomon Islands</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Somalia -->
+
+    <tzont:Country rdf:about="#country.Somalia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Somalia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.South_Africa -->
+
+    <tzont:Country rdf:about="#country.South_Africa">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">South Africa</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.South_Korea -->
+
+    <tzont:Country rdf:about="#country.South_Korea">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">South Korea</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Spain -->
+
+    <owl:Thing rdf:about="#country.Spain">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Spain</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Sri_Lanka -->
+
+    <tzont:Country rdf:about="#country.Sri_Lanka">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Sri Lanka</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Sudan -->
+
+    <tzont:Country rdf:about="#country.Sudan">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Sudan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Suriname -->
+
+    <tzont:Country rdf:about="#country.Suriname">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Suriname</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Swaziland -->
+
+    <tzont:Country rdf:about="#country.Swaziland">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Swaziland</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Sweden -->
+
+    <owl:Thing rdf:about="#country.Sweden">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Sweden</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Switzerland -->
+
+    <owl:Thing rdf:about="#country.Switzerland">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Switzerland</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Syria -->
+
+    <owl:Thing rdf:about="#country.Syria">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Syria</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Tajikistan -->
+
+    <tzont:Country rdf:about="#country.Tajikistan">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Tajikistan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Tanzania -->
+
+    <tzont:Country rdf:about="#country.Tanzania">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Tanzania</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Thailand -->
+
+    <owl:Thing rdf:about="#country.Thailand">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Thailand</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.The_Gambia -->
+
+    <owl:Thing rdf:about="#country.The_Gambia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">The Gambia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Togo -->
+
+    <tzont:Country rdf:about="#country.Togo">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Togo</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Tokelau -->
+
+    <tzont:Country rdf:about="#country.Tokelau">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Tokelau</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Tonga -->
+
+    <owl:Thing rdf:about="#country.Tonga">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Tonga</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Trinidad_and_Tobago -->
+
+    <tzont:Country rdf:about="#country.Trinidad_and_Tobago">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Trinidad and Tobago</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Tunisia -->
+
+    <tzont:Country rdf:about="#country.Tunisia">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Tunisia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Turkey -->
+
+    <tzont:Country rdf:about="#country.Turkey">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Turkey</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Turkmenistan -->
+
+    <tzont:Country rdf:about="#country.Turkmenistan">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Turkmenistan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Tuvalu -->
+
+    <tzont:Country rdf:about="#country.Tuvalu">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Tuvalu</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Uganda -->
+
+    <tzont:Country rdf:about="#country.Uganda">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Uganda</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Ukraine -->
+
+    <owl:Thing rdf:about="#country.Ukraine">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Ukraine</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.United_Arab_Emirates -->
+
+    <owl:Thing rdf:about="#country.United_Arab_Emirates">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >United Arab Emirates</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.United_Kingdom -->
+
+    <tzont:Country rdf:about="#country.United_Kingdom">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">United Kingdom</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.United_States -->
+
+    <tzont:Country rdf:about="#country.United_States">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">United States</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.north_&amp;_central_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Uruguay -->
+
+    <tzont:Country rdf:about="#country.Uruguay">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Uruguay</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Uzbekistan -->
+
+    <tzont:Country rdf:about="#country.Uzbekistan">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Uzbekistan</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Vanuatu -->
+
+    <owl:Thing rdf:about="#country.Vanuatu">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Vanuatu</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Vatican_City -->
+
+    <owl:Thing rdf:about="#country.Vatican_City">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Vatican City</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.europe"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Venezuela -->
+
+    <owl:Thing rdf:about="#country.Venezuela">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Venezuela</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.south_america"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Vietnam -->
+
+    <tzont:Country rdf:about="#country.Vietnam">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Vietnam</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Wallis_and_Futuna_Islands -->
+
+    <tzont:Country rdf:about="#country.Wallis_and_Futuna_Islands">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string"
+            >Wallis and Futuna Islands</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.oceania"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Yemen -->
+
+    <tzont:Country rdf:about="#country.Yemen">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <tzont:name rdf:datatype="&xsd;string">Yemen</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.asia"/>
+    </tzont:Country>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Zambia -->
+
+    <owl:Thing rdf:about="#country.Zambia">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Zambia</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#country.Zimbabwe -->
+
+    <owl:Thing rdf:about="#country.Zimbabwe">
+        <rdf:type rdf:resource="&tzont;Country"/>
+        <tzont:name rdf:datatype="&xsd;string">Zimbabwe</tzont:name>
+        <tzont:hasParentRegion rdf:resource="#continent.africa"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#uniontype.date -->
+
+    <UnionType rdf:about="#uniontype.date">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </UnionType>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#uniontype.engagement -->
+
+    <UnionType rdf:about="#uniontype.engagement">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </UnionType>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#uniontype.live_with -->
+
+    <owl:Thing rdf:about="#uniontype.live_with">
+        <rdf:type rdf:resource="#UnionType"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://schemars.ericsson.com/ontologies/media/discovery#uniontype.marriage -->
+
+    <owl:Thing rdf:about="#uniontype.marriage">
+        <rdf:type rdf:resource="#UnionType"/>
+    </owl:Thing>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+

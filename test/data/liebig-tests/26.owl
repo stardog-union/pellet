@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/26.owl#">
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>19.05.2006, version 0.1</owl:versionInfo>
+ <rdfs:comment>combinatorial problem, Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="r" />
+
+<owl:Class rdf:ID="A">
+   <owl:oneOf rdf:parseType="Collection">
+      <owl:Thing rdf:ID="i1"/>
+      <owl:Thing rdf:ID="i2"/>
+      <owl:Thing rdf:ID="i3"/>
+      <owl:Thing rdf:ID="i4"/>
+   </owl:oneOf>
+</owl:Class>
+
+<owl:Class rdf:ID="B">
+   <owl:oneOf rdf:parseType="Collection">
+      <owl:Thing rdf:ID="e1"/>
+      <owl:Thing rdf:ID="e2"/>
+      <owl:Thing rdf:ID="e3"/>
+      <owl:Thing rdf:ID="e4"/>
+      <owl:Thing rdf:ID="e5"/>
+      <owl:Thing rdf:ID="e6"/>
+      <owl:Thing rdf:ID="e7"/>
+   </owl:oneOf>
+   <owl:disjointWith>
+     <owl:Class>
+       <owl:complementOf rdf:resource="#A" />
+     </owl:Class>
+   </owl:disjointWith>
+</owl:Class>
+
+<owl:Thing rdf:about="#e2">
+  <owl:differentFrom rdf:resource="#e5"/>
+</owl:Thing>
+
+<owl:Thing rdf:about="#e3">
+  <owl:differentFrom rdf:resource="#e7"/>
+</owl:Thing>
+
+<!--
+<owl:Class>
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class>
+      <owl:complementOf rdf:resource="#B" />
+    </owl:Class>
+    <owl:Class rdf:about="#A" />
+  </owl:intersectionOf>
+  <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+-->
+
+<owl:Class rdf:ID="F">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:hasValue rdf:resource="#i1" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:hasValue rdf:resource="#i2" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:hasValue rdf:resource="#i3" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:hasValue rdf:resource="#i4" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<!--
+<owl:Thing rdf:about="#i1">
+  <owl:differentFrom rdf:resource="#i2"/>
+</owl:Thing>
+-->
+
+<owl:Class rdf:ID="G2">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+   </owl:Restriction>
+ </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="G3">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:minCardinality>
+   </owl:Restriction>
+ </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="G4">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">4</owl:minCardinality>
+   </owl:Restriction>
+ </owl:equivalentClass>
+</owl:Class>
+
+<!--
+conclusion:
+  
+  <owl:Class about="#F">
+    <rdfs:subClassOf rdf:resource="#G2" />
+  </owl:Class>
+-->
+
+</rdf:RDF>

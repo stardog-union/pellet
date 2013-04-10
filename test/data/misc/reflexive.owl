@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY foaf "http://xmlns.com/foaf/0.1/">
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#">  
+]>
+<rdf:RDF 
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="&owl;" xmlns:owl11="&owl11;" xmlns:foaf="&foaf;"
+    xml:base="http://www.example.org/test#"
+>
+
+<owl:Ontology rdf:about="">
+  <rdfs:comment>An example that shows different ways of defining a reflexive property</rdfs:comment> 
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:about="#knows_reflexive1">
+  <rdf:type rdf:resource="&owl;SymmetricProperty"/>
+  <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+  <rdfs:subPropertyOf>
+     <owl:ObjectProperty rdf:about="&foaf;knows"/>
+  </rdfs:subPropertyOf>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#knows2">
+  <rdf:type rdf:resource="&owl;ReflexiveProperty"/>
+</owl:ObjectProperty>
+
+
+<owl:ObjectProperty rdf:about="#knows3">
+</owl:ObjectProperty>
+
+<owl:Class rdf:about="&foaf;Person">
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="#knows_reflexive1"/>
+        <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+     </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="#knows2"/>
+        <owl:minCardinality rdf:datatype="&xsd;integer">1</owl:minCardinality>
+     </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+     <owl:Restriction>
+        <owl:onProperty rdf:resource="#knows3"/>
+        <owl:hasSelf rdf:datatype="&xsd;boolean">true</owl:hasSelf>
+     </owl:Restriction>
+  </rdfs:subClassOf>  
+</owl:Class>
+
+<foaf:Person rdf:about="#P1"/>
+<foaf:Person rdf:about="#P3"/>
+<foaf:Person rdf:about="#P2"/>
+<foaf:Person rdf:about="#P4"/>
+<foaf:Person rdf:about="#P5"/>
+
+
+</rdf:RDF>

@@ -1,0 +1,28 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:  <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb:  <http://www.w3.org/2003/11/swrlb#> .
+
+@prefix : <http://owldl.com/ontologies/swrl/tests/classAtoms/002#> .
+
+<> a owl:Ontology .
+
+:x a swrl:Variable .
+
+:A a owl:Class.
+:B a owl:Class.
+
+:rule1 a swrl:Imp;
+  swrl:body (
+    [ a swrl:ClassAtom;
+      swrl:classPredicate :A;
+      swrl:argument1 :x ] );
+  swrl:head (
+    [ a swrl:ClassAtom;
+      swrl:classPredicate :B;
+      swrl:argument1 :x ] ). 
+
+
+:i a :A .
+
+

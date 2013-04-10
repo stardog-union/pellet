@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+  <!ENTITY sudoku.owl "http://sudoku.owl">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+]>
+<rdf:RDF xml:base="&sudoku.owl;"
+         xmlns:owl="&owl;"
+         xmlns:rdf="&rdf;"
+         xmlns:rdfs="&rdfs;">
+
+<!-- Ontology Information -->
+  <owl:Ontology rdf:about=""/>
+
+<!-- Classes -->
+  <owl:Class rdf:about="#C11">
+    <owl:disjointWith rdf:resource="#C12"/>
+    <owl:disjointWith rdf:resource="#C13"/>
+    <owl:disjointWith rdf:resource="#C21"/>
+    <owl:disjointWith rdf:resource="#C31"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V11"/>
+    </owl:oneOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#C12">
+    <owl:disjointWith rdf:resource="#C11"/>
+    <owl:disjointWith rdf:resource="#C13"/>
+    <owl:disjointWith rdf:resource="#C22"/>
+    <owl:disjointWith rdf:resource="#C32"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V12"/>
+    </owl:oneOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#C13">
+    <owl:disjointWith rdf:resource="#C11"/>
+    <owl:disjointWith rdf:resource="#C12"/>
+    <owl:disjointWith rdf:resource="#C23"/>
+    <owl:disjointWith rdf:resource="#C33"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V13"/>
+    </owl:oneOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#C21">
+    <owl:disjointWith rdf:resource="#C11"/>
+    <owl:disjointWith rdf:resource="#C22"/>
+    <owl:disjointWith rdf:resource="#C23"/>
+    <owl:disjointWith rdf:resource="#C31"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V21"/>
+    </owl:oneOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#C22">
+    <owl:disjointWith rdf:resource="#C12"/>
+    <owl:disjointWith rdf:resource="#C21"/>
+    <owl:disjointWith rdf:resource="#C23"/>
+    <owl:disjointWith rdf:resource="#C32"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V22"/>
+    </owl:oneOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#C23">
+    <owl:disjointWith rdf:resource="#C13"/>
+    <owl:disjointWith rdf:resource="#C21"/>
+    <owl:disjointWith rdf:resource="#C22"/>
+    <owl:disjointWith rdf:resource="#C33"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V23"/>
+    </owl:oneOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#C31">
+    <owl:disjointWith rdf:resource="#C11"/>
+    <owl:disjointWith rdf:resource="#C21"/>
+    <owl:disjointWith rdf:resource="#C32"/>
+    <owl:disjointWith rdf:resource="#C33"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V31"/>
+    </owl:oneOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#C32">
+    <owl:disjointWith rdf:resource="#C12"/>
+    <owl:disjointWith rdf:resource="#C22"/>
+    <owl:disjointWith rdf:resource="#C31"/>
+    <owl:disjointWith rdf:resource="#C33"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V32"/>
+    </owl:oneOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#C33">
+    <owl:disjointWith rdf:resource="#C13"/>
+    <owl:disjointWith rdf:resource="#C23"/>
+    <owl:disjointWith rdf:resource="#C31"/>
+    <owl:disjointWith rdf:resource="#C32"/>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#V33"/>
+    </owl:oneOf>
+  </owl:Class>
+
+<!-- Instances -->
+  <owl:Thing rdf:about="#1"/>
+  <owl:Thing rdf:about="#2"/>
+  <owl:Thing rdf:about="#3"/>
+  <owl:Thing rdf:about="#V11"/>
+  <owl:Thing rdf:about="#V12">
+    <owl:sameAs rdf:resource="#3"/>
+  </owl:Thing>
+  <owl:Thing rdf:about="#V13"/>
+  <owl:Thing rdf:about="#V21">
+    <owl:sameAs rdf:resource="#2"/>
+  </owl:Thing>
+  <owl:Thing rdf:about="#V22"/>
+  <owl:Thing rdf:about="#V23"/>
+  <owl:Thing rdf:about="#V31"/>
+  <owl:Thing rdf:about="#V32"/>
+  <owl:Thing rdf:about="#V33"/>
+  
+  <rdf:Description rdf:about="&owl;Thing">
+    <rdfs:subClassOf>
+      <owl:Class>
+        <owl:oneOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="#1"/>
+          <rdf:Description rdf:about="#2"/>
+          <rdf:Description rdf:about="#3"/>
+        </owl:oneOf>
+      </owl:Class>
+    </rdfs:subClassOf>
+  </rdf:Description>
+
+  <owl:AllDifferent>
+    <owl:distinctMembers rdf:parseType="Collection">
+      <rdf:Description rdf:about="#1"/>
+      <rdf:Description rdf:about="#2"/>
+      <rdf:Description rdf:about="#3"/>
+    </owl:distinctMembers>
+  </owl:AllDifferent>
+</rdf:RDF>

@@ -1,0 +1,44 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:  <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb:  <http://www.w3.org/2003/11/swrlb#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix : <http://owldl.com/ontologies/swrl/tests/builtIns/007#> .
+
+<> a owl:Ontology .
+
+:x a swrl:Variable .
+:feet a swrl:Variable .
+:inches a swrl:Variable .
+
+:lengthInFeet a owl:DatatypeProperty ;
+	rdfs:range xsd:float .
+:lengthInInches a owl:DatatypeProperty ;
+	rdfs:range xsd:float .
+	
+:rule1 a swrl:Imp;
+  swrl:body (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :lengthInFeet;
+      swrl:argument1 :x;
+      swrl:argument2 :feet;
+      ]
+    [ a swrl:BuiltinAtom;
+      swrl:builtin swrlb:multiply;
+      swrl:arguments ( :inches :feet 12 );
+      ] );
+  swrl:head (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :lengthInInches;
+      swrl:argument1 :x;
+      swrl:argument2 :inches;
+      ] ). 
+
+
+:a a owl:Thing;
+   :lengthInFeet "1.0"^^xsd:float .
+
+:b a owl:Thing;
+   :lengthInFeet "2.0"^^xsd:float .
+

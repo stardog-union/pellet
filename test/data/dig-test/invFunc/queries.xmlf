@@ -1,0 +1,52 @@
+	<subsumes id="true1">
+		<some>
+			<inverse>
+				<ratom name="r"/>
+			</inverse>
+			<and>
+				<catom name="a"/>
+				<catom name="b"/>
+			</and>
+		</some>
+		<and>
+			<some>
+				<inverse>
+					<ratom name="r"/>
+				</inverse>
+				<catom name="a"/>
+			</some>
+			<some>
+				<inverse>
+					<ratom name="r"/>
+				</inverse>
+				<catom name="b"/>
+			</some>
+		</and>
+		
+	</subsumes>
+	
+	<subsumes id="false2">
+		<some>
+			<inverse>
+				<ratom name="p"/>
+			</inverse>
+			<and>
+				<catom name="a"/>
+				<catom name="b"/>
+			</and>
+		</some>		
+		<and>
+			<some>
+				<inverse>
+					<ratom name="p"/>
+				</inverse>
+				<catom name="a"/>
+			</some>
+			<some>
+				<inverse>
+					<ratom name="p"/>
+				</inverse>
+				<catom name="b"/>
+			</some>
+		</and>	
+	</subsumes>	

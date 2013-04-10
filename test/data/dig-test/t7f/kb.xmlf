@@ -1,0 +1,9 @@
+    <defconcept name="p1"/>
+    <defrole name="f"/>
+    <functional>
+        <ratom name="f"/>
+    </functional>
+    <defrole name="r"/>
+    <transitive>
+        <ratom name="r"/>
+    </transitive>

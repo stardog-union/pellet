@@ -1,0 +1,24 @@
+	<satisfiable id="true1">
+		<and>
+			<not>
+				<catom name="a"/>
+			</not>
+			<some>
+				<inverse>
+					<ratom name="f"/>
+				</inverse>
+				<catom name="a"/>
+			</some>
+			<all>
+				<inverse>
+					<ratom name="r"/>
+				</inverse>
+				<some>
+					<inverse>
+						<ratom name="f"/>
+					</inverse>
+					<catom name="a"/>
+				</some>
+			</all>
+		</and>
+	</satisfiable>

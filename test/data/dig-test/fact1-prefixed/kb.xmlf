@@ -1,0 +1,22 @@
+    <x:defconcept xmlns:x="http://dl.kr.org/dig/2003/02/lang" name="a"/>
+    <lang:impliesc  xmlns:lang="http://dl.kr.org/dig/2003/02/lang">
+        <catom name="a" xmlns="http://dl.kr.org/dig/2003/02/lang"/>
+        <lang:and xmlns:lang="http://dl.kr.org/dig/2003/02/lang">
+            <not xmlns="http://dl.kr.org/dig/2003/02/lang">
+                <lang:or xmlns:lang="http://dl.kr.org/dig/2003/02/lang">
+                    <catom name="b"/>
+                    <catom name="c"/>
+                </lang:or>
+            </not>
+        </lang:and>
+    </lang:impliesc>
+    <defconcept name="b"/>
+    <impliesc>
+        <catom name="b"/>
+        <and>
+            <not>
+                <catom name="c"/>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="c"/>

@@ -1,0 +1,47 @@
+The following people and organizations have contributed in some way to
+Pellet, and we gratefully acknowledge them and their contributions:
+
+Aditya Kalyanpur
+Alex Tucker & Dave Dyke
+Andy Schain
+Bernardo Cuenca Grau
+Bob DuCharme
+Brandon Ibach
+Chris Halaschek-Wiener
+Damian Gessler
+Dennis Thomsen & Robert Jensen and the Fredericia Crew
+Daniel Hewlett
+Don Kretz
+Edna Ruckhaus
+Harris Lin
+Henson Graves
+Ian Horrocks
+Jack Berkowitz
+Jordan Katz
+Lockheed Martin
+Marco Neumann
+Markus Stocker
+Mike Smith: Good Work, Counselor
+Moody's MKMV
+NASA & JPL
+NCI Center for Bioinformatics, especially Frank, Gilberto & Sherri
+NATO ACT & NC3A: Troy, Sven, Dave, Victor & Ilker
+NIST & Evan Wallace
+Ontology Partners Ltd
+Pavel Klinov
+Peter Patel-Schneider
+Petr Kremen & Czech Technical University, Prague
+Rick Murphy
+Ron Alford
+RPI: Jim Hendler & Deb McGuinness
+The pellet-users community for reporting bugs!
+Uli Sattler
+University of Manchester & Matthew Horridge, Nick Drummond, et al
+University of Maryland & Mindswap Lab
+VectorC: Rob & Ted
+Vlad Kolovski
+Wolter S. Kluwer & TenForce
+Others who preferred not to be named: you know who you are.
+
+Please email Kendall Clark -- kendall@clarkparsia.com -- if we've left you
+off this list in error.

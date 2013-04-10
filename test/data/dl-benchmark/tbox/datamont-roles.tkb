@@ -1,0 +1,234 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Datamont knowledge base, modified in several ways.
+;;; This version also modified to conform with KRSS syntax
+;;;
+;;; This knowledge base was originally used in an Esprit project involving
+;;; TU Berlin and Datamont.  The goal was to develop technology for an
+;;; executive kb (what managers want to know about the structure of their
+;;; company).  The knowledge base was used in the DFKI comparison of DL
+;;; systems.  
+;;;
+;;; Use for experimental or research purposes is permitted.
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Further modified by to only have atomic primitive roles by
+;;; 1/ removing all domain-range information from roles
+;;; 2/ replacing defined roles by primitive roles
+;;; 3/ removing parents from roles
+
+(define-primitive-concept named_thing TOP)
+(define-primitive-role named)
+
+(define-primitive-concept geographic_name TOP)
+(define-primitive-concept continent_name (and geographic_name))
+(define-primitive-concept nation_name (and geographic_name))
+(define-primitive-concept Italy nation_name)
+(define-primitive-concept England nation_name)
+(define-primitive-concept USA nation_name)
+(define-primitive-concept Germany nation_name)
+(define-primitive-concept Australia nation_name)
+(define-primitive-concept city_name (and geographic_name))
+(define-primitive-concept address_name (and geographic_name))
+(define-primitive-concept geoeconomical_name (and geographic_name))
+(define-primitive-concept geopolitical_name (and geographic_name))
+
+(define-primitive-concept geographic_locality TOP)
+(define-primitive-role geo_named)
+(define-primitive-role is_in)
+(define-concept geoeconomical_area (and geographic_locality (all geo_named geoeconomical_name)))
+(define-concept geopolitical_area (and geographic_locality (all geo_named geopolitical_name)))
+(define-concept address (and geographic_locality (all geo_named address_name)))
+(define-concept city (and geographic_locality (all geo_named city_name)))
+(define-concept nation (and geographic_locality (all geo_named nation_name)))
+(define-concept continent (and geographic_locality (all geo_named continent_name)))
+
+(define-primitive-concept activity named_thing)
+(define-primitive-role subactivity_of)
+(define-disjoint-primitive-concept commercial_activity
+	(commercial)
+	(and activity (all subactivity_of TOP)))
+(define-disjoint-primitive-concept non_commercial_activity
+	(commercial)
+	(and activity (all subactivity_of TOP)))
+
+(define-primitive-concept business_area TOP)
+(define-primitive-concept trading_services business_area)
+(define-primitive-concept manufacturing business_area)
+(define-primitive-concept agriculture_mining business_area)
+(define-primitive-concept insurance trading_services)
+(define-primitive-concept financial_services trading_services)
+(define-primitive-concept transport_telecommunication trading_services)
+(define-primitive-concept trading trading_services)
+(define-primitive-concept engineering manufacturing)
+(define-primitive-concept paper manufacturing)
+(define-primitive-concept publishing manufacturing)
+(define-primitive-concept mechanics manufacturing)
+(define-primitive-concept chemistry manufacturing)
+(define-primitive-concept food manufacturing)
+(define-primitive-concept mining agriculture_mining)
+(define-primitive-concept agriculture agriculture_mining)
+(define-primitive-concept transportation transport_telecommunication)
+(define-primitive-concept road_transportation transportation)
+(define-primitive-concept cariage_by_sea transportation)
+(define-primitive-concept air_transportation transportation)
+(define-primitive-concept telecommunication transport_telecommunication)
+(define-primitive-concept informatics telecommunication)
+
+(define-primitive-role unit)
+(define-primitive-role val)
+(define-primitive-concept money (and (at-least 1 unit) (at-most 1 unit) (at-least 1 val) (at-most 1 val)))
+
+(define-primitive-role day)
+(define-primitive-role month)
+(define-primitive-role year)
+(define-primitive-concept date (and (at-least 1 day) (at-least 1 month) (at-least 1 year)
+			  (at-most 1 day) (at-most 1 month) (at-most 1 year)))
+
+(define-primitive-concept juridical_person named_thing)
+
+(define-primitive-role firstname)
+(define-primitive-role surname)
+(define-primitive-role birthdate)
+(define-primitive-role birthplace)
+(define-primitive-role residence)
+(define-primitive-concept phisical_person (and juridical_person (at-least 1 surname) (at-least 1 firstname)
+				     (at-least 1 birthdate) (at-least 1 birthplace) 
+				     (at-least 1 residence) (at-most 1 surname) 
+				     (at-most 1 birthdate) (at-most 1 birthplace)))
+
+(define-primitive-role percentage)
+(define-primitive-role num)
+(define-primitive-role belonging_to)
+(define-primitive-role unit_value)
+(define-primitive-concept participation (and (at-least 1 unit_value) (at-least 1 num) 
+				   (at-least 1 percentage) (at-least 1 belonging_to)
+				   (at-most 1 unit_value) (at-most 1 num)
+				   (at-most 1 percentage) (at-most 1 belonging_to)))
+
+(define-disjoint-primitive-concept share (share) participation)
+(define-disjoint-primitive-concept quota (share) participation)
+
+(define-disjoint-primitive-concept paid_up_share (paidshare) share)
+(define-disjoint-primitive-concept unpaid_up_share (paidshare) share)
+
+(define-disjoint-primitive-concept ordinary_share (typeshare) paid_up_share)
+(define-disjoint-primitive-concept preference_share (typeshare) paid_up_share)
+(define-disjoint-primitive-concept saving_share (typeshare) paid_up_share)
+
+(define-primitive-concept capital TOP)
+(define-primitive-role subdivided_in)
+(define-concept share_capital (and capital (all subdivided_in share)))
+(define-concept partnership_capital (and capital (all subdivided_in quota) 
+				     (at-least 2 subdivided_in)))
+
+(define-primitive-concept company_group named_thing)
+(define-primitive-role compound_by)
+(define-primitive-concept company (and juridical_person (at-least 1 named)))
+(define-primitive-role expire_on)
+(define-primitive-role founded)
+(define-primitive-role has_capital)
+(define-primitive-role operate_in)
+(define-primitive-role engaged_in)
+(define-primitive-role has_partner)
+(define-primitive-role has_limited_partner)
+(define-primitive-role has_unlimited_partner)
+(define-primitive-role has_shareholder)
+(define-primitive-role has_limited_shareholder)
+(define-primitive-role has_unlimited_shareholder)
+(define-primitive-role present_in)
+(define-primitive-role office)
+(define-primitive-role located_in)
+(define-primitive-role installation)
+(define-primitive-role registered_office)
+(define-primitive-role operated_office)
+(define-primitive-role nationality)
+
+(define-concept commercial_company (and company (all engaged_in commercial_activity)))
+(define-concept non_commercial_company (and company (all engaged_in non_commercial_activity)))
+
+(define-concept limited_company (and company (at-least 1 has_limited_partner)
+				 (at-most 0 has_unlimited_partner)))
+
+(define-concept societa_di_capitali limited_company)
+(define-concept unlimited_company (and company (at-most 0 has_limited_partner)
+				   (at-least 1 has_unlimited_partner)
+				   (all has_capital
+					(and capital (all subdivided_in
+							  (and participation 
+							       (all belonging_to phisical_person))))
+					)))
+(define-concept societa_di_persone unlimited_company)
+(define-concept limited_partnership (and company (at-least 1 has_limited_partner)
+				     (at-least 1 has_unlimited_partner)))
+
+(define-concept company_of_share (and company (all has_capital share_capital)))
+(define-concept company_of_quota (and company (all has_capital partnership_capital)))
+
+(define-concept partnership (and company_of_quota non_commercial_company unlimited_company))
+(define-concept corporation (and company_of_share limited_company commercial_company))
+(define-concept private_company (and company_of_share (at-most 50 has_partner)
+				 (at-least 2 has_partner)))
+
+(define-primitive-concept unquoted_company company_of_share) 
+(define-primitive-concept quoted_company company_of_share)
+
+(define-primitive-role listed_on)
+(define-primitive-role quoted_on)
+
+(define-concept italian_company (and company (all nationality 
+					      (all geo_named Italy))))
+(define-concept societa_semplice (and italian_company partnership))
+(define-concept snc (and italian_company commercial_company company_of_quota unlimited_company))
+(define-concept societa_in_nome_colletivo snc)
+(define-concept srl (and italian_company commercial_company company_of_quota limited_company))
+(define-concept sosieta_a_responsabilita_limitata srl)
+(define-concept spa (and italian_company corporation))
+(define-concept societa_per_azioni spa)
+(define-concept unquoted_spa (and spa unquoted_company))
+(define-concept societa_per_azioni_non_quotata unquoted_spa)
+(define-concept quoted_spa (and spa quoted_company))
+(define-concept societa_per_azioni_quotata quoted_spa)
+(define-concept societa_in_accomandita (and limited_partnership commercial_company italian_company))
+(define-concept saa (and societa_in_accomandita company_of_share))
+(define-concept societa_in_accomandita_per_azioni saa)
+(define-concept sas (and societa_in_accomandita company_of_quota))
+(define-concept societa_in_accomandita_smplice sas)
+(define-concept unquoted_saa (and saa unquoted_company))
+(define-concept societa_in_accomandita_per_azioni_non_quotata unquoted_saa)
+(define-concept quoted_saa (and saa quoted_company))
+(define-concept societa_in_accomandita_per_azioni_quotata quoted_saa)
+
+(define-concept english_company (and company (all nationality 
+					      (all geo_named England))))
+(define-concept uk_unlimited_company (and english_company unlimited_company))
+(define-concept uk_limited_partnership (and limited_partnership english_company))
+(define-concept uk_private_company (and english_company private_company))
+(define-concept uk_joint_stock_company (and english_company corporation))
+(define-concept uk_limited_company uk_joint_stock_company) 
+(define-concept ukltd uk_joint_stock_company)
+(define-concept uk_corporation uk_joint_stock_company)
+(define-concept uk_partnership (and partnership english_company (at-most 50 has_partner) 
+				(at-least 10 has_partner)))
+
+(define-concept american_company (and company (all nationality 
+					      (all geo_named USA))))
+(define-concept inc (and american_company corporation))
+(define-concept usa_corporation inc)
+(define-concept incorporated_company inc)
+(define-concept usa_joint_stock_association (and american_company unlimited_company commercial_company
+					     company_of_share))
+(define-concept usa_joint_stock_company usa_joint_stock_association)
+
+(define-concept german_company (and company (all nationality 
+					      (all geo_named Germany))))
+(define-concept gmbh (and german_company company_of_quota limited_company commercial_company))
+(define-concept gesellschaft_mit_beschraenkter_half gmbh)
+(define-concept ag (and german_company corporation))
+(define-concept aktiengesellschaft ag)
+
+(define-concept australian_company (and company (all nationality 
+					      (all geo_named Australia))))
+(define-concept australian_pty_ltd (and australian_company private_company))
+(define-concept australian_proprietary_limited_company australian_pty_ltd)

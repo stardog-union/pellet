@@ -1,0 +1,17 @@
+<satisfiable id="false1">
+		<or>
+			<and>
+				<catom name="a"/>
+				<catom name="b"/>
+			</and>
+			<and>
+				<catom name="a"/>
+				<catom name="c"/>
+			</and>
+			<and>
+				<catom name="b"/>
+				<catom name="c"/>
+			</and>
+		</or>
+	</satisfiable>
+

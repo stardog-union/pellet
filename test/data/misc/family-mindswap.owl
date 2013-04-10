@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!DOCTYPE owl [
+       <!ENTITY xsd "http://www.w3.org/2001/XMLSchema" >
+]>
+
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://www.mindswap.org/ontologies/family.owl#"
+  xml:base="http://www.mindswap.org/ontologies/family.owl">
+
+<owl:Ontology rdf:about=""/>
+
+<owl:Class rdf:about="#Person">
+    <owl:unionOf rdf:parseType="Collection">
+       <owl:Class rdf:ID="Male"/>
+       <owl:Class rdf:ID="Female"/>
+    </owl:unionOf>
+    <rdfs:subClassOf>
+
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#hasParent"/>
+        </owl:onProperty>
+        <owl:cardinality rdf:datatype="&xsd;#int">2</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:about="#Male">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Female"/> 
+</owl:Class>
+
+<owl:Class rdf:about="#Female">
+  <rdfs:subClassOf rdf:resource="#Person"/>
+</owl:Class>
+
+<owl:ObjectProperty rdf:about="#hasAncestor"/>
+<owl:TransitiveProperty rdf:about="#hasAncestor"/>
+
+<owl:ObjectProperty rdf:about="#hasParent">
+  <rdfs:subPropertyOf rdf:resource="#hasAncestor" />
+
+</owl:ObjectProperty>
+
+<owl:FunctionalProperty rdf:about="#hasFather"/>
+<owl:ObjectProperty rdf:about="#hasFather">
+	<rdfs:subPropertyOf rdf:resource="#hasParent" />
+	<rdfs:range rdf:resource="#Male"/>
+</owl:ObjectProperty>
+
+<owl:FunctionalProperty rdf:about="#hasMother"/>
+<owl:ObjectProperty rdf:about="#hasMother">
+	<rdfs:subPropertyOf rdf:resource="#hasParent" />
+	<rdfs:range rdf:resource="#Female"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSon">
+	<rdfs:subPropertyOf rdf:resource="#hasChild" />
+	<rdfs:range rdf:resource="#Male"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasDaughter">
+	<rdfs:subPropertyOf rdf:resource="#hasChild" />
+	<rdfs:range rdf:resource="#Female"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSibling">
+	<rdfs:range rdf:resource="#Person"/>
+
+</owl:ObjectProperty>
+<owl:SymmetricProperty rdf:about="#hasSibling"/>
+
+<owl:ObjectProperty rdf:about="#hasBrother">
+	<rdfs:subPropertyOf rdf:resource="#hasSibling" />
+	<rdfs:range rdf:resource="#Male"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasSister">
+	<rdfs:subPropertyOf rdf:resource="#hasSibling" />
+	<rdfs:range rdf:resource="#Female"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#hasUncle"/>
+
+<owl:ObjectProperty rdf:about="#hasChild">
+  <owl:inverseOf rdf:resource="#hasParent"/>
+</owl:ObjectProperty> 
+
+<owl:DatatypeProperty rdf:about="#hasAge"/>
+<owl:FunctionalProperty rdf:about="#hasAge"/>
+
+<Person rdf:about="#Dad">
+  <hasSon>
+    <Person rdf:about="#Son">
+      <hasSister>
+         <Person rdf:about="#Daughter"/>
+
+       </hasSister>
+    </Person>
+   </hasSon>
+   <hasChild rdf:resource="#Son"/>
+</Person>
+
+<Female rdf:about="#Mom">
+  <hasChild rdf:resource="#Son"/>
+  <hasChild rdf:resource="#Daughter"/>
+</Female>
+
+<Person rdf:about="#Grandpa">
+  <hasSon rdf:resource="#Dad"/>
+</Person>
+
+</rdf:RDF>

@@ -1,0 +1,2570 @@
+(define-primitive-concept EWN-TOP top)
+(define-primitive-concept SUMO-Top top)
+
+(disjoint SUMO-Top EWN-TOP)
+
+(define-primitive-attribute has-lexconcept)
+
+(define-concept SUMO-Entity (and SUMO-Top (all has-lexconcept EWN-TOP)))
+
+(define-primitive-concept SUMO-Physical
+  SUMO-Entity)
+(define-primitive-concept SUMO-Object
+  SUMO-Physical)
+(define-primitive-concept SUMO-SelfConnectedObject
+  SUMO-Object)
+(define-primitive-concept SUMO-Substance
+  SUMO-SelfConnectedObject)
+(define-primitive-concept SUMO-CorpuscularObject
+  SUMO-SelfConnectedObject)
+(define-primitive-concept SUMO-Collection
+  SUMO-Object)
+(define-primitive-concept SUMO-Agent
+  SUMO-Object)
+(define-primitive-concept SUMO-Process
+  SUMO-Physical)
+(define-primitive-concept SUMO-Abstract
+  SUMO-Entity)
+(define-primitive-concept SUMO-Class
+  SUMO-Abstract)
+(define-primitive-concept SUMO-Set
+  SUMO-Class)
+(define-primitive-concept SUMO-Relation
+  SUMO-Set)
+(define-primitive-concept SUMO-Proposition
+  SUMO-Abstract)
+(define-primitive-concept SUMO-Quantity
+  SUMO-Abstract)
+(define-primitive-concept SUMO-Number
+  SUMO-Quantity)
+(define-primitive-concept SUMO-PhysicalQuantity
+  SUMO-Quantity)
+(define-primitive-concept SUMO-Attribute
+  SUMO-Abstract)
+(define-primitive-concept SUMO-Representation
+  SUMO-Entity)
+
+(disjoint SUMO-Physical
+ 	  SUMO-Abstract
+	  SUMO-Representation)
+(disjoint SUMO-Object
+	  SUMO-Process)
+(disjoint SUMO-SelfConnectedObject
+	  SUMO-Collection
+	  SUMO-Agent)
+(disjoint SUMO-Substance
+	  SUMO-CorpuscularObject)
+
+(disjoint SUMO-Class
+	  SUMO-Proposition
+	  SUMO-Quantity
+	  SUMO-Attribute)
+(disjoint SUMO-Number
+	  SUMO-PhysicalQuantity)
+
+(define-primitive-concept SUMO-OrganicSubstance
+  SUMO-Substance)
+(define-primitive-concept SUMO-BodySubstance
+  SUMO-OrganicSubstance)
+(define-primitive-concept SUMO-InorganicSubstance
+  SUMO-Substance)
+(define-primitive-concept SUMO-Water
+  SUMO-InorganicSubstance)
+(define-primitive-concept SUMO-BiologicallyActiveSubstance
+  SUMO-Substance)
+(define-primitive-concept SUMO-OrganicObject
+  SUMO-CorpuscularObject)
+(define-primitive-concept SUMO-Food
+  SUMO-OrganicObject)
+(define-primitive-concept SUMO-AnatomicalStructure
+  SUMO-OrganicObject)
+(define-primitive-concept SUMO-InorganicObject
+  SUMO-CorpuscularObject)
+(define-primitive-concept SUMO-Molecule
+  SUMO-InorganicObject)
+(define-primitive-concept SUMO-SubMolecularObject
+  SUMO-InorganicObject)
+(define-primitive-concept SUMO-Atom
+  SUMO-SubMolecularObject)
+(define-primitive-concept SUMO-SubAtomicParticle
+  SUMO-SubMolecularObject)
+(define-primitive-concept SUMO-Electron
+  SUMO-SubAtomicParticle)
+(define-primitive-concept SUMO-Neutron
+  SUMO-SubAtomicParticle)
+(define-primitive-concept SUMO-Proton
+  SUMO-SubAtomicParticle)
+(define-primitive-concept SUMO-Artifact
+  SUMO-InorganicObject)
+(define-primitive-concept SUMO-Region
+  SUMO-CorpuscularObject)
+(define-primitive-concept SUMO-GeographicArea
+  SUMO-Region)
+(define-primitive-concept SUMO-Hole
+  SUMO-Region)
+(define-primitive-concept SUMO-Group
+  SUMO-Collection)
+(define-primitive-concept SUMO-GroupOfPeople
+  SUMO-Group)
+(define-primitive-concept SUMO-AgeGroup
+  SUMO-GroupOfPeople)
+(define-primitive-concept SUMO-FamilyGroup
+  SUMO-GroupOfPeople)
+(define-primitive-concept SUMO-Organization
+  SUMO-GroupOfPeople)
+(define-concept SUMO-Organism
+  (or SUMO-OrganicObject SUMO-Agent))
+(define-primitive-concept SUMO-Nation
+  SUMO-Agent)
+(define-primitive-concept SUMO-CognitiveAgent
+  SUMO-Agent)
+
+(disjoint SUMO-OrganicSubstance
+	  SUMO-InorganicSubstance
+	  SUMO-BiologicallyActiveSubstance)
+(disjoint SUMO-OrganicObject
+	  SUMO-InorganicObject
+	  SUMO-Region)
+(disjoint SUMO-Food
+	  SUMO-AnatomicalStructure)
+(disjoint SUMO-Molecule
+	  SUMO-SubMolecularObject
+	  SUMO-Artifact)
+(disjoint SUMO-Atom
+	  SUMO-SubAtomicParticle)
+(disjoint SUMO-Electron
+	  SUMO-Neutron
+	  SUMO-Proton)
+(disjoint SUMO-Hole
+	  SUMO-GeographicArea)
+(disjoint SUMO-AgeGroup
+	  SUMO-FamilyGroup
+	  SUMO-Organization)
+(disjoint SUMO-Nation
+	  SUMO-CognitiveAgent)
+
+(define-primitive-concept SUMO-NaturalProcess
+  SUMO-Process)
+(define-primitive-concept SUMO-BiologicalProcess
+  SUMO-NaturalProcess)
+(define-primitive-concept SUMO-PhysiologicProcess
+  SUMO-BiologicalProcess)
+(define-primitive-concept SUMO-OrganismProcess
+  SUMO-PhysiologicProcess)
+(define-primitive-concept SUMO-Birth
+  SUMO-OrganismProcess)
+(define-primitive-concept SUMO-Death
+  SUMO-OrganismProcess)
+(define-primitive-concept SUMO-Breathing
+  SUMO-OrganismProcess)
+(define-primitive-concept SUMO-Eating
+  SUMO-OrganismProcess)
+(define-primitive-concept SUMO-Growth
+  SUMO-OrganismProcess)
+(define-primitive-concept SUMO-Replication
+  SUMO-OrganismProcess)
+
+(disjoint SUMO-Birth
+	  SUMO-Death
+	  SUMO-Breathing
+	  SUMO-Eating
+	  SUMO-Growth
+	  SUMO-Replication)
+
+(define-primitive-concept SUMO-OrganOrTissueProcess
+  SUMO-PhysiologicProcess)
+(define-primitive-concept SUMO-Photosynthesis
+  SUMO-OrganOrTissueProcess)
+(define-primitive-concept SUMO-PathologicProcess
+  SUMO-BiologicalProcess)
+(define-primitive-concept SUMO-DiseaseOrSyndrome
+  SUMO-PathologicProcess)
+(define-primitive-concept SUMO-MentalOrBehavioralDysfunction
+  SUMO-DiseaseOrSyndrome)
+(define-primitive-concept SUMO-Injuring
+  SUMO-PathologicProcess)
+(define-primitive-concept SUMO-Poisoning
+  SUMO-Injuring)
+
+(disjoint SUMO-OrganismProcess
+	  SUMO-OrganOrTissueProcess)
+(disjoint SUMO-DiseaseOrSyndrome 
+	  SUMO-Injuring)
+(disjoint SUMO-PhysiologicProcess
+	  SUMO-PathologicProcess)
+
+(define-primitive-concept SUMO-IntentionallyCausedProcess
+  SUMO-Process)
+(define-primitive-concept SUMO-ChangeOfPossession
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Giving
+  SUMO-ChangeOfPossession)
+(define-primitive-concept SUMO-Getting
+  SUMO-ChangeOfPossession)
+(define-primitive-concept SUMO-Transaction
+  SUMO-ChangeOfPossession)
+(define-primitive-concept SUMO-FinancialTransaction
+  SUMO-Transaction)
+(define-primitive-concept SUMO-Buying
+  SUMO-FinancialTransaction)
+(define-primitive-concept SUMO-Selling
+  SUMO-FinancialTransaction)
+(define-primitive-concept SUMO-Betting
+  SUMO-FinancialTransaction)
+
+(disjoint SUMO-Buying
+	  SUMO-Selling
+	  SUMO-Betting)
+(disjoint SUMO-Giving
+	  SUMO-Getting
+	  SUMO-Transaction)
+
+(define-primitive-concept SUMO-Guiding
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Keeping
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Maintaining
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Repairing
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Revealing
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Touching
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Holding
+  SUMO-Touching)
+(define-primitive-concept SUMO-Decorating
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Grooming
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-ContentDevelopment
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Searching
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Pursuing
+  SUMO-Searching)
+(define-primitive-concept SUMO-Investigating
+  SUMO-Searching)
+(define-primitive-concept SUMO-SocialInteraction
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Communication
+  SUMO-SocialInteraction)
+(define-primitive-concept SUMO-Stating
+  SUMO-Communication)
+(define-primitive-concept SUMO-Directing
+  SUMO-Communication)
+(define-primitive-concept SUMO-Ordering
+  SUMO-Directing)
+(define-primitive-concept SUMO-Questioning
+  SUMO-Directing)
+(define-primitive-concept SUMO-Committing
+  SUMO-Communication)
+(define-primitive-concept SUMO-Expressing
+  SUMO-Communication)
+(define-primitive-concept SUMO-Thanking
+  SUMO-Expressing)
+(define-primitive-concept SUMO-Congratulating
+  SUMO-Expressing)
+(define-primitive-concept SUMO-Wishing
+  SUMO-Expressing)
+(define-primitive-concept SUMO-Acknowledging
+  SUMO-Expressing)
+(define-primitive-concept SUMO-Declaring
+  SUMO-Communication)
+(define-primitive-concept SUMO-Cooperation
+  SUMO-SocialInteraction)
+(define-primitive-concept SUMO-Meeting
+  SUMO-SocialInteraction)
+
+(disjoint SUMO-Communication
+	  SUMO-Cooperation
+	  SUMO-Meeting)
+(disjoint SUMO-Stating
+	  SUMO-Directing
+	  SUMO-Committing
+	  SUMO-Expressing
+	  SUMO-Declaring)
+(disjoint SUMO-Ordering
+	  SUMO-Questioning)
+(disjoint SUMO-Thanking
+	  SUMO-Congratulating
+	  SUMO-Wishing
+	  SUMO-Acknowledging)
+
+(define-primitive-concept SUMO-War
+  SUMO-Contest)
+(define-primitive-concept SUMO-Battle
+  SUMO-Contest)
+(define-primitive-concept SUMO-Maneuver
+  SUMO-Contest)
+
+(disjoint SUMO-War
+	  SUMO-Battle
+	  SUMO-Maneuver)
+
+(define-primitive-concept SUMO-RecreationalProcess
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-ExerciseProcess
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Sport
+  SUMO-ExerciseProcess)
+(define-primitive-concept SUMO-EducationalProcess
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-ReligiousProcess
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-OrganizationalProcess
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-Graduation
+  SUMO-OrganizationalProcess)
+(define-primitive-concept SUMO-OccupationalProcess
+  SUMO-OrganizationalProcess)
+(define-primitive-concept SUMO-RegulatoryProcess
+  SUMO-OrganizationalProcess)
+(define-primitive-concept SUMO-Planning
+  SUMO-RegulatoryProcess)
+(define-primitive-concept SUMO-TherapeuticProcess
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-DiagnosticProcess
+  SUMO-IntentionallyCausedProcess)
+(define-primitive-concept SUMO-MentalProcess
+  SUMO-IntentionallyCausedProcess)
+
+(disjoint SUMO-Graduation
+	  SUMO-OccupationalProcess
+	  SUMO-RegulatoryProcess)
+(disjoint SUMO-ContentDevelopment
+	  SUMO-Grooming
+	  SUMO-Decorating
+	  SUMO-Touching
+	  SUMO-Revealing
+	  SUMO-Repairing
+	  SUMO-Maintaining
+	  SUMO-Keeping
+	  SUMO-MentalProcess
+	  SUMO-DiagnosticProcess
+	  SUMO-TherapeuticProcess
+	  SUMO-OrganizationalProcess
+	  SUMO-ReligiousProcess
+	  SUMO-EducationalProcess
+	  SUMO-ExerciseProcess
+	  SUMO-RecreationalProcess
+	  SUMO-SocialInteraction
+	  SUMO-Searching
+	  SUMO-Guiding
+	  SUMO-ChangeOfPossession)
+
+(define-primitive-concept SUMO-Learning
+  SUMO-MentalProcess)
+(define-primitive-concept SUMO-Identifying
+  SUMO-Learning)
+(define-primitive-concept SUMO-Deducing
+  SUMO-Learning)
+(define-primitive-concept SUMO-Selecting
+  SUMO-MentalProcess)
+(define-primitive-concept SUMO-Comparing
+  SUMO-MentalProcess)
+(define-primitive-concept SUMO-Predicting
+  SUMO-MentalProcess)
+(define-primitive-concept SUMO-Perception
+  SUMO-MentalProcess)
+(define-primitive-concept SUMO-Seeing
+  SUMO-Perception)
+(define-primitive-concept SUMO-Smelling
+  SUMO-Perception)
+(define-primitive-concept SUMO-Tasting
+  SUMO-Perception)
+(define-primitive-concept SUMO-Hearing
+  SUMO-Perception)
+
+(disjoint SUMO-Identifying
+	  SUMO-Deducing)
+(disjoint SUMO-Seeing
+	  SUMO-Smelling
+	  SUMO-Tasting
+	  SUMO-Hearing)
+(disjoint SUMO-Perception
+	  SUMO-Predicting
+	  SUMO-Comparing
+	  SUMO-Selecting
+	  SUMO-Learning)
+
+(define-primitive-concept SUMO-Increasing
+  SUMO-Process)
+(define-primitive-concept SUMO-Decreasing
+  SUMO-Process)
+(define-primitive-concept SUMO-Motion
+  SUMO-Process)
+(define-primitive-concept SUMO-Transfer
+  SUMO-Motion)
+(define-primitive-concept SUMO-Removing
+  SUMO-Transfer)
+(define-primitive-concept SUMO-Cleaning
+  SUMO-Removing)
+(define-primitive-concept SUMO-Putting
+  SUMO-Transfer)
+(define-primitive-concept SUMO-Substituting
+  SUMO-Transfer)
+(define-primitive-concept SUMO-Arranging
+  SUMO-Transfer)
+(define-primitive-concept SUMO-Impelling
+  SUMO-Transfer)
+(define-primitive-concept SUMO-Shooting
+  SUMO-Impelling)
+
+(disjoint SUMO-Removing
+	  SUMO-Putting
+	  SUMO-Substituting
+	  SUMO-Arranging
+	  SUMO-Impelling)
+
+(define-primitive-concept SUMO-Transportation
+  SUMO-Motion)
+(define-primitive-concept SUMO-BodyMotion
+  SUMO-Motion)
+(define-primitive-concept SUMO-DirectionChange
+  SUMO-Motion)
+
+(disjoint SUMO-Transfer
+	  SUMO-Transportation
+	  SUMO-BodyMotion
+	  SUMO-DirectionChange)
+
+(define-primitive-concept SUMO-Opening
+  SUMO-Process)
+(define-primitive-concept SUMO-Closing
+  SUMO-Process)
+(define-primitive-concept SUMO-Damaging
+  SUMO-Process)
+(define-primitive-concept SUMO-Impacting
+  SUMO-Process)
+(define-primitive-concept SUMO-Covering
+  SUMO-Process)
+(define-primitive-concept SUMO-Dressing
+  SUMO-Process)
+(define-primitive-concept SUMO-Attaching
+  SUMO-Process)
+(define-primitive-concept SUMO-Tying
+  SUMO-Attaching)
+(define-primitive-concept SUMO-Detaching
+  SUMO-Process)
+(define-primitive-concept SUMO-Untying
+  SUMO-Detaching)
+(define-primitive-concept SUMO-Cutting
+  SUMO-Detaching)
+
+(disjoint SUMO-Untying
+	  SUMO-Cutting)
+
+(define-primitive-concept SUMO-Combining
+  SUMO-Process)
+(define-primitive-concept SUMO-Separating
+  SUMO-Process)
+(define-primitive-concept SUMO-ShapeAlteration
+  SUMO-Process)
+(define-primitive-concept SUMO-SurfaceAlteration
+  SUMO-Process)
+(define-primitive-concept SUMO-Coloring
+  SUMO-SurfaceAlteration)
+(define-primitive-concept SUMO-Wetting
+  SUMO-Process)
+(define-primitive-concept SUMO-Drying
+  SUMO-Process)
+(define-primitive-concept SUMO-Creation
+  SUMO-Process)
+(define-primitive-concept SUMO-Making
+  SUMO-Creation)
+(define-primitive-concept SUMO-Destruction
+  SUMO-Process)
+(define-primitive-concept SUMO-Killing
+  SUMO-Destruction)
+(define-primitive-concept SUMO-Competition
+  SUMO-Process)
+(define-concept SUMO-Contest
+  (or SUMO-SocialInteraction
+      SUMO-Competition))
+(define-concept SUMO-Game
+  (or
+   SUMO-RecreationalProcess
+   SUMO-Contest))
+(define-primitive-concept SUMO-Emitting
+  SUMO-Process)
+(define-primitive-concept SUMO-EmittingLight
+  SUMO-Emitting)
+(define-primitive-concept SUMO-EmittingSmell
+  SUMO-Emitting)
+(define-primitive-concept SUMO-EmittingSound
+  SUMO-Emitting)
+
+(disjoint SUMO-Emitting
+	  SUMO-Competition
+	  SUMO-Destruction
+	  SUMO-Creation
+	  SUMO-Drying
+	  SUMO-Wetting
+	  SUMO-SurfaceAlteration
+	  SUMO-ShapeAlteration
+	  SUMO-Separating
+	  SUMO-Combining
+	  SUMO-Detaching
+	  SUMO-Attaching
+	  SUMO-Dressing
+	  SUMO-Covering
+	  SUMO-Impacting
+	  SUMO-Damaging
+	  SUMO-Closing
+	  SUMO-Opening
+	  SUMO-Motion
+	  SUMO-Decreasing
+	  SUMO-Increasing
+	  SUMO-IntentionallyCausedProcess
+	  SUMO-NaturalProcess)
+
+(disjoint SUMO-EmittingLight
+	  SUMO-EmittingSmell
+	  SUMO-EmittingSound)
+
+(define-primitive-concept SUMO-Predicate
+  SUMO-Relation)
+(define-primitive-concept SUMO-SententialOperator
+  SUMO-Predicate)
+(define-primitive-concept SUMO-Function
+  SUMO-Predicate)
+(define-primitive-concept SUMO-ProbabilityRelation
+  SUMO-Predicate)
+(define-primitive-concept SUMO-SpatialRelation
+  SUMO-Predicate)
+(define-primitive-concept SUMO-TemporalRelation
+  SUMO-Predicate)
+(define-primitive-concept SUMO-RelationExtendedToQuantities
+  SUMO-Predicate)
+
+(disjoint SUMO-SententialOperator
+	  SUMO-Function
+	  SUMO-ProbabilityRelation
+	  SUMO-SpatialRelation
+	  SUMO-TemporalRelation
+	  SUMO-RelationExtendedToQuantities)
+
+(define-primitive-concept SUMO-Procedure
+  SUMO-Proposition)
+(define-primitive-concept SUMO-ComputerProgram
+  SUMO-Procedure)
+(define-primitive-concept SUMO-Plan
+  SUMO-Procedure)
+(define-primitive-concept SUMO-NormativeProposition
+  SUMO-Proposition)
+(define-primitive-concept SUMO-Obligation
+  SUMO-NormativeProposition)
+(define-primitive-concept SUMO-Agreement
+  SUMO-NormativeProposition)
+(define-primitive-concept SUMO-Contract
+  SUMO-Agreement)
+(define-primitive-concept SUMO-PurchaseContract
+  SUMO-Contract)
+(define-primitive-concept SUMO-ServiceContract
+  SUMO-Contract)
+
+(disjoint SUMO-PurchaseContract
+	  SUMO-ServiceContract)
+
+(define-primitive-concept SUMO-Promise SUMO-Agreement)
+
+(disjoint SUMO-Contract
+	  SUMO-Promise)
+
+(define-primitive-concept SUMO-JudgementOfEtiquette
+  SUMO-NormativeProposition)
+(define-primitive-concept SUMO-AestheticJudgement
+  SUMO-NormativeProposition)
+
+(disjoint SUMO-Procedure
+	  SUMO-NormativeProposition)
+(disjoint SUMO-Obligation
+	  SUMO-Agreement
+	  SUMO-JudgementOfEtiquette
+	  SUMO-AestheticJudgement)
+
+(define-primitive-concept SUMO-DirectionAttribute
+  SUMO-Attribute)
+(define-primitive-concept SUMO-Vertical
+  SUMO-DirectionAttribute)
+(define-primitive-concept SUMO-Horizontal
+  SUMO-DirectionAttribute)
+
+(disjoint SUMO-Vertical
+	  SUMO-Horizontal)
+
+(define-primitive-concept SUMO-PhysicalState
+  SUMO-Attribute)
+(define-primitive-concept SUMO-Solid
+  SUMO-PhysicalState)
+(define-primitive-concept SUMO-Liquid
+  SUMO-PhysicalState)
+(define-primitive-concept SUMO-Gas
+  SUMO-PhysicalState)
+
+(disjoint SUMO-Solid
+	  SUMO-Liquid
+	  SUMO-Gas)
+
+(define-primitive-concept SUMO-TasteProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-Sweet
+  SUMO-TasteProperty)
+(define-primitive-concept SUMO-Bitter
+  SUMO-TasteProperty)
+
+(disjoint SUMO-Sweet
+	  SUMO-Bitter)
+
+(define-primitive-concept SUMO-ColorProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-PrimaryColor
+  SUMO-ColorProperty)
+(define-primitive-concept SUMO-Monochromatic
+  SUMO-ColorProperty)
+(define-primitive-concept SUMO-Polychromatic
+  SUMO-ColorProperty)
+
+(disjoint SUMO-Polychromatic
+	  SUMO-Monochromatic
+	  SUMO-PrimaryColor)
+
+(define-primitive-concept SUMO-TemperatureProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-Hot
+  SUMO-TemperatureProperty)
+(define-primitive-concept SUMO-Cold
+  SUMO-TemperatureProperty)
+
+(disjoint SUMO-Hot
+	  SUMO-Cold)
+
+(define-primitive-concept SUMO-SizeProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-Tiny
+  SUMO-SizeProperty)
+(define-primitive-concept SUMO-Small
+  SUMO-SizeProperty)
+(define-primitive-concept SUMO-Medium
+  SUMO-SizeProperty)
+(define-primitive-concept SUMO-Large
+  SUMO-SizeProperty)
+(define-primitive-concept SUMO-Enormous
+  SUMO-SizeProperty)
+
+(disjoint SUMO-Enormous
+	  SUMO-Large
+	  SUMO-Medium
+	  SUMO-Small
+	  SUMO-Tiny)
+
+(define-primitive-concept SUMO-ShapeProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-ElasticShapeProperty
+  SUMO-ShapeProperty)
+(define-primitive-concept SUMO-RigidShapeProperty
+  SUMO-ShapeProperty)
+(define-primitive-concept SUMO-FillableShapeProperty
+  SUMO-ShapeProperty)
+
+(disjoint SUMO-FillableShapeProperty
+	  SUMO-RigidShapeProperty
+	  SUMO-ElasticShapeProperty)
+
+(define-primitive-concept SUMO-TextureProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-RoughTextureProperty
+  SUMO-TextureProperty)
+(define-primitive-concept SUMO-SmoothTextureProperty
+  SUMO-TextureProperty)
+
+(disjoint SUMO-SmoothTextureProperty
+	  SUMO-RoughTextureProperty)
+
+(define-primitive-concept SUMO-SoundProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-SaturationProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-Dry
+  SUMO-SaturationProperty)
+(define-primitive-concept SUMO-Anhydrous
+  SUMO-SaturationProperty)
+(define-primitive-concept SUMO-Damp
+  SUMO-SaturationProperty)
+(define-primitive-concept SUMO-Wet
+  SUMO-SaturationProperty)
+
+(disjoint SUMO-Wet
+	  SUMO-Damp
+	  SUMO-Anhydrous
+	  SUMO-Dry)
+
+(define-primitive-concept SUMO-BreakabilityProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-Fragile
+  SUMO-BreakabilityProperty)
+(define-primitive-concept SUMO-Unbreakable
+  SUMO-BreakabilityProperty)
+
+(disjoint SUMO-Unbreakable
+	  SUMO-Fragile)
+
+(define-primitive-concept SUMO-PsychologicalProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-EmotionalState
+  SUMO-PsychologicalProperty)
+(define-primitive-concept SUMO-TraitProperty
+  SUMO-PsychologicalProperty)
+
+(disjoint SUMO-TraitProperty
+	  SUMO-EmotionalState)
+
+(define-primitive-concept SUMO-Aggressive
+  SUMO-TraitProperty)
+(define-primitive-concept SUMO-Docile
+  SUMO-TraitProperty)
+
+(disjoint SUMO-Aggressive
+	  SUMO-Docile)
+
+(define-primitive-concept SUMO-CompetitionProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-NormativeProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-SubjectiveAssessmentProperty
+  SUMO-NormativeProperty)
+(define-primitive-concept SUMO-BiologicalProperty
+  SUMO-Attribute)
+(define-primitive-concept SUMO-SexProperty
+  SUMO-BiologicalProperty)
+(define-primitive-concept SUMO-Male
+  SUMO-SexProperty)
+(define-primitive-concept SUMO-Female
+  SUMO-SexProperty)
+
+(disjoint SUMO-Male
+	  SUMO-Female)
+
+(define-primitive-concept SUMO-AnimacyProperty
+  SUMO-BiologicalProperty)
+(define-primitive-concept SUMO-Living
+  SUMO-AnimacyProperty)
+(define-primitive-concept SUMO-Dead
+  SUMO-AnimacyProperty)
+
+(disjoint SUMO-Living
+	  SUMO-Dead)
+
+(define-primitive-concept SUMO-TruthValue
+  SUMO-Attribute)
+(define-primitive-concept SUMO-True
+  SUMO-TruthValue)
+(define-primitive-concept SUMO-False
+  SUMO-TruthValue)
+
+(disjoint SUMO-True
+	  SUMO-False)
+
+(disjoint SUMO-SexProperty
+	  SUMO-AnimacyProperty)
+
+(disjoint SUMO-DirectionAttribute
+	  SUMO-PhysicalState
+	  SUMO-TasteProperty
+	  SUMO-ColorProperty
+	  SUMO-TemperatureProperty
+	  SUMO-SizeProperty
+	  SUMO-ShapeProperty 
+	  SUMO-TextureProperty
+	  SUMO-SoundProperty
+	  SUMO-SaturationProperty
+	  SUMO-BreakabilityProperty
+	  SUMO-PsychologicalProperty
+	  SUMO-CompetitionProperty
+	  SUMO-NormativeProperty
+	  SUMO-BiologicalProperty
+	  SUMO-TruthValue)
+
+(define-primitive-concept SUMO-StationaryArtifact
+  SUMO-Artifact)
+(define-primitive-concept SUMO-Building
+  SUMO-StationaryArtifact)
+(define-primitive-concept SUMO-Device
+  SUMO-Artifact)
+(define-primitive-concept SUMO-TransportationDevice
+  SUMO-Device)
+(define-primitive-concept SUMO-Machine
+  SUMO-Device)
+(define-primitive-concept SUMO-EngineeringElement
+  SUMO-Artifact)
+(define-primitive-concept SUMO-EngineeringComponent
+  SUMO-EngineeringElement)
+(define-primitive-concept SUMO-EngineeringConnection
+  SUMO-EngineeringComponent)
+(define-primitive-concept SUMO-Junction
+  SUMO-EngineeringElement)
+(define-primitive-concept SUMO-Terminal
+  SUMO-EngineeringElement)
+
+(disjoint SUMO-StationaryArtifact
+	  SUMO-Device
+	  SUMO-EngineeringElement)
+(disjoint SUMO-EngineeringComponent
+	  SUMO-Junction
+	  SUMO-Terminal)
+
+(define-primitive-concept SUMO-RealNumber
+  SUMO-Number)
+(define-primitive-concept SUMO-PositiveRealNumber
+  SUMO-RealNumber)
+(define-primitive-concept SUMO-Pi
+  SUMO-PositiveRealNumber)
+(define-primitive-concept SUMO-NegativeRealNumber
+  SUMO-RealNumber)
+(define-primitive-concept SUMO-NonnegativeRealNumber
+  SUMO-RealNumber)
+(define-primitive-concept SUMO-RationalNumber
+  SUMO-RealNumber)
+(define-primitive-concept SUMO-Integer
+  SUMO-RealNumber)
+
+(disjoint SUMO-PositiveRealNumber
+	  SUMO-NegativeRealNumber
+	  SUMO-NonnegativeRealNumber
+	  SUMO-RationalNumber
+	  SUMO-Integer)
+
+(define-primitive-concept SUMO-EvenInteger
+  SUMO-Integer)
+(define-primitive-concept SUMO-OddInteger
+  SUMO-Integer)
+(define-primitive-concept SUMO-PrimeNumber
+  SUMO-Integer)
+(define-primitive-concept SUMO-NonnegativeInteger
+  SUMO-Integer)
+(define-primitive-concept SUMO-NegativeInteger
+  SUMO-Integer)
+(define-primitive-concept SUMO-PositiveInteger
+  SUMO-Integer)
+
+(disjoint SUMO-EvenInteger
+	  SUMO-OddInteger
+	  SUMO-PrimeNumber
+	  SUMO-NonnegativeInteger
+	  SUMO-NegativeInteger
+	  SUMO-PositiveInteger)
+
+(define-primitive-concept SUMO-ImaginaryNumber
+  SUMO-Number)
+(define-primitive-concept SUMO-BinaryNumber
+  SUMO-Number)
+(define-primitive-concept SUMO-ComplexNumber
+  SUMO-Number)
+(define-primitive-concept SUMO-NonSpecificnumber
+  SUMO-Number)
+
+(disjoint SUMO-RealNumber
+	  SUMO-ComplexNumber
+	  SUMO-NonSpecificNumber
+	  SUMO-ImaginaryNumber
+	  SUMO-BinaryNumber)
+
+(define-primitive-concept SUMO-ConstantQuantity
+  SUMO-PhysicalQuantity)
+(define-primitive-concept SUMO-LengthMeasure
+  SUMO-ConstantQuantity)
+(define-primitive-concept SUMO-Meter
+  SUMO-LengthMeasure)
+(define-primitive-concept SUMO-Centimeter
+  SUMO-LengthMeasure)
+(define-primitive-concept SUMO-Kilometer
+  SUMO-LengthMeasure)
+(define-primitive-concept SUMO-Foot
+  SUMO-LengthMeasure)
+(define-primitive-concept SUMO-Inch
+  SUMO-LengthMeasure)
+(define-primitive-concept SUMO-Mile
+  SUMO-LengthMeasure)
+(define-primitive-concept SUMO-Angstrom
+  SUMO-LengthMeasure)
+
+(disjoint SUMO-Angstrom
+	  SUMO-Mile
+	  SUMO-Inch
+	  SUMO-Foot
+	  SUMO-Kilometer
+	  SUMO-Centimeter
+	  SUMO-Meter)
+
+(define-primitive-concept SUMO-MassMeasure
+  SUMO-ConstantQuantity)
+(define-primitive-concept SUMO-Gram
+  SUMO-MassMeasure)
+(define-primitive-concept SUMO-Kilogram
+  SUMO-MassMeasure)
+(define-primitive-concept SUMO-Slug
+  SUMO-MassMeasure)
+(define-primitive-concept SUMO-AtomGram
+  SUMO-MassMeasure)
+(define-primitive-concept SUMO-Amu
+  SUMO-MassMeasure)
+
+(disjoint SUMO-Gram
+	  SUMO-Kilogram
+	  SUMO-Slug
+	  SUMO-AtomGram
+	  SUMO-Amu)
+
+(define-primitive-concept SUMO-TimeMeasure
+  SUMO-ConstantQuantity)
+(define-primitive-concept SUMO-TimeDuration
+  SUMO-TimeMeasure)
+(define-primitive-concept SUMO-SecondDuration
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-NanoSecond
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-PicoSecond
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-DayDuration
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-HourDuration
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-MinuteDuration
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-MonthDuration
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-YearDuration
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-Second
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-Minute
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-Hour
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-Day
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-Month
+  SUMO-TimeDuration)
+(define-primitive-concept SUMO-Year
+  SUMO-TimeDuration)
+
+(disjoint SUMO-YearDuration
+	  SUMO-MonthDuration
+	  SUMO-MinuteDuration
+	  SUMO-HourDuration
+	  SUMO-DayDuration
+	  SUMO-PicoSecond
+	  SUMO-NanoSecond
+	  SUMO-SecondDuration
+	  SUMO-Second
+	  SUMO-Minute
+	  SUMO-Hour
+	  SUMO-Day
+	  SUMO-Month
+	  SUMO-Year)
+
+(define-primitive-concept SUMO-TimePosition
+  SUMO-TimeMeasure)
+(define-primitive-concept SUMO-TimePoint
+  SUMO-TimePosition)
+(define-primitive-concept SUMO-PositiveInfinity
+  SUMO-TimePoint)
+(define-primitive-concept SUMO-NegativeInfinity
+  SUMO-TimePoint)
+
+(define-concept SUMO-TimeInterval (or SUMO-TimeDuration
+				      SUMO-TimePosition))
+
+(define-primitive-concept SUMO-ThermodynamicTemperatureMeasure
+  SUMO-ConstantQuantity)
+(define-primitive-concept SUMO-Kelvin
+  SUMO-ThermodynamicTemperatureMeasure)
+(define-primitive-concept SUMO-Rankine
+  SUMO-ThermodynamicTemperatureMeasure)
+
+(disjoint SUMO-Kelvin
+	  SUMO-Rankine)
+
+(define-primitive-concept SUMO-AmountOfSubstanceMeasure
+  SUMO-ConstantQuantity)
+(define-primitive-concept SUMO-Mole
+  SUMO-AmountOfSubstanceMeasure)
+(define-primitive-concept SUMO-CurrencyMeasure
+  SUMO-ConstantQuantity)
+(define-primitive-concept SUMO-CentUnitedStates
+  SUMO-CurrencyMeasure)
+(define-primitive-concept SUMO-DollarUnitedStates
+  SUMO-CurrencyMeasure)
+
+(disjoint SUMO-CentUnitedStates
+	  SUMO-DollarUnitedStates)
+
+(define-primitive-concept SUMO-InformationMeasure
+  SUMO-ConstantQuantity)
+(define-primitive-concept SUMO-Bit
+  SUMO-InformationMeasure)
+(define-primitive-concept SUMO-Byte
+  SUMO-InformationMeasure)
+(define-primitive-concept SUMO-KiloByte
+  SUMO-InformationMeasure)
+(define-primitive-concept SUMO-MegaByte
+  SUMO-InformationMeasure)
+
+(disjoint SUMO-Bit
+	  SUMO-Byte
+	  SUMO-KiloByte
+	  SUMO-MegaByte)
+
+(disjoint SUMO-LengthMeasure
+	  SUMO-MassMeasure
+	  SUMO-TimeMeasure
+	  SUMO-ThermodynamicTemperatureMeasure
+	  SUMO-AmountOfSubstanceMeasure
+	  SUMO-CurrencyMeasure
+	  SUMO-InformationMeasure)
+
+(define-primitive-concept SUMO-FunctionQuantity
+  SUMO-PhysicalQuantity)
+(define-primitive-concept SUMO-UnaryConstantFunctionQuantity
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-TimeDependentQuantity
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-FrequencyMeasure
+  SUMO-TimeDependentQuantity)
+(define-primitive-concept SUMO-Hertz
+  SUMO-FrequencyMeasure)
+(define-primitive-concept SUMO-GigaHertz
+  SUMO-FrequencyMeasure)
+(define-primitive-concept SUMO-KiloHertz
+  SUMO-FrequencyMeasure)
+
+(disjoint SUMO-Hertz
+	  SUMO-GigaHertz
+	  SUMO-KiloHertz)
+
+(define-primitive-concept SUMO-ElectricChargeMeasure
+  SUMO-TimeDependentQuantity)
+(define-primitive-concept SUMO-Coulomb
+  SUMO-ElectricChargeMeasure)
+(define-primitive-concept SUMO-ActivityMeasure
+  SUMO-TimeDependentQuantity)
+(define-primitive-concept SUMO-Becquerel
+  SUMO-ActivityMeasure)
+
+(disjoint SUMO-FrequencyMeasure
+	  SUMO-ElectricChargeMeasure
+	  SUMO-ActivityMeasure
+	  SUMO-ElectricCurrentMeasure)
+
+(define-primitive-concept SUMO-ElectricCurrentMeasure
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-Ampere
+  SUMO-ElectricCurrentMeasure)
+(define-primitive-concept SUMO-MilliAmpere
+  SUMO-ElectricCurrentMeasure)
+(define-primitive-concept SUMO-NanoAmpere
+  SUMO-ElectricCurrentMeasure)
+(define-primitive-concept SUMO-PicoAmpere
+  SUMO-ElectricCurrentMeasure)
+
+(disjoint SUMO-Ampere
+	  SUMO-MilliAmpere
+	  SUMO-NanoAmpere
+	  SUMO-PicoAmpere)
+
+(define-primitive-concept SUMO-LuminosityIntensityMeasure
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-Candela
+  SUMO-LuminosityIntensityMeasure)
+(define-primitive-concept SUMO-ForceMeasure
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-Newton
+  SUMO-ForceMeasure)
+(define-primitive-concept SUMO-PoundForce
+  SUMO-ForceMeasure)
+
+(disjoint SUMO-Newton
+	  SUMO-PoundForce)
+
+(define-primitive-concept SUMO-PressureMeasure
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-Pascal
+  SUMO-PressureMeasure)
+(define-primitive-concept SUMO-EnergyMeasure
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-Joule
+  SUMO-EnergyMeasure)
+(define-primitive-concept SUMO-ElectronVolt
+  SUMO-EnergyMeasure)
+(define-primitive-concept SUMO-Calorie
+  SUMO-EnergyMeasure)
+(define-primitive-concept SUMO-BritishThermalUnit
+  SUMO-EnergyMeasure)
+
+(disjoint SUMO-Joule
+	  SUMO-ElectronVolt
+	  SUMO-Calorie
+	  SUMO-BritishThermalUnit)
+
+(define-primitive-concept SUMO-PowerMeasure
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-Watt
+  SUMO-PowerMeasure)
+(define-primitive-concept SUMO-KiloWatt
+  SUMO-PowerMeasure)
+
+(disjoint SUMO-Watt
+	  SUMO-KiloWatt)
+
+(define-primitive-concept SUMO-ElectricPotentialMeasure
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-Volt
+  SUMO-ElectricPotentialMeasure)
+(define-primitive-concept SUMO-MicroVolt
+  SUMO-ElectricPotentialMeasure)
+(define-primitive-concept SUMO-MilliVolt
+  SUMO-ElectricPotentialMeasure)
+
+(disjoint SUMO-Volt
+	  SUMO-MicroVolt
+	  SUMO-MilliVolt)
+
+(define-primitive-concept SUMO-ElectricResistanceMeasure
+  SUMO-FunctionQuantity)
+(define-primitive-concept SUMO-Ohm
+  SUMO-ElectricResistanceMeasure)
+(define-primitive-concept SUMO-MegaOhm
+  SUMO-ElectricResistanceMeasure)
+
+(disjoint SUMO-Ohm
+	  SUMO-MegaOhm)
+
+(define-primitive-concept SUMO-UnitOfMeasure
+  SUMO-PhysicalQuantity)
+(define-primitive-concept SUMO-SystemeInternationalUnit
+  SUMO-UnitOfMeasure)
+
+(disjoint SUMO-UnitOfMeasure
+	  SUMO-FunctionQuantity
+	  SUMO-ConstantQuantity)
+
+(disjoint SUMO-UnaryConstantFunctionQuantity
+	  SUMO-ElectricResistanceMeasure
+	  SUMO-ElectricPotentialMeasure
+	  SUMO-PowerMeasure
+	  SUMO-EnergyMeasure
+	  SUMO-PressureMeasure
+	  SUMO-ForceMeasure
+	  SUMO-LuminosityIntensityMeasure
+	  SUMO-ElectricCurrentMeasure
+	  SUMO-TimeDependentQuantity)
+
+(define-primitive-concept SUMO-Plant
+  SUMO-Organism)
+(define-primitive-concept SUMO-Alga
+  SUMO-Plant)
+(define-primitive-concept SUMO-Fungus
+  SUMO-Plant)
+
+(disjoint SUMO-Alga
+	  SUMO-Fungus)
+
+(define-primitive-concept SUMO-Animal
+  SUMO-Organism)
+(define-primitive-concept SUMO-Vertebrate
+  SUMO-Animal)
+(define-primitive-concept SUMO-Vertebrate-ColdBlooded
+  SUMO-Vertebrate)
+(define-primitive-concept SUMO-Amphibian SUMO-Vertebrate-ColdBlooded)
+(define-primitive-concept SUMO-Fish SUMO-Vertebrate-ColdBlooded)
+(define-primitive-concept SUMO-Reptile SUMO-Vertebrate-ColdBlooded)
+
+(disjoint SUMO-Amphibian
+	  SUMO-Fish
+	  SUMO-Reptile)
+
+(define-primitive-concept SUMO-Vertebrate-WarmBlooded
+  SUMO-Vertebrate)
+(define-primitive-concept SUMO-Bird SUMO-Vertebrate-WarmBlooded)
+(define-primitive-concept SUMO-Mammal SUMO-Vertebrate-WarmBlooded)
+(define-primitive-concept SUMO-Primate
+  SUMO-Mammal)
+(define-primitive-concept SUMO-Human
+  SUMO-Primate)
+
+(disjoint SUMO-Bird
+	  SUMO-Mammal)
+(disjoint SUMO-Vertebrate-ColdBlooded
+	  SUMO-Vertebrate-WarmBlooded)
+
+(define-primitive-concept SUMO-Invertebrate
+  SUMO-Animal)
+(define-primitive-concept SUMO-Arthropod
+  SUMO-Invertebrate)
+(define-primitive-concept SUMO-Arachnid
+  SUMO-Arthropod)
+(define-primitive-concept SUMO-Spider
+  SUMO-Arachnid)
+(define-primitive-concept SUMO-Tick
+  SUMO-Arachnid)
+
+(disjoint SUMO-Spider
+	  SUMO-Tick)
+
+(define-primitive-concept SUMO-Insect
+  SUMO-Arthropod)
+
+(disjoint SUMO-Arachnid
+	  SUMO-Insect)
+(disjoint SUMO-Vertebrate
+	  SUMO-Invertebrate)
+
+(define-primitive-concept SUMO-MicroOrganism
+  SUMO-Organism)
+(define-primitive-concept SUMO-Archaeon
+  SUMO-MicroOrganism)
+(define-primitive-concept SUMO-Bacterium
+  SUMO-MicroOrganism)
+(define-primitive-concept SUMO-Chlamydium
+  SUMO-MicroOrganism)
+(define-primitive-concept SUMO-Virus
+  SUMO-MicroOrganism)
+
+(disjoint SUMO-Archaeon
+	  SUMO-Chlamydium
+	  SUMO-Bacterium
+	  SUMO-Virus)
+
+(define-primitive-concept SUMO-ToxicOrganism
+  SUMO-Organism)
+(define-primitive-concept SUMO-ToxicSubstance
+  SUMO-BiologicallyActiveSubstance)
+(define-primitive-concept SUMO-PharmacologicSubstance
+  SUMO-BiologicallyActiveSubstance)
+(define-primitive-concept SUMO-Nutrient
+  SUMO-BiologicallyActiveSubstance)
+
+(disjoint SUMO-ToxicSubstance
+	  SUMO-PharmacologicSubstance
+	  SUMO-Nutrient)
+
+(define-primitive-concept SUMO-Protein
+  SUMO-Nutrient)
+(define-primitive-concept SUMO-Enzyme
+  SUMO-Protein)
+(define-primitive-concept SUMO-Vitamin
+  SUMO-Nutrient)
+
+(disjoint SUMO-Protein
+	  SUMO-Vitamin)
+
+(define-primitive-concept SUMO-Hormone
+  SUMO-BodySubstance)
+(define-primitive-concept SUMO-Blood
+  SUMO-BodySubstance)
+(define-primitive-concept SUMO-Tissue
+  SUMO-BodySubstance)
+(define-primitive-concept SUMO-Pigment
+  SUMO-BodySubstance)
+
+(disjoint SUMO-Hormone
+	  SUMO-Blood
+	  SUMO-Tissue
+	  SUMO-Pigment)
+
+(define-primitive-concept SUMO-BodyPart
+  SUMO-AnatomicalStructure)
+(define-primitive-concept SUMO-BodyJunction
+  SUMO-BodyPart)
+(define-primitive-concept SUMO-Cell
+  SUMO-BodyPart)
+(define-primitive-concept SUMO-CellWall
+  SUMO-BodyPart)
+(define-primitive-concept SUMO-CellWallRigid
+  SUMO-CellWall)
+(define-primitive-concept SUMO-CellWallNonRigid
+  SUMO-CellWall)
+(define-primitive-concept SUMO-Organ
+  SUMO-BodyPart)
+(define-primitive-concept SUMO-SpinalColumn
+  SUMO-Organ)
+(define-primitive-concept SUMO-Gland
+  SUMO-Organ)
+
+(disjoint SUMO-BodyJunction
+	  SUMO-Cell
+	  SUMO-CellWall
+	  SUMO-Organ)
+
+(define-primitive-concept SUMO-EmbryonicStructure
+  SUMO-AnatomicalStructure)
+(define-primitive-concept SUMO-FullyFormedAnatomicalStructure
+  SUMO-AnatomicalStructure)
+
+(disjoint SUMO-FullyFormedAnatomicalStructure
+	  SUMO-EmbryonicStructure
+	  SUMO-BodyPart)
+
+(disjoint SUMO-ToxicOrganism
+	  SUMO-MicroOrganism
+	  SUMO-Animal
+	  SUMO-Plant)
+
+(define-primitive-concept SUMO-Icon
+  SUMO-Representation)
+(define-primitive-concept SUMO-Data
+  SUMO-Representation)
+(define-primitive-concept SUMO-LinguisticExpression
+  SUMO-Representation)
+(define-primitive-concept SUMO-Language
+  SUMO-LinguisticExpression)
+(define-primitive-concept SUMO-Morpheme
+  SUMO-LinguisticExpression)
+
+(disjoint SUMO-Language
+	  SUMO-Morpheme)
+
+(define-primitive-concept SUMO-Word
+  SUMO-LinguisticExpression)
+(define-primitive-concept SUMO-Noun
+  SUMO-Word)
+(define-primitive-concept SUMO-Adjective
+  SUMO-Word)
+(define-primitive-concept SUMO-Adverb
+  SUMO-Word)
+(define-primitive-concept SUMO-Particle
+  SUMO-Word)
+(define-primitive-concept SUMO-Verb
+  SUMO-Word)
+
+(disjoint SUMO-Noun
+	  SUMO-Adjective
+	  SUMO-Adverb
+	  SUMO-Particle
+	  SUMO-Verb)
+
+(define-primitive-concept SUMO-Character
+  SUMO-LinguisticExpression)
+(define-primitive-concept SUMO-SymbolicString
+  SUMO-LinguisticExpression)
+(define-primitive-concept SUMO-Phrase
+  SUMO-LinguisticExpression)
+(define-primitive-concept SUMO-VerbPhrase
+  SUMO-Phrase)
+(define-primitive-concept SUMO-NounPhrase
+  SUMO-Phrase)
+
+(disjoint SUMO-VerbPhrase
+	  SUMO-NounPhrase)
+
+(disjoint SUMO-Language
+	  SUMO-Morpheme
+	  SUMO-Word
+	  SUMO-Character
+	  SUMO-SymbolicString
+	  SUMO-Phrase)
+
+(define-primitive-concept SUMO-ContentBearingObject
+  SUMO-Representation)
+(define-primitive-concept SUMO-Sentence
+  SUMO-ContentBearingObject)
+(define-primitive-concept SUMO-Formula
+  SUMO-Sentence)
+(define-primitive-concept SUMO-Question
+  SUMO-Sentence)
+
+(disjoint SUMO-Formula
+	  SUMO-Question)
+
+(define-primitive-concept SUMO-Text
+  SUMO-ContentBearingObject)
+(define-primitive-concept SUMO-Book
+  SUMO-Text)
+(define-primitive-concept SUMO-ContentBearingProcess
+  SUMO-Representation)
+
+(disjoint SUMO-Icon
+	  SUMO-Data
+	  SUMO-LinguisticExpression
+	  SUMO-ContentBearingObject
+	  SUMO-ContentBearingProcess)
+
+(define-primitive-concept EWN-ENTITY EWN-TOP)
+(define-primitive-concept EWN-EVENT EWN-TOP)
+(define-primitive-concept EWN-STATE EWN-TOP)
+(define-primitive-concept EWN-CONCEPT EWN-TOP)
+
+(disjoint EWN-ENTITY
+	  EWN-EVENT
+	  EWN-STATE
+	  EWN-CONCEPT)
+
+(define-primitive-concept EWN-ANIMATE EWN-ENTITY)
+(define-primitive-concept EWN-INANIMATE EWN-ENTITY)
+(define-primitive-concept EWN-COMPOSITION EWN-ENTITY)
+(define-primitive-concept EWN-ROLES EWN-ENTITY)
+
+(disjoint EWN-ANIMATE
+	  EWN-INANIMATE
+	  EWN-COMPOSITION
+	  EWN-ROLES)
+
+(define-primitive-concept EWN-HUMAN EWN-ANIMATE)
+(define-primitive-concept EWN-ANIMAL EWN-ANIMATE)
+(define-primitive-concept EWN-PLANT EWN-ANIMATE)
+
+(disjoint EWN-HUMAN EWN-ANIMAL EWN-PLANT)
+
+(define-primitive-concept EWN-OBJECT EWN-INANIMATE)
+(define-primitive-concept EWN-SUBSTANCE EWN-INANIMATE)
+
+(disjoint EWN-OBJECT EWN-SUBSTANCE)
+
+(define-primitive-concept EWN-GROUP EWN-COMPOSITION)
+(define-primitive-concept EWN-PART EWN-COMPOSITION)
+
+(disjoint EWN-GROUP EWN-PART)
+
+(define-primitive-concept EWN-AGENT EWN-ROLES)
+(define-primitive-concept EWN-PRODUCT EWN-ROLES)
+(define-primitive-concept EWN-CONSTRUCTION EWN-ROLES)
+(define-primitive-concept EWN-COVER EWN-ROLES)
+(define-primitive-concept EWN-DRINK EWN-ROLES)
+(define-primitive-concept EWN-FOOD EWN-ROLES)
+(define-primitive-concept EWN-FURNITURE EWN-ROLES)
+(define-primitive-concept EWN-GOODS EWN-ROLES)
+(define-primitive-concept EWN-INSTRUMENT EWN-ROLES)
+(define-primitive-concept EWN-REPRESENTATION EWN-ROLES)
+(define-primitive-concept EWN-ORNAMENT EWN-ROLES)
+(define-primitive-concept EWN-PLACE EWN-ROLES)
+
+(disjoint EWN-GROUP
+	  EWN-AGENT	
+	  EWN-PRODUCT	
+	  EWN-CONSTRUCTION	
+	  EWN-COVER
+	  EWN-DRINK
+	  EWN-FOOD
+	  EWN-FURNITURE
+	  EWN-GOODS
+	  EWN-INSTRUMENT
+	  EWN-REPRESENTATION
+	  EWN-ORNAMENT
+	  EWN-PLACE)
+
+(define-primitive-concept EWN-LANGUAGE EWN-REPRESENTATION)
+(define-primitive-concept EWN-MONEY EWN-REPRESENTATION)
+(define-primitive-concept EWN-SHAPE EWN-REPRESENTATION)
+
+(disjoint EWN-LANGUAGE
+	  EWN-MONEY
+	  EWN-SHAPE)
+
+(define-primitive-concept EWN-AREA EWN-PLACE)
+(define-primitive-concept EWN-POINT EWN-PLACE)
+(define-primitive-concept EWN-WAY EWN-PLACE)
+
+(disjoint EWN-AREA
+	  EWN-POINT
+	  EWN-WAY)
+
+(define-primitive-concept EWN-CONTENT EWN-CONCEPT)
+(define-primitive-concept EWN-KNOWLEDGE EWN-CONCEPT)
+(define-primitive-concept EWN-BELIEF EWN-CONCEPT)
+
+(disjoint EWN-CONTENT
+	  EWN-KNOWLEDGE
+	  EWN-BELIEF)
+
+(define-primitive-concept EWN-CAUSE EWN-EVENT)
+(define-primitive-concept EWN-PHENOMENON EWN-EVENT)
+(define-primitive-concept EWN-CHANGE EWN-EVENT)
+(define-primitive-concept EWN-DO EWN-EVENT)
+(define-primitive-concept EWN-TIME EWN-EVENT)
+
+(disjoint EWN-CAUSE
+	  EWN-PHENOMENON
+	  EWN-CHANGE
+	  EWN-DO
+	  EWN-TIME)
+
+(define-primitive-concept EWN-CHANGE-OF-QUANTITY EWN-CHANGE)
+(define-primitive-concept EWN-CHANGE-OF-QUALITY EWN-CHANGE)
+(define-primitive-concept EWN-CHANGE-OF-POSSESSION EWN-CHANGE)
+(define-primitive-concept EWN-CHANGE-OF-EXISTENCE EWN-CHANGE)
+(define-primitive-concept EWN-CHANGE-OF-LOCATION EWN-CHANGE)
+
+(disjoint EWN-CHANGE-OF-QUANTITY
+	  EWN-CHANGE-OF-QUALITY
+	  EWN-CHANGE-OF-POSSESSION
+	  EWN-CHANGE-OF-EXISTENCE
+	  EWN-CHANGE-OF-LOCATION)
+
+(define-primitive-concept EWN-DECREASE EWN-CHANGE-OF-QUANTITY)
+(define-primitive-concept EWN-INCREASE EWN-CHANGE-OF-QUANTITY)
+(disjoint EWN-DECREASE
+	  EWN-INCREASE)
+
+(define-primitive-concept EWN-IMPROVE EWN-CHANGE-OF-QUALITY)
+(define-primitive-concept EWN-WORSEN EWN-CHANGE-OF-QUALITY)
+
+(disjoint EWN-IMPROVE
+	  EWN-WORSEN)
+
+(define-primitive-concept EWN-GET EWN-CHANGE-OF-POSSESSION)
+(define-primitive-concept EWN-REMOVE EWN-CHANGE-OF-POSSESSION)
+(define-primitive-concept EWN-GIVE EWN-CHANGE-OF-POSSESSION)
+
+(disjoint EWN-GET
+	  EWN-REMOVE
+	  EWN-GIVE)
+
+(define-primitive-concept EWN-MAKE EWN-CHANGE-OF-EXISTENCE)
+(define-primitive-concept EWN-KILL EWN-CHANGE-OF-EXISTENCE)
+
+(disjoint EWN-MAKE
+	  EWN-KILL)
+
+(define-primitive-concept EWN-COMMUNICATE EWN-DO)
+(define-primitive-concept EWN-THINK EWN-DO)
+(define-primitive-concept EWN-EXPERIENCE EWN-DO)
+
+(disjoint EWN-COMMUNICATE
+	  EWN-THINK
+	  EWN-EXPERIENCE)
+
+(define-primitive-concept EWN-PROPERTY EWN-STATE)
+(define-primitive-concept EWN-RELATION EWN-STATE)
+
+(disjoint EWN-PROPERTY
+	  EWN-RELATION)
+
+(define-primitive-concept EWN-PHYSICAL-PROPERTY EWN-PROPERTY)
+(define-primitive-concept EWN-MODAL-PROPERTY EWN-PROPERTY)
+(define-primitive-concept EWN-QUALITY EWN-PROPERTY)
+(define-primitive-concept EWN-MENTAL-PROPERTY EWN-PROPERTY)
+
+(disjoint EWN-PHYSICAL-PROPERTY
+	  EWN-MODAL-PROPERTY
+	  EWN-QUALITY
+	  EWN-MENTAL-PROPERTY)
+
+(define-primitive-concept EWN-SOCIAL-RELATION EWN-RELATION)
+(define-primitive-concept EWN-SPATIAL-RELATION EWN-RELATION)
+
+(disjoint EWN-SOCIAL-RELATION
+	  EWN-SPATIAL-RELATION)
+
+(define-concept EWN-POSSESSION (or EWN-ROLES EWN-SOCIAL-RELATION))
+
+(define-primitive-concept EWN-AMOUNT EWN-SPATIAL-RELATION)
+(define-primitive-concept EWN-DIRECTION EWN-SPATIAL-RELATION)
+(define-primitive-concept EWN-PHYSICAL-HAVE EWN-SPATIAL-RELATION)
+
+(disjoint EWN-AMOUNT
+	  EWN-DIRECTION
+	  EWN-PHYSICAL-HAVE)
+
+(define-primitive-attribute LX-WHOLE)
+(define-primitive-attribute LX-GROUP)
+
+(define-concept EWN-Entity1 EWN-ENTITY)
+
+(define-primitive-concept
+  EWN-Body3OrganicStructure1PhysicalStructure1
+  EWN-ANIMATE)
+
+(define-concept
+  EWN-Being1LifeForm1LivingThing1Organism1
+  (and EWN-ANIMATE
+       (all LX-WHOLE
+	    EWN-Body3OrganicStructure1PhysicalStructure1)))
+
+(define-concept
+  EWN-Human1Individual1Mortal1Person1Someone1Soul1
+  EWN-HUMAN)
+
+(define-primitive-concept
+  EWN-Worker2
+  EWN-Human1Individual1Mortal1Person1Someone1Soul1)
+
+(define-concept
+  EWN-Animal1AnimateBeing1Beast1Brute1Creature1Fauna1
+  EWN-ANIMAL)
+
+(define-concept
+  EWN-Flora1Plant1PlantLife1
+  EWN-PLANT)
+
+(define-concept
+  EWN-InanimateObject1Object1PhysicalObject1
+  EWN-INANIMATE)
+
+(define-primitive-concept
+  EWN-NaturalObject1
+  EWN-InanimateObject1Object1PhysicalObject1)
+
+(define-concept
+  EWN-Material5Stuff7
+  EWN-SUBSTANCE)
+
+(define-concept
+  EWN-Matter1Substance1
+  EWN-SUBSTANCE)
+
+(define-primitive-concept EWN-Fluid2 EWN-SUBSTANCE)
+(define-primitive-concept EWN-Liquid4 EWN-SUBSTANCE)
+(define-primitive-concept EWN-ChemicalCompound1Compound4 EWN-SUBSTANCE)
+(define-primitive-concept EWN-ChemicalElement1Element6 EWN-SUBSTANCE)
+(define-primitive-concept EWN-Mixture5 EWN-SUBSTANCE)
+
+(disjoint EWN-Fluid2
+	  EWN-Liquid4
+	  EWN-ChemicalCompound1Compound4
+	  EWN-ChemicalElement1Element6
+	  EWN-Mixture5)
+
+(define-concept
+  EWN-Group1Grouping1
+  EWN-GROUP)
+
+(define-concept
+  EWN-Part3Portion2
+  EWN-PART)
+
+(define-primitive-concept
+  EWN-Bound2Boundary2Bounds2
+  EWN-Part3Portion2)
+
+(define-primitive-concept
+  EWN-Part12Portion5
+  EWN-Part3Portion2)
+
+(define-primitive-concept
+  EWN-Extremity3
+  EWN-Part3Portion2)
+
+(define-primitive-concept
+  EWN-Amount1Measure1Quantity1Quantum1
+  EWN-Part3Portion2)
+
+(disjoint EWN-Bound2Boundary2Bounds2
+	  EWN-Part12Portion5
+	  EWN-Extremity3
+	  EWN-Amount1Measure1Quantity1Quantum1)
+
+(define-primitive-concept
+  EWN-CausalAgency1CausalAgent1Cause1
+  EWN-AGENT)
+
+(define-concept
+  EWN-Artefact1Artifact1
+  EWN-PRODUCT)
+
+(define-primitive-concept 
+  Installation1Facility1
+  Artefact1Artifact1)
+
+(define-primitive-concept 
+  EWN-Station1
+  Installation1Facility1)
+
+(define-primitive-concept 
+  EWN-TVStation1Television1Station1
+  EWN-Station1)
+
+(define-concept
+  EWN-PieceOfWork1Work4
+  EWN-PRODUCT)
+
+(define-concept
+  EWN-Product2Production2
+  EWN-PRODUCT)
+
+(define-concept
+  EWN-Creation3
+  EWN-PRODUCT)
+
+(define-concept
+  EWN-Construction4Structure1
+  EWN-CONSTRUCTION)
+
+(define-primitive-concept
+  EWN-Building3Edifice1
+  EWN-Construction4Structure1)
+
+(define-primitive-concept
+  EWN-Covering4
+  EWN-COVER)
+
+(define-primitive-concept
+  EWN-Cloth1Fabric1Material1Textile1
+  EWN-Covering4)
+
+(define-primitive-concept
+  EWN-Apparel1Clothes1Clothing1Vesture1Wear2WearingApparel1
+  EWN-Covering4)
+
+(define-primitive-concept
+  EWN-Garment1
+  EWN-Covering4)
+
+(disjoint EWN-Cloth1Fabric1Material1Textile1
+	  EWN-Apparel1Clothes1Clothing1Vesture1Wear2WearingApparel1
+	  EWN-Garment1)
+
+(define-concept
+  EWN-Beverage1Drink2Potable1
+  EWN-DRINK)
+
+(define-concept
+  EWN-Food1Nutrient1
+  EWN-FOOD)
+
+(define-concept
+  EWN-ArticleOfFurniture1Furniture1PieceOfFurniture1
+  EWN-FURNITURE)
+
+(define-concept
+  EWN-Furnishings2
+  (and EWN-FURNITURE (all LX-GROUP EWN-FURNITURE)))
+
+(define-concept
+  EWN-Commodity1Goods1
+  EWN-GOODS)
+
+(define-primitive-concept
+  EWN-ConsumerGoods1
+  EWN-GOODS)
+
+(define-concept
+  EWN-Device2
+  EWN-INSTRUMENT)
+
+(define-concept
+  EWN-Instrument2
+  EWN-INSTRUMENT)
+
+(define-concept
+  EWN-Instrumentality1Instrumentation1
+  EWN-INSTRUMENT)
+
+(define-concept
+  EWN-Representation3
+  EWN-REPRESENTATION)
+
+(define-concept
+  EWN-Symbol2
+  EWN-REPRESENTATION)
+
+(define-concept
+  EWN-LanguageUnit1LinguisticUnit1
+  EWN-LANGUAGE)
+
+(define-primitive-concept
+  EWN-Document2Papers1WrittenDocument1
+  EWN-LANGUAGE)
+
+(define-primitive-concept
+  EWN-Writing4WrittenMaterial1
+  EWN-LANGUAGE)
+  
+(define-primitive-concept
+  EWN-WrittenCommunication1WrittenLanguage1
+  EWN-LANGUAGE)
+
+(define-primitive-concept
+  EWN-Word1
+  EWN-LANGUAGE)
+
+(disjoint EWN-Document2Papers1WrittenDocument1
+	  EWN-Writing4WrittenMaterial1
+	  EWN-WrittenCommunication1WrittenLanguage1)
+
+(define-concept
+  EWN-MediumOfExchange1MonetarySystem1
+  EWN-MONEY)
+
+(define-concept
+  EWN-Money2
+  EWN-MONEY)
+
+(define-primitive-concept
+  EWN-Line26
+  EWN-SHAPE)
+
+(define-concept
+  EWN-Decoration2Ornament1
+  EWN-ORNAMENT)
+
+(define-concept
+  EWN-Possession1
+  EWN-POSSESSION)
+
+(define-concept
+  EWN-Asset2
+  EWN-POSSESSION)
+  
+(define-concept
+  EWN-Location1
+  EWN-PLACE)
+
+(define-concept
+  EWN-Part9Region2
+  EWN-AREA)
+
+(define-primitive-concept
+  EWN-DryLand1Earth3Ground7Land6SolidGround1TerraFirma1
+  EWN-AREA)
+
+(define-primitive-concept
+  EWN-Opening4
+  EWN-AREA)
+  
+(define-primitive-concept
+  EWN-Surface1
+  EWN-AREA)
+
+(define-primitive-concept
+  EWN-Surface4
+  EWN-AREA)
+
+(define-primitive-concept
+  EWN-Line21
+  EWN-AREA)
+
+(disjoint EWN-DryLand1Earth3Ground7Land6SolidGround1TerraFirma1
+	  EWN-Opening4
+	  EWN-Surface1
+	  EWN-Surface4
+	  EWN-Line21)
+
+(define-concept
+  EWN-Point12
+  EWN-POINT)
+
+(define-primitive-concept
+  EWN-Place13Spot10TopographicPoint1
+  Point12)
+
+(define-concept
+  EWN-Way4
+  EWN-WAY)
+
+(define-primitive-concept
+  EWN-Passage6
+  EWN-WAY)
+
+(define-concept
+  EWN-Concept1Conception1
+  EWN-CONCEPT)
+
+(define-primitive-concept
+  EWN-Category1
+  EWN-Concept1Conception1)
+
+(define-primitive-concept
+  EWN-Variety2Form2Sort1Kind1
+  EWN-Category1)
+
+(define-concept
+  EWN-Abstraction1
+  EWN-CONCEPT)
+
+(define-concept
+  EWN-Attribute2Dimension3Property3
+  EWN-CONCEPT)
+
+(define-concept
+  EWN-CognitiveContent1Content2MentalObject1
+  EWN-CONCEPT)
+
+(define-concept
+  EWN-Idea2Thought2
+  EWN-CONCEPT)
+
+(define-concept
+  EWN-Communication1
+  EWN-CONTENT)
+
+(define-primitive-concept
+  EWN-Show1
+  EWN-Communication1)
+
+(define-primitive-concept
+  EWN-Programme2Program2Broadcast2
+  EWN-Show1)
+
+(define-primitive-concept
+  EWN-LinguisticCommunication1Language1
+  EWN-Communication1)
+
+(define-primitive-concept
+  EWN-LinguisticString1WordString1StringOfWords1String1
+  EWN-LinguisticCommunication1Language1)
+
+(define-primitive-concept
+  EWN-Line3
+  EWN-LinguisticString1WordString1StringOfWords1String1)
+
+(define-primitive-concept
+  EWN-Head1Heading2
+  EWN-Line3)
+
+(define-primitive-concept
+  EWN-Title2
+  EWN-Head1Heading2)
+
+(define-concept
+  EWN-Message2Content3SubjectMatter1Substance4
+  EWN-CONTENT)
+
+(define-concept
+  EWN-Cognition1Knowledge1
+  EWN-KNOWLEDGE)
+
+(define-primitive-concept
+  EWN-Information1
+  EWN-KNOWLEDGE)
+
+(define-primitive-concept
+  EWN-know-how1Knowhow1
+  EWN-KNOWLEDGE)
+
+(define-primitive-concept
+  EWN-Method2
+  EWN-KNOWLEDGE)
+
+(define-primitive-concept
+  EWN-Structure4
+  EWN-KNOWLEDGE)
+
+(define-concept
+  EWN-Attitude3MentalAttitude1
+  EWN-BELIEF)
+
+
+(define-primitive-concept
+  EWN-Pickup1Perceive1Sense1Feel1
+  EWN-BELIEF)
+
+(define-primitive-concept
+  EWN-See1
+  EWN-Pickup1Perceive1Sense1Feel1)
+
+(define-primitive-concept
+  EWN-Look1
+  EWN-See1)
+
+(define-primitive-concept
+  EWN-ExamineBySight1Examine1TakeALookAt2LookAt1
+  EWN-Look1)
+
+(define-primitive-concept
+  EWN-Look3Search1
+  EWN-ExamineBySight1Examine1TakeALookAt2LookAt1)
+
+(disjoint EWN-Information1
+	  EWN-know-how1Knowhow1
+	  EWN-Method2
+	  EWN-Structure4)
+
+(define-concept
+  EWN-Event1
+  EWN-EVENT)
+
+(define-primitive-concept
+  EWN-Happening1NaturalEvent1Occurrence1
+  EWN-EVENT)
+
+(define-concept
+  EWN-Cause7Do5GiveRiseTo1Make17
+  EWN-CAUSE)
+
+(define-primitive-concept
+  EWN-Cause6Get9Have7Induce2Make12Stimulate3
+  EWN-CAUSE)
+
+(define-primitive-concept
+  EWN-Cease3Discontinue2GiveUp12LayOff2Quit5Stop20
+  EWN-CAUSE)
+
+(disjoint EWN-Cause6Get9Have7Induce2Make12Stimulate3
+	  EWN-Cease3Discontinue2GiveUp12LayOff2Quit5Stop20)
+
+(define-concept
+  EWN-Phenomenon1
+  EWN-PHENOMENON)
+
+(define-primitive-concept
+  EWN-Consequence3Effect4Outcome2Result3Upshot1
+  EWN-PHENOMENON)
+
+(define-concept
+  EWN-Change1
+  EWN-CHANGE)
+
+(define-concept
+  EWN-Alter2Change12Vary1
+  EWN-CHANGE)
+
+(define-concept
+  EWN-Change11
+  EWN-CHANGE)
+
+(define-primitive-concept
+  EWN-ChangeOfState1
+  EWN-CHANGE)
+
+(define-primitive-concept
+  EWN-Development1
+  EWN-CHANGE)
+
+(define-concept
+  EWN-Decrease5Diminish1Fall11Lessen1
+  EWN-DECREASE)
+
+(define-primitive-concept
+  EWN-ChangeMagnitude1ChangeSize1
+  EWN-DECREASE)
+
+(define-primitive-concept
+  EWN-Increase7
+  EWN-INREASE)
+
+(define-primitive-concept
+  EWN-Improvement1
+  EWN-IMPROVE)
+
+(define-primitive-concept
+  EWN-Worsening1
+  EWN-WORSEN)
+
+(define-concept
+  EWN-GetHoldOf2Take17
+  EWN-GET)
+
+(define-primitive-concept
+  EWN-Consume2Have8Ingest2Take16
+  EWN-GET)
+
+(define-primitive-concept
+  EWN-Remove2Take4TakeAway1
+  EWN-REMOVE)
+
+
+(define-concept
+  EWN-Give16
+  EWN-GIVE)
+
+(define-primitive-concept
+  EWN-Furnish1Provide3Render12Supply6
+  EWN-GIVE)
+
+(define-primitive-concept
+  EWN-Cover16
+  EWN-GIVE)
+
+(define-concept
+  EWN-Create2Make13
+  EWN-MAKE)
+
+(define-primitive-concept
+  EWN-Production1
+  EWN-MAKE)
+
+(define-primitive-concept
+  EWN-Emit2ExpressAudibly1LetLoose1Utter3
+  EWN-MAKE)
+
+(define-primitive-concept
+  EWN-Represent3
+  EWN-MAKE)
+
+(disjoint EWN-Production1
+	  EWN-Emit2ExpressAudibly1LetLoose1Utter3
+	  EWN-Represent3)
+
+(define-concept
+  EWN-Kill5
+  EWN-KILL)
+
+(define-concept
+  EWN-ChangeOfLocation1Motion1Move4Movement1
+  EWN-CHANGE-OF-LOCATION)
+ 
+(define-concept
+  EWN-ChangeOfPosition1Motion2Move5Movement2
+  EWN-CHANGE-OF-LOCATION)
+
+(define-primitive-concept
+  EWN-Locomotion1Travel1
+  EWN-CHANGE-OF-LOCATION)
+
+(define-primitive-concept
+  EWN-Motion5Movement6
+  EWN-CHANGE-OF-LOCATION)
+
+(define-primitive-concept
+  EWN-Go14Locomote1Move15Travel4
+  EWN-CHANGE-OF-LOCATION)
+
+(disjoint EWN-Locomotion1Travel1
+	  EWN-Motion5Movement6
+	  EWN-Go14Locomote1Move15Travel4)
+
+(define-concept
+  EWN-Act12DoSomething1Move19PerformAnAction1TakeAStep2TakeAction1TakeMeasures1TakeSteps1
+  EWN-DO)
+
+(define-concept
+  EWN-Act1HumanAction1HumanActivity1
+  EWN-DO)
+
+(define-concept
+  EWN-Action1
+  EWN-DO)
+
+(define-primitive-concept
+  EWN-Activity1
+  EWN-DO)
+
+(define-primitive-concept
+  EWN-ActTogether2ActTowardsOthers1Interact1
+  EWN-DO)
+
+(define-primitive-concept
+  EWN-Allow6Let7Permit5
+  EWN-DO)
+
+(disjoint EWN-Activity1
+	  EWN-ActTogether2ActTowardsOthers1Interact1
+	  EWN-Allow6Let7Permit5)
+
+(define-concept
+  EWN-Communicate1Intercommunicate1TransmitFeelings1TransmitThoughts1
+  EWN-COMMUNICATE)
+
+(define-primitive-concept
+  EWN-Ask2Request1
+  EWN-Communicate1Intercommunicate1TransmitFeelings1TransmitThoughts1)
+
+(define-primitive-concept
+  EWN-Order1
+  EWN-Ask2Request1)
+
+(define-primitive-concept
+  EWN-Sign3Signal1Signaling1
+  EWN-COMMUNICATE)
+
+(define-primitive-concept
+  EWN-Convey1Impart1
+  EWN-COMMUNICATE)
+
+(define-primitive-concept
+  EWN-Evince1Express6Show10
+  EWN-COMMUNICATE)
+
+(define-primitive-concept
+  EWN-Express5GiveTongueTo1Utter1
+  EWN-COMMUNICATE)
+
+(define-primitive-concept
+  EWN-Say8State7Tell7
+  EWN-COMMUNICATE)
+
+(disjoint EWN-Sign3Signal1Signaling1
+	  EWN-Convey1Impart1
+	  EWN-Evince1Express6Show10
+	  EWN-Express5GiveTongueTo1Utter1
+	  EWN-Say8State7Tell7)
+
+(define-concept
+  EWN-Cerebrate1Cogitate1Think4
+  EWN-THINK)
+
+(define-primitive-concept
+  EWN-Remember2ThinkOf1
+  EWN-THINK)
+
+(define-concept
+  EWN-Experience7Get18Have11Receive8Undergo2
+  EWN-EXPERIENCE)
+
+(define-primitive-concept
+  EWN-Feeling1
+  EWN-EXPERIENCE)
+
+(define-concept
+  EWN-Time1
+  EWN-TIME)
+
+(define-primitive-concept
+  EWN-AmountOfTime1Period3PeriodOfTime1TimePeriod1
+  EWN-TIME)
+
+(define-concept
+  EWN-Situation4StateOfAffairs1
+  EWN-STATE)
+
+(define-concept
+  EWN-Be4HaveTheQualityOfBeing1
+  EWN-STATE)
+
+(define-concept
+  EWN-State1
+  EWN-STATE)
+  
+(define-concept
+  EWN-Attribute1
+  EWN-PROPERTY)
+
+(define-primitive-concept
+  EWN-Character2Lineament2Quality4
+  EWN-PROPERTY)
+
+(define-concept
+  EWN-Property2
+  EWN-PROPERTY)
+
+(define-primitive-concept
+  EWN-Color2Coloring2Colour2Colouring2
+  EWN-PHYSICAL-PROPERTY)
+
+(define-primitive-concept
+  EWN-Form6Pattern5Shape5
+  EWN-PHYSICAL-PROPERTY)
+
+(define-primitive-concept
+  EWN-VisualProperty1
+  EWN-PHYSICAL-PROPERTY)
+
+(define-primitive-concept
+  EWN-Form1Shape1
+  EWN-PHYSICAL-PROPERTY)
+
+(disjoint EWN-Color2Coloring2Colour2Colouring2
+	  EWN-Form6Pattern5Shape5
+	  EWN-VisualProperty1
+	  EWN-Form1Shape1)
+
+(define-concept
+  EWN-Ability2Power3
+  EWN-MODAL-PROPERTY)
+
+(define-concept
+  EWN-Quality1
+  EWN-QUALITY)
+
+(define-primitive-concept
+  EWN-Condition5Status2
+  EWN-QUALITY)
+
+(define-primitive-concept
+  EWN-Disorder1
+  EWN-QUALITY)
+
+(disjoint EWN-Condition5Status2
+	  EWN-Disorder1)
+
+(define-primitive-concept
+  EWN-Need5Require3Want5
+  EWN-MENTAL-PROPERTY)
+
+(define-primitive-concept
+  EWN-Need6
+  EWN-MENTAL-PROPERTY)
+
+(disjoint EWN-Need5Require3Want5
+	  EWN-Need6)
+
+(define-concept
+  EWN-Relation1
+  EWN-RELATION)
+
+(define-primitive-concept
+  EWN-Relationship1
+  EWN-RELATION)
+
+(define-primitive-concept
+  EWN-Ratio1
+  EWN-RELATION)
+
+(define-primitive-concept
+  EWN-Unit6UnitOfMeasurement1
+  EWN-RELATION)
+
+(disjoint EWN-Relationship1
+	  EWN-Ratio1
+	  EWN-Unit6UnitOfMeasurement1)
+
+(define-concept
+  EWN-SocialRelation1
+  EWN-SOCIAL-RELATION)
+
+(define-primitive-concept
+  EWN-Relationship3
+  EWN-SOCIAL-RELATION)
+
+(define-primitive-concept
+  EWN-Have12HaveGot1Hold19
+  EWN-POSSESSION)  
+
+(define-concept
+  EWN-SpatialProperty1Spatiality1
+  EWN-SPATIAL-RELATION)
+
+(define-primitive-concept
+  EWN-Be9OccupyACertainArea1OccupyACertainPosition1
+  EWN-SPATIAL-RELATION)
+
+(define-primitive-concept
+  EWN-Space1
+  EWN-SPATIAL-RELATION)
+
+(define-primitive-concept
+  EWN-Spacing1SpatialArrangement1
+  EWN-SPATIAL-RELATION)
+
+(disjoint EWN-Be9OccupyACertainArea1OccupyACertainPosition1
+	  EWN-Space1
+	  EWN-Spacing1SpatialArrangement1)
+
+(define-concept
+  EWN-DefiniteQuantity1
+  EWN-AMOUNT)
+
+(define-primitive-concept
+  EWN-Distance1
+  EWN-AMOUNT)
+
+(define-primitive-concept
+  EWN-MagnitudeRelation1
+  EWN-AMOUNT)
+
+(disjoint EWN-Distance1
+	  EWN-MagnitudeRelation1)
+
+(define-concept
+  EWN-Direction7Way8
+  EWN-DIRECTION)
+
+(define-primitive-concept
+  EWN-Aim4Bearing5Heading2
+  EWN-DIRECTION)
+
+(define-primitive-concept
+  EWN-Course7Trend3
+  EWN-DIRECTION)
+
+(define-primitive-concept
+  EWN-Path3Route2
+  EWN-DIRECTION)
+
+(disjoint EWN-Aim4Bearing5Heading2
+	  EWN-Course7Trend3
+	  EWN-Path3Route2)
+
+(define-primitive-concept
+  EWN-Means1
+  EWN-Instrumentality1Instrumentation1)
+
+(define-primitive-concept
+  EWN-Device1
+  EWN-Instrumentality1Instrumentation1)
+
+(disjoint EWN-Means1
+	  EWN-Device1)
+
+(define-primitive-concept
+  EWN-VideoRecording1
+  EWN-Recording2)
+
+(define-primitive-concept
+  EWN-Recording2
+  EWN-StorageDevice1MemoryDevice1)
+
+(define-primitive-concept
+  EWN-StorageDevice1MemoryDevice1
+  EWN-Device1)
+
+(define-primitive-concept
+  EWN-Medium2
+  EWN-Means1)
+
+(define-primitive-concept
+  EWN-RecordAlbum1Album1
+  EWN-Medium2)
+
+(define-primitive-attribute has-agent)
+
+(define-primitive-attribute has-title)
+(define-primitive-attribute has-category)
+(define-primitive-attribute has-genre)
+(define-primitive-attribute has-person)
+(define-primitive-attribute has-prod-spec)
+(define-primitive-attribute has-aveventlocation)
+(define-primitive-attribute has-renderlocation)
+(define-primitive-attribute has-renderlocationvalue)
+(define-primitive-attribute has-bibdata)
+(define-primitive-attribute has-aveventlocation-id)
+(define-primitive-attribute has-event-id)
+(define-primitive-attribute has-avevent)
+(define-primitive-attribute has-event)
+(define-primitive-attribute has-descr)
+
+(define-primitive-concept AvPerson SUMO-CognitiveAgent)
+(define-primitive-concept MainActor SUMO-CognitiveAgent)
+(define-primitive-concept Actor SUMO-CognitiveAgent)
+(define-primitive-concept Actress SUMO-CognitiveAgent)
+(define-primitive-concept Director SUMO-CognitiveAgent)
+(define-primitive-concept Producer SUMO-CognitiveAgent)
+
+(define-concept
+  AvEventLocation
+  (and SUMO-SymbolicString
+       (all has-lexconcept EWN-TVStation1Television1Station1)))
+
+(define-concept
+  Category
+  (and SUMO-SymbolicString
+       (all has-lexconcept EWN-Variety2Form2Sort1Kind1)))
+
+(define-concept
+  Title
+  (and SUMO-SymbolicString
+       (all has-lexconcept EWN-Title2)))
+
+(define-concept
+  Genre
+  (and SUMO-SymbolicString
+       (all has-lexconcept EWN-Variety2Form2Sort1Kind1)))
+
+(define-primitive-concept
+  ProductionSpec
+  SUMO-ContentBearingObject)
+
+(define-primitive-concept AvEventID id)
+(define-primitive-concept AvEventLocationID id)
+
+(disjoint MainActor
+	  Actor
+	  Actress
+	  Director
+	  Producer
+	  AvPerson)
+
+(define-concept
+  BibData
+  (and SUMO-Data
+       (all has-title Title)
+       (all has-category Category)
+       (all has-genre Genre)
+       (all has-person AvPerson)
+       (all has-prod-spec ProductionSpec)))
+
+(define-concept
+  AvEvent
+  (and SUMO-ContentBearingProcess
+       (all has-lexconcept EWN-Programme2Program2Broadcast2)
+       (all has-bibdata BibData)
+       (all has-event-id AvEventID)
+       (all has-aveventlocation AvEventLocation)
+       (all has-aveventlocation-id AvEventLocationID)))
+
+(define-primitive-attribute has-mainactor)
+(define-primitive-attribute has-actor)
+(define-primitive-attribute has-actress)
+(define-primitive-attribute has-director)
+(define-primitive-attribute has-content)
+(define-primitive-attribute has-type)
+(define-primitive-attribute has-contentdescription)
+(define-primitive-attribute has-contentinfo)
+(define-primitive-attribute has-extrainfo)
+(define-primitive-attribute has-contentid)
+(define-primitive-attribute has-contentname)
+(define-primitive-attribute has-previewurl)
+(define-primitive-attribute has-contentformat)
+(define-primitive-attribute has-producer)
+(define-primitive-attribute has-contentcomment)
+(define-primitive-attribute has-timeduration)
+(define-primitive-attribute has-productiondate)
+(define-primitive-attribute has-group)
+
+(define-primitive-concept ContentID SUMO-Data)
+(define-primitive-concept ContentName SUMO-Data)
+(define-primitive-concept PreviewURL SUMO-Data)
+(define-primitive-concept ProductionDate SUMO-Data)
+(define-primitive-concept ContentFormat SUMO-Data)
+(define-primitive-concept ContentComment SUMO-Data)
+(define-primitive-concept TimeDuration SUMO-Data)
+
+(disjoint ContentID
+	  ContentType
+	  ContentName
+	  PreviewURL
+	  ProductionDate
+	  ContentFormat
+	  ContentComment
+	  TimeDuration)
+
+(define-concept
+  ContentType
+  (and SUMO-Data
+       (all has-lexconcept EWN-VideoRecording1)))
+
+(define-concept
+  ContentDescription
+  (and SUMO-Data
+       (all has-avevent AvEvent)))
+
+(define-concept
+  GroupOfAvPersons
+  (and SUMO-GroupOfPeople
+       (all has-mainactor MainActor)
+       (all has-actor Actor)
+       (all has-actress Actress)
+       (all has-director Director)))
+
+(define-concept
+  ExtraInfo
+  (and SUMO-Data
+       (all has-contentid ContentID)
+       (all has-contentname ContentName)
+       (all has-previewurl PreviewURL)
+       (all has-type ContentType)
+       (all has-contentformat ContentFormat)
+       (all has-producer Producer)
+       (all has-contentcomment ContentComment)
+       (all has-timeduration TimeDuration)
+       (all has-productiondate ProductionDate)
+       (all has-group GroupOfAvPersons)))
+
+(define-concept
+  ContentInfo
+  (and SUMO-Data
+       (all has-contentdescription ContentDescription)
+       (all has-extrainfo ExtraInfo)))
+
+(define-concept
+  OrderContent
+  (and SUMO-Getting
+       (all has-lexconcept EWN-Order1)
+       (all has-agent SUMO-CognitiveAgent)
+  (all has-contentinfo ContentInfo)))
+
+(define-concept
+  SearchForContent
+  (and SUMO-Searching
+       (all has-lexconcept EWN-Look3Search1)
+       (all has-agent SUMO-CognitiveAgent)
+       (all has-contentinfo ContentInfo)))
+
+(define-primitive-concept DialogOperation SUMO-MentalProcess)
+(define-concept Action SUMO-IntentionallyCausedProcess)
+
+(define-primitive-attribute has-action)
+
+(define-concept Intend (and DialogOperation
+			    (all has-action Action)))

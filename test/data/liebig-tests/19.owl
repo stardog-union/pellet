@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/19.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>28.03.2006, version 0.1</owl:versionInfo>
+ <rdfs:comment>complex properties are not allowed to be used within
+               at-most cardinality restrictions (OWL Lite), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:TransitiveProperty rdf:ID="p-plus">
+  <rdfs:subPropertyOf>
+     <owl:ObjectProperty rdf:ID="p" />
+  </rdfs:subPropertyOf>
+</owl:TransitiveProperty>
+
+<owl:Class rdf:ID="A">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#p" />
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:TransitiveProperty rdf:ID="q-plus">
+  <rdfs:subPropertyOf rdf:resource="#q" />
+</owl:TransitiveProperty>
+
+<owl:ObjectProperty rdf:ID="q">
+  <rdf:type rdf:resource="&owl;FunctionalProperty" />
+</owl:ObjectProperty>
+
+<!--
+     both cases from above need special treadment since they
+     are not conform within the OWL specification
+     Protege discovers the q/q+ problem and ignors the functional
+     characteristic of q.
+     Racer (1.9) in contrast ignors the transitivity of q+.
+
+     KAON2 and Racer discover the complex role / cardinality problem q/q+
+-->
+
+</rdf:RDF>

@@ -1,0 +1,16 @@
+@prefix :  <http://example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+:p rdf:type owl:ObjectProperty , owl:FunctionalProperty .
+
+:a :p :b.
+:a :p :c.
+:d owl:sameAs :b.
+:e owl:sameAs :d.
+
+:a rdf:type owl:Thing.
+:b rdf:type owl:Thing.
+:b rdf:type owl:Thing.
+:d rdf:type owl:Thing.
+:e rdf:type owl:Thing.

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xmlns      ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/7.owl#"
+  xml:base   ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/7.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>17.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>nominal test (OWL DL), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="r" />
+
+<owl:Class rdf:ID="N">
+  <rdfs:subClassOf>
+   <owl:Restriction>
+        <owl:onProperty rdf:resource="#r" />
+	<owl:allValuesFrom>
+	 <owl:Class>
+	  <owl:oneOf rdf:parseType="Collection">
+	    <owl:Thing rdf:ID="j" />
+	  </owl:oneOf>
+	 </owl:Class>
+	</owl:allValuesFrom>
+   </owl:Restriction>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="NX">
+ <owl:equivalentClass>
+   <owl:Restriction>
+     <owl:onProperty rdf:resource="#r" />
+     <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+   </owl:Restriction>
+ </owl:equivalentClass>
+</owl:Class>
+
+<!--
+  consequence: N is subsumed by NX
+
+  <owl:Class rdf:about="#N">
+    <rdfs:subClassOf rdf:resource="#NX" />
+  </owl:Class>
+-->
+
+<N rdf:ID="i">
+ <r>
+   <owl:Thing rdf:ID="k" />
+ </r>
+</N>
+
+<!-- makes ABox inconsistent: -->
+
+<!--
+<rdf:Description rdf:about="#j">
+  <owl:differentFrom rdf:resource="#k" />
+</rdf:Description>
+-->
+<!-- conclusion:
+
+<rdf:Description rdf:about="#j">
+  <owl:sameAs rdf:resource="#k" />
+</rdf:Description>
+
+pellet conclusion:
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl  ="http://www.w3.org/2002/07/owl#">
+
+<rdf:Description rdf:about="http://www.informatik.uni-ulm.de/ki/Liebig/owl/nominal-owa-test.owl#j">
+  <owl:sameAs rdf:resource="http://www.informatik.uni-ulm.de/ki/Liebig/owl/nominal-owa-test.owl#k"/>
+</rdf:Description>
+</rdf:RDF>
+
+-->
+
+</rdf:RDF>

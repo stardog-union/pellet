@@ -1,0 +1,257 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY miniTambis "http://miniTambis#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="owlapi:ontology:ont12#"
+     xml:base="owlapi:ontology:ont12"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:miniTambis="http://miniTambis#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://miniTambis#catalyses -->
+
+    <owl:ObjectProperty rdf:about="&miniTambis;catalyses"/>
+    
+
+
+    <!-- http://miniTambis#hasStrand -->
+
+    <owl:ObjectProperty rdf:about="&miniTambis;hasStrand"/>
+    
+
+
+    <!-- http://miniTambis#part-of -->
+
+    <owl:ObjectProperty rdf:about="&miniTambis;part-of"/>
+    
+
+
+    <!-- http://miniTambis#polymerOf -->
+
+    <owl:ObjectProperty rdf:about="&miniTambis;polymerOf"/>
+    
+
+
+    <!-- http://miniTambis#relatedTo -->
+
+    <owl:ObjectProperty rdf:about="&miniTambis;relatedTo"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://miniTambis#DNA -->
+
+    <owl:Class rdf:about="&miniTambis;DNA">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&miniTambis;macromolecular-compound"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&miniTambis;polymerOf"/>
+                        <owl:someValuesFrom rdf:resource="&owl;Thing"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&miniTambis;polymerOf"/>
+                        <owl:allValuesFrom rdf:resource="&miniTambis;Deoxy-Ribo-Nucleotide"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#Deoxy-Ribo-Nucleotide -->
+
+    <owl:Class rdf:about="&miniTambis;Deoxy-Ribo-Nucleotide">
+        <rdfs:subClassOf rdf:resource="&miniTambis;Ribo-Nucleotide"/>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#Gene-Product -->
+
+    <owl:Class rdf:about="&miniTambis;Gene-Product">
+        <rdfs:subClassOf rdf:resource="&miniTambis;DNA"/>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#Hydrolysis -->
+
+    <owl:Class rdf:about="&miniTambis;Hydrolysis">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&miniTambis;relatedTo"/>
+                <owl:someValuesFrom rdf:resource="&miniTambis;Proteosis"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#MultiStrandedPeptide -->
+
+    <owl:Class rdf:about="&miniTambis;MultiStrandedPeptide">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&miniTambis;Peptide"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&miniTambis;hasStrand"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#Peptide -->
+
+    <owl:Class rdf:about="&miniTambis;Peptide">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&miniTambis;part-of"/>
+                        <owl:allValuesFrom rdf:resource="&miniTambis;Protein"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&miniTambis;part-of"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#Protein -->
+
+    <owl:Class rdf:about="&miniTambis;Protein">
+        <rdfs:subClassOf rdf:resource="&miniTambis;Gene-Product"/>
+        <owl:disjointWith rdf:resource="&miniTambis;RNA"/>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#Proteosis -->
+
+    <owl:Class rdf:about="&miniTambis;Proteosis">
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&miniTambis;catalyses"/>
+                        <owl:someValuesFrom rdf:resource="&miniTambis;MultiStrandedPeptide"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&miniTambis;catalyses"/>
+                        <owl:someValuesFrom rdf:resource="&miniTambis;SingleStrandedPeptide"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#RNA -->
+
+    <owl:Class rdf:about="&miniTambis;RNA"/>
+    
+
+
+    <!-- http://miniTambis#Ribo-Nucleotide -->
+
+    <owl:Class rdf:about="&miniTambis;Ribo-Nucleotide"/>
+    
+
+
+    <!-- http://miniTambis#SingleStrandedPeptide -->
+
+    <owl:Class rdf:about="&miniTambis;SingleStrandedPeptide">
+        <rdfs:subClassOf rdf:resource="&miniTambis;Peptide"/>
+    </owl:Class>
+    
+
+
+    <!-- http://miniTambis#macromolecular-compound -->
+
+    <owl:Class rdf:about="&miniTambis;macromolecular-compound"/>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:Class>
+        <rdfs:subClassOf rdf:resource="&miniTambis;RNA"/>
+        <owl:intersectionOf rdf:parseType="Collection">
+            <rdf:Description rdf:about="&miniTambis;macromolecular-compound"/>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&miniTambis;polymerOf"/>
+                <owl:someValuesFrom rdf:resource="&miniTambis;Ribo-Nucleotide"/>
+            </owl:Restriction>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&miniTambis;polymerOf"/>
+                <owl:allValuesFrom rdf:resource="&miniTambis;Ribo-Nucleotide"/>
+            </owl:Restriction>
+        </owl:intersectionOf>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version [Not Released]) http://owlapi.sourceforge.net -->
+

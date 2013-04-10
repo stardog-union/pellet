@@ -1,0 +1,7 @@
+PREFIX food: <http://www.w3.org/2001/sw/WebOnt/guide-src/food#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+ASK {
+	food:Chicken rdf:type food:LightMeatFowl .
+	food:Duck rdf:type food:DarkMeatFowl .
+}

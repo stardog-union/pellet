@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/3a.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>17.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>satisfiablility test (OWL DL), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="r" />
+
+<owl:Class rdf:ID="P" />
+
+<owl:Class rdf:ID="P1">
+ <rdfs:subClassOf>
+   <owl:Class>
+     <owl:complementOf>
+       <owl:Class>
+         <owl:unionOf rdf:parseType="Collection">
+	   <owl:Class rdf:about="#P2" />
+	   <owl:Class rdf:about="#P3" />
+	   <owl:Class rdf:about="#P4" />
+	   <owl:Class rdf:about="#P5" />
+         </owl:unionOf>
+       </owl:Class>
+    </owl:complementOf>
+   </owl:Class>
+ </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="P2">
+ <rdfs:subClassOf>
+   <owl:Class>
+     <owl:complementOf>
+       <owl:Class>
+         <owl:unionOf rdf:parseType="Collection">
+	   <owl:Class rdf:about="#P3" />
+	   <owl:Class rdf:about="#P4" />
+	   <owl:Class rdf:about="#P5" />
+         </owl:unionOf>
+       </owl:Class>
+    </owl:complementOf>
+   </owl:Class>
+ </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="P3">
+ <rdfs:subClassOf>
+   <owl:Class>
+     <owl:complementOf>
+       <owl:Class>
+         <owl:unionOf rdf:parseType="Collection">
+	   <owl:Class rdf:about="#P4" />
+	   <owl:Class rdf:about="#P5" />
+         </owl:unionOf>
+       </owl:Class>
+    </owl:complementOf>
+   </owl:Class>
+ </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="C">
+ <rdfs:subClassOf>
+   <owl:Class>
+     <owl:intersectionOf rdf:parseType="Collection">
+
+       <owl:Restriction>
+        <owl:onProperty rdf:resource="#r" />
+        <owl:someValuesFrom rdf:resource="#P1" />
+       </owl:Restriction>
+       <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r" />
+        <owl:someValuesFrom rdf:resource="#P2" />
+       </owl:Restriction>
+       <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r" />
+        <owl:someValuesFrom rdf:resource="#P3" />
+       </owl:Restriction>
+       <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r" />
+        <owl:someValuesFrom>
+	  <owl:Class>
+	    <owl:intersectionOf rdf:parseType="Collection">
+	      <owl:Class rdf:about="#P1" />
+	      <owl:Class rdf:about="#P" />
+	    </owl:intersectionOf>
+	  </owl:Class>
+        </owl:someValuesFrom>
+       </owl:Restriction>
+       <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r" />
+        <owl:someValuesFrom>
+	  <owl:Class>
+	    <owl:intersectionOf rdf:parseType="Collection">
+	      <owl:Class rdf:about="#P2" />
+	      <owl:Class rdf:about="#P" />
+	    </owl:intersectionOf>
+	  </owl:Class>
+        </owl:someValuesFrom>
+       </owl:Restriction>
+       <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r" />
+        <owl:someValuesFrom>
+	  <owl:Class>
+	    <owl:intersectionOf rdf:parseType="Collection">
+	      <owl:Class rdf:about="#P3" />
+	      <owl:Class rdf:about="#P" />
+	    </owl:intersectionOf>
+	  </owl:Class>
+        </owl:someValuesFrom>
+       </owl:Restriction>
+       <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r"/>
+        <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:maxCardinality>
+       </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>  
+  </rdfs:subClassOf>
+</owl:Class>
+
+<!--
+consequence: C is satisfiable
+
+<rdf:Description rdf:about="#C">
+  <owl:disjointWith  rdf:resource="&owl;Nothing" />
+</rdf:Description>
+-->
+
+</rdf:RDF>

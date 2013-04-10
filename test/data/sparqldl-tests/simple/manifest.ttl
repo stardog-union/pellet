@@ -1,0 +1,245 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql1/manifest#> .
+@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix mf:     <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#> .
+@prefix qt:     <http://www.w3.org/2001/sw/DataAccess/tests/test-query#> .
+@prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
+
+<>  rdf:type mf:Manifest ;
+    rdfs:comment "SPARQL DL ad-hoc tests" ;
+    mf:entries
+    (
+    :oedipus
+	:wine1
+	:wine2
+	:lang
+	:parent1
+	:parent2
+	:parent3
+	:parent4
+	:parent5	
+	:parent6
+	:parent7
+	:parent8
+	:parent9
+	:parent10
+	:parent11
+	:simple1
+	:simple2
+	:simple3
+	:simple4
+	:simple5	
+	:simple6
+	:simple7
+	:simple8 
+	:owl2Constructors1
+	:owl2Constructors2
+	:owl2Constructors3
+	:owl2Constructors4
+	:owl2Constructors5
+	:owl2Constructors6
+    ).
+
+:oedipus  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "Oedipus test" ;
+         mf:action  
+		[ qt:query  <oedipus.rq> ; 
+		qt:data <oedipus.rdf> ] ;
+         mf:result  <oedipus.srx> .
+	
+:wine1  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "wine test with non-distinguished vars" ;
+         mf:action  
+		[ qt:query  <wine1.rq> ; 
+		qt:data <wine.rdf> ] ;
+         mf:result  <wine1.srx> .
+         
+:wine2  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "wine test with distinguished vars" ;
+         mf:action  
+		[ qt:query  <wine2.rq> ; 
+		qt:data <wine.rdf> ] ;
+         mf:result  <wine2.srx> .
+         
+:lang  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "Literal lang test" ;
+         mf:action  
+		[ qt:query  <lang.rq> ; 
+		qt:data <lang.ttl> ] ;
+         mf:result  <lang.srx> .         
+         	
+:parent1  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "parent query with non-distinguished variable" ;
+         mf:action  
+		[ qt:query  <parent1.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent1.srx> .
+                  	
+:parent2  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "parent query with distinguished variable" ;
+         mf:action  
+		[ qt:query  <parent2.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent2.srx> .
+                           	
+:parent3  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "parent query with (hasChild some Thing) restriction" ;
+         mf:action  
+		[ qt:query  <parent3.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent3.srx> .
+                           	
+:parent4  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "parent query with (hasChild min 1) restriction" ;
+         mf:action  
+		[ qt:query  <parent4.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent4.srx> .
+                           	
+:parent5  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "parent query with (hasChild some Female) restriction" ;
+         mf:action  
+		[ qt:query  <parent5.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent5.srx> .
+                           	
+:parent6  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "parent query with (hasChild min 1 Female) restriction" ;
+         mf:action  
+		[ qt:query  <parent6.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent6.srx> .
+                           	
+:parent7  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "parent query with (hasChild max 1 Female) restriction" ;
+         mf:action  
+		[ qt:query  <parent7.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent7.srx> .
+                           	
+:parent8  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "parent query with (hasChild exactly 1 Female) restriction" ;
+         mf:action  
+		[ qt:query  <parent8.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent8.srx> .    
+         
+:parent9  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "subclass query with (hasChild some Thing) restriction" ;
+         mf:action  
+		[ qt:query  <parent9.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent9.srx> .   
+         
+:parent10  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "filtered subclass query with (hasChild some Thing) restriction" ;
+         mf:action  
+		[ qt:query  <parent10.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent10.srx> .     
+         
+:parent11  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "filtered super class query with (hasChild some Thing) restriction" ;
+         mf:action  
+		[ qt:query  <parent11.rq> ; 
+		qt:data <parent.ttl> ] ;
+         mf:result  <parent11.srx> .                          
+         
+         	
+:simple1  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "simple 1" ;
+         mf:action  
+		[ qt:query  <simple1.rq> ; 
+		qt:data <simple.ttl> ] ;
+         mf:result  <simple1.srx> .
+                  	
+:simple2  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "simple 2" ;
+         mf:action  
+		[ qt:query  <simple2.rq> ; 
+		qt:data <simple.ttl> ] ;
+         mf:result  <simple2.srx> .
+                           	
+:simple3  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "simple 3" ;
+         mf:action  
+		[ qt:query  <simple3.rq> ; 
+		qt:data <simple.ttl> ] ;
+         mf:result  <simple3.srx> .
+                           	
+:simple4  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "simple 4" ;
+         mf:action  
+		[ qt:query  <simple4.rq> ; 
+		qt:data <simple.ttl> ] ;
+         mf:result  <simple4.srx> .
+                           	
+:simple5  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "simple 5" ;
+         mf:action  
+		[ qt:query  <simple5.rq> ; 
+		qt:data <simple.ttl> ] ;
+         mf:result  <simple5.srx> .
+                           	
+:simple6  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "simple 6" ;
+         mf:action  
+		[ qt:query  <simple6.rq> ; 
+		qt:data <simple.ttl> ] ;
+         mf:result  <simple6.srx> .
+                           	
+:simple7  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "simple 7" ;
+         mf:action  
+		[ qt:query  <simple7.rq> ; 
+		qt:data <simple.ttl> ] ;
+         mf:result  <simple7.srx> .  
+               
+:simple8  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "simple 8" ;
+         mf:action  
+		[ qt:query  <simple8.rq> ; 
+		qt:data <simple.ttl> ] ;
+         mf:result  <simple8.srx> .
+         
+:owl2Constructors1  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "OWL 2 Constructors 1" ;
+         mf:action  
+		[ qt:query  <owl2Constructors1.rq> ; 
+		qt:data <owl2ConstructorsData1.ttl> ] ;
+         mf:result  <owl2Constructors1.srx> . 
+
+:owl2Constructors2  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "OWL 2 Constructors 2" ;
+         mf:action  
+		[ qt:query  <owl2Constructors2.rq> ; 
+		qt:data <owl2ConstructorsData2.ttl> ] ;
+         mf:result  <owl2Constructors2.srx> .
+
+:owl2Constructors3  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "OWL 2 Constructors 3" ;
+         mf:action  
+		[ qt:query  <owl2Constructors3.rq> ; 
+		qt:data <owl2ConstructorsData3.ttl> ] ;
+         mf:result  <owl2Constructors3.srx> .
+
+:owl2Constructors4  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "OWL 2 Constructors 4" ;
+         mf:action  
+		[ qt:query  <owl2Constructors4.rq> ; 
+		qt:data <owl2ConstructorsData4.ttl> ] ;
+         mf:result  <owl2Constructors4.srx> .
+         
+:owl2Constructors5  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "OWL 2 Constructors 5" ;
+         mf:action  
+		[ qt:query  <owl2Constructors5.rq> ; 
+		qt:data <owl2ConstructorsData5.ttl> ] ;
+         mf:result  <owl2Constructors5.srx> .
+         
+:owl2Constructors6  rdf:type   mf:QueryEvaluationTest ;
+         mf:name "OWL 2 Constructors 6" ;
+         mf:action  
+		[ qt:query  <owl2Constructors6.rq> ; 
+		qt:data <owl2ConstructorsData6.ttl> ] ;
+         mf:result  <owl2Constructors6.srx> .

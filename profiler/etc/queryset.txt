@@ -1,0 +1,12 @@
+../datasets/lubm/university[0].*owl ../datasets/lubm/univ-bench.owl
+../datasets/lubm/query/.*sparql
+../datasets/lubm/university[0-2].\d*\Wowl ../datasets/lubm/univ-bench.owl
+../datasets/lubm/query/.*sparql
+../datasets/lubm/university[0-5].\d*\Wowl ../datasets/lubm/univ-bench.owl
+../datasets/lubm/query/.*sparql
+../datasets/semintec/semintec_0.owl
+../datasets/semintec/query/.*sparql
+../datasets/vicodi/vicodi_0.owl
+../datasets/vicodi/query/.*sparql
+../datasets/akt/akt0[1-3].*xml ../datasets/akt/.*.owl
+../datasets/akt/query/.*sparql

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+         xmlns:owl="http://www.w3.org/2002/07/owl#"> 
+
+<owl:Class rdf:about="http://www.w3.org/2002/07/owl#Thing"> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Quokka"> 
+   <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/> 
+   <owl:equivalentClass rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#KoalaWithPhD"/> 
+   <owl:equivalentClass rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Koala"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#MaleStudentWith3Daughters"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Degree"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Rainforest"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#DryEucalyptForest"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#GraduateStudent"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Gender"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#University"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Female"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#TasmanianDevil"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/2002/07/owl#Nothing"/> 
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#KoalaWithPhD"/> 
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Koala"/> 
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Animal"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Habitat"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Rainforest"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Forest"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Parent"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Animal"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Person"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Animal"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#University"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Habitat"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Female"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Animal"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#TasmanianDevil"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Marsupials"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Marsupials"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Animal"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#MaleStudentWith3Daughters"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Male"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Parent"/> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Student"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Male"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Animal"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Degree"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#DryEucalyptForest"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Forest"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#GraduateStudent"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Student"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Gender"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Forest"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Habitat"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Student"> 
+   <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#Person"/> 
+</owl:Class>
+
+
+</rdf:RDF>

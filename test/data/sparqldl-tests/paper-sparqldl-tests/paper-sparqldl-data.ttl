@@ -1,0 +1,27 @@
+@prefix ex:  <http://example.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+ex:publishedAt rdf:type owl:ObjectProperty .
+
+ex:John rdf:type ex:GraduateAssistant.
+
+ex:GraduateAssistant rdfs:subClassOf ex:Student .
+ex:GraduateAssistant rdfs:subClassOf ex:Employee .
+
+ex:Anite rdf:type ex:Student .
+ex:George rdf:type ex:Employee .
+ex:John ex:hasPublication ex:paper1.
+
+ex:John ex:name "Johnnie".
+
+ex:paper1 rdf:type ex:ConferencePaper .
+ex:person1 ex:hasPublication ex:paper1 .
+
+ex:ConferencePaper rdfs:subClassOf _:c .
+_:c rdf:type owl:Restriction .
+_:c owl:onProperty ex:publishedAt .
+_:c owl:someValuesFrom ex:Conference .
+
+ex:Conference owl:disjointWith ex:Workshop .

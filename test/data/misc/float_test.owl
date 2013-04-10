@@ -1,0 +1,58 @@
+<?xml version='1.0'?>
+
+<rdf:RDF
+  xmlns="http://www.lancs.ac.uk/ug/dobsong/owl/float_test.owl#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xml:base="http://www.lancs.ac.uk/ug/dobsong/owl/float_test.owl"
+>
+	<owl:Ontology rdf:about=""/>
+
+	<rdfs:Datatype rdf:about="http://www.lancs.ac.uk/ug/dobsong/xsd/owl_datatypes.xsd#floatProbability"/>
+	
+	<owl:DatatypeProperty rdf:ID="hasValue"/>
+	<owl:FunctionalProperty rdf:about="#hasValue"/>
+	
+	<owl:Class rdf:ID="ThingWithFloatValue">
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasValue"/>
+				<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+			</owl:Restriction>
+		</owl:equivalentClass>
+	</owl:Class>
+	
+	<owl:Class rdf:ID="ThingWithProbabilityValue">
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasValue"/>
+	<owl:allValuesFrom>
+		<rdfs:Datatype>
+			<owl:onDatatype rdf:resource="http://www.w3.org/2001/XMLSchema#float" />
+			<owl:withRestrictions rdf:parseType="Collection">
+				<rdf:Description>
+					<xsd:minInclusive rdf:datatype="http://www.w3.org/2001/XMLSchema#float">0.0
+					</xsd:minInclusive>
+				</rdf:Description>
+				<rdf:Description>
+					<xsd:maxInclusive rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1.0
+					</xsd:maxInclusive>
+				</rdf:Description>
+			</owl:withRestrictions>
+		</rdfs:Datatype>
+	</owl:allValuesFrom>
+			</owl:Restriction>
+		</owl:equivalentClass>
+	</owl:Class>
+	
+	<ThingWithFloatValue rdf:ID="exampleThingWithFloatValue">
+		<hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">1014E-2</hasValue>
+	</ThingWithFloatValue>
+
+	<ThingWithProbabilityValue rdf:ID="exampleThingWithProbabilityValue">
+		<hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#float">10E-1</hasValue>
+	</ThingWithProbabilityValue>
+	
+</rdf:RDF>

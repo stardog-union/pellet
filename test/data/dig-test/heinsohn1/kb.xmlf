@@ -1,0 +1,37 @@
+    <defconcept name="c"/>
+    <impliesc>
+        <catom name="c"/>
+        <and>
+            <not>
+                <catom name="d"/>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="d"/>
+    <defconcept name="f"/>
+    <impliesc>
+        <catom name="f"/>
+        <and>
+            <catom name="d"/>
+        </and>
+    </impliesc>
+    <defconcept name="c1"/>
+    <impliesc>
+        <catom name="c1"/>
+        <and>
+            <catom name="d1"/>
+            <not>
+                <catom name="d1"/>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="d1"/>
+    <defconcept name="e3"/>
+    <impliesc>
+        <catom name="e3"/>
+        <and>
+            <catom name="c"/>
+        </and>
+    </impliesc>
+    <defrole name="r"/>
+

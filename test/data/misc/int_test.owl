@@ -1,0 +1,41 @@
+<?xml version='1.0'?>
+
+<rdf:RDF
+  xmlns="http://www.lancs.ac.uk/ug/dobsong/owl/int_test.owl#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xml:base="http://www.lancs.ac.uk/ug/dobsong/owl/int_test.owl"
+>
+	<owl:Ontology rdf:about=""/>
+
+	<rdfs:Datatype rdf:about="http://www.lancs.ac.uk/ug/dobsong/xsd/owl_datatypes.xsd#scoreOutOf10"/>
+	
+	<owl:DatatypeProperty rdf:ID="hasValue"/>
+	<owl:FunctionalProperty rdf:about="#hasValue"/>
+	
+	<owl:Class rdf:ID="ThingWithIntValue">
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasValue"/>				<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>			</owl:Restriction>		</owl:equivalentClass>
+	</owl:Class>
+	
+	<owl:Class rdf:ID="ThingWithScoreOutOf10">
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#hasValue"/>
+				<owl:allValuesFrom rdf:resource="http://www.lancs.ac.uk/ug/dobsong/xsd/owl_datatypes.xsd#scoreOutOf10"/>
+			</owl:Restriction>
+		</owl:equivalentClass>
+	</owl:Class>
+
+	<ThingWithIntValue rdf:ID="exampleThingWithIntValue">
+		<hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#int">101</hasValue>
+	</ThingWithIntValue>
+
+	<ThingWithScoreOutOf10 rdf:ID="exampleThingWithScore">
+		<hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#int">8</hasValue>
+	</ThingWithScoreOutOf10>
+	
+</rdf:RDF>

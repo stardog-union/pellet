@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY dl-safe-constants "http://owldl.com/ontologies/dl-safe-constants.owl#">
+  <!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY ruleml  "http://www.w3.org/2003/11/ruleml#" >
+]>
+
+<rdf:RDF xml:base="&dl-safe-constants;" xmlns:dl-safe-constants="&dl-safe-constants;"
+	xmlns:owl="&owl;" xmlns:rdf="&rdf;" xmlns:rdfs="&rdfs;"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+	<!-- Ontology Information -->
+	<owl:Ontology rdf:about="" rdfs:label="dl-safe-constants rules example">
+		<rdfs:comment>Test case for trying constant URI's inside SWRL rules</rdfs:comment>
+	</owl:Ontology>
+
+	<!-- Classes -->
+
+	<owl:Class rdf:about="#Person" />
+
+	<owl:Class rdf:about="#Team" />
+
+	<owl:Class rdf:about="#DreamTeamMember">
+		<owl:equivalentClass>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#memberOf" />
+				<owl:hasValue rdf:resource="#DreamTeam" />
+			</owl:Restriction>
+		</owl:equivalentClass>
+	</owl:Class>
+
+	<owl:Class rdf:about="#DreamTeamMember1" />
+	
+	<owl:Class rdf:about="#DreamTeamMember2" />
+			
+	<!-- Object Properties -->
+	<owl:ObjectProperty rdf:about="#hasMember" />
+
+	<owl:ObjectProperty rdf:about="#memberOf">
+		<owl:inverseOf rdf:resource="#hasMember" />
+	</owl:ObjectProperty>
+
+	<!-- Instances -->
+
+	<dl-safe-constants:Person rdf:about="#Alice">
+		<dl-safe-constants:memberOf rdf:resource="#DreamTeam" />
+	</dl-safe-constants:Person>
+	
+	<dl-safe-constants:Person rdf:about="#Bob">
+		<dl-safe-constants:memberOf rdf:resource="#DreamTeam" />
+	</dl-safe-constants:Person>
+	
+	<dl-safe-constants:Person rdf:about="#Charlie" />
+	
+	<dl-safe-constants:Team rdf:about="#DreamTeam">
+		<dl-safe-constants:hasMember rdf:resource="#Charlie" />
+	</dl-safe-constants:Team>
+
+	<dl-safe-constants:Person rdf:about="#Nobody" />
+	
+	<!-- Rules   -->
+
+	<swrl:Variable rdf:about="#x" />
+	
+	<swrl:Imp rdf:about="#DreamTeamRule1">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#DreamTeamMember1" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#memberOf" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#DreamTeam" />
+			</swrl:IndividualPropertyAtom>
+		</swrl:body>
+	</swrl:Imp>
+
+	<swrl:Imp rdf:about="#DreamTeamRule2">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#DreamTeamMember2" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#hasMember" />
+				<swrl:argument1 rdf:resource="#DreamTeam" />
+				<swrl:argument2 rdf:resource="#x" />
+			</swrl:IndividualPropertyAtom>
+		</swrl:body>
+	</swrl:Imp>
+
+</rdf:RDF>

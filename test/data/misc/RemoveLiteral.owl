@@ -1,0 +1,36 @@
+<rdf:RDF 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:test="http://www.example.org/test#"
+	xml:base="http://www.example.org/test">
+  
+  <owl:DatatypeProperty rdf:ID="pDouble">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="pInt">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="pBoolean">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:DatatypeProperty>
+
+
+  <owl:Thing rdf:ID="ind1">
+    <test:pDouble rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.5</test:pDouble>
+    <test:pInt rdf:datatype="http://www.w3.org/2001/XMLSchema#int">15</test:pInt>
+    <test:pBoolean rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</test:pBoolean>
+  </owl:Thing>
+  
+   <owl:Thing rdf:ID="ind2">
+    <test:pDouble rdf:datatype="http://www.w3.org/2001/XMLSchema#double">1.50</test:pDouble>
+    <test:pInt rdf:datatype="http://www.w3.org/2001/XMLSchema#byte">15</test:pInt>
+    <test:pBoolean rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">1</test:pBoolean>
+  </owl:Thing>
+  
+</rdf:RDF>

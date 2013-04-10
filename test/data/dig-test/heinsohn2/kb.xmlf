@@ -1,0 +1,11 @@
+    <defconcept name="c"/>
+    <impliesc>
+        <catom name="c"/>
+        <and>
+            <not>
+                <catom name="d"/>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="d"/>
+    <defrole name="r"/>

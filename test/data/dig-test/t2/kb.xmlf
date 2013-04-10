@@ -1,0 +1,40 @@
+    <defconcept name="p1"/>
+    <impliesc>
+        <catom name="p1"/>
+        <and>
+            <not>
+                <catom name="p2"/>
+            </not>
+        </and>
+    </impliesc>
+    <defconcept name="p2"/>
+    <defrole name="r"/>
+    <impliesr>
+        <ratom name="r"/>
+        <ratom name="f1"/>
+    </impliesr>
+    <impliesr>
+        <ratom name="r"/>
+        <ratom name="f2"/>
+    </impliesr>
+    <defrole name="f1"/>
+    <defrole name="f2"/>
+    <impliesc>
+        <top/>
+        <or>
+            <atmost num="1">
+                <ratom name="f1"/>
+                <top/>
+            </atmost>
+        </or>
+    </impliesc>
+    <impliesc>
+        <top/>
+        <or>
+            <atmost num="1">
+                <ratom name="f2"/>
+                <top/>
+            </atmost>
+        </or>
+    </impliesc>
+

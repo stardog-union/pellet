@@ -1,0 +1,17 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix : <foo://bla/names#>.
+:kate a :Person; :name "Kate"; :child :john.
+:john a :Person; :name "John"; :child :alice.
+:alice a :Person; :name "Alice".
+:child a owl:ObjectProperty;
+       rdfs:domain :Parent;
+       owl:inverseOf :parent.
+:parent a owl:ObjectProperty.
+
+
+
+:Parent a owl:Class;
+  owl:equivalentClass
+    [a owl:Restriction; owl:onProperty :child; owl:minCardinality 1].
+

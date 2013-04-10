@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/6.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>17.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>unsatisfiability test (OWL Lite), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="r" />
+
+<owl:ObjectProperty rdf:ID="q" />
+
+<owl:ObjectProperty rdf:ID="ri">
+  <owl:inverseOf rdf:resource="#r" />
+</owl:ObjectProperty>
+
+<owl:Class rdf:ID="A">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#q" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="negA">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#q" />
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="Al1r"> 
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="AllrinegA"> 
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#ri" />
+      <owl:allValuesFrom rdf:resource="#negA" />
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="Allri1">
+  <owl:equivalentClass>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#ri" />
+      <owl:allValuesFrom rdf:resource="#AllrinegA" />
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="Allr">
+  <owl:equivalentClass>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r"/>
+      <owl:allValuesFrom rdf:resource="#Allri1" />
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+
+<owl:Class rdf:ID="E"> 
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="#A" />
+      <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r" />
+        <owl:someValuesFrom rdf:resource="#Al1r" />
+      </owl:Restriction>
+      <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r" />
+        <owl:allValuesFrom rdf:resource="#Allr" />
+      </owl:Restriction>
+    </owl:intersectionOf>
+</owl:Class>
+
+<!-- for hoolet
+<owl:Class rdf:ID="MyBottom">
+  <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+-->
+
+<!--
+consequence: E is unsatisfiable
+
+<rdf:Description rdf:about="#E">
+  <owl:equivalentClass  rdf:resource="&owl;Nothing" />
+</rdf:Description>
+-->
+</rdf:RDF>

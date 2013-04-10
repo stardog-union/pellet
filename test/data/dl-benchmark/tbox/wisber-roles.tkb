@@ -1,0 +1,464 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; wisber knowledge base, modified for KRSS syntax and other modifications.
+;;;
+;;; This knowledge base was used in the DFKI DL system comparisons.  It 
+;;; contains information about different forms of investments and was
+;;; used in the natural language dialog project WISBER at the univ. of
+;;; Hamburg.
+;;; 
+;;; Use only for experimental or research purposes.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Further modified by 
+;;; 1/ removing all domain-range information from roles
+;;; 2/ replacing defined roles by primitive roles
+;;; 3/ removing parents from roles
+
+(define-primitive-concept ZAHLENBEREICH TOP) 
+(define-primitive-concept GEQ_0 ZAHLENBEREICH) 
+(define-primitive-concept GEQ_1 GEQ_0) 
+(define-primitive-concept GEQ_1.5 GEQ_1) 
+(define-primitive-concept GEQ_2.5 GEQ_1.5) 
+(define-primitive-concept GEQ_3 GEQ_2.5) 
+(define-primitive-concept GEQ_4 GEQ_3) 
+(define-primitive-concept GEQ_5 GEQ_4) 
+(define-primitive-concept GEQ_6 GEQ_5) 
+(define-primitive-concept GEQ_7 GEQ_6) 
+(define-primitive-concept GEQ_5000 GEQ_7) 
+(define-primitive-concept GEQ_10000 GEQ_5000) 
+(define-primitive-concept LEQ_100000 ZAHLENBEREICH) 
+(define-primitive-concept LEQ_50000 LEQ_100000) 
+(define-primitive-concept LEQ_15 LEQ_50000) 
+(define-primitive-concept LEQ_7 LEQ_15) 
+(define-primitive-concept LEQ_6 LEQ_7) 
+(define-primitive-concept LEQ_5 LEQ_6) 
+(define-primitive-concept LEQ_4 LEQ_5) 
+(define-primitive-concept LEQ_3 LEQ_4) 
+(define-primitive-concept LEQ_1 LEQ_3) 
+(define-primitive-concept LEQ_0 LEQ_1) 
+(define-concept INT_0-100000 (and GEQ_0 LEQ_100000)) 
+(define-concept INT_0-1 (and INT_0-100000 LEQ_1)) 
+(define-concept INT_1-15
+ (and INT_0-100000
+      GEQ_1
+      LEQ_15)) 
+(define-concept INT_5000-100000 (and INT_0-100000 GEQ_5000)) 
+(define-concept INT_5000-50000 (and INT_5000-100000 LEQ_50000)) 
+(define-concept INT_1-7 (and INT_1-15 LEQ_7)) 
+(define-concept INT_1.5-7 (and INT_1-7 GEQ_1.5)) 
+(define-concept INT_5-15 (and INT_1-15 GEQ_5)) 
+(define-concept INT_2.5-4
+ (and INT_1.5-7
+      GEQ_2.5
+      LEQ_4)) 
+(define-concept INT_4-5
+ (and INT_1.5-7
+      GEQ_4
+      LEQ_5)) 
+(define-concept INT_5-7 (and INT_1.5-7 INT_5-15)) 
+(define-concept INT_6-7 (and INT_5-7 GEQ_6)) 
+(define-concept EQ_0 (and INT_0-1 LEQ_0)) 
+(define-concept EQ_1 (and INT_0-1 INT_1-7)) 
+(define-concept EQ_4 (and INT_2.5-4 INT_4-5)) 
+(define-concept EQ_5 (and INT_4-5 INT_5-7)) 
+(define-concept EQ_6 (and INT_6-7 LEQ_6)) 
+(define-concept EQ_7 (and INT_6-7 GEQ_7)) 
+(define-primitive-concept EQ_6.2 INT_6-7) 
+(define-primitive-concept EQ_6.3 INT_6-7) 
+(define-disjoint-primitive-concept JUR-PERSON (GELDDISJ) TOP) 
+(define-disjoint-primitive-concept ABSTRAKTUM (GELDDISJ) TOP) 
+(define-disjoint-primitive-concept COMPUTERSYSTEM (GELDDISJ) TOP) 
+(define-primitive-role HAT-VORBEDINGUNG) 
+(define-primitive-role HAT-NACHBEDINGUNG) 
+(define-disjoint-primitive-concept VERAENDERUNG (GELDDISJ)
+ (and (at-least 1 HAT-VORBEDINGUNG)
+      (at-least 1 HAT-NACHBEDINGUNG))) 
+(define-disjoint-primitive-concept GELD (GELDDISJ) TOP) 
+(define-primitive-role HAT-LIQUIDITAET)
+(define-primitive-role HAT-SICHERHEIT)
+(define-primitive-role HAT-GEWINNAUSSICHT)
+(define-primitive-role HAT-VERFUEGBARKEIT)
+(define-primitive-role HAT-LAUFZEIT)
+(define-primitive-role HAT-RENDITE)
+
+(define-disjoint-primitive-concept GEB-VERMOEGENSTITEL (GELDDISJ)
+ (and (at-most 1 HAT-LAUFZEIT)
+      (at-least 1 HAT-LIQUIDITAET) (at-most 1 HAT-LIQUIDITAET)
+      (at-least 1 HAT-SICHERHEIT) (at-most 1 HAT-SICHERHEIT)
+      (at-most 1 HAT-RENDITE)
+      (at-least 1 HAT-GEWINNAUSSICHT) (at-most 1 HAT-GEWINNAUSSICHT)
+      (at-least 1 HAT-VERFUEGBARKEIT) (at-most 1 HAT-VERFUEGBARKEIT)))
+
+(define-primitive-role HAT-TEIL) 
+(define-primitive-concept SYMBOL1 ABSTRAKTUM) 
+(define-primitive-concept ZAHL ABSTRAKTUM) 
+
+(define-primitive-concept EINHEIT SYMBOL1) 
+(define-primitive-role ASPECT) 
+(define-primitive-role HAT-EINHEIT)
+(define-primitive-role HAT-BETRAG)
+(define-concept BZ
+ (and ABSTRAKTUM  (at-least 1 HAT-BETRAG) (at-most 1 HAT-BETRAG)
+      (at-least 1 HAT-EINHEIT) (at-most 1 HAT-EINHEIT))) 
+
+(define-primitive-concept INTERVALL
+ (and ABSTRAKTUM
+      (all HAT-TEIL ABSTRAKTUM))) 
+(define-primitive-concept STUFE SYMBOL1)
+
+(define-primitive-concept PROZENT EINHEIT) 
+
+(define-concept PROZENTWERT
+ (and BZ
+      (all HAT-EINHEIT PROZENT))) 
+(define-primitive-concept ZEITEINHEIT EINHEIT)
+
+(define-concept ZEITDAUER
+ (and BZ
+      (all HAT-EINHEIT ZEITEINHEIT))) 
+(define-primitive-concept GELDEINHEIT EINHEIT)
+
+(define-concept GELDWERT
+ (and BZ
+      (all HAT-EINHEIT GELDEINHEIT))) 
+(define-primitive-role HAT-LAENGE)
+(define-concept ZEITINTERVALL
+ (and INTERVALL
+      (all HAT-LAENGE ZEITDAUER))) 
+
+(define-primitive-role HAT-TEILINTERVALL)
+(define-primitive-role IST-TEILINTERVALL)
+(define-disjoint-primitive-concept MENSCH (JUR-PERSON) JUR-PERSON) 
+(define-disjoint-primitive-concept ORGANISATION (JUR-PERSON) JUR-PERSON) 
+
+(define-disjoint-primitive-concept FRAU (MENSCH) MENSCH) 
+(define-disjoint-primitive-concept MANN (MENSCH) MENSCH) 
+
+(define-primitive-concept BERATUNGSSYSTEM COMPUTERSYSTEM) 
+(define-primitive-role HAT-SUBJEKT) 
+(define-concept PERSONZUSTAND
+ (and (at-least 1 HAT-SUBJEKT)
+      (all HAT-SUBJEKT JUR-PERSON))) 
+(define-primitive-concept BESITZEN PERSONZUSTAND) 
+(define-primitive-concept MENTALZUSTAND PERSONZUSTAND) 
+(define-primitive-concept GLAUBEN MENTALZUSTAND) 
+(define-primitive-concept BELIEF GLAUBEN) 
+(define-primitive-role HAT-OBJEKT)
+(define-primitive-role HAT-AGENT)
+
+
+(define-concept AKTION (at-least 1 HAT-AGENT)) 
+
+(define-primitive-role HAT-TEILAKTION)
+(define-primitive-role HAT-ZWECKAKTION)
+(define-primitive-role HAT-MITTELAKTION)
+
+(define-concept EINFACH-AKTION
+ (and AKTION
+      (at-most 0 HAT-TEILAKTION))) 
+(define-concept MEHRFACH-AKTION
+ (and AKTION
+      (at-least 2 HAT-TEIL))) 
+(define-primitive-concept TRANSFER
+ (and AKTION
+      (at-least 1 HAT-OBJEKT))) 
+(define-concept BESITZTRANSFER
+ (and TRANSFER
+      (at-least 1 HAT-VORBEDINGUNG BESITZEN)
+      (at-least 1 HAT-NACHBEDINGUNG BESITZEN))) 
+(define-concept GELDTRANSFER
+ (and BESITZTRANSFER
+      (all HAT-OBJEKT GELD))) 
+(define-primitive-concept INFOTRANSFER TRANSFER) 
+(define-disjoint-primitive-concept AUSSAGEN (INFOTRANSFER) INFOTRANSFER) 
+(define-disjoint-primitive-concept EMPFEHLEN (INFOTRANSFER) INFOTRANSFER) 
+(define-disjoint-primitive-concept FRAGEN (INFOTRANSFER) INFOTRANSFER) 
+
+(define-disjoint-primitive-concept JN-FRAGEN (FRAGEN) FRAGEN) 
+(define-disjoint-primitive-concept W-FRAGEN (FRAGEN) FRAGEN) 
+
+(define-primitive-concept ERBEN BESITZTRANSFER) 
+(define-concept AUSTAUSCH
+ (and MEHRFACH-AKTION
+      (all HAT-TEIL TRANSFER)
+      (at-least 2 HAT-TEIL) (at-most 2 HAT-TEIL))) 
+(define-concept BESITZAUSTAUSCH
+ (and AUSTAUSCH
+      (all HAT-TEIL BESITZTRANSFER))) 
+(define-concept KAUFEN
+ (and BESITZAUSTAUSCH
+      (all HAT-MITTELAKTION GELDTRANSFER))) 
+(define-concept VERKAUFEN
+ (and BESITZAUSTAUSCH
+      (all HAT-ZWECKAKTION GELDTRANSFER))) 
+(define-concept FLUESSIGMACHEN
+ (and VERKAUFEN
+      (all HAT-MITTELAKTION
+       (and BESITZTRANSFER
+            (all HAT-OBJEKT GEB-VERMOEGENSTITEL))))) 
+(define-concept GELDANLEGEN
+ (and KAUFEN
+      (all HAT-ZWECKAKTION
+       (and BESITZTRANSFER
+            (all HAT-OBJEKT GEB-VERMOEGENSTITEL))))) 
+(define-primitive-concept GELDINSTITUT ORGANISATION) 
+(define-primitive-concept BANK GELDINSTITUT) 
+(define-primitive-concept OEFFENTLICHE-HAND ORGANISATION) 
+(define-primitive-concept BUNDESLAND OEFFENTLICHE-HAND)
+
+(define-primitive-concept DEUTSCHE-BUNDESBAHN TOP) 
+(define-concept DB (and DEUTSCHE-BUNDESBAHN OEFFENTLICHE-HAND)) 
+
+(define-primitive-concept  DEUTSCHE-BUNDESPOST TOP)
+(define-concept DBP (and DEUTSCHE-BUNDESPOST OEFFENTLICHE-HAND)) 
+
+(define-primitive-concept BUND OEFFENTLICHE-HAND) 
+
+(define-primitive-role VERMOEGENSTITEL-ASPEKT)
+(define-primitive-role HAT-WERT)
+(define-primitive-role HAT-HERAUSGEBER)
+(define-primitive-concept SPAREN GEB-VERMOEGENSTITEL) 
+(define-primitive-concept DM TOP)
+(define-primitive-concept SEHR-HOCH TOP)
+(define-primitive-concept MONAT TOP)
+(define-primitive-concept GIROEINLAGE
+ (and SPAREN
+      (all HAT-LIQUIDITAET TOP)
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG GEQ_1))))
+      (all HAT-SICHERHEIT SEHR-HOCH)
+      (all HAT-HERAUSGEBER GELDINSTITUT)
+      (all HAT-VERFUEGBARKEIT
+       (and BZ
+            (all HAT-EINHEIT MONAT)
+            (all HAT-BETRAG INT_0-1)))))
+(define-primitive-concept HOCH TOP)
+(define-primitive-concept NIEDRIG TOP)
+(define-primitive-concept BEFRISTETE-EINLAGE
+ (and GIROEINLAGE
+      (all HAT-LIQUIDITAET HOCH)
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG GEQ_10000))))
+      (all HAT-GEWINNAUSSICHT NIEDRIG)
+      (and (at-least 1 HAT-RENDITE)
+           (all HAT-RENDITE
+            (and BZ
+                 (all HAT-EINHEIT PROZENT)
+                 (all HAT-BETRAG INT_2.5-4))))
+      (all HAT-VERFUEGBARKEIT
+       (and BZ
+            (all HAT-EINHEIT MONAT)
+            (all HAT-BETRAG LEQ_1))))) 
+(define-primitive-concept FESTGELD BEFRISTETE-EINLAGE) 
+(define-primitive-concept SPARBRIEF GEB-VERMOEGENSTITEL) 
+(define-primitive-concept ABZINSUNGSPAPIER SPARBRIEF) 
+(define-primitive-concept RATENSPARVERTRAG GEB-VERMOEGENSTITEL) 
+(define-primitive-concept JAHR TOP)
+(define-primitive-concept BAUSPARKASSE
+ (at-least 1 ASPECT))
+(define-primitive-concept BAUSPAREN
+ (and RATENSPARVERTRAG
+      (and (at-least 1 HAT-RENDITE)
+           (all HAT-RENDITE
+            (and BZ
+                 (all HAT-EINHEIT PROZENT)
+                 (all HAT-BETRAG GEQ_3))))
+      (all HAT-VERFUEGBARKEIT
+       (and BZ
+            (all HAT-EINHEIT JAHR)
+            (all HAT-BETRAG INT_1.5-7)))
+      (all HAT-HERAUSGEBER BAUSPARKASSE))) 
+(define-primitive-concept WERTPAPIER GEB-VERMOEGENSTITEL) 
+(define-primitive-concept RENTENPAPIER WERTPAPIER) 
+(define-primitive-concept MITTEL TOP)
+(define-primitive-concept INDUSTRIESCHULDVERSCHREIBUNG
+ (and RENTENPAPIER
+      (and (at-least 1 HAT-LAUFZEIT)
+           (all HAT-LAUFZEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG INT_1-15))))
+      (all HAT-LIQUIDITAET MITTEL)
+      (all HAT-SICHERHEIT MITTEL)
+      (all HAT-GEWINNAUSSICHT MITTEL)
+      (and (at-least 1 HAT-RENDITE)
+           (all HAT-RENDITE
+            (and BZ
+                 (all HAT-EINHEIT PROZENT)
+                 (all HAT-BETRAG EQ_6.3))))
+      (all HAT-VERFUEGBARKEIT
+       (and BZ
+            (all HAT-EINHEIT JAHR)
+            (all HAT-BETRAG EQ_0))))) 
+(define-primitive-concept GEWINNSCHULDVERSCHREIBUNG INDUSTRIESCHULDVERSCHREIBUNG) 
+(define-primitive-concept AUSLANDSANLEIHE
+ (and RENTENPAPIER
+      (all HAT-LIQUIDITAET TOP)
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG GEQ_10000))))
+      (all HAT-SICHERHEIT NIEDRIG)
+      (all HAT-GEWINNAUSSICHT MITTEL)
+      (all HAT-VERFUEGBARKEIT
+       (and BZ
+            (all HAT-EINHEIT JAHR)
+            (all HAT-BETRAG EQ_0))))) 
+(define-primitive-concept BANKSCHULDVERSCHREIBUNG
+ (and RENTENPAPIER
+      (and (at-least 1 HAT-LAUFZEIT)
+           (all HAT-LAUFZEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG INT_1-15))))
+      (all HAT-LIQUIDITAET MITTEL)
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG INT_5000-50000))))
+      (all HAT-SICHERHEIT HOCH)
+      (all HAT-HERAUSGEBER GELDINSTITUT))) 
+(define-primitive-concept INHABERSCHULDVERSCHREIBUNG
+ (and BANKSCHULDVERSCHREIBUNG
+      (all HAT-GEWINNAUSSICHT MITTEL)
+      (and (at-least 1 HAT-RENDITE)
+           (all HAT-RENDITE
+            (and BZ
+                 (all HAT-EINHEIT PROZENT)
+                 (all HAT-BETRAG EQ_6)))))) 
+(define-concept PAPIER-DER-OEFFENTLICHEN-HAND (and RENTENPAPIER (all HAT-HERAUSGEBER OEFFENTLICHE-HAND)) )
+
+(define-primitive-concept BUNDESOBLIGATION
+ (and PAPIER-DER-OEFFENTLICHEN-HAND
+      (and (at-least 1 HAT-LAUFZEIT) (at-most 1 HAT-LAUFZEIT)
+           (all HAT-LAUFZEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG LEQ_5))))
+      (and (at-least 1 HAT-LIQUIDITAET) (at-most 1 HAT-LIQUIDITAET)
+           (all HAT-LIQUIDITAET HOCH))
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG INT_5000-50000))))
+      (and (at-least 1 HAT-GEWINNAUSSICHT) (at-most 1 HAT-GEWINNAUSSICHT)
+           (all HAT-GEWINNAUSSICHT MITTEL))
+      (and (at-least 1 HAT-RENDITE) (at-most 1 HAT-RENDITE)
+           (all HAT-RENDITE
+            (and BZ
+                 (all HAT-EINHEIT PROZENT)
+                 (all HAT-BETRAG EQ_6.2)))))) 
+(define-primitive-concept BUNDESSCHATZBRIEF
+ (and PAPIER-DER-OEFFENTLICHEN-HAND
+      (and (at-least 1 HAT-LAUFZEIT) (at-most 1 HAT-LAUFZEIT)
+           (all HAT-LAUFZEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG INT_6-7))))
+      (and (at-least 1 HAT-LIQUIDITAET) (at-most 1 HAT-LIQUIDITAET)
+           (all HAT-LIQUIDITAET MITTEL))
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG INT_5000-50000))))
+      (and (at-least 1 HAT-GEWINNAUSSICHT) (at-most 1 HAT-GEWINNAUSSICHT)
+           (all HAT-GEWINNAUSSICHT MITTEL))
+      (and (at-least 1 HAT-RENDITE) (at-most 1 HAT-RENDITE)
+           (all HAT-RENDITE
+            (and BZ
+                 (all HAT-EINHEIT PROZENT)
+                 (all HAT-BETRAG EQ_6.2))))
+      (and (at-least 1 HAT-VERFUEGBARKEIT) (at-most 1 HAT-VERFUEGBARKEIT)
+           (all HAT-VERFUEGBARKEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG INT_1-7)))))) 
+(define-concept BUNDESSCHATZBRIEF-TYP-A
+ (and BUNDESSCHATZBRIEF
+      (and (at-least 1 HAT-LAUFZEIT) (at-most 1 HAT-LAUFZEIT)
+           (all HAT-LAUFZEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG EQ_6)))))) 
+(define-concept BUNDESSCHATZBRIEF-TYP-B
+ (and BUNDESSCHATZBRIEF
+      (and (at-least 1 HAT-LAUFZEIT) (at-most 1 HAT-LAUFZEIT)
+           (all HAT-LAUFZEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG EQ_7)))))) 
+(define-primitive-concept OEFFENTLICHE-ANLEIHE PAPIER-DER-OEFFENTLICHEN-HAND) 
+(define-concept BAHNANLEIHE
+ (and (at-least 1 HAT-HERAUSGEBER) (at-most 1 HAT-HERAUSGEBER)
+      (all HAT-HERAUSGEBER DB))) 
+(define-concept BUNDESANLEIHE
+ (and (at-least 1 HAT-HERAUSGEBER) (at-most 1 HAT-HERAUSGEBER)
+      (all HAT-HERAUSGEBER BUND))) 
+(define-primitive-concept FINANZIERUNGSSCHATZ
+ (and PAPIER-DER-OEFFENTLICHEN-HAND
+      (and (at-least 1 HAT-LAUFZEIT) (at-most 1 HAT-LAUFZEIT)
+           (all HAT-LAUFZEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG LEQ_1))))
+      (and (at-least 1 HAT-LIQUIDITAET) (at-most 1 HAT-LIQUIDITAET)
+           (all HAT-LIQUIDITAET MITTEL))
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG INT_5000-50000))))
+      (and (at-least 1 HAT-GEWINNAUSSICHT) (at-most 1 HAT-GEWINNAUSSICHT)
+           (all HAT-GEWINNAUSSICHT NIEDRIG))
+      (and (at-least 1 HAT-RENDITE) (at-most 1 HAT-RENDITE)
+           (all HAT-RENDITE
+            (and BZ
+                 (all HAT-EINHEIT PROZENT)
+                 (all HAT-BETRAG INT_4-5))))
+      (and (at-least 1 HAT-VERFUEGBARKEIT) (at-most 1 HAT-VERFUEGBARKEIT)
+           (all HAT-VERFUEGBARKEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG LEQ_1)))))) 
+(define-primitive-concept TEILHABERPAPIER WERTPAPIER) 
+(define-primitive-concept INVESTMENTFOND TEILHABERPAPIER) 
+(define-primitive-concept IMMOBILIENFOND TEILHABERPAPIER) 
+(define-primitive-concept AKTIENGESELLSCHAFT
+ (at-least 1 ASPECT))
+(define-primitive-concept AKTIE
+ (and TEILHABERPAPIER
+      (at-most 0 HAT-LAUFZEIT)
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG INT_5000-100000))))
+      (all HAT-HERAUSGEBER AKTIENGESELLSCHAFT))) 
+(define-primitive-concept AUSLANDSAKTIE AKTIE) 
+(define-primitive-concept INLANDSAKTIE AKTIE) 
+(define-primitive-concept KAPITALANLAGEGESELLSCHAFT ORGANISATION) 
+(define-primitive-concept AKTIENFOND
+ (and TEILHABERPAPIER
+      (and (at-least 1 HAT-LAUFZEIT)
+           (all HAT-LAUFZEIT
+            (and BZ
+                 (all HAT-EINHEIT JAHR)
+                 (all HAT-BETRAG INT_5-15))))
+      (and (at-least 1 HAT-WERT) (at-most 1 HAT-WERT)
+           (all HAT-WERT
+            (and BZ
+                 (all HAT-EINHEIT DM)
+                 (all HAT-BETRAG INT_5000-50000))))
+      (all HAT-HERAUSGEBER KAPITALANLAGEGESELLSCHAFT)))

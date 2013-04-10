@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#">  
+]>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="&owl;"
+	xmlns:owl11="&owl11;" xml:base="http://www.example.org/test#">
+
+	<owl:Ontology rdf:about="">
+		<rdfs:comment>An example to test if parsing numbers in cardinality
+			restrictions succeed</rdfs:comment>
+	</owl:Ontology>
+
+	<owl:ObjectProperty rdf:ID="p" />
+
+	<owl:Class rdf:about="#Test1">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty>
+					<owl:ObjectProperty rdf:about="#p" />
+				</owl:onProperty>
+				<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Class rdf:about="#Test2">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty>
+					<owl:ObjectProperty rdf:about="#p" />
+				</owl:onProperty>
+				<owl:cardinality rdf:datatype="&xsd;byte">2</owl:cardinality>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Class rdf:about="#Test3">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty>
+					<owl:ObjectProperty rdf:about="#p" />
+				</owl:onProperty>
+				<owl:cardinality rdf:datatype="&xsd;int">2</owl:cardinality>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>
+	
+	<owl:Class rdf:about="#Test4">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty>
+					<owl:ObjectProperty rdf:about="#p" />
+				</owl:onProperty>
+				<owl:cardinality rdf:datatype="&xsd;long">2</owl:cardinality>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>	
+		
+	<owl:Class rdf:about="#Test5">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty>
+					<owl:ObjectProperty rdf:about="#p" />
+				</owl:onProperty>
+				<owl:cardinality rdf:datatype="&xsd;integer"> 2 </owl:cardinality>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>		
+		
+	<owl:Class rdf:about="#Test6">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty>
+					<owl:ObjectProperty rdf:about="#p" />
+				</owl:onProperty>
+				<owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">
+				2 </owl:minCardinality>
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>	
+</rdf:RDF>

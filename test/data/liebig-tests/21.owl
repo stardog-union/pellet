@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xmlns      ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>29.3.2006, version 0.1</owl:versionInfo>
+ <rdfs:comment>datatype properties are not functional per se,
+               OWL Lite, Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:DatatypeProperty rdf:ID="s" />
+
+<owl:DatatypeProperty rdf:ID="r">
+  <rdf:type rdf:resource="&owl;FunctionalProperty" />
+  <rdfs:range rdf:resource="&xsd;integer" />
+  <rdfs:subPropertyOf rdf:resource="#s" />
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="p">
+  <rdfs:range rdf:resource="&xsd;integer" />
+  <rdfs:subPropertyOf rdf:resource="#s" />
+</owl:DatatypeProperty>
+
+<owl:Class rdf:ID="A" />
+
+<A rdf:ID="i1">
+  <r rdf:datatype="&xsd;integer">1</r>
+</A>
+
+<A rdf:about="#i1">
+  <p rdf:datatype="&xsd;integer">2</p>
+  <r rdf:datatype="&xsd;integer">1</r>
+</A>
+
+<owl:Class rdf:ID="B">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#s" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="C">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#s" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<!--
+
+  conclusion: i1 is an instance of B but not C
+
+<B rdf:about="#i1" />
+
+
+RDQL query about the filler of s wrt. i1:
+SELECT ?y
+WHERE (?x, rdf:type, owl:Thing), (?x, a:s, ?y)
+USING
+   owl FOR <http://www.w3.org/2002/07/owl#>,
+   rdf FOR <http://www.w3.org/1999/02/22-rdf-syntax-ns#>,
+   rdfs FOR <http://www.w3.org/2000/01/rdf-schema#>,
+   a FOR <http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#>
+
+(individual-direct-types |http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#i1|)
+
+(individual-told-datatype-fillers
+|http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#i1|
+|http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#s|)
+;; should return 1 and 2
+
+; nRQL version:
+(retrieve (?x (told-value
+	       (|http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#s| ?x)))
+	  (?x |http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#A|))
+
+(individual-told-datatype-fillers
+|http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#i1|
+|http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/21.owl#r|)
+; returns 1 (as expected)
+
+
+-->
+
+</rdf:RDF>

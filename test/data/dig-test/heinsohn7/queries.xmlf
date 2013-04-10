@@ -1,0 +1,18 @@
+	<subsumes id="true1">
+		<catom name="a"/>
+		<and>
+			<all>
+				<ratom name="r"/>
+				<all>
+					<inverse>
+						<ratom name="r"/>
+					</inverse>
+					<catom name="a"/>
+				</all>
+			</all>
+			<some>
+				<ratom name="r"/>
+				<top/>
+			</some>
+		</and>
+	</subsumes>

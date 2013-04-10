@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#">  
+]>
+<rdf:RDF 
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="&owl;" xmlns:owl11="&owl11;" 
+    xml:base="http://www.example.org/test#"
+>
+
+<owl:Ontology rdf:about="">
+  <rdfs:comment>An example to test qualifed cardinality restrictions</rdfs:comment> 
+</owl:Ontology>
+
+  <owl:ObjectProperty rdf:ID="r"/>
+  <owl:ObjectProperty rdf:ID="p">
+    <rdfs:subPropertyOf rdf:resource="#r"/>
+  </owl:ObjectProperty>
+  
+  <owl:ObjectProperty rdf:ID="q">
+    <rdfs:subPropertyOf rdf:resource="#r"/>
+  </owl:ObjectProperty>
+  <owl:Class rdf:about="#A">
+    <rdfs:subClassOf rdf:resource="#C"/>  
+    <owl:disjointWith rdf:resource="#B"/>
+  </owl:Class>
+  <owl:Class rdf:about="#B">
+    <rdfs:subClassOf rdf:resource="#C"/>
+  </owl:Class>
+  <owl:Class rdf:about="#C"/>
+  
+  <owl:Class rdf:about="#sub">
+    <owl:intersectionOf rdf:parseType="Collection">
+       <owl:Restriction>
+          <owl:onProperty>
+            <owl:ObjectProperty rdf:about="#p"/>
+          </owl:onProperty>
+          <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minQualifiedCardinality>
+          <owl:onClass rdf:resource="#A"/>
+       </owl:Restriction>
+       <owl:Restriction>
+          <owl:onProperty>
+            <owl:ObjectProperty rdf:about="#q"/>
+          </owl:onProperty>
+          <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">3</owl:minQualifiedCardinality>
+          <owl:onClass rdf:resource="#B"/>          
+       </owl:Restriction>
+    </owl:intersectionOf>
+  </owl:Class>
+      
+  <owl:Class rdf:about="#sup">      
+    <owl:equivalentClass>
+       <owl:Restriction>
+          <owl:onProperty>
+            <owl:ObjectProperty rdf:about="#r"/>
+          </owl:onProperty>
+          <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">5</owl:minQualifiedCardinality>
+          <owl:onClass rdf:resource="#C"/>          
+       </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+
+
+</rdf:RDF>

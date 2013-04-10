@@ -1,0 +1,86 @@
+	<satisfiable id="true1">
+		<and>
+			<some>
+				<ratom name="r"/>
+				<catom name="p1"/>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<catom name="p2"/>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<catom name="p3"/>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<and>
+					<catom name="p1"/>
+					<catom name="p"/>
+				</and>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<and>
+					<catom name="p2"/>
+					<catom name="p"/>
+				</and>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<and>
+					<catom name="p3"/>
+					<catom name="p"/>
+				</and>
+			</some>
+			<atmost num="3">
+				<ratom name="r"/>
+				<top/>
+			</atmost>
+		</and>
+	</satisfiable>
+	<satisfiable id="false2">
+		<and>
+			<some>
+				<ratom name="r"/>
+				<catom name="p1"/>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<catom name="p2"/>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<catom name="p3"/>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<catom name="p4"/>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<and>
+					<catom name="p1"/>
+					<catom name="p"/>
+				</and>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<and>
+					<catom name="p2"/>
+					<catom name="p"/>
+				</and>
+			</some>
+			<some>
+				<ratom name="r"/>
+				<and>
+					<catom name="p3"/>
+					<catom name="p"/>
+				</and>
+			</some>
+			<atmost num="3">
+				<ratom name="r"/>
+				<top/>
+			</atmost>
+		</and>
+	</satisfiable>

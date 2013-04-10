@@ -1,0 +1,6 @@
+PREFIX    :  <http://example.org/x/>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX sdl:  <http://pellet.owldl.com/ns/sdle#>
+
+ASK
+WHERE { :x sdl:directType :c . }

@@ -1,0 +1,132 @@
+@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
+
+@prefix : <http://clarkparsia.com/pellet/tutorial/pops#> .
+
+<http://clarkparsia.com/pellet/tutorial/pops#> a owl:Ontology .
+
+
+# Employee class hierarchy
+#
+
+:Employee a owl:Class ;
+  owl:unionOf ( :CivilServant :Contractor ) ;
+  rdfs:subClassOf
+    [
+      a owl:Restriction ;
+      owl:onProperty :employeeId ;
+      owl:cardinality 1
+    ] ;
+  owl:hasKey ( :employeeId ) .
+
+:CivilServant a owl:Class ;
+   owl:intersectionOf (  
+    [
+      a owl:Restriction ;
+      owl:onProperty :employeeId ;
+      owl:someValuesFrom [
+          a rdfs:Datatype ;
+          owl:onDatatype xsd:integer ;
+          owl:withRestrictions
+            (
+              [ xsd:minInclusive 100000 ]
+              [ xsd:maxInclusive 499999 ]
+            )
+        ]
+    ] 
+    :Employee
+    ) .
+
+:Contractor a owl:Class ;
+   owl:intersectionOf (  
+    [
+      a owl:Restriction ;
+      owl:onProperty :employeeId ;
+      owl:someValuesFrom [
+          a rdfs:Datatype ;
+          owl:onDatatype xsd:integer ;
+          owl:withRestrictions
+            (
+              [ xsd:minInclusive 500000 ]
+              [ xsd:maxInclusive 999999 ]
+            )
+        ]
+    ] 
+    :Employee
+    ) .
+
+
+# Project class hierarchy
+#
+
+:Project a owl:Class .
+
+:ActiveProject a owl:Class ;
+  rdfs:subClassOf :Project ,
+    [
+      a owl:Restriction ;
+      owl:onProperty :endDate ;
+      owl:maxCardinality 0
+    ] .
+
+
+# Other classes
+#
+
+:Organization a owl:Class .
+
+
+# Properties
+#
+
+:employeeId a owl:DatatypeProperty ;
+  rdfs:domain :Employee .
+
+:endDate a owl:DatatypeProperty ;
+  rdfs:range xsd:date .
+
+:firstName a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+
+:lastName a owl:DatatypeProperty ;
+  rdfs:range xsd:string .
+
+:hasEmployee a owl:ObjectProperty .
+
+:hasManager a owl:ObjectProperty ;
+  a owl:FunctionalProperty .
+
+:isEmployeeOf a owl:ObjectProperty ;
+  rdfs:domain :Employee ;
+  rdfs:range :Organization ;
+  owl:inverseOf :hasEmployee .
+
+:mbox_sha1sum a owl:DatatypeProperty .
+
+:subProjectOf a owl:ObjectProperty ;
+  a owl:TransitiveProperty ;
+  rdfs:domain :Project ;
+  rdfs:range :Project .
+
+:worksOnProject a owl:ObjectProperty ;
+  rdfs:domain :Employee ;
+  rdfs:range :Project ;
+  owl:propertyChainAxiom  ( :worksOnProject :subProjectOf ) .
+  
+  
+#Individuals
+#
+
+:Project1 a :Project .
+
+:Project2 a :ActiveProject .
+:Project2 :subProjectOf :Project1 .
+
+
+:Employee1 a :Employee .
+
+:Employee1 :worksOnProject :Project2 .
+
+

@@ -1,0 +1,31 @@
+	<satisfiable id="false1">
+		<and>
+			<catom name="c"/>
+			<catom name="d"/>
+		</and>
+	</satisfiable>
+	<satisfiable id="false2">
+		<and>
+			<all>
+				<ratom name="r"/>
+				<and>
+					<catom name="c"/>
+					<catom name="d"/>
+				</and>
+			</all>
+			<some>
+				<ratom name="r"/>
+				<top/>
+			</some>
+		</and>
+	</satisfiable>
+	<satisfiable id="false3">
+		<and>
+			<catom name="e3"/>
+			<catom name="f"/>
+		</and>
+	</satisfiable>
+	<satisfiable id="false4">
+		<catom name="c1"/>
+	</satisfiable>
+

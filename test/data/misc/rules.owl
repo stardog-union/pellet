@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY lubm_owllog "http://www.mindswap.org/~edna/swoopRules/examples/lubm_owllog.owl#">
+  <!ENTITY lubm_owllog.owl "http://www.mindswap.org/~edna/swoopRules/examples/lubm_owllog.owl">
+  <!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY ruleml  "http://www.w3.org/2003/11/ruleml#" >
+]>
+
+<rdf:RDF xml:base="&lubm_owllog.owl;" xmlns:lubm_owllog="&lubm_owllog;"
+	xmlns:owl="&owl;" xmlns:rdf="&rdf;" xmlns:rdfs="&rdfs;"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+	<!-- Ontology Information -->
+	<owl:Ontology rdf:about="" rdfs:label="Univ-bench Ontology">
+		<rdfs:comment>
+			An university ontology for benchmark tests
+		</rdfs:comment>
+		<owl:versionInfo>
+			univ-bench-ontology-owl, ver April 1, 2004
+		</owl:versionInfo>
+	</owl:Ontology>
+
+	<!-- Classes -->
+	<owl:Class rdf:about="#AdministrativeStaff"
+		rdfs:label="administrative staff worker">
+		<rdfs:subClassOf rdf:resource="#Employee" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Article" rdfs:label="article">
+		<rdfs:subClassOf rdf:resource="#Publication" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#AssistantProfessor"
+		rdfs:label="assistant professor">
+		<rdfs:subClassOf rdf:resource="#Professor" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#SpecialCourse"
+		rdfs:label="assistant professor">
+	</owl:Class>
+
+
+	<owl:Class rdf:about="#NotSpecialCourse"
+		rdfs:label="assistant professor">
+		<owl:complementOf rdf:resource="#SpecialCourse" />
+	</owl:Class>
+
+
+	<owl:Class rdf:about="#AssociateProfessor"
+		rdfs:label="associate professor">
+		<rdfs:subClassOf rdf:resource="#Professor" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Book" rdfs:label="book">
+		<rdfs:subClassOf rdf:resource="#Publication" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Chair" rdfs:label="chair">
+		<rdfs:subClassOf rdf:resource="#Professor" />
+		<owl:equivalentClass>
+			<owl:Class rdf:nodeID="b0">
+				<owl:intersectionOf rdf:parseType="Collection">
+					<rdf:Description rdf:about="#Person" />
+				</owl:intersectionOf>
+			</owl:Class>
+		</owl:equivalentClass>
+	</owl:Class>
+
+	<owl:Class rdf:about="#ClericalStaff"
+		rdfs:label="clerical staff worker">
+		<rdfs:subClassOf rdf:resource="#AdministrativeStaff" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#College" rdfs:label="school">
+		<rdfs:subClassOf rdf:resource="#Organization" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#ConferencePaper"
+		rdfs:label="conference paper">
+		<rdfs:subClassOf rdf:resource="#Article" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Course" rdfs:label="teaching course">
+		<rdfs:subClassOf rdf:resource="#Work" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Dean" rdfs:label="dean">
+		<rdfs:subClassOf rdf:resource="#Professor" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Department"
+		rdfs:label="university department">
+		<rdfs:subClassOf rdf:resource="#Organization" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Director" rdfs:label="director">
+		<owl:equivalentClass rdf:nodeID="b0" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Employee" rdfs:label="Employee">
+		<owl:equivalentClass rdf:nodeID="b0" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Faculty" rdfs:label="faculty member">
+		<rdfs:subClassOf rdf:resource="#Employee" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#FullProfessor" rdfs:label="full professor">
+		<rdfs:subClassOf rdf:resource="#Professor" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#GraduateCourse"
+		rdfs:label="Graduate Level Courses">
+		<rdfs:subClassOf rdf:resource="#Course" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#GraduateStudent"
+		rdfs:label="graduate student" />
+	<owl:Class rdf:about="#Institute" rdfs:label="institute">
+		<rdfs:subClassOf rdf:resource="#Organization" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#JournalArticle"
+		rdfs:label="journal article">
+		<rdfs:subClassOf rdf:resource="#Article" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Lecturer" rdfs:label="lecturer">
+		<rdfs:subClassOf rdf:resource="#Faculty" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Manual" rdfs:label="manual">
+		<rdfs:subClassOf rdf:resource="#Publication" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Organization" rdfs:label="organization" />
+	<owl:Class rdf:about="#Person" rdfs:label="person" />
+	<owl:Class rdf:about="#PostDoc" rdfs:label="post doctorate">
+		<rdfs:subClassOf rdf:resource="#Faculty" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Professor" rdfs:label="professor">
+		<rdfs:subClassOf rdf:resource="#Faculty" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Program" rdfs:label="program">
+		<rdfs:subClassOf rdf:resource="#Organization" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Publication" rdfs:label="publication" />
+	<owl:Class rdf:about="#Research" rdfs:label="research work">
+		<rdfs:subClassOf rdf:resource="#Work" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#ResearchAssistant"
+		rdfs:label="university research assistant">
+		<rdfs:subClassOf rdf:resource="#Person" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#ResearchGroup" rdfs:label="research group">
+		<rdfs:subClassOf rdf:resource="#Organization" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Schedule" rdfs:label="schedule" />
+	<owl:Class rdf:about="#Software" rdfs:label="software program">
+		<rdfs:subClassOf rdf:resource="#Publication" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Specification"
+		rdfs:label="published specification">
+		<rdfs:subClassOf rdf:resource="#Publication" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Student" rdfs:label="student">
+		<owl:equivalentClass rdf:nodeID="b0" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#SystemsStaff"
+		rdfs:label="systems staff worker">
+		<rdfs:subClassOf rdf:resource="#AdministrativeStaff" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#TeachingAssistant"
+		rdfs:label="university teaching assistant">
+		<owl:equivalentClass>
+			<owl:Class>
+				<owl:intersectionOf rdf:parseType="Collection">
+					<rdf:Description rdf:about="#Person" />
+					<owl:Restriction>
+						<owl:onProperty
+							rdf:resource="#teachingAssistantOf" />
+						<owl:someValuesFrom rdf:resource="#Course" />
+					</owl:Restriction>
+				</owl:intersectionOf>
+			</owl:Class>
+		</owl:equivalentClass>
+	</owl:Class>
+
+	<owl:Class rdf:about="#TechnicalReport"
+		rdfs:label="technical report">
+		<rdfs:subClassOf rdf:resource="#Article" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#UndergraduateStudent"
+		rdfs:label="undergraduate student">
+		<rdfs:subClassOf rdf:resource="#Student" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#University" rdfs:label="university">
+		<rdfs:subClassOf rdf:resource="#Organization" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#UnofficialPublication"
+		rdfs:label="unnoficial publication">
+		<rdfs:subClassOf rdf:resource="#Publication" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#VisitingProfessor"
+		rdfs:label="visiting professor">
+		<rdfs:subClassOf rdf:resource="#Professor" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#NotGraduateStudent">
+		<owl:complementOf rdf:resource="#GraduateStudent" />
+	</owl:Class>
+
+	<owl:Class rdf:about="#Work" rdfs:label="Work" />
+	<owl:Class rdf:about="&owl;Thing" />
+
+	<!-- Annotation Properties -->
+	<owl:AnnotationProperty rdf:about="&rdfs;comment" />
+	<owl:AnnotationProperty rdf:about="&rdfs;label" />
+	<owl:AnnotationProperty rdf:about="&owl;versionInfo" />
+
+	<!-- Datatype Properties -->
+	<owl:DatatypeProperty rdf:about="#age" rdfs:label="is age">
+		<rdfs:domain rdf:resource="#Person" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="#emailAddress"
+		rdfs:label="can be reached at">
+		<rdfs:domain rdf:resource="#Person" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="#name" rdfs:label="name" />
+	<owl:DatatypeProperty rdf:about="#officeNumber"
+		rdfs:label="office room No." />
+	<owl:DatatypeProperty rdf:about="#researchInterest"
+		rdfs:label="is researching" />
+	<owl:DatatypeProperty rdf:about="#telephone"
+		rdfs:label="telephone number">
+		<rdfs:domain rdf:resource="#Person" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="#title" rdfs:label="title">
+		<rdfs:domain rdf:resource="#Person" />
+	</owl:DatatypeProperty>
+
+	<!-- Object Properties -->
+	<owl:ObjectProperty rdf:about="#advisor"
+		rdfs:label="is being advised by" />
+	<owl:ObjectProperty rdf:about="#affiliateOf"
+		rdfs:label="is affiliated with">
+		<rdfs:domain rdf:resource="#Organization" />
+		<rdfs:range rdf:resource="#Person" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#affiliatedOrganizationOf"
+		rdfs:label="is affiliated with" />
+	<owl:ObjectProperty rdf:about="#degreeFrom"
+		rdfs:label="has a degree from">
+		<rdfs:domain rdf:resource="#Person" />
+		<rdfs:range rdf:resource="#University" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#doctoralDegreeFrom"
+		rdfs:label="has a doctoral degree from">
+		<rdfs:domain rdf:resource="#Person" />
+		<rdfs:range rdf:resource="#University" />
+		<rdfs:subPropertyOf rdf:resource="#degreeFrom" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#hasAlumnus"
+		rdfs:label="has as an alumnus">
+		<rdfs:domain rdf:resource="#University" />
+		<rdfs:range rdf:resource="#Person" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#headOf" rdfs:label="is the head of" />
+	<owl:ObjectProperty rdf:about="#listedCourse"
+		rdfs:label="lists as a course">
+		<rdfs:domain rdf:resource="#Schedule" />
+		<rdfs:range rdf:resource="#Course" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#mastersDegreeFrom"
+		rdfs:label="has a masters degree from">
+		<rdfs:domain rdf:resource="#Person" />
+		<rdfs:range rdf:resource="#University" />
+		<rdfs:subPropertyOf rdf:resource="#degreeFrom" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#member"
+		rdfs:label="has as a member" />
+	<owl:ObjectProperty rdf:about="#memberOf" rdfs:label="member of" />
+	<owl:ObjectProperty rdf:about="#nameP" rdfs:label="nameP" />
+	<owl:ObjectProperty rdf:about="#nameProfDept" />
+	<owl:ObjectProperty rdf:about="#nameStudCourse" />
+	<owl:ObjectProperty rdf:about="#orgPublication"
+		rdfs:label="publishes">
+		<rdfs:domain rdf:resource="#Organization" />
+		<rdfs:range rdf:resource="#Publication" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#publicationAuthor"
+		rdfs:label="was written by">
+		<rdfs:domain rdf:resource="#Publication" />
+		<rdfs:range rdf:resource="#Person" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#publicationDate"
+		rdfs:label="was written on">
+		<rdfs:domain rdf:resource="#Publication" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#publicationResearch"
+		rdfs:label="is about">
+		<rdfs:domain rdf:resource="#Publication" />
+		<rdfs:range rdf:resource="#Research" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#researchProject"
+		rdfs:label="has as a research project">
+		<rdfs:domain rdf:resource="#ResearchGroup" />
+		<rdfs:range rdf:resource="#Research" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#sameDegree" />
+	<owl:ObjectProperty rdf:about="#softwareDocumentation"
+		rdfs:label="is documented in">
+		<rdfs:domain rdf:resource="#Software" />
+		<rdfs:range rdf:resource="#Publication" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#softwareVersion"
+		rdfs:label="is version">
+		<rdfs:domain rdf:resource="#Software" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#subOrganizationOf"
+		rdfs:label="is part of">
+		<rdf:type rdf:resource="&owl;TransitiveProperty" />
+		<rdfs:domain rdf:resource="#Organization" />
+		<rdfs:range rdf:resource="#Organization" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#takesCourse" rdfs:label="is taking" />
+	<owl:ObjectProperty rdf:about="#takesCourseAdvisor" />
+	<owl:ObjectProperty rdf:about="#teacherOf" rdfs:label="teaches" />
+	<owl:ObjectProperty rdf:about="#teachingAssistantOf"
+		rdfs:label="is a teaching assistant for">
+		<rdfs:domain rdf:resource="#TeachingAssistant" />
+		<rdfs:range rdf:resource="#Course" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#tenured" rdfs:label="is tenured:">
+		<rdfs:domain rdf:resource="#Professor" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#undergraduateDegreeFrom"
+		rdfs:label="has an undergraduate degree from" />
+	<owl:ObjectProperty rdf:about="#worksFor" rdfs:label="Works For" />
+
+	<!-- Instances -->
+
+
+
+	<lubm_owllog:University rdf:about="#university0_edu">
+		<lubm_owllog:name>University0</lubm_owllog:name>
+	</lubm_owllog:University>
+
+	<lubm_owllog:Department rdf:about="#department0_university0_edu">
+		<lubm_owllog:name>Department0</lubm_owllog:name>
+		<lubm_owllog:subOrganizationOf>
+			<lubm_owllog:University rdf:about="#university0_edu" />
+		</lubm_owllog:subOrganizationOf>
+	</lubm_owllog:Department>
+
+	<lubm_owllog:FullProfessor
+		rdf:about="#department0_university0_edu_fullprofessor1">
+		<lubm_owllog:name>FullProfessor1</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course1" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse2" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university60_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university3_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university82_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			FullProfessor1@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research2
+		</lubm_owllog:researchInterest>
+		<lubm_owllog:headOf rdf:resource="#department0_university0_edu" />
+	</lubm_owllog:FullProfessor>
+
+	<lubm_owllog:FullProfessor
+		rdf:about="#department0_university0_edu_fullprofessor0">
+		<lubm_owllog:name>FullProfessor0</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course0" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse0" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse1" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university84_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university75_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university41_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			FullProfessor0@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research0
+		</lubm_owllog:researchInterest>
+	</lubm_owllog:FullProfessor>
+
+
+	<lubm_owllog:FullProfessor
+		rdf:about="#department0_university0_edu_fullprofessor2">
+		<lubm_owllog:name>FullProfessor2</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course2" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course3" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse3" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university62_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university25_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university53_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			FullProfessor2@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research8
+		</lubm_owllog:researchInterest>
+	</lubm_owllog:FullProfessor>
+
+	<lubm_owllog:FullProfessor
+		rdf:about="#department0_university0_edu_fullprofessor3">
+		<lubm_owllog:name>FullProfessor3</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course4" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course5" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse4" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse5" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university74_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university36_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university12_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			FullProfessor3@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research2
+		</lubm_owllog:researchInterest>
+	</lubm_owllog:FullProfessor>
+
+	<lubm_owllog:AssociateProfessor
+		rdf:about="#department0_university0_edu_associateprofessor0">
+		<lubm_owllog:name>AssociateProfessor0</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course6" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse6" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse7" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university8_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university37_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university43_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			AssociateProfessor0@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research7
+		</lubm_owllog:researchInterest>
+	</lubm_owllog:AssociateProfessor>
+
+	<lubm_owllog:AssociateProfessor
+		rdf:about="#department0_university0_edu_associateprofessor1">
+		<lubm_owllog:name>AssociateProfessor1</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course7" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse8" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse9" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university51_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university18_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university58_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			AssociateProfessor1@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research8
+		</lubm_owllog:researchInterest>
+	</lubm_owllog:AssociateProfessor>
+
+	<lubm_owllog:AssociateProfessor
+		rdf:about="#department0_university0_edu_associateprofessor2">
+		<lubm_owllog:name>AssociateProfessor2</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course8" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course9" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse10" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university97_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university62_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university35_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			AssociateProfessor2@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research0
+		</lubm_owllog:researchInterest>
+	</lubm_owllog:AssociateProfessor>
+
+
+
+	<lubm_owllog:AssociateProfessor
+		rdf:about="#department0_university0_edu_associateprofessor3">
+		<lubm_owllog:name>AssociateProfessor3</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course10" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course11" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse11" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse12" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university43_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university1_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university41_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			AssociateProfessor3@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research3
+		</lubm_owllog:researchInterest>
+	</lubm_owllog:AssociateProfessor>
+
+	<lubm_owllog:AssistantProfessor
+		rdf:about="#department0_university0_edu_assistantprofessor0">
+		<lubm_owllog:name>AssistantProfessor0</lubm_owllog:name>
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_course12" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse13" />
+		<lubm_owllog:teacherOf
+			rdf:resource="#department0_university0_edu_graduatecourse14" />
+		<lubm_owllog:undergraduateDegreeFrom>
+			<lubm_owllog:University rdf:about="#university22_edu" />
+		</lubm_owllog:undergraduateDegreeFrom>
+		<lubm_owllog:mastersDegreeFrom>
+			<lubm_owllog:University rdf:about="#university5_edu" />
+		</lubm_owllog:mastersDegreeFrom>
+		<lubm_owllog:doctoralDegreeFrom>
+			<lubm_owllog:University rdf:about="#university71_edu" />
+		</lubm_owllog:doctoralDegreeFrom>
+		<lubm_owllog:worksFor
+			rdf:resource="#department0_university0_edu" />
+		<lubm_owllog:emailAddress>
+			AssistantProfessor0@Department0.University0.edu
+		</lubm_owllog:emailAddress>
+		<lubm_owllog:telephone>xxx-xxx-xxxx</lubm_owllog:telephone>
+		<lubm_owllog:researchInterest>
+			Research6
+		</lubm_owllog:researchInterest>
+	</lubm_owllog:AssistantProfessor>
+
+
+
+	<lubm_owllog:University rdf:about="#university1" />
+
+	<!-- <lubm_owllog:NotSpecialCourse rdf:about="#department0_university0_edu_graduatecourse2" />   -->
+
+
+
+	<swrl:Variable rdf:ID="pe" />
+	<swrl:Variable rdf:ID="co" />
+	<swrl:Variable rdf:ID="st" />
+	<swrl:Variable rdf:ID="un" />
+	<swrl:Variable rdf:ID="de" />
+	<swrl:Variable rdf:ID="pf" />
+	<swrl:Variable rdf:ID="fa" />
+	<swrl:Variable rdf:ID="name" />
+
+	<swrl:Imp>
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#FullProfessor" />
+				<swrl:argument1 rdf:resource="#st" />
+			</swrl:ClassAtom>
+
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#headOf" />
+				<swrl:argument1 rdf:resource="#st" />
+				<swrl:argument2 rdf:resource="#de" />
+			</swrl:IndividualPropertyAtom>
+			
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#teacherOf" />
+				<swrl:argument1 rdf:resource="#st" />
+				<swrl:argument2 rdf:resource="#co" />
+			</swrl:IndividualPropertyAtom>
+		</swrl:body>
+
+		<swrl:head rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#SpecialCourse" />
+				<swrl:argument1 rdf:resource="#co" />
+			</swrl:ClassAtom>
+		</swrl:head>
+	</swrl:Imp>
+
+
+
+</rdf:RDF>

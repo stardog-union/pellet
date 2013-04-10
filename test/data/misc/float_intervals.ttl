@@ -1,0 +1,40 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix :     <urn:test:> .
+
+:markValue    a owl:DatatypeProperty ; rdfs:range xsd:float .
+
+:Mark         a owl:Class .
+_:f01-35     a rdfs:Datatype ; owl:onDatatype xsd:float ; owl:withRestrictions (
+                  [ xsd:minInclusive "0.1"^^xsd:float ] [ xsd:maxInclusive "3.5"^^xsd:float ] ) .
+_:f36-45     a rdfs:Datatype ; owl:onDatatype xsd:float ; owl:withRestrictions (
+                  [ xsd:minInclusive "3.6"^^xsd:float ] [ xsd:maxInclusive "4.5"^^xsd:float ] ) .
+_:f46-60     a rdfs:Datatype ; owl:onDatatype xsd:float ; owl:withRestrictions (
+                  [ xsd:minInclusive "4.6"^^xsd:float ] [ xsd:maxInclusive "6.0"^^xsd:float ] ) .
+_:f61-75     a rdfs:Datatype ; owl:onDatatype xsd:float ; owl:withRestrictions (
+                  [ xsd:minInclusive "6.1"^^xsd:float ] [ xsd:maxInclusive "7.5"^^xsd:float ] ) .
+_:f76-80     a rdfs:Datatype ; owl:onDatatype xsd:float ; owl:withRestrictions (
+                  [ xsd:minInclusive "7.6"^^xsd:float ] [ xsd:maxInclusive "8.0"^^xsd:float ] ) .
+_:f81-90     a rdfs:Datatype ; owl:onDatatype xsd:float ; owl:withRestrictions (
+                  [ xsd:minInclusive "8.1"^^xsd:float ] [ xsd:maxInclusive "9.0"^^xsd:float ] ) .
+_:f91-100    a rdfs:Datatype ; owl:onDatatype xsd:float ; owl:withRestrictions (
+                  [ xsd:minInclusive "9.1"^^xsd:float ] [ xsd:maxInclusive "10.0"^^xsd:float ] ) .
+:01-35      a owl:Class ; rdfs:subClassOf :Mark ; owl:equivalentClass [ a owl:Restriction ;
+                  owl:onProperty :markValue ; owl:someValuesFrom _:f01-35 ] .
+:36-45      a owl:Class ; rdfs:subClassOf :Mark ; owl:equivalentClass [ a owl:Restriction ;
+                  owl:onProperty :markValue ; owl:someValuesFrom _:f36-45 ] .
+:46-60      a owl:Class ; rdfs:subClassOf :Mark ; owl:equivalentClass [ a owl:Restriction ;
+                  owl:onProperty :markValue ; owl:someValuesFrom _:f46-60 ] .
+:61-75      a owl:Class ; rdfs:subClassOf :Mark ; owl:equivalentClass [ a owl:Restriction ;
+                  owl:onProperty :markValue ; owl:someValuesFrom _:f61-75 ] .
+:76-80      a owl:Class ; rdfs:subClassOf :Mark ; owl:equivalentClass [ a owl:Restriction ;
+                  owl:onProperty :markValue ; owl:someValuesFrom _:f76-80 ] .
+:81-90      a owl:Class ; rdfs:subClassOf :Mark ; owl:equivalentClass [ a owl:Restriction ;
+                  owl:onProperty :markValue ; owl:someValuesFrom _:f81-90 ] .
+:91-100     a owl:Class ; rdfs:subClassOf :Mark ; owl:equivalentClass [ a owl:Restriction ;
+                  owl:onProperty :markValue ; owl:someValuesFrom _:f91-100 ] .
+
+:mark1        a :Mark ; :markValue "4.6"^^xsd:float .
+:mark2        a :Mark ; :markValue "7.6"^^xsd:float .

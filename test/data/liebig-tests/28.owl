@@ -1,0 +1,821 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd="&xsd;" xmlns="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/28.owl#"
+  xml:base="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/28.owl">
+
+  <owl:Ontology rdf:about="">
+    <owl:versionInfo>8.06.2006, version 0.1</owl:versionInfo>
+    <rdfs:comment>AND-branching complexity (see p.98 DL Handbk), Thorsten Liebig</rdfs:comment>
+  </owl:Ontology>
+
+  <owl:ObjectProperty rdf:ID="p0"/>
+  <owl:ObjectProperty rdf:ID="p1"/>
+  <owl:ObjectProperty rdf:ID="p2"/>
+  <owl:ObjectProperty rdf:ID="p3"/>
+  <owl:ObjectProperty rdf:ID="p4"/>
+  <owl:ObjectProperty rdf:ID="p5"/>
+  <owl:ObjectProperty rdf:ID="p6"/>
+
+  <owl:Class rdf:ID="C01"/>
+  <owl:Class rdf:ID="C02"/>
+  <owl:Class rdf:ID="C03"/>
+  <owl:Class rdf:ID="C04"/>
+  <owl:Class rdf:ID="C05"/>
+  <owl:Class rdf:ID="C06"/>
+  <owl:Class rdf:ID="C07"/>
+  <owl:Class rdf:ID="C08"/>
+  <owl:Class rdf:ID="C11"/>
+  <owl:Class rdf:ID="C12"/>
+  <owl:Class rdf:ID="C13"/>
+  <owl:Class rdf:ID="C14"/>
+  <owl:Class rdf:ID="C15"/>
+  <owl:Class rdf:ID="C21"/>
+  <owl:Class rdf:ID="C22"/>
+  <owl:Class rdf:ID="C23"/>
+  <owl:Class rdf:ID="C24"/>
+  <owl:Class rdf:ID="C25"/>
+  <owl:Class rdf:ID="C31"/>
+  <owl:Class rdf:ID="C32"/>
+  <owl:Class rdf:ID="C33"/>
+  <owl:Class rdf:ID="C41"/>
+  <owl:Class rdf:ID="C42"/>
+  <owl:Class rdf:ID="C43"/>
+  <owl:Class rdf:ID="C51"/>
+  <owl:Class rdf:ID="C52"/>
+  <owl:Class rdf:ID="C53"/>
+  <owl:Class rdf:ID="C61"/>
+  <owl:Class rdf:ID="C62"/>
+  <owl:Class rdf:ID="C63"/>
+  <owl:Class rdf:ID="C64"/>
+  <owl:Class rdf:ID="C65"/>
+
+  <owl:Class rdf:ID="A">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <!-- (some p0 (all p1 (all p2 (all p3 (all p4 (all p5 C01))))))  -->
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:onProperty rdf:resource="#p1"/>
+            <owl:allValuesFrom>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p2"/>
+                <owl:allValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p3"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p4"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p5"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p6"/>
+                                <owl:allValuesFrom rdf:resource="#C01"/>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:allValuesFrom>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:onProperty rdf:resource="#p1"/>
+            <owl:allValuesFrom>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p2"/>
+                <owl:allValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p3"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p4"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p5"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p6"/>
+                                <owl:allValuesFrom rdf:resource="#C02"/>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:allValuesFrom>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:onProperty rdf:resource="#p1"/>
+            <owl:allValuesFrom>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p2"/>
+                <owl:allValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p3"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p4"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p5"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p6"/>
+                                <owl:allValuesFrom rdf:resource="#C03"/>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:allValuesFrom>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:onProperty rdf:resource="#p1"/>
+            <owl:allValuesFrom>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p2"/>
+                <owl:allValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p3"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p4"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p5"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p6"/>
+                                <owl:allValuesFrom rdf:resource="#C04"/>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:allValuesFrom>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:onProperty rdf:resource="#p1"/>
+            <owl:allValuesFrom>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p2"/>
+                <owl:allValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p3"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p4"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p5"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p6"/>
+                                <owl:allValuesFrom rdf:resource="#C05"/>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:allValuesFrom>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:onProperty rdf:resource="#p1"/>
+            <owl:allValuesFrom>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p2"/>
+                <owl:allValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p3"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p4"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p5"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p6"/>
+                                <owl:allValuesFrom rdf:resource="#C06"/>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:allValuesFrom>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:onProperty rdf:resource="#p1"/>
+            <owl:allValuesFrom>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p2"/>
+                <owl:allValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p3"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p4"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p5"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p6"/>
+                                <owl:allValuesFrom rdf:resource="#C07"/>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:allValuesFrom>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:onProperty rdf:resource="#p1"/>
+            <owl:allValuesFrom>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p2"/>
+                <owl:allValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p3"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p4"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p5"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p6"/>
+                                <owl:allValuesFrom rdf:resource="#C08"/>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:allValuesFrom>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#p0"/>
+        <owl:allValuesFrom>
+          <owl:Class>
+            <owl:intersectionOf rdf:parseType="Collection">
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p1"/>
+                <owl:someValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p2"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p3"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p4"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p5"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p6"/>
+                                    <owl:allValuesFrom rdf:resource="#C11"/>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:someValuesFrom>
+              </owl:Restriction>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p1"/>
+                <owl:someValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p2"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p3"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p4"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p5"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p6"/>
+                                    <owl:allValuesFrom rdf:resource="#C12"/>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:someValuesFrom>
+              </owl:Restriction>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p1"/>
+                <owl:someValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p2"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p3"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p4"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p5"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p6"/>
+                                    <owl:allValuesFrom rdf:resource="#C13"/>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:someValuesFrom>
+              </owl:Restriction>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p1"/>
+                <owl:someValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p2"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p3"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p4"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p5"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p6"/>
+                                    <owl:allValuesFrom rdf:resource="#C14"/>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:someValuesFrom>
+              </owl:Restriction>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p1"/>
+                <owl:someValuesFrom>
+                  <owl:Restriction>
+                    <owl:onProperty rdf:resource="#p2"/>
+                    <owl:allValuesFrom>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p3"/>
+                        <owl:allValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p4"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p5"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p6"/>
+                                    <owl:allValuesFrom rdf:resource="#C15"/>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:allValuesFrom>
+                  </owl:Restriction>
+                </owl:someValuesFrom>
+              </owl:Restriction>
+              <owl:Restriction>
+                <owl:onProperty rdf:resource="#p1"/>
+                <owl:allValuesFrom>
+                  <owl:Class>
+                    <owl:intersectionOf rdf:parseType="Collection">
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p2"/>
+                        <owl:someValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p3"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p4"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p5"/>
+                                    <owl:allValuesFrom>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p6"/>
+                                        <owl:allValuesFrom rdf:resource="#C21"/>
+                                      </owl:Restriction>
+                                    </owl:allValuesFrom>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:someValuesFrom>
+                      </owl:Restriction>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p2"/>
+                        <owl:someValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p3"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p4"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p5"/>
+                                    <owl:allValuesFrom>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p6"/>
+                                        <owl:allValuesFrom rdf:resource="#C22"/>
+                                      </owl:Restriction>
+                                    </owl:allValuesFrom>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:someValuesFrom>
+                      </owl:Restriction>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p2"/>
+                        <owl:someValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p3"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p4"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p5"/>
+                                    <owl:allValuesFrom>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p6"/>
+                                        <owl:allValuesFrom rdf:resource="#C23"/>
+                                      </owl:Restriction>
+                                    </owl:allValuesFrom>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:someValuesFrom>
+                      </owl:Restriction>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p2"/>
+                        <owl:someValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p3"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p4"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p5"/>
+                                    <owl:allValuesFrom>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p6"/>
+                                        <owl:allValuesFrom rdf:resource="#C24"/>
+                                      </owl:Restriction>
+                                    </owl:allValuesFrom>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:someValuesFrom>
+                      </owl:Restriction>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p2"/>
+                        <owl:someValuesFrom>
+                          <owl:Restriction>
+                            <owl:onProperty rdf:resource="#p3"/>
+                            <owl:allValuesFrom>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p4"/>
+                                <owl:allValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p5"/>
+                                    <owl:allValuesFrom>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p6"/>
+                                        <owl:allValuesFrom rdf:resource="#C25"/>
+                                      </owl:Restriction>
+                                    </owl:allValuesFrom>
+                                  </owl:Restriction>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:allValuesFrom>
+                          </owl:Restriction>
+                        </owl:someValuesFrom>
+                      </owl:Restriction>
+                      <owl:Restriction>
+                        <owl:onProperty rdf:resource="#p2"/>
+                        <owl:allValuesFrom>
+                          <owl:Class>
+                            <owl:intersectionOf rdf:parseType="Collection">
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p3"/>
+                                <owl:someValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p4"/>
+                                    <owl:allValuesFrom>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p5"/>
+                                        <owl:allValuesFrom>
+                                          <owl:Restriction>
+                                            <owl:onProperty rdf:resource="#p6"/>
+                                            <owl:allValuesFrom rdf:resource="#C31"/>
+                                          </owl:Restriction>
+                                        </owl:allValuesFrom>
+                                      </owl:Restriction>
+                                    </owl:allValuesFrom>
+                                  </owl:Restriction>
+                                </owl:someValuesFrom>
+                              </owl:Restriction>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p3"/>
+                                <owl:someValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p4"/>
+                                    <owl:allValuesFrom>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p5"/>
+                                        <owl:allValuesFrom>
+                                          <owl:Restriction>
+                                            <owl:onProperty rdf:resource="#p6"/>
+                                            <owl:allValuesFrom rdf:resource="#C32"/>
+                                          </owl:Restriction>
+                                        </owl:allValuesFrom>
+                                      </owl:Restriction>
+                                    </owl:allValuesFrom>
+                                  </owl:Restriction>
+                                </owl:someValuesFrom>
+                              </owl:Restriction>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p3"/>
+                                <owl:someValuesFrom>
+                                  <owl:Restriction>
+                                    <owl:onProperty rdf:resource="#p4"/>
+                                    <owl:allValuesFrom>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p5"/>
+                                        <owl:allValuesFrom>
+                                          <owl:Restriction>
+                                            <owl:onProperty rdf:resource="#p6"/>
+                                            <owl:allValuesFrom rdf:resource="#C33"/>
+                                          </owl:Restriction>
+                                        </owl:allValuesFrom>
+                                      </owl:Restriction>
+                                    </owl:allValuesFrom>
+                                  </owl:Restriction>
+                                </owl:someValuesFrom>
+                              </owl:Restriction>
+                              <owl:Restriction>
+                                <owl:onProperty rdf:resource="#p3"/>
+                                <owl:allValuesFrom>
+                                  <owl:Class>
+                                    <owl:intersectionOf rdf:parseType="Collection">
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p4"/>
+                                        <owl:someValuesFrom>
+                                          <owl:Restriction>
+                                            <owl:onProperty rdf:resource="#p5"/>
+                                            <owl:allValuesFrom>
+                                              <owl:Restriction>
+                                                <owl:onProperty rdf:resource="#p6"/>
+                                                <owl:allValuesFrom rdf:resource="#C41"/>
+                                              </owl:Restriction>
+                                            </owl:allValuesFrom>
+                                          </owl:Restriction>
+                                        </owl:someValuesFrom>
+                                      </owl:Restriction>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p4"/>
+                                        <owl:someValuesFrom>
+                                          <owl:Restriction>
+                                            <owl:onProperty rdf:resource="#p5"/>
+                                            <owl:allValuesFrom>
+                                              <owl:Restriction>
+                                                <owl:onProperty rdf:resource="#p6"/>
+                                                <owl:allValuesFrom rdf:resource="#C42"/>
+                                              </owl:Restriction>
+                                            </owl:allValuesFrom>
+                                          </owl:Restriction>
+                                        </owl:someValuesFrom>
+                                      </owl:Restriction>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p4"/>
+                                        <owl:someValuesFrom>
+                                          <owl:Restriction>
+                                            <owl:onProperty rdf:resource="#p5"/>
+                                            <owl:allValuesFrom>
+                                              <owl:Restriction>
+                                                <owl:onProperty rdf:resource="#p6"/>
+                                                <owl:allValuesFrom rdf:resource="#C43"/>
+                                              </owl:Restriction>
+                                            </owl:allValuesFrom>
+                                          </owl:Restriction>
+                                        </owl:someValuesFrom>
+                                      </owl:Restriction>
+                                      <owl:Restriction>
+                                        <owl:onProperty rdf:resource="#p4"/>
+                                        <owl:allValuesFrom>
+                                          <owl:Class>
+                                            <owl:intersectionOf rdf:parseType="Collection">
+                                              <owl:Restriction>
+                                                <owl:onProperty rdf:resource="#p5"/>
+                                                <owl:someValuesFrom>
+                                                  <owl:Restriction>
+                                                  <owl:onProperty rdf:resource="#p6"/>
+                                                  <owl:allValuesFrom rdf:resource="#C51"/>
+                                                  </owl:Restriction>
+                                                </owl:someValuesFrom>
+                                              </owl:Restriction>
+                                              <owl:Restriction>
+                                                <owl:onProperty rdf:resource="#p5"/>
+                                                <owl:someValuesFrom>
+                                                  <owl:Restriction>
+                                                  <owl:onProperty rdf:resource="#p6"/>
+                                                  <owl:allValuesFrom rdf:resource="#C52"/>
+                                                  </owl:Restriction>
+                                                </owl:someValuesFrom>
+                                              </owl:Restriction>
+                                              <owl:Restriction>
+                                                <owl:onProperty rdf:resource="#p5"/>
+                                                <owl:someValuesFrom>
+                                                  <owl:Restriction>
+                                                  <owl:onProperty rdf:resource="#p6"/>
+                                                  <owl:allValuesFrom rdf:resource="#C53"/>
+                                                  </owl:Restriction>
+                                                </owl:someValuesFrom>
+                                              </owl:Restriction>
+                                              <owl:Restriction>
+                                                <owl:onProperty rdf:resource="#p5"/>
+                                                <owl:allValuesFrom>
+                                                  <owl:Class>
+                                                    <owl:intersectionOf rdf:parseType="Collection">
+                                                      <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="#p6"/>
+                                                        <owl:someValuesFrom rdf:resource="#C61"/>
+                                                      </owl:Restriction>
+                                                    <owl:Restriction>
+                                                      <owl:onProperty rdf:resource="#p6"/>
+                                                      <owl:someValuesFrom rdf:resource="#C62"/>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                      <owl:onProperty rdf:resource="#p6"/>
+                                                      <owl:someValuesFrom rdf:resource="#C63"/>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                      <owl:onProperty rdf:resource="#p6"/>
+                                                      <owl:someValuesFrom rdf:resource="#C64"/>
+                                                    </owl:Restriction>
+                                                    <owl:Restriction>
+                                                      <owl:onProperty rdf:resource="#p6"/>
+                                                      <owl:someValuesFrom rdf:resource="#C65"/>
+                                                    </owl:Restriction>
+                                                  </owl:intersectionOf>
+                                                  </owl:Class>
+                                                </owl:allValuesFrom>
+                                              </owl:Restriction>
+                                            </owl:intersectionOf>
+                                          </owl:Class>
+                                        </owl:allValuesFrom>
+                                      </owl:Restriction>
+                                    </owl:intersectionOf>
+                                  </owl:Class>
+                                </owl:allValuesFrom>
+                              </owl:Restriction>
+                            </owl:intersectionOf>
+                          </owl:Class>
+                        </owl:allValuesFrom>
+                      </owl:Restriction>
+                    </owl:intersectionOf>
+                  </owl:Class>
+                </owl:allValuesFrom>
+              </owl:Restriction>
+            </owl:intersectionOf>
+          </owl:Class>
+        </owl:allValuesFrom>
+      </owl:Restriction>
+    </owl:intersectionOf>
+  </owl:Class>
+
+<!--
+for KAON2: SELECT ?x WHERE { ?x rdf:type a:A }
+<A rdf:ID="i1"/>
+-->
+
+<!--
+more complex version of the following:
+(define-concept A
+  (and (some p1 (all p2 (all p3 C11)))
+       (some p1 (all p2 (all p3 C12)))
+       (all p1 (and (some p2 (all p3 C21))
+                    (some p2 (all p3 C22))
+                    (all p2 (and (some p3 C31)
+                                 (some p3 C32)))))))
+conclusion:
+  
+  <owl:Class about="#A">
+    <owl:disjointWith rdf:resource="&owl;Nothing" />
+  </owl:Class>
+-->
+
+</rdf:RDF>

@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+         xmlns:owl="http://www.w3.org/2002/07/owl#"> 
+
+<owl:Class rdf:about="http://www.w3.org/2002/07/owl#Thing"> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#FruitCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithLightCreamCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineDescriptor"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Tours"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#CheninBlanc"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteLoire"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#TableWine"> 
+   <owl:equivalentClass rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWine"/> 
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SweetDessertCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#DessertCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Riesling"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#OtherTomatoBasedFoodCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Shellfish"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Seafood"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Wine"> 
+   <owl:equivalentClass rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PotableLiquid"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SpicyRedMeatCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#RedMeatCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#CheninBlanc"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteNonSweetWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Bordeaux"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Muscadet"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWhiteWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#PinotBlanc"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteLoire"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EatingGrape"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Grape"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fowl"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EdibleThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonSpicyRedMeatCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#RedMeatCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fruit"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EdibleThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Anjou"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Loire"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RoseWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonOysterShellfish"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Shellfish"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#LateHarvest"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SweetWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Chardonnay"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonRedMeatCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithHeavyCreamSauce"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithWhiteSauce"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryRiesling"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWhiteWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Riesling"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonConsumableThing"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Vintage"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonSpicyRedMeat"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#RedMeat"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#OysterShellfish"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Shellfish"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Sancerre"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteNonSweetWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SauvignonBlanc"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteLoire"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Meat"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EdibleThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#ItalianWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Chianti"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#ItalianWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Burgundy"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#AmericanWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteLoire"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Loire"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Pauillac"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FullBodiedWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#CabernetSauvignon"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Medoc"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SpicyRedMeat"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#RedMeat"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteBurgundy"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWhiteWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Burgundy"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Chardonnay"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Meal"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#ConsumableThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#DessertCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#OtherTomatoBasedFood"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EdibleThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonSweetFruitCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#FruitCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Loire"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SweetWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#RedMeat"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Meat"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#CheeseNutsDessert"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Dessert"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedBordeaux"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Bordeaux"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"> 
+   <owl:equivalentClass rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryRedWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryRedWine"/> 
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SauvignonBlanc"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SemillonOrSauvignonBlanc"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithLightCreamSauce"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithWhiteSauce"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithWhiteSauce"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Pasta"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithNonSpicyRedSauceCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithSpicyRedSauce"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithRedSauce"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SweetFruit"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fruit"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithHeavyCreamCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWhiteWine"> 
+   <owl:equivalentClass rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteTableWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteNonSweetWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DryWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteTableWine"/> 
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonRedMeat"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Meat"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#ConsumableThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#OysterShellfishCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#ShellfishCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Semillon"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SemillonOrSauvignonBlanc"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedBurgundy"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Burgundy"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#PinotNoir"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#AlsatianWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SemillonOrSauvignonBlanc"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#GermanWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#FishCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SeafoodCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Seafood"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EdibleThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Juice"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PotableLiquid"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#DarkMeatFowl"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fowl"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonBlandFish"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fish"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Pasta"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EdibleThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FullBodiedWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EdibleThing"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#ConsumableThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteBordeaux"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Bordeaux"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SemillonOrSauvignonBlanc"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#CaliforniaWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#AmericanWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#IceWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DessertWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#LateHarvest"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Winery"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#DarkMeatFowlCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PotableLiquid"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#ConsumableThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#TexasWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#AmericanWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Merlot"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Dessert"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#EdibleThing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineGrape"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Grape"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fish"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Seafood"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineTaste"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineDescriptor"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SweetDessert"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Dessert"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithSpicyRedSauceCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Gamay"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SweetFruitCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#FruitCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Medoc"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedBordeaux"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonOysterShellfishCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#ShellfishCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithNonSpicyRedSauce"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithRedSauce"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#PinotBlanc"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineSugar"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineTaste"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SeafoodCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineColor"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineDescriptor"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Grape"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SweetFruit"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RoseWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#EarlyHarvest"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Zinfandel"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#BlandFish"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fish"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Meursault"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FullBodiedWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteBurgundy"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#ShellfishCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#SeafoodCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineBody"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineTaste"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SweetRiesling"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DessertWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SweetWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Riesling"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FullBodiedWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#CotesDOr"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedBurgundy"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Sauternes"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteBordeaux"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#LateHarvest"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#LightMeatFowlCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#PastaWithRedSauce"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Pasta"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#VintageYear"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonSweetFruit"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fruit"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Meritage"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#LightMeatFowl"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Fowl"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#ConsumableThing"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#BlandFishCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#FishCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#NonBlandFishCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#FishCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#PetiteSyrah"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineFlavor"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WineTaste"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Region"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#PinotNoir"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#CabernetSauvignon"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#StEmilion"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedBordeaux"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#CabernetSauvignon"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#DessertWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#Wine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#RedMeatCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#MealCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteNonSweetWine"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#WhiteWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#CabernetFranc"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#CheeseNutsDessertCourse"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#DessertCourse"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Margaux"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Merlot"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Medoc"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Port"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#SweetWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FullBodiedWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedWine"/> 
+</owl:Class>
+
+<owl:Class rdf:about="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Beaujolais"> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#FrenchWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#RedTableWine"/> 
+   <rdfs:subClassOf rdf:resource="http://www.w3.org/TR/2003/PR-owl-guide-20031209/wine#Gamay"/> 
+</owl:Class>
+
+
+</rdf:RDF>

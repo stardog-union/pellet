@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xmlns      ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/27.owl#"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/27.owl#">
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>22.05.2006, version 0.1</owl:versionInfo>
+ <rdfs:comment>sub-property classification (as suggested by Evren Sirin),
+     Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="p">
+  <rdfs:domain>
+    <owl:Class>
+      <owl:oneOf rdf:parseType="Collection">
+        <owl:Thing rdf:ID="a"/>
+      </owl:oneOf>
+    </owl:Class>
+  </rdfs:domain>
+<!-- see GCI below -->
+  <rdfs:range>
+    <owl:Class>
+      <owl:oneOf rdf:parseType="Collection">
+        <owl:Thing rdf:about="#b"/>
+        <owl:Thing rdf:ID="c"/>
+      </owl:oneOf>
+    </owl:Class>
+  </rdfs:range>
+
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="q">
+  <rdfs:domain>
+    <owl:Class>
+      <owl:oneOf rdf:parseType="Collection">
+        <owl:Thing rdf:about="#a"/>
+      </owl:oneOf>
+    </owl:Class>
+  </rdfs:domain>
+<!-- see GCI below -->
+  <rdfs:range>
+    <owl:Class>
+      <owl:oneOf rdf:parseType="Collection">
+        <owl:Thing rdf:ID="b"/>
+      </owl:oneOf>
+    </owl:Class>
+  </rdfs:range>
+
+</owl:ObjectProperty>
+
+<!-- GCI representation of the range restrictions above -->
+<!--
+<owl:Class rdf:about="&owl;Thing">
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#q"/>
+      <owl:allValuesFrom>
+        <owl:Class>
+          <owl:oneOf rdf:parseType="Collection">
+            <owl:Thing rdf:ID="b"/>
+          </owl:oneOf>
+        </owl:Class>
+      </owl:allValuesFrom>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#p"/>
+      <owl:allValuesFrom>
+        <owl:Class>
+          <owl:oneOf rdf:parseType="Collection">
+            <owl:Thing rdf:about="#b"/>
+            <owl:Thing rdf:ID="c"/>
+          </owl:oneOf>
+        </owl:Class>
+      </owl:allValuesFrom>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+</owl:Class>
+-->
+
+<!-- we need at least one filler for both properties (because the
+     universal quantification doesn't force a filler) -->
+<rdf:Description rdf:about="#a">
+  <q rdf:resource="#b" />
+  <p rdf:resource="#b" />
+  <p rdf:resource="#c" />
+</rdf:Description>
+
+
+<!--
+conclusion:
+  
+<owl:ObjectProperty rdf:about="#q">
+  <rdfs:subPropertyOf rdf:resource="#p" />
+</owl:ObjectProperty>
+
+-->
+
+<owl:Class rdf:ID="T1">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#p" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="T2">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#q" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<!--
+conclusion:
+
+<owl:Class rdf:about="#T2">
+  <rdfs:subClassOf rdf:resource="#T1" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

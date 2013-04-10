@@ -1,0 +1,22 @@
+    <defconcept name="p1"/>
+    <defconcept name="p2"/>
+    <defrole name="f1"/>
+    <functional>
+        <ratom name="f1"/>
+    </functional>
+    <defrole name="f2"/>
+    <functional>
+        <ratom name="f2"/>
+    </functional>
+    <defrole name="f3"/>
+    <impliesr>
+        <ratom name="f3"/>
+        <ratom name="f1"/>
+    </impliesr>
+    <impliesr>
+        <ratom name="f3"/>
+        <ratom name="f2"/>
+    </impliesr>
+    <functional>
+        <ratom name="f3"/>
+    </functional>

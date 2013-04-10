@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl11xml "http://www.w3.org/2006/12/owl11-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.example.org/test#"
+	xml:base="http://www.example.org/test"
+	xmlns:owl11="http://www.w3.org/2006/12/owl11#"
+	xmlns:owl11xml="http://www.w3.org/2006/12/owl11-xml#"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#">
+	<owl:Ontology rdf:about="" />
+
+	<owl:ObjectProperty rdf:about="#p">
+		<rdf:type rdf:resource="&owl;TransitiveProperty" />
+		<owl:inverseOf rdf:resource="#invP" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#eqP">
+		<owl:equivalentProperty rdf:resource="#p" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#invP">
+		<rdf:type rdf:resource="&owl;TransitiveProperty" />
+		<owl:inverseOf rdf:resource="#p" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#subP">
+		<rdfs:subPropertyOf rdf:resource="#p" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#q"></owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#r"></owl:ObjectProperty>
+
+<!--
+	<rdf:List>
+		<rdfs:subPropertyOf rdf:resource="#q" />
+		<rdf:first rdf:resource="#p" />
+		<rdf:rest rdf:parseType="Collection">
+			<rdf:Description rdf:about="#r" />
+		</rdf:rest>
+	</rdf:List>
+-->
+	<owl:ObjectProperty rdf:about="#q">	
+	  <owl:propertyChainAxiom>
+		<rdf:List>
+			<rdf:first rdf:resource="#p"/>
+			<rdf:rest>
+				<rdf:List>
+					<rdf:first rdf:resource="#r"/>
+					<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+				</rdf:List>
+			</rdf:rest>
+		</rdf:List>
+	  </owl:propertyChainAxiom>
+	</owl:ObjectProperty>
+
+	<owl:Thing rdf:about="#a0">
+		<p>
+			<owl:Thing rdf:about="#a1">
+				<r>
+					<owl:Thing rdf:about="#a2"/>
+				</r>
+			</owl:Thing>
+		</p>
+		<eqP>
+			<owl:Thing rdf:about="#a3">
+				<subP>
+					<owl:Thing rdf:about="#a4">
+						<r>
+							<owl:Thing rdf:about="#a5"/>
+						</r>
+					</owl:Thing>
+				</subP>
+			</owl:Thing>
+		</eqP>		
+		<invP>
+			<owl:Thing rdf:about="#a6">
+				<invP>
+					<owl:Thing rdf:about="#a7"/>
+				</invP>
+			</owl:Thing>
+		</invP>
+	</owl:Thing>
+</rdf:RDF>

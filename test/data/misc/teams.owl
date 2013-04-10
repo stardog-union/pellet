@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://owl.man.ac.uk/2005/sssw/teams#"
+  xml:base="http://owl.man.ac.uk/2005/sssw/teams">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="MarriedPerson">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:ID="Person"/>
+          <owl:Restriction>
+            <owl:someValuesFrom rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:ID="isMarriedTo"/>
+            </owl:onProperty>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="#Person">
+    <rdfs:subClassOf>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:ID="Male"/>
+          <owl:Class rdf:ID="Female"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Male">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#isMarriedTo"/>
+        </owl:onProperty>
+        <owl:allValuesFrom>
+          <owl:Class rdf:about="#Female"/>
+        </owl:allValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Female"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="NonSingletonTeam">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:ID="Team"/>
+          <owl:Restriction>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:ID="hasMember"/>
+            </owl:onProperty>
+            <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+            >2</owl:minCardinality>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="#Female">
+    <owl:disjointWith rdf:resource="#Male"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#isMarriedTo"/>
+        </owl:onProperty>
+        <owl:allValuesFrom rdf:resource="#Male"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="#Person"/>
+  </owl:Class>
+  <owl:Class rdf:ID="MixedTeam">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Team"/>
+          <owl:Restriction>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:about="#hasMember"/>
+            </owl:onProperty>
+            <owl:someValuesFrom rdf:resource="#Male"/>
+          </owl:Restriction>
+          <owl:Restriction>
+            <owl:someValuesFrom rdf:resource="#Female"/>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:about="#hasMember"/>
+            </owl:onProperty>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="SingletonTeam">
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:intersectionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Team"/>
+          <owl:Restriction>
+            <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"
+            >1</owl:cardinality>
+            <owl:onProperty>
+              <owl:ObjectProperty rdf:about="#hasMember"/>
+            </owl:onProperty>
+          </owl:Restriction>
+        </owl:intersectionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="isMemberOf">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="#hasMember"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#isMarriedTo">
+    <rdfs:range rdf:resource="#Person"/>
+    <rdfs:domain rdf:resource="#Person"/>
+    <owl:inverseOf rdf:resource="#isMarriedTo"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasMember">
+    <owl:inverseOf rdf:resource="#isMemberOf"/>
+  </owl:ObjectProperty>
+  <Team rdf:ID="OntologyFC"/>
+  <Person rdf:ID="Chris">
+    <isMarriedTo>
+      <Person rdf:ID="Sam">
+        <isMarriedTo rdf:resource="#Chris"/>
+        <isMemberOf rdf:resource="#OntologyFC"/>
+        <owl:differentFrom rdf:resource="#Chris"/>
+      </Person>
+    </isMarriedTo>
+    <owl:differentFrom rdf:resource="#Sam"/>
+    <isMemberOf rdf:resource="#OntologyFC"/>
+  </Person>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.1 beta, Build 271)  http://protege.stanford.edu -->

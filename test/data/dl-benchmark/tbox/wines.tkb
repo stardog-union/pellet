@@ -1,0 +1,772 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Wines knowledge base, with sets and individuals replaced by concepts.
+;;;
+;;; This knowledge base was originally used in a demonstration application
+;;; for the CLASSIC system.  
+;;; Contact Deborah McGuinness (dlm@research.att.com) for more information.
+;;; 
+;;; Copyright (c) 1990, AT&T Bell Labs. All Rights Reserved.
+;;; Use for experimental or research purposes is permitted if acknowledgement
+;;; is provided in publications.
+;;; Redistribution is not permitted without permission from AT&T 
+;;; or Lucent Technologies.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-primitive-attribute COLOR) 
+(define-primitive-attribute BODY) 
+(define-primitive-attribute FLAVOR) 
+(define-primitive-attribute SUGAR) 
+(define-primitive-attribute REGION) 
+(define-primitive-attribute GRAPE) 
+(define-primitive-attribute MAKER) 
+(define-primitive-attribute DRINK) 
+(define-primitive-attribute FOOD) 
+(define-primitive-role COURSE) 
+(define-primitive-concept WINE-PROPERTY TOP) 
+(define-primitive-concept WINE-COLOR WINE-PROPERTY) 
+(define-primitive-concept  WHITE-or-RED TOP) 
+(define-primitive-concept WHITE (and WINE-COLOR WHITE-or-RED) )
+(define-primitive-concept ROSE WINE-COLOR) 
+(define-primitive-concept RED (and WINE-COLOR WHITE-or-RED) )
+(define-primitive-concept WINE-BODY WINE-PROPERTY) 
+(define-primitive-concept  LIGHT-or-MEDIUM TOP) 
+(define-primitive-concept LIGHT (and WINE-BODY LIGHT-or-MEDIUM) )
+(define-primitive-concept  FULL-or-MEDIUM TOP)
+(define-primitive-concept MEDIUM (and WINE-BODY FULL-or-MEDIUM LIGHT-or-MEDIUM) )
+(define-primitive-concept FULL (and WINE-BODY FULL-or-MEDIUM) )
+(define-primitive-concept WINE-FLAVOR WINE-PROPERTY) 
+(define-primitive-concept DELICATE WINE-FLAVOR) 
+(define-primitive-concept STRONG-or-MODERATE TOP) 
+(define-primitive-concept MODERATE (and WINE-FLAVOR STRONG-or-MODERATE) )
+(define-primitive-concept STRONG (and WINE-FLAVOR STRONG-or-MODERATE) )
+(define-primitive-concept WINE-SUGAR WINE-PROPERTY) 
+(define-primitive-concept SWEET WINE-SUGAR) 
+(define-primitive-concept  DRY-or-OFF-DRY TOP) 
+(define-primitive-concept OFF-DRY (and WINE-SUGAR DRY-or-OFF-DRY) )
+(define-primitive-concept DRY (and WINE-SUGAR DRY-or-OFF-DRY) )
+(define-primitive-concept CONSUMABLE-TOP TOP) 
+(define-primitive-concept WINERY TOP) 
+(define-primitive-concept FORMAN WINERY) 
+(define-primitive-concept FRITZ-CELLARS WINERY) 
+(define-primitive-concept CORTON-MONTRACHET WINERY) 
+(define-primitive-concept PULIGNY-MONTRACHET WINERY) 
+(define-primitive-concept FRITZ-CELLARS-SAUVIGNON-BLANC-WINERY WINERY) 
+(define-primitive-concept CORBANS WINERY) 
+(define-primitive-concept HANDLEY WINERY) 
+(define-primitive-concept KALIN-CELLARS WINERY) 
+(define-primitive-concept CONGRESS-SPRINGS WINERY) 
+(define-primitive-concept MT-ADAM WINERY) 
+(define-primitive-concept VENTANA WINERY) 
+(define-primitive-concept SCHLOSS-VOLRAD WINERY) 
+(define-primitive-concept SCHLOSS-ROTHERMEL WINERY) 
+(define-primitive-concept MARIETTA WINERY) 
+(define-primitive-concept B-R-COHN WINERY) 
+(define-primitive-concept COTTURI WINERY) 
+(define-primitive-concept MAZOCCO WINERY) 
+(define-primitive-concept ROSENBLUM WINERY) 
+(define-primitive-concept SEA-RIDGE WINERY) 
+(define-primitive-concept TAYLOR WINERY) 
+(define-primitive-concept CHATEAU-LAFITE-ROTHSCHILD WINERY) 
+(define-primitive-concept CHATEAU-MARGAUX-WINERY WINERY) 
+(define-primitive-concept CHATEAU-CHEVAL-BLANC WINERY) 
+(define-primitive-concept CHATEAU-MORGON WINERY) 
+(define-primitive-concept CHATEAU-D-YCHEM WINERY) 
+(define-primitive-concept CHATEAU-DE-MEURSAULT WINERY) 
+(define-primitive-concept SEVRE-ET-MAINE WINERY) 
+(define-primitive-concept CLOS-DE-LA-POUSSIE WINERY) 
+(define-primitive-concept D-ANJOU WINERY) 
+(define-primitive-concept MCGUINNESSO WINERY) 
+(define-primitive-concept BARON-JAQUAB-DE-HERZOG WINERY) 
+(define-primitive-concept CARMEL WINERY) 
+(define-primitive-concept BARTENURA WINERY) 
+(define-primitive-concept ROTHSCHILD WINERY) 
+(define-primitive-concept M-and-G WINERY) 
+(define-primitive-concept YARDEN WINERY) 
+(define-primitive-concept WINE-REGION TOP) 
+(define-primitive-concept MEDOC-REGION WINE-REGION) 
+(define-primitive-concept BORDEAUX-REGION WINE-REGION) 
+(define-primitive-concept BOURGOGNE WINE-REGION) 
+(define-primitive-concept LOIRE-REGION WINE-REGION) 
+(define-primitive-concept AMERICA WINE-REGION) 
+(define-primitive-concept PORTUGAL WINE-REGION) 
+(define-primitive-concept GERMANY WINE-REGION) 
+(define-primitive-concept ALSACE WINE-REGION) 
+(define-primitive-concept ITALY WINE-REGION) 
+(define-primitive-concept EDIBLE-TOP CONSUMABLE-TOP) 
+(define-primitive-concept POTABLE-LIQUID CONSUMABLE-TOP) 
+(define-primitive-concept KOSHER-EDIBLE-TOP EDIBLE-TOP) 
+(define-primitive-concept NON-KOSHER-EDIBLE-TOP EDIBLE-TOP) 
+(define-primitive-concept KOSHER-POTABLE-LIQUID POTABLE-LIQUID) 
+(define-primitive-concept NON-KOSHER-POTABLE-LIQUID POTABLE-LIQUID) 
+(define-primitive-concept MEAL-COURSE
+ (and CONSUMABLE-TOP
+      (at-least 1 FOOD)
+      (all FOOD EDIBLE-TOP)
+      (at-least 1 DRINK)
+      (all DRINK POTABLE-LIQUID))) 
+(define-primitive-concept MEAL
+ (and CONSUMABLE-TOP
+      (at-least 1 COURSE)
+      (all COURSE MEAL-COURSE))) 
+(define-concept KOSHER-COURSE
+ (and MEAL-COURSE
+      (all FOOD KOSHER-EDIBLE-TOP)
+      (all DRINK KOSHER-POTABLE-LIQUID))) 
+(define-concept KOSHER-MEAL
+ (and MEAL
+      (all COURSE KOSHER-COURSE))) 
+(define-primitive-concept FRUIT EDIBLE-TOP) 
+(define-primitive-concept DESSERT EDIBLE-TOP) 
+(define-primitive-concept SEAFOOD EDIBLE-TOP) 
+(define-primitive-concept SWEET-FRUIT FRUIT) 
+(define-primitive-concept NON-SWEET-FRUIT FRUIT) 
+(define-primitive-concept CHEESE/NUTS-DESSERT DESSERT) 
+(define-primitive-concept SWEET-DESSERT DESSERT) 
+(define-primitive-concept SHELLFISH (and SEAFOOD NON-KOSHER-EDIBLE-TOP)) 
+(define-primitive-concept FISH SEAFOOD) 
+(define-primitive-concept OYSTER-SHELLFISH SHELLFISH) 
+(define-primitive-concept NON-OYSTER-SHELLFISH SHELLFISH) 
+(define-primitive-concept BLAND-FISH FISH) 
+(define-primitive-concept NON-BLAND-FISH FISH) 
+(define-primitive-concept FOWL EDIBLE-TOP) 
+(define-primitive-concept MEAT EDIBLE-TOP) 
+(define-primitive-concept PASTA EDIBLE-TOP) 
+(define-primitive-concept LIGHT-MEAT-FOWL FOWL) 
+(define-primitive-concept DARK-MEAT-FOWL FOWL) 
+(define-primitive-concept RED-MEAT MEAT) 
+(define-primitive-concept NON-RED-MEAT MEAT) 
+(define-primitive-concept SPICY-RED-MEAT RED-MEAT) 
+(define-primitive-concept NON-SPICY-RED-MEAT RED-MEAT) 
+(define-primitive-concept PASTA-WITH-WHITE-SAUCE PASTA) 
+(define-primitive-concept PASTA-WITH-RED-SAUCE PASTA) 
+(define-primitive-concept PASTA-WITH-HEAVY-CREAM-SAUCE PASTA-WITH-WHITE-SAUCE) 
+(define-primitive-concept PASTA-WITH-LIGHT-CREAM-SAUCE PASTA-WITH-WHITE-SAUCE) 
+(define-primitive-concept PASTA-WITH-SPICY-RED-SAUCE PASTA-WITH-RED-SAUCE) 
+(define-primitive-concept PASTA-WITH-NON-SPICY-RED-SAUCE PASTA-WITH-RED-SAUCE) 
+(define-primitive-concept OYSTERS OYSTER-SHELLFISH) 
+(define-primitive-concept CLAMS NON-OYSTER-SHELLFISH) 
+(define-primitive-concept MUSSELS NON-OYSTER-SHELLFISH) 
+(define-primitive-concept CRAB NON-OYSTER-SHELLFISH) 
+(define-primitive-concept LOBSTER NON-OYSTER-SHELLFISH) 
+(define-primitive-concept SCROD BLAND-FISH) 
+(define-primitive-concept HALIBUT BLAND-FISH) 
+(define-primitive-concept FLOUNDER BLAND-FISH) 
+(define-primitive-concept SWORDFISH NON-BLAND-FISH) 
+(define-primitive-concept TUNA NON-BLAND-FISH) 
+(define-primitive-concept CHICKEN LIGHT-MEAT-FOWL) 
+(define-primitive-concept TURKEY LIGHT-MEAT-FOWL) 
+(define-primitive-concept DUCK DARK-MEAT-FOWL) 
+(define-primitive-concept GOOSE DARK-MEAT-FOWL) 
+(define-primitive-concept PORK (and NON-RED-MEAT NON-KOSHER-EDIBLE-TOP)) 
+(define-primitive-concept GARLICKY-ROAST SPICY-RED-MEAT) 
+(define-primitive-concept BEEF-CURRY SPICY-RED-MEAT) 
+(define-primitive-concept VEAL NON-SPICY-RED-MEAT) 
+(define-primitive-concept STEAK NON-SPICY-RED-MEAT) 
+(define-primitive-concept ROAST-BEEF NON-SPICY-RED-MEAT) 
+(define-primitive-concept FETTUCINE-ALFREDO PASTA-WITH-HEAVY-CREAM-SAUCE) 
+(define-primitive-concept PASTA-WITH-WHITE-CLAM-SAUCE
+ (and PASTA-WITH-LIGHT-CREAM-SAUCE NON-KOSHER-EDIBLE-TOP)) 
+(define-primitive-concept FRA-DIAVOLO PASTA-WITH-SPICY-RED-SAUCE) 
+(define-primitive-concept SPAGHETTI-WITH-TOMATO-SAUCE PASTA-WITH-NON-SPICY-RED-SAUCE) 
+(define-primitive-concept BANANAS SWEET-FRUIT) 
+(define-primitive-concept PEACHES SWEET-FRUIT) 
+(define-primitive-concept MIXED-FRUIT SWEET-FRUIT) 
+(define-primitive-concept APPLES NON-SWEET-FRUIT) 
+(define-primitive-concept CHEESE CHEESE/NUTS-DESSERT) 
+(define-primitive-concept NUTS CHEESE/NUTS-DESSERT) 
+(define-primitive-concept PIE SWEET-DESSERT) 
+(define-primitive-concept CAKE SWEET-DESSERT) 
+(define-primitive-concept GRAPE SWEET-FRUIT) 
+(define-primitive-concept EATING-GRAPE GRAPE) 
+(define-primitive-concept WINE-GRAPE GRAPE) 
+(define-primitive-concept CHARDONNAY-GRAPE WINE-GRAPE) 
+(define-primitive-concept CHENIN-BLANC-GRAPE WINE-GRAPE) 
+(define-primitive-concept SEMILLON-GRAPE-or-SAUVIGNON-BLANC-GRAPE TOP) 
+(define-primitive-concept SAUVIGNON-BLANC-GRAPE (and WINE-GRAPE SEMILLON-GRAPE-or-SAUVIGNON-BLANC-GRAPE) )
+(define-primitive-concept SEMILLON-GRAPE (and WINE-GRAPE SEMILLON-GRAPE-or-SAUVIGNON-BLANC-GRAPE) )
+(define-primitive-concept RIESLING-GRAPE WINE-GRAPE) 
+(define-primitive-concept CABERNET-SAUVIGNON-GRAPE WINE-GRAPE) 
+(define-primitive-concept PINOT-NOIR-GRAPE WINE-GRAPE) 
+(define-primitive-concept ZINFANDEL-GRAPE WINE-GRAPE) 
+(define-primitive-concept WINE
+ (and POTABLE-LIQUID
+      (at-least 1 COLOR)
+      (all COLOR WINE-COLOR)
+      (at-least 1 BODY)
+      (all BODY WINE-BODY)
+      (at-least 1 FLAVOR)
+      (all FLAVOR WINE-FLAVOR)
+      (at-least 1 SUGAR)
+      (all SUGAR WINE-SUGAR)
+      (at-least 1 REGION)
+      (all REGION WINE-REGION)
+      (at-least 1 GRAPE)
+      (all GRAPE WINE-GRAPE)
+      (at-least 1 MAKER)
+      (all MAKER WINERY))) 
+(define-concept KOSHER-WINE (and WINE KOSHER-POTABLE-LIQUID)) 
+(define-concept NON-KOSHER-WINE (and WINE NON-KOSHER-POTABLE-LIQUID)) 
+(define-concept RED-WINE
+ (and WINE
+      (all COLOR RED))) 
+(define-concept ROSE-WINE
+ (and WINE
+      (all COLOR ROSE))) 
+(define-concept WHITE-WINE
+ (and WINE
+      (all COLOR WHITE))) 
+(define-concept WHITE-NON-SWEET-WINE
+ (and WHITE-WINE
+      (all SUGAR DRY-or-OFF-DRY))) 
+(define-concept FULL-BODIED-WINE
+ (and WINE
+      (all BODY FULL))) 
+(define-concept DRY-WINE
+ (and WINE
+      (all SUGAR DRY))) 
+(define-concept DRY-WHITE-WINE (and DRY-WINE WHITE-WINE)) 
+(define-concept DRY-RED-WINE (and DRY-WINE RED-WINE)) 
+(define-concept SWEET-WINE
+ (and WINE
+      (all SUGAR SWEET))) 
+(define-primitive-concept CHARDONNAY
+ (and WHITE-WINE
+      (all GRAPE CHARDONNAY-GRAPE)
+      (all BODY FULL-or-MEDIUM)
+      (all FLAVOR STRONG-or-MODERATE))) 
+(define-primitive-concept CHENIN-BLANC
+ (and WHITE-WINE
+      (all GRAPE CHENIN-BLANC-GRAPE)
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR OFF-DRY))) 
+(define-primitive-concept SEMILLON-or-SAUVIGNON-BLANC
+ (and WINE
+      (all COLOR WHITE)
+      (all GRAPE SEMILLON-GRAPE-or-SAUVIGNON-BLANC-GRAPE)
+      (all BODY (and MEDIUM FULL))) )
+(define-primitive-concept SAUVIGNON-BLANC
+ (and SEMILLON-or-SAUVIGNON-BLANC
+      (all GRAPE SAUVIGNON-BLANC-GRAPE))) 
+(define-primitive-concept SEMILLON
+ (and SEMILLON-or-SAUVIGNON-BLANC
+      (all GRAPE SEMILLON-GRAPE))) 
+(define-primitive-concept RIESLING
+ (and WINE
+      (all GRAPE RIESLING-GRAPE)
+      (all COLOR WHITE-or-RED))) 
+(define-primitive-concept CABERNET-SAUVIGNON
+ (and RED-WINE
+      (all GRAPE CABERNET-SAUVIGNON-GRAPE)
+      (all FLAVOR STRONG-or-MODERATE)
+      (all BODY FULL-or-MEDIUM)
+      (all SUGAR DRY))) 
+(define-primitive-concept MODERATE-or-DELICATE TOP) 
+(define-primitive-concept PINOT-NOIR
+ (and RED-WINE
+      (all GRAPE PINOT-NOIR-GRAPE)
+      (all BODY LIGHT)
+      (all FLAVOR MODERATE-or-DELICATE))) 
+(define-primitive-concept ZINFANDEL
+ (and RED-WINE
+      (all GRAPE ZINFANDEL-GRAPE)
+      (all BODY FULL-or-MEDIUM)
+      (all FLAVOR STRONG-or-MODERATE)
+      (all SUGAR DRY))) 
+(define-concept MEDOC
+ (and RED-WINE
+      (all REGION MEDOC-REGION)
+      (all SUGAR DRY))) 
+(define-primitive-concept PAUILLAC
+ (and MEDOC
+      (all BODY FULL)
+      (all FLAVOR STRONG))) 
+(define-primitive-concept MARGAUX
+ (and MEDOC
+      (all FLAVOR MEDIUM)
+      (all FLAVOR DELICATE))) 
+(define-concept BORDEAUX
+ (and WINE
+      (all REGION BORDEAUX-REGION))) 
+(define-concept WHITE-BORDEAUX
+ (and BORDEAUX
+      WHITE-WINE
+      SEMILLON-or-SAUVIGNON-BLANC)) 
+(define-concept RED-BORDEAUX
+ (and BORDEAUX
+      RED-WINE
+      CABERNET-SAUVIGNON)) 
+(define-primitive-concept EARLY-HARVEST
+ (and BORDEAUX
+      (all SUGAR DRY-or-OFF-DRY))) 
+(define-primitive-concept LATE-HARVEST
+ (and BORDEAUX
+      (all SUGAR SWEET)
+      (all FLAVOR STRONG-or-MODERATE))) 
+(define-primitive-concept ST-EMILION
+ (and RED-BORDEAUX
+      EARLY-HARVEST
+      (all FLAVOR STRONG))) 
+(define-primitive-concept SAUTERNE
+ (and WHITE-BORDEAUX
+      LATE-HARVEST
+      (all BODY MEDIUM))) 
+(define-concept BURGUNDY
+ (and WINE
+      (all REGION BOURGOGNE)
+      (all SUGAR DRY))) 
+(define-concept WHITE-BURGUNDY (and BURGUNDY CHARDONNAY)) 
+(define-concept RED-BURGUNDY (and BURGUNDY PINOT-NOIR)) 
+(define-primitive-concept MEURSAULT
+ (and WHITE-BURGUNDY
+      (all BODY FULL))) 
+(define-primitive-concept BEAUJOLAIS
+ (and BURGUNDY
+      RED-WINE
+      (all FLAVOR STRONG))) 
+(define-concept LOIRE
+ (and WINE
+      (all REGION LOIRE-REGION))) 
+(define-concept WHITE-LOIRE (and LOIRE CHENIN-BLANC)) 
+(define-concept ROSE-LOIRE
+ (and LOIRE
+      (all COLOR ROSE))) 
+(define-primitive-concept MUSCADET
+ (and WHITE-WINE
+      (all REGION LOIRE-REGION)
+      (all BODY LIGHT)
+      (all SUGAR DRY))) 
+(define-primitive-concept SANCERRE
+ (and WHITE-LOIRE
+      (all BODY MEDIUM)
+      (all SUGAR OFF-DRY))) 
+(define-primitive-concept ANJOU
+ (and LOIRE
+      (all COLOR ROSE)
+      (all BODY LIGHT)
+      (all FLAVOR DELICATE)
+      (all SUGAR SWEET))) 
+(define-concept FRENCH-ALSATIAN
+ (and WINE
+      (all REGION ALSACE))) 
+(define-primitive-concept DRY-RIESLING
+ (and FRENCH-ALSATIAN
+      RIESLING
+      (all COLOR WHITE)
+      (all BODY LIGHT-or-MEDIUM)
+      (all FLAVOR DELICATE)
+      (all SUGAR DRY))) 
+(define-concept AMERICAN-WINE
+ (and WINE
+      (all REGION AMERICA))) 
+(define-concept GERMAN-WINE
+ (and WINE
+      (all REGION GERMANY))) 
+(define-primitive-concept SWEET-RIESLING
+ (and GERMAN-WINE
+      RIESLING
+      (all COLOR WHITE)
+      (all BODY FULL)
+      (all FLAVOR (and MODERATE STRONG))
+      (all SUGAR SWEET))) 
+(define-concept ITALIAN-WINE
+ (and WINE
+      (all REGION ITALY))) 
+(define-primitive-concept CHIANTI
+ (and ITALIAN-WINE
+      RED-WINE
+      (all BODY LIGHT)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY))) 
+(define-primitive-concept PORT
+ (and RED-WINE
+      (all REGION PORTUGAL)
+      (all BODY FULL)
+      (all FLAVOR STRONG)
+      (all SUGAR SWEET))) 
+(define-primitive-concept FORMAN-CHARDONNAY
+ (and CHARDONNAY
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER FORMAN))) 
+(define-primitive-concept FRITZ-CHARDONNAY
+ (and CHARDONNAY
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER FRITZ-CELLARS))) 
+(define-primitive-concept CORTON-MONTRACHET-WHITE-BURGUNDY
+ (and WHITE-BURGUNDY
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR STRONG)
+      (all SUGAR DRY)
+      (all MAKER CORTON-MONTRACHET))) 
+(define-primitive-concept PULIGNY-MONTRACHET-WHITE-BURGUNDY
+ (and WHITE-BURGUNDY
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER PULIGNY-MONTRACHET))) 
+(define-primitive-concept FRITZ-CELLARS-SAUVIGNON-BLANC
+ (and SAUVIGNON-BLANC
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER FRITZ-CELLARS))) 
+(define-primitive-concept CORBANS-SAUVIGNON-BLANC
+ (and SAUVIGNON-BLANC
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR STRONG)
+      (all SUGAR DRY)
+      (all MAKER CORBANS))) 
+(define-primitive-concept HANDLEY-SAUVIGNON-BLANC
+ (and SAUVIGNON-BLANC
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR DELICATE)
+      (all SUGAR DRY)
+      (all MAKER HANDLEY))) 
+(define-primitive-concept KALIN-CELLARS-SAUVIGNON-BLANC
+ (and SAUVIGNON-BLANC
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR STRONG)
+      (all SUGAR DRY)
+      (all MAKER KALIN-CELLARS))) 
+(define-primitive-concept KALIN-CELLARS-SEMILLON
+ (and SEMILLON
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR STRONG)
+      (all SUGAR DRY)
+      (all MAKER KALIN-CELLARS))) 
+(define-primitive-concept CONGRESS-SPRINGS-SEMILLON
+ (and SEMILLON
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER CONGRESS-SPRINGS))) 
+(define-primitive-concept MT-ADAM-RIESLING
+ (and DRY-RIESLING
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR DELICATE)
+      (all SUGAR DRY)
+      (all MAKER MT-ADAM))) 
+(define-primitive-concept VENTANA-WHITE-RIESLING
+ (and RIESLING
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR OFF-DRY)
+      (all MAKER VENTANA))) 
+(define-primitive-concept SCHLOSS-VOLRAD-TROCHENBIERENAUSLESE-RIESLING
+ (and SWEET-RIESLING
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR MODERATE)
+      (all SUGAR SWEET)
+      (all MAKER SCHLOSS-VOLRAD))) 
+(define-primitive-concept SCHLOSS-ROTHERMEL-TROCHENBIERENAUSLESE-RIESLING
+ (and SWEET-RIESLING
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR STRONG)
+      (all SUGAR SWEET)
+      (all MAKER SCHLOSS-ROTHERMEL))) 
+(define-primitive-concept VENTANA-CHENIN-BLANC
+ (and CHENIN-BLANC
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR OFF-DRY)
+      (all MAKER VENTANA))) 
+(define-primitive-concept CONGRESS-SPRINGS-LATE-HARVEST-SEMILLON
+ (and LATE-HARVEST
+      NON-KOSHER-WINE
+      (all COLOR WHITE)
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all MAKER CONGRESS-SPRINGS))) 
+(define-primitive-concept MARIETTA-CABERNET-SAUVIGNON
+ (and CABERNET-SAUVIGNON
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER MARIETTA))) 
+(define-primitive-concept B-R-COHN-CABERNET-SAUVIGNON
+ (and CABERNET-SAUVIGNON
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR STRONG)
+      (all SUGAR DRY)
+      (all MAKER B-R-COHN))) 
+(define-primitive-concept COTTURI-ZINFANDEL
+ (and ZINFANDEL
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR STRONG)
+      (all SUGAR DRY)
+      (all MAKER COTTURI))) 
+(define-primitive-concept MAZOCCO-ZINFANDEL
+ (and ZINFANDEL
+      NON-KOSHER-WINE
+      (all BODY FULL)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER MAZOCCO))) 
+(define-primitive-concept ROSENBLUM-ZINFANDEL
+ (and ZINFANDEL
+      NON-KOSHER-WINE
+      (all BODY MEDIUM)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER ROSENBLUM))) 
+(define-primitive-concept SEA-RIDGE-PINOT-NOIR
+ (and PINOT-NOIR
+      NON-KOSHER-WINE
+      (all BODY LIGHT)
+      (all FLAVOR DELICATE)
+      (all SUGAR DRY)
+      (all MAKER SEA-RIDGE))) 
+(define-primitive-concept TAYLOR-PORT
+ (and PORT
+      NON-KOSHER-WINE
+      (all MAKER TAYLOR))) 
+(define-primitive-concept CHATEAU-LAFITE-ROTHSCHILD-PAUILLAC
+ (and PAUILLAC
+      NON-KOSHER-WINE
+      (all MAKER CHATEAU-LAFITE-ROTHSCHILD))) 
+(define-primitive-concept CHATEAU-MARGAUX
+ (and MARGAUX
+      NON-KOSHER-WINE
+      (all MAKER CHATEAU-MARGAUX-WINERY))) 
+(define-primitive-concept CHATEAU-CHEVAL-BLANC-ST-EMILION
+ (and ST-EMILION
+      NON-KOSHER-WINE
+      (all MAKER CHATEAU-CHEVAL-BLANC))) 
+(define-primitive-concept CHATEAU-MORGON-BEAUJOLAIS
+ (and BEAUJOLAIS
+      NON-KOSHER-WINE
+      (all MAKER CHATEAU-MORGON))) 
+(define-primitive-concept CHATEAU-D-YCHEM-SAUTERNE
+ (and SAUTERNE
+      NON-KOSHER-WINE
+      (all MAKER CHATEAU-D-YCHEM))) 
+(define-primitive-concept CHATEAU-DE-MEURSAULT-MEURSAULT
+ (and MEURSAULT
+      NON-KOSHER-WINE
+      (all MAKER CHATEAU-DE-MEURSAULT))) 
+(define-primitive-concept SEVRE-ET-MAINE-MUSCADET
+ (and MUSCADET
+      NON-KOSHER-WINE
+      (all MAKER SEVRE-ET-MAINE))) 
+(define-primitive-concept CLOS-DE-LA-POUSSIE-SANCERRE
+ (and SANCERRE
+      NON-KOSHER-WINE
+      (all MAKER CLOS-DE-LA-POUSSIE))) 
+(define-primitive-concept ROSE-D-ANJOU
+ (and ANJOU
+      NON-KOSHER-WINE
+      (all MAKER D-ANJOU))) 
+(define-primitive-concept CHIANTI-CLASSICO
+ (and CHIANTI
+      NON-KOSHER-WINE
+      (all MAKER MCGUINNESSO))) 
+(define-primitive-concept BARON-JAQUAB-DE-HERZOG-CHARDONNAY
+ (and KOSHER-WINE
+      CHARDONNAY
+      (all BODY FULL)
+      (all FLAVOR MODERATE)
+      (all SUGAR DRY)
+      (all MAKER BARON-JAQUAB-DE-HERZOG))) 
+(define-primitive-concept CARMEL-CABERNET-SAUVIGNON
+ (and KOSHER-WINE
+      CABERNET-SAUVIGNON
+      (all BODY FULL)
+      (all MAKER CARMEL))) 
+(define-primitive-concept BARTENURA-CHIANTI-CLASSICO
+ (and KOSHER-WINE
+      CHIANTI
+      (all MAKER BARTENURA))) 
+(define-primitive-concept ROTHSCHILD-HAUT-MEDOC
+ (and KOSHER-WINE
+      MEDOC
+      (all COLOR RED)
+      (all MAKER ROTHSCHILD))) 
+(define-primitive-concept BARON-JAQUAB-DE-HERZOG-SAUVIGNON-BLANC
+ (and KOSHER-WINE
+      SAUVIGNON-BLANC
+      (all BODY MEDIUM)
+      (all SUGAR DRY)
+      (all MAKER BARON-JAQUAB-DE-HERZOG)
+      (all FLAVOR MODERATE))) 
+(define-primitive-concept M-and-G-BEAUJOLAIS-VILLAGES
+ (and KOSHER-WINE
+      BEAUJOLAIS
+      (all BODY LIGHT)
+      (all SUGAR DRY)
+      (all MAKER M-and-G))) 
+(define-primitive-concept YARDEN-CABERNET-BLANC
+ (and KOSHER-WINE
+      (all COLOR WHITE)
+      (all MAKER YARDEN))) 
+(define-primitive-concept BARON-JAQUAB-DE-HERZOG-WHITE-ZINFANDEL
+ (and KOSHER-WINE
+      (all SUGAR SWEET)
+      (all COLOR WHITE)
+      (all BODY LIGHT)
+      (all FLAVOR DELICATE)
+      (all MAKER BARON-JAQUAB-DE-HERZOG))) 
+(define-concept FRUIT-COURSE
+ (and MEAL-COURSE
+      (all FOOD FRUIT)
+      (all DRINK
+       (and WHITE-WINE
+            (all BODY MEDIUM))))) 
+(define-concept SWEET-FRUIT-COURSE
+ (and MEAL-COURSE
+      (all FOOD SWEET-FRUIT)
+      (all DRINK
+       (and (all FLAVOR MODERATE)
+            (all SUGAR SWEET))))) 
+(define-concept NON-SWEET-FRUIT-COURSE
+ (and MEAL-COURSE
+      (all FOOD NON-SWEET-FRUIT)
+      (all DRINK
+       (and (all FLAVOR DELICATE)
+            (all SUGAR OFF-DRY))))) 
+(define-concept DESSERT-COURSE
+ (and MEAL-COURSE
+      (all FOOD DESSERT)
+      (all DRINK
+       (and (all BODY FULL)
+            (all FLAVOR STRONG)
+            (all SUGAR SWEET))))) 
+(define-concept CHEESE/NUTS-DESSERT-COURSE
+ (and MEAL-COURSE
+      (all FOOD CHEESE/NUTS-DESSERT)
+      (all DRINK RED-WINE))) 
+(define-concept SWEET-DESSERT-COURSE
+ (and MEAL-COURSE
+      (all FOOD SWEET-DESSERT)
+      (all DRINK WHITE-WINE))) 
+(define-concept SEAFOOD-COURSE
+ (and MEAL-COURSE
+      (all FOOD SEAFOOD)
+      (all DRINK WHITE-WINE))) 
+(define-concept SHELLFISH-COURSE
+ (and MEAL-COURSE
+      (all FOOD SHELLFISH)
+      (all DRINK
+       (and (all BODY FULL)
+            (all FLAVOR STRONG-or-MODERATE))))) 
+(define-concept OYSTER-SHELLFISH-COURSE
+ (and MEAL-COURSE
+      (all FOOD OYSTER-SHELLFISH)
+      (all DRINK (all SUGAR SWEET)))) 
+(define-concept NON-OYSTER-SHELLFISH-COURSE
+ (and MEAL-COURSE
+      (all FOOD NON-OYSTER-SHELLFISH)
+      (all DRINK (all SUGAR DRY)))) 
+(define-concept FISH-COURSE
+ (and MEAL-COURSE
+      (all FOOD FISH)
+      (all DRINK
+       (and (all BODY MEDIUM)
+            (all SUGAR DRY))))) 
+(define-concept BLAND-FISH-COURSE
+ (and MEAL-COURSE
+      (all FOOD BLAND-FISH)
+      (all DRINK (all FLAVOR DELICATE)))) 
+(define-concept NON-BLAND-FISH-COURSE
+ (and MEAL-COURSE
+      (all FOOD NON-BLAND-FISH)
+      (all DRINK (all FLAVOR MODERATE)))) 
+(define-concept RED-MEAT-COURSE
+ (and MEAL-COURSE
+      (all FOOD RED-MEAT)
+      (all DRINK RED-WINE))) 
+(define-concept NON-SPICY-RED-MEAT-COURSE
+ (and MEAL-COURSE
+      (all FOOD NON-SPICY-RED-MEAT)
+      (all DRINK
+       (and RED-WINE
+            (all BODY MEDIUM)
+            (all FLAVOR STRONG-or-MODERATE)
+            (all SUGAR DRY))))) 
+(define-concept SPICY-RED-MEAT-COURSE
+ (and MEAL-COURSE
+      (all FOOD SPICY-RED-MEAT)
+      (all DRINK
+       (and RED-WINE
+            (all BODY FULL)
+            (all FLAVOR MODERATE)
+            (all SUGAR DRY))))) 
+(define-concept NON-RED-MEAT-COURSE
+ (and MEAL-COURSE
+      (all FOOD NON-RED-MEAT)
+      (all DRINK
+       (and WHITE-WINE
+            (all BODY MEDIUM)
+            (all FLAVOR STRONG)
+            (all SUGAR DRY))))) 
+(define-concept LIGHT-MEAT-FOWL-COURSE
+ (and MEAL-COURSE
+      (all FOOD LIGHT-MEAT-FOWL)
+      (all DRINK
+       (and WHITE-WINE
+            (all BODY MEDIUM)
+            (all FLAVOR MODERATE)
+            (all SUGAR DRY))))) 
+(define-concept DARK-MEAT-FOWL-COURSE
+ (and MEAL-COURSE
+      (all FOOD DARK-MEAT-FOWL)
+      (all DRINK
+       (and RED-WINE
+            (all BODY LIGHT)
+            (all FLAVOR DELICATE)
+            (all SUGAR DRY))))) 
+(define-concept PASTA-WITH-HEAVY-CREAM-COURSE
+ (and MEAL-COURSE
+      (all FOOD PASTA-WITH-HEAVY-CREAM-SAUCE)
+      (all DRINK
+       (and WHITE-WINE
+            (all BODY MEDIUM)
+            (all FLAVOR MODERATE)
+            (all SUGAR DRY))))) 
+(define-concept PASTA-WITH-LIGHT-CREAM-COURSE
+ (and MEAL-COURSE
+      (all FOOD PASTA-WITH-LIGHT-CREAM-SAUCE)
+      (all DRINK
+       (and WHITE-WINE
+            (all BODY LIGHT)
+            (all FLAVOR DELICATE)
+            (all SUGAR DRY))))) 
+(define-concept PASTA-WITH-SPICY-RED-SAUCE-COURSE
+ (and MEAL-COURSE
+      (all FOOD PASTA-WITH-SPICY-RED-SAUCE)
+      (all DRINK
+       (and RED-WINE
+            (all BODY FULL)
+            (all FLAVOR STRONG)
+            (all SUGAR DRY))))) 
+(define-concept PASTA-WITH-NON-SPICY-RED-SAUCE-COURSE
+ (and MEAL-COURSE
+      (all FOOD PASTA-WITH-NON-SPICY-RED-SAUCE)
+      (all DRINK
+       (and RED-WINE
+            (all BODY MEDIUM)
+            (all FLAVOR MODERATE)
+            (all SUGAR DRY))))) 

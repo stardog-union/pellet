@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/23.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>28.3.2006, version 0.9</owl:versionInfo>
+ <rdfs:comment>Partitioning test, OWL DL, Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:Class rdf:ID="A">
+  <owl:unionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#C" />
+    <owl:Class rdf:about="#D" />
+  </owl:unionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="B">
+  <owl:disjointWith rdf:resource="#A" />
+</owl:Class>
+
+<owl:Class>
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class>
+      <owl:complementOf rdf:resource="#A" />
+    </owl:Class>
+    <owl:Class>
+      <owl:complementOf rdf:resource="#B" />
+    </owl:Class>
+  </owl:intersectionOf>
+   <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+
+<owl:Class rdf:ID="EquivA">
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:complementOf rdf:resource="#B" />
+    </owl:Class>
+  </owl:equivalentClass>
+</owl:Class>
+
+<!-- for KAON2: SELECT ?x WHERE { ?x rdf:type a:A } -->
+<!-- <EquivA rdf:ID="i1"/> -->
+
+
+<!--
+  conclusion:
+
+<owl:Class rdf:about="#EquivA">
+  <owl:equivalentClass rdf:resource="A" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

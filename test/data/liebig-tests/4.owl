@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/4.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>17.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>satisfiablility test (OWL Lite), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="s" />
+
+<owl:ObjectProperty rdf:ID="r">
+  <owl:inverseOf rdf:resource="#s" />
+</owl:ObjectProperty>
+
+<owl:Class rdf:ID="K">
+  <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="#L" />
+      <owl:Restriction> 
+	<owl:onProperty rdf:resource="#r" />
+	<owl:allValuesFrom rdf:resource="&owl;Nothing" />
+      </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="L">
+  <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Restriction> 
+        <owl:onProperty rdf:resource="#r" />
+	<owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+      <owl:Restriction> 
+	<owl:onProperty rdf:resource="#s" />
+	<owl:allValuesFrom rdf:resource="#L" />
+      </owl:Restriction>
+      <owl:Restriction> 
+	<owl:onProperty rdf:resource="#s" />
+	<owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+      </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<!--
+<owl:Class rdf:about="#MyBottom">
+  <rdfs:subClassOf rdf:resource="&owl;Nothing" />
+</owl:Class>
+-->
+
+<!--
+consequence: L is satisfiable
+
+<rdf:Description rdf:about="#L">
+  <owl:disjointWith  rdf:resource="&owl;Nothing" />
+</rdf:Description>
+-->
+
+</rdf:RDF>
+
+

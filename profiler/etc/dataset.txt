@@ -1,0 +1,21 @@
+../datasets/lubm/combined/lubm1.owl
+../datasets/lubm/combined/lubm5.owl
+../datasets/lubm/combined/lubm10.owl
+../datasets/lubm/combined/lubm20.owl
+
+data/people_pets.owl
+data/miniTambis.owl
+data/pizza.owl
+data/SUMO.owl
+data/SWEET.owl
+
+http://www.aktors.org/ontology/portal
+http://www.co-ode.org/ontologies/pizza/2007/02/12/pizza.owl
+http://sweet.jpl.nasa.gov/ontology/earthrealm.owl
+http://www.w3.org/TR/2004/REC-owl-guide-20040210/wine.rdf
+http://www.estrellaproject.org/lkif-core/lkif-core.owl
+http://www.cs.man.ac.uk/~horrocks/OWL/Ontologies/galen.owl
+../datasets/semintec/semintec_0.owl
+../datasets/vicodi/vicodi_0.owl
+../datasets/lubm/university[0].*owl ../datasets/lubm/univ-bench.owl
+../datasets/lubm/university[0-2].\d*\Wowl ../datasets/lubm/univ-bench.owl

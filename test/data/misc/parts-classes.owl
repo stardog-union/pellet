@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example3.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:ex2="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example2.owl#"
+  xml:base="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example3.owl">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example2.owl"/>
+  </owl:Ontology>
+  <owl:Class rdf:ID="EnginePart">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example2.owl#Engine"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/part.owl#partOf"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="HeadlightPart">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example2.owl#Headlight"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/part.owl#partOf"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="CarPart">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example2.owl#Car"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/part.owl#partOf"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="CarPart_directly">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/part.owl#partOf_directly"/>
+        <owl:someValuesFrom rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example2.owl#Car"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.1, Build 284)  http://protege.stanford.edu -->

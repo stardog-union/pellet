@@ -1,0 +1,7 @@
+(TOP NIL ( A B C ))
+(A ( TOP ) ( D ))
+(B ( TOP ) ( D ))
+(C ( TOP ) ( E ))
+(E ( C D ) ( BOTTOM ))
+(D ( A B ) ( E ))
+(BOTTOM ( E ) NIL )

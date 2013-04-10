@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns="http://www.csc.liv.ac.uk/~luigi/basicFamily/rules#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns:ruleml="http://www.w3.org/2003/11/swrl#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xml:base="http://www.csc.liv.ac.uk/~luigi/basicFamily/rules">
+  <ruleml:Imp rdf:ID="uncleRule">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >classical uncle rule</rdfs:comment>
+    <swrl:body rdf:parseType="Collection">
+          <swrl:IndividualPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#hasParent"/>
+            <swrl:argument1>
+              <swrl:Variable rdf:ID="y"/>
+            </swrl:argument1>
+            <swrl:argument2>
+              <swrl:Variable rdf:ID="x"/>
+            </swrl:argument2>
+          </swrl:IndividualPropertyAtom>
+                  <swrl:ClassAtom>
+                    <swrl:classPredicate rdf:resource="http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#Male"/>
+                    <swrl:argument1>
+                      <swrl:Variable rdf:ID="z"/>
+                    </swrl:argument1>
+                  </swrl:ClassAtom>
+              <swrl:IndividualPropertyAtom>
+	            <swrl:argument1>
+      	        <swrl:Variable rdf:ID="x"/>
+            	</swrl:argument1>
+            <swrl:argument2>
+              <swrl:Variable rdf:ID="z"/>
+            </swrl:argument2>
+                <swrl:propertyPredicate rdf:resource="http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#hasSibling"/>
+		</swrl:IndividualPropertyAtom>
+    </swrl:body>
+    <swrl:head rdf:parseType="Collection">
+          <swrl:IndividualPropertyAtom>
+            <swrl:argument2>
+              <swrl:Variable rdf:ID="z"/>
+		</swrl:argument2>
+            <swrl:propertyPredicate rdf:resource="http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#hasUncle"/>
+            <swrl:argument1>
+              <swrl:Variable rdf:ID="y"/>
+            </swrl:argument1>
+          </swrl:IndividualPropertyAtom>
+    </swrl:head>
+  </ruleml:Imp>
+</rdf:RDF> 
+
+<!-- Created with Protege (with OWL Plugin 3.2, Build 355)  http://protege.stanford.edu -->

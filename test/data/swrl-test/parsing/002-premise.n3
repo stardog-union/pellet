@@ -1,0 +1,43 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:  <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb:  <http://www.w3.org/2003/11/swrlb#> .
+
+@prefix : <http://owldl.com/ontologies/swrl/tests/parsing/002#> .
+
+<> a owl:Ontology .
+
+:x a swrl:Variable .
+:y a swrl:Variable .
+# Should guess that :z is variable.
+# :z a swrl:Variable .
+
+:p a owl:DatatypeProperty .
+:r a owl:ObjectProperty .
+
+:rule1 a swrl:Imp;
+  swrl:body (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :p;
+      swrl:argument1 :x;
+      swrl:argument2 :z;
+      ]
+    [ a swrl:IndividualPropertyAtom;
+      swrl:propertyPredicate :r;
+      swrl:argument1 :x;
+      swrl:argument2 :y;
+    ] );
+  swrl:head (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :p;
+      swrl:argument1 :y;
+      swrl:argument2 :z; 
+      ] ). 
+
+:i a owl:Thing;
+   :r :j;
+   :p "foo".
+
+:j a owl:Thing.
+

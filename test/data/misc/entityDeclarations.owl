@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns="http://www.example.org/test#"
+	xml:base="http://www.example.org/test#">
+
+	<owl:Ontology rdf:about="">
+		<rdfs:comment>An ontology to test OWL 2 Declarations</rdfs:comment>
+	</owl:Ontology>
+
+	<owl:NamedIndividual rdf:about="#a" />
+
+	<owl:Class rdf:about="#C" />
+
+	<rdfs:Datatype rdf:about="#D" />
+
+	<owl:AnnotationProperty rdf:about="#p" />
+
+	<owl:ObjectProperty rdf:about="#q" />
+
+	<owl:DatatypeProperty rdf:about="#r" />
+
+</rdf:RDF>

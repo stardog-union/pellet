@@ -1,0 +1,10 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#> 
+PREFIX : <http://example.org/test#>
+
+SELECT *
+WHERE
+{
+  ?x owl:sameAs _:foo.
+  _:foo owl:sameAs ?y .
+}

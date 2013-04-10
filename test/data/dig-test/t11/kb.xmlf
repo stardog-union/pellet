@@ -1,0 +1,7 @@
+    <defconcept name="p"/>
+    <defrole name="r"/>
+    <defrole name="s"/>
+    <impliesr>
+        <ratom name="s"/>
+        <ratom name="r"/>
+    </impliesr>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<rdf:RDF 
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://www.example.org/test#"
+    xml:base="http://www.example.org/test#"
+>
+
+<owl:Ontology rdf:about="">
+  <rdfs:comment>An example defining a self restriction using the OWL 1.1 syntax</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:about="#knows"/>
+
+<owl:Class rdf:about="#Person">
+  <rdfs:subClassOf>
+     <owl:SelfRestriction>
+        <owl:onProperty rdf:resource="#knows"/>
+     </owl:SelfRestriction>
+  </rdfs:subClassOf>  
+</owl:Class>
+
+<Person rdf:about="#P1"/>
+<owl:Thing rdf:about="#P2"/>
+
+</rdf:RDF>

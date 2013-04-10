@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/17.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>22.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>nominal/UNA test (OWL DL), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+
+<owl:Class rdf:ID="MyBottom">
+ <owl:equivalentClass rdf:resource="#MyTop" />
+ <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+
+<owl:Class rdf:ID="MyTop">
+ <owl:equivalentClass rdf:resource="&owl;Thing" />
+</owl:Class>
+
+
+<!--
+  consequence: KB is incoherent
+
+<owl:Class rdf:about="&owl;Thing">
+  <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

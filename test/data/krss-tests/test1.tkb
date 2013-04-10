@@ -1,0 +1,15 @@
+ (define-primitive-concept A)
+
+ (define-primitive-concept B)
+ (implies B (or E (some p A)))
+
+ (define-primitive-concept C)
+ (implies C (or D A))
+
+ (define-primitive-concept D)
+ (implies D (not C))
+
+ (define-primitive-concept E)
+ (implies E (not B))
+ 
+ (define-primitive-role p :domain C)

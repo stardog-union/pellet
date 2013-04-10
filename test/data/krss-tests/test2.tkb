@@ -1,0 +1,11 @@
+ (define-primitive-concept A)
+
+ (define-primitive-concept B)
+
+ (define-primitive-concept C)
+
+ (define-concept D (and A B))
+
+ (define-primitive-concept E)
+ (implies E (and A B C))
+ 

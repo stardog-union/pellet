@@ -1,0 +1,2411 @@
+Index: rdfxmlrenderer/src/main/java/org/coode/owl/rdf/rdfxml/RDFXMLRenderer.java
+===================================================================
+--- rdfxmlrenderer/src/main/java/org/coode/owl/rdf/rdfxml/RDFXMLRenderer.java	(revision 1446)
++++ rdfxmlrenderer/src/main/java/org/coode/owl/rdf/rdfxml/RDFXMLRenderer.java	(working copy)
+@@ -5,9 +5,9 @@
+ import org.coode.owl.rdf.model.RDFResourceNode;
+ import org.coode.owl.rdf.model.RDFTriple;
+ import org.coode.owl.rdf.renderer.RDFRendererBase;
++import org.coode.owlapiv2.xml.OWLOntologyNamespaceManager;
++import org.coode.owlapiv2.xml.XMLWriterFactory;
+ import org.coode.string.EscapeUtils;
+-import org.coode.xml.OWLOntologyNamespaceManager;
+-import org.coode.xml.XMLWriterFactory;
+ import org.semanticweb.owl.model.*;
+ import org.semanticweb.owl.util.VersionInfo;
+ import org.semanticweb.owl.vocab.OWLRDFVocabulary;
+Index: rdfxmlrenderer/src/main/java/org/coode/owl/rdf/rdfxml/RDFXMLWriter.java
+===================================================================
+--- rdfxmlrenderer/src/main/java/org/coode/owl/rdf/rdfxml/RDFXMLWriter.java	(revision 1446)
++++ rdfxmlrenderer/src/main/java/org/coode/owl/rdf/rdfxml/RDFXMLWriter.java	(working copy)
+@@ -1,6 +1,6 @@
+ package org.coode.owl.rdf.rdfxml;
+ 
+-import org.coode.xml.XMLWriter;
++import org.coode.owlapiv2.xml.XMLWriter;
+ import org.semanticweb.owl.model.OWLException;
+ import org.semanticweb.owl.model.OWLObject;
+ import org.semanticweb.owl.vocab.OWLRDFVocabulary;
+Index: functionalrenderer/src/main/java/org/coode/owl/functionalrenderer/OWLObjectRenderer.java
+===================================================================
+--- functionalrenderer/src/main/java/org/coode/owl/functionalrenderer/OWLObjectRenderer.java	(revision 1446)
++++ functionalrenderer/src/main/java/org/coode/owl/functionalrenderer/OWLObjectRenderer.java	(working copy)
+@@ -1,7 +1,7 @@
+ package org.coode.owl.functionalrenderer;
+ 
++import org.coode.owlapiv2.xml.OWLOntologyNamespaceManager;
+ import org.coode.string.EscapeUtils;
+-import org.coode.xml.OWLOntologyNamespaceManager;
+ import org.semanticweb.owl.model.*;
+ import org.semanticweb.owl.util.AxiomTypeProvider;
+ import org.semanticweb.owl.util.VersionInfo;
+Index: mansyntaxrenderer/src/main/java/uk/ac/manchester/cs/owl/mansyntaxrenderer/ManchesterOWLSyntaxFrameRenderer.java
+===================================================================
+--- mansyntaxrenderer/src/main/java/uk/ac/manchester/cs/owl/mansyntaxrenderer/ManchesterOWLSyntaxFrameRenderer.java	(revision 1446)
++++ mansyntaxrenderer/src/main/java/uk/ac/manchester/cs/owl/mansyntaxrenderer/ManchesterOWLSyntaxFrameRenderer.java	(working copy)
+@@ -1,8 +1,9 @@
+ package uk.ac.manchester.cs.owl.mansyntaxrenderer;
+ 
+ import org.coode.manchesterowlsyntax.ManchesterOWLSyntax;
++import org.coode.owlapiv2.xml.OWLOntologyNamespaceManager;
++
+ import static org.coode.manchesterowlsyntax.ManchesterOWLSyntax.*;
+-import org.coode.xml.OWLOntologyNamespaceManager;
+ import org.semanticweb.owl.io.OWLRendererException;
+ import org.semanticweb.owl.model.*;
+ import org.semanticweb.owl.util.CollectionFactory;
+Index: mansyntaxrenderer/src/main/java/uk/ac/manchester/cs/owl/mansyntaxrenderer/ManchesterOWLSyntaxRenderer.java
+===================================================================
+--- mansyntaxrenderer/src/main/java/uk/ac/manchester/cs/owl/mansyntaxrenderer/ManchesterOWLSyntaxRenderer.java	(revision 1446)
++++ mansyntaxrenderer/src/main/java/uk/ac/manchester/cs/owl/mansyntaxrenderer/ManchesterOWLSyntaxRenderer.java	(working copy)
+@@ -6,7 +6,7 @@
+ import org.semanticweb.owl.model.OWLOntologyManager;
+ import org.semanticweb.owl.model.OWLOntologyFormat;
+ import org.semanticweb.owl.vocab.NamespaceOWLOntologyFormat;
+-import org.coode.xml.OWLOntologyNamespaceManager;
++import org.coode.owlapiv2.xml.OWLOntologyNamespaceManager;
+ 
+ import java.io.Writer;
+ import java.util.Map;
+Index: apibinding/src/main/java/org/semanticweb/owl/apibinding/OWLManager.java
+===================================================================
+--- apibinding/src/main/java/org/semanticweb/owl/apibinding/OWLManager.java	(revision 1446)
++++ apibinding/src/main/java/org/semanticweb/owl/apibinding/OWLManager.java	(working copy)
+@@ -34,7 +34,7 @@
+ import org.coode.owl.rdf.rdfxml.RDFXMLOntologyStorer;
+ import org.coode.owl.rdf.turtle.TurtleOntologyStorer;
+ import org.coode.owl.rdfxml.parser.RDFXMLParserFactory;
+-import org.coode.owlapi.owlxml.renderer.OWLXMLOntologyStorer;
++import org.coode.owlapiv2.owlxml.renderer.OWLXMLOntologyStorer;
+ import org.semanticweb.owl.io.OWLParserFactoryRegistry;
+ import org.semanticweb.owl.model.OWLDataFactory;
+ import org.semanticweb.owl.model.OWLOntologyManager;
+Index: dig1_1/src/main/java/uk/ac/manchester/cs/owl/inference/dig11/DIGXMLWriterFactory.java
+===================================================================
+--- dig1_1/src/main/java/uk/ac/manchester/cs/owl/inference/dig11/DIGXMLWriterFactory.java	(revision 1446)
++++ dig1_1/src/main/java/uk/ac/manchester/cs/owl/inference/dig11/DIGXMLWriterFactory.java	(working copy)
+@@ -1,8 +1,8 @@
+ package uk.ac.manchester.cs.owl.inference.dig11;
+ 
+-import org.coode.xml.XMLWriter;
+-import org.coode.xml.XMLWriterFactory;
+-import org.coode.xml.XMLWriterNamespaceManager;
++import org.coode.owlapiv2.xml.XMLWriter;
++import org.coode.owlapiv2.xml.XMLWriterFactory;
++import org.coode.owlapiv2.xml.XMLWriterNamespaceManager;
+ 
+ import java.io.Writer;
+ /*
+Index: turtlerenderer/src/main/java/org/coode/owl/rdf/turtle/TurtleRenderer.java
+===================================================================
+--- turtlerenderer/src/main/java/org/coode/owl/rdf/turtle/TurtleRenderer.java	(revision 1446)
++++ turtlerenderer/src/main/java/org/coode/owl/rdf/turtle/TurtleRenderer.java	(working copy)
+@@ -5,7 +5,7 @@
+ import org.coode.owl.rdf.model.RDFResourceNode;
+ import org.coode.owl.rdf.model.RDFTriple;
+ import org.coode.owl.rdf.renderer.RDFRendererBase;
+-import org.coode.xml.OWLOntologyNamespaceManager;
++import org.coode.owlapiv2.xml.OWLOntologyNamespaceManager;
+ import org.semanticweb.owl.model.*;
+ import org.semanticweb.owl.util.VersionInfo;
+ import org.semanticweb.owl.vocab.XSDVocabulary;
+Index: owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLWriter.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLWriter.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLWriter.java	(working copy)
+@@ -1,8 +1,8 @@
+-package org.coode.owlapi.owlxml.renderer;
++package org.coode.owlapiv2.owlxml.renderer;
+ 
+-import org.coode.xml.XMLWriter;
+-import org.coode.xml.XMLWriterFactory;
+-import org.coode.xml.XMLWriterNamespaceManager;
++import org.coode.owlapiv2.xml.XMLWriter;
++import org.coode.owlapiv2.xml.XMLWriterFactory;
++import org.coode.owlapiv2.xml.XMLWriterNamespaceManager;
+ import org.semanticweb.owl.io.OWLRendererException;
+ import org.semanticweb.owl.io.OWLRendererIOException;
+ import org.semanticweb.owl.model.OWLOntology;
+Index: owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLObjectRenderer.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLObjectRenderer.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLObjectRenderer.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.owlapi.owlxml.renderer;
++package org.coode.owlapiv2.owlxml.renderer;
+ 
+ import org.semanticweb.owl.model.*;
+ import static org.semanticweb.owl.vocab.OWLXMLVocabulary.*;
+Index: owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLOntologyStorageException.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLOntologyStorageException.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLOntologyStorageException.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.owlapi.owlxml.renderer;
++package org.coode.owlapiv2.owlxml.renderer;
+ 
+ import org.semanticweb.owl.model.OWLOntologyStorageException;
+ /*
+Index: owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLRenderer.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLRenderer.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLRenderer.java	(working copy)
+@@ -1,6 +1,6 @@
+-package org.coode.owlapi.owlxml.renderer;
++package org.coode.owlapiv2.owlxml.renderer;
+ 
+-import org.coode.xml.OWLOntologyNamespaceManager;
++import org.coode.owlapiv2.xml.OWLOntologyNamespaceManager;
+ import org.semanticweb.owl.io.AbstractOWLRenderer;
+ import org.semanticweb.owl.io.OWLRendererException;
+ import org.semanticweb.owl.io.OWLRendererIOException;
+Index: owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLOntologyStorer.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLOntologyStorer.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapiv2/owlxml/renderer/OWLXMLOntologyStorer.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.owlapi.owlxml.renderer;
++package org.coode.owlapiv2.owlxml.renderer;
+ 
+ import org.semanticweb.owl.io.OWLXMLOntologyFormat;
+ import org.semanticweb.owl.model.OWLOntology;
+Index: owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLWriter.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLWriter.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLWriter.java	(working copy)
+@@ -1,171 +0,0 @@
+-package org.coode.owlapi.owlxml.renderer;
+-
+-import org.coode.xml.XMLWriter;
+-import org.coode.xml.XMLWriterFactory;
+-import org.coode.xml.XMLWriterNamespaceManager;
+-import org.semanticweb.owl.io.OWLRendererException;
+-import org.semanticweb.owl.io.OWLRendererIOException;
+-import org.semanticweb.owl.model.OWLOntology;
+-import org.semanticweb.owl.model.OWLRuntimeException;
+-import org.semanticweb.owl.util.VersionInfo;
+-import org.semanticweb.owl.vocab.Namespaces;
+-import org.semanticweb.owl.vocab.OWLXMLVocabulary;
+-
+-import java.io.IOException;
+-import java.io.Writer;
+-import java.net.URI;
+-/*
+- * Copyright (C) 2006, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Bio-Health Informatics Group<br>
+- * Date: 12-Dec-2006<br><br>
+- */
+-public class OWLXMLWriter {
+-
+-    private XMLWriter writer;
+-
+-
+-    public OWLXMLWriter(Writer writer, XMLWriterNamespaceManager xmlWriterNamespaceManager, OWLOntology ontology) {
+-        this.writer = XMLWriterFactory.getInstance().createXMLWriter(writer,
+-                                                                     xmlWriterNamespaceManager,
+-                                                                     Namespaces.OWL2XML.toString());
+-    }
+-
+-
+-    public OWLXMLWriter(Writer writer, XMLWriterNamespaceManager xmlWriterNamespaceManager) {
+-        this.writer = XMLWriterFactory.getInstance().createXMLWriter(writer, xmlWriterNamespaceManager, Namespaces.OWL2XML.toString());
+-    }
+-
+-
+-    public void startDocument(OWLOntology ontology) throws OWLRendererException {
+-        try {
+-            writer.startDocument(OWLXMLVocabulary.ONTOLOGY.toString());
+-            writeNameAttribute(ontology.getURI());
+-        }
+-        catch (IOException e) {
+-            throw new OWLRendererIOException(e);
+-        }
+-    }
+-
+-
+-    public void endDocument() {
+-        try {
+-            writer.endDocument();
+-            writer.writeComment(VersionInfo.getVersionInfo().getGeneratedByMessage());
+-        }
+-        catch (IOException e) {
+-            throw new OWLRuntimeException(e);
+-        }
+-    }
+-
+-
+-    public void writeStartElement(URI name) {
+-        try {
+-            writer.writeStartElement(name.toString());
+-        }
+-        catch (IOException e) {
+-            throw new OWLRuntimeException(e);
+-        }
+-    }
+-
+-
+-    public void writeEndElement() {
+-        try {
+-            writer.writeEndElement();
+-        }
+-        catch (IOException e) {
+-            throw new OWLRuntimeException(e);
+-        }
+-    }
+-
+-
+-    public void writeDatatypeAttribute(URI datatype) {
+-        try {
+-            writer.writeAttribute(OWLXMLVocabulary.DATATYPE_URI.getURI().toString(), datatype.toString());
+-        }
+-        catch (IOException e) {
+-            throw new OWLRuntimeException(e);
+-        }
+-    }
+-
+-
+-    public void writeNameAttribute(URI uri) {
+-        try {
+-            String value = uri.toString();
+-            String attName = Namespaces.OWL2XML + "URI";
+-            if (value.startsWith(writer.getXMLBase())) {
+-                writer.writeAttribute(attName, value.substring(writer.getXMLBase().length(), value.length()));
+-            }
+-            else {
+-                writer.writeAttribute(attName, value);
+-            }
+-        }
+-        catch (IOException e) {
+-            throw new RuntimeException(e);
+-        }
+-    }
+-
+-
+-    public void writeCardinalityAttribute(int cardinality) {
+-        try {
+-            writer.writeAttribute(Namespaces.OWL2XML + "cardinality", Integer.toString(cardinality));
+-        }
+-        catch (IOException e) {
+-            throw new RuntimeException(e);
+-        }
+-    }
+-
+-
+-    public void writeTextContent(String text) {
+-        try {
+-            writer.writeTextContent(text);
+-        }
+-        catch (IOException e) {
+-            throw new RuntimeException(e);
+-        }
+-    }
+-
+-
+-    public void writeFacetAttribute(URI facetURI) {
+-        try {
+-            writer.writeAttribute(OWLXMLVocabulary.DATATYPE_FACET.getURI().toString(), facetURI.toString());
+-        }
+-        catch (IOException e) {
+-            throw new RuntimeException(e);
+-        }
+-    }
+-
+-
+-    public void writeAnnotationURIAttribute(URI uri) {
+-        try {
+-            writer.writeAttribute(OWLXMLVocabulary.ANNOTATION_URI.toString(), uri.toString());
+-        }
+-        catch (IOException e) {
+-            throw new RuntimeException(e);
+-        }
+-    }
+-}
+Index: owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLObjectRenderer.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLObjectRenderer.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLObjectRenderer.java	(working copy)
+@@ -1,727 +0,0 @@
+-package org.coode.owlapi.owlxml.renderer;
+-
+-import org.semanticweb.owl.model.*;
+-import static org.semanticweb.owl.vocab.OWLXMLVocabulary.*;
+-
+-import java.util.Set;
+-import java.util.TreeSet;
+-/*
+- * Copyright (C) 2006, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Bio-Health Informatics Group<br>
+- * Date: 12-Dec-2006<br><br>
+- */
+-public class OWLXMLObjectRenderer implements OWLObjectVisitor {
+-
+-    private OWLXMLWriter writer;
+-
+-    private OWLOntology ontology;
+-
+-
+-    public OWLXMLObjectRenderer(OWLOntology ontology, OWLXMLWriter writer) {
+-        this.writer = writer;
+-        this.ontology = ontology;
+-    }
+-
+-
+-    public OWLXMLObjectRenderer(OWLXMLWriter writer) {
+-        this.writer = writer;
+-        this.ontology = null;
+-    }
+-
+-
+-    private void writeAnnotations(OWLAxiom axiom) {
+-        if (ontology != null) {
+-            for (OWLAnnotationAxiom ax : axiom.getAnnotationAxioms(ontology)) {
+-                ax.accept(this);
+-            }
+-        }
+-    }
+-
+-
+-    public void visit(OWLOntology ontology) {
+-        for (OWLImportsDeclaration decl : ontology.getImportsDeclarations()) {
+-            decl.accept(this);
+-        }
+-        for (OWLOntologyAnnotationAxiom ax : ontology.getAnnotations(ontology)) {
+-            ax.accept(this);
+-        }
+-        for (OWLAxiom ax : new TreeSet<OWLAxiom>(ontology.getAxioms())) {
+-            if (!(ax instanceof OWLAxiomAnnotationAxiom) && !(ax instanceof OWLOntologyAnnotationAxiom)) {
+-                ax.accept(this);
+-            }
+-        }
+-    }
+-
+-
+-    public void visit(OWLConstantAnnotation annotation) {
+-        writer.writeStartElement(ANNOTATION.getURI());
+-        writer.writeAnnotationURIAttribute(annotation.getAnnotationURI());
+-        writer.writeStartElement(CONSTANT.getURI());
+-        if (annotation.getAnnotationValue().isTyped()) {
+-            writer.writeDatatypeAttribute(((OWLTypedConstant) annotation.getAnnotationValue()).getDataType().getURI());
+-        }
+-        writer.writeTextContent(annotation.getAnnotationValue().getLiteral());
+-        writer.writeEndElement();
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectAnnotation annotation) {
+-        writer.writeStartElement(ANNOTATION.getURI());
+-        writer.writeAnnotationURIAttribute(annotation.getAnnotationURI());
+-        annotation.getAnnotationValue().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLAntiSymmetricObjectPropertyAxiom axiom) {
+-        writer.writeStartElement(ASYMMETRIC_OBJECT_PROPERTY.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLAxiomAnnotationAxiom axiom) {
+-//        writer.writeStartElement(ANNOTATION.getURI());
+-//        writer.writeAnnotationURIAttribute(axiom.getAnnotation().getAnnotationURI());
+-//        writeAnnotations(axiom);
+-        axiom.getAnnotation().accept(this);
+-//        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLClassAssertionAxiom axiom) {
+-        writer.writeStartElement(CLASS_ASSERTION.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getDescription().accept(this);
+-        axiom.getIndividual().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataPropertyAssertionAxiom axiom) {
+-        writer.writeStartElement(DATA_PROPERTY_ASSERTION.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        axiom.getSubject().accept(this);
+-        axiom.getObject().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataPropertyDomainAxiom axiom) {
+-        writeAnnotations(axiom);
+-        writer.writeStartElement(DATA_PROPERTY_DOMAIN.getURI());
+-        axiom.getProperty().accept(this);
+-        axiom.getDomain().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataPropertyRangeAxiom axiom) {
+-        writeAnnotations(axiom);
+-        writer.writeStartElement(DATA_PROPERTY_RANGE.getURI());
+-        axiom.getProperty().accept(this);
+-        axiom.getRange().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataSubPropertyAxiom axiom) {
+-        writeAnnotations(axiom);
+-        writer.writeStartElement(SUB_DATA_PROPERTY_OF.getURI());
+-        axiom.getSubProperty().accept(this);
+-        axiom.getSuperProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDeclarationAxiom axiom) {
+-        writeAnnotations(axiom);
+-        writer.writeStartElement(DECLARATION.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getEntity().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDifferentIndividualsAxiom axiom) {
+-        writer.writeStartElement(DIFFERENT_INDIVIDUALS.getURI());
+-        writeAnnotations(axiom);
+-        render(axiom.getIndividuals());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDisjointClassesAxiom axiom) {
+-        writer.writeStartElement(DISJOINT_CLASSES.getURI());
+-        writeAnnotations(axiom);
+-        render(axiom.getDescriptions());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDisjointDataPropertiesAxiom axiom) {
+-        writer.writeStartElement(DISJOINT_DATA_PROPERTIES.getURI());
+-        writeAnnotations(axiom);
+-        render(axiom.getProperties());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
+-        writer.writeStartElement(DISJOINT_OBJECT_PROPERTIES.getURI());
+-        writeAnnotations(axiom);
+-        render(axiom.getProperties());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDisjointUnionAxiom axiom) {
+-        writer.writeStartElement(DISJOINT_UNION.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getOWLClass().accept(this);
+-        writer.writeStartElement(UNION_OF.getURI());
+-        render(axiom.getDescriptions());
+-        writer.writeEndElement();
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLEntityAnnotationAxiom axiom) {
+-        // Get written out with declarations
+-        // Not anymore!
+-        // This is not in the spec
+-        writer.writeStartElement(ENTITY_ANNOTATION.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getSubject().accept(this);
+-        axiom.getAnnotation().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLEquivalentClassesAxiom axiom) {
+-        writer.writeStartElement(EQUIVALENT_CLASSES.getURI());
+-        writeAnnotations(axiom);
+-        render(axiom.getDescriptions());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
+-        writer.writeStartElement(EQUIVALENT_DATA_PROPERTIES.getURI());
+-        writeAnnotations(axiom);
+-        render(axiom.getProperties());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
+-        writer.writeStartElement(EQUIVALENT_OBJECT_PROPERTIES.getURI());
+-        writeAnnotations(axiom);
+-        render(axiom.getProperties());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLFunctionalDataPropertyAxiom axiom) {
+-        writer.writeStartElement(FUNCTIONAL_DATA_PROPERTY.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
+-        writer.writeStartElement(FUNCTIONAL_OBJECT_PROPERTY.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLImportsDeclaration axiom) {
+-        writer.writeStartElement(IMPORTS.getURI());
+-        writeAnnotations(axiom);
+-        writer.writeTextContent(axiom.getImportedOntologyURI().toString());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
+-        writer.writeStartElement(INVERSE_FUNCTIONAL_OBJECT_PROPERTY.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLInverseObjectPropertiesAxiom axiom) {
+-        writer.writeStartElement(INVERSE_OBJECT_PROPERTIES.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getFirstProperty().accept(this);
+-        axiom.getSecondProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
+-        writer.writeStartElement(IRREFLEXIVE_OBJECT_PROPERTY.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
+-        writer.writeStartElement(NEGATIVE_DATA_PROPERTY_ASSERTION.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        axiom.getSubject().accept(this);
+-        axiom.getObject().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
+-        writer.writeStartElement(NEGATIVE_OBJECT_PROPERTY_ASSERTION.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        axiom.getSubject().accept(this);
+-        axiom.getObject().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectPropertyAssertionAxiom axiom) {
+-        writer.writeStartElement(OBJECT_PROPERTY_ASSERTION.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        axiom.getSubject().accept(this);
+-        axiom.getObject().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectPropertyChainSubPropertyAxiom axiom) {
+-        writer.writeStartElement(SUB_OBJECT_PROPERTY_OF.getURI());
+-        writeAnnotations(axiom);
+-        writer.writeStartElement(SUB_OBJECT_PROPERTY_CHAIN.getURI());
+-        for (OWLObjectPropertyExpression prop : axiom.getPropertyChain()) {
+-            prop.accept(this);
+-        }
+-        writer.writeEndElement();
+-        axiom.getSuperProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectPropertyDomainAxiom axiom) {
+-        writer.writeStartElement(OBJECT_PROPERTY_DOMAIN.getURI());
+-        axiom.getProperty().accept(this);
+-        axiom.getDomain().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectPropertyRangeAxiom axiom) {
+-        writer.writeStartElement(OBJECT_PROPERTY_RANGE.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        axiom.getRange().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectSubPropertyAxiom axiom) {
+-        writer.writeStartElement(SUB_OBJECT_PROPERTY_OF.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getSubProperty().accept(this);
+-        axiom.getSuperProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
+-        writer.writeStartElement(REFLEXIVE_OBJECT_PROPERTY.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLSameIndividualsAxiom axiom) {
+-        writer.writeStartElement(SAME_INDIVIDUALS.getURI());
+-        writeAnnotations(axiom);
+-        render(axiom.getIndividuals());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLSubClassAxiom axiom) {
+-        writer.writeStartElement(SUB_CLASS_OF.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getSubClass().accept(this);
+-        axiom.getSuperClass().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
+-        writer.writeStartElement(SYMMETRIC_OBJECT_PROPERTY.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
+-        writer.writeStartElement(TRANSITIVE_OBJECT_PROPERTY.getURI());
+-        writeAnnotations(axiom);
+-        axiom.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLClass desc) {
+-        writer.writeStartElement(CLASS.getURI());
+-        writer.writeNameAttribute(desc.getURI());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataAllRestriction desc) {
+-        writer.writeStartElement(DATA_ALL_VALUES_FROM.getURI());
+-        desc.getProperty().accept(this);
+-        desc.getFiller().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataExactCardinalityRestriction desc) {
+-        writer.writeStartElement(DATA_EXACT_CARDINALITY.getURI());
+-        writer.writeCardinalityAttribute(desc.getCardinality());
+-        desc.getProperty().accept(this);
+-        if (desc.isQualified()) {
+-            desc.getFiller().accept(this);
+-        }
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataMaxCardinalityRestriction desc) {
+-        writer.writeStartElement(DATA_MAX_CARDINALITY.getURI());
+-        writer.writeCardinalityAttribute(desc.getCardinality());
+-        desc.getProperty().accept(this);
+-        if (desc.isQualified()) {
+-            desc.getFiller().accept(this);
+-        }
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataMinCardinalityRestriction desc) {
+-        writer.writeStartElement(DATA_MIN_CARDINALITY.getURI());
+-        writer.writeCardinalityAttribute(desc.getCardinality());
+-        desc.getProperty().accept(this);
+-        if (desc.isQualified()) {
+-            desc.getFiller().accept(this);
+-        }
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataSomeRestriction desc) {
+-        writer.writeStartElement(DATA_SOME_VALUES_FROM.getURI());
+-        desc.getProperty().accept(this);
+-        desc.getFiller().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataValueRestriction desc) {
+-        writer.writeStartElement(DATA_HAS_VALUE.getURI());
+-        desc.getProperty().accept(this);
+-        desc.getValue().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectAllRestriction desc) {
+-        writer.writeStartElement(OBJECT_ALL_VALUES_FROM.getURI());
+-        desc.getProperty().accept(this);
+-        desc.getFiller().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectComplementOf desc) {
+-        writer.writeStartElement(OBJECT_COMPLEMENT_OF.getURI());
+-        desc.getOperand().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectExactCardinalityRestriction desc) {
+-        writer.writeStartElement(OBJECT_EXACT_CARDINALITY.getURI());
+-        writer.writeCardinalityAttribute(desc.getCardinality());
+-        desc.getProperty().accept(this);
+-        if (desc.isQualified()) {
+-            desc.getFiller().accept(this);
+-        }
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectIntersectionOf desc) {
+-        writer.writeStartElement(OBJECT_INTERSECTION_OF.getURI());
+-        render(desc.getOperands());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectMaxCardinalityRestriction desc) {
+-        writer.writeStartElement(OBJECT_MAX_CARDINALITY.getURI());
+-        writer.writeCardinalityAttribute(desc.getCardinality());
+-        desc.getProperty().accept(this);
+-        if (desc.isQualified()) {
+-            desc.getFiller().accept(this);
+-        }
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectMinCardinalityRestriction desc) {
+-        writer.writeStartElement(OBJECT_MIN_CARDINALITY.getURI());
+-        writer.writeCardinalityAttribute(desc.getCardinality());
+-        desc.getProperty().accept(this);
+-        if (desc.isQualified()) {
+-            desc.getFiller().accept(this);
+-        }
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectOneOf desc) {
+-        writer.writeStartElement(OBJECT_ONE_OF.getURI());
+-        render(desc.getIndividuals());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectSelfRestriction desc) {
+-        writer.writeStartElement(OBJECT_EXISTS_SELF.getURI());
+-        desc.getProperty().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectSomeRestriction desc) {
+-        writer.writeStartElement(OBJECT_SOME_VALUES_FROM.getURI());
+-        desc.getProperty().accept(this);
+-        desc.getFiller().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectUnionOf desc) {
+-        writer.writeStartElement(OBJECT_UNION_OF.getURI());
+-        render(desc.getOperands());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectValueRestriction desc) {
+-        writer.writeStartElement(OBJECT_HAS_VALUE.getURI());
+-        desc.getProperty().accept(this);
+-        desc.getValue().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataComplementOf node) {
+-        writer.writeStartElement(DATA_COMPLEMENT_OF.getURI());
+-        node.getDataRange().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataOneOf node) {
+-        writer.writeStartElement(DATA_ONE_OF.getURI());
+-        render(node.getValues());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataType node) {
+-        writer.writeStartElement(DATATYPE.getURI());
+-        writer.writeNameAttribute(node.getURI());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataRangeRestriction node) {
+-        // TODO: Fix this when added to spec
+-        writer.writeStartElement(DATATYPE_RESTRICTION.getURI());
+-        node.getDataRange().accept(this);
+-        for (OWLDataRangeFacetRestriction restriction : node.getFacetRestrictions()) {
+-            restriction.accept(this);
+-        }
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataRangeFacetRestriction node) {
+-        // TODO: Fix this when added to spec
+-        writer.writeStartElement(DATATYPE_FACET_RESTRICTION.getURI());
+-        writer.writeFacetAttribute(node.getFacet().getURI());
+-        node.getFacetValue().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLTypedConstant node) {
+-        writer.writeStartElement(CONSTANT.getURI());
+-        writer.writeDatatypeAttribute(node.getDataType().getURI());
+-        writer.writeTextContent(node.getLiteral());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLUntypedConstant node) {
+-        writer.writeStartElement(CONSTANT.getURI());
+-        // TODO: Add in lang when added to spec
+-//        writer.writeDatatypeAttribute(node.getLang());
+-        writer.writeTextContent(node.getLiteral());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLDataProperty property) {
+-        writer.writeStartElement(DATA_PROPERTY.getURI());
+-        writer.writeNameAttribute(property.getURI());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectProperty property) {
+-        writer.writeStartElement(OBJECT_PROPERTY.getURI());
+-        writer.writeNameAttribute(property.getURI());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLObjectPropertyInverse property) {
+-        writer.writeStartElement(INVERSE_OBJECT_PROPERTY.getURI());
+-        property.getInverse().accept(this);
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLIndividual individual) {
+-        writer.writeStartElement(INDIVIDUAL.getURI());
+-        writer.writeNameAttribute(individual.getURI());
+-        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(OWLOntologyAnnotationAxiom axiom) {
+-//        writer.writeStartElement(ANNOTATION.getURI());
+-//        writer.writeAnnotationURIAttribute(axiom.getAnnotation().getAnnotationURI());
+-        axiom.getAnnotation().accept(this);
+-//        writer.writeEndElement();
+-    }
+-
+-
+-    public void visit(SWRLRule rule) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLClassAtom node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLDataRangeAtom node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLObjectPropertyAtom node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLDataValuedPropertyAtom node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLBuiltInAtom node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLAtomDVariable node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLAtomIVariable node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLAtomIndividualObject node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLAtomConstantObject node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLDifferentFromAtom node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    public void visit(SWRLSameAsAtom node) {
+-        throw new OWLRuntimeException("NOT IMPLEMENTED!");
+-    }
+-
+-
+-    private void render(Set<? extends OWLObject> objects) {
+-        for (OWLObject obj : objects) {
+-            obj.accept(this);
+-        }
+-    }
+-}
+Index: owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLOntologyStorageException.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLOntologyStorageException.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLOntologyStorageException.java	(working copy)
+@@ -1,49 +0,0 @@
+-package org.coode.owlapi.owlxml.renderer;
+-
+-import org.semanticweb.owl.model.OWLOntologyStorageException;
+-/*
+- * Copyright (C) 2007, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Bio-Health Informatics Group<br>
+- * Date: 13-Apr-2007<br><br>
+- */
+-public class OWLXMLOntologyStorageException extends OWLOntologyStorageException {
+-
+-    public OWLXMLOntologyStorageException(String message) {
+-        super(message);
+-    }
+-
+-
+-    public OWLXMLOntologyStorageException(String message, Throwable cause) {
+-        super(message, cause);
+-    }
+-
+-
+-    public OWLXMLOntologyStorageException(Throwable cause) {
+-        super(cause);
+-    }
+-}
+Index: owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLRenderer.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLRenderer.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLRenderer.java	(working copy)
+@@ -1,85 +0,0 @@
+-package org.coode.owlapi.owlxml.renderer;
+-
+-import org.coode.xml.OWLOntologyNamespaceManager;
+-import org.semanticweb.owl.io.AbstractOWLRenderer;
+-import org.semanticweb.owl.io.OWLRendererException;
+-import org.semanticweb.owl.io.OWLRendererIOException;
+-import org.semanticweb.owl.model.OWLOntology;
+-import org.semanticweb.owl.model.OWLOntologyFormat;
+-import org.semanticweb.owl.model.OWLOntologyManager;
+-import org.semanticweb.owl.vocab.NamespaceOWLOntologyFormat;
+-import org.semanticweb.owl.vocab.Namespaces;
+-
+-import java.io.IOException;
+-import java.io.Writer;
+-import java.util.Map;
+-/*
+- * Copyright (C) 2006, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Bio-Health Informatics Group<br>
+- * Date: 12-Dec-2006<br><br>
+- */
+-public class OWLXMLRenderer extends AbstractOWLRenderer {
+-
+-    public OWLXMLRenderer(OWLOntologyManager owlOntologyManager) {
+-        super(owlOntologyManager);
+-    }
+-
+-    public void render(OWLOntology ontology, Writer writer, OWLOntologyFormat format) throws OWLRendererException {
+-        try {
+-            OWLOntologyNamespaceManager nsm = new OWLOntologyNamespaceManager(getOWLOntologyManager(), ontology);
+-            nsm.setDefaultNamespace(Namespaces.OWL2XML.toString());
+-            nsm.setPrefix("owl2xml", Namespaces.OWL2XML.toString());
+-            if(format instanceof NamespaceOWLOntologyFormat) {
+-                NamespaceOWLOntologyFormat namespaceFormat = (NamespaceOWLOntologyFormat) format;
+-                final Map<String,String> nsByPrefixMap = namespaceFormat.getNamespacesByPrefixMap();
+-                for(String prefix : nsByPrefixMap.keySet()) {
+-                    String ns = nsByPrefixMap.get(prefix);
+-                    if(ns != null && ns.length() > 0) {
+-                       nsm.setPrefix(prefix, ns);
+-                    }
+-                }
+-                if(namespaceFormat.getDefaultNamespace() != null) {
+-                    nsm.setDefaultNamespace(namespaceFormat.getDefaultNamespace());
+-                }
+-            }
+-            OWLXMLWriter w = new OWLXMLWriter(writer, nsm, ontology);
+-            w.startDocument(ontology);
+-            OWLXMLObjectRenderer ren = new OWLXMLObjectRenderer(ontology, w);
+-            ontology.accept(ren);
+-            w.endDocument();
+-            writer.flush();
+-        }
+-        catch (IOException e) {
+-            throw new OWLRendererIOException(e);
+-        }
+-    }
+-
+-    public void render(OWLOntology ontology, Writer writer) throws OWLRendererException {
+-        render(ontology, writer, getOWLOntologyManager().getOntologyFormat(ontology));
+-    }
+-}
+Index: owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLOntologyStorer.java
+===================================================================
+--- owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLOntologyStorer.java	(revision 1446)
++++ owlxmlrenderer/src/main/java/org/coode/owlapi/owlxml/renderer/OWLXMLOntologyStorer.java	(working copy)
+@@ -1,53 +0,0 @@
+-package org.coode.owlapi.owlxml.renderer;
+-
+-import org.semanticweb.owl.io.OWLXMLOntologyFormat;
+-import org.semanticweb.owl.model.OWLOntology;
+-import org.semanticweb.owl.model.OWLOntologyFormat;
+-import org.semanticweb.owl.model.OWLOntologyManager;
+-import org.semanticweb.owl.model.OWLOntologyStorageException;
+-import org.semanticweb.owl.util.AbstractOWLOntologyStorer;
+-
+-import java.io.Writer;
+-/*
+- * Copyright (C) 2007, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Bio-Health Informatics Group<br>
+- * Date: 07-Jan-2007<br><br>
+- */
+-public class OWLXMLOntologyStorer extends AbstractOWLOntologyStorer {
+-
+-    public boolean canStoreOntology(OWLOntologyFormat ontologyFormat) {
+-        return ontologyFormat.equals(new OWLXMLOntologyFormat());
+-    }
+-
+-
+-    protected void storeOntology(OWLOntologyManager manager, OWLOntology ontology, Writer writer, OWLOntologyFormat format) throws
+-                                                                                                                            OWLOntologyStorageException {
+-        OWLXMLRenderer renderer = new OWLXMLRenderer(manager);
+-        renderer.render(ontology, writer, format);
+-    }
+-}
+Index: util/src/main/java/org/coode/xml/XMLWriterImpl.java
+===================================================================
+--- util/src/main/java/org/coode/xml/XMLWriterImpl.java	(revision 1446)
++++ util/src/main/java/org/coode/xml/XMLWriterImpl.java	(working copy)
+@@ -1,429 +0,0 @@
+-package org.coode.xml;
+-
+-/**
+- * Copyright (C) 2006, Matthew Horridge, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-import org.coode.string.EscapeUtils;
+-
+-import java.io.IOException;
+-import java.io.Writer;
+-import java.util.*;
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Medical Informatics Group<br>
+- * Date: 30-May-2006<br><br>
+- * <p/>
+- * matthew.horridge@cs.man.ac.uk<br>
+- * www.cs.man.ac.uk/~horridgm<br><br>
+- * <p/>
+- * Developed as part of the CO-ODE project
+- * http://www.co-ode.org
+- */
+-public class XMLWriterImpl implements XMLWriter {
+-
+-
+-    private Stack<XMLElement> elementStack;
+-
+-    private Writer writer;
+-
+-    private String encoding;
+-
+-    private String xmlBase;
+-
+-    private XMLWriterNamespaceManager xmlWriterNamespaceManager;
+-
+-    private Map<String, String> entities;
+-
+-    private static final int TEXT_CONTENT_WRAP_LIMIT = 15;
+-
+-    private boolean preambleWritten;
+-
+-    private static final String PERCENT_ENTITY = "&#37;";
+-
+-
+-    public XMLWriterImpl(Writer writer, XMLWriterNamespaceManager xmlWriterNamespaceManager) {
+-        this(writer, xmlWriterNamespaceManager, "");
+-    }
+-
+-
+-    public XMLWriterImpl(Writer writer, XMLWriterNamespaceManager xmlWriterNamespaceManager, String xmlBase) {
+-        this.writer = writer;
+-        this.xmlWriterNamespaceManager = xmlWriterNamespaceManager;
+-        this.xmlBase = xmlBase;
+-        this.encoding = "";
+-        elementStack = new Stack<XMLElement>();
+-        setupEntities();
+-    }
+-
+-
+-    private void setupEntities() {
+-        List<String> namespaces = new ArrayList<String>(xmlWriterNamespaceManager.getNamespaces());
+-        Collections.sort(namespaces, new Comparator<String>() {
+-            public int compare(String o1, String o2) {
+-                // Shortest string first
+-                return o1.length() - o2.length();
+-            }
+-        });
+-        entities = new LinkedHashMap<String, String>();
+-        for (String curNamespace : namespaces) {
+-            String curPrefix = "";
+-            if (xmlWriterNamespaceManager.getDefaultNamespace().equals(curNamespace)){
+-                curPrefix = xmlWriterNamespaceManager.getDefaultPrefix();
+-            }
+-            else{
+-                curPrefix = xmlWriterNamespaceManager.getPrefixForNamespace(curNamespace);
+-
+-            }
+-            if (curPrefix.length() > 0){
+-                    entities.put(curNamespace, "&" + curPrefix + ";");
+-                }
+-        }
+-    }
+-
+-
+-    private String swapForEntity(String value) {
+-        String repVal;
+-        for (String curEntity : entities.keySet()) {
+-            String entityVal = entities.get(curEntity);
+-            if (value.length() > curEntity.length()) {
+-                repVal = value.replace(curEntity, entityVal);
+-//                repVal = StringUtils.replaceOnce(value, curEntity, entityVal);
+-                if (repVal.length() < value.length()) {
+-                    return repVal;
+-                }
+-            }
+-        }
+-        return value;
+-    }
+-
+-
+-    public String getDefaultNamespace() {
+-        return xmlWriterNamespaceManager.getDefaultNamespace();
+-    }
+-
+-
+-    public String getXMLBase() {
+-        return xmlBase;
+-    }
+-
+-
+-    public XMLWriterNamespaceManager getNamespacePrefixes() {
+-        return xmlWriterNamespaceManager;
+-    }
+-
+-
+-    public void setEncoding(String encoding) {
+-        this.encoding = encoding;
+-    }
+-
+-
+-    public void setWrapAttributes(boolean b) {
+-        if (elementStack.size() > 0) {
+-            XMLElement element = elementStack.peek();
+-            element.setWrapAttributes(b);
+-        }
+-    }
+-
+-
+-    public void writeStartElement(String name) throws IOException {
+-        String qName = xmlWriterNamespaceManager.getQName(name);
+-        if(qName == null) {
+-            // Could not generate a valid QName, therefore, we cannot
+-            // write valid XML - just throw an exception!
+-            throw new RuntimeException("Could not generate legal element name (qname) for " + name);
+-        }
+-        XMLElement element = new XMLElement(qName, elementStack.size());
+-        if (elementStack.size() > 0) {
+-            XMLElement topElement = elementStack.peek();
+-            if (topElement != null) {
+-                topElement.writeElementStart(false);
+-            }
+-        }
+-        elementStack.push(element);
+-    }
+-
+-
+-    public void writeEndElement() throws IOException {
+-        // Pop the element off the stack and write it out
+-        if (elementStack.size() > 0) {
+-            XMLElement element = elementStack.pop();
+-            element.writeElementEnd();
+-        }
+-    }
+-
+-
+-    public void writeAttribute(String attr, String val) {
+-        XMLElement element = elementStack.peek();
+-        element.setAttribute(xmlWriterNamespaceManager.getQName(attr), val);
+-    }
+-
+-
+-    public void writeTextContent(String text) {
+-        XMLElement element = elementStack.peek();
+-        element.setText(text);
+-    }
+-
+-
+-    public void writeComment(String commentText) throws IOException {
+-        XMLElement element = new XMLElement(null, elementStack.size());
+-        element.setText("<!-- " + commentText + " -->");
+-        if (!elementStack.isEmpty()) {
+-            XMLElement topElement = elementStack.peek();
+-            if (topElement != null) {
+-                topElement.writeElementStart(false);
+-            }
+-        }
+-        if (preambleWritten) {
+-            element.writeElementStart(true);
+-        }
+-        else {
+-            elementStack.push(element);
+-        }
+-    }
+-
+-
+-    private void writeEntities(String rootName) throws IOException {
+-        writer.write("\n\n<!DOCTYPE " + xmlWriterNamespaceManager.getQName(rootName) + " [\n");
+-        for (String entityVal : entities.keySet()) {
+-            String entity = entities.get(entityVal);
+-            entity = entity.substring(1, entity.length() - 1);
+-            writer.write("    <!ENTITY ");
+-            writer.write(entity);
+-            writer.write(" \"");
+-            entityVal = EscapeUtils.escapeXML(entityVal);
+-            entityVal = entityVal.replace("%", PERCENT_ENTITY);
+-            writer.write(entityVal);
+-            writer.write("\" >\n");
+-        }
+-        writer.write("]>\n\n\n");
+-    }
+-
+-
+-    public void startDocument(String rootElementName) throws IOException {
+-        String encodingString = "";
+-        if (encoding.length() > 0) {
+-            encodingString = " encoding=\"" + encoding + "\"";
+-        }
+-        writer.write("<?xml version=\"1.0\"" + encodingString + "?>\n");
+-        if (XMLWriterPreferences.getInstance().isUseNamespaceEntities()) {
+-            writeEntities(rootElementName);
+-        }
+-        preambleWritten = true;
+-        while (!elementStack.isEmpty()) {
+-            elementStack.pop().writeElementStart(true);
+-        }
+-        writeStartElement(rootElementName);
+-        setWrapAttributes(true);
+-        writeAttribute("xmlns", xmlWriterNamespaceManager.getDefaultNamespace());
+-        if (xmlBase.length() != 0) {
+-            writeAttribute("xml:base", xmlBase);
+-        }
+-        for (String curPrefix : xmlWriterNamespaceManager.getPrefixes()) {
+-            if (curPrefix.length() > 0){
+-                writeAttribute("xmlns:" + curPrefix, xmlWriterNamespaceManager.getNamespaceForPrefix(curPrefix));
+-            }
+-        }
+-    }
+-
+-
+-    public void endDocument() throws IOException {
+-        // Pop of each element
+-        while (!elementStack.isEmpty()) {
+-            writeEndElement();
+-        }
+-        writer.flush();
+-    }
+-
+-
+-    public class XMLElement {
+-
+-        private String name;
+-
+-        private Map<String, String> attributes;
+-
+-        String textContent;
+-
+-        private boolean startWritten;
+-
+-        private int indentation;
+-
+-        private boolean wrapAttributes;
+-
+-
+-        public XMLElement(String name) {
+-            this(name, 0);
+-            wrapAttributes = false;
+-        }
+-
+-
+-        public XMLElement(String name, int indentation) {
+-            this.name = name;
+-            attributes = new LinkedHashMap<String, String>();
+-            this.indentation = indentation;
+-            textContent = null;
+-            startWritten = false;
+-        }
+-
+-
+-        public void setWrapAttributes(boolean b) {
+-            wrapAttributes = true;
+-        }
+-
+-
+-        public void setAttribute(String attribute, String value) {
+-            attributes.put(attribute, value);
+-        }
+-
+-
+-        public void setText(String content) {
+-            textContent = content;
+-        }
+-
+-
+-        public void writeElementStart(boolean close) throws IOException {
+-            if (!startWritten) {
+-                startWritten = true;
+-                insertIndentation();
+-                if (name != null) {
+-                    writer.write('<');
+-                    writer.write(name);
+-                    writeAttributes();
+-                    if (textContent != null) {
+-                        boolean wrap = textContent.length() > TEXT_CONTENT_WRAP_LIMIT;
+-                        if (wrap) {
+-                            writeNewLine();
+-                            indentation++;
+-                            insertIndentation();
+-                        }
+-                        writer.write('>');
+-                        writeTextContent();
+-                        if (wrap) {
+-                            indentation--;
+-                        }
+-                    }
+-                    if (close) {
+-                        if (textContent != null) {
+-                            writeElementEnd();
+-                        }
+-                        else {
+-                            writer.write("/>");
+-                            writeNewLine();
+-                        }
+-                    }
+-                    else {
+-                        if (textContent == null) {
+-                            writer.write('>');
+-                            writeNewLine();
+-                        }
+-                    }
+-                }
+-                else {
+-                    // Name is null so by convension this is a comment
+-                    if (textContent != null) {
+-                        writer.write("\n\n\n");
+-                        StringTokenizer tokenizer = new StringTokenizer(textContent, "\n", true);
+-                        while (tokenizer.hasMoreTokens()) {
+-                            String token = tokenizer.nextToken();
+-                            if (!token.equals("\n")) {
+-                                insertIndentation();
+-                            }
+-                            writer.write(token);
+-                        }
+-                        writer.write("\n\n");
+-                    }
+-                }
+-            }
+-        }
+-
+-
+-        public void writeElementEnd() throws IOException {
+-            if (name != null) {
+-                if (!startWritten) {
+-                    writeElementStart(true);
+-                }
+-                else {
+-                    if (textContent == null) {
+-                        insertIndentation();
+-                    }
+-                    writer.write("</");
+-                    writer.write(name);
+-                    writer.write(">");
+-                    writeNewLine();
+-                }
+-            }
+-        }
+-
+-
+-        private void writeAttribute(String attr, String val) throws IOException {
+-            writer.write(attr);
+-            writer.write('=');
+-            writer.write('"');
+-            if (XMLWriterPreferences.getInstance().isUseNamespaceEntities()) {
+-                writer.write(swapForEntity(EscapeUtils.escapeXML(val)));
+-            }
+-            else {
+-                writer.write(EscapeUtils.escapeXML(val));
+-            }
+-            writer.write('"');
+-        }
+-
+-
+-        private void writeAttributes() throws IOException {
+-            for (Iterator it = attributes.keySet().iterator(); it.hasNext();) {
+-                String attr = (String) it.next();
+-                String val = attributes.get(attr);
+-                writer.write(' ');
+-                writeAttribute(attr, val);
+-                if (it.hasNext() && wrapAttributes) {
+-                    writer.write("\n");
+-                    indentation++;
+-                    insertIndentation();
+-                    indentation--;
+-                }
+-            }
+-        }
+-
+-
+-        private void writeTextContent() throws IOException {
+-            if (textContent != null) {
+-                writer.write(EscapeUtils.escapeXML(textContent));
+-            }
+-        }
+-
+-
+-        private void insertIndentation() throws IOException {
+-            if (XMLWriterPreferences.getInstance().isIndenting()) {
+-                for (int i = 0; i < indentation * XMLWriterPreferences.getInstance().getIndentSize(); i++) {
+-                    writer.write(' ');
+-                }
+-            }
+-        }
+-
+-
+-        private void writeNewLine() throws IOException {
+-            writer.write('\n');
+-        }
+-    }
+-}
+Index: util/src/main/java/org/coode/xml/XMLWriterPreferences.java
+===================================================================
+--- util/src/main/java/org/coode/xml/XMLWriterPreferences.java	(revision 1446)
++++ util/src/main/java/org/coode/xml/XMLWriterPreferences.java	(working copy)
+@@ -1,92 +0,0 @@
+-package org.coode.xml;
+-
+-/**
+- * Copyright (C) 2006, Matthew Horridge, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Medical Informatics Group<br>
+- * Date: 30-May-2006<br><br>
+- * <p/>
+- * matthew.horridge@cs.man.ac.uk<br>
+- * www.cs.man.ac.uk/~horridgm<br><br>
+- *
+- * Developed as part of the CO-ODE project
+- * http://www.co-ode.org
+- */
+-public class XMLWriterPreferences {
+-
+-    private static XMLWriterPreferences instance;
+-
+-    private boolean useNamespaceEntities;
+-
+-    private boolean indenting;
+-
+-    private int indentSize;
+-
+-
+-    private XMLWriterPreferences() {
+-        useNamespaceEntities = true;
+-        indenting = true;
+-        indentSize = 4;
+-    }
+-
+-
+-    public static XMLWriterPreferences getInstance() {
+-        if (instance == null) {
+-            instance = new XMLWriterPreferences();
+-        }
+-        return instance;
+-    }
+-
+-
+-    public boolean isUseNamespaceEntities() {
+-        return useNamespaceEntities;
+-    }
+-
+-
+-    public void setUseNamespaceEntities(boolean useNamespaceEntities) {
+-        this.useNamespaceEntities = useNamespaceEntities;
+-    }
+-
+-
+-    public boolean isIndenting() {
+-        return indenting;
+-    }
+-
+-
+-    public void setIndenting(boolean indenting) {
+-        this.indenting = indenting;
+-    }
+-
+-
+-    public int getIndentSize() {
+-        return indentSize;
+-    }
+-
+-
+-    public void setIndentSize(int indentSize) {
+-        this.indentSize = indentSize;
+-    }
+-}
+Index: util/src/main/java/org/coode/xml/OWLOntologyNamespaceManager.java
+===================================================================
+--- util/src/main/java/org/coode/xml/OWLOntologyNamespaceManager.java	(revision 1446)
++++ util/src/main/java/org/coode/xml/OWLOntologyNamespaceManager.java	(working copy)
+@@ -1,195 +0,0 @@
+-package org.coode.xml;
+-
+-/**
+- * Copyright (C) 2006, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-import org.semanticweb.owl.io.RDFXMLOntologyFormat;
+-import org.semanticweb.owl.model.*;
+-import org.semanticweb.owl.util.NamespaceUtil;
+-import org.semanticweb.owl.vocab.NamespaceOWLOntologyFormat;
+-import org.semanticweb.owl.vocab.Namespaces;
+-
+-import java.net.URI;
+-import java.util.HashSet;
+-import java.util.Map;
+-import java.util.Set;
+-
+-
+-/**
+- * Author: Matthew Horridge<br> The University Of Manchester<br> Medical Informatics Group<br> Date:
+- * 30-May-2006<br><br>
+- * <p/>
+- * matthew.horridge@cs.man.ac.uk<br> www.cs.man.ac.uk/~horridgm<br><br>
+- * <p/>
+- * Developed as part of the CO-ODE project http://www.co-ode.org
+- * <p/>
+- * <p/>
+- * The OWLOntologyNamespaceManager wraps a NamespaceManager (OWLOntologyFormat).  In the case where the appropriate
+- * prefixes and mappings don't exist in the NamespaceManager (OWLOntologyFormat) this manager will create them.
+- */
+-public class OWLOntologyNamespaceManager extends XMLWriterNamespaceManager {
+-
+-    private OWLOntologyManager man;
+-
+-    private OWLOntology ontology;
+-
+-    private NamespaceUtil namespaceUtil;
+-
+-    private static String[] splitResults = new String[2];
+-
+-    private OWLOntologyFormat ontologyFormat;
+-
+-
+-    public OWLOntologyNamespaceManager(OWLOntologyManager man, OWLOntology ontology) {
+-        this(man, ontology, man.getOntologyFormat(ontology));
+-    }
+-
+-
+-    public OWLOntologyNamespaceManager(OWLOntologyManager man, OWLOntology ontology, OWLOntologyFormat format) {
+-        super(getDefaultNamespace(ontology));
+-        this.man = man;
+-        this.ontology = ontology;
+-        namespaceUtil = new NamespaceUtil();
+-        ontologyFormat = format;
+-        processOntology();
+-    }
+-
+-
+-    protected OWLOntology getOntology() {
+-        return ontology;
+-    }
+-
+-
+-    private void processOntology() {
+-        namespaceUtil = new NamespaceUtil();
+-        if (ontologyFormat instanceof NamespaceOWLOntologyFormat) {
+-            NamespaceOWLOntologyFormat namespaceFormat = (NamespaceOWLOntologyFormat) ontologyFormat;
+-            Map<String, String> namespacesByPrefix = namespaceFormat.getNamespacesByPrefixMap();
+-            for (String prefix : namespacesByPrefix.keySet()) {
+-                if (prefix.length() > 0) {
+-                    namespaceUtil.setPrefix(namespacesByPrefix.get(prefix), prefix);
+-                }
+-            }
+-            String defaultNamespace = namespaceFormat.getDefaultNamespace();
+-            if (defaultNamespace != null) {
+-                setDefaultNamespace(defaultNamespace);
+-            }
+-        }
+-        if (!ontology.getRules().isEmpty()) {
+-            namespaceUtil.setPrefix(Namespaces.SWRL.toString(), "swrl");
+-            namespaceUtil.setPrefix(Namespaces.SWRLB.toString(), "swrlb");
+-        }
+-
+-        Set<OWLEntity> entities = getEntitiesThatRequireNamespaces();
+-        for (OWLEntity ent : entities) {
+-            processEntity(ent);
+-        }
+-
+-        for (URI uri : getAnnotationURIsThatRequireNamespaces()) {
+-            processURI(uri);
+-        }
+-
+-        Map<String, String> ns2prefixMap = namespaceUtil.getNamespace2PrefixMap();
+-        for (String ns : ns2prefixMap.keySet()) {
+-            if (!ns.equals(Namespaces.OWL11.toString()) && !ns.equals(Namespaces.OWL11XML.toString())) {
+-                setPrefix(ns2prefixMap.get(ns), ns);
+-            }
+-        }
+-    }
+-
+-
+-    protected Set<OWLEntity> getEntitiesThatRequireNamespaces() {
+-        Set<OWLEntity> result = new HashSet<OWLEntity>();
+-        result.addAll(ontology.getReferencedClasses());
+-        result.addAll(ontology.getReferencedObjectProperties());
+-        result.addAll(ontology.getReferencedDataProperties());
+-        result.addAll(ontology.getReferencedIndividuals());
+-        return result;
+-    }
+-
+-
+-    protected Set<URI> getAnnotationURIsThatRequireNamespaces() {
+-        Set<URI> results = new HashSet<URI>();
+-        OWLOntologyFormat format = man.getOntologyFormat(ontology);
+-        // Nasty hack until OWL 1.1 spec is fixed
+-        if (format instanceof RDFXMLOntologyFormat) {
+-            RDFXMLOntologyFormat rdfXmlFormat = (RDFXMLOntologyFormat) format;
+-            results.addAll(rdfXmlFormat.getAnnotationURIs());
+-        }
+-        results.addAll(ontology.getAnnotationURIs());
+-        return results;
+-    }
+-
+-
+-    private void processEntity(OWLNamedObject entity) {
+-        URI uri = entity.getURI();
+-        processURI(uri);
+-    }
+-
+-
+-    private void processURI(URI uri) {
+-        String s = uri.toString();
+-        namespaceUtil.split(s, splitResults);
+-        if (!(splitResults[0].equals("") && splitResults[1].equals(""))) {
+-            namespaceUtil.getPrefix(splitResults[0]);
+-        }
+-    }
+-
+-
+-    private static String getDefaultNamespace(OWLOntology ontology) {
+-        String base = ontology.getURI().toString();
+-        if (!base.endsWith("#") && !base.endsWith("/")) {
+-            base += "#";
+-        }
+-        return base;
+-    }
+-
+-
+-    /**
+-     * Gets a QName for a full URI.
+-     *
+-     * @param name The name which represents the full name.
+-     *
+-     * @return The QName representation or <code>null</code> if a QName could not be generated.
+-     */
+-    public String getQName(String name) {
+-        namespaceUtil.split(name, splitResults);
+-        if (splitResults[0].equals(getDefaultNamespace())) {
+-            return splitResults[1];
+-        }
+-        if (name.startsWith("xmlns") || name.startsWith("xml:")) {
+-            return name;
+-        }
+-        if (splitResults[0].equals("") && splitResults[1].equals("")) {
+-            // Couldn't split
+-            return name;
+-        }
+-        String prefix = getPrefixForNamespace(splitResults[0]);
+-        if (prefix != null) {
+-            return prefix + ":" + splitResults[1];
+-        }
+-        else {
+-            return null;
+-        }
+-    }
+-}
+Index: util/src/main/java/org/coode/xml/XMLWriterFactory.java
+===================================================================
+--- util/src/main/java/org/coode/xml/XMLWriterFactory.java	(revision 1446)
++++ util/src/main/java/org/coode/xml/XMLWriterFactory.java	(working copy)
+@@ -1,69 +0,0 @@
+-package org.coode.xml;
+-
+-/**
+- * Copyright (C) 2006, Matthew Horridge,  University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-import java.io.Writer;
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Medical Informatics Group<br>
+- * Date: 30-May-2006<br><br>
+- * <p/>
+- * matthew.horridge@cs.man.ac.uk<br>
+- * www.cs.man.ac.uk/~horridgm<br><br>
+- *
+- * Developed as part of the CO-ODE project
+- * http://www.co-ode.org
+- */
+-public class XMLWriterFactory {
+-
+-    private static XMLWriterFactory instance;
+-
+-
+-    private XMLWriterFactory() {
+-
+-    }
+-
+-
+-    /**
+-     * Gets the one and only instance of the <code>XMLWriterFactory</code>
+-     */
+-    public static synchronized XMLWriterFactory getInstance() {
+-        if (instance == null) {
+-            instance = new XMLWriterFactory();
+-        }
+-        return instance;
+-    }
+-
+-
+-    /**
+-     * Creates an XMLWriter.
+-     *
+-     * @param writer The <code>Writer</code> that the XMLWriter will actually write to
+-     */
+-    public XMLWriter createXMLWriter(Writer writer, XMLWriterNamespaceManager xmlWriterNamespaceManager, String xmlBase) {
+-        return new XMLWriterImpl(writer, xmlWriterNamespaceManager, xmlBase);
+-    }
+-}
+Index: util/src/main/java/org/coode/xml/XMLWriterNamespaceManager.java
+===================================================================
+--- util/src/main/java/org/coode/xml/XMLWriterNamespaceManager.java	(revision 1446)
++++ util/src/main/java/org/coode/xml/XMLWriterNamespaceManager.java	(working copy)
+@@ -1,138 +0,0 @@
+-package org.coode.xml;
+-
+-/**
+- * Copyright (C) 2006, Matthew Horridge, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-import java.util.*;
+-
+-/**
+- * Author: Matthew Horridge<br>
+- * The University Of Manchester<br>
+- * Medical Informatics Group<br>
+- * Date: 30-May-2006<br><br>
+- * <p/>
+- * matthew.horridge@cs.man.ac.uk<br>
+- * www.cs.man.ac.uk/~horridgm<br><br>
+- *
+- * Developed as part of the CO-ODE project
+- * http://www.co-ode.org
+- */
+-public class XMLWriterNamespaceManager {
+-
+-    private Map<String, String> prefixNamespaceMap;
+-
+-    private Map<String, String> namespacePrefixMap;
+-
+-    private String defaultNamespace;
+-
+-
+-    public XMLWriterNamespaceManager(String defaultNamespace) {
+-        prefixNamespaceMap = new HashMap<String, String>();
+-        namespacePrefixMap = new HashMap<String, String>();
+-        this.defaultNamespace = defaultNamespace;
+-    }
+-
+-
+-    public void setPrefix(String prefix, String namespace) {
+-        prefixNamespaceMap.put(prefix, namespace);
+-        namespacePrefixMap.put(namespace, prefix);
+-    }
+-
+-
+-    public String getPrefixForNamespace(String namespace) {
+-        return namespacePrefixMap.get(namespace);
+-    }
+-
+-    public void setDefaultNamespace(String namespace) {
+-        defaultNamespace = namespace;
+-    }
+-
+-
+-    public String getNamespaceForPrefix(String prefix) {
+-        return prefixNamespaceMap.get(prefix);
+-    }
+-
+-    public String getQName(String name) {
+-        if (name.startsWith(defaultNamespace)) {
+-            return name.substring(defaultNamespace.length(), name.length());
+-        }
+-        for (String ns : namespacePrefixMap.keySet()) {
+-            if (name.startsWith(ns)) {
+-                String localName = name.substring(ns.length(), name.length());
+-                return namespacePrefixMap.get(ns) + ":" + localName;
+-            }
+-        }
+-        return name;
+-    }
+-
+-
+-    public void createPrefixForNamespace(String namespace) {
+-        if (namespace.equals(defaultNamespace)) {
+-            return;
+-        }
+-        if (!namespacePrefixMap.containsKey(namespace)) {
+-            int counter = 1;
+-            while (prefixNamespaceMap.get("p" + counter) != null) {
+-                counter++;
+-            }
+-            setPrefix("p" + counter, namespace);
+-        }
+-    }
+-
+-
+-    public String getDefaultNamespace() {
+-        return defaultNamespace;
+-    }
+-
+-
+-    public Set<String> getPrefixes() {
+-        return new HashSet<String>(prefixNamespaceMap.keySet());
+-    }
+-
+-
+-    public Set<String> getNamespaces() {
+-        return new HashSet<String>(namespacePrefixMap.keySet());
+-    }
+-
+-
+-    public Map<String, String> getPrefixNamespaceMap(){
+-        return new HashMap<String, String>(prefixNamespaceMap);
+-    }
+-
+-
+-    /**
+-     * Search for a prefix other than "" for the default namespace
+-     * @return the first prefix found for the default namespace that is not ""
+-     */
+-    public String getDefaultPrefix() {
+-        for (String prefix : prefixNamespaceMap.keySet()){
+-            if (!prefix.equals("")){ // if the default has a blank entry then skip it
+-                final String ns = prefixNamespaceMap.get(prefix);
+-                if (ns.equals(defaultNamespace)){
+-                    return prefix;
+-                }
+-            }
+-        }
+-        return "";
+-    }
+-}
+Index: util/src/main/java/org/coode/xml/XMLWriter.java
+===================================================================
+--- util/src/main/java/org/coode/xml/XMLWriter.java	(revision 1446)
++++ util/src/main/java/org/coode/xml/XMLWriter.java	(working copy)
+@@ -1,117 +0,0 @@
+-package org.coode.xml;
+-
+-/**
+- * Copyright (C) 2006, Matthew Horridge, University of Manchester
+- *
+- * Modifications to the initial code base are copyright of their
+- * respective authors, or their employers as appropriate.  Authorship
+- * of the modifications may be determined from the ChangeLog placed at
+- * the end of this file.
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+-
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+-
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, write to the Free Software
+- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+- */
+-
+-import java.io.IOException;
+-
+-/**
+- * User: matthewhorridge<br>
+- * The Univeristy Of Manchester<br>
+- * Medical Informatics Group<br>
+- * Date: May 30, 2006<br><br>
+- * <p/>
+- * matthew.horridge@cs.man.ac.uk<br>
+- * www.cs.man.ac.uk/~horridgm<br><br>
+- * <p/>
+- * Developed as part of the CO-ODE project
+- * http://www.co-ode.org
+- */
+-public interface XMLWriter {
+-
+-    /**
+-     * Sets the encoding for the document that the rdfwriter produces.
+-     * The default encoding is "UTF-8".
+-     * @param encoding The encoding.
+-     */
+-    public void setEncoding(String encoding);
+-
+-
+-    /**
+-     * Gets the default namespace that the rdfwriter uses.
+-     */
+-    public String getDefaultNamespace();
+-
+-
+-    /**
+-     * Gets the rdfwriter's namespace manager.
+-     */
+-    public XMLWriterNamespaceManager getNamespacePrefixes();
+-
+-
+-    public String getXMLBase();
+-
+-
+-    /**
+-     * Causes the current element's attributes to be wrapped in the
+-     * output.
+-     */
+-    public void setWrapAttributes(boolean b);
+-
+-
+-    /**
+-     * Starts writing the document.  The root element will contain
+-     * the namespace declarations and xml:base attribute.
+-     * @param rootElementName The name of the root element.
+-     */
+-    public void startDocument(String rootElementName) throws IOException;
+-
+-
+-    /**
+-     * Causes all open elements, including the document root
+-     * element, to be closed.
+-     */
+-    public void endDocument() throws IOException;
+-
+-
+-    /**
+-     * Writes the start of an element
+-     * @param name The tag name of the element to be written.
+-     */
+-    public void writeStartElement(String name) throws IOException;
+-
+-
+-    /**
+-     * Writes the closing tag of the last element to be started.
+-     */
+-    public void writeEndElement() throws IOException;
+-
+-
+-    /**
+-     * Writes an attribute of the last element to be started (that
+-     * has not been closed).
+-     * @param attr The name of the attribute
+-     * @param val  The value of the attribute
+-     */
+-    public void writeAttribute(String attr, String val) throws IOException;
+-
+-
+-    /**
+-     * Writes a text element
+-     * @param text The text to be written
+-     */
+-    public void writeTextContent(String text) throws IOException;
+-
+-
+-    public void writeComment(String commentText) throws IOException;
+-}
+Index: util/src/main/java/org/coode/owlapiv2/xml/XMLWriterImpl.java
+===================================================================
+--- util/src/main/java/org/coode/owlapiv2/xml/XMLWriterImpl.java	(revision 1446)
++++ util/src/main/java/org/coode/owlapiv2/xml/XMLWriterImpl.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.xml;
++package org.coode.owlapiv2.xml;
+ 
+ /**
+  * Copyright (C) 2006, Matthew Horridge, University of Manchester
+Index: util/src/main/java/org/coode/owlapiv2/xml/XMLWriterPreferences.java
+===================================================================
+--- util/src/main/java/org/coode/owlapiv2/xml/XMLWriterPreferences.java	(revision 1446)
++++ util/src/main/java/org/coode/owlapiv2/xml/XMLWriterPreferences.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.xml;
++package org.coode.owlapiv2.xml;
+ 
+ /**
+  * Copyright (C) 2006, Matthew Horridge, University of Manchester
+Index: util/src/main/java/org/coode/owlapiv2/xml/OWLOntologyNamespaceManager.java
+===================================================================
+--- util/src/main/java/org/coode/owlapiv2/xml/OWLOntologyNamespaceManager.java	(revision 1446)
++++ util/src/main/java/org/coode/owlapiv2/xml/OWLOntologyNamespaceManager.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.xml;
++package org.coode.owlapiv2.xml;
+ 
+ /**
+  * Copyright (C) 2006, University of Manchester
+Index: util/src/main/java/org/coode/owlapiv2/xml/XMLWriterFactory.java
+===================================================================
+--- util/src/main/java/org/coode/owlapiv2/xml/XMLWriterFactory.java	(revision 1446)
++++ util/src/main/java/org/coode/owlapiv2/xml/XMLWriterFactory.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.xml;
++package org.coode.owlapiv2.xml;
+ 
+ /**
+  * Copyright (C) 2006, Matthew Horridge,  University of Manchester
+Index: util/src/main/java/org/coode/owlapiv2/xml/XMLWriterNamespaceManager.java
+===================================================================
+--- util/src/main/java/org/coode/owlapiv2/xml/XMLWriterNamespaceManager.java	(revision 1446)
++++ util/src/main/java/org/coode/owlapiv2/xml/XMLWriterNamespaceManager.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.xml;
++package org.coode.owlapiv2.xml;
+ 
+ /**
+  * Copyright (C) 2006, Matthew Horridge, University of Manchester
+Index: util/src/main/java/org/coode/owlapiv2/xml/XMLWriter.java
+===================================================================
+--- util/src/main/java/org/coode/owlapiv2/xml/XMLWriter.java	(revision 1446)
++++ util/src/main/java/org/coode/owlapiv2/xml/XMLWriter.java	(working copy)
+@@ -1,4 +1,4 @@
+-package org.coode.xml;
++package org.coode.owlapiv2.xml;
+ 
+ /**
+  * Copyright (C) 2006, Matthew Horridge, University of Manchester

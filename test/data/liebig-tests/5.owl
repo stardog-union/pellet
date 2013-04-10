@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/5.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>17.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>unsatisfiablility test (OWL Lite), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="q" />
+
+<owl:Class rdf:ID="A" /> 
+
+<owl:ObjectProperty rdf:ID="qi">
+  <owl:inverseOf rdf:resource="#q" />
+</owl:ObjectProperty>
+
+<owl:Class rdf:ID="MyBottom">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="#M2" />
+      <owl:Class rdf:about="#NotM2" />
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#MyBottom">
+  <rdfs:subClassOf rdf:resource="&owl;Nothing" />
+</owl:Class>
+
+<owl:Class rdf:ID="M2">
+  <owl:intersectionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="#A" />
+      <owl:Restriction> 
+        <owl:onProperty rdf:resource="#q" />
+	<owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+      </owl:Restriction>
+      <owl:Restriction> 
+	<owl:onProperty rdf:resource="#q" />
+	<owl:allValuesFrom rdf:resource="#M2" />
+      </owl:Restriction>
+      <owl:Restriction> 
+	<owl:onProperty rdf:resource="#qi" />
+	<owl:allValuesFrom rdf:resource="#NotM2" />
+      </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<!--
+consequence: M2 is unsatisfiable
+
+<rdf:Description rdf:about="#M2">
+  <owl:equivalentClass  rdf:resource="&owl;Nothing" />
+</rdf:Description>
+-->
+
+</rdf:RDF>
+
+

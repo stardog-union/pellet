@@ -1,0 +1,72 @@
+	<satisfiable id="true1">
+		<and>
+			<catom name="p1"/>
+			<some>
+				<ratom name="r"/>
+				<some>
+					<ratom name="r"/>
+					<and>
+						<catom name="p1"/>
+						<all>
+							<inverse>
+								<ratom name="r"/>
+							</inverse>
+							<or>
+								<not>
+									<catom name="p1"/>
+								</not>
+								<all>
+									<ratom name="r"/>
+									<catom name="p1"/>
+								</all>
+							</or>
+						</all>
+					</and>
+				</some>
+			</some>
+		</and>
+	</satisfiable>
+	<satisfiable id="false2">
+		<and>
+			<catom name="p1"/>
+			<some>
+				<ratom name="r"/>
+				<some>
+					<ratom name="r"/>
+					<and>
+						<catom name="p1"/>
+						<all>
+							<inverse>
+								<ratom name="r"/>
+							</inverse>
+							<or>
+								<not>
+									<catom name="p1"/>
+								</not>
+							</or>
+						</all>
+					</and>
+				</some>
+			</some>
+		</and>
+	</satisfiable>
+	<satisfiable id="false3">
+		<some>
+			<ratom name="f"/>
+			<and>
+				<catom name="p1"/>
+				<all>
+					<inverse>
+						<ratom name="f"/>
+					</inverse>
+					<some>
+						<ratom name="f"/>
+						<not>
+							<catom name="p1"/>
+						</not>
+					</some>
+				</all>
+			</and>
+		</some>
+	</satisfiable>
+

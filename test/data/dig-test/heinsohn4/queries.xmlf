@@ -1,0 +1,48 @@
+	<subsumes id="true1">
+		<all>
+			<ratom name="r"/>
+			<catom name="e"/>
+		</all>
+		<and>
+			<all>
+				<ratom name="r"/>
+				<catom name="d"/>
+			</all>
+			<all>
+				<ratom name="r"/>
+				<or>
+					<not>
+						<catom name="d"/>
+					</not>
+					<catom name="e"/>
+				</or>
+			</all>
+		</and>
+	</subsumes>
+	<subsumes id="true2">
+		<all>
+			<ratom name="r"/>
+			<atmost num="1">
+				<ratom name="s"/>
+				<top/>
+			</atmost>
+		</all>
+		<and>
+			<all>
+				<ratom name="r"/>
+				<or>
+					<not>
+						<atleast num="2">
+							<ratom name="s"/>
+							<top/>
+						</atleast>
+					</not>
+					<catom name="c"/>
+				</or>
+			</all>
+			<all>
+				<ratom name="r"/>
+				<catom name="d"/>
+			</all>
+		</and>
+	</subsumes>

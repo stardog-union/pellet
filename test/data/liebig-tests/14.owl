@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xmlns      ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/14.owl#"
+  xml:base   ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/14.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>22.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>nominal/UNA test (OWL DL), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="hascolor" />
+
+<owl:Class rdf:ID="RGB">
+  <owl:oneOf rdf:parseType="Collection">
+    <owl:Thing rdf:ID="Red"/>
+    <owl:Thing rdf:ID="Green"/>
+    <owl:Thing rdf:ID="Blue"/>
+  </owl:oneOf>
+</owl:Class>
+
+<owl:Class rdf:ID="GB">
+  <owl:oneOf rdf:parseType="Collection">
+    <owl:Thing rdf:about="#Green"/>
+    <owl:Thing rdf:about="#Blue"/>
+  </owl:oneOf>
+</owl:Class>
+
+<owl:Class rdf:ID="RG">
+  <owl:oneOf rdf:parseType="Collection">
+    <owl:Thing rdf:about="#Green"/>
+    <owl:Thing rdf:about="#Red"/>
+  </owl:oneOf>
+</owl:Class>
+
+<owl:AllDifferent>
+  <owl:distinctMembers rdf:parseType="Collection">
+    <owl:Thing rdf:about="#Red" />
+    <owl:Thing rdf:about="#Green" />
+    <owl:Thing rdf:about="#Blue" />
+  </owl:distinctMembers>
+</owl:AllDifferent>
+
+<owl:Class rdf:ID="SomeColored">
+ <rdfs:subClassOf>
+   <owl:Restriction>
+     <owl:onProperty rdf:resource="#hascolor" />
+     <owl:allValuesFrom>
+       <owl:Class>
+         <owl:intersectionOf rdf:parseType="Collection">
+           <owl:Class rdf:about="#RGB" />
+           <owl:Class rdf:about="#GB" />
+           <owl:Class rdf:about="#RG" />
+         </owl:intersectionOf>
+       </owl:Class>
+     </owl:allValuesFrom>
+   </owl:Restriction>
+ </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="GreenColored">
+ <owl:equivalentClass>
+   <owl:Restriction>
+     <owl:onProperty rdf:resource="#hascolor" />
+     <owl:hasValue rdf:resource="#Green" />
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<SomeColored rdf:ID="Apple">
+  <rdf:type>
+    <owl:Restriction>
+     <owl:onProperty rdf:resource="#hascolor"/>
+     <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+    </owl:Restriction>
+  </rdf:type>
+</SomeColored>
+
+
+<!--
+  consequence: Apple is something GreenColored
+
+<owl:Thing rdf:about="#Apple">
+  <rdf:type rdf:resource="#GreenColored" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

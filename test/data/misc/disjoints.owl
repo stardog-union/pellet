@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY foaf "http://xmlns.com/foaf/0.1/">
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+]>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="&owl;"
+	xmlns:test="http://www.example.org/test#"
+	xml:base="http://www.example.org/test#">
+
+	<owl:Ontology rdf:about="">
+		<rdfs:comment>
+			An example to test n-ary disjointness axioms
+		</rdfs:comment>
+	</owl:Ontology>
+
+	<owl:AllDisjointClasses>
+		<owl:members rdf:parseType="Collection">
+			<owl:Class rdf:about="#C1" />
+			<owl:Class rdf:about="#C2" />
+			<owl:Class rdf:about="#C3" />
+		</owl:members>
+	</owl:AllDisjointClasses>
+	<owl:AllDisjointClasses>
+		<owl:members rdf:parseType="Collection">
+			<owl:Class rdf:about="#C4" />
+			<owl:Class rdf:about="#C5" />
+			<owl:Class rdf:about="#C6" />
+		</owl:members>
+	</owl:AllDisjointClasses>
+	
+	<owl:AllDisjointProperties>
+		<owl:members rdf:parseType="Collection">
+			<owl:ObjectProperty rdf:about="#op1" />
+			<owl:ObjectProperty rdf:about="#op2" />
+			<owl:ObjectProperty rdf:about="#op3" />
+		</owl:members>
+	</owl:AllDisjointProperties>
+	<owl:AllDisjointProperties>
+		<owl:members rdf:parseType="Collection">
+			<owl:ObjectProperty rdf:about="#op4" />
+			<owl:ObjectProperty rdf:about="#op5" />
+			<owl:ObjectProperty rdf:about="#op6" />
+		</owl:members>
+	</owl:AllDisjointProperties>
+	
+	<owl:AllDisjointProperties>
+		<owl:members rdf:parseType="Collection">
+			<owl:DatatypeProperty rdf:about="#dp1" />
+			<owl:DatatypeProperty rdf:about="#dp2" />
+			<owl:DatatypeProperty rdf:about="#dp3" />
+		</owl:members>
+	</owl:AllDisjointProperties>
+	<owl:AllDisjointProperties>
+		<owl:members rdf:parseType="Collection">
+			<owl:DatatypeProperty rdf:about="#dp4" />
+			<owl:DatatypeProperty rdf:about="#dp5" />
+			<owl:DatatypeProperty rdf:about="#dp6" />
+		</owl:members>
+	</owl:AllDisjointProperties>
+	
+	<owl:AllDifferent>
+		<owl:members rdf:parseType="Collection">
+			<owl:Thing rdf:about="#ind1" />
+			<owl:Thing rdf:about="#ind2" />
+			<owl:Thing rdf:about="#ind3" />
+		</owl:members>
+	</owl:AllDifferent>
+	<owl:AllDifferent>
+		<owl:members rdf:parseType="Collection">
+			<owl:Thing rdf:about="#ind4" />
+			<owl:Thing rdf:about="#ind5" />
+			<owl:Thing rdf:about="#ind6" />
+		</owl:members>
+	</owl:AllDifferent>
+</rdf:RDF>
+
+

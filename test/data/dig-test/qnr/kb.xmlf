@@ -1,0 +1,41 @@
+    <defconcept name="male"/>
+    <defconcept name="a"/>
+    <equalc>
+        <catom name="a"/>
+        <and>
+            <and>
+                <atleast num="2">
+                    <ratom name="son"/>
+                    <catom name="male"/>
+                </atleast>
+                <atleast num="2">
+                    <ratom name="daughter"/>
+                    <not>
+                        <catom name="male"/>
+                    </not>
+                </atleast>
+            </and>
+        </and>
+    </equalc>
+    <defconcept name="b"/>
+    <equalc>
+        <catom name="b"/>
+        <and>
+            <atleast num="4">
+                <ratom name="child"/>
+                <top/>
+            </atleast>
+        </and>
+    </equalc>
+    <defrole name="son"/>
+    <impliesr>
+        <ratom name="son"/>
+        <ratom name="child"/>
+    </impliesr>
+    <defrole name="child"/>
+    <defrole name="daughter"/>
+    <impliesr>
+        <ratom name="daughter"/>
+        <ratom name="child"/>
+    </impliesr>
+

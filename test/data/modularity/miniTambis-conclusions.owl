@@ -1,0 +1,124 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#" > 
+  <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Nothing">
+    <owl:equivalentClass rdf:resource="http://miniTambis#Hydrolysis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#MultiStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Peptide"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Deoxy-Ribo-Nucleotide"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Gene-Product"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Proteosis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Protein"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#SingleStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#DNA">
+    <owl:equivalentClass rdf:resource="http://miniTambis#DNA"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#RNA"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#macromolecular-compound"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#Peptide">
+    <owl:equivalentClass rdf:resource="http://miniTambis#MultiStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#SingleStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Hydrolysis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Peptide"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Deoxy-Ribo-Nucleotide"/>
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Proteosis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Protein"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Gene-Product"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#MultiStrandedPeptide">
+    <owl:equivalentClass rdf:resource="http://miniTambis#Peptide"/>
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Proteosis"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#SingleStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#MultiStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Protein"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Deoxy-Ribo-Nucleotide"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Gene-Product"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Hydrolysis"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#Protein">
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Proteosis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Peptide"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Deoxy-Ribo-Nucleotide"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Gene-Product"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Protein"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Hydrolysis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#SingleStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#MultiStrandedPeptide"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#RNA">
+    <owl:equivalentClass rdf:resource="http://miniTambis#RNA"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing">
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#Gene-Product">
+    <owl:equivalentClass rdf:resource="http://miniTambis#Gene-Product"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#DNA"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#Proteosis">
+    <owl:equivalentClass rdf:resource="http://miniTambis#MultiStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#SingleStrandedPeptide"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Hydrolysis"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Gene-Product"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Protein"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Proteosis"/>
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Deoxy-Ribo-Nucleotide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Peptide"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#Hydrolysis">
+    <owl:equivalentClass rdf:resource="http://miniTambis#Proteosis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Protein"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Deoxy-Ribo-Nucleotide"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Peptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Hydrolysis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#MultiStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#SingleStrandedPeptide"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Gene-Product"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#Ribo-Nucleotide">
+    <owl:equivalentClass rdf:resource="http://miniTambis#Ribo-Nucleotide"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#SingleStrandedPeptide">
+    <owl:equivalentClass rdf:resource="http://miniTambis#Peptide"/>
+    <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Gene-Product"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Hydrolysis"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#MultiStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Protein"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#SingleStrandedPeptide"/>
+    <owl:equivalentClass rdf:resource="http://miniTambis#Proteosis"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Deoxy-Ribo-Nucleotide"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#macromolecular-compound">
+    <owl:equivalentClass rdf:resource="http://miniTambis#macromolecular-compound"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://miniTambis#Deoxy-Ribo-Nucleotide">
+    <owl:equivalentClass rdf:resource="http://miniTambis#Deoxy-Ribo-Nucleotide"/>
+    <rdfs:subClassOf rdf:resource="http://miniTambis#Ribo-Nucleotide"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+  </rdf:Description>
+</rdf:RDF>

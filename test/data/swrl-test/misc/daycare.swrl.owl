@@ -1,0 +1,499 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="https://mywebspace.wisc.edu/jpthielman/web/daycareontology#"
+    xmlns:p1="http://www.owl-ontologies.com/assert.owl#"
+  xml:base="https://mywebspace.wisc.edu/jpthielman/web/daycareontology">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://www.w3.org/2003/11/swrl"/>
+    <owl:imports rdf:resource="http://www.w3.org/2003/11/swrlb"/>
+  </owl:Ontology>
+  <owl:Class rdf:ID="Person"/>
+  <owl:Class rdf:ID="Teacher">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Student"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Classroom"/>
+  <owl:Class rdf:ID="Behavior"/>
+  <owl:Class rdf:about="#Student">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Teacher"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="has_behavior">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="is_practiced_by"/>
+    </owl:inverseOf>
+    <rdfs:range rdf:resource="#Behavior"/>
+    <rdfs:domain rdf:resource="#Student"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="endangers">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="is_exposed_to"/>
+    </owl:inverseOf>
+    <rdfs:range rdf:resource="#Person"/>
+    <rdfs:domain rdf:resource="#Behavior"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="attends_classroom">
+    <rdfs:range rdf:resource="#Classroom"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="includes_student"/>
+    </owl:inverseOf>
+    <rdfs:domain rdf:resource="#Student"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="teaches_classroom">
+    <rdfs:range rdf:resource="#Classroom"/>
+    <rdfs:domain rdf:resource="#Teacher"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="is_taught_by"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#includes_student">
+    <rdfs:domain rdf:resource="#Classroom"/>
+    <owl:inverseOf rdf:resource="#attends_classroom"/>
+    <rdfs:range rdf:resource="#Student"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="teaches_student">
+    <rdfs:range rdf:resource="#Student"/>
+    <rdfs:domain rdf:resource="#Teacher"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="has_teacher"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#is_practiced_by">
+    <rdfs:range rdf:resource="#Student"/>
+    <rdfs:domain rdf:resource="#Behavior"/>
+    <owl:inverseOf rdf:resource="#has_behavior"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#is_taught_by">
+    <rdfs:domain rdf:resource="#Classroom"/>
+    <owl:inverseOf rdf:resource="#teaches_classroom"/>
+    <rdfs:range rdf:resource="#Teacher"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#is_exposed_to">
+    <rdfs:range rdf:resource="#Behavior"/>
+    <rdfs:domain rdf:resource="#Person"/>
+    <owl:inverseOf rdf:resource="#endangers"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#has_teacher">
+    <rdfs:domain rdf:resource="#Student"/>
+    <owl:inverseOf rdf:resource="#teaches_student"/>
+    <rdfs:range rdf:resource="#Teacher"/>
+  </owl:ObjectProperty>
+  <owl:SymmetricProperty rdf:ID="has_classmate">
+    <owl:inverseOf rdf:resource="#has_classmate"/>
+    <rdfs:range rdf:resource="#Student"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:domain rdf:resource="#Student"/>
+  </owl:SymmetricProperty>
+  <owl:FunctionalProperty rdf:ID="has_age">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:domain rdf:resource="#Student"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="has_date_of_birth">
+    <rdfs:domain rdf:resource="#Student"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#date"/>
+  </owl:FunctionalProperty>
+  <swrl:AtomList/>
+  <Student rdf:ID="jeremy">
+    <has_teacher>
+      <Teacher rdf:ID="miss_Mandy">
+        <teaches_student>
+          <Student rdf:ID="zach">
+            <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >3</has_age>
+            <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            >2003-07-10</has_date_of_birth>
+            <has_teacher rdf:resource="#miss_Mandy"/>
+            <has_teacher>
+              <Teacher rdf:ID="miss_Julie">
+                <teaches_student rdf:resource="#zach"/>
+                <teaches_student>
+                  <Student rdf:ID="scott">
+                    <has_teacher rdf:resource="#miss_Julie"/>
+                    <has_teacher>
+                      <Teacher rdf:ID="miss_Lynn">
+                        <teaches_classroom>
+                          <Classroom rdf:ID="younger_kids_AM_classroom">
+                            <is_taught_by rdf:resource="#miss_Lynn"/>
+                          </Classroom>
+                        </teaches_classroom>
+                        <teaches_student rdf:resource="#scott"/>
+                        <teaches_student>
+                          <Student rdf:ID="katie">
+                            <has_behavior>
+                              <Behavior rdf:ID="Biting"/>
+                            </has_behavior>
+                            <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                            >1</has_age>
+                            <has_teacher rdf:resource="#miss_Lynn"/>
+                            <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                            >2005-03-14</has_date_of_birth>
+                          </Student>
+                        </teaches_student>
+                        <teaches_student>
+                          <Student rdf:ID="ella">
+                            <has_teacher rdf:resource="#miss_Lynn"/>
+                            <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                            >2</has_age>
+                            <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                            >2004-06-15</has_date_of_birth>
+                            <has_behavior>
+                              <Behavior rdf:ID="Pinching"/>
+                            </has_behavior>
+                            <has_behavior rdf:resource="#Biting"/>
+                          </Student>
+                        </teaches_student>
+                        <teaches_student>
+                          <Student rdf:ID="ariel">
+                            <has_behavior>
+                              <Behavior rdf:ID="Throwing_toys"/>
+                            </has_behavior>
+                            <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                            >2004-11-15</has_date_of_birth>
+                            <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                            >2</has_age>
+                            <has_teacher rdf:resource="#miss_Lynn"/>
+                          </Student>
+                        </teaches_student>
+                      </Teacher>
+                    </has_teacher>
+                    <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                    >2</has_age>
+                    <has_behavior rdf:resource="#Biting"/>
+                    <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                    >2004-09-09</has_date_of_birth>
+                  </Student>
+                </teaches_student>
+                <teaches_student>
+                  <Student rdf:ID="nate">
+                    <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                    >2003-12-22</has_date_of_birth>
+                    <has_teacher rdf:resource="#miss_Julie"/>
+                    <has_teacher rdf:resource="#miss_Mandy"/>
+                    <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                    >3</has_age>
+                  </Student>
+                </teaches_student>
+                <teaches_student>
+                  <Student rdf:ID="cass">
+                    <has_teacher rdf:resource="#miss_Julie"/>
+                    <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+                    >2</has_age>
+                    <has_behavior rdf:resource="#Throwing_toys"/>
+                    <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+                    >2005-01-20</has_date_of_birth>
+                  </Student>
+                </teaches_student>
+                <teaches_classroom>
+                  <Classroom rdf:ID="combined_PM_classroom">
+                    <is_taught_by rdf:resource="#miss_Julie"/>
+                  </Classroom>
+                </teaches_classroom>
+              </Teacher>
+            </has_teacher>
+          </Student>
+        </teaches_student>
+        <teaches_student rdf:resource="#nate"/>
+        <teaches_student rdf:resource="#jeremy"/>
+        <teaches_student>
+          <Student rdf:ID="ginny">
+            <has_teacher rdf:resource="#miss_Mandy"/>
+            <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >3</has_age>
+            <has_behavior>
+              <Behavior rdf:ID="Hitting"/>
+            </has_behavior>
+            <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            >2003-12-20</has_date_of_birth>
+          </Student>
+        </teaches_student>
+        <teaches_student>
+          <Student rdf:ID="cal">
+            <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+            >3</has_age>
+            <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+            >2003-08-12</has_date_of_birth>
+            <has_teacher rdf:resource="#miss_Mandy"/>
+          </Student>
+        </teaches_student>
+        <teaches_classroom>
+          <Classroom rdf:ID="older_kids_AM_classroom">
+            <is_taught_by rdf:resource="#miss_Mandy"/>
+          </Classroom>
+        </teaches_classroom>
+      </Teacher>
+    </has_teacher>
+    <has_date_of_birth rdf:datatype="http://www.w3.org/2001/XMLSchema#date"
+    >2003-04-24</has_date_of_birth>
+    <has_behavior rdf:resource="#Throwing_toys"/>
+    <has_age rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+    >3</has_age>
+  </Student>
+  <swrl:Variable rdf:ID="x"/>
+  <swrl:Imp rdf:ID="def-attends_classroom">
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:argument1 rdf:resource="#x"/>
+            <swrl:classPredicate rdf:resource="#Student"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:ClassAtom>
+                <swrl:classPredicate rdf:resource="#Teacher"/>
+                <swrl:argument1>
+                  <swrl:Variable rdf:ID="t"/>
+                </swrl:argument1>
+              </swrl:ClassAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:first>
+                      <swrl:IndividualPropertyAtom>
+                        <swrl:argument2 rdf:resource="#x"/>
+                        <swrl:propertyPredicate rdf:resource="#teaches_student"/>
+                        <swrl:argument1 rdf:resource="#t"/>
+                      </swrl:IndividualPropertyAtom>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                  </swrl:AtomList>
+                </rdf:rest>
+                <rdf:first>
+                  <swrl:IndividualPropertyAtom>
+                    <swrl:propertyPredicate rdf:resource="#teaches_classroom"/>
+                    <swrl:argument2>
+                      <swrl:Variable rdf:ID="c"/>
+                    </swrl:argument2>
+                    <swrl:argument1 rdf:resource="#t"/>
+                  </swrl:IndividualPropertyAtom>
+                </rdf:first>
+              </swrl:AtomList>
+            </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        <rdf:first>
+          <swrl:IndividualPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#attends_classroom"/>
+            <swrl:argument2 rdf:resource="#c"/>
+            <swrl:argument1 rdf:resource="#x"/>
+          </swrl:IndividualPropertyAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:head>
+  </swrl:Imp>
+  <swrl:Variable rdf:ID="y"/>
+  <swrl:Variable rdf:ID="b"/>
+  <swrl:Imp rdf:ID="def1-is_exposed_to">
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:IndividualPropertyAtom>
+                <swrl:argument2 rdf:resource="#y"/>
+                <swrl:argument1 rdf:resource="#x"/>
+                <swrl:propertyPredicate rdf:resource="#has_classmate"/>
+              </swrl:IndividualPropertyAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:IndividualPropertyAtom>
+                    <swrl:argument1 rdf:resource="#y"/>
+                    <swrl:propertyPredicate rdf:resource="#has_behavior"/>
+                    <swrl:argument2 rdf:resource="#b"/>
+                  </swrl:IndividualPropertyAtom>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </swrl:AtomList>
+            </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:classPredicate rdf:resource="#Student"/>
+            <swrl:argument1 rdf:resource="#x"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+      </swrl:AtomList>
+    </swrl:body>
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:IndividualPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#is_exposed_to"/>
+            <swrl:argument1 rdf:resource="#x"/>
+            <swrl:argument2 rdf:resource="#b"/>
+          </swrl:IndividualPropertyAtom>
+        </rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+      </swrl:AtomList>
+    </swrl:head>
+  </swrl:Imp>
+  <swrl:AtomList/>
+  <swrl:Imp rdf:ID="def-has_classmate">
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:IndividualPropertyAtom>
+            <swrl:argument1 rdf:resource="#x"/>
+            <swrl:argument2 rdf:resource="#y"/>
+            <swrl:propertyPredicate rdf:resource="#has_classmate"/>
+          </swrl:IndividualPropertyAtom>
+        </rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+      </swrl:AtomList>
+    </swrl:head>
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:argument1 rdf:resource="#x"/>
+            <swrl:classPredicate rdf:resource="#Student"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:first>
+              <swrl:IndividualPropertyAtom>
+                <swrl:argument1 rdf:resource="#x"/>
+                <swrl:propertyPredicate rdf:resource="#has_teacher"/>
+                <swrl:argument2 rdf:resource="#t"/>
+              </swrl:IndividualPropertyAtom>
+            </rdf:first>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:ClassAtom>
+                    <swrl:classPredicate rdf:resource="#Student"/>
+                    <swrl:argument1 rdf:resource="#y"/>
+                  </swrl:ClassAtom>
+                </rdf:first>
+                <rdf:rest>
+                  <swrl:AtomList>
+                    <rdf:rest>
+                      <swrl:AtomList>
+                        <rdf:first>
+                          <swrl:DifferentIndividualsAtom>
+                            <swrl:argument1 rdf:resource="#x"/>
+                            <swrl:argument2 rdf:resource="#y"/>
+                          </swrl:DifferentIndividualsAtom>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                      </swrl:AtomList>
+                    </rdf:rest>
+                    <rdf:first>
+                      <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="#has_teacher"/>
+                        <swrl:argument2 rdf:resource="#t"/>
+                        <swrl:argument1 rdf:resource="#y"/>
+                      </swrl:IndividualPropertyAtom>
+                    </rdf:first>
+                  </swrl:AtomList>
+                </rdf:rest>
+              </swrl:AtomList>
+            </rdf:rest>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
+  </swrl:Imp>
+  <owl:DataRange>
+    <owl:oneOf rdf:parseType="Resource">
+      <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+      >2</rdf:first>
+      <rdf:rest rdf:parseType="Resource">
+        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >3</rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+      </rdf:rest>
+    </owl:oneOf>
+  </owl:DataRange>
+  <swrl:Variable rdf:ID="n"/>
+  <owl:AllDifferent>
+    <owl:distinctMembers rdf:parseType="Collection">
+      <Student rdf:about="#ariel"/>
+      <Student rdf:about="#cal"/>
+      <Student rdf:about="#cass"/>
+      <Student rdf:about="#ella"/>
+      <Student rdf:about="#ginny"/>
+      <Student rdf:about="#jeremy"/>
+      <Student rdf:about="#katie"/>
+      <Teacher rdf:about="#miss_Julie"/>
+      <Teacher rdf:about="#miss_Lynn"/>
+      <Teacher rdf:about="#miss_Mandy"/>
+      <Student rdf:about="#nate"/>
+      <Student rdf:about="#scott"/>
+      <Student rdf:about="#zach"/>
+    </owl:distinctMembers>
+  </owl:AllDifferent>
+  <swrl:Imp rdf:ID="def2-is_exposed_to">
+    <swrl:head>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:IndividualPropertyAtom>
+            <swrl:propertyPredicate rdf:resource="#is_exposed_to"/>
+            <swrl:argument1 rdf:resource="#x"/>
+            <swrl:argument2 rdf:resource="#b"/>
+          </swrl:IndividualPropertyAtom>
+        </rdf:first>
+        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+      </swrl:AtomList>
+    </swrl:head>
+    <swrl:body>
+      <swrl:AtomList>
+        <rdf:first>
+          <swrl:ClassAtom>
+            <swrl:argument1 rdf:resource="#x"/>
+            <swrl:classPredicate rdf:resource="#Teacher"/>
+          </swrl:ClassAtom>
+        </rdf:first>
+        <rdf:rest>
+          <swrl:AtomList>
+            <rdf:rest>
+              <swrl:AtomList>
+                <rdf:first>
+                  <swrl:IndividualPropertyAtom>
+                    <swrl:argument2 rdf:resource="#b"/>
+                    <swrl:argument1 rdf:resource="#y"/>
+                    <swrl:propertyPredicate rdf:resource="#has_behavior"/>
+                  </swrl:IndividualPropertyAtom>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+              </swrl:AtomList>
+            </rdf:rest>
+            <rdf:first>
+              <swrl:IndividualPropertyAtom>
+                <swrl:propertyPredicate rdf:resource="#teaches_student"/>
+                <swrl:argument2 rdf:resource="#y"/>
+                <swrl:argument1 rdf:resource="#x"/>
+              </swrl:IndividualPropertyAtom>
+            </rdf:first>
+          </swrl:AtomList>
+        </rdf:rest>
+      </swrl:AtomList>
+    </swrl:body>
+  </swrl:Imp>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.3, Build 378)  http://protege.stanford.edu -->

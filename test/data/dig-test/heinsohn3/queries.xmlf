@@ -1,0 +1,21 @@
+	<satisfiable id="false1">
+		<and>
+			<all>
+				<ratom name="tt"/>
+				<catom name="a"/>
+			</all>
+			<atleast num="3">
+				<ratom name="tt"/>
+				<top/>
+			</atleast>
+			<atmost num="1">
+				<ratom name="tt"/>
+				<catom name="c"/>
+			</atmost>
+			<atmost num="1">
+				<ratom name="tt"/>
+				<catom name="d"/>
+			</atmost>
+		</and>
+	</satisfiable>
+

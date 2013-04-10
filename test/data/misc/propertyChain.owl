@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY test "http://www.example.org/test#">
+]>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="&owl;" xmlns="&test;" xml:base="&test;">
+  <owl:Ontology rdf:about="">
+    <rdfs:comment>An example to test property chains</rdfs:comment>
+  </owl:Ontology>
+  <owl:ObjectProperty rdf:ID="r"/>
+  <owl:ObjectProperty rdf:ID="invR">
+    <owl:inverseOf rdf:resource="#r"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p1">
+    <rdfs:subPropertyOf rdf:resource="#p"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="q"/>
+  <owl:ObjectProperty rdf:ID="s"/>
+  <owl:ObjectProperty rdf:ID="invS">
+    <owl:inverseOf rdf:resource="#s"/>
+  </owl:ObjectProperty>
+<!--
+  <rdf:List>
+    <rdf:first rdf:resource="#r"/>
+    <rdf:rest rdf:parseType="Collection">
+      <owl:ObjectProperty rdf:about="#r"/>
+    </rdf:rest>
+    <rdfs:subPropertyOf rdf:resource="#r"/>
+  </rdf:List>
+-->
+  <owl:ObjectProperty rdf:about="#r">
+	<owl:propertyChainAxiom>
+		<rdf:List>
+			<rdf:first rdf:resource="#r"/>
+			<rdf:rest>
+				<rdf:List>
+					<rdf:first rdf:resource="#r"/>
+					<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+				</rdf:List>
+			</rdf:rest>
+		</rdf:List>
+	</owl:propertyChainAxiom>
+  </owl:ObjectProperty>
+<!--
+  <rdf:List>
+    <rdf:first rdf:resource="#r"/>
+    <rdf:rest rdf:parseType="Collection">
+      <owl:ObjectProperty rdf:about="#s"/>
+    </rdf:rest>
+    <rdfs:subPropertyOf rdf:resource="#s"/>
+  </rdf:List>
+-->
+  <owl:ObjectProperty rdf:about="#s">
+	<owl:propertyChainAxiom>
+		<rdf:List>
+			<rdf:first rdf:resource="#r"/>
+			<rdf:rest>
+				<rdf:List>
+					<rdf:first rdf:resource="#s"/>
+					<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+				</rdf:List>
+			</rdf:rest>
+		</rdf:List>
+	</owl:propertyChainAxiom>
+  </owl:ObjectProperty>
+<!--
+  <rdf:List>
+    <rdf:first rdf:resource="#s"/>
+    <rdf:rest rdf:parseType="Collection">
+      <owl:ObjectProperty rdf:about="#r"/>
+    </rdf:rest>
+    <rdfs:subPropertyOf rdf:resource="#s"/>
+  </rdf:List>
+-->
+  <owl:ObjectProperty rdf:about="#s">
+	<owl:propertyChainAxiom>
+		<rdf:List>
+			<rdf:first rdf:resource="#s"/>
+			<rdf:rest>
+				<rdf:List>
+					<rdf:first rdf:resource="#r"/>
+					<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+				</rdf:List>
+			</rdf:rest>
+		</rdf:List>
+	</owl:propertyChainAxiom>
+  </owl:ObjectProperty>
+<!--
+  <rdf:List>
+    <rdf:first rdf:resource="#r"/>
+    <rdf:rest rdf:parseType="Collection">
+      <owl:ObjectProperty rdf:about="#p"/>
+      <owl:ObjectProperty rdf:about="#s"/>      
+    </rdf:rest>
+    <rdfs:subPropertyOf rdf:resource="#s"/>
+  </rdf:List>
+-->
+  <owl:ObjectProperty rdf:about="#s">
+	<owl:propertyChainAxiom>
+		<rdf:List>
+			<rdf:first rdf:resource="#r"/>
+			<rdf:rest>
+				<rdf:List>
+					<rdf:first rdf:resource="#p"/>
+					<rdf:rest>
+						<rdf:List>
+							<rdf:first rdf:resource="#s"/>
+							<rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+						</rdf:List>
+					</rdf:rest>
+				</rdf:List>
+			</rdf:rest>
+		</rdf:List>
+	</owl:propertyChainAxiom>
+  </owl:ObjectProperty>
+  <owl:Thing rdf:about="#a0">
+    <s>
+      <owl:Thing rdf:about="#a1">
+        <r>
+          <owl:Thing rdf:about="#a2">
+            <r>
+              <owl:Thing rdf:about="#a4">
+                <r>
+                  <owl:Thing rdf:about="#a5"/>
+                </r>
+                <r>
+                  <owl:Thing rdf:about="#a6"/>
+                </r>
+              </owl:Thing>
+            </r>
+          </owl:Thing>
+        </r>
+        <r>
+          <owl:Thing rdf:about="#a3"/>
+        </r>
+      </owl:Thing>
+    </s>
+    <r>
+      <owl:Thing rdf:about="#a7">
+        <s>
+          <owl:Thing rdf:about="#a8">
+            <r>
+              <owl:Thing rdf:about="#a10">
+                <s>
+                  <owl:Thing rdf:about="#a11"/>
+                </s>
+              </owl:Thing>
+            </r>
+          </owl:Thing>
+        </s>
+        <r>
+          <owl:Thing rdf:about="#a9">
+            <s>
+              <owl:Thing rdf:about="#a12"/>
+            </s>
+          </owl:Thing>
+        </r>
+        <p1>
+          <owl:Thing rdf:about="#a13">
+            <s>
+              <owl:Thing rdf:about="#a14"/>
+            </s>
+          </owl:Thing>
+        </p1>
+        <p>
+          <owl:Thing rdf:about="#a15">
+            <s>
+              <owl:Thing rdf:about="#a16"/>
+            </s>
+          </owl:Thing>
+        </p>
+      </owl:Thing>
+    </r>
+    <rdf:type>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#s"/>
+        <owl:allValuesFrom>
+          <owl:Class rdf:about="#C"/>
+        </owl:allValuesFrom>
+      </owl:Restriction>
+    </rdf:type>
+  </owl:Thing>
+  <owl:Class rdf:about="#S0">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#invS"/>
+        <owl:hasValue rdf:resource="#a0"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="#R0">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#invR"/>
+        <owl:hasValue rdf:resource="#a0"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="#R1">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#invR"/>
+        <owl:hasValue rdf:resource="#a1"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>  
+</rdf:RDF>

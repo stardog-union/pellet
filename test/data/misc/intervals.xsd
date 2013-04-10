@@ -1,0 +1,30 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="file:test/data/misc/intervals.xsd">
+	        
+	<simpleType name="lessThan10">
+	  <restriction base="positiveInteger">
+	  	<maxInclusive value="10"/>
+	  </restriction>
+	</simpleType>	  
+
+	<simpleType name="between10and20">
+	  <restriction base="positiveInteger">
+	  	<minInclusive value="10"/>
+	  	<maxInclusive value="20"/>
+	  </restriction>
+	</simpleType>	  
+
+	<simpleType name="greaterThan20">
+	  <restriction base="positiveInteger">
+	  	<minInclusive value="20"/>
+	  </restriction>
+	</simpleType>	  
+
+	<simpleType name="greaterThan65">
+	  <restriction base="positiveInteger">
+	  	<minInclusive value="65"/>
+	  </restriction>
+	</simpleType>	  
+
+
+</schema>

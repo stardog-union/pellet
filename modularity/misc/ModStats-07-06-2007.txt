@@ -1,0 +1,118 @@
+Running tests on 7 files:
+   data/01_koala.owl
+   data/02_SUMO.owl
+   data/03_sweet-combined.owl
+   data/04_wine-combined.owl
+   data/05_galen-ian.owl
+   data/go.owl
+   data/Thesaurus_03.owl
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 01_koala.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 39ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 30ms  -- excluding index building time
+Average module signature size: 9.238095238095237
+Name     | Count |   Avg | Total (s)
+====================================
+main     |     0 |     ? |       487
+modTimer |     1 | 30.00 |        30
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 02_SUMO.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 177ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 145ms  -- excluding index building time
+Average module signature size: 7.589540412044374
+Name     | Count |    Avg | Total (s)
+=====================================
+main     |     0 |      ? |       480
+modTimer |     1 | 145.00 |       145
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 03_sweet-combined.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 541ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 476ms  -- excluding index building time
+Average module signature size: 13.296322999279019
+Name     | Count |    Avg | Total (s)
+=====================================
+main     |     0 |      ? |       885
+modTimer |     1 | 476.00 |       476
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 04_wine-combined.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 1499ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 1489ms  -- excluding index building time
+Average module signature size: 102.03623188405797
+Name     | Count |     Avg | Total (s)
+======================================
+main     |     0 |       ? |      1674
+modTimer |     1 | 1489.00 |      1489
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 05_galen-ian.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 14894ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 14787ms  -- excluding index building time
+Average module signature size: 58.68424881775191
+Name     | Count |      Avg | Total (s)
+=======================================
+main     |     0 |        ? |     15553
+modTimer |     1 | 14787.00 |     14787
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: go.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 50248ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 49331ms  -- excluding index building time
+Average module signature size: 13.378194351042367
+Name     | Count |      Avg | Total (s)
+=======================================
+main     |     0 |        ? |     53524
+modTimer |     1 | 49331.00 |     49331
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: Thesaurus_03.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 64505ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 60343ms  -- excluding index building time
+Average module signature size: 21.870502296315045
+Name     | Count |      Avg | Total (s)
+=======================================
+main     |     0 |        ? |     74468
+modTimer |     1 | 60343.00 |     60343
+
+
+
+Ontology                  | Avg Mod Size |  Total time | Actual Time
+====================================================================
+01_koala.owl              |         9.24 |          30 |          39
+02_SUMO.owl               |         7.59 |         145 |         177
+03_sweet-combined.owl     |        13.30 |         476 |         541
+04_wine-combined.owl      |       102.04 |        1489 |        1499
+05_galen-ian.owl          |        58.68 |       14787 |       14894
+go.owl                    |        13.38 |       49331 |       50248
+Thesaurus_03.owl          |        21.87 |       60343 |       64505

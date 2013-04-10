@@ -1,0 +1,22 @@
+    <defconcept name="c"/>
+    <impliesc>
+        <catom name="c"/>
+        <and>
+            <all>
+                <ratom name="r"/>
+                <catom name="c"/>
+            </all>
+        </and>
+    </impliesc>
+    <defconcept name="d"/>
+    <defrole name="r"/>
+    <impliesc>
+        <all>
+            <ratom name="r"/>
+            <catom name="c"/>
+        </all>
+        <or>
+            <catom name="d"/>
+        </or>
+    </impliesc>
+

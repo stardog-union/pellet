@@ -1,0 +1,66 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:test="http://www.example.org/test#"
+    xml:base="http://www.example.org/test">
+  <owl:Class rdf:about="http://www.example.org/test#Male">
+    <owl:disjointWith>
+      <owl:Class rdf:about="http://www.example.org/test#Female"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.example.org/test#Person">
+    <owl:unionOf rdf:parseType="Collection">
+      <owl:Class rdf:about="http://www.example.org/test#Male"/>
+      <owl:Class rdf:about="http://www.example.org/test#Female"/>
+    </owl:unionOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.example.org/test#hasParent"/>
+        </owl:onProperty>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:FunctionalProperty rdf:about="http://www.example.org/test#hasFather"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:cardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="http://www.example.org/test#hasMother"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://www.example.org/test#hasMother">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.example.org/test#hasParent"/>
+    <rdfs:range rdf:resource="http://www.example.org/test#Female"/>
+  </owl:ObjectProperty>
+  <owl:FunctionalProperty rdf:about="http://www.example.org/test#hasFather">
+    <rdfs:subPropertyOf rdf:resource="http://www.example.org/test#hasParent"/>
+    <rdfs:range rdf:resource="http://www.example.org/test#Male"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:FunctionalProperty>
+  <test:Male rdf:about="http://www.example.org/test#Bob">
+    <test:hasParent>
+      <test:Male rdf:about="http://www.example.org/test#Dad"/>
+    </test:hasParent>
+    <test:hasParent>
+      <test:Female rdf:about="http://www.example.org/test#Mom"/>
+    </test:hasParent>
+  </test:Male>
+</rdf:RDF>

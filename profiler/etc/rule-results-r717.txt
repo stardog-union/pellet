@@ -1,0 +1,610 @@
+
+
+
+ITERATION: 1
+
+
+
+ INFO [main] (PelletOptions.java:139) - Reading Pellet configuration file file:profiler/pellet.properties
+Parsing (16) files...................done.
+After Parse
+  0.53 -> <INPUT> : KnowledgeBase, refcount=8
+    0.51 (96.9%) -> KnowledgeBase#factory : PureFactory, refcount=102
+      0.26 (49.4%) -> SharedObjectFactory#table children: 94 avg: 119.69148936170212 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+      0.25 (47.4%) -> SharedObjectFactory#tableSize : int[]
+    0.01 (2.5%) -> KnowledgeBase#abox : ABox
+      0.01 (2.4%) -> ABox#dtReasoner : DatatypeReasoner
+
+ INFO [main] (KnowledgeBase.java:1487) - Expressivity: SHI(D), Classes: 43 Properties: 32 Individuals: 17174 Strategy: ContinuousRulesStrategy
+Expressivity   : SHI(D)
+Classes        : 43
+Obj Properties : 25
+Data Properties: 7
+Individuals    : 17174
+Literals       : 9249
+Types          : 52476
+Edges          : 82414
+
+After Load
+  42.54 -> <INPUT> : KnowledgeBase, refcount=9
+    30.45 (71.6%) -> KnowledgeBase#abox : ABox, refcount=26424
+      27.75 (65.2%) -> ABox#nodes : HashMap, refcount=2
+        27.75 (65.2%) -> HashMap#table children: 21736 avg: 1326.664105631211 <shell: HashMap$Entry[], length=65536> 0.2500152587890625
+      2.69 (6.3%) -> ABox#nodeList : ArrayList
+        2.69 (6.3%) -> ArrayList#elementData children: 20150 avg: 131.95086848635236 <shell: Object[], length=39224> 0.1496429443359375
+    11.44 (26.9%) -> KnowledgeBase#factory : PureFactory, refcount=112661
+      11.18 (26.3%) -> SharedObjectFactory#table children: 63151 avg: 181.56173298918466 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+    0.52 (1.2%) -> KnowledgeBase#individuals : HashSet
+
+ INFO [main] (ABox.java:1582) - ABox consistency for 0 individuals
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 26970 Time: 1123
+Individuals    : 17721
+Literals       : 9249
+Types          : 108012
+Edges          : 82961
+
+After Consistency
+  49.02 -> <INPUT> : KnowledgeBase, refcount=9
+    36.86 (75.2%) -> KnowledgeBase#abox : ABox, refcount=35337
+      30.31 (61.8%) -> ABox#nodes : HashMap, refcount=2
+        30.31 (61.8%) -> HashMap#table children: 22101 avg: 1426.303560924845 <shell: HashMap$Entry[], length=65536> 0.2500152587890625
+      3.83 (7.8%) -> ABox#branches : ArrayList
+        3.83 (7.8%) -> ArrayList#elementData children: 8345 avg: 475.39736369083283 <shell: Object[], length=11621> 0.044345855712890625
+      2.70 (5.5%) -> ABox#nodeList : ArrayList
+        2.70 (5.5%) -> ArrayList#elementData children: 20253 avg: 132.24455636202043 <shell: Object[], length=39224> 0.1496429443359375
+    11.51 (23.5%) -> KnowledgeBase#factory : PureFactory, refcount=113765
+      11.25 (23.0%) -> SharedObjectFactory#table children: 63197 avg: 182.59453771539788 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+    0.52 (1.1%) -> KnowledgeBase#individuals : HashSet
+
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:133) - Classes: 45 Individuals: 17174
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:142) - Starting classification...
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:173) - CD classification disabled
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 8
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Organization for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Organization) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Work for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Work) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Schedule for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Schedule) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Publication for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Publication) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Faculty for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Faculty) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Employee for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Employee) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Professor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 2
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Professor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Person for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Person) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 110
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Dean for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Dean) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchGroup for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchGroup) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 4
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Institute for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Institute) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#University for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 2
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#University) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Program for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Program) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#College for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#College) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Department for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Department) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Course for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Course) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Research for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Research) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Article for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Article) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Book for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Book) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#UnofficialPublication for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#UnofficialPublication) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Specification for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Specification) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Software for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Software) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Manual for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Manual) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AssistantProfessor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AssistantProfessor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AssociateProfessor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AssociateProfessor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#VisitingProfessor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#VisitingProfessor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#FullProfessor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#FullProfessor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Lecturer for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Lecturer) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#PostDoc for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#PostDoc) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AdministrativeStaff for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AdministrativeStaff) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#TeachingAssistant for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#TeachingAssistant) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Student for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Student) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency and([not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Employee),http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director]) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 1 Tree size: 2 Time: 2
+ INFO [main] (ABox.java:1584) - Consistency and([not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director),http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Dean]) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateStudent for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateStudent) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency and([not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Student),http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateStudent]) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateCourse for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateCourse) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#TechnicalReport for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#TechnicalReport) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ConferencePaper for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ConferencePaper) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#JournalArticle for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#JournalArticle) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#SystemsStaff for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#SystemsStaff) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ClericalStaff for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ClericalStaff) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchAssistant for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 3 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchAssistant) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency and([http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchAssistant,not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Employee)]) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#UndergraduateStudent for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#UndergraduateStudent) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:203) - SubClass Count: 463
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:204) - Satisfiability Count: 4
+After Classify
+  49.18 -> <INPUT> : KnowledgeBase, refcount=11
+    36.97 (75.2%) -> KnowledgeBase#abox : ABox, refcount=35337
+      30.31 (61.6%) -> ABox#nodes : HashMap, refcount=2
+        30.31 (61.6%) -> HashMap#table children: 22101 avg: 1426.30211302656 <shell: HashMap$Entry[], length=65536> 0.2500152587890625
+      3.83 (7.8%) -> ABox#branches : ArrayList
+        3.83 (7.8%) -> ArrayList#elementData children: 8345 avg: 475.40551228280407 <shell: Object[], length=11621> 0.044345855712890625
+      2.70 (5.5%) -> ABox#nodeList : ArrayList
+        2.70 (5.5%) -> ArrayList#elementData children: 20256 avg: 132.2435821484992 <shell: Object[], length=39224> 0.1496429443359375
+    11.50 (23.4%) -> KnowledgeBase#factory : PureFactory, refcount=113776
+      11.25 (22.9%) -> SharedObjectFactory#table children: 63199 avg: 182.55130619155366 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+    0.52 (1.1%) -> KnowledgeBase#individuals : HashSet
+
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 15 individuals [http://www.Department9.University0.edu/FullProfessor0, http://www.Department1.University0.edu/FullProfessor4, http://www.Department3.University0.edu/FullProfessor4, http://www.Department7.University0.edu/FullProfessor1, http://www.Department5.University0.edu/FullProfessor4, http://www.Department0.University0.edu/FullProfessor7, http://www.Department2.University0.edu/FullProfessor4, http://www.Department10.University0.edu/FullProfessor5, http://www.Department6.University0.edu/FullProfessor1, http://www.Department14.University0.edu/FullProfessor6, http://www.Department12.University0.edu/FullProfessor2, http://www.Department11.University0.edu/FullProfessor1, http://www.Department8.University0.edu/FullProfessor3, http://www.Department4.University0.edu/FullProfessor3, http://www.Department13.University0.edu/FullProfessor7]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26971 Time: 2109
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 7 individuals [http://www.Department9.University0.edu/FullProfessor0, http://www.Department1.University0.edu/FullProfessor4, http://www.Department3.University0.edu/FullProfessor4, http://www.Department7.University0.edu/FullProfessor1, http://www.Department5.University0.edu/FullProfessor4, http://www.Department0.University0.edu/FullProfessor7, http://www.Department2.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26971 Time: 1157
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 8 individuals [http://www.Department10.University0.edu/FullProfessor5, http://www.Department6.University0.edu/FullProfessor1, http://www.Department14.University0.edu/FullProfessor6, http://www.Department12.University0.edu/FullProfessor2, http://www.Department11.University0.edu/FullProfessor1, http://www.Department8.University0.edu/FullProfessor3, http://www.Department4.University0.edu/FullProfessor3, http://www.Department13.University0.edu/FullProfessor7]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 586
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 3 individuals [http://www.Department9.University0.edu/FullProfessor0, http://www.Department1.University0.edu/FullProfessor4, http://www.Department3.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 675
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 4 individuals [http://www.Department7.University0.edu/FullProfessor1, http://www.Department5.University0.edu/FullProfessor4, http://www.Department0.University0.edu/FullProfessor7, http://www.Department2.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26971 Time: 1126
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department3.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 639
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department1.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 673
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department9.University0.edu/FullProfessor0]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 659
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 2 individuals [http://www.Department7.University0.edu/FullProfessor1, http://www.Department5.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 599
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 2 individuals [http://www.Department0.University0.edu/FullProfessor7, http://www.Department2.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26971 Time: 1243
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department5.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 1848
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department7.University0.edu/FullProfessor1]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 605
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department2.University0.edu/FullProfessor4]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26971 Time: 1200
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department0.University0.edu/FullProfessor7]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 574
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 4 individuals [http://www.Department10.University0.edu/FullProfessor5, http://www.Department6.University0.edu/FullProfessor1, http://www.Department14.University0.edu/FullProfessor6, http://www.Department12.University0.edu/FullProfessor2]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 690
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 4 individuals [http://www.Department11.University0.edu/FullProfessor1, http://www.Department8.University0.edu/FullProfessor3, http://www.Department4.University0.edu/FullProfessor3, http://www.Department13.University0.edu/FullProfessor7]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 663
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 2 individuals [http://www.Department10.University0.edu/FullProfessor5, http://www.Department6.University0.edu/FullProfessor1]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 645
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 2 individuals [http://www.Department14.University0.edu/FullProfessor6, http://www.Department12.University0.edu/FullProfessor2]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 596
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department6.University0.edu/FullProfessor1]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 696
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department10.University0.edu/FullProfessor5]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 655
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department12.University0.edu/FullProfessor2]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 1776
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department14.University0.edu/FullProfessor6]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 572
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 2 individuals [http://www.Department11.University0.edu/FullProfessor1, http://www.Department8.University0.edu/FullProfessor3]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 727
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 2 individuals [http://www.Department4.University0.edu/FullProfessor3, http://www.Department13.University0.edu/FullProfessor7]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 649
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department8.University0.edu/FullProfessor3]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 673
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department11.University0.edu/FullProfessor1]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 616
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department13.University0.edu/FullProfessor7]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 712
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 1 individuals [http://www.Department4.University0.edu/FullProfessor3]
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 0 Tree size: 26970 Time: 639
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director) for 15 individuals [http://www.Department9.University0.edu/FullProfessor0, http://www.Department4.University0.edu/FullProfessor3, http://www.Department3.University0.edu/FullProfessor4, http://www.Department0.University0.edu/FullProfessor7, http://www.Department8.University0.edu/FullProfessor3, http://www.Department6.University0.edu/FullProfessor1, http://www.Department13.University0.edu/FullProfessor7, http://www.Department7.University0.edu/FullProfessor1, http://www.Department5.University0.edu/FullProfessor4, http://www.Department12.University0.edu/FullProfessor2, http://www.Department2.University0.edu/FullProfessor4, http://www.Department14.University0.edu/FullProfessor6, http://www.Department1.University0.edu/FullProfessor4, http://www.Department10.University0.edu/FullProfessor5, http://www.Department11.University0.edu/FullProfessor1]
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 0 Tree size: 26970 Time: 877
+After Realize
+  72.19 -> <INPUT> : KnowledgeBase, refcount=11
+    60.25 (83.5%) -> KnowledgeBase#abox : ABox, refcount=35337
+      30.90 (42.8%) -> ABox#nodes : HashMap, refcount=2
+        30.90 (42.8%) -> HashMap#table children: 22101 avg: 1454.237681552871 <shell: HashMap$Entry[], length=65536> 0.2500152587890625
+      22.66 (31.4%) -> ABox#lastClash : Clash, refcount=2
+      3.86 (5.3%) -> ABox#branches : ArrayList
+        3.86 (5.3%) -> ArrayList#elementData children: 8345 avg: 478.91132414619534 <shell: Object[], length=11621> 0.044345855712890625
+      2.70 (3.7%) -> ABox#nodeList : ArrayList
+        2.70 (3.7%) -> ArrayList#elementData children: 20262 avg: 132.22218931990918 <shell: Object[], length=39224> 0.1496429443359375
+    10.69 (14.8%) -> KnowledgeBase#factory : PureFactory, refcount=99581
+      10.44 (14.5%) -> SharedObjectFactory#table children: 63202 avg: 169.10507578874086 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+
+
+
+
+RESULT 1:
+Version: 20080124
+
+
+                | Parse             | Load              | Consistency       | Classify          | Realize           |
+                | Time    | Mem     | Time    | Mem     | Time    | Mem     | Time    | Mem     | Time    | Mem     |
+univ-swrl-bench |    8.93 |    0.02 |    4.05 |   31.10 |    1.14 |   37.52 |    0.27 |   37.68 |   25.84 |   61.49 |
+
+Parsing (51) files......................................................done.
+After Parse
+  13.29 -> <INPUT> : KnowledgeBase, refcount=8
+    13.28 (99.9%) -> KnowledgeBase#factory : PureFactory, refcount=99581
+      13.03 (98.0%) -> SharedObjectFactory#table children: 63202 avg: 211.9666308028227 <shell: shared.SharedObjectFactory$Entry[], length=65536> 0.2500152587890625
+      0.25 (1.9%) -> SharedObjectFactory#tableSize : int[]
+
+ INFO [main] (KnowledgeBase.java:1487) - Expressivity: SHI(D), Classes: 43 Properties: 32 Individuals: 55664 Strategy: ContinuousRulesStrategy
+Expressivity   : SHI(D)
+Classes        : 43
+Obj Properties : 25
+Data Properties: 7
+Individuals    : 55664
+Literals       : 29012
+Types          : 170225
+Edges          : 278228
+
+After Load
+  133.75 -> <INPUT> : KnowledgeBase, refcount=9
+    92.23 (69.0%) -> KnowledgeBase#abox : ABox, refcount=84677
+      89.65 (67.0%) -> ABox#nodes : HashMap, refcount=2
+        89.65 (67.0%) -> HashMap#table children: 62369 avg: 1498.8025461367026 <shell: HashMap$Entry[], length=131072> 0.5000152587890625
+      2.57 (1.9%) -> ABox#nodeList : ArrayList
+        2.57 (1.9%) -> ArrayList#elementData children: 34735 avg: 67.28138764934504 <shell: Object[], length=88256> 0.3366851806640625
+    39.62 (29.6%) -> KnowledgeBase#factory : PureFactory, refcount=342711
+      38.62 (28.9%) -> SharedObjectFactory#table children: 199810 avg: 197.4019618637706 <shell: shared.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
+    1.77 (1.3%) -> KnowledgeBase#individuals : HashSet
+
+ INFO [main] (ABox.java:1582) - ABox consistency for 0 individuals
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 86499 Time: 2745
+Individuals    : 57487
+Literals       : 29012
+Types          : 354837
+Edges          : 280051
+
+After Consistency
+  155.49 -> <INPUT> : KnowledgeBase, refcount=9
+    113.79 (73.2%) -> KnowledgeBase#abox : ABox, refcount=114576
+      87.82 (56.5%) -> ABox#nodes : HashMap, refcount=2
+        87.82 (56.5%) -> HashMap#table children: 63341 avg: 1445.4754424464406 <shell: HashMap$Entry[], length=131072> 0.5000152587890625
+      23.34 (15.0%) -> ABox#branches : ArrayList
+        23.34 (15.0%) -> ArrayList#elementData children: 28070 avg: 866.2822586391165 <shell: Object[], length=39224> 0.1496429443359375
+      2.62 (1.7%) -> ABox#nodeList : ArrayList
+        2.62 (1.7%) -> ArrayList#elementData children: 35416 avg: 67.49339281680597 <shell: Object[], length=88256> 0.3366851806640625
+    39.80 (25.6%) -> KnowledgeBase#factory : PureFactory, refcount=345261
+      38.80 (25.0%) -> SharedObjectFactory#table children: 200408 avg: 197.7613718015249 <shell: shared.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
+    1.77 (1.1%) -> KnowledgeBase#individuals : HashSet
+
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:133) - Classes: 45 Individuals: 55664
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:142) - Starting classification...
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:173) - CD classification disabled
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Chair) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Work for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Work) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Organization for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Organization) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Schedule for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Schedule) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Publication for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Publication) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Faculty for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 44
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Faculty) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Employee for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Employee) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Professor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Professor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Person for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Person) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Dean for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Dean) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Course for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Course) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Research for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Research) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchGroup for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchGroup) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Institute for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Institute) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#University for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#University) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Program for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Program) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#College for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#College) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Department for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Department) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Article for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Article) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Book for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Book) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#UnofficialPublication for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#UnofficialPublication) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Specification for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Specification) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Software for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Software) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Manual for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Manual) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AssistantProfessor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AssistantProfessor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AssociateProfessor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AssociateProfessor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#VisitingProfessor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#VisitingProfessor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#FullProfessor for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#FullProfessor) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Lecturer for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Lecturer) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#PostDoc for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#PostDoc) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AdministrativeStaff for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#AdministrativeStaff) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#TeachingAssistant for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#TeachingAssistant) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Student for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Student) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency and([not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Employee),http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director]) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency and([not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director),http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Dean]) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateStudent for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateStudent) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency and([not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Student),http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateStudent]) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateCourse for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#GraduateCourse) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#TechnicalReport for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#TechnicalReport) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ConferencePaper for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ConferencePaper) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#JournalArticle for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#JournalArticle) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#SystemsStaff for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#SystemsStaff) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ClericalStaff for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ClericalStaff) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchAssistant for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 3 Time: 0
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchAssistant) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency and([http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#ResearchAssistant,not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Employee)]) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: false Tree depth: 1 Tree size: 1 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#UndergraduateStudent for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 2 Time: 1
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#UndergraduateStudent) for 0 individuals []
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 1 Tree size: 1 Time: 0
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:203) - SubClass Count: 463
+ INFO [main] (CDOptimizedTaxonomyBuilder.java:204) - Satisfiability Count: 4
+After Classify
+  155.65 -> <INPUT> : KnowledgeBase, refcount=11
+    113.90 (73.2%) -> KnowledgeBase#abox : ABox, refcount=114576
+      87.82 (56.4%) -> ABox#nodes : HashMap, refcount=2
+        87.82 (56.4%) -> HashMap#table children: 63341 avg: 1445.474937244439 <shell: HashMap$Entry[], length=131072> 0.5000152587890625
+      23.34 (15.0%) -> ABox#branches : ArrayList
+        23.34 (15.0%) -> ArrayList#elementData children: 28070 avg: 866.2829711435696 <shell: Object[], length=39224> 0.1496429443359375
+      2.62 (1.7%) -> ABox#nodeList : ArrayList
+        2.62 (1.7%) -> ArrayList#elementData children: 35420 avg: 67.50361377752682 <shell: Object[], length=88256> 0.3366851806640625
+    39.80 (25.6%) -> KnowledgeBase#factory : PureFactory, refcount=345269
+      38.80 (24.9%) -> SharedObjectFactory#table children: 200418 avg: 197.75238252053208 <shell: shared.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
+    1.77 (1.1%) -> KnowledgeBase#individuals : HashSet
+
+ INFO [main] (ABox.java:1584) - Consistency not(http://www.lehigh.edu/~zhp2/2004/0401/univ-bench.owl#Director) for 50 individuals [http://www.Department9.University0.edu/FullProfessor0, http://www.Department8.University0.edu/FullProfessor3, http://www.Department6.University0.edu/FullProfessor1, http://www.Department10.University1.edu/FullProfessor6, http://www.Department15.University1.edu/FullProfessor4, http://www.Department5.University0.edu/FullProfessor4, http://www.Department14.University0.edu/FullProfessor6, http://www.Department3.University2.edu/FullProfessor5, http://www.Department1.University0.edu/FullProfessor4, http://www.Department14.University2.edu/FullProfessor6, http://www.Department1.University2.edu/FullProfessor5, http://www.Department0.University1.edu/FullProfessor5, http://www.Department0.University0.edu/FullProfessor7, http://www.Department2.University0.edu/FullProfessor4, http://www.Department3.University1.edu/FullProfessor2, http://www.Department0.University2.edu/FullProfessor7, http://www.Department10.University2.edu/FullProfessor1, http://www.Department15.University2.edu/FullProfessor2, http://www.Department13.University1.edu/FullProfessor4, http://www.Department9.University2.edu/FullProfessor0, http://www.Department10.University0.edu/FullProfessor5, http://www.Department16.University1.edu/FullProfessor9, http://www.Department1.University1.edu/FullProfessor7, http://www.Department4.University0.edu/FullProfessor3, http://www.Department4.University2.edu/FullProfessor0, http://www.Department7.University2.edu/FullProfessor2, http://www.Department17.University1.edu/FullProfessor6, http://www.Department2.University1.edu/FullProfessor1, http://www.Department5.University1.edu/FullProfessor0, http://www.Department2.University2.edu/FullProfessor5, http://www.Department14.University1.edu/FullProfessor0, http://www.Department4.University1.edu/FullProfessor2, http://www.Department11.University1.edu/FullProfessor5, http://www.Department7.University1.edu/FullProfessor1, http://www.Department18.University1.edu/FullProfessor1, http://www.Department11.University2.edu/FullProfessor6, http://www.Department12.University0.edu/FullProfessor2, http://www.Department3.University0.edu/FullProfessor4, http://www.Department5.University2.edu/FullProfessor8, http://www.Department13.University2.edu/FullProfessor7, http://www.Department6.University1.edu/FullProfessor4, http://www.Department13.University0.edu/FullProfessor7, http://www.Department7.University0.edu/FullProfessor1, http://www.Department12.University1.edu/FullProfessor5, http://www.Department8.University1.edu/FullProfessor0, http://www.Department9.University1.edu/FullProfessor6, http://www.Department6.University2.edu/FullProfessor1, http://www.Department12.University2.edu/FullProfessor4, http://www.Department11.University0.edu/FullProfessor1, http://www.Department8.University2.edu/FullProfessor1]
+ INFO [main] (ABox.java:1658) - Consistent: true Tree depth: 0 Tree size: 86499 Time: 3242
+After Realize
+  159.29 -> <INPUT> : KnowledgeBase, refcount=11
+    115.88 (72.7%) -> KnowledgeBase#abox : ABox, refcount=114576
+      89.57 (56.2%) -> ABox#nodes : HashMap, refcount=2
+        89.57 (56.2%) -> HashMap#table children: 63341 avg: 1474.440441420249 <shell: HashMap$Entry[], length=131072> 0.5000152587890625
+      23.57 (14.8%) -> ABox#branches : ArrayList
+        23.57 (14.8%) -> ArrayList#elementData children: 28070 avg: 874.8783398646242 <shell: Object[], length=39224> 0.1496429443359375
+      2.62 (1.6%) -> ABox#nodeList : ArrayList
+        2.62 (1.6%) -> ArrayList#elementData children: 35420 avg: 67.50894974590626 <shell: Object[], length=88256> 0.3366851806640625
+    39.69 (24.9%) -> KnowledgeBase#factory : PureFactory, refcount=343452
+      38.69 (24.3%) -> SharedObjectFactory#table children: 200418 avg: 197.20788052969294 <shell: shared.SharedObjectFactory$Entry[], length=262144> 1.0000152587890625
+    1.77 (1.1%) -> KnowledgeBase#individuals : HashSet
+
+
+
+
+RESULT 1:
+Version: 20080124
+
+
+                | Parse             | Load              | Consistency       | Classify          | Realize           |
+                | Time    | Mem     | Time    | Mem     | Time    | Mem     | Time    | Mem     | Time    | Mem     |
+univ-swrl-bench |   15.79 |    0.02 |    9.70 |   62.62 |    1.96 |   76.61 |    0.37 |   76.77 |   16.07 |   90.54 |
+

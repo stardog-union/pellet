@@ -1,0 +1,22 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:  <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb:  <http://www.w3.org/2003/11/swrlb#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix : <http://owldl.com/ontologies/swrl/tests/builtIns/008#> .
+
+<> a owl:Ontology .
+
+:Amy :bYear "2001"^^xsd:integer ;
+     :bMonth "1"^^xsd:integer ;
+     :bDay "1"^^xsd:integer .
+
+:Basil :bYear "2002"^^xsd:integer ;
+     :bMonth "2"^^xsd:integer ;
+     :bDay "2"^^xsd:integer ;
+     :bTZ "Z" .
+
+:Clara :born "2003-03-13"^^xsd:date .
+#:Desmond :born "2004-04-14+01:00"^^xsd:date .
+

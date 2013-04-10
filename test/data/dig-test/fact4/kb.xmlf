@@ -1,0 +1,59 @@
+    <defconcept name="c1"/>
+    <defconcept name="c2"/>
+    <defrole name="rx1"/>
+    <defrole name="rx2"/>
+    <defrole name="rx3"/>
+    <impliesr>
+        <ratom name="rx3"/>
+        <ratom name="rx"/>
+    </impliesr>
+    <impliesr>
+        <ratom name="rx3"/>
+        <ratom name="rx1"/>
+    </impliesr>
+    <functional>
+        <ratom name="rx3"/>
+    </functional>
+    <defrole name="rx4"/>
+    <impliesr>
+        <ratom name="rx4"/>
+        <ratom name="rx"/>
+    </impliesr>
+    <impliesr>
+        <ratom name="rx4"/>
+        <ratom name="rx2"/>
+    </impliesr>
+    <functional>
+        <ratom name="rx4"/>
+    </functional>
+    <defrole name="rxa"/>
+    <defrole name="rx1a"/>
+    <defrole name="rx2a"/>
+    <defrole name="rx3a"/>
+    <impliesr>
+        <ratom name="rx3a"/>
+        <ratom name="rxa"/>
+    </impliesr>
+    <impliesr>
+        <ratom name="rx3a"/>
+        <ratom name="rx1a"/>
+    </impliesr>
+    <functional>
+        <ratom name="rx3a"/>
+    </functional>
+    <defrole name="rx4a"/>
+    <impliesr>
+        <ratom name="rx4a"/>
+        <ratom name="rxa"/>
+    </impliesr>
+    <impliesr>
+        <ratom name="rx4a"/>
+        <ratom name="rx2a"/>
+    </impliesr>
+    <functional>
+        <ratom name="rx4a"/>
+    </functional>
+    <defrole name="rx"/>
+    <functional>
+        <ratom name="rx"/>
+    </functional>

@@ -1,0 +1,718 @@
+;; A load of general stuff
+
+(define-primitive-concept Item)
+
+(define-primitive-concept Person)
+(define-primitive-concept Adult Person)
+(define-primitive-concept Man Adult)
+(define-primitive-concept Woman (and Adult (not Man)))
+(define-primitive-concept Child (and Person (not Adult)))
+(define-primitive-concept Boy Child)
+(define-primitive-concept Girl (and Child (not Boy)))
+
+(define-primitive-concept Occasion)
+(define-primitive-concept Ceremony Occasion)
+(define-primitive-concept Celebration Occasion)
+(define-primitive-concept Wedding (and Ceremony Celebration))
+(define-primitive-concept Christening (and Ceremony Celebration))
+(define-primitive-concept Funeral Ceremony)
+(define-primitive-concept Festival Celebration)
+
+(define-primitive-concept Activity)
+(define-primitive-concept Work Activity)
+(define-primitive-concept Motorcycling Activity)
+
+(define-primitive-concept Bathing Activity)
+(define-primitive-concept Leisure Activity)
+(define-primitive-concept Sport Activity)
+(define-primitive-concept Football Sport)
+(define-primitive-concept Rugby Sport)
+(define-primitive-concept Walking Activity)
+
+(define-primitive-concept Body_Part)
+(define-primitive-concept Hair Body_Part)
+(define-primitive-concept Head Body_Part)
+(define-primitive-concept Face Body_Part)
+(define-primitive-concept Arm Body_Part)
+(define-primitive-concept Hand Body_Part)
+(define-primitive-concept Leg Body_Part)
+(define-primitive-concept Foot Body_Part)
+(define-primitive-concept Neck Body_Part)
+(define-primitive-concept Waist Body_Part)
+(define-primitive-concept Stomach Body_Part)
+(define-primitive-concept Chest Body_Part)
+
+(define-primitive-concept Body_Region)
+(define-primitive-concept Above_Waist Body_Region)
+(define-primitive-concept Below_Waist Body_Region)
+
+(define-primitive-concept Role)
+(define-primitive-concept Outer Role)
+(define-primitive-concept Main Role)
+(define-primitive-concept Under Role)
+(define-primitive-concept Night Role)
+
+(define-primitive-concept Function)
+(define-primitive-concept Protection Function)
+(define-primitive-concept Decoration Function)
+(define-primitive-concept Support Function)
+(define-primitive-concept Safety Function)
+
+
+;;;(define-primitive-concept Material)
+
+(define-primitive-concept Material) 
+(define-primitive-concept Materialtype)
+(define-primitive-concept Natural Material_Type)
+(define-primitive-concept Manmade Material_Type)
+(define-primitive-concept Textile Material)
+
+(define-primitive-concept Crepe Material)
+(define-primitive-concept Muslin (and Textile Natural))
+(define-primitive-concept Velvet Textile)
+(define-primitive-concept Gold_Thread Material)
+(define-primitive-concept Gold Material)
+(define-primitive-concept Silver Material)
+(define-primitive-concept Polycarbonate (and Material Manmade))
+(define-primitive-concept Glass_fibre Material)
+(define-primitive-concept Plastic (and Material Manmade))
+(define-primitive-concept Cork (and Natural Material))
+(define-primitive-concept Vinyl (and Material Manmade))
+(define-primitive-concept Acrylic (and Material Manmade))
+(define-primitive-concept Nylon (and Material Manmade))
+(define-primitive-concept Fur (and Material Natural))
+(define-primitive-concept Wool (and Textile Natural))
+(define-primitive-concept Lambswool Wool)
+(define-primitive-concept Leather (and Material Natural))
+(define-primitive-concept Cotton (and Textile Natural))
+(define-primitive-concept Silk (and Textile Natural))
+(define-primitive-concept Linen (and Textile Natural))
+(define-primitive-concept Satin Textile)
+(define-primitive-concept Viscose (and Textile Natural))
+(define-primitive-concept Rayon (and Textile Manmade))
+
+(define-primitive-role has_pattern)
+
+(define-primitive-concept Pattern)
+(define-primitive-concept Camouflage Pattern)
+(define-primitive-concept Check Pattern)
+(define-primitive-concept Tartan Pattern)
+(define-primitive-concept Diamonds Pattern)
+(define-primitive-concept Squares Pattern)
+(define-primitive-concept Symmetrical Pattern)
+(define-primitive-concept Circles Pattern)
+(define-primitive-concept Chevrons Pattern)
+(define-primitive-concept Fish-Scale Pattern)
+(define-primitive-concept Chequerboard Pattern)
+(define-primitive-concept Floral Pattern)
+
+(define-primitive-role has_element)
+
+(define-primitive-concept Pattern_Element)
+(define-primitive-concept Bird Pattern_Element)
+(define-primitive-concept Animal Pattern_Element)
+(define-primitive-concept Flower Pattern_Element)
+(define-primitive-concept Insect Pattern_Element)
+(define-primitive-concept Fish Pattern_Element)
+(define-primitive-concept Plant Pattern_Element)
+
+(define-primitive-concept Technique)
+(define-primitive-concept Batik Technique)
+(define-primitive-concept Embroidery Technique)
+(define-primitive-concept Applique Technique)
+(define-primitive-concept Patchwork Technique)
+(define-primitive-concept Silkscreen Technique)
+
+;; parts of the body
+(define-primitive-attribute worn_on)
+;; coverings
+(define-primitive-attribute worn)
+;; activities
+(define-primitive-attribute worn_during)
+;; Materials
+(define-primitive-attribute worn_by)
+;; Materials
+(define-primitive-role made_from)
+;; Techniques
+(define-primitive-role made_using)
+
+;; Functions
+(define-primitive-role has_purpose)
+;; Form -- not really sure what to call this?
+(define-primitive-role has_role)
+;; Some Explicit Stuff
+
+;; Hats and the like
+(define-primitive-concept Hat Item)
+(implies Hat (some worn_on Head))
+(define-primitive-concept Coolie_Hat Hat)
+(define-primitive-concept Cap Item)
+(implies Cap (some worn_on Head))
+
+(define-primitive-concept Bonnet Item)
+(implies Bonnet (some worn_on Head))
+(define-primitive-concept Turban Item)
+(implies Turban (some worn_on Head))
+(define-primitive-concept Hood Item)
+(implies Hood (some worn_on Head))
+(define-primitive-concept Veil Item)
+(implies Veil (some worn_on Head))
+(define-primitive-concept Headscarf Item)
+(implies Headscarf (some worn_on Head))
+(define-primitive-concept Headcloth Item)
+(implies Headcloth (some worn_on Head))
+(define-primitive-concept Forehead_Cloth Item)
+(implies Forehead_Cloth (some worn_on Head))
+
+;; Hair coverings
+(define-primitive-concept Wig Item)
+(implies Wig (some worn_on Head))
+
+(define-primitive-concept Hairnet Item)
+(implies Hairnet (some worn_on Hair))
+(define-primitive-concept Hairband Item)
+(implies Hairband (some worn_on Hair))
+(define-primitive-concept Hairtie Item)
+(implies Hairtie (some worn_on Hair))
+
+(define-primitive-concept Moustache_Net Item)
+(implies Moustache_net (and (some worn_on Hair)))
+
+(define-primitive-concept Beard_Net Item)
+(implies Beard_net (and (some worn_on Hair)))
+
+(define-primitive-concept Boots Item)
+(implies Boots (some worn_on Foot))
+(define-primitive-concept Shoes Item)
+(implies Shoes (some worn_on Foot))
+(define-primitive-concept Overshoes Item)
+(implies Overshoes (some worn_on Foot))
+(define-primitive-concept Gaiter Item)
+(implies Gaiters (some worn_on Foot))
+(define-primitive-concept Spats Item)
+(implies Spats (some worn_on Foot))
+(define-primitive-concept Puttees Item)
+(implies Puttees (and 
+		  (some worn_on Foot)))
+
+(define-primitive-concept Socks Item)
+(implies Socks (some worn_on Foot))
+(define-primitive-concept Tights Item)
+(implies Tights (and (some worn_on Foot) (some worn_on Leg)))
+(define-primitive-concept Stockings Item)
+(implies Stockings (and (some worn_on Foot) (some worn_on Leg)))
+(define-primitive-concept Kneestockings Item)
+(implies Kneestockings (and (some worn_on Foot) (some worn_on Leg)))
+(define-primitive-concept Garter Item)
+(implies Garter (some worn_on Leg))
+
+;Worn on Head for Decoration
+(define-primitive-concept Wreath Item)
+(implies Wreath (and (some has_purpose Decoration) (some worn_on Head)))
+(define-primitive-concept Tiara Item)
+(implies Tiara (and (some has_purpose Decoration) (some worn_on Head)))
+(define-primitive-concept Comb Item)
+(implies Comb (and (some has_purpose Decoration) (some worn_on Head)))
+(define-primitive-concept Hairpin Item)
+(implies Hairpin (and (some has_purpose Decoration) (some worn_on Hair)))
+(define-primitive-concept Earrings Item)
+(implies Earrings (and (some has_purpose Decoration) (some worn_on Head)))
+
+;Worn on Body for Decoration
+(define-primitive-concept Brooch Item)
+(implies Brooch (and (some has_purpose Decoration) (some worn_on Body)))
+(define-primitive-concept Necklace Item)
+(implies Necklace (and (some has_purpose Decoration) (some worn_on Neck)))
+(define-primitive-concept Pendant Item)
+(implies Pendant (and (some has_purpose Decoration) (some worn_on Neck)))
+
+;Worn on Arms and Legs for Decoration
+(define-primitive-concept Bracelet Item)
+(implies Bracelet (and (some has_purpose Decoration) (some worn_on Arm)))
+(define-primitive-concept Ring Item)
+(implies Ring (and (some has_purpose Decoration) (some worn_on Hand)))
+(define-primitive-concept Anklet Item)
+(implies Anklet (and (some has_purpose Decoration) (some worn_on Leg)))
+
+;; Other decorative bits and bobs
+(define-primitive-concept Button Item)
+(implies Button (some has_purpose Decoration))
+
+(define-primitive-concept Beads Item)
+(implies Beads (some has_purpose Decoration))
+
+(define-primitive-concept Buckle Item)
+(implies Buckle (some has_purpose Decoration))
+
+(define-primitive-concept Tassle Item)
+(implies Tassle (some has_purpose Decoration))
+
+
+;; Protective Clothing
+(define-primitive-concept Overall Item)
+(implies Overall (some has_purpose Protection))
+(define-primitive-concept Pinafore Item)
+(implies Pinafore (some has_purpose Protection))
+(implies Pinafore (some worn (and Below_Waist Above_Waist)))
+
+(define-primitive-concept Apron Item)
+(implies Apron (some has_purpose Protection))
+(implies Apron (some worn Below_Waist))
+
+
+;; Protection from wet, rain, wind, sun etc. 
+
+;; Safety Clothing
+(define-primitive-concept Helmet Item)
+(implies Helmet (some has_purpose Safety))
+(implies Helmet (some worn_on Head))
+
+
+(define-primitive-concept Dress (and Item (some has_role Main)))
+(implies Dress (some worn (and Above_Waist Below_Waist)))
+
+(define-primitive-concept Bodice (and Item (some has_role Main)))
+(implies Bodice (some worn Above_Waist))
+
+(define-primitive-concept Blouse (and Item (some has_role Main)))
+(implies Blouse (some worn Above_Waist))
+
+(define-primitive-concept Tunic (and Item (some has_role Main)))
+(implies Tunic (some worn Above_Waist))
+
+(define-primitive-concept Cardigan (and Item (some has_role Main)))
+(implies Cardigan (some worn Above_Waist))
+
+(define-primitive-concept Pullover (and Item (some has_role Main)))
+(implies Pullover (some worn Above_Waist))
+
+(define-primitive-concept Tee_Shirt (and Item (some has_role Main)))
+(implies Tee_Shirt (some worn Above_Waist))
+
+(define-primitive-concept Skirt (and Item (some has_role Main)))
+(implies Skirt (some worn Below_Waist))
+
+(define-primitive-concept Trousers (and Item (some has_role Main)))
+(implies Trousers (some worn Below_Waist))
+
+(define-primitive-concept Shorts Trousers)
+(define-primitive-concept Knickerbockers Trousers)
+
+;; A Suit is made up of a combination of some of the things below,
+;; e.g. a Jacket and trousers or a jacket and waistcoat and trousers.
+(define-primitive-concept Jacket (and Item (some has_role Main)))
+(implies Jacket (some worn Above_Waist))
+
+(define-primitive-concept Waistcoat (and Item (some has_role Main)))
+(implies Waistcoat (some worn Above_Waist))
+
+(define-primitive-concept Gown (and Item (some has_role Main)))
+(implies Gown (some worn (and Above_Waist Below_Waist)))
+
+(define-primitive-concept Coat (and Item (some has_role Main)))
+(implies Coat (some worn Above_Waist))
+
+(define-primitive-concept Blazer (and Item (some has_role Main)))
+(implies Blazer (some worn Above_Waist))
+
+(define-primitive-concept Shirt (and Item (some has_role Main)))
+(implies Shirt (some worn Above_Waist))
+
+(define-primitive-concept Jerkin (and Item (some has_role Main)))
+(implies Jerkin (some worn Above_Waist))
+
+(define-primitive-concept Pantaloons Trousers)
+(define-primitive-concept OxfordBags Trousers)
+
+(define-primitive-concept Breeches (and Item (some has_role Main)))
+(implies Breeches (some worn Below_Waist))
+
+(define-primitive-concept Plus_Fours Breeches)
+
+(define-primitive-concept Kilt Skirt)
+
+
+;; Combination is something that's made up of other stuff.
+
+(define-primitive-concept Combination)
+(define-primitive-role composed_of)
+
+(define-concept Suit_1 (and Combination
+			 (some composed_of Coat)
+			 (some composed_of Trousers)
+			 (some composed_of Waistcoat)
+			 (all composed_of (or Coat 
+					      Trousers 
+					      Waistcoat))))
+
+(define-concept Suit_2 (and Combination
+			 (some composed_of Coat)
+			 (some composed_of Trousers)
+			 (all composed_of (or Coat 
+					      Trousers))))
+
+(define-concept Suit_3 (and Combination
+			 (some composed_of Coat)
+			 (some composed_of Waistcoat)
+			 (all composed_of (or Coat 
+					      Waistcoat))))
+
+(define-concept Suit_4 (and Combination
+			 (some composed_of Jacket)
+			 (some composed_of Trousers)
+			 (all composed_of (or Jacket 
+					      Trousers))))
+(define-concept Suit (or Suit_1
+		     Suit_2
+		     Suit_3
+		     Suit_4))
+
+;; Underwear -- women
+
+(define-primitive-concept Chemise (and Item (some has_role Under)))
+(implies Chemise (some worn (and Above_Waist  Below_Waist)))
+(define-primitive-concept Combinations (and Item (some has_role Under)))
+(implies Combinations (some worn (and Above_Waist Below_Waist)))
+(define-primitive-concept Camiknickers Combinations)
+
+(define-primitive-concept Underbodice (and Item (some has_role Under)))
+(implies Underbodice (some worn Above_Waist))
+(define-primitive-concept Camisole Underbodice) 
+(define-primitive-concept Spencer Underbodice)
+
+(define-primitive-concept Drawers (and Item (some has_role Under)))
+(implies Drawers (some worn Below_Waist))
+(define-primitive-concept French_Knickers Drawers)
+
+(define-primitive-concept Underdress (and Item (some has_role Under)))
+(implies Underdress (some worn (and Above_Waist Below_Waist)))
+
+(define-primitive-concept Petticoat (and Item (some has_role Under)))
+(implies Petticoat (some worn Below_Waist))
+
+(define-primitive-concept Slip Underdress)
+
+(define-primitive-concept Underskirt (and Item (some has_role Under)))
+(implies Underskirt (some worn Below_Waist))
+(define-primitive-concept Petticoat_Slip Underskirt)
+
+;; Underwear -- men
+(define-primitive-concept Undershirt (and Item (some has_role Under)))
+(implies Undershirt (some worn (and Above_Waist Below_Waist)))
+
+(define-primitive-concept Pants Drawers)
+(define-primitive-concept Trunks Drawers)
+(define-primitive-concept Linings Drawers)
+
+(define-primitive-concept Under_Waistcoat (and Item (some has_role Under)))
+(implies Under_Waistcoat (some worn Above_Waist))
+
+
+;; Outerwear -- women
+(define-primitive-concept Shawl (and Item (some has_role Outer)))
+(implies Shawl (some worn Above_Waist))
+
+(define-primitive-concept Cloak (and Item (some has_role Outer)))
+(implies Cloak (some worn (and Above_Waist Below_Waist)))
+
+;; Also has coat in here ??
+
+(define-primitive-concept Cape (and Item (some has_role Outer)))
+(implies Cape (some worn (and Above_Waist Below_Waist)))
+
+(define-primitive-concept Mantle (and Item (some has_role Outer)))
+(implies Mantle (some worn (and Above_Waist Below_Waist)))
+
+;; Outerwear -- men
+(define-primitive-concept Plain Shawl)
+
+(define-primitive-concept Overcoat (and Item (some has_role Outer)))
+(implies Overcoat (some worn (and Above_Waist Below_Waist)))
+
+(define-primitive-concept Mackintosh Overcoat)
+
+;; Supporting Garments -- women
+
+(define-primitive-concept Brassiere Item)
+(implies Brassiere (some worn Above_Waist))
+(implies Brassiere (some has_purpose Support))
+
+(define-primitive-concept Corset Item)
+(implies Corset (some worn (and Above_Waist Below_Waist)))
+(implies Corset (some has_purpose Support))
+
+(define-primitive-concept Collar_Support Item)
+(implies Collar_Support (some worn_on Neck))
+(implies Collar_Support (some has_purpose Support))
+
+(define-primitive-concept Bust_Improver Item)
+(implies Bust_Improver (some worn Above_Waist))
+(implies Bust_Improver (some has_purpose Support))
+
+(define-primitive-concept Sleeve_Support Item)
+(implies Sleeve_Support (some worn Above_Waist))
+(implies Sleeve_Support (some has_purpose Support))
+
+(define-primitive-concept Hoop Item)
+(implies Hoop (some worn Below_Waist))
+(implies Hoop (some has_purpose Support))
+
+(define-primitive-concept Crinoline_Frame Hoop)
+
+(define-primitive-concept Bustle Item)
+(implies Bustle (some worn Below_Waist))
+(implies Bustle (some has_purpose Support))
+
+(define-primitive-concept Suspender_Belt Item)
+(implies Suspender_Belt (some worn Below_Waist))
+(implies Suspender_Belt (some has_purpose Support))
+
+;; Supporting Garments -- men
+
+(define-primitive-concept Braces Item)
+(implies Braces (some has_purpose Support))
+
+(define-primitive-concept Belt Item)
+(implies Belt (some has_purpose Support))
+
+;; Accessories
+(define-primitive-concept Accessory Item)
+(define-primitive-concept Sleeve Accessory) 
+(implies Sleeve (some worn_on Arm))
+(define-primitive-concept Oversleeve Accessory)
+(implies Oversleeve (some worn_on Arm))
+(define-primitive-concept Undersleeve Accessory)
+(implies Undersleeve (some worn_on Arm))
+(define-primitive-concept Cuff Accessory)
+(implies Cuff (some worn_on Arm))
+(define-primitive-concept Sleeve_Ruffle Accessory)
+(implies Sleeve_Ruffle (some worn_on Arm))
+
+(define-primitive-concept Glove Accessory)
+(implies Glove (some worn_on Hand))
+(define-primitive-concept Mitten Accessory)
+(implies Mitten (some worn_on Hand))
+(define-primitive-concept Muff Accessory)
+(implies Muff (some worn_on Hand))
+
+(define-primitive-concept Mask Accessory)
+(implies Mask (some worn_on Face))
+(define-primitive-concept Patch Accessory)
+(implies Patch (some worn_on Face))
+(define-primitive-concept False_Eyelashes Accessory)
+(implies False_Eyelashes (some worn_on Face))
+(define-primitive-concept Spectacles Accessory)
+(implies Spectacles (some worn_on Face))
+(define-primitive-concept Sunglasses Spectacles)
+(define-primitive-concept Eyeglass Spectacles)
+
+(define-primitive-concept Neckcloth Accessory)
+(implies Neckcloth (some worn_on Neck))
+(define-primitive-concept Ruff Neckcloth)
+(define-primitive-concept Cravat Neckcloth)
+(define-primitive-concept Collar Accessory)
+(implies Collar (some worn_on Neck))
+
+(define-primitive-concept Tie Accessory)
+(implies Tie (some worn_on Neck))
+
+(define-primitive-concept Scarf Accessory)
+(implies Scarf (some worn_on Neck))
+
+(define-primitive-concept Stomacher Accessory)
+(implies Stomacher (some worn_on Stomach))
+
+;; Belt is already defined as a supporting garment
+(implies Belt Accessory)
+(implies Belt (some worn_on Waist))
+
+(define-primitive-concept Sash Accessory)
+(implies Sash (some worn_on Waist))
+
+(define-primitive-concept Chatelaine Accessory)
+(implies Chatelaine (some worn_on Waist))
+
+(define-primitive-concept Bag Accessory)
+(define-primitive-concept Pocket_Bag Accessory)
+(implies Pocket_Bag (some worn_on Waist))
+
+(define-primitive-concept Handbag Bag)
+
+(define-primitive-concept Purse Accessory)
+(define-primitive-concept Fan Accessory)
+(define-primitive-concept Bouqet Accessory)
+(define-primitive-concept Watch Accessory)
+(define-primitive-concept Umbrella Accessory)
+(define-primitive-concept Parasol Accessory)
+(define-primitive-concept Walking_Stick Accessory)
+(define-primitive-concept Handkerchief Accessory)
+
+(define-primitive-concept Fob Accessory)
+(implies Fob (some worn_on Waist))
+
+(define-primitive-concept Sword Accessory)
+(implies Sword (some worn_on Waist))
+
+
+;; Nightwear
+
+(define-primitive-concept Nightdress Item)
+(implies Nightdress (some has_role Night))
+(implies Nightdress (some worn (and Above_Waist Below_Waist)))
+
+;; How do we say that Pyjamas are comprised of a Jacket 
+;; and a Pair of Trousers? There are similar things around - e.g. suit 
+;; jackets and suit trousers.
+
+(define-primitive-concept Pyjama_Jacket Item)
+(implies Pyjama_Jacket (some has_role Night))
+(implies Pyjama_Jacket (some worn Above_Waist))
+
+(define-primitive-concept Pyjama_Trousers Item)
+(implies Pyjama_Trousers (some has_role Night))
+(implies Pyjama_Trousers (some worn Below_Waist))
+
+(define-concept Pyjamas (and Combination
+			 (some composed_of Pyjama_Jacket)
+			 (some composed_of Pyjama_Trousers)
+			 (all composed_of (or Pyjama_Jacket Pyjama_Trousers))))
+
+(define-primitive-concept Dressing_Gown Item)
+(implies Dressing_Gown (some has_role Night))
+(implies Dressing_Gown (some worn (and Above_Waist Below_Waist)))
+
+;; Some definitions
+
+(define-concept Main_Garment (and Item (some has_role Main)))
+(define-concept Underwear (and Item (some has_role Under)))
+(define-concept Outerwear (and Item (some has_role Outer)))
+(define-concept Nightwear (and Item (some has_role Night)))
+
+(define-concept Decorative_Item (and Item (some has_purpose Decoration)))
+(define-concept Protective_Garment (and Item (some has_purpose Protection)))
+(define-concept Safety_Item (and Item (some has_purpose Safety)))
+(define-concept Supporting_Structure (and Item (some has_purpose Support)))
+
+(define-concept Footwear (and Item (some worn_on Foot)))
+(define-concept Legwear (and Item (some worn_on Leg)))
+(define-concept Headwear (and Item (some worn_on Head)))
+(define-concept Neckwear (and Item (some worn_on Neck)))
+(define-concept Hairdressing (and Item (some worn_on Hair)))
+
+(define-primitive-concept Century)
+(define-primitive-concept _17th_Century Century)
+(define-primitive-concept _18th_Century Century)
+(define-primitive-concept _19th_Century Century)
+(define-primitive-concept _20th_Century Century)
+(define-primitive-concept Period) 
+(define-primitive-concept Early Period)
+(define-primitive-concept Middle Period)
+(define-primitive-concept Late Period)
+(define-primitive-attribute part_of)
+
+(implies Period (some part_of Century))
+(define-concept Early_17th_Century (and Early (some part_of _17th_Century)))
+(define-concept Mid_17th_Century (and Middle (some part_of _17th_Century)))
+(define-concept Late_17th_Century (and Late (some part_of _17th_Century)))
+(define-concept Early_18th_Century (and Early (some part_of _18th_Century)))
+(define-concept Mid_18th_Century (and Middle (some part_of _18th_Century)))
+(define-concept Late_18th_Century (and Late (some part_of _18th_Century)))
+(define-concept Early_19th_Century (and Early (some part_of _19th_Century)))
+(define-concept Mid_19th_Century (and Middle (some part_of _19th_Century)))
+(define-concept Late_19th_Century (and Late (some part_of _19th_Century)))
+(define-concept Early_20th_Century (and Early (some part_of _20th_Century)))
+(define-concept Mid_20th_Century (and Middle (some part_of _20th_Century)))
+(define-concept Late_20th_Century (and Late (some part_of _20th_Century)))
+
+(define-primitive-attribute dates_from)
+
+;;post-war
+
+(define-primitive-concept Country)
+(define-primitive-concept Continent)
+(define-primitive-concept Europe Continent)
+(define-primitive-concept Asia Continent)
+(define-primitive-concept Africa Continent)
+(define-primitive-concept Australasia Continent)
+(define-primitive-concept India (and Country (some part_of Asia)))
+(define-primitive-concept Pakistan (and Country (some part_of Asia)))
+(define-primitive-concept England (and Country (some part_of Europe)))
+(define-primitive-concept Scotland (and Country (some part_of Europe)))
+(define-primitive-concept Greece (and Country (some part_of Europe)))
+(define-primitive-concept Egypt (and Country (some part_of Africa)))
+(define-primitive-concept Australia (and Country (some part_of Australasia)))
+
+(define-concept Asian_Country (and Country (some part_of Asia)))
+(define-concept African_Country (and Country (some part_of Africa)))
+(define-concept European_Country (and Country (some part_of Europe)))
+(define-concept Australasian_Country (and Country (some part_of Australasia)))
+
+(define-primitive-attribute originates_from)
+
+(define-concept Indian (some originates_from India))
+(define-concept Pakistani (some originates_from Pakistan))
+(define-concept English (some originates_from England))
+(define-concept Scottish (some originates_from Scotland))
+(define-concept Greek (some originates_from Greece))
+(define-concept Egyptian (some originates_from Egypt))
+
+;;Persian
+;;Hindu
+;;Australian
+;;Egyptian
+;;Abha
+;;Punjab
+
+
+;; Rules about body parts
+
+(implies Head (some part_of Above_Waist))
+(implies Face (some part_of Above_Waist))
+(implies Arm (some part_of Above_Waist))
+(implies Hand (some part_of Above_Waist))
+(implies Neck (some part_of Above_Waist))
+(implies Chest (some part_of Above_Waist))
+(implies Stomach (some part_of Above_Waist))
+(implies Leg (some part_of Below_Waist))
+(implies Foot (some part_of Below_Waist))
+
+(implies (and Item (some worn_on (some part_of Above_Waist)))
+	 (some worn Above_Waist))
+(implies (and Item (some worn_on (some part_of Below_Waist)))
+	 (some worn Below_Waist))
+
+;;(implies (some worn_on Head) (some worn Above_Waist))
+;;(implies (some worn_on Face) (some worn Above_Waist))
+;;(implies (some worn_on Arm) (some worn Above_Waist))
+;;(implies (some worn_on Hand) (some worn Above_Waist))
+;;(implies (some worn_on Neck) (some worn Above_Waist))
+;;(implies (some worn_on Chest) (some worn Above_Waist))
+;;(implies (some worn_on Stomach) (some worn Above_Waist))
+;;(implies (some worn_on Leg) (some worn Below_Waist))
+;;(implies (some worn_on Foot) (some worn Below_Waist))
+
+;; Rules about combinations
+
+(implies (and combination (some composed_of (some worn Above_Waist)))
+	 (some worn Above_Waist))
+(implies (and combination (some composed_of (some worn Below_Waist)))
+	 (some worn Below_Waist))
+(implies (and combination (some composed_of (some worn_on Head)))
+	 (some worn_on Head))
+(implies (and combination (some composed_of (some worn_on Face)))
+	 (some worn_on Face))
+(implies (and combination (some composed_of (some worn_on Arm)))
+	 (some worn_on Arm))
+(implies (and combination (some composed_of (some worn_on Hand)))
+	 (some worn_on Hand))
+(implies (and combination (some composed_of (some worn_on Neck)))
+	 (some worn_on Neck))
+(implies (and combination (some composed_of (some worn_on Chest)))
+	 (some worn_on Chest))
+(implies (and combination (some composed_of (some worn_on Stomach)))
+	 (some worn_on Stomach))
+(implies (and combination (some composed_of (some worn_on Leg)))
+	 (some worn_on Leg))
+(implies (and combination (some composed_of (some worn_on Foot)))
+	 (some worn_on Foot))
+

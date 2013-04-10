@@ -1,0 +1,34 @@
+    <defconcept name="c"/>
+    <defconcept name="d"/>
+    <equalc>
+        <catom name="d"/>
+        <and>
+            <and>
+                <catom name="c"/>
+                <some>
+                    <ratom name="f"/>
+                    <not>
+                        <catom name="c"/>
+                    </not>
+                </some>
+            </and>
+        </and>
+    </equalc>
+    <defrole name="f"/>
+    <impliesr>
+        <ratom name="f"/>
+        <ratom name="r"/>
+    </impliesr>
+    <defrole name="r"/>
+    <transitive>
+        <ratom name="r"/>
+    </transitive>
+    <impliesc>
+        <top/>
+        <or>
+            <atmost num="1">
+                <ratom name="f"/>
+                <top/>
+            </atmost>
+        </or>
+    </impliesc>

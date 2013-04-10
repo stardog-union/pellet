@@ -1,0 +1,374 @@
+<?xml version="1.0"?>
+<project name="PelletTestCoverage" default="coverage" basedir=".">
+
+	<import file="build.xml" optional="false" />
+
+	<!--
+	  Cobertura for test coverage analysis
+	  + cobertura.libdir must be set to directory with all cobertura jars
+	  -->
+
+	<property name="instrumented.class" location="instrumented" />
+	<property name="coverage.html.dir" location="coverage-report" />
+	<property name="cobertura.datafile" location="${basedir}/cobertura.ser" />
+	<property name="cobertura.libdir" location="/home/mstocker/javalib/cobertura-lib/"/>
+	
+	<path id="cobertura.class.path">
+		<fileset dir="${cobertura.libdir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef classpathref="cobertura.class.path" resource="tasks.properties" />
+
+	<target name="instrument" depends="compile">
+
+		<delete file="${cobertura.datafile}" />
+
+		<cobertura-instrument todir="${instrumented.class}">
+			<fileset dir="${build.cli.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${build.dig.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${build.explanation.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${build.jena.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${build.modularity.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${build.owlapi.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${build.pellint.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${build.query.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="${build.root.class.dir}">
+				<include name="**/*.class" />
+			</fileset>
+		</cobertura-instrument>
+
+	</target>
+
+	<target name="coverage" depends="instrument">
+
+		<junit printsummary="true" haltonfailure="false" fork="yes" forkmode="perTest" maxmemory="1536m" dir="${basedir}">
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.datafile}" />
+
+			<classpath location="${instrumented.class}" />
+			<classpath refid="project.class.path"/>
+			<classpath refid="cobertura.class.path"/>
+
+			<formatter type="plain" usefile="false"/>
+			<test name="${test.class.name}" />
+			<jvmarg value="-enableassertions" />
+
+		</junit>
+		
+		<cobertura-report destdir="${coverage.html.dir}">
+			<fileset dir="${cli.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${core.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${datatypes.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${dig.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${el.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${explanation.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${jena.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${modularity.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${owlapi.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${pellint.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${query.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${query.gensrc.root.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+			<fileset dir="${rules.src.dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+			</fileset>
+		</cobertura-report>
+
+	</target>
+
+	<target name="clean-coverage">
+		<delete quiet="true" includeEmptyDirs="true">
+			<fileset dir="${instrumented.class}" />
+			<fileset dir="${coverage.html.dir}" />
+		</delete>
+	</target>
+
+
+
+	<!--
+	  FindBugs for static analysis
+	  + findbugs.home must be set to unzipped distribution directory
+	  -->
+
+	<property name="findbugs.dir" location="${basedir}/findbugs-report" />
+
+	<path id="findbugs.class.path">
+		<path refid="project.class.path" />
+		<fileset dir="${findbugs.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef classpathref="findbugs.class.path" name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" />
+
+	<target name="fb-mkoutput">
+		<mkdir dir="${findbugs.dir}" />
+	</target>
+
+	<target name="findbugs" depends="dist">
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.cli.jar}" />
+			<sourcepath location="${cli.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.core.jar}" />
+			<sourcepath location="${core.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.datatypes.jar}" />
+			<sourcepath location="${datatypes.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.dig.jar}" />
+			<sourcepath location="${dig.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.el.jar}" />
+			<sourcepath location="${dig.el.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.explanation.jar}" />
+			<sourcepath location="${explanation.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.jena.jar}" />
+			<sourcepath location="${jena.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.modularity.jar}" />
+			<sourcepath location="${modularity.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.owlapi.jar}" />
+			<sourcepath location="${owlapi.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.pellint.jar}" />
+			<sourcepath location="${pellint.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.query.jar}" />
+			<sourcepath location="${query.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="text" jvmargs="-Xmx1024m">
+			<class location="${pellet.rules.jar}" />
+			<sourcepath location="${rules.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+	</target>
+
+	<target name="findbugs-html" depends="dist,fb-mkoutput">
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-cli.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.cli.jar}" />
+			<sourcepath location="${cli.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-core.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.core.jar}" />
+			<sourcepath location="${core.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-datatypes.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.datatypes.jar}" />
+			<sourcepath location="${datatypes.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-dig.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.dig.jar}" />
+			<sourcepath location="${dig.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-el.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.el.jar}" />
+			<sourcepath location="${dig.el.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-explanation.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.explanation.jar}" />
+			<sourcepath location="${explanation.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-jena.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.jena.jar}" />
+			<sourcepath location="${jena.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-modularity.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.modularity.jar}" />
+			<sourcepath location="${modularity.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-owlapi.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.owlapi.jar}" />
+			<sourcepath location="${owlapi.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-pellint.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.pellint.jar}" />
+			<sourcepath location="${pellint.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-query.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.query.jar}" />
+			<sourcepath location="${query.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="html" outputFile="${findbugs.dir}/output-rules.html" jvmargs="-Xmx1024m">
+			<class location="${pellet.rules.jar}" />
+			<sourcepath location="${rules.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+	</target>
+
+	<target name="findbugs-xml" depends="dist,fb-mkoutput">
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-cli.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.cli.jar}" />
+			<sourcepath location="${cli.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-core.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.core.jar}" />
+			<sourcepath location="${core.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-datatypes.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.datatypes.jar}" />
+			<sourcepath location="${datatypes.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-dig.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.dig.jar}" />
+			<sourcepath location="${dig.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-el.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.el.jar}" />
+			<sourcepath location="${dig.el.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-explanation.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.explanation.jar}" />
+			<sourcepath location="${explanation.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-jena.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.jena.jar}" />
+			<sourcepath location="${jena.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-modularity.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.modularity.jar}" />
+			<sourcepath location="${modularity.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-owlapi.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.owlapi.jar}" />
+			<sourcepath location="${owlapi.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-pellint.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.pellint.jar}" />
+			<sourcepath location="${pellint.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-query.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.query.jar}" />
+			<sourcepath location="${query.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+		<findbugs home="${findbugs.home}" effort="max" output="xml:withMessages" outputFile="${findbugs.dir}/output-rules.xml" jvmargs="-Xmx1024m">
+			<class location="${pellet.rules.jar}" />
+			<sourcepath location="${rules.src.dir}" />
+			<auxClasspath refid="findbugs.class.path" />
+		</findbugs>
+	</target>
+
+	<target name="clean-findbugs">
+		<delete quiet="true" includeEmptyDirs="true">
+			<fileset dir="${findbugs.dir}" />
+		</delete>
+	</target>
+	
+	
+		<!--
+		******************** PERFORMANCE TEST ********************
+		-->
+		
+		<property name="performancetest.class.name"
+			value="profiler.statistical.ReleasePerformanceTestSuite"/>
+	
+		<target name="performance-test" depends="build">
+			<junit maxmemory="1536m" fork="yes" haltonfailure="false" dir="${basedir}"
+				failureproperty="pellet.junit.failure">
+				<test name="${performancetest.class.name}"/>
+				<formatter type="plain" usefile="false"/>
+				<formatter type="xml" usefile="true" if="pellet.junit.formatter.xml"/>
+				<classpath refid="project.class.path"/>
+				<jvmarg value="-enableassertions" />
+			</junit>
+			<fail if="pellet.junit.failure" message="JUnit test failure."/>
+		</target>
+	
+
+
+	<!-- override clean target to get all analysis artifacts -->
+
+	<target name="clean" depends="clean-coverage,clean-findbugs" />
+
+
+	<!-- default target outputs all html reports -->
+
+	<target name="html" depends="coverage,findbugs-html" />
+
+</project>

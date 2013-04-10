@@ -1,0 +1,25 @@
+@prefix :  <http://example.org/test#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+:a :p :b.
+:b :q :c.
+#:b :p :d.
+#:d :q :e.
+:b :q :h.
+:b :q :i.
+#:c :p :f.
+#:f :q :g.
+
+:x :q :x .
+
+:a1 rdf:type owl:Thing.
+:a2 rdf:type owl:Thing.
+:a3 rdf:type owl:Thing.
+:a4 rdf:type owl:Thing.
+:a5 rdf:type owl:Thing.
+:a6 rdf:type owl:Thing.
+:a7 rdf:type owl:Thing.
+:a8 rdf:type owl:Thing.
+:a9 rdf:type owl:Thing.
+:a10 rdf:type owl:Thing.

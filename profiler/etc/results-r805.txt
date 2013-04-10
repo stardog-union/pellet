@@ -1,0 +1,17 @@
+Cmd: java -Dpellet.configuration=file:profiler/pellet.properties -Xmx1536m -cp dist/lib/pellet.jar profiler.ProfileKB -r 1 -m verbose -t Realize profiler/etc/dataset.txt 
+Src: r562
+Profiler: r772
+  
+                | Parse             | Load              | Consistency       | Classify          | Realize           |
+                | Time    | Mem     | Time    | Mem     | Time    | Mem     | Time    | Mem     | Time    | Mem     |
+portal          |    1.19 |    0.02 |    0.18 |    0.65 |    0.04 |    0.66 |    0.24 |    1.53 |    0.01 |    1.53 |
+CongoService    |    0.16 |    0.02 |    0.01 |    0.05 |    0.00 |    0.05 |    0.00 |    0.07 |    0.00 |    0.07 |
+SUMO            |    2.91 |    0.02 |    0.27 |    1.98 |    0.01 |    2.08 |    0.18 |    4.29 |    0.05 |    4.33 |
+pizza           |    2.81 |    0.02 |    0.11 |    0.40 |    0.00 |    0.40 |    2.11 |    1.11 |    0.00 |    1.12 |
+earthrealm      |    0.82 |    0.02 |    0.03 |    0.33 |    0.00 |    0.34 |    0.07 |    1.23 |    0.00 |    1.23 |
+wine            |    1.05 |    0.02 |    0.05 |    0.47 |    0.96 |    1.10 |    8.49 |    4.33 |    6.18 |    4.72 |
+galen           |   10.03 |    0.02 |    0.81 |    4.62 |    0.00 |    4.62 |   10.63 |   36.65 |    0.00 |   36.65 |
+semintec_0      |    3.41 |    0.02 |    2.66 |   25.08 |    0.54 |   33.66 |    0.12 |   33.88 |    0.84 |   34.43 |
+vicodi_0        |    2.67 |    0.02 |    1.13 |   23.52 |    0.39 |   29.08 |    0.03 |   29.74 |    1.33 |   30.37 |
+university[0]   |    5.66 |    0.02 |    5.55 |   29.27 |    0.90 |   38.14 |    0.01 |   38.32 |    1.39 |   39.37 |
+university[0-2] |   19.33 |    0.02 |   13.72 |  100.32 |    9.78 |  130.10 |    0.01 |  130.28 |    5.21 |  133.67 |

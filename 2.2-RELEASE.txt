@@ -1,0 +1,47 @@
+We are happy to announce the release of Pellet 2.2. This release is
+available for download at:
+
+  http://clarkparsia.com/pellet/download
+
+Since the 2.1 release, we closed more than 50 tickets, including numerous
+bug fixes and performance improvements. Please see CHANGES.txt in the
+distribution for a complete change log; some highlights include:
+
+* Classification performance has been improved: the most significant
+speedups are for ontologies with large class hierarchies and that use
+inverse properties and/or property chains. With the new optimizations,
+Pellet 2.2 classifies many ontologies in seconds that Pellet 2.1 didn't
+classify in reasonable time.
+
+* Realization performance has been improved: the speedups are most
+significant for ontologies where class hierarchy is not tree-like, i.e. some
+classes have multiple super classes.
+
+* Persistence of classification results is now available through Pellet
+command-line (it's available in Pellet 2.1 and later via OWLAPI). Using the
+--persist option with the classify subcommand will save the classification
+results in a file; subsequent classifications of the ontology will
+incrementally recompute the changes in the ontology and update only the
+affected parts of the classification hierarchy.
+
+* Bug fixes as described in
+http://clark-parsia.trac.cvsdude.com/pellet-devel/report/11
+
+We are also releasing two versions of the Protege plug-in for Pellet:       
+one plug-in for Protege 4.0 and one plug-in for Protege 4.1 Beta. These     
+plug-ins are available via the auto-update feature of Protege.              
+
+Pellet 2.2 is available for use in open source projects under the AGPL v.3
+license; for commercial usage, alternative license terms are available.
+Commercial support contracts are also available for Pellet. Contact
+inquiries@clarkparsia.com for more information about licensing and
+commercial support.
+
+Two additional quarterly releases of Pellet are planned for 2010: version
+2.3 on 27 September and another major release on 20 December.
+
+Finally, with the release of Pellet 2.2, we will no longer provide free
+technical support of earlier versions via the pellet-users mailing list.
+Please upgrade to the latest release if you want technical support on the
+mailing list. If you need support for earlier versions of Pellet, please
+contact us directly to arrange support.

@@ -1,0 +1,7 @@
+@prefix :  <http://example.org/test#> .
+
+:a :p :aa.
+:dd :t :bb.
+:bb :s :aa.
+:cc :r :dd.
+:aa :r :ee.

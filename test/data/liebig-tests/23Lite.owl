@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/23Lite.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>28.7.2006, version 0.9</owl:versionInfo>
+ <rdfs:comment>Partitioning test, OWL Lite version of test #23, Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="r" />
+<owl:ObjectProperty rdf:ID="s" />
+<owl:ObjectProperty rdf:ID="p" />
+<owl:ObjectProperty rdf:ID="q" />
+
+<owl:Class rdf:ID="A">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#q" />
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="negA">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#negC" />
+    <owl:Class rdf:about="#negD" />
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="negA">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#q" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="negC">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="C">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="negD">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#s" />
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="D">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#s" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="BA">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#negC" />
+    <owl:Class rdf:about="#negD" />
+  </owl:intersectionOf>
+  <rdfs:subClassOf rdf:resource="&owl;Nothing" />
+</owl:Class>
+
+<owl:Class rdf:ID="negB">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#p" />
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="B">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#p" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="negAnegB">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#negA" />
+    <owl:Class rdf:about="#negB" />
+  </owl:intersectionOf>
+  <rdfs:subClassOf rdf:resource="&owl;Nothing" />
+</owl:Class>
+
+<owl:Class rdf:ID="EquivA">
+  <owl:equivalentClass rdf:resource="#negB" />
+</owl:Class>
+
+<!-- for KAON2: SELECT ?x WHERE { ?x rdf:type a:A } -->
+<!-- <EquivA rdf:ID="i1"/> -->
+
+
+<!--
+  conclusion:
+
+<owl:Class rdf:about="#EquivA">
+  <owl:equivalentClass rdf:resource="A" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

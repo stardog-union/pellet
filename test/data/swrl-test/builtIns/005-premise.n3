@@ -1,0 +1,46 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:  <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb:  <http://www.w3.org/2003/11/swrlb#> .
+
+@prefix : <http://owldl.com/ontologies/swrl/tests/builtIns/005#> .
+
+<> a owl:Ontology .
+
+:x a swrl:Variable .
+:z0 a swrl:Variable .
+:z1 a swrl:Variable .
+:z2 a swrl:Variable .
+
+:C a owl:Class.
+:p a owl:DatatypeProperty.
+:q a owl:DatatypeProperty.
+
+:rule1 a swrl:Imp;
+  swrl:body (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :p;
+      swrl:argument1 :x;
+      swrl:argument2 :z1;
+      ]
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :p;
+      swrl:argument1 :x;
+      swrl:argument2 :z2;
+      ]
+    [ a swrl:BuiltinAtom;
+      swrl:builtin swrlb:add;
+      swrl:arguments ( :z0 :z1 :z2 );
+      ] );
+  swrl:head (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :q;
+      swrl:argument1 :x;
+      swrl:argument2 :z0;
+      ] ). 
+
+
+:i a owl:Thing;
+   :p 1, 1.001 .
+
+

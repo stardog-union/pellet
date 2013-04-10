@@ -1,0 +1,4 @@
+../datasets/lubm/university([0-9]|1.)-.*owl ../datasets/lubm/univ-bench.owl
+
+../datasets/lubm/university[0].*owl ../datasets/lubm/univ-bench.owl
+../datasets/lubm/university[0-2].\d*\Wowl ../datasets/lubm/univ-bench.owl

@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd="&xsd;" xmlns="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/29.owl#"
+  xml:base="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/29.owl">
+
+<owl:Ontology rdf:about="">
+  <owl:versionInfo>8.06.2006, version 0.1</owl:versionInfo>
+  <rdfs:comment>OWL Lite version of 29b Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="r" />
+
+<owl:ObjectProperty rdf:ID="rs1">
+  <rdfs:subPropertyOf rdf:resource="#r" />
+  <rdfs:range rdf:resource="#C" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="rs2">
+  <rdfs:subPropertyOf rdf:resource="#r" />
+  <rdfs:range rdf:resource="#D" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="rs3">
+  <rdfs:subPropertyOf rdf:resource="#r" />
+  <rdfs:range rdf:resource="#H" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="rs4">
+  <rdfs:subPropertyOf rdf:resource="#r" />
+  <rdfs:range rdf:resource="#Drs4" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="rs3">
+  <rdfs:subPropertyOf rdf:resource="#r" />
+  <rdfs:range rdf:resource="#Drs5" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="rs5">
+  <owl:inverseOf rdf:resource="#r"/>
+</owl:ObjectProperty>
+
+<owl:Class rdf:ID="A" />
+<owl:Class rdf:ID="H" />
+<owl:Class rdf:ID="E" />
+<owl:Class rdf:ID="D" />
+<owl:Class rdf:ID="C" />
+
+<owl:Class rdf:ID="Drs4">
+  <owl:complementOf>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <owl:Class>
+          <owl:complementOf rdf:resource="#H" />
+        </owl:Class>
+        <owl:Class>
+          <owl:complementOf rdf:resource="#E" />
+        </owl:Class>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:complementOf>
+</owl:Class>
+
+<owl:Class rdf:ID="Drs5">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#E" />
+    <owl:Class>
+      <owl:complementOf>
+        <owl:Class>
+          <owl:unionOf rdf:parseType="Collection">
+            <owl:Class rdf:about="#C" />
+            <owl:Class rdf:about="#D" />
+          </owl:unionOf>
+        </owl:Class>
+      </owl:complementOf>
+    </owl:Class>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="ATL1">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="ALLR">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:allValuesFrom rdf:resource="#ALLRS6" />
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="ALLRS6">
+  <owl:complementOf>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <owl:Class>
+          <owl:complementOf rdf:resource="#C" />
+        </owl:Class>
+        <owl:Class>
+          <owl:complementOf rdf:resource="#D" />
+        </owl:Class>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:complementOf>
+</owl:Class>
+
+<owl:Class rdf:ID="EANDC">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#E" />
+    <owl:Class rdf:about="#C" />
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="F-lite">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom rdf:resource="#A" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#rs1" />
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#rs2" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#rs3" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#rs4" />
+      <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#rs5" />
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom rdf:resource="#EANDC" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:allValuesFrom rdf:resource="#ATL1" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:allValuesFrom rdf:resource="#ALLR" />
+    </owl:Restriction>
+    <!-- makes F-lite unsatisfiable -->
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r" />
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<!-- for hoolet
+<owl:Class rdf:ID="MyBottom">
+  <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+-->
+
+<!-- for kaon2 
+<F-lite rdf:ID="i1"/>
+-->
+
+<!--
+conclusion:
+  
+  <owl:Class about="#F-lite">
+    <owl:disjointWith rdf:resource="&owl;Nothing" />
+  </owl:Class>
+
+-->
+
+</rdf:RDF>

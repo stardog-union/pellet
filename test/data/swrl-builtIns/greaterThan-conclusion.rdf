@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY swrl		"http://www.w3.org/2003/11/swrl#" >
+  <!ENTITY swrlb	"http://www.w3.org/2003/11/swrlb#" >
+  <!ENTITY owl 		"http://www.w3.org/2002/07/owl#" >
+  <!ENTITY rdf 		"http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+  <!ENTITY rdfs 	"http://www.w3.org/2000/01/rdf-schema#" >
+  <!ENTITY xsd		"http://www.w3.org/2001/XMLSchema#" >
+  <!ENTITY this		"http://example.org" >
+]>
+
+<rdf:RDF
+	xmlns:owl="&owl;" 
+	xmlns:rdf="&rdf;" 
+	xmlns:rdfs="&rdfs;"
+	xmlns:swrl="&swrl;"
+	xmlns:swrlb="&swrlb;"
+	xmlns:this="&this;#"
+	xml:base="&this;">
+	
+	<owl:Ontology rdf:about="" />
+	
+	<owl:Thing rdf:about="#i">
+		<this:p2 rdf:datatype="&xsd;int">11</this:p2>
+	</owl:Thing>
+	
+</rdf:RDF>

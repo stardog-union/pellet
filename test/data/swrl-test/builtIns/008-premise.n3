@@ -1,0 +1,168 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:  <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb:  <http://www.w3.org/2003/11/swrlb#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix : <http://owldl.com/ontologies/swrl/tests/builtIns/008#> .
+
+<> a owl:Ontology .
+
+:x a swrl:Variable .
+:xdate a swrl:Variable .
+:xy a swrl:Variable .
+:xm a swrl:Variable .
+:xd a swrl:Variable .
+:xtz a swrl:Variable .
+
+
+:born a owl:DatatypeProperty .
+:bYear a owl:DatatypeProperty .
+:bMonth a owl:DatatypeProperty .
+:bDay a owl:DatatypeProperty .
+:bTZ a owl:DatatypeProperty .
+
+
+:fromDate a swrl:Imp;
+  swrl:body (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :born;
+      swrl:argument1 :x;
+      swrl:argument2 :xdate;
+      ]
+    [ a swrl:BuiltinAtom;
+      swrl:builtin swrlb:date;
+      swrl:arguments ( :xdate :xy :xm :xd );
+      ] );
+  swrl:head (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bYear;
+      swrl:argument1 :x;
+      swrl:argument2 :xy;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bMonth;
+      swrl:argument1 :x;
+      swrl:argument2 :xm;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bDay;
+      swrl:argument1 :x;
+      swrl:argument2 :xd;
+      ] 
+  ). 
+
+
+:fromDateTZ a swrl:Imp;
+  swrl:body (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :born;
+      swrl:argument1 :x;
+      swrl:argument2 :xdate;
+      ]
+    [ a swrl:BuiltinAtom;
+      swrl:builtin swrlb:date;
+      swrl:arguments ( :xdate :xy :xm :xd :xtz);
+      ] );
+  swrl:head (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bYear;
+      swrl:argument1 :x;
+      swrl:argument2 :xy;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bMonth;
+      swrl:argument1 :x;
+      swrl:argument2 :xm;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bDay;
+      swrl:argument1 :x;
+      swrl:argument2 :xd;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bTZ;
+      swrl:argument1 :x;
+      swrl:argument2 :xtz;
+      ] 
+  ). 
+
+:toDate a swrl:Imp;
+  swrl:head (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :born;
+      swrl:argument1 :x;
+      swrl:argument2 :xdate;
+#      swrl:argument2 "2003-03-13"^^xsd:date ; 
+      ] );
+  swrl:body (
+    [ a swrl:BuiltinAtom;
+      swrl:builtin swrlb:date;
+      swrl:arguments ( :xdate :xy :xm :xd );
+      ]
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bYear;
+      swrl:argument1 :x;
+      swrl:argument2 :xy;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bMonth;
+      swrl:argument1 :x;
+      swrl:argument2 :xm;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bDay;
+      swrl:argument1 :x;
+      swrl:argument2 :xd;
+      ] 
+  ). 
+
+
+:toDateTZ a swrl:Imp;
+  swrl:head (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :born;
+      swrl:argument1 :x;
+      swrl:argument2 :xdate;
+      #swrl:argument2 "2004-04-14+01:00"^^xsd:date ;
+      ] );
+  swrl:body (
+    [ a swrl:BuiltinAtom;
+      swrl:builtin swrlb:date;
+      swrl:arguments ( :xdate :xy :xm :xd :xtz);
+      ]
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bYear;
+      swrl:argument1 :x;
+      swrl:argument2 :xy;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bMonth;
+      swrl:argument1 :x;
+      swrl:argument2 :xm;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bDay;
+      swrl:argument1 :x;
+      swrl:argument2 :xd;
+      ] 
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :bTZ;
+      swrl:argument1 :x;
+      swrl:argument2 :xtz;
+      ] 
+  ). 
+
+
+
+:Amy :born "2001-01-01"^^xsd:date .
+:Basil :born "2002-02-02Z"^^xsd:date .
+:Clara :bYear "2003"^^xsd:integer;
+       :bMonth "3"^^xsd:integer;
+       :bDay "13"^^xsd:integer .
+:Desmond :bYear "2004"^^xsd:integer;
+         :bMonth "4"^^xsd:integer;
+         :bDay "14"^^xsd:integer;
+         :bTZ "+01:00".
+ 
+

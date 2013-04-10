@@ -1,0 +1,359 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; CKB knowledge base, modified for KRSS syntax and other modifications.
+;;;
+;;; This knowledge base was used in the DFKI DL system comparisons.  It 
+;;; contains information about tax regulations and was used in the
+;;; natural language projec XTRA at the Univ. of Saarbruecken. 
+;;; 
+;;; Use only for experimental or research purposes.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;(reset-tbox 'ckb)
+
+(define-primitive-concept SIGNS  
+  (and *TOP*))
+(define-primitive-concept NAME  
+  (and SIGNS))
+(define-primitive-role S-NAME)
+(implies (at-least 1 S-NAME) SETTLEMENT)
+(implies *TOP* (all S-NAME NAME))
+(define-concept SETTLEMENT  
+  (and *TOP* 
+       (at-least 1 S-NAME)
+       (at-most 1 S-NAME)))
+(define-primitive-concept CITY  
+  (and SETTLEMENT))
+(define-primitive-concept STATE  
+  (and SETTLEMENT))
+(define-primitive-concept PHYSICAL-OBJECT  
+  (and *TOP*))
+(define-primitive-concept PHY-1  
+  (and PHYSICAL-OBJECT))
+(define-primitive-concept ANIMATE-BEING  
+  (and PHYSICAL-OBJECT))
+(define-primitive-concept LICENSE-NUMBER  
+  (and NAME))
+(define-primitive-role NAME-R)
+(implies (at-least 1 NAME-R) AGENT)
+(implies *TOP* (all NAME-R NAME))
+(define-concept AGENT  
+  (and *TOP* 
+       (at-least 1 NAME-R)
+       (at-most 1 NAME-R)))
+(define-primitive-role SETTLED-in)
+(implies (at-least 1 SETTLED-in) PHYSICAL-JURISTICAL-PER)
+(implies *TOP* (all SETTLED-in SETTLEMENT))
+(define-primitive-concept PHYSICAL-JURISTICAL-PER  
+  (and AGENT 
+       (at-least 1 SETTLED-in)
+       (at-most 1 SETTLED-in)))
+(define-concept ANIMAL  
+  (and ANIMATE-BEING AGENT))
+(define-concept PERSON  
+  (and ANIMAL PHYSICAL-JURISTICAL-PER))
+(define-primitive-role DRIVER)
+(implies (at-least 1 DRIVER) VEHICLE)
+(implies *TOP* (all DRIVER PERSON))
+(define-primitive-role OWNER)
+(implies (at-least 1 OWNER) VEHICLE)
+(implies *TOP* (all OWNER PHYSICAL-JURISTICAL-PER))
+(define-primitive-role LICENSE)
+(implies (at-least 1 LICENSE) PHYSICAL-JURISTICAL-PER)
+(implies *TOP* (all LICENSE LICENSE-NUMBER))
+(define-concept VEHICLE  
+  (and PHYSICAL-OBJECT 
+       (at-least 1 LICENSE)
+       (at-most 1 LICENSE) 
+       (at-least 1 OWNER)
+       (at-most 1 OWNER) 
+       (at-least 1 DRIVER)
+       (at-most 1 DRIVER)))
+(define-primitive-concept PERIOD-OF-TIME  
+  (and *TOP*))
+(define-primitive-concept DAY  
+  (and PERIOD-OF-TIME))
+(define-primitive-concept MONTH  
+  (and PERIOD-OF-TIME))
+(define-primitive-concept YEAR  
+  (and PERIOD-OF-TIME))
+(define-primitive-role YEAR-R)
+(implies (at-least 1 YEAR-R) DATE)
+(implies *TOP* (all YEAR-R YEAR))
+(define-primitive-role MONTH-R)
+(implies (at-least 1 MONTH-R) DATE)
+(implies *TOP* (all MONTH-R MONTH))
+(define-primitive-role DAY-R)
+(implies (at-least 1 DAY-R) DATE)
+(implies *TOP* (all DAY-R DAY))
+(define-concept DATE  
+  (and *TOP* 
+       (at-least 1 DAY-R)
+       (at-most 1 DAY-R) 
+       (at-least 1 MONTH-R)
+       (at-most 1 MONTH-R) 
+       (at-least 1 YEAR-R)
+       (at-most 1 YEAR-R)))
+(define-primitive-concept INSTITUTION  
+  (and PHYSICAL-JURISTICAL-PER))
+(define-primitive-concept ADDABLES  
+  (and SIGNS))
+(define-primitive-concept NUMB  
+  (and ADDABLES))
+(define-primitive-role NUMB-NAME)
+(implies (at-least 1 NUMB-NAME) NAMED_NUMBER)
+(implies *TOP* (all NUMB-NAME NUMB))
+(define-primitive-concept NAMED_NUMBER  
+  (and *TOP* 
+       (at-least 1 NUMB-NAME)
+       (at-most 1 NUMB-NAME)))
+(define-primitive-role DAY-S-LEAVE)
+(implies (at-least 1 DAY-S-LEAVE) EMPLOYMENT)
+(implies *TOP* (all DAY-S-LEAVE NAMED_NUMBER))
+(define-primitive-role PLACE-OF-WORK)
+(implies (at-least 1 PLACE-OF-WORK) EMPLOYMENT)
+(implies *TOP* (all PLACE-OF-WORK SETTLEMENT))
+(define-primitive-role EMPLOYEE)
+(implies (at-least 1 EMPLOYEE) EMPLOYMENT)
+(implies *TOP* (all EMPLOYEE PERSON))
+(define-primitive-role EMPLOYER)
+(implies (at-least 1 EMPLOYER) EMPLOYMENT)
+(implies *TOP* (all EMPLOYER INSTITUTION))
+(define-primitive-role BEGIN)
+(implies (at-least 1 BEGIN) EMPLOYMENT)
+(implies *TOP* (all BEGIN DATE))
+(define-primitive-role END)
+(implies (at-least 1 END) EMPLOYMENT)
+(implies *TOP* (all END DATE))
+(define-concept EMPLOYMENT  
+  (and *TOP* 
+       (at-least 1 END)
+       (at-most 1 END)
+       (at-least 1 BEGIN)				
+       (at-most 1 BEGIN)
+       (at-least 1 EMPLOYER)
+       (at-most 1 EMPLOYER)
+       (at-least 1 EMPLOYEE)
+       (at-most 1 EMPLOYEE)
+       (at-least 1 PLACE-OF-WORK) 
+       (at-least 1 DAY-S-LEAVE)))
+(define-primitive-role HAS-JOB)
+(implies (at-least 1 HAS-JOB) PERSON)
+(implies *TOP* (all HAS-JOB EMPLOYMENT))
+(define-primitive-concept PROFESSION  
+  (and *TOP*))
+(define-primitive-role HAS-PROFESSION)
+(implies (at-least 1 HAS-PROFESSION) PERSON)
+(implies *TOP* (all HAS-PROFESSION PROFESSION))
+(define-primitive-role WORKING-MATERIALS)
+(implies (at-least 1 WORKING-MATERIALS) EMPLOYMENT)
+(define-concept LICENSED-VEHICLE  
+  (and VEHICLE 
+       (at-least 1 LICENSE)))
+(define-primitive-role OWNER-PRIVATE-VEHICLE :parents OWNER)
+(define-concept PRIVATE-VEHICLE  
+  (and LICENSED-VEHICLE 
+       (all OWNER-PRIVATE-VEHICLE PERSON)))
+(define-primitive-concept MOTOR-BYKE  
+  (and PRIVATE-VEHICLE))
+(define-primitive-concept BYCICLE  
+  (and PRIVATE-VEHICLE))
+(define-primitive-concept AUTOMOBILE  
+  (and PRIVATE-VEHICLE))
+(define-primitive-role OWNER-PUBLIC-TRANSPORTATION :parents OWNER)
+(define-concept PUBLIC-TRANSPORTATION  
+  (and LICENSED-VEHICLE 
+       (all OWNER-PUBLIC-TRANSPORTATION INSTITUTION)))
+(define-primitive-concept BUS  
+  (and PUBLIC-TRANSPORTATION))
+(define-primitive-concept PROFESSIONAL-ASSOCIATION  
+  (and INSTITUTION))
+(define-primitive-concept TAX-*TOP*  
+  (and *TOP*))
+(define-primitive-concept VALUTA  
+  (and *TOP*))
+(define-primitive-role CURRENCY)
+(implies (at-least 1 CURRENCY) AMOUNT-OF-MONEY)
+(implies *TOP* (all CURRENCY VALUTA))
+(define-primitive-role VALUE)
+(implies (at-least 1 VALUE) AMOUNT-OF-MONEY)
+(implies *TOP* (all VALUE NAMED_NUMBER))
+(define-primitive-concept AMOUNT-OF-MONEY  
+  (and *TOP* 
+       (at-least 1 VALUE)
+       (at-most 1 VALUE) 
+       (at-least 1 CURRENCY)
+       (at-most 1 CURRENCY)))
+(define-primitive-role C-REPETITION-INT)
+(implies (at-least 1 C-REPETITION-INT) COSTS)
+(implies *TOP* (all C-REPETITION-INT PERIOD-OF-TIME))
+(define-concept COSTS  
+  (and AMOUNT-OF-MONEY 
+       (at-least 1 C-REPETITION-INT)
+       (at-most 1 C-REPETITION-INT)))
+(define-primitive-role C-REPETITION-INT-MONTHLY-COSTS :parents C-REPETITION-INT)
+(define-concept MONTHLY-COSTS  
+  (and COSTS 
+       (all C-REPETITION-INT-MONTHLY-COSTS MONTH)))
+(define-primitive-role AMOUNT)
+(implies (at-least 1 AMOUNT) MEMBERSHIP-FEE)
+(implies *TOP* (all AMOUNT COSTS))
+(define-concept MEMBERSHIP-FEE  
+  (and TAX-*TOP* 
+       (at-least 1 AMOUNT)
+       (at-most 1 AMOUNT)))
+(define-primitive-role ASSOC-FEE)
+(implies (at-least 1 ASSOC-FEE) PROFESSIONAL-ASSOCIATION)
+(implies *TOP* (all ASSOC-FEE MEMBERSHIP-FEE))
+(define-primitive-role REPRESENTS)
+(implies (at-least 1 REPRESENTS) PROFESSIONAL-ASSOCIATION)
+(implies *TOP* (all REPRESENTS PROFESSION))
+(define-primitive-concept INFORMATIK  
+  (and PROFESSION))
+(define-primitive-role REPRESENTS-COMP :parents REPRESENTS)
+(define-primitive-concept COMP
+  (and PROFESSIONAL-ASSOCIATION 
+       (all REPRESENTS-COMP INFORMATIK)))
+(define-primitive-concept AISB  
+  (and COMP))
+(define-primitive-concept GI  
+  (and COMP))
+(define-primitive-concept SYSTEM  
+  (and AGENT))
+(define-primitive-concept USER  
+  (and PERSON))
+(define-primitive-concept FRECH-FRANC  
+  (and VALUTA))
+(define-primitive-concept GERMAN-MARK  
+  (and VALUTA))
+(define-primitive-role AGENS)
+(implies (at-least 1 AGENS) ACTION)
+(implies *TOP* (all AGENS AGENT))
+(define-primitive-role REPETITION-INT)
+(implies (at-least 1 REPETITION-INT) ACTION)
+(implies *TOP* (all REPETITION-INT PERIOD-OF-TIME))
+(define-concept ACTION  
+  (and *TOP* 
+       (at-least 1 REPETITION-INT)
+       (at-most 1 REPETITION-INT)
+       (at-least 1 AGENS)))
+(define-primitive-concept WEEK  
+  (and PERIOD-OF-TIME))
+(define-primitive-concept SCHREINER-GEWERBE  
+  (and PROFESSION))
+(define-primitive-role COSTS-R)
+(implies (at-least 1 COSTS-R) TAX-ACTION)
+(implies *TOP* (all COSTS-R COSTS))
+(define-concept TAX-ACTION  
+  (and TAX-*TOP* ACTION 
+       (at-least 1 COSTS-R)))
+(define-primitive-concept RETURN  
+  (and AMOUNT-OF-MONEY))
+(define-primitive-role RETURN-R)
+(implies (at-least 1 RETURN-R) TAX-ACTION)
+(implies *TOP* (all RETURN-R RETURN))
+(define-primitive-role REPETITION-INT-DAILY-TAX-ACTION :parents REPETITION-INT)
+(define-concept DAILY-TAX-ACTION  
+  (and TAX-ACTION 
+       (all REPETITION-INT-DAILY-TAX-ACTION DAY)))
+(define-primitive-role OBJECT)
+(implies (at-least 1 OBJECT) OBJECT-TRANSFER)
+(implies *TOP* (all OBJECT PHYSICAL-OBJECT))
+(define-concept OBJECT-TRANSFER  
+  (and TAX-ACTION 
+       (at-least 1 OBJECT)))
+(define-primitive-role AGENS-TO :parents AGENS)
+(define-primitive-role OBJECT-OBJ :parents OBJECT)
+(implies (at-least 1 OBJECT-OBJ) TO-GO)
+(implies *TOP* (all OBJECT-OBJ PHY-1))
+(define-primitive-role OBJECT-GO :parents OBJECT)
+(implies (at-least 1 OBJECT-OBJ) TO-GO)
+(implies *TOP* (all OBJECT-OBJ PERSON))
+(define-concept TO-GO
+  (and OBJECT-TRANSFER 
+       (all AGENS-TO PERSON) 
+       (at-least 1 OBJECT)
+       (at-least 1 OBJECT-OBJ)
+       (at-least 1 OBJECT-GO)))
+(define-primitive-role DESTINATION)
+(implies (at-least 1 DESTINATION) TO-GO)
+(implies *TOP* (all DESTINATION SETTLEMENT))
+(define-primitive-role SOURCE)
+(implies (at-least 1 SOURCE) TO-GO)
+(implies *TOP* (all SOURCE SETTLEMENT))
+(define-primitive-role VEHICLE-TYPE)
+(implies (at-least 1 VEHICLE-TYPE) TO-GO)
+(implies *TOP* (all VEHICLE-TYPE VEHICLE))
+(define-concept SINGLE-COMMUTE  
+  (and TO-GO DAILY-TAX-ACTION 
+       (at-least 1 SOURCE)
+       (at-most 1 SOURCE)
+       (at-least 1 DESTINATION)))
+(define-primitive-role VEHICLE-TYPE-GO :parents VEHICLE-TYPE)
+(define-concept GO-WITH-PUBLIC-TRANSPORTATION
+  (and TO-GO 
+       (all VEHICLE-TYPE-GO PUBLIC-TRANSPORTATION)))
+(define-concept COMMUTE-WITH-PUBLIC-TRANSPORTATION
+  (and GO-WITH-PUBLIC-TRANSPORTATION SINGLE-COMMUTE 
+       (at-least 1 SOURCE) 
+       (at-least 1 DESTINATION)))
+(define-primitive-role VEHICLE-TYPE-DRIVE :parents VEHICLE-TYPE)
+(define-concept DRIVE  
+  (and TO-GO 
+       (all VEHICLE-TYPE-DRIVE PRIVATE-VEHICLE)))
+(define-primitive-role AGENS-PAY :parents AGENS)
+(define-primitive-concept PAY  
+  (and OBJECT-TRANSFER 
+       (all AGENS-PAY PERSON)))
+(define-primitive-role RECIPIENT)
+(implies (at-least 1 RECIPIENT) PAY)
+(implies *TOP* (all RECIPIENT PHYSICAL-JURISTICAL-PER))
+(define-primitive-role PAY-OBJECT)
+(implies (at-least 1 PAY-OBJECT) PAY)
+(implies *TOP* (all PAY-OBJECT AMOUNT-OF-MONEY))
+(define-primitive-role RECIPIENT-PAY :parents RECIPIENT)
+(define-primitive-concept PAY-FEE
+  (and PAY 
+       (all RECIPIENT-PAY PROFESSIONAL-ASSOCIATION)))
+(define-primitive-concept SELL  
+  (and OBJECT-TRANSFER))
+(define-primitive-concept BUY  
+  (and OBJECT-TRANSFER))
+(define-primitive-concept INANIMATE-OBJECT  
+  (and TAX-*TOP*))
+(define-primitive-concept BOOK  
+  (and INANIMATE-OBJECT))
+(define-primitive-concept SPECIAL-CHARS  
+  (and SIGNS))
+(define-primitive-concept CROSS  
+  (and SPECIAL-CHARS))
+(define-primitive-concept HOOK  
+  (and SPECIAL-CHARS))
+(define-primitive-concept BLANK  
+  (and SIGNS))
+(define-primitive-concept NUMB-NAME_35  
+  (and NUMB))
+(define-primitive-concept NUMB-NAME_50  
+  (and NUMB))
+(define-primitive-concept PERSON-NAME  
+  (and NAME))
+(define-primitive-concept CITY-NAME  
+  (and NAME))
+(define-primitive-concept VOELKLINGEN  
+  (and CITY-NAME))
+(define-primitive-concept SAARBRUECKEN  
+  (and CITY-NAME))
+(define-primitive-concept BERLIN  
+  (and CITY-NAME))
+(define-primitive-concept NUMBER_35  
+  (and NAMED_NUMBER))
+(define-primitive-concept NUMBER_50  
+  (and NAMED_NUMBER))
+(define-primitive-role C-REPETITION-INT-DAILY-COSTS :parents C-REPETITION-INT)
+(define-concept DAILY-COSTS  
+  (and COSTS 
+       (all C-REPETITION-INT-DAILY-COSTS DAY) 
+       (at-least 1 C-REPETITION-INT-DAILY-COSTS))) 
+

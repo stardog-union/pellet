@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xmlns      ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/10a.owl#"
+  xml:base   ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/10a.owl">
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>17.05.2005, version 0.1</owl:versionInfo>
+ <rdfs:comment> (OWL DL), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="r" />
+
+<owl:Class rdf:ID="C1">
+ <rdfs:subClassOf>
+   <owl:Class>
+     <owl:intersectionOf rdf:parseType="Collection">
+       <owl:Class>
+         <owl:complementOf rdf:resource="#C2" />
+       </owl:Class>
+       <owl:Class>
+         <owl:complementOf>
+           <owl:Class rdf:ID="C3" />
+         </owl:complementOf>
+       </owl:Class>
+     </owl:intersectionOf>
+    </owl:Class>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="C2">
+  <rdfs:subClassOf>
+    <owl:Class>
+      <owl:complementOf rdf:resource="#C3" />
+    </owl:Class>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="X2">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom rdf:resource="#C1" />
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom rdf:resource="#C2" />
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom rdf:resource="#C3" />
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C4" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C5" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C6" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C7" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C8" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C9" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C10" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C11" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C12" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C13" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C14" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C15" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C16" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C17" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r" />
+      <owl:someValuesFrom>
+	<owl:Class rdf:ID="C18" />
+      </owl:someValuesFrom>
+    </owl:Restriction>
+    <owl:Restriction> 
+      <owl:onProperty rdf:resource="#r"/>
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<X2 rdf:ID="i"/>
+
+<!-- for hoolet: subsumes MyBottom X
+<owl:Class rdf:ID="MyBottom">
+  <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+-->
+
+<!--
+conclusion:
+  
+  <rdf:Description about="#X2">
+    <rdfs:subClassOf rdf:resource="&owl;Nothing" />
+  </rdf:Description>
+-->
+
+</rdf:RDF>
+
+
+
+
+
+
+
+
+
+
+
+

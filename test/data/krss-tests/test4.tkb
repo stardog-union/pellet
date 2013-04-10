@@ -1,0 +1,13 @@
+ (define-primitive-concept A)
+ (implies A (and B (all p C)))
+ 
+ (define-primitive-concept B)
+
+ (define-primitive-concept C)
+ (implies C E)
+
+ (define-concept D (and B (all p E)))
+ 
+ (define-primitive-concept E)
+ 
+ (define-primitive-role p)

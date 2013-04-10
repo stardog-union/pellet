@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY prem "http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/32a.owl#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xmlns:prem ="&prem;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/32b.owl#"
+>
+
+<!--
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>08.11.2006, version 0.1</owl:versionInfo>
+ <rdfs:comment>Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:Class rdf:ID="Man"/>
+
+<Man rdf:ID="John"/>
+-->
+
+<!--
+<prem:Man rdf:ID="&prem;John"/>
+-->
+
+<!--
+<rdf:Description rdf:about="&prem;John">
+   <rdf:type rdf:resource="&prem;Man" />
+</rdf:Description>
+-->
+
+<!--
+
+is entailed (resp. entails) 32a.owl
+
+-->
+
+</rdf:RDF>

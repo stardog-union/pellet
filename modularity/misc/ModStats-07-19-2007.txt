@@ -1,0 +1,142 @@
+Running tests on 8 files:
+   data/03_sweet-combined.owl
+   data/04_wine-combined.owl
+   data/01_koala.owl
+   data/go.owl
+   data/05_galen-ian.owl
+   data/Thesaurus_07.03d.owl
+   data/02_SUMO.owl
+   data/Thesaurus_03.owl
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 03_sweet-combined.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 1194ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 1194ms  -- excluding index building time
+Average module signature size: 43.56018217306441
+Name            | Count |     Avg | Total (s)
+=============================================
+main            |     0 |       ? |      3659
+extractModules  |     1 | 1194.00 |      1194
+expandSignature |     1 |    0.00 |         0
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 04_wine-combined.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 2919ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 2919ms  -- excluding index building time
+Average module signature size: 353.0747922437673
+Name            | Count |     Avg | Total (s)
+=============================================
+main            |     0 |       ? |      3599
+extractModules  |     1 | 2919.00 |      2919
+expandSignature |     1 |    1.00 |         1
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 01_koala.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 2ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 2ms  -- excluding index building time
+Average module signature size: 9.4375
+Name            | Count |  Avg | Total (s)
+==========================================
+main            |     0 |    ? |        35
+extractModules  |     1 | 2.00 |         2
+expandSignature |     1 | 0.00 |         0
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: go.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 2650ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 2650ms  -- excluding index building time
+Average module signature size: 13.974799541809851
+Name            | Count |     Avg | Total (s)
+=============================================
+main            |     0 |       ? |      6354
+extractModules  |     1 | 2650.00 |      2650
+expandSignature |     1 |    1.00 |         1
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 05_galen-ian.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 450ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 450ms  -- excluding index building time
+Average module signature size: 45.98418041063615
+Name            | Count |    Avg | Total (s)
+============================================
+main            |     0 |      ? |      1047
+extractModules  |     1 | 450.00 |       450
+expandSignature |     1 |   0.00 |         0
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: Thesaurus_07.03d.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 89413ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 89413ms  -- excluding index building time
+Average module signature size: 113.27864049223557
+Name            | Count |      Avg | Total (s)
+==============================================
+main            |     0 |        ? |    123026
+extractModules  |     1 | 89413.00 |     89413
+expandSignature |     1 |     0.00 |         0
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: 02_SUMO.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 1734ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 1734ms  -- excluding index building time
+Average module signature size: 169.28279069767441
+Name            | Count |     Avg | Total (s)
+=============================================
+main            |     0 |       ? |      1865
+extractModules  |     1 | 1734.00 |      1734
+expandSignature |     1 |    0.00 |         0
+
+
+
+------------------------------------------------------------------------------------------------------------------------
+  Loading ontology: Thesaurus_03.owl
+    Done loading
+---Extracting modules---
+Total time to extract modules: 2197ms  -- including time for build axiom index in Segmentation.java
+Actual time to extract modules: 2197ms  -- excluding index building time
+Average module signature size: 21.835974443201096
+Name            | Count |     Avg | Total (s)
+=============================================
+main            |     0 |       ? |     13496
+extractModules  |     1 | 2197.00 |      2197
+expandSignature |     1 |    0.00 |         0
+
+
+
+Ontology                  | Avg Mod Size |  Total time | Actual Time
+====================================================================
+01_koala.owl              |         9.44 |           2 |           2
+02_SUMO.owl               |       169.28 |        1734 |        1734
+03_sweet-combined.owl     |        43.56 |        1194 |        1194
+04_wine-combined.owl      |       353.07 |        2919 |        2919
+05_galen-ian.owl          |        45.98 |         450 |         450
+go.owl                    |        13.97 |        2650 |        2650
+Thesaurus_03.owl          |        21.84 |        2197 |        2197
+Thesaurus_07.03d.owl      |       113.28 |       89413 |       89413

@@ -1,0 +1,11 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:  <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb:  <http://www.w3.org/2003/11/swrlb#> .
+
+@prefix : <http://owldl.com/ontologies/swrl/tests/equalities/003#> .
+
+<> a owl:Ontology .
+
+:i owl:differentFrom :j .
+

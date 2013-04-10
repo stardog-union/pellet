@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example1.owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:part="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/part.owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xml:base="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/example1.owl">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/part.owl"/>
+  </owl:Ontology>
+  <owl:Class rdf:ID="Car">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom>
+          <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+              <owl:Class rdf:ID="Engine"/>
+              <owl:Class rdf:ID="Headlight"/>
+              <owl:Class rdf:ID="Wheel"/>
+            </owl:unionOf>
+          </owl:Class>
+        </owl:allValuesFrom>
+        <owl:onProperty rdf:resource="http://www.w3.org/2001/sw/BestPractices/OEP/SimplePartWhole/part.owl#hasPart"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <Car rdf:ID="car123"/>
+  <Wheel rdf:ID="wheel123c">
+    <part:partOf_directly rdf:resource="#car123"/>
+  </Wheel>
+  <Headlight rdf:ID="headlight123b">
+    <part:partOf_directly rdf:resource="#car123"/>
+  </Headlight>
+  <Wheel rdf:ID="wheel123b">
+    <part:partOf_directly rdf:resource="#car123"/>
+  </Wheel>
+  <Wheel rdf:ID="wheel123a">
+    <part:partOf_directly rdf:resource="#car123"/>
+  </Wheel>
+  <Engine rdf:ID="engine123">
+    <part:partOf_directly rdf:resource="#car123"/>
+  </Engine>
+  <Headlight rdf:ID="headlight123a">
+    <part:partOf_directly rdf:resource="#car123"/>
+  </Headlight>
+  <Wheel rdf:ID="wheel123d">
+    <part:partOf_directly rdf:resource="#car123"/>
+  </Wheel>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.1, Build 284)  http://protege.stanford.edu -->

@@ -1,0 +1,50 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl:  <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb:  <http://www.w3.org/2003/11/swrlb#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix : <http://owldl.com/ontologies/swrl/tests/builtIns/009#> .
+
+<> a owl:Ontology .
+
+:x a swrl:Variable .
+:xname a swrl:Variable .
+:xfirst a swrl:Variable .
+:xlast a swrl:Variable .
+
+
+:name a owl:DatatypeProperty .
+:firstName a owl:DatatypeProperty .
+:lastName a owl:DatatypeProperty .
+
+
+:fromNames a swrl:Imp;
+  swrl:body (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :firstName;
+      swrl:argument1 :x;
+      swrl:argument2 :xfirst;
+      ]
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :lastName;
+      swrl:argument1 :x;
+      swrl:argument2 :xlast;
+      ]
+    [ a swrl:BuiltinAtom;
+      swrl:builtin swrlb:stringConcat;
+      swrl:arguments ( :xname :xfirst "-" :xlast );
+      ] );
+  swrl:head (
+    [ a swrl:DatavaluedPropertyAtom;
+      swrl:propertyPredicate :name;
+      swrl:argument1 :x;
+      swrl:argument2 :xname;
+      ] 
+  ). 
+
+
+:Basil a owl:Thing;
+	:firstName "Basil";
+	:lastName "Assaultedbybears".
+

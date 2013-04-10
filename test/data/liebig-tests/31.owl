@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/31.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>08.11.2006, version 0.1</owl:versionInfo>
+ <rdfs:comment>Local closed domain example, Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+
+<owl:Class rdf:ID="Parent">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#has-child"/>
+      <owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:ObjectProperty rdf:ID="has-child"/>
+
+<Parent rdf:ID="Peter"/>
+
+<owl:Class rdf:about="&owl;Thing">
+  <rdfs:subClassOf>
+    <owl:Class>
+      <owl:oneOf rdf:parseType="Collection">
+        <owl:Thing rdf:about="#Peter"/>
+        <owl:Thing rdf:ID="Paul"/>
+      </owl:oneOf>
+    </owl:Class>
+  </rdfs:subClassOf>
+</owl:Class>
+
+
+<!--
+
+SELECT *
+WHERE (a:Peter, a:has-child, ?x)
+USING
+   owl FOR <http://www.w3.org/2002/07/owl#>,
+   rdf FOR <http://www.w3.org/1999/02/22-rdf-syntax-ns#>,
+   rdfs FOR <http://www.w3.org/2000/01/rdf-schema#>,
+   a FOR <http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/31.owl#>
+
+consequence: Paul is the filler of the has-child property wrt. Peter
+
+<owl:Thing rdf:about="#Peter">
+  <has-child rdf:resource="#Paul" />
+</owl:Thing>
+
+-->
+
+</rdf:RDF>

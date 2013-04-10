@@ -1,0 +1,20 @@
+    <defconcept name="a"/>
+    <defrole name="f"/>
+    <impliesr>
+        <ratom name="f"/>
+        <ratom name="r"/>
+    </impliesr>
+    <defrole name="r"/>
+    <transitive>
+        <ratom name="r"/>
+    </transitive>
+    <impliesc>
+        <top/>
+        <or>
+            <atmost num="1">
+                <ratom name="f"/>
+                <top/>
+            </atmost>
+        </or>
+    </impliesc>
+

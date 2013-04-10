@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY example "http://example.com/" >
+    <!ENTITY example2 "http://example.com/2" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://example.com/"
+     xml:base="http://example.com/"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:example2="&example;2"
+     xmlns:example="http://example.com/"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.com/2aTOa -->
+
+    <owl:ObjectProperty rdf:about="2aTOa">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">2a&lt;=&gt;a</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.com/2aTObUNIONc -->
+
+    <owl:ObjectProperty rdf:about="2aTObUNIONc">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">2a&lt;=&gt;bUNIONc</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.com/aTO2a -->
+
+    <owl:ObjectProperty rdf:about="aTO2a">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">a&lt;=&gt;2a</rdfs:label>
+        <owl:inverseOf rdf:resource="2aTOa"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.com/aTOb -->
+
+    <owl:ObjectProperty rdf:about="aTOb">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">a&lt;=&gt;b</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.com/bUNIONcTO2a -->
+
+    <owl:ObjectProperty rdf:about="bUNIONcTO2a">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">bUNIONc&lt;=&gt;2a</rdfs:label>
+        <owl:inverseOf rdf:resource="2aTObUNIONc"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.com/bTOa -->
+
+    <owl:ObjectProperty rdf:about="bTOa">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">b&lt;=&gt;a</rdfs:label>
+        <owl:inverseOf rdf:resource="aTOb"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.com/bTOc -->
+
+    <owl:ObjectProperty rdf:about="bTOc">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">b&lt;=&gt;c</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://example.com/cTOb -->
+
+    <owl:ObjectProperty rdf:about="cTOb">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">c&lt;=&gt;b</rdfs:label>
+        <owl:inverseOf rdf:resource="bTOc"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.com/2a -->
+
+    <owl:Class rdf:about="2a">
+        <rdfs:label rdf:datatype="&xsd;string">2a</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="2aTObUNIONc"/>
+                <owl:someValuesFrom rdf:resource="bUNIONc"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="2aTOa"/>
+                <owl:someValuesFrom rdf:resource="a"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="a"/>
+        <owl:disjointWith rdf:resource="b"/>
+        <owl:disjointWith rdf:resource="bUNIONc"/>
+        <owl:disjointWith rdf:resource="c"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/a -->
+
+    <owl:Class rdf:about="a">
+        <rdfs:label rdf:datatype="&xsd;string">a</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="aTO2a"/>
+                <owl:someValuesFrom rdf:resource="2a"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="aTOb"/>
+                <owl:someValuesFrom rdf:resource="b"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="b"/>
+        <owl:disjointWith rdf:resource="c"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/b -->
+
+    <owl:Class rdf:about="b">
+        <rdfs:label rdf:datatype="&xsd;string">b</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="bTOc"/>
+                <owl:someValuesFrom rdf:resource="c"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="bTOa"/>
+                <owl:someValuesFrom rdf:resource="a"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="c"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/bUNIONc -->
+
+    <owl:Class rdf:about="bUNIONc">
+        <rdfs:label rdf:datatype="&xsd;string">bUNIONc</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="b"/>
+                    <rdf:Description rdf:about="c"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="bUNIONcTO2a"/>
+                <owl:someValuesFrom rdf:resource="2a"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/c -->
+
+    <owl:Class rdf:about="c">
+        <rdfs:label rdf:datatype="&xsd;string">c</rdfs:label>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="cTOb"/>
+                <owl:someValuesFrom rdf:resource="b"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.972) http://owlapi.sourceforge.net -->
+

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF[
+	<!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+	<!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+	<!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
+	<!ENTITY test 'http://www.w3.org/2007/OWL/testOntology#'>
+	<!ENTITY results 'http://www.w3.org/2007/OWL/testResultOntology#'>
+	<!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+]>
+
+<rdf:RDF
+	xmlns:rdf="&rdf;"
+	xmlns:rdfs="&rdfs;"
+	xmlns:owl ="&owl;"
+	xmlns:xsd ="&xsd;"
+	xmlns:test="&test;"
+	xmlns:results="&results;">
+
+	<owl:Ontology rdf:about="http://www.w3.org/2007/OWL/testResultOntology">
+	  <owl:imports rdf:resource="http://www.w3.org/2007/OWL/testOntology"/>
+	  <rdfs:label>The OWL 2 Test Result Ontology</rdfs:label>
+	  <rdfs:comment>Adapted from http://www.w3.org/2002/03owlt/resultsOntology</rdfs:comment>
+	</owl:Ontology>
+
+	<owl:Class rdf:about="&results;TestRun" />
+
+	<owl:ObjectProperty rdf:about="&results;test" />
+
+	<owl:ObjectProperty rdf:about="&results;runner" />
+
+	<owl:FunctionalProperty rdf:about="&results;test" />
+
+	<owl:FunctionalProperty rdf:about="&results;runner" />
+
+	<rdf:Description rdf:about="&results;TestRun">
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&results;runner" />
+	      <owl:someValuesFrom rdf:resource="&owl;Thing" />
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</rdf:Description>
+
+	<rdf:Description rdf:about="&results;TestRun">
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&results;test" />
+	      <owl:someValuesFrom rdf:resource="&test;TestCase" />
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</rdf:Description>
+
+	<owl:Class rdf:about="&results;PassingRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:Class rdf:about="&results;FailingRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:Class rdf:about="&results;IncompleteRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:AllDisjointClass>
+	  <owl:members rdf:parseType="Collection">
+	    <rdf:Description rdf:about="&results;PassingRun" />
+	    <rdf:Description rdf:about="&results;FailingRun" />
+	    <rdf:Description rdf:about="&results;IncompleteRun" />
+	  </owl:members>
+	</owl:AllDisjointClass>
+
+	<owl:Class rdf:about="&results;ProfileIdentificationRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:Class rdf:about="&results;SyntaxTranslationRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:Class rdf:about="&results;ConsistencyRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:Class rdf:about="&results;InconsistencyRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:Class rdf:about="&results;PositiveEntailmentRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:Class rdf:about="&results;NegativeEntailmentRun" >
+	  <rdfs:subClassOf rdf:resource="&results;TestRun" />
+	</owl:Class>
+
+	<owl:AllDisjointClass>
+	  <owl:members rdf:parseType="Collection">
+	    <rdf:Description rdf:about="&results;ProfileIdentificationRun" />
+	    <rdf:Description rdf:about="&results;SyntaxTranslationRun" />
+	    <rdf:Description rdf:about="&results;ConsistencyRun" />
+	    <rdf:Description rdf:about="&results;InconsistencyRun" />
+	    <rdf:Description rdf:about="&results;PositiveEntailmentRun" />
+	    <rdf:Description rdf:about="&results;NegativeEntailmentRun" />
+	  </owl:members>
+	</owl:AllDisjointClass>
+
+	<owl:ObjectProperty rdf:about="&results;profile" />
+
+	<owl:FunctionalProperty rdf:about="&results;profile" />
+
+	<rdf:Description rdf:about="&results;ProfileIdentificationRun">
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&results;profile" />
+	      <owl:someValuesFrom>
+	        <owl:Class>
+	          <owl:oneOf rdf:parseType="Collection">
+	            <rdf:Description rdf:about="&results;DL" />
+	            <rdf:Description rdf:about="&results;EL" />
+	            <rdf:Description rdf:about="&results;QL" />
+	            <rdf:Description rdf:about="&results;RL" />
+	          </owl:oneOf>
+	        </owl:Class>
+	      </owl:someValuesFrom>
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</rdf:Description>
+
+	<owl:AnnotationProperty rdf:about="&results;details" />
+
+	<owl:DatatypeProperty rdf:about="&results;runtimeMillisecs">
+	  <!--
+	  Commented out until tools support owl:real
+	  <rdfs:range>
+	    <rdfs:Datatype>
+	      <owl:onDatatype rdf:resource="&owl;real"/>
+	      <owl:withRestrictions rdf:parseType="Collection">
+	        <rdf:Description>
+		  <xsd:minExclusive rdf:datatype="&xsd;integer">0</xsd:minExclusive>
+	        </rdf:Description>
+	      </owl:withRestrictions>
+	    </rdfs:Datatype>
+	  </rdfs:range>
+	  -->
+	</owl:DatatypeProperty>
+	<owl:FunctionalProperty rdf:about="&results;runtimeMillisecs" />
+
+</rdf:RDF>

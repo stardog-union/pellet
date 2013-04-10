@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF[
+	<!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+	<!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+	<!ENTITY owl 'http://www.w3.org/2002/07/owl#'>
+	<!ENTITY test 'http://www.w3.org/2007/OWL/testOntology#'>
+	<!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+]>
+
+<rdf:RDF
+	xmlns:rdf="&rdf;"
+	xmlns:rdfs="&rdfs;"
+	xmlns:owl ="&owl;"
+	xmlns:test="&test;">
+
+	<owl:Ontology rdf:about="http://www.w3.org/2007/OWL/testOntology">
+	  <rdfs:label>The OWL 2 Test Ontology</rdfs:label>
+	</owl:Ontology>
+
+	<owl:Class rdf:about="&test;TestCase" />
+
+	<owl:DatatypeProperty rdf:about="&test;identifier">
+	  <rdfs:range rdf:resource="&xsd;string" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;description">
+	  <rdfs:range rdf:resource="&xsd;string" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;creator">
+	  <rdfs:range rdf:resource="&xsd;string" />
+	</owl:DatatypeProperty>
+
+	<owl:ObjectProperty rdf:about="&test;specRef" />
+
+	<owl:ObjectProperty rdf:about="&test;issue" />
+
+	<owl:DatatypeProperty rdf:about="&test;inputOntology">
+	  <rdfs:range rdf:resource="&xsd;string" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;premiseOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;inputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;conclusionOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;inputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;nonConclusionOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;inputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:Class rdf:about="&test;ProfileIdentificationTest">
+	  <rdfs:subClassOf rdf:resource="&test;TestCase" />
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;inputOntology" />
+	      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Class rdf:about="&test;ConsistencyTest">
+	  <rdfs:subClassOf rdf:resource="&test;ProfileIdentificationTest" />
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;premiseOntology" />
+	      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	  <owl:disjointWith rdf:resource="&test;InconsistencyTest" />
+	</owl:Class>
+
+	<owl:Class rdf:about="&test;InconsistencyTest">
+	  <rdfs:subClassOf rdf:resource="&test;ProfileIdentificationTest" />
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;premiseOntology" />
+	      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Class rdf:about="&test;PositiveEntailmentTest">
+	  <rdfs:subClassOf rdf:resource="&test;ConsistencyTest" />
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;conclusionOntology" />
+	      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Class rdf:about="&test;NegativeEntailmentTest">
+	  <rdfs:subClassOf rdf:resource="&test;ConsistencyTest" />
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;nonConclusionOntology" />
+	      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:ObjectProperty rdf:about="&test;status">
+	  <rdf:type rdf:resource="&owl;FunctionalProperty" />
+	  <rdfs:range>
+	    <owl:Class>
+	      <owl:oneOf rdf:parseType="Collection">
+	        <rdf:Description rdf:about="&test;Proposed" />
+	        <rdf:Description rdf:about="&test;Approved" />
+	        <rdf:Description rdf:about="&test;Rejected" />
+	        <rdf:Description rdf:about="&test;Extracredit" />
+	      </owl:oneOf>
+	    </owl:Class>
+	  </rdfs:range>
+	</owl:ObjectProperty>
+
+	<owl:AllDifferent>
+	  <owl:members rdf:parseType="Collection">
+	    <rdf:Description rdf:about="&test;Proposed" />
+	    <rdf:Description rdf:about="&test;Approved" />
+	    <rdf:Description rdf:about="&test;Rejected" />
+	    <rdf:Description rdf:about="&test;Extracredit" />
+	  </owl:members>
+	</owl:AllDifferent>
+
+	<owl:ObjectProperty rdf:about="&test;species">
+	  <rdfs:range>
+	    <owl:Class>
+	      <owl:oneOf rdf:parseType="Collection">
+	        <rdf:Description rdf:about="&test;DL" />
+	        <rdf:Description rdf:about="&test;FULL" />
+	      </owl:oneOf>
+	    </owl:Class>
+	  </rdfs:range>
+	</owl:ObjectProperty>
+
+	<rdf:Description rdf:about="&test;DL">
+	  <owl:differentFrom rdf:resource="&test;FULL" />
+	</rdf:Description>
+
+	<owl:Restriction>
+	  <owl:onProperty rdf:resource="&test;species" />
+	  <owl:hasValue rdf:resource="&test;DL" />
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;species" />
+	      <owl:hasValue rdf:resource="&test;FULL" />
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</owl:Restriction>
+
+	<owl:ObjectProperty rdf:about="&test;profile">
+	  <rdfs:range>
+	    <owl:Class>
+	      <owl:oneOf rdf:parseType="Collection">
+	        <rdf:Description rdf:about="&test;EL" />
+	        <rdf:Description rdf:about="&test;QL" />
+	        <rdf:Description rdf:about="&test;RL" />
+	      </owl:oneOf>
+	    </owl:Class>
+	  </rdfs:range>
+	</owl:ObjectProperty>
+
+	<owl:AllDifferent>
+	  <owl:members rdf:parseType="Collection">
+	    <rdf:Description rdf:about="&test;EL" />
+	    <rdf:Description rdf:about="&test;QL" />
+	    <rdf:Description rdf:about="&test;RL" />
+	  </owl:members>
+	</owl:AllDifferent>
+
+	<owl:Restriction>
+	  <owl:onProperty rdf:resource="&test;profile" />
+	  <owl:someValuesFrom>
+	    <owl:Class>
+	      <owl:oneOf rdf:parseType="Collection">
+	        <rdf:Description rdf:about="&test;EL" />
+	        <rdf:Description rdf:about="&test;QL" />
+	      </owl:oneOf>
+	    </owl:Class>
+	  </owl:someValuesFrom>
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;species" />
+	      <owl:hasValue rdf:resource="&test;DL" />
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</owl:Restriction>
+
+	<owl:ObjectProperty rdf:about="&test;normativeSyntax">
+	  <rdfs:range>
+	    <owl:Class>
+	      <owl:oneOf rdf:parseType="Collection">
+	        <rdf:Description rdf:about="&test;RDFXML" />
+	        <rdf:Description rdf:about="&test;FUNCTIONAL" />
+	        <rdf:Description rdf:about="&test;OWLXML" />
+	      </owl:oneOf>
+	    </owl:Class>
+	  </rdfs:range>
+	</owl:ObjectProperty>
+
+	<owl:AllDifferent>
+	  <owl:members rdf:parseType="Collection">
+	    <rdf:Description rdf:about="&test;RDFXML" />
+	    <rdf:Description rdf:about="&test;FUNCTIONAL" />
+	    <rdf:Description rdf:about="&test;OWLXML" />
+	  </owl:members>
+	</owl:AllDifferent>
+
+	<rdf:Description rdf:about="&test;TestCase">
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;normativeSyntax" />
+	      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</rdf:Description>
+
+	<owl:ObjectProperty rdf:about="&test;semantics">
+	  <rdfs:range>
+	    <owl:Class>
+	      <owl:oneOf rdf:parseType="Collection">
+	        <rdf:Description rdf:about="&test;DIRECT" />
+	        <rdf:Description rdf:about="&test;RDF-BASED" />
+	      </owl:oneOf>
+	    </owl:Class>
+	  </rdfs:range>
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="&test;alternativeSemanticsTest">
+	  <rdf:type rdf:resource="&owl;FunctionalProperty" />
+	  <rdf:type rdf:resource="&owl;SymmetricProperty" />
+	</owl:ObjectProperty>
+
+	<owl:Class>
+	  <owl:intersectionOf rdf:parseType="Collection">
+	    <rdf:Description rdf:about="&test;TestCase" />
+	    <owl:Class>
+	      <owl:complementOf>
+	        <owl:Restriction>
+	          <owl:onProperty rdf:resource="&test;semantics" />
+	          <owl:hasValue rdf:resource="&test;RDF-BASED" />
+	        </owl:Restriction>
+	      </owl:complementOf>
+	    </owl:Class>
+	  </owl:intersectionOf>
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;alternativeSemanticsTest" />
+	      <owl:hasValue rdf:resource="&test;RDF-BASED" />
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Class>
+	  <owl:intersectionOf rdf:parseType="Collection">
+	    <rdf:Description rdf:about="&test;TestCase" />
+	    <owl:Class>
+	      <owl:complementOf>
+	        <owl:Restriction>
+	          <owl:onProperty rdf:resource="&test;semantics" />
+	          <owl:hasValue rdf:resource="&test;DL" />
+	        </owl:Restriction>
+	      </owl:complementOf>
+	    </owl:Class>
+	  </owl:intersectionOf>
+	  <rdfs:subClassOf>
+	    <owl:Restriction>
+	      <owl:onProperty rdf:resource="&test;alternativeSemanticsTest" />
+	      <owl:hasValue rdf:resource="&test;DL" />
+	    </owl:Restriction>
+	  </rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:DatatypeProperty rdf:about="&test;fsInputOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;inputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;owlXmlInputOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;inputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;rdfXmlInputOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;inputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:AllDisjointProperties>
+	  <owl:members rdf:parseType="Collection">
+	    <rdf:Description rdf:about="&test;fsInputOntology" />
+	    <rdf:Description rdf:about="&test;owlXmlInputOntology" />
+	    <rdf:Description rdf:about="&test;rdfXmlInputOntology" />
+	  </owl:members>
+	</owl:AllDisjointProperties>
+
+	<owl:ObjectProperty rdf:about="&test;importedOntology" />
+
+	<owl:ObjectProperty rdf:about="&test;importedOntologyIRI" />
+
+	<owl:Restriction>
+	  <owl:onProperty>
+	    <rdf:Description>
+	      <owl:inverseOf rdf:resource="&test;importedOntology" />
+	    </rdf:Description>
+	  </owl:onProperty>
+	  <owl:someValuesFrom rdf:resource="&test;TestCase" />
+	  <rdfs:subClassOf>
+	    <owl:Class>
+	      <owl:intersectionOf rdf:parseType="Collection">
+	        <owl:Restriction>
+		  <owl:onProperty rdf:resource="&test;importedOntologyIRI" />
+	          <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+	        </owl:Restriction>
+	        <owl:Restriction>
+		  <owl:onProperty rdf:resource="&test;inputOntology" />
+	          <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+	        </owl:Restriction>
+	        <owl:Restriction>
+		  <owl:onProperty rdf:resource="&test;normativeSyntax" />
+	          <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+	        </owl:Restriction>
+	      </owl:intersectionOf>
+	    </owl:Class>
+	  </rdfs:subClassOf>
+	</owl:Restriction>
+
+	<owl:DatatypeProperty rdf:about="&test;fsPremiseOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;fsInputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;fsConclusionOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;fsInputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;fsNonConclusionOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;fsInputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;owlXmlPremiseOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;owlXmlInputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;owlXmlConclusionOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;owlXmlInputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;owlXmlNonConclusionOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;owlXmlInputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;rdfXmlPremiseOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;rdfXmlInputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;rdfXmlConclusionOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;rdfXmlInputOntology" />
+	</owl:DatatypeProperty>
+
+	<owl:DatatypeProperty rdf:about="&test;rdfXmlNonConclusionOntology">
+	  <rdfs:subPropertyOf rdf:resource="&test;rdfXmlInputOntology" />
+	</owl:DatatypeProperty>
+
+</rdf:RDF>

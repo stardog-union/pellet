@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/15.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>23.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>transitivity/inverse role test (OWL DL), adapted
+               from Heinsohn (I think), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="q" />
+<owl:ObjectProperty rdf:ID="w" />
+
+<owl:ObjectProperty rdf:ID="r">
+   <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="invr">
+   <owl:inverseOf rdf:resource="#r"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#f">
+   <rdfs:subPropertyOf rdf:resource="#r"/>
+   <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+   <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="invf">
+   <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+   <owl:inverseOf rdf:resource="#f"/>
+</owl:ObjectProperty>
+
+<owl:Class rdf:ID="C">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#q"/>
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="NotC">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#q"/>
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="A">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#w"/>
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="NotA">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#w"/>
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="D">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#C"/>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#f" />
+      <owl:someValuesFrom rdf:resource="#NotC" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="SomeInvfA">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#invf" />
+      <owl:someValuesFrom rdf:resource="#A" />
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+
+<owl:Class rdf:ID="Satisfiable">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#NotA" />
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#invf" />
+      <owl:someValuesFrom rdf:resource="#A" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#invr" />
+      <owl:allValuesFrom rdf:resource="#SomeInvfA" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="SomeInvfD">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#invf" />
+      <owl:someValuesFrom rdf:resource="#D" />
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="NotSatisfiable">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Class rdf:about="#NotC" />
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#invf" />
+      <owl:someValuesFrom rdf:resource="#D" />
+    </owl:Restriction>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#invr" />
+      <owl:allValuesFrom rdf:resource="#SomeInvfD" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<!-- for hoolet -->
+<owl:Class rdf:ID="MyBottom">
+  <owl:equivalentClass rdf:resource="&owl;Nothing" />
+</owl:Class>
+
+
+<!--
+
+<owl:Class rdf:about="#Satisfiable">
+  <owl:disjointWith rdf:resource="#&owl;Nothing" />
+</owl:Class>
+
+<owl:Class rdf:about="#NotSatisfiable">
+  <owl:equivalentClass rdf:resource="#&owl;Nothing" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

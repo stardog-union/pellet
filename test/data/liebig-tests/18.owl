@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/18.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>22.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>TBox inconsistency test (OWL Lite), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+
+<owl:Class rdf:ID="AnotA">
+   <owl:unionOf rdf:parseType="Collection">
+     <owl:Class rdf:about="#A" />
+     <owl:Class>
+       <owl:complementOf rdf:resource="#A" />
+     </owl:Class>
+   </owl:unionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="A" />
+
+<!-- for hoolet
+<owl:Class rdf:ID="MyTOP">
+  <owl:equivalentClass rdf:resource="&owl;Thing" />
+</owl:Class>
+-->
+
+<!-- for KAON2: SELECT ?x WHERE { ?x rdf:type a:AnotA } -->
+<!-- <owl:Thing rdf:ID="i1"/> -->
+<!-- only works when using <owl:MyTOP rdf:ID="i1"/> -->
+<!-- works for pellet:
+SELECT ?x WHERE (?x, rdf:type, a:AnotA)
+USING
+   owl FOR <http://www.w3.org/2002/07/owl#>,
+   rdf FOR <http://www.w3.org/1999/02/22-rdf-syntax-ns#>,
+   rdfs FOR <http://www.w3.org/2000/01/rdf-schema#>,
+   a FOR <http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/18.owl#>
+-->
+
+
+<!--
+  consequence: AnotA is equivalent to Thing
+
+<owl:Class rdf:about="AnotA">
+  <owl:equivalentClass rdf:resource="&owl;Thing" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

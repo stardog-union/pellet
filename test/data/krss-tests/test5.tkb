@@ -1,0 +1,16 @@
+(define-primitive-concept A)
+ 
+(define-primitive-concept B)
+
+(define-primitive-concept C)
+
+(define-primitive-concept D)
+(implies D (and A B))
+
+(define-primitive-concept E)
+(implies E (and A B C))
+ 
+(define-primitive-concept T) 
+(implies T (or D (not E)))
+
+(implies *TOP* T)

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns="http://www.example.org/test#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xml:base="http://www.example.org/test#">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="Probe">
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="aTransitiveProperty"/>
+        </owl:onProperty>
+        <owl:hasValue>
+          <aClass rdf:ID="Instance1">
+            <aTransitiveProperty>
+              <aClass rdf:ID="Instance2">
+                <aTransitiveProperty>
+                  <aClass rdf:ID="Instance3"/>
+                </aTransitiveProperty>
+              </aClass>
+            </aTransitiveProperty>
+            <aProperty rdf:resource="#Instance1"/>
+          </aClass>
+        </owl:hasValue>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:ID="aClass"/>
+  <owl:ObjectProperty rdf:ID="aSuperProperty">
+    <rdfs:range rdf:resource="#aClass"/>
+    <rdfs:domain rdf:resource="#aClass"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#aTransitiveProperty">
+    <owl:inverseOf rdf:resource="#aTransitiveProperty"/>
+    <rdfs:range rdf:resource="#aClass"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    <rdfs:domain rdf:resource="#aClass"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="aProperty">
+    <rdfs:subPropertyOf rdf:resource="#aSuperProperty"/>
+  </owl:ObjectProperty>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 2.2 beta, Build 288)  http://protege.stanford.edu -->

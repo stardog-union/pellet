@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE owl [
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<!ENTITY owl "http://www.w3.org/2002/07/owl#">
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+]>
+
+<rdf:RDF
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns:owl="http://www.w3.org/2002/07/owl#"
+ xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+ xmlns="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/9.owl#"
+ xml:base="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/9.owl">
+
+<owl:Ontology rdf:about="">
+      <owl:versionInfo>17.03.2006</owl:versionInfo>
+      <rdfs:label>Funcrole-Test</rdfs:label>
+      <rdfs:comment>merging of functional roles test (OWL Lite),
+                    Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:Class rdf:ID="C">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#p"/>
+      <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:maxCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="NotC">
+  <owl:equivalentClass>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#p"/>
+      <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+    </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="D" />
+
+<owl:Class rdf:ID="Allr5C">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r5" />
+      <owl:allValuesFrom  rdf:resource="#C" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="Allr5D">
+  <owl:intersectionOf rdf:parseType="Collection">
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#r5" />
+      <owl:allValuesFrom  rdf:resource="#D" />
+    </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#Somer3CSomer4D">
+  <owl:intersectionOf rdf:parseType="Collection">
+     <owl:Restriction>
+       <owl:onProperty rdf:resource="#r3" />
+       <owl:someValuesFrom rdf:resource="#C" />
+     </owl:Restriction>
+     <owl:Restriction>
+       <owl:onProperty rdf:resource="#r4" />
+       <owl:someValuesFrom rdf:resource="#D" />
+     </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:Class rdf:about="#Somer3notCSomer4D">
+  <owl:intersectionOf rdf:parseType="Collection">
+     <owl:Restriction>
+       <owl:onProperty rdf:resource="#r3" />
+       <owl:someValuesFrom rdf:resource="#NotC"/>
+     </owl:Restriction>
+     <owl:Restriction>
+       <owl:onProperty rdf:resource="#r4" />
+       <owl:someValuesFrom rdf:resource="#D" />
+     </owl:Restriction>
+  </owl:intersectionOf>
+</owl:Class>
+
+<owl:ObjectProperty rdf:about="#r1">
+  <rdf:type rdf:resource="&owl;FunctionalProperty" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#r2">
+  <rdf:type rdf:resource="&owl;FunctionalProperty" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#r3">
+  <rdfs:subPropertyOf rdf:resource="#r1" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#r4">
+  <rdfs:subPropertyOf rdf:resource="#r1" />
+  <rdfs:subPropertyOf rdf:resource="#r2" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#r5">
+  <rdfs:subPropertyOf rdf:resource="#r2" />
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="#p"/>
+
+<!--
+  conclusion:
+
+<owl:Class rdf:about="#Somer3CSomer4D">
+  <rdfs:subClassOf rdf:resource="#Allr5C" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

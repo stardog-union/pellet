@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rdf:RDF [
+  <!ENTITY basicFamily "http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#">
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+]>
+<rdf:RDF xml:base="http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily"
+         xmlns:basicFamily="&basicFamily;"
+         xmlns:owl="&owl;"
+         xmlns:rdf="&rdf;"
+         xmlns:rdfs="&rdfs;">
+
+<!-- Ontology Information -->
+  <owl:Ontology rdf:about="">
+    <rdfs:comment xml:lang="en">ALC variant of the example ontology created by Matthew Horridge</rdfs:comment>
+  </owl:Ontology>
+
+<!-- Classes -->
+  <owl:Class rdf:about="#Brother">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#Male"/>
+      <rdf:Description rdf:about="#Sibling"/>
+    </owl:intersectionOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Daughter">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#Female"/>
+      <rdf:Description rdf:about="#Offspring"/>
+    </owl:intersectionOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Father">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#Male"/>
+      <rdf:Description rdf:about="#Parent"/>
+    </owl:intersectionOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Female">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Male"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="#GrandFather">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#Father"/>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#hasChild"/>
+        <owl:someValuesFrom rdf:resource="#Parent"/>
+      </owl:Restriction>
+    </owl:intersectionOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#GrandMother">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#Mother"/>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#hasChild"/>
+        <owl:someValuesFrom rdf:resource="#Parent"/>
+      </owl:Restriction>
+    </owl:intersectionOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Male">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Female"/>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Mother">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#Female"/>
+      <rdf:Description rdf:about="#Parent"/>
+    </owl:intersectionOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Offspring">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#hasParent"/>
+        <owl:someValuesFrom rdf:resource="#Parent"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Parent">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#hasChild"/>
+        <owl:someValuesFrom rdf:resource="#Offspring"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Person"/>
+  <owl:Class rdf:about="#Sibling">
+    <rdfs:subClassOf rdf:resource="#Person"/>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="#hasSibling"/>
+        <owl:someValuesFrom rdf:resource="#Sibling"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Sister">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#Female"/>
+      <rdf:Description rdf:about="#Sibling"/>
+    </owl:intersectionOf>
+  </owl:Class>
+
+  <owl:Class rdf:about="#Son">
+    <owl:intersectionOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="#Male"/>
+      <rdf:Description rdf:about="#Offspring"/>
+    </owl:intersectionOf>
+  </owl:Class>
+
+<!-- Annotation Properties -->
+  <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+  <owl:AnnotationProperty rdf:about="&owl;versionInfo"/>
+
+<!-- Object Properties -->
+  <owl:ObjectProperty rdf:about="#hasChild">
+    <rdfs:domain rdf:resource="#Parent"/>
+    <rdfs:range rdf:resource="#Offspring"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#hasUncle">
+  <rdfs:range rdf:resource="http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#Brother"/>
+    <rdfs:domain rdf:resource="http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#Offspring"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasParent">
+    <rdfs:domain rdf:resource="#Offspring"/>
+    <rdfs:range rdf:resource="#Parent"/>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="#hasSibling">
+    <rdfs:domain rdf:resource="#Sibling"/>
+    <rdfs:range rdf:resource="#Sibling"/>
+  </owl:ObjectProperty>
+  
+    <owl:ObjectProperty rdf:ID="hasAunt">
+    <rdfs:range rdf:resource="#Sister"/>
+    <rdfs:domain rdf:resource="#Offspring"/>
+  </owl:ObjectProperty>
+  <owl:FunctionalProperty rdf:ID="isMarriedTo">
+    <rdfs:domain rdf:resource="#Person"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Person"/>
+  </owl:FunctionalProperty>
+
+<!-- Instances -->
+  <basicFamily:Daughter rdf:about="#Antonella">
+    <basicFamily:hasParent rdf:resource="#Francesco"/>
+    <basicFamily:hasParent rdf:resource="#Rosanna"/>
+    <basicFamily:hasSibling rdf:resource="#Milly"/>
+    <basicFamily:hasSibling rdf:resource="#Valentina"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Female rdf:about="#Carmela">
+    <basicFamily:isMarriedTo rdf:resource="#Girolamo"/>
+    <basicFamily:hasChild rdf:resource="#Francesco"/>
+    <basicFamily:hasChild rdf:resource="#Giuseppe"/>
+    <rdf:type rdf:resource="#GrandMother"/>
+    <rdf:type rdf:resource="#Mother"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Female>
+
+  <basicFamily:Brother rdf:about="#Dino">
+    <basicFamily:isMarriedTo rdf:resource="#Maria"/>
+    <basicFamily:hasChild rdf:resource="#Luigi"/>
+    <basicFamily:hasChild rdf:resource="#Ombretta"/>
+    <basicFamily:hasChild rdf:resource="#Serena"/>
+    <basicFamily:hasParent rdf:resource="#NonnaLina"/>
+    <basicFamily:hasParent rdf:resource="#NonnoLuigi"/>
+    <basicFamily:hasSibling rdf:resource="#Nella"/>
+    <rdf:type rdf:resource="#Father"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Son"/>
+  </basicFamily:Brother>
+
+  <basicFamily:Female rdf:about="#Dora">
+    <basicFamily:isMarriedTo rdf:resource="#Gianni"/>
+    <basicFamily:hasChild rdf:resource="#Maria"/>
+    <basicFamily:hasChild rdf:resource="#Rosanna"/>
+    <rdf:type rdf:resource="#GrandMother"/>
+    <rdf:type rdf:resource="#Mother"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Female>
+
+  <basicFamily:Female rdf:about="#Emilia">
+    <basicFamily:hasSibling rdf:resource="#Mauro"/>
+    <basicFamily:hasSibling rdf:resource="#Miriam"/>
+    <basicFamily:hasSibling rdf:resource="#Paolo"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Female>
+
+  <basicFamily:Male rdf:about="#Felice">
+    <basicFamily:hasParent rdf:resource="#Giggino"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Son"/>
+  </basicFamily:Male>
+
+  <basicFamily:Brother rdf:about="#Francesco">
+    <basicFamily:isMarriedTo rdf:resource="#Rosanna"/>
+    <basicFamily:hasChild rdf:resource="#Antonella"/>
+    <basicFamily:hasChild rdf:resource="#Milly"/>
+    <basicFamily:hasChild rdf:resource="#Valentina"/>
+    <basicFamily:hasParent rdf:resource="#Carmela"/>
+    <basicFamily:hasParent rdf:resource="#Girolamo"/>
+    <basicFamily:hasSibling rdf:resource="#Giuseppe"/>
+    <rdf:type rdf:resource="#Father"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Son"/>
+  </basicFamily:Brother>
+
+  <basicFamily:Father rdf:about="#Gianni">
+    <basicFamily:hasChild rdf:resource="#Maria"/>
+    <basicFamily:hasChild rdf:resource="#Rosanna"/>
+    <rdf:type rdf:resource="#GrandFather"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Father>
+
+  <basicFamily:Father rdf:about="#Giggino">
+    <basicFamily:hasChild rdf:resource="#Felice"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Father>
+
+  <basicFamily:Daughter rdf:about="#Giovanna">
+    <basicFamily:hasParent rdf:resource="#Mauro"/>
+    <basicFamily:hasParent rdf:resource="#Nella"/>
+    <basicFamily:hasSibling rdf:resource="#Marisella"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Father rdf:about="#Girolamo">
+    <basicFamily:hasChild rdf:resource="#Francesco"/>
+    <basicFamily:hasChild rdf:resource="#Giuseppe"/>
+    <rdf:type rdf:resource="#GrandFather"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Father>
+
+  <basicFamily:Brother rdf:about="#Giuseppe">
+    <basicFamily:hasParent rdf:resource="#Carmela"/>
+    <basicFamily:hasParent rdf:resource="#Girolamo"/>
+    <basicFamily:hasSibling rdf:resource="#Francesco"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Son"/>
+  </basicFamily:Brother>
+
+  <basicFamily:Father rdf:about="#Isidoro">
+    <basicFamily:hasChild rdf:resource="#Luciano"/>
+    <rdf:type rdf:resource="#GrandFather"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Father>
+
+  <basicFamily:Male rdf:about="#Luca">
+    <basicFamily:hasParent rdf:resource="#Luciano"/>
+    <basicFamily:hasParent rdf:resource="#Lucrezia"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Son"/>
+  </basicFamily:Male>
+
+  <basicFamily:Father rdf:about="#Luciano">
+    <basicFamily:isMarriedTo rdf:resource="#Lucrezia"/>
+    <basicFamily:hasChild rdf:resource="#Luca"/>
+    <basicFamily:hasParent rdf:resource="#Isidoro"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Son"/>
+  </basicFamily:Father>
+
+  <basicFamily:Female rdf:about="#Lucrezia">
+    <basicFamily:hasChild rdf:resource="#Luca"/>
+    <rdf:type rdf:resource="#Mother"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Female>
+
+  <basicFamily:Brother rdf:about="#Luigi">
+    <basicFamily:hasParent rdf:resource="#Dino"/>
+    <basicFamily:hasParent rdf:resource="#Maria"/>
+    <basicFamily:hasSibling rdf:resource="#Ombretta"/>
+    <basicFamily:hasSibling rdf:resource="#Serena"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Son"/>
+  </basicFamily:Brother>
+
+  <basicFamily:Daughter rdf:about="#Maria">
+   	<basicFamily:isMarriedTo rdf:resource="#Dino"/>
+    <basicFamily:hasChild rdf:resource="#Luigi"/>
+    <basicFamily:hasChild rdf:resource="#Ombretta"/>
+    <basicFamily:hasChild rdf:resource="#Serena"/>
+    <basicFamily:hasParent rdf:resource="#Dora"/>
+    <basicFamily:hasParent rdf:resource="#Gianni"/>
+    <basicFamily:hasSibling rdf:resource="#Rosanna"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Mother"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Daughter rdf:about="#Marisella">
+    <basicFamily:hasParent rdf:resource="#Mauro"/>
+    <basicFamily:hasParent rdf:resource="#Nella"/>
+    <basicFamily:hasSibling rdf:resource="#Giovanna"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Brother rdf:about="#Mauro">
+    <basicFamily:isMarriedTo rdf:resource="#Nella"/>
+    <basicFamily:hasChild rdf:resource="#Giovanna"/>
+    <basicFamily:hasChild rdf:resource="#Marisella"/>
+    <basicFamily:hasSibling rdf:resource="#Emilia"/>
+    <basicFamily:hasSibling rdf:resource="#Miriam"/>
+    <basicFamily:hasSibling rdf:resource="#Paolo"/>
+    <rdf:type rdf:resource="#Father"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+  </basicFamily:Brother>
+
+  <basicFamily:Daughter rdf:about="#Milly">
+    <basicFamily:hasParent rdf:resource="#Francesco"/>
+    <basicFamily:hasParent rdf:resource="#Rosanna"/>
+    <basicFamily:hasSibling rdf:resource="#Antonella"/>
+    <basicFamily:hasSibling rdf:resource="#Valentina"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Female rdf:about="#Miriam">
+    <basicFamily:hasSibling rdf:resource="#Emilia"/>
+    <basicFamily:hasSibling rdf:resource="#Mauro"/>
+    <basicFamily:hasSibling rdf:resource="#Paolo"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Female>
+
+  <basicFamily:Daughter rdf:about="#Nella">
+    <basicFamily:hasChild rdf:resource="#Giovanna"/>
+    <basicFamily:hasChild rdf:resource="#Marisella"/>
+    <basicFamily:hasParent rdf:resource="#NonnaLina"/>
+    <basicFamily:hasParent rdf:resource="#NonnoLuigi"/>
+    <basicFamily:hasSibling rdf:resource="#Dino"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Mother"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Female rdf:about="#NonnaLina">
+    <basicFamily:hasChild rdf:resource="#Dino"/>
+    <basicFamily:hasChild rdf:resource="#Nella"/>
+    <rdf:type rdf:resource="#GrandMother"/>
+    <rdf:type rdf:resource="#Mother"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Female>
+
+  <basicFamily:Father rdf:about="#NonnoLuigi">
+    <basicFamily:isMarriedTo rdf:resource="#NonnaLina"/>
+    <basicFamily:hasChild rdf:resource="#Dino"/>
+    <basicFamily:hasChild rdf:resource="#Nella"/>
+    <rdf:type rdf:resource="#GrandFather"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+  </basicFamily:Father>
+
+  <basicFamily:Daughter rdf:about="#Ombretta">
+    <basicFamily:hasParent rdf:resource="#Dino"/>
+    <basicFamily:hasParent rdf:resource="#Maria"/>
+    <basicFamily:hasSibling rdf:resource="#Luigi"/>
+    <basicFamily:hasSibling rdf:resource="#Serena"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Brother rdf:about="#Paolo">
+    <basicFamily:hasSibling rdf:resource="#Emilia"/>
+    <basicFamily:hasSibling rdf:resource="#Mauro"/>
+    <basicFamily:hasSibling rdf:resource="#Miriam"/>
+    <rdf:type rdf:resource="#Male"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+  </basicFamily:Brother>
+
+  <basicFamily:Daughter rdf:about="#Rosanna">
+    <basicFamily:hasChild rdf:resource="#Antonella"/>
+    <basicFamily:hasChild rdf:resource="#Milly"/>
+    <basicFamily:hasChild rdf:resource="#Valentina"/>
+    <basicFamily:hasParent rdf:resource="#Dora"/>
+    <basicFamily:hasParent rdf:resource="#Gianni"/>
+    <basicFamily:hasSibling rdf:resource="#Maria"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Mother"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Parent"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Daughter rdf:about="#Serena">
+    <basicFamily:hasParent rdf:resource="#Dino"/>
+    <basicFamily:hasParent rdf:resource="#Maria"/>
+    <basicFamily:hasSibling rdf:resource="#Luigi"/>
+    <basicFamily:hasSibling rdf:resource="#Ombretta"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+
+  <basicFamily:Daughter rdf:about="#Valentina">
+    <basicFamily:hasParent rdf:resource="#Francesco"/>
+    <basicFamily:hasParent rdf:resource="#Rosanna"/>
+    <basicFamily:hasSibling rdf:resource="#Antonella"/>
+    <basicFamily:hasSibling rdf:resource="#Milly"/>
+    <rdf:type rdf:resource="#Female"/>
+    <rdf:type rdf:resource="#Offspring"/>
+    <rdf:type rdf:resource="#Person"/>
+    <rdf:type rdf:resource="#Sibling"/>
+    <rdf:type rdf:resource="#Sister"/>
+  </basicFamily:Daughter>
+</rdf:RDF>

@@ -1,0 +1,1454 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns="http://www.csm.ornl.gov/~7lp/onto-library/esg1.1#"
+  xml:base="http://www.csm.ornl.gov/~7lp/onto-library/esg1.1">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://protege.stanford.edu/plugins/owl/protege"/>
+  </owl:Ontology>
+  <owl:Class rdf:ID="node">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="SimulationHardware"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Service">
+    <owl:disjointWith>
+      <owl:Class rdf:ID="SimulationStatus"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Reference"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Date"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="DateTimeEncoding"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="SimulationCode"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Dataset"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Format"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Parameter"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Person"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#SimulationStatus">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#DateTimeEncoding"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Format"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationCode"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Date"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Person"/>
+    </owl:disjointWith>
+<!--
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:oneOf rdf:parseType="Collection">
+          <SimulationStatus rdf:ID="completed"/>
+          <SimulationStatus rdf:ID="failed"/>
+          <SimulationStatus rdf:ID="pending"/>
+          <SimulationStatus rdf:ID="restarted"/>
+          <SimulationStatus rdf:ID="running"/>
+          <SimulationStatus rdf:ID="stopped"/>
+        </owl:oneOf>
+      </owl:Class>
+    </owl:equivalentClass>
+-->
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Dataset"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Reference"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Parameter"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Observation">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Investigation"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Ensemble">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Investigation"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Campaign"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="Project"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Activity"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Format">
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Person"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationCode"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >"format" is a reference to the external usage metadata (machine generated) and also associates the dataset with an external service handling this external metadata (not related to ESG:service)</rdfs:comment>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Date"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Parameter"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#DateTimeEncoding"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Dataset"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Reference"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Campaign">
+    <owl:disjointWith rdf:resource="#Ensemble"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Activity"/>
+    </rdfs:subClassOf>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Project"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Investigation"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Dataset">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="#Dataset"/>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="isGeneratedBy"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Parameter"/>
+    </owl:disjointWith>
+<!--     <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom>
+          <owl:Class rdf:about="#Authorization"/>
+        </owl:someValuesFrom>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="PermittedBy"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf> -->
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Date"/>
+    </owl:disjointWith>
+<!--     <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom>
+          <owl:Class rdf:about="#SpaceCoverage"/>
+        </owl:someValuesFrom>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="hasSpaceCoverage"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom>
+          <owl:Class rdf:ID="Calendar"/>
+        </owl:someValuesFrom>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="hasCalendar"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf> -->
+    <owl:disjointWith>
+      <owl:Class rdf:about="#DateTimeEncoding"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Person"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#isGeneratedBy"/>
+        </owl:onProperty>
+        <owl:someValuesFrom>
+          <owl:Class rdf:about="#Investigation"/>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#isGeneratedBy"/>
+        </owl:onProperty>
+        <owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+<!--     <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:FunctionalProperty rdf:ID="hasConvention"/>
+        </owl:onProperty>
+        <owl:someValuesFrom>
+          <owl:Class rdf:about="#Convention"/>
+        </owl:someValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf> -->
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+<!--     <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom>
+          <owl:Class rdf:about="#TimeCoverage"/>
+        </owl:someValuesFrom>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="hasTimeCoverage"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf> -->
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Reference"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationCode"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="#Format"/>
+        <owl:onProperty>
+          <owl:FunctionalProperty rdf:ID="hasFormat"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+<!--     <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom>
+          <owl:Class rdf:about="#Date"/>
+        </owl:someValuesFrom>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="hasDate"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf> -->
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Format"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Reference">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#DateTimeEncoding"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Parameter"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Date"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Person"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationCode"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Person">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationCode"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Date"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="hasContact"/>
+        </owl:onProperty>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#DateTimeEncoding"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Parameter"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Parameter">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Date"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#DateTimeEncoding"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationCode"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#SimulationCode">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Date"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#DateTimeEncoding"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Analysis">
+<!--     <rdfs:subClassOf>
+      <owl:Class rdf:about="#Investigation"/>
+    </rdfs:subClassOf> -->
+  </owl:Class>
+  <owl:Class rdf:about="#DateTimeEncoding">
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Date"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+<!--     <rdfs:subClassOf>
+      <owl:Class>
+        <owl:oneOf rdf:parseType="Collection">
+          <DateTimeEncoding rdf:ID="YYYY"/>
+          <DateTimeEncoding rdf:ID="YYYY-MM"/>
+          <DateTimeEncoding rdf:ID="YYYY-MM-DD"/>
+          <DateTimeEncoding rdf:ID="YYYY-MM-DDThh_mm_ss.sTZD"/>
+          <DateTimeEncoding rdf:ID="YYYY-MM-DDThh_mm_ssTZD"/>
+          <DateTimeEncoding rdf:ID="YYYY-MM-DDThh_mmTZD"/>
+        </owl:oneOf>
+      </owl:Class>
+    </rdfs:subClassOf> -->
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="Simulation">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Investigation"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Date">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SimulationHardware"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:ID="ESGDataset">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom>
+          <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+              <owl:Class rdf:about="#Simulation"/>
+              <owl:Class rdf:about="#Dataset"/>
+            </owl:unionOf>
+          </owl:Class>
+        </owl:allValuesFrom>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#isGeneratedBy"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="#Dataset"/>
+  </owl:Class>
+  <owl:Class rdf:about="#SimulationHardware">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Institution"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Storage">
+    <rdfs:subClassOf rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:ID="CPU"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#Institution">
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Contact"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >1</owl:maxCardinality>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:about="#hasContact"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Contact">
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#TimeCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Institution"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Experiment">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Investigation"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#TimeCoverage">
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Authorization"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith rdf:resource="#Contact"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Institution"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Authorization">
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#TimeCoverage"/>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith rdf:resource="#Institution"/>
+    <owl:disjointWith rdf:resource="#Contact"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Mapping"/>
+    </owl:disjointWith>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="#Person"/>
+        <owl:onProperty>
+          <owl:ObjectProperty rdf:ID="PermissionGrantedTo"/>
+        </owl:onProperty>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Service"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Mapping">
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#SpaceCoverage"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#Authorization"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#Contact"/>
+    <owl:disjointWith rdf:resource="#TimeCoverage"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Institution"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+  </owl:Class>
+  <owl:Class rdf:about="#SpaceCoverage">
+    <owl:disjointWith rdf:resource="#Contact"/>
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Institution"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Convention"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+<!--     <owl:equivalentClass>
+      <owl:Class>
+        <owl:oneOf rdf:parseType="Collection">
+          <SpaceCoverage rdf:ID="name"/>
+          <SpaceCoverage rdf:ID="downLimit"/>
+          <SpaceCoverage rdf:ID="eastLimit"/>
+          <SpaceCoverage rdf:ID="northLimit"/>
+          <SpaceCoverage rdf:ID="resolution"/>
+          <SpaceCoverage rdf:ID="southLimit"/>
+          <SpaceCoverage rdf:ID="upLimit"/>
+          <SpaceCoverage rdf:ID="westLimit"/>
+          <SpaceCoverage rdf:ID="xunits"/>
+          <SpaceCoverage rdf:ID="yunits"/>
+          <SpaceCoverage rdf:ID="zunits"/>
+        </owl:oneOf>
+      </owl:Class>
+    </owl:equivalentClass> -->
+    <owl:disjointWith rdf:resource="#Mapping"/>
+    <owl:disjointWith rdf:resource="#Authorization"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#TimeCoverage"/>
+    <owl:disjointWith rdf:resource="#Reference"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Convention">
+    <owl:disjointWith rdf:resource="#Institution"/>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#TimeCoverage"/>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#ParticipantRole"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Authorization"/>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith rdf:resource="#SpaceCoverage"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#Contact"/>
+    <owl:disjointWith rdf:resource="#Mapping"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Project">
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Investigation"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Ensemble"/>
+    <owl:disjointWith rdf:resource="#Campaign"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Activity"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#ParticipantRole">
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#Authorization"/>
+    <owl:disjointWith rdf:resource="#SpaceCoverage"/>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#Mapping"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith rdf:resource="#TimeCoverage"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith>
+      <owl:Class rdf:about="#Activity"/>
+    </owl:disjointWith>
+    <owl:disjointWith rdf:resource="#Convention"/>
+    <owl:disjointWith rdf:resource="#Contact"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith rdf:resource="#Institution"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Investigation">
+    <owl:disjointWith rdf:resource="#Project"/>
+    <rdfs:label>Scientific Investigation</rdfs:label>
+    <owl:disjointWith rdf:resource="#Campaign"/>
+    <owl:disjointWith rdf:resource="#Ensemble"/>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Observation"/>
+          <owl:Class rdf:about="#Experiment"/>
+          <owl:Class rdf:about="#Analysis"/>
+          <owl:Class rdf:about="#Simulation"/>
+        </owl:unionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#Activity"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Calendar">
+<!--     <owl:equivalentClass>
+      <owl:Class>
+        <owl:oneOf rdf:parseType="Collection">
+          <Calendar rdf:ID="_360_days"/>
+          <Calendar rdf:ID="_365_days"/>
+          <Calendar rdf:ID="_366_days"/>
+          <Calendar rdf:ID="all_leap"/>
+          <Calendar rdf:ID="gregorian"/>
+          <Calendar rdf:ID="julian"/>
+          <SpaceCoverage rdf:about="#name"/>
+          <Calendar rdf:ID="noleap"/>
+          <Calendar rdf:ID="none"/>
+          <Calendar rdf:ID="proleptic_gregorian"/>
+          <SpaceCoverage rdf:about="#resolution"/>
+          <Calendar rdf:ID="standard"/>
+          <SpaceCoverage rdf:about="#xunits"/>
+          <SpaceCoverage rdf:about="#yunits"/>
+          <SpaceCoverage rdf:about="#zunits"/>
+        </owl:oneOf>
+      </owl:Class>
+    </owl:equivalentClass> -->
+  </owl:Class>
+  <owl:Class rdf:about="#CPU">
+    <owl:disjointWith rdf:resource="#Storage"/>
+    <rdfs:subClassOf rdf:resource="#Service"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Activity">
+    <owl:disjointWith rdf:resource="#Date"/>
+    <owl:disjointWith rdf:resource="#SpaceCoverage"/>
+    <owl:equivalentClass>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Campaign"/>
+          <owl:Class rdf:about="#Ensemble"/>
+          <owl:Class rdf:about="#Investigation"/>
+          <owl:Class rdf:about="#Project"/>
+        </owl:unionOf>
+      </owl:Class>
+    </owl:equivalentClass>
+    <owl:disjointWith rdf:resource="#SimulationCode"/>
+    <owl:disjointWith rdf:resource="#Contact"/>
+    <owl:disjointWith rdf:resource="#Dataset"/>
+    <owl:disjointWith rdf:resource="#SimulationHardware"/>
+    <owl:disjointWith rdf:resource="#Institution"/>
+    <owl:disjointWith rdf:resource="#Authorization"/>
+    <owl:disjointWith rdf:resource="#Reference"/>
+    <owl:disjointWith rdf:resource="#Service"/>
+    <owl:disjointWith rdf:resource="#TimeCoverage"/>
+    <owl:disjointWith rdf:resource="#Format"/>
+    <owl:disjointWith rdf:resource="#SimulationStatus"/>
+    <owl:disjointWith rdf:resource="#Mapping"/>
+    <owl:disjointWith rdf:resource="#Person"/>
+    <owl:disjointWith rdf:resource="#DateTimeEncoding"/>
+    <owl:disjointWith rdf:resource="#Parameter"/>
+    <owl:disjointWith rdf:resource="#ParticipantRole"/>
+    <owl:disjointWith rdf:resource="#Convention"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="#hasTimeCoverage">
+    <rdfs:domain rdf:resource="#Dataset"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:range rdf:resource="#TimeCoverage"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasMapping">
+    <rdfs:range rdf:resource="#Mapping"/>
+    <rdfs:domain rdf:resource="#Parameter"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="ServesData">
+    <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isAccessedBy">
+    <rdfs:range rdf:resource="#Authorization"/>
+    <rdfs:domain rdf:resource="#Activity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasOntologyMapping">
+    <rdfs:domain rdf:resource="#Format"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasSpaceCoverage">
+    <rdfs:domain rdf:resource="#Dataset"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasParticipant">
+    <rdfs:domain rdf:resource="#Activity"/>
+    <rdfs:range rdf:resource="#ParticipantRole"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="associatedToService">
+    <rdfs:range rdf:resource="#Service"/>
+    <rdfs:domain rdf:resource="#Dataset"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasDate">
+    <rdfs:range rdf:resource="#Date"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Activity"/>
+          <owl:Class rdf:about="#Dataset"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#PermissionGrantedTo">
+    <rdfs:range rdf:resource="#Person"/>
+    <rdfs:domain rdf:resource="#Authorization"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isPartOf">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Dataset"/>
+          <owl:Class rdf:about="#Activity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+          <owl:Class rdf:about="#Campaign"/>
+          <owl:Class rdf:about="#Ensemble"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#PermittedBy">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Dataset"/>
+          <owl:Class rdf:about="#Activity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#Authorization"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="PermissionGrantedFor"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#isGeneratedBy">
+    <rdfs:domain rdf:resource="#Dataset"/>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Dataset"/>
+          <owl:Class rdf:about="#Investigation"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasCalendar">
+    <rdfs:domain rdf:resource="#Dataset"/>
+    <rdfs:range rdf:resource="#Calendar"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasDateTimeEncoding">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#TimeCoverage"/>
+          <owl:Class rdf:about="#Date"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#DateTimeEncoding"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="SimulationInput">
+    <rdfs:domain rdf:resource="#Simulation"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasStatus">
+    <rdfs:domain rdf:resource="#Simulation"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#PermissionGrantedFor">
+    <rdfs:domain rdf:resource="#Authorization"/>
+    <owl:inverseOf rdf:resource="#PermittedBy"/>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Dataset"/>
+          <owl:Class rdf:about="#Activity"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasInvestigation">
+    <rdfs:range rdf:resource="#Investigation"/>
+    <rdfs:domain rdf:resource="#Project"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasContact">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#Person"/>
+          <owl:Class rdf:about="#Institution"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+          <owl:Class rdf:about="#Contact"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="ReferenceType"/>
+  <owl:ObjectProperty rdf:ID="hasRole">
+    <rdfs:range rdf:resource="#ParticipantRole"/>
+    <rdfs:domain rdf:resource="#Person"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasReference">
+    <rdfs:range rdf:resource="#Reference"/>
+    <rdfs:domain rdf:resource="#Activity"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isDerivedFrom">
+    <rdfs:domain rdf:resource="#Activity"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:ID="country">
+    <rdfs:domain rdf:resource="#Contact"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="rights">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Activity"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="mappingAuthority">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Mapping"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="frequency">
+    <rdfs:domain rdf:resource="#TimeCoverage"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="note">
+    <rdfs:domain rdf:resource="#Activity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="StoragePath">
+    <rdfs:domain rdf:resource="#Storage"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasValue">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Parameter"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="street">
+    <rdfs:domain rdf:resource="#Contact"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="url">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Contact"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasText">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Reference"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="phone">
+    <rdfs:domain rdf:resource="#Contact"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasTopic">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Project"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="stop">
+    <rdfs:domain rdf:resource="#TimeCoverage"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="fax">
+    <rdfs:domain rdf:resource="#Contact"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasDescription">
+    <rdfs:domain rdf:resource="#Activity"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasCalendarType">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#TimeCoverage"/>
+          <owl:Class rdf:about="#Calendar"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="postalCode">
+    <rdfs:domain rdf:resource="#Contact"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasName">
+    <rdfs:domain rdf:resource="#Parameter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Version">
+    <rdfs:domain rdf:resource="#SimulationCode"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="region">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Contact"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="start">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#TimeCoverage"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="province">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Contact"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="current">
+    <rdfs:domain rdf:resource="#TimeCoverage"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="NameResolutionxyzType">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#SpaceCoverage"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="timeName">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#TimeCoverage"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="queue">
+    <rdfs:domain rdf:resource="#SimulationHardware"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="hasFunding">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Project"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="state">
+    <rdfs:domain rdf:resource="#Contact"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="city">
+    <rdfs:domain rdf:resource="#Contact"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:FunctionalProperty rdf:about="#hasConvention">
+    <rdfs:domain rdf:resource="#Dataset"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Convention"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="hasRange">
+    <rdfs:domain rdf:resource="#Parameter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:ID="mappingAuthorityName">
+    <rdfs:domain rdf:resource="#Mapping"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </owl:FunctionalProperty>
+  <owl:FunctionalProperty rdf:about="#hasFormat">
+    <rdfs:domain rdf:resource="#Dataset"/>
+    <protege:allowedParent rdf:resource="#Format"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:FunctionalProperty>
+<!--   <Parameter rdf:ID="JDL_00052"/> -->
+  <Dataset rdf:ID="JDL_00061">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >example</rdfs:comment>
+    <isGeneratedBy>
+      <Dataset rdf:ID="JDL_00062"/>
+    </isGeneratedBy>
+    <isGeneratedBy>
+      <Dataset rdf:ID="JDL_00063"/>
+    </isGeneratedBy>
+  </Dataset>
+<!--   <Format rdf:ID="esml"/>
+  <Parameter rdf:ID="JDL_00054"/>
+  <Parameter rdf:ID="JDL_00053"/>
+  <Format rdf:ID="ncml"/>
+  <Format rdf:ID="dif"/>
+  <Format rdf:ID="csml"/>
+  <Convention rdf:ID="CF"/> -->
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 1.3, Build 208)  http://protege.stanford.edu -->

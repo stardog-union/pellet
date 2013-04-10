@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#"> ]>
+
+<rdf:RDF
+  xmlns:rdf  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:rdfs ="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:owl  ="http://www.w3.org/2002/07/owl#"
+  xmlns:xsd  ="&xsd;"
+  xml:base ="http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/16.owl#"
+>
+
+<owl:Ontology rdf:about="">
+ <owl:versionInfo>22.12.2004, version 0.1</owl:versionInfo>
+ <rdfs:comment>nominal/UNA test (OWL DL), Thorsten Liebig</rdfs:comment>
+</owl:Ontology>
+
+<owl:ObjectProperty rdf:ID="hascolor" />
+
+<owl:Class rdf:ID="SingleColor">
+  <owl:oneOf rdf:parseType="Collection">
+    <owl:Thing rdf:ID="Red"/>
+  </owl:oneOf>
+</owl:Class>
+
+<owl:Class rdf:ID="NoOrLittleColored">
+ <owl:equivalentClass>
+   <owl:Restriction>
+     <owl:onProperty rdf:resource="#hascolor" />
+     <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+   </owl:Restriction>
+  </owl:equivalentClass>
+</owl:Class>
+
+<owl:Class rdf:ID="DullColored">
+ <rdfs:subClassOf>
+   <owl:Restriction>
+     <owl:onProperty rdf:resource="#hascolor" />
+     <owl:allValuesFrom rdf:resource="#SingleColor" />
+    </owl:Restriction>
+ </rdfs:subClassOf>
+</owl:Class>
+
+<!--
+  consequence: DullColored is a subclass of NoOrLittleColored
+
+<owl:Class rdf:about="#DullColored">
+  <rdfs:subClassOf rdf:resource="#NoOrLittleColored" />
+</owl:Class>
+
+-->
+
+</rdf:RDF>

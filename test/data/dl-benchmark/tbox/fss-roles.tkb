@@ -1,0 +1,447 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; fss knowledge base, modified for KRSS syntax and other modifications.
+;;;
+;;; This knowledge base was used in the DFKI DL system comparisons.  It 
+;;; contains information about functional semantic structures and speech
+;;; acts and was used in the natural language projec XTRA at the
+;;; Univ. of Saarbruecken.  
+;;; 
+;;; Use only for experimental or research purposes.
+;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Further modified by 
+;;; 1/ removing all domain-range informationfrom roles
+;;; 2/ replacing defined roles by primitive roles
+;;; 3/ removing parents from roles
+
+(define-primitive-concept SBONE TOP)
+(define-primitive-role PURPOSE)
+(define-primitive-concept FSS  
+  (and SBONE 
+       (at-least 1 PURPOSE)
+       (at-most 1 PURPOSE)))
+(define-primitive-concept POINTING  
+  (and FSS))
+(define-primitive-concept exactly-P
+  (and POINTING))
+(define-primitive-concept ENCIRCLING-P
+  (and POINTING))
+(define-primitive-concept STANDARD-P  
+  (and POINTING))
+(define-primitive-concept VAGUE-P
+  (and POINTING))
+(define-primitive-concept DETERMINER  
+  (and FSS))
+(define-primitive-concept INDEFINITE  
+  (and DETERMINER))
+(define-primitive-concept CARDINAL  
+  (and INDEFINITE))
+(define-primitive-concept INTERROGATIVE  
+  (and DETERMINER))
+(define-primitive-concept DEFINITE  
+  (and DETERMINER))
+(define-primitive-concept DEMONSTRATIVE  
+  (and DEFINITE))
+(define-primitive-concept POSSESSIVE  
+  (and DEFINITE))
+(define-primitive-concept SPEECH-ACT  
+  (and FSS))
+(define-primitive-concept ORDER  
+  (and SPEECH-ACT))
+(define-primitive-concept QUESTION  
+  (and SPEECH-ACT))
+(define-primitive-concept INTERJECTION  
+  (and SPEECH-ACT))
+(define-primitive-concept ASSERTION  
+  (and SPEECH-ACT))
+(define-primitive-role ILLOC)
+(define-primitive-concept PROPERTY-FILLER  
+  (and FSS))
+
+(define-primitive-role LOCATION)
+(define-primitive-role SUBJECT)
+(define-primitive-role RESULT)
+(define-primitive-role CAUSE)
+(define-primitive-concept TIME  
+  (and FSS))
+(define-primitive-role TIME-R)
+(define-concept PREDICATE  
+  (and FSS 
+       (at-least 1 TIME-R)
+       (at-most 1 TIME-R) 
+       (at-least 1 CAUSE)
+       (at-most 1 CAUSE) 
+       (at-least 1 RESULT)
+       (at-most 1 RESULT) 
+       (at-least 1 SUBJECT)
+       (at-most 1 SUBJECT) 
+       (at-least 1 LOCATION)
+       (at-most 1 LOCATION)
+       (at-least 1 ILLOC)
+       (at-most 1 ILLOC))  )
+
+
+
+(define-primitive-concept ADJECTIVE-PROPERTY  
+  (and PROPERTY-FILLER))
+(define-primitive-concept RELATION  
+  (and ADJECTIVE-PROPERTY))
+(define-primitive-concept VOLITIONAL-STATE  
+  (and ADJECTIVE-PROPERTY))
+(define-primitive-concept PHYSICAL-STATE  
+  (and ADJECTIVE-PROPERTY))
+(define-primitive-concept ORIGIN  
+  (and ADJECTIVE-PROPERTY))
+(define-primitive-concept TRUTH-VALUE  
+  (and ADJECTIVE-PROPERTY))
+(define-primitive-concept QUALITY  
+  (and ADJECTIVE-PROPERTY))
+(define-primitive-concept WORTH  
+  (and QUALITY))
+(define-primitive-concept WEIGHT  
+  (and QUALITY))
+(define-primitive-concept SIZE  
+  (and QUALITY))
+(define-primitive-concept COLOUR  
+  (and QUALITY))
+(define-primitive-role DEICTIC-MOD)
+(define-primitive-role DET)
+(define-primitive-role NAMED)
+(define-primitive-concept ANYTHING  
+  (and PROPERTY-FILLER 
+       (at-least 1 NAMED)
+       (at-most 1 NAMED) 
+       (at-least 1 DET)
+       (at-most 1 DET) 
+       (at-least 1 DEICTIC-MOD)
+       (at-most 1 DEICTIC-MOD)))
+(define-primitive-role SIZE-MOD)
+(define-primitive-role ORIGIN-MOD )
+(define-primitive-role WEIGHT-MOD)
+(define-primitive-role COLOUR-MOD)
+(define-concept CONCRETE-TOP  
+  (and ANYTHING 
+       (at-least 1 COLOUR-MOD)
+       (at-most 1 COLOUR-MOD) 
+       (at-least 1 WEIGHT-MOD)
+       (at-most 1 WEIGHT-MOD) 
+       (at-least 1 ORIGIN-MOD)
+       (at-most 1 ORIGIN-MOD) 
+       (at-least 1 SIZE-MOD)
+       (at-most 1 SIZE-MOD)))
+(define-primitive-concept MATERIAL  
+  (and CONCRETE-TOP))
+(define-primitive-role RELATIVE-MOD )
+(define-concept INDIVIDUAL  
+  (and CONCRETE-TOP 
+       (at-least 1 RELATIVE-MOD)
+       (at-most 1 RELATIVE-MOD)))
+(define-primitive-role PHYSIS-MOD)
+(define-concept ANIMATE  
+  (and INDIVIDUAL 
+       (at-least 1 PHYSIS-MOD)
+       (at-most 1 PHYSIS-MOD)))
+(define-primitive-role MATERIAL-MOD)
+(define-concept INANIMATE  
+  (and INDIVIDUAL 
+       (at-least 1 MATERIAL-MOD)
+       (at-most 1 MATERIAL-MOD)))
+(define-primitive-role VOLITION)
+(define-concept HUMAN  
+  (and ANIMATE 
+       (at-least 1 VOLITION)
+       (at-most 1 VOLITION)))
+(define-primitive-concept MALE  
+  (and HUMAN))
+(define-primitive-concept FEMALE  
+  (and HUMAN))
+(define-primitive-concept PLANT  
+  (and ANIMATE))
+(define-primitive-concept ANIMAL  
+  (and ANIMATE))
+
+
+(define-primitive-concept INFORMATION  
+  (and INANIMATE))
+(define-primitive-role INSTRUMENT)
+(define-primitive-role AGENT)
+(define-concept ACTION  
+  (and PREDICATE 
+       (all AGENT HUMAN) 
+       (at-least 1 INSTRUMENT)
+       (at-most 1 INSTRUMENT)))
+(define-primitive-role CONCERNED)
+(define-concept PRODUCTION  
+  (and ACTION 
+       (at-least 1 RESULT)))
+(define-primitive-role RESULT-WRITE)
+(define-concept WRITE  
+  (and PRODUCTION 
+       (all RESULT-WRITE INFORMATION)))
+
+
+(define-primitive-role TRUTH-MOD)
+(define-concept ABSTRACT-TOP  
+  (and ANYTHING 
+       (at-least 1 TRUTH-MOD)
+       (at-most 1 TRUTH-MOD)))
+(define-primitive-concept NAME  
+  (and ABSTRACT-TOP))
+
+(define-primitive-concept PERIOD  
+  (and TIME))
+(define-primitive-concept MOMENT  
+  (and TIME))
+(define-primitive-concept INTERVAL  
+  (and TIME))
+
+
+(define-primitive-role WORTH-MOD)
+(define-concept TOUCHABLE-OBJECT  
+  (and INANIMATE 
+       (at-least 1 WORTH-MOD)
+       (at-most 1 WORTH-MOD)))
+(define-primitive-concept CANVAS  
+  (and TOUCHABLE-OBJECT))
+
+(define-primitive-role LOCATION-ENTER)
+(define-concept ENTER  
+  (and WRITE 
+       (all LOCATION-ENTER TOUCHABLE-OBJECT) 
+       (at-least 1 LOCATION)))
+(define-primitive-role RESULT-REASON)
+
+
+
+(define-concept REASON  
+  (and PRODUCTION 
+       (all RESULT-REASON ABSTRACT-TOP)))
+(define-primitive-role TIME-R-REPEAT)
+(define-concept REPEAT  
+  (and ACTION 
+       (all TIME-R-REPEAT INTERVAL) 
+       (at-least 1 TIME-R)))
+(define-primitive-role SOURCE)
+(define-primitive-role DESTINATION)
+(define-concept MOTION  
+  (and ACTION 
+       (at-least 1 DESTINATION)
+       (at-most 1 DESTINATION)
+       (at-least 1 SOURCE)
+       (at-most 1 SOURCE)))
+(define-primitive-role MEANS)
+(define-primitive-role BENEFACTIVE)
+(define-primitive-role OBJECT)
+(define-primitive-role GIVE-OBJECT)
+(define-primitive-role TAKE-OBJECT)
+(define-concept TRANSACTION  
+  (and ACTION 
+       (at-least 1 BENEFACTIVE)
+       (at-most 1 BENEFACTIVE)
+       (at-least 1 OBJECT)
+       (at-most 1 OBJECT)
+       (at-least 1 GIVE-OBJECT)
+       (at-most 1 GIVE-OBJECT)
+       (at-least 1 TAKE-OBJECT)
+       (at-most 1 TAKE-OBJECT)))
+
+
+
+(define-concept USE  
+  (and ACTION 
+       (at-least 1 PURPOSE)))
+(define-primitive-role TIME-R-STATE)
+(define-concept STATE  
+  (and PREDICATE 
+       (all TIME-R-STATE PERIOD)))
+(define-primitive-role HAS-PROPERTY)
+(define-concept PROPERTY  
+  (and PREDICATE 
+       (at-least 1 HAS-PROPERTY)
+       (at-most 1 HAS-PROPERTY)) )
+(define-primitive-role MEASURE)
+(define-concept VALUE-PROPERTY  
+  (and PROPERTY 
+       (all MEASURE ABSTRACT-TOP)))
+(define-primitive-role MEASURE-COST)
+
+
+
+(define-concept SYSTEM  
+  (and INANIMATE HUMAN))
+
+(define-primitive-role INVERSE-MEANS)
+(define-concept VEHICLE  
+  (and TOUCHABLE-OBJECT 
+       (at-least 1 INVERSE-MEANS)
+       (at-most 1 INVERSE-MEANS))) 
+(define-concept MOTION-BY-MEANS  
+  (and MOTION 
+       (all MEANS VEHICLE) 
+       (at-least 1 MEANS))) 
+(define-primitive-role INVERSE-SOURCE)
+(define-primitive-role INVERSE-DESTINATION)
+(define-concept GEOGRAPHICAL-OBJECT  
+  (and INANIMATE 
+       (at-least 1 INVERSE-DESTINATION)
+       (at-most 1 INVERSE-DESTINATION) 
+       (at-least 1 INVERSE-SOURCE)
+       (at-most 1 INVERSE-SOURCE)))
+(define-primitive-concept TOWN  
+  (and GEOGRAPHICAL-OBJECT))
+(define-primitive-concept STRING1  
+  (and INFORMATION))
+
+
+
+(define-primitive-concept MASS-NOUN  
+  (and CONCRETE-TOP))
+(define-primitive-concept PART-OF-BODY  
+  (and CONCRETE-TOP))
+
+(define-primitive-concept NUMBER1  
+  (and ABSTRACT-TOP))
+(define-concept ACTION-CONTENT  
+  (and ACTION ABSTRACT-TOP))
+(define-concept MOTION-CONTENT  
+  (and MOTION ACTION-CONTENT))
+(define-concept MOTION-BY-MEANS-CONTENT  
+  (and MOTION-CONTENT MOTION-BY-MEANS 
+       (at-least 1 MEANS)))
+(define-primitive-role QUANTITY)
+(define-concept INDICATION-OF-QUANTITY  
+  (and ABSTRACT-TOP 
+       (all QUANTITY CARDINAL) 
+       (at-least 1 QUANTITY)))
+(define-concept COST  
+  (and VALUE-PROPERTY 
+       (all MEASURE-COST INDICATION-OF-QUANTITY)))
+
+(define-primitive-concept PROFESSION  
+  (and ABSTRACT-TOP))
+(define-primitive-concept RULE-LHS  
+  (and SBONE))
+(define-primitive-concept *LEXICON*  
+  (and SBONE))
+(define-primitive-concept *VOELKLINGEN*  
+  (and *LEXICON* TOWN))
+(define-primitive-concept *ABSETZBAR*  
+  (and *LEXICON* RELATION))
+(define-primitive-concept *WOHN*  
+  (and *LEXICON* STATE))
+(define-primitive-concept *KOST*  
+  (and *LEXICON* COST))
+(define-primitive-concept *ICH*  
+  (and *LEXICON* HUMAN))
+(define-primitive-concept *SAARLOUIS*  
+  (and *LEXICON* TOWN))
+(define-primitive-concept *50*  
+  (and *LEXICON* CARDINAL))
+(define-primitive-concept *STEUER*  
+  (and *LEXICON* ABSTRACT-TOP))
+(define-primitive-role PURPOSE-*STEUER-HANDELN*)
+(define-concept *STEUER-HANDELN*
+  (and *LEXICON* ACTION 
+       (all PURPOSE-*STEUER-HANDELN* *STEUER*) 
+       (at-least 1 PURPOSE)))
+(define-concept *STEUERHANDLUNG*  
+  (and ACTION-CONTENT *STEUER-HANDELN*
+       (at-least 1 PURPOSE)))
+(define-primitive-concept *ABSETZEN*  
+  (and *STEUER-HANDELN*))
+(define-primitive-concept *NUTZ*  
+  (and USE *LEXICON*))
+(define-primitive-concept *WIEDERHOL*  
+  (and *LEXICON* REPEAT))
+(define-primitive-role OBJECT-*KAUF*)
+(define-concept *KAUF*  
+  (and *LEXICON* TRANSACTION 
+       (all OBJECT-*KAUF* CONCRETE-TOP) 
+       (at-least 1 TAKE-OBJECT) 
+       (at-least 1 OBJECT)))
+(define-primitive-concept *SEIN*  
+  (and *LEXICON* PROPERTY))
+(define-primitive-concept *SAARBRUECKEN*  
+  (and *LEXICON* TOWN))
+(define-primitive-concept *35*  
+  (and *LEXICON* CARDINAL))
+(define-primitive-concept *WALD*  
+  (and GEOGRAPHICAL-OBJECT *LEXICON*))
+(define-primitive-concept *PETER*  
+  (and *LEXICON* MALE))
+(define-primitive-concept *HABEN*  
+  (and *LEXICON* PROPERTY))
+(define-primitive-concept *DUDWEILER*  
+  (and *LEXICON* TOWN))
+(define-primitive-concept *VERURSACH*  
+  (and *LEXICON* REASON))
+(define-primitive-concept *KARL*  
+  (and *LEXICON* MALE))
+(define-primitive-concept *GI*  
+  (and *LEXICON* ABSTRACT-TOP))
+(define-primitive-concept *BERUFLICH*  
+  (and *LEXICON* PROFESSION))
+(define-primitive-concept *DM*  
+  (and *LEXICON* INDICATION-OF-QUANTITY))
+(define-primitive-concept *JUNGE*  
+  (and *LEXICON* MALE))
+(define-primitive-concept *FUSS*  
+  (and *LEXICON* PART-OF-BODY))
+(define-primitive-role INSTRUMENT-*GEH*)
+(define-primitive-concept *GEH*  
+  (and *LEXICON* MOTION 
+       (all INSTRUMENT-*GEH* *FUSS*) 
+       (at-least 1 INSTRUMENT)))
+(define-primitive-concept *RECHNER*  
+  (and TOUCHABLE-OBJECT *LEXICON*))
+(define-primitive-concept *D*  
+  (and DETERMINER *LEXICON*))
+(define-primitive-concept *MONAT*  
+  (and INTERVAL *LEXICON*))
+(define-primitive-concept *WERF*  
+  (and TRANSACTION *LEXICON* 
+       (at-least 1 OBJECT)))
+(define-primitive-concept *3*  
+  (and CARDINAL *LEXICON*))
+(define-primitive-concept *FAHRRAD*  
+  (and VEHICLE *LEXICON*))
+(define-primitive-concept *BUS*  
+  (and VEHICLE *LEXICON*))
+(define-primitive-concept *WOECHENTLICH*  
+  (and INTERVAL *LEXICON*))
+(define-primitive-concept *COMPUTER*  
+  (and TOUCHABLE-OBJECT *LEXICON*))
+(define-primitive-concept *FAHRT*  
+  (and MOTION-BY-MEANS-CONTENT *LEXICON*))
+(define-primitive-concept *BUCH*  
+  (and TOUCHABLE-OBJECT *LEXICON*))
+(define-primitive-concept *TAEGLICH*  
+  (and INTERVAL *LEXICON*))
+(define-primitive-role OBJECT-*SCHENK*)
+(define-concept *SCHENK*  
+  (and TRANSACTION *LEXICON* 
+       (all OBJECT-*SCHENK* CONCRETE-TOP) 
+       (at-least 1 OBJECT) 
+       (at-least 1 GIVE-OBJECT)))
+(define-primitive-role GIVE-OBJECT-*ZAHL*)
+(define-concept *ZAHL*  
+  (and *SCHENK* 
+       (all GIVE-OBJECT-*ZAHL* INDICATION-OF-QUANTITY)))
+(define-primitive-concept *FAHR*  
+  (and MOTION-BY-MEANS *LEXICON*))
+(define-primitive-concept *AUSFUEHR*  
+  (and ACTION *LEXICON*))
+(define-primitive-concept *JAEHRLICH*  
+  (and INTERVAL *LEXICON*))
+(define-primitive-concept *PERSON*  
+  (and HUMAN *LEXICON*))
+(define-primitive-concept *EIN*  
+  (and INDEFINITE *LEXICON*))
+(define-primitive-concept *ARBEIT*  
+  (and ACTION *LEXICON*))
+(define-primitive-concept *MANN*  
+  (and MALE *LEXICON*))
+(define-primitive-concept *INFORMATIKER*  
+  (and PROFESSION *LEXICON*))

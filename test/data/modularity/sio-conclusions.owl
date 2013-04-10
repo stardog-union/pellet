@@ -1,0 +1,3342 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY resource "http://semanticscience.org/resource/" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2010/5/Ontology1277781894337.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2010/5/Ontology1277781894337.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:resource="http://semanticscience.org/resource/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/2010/5/Ontology1277781894337.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000000 -->
+
+    <owl:Class rdf:about="&resource;SIO_000000">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000001 -->
+
+    <owl:Class rdf:about="&resource;SIO_000001">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000002 -->
+
+    <owl:Class rdf:about="&resource;SIO_000002">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000003 -->
+
+    <owl:Class rdf:about="&resource;SIO_000003">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000004 -->
+
+    <owl:Class rdf:about="&resource;SIO_000004">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000005 -->
+
+    <owl:Class rdf:about="&resource;SIO_000005">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000006 -->
+
+    <owl:Class rdf:about="&resource;SIO_000006">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000007 -->
+
+    <owl:Class rdf:about="&resource;SIO_000007">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000002"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000009 -->
+
+    <owl:Class rdf:about="&resource;SIO_000009">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000010 -->
+
+    <owl:Class rdf:about="&resource;SIO_000010">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000009"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000012 -->
+
+    <owl:Class rdf:about="&resource;SIO_000012">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000010"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000013 -->
+
+    <owl:Class rdf:about="&resource;SIO_000013">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000014 -->
+
+    <owl:Class rdf:about="&resource;SIO_000014">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000340"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000015 -->
+
+    <owl:Class rdf:about="&resource;SIO_000015">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000016 -->
+
+    <owl:Class rdf:about="&resource;SIO_000016">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000340"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000017 -->
+
+    <owl:Class rdf:about="&resource;SIO_000017">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000018 -->
+
+    <owl:Class rdf:about="&resource;SIO_000018">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000003"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000019 -->
+
+    <owl:Class rdf:about="&resource;SIO_000019">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000021 -->
+
+    <owl:Class rdf:about="&resource;SIO_000021">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000006"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000022 -->
+
+    <owl:Class rdf:about="&resource;SIO_000022">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000004"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000023 -->
+
+    <owl:Class rdf:about="&resource;SIO_000023">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000021"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000024 -->
+
+    <owl:Class rdf:about="&resource;SIO_000024">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000021"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000025 -->
+
+    <owl:Class rdf:about="&resource;SIO_000025">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000021"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000026 -->
+
+    <owl:Class rdf:about="&resource;SIO_000026">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000027 -->
+
+    <owl:Class rdf:about="&resource;SIO_000027">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000029 -->
+
+    <owl:Class rdf:about="&resource;SIO_000029">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000027"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000031 -->
+
+    <owl:Class rdf:about="&resource;SIO_000031">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000029"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000032 -->
+
+    <owl:Class rdf:about="&resource;SIO_000032">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000029"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000033 -->
+
+    <owl:Class rdf:about="&resource;SIO_000033">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000058"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000034 -->
+
+    <owl:Class rdf:about="&resource;SIO_000034">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000033"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000035 -->
+
+    <owl:Class rdf:about="&resource;SIO_000035">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000033"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000036 -->
+
+    <owl:Class rdf:about="&resource;SIO_000036">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000033"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000037 -->
+
+    <owl:Class rdf:about="&resource;SIO_000037">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000038 -->
+
+    <owl:Class rdf:about="&resource;SIO_000038">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000037"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000039 -->
+
+    <owl:Class rdf:about="&resource;SIO_000039">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000038"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000040 -->
+
+    <owl:Class rdf:about="&resource;SIO_000040">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000038"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000041 -->
+
+    <owl:Class rdf:about="&resource;SIO_000041">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000038"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000042 -->
+
+    <owl:Class rdf:about="&resource;SIO_000042">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000038"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000043 -->
+
+    <owl:Class rdf:about="&resource;SIO_000043">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000039"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000044 -->
+
+    <owl:Class rdf:about="&resource;SIO_000044">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000037"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000045 -->
+
+    <owl:Class rdf:about="&resource;SIO_000045">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000044"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000046 -->
+
+    <owl:Class rdf:about="&resource;SIO_000046">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000044"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000047 -->
+
+    <owl:Class rdf:about="&resource;SIO_000047">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000046"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000048 -->
+
+    <owl:Class rdf:about="&resource;SIO_000048">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000037"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000049 -->
+
+    <owl:Class rdf:about="&resource;SIO_000049">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000048"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000050 -->
+
+    <owl:Class rdf:about="&resource;SIO_000050">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000051 -->
+
+    <owl:Class rdf:about="&resource;SIO_000051">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000052 -->
+
+    <owl:Class rdf:about="&resource;SIO_000052">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000055 -->
+
+    <owl:Class rdf:about="&resource;SIO_000055">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000056 -->
+
+    <owl:Class rdf:about="&resource;SIO_000056">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000057 -->
+
+    <owl:Class rdf:about="&resource;SIO_000057">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000026"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000058 -->
+
+    <owl:Class rdf:about="&resource;SIO_000058">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000027"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000065 -->
+
+    <owl:Class rdf:about="&resource;SIO_000065">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000067 -->
+
+    <owl:Class rdf:about="&resource;SIO_000067">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000069 -->
+
+    <owl:Class rdf:about="&resource;SIO_000069">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000070 -->
+
+    <owl:Class rdf:about="&resource;SIO_000070">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000071 -->
+
+    <owl:Class rdf:about="&resource;SIO_000071">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000072 -->
+
+    <owl:Class rdf:about="&resource;SIO_000072">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000073 -->
+
+    <owl:Class rdf:about="&resource;SIO_000073">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000074 -->
+
+    <owl:Class rdf:about="&resource;SIO_000074">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000075 -->
+
+    <owl:Class rdf:about="&resource;SIO_000075">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000076 -->
+
+    <owl:Class rdf:about="&resource;SIO_000076">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000078 -->
+
+    <owl:Class rdf:about="&resource;SIO_000078">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000079 -->
+
+    <owl:Class rdf:about="&resource;SIO_000079">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000080 -->
+
+    <owl:Class rdf:about="&resource;SIO_000080">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000081 -->
+
+    <owl:Class rdf:about="&resource;SIO_000081">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000082 -->
+
+    <owl:Class rdf:about="&resource;SIO_000082">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000081"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000083 -->
+
+    <owl:Class rdf:about="&resource;SIO_000083">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000080"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000084 -->
+
+    <owl:Class rdf:about="&resource;SIO_000084">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000085 -->
+
+    <owl:Class rdf:about="&resource;SIO_000085">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000086 -->
+
+    <owl:Class rdf:about="&resource;SIO_000086">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000149"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000087 -->
+
+    <owl:Class rdf:about="&resource;SIO_000087">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000088 -->
+
+    <owl:Class rdf:about="&resource;SIO_000088">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000089 -->
+
+    <owl:Class rdf:about="&resource;SIO_000089">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000090 -->
+
+    <owl:Class rdf:about="&resource;SIO_000090">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000091 -->
+
+    <owl:Class rdf:about="&resource;SIO_000091">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000094 -->
+
+    <owl:Class rdf:about="&resource;SIO_000094">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000097 -->
+
+    <owl:Class rdf:about="&resource;SIO_000097">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000098 -->
+
+    <owl:Class rdf:about="&resource;SIO_000098">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000099 -->
+
+    <owl:Class rdf:about="&resource;SIO_000099">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000100 -->
+
+    <owl:Class rdf:about="&resource;SIO_000100">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000101 -->
+
+    <owl:Class rdf:about="&resource;SIO_000101">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000102 -->
+
+    <owl:Class rdf:about="&resource;SIO_000102">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000101"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000103 -->
+
+    <owl:Class rdf:about="&resource;SIO_000103">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000097"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000104 -->
+
+    <owl:Class rdf:about="&resource;SIO_000104">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000105 -->
+
+    <owl:Class rdf:about="&resource;SIO_000105">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000106 -->
+
+    <owl:Class rdf:about="&resource;SIO_000106">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000107 -->
+
+    <owl:Class rdf:about="&resource;SIO_000107">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000108 -->
+
+    <owl:Class rdf:about="&resource;SIO_000108">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000109 -->
+
+    <owl:Class rdf:about="&resource;SIO_000109">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000110 -->
+
+    <owl:Class rdf:about="&resource;SIO_000110">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000111 -->
+
+    <owl:Class rdf:about="&resource;SIO_000111">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000112 -->
+
+    <owl:Class rdf:about="&resource;SIO_000112">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000113 -->
+
+    <owl:Class rdf:about="&resource;SIO_000113">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000114 -->
+
+    <owl:Class rdf:about="&resource;SIO_000114">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000078"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000115 -->
+
+    <owl:Class rdf:about="&resource;SIO_000115">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000179"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000116 -->
+
+    <owl:Class rdf:about="&resource;SIO_000116">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000179"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000117 -->
+
+    <owl:Class rdf:about="&resource;SIO_000117">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000118 -->
+
+    <owl:Class rdf:about="&resource;SIO_000118">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000119 -->
+
+    <owl:Class rdf:about="&resource;SIO_000119">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000120 -->
+
+    <owl:Class rdf:about="&resource;SIO_000120">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000121 -->
+
+    <owl:Class rdf:about="&resource;SIO_000121">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000162"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000122 -->
+
+    <owl:Class rdf:about="&resource;SIO_000122">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000123 -->
+
+    <owl:Class rdf:about="&resource;SIO_000123">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000124 -->
+
+    <owl:Class rdf:about="&resource;SIO_000124">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000125 -->
+
+    <owl:Class rdf:about="&resource;SIO_000125">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000126 -->
+
+    <owl:Class rdf:about="&resource;SIO_000126">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000114"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000127 -->
+
+    <owl:Class rdf:about="&resource;SIO_000127">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000094"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000129 -->
+
+    <owl:Class rdf:about="&resource;SIO_000129">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000130 -->
+
+    <owl:Class rdf:about="&resource;SIO_000130">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000131 -->
+
+    <owl:Class rdf:about="&resource;SIO_000131">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000130"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000133 -->
+
+    <owl:Class rdf:about="&resource;SIO_000133">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000134 -->
+
+    <owl:Class rdf:about="&resource;SIO_000134">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000135 -->
+
+    <owl:Class rdf:about="&resource;SIO_000135">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000136 -->
+
+    <owl:Class rdf:about="&resource;SIO_000136">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000134"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000137 -->
+
+    <owl:Class rdf:about="&resource;SIO_000137">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000138 -->
+
+    <owl:Class rdf:about="&resource;SIO_000138">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000140 -->
+
+    <owl:Class rdf:about="&resource;SIO_000140">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000101"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000141 -->
+
+    <owl:Class rdf:about="&resource;SIO_000141">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000142 -->
+
+    <owl:Class rdf:about="&resource;SIO_000142">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000141"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000143 -->
+
+    <owl:Class rdf:about="&resource;SIO_000143">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000141"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000144 -->
+
+    <owl:Class rdf:about="&resource;SIO_000144">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000147 -->
+
+    <owl:Class rdf:about="&resource;SIO_000147">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000133"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000148 -->
+
+    <owl:Class rdf:about="&resource;SIO_000148">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000149 -->
+
+    <owl:Class rdf:about="&resource;SIO_000149">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000015"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000150 -->
+
+    <owl:Class rdf:about="&resource;SIO_000150">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000089"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000151 -->
+
+    <owl:Class rdf:about="&resource;SIO_000151">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000152 -->
+
+    <owl:Class rdf:about="&resource;SIO_000152">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000153 -->
+
+    <owl:Class rdf:about="&resource;SIO_000153">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000154 -->
+
+    <owl:Class rdf:about="&resource;SIO_000154">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000155 -->
+
+    <owl:Class rdf:about="&resource;SIO_000155">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000156 -->
+
+    <owl:Class rdf:about="&resource;SIO_000156">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000106"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000157 -->
+
+    <owl:Class rdf:about="&resource;SIO_000157">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000106"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000158 -->
+
+    <owl:Class rdf:about="&resource;SIO_000158">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000295"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000159 -->
+
+    <owl:Class rdf:about="&resource;SIO_000159">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000160 -->
+
+    <owl:Class rdf:about="&resource;SIO_000160">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000162"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000161 -->
+
+    <owl:Class rdf:about="&resource;SIO_000161">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000162 -->
+
+    <owl:Class rdf:about="&resource;SIO_000162">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000295"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000163 -->
+
+    <owl:Class rdf:about="&resource;SIO_000163">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000162"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000164 -->
+
+    <owl:Class rdf:about="&resource;SIO_000164">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000165 -->
+
+    <owl:Class rdf:about="&resource;SIO_000165">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000166 -->
+
+    <owl:Class rdf:about="&resource;SIO_000166">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000165"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000167 -->
+
+    <owl:Class rdf:about="&resource;SIO_000167">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000165"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000168 -->
+
+    <owl:Class rdf:about="&resource;SIO_000168">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000165"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000169 -->
+
+    <owl:Class rdf:about="&resource;SIO_000169">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000170 -->
+
+    <owl:Class rdf:about="&resource;SIO_000170">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000171 -->
+
+    <owl:Class rdf:about="&resource;SIO_000171">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000307"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000172 -->
+
+    <owl:Class rdf:about="&resource;SIO_000172">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000328"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000173 -->
+
+    <owl:Class rdf:about="&resource;SIO_000173">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000287"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000174 -->
+
+    <owl:Class rdf:about="&resource;SIO_000174">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000175 -->
+
+    <owl:Class rdf:about="&resource;SIO_000175">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000185"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000176 -->
+
+    <owl:Class rdf:about="&resource;SIO_000176">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000171"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000177 -->
+
+    <owl:Class rdf:about="&resource;SIO_000177">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000307"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000178 -->
+
+    <owl:Class rdf:about="&resource;SIO_000178">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000307"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000179 -->
+
+    <owl:Class rdf:about="&resource;SIO_000179">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000180 -->
+
+    <owl:Class rdf:about="&resource;SIO_000180">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000179"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000181 -->
+
+    <owl:Class rdf:about="&resource;SIO_000181">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000182 -->
+
+    <owl:Class rdf:about="&resource;SIO_000182">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000183 -->
+
+    <owl:Class rdf:about="&resource;SIO_000183">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000184 -->
+
+    <owl:Class rdf:about="&resource;SIO_000184">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000183"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000185 -->
+
+    <owl:Class rdf:about="&resource;SIO_000185">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000179"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000186 -->
+
+    <owl:Class rdf:about="&resource;SIO_000186">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000307"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000187 -->
+
+    <owl:Class rdf:about="&resource;SIO_000187">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000087"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000188 -->
+
+    <owl:Class rdf:about="&resource;SIO_000188">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000189 -->
+
+    <owl:Class rdf:about="&resource;SIO_000189">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000190 -->
+
+    <owl:Class rdf:about="&resource;SIO_000190">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000191 -->
+
+    <owl:Class rdf:about="&resource;SIO_000191">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000192 -->
+
+    <owl:Class rdf:about="&resource;SIO_000192">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000193 -->
+
+    <owl:Class rdf:about="&resource;SIO_000193">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000194 -->
+
+    <owl:Class rdf:about="&resource;SIO_000194">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000195 -->
+
+    <owl:Class rdf:about="&resource;SIO_000195">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000196 -->
+
+    <owl:Class rdf:about="&resource;SIO_000196">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000197 -->
+
+    <owl:Class rdf:about="&resource;SIO_000197">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000198 -->
+
+    <owl:Class rdf:about="&resource;SIO_000198">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000199 -->
+
+    <owl:Class rdf:about="&resource;SIO_000199">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000200 -->
+
+    <owl:Class rdf:about="&resource;SIO_000200">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000201 -->
+
+    <owl:Class rdf:about="&resource;SIO_000201">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000111"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000219 -->
+
+    <owl:Class rdf:about="&resource;SIO_000219">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000012"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000220 -->
+
+    <owl:Class rdf:about="&resource;SIO_000220">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000238"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000237 -->
+
+    <owl:Class rdf:about="&resource;SIO_000237">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000116"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000238 -->
+
+    <owl:Class rdf:about="&resource;SIO_000238">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000239 -->
+
+    <owl:Class rdf:about="&resource;SIO_000239">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000238"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000256 -->
+
+    <owl:Class rdf:about="&resource;SIO_000256">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000257 -->
+
+    <owl:Class rdf:about="&resource;SIO_000257">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000258 -->
+
+    <owl:Class rdf:about="&resource;SIO_000258">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000052"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000259 -->
+
+    <owl:Class rdf:about="&resource;SIO_000259">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000260 -->
+
+    <owl:Class rdf:about="&resource;SIO_000260">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000261 -->
+
+    <owl:Class rdf:about="&resource;SIO_000261">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000262 -->
+
+    <owl:Class rdf:about="&resource;SIO_000262">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000263 -->
+
+    <owl:Class rdf:about="&resource;SIO_000263">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000264 -->
+
+    <owl:Class rdf:about="&resource;SIO_000264">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000265 -->
+
+    <owl:Class rdf:about="&resource;SIO_000265">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000266"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000266 -->
+
+    <owl:Class rdf:about="&resource;SIO_000266">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000267 -->
+
+    <owl:Class rdf:about="&resource;SIO_000267">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000259"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000268 -->
+
+    <owl:Class rdf:about="&resource;SIO_000268">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000436"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000269 -->
+
+    <owl:Class rdf:about="&resource;SIO_000269">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000268"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000270 -->
+
+    <owl:Class rdf:about="&resource;SIO_000270">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000268"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000271 -->
+
+    <owl:Class rdf:about="&resource;SIO_000271">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000001"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000276 -->
+
+    <owl:Class rdf:about="&resource;SIO_000276">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000279 -->
+
+    <owl:Class rdf:about="&resource;SIO_000279">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000280 -->
+
+    <owl:Class rdf:about="&resource;SIO_000280">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000238"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000281 -->
+
+    <owl:Class rdf:about="&resource;SIO_000281">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000238"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000282 -->
+
+    <owl:Class rdf:about="&resource;SIO_000282">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000280"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000283 -->
+
+    <owl:Class rdf:about="&resource;SIO_000283">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000284 -->
+
+    <owl:Class rdf:about="&resource;SIO_000284">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000285 -->
+
+    <owl:Class rdf:about="&resource;SIO_000285">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000012"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000286 -->
+
+    <owl:Class rdf:about="&resource;SIO_000286">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000285"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000287 -->
+
+    <owl:Class rdf:about="&resource;SIO_000287">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000009"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000288 -->
+
+    <owl:Class rdf:about="&resource;SIO_000288">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000285"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000289 -->
+
+    <owl:Class rdf:about="&resource;SIO_000289">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000290 -->
+
+    <owl:Class rdf:about="&resource;SIO_000290">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000285"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000293 -->
+
+    <owl:Class rdf:about="&resource;SIO_000293">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000012"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000295 -->
+
+    <owl:Class rdf:about="&resource;SIO_000295">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000296 -->
+
+    <owl:Class rdf:about="&resource;SIO_000296">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000295"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000297 -->
+
+    <owl:Class rdf:about="&resource;SIO_000297">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000086"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000298 -->
+
+    <owl:Class rdf:about="&resource;SIO_000298">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000112"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000299 -->
+
+    <owl:Class rdf:about="&resource;SIO_000299">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000298"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000301 -->
+
+    <owl:Class rdf:about="&resource;SIO_000301">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000081"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000302 -->
+
+    <owl:Class rdf:about="&resource;SIO_000302">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000303 -->
+
+    <owl:Class rdf:about="&resource;SIO_000303">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000058"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000304 -->
+
+    <owl:Class rdf:about="&resource;SIO_000304">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000305 -->
+
+    <owl:Class rdf:about="&resource;SIO_000305">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000303"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000306 -->
+
+    <owl:Class rdf:about="&resource;SIO_000306">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000148"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000307 -->
+
+    <owl:Class rdf:about="&resource;SIO_000307">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000065"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000308 -->
+
+    <owl:Class rdf:about="&resource;SIO_000308">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000307"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000309 -->
+
+    <owl:Class rdf:about="&resource;SIO_000309">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000307"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000310 -->
+
+    <owl:Class rdf:about="&resource;SIO_000310">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000313 -->
+
+    <owl:Class rdf:about="&resource;SIO_000313">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000071"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000314 -->
+
+    <owl:Class rdf:about="&resource;SIO_000314">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000090"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000315 -->
+
+    <owl:Class rdf:about="&resource;SIO_000315">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000316 -->
+
+    <owl:Class rdf:about="&resource;SIO_000316">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000336"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000317 -->
+
+    <owl:Class rdf:about="&resource;SIO_000317">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000314"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000318 -->
+
+    <owl:Class rdf:about="&resource;SIO_000318">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000319 -->
+
+    <owl:Class rdf:about="&resource;SIO_000319">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000320 -->
+
+    <owl:Class rdf:about="&resource;SIO_000320">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000317"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000321 -->
+
+    <owl:Class rdf:about="&resource;SIO_000321">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000326 -->
+
+    <owl:Class rdf:about="&resource;SIO_000326">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000327 -->
+
+    <owl:Class rdf:about="&resource;SIO_000327">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000328 -->
+
+    <owl:Class rdf:about="&resource;SIO_000328">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000070"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000329 -->
+
+    <owl:Class rdf:about="&resource;SIO_000329">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000330 -->
+
+    <owl:Class rdf:about="&resource;SIO_000330">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000320"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000331 -->
+
+    <owl:Class rdf:about="&resource;SIO_000331">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000129"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000333 -->
+
+    <owl:Class rdf:about="&resource;SIO_000333">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000072"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000336 -->
+
+    <owl:Class rdf:about="&resource;SIO_000336">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000091"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000337 -->
+
+    <owl:Class rdf:about="&resource;SIO_000337">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000340 -->
+
+    <owl:Class rdf:about="&resource;SIO_000340">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000271"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000343 -->
+
+    <owl:Class rdf:about="&resource;SIO_000343">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000344 -->
+
+    <owl:Class rdf:about="&resource;SIO_000344">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000345 -->
+
+    <owl:Class rdf:about="&resource;SIO_000345">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000378"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000346 -->
+
+    <owl:Class rdf:about="&resource;SIO_000346">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000351"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000347 -->
+
+    <owl:Class rdf:about="&resource;SIO_000347">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000374"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000348 -->
+
+    <owl:Class rdf:about="&resource;SIO_000348">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000347"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000349 -->
+
+    <owl:Class rdf:about="&resource;SIO_000349">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000376"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000350 -->
+
+    <owl:Class rdf:about="&resource;SIO_000350">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000351 -->
+
+    <owl:Class rdf:about="&resource;SIO_000351">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000353 -->
+
+    <owl:Class rdf:about="&resource;SIO_000353">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000354 -->
+
+    <owl:Class rdf:about="&resource;SIO_000354">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000357 -->
+
+    <owl:Class rdf:about="&resource;SIO_000357">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000358 -->
+
+    <owl:Class rdf:about="&resource;SIO_000358">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000359 -->
+
+    <owl:Class rdf:about="&resource;SIO_000359">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000337"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000360 -->
+
+    <owl:Class rdf:about="&resource;SIO_000360">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000361 -->
+
+    <owl:Class rdf:about="&resource;SIO_000361">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000366 -->
+
+    <owl:Class rdf:about="&resource;SIO_000366">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000367 -->
+
+    <owl:Class rdf:about="&resource;SIO_000367">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000368 -->
+
+    <owl:Class rdf:about="&resource;SIO_000368">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000075"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000370 -->
+
+    <owl:Class rdf:about="&resource;SIO_000370">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000416"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000371 -->
+
+    <owl:Class rdf:about="&resource;SIO_000371">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000372 -->
+
+    <owl:Class rdf:about="&resource;SIO_000372">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000376"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000373 -->
+
+    <owl:Class rdf:about="&resource;SIO_000373">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000346"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000374 -->
+
+    <owl:Class rdf:about="&resource;SIO_000374">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000375 -->
+
+    <owl:Class rdf:about="&resource;SIO_000375">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000351"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000376 -->
+
+    <owl:Class rdf:about="&resource;SIO_000376">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000377 -->
+
+    <owl:Class rdf:about="&resource;SIO_000377">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000378"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000378 -->
+
+    <owl:Class rdf:about="&resource;SIO_000378">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000353"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000379 -->
+
+    <owl:Class rdf:about="&resource;SIO_000379">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000361"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000380 -->
+
+    <owl:Class rdf:about="&resource;SIO_000380">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000392"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000381 -->
+
+    <owl:Class rdf:about="&resource;SIO_000381">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000380"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000382 -->
+
+    <owl:Class rdf:about="&resource;SIO_000382">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000349"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000383 -->
+
+    <owl:Class rdf:about="&resource;SIO_000383">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000351"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000384 -->
+
+    <owl:Class rdf:about="&resource;SIO_000384">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000374"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000385 -->
+
+    <owl:Class rdf:about="&resource;SIO_000385">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000386 -->
+
+    <owl:Class rdf:about="&resource;SIO_000386">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000387 -->
+
+    <owl:Class rdf:about="&resource;SIO_000387">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000385"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000388 -->
+
+    <owl:Class rdf:about="&resource;SIO_000388">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000376"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000389 -->
+
+    <owl:Class rdf:about="&resource;SIO_000389">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000349"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000390 -->
+
+    <owl:Class rdf:about="&resource;SIO_000390">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000392"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000391 -->
+
+    <owl:Class rdf:about="&resource;SIO_000391">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000416"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000392 -->
+
+    <owl:Class rdf:about="&resource;SIO_000392">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000343"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000393 -->
+
+    <owl:Class rdf:about="&resource;SIO_000393">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000397"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000394 -->
+
+    <owl:Class rdf:about="&resource;SIO_000394">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000396"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000395 -->
+
+    <owl:Class rdf:about="&resource;SIO_000395">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000407"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000396 -->
+
+    <owl:Class rdf:about="&resource;SIO_000396">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000397"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000397 -->
+
+    <owl:Class rdf:about="&resource;SIO_000397">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000407"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000398 -->
+
+    <owl:Class rdf:about="&resource;SIO_000398">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000396"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000399 -->
+
+    <owl:Class rdf:about="&resource;SIO_000399">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000408"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000400 -->
+
+    <owl:Class rdf:about="&resource;SIO_000400">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000072"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000401 -->
+
+    <owl:Class rdf:about="&resource;SIO_000401">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000072"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000402 -->
+
+    <owl:Class rdf:about="&resource;SIO_000402">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000072"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000403 -->
+
+    <owl:Class rdf:about="&resource;SIO_000403">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000408"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000404 -->
+
+    <owl:Class rdf:about="&resource;SIO_000404">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000406"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000405 -->
+
+    <owl:Class rdf:about="&resource;SIO_000405">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000406"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000406 -->
+
+    <owl:Class rdf:about="&resource;SIO_000406">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000407"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000407 -->
+
+    <owl:Class rdf:about="&resource;SIO_000407">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000016"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000408 -->
+
+    <owl:Class rdf:about="&resource;SIO_000408">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000407"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000409 -->
+
+    <owl:Class rdf:about="&resource;SIO_000409">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000014"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000410 -->
+
+    <owl:Class rdf:about="&resource;SIO_000410">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000411 -->
+
+    <owl:Class rdf:about="&resource;SIO_000411">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000412 -->
+
+    <owl:Class rdf:about="&resource;SIO_000412">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000276"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000413 -->
+
+    <owl:Class rdf:about="&resource;SIO_000413">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000414"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000414 -->
+
+    <owl:Class rdf:about="&resource;SIO_000414">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000370"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000415 -->
+
+    <owl:Class rdf:about="&resource;SIO_000415">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000414"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000416 -->
+
+    <owl:Class rdf:about="&resource;SIO_000416">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000000"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000417 -->
+
+    <owl:Class rdf:about="&resource;SIO_000417">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000391"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000418 -->
+
+    <owl:Class rdf:about="&resource;SIO_000418">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000391"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000419 -->
+
+    <owl:Class rdf:about="&resource;SIO_000419">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000423 -->
+
+    <owl:Class rdf:about="&resource;SIO_000423">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000083"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000428 -->
+
+    <owl:Class rdf:about="&resource;SIO_000428">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000417"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000429 -->
+
+    <owl:Class rdf:about="&resource;SIO_000429">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000417"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000430 -->
+
+    <owl:Class rdf:about="&resource;SIO_000430">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000417"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000431 -->
+
+    <owl:Class rdf:about="&resource;SIO_000431">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000417"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000432 -->
+
+    <owl:Class rdf:about="&resource;SIO_000432">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000417"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000433 -->
+
+    <owl:Class rdf:about="&resource;SIO_000433">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000417"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000434 -->
+
+    <owl:Class rdf:about="&resource;SIO_000434">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000417"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000435 -->
+
+    <owl:Class rdf:about="&resource;SIO_000435">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000417"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000436 -->
+
+    <owl:Class rdf:about="&resource;SIO_000436">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000005"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000437 -->
+
+    <owl:Class rdf:about="&resource;SIO_000437">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000507"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000438 -->
+
+    <owl:Class rdf:about="&resource;SIO_000438">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000013"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000439 -->
+
+    <owl:Class rdf:about="&resource;SIO_000439">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000056"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000440 -->
+
+    <owl:Class rdf:about="&resource;SIO_000440">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000437"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000441"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000441 -->
+
+    <owl:Class rdf:about="&resource;SIO_000441">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000507"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000442 -->
+
+    <owl:Class rdf:about="&resource;SIO_000442">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000083"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000443 -->
+
+    <owl:Class rdf:about="&resource;SIO_000443">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000083"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000444 -->
+
+    <owl:Class rdf:about="&resource;SIO_000444">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000443"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000445 -->
+
+    <owl:Class rdf:about="&resource;SIO_000445">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000443"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000446 -->
+
+    <owl:Class rdf:about="&resource;SIO_000446">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000443"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000447 -->
+
+    <owl:Class rdf:about="&resource;SIO_000447">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000083"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000448 -->
+
+    <owl:Class rdf:about="&resource;SIO_000448">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000079"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000449 -->
+
+    <owl:Class rdf:about="&resource;SIO_000449">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000448"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000450 -->
+
+    <owl:Class rdf:about="&resource;SIO_000450">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000521"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000451 -->
+
+    <owl:Class rdf:about="&resource;SIO_000451">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000458"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000452 -->
+
+    <owl:Class rdf:about="&resource;SIO_000452">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000451"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000453 -->
+
+    <owl:Class rdf:about="&resource;SIO_000453">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000451"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000454 -->
+
+    <owl:Class rdf:about="&resource;SIO_000454">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000451"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000455 -->
+
+    <owl:Class rdf:about="&resource;SIO_000455">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000450"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000456 -->
+
+    <owl:Class rdf:about="&resource;SIO_000456">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000455"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000457 -->
+
+    <owl:Class rdf:about="&resource;SIO_000457">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000455"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000458 -->
+
+    <owl:Class rdf:about="&resource;SIO_000458">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000450"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000459 -->
+
+    <owl:Class rdf:about="&resource;SIO_000459">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000458"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000460 -->
+
+    <owl:Class rdf:about="&resource;SIO_000460">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000458"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000461 -->
+
+    <owl:Class rdf:about="&resource;SIO_000461">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000458"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000462 -->
+
+    <owl:Class rdf:about="&resource;SIO_000462">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000461"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000463 -->
+
+    <owl:Class rdf:about="&resource;SIO_000463">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000461"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000464 -->
+
+    <owl:Class rdf:about="&resource;SIO_000464">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000150"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000465 -->
+
+    <owl:Class rdf:about="&resource;SIO_000465">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000507"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000466 -->
+
+    <owl:Class rdf:about="&resource;SIO_000466">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000465"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000467 -->
+
+    <owl:Class rdf:about="&resource;SIO_000467">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000465"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000468 -->
+
+    <owl:Class rdf:about="&resource;SIO_000468">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000448"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000469 -->
+
+    <owl:Class rdf:about="&resource;SIO_000469">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000185"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000470 -->
+
+    <owl:Class rdf:about="&resource;SIO_000470">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000185"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000471 -->
+
+    <owl:Class rdf:about="&resource;SIO_000471">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000185"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000472 -->
+
+    <owl:Class rdf:about="&resource;SIO_000472">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000069"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000473 -->
+
+    <owl:Class rdf:about="&resource;SIO_000473">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000469"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000470"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000474 -->
+
+    <owl:Class rdf:about="&resource;SIO_000474">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000469"/>
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000470"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000482 -->
+
+    <owl:Class rdf:about="&resource;SIO_000482">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000483 -->
+
+    <owl:Class rdf:about="&resource;SIO_000483">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000484 -->
+
+    <owl:Class rdf:about="&resource;SIO_000484">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_999999"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000500 -->
+
+    <owl:Class rdf:about="&resource;SIO_000500">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000532"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000501 -->
+
+    <owl:Class rdf:about="&resource;SIO_000501">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000512"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000502 -->
+
+    <owl:Class rdf:about="&resource;SIO_000502">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000503 -->
+
+    <owl:Class rdf:about="&resource;SIO_000503">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000504 -->
+
+    <owl:Class rdf:about="&resource;SIO_000504">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000505 -->
+
+    <owl:Class rdf:about="&resource;SIO_000505">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000506 -->
+
+    <owl:Class rdf:about="&resource;SIO_000506">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000260"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000507 -->
+
+    <owl:Class rdf:about="&resource;SIO_000507">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000508 -->
+
+    <owl:Class rdf:about="&resource;SIO_000508">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000532"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000509 -->
+
+    <owl:Class rdf:about="&resource;SIO_000509">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000532"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000510 -->
+
+    <owl:Class rdf:about="&resource;SIO_000510">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000511 -->
+
+    <owl:Class rdf:about="&resource;SIO_000511">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000510"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000512 -->
+
+    <owl:Class rdf:about="&resource;SIO_000512">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000511"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000513 -->
+
+    <owl:Class rdf:about="&resource;SIO_000513">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000512"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000514 -->
+
+    <owl:Class rdf:about="&resource;SIO_000514">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000513"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000515 -->
+
+    <owl:Class rdf:about="&resource;SIO_000515">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000513"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000516 -->
+
+    <owl:Class rdf:about="&resource;SIO_000516">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000511"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000517 -->
+
+    <owl:Class rdf:about="&resource;SIO_000517">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000505"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000518 -->
+
+    <owl:Class rdf:about="&resource;SIO_000518">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000517"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000519 -->
+
+    <owl:Class rdf:about="&resource;SIO_000519">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000518"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000520 -->
+
+    <owl:Class rdf:about="&resource;SIO_000520">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000505"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000521 -->
+
+    <owl:Class rdf:about="&resource;SIO_000521">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000512"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000522 -->
+
+    <owl:Class rdf:about="&resource;SIO_000522">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000521"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000523 -->
+
+    <owl:Class rdf:about="&resource;SIO_000523">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000522"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000524 -->
+
+    <owl:Class rdf:about="&resource;SIO_000524">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000522"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000525 -->
+
+    <owl:Class rdf:about="&resource;SIO_000525">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000534"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000526 -->
+
+    <owl:Class rdf:about="&resource;SIO_000526">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000534"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000527 -->
+
+    <owl:Class rdf:about="&resource;SIO_000527">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000535"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000528 -->
+
+    <owl:Class rdf:about="&resource;SIO_000528">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000527"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000529 -->
+
+    <owl:Class rdf:about="&resource;SIO_000529">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000527"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000530 -->
+
+    <owl:Class rdf:about="&resource;SIO_000530">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000527"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000531 -->
+
+    <owl:Class rdf:about="&resource;SIO_000531">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000535"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000532 -->
+
+    <owl:Class rdf:about="&resource;SIO_000532">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000507"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000533 -->
+
+    <owl:Class rdf:about="&resource;SIO_000533">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000540"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000534 -->
+
+    <owl:Class rdf:about="&resource;SIO_000534">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000511"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000535 -->
+
+    <owl:Class rdf:about="&resource;SIO_000535">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000511"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000537 -->
+
+    <owl:Class rdf:about="&resource;SIO_000537">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000055"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000538 -->
+
+    <owl:Class rdf:about="&resource;SIO_000538">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000537"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000539 -->
+
+    <owl:Class rdf:about="&resource;SIO_000539">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000511"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000540 -->
+
+    <owl:Class rdf:about="&resource;SIO_000540">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000516"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000541 -->
+
+    <owl:Class rdf:about="&resource;SIO_000541">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000540"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000545 -->
+
+    <owl:Class rdf:about="&resource;SIO_000545">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000546 -->
+
+    <owl:Class rdf:about="&resource;SIO_000546">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000506"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000585 -->
+
+    <owl:Class rdf:about="&resource;SIO_000585">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000256"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_000600 -->
+
+    <owl:Class rdf:about="&resource;SIO_000600">
+        <rdfs:subClassOf rdf:resource="&resource;SIO_000050"/>
+    </owl:Class>
+    
+
+
+    <!-- http://semanticscience.org/resource/SIO_999999 -->
+
+    <owl:Class rdf:about="&resource;SIO_999999">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1451) http://owlapi.sourceforge.net -->
+

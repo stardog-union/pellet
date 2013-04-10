@@ -1,0 +1,11 @@
+	<defrole name="p"/>
+	<defrole name="r"/>
+	
+	<functional>
+		<inverse>
+			<ratom name="r"/>
+		</inverse>
+	</functional>
+	
+    <defconcept name="a"/>
+    <defconcept name="b"/>    

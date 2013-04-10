@@ -1,0 +1,16 @@
+    <defconcept name="a"/>
+    <defrole name="f"/>
+    <impliesr>
+        <ratom name="f"/>
+        <ratom name="r"/>
+    </impliesr>
+    <functional>
+        <ratom name="f"/>
+    </functional>
+    <defrole name="r"/>
+    <transitive>
+    	<inverse>
+        	<ratom name="r"/>
+        </inverse>
+    </transitive>
+

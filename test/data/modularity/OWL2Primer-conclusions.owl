@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY families "http://example.com/owl/families/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY families2 "http://example.org/otherOntologies/families/" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2010/5/Ontology1277786719699.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2010/5/Ontology1277786719699.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:families="http://example.com/owl/families/"
+     xmlns:families2="http://example.org/otherOntologies/families/">
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://example.com/owl/families/Adult -->
+
+    <owl:Class rdf:about="&families;Adult">
+        <owl:equivalentClass rdf:resource="&families2;Grownup"/>
+        <rdfs:subClassOf rdf:resource="&families;Human"/>
+        <rdfs:subClassOf rdf:resource="&families;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/ChildlessPerson -->
+
+    <owl:Class rdf:about="&families;ChildlessPerson">
+        <rdfs:subClassOf rdf:resource="&families;Human"/>
+        <rdfs:subClassOf rdf:resource="&families;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Dead -->
+
+    <owl:Class rdf:about="&families;Dead">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Father -->
+
+    <owl:Class rdf:about="&families;Father">
+        <rdfs:subClassOf rdf:resource="&families;Man"/>
+        <rdfs:subClassOf rdf:resource="&families;Parent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Female -->
+
+    <owl:Class rdf:about="&families;Female">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Grandfather -->
+
+    <owl:Class rdf:about="&families;Grandfather">
+        <rdfs:subClassOf rdf:resource="&families;Father"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/HappyPerson -->
+
+    <owl:Class rdf:about="&families;HappyPerson">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Human -->
+
+    <owl:Class rdf:about="&families;Human">
+        <owl:equivalentClass rdf:resource="&families;Person"/>
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/JohnsChildren -->
+
+    <owl:Class rdf:about="&families;JohnsChildren">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Man -->
+
+    <owl:Class rdf:about="&families;Man">
+        <rdfs:subClassOf rdf:resource="&families;Human"/>
+        <rdfs:subClassOf rdf:resource="&families;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Mother -->
+
+    <owl:Class rdf:about="&families;Mother">
+        <rdfs:subClassOf rdf:resource="&families;Parent"/>
+        <rdfs:subClassOf rdf:resource="&families;Woman"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/MyBirthdayGuests -->
+
+    <owl:Class rdf:about="&families;MyBirthdayGuests">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/NarcisticPerson -->
+
+    <owl:Class rdf:about="&families;NarcisticPerson">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Orphan -->
+
+    <owl:Class rdf:about="&families;Orphan">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Parent -->
+
+    <owl:Class rdf:about="&families;Parent">
+        <rdfs:subClassOf rdf:resource="&families;Human"/>
+        <rdfs:subClassOf rdf:resource="&families;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Person -->
+
+    <owl:Class rdf:about="&families;Person">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/SocialRole -->
+
+    <owl:Class rdf:about="&families;SocialRole">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Teenager -->
+
+    <owl:Class rdf:about="&families;Teenager">
+        <rdfs:subClassOf rdf:resource="&families;Human"/>
+        <rdfs:subClassOf rdf:resource="&families;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/Woman -->
+
+    <owl:Class rdf:about="&families;Woman">
+        <rdfs:subClassOf rdf:resource="&families;Human"/>
+        <rdfs:subClassOf rdf:resource="&families;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.com/owl/families/YoungChild -->
+
+    <owl:Class rdf:about="&families;YoungChild">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://example.org/otherOntologies/families/Grownup -->
+
+    <owl:Class rdf:about="&families2;Grownup">
+        <rdfs:subClassOf rdf:resource="&families;Human"/>
+        <rdfs:subClassOf rdf:resource="&families;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1451) http://owlapi.sourceforge.net -->
+

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<sparql
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema#"
+    xmlns="http://www.w3.org/2005/sparql-results#" >
+  <head>
+    <variable name="Meal"/>
+    <variable name="WineColor"/>
+  </head>
+  <results>
+    <result>
+      <binding name="Meal">
+        <uri>http://example.org/wine#MyLunch</uri>
+      </binding>
+      <binding name="WineColor">
+        <uri>http://www.w3.org/2001/sw/WebOnt/guide-src/food#White</uri>
+      </binding>
+    </result>
+    <result>
+      <binding name="Meal">
+        <uri>http://example.org/wine#MyDinner</uri>
+      </binding>
+      <binding name="WineColor">
+        <uri>http://www.w3.org/2001/sw/WebOnt/guide-src/food#Red</uri>
+      </binding>
+    </result>    
+  </results>
+</sparql>

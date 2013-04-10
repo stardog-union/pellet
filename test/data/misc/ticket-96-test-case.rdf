@@ -1,0 +1,115 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="foo:bla#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#">
+  <owl:Class rdf:about="foo:bla#Nationalities">
+    <owl:equivalentClass rdf:parseType="Resource">
+      <owl:oneOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="foo:bla#gb"/>
+        <rdf:Description rdf:about="foo:bla#s"/>
+        <rdf:Description rdf:about="foo:bla#dk"/>
+        <rdf:Description rdf:about="foo:bla#n">
+          <rdf:type>
+            <owl:Restriction>
+              <owl:someValuesFrom>
+                <owl:Restriction>
+                  <owl:hasValue rdf:resource="foo:bla#blueHouse"/>
+                  <owl:onProperty rdf:resource="foo:bla#nextTo"/>
+                </owl:Restriction>
+              </owl:someValuesFrom>
+              <owl:onProperty>
+                <owl:InverseFunctionalProperty rdf:about="foo:bla#livesIn"/>
+              </owl:onProperty>
+            </owl:Restriction>
+          </rdf:type>
+        </rdf:Description>
+        <rdf:Description rdf:about="foo:bla#d"/>
+      </owl:oneOf>
+    </owl:equivalentClass>
+  </owl:Class>
+  <owl:Class rdf:about="foo:bla#Houses">
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#integer"
+        >2</owl:maxCardinality>
+        <owl:onProperty rdf:resource="foo:bla#nextTo"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:oneOf rdf:parseType="Collection">
+      <rdf:Description rdf:about="foo:bla#one">
+        <leftOf>
+          <rdf:Description rdf:about="foo:bla#two">
+            <leftOf>
+              <rdf:Description rdf:about="foo:bla#three">
+                <leftOf>
+                  <rdf:Description rdf:about="foo:bla#four">
+                    <leftOf rdf:resource="foo:bla#five"/>
+                  </rdf:Description>
+                </leftOf>
+              </rdf:Description>
+            </leftOf>
+          </rdf:Description>
+        </leftOf>
+      </rdf:Description>
+      <rdf:Description rdf:about="foo:bla#two"/>
+      <rdf:Description rdf:about="foo:bla#three"/>
+      <rdf:Description rdf:about="foo:bla#four"/>
+      <rdf:Description rdf:about="foo:bla#five"/>
+    </owl:oneOf>
+  </owl:Class>
+  <owl:FunctionalProperty rdf:about="foo:bla#hasColor">
+    <rdfs:domain rdf:resource="foo:bla#Houses"/>
+  </owl:FunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="foo:bla#livesIn">
+    <rdfs:range rdf:resource="foo:bla#Houses"/>
+    <rdfs:domain rdf:resource="foo:bla#Nationalities"/>
+    <owl:inverseOf rdf:resource="foo:bla#ownedBy"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:InverseFunctionalProperty>
+  <owl:InverseFunctionalProperty rdf:about="foo:bla#keepsAnimal">
+    <rdfs:range rdf:resource="foo:bla#Animals"/>
+    <rdfs:domain rdf:resource="foo:bla#Nationalities"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+  </owl:InverseFunctionalProperty>
+  <owl:Restriction>
+    <owl:equivalentClass>
+      <owl:Restriction>
+        <owl:hasValue rdf:resource="foo:bla#dunhill"/>
+        <owl:onProperty rdf:resource="foo:bla#smokes"/>
+      </owl:Restriction>
+    </owl:equivalentClass>
+    <owl:hasValue>
+      <rdf:Description rdf:about="foo:bla#yellowHouse">
+        <hasColor rdf:resource="foo:bla#yellow"/>
+      </rdf:Description>
+    </owl:hasValue>
+    <owl:onProperty rdf:resource="foo:bla#livesIn"/>
+  </owl:Restriction>
+  <owl:Restriction>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:someValuesFrom>
+          <owl:Restriction>
+            <owl:someValuesFrom>
+              <owl:Restriction>
+                <owl:someValuesFrom>
+                  <owl:Restriction>
+                    <owl:hasValue rdf:resource="foo:bla#horse"/>
+                    <owl:onProperty rdf:resource="foo:bla#keepsAnimal"/>
+                  </owl:Restriction>
+                </owl:someValuesFrom>
+                <owl:onProperty rdf:resource="foo:bla#ownedBy"/>
+              </owl:Restriction>
+            </owl:someValuesFrom>
+            <owl:onProperty rdf:resource="foo:bla#nextTo"/>
+          </owl:Restriction>
+        </owl:someValuesFrom>
+        <owl:onProperty rdf:resource="foo:bla#livesIn"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <owl:hasValue rdf:resource="foo:bla#dunhill"/>
+    <owl:onProperty rdf:resource="foo:bla#smokes"/>
+  </owl:Restriction>
+</rdf:RDF>
