@@ -1,14 +1,16 @@
 Pellet: An Open Source OWL DL reasoner for Java
 -----------------------------------------------
 
-Pellet is a dual-licensed open source [1] Java-based OWL-DL reasoner        
+Pellet is an OWL DL reasoner--dual-licensed, open source [1], and Java-based--       
 developed and commercially supported [2] by Clark & Parsia LLC. It can      
-be used in conjunction with either Jena or OWL-API libraries. Pellet        
-provides functionality to check consistency of ontologies, compute 
-the classification hierarchy, explain inferences and answer SPARQL      
-queries.                                                                    
+be used with Jena or OWL-API libraries. Pellet provides functionality 
+to check consistency of ontologies, compute the classification hierarchy, 
+explain inferences, and answer SPARQL queries.                                                                    
 
-Documentation how to use Pellet is in the doc/ directory and there are some 
+Feel free to fork this repository and submit pull requests if you want to
+see changes, new features, etc in Pellet.
+
+Documentation about how to use Pellet is in the doc/ directory and there are some 
 code samples in the examples/ directory.                                    
 
 Commercial support for Pellet is available:
@@ -21,12 +23,12 @@ See the Pellet FAQ for answers to some Frequently Asked Questions:
 
 There is a mailing lists for questions and feedback:
 
-	pellet-users@lists.owldl.com
+	https://groups.google.com/forum/?fromgroups#!forum/pellet-users
 
-You can subscribe to the list and see the archives here:
+You can search pellet-users archives here:
 
-	http://lists.owldl.com/mailman/listinfo/pellet-users
-
+	http://news.gmane.org/gmane.comp.web.pellet.user
+	
 Bug reports and enhancement requests should be sent to the mailing          
 list.  Prior to raising an issue, please search the Pellet Issue Tracker:   
 
@@ -35,7 +37,7 @@ list.  Prior to raising an issue, please search the Pellet Issue Tracker:
 A list of issues resolved and enhancements made in this release is          
 available:                                                                  
 
-	http://clark-parsia.trac.cvsdude.com/pellet-devel/report/11
+	http://github.com/clarkparsia/pellet/issues
 
 Thanks for using Pellet.
 
