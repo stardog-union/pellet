@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g 2010-03-28 22:46:33
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g 2013-04-11 22:07:44
 
 package com.clarkparsia.sparqlowl.parser.antlr;
 
@@ -60,8 +60,8 @@ import com.hp.hpl.jena.sparql.syntax.ElementOptional;
 import com.hp.hpl.jena.sparql.syntax.ElementTriplesBlock;
 import com.hp.hpl.jena.sparql.syntax.ElementUnion;
 import com.hp.hpl.jena.sparql.syntax.Template;
-import com.hp.hpl.jena.sparql.syntax.TemplateGroup;
 import com.hp.hpl.jena.sparql.syntax.TripleCollector;
+import com.hp.hpl.jena.sparql.syntax.TripleCollectorBGP;
 import com.hp.hpl.jena.sparql.util.LabelToNodeMap;
 import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
@@ -335,7 +335,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
         
 
     public String[] getTokenNames() { return SparqlOwlTreeARQ.tokenNames; }
-    public String getGrammarFileName() { return "/home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g"; }
+    public String getGrammarFileName() { return "/Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g"; }
 
 
 
@@ -394,7 +394,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "objectPropertyIRI"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:150:1: objectPropertyIRI returns [Node p, Collection<Triple> triples] : ^( OBJECT_PROPERTY iriRef ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:150:1: objectPropertyIRI returns [Node p, Collection<Triple> triples] : ^( OBJECT_PROPERTY iriRef ) ;
     public final SparqlOwlTreeARQ.objectPropertyIRI_return objectPropertyIRI() throws RecognitionException {
         SparqlOwlTreeARQ.objectPropertyIRI_return retval = new SparqlOwlTreeARQ.objectPropertyIRI_return();
         retval.start = input.LT(1);
@@ -403,8 +403,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:152:2: ( ^( OBJECT_PROPERTY iriRef ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:152:4: ^( OBJECT_PROPERTY iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:152:2: ( ^( OBJECT_PROPERTY iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:152:4: ^( OBJECT_PROPERTY iriRef )
             {
             match(input,OBJECT_PROPERTY,FOLLOW_OBJECT_PROPERTY_in_objectPropertyIRI66); 
 
@@ -440,7 +440,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "dataPropertyIRI"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:162:1: dataPropertyIRI returns [Node p, Collection<Triple> triples] : ^( DATA_PROPERTY iriRef ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:162:1: dataPropertyIRI returns [Node p, Collection<Triple> triples] : ^( DATA_PROPERTY iriRef ) ;
     public final SparqlOwlTreeARQ.dataPropertyIRI_return dataPropertyIRI() throws RecognitionException {
         SparqlOwlTreeARQ.dataPropertyIRI_return retval = new SparqlOwlTreeARQ.dataPropertyIRI_return();
         retval.start = input.LT(1);
@@ -449,8 +449,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:164:2: ( ^( DATA_PROPERTY iriRef ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:164:4: ^( DATA_PROPERTY iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:164:2: ( ^( DATA_PROPERTY iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:164:4: ^( DATA_PROPERTY iriRef )
             {
             match(input,DATA_PROPERTY,FOLLOW_DATA_PROPERTY_in_dataPropertyIRI92); 
 
@@ -482,7 +482,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "objectOrDataPropertyIRI"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:174:1: objectOrDataPropertyIRI returns [Node p] : ^( PROPERTY iriRef ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:174:1: objectOrDataPropertyIRI returns [Node p] : ^( PROPERTY iriRef ) ;
     public final Node objectOrDataPropertyIRI() throws RecognitionException {
         Node p = null;
 
@@ -490,8 +490,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:176:2: ( ^( PROPERTY iriRef ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:176:4: ^( PROPERTY iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:176:2: ( ^( PROPERTY iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:176:4: ^( PROPERTY iriRef )
             {
             match(input,PROPERTY,FOLLOW_PROPERTY_in_objectOrDataPropertyIRI118); 
 
@@ -524,7 +524,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "inverseObjectProperty"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:182:1: inverseObjectProperty returns [Node p, Collection<Triple> triples] : ^( INVERSE_PROPERTY objectPropertyIRI ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:182:1: inverseObjectProperty returns [Node p, Collection<Triple> triples] : ^( INVERSE_PROPERTY objectPropertyIRI ) ;
     public final SparqlOwlTreeARQ.inverseObjectProperty_return inverseObjectProperty() throws RecognitionException {
         SparqlOwlTreeARQ.inverseObjectProperty_return retval = new SparqlOwlTreeARQ.inverseObjectProperty_return();
         retval.start = input.LT(1);
@@ -533,8 +533,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:184:2: ( ^( INVERSE_PROPERTY objectPropertyIRI ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:184:4: ^( INVERSE_PROPERTY objectPropertyIRI )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:184:2: ( ^( INVERSE_PROPERTY objectPropertyIRI ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:184:4: ^( INVERSE_PROPERTY objectPropertyIRI )
             {
             match(input,INVERSE_PROPERTY,FOLLOW_INVERSE_PROPERTY_in_inverseObjectProperty142); 
 
@@ -571,7 +571,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "propertyExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:195:1: propertyExpression returns [Node p, Collection<Triple> triples] : ( inverseObjectProperty | objectOrDataPropertyIRI );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:195:1: propertyExpression returns [Node p, Collection<Triple> triples] : ( inverseObjectProperty | objectOrDataPropertyIRI );
     public final SparqlOwlTreeARQ.propertyExpression_return propertyExpression() throws RecognitionException {
         SparqlOwlTreeARQ.propertyExpression_return retval = new SparqlOwlTreeARQ.propertyExpression_return();
         retval.start = input.LT(1);
@@ -582,7 +582,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:197:2: ( inverseObjectProperty | objectOrDataPropertyIRI )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:197:2: ( inverseObjectProperty | objectOrDataPropertyIRI )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -600,7 +600,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt1) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:197:4: inverseObjectProperty
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:197:4: inverseObjectProperty
                     {
                     pushFollow(FOLLOW_inverseObjectProperty_in_propertyExpression167);
                     inverseObjectProperty5=inverseObjectProperty();
@@ -615,7 +615,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:202:4: objectOrDataPropertyIRI
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:202:4: objectOrDataPropertyIRI
                     {
                     pushFollow(FOLLOW_objectOrDataPropertyIRI_in_propertyExpression176);
                     objectOrDataPropertyIRI6=objectOrDataPropertyIRI();
@@ -648,7 +648,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "objectPropertyExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:212:1: objectPropertyExpression returns [Node p, Collection<Triple> triples] : ( inverseObjectProperty | objectPropertyIRI );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:212:1: objectPropertyExpression returns [Node p, Collection<Triple> triples] : ( inverseObjectProperty | objectPropertyIRI );
     public final SparqlOwlTreeARQ.objectPropertyExpression_return objectPropertyExpression() throws RecognitionException {
         SparqlOwlTreeARQ.objectPropertyExpression_return retval = new SparqlOwlTreeARQ.objectPropertyExpression_return();
         retval.start = input.LT(1);
@@ -659,7 +659,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:214:2: ( inverseObjectProperty | objectPropertyIRI )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:214:2: ( inverseObjectProperty | objectPropertyIRI )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -677,7 +677,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt2) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:214:4: inverseObjectProperty
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:214:4: inverseObjectProperty
                     {
                     pushFollow(FOLLOW_inverseObjectProperty_in_objectPropertyExpression198);
                     inverseObjectProperty7=inverseObjectProperty();
@@ -692,7 +692,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:219:4: objectPropertyIRI
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:219:4: objectPropertyIRI
                     {
                     pushFollow(FOLLOW_objectPropertyIRI_in_objectPropertyExpression207);
                     objectPropertyIRI8=objectPropertyIRI();
@@ -721,7 +721,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "datatype"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:230:1: datatype returns [Node n] : ( ^( DATATYPE iriRef ) | ^( DATATYPE INTEGER_TERM ) | ^( DATATYPE DECIMAL_TERM ) | ^( DATATYPE FLOAT_TERM ) | ^( DATATYPE STRING_TERM ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:230:1: datatype returns [Node n] : ( ^( DATATYPE iriRef ) | ^( DATATYPE INTEGER_TERM ) | ^( DATATYPE DECIMAL_TERM ) | ^( DATATYPE FLOAT_TERM ) | ^( DATATYPE STRING_TERM ) );
     public final Node datatype() throws RecognitionException {
         Node n = null;
 
@@ -729,7 +729,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:232:2: ( ^( DATATYPE iriRef ) | ^( DATATYPE INTEGER_TERM ) | ^( DATATYPE DECIMAL_TERM ) | ^( DATATYPE FLOAT_TERM ) | ^( DATATYPE STRING_TERM ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:232:2: ( ^( DATATYPE iriRef ) | ^( DATATYPE INTEGER_TERM ) | ^( DATATYPE DECIMAL_TERM ) | ^( DATATYPE FLOAT_TERM ) | ^( DATATYPE STRING_TERM ) )
             int alt3=5;
             int LA3_0 = input.LA(1);
 
@@ -787,7 +787,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt3) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:232:4: ^( DATATYPE iriRef )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:232:4: ^( DATATYPE iriRef )
                     {
                     match(input,DATATYPE,FOLLOW_DATATYPE_in_datatype230); 
 
@@ -804,7 +804,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:233:4: ^( DATATYPE INTEGER_TERM )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:233:4: ^( DATATYPE INTEGER_TERM )
                     {
                     match(input,DATATYPE,FOLLOW_DATATYPE_in_datatype241); 
 
@@ -817,7 +817,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:234:4: ^( DATATYPE DECIMAL_TERM )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:234:4: ^( DATATYPE DECIMAL_TERM )
                     {
                     match(input,DATATYPE,FOLLOW_DATATYPE_in_datatype252); 
 
@@ -830,7 +830,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:235:4: ^( DATATYPE FLOAT_TERM )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:235:4: ^( DATATYPE FLOAT_TERM )
                     {
                     match(input,DATATYPE,FOLLOW_DATATYPE_in_datatype263); 
 
@@ -843,7 +843,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:236:4: ^( DATATYPE STRING_TERM )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:236:4: ^( DATATYPE STRING_TERM )
                     {
                     match(input,DATATYPE,FOLLOW_DATATYPE_in_datatype274); 
 
@@ -874,7 +874,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "individual"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:242:1: individual returns [Node i, Collection<Triple> triples] : ^( INDIVIDUAL iriRef ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:242:1: individual returns [Node i, Collection<Triple> triples] : ^( INDIVIDUAL iriRef ) ;
     public final SparqlOwlTreeARQ.individual_return individual() throws RecognitionException {
         SparqlOwlTreeARQ.individual_return retval = new SparqlOwlTreeARQ.individual_return();
         retval.start = input.LT(1);
@@ -883,8 +883,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:244:2: ( ^( INDIVIDUAL iriRef ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:244:4: ^( INDIVIDUAL iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:244:2: ( ^( INDIVIDUAL iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:244:4: ^( INDIVIDUAL iriRef )
             {
             match(input,INDIVIDUAL,FOLLOW_INDIVIDUAL_in_individual298); 
 
@@ -917,7 +917,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "literal"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:255:1: literal returns [Node l] : ( rdfLiteral | numericLiteral | booleanLiteral );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:255:1: literal returns [Node l] : ( rdfLiteral | numericLiteral | booleanLiteral );
     public final Node literal() throws RecognitionException {
         Node l = null;
 
@@ -929,7 +929,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:257:2: ( rdfLiteral | numericLiteral | booleanLiteral )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:257:2: ( rdfLiteral | numericLiteral | booleanLiteral )
             int alt4=3;
             switch ( input.LA(1) ) {
             case LITERAL_LANG:
@@ -961,7 +961,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt4) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:257:4: rdfLiteral
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:257:4: rdfLiteral
                     {
                     pushFollow(FOLLOW_rdfLiteral_in_literal323);
                     rdfLiteral11=rdfLiteral();
@@ -973,7 +973,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:259:4: numericLiteral
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:259:4: numericLiteral
                     {
                     pushFollow(FOLLOW_numericLiteral_in_literal332);
                     numericLiteral12=numericLiteral();
@@ -985,7 +985,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:261:4: booleanLiteral
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:261:4: booleanLiteral
                     {
                     pushFollow(FOLLOW_booleanLiteral_in_literal341);
                     booleanLiteral13=booleanLiteral();
@@ -1015,7 +1015,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "datatypeRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:268:1: datatypeRestriction returns [Node n, Collection<Triple> triples] : ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:268:1: datatypeRestriction returns [Node n, Collection<Triple> triples] : ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ ) ;
     public final SparqlOwlTreeARQ.datatypeRestriction_return datatypeRestriction() throws RecognitionException {
         SparqlOwlTreeARQ.datatypeRestriction_return retval = new SparqlOwlTreeARQ.datatypeRestriction_return();
         retval.start = input.LT(1);
@@ -1028,8 +1028,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:270:2: ( ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:270:4: ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:270:2: ( ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:270:4: ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ )
             {
             match(input,DATATYPE_RESTRICTION,FOLLOW_DATATYPE_RESTRICTION_in_datatypeRestriction364); 
 
@@ -1046,7 +1046,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             				retval.triples.add( new Triple( retval.n, OWL2.onDatatype.asNode(), datatype14 ) );
             				List<Node> facetValues = new ArrayList<Node>();
             			
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:278:4: ( ^( FACET_VALUE facet restrictionValue ) )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:278:4: ( ^( FACET_VALUE facet restrictionValue ) )+
             int cnt5=0;
             loop5:
             do {
@@ -1060,7 +1060,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt5) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:278:6: ^( FACET_VALUE facet restrictionValue )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:278:6: ^( FACET_VALUE facet restrictionValue )
             	    {
             	    match(input,FACET_VALUE,FOLLOW_FACET_VALUE_in_datatypeRestriction379); 
 
@@ -1117,12 +1117,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "facet"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:295:1: facet returns [Node n] : ( FACET_LENGTH | FACET_MINLENGTH | FACET_MAXLENGTH | FACET_PATTERN | FACET_LANGPATTERN | FACET_LESS_EQUAL | FACET_LESS | FACET_GREATER_EQUAL | FACET_GREATER );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:295:1: facet returns [Node n] : ( FACET_LENGTH | FACET_MINLENGTH | FACET_MAXLENGTH | FACET_PATTERN | FACET_LANGPATTERN | FACET_LESS_EQUAL | FACET_LESS | FACET_GREATER_EQUAL | FACET_GREATER );
     public final Node facet() throws RecognitionException {
         Node n = null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:297:2: ( FACET_LENGTH | FACET_MINLENGTH | FACET_MAXLENGTH | FACET_PATTERN | FACET_LANGPATTERN | FACET_LESS_EQUAL | FACET_LESS | FACET_GREATER_EQUAL | FACET_GREATER )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:297:2: ( FACET_LENGTH | FACET_MINLENGTH | FACET_MAXLENGTH | FACET_PATTERN | FACET_LANGPATTERN | FACET_LESS_EQUAL | FACET_LESS | FACET_GREATER_EQUAL | FACET_GREATER )
             int alt6=9;
             switch ( input.LA(1) ) {
             case FACET_LENGTH:
@@ -1179,7 +1179,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt6) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:297:4: FACET_LENGTH
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:297:4: FACET_LENGTH
                     {
                     match(input,FACET_LENGTH,FOLLOW_FACET_LENGTH_in_facet423); 
                      n = OWL2.length.asNode(); 
@@ -1187,7 +1187,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:298:4: FACET_MINLENGTH
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:298:4: FACET_MINLENGTH
                     {
                     match(input,FACET_MINLENGTH,FOLLOW_FACET_MINLENGTH_in_facet430); 
                      n = OWL2.minLength.asNode(); 
@@ -1195,7 +1195,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:299:4: FACET_MAXLENGTH
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:299:4: FACET_MAXLENGTH
                     {
                     match(input,FACET_MAXLENGTH,FOLLOW_FACET_MAXLENGTH_in_facet437); 
                      n = OWL2.maxLength.asNode(); 
@@ -1203,7 +1203,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:300:4: FACET_PATTERN
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:300:4: FACET_PATTERN
                     {
                     match(input,FACET_PATTERN,FOLLOW_FACET_PATTERN_in_facet444); 
                      n = OWL2.pattern.asNode(); 
@@ -1211,7 +1211,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:301:4: FACET_LANGPATTERN
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:301:4: FACET_LANGPATTERN
                     {
                     match(input,FACET_LANGPATTERN,FOLLOW_FACET_LANGPATTERN_in_facet451); 
                      /* FIXME: langPattern missing */ n = null; 
@@ -1219,7 +1219,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 6 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:302:4: FACET_LESS_EQUAL
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:302:4: FACET_LESS_EQUAL
                     {
                     match(input,FACET_LESS_EQUAL,FOLLOW_FACET_LESS_EQUAL_in_facet458); 
                      n = OWL2.maxInclusive.asNode(); 
@@ -1227,7 +1227,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 7 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:303:4: FACET_LESS
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:303:4: FACET_LESS
                     {
                     match(input,FACET_LESS,FOLLOW_FACET_LESS_in_facet465); 
                      n = OWL2.maxExclusive.asNode(); 
@@ -1235,7 +1235,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 8 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:304:4: FACET_GREATER_EQUAL
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:304:4: FACET_GREATER_EQUAL
                     {
                     match(input,FACET_GREATER_EQUAL,FOLLOW_FACET_GREATER_EQUAL_in_facet472); 
                      n = OWL2.minInclusive.asNode(); 
@@ -1243,7 +1243,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 9 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:305:4: FACET_GREATER
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:305:4: FACET_GREATER
                     {
                     match(input,FACET_GREATER,FOLLOW_FACET_GREATER_in_facet479); 
                      n = OWL2.minExclusive.asNode(); 
@@ -1265,7 +1265,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "restrictionValue"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:311:1: restrictionValue returns [Node n] : literal ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:311:1: restrictionValue returns [Node n] : literal ;
     public final Node restrictionValue() throws RecognitionException {
         Node n = null;
 
@@ -1273,8 +1273,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:313:2: ( literal )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:313:4: literal
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:313:2: ( literal )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:313:4: literal
             {
             pushFollow(FOLLOW_literal_in_restrictionValue499);
             literal17=literal();
@@ -1303,7 +1303,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "disjunction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:319:1: disjunction returns [Node n, Collection<Triple> triples, boolean dr] : ( ^( DISJUNCTION a= disjunction b= disjunction ) | conjunction | primary );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:319:1: disjunction returns [Node n, Collection<Triple> triples, boolean dr] : ( ^( DISJUNCTION a= disjunction b= disjunction ) | conjunction | primary );
     public final SparqlOwlTreeARQ.disjunction_return disjunction() throws RecognitionException {
         SparqlOwlTreeARQ.disjunction_return retval = new SparqlOwlTreeARQ.disjunction_return();
         retval.start = input.LT(1);
@@ -1318,7 +1318,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:321:2: ( ^( DISJUNCTION a= disjunction b= disjunction ) | conjunction | primary )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:321:2: ( ^( DISJUNCTION a= disjunction b= disjunction ) | conjunction | primary )
             int alt7=3;
             switch ( input.LA(1) ) {
             case DISJUNCTION:
@@ -1357,7 +1357,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt7) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:321:4: ^( DISJUNCTION a= disjunction b= disjunction )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:321:4: ^( DISJUNCTION a= disjunction b= disjunction )
                     {
                     match(input,DISJUNCTION,FOLLOW_DISJUNCTION_in_disjunction520); 
 
@@ -1390,7 +1390,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:334:4: conjunction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:334:4: conjunction
                     {
                     pushFollow(FOLLOW_conjunction_in_disjunction538);
                     conjunction18=conjunction();
@@ -1406,7 +1406,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:340:4: primary
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:340:4: primary
                     {
                     pushFollow(FOLLOW_primary_in_disjunction547);
                     primary19=primary();
@@ -1441,7 +1441,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "conjunction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:351:1: conjunction returns [Node n, Collection<Triple> triples, boolean dr] : ^( CONJUNCTION a= disjunction b= disjunction ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:351:1: conjunction returns [Node n, Collection<Triple> triples, boolean dr] : ^( CONJUNCTION a= disjunction b= disjunction ) ;
     public final SparqlOwlTreeARQ.conjunction_return conjunction() throws RecognitionException {
         SparqlOwlTreeARQ.conjunction_return retval = new SparqlOwlTreeARQ.conjunction_return();
         retval.start = input.LT(1);
@@ -1452,8 +1452,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:353:2: ( ^( CONJUNCTION a= disjunction b= disjunction ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:353:4: ^( CONJUNCTION a= disjunction b= disjunction )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:353:2: ( ^( CONJUNCTION a= disjunction b= disjunction ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:353:4: ^( CONJUNCTION a= disjunction b= disjunction )
             {
             match(input,CONJUNCTION,FOLLOW_CONJUNCTION_in_conjunction570); 
 
@@ -1503,7 +1503,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "primary"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:371:1: primary returns [Node n, Collection<Triple> triples, boolean dr] : ( ^( NEGATION disjunction ) | restriction | atomic );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:371:1: primary returns [Node n, Collection<Triple> triples, boolean dr] : ( ^( NEGATION disjunction ) | restriction | atomic );
     public final SparqlOwlTreeARQ.primary_return primary() throws RecognitionException {
         SparqlOwlTreeARQ.primary_return retval = new SparqlOwlTreeARQ.primary_return();
         retval.start = input.LT(1);
@@ -1516,7 +1516,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:373:2: ( ^( NEGATION disjunction ) | restriction | atomic )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:373:2: ( ^( NEGATION disjunction ) | restriction | atomic )
             int alt8=3;
             switch ( input.LA(1) ) {
             case NEGATION:
@@ -1553,7 +1553,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt8) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:373:4: ^( NEGATION disjunction )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:373:4: ^( NEGATION disjunction )
                     {
                     match(input,NEGATION,FOLLOW_NEGATION_in_primary602); 
 
@@ -1580,7 +1580,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:385:4: restriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:385:4: restriction
                     {
                     pushFollow(FOLLOW_restriction_in_primary614);
                     restriction21=restriction();
@@ -1596,7 +1596,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:391:4: atomic
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:391:4: atomic
                     {
                     pushFollow(FOLLOW_atomic_in_primary624);
                     atomic22=atomic();
@@ -1631,7 +1631,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "atomic"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:402:1: atomic returns [Node n, Collection<Triple> triples, boolean dr] : ( ^( CLASS_OR_DATATYPE iriRef ) | datatype | datatypeRestriction | ^( VALUE_ENUMERATION ( literal )+ ) | ^( INDIVIDUAL_ENUMERATION ( individual )+ ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:402:1: atomic returns [Node n, Collection<Triple> triples, boolean dr] : ( ^( CLASS_OR_DATATYPE iriRef ) | datatype | datatypeRestriction | ^( VALUE_ENUMERATION ( literal )+ ) | ^( INDIVIDUAL_ENUMERATION ( individual )+ ) );
     public final SparqlOwlTreeARQ.atomic_return atomic() throws RecognitionException {
         SparqlOwlTreeARQ.atomic_return retval = new SparqlOwlTreeARQ.atomic_return();
         retval.start = input.LT(1);
@@ -1651,7 +1651,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		retval.dr = false;
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:407:2: ( ^( CLASS_OR_DATATYPE iriRef ) | datatype | datatypeRestriction | ^( VALUE_ENUMERATION ( literal )+ ) | ^( INDIVIDUAL_ENUMERATION ( individual )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:407:2: ( ^( CLASS_OR_DATATYPE iriRef ) | datatype | datatypeRestriction | ^( VALUE_ENUMERATION ( literal )+ ) | ^( INDIVIDUAL_ENUMERATION ( individual )+ ) )
             int alt11=5;
             switch ( input.LA(1) ) {
             case CLASS_OR_DATATYPE:
@@ -1688,7 +1688,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt11) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:407:4: ^( CLASS_OR_DATATYPE iriRef )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:407:4: ^( CLASS_OR_DATATYPE iriRef )
                     {
                     match(input,CLASS_OR_DATATYPE,FOLLOW_CLASS_OR_DATATYPE_in_atomic653); 
 
@@ -1709,7 +1709,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:413:4: datatype
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:413:4: datatype
                     {
                     pushFollow(FOLLOW_datatype_in_atomic665);
                     datatype24=datatype();
@@ -1725,7 +1725,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:419:4: datatypeRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:419:4: datatypeRestriction
                     {
                     pushFollow(FOLLOW_datatypeRestriction_in_atomic674);
                     datatypeRestriction25=datatypeRestriction();
@@ -1741,7 +1741,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:425:4: ^( VALUE_ENUMERATION ( literal )+ )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:425:4: ^( VALUE_ENUMERATION ( literal )+ )
                     {
                     match(input,VALUE_ENUMERATION,FOLLOW_VALUE_ENUMERATION_in_atomic684); 
 
@@ -1752,7 +1752,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     			
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:431:4: ( literal )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:431:4: ( literal )+
                     int cnt9=0;
                     loop9:
                     do {
@@ -1766,7 +1766,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                         switch (alt9) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:431:6: literal
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:431:6: literal
                     	    {
                     	    pushFollow(FOLLOW_literal_in_atomic696);
                     	    literal26=literal();
@@ -1799,7 +1799,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:439:4: ^( INDIVIDUAL_ENUMERATION ( individual )+ )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:439:4: ^( INDIVIDUAL_ENUMERATION ( individual )+ )
                     {
                     match(input,INDIVIDUAL_ENUMERATION,FOLLOW_INDIVIDUAL_ENUMERATION_in_atomic715); 
 
@@ -1809,7 +1809,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     			
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:444:4: ( individual )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:444:4: ( individual )+
                     int cnt10=0;
                     loop10:
                     do {
@@ -1823,7 +1823,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                         switch (alt10) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:444:6: individual
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:444:6: individual
                     	    {
                     	    pushFollow(FOLLOW_individual_in_atomic727);
                     	    individual27=individual();
@@ -1874,7 +1874,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "restriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:457:1: restriction returns [Node n, Collection<Triple> triples] : ( ^( SOME_RESTRICTION propertyExpression disjunction ) | ^( ALL_RESTRICTION propertyExpression disjunction ) | ^( VALUE_RESTRICTION objectPropertyExpression individual ) | ^( VALUE_RESTRICTION dataPropertyIRI literal ) | ^( SELF_RESTRICTION objectPropertyExpression ) | ^( MIN_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) | ^( MAX_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) | ^( EXACT_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:457:1: restriction returns [Node n, Collection<Triple> triples] : ( ^( SOME_RESTRICTION propertyExpression disjunction ) | ^( ALL_RESTRICTION propertyExpression disjunction ) | ^( VALUE_RESTRICTION objectPropertyExpression individual ) | ^( VALUE_RESTRICTION dataPropertyIRI literal ) | ^( SELF_RESTRICTION objectPropertyExpression ) | ^( MIN_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) | ^( MAX_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) | ^( EXACT_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) );
     public final SparqlOwlTreeARQ.restriction_return restriction() throws RecognitionException {
         SparqlOwlTreeARQ.restriction_return retval = new SparqlOwlTreeARQ.restriction_return();
         retval.start = input.LT(1);
@@ -1917,12 +1917,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		retval.triples.add( new Triple( retval.n, RDF.Nodes.type, OWL.Restriction.asNode() ) );
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:464:2: ( ^( SOME_RESTRICTION propertyExpression disjunction ) | ^( ALL_RESTRICTION propertyExpression disjunction ) | ^( VALUE_RESTRICTION objectPropertyExpression individual ) | ^( VALUE_RESTRICTION dataPropertyIRI literal ) | ^( SELF_RESTRICTION objectPropertyExpression ) | ^( MIN_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) | ^( MAX_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) | ^( EXACT_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:464:2: ( ^( SOME_RESTRICTION propertyExpression disjunction ) | ^( ALL_RESTRICTION propertyExpression disjunction ) | ^( VALUE_RESTRICTION objectPropertyExpression individual ) | ^( VALUE_RESTRICTION dataPropertyIRI literal ) | ^( SELF_RESTRICTION objectPropertyExpression ) | ^( MIN_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) | ^( MAX_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) | ^( EXACT_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? ) )
             int alt15=8;
             alt15 = dfa15.predict(input);
             switch (alt15) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:464:4: ^( SOME_RESTRICTION propertyExpression disjunction )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:464:4: ^( SOME_RESTRICTION propertyExpression disjunction )
                     {
                     match(input,SOME_RESTRICTION,FOLLOW_SOME_RESTRICTION_in_restriction765); 
 
@@ -1949,7 +1949,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:471:4: ^( ALL_RESTRICTION propertyExpression disjunction )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:471:4: ^( ALL_RESTRICTION propertyExpression disjunction )
                     {
                     match(input,ALL_RESTRICTION,FOLLOW_ALL_RESTRICTION_in_restriction780); 
 
@@ -1976,7 +1976,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:478:4: ^( VALUE_RESTRICTION objectPropertyExpression individual )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:478:4: ^( VALUE_RESTRICTION objectPropertyExpression individual )
                     {
                     match(input,VALUE_RESTRICTION,FOLLOW_VALUE_RESTRICTION_in_restriction795); 
 
@@ -2003,7 +2003,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:485:4: ^( VALUE_RESTRICTION dataPropertyIRI literal )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:485:4: ^( VALUE_RESTRICTION dataPropertyIRI literal )
                     {
                     match(input,VALUE_RESTRICTION,FOLLOW_VALUE_RESTRICTION_in_restriction810); 
 
@@ -2029,7 +2029,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:491:4: ^( SELF_RESTRICTION objectPropertyExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:491:4: ^( SELF_RESTRICTION objectPropertyExpression )
                     {
                     match(input,SELF_RESTRICTION,FOLLOW_SELF_RESTRICTION_in_restriction825); 
 
@@ -2050,7 +2050,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 6 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:497:4: ^( MIN_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:497:4: ^( MIN_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? )
                     {
                     match(input,MIN_NUMBER_RESTRICTION,FOLLOW_MIN_NUMBER_RESTRICTION_in_restriction838); 
 
@@ -2065,7 +2065,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     				boolean dr = false;
                     				Node q = null;
                     		
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:502:4: ( disjunction )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:502:4: ( disjunction )?
                     int alt12=2;
                     int LA12_0 = input.LA(1);
 
@@ -2074,7 +2074,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     switch (alt12) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:502:6: disjunction
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:502:6: disjunction
                             {
                             pushFollow(FOLLOW_disjunction_in_restriction855);
                             disjunction37=disjunction();
@@ -2113,7 +2113,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 7 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:524:4: ^( MAX_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:524:4: ^( MAX_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? )
                     {
                     match(input,MAX_NUMBER_RESTRICTION,FOLLOW_MAX_NUMBER_RESTRICTION_in_restriction878); 
 
@@ -2128,7 +2128,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     				boolean dr = false;
                     				Node q = null;
                     		
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:529:4: ( disjunction )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:529:4: ( disjunction )?
                     int alt13=2;
                     int LA13_0 = input.LA(1);
 
@@ -2137,7 +2137,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     switch (alt13) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:529:6: disjunction
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:529:6: disjunction
                             {
                             pushFollow(FOLLOW_disjunction_in_restriction895);
                             disjunction39=disjunction();
@@ -2176,7 +2176,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 8 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:551:4: ^( EXACT_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:551:4: ^( EXACT_NUMBER_RESTRICTION propertyExpression i= INTEGER ( disjunction )? )
                     {
                     match(input,EXACT_NUMBER_RESTRICTION,FOLLOW_EXACT_NUMBER_RESTRICTION_in_restriction918); 
 
@@ -2191,7 +2191,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     				boolean dr = false;
                     				Node q = null;
                     		
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:556:4: ( disjunction )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:556:4: ( disjunction )?
                     int alt14=2;
                     int LA14_0 = input.LA(1);
 
@@ -2200,7 +2200,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     switch (alt14) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:556:6: disjunction
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:556:6: disjunction
                             {
                             pushFollow(FOLLOW_disjunction_in_restriction935);
                             disjunction41=disjunction();
@@ -2253,7 +2253,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "query"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:583:1: query[Query in] returns [Query q] : ^( QUERY prologue[$q] ( selectQuery[$q] | constructQuery[$q] | describeQuery[$q] | askQuery[$q] ) ) EOF ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:583:1: query[Query in] returns [Query q] : ^( QUERY prologue[$q] ( selectQuery[$q] | constructQuery[$q] | describeQuery[$q] | askQuery[$q] ) ) EOF ;
     public final Query query(Query in) throws RecognitionException {
         Query q = null;
 
@@ -2263,8 +2263,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
         			this.inConstructTemplate = false;
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:590:2: ( ^( QUERY prologue[$q] ( selectQuery[$q] | constructQuery[$q] | describeQuery[$q] | askQuery[$q] ) ) EOF )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:590:4: ^( QUERY prologue[$q] ( selectQuery[$q] | constructQuery[$q] | describeQuery[$q] | askQuery[$q] ) ) EOF
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:590:2: ( ^( QUERY prologue[$q] ( selectQuery[$q] | constructQuery[$q] | describeQuery[$q] | askQuery[$q] ) ) EOF )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:590:4: ^( QUERY prologue[$q] ( selectQuery[$q] | constructQuery[$q] | describeQuery[$q] | askQuery[$q] ) ) EOF
             {
             match(input,QUERY,FOLLOW_QUERY_in_query978); 
 
@@ -2274,7 +2274,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             state._fsp--;
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:592:4: ( selectQuery[$q] | constructQuery[$q] | describeQuery[$q] | askQuery[$q] )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:592:4: ( selectQuery[$q] | constructQuery[$q] | describeQuery[$q] | askQuery[$q] )
             int alt16=4;
             switch ( input.LA(1) ) {
             case SELECT:
@@ -2306,7 +2306,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt16) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:592:6: selectQuery[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:592:6: selectQuery[$q]
                     {
                     pushFollow(FOLLOW_selectQuery_in_query991);
                     selectQuery(q);
@@ -2317,7 +2317,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:593:6: constructQuery[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:593:6: constructQuery[$q]
                     {
                     pushFollow(FOLLOW_constructQuery_in_query999);
                     constructQuery(q);
@@ -2328,7 +2328,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:594:6: describeQuery[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:594:6: describeQuery[$q]
                     {
                     pushFollow(FOLLOW_describeQuery_in_query1007);
                     describeQuery(q);
@@ -2339,7 +2339,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:595:6: askQuery[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:595:6: askQuery[$q]
                     {
                     pushFollow(FOLLOW_askQuery_in_query1015);
                     askQuery(q);
@@ -2371,7 +2371,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "prologue"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:604:1: prologue[Prologue p] : ( baseDecl )? ( prefixDecl )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:604:1: prologue[Prologue p] : ( baseDecl )? ( prefixDecl )* ;
     public final void prologue(Prologue p) throws RecognitionException {
         String baseDecl43 = null;
 
@@ -2379,10 +2379,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:605:2: ( ( baseDecl )? ( prefixDecl )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:605:4: ( baseDecl )? ( prefixDecl )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:605:2: ( ( baseDecl )? ( prefixDecl )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:605:4: ( baseDecl )? ( prefixDecl )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:605:4: ( baseDecl )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:605:4: ( baseDecl )?
             int alt17=2;
             int LA17_0 = input.LA(1);
 
@@ -2391,7 +2391,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt17) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:606:4: baseDecl
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:606:4: baseDecl
                     {
                     pushFollow(FOLLOW_baseDecl_in_prologue1048);
                     baseDecl43=baseDecl();
@@ -2405,7 +2405,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:609:3: ( prefixDecl )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:609:3: ( prefixDecl )*
             loop18:
             do {
                 int alt18=2;
@@ -2418,7 +2418,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt18) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:610:4: prefixDecl
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:610:4: prefixDecl
             	    {
             	    pushFollow(FOLLOW_prefixDecl_in_prologue1067);
             	    prefixDecl44=prefixDecl();
@@ -2451,15 +2451,15 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "baseDecl"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:618:1: baseDecl returns [String base] : ^( BASE_DECL ref= IRI_REF_TERM ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:618:1: baseDecl returns [String base] : ^( BASE_DECL ref= IRI_REF_TERM ) ;
     public final String baseDecl() throws RecognitionException {
         String base = null;
 
         CommonTree ref=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:620:2: ( ^( BASE_DECL ref= IRI_REF_TERM ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:620:4: ^( BASE_DECL ref= IRI_REF_TERM )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:620:2: ( ^( BASE_DECL ref= IRI_REF_TERM ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:620:4: ^( BASE_DECL ref= IRI_REF_TERM )
             {
             match(input,BASE_DECL,FOLLOW_BASE_DECL_in_baseDecl1096); 
 
@@ -2488,7 +2488,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "prefixDecl"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:627:1: prefixDecl returns [String prefix, String expansion] : ^( PREFIX_DECL pname= PNAME_NS ref= IRI_REF_TERM ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:627:1: prefixDecl returns [String prefix, String expansion] : ^( PREFIX_DECL pname= PNAME_NS ref= IRI_REF_TERM ) ;
     public final SparqlOwlTreeARQ.prefixDecl_return prefixDecl() throws RecognitionException {
         SparqlOwlTreeARQ.prefixDecl_return retval = new SparqlOwlTreeARQ.prefixDecl_return();
         retval.start = input.LT(1);
@@ -2497,8 +2497,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
         CommonTree ref=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:629:2: ( ^( PREFIX_DECL pname= PNAME_NS ref= IRI_REF_TERM ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:629:4: ^( PREFIX_DECL pname= PNAME_NS ref= IRI_REF_TERM )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:629:2: ( ^( PREFIX_DECL pname= PNAME_NS ref= IRI_REF_TERM ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:629:4: ^( PREFIX_DECL pname= PNAME_NS ref= IRI_REF_TERM )
             {
             match(input,PREFIX_DECL,FOLLOW_PREFIX_DECL_in_prefixDecl1124); 
 
@@ -2533,19 +2533,19 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "selectQuery"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:645:1: selectQuery[Query q] : ^( SELECT ( selectModifier[$q] )? selectVariableList[$q] ( datasets[$q] )? whereClause[$q] solutionModifier[$q] ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:645:1: selectQuery[Query q] : ^( SELECT ( selectModifier[$q] )? selectVariableList[$q] ( datasets[$q] )? whereClause[$q] solutionModifier[$q] ) ;
     public final void selectQuery(Query q) throws RecognitionException {
 
         		q.setQuerySelectType();
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:649:2: ( ^( SELECT ( selectModifier[$q] )? selectVariableList[$q] ( datasets[$q] )? whereClause[$q] solutionModifier[$q] ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:649:4: ^( SELECT ( selectModifier[$q] )? selectVariableList[$q] ( datasets[$q] )? whereClause[$q] solutionModifier[$q] )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:649:2: ( ^( SELECT ( selectModifier[$q] )? selectVariableList[$q] ( datasets[$q] )? whereClause[$q] solutionModifier[$q] ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:649:4: ^( SELECT ( selectModifier[$q] )? selectVariableList[$q] ( datasets[$q] )? whereClause[$q] solutionModifier[$q] )
             {
             match(input,SELECT,FOLLOW_SELECT_in_selectQuery1157); 
 
             match(input, Token.DOWN, null); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:649:13: ( selectModifier[$q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:649:13: ( selectModifier[$q] )?
             int alt19=2;
             int LA19_0 = input.LA(1);
 
@@ -2554,7 +2554,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt19) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:649:13: selectModifier[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:649:13: selectModifier[$q]
                     {
                     pushFollow(FOLLOW_selectModifier_in_selectQuery1159);
                     selectModifier(q);
@@ -2572,7 +2572,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             state._fsp--;
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:649:56: ( datasets[$q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:649:56: ( datasets[$q] )?
             int alt20=2;
             int LA20_0 = input.LA(1);
 
@@ -2581,7 +2581,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt20) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:649:56: datasets[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:649:56: datasets[$q]
                     {
                     pushFollow(FOLLOW_datasets_in_selectQuery1166);
                     datasets(q);
@@ -2622,10 +2622,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "selectModifier"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:652:1: selectModifier[Query q] : ( MODIFIER_DISTINCT | MODIFIER_REDUCED );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:652:1: selectModifier[Query q] : ( MODIFIER_DISTINCT | MODIFIER_REDUCED );
     public final void selectModifier(Query q) throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:653:2: ( MODIFIER_DISTINCT | MODIFIER_REDUCED )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:653:2: ( MODIFIER_DISTINCT | MODIFIER_REDUCED )
             int alt21=2;
             int LA21_0 = input.LA(1);
 
@@ -2643,7 +2643,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt21) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:653:4: MODIFIER_DISTINCT
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:653:4: MODIFIER_DISTINCT
                     {
                     match(input,MODIFIER_DISTINCT,FOLLOW_MODIFIER_DISTINCT_in_selectModifier1187); 
                      q.setDistinct( true ); 
@@ -2651,7 +2651,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:655:4: MODIFIER_REDUCED
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:655:4: MODIFIER_REDUCED
                     {
                     match(input,MODIFIER_REDUCED,FOLLOW_MODIFIER_REDUCED_in_selectModifier1196); 
                      q.setReduced( true ); 
@@ -2673,13 +2673,13 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "selectVariableList"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:659:1: selectVariableList[Query q] : ( ^( VARS ( var )+ ) | ALL_VARS );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:659:1: selectVariableList[Query q] : ( ^( VARS ( var )+ ) | ALL_VARS );
     public final void selectVariableList(Query q) throws RecognitionException {
         Node var45 = null;
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:660:2: ( ^( VARS ( var )+ ) | ALL_VARS )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:660:2: ( ^( VARS ( var )+ ) | ALL_VARS )
             int alt23=2;
             int LA23_0 = input.LA(1);
 
@@ -2697,12 +2697,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt23) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:660:4: ^( VARS ( var )+ )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:660:4: ^( VARS ( var )+ )
                     {
                     match(input,VARS,FOLLOW_VARS_in_selectVariableList1213); 
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:661:5: ( var )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:661:5: ( var )+
                     int cnt22=0;
                     loop22:
                     do {
@@ -2716,7 +2716,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                         switch (alt22) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:661:6: var
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:661:6: var
                     	    {
                     	    pushFollow(FOLLOW_var_in_selectVariableList1220);
                     	    var45=var();
@@ -2743,7 +2743,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:665:4: ALL_VARS
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:665:4: ALL_VARS
                     {
                     match(input,ALL_VARS,FOLLOW_ALL_VARS_in_selectVariableList1243); 
                      q.setQueryResultStar( true ); 
@@ -2765,7 +2765,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "constructQuery"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:672:1: constructQuery[Query q] : ^( CONSTRUCT constructTemplate ( datasets[$q] )? whereClause[$q] solutionModifier[$q] ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:672:1: constructQuery[Query q] : ^( CONSTRUCT constructTemplate ( datasets[$q] )? whereClause[$q] solutionModifier[$q] ) ;
     public final void constructQuery(Query q) throws RecognitionException {
         Template constructTemplate46 = null;
 
@@ -2774,8 +2774,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		q.setQueryConstructType();
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:676:2: ( ^( CONSTRUCT constructTemplate ( datasets[$q] )? whereClause[$q] solutionModifier[$q] ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:676:4: ^( CONSTRUCT constructTemplate ( datasets[$q] )? whereClause[$q] solutionModifier[$q] )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:676:2: ( ^( CONSTRUCT constructTemplate ( datasets[$q] )? whereClause[$q] solutionModifier[$q] ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:676:4: ^( CONSTRUCT constructTemplate ( datasets[$q] )? whereClause[$q] solutionModifier[$q] )
             {
             match(input,CONSTRUCT,FOLLOW_CONSTRUCT_in_constructQuery1269); 
 
@@ -2785,7 +2785,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             state._fsp--;
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:676:35: ( datasets[$q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:676:35: ( datasets[$q] )?
             int alt24=2;
             int LA24_0 = input.LA(1);
 
@@ -2794,7 +2794,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt24) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:676:35: datasets[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:676:35: datasets[$q]
                     {
                     pushFollow(FOLLOW_datasets_in_constructQuery1273);
                     datasets(q);
@@ -2836,14 +2836,14 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "describeQuery"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:683:1: describeQuery[Query q] : ^( DESCRIBE describeTargets[q] ( datasets[$q] )? ( whereClause[$q] )? solutionModifier[$q] ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:683:1: describeQuery[Query q] : ^( DESCRIBE describeTargets[q] ( datasets[$q] )? ( whereClause[$q] )? solutionModifier[$q] ) ;
     public final void describeQuery(Query q) throws RecognitionException {
 
         		q.setQueryDescribeType();
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:687:2: ( ^( DESCRIBE describeTargets[q] ( datasets[$q] )? ( whereClause[$q] )? solutionModifier[$q] ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:687:4: ^( DESCRIBE describeTargets[q] ( datasets[$q] )? ( whereClause[$q] )? solutionModifier[$q] )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:687:2: ( ^( DESCRIBE describeTargets[q] ( datasets[$q] )? ( whereClause[$q] )? solutionModifier[$q] ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:687:4: ^( DESCRIBE describeTargets[q] ( datasets[$q] )? ( whereClause[$q] )? solutionModifier[$q] )
             {
             match(input,DESCRIBE,FOLLOW_DESCRIBE_in_describeQuery1307); 
 
@@ -2853,7 +2853,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             state._fsp--;
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:687:34: ( datasets[$q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:687:34: ( datasets[$q] )?
             int alt25=2;
             int LA25_0 = input.LA(1);
 
@@ -2862,7 +2862,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt25) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:687:34: datasets[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:687:34: datasets[$q]
                     {
                     pushFollow(FOLLOW_datasets_in_describeQuery1312);
                     datasets(q);
@@ -2875,7 +2875,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:687:48: ( whereClause[$q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:687:48: ( whereClause[$q] )?
             int alt26=2;
             int LA26_0 = input.LA(1);
 
@@ -2884,7 +2884,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt26) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:687:48: whereClause[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:687:48: whereClause[$q]
                     {
                     pushFollow(FOLLOW_whereClause_in_describeQuery1316);
                     whereClause(q);
@@ -2920,13 +2920,13 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "describeTargets"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:690:1: describeTargets[Query q] : ( ^( VARS_OR_IRIS ( varOrIRIref )+ ) | ALL_VARS );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:690:1: describeTargets[Query q] : ( ^( VARS_OR_IRIS ( varOrIRIref )+ ) | ALL_VARS );
     public final void describeTargets(Query q) throws RecognitionException {
         Node varOrIRIref47 = null;
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:691:2: ( ^( VARS_OR_IRIS ( varOrIRIref )+ ) | ALL_VARS )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:691:2: ( ^( VARS_OR_IRIS ( varOrIRIref )+ ) | ALL_VARS )
             int alt28=2;
             int LA28_0 = input.LA(1);
 
@@ -2944,12 +2944,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt28) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:691:4: ^( VARS_OR_IRIS ( varOrIRIref )+ )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:691:4: ^( VARS_OR_IRIS ( varOrIRIref )+ )
                     {
                     match(input,VARS_OR_IRIS,FOLLOW_VARS_OR_IRIS_in_describeTargets1335); 
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:692:4: ( varOrIRIref )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:692:4: ( varOrIRIref )+
                     int cnt27=0;
                     loop27:
                     do {
@@ -2963,7 +2963,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                         switch (alt27) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:692:5: varOrIRIref
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:692:5: varOrIRIref
                     	    {
                     	    pushFollow(FOLLOW_varOrIRIref_in_describeTargets1341);
                     	    varOrIRIref47=varOrIRIref();
@@ -2990,7 +2990,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:696:4: ALL_VARS
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:696:4: ALL_VARS
                     {
                     match(input,ALL_VARS,FOLLOW_ALL_VARS_in_describeTargets1363); 
                      q.setQueryResultStar( true ); 
@@ -3012,19 +3012,19 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "askQuery"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:703:1: askQuery[Query q] : ^( ASK ( datasets[$q] )? whereClause[$q] ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:703:1: askQuery[Query q] : ^( ASK ( datasets[$q] )? whereClause[$q] ) ;
     public final void askQuery(Query q) throws RecognitionException {
 
         		q.setQueryAskType();
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:707:2: ( ^( ASK ( datasets[$q] )? whereClause[$q] ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:707:4: ^( ASK ( datasets[$q] )? whereClause[$q] )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:707:2: ( ^( ASK ( datasets[$q] )? whereClause[$q] ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:707:4: ^( ASK ( datasets[$q] )? whereClause[$q] )
             {
             match(input,ASK,FOLLOW_ASK_in_askQuery1388); 
 
             match(input, Token.DOWN, null); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:707:10: ( datasets[$q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:707:10: ( datasets[$q] )?
             int alt29=2;
             int LA29_0 = input.LA(1);
 
@@ -3033,7 +3033,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt29) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:707:10: datasets[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:707:10: datasets[$q]
                     {
                     pushFollow(FOLLOW_datasets_in_askQuery1390);
                     datasets(q);
@@ -3069,16 +3069,16 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "datasets"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:713:1: datasets[Query q] : ^( DATASETS ( datasetClause[$q] )+ ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:713:1: datasets[Query q] : ^( DATASETS ( datasetClause[$q] )+ ) ;
     public final void datasets(Query q) throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:714:2: ( ^( DATASETS ( datasetClause[$q] )+ ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:714:4: ^( DATASETS ( datasetClause[$q] )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:714:2: ( ^( DATASETS ( datasetClause[$q] )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:714:4: ^( DATASETS ( datasetClause[$q] )+ )
             {
             match(input,DATASETS,FOLLOW_DATASETS_in_datasets1411); 
 
             match(input, Token.DOWN, null); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:714:15: ( datasetClause[$q] )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:714:15: ( datasetClause[$q] )+
             int cnt30=0;
             loop30:
             do {
@@ -3092,7 +3092,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt30) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:714:15: datasetClause[$q]
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:714:15: datasetClause[$q]
             	    {
             	    pushFollow(FOLLOW_datasetClause_in_datasets1413);
             	    datasetClause(q);
@@ -3130,10 +3130,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "datasetClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:720:1: datasetClause[Query q] : ( defaultGraphClause[$q] | namedGraphClause[$q] );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:720:1: datasetClause[Query q] : ( defaultGraphClause[$q] | namedGraphClause[$q] );
     public final void datasetClause(Query q) throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:721:2: ( defaultGraphClause[$q] | namedGraphClause[$q] )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:721:2: ( defaultGraphClause[$q] | namedGraphClause[$q] )
             int alt31=2;
             int LA31_0 = input.LA(1);
 
@@ -3151,7 +3151,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt31) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:721:4: defaultGraphClause[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:721:4: defaultGraphClause[$q]
                     {
                     pushFollow(FOLLOW_defaultGraphClause_in_datasetClause1430);
                     defaultGraphClause(q);
@@ -3162,7 +3162,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:722:4: namedGraphClause[$q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:722:4: namedGraphClause[$q]
                     {
                     pushFollow(FOLLOW_namedGraphClause_in_datasetClause1436);
                     namedGraphClause(q);
@@ -3187,14 +3187,14 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "defaultGraphClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:728:1: defaultGraphClause[Query q] : ^( DEFAULT_GRAPH s= sourceSelector ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:728:1: defaultGraphClause[Query q] : ^( DEFAULT_GRAPH s= sourceSelector ) ;
     public final void defaultGraphClause(Query q) throws RecognitionException {
         Node s = null;
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:729:2: ( ^( DEFAULT_GRAPH s= sourceSelector ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:729:4: ^( DEFAULT_GRAPH s= sourceSelector )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:729:2: ( ^( DEFAULT_GRAPH s= sourceSelector ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:729:4: ^( DEFAULT_GRAPH s= sourceSelector )
             {
             match(input,DEFAULT_GRAPH,FOLLOW_DEFAULT_GRAPH_in_defaultGraphClause1452); 
 
@@ -3223,14 +3223,14 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "namedGraphClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:736:1: namedGraphClause[Query q] : ^( NAMED_GRAPH s= sourceSelector ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:736:1: namedGraphClause[Query q] : ^( NAMED_GRAPH s= sourceSelector ) ;
     public final void namedGraphClause(Query q) throws RecognitionException {
         Node s = null;
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:737:2: ( ^( NAMED_GRAPH s= sourceSelector ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:737:4: ^( NAMED_GRAPH s= sourceSelector )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:737:2: ( ^( NAMED_GRAPH s= sourceSelector ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:737:4: ^( NAMED_GRAPH s= sourceSelector )
             {
             match(input,NAMED_GRAPH,FOLLOW_NAMED_GRAPH_in_namedGraphClause1477); 
 
@@ -3259,7 +3259,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "sourceSelector"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:744:1: sourceSelector returns [Node s] : iriRef ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:744:1: sourceSelector returns [Node s] : iriRef ;
     public final Node sourceSelector() throws RecognitionException {
         Node s = null;
 
@@ -3267,8 +3267,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:746:2: ( iriRef )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:746:4: iriRef
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:746:2: ( iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:746:4: iriRef
             {
             pushFollow(FOLLOW_iriRef_in_sourceSelector1505);
             iriRef48=iriRef();
@@ -3292,14 +3292,14 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "whereClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:753:1: whereClause[Query q] : ^( WHERE_CLAUSE groupGraphPattern ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:753:1: whereClause[Query q] : ^( WHERE_CLAUSE groupGraphPattern ) ;
     public final void whereClause(Query q) throws RecognitionException {
         ElementGroup groupGraphPattern49 = null;
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:754:2: ( ^( WHERE_CLAUSE groupGraphPattern ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:754:4: ^( WHERE_CLAUSE groupGraphPattern )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:754:2: ( ^( WHERE_CLAUSE groupGraphPattern ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:754:4: ^( WHERE_CLAUSE groupGraphPattern )
             {
             match(input,WHERE_CLAUSE,FOLLOW_WHERE_CLAUSE_in_whereClause1524); 
 
@@ -3328,13 +3328,13 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "solutionModifier"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:762:1: solutionModifier[Query q] : ( orderClause[q] )? ( limitOffsetClauses[q] )? ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:762:1: solutionModifier[Query q] : ( orderClause[q] )? ( limitOffsetClauses[q] )? ;
     public final void solutionModifier(Query q) throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:763:2: ( ( orderClause[q] )? ( limitOffsetClauses[q] )? )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:763:4: ( orderClause[q] )? ( limitOffsetClauses[q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:763:2: ( ( orderClause[q] )? ( limitOffsetClauses[q] )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:763:4: ( orderClause[q] )? ( limitOffsetClauses[q] )?
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:763:4: ( orderClause[q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:763:4: ( orderClause[q] )?
             int alt32=2;
             int LA32_0 = input.LA(1);
 
@@ -3343,7 +3343,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt32) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:763:4: orderClause[q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:763:4: orderClause[q]
                     {
                     pushFollow(FOLLOW_orderClause_in_solutionModifier1546);
                     orderClause(q);
@@ -3356,7 +3356,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:763:20: ( limitOffsetClauses[q] )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:763:20: ( limitOffsetClauses[q] )?
             int alt33=2;
             int LA33_0 = input.LA(1);
 
@@ -3365,7 +3365,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt33) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:763:20: limitOffsetClauses[q]
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:763:20: limitOffsetClauses[q]
                     {
                     pushFollow(FOLLOW_limitOffsetClauses_in_solutionModifier1550);
                     limitOffsetClauses(q);
@@ -3394,7 +3394,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "limitOffsetClauses"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:769:1: limitOffsetClauses[Query q] : ( limitClause ( offsetClause )? | offsetClause ( limitClause )? );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:769:1: limitOffsetClauses[Query q] : ( limitClause ( offsetClause )? | offsetClause ( limitClause )? );
     public final void limitOffsetClauses(Query q) throws RecognitionException {
         long limitClause50 = 0;
 
@@ -3406,7 +3406,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:770:2: ( limitClause ( offsetClause )? | offsetClause ( limitClause )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:770:2: ( limitClause ( offsetClause )? | offsetClause ( limitClause )? )
             int alt36=2;
             int LA36_0 = input.LA(1);
 
@@ -3424,7 +3424,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt36) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:770:4: limitClause ( offsetClause )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:770:4: limitClause ( offsetClause )?
                     {
                     pushFollow(FOLLOW_limitClause_in_limitOffsetClauses1566);
                     limitClause50=limitClause();
@@ -3432,7 +3432,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     state._fsp--;
 
                      q.setLimit( limitClause50 ); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:771:3: ( offsetClause )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:771:3: ( offsetClause )?
                     int alt34=2;
                     int LA34_0 = input.LA(1);
 
@@ -3441,7 +3441,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     switch (alt34) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:771:4: offsetClause
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:771:4: offsetClause
                             {
                             pushFollow(FOLLOW_offsetClause_in_limitOffsetClauses1573);
                             offsetClause51=offsetClause();
@@ -3459,7 +3459,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:772:4: offsetClause ( limitClause )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:772:4: offsetClause ( limitClause )?
                     {
                     pushFollow(FOLLOW_offsetClause_in_limitOffsetClauses1583);
                     offsetClause52=offsetClause();
@@ -3467,7 +3467,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     state._fsp--;
 
                      q.setOffset( offsetClause52 ); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:773:3: ( limitClause )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:773:3: ( limitClause )?
                     int alt35=2;
                     int LA35_0 = input.LA(1);
 
@@ -3476,7 +3476,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     switch (alt35) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:773:4: limitClause
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:773:4: limitClause
                             {
                             pushFollow(FOLLOW_limitClause_in_limitOffsetClauses1590);
                             limitClause53=limitClause();
@@ -3508,16 +3508,16 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "orderClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:779:1: orderClause[Query q] : ^( ORDER_CLAUSE ( orderCondition[q] )+ ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:779:1: orderClause[Query q] : ^( ORDER_CLAUSE ( orderCondition[q] )+ ) ;
     public final void orderClause(Query q) throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:780:2: ( ^( ORDER_CLAUSE ( orderCondition[q] )+ ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:780:4: ^( ORDER_CLAUSE ( orderCondition[q] )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:780:2: ( ^( ORDER_CLAUSE ( orderCondition[q] )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:780:4: ^( ORDER_CLAUSE ( orderCondition[q] )+ )
             {
             match(input,ORDER_CLAUSE,FOLLOW_ORDER_CLAUSE_in_orderClause1610); 
 
             match(input, Token.DOWN, null); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:780:19: ( orderCondition[q] )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:780:19: ( orderCondition[q] )+
             int cnt37=0;
             loop37:
             do {
@@ -3531,7 +3531,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt37) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:780:19: orderCondition[q]
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:780:19: orderCondition[q]
             	    {
             	    pushFollow(FOLLOW_orderCondition_in_orderClause1612);
             	    orderCondition(q);
@@ -3569,7 +3569,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "orderCondition"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:786:1: orderCondition[Query q] : ( ^( ORDER_CONDITION_ASC expression ) | ^( ORDER_CONDITION_DESC expression ) | ^( ORDER_CONDITION_UNDEF expression ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:786:1: orderCondition[Query q] : ( ^( ORDER_CONDITION_ASC expression ) | ^( ORDER_CONDITION_DESC expression ) | ^( ORDER_CONDITION_UNDEF expression ) );
     public final void orderCondition(Query q) throws RecognitionException {
         Expr expression54 = null;
 
@@ -3579,7 +3579,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:787:2: ( ^( ORDER_CONDITION_ASC expression ) | ^( ORDER_CONDITION_DESC expression ) | ^( ORDER_CONDITION_UNDEF expression ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:787:2: ( ^( ORDER_CONDITION_ASC expression ) | ^( ORDER_CONDITION_DESC expression ) | ^( ORDER_CONDITION_UNDEF expression ) )
             int alt38=3;
             switch ( input.LA(1) ) {
             case ORDER_CONDITION_ASC:
@@ -3606,7 +3606,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt38) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:787:4: ^( ORDER_CONDITION_ASC expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:787:4: ^( ORDER_CONDITION_ASC expression )
                     {
                     match(input,ORDER_CONDITION_ASC,FOLLOW_ORDER_CONDITION_ASC_in_orderCondition1630); 
 
@@ -3623,7 +3623,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:789:4: ^( ORDER_CONDITION_DESC expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:789:4: ^( ORDER_CONDITION_DESC expression )
                     {
                     match(input,ORDER_CONDITION_DESC,FOLLOW_ORDER_CONDITION_DESC_in_orderCondition1643); 
 
@@ -3640,7 +3640,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:791:4: ^( ORDER_CONDITION_UNDEF expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:791:4: ^( ORDER_CONDITION_UNDEF expression )
                     {
                     match(input,ORDER_CONDITION_UNDEF,FOLLOW_ORDER_CONDITION_UNDEF_in_orderCondition1656); 
 
@@ -3671,15 +3671,15 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "limitClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:798:1: limitClause returns [long l] : ^( LIMIT_CLAUSE i= INTEGER ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:798:1: limitClause returns [long l] : ^( LIMIT_CLAUSE i= INTEGER ) ;
     public final long limitClause() throws RecognitionException {
         long l = 0;
 
         CommonTree i=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:800:2: ( ^( LIMIT_CLAUSE i= INTEGER ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:800:4: ^( LIMIT_CLAUSE i= INTEGER )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:800:2: ( ^( LIMIT_CLAUSE i= INTEGER ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:800:4: ^( LIMIT_CLAUSE i= INTEGER )
             {
             match(input,LIMIT_CLAUSE,FOLLOW_LIMIT_CLAUSE_in_limitClause1682); 
 
@@ -3704,15 +3704,15 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "offsetClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:807:1: offsetClause returns [long l] : ^( OFFSET_CLAUSE i= INTEGER ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:807:1: offsetClause returns [long l] : ^( OFFSET_CLAUSE i= INTEGER ) ;
     public final long offsetClause() throws RecognitionException {
         long l = 0;
 
         CommonTree i=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:809:2: ( ^( OFFSET_CLAUSE i= INTEGER ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:809:4: ^( OFFSET_CLAUSE i= INTEGER )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:809:2: ( ^( OFFSET_CLAUSE i= INTEGER ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:809:4: ^( OFFSET_CLAUSE i= INTEGER )
             {
             match(input,OFFSET_CLAUSE,FOLLOW_OFFSET_CLAUSE_in_offsetClause1710); 
 
@@ -3737,7 +3737,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "groupGraphPattern"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:816:1: groupGraphPattern returns [ElementGroup e] : ^( GROUP_GRAPH_PATTERN (tb1= triplesBlock )? ( ( graphPatternNotTriples | filter ) (tb2= triplesBlock )? )* ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:816:1: groupGraphPattern returns [ElementGroup e] : ^( GROUP_GRAPH_PATTERN (tb1= triplesBlock )? ( ( graphPatternNotTriples | filter ) (tb2= triplesBlock )? )* ) ;
     public final ElementGroup groupGraphPattern() throws RecognitionException {
         ElementGroup e = null;
 
@@ -3756,14 +3756,14 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		labelToBNode.clear();
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:823:2: ( ^( GROUP_GRAPH_PATTERN (tb1= triplesBlock )? ( ( graphPatternNotTriples | filter ) (tb2= triplesBlock )? )* ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:823:4: ^( GROUP_GRAPH_PATTERN (tb1= triplesBlock )? ( ( graphPatternNotTriples | filter ) (tb2= triplesBlock )? )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:823:2: ( ^( GROUP_GRAPH_PATTERN (tb1= triplesBlock )? ( ( graphPatternNotTriples | filter ) (tb2= triplesBlock )? )* ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:823:4: ^( GROUP_GRAPH_PATTERN (tb1= triplesBlock )? ( ( graphPatternNotTriples | filter ) (tb2= triplesBlock )? )* )
             {
             match(input,GROUP_GRAPH_PATTERN,FOLLOW_GROUP_GRAPH_PATTERN_in_groupGraphPattern1744); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:824:4: (tb1= triplesBlock )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:824:4: (tb1= triplesBlock )?
                 int alt39=2;
                 int LA39_0 = input.LA(1);
 
@@ -3772,7 +3772,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                 }
                 switch (alt39) {
                     case 1 :
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:824:6: tb1= triplesBlock
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:824:6: tb1= triplesBlock
                         {
                         pushFollow(FOLLOW_triplesBlock_in_groupGraphPattern1753);
                         tb1=triplesBlock();
@@ -3786,7 +3786,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 }
 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:825:4: ( ( graphPatternNotTriples | filter ) (tb2= triplesBlock )? )*
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:825:4: ( ( graphPatternNotTriples | filter ) (tb2= triplesBlock )? )*
                 loop42:
                 do {
                     int alt42=2;
@@ -3799,9 +3799,9 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                     switch (alt42) {
                 	case 1 :
-                	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:826:5: ( graphPatternNotTriples | filter ) (tb2= triplesBlock )?
+                	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:826:5: ( graphPatternNotTriples | filter ) (tb2= triplesBlock )?
                 	    {
-                	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:826:5: ( graphPatternNotTriples | filter )
+                	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:826:5: ( graphPatternNotTriples | filter )
                 	    int alt40=2;
                 	    int LA40_0 = input.LA(1);
 
@@ -3819,7 +3819,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                 	    }
                 	    switch (alt40) {
                 	        case 1 :
-                	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:826:7: graphPatternNotTriples
+                	            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:826:7: graphPatternNotTriples
                 	            {
                 	            pushFollow(FOLLOW_graphPatternNotTriples_in_groupGraphPattern1771);
                 	            graphPatternNotTriples57=graphPatternNotTriples();
@@ -3831,7 +3831,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                 	            }
                 	            break;
                 	        case 2 :
-                	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:827:7: filter
+                	            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:827:7: filter
                 	            {
                 	            pushFollow(FOLLOW_filter_in_groupGraphPattern1781);
                 	            filter58=filter();
@@ -3845,7 +3845,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 	    }
 
-                	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:829:5: (tb2= triplesBlock )?
+                	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:829:5: (tb2= triplesBlock )?
                 	    int alt41=2;
                 	    int LA41_0 = input.LA(1);
 
@@ -3854,7 +3854,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                 	    }
                 	    switch (alt41) {
                 	        case 1 :
-                	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:829:7: tb2= triplesBlock
+                	            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:829:7: tb2= triplesBlock
                 	            {
                 	            pushFollow(FOLLOW_triplesBlock_in_groupGraphPattern1799);
                 	            tb2=triplesBlock();
@@ -3896,7 +3896,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "triplesBlock"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:837:1: triplesBlock returns [ElementTriplesBlock e] : ( triplesSameSubject[$e] )+ ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:837:1: triplesBlock returns [ElementTriplesBlock e] : ( triplesSameSubject[$e] )+ ;
     public final ElementTriplesBlock triplesBlock() throws RecognitionException {
         ElementTriplesBlock e = null;
 
@@ -3905,10 +3905,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
          
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:843:2: ( ( triplesSameSubject[$e] )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:843:4: ( triplesSameSubject[$e] )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:843:2: ( ( triplesSameSubject[$e] )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:843:4: ( triplesSameSubject[$e] )+
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:843:4: ( triplesSameSubject[$e] )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:843:4: ( triplesSameSubject[$e] )+
             int cnt43=0;
             loop43:
             do {
@@ -3922,7 +3922,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt43) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:843:4: triplesSameSubject[$e]
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:843:4: triplesSameSubject[$e]
             	    {
             	    pushFollow(FOLLOW_triplesSameSubject_in_triplesBlock1838);
             	    triplesSameSubject(e);
@@ -3958,7 +3958,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "graphPatternNotTriples"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:849:1: graphPatternNotTriples returns [Element e] : ( optionalGraphPattern | groupOrUnionGraphPattern | graphGraphPattern );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:849:1: graphPatternNotTriples returns [Element e] : ( optionalGraphPattern | groupOrUnionGraphPattern | graphGraphPattern );
     public final Element graphPatternNotTriples() throws RecognitionException {
         Element e = null;
 
@@ -3970,7 +3970,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:851:2: ( optionalGraphPattern | groupOrUnionGraphPattern | graphGraphPattern )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:851:2: ( optionalGraphPattern | groupOrUnionGraphPattern | graphGraphPattern )
             int alt44=3;
             switch ( input.LA(1) ) {
             case OPTIONAL_GRAPH_PATTERN:
@@ -3998,7 +3998,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt44) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:851:4: optionalGraphPattern
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:851:4: optionalGraphPattern
                     {
                     pushFollow(FOLLOW_optionalGraphPattern_in_graphPatternNotTriples1858);
                     optionalGraphPattern59=optionalGraphPattern();
@@ -4010,7 +4010,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:852:4: groupOrUnionGraphPattern
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:852:4: groupOrUnionGraphPattern
                     {
                     pushFollow(FOLLOW_groupOrUnionGraphPattern_in_graphPatternNotTriples1865);
                     groupOrUnionGraphPattern60=groupOrUnionGraphPattern();
@@ -4022,7 +4022,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:853:4: graphGraphPattern
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:853:4: graphGraphPattern
                     {
                     pushFollow(FOLLOW_graphGraphPattern_in_graphPatternNotTriples1872);
                     graphGraphPattern61=graphGraphPattern();
@@ -4048,7 +4048,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "optionalGraphPattern"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:859:1: optionalGraphPattern returns [ElementOptional e] : ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:859:1: optionalGraphPattern returns [ElementOptional e] : ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern ) ;
     public final ElementOptional optionalGraphPattern() throws RecognitionException {
         ElementOptional e = null;
 
@@ -4056,8 +4056,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:861:2: ( ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:861:4: ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:861:2: ( ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:861:4: ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern )
             {
             match(input,OPTIONAL_GRAPH_PATTERN,FOLLOW_OPTIONAL_GRAPH_PATTERN_in_optionalGraphPattern1893); 
 
@@ -4086,7 +4086,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "graphGraphPattern"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:868:1: graphGraphPattern returns [ElementNamedGraph e] : ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:868:1: graphGraphPattern returns [ElementNamedGraph e] : ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern ) ;
     public final ElementNamedGraph graphGraphPattern() throws RecognitionException {
         ElementNamedGraph e = null;
 
@@ -4096,8 +4096,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:870:2: ( ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:870:4: ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:870:2: ( ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:870:4: ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern )
             {
             match(input,GRAPH_GRAPH_PATTERN,FOLLOW_GRAPH_GRAPH_PATTERN_in_graphGraphPattern1919); 
 
@@ -4136,7 +4136,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "groupOrUnionGraphPattern"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:877:1: groupOrUnionGraphPattern returns [Element e] : ( groupGraphPattern | ^( UNION_GRAPH_PATTERN a= groupOrUnionGraphPattern b= groupGraphPattern ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:877:1: groupOrUnionGraphPattern returns [Element e] : ( groupGraphPattern | ^( UNION_GRAPH_PATTERN a= groupOrUnionGraphPattern b= groupGraphPattern ) );
     public final Element groupOrUnionGraphPattern() throws RecognitionException {
         Element e = null;
 
@@ -4148,7 +4148,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:879:2: ( groupGraphPattern | ^( UNION_GRAPH_PATTERN a= groupOrUnionGraphPattern b= groupGraphPattern ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:879:2: ( groupGraphPattern | ^( UNION_GRAPH_PATTERN a= groupOrUnionGraphPattern b= groupGraphPattern ) )
             int alt45=2;
             int LA45_0 = input.LA(1);
 
@@ -4166,7 +4166,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt45) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:879:4: groupGraphPattern
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:879:4: groupGraphPattern
                     {
                     pushFollow(FOLLOW_groupGraphPattern_in_groupOrUnionGraphPattern1950);
                     groupGraphPattern65=groupGraphPattern();
@@ -4178,7 +4178,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:880:4: ^( UNION_GRAPH_PATTERN a= groupOrUnionGraphPattern b= groupGraphPattern )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:880:4: ^( UNION_GRAPH_PATTERN a= groupOrUnionGraphPattern b= groupGraphPattern )
                     {
                     match(input,UNION_GRAPH_PATTERN,FOLLOW_UNION_GRAPH_PATTERN_in_groupOrUnionGraphPattern1958); 
 
@@ -4219,7 +4219,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "filter"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:892:1: filter returns [ElementFilter e] : ^( FILTER constraint ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:892:1: filter returns [ElementFilter e] : ^( FILTER constraint ) ;
     public final ElementFilter filter() throws RecognitionException {
         ElementFilter e = null;
 
@@ -4227,8 +4227,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:894:2: ( ^( FILTER constraint ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:894:4: ^( FILTER constraint )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:894:2: ( ^( FILTER constraint ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:894:4: ^( FILTER constraint )
             {
             match(input,FILTER,FOLLOW_FILTER_in_filter1990); 
 
@@ -4257,7 +4257,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "constraint"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:901:1: constraint returns [Expr e] : expression ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:901:1: constraint returns [Expr e] : expression ;
     public final Expr constraint() throws RecognitionException {
         Expr e = null;
 
@@ -4265,8 +4265,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:903:2: ( expression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:903:4: expression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:903:2: ( expression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:903:4: expression
             {
             pushFollow(FOLLOW_expression_in_constraint2015);
             expression67=expression();
@@ -4290,7 +4290,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "functionCall"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:909:1: functionCall returns [Expr e] : ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:909:1: functionCall returns [Expr e] : ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) ;
     public final Expr functionCall() throws RecognitionException {
         Expr e = null;
 
@@ -4300,8 +4300,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:911:2: ( ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:911:4: ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:911:2: ( ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:911:4: ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) )
             {
             match(input,FUNCTION_CALL,FOLLOW_FUNCTION_CALL_in_functionCall2036); 
 
@@ -4347,7 +4347,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "argList"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:918:1: argList returns [ExprList l] : ( expression )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:918:1: argList returns [ExprList l] : ( expression )* ;
     public final ExprList argList() throws RecognitionException {
         ExprList l = null;
 
@@ -4356,10 +4356,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
          l = new ExprList(); 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:921:2: ( ( expression )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:921:4: ( expression )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:921:2: ( ( expression )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:921:4: ( expression )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:921:4: ( expression )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:921:4: ( expression )*
             loop46:
             do {
                 int alt46=2;
@@ -4372,7 +4372,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt46) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:921:6: expression
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:921:6: expression
             	    {
             	    pushFollow(FOLLOW_expression_in_argList2079);
             	    expression70=expression();
@@ -4405,24 +4405,23 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "constructTemplate"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:927:1: constructTemplate returns [Template t] : ^( CONSTRUCT_TEMPLATE ( constructTriples[tg] )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:927:1: constructTemplate returns [Template t] : ^( CONSTRUCT_TEMPLATE ( constructTriples[tg] )? ) ;
     public final Template constructTemplate() throws RecognitionException {
         Template t = null;
 
 
-        		TemplateGroup tg = new TemplateGroup();
-        		t = tg;
+        		TripleCollectorBGP tg = new TripleCollectorBGP();
         		this.inConstructTemplate = true;
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:934:2: ( ^( CONSTRUCT_TEMPLATE ( constructTriples[tg] )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:934:4: ^( CONSTRUCT_TEMPLATE ( constructTriples[tg] )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:933:2: ( ^( CONSTRUCT_TEMPLATE ( constructTriples[tg] )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:933:4: ^( CONSTRUCT_TEMPLATE ( constructTriples[tg] )? )
             {
             match(input,CONSTRUCT_TEMPLATE,FOLLOW_CONSTRUCT_TEMPLATE_in_constructTemplate2109); 
 
             if ( input.LA(1)==Token.DOWN ) {
                 match(input, Token.DOWN, null); 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:934:25: ( constructTriples[tg] )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:933:25: ( constructTriples[tg] )?
                 int alt47=2;
                 int LA47_0 = input.LA(1);
 
@@ -4431,7 +4430,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                 }
                 switch (alt47) {
                     case 1 :
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:934:25: constructTriples[tg]
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:933:25: constructTriples[tg]
                         {
                         pushFollow(FOLLOW_constructTriples_in_constructTemplate2111);
                         constructTriples(tg);
@@ -4456,7 +4455,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		throw rce;
         	}
         finally {
-             this.inConstructTemplate = false; 
+             
+            		this.inConstructTemplate = false;		
+            		t = new Template(tg.getBGP()); 
+            	
         }
         return t;
     }
@@ -4464,13 +4466,13 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "constructTriples"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:941:1: constructTriples[TemplateGroup e] : ( triplesSameSubject[$e] )+ ;
-    public final void constructTriples(TemplateGroup e) throws RecognitionException {
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:943:1: constructTriples[TripleCollector e] : ( triplesSameSubject[$e] )+ ;
+    public final void constructTriples(TripleCollector e) throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:942:2: ( ( triplesSameSubject[$e] )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:942:4: ( triplesSameSubject[$e] )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:944:2: ( ( triplesSameSubject[$e] )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:944:4: ( triplesSameSubject[$e] )+
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:942:4: ( triplesSameSubject[$e] )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:944:4: ( triplesSameSubject[$e] )+
             int cnt48=0;
             loop48:
             do {
@@ -4484,7 +4486,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt48) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:942:4: triplesSameSubject[$e]
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:944:4: triplesSameSubject[$e]
             	    {
             	    pushFollow(FOLLOW_triplesSameSubject_in_constructTriples2133);
             	    triplesSameSubject(e);
@@ -4520,7 +4522,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "triplesSameSubject"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:948:1: triplesSameSubject[TripleCollector e] : ^( SUBJECT_TRIPLE_GROUP ( ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty ) | ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? ) ) ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:950:1: triplesSameSubject[TripleCollector e] : ^( SUBJECT_TRIPLE_GROUP ( ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty ) | ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? ) ) ) ;
     public final void triplesSameSubject(TripleCollector e) throws RecognitionException {
         SparqlOwlTreeARQ.propertyListNotEmpty_return m = null;
 
@@ -4535,13 +4537,13 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		Node s = null;
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:952:2: ( ^( SUBJECT_TRIPLE_GROUP ( ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty ) | ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? ) ) ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:952:4: ^( SUBJECT_TRIPLE_GROUP ( ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty ) | ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:954:2: ( ^( SUBJECT_TRIPLE_GROUP ( ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty ) | ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? ) ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:954:4: ^( SUBJECT_TRIPLE_GROUP ( ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty ) | ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? ) ) )
             {
             match(input,SUBJECT_TRIPLE_GROUP,FOLLOW_SUBJECT_TRIPLE_GROUP_in_triplesSameSubject2156); 
 
             match(input, Token.DOWN, null); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:953:4: ( ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty ) | ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:955:4: ( ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty ) | ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? ) )
             int alt51=2;
             int LA51_0 = input.LA(1);
 
@@ -4627,15 +4629,15 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt51) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:953:6: ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:955:6: ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty )
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:953:6: ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty )
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:953:8: ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:955:6: ( ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:955:8: ^( SUBJECT ( varOrTerm | disjunction ) ) m= propertyListNotEmpty
                     {
                     match(input,SUBJECT,FOLLOW_SUBJECT_in_triplesSameSubject2166); 
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:954:7: ( varOrTerm | disjunction )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:956:7: ( varOrTerm | disjunction )
                     int alt49=2;
                     int LA49_0 = input.LA(1);
 
@@ -4653,7 +4655,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     switch (alt49) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:954:9: varOrTerm
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:956:9: varOrTerm
                             {
                             pushFollow(FOLLOW_varOrTerm_in_triplesSameSubject2176);
                             varOrTerm71=varOrTerm();
@@ -4665,7 +4667,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                             }
                             break;
                         case 2 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:956:9: disjunction
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:958:9: disjunction
                             {
                             pushFollow(FOLLOW_disjunction_in_triplesSameSubject2195);
                             disjunction72=disjunction();
@@ -4705,10 +4707,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:973:6: ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:975:6: ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? )
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:973:6: ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? )
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:973:8: ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:975:6: ( ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )? )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:975:8: ^( SUBJECT triplesNode ) (m= propertyListNotEmpty )?
                     {
                     match(input,SUBJECT,FOLLOW_SUBJECT_in_triplesSameSubject2246); 
 
@@ -4725,7 +4727,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     							e.addTriple( t );
                     						s = (triplesNode73!=null?triplesNode73.n:null);
                     					
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:979:6: (m= propertyListNotEmpty )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:981:6: (m= propertyListNotEmpty )?
                     int alt50=2;
                     int LA50_0 = input.LA(1);
 
@@ -4734,7 +4736,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     switch (alt50) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:979:8: m= propertyListNotEmpty
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:981:8: m= propertyListNotEmpty
                             {
                             pushFollow(FOLLOW_propertyListNotEmpty_in_triplesSameSubject2267);
                             m=propertyListNotEmpty();
@@ -4786,7 +4788,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "propertyListNotEmpty"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:997:1: propertyListNotEmpty returns [Map<Node,List<Node>> m, Collection<Triple> triples] : ( ^( VERB_PAIR_GROUP verb objectList ) )+ ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:999:1: propertyListNotEmpty returns [Map<Node,List<Node>> m, Collection<Triple> triples] : ( ^( VERB_PAIR_GROUP verb objectList ) )+ ;
     public final SparqlOwlTreeARQ.propertyListNotEmpty_return propertyListNotEmpty() throws RecognitionException {
         SparqlOwlTreeARQ.propertyListNotEmpty_return retval = new SparqlOwlTreeARQ.propertyListNotEmpty_return();
         retval.start = input.LT(1);
@@ -4801,10 +4803,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		retval.triples = new ArrayList<Triple>();
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1003:2: ( ( ^( VERB_PAIR_GROUP verb objectList ) )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1003:4: ( ^( VERB_PAIR_GROUP verb objectList ) )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1005:2: ( ( ^( VERB_PAIR_GROUP verb objectList ) )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1005:4: ( ^( VERB_PAIR_GROUP verb objectList ) )+
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1003:4: ( ^( VERB_PAIR_GROUP verb objectList ) )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1005:4: ( ^( VERB_PAIR_GROUP verb objectList ) )+
             int cnt52=0;
             loop52:
             do {
@@ -4818,7 +4820,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt52) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1004:4: ^( VERB_PAIR_GROUP verb objectList )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1006:4: ^( VERB_PAIR_GROUP verb objectList )
             	    {
             	    match(input,VERB_PAIR_GROUP,FOLLOW_VERB_PAIR_GROUP_in_propertyListNotEmpty2328); 
 
@@ -4876,7 +4878,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "objectList"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1019:1: objectList returns [List<Node> l, Collection<Triple> triples] : ( object )+ ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1021:1: objectList returns [List<Node> l, Collection<Triple> triples] : ( object )+ ;
     public final SparqlOwlTreeARQ.objectList_return objectList() throws RecognitionException {
         SparqlOwlTreeARQ.objectList_return retval = new SparqlOwlTreeARQ.objectList_return();
         retval.start = input.LT(1);
@@ -4889,10 +4891,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		retval.triples = new ArrayList<Triple>();
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1025:2: ( ( object )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1025:4: ( object )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1027:2: ( ( object )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1027:4: ( object )+
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1025:4: ( object )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1027:4: ( object )+
             int cnt53=0;
             loop53:
             do {
@@ -4906,7 +4908,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt53) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1025:6: object
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1027:6: object
             	    {
             	    pushFollow(FOLLOW_object_in_objectList2369);
             	    object76=object();
@@ -4950,7 +4952,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "object"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1037:1: object returns [Node n, Collection<Triple> triples] : ( ^( OBJECT graphNode ) | ^( OBJECT disjunction ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1039:1: object returns [Node n, Collection<Triple> triples] : ( ^( OBJECT graphNode ) | ^( OBJECT disjunction ) );
     public final SparqlOwlTreeARQ.object_return object() throws RecognitionException {
         SparqlOwlTreeARQ.object_return retval = new SparqlOwlTreeARQ.object_return();
         retval.start = input.LT(1);
@@ -4961,7 +4963,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1039:2: ( ^( OBJECT graphNode ) | ^( OBJECT disjunction ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1041:2: ( ^( OBJECT graphNode ) | ^( OBJECT disjunction ) )
             int alt54=2;
             int LA54_0 = input.LA(1);
 
@@ -4999,7 +5001,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt54) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1039:4: ^( OBJECT graphNode )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1041:4: ^( OBJECT graphNode )
                     {
                     match(input,OBJECT,FOLLOW_OBJECT_in_object2398); 
 
@@ -5019,7 +5021,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1044:4: ^( OBJECT disjunction )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1046:4: ^( OBJECT disjunction )
                     {
                     match(input,OBJECT,FOLLOW_OBJECT_in_object2411); 
 
@@ -5053,7 +5055,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "verb"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1055:1: verb returns [Node v] : ( ^( VERB varOrIRIref ) | ^( VERB RDF_TYPE ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1057:1: verb returns [Node v] : ( ^( VERB varOrIRIref ) | ^( VERB RDF_TYPE ) );
     public final Node verb() throws RecognitionException {
         Node v = null;
 
@@ -5061,7 +5063,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1057:2: ( ^( VERB varOrIRIref ) | ^( VERB RDF_TYPE ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1059:2: ( ^( VERB varOrIRIref ) | ^( VERB RDF_TYPE ) )
             int alt55=2;
             int LA55_0 = input.LA(1);
 
@@ -5099,7 +5101,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt55) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1057:4: ^( VERB varOrIRIref )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1059:4: ^( VERB varOrIRIref )
                     {
                     match(input,VERB,FOLLOW_VERB_in_verb2439); 
 
@@ -5116,7 +5118,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1058:4: ^( VERB RDF_TYPE )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1060:4: ^( VERB RDF_TYPE )
                     {
                     match(input,VERB,FOLLOW_VERB_in_verb2450); 
 
@@ -5147,7 +5149,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "triplesNode"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1064:1: triplesNode returns [Node n, Collection<Triple> triples] : ( collection | blankNodePropertyList );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1066:1: triplesNode returns [Node n, Collection<Triple> triples] : ( collection | blankNodePropertyList );
     public final SparqlOwlTreeARQ.triplesNode_return triplesNode() throws RecognitionException {
         SparqlOwlTreeARQ.triplesNode_return retval = new SparqlOwlTreeARQ.triplesNode_return();
         retval.start = input.LT(1);
@@ -5156,7 +5158,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1066:2: ( collection | blankNodePropertyList )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1068:2: ( collection | blankNodePropertyList )
             int alt56=2;
             int LA56_0 = input.LA(1);
 
@@ -5174,7 +5176,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt56) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1066:4: collection
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1068:4: collection
                     {
                     pushFollow(FOLLOW_collection_in_triplesNode2473);
                     collection80=collection();
@@ -5189,7 +5191,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1071:4: blankNodePropertyList
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1073:4: blankNodePropertyList
                     {
                     pushFollow(FOLLOW_blankNodePropertyList_in_triplesNode2482);
                     blankNodePropertyList();
@@ -5218,7 +5220,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "blankNodePropertyList"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1077:1: blankNodePropertyList returns [Node n, Collection<Triple> triples] : ^( BNODE_PROPERTY_LIST m= propertyListNotEmpty ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1079:1: blankNodePropertyList returns [Node n, Collection<Triple> triples] : ^( BNODE_PROPERTY_LIST m= propertyListNotEmpty ) ;
     public final SparqlOwlTreeARQ.blankNodePropertyList_return blankNodePropertyList() throws RecognitionException {
         SparqlOwlTreeARQ.blankNodePropertyList_return retval = new SparqlOwlTreeARQ.blankNodePropertyList_return();
         retval.start = input.LT(1);
@@ -5227,8 +5229,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1079:2: ( ^( BNODE_PROPERTY_LIST m= propertyListNotEmpty ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1079:4: ^( BNODE_PROPERTY_LIST m= propertyListNotEmpty )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1081:2: ( ^( BNODE_PROPERTY_LIST m= propertyListNotEmpty ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1081:4: ^( BNODE_PROPERTY_LIST m= propertyListNotEmpty )
             {
             match(input,BNODE_PROPERTY_LIST,FOLLOW_BNODE_PROPERTY_LIST_in_blankNodePropertyList2501); 
 
@@ -5268,7 +5270,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "collection"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1093:1: collection returns [Node n, Collection<Triple> triples] : ^( COLLECTION ( graphNode )+ ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1095:1: collection returns [Node n, Collection<Triple> triples] : ^( COLLECTION ( graphNode )+ ) ;
     public final SparqlOwlTreeARQ.collection_return collection() throws RecognitionException {
         SparqlOwlTreeARQ.collection_return retval = new SparqlOwlTreeARQ.collection_return();
         retval.start = input.LT(1);
@@ -5277,8 +5279,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1095:2: ( ^( COLLECTION ( graphNode )+ ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1095:4: ^( COLLECTION ( graphNode )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1097:2: ( ^( COLLECTION ( graphNode )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1097:4: ^( COLLECTION ( graphNode )+ )
             {
             match(input,COLLECTION,FOLLOW_COLLECTION_in_collection2529); 
 
@@ -5288,7 +5290,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             			
 
             match(input, Token.DOWN, null); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1100:4: ( graphNode )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1102:4: ( graphNode )+
             int cnt57=0;
             loop57:
             do {
@@ -5302,7 +5304,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                 switch (alt57) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1100:6: graphNode
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1102:6: graphNode
             	    {
             	    pushFollow(FOLLOW_graphNode_in_collection2541);
             	    graphNode81=graphNode();
@@ -5347,13 +5349,13 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "emptyCollection"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1115:1: emptyCollection returns [Node n] : COLLECTION ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1117:1: emptyCollection returns [Node n] : COLLECTION ;
     public final Node emptyCollection() throws RecognitionException {
         Node n = null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1117:2: ( COLLECTION )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1117:4: COLLECTION
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1119:2: ( COLLECTION )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1119:4: COLLECTION
             {
             match(input,COLLECTION,FOLLOW_COLLECTION_in_emptyCollection2580); 
              n = RDF.Nodes.nil; 
@@ -5377,7 +5379,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
     };
 
     // $ANTLR start "graphNode"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1123:1: graphNode returns [Node n, Collection<Triple> triples] : ( varOrTerm | triplesNode );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1125:1: graphNode returns [Node n, Collection<Triple> triples] : ( varOrTerm | triplesNode );
     public final SparqlOwlTreeARQ.graphNode_return graphNode() throws RecognitionException {
         SparqlOwlTreeARQ.graphNode_return retval = new SparqlOwlTreeARQ.graphNode_return();
         retval.start = input.LT(1);
@@ -5388,7 +5390,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1125:2: ( varOrTerm | triplesNode )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1127:2: ( varOrTerm | triplesNode )
             int alt58=2;
             switch ( input.LA(1) ) {
             case BLANK_NODE:
@@ -5439,7 +5441,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt58) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1125:4: varOrTerm
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1127:4: varOrTerm
                     {
                     pushFollow(FOLLOW_varOrTerm_in_graphNode2600);
                     varOrTerm82=varOrTerm();
@@ -5454,7 +5456,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1130:4: triplesNode
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1132:4: triplesNode
                     {
                     pushFollow(FOLLOW_triplesNode_in_graphNode2609);
                     triplesNode83=triplesNode();
@@ -5483,7 +5485,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "varOrTerm"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1140:1: varOrTerm returns [Node n] : ( var | graphTerm );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1142:1: varOrTerm returns [Node n] : ( var | graphTerm );
     public final Node varOrTerm() throws RecognitionException {
         Node n = null;
 
@@ -5493,7 +5495,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1142:2: ( var | graphTerm )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1144:2: ( var | graphTerm )
             int alt59=2;
             int LA59_0 = input.LA(1);
 
@@ -5511,7 +5513,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt59) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1142:4: var
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1144:4: var
                     {
                     pushFollow(FOLLOW_var_in_varOrTerm2631);
                     var84=var();
@@ -5523,7 +5525,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1144:4: graphTerm
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1146:4: graphTerm
                     {
                     pushFollow(FOLLOW_graphTerm_in_varOrTerm2640);
                     graphTerm85=graphTerm();
@@ -5549,7 +5551,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "varOrIRIref"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1151:1: varOrIRIref returns [Node n] : ( var | iriRef );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1153:1: varOrIRIref returns [Node n] : ( var | iriRef );
     public final Node varOrIRIref() throws RecognitionException {
         Node n = null;
 
@@ -5559,7 +5561,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1153:2: ( var | iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1155:2: ( var | iriRef )
             int alt60=2;
             int LA60_0 = input.LA(1);
 
@@ -5577,7 +5579,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt60) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1153:4: var
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1155:4: var
                     {
                     pushFollow(FOLLOW_var_in_varOrIRIref2662);
                     var86=var();
@@ -5589,7 +5591,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1154:4: iriRef
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1156:4: iriRef
                     {
                     pushFollow(FOLLOW_iriRef_in_varOrIRIref2669);
                     iriRef87=iriRef();
@@ -5615,20 +5617,20 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "var"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1160:1: var returns [Node v] : ^( VARIABLE (t= VAR1 | t= VAR2 ) ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1162:1: var returns [Node v] : ^( VARIABLE (t= VAR1 | t= VAR2 ) ) ;
     public final Node var() throws RecognitionException {
         Node v = null;
 
         CommonTree t=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1162:2: ( ^( VARIABLE (t= VAR1 | t= VAR2 ) ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1162:4: ^( VARIABLE (t= VAR1 | t= VAR2 ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1164:2: ( ^( VARIABLE (t= VAR1 | t= VAR2 ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1164:4: ^( VARIABLE (t= VAR1 | t= VAR2 ) )
             {
             match(input,VARIABLE,FOLLOW_VARIABLE_in_var2690); 
 
             match(input, Token.DOWN, null); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1162:15: (t= VAR1 | t= VAR2 )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1164:15: (t= VAR1 | t= VAR2 )
             int alt61=2;
             int LA61_0 = input.LA(1);
 
@@ -5646,14 +5648,14 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt61) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1162:16: t= VAR1
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1164:16: t= VAR1
                     {
                     t=(CommonTree)match(input,VAR1,FOLLOW_VAR1_in_var2695); 
 
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1162:23: t= VAR2
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1164:23: t= VAR2
                     {
                     t=(CommonTree)match(input,VAR2,FOLLOW_VAR2_in_var2699); 
 
@@ -5681,7 +5683,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "graphTerm"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1169:1: graphTerm returns [Node n] : ( iriRef | literal | blankNode | emptyCollection );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1171:1: graphTerm returns [Node n] : ( iriRef | literal | blankNode | emptyCollection );
     public final Node graphTerm() throws RecognitionException {
         Node n = null;
 
@@ -5695,7 +5697,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1171:2: ( iriRef | literal | blankNode | emptyCollection )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1173:2: ( iriRef | literal | blankNode | emptyCollection )
             int alt62=4;
             switch ( input.LA(1) ) {
             case IRI_REF:
@@ -5735,7 +5737,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt62) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1171:4: iriRef
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1173:4: iriRef
                     {
                     pushFollow(FOLLOW_iriRef_in_graphTerm2723);
                     iriRef88=iriRef();
@@ -5747,7 +5749,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1173:4: literal
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1175:4: literal
                     {
                     pushFollow(FOLLOW_literal_in_graphTerm2732);
                     literal89=literal();
@@ -5759,7 +5761,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1175:4: blankNode
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1177:4: blankNode
                     {
                     pushFollow(FOLLOW_blankNode_in_graphTerm2741);
                     blankNode90=blankNode();
@@ -5771,7 +5773,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1177:4: emptyCollection
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1179:4: emptyCollection
                     {
                     pushFollow(FOLLOW_emptyCollection_in_graphTerm2750);
                     emptyCollection91=emptyCollection();
@@ -5797,7 +5799,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "expression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1185:1: expression returns [Expr e] : ( conditionalOrExpression | conditionalAndExpression | valueLogical );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1187:1: expression returns [Expr e] : ( conditionalOrExpression | conditionalAndExpression | valueLogical );
     public final Expr expression() throws RecognitionException {
         Expr e = null;
 
@@ -5809,7 +5811,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1187:2: ( conditionalOrExpression | conditionalAndExpression | valueLogical )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1189:2: ( conditionalOrExpression | conditionalAndExpression | valueLogical )
             int alt63=3;
             switch ( input.LA(1) ) {
             case CONDITIONAL_EXPRESSION_OR:
@@ -5872,7 +5874,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt63) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1187:4: conditionalOrExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1189:4: conditionalOrExpression
                     {
                     pushFollow(FOLLOW_conditionalOrExpression_in_expression2773);
                     conditionalOrExpression92=conditionalOrExpression();
@@ -5884,7 +5886,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1189:4: conditionalAndExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1191:4: conditionalAndExpression
                     {
                     pushFollow(FOLLOW_conditionalAndExpression_in_expression2782);
                     conditionalAndExpression93=conditionalAndExpression();
@@ -5896,7 +5898,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1191:4: valueLogical
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1193:4: valueLogical
                     {
                     pushFollow(FOLLOW_valueLogical_in_expression2791);
                     valueLogical94=valueLogical();
@@ -5922,7 +5924,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "conditionalOrExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1198:1: conditionalOrExpression returns [Expr e] : ^( CONDITIONAL_EXPRESSION_OR a= expression b= expression ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1200:1: conditionalOrExpression returns [Expr e] : ^( CONDITIONAL_EXPRESSION_OR a= expression b= expression ) ;
     public final Expr conditionalOrExpression() throws RecognitionException {
         Expr e = null;
 
@@ -5932,8 +5934,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1200:2: ( ^( CONDITIONAL_EXPRESSION_OR a= expression b= expression ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1200:4: ^( CONDITIONAL_EXPRESSION_OR a= expression b= expression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1202:2: ( ^( CONDITIONAL_EXPRESSION_OR a= expression b= expression ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1202:4: ^( CONDITIONAL_EXPRESSION_OR a= expression b= expression )
             {
             match(input,CONDITIONAL_EXPRESSION_OR,FOLLOW_CONDITIONAL_EXPRESSION_OR_in_conditionalOrExpression2814); 
 
@@ -5967,7 +5969,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "conditionalAndExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1207:1: conditionalAndExpression returns [Expr e] : ^( CONDITIONAL_EXPRESSION_AND a= expression b= expression ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1209:1: conditionalAndExpression returns [Expr e] : ^( CONDITIONAL_EXPRESSION_AND a= expression b= expression ) ;
     public final Expr conditionalAndExpression() throws RecognitionException {
         Expr e = null;
 
@@ -5977,8 +5979,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1209:2: ( ^( CONDITIONAL_EXPRESSION_AND a= expression b= expression ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1209:4: ^( CONDITIONAL_EXPRESSION_AND a= expression b= expression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1211:2: ( ^( CONDITIONAL_EXPRESSION_AND a= expression b= expression ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1211:4: ^( CONDITIONAL_EXPRESSION_AND a= expression b= expression )
             {
             match(input,CONDITIONAL_EXPRESSION_AND,FOLLOW_CONDITIONAL_EXPRESSION_AND_in_conditionalAndExpression2846); 
 
@@ -6012,7 +6014,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "valueLogical"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1216:1: valueLogical returns [Expr e] : relationalExpression ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1218:1: valueLogical returns [Expr e] : relationalExpression ;
     public final Expr valueLogical() throws RecognitionException {
         Expr e = null;
 
@@ -6020,8 +6022,8 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1218:2: ( relationalExpression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1218:4: relationalExpression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1220:2: ( relationalExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1220:4: relationalExpression
             {
             pushFollow(FOLLOW_relationalExpression_in_valueLogical2877);
             relationalExpression95=relationalExpression();
@@ -6045,7 +6047,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "relationalExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1225:1: relationalExpression returns [Expr e] : ( numericExpression | ^( RELATIONAL_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_NOT_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_LESS a= numericExpression b= numericExpression ) | ^( RELATIONAL_GREATER a= numericExpression b= numericExpression ) | ^( RELATIONAL_LESS_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_GREATER_EQUAL a= numericExpression b= numericExpression ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1227:1: relationalExpression returns [Expr e] : ( numericExpression | ^( RELATIONAL_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_NOT_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_LESS a= numericExpression b= numericExpression ) | ^( RELATIONAL_GREATER a= numericExpression b= numericExpression ) | ^( RELATIONAL_LESS_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_GREATER_EQUAL a= numericExpression b= numericExpression ) );
     public final Expr relationalExpression() throws RecognitionException {
         Expr e = null;
 
@@ -6057,7 +6059,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1227:2: ( numericExpression | ^( RELATIONAL_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_NOT_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_LESS a= numericExpression b= numericExpression ) | ^( RELATIONAL_GREATER a= numericExpression b= numericExpression ) | ^( RELATIONAL_LESS_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_GREATER_EQUAL a= numericExpression b= numericExpression ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1229:2: ( numericExpression | ^( RELATIONAL_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_NOT_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_LESS a= numericExpression b= numericExpression ) | ^( RELATIONAL_GREATER a= numericExpression b= numericExpression ) | ^( RELATIONAL_LESS_EQUAL a= numericExpression b= numericExpression ) | ^( RELATIONAL_GREATER_EQUAL a= numericExpression b= numericExpression ) )
             int alt64=7;
             switch ( input.LA(1) ) {
             case BUILTIN_BOUND:
@@ -6134,7 +6136,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt64) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1227:4: numericExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1229:4: numericExpression
                     {
                     pushFollow(FOLLOW_numericExpression_in_relationalExpression2899);
                     numericExpression96=numericExpression();
@@ -6146,7 +6148,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1229:4: ^( RELATIONAL_EQUAL a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1231:4: ^( RELATIONAL_EQUAL a= numericExpression b= numericExpression )
                     {
                     match(input,RELATIONAL_EQUAL,FOLLOW_RELATIONAL_EQUAL_in_relationalExpression2909); 
 
@@ -6168,7 +6170,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1231:4: ^( RELATIONAL_NOT_EQUAL a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1233:4: ^( RELATIONAL_NOT_EQUAL a= numericExpression b= numericExpression )
                     {
                     match(input,RELATIONAL_NOT_EQUAL,FOLLOW_RELATIONAL_NOT_EQUAL_in_relationalExpression2928); 
 
@@ -6190,7 +6192,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1233:4: ^( RELATIONAL_LESS a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1235:4: ^( RELATIONAL_LESS a= numericExpression b= numericExpression )
                     {
                     match(input,RELATIONAL_LESS,FOLLOW_RELATIONAL_LESS_in_relationalExpression2947); 
 
@@ -6212,7 +6214,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1235:4: ^( RELATIONAL_GREATER a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1237:4: ^( RELATIONAL_GREATER a= numericExpression b= numericExpression )
                     {
                     match(input,RELATIONAL_GREATER,FOLLOW_RELATIONAL_GREATER_in_relationalExpression2966); 
 
@@ -6234,7 +6236,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 6 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1237:4: ^( RELATIONAL_LESS_EQUAL a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1239:4: ^( RELATIONAL_LESS_EQUAL a= numericExpression b= numericExpression )
                     {
                     match(input,RELATIONAL_LESS_EQUAL,FOLLOW_RELATIONAL_LESS_EQUAL_in_relationalExpression2985); 
 
@@ -6256,7 +6258,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 7 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1239:4: ^( RELATIONAL_GREATER_EQUAL a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1241:4: ^( RELATIONAL_GREATER_EQUAL a= numericExpression b= numericExpression )
                     {
                     match(input,RELATIONAL_GREATER_EQUAL,FOLLOW_RELATIONAL_GREATER_EQUAL_in_relationalExpression3004); 
 
@@ -6292,7 +6294,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "numericExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1246:1: numericExpression returns [Expr e] : ( additiveExpression | multiplicativeExpression | unaryExpression );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1248:1: numericExpression returns [Expr e] : ( additiveExpression | multiplicativeExpression | unaryExpression );
     public final Expr numericExpression() throws RecognitionException {
         Expr e = null;
 
@@ -6304,7 +6306,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1248:2: ( additiveExpression | multiplicativeExpression | unaryExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1250:2: ( additiveExpression | multiplicativeExpression | unaryExpression )
             int alt65=3;
             switch ( input.LA(1) ) {
             case NUMERIC_EXPRESSION_ADD:
@@ -6359,7 +6361,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt65) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1248:4: additiveExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1250:4: additiveExpression
                     {
                     pushFollow(FOLLOW_additiveExpression_in_numericExpression3035);
                     additiveExpression97=additiveExpression();
@@ -6371,7 +6373,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1250:4: multiplicativeExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1252:4: multiplicativeExpression
                     {
                     pushFollow(FOLLOW_multiplicativeExpression_in_numericExpression3044);
                     multiplicativeExpression98=multiplicativeExpression();
@@ -6383,7 +6385,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1252:4: unaryExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1254:4: unaryExpression
                     {
                     pushFollow(FOLLOW_unaryExpression_in_numericExpression3053);
                     unaryExpression99=unaryExpression();
@@ -6409,7 +6411,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "additiveExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1259:1: additiveExpression returns [Expr e] : ( ^( NUMERIC_EXPRESSION_ADD a= numericExpression b= numericExpression ) | ^( NUMERIC_EXPRESSION_SUBTRACT a= numericExpression b= numericExpression ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1261:1: additiveExpression returns [Expr e] : ( ^( NUMERIC_EXPRESSION_ADD a= numericExpression b= numericExpression ) | ^( NUMERIC_EXPRESSION_SUBTRACT a= numericExpression b= numericExpression ) );
     public final Expr additiveExpression() throws RecognitionException {
         Expr e = null;
 
@@ -6419,7 +6421,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1261:2: ( ^( NUMERIC_EXPRESSION_ADD a= numericExpression b= numericExpression ) | ^( NUMERIC_EXPRESSION_SUBTRACT a= numericExpression b= numericExpression ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1263:2: ( ^( NUMERIC_EXPRESSION_ADD a= numericExpression b= numericExpression ) | ^( NUMERIC_EXPRESSION_SUBTRACT a= numericExpression b= numericExpression ) )
             int alt66=2;
             int LA66_0 = input.LA(1);
 
@@ -6437,7 +6439,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt66) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1261:4: ^( NUMERIC_EXPRESSION_ADD a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1263:4: ^( NUMERIC_EXPRESSION_ADD a= numericExpression b= numericExpression )
                     {
                     match(input,NUMERIC_EXPRESSION_ADD,FOLLOW_NUMERIC_EXPRESSION_ADD_in_additiveExpression3076); 
 
@@ -6459,7 +6461,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1263:4: ^( NUMERIC_EXPRESSION_SUBTRACT a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1265:4: ^( NUMERIC_EXPRESSION_SUBTRACT a= numericExpression b= numericExpression )
                     {
                     match(input,NUMERIC_EXPRESSION_SUBTRACT,FOLLOW_NUMERIC_EXPRESSION_SUBTRACT_in_additiveExpression3095); 
 
@@ -6495,7 +6497,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "multiplicativeExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1270:1: multiplicativeExpression returns [Expr e] : ( ^( NUMERIC_EXPRESSION_MULTIPLY a= numericExpression b= numericExpression ) | ^( NUMERIC_EXPRESSION_DIVIDE a= numericExpression b= numericExpression ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1272:1: multiplicativeExpression returns [Expr e] : ( ^( NUMERIC_EXPRESSION_MULTIPLY a= numericExpression b= numericExpression ) | ^( NUMERIC_EXPRESSION_DIVIDE a= numericExpression b= numericExpression ) );
     public final Expr multiplicativeExpression() throws RecognitionException {
         Expr e = null;
 
@@ -6505,7 +6507,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1272:2: ( ^( NUMERIC_EXPRESSION_MULTIPLY a= numericExpression b= numericExpression ) | ^( NUMERIC_EXPRESSION_DIVIDE a= numericExpression b= numericExpression ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1274:2: ( ^( NUMERIC_EXPRESSION_MULTIPLY a= numericExpression b= numericExpression ) | ^( NUMERIC_EXPRESSION_DIVIDE a= numericExpression b= numericExpression ) )
             int alt67=2;
             int LA67_0 = input.LA(1);
 
@@ -6523,7 +6525,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt67) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1272:4: ^( NUMERIC_EXPRESSION_MULTIPLY a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1274:4: ^( NUMERIC_EXPRESSION_MULTIPLY a= numericExpression b= numericExpression )
                     {
                     match(input,NUMERIC_EXPRESSION_MULTIPLY,FOLLOW_NUMERIC_EXPRESSION_MULTIPLY_in_multiplicativeExpression3127); 
 
@@ -6545,7 +6547,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1274:4: ^( NUMERIC_EXPRESSION_DIVIDE a= numericExpression b= numericExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1276:4: ^( NUMERIC_EXPRESSION_DIVIDE a= numericExpression b= numericExpression )
                     {
                     match(input,NUMERIC_EXPRESSION_DIVIDE,FOLLOW_NUMERIC_EXPRESSION_DIVIDE_in_multiplicativeExpression3147); 
 
@@ -6581,7 +6583,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "unaryExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1281:1: unaryExpression returns [Expr e] : ( ^( UNARY_EXPRESSION_NOT primaryExpression ) | ^( UNARY_EXPRESSION_POSITIVE primaryExpression ) | ^( UNARY_EXPRESSION_NEGATIVE primaryExpression ) | primaryExpression );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1283:1: unaryExpression returns [Expr e] : ( ^( UNARY_EXPRESSION_NOT primaryExpression ) | ^( UNARY_EXPRESSION_POSITIVE primaryExpression ) | ^( UNARY_EXPRESSION_NEGATIVE primaryExpression ) | primaryExpression );
     public final Expr unaryExpression() throws RecognitionException {
         Expr e = null;
 
@@ -6595,7 +6597,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1283:2: ( ^( UNARY_EXPRESSION_NOT primaryExpression ) | ^( UNARY_EXPRESSION_POSITIVE primaryExpression ) | ^( UNARY_EXPRESSION_NEGATIVE primaryExpression ) | primaryExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1285:2: ( ^( UNARY_EXPRESSION_NOT primaryExpression ) | ^( UNARY_EXPRESSION_POSITIVE primaryExpression ) | ^( UNARY_EXPRESSION_NEGATIVE primaryExpression ) | primaryExpression )
             int alt68=4;
             switch ( input.LA(1) ) {
             case UNARY_EXPRESSION_NOT:
@@ -6650,7 +6652,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt68) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1283:4: ^( UNARY_EXPRESSION_NOT primaryExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1285:4: ^( UNARY_EXPRESSION_NOT primaryExpression )
                     {
                     match(input,UNARY_EXPRESSION_NOT,FOLLOW_UNARY_EXPRESSION_NOT_in_unaryExpression3180); 
 
@@ -6667,7 +6669,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1285:4: ^( UNARY_EXPRESSION_POSITIVE primaryExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1287:4: ^( UNARY_EXPRESSION_POSITIVE primaryExpression )
                     {
                     match(input,UNARY_EXPRESSION_POSITIVE,FOLLOW_UNARY_EXPRESSION_POSITIVE_in_unaryExpression3193); 
 
@@ -6684,7 +6686,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1287:4: ^( UNARY_EXPRESSION_NEGATIVE primaryExpression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1289:4: ^( UNARY_EXPRESSION_NEGATIVE primaryExpression )
                     {
                     match(input,UNARY_EXPRESSION_NEGATIVE,FOLLOW_UNARY_EXPRESSION_NEGATIVE_in_unaryExpression3206); 
 
@@ -6701,7 +6703,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1289:4: primaryExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1291:4: primaryExpression
                     {
                     pushFollow(FOLLOW_primaryExpression_in_unaryExpression3218);
                     primaryExpression103=primaryExpression();
@@ -6727,7 +6729,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "primaryExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1298:1: primaryExpression returns [Expr e] : ( builtInCall | iriRefOrFunction | literal | var );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1300:1: primaryExpression returns [Expr e] : ( builtInCall | iriRefOrFunction | literal | var );
     public final Expr primaryExpression() throws RecognitionException {
         Expr e = null;
 
@@ -6741,7 +6743,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1300:2: ( builtInCall | iriRefOrFunction | literal | var )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1302:2: ( builtInCall | iriRefOrFunction | literal | var )
             int alt69=4;
             switch ( input.LA(1) ) {
             case BUILTIN_BOUND:
@@ -6793,7 +6795,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt69) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1300:4: builtInCall
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1302:4: builtInCall
                     {
                     pushFollow(FOLLOW_builtInCall_in_primaryExpression3240);
                     builtInCall104=builtInCall();
@@ -6805,7 +6807,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1301:4: iriRefOrFunction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1303:4: iriRefOrFunction
                     {
                     pushFollow(FOLLOW_iriRefOrFunction_in_primaryExpression3247);
                     iriRefOrFunction105=iriRefOrFunction();
@@ -6817,7 +6819,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1302:4: literal
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1304:4: literal
                     {
                     pushFollow(FOLLOW_literal_in_primaryExpression3254);
                     literal106=literal();
@@ -6829,7 +6831,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1303:4: var
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1305:4: var
                     {
                     pushFollow(FOLLOW_var_in_primaryExpression3261);
                     var107=var();
@@ -6855,7 +6857,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "builtInCall"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1309:1: builtInCall returns [Expr e] : ( ^( BUILTIN_STR expression ) | ^( BUILTIN_LANG expression ) | ^( BUILTIN_LANGMATCHES a= expression b= expression ) | ^( BUILTIN_DATATYPE expression ) | ^( BUILTIN_BOUND var ) | ^( BUILTIN_SAME_TERM a= expression b= expression ) | ^( BUILTIN_IS_IRI expression ) | ^( BUILTIN_IS_URI expression ) | ^( BUILTIN_IS_BLANK expression ) | ^( BUILTIN_IS_LITERAL expression ) | regexExpression );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1311:1: builtInCall returns [Expr e] : ( ^( BUILTIN_STR expression ) | ^( BUILTIN_LANG expression ) | ^( BUILTIN_LANGMATCHES a= expression b= expression ) | ^( BUILTIN_DATATYPE expression ) | ^( BUILTIN_BOUND var ) | ^( BUILTIN_SAME_TERM a= expression b= expression ) | ^( BUILTIN_IS_IRI expression ) | ^( BUILTIN_IS_URI expression ) | ^( BUILTIN_IS_BLANK expression ) | ^( BUILTIN_IS_LITERAL expression ) | regexExpression );
     public final Expr builtInCall() throws RecognitionException {
         Expr e = null;
 
@@ -6883,7 +6885,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1311:2: ( ^( BUILTIN_STR expression ) | ^( BUILTIN_LANG expression ) | ^( BUILTIN_LANGMATCHES a= expression b= expression ) | ^( BUILTIN_DATATYPE expression ) | ^( BUILTIN_BOUND var ) | ^( BUILTIN_SAME_TERM a= expression b= expression ) | ^( BUILTIN_IS_IRI expression ) | ^( BUILTIN_IS_URI expression ) | ^( BUILTIN_IS_BLANK expression ) | ^( BUILTIN_IS_LITERAL expression ) | regexExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1313:2: ( ^( BUILTIN_STR expression ) | ^( BUILTIN_LANG expression ) | ^( BUILTIN_LANGMATCHES a= expression b= expression ) | ^( BUILTIN_DATATYPE expression ) | ^( BUILTIN_BOUND var ) | ^( BUILTIN_SAME_TERM a= expression b= expression ) | ^( BUILTIN_IS_IRI expression ) | ^( BUILTIN_IS_URI expression ) | ^( BUILTIN_IS_BLANK expression ) | ^( BUILTIN_IS_LITERAL expression ) | regexExpression )
             int alt70=11;
             switch ( input.LA(1) ) {
             case BUILTIN_STR:
@@ -6951,7 +6953,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt70) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1311:4: ^( BUILTIN_STR expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1313:4: ^( BUILTIN_STR expression )
                     {
                     match(input,BUILTIN_STR,FOLLOW_BUILTIN_STR_in_builtInCall3282); 
 
@@ -6968,7 +6970,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1313:4: ^( BUILTIN_LANG expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1315:4: ^( BUILTIN_LANG expression )
                     {
                     match(input,BUILTIN_LANG,FOLLOW_BUILTIN_LANG_in_builtInCall3295); 
 
@@ -6985,7 +6987,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1315:4: ^( BUILTIN_LANGMATCHES a= expression b= expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1317:4: ^( BUILTIN_LANGMATCHES a= expression b= expression )
                     {
                     match(input,BUILTIN_LANGMATCHES,FOLLOW_BUILTIN_LANGMATCHES_in_builtInCall3308); 
 
@@ -7007,7 +7009,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1317:4: ^( BUILTIN_DATATYPE expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1319:4: ^( BUILTIN_DATATYPE expression )
                     {
                     match(input,BUILTIN_DATATYPE,FOLLOW_BUILTIN_DATATYPE_in_builtInCall3327); 
 
@@ -7024,7 +7026,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1319:4: ^( BUILTIN_BOUND var )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1321:4: ^( BUILTIN_BOUND var )
                     {
                     match(input,BUILTIN_BOUND,FOLLOW_BUILTIN_BOUND_in_builtInCall3340); 
 
@@ -7041,7 +7043,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 6 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1321:4: ^( BUILTIN_SAME_TERM a= expression b= expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1323:4: ^( BUILTIN_SAME_TERM a= expression b= expression )
                     {
                     match(input,BUILTIN_SAME_TERM,FOLLOW_BUILTIN_SAME_TERM_in_builtInCall3353); 
 
@@ -7063,7 +7065,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 7 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1323:4: ^( BUILTIN_IS_IRI expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1325:4: ^( BUILTIN_IS_IRI expression )
                     {
                     match(input,BUILTIN_IS_IRI,FOLLOW_BUILTIN_IS_IRI_in_builtInCall3372); 
 
@@ -7080,7 +7082,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 8 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1325:4: ^( BUILTIN_IS_URI expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1327:4: ^( BUILTIN_IS_URI expression )
                     {
                     match(input,BUILTIN_IS_URI,FOLLOW_BUILTIN_IS_URI_in_builtInCall3385); 
 
@@ -7097,7 +7099,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 9 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1327:4: ^( BUILTIN_IS_BLANK expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1329:4: ^( BUILTIN_IS_BLANK expression )
                     {
                     match(input,BUILTIN_IS_BLANK,FOLLOW_BUILTIN_IS_BLANK_in_builtInCall3398); 
 
@@ -7114,7 +7116,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 10 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1329:4: ^( BUILTIN_IS_LITERAL expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1331:4: ^( BUILTIN_IS_LITERAL expression )
                     {
                     match(input,BUILTIN_IS_LITERAL,FOLLOW_BUILTIN_IS_LITERAL_in_builtInCall3411); 
 
@@ -7131,7 +7133,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 11 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1331:4: regexExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1333:4: regexExpression
                     {
                     pushFollow(FOLLOW_regexExpression_in_builtInCall3423);
                     regexExpression116=regexExpression();
@@ -7157,7 +7159,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "regexExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1338:1: regexExpression returns [Expr e] : ( ^( BUILTIN_REGEX_BINARY a= expression b= expression ) | ^( BUILTIN_REGEX_TERNARY a= expression b= expression c= expression ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1340:1: regexExpression returns [Expr e] : ( ^( BUILTIN_REGEX_BINARY a= expression b= expression ) | ^( BUILTIN_REGEX_TERNARY a= expression b= expression c= expression ) );
     public final Expr regexExpression() throws RecognitionException {
         Expr e = null;
 
@@ -7169,7 +7171,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1340:2: ( ^( BUILTIN_REGEX_BINARY a= expression b= expression ) | ^( BUILTIN_REGEX_TERNARY a= expression b= expression c= expression ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1342:2: ( ^( BUILTIN_REGEX_BINARY a= expression b= expression ) | ^( BUILTIN_REGEX_TERNARY a= expression b= expression c= expression ) )
             int alt71=2;
             int LA71_0 = input.LA(1);
 
@@ -7187,7 +7189,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt71) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1340:4: ^( BUILTIN_REGEX_BINARY a= expression b= expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1342:4: ^( BUILTIN_REGEX_BINARY a= expression b= expression )
                     {
                     match(input,BUILTIN_REGEX_BINARY,FOLLOW_BUILTIN_REGEX_BINARY_in_regexExpression3446); 
 
@@ -7209,7 +7211,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1342:4: ^( BUILTIN_REGEX_TERNARY a= expression b= expression c= expression )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1344:4: ^( BUILTIN_REGEX_TERNARY a= expression b= expression c= expression )
                     {
                     match(input,BUILTIN_REGEX_TERNARY,FOLLOW_BUILTIN_REGEX_TERNARY_in_regexExpression3466); 
 
@@ -7250,7 +7252,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "iriRefOrFunction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1349:1: iriRefOrFunction returns [Expr e] : ( iriRef | functionCall );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1351:1: iriRefOrFunction returns [Expr e] : ( iriRef | functionCall );
     public final Expr iriRefOrFunction() throws RecognitionException {
         Expr e = null;
 
@@ -7260,7 +7262,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1351:2: ( iriRef | functionCall )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1353:2: ( iriRef | functionCall )
             int alt72=2;
             int LA72_0 = input.LA(1);
 
@@ -7278,7 +7280,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt72) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1351:4: iriRef
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1353:4: iriRef
                     {
                     pushFollow(FOLLOW_iriRef_in_iriRefOrFunction3501);
                     iriRef117=iriRef();
@@ -7290,7 +7292,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1352:4: functionCall
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1354:4: functionCall
                     {
                     pushFollow(FOLLOW_functionCall_in_iriRefOrFunction3508);
                     functionCall118=functionCall();
@@ -7316,7 +7318,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "rdfLiteral"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1359:1: rdfLiteral returns [Node l] : ( ^( LITERAL_PLAIN string ) | ^( LITERAL_LANG string lang= LANGTAG ) | ^( LITERAL_TYPED string iriRef ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1361:1: rdfLiteral returns [Node l] : ( ^( LITERAL_PLAIN string ) | ^( LITERAL_LANG string lang= LANGTAG ) | ^( LITERAL_TYPED string iriRef ) );
     public final Node rdfLiteral() throws RecognitionException {
         Node l = null;
 
@@ -7331,7 +7333,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1361:2: ( ^( LITERAL_PLAIN string ) | ^( LITERAL_LANG string lang= LANGTAG ) | ^( LITERAL_TYPED string iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1363:2: ( ^( LITERAL_PLAIN string ) | ^( LITERAL_LANG string lang= LANGTAG ) | ^( LITERAL_TYPED string iriRef ) )
             int alt73=3;
             switch ( input.LA(1) ) {
             case LITERAL_PLAIN:
@@ -7358,7 +7360,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt73) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1361:4: ^( LITERAL_PLAIN string )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1363:4: ^( LITERAL_PLAIN string )
                     {
                     match(input,LITERAL_PLAIN,FOLLOW_LITERAL_PLAIN_in_rdfLiteral3530); 
 
@@ -7375,7 +7377,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1363:4: ^( LITERAL_LANG string lang= LANGTAG )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1365:4: ^( LITERAL_LANG string lang= LANGTAG )
                     {
                     match(input,LITERAL_LANG,FOLLOW_LITERAL_LANG_in_rdfLiteral3543); 
 
@@ -7393,7 +7395,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1365:4: ^( LITERAL_TYPED string iriRef )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1367:4: ^( LITERAL_TYPED string iriRef )
                     {
                     match(input,LITERAL_TYPED,FOLLOW_LITERAL_TYPED_in_rdfLiteral3560); 
 
@@ -7432,7 +7434,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "numericLiteral"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1376:1: numericLiteral returns [Node n] : ( ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) ) | ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) ) | ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) ) ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1378:1: numericLiteral returns [Node n] : ( ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) ) | ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) ) | ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) ) ) ;
     public final Node numericLiteral() throws RecognitionException {
         Node n = null;
 
@@ -7451,10 +7453,10 @@ public class SparqlOwlTreeARQ extends TreeParser {
         		RDFDatatype t = null;
         	
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1382:2: ( ( ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) ) | ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) ) | ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) ) ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1382:4: ( ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) ) | ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) ) | ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1384:2: ( ( ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) ) | ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) ) | ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1384:4: ( ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) ) | ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) ) | ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) ) )
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1382:4: ( ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) ) | ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) ) | ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1384:4: ( ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) ) | ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) ) | ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) ) )
             int alt77=3;
             switch ( input.LA(1) ) {
             case LITERAL_INTEGER:
@@ -7481,12 +7483,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt77) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1382:6: ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1384:6: ^( LITERAL_INTEGER ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER ) )
                     {
                     match(input,LITERAL_INTEGER,FOLLOW_LITERAL_INTEGER_in_numericLiteral3596); 
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1383:5: ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1385:5: ( INTEGER | POSITIVE_INTEGER | NEGATIVE_INTEGER )
                     int alt74=3;
                     switch ( input.LA(1) ) {
                     case INTEGER:
@@ -7513,7 +7515,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                     switch (alt74) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1383:7: INTEGER
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1385:7: INTEGER
                             {
                             INTEGER123=(CommonTree)match(input,INTEGER,FOLLOW_INTEGER_in_numericLiteral3604); 
                              s = (INTEGER123!=null?INTEGER123.getText():null); 
@@ -7521,7 +7523,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                             }
                             break;
                         case 2 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1384:7: POSITIVE_INTEGER
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1386:7: POSITIVE_INTEGER
                             {
                             POSITIVE_INTEGER124=(CommonTree)match(input,POSITIVE_INTEGER,FOLLOW_POSITIVE_INTEGER_in_numericLiteral3614); 
                              s = (POSITIVE_INTEGER124!=null?POSITIVE_INTEGER124.getText():null); 
@@ -7529,7 +7531,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                             }
                             break;
                         case 3 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1385:7: NEGATIVE_INTEGER
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1387:7: NEGATIVE_INTEGER
                             {
                             NEGATIVE_INTEGER125=(CommonTree)match(input,NEGATIVE_INTEGER,FOLLOW_NEGATIVE_INTEGER_in_numericLiteral3624); 
                              s = (NEGATIVE_INTEGER125!=null?NEGATIVE_INTEGER125.getText():null); 
@@ -7546,12 +7548,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1389:5: ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1391:5: ^( LITERAL_DECIMAL ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL ) )
                     {
                     match(input,LITERAL_DECIMAL,FOLLOW_LITERAL_DECIMAL_in_numericLiteral3649); 
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1390:5: ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1392:5: ( DECIMAL | POSITIVE_DECIMAL | NEGATIVE_DECIMAL )
                     int alt75=3;
                     switch ( input.LA(1) ) {
                     case DECIMAL:
@@ -7578,7 +7580,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                     switch (alt75) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1390:7: DECIMAL
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1392:7: DECIMAL
                             {
                             DECIMAL126=(CommonTree)match(input,DECIMAL,FOLLOW_DECIMAL_in_numericLiteral3657); 
                              s = (DECIMAL126!=null?DECIMAL126.getText():null); 
@@ -7586,7 +7588,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                             }
                             break;
                         case 2 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1391:7: POSITIVE_DECIMAL
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1393:7: POSITIVE_DECIMAL
                             {
                             POSITIVE_DECIMAL127=(CommonTree)match(input,POSITIVE_DECIMAL,FOLLOW_POSITIVE_DECIMAL_in_numericLiteral3667); 
                              s = (POSITIVE_DECIMAL127!=null?POSITIVE_DECIMAL127.getText():null); 
@@ -7594,7 +7596,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                             }
                             break;
                         case 3 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1392:7: NEGATIVE_DECIMAL
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1394:7: NEGATIVE_DECIMAL
                             {
                             NEGATIVE_DECIMAL128=(CommonTree)match(input,NEGATIVE_DECIMAL,FOLLOW_NEGATIVE_DECIMAL_in_numericLiteral3677); 
                              s = (NEGATIVE_DECIMAL128!=null?NEGATIVE_DECIMAL128.getText():null); 
@@ -7611,12 +7613,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1396:5: ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1398:5: ^( LITERAL_DOUBLE ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE ) )
                     {
                     match(input,LITERAL_DOUBLE,FOLLOW_LITERAL_DOUBLE_in_numericLiteral3702); 
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1397:5: ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1399:5: ( DOUBLE | POSITIVE_DOUBLE | NEGATIVE_DOUBLE )
                     int alt76=3;
                     switch ( input.LA(1) ) {
                     case DOUBLE:
@@ -7643,7 +7645,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
                     switch (alt76) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1397:7: DOUBLE
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1399:7: DOUBLE
                             {
                             DOUBLE129=(CommonTree)match(input,DOUBLE,FOLLOW_DOUBLE_in_numericLiteral3710); 
                              s = (DOUBLE129!=null?DOUBLE129.getText():null); 
@@ -7651,7 +7653,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                             }
                             break;
                         case 2 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1398:7: POSITIVE_DOUBLE
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1400:7: POSITIVE_DOUBLE
                             {
                             POSITIVE_DOUBLE130=(CommonTree)match(input,POSITIVE_DOUBLE,FOLLOW_POSITIVE_DOUBLE_in_numericLiteral3720); 
                              s = (POSITIVE_DOUBLE130!=null?POSITIVE_DOUBLE130.getText():null); 
@@ -7659,7 +7661,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                             }
                             break;
                         case 3 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1399:7: NEGATIVE_DOUBLE
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1401:7: NEGATIVE_DOUBLE
                             {
                             NEGATIVE_DOUBLE131=(CommonTree)match(input,NEGATIVE_DOUBLE,FOLLOW_NEGATIVE_DOUBLE_in_numericLiteral3730); 
                              s = (NEGATIVE_DOUBLE131!=null?NEGATIVE_DOUBLE131.getText():null); 
@@ -7695,12 +7697,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "booleanLiteral"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1410:1: booleanLiteral returns [Node b] : ( LITERAL_BOOLEAN_TRUE | LITERAL_BOOLEAN_FALSE );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1412:1: booleanLiteral returns [Node b] : ( LITERAL_BOOLEAN_TRUE | LITERAL_BOOLEAN_FALSE );
     public final Node booleanLiteral() throws RecognitionException {
         Node b = null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1412:2: ( LITERAL_BOOLEAN_TRUE | LITERAL_BOOLEAN_FALSE )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1414:2: ( LITERAL_BOOLEAN_TRUE | LITERAL_BOOLEAN_FALSE )
             int alt78=2;
             int LA78_0 = input.LA(1);
 
@@ -7718,7 +7720,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt78) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1412:4: LITERAL_BOOLEAN_TRUE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1414:4: LITERAL_BOOLEAN_TRUE
                     {
                     match(input,LITERAL_BOOLEAN_TRUE,FOLLOW_LITERAL_BOOLEAN_TRUE_in_booleanLiteral3774); 
                      b = XSD_BOOLEAN_TRUE; 
@@ -7726,7 +7728,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1413:4: LITERAL_BOOLEAN_FALSE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1415:4: LITERAL_BOOLEAN_FALSE
                     {
                     match(input,LITERAL_BOOLEAN_FALSE,FOLLOW_LITERAL_BOOLEAN_FALSE_in_booleanLiteral3781); 
                      b = XSD_BOOLEAN_FALSE; 
@@ -7748,17 +7750,17 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "string"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1419:1: string returns [String s] : (l= STRING_LITERAL1 | l= STRING_LITERAL2 | l= STRING_LITERAL_LONG1 | l= STRING_LITERAL_LONG2 ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1421:1: string returns [String s] : (l= STRING_LITERAL1 | l= STRING_LITERAL2 | l= STRING_LITERAL_LONG1 | l= STRING_LITERAL_LONG2 ) ;
     public final String string() throws RecognitionException {
         String s = null;
 
         CommonTree l=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1421:2: ( (l= STRING_LITERAL1 | l= STRING_LITERAL2 | l= STRING_LITERAL_LONG1 | l= STRING_LITERAL_LONG2 ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1421:4: (l= STRING_LITERAL1 | l= STRING_LITERAL2 | l= STRING_LITERAL_LONG1 | l= STRING_LITERAL_LONG2 )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1423:2: ( (l= STRING_LITERAL1 | l= STRING_LITERAL2 | l= STRING_LITERAL_LONG1 | l= STRING_LITERAL_LONG2 ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1423:4: (l= STRING_LITERAL1 | l= STRING_LITERAL2 | l= STRING_LITERAL_LONG1 | l= STRING_LITERAL_LONG2 )
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1421:4: (l= STRING_LITERAL1 | l= STRING_LITERAL2 | l= STRING_LITERAL_LONG1 | l= STRING_LITERAL_LONG2 )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1423:4: (l= STRING_LITERAL1 | l= STRING_LITERAL2 | l= STRING_LITERAL_LONG1 | l= STRING_LITERAL_LONG2 )
             int alt79=4;
             switch ( input.LA(1) ) {
             case STRING_LITERAL1:
@@ -7790,7 +7792,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
             switch (alt79) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1421:6: l= STRING_LITERAL1
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1423:6: l= STRING_LITERAL1
                     {
                     l=(CommonTree)match(input,STRING_LITERAL1,FOLLOW_STRING_LITERAL1_in_string3805); 
                      s = dropFirstAndLast( (l!=null?l.getText():null) ); 
@@ -7798,7 +7800,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1422:5: l= STRING_LITERAL2
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1424:5: l= STRING_LITERAL2
                     {
                     l=(CommonTree)match(input,STRING_LITERAL2,FOLLOW_STRING_LITERAL2_in_string3815); 
                      s = dropFirstAndLast( (l!=null?l.getText():null) ); 
@@ -7806,7 +7808,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1423:5: l= STRING_LITERAL_LONG1
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1425:5: l= STRING_LITERAL_LONG1
                     {
                     l=(CommonTree)match(input,STRING_LITERAL_LONG1,FOLLOW_STRING_LITERAL_LONG1_in_string3825); 
                      s = dropFirstAndLast3( (l!=null?l.getText():null) ); 
@@ -7814,7 +7816,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1424:5: l= STRING_LITERAL_LONG2
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1426:5: l= STRING_LITERAL_LONG2
                     {
                     l=(CommonTree)match(input,STRING_LITERAL_LONG2,FOLLOW_STRING_LITERAL_LONG2_in_string3835); 
                      s = dropFirstAndLast3( (l!=null?l.getText():null) ); 
@@ -7841,7 +7843,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "iriRef"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1432:2: iriRef returns [Node i] : ( ^( IRI_REF ref= IRI_REF_TERM ) | ^( PREFIXED_NAME (p= PNAME_LN | p= PNAME_NS ) ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1434:2: iriRef returns [Node i] : ( ^( IRI_REF ref= IRI_REF_TERM ) | ^( PREFIXED_NAME (p= PNAME_LN | p= PNAME_NS ) ) );
     public final Node iriRef() throws RecognitionException {
         Node i = null;
 
@@ -7849,7 +7851,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
         CommonTree p=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1434:2: ( ^( IRI_REF ref= IRI_REF_TERM ) | ^( PREFIXED_NAME (p= PNAME_LN | p= PNAME_NS ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1436:2: ( ^( IRI_REF ref= IRI_REF_TERM ) | ^( PREFIXED_NAME (p= PNAME_LN | p= PNAME_NS ) ) )
             int alt81=2;
             int LA81_0 = input.LA(1);
 
@@ -7867,7 +7869,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt81) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1434:4: ^( IRI_REF ref= IRI_REF_TERM )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1436:4: ^( IRI_REF ref= IRI_REF_TERM )
                     {
                     match(input,IRI_REF,FOLLOW_IRI_REF_in_iriRef3865); 
 
@@ -7880,12 +7882,12 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1436:4: ^( PREFIXED_NAME (p= PNAME_LN | p= PNAME_NS ) )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1438:4: ^( PREFIXED_NAME (p= PNAME_LN | p= PNAME_NS ) )
                     {
                     match(input,PREFIXED_NAME,FOLLOW_PREFIXED_NAME_in_iriRef3880); 
 
                     match(input, Token.DOWN, null); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1436:20: (p= PNAME_LN | p= PNAME_NS )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1438:20: (p= PNAME_LN | p= PNAME_NS )
                     int alt80=2;
                     int LA80_0 = input.LA(1);
 
@@ -7903,14 +7905,14 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     switch (alt80) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1436:22: p= PNAME_LN
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1438:22: p= PNAME_LN
                             {
                             p=(CommonTree)match(input,PNAME_LN,FOLLOW_PNAME_LN_in_iriRef3886); 
 
                             }
                             break;
                         case 2 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1436:35: p= PNAME_NS
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1438:35: p= PNAME_NS
                             {
                             p=(CommonTree)match(input,PNAME_NS,FOLLOW_PNAME_NS_in_iriRef3892); 
 
@@ -7944,14 +7946,14 @@ public class SparqlOwlTreeARQ extends TreeParser {
 
 
     // $ANTLR start "blankNode"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1447:1: blankNode returns [Node b] : ( ^( BLANK_NODE label= BLANK_NODE_LABEL ) | BLANK_NODE );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1449:1: blankNode returns [Node b] : ( ^( BLANK_NODE label= BLANK_NODE_LABEL ) | BLANK_NODE );
     public final Node blankNode() throws RecognitionException {
         Node b = null;
 
         CommonTree label=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1449:2: ( ^( BLANK_NODE label= BLANK_NODE_LABEL ) | BLANK_NODE )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1451:2: ( ^( BLANK_NODE label= BLANK_NODE_LABEL ) | BLANK_NODE )
             int alt82=2;
             int LA82_0 = input.LA(1);
 
@@ -7979,7 +7981,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
             }
             switch (alt82) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1449:4: ^( BLANK_NODE label= BLANK_NODE_LABEL )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1451:4: ^( BLANK_NODE label= BLANK_NODE_LABEL )
                     {
                     match(input,BLANK_NODE,FOLLOW_BLANK_NODE_in_blankNode3919); 
 
@@ -7992,7 +7994,7 @@ public class SparqlOwlTreeARQ extends TreeParser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwlTreeARQ.g:1451:4: BLANK_NODE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwlTreeARQ.g:1453:4: BLANK_NODE
                     {
                     match(input,BLANK_NODE,FOLLOW_BLANK_NODE_in_blankNode3933); 
                      b = getAnon( ); 

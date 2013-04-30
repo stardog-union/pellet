@@ -19,7 +19,6 @@ import org.mindswap.pellet.utils.URIUtils;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
 import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.DataSource;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.DatasetFactory;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -151,7 +150,7 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester {
 			((PelletInfGraph) (model.getGraph())).getKB().classify();
 		}
 
-		DataSource dataset = DatasetFactory.create( model );
+		Dataset dataset = DatasetFactory.create( model );
 
 		Collection<String> namedGraphURIs = useQueryGraphs
 			? query.getNamedGraphURIs()

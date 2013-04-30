@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g 2010-03-28 22:46:17
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/evren/projects/pellet/query/antlr/SparqlOwl.g 2013-04-11 22:07:40
 
 package com.clarkparsia.sparqlowl.parser.antlr;
 
@@ -266,7 +266,7 @@ public class SparqlOwlParser extends Parser {
     }
 
     public String[] getTokenNames() { return SparqlOwlParser.tokenNames; }
-    public String getGrammarFileName() { return "/home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g"; }
+    public String getGrammarFileName() { return "/Users/evren/projects/pellet/query/antlr/SparqlOwl.g"; }
 
 
     	protected void mismatch(IntStream input, int ttype, BitSet follow)
@@ -299,7 +299,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "objectPropertyIRI"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:179:1: objectPropertyIRI : iriRef -> ^( OBJECT_PROPERTY iriRef ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:179:1: objectPropertyIRI : iriRef -> ^( OBJECT_PROPERTY iriRef ) ;
     public final SparqlOwlParser.objectPropertyIRI_return objectPropertyIRI() throws RecognitionException {
         SparqlOwlParser.objectPropertyIRI_return retval = new SparqlOwlParser.objectPropertyIRI_return();
         retval.start = input.LT(1);
@@ -311,8 +311,8 @@ public class SparqlOwlParser extends Parser {
 
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:180:2: ( iriRef -> ^( OBJECT_PROPERTY iriRef ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:180:4: iriRef
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:180:2: ( iriRef -> ^( OBJECT_PROPERTY iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:180:4: iriRef
             {
             pushFollow(FOLLOW_iriRef_in_objectPropertyIRI542);
             iriRef1=iriRef();
@@ -336,7 +336,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 181:2: -> ^( OBJECT_PROPERTY iriRef )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:181:5: ^( OBJECT_PROPERTY iriRef )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:181:5: ^( OBJECT_PROPERTY iriRef )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OBJECT_PROPERTY, "OBJECT_PROPERTY"), root_1);
@@ -375,7 +375,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "dataPropertyIRI"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:187:1: dataPropertyIRI : iriRef -> ^( DATA_PROPERTY iriRef ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:187:1: dataPropertyIRI : iriRef -> ^( DATA_PROPERTY iriRef ) ;
     public final SparqlOwlParser.dataPropertyIRI_return dataPropertyIRI() throws RecognitionException {
         SparqlOwlParser.dataPropertyIRI_return retval = new SparqlOwlParser.dataPropertyIRI_return();
         retval.start = input.LT(1);
@@ -387,8 +387,8 @@ public class SparqlOwlParser extends Parser {
 
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:188:2: ( iriRef -> ^( DATA_PROPERTY iriRef ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:188:4: iriRef
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:188:2: ( iriRef -> ^( DATA_PROPERTY iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:188:4: iriRef
             {
             pushFollow(FOLLOW_iriRef_in_dataPropertyIRI564);
             iriRef2=iriRef();
@@ -412,7 +412,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 189:2: -> ^( DATA_PROPERTY iriRef )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:189:5: ^( DATA_PROPERTY iriRef )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:189:5: ^( DATA_PROPERTY iriRef )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATA_PROPERTY, "DATA_PROPERTY"), root_1);
@@ -451,7 +451,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "objectOrDataPropertyIRI"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:195:1: objectOrDataPropertyIRI : iriRef -> ^( PROPERTY iriRef ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:195:1: objectOrDataPropertyIRI : iriRef -> ^( PROPERTY iriRef ) ;
     public final SparqlOwlParser.objectOrDataPropertyIRI_return objectOrDataPropertyIRI() throws RecognitionException {
         SparqlOwlParser.objectOrDataPropertyIRI_return retval = new SparqlOwlParser.objectOrDataPropertyIRI_return();
         retval.start = input.LT(1);
@@ -463,8 +463,8 @@ public class SparqlOwlParser extends Parser {
 
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:196:2: ( iriRef -> ^( PROPERTY iriRef ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:196:4: iriRef
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:196:2: ( iriRef -> ^( PROPERTY iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:196:4: iriRef
             {
             pushFollow(FOLLOW_iriRef_in_objectOrDataPropertyIRI586);
             iriRef3=iriRef();
@@ -488,7 +488,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 197:2: -> ^( PROPERTY iriRef )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:197:5: ^( PROPERTY iriRef )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:197:5: ^( PROPERTY iriRef )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PROPERTY, "PROPERTY"), root_1);
@@ -527,7 +527,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "inverseObjectProperty"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:203:1: inverseObjectProperty : INVERSE_TERM objectPropertyIRI -> ^( INVERSE_PROPERTY objectPropertyIRI ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:203:1: inverseObjectProperty : INVERSE_TERM objectPropertyIRI -> ^( INVERSE_PROPERTY objectPropertyIRI ) ;
     public final SparqlOwlParser.inverseObjectProperty_return inverseObjectProperty() throws RecognitionException {
         SparqlOwlParser.inverseObjectProperty_return retval = new SparqlOwlParser.inverseObjectProperty_return();
         retval.start = input.LT(1);
@@ -542,8 +542,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_INVERSE_TERM=new RewriteRuleTokenStream(adaptor,"token INVERSE_TERM");
         RewriteRuleSubtreeStream stream_objectPropertyIRI=new RewriteRuleSubtreeStream(adaptor,"rule objectPropertyIRI");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:204:2: ( INVERSE_TERM objectPropertyIRI -> ^( INVERSE_PROPERTY objectPropertyIRI ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:204:4: INVERSE_TERM objectPropertyIRI
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:204:2: ( INVERSE_TERM objectPropertyIRI -> ^( INVERSE_PROPERTY objectPropertyIRI ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:204:4: INVERSE_TERM objectPropertyIRI
             {
             INVERSE_TERM4=(Token)match(input,INVERSE_TERM,FOLLOW_INVERSE_TERM_in_inverseObjectProperty608); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_INVERSE_TERM.add(INVERSE_TERM4);
@@ -570,7 +570,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 205:2: -> ^( INVERSE_PROPERTY objectPropertyIRI )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:205:5: ^( INVERSE_PROPERTY objectPropertyIRI )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:205:5: ^( INVERSE_PROPERTY objectPropertyIRI )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(INVERSE_PROPERTY, "INVERSE_PROPERTY"), root_1);
@@ -609,7 +609,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "propertyExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:211:1: propertyExpression : ( inverseObjectProperty | objectOrDataPropertyIRI );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:211:1: propertyExpression : ( inverseObjectProperty | objectOrDataPropertyIRI );
     public final SparqlOwlParser.propertyExpression_return propertyExpression() throws RecognitionException {
         SparqlOwlParser.propertyExpression_return retval = new SparqlOwlParser.propertyExpression_return();
         retval.start = input.LT(1);
@@ -623,7 +623,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:212:2: ( inverseObjectProperty | objectOrDataPropertyIRI )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:212:2: ( inverseObjectProperty | objectOrDataPropertyIRI )
             int alt1=2;
             int LA1_0 = input.LA(1);
 
@@ -642,7 +642,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt1) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:212:4: inverseObjectProperty
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:212:4: inverseObjectProperty
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -656,7 +656,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:213:4: objectOrDataPropertyIRI
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:213:4: objectOrDataPropertyIRI
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -695,7 +695,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "objectPropertyExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:219:1: objectPropertyExpression : ( inverseObjectProperty | objectPropertyIRI );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:219:1: objectPropertyExpression : ( inverseObjectProperty | objectPropertyIRI );
     public final SparqlOwlParser.objectPropertyExpression_return objectPropertyExpression() throws RecognitionException {
         SparqlOwlParser.objectPropertyExpression_return retval = new SparqlOwlParser.objectPropertyExpression_return();
         retval.start = input.LT(1);
@@ -709,7 +709,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:220:2: ( inverseObjectProperty | objectPropertyIRI )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:220:2: ( inverseObjectProperty | objectPropertyIRI )
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -728,7 +728,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt2) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:220:4: inverseObjectProperty
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:220:4: inverseObjectProperty
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -742,7 +742,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:221:4: objectPropertyIRI
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:221:4: objectPropertyIRI
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -781,7 +781,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "datatype"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:227:1: datatype : ( iriRef -> ^( DATATYPE iriRef ) | INTEGER_TERM -> ^( DATATYPE INTEGER_TERM ) | DECIMAL_TERM -> ^( DATATYPE DECIMAL_TERM ) | FLOAT_TERM -> ^( DATATYPE FLOAT_TERM ) | STRING_TERM -> ^( DATATYPE STRING_TERM ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:227:1: datatype : ( iriRef -> ^( DATATYPE iriRef ) | INTEGER_TERM -> ^( DATATYPE INTEGER_TERM ) | DECIMAL_TERM -> ^( DATATYPE DECIMAL_TERM ) | FLOAT_TERM -> ^( DATATYPE FLOAT_TERM ) | STRING_TERM -> ^( DATATYPE STRING_TERM ) );
     public final SparqlOwlParser.datatype_return datatype() throws RecognitionException {
         SparqlOwlParser.datatype_return retval = new SparqlOwlParser.datatype_return();
         retval.start = input.LT(1);
@@ -805,7 +805,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_DECIMAL_TERM=new RewriteRuleTokenStream(adaptor,"token DECIMAL_TERM");
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:228:2: ( iriRef -> ^( DATATYPE iriRef ) | INTEGER_TERM -> ^( DATATYPE INTEGER_TERM ) | DECIMAL_TERM -> ^( DATATYPE DECIMAL_TERM ) | FLOAT_TERM -> ^( DATATYPE FLOAT_TERM ) | STRING_TERM -> ^( DATATYPE STRING_TERM ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:228:2: ( iriRef -> ^( DATATYPE iriRef ) | INTEGER_TERM -> ^( DATATYPE INTEGER_TERM ) | DECIMAL_TERM -> ^( DATATYPE DECIMAL_TERM ) | FLOAT_TERM -> ^( DATATYPE FLOAT_TERM ) | STRING_TERM -> ^( DATATYPE STRING_TERM ) )
             int alt3=5;
             switch ( input.LA(1) ) {
             case IRI_REF_TERM:
@@ -845,7 +845,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt3) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:228:4: iriRef
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:228:4: iriRef
                     {
                     pushFollow(FOLLOW_iriRef_in_datatype668);
                     iriRef10=iriRef();
@@ -869,7 +869,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 228:11: -> ^( DATATYPE iriRef )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:228:14: ^( DATATYPE iriRef )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:228:14: ^( DATATYPE iriRef )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -885,7 +885,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:229:4: INTEGER_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:229:4: INTEGER_TERM
                     {
                     INTEGER_TERM11=(Token)match(input,INTEGER_TERM,FOLLOW_INTEGER_TERM_in_datatype681); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INTEGER_TERM.add(INTEGER_TERM11);
@@ -906,7 +906,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 229:17: -> ^( DATATYPE INTEGER_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:229:20: ^( DATATYPE INTEGER_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:229:20: ^( DATATYPE INTEGER_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -922,7 +922,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:230:4: DECIMAL_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:230:4: DECIMAL_TERM
                     {
                     DECIMAL_TERM12=(Token)match(input,DECIMAL_TERM,FOLLOW_DECIMAL_TERM_in_datatype694); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DECIMAL_TERM.add(DECIMAL_TERM12);
@@ -943,7 +943,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 230:17: -> ^( DATATYPE DECIMAL_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:230:20: ^( DATATYPE DECIMAL_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:230:20: ^( DATATYPE DECIMAL_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -959,7 +959,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:231:4: FLOAT_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:231:4: FLOAT_TERM
                     {
                     FLOAT_TERM13=(Token)match(input,FLOAT_TERM,FOLLOW_FLOAT_TERM_in_datatype707); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_FLOAT_TERM.add(FLOAT_TERM13);
@@ -980,7 +980,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 231:15: -> ^( DATATYPE FLOAT_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:231:18: ^( DATATYPE FLOAT_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:231:18: ^( DATATYPE FLOAT_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -996,7 +996,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:232:4: STRING_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:232:4: STRING_TERM
                     {
                     STRING_TERM14=(Token)match(input,STRING_TERM,FOLLOW_STRING_TERM_in_datatype720); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_STRING_TERM.add(STRING_TERM14);
@@ -1017,7 +1017,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 232:16: -> ^( DATATYPE STRING_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:232:19: ^( DATATYPE STRING_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:232:19: ^( DATATYPE STRING_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -1058,7 +1058,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "individual"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:238:1: individual : iriRef -> ^( INDIVIDUAL iriRef ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:238:1: individual : iriRef -> ^( INDIVIDUAL iriRef ) ;
     public final SparqlOwlParser.individual_return individual() throws RecognitionException {
         SparqlOwlParser.individual_return retval = new SparqlOwlParser.individual_return();
         retval.start = input.LT(1);
@@ -1070,8 +1070,8 @@ public class SparqlOwlParser extends Parser {
 
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:239:2: ( iriRef -> ^( INDIVIDUAL iriRef ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:239:4: iriRef
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:239:2: ( iriRef -> ^( INDIVIDUAL iriRef ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:239:4: iriRef
             {
             pushFollow(FOLLOW_iriRef_in_individual741);
             iriRef15=iriRef();
@@ -1095,7 +1095,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 240:2: -> ^( INDIVIDUAL iriRef )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:241:3: ^( INDIVIDUAL iriRef )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:241:3: ^( INDIVIDUAL iriRef )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(INDIVIDUAL, "INDIVIDUAL"), root_1);
@@ -1134,7 +1134,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "literal"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:248:1: literal : ( rdfLiteral | numericLiteral | booleanLiteral );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:248:1: literal : ( rdfLiteral | numericLiteral | booleanLiteral );
     public final SparqlOwlParser.literal_return literal() throws RecognitionException {
         SparqlOwlParser.literal_return retval = new SparqlOwlParser.literal_return();
         retval.start = input.LT(1);
@@ -1150,7 +1150,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:249:2: ( rdfLiteral | numericLiteral | booleanLiteral )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:249:2: ( rdfLiteral | numericLiteral | booleanLiteral )
             int alt4=3;
             switch ( input.LA(1) ) {
             case STRING_LITERAL1:
@@ -1190,7 +1190,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt4) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:249:4: rdfLiteral
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:249:4: rdfLiteral
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1204,7 +1204,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:250:4: numericLiteral
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:250:4: numericLiteral
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1218,7 +1218,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:251:4: booleanLiteral
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:251:4: booleanLiteral
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -1257,7 +1257,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "datatypeRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:257:1: datatypeRestriction : datatype OPEN_SQUARE_BRACE facet restrictionValue ( COMMA_TERM facet restrictionValue )* CLOSE_SQUARE_BRACE -> ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:257:1: datatypeRestriction : datatype OPEN_SQUARE_BRACE facet restrictionValue ( COMMA_TERM facet restrictionValue )* CLOSE_SQUARE_BRACE -> ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ ) ;
     public final SparqlOwlParser.datatypeRestriction_return datatypeRestriction() throws RecognitionException {
         SparqlOwlParser.datatypeRestriction_return retval = new SparqlOwlParser.datatypeRestriction_return();
         retval.start = input.LT(1);
@@ -1288,8 +1288,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_restrictionValue=new RewriteRuleSubtreeStream(adaptor,"rule restrictionValue");
         RewriteRuleSubtreeStream stream_datatype=new RewriteRuleSubtreeStream(adaptor,"rule datatype");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:258:2: ( datatype OPEN_SQUARE_BRACE facet restrictionValue ( COMMA_TERM facet restrictionValue )* CLOSE_SQUARE_BRACE -> ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:258:4: datatype OPEN_SQUARE_BRACE facet restrictionValue ( COMMA_TERM facet restrictionValue )* CLOSE_SQUARE_BRACE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:258:2: ( datatype OPEN_SQUARE_BRACE facet restrictionValue ( COMMA_TERM facet restrictionValue )* CLOSE_SQUARE_BRACE -> ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:258:4: datatype OPEN_SQUARE_BRACE facet restrictionValue ( COMMA_TERM facet restrictionValue )* CLOSE_SQUARE_BRACE
             {
             pushFollow(FOLLOW_datatype_in_datatypeRestriction788);
             datatype19=datatype();
@@ -1312,7 +1312,7 @@ public class SparqlOwlParser extends Parser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_restrictionValue.add(restrictionValue22.getTree());
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:258:54: ( COMMA_TERM facet restrictionValue )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:258:54: ( COMMA_TERM facet restrictionValue )*
             loop5:
             do {
                 int alt5=2;
@@ -1325,7 +1325,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt5) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:258:56: COMMA_TERM facet restrictionValue
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:258:56: COMMA_TERM facet restrictionValue
             	    {
             	    COMMA_TERM23=(Token)match(input,COMMA_TERM,FOLLOW_COMMA_TERM_in_datatypeRestriction798); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_COMMA_TERM.add(COMMA_TERM23);
@@ -1357,7 +1357,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: datatype, restrictionValue, facet
+            // elements: restrictionValue, datatype, facet
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -1370,7 +1370,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 259:2: -> ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:259:5: ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:259:5: ^( DATATYPE_RESTRICTION datatype ( ^( FACET_VALUE facet restrictionValue ) )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE_RESTRICTION, "DATATYPE_RESTRICTION"), root_1);
@@ -1380,7 +1380,7 @@ public class SparqlOwlParser extends Parser {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_restrictionValue.hasNext()||stream_facet.hasNext() ) {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:259:37: ^( FACET_VALUE facet restrictionValue )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:259:37: ^( FACET_VALUE facet restrictionValue )
                     {
                     CommonTree root_2 = (CommonTree)adaptor.nil();
                     root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FACET_VALUE, "FACET_VALUE"), root_2);
@@ -1427,7 +1427,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "facet"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:265:1: facet : ( LENGTH_TERM -> FACET_LENGTH | MINLENGTH_TERM -> FACET_MINLENGTH | MAXLENGTH_TERM -> FACET_MAXLENGTH | PATTERN_TERM -> FACET_PATTERN | LANGPATTERN_TERM -> FACET_LANGPATTERN | LESS_EQUAL_TERM -> FACET_LESS_EQUAL | LESS_TERM -> FACET_LESS | GREATER_EQUAL_TERM -> FACET_GREATER_EQUAL | GREATER_TERM -> FACET_GREATER );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:265:1: facet : ( LENGTH_TERM -> FACET_LENGTH | MINLENGTH_TERM -> FACET_MINLENGTH | MAXLENGTH_TERM -> FACET_MAXLENGTH | PATTERN_TERM -> FACET_PATTERN | LANGPATTERN_TERM -> FACET_LANGPATTERN | LESS_EQUAL_TERM -> FACET_LESS_EQUAL | LESS_TERM -> FACET_LESS | GREATER_EQUAL_TERM -> FACET_GREATER_EQUAL | GREATER_TERM -> FACET_GREATER );
     public final SparqlOwlParser.facet_return facet() throws RecognitionException {
         SparqlOwlParser.facet_return retval = new SparqlOwlParser.facet_return();
         retval.start = input.LT(1);
@@ -1464,7 +1464,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_LENGTH_TERM=new RewriteRuleTokenStream(adaptor,"token LENGTH_TERM");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:266:2: ( LENGTH_TERM -> FACET_LENGTH | MINLENGTH_TERM -> FACET_MINLENGTH | MAXLENGTH_TERM -> FACET_MAXLENGTH | PATTERN_TERM -> FACET_PATTERN | LANGPATTERN_TERM -> FACET_LANGPATTERN | LESS_EQUAL_TERM -> FACET_LESS_EQUAL | LESS_TERM -> FACET_LESS | GREATER_EQUAL_TERM -> FACET_GREATER_EQUAL | GREATER_TERM -> FACET_GREATER )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:266:2: ( LENGTH_TERM -> FACET_LENGTH | MINLENGTH_TERM -> FACET_MINLENGTH | MAXLENGTH_TERM -> FACET_MAXLENGTH | PATTERN_TERM -> FACET_PATTERN | LANGPATTERN_TERM -> FACET_LANGPATTERN | LESS_EQUAL_TERM -> FACET_LESS_EQUAL | LESS_TERM -> FACET_LESS | GREATER_EQUAL_TERM -> FACET_GREATER_EQUAL | GREATER_TERM -> FACET_GREATER )
             int alt6=9;
             switch ( input.LA(1) ) {
             case LENGTH_TERM:
@@ -1522,7 +1522,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt6) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:266:4: LENGTH_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:266:4: LENGTH_TERM
                     {
                     LENGTH_TERM27=(Token)match(input,LENGTH_TERM,FOLLOW_LENGTH_TERM_in_facet839); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LENGTH_TERM.add(LENGTH_TERM27);
@@ -1551,7 +1551,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:267:4: MINLENGTH_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:267:4: MINLENGTH_TERM
                     {
                     MINLENGTH_TERM28=(Token)match(input,MINLENGTH_TERM,FOLLOW_MINLENGTH_TERM_in_facet848); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_MINLENGTH_TERM.add(MINLENGTH_TERM28);
@@ -1580,7 +1580,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:268:4: MAXLENGTH_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:268:4: MAXLENGTH_TERM
                     {
                     MAXLENGTH_TERM29=(Token)match(input,MAXLENGTH_TERM,FOLLOW_MAXLENGTH_TERM_in_facet857); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_MAXLENGTH_TERM.add(MAXLENGTH_TERM29);
@@ -1609,7 +1609,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:269:4: PATTERN_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:269:4: PATTERN_TERM
                     {
                     PATTERN_TERM30=(Token)match(input,PATTERN_TERM,FOLLOW_PATTERN_TERM_in_facet866); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_PATTERN_TERM.add(PATTERN_TERM30);
@@ -1638,7 +1638,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:270:4: LANGPATTERN_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:270:4: LANGPATTERN_TERM
                     {
                     LANGPATTERN_TERM31=(Token)match(input,LANGPATTERN_TERM,FOLLOW_LANGPATTERN_TERM_in_facet875); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LANGPATTERN_TERM.add(LANGPATTERN_TERM31);
@@ -1667,7 +1667,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:271:4: LESS_EQUAL_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:271:4: LESS_EQUAL_TERM
                     {
                     LESS_EQUAL_TERM32=(Token)match(input,LESS_EQUAL_TERM,FOLLOW_LESS_EQUAL_TERM_in_facet884); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LESS_EQUAL_TERM.add(LESS_EQUAL_TERM32);
@@ -1696,7 +1696,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:272:4: LESS_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:272:4: LESS_TERM
                     {
                     LESS_TERM33=(Token)match(input,LESS_TERM,FOLLOW_LESS_TERM_in_facet893); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LESS_TERM.add(LESS_TERM33);
@@ -1725,7 +1725,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 8 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:273:4: GREATER_EQUAL_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:273:4: GREATER_EQUAL_TERM
                     {
                     GREATER_EQUAL_TERM34=(Token)match(input,GREATER_EQUAL_TERM,FOLLOW_GREATER_EQUAL_TERM_in_facet902); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_GREATER_EQUAL_TERM.add(GREATER_EQUAL_TERM34);
@@ -1754,7 +1754,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 9 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:274:4: GREATER_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:274:4: GREATER_TERM
                     {
                     GREATER_TERM35=(Token)match(input,GREATER_TERM,FOLLOW_GREATER_TERM_in_facet911); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_GREATER_TERM.add(GREATER_TERM35);
@@ -1808,7 +1808,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "restrictionValue"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:280:1: restrictionValue : literal ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:280:1: restrictionValue : literal ;
     public final SparqlOwlParser.restrictionValue_return restrictionValue() throws RecognitionException {
         SparqlOwlParser.restrictionValue_return retval = new SparqlOwlParser.restrictionValue_return();
         retval.start = input.LT(1);
@@ -1820,8 +1820,8 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:281:2: ( literal )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:281:4: literal
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:281:2: ( literal )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:281:4: literal
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -1858,7 +1858,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "disjunction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:287:1: disjunction : ( conjunction -> conjunction ) ( OR_TERM conjunction -> ^( DISJUNCTION $disjunction conjunction ) )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:287:1: disjunction : ( conjunction -> conjunction ) ( OR_TERM conjunction -> ^( DISJUNCTION $disjunction conjunction ) )* ;
     public final SparqlOwlParser.disjunction_return disjunction() throws RecognitionException {
         SparqlOwlParser.disjunction_return retval = new SparqlOwlParser.disjunction_return();
         retval.start = input.LT(1);
@@ -1875,11 +1875,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_OR_TERM=new RewriteRuleTokenStream(adaptor,"token OR_TERM");
         RewriteRuleSubtreeStream stream_conjunction=new RewriteRuleSubtreeStream(adaptor,"rule conjunction");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:288:2: ( ( conjunction -> conjunction ) ( OR_TERM conjunction -> ^( DISJUNCTION $disjunction conjunction ) )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:288:4: ( conjunction -> conjunction ) ( OR_TERM conjunction -> ^( DISJUNCTION $disjunction conjunction ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:288:2: ( ( conjunction -> conjunction ) ( OR_TERM conjunction -> ^( DISJUNCTION $disjunction conjunction ) )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:288:4: ( conjunction -> conjunction ) ( OR_TERM conjunction -> ^( DISJUNCTION $disjunction conjunction ) )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:288:4: ( conjunction -> conjunction )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:288:6: conjunction
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:288:4: ( conjunction -> conjunction )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:288:6: conjunction
             {
             pushFollow(FOLLOW_conjunction_in_disjunction943);
             conjunction37=conjunction();
@@ -1910,7 +1910,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:289:3: ( OR_TERM conjunction -> ^( DISJUNCTION $disjunction conjunction ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:289:3: ( OR_TERM conjunction -> ^( DISJUNCTION $disjunction conjunction ) )*
             loop7:
             do {
                 int alt7=2;
@@ -1923,7 +1923,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt7) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:289:5: OR_TERM conjunction
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:289:5: OR_TERM conjunction
             	    {
             	    OR_TERM38=(Token)match(input,OR_TERM,FOLLOW_OR_TERM_in_disjunction955); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_OR_TERM.add(OR_TERM38);
@@ -1937,7 +1937,7 @@ public class SparqlOwlParser extends Parser {
 
 
             	    // AST REWRITE
-            	    // elements: disjunction, conjunction
+            	    // elements: conjunction, disjunction
             	    // token labels: 
             	    // rule labels: retval
             	    // token list labels: 
@@ -1950,7 +1950,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 289:25: -> ^( DISJUNCTION $disjunction conjunction )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:289:28: ^( DISJUNCTION $disjunction conjunction )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:289:28: ^( DISJUNCTION $disjunction conjunction )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DISJUNCTION, "DISJUNCTION"), root_1);
@@ -1999,7 +1999,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "conjunction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:295:1: conjunction : ( primary -> primary ) ( AND_TERM primary -> ^( CONJUNCTION $conjunction primary ) )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:295:1: conjunction : ( primary -> primary ) ( AND_TERM primary -> ^( CONJUNCTION $conjunction primary ) )* ;
     public final SparqlOwlParser.conjunction_return conjunction() throws RecognitionException {
         SparqlOwlParser.conjunction_return retval = new SparqlOwlParser.conjunction_return();
         retval.start = input.LT(1);
@@ -2016,11 +2016,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_AND_TERM=new RewriteRuleTokenStream(adaptor,"token AND_TERM");
         RewriteRuleSubtreeStream stream_primary=new RewriteRuleSubtreeStream(adaptor,"rule primary");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:296:2: ( ( primary -> primary ) ( AND_TERM primary -> ^( CONJUNCTION $conjunction primary ) )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:296:4: ( primary -> primary ) ( AND_TERM primary -> ^( CONJUNCTION $conjunction primary ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:296:2: ( ( primary -> primary ) ( AND_TERM primary -> ^( CONJUNCTION $conjunction primary ) )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:296:4: ( primary -> primary ) ( AND_TERM primary -> ^( CONJUNCTION $conjunction primary ) )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:296:4: ( primary -> primary )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:296:6: primary
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:296:4: ( primary -> primary )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:296:6: primary
             {
             pushFollow(FOLLOW_primary_in_conjunction986);
             primary40=primary();
@@ -2051,7 +2051,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:297:3: ( AND_TERM primary -> ^( CONJUNCTION $conjunction primary ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:297:3: ( AND_TERM primary -> ^( CONJUNCTION $conjunction primary ) )*
             loop8:
             do {
                 int alt8=2;
@@ -2064,7 +2064,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt8) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:297:5: AND_TERM primary
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:297:5: AND_TERM primary
             	    {
             	    AND_TERM41=(Token)match(input,AND_TERM,FOLLOW_AND_TERM_in_conjunction998); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_AND_TERM.add(AND_TERM41);
@@ -2078,7 +2078,7 @@ public class SparqlOwlParser extends Parser {
 
 
             	    // AST REWRITE
-            	    // elements: conjunction, primary
+            	    // elements: primary, conjunction
             	    // token labels: 
             	    // rule labels: retval
             	    // token list labels: 
@@ -2091,7 +2091,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 297:22: -> ^( CONJUNCTION $conjunction primary )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:297:25: ^( CONJUNCTION $conjunction primary )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:297:25: ^( CONJUNCTION $conjunction primary )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CONJUNCTION, "CONJUNCTION"), root_1);
@@ -2140,7 +2140,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "primary"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:303:1: primary : ( NOT_TERM ( restriction | atomic ) -> ^( NEGATION ( restriction )? ( atomic )? ) | restriction | atomic );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:303:1: primary : ( NOT_TERM ( restriction | atomic ) -> ^( NEGATION ( restriction )? ( atomic )? ) | restriction | atomic );
     public final SparqlOwlParser.primary_return primary() throws RecognitionException {
         SparqlOwlParser.primary_return retval = new SparqlOwlParser.primary_return();
         retval.start = input.LT(1);
@@ -2162,7 +2162,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_restriction=new RewriteRuleSubtreeStream(adaptor,"rule restriction");
         RewriteRuleSubtreeStream stream_atomic=new RewriteRuleSubtreeStream(adaptor,"rule atomic");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:304:2: ( NOT_TERM ( restriction | atomic ) -> ^( NEGATION ( restriction )? ( atomic )? ) | restriction | atomic )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:304:2: ( NOT_TERM ( restriction | atomic ) -> ^( NEGATION ( restriction )? ( atomic )? ) | restriction | atomic )
             int alt10=3;
             switch ( input.LA(1) ) {
             case NOT_TERM:
@@ -2234,12 +2234,12 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt10) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:304:4: NOT_TERM ( restriction | atomic )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:304:4: NOT_TERM ( restriction | atomic )
                     {
                     NOT_TERM43=(Token)match(input,NOT_TERM,FOLLOW_NOT_TERM_in_primary1027); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NOT_TERM.add(NOT_TERM43);
 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:304:13: ( restriction | atomic )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:304:13: ( restriction | atomic )
                     int alt9=2;
                     switch ( input.LA(1) ) {
                     case INVERSE_TERM:
@@ -2306,7 +2306,7 @@ public class SparqlOwlParser extends Parser {
 
                     switch (alt9) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:304:15: restriction
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:304:15: restriction
                             {
                             pushFollow(FOLLOW_restriction_in_primary1031);
                             restriction44=restriction();
@@ -2318,7 +2318,7 @@ public class SparqlOwlParser extends Parser {
                             }
                             break;
                         case 2 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:304:29: atomic
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:304:29: atomic
                             {
                             pushFollow(FOLLOW_atomic_in_primary1035);
                             atomic45=atomic();
@@ -2348,18 +2348,18 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 304:38: -> ^( NEGATION ( restriction )? ( atomic )? )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:304:41: ^( NEGATION ( restriction )? ( atomic )? )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:304:41: ^( NEGATION ( restriction )? ( atomic )? )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NEGATION, "NEGATION"), root_1);
 
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:304:52: ( restriction )?
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:304:52: ( restriction )?
                         if ( stream_restriction.hasNext() ) {
                             adaptor.addChild(root_1, stream_restriction.nextTree());
 
                         }
                         stream_restriction.reset();
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:304:65: ( atomic )?
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:304:65: ( atomic )?
                         if ( stream_atomic.hasNext() ) {
                             adaptor.addChild(root_1, stream_atomic.nextTree());
 
@@ -2375,7 +2375,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:305:4: restriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:305:4: restriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2389,7 +2389,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:306:4: atomic
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:306:4: atomic
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2428,7 +2428,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "atomic"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:312:1: atomic : ( iriRef -> ^( CLASS_OR_DATATYPE iriRef ) | INTEGER_TERM -> ^( DATATYPE INTEGER_TERM ) | DECIMAL_TERM -> ^( DATATYPE DECIMAL_TERM ) | FLOAT_TERM -> ^( DATATYPE FLOAT_TERM ) | STRING_TERM -> ^( DATATYPE STRING_TERM ) | datatypeRestriction | OPEN_CURLY_BRACE ( literal )+ CLOSE_CURLY_BRACE -> ^( VALUE_ENUMERATION ( literal )+ ) | OPEN_CURLY_BRACE ( individual )+ CLOSE_CURLY_BRACE -> ^( INDIVIDUAL_ENUMERATION ( individual )+ ) | OPEN_BRACE disjunction CLOSE_BRACE );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:312:1: atomic : ( iriRef -> ^( CLASS_OR_DATATYPE iriRef ) | INTEGER_TERM -> ^( DATATYPE INTEGER_TERM ) | DECIMAL_TERM -> ^( DATATYPE DECIMAL_TERM ) | FLOAT_TERM -> ^( DATATYPE FLOAT_TERM ) | STRING_TERM -> ^( DATATYPE STRING_TERM ) | datatypeRestriction | OPEN_CURLY_BRACE ( literal )+ CLOSE_CURLY_BRACE -> ^( VALUE_ENUMERATION ( literal )+ ) | OPEN_CURLY_BRACE ( individual )+ CLOSE_CURLY_BRACE -> ^( INDIVIDUAL_ENUMERATION ( individual )+ ) | OPEN_BRACE disjunction CLOSE_BRACE );
     public final SparqlOwlParser.atomic_return atomic() throws RecognitionException {
         SparqlOwlParser.atomic_return retval = new SparqlOwlParser.atomic_return();
         retval.start = input.LT(1);
@@ -2476,12 +2476,12 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         RewriteRuleSubtreeStream stream_literal=new RewriteRuleSubtreeStream(adaptor,"rule literal");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:313:2: ( iriRef -> ^( CLASS_OR_DATATYPE iriRef ) | INTEGER_TERM -> ^( DATATYPE INTEGER_TERM ) | DECIMAL_TERM -> ^( DATATYPE DECIMAL_TERM ) | FLOAT_TERM -> ^( DATATYPE FLOAT_TERM ) | STRING_TERM -> ^( DATATYPE STRING_TERM ) | datatypeRestriction | OPEN_CURLY_BRACE ( literal )+ CLOSE_CURLY_BRACE -> ^( VALUE_ENUMERATION ( literal )+ ) | OPEN_CURLY_BRACE ( individual )+ CLOSE_CURLY_BRACE -> ^( INDIVIDUAL_ENUMERATION ( individual )+ ) | OPEN_BRACE disjunction CLOSE_BRACE )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:313:2: ( iriRef -> ^( CLASS_OR_DATATYPE iriRef ) | INTEGER_TERM -> ^( DATATYPE INTEGER_TERM ) | DECIMAL_TERM -> ^( DATATYPE DECIMAL_TERM ) | FLOAT_TERM -> ^( DATATYPE FLOAT_TERM ) | STRING_TERM -> ^( DATATYPE STRING_TERM ) | datatypeRestriction | OPEN_CURLY_BRACE ( literal )+ CLOSE_CURLY_BRACE -> ^( VALUE_ENUMERATION ( literal )+ ) | OPEN_CURLY_BRACE ( individual )+ CLOSE_CURLY_BRACE -> ^( INDIVIDUAL_ENUMERATION ( individual )+ ) | OPEN_BRACE disjunction CLOSE_BRACE )
             int alt13=9;
             alt13 = dfa13.predict(input);
             switch (alt13) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:313:4: iriRef
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:313:4: iriRef
                     {
                     pushFollow(FOLLOW_iriRef_in_atomic1073);
                     iriRef48=iriRef();
@@ -2505,7 +2505,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 313:11: -> ^( CLASS_OR_DATATYPE iriRef )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:313:14: ^( CLASS_OR_DATATYPE iriRef )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:313:14: ^( CLASS_OR_DATATYPE iriRef )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CLASS_OR_DATATYPE, "CLASS_OR_DATATYPE"), root_1);
@@ -2521,7 +2521,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:314:4: INTEGER_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:314:4: INTEGER_TERM
                     {
                     INTEGER_TERM49=(Token)match(input,INTEGER_TERM,FOLLOW_INTEGER_TERM_in_atomic1086); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INTEGER_TERM.add(INTEGER_TERM49);
@@ -2542,7 +2542,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 314:17: -> ^( DATATYPE INTEGER_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:314:20: ^( DATATYPE INTEGER_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:314:20: ^( DATATYPE INTEGER_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -2558,7 +2558,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:315:4: DECIMAL_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:315:4: DECIMAL_TERM
                     {
                     DECIMAL_TERM50=(Token)match(input,DECIMAL_TERM,FOLLOW_DECIMAL_TERM_in_atomic1099); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DECIMAL_TERM.add(DECIMAL_TERM50);
@@ -2579,7 +2579,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 315:17: -> ^( DATATYPE DECIMAL_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:315:20: ^( DATATYPE DECIMAL_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:315:20: ^( DATATYPE DECIMAL_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -2595,7 +2595,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:316:4: FLOAT_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:316:4: FLOAT_TERM
                     {
                     FLOAT_TERM51=(Token)match(input,FLOAT_TERM,FOLLOW_FLOAT_TERM_in_atomic1112); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_FLOAT_TERM.add(FLOAT_TERM51);
@@ -2616,7 +2616,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 316:15: -> ^( DATATYPE FLOAT_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:316:18: ^( DATATYPE FLOAT_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:316:18: ^( DATATYPE FLOAT_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -2632,7 +2632,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:317:4: STRING_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:317:4: STRING_TERM
                     {
                     STRING_TERM52=(Token)match(input,STRING_TERM,FOLLOW_STRING_TERM_in_atomic1125); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_STRING_TERM.add(STRING_TERM52);
@@ -2653,7 +2653,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 317:16: -> ^( DATATYPE STRING_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:317:19: ^( DATATYPE STRING_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:317:19: ^( DATATYPE STRING_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATATYPE, "DATATYPE"), root_1);
@@ -2669,7 +2669,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:318:4: datatypeRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:318:4: datatypeRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2683,12 +2683,12 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:319:4: OPEN_CURLY_BRACE ( literal )+ CLOSE_CURLY_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:319:4: OPEN_CURLY_BRACE ( literal )+ CLOSE_CURLY_BRACE
                     {
                     OPEN_CURLY_BRACE54=(Token)match(input,OPEN_CURLY_BRACE,FOLLOW_OPEN_CURLY_BRACE_in_atomic1143); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_OPEN_CURLY_BRACE.add(OPEN_CURLY_BRACE54);
 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:319:21: ( literal )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:319:21: ( literal )+
                     int cnt11=0;
                     loop11:
                     do {
@@ -2702,7 +2702,7 @@ public class SparqlOwlParser extends Parser {
 
                         switch (alt11) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:319:21: literal
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:319:21: literal
                     	    {
                     	    pushFollow(FOLLOW_literal_in_atomic1145);
                     	    literal55=literal();
@@ -2743,7 +2743,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 319:48: -> ^( VALUE_ENUMERATION ( literal )+ )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:319:51: ^( VALUE_ENUMERATION ( literal )+ )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:319:51: ^( VALUE_ENUMERATION ( literal )+ )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VALUE_ENUMERATION, "VALUE_ENUMERATION"), root_1);
@@ -2766,12 +2766,12 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 8 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:320:4: OPEN_CURLY_BRACE ( individual )+ CLOSE_CURLY_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:320:4: OPEN_CURLY_BRACE ( individual )+ CLOSE_CURLY_BRACE
                     {
                     OPEN_CURLY_BRACE57=(Token)match(input,OPEN_CURLY_BRACE,FOLLOW_OPEN_CURLY_BRACE_in_atomic1162); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_OPEN_CURLY_BRACE.add(OPEN_CURLY_BRACE57);
 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:320:21: ( individual )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:320:21: ( individual )+
                     int cnt12=0;
                     loop12:
                     do {
@@ -2785,7 +2785,7 @@ public class SparqlOwlParser extends Parser {
 
                         switch (alt12) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:320:21: individual
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:320:21: individual
                     	    {
                     	    pushFollow(FOLLOW_individual_in_atomic1164);
                     	    individual58=individual();
@@ -2826,7 +2826,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 320:51: -> ^( INDIVIDUAL_ENUMERATION ( individual )+ )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:320:54: ^( INDIVIDUAL_ENUMERATION ( individual )+ )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:320:54: ^( INDIVIDUAL_ENUMERATION ( individual )+ )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(INDIVIDUAL_ENUMERATION, "INDIVIDUAL_ENUMERATION"), root_1);
@@ -2849,7 +2849,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 9 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:321:4: OPEN_BRACE disjunction CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:321:4: OPEN_BRACE disjunction CLOSE_BRACE
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2890,7 +2890,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "restriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:327:1: restriction : ( someRestriction | allRestriction | valueRestriction | selfRestriction | numberRestriction );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:327:1: restriction : ( someRestriction | allRestriction | valueRestriction | selfRestriction | numberRestriction );
     public final SparqlOwlParser.restriction_return restriction() throws RecognitionException {
         SparqlOwlParser.restriction_return retval = new SparqlOwlParser.restriction_return();
         retval.start = input.LT(1);
@@ -2910,12 +2910,12 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:328:2: ( someRestriction | allRestriction | valueRestriction | selfRestriction | numberRestriction )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:328:2: ( someRestriction | allRestriction | valueRestriction | selfRestriction | numberRestriction )
             int alt14=5;
             alt14 = dfa14.predict(input);
             switch (alt14) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:328:4: someRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:328:4: someRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2929,7 +2929,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:329:4: allRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:329:4: allRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2943,7 +2943,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:330:4: valueRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:330:4: valueRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2957,7 +2957,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:331:4: selfRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:331:4: selfRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -2971,7 +2971,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:332:4: numberRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:332:4: numberRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -3010,7 +3010,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "someRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:335:1: someRestriction : propertyExpression SOME_TERM primary -> ^( SOME_RESTRICTION propertyExpression primary ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:335:1: someRestriction : propertyExpression SOME_TERM primary -> ^( SOME_RESTRICTION propertyExpression primary ) ;
     public final SparqlOwlParser.someRestriction_return someRestriction() throws RecognitionException {
         SparqlOwlParser.someRestriction_return retval = new SparqlOwlParser.someRestriction_return();
         retval.start = input.LT(1);
@@ -3028,8 +3028,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_propertyExpression=new RewriteRuleSubtreeStream(adaptor,"rule propertyExpression");
         RewriteRuleSubtreeStream stream_primary=new RewriteRuleSubtreeStream(adaptor,"rule primary");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:336:2: ( propertyExpression SOME_TERM primary -> ^( SOME_RESTRICTION propertyExpression primary ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:336:4: propertyExpression SOME_TERM primary
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:336:2: ( propertyExpression SOME_TERM primary -> ^( SOME_RESTRICTION propertyExpression primary ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:336:4: propertyExpression SOME_TERM primary
             {
             pushFollow(FOLLOW_propertyExpression_in_someRestriction1231);
             propertyExpression68=propertyExpression();
@@ -3062,7 +3062,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 337:2: -> ^( SOME_RESTRICTION propertyExpression primary )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:337:5: ^( SOME_RESTRICTION propertyExpression primary )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:337:5: ^( SOME_RESTRICTION propertyExpression primary )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SOME_RESTRICTION, "SOME_RESTRICTION"), root_1);
@@ -3102,7 +3102,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "allRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:340:1: allRestriction : propertyExpression ONLY_TERM primary -> ^( ALL_RESTRICTION propertyExpression primary ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:340:1: allRestriction : propertyExpression ONLY_TERM primary -> ^( ALL_RESTRICTION propertyExpression primary ) ;
     public final SparqlOwlParser.allRestriction_return allRestriction() throws RecognitionException {
         SparqlOwlParser.allRestriction_return retval = new SparqlOwlParser.allRestriction_return();
         retval.start = input.LT(1);
@@ -3120,8 +3120,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_propertyExpression=new RewriteRuleSubtreeStream(adaptor,"rule propertyExpression");
         RewriteRuleSubtreeStream stream_primary=new RewriteRuleSubtreeStream(adaptor,"rule primary");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:341:2: ( propertyExpression ONLY_TERM primary -> ^( ALL_RESTRICTION propertyExpression primary ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:341:4: propertyExpression ONLY_TERM primary
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:341:2: ( propertyExpression ONLY_TERM primary -> ^( ALL_RESTRICTION propertyExpression primary ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:341:4: propertyExpression ONLY_TERM primary
             {
             pushFollow(FOLLOW_propertyExpression_in_allRestriction1257);
             propertyExpression71=propertyExpression();
@@ -3154,7 +3154,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 342:2: -> ^( ALL_RESTRICTION propertyExpression primary )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:342:5: ^( ALL_RESTRICTION propertyExpression primary )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:342:5: ^( ALL_RESTRICTION propertyExpression primary )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ALL_RESTRICTION, "ALL_RESTRICTION"), root_1);
@@ -3194,7 +3194,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "valueRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:345:1: valueRestriction : ( objectPropertyExpression VALUE_TERM individual -> ^( VALUE_RESTRICTION objectPropertyExpression individual ) | dataPropertyIRI VALUE_TERM literal -> ^( VALUE_RESTRICTION dataPropertyIRI literal ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:345:1: valueRestriction : ( objectPropertyExpression VALUE_TERM individual -> ^( VALUE_RESTRICTION objectPropertyExpression individual ) | dataPropertyIRI VALUE_TERM literal -> ^( VALUE_RESTRICTION dataPropertyIRI literal ) );
     public final SparqlOwlParser.valueRestriction_return valueRestriction() throws RecognitionException {
         SparqlOwlParser.valueRestriction_return retval = new SparqlOwlParser.valueRestriction_return();
         retval.start = input.LT(1);
@@ -3220,7 +3220,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_dataPropertyIRI=new RewriteRuleSubtreeStream(adaptor,"rule dataPropertyIRI");
         RewriteRuleSubtreeStream stream_literal=new RewriteRuleSubtreeStream(adaptor,"rule literal");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:346:2: ( objectPropertyExpression VALUE_TERM individual -> ^( VALUE_RESTRICTION objectPropertyExpression individual ) | dataPropertyIRI VALUE_TERM literal -> ^( VALUE_RESTRICTION dataPropertyIRI literal ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:346:2: ( objectPropertyExpression VALUE_TERM individual -> ^( VALUE_RESTRICTION objectPropertyExpression individual ) | dataPropertyIRI VALUE_TERM literal -> ^( VALUE_RESTRICTION dataPropertyIRI literal ) )
             int alt15=2;
             switch ( input.LA(1) ) {
             case INVERSE_TERM:
@@ -3299,7 +3299,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt15) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:346:4: objectPropertyExpression VALUE_TERM individual
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:346:4: objectPropertyExpression VALUE_TERM individual
                     {
                     pushFollow(FOLLOW_objectPropertyExpression_in_valueRestriction1284);
                     objectPropertyExpression74=objectPropertyExpression();
@@ -3332,7 +3332,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 346:51: -> ^( VALUE_RESTRICTION objectPropertyExpression individual )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:346:54: ^( VALUE_RESTRICTION objectPropertyExpression individual )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:346:54: ^( VALUE_RESTRICTION objectPropertyExpression individual )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VALUE_RESTRICTION, "VALUE_RESTRICTION"), root_1);
@@ -3349,7 +3349,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:347:4: dataPropertyIRI VALUE_TERM literal
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:347:4: dataPropertyIRI VALUE_TERM literal
                     {
                     pushFollow(FOLLOW_dataPropertyIRI_in_valueRestriction1303);
                     dataPropertyIRI77=dataPropertyIRI();
@@ -3382,7 +3382,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 347:39: -> ^( VALUE_RESTRICTION dataPropertyIRI literal )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:347:42: ^( VALUE_RESTRICTION dataPropertyIRI literal )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:347:42: ^( VALUE_RESTRICTION dataPropertyIRI literal )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VALUE_RESTRICTION, "VALUE_RESTRICTION"), root_1);
@@ -3424,7 +3424,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "selfRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:350:1: selfRestriction : objectPropertyExpression SELF_TERM -> ^( SELF_RESTRICTION objectPropertyExpression ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:350:1: selfRestriction : objectPropertyExpression SELF_TERM -> ^( SELF_RESTRICTION objectPropertyExpression ) ;
     public final SparqlOwlParser.selfRestriction_return selfRestriction() throws RecognitionException {
         SparqlOwlParser.selfRestriction_return retval = new SparqlOwlParser.selfRestriction_return();
         retval.start = input.LT(1);
@@ -3439,8 +3439,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_SELF_TERM=new RewriteRuleTokenStream(adaptor,"token SELF_TERM");
         RewriteRuleSubtreeStream stream_objectPropertyExpression=new RewriteRuleSubtreeStream(adaptor,"rule objectPropertyExpression");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:351:2: ( objectPropertyExpression SELF_TERM -> ^( SELF_RESTRICTION objectPropertyExpression ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:351:4: objectPropertyExpression SELF_TERM
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:351:2: ( objectPropertyExpression SELF_TERM -> ^( SELF_RESTRICTION objectPropertyExpression ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:351:4: objectPropertyExpression SELF_TERM
             {
             pushFollow(FOLLOW_objectPropertyExpression_in_selfRestriction1328);
             objectPropertyExpression80=objectPropertyExpression();
@@ -3467,7 +3467,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 352:2: -> ^( SELF_RESTRICTION objectPropertyExpression )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:352:5: ^( SELF_RESTRICTION objectPropertyExpression )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:352:5: ^( SELF_RESTRICTION objectPropertyExpression )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SELF_RESTRICTION, "SELF_RESTRICTION"), root_1);
@@ -3506,7 +3506,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "numberRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:355:1: numberRestriction : ( minNumberRestriction | maxNumberRestriction | exactNumberRestriction );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:355:1: numberRestriction : ( minNumberRestriction | maxNumberRestriction | exactNumberRestriction );
     public final SparqlOwlParser.numberRestriction_return numberRestriction() throws RecognitionException {
         SparqlOwlParser.numberRestriction_return retval = new SparqlOwlParser.numberRestriction_return();
         retval.start = input.LT(1);
@@ -3522,7 +3522,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:356:2: ( minNumberRestriction | maxNumberRestriction | exactNumberRestriction )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:356:2: ( minNumberRestriction | maxNumberRestriction | exactNumberRestriction )
             int alt16=3;
             switch ( input.LA(1) ) {
             case INVERSE_TERM:
@@ -3657,7 +3657,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt16) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:356:4: minNumberRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:356:4: minNumberRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -3671,7 +3671,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:357:4: maxNumberRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:357:4: maxNumberRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -3685,7 +3685,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:358:4: exactNumberRestriction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:358:4: exactNumberRestriction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -3724,7 +3724,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "minNumberRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:364:1: minNumberRestriction : propertyExpression MIN_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( MIN_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:364:1: minNumberRestriction : propertyExpression MIN_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( MIN_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) ;
     public final SparqlOwlParser.minNumberRestriction_return minNumberRestriction() throws RecognitionException {
         SparqlOwlParser.minNumberRestriction_return retval = new SparqlOwlParser.minNumberRestriction_return();
         retval.start = input.LT(1);
@@ -3745,8 +3745,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_propertyExpression=new RewriteRuleSubtreeStream(adaptor,"rule propertyExpression");
         RewriteRuleSubtreeStream stream_primary=new RewriteRuleSubtreeStream(adaptor,"rule primary");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:365:2: ( propertyExpression MIN_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( MIN_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:365:4: propertyExpression MIN_TERM n= INTEGER ( ( primary )=> primary | )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:365:2: ( propertyExpression MIN_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( MIN_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:365:4: propertyExpression MIN_TERM n= INTEGER ( ( primary )=> primary | )
             {
             pushFollow(FOLLOW_propertyExpression_in_minNumberRestriction1373);
             propertyExpression85=propertyExpression();
@@ -3760,12 +3760,12 @@ public class SparqlOwlParser extends Parser {
             n=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_minNumberRestriction1379); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_INTEGER.add(n);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:366:3: ( ( primary )=> primary | )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:366:3: ( ( primary )=> primary | )
             int alt17=2;
             alt17 = dfa17.predict(input);
             switch (alt17) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:366:5: ( primary )=> primary
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:366:5: ( primary )=> primary
                     {
                     pushFollow(FOLLOW_primary_in_minNumberRestriction1390);
                     primary87=primary();
@@ -3777,7 +3777,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:368:3: 
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:368:3: 
                     {
                     }
                     break;
@@ -3787,7 +3787,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: primary, n, propertyExpression
+            // elements: primary, propertyExpression, n
             // token labels: n
             // rule labels: retval
             // token list labels: 
@@ -3801,14 +3801,14 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 369:2: -> ^( MIN_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:369:5: ^( MIN_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:369:5: ^( MIN_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MIN_NUMBER_RESTRICTION, "MIN_NUMBER_RESTRICTION"), root_1);
 
                 adaptor.addChild(root_1, stream_propertyExpression.nextTree());
                 adaptor.addChild(root_1, stream_n.nextNode());
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:369:52: ( primary )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:369:52: ( primary )?
                 if ( stream_primary.hasNext() ) {
                     adaptor.addChild(root_1, stream_primary.nextTree());
 
@@ -3847,7 +3847,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "maxNumberRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:372:1: maxNumberRestriction : propertyExpression MAX_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( MAX_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:372:1: maxNumberRestriction : propertyExpression MAX_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( MAX_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) ;
     public final SparqlOwlParser.maxNumberRestriction_return maxNumberRestriction() throws RecognitionException {
         SparqlOwlParser.maxNumberRestriction_return retval = new SparqlOwlParser.maxNumberRestriction_return();
         retval.start = input.LT(1);
@@ -3868,8 +3868,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_propertyExpression=new RewriteRuleSubtreeStream(adaptor,"rule propertyExpression");
         RewriteRuleSubtreeStream stream_primary=new RewriteRuleSubtreeStream(adaptor,"rule primary");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:373:2: ( propertyExpression MAX_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( MAX_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:373:4: propertyExpression MAX_TERM n= INTEGER ( ( primary )=> primary | )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:373:2: ( propertyExpression MAX_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( MAX_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:373:4: propertyExpression MAX_TERM n= INTEGER ( ( primary )=> primary | )
             {
             pushFollow(FOLLOW_propertyExpression_in_maxNumberRestriction1425);
             propertyExpression88=propertyExpression();
@@ -3883,12 +3883,12 @@ public class SparqlOwlParser extends Parser {
             n=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_maxNumberRestriction1431); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_INTEGER.add(n);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:374:3: ( ( primary )=> primary | )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:374:3: ( ( primary )=> primary | )
             int alt18=2;
             alt18 = dfa18.predict(input);
             switch (alt18) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:374:5: ( primary )=> primary
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:374:5: ( primary )=> primary
                     {
                     pushFollow(FOLLOW_primary_in_maxNumberRestriction1442);
                     primary90=primary();
@@ -3900,7 +3900,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:376:3: 
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:376:3: 
                     {
                     }
                     break;
@@ -3910,7 +3910,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: propertyExpression, n, primary
+            // elements: primary, propertyExpression, n
             // token labels: n
             // rule labels: retval
             // token list labels: 
@@ -3924,14 +3924,14 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 377:2: -> ^( MAX_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:377:5: ^( MAX_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:377:5: ^( MAX_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(MAX_NUMBER_RESTRICTION, "MAX_NUMBER_RESTRICTION"), root_1);
 
                 adaptor.addChild(root_1, stream_propertyExpression.nextTree());
                 adaptor.addChild(root_1, stream_n.nextNode());
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:377:52: ( primary )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:377:52: ( primary )?
                 if ( stream_primary.hasNext() ) {
                     adaptor.addChild(root_1, stream_primary.nextTree());
 
@@ -3970,7 +3970,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "exactNumberRestriction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:380:1: exactNumberRestriction : propertyExpression EXACTLY_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( EXACT_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:380:1: exactNumberRestriction : propertyExpression EXACTLY_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( EXACT_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) ;
     public final SparqlOwlParser.exactNumberRestriction_return exactNumberRestriction() throws RecognitionException {
         SparqlOwlParser.exactNumberRestriction_return retval = new SparqlOwlParser.exactNumberRestriction_return();
         retval.start = input.LT(1);
@@ -3991,8 +3991,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_propertyExpression=new RewriteRuleSubtreeStream(adaptor,"rule propertyExpression");
         RewriteRuleSubtreeStream stream_primary=new RewriteRuleSubtreeStream(adaptor,"rule primary");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:381:2: ( propertyExpression EXACTLY_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( EXACT_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:381:4: propertyExpression EXACTLY_TERM n= INTEGER ( ( primary )=> primary | )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:381:2: ( propertyExpression EXACTLY_TERM n= INTEGER ( ( primary )=> primary | ) -> ^( EXACT_NUMBER_RESTRICTION propertyExpression $n ( primary )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:381:4: propertyExpression EXACTLY_TERM n= INTEGER ( ( primary )=> primary | )
             {
             pushFollow(FOLLOW_propertyExpression_in_exactNumberRestriction1477);
             propertyExpression91=propertyExpression();
@@ -4006,12 +4006,12 @@ public class SparqlOwlParser extends Parser {
             n=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_exactNumberRestriction1483); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_INTEGER.add(n);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:382:3: ( ( primary )=> primary | )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:382:3: ( ( primary )=> primary | )
             int alt19=2;
             alt19 = dfa19.predict(input);
             switch (alt19) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:382:5: ( primary )=> primary
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:382:5: ( primary )=> primary
                     {
                     pushFollow(FOLLOW_primary_in_exactNumberRestriction1494);
                     primary93=primary();
@@ -4023,7 +4023,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:384:3: 
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:384:3: 
                     {
                     }
                     break;
@@ -4033,7 +4033,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: primary, n, propertyExpression
+            // elements: primary, propertyExpression, n
             // token labels: n
             // rule labels: retval
             // token list labels: 
@@ -4047,14 +4047,14 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 385:2: -> ^( EXACT_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:385:5: ^( EXACT_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:385:5: ^( EXACT_NUMBER_RESTRICTION propertyExpression $n ( primary )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(EXACT_NUMBER_RESTRICTION, "EXACT_NUMBER_RESTRICTION"), root_1);
 
                 adaptor.addChild(root_1, stream_propertyExpression.nextTree());
                 adaptor.addChild(root_1, stream_n.nextNode());
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:385:54: ( primary )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:385:54: ( primary )?
                 if ( stream_primary.hasNext() ) {
                     adaptor.addChild(root_1, stream_primary.nextTree());
 
@@ -4093,7 +4093,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "query"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:392:1: query : prologue ( selectQuery | constructQuery | describeQuery | askQuery ) EOF -> ^( QUERY ( prologue )? ( selectQuery )? ( constructQuery )? ( describeQuery )? ( askQuery )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:392:1: query : prologue ( selectQuery | constructQuery | describeQuery | askQuery ) EOF -> ^( QUERY ( prologue )? ( selectQuery )? ( constructQuery )? ( describeQuery )? ( askQuery )? ) ;
     public final SparqlOwlParser.query_return query() throws RecognitionException {
         SparqlOwlParser.query_return retval = new SparqlOwlParser.query_return();
         retval.start = input.LT(1);
@@ -4120,8 +4120,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_prologue=new RewriteRuleSubtreeStream(adaptor,"rule prologue");
         RewriteRuleSubtreeStream stream_selectQuery=new RewriteRuleSubtreeStream(adaptor,"rule selectQuery");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:393:2: ( prologue ( selectQuery | constructQuery | describeQuery | askQuery ) EOF -> ^( QUERY ( prologue )? ( selectQuery )? ( constructQuery )? ( describeQuery )? ( askQuery )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:393:4: prologue ( selectQuery | constructQuery | describeQuery | askQuery ) EOF
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:393:2: ( prologue ( selectQuery | constructQuery | describeQuery | askQuery ) EOF -> ^( QUERY ( prologue )? ( selectQuery )? ( constructQuery )? ( describeQuery )? ( askQuery )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:393:4: prologue ( selectQuery | constructQuery | describeQuery | askQuery ) EOF
             {
             pushFollow(FOLLOW_prologue_in_query1533);
             prologue94=prologue();
@@ -4129,7 +4129,7 @@ public class SparqlOwlParser extends Parser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_prologue.add(prologue94.getTree());
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:394:3: ( selectQuery | constructQuery | describeQuery | askQuery )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:394:3: ( selectQuery | constructQuery | describeQuery | askQuery )
             int alt20=4;
             switch ( input.LA(1) ) {
             case SELECT_TERM:
@@ -4162,7 +4162,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt20) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:394:5: selectQuery
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:394:5: selectQuery
                     {
                     pushFollow(FOLLOW_selectQuery_in_query1539);
                     selectQuery95=selectQuery();
@@ -4174,7 +4174,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:394:19: constructQuery
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:394:19: constructQuery
                     {
                     pushFollow(FOLLOW_constructQuery_in_query1543);
                     constructQuery96=constructQuery();
@@ -4186,7 +4186,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:394:36: describeQuery
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:394:36: describeQuery
                     {
                     pushFollow(FOLLOW_describeQuery_in_query1547);
                     describeQuery97=describeQuery();
@@ -4198,7 +4198,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:394:52: askQuery
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:394:52: askQuery
                     {
                     pushFollow(FOLLOW_askQuery_in_query1551);
                     askQuery98=askQuery();
@@ -4218,7 +4218,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: askQuery, selectQuery, prologue, describeQuery, constructQuery
+            // elements: selectQuery, prologue, constructQuery, askQuery, describeQuery
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4231,36 +4231,36 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 395:2: -> ^( QUERY ( prologue )? ( selectQuery )? ( constructQuery )? ( describeQuery )? ( askQuery )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:395:5: ^( QUERY ( prologue )? ( selectQuery )? ( constructQuery )? ( describeQuery )? ( askQuery )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:395:5: ^( QUERY ( prologue )? ( selectQuery )? ( constructQuery )? ( describeQuery )? ( askQuery )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(QUERY, "QUERY"), root_1);
 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:395:13: ( prologue )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:395:13: ( prologue )?
                 if ( stream_prologue.hasNext() ) {
                     adaptor.addChild(root_1, stream_prologue.nextTree());
 
                 }
                 stream_prologue.reset();
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:395:23: ( selectQuery )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:395:23: ( selectQuery )?
                 if ( stream_selectQuery.hasNext() ) {
                     adaptor.addChild(root_1, stream_selectQuery.nextTree());
 
                 }
                 stream_selectQuery.reset();
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:395:36: ( constructQuery )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:395:36: ( constructQuery )?
                 if ( stream_constructQuery.hasNext() ) {
                     adaptor.addChild(root_1, stream_constructQuery.nextTree());
 
                 }
                 stream_constructQuery.reset();
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:395:52: ( describeQuery )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:395:52: ( describeQuery )?
                 if ( stream_describeQuery.hasNext() ) {
                     adaptor.addChild(root_1, stream_describeQuery.nextTree());
 
                 }
                 stream_describeQuery.reset();
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:395:67: ( askQuery )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:395:67: ( askQuery )?
                 if ( stream_askQuery.hasNext() ) {
                     adaptor.addChild(root_1, stream_askQuery.nextTree());
 
@@ -4299,7 +4299,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "prologue"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:401:1: prologue : ( baseDecl )? ( prefixDecl )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:401:1: prologue : ( baseDecl )? ( prefixDecl )* ;
     public final SparqlOwlParser.prologue_return prologue() throws RecognitionException {
         SparqlOwlParser.prologue_return retval = new SparqlOwlParser.prologue_return();
         retval.start = input.LT(1);
@@ -4313,12 +4313,12 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:402:2: ( ( baseDecl )? ( prefixDecl )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:402:4: ( baseDecl )? ( prefixDecl )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:402:2: ( ( baseDecl )? ( prefixDecl )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:402:4: ( baseDecl )? ( prefixDecl )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:402:4: ( baseDecl )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:402:4: ( baseDecl )?
             int alt21=2;
             int LA21_0 = input.LA(1);
 
@@ -4327,7 +4327,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt21) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:402:4: baseDecl
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:402:4: baseDecl
                     {
                     pushFollow(FOLLOW_baseDecl_in_prologue1591);
                     baseDecl100=baseDecl();
@@ -4341,7 +4341,7 @@ public class SparqlOwlParser extends Parser {
 
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:402:14: ( prefixDecl )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:402:14: ( prefixDecl )*
             loop22:
             do {
                 int alt22=2;
@@ -4354,7 +4354,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt22) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:402:14: prefixDecl
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:402:14: prefixDecl
             	    {
             	    pushFollow(FOLLOW_prefixDecl_in_prologue1594);
             	    prefixDecl101=prefixDecl();
@@ -4398,7 +4398,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "baseDecl"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:408:1: baseDecl : BASE_TERM IRI_REF_TERM -> ^( BASE_DECL IRI_REF_TERM ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:408:1: baseDecl : BASE_TERM IRI_REF_TERM -> ^( BASE_DECL IRI_REF_TERM ) ;
     public final SparqlOwlParser.baseDecl_return baseDecl() throws RecognitionException {
         SparqlOwlParser.baseDecl_return retval = new SparqlOwlParser.baseDecl_return();
         retval.start = input.LT(1);
@@ -4414,8 +4414,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_IRI_REF_TERM=new RewriteRuleTokenStream(adaptor,"token IRI_REF_TERM");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:409:2: ( BASE_TERM IRI_REF_TERM -> ^( BASE_DECL IRI_REF_TERM ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:409:4: BASE_TERM IRI_REF_TERM
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:409:2: ( BASE_TERM IRI_REF_TERM -> ^( BASE_DECL IRI_REF_TERM ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:409:4: BASE_TERM IRI_REF_TERM
             {
             BASE_TERM102=(Token)match(input,BASE_TERM,FOLLOW_BASE_TERM_in_baseDecl1608); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_BASE_TERM.add(BASE_TERM102);
@@ -4439,7 +4439,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 410:2: -> ^( BASE_DECL IRI_REF_TERM )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:410:5: ^( BASE_DECL IRI_REF_TERM )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:410:5: ^( BASE_DECL IRI_REF_TERM )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BASE_DECL, "BASE_DECL"), root_1);
@@ -4478,7 +4478,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "prefixDecl"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:416:1: prefixDecl : PREFIX_TERM PNAME_NS IRI_REF_TERM -> ^( PREFIX_DECL PNAME_NS IRI_REF_TERM ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:416:1: prefixDecl : PREFIX_TERM PNAME_NS IRI_REF_TERM -> ^( PREFIX_DECL PNAME_NS IRI_REF_TERM ) ;
     public final SparqlOwlParser.prefixDecl_return prefixDecl() throws RecognitionException {
         SparqlOwlParser.prefixDecl_return retval = new SparqlOwlParser.prefixDecl_return();
         retval.start = input.LT(1);
@@ -4497,8 +4497,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_IRI_REF_TERM=new RewriteRuleTokenStream(adaptor,"token IRI_REF_TERM");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:417:2: ( PREFIX_TERM PNAME_NS IRI_REF_TERM -> ^( PREFIX_DECL PNAME_NS IRI_REF_TERM ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:417:4: PREFIX_TERM PNAME_NS IRI_REF_TERM
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:417:2: ( PREFIX_TERM PNAME_NS IRI_REF_TERM -> ^( PREFIX_DECL PNAME_NS IRI_REF_TERM ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:417:4: PREFIX_TERM PNAME_NS IRI_REF_TERM
             {
             PREFIX_TERM104=(Token)match(input,PREFIX_TERM,FOLLOW_PREFIX_TERM_in_prefixDecl1632); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_PREFIX_TERM.add(PREFIX_TERM104);
@@ -4525,7 +4525,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 418:2: -> ^( PREFIX_DECL PNAME_NS IRI_REF_TERM )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:418:5: ^( PREFIX_DECL PNAME_NS IRI_REF_TERM )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:418:5: ^( PREFIX_DECL PNAME_NS IRI_REF_TERM )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PREFIX_DECL, "PREFIX_DECL"), root_1);
@@ -4565,7 +4565,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "selectQuery"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:424:1: selectQuery : SELECT_TERM ( selectModifier )? selectVariableList ( datasets )? whereClause solutionModifier -> ^( SELECT ( selectModifier )? selectVariableList ( datasets )? whereClause ( solutionModifier )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:424:1: selectQuery : SELECT_TERM ( selectModifier )? selectVariableList ( datasets )? whereClause solutionModifier -> ^( SELECT ( selectModifier )? selectVariableList ( datasets )? whereClause ( solutionModifier )? ) ;
     public final SparqlOwlParser.selectQuery_return selectQuery() throws RecognitionException {
         SparqlOwlParser.selectQuery_return retval = new SparqlOwlParser.selectQuery_return();
         retval.start = input.LT(1);
@@ -4592,13 +4592,13 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_selectModifier=new RewriteRuleSubtreeStream(adaptor,"rule selectModifier");
         RewriteRuleSubtreeStream stream_selectVariableList=new RewriteRuleSubtreeStream(adaptor,"rule selectVariableList");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:425:2: ( SELECT_TERM ( selectModifier )? selectVariableList ( datasets )? whereClause solutionModifier -> ^( SELECT ( selectModifier )? selectVariableList ( datasets )? whereClause ( solutionModifier )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:425:4: SELECT_TERM ( selectModifier )? selectVariableList ( datasets )? whereClause solutionModifier
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:425:2: ( SELECT_TERM ( selectModifier )? selectVariableList ( datasets )? whereClause solutionModifier -> ^( SELECT ( selectModifier )? selectVariableList ( datasets )? whereClause ( solutionModifier )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:425:4: SELECT_TERM ( selectModifier )? selectVariableList ( datasets )? whereClause solutionModifier
             {
             SELECT_TERM107=(Token)match(input,SELECT_TERM,FOLLOW_SELECT_TERM_in_selectQuery1660); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_SELECT_TERM.add(SELECT_TERM107);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:425:16: ( selectModifier )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:425:16: ( selectModifier )?
             int alt23=2;
             int LA23_0 = input.LA(1);
 
@@ -4607,7 +4607,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt23) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:425:16: selectModifier
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:425:16: selectModifier
                     {
                     pushFollow(FOLLOW_selectModifier_in_selectQuery1662);
                     selectModifier108=selectModifier();
@@ -4627,7 +4627,7 @@ public class SparqlOwlParser extends Parser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_selectVariableList.add(selectVariableList109.getTree());
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:425:51: ( datasets )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:425:51: ( datasets )?
             int alt24=2;
             int LA24_0 = input.LA(1);
 
@@ -4636,7 +4636,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt24) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:425:51: datasets
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:425:51: datasets
                     {
                     pushFollow(FOLLOW_datasets_in_selectQuery1667);
                     datasets110=datasets();
@@ -4665,7 +4665,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: datasets, selectModifier, selectVariableList, solutionModifier, whereClause
+            // elements: selectVariableList, datasets, whereClause, solutionModifier, selectModifier
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -4678,26 +4678,26 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 426:2: -> ^( SELECT ( selectModifier )? selectVariableList ( datasets )? whereClause ( solutionModifier )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:426:5: ^( SELECT ( selectModifier )? selectVariableList ( datasets )? whereClause ( solutionModifier )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:426:5: ^( SELECT ( selectModifier )? selectVariableList ( datasets )? whereClause ( solutionModifier )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SELECT, "SELECT"), root_1);
 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:426:14: ( selectModifier )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:426:14: ( selectModifier )?
                 if ( stream_selectModifier.hasNext() ) {
                     adaptor.addChild(root_1, stream_selectModifier.nextTree());
 
                 }
                 stream_selectModifier.reset();
                 adaptor.addChild(root_1, stream_selectVariableList.nextTree());
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:426:49: ( datasets )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:426:49: ( datasets )?
                 if ( stream_datasets.hasNext() ) {
                     adaptor.addChild(root_1, stream_datasets.nextTree());
 
                 }
                 stream_datasets.reset();
                 adaptor.addChild(root_1, stream_whereClause.nextTree());
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:426:71: ( solutionModifier )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:426:71: ( solutionModifier )?
                 if ( stream_solutionModifier.hasNext() ) {
                     adaptor.addChild(root_1, stream_solutionModifier.nextTree());
 
@@ -4736,7 +4736,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "selectModifier"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:429:1: selectModifier : ( DISTINCT_TERM -> MODIFIER_DISTINCT | REDUCED_TERM -> MODIFIER_REDUCED );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:429:1: selectModifier : ( DISTINCT_TERM -> MODIFIER_DISTINCT | REDUCED_TERM -> MODIFIER_REDUCED );
     public final SparqlOwlParser.selectModifier_return selectModifier() throws RecognitionException {
         SparqlOwlParser.selectModifier_return retval = new SparqlOwlParser.selectModifier_return();
         retval.start = input.LT(1);
@@ -4752,7 +4752,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_DISTINCT_TERM=new RewriteRuleTokenStream(adaptor,"token DISTINCT_TERM");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:430:2: ( DISTINCT_TERM -> MODIFIER_DISTINCT | REDUCED_TERM -> MODIFIER_REDUCED )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:430:2: ( DISTINCT_TERM -> MODIFIER_DISTINCT | REDUCED_TERM -> MODIFIER_REDUCED )
             int alt25=2;
             int LA25_0 = input.LA(1);
 
@@ -4771,7 +4771,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt25) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:430:4: DISTINCT_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:430:4: DISTINCT_TERM
                     {
                     DISTINCT_TERM113=(Token)match(input,DISTINCT_TERM,FOLLOW_DISTINCT_TERM_in_selectModifier1703); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DISTINCT_TERM.add(DISTINCT_TERM113);
@@ -4800,7 +4800,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:431:4: REDUCED_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:431:4: REDUCED_TERM
                     {
                     REDUCED_TERM114=(Token)match(input,REDUCED_TERM,FOLLOW_REDUCED_TERM_in_selectModifier1712); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_REDUCED_TERM.add(REDUCED_TERM114);
@@ -4854,7 +4854,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "selectVariableList"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:434:1: selectVariableList : ( ( var )+ -> ^( VARS ( var )+ ) | ASTERISK_TERM -> ALL_VARS );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:434:1: selectVariableList : ( ( var )+ -> ^( VARS ( var )+ ) | ASTERISK_TERM -> ALL_VARS );
     public final SparqlOwlParser.selectVariableList_return selectVariableList() throws RecognitionException {
         SparqlOwlParser.selectVariableList_return retval = new SparqlOwlParser.selectVariableList_return();
         retval.start = input.LT(1);
@@ -4869,7 +4869,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_ASTERISK_TERM=new RewriteRuleTokenStream(adaptor,"token ASTERISK_TERM");
         RewriteRuleSubtreeStream stream_var=new RewriteRuleSubtreeStream(adaptor,"rule var");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:435:2: ( ( var )+ -> ^( VARS ( var )+ ) | ASTERISK_TERM -> ALL_VARS )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:435:2: ( ( var )+ -> ^( VARS ( var )+ ) | ASTERISK_TERM -> ALL_VARS )
             int alt27=2;
             int LA27_0 = input.LA(1);
 
@@ -4888,9 +4888,9 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt27) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:435:4: ( var )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:435:4: ( var )+
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:435:4: ( var )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:435:4: ( var )+
                     int cnt26=0;
                     loop26:
                     do {
@@ -4904,7 +4904,7 @@ public class SparqlOwlParser extends Parser {
 
                         switch (alt26) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:435:4: var
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:435:4: var
                     	    {
                     	    pushFollow(FOLLOW_var_in_selectVariableList1727);
                     	    var115=var();
@@ -4942,7 +4942,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 435:9: -> ^( VARS ( var )+ )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:435:12: ^( VARS ( var )+ )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:435:12: ^( VARS ( var )+ )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VARS, "VARS"), root_1);
@@ -4965,7 +4965,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:436:4: ASTERISK_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:436:4: ASTERISK_TERM
                     {
                     ASTERISK_TERM116=(Token)match(input,ASTERISK_TERM,FOLLOW_ASTERISK_TERM_in_selectVariableList1742); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ASTERISK_TERM.add(ASTERISK_TERM116);
@@ -5019,7 +5019,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "constructQuery"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:442:1: constructQuery : CONSTRUCT_TERM constructTemplate ( datasets )? whereClause solutionModifier -> ^( CONSTRUCT constructTemplate ( datasets )? whereClause ( solutionModifier )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:442:1: constructQuery : CONSTRUCT_TERM constructTemplate ( datasets )? whereClause solutionModifier -> ^( CONSTRUCT constructTemplate ( datasets )? whereClause ( solutionModifier )? ) ;
     public final SparqlOwlParser.constructQuery_return constructQuery() throws RecognitionException {
         SparqlOwlParser.constructQuery_return retval = new SparqlOwlParser.constructQuery_return();
         retval.start = input.LT(1);
@@ -5043,8 +5043,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_solutionModifier=new RewriteRuleSubtreeStream(adaptor,"rule solutionModifier");
         RewriteRuleSubtreeStream stream_constructTemplate=new RewriteRuleSubtreeStream(adaptor,"rule constructTemplate");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:443:2: ( CONSTRUCT_TERM constructTemplate ( datasets )? whereClause solutionModifier -> ^( CONSTRUCT constructTemplate ( datasets )? whereClause ( solutionModifier )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:443:4: CONSTRUCT_TERM constructTemplate ( datasets )? whereClause solutionModifier
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:443:2: ( CONSTRUCT_TERM constructTemplate ( datasets )? whereClause solutionModifier -> ^( CONSTRUCT constructTemplate ( datasets )? whereClause ( solutionModifier )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:443:4: CONSTRUCT_TERM constructTemplate ( datasets )? whereClause solutionModifier
             {
             CONSTRUCT_TERM117=(Token)match(input,CONSTRUCT_TERM,FOLLOW_CONSTRUCT_TERM_in_constructQuery1759); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_CONSTRUCT_TERM.add(CONSTRUCT_TERM117);
@@ -5055,7 +5055,7 @@ public class SparqlOwlParser extends Parser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_constructTemplate.add(constructTemplate118.getTree());
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:443:37: ( datasets )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:443:37: ( datasets )?
             int alt28=2;
             int LA28_0 = input.LA(1);
 
@@ -5064,7 +5064,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt28) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:443:37: datasets
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:443:37: datasets
                     {
                     pushFollow(FOLLOW_datasets_in_constructQuery1763);
                     datasets119=datasets();
@@ -5093,7 +5093,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: datasets, constructTemplate, solutionModifier, whereClause
+            // elements: constructTemplate, solutionModifier, whereClause, datasets
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5106,20 +5106,20 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 444:2: -> ^( CONSTRUCT constructTemplate ( datasets )? whereClause ( solutionModifier )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:444:5: ^( CONSTRUCT constructTemplate ( datasets )? whereClause ( solutionModifier )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:444:5: ^( CONSTRUCT constructTemplate ( datasets )? whereClause ( solutionModifier )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CONSTRUCT, "CONSTRUCT"), root_1);
 
                 adaptor.addChild(root_1, stream_constructTemplate.nextTree());
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:444:36: ( datasets )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:444:36: ( datasets )?
                 if ( stream_datasets.hasNext() ) {
                     adaptor.addChild(root_1, stream_datasets.nextTree());
 
                 }
                 stream_datasets.reset();
                 adaptor.addChild(root_1, stream_whereClause.nextTree());
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:444:58: ( solutionModifier )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:444:58: ( solutionModifier )?
                 if ( stream_solutionModifier.hasNext() ) {
                     adaptor.addChild(root_1, stream_solutionModifier.nextTree());
 
@@ -5158,7 +5158,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "describeQuery"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:450:1: describeQuery : DESCRIBE_TERM describeTargets ( datasets )? ( whereClause )? solutionModifier -> ^( DESCRIBE describeTargets ( datasets )? ( whereClause )? ( solutionModifier )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:450:1: describeQuery : DESCRIBE_TERM describeTargets ( datasets )? ( whereClause )? solutionModifier -> ^( DESCRIBE describeTargets ( datasets )? ( whereClause )? ( solutionModifier )? ) ;
     public final SparqlOwlParser.describeQuery_return describeQuery() throws RecognitionException {
         SparqlOwlParser.describeQuery_return retval = new SparqlOwlParser.describeQuery_return();
         retval.start = input.LT(1);
@@ -5182,8 +5182,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_solutionModifier=new RewriteRuleSubtreeStream(adaptor,"rule solutionModifier");
         RewriteRuleSubtreeStream stream_describeTargets=new RewriteRuleSubtreeStream(adaptor,"rule describeTargets");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:451:2: ( DESCRIBE_TERM describeTargets ( datasets )? ( whereClause )? solutionModifier -> ^( DESCRIBE describeTargets ( datasets )? ( whereClause )? ( solutionModifier )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:451:4: DESCRIBE_TERM describeTargets ( datasets )? ( whereClause )? solutionModifier
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:451:2: ( DESCRIBE_TERM describeTargets ( datasets )? ( whereClause )? solutionModifier -> ^( DESCRIBE describeTargets ( datasets )? ( whereClause )? ( solutionModifier )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:451:4: DESCRIBE_TERM describeTargets ( datasets )? ( whereClause )? solutionModifier
             {
             DESCRIBE_TERM122=(Token)match(input,DESCRIBE_TERM,FOLLOW_DESCRIBE_TERM_in_describeQuery1799); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_DESCRIBE_TERM.add(DESCRIBE_TERM122);
@@ -5194,7 +5194,7 @@ public class SparqlOwlParser extends Parser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_describeTargets.add(describeTargets123.getTree());
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:451:34: ( datasets )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:451:34: ( datasets )?
             int alt29=2;
             int LA29_0 = input.LA(1);
 
@@ -5203,7 +5203,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt29) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:451:34: datasets
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:451:34: datasets
                     {
                     pushFollow(FOLLOW_datasets_in_describeQuery1803);
                     datasets124=datasets();
@@ -5217,7 +5217,7 @@ public class SparqlOwlParser extends Parser {
 
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:451:44: ( whereClause )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:451:44: ( whereClause )?
             int alt30=2;
             int LA30_0 = input.LA(1);
 
@@ -5226,7 +5226,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt30) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:451:44: whereClause
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:451:44: whereClause
                     {
                     pushFollow(FOLLOW_whereClause_in_describeQuery1806);
                     whereClause125=whereClause();
@@ -5249,7 +5249,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: datasets, solutionModifier, describeTargets, whereClause
+            // elements: whereClause, solutionModifier, describeTargets, datasets
             // token labels: 
             // rule labels: retval
             // token list labels: 
@@ -5262,25 +5262,25 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 452:2: -> ^( DESCRIBE describeTargets ( datasets )? ( whereClause )? ( solutionModifier )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:453:3: ^( DESCRIBE describeTargets ( datasets )? ( whereClause )? ( solutionModifier )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:453:3: ^( DESCRIBE describeTargets ( datasets )? ( whereClause )? ( solutionModifier )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DESCRIBE, "DESCRIBE"), root_1);
 
                 adaptor.addChild(root_1, stream_describeTargets.nextTree());
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:453:30: ( datasets )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:453:30: ( datasets )?
                 if ( stream_datasets.hasNext() ) {
                     adaptor.addChild(root_1, stream_datasets.nextTree());
 
                 }
                 stream_datasets.reset();
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:453:40: ( whereClause )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:453:40: ( whereClause )?
                 if ( stream_whereClause.hasNext() ) {
                     adaptor.addChild(root_1, stream_whereClause.nextTree());
 
                 }
                 stream_whereClause.reset();
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:453:53: ( solutionModifier )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:453:53: ( solutionModifier )?
                 if ( stream_solutionModifier.hasNext() ) {
                     adaptor.addChild(root_1, stream_solutionModifier.nextTree());
 
@@ -5319,7 +5319,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "describeTargets"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:456:1: describeTargets : ( ( varOrIRIref )+ -> ^( VARS_OR_IRIS ( varOrIRIref )+ ) | ASTERISK_TERM -> ALL_VARS );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:456:1: describeTargets : ( ( varOrIRIref )+ -> ^( VARS_OR_IRIS ( varOrIRIref )+ ) | ASTERISK_TERM -> ALL_VARS );
     public final SparqlOwlParser.describeTargets_return describeTargets() throws RecognitionException {
         SparqlOwlParser.describeTargets_return retval = new SparqlOwlParser.describeTargets_return();
         retval.start = input.LT(1);
@@ -5334,7 +5334,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_ASTERISK_TERM=new RewriteRuleTokenStream(adaptor,"token ASTERISK_TERM");
         RewriteRuleSubtreeStream stream_varOrIRIref=new RewriteRuleSubtreeStream(adaptor,"rule varOrIRIref");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:457:2: ( ( varOrIRIref )+ -> ^( VARS_OR_IRIS ( varOrIRIref )+ ) | ASTERISK_TERM -> ALL_VARS )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:457:2: ( ( varOrIRIref )+ -> ^( VARS_OR_IRIS ( varOrIRIref )+ ) | ASTERISK_TERM -> ALL_VARS )
             int alt32=2;
             int LA32_0 = input.LA(1);
 
@@ -5353,9 +5353,9 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt32) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:457:4: ( varOrIRIref )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:457:4: ( varOrIRIref )+
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:457:4: ( varOrIRIref )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:457:4: ( varOrIRIref )+
                     int cnt31=0;
                     loop31:
                     do {
@@ -5369,7 +5369,7 @@ public class SparqlOwlParser extends Parser {
 
                         switch (alt31) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:457:4: varOrIRIref
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:457:4: varOrIRIref
                     	    {
                     	    pushFollow(FOLLOW_varOrIRIref_in_describeTargets1840);
                     	    varOrIRIref127=varOrIRIref();
@@ -5407,7 +5407,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 457:17: -> ^( VARS_OR_IRIS ( varOrIRIref )+ )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:457:20: ^( VARS_OR_IRIS ( varOrIRIref )+ )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:457:20: ^( VARS_OR_IRIS ( varOrIRIref )+ )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VARS_OR_IRIS, "VARS_OR_IRIS"), root_1);
@@ -5430,7 +5430,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:458:4: ASTERISK_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:458:4: ASTERISK_TERM
                     {
                     ASTERISK_TERM128=(Token)match(input,ASTERISK_TERM,FOLLOW_ASTERISK_TERM_in_describeTargets1855); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ASTERISK_TERM.add(ASTERISK_TERM128);
@@ -5484,7 +5484,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "askQuery"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:464:1: askQuery : ASK_TERM ( datasets )? whereClause -> ^( ASK ( datasets )? whereClause ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:464:1: askQuery : ASK_TERM ( datasets )? whereClause -> ^( ASK ( datasets )? whereClause ) ;
     public final SparqlOwlParser.askQuery_return askQuery() throws RecognitionException {
         SparqlOwlParser.askQuery_return retval = new SparqlOwlParser.askQuery_return();
         retval.start = input.LT(1);
@@ -5502,13 +5502,13 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_whereClause=new RewriteRuleSubtreeStream(adaptor,"rule whereClause");
         RewriteRuleSubtreeStream stream_datasets=new RewriteRuleSubtreeStream(adaptor,"rule datasets");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:465:2: ( ASK_TERM ( datasets )? whereClause -> ^( ASK ( datasets )? whereClause ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:465:4: ASK_TERM ( datasets )? whereClause
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:465:2: ( ASK_TERM ( datasets )? whereClause -> ^( ASK ( datasets )? whereClause ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:465:4: ASK_TERM ( datasets )? whereClause
             {
             ASK_TERM129=(Token)match(input,ASK_TERM,FOLLOW_ASK_TERM_in_askQuery1872); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_ASK_TERM.add(ASK_TERM129);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:465:13: ( datasets )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:465:13: ( datasets )?
             int alt33=2;
             int LA33_0 = input.LA(1);
 
@@ -5517,7 +5517,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt33) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:465:13: datasets
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:465:13: datasets
                     {
                     pushFollow(FOLLOW_datasets_in_askQuery1874);
                     datasets130=datasets();
@@ -5553,12 +5553,12 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 466:2: -> ^( ASK ( datasets )? whereClause )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:467:3: ^( ASK ( datasets )? whereClause )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:467:3: ^( ASK ( datasets )? whereClause )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ASK, "ASK"), root_1);
 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:467:9: ( datasets )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:467:9: ( datasets )?
                 if ( stream_datasets.hasNext() ) {
                     adaptor.addChild(root_1, stream_datasets.nextTree());
 
@@ -5598,7 +5598,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "datasets"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:473:1: datasets : ( datasetClause )+ -> ^( DATASETS ( datasetClause )+ ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:473:1: datasets : ( datasetClause )+ -> ^( DATASETS ( datasetClause )+ ) ;
     public final SparqlOwlParser.datasets_return datasets() throws RecognitionException {
         SparqlOwlParser.datasets_return retval = new SparqlOwlParser.datasets_return();
         retval.start = input.LT(1);
@@ -5610,10 +5610,10 @@ public class SparqlOwlParser extends Parser {
 
         RewriteRuleSubtreeStream stream_datasetClause=new RewriteRuleSubtreeStream(adaptor,"rule datasetClause");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:474:2: ( ( datasetClause )+ -> ^( DATASETS ( datasetClause )+ ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:474:4: ( datasetClause )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:474:2: ( ( datasetClause )+ -> ^( DATASETS ( datasetClause )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:474:4: ( datasetClause )+
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:474:4: ( datasetClause )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:474:4: ( datasetClause )+
             int cnt34=0;
             loop34:
             do {
@@ -5627,7 +5627,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt34) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:474:4: datasetClause
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:474:4: datasetClause
             	    {
             	    pushFollow(FOLLOW_datasetClause_in_datasets1904);
             	    datasetClause132=datasetClause();
@@ -5665,7 +5665,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 475:2: -> ^( DATASETS ( datasetClause )+ )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:475:5: ^( DATASETS ( datasetClause )+ )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:475:5: ^( DATASETS ( datasetClause )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DATASETS, "DATASETS"), root_1);
@@ -5711,7 +5711,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "datasetClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:481:1: datasetClause : FROM_TERM ( defaultGraphClause | namedGraphClause ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:481:1: datasetClause : FROM_TERM ( defaultGraphClause | namedGraphClause ) ;
     public final SparqlOwlParser.datasetClause_return datasetClause() throws RecognitionException {
         SparqlOwlParser.datasetClause_return retval = new SparqlOwlParser.datasetClause_return();
         retval.start = input.LT(1);
@@ -5727,13 +5727,13 @@ public class SparqlOwlParser extends Parser {
         CommonTree FROM_TERM133_tree=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:482:2: ( FROM_TERM ( defaultGraphClause | namedGraphClause ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:482:4: FROM_TERM ( defaultGraphClause | namedGraphClause )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:482:2: ( FROM_TERM ( defaultGraphClause | namedGraphClause ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:482:4: FROM_TERM ( defaultGraphClause | namedGraphClause )
             {
             root_0 = (CommonTree)adaptor.nil();
 
             FROM_TERM133=(Token)match(input,FROM_TERM,FOLLOW_FROM_TERM_in_datasetClause1928); if (state.failed) return retval;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:483:3: ( defaultGraphClause | namedGraphClause )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:483:3: ( defaultGraphClause | namedGraphClause )
             int alt35=2;
             int LA35_0 = input.LA(1);
 
@@ -5752,7 +5752,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt35) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:483:5: defaultGraphClause
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:483:5: defaultGraphClause
                     {
                     pushFollow(FOLLOW_defaultGraphClause_in_datasetClause1935);
                     defaultGraphClause134=defaultGraphClause();
@@ -5764,7 +5764,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:484:5: namedGraphClause
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:484:5: namedGraphClause
                     {
                     pushFollow(FOLLOW_namedGraphClause_in_datasetClause1941);
                     namedGraphClause135=namedGraphClause();
@@ -5805,7 +5805,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "defaultGraphClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:491:1: defaultGraphClause : sourceSelector -> ^( DEFAULT_GRAPH sourceSelector ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:491:1: defaultGraphClause : sourceSelector -> ^( DEFAULT_GRAPH sourceSelector ) ;
     public final SparqlOwlParser.defaultGraphClause_return defaultGraphClause() throws RecognitionException {
         SparqlOwlParser.defaultGraphClause_return retval = new SparqlOwlParser.defaultGraphClause_return();
         retval.start = input.LT(1);
@@ -5817,8 +5817,8 @@ public class SparqlOwlParser extends Parser {
 
         RewriteRuleSubtreeStream stream_sourceSelector=new RewriteRuleSubtreeStream(adaptor,"rule sourceSelector");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:492:2: ( sourceSelector -> ^( DEFAULT_GRAPH sourceSelector ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:492:4: sourceSelector
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:492:2: ( sourceSelector -> ^( DEFAULT_GRAPH sourceSelector ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:492:4: sourceSelector
             {
             pushFollow(FOLLOW_sourceSelector_in_defaultGraphClause1958);
             sourceSelector136=sourceSelector();
@@ -5842,7 +5842,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 493:2: -> ^( DEFAULT_GRAPH sourceSelector )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:493:5: ^( DEFAULT_GRAPH sourceSelector )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:493:5: ^( DEFAULT_GRAPH sourceSelector )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(DEFAULT_GRAPH, "DEFAULT_GRAPH"), root_1);
@@ -5881,7 +5881,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "namedGraphClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:499:1: namedGraphClause : NAMED_TERM sourceSelector -> ^( NAMED_GRAPH sourceSelector ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:499:1: namedGraphClause : NAMED_TERM sourceSelector -> ^( NAMED_GRAPH sourceSelector ) ;
     public final SparqlOwlParser.namedGraphClause_return namedGraphClause() throws RecognitionException {
         SparqlOwlParser.namedGraphClause_return retval = new SparqlOwlParser.namedGraphClause_return();
         retval.start = input.LT(1);
@@ -5896,8 +5896,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_NAMED_TERM=new RewriteRuleTokenStream(adaptor,"token NAMED_TERM");
         RewriteRuleSubtreeStream stream_sourceSelector=new RewriteRuleSubtreeStream(adaptor,"rule sourceSelector");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:500:2: ( NAMED_TERM sourceSelector -> ^( NAMED_GRAPH sourceSelector ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:500:4: NAMED_TERM sourceSelector
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:500:2: ( NAMED_TERM sourceSelector -> ^( NAMED_GRAPH sourceSelector ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:500:4: NAMED_TERM sourceSelector
             {
             NAMED_TERM137=(Token)match(input,NAMED_TERM,FOLLOW_NAMED_TERM_in_namedGraphClause1981); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_NAMED_TERM.add(NAMED_TERM137);
@@ -5924,7 +5924,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 501:2: -> ^( NAMED_GRAPH sourceSelector )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:501:5: ^( NAMED_GRAPH sourceSelector )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:501:5: ^( NAMED_GRAPH sourceSelector )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NAMED_GRAPH, "NAMED_GRAPH"), root_1);
@@ -5963,7 +5963,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "sourceSelector"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:507:1: sourceSelector : iriRef ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:507:1: sourceSelector : iriRef ;
     public final SparqlOwlParser.sourceSelector_return sourceSelector() throws RecognitionException {
         SparqlOwlParser.sourceSelector_return retval = new SparqlOwlParser.sourceSelector_return();
         retval.start = input.LT(1);
@@ -5975,8 +5975,8 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:508:2: ( iriRef )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:508:4: iriRef
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:508:2: ( iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:508:4: iriRef
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -6013,7 +6013,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "whereClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:514:1: whereClause : ( WHERE_TERM )? groupGraphPattern -> ^( WHERE_CLAUSE groupGraphPattern ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:514:1: whereClause : ( WHERE_TERM )? groupGraphPattern -> ^( WHERE_CLAUSE groupGraphPattern ) ;
     public final SparqlOwlParser.whereClause_return whereClause() throws RecognitionException {
         SparqlOwlParser.whereClause_return retval = new SparqlOwlParser.whereClause_return();
         retval.start = input.LT(1);
@@ -6028,10 +6028,10 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_WHERE_TERM=new RewriteRuleTokenStream(adaptor,"token WHERE_TERM");
         RewriteRuleSubtreeStream stream_groupGraphPattern=new RewriteRuleSubtreeStream(adaptor,"rule groupGraphPattern");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:515:2: ( ( WHERE_TERM )? groupGraphPattern -> ^( WHERE_CLAUSE groupGraphPattern ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:515:4: ( WHERE_TERM )? groupGraphPattern
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:515:2: ( ( WHERE_TERM )? groupGraphPattern -> ^( WHERE_CLAUSE groupGraphPattern ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:515:4: ( WHERE_TERM )? groupGraphPattern
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:515:4: ( WHERE_TERM )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:515:4: ( WHERE_TERM )?
             int alt36=2;
             int LA36_0 = input.LA(1);
 
@@ -6040,7 +6040,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt36) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:515:4: WHERE_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:515:4: WHERE_TERM
                     {
                     WHERE_TERM140=(Token)match(input,WHERE_TERM,FOLLOW_WHERE_TERM_in_whereClause2019); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_WHERE_TERM.add(WHERE_TERM140);
@@ -6073,7 +6073,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 516:2: -> ^( WHERE_CLAUSE groupGraphPattern )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:516:5: ^( WHERE_CLAUSE groupGraphPattern )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:516:5: ^( WHERE_CLAUSE groupGraphPattern )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(WHERE_CLAUSE, "WHERE_CLAUSE"), root_1);
@@ -6112,7 +6112,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "solutionModifier"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:522:1: solutionModifier : ( orderClause )? ( limitOffsetClauses )? ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:522:1: solutionModifier : ( orderClause )? ( limitOffsetClauses )? ;
     public final SparqlOwlParser.solutionModifier_return solutionModifier() throws RecognitionException {
         SparqlOwlParser.solutionModifier_return retval = new SparqlOwlParser.solutionModifier_return();
         retval.start = input.LT(1);
@@ -6126,12 +6126,12 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:523:2: ( ( orderClause )? ( limitOffsetClauses )? )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:523:4: ( orderClause )? ( limitOffsetClauses )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:523:2: ( ( orderClause )? ( limitOffsetClauses )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:523:4: ( orderClause )? ( limitOffsetClauses )?
             {
             root_0 = (CommonTree)adaptor.nil();
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:523:4: ( orderClause )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:523:4: ( orderClause )?
             int alt37=2;
             int LA37_0 = input.LA(1);
 
@@ -6140,7 +6140,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt37) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:523:4: orderClause
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:523:4: orderClause
                     {
                     pushFollow(FOLLOW_orderClause_in_solutionModifier2044);
                     orderClause142=orderClause();
@@ -6154,7 +6154,7 @@ public class SparqlOwlParser extends Parser {
 
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:523:17: ( limitOffsetClauses )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:523:17: ( limitOffsetClauses )?
             int alt38=2;
             int LA38_0 = input.LA(1);
 
@@ -6163,7 +6163,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt38) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:523:17: limitOffsetClauses
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:523:17: limitOffsetClauses
                     {
                     pushFollow(FOLLOW_limitOffsetClauses_in_solutionModifier2047);
                     limitOffsetClauses143=limitOffsetClauses();
@@ -6204,7 +6204,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "limitOffsetClauses"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:529:1: limitOffsetClauses : ( limitClause ( offsetClause )? | offsetClause ( limitClause )? );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:529:1: limitOffsetClauses : ( limitClause ( offsetClause )? | offsetClause ( limitClause )? );
     public final SparqlOwlParser.limitOffsetClauses_return limitOffsetClauses() throws RecognitionException {
         SparqlOwlParser.limitOffsetClauses_return retval = new SparqlOwlParser.limitOffsetClauses_return();
         retval.start = input.LT(1);
@@ -6222,7 +6222,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:530:2: ( limitClause ( offsetClause )? | offsetClause ( limitClause )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:530:2: ( limitClause ( offsetClause )? | offsetClause ( limitClause )? )
             int alt41=2;
             int LA41_0 = input.LA(1);
 
@@ -6241,7 +6241,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt41) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:530:4: limitClause ( offsetClause )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:530:4: limitClause ( offsetClause )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -6251,7 +6251,7 @@ public class SparqlOwlParser extends Parser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, limitClause144.getTree());
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:530:16: ( offsetClause )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:530:16: ( offsetClause )?
                     int alt39=2;
                     int LA39_0 = input.LA(1);
 
@@ -6260,7 +6260,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt39) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:530:16: offsetClause
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:530:16: offsetClause
                             {
                             pushFollow(FOLLOW_offsetClause_in_limitOffsetClauses2063);
                             offsetClause145=offsetClause();
@@ -6278,7 +6278,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:531:4: offsetClause ( limitClause )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:531:4: offsetClause ( limitClause )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -6288,7 +6288,7 @@ public class SparqlOwlParser extends Parser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, offsetClause146.getTree());
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:531:17: ( limitClause )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:531:17: ( limitClause )?
                     int alt40=2;
                     int LA40_0 = input.LA(1);
 
@@ -6297,7 +6297,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt40) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:531:17: limitClause
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:531:17: limitClause
                             {
                             pushFollow(FOLLOW_limitClause_in_limitOffsetClauses2071);
                             limitClause147=limitClause();
@@ -6340,7 +6340,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "orderClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:537:1: orderClause : ORDER_TERM BY_TERM ( orderCondition )+ -> ^( ORDER_CLAUSE ( orderCondition )+ ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:537:1: orderClause : ORDER_TERM BY_TERM ( orderCondition )+ -> ^( ORDER_CLAUSE ( orderCondition )+ ) ;
     public final SparqlOwlParser.orderClause_return orderClause() throws RecognitionException {
         SparqlOwlParser.orderClause_return retval = new SparqlOwlParser.orderClause_return();
         retval.start = input.LT(1);
@@ -6358,8 +6358,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_ORDER_TERM=new RewriteRuleTokenStream(adaptor,"token ORDER_TERM");
         RewriteRuleSubtreeStream stream_orderCondition=new RewriteRuleSubtreeStream(adaptor,"rule orderCondition");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:538:2: ( ORDER_TERM BY_TERM ( orderCondition )+ -> ^( ORDER_CLAUSE ( orderCondition )+ ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:538:4: ORDER_TERM BY_TERM ( orderCondition )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:538:2: ( ORDER_TERM BY_TERM ( orderCondition )+ -> ^( ORDER_CLAUSE ( orderCondition )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:538:4: ORDER_TERM BY_TERM ( orderCondition )+
             {
             ORDER_TERM148=(Token)match(input,ORDER_TERM,FOLLOW_ORDER_TERM_in_orderClause2085); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_ORDER_TERM.add(ORDER_TERM148);
@@ -6367,7 +6367,7 @@ public class SparqlOwlParser extends Parser {
             BY_TERM149=(Token)match(input,BY_TERM,FOLLOW_BY_TERM_in_orderClause2087); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_BY_TERM.add(BY_TERM149);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:538:23: ( orderCondition )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:538:23: ( orderCondition )+
             int cnt42=0;
             loop42:
             do {
@@ -6381,7 +6381,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt42) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:538:23: orderCondition
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:538:23: orderCondition
             	    {
             	    pushFollow(FOLLOW_orderCondition_in_orderClause2089);
             	    orderCondition150=orderCondition();
@@ -6419,7 +6419,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 539:2: -> ^( ORDER_CLAUSE ( orderCondition )+ )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:539:5: ^( ORDER_CLAUSE ( orderCondition )+ )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:539:5: ^( ORDER_CLAUSE ( orderCondition )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ORDER_CLAUSE, "ORDER_CLAUSE"), root_1);
@@ -6465,7 +6465,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "orderCondition"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:545:1: orderCondition : ( ASC_TERM brackettedExpression -> ^( ORDER_CONDITION_ASC brackettedExpression ) | DESC_TERM brackettedExpression -> ^( ORDER_CONDITION_DESC brackettedExpression ) | constraint -> ^( ORDER_CONDITION_UNDEF constraint ) | var -> ^( ORDER_CONDITION_UNDEF var ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:545:1: orderCondition : ( ASC_TERM brackettedExpression -> ^( ORDER_CONDITION_ASC brackettedExpression ) | DESC_TERM brackettedExpression -> ^( ORDER_CONDITION_DESC brackettedExpression ) | constraint -> ^( ORDER_CONDITION_UNDEF constraint ) | var -> ^( ORDER_CONDITION_UNDEF var ) );
     public final SparqlOwlParser.orderCondition_return orderCondition() throws RecognitionException {
         SparqlOwlParser.orderCondition_return retval = new SparqlOwlParser.orderCondition_return();
         retval.start = input.LT(1);
@@ -6491,7 +6491,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_constraint=new RewriteRuleSubtreeStream(adaptor,"rule constraint");
         RewriteRuleSubtreeStream stream_brackettedExpression=new RewriteRuleSubtreeStream(adaptor,"rule brackettedExpression");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:546:2: ( ASC_TERM brackettedExpression -> ^( ORDER_CONDITION_ASC brackettedExpression ) | DESC_TERM brackettedExpression -> ^( ORDER_CONDITION_DESC brackettedExpression ) | constraint -> ^( ORDER_CONDITION_UNDEF constraint ) | var -> ^( ORDER_CONDITION_UNDEF var ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:546:2: ( ASC_TERM brackettedExpression -> ^( ORDER_CONDITION_ASC brackettedExpression ) | DESC_TERM brackettedExpression -> ^( ORDER_CONDITION_DESC brackettedExpression ) | constraint -> ^( ORDER_CONDITION_UNDEF constraint ) | var -> ^( ORDER_CONDITION_UNDEF var ) )
             int alt43=4;
             switch ( input.LA(1) ) {
             case ASC_TERM:
@@ -6539,7 +6539,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt43) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:546:4: ASC_TERM brackettedExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:546:4: ASC_TERM brackettedExpression
                     {
                     ASC_TERM151=(Token)match(input,ASC_TERM,FOLLOW_ASC_TERM_in_orderCondition2113); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ASC_TERM.add(ASC_TERM151);
@@ -6566,7 +6566,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 546:34: -> ^( ORDER_CONDITION_ASC brackettedExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:546:37: ^( ORDER_CONDITION_ASC brackettedExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:546:37: ^( ORDER_CONDITION_ASC brackettedExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ORDER_CONDITION_ASC, "ORDER_CONDITION_ASC"), root_1);
@@ -6582,7 +6582,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:547:4: DESC_TERM brackettedExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:547:4: DESC_TERM brackettedExpression
                     {
                     DESC_TERM153=(Token)match(input,DESC_TERM,FOLLOW_DESC_TERM_in_orderCondition2128); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DESC_TERM.add(DESC_TERM153);
@@ -6609,7 +6609,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 547:35: -> ^( ORDER_CONDITION_DESC brackettedExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:547:38: ^( ORDER_CONDITION_DESC brackettedExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:547:38: ^( ORDER_CONDITION_DESC brackettedExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ORDER_CONDITION_DESC, "ORDER_CONDITION_DESC"), root_1);
@@ -6625,7 +6625,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:548:4: constraint
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:548:4: constraint
                     {
                     pushFollow(FOLLOW_constraint_in_orderCondition2143);
                     constraint155=constraint();
@@ -6649,7 +6649,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 548:15: -> ^( ORDER_CONDITION_UNDEF constraint )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:548:18: ^( ORDER_CONDITION_UNDEF constraint )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:548:18: ^( ORDER_CONDITION_UNDEF constraint )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ORDER_CONDITION_UNDEF, "ORDER_CONDITION_UNDEF"), root_1);
@@ -6665,7 +6665,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:549:4: var
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:549:4: var
                     {
                     pushFollow(FOLLOW_var_in_orderCondition2156);
                     var156=var();
@@ -6689,7 +6689,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 549:8: -> ^( ORDER_CONDITION_UNDEF var )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:549:11: ^( ORDER_CONDITION_UNDEF var )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:549:11: ^( ORDER_CONDITION_UNDEF var )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(ORDER_CONDITION_UNDEF, "ORDER_CONDITION_UNDEF"), root_1);
@@ -6730,7 +6730,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "limitClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:555:1: limitClause : LIMIT_TERM INTEGER -> ^( LIMIT_CLAUSE INTEGER ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:555:1: limitClause : LIMIT_TERM INTEGER -> ^( LIMIT_CLAUSE INTEGER ) ;
     public final SparqlOwlParser.limitClause_return limitClause() throws RecognitionException {
         SparqlOwlParser.limitClause_return retval = new SparqlOwlParser.limitClause_return();
         retval.start = input.LT(1);
@@ -6746,8 +6746,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_LIMIT_TERM=new RewriteRuleTokenStream(adaptor,"token LIMIT_TERM");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:556:2: ( LIMIT_TERM INTEGER -> ^( LIMIT_CLAUSE INTEGER ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:556:4: LIMIT_TERM INTEGER
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:556:2: ( LIMIT_TERM INTEGER -> ^( LIMIT_CLAUSE INTEGER ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:556:4: LIMIT_TERM INTEGER
             {
             LIMIT_TERM157=(Token)match(input,LIMIT_TERM,FOLLOW_LIMIT_TERM_in_limitClause2177); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_LIMIT_TERM.add(LIMIT_TERM157);
@@ -6771,7 +6771,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 557:2: -> ^( LIMIT_CLAUSE INTEGER )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:557:5: ^( LIMIT_CLAUSE INTEGER )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:557:5: ^( LIMIT_CLAUSE INTEGER )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LIMIT_CLAUSE, "LIMIT_CLAUSE"), root_1);
@@ -6810,7 +6810,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "offsetClause"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:563:1: offsetClause : OFFSET_TERM INTEGER -> ^( OFFSET_CLAUSE INTEGER ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:563:1: offsetClause : OFFSET_TERM INTEGER -> ^( OFFSET_CLAUSE INTEGER ) ;
     public final SparqlOwlParser.offsetClause_return offsetClause() throws RecognitionException {
         SparqlOwlParser.offsetClause_return retval = new SparqlOwlParser.offsetClause_return();
         retval.start = input.LT(1);
@@ -6826,8 +6826,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_OFFSET_TERM=new RewriteRuleTokenStream(adaptor,"token OFFSET_TERM");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:564:2: ( OFFSET_TERM INTEGER -> ^( OFFSET_CLAUSE INTEGER ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:564:4: OFFSET_TERM INTEGER
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:564:2: ( OFFSET_TERM INTEGER -> ^( OFFSET_CLAUSE INTEGER ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:564:4: OFFSET_TERM INTEGER
             {
             OFFSET_TERM159=(Token)match(input,OFFSET_TERM,FOLLOW_OFFSET_TERM_in_offsetClause2201); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_OFFSET_TERM.add(OFFSET_TERM159);
@@ -6851,7 +6851,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 565:2: -> ^( OFFSET_CLAUSE INTEGER )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:565:5: ^( OFFSET_CLAUSE INTEGER )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:565:5: ^( OFFSET_CLAUSE INTEGER )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OFFSET_CLAUSE, "OFFSET_CLAUSE"), root_1);
@@ -6890,7 +6890,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "groupGraphPattern"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:572:1: groupGraphPattern : OPEN_CURLY_BRACE ( groupGraphPatternNoBraces )? CLOSE_CURLY_BRACE -> ^( GROUP_GRAPH_PATTERN ( groupGraphPatternNoBraces )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:572:1: groupGraphPattern : OPEN_CURLY_BRACE ( groupGraphPatternNoBraces )? CLOSE_CURLY_BRACE -> ^( GROUP_GRAPH_PATTERN ( groupGraphPatternNoBraces )? ) ;
     public final SparqlOwlParser.groupGraphPattern_return groupGraphPattern() throws RecognitionException {
         SparqlOwlParser.groupGraphPattern_return retval = new SparqlOwlParser.groupGraphPattern_return();
         retval.start = input.LT(1);
@@ -6908,13 +6908,13 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_CLOSE_CURLY_BRACE=new RewriteRuleTokenStream(adaptor,"token CLOSE_CURLY_BRACE");
         RewriteRuleSubtreeStream stream_groupGraphPatternNoBraces=new RewriteRuleSubtreeStream(adaptor,"rule groupGraphPatternNoBraces");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:573:2: ( OPEN_CURLY_BRACE ( groupGraphPatternNoBraces )? CLOSE_CURLY_BRACE -> ^( GROUP_GRAPH_PATTERN ( groupGraphPatternNoBraces )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:573:4: OPEN_CURLY_BRACE ( groupGraphPatternNoBraces )? CLOSE_CURLY_BRACE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:573:2: ( OPEN_CURLY_BRACE ( groupGraphPatternNoBraces )? CLOSE_CURLY_BRACE -> ^( GROUP_GRAPH_PATTERN ( groupGraphPatternNoBraces )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:573:4: OPEN_CURLY_BRACE ( groupGraphPatternNoBraces )? CLOSE_CURLY_BRACE
             {
             OPEN_CURLY_BRACE161=(Token)match(input,OPEN_CURLY_BRACE,FOLLOW_OPEN_CURLY_BRACE_in_groupGraphPattern2225); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_OPEN_CURLY_BRACE.add(OPEN_CURLY_BRACE161);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:573:21: ( groupGraphPatternNoBraces )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:573:21: ( groupGraphPatternNoBraces )?
             int alt44=2;
             int LA44_0 = input.LA(1);
 
@@ -6923,7 +6923,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt44) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:573:21: groupGraphPatternNoBraces
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:573:21: groupGraphPatternNoBraces
                     {
                     pushFollow(FOLLOW_groupGraphPatternNoBraces_in_groupGraphPattern2227);
                     groupGraphPatternNoBraces162=groupGraphPatternNoBraces();
@@ -6956,12 +6956,12 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 574:2: -> ^( GROUP_GRAPH_PATTERN ( groupGraphPatternNoBraces )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:574:5: ^( GROUP_GRAPH_PATTERN ( groupGraphPatternNoBraces )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:574:5: ^( GROUP_GRAPH_PATTERN ( groupGraphPatternNoBraces )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(GROUP_GRAPH_PATTERN, "GROUP_GRAPH_PATTERN"), root_1);
 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:574:27: ( groupGraphPatternNoBraces )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:574:27: ( groupGraphPatternNoBraces )?
                 if ( stream_groupGraphPatternNoBraces.hasNext() ) {
                     adaptor.addChild(root_1, stream_groupGraphPatternNoBraces.nextTree());
 
@@ -7000,7 +7000,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "groupGraphPatternNoBraces"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:577:1: groupGraphPatternNoBraces : ( ( graphPatternNotTriples )=> graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )? | filter ( DOT_TERM )? ( groupGraphPatternNoBraces )? | ( triplesSameSubject DOT_TERM )=> triplesSameSubject DOT_TERM ( groupGraphPatternNoBraces )? | triplesSameSubject ( canFollowTriplesWithoutDot )? );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:577:1: groupGraphPatternNoBraces : ( ( graphPatternNotTriples )=> graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )? | filter ( DOT_TERM )? ( groupGraphPatternNoBraces )? | ( triplesSameSubject DOT_TERM )=> triplesSameSubject DOT_TERM ( groupGraphPatternNoBraces )? | triplesSameSubject ( canFollowTriplesWithoutDot )? );
     public final SparqlOwlParser.groupGraphPatternNoBraces_return groupGraphPatternNoBraces() throws RecognitionException {
         SparqlOwlParser.groupGraphPatternNoBraces_return retval = new SparqlOwlParser.groupGraphPatternNoBraces_return();
         retval.start = input.LT(1);
@@ -7032,12 +7032,12 @@ public class SparqlOwlParser extends Parser {
         CommonTree DOT_TERM171_tree=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:578:2: ( ( graphPatternNotTriples )=> graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )? | filter ( DOT_TERM )? ( groupGraphPatternNoBraces )? | ( triplesSameSubject DOT_TERM )=> triplesSameSubject DOT_TERM ( groupGraphPatternNoBraces )? | triplesSameSubject ( canFollowTriplesWithoutDot )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:578:2: ( ( graphPatternNotTriples )=> graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )? | filter ( DOT_TERM )? ( groupGraphPatternNoBraces )? | ( triplesSameSubject DOT_TERM )=> triplesSameSubject DOT_TERM ( groupGraphPatternNoBraces )? | triplesSameSubject ( canFollowTriplesWithoutDot )? )
             int alt51=4;
             alt51 = dfa51.predict(input);
             switch (alt51) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:578:4: ( graphPatternNotTriples )=> graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:578:4: ( graphPatternNotTriples )=> graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7047,7 +7047,7 @@ public class SparqlOwlParser extends Parser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, graphPatternNotTriples164.getTree());
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:578:64: ( DOT_TERM )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:578:64: ( DOT_TERM )?
                     int alt45=2;
                     int LA45_0 = input.LA(1);
 
@@ -7056,7 +7056,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt45) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:578:64: DOT_TERM
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:578:64: DOT_TERM
                             {
                             DOT_TERM165=(Token)match(input,DOT_TERM,FOLLOW_DOT_TERM_in_groupGraphPatternNoBraces2260); if (state.failed) return retval;
 
@@ -7065,7 +7065,7 @@ public class SparqlOwlParser extends Parser {
 
                     }
 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:578:67: ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:578:67: ( groupGraphPatternNoBraces )?
                     int alt46=2;
                     int LA46_0 = input.LA(1);
 
@@ -7074,7 +7074,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt46) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:578:67: groupGraphPatternNoBraces
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:578:67: groupGraphPatternNoBraces
                             {
                             pushFollow(FOLLOW_groupGraphPatternNoBraces_in_groupGraphPatternNoBraces2264);
                             groupGraphPatternNoBraces166=groupGraphPatternNoBraces();
@@ -7092,7 +7092,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:579:4: filter ( DOT_TERM )? ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:579:4: filter ( DOT_TERM )? ( groupGraphPatternNoBraces )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7102,7 +7102,7 @@ public class SparqlOwlParser extends Parser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, filter167.getTree());
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:579:19: ( DOT_TERM )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:579:19: ( DOT_TERM )?
                     int alt47=2;
                     int LA47_0 = input.LA(1);
 
@@ -7111,7 +7111,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt47) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:579:19: DOT_TERM
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:579:19: DOT_TERM
                             {
                             DOT_TERM168=(Token)match(input,DOT_TERM,FOLLOW_DOT_TERM_in_groupGraphPatternNoBraces2272); if (state.failed) return retval;
 
@@ -7120,7 +7120,7 @@ public class SparqlOwlParser extends Parser {
 
                     }
 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:579:22: ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:579:22: ( groupGraphPatternNoBraces )?
                     int alt48=2;
                     int LA48_0 = input.LA(1);
 
@@ -7129,7 +7129,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt48) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:579:22: groupGraphPatternNoBraces
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:579:22: groupGraphPatternNoBraces
                             {
                             pushFollow(FOLLOW_groupGraphPatternNoBraces_in_groupGraphPatternNoBraces2276);
                             groupGraphPatternNoBraces169=groupGraphPatternNoBraces();
@@ -7147,7 +7147,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:580:4: ( triplesSameSubject DOT_TERM )=> triplesSameSubject DOT_TERM ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:580:4: ( triplesSameSubject DOT_TERM )=> triplesSameSubject DOT_TERM ( groupGraphPatternNoBraces )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7158,7 +7158,7 @@ public class SparqlOwlParser extends Parser {
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, triplesSameSubject170.getTree());
                     DOT_TERM171=(Token)match(input,DOT_TERM,FOLLOW_DOT_TERM_in_groupGraphPatternNoBraces2291); if (state.failed) return retval;
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:580:65: ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:580:65: ( groupGraphPatternNoBraces )?
                     int alt49=2;
                     int LA49_0 = input.LA(1);
 
@@ -7167,7 +7167,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt49) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:580:65: groupGraphPatternNoBraces
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:580:65: groupGraphPatternNoBraces
                             {
                             pushFollow(FOLLOW_groupGraphPatternNoBraces_in_groupGraphPatternNoBraces2294);
                             groupGraphPatternNoBraces172=groupGraphPatternNoBraces();
@@ -7185,7 +7185,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:581:4: triplesSameSubject ( canFollowTriplesWithoutDot )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:581:4: triplesSameSubject ( canFollowTriplesWithoutDot )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7195,7 +7195,7 @@ public class SparqlOwlParser extends Parser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, triplesSameSubject173.getTree());
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:581:23: ( canFollowTriplesWithoutDot )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:581:23: ( canFollowTriplesWithoutDot )?
                     int alt50=2;
                     int LA50_0 = input.LA(1);
 
@@ -7204,7 +7204,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt50) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:581:23: canFollowTriplesWithoutDot
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:581:23: canFollowTriplesWithoutDot
                             {
                             pushFollow(FOLLOW_canFollowTriplesWithoutDot_in_groupGraphPatternNoBraces2302);
                             canFollowTriplesWithoutDot174=canFollowTriplesWithoutDot();
@@ -7247,7 +7247,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "canFollowTriplesWithoutDot"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:584:1: canFollowTriplesWithoutDot : ( graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )? | filter ( DOT_TERM )? ( groupGraphPatternNoBraces )? );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:584:1: canFollowTriplesWithoutDot : ( graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )? | filter ( DOT_TERM )? ( groupGraphPatternNoBraces )? );
     public final SparqlOwlParser.canFollowTriplesWithoutDot_return canFollowTriplesWithoutDot() throws RecognitionException {
         SparqlOwlParser.canFollowTriplesWithoutDot_return retval = new SparqlOwlParser.canFollowTriplesWithoutDot_return();
         retval.start = input.LT(1);
@@ -7269,7 +7269,7 @@ public class SparqlOwlParser extends Parser {
         CommonTree DOT_TERM179_tree=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:585:2: ( graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )? | filter ( DOT_TERM )? ( groupGraphPatternNoBraces )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:585:2: ( graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )? | filter ( DOT_TERM )? ( groupGraphPatternNoBraces )? )
             int alt56=2;
             int LA56_0 = input.LA(1);
 
@@ -7288,7 +7288,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt56) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:585:4: graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:585:4: graphPatternNotTriples ( DOT_TERM )? ( groupGraphPatternNoBraces )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7298,7 +7298,7 @@ public class SparqlOwlParser extends Parser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, graphPatternNotTriples175.getTree());
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:585:35: ( DOT_TERM )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:585:35: ( DOT_TERM )?
                     int alt52=2;
                     int LA52_0 = input.LA(1);
 
@@ -7307,7 +7307,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt52) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:585:35: DOT_TERM
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:585:35: DOT_TERM
                             {
                             DOT_TERM176=(Token)match(input,DOT_TERM,FOLLOW_DOT_TERM_in_canFollowTriplesWithoutDot2317); if (state.failed) return retval;
 
@@ -7316,7 +7316,7 @@ public class SparqlOwlParser extends Parser {
 
                     }
 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:585:38: ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:585:38: ( groupGraphPatternNoBraces )?
                     int alt53=2;
                     int LA53_0 = input.LA(1);
 
@@ -7325,7 +7325,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt53) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:585:38: groupGraphPatternNoBraces
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:585:38: groupGraphPatternNoBraces
                             {
                             pushFollow(FOLLOW_groupGraphPatternNoBraces_in_canFollowTriplesWithoutDot2321);
                             groupGraphPatternNoBraces177=groupGraphPatternNoBraces();
@@ -7343,7 +7343,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:586:4: filter ( DOT_TERM )? ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:586:4: filter ( DOT_TERM )? ( groupGraphPatternNoBraces )?
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7353,7 +7353,7 @@ public class SparqlOwlParser extends Parser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, filter178.getTree());
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:586:19: ( DOT_TERM )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:586:19: ( DOT_TERM )?
                     int alt54=2;
                     int LA54_0 = input.LA(1);
 
@@ -7362,7 +7362,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt54) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:586:19: DOT_TERM
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:586:19: DOT_TERM
                             {
                             DOT_TERM179=(Token)match(input,DOT_TERM,FOLLOW_DOT_TERM_in_canFollowTriplesWithoutDot2329); if (state.failed) return retval;
 
@@ -7371,7 +7371,7 @@ public class SparqlOwlParser extends Parser {
 
                     }
 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:586:22: ( groupGraphPatternNoBraces )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:586:22: ( groupGraphPatternNoBraces )?
                     int alt55=2;
                     int LA55_0 = input.LA(1);
 
@@ -7380,7 +7380,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt55) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:586:22: groupGraphPatternNoBraces
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:586:22: groupGraphPatternNoBraces
                             {
                             pushFollow(FOLLOW_groupGraphPatternNoBraces_in_canFollowTriplesWithoutDot2333);
                             groupGraphPatternNoBraces180=groupGraphPatternNoBraces();
@@ -7423,7 +7423,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "graphPatternNotTriples"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:592:1: graphPatternNotTriples : ( optionalGraphPattern | groupOrUnionGraphPattern | graphGraphPattern );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:592:1: graphPatternNotTriples : ( optionalGraphPattern | groupOrUnionGraphPattern | graphGraphPattern );
     public final SparqlOwlParser.graphPatternNotTriples_return graphPatternNotTriples() throws RecognitionException {
         SparqlOwlParser.graphPatternNotTriples_return retval = new SparqlOwlParser.graphPatternNotTriples_return();
         retval.start = input.LT(1);
@@ -7439,7 +7439,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:593:2: ( optionalGraphPattern | groupOrUnionGraphPattern | graphGraphPattern )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:593:2: ( optionalGraphPattern | groupOrUnionGraphPattern | graphGraphPattern )
             int alt57=3;
             switch ( input.LA(1) ) {
             case OPTIONAL_TERM:
@@ -7467,7 +7467,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt57) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:593:4: optionalGraphPattern
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:593:4: optionalGraphPattern
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7481,7 +7481,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:594:4: groupOrUnionGraphPattern
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:594:4: groupOrUnionGraphPattern
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7495,7 +7495,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:595:4: graphGraphPattern
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:595:4: graphGraphPattern
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -7534,7 +7534,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "optionalGraphPattern"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:601:1: optionalGraphPattern : OPTIONAL_TERM groupGraphPattern -> ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:601:1: optionalGraphPattern : OPTIONAL_TERM groupGraphPattern -> ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern ) ;
     public final SparqlOwlParser.optionalGraphPattern_return optionalGraphPattern() throws RecognitionException {
         SparqlOwlParser.optionalGraphPattern_return retval = new SparqlOwlParser.optionalGraphPattern_return();
         retval.start = input.LT(1);
@@ -7549,8 +7549,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_OPTIONAL_TERM=new RewriteRuleTokenStream(adaptor,"token OPTIONAL_TERM");
         RewriteRuleSubtreeStream stream_groupGraphPattern=new RewriteRuleSubtreeStream(adaptor,"rule groupGraphPattern");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:602:2: ( OPTIONAL_TERM groupGraphPattern -> ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:602:4: OPTIONAL_TERM groupGraphPattern
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:602:2: ( OPTIONAL_TERM groupGraphPattern -> ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:602:4: OPTIONAL_TERM groupGraphPattern
             {
             OPTIONAL_TERM184=(Token)match(input,OPTIONAL_TERM,FOLLOW_OPTIONAL_TERM_in_optionalGraphPattern2370); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_OPTIONAL_TERM.add(OPTIONAL_TERM184);
@@ -7577,7 +7577,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 603:2: -> ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:603:5: ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:603:5: ^( OPTIONAL_GRAPH_PATTERN groupGraphPattern )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OPTIONAL_GRAPH_PATTERN, "OPTIONAL_GRAPH_PATTERN"), root_1);
@@ -7616,7 +7616,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "graphGraphPattern"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:609:1: graphGraphPattern : GRAPH_TERM varOrIRIref groupGraphPattern -> ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:609:1: graphGraphPattern : GRAPH_TERM varOrIRIref groupGraphPattern -> ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern ) ;
     public final SparqlOwlParser.graphGraphPattern_return graphGraphPattern() throws RecognitionException {
         SparqlOwlParser.graphGraphPattern_return retval = new SparqlOwlParser.graphGraphPattern_return();
         retval.start = input.LT(1);
@@ -7634,8 +7634,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_varOrIRIref=new RewriteRuleSubtreeStream(adaptor,"rule varOrIRIref");
         RewriteRuleSubtreeStream stream_groupGraphPattern=new RewriteRuleSubtreeStream(adaptor,"rule groupGraphPattern");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:610:2: ( GRAPH_TERM varOrIRIref groupGraphPattern -> ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:610:4: GRAPH_TERM varOrIRIref groupGraphPattern
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:610:2: ( GRAPH_TERM varOrIRIref groupGraphPattern -> ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:610:4: GRAPH_TERM varOrIRIref groupGraphPattern
             {
             GRAPH_TERM186=(Token)match(input,GRAPH_TERM,FOLLOW_GRAPH_TERM_in_graphGraphPattern2394); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_GRAPH_TERM.add(GRAPH_TERM186);
@@ -7668,12 +7668,12 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 611:2: -> ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:611:5: ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:611:5: ^( GRAPH_GRAPH_PATTERN ^( GRAPH_IDENTIFIER varOrIRIref ) groupGraphPattern )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(GRAPH_GRAPH_PATTERN, "GRAPH_GRAPH_PATTERN"), root_1);
 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:611:27: ^( GRAPH_IDENTIFIER varOrIRIref )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:611:27: ^( GRAPH_IDENTIFIER varOrIRIref )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
                 root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(GRAPH_IDENTIFIER, "GRAPH_IDENTIFIER"), root_2);
@@ -7716,7 +7716,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "groupOrUnionGraphPattern"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:617:1: groupOrUnionGraphPattern : ( groupGraphPattern -> groupGraphPattern ) ( UNION_TERM groupGraphPattern -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern ) )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:617:1: groupOrUnionGraphPattern : ( groupGraphPattern -> groupGraphPattern ) ( UNION_TERM groupGraphPattern -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern ) )* ;
     public final SparqlOwlParser.groupOrUnionGraphPattern_return groupOrUnionGraphPattern() throws RecognitionException {
         SparqlOwlParser.groupOrUnionGraphPattern_return retval = new SparqlOwlParser.groupOrUnionGraphPattern_return();
         retval.start = input.LT(1);
@@ -7733,11 +7733,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_UNION_TERM=new RewriteRuleTokenStream(adaptor,"token UNION_TERM");
         RewriteRuleSubtreeStream stream_groupGraphPattern=new RewriteRuleSubtreeStream(adaptor,"rule groupGraphPattern");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:618:2: ( ( groupGraphPattern -> groupGraphPattern ) ( UNION_TERM groupGraphPattern -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern ) )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:618:4: ( groupGraphPattern -> groupGraphPattern ) ( UNION_TERM groupGraphPattern -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:618:2: ( ( groupGraphPattern -> groupGraphPattern ) ( UNION_TERM groupGraphPattern -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern ) )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:618:4: ( groupGraphPattern -> groupGraphPattern ) ( UNION_TERM groupGraphPattern -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern ) )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:618:4: ( groupGraphPattern -> groupGraphPattern )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:618:6: groupGraphPattern
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:618:4: ( groupGraphPattern -> groupGraphPattern )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:618:6: groupGraphPattern
             {
             pushFollow(FOLLOW_groupGraphPattern_in_groupOrUnionGraphPattern2428);
             groupGraphPattern189=groupGraphPattern();
@@ -7768,7 +7768,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:619:3: ( UNION_TERM groupGraphPattern -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:619:3: ( UNION_TERM groupGraphPattern -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern ) )*
             loop58:
             do {
                 int alt58=2;
@@ -7781,7 +7781,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt58) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:619:5: UNION_TERM groupGraphPattern
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:619:5: UNION_TERM groupGraphPattern
             	    {
             	    UNION_TERM190=(Token)match(input,UNION_TERM,FOLLOW_UNION_TERM_in_groupOrUnionGraphPattern2440); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_UNION_TERM.add(UNION_TERM190);
@@ -7808,7 +7808,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 619:34: -> ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:619:37: ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:619:37: ^( UNION_GRAPH_PATTERN $groupOrUnionGraphPattern groupGraphPattern )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UNION_GRAPH_PATTERN, "UNION_GRAPH_PATTERN"), root_1);
@@ -7857,7 +7857,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "filter"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:625:1: filter : FILTER_TERM constraint -> ^( FILTER constraint ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:625:1: filter : FILTER_TERM constraint -> ^( FILTER constraint ) ;
     public final SparqlOwlParser.filter_return filter() throws RecognitionException {
         SparqlOwlParser.filter_return retval = new SparqlOwlParser.filter_return();
         retval.start = input.LT(1);
@@ -7872,8 +7872,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_FILTER_TERM=new RewriteRuleTokenStream(adaptor,"token FILTER_TERM");
         RewriteRuleSubtreeStream stream_constraint=new RewriteRuleSubtreeStream(adaptor,"rule constraint");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:626:2: ( FILTER_TERM constraint -> ^( FILTER constraint ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:626:4: FILTER_TERM constraint
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:626:2: ( FILTER_TERM constraint -> ^( FILTER constraint ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:626:4: FILTER_TERM constraint
             {
             FILTER_TERM192=(Token)match(input,FILTER_TERM,FOLLOW_FILTER_TERM_in_filter2469); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_FILTER_TERM.add(FILTER_TERM192);
@@ -7900,7 +7900,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 627:2: -> ^( FILTER constraint )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:627:5: ^( FILTER constraint )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:627:5: ^( FILTER constraint )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FILTER, "FILTER"), root_1);
@@ -7939,7 +7939,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "constraint"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:633:1: constraint : ( brackettedExpression | builtInCall | functionCall );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:633:1: constraint : ( brackettedExpression | builtInCall | functionCall );
     public final SparqlOwlParser.constraint_return constraint() throws RecognitionException {
         SparqlOwlParser.constraint_return retval = new SparqlOwlParser.constraint_return();
         retval.start = input.LT(1);
@@ -7955,7 +7955,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:634:2: ( brackettedExpression | builtInCall | functionCall )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:634:2: ( brackettedExpression | builtInCall | functionCall )
             int alt59=3;
             switch ( input.LA(1) ) {
             case OPEN_BRACE:
@@ -7995,7 +7995,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt59) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:634:4: brackettedExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:634:4: brackettedExpression
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -8009,7 +8009,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:635:4: builtInCall
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:635:4: builtInCall
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -8023,7 +8023,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:636:4: functionCall
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:636:4: functionCall
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -8062,7 +8062,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "functionCall"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:642:1: functionCall : iriRef argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:642:1: functionCall : iriRef argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) ;
     public final SparqlOwlParser.functionCall_return functionCall() throws RecognitionException {
         SparqlOwlParser.functionCall_return retval = new SparqlOwlParser.functionCall_return();
         retval.start = input.LT(1);
@@ -8077,8 +8077,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_argList=new RewriteRuleSubtreeStream(adaptor,"rule argList");
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:643:2: ( iriRef argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:643:4: iriRef argList
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:643:2: ( iriRef argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:643:4: iriRef argList
             {
             pushFollow(FOLLOW_iriRef_in_functionCall2516);
             iriRef197=iriRef();
@@ -8108,12 +8108,12 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 644:2: -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:644:5: ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:644:5: ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FUNCTION_CALL, "FUNCTION_CALL"), root_1);
 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:644:21: ^( FUNCTION_IDENTIFIER iriRef )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:644:21: ^( FUNCTION_IDENTIFIER iriRef )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
                 root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FUNCTION_IDENTIFIER, "FUNCTION_IDENTIFIER"), root_2);
@@ -8122,7 +8122,7 @@ public class SparqlOwlParser extends Parser {
 
                 adaptor.addChild(root_1, root_2);
                 }
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:644:51: ^( FUNCTION_ARGS argList )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:644:51: ^( FUNCTION_ARGS argList )
                 {
                 CommonTree root_2 = (CommonTree)adaptor.nil();
                 root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FUNCTION_ARGS, "FUNCTION_ARGS"), root_2);
@@ -8164,7 +8164,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "argList"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:650:1: argList : ( OPEN_BRACE CLOSE_BRACE | OPEN_BRACE expression ( COMMA_TERM expression )* CLOSE_BRACE );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:650:1: argList : ( OPEN_BRACE CLOSE_BRACE | OPEN_BRACE expression ( COMMA_TERM expression )* CLOSE_BRACE );
     public final SparqlOwlParser.argList_return argList() throws RecognitionException {
         SparqlOwlParser.argList_return retval = new SparqlOwlParser.argList_return();
         retval.start = input.LT(1);
@@ -8188,7 +8188,7 @@ public class SparqlOwlParser extends Parser {
         CommonTree CLOSE_BRACE205_tree=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:651:2: ( OPEN_BRACE CLOSE_BRACE | OPEN_BRACE expression ( COMMA_TERM expression )* CLOSE_BRACE )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:651:2: ( OPEN_BRACE CLOSE_BRACE | OPEN_BRACE expression ( COMMA_TERM expression )* CLOSE_BRACE )
             int alt61=2;
             int LA61_0 = input.LA(1);
 
@@ -8218,7 +8218,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt61) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:651:4: OPEN_BRACE CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:651:4: OPEN_BRACE CLOSE_BRACE
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -8228,7 +8228,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:652:4: OPEN_BRACE expression ( COMMA_TERM expression )* CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:652:4: OPEN_BRACE expression ( COMMA_TERM expression )* CLOSE_BRACE
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -8239,7 +8239,7 @@ public class SparqlOwlParser extends Parser {
                     state._fsp--;
                     if (state.failed) return retval;
                     if ( state.backtracking==0 ) adaptor.addChild(root_0, expression202.getTree());
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:652:27: ( COMMA_TERM expression )*
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:652:27: ( COMMA_TERM expression )*
                     loop60:
                     do {
                         int alt60=2;
@@ -8252,7 +8252,7 @@ public class SparqlOwlParser extends Parser {
 
                         switch (alt60) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:652:29: COMMA_TERM expression
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:652:29: COMMA_TERM expression
                     	    {
                     	    COMMA_TERM203=(Token)match(input,COMMA_TERM,FOLLOW_COMMA_TERM_in_argList2566); if (state.failed) return retval;
                     	    pushFollow(FOLLOW_expression_in_argList2569);
@@ -8300,7 +8300,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "constructTemplate"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:658:1: constructTemplate : OPEN_CURLY_BRACE ( constructTriples )? CLOSE_CURLY_BRACE -> ^( CONSTRUCT_TEMPLATE ( constructTriples )? ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:658:1: constructTemplate : OPEN_CURLY_BRACE ( constructTriples )? CLOSE_CURLY_BRACE -> ^( CONSTRUCT_TEMPLATE ( constructTriples )? ) ;
     public final SparqlOwlParser.constructTemplate_return constructTemplate() throws RecognitionException {
         SparqlOwlParser.constructTemplate_return retval = new SparqlOwlParser.constructTemplate_return();
         retval.start = input.LT(1);
@@ -8318,13 +8318,13 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_CLOSE_CURLY_BRACE=new RewriteRuleTokenStream(adaptor,"token CLOSE_CURLY_BRACE");
         RewriteRuleSubtreeStream stream_constructTriples=new RewriteRuleSubtreeStream(adaptor,"rule constructTriples");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:659:2: ( OPEN_CURLY_BRACE ( constructTriples )? CLOSE_CURLY_BRACE -> ^( CONSTRUCT_TEMPLATE ( constructTriples )? ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:659:4: OPEN_CURLY_BRACE ( constructTriples )? CLOSE_CURLY_BRACE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:659:2: ( OPEN_CURLY_BRACE ( constructTriples )? CLOSE_CURLY_BRACE -> ^( CONSTRUCT_TEMPLATE ( constructTriples )? ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:659:4: OPEN_CURLY_BRACE ( constructTriples )? CLOSE_CURLY_BRACE
             {
             OPEN_CURLY_BRACE206=(Token)match(input,OPEN_CURLY_BRACE,FOLLOW_OPEN_CURLY_BRACE_in_constructTemplate2588); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_OPEN_CURLY_BRACE.add(OPEN_CURLY_BRACE206);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:659:21: ( constructTriples )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:659:21: ( constructTriples )?
             int alt62=2;
             int LA62_0 = input.LA(1);
 
@@ -8333,7 +8333,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt62) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:659:21: constructTriples
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:659:21: constructTriples
                     {
                     pushFollow(FOLLOW_constructTriples_in_constructTemplate2590);
                     constructTriples207=constructTriples();
@@ -8366,12 +8366,12 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 660:3: -> ^( CONSTRUCT_TEMPLATE ( constructTriples )? )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:660:6: ^( CONSTRUCT_TEMPLATE ( constructTriples )? )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:660:6: ^( CONSTRUCT_TEMPLATE ( constructTriples )? )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CONSTRUCT_TEMPLATE, "CONSTRUCT_TEMPLATE"), root_1);
 
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:660:27: ( constructTriples )?
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:660:27: ( constructTriples )?
                 if ( stream_constructTriples.hasNext() ) {
                     adaptor.addChild(root_1, stream_constructTriples.nextTree());
 
@@ -8410,7 +8410,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "constructTriples"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:666:1: constructTriples : triplesSameSubject ( DOT_TERM ( constructTriples )? )? ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:666:1: constructTriples : triplesSameSubject ( DOT_TERM ( constructTriples )? )? ;
     public final SparqlOwlParser.constructTriples_return constructTriples() throws RecognitionException {
         SparqlOwlParser.constructTriples_return retval = new SparqlOwlParser.constructTriples_return();
         retval.start = input.LT(1);
@@ -8426,8 +8426,8 @@ public class SparqlOwlParser extends Parser {
         CommonTree DOT_TERM210_tree=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:667:2: ( triplesSameSubject ( DOT_TERM ( constructTriples )? )? )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:667:4: triplesSameSubject ( DOT_TERM ( constructTriples )? )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:667:2: ( triplesSameSubject ( DOT_TERM ( constructTriples )? )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:667:4: triplesSameSubject ( DOT_TERM ( constructTriples )? )?
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -8437,7 +8437,7 @@ public class SparqlOwlParser extends Parser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) adaptor.addChild(root_0, triplesSameSubject209.getTree());
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:667:23: ( DOT_TERM ( constructTriples )? )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:667:23: ( DOT_TERM ( constructTriples )? )?
             int alt64=2;
             int LA64_0 = input.LA(1);
 
@@ -8446,10 +8446,10 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt64) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:667:25: DOT_TERM ( constructTriples )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:667:25: DOT_TERM ( constructTriples )?
                     {
                     DOT_TERM210=(Token)match(input,DOT_TERM,FOLLOW_DOT_TERM_in_constructTriples2621); if (state.failed) return retval;
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:667:35: ( constructTriples )?
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:667:35: ( constructTriples )?
                     int alt63=2;
                     int LA63_0 = input.LA(1);
 
@@ -8458,7 +8458,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     switch (alt63) {
                         case 1 :
-                            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:667:35: constructTriples
+                            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:667:35: constructTriples
                             {
                             pushFollow(FOLLOW_constructTriples_in_constructTriples2624);
                             constructTriples211=constructTriples();
@@ -8505,7 +8505,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "triplesSameSubject"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:673:1: triplesSameSubject options {memoize=true; } : ( ( varOrTerm propertyListNotEmpty )=> varOrTerm propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT varOrTerm ) propertyListNotEmpty ) | ( triplesNode propertyListNotEmpty )=> triplesNode propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) propertyListNotEmpty ) | ( triplesNode )=> triplesNode -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) ) | disjunction propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT disjunction ) propertyListNotEmpty ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:673:1: triplesSameSubject options {memoize=true; } : ( ( varOrTerm propertyListNotEmpty )=> varOrTerm propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT varOrTerm ) propertyListNotEmpty ) | ( triplesNode propertyListNotEmpty )=> triplesNode propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) propertyListNotEmpty ) | ( triplesNode )=> triplesNode -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) ) | disjunction propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT disjunction ) propertyListNotEmpty ) );
     public final SparqlOwlParser.triplesSameSubject_return triplesSameSubject() throws RecognitionException {
         SparqlOwlParser.triplesSameSubject_return retval = new SparqlOwlParser.triplesSameSubject_return();
         retval.start = input.LT(1);
@@ -8533,12 +8533,12 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_triplesNode=new RewriteRuleSubtreeStream(adaptor,"rule triplesNode");
         try {
             if ( state.backtracking>0 && alreadyParsedRule(input, 62) ) { return retval; }
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:675:2: ( ( varOrTerm propertyListNotEmpty )=> varOrTerm propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT varOrTerm ) propertyListNotEmpty ) | ( triplesNode propertyListNotEmpty )=> triplesNode propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) propertyListNotEmpty ) | ( triplesNode )=> triplesNode -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) ) | disjunction propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT disjunction ) propertyListNotEmpty ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:675:2: ( ( varOrTerm propertyListNotEmpty )=> varOrTerm propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT varOrTerm ) propertyListNotEmpty ) | ( triplesNode propertyListNotEmpty )=> triplesNode propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) propertyListNotEmpty ) | ( triplesNode )=> triplesNode -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) ) | disjunction propertyListNotEmpty -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT disjunction ) propertyListNotEmpty ) )
             int alt65=4;
             alt65 = dfa65.predict(input);
             switch (alt65) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:675:4: ( varOrTerm propertyListNotEmpty )=> varOrTerm propertyListNotEmpty
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:675:4: ( varOrTerm propertyListNotEmpty )=> varOrTerm propertyListNotEmpty
                     {
                     pushFollow(FOLLOW_varOrTerm_in_triplesSameSubject2657);
                     varOrTerm212=varOrTerm();
@@ -8555,7 +8555,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: propertyListNotEmpty, varOrTerm
+                    // elements: varOrTerm, propertyListNotEmpty
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -8568,12 +8568,12 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 675:70: -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT varOrTerm ) propertyListNotEmpty )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:675:73: ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT varOrTerm ) propertyListNotEmpty )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:675:73: ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT varOrTerm ) propertyListNotEmpty )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SUBJECT_TRIPLE_GROUP, "SUBJECT_TRIPLE_GROUP"), root_1);
 
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:675:96: ^( SUBJECT varOrTerm )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:675:96: ^( SUBJECT varOrTerm )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SUBJECT, "SUBJECT"), root_2);
@@ -8593,7 +8593,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:676:4: ( triplesNode propertyListNotEmpty )=> triplesNode propertyListNotEmpty
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:676:4: ( triplesNode propertyListNotEmpty )=> triplesNode propertyListNotEmpty
                     {
                     pushFollow(FOLLOW_triplesNode_in_triplesSameSubject2685);
                     triplesNode214=triplesNode();
@@ -8610,7 +8610,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: propertyListNotEmpty, triplesNode
+                    // elements: triplesNode, propertyListNotEmpty
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -8623,12 +8623,12 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 676:74: -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) propertyListNotEmpty )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:676:77: ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) propertyListNotEmpty )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:676:77: ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) propertyListNotEmpty )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SUBJECT_TRIPLE_GROUP, "SUBJECT_TRIPLE_GROUP"), root_1);
 
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:676:100: ^( SUBJECT triplesNode )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:676:100: ^( SUBJECT triplesNode )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SUBJECT, "SUBJECT"), root_2);
@@ -8648,7 +8648,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:677:4: ( triplesNode )=> triplesNode
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:677:4: ( triplesNode )=> triplesNode
                     {
                     pushFollow(FOLLOW_triplesNode_in_triplesSameSubject2711);
                     triplesNode216=triplesNode();
@@ -8672,12 +8672,12 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 677:32: -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:677:35: ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:677:35: ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT triplesNode ) )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SUBJECT_TRIPLE_GROUP, "SUBJECT_TRIPLE_GROUP"), root_1);
 
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:677:58: ^( SUBJECT triplesNode )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:677:58: ^( SUBJECT triplesNode )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SUBJECT, "SUBJECT"), root_2);
@@ -8696,7 +8696,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:678:4: disjunction propertyListNotEmpty
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:678:4: disjunction propertyListNotEmpty
                     {
                     pushFollow(FOLLOW_disjunction_in_triplesSameSubject2728);
                     disjunction217=disjunction();
@@ -8713,7 +8713,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: propertyListNotEmpty, disjunction
+                    // elements: disjunction, propertyListNotEmpty
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -8726,12 +8726,12 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 678:37: -> ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT disjunction ) propertyListNotEmpty )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:678:40: ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT disjunction ) propertyListNotEmpty )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:678:40: ^( SUBJECT_TRIPLE_GROUP ^( SUBJECT disjunction ) propertyListNotEmpty )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SUBJECT_TRIPLE_GROUP, "SUBJECT_TRIPLE_GROUP"), root_1);
 
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:678:63: ^( SUBJECT disjunction )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:678:63: ^( SUBJECT disjunction )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(SUBJECT, "SUBJECT"), root_2);
@@ -8777,7 +8777,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "propertyListNotEmpty"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:684:1: propertyListNotEmpty : verbObjectListPair ( SEMICOLON_TERM ( verbObjectListPair )? )* -> ( verbObjectListPair )+ ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:684:1: propertyListNotEmpty : verbObjectListPair ( SEMICOLON_TERM ( verbObjectListPair )? )* -> ( verbObjectListPair )+ ;
     public final SparqlOwlParser.propertyListNotEmpty_return propertyListNotEmpty() throws RecognitionException {
         SparqlOwlParser.propertyListNotEmpty_return retval = new SparqlOwlParser.propertyListNotEmpty_return();
         retval.start = input.LT(1);
@@ -8794,8 +8794,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_SEMICOLON_TERM=new RewriteRuleTokenStream(adaptor,"token SEMICOLON_TERM");
         RewriteRuleSubtreeStream stream_verbObjectListPair=new RewriteRuleSubtreeStream(adaptor,"rule verbObjectListPair");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:685:2: ( verbObjectListPair ( SEMICOLON_TERM ( verbObjectListPair )? )* -> ( verbObjectListPair )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:685:4: verbObjectListPair ( SEMICOLON_TERM ( verbObjectListPair )? )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:685:2: ( verbObjectListPair ( SEMICOLON_TERM ( verbObjectListPair )? )* -> ( verbObjectListPair )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:685:4: verbObjectListPair ( SEMICOLON_TERM ( verbObjectListPair )? )*
             {
             pushFollow(FOLLOW_verbObjectListPair_in_propertyListNotEmpty2757);
             verbObjectListPair219=verbObjectListPair();
@@ -8803,7 +8803,7 @@ public class SparqlOwlParser extends Parser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_verbObjectListPair.add(verbObjectListPair219.getTree());
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:685:23: ( SEMICOLON_TERM ( verbObjectListPair )? )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:685:23: ( SEMICOLON_TERM ( verbObjectListPair )? )*
             loop67:
             do {
                 int alt67=2;
@@ -8816,12 +8816,12 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt67) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:685:25: SEMICOLON_TERM ( verbObjectListPair )?
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:685:25: SEMICOLON_TERM ( verbObjectListPair )?
             	    {
             	    SEMICOLON_TERM220=(Token)match(input,SEMICOLON_TERM,FOLLOW_SEMICOLON_TERM_in_propertyListNotEmpty2761); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_SEMICOLON_TERM.add(SEMICOLON_TERM220);
 
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:685:40: ( verbObjectListPair )?
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:685:40: ( verbObjectListPair )?
             	    int alt66=2;
             	    int LA66_0 = input.LA(1);
 
@@ -8830,7 +8830,7 @@ public class SparqlOwlParser extends Parser {
             	    }
             	    switch (alt66) {
             	        case 1 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:685:42: verbObjectListPair
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:685:42: verbObjectListPair
             	            {
             	            pushFollow(FOLLOW_verbObjectListPair_in_propertyListNotEmpty2765);
             	            verbObjectListPair221=verbObjectListPair();
@@ -8907,7 +8907,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "verbObjectListPair"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:692:1: verbObjectListPair : verb objectList -> ( ^( VERB_PAIR_GROUP verb objectList ) )+ ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:692:1: verbObjectListPair : verb objectList -> ( ^( VERB_PAIR_GROUP verb objectList ) )+ ;
     public final SparqlOwlParser.verbObjectListPair_return verbObjectListPair() throws RecognitionException {
         SparqlOwlParser.verbObjectListPair_return retval = new SparqlOwlParser.verbObjectListPair_return();
         retval.start = input.LT(1);
@@ -8922,8 +8922,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_verb=new RewriteRuleSubtreeStream(adaptor,"rule verb");
         RewriteRuleSubtreeStream stream_objectList=new RewriteRuleSubtreeStream(adaptor,"rule objectList");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:693:2: ( verb objectList -> ( ^( VERB_PAIR_GROUP verb objectList ) )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:693:4: verb objectList
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:693:2: ( verb objectList -> ( ^( VERB_PAIR_GROUP verb objectList ) )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:693:4: verb objectList
             {
             pushFollow(FOLLOW_verb_in_verbObjectListPair2791);
             verb222=verb();
@@ -8957,7 +8957,7 @@ public class SparqlOwlParser extends Parser {
                     throw new RewriteEarlyExitException();
                 }
                 while ( stream_objectList.hasNext()||stream_verb.hasNext() ) {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:694:5: ^( VERB_PAIR_GROUP verb objectList )
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:694:5: ^( VERB_PAIR_GROUP verb objectList )
                     {
                     CommonTree root_1 = (CommonTree)adaptor.nil();
                     root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VERB_PAIR_GROUP, "VERB_PAIR_GROUP"), root_1);
@@ -9001,7 +9001,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "objectList"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:700:1: objectList : object ( COMMA_TERM object )* -> ( object )+ ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:700:1: objectList : object ( COMMA_TERM object )* -> ( object )+ ;
     public final SparqlOwlParser.objectList_return objectList() throws RecognitionException {
         SparqlOwlParser.objectList_return retval = new SparqlOwlParser.objectList_return();
         retval.start = input.LT(1);
@@ -9018,8 +9018,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_COMMA_TERM=new RewriteRuleTokenStream(adaptor,"token COMMA_TERM");
         RewriteRuleSubtreeStream stream_object=new RewriteRuleSubtreeStream(adaptor,"rule object");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:701:2: ( object ( COMMA_TERM object )* -> ( object )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:701:4: object ( COMMA_TERM object )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:701:2: ( object ( COMMA_TERM object )* -> ( object )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:701:4: object ( COMMA_TERM object )*
             {
             pushFollow(FOLLOW_object_in_objectList2818);
             object224=object();
@@ -9027,7 +9027,7 @@ public class SparqlOwlParser extends Parser {
             state._fsp--;
             if (state.failed) return retval;
             if ( state.backtracking==0 ) stream_object.add(object224.getTree());
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:701:11: ( COMMA_TERM object )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:701:11: ( COMMA_TERM object )*
             loop68:
             do {
                 int alt68=2;
@@ -9040,7 +9040,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt68) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:701:13: COMMA_TERM object
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:701:13: COMMA_TERM object
             	    {
             	    COMMA_TERM225=(Token)match(input,COMMA_TERM,FOLLOW_COMMA_TERM_in_objectList2822); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_COMMA_TERM.add(COMMA_TERM225);
@@ -9114,7 +9114,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "object"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:709:1: object : ( ( graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE ) )=> graphNode -> ^( OBJECT graphNode ) | disjunction -> ^( OBJECT disjunction ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:709:1: object : ( ( graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE ) )=> graphNode -> ^( OBJECT graphNode ) | disjunction -> ^( OBJECT disjunction ) );
     public final SparqlOwlParser.object_return object() throws RecognitionException {
         SparqlOwlParser.object_return retval = new SparqlOwlParser.object_return();
         retval.start = input.LT(1);
@@ -9129,12 +9129,12 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_graphNode=new RewriteRuleSubtreeStream(adaptor,"rule graphNode");
         RewriteRuleSubtreeStream stream_disjunction=new RewriteRuleSubtreeStream(adaptor,"rule disjunction");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:710:2: ( ( graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE ) )=> graphNode -> ^( OBJECT graphNode ) | disjunction -> ^( OBJECT disjunction ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:710:2: ( ( graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE ) )=> graphNode -> ^( OBJECT graphNode ) | disjunction -> ^( OBJECT disjunction ) )
             int alt69=2;
             alt69 = dfa69.predict(input);
             switch (alt69) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:710:4: ( graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE ) )=> graphNode
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:710:4: ( graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE ) )=> graphNode
                     {
                     pushFollow(FOLLOW_graphNode_in_object2873);
                     graphNode227=graphNode();
@@ -9158,7 +9158,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 710:110: -> ^( OBJECT graphNode )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:710:113: ^( OBJECT graphNode )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:710:113: ^( OBJECT graphNode )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OBJECT, "OBJECT"), root_1);
@@ -9174,7 +9174,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:711:4: disjunction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:711:4: disjunction
                     {
                     pushFollow(FOLLOW_disjunction_in_object2886);
                     disjunction228=disjunction();
@@ -9198,7 +9198,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 711:16: -> ^( OBJECT disjunction )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:711:19: ^( OBJECT disjunction )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:711:19: ^( OBJECT disjunction )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(OBJECT, "OBJECT"), root_1);
@@ -9239,7 +9239,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "verb"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:717:1: verb : ( varOrIRIref -> ^( VERB varOrIRIref ) | A_TERM -> ^( VERB RDF_TYPE ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:717:1: verb : ( varOrIRIref -> ^( VERB varOrIRIref ) | A_TERM -> ^( VERB RDF_TYPE ) );
     public final SparqlOwlParser.verb_return verb() throws RecognitionException {
         SparqlOwlParser.verb_return retval = new SparqlOwlParser.verb_return();
         retval.start = input.LT(1);
@@ -9254,7 +9254,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_A_TERM=new RewriteRuleTokenStream(adaptor,"token A_TERM");
         RewriteRuleSubtreeStream stream_varOrIRIref=new RewriteRuleSubtreeStream(adaptor,"rule varOrIRIref");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:718:2: ( varOrIRIref -> ^( VERB varOrIRIref ) | A_TERM -> ^( VERB RDF_TYPE ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:718:2: ( varOrIRIref -> ^( VERB varOrIRIref ) | A_TERM -> ^( VERB RDF_TYPE ) )
             int alt70=2;
             int LA70_0 = input.LA(1);
 
@@ -9273,7 +9273,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt70) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:718:4: varOrIRIref
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:718:4: varOrIRIref
                     {
                     pushFollow(FOLLOW_varOrIRIref_in_verb2907);
                     varOrIRIref229=varOrIRIref();
@@ -9297,7 +9297,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 718:16: -> ^( VERB varOrIRIref )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:718:19: ^( VERB varOrIRIref )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:718:19: ^( VERB varOrIRIref )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VERB, "VERB"), root_1);
@@ -9313,7 +9313,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:719:4: A_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:719:4: A_TERM
                     {
                     A_TERM230=(Token)match(input,A_TERM,FOLLOW_A_TERM_in_verb2920); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_A_TERM.add(A_TERM230);
@@ -9334,7 +9334,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 719:11: -> ^( VERB RDF_TYPE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:719:14: ^( VERB RDF_TYPE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:719:14: ^( VERB RDF_TYPE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VERB, "VERB"), root_1);
@@ -9375,7 +9375,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "triplesNode"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:725:1: triplesNode : ( collection | blankNodePropertyList );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:725:1: triplesNode : ( collection | blankNodePropertyList );
     public final SparqlOwlParser.triplesNode_return triplesNode() throws RecognitionException {
         SparqlOwlParser.triplesNode_return retval = new SparqlOwlParser.triplesNode_return();
         retval.start = input.LT(1);
@@ -9389,7 +9389,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:726:2: ( collection | blankNodePropertyList )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:726:2: ( collection | blankNodePropertyList )
             int alt71=2;
             int LA71_0 = input.LA(1);
 
@@ -9408,7 +9408,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt71) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:726:4: collection
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:726:4: collection
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -9422,7 +9422,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:727:4: blankNodePropertyList
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:727:4: blankNodePropertyList
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -9461,7 +9461,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "blankNodePropertyList"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:733:1: blankNodePropertyList : OPEN_SQUARE_BRACE propertyListNotEmpty CLOSE_SQUARE_BRACE -> ^( BNODE_PROPERTY_LIST propertyListNotEmpty ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:733:1: blankNodePropertyList : OPEN_SQUARE_BRACE propertyListNotEmpty CLOSE_SQUARE_BRACE -> ^( BNODE_PROPERTY_LIST propertyListNotEmpty ) ;
     public final SparqlOwlParser.blankNodePropertyList_return blankNodePropertyList() throws RecognitionException {
         SparqlOwlParser.blankNodePropertyList_return retval = new SparqlOwlParser.blankNodePropertyList_return();
         retval.start = input.LT(1);
@@ -9479,8 +9479,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_OPEN_SQUARE_BRACE=new RewriteRuleTokenStream(adaptor,"token OPEN_SQUARE_BRACE");
         RewriteRuleSubtreeStream stream_propertyListNotEmpty=new RewriteRuleSubtreeStream(adaptor,"rule propertyListNotEmpty");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:734:2: ( OPEN_SQUARE_BRACE propertyListNotEmpty CLOSE_SQUARE_BRACE -> ^( BNODE_PROPERTY_LIST propertyListNotEmpty ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:734:4: OPEN_SQUARE_BRACE propertyListNotEmpty CLOSE_SQUARE_BRACE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:734:2: ( OPEN_SQUARE_BRACE propertyListNotEmpty CLOSE_SQUARE_BRACE -> ^( BNODE_PROPERTY_LIST propertyListNotEmpty ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:734:4: OPEN_SQUARE_BRACE propertyListNotEmpty CLOSE_SQUARE_BRACE
             {
             OPEN_SQUARE_BRACE233=(Token)match(input,OPEN_SQUARE_BRACE,FOLLOW_OPEN_SQUARE_BRACE_in_blankNodePropertyList2959); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_OPEN_SQUARE_BRACE.add(OPEN_SQUARE_BRACE233);
@@ -9510,7 +9510,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 735:2: -> ^( BNODE_PROPERTY_LIST propertyListNotEmpty )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:735:5: ^( BNODE_PROPERTY_LIST propertyListNotEmpty )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:735:5: ^( BNODE_PROPERTY_LIST propertyListNotEmpty )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BNODE_PROPERTY_LIST, "BNODE_PROPERTY_LIST"), root_1);
@@ -9549,7 +9549,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "collection"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:741:1: collection : OPEN_BRACE ( graphNode )+ CLOSE_BRACE -> ^( COLLECTION ( graphNode )+ ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:741:1: collection : OPEN_BRACE ( graphNode )+ CLOSE_BRACE -> ^( COLLECTION ( graphNode )+ ) ;
     public final SparqlOwlParser.collection_return collection() throws RecognitionException {
         SparqlOwlParser.collection_return retval = new SparqlOwlParser.collection_return();
         retval.start = input.LT(1);
@@ -9567,13 +9567,13 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_OPEN_BRACE=new RewriteRuleTokenStream(adaptor,"token OPEN_BRACE");
         RewriteRuleSubtreeStream stream_graphNode=new RewriteRuleSubtreeStream(adaptor,"rule graphNode");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:742:2: ( OPEN_BRACE ( graphNode )+ CLOSE_BRACE -> ^( COLLECTION ( graphNode )+ ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:742:4: OPEN_BRACE ( graphNode )+ CLOSE_BRACE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:742:2: ( OPEN_BRACE ( graphNode )+ CLOSE_BRACE -> ^( COLLECTION ( graphNode )+ ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:742:4: OPEN_BRACE ( graphNode )+ CLOSE_BRACE
             {
             OPEN_BRACE236=(Token)match(input,OPEN_BRACE,FOLLOW_OPEN_BRACE_in_collection2985); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_OPEN_BRACE.add(OPEN_BRACE236);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:742:15: ( graphNode )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:742:15: ( graphNode )+
             int cnt72=0;
             loop72:
             do {
@@ -9587,7 +9587,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt72) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:742:15: graphNode
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:742:15: graphNode
             	    {
             	    pushFollow(FOLLOW_graphNode_in_collection2987);
             	    graphNode237=graphNode();
@@ -9628,7 +9628,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 743:2: -> ^( COLLECTION ( graphNode )+ )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:743:5: ^( COLLECTION ( graphNode )+ )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:743:5: ^( COLLECTION ( graphNode )+ )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(COLLECTION, "COLLECTION"), root_1);
@@ -9674,7 +9674,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "emptyCollection"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:749:1: emptyCollection : OPEN_BRACE CLOSE_BRACE -> ^( COLLECTION ) ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:749:1: emptyCollection : OPEN_BRACE CLOSE_BRACE -> ^( COLLECTION ) ;
     public final SparqlOwlParser.emptyCollection_return emptyCollection() throws RecognitionException {
         SparqlOwlParser.emptyCollection_return retval = new SparqlOwlParser.emptyCollection_return();
         retval.start = input.LT(1);
@@ -9690,8 +9690,8 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_OPEN_BRACE=new RewriteRuleTokenStream(adaptor,"token OPEN_BRACE");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:750:2: ( OPEN_BRACE CLOSE_BRACE -> ^( COLLECTION ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:750:4: OPEN_BRACE CLOSE_BRACE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:750:2: ( OPEN_BRACE CLOSE_BRACE -> ^( COLLECTION ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:750:4: OPEN_BRACE CLOSE_BRACE
             {
             OPEN_BRACE239=(Token)match(input,OPEN_BRACE,FOLLOW_OPEN_BRACE_in_emptyCollection3013); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_OPEN_BRACE.add(OPEN_BRACE239);
@@ -9715,7 +9715,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 751:2: -> ^( COLLECTION )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:751:5: ^( COLLECTION )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:751:5: ^( COLLECTION )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(COLLECTION, "COLLECTION"), root_1);
@@ -9752,7 +9752,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "graphNode"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:757:1: graphNode : ( varOrTerm | triplesNode );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:757:1: graphNode : ( varOrTerm | triplesNode );
     public final SparqlOwlParser.graphNode_return graphNode() throws RecognitionException {
         SparqlOwlParser.graphNode_return retval = new SparqlOwlParser.graphNode_return();
         retval.start = input.LT(1);
@@ -9766,7 +9766,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:758:2: ( varOrTerm | triplesNode )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:758:2: ( varOrTerm | triplesNode )
             int alt73=2;
             switch ( input.LA(1) ) {
             case INTEGER:
@@ -9842,7 +9842,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt73) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:758:4: varOrTerm
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:758:4: varOrTerm
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -9856,7 +9856,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:759:4: triplesNode
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:759:4: triplesNode
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -9895,7 +9895,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "varOrTerm"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:765:1: varOrTerm : ( var | graphTerm );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:765:1: varOrTerm : ( var | graphTerm );
     public final SparqlOwlParser.varOrTerm_return varOrTerm() throws RecognitionException {
         SparqlOwlParser.varOrTerm_return retval = new SparqlOwlParser.varOrTerm_return();
         retval.start = input.LT(1);
@@ -9909,7 +9909,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:766:2: ( var | graphTerm )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:766:2: ( var | graphTerm )
             int alt74=2;
             int LA74_0 = input.LA(1);
 
@@ -9928,7 +9928,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt74) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:766:4: var
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:766:4: var
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -9942,7 +9942,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:767:4: graphTerm
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:767:4: graphTerm
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -9981,7 +9981,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "varOrIRIref"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:773:1: varOrIRIref : ( var | iriRef );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:773:1: varOrIRIref : ( var | iriRef );
     public final SparqlOwlParser.varOrIRIref_return varOrIRIref() throws RecognitionException {
         SparqlOwlParser.varOrIRIref_return retval = new SparqlOwlParser.varOrIRIref_return();
         retval.start = input.LT(1);
@@ -9995,7 +9995,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:774:2: ( var | iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:774:2: ( var | iriRef )
             int alt75=2;
             int LA75_0 = input.LA(1);
 
@@ -10014,7 +10014,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt75) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:774:4: var
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:774:4: var
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -10028,7 +10028,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:775:4: iriRef
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:775:4: iriRef
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -10067,7 +10067,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "var"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:781:1: var : ( VAR1 -> ^( VARIABLE VAR1 ) | VAR2 -> ^( VARIABLE VAR2 ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:781:1: var : ( VAR1 -> ^( VARIABLE VAR1 ) | VAR2 -> ^( VARIABLE VAR2 ) );
     public final SparqlOwlParser.var_return var() throws RecognitionException {
         SparqlOwlParser.var_return retval = new SparqlOwlParser.var_return();
         retval.start = input.LT(1);
@@ -10083,7 +10083,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_VAR2=new RewriteRuleTokenStream(adaptor,"token VAR2");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:782:2: ( VAR1 -> ^( VARIABLE VAR1 ) | VAR2 -> ^( VARIABLE VAR2 ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:782:2: ( VAR1 -> ^( VARIABLE VAR1 ) | VAR2 -> ^( VARIABLE VAR2 ) )
             int alt76=2;
             int LA76_0 = input.LA(1);
 
@@ -10102,7 +10102,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt76) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:782:4: VAR1
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:782:4: VAR1
                     {
                     VAR1247=(Token)match(input,VAR1,FOLLOW_VAR1_in_var3089); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_VAR1.add(VAR1247);
@@ -10123,7 +10123,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 782:9: -> ^( VARIABLE VAR1 )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:782:12: ^( VARIABLE VAR1 )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:782:12: ^( VARIABLE VAR1 )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VARIABLE, "VARIABLE"), root_1);
@@ -10139,7 +10139,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:783:4: VAR2
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:783:4: VAR2
                     {
                     VAR2248=(Token)match(input,VAR2,FOLLOW_VAR2_in_var3102); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_VAR2.add(VAR2248);
@@ -10160,7 +10160,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 783:9: -> ^( VARIABLE VAR2 )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:783:12: ^( VARIABLE VAR2 )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:783:12: ^( VARIABLE VAR2 )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(VARIABLE, "VARIABLE"), root_1);
@@ -10201,7 +10201,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "graphTerm"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:789:1: graphTerm : ( iriRef | literal | blankNode | emptyCollection );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:789:1: graphTerm : ( iriRef | literal | blankNode | emptyCollection );
     public final SparqlOwlParser.graphTerm_return graphTerm() throws RecognitionException {
         SparqlOwlParser.graphTerm_return retval = new SparqlOwlParser.graphTerm_return();
         retval.start = input.LT(1);
@@ -10219,7 +10219,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:790:2: ( iriRef | literal | blankNode | emptyCollection )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:790:2: ( iriRef | literal | blankNode | emptyCollection )
             int alt77=4;
             switch ( input.LA(1) ) {
             case IRI_REF_TERM:
@@ -10269,7 +10269,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt77) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:790:4: iriRef
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:790:4: iriRef
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -10283,7 +10283,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:791:4: literal
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:791:4: literal
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -10297,7 +10297,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:792:4: blankNode
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:792:4: blankNode
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -10311,7 +10311,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:793:4: emptyCollection
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:793:4: emptyCollection
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -10350,7 +10350,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "expression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:799:1: expression : conditionalOrExpression ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:799:1: expression : conditionalOrExpression ;
     public final SparqlOwlParser.expression_return expression() throws RecognitionException {
         SparqlOwlParser.expression_return retval = new SparqlOwlParser.expression_return();
         retval.start = input.LT(1);
@@ -10362,8 +10362,8 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:800:2: ( conditionalOrExpression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:800:4: conditionalOrExpression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:800:2: ( conditionalOrExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:800:4: conditionalOrExpression
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -10400,7 +10400,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "conditionalOrExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:806:1: conditionalOrExpression : ( conditionalAndExpression -> conditionalAndExpression ) ( OR_OPERATOR_TERM conditionalAndExpression -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression ) )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:806:1: conditionalOrExpression : ( conditionalAndExpression -> conditionalAndExpression ) ( OR_OPERATOR_TERM conditionalAndExpression -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression ) )* ;
     public final SparqlOwlParser.conditionalOrExpression_return conditionalOrExpression() throws RecognitionException {
         SparqlOwlParser.conditionalOrExpression_return retval = new SparqlOwlParser.conditionalOrExpression_return();
         retval.start = input.LT(1);
@@ -10417,11 +10417,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_OR_OPERATOR_TERM=new RewriteRuleTokenStream(adaptor,"token OR_OPERATOR_TERM");
         RewriteRuleSubtreeStream stream_conditionalAndExpression=new RewriteRuleSubtreeStream(adaptor,"rule conditionalAndExpression");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:807:2: ( ( conditionalAndExpression -> conditionalAndExpression ) ( OR_OPERATOR_TERM conditionalAndExpression -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression ) )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:807:4: ( conditionalAndExpression -> conditionalAndExpression ) ( OR_OPERATOR_TERM conditionalAndExpression -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:807:2: ( ( conditionalAndExpression -> conditionalAndExpression ) ( OR_OPERATOR_TERM conditionalAndExpression -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression ) )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:807:4: ( conditionalAndExpression -> conditionalAndExpression ) ( OR_OPERATOR_TERM conditionalAndExpression -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression ) )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:807:4: ( conditionalAndExpression -> conditionalAndExpression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:807:6: conditionalAndExpression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:807:4: ( conditionalAndExpression -> conditionalAndExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:807:6: conditionalAndExpression
             {
             pushFollow(FOLLOW_conditionalAndExpression_in_conditionalOrExpression3166);
             conditionalAndExpression254=conditionalAndExpression();
@@ -10452,7 +10452,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:808:3: ( OR_OPERATOR_TERM conditionalAndExpression -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:808:3: ( OR_OPERATOR_TERM conditionalAndExpression -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression ) )*
             loop78:
             do {
                 int alt78=2;
@@ -10465,7 +10465,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt78) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:808:5: OR_OPERATOR_TERM conditionalAndExpression
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:808:5: OR_OPERATOR_TERM conditionalAndExpression
             	    {
             	    OR_OPERATOR_TERM255=(Token)match(input,OR_OPERATOR_TERM,FOLLOW_OR_OPERATOR_TERM_in_conditionalOrExpression3178); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_OR_OPERATOR_TERM.add(OR_OPERATOR_TERM255);
@@ -10479,7 +10479,7 @@ public class SparqlOwlParser extends Parser {
 
 
             	    // AST REWRITE
-            	    // elements: conditionalOrExpression, conditionalAndExpression
+            	    // elements: conditionalAndExpression, conditionalOrExpression
             	    // token labels: 
             	    // rule labels: retval
             	    // token list labels: 
@@ -10492,7 +10492,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 808:47: -> ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:808:50: ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:808:50: ^( CONDITIONAL_EXPRESSION_OR $conditionalOrExpression conditionalAndExpression )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CONDITIONAL_EXPRESSION_OR, "CONDITIONAL_EXPRESSION_OR"), root_1);
@@ -10541,7 +10541,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "conditionalAndExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:814:1: conditionalAndExpression : ( valueLogical -> valueLogical ) ( AND_OPERATOR_TERM valueLogical -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical ) )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:814:1: conditionalAndExpression : ( valueLogical -> valueLogical ) ( AND_OPERATOR_TERM valueLogical -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical ) )* ;
     public final SparqlOwlParser.conditionalAndExpression_return conditionalAndExpression() throws RecognitionException {
         SparqlOwlParser.conditionalAndExpression_return retval = new SparqlOwlParser.conditionalAndExpression_return();
         retval.start = input.LT(1);
@@ -10558,11 +10558,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_AND_OPERATOR_TERM=new RewriteRuleTokenStream(adaptor,"token AND_OPERATOR_TERM");
         RewriteRuleSubtreeStream stream_valueLogical=new RewriteRuleSubtreeStream(adaptor,"rule valueLogical");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:815:2: ( ( valueLogical -> valueLogical ) ( AND_OPERATOR_TERM valueLogical -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical ) )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:815:4: ( valueLogical -> valueLogical ) ( AND_OPERATOR_TERM valueLogical -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:815:2: ( ( valueLogical -> valueLogical ) ( AND_OPERATOR_TERM valueLogical -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical ) )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:815:4: ( valueLogical -> valueLogical ) ( AND_OPERATOR_TERM valueLogical -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical ) )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:815:4: ( valueLogical -> valueLogical )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:815:6: valueLogical
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:815:4: ( valueLogical -> valueLogical )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:815:6: valueLogical
             {
             pushFollow(FOLLOW_valueLogical_in_conditionalAndExpression3209);
             valueLogical257=valueLogical();
@@ -10593,7 +10593,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:816:3: ( AND_OPERATOR_TERM valueLogical -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:816:3: ( AND_OPERATOR_TERM valueLogical -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical ) )*
             loop79:
             do {
                 int alt79=2;
@@ -10606,7 +10606,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt79) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:816:5: AND_OPERATOR_TERM valueLogical
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:816:5: AND_OPERATOR_TERM valueLogical
             	    {
             	    AND_OPERATOR_TERM258=(Token)match(input,AND_OPERATOR_TERM,FOLLOW_AND_OPERATOR_TERM_in_conditionalAndExpression3220); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_AND_OPERATOR_TERM.add(AND_OPERATOR_TERM258);
@@ -10633,7 +10633,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 816:36: -> ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:816:39: ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:816:39: ^( CONDITIONAL_EXPRESSION_AND $conditionalAndExpression valueLogical )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(CONDITIONAL_EXPRESSION_AND, "CONDITIONAL_EXPRESSION_AND"), root_1);
@@ -10682,7 +10682,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "valueLogical"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:822:1: valueLogical : relationalExpression ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:822:1: valueLogical : relationalExpression ;
     public final SparqlOwlParser.valueLogical_return valueLogical() throws RecognitionException {
         SparqlOwlParser.valueLogical_return retval = new SparqlOwlParser.valueLogical_return();
         retval.start = input.LT(1);
@@ -10694,8 +10694,8 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:823:2: ( relationalExpression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:823:4: relationalExpression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:823:2: ( relationalExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:823:4: relationalExpression
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -10732,7 +10732,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "relationalExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:830:1: relationalExpression : ( numericExpression -> numericExpression ) ( EQUAL_TERM numericExpression -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression ) | NOT_EQUAL_TERM numericExpression -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression ) | LESS_TERM numericExpression -> ^( RELATIONAL_LESS $relationalExpression numericExpression ) | GREATER_TERM numericExpression -> ^( RELATIONAL_GREATER $relationalExpression numericExpression ) | LESS_EQUAL_TERM numericExpression -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression ) | GREATER_EQUAL_TERM numericExpression -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression ) )? ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:830:1: relationalExpression : ( numericExpression -> numericExpression ) ( EQUAL_TERM numericExpression -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression ) | NOT_EQUAL_TERM numericExpression -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression ) | LESS_TERM numericExpression -> ^( RELATIONAL_LESS $relationalExpression numericExpression ) | GREATER_TERM numericExpression -> ^( RELATIONAL_GREATER $relationalExpression numericExpression ) | LESS_EQUAL_TERM numericExpression -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression ) | GREATER_EQUAL_TERM numericExpression -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression ) )? ;
     public final SparqlOwlParser.relationalExpression_return relationalExpression() throws RecognitionException {
         SparqlOwlParser.relationalExpression_return retval = new SparqlOwlParser.relationalExpression_return();
         retval.start = input.LT(1);
@@ -10774,11 +10774,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_GREATER_EQUAL_TERM=new RewriteRuleTokenStream(adaptor,"token GREATER_EQUAL_TERM");
         RewriteRuleSubtreeStream stream_numericExpression=new RewriteRuleSubtreeStream(adaptor,"rule numericExpression");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:831:2: ( ( numericExpression -> numericExpression ) ( EQUAL_TERM numericExpression -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression ) | NOT_EQUAL_TERM numericExpression -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression ) | LESS_TERM numericExpression -> ^( RELATIONAL_LESS $relationalExpression numericExpression ) | GREATER_TERM numericExpression -> ^( RELATIONAL_GREATER $relationalExpression numericExpression ) | LESS_EQUAL_TERM numericExpression -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression ) | GREATER_EQUAL_TERM numericExpression -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression ) )? )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:831:4: ( numericExpression -> numericExpression ) ( EQUAL_TERM numericExpression -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression ) | NOT_EQUAL_TERM numericExpression -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression ) | LESS_TERM numericExpression -> ^( RELATIONAL_LESS $relationalExpression numericExpression ) | GREATER_TERM numericExpression -> ^( RELATIONAL_GREATER $relationalExpression numericExpression ) | LESS_EQUAL_TERM numericExpression -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression ) | GREATER_EQUAL_TERM numericExpression -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression ) )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:831:2: ( ( numericExpression -> numericExpression ) ( EQUAL_TERM numericExpression -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression ) | NOT_EQUAL_TERM numericExpression -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression ) | LESS_TERM numericExpression -> ^( RELATIONAL_LESS $relationalExpression numericExpression ) | GREATER_TERM numericExpression -> ^( RELATIONAL_GREATER $relationalExpression numericExpression ) | LESS_EQUAL_TERM numericExpression -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression ) | GREATER_EQUAL_TERM numericExpression -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression ) )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:831:4: ( numericExpression -> numericExpression ) ( EQUAL_TERM numericExpression -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression ) | NOT_EQUAL_TERM numericExpression -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression ) | LESS_TERM numericExpression -> ^( RELATIONAL_LESS $relationalExpression numericExpression ) | GREATER_TERM numericExpression -> ^( RELATIONAL_GREATER $relationalExpression numericExpression ) | LESS_EQUAL_TERM numericExpression -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression ) | GREATER_EQUAL_TERM numericExpression -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression ) )?
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:831:4: ( numericExpression -> numericExpression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:831:6: numericExpression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:831:4: ( numericExpression -> numericExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:831:6: numericExpression
             {
             pushFollow(FOLLOW_numericExpression_in_relationalExpression3264);
             numericExpression261=numericExpression();
@@ -10809,7 +10809,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:832:3: ( EQUAL_TERM numericExpression -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression ) | NOT_EQUAL_TERM numericExpression -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression ) | LESS_TERM numericExpression -> ^( RELATIONAL_LESS $relationalExpression numericExpression ) | GREATER_TERM numericExpression -> ^( RELATIONAL_GREATER $relationalExpression numericExpression ) | LESS_EQUAL_TERM numericExpression -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression ) | GREATER_EQUAL_TERM numericExpression -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression ) )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:832:3: ( EQUAL_TERM numericExpression -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression ) | NOT_EQUAL_TERM numericExpression -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression ) | LESS_TERM numericExpression -> ^( RELATIONAL_LESS $relationalExpression numericExpression ) | GREATER_TERM numericExpression -> ^( RELATIONAL_GREATER $relationalExpression numericExpression ) | LESS_EQUAL_TERM numericExpression -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression ) | GREATER_EQUAL_TERM numericExpression -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression ) )?
             int alt80=7;
             switch ( input.LA(1) ) {
                 case EQUAL_TERM:
@@ -10846,7 +10846,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt80) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:832:5: EQUAL_TERM numericExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:832:5: EQUAL_TERM numericExpression
                     {
                     EQUAL_TERM262=(Token)match(input,EQUAL_TERM,FOLLOW_EQUAL_TERM_in_relationalExpression3276); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_EQUAL_TERM.add(EQUAL_TERM262);
@@ -10873,7 +10873,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 832:34: -> ^( RELATIONAL_EQUAL $relationalExpression numericExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:832:37: ^( RELATIONAL_EQUAL $relationalExpression numericExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:832:37: ^( RELATIONAL_EQUAL $relationalExpression numericExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(RELATIONAL_EQUAL, "RELATIONAL_EQUAL"), root_1);
@@ -10890,7 +10890,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:833:5: NOT_EQUAL_TERM numericExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:833:5: NOT_EQUAL_TERM numericExpression
                     {
                     NOT_EQUAL_TERM264=(Token)match(input,NOT_EQUAL_TERM,FOLLOW_NOT_EQUAL_TERM_in_relationalExpression3295); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_NOT_EQUAL_TERM.add(NOT_EQUAL_TERM264);
@@ -10917,7 +10917,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 833:38: -> ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:833:41: ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:833:41: ^( RELATIONAL_NOT_EQUAL $relationalExpression numericExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(RELATIONAL_NOT_EQUAL, "RELATIONAL_NOT_EQUAL"), root_1);
@@ -10934,7 +10934,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:834:5: LESS_TERM numericExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:834:5: LESS_TERM numericExpression
                     {
                     LESS_TERM266=(Token)match(input,LESS_TERM,FOLLOW_LESS_TERM_in_relationalExpression3314); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LESS_TERM.add(LESS_TERM266);
@@ -10948,7 +10948,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: numericExpression, relationalExpression
+                    // elements: relationalExpression, numericExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -10961,7 +10961,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 834:33: -> ^( RELATIONAL_LESS $relationalExpression numericExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:834:36: ^( RELATIONAL_LESS $relationalExpression numericExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:834:36: ^( RELATIONAL_LESS $relationalExpression numericExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(RELATIONAL_LESS, "RELATIONAL_LESS"), root_1);
@@ -10978,7 +10978,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:835:5: GREATER_TERM numericExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:835:5: GREATER_TERM numericExpression
                     {
                     GREATER_TERM268=(Token)match(input,GREATER_TERM,FOLLOW_GREATER_TERM_in_relationalExpression3333); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_GREATER_TERM.add(GREATER_TERM268);
@@ -10992,7 +10992,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: numericExpression, relationalExpression
+                    // elements: relationalExpression, numericExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -11005,7 +11005,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 835:36: -> ^( RELATIONAL_GREATER $relationalExpression numericExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:835:39: ^( RELATIONAL_GREATER $relationalExpression numericExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:835:39: ^( RELATIONAL_GREATER $relationalExpression numericExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(RELATIONAL_GREATER, "RELATIONAL_GREATER"), root_1);
@@ -11022,7 +11022,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:836:5: LESS_EQUAL_TERM numericExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:836:5: LESS_EQUAL_TERM numericExpression
                     {
                     LESS_EQUAL_TERM270=(Token)match(input,LESS_EQUAL_TERM,FOLLOW_LESS_EQUAL_TERM_in_relationalExpression3352); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LESS_EQUAL_TERM.add(LESS_EQUAL_TERM270);
@@ -11036,7 +11036,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: numericExpression, relationalExpression
+                    // elements: relationalExpression, numericExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -11049,7 +11049,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 836:39: -> ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:836:42: ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:836:42: ^( RELATIONAL_LESS_EQUAL $relationalExpression numericExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(RELATIONAL_LESS_EQUAL, "RELATIONAL_LESS_EQUAL"), root_1);
@@ -11066,7 +11066,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:837:5: GREATER_EQUAL_TERM numericExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:837:5: GREATER_EQUAL_TERM numericExpression
                     {
                     GREATER_EQUAL_TERM272=(Token)match(input,GREATER_EQUAL_TERM,FOLLOW_GREATER_EQUAL_TERM_in_relationalExpression3371); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_GREATER_EQUAL_TERM.add(GREATER_EQUAL_TERM272);
@@ -11080,7 +11080,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: relationalExpression, numericExpression
+                    // elements: numericExpression, relationalExpression
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -11093,7 +11093,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 837:42: -> ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:837:45: ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:837:45: ^( RELATIONAL_GREATER_EQUAL $relationalExpression numericExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(RELATIONAL_GREATER_EQUAL, "RELATIONAL_GREATER_EQUAL"), root_1);
@@ -11139,7 +11139,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "numericExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:844:1: numericExpression : additiveExpression ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:844:1: numericExpression : additiveExpression ;
     public final SparqlOwlParser.numericExpression_return numericExpression() throws RecognitionException {
         SparqlOwlParser.numericExpression_return retval = new SparqlOwlParser.numericExpression_return();
         retval.start = input.LT(1);
@@ -11151,8 +11151,8 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:845:2: ( additiveExpression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:845:4: additiveExpression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:845:2: ( additiveExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:845:4: additiveExpression
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -11189,7 +11189,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "additiveExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:851:1: additiveExpression : ( multiplicativeExpression -> multiplicativeExpression ) ( PLUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression ) | MINUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression ) | numericLiteralPositive -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive ) | numericLiteralNegative -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative ) )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:851:1: additiveExpression : ( multiplicativeExpression -> multiplicativeExpression ) ( PLUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression ) | MINUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression ) | numericLiteralPositive -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive ) | numericLiteralNegative -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative ) )* ;
     public final SparqlOwlParser.additiveExpression_return additiveExpression() throws RecognitionException {
         SparqlOwlParser.additiveExpression_return retval = new SparqlOwlParser.additiveExpression_return();
         retval.start = input.LT(1);
@@ -11217,11 +11217,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_numericLiteralPositive=new RewriteRuleSubtreeStream(adaptor,"rule numericLiteralPositive");
         RewriteRuleSubtreeStream stream_multiplicativeExpression=new RewriteRuleSubtreeStream(adaptor,"rule multiplicativeExpression");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:852:2: ( ( multiplicativeExpression -> multiplicativeExpression ) ( PLUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression ) | MINUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression ) | numericLiteralPositive -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive ) | numericLiteralNegative -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative ) )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:852:4: ( multiplicativeExpression -> multiplicativeExpression ) ( PLUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression ) | MINUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression ) | numericLiteralPositive -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive ) | numericLiteralNegative -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:852:2: ( ( multiplicativeExpression -> multiplicativeExpression ) ( PLUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression ) | MINUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression ) | numericLiteralPositive -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive ) | numericLiteralNegative -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative ) )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:852:4: ( multiplicativeExpression -> multiplicativeExpression ) ( PLUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression ) | MINUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression ) | numericLiteralPositive -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive ) | numericLiteralNegative -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative ) )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:852:4: ( multiplicativeExpression -> multiplicativeExpression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:852:6: multiplicativeExpression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:852:4: ( multiplicativeExpression -> multiplicativeExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:852:6: multiplicativeExpression
             {
             pushFollow(FOLLOW_multiplicativeExpression_in_additiveExpression3417);
             multiplicativeExpression275=multiplicativeExpression();
@@ -11252,7 +11252,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:853:3: ( PLUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression ) | MINUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression ) | numericLiteralPositive -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive ) | numericLiteralNegative -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:853:3: ( PLUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression ) | MINUS_TERM multiplicativeExpression -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression ) | numericLiteralPositive -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive ) | numericLiteralNegative -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative ) )*
             loop81:
             do {
                 int alt81=5;
@@ -11286,7 +11286,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt81) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:853:5: PLUS_TERM multiplicativeExpression
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:853:5: PLUS_TERM multiplicativeExpression
             	    {
             	    PLUS_TERM276=(Token)match(input,PLUS_TERM,FOLLOW_PLUS_TERM_in_additiveExpression3429); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_PLUS_TERM.add(PLUS_TERM276);
@@ -11313,7 +11313,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 853:40: -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:853:43: ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:853:43: ^( NUMERIC_EXPRESSION_ADD $additiveExpression multiplicativeExpression )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NUMERIC_EXPRESSION_ADD, "NUMERIC_EXPRESSION_ADD"), root_1);
@@ -11330,7 +11330,7 @@ public class SparqlOwlParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:854:5: MINUS_TERM multiplicativeExpression
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:854:5: MINUS_TERM multiplicativeExpression
             	    {
             	    MINUS_TERM278=(Token)match(input,MINUS_TERM,FOLLOW_MINUS_TERM_in_additiveExpression3448); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_MINUS_TERM.add(MINUS_TERM278);
@@ -11357,7 +11357,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 854:41: -> ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:854:44: ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:854:44: ^( NUMERIC_EXPRESSION_SUBTRACT $additiveExpression multiplicativeExpression )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NUMERIC_EXPRESSION_SUBTRACT, "NUMERIC_EXPRESSION_SUBTRACT"), root_1);
@@ -11374,7 +11374,7 @@ public class SparqlOwlParser extends Parser {
             	    }
             	    break;
             	case 3 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:855:5: numericLiteralPositive
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:855:5: numericLiteralPositive
             	    {
             	    pushFollow(FOLLOW_numericLiteralPositive_in_additiveExpression3467);
             	    numericLiteralPositive280=numericLiteralPositive();
@@ -11398,7 +11398,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 855:28: -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:855:31: ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:855:31: ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralPositive )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NUMERIC_EXPRESSION_ADD, "NUMERIC_EXPRESSION_ADD"), root_1);
@@ -11415,7 +11415,7 @@ public class SparqlOwlParser extends Parser {
             	    }
             	    break;
             	case 4 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:856:5: numericLiteralNegative
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:856:5: numericLiteralNegative
             	    {
             	    pushFollow(FOLLOW_numericLiteralNegative_in_additiveExpression3484);
             	    numericLiteralNegative281=numericLiteralNegative();
@@ -11426,7 +11426,7 @@ public class SparqlOwlParser extends Parser {
 
 
             	    // AST REWRITE
-            	    // elements: numericLiteralNegative, additiveExpression
+            	    // elements: additiveExpression, numericLiteralNegative
             	    // token labels: 
             	    // rule labels: retval
             	    // token list labels: 
@@ -11439,7 +11439,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 856:28: -> ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:856:31: ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:856:31: ^( NUMERIC_EXPRESSION_ADD $additiveExpression numericLiteralNegative )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NUMERIC_EXPRESSION_ADD, "NUMERIC_EXPRESSION_ADD"), root_1);
@@ -11488,7 +11488,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "multiplicativeExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:863:1: multiplicativeExpression : ( unaryExpression -> unaryExpression ) ( ASTERISK_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression ) | DIVIDE_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression ) )* ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:863:1: multiplicativeExpression : ( unaryExpression -> unaryExpression ) ( ASTERISK_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression ) | DIVIDE_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression ) )* ;
     public final SparqlOwlParser.multiplicativeExpression_return multiplicativeExpression() throws RecognitionException {
         SparqlOwlParser.multiplicativeExpression_return retval = new SparqlOwlParser.multiplicativeExpression_return();
         retval.start = input.LT(1);
@@ -11510,11 +11510,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_DIVIDE_TERM=new RewriteRuleTokenStream(adaptor,"token DIVIDE_TERM");
         RewriteRuleSubtreeStream stream_unaryExpression=new RewriteRuleSubtreeStream(adaptor,"rule unaryExpression");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:864:2: ( ( unaryExpression -> unaryExpression ) ( ASTERISK_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression ) | DIVIDE_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression ) )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:864:4: ( unaryExpression -> unaryExpression ) ( ASTERISK_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression ) | DIVIDE_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:864:2: ( ( unaryExpression -> unaryExpression ) ( ASTERISK_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression ) | DIVIDE_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression ) )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:864:4: ( unaryExpression -> unaryExpression ) ( ASTERISK_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression ) | DIVIDE_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression ) )*
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:864:4: ( unaryExpression -> unaryExpression )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:864:6: unaryExpression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:864:4: ( unaryExpression -> unaryExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:864:6: unaryExpression
             {
             pushFollow(FOLLOW_unaryExpression_in_multiplicativeExpression3515);
             unaryExpression282=unaryExpression();
@@ -11545,7 +11545,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:865:3: ( ASTERISK_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression ) | DIVIDE_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:865:3: ( ASTERISK_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression ) | DIVIDE_TERM unaryExpression -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression ) )*
             loop82:
             do {
                 int alt82=3;
@@ -11561,7 +11561,7 @@ public class SparqlOwlParser extends Parser {
 
                 switch (alt82) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:865:5: ASTERISK_TERM unaryExpression
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:865:5: ASTERISK_TERM unaryExpression
             	    {
             	    ASTERISK_TERM283=(Token)match(input,ASTERISK_TERM,FOLLOW_ASTERISK_TERM_in_multiplicativeExpression3527); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_ASTERISK_TERM.add(ASTERISK_TERM283);
@@ -11575,7 +11575,7 @@ public class SparqlOwlParser extends Parser {
 
 
             	    // AST REWRITE
-            	    // elements: multiplicativeExpression, unaryExpression
+            	    // elements: unaryExpression, multiplicativeExpression
             	    // token labels: 
             	    // rule labels: retval
             	    // token list labels: 
@@ -11588,7 +11588,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 865:35: -> ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:865:38: ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:865:38: ^( NUMERIC_EXPRESSION_MULTIPLY $multiplicativeExpression unaryExpression )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NUMERIC_EXPRESSION_MULTIPLY, "NUMERIC_EXPRESSION_MULTIPLY"), root_1);
@@ -11605,7 +11605,7 @@ public class SparqlOwlParser extends Parser {
             	    }
             	    break;
             	case 2 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:866:5: DIVIDE_TERM unaryExpression
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:866:5: DIVIDE_TERM unaryExpression
             	    {
             	    DIVIDE_TERM285=(Token)match(input,DIVIDE_TERM,FOLLOW_DIVIDE_TERM_in_multiplicativeExpression3547); if (state.failed) return retval; 
             	    if ( state.backtracking==0 ) stream_DIVIDE_TERM.add(DIVIDE_TERM285);
@@ -11632,7 +11632,7 @@ public class SparqlOwlParser extends Parser {
             	    root_0 = (CommonTree)adaptor.nil();
             	    // 866:33: -> ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression )
             	    {
-            	        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:866:36: ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression )
+            	        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:866:36: ^( NUMERIC_EXPRESSION_DIVIDE $multiplicativeExpression unaryExpression )
             	        {
             	        CommonTree root_1 = (CommonTree)adaptor.nil();
             	        root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(NUMERIC_EXPRESSION_DIVIDE, "NUMERIC_EXPRESSION_DIVIDE"), root_1);
@@ -11681,7 +11681,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "unaryExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:873:1: unaryExpression : ( UNARY_NOT_TERM primaryExpression -> ^( UNARY_EXPRESSION_NOT primaryExpression ) | PLUS_TERM primaryExpression -> ^( UNARY_EXPRESSION_POSITIVE primaryExpression ) | MINUS_TERM primaryExpression -> ^( UNARY_EXPRESSION_NEGATIVE primaryExpression ) | primaryExpression );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:873:1: unaryExpression : ( UNARY_NOT_TERM primaryExpression -> ^( UNARY_EXPRESSION_NOT primaryExpression ) | PLUS_TERM primaryExpression -> ^( UNARY_EXPRESSION_POSITIVE primaryExpression ) | MINUS_TERM primaryExpression -> ^( UNARY_EXPRESSION_NEGATIVE primaryExpression ) | primaryExpression );
     public final SparqlOwlParser.unaryExpression_return unaryExpression() throws RecognitionException {
         SparqlOwlParser.unaryExpression_return retval = new SparqlOwlParser.unaryExpression_return();
         retval.start = input.LT(1);
@@ -11708,7 +11708,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_PLUS_TERM=new RewriteRuleTokenStream(adaptor,"token PLUS_TERM");
         RewriteRuleSubtreeStream stream_primaryExpression=new RewriteRuleSubtreeStream(adaptor,"rule primaryExpression");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:874:2: ( UNARY_NOT_TERM primaryExpression -> ^( UNARY_EXPRESSION_NOT primaryExpression ) | PLUS_TERM primaryExpression -> ^( UNARY_EXPRESSION_POSITIVE primaryExpression ) | MINUS_TERM primaryExpression -> ^( UNARY_EXPRESSION_NEGATIVE primaryExpression ) | primaryExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:874:2: ( UNARY_NOT_TERM primaryExpression -> ^( UNARY_EXPRESSION_NOT primaryExpression ) | PLUS_TERM primaryExpression -> ^( UNARY_EXPRESSION_POSITIVE primaryExpression ) | MINUS_TERM primaryExpression -> ^( UNARY_EXPRESSION_NEGATIVE primaryExpression ) | primaryExpression )
             int alt83=4;
             switch ( input.LA(1) ) {
             case UNARY_NOT_TERM:
@@ -11772,7 +11772,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt83) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:874:4: UNARY_NOT_TERM primaryExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:874:4: UNARY_NOT_TERM primaryExpression
                     {
                     UNARY_NOT_TERM287=(Token)match(input,UNARY_NOT_TERM,FOLLOW_UNARY_NOT_TERM_in_unaryExpression3579); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_UNARY_NOT_TERM.add(UNARY_NOT_TERM287);
@@ -11799,7 +11799,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 874:37: -> ^( UNARY_EXPRESSION_NOT primaryExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:874:40: ^( UNARY_EXPRESSION_NOT primaryExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:874:40: ^( UNARY_EXPRESSION_NOT primaryExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UNARY_EXPRESSION_NOT, "UNARY_EXPRESSION_NOT"), root_1);
@@ -11815,7 +11815,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:875:4: PLUS_TERM primaryExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:875:4: PLUS_TERM primaryExpression
                     {
                     PLUS_TERM289=(Token)match(input,PLUS_TERM,FOLLOW_PLUS_TERM_in_unaryExpression3594); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_PLUS_TERM.add(PLUS_TERM289);
@@ -11842,7 +11842,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 875:32: -> ^( UNARY_EXPRESSION_POSITIVE primaryExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:875:35: ^( UNARY_EXPRESSION_POSITIVE primaryExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:875:35: ^( UNARY_EXPRESSION_POSITIVE primaryExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UNARY_EXPRESSION_POSITIVE, "UNARY_EXPRESSION_POSITIVE"), root_1);
@@ -11858,7 +11858,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:876:4: MINUS_TERM primaryExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:876:4: MINUS_TERM primaryExpression
                     {
                     MINUS_TERM291=(Token)match(input,MINUS_TERM,FOLLOW_MINUS_TERM_in_unaryExpression3609); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_MINUS_TERM.add(MINUS_TERM291);
@@ -11885,7 +11885,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 876:33: -> ^( UNARY_EXPRESSION_NEGATIVE primaryExpression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:876:36: ^( UNARY_EXPRESSION_NEGATIVE primaryExpression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:876:36: ^( UNARY_EXPRESSION_NEGATIVE primaryExpression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(UNARY_EXPRESSION_NEGATIVE, "UNARY_EXPRESSION_NEGATIVE"), root_1);
@@ -11901,7 +11901,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:877:4: primaryExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:877:4: primaryExpression
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -11940,7 +11940,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "primaryExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:883:1: primaryExpression : ( brackettedExpression | builtInCall | iriRefOrFunction | literal | var );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:883:1: primaryExpression : ( brackettedExpression | builtInCall | iriRefOrFunction | literal | var );
     public final SparqlOwlParser.primaryExpression_return primaryExpression() throws RecognitionException {
         SparqlOwlParser.primaryExpression_return retval = new SparqlOwlParser.primaryExpression_return();
         retval.start = input.LT(1);
@@ -11960,7 +11960,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:884:2: ( brackettedExpression | builtInCall | iriRefOrFunction | literal | var )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:884:2: ( brackettedExpression | builtInCall | iriRefOrFunction | literal | var )
             int alt84=5;
             switch ( input.LA(1) ) {
             case OPEN_BRACE:
@@ -12025,7 +12025,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt84) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:884:4: brackettedExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:884:4: brackettedExpression
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -12039,7 +12039,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:885:4: builtInCall
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:885:4: builtInCall
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -12053,7 +12053,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:886:4: iriRefOrFunction
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:886:4: iriRefOrFunction
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -12067,7 +12067,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:887:4: literal
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:887:4: literal
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -12081,7 +12081,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:888:4: var
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:888:4: var
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -12120,7 +12120,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "brackettedExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:894:1: brackettedExpression : OPEN_BRACE expression CLOSE_BRACE ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:894:1: brackettedExpression : OPEN_BRACE expression CLOSE_BRACE ;
     public final SparqlOwlParser.brackettedExpression_return brackettedExpression() throws RecognitionException {
         SparqlOwlParser.brackettedExpression_return retval = new SparqlOwlParser.brackettedExpression_return();
         retval.start = input.LT(1);
@@ -12136,8 +12136,8 @@ public class SparqlOwlParser extends Parser {
         CommonTree CLOSE_BRACE301_tree=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:895:2: ( OPEN_BRACE expression CLOSE_BRACE )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:895:4: OPEN_BRACE expression CLOSE_BRACE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:895:2: ( OPEN_BRACE expression CLOSE_BRACE )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:895:4: OPEN_BRACE expression CLOSE_BRACE
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -12176,7 +12176,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "builtInCall"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:901:1: builtInCall : ( STR_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_STR expression ) | LANG_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_LANG expression ) | LANGMATCHES_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE -> ^( BUILTIN_LANGMATCHES ( expression )+ ) | DATATYPE_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_DATATYPE expression ) | BOUND_TERM OPEN_BRACE var CLOSE_BRACE -> ^( BUILTIN_BOUND var ) | SAMETERM_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE -> ^( BUILTIN_SAME_TERM ( expression )+ ) | ISIRI_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_IRI expression ) | ISURI_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_URI expression ) | ISBLANK_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_BLANK expression ) | ISLITERAL_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_LITERAL expression ) | regexExpression );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:901:1: builtInCall : ( STR_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_STR expression ) | LANG_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_LANG expression ) | LANGMATCHES_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE -> ^( BUILTIN_LANGMATCHES ( expression )+ ) | DATATYPE_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_DATATYPE expression ) | BOUND_TERM OPEN_BRACE var CLOSE_BRACE -> ^( BUILTIN_BOUND var ) | SAMETERM_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE -> ^( BUILTIN_SAME_TERM ( expression )+ ) | ISIRI_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_IRI expression ) | ISURI_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_URI expression ) | ISBLANK_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_BLANK expression ) | ISLITERAL_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_LITERAL expression ) | regexExpression );
     public final SparqlOwlParser.builtInCall_return builtInCall() throws RecognitionException {
         SparqlOwlParser.builtInCall_return retval = new SparqlOwlParser.builtInCall_return();
         retval.start = input.LT(1);
@@ -12290,7 +12290,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         RewriteRuleSubtreeStream stream_var=new RewriteRuleSubtreeStream(adaptor,"rule var");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:902:2: ( STR_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_STR expression ) | LANG_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_LANG expression ) | LANGMATCHES_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE -> ^( BUILTIN_LANGMATCHES ( expression )+ ) | DATATYPE_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_DATATYPE expression ) | BOUND_TERM OPEN_BRACE var CLOSE_BRACE -> ^( BUILTIN_BOUND var ) | SAMETERM_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE -> ^( BUILTIN_SAME_TERM ( expression )+ ) | ISIRI_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_IRI expression ) | ISURI_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_URI expression ) | ISBLANK_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_BLANK expression ) | ISLITERAL_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_LITERAL expression ) | regexExpression )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:902:2: ( STR_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_STR expression ) | LANG_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_LANG expression ) | LANGMATCHES_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE -> ^( BUILTIN_LANGMATCHES ( expression )+ ) | DATATYPE_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_DATATYPE expression ) | BOUND_TERM OPEN_BRACE var CLOSE_BRACE -> ^( BUILTIN_BOUND var ) | SAMETERM_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE -> ^( BUILTIN_SAME_TERM ( expression )+ ) | ISIRI_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_IRI expression ) | ISURI_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_URI expression ) | ISBLANK_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_BLANK expression ) | ISLITERAL_TERM OPEN_BRACE expression CLOSE_BRACE -> ^( BUILTIN_IS_LITERAL expression ) | regexExpression )
             int alt85=11;
             switch ( input.LA(1) ) {
             case STR_TERM:
@@ -12358,7 +12358,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt85) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:902:4: STR_TERM OPEN_BRACE expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:902:4: STR_TERM OPEN_BRACE expression CLOSE_BRACE
                     {
                     STR_TERM302=(Token)match(input,STR_TERM,FOLLOW_STR_TERM_in_builtInCall3689); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_STR_TERM.add(STR_TERM302);
@@ -12391,7 +12391,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 902:47: -> ^( BUILTIN_STR expression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:902:50: ^( BUILTIN_STR expression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:902:50: ^( BUILTIN_STR expression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_STR, "BUILTIN_STR"), root_1);
@@ -12407,7 +12407,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:903:4: LANG_TERM OPEN_BRACE expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:903:4: LANG_TERM OPEN_BRACE expression CLOSE_BRACE
                     {
                     LANG_TERM306=(Token)match(input,LANG_TERM,FOLLOW_LANG_TERM_in_builtInCall3708); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LANG_TERM.add(LANG_TERM306);
@@ -12440,7 +12440,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 903:48: -> ^( BUILTIN_LANG expression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:903:51: ^( BUILTIN_LANG expression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:903:51: ^( BUILTIN_LANG expression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_LANG, "BUILTIN_LANG"), root_1);
@@ -12456,7 +12456,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:904:4: LANGMATCHES_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:904:4: LANGMATCHES_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE
                     {
                     LANGMATCHES_TERM310=(Token)match(input,LANGMATCHES_TERM,FOLLOW_LANGMATCHES_TERM_in_builtInCall3727); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LANGMATCHES_TERM.add(LANGMATCHES_TERM310);
@@ -12498,7 +12498,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 904:77: -> ^( BUILTIN_LANGMATCHES ( expression )+ )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:904:80: ^( BUILTIN_LANGMATCHES ( expression )+ )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:904:80: ^( BUILTIN_LANGMATCHES ( expression )+ )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_LANGMATCHES, "BUILTIN_LANGMATCHES"), root_1);
@@ -12521,7 +12521,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 4 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:905:4: DATATYPE_TERM OPEN_BRACE expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:905:4: DATATYPE_TERM OPEN_BRACE expression CLOSE_BRACE
                     {
                     DATATYPE_TERM316=(Token)match(input,DATATYPE_TERM,FOLLOW_DATATYPE_TERM_in_builtInCall3751); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DATATYPE_TERM.add(DATATYPE_TERM316);
@@ -12554,7 +12554,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 905:52: -> ^( BUILTIN_DATATYPE expression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:905:55: ^( BUILTIN_DATATYPE expression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:905:55: ^( BUILTIN_DATATYPE expression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_DATATYPE, "BUILTIN_DATATYPE"), root_1);
@@ -12570,7 +12570,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 5 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:906:4: BOUND_TERM OPEN_BRACE var CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:906:4: BOUND_TERM OPEN_BRACE var CLOSE_BRACE
                     {
                     BOUND_TERM320=(Token)match(input,BOUND_TERM,FOLLOW_BOUND_TERM_in_builtInCall3770); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_BOUND_TERM.add(BOUND_TERM320);
@@ -12603,7 +12603,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 906:42: -> ^( BUILTIN_BOUND var )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:906:45: ^( BUILTIN_BOUND var )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:906:45: ^( BUILTIN_BOUND var )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_BOUND, "BUILTIN_BOUND"), root_1);
@@ -12619,7 +12619,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 6 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:907:4: SAMETERM_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:907:4: SAMETERM_TERM OPEN_BRACE expression COMMA_TERM expression CLOSE_BRACE
                     {
                     SAMETERM_TERM324=(Token)match(input,SAMETERM_TERM,FOLLOW_SAMETERM_TERM_in_builtInCall3789); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_SAMETERM_TERM.add(SAMETERM_TERM324);
@@ -12661,7 +12661,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 907:74: -> ^( BUILTIN_SAME_TERM ( expression )+ )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:907:77: ^( BUILTIN_SAME_TERM ( expression )+ )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:907:77: ^( BUILTIN_SAME_TERM ( expression )+ )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_SAME_TERM, "BUILTIN_SAME_TERM"), root_1);
@@ -12684,7 +12684,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 7 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:908:4: ISIRI_TERM OPEN_BRACE expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:908:4: ISIRI_TERM OPEN_BRACE expression CLOSE_BRACE
                     {
                     ISIRI_TERM330=(Token)match(input,ISIRI_TERM,FOLLOW_ISIRI_TERM_in_builtInCall3813); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ISIRI_TERM.add(ISIRI_TERM330);
@@ -12717,7 +12717,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 908:49: -> ^( BUILTIN_IS_IRI expression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:908:52: ^( BUILTIN_IS_IRI expression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:908:52: ^( BUILTIN_IS_IRI expression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_IS_IRI, "BUILTIN_IS_IRI"), root_1);
@@ -12733,7 +12733,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 8 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:909:4: ISURI_TERM OPEN_BRACE expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:909:4: ISURI_TERM OPEN_BRACE expression CLOSE_BRACE
                     {
                     ISURI_TERM334=(Token)match(input,ISURI_TERM,FOLLOW_ISURI_TERM_in_builtInCall3832); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ISURI_TERM.add(ISURI_TERM334);
@@ -12766,7 +12766,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 909:49: -> ^( BUILTIN_IS_URI expression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:909:52: ^( BUILTIN_IS_URI expression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:909:52: ^( BUILTIN_IS_URI expression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_IS_URI, "BUILTIN_IS_URI"), root_1);
@@ -12782,7 +12782,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 9 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:910:4: ISBLANK_TERM OPEN_BRACE expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:910:4: ISBLANK_TERM OPEN_BRACE expression CLOSE_BRACE
                     {
                     ISBLANK_TERM338=(Token)match(input,ISBLANK_TERM,FOLLOW_ISBLANK_TERM_in_builtInCall3851); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ISBLANK_TERM.add(ISBLANK_TERM338);
@@ -12815,7 +12815,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 910:51: -> ^( BUILTIN_IS_BLANK expression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:910:54: ^( BUILTIN_IS_BLANK expression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:910:54: ^( BUILTIN_IS_BLANK expression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_IS_BLANK, "BUILTIN_IS_BLANK"), root_1);
@@ -12831,7 +12831,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 10 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:911:4: ISLITERAL_TERM OPEN_BRACE expression CLOSE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:911:4: ISLITERAL_TERM OPEN_BRACE expression CLOSE_BRACE
                     {
                     ISLITERAL_TERM342=(Token)match(input,ISLITERAL_TERM,FOLLOW_ISLITERAL_TERM_in_builtInCall3870); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_ISLITERAL_TERM.add(ISLITERAL_TERM342);
@@ -12864,7 +12864,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 911:53: -> ^( BUILTIN_IS_LITERAL expression )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:911:56: ^( BUILTIN_IS_LITERAL expression )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:911:56: ^( BUILTIN_IS_LITERAL expression )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_IS_LITERAL, "BUILTIN_IS_LITERAL"), root_1);
@@ -12880,7 +12880,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 11 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:912:4: regexExpression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:912:4: regexExpression
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -12919,7 +12919,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "regexExpression"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:918:1: regexExpression : ( REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression -> ^( BUILTIN_REGEX_BINARY $a $b) ) ( COMMA_TERM c= expression -> ^( BUILTIN_REGEX_TERNARY $a $b $c) )? CLOSE_BRACE ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:918:1: regexExpression : ( REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression -> ^( BUILTIN_REGEX_BINARY $a $b) ) ( COMMA_TERM c= expression -> ^( BUILTIN_REGEX_TERNARY $a $b $c) )? CLOSE_BRACE ;
     public final SparqlOwlParser.regexExpression_return regexExpression() throws RecognitionException {
         SparqlOwlParser.regexExpression_return retval = new SparqlOwlParser.regexExpression_return();
         retval.start = input.LT(1);
@@ -12949,11 +12949,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_OPEN_BRACE=new RewriteRuleTokenStream(adaptor,"token OPEN_BRACE");
         RewriteRuleSubtreeStream stream_expression=new RewriteRuleSubtreeStream(adaptor,"rule expression");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:919:2: ( ( REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression -> ^( BUILTIN_REGEX_BINARY $a $b) ) ( COMMA_TERM c= expression -> ^( BUILTIN_REGEX_TERNARY $a $b $c) )? CLOSE_BRACE )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:919:4: ( REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression -> ^( BUILTIN_REGEX_BINARY $a $b) ) ( COMMA_TERM c= expression -> ^( BUILTIN_REGEX_TERNARY $a $b $c) )? CLOSE_BRACE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:919:2: ( ( REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression -> ^( BUILTIN_REGEX_BINARY $a $b) ) ( COMMA_TERM c= expression -> ^( BUILTIN_REGEX_TERNARY $a $b $c) )? CLOSE_BRACE )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:919:4: ( REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression -> ^( BUILTIN_REGEX_BINARY $a $b) ) ( COMMA_TERM c= expression -> ^( BUILTIN_REGEX_TERNARY $a $b $c) )? CLOSE_BRACE
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:919:4: ( REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression -> ^( BUILTIN_REGEX_BINARY $a $b) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:919:6: REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:919:4: ( REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression -> ^( BUILTIN_REGEX_BINARY $a $b) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:919:6: REGEX_TERM OPEN_BRACE a= expression COMMA_TERM b= expression
             {
             REGEX_TERM347=(Token)match(input,REGEX_TERM,FOLLOW_REGEX_TERM_in_regexExpression3904); if (state.failed) return retval; 
             if ( state.backtracking==0 ) stream_REGEX_TERM.add(REGEX_TERM347);
@@ -12979,7 +12979,7 @@ public class SparqlOwlParser extends Parser {
 
 
             // AST REWRITE
-            // elements: a, b
+            // elements: b, a
             // token labels: 
             // rule labels: retval, b, a
             // token list labels: 
@@ -12994,7 +12994,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 919:65: -> ^( BUILTIN_REGEX_BINARY $a $b)
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:919:68: ^( BUILTIN_REGEX_BINARY $a $b)
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:919:68: ^( BUILTIN_REGEX_BINARY $a $b)
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_REGEX_BINARY, "BUILTIN_REGEX_BINARY"), root_1);
@@ -13010,7 +13010,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:920:3: ( COMMA_TERM c= expression -> ^( BUILTIN_REGEX_TERNARY $a $b $c) )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:920:3: ( COMMA_TERM c= expression -> ^( BUILTIN_REGEX_TERNARY $a $b $c) )?
             int alt86=2;
             int LA86_0 = input.LA(1);
 
@@ -13019,7 +13019,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt86) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:920:5: COMMA_TERM c= expression
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:920:5: COMMA_TERM c= expression
                     {
                     COMMA_TERM350=(Token)match(input,COMMA_TERM,FOLLOW_COMMA_TERM_in_regexExpression3936); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_COMMA_TERM.add(COMMA_TERM350);
@@ -13033,7 +13033,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: c, b, a
+                    // elements: b, c, a
                     // token labels: 
                     // rule labels: retval, b, c, a
                     // token list labels: 
@@ -13049,7 +13049,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 920:29: -> ^( BUILTIN_REGEX_TERNARY $a $b $c)
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:920:32: ^( BUILTIN_REGEX_TERNARY $a $b $c)
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:920:32: ^( BUILTIN_REGEX_TERNARY $a $b $c)
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BUILTIN_REGEX_TERNARY, "BUILTIN_REGEX_TERNARY"), root_1);
@@ -13099,7 +13099,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "iriRefOrFunction"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:927:1: iriRefOrFunction : ( iriRef -> iriRef ) ( argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )? ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:927:1: iriRefOrFunction : ( iriRef -> iriRef ) ( argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )? ;
     public final SparqlOwlParser.iriRefOrFunction_return iriRefOrFunction() throws RecognitionException {
         SparqlOwlParser.iriRefOrFunction_return retval = new SparqlOwlParser.iriRefOrFunction_return();
         retval.start = input.LT(1);
@@ -13114,11 +13114,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_argList=new RewriteRuleSubtreeStream(adaptor,"rule argList");
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:928:2: ( ( iriRef -> iriRef ) ( argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )? )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:928:4: ( iriRef -> iriRef ) ( argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:928:2: ( ( iriRef -> iriRef ) ( argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:928:4: ( iriRef -> iriRef ) ( argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )?
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:928:4: ( iriRef -> iriRef )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:928:6: iriRef
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:928:4: ( iriRef -> iriRef )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:928:6: iriRef
             {
             pushFollow(FOLLOW_iriRef_in_iriRefOrFunction3977);
             iriRef352=iriRef();
@@ -13149,7 +13149,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:929:3: ( argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:929:3: ( argList -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) ) )?
             int alt87=2;
             int LA87_0 = input.LA(1);
 
@@ -13158,7 +13158,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt87) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:929:5: argList
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:929:5: argList
                     {
                     pushFollow(FOLLOW_argList_in_iriRefOrFunction3989);
                     argList353=argList();
@@ -13182,12 +13182,12 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 929:13: -> ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:929:16: ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:929:16: ^( FUNCTION_CALL ^( FUNCTION_IDENTIFIER iriRef ) ^( FUNCTION_ARGS argList ) )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FUNCTION_CALL, "FUNCTION_CALL"), root_1);
 
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:929:32: ^( FUNCTION_IDENTIFIER iriRef )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:929:32: ^( FUNCTION_IDENTIFIER iriRef )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FUNCTION_IDENTIFIER, "FUNCTION_IDENTIFIER"), root_2);
@@ -13196,7 +13196,7 @@ public class SparqlOwlParser extends Parser {
 
                         adaptor.addChild(root_1, root_2);
                         }
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:929:62: ^( FUNCTION_ARGS argList )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:929:62: ^( FUNCTION_ARGS argList )
                         {
                         CommonTree root_2 = (CommonTree)adaptor.nil();
                         root_2 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(FUNCTION_ARGS, "FUNCTION_ARGS"), root_2);
@@ -13244,7 +13244,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "rdfLiteral"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:935:1: rdfLiteral : ( string -> ^( LITERAL_PLAIN string ) ) ( LANGTAG -> ^( LITERAL_LANG string LANGTAG ) | DOUBLE_CARAT_TERM iriRef -> ^( LITERAL_TYPED string iriRef ) )? ;
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:935:1: rdfLiteral : ( string -> ^( LITERAL_PLAIN string ) ) ( LANGTAG -> ^( LITERAL_LANG string LANGTAG ) | DOUBLE_CARAT_TERM iriRef -> ^( LITERAL_TYPED string iriRef ) )? ;
     public final SparqlOwlParser.rdfLiteral_return rdfLiteral() throws RecognitionException {
         SparqlOwlParser.rdfLiteral_return retval = new SparqlOwlParser.rdfLiteral_return();
         retval.start = input.LT(1);
@@ -13265,11 +13265,11 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleSubtreeStream stream_string=new RewriteRuleSubtreeStream(adaptor,"rule string");
         RewriteRuleSubtreeStream stream_iriRef=new RewriteRuleSubtreeStream(adaptor,"rule iriRef");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:936:2: ( ( string -> ^( LITERAL_PLAIN string ) ) ( LANGTAG -> ^( LITERAL_LANG string LANGTAG ) | DOUBLE_CARAT_TERM iriRef -> ^( LITERAL_TYPED string iriRef ) )? )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:936:4: ( string -> ^( LITERAL_PLAIN string ) ) ( LANGTAG -> ^( LITERAL_LANG string LANGTAG ) | DOUBLE_CARAT_TERM iriRef -> ^( LITERAL_TYPED string iriRef ) )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:936:2: ( ( string -> ^( LITERAL_PLAIN string ) ) ( LANGTAG -> ^( LITERAL_LANG string LANGTAG ) | DOUBLE_CARAT_TERM iriRef -> ^( LITERAL_TYPED string iriRef ) )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:936:4: ( string -> ^( LITERAL_PLAIN string ) ) ( LANGTAG -> ^( LITERAL_LANG string LANGTAG ) | DOUBLE_CARAT_TERM iriRef -> ^( LITERAL_TYPED string iriRef ) )?
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:936:4: ( string -> ^( LITERAL_PLAIN string ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:936:6: string
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:936:4: ( string -> ^( LITERAL_PLAIN string ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:936:6: string
             {
             pushFollow(FOLLOW_string_in_rdfLiteral4025);
             string354=string();
@@ -13293,7 +13293,7 @@ public class SparqlOwlParser extends Parser {
             root_0 = (CommonTree)adaptor.nil();
             // 936:13: -> ^( LITERAL_PLAIN string )
             {
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:936:16: ^( LITERAL_PLAIN string )
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:936:16: ^( LITERAL_PLAIN string )
                 {
                 CommonTree root_1 = (CommonTree)adaptor.nil();
                 root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_PLAIN, "LITERAL_PLAIN"), root_1);
@@ -13308,7 +13308,7 @@ public class SparqlOwlParser extends Parser {
             retval.tree = root_0;}
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:937:3: ( LANGTAG -> ^( LITERAL_LANG string LANGTAG ) | DOUBLE_CARAT_TERM iriRef -> ^( LITERAL_TYPED string iriRef ) )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:937:3: ( LANGTAG -> ^( LITERAL_LANG string LANGTAG ) | DOUBLE_CARAT_TERM iriRef -> ^( LITERAL_TYPED string iriRef ) )?
             int alt88=3;
             int LA88_0 = input.LA(1);
 
@@ -13320,7 +13320,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt88) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:937:5: LANGTAG
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:937:5: LANGTAG
                     {
                     LANGTAG355=(Token)match(input,LANGTAG,FOLLOW_LANGTAG_in_rdfLiteral4041); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_LANGTAG.add(LANGTAG355);
@@ -13341,7 +13341,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 937:13: -> ^( LITERAL_LANG string LANGTAG )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:937:16: ^( LITERAL_LANG string LANGTAG )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:937:16: ^( LITERAL_LANG string LANGTAG )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_LANG, "LITERAL_LANG"), root_1);
@@ -13358,7 +13358,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:938:5: DOUBLE_CARAT_TERM iriRef
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:938:5: DOUBLE_CARAT_TERM iriRef
                     {
                     DOUBLE_CARAT_TERM356=(Token)match(input,DOUBLE_CARAT_TERM,FOLLOW_DOUBLE_CARAT_TERM_in_rdfLiteral4057); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DOUBLE_CARAT_TERM.add(DOUBLE_CARAT_TERM356);
@@ -13372,7 +13372,7 @@ public class SparqlOwlParser extends Parser {
 
 
                     // AST REWRITE
-                    // elements: iriRef, string
+                    // elements: string, iriRef
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -13385,7 +13385,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 938:30: -> ^( LITERAL_TYPED string iriRef )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:938:33: ^( LITERAL_TYPED string iriRef )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:938:33: ^( LITERAL_TYPED string iriRef )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_TYPED, "LITERAL_TYPED"), root_1);
@@ -13431,7 +13431,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "numericLiteral"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:945:1: numericLiteral : ( numericLiteralUnsigned | numericLiteralPositive | numericLiteralNegative );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:945:1: numericLiteral : ( numericLiteralUnsigned | numericLiteralPositive | numericLiteralNegative );
     public final SparqlOwlParser.numericLiteral_return numericLiteral() throws RecognitionException {
         SparqlOwlParser.numericLiteral_return retval = new SparqlOwlParser.numericLiteral_return();
         retval.start = input.LT(1);
@@ -13447,7 +13447,7 @@ public class SparqlOwlParser extends Parser {
 
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:946:2: ( numericLiteralUnsigned | numericLiteralPositive | numericLiteralNegative )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:946:2: ( numericLiteralUnsigned | numericLiteralPositive | numericLiteralNegative )
             int alt89=3;
             switch ( input.LA(1) ) {
             case INTEGER:
@@ -13481,7 +13481,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt89) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:946:4: numericLiteralUnsigned
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:946:4: numericLiteralUnsigned
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -13495,7 +13495,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:947:4: numericLiteralPositive
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:947:4: numericLiteralPositive
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -13509,7 +13509,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:948:4: numericLiteralNegative
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:948:4: numericLiteralNegative
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
@@ -13548,7 +13548,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "numericLiteralUnsigned"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:954:1: numericLiteralUnsigned : ( INTEGER -> ^( LITERAL_INTEGER INTEGER ) | DECIMAL -> ^( LITERAL_DECIMAL DECIMAL ) | DOUBLE -> ^( LITERAL_DOUBLE DOUBLE ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:954:1: numericLiteralUnsigned : ( INTEGER -> ^( LITERAL_INTEGER INTEGER ) | DECIMAL -> ^( LITERAL_DECIMAL DECIMAL ) | DOUBLE -> ^( LITERAL_DOUBLE DOUBLE ) );
     public final SparqlOwlParser.numericLiteralUnsigned_return numericLiteralUnsigned() throws RecognitionException {
         SparqlOwlParser.numericLiteralUnsigned_return retval = new SparqlOwlParser.numericLiteralUnsigned_return();
         retval.start = input.LT(1);
@@ -13567,7 +13567,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_DECIMAL=new RewriteRuleTokenStream(adaptor,"token DECIMAL");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:955:2: ( INTEGER -> ^( LITERAL_INTEGER INTEGER ) | DECIMAL -> ^( LITERAL_DECIMAL DECIMAL ) | DOUBLE -> ^( LITERAL_DOUBLE DOUBLE ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:955:2: ( INTEGER -> ^( LITERAL_INTEGER INTEGER ) | DECIMAL -> ^( LITERAL_DECIMAL DECIMAL ) | DOUBLE -> ^( LITERAL_DOUBLE DOUBLE ) )
             int alt90=3;
             switch ( input.LA(1) ) {
             case INTEGER:
@@ -13595,7 +13595,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt90) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:955:4: INTEGER
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:955:4: INTEGER
                     {
                     INTEGER361=(Token)match(input,INTEGER,FOLLOW_INTEGER_in_numericLiteralUnsigned4110); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INTEGER.add(INTEGER361);
@@ -13616,7 +13616,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 955:12: -> ^( LITERAL_INTEGER INTEGER )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:955:15: ^( LITERAL_INTEGER INTEGER )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:955:15: ^( LITERAL_INTEGER INTEGER )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_INTEGER, "LITERAL_INTEGER"), root_1);
@@ -13632,7 +13632,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:956:4: DECIMAL
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:956:4: DECIMAL
                     {
                     DECIMAL362=(Token)match(input,DECIMAL,FOLLOW_DECIMAL_in_numericLiteralUnsigned4123); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DECIMAL.add(DECIMAL362);
@@ -13653,7 +13653,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 956:12: -> ^( LITERAL_DECIMAL DECIMAL )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:956:15: ^( LITERAL_DECIMAL DECIMAL )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:956:15: ^( LITERAL_DECIMAL DECIMAL )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_DECIMAL, "LITERAL_DECIMAL"), root_1);
@@ -13669,7 +13669,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:957:4: DOUBLE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:957:4: DOUBLE
                     {
                     DOUBLE363=(Token)match(input,DOUBLE,FOLLOW_DOUBLE_in_numericLiteralUnsigned4136); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DOUBLE.add(DOUBLE363);
@@ -13690,7 +13690,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 957:11: -> ^( LITERAL_DOUBLE DOUBLE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:957:14: ^( LITERAL_DOUBLE DOUBLE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:957:14: ^( LITERAL_DOUBLE DOUBLE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_DOUBLE, "LITERAL_DOUBLE"), root_1);
@@ -13731,7 +13731,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "numericLiteralPositive"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:963:1: numericLiteralPositive : ( INTEGER_POSITIVE -> ^( LITERAL_INTEGER INTEGER_POSITIVE ) | DECIMAL_POSITIVE -> ^( LITERAL_DECIMAL DECIMAL_POSITIVE ) | DOUBLE_POSITIVE -> ^( LITERAL_DOUBLE DOUBLE_POSITIVE ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:963:1: numericLiteralPositive : ( INTEGER_POSITIVE -> ^( LITERAL_INTEGER INTEGER_POSITIVE ) | DECIMAL_POSITIVE -> ^( LITERAL_DECIMAL DECIMAL_POSITIVE ) | DOUBLE_POSITIVE -> ^( LITERAL_DOUBLE DOUBLE_POSITIVE ) );
     public final SparqlOwlParser.numericLiteralPositive_return numericLiteralPositive() throws RecognitionException {
         SparqlOwlParser.numericLiteralPositive_return retval = new SparqlOwlParser.numericLiteralPositive_return();
         retval.start = input.LT(1);
@@ -13750,7 +13750,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_INTEGER_POSITIVE=new RewriteRuleTokenStream(adaptor,"token INTEGER_POSITIVE");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:964:2: ( INTEGER_POSITIVE -> ^( LITERAL_INTEGER INTEGER_POSITIVE ) | DECIMAL_POSITIVE -> ^( LITERAL_DECIMAL DECIMAL_POSITIVE ) | DOUBLE_POSITIVE -> ^( LITERAL_DOUBLE DOUBLE_POSITIVE ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:964:2: ( INTEGER_POSITIVE -> ^( LITERAL_INTEGER INTEGER_POSITIVE ) | DECIMAL_POSITIVE -> ^( LITERAL_DECIMAL DECIMAL_POSITIVE ) | DOUBLE_POSITIVE -> ^( LITERAL_DOUBLE DOUBLE_POSITIVE ) )
             int alt91=3;
             switch ( input.LA(1) ) {
             case INTEGER_POSITIVE:
@@ -13778,7 +13778,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt91) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:964:4: INTEGER_POSITIVE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:964:4: INTEGER_POSITIVE
                     {
                     INTEGER_POSITIVE364=(Token)match(input,INTEGER_POSITIVE,FOLLOW_INTEGER_POSITIVE_in_numericLiteralPositive4157); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INTEGER_POSITIVE.add(INTEGER_POSITIVE364);
@@ -13799,7 +13799,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 964:21: -> ^( LITERAL_INTEGER INTEGER_POSITIVE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:964:24: ^( LITERAL_INTEGER INTEGER_POSITIVE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:964:24: ^( LITERAL_INTEGER INTEGER_POSITIVE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_INTEGER, "LITERAL_INTEGER"), root_1);
@@ -13815,7 +13815,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:965:4: DECIMAL_POSITIVE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:965:4: DECIMAL_POSITIVE
                     {
                     DECIMAL_POSITIVE365=(Token)match(input,DECIMAL_POSITIVE,FOLLOW_DECIMAL_POSITIVE_in_numericLiteralPositive4170); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DECIMAL_POSITIVE.add(DECIMAL_POSITIVE365);
@@ -13836,7 +13836,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 965:21: -> ^( LITERAL_DECIMAL DECIMAL_POSITIVE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:965:24: ^( LITERAL_DECIMAL DECIMAL_POSITIVE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:965:24: ^( LITERAL_DECIMAL DECIMAL_POSITIVE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_DECIMAL, "LITERAL_DECIMAL"), root_1);
@@ -13852,7 +13852,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:966:4: DOUBLE_POSITIVE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:966:4: DOUBLE_POSITIVE
                     {
                     DOUBLE_POSITIVE366=(Token)match(input,DOUBLE_POSITIVE,FOLLOW_DOUBLE_POSITIVE_in_numericLiteralPositive4183); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DOUBLE_POSITIVE.add(DOUBLE_POSITIVE366);
@@ -13873,7 +13873,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 966:20: -> ^( LITERAL_DOUBLE DOUBLE_POSITIVE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:966:23: ^( LITERAL_DOUBLE DOUBLE_POSITIVE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:966:23: ^( LITERAL_DOUBLE DOUBLE_POSITIVE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_DOUBLE, "LITERAL_DOUBLE"), root_1);
@@ -13914,7 +13914,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "numericLiteralNegative"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:972:1: numericLiteralNegative : ( INTEGER_NEGATIVE -> ^( LITERAL_INTEGER INTEGER_NEGATIVE ) | DECIMAL_NEGATIVE -> ^( LITERAL_DECIMAL DECIMAL_NEGATIVE ) | DOUBLE_NEGATIVE -> ^( LITERAL_DOUBLE DOUBLE_NEGATIVE ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:972:1: numericLiteralNegative : ( INTEGER_NEGATIVE -> ^( LITERAL_INTEGER INTEGER_NEGATIVE ) | DECIMAL_NEGATIVE -> ^( LITERAL_DECIMAL DECIMAL_NEGATIVE ) | DOUBLE_NEGATIVE -> ^( LITERAL_DOUBLE DOUBLE_NEGATIVE ) );
     public final SparqlOwlParser.numericLiteralNegative_return numericLiteralNegative() throws RecognitionException {
         SparqlOwlParser.numericLiteralNegative_return retval = new SparqlOwlParser.numericLiteralNegative_return();
         retval.start = input.LT(1);
@@ -13933,7 +13933,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_INTEGER_NEGATIVE=new RewriteRuleTokenStream(adaptor,"token INTEGER_NEGATIVE");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:973:2: ( INTEGER_NEGATIVE -> ^( LITERAL_INTEGER INTEGER_NEGATIVE ) | DECIMAL_NEGATIVE -> ^( LITERAL_DECIMAL DECIMAL_NEGATIVE ) | DOUBLE_NEGATIVE -> ^( LITERAL_DOUBLE DOUBLE_NEGATIVE ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:973:2: ( INTEGER_NEGATIVE -> ^( LITERAL_INTEGER INTEGER_NEGATIVE ) | DECIMAL_NEGATIVE -> ^( LITERAL_DECIMAL DECIMAL_NEGATIVE ) | DOUBLE_NEGATIVE -> ^( LITERAL_DOUBLE DOUBLE_NEGATIVE ) )
             int alt92=3;
             switch ( input.LA(1) ) {
             case INTEGER_NEGATIVE:
@@ -13961,7 +13961,7 @@ public class SparqlOwlParser extends Parser {
 
             switch (alt92) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:973:4: INTEGER_NEGATIVE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:973:4: INTEGER_NEGATIVE
                     {
                     INTEGER_NEGATIVE367=(Token)match(input,INTEGER_NEGATIVE,FOLLOW_INTEGER_NEGATIVE_in_numericLiteralNegative4204); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_INTEGER_NEGATIVE.add(INTEGER_NEGATIVE367);
@@ -13982,7 +13982,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 973:21: -> ^( LITERAL_INTEGER INTEGER_NEGATIVE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:973:24: ^( LITERAL_INTEGER INTEGER_NEGATIVE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:973:24: ^( LITERAL_INTEGER INTEGER_NEGATIVE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_INTEGER, "LITERAL_INTEGER"), root_1);
@@ -13998,7 +13998,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:974:4: DECIMAL_NEGATIVE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:974:4: DECIMAL_NEGATIVE
                     {
                     DECIMAL_NEGATIVE368=(Token)match(input,DECIMAL_NEGATIVE,FOLLOW_DECIMAL_NEGATIVE_in_numericLiteralNegative4217); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DECIMAL_NEGATIVE.add(DECIMAL_NEGATIVE368);
@@ -14019,7 +14019,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 974:21: -> ^( LITERAL_DECIMAL DECIMAL_NEGATIVE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:974:24: ^( LITERAL_DECIMAL DECIMAL_NEGATIVE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:974:24: ^( LITERAL_DECIMAL DECIMAL_NEGATIVE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_DECIMAL, "LITERAL_DECIMAL"), root_1);
@@ -14035,7 +14035,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:975:4: DOUBLE_NEGATIVE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:975:4: DOUBLE_NEGATIVE
                     {
                     DOUBLE_NEGATIVE369=(Token)match(input,DOUBLE_NEGATIVE,FOLLOW_DOUBLE_NEGATIVE_in_numericLiteralNegative4230); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_DOUBLE_NEGATIVE.add(DOUBLE_NEGATIVE369);
@@ -14056,7 +14056,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 975:20: -> ^( LITERAL_DOUBLE DOUBLE_NEGATIVE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:975:23: ^( LITERAL_DOUBLE DOUBLE_NEGATIVE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:975:23: ^( LITERAL_DOUBLE DOUBLE_NEGATIVE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_DOUBLE, "LITERAL_DOUBLE"), root_1);
@@ -14097,7 +14097,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "booleanLiteral"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:981:1: booleanLiteral : ( TRUE_TERM -> ^( LITERAL_BOOLEAN_TRUE ) | FALSE_TERM -> ^( LITERAL_BOOLEAN_FALSE ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:981:1: booleanLiteral : ( TRUE_TERM -> ^( LITERAL_BOOLEAN_TRUE ) | FALSE_TERM -> ^( LITERAL_BOOLEAN_FALSE ) );
     public final SparqlOwlParser.booleanLiteral_return booleanLiteral() throws RecognitionException {
         SparqlOwlParser.booleanLiteral_return retval = new SparqlOwlParser.booleanLiteral_return();
         retval.start = input.LT(1);
@@ -14113,7 +14113,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_FALSE_TERM=new RewriteRuleTokenStream(adaptor,"token FALSE_TERM");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:982:2: ( TRUE_TERM -> ^( LITERAL_BOOLEAN_TRUE ) | FALSE_TERM -> ^( LITERAL_BOOLEAN_FALSE ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:982:2: ( TRUE_TERM -> ^( LITERAL_BOOLEAN_TRUE ) | FALSE_TERM -> ^( LITERAL_BOOLEAN_FALSE ) )
             int alt93=2;
             int LA93_0 = input.LA(1);
 
@@ -14132,7 +14132,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt93) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:982:4: TRUE_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:982:4: TRUE_TERM
                     {
                     TRUE_TERM370=(Token)match(input,TRUE_TERM,FOLLOW_TRUE_TERM_in_booleanLiteral4251); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_TRUE_TERM.add(TRUE_TERM370);
@@ -14153,7 +14153,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 982:14: -> ^( LITERAL_BOOLEAN_TRUE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:982:17: ^( LITERAL_BOOLEAN_TRUE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:982:17: ^( LITERAL_BOOLEAN_TRUE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_BOOLEAN_TRUE, "LITERAL_BOOLEAN_TRUE"), root_1);
@@ -14167,7 +14167,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:983:4: FALSE_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:983:4: FALSE_TERM
                     {
                     FALSE_TERM371=(Token)match(input,FALSE_TERM,FOLLOW_FALSE_TERM_in_booleanLiteral4262); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_FALSE_TERM.add(FALSE_TERM371);
@@ -14188,7 +14188,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 983:15: -> ^( LITERAL_BOOLEAN_FALSE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:983:18: ^( LITERAL_BOOLEAN_FALSE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:983:18: ^( LITERAL_BOOLEAN_FALSE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(LITERAL_BOOLEAN_FALSE, "LITERAL_BOOLEAN_FALSE"), root_1);
@@ -14227,7 +14227,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "string"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:989:1: string : ( STRING_LITERAL1 | STRING_LITERAL2 | STRING_LITERAL_LONG1 | STRING_LITERAL_LONG2 );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:989:1: string : ( STRING_LITERAL1 | STRING_LITERAL2 | STRING_LITERAL_LONG1 | STRING_LITERAL_LONG2 );
     public final SparqlOwlParser.string_return string() throws RecognitionException {
         SparqlOwlParser.string_return retval = new SparqlOwlParser.string_return();
         retval.start = input.LT(1);
@@ -14239,8 +14239,8 @@ public class SparqlOwlParser extends Parser {
         CommonTree set372_tree=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:990:2: ( STRING_LITERAL1 | STRING_LITERAL2 | STRING_LITERAL_LONG1 | STRING_LITERAL_LONG2 )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:990:2: ( STRING_LITERAL1 | STRING_LITERAL2 | STRING_LITERAL_LONG1 | STRING_LITERAL_LONG2 )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -14283,7 +14283,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "iriRef"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1000:1: iriRef : ( IRI_REF_TERM -> ^( IRI_REF IRI_REF_TERM ) | prefixedName -> ^( PREFIXED_NAME prefixedName ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1000:1: iriRef : ( IRI_REF_TERM -> ^( IRI_REF IRI_REF_TERM ) | prefixedName -> ^( PREFIXED_NAME prefixedName ) );
     public final SparqlOwlParser.iriRef_return iriRef() throws RecognitionException {
         SparqlOwlParser.iriRef_return retval = new SparqlOwlParser.iriRef_return();
         retval.start = input.LT(1);
@@ -14298,7 +14298,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_IRI_REF_TERM=new RewriteRuleTokenStream(adaptor,"token IRI_REF_TERM");
         RewriteRuleSubtreeStream stream_prefixedName=new RewriteRuleSubtreeStream(adaptor,"rule prefixedName");
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1001:2: ( IRI_REF_TERM -> ^( IRI_REF IRI_REF_TERM ) | prefixedName -> ^( PREFIXED_NAME prefixedName ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1001:2: ( IRI_REF_TERM -> ^( IRI_REF IRI_REF_TERM ) | prefixedName -> ^( PREFIXED_NAME prefixedName ) )
             int alt94=2;
             int LA94_0 = input.LA(1);
 
@@ -14317,7 +14317,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt94) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1001:4: IRI_REF_TERM
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1001:4: IRI_REF_TERM
                     {
                     IRI_REF_TERM373=(Token)match(input,IRI_REF_TERM,FOLLOW_IRI_REF_TERM_in_iriRef4309); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_IRI_REF_TERM.add(IRI_REF_TERM373);
@@ -14338,7 +14338,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 1001:17: -> ^( IRI_REF IRI_REF_TERM )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1001:20: ^( IRI_REF IRI_REF_TERM )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1001:20: ^( IRI_REF IRI_REF_TERM )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(IRI_REF, "IRI_REF"), root_1);
@@ -14354,7 +14354,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1002:4: prefixedName
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1002:4: prefixedName
                     {
                     pushFollow(FOLLOW_prefixedName_in_iriRef4322);
                     prefixedName374=prefixedName();
@@ -14378,7 +14378,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 1002:17: -> ^( PREFIXED_NAME prefixedName )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1002:20: ^( PREFIXED_NAME prefixedName )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1002:20: ^( PREFIXED_NAME prefixedName )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(PREFIXED_NAME, "PREFIXED_NAME"), root_1);
@@ -14419,7 +14419,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "prefixedName"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1008:1: prefixedName : ( PNAME_LN | PNAME_NS );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1008:1: prefixedName : ( PNAME_LN | PNAME_NS );
     public final SparqlOwlParser.prefixedName_return prefixedName() throws RecognitionException {
         SparqlOwlParser.prefixedName_return retval = new SparqlOwlParser.prefixedName_return();
         retval.start = input.LT(1);
@@ -14431,8 +14431,8 @@ public class SparqlOwlParser extends Parser {
         CommonTree set375_tree=null;
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1009:2: ( PNAME_LN | PNAME_NS )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1009:2: ( PNAME_LN | PNAME_NS )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             {
             root_0 = (CommonTree)adaptor.nil();
 
@@ -14475,7 +14475,7 @@ public class SparqlOwlParser extends Parser {
     };
 
     // $ANTLR start "blankNode"
-    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1016:1: blankNode : ( BLANK_NODE_LABEL -> ^( BLANK_NODE BLANK_NODE_LABEL ) | OPEN_SQUARE_BRACE CLOSE_SQUARE_BRACE -> ^( BLANK_NODE ) );
+    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1016:1: blankNode : ( BLANK_NODE_LABEL -> ^( BLANK_NODE BLANK_NODE_LABEL ) | OPEN_SQUARE_BRACE CLOSE_SQUARE_BRACE -> ^( BLANK_NODE ) );
     public final SparqlOwlParser.blankNode_return blankNode() throws RecognitionException {
         SparqlOwlParser.blankNode_return retval = new SparqlOwlParser.blankNode_return();
         retval.start = input.LT(1);
@@ -14494,7 +14494,7 @@ public class SparqlOwlParser extends Parser {
         RewriteRuleTokenStream stream_BLANK_NODE_LABEL=new RewriteRuleTokenStream(adaptor,"token BLANK_NODE_LABEL");
 
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1017:2: ( BLANK_NODE_LABEL -> ^( BLANK_NODE BLANK_NODE_LABEL ) | OPEN_SQUARE_BRACE CLOSE_SQUARE_BRACE -> ^( BLANK_NODE ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1017:2: ( BLANK_NODE_LABEL -> ^( BLANK_NODE BLANK_NODE_LABEL ) | OPEN_SQUARE_BRACE CLOSE_SQUARE_BRACE -> ^( BLANK_NODE ) )
             int alt95=2;
             int LA95_0 = input.LA(1);
 
@@ -14513,7 +14513,7 @@ public class SparqlOwlParser extends Parser {
             }
             switch (alt95) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1017:4: BLANK_NODE_LABEL
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1017:4: BLANK_NODE_LABEL
                     {
                     BLANK_NODE_LABEL376=(Token)match(input,BLANK_NODE_LABEL,FOLLOW_BLANK_NODE_LABEL_in_blankNode4361); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_BLANK_NODE_LABEL.add(BLANK_NODE_LABEL376);
@@ -14534,7 +14534,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 1017:21: -> ^( BLANK_NODE BLANK_NODE_LABEL )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1017:24: ^( BLANK_NODE BLANK_NODE_LABEL )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1017:24: ^( BLANK_NODE BLANK_NODE_LABEL )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BLANK_NODE, "BLANK_NODE"), root_1);
@@ -14550,7 +14550,7 @@ public class SparqlOwlParser extends Parser {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1018:4: OPEN_SQUARE_BRACE CLOSE_SQUARE_BRACE
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1018:4: OPEN_SQUARE_BRACE CLOSE_SQUARE_BRACE
                     {
                     OPEN_SQUARE_BRACE377=(Token)match(input,OPEN_SQUARE_BRACE,FOLLOW_OPEN_SQUARE_BRACE_in_blankNode4374); if (state.failed) return retval; 
                     if ( state.backtracking==0 ) stream_OPEN_SQUARE_BRACE.add(OPEN_SQUARE_BRACE377);
@@ -14574,7 +14574,7 @@ public class SparqlOwlParser extends Parser {
                     root_0 = (CommonTree)adaptor.nil();
                     // 1018:41: -> ^( BLANK_NODE )
                     {
-                        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1018:44: ^( BLANK_NODE )
+                        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1018:44: ^( BLANK_NODE )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
                         root_1 = (CommonTree)adaptor.becomeRoot((CommonTree)adaptor.create(BLANK_NODE, "BLANK_NODE"), root_1);
@@ -14609,8 +14609,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred1_SparqlOwl
     public final void synpred1_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:366:5: ( primary )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:366:6: primary
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:366:5: ( primary )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:366:6: primary
         {
         pushFollow(FOLLOW_primary_in_synpred1_SparqlOwl1386);
         primary();
@@ -14624,8 +14624,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred2_SparqlOwl
     public final void synpred2_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:374:5: ( primary )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:374:6: primary
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:374:5: ( primary )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:374:6: primary
         {
         pushFollow(FOLLOW_primary_in_synpred2_SparqlOwl1438);
         primary();
@@ -14639,8 +14639,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred3_SparqlOwl
     public final void synpred3_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:382:5: ( primary )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:382:6: primary
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:382:5: ( primary )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:382:6: primary
         {
         pushFollow(FOLLOW_primary_in_synpred3_SparqlOwl1490);
         primary();
@@ -14654,8 +14654,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred4_SparqlOwl
     public final void synpred4_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:578:4: ( graphPatternNotTriples )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:578:6: graphPatternNotTriples
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:578:4: ( graphPatternNotTriples )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:578:6: graphPatternNotTriples
         {
         pushFollow(FOLLOW_graphPatternNotTriples_in_synpred4_SparqlOwl2253);
         graphPatternNotTriples();
@@ -14669,8 +14669,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred5_SparqlOwl
     public final void synpred5_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:580:4: ( triplesSameSubject DOT_TERM )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:580:5: triplesSameSubject DOT_TERM
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:580:4: ( triplesSameSubject DOT_TERM )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:580:5: triplesSameSubject DOT_TERM
         {
         pushFollow(FOLLOW_triplesSameSubject_in_synpred5_SparqlOwl2283);
         triplesSameSubject();
@@ -14685,8 +14685,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred6_SparqlOwl
     public final void synpred6_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:675:4: ( varOrTerm propertyListNotEmpty )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:675:5: varOrTerm propertyListNotEmpty
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:675:4: ( varOrTerm propertyListNotEmpty )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:675:5: varOrTerm propertyListNotEmpty
         {
         pushFollow(FOLLOW_varOrTerm_in_synpred6_SparqlOwl2651);
         varOrTerm();
@@ -14705,8 +14705,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred7_SparqlOwl
     public final void synpred7_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:676:4: ( triplesNode propertyListNotEmpty )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:676:5: triplesNode propertyListNotEmpty
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:676:4: ( triplesNode propertyListNotEmpty )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:676:5: triplesNode propertyListNotEmpty
         {
         pushFollow(FOLLOW_triplesNode_in_synpred7_SparqlOwl2679);
         triplesNode();
@@ -14725,8 +14725,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred8_SparqlOwl
     public final void synpred8_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:677:4: ( triplesNode )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:677:5: triplesNode
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:677:4: ( triplesNode )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:677:5: triplesNode
         {
         pushFollow(FOLLOW_triplesNode_in_synpred8_SparqlOwl2707);
         triplesNode();
@@ -14740,8 +14740,8 @@ public class SparqlOwlParser extends Parser {
 
     // $ANTLR start synpred9_SparqlOwl
     public final void synpred9_SparqlOwl_fragment() throws RecognitionException {   
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:710:4: ( graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE ) )
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:710:5: graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:710:4: ( graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE ) )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:710:5: graphNode ( DOT_TERM | SEMICOLON_TERM | COMMA_TERM | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE )
         {
         pushFollow(FOLLOW_graphNode_in_synpred9_SparqlOwl2847);
         graphNode();

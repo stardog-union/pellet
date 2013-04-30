@@ -581,7 +581,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 		return report;
 	}
 	
-	private void clear() {
+	public void clear() {
 		kb.clear();
 		loader.clear();
 	}

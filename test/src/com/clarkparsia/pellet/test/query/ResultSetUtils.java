@@ -25,7 +25,7 @@ import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.query.ResultSetRewindable;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.sparql.resultset.ResultSetFormat;
+import com.hp.hpl.jena.sparql.resultset.ResultsFormat;
 
 /**
  * @author Evren Sirin
@@ -93,7 +93,7 @@ public class ResultSetUtils {
 			log.warning(name + " (" + results.size() + ")");
 			results.reset();
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			ResultSetFormatter.output(out, results, ResultSetFormat.syntaxText);
+			ResultSetFormatter.output(out, results, ResultsFormat.FMT_TEXT);
 			log.warning("\n" + out.toString());
 		}
 	}

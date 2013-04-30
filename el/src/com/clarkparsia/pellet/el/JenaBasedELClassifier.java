@@ -23,7 +23,6 @@ import aterm.ATermAppl;
 import aterm.ATermList;
 
 import com.clarkparsia.pellet.utils.CollectionUtils;
-import com.hp.hpl.jena.graph.Factory;
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
@@ -37,7 +36,7 @@ import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
 import com.hp.hpl.jena.reasoner.rulesys.Node_RuleVariable;
 import com.hp.hpl.jena.reasoner.rulesys.Rule;
 import com.hp.hpl.jena.reasoner.rulesys.builtins.NotEqual;
-import com.hp.hpl.jena.shared.ReificationStyle;
+import com.hp.hpl.jena.sparql.graph.GraphFactory;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 
 /**
@@ -73,7 +72,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier implements Taxo
 		m_Names = new NameStore();
 		m_Variables = new VariableStore();
 		m_Rules = CollectionUtils.makeSet();
-		m_Facts =  Factory.createGraphMem( ReificationStyle.Standard );
+		m_Facts =  GraphFactory.createDefaultGraph();
 		
 		TOP = m_Names.get(ATermUtils.TOP);
 		BOTTOM = m_Names.get(ATermUtils.BOTTOM);

@@ -144,13 +144,13 @@ public class ManifestEngine {
 
 			switch (result.getResult()) {
 			case PASS:
-				resultState = EARL.pass;
+				resultState = EARL.passed;
 				break;
 			case FAIL:
-				resultState = EARL.fail;
+				resultState = EARL.failed;
 				break;
 			case SKIP:
-				resultState = EARL.notTested;
+				resultState = EARL.NotTested;
 				break;
 			default:
 				throw new IllegalArgumentException("Unknown result type : "

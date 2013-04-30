@@ -21,9 +21,9 @@ import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlTreeARQ;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryParseException;
 import com.hp.hpl.jena.query.Syntax;
-import com.hp.hpl.jena.sparql.lang.Parser;
-import com.hp.hpl.jena.sparql.lang.ParserFactory;
-import com.hp.hpl.jena.sparql.lang.ParserRegistry;
+import com.hp.hpl.jena.sparql.lang.SPARQLParser;
+import com.hp.hpl.jena.sparql.lang.SPARQLParserFactory;
+import com.hp.hpl.jena.sparql.lang.SPARQLParserRegistry;
 
 /**
  * <p>
@@ -43,17 +43,17 @@ import com.hp.hpl.jena.sparql.lang.ParserRegistry;
  * @author Mike Smith <a
  *         href="mailto:msmith@clarkparsia.com">msmith@clarkparsia.com</a>
  */
-public class ARQTerpParser extends Parser {
+public class ARQTerpParser extends SPARQLParser {
 
-	private final static ParserFactory	FACTORY;
+	private final static SPARQLParserFactory	FACTORY;
 	static {
-		FACTORY = new ParserFactory() {
+		FACTORY = new SPARQLParserFactory() {
 
 			public boolean accept(Syntax syntax) {
 				return (TerpSyntax.getInstance() == syntax);
 			}
 
-			public Parser create(Syntax syntax) {
+			public SPARQLParser create(Syntax syntax) {
 				return new ARQTerpParser();
 			}
 		};
@@ -64,7 +64,7 @@ public class ARQTerpParser extends Parser {
 	 * 
 	 * @return a singleton <code>ParserFactory</code>
 	 */
-	public static ParserFactory getFactory() {
+	public static SPARQLParserFactory getFactory() {
 		return FACTORY;
 	}
 
@@ -72,18 +72,18 @@ public class ARQTerpParser extends Parser {
 	 * Register a {@link ParserFactory} for the {@link TerpSyntax}
 	 */
 	public static void registerFactory() {
-		ParserRegistry.addFactory( TerpSyntax.getInstance(), FACTORY );
+		SPARQLParserRegistry.addFactory( TerpSyntax.getInstance(), FACTORY );
 	}
 	
 	/**
 	 * Unregister a {@link ParserFactory} for the {@link TerpSyntax}
 	 */
 	public static void unregisterFactory() {
-		ParserRegistry.removeFactory( TerpSyntax.getInstance() );
+		SPARQLParserRegistry.removeFactory( TerpSyntax.getInstance() );
 	}
 
 	@Override
-	public Query parse(Query query, String queryString) throws QueryParseException {
+	protected Query parse$(Query query, String queryString) throws QueryParseException {
 
 		if( query == null )
 			throw new NullPointerException();

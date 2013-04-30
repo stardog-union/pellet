@@ -1,4 +1,4 @@
-// $ANTLR 3.2 Sep 23, 2009 12:02:23 /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g 2010-03-28 22:46:21
+// $ANTLR 3.2 Sep 23, 2009 12:02:23 /Users/evren/projects/pellet/query/antlr/SparqlOwl.g 2013-04-11 22:07:41
 
 package com.clarkparsia.sparqlowl.parser.antlr;
 
@@ -255,17 +255,17 @@ public class SparqlOwlLexer extends Lexer {
         super(input,state);
 
     }
-    public String getGrammarFileName() { return "/home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g"; }
+    public String getGrammarFileName() { return "/Users/evren/projects/pellet/query/antlr/SparqlOwl.g"; }
 
     // $ANTLR start "WS"
     public final void mWS() throws RecognitionException {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1029:2: ( ( ' ' | '\\t' | EOL )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1029:4: ( ' ' | '\\t' | EOL )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1029:2: ( ( ' ' | '\\t' | EOL )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1029:4: ( ' ' | '\\t' | EOL )+
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1029:4: ( ' ' | '\\t' | EOL )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1029:4: ( ' ' | '\\t' | EOL )+
             int cnt1=0;
             loop1:
             do {
@@ -279,7 +279,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             	    {
             	    if ( (input.LA(1)>='\t' && input.LA(1)<='\n')||input.LA(1)=='\r'||input.LA(1)==' ' ) {
             	        input.consume();
@@ -320,10 +320,10 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = PNAME_NS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1036:2: ( ( PN_PREFIX )? ':' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1036:4: ( PN_PREFIX )? ':'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1036:2: ( ( PN_PREFIX )? ':' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1036:4: ( PN_PREFIX )? ':'
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1036:4: ( PN_PREFIX )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1036:4: ( PN_PREFIX )?
             int alt2=2;
             int LA2_0 = input.LA(1);
 
@@ -332,7 +332,7 @@ public class SparqlOwlLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1036:4: PN_PREFIX
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1036:4: PN_PREFIX
                     {
                     mPN_PREFIX(); 
 
@@ -358,8 +358,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = PNAME_LN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1043:2: ( PNAME_NS PN_LOCAL )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1043:4: PNAME_NS PN_LOCAL
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1043:2: ( PNAME_NS PN_LOCAL )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1043:4: PNAME_NS PN_LOCAL
             {
             mPNAME_NS(); 
             mPN_LOCAL(); 
@@ -379,8 +379,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = INTEGER_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1050:2: ( ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'R' | 'r' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1050:4: ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'R' | 'r' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1050:2: ( ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'R' | 'r' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1050:4: ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'R' | 'r' )
             {
             if ( input.LA(1)=='I'||input.LA(1)=='i' ) {
                 input.consume();
@@ -461,8 +461,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DECIMAL_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1057:2: ( ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'C' | 'c' ) ( 'I' | 'i' ) ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'L' | 'l' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1057:4: ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'C' | 'c' ) ( 'I' | 'i' ) ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'L' | 'l' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1057:2: ( ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'C' | 'c' ) ( 'I' | 'i' ) ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'L' | 'l' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1057:4: ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'C' | 'c' ) ( 'I' | 'i' ) ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'L' | 'l' )
             {
             if ( input.LA(1)=='D'||input.LA(1)=='d' ) {
                 input.consume();
@@ -543,8 +543,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = FLOAT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1064:2: ( ( 'F' | 'f' ) ( 'L' | 'l' ) ( 'O' | 'o' ) ( 'A' | 'a' ) ( 'T' | 't' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1064:4: ( 'F' | 'f' ) ( 'L' | 'l' ) ( 'O' | 'o' ) ( 'A' | 'a' ) ( 'T' | 't' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1064:2: ( ( 'F' | 'f' ) ( 'L' | 'l' ) ( 'O' | 'o' ) ( 'A' | 'a' ) ( 'T' | 't' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1064:4: ( 'F' | 'f' ) ( 'L' | 'l' ) ( 'O' | 'o' ) ( 'A' | 'a' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='F'||input.LA(1)=='f' ) {
                 input.consume();
@@ -607,8 +607,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = STRING_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1071:2: ( ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'G' | 'g' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1071:4: ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'G' | 'g' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1071:2: ( ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'G' | 'g' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1071:4: ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'G' | 'g' )
             {
             if ( input.LA(1)=='S'||input.LA(1)=='s' ) {
                 input.consume();
@@ -680,8 +680,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = LENGTH_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1078:2: ( ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1078:4: ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1078:2: ( ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1078:4: ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' )
             {
             if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
                 input.consume();
@@ -753,8 +753,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = MINLENGTH_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1085:2: ( ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1085:4: ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1085:2: ( ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1085:4: ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' )
             {
             if ( input.LA(1)=='M'||input.LA(1)=='m' ) {
                 input.consume();
@@ -853,8 +853,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = MAXLENGTH_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1092:2: ( ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'X' | 'x' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1092:4: ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'X' | 'x' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1092:2: ( ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'X' | 'x' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1092:4: ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'X' | 'x' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'T' | 't' ) ( 'H' | 'h' )
             {
             if ( input.LA(1)=='M'||input.LA(1)=='m' ) {
                 input.consume();
@@ -953,8 +953,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = PATTERN_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1099:2: ( ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'N' | 'n' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1099:4: ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'N' | 'n' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1099:2: ( ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'N' | 'n' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1099:4: ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'N' | 'n' )
             {
             if ( input.LA(1)=='P'||input.LA(1)=='p' ) {
                 input.consume();
@@ -1035,8 +1035,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = LANGPATTERN_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1106:2: ( ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'N' | 'n' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1106:4: ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'N' | 'n' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1106:2: ( ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'N' | 'n' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1106:4: ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'P' | 'p' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'N' | 'n' )
             {
             if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
                 input.consume();
@@ -1153,8 +1153,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = INVERSE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1113:2: ( ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'V' | 'v' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'S' | 's' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1113:4: ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'V' | 'v' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'S' | 's' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1113:2: ( ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'V' | 'v' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'S' | 's' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1113:4: ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'V' | 'v' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'S' | 's' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='I'||input.LA(1)=='i' ) {
                 input.consume();
@@ -1235,8 +1235,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = OR_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1120:2: ( ( 'O' | 'o' ) ( 'R' | 'r' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1120:4: ( 'O' | 'o' ) ( 'R' | 'r' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1120:2: ( ( 'O' | 'o' ) ( 'R' | 'r' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1120:4: ( 'O' | 'o' ) ( 'R' | 'r' )
             {
             if ( input.LA(1)=='O'||input.LA(1)=='o' ) {
                 input.consume();
@@ -1272,8 +1272,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = AND_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1127:2: ( ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'D' | 'd' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1127:4: ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'D' | 'd' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1127:2: ( ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'D' | 'd' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1127:4: ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'D' | 'd' )
             {
             if ( input.LA(1)=='A'||input.LA(1)=='a' ) {
                 input.consume();
@@ -1318,8 +1318,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = THAT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1134:2: ( ( 'T' | 't' ) ( 'H' | 'h' ) ( 'A' | 'a' ) ( 'T' | 't' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1134:4: ( 'T' | 't' ) ( 'H' | 'h' ) ( 'A' | 'a' ) ( 'T' | 't' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1134:2: ( ( 'T' | 't' ) ( 'H' | 'h' ) ( 'A' | 'a' ) ( 'T' | 't' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1134:4: ( 'T' | 't' ) ( 'H' | 'h' ) ( 'A' | 'a' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='T'||input.LA(1)=='t' ) {
                 input.consume();
@@ -1373,8 +1373,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = NOT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1141:2: ( ( 'N' | 'n' ) ( 'O' | 'o' ) ( 'T' | 't' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1141:4: ( 'N' | 'n' ) ( 'O' | 'o' ) ( 'T' | 't' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1141:2: ( ( 'N' | 'n' ) ( 'O' | 'o' ) ( 'T' | 't' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1141:4: ( 'N' | 'n' ) ( 'O' | 'o' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='N'||input.LA(1)=='n' ) {
                 input.consume();
@@ -1419,8 +1419,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = SOME_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1148:2: ( ( 'S' | 's' ) ( 'O' | 'o' ) ( 'M' | 'm' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1148:4: ( 'S' | 's' ) ( 'O' | 'o' ) ( 'M' | 'm' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1148:2: ( ( 'S' | 's' ) ( 'O' | 'o' ) ( 'M' | 'm' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1148:4: ( 'S' | 's' ) ( 'O' | 'o' ) ( 'M' | 'm' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='S'||input.LA(1)=='s' ) {
                 input.consume();
@@ -1474,8 +1474,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ONLY_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1155:2: ( ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'L' | 'l' ) ( 'Y' | 'y' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1155:4: ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'L' | 'l' ) ( 'Y' | 'y' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1155:2: ( ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'L' | 'l' ) ( 'Y' | 'y' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1155:4: ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'L' | 'l' ) ( 'Y' | 'y' )
             {
             if ( input.LA(1)=='O'||input.LA(1)=='o' ) {
                 input.consume();
@@ -1529,8 +1529,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = VALUE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1162:2: ( ( 'V' | 'v' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'U' | 'u' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1162:4: ( 'V' | 'v' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'U' | 'u' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1162:2: ( ( 'V' | 'v' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'U' | 'u' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1162:4: ( 'V' | 'v' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'U' | 'u' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='V'||input.LA(1)=='v' ) {
                 input.consume();
@@ -1593,8 +1593,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = SELF_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1169:2: ( ( 'S' | 's' ) ( 'E' | 'e' ) ( 'L' | 'l' ) ( 'F' | 'f' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1169:4: ( 'S' | 's' ) ( 'E' | 'e' ) ( 'L' | 'l' ) ( 'F' | 'f' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1169:2: ( ( 'S' | 's' ) ( 'E' | 'e' ) ( 'L' | 'l' ) ( 'F' | 'f' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1169:4: ( 'S' | 's' ) ( 'E' | 'e' ) ( 'L' | 'l' ) ( 'F' | 'f' )
             {
             if ( input.LA(1)=='S'||input.LA(1)=='s' ) {
                 input.consume();
@@ -1648,8 +1648,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = MIN_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1176:2: ( ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'N' | 'n' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1176:4: ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'N' | 'n' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1176:2: ( ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'N' | 'n' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1176:4: ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'N' | 'n' )
             {
             if ( input.LA(1)=='M'||input.LA(1)=='m' ) {
                 input.consume();
@@ -1694,8 +1694,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = MAX_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1183:2: ( ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'X' | 'x' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1183:4: ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'X' | 'x' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1183:2: ( ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'X' | 'x' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1183:4: ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'X' | 'x' )
             {
             if ( input.LA(1)=='M'||input.LA(1)=='m' ) {
                 input.consume();
@@ -1740,8 +1740,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = EXACTLY_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1190:2: ( ( 'E' | 'e' ) ( 'X' | 'x' ) ( 'A' | 'a' ) ( 'C' | 'c' ) ( 'T' | 't' ) ( 'L' | 'l' ) ( 'Y' | 'y' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1190:4: ( 'E' | 'e' ) ( 'X' | 'x' ) ( 'A' | 'a' ) ( 'C' | 'c' ) ( 'T' | 't' ) ( 'L' | 'l' ) ( 'Y' | 'y' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1190:2: ( ( 'E' | 'e' ) ( 'X' | 'x' ) ( 'A' | 'a' ) ( 'C' | 'c' ) ( 'T' | 't' ) ( 'L' | 'l' ) ( 'Y' | 'y' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1190:4: ( 'E' | 'e' ) ( 'X' | 'x' ) ( 'A' | 'a' ) ( 'C' | 'c' ) ( 'T' | 't' ) ( 'L' | 'l' ) ( 'Y' | 'y' )
             {
             if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                 input.consume();
@@ -1822,8 +1822,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = BASE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1197:2: ( ( 'B' | 'b' ) ( 'A' | 'a' ) ( 'S' | 's' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1197:4: ( 'B' | 'b' ) ( 'A' | 'a' ) ( 'S' | 's' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1197:2: ( ( 'B' | 'b' ) ( 'A' | 'a' ) ( 'S' | 's' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1197:4: ( 'B' | 'b' ) ( 'A' | 'a' ) ( 'S' | 's' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                 input.consume();
@@ -1877,8 +1877,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = PREFIX_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1204:2: ( ( 'P' | 'p' ) ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'X' | 'x' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1204:4: ( 'P' | 'p' ) ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'X' | 'x' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1204:2: ( ( 'P' | 'p' ) ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'X' | 'x' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1204:4: ( 'P' | 'p' ) ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'X' | 'x' )
             {
             if ( input.LA(1)=='P'||input.LA(1)=='p' ) {
                 input.consume();
@@ -1950,8 +1950,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = SELECT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1211:2: ( ( 'S' | 's' ) ( 'E' | 'e' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'C' | 'c' ) ( 'T' | 't' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1211:4: ( 'S' | 's' ) ( 'E' | 'e' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'C' | 'c' ) ( 'T' | 't' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1211:2: ( ( 'S' | 's' ) ( 'E' | 'e' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'C' | 'c' ) ( 'T' | 't' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1211:4: ( 'S' | 's' ) ( 'E' | 'e' ) ( 'L' | 'l' ) ( 'E' | 'e' ) ( 'C' | 'c' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='S'||input.LA(1)=='s' ) {
                 input.consume();
@@ -2023,8 +2023,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DISTINCT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1218:2: ( ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'C' | 'c' ) ( 'T' | 't' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1218:4: ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'C' | 'c' ) ( 'T' | 't' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1218:2: ( ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'C' | 'c' ) ( 'T' | 't' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1218:4: ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'C' | 'c' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='D'||input.LA(1)=='d' ) {
                 input.consume();
@@ -2114,8 +2114,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = REDUCED_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1225:2: ( ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'D' | 'd' ) ( 'U' | 'u' ) ( 'C' | 'c' ) ( 'E' | 'e' ) ( 'D' | 'd' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1225:4: ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'D' | 'd' ) ( 'U' | 'u' ) ( 'C' | 'c' ) ( 'E' | 'e' ) ( 'D' | 'd' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1225:2: ( ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'D' | 'd' ) ( 'U' | 'u' ) ( 'C' | 'c' ) ( 'E' | 'e' ) ( 'D' | 'd' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1225:4: ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'D' | 'd' ) ( 'U' | 'u' ) ( 'C' | 'c' ) ( 'E' | 'e' ) ( 'D' | 'd' )
             {
             if ( input.LA(1)=='R'||input.LA(1)=='r' ) {
                 input.consume();
@@ -2196,8 +2196,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = CONSTRUCT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1232:2: ( ( 'C' | 'c' ) ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'U' | 'u' ) ( 'C' | 'c' ) ( 'T' | 't' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1232:4: ( 'C' | 'c' ) ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'U' | 'u' ) ( 'C' | 'c' ) ( 'T' | 't' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1232:2: ( ( 'C' | 'c' ) ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'U' | 'u' ) ( 'C' | 'c' ) ( 'T' | 't' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1232:4: ( 'C' | 'c' ) ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) ( 'U' | 'u' ) ( 'C' | 'c' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='C'||input.LA(1)=='c' ) {
                 input.consume();
@@ -2296,8 +2296,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DESCRIBE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1239:2: ( ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'C' | 'c' ) ( 'R' | 'r' ) ( 'I' | 'i' ) ( 'B' | 'b' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1239:4: ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'C' | 'c' ) ( 'R' | 'r' ) ( 'I' | 'i' ) ( 'B' | 'b' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1239:2: ( ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'C' | 'c' ) ( 'R' | 'r' ) ( 'I' | 'i' ) ( 'B' | 'b' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1239:4: ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'C' | 'c' ) ( 'R' | 'r' ) ( 'I' | 'i' ) ( 'B' | 'b' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='D'||input.LA(1)=='d' ) {
                 input.consume();
@@ -2387,8 +2387,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ASK_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1246:2: ( ( 'A' | 'a' ) ( 'S' | 's' ) ( 'K' | 'k' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1246:4: ( 'A' | 'a' ) ( 'S' | 's' ) ( 'K' | 'k' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1246:2: ( ( 'A' | 'a' ) ( 'S' | 's' ) ( 'K' | 'k' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1246:4: ( 'A' | 'a' ) ( 'S' | 's' ) ( 'K' | 'k' )
             {
             if ( input.LA(1)=='A'||input.LA(1)=='a' ) {
                 input.consume();
@@ -2433,8 +2433,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = FROM_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1253:2: ( ( 'F' | 'f' ) ( 'R' | 'r' ) ( 'O' | 'o' ) ( 'M' | 'm' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1253:4: ( 'F' | 'f' ) ( 'R' | 'r' ) ( 'O' | 'o' ) ( 'M' | 'm' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1253:2: ( ( 'F' | 'f' ) ( 'R' | 'r' ) ( 'O' | 'o' ) ( 'M' | 'm' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1253:4: ( 'F' | 'f' ) ( 'R' | 'r' ) ( 'O' | 'o' ) ( 'M' | 'm' )
             {
             if ( input.LA(1)=='F'||input.LA(1)=='f' ) {
                 input.consume();
@@ -2488,8 +2488,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = NAMED_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1260:2: ( ( 'N' | 'n' ) ( 'A' | 'a' ) ( 'M' | 'm' ) ( 'E' | 'e' ) ( 'D' | 'd' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1260:4: ( 'N' | 'n' ) ( 'A' | 'a' ) ( 'M' | 'm' ) ( 'E' | 'e' ) ( 'D' | 'd' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1260:2: ( ( 'N' | 'n' ) ( 'A' | 'a' ) ( 'M' | 'm' ) ( 'E' | 'e' ) ( 'D' | 'd' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1260:4: ( 'N' | 'n' ) ( 'A' | 'a' ) ( 'M' | 'm' ) ( 'E' | 'e' ) ( 'D' | 'd' )
             {
             if ( input.LA(1)=='N'||input.LA(1)=='n' ) {
                 input.consume();
@@ -2552,8 +2552,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = WHERE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1267:2: ( ( 'W' | 'w' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1267:4: ( 'W' | 'w' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1267:2: ( ( 'W' | 'w' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1267:4: ( 'W' | 'w' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='W'||input.LA(1)=='w' ) {
                 input.consume();
@@ -2616,8 +2616,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ORDER_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1274:2: ( ( 'O' | 'o' ) ( 'R' | 'r' ) ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'R' | 'r' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1274:4: ( 'O' | 'o' ) ( 'R' | 'r' ) ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'R' | 'r' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1274:2: ( ( 'O' | 'o' ) ( 'R' | 'r' ) ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'R' | 'r' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1274:4: ( 'O' | 'o' ) ( 'R' | 'r' ) ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'R' | 'r' )
             {
             if ( input.LA(1)=='O'||input.LA(1)=='o' ) {
                 input.consume();
@@ -2680,8 +2680,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = BY_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1281:2: ( ( 'B' | 'b' ) ( 'Y' | 'y' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1281:4: ( 'B' | 'b' ) ( 'Y' | 'y' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1281:2: ( ( 'B' | 'b' ) ( 'Y' | 'y' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1281:4: ( 'B' | 'b' ) ( 'Y' | 'y' )
             {
             if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                 input.consume();
@@ -2717,8 +2717,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ASC_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1288:2: ( ( 'A' | 'a' ) ( 'S' | 's' ) ( 'C' | 'c' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1288:4: ( 'A' | 'a' ) ( 'S' | 's' ) ( 'C' | 'c' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1288:2: ( ( 'A' | 'a' ) ( 'S' | 's' ) ( 'C' | 'c' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1288:4: ( 'A' | 'a' ) ( 'S' | 's' ) ( 'C' | 'c' )
             {
             if ( input.LA(1)=='A'||input.LA(1)=='a' ) {
                 input.consume();
@@ -2763,8 +2763,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DESC_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1295:2: ( ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'C' | 'c' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1295:4: ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'C' | 'c' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1295:2: ( ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'C' | 'c' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1295:4: ( 'D' | 'd' ) ( 'E' | 'e' ) ( 'S' | 's' ) ( 'C' | 'c' )
             {
             if ( input.LA(1)=='D'||input.LA(1)=='d' ) {
                 input.consume();
@@ -2818,8 +2818,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = LIMIT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1302:2: ( ( 'L' | 'l' ) ( 'I' | 'i' ) ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'T' | 't' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1302:4: ( 'L' | 'l' ) ( 'I' | 'i' ) ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'T' | 't' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1302:2: ( ( 'L' | 'l' ) ( 'I' | 'i' ) ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'T' | 't' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1302:4: ( 'L' | 'l' ) ( 'I' | 'i' ) ( 'M' | 'm' ) ( 'I' | 'i' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
                 input.consume();
@@ -2882,8 +2882,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = OFFSET_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1309:2: ( ( 'O' | 'o' ) ( 'F' | 'f' ) ( 'F' | 'f' ) ( 'S' | 's' ) ( 'E' | 'e' ) ( 'T' | 't' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1309:4: ( 'O' | 'o' ) ( 'F' | 'f' ) ( 'F' | 'f' ) ( 'S' | 's' ) ( 'E' | 'e' ) ( 'T' | 't' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1309:2: ( ( 'O' | 'o' ) ( 'F' | 'f' ) ( 'F' | 'f' ) ( 'S' | 's' ) ( 'E' | 'e' ) ( 'T' | 't' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1309:4: ( 'O' | 'o' ) ( 'F' | 'f' ) ( 'F' | 'f' ) ( 'S' | 's' ) ( 'E' | 'e' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='O'||input.LA(1)=='o' ) {
                 input.consume();
@@ -2955,8 +2955,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = OPTIONAL_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1316:2: ( ( 'O' | 'o' ) ( 'P' | 'p' ) ( 'T' | 't' ) ( 'I' | 'i' ) ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'A' | 'a' ) ( 'L' | 'l' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1316:4: ( 'O' | 'o' ) ( 'P' | 'p' ) ( 'T' | 't' ) ( 'I' | 'i' ) ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'A' | 'a' ) ( 'L' | 'l' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1316:2: ( ( 'O' | 'o' ) ( 'P' | 'p' ) ( 'T' | 't' ) ( 'I' | 'i' ) ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'A' | 'a' ) ( 'L' | 'l' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1316:4: ( 'O' | 'o' ) ( 'P' | 'p' ) ( 'T' | 't' ) ( 'I' | 'i' ) ( 'O' | 'o' ) ( 'N' | 'n' ) ( 'A' | 'a' ) ( 'L' | 'l' )
             {
             if ( input.LA(1)=='O'||input.LA(1)=='o' ) {
                 input.consume();
@@ -3046,8 +3046,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = GRAPH_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1323:2: ( ( 'G' | 'g' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'P' | 'p' ) ( 'H' | 'h' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1323:4: ( 'G' | 'g' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'P' | 'p' ) ( 'H' | 'h' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1323:2: ( ( 'G' | 'g' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'P' | 'p' ) ( 'H' | 'h' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1323:4: ( 'G' | 'g' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'P' | 'p' ) ( 'H' | 'h' )
             {
             if ( input.LA(1)=='G'||input.LA(1)=='g' ) {
                 input.consume();
@@ -3110,8 +3110,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = UNION_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1330:2: ( ( 'U' | 'u' ) ( 'N' | 'n' ) ( 'I' | 'i' ) ( 'O' | 'o' ) ( 'N' | 'n' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1330:4: ( 'U' | 'u' ) ( 'N' | 'n' ) ( 'I' | 'i' ) ( 'O' | 'o' ) ( 'N' | 'n' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1330:2: ( ( 'U' | 'u' ) ( 'N' | 'n' ) ( 'I' | 'i' ) ( 'O' | 'o' ) ( 'N' | 'n' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1330:4: ( 'U' | 'u' ) ( 'N' | 'n' ) ( 'I' | 'i' ) ( 'O' | 'o' ) ( 'N' | 'n' )
             {
             if ( input.LA(1)=='U'||input.LA(1)=='u' ) {
                 input.consume();
@@ -3174,8 +3174,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = FILTER_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1337:2: ( ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'L' | 'l' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1337:4: ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'L' | 'l' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1337:2: ( ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'L' | 'l' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1337:4: ( 'F' | 'f' ) ( 'I' | 'i' ) ( 'L' | 'l' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' )
             {
             if ( input.LA(1)=='F'||input.LA(1)=='f' ) {
                 input.consume();
@@ -3247,8 +3247,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = A_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1345:2: ( 'a' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1345:4: 'a'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1345:2: ( 'a' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1345:4: 'a'
             {
             match('a'); 
 
@@ -3267,8 +3267,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = STR_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1352:2: ( ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1352:4: ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1352:2: ( ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1352:4: ( 'S' | 's' ) ( 'T' | 't' ) ( 'R' | 'r' )
             {
             if ( input.LA(1)=='S'||input.LA(1)=='s' ) {
                 input.consume();
@@ -3313,8 +3313,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = LANG_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1359:2: ( ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1359:4: ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1359:2: ( ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1359:4: ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' )
             {
             if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
                 input.consume();
@@ -3368,8 +3368,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = LANGMATCHES_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1366:2: ( ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'C' | 'c' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'S' | 's' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1366:4: ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'C' | 'c' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'S' | 's' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1366:2: ( ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'C' | 'c' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'S' | 's' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1366:4: ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'G' | 'g' ) ( 'M' | 'm' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'C' | 'c' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'S' | 's' )
             {
             if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
                 input.consume();
@@ -3486,8 +3486,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DATATYPE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1373:2: ( ( 'D' | 'd' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'Y' | 'y' ) ( 'P' | 'p' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1373:4: ( 'D' | 'd' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'Y' | 'y' ) ( 'P' | 'p' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1373:2: ( ( 'D' | 'd' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'Y' | 'y' ) ( 'P' | 'p' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1373:4: ( 'D' | 'd' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'Y' | 'y' ) ( 'P' | 'p' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='D'||input.LA(1)=='d' ) {
                 input.consume();
@@ -3577,8 +3577,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = BOUND_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1380:2: ( ( 'B' | 'b' ) ( 'O' | 'o' ) ( 'U' | 'u' ) ( 'N' | 'n' ) ( 'D' | 'd' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1380:4: ( 'B' | 'b' ) ( 'O' | 'o' ) ( 'U' | 'u' ) ( 'N' | 'n' ) ( 'D' | 'd' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1380:2: ( ( 'B' | 'b' ) ( 'O' | 'o' ) ( 'U' | 'u' ) ( 'N' | 'n' ) ( 'D' | 'd' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1380:4: ( 'B' | 'b' ) ( 'O' | 'o' ) ( 'U' | 'u' ) ( 'N' | 'n' ) ( 'D' | 'd' )
             {
             if ( input.LA(1)=='B'||input.LA(1)=='b' ) {
                 input.consume();
@@ -3641,8 +3641,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = SAMETERM_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1387:2: ( ( 'S' | 's' ) ( 'A' | 'a' ) ( 'M' | 'm' ) ( 'E' | 'e' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'M' | 'm' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1387:4: ( 'S' | 's' ) ( 'A' | 'a' ) ( 'M' | 'm' ) ( 'E' | 'e' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'M' | 'm' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1387:2: ( ( 'S' | 's' ) ( 'A' | 'a' ) ( 'M' | 'm' ) ( 'E' | 'e' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'M' | 'm' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1387:4: ( 'S' | 's' ) ( 'A' | 'a' ) ( 'M' | 'm' ) ( 'E' | 'e' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'M' | 'm' )
             {
             if ( input.LA(1)=='S'||input.LA(1)=='s' ) {
                 input.consume();
@@ -3732,8 +3732,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ISIRI_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1394:2: ( ( 'I' | 'i' ) ( 'S' | 's' ) ( 'I' | 'i' ) ( 'R' | 'r' ) ( 'I' | 'i' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1394:4: ( 'I' | 'i' ) ( 'S' | 's' ) ( 'I' | 'i' ) ( 'R' | 'r' ) ( 'I' | 'i' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1394:2: ( ( 'I' | 'i' ) ( 'S' | 's' ) ( 'I' | 'i' ) ( 'R' | 'r' ) ( 'I' | 'i' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1394:4: ( 'I' | 'i' ) ( 'S' | 's' ) ( 'I' | 'i' ) ( 'R' | 'r' ) ( 'I' | 'i' )
             {
             if ( input.LA(1)=='I'||input.LA(1)=='i' ) {
                 input.consume();
@@ -3796,8 +3796,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ISURI_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1401:2: ( ( 'I' | 'i' ) ( 'S' | 's' ) ( 'U' | 'u' ) ( 'R' | 'r' ) ( 'I' | 'i' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1401:4: ( 'I' | 'i' ) ( 'S' | 's' ) ( 'U' | 'u' ) ( 'R' | 'r' ) ( 'I' | 'i' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1401:2: ( ( 'I' | 'i' ) ( 'S' | 's' ) ( 'U' | 'u' ) ( 'R' | 'r' ) ( 'I' | 'i' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1401:4: ( 'I' | 'i' ) ( 'S' | 's' ) ( 'U' | 'u' ) ( 'R' | 'r' ) ( 'I' | 'i' )
             {
             if ( input.LA(1)=='I'||input.LA(1)=='i' ) {
                 input.consume();
@@ -3860,8 +3860,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ISBLANK_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1408:2: ( ( 'I' | 'i' ) ( 'S' | 's' ) ( 'B' | 'b' ) ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'K' | 'k' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1408:4: ( 'I' | 'i' ) ( 'S' | 's' ) ( 'B' | 'b' ) ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'K' | 'k' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1408:2: ( ( 'I' | 'i' ) ( 'S' | 's' ) ( 'B' | 'b' ) ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'K' | 'k' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1408:4: ( 'I' | 'i' ) ( 'S' | 's' ) ( 'B' | 'b' ) ( 'L' | 'l' ) ( 'A' | 'a' ) ( 'N' | 'n' ) ( 'K' | 'k' )
             {
             if ( input.LA(1)=='I'||input.LA(1)=='i' ) {
                 input.consume();
@@ -3942,8 +3942,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ISLITERAL_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1415:2: ( ( 'I' | 'i' ) ( 'S' | 's' ) ( 'L' | 'l' ) ( 'I' | 'i' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'L' | 'l' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1415:4: ( 'I' | 'i' ) ( 'S' | 's' ) ( 'L' | 'l' ) ( 'I' | 'i' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'L' | 'l' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1415:2: ( ( 'I' | 'i' ) ( 'S' | 's' ) ( 'L' | 'l' ) ( 'I' | 'i' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'L' | 'l' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1415:4: ( 'I' | 'i' ) ( 'S' | 's' ) ( 'L' | 'l' ) ( 'I' | 'i' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'L' | 'l' )
             {
             if ( input.LA(1)=='I'||input.LA(1)=='i' ) {
                 input.consume();
@@ -4042,8 +4042,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = REGEX_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1422:2: ( ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'X' | 'x' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1422:4: ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'X' | 'x' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1422:2: ( ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'X' | 'x' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1422:4: ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'X' | 'x' )
             {
             if ( input.LA(1)=='R'||input.LA(1)=='r' ) {
                 input.consume();
@@ -4106,8 +4106,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = TRUE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1429:2: ( ( 'T' | 't' ) ( 'R' | 'r' ) ( 'U' | 'u' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1429:4: ( 'T' | 't' ) ( 'R' | 'r' ) ( 'U' | 'u' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1429:2: ( ( 'T' | 't' ) ( 'R' | 'r' ) ( 'U' | 'u' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1429:4: ( 'T' | 't' ) ( 'R' | 'r' ) ( 'U' | 'u' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='T'||input.LA(1)=='t' ) {
                 input.consume();
@@ -4161,8 +4161,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = FALSE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1436:2: ( ( 'F' | 'f' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'S' | 's' ) ( 'E' | 'e' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1436:4: ( 'F' | 'f' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'S' | 's' ) ( 'E' | 'e' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1436:2: ( ( 'F' | 'f' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'S' | 's' ) ( 'E' | 'e' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1436:4: ( 'F' | 'f' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'S' | 's' ) ( 'E' | 'e' )
             {
             if ( input.LA(1)=='F'||input.LA(1)=='f' ) {
                 input.consume();
@@ -4225,11 +4225,11 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = IRI_REF_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1443:2: ( LESS_TERM ( options {greedy=false; } : ~ ( LESS_TERM | GREATER_TERM | '\"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\\\' | '`' | ( '\\u0000' .. '\\u0020' ) ) )* GREATER_TERM )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1443:4: LESS_TERM ( options {greedy=false; } : ~ ( LESS_TERM | GREATER_TERM | '\"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\\\' | '`' | ( '\\u0000' .. '\\u0020' ) ) )* GREATER_TERM
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1443:2: ( LESS_TERM ( options {greedy=false; } : ~ ( LESS_TERM | GREATER_TERM | '\"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\\\' | '`' | ( '\\u0000' .. '\\u0020' ) ) )* GREATER_TERM )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1443:4: LESS_TERM ( options {greedy=false; } : ~ ( LESS_TERM | GREATER_TERM | '\"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\\\' | '`' | ( '\\u0000' .. '\\u0020' ) ) )* GREATER_TERM
             {
             mLESS_TERM(); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1443:14: ( options {greedy=false; } : ~ ( LESS_TERM | GREATER_TERM | '\"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\\\' | '`' | ( '\\u0000' .. '\\u0020' ) ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1443:14: ( options {greedy=false; } : ~ ( LESS_TERM | GREATER_TERM | '\"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\\\' | '`' | ( '\\u0000' .. '\\u0020' ) ) )*
             loop3:
             do {
                 int alt3=2;
@@ -4245,7 +4245,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt3) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1443:42: ~ ( LESS_TERM | GREATER_TERM | '\"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\\\' | '`' | ( '\\u0000' .. '\\u0020' ) )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1443:42: ~ ( LESS_TERM | GREATER_TERM | '\"' | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | '|' | '^' | '\\\\' | '`' | ( '\\u0000' .. '\\u0020' ) )
             	    {
             	    if ( input.LA(1)=='!'||(input.LA(1)>='#' && input.LA(1)<=';')||input.LA(1)=='='||(input.LA(1)>='?' && input.LA(1)<='[')||input.LA(1)==']'||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||(input.LA(1)>='~' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -4285,8 +4285,8 @@ public class SparqlOwlLexer extends Lexer {
             int _channel = DEFAULT_TOKEN_CHANNEL;
             CommonToken label=null;
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1451:2: ( '_:' label= PN_LOCAL )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1451:4: '_:' label= PN_LOCAL
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1451:2: ( '_:' label= PN_LOCAL )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1451:4: '_:' label= PN_LOCAL
             {
             match("_:"); 
 
@@ -4312,8 +4312,8 @@ public class SparqlOwlLexer extends Lexer {
             int _channel = DEFAULT_TOKEN_CHANNEL;
             CommonToken name=null;
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1458:2: ( '?' name= VARNAME )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1458:4: '?' name= VARNAME
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1458:2: ( '?' name= VARNAME )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1458:4: '?' name= VARNAME
             {
             match('?'); 
             int nameStart2480 = getCharIndex();
@@ -4338,8 +4338,8 @@ public class SparqlOwlLexer extends Lexer {
             int _channel = DEFAULT_TOKEN_CHANNEL;
             CommonToken name=null;
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1465:2: ( '$' name= VARNAME )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1465:4: '$' name= VARNAME
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1465:2: ( '$' name= VARNAME )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1465:4: '$' name= VARNAME
             {
             match('$'); 
             int nameStart2500 = getCharIndex();
@@ -4362,11 +4362,11 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = LANGTAG;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1472:2: ( '@' ( ALPHA )+ ( MINUS_TERM ( ALPHANUM )+ )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1472:4: '@' ( ALPHA )+ ( MINUS_TERM ( ALPHANUM )+ )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1472:2: ( '@' ( ALPHA )+ ( MINUS_TERM ( ALPHANUM )+ )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1472:4: '@' ( ALPHA )+ ( MINUS_TERM ( ALPHANUM )+ )*
             {
             match('@'); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1472:8: ( ALPHA )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1472:8: ( ALPHA )+
             int cnt4=0;
             loop4:
             do {
@@ -4380,7 +4380,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt4) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1472:8: ALPHA
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1472:8: ALPHA
             	    {
             	    mALPHA(); 
 
@@ -4396,7 +4396,7 @@ public class SparqlOwlLexer extends Lexer {
                 cnt4++;
             } while (true);
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1472:15: ( MINUS_TERM ( ALPHANUM )+ )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1472:15: ( MINUS_TERM ( ALPHANUM )+ )*
             loop6:
             do {
                 int alt6=2;
@@ -4409,10 +4409,10 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt6) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1472:16: MINUS_TERM ( ALPHANUM )+
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1472:16: MINUS_TERM ( ALPHANUM )+
             	    {
             	    mMINUS_TERM(); 
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1472:27: ( ALPHANUM )+
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1472:27: ( ALPHANUM )+
             	    int cnt5=0;
             	    loop5:
             	    do {
@@ -4426,7 +4426,7 @@ public class SparqlOwlLexer extends Lexer {
 
             	        switch (alt5) {
             	    	case 1 :
-            	    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1472:27: ALPHANUM
+            	    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1472:27: ALPHANUM
             	    	    {
             	    	    mALPHANUM(); 
 
@@ -4468,10 +4468,10 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = INTEGER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1480:2: ( ( DIGIT )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1480:4: ( DIGIT )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1480:2: ( ( DIGIT )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1480:4: ( DIGIT )+
             {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1480:4: ( DIGIT )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1480:4: ( DIGIT )+
             int cnt7=0;
             loop7:
             do {
@@ -4485,7 +4485,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt7) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1480:4: DIGIT
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1480:4: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -4517,7 +4517,7 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DECIMAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1487:2: ( ( DIGIT )+ DOT_TERM ( DIGIT )* | DOT_TERM ( DIGIT )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1487:2: ( ( DIGIT )+ DOT_TERM ( DIGIT )* | DOT_TERM ( DIGIT )+ )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -4535,9 +4535,9 @@ public class SparqlOwlLexer extends Lexer {
             }
             switch (alt11) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1487:4: ( DIGIT )+ DOT_TERM ( DIGIT )*
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1487:4: ( DIGIT )+ DOT_TERM ( DIGIT )*
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1487:4: ( DIGIT )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1487:4: ( DIGIT )+
                     int cnt8=0;
                     loop8:
                     do {
@@ -4551,7 +4551,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt8) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1487:4: DIGIT
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1487:4: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -4568,7 +4568,7 @@ public class SparqlOwlLexer extends Lexer {
                     } while (true);
 
                     mDOT_TERM(); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1487:20: ( DIGIT )*
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1487:20: ( DIGIT )*
                     loop9:
                     do {
                         int alt9=2;
@@ -4581,7 +4581,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt9) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1487:20: DIGIT
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1487:20: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -4597,10 +4597,10 @@ public class SparqlOwlLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1488:4: DOT_TERM ( DIGIT )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1488:4: DOT_TERM ( DIGIT )+
                     {
                     mDOT_TERM(); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1488:13: ( DIGIT )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1488:13: ( DIGIT )+
                     int cnt10=0;
                     loop10:
                     do {
@@ -4614,7 +4614,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt10) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1488:13: DIGIT
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1488:13: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -4648,14 +4648,14 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DOUBLE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1495:2: ( ( DIGIT )+ DOT_TERM ( DIGIT )* EXPONENT | DOT_TERM ( DIGIT )+ EXPONENT | ( DIGIT )+ EXPONENT )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1495:2: ( ( DIGIT )+ DOT_TERM ( DIGIT )* EXPONENT | DOT_TERM ( DIGIT )+ EXPONENT | ( DIGIT )+ EXPONENT )
             int alt16=3;
             alt16 = dfa16.predict(input);
             switch (alt16) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1495:4: ( DIGIT )+ DOT_TERM ( DIGIT )* EXPONENT
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1495:4: ( DIGIT )+ DOT_TERM ( DIGIT )* EXPONENT
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1495:4: ( DIGIT )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1495:4: ( DIGIT )+
                     int cnt12=0;
                     loop12:
                     do {
@@ -4669,7 +4669,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt12) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1495:4: DIGIT
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1495:4: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -4686,7 +4686,7 @@ public class SparqlOwlLexer extends Lexer {
                     } while (true);
 
                     mDOT_TERM(); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1495:20: ( DIGIT )*
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1495:20: ( DIGIT )*
                     loop13:
                     do {
                         int alt13=2;
@@ -4699,7 +4699,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt13) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1495:20: DIGIT
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1495:20: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -4716,10 +4716,10 @@ public class SparqlOwlLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1496:4: DOT_TERM ( DIGIT )+ EXPONENT
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1496:4: DOT_TERM ( DIGIT )+ EXPONENT
                     {
                     mDOT_TERM(); 
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1496:13: ( DIGIT )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1496:13: ( DIGIT )+
                     int cnt14=0;
                     loop14:
                     do {
@@ -4733,7 +4733,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt14) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1496:13: DIGIT
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1496:13: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -4754,9 +4754,9 @@ public class SparqlOwlLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1497:4: ( DIGIT )+ EXPONENT
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1497:4: ( DIGIT )+ EXPONENT
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1497:4: ( DIGIT )+
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1497:4: ( DIGIT )+
                     int cnt15=0;
                     loop15:
                     do {
@@ -4770,7 +4770,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt15) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1497:4: DIGIT
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1497:4: DIGIT
                     	    {
                     	    mDIGIT(); 
 
@@ -4805,8 +4805,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = INTEGER_POSITIVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1504:2: ( PLUS_TERM INTEGER )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1504:4: PLUS_TERM INTEGER
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1504:2: ( PLUS_TERM INTEGER )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1504:4: PLUS_TERM INTEGER
             {
             mPLUS_TERM(); 
             mINTEGER(); 
@@ -4826,8 +4826,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DECIMAL_POSITIVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1511:2: ( PLUS_TERM DECIMAL )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1511:4: PLUS_TERM DECIMAL
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1511:2: ( PLUS_TERM DECIMAL )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1511:4: PLUS_TERM DECIMAL
             {
             mPLUS_TERM(); 
             mDECIMAL(); 
@@ -4847,8 +4847,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DOUBLE_POSITIVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1518:2: ( PLUS_TERM DOUBLE )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1518:4: PLUS_TERM DOUBLE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1518:2: ( PLUS_TERM DOUBLE )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1518:4: PLUS_TERM DOUBLE
             {
             mPLUS_TERM(); 
             mDOUBLE(); 
@@ -4868,8 +4868,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = INTEGER_NEGATIVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1525:2: ( MINUS_TERM INTEGER )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1525:4: MINUS_TERM INTEGER
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1525:2: ( MINUS_TERM INTEGER )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1525:4: MINUS_TERM INTEGER
             {
             mMINUS_TERM(); 
             mINTEGER(); 
@@ -4889,8 +4889,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DECIMAL_NEGATIVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1532:2: ( MINUS_TERM DECIMAL )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1532:4: MINUS_TERM DECIMAL
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1532:2: ( MINUS_TERM DECIMAL )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1532:4: MINUS_TERM DECIMAL
             {
             mMINUS_TERM(); 
             mDECIMAL(); 
@@ -4910,8 +4910,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DOUBLE_NEGATIVE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1539:2: ( MINUS_TERM DOUBLE )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1539:4: MINUS_TERM DOUBLE
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1539:2: ( MINUS_TERM DOUBLE )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1539:4: MINUS_TERM DOUBLE
             {
             mMINUS_TERM(); 
             mDOUBLE(); 
@@ -4929,8 +4929,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "EXPONENT"
     public final void mEXPONENT() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1547:2: ( ( 'e' | 'E' ) ( PLUS_TERM | MINUS_TERM )? ( DIGIT )+ )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1547:4: ( 'e' | 'E' ) ( PLUS_TERM | MINUS_TERM )? ( DIGIT )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1547:2: ( ( 'e' | 'E' ) ( PLUS_TERM | MINUS_TERM )? ( DIGIT )+ )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1547:4: ( 'e' | 'E' ) ( PLUS_TERM | MINUS_TERM )? ( DIGIT )+
             {
             if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
                 input.consume();
@@ -4941,7 +4941,7 @@ public class SparqlOwlLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1547:14: ( PLUS_TERM | MINUS_TERM )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1547:14: ( PLUS_TERM | MINUS_TERM )?
             int alt17=2;
             int LA17_0 = input.LA(1);
 
@@ -4950,7 +4950,7 @@ public class SparqlOwlLexer extends Lexer {
             }
             switch (alt17) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
                     {
                     if ( input.LA(1)=='+'||input.LA(1)=='-' ) {
                         input.consume();
@@ -4967,7 +4967,7 @@ public class SparqlOwlLexer extends Lexer {
 
             }
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1547:38: ( DIGIT )+
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1547:38: ( DIGIT )+
             int cnt18=0;
             loop18:
             do {
@@ -4981,7 +4981,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt18) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1547:38: DIGIT
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1547:38: DIGIT
             	    {
             	    mDIGIT(); 
 
@@ -5011,11 +5011,11 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = STRING_LITERAL1;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1554:2: ( '\\'' ( options {greedy=false; } : ~ ( '\\u0027' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )* '\\'' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1554:4: '\\'' ( options {greedy=false; } : ~ ( '\\u0027' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )* '\\''
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1554:2: ( '\\'' ( options {greedy=false; } : ~ ( '\\u0027' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )* '\\'' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1554:4: '\\'' ( options {greedy=false; } : ~ ( '\\u0027' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )* '\\''
             {
             match('\''); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1554:9: ( options {greedy=false; } : ~ ( '\\u0027' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1554:9: ( options {greedy=false; } : ~ ( '\\u0027' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )*
             loop19:
             do {
                 int alt19=3;
@@ -5034,7 +5034,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt19) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1554:37: ~ ( '\\u0027' | '\\u005C' | '\\u000A' | '\\u000D' )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1554:37: ~ ( '\\u0027' | '\\u005C' | '\\u000A' | '\\u000D' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -5049,7 +5049,7 @@ public class SparqlOwlLexer extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1554:84: ECHAR
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1554:84: ECHAR
             	    {
             	    mECHAR(); 
 
@@ -5078,11 +5078,11 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = STRING_LITERAL2;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1561:2: ( '\"' ( options {greedy=false; } : ~ ( '\\u0022' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )* '\"' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1561:4: '\"' ( options {greedy=false; } : ~ ( '\\u0022' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )* '\"'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1561:2: ( '\"' ( options {greedy=false; } : ~ ( '\\u0022' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )* '\"' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1561:4: '\"' ( options {greedy=false; } : ~ ( '\\u0022' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )* '\"'
             {
             match('\"'); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1561:9: ( options {greedy=false; } : ~ ( '\\u0022' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1561:9: ( options {greedy=false; } : ~ ( '\\u0022' | '\\u005C' | '\\u000A' | '\\u000D' ) | ECHAR )*
             loop20:
             do {
                 int alt20=3;
@@ -5101,7 +5101,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt20) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1561:37: ~ ( '\\u0022' | '\\u005C' | '\\u000A' | '\\u000D' )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1561:37: ~ ( '\\u0022' | '\\u005C' | '\\u000A' | '\\u000D' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -5116,7 +5116,7 @@ public class SparqlOwlLexer extends Lexer {
             	    }
             	    break;
             	case 2 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1561:84: ECHAR
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1561:84: ECHAR
             	    {
             	    mECHAR(); 
 
@@ -5145,12 +5145,12 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = STRING_LITERAL_LONG1;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:2: ( '\\'\\'\\'' ( options {greedy=false; } : ( '\\'' | '\\'\\'' )? (~ ( '\\'' | '\\\\' ) | ECHAR ) )* '\\'\\'\\'' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:6: '\\'\\'\\'' ( options {greedy=false; } : ( '\\'' | '\\'\\'' )? (~ ( '\\'' | '\\\\' ) | ECHAR ) )* '\\'\\'\\''
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:2: ( '\\'\\'\\'' ( options {greedy=false; } : ( '\\'' | '\\'\\'' )? (~ ( '\\'' | '\\\\' ) | ECHAR ) )* '\\'\\'\\'' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:6: '\\'\\'\\'' ( options {greedy=false; } : ( '\\'' | '\\'\\'' )? (~ ( '\\'' | '\\\\' ) | ECHAR ) )* '\\'\\'\\''
             {
             match("'''"); 
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:15: ( options {greedy=false; } : ( '\\'' | '\\'\\'' )? (~ ( '\\'' | '\\\\' ) | ECHAR ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:15: ( options {greedy=false; } : ( '\\'' | '\\'\\'' )? (~ ( '\\'' | '\\\\' ) | ECHAR ) )*
             loop23:
             do {
                 int alt23=2;
@@ -5184,9 +5184,9 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt23) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:43: ( '\\'' | '\\'\\'' )? (~ ( '\\'' | '\\\\' ) | ECHAR )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:43: ( '\\'' | '\\'\\'' )? (~ ( '\\'' | '\\\\' ) | ECHAR )
             	    {
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:43: ( '\\'' | '\\'\\'' )?
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:43: ( '\\'' | '\\'\\'' )?
             	    int alt21=3;
             	    int LA21_0 = input.LA(1);
 
@@ -5202,14 +5202,14 @@ public class SparqlOwlLexer extends Lexer {
             	    }
             	    switch (alt21) {
             	        case 1 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:45: '\\''
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:45: '\\''
             	            {
             	            match('\''); 
 
             	            }
             	            break;
             	        case 2 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:52: '\\'\\''
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:52: '\\'\\''
             	            {
             	            match("''"); 
 
@@ -5219,7 +5219,7 @@ public class SparqlOwlLexer extends Lexer {
 
             	    }
 
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:62: (~ ( '\\'' | '\\\\' ) | ECHAR )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:62: (~ ( '\\'' | '\\\\' ) | ECHAR )
             	    int alt22=2;
             	    int LA22_0 = input.LA(1);
 
@@ -5237,7 +5237,7 @@ public class SparqlOwlLexer extends Lexer {
             	    }
             	    switch (alt22) {
             	        case 1 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:64: ~ ( '\\'' | '\\\\' )
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:64: ~ ( '\\'' | '\\\\' )
             	            {
             	            if ( (input.LA(1)>='\u0000' && input.LA(1)<='&')||(input.LA(1)>='(' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
             	                input.consume();
@@ -5252,7 +5252,7 @@ public class SparqlOwlLexer extends Lexer {
             	            }
             	            break;
             	        case 2 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1568:79: ECHAR
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1568:79: ECHAR
             	            {
             	            mECHAR(); 
 
@@ -5288,12 +5288,12 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = STRING_LITERAL_LONG2;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:2: ( '\"\"\"' ( options {greedy=false; } : ( '\"' | '\"\"' )? (~ ( '\"' | '\\\\' ) | ECHAR ) )* '\"\"\"' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:6: '\"\"\"' ( options {greedy=false; } : ( '\"' | '\"\"' )? (~ ( '\"' | '\\\\' ) | ECHAR ) )* '\"\"\"'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:2: ( '\"\"\"' ( options {greedy=false; } : ( '\"' | '\"\"' )? (~ ( '\"' | '\\\\' ) | ECHAR ) )* '\"\"\"' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:6: '\"\"\"' ( options {greedy=false; } : ( '\"' | '\"\"' )? (~ ( '\"' | '\\\\' ) | ECHAR ) )* '\"\"\"'
             {
             match("\"\"\""); 
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:12: ( options {greedy=false; } : ( '\"' | '\"\"' )? (~ ( '\"' | '\\\\' ) | ECHAR ) )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:12: ( options {greedy=false; } : ( '\"' | '\"\"' )? (~ ( '\"' | '\\\\' ) | ECHAR ) )*
             loop26:
             do {
                 int alt26=2;
@@ -5327,9 +5327,9 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt26) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:40: ( '\"' | '\"\"' )? (~ ( '\"' | '\\\\' ) | ECHAR )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:40: ( '\"' | '\"\"' )? (~ ( '\"' | '\\\\' ) | ECHAR )
             	    {
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:40: ( '\"' | '\"\"' )?
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:40: ( '\"' | '\"\"' )?
             	    int alt24=3;
             	    int LA24_0 = input.LA(1);
 
@@ -5345,14 +5345,14 @@ public class SparqlOwlLexer extends Lexer {
             	    }
             	    switch (alt24) {
             	        case 1 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:42: '\"'
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:42: '\"'
             	            {
             	            match('\"'); 
 
             	            }
             	            break;
             	        case 2 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:48: '\"\"'
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:48: '\"\"'
             	            {
             	            match("\"\""); 
 
@@ -5362,7 +5362,7 @@ public class SparqlOwlLexer extends Lexer {
 
             	    }
 
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:56: (~ ( '\"' | '\\\\' ) | ECHAR )
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:56: (~ ( '\"' | '\\\\' ) | ECHAR )
             	    int alt25=2;
             	    int LA25_0 = input.LA(1);
 
@@ -5380,7 +5380,7 @@ public class SparqlOwlLexer extends Lexer {
             	    }
             	    switch (alt25) {
             	        case 1 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:58: ~ ( '\"' | '\\\\' )
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:58: ~ ( '\"' | '\\\\' )
             	            {
             	            if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='[')||(input.LA(1)>=']' && input.LA(1)<='\uFFFF') ) {
             	                input.consume();
@@ -5395,7 +5395,7 @@ public class SparqlOwlLexer extends Lexer {
             	            }
             	            break;
             	        case 2 :
-            	            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1575:72: ECHAR
+            	            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1575:72: ECHAR
             	            {
             	            mECHAR(); 
 
@@ -5429,8 +5429,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "ECHAR"
     public final void mECHAR() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1583:2: ( '\\\\' ( 't' | 'b' | 'n' | 'r' | 'f' | '\\\\' | '\"' | '\\'' ) )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1583:4: '\\\\' ( 't' | 'b' | 'n' | 'r' | 'f' | '\\\\' | '\"' | '\\'' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1583:2: ( '\\\\' ( 't' | 'b' | 'n' | 'r' | 'f' | '\\\\' | '\"' | '\\'' ) )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1583:4: '\\\\' ( 't' | 'b' | 'n' | 'r' | 'f' | '\\\\' | '\"' | '\\'' )
             {
             match('\\'); 
             if ( input.LA(1)=='\"'||input.LA(1)=='\''||input.LA(1)=='\\'||input.LA(1)=='b'||input.LA(1)=='f'||input.LA(1)=='n'||input.LA(1)=='r'||input.LA(1)=='t' ) {
@@ -5454,8 +5454,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "PN_CHARS_BASE"
     public final void mPN_CHARS_BASE() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1591:2: ( ALPHA | '\\u00C0' .. '\\u00D6' | '\\u00D8' .. '\\u00F6' | '\\u00F8' .. '\\u02FF' | '\\u0370' .. '\\u037D' | '\\u037F' .. '\\u1FFF' | '\\u200C' .. '\\u200D' | '\\u2070' .. '\\u218F' | '\\u2C00' .. '\\u2FEF' | '\\u3001' .. '\\uD7FF' | '\\uF900' .. '\\uFDCF' | '\\uFDF0' .. '\\uFFFD' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1591:2: ( ALPHA | '\\u00C0' .. '\\u00D6' | '\\u00D8' .. '\\u00F6' | '\\u00F8' .. '\\u02FF' | '\\u0370' .. '\\u037D' | '\\u037F' .. '\\u1FFF' | '\\u200C' .. '\\u200D' | '\\u2070' .. '\\u218F' | '\\u2C00' .. '\\u2FEF' | '\\u3001' .. '\\uD7FF' | '\\uF900' .. '\\uFDCF' | '\\uFDF0' .. '\\uFFFD' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z')||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u02FF')||(input.LA(1)>='\u0370' && input.LA(1)<='\u037D')||(input.LA(1)>='\u037F' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u200C' && input.LA(1)<='\u200D')||(input.LA(1)>='\u2070' && input.LA(1)<='\u218F')||(input.LA(1)>='\u2C00' && input.LA(1)<='\u2FEF')||(input.LA(1)>='\u3001' && input.LA(1)<='\uD7FF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFDCF')||(input.LA(1)>='\uFDF0' && input.LA(1)<='\uFFFD') ) {
                 input.consume();
@@ -5478,8 +5478,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "PN_CHARS_U"
     public final void mPN_CHARS_U() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1610:2: ( PN_CHARS_BASE | '_' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1610:2: ( PN_CHARS_BASE | '_' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u02FF')||(input.LA(1)>='\u0370' && input.LA(1)<='\u037D')||(input.LA(1)>='\u037F' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u200C' && input.LA(1)<='\u200D')||(input.LA(1)>='\u2070' && input.LA(1)<='\u218F')||(input.LA(1)>='\u2C00' && input.LA(1)<='\u2FEF')||(input.LA(1)>='\u3001' && input.LA(1)<='\uD7FF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFDCF')||(input.LA(1)>='\uFDF0' && input.LA(1)<='\uFFFD') ) {
                 input.consume();
@@ -5502,8 +5502,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "VARNAME"
     public final void mVARNAME() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1619:2: ( ( PN_CHARS_U | DIGIT ) ( PN_CHARS_U | DIGIT | '\\u00B7' | '\\u0300' .. '\\u036F' | '\\u203F' .. '\\u2040' )* )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1619:4: ( PN_CHARS_U | DIGIT ) ( PN_CHARS_U | DIGIT | '\\u00B7' | '\\u0300' .. '\\u036F' | '\\u203F' .. '\\u2040' )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1619:2: ( ( PN_CHARS_U | DIGIT ) ( PN_CHARS_U | DIGIT | '\\u00B7' | '\\u0300' .. '\\u036F' | '\\u203F' .. '\\u2040' )* )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1619:4: ( PN_CHARS_U | DIGIT ) ( PN_CHARS_U | DIGIT | '\\u00B7' | '\\u0300' .. '\\u036F' | '\\u203F' .. '\\u2040' )*
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u02FF')||(input.LA(1)>='\u0370' && input.LA(1)<='\u037D')||(input.LA(1)>='\u037F' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u200C' && input.LA(1)<='\u200D')||(input.LA(1)>='\u2070' && input.LA(1)<='\u218F')||(input.LA(1)>='\u2C00' && input.LA(1)<='\u2FEF')||(input.LA(1)>='\u3001' && input.LA(1)<='\uD7FF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFDCF')||(input.LA(1)>='\uFDF0' && input.LA(1)<='\uFFFD') ) {
                 input.consume();
@@ -5514,7 +5514,7 @@ public class SparqlOwlLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1622:3: ( PN_CHARS_U | DIGIT | '\\u00B7' | '\\u0300' .. '\\u036F' | '\\u203F' .. '\\u2040' )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1622:3: ( PN_CHARS_U | DIGIT | '\\u00B7' | '\\u0300' .. '\\u036F' | '\\u203F' .. '\\u2040' )*
             loop27:
             do {
                 int alt27=2;
@@ -5527,7 +5527,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt27) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             	    {
             	    if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='\u00B7'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u037D')||(input.LA(1)>='\u037F' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u200C' && input.LA(1)<='\u200D')||(input.LA(1)>='\u203F' && input.LA(1)<='\u2040')||(input.LA(1)>='\u2070' && input.LA(1)<='\u218F')||(input.LA(1)>='\u2C00' && input.LA(1)<='\u2FEF')||(input.LA(1)>='\u3001' && input.LA(1)<='\uD7FF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFDCF')||(input.LA(1)>='\uFDF0' && input.LA(1)<='\uFFFD') ) {
             	        input.consume();
@@ -5559,8 +5559,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "PN_CHARS"
     public final void mPN_CHARS() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1635:2: ( PN_CHARS_U | MINUS_TERM | DIGIT | '\\u00B7' | '\\u0300' .. '\\u036F' | '\\u203F' .. '\\u2040' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1635:2: ( PN_CHARS_U | MINUS_TERM | DIGIT | '\\u00B7' | '\\u0300' .. '\\u036F' | '\\u203F' .. '\\u2040' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             {
             if ( input.LA(1)=='-'||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='\u00B7'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u037D')||(input.LA(1)>='\u037F' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u200C' && input.LA(1)<='\u200D')||(input.LA(1)>='\u203F' && input.LA(1)<='\u2040')||(input.LA(1)>='\u2070' && input.LA(1)<='\u218F')||(input.LA(1)>='\u2C00' && input.LA(1)<='\u2FEF')||(input.LA(1)>='\u3001' && input.LA(1)<='\uD7FF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFDCF')||(input.LA(1)>='\uFDF0' && input.LA(1)<='\uFFFD') ) {
                 input.consume();
@@ -5583,11 +5583,11 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "PN_PREFIX"
     public final void mPN_PREFIX() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1648:2: ( PN_CHARS_BASE ( ( PN_CHARS | DOT_TERM )* PN_CHARS )? )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1648:4: PN_CHARS_BASE ( ( PN_CHARS | DOT_TERM )* PN_CHARS )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1648:2: ( PN_CHARS_BASE ( ( PN_CHARS | DOT_TERM )* PN_CHARS )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1648:4: PN_CHARS_BASE ( ( PN_CHARS | DOT_TERM )* PN_CHARS )?
             {
             mPN_CHARS_BASE(); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1648:18: ( ( PN_CHARS | DOT_TERM )* PN_CHARS )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1648:18: ( ( PN_CHARS | DOT_TERM )* PN_CHARS )?
             int alt29=2;
             int LA29_0 = input.LA(1);
 
@@ -5596,9 +5596,9 @@ public class SparqlOwlLexer extends Lexer {
             }
             switch (alt29) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1649:3: ( PN_CHARS | DOT_TERM )* PN_CHARS
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1649:3: ( PN_CHARS | DOT_TERM )* PN_CHARS
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1649:3: ( PN_CHARS | DOT_TERM )*
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1649:3: ( PN_CHARS | DOT_TERM )*
                     loop28:
                     do {
                         int alt28=2;
@@ -5620,7 +5620,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt28) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
                     	    {
                     	    if ( (input.LA(1)>='-' && input.LA(1)<='.')||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='\u00B7'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u037D')||(input.LA(1)>='\u037F' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u200C' && input.LA(1)<='\u200D')||(input.LA(1)>='\u203F' && input.LA(1)<='\u2040')||(input.LA(1)>='\u2070' && input.LA(1)<='\u218F')||(input.LA(1)>='\u2C00' && input.LA(1)<='\u2FEF')||(input.LA(1)>='\u3001' && input.LA(1)<='\uD7FF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFDCF')||(input.LA(1)>='\uFDF0' && input.LA(1)<='\uFFFD') ) {
                     	        input.consume();
@@ -5659,8 +5659,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "PN_LOCAL"
     public final void mPN_LOCAL() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1659:2: ( ( PN_CHARS_U | DIGIT ) ( ( PN_CHARS | DOT_TERM )* PN_CHARS )? )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1659:4: ( PN_CHARS_U | DIGIT ) ( ( PN_CHARS | DOT_TERM )* PN_CHARS )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1659:2: ( ( PN_CHARS_U | DIGIT ) ( ( PN_CHARS | DOT_TERM )* PN_CHARS )? )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1659:4: ( PN_CHARS_U | DIGIT ) ( ( PN_CHARS | DOT_TERM )* PN_CHARS )?
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u02FF')||(input.LA(1)>='\u0370' && input.LA(1)<='\u037D')||(input.LA(1)>='\u037F' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u200C' && input.LA(1)<='\u200D')||(input.LA(1)>='\u2070' && input.LA(1)<='\u218F')||(input.LA(1)>='\u2C00' && input.LA(1)<='\u2FEF')||(input.LA(1)>='\u3001' && input.LA(1)<='\uD7FF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFDCF')||(input.LA(1)>='\uFDF0' && input.LA(1)<='\uFFFD') ) {
                 input.consume();
@@ -5671,7 +5671,7 @@ public class SparqlOwlLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1661:5: ( ( PN_CHARS | DOT_TERM )* PN_CHARS )?
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1661:5: ( ( PN_CHARS | DOT_TERM )* PN_CHARS )?
             int alt31=2;
             int LA31_0 = input.LA(1);
 
@@ -5680,9 +5680,9 @@ public class SparqlOwlLexer extends Lexer {
             }
             switch (alt31) {
                 case 1 :
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1662:3: ( PN_CHARS | DOT_TERM )* PN_CHARS
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1662:3: ( PN_CHARS | DOT_TERM )* PN_CHARS
                     {
-                    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1662:3: ( PN_CHARS | DOT_TERM )*
+                    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1662:3: ( PN_CHARS | DOT_TERM )*
                     loop30:
                     do {
                         int alt30=2;
@@ -5704,7 +5704,7 @@ public class SparqlOwlLexer extends Lexer {
 
                         switch (alt30) {
                     	case 1 :
-                    	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+                    	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
                     	    {
                     	    if ( (input.LA(1)>='-' && input.LA(1)<='.')||(input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z')||input.LA(1)=='\u00B7'||(input.LA(1)>='\u00C0' && input.LA(1)<='\u00D6')||(input.LA(1)>='\u00D8' && input.LA(1)<='\u00F6')||(input.LA(1)>='\u00F8' && input.LA(1)<='\u037D')||(input.LA(1)>='\u037F' && input.LA(1)<='\u1FFF')||(input.LA(1)>='\u200C' && input.LA(1)<='\u200D')||(input.LA(1)>='\u203F' && input.LA(1)<='\u2040')||(input.LA(1)>='\u2070' && input.LA(1)<='\u218F')||(input.LA(1)>='\u2C00' && input.LA(1)<='\u2FEF')||(input.LA(1)>='\u3001' && input.LA(1)<='\uD7FF')||(input.LA(1)>='\uF900' && input.LA(1)<='\uFDCF')||(input.LA(1)>='\uFDF0' && input.LA(1)<='\uFFFD') ) {
                     	        input.consume();
@@ -5743,8 +5743,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "ALPHA"
     public final void mALPHA() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1672:2: ( 'A' .. 'Z' | 'a' .. 'z' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1672:2: ( 'A' .. 'Z' | 'a' .. 'z' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             {
             if ( (input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -5767,8 +5767,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "DIGIT"
     public final void mDIGIT() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1681:2: ( '0' .. '9' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1681:4: '0' .. '9'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1681:2: ( '0' .. '9' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1681:4: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -5783,8 +5783,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "ALPHANUM"
     public final void mALPHANUM() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1689:2: ( ALPHA | DIGIT )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1689:2: ( ALPHA | DIGIT )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             {
             if ( (input.LA(1)>='0' && input.LA(1)<='9')||(input.LA(1)>='A' && input.LA(1)<='Z')||(input.LA(1)>='a' && input.LA(1)<='z') ) {
                 input.consume();
@@ -5809,11 +5809,11 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1696:2: ( '#' ( options {greedy=false; } : . )* EOL )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1696:4: '#' ( options {greedy=false; } : . )* EOL
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1696:2: ( '#' ( options {greedy=false; } : . )* EOL )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1696:4: '#' ( options {greedy=false; } : . )* EOL
             {
             match('#'); 
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1696:8: ( options {greedy=false; } : . )*
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1696:8: ( options {greedy=false; } : . )*
             loop32:
             do {
                 int alt32=2;
@@ -5829,7 +5829,7 @@ public class SparqlOwlLexer extends Lexer {
 
                 switch (alt32) {
             	case 1 :
-            	    // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1696:35: .
+            	    // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1696:35: .
             	    {
             	    matchAny(); 
 
@@ -5857,8 +5857,8 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR start "EOL"
     public final void mEOL() throws RecognitionException {
         try {
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1704:2: ( '\\n' | '\\r' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1704:2: ( '\\n' | '\\r' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:
             {
             if ( input.LA(1)=='\n'||input.LA(1)=='\r' ) {
                 input.consume();
@@ -5883,8 +5883,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DOUBLE_CARAT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1708:2: ( '^^' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1708:4: '^^'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1708:2: ( '^^' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1708:4: '^^'
             {
             match("^^"); 
 
@@ -5904,8 +5904,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = LESS_EQUAL_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1712:2: ( '<=' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1712:4: '<='
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1712:2: ( '<=' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1712:4: '<='
             {
             match("<="); 
 
@@ -5925,8 +5925,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = GREATER_EQUAL_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1716:2: ( '>=' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1716:4: '>='
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1716:2: ( '>=' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1716:4: '>='
             {
             match(">="); 
 
@@ -5946,8 +5946,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = NOT_EQUAL_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1720:2: ( '!=' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1720:4: '!='
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1720:2: ( '!=' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1720:4: '!='
             {
             match("!="); 
 
@@ -5967,8 +5967,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = AND_OPERATOR_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1724:2: ( '&&' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1724:4: '&&'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1724:2: ( '&&' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1724:4: '&&'
             {
             match("&&"); 
 
@@ -5988,8 +5988,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = OR_OPERATOR_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1728:2: ( '||' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1728:4: '||'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1728:2: ( '||' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1728:4: '||'
             {
             match("||"); 
 
@@ -6009,8 +6009,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = OPEN_BRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1732:2: ( '(' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1732:4: '('
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1732:2: ( '(' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1732:4: '('
             {
             match('('); 
 
@@ -6029,8 +6029,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = CLOSE_BRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1736:2: ( ')' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1736:4: ')'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1736:2: ( ')' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1736:4: ')'
             {
             match(')'); 
 
@@ -6049,8 +6049,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = OPEN_CURLY_BRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1740:2: ( '{' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1740:4: '{'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1740:2: ( '{' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1740:4: '{'
             {
             match('{'); 
 
@@ -6069,8 +6069,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = CLOSE_CURLY_BRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1744:2: ( '}' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1744:4: '}'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1744:2: ( '}' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1744:4: '}'
             {
             match('}'); 
 
@@ -6089,8 +6089,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = OPEN_SQUARE_BRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1748:2: ( '[' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1748:4: '['
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1748:2: ( '[' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1748:4: '['
             {
             match('['); 
 
@@ -6109,8 +6109,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = CLOSE_SQUARE_BRACE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1752:2: ( ']' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1752:4: ']'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1752:2: ( ']' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1752:4: ']'
             {
             match(']'); 
 
@@ -6129,8 +6129,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = SEMICOLON_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1756:2: ( ';' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1756:4: ';'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1756:2: ( ';' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1756:4: ';'
             {
             match(';'); 
 
@@ -6149,8 +6149,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DOT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1760:2: ( '.' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1760:4: '.'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1760:2: ( '.' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1760:4: '.'
             {
             match('.'); 
 
@@ -6169,8 +6169,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = PLUS_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1764:2: ( '+' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1764:4: '+'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1764:2: ( '+' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1764:4: '+'
             {
             match('+'); 
 
@@ -6189,8 +6189,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = MINUS_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1768:2: ( '-' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1768:4: '-'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1768:2: ( '-' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1768:4: '-'
             {
             match('-'); 
 
@@ -6209,8 +6209,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ASTERISK_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1772:2: ( '*' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1772:4: '*'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1772:2: ( '*' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1772:4: '*'
             {
             match('*'); 
 
@@ -6229,8 +6229,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = COMMA_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1776:2: ( ',' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1776:4: ','
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1776:2: ( ',' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1776:4: ','
             {
             match(','); 
 
@@ -6249,8 +6249,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = UNARY_NOT_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1780:2: ( '!' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1780:4: '!'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1780:2: ( '!' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1780:4: '!'
             {
             match('!'); 
 
@@ -6269,8 +6269,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = DIVIDE_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1784:2: ( '/' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1784:4: '/'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1784:2: ( '/' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1784:4: '/'
             {
             match('/'); 
 
@@ -6289,8 +6289,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = EQUAL_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1788:2: ( '=' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1788:4: '='
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1788:2: ( '=' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1788:4: '='
             {
             match('='); 
 
@@ -6309,8 +6309,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = LESS_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1792:2: ( '<' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1792:4: '<'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1792:2: ( '<' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1792:4: '<'
             {
             match('<'); 
 
@@ -6329,8 +6329,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = GREATER_TERM;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1796:2: ( '>' )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1796:4: '>'
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1796:2: ( '>' )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1796:4: '>'
             {
             match('>'); 
 
@@ -6349,8 +6349,8 @@ public class SparqlOwlLexer extends Lexer {
         try {
             int _type = ANY;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1800:2: ( . )
-            // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1800:4: .
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1800:2: ( . )
+            // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1800:4: .
             {
             matchAny(); 
 
@@ -6365,719 +6365,719 @@ public class SparqlOwlLexer extends Lexer {
     // $ANTLR end "ANY"
 
     public void mTokens() throws RecognitionException {
-        // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:8: ( WS | PNAME_NS | PNAME_LN | INTEGER_TERM | DECIMAL_TERM | FLOAT_TERM | STRING_TERM | LENGTH_TERM | MINLENGTH_TERM | MAXLENGTH_TERM | PATTERN_TERM | LANGPATTERN_TERM | INVERSE_TERM | OR_TERM | AND_TERM | THAT_TERM | NOT_TERM | SOME_TERM | ONLY_TERM | VALUE_TERM | SELF_TERM | MIN_TERM | MAX_TERM | EXACTLY_TERM | BASE_TERM | PREFIX_TERM | SELECT_TERM | DISTINCT_TERM | REDUCED_TERM | CONSTRUCT_TERM | DESCRIBE_TERM | ASK_TERM | FROM_TERM | NAMED_TERM | WHERE_TERM | ORDER_TERM | BY_TERM | ASC_TERM | DESC_TERM | LIMIT_TERM | OFFSET_TERM | OPTIONAL_TERM | GRAPH_TERM | UNION_TERM | FILTER_TERM | A_TERM | STR_TERM | LANG_TERM | LANGMATCHES_TERM | DATATYPE_TERM | BOUND_TERM | SAMETERM_TERM | ISIRI_TERM | ISURI_TERM | ISBLANK_TERM | ISLITERAL_TERM | REGEX_TERM | TRUE_TERM | FALSE_TERM | IRI_REF_TERM | BLANK_NODE_LABEL | VAR1 | VAR2 | LANGTAG | INTEGER | DECIMAL | DOUBLE | INTEGER_POSITIVE | DECIMAL_POSITIVE | DOUBLE_POSITIVE | INTEGER_NEGATIVE | DECIMAL_NEGATIVE | DOUBLE_NEGATIVE | STRING_LITERAL1 | STRING_LITERAL2 | STRING_LITERAL_LONG1 | STRING_LITERAL_LONG2 | COMMENT | DOUBLE_CARAT_TERM | LESS_EQUAL_TERM | GREATER_EQUAL_TERM | NOT_EQUAL_TERM | AND_OPERATOR_TERM | OR_OPERATOR_TERM | OPEN_BRACE | CLOSE_BRACE | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | OPEN_SQUARE_BRACE | CLOSE_SQUARE_BRACE | SEMICOLON_TERM | DOT_TERM | PLUS_TERM | MINUS_TERM | ASTERISK_TERM | COMMA_TERM | UNARY_NOT_TERM | DIVIDE_TERM | EQUAL_TERM | LESS_TERM | GREATER_TERM | ANY )
+        // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:8: ( WS | PNAME_NS | PNAME_LN | INTEGER_TERM | DECIMAL_TERM | FLOAT_TERM | STRING_TERM | LENGTH_TERM | MINLENGTH_TERM | MAXLENGTH_TERM | PATTERN_TERM | LANGPATTERN_TERM | INVERSE_TERM | OR_TERM | AND_TERM | THAT_TERM | NOT_TERM | SOME_TERM | ONLY_TERM | VALUE_TERM | SELF_TERM | MIN_TERM | MAX_TERM | EXACTLY_TERM | BASE_TERM | PREFIX_TERM | SELECT_TERM | DISTINCT_TERM | REDUCED_TERM | CONSTRUCT_TERM | DESCRIBE_TERM | ASK_TERM | FROM_TERM | NAMED_TERM | WHERE_TERM | ORDER_TERM | BY_TERM | ASC_TERM | DESC_TERM | LIMIT_TERM | OFFSET_TERM | OPTIONAL_TERM | GRAPH_TERM | UNION_TERM | FILTER_TERM | A_TERM | STR_TERM | LANG_TERM | LANGMATCHES_TERM | DATATYPE_TERM | BOUND_TERM | SAMETERM_TERM | ISIRI_TERM | ISURI_TERM | ISBLANK_TERM | ISLITERAL_TERM | REGEX_TERM | TRUE_TERM | FALSE_TERM | IRI_REF_TERM | BLANK_NODE_LABEL | VAR1 | VAR2 | LANGTAG | INTEGER | DECIMAL | DOUBLE | INTEGER_POSITIVE | DECIMAL_POSITIVE | DOUBLE_POSITIVE | INTEGER_NEGATIVE | DECIMAL_NEGATIVE | DOUBLE_NEGATIVE | STRING_LITERAL1 | STRING_LITERAL2 | STRING_LITERAL_LONG1 | STRING_LITERAL_LONG2 | COMMENT | DOUBLE_CARAT_TERM | LESS_EQUAL_TERM | GREATER_EQUAL_TERM | NOT_EQUAL_TERM | AND_OPERATOR_TERM | OR_OPERATOR_TERM | OPEN_BRACE | CLOSE_BRACE | OPEN_CURLY_BRACE | CLOSE_CURLY_BRACE | OPEN_SQUARE_BRACE | CLOSE_SQUARE_BRACE | SEMICOLON_TERM | DOT_TERM | PLUS_TERM | MINUS_TERM | ASTERISK_TERM | COMMA_TERM | UNARY_NOT_TERM | DIVIDE_TERM | EQUAL_TERM | LESS_TERM | GREATER_TERM | ANY )
         int alt33=102;
         alt33 = dfa33.predict(input);
         switch (alt33) {
             case 1 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:10: WS
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:10: WS
                 {
                 mWS(); 
 
                 }
                 break;
             case 2 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:13: PNAME_NS
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:13: PNAME_NS
                 {
                 mPNAME_NS(); 
 
                 }
                 break;
             case 3 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:22: PNAME_LN
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:22: PNAME_LN
                 {
                 mPNAME_LN(); 
 
                 }
                 break;
             case 4 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:31: INTEGER_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:31: INTEGER_TERM
                 {
                 mINTEGER_TERM(); 
 
                 }
                 break;
             case 5 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:44: DECIMAL_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:44: DECIMAL_TERM
                 {
                 mDECIMAL_TERM(); 
 
                 }
                 break;
             case 6 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:57: FLOAT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:57: FLOAT_TERM
                 {
                 mFLOAT_TERM(); 
 
                 }
                 break;
             case 7 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:68: STRING_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:68: STRING_TERM
                 {
                 mSTRING_TERM(); 
 
                 }
                 break;
             case 8 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:80: LENGTH_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:80: LENGTH_TERM
                 {
                 mLENGTH_TERM(); 
 
                 }
                 break;
             case 9 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:92: MINLENGTH_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:92: MINLENGTH_TERM
                 {
                 mMINLENGTH_TERM(); 
 
                 }
                 break;
             case 10 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:107: MAXLENGTH_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:107: MAXLENGTH_TERM
                 {
                 mMAXLENGTH_TERM(); 
 
                 }
                 break;
             case 11 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:122: PATTERN_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:122: PATTERN_TERM
                 {
                 mPATTERN_TERM(); 
 
                 }
                 break;
             case 12 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:135: LANGPATTERN_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:135: LANGPATTERN_TERM
                 {
                 mLANGPATTERN_TERM(); 
 
                 }
                 break;
             case 13 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:152: INVERSE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:152: INVERSE_TERM
                 {
                 mINVERSE_TERM(); 
 
                 }
                 break;
             case 14 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:165: OR_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:165: OR_TERM
                 {
                 mOR_TERM(); 
 
                 }
                 break;
             case 15 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:173: AND_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:173: AND_TERM
                 {
                 mAND_TERM(); 
 
                 }
                 break;
             case 16 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:182: THAT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:182: THAT_TERM
                 {
                 mTHAT_TERM(); 
 
                 }
                 break;
             case 17 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:192: NOT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:192: NOT_TERM
                 {
                 mNOT_TERM(); 
 
                 }
                 break;
             case 18 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:201: SOME_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:201: SOME_TERM
                 {
                 mSOME_TERM(); 
 
                 }
                 break;
             case 19 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:211: ONLY_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:211: ONLY_TERM
                 {
                 mONLY_TERM(); 
 
                 }
                 break;
             case 20 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:221: VALUE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:221: VALUE_TERM
                 {
                 mVALUE_TERM(); 
 
                 }
                 break;
             case 21 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:232: SELF_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:232: SELF_TERM
                 {
                 mSELF_TERM(); 
 
                 }
                 break;
             case 22 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:242: MIN_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:242: MIN_TERM
                 {
                 mMIN_TERM(); 
 
                 }
                 break;
             case 23 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:251: MAX_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:251: MAX_TERM
                 {
                 mMAX_TERM(); 
 
                 }
                 break;
             case 24 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:260: EXACTLY_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:260: EXACTLY_TERM
                 {
                 mEXACTLY_TERM(); 
 
                 }
                 break;
             case 25 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:273: BASE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:273: BASE_TERM
                 {
                 mBASE_TERM(); 
 
                 }
                 break;
             case 26 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:283: PREFIX_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:283: PREFIX_TERM
                 {
                 mPREFIX_TERM(); 
 
                 }
                 break;
             case 27 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:295: SELECT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:295: SELECT_TERM
                 {
                 mSELECT_TERM(); 
 
                 }
                 break;
             case 28 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:307: DISTINCT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:307: DISTINCT_TERM
                 {
                 mDISTINCT_TERM(); 
 
                 }
                 break;
             case 29 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:321: REDUCED_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:321: REDUCED_TERM
                 {
                 mREDUCED_TERM(); 
 
                 }
                 break;
             case 30 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:334: CONSTRUCT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:334: CONSTRUCT_TERM
                 {
                 mCONSTRUCT_TERM(); 
 
                 }
                 break;
             case 31 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:349: DESCRIBE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:349: DESCRIBE_TERM
                 {
                 mDESCRIBE_TERM(); 
 
                 }
                 break;
             case 32 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:363: ASK_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:363: ASK_TERM
                 {
                 mASK_TERM(); 
 
                 }
                 break;
             case 33 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:372: FROM_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:372: FROM_TERM
                 {
                 mFROM_TERM(); 
 
                 }
                 break;
             case 34 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:382: NAMED_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:382: NAMED_TERM
                 {
                 mNAMED_TERM(); 
 
                 }
                 break;
             case 35 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:393: WHERE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:393: WHERE_TERM
                 {
                 mWHERE_TERM(); 
 
                 }
                 break;
             case 36 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:404: ORDER_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:404: ORDER_TERM
                 {
                 mORDER_TERM(); 
 
                 }
                 break;
             case 37 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:415: BY_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:415: BY_TERM
                 {
                 mBY_TERM(); 
 
                 }
                 break;
             case 38 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:423: ASC_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:423: ASC_TERM
                 {
                 mASC_TERM(); 
 
                 }
                 break;
             case 39 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:432: DESC_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:432: DESC_TERM
                 {
                 mDESC_TERM(); 
 
                 }
                 break;
             case 40 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:442: LIMIT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:442: LIMIT_TERM
                 {
                 mLIMIT_TERM(); 
 
                 }
                 break;
             case 41 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:453: OFFSET_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:453: OFFSET_TERM
                 {
                 mOFFSET_TERM(); 
 
                 }
                 break;
             case 42 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:465: OPTIONAL_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:465: OPTIONAL_TERM
                 {
                 mOPTIONAL_TERM(); 
 
                 }
                 break;
             case 43 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:479: GRAPH_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:479: GRAPH_TERM
                 {
                 mGRAPH_TERM(); 
 
                 }
                 break;
             case 44 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:490: UNION_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:490: UNION_TERM
                 {
                 mUNION_TERM(); 
 
                 }
                 break;
             case 45 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:501: FILTER_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:501: FILTER_TERM
                 {
                 mFILTER_TERM(); 
 
                 }
                 break;
             case 46 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:513: A_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:513: A_TERM
                 {
                 mA_TERM(); 
 
                 }
                 break;
             case 47 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:520: STR_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:520: STR_TERM
                 {
                 mSTR_TERM(); 
 
                 }
                 break;
             case 48 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:529: LANG_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:529: LANG_TERM
                 {
                 mLANG_TERM(); 
 
                 }
                 break;
             case 49 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:539: LANGMATCHES_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:539: LANGMATCHES_TERM
                 {
                 mLANGMATCHES_TERM(); 
 
                 }
                 break;
             case 50 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:556: DATATYPE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:556: DATATYPE_TERM
                 {
                 mDATATYPE_TERM(); 
 
                 }
                 break;
             case 51 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:570: BOUND_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:570: BOUND_TERM
                 {
                 mBOUND_TERM(); 
 
                 }
                 break;
             case 52 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:581: SAMETERM_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:581: SAMETERM_TERM
                 {
                 mSAMETERM_TERM(); 
 
                 }
                 break;
             case 53 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:595: ISIRI_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:595: ISIRI_TERM
                 {
                 mISIRI_TERM(); 
 
                 }
                 break;
             case 54 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:606: ISURI_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:606: ISURI_TERM
                 {
                 mISURI_TERM(); 
 
                 }
                 break;
             case 55 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:617: ISBLANK_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:617: ISBLANK_TERM
                 {
                 mISBLANK_TERM(); 
 
                 }
                 break;
             case 56 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:630: ISLITERAL_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:630: ISLITERAL_TERM
                 {
                 mISLITERAL_TERM(); 
 
                 }
                 break;
             case 57 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:645: REGEX_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:645: REGEX_TERM
                 {
                 mREGEX_TERM(); 
 
                 }
                 break;
             case 58 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:656: TRUE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:656: TRUE_TERM
                 {
                 mTRUE_TERM(); 
 
                 }
                 break;
             case 59 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:666: FALSE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:666: FALSE_TERM
                 {
                 mFALSE_TERM(); 
 
                 }
                 break;
             case 60 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:677: IRI_REF_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:677: IRI_REF_TERM
                 {
                 mIRI_REF_TERM(); 
 
                 }
                 break;
             case 61 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:690: BLANK_NODE_LABEL
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:690: BLANK_NODE_LABEL
                 {
                 mBLANK_NODE_LABEL(); 
 
                 }
                 break;
             case 62 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:707: VAR1
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:707: VAR1
                 {
                 mVAR1(); 
 
                 }
                 break;
             case 63 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:712: VAR2
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:712: VAR2
                 {
                 mVAR2(); 
 
                 }
                 break;
             case 64 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:717: LANGTAG
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:717: LANGTAG
                 {
                 mLANGTAG(); 
 
                 }
                 break;
             case 65 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:725: INTEGER
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:725: INTEGER
                 {
                 mINTEGER(); 
 
                 }
                 break;
             case 66 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:733: DECIMAL
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:733: DECIMAL
                 {
                 mDECIMAL(); 
 
                 }
                 break;
             case 67 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:741: DOUBLE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:741: DOUBLE
                 {
                 mDOUBLE(); 
 
                 }
                 break;
             case 68 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:748: INTEGER_POSITIVE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:748: INTEGER_POSITIVE
                 {
                 mINTEGER_POSITIVE(); 
 
                 }
                 break;
             case 69 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:765: DECIMAL_POSITIVE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:765: DECIMAL_POSITIVE
                 {
                 mDECIMAL_POSITIVE(); 
 
                 }
                 break;
             case 70 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:782: DOUBLE_POSITIVE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:782: DOUBLE_POSITIVE
                 {
                 mDOUBLE_POSITIVE(); 
 
                 }
                 break;
             case 71 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:798: INTEGER_NEGATIVE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:798: INTEGER_NEGATIVE
                 {
                 mINTEGER_NEGATIVE(); 
 
                 }
                 break;
             case 72 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:815: DECIMAL_NEGATIVE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:815: DECIMAL_NEGATIVE
                 {
                 mDECIMAL_NEGATIVE(); 
 
                 }
                 break;
             case 73 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:832: DOUBLE_NEGATIVE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:832: DOUBLE_NEGATIVE
                 {
                 mDOUBLE_NEGATIVE(); 
 
                 }
                 break;
             case 74 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:848: STRING_LITERAL1
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:848: STRING_LITERAL1
                 {
                 mSTRING_LITERAL1(); 
 
                 }
                 break;
             case 75 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:864: STRING_LITERAL2
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:864: STRING_LITERAL2
                 {
                 mSTRING_LITERAL2(); 
 
                 }
                 break;
             case 76 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:880: STRING_LITERAL_LONG1
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:880: STRING_LITERAL_LONG1
                 {
                 mSTRING_LITERAL_LONG1(); 
 
                 }
                 break;
             case 77 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:901: STRING_LITERAL_LONG2
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:901: STRING_LITERAL_LONG2
                 {
                 mSTRING_LITERAL_LONG2(); 
 
                 }
                 break;
             case 78 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:922: COMMENT
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:922: COMMENT
                 {
                 mCOMMENT(); 
 
                 }
                 break;
             case 79 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:930: DOUBLE_CARAT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:930: DOUBLE_CARAT_TERM
                 {
                 mDOUBLE_CARAT_TERM(); 
 
                 }
                 break;
             case 80 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:948: LESS_EQUAL_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:948: LESS_EQUAL_TERM
                 {
                 mLESS_EQUAL_TERM(); 
 
                 }
                 break;
             case 81 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:964: GREATER_EQUAL_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:964: GREATER_EQUAL_TERM
                 {
                 mGREATER_EQUAL_TERM(); 
 
                 }
                 break;
             case 82 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:983: NOT_EQUAL_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:983: NOT_EQUAL_TERM
                 {
                 mNOT_EQUAL_TERM(); 
 
                 }
                 break;
             case 83 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:998: AND_OPERATOR_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:998: AND_OPERATOR_TERM
                 {
                 mAND_OPERATOR_TERM(); 
 
                 }
                 break;
             case 84 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1016: OR_OPERATOR_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1016: OR_OPERATOR_TERM
                 {
                 mOR_OPERATOR_TERM(); 
 
                 }
                 break;
             case 85 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1033: OPEN_BRACE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1033: OPEN_BRACE
                 {
                 mOPEN_BRACE(); 
 
                 }
                 break;
             case 86 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1044: CLOSE_BRACE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1044: CLOSE_BRACE
                 {
                 mCLOSE_BRACE(); 
 
                 }
                 break;
             case 87 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1056: OPEN_CURLY_BRACE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1056: OPEN_CURLY_BRACE
                 {
                 mOPEN_CURLY_BRACE(); 
 
                 }
                 break;
             case 88 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1073: CLOSE_CURLY_BRACE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1073: CLOSE_CURLY_BRACE
                 {
                 mCLOSE_CURLY_BRACE(); 
 
                 }
                 break;
             case 89 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1091: OPEN_SQUARE_BRACE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1091: OPEN_SQUARE_BRACE
                 {
                 mOPEN_SQUARE_BRACE(); 
 
                 }
                 break;
             case 90 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1109: CLOSE_SQUARE_BRACE
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1109: CLOSE_SQUARE_BRACE
                 {
                 mCLOSE_SQUARE_BRACE(); 
 
                 }
                 break;
             case 91 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1128: SEMICOLON_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1128: SEMICOLON_TERM
                 {
                 mSEMICOLON_TERM(); 
 
                 }
                 break;
             case 92 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1143: DOT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1143: DOT_TERM
                 {
                 mDOT_TERM(); 
 
                 }
                 break;
             case 93 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1152: PLUS_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1152: PLUS_TERM
                 {
                 mPLUS_TERM(); 
 
                 }
                 break;
             case 94 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1162: MINUS_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1162: MINUS_TERM
                 {
                 mMINUS_TERM(); 
 
                 }
                 break;
             case 95 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1173: ASTERISK_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1173: ASTERISK_TERM
                 {
                 mASTERISK_TERM(); 
 
                 }
                 break;
             case 96 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1187: COMMA_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1187: COMMA_TERM
                 {
                 mCOMMA_TERM(); 
 
                 }
                 break;
             case 97 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1198: UNARY_NOT_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1198: UNARY_NOT_TERM
                 {
                 mUNARY_NOT_TERM(); 
 
                 }
                 break;
             case 98 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1213: DIVIDE_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1213: DIVIDE_TERM
                 {
                 mDIVIDE_TERM(); 
 
                 }
                 break;
             case 99 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1225: EQUAL_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1225: EQUAL_TERM
                 {
                 mEQUAL_TERM(); 
 
                 }
                 break;
             case 100 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1236: LESS_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1236: LESS_TERM
                 {
                 mLESS_TERM(); 
 
                 }
                 break;
             case 101 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1246: GREATER_TERM
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1246: GREATER_TERM
                 {
                 mGREATER_TERM(); 
 
                 }
                 break;
             case 102 :
-                // /home/msmith/devel/pellet-git/query/antlr/SparqlOwl.g:1:1259: ANY
+                // /Users/evren/projects/pellet/query/antlr/SparqlOwl.g:1:1259: ANY
                 {
                 mANY(); 
 

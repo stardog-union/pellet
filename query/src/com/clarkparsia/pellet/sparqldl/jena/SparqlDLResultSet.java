@@ -25,6 +25,7 @@ import com.hp.hpl.jena.query.ResultSetRewindable;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.sparql.core.Var;
 import com.hp.hpl.jena.sparql.engine.binding.Binding;
+import com.hp.hpl.jena.sparql.engine.binding.BindingHashMap;
 import com.hp.hpl.jena.sparql.engine.binding.BindingMap;
 
 /**
@@ -123,8 +124,8 @@ public class SparqlDLResultSet implements ResultSetRewindable {
 		final ResultBinding binding = bindings.next();
 
 		BindingMap result = parent == null
-			? new BindingMap()
-			: new BindingMap( parent );
+			? new BindingHashMap()
+			: new BindingHashMap( parent );
 
 		for( final ATermAppl var : resultVars ) {
 			if( binding.isBound( var ) ) {

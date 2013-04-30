@@ -67,8 +67,8 @@ import com.hp.hpl.jena.sparql.syntax.ElementOptional;
 import com.hp.hpl.jena.sparql.syntax.ElementTriplesBlock;
 import com.hp.hpl.jena.sparql.syntax.ElementUnion;
 import com.hp.hpl.jena.sparql.syntax.Template;
-import com.hp.hpl.jena.sparql.syntax.TemplateGroup;
 import com.hp.hpl.jena.sparql.syntax.TripleCollector;
+import com.hp.hpl.jena.sparql.syntax.TripleCollectorBGP;
 import com.hp.hpl.jena.sparql.util.LabelToNodeMap;
 import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
@@ -927,18 +927,20 @@ argList
 constructTemplate
 	returns [Template t]
 	@init {
-		TemplateGroup tg = new TemplateGroup();
-		$t = tg;
+		TripleCollectorBGP tg = new TripleCollectorBGP();
 		this.inConstructTemplate = true;
 	}
 	:	^(CONSTRUCT_TEMPLATE constructTriples[tg]?)
 	;
-	finally { this.inConstructTemplate = false; }
+	finally { 
+		this.inConstructTemplate = false;		
+		$t = new Template(tg.getBGP()); 
+	}
 
 /*
  * SPARQL A.8[31];
  */
-constructTriples[TemplateGroup e]
+constructTriples[TripleCollector e]
 	:	triplesSameSubject[$e]+
 	;
 
