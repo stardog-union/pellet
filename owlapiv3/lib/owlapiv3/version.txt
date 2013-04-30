@@ -1,3 +1,0 @@
-OWL API 3.2.4
-Date: 2011-07-22
-Available at: http://owlapi.sourceforge.net/releases.html

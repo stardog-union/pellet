@@ -67,7 +67,7 @@ public class OWLAPILoader extends KBLoader {
 		manager.addMissingImportListener(new MissingImportListener() {
 			public void importMissing(MissingImportEvent event) {
 				if (!ignoreImports) {
-					URI importURI = event.getImportedOntologyURI();
+					IRI importURI = event.getImportedOntologyURI();
 					System.err.println("WARNING: Cannot import " + importURI);
 					event.getCreationException().printStackTrace();
 				}

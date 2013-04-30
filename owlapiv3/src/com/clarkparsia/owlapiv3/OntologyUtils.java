@@ -99,6 +99,12 @@ public class OntologyUtils {
 		return manager;
 	}
 	
+	public static void clearOWLOntologyManager() {
+		for (OWLOntology ont : manager.getOntologies()) {
+            manager.removeOntology(ont);
+        }
+	}
+	
 	/**
 	 * Loads the ontology with given URI.
 	 * 

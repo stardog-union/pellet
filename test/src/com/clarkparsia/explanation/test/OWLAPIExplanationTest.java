@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -81,6 +82,11 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest {
 		super( classify );
 		
 		this.useGlassBox = useGlassBox;
+	}
+	
+	@BeforeClass
+	public static void beforeClass() {
+		GlassBoxExplanation.setup();
 	}
 	
 	@After
@@ -189,7 +195,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest {
 			}
 			renderer.endRendering();
 			
-			log.severe( "Error in explanation: " + sw );
+			System.out.println( "Error in explanation: " + sw );
 			
 			org.junit.Assert.fail( "Error in explanation, see the log file for details" );
 		}

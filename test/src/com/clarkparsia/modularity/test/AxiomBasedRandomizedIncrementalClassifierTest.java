@@ -44,17 +44,4 @@ public class AxiomBasedRandomizedIncrementalClassifierTest extends RandomizedInc
 	public ModuleExtractor createModuleExtractor() {
 		return new AxiomBasedModuleExtractor();
 	}
-	
-	@Before
-	public void before() {
-		// create an empty module extractor
-		modExtractor = createModuleExtractor();
-	}
-
-	@After
-	public void after() {
-		modExtractor = null;
-		if( ontology != null )
-			manager.removeOntology( ontology );
-	}
 }

@@ -21,6 +21,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import com.clarkparsia.modularity.ModuleExtractor;
 import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapiv3.OntologyUtils;
 
 /**
  * <p>
@@ -39,7 +40,7 @@ import com.clarkparsia.owlapiv3.OWL;
  * @author Evren Sirin
  */
 public abstract class AbstractModularityTest {
-	protected static final OWLOntologyManager	manager		= OWL.manager;
+//	protected static final OWLOntologyManager	manager		= OWL.manager;
 	
 	protected OWLOntology						ontology;
 	protected ModuleExtractor					modExtractor;
@@ -83,7 +84,6 @@ public abstract class AbstractModularityTest {
 	@After
 	public void after() {
 		modExtractor = null;
-		if( ontology != null )
-			manager.removeOntology( ontology );
+		OntologyUtils.clearOWLOntologyManager();
 	}
 }

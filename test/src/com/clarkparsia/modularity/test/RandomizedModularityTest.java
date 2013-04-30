@@ -8,9 +8,11 @@ package com.clarkparsia.modularity.test;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.junit.Test;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -24,6 +26,7 @@ import uk.ac.manchester.cs.owlapi.modularity.SyntacticLocalityModuleExtractor;
 import com.clarkparsia.modularity.ModularityUtils;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
+import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
 
 /**
  * 
@@ -62,7 +65,7 @@ public abstract class RandomizedModularityTest extends AbstractModularityTest {
 		Set<OWLAxiom> computed = ModularityUtils.extractModule( ontology, signature, moduleType );
 		
 		OntologySegmenter segmenter = 
-			new SyntacticLocalityModuleExtractor( manager, ontology, moduleType );
+			new SyntacticLocalityModuleExtractor( OWL.manager, ontology, moduleType );
 		Set<OWLAxiom> expected = segmenter.extract( signature );
 			
 		// prune declarations to avoid mismatches related to declarations
@@ -70,6 +73,13 @@ public abstract class RandomizedModularityTest extends AbstractModularityTest {
 			OWLDeclarationAxiom declaration = OWL.declaration( entity );
 			computed.remove( declaration );
 			computed.remove( declaration );
+		}
+
+		for( Iterator<OWLAxiom> i = expected.iterator(); i.hasNext(); ) {
+			OWLAxiom axiom = i.next();
+			if (axiom.getAxiomType() == AxiomType.SAME_INDIVIDUAL || axiom.getAxiomType() == AxiomType.DIFFERENT_INDIVIDUALS) {
+				i.remove();
+			}
 		}
 		
 		TestUtils.assertToStringEquals( "Modules diff for " + signature, expected.toArray( new OWLAxiom[0] ), computed.toArray( new OWLAxiom[0] ) );

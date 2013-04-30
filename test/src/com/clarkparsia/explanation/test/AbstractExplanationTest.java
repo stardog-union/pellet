@@ -308,9 +308,9 @@ public abstract class AbstractExplanationTest {
 				OWL.classAssertion( a, A ),
 				OWL.classAssertion( b, B ),
 				OWL.propertyAssertion( a, p, b ),
-				SWRL.rule( ontologyURI + "rule1", true, SWRL.antecedent( SWRL.classAtom( A, x ) ),
+				SWRL.rule( SWRL.antecedent( SWRL.classAtom( A, x ) ),
 						SWRL.consequent( SWRL.classAtom( B, x ) ) ),
-				SWRL.rule( ontologyURI + "rule2", SWRL.antecedent( SWRL.classAtom( B, x ), SWRL
+				SWRL.rule( SWRL.antecedent( SWRL.classAtom( B, x ), SWRL
 						.propertyAtom( p, x, y ), SWRL.classAtom( B, y ) ), SWRL.consequent( SWRL
 						.classAtom( C, x ) ) ) };
 
