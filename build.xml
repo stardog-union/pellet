@@ -537,6 +537,8 @@
 				<include name="PELLINT-PATTERNS.txt"/>
 			</fileset>
 		</copy>
+		
+		<chmod dir="${dist.dir}" includes="*.sh" perm="+x"/>
 	</target>
 	
 	<!--
@@ -557,8 +559,14 @@
 			</fileset>
 		</copy>
 		<zip destfile="${dist.dir}/${project.dirname}.zip">
-			<zipfileset dir="dist" prefix="${project.dirname}"
-				excludes="${project.name}*.zip"/>
+			<zipfileset dir="${dist.dir}" prefix="${project.dirname}">
+				<include name="**/*"/>
+				<exclude name="**/*.zip"/>
+	            <exclude name="*.sh"/>
+			</zipfileset>
+			<zipfileset dir="${dist.dir}" prefix="${project.dirname}" filemode="755">
+				<include name="*.sh"/>
+			</zipfileset>
 		</zip>
 	</target>
 	
