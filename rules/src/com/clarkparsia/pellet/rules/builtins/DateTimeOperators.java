@@ -16,12 +16,14 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.relaxng.datatype.DatatypeException;
 
 import aterm.ATermAppl;
 
-import com.sun.msv.datatype.xsd.DatatypeFactory;
-import com.sun.msv.datatype.xsd.XSDatatype;
+import com.clarkparsia.pellet.datatypes.Datatype;
+import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
+import com.clarkparsia.pellet.datatypes.types.datetime.XSDDate;
+import com.clarkparsia.pellet.datatypes.types.datetime.XSDDateTime;
+import com.clarkparsia.pellet.datatypes.types.datetime.XSDTime;
 
 /**
  * <p>
@@ -85,7 +87,7 @@ public class DateTimeOperators {
 			
 			String dateString = toDate( args[0], args[1], args[2] ) + tz;
 			
-			if ( !checkValue( dateString, "date" ) )
+			if ( !checkValue( dateString, XSDDate.getInstance() ) )
 				return null;
 			
 			return dateString;
@@ -148,7 +150,7 @@ public class DateTimeOperators {
 			
 			String dateTimeString = toDate( args[0], args[1], args[2] ) + "T" + toTime( args[3], args[4], args[5] ) + tz;
 			
-			if ( !checkValue( dateTimeString, "dateTime" ) )
+			if ( !checkValue( dateTimeString, XSDDateTime.getInstance() ) )
 				return null;
 			
 			return dateTimeString;
@@ -295,7 +297,7 @@ public class DateTimeOperators {
 				
 				String timeString = toTime( args[0], args[1], args[2] ) + tz;
 				
-				if ( !checkValue( timeString, "time" ) )
+				if ( !checkValue( timeString, XSDTime.getInstance() ) )
 					return null;
 				
 				return timeString;
@@ -341,15 +343,14 @@ public class DateTimeOperators {
 		return args;
 	}
 	
-	private static boolean checkValue( String val, String name ) {
+	private static boolean checkValue( String val, Datatype<?> dt ) {
 		try {
-			XSDatatype dt = DatatypeFactory.getTypeByName( name );
-			dt.checkValid( val, null );
-		} catch( DatatypeException e ) {
-			ABox.log.info( "Failed to create " + name + ":" + e );
+			dt.getValue(ATermUtils.makeTypedLiteral(val, dt.getName()));
+			return true;
+		}
+		catch (InvalidLiteralException e) {
 			return false;
 		}
-		return true;
 	}
 	
 	private static Literal createDecimal( ABox abox, Number val ) {

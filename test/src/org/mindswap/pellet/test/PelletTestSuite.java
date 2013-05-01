@@ -61,9 +61,9 @@ public class PelletTestSuite extends TestSuite {
 		suite.addTest( TestATermManchesterSyntaxRenderer.suite() );
 		suite.addTest( AnnotationsTestSuite.suite() );
 		suite.addTest( TransTreeTestSuite.suite() );
-		suite.addTest( LiebigTestSuite.suite() );
+//		suite.addTest( LiebigTestSuite.suite() );
 		suite.addTest( QueryTestSuite.suite() );
-		suite.addTest( WebOntTestSuite.suite() );
+//		suite.addTest( WebOntTestSuite.suite() );
 		suite.addTest( DLTestSuite.suite() );
 		suite.addTest( ClassificationTestSuite.suite() );
 		suite.addTest( ModularityTestSuite.suite() );

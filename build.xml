@@ -45,7 +45,6 @@
 	<property name="test.src.dir" location="${test.dir}/src"/>
 	
 	<property name="core.lib.dir" location="${core.dir}/lib"/>
-	<property name="datatypes.lib.dir" location="${datatypes.dir}/lib"/>
 	<property name="jena.lib.dir" location="${jena.dir}/lib"/>
 	<property name="owlapiv3.lib.dir" location="${owlapiv3.dir}/lib"/>
 	<property name="pellint.lib.dir" location="${pellint.dir}/lib"/>
@@ -164,10 +163,6 @@
 		<pathelement location="${build.pellint.class.dir}"/>
 		<pathelement location="${test.lib.dir}"/>
 		<fileset dir="${test.lib.dir}">
-			<include name="**/*.jar"/>
-			<exclude name="**/${project.name}*.jar"/>
-		</fileset>
-		<fileset dir="${datatypes.lib.dir}">
 			<include name="**/*.jar"/>
 			<exclude name="**/${project.name}*.jar"/>
 		</fileset>
@@ -376,7 +371,7 @@
 		<junit maxmemory="1536m" fork="yes" haltonfailure="false" dir="${basedir}"
 			failureproperty="pellet.junit.failure">
 			<test name="${test.class.name}"/>
-			<formatter type="plain" usefile="false"/>
+			<formatter type="brief" usefile="false"/>
 			<formatter type="xml" usefile="true" if="pellet.junit.formatter.xml"/>
 			<classpath refid="project.class.path"/>
 			<jvmarg value="-enableassertions" />
@@ -457,10 +452,6 @@
 		<!-- Copy third party libraries -->
 		<copy todir="${dist.lib.dir}">
 			<fileset dir="${test.lib.dir}">
-				<include name="**/*.jar"/>
-				<include name="**/*.txt"/>
-			</fileset>
-			<fileset dir="${datatypes.lib.dir}">
 				<include name="**/*.jar"/>
 				<include name="**/*.txt"/>
 			</fileset>
