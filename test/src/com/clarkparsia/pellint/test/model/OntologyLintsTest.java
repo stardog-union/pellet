@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
-import org.semanticweb.owl.model.OWLOntologyChangeException;
 
 import com.clarkparsia.pellint.model.Lint;
 import com.clarkparsia.pellint.model.OntologyLints;
@@ -55,7 +54,7 @@ public class OntologyLintsTest extends PellintTestCase {
 	}
 
 	@Test
-	public void testApplyFix() throws OWLOntologyChangeException {
+	public void testApplyFix() {
 		OntologyLints ontologyLints = new OntologyLints(m_Ontology);
 		
 		MockLint unfixableLint = new MockLint();

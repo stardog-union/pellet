@@ -220,7 +220,7 @@ public class WebOntTest {
 	int					MAX_TEST_COUNT		= Integer.MAX_VALUE;
 
 	WebOntTester[]				testers				= {
-			new JenaWebOntTester(), new OWLAPIWebOntTester() };
+			new JenaWebOntTester()/**, new OWLAPIWebOntTester()*/ };
 
 	public final static void main(String[] args) {
 		WebOntTest owlTest = new WebOntTest();

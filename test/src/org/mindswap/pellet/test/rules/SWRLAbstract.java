@@ -8,16 +8,11 @@ package org.mindswap.pellet.test.rules;
 
 import static org.junit.Assert.assertTrue;
 
-import java.net.URI;
-
+import org.junit.After;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
-import org.mindswap.pellet.owlapi.Reasoner;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.IRI;
 
+import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -47,7 +42,6 @@ public class SWRLAbstract {
 
 	protected void test(String test) {
 		testJena(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
-		testOWLAPI(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
 		testOWLAPIv3(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
 	}
 
@@ -65,23 +59,6 @@ public class SWRLAbstract {
 		while (stmtIter.hasNext()) {
 			Statement s = stmtIter.nextStatement();
 			assertTrue(premise.contains(s));
-		}
-	}
-
-	private void testOWLAPI(String premiseURI, String conclusionURI) {
-		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-		Reasoner reasoner = new Reasoner(manager);
-		
-		try {
-			OWLOntology premise = manager.loadOntology(URI.create(premiseURI));
-			OWLOntology conclusion = manager.loadOntology(URI
-					.create(conclusionURI));
-
-			reasoner.loadOntology(premise);
-			
-			assertTrue(reasoner.isEntailed(conclusion));
-		} catch (OWLOntologyCreationException e) {
-			throw new RuntimeException( e );
 		}
 	}
 	
@@ -109,4 +86,8 @@ public class SWRLAbstract {
 		return base + filename;
 	}
 
+	@After
+	public void after() {
+		OntologyUtils.clearOWLOntologyManager();
+	}
 }

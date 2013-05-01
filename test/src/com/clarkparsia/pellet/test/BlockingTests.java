@@ -24,9 +24,10 @@ import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
-import org.mindswap.pellet.owlapi.OWLAPILoader;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.test.MiscTests;
+
+import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 
 public class BlockingTests extends AbstractKBTests {
 	public static junit.framework.Test suite() {

@@ -22,15 +22,15 @@ import java.util.List;
 import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.JenaLoader;
-import org.mindswap.pellet.owlapi.OWLAPILoader;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.FileUtils;
 import org.mindswap.pellet.utils.MemUtils;
 import org.mindswap.pellet.utils.VersionInfo;
 
-
 import profiler.utils.IObjectProfileNode;
 import profiler.utils.ObjectProfiler;
+
+import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 
 /**
  * <p>

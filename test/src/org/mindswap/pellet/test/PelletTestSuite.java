@@ -22,7 +22,6 @@ import com.clarkparsia.pellet.test.TestKnowledgeBase;
 import com.clarkparsia.pellet.test.annotations.AnnotationsTestSuite;
 import com.clarkparsia.pellet.test.classification.ClassificationTestSuite;
 import com.clarkparsia.pellet.test.el.ELTests;
-import com.clarkparsia.pellet.test.owlapi.OWLAPITests;
 import com.clarkparsia.pellet.test.owlapi.OWLAPIv3Tests;
 import com.clarkparsia.pellet.test.owlapi.OWLPrimerTests;
 import com.clarkparsia.pellet.test.query.QueryTestSuite;
@@ -47,7 +46,6 @@ public class PelletTestSuite extends TestSuite {
 		suite.addTest( BlockingTests.suite() );
 		suite.addTest( CacheSafetyTests.suite() );
 		suite.addTest( JenaTests.suite() );
-		suite.addTest( OWLAPITests.suite() );
 		suite.addTest( OWLAPIv3Tests.suite() );
 		suite.addTest( OWLPrimerTests.suite() );
 		suite.addTest( OWLAPIObjectConversionTests.suite() );

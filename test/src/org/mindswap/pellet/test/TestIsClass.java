@@ -6,34 +6,34 @@
 
 package org.mindswap.pellet.test;
 
+import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static com.clarkparsia.pellet.utils.TermFactory.term;
-
-import java.net.URI;
-
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
-import org.mindswap.pellet.owlapi.Reasoner;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataRange;
-import org.semanticweb.owl.model.OWLDataRangeFacetRestriction;
-import org.semanticweb.owl.model.OWLDataRangeRestriction;
-import org.semanticweb.owl.model.OWLDataSomeRestriction;
-import org.semanticweb.owl.model.OWLException;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLSubClassAxiom;
-import org.semanticweb.owl.vocab.OWLRestrictedDataRangeFacetVocabulary;
-import org.semanticweb.owl.vocab.XSDVocabulary;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataRange;
+import org.semanticweb.owlapi.model.OWLDataSomeValuesFrom;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLFacetRestriction;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
+import org.semanticweb.owlapi.vocab.OWLFacet;
 
 import aterm.ATermAppl;
+
+import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * <p>
@@ -108,43 +108,41 @@ public class TestIsClass {
 	}
 
 	@Test
-	public void testIsClass5() throws OWLException {
+	public void testIsClass5() throws OWLOntologyCreationException {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		OWLDataFactory factory = manager.getOWLDataFactory();
-		OWLOntology ontology = manager.createOntology(URI
+		OWLOntology ontology = manager.createOntology(IRI
 				.create("http://example.org"));
 		
-		OWLDataRange dataRange = factory.getOWLDataType(XSDVocabulary.INTEGER
-				.getURI());
-		OWLDataRangeFacetRestriction dataRangeFacetRestriction = factory
-				.getOWLDataRangeFacetRestriction(
-						OWLRestrictedDataRangeFacetVocabulary.MIN_EXCLUSIVE, 1);
-		OWLDataRangeRestriction dataRangeRestriction = factory
-				.getOWLDataRangeRestriction(dataRange,
+		OWLDatatype dataRange = factory.getOWLDatatype(OWL2Datatype.XSD_INTEGER.getIRI());
+		OWLFacetRestriction dataRangeFacetRestriction = factory
+				.getOWLFacetRestriction(
+						OWLFacet.MIN_EXCLUSIVE, 1);
+		OWLDataRange dataRangeRestriction = factory
+				.getOWLDatatypeRestriction(dataRange,
 						dataRangeFacetRestriction);
 
-		OWLDataProperty p = factory.getOWLDataProperty(URI
+		OWLDataProperty p = factory.getOWLDataProperty(IRI
 				.create("http://example#p"));
-		OWLDataSomeRestriction dataSomeRestriction = factory
-				.getOWLDataSomeRestriction(p, dataRangeRestriction);
+		OWLDataSomeValuesFrom dataSomeRestriction = factory
+				.getOWLDataSomeValuesFrom(p, dataRangeRestriction);
 
-		OWLClass c = factory.getOWLClass(URI.create("http://example#c"));
+		OWLClass c = factory.getOWLClass(IRI.create("http://example#c"));
 
-		OWLSubClassAxiom sc = factory.getOWLSubClassAxiom(c,
+		OWLSubClassOfAxiom sc = factory.getOWLSubClassOfAxiom(c,
 				dataSomeRestriction);
 
 		manager.addAxiom(ontology, sc);
 		
-		Reasoner reasoner = new Reasoner(manager);
+		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
 
-		reasoner.loadOntology(ontology);
 		assertTrue(reasoner.isConsistent());
 		
 		KnowledgeBase kb = reasoner.getKB();
 		assertTrue(kb.isClass(term("http://example#c")));
 		
 		// check for complex class that refers to a user-defined datatype 
-		ATermAppl term = reasoner.getLoader().term( dataSomeRestriction );
+		ATermAppl term = reasoner.term( dataSomeRestriction );
 		term = ATermUtils.normalize( term );
 		assertTrue( kb.isClass( term ) );		
 	}

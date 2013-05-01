@@ -37,7 +37,6 @@ import org.mindswap.pellet.jena.PelletReasoner;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.jena.vocabulary.OWL2;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.semanticweb.owl.model.OWLException;
 
 import aterm.ATermAppl;
 
@@ -872,7 +871,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testAnonInverse() throws OWLException {
+	public void testAnonInverse() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );

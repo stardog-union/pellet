@@ -14,13 +14,13 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLDescription;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 
-import com.clarkparsia.explanation.ExplanationGenerator;
-import com.clarkparsia.explanation.SatisfiabilityConverter;
-import com.clarkparsia.explanation.io.ConciseExplanationRenderer;
-import com.clarkparsia.owlapi.OntologyUtils;
+import com.clarkparsia.owlapi.explanation.ExplanationGenerator;
+import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
+import com.clarkparsia.owlapi.explanation.io.ConciseExplanationRenderer;
+import com.clarkparsia.owlapiv3.OntologyUtils;
 
 /**
  * <p>
@@ -56,7 +56,7 @@ public class ExplanationTester {
 
 	public void testExplanations(OWLAxiom axiom, int max, Set<Set<OWLAxiom>> expectedExplanations)
 			throws Exception {
-		OWLDescription unsatClass = converter.convert( axiom );
+		OWLClassExpression unsatClass = converter.convert( axiom );
 
 		if( log.isLoggable( Level.FINE ) )
 			log.fine( "Axiom " + (++axiomCount) + ": " + axiom + " Expecting "

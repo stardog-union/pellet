@@ -9,7 +9,6 @@
 	<classpathentry kind="src" path="explanation/src"/>
 	<classpathentry kind="src" path="jena/src"/>
 	<classpathentry kind="src" path="modularity/src"/>
-	<classpathentry kind="src" path="owlapi/src"/>
 	<classpathentry kind="src" path="owlapiv3/src"/>
 	<classpathentry kind="src" path="owlapiv3/test"/>
 	<classpathentry kind="src" path="pellint/src"/>
@@ -21,7 +20,6 @@
 	<classpathentry kind="lib" path="profiler/lib/getopt-java/java-getopt-1.0.13.jar"/>
 	<classpathentry kind="lib" path="core/lib/aterm-java-1.6.jar"/>
 	<classpathentry kind="lib" path="owlapiv3/lib/owlapiv3/owlapi-distribution-3.4.3-bin.jar"/>
-	<classpathentry kind="lib" path="owlapi/lib/owlapi/owlapi-bin.jar" sourcepath="owlapi/lib/owlapi/owlapi-src.jar"/>
 	<classpathentry kind="lib" path="test/lib/junit/junit.jar"/>
 	<classpathentry kind="lib" path="pellint/lib/jgrapht/jgrapht-jdk1.5.jar"/>
 	<classpathentry kind="lib" path="query/lib/antlr/antlr-3.2.jar"/>

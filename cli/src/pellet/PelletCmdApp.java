@@ -238,10 +238,9 @@ public abstract class PelletCmdApp {
 	protected KBLoader getLoader(String loaderName) {
 		if( loaderName.equalsIgnoreCase( "Jena" ) )
 			loader = new JenaLoader();
-		else if( loaderName.equalsIgnoreCase( "OWLAPIv3" ) )
+		else if( loaderName.equalsIgnoreCase( "OWLAPIv3" ) 
+			  || loaderName.equalsIgnoreCase( "OWLAPI" ) )
 			loader = new OWLAPILoader();
-		else if( loaderName.equalsIgnoreCase( "OWLAPI" ) )
-			loader = new org.mindswap.pellet.owlapi.OWLAPILoader();
 		else if( loaderName.equalsIgnoreCase( "KRSS" ) )
 			loader = new KRSSLoader();
 		else

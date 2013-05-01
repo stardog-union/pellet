@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.semanticweb.owl.model.OWLRuntimeException;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
@@ -78,7 +77,7 @@ public class OWLWGTestCase {
 					if( result.getCause() != null ) {
 						// FIXME Can get rid of conditional once #295 is fixed.
 						if ( ! ( result.getCause() instanceof FreshEntitiesException ) )
-							throw new OWLRuntimeException( test.getIdentifier(), result.getCause() );
+							throw new RuntimeException( test.getIdentifier(), result.getCause() );
 					}
 					else {
 						fail( result.toString() );

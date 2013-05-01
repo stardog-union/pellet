@@ -10,15 +10,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 
-import org.coode.owl.rdfxml.parser.AnonymousNodeChecker;
-import org.coode.owl.rdfxml.parser.OWLRDFConsumer;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.io.StreamOutputTarget;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.model.OWLOntologyStorageException;
-import org.semanticweb.owl.model.UnknownOWLOntologyException;
+import org.coode.owlapi.rdfxml.parser.AnonymousNodeChecker;
+import org.coode.owlapi.rdfxml.parser.OWLRDFConsumer;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
+import org.semanticweb.owlapi.model.UnknownOWLOntologyException;
 import org.xml.sax.SAXException;
 
 import com.hp.hpl.jena.rdf.model.Literal;
@@ -56,70 +55,6 @@ public class RDFModelWriter {
 			return ANON_URI + v.asNode().getBlankNodeLabel();
 		else
 			return ((Resource) v).getURI();
-	}
-
-	private static OWLOntology convert(RDFModel model, OWLOntologyManager manager)
-			throws OWLOntologyCreationException, SAXException {
-		OWLOntology ontology = manager.createOntology( TMP_URI );
-
-		OWLRDFConsumer consumer = new OWLRDFConsumer( manager, ontology,
-				new AnonymousNodeChecker() {
-					public boolean isAnonymousNode(URI uri) {
-						return isAnonymousNode( uri.toString() );
-					}
-
-					public boolean isAnonymousNode(String uri) {
-						return uri.startsWith( ANON_URI );
-					}
-				} );
-
-		consumer.startModel( "" );
-
-		for( Statement stmt : model.getStatements() ) {
-			String subj = toString( stmt.getSubject() );
-			String pred = toString( stmt.getPredicate() );
-			RDFNode vObj = stmt.getObject();
-			String obj = toString( vObj );
-
-			if( vObj instanceof Literal ) {
-				Literal literal = (Literal) vObj;
-
-				String datatypeURI = literal.getDatatypeURI();
-				String lang = literal.getLanguage();
-				
-				if( lang != null && lang.length() == 0 )
-					lang = null;
-
-				consumer.statementWithLiteralValue( subj, pred, obj, lang, datatypeURI );
-			}
-			else {
-				consumer.statementWithResourceValue( subj, pred, obj );
-			}
-		}
-
-		consumer.endModel();
-
-		return ontology;
-	}
-
-	public void writePretty(OutputStream out, RDFModel model) throws IOException {
-		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-		OWLOntology ontology = null;
-		try {
-			ontology = convert( model, manager );
-		} catch( OWLOntologyCreationException e ) {
-			throw new RuntimeException( e );
-		} catch( SAXException e ) {
-			throw new RuntimeException( e );
-		}
-
-		try {
-			manager.saveOntology( ontology, new StreamOutputTarget( out ) );
-		} catch( UnknownOWLOntologyException e ) {
-			throw new RuntimeException( e );
-		} catch( OWLOntologyStorageException e ) {
-			throw new IOException( e.getMessage() );
-		}
 	}
 
 	public void write(OutputStream out, RDFModel m) {

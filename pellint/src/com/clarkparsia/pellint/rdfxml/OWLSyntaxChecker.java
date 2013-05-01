@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellint.rdfxml;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -15,11 +14,13 @@ import java.util.Set;
 
 import org.mindswap.pellet.jena.vocabulary.OWL2;
 import org.mindswap.pellet.jena.vocabulary.SWRL;
-import org.semanticweb.owl.vocab.Namespaces;
-import org.semanticweb.owl.vocab.OWLRestrictedDataRangeFacetVocabulary;
-import org.semanticweb.owl.vocab.SWRLBuiltInsVocabulary;
-import org.semanticweb.owl.vocab.XSDVocabulary;
+import org.mindswap.pellet.utils.Namespaces;
+import org.semanticweb.owlapi.vocab.SWRLBuiltInsVocabulary;
 
+import aterm.ATermAppl;
+
+import com.clarkparsia.pellet.datatypes.DatatypeReasonerImpl;
+import com.clarkparsia.pellet.datatypes.Facet;
 import com.clarkparsia.pellint.util.CollectionUtil;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Property;
@@ -73,9 +74,8 @@ public class OWLSyntaxChecker {
 				OWL2.hasSelf);
 
 		DATA_RANGE_FACETS = CollectionUtil.makeSet();
-		for( OWLRestrictedDataRangeFacetVocabulary v : OWLRestrictedDataRangeFacetVocabulary
-				.values() ) {
-			DATA_RANGE_FACETS.add( ResourceFactory.createResource( v.getURI().toString() ) );
+		for( Facet v : Facet.XSD.values() ) {
+			DATA_RANGE_FACETS.add( ResourceFactory.createResource( v.getName().getName() ) );
 		}
 
 		SWRL_BUILT_INS = CollectionUtil.makeSet();
@@ -132,8 +132,8 @@ public class OWLSyntaxChecker {
 		// Fixes #457
 		m_OWLEntities.addDatatype( ResourceFactory.createResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral"));
 		
-		for( URI uri : XSDVocabulary.ALL_DATATYPES ) {
-			m_OWLEntities.addDatatype( ResourceFactory.createResource( uri.toASCIIString() ) );
+		for( ATermAppl uri : new DatatypeReasonerImpl().listDataRanges() ) {
+			m_OWLEntities.addDatatype( ResourceFactory.createResource( uri.getName() ) );
 		}
 
 		m_Lists = CollectionUtil.makeMap();

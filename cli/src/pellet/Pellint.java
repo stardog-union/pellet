@@ -304,7 +304,7 @@ public class Pellint extends PelletCmdApp {
 				rootModel.addAllStatementsWithExistingBNodesOnly( missingStmts );
 
 				RDFModelWriter writer = new RDFModelWriter();
-				writer.writePretty( new FileOutputStream( new File( m_OutputOntologyPath ) ),
+				writer.write( new FileOutputStream( new File( m_OutputOntologyPath ) ),
 						rootModel );
 			output("Saved to " + m_OutputOntologyPath );
 		}

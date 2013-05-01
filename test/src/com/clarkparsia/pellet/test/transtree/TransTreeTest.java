@@ -7,22 +7,21 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
-import org.mindswap.pellet.owlapi.OWLAPILoader;
 import org.mindswap.pellet.taxonomy.POTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.SubsumptionComparator;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.printer.ClassTreePrinter;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.semanticweb.owl.model.OWLEntity;
-import org.semanticweb.owl.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 
 import pellet.PelletTransTree;
 import aterm.ATermAppl;
 
-import com.clarkparsia.owlapi.OntologyUtils;
+import com.clarkparsia.owlapiv3.OntologyUtils;
+import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 
 public class TransTreeTest {
 	
@@ -35,7 +34,7 @@ public class TransTreeTest {
 		OWLAPILoader loader = new OWLAPILoader();
 		KnowledgeBase kb = loader.createKB( new String[] { ontologyURI } );
 		
-		OWLEntity entity = OntologyUtils.findEntity( propertyURI, loader.getOntologies() );
+		OWLEntity entity = OntologyUtils.findEntity( propertyURI, loader.getAllOntologies() );
 
 		if( entity == null )
 			throw new IllegalArgumentException( "Property not found: " + propertyURI );
@@ -43,10 +42,10 @@ public class TransTreeTest {
 		if( !(entity instanceof OWLObjectProperty) )
 			throw new IllegalArgumentException( "Not an object property: " + propertyURI );
 
-		if( !((OWLObjectProperty) entity).isTransitive( loader.getOntologies() ) )
+		if( !((OWLObjectProperty) entity).isTransitive( loader.getAllOntologies() ) )
 			throw new IllegalArgumentException( "Not a transitive property: " + propertyURI );
 		
-		ATermAppl p = ATermUtils.makeTermAppl( entity.getURI().toString() );
+		ATermAppl p = ATermUtils.makeTermAppl( entity.getIRI().toString() );
 
 		POTaxonomyBuilder builder = null;
 

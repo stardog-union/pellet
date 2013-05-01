@@ -10,32 +10,31 @@ package org.mindswap.pellet.test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
-
-import java.net.URI;
-
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
-import org.mindswap.pellet.owlapi.ConceptConverter;
-import org.mindswap.pellet.owlapi.PelletVisitor;
 import org.mindswap.pellet.utils.SetUtils;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLAxiom;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLConstant;
-import org.semanticweb.owl.model.OWLDataFactory;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLDataType;
-import org.semanticweb.owl.model.OWLDescription;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObject;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLOntologyManager;
-import org.semanticweb.owl.vocab.XSDVocabulary;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import aterm.ATermAppl;
+
+import com.clarkparsia.pellet.owlapiv3.ConceptConverter;
+import com.clarkparsia.pellet.owlapiv3.PelletVisitor;
 
 /**
  * <p>
@@ -62,44 +61,39 @@ public class OWLAPIObjectConversionTests {
 
 	private static OWLDataFactory		factory			= manager.getOWLDataFactory();
 
-	private static OWLClass				c1				= factory.getOWLClass( URI.create( ns
+	private static OWLClass				c1				= factory.getOWLClass( IRI.create( ns
 																+ "c1" ) );
 
-	private static OWLClass				c2				= factory.getOWLClass( URI.create( ns
+	private static OWLClass				c2				= factory.getOWLClass( IRI.create( ns
 																+ "c2" ) );
 
-	private static OWLObjectProperty	op1				= factory.getOWLObjectProperty( URI
+	private static OWLObjectProperty	op1				= factory.getOWLObjectProperty( IRI
 																.create( ns + "op1" ) );
 
-	private static OWLDataProperty		dp1				= factory.getOWLDataProperty( URI
+	private static OWLDataProperty		dp1				= factory.getOWLDataProperty( IRI
 																.create( ns + "dp1" ) );
 
-	private static OWLIndividual		ind1			= factory.getOWLIndividual( URI.create( ns
+	private static OWLIndividual		ind1			= factory.getOWLNamedIndividual( IRI.create( ns
 																+ "ind1" ) );
 
-	private static OWLIndividual		ind2			= factory.getOWLIndividual( URI.create( ns
+	private static OWLIndividual		ind2			= factory.getOWLNamedIndividual( IRI.create( ns
 																+ "ind2" ) );
 
-	private static OWLIndividual		ind3			= factory.getOWLAnonymousIndividual( URI
-																.create( ns + "ind3" ) );
+	private static OWLIndividual		ind3			= factory.getOWLAnonymousIndividual( ns + "ind3" );
 
-	private static OWLConstant			uc1				= factory.getOWLUntypedConstant( "lit1" );
+	private static OWLLiteral			uc1				= factory.getOWLLiteral( "lit1" );
 
-	private static OWLConstant			uc2				= factory.getOWLUntypedConstant( "lit2",
+	private static OWLLiteral			uc2				= factory.getOWLLiteral( "lit2",
 																"en" );
 
-	private static OWLConstant			tc1				= factory
-																.getOWLTypedConstant(
+	private static OWLLiteral			tc1				= factory
+																.getOWLLiteral(
 																		"lit3",
-																		factory
-																				.getOWLDataType( XSDVocabulary.STRING
-																						.getURI() ) );
+																		OWL2Datatype.XSD_STRING );
 
-	private static OWLConstant			tc2				= factory.getOWLTypedConstant( "1", factory
-																.getOWLDataType( XSDVocabulary.INT
-																		.getURI() ) );
+	private static OWLLiteral			tc2				= factory.getOWLLiteral( "1", OWL2Datatype.XSD_INTEGER );
 
-	private static OWLDataType			d1				= factory.getOWLDataType( URI.create( ns
+	private static OWLDatatype			d1				= factory.getOWLDatatype( IRI.create( ns
 																+ "d1" ) );
 
 	private KnowledgeBase				kb				= new KnowledgeBase();
@@ -127,21 +121,21 @@ public class OWLAPIObjectConversionTests {
 			// entities. therefore, we add a dummy axiom to the KB
 			// that will add the definitions for each entity.
 			OWLAxiom axiom = null;
-			if( object instanceof OWLDescription ) {
-				OWLDescription c = (OWLDescription) object;
-				axiom = factory.getOWLSubClassAxiom( c, c );
+			if( object instanceof OWLClassExpression ) {
+				OWLClassExpression c = (OWLClassExpression) object;
+				axiom = factory.getOWLSubClassOfAxiom( c, c );
 			}
 			else if( object instanceof OWLObjectProperty ) {
 				OWLObjectProperty p = (OWLObjectProperty) object;
-				axiom = factory.getOWLSubObjectPropertyAxiom( p, p );
+				axiom = factory.getOWLSubObjectPropertyOfAxiom( p, p );
 			}
 			else if( object instanceof OWLDataProperty ) {
 				OWLDataProperty p = (OWLDataProperty) object;
-				axiom = factory.getOWLSubDataPropertyAxiom( p, p );
+				axiom = factory.getOWLSubDataPropertyOfAxiom( p, p );
 			}
 			else if( object instanceof OWLIndividual ) {
 				OWLIndividual ind = (OWLIndividual) object;
-				axiom = factory.getOWLClassAssertionAxiom( ind, factory.getOWLThing() );
+				axiom = factory.getOWLClassAssertionAxiom( factory.getOWLThing(), ind );
 			}
 			if( axiom != null )
 				axiom.accept( atermConverter );
@@ -177,50 +171,50 @@ public class OWLAPIObjectConversionTests {
 	}
 
 	@Test
-	public void testObjectSomeRestriction() {
-		testConversion( factory.getOWLObjectSomeRestriction( op1, c1 ) );
-		testConversion( factory.getOWLObjectSomeRestriction( factory.getOWLObjectPropertyInverse( op1 ), c1 ) );
+	public void testObjectSomeValuesFrom() {
+		testConversion( factory.getOWLObjectSomeValuesFrom( op1, c1 ) );
+		testConversion( factory.getOWLObjectSomeValuesFrom( op1.getInverseProperty(), c1 ) );
 	}
 
 	@Test
-	public void testObjectAllRestriction() {
-		testConversion( factory.getOWLObjectAllRestriction( op1, c1 ) );
-		testConversion( factory.getOWLObjectAllRestriction( factory.getOWLObjectPropertyInverse( op1 ), c1 ) );
+	public void testObjectAllValuesFrom() {
+		testConversion( factory.getOWLObjectAllValuesFrom( op1, c1 ) );
+		testConversion( factory.getOWLObjectAllValuesFrom( op1.getInverseProperty(), c1 ) );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void testObjectValueRestriction() {
-		testConversion( factory.getOWLObjectValueRestriction( op1, ind1 ) );
-		testConversion( factory.getOWLObjectValueRestriction( factory.getOWLObjectPropertyInverse( op1 ), ind1 ) );
+		testConversion( factory.getOWLObjectHasValue( op1, ind1 ) );
+		testConversion( factory.getOWLObjectHasValue( op1.getInverseProperty(), ind1 ) );
 	}
 
 	@Test
-	public void testObjectMinCardinalityRestriction() {
-		testConversion( factory.getOWLObjectMinCardinalityRestriction( op1, 1 ) );
-		testConversion( factory.getOWLObjectMinCardinalityRestriction( op1, 1, c1 ) );
-		testConversion( factory.getOWLObjectMinCardinalityRestriction( factory.getOWLObjectPropertyInverse( op1 ), 1, c1 ) );
+	public void testObjectMinCardinality() {
+		testConversion( factory.getOWLObjectMinCardinality( 1, op1 ) );
+		testConversion( factory.getOWLObjectMinCardinality( 1, op1, c1 ) );
+		testConversion( factory.getOWLObjectMinCardinality( 1, op1.getInverseProperty(), c1 ) );
 	}
 
 	@Test
-	public void testObjectExactCardinalityRestriction() {
-		testConversion( factory.getOWLObjectExactCardinalityRestriction( op1, 1 ) );
-		testConversion( factory.getOWLObjectExactCardinalityRestriction( op1, 1, c1 ) );
-		testConversion( factory.getOWLObjectExactCardinalityRestriction( factory.getOWLObjectPropertyInverse( op1 ), 1, c1 ) );
+	public void testObjectExactCardinality() {
+		testConversion( factory.getOWLObjectExactCardinality( 1, op1 ) );
+		testConversion( factory.getOWLObjectExactCardinality( 1, op1, c1 ) );
+		testConversion( factory.getOWLObjectExactCardinality( 1, op1.getInverseProperty(), c1 ) );
 	}
 
 	@Test
-	public void testObjectMaxCardinalityRestriction() {
-		testConversion( factory.getOWLObjectMaxCardinalityRestriction( op1, 1 ) );
-		testConversion( factory.getOWLObjectMaxCardinalityRestriction( op1, 1, c1 ) );
-		testConversion( factory.getOWLObjectMaxCardinalityRestriction( factory.getOWLObjectPropertyInverse( op1 ), 1, c1 ) );
+	public void testObjectMaxCardinality() {
+		testConversion( factory.getOWLObjectMaxCardinality( 1, op1 ) );
+		testConversion( factory.getOWLObjectMaxCardinality( 1, op1, c1 ) );
+		testConversion( factory.getOWLObjectMaxCardinality( 1, op1.getInverseProperty(), c1 ) );
 	}
 
 	@Test
 	public void testSelfRestriction() {
-		testConversion( factory.getOWLObjectSelfRestriction( op1 ) );
-		testConversion( factory.getOWLObjectSelfRestriction( factory.getOWLObjectPropertyInverse( op1 ) ) );
+		testConversion( factory.getOWLObjectHasSelf( op1 ) );
+		testConversion( factory.getOWLObjectHasSelf( op1.getInverseProperty() ) );
 	}
 
 	@Test
@@ -229,36 +223,36 @@ public class OWLAPIObjectConversionTests {
 	}
 
 	@Test
-	public void testDataSomeRestriction() {
-		testConversion( factory.getOWLDataSomeRestriction( dp1, d1 ) );
+	public void testDataSomeValuesFrom() {
+		testConversion( factory.getOWLDataSomeValuesFrom( dp1, d1 ) );
 	}
 
 	@Test
-	public void testDataAllRestriction() {
-		testConversion( factory.getOWLDataAllRestriction( dp1, d1 ) );
+	public void testDataAllValuesFrom() {
+		testConversion( factory.getOWLDataAllValuesFrom( dp1, d1 ) );
 	}
 
 	@Test
 	public void testDataValueRestriction() {
-		testConversion( factory.getOWLDataValueRestriction( dp1, uc1 ) );
-		testConversion( factory.getOWLDataValueRestriction( dp1, uc2 ) );
-		testConversion( factory.getOWLDataValueRestriction( dp1, tc1 ) );
-		testConversion( factory.getOWLDataValueRestriction( dp1, tc2 ) );
+		testConversion( factory.getOWLDataHasValue( dp1, uc1 ) );
+		testConversion( factory.getOWLDataHasValue( dp1, uc2 ) );
+		testConversion( factory.getOWLDataHasValue( dp1, tc1 ) );
+		testConversion( factory.getOWLDataHasValue( dp1, tc2 ) );
 	}
 
 	@Test
-	public void testDataMinCardinalityRestriction() {
-		testConversion( factory.getOWLDataMinCardinalityRestriction( dp1, 1, d1 ) );
+	public void testDataMinCardinality() {
+		testConversion( factory.getOWLDataMinCardinality( 1, dp1, d1 ) );
 	}
 
 	@Test
-	public void testDataExactCardinalityRestriction() {
-		testConversion( factory.getOWLDataExactCardinalityRestriction( dp1, 1, d1 ) );
+	public void testDataExactCardinality() {
+		testConversion( factory.getOWLDataExactCardinality( 1, dp1, d1 ) );
 	}
 
 	@Test
-	public void testDataMaxCardinalityRestriction() {
-		testConversion( factory.getOWLDataMaxCardinalityRestriction( dp1, 1, d1 ) );
+	public void testDataMaxCardinality() {
+		testConversion( factory.getOWLDataMaxCardinality( 1, dp1, d1 ) );
 	}
 
 	@Test
@@ -300,7 +294,7 @@ public class OWLAPIObjectConversionTests {
 
 	@Test
 	public void testObjectPropertyInverse() {
-		testConversion( factory.getOWLObjectPropertyInverse( op1 ) );
+		testConversion( op1.getInverseProperty() );
 	}
 
 	@Test
