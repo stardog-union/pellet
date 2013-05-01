@@ -2,3 +2,5 @@
 dist
 build
 bin
+qa
+doc/javadoc
