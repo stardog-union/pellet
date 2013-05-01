@@ -14,13 +14,11 @@
 	<property name="cli.dir" location="cli"/>
 	<property name="core.dir" location="core"/>
 	<property name="datatypes.dir" location="datatypes"/>
-	<property name="dig.dir" location="dig"/>
 	<property name="el.dir" location="el"/>
 	<property name="examples.dir" location="examples"/>
 	<property name="explanation.dir" location="explanation"/>
 	<property name="jena.dir" location="jena"/>
 	<property name="modularity.dir" location="modularity"/>
-	<property name="owlapi.dir" location="owlapi"/>
 	<property name="owlapiv3.dir" location="owlapiv3"/>
 	<property name="pellint.dir" location="pellint"/>
 	<property name="profiler.dir" location="profiler"/>
@@ -31,13 +29,11 @@
 	<property name="cli.src.dir" location="${cli.dir}/src"/>
 	<property name="core.src.dir" location="${core.dir}/src"/>
 	<property name="datatypes.src.dir" location="${datatypes.dir}/src"/>
-	<property name="dig.src.dir" location="${dig.dir}/src"/>
 	<property name="el.src.dir" location="${el.dir}/src"/>
 	<property name="examples.src.dir" location="${examples.dir}/src"/>
 	<property name="explanation.src.dir" location="${explanation.dir}/src"/>
 	<property name="jena.src.dir" location="${jena.dir}/src"/>
 	<property name="modularity.src.dir" location="${modularity.dir}/src"/>
-	<property name="owlapi.src.dir" location="${owlapi.dir}/src"/>
 	<property name="owlapiv3.src.dir" location="${owlapiv3.dir}/src"/>
 	<property name="pellint.src.dir" location="${pellint.dir}/src"/>
 	<property name="profiler.src.dir" location="${profiler.dir}/src"/>
@@ -50,9 +46,7 @@
 	
 	<property name="core.lib.dir" location="${core.dir}/lib"/>
 	<property name="datatypes.lib.dir" location="${datatypes.dir}/lib"/>
-	<property name="dig.lib.dir" location="${dig.dir}/lib"/>
 	<property name="jena.lib.dir" location="${jena.dir}/lib"/>
-	<property name="owlapi.lib.dir" location="${owlapi.dir}/lib"/>
 	<property name="owlapiv3.lib.dir" location="${owlapiv3.dir}/lib"/>
 	<property name="pellint.lib.dir" location="${pellint.dir}/lib"/>
 	<property name="profiler.lib.dir" location="${profiler.dir}/lib"/>
@@ -61,12 +55,10 @@
 	
 	<property name="build.dir" location="build"/>
 	<property name="build.cli.class.dir" location="${build.dir}/cli/class"/>
-	<property name="build.dig.class.dir" location="${build.dir}/dig/class"/>
 	<property name="build.examples.class.dir" location="${build.dir}/examples/class"/>
 	<property name="build.explanation.class.dir" location="${build.dir}/explanation/class"/>
 	<property name="build.jena.class.dir" location="${build.dir}/jena/class"/>
 	<property name="build.modularity.class.dir" location="${build.dir}/modularity/class"/>
-	<property name="build.owlapi.class.dir" location="${build.dir}/owlapi/class"/>
 	<property name="build.owlapiv3.class.dir" location="${build.dir}/owlapiv3/class"/>
 	<property name="build.pellint.class.dir" location="${build.dir}/pellint/class"/>
 	<property name="build.profiler.class.dir" location="${build.dir}/profiler/class"/>
@@ -82,9 +74,7 @@
 	
 	<property name="dist.lib.core.dir" location="${dist.dir}/lib/core"/>
 	<property name="dist.lib.datatypes.dir" location="${dist.dir}/lib/datatypes"/>
-	<property name="dist.lib.dig.dir" location="${dist.dir}/lib/dig"/>
 	<property name="dist.lib.jena.dir" location="${dist.dir}/lib/jena"/>
-	<property name="dist.lib.owlapi.dir" location="${dist.dir}/lib/owlapi"/>
 	<property name="dist.lib.owlapiv3.dir" location="${dist.dir}/lib/owlapiv3"/>
 	<property name="dist.lib.pellint.dir" location="${dist.dir}/lib/pellint"/>
 	<property name="dist.lib.profiler.dir" location="${dist.dir}/lib/profiler"/>
@@ -93,13 +83,11 @@
 	<property name="pellet.cli.jar" value="${dist.lib.dir}/pellet-cli.jar"/>
 	<property name="pellet.core.jar" value="${dist.lib.dir}/pellet-core.jar"/>
 	<property name="pellet.datatypes.jar" value="${dist.lib.dir}/pellet-datatypes.jar"/>
-	<property name="pellet.dig.jar" value="${dist.lib.dir}/pellet-dig.jar"/>
 	<property name="pellet.el.jar" value="${dist.lib.dir}/pellet-el.jar"/>
 	<property name="pellet.examples.jar" value="${dist.lib.dir}/pellet-examples.jar"/>
 	<property name="pellet.explanation.jar" value="${dist.lib.dir}/pellet-explanation.jar"/>
 	<property name="pellet.jena.jar" value="${dist.lib.dir}/pellet-jena.jar"/>
 	<property name="pellet.modularity.jar" value="${dist.lib.dir}/pellet-modularity.jar"/>
-	<property name="pellet.owlapi.jar" value="${dist.lib.dir}/pellet-owlapi.jar"/>
 	<property name="pellet.owlapiv3.jar" value="${dist.lib.dir}/pellet-owlapiv3.jar"/>
 	<property name="pellet.pellint.jar" value="${dist.lib.dir}/pellet-pellint.jar"/>
 	<property name="pellet.profiler.jar" value="${dist.lib.dir}/pellet-profiler.jar"/>
@@ -111,12 +99,10 @@
 	<property name="pellet.cli.src.jar" value="${dist.src.dir}/pellet-cli-src.jar"/>
 	<property name="pellet.core.src.jar" value="${dist.src.dir}/pellet-core-src.jar"/>
 	<property name="pellet.datatypes.src.jar" value="${dist.src.dir}/pellet-datatypes-src.jar"/>
-	<property name="pellet.dig.src.jar" value="${dist.src.dir}/pellet-dig-src.jar"/>
 	<property name="pellet.el.src.jar" value="${dist.src.dir}/pellet-el-src.jar"/>
 	<property name="pellet.explanation.src.jar" value="${dist.src.dir}/pellet-explanation-src.jar"/>
 	<property name="pellet.jena.src.jar" value="${dist.src.dir}/pellet-jena-src.jar"/>
 	<property name="pellet.modularity.src.jar" value="${dist.src.dir}/pellet-modularity-src.jar"/>
-	<property name="pellet.owlapi.src.jar" value="${dist.src.dir}/pellet-owlapi-src.jar"/>
 	<property name="pellet.owlapiv3.src.jar" value="${dist.src.dir}/pellet-owlapiv3-src.jar"/>
 	<property name="pellet.pellint.src.jar" value="${dist.src.dir}/pellet-pellint-src.jar"/>
 	<property name="pellet.query.src.jar" value="${dist.src.dir}/pellet-query-src.jar"/>
@@ -169,12 +155,10 @@
 		<pathelement location="${build.root.class.dir}"/>
 		<pathelement location="${build.explanation.class.dir}"/>
 		<pathelement location="${build.modularity.class.dir}"/>
-		<pathelement location="${build.owlapi.class.dir}"/>
 		<pathelement location="${build.owlapiv3.class.dir}"/>
 		<pathelement location="${build.jena.class.dir}"/>
 		<pathelement location="${build.query.class.dir}"/>
 		<pathelement location="${build.cli.class.dir}"/>
-		<pathelement location="${build.dig.class.dir}"/>
 		<pathelement location="${build.test.class.dir}"/>
 		<pathelement location="${build.profiler.class.dir}"/>
 		<pathelement location="${build.pellint.class.dir}"/>
@@ -192,18 +176,8 @@
 			<include name="**/*.jar"/>
 			<exclude name="**/${project.name}*.jar"/>
 		</fileset>
-		<pathelement location="${owlapi.lib.dir}"/>
-		<fileset dir="${owlapi.lib.dir}">
-			<include name="**/*.jar"/>
-			<exclude name="**/${project.name}*.jar"/>
-		</fileset>
 		<pathelement location="${owlapiv3.lib.dir}"/>
 		<fileset dir="${owlapiv3.lib.dir}">
-			<include name="**/*.jar"/>
-			<exclude name="**/${project.name}*.jar"/>
-		</fileset>
-		<pathelement location="${dig.lib.dir}"/>
-		<fileset dir="${dig.lib.dir}">
 			<include name="**/*.jar"/>
 			<exclude name="**/${project.name}*.jar"/>
 		</fileset>
@@ -240,11 +214,9 @@
 		<mkdir dir="${build.explanation.class.dir}"/>
 		<mkdir dir="${build.modularity.class.dir}"/>
 		<mkdir dir="${build.root.class.dir}"/>
-		<mkdir dir="${build.owlapi.class.dir}"/>
 		<mkdir dir="${build.owlapiv3.class.dir}"/>
 		<mkdir dir="${build.jena.class.dir}"/>
 		<mkdir dir="${build.query.class.dir}"/>
-		<mkdir dir="${build.dig.class.dir}"/>
 		<mkdir dir="${build.cli.class.dir}"/>
 		<mkdir dir="${build.test.class.dir}"/>
 		<mkdir dir="${build.pellint.class.dir}"/>
@@ -275,7 +247,7 @@
 	</target>
 	
 	<target name="compile-pellet"
-		depends="init,compile-root,compile-owlapi,compile-owlapiv3,compile-modularity,compile-jena,compile-query,compile-cli,compile-dig,compile-test">
+		depends="init,compile-root,compile-owlapiv3,compile-modularity,compile-jena,compile-query,compile-cli,compile-test">
 	</target>
 	
 	<target name="compile-root" depends="init">
@@ -289,14 +261,6 @@
 		</javac>
 	</target>
 	
-	<target name="compile-owlapi" depends="init,compile-root">
-		<javac source="1.5" target="1.5" destdir="${build.owlapi.class.dir}"
-			debug="yes" deprecation="no">
-			<src path="${owlapi.src.dir}"/>
-			<classpath refid="project.class.path"/>
-		</javac>
-	</target>
-	
 	<target name="compile-owlapiv3" depends="init,compile-root,compile-query">
 		<javac source="1.5" target="1.5" destdir="${build.owlapiv3.class.dir}"
 			debug="yes" deprecation="no">
@@ -305,14 +269,14 @@
 		</javac>
 	</target>
 	
-	<target name="compile-explanation" depends="init,compile-root,compile-owlapi">
+	<target name="compile-explanation" depends="init,compile-root,compile-owlapiv3">
 		<javac source="1.5" target="1.5" destdir="${build.explanation.class.dir}" debug="yes" deprecation="no">
 			<src path="${explanation.src.dir}"/>
 			<classpath refid="project.class.path"/>
 		</javac>
 	</target>
 		
-	<target name="compile-modularity" depends="init,compile-root,compile-owlapi">
+	<target name="compile-modularity" depends="init,compile-root,compile-owlapiv3">
 		<javac source="1.5" target="1.5" destdir="${build.modularity.class.dir}" debug="yes" deprecation="no">
 			<src path="${modularity.src.dir}"/>
 			<classpath refid="project.class.path"/>
@@ -352,7 +316,7 @@
 		</javac>
 	</target>
 	
-	<target name="compile-pellint" depends="init,compile-root,compile-owlapi">
+	<target name="compile-pellint" depends="init,compile-root">
 		<javac source="1.5" target="1.5" destdir="${build.pellint.class.dir}"
 			debug="yes" deprecation="no">
 			<src path="${pellint.src.dir}"/>
@@ -361,7 +325,7 @@
 	</target>
 	
 	<target name="compile-cli"
-		depends="init,compile-root,compile-owlapi,compile-jena,compile-query,compile-explanation,compile-modularity,compile-pellint,compile-dig">
+		depends="init,compile-root,compile-owlapiv3,compile-jena,compile-query,compile-explanation,compile-modularity,compile-pellint">
 		<javac source="1.5" target="1.5" destdir="${build.cli.class.dir}"
 			debug="yes" deprecation="no">
 			<src path="${cli.src.dir}"/>
@@ -369,17 +333,8 @@
 		</javac>
 	</target>
 	
-	<target name="compile-dig"
-		depends="init,compile-root">
-		<javac source="1.5" target="1.5" destdir="${build.dig.class.dir}"
-			debug="yes" deprecation="no">
-			<src path="${dig.src.dir}"/>
-			<classpath refid="project.class.path"/>
-		</javac>
-	</target>
-	
 	<target name="compile-test"
-		depends="init,compile-root,compile-owlapi,compile-jena,compile-query,compile-cli,compile-dig,compile-modularity,compile-explanation">
+		depends="init,compile-root,compile-owlapiv3,compile-jena,compile-query,compile-cli,compile-modularity,compile-explanation">
 		<javac source="1.5" target="1.5" destdir="${build.test.class.dir}"
 			debug="yes" deprecation="no">
 			<src path="${test.src.dir}"/>
@@ -440,12 +395,10 @@
 		<jar jarfile="${pellet.cli.src.jar}" basedir="${cli.src.dir}"/>
 		<jar jarfile="${pellet.core.src.jar}" basedir="${core.src.dir}"/>
 		<jar jarfile="${pellet.datatypes.src.jar}" basedir="${datatypes.src.dir}"/>
-		<jar jarfile="${pellet.dig.src.jar}" basedir="${dig.src.dir}"/>
 		<jar jarfile="${pellet.el.src.jar}" basedir="${el.src.dir}"/>
 		<jar jarfile="${pellet.explanation.src.jar}" basedir="${explanation.src.dir}"/>
 		<jar jarfile="${pellet.jena.src.jar}" basedir="${jena.src.dir}"/>
 		<jar jarfile="${pellet.modularity.src.jar}" basedir="${modularity.src.dir}"/>
-		<jar jarfile="${pellet.owlapi.src.jar}" basedir="${owlapi.src.dir}"/>
 		<jar jarfile="${pellet.owlapiv3.src.jar}" basedir="${owlapiv3.src.dir}"/>
 		<jar jarfile="${pellet.query.src.jar}" basedir="${query.src.dir}">
 			<fileset dir="${query.grammar.src.dir}"/>
@@ -454,12 +407,10 @@
 		<jar jarfile="${pellet.test.src.jar}" basedir="${test.src.dir}"/>
 		<jar jarfile="${pellet.pellint.src.jar}" basedir="${pellint.src.dir}"/>
 		
-		<jar jarfile="${pellet.owlapi.jar}" basedir="${build.owlapi.class.dir}"/>
 		<jar jarfile="${pellet.owlapiv3.jar}" basedir="${build.owlapiv3.class.dir}"/>
 		<jar jarfile="${pellet.modularity.jar}" basedir="${build.modularity.class.dir}"/>
 		<jar jarfile="${pellet.jena.jar}" basedir="${build.jena.class.dir}"/>
 		<jar jarfile="${pellet.query.jar}" basedir="${build.query.class.dir}"/>
-		<jar jarfile="${pellet.dig.jar}" basedir="${build.dig.class.dir}"/>
 		<jar jarfile="${pellet.test.jar}" basedir="${build.test.class.dir}"/>
 		<jar jarfile="${pellet.explanation.jar}" basedir="${build.explanation.class.dir}"/>	
 <!--
@@ -517,15 +468,7 @@
 				<include name="**/*.jar"/>
 				<include name="**/*.txt"/>
 			</fileset>
-			<fileset dir="${owlapi.lib.dir}">
-				<include name="**/*.jar"/>
-				<include name="**/*.txt"/>
-			</fileset>
 			<fileset dir="${owlapiv3.lib.dir}">
-				<include name="**/*.jar"/>
-				<include name="**/*.txt"/>
-			</fileset>
-			<fileset dir="${dig.lib.dir}">
 				<include name="**/*.jar"/>
 				<include name="**/*.txt"/>
 			</fileset>
@@ -677,16 +620,10 @@
 			<fileset dir="${el.src.dir}" defaultexcludes="yes">
 				<include name="**/*.java"/>
 			</fileset>
-			<fileset dir="${owlapi.src.dir}" defaultexcludes="yes">
-				<include name="**/*.java"/>
-			</fileset>
 			<fileset dir="${owlapiv3.src.dir}" defaultexcludes="yes">
 				<include name="**/*.java"/>
 			</fileset>
 			<fileset dir="${cli.src.dir}" defaultexcludes="yes">
-				<include name="**/*.java"/>
-			</fileset>
-			<fileset dir="${dig.src.dir}" defaultexcludes="yes">
 				<include name="**/*.java"/>
 			</fileset>
 			<fileset dir="${pellint.src.dir}" defaultexcludes="yes">
