@@ -48,7 +48,7 @@ cd $PROJECT_DIRNAME
 
 # verify that the required files are there
 
-for file in HOW_TO_FILE_PELLET_BUG_REPORT.txt BUGS.txt CHANGES.txt LICENSE.txt pellet.bat pellet.sh README.txt agpl-3.0.txt; do
+for file in HOW_TO_FILE_PELLET_BUG_REPORT.txt BUGS.txt CHANGES.txt LICENSE.txt pellet.bat pellet.sh README.md agpl-3.0.txt; do
   echo Checking whether $file exists
   if [ ! -e $file ]; then
     echo "There is no required file $file in the unzipped archive"
@@ -65,7 +65,7 @@ if [ "$?" != "0" ]; then
   exit 1
 fi
 
-for pellet_command in classify consistency dig explain extract info lint modularity query realize trans-tree unsat; do
+for pellet_command in classify consistency explain extract info lint modularity query realize trans-tree unsat; do
   if [ `sh pellet.sh help | grep ${pellet_command} | wc -l` -lt 1 ]; then 
     echo "pellet help does not report \"${pellet_command}\" command in the available subcommands in help"
     exit 1

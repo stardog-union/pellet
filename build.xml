@@ -525,7 +525,7 @@
 				<include name="LICENSE.txt"/>
 				<include name="pellet.bat"/>
 				<include name="pellet.sh"/>
-				<include name="README.txt"/>
+				<include name="README.*"/>
 			</fileset>
 		</copy>		
 
@@ -646,7 +646,7 @@
 		<antcall target="zip"/>
 	</target>
 
-    <target name="prepare-qa-files" depends="clean,label-release,test,release">
+    <target name="prepare-qa-files" depends="release">
       <copy file="${dist.dir}/${project.dirname}.zip" todir="${qa.dir}"/>
     </target>
 
