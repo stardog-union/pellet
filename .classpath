@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="core/src"/>
 	<classpathentry kind="src" path="cli/src"/>
 	<classpathentry kind="src" path="datatypes/src"/>
-	<classpathentry kind="src" path="dig/src"/>
 	<classpathentry kind="src" path="el/src"/>
 	<classpathentry kind="src" path="examples/src"/>
 	<classpathentry kind="src" path="explanation/src"/>
@@ -42,9 +41,6 @@
 	<classpathentry kind="lib" path="profiler/lib/jfreechart/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="lib" path="datatypes/lib/xsdlib/relaxngDatatype.jar"/>
 	<classpathentry kind="lib" path="datatypes/lib/xsdlib/xsdlib.jar"/>
-	<classpathentry kind="lib" path="dig/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="dig/lib/jetty/jetty.jar"/>
-	<classpathentry kind="lib" path="dig/lib/jetty/commons-logging-api.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
