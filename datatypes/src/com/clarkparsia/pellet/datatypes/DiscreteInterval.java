@@ -51,7 +51,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 
 		public T next() {
 			final T ret = next;
-			if( upper != null && equal( next, last ) )
+			if( getUpper() != null && equal( next, last ) )
 				next = null;
 			else
 				next = increment
@@ -127,12 +127,12 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 	}
 
 	public boolean canUnionWith(U other) {
-		final int ll = compare( this.lower, LEAST, other.lower, LEAST );
-		final int uu = compare( this.upper, GREATEST, other.upper, GREATEST );
+		final int ll = compare( this.getLower(), LEAST, other.getLower(), LEAST );
+		final int uu = compare( this.getUpper(), GREATEST, other.getUpper(), GREATEST );
 		if( ll <= 0 ) {
 			if( uu < 0 ) {
-				if( compare( this.upper, GREATEST, other.lower, LEAST ) < 0 ) {
-					if( equal( increment( this.upper ), other.lower ) )
+				if( compare( this.getUpper(), GREATEST, other.getLower(), LEAST ) < 0 ) {
+					if( equal( increment( this.getUpper() ), other.getLower() ) )
 						return true;
 					else
 						return false;
@@ -145,8 +145,8 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 		}
 		else {
 			if( uu > 0 ) {
-				if( compare( this.lower, LEAST, other.upper, GREATEST ) > 0 ) {
-					if( equal( increment( other.upper ), this.lower ) )
+				if( compare( this.getLower(), LEAST, other.getUpper(), GREATEST ) > 0 ) {
+					if( equal( increment( other.getUpper() ), this.getLower() ) )
 						return true;
 					else
 						return false;
@@ -222,12 +222,12 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((lower == null)
+		result = prime * result + ((getLower() == null)
 			? 0
-			: lower.hashCode());
-		result = prime * result + ((upper == null)
+			: getLower().hashCode());
+		result = prime * result + ((getUpper() == null)
 			? 0
-			: upper.hashCode());
+			: getUpper().hashCode());
 		return result;
 	}
 
@@ -235,24 +235,24 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 
 	public U intersection(U that) {
 
-		final int ll = compare( this.lower, LEAST, that.lower, LEAST );
-		final int uu = compare( this.upper, GREATEST, that.upper, GREATEST );
+		final int ll = compare( this.getLower(), LEAST, that.getLower(), LEAST );
+		final int uu = compare( this.getUpper(), GREATEST, that.getUpper(), GREATEST );
 		if( ll <= 0 ) {
 			if( uu < 0 ) {
-				if( compare( this.upper, GREATEST, that.lower, LEAST ) < 0 )
+				if( compare( this.getUpper(), GREATEST, that.getLower(), LEAST ) < 0 )
 					return null;
 				else
-					return create( that.lower, this.upper );
+					return create( that.getLower(), this.getUpper() );
 			}
 			else
 				return that;
 		}
 		else {
 			if( uu > 0 ) {
-				if( compare( this.lower, LEAST, that.upper, GREATEST ) > 0 )
+				if( compare( this.getLower(), LEAST, that.getUpper(), GREATEST ) > 0 )
 					return null;
 				else
-					return create( this.lower, that.upper );
+					return create( this.getLower(), that.getUpper() );
 			}
 			else
 				return cast( this );
@@ -260,7 +260,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 	}
 
 	public boolean isFinite() {
-		return lower != null && upper != null;
+		return getLower() != null && getUpper() != null;
 	}
 
 	/**
@@ -288,10 +288,10 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 
 		U before, after;
 
-		final int ll = compare( this.lower, LEAST, other.lower, LEAST );
-		final int lu = compare( this.lower, LEAST, other.upper, GREATEST );
-		final int ul = compare( this.upper, GREATEST, other.lower, LEAST );
-		final int uu = compare( this.upper, GREATEST, other.upper, GREATEST );
+		final int ll = compare( this.getLower(), LEAST, other.getLower(), LEAST );
+		final int lu = compare( this.getLower(), LEAST, other.getUpper(), GREATEST );
+		final int ul = compare( this.getUpper(), GREATEST, other.getLower(), LEAST );
+		final int uu = compare( this.getUpper(), GREATEST, other.getUpper(), GREATEST );
 
 		if( ll < 0 ) {
 			if( ul < 0 ) {
@@ -299,11 +299,11 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 				after = null;
 			}
 			else {
-				before = create( this.lower, decrement( other.lower ) );
+				before = create( this.getLower(), decrement( other.getLower() ) );
 				if( uu <= 0 )
 					after = null;
 				else
-					after = create( increment( other.upper ), this.upper );
+					after = create( increment( other.getUpper() ), this.getUpper() );
 			}
 		}
 		else {
@@ -318,7 +318,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 				}
 				else {
 					before = null;
-					after = create( increment( other.upper ), this.upper );
+					after = create( increment( other.getUpper() ), this.getUpper() );
 				}
 			}
 		}
@@ -342,10 +342,10 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 	public List<U> union(U other) {
 		U first, second;
 
-		final int ll = compare( this.lower, LEAST, other.lower, LEAST );
-		final int lu = compare( this.lower, LEAST, other.upper, GREATEST );
-		final int ul = compare( this.upper, GREATEST, other.lower, LEAST );
-		final int uu = compare( this.upper, GREATEST, other.upper, GREATEST );
+		final int ll = compare( this.getLower(), LEAST, other.getLower(), LEAST );
+		final int lu = compare( this.getLower(), LEAST, other.getUpper(), GREATEST );
+		final int ul = compare( this.getUpper(), GREATEST, other.getLower(), LEAST );
+		final int uu = compare( this.getUpper(), GREATEST, other.getUpper(), GREATEST );
 
 		if( ll < 0 ) {
 			if( ul < 0 ) {
@@ -355,7 +355,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 			else {
 				second = null;
 				if( uu < 0 )
-					first = create( this.lower, other.upper );
+					first = create( this.getLower(), other.getUpper() );
 				else
 					first = cast( this );
 			}
@@ -370,7 +370,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 				if( uu <= 0 )
 					first = other;
 				else
-					first = create( other.lower, this.upper );
+					first = create( other.getLower(), this.getUpper() );
 			}
 		}
 
@@ -391,14 +391,14 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 	protected abstract boolean valid(T t);
 
 	public Iterator<T> valueIterator() {
-		if( lower == null ) {
-			if( upper == null )
+		if( getLower() == null ) {
+			if( getUpper() == null )
 				throw new IllegalStateException();
 			else
-				return new ValueIterator( upper, lower, false );
+				return new ValueIterator( getUpper(), getLower(), false );
 		}
 		else
-			return new ValueIterator( lower, upper, true );
+			return new ValueIterator( getLower(), getUpper(), true );
 	}
 
 	@Override

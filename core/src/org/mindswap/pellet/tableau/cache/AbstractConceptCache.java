@@ -436,14 +436,14 @@ public abstract class AbstractConceptCache implements ConceptCache {
 			ATermAppl neighbor = edge.getFromName();
 
 			if( !ATermUtils.isBnode( neighbor ) )
-				neighbors.put( neighbor, role );
+				neighbors.putSingle( neighbor, role );
 		}
 		
 		for( Edge edge : ind.getOutEdges() ) {
 			Role role = edge.getRole();
 			ATermAppl neighbor = edge.getToName();
 			if( role.isObjectRole() && !ATermUtils.isBnode( neighbor ) )
-				neighbors.put( neighbor, role.getInverse() );
+				neighbors.putSingle( neighbor, role.getInverse() );
 		}
 		return neighbors;
 	}

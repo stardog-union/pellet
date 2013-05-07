@@ -36,7 +36,7 @@ public class MultiValueMap<K,V> extends HashMap<K,Set<V>> implements Map<K,Set<V
     	super( initialCapacity );
     }
 
-    public Set<V> put( K key, V value ) {
+    public Set<V> putSingle( K key, V value ) {
         Set<V> set = new HashSet<V>();
         set.add( value );
         
