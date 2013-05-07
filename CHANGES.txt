@@ -1,6 +1,20 @@
 Change Log
 ==========
 
+Pellet 2.3.1 (May 7, 2013)
+--------------------------
+
+* UPDATED: OWLAPI v3 to 3.4.3
+
+* UPDATED: Jena to 2.10.0
+
+* REMOVED: Deprecated DIG support
+
+* REMOVED: Deprecated OWLAPI v2 support
+
+* REMOVED: Deprecated datatype reasoner and xsdlib jars
+
+
 Pellet 2.3 (Aug 22, 2011)
 -------------------------
 
