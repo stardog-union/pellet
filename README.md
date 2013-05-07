@@ -21,7 +21,7 @@ code samples in the examples/ directory.
 
 Commercial support for Pellet is [available](http://clarkparsia.com/support).
 
-The p[Pellet FAQ](http://clarkparsia.com/pellet/faq) answers some frequently asked questions.
+The [Pellet FAQ](http://clarkparsia.com/pellet/faq) answers some frequently asked questions.
 
 There is a [pellet-users mailing list](https://groups.google.com/forum/?fromgroups#!forum/pellet-users) for questions and feedback.
 
