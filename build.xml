@@ -126,23 +126,7 @@
 
     <property name="qa.dir" location="qa"/>
     <property name="release.scripts.dir" location="release-scripts"/>
-    <property name="bash" location="/bin/bash"/>
-
-    <!-- The host where to deploy pellet release zip file -->
-    <property name="deploy.host" value="dl.clarkparsia.com"/>
-
-    <!-- The user name for authentication during the deployment -->
-    <property name="deploy.user" value="dl"/>
-
-    <!-- The home directory of the user on the deployment host (the zip file goes there first) -->
-    <property name="deploy.home" value="/home/${deploy.user}"/>
-
-    <!-- The actual directory from which the zip file will be available for download -->
-    <property name="deploy.download.dir" value="/usr/local/downloads"/>
-
-    <!-- The property file with the configuration of the registration servlet (the information about the new release has to be added there) -->
-    <property name="deploy.registration.servlet.properties" value="/usr/local/resin-3.1.9-dl/registration-servlet.properties"/>
-    
+    <property name="bash" location="/bin/bash"/>    
 
 	<property name="antlr.jar.file" location="${query.lib.dir}/antlr/antlr-3.2.jar" />
 	
@@ -662,13 +646,14 @@
     </target>
 
     <target name="deploy" depends="pass-qa">
+      <property file="deploy.properties"/>
       <exec executable="${bash}" failonerror="true">
         <arg file="${release.scripts.dir}/deploy.sh"/>
         <arg path="${dist.dir}/${project.dirname}.zip"/>
         <arg value="${project.version.label}"/>
         <arg value="${deploy.host}"/>
         <arg value="${deploy.user}"/>
-        <arg value="${deploy.home}"/>
+        <arg value="${deploy.home}/${deploy.user}"/>
         <arg value="${deploy.download.dir}"/>
         <arg value="${deploy.registration.servlet.properties}"/>
       </exec>
