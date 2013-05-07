@@ -112,7 +112,7 @@
 	<property name="doc.dir" location="doc"/>
 	<property name="javadoc.dir" location="${doc.dir}/javadoc"/>
 	<property name="project.name" value="pellet"/>
-	<property name="project.version.number" value="2.3.0.3546"/>
+	<property name="project.version.number" value="2.3.1"/>
 	<property name="pellet.cli.class" value="pellet.Pellet"/>
 	<property name="pellet.explanation.class" value="com.clarkparsia.explanation.Explain"/>
 	<property name="version.file" value="org/mindswap/pellet/version.properties"/>
