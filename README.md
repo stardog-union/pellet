@@ -1,12 +1,19 @@
 Pellet: An Open Source OWL DL reasoner for Java
 -----------------------------------------------
 
-Pellet is an OWL DL reasoner--dual-licensed, [open source](https://github.com/clarkparsia/pellet/blob/master/LICENSE.txt), and Java-based--       
-developed and [commercially supported](http://clarkparsia.com/support) by Clark & Parsia LLC. It can      
-be used with Jena or OWL-API libraries. Pellet provides functionality to check consistency of ontologies, compute the classification hierarchy, 
+Pellet is the OWL 2 DL reasoner.
+
+Pellet is
+
+* dual-licensed, 
+* [open source](https://github.com/clarkparsia/pellet/blob/master/LICENSE.txt),
+* pure Java
+* developed and [commercially supported](http://clarkparsia.com/support) by Clark & Parsia LLC. 
+
+Pellet can be used with Jena or OWL-API libraries. Pellet provides functionality to check consistency of ontologies, compute the classification hierarchy, 
 explain inferences, and answer SPARQL queries.
 
-Pellet 3.0, a closed source next-gen version of Pellet, is embedded and available in [Stardog](http://stardog.com/), the RDF
+Pellet 3.0, a closed source, next-gen version of Pellet, is embedded and available in [Stardog](http://stardog.com/), the RDF
 database.
 
 Feel free to fork this repository and submit pull requests if you want to
