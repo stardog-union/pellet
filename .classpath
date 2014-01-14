@@ -22,14 +22,14 @@
 	<classpathentry kind="lib" path="jena/lib/jena/httpclient-4.2.3.jar"/>
 	<classpathentry kind="lib" path="jena/lib/jena/httpcore-4.2.2.jar"/>
 	<classpathentry kind="lib" path="jena/lib/jena/jcl-over-slf4j-1.6.4.jar"/>
-	<classpathentry kind="lib" path="jena/lib/jena/jena-arq-2.10.0.jar"/>
-	<classpathentry kind="lib" path="jena/lib/jena/jena-core-2.10.0.jar"/>
-	<classpathentry kind="lib" path="jena/lib/jena/jena-iri-0.9.5.jar"/>
-	<classpathentry kind="lib" path="jena/lib/jena/jena-tdb-0.10.0.jar"/>
+	<classpathentry kind="lib" path="jena/lib/jena/jena-arq-2.10.1.jar"/>
+	<classpathentry kind="lib" path="jena/lib/jena/jena-core-2.10.1.jar"/>
+	<classpathentry kind="lib" path="jena/lib/jena/jena-iri-0.9.6.jar"/>
+	<classpathentry kind="lib" path="jena/lib/jena/jena-tdb-0.10.1.jar"/>
 	<classpathentry kind="lib" path="jena/lib/jena/log4j-1.2.16.jar"/>
 	<classpathentry kind="lib" path="jena/lib/jena/slf4j-api-1.6.4.jar"/>
 	<classpathentry kind="lib" path="jena/lib/jena/slf4j-log4j12-1.6.4.jar"/>
-	<classpathentry kind="lib" path="jena/lib/jena/xercesImpl-2.10.0.jar"/>
+	<classpathentry kind="lib" path="jena/lib/jena/xercesImpl-2.11.0.jar"/>
 	<classpathentry kind="lib" path="jena/lib/jena/xml-apis-1.4.01.jar"/>
 	<classpathentry kind="lib" path="pellint/lib/jgrapht/jgrapht-jdk1.5.jar"/>
 	<classpathentry kind="lib" path="query/lib/antlr/antlr-3.2.jar"/>
