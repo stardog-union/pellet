@@ -175,7 +175,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 
 	@Override
     public boolean isPrepared() {
-		return isPrepared && (!autoDetectChanges || !graphListener.isChanged());
+		return super.isPrepared() && (!autoDetectChanges || !graphListener.isChanged());
 	}
 	
 	private void load() {
@@ -251,7 +251,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 	        log.fine( "done." );
         }
 
-		isPrepared = true;
+               super.prepare();
 	}
 
 	public boolean isConsistent() {
@@ -261,11 +261,11 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 	}
 
 	public boolean isClassified() {
-		return isPrepared && kb.isClassified();
+		return super.isPrepared() && kb.isClassified();
 	}
 
 	public boolean isRealized() {
-		return isPrepared && kb.isRealized();
+		return super.isPrepared() && kb.isRealized();
 	}
 
 	public void classify() {
@@ -531,7 +531,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 	@Override
     public void performAdd(Triple t) {
 		fdata.getGraph().add( t );
-		isPrepared = false;
+		setPreparedState(false);
 	}
 
 	/**
@@ -546,7 +546,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 	@Override
     public void performDelete(Triple t) {
 		fdata.getGraph().delete( t );
-		isPrepared = false;
+		setPreparedState(false);
 	}
 
 
