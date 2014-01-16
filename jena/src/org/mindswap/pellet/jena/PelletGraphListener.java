@@ -22,7 +22,9 @@ import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.GraphListener;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
+import com.hp.hpl.jena.graph.compose.Dyadic;
 import com.hp.hpl.jena.graph.compose.MultiUnion;
+import com.hp.hpl.jena.graph.compose.Polyadic;
 import com.hp.hpl.jena.reasoner.InfGraph;
 import com.hp.hpl.jena.vocabulary.RDF;
 
@@ -46,17 +48,44 @@ public class PelletGraphListener implements GraphListener {
 	private Set<Graph>		changedGraphs;
 	
 	private boolean			statementDeleted;
+	
+	private boolean 		enabled;
 
-	public PelletGraphListener(Graph rootGraph, KnowledgeBase kb) {
+	public PelletGraphListener(Graph rootGraph, KnowledgeBase kb, boolean enabled) {
 		this.rootGraph = rootGraph;
 		this.kb = kb;
+		this.enabled = enabled;
 		
 		leafGraphs = CollectionUtils.makeSet();
 		changedGraphs = CollectionUtils.makeSet();
 		
 		statementDeleted = false;
 		
-		collectLeafGraphs( rootGraph, Collections.<Graph>emptySet() );
+		if (enabled) {
+			collectLeafGraphs( rootGraph, Collections.<Graph>emptySet() );
+		}
+	}
+	
+	public void setEnabled(boolean enabled) {
+		if (this.enabled == enabled) {
+			return;
+		}
+		
+		this.enabled = enabled;
+
+		leafGraphs.clear();
+		changedGraphs.clear();
+
+		statementDeleted = false;
+		
+		if (enabled) {
+			collectLeafGraphs( rootGraph, Collections.<Graph>emptySet() );
+		}
+		else {
+			for( Graph graph : leafGraphs ) {
+				graph.getEventManager().unregister( this );
+			}
+		}
 	}
 	
 	private void addABoxTriple(Triple t) {
@@ -108,13 +137,22 @@ public class PelletGraphListener implements GraphListener {
 	}
 	
 	private void collectLeafGraphs(Graph graph, Set<Graph> prevLeaves) {
-		if( graph instanceof MultiUnion ) {
-			MultiUnion union = ((MultiUnion) graph);
+		if( graph instanceof Polyadic ) {
+			Polyadic union = ((Polyadic) graph);
 			if( union.getBaseGraph() != null )
 				collectLeafGraphs( union.getBaseGraph(), prevLeaves );
 
 			for( Iterator<Graph> i = union.getSubGraphs().iterator(); i.hasNext(); )
 				collectLeafGraphs( i.next(), prevLeaves );
+		}
+		else if( graph instanceof Dyadic ) {
+			Dyadic dyadic = ((Dyadic) graph);
+			if( dyadic.getL() instanceof Graph )
+				collectLeafGraphs( (Graph) dyadic.getL(), prevLeaves );
+
+
+			if( dyadic.getR() instanceof Graph )
+				collectLeafGraphs( (Graph) dyadic.getR(), prevLeaves );
 		}
 		else if( graph instanceof InfGraph ) {
 			collectLeafGraphs( ((InfGraph) graph).getRawGraph(), prevLeaves );

@@ -3228,4 +3228,108 @@ public class JenaTests {
 		
 		assertTrue(inferences.contains(a, RDF.type, D));
 	}
+	
+	@Test
+	public void testSubmodelUpdate1() {
+		String ns = "urn:test:";
+
+		Resource a = ResourceFactory.createResource( ns + "a" );
+		Resource A = ResourceFactory.createResource( ns + "A" );
+		Resource B = ResourceFactory.createResource( ns + "B" );
+
+		Model m1 = ModelFactory.createDefaultModel();
+		m1.add(a, RDF.type, A);
+		
+		Model m2 = ModelFactory.createDefaultModel();
+		m2.add(B, RDF.type, OWL.Class);
+		
+		Model union = ModelFactory.createUnion(m1, m2);
+		
+		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, union );
+		
+		((PelletInfGraph) model.getGraph()).setAutoDetectChanges(true);
+		
+		assertTrue(model.contains(a, RDF.type, A));
+		assertFalse(model.contains(a, RDF.type, B));
+		
+		m2.add(A, RDFS.subClassOf, B);
+
+		assertTrue(model.contains(a, RDF.type, A));
+		assertTrue(model.contains(a, RDF.type, B));
+	}
+
+	@Test
+	public void testSubmodelUpdate2() {
+		String ns = "urn:test:";
+
+		Resource a = ResourceFactory.createResource( ns + "a" );
+		Resource A = ResourceFactory.createResource( ns + "A" );
+		Resource B = ResourceFactory.createResource( ns + "B" );
+
+		Model m1 = ModelFactory.createDefaultModel();
+		m1.add(a, RDF.type, A);
+		
+		Model m2 = ModelFactory.createDefaultModel();
+		m2.add(B, RDF.type, OWL.Class);
+		
+		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
+
+		((PelletInfGraph) model.getGraph()).setAutoDetectChanges(true);
+		
+		assertFalse(model.contains(a, RDF.type, A));
+		assertFalse(model.contains(a, RDF.type, B));
+		
+		model.addSubModel(m1);
+		model.addSubModel(m2);
+		
+		assertTrue(model.contains(a, RDF.type, A));
+		assertFalse(model.contains(a, RDF.type, B));
+		
+		m2.add(A, RDFS.subClassOf, B);
+
+		assertTrue(model.contains(a, RDF.type, A));
+		assertTrue(model.contains(a, RDF.type, B));
+	}
+
+	@Test
+	public void testSubmodelUpdate3() {
+		String ns = "urn:test:";
+
+		Resource a = ResourceFactory.createResource( ns + "a" );
+		Resource A = ResourceFactory.createResource( ns + "A" );
+		Resource B = ResourceFactory.createResource( ns + "B" );
+		Resource C = ResourceFactory.createResource( ns + "C" );
+
+		Model m1 = ModelFactory.createDefaultModel();
+		m1.add(a, RDF.type, A);
+		
+		Model m2 = ModelFactory.createDefaultModel();
+		m2.add(B, RDF.type, OWL.Class);
+		
+		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
+		
+		assertFalse(model.contains(a, RDF.type, A));
+		assertFalse(model.contains(a, RDF.type, B));
+		
+		model.addSubModel(m1);
+		model.addSubModel(m2);
+		
+		assertTrue(model.contains(a, RDF.type, A));
+		assertFalse(model.contains(a, RDF.type, B));
+		
+		((PelletInfGraph) model.getGraph()).setAutoDetectChanges(false);
+		
+		m2.add(A, RDFS.subClassOf, B);
+
+		assertTrue(model.contains(a, RDF.type, A));
+		assertFalse(model.contains(a, RDF.type, B));
+		
+		((PelletInfGraph) model.getGraph()).setAutoDetectChanges(true);
+		
+		m2.add(B, RDFS.subClassOf, C);
+
+		assertTrue(model.contains(a, RDF.type, A));
+		assertTrue(model.contains(a, RDF.type, B));
+		assertTrue(model.contains(a, RDF.type, C));
+	}
 }

@@ -108,7 +108,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 		extractor = new ModelExtractor( kb );
 		extractor.setSelector( StatementType.ALL_PROPERTY_STATEMENTS );
 
-		graphListener = new PelletGraphListener( graph, kb );
+		graphListener = new PelletGraphListener( graph, kb, autoDetectChanges );
 		
 		loader.setKB( kb );
 		
@@ -621,7 +621,15 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 		return autoDetectChanges;
 	}
 
+	/**
+	 * Sets auto detection of changes in the subgraphs associated with this model. If a graph or subgraph associated
+	 * with this inference graph is updated out of band there is no way to know for the reasoner that the underlying
+	 * data has changed and reasoning results will be stale. When this option is turned Pellet will attach listeners to
+	 * all the subgraphs and will be notified of all changes. It will also detect addition and removal of new subgraphs.
+	 */
 	public void setAutoDetectChanges(boolean autoDetectChanges) {
 		this.autoDetectChanges = autoDetectChanges;
+		
+		graphListener.setEnabled(autoDetectChanges);
 	}
 }
