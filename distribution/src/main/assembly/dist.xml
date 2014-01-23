@@ -1,0 +1,44 @@
+<assembly>
+	<id>dist</id>
+
+	<formats>
+		<format>tar.gz</format>
+		<format>zip</format>
+	</formats>
+
+	<baseDirectory>pellet-${project.version}</baseDirectory>
+
+	<moduleSets>
+		<moduleSet>
+			<includes>
+				<include>*:jar:*</include>
+			</includes>
+			<sources>
+				<outputDirectory>src/${artifactId}</outputDirectory>
+			</sources>
+			<binaries>
+				<unpack>false</unpack>
+				<outputDirectory>lib</outputDirectory>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
+
+	<fileSets>
+		<fileSet>
+			<directory>../</directory>
+			<outputDirectory/>
+			<includes>
+				<include>*.txt</include>
+				<include>*.md</include>
+			</includes>
+		</fileSet>
+	        <fileSet>
+        	    <directory>../cli/target/pelletcli/bin</directory>
+	            <outputDirectory>/bin</outputDirectory>
+	            <includes>
+        	        <include>/**</include>
+	            </includes>
+        	</fileSet>
+	</fileSets>
+
+</assembly>

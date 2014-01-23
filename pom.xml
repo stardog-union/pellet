@@ -328,6 +328,15 @@
 		</properties>
 	</profile>
 	<profile>
+		<id>release</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+		</activation>
+		<modules>
+			<module>dist</module>
+		</modules>
+	</profile>
+	<profile>
 		<id>findbugs</id>
 		<build>
 			<plugins>

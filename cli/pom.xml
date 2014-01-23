@@ -64,6 +64,9 @@
 							<id>pellet</id>
 						</program>
 					</programs>
+					<assembleDirectory>${project.build.directory}/pelletcli</assembleDirectory>
+					<repositoryName>lib</repositoryName>
+					<repositoryLayout>flat</repositoryLayout>
 				</configuration>
 			</plugin>
 		</plugins>
