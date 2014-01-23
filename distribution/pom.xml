@@ -40,6 +40,21 @@
                         <artifactId>pellet-cli</artifactId>
                         <version>${project.version}</version>
                 </dependency>
+                <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>pellet-examples</artifactId>
+                        <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>pellet-profiler</artifactId>
+                        <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>pellet-test</artifactId>
+                        <version>${project.version}</version>
+                </dependency>
 	</dependencies>
   <build>
 	 <plugins>

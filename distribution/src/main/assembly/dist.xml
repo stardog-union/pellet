@@ -7,19 +7,19 @@
 	</formats>
 
 	<baseDirectory>pellet-${project.version}</baseDirectory>
-
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/lib</outputDirectory>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+    </dependencySet>
+  </dependencySets>
+  
 	<moduleSets>
 		<moduleSet>
-			<includes>
-				<include>*:jar:*</include>
-			</includes>
 			<sources>
 				<outputDirectory>src/${artifactId}</outputDirectory>
 			</sources>
-			<binaries>
-				<unpack>false</unpack>
-				<outputDirectory>lib</outputDirectory>
-			</binaries>
 		</moduleSet>
 	</moduleSets>
 
