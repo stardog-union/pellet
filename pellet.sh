@@ -1,13 +1,17 @@
 #!/bin/sh
 
-if [ -n "${JAVA_HOME}" -a -x "${JAVA_HOME}/bin/java" ]; then
-  java="${JAVA_HOME}/bin/java"
-else
-  java=java
+
+#!/bin/bash
+# This script runs the Pellet CLI.
+# Before running this script for the first time
+# you may need to run:
+# chmod +x pellet.sh
+#
+# run ./pellet.sh for the usage
+
+if [ ! -d "cli/target/appassembler/bin" ]; then
+mvn -quiet clean install -DskipTests
 fi
 
-if [ -z "${pellet_java_args}" ]; then
-  pellet_java_args="-Xmx512m"
-fi
-
-exec ${java} ${pellet_java_args} -jar lib/pellet-cli.jar "$@"
+chmod u+x cli/target/appassembler/bin/*
+cli/target/appassembler/bin/pellet $@
