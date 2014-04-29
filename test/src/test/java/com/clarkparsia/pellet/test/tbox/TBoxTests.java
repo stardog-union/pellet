@@ -33,9 +33,9 @@ import org.mindswap.pellet.tbox.impl.Unfolding;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
-import com.clarkparsia.StableTests;
-
 import aterm.ATermAppl;
+
+import com.clarkparsia.StableTests;
 
 /**
  * <p>

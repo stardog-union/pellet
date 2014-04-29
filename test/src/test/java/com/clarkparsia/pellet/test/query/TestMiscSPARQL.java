@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
 
 import org.junit.Ignore;
@@ -36,7 +38,7 @@ import com.hp.hpl.jena.sparql.engine.binding.Binding;
 public class TestMiscSPARQL {
 
 	@Test
-	public void test() {
+	public void test() throws FileNotFoundException {
 		// test case for the bug reported in #247
 
 		boolean uas = PelletOptions.USE_ANNOTATION_SUPPORT;
@@ -44,20 +46,20 @@ public class TestMiscSPARQL {
 
 		try {
 			String aOnt = PelletTestSuite.base + "misc/ticket-247-test-case.rdf";
-	
+
 			PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
-	
+
 			InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
-	
-			aModel.read( this.getClass().getResourceAsStream(aOnt), "", "RDF/XML" );
-	
+
+			aModel.read( new FileInputStream(aOnt), "", "RDF/XML" );
+
 			String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
 							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
 							"PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
 							"SELECT ?x WHERE { ?y rdfs:comment ?x . }";
-	
+
 			QueryExecution qe = SparqlDLExecutionFactory.create( QueryFactory.create(aQuery), aModel );
-	
+
 			// this should not produce an NPE
 			qe.execSelect();
 		}
@@ -67,7 +69,7 @@ public class TestMiscSPARQL {
 	}
 
 	@Test
-	public void testUndefinedVarInProjection() {
+	public void testUndefinedVarInProjection() throws FileNotFoundException {
 		// Test case for the bug reproted in #277
 		String aOnt = PelletTestSuite.base + "misc/ticket-277-test-case.rdf";
 
@@ -75,7 +77,7 @@ public class TestMiscSPARQL {
 
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+		aModel.read(new FileInputStream(aOnt), "", "RDF/XML");
 
 		String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
 						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
@@ -116,12 +118,12 @@ public class TestMiscSPARQL {
 	}
 
 	@Test
-	public void testSizeEstimateNPE() {
+	public void testSizeEstimateNPE() throws FileNotFoundException {
 		boolean savedValue = PelletOptions.USE_ANNOTATION_SUPPORT;
-		
+
 		for( boolean b : new boolean[] { false, true } ) {
 			PelletOptions.USE_ANNOTATION_SUPPORT = b;
-			
+
 			String aOnt = PelletTestSuite.base + "misc/ticket-276-test-case.rdf";
 
 			// Test case for #276
@@ -129,7 +131,7 @@ public class TestMiscSPARQL {
 
 			InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-			aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+			aModel.read(new FileInputStream(aOnt), "", "RDF/XML");
 
 			String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
 							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
@@ -143,14 +145,14 @@ public class TestMiscSPARQL {
 
 			// there should be some results
 			assertTrue( aResults.hasNext() );
-		
+
 		}
-			
+
 		PelletOptions.USE_ANNOTATION_SUPPORT = savedValue;
 	}
 
 	@Test
-	public void test248() {
+	public void test248() throws FileNotFoundException {
 		// Test case for #248
 		String aOnt = PelletTestSuite.base + "misc/pizza.owl";
 
@@ -158,7 +160,7 @@ public class TestMiscSPARQL {
 
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+		aModel.read(new FileInputStream(aOnt), "", "RDF/XML");
 
 		String aQuery = "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>\n" +
 						"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -180,9 +182,9 @@ public class TestMiscSPARQL {
 
 		qe.execSelect();
 	}
-	
+
 	@Test
-	public void test196() {
+	public void test196() throws FileNotFoundException {
 		// Test case for #196
 		String aOnt = PelletTestSuite.base + "misc/pizza.owl";
 
@@ -190,7 +192,7 @@ public class TestMiscSPARQL {
 
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+		aModel.read(new FileInputStream(aOnt), "", "RDF/XML");
 
 		String aQuery = "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>\n" +
 						"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -204,7 +206,7 @@ public class TestMiscSPARQL {
 
 		// this should not thrown an InternalReasonerException, we want the unsupported query to be detected, and
 		// the execution to fallback to using the mixed evaluator
-		
+
 		QueryExecution qe = SparqlDLExecutionFactory.create( QueryFactory.create(aQuery), aModel );
 
 		qe.execSelect();
@@ -213,21 +215,21 @@ public class TestMiscSPARQL {
 	@Ignore("According to latest OWL 2 spec onDatatype property can only point to named datatypes so the input " +
 			"ontology for this test is not valid anymore")
 	@Test
-	public void test306() {
+	public void test306() throws FileNotFoundException {
 		String aOnt = PelletTestSuite.base + "misc/longitude.ttl";
-		
+
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read( this.getClass().getResourceAsStream(aOnt), "", "N3" );
+		aModel.read( new FileInputStream(aOnt), "", "N3" );
 		String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 				+ "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
 				+ "PREFIX mon: <http://www.semwebtech.org/mondial/10/meta#>\n"
-				+ "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>\n" 
+				+ "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>\n"
 				+ "PREFIX : <foo://bla/>\n"
 				+ "SELECT ?v0 WHERE\n" + "{ ?v0 rdf:type :EasternHemispherePlace. }\n";
-		
+
 		QueryExecution qe = SparqlDLExecutionFactory.create( QueryFactory.create(aQuery), aModel );
 
 		Resource berlin = aModel.getResource( "foo://bla/Berlin" );
@@ -236,23 +238,23 @@ public class TestMiscSPARQL {
 		assertTrue( berlin.equals( results.next().getResource("v0") ) );
 		assertFalse( results.hasNext() );
 	}
-	
+
 	@Test
-	public void test253() {
+	public void test253() throws FileNotFoundException {
 		String aOnt = PelletTestSuite.base + "misc/longitude2.ttl";
-		
+
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read( this.getClass().getResourceAsStream(aOnt), "", "N3" );
+		aModel.read( new FileInputStream(aOnt), "", "N3" );
 		String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 				+ "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
 				+ "PREFIX mon: <http://www.semwebtech.org/mondial/10/meta#>\n"
-				+ "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>\n" 
+				+ "PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>\n"
 				+ "PREFIX : <foo://bla/>\n"
 				+ "SELECT ?v0 WHERE\n" + "{ ?v0 rdf:type :EasternHemispherePlace. }\n";
-		
+
 		QueryExecution qe = SparqlDLExecutionFactory.create( QueryFactory.create(aQuery), aModel );
 
 		Resource berlin = aModel.getResource( "foo://bla/Berlin" );
@@ -261,20 +263,20 @@ public class TestMiscSPARQL {
 		assertTrue( berlin.equals( results.next().getResource("v0") ) );
 		assertFalse( results.hasNext() );
 	}
-	
+
 	@Test
-	public void test210() {
+	public void test210() throws FileNotFoundException {
 		Object prevValue = ARQ.getContext().get(ARQ.optFilterPlacement);
 		try {
 			ARQ.getContext().set(ARQ.optFilterPlacement, false);
-			
+
 			String aOnt = PelletTestSuite.base + "misc/ticket-210-test-case.owl";
-			
+
 			PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 			InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
-	
-			aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
-			String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-210-test-case.owl#>\n"		
+
+			aModel.read(new FileInputStream(aOnt), "", "RDF/XML");
+			String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-210-test-case.owl#>\n"
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
 				+ "SELECT ?x\n"
@@ -285,79 +287,79 @@ public class TestMiscSPARQL {
 				+ 	"]\n"
 				+ "FILTER( ?x != owl:Nothing )\n"
 				+ "}";
-			
+
 			QueryExecution qe = SparqlDLExecutionFactory.create( QueryFactory.create(aQuery), aModel );
-			
+
 			ResultSet results = qe.execSelect();
-			
+
 			while(results.hasNext()){
 				results.next();
 			}
-			
-			
+
+
 			assertEquals(2, results.getRowNumber());
 		}
 		finally  {
 			ARQ.getContext().set(ARQ.optFilterPlacement, prevValue);
 		}
 	}
-	
+
 	@Test
-	public void test421() {
+	public void test421() throws FileNotFoundException {
 		String aOnt = PelletTestSuite.base + "misc/ticket-421-test-case.owl";
-		
+
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
-		String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-421-test-case.owl#>\n"		
+		aModel.read(new FileInputStream(aOnt), "", "RDF/XML");
+		String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-421-test-case.owl#>\n"
 			+ "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
 			+ "SELECT ?x\n"
 			+ "WHERE {\n"
 			+ 	"?x rdf:type :D\n"
 			+ "}";
-		
+
 		QueryExecution qe = SparqlDLExecutionFactory.create( QueryFactory.create(aQuery), aModel );
-		
+
 		ResultSet results = qe.execSelect();
-		
+
 //		ResultSetFormatter.out(results);
 
 		while(results.hasNext()){
 			results.next();
 		}
-		
+
 		assertTrue( results.getRowNumber() == 1 );
 	}
-	
+
 	@Test
-	public void test444() {
+	public void test444() throws FileNotFoundException {
 		String aOnt = PelletTestSuite.base + "misc/ticket-444-test-case.owl";
-		
+
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
-		String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-444-test-case.owl#>\n"		
+		aModel.read(new FileInputStream(aOnt), "", "RDF/XML");
+		String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-444-test-case.owl#>\n"
 			+ "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
 			+ "SELECT *\n"
 			+ "WHERE {\n"
 			+ 	":c ?p ?o . OPTIONAL { ?o :hasName ?n }\n"
 			+ "}";
-				
+
 		QueryExecution qe = QueryExecutionFactory.create( QueryFactory.create(aQuery), aModel );
-		
+
 //		QueryExecution qe = SparqlDLExecutionFactory.create( QueryFactory.create(aQuery), aModel );
-		
-		ResultSet results = qe.execSelect();		
+
+		ResultSet results = qe.execSelect();
 //		ResultSetFormatter.out(results);
 
 		while(results.hasNext()){
 			results.next();
 		}
-		
+
 		assertTrue( results.getRowNumber() == 4 );
 	}
 }

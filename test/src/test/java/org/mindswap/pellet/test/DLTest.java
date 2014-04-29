@@ -8,92 +8,74 @@ package org.mindswap.pellet.test;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import junit.framework.JUnit4TestAdapter;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.mindswap.pellet.test.utils.TestUtils;
-import org.mindswap.pellet.utils.AlphaNumericComparator;
 
 @RunWith(Parameterized.class)
 public class DLTest {
-    
-    public static final String base = PelletTestSuite.base;
 
-    @Parameters(name="{0}")            
-    public static Collection<Object[]> getParameters() {
-        Collection<Object[]> parameters = new ArrayList<Object[]>();
-        
-        List<String> dlBenchmarkBaseNames = 
-                Arrays.asList("bike1", "bike2", "bike3", "bike4", "bike5", "bike6", 
-                        "bike7", "bike8", "bike9", "bio", "ckb-gcis", "ckb-roles", 
-                        "datamont-gcis-cd", "datamont-gcis", "datamont-roles", 
-                        "embassi-1", "embassi-2", "embassi-3", "fss-gcis", "fss-roles", 
-                        "modkit", "pdwq", "people", "platt", "uml-1", "uml-2", "umls-1",
-                        "veda-all", "wines", "wisber-gcis", "wisber-roles"); 
-        
-        addParameters(base + "dl-benchmark/tbox/", dlBenchmarkBaseNames, parameters);
-        
-        List<String> krssBaseNames = 
-                Arrays.asList("test2", "test3", "test4", "test5");        
-        
-        addParameters(base + "krss-tests/", krssBaseNames, parameters);
-        
-        return parameters;
-    }
-    
-    private static void addParameters(String dirName, List<String> baseNames, Collection<Object[]> parameters) {
-        for(String nextBaseName : baseNames) {
-            parameters.add(new Object[] { nextBaseName, dirName });
-        }
-    }
+	public static final String base = PelletTestSuite.base;
 
-    @Rule 
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    private File testDir;
-    
-    private DLBenchmarkTest test = new DLBenchmarkTest();
+	@Parameters(name="{0}")
+	public static Collection<Object[]> getParameters() {
+		Collection<Object[]> parameters = new ArrayList<Object[]>();
 
-    private String baseName;
+		List<String> dlBenchmarkBaseNames =
+						Arrays.asList("bike1", "bike2", "bike3", "bike4", "bike5", "bike6",
+										"bike7", "bike8", "bike9", "bio", "ckb-gcis", "ckb-roles",
+										"datamont-gcis-cd", "datamont-gcis", "datamont-roles",
+										"embassi-1", "embassi-2", "embassi-3", "fss-gcis", "fss-roles",
+										"modkit", "pdwq", "people", "platt", "uml-1", "uml-2", "umls-1",
+										"veda-all", "wines", "wisber-gcis", "wisber-roles");
 
-    private String tkbFile;
+		addParameters(base + "dl-benchmark/tbox/", dlBenchmarkBaseNames, parameters);
 
-    private String treeFile;
+		List<String> krssBaseNames =
+						Arrays.asList("test2", "test3", "test4", "test5");
 
-    private String dirName;
-       
-    @Before
-    public void setUp() throws Exception {
-        testDir = tempDir.newFolder("dltests");
-        
-        tkbFile = TestUtils.copyResourceToFile(testDir, dirName + baseName+".tkb");
-        treeFile = TestUtils.copyResourceToFile(testDir, dirName + baseName+".tree");
-    }
-    
-    @Test
-    public void runTest() throws Exception {
-        assertTrue(test.doTBoxTest( baseName, tkbFile, treeFile ));
-    }
-    
-    public DLTest(String baseName, String dirName) {
-        this.baseName = baseName;
-        this.dirName = dirName;
-    }
+		addParameters(base + "krss-tests/", krssBaseNames, parameters);
+
+		return parameters;
+	}
+
+	private static void addParameters(String dirName, List<String> baseNames, Collection<Object[]> parameters) {
+		for(String nextBaseName : baseNames) {
+			parameters.add(new Object[] { nextBaseName, dirName });
+		}
+	}
+
+	private DLBenchmarkTest test = new DLBenchmarkTest();
+
+	private String baseName;
+
+	private String tkbFile;
+
+	private String treeFile;
+
+	private String dirName;
+
+	@Before
+	public void setUp() throws Exception {
+		tkbFile = dirName + baseName+".tkb";
+		treeFile = dirName + baseName+".tree";
+	}
+
+	@Test
+	public void runTest() throws Exception {
+		assertTrue(test.doTBoxTest( baseName, tkbFile, treeFile ));
+	}
+
+	public DLTest(String baseName, String dirName) {
+		this.baseName = baseName;
+		this.dirName = dirName;
+	}
+
 }

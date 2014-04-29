@@ -8,8 +8,8 @@ package com.clarkparsia.modularity.test;
 
 import static com.clarkparsia.modularity.test.TestUtils.assertInstancesEquals;
 import static com.clarkparsia.modularity.test.TestUtils.assertTypesEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,22 +47,22 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  */
 public class PersistenceRealizationTest {
 	public static final String	base	= PelletTestSuite.base + "modularity/";
-	
+
 	private static final String TEST_FILE = "test-persistence-realization.zip";
-		
+
 	public ModuleExtractor createModuleExtractor() {
 		return new AxiomBasedModuleExtractor();
 	}
-	
+
 	public void testFile(String fileName) throws IOException {
 		String common = base + fileName;
-		testRealization( common + ".owl");		
+		testRealization( common + ".owl");
 	}
-	
+
 	public void testRealization(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
-		
+		OWLOntology ontology = OntologyUtils.loadOntology( new FileInputStream(inputOnt) );
+
 		try {
 			PelletReasoner unified = PelletReasonerFactory.getInstance().createReasoner( ontology );
 			ModuleExtractor moduleExtractor = createModuleExtractor();
@@ -88,10 +88,10 @@ public class PersistenceRealizationTest {
 
 			// the classifier read from file should NOT be realized at this point
 			assertFalse( modular.isRealized() );
-			
+
 			assertInstancesEquals( unified, modular2 );
 			assertTypesEquals( unified, modular2 );
-			
+
 			// the previous tests should have triggered realization
 			assertTrue( modular2.isRealized() );
 
@@ -111,20 +111,20 @@ public class PersistenceRealizationTest {
 
 			// the classifier read from file should be realized at this point
 			assertTrue( modular3.isRealized() );
-			
+
 			assertInstancesEquals( unified, modular3 );
 			assertTypesEquals( unified, modular3 );
-			
+
 			unified.dispose();
 			modular.dispose();
 			modular2.dispose();
 			modular3.dispose();
-		} 
+		}
 		finally {
 			OWL.manager.removeOntology( ontology );
 		}
-	}	
-	
+	}
+
 	@Test
 	public void koalaPersistenceRealizationTest() throws IOException {
 		testFile( "koala" );

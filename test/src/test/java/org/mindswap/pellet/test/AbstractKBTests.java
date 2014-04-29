@@ -12,7 +12,6 @@ package org.mindswap.pellet.test;
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;

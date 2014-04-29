@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
@@ -17,15 +16,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.junit.rules.Timeout;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import aterm.ATermAppl;
 
@@ -58,22 +54,17 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
 public class TestAnnotations {
 
-    @Rule
-    public Timeout timeout = new Timeout(10000);
-    
-    @Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    private File testDir;
-    
-	private static final String	DATA1_RDF	= "/data/annotations/data1.rdf";
-	private static final String	DATA1_TTL	= "/data/annotations/data1.ttl";
-	private static final String	QUERY1_RQ	= "/data/annotations/query1.rq";
+	@Rule
+	public Timeout timeout = new Timeout(10000);
+
+	private static final String	DATA1_RDF	= "src/test/resources/data/annotations/data1.rdf";
+	private static final String	DATA1_TTL	= "src/test/resources/data/annotations/data1.ttl";
+	private static final String	QUERY1_RQ	= "src/test/resources/data/annotations/query1.rq";
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter( TestAnnotations.class );
@@ -83,7 +74,6 @@ public class TestAnnotations {
 
 	@Before
 	public void setUp() throws Exception {
-	    testDir = tempDir.newFolder("testannotations");
 		Properties newOptions = PropertiesBuilder.singleton( "USE_ANNOTATION_SUPPORT", "true" );
 		savedOptions = PelletOptions.setOptions( newOptions );
 	}
@@ -92,9 +82,9 @@ public class TestAnnotations {
 	public void tearDown() {
 		PelletOptions.setOptions( savedOptions );
 	}
-	
+
 	@Test
-	public void addAnnotation1() {	
+	public void addAnnotation1() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -129,7 +119,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void addAnnotation3() {		
+	public void addAnnotation3() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -146,7 +136,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void addAnnotations() {	
+	public void addAnnotations() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -166,7 +156,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void getAnnotations1() {		
+	public void getAnnotations1() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -191,7 +181,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void getAnnotations2() {		
+	public void getAnnotations2() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -219,7 +209,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void getAnnotations3() {	
+	public void getAnnotations3() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s1 = ATermUtils.makeTermAppl( "s1" );
@@ -255,7 +245,7 @@ public class TestAnnotations {
 
 	@Test
 	public void getAnnotations4() {
-		// Test kb.getAnnotationProperties()		
+		// Test kb.getAnnotationProperties()
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "s" );
@@ -276,7 +266,7 @@ public class TestAnnotations {
 
 	@Test
 	public void getAnnotations5() {
-		// Test kb.getProperties()		
+		// Test kb.getProperties()
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "s" );
@@ -300,7 +290,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void getAnnotations6() {		
+	public void getAnnotations6() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "s" );
@@ -320,7 +310,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void testJenaLoader1() {		
+	public void testJenaLoader1() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 
 		Resource s = ResourceFactory.createResource( "i" );
@@ -344,7 +334,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void testJenaLoader2() {		
+	public void testJenaLoader2() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 
 		Resource s1 = ResourceFactory.createResource( "i" );
@@ -367,9 +357,9 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void testJenaLoader3() throws Exception {		
+	public void testJenaLoader3() throws Exception {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( TestUtils.copyResourceToFile(testDir, DATA1_TTL), "N3" );
+		model.read( DATA1_TTL, "N3" );
 		model.prepare();
 
 		ATermAppl i = ATermUtils.makeTermAppl( "http://example.org#i" );
@@ -387,7 +377,7 @@ public class TestAnnotations {
 
 	@Test
 	public void testOWLAPILoader() throws Exception {
-		KnowledgeBase kb = new OWLAPILoader().createKB( TestUtils.copyResourceToFile(testDir, DATA1_RDF) );
+		KnowledgeBase kb = new OWLAPILoader().createKB( DATA1_RDF );
 
 		ATermAppl i = ATermUtils.makeTermAppl( "http://example.org#i" );
 		ATermAppl label = ATermUtils.makeTermAppl( RDFS.label.getURI() );
@@ -405,9 +395,9 @@ public class TestAnnotations {
 	public void testCombinedQueryEngine() throws Exception {
 		// This tests annotations using the SPARQL-DL combined query engine
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( TestUtils.copyResourceToFile(testDir, DATA1_RDF) );
+		model.read( DATA1_RDF );
 
-		Query query = QueryFactory.read( TestUtils.copyResourceToFile(testDir, QUERY1_RQ) );
+		Query query = QueryFactory.read( QUERY1_RQ );
 		QueryExecution qe = SparqlDLExecutionFactory.create( query, model );
 
 		ResultSet rs = qe.execSelect();
@@ -421,33 +411,33 @@ public class TestAnnotations {
 			assertEquals( "o2", o.getLexicalForm() );
 		}
 	}
-	
 
-	
+
+
 	@Test
 	public void test412() {
 		KnowledgeBase kb = new KnowledgeBase();
-		
+
 		ATermAppl p = term("p");
 		ATermAppl q = term("q");
 		ATermAppl r = term("r");
 		ATermAppl s = term("s");
-		
+
 		kb.addAnnotationProperty(p);
 		kb.addAnnotationProperty(q);
 		kb.addAnnotationProperty(r);
 		kb.addAnnotationProperty(s);
-		
+
 		kb.addSubProperty(p, q);
 		kb.addSubProperty(q, r);
 		kb.addSubProperty(r, s);
-		
+
 		// The set of sub/super roles at this point are correct for each role
 		assertEquals(singletonSets(p, r, q), kb.getSubProperties(s));
 	}
 
 	@Test
-	public void getAnnotationsCopy() {		
+	public void getAnnotationsCopy() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "s" );
@@ -460,7 +450,7 @@ public class TestAnnotations {
 		assertTrue( kb.addAnnotation( s, p, o ) );
 
 		assertEquals( Collections.singleton( o ), kb.getAnnotations( s, p ) );
-		
+
 		assertEquals( Collections.singleton( o ), kb.copy().getAnnotations( s, p ) );
 	}
 

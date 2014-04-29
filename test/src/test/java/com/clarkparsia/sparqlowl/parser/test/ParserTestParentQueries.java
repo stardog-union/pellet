@@ -8,9 +8,6 @@ package com.clarkparsia.sparqlowl.parser.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -22,7 +19,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -30,7 +26,6 @@ import org.junit.runners.Parameterized.Parameters;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.JenaLoader;
 import org.mindswap.pellet.test.PelletTestSuite;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.FileUtils;
 
 import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
@@ -53,26 +48,21 @@ import com.hp.hpl.jena.query.Syntax;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 @RunWith(Parameterized.class)
 public class ParserTestParentQueries {
-    
-    @Rule
-    public Timeout timeout = new Timeout(10000);
-    
-    @Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    private File testDir;
-    
+
+	@Rule
+	public Timeout timeout = new Timeout(10000);
+
 	public static final String base = PelletTestSuite.base + "sparqldl-tests/simple/";
-	
+
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter( ParserTestParentQueries.class );
 	}
-	
+
 	@Parameters
 	public static Collection<Object[]> getParameters() {
 		Collection<Object[]> parameters = new ArrayList<Object[]>();
@@ -91,47 +81,47 @@ public class ParserTestParentQueries {
 
 	private KnowledgeBase kb;
 	private ARQParser parser;
-	
+
 	private String sparqlFile;
 	private String sparqlOWLFile;
-	
+
 	public ParserTestParentQueries(String sparqlFile, String sparqlOWLFile) {
 		this.sparqlFile = sparqlFile;
 		this.sparqlOWLFile = sparqlOWLFile;
 	}
-	
+
 	@BeforeClass
 	public static void beforeClass() {
 		ARQTerpParser.registerFactory();
-		
+
 	}
-	
+
 	@AfterClass
 	public static void afterClass() {
 		ARQTerpParser.unregisterFactory();
 	}
-	
-    @Before
-    public void before() throws Exception {
-        testDir = tempDir.newFolder("sparqlowl-parsertestparent");
-        kb = new JenaLoader().createKB(TestUtils.copyResourceToFile(testDir, base + "parent.ttl"));
-        parser = new ARQParser();
-    }
-	
-    @After
-    public void after() {
-        kb = null;
-        parser = null;
-    }
-    
+
+	@Before
+	public void before() throws Exception {
+			kb = new JenaLoader().createKB(base + "parent.ttl");
+			parser = new ARQParser();
+	}
+
+	@After
+	public void after() {
+			kb = null;
+			parser = null;
+	}
+
 	@Test
 	public void compareQuery() throws Exception {
-		Query sparql = QueryFactory.create( FileUtils.readFile( TestUtils.copyResourceToFile(testDir, base + sparqlFile) ), Syntax.syntaxSPARQL );
+		Query sparql = QueryFactory.create( FileUtils.readFile( base + sparqlFile ), Syntax.syntaxSPARQL );
 		com.clarkparsia.pellet.sparqldl.model.Query expected = parser.parse( sparql, kb );
-		
-		Query sparqlOWL = QueryFactory.create( FileUtils.readFile( TestUtils.copyResourceToFile(testDir, base + sparqlOWLFile) ), TerpSyntax.getInstance() );		
+
+		Query sparqlOWL = QueryFactory.create( FileUtils.readFile( base + sparqlOWLFile ), TerpSyntax.getInstance() );
 		com.clarkparsia.pellet.sparqldl.model.Query actual = parser.parse( sparqlOWL, kb );
-		
+
 		assertEquals( expected.getAtoms(), actual.getAtoms() );
 	}
+
 }

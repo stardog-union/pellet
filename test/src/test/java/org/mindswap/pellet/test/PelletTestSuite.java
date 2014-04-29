@@ -31,7 +31,7 @@ import com.clarkparsia.pellet.test.transtree.TransTreeTestSuite;
 import com.clarkparsia.pellint.test.PellintTestSuite;
 
 public class PelletTestSuite extends TestSuite {
-	public static String	base	= "/data/";
+	public static String	base	= "src/test/resources/data/";
 
 	public static TestSuite suite() {
 		TestSuite suite = new TestSuite( PelletTestSuite.class.getName() );
@@ -67,7 +67,7 @@ public class PelletTestSuite extends TestSuite {
 //		suite.addTest( DLTestSuite.suite() );
 		suite.addTest( ClassificationTestSuite.suite() );
 		suite.addTest( ModularityTestSuite.suite() );
-		
+
 		// CLI Tests must go last, since some of them muck with PelletOptions!
 		suite.addTest( pellet.test.CLITests.suite() );
 

@@ -8,14 +8,8 @@ package org.mindswap.pellet.test.rules;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.semanticweb.owlapi.model.IRI;
 
 import com.clarkparsia.owlapiv3.OntologyUtils;
@@ -39,16 +33,12 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
 public class SWRLAbstract {
 
-    @Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
 	protected static String base;
-    private File testDir;
 
 	protected void test(String test) throws Exception {
 		testJena(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
@@ -63,7 +53,7 @@ public class SWRLAbstract {
 
 		Model conclusion = ModelFactory.createDefaultModel();
 		conclusion.read(conclusionURI);
-		
+
 		StmtIterator stmtIter = conclusion.listStatements();
 
 		while (stmtIter.hasNext()) {
@@ -71,7 +61,7 @@ public class SWRLAbstract {
 			assertTrue(premise.contains(s));
 		}
 	}
-	
+
 	private void testOWLAPIv3(String premiseURI, String conclusionURI) {
 		org.semanticweb.owlapi.model.OWLOntologyManager manager = null;
 
@@ -93,14 +83,9 @@ public class SWRLAbstract {
 	}
 
 	private String url(String filename) throws Exception {
-	    return "file:" + TestUtils.copyResourceToFile(testDir, base + filename);
+		return "file:" + base + filename;
 	}
-	
-	@Before
-	public void before() throws Exception {
-	    testDir = tempDir.newFolder("swrlabstract");
-	}
-	
+
 	@After
 	public void after() {
 		OntologyUtils.clearOWLOntologyManager();

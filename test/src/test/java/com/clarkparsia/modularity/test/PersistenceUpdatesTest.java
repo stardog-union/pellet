@@ -52,13 +52,13 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  */
 public class PersistenceUpdatesTest {
 	public static final String	base	= PelletTestSuite.base + "modularity/";
-	
+
 	private static final String TEST_FILE = "test-persistence-classification.zip";
-		
+
 	public ModuleExtractor createModuleExtractor() {
 		return new AxiomBasedModuleExtractor();
 	}
-	
+
 	public void performPersistenceRemoves(String fileName) throws IOException {
 		String common = base + fileName;
 		testPersistenceRemoves( common + ".owl");
@@ -78,12 +78,12 @@ public class PersistenceUpdatesTest {
 		String common = base + fileName;
 		testUpdatesAfterPersistence( common + ".owl" );
 	}
-	
+
 	public void performUpdatesAfterPersistence2(String fileName) throws IOException {
 		String common = base + fileName;
 		testUpdatesAfterPersistence2( common + ".owl" );
 	}
-	
+
 	public void performUpdatesWhenPersisted(String fileName) throws IOException {
 		String common = base + fileName;
 		testUpdatesWhenPersisted( common + ".owl" );
@@ -91,9 +91,9 @@ public class PersistenceUpdatesTest {
 
 	public void testPersistenceRemoves(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
-		
-		try {		
+		OWLOntology ontology = OntologyUtils.loadOntology( new FileInputStream(inputOnt) );
+
+		try {
 			ModuleExtractor moduleExtractor = createModuleExtractor();
 
 			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, moduleExtractor );
@@ -126,12 +126,12 @@ public class PersistenceUpdatesTest {
 			}
 		}
 	}
-	
+
 	public void testPersistenceAdds(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
-		
-		try {		
+		OWLOntology ontology = OntologyUtils.loadOntology( new FileInputStream(inputOnt) );
+
+		try {
 			ModuleExtractor moduleExtractor = createModuleExtractor();
 
 			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, moduleExtractor );
@@ -144,7 +144,7 @@ public class PersistenceUpdatesTest {
 			}
 
 			// classify (i.e., update)
-			modular.classify();		
+			modular.classify();
 
 			// add the axiom back but do not classify (do not cause an update)
 
@@ -165,8 +165,8 @@ public class PersistenceUpdatesTest {
 			} catch( IllegalStateException e ) {
 				assertTrue( testFile.delete() );
 				// correct behavior
-			} 		
-			
+			}
+
 			modular.dispose();
 		} finally {
 			if( ontology != null ) {
@@ -174,11 +174,11 @@ public class PersistenceUpdatesTest {
 			}
 		}
 	}
-	
+
 	public void testAllowedUpdates(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
-		
+		OWLOntology ontology = OntologyUtils.loadOntology( new FileInputStream(inputOnt) );
+
 		try {
 			ModuleExtractor moduleExtractor = createModuleExtractor();
 
@@ -192,7 +192,7 @@ public class PersistenceUpdatesTest {
 				OWL.manager.applyChange( new RemoveAxiom(ontology, axiomToRemove ) );
 			}
 
-			// add the axiom back but do not classify		
+			// add the axiom back but do not classify
 			for( OWLAxiom axiomToAdd : axiomsToRemove ) {
 				OWL.manager.applyChange( new AddAxiom(ontology, axiomToAdd ) );
 			}
@@ -207,33 +207,33 @@ public class PersistenceUpdatesTest {
 			// classify (i.e., update)
 			modular.classify();
 
-			// at this point, the ontology should be updated (despite the changes), and the save should succeed.		
+			// at this point, the ontology should be updated (despite the changes), and the save should succeed.
 			FileOutputStream fos = new FileOutputStream( testFile );
 
 			IncrementalClassifierPersistence.save( modular, fos );
 
 			fos.close();
 
-			assertTrue( testFile.delete() );		
+			assertTrue( testFile.delete() );
 		} finally {
-			OWL.manager.removeOntology( ontology );	
-		}	
+			OWL.manager.removeOntology( ontology );
+		}
 	}
-	
+
 	/**
 	 * Tests whether the restored classifier can be updated.
-	 * 
+	 *
 	 * The test creates one original classifier (modular), persists it, reads it back as another classifier (modular2).
 	 * Then it performs the same modifications of the ontology on them, and checks whether their behavior is identical.
-	 * 
+	 *
 	 * @param inputOnt
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void testUpdatesAfterPersistence(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
-		
-		try {		
+		OWLOntology ontology = OntologyUtils.loadOntology( new FileInputStream(inputOnt) );
+
+		try {
 			ModuleExtractor moduleExtractor = createModuleExtractor();
 
 			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, moduleExtractor );
@@ -261,29 +261,29 @@ public class PersistenceUpdatesTest {
 
 			modular.classify();
 
-			PelletReasoner expected = PelletReasonerFactory.getInstance().createReasoner( modular.getRootOntology() );		
+			PelletReasoner expected = PelletReasonerFactory.getInstance().createReasoner( modular.getRootOntology() );
 
 			assertClassificationEquals( expected, modular );
 		} finally {
 			OWL.manager.removeOntology( ontology );
 		}
 	}
-	
+
 	/**
 	 * Tests whether the restored classifier can be updated.
-	 * 
+	 *
 	 * The test creates one original classifier (modular), persists it, reads it back as another classifier (modular2).
 	 * Then it performs the same modifications of the ontology on them, and checks whether their behavior is identical.
-	 * 
+	 *
 	 * @param inputOnt
 	 * @throws IOException
 	 */
 	public void testUpdatesAfterPersistence2(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
-		
+		OWLOntology ontology = OntologyUtils.loadOntology( new FileInputStream(inputOnt) );
+
 		try {
-			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, createModuleExtractor() );		
+			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, createModuleExtractor() );
 			modular.classify();
 
 			FileOutputStream fos = new FileOutputStream( testFile );
@@ -314,13 +314,13 @@ public class PersistenceUpdatesTest {
 			OWL.manager.removeOntology( ontology );
 		}
 	}
-	
+
 	public void testUpdatesWhenPersisted(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
-		
+		OWLOntology ontology = OntologyUtils.loadOntology( new FileInputStream(inputOnt) );
+
 		try {
-			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, createModuleExtractor() );		
+			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, createModuleExtractor() );
 			modular.classify();
 
 			FileOutputStream fos = new FileOutputStream( testFile );
@@ -355,12 +355,12 @@ public class PersistenceUpdatesTest {
 	public void miniTambisPersistenceAddsTest() throws IOException {
 		performPersistenceAdds( "miniTambis" );
 	}
-	
+
 	@Test
 	public void miniTambisPersistenceRemovesTest() throws IOException {
 		performPersistenceRemoves( "miniTambis" );
 	}
-	
+
 	@Test
 	public void miniTambisPersistenceAllowedUpdatesTest() throws IOException {
 		performPersistenceAllowedUpdates( "miniTambis" );
@@ -370,7 +370,7 @@ public class PersistenceUpdatesTest {
 	public void miniTambisUpdatesAfterPersistenceTest() throws IOException {
 		performUpdatesAfterPersistence( "miniTambis" );
 	}
-	
+
 	@Test
 	public void miniTambisUpdatesAfterPersistence2Test() throws IOException {
 		performUpdatesAfterPersistence2( "miniTambis" );

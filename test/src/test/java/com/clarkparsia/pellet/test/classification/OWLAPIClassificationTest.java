@@ -11,14 +11,15 @@ package com.clarkparsia.pellet.test.classification;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.AxiomType;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -30,23 +31,23 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
- * 
+ *
  * @author Evren Sirin
  */
 public class OWLAPIClassificationTest extends AbstractClassificationTest {
-	public void testClassification(String inputOnt, String classifiedOnt) throws OWLOntologyCreationException {
-		OWLOntology premise = OWL.manager.loadOntologyFromOntologyDocument( this.getClass().getResourceAsStream( inputOnt ) );
-		OWLOntology conclusion = OWL.manager.loadOntologyFromOntologyDocument( this.getClass().getResourceAsStream( classifiedOnt ) );
-		
+	public void testClassification(String inputOnt, String classifiedOnt) throws OWLOntologyCreationException, FileNotFoundException {
+		OWLOntology premise = OWL.manager.loadOntologyFromOntologyDocument( new FileInputStream( inputOnt ) );
+		OWLOntology conclusion = OWL.manager.loadOntologyFromOntologyDocument( new FileInputStream( classifiedOnt ) );
+
 		try {
 			PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( premise );
 			reasoner.getKB().classify();
-	
+
 			List<OWLAxiom> nonEntailments = new ArrayList<OWLAxiom>();
-					
+
 			for( OWLSubClassOfAxiom axiom : conclusion.getAxioms( AxiomType.SUBCLASS_OF ) ) {
 				boolean entailed = reasoner.getSubClasses( axiom.getSuperClass(), true ).containsEntity( (OWLClass) axiom.getSubClass() );
-				
+
 				if( !entailed ) {
 					if( AbstractClassificationTest.FAIL_AT_FIRST_ERROR )
 						fail( "Not entailed: " + axiom );
@@ -54,11 +55,11 @@ public class OWLAPIClassificationTest extends AbstractClassificationTest {
 						nonEntailments.add( axiom );
 				}
 			}
-	
+
 			for( OWLEquivalentClassesAxiom axiom : conclusion
 					.getAxioms( AxiomType.EQUIVALENT_CLASSES ) ) {
 				boolean entailed = reasoner.isEntailed( axiom );
-				
+
 				if( !entailed ) {
 					if( AbstractClassificationTest.FAIL_AT_FIRST_ERROR )
 						fail( "Not entailed: " + axiom );
@@ -66,10 +67,10 @@ public class OWLAPIClassificationTest extends AbstractClassificationTest {
 						nonEntailments.add( axiom );
 				}
 			}
-			
+
 			for( OWLClassAssertionAxiom axiom : conclusion.getAxioms( AxiomType.CLASS_ASSERTION ) ) {
 				boolean entailed = reasoner.getInstances( axiom.getClassExpression(), true ).containsEntity( (OWLNamedIndividual) axiom.getIndividual() );
-				
+
 				if( !entailed ) {
 					if( AbstractClassificationTest.FAIL_AT_FIRST_ERROR )
 						fail( "Not entailed: " + axiom );
@@ -77,7 +78,7 @@ public class OWLAPIClassificationTest extends AbstractClassificationTest {
 						nonEntailments.add( axiom );
 				}
 			}
-			
+
 			assertTrue( nonEntailments.size() + " " +nonEntailments.toString(), nonEntailments.isEmpty() );
 		}
 		finally {

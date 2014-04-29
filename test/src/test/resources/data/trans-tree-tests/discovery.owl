@@ -58,7 +58,7 @@
      xmlns:rel="http://purl.org/vocab/relationship/"
      xmlns:wordnet="http://xmlns.com/wordnet/1.6/">
     <owl:Ontology rdf:about="">
-	    <owl:imports rdf:resource="file:./test/data/trans-tree-tests/cont.rdf"/>
+	    <owl:imports rdf:resource="file:./src/test/resources/data/trans-tree-tests/cont.rdf"/>
     </owl:Ontology> 
 
 

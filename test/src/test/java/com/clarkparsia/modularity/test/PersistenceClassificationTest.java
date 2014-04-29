@@ -45,22 +45,22 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  */
 public class PersistenceClassificationTest {
 	public static final String	base	= PelletTestSuite.base + "modularity/";
-	
+
 	private static final String TEST_FILE = "test-persistence-classification.zip";
-		
+
 	public ModuleExtractor createModuleExtractor() {
 		return new AxiomBasedModuleExtractor();
 	}
-	
+
 	public void testFile(String fileName) throws IOException {
 		String common = base + fileName;
-		testClassification( common + ".owl");		
+		testClassification( common + ".owl");
 	}
-	
+
 	public void testClassification(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
-		
+		OWLOntology ontology = OntologyUtils.loadOntology( new FileInputStream(inputOnt) );
+
 		try {
 			PelletReasoner unified = PelletReasonerFactory.getInstance().createReasoner( ontology );
 			ModuleExtractor moduleExtractor = createModuleExtractor();
@@ -76,7 +76,7 @@ public class PersistenceClassificationTest {
 			fos.close();
 
 			FileInputStream fis = new FileInputStream( testFile );
-			
+
 			IncrementalClassifier modular2 = IncrementalClassifierPersistence.load( fis );
 
 			fis.close();
@@ -84,21 +84,21 @@ public class PersistenceClassificationTest {
 			assertClassificationEquals( unified, modular2 );
 
 			assertTrue( testFile.delete() );
-			
+
 			unified.dispose();
 			modular.dispose();
 			modular2.dispose();
-		} 
+		}
 		finally {
 			OWL.manager.removeOntology( ontology );
 		}
-	}	
+	}
 
 	@Test
 	public void koalaPersistenceClassifyTest() throws IOException {
 		testFile( "koala" );
 	}
-	
+
 	@Test
 	public void miniTambisPersistenceClassifyTest() throws IOException {
 		testFile( "miniTambis" );
@@ -113,7 +113,7 @@ public class PersistenceClassificationTest {
 	public void sweetPersistenceClassifyTest() throws IOException {
 		testFile( "SWEET" );
 	}
-	
+
 	@Test
 	public void galenPersistenceClassifyTest() throws IOException {
 		testFile( "galen" );

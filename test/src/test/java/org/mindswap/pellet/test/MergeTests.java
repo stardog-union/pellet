@@ -20,9 +20,9 @@ import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
-import com.clarkparsia.StableTests;
-
 import aterm.ATermAppl;
+
+import com.clarkparsia.StableTests;
 
 @Category(StableTests.class)
 public class MergeTests extends AbstractKBTests {

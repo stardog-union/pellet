@@ -26,9 +26,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.test.AbstractKBTests;
 
-import com.clarkparsia.StableTests;
-
 import aterm.ATermAppl;
+
+import com.clarkparsia.StableTests;
 
 @Category(StableTests.class)
 public class CacheSafetyTests extends AbstractKBTests {
