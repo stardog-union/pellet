@@ -3,6 +3,8 @@ package com.clarkparsia.pellint.test.util;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+
 import org.junit.Test;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -25,7 +27,7 @@ public class OWL2DLProfileViolationsTest {
 
 	@Test
 	public void testCorrectOntology() throws OWLOntologyCreationException {
-		OWLOntology ontology = OWL.manager.loadOntologyFromOntologyDocument(this.getClass().getResourceAsStream("/data/misc/agencies.owl"));
+		OWLOntology ontology = OWL.manager.loadOntologyFromOntologyDocument(new File("test/data/misc/agencies.owl"));
 		
 		try {
 			OWL2DLProfile owl2Profile = new OWL2DLProfile();
@@ -59,7 +61,7 @@ public class OWL2DLProfileViolationsTest {
 	
 	@Test
 	public void testInvalidTransitivity() throws OWLOntologyCreationException {
-		OWLOntology ontology = OWL.manager.loadOntologyFromOntologyDocument(this.getClass().getResourceAsStream("/data/misc/invalidTransitivity.owl"));
+		OWLOntology ontology = OWL.manager.loadOntologyFromOntologyDocument(new File("test/data/misc/invalidTransitivity.owl"));
 		
 		try {
 			OWL2DLProfile owl2Profile = new OWL2DLProfile();

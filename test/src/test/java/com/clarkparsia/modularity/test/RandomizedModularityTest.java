@@ -6,6 +6,7 @@
 
 package com.clarkparsia.modularity.test;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -37,13 +38,13 @@ public abstract class RandomizedModularityTest extends AbstractModularityTest {
 	public RandomizedModularityTest(String path) {
 		this.path = path;
 		
-		//if( !new File( path ).exists() ) {
-	    //    throw new RuntimeException( "Path to data files is not correct: " + path );
-        //}
+		if( !new File( path ).exists() ) {
+	        throw new RuntimeException( "Path to data files is not correct: " + path );
+        }
 	}
 
 	private void modularityTest(String file) throws OWLException {
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(file), false );
+		OWLOntology ontology = OntologyUtils.loadOntology( "file:" + file, false );
 		
 		Set<OWLEntity> signature = new HashSet<OWLEntity>(); 
 		signature.addAll( TestUtils.selectRandomElements( ontology.getClassesInSignature(), 5 ) );		

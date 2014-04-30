@@ -25,14 +25,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.jena.test.AbstractJenaTests;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import com.hp.hpl.jena.datatypes.TypeMapper;
@@ -61,7 +59,6 @@ import com.hp.hpl.jena.vocabulary.XSD;
  */
 
 @RunWith(Parameterized.class)
-@Category(StableTests.class)
 public class IncJenaConsistencyTests extends AbstractJenaTests {
 	@Parameterized.Parameters
 	public static Collection<Object[]> getTestCases() {

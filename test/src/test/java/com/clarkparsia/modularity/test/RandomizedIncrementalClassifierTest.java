@@ -6,6 +6,7 @@
 
 package com.clarkparsia.modularity.test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,12 +41,12 @@ public abstract class RandomizedIncrementalClassifierTest extends AbstractModula
 	public RandomizedIncrementalClassifierTest(String path) {
 		this.path = path;
 		
-		//if( !new File( path ).exists() )
-		//	throw new RuntimeException( "Path to data files is not correct: " + path );
+		if( !new File( path ).exists() )
+			throw new RuntimeException( "Path to data files is not correct: " + path );
 	}
 
 	private void classifyCorrectnessTest(String file) throws OWLException {
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(file), false );
+		OWLOntology ontology = OntologyUtils.loadOntology( "file:" + file, false );
 
 		List<OWLAxiom> axioms = new ArrayList<OWLAxiom>( TestUtils.selectRandomAxioms( ontology, 10 ) );
 

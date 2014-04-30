@@ -49,7 +49,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 
-import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -60,7 +59,6 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.Role;
@@ -98,7 +96,6 @@ import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 
 import aterm.ATermAppl;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.SWRL;
@@ -121,21 +118,20 @@ import com.clarkparsia.pellet.utils.PropertiesBuilder;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- *
+ * 
  * @author Evren Sirin
  */
-@Category(StableTests.class)
-public class OWLAPIv3Tests extends AbstractOWLAPITests {
+public class OWLAPIv3Tests extends AbstractOWLAPITests {	
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter( OWLAPIv3Tests.class );
 	}
 
 	@Test
-	public void testOWL2() throws Exception {
+	public void testOWL2() throws OWLException {
 		String ns = "http://www.example.org/test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "owl2.owl") );
-
+		OWLOntology ont = loadOntology( base + "owl2.owl" );
+		
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont ) ;
 		try {
 			testOWL2Reasoner( ns, reasoner );
@@ -144,28 +140,28 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 			reasoner.dispose();
 		}
 	}
-
+	
 	@Test
-	public void testOWL2Incremental() throws Exception {
+	public void testOWL2Incremental() throws OWLException {
 		String ns = "http://www.example.org/test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "owl2.owl") );
+		OWLOntology ont = loadOntology( base + "owl2.owl" );
 
 		IncrementalClassifier classifier = new IncrementalClassifier( ont );
-
+		
 		try {
-					// force classification
-					classifier.classify();
-					// force realization
-					OWLNamedIndividual ind1 = Individual(ns + "ind1");
-					classifier.getTypes(ind1, true);
-					testOWL2Reasoner(ns, classifier);
-				}
-				finally {
-					classifier.dispose();
-				}
+	        // force classification
+	        classifier.classify();
+	        // force realization
+	        OWLNamedIndividual ind1 = Individual(ns + "ind1");
+	        classifier.getTypes(ind1, true);
+	        testOWL2Reasoner(ns, classifier);
+        }
+        finally {
+	        classifier.dispose();
+        }				
 	}
-
+	
 	private void testOWL2Reasoner( String ns, OWLReasoner reasoner ) {
 		OWLClass C = Class( ns + "C" );
 		OWLClass D = Class( ns + "D" );
@@ -235,10 +231,10 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	}
 
 	@Test
-	public void testUncle() throws Exception {
+	public void testUncle() throws OWLException {
 		String ns = "http://www.example.org/test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "uncle.owl") );
+		OWLOntology ont = loadOntology( base + "uncle.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
@@ -251,10 +247,10 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	}
 
 	@Test
-	public void testSibling() throws Exception {
+	public void testSibling() throws OWLException {
 		String ns = "http://www.example.org/test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "sibling.owl") );
+		OWLOntology ont = loadOntology( base + "sibling.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
@@ -268,28 +264,28 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		assertPropertyValues( reasoner, Bob, hasBrother, John );
 		assertPropertyValues( reasoner, Bob, hasSister, Jane );
 	}
-
+	
 	public static void assertInstances(PelletReasoner reasoner, OWLClass subj, boolean direct,
 			OWLNamedIndividual... values) {
 		Set<OWLNamedIndividual> expected = new HashSet<OWLNamedIndividual>( Arrays.asList( values ) );
 
 		assertEquals( expected, reasoner.getInstances( subj, direct ).getFlattened() );
 	}
-
+	
 	public static void assertPropertyValues(PelletReasoner reasoner, OWLNamedIndividual subj,
 			OWLObjectProperty pred, OWLIndividual... values) {
 		Set<OWLIndividual> expected = new HashSet<OWLIndividual>( Arrays.asList( values ) );
 
 		assertEquals( expected, reasoner.getObjectPropertyValues( subj, pred ).getFlattened() );
 	}
-
+	
 	public static void assertPropertyValues(PelletReasoner reasoner, OWLNamedIndividual subj,
 			OWLDataProperty pred, OWLLiteral values) {
 		Set<OWLLiteral> expected = new HashSet<OWLLiteral>( Arrays.asList( values ) );
 
 		assertEquals( expected, reasoner.getDataPropertyValues( subj, pred ) );
 	}
-
+	
 	public static void assertTypes(PelletReasoner reasoner, OWLNamedIndividual subj, boolean direct,
 			OWLClass... values) {
 		Set<OWLClass> expected = new HashSet<OWLClass>( Arrays.asList( values ) );
@@ -299,10 +295,10 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 
 	@Test
-	public void testPropertyChain() throws Exception {
+	public void testPropertyChain() throws OWLException {
 		String ns = "http://www.example.org/test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "propertyChain.owl") );
+		OWLOntology ont = loadOntology( base + "propertyChain.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(  ont );
 
@@ -315,8 +311,8 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		OWLNamedIndividual[] a = new OWLNamedIndividual[17];
 		for( int i = 0; i < a.length; i++ ) {
-					a[i] = Individual( ns + "a" + i );
-				}
+	        a[i] = Individual( ns + "a" + i );
+        }
 
 		OWLIndividual[] theList = new OWLIndividual[] {
 				a[1], a[2], a[3], a[4], a[5], a[6], a[8], a[10], a[12], a[14], a[16] };
@@ -347,10 +343,10 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	}
 
 	@Test
-	public void testQualifiedCardinality1() throws Exception {
+	public void testQualifiedCardinality1() throws OWLException {
 		String ns = "http://www.example.org/test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "qcr.owl") );
+		OWLOntology ont = loadOntology( base + "qcr.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
@@ -365,11 +361,11 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	}
 
 	@Test
-	public void testReflexive2() throws Exception {
+	public void testReflexive2() throws OWLException {
 		String ns = "http://www.example.org/test#";
 		String foaf = "http://xmlns.com/foaf/0.1/";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "reflexive.owl") );
+		OWLOntology ont = loadOntology( base + "reflexive.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
@@ -392,37 +388,37 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 	@Test
 	public void testInfiniteChain() throws Exception {
-		OWLOntology ont = loadOntology( new FileInputStream(base + "infiniteChain.owl") );
+		OWLOntology ont = loadOntology( base + "infiniteChain.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
 		assertTrue( !reasoner.isConsistent() );
 	}
-
+	
 	@Test
 	public void testRemoveLiteralNoBuffering1() throws Exception {
 		testRemoveLiteral( "ind1", false );
 	}
-
+	
 	@Test
 	public void testRemoveLiteralNoBuffering2() throws Exception {
 		testRemoveLiteral( "ind2", false );
 	}
-
+	
 	@Test
 	public void testRemoveLiteralWithBuffering1() throws Exception {
 		testRemoveLiteral( "ind1", true );
 	}
-
+	
 	@Test
 	public void testRemoveLiteralWithBuffering2() throws Exception {
 		testRemoveLiteral( "ind2", true );
 	}
-
+	
 	public void testRemoveLiteral(String indName, boolean buffering) throws Exception {
 		String ns = "http://www.example.org/test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "RemoveLiteral.owl") );
+		OWLOntology ont = loadOntology( base + "RemoveLiteral.owl" );
 
 		PelletReasoner reasoner = buffering
 			? PelletReasonerFactory.getInstance().createReasoner( ont )
@@ -439,7 +435,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		OWLLiteral valBoolean = ind.getDataPropertyValues( pBoolean, ont ).iterator().next();
 
 		assertTrue( reasoner.isConsistent() );
-
+		
 		removeAxioms(ont, propertyAssertion( ind, pDouble, valDouble ) );
 		if( buffering ) {
 			assertFalse( reasoner.getDataPropertyValues( ind, pDouble ).isEmpty() );
@@ -466,60 +462,60 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		OWLLiteral newVal = constant( "0.0", XSD.DOUBLE );
 		addAxioms( ont, propertyAssertion( ind, pDouble, newVal ) );
 		if( buffering ) {
-					reasoner.flush();
-				}
+	        reasoner.flush();
+        }
 
 		assertTrue( reasoner.isConsistent() );
 	}
 
 	@Test
-	public void testFamily() throws Exception {
+	public void testFamily() throws OWLException {
 		String ns = "http://www.example.org/family#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "family.owl") );
+		OWLOntology ont = loadOntology( base + "family.owl" );
 		for (OWLAxiom axiom : ont.getAxioms()) {
-			System.out.println(axiom);
-				}
+			System.out.println(axiom);	        
+        }
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
-
+		
 		try {
-					testFamily( ns, reasoner );
-
-					reasoner.getKB().realize();
-
-					testFamily( ns, reasoner );
-				}
-				finally {
-				reasoner.dispose();
-				}
+	        testFamily( ns, reasoner );
+	        
+	        reasoner.getKB().realize();
+	        
+	        testFamily( ns, reasoner );
+        }
+        finally {
+    		reasoner.dispose();
+        }
 	}
-
+	
 	@Test
-	public void testFamilyIncremental() throws Exception {
+	public void testFamilyIncremental() {
 		String ns = "http://www.example.org/family#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "family.owl") );
+		OWLOntology ont = loadOntology( base + "family.owl" );
 
 		IncrementalClassifier classifier = new IncrementalClassifier( ont );
-
+		
 		try {
-					// force classification
-					classifier.classify();
-
-					testFamily( ns, classifier );
-
-					// force realization
-					OWLNamedIndividual ind1 = Individual( ns + "ind1" );
-					classifier.getTypes(ind1, true);
-
-					testFamily( ns, classifier );
-				}
-				finally {
-				classifier.dispose();
-				}
+	        // force classification
+	        classifier.classify();
+	        
+	        testFamily( ns, classifier );
+	        
+	        // force realization
+	        OWLNamedIndividual ind1 = Individual( ns + "ind1" );
+	        classifier.getTypes(ind1, true);
+	        
+	        testFamily( ns, classifier );
+        }
+        finally {
+    		classifier.dispose();
+        }
 	}
-
+	
 	private void testFamily( String ns, OWLReasoner reasoner ) {
 		OWLObjectProperty hasBrother = ObjectProperty( ns + "hasBrother" );
 		OWLObjectProperty hasSon = ObjectProperty( ns + "hasSon" );
@@ -694,7 +690,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 //		/* FIXME: There is no positive check here because OWLAPI does not support annotation property declaration. */
 //		assertFalse( reasoner.isDefined( DataProperty( ns + "p" ) ) );
 //		assertFalse( reasoner.isDefined( ObjectProperty( ns + "p" ) ) );
-//
+//		
 //		assertTrue( reasoner.isDefined( ObjectProperty( ns + "q" ) ) );
 //		assertEquals( 2 + 1, reasoner.getObjectProperties().size() );
 //		assertFalse( kb.isAnnotationProperty( ATermUtils.makeTermAppl( ns + "r" ) ) );
@@ -707,10 +703,10 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 //	}
 
 	@Test
-	public void testAnonInverse() throws Exception {
+	public void testAnonInverse() throws OWLException {
 		String ns = "http://www.example.org/test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "anon_inverse.owl") );
+		OWLOntology ont = loadOntology( base + "anon_inverse.owl" );
 
 		OWLClass C = Class( ns + "C" );
 		OWLClass D = Class( ns + "D" );
@@ -745,10 +741,10 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	}
 
 	@Test
-	public void testDLSafeRules() throws Exception {
+	public void testDLSafeRules() throws OWLOntologyCreationException {
 		String ns = "http://owldl.com/ontologies/dl-safe.owl#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "dl-safe.owl") );
+		OWLOntology ont = loadOntology( base + "dl-safe.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
@@ -772,8 +768,8 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		for( int test = 0; test < 2; test++ ) {
 			if( test != 0 ) {
-							reasoner.prepareReasoner();
-						}
+	            reasoner.prepareReasoner();
+            }
 
 			assertTrue( reasoner.isEntailed( propertyAssertion( Abel, sibling, Cain ) ) );
 
@@ -803,13 +799,13 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		assertIteratorValues( reasoner.getTypes( Cain, true ).getFlattened().iterator(),
 				new Object[] { BadChild, Child, Person } );
 	}
-
+	
 
 	@Test
-	public void testDLSafeConstants() throws Exception {
+	public void testDLSafeConstants() throws OWLOntologyCreationException {
 		String ns = "http://owldl.com/ontologies/dl-safe-constants.owl#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "dl-safe-constants.owl") );
+		OWLOntology ont = loadOntology( base + "dl-safe-constants.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
@@ -823,8 +819,8 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		for( int test = 0; test < 1; test++ ) {
 			if( test != 0 ) {
-							reasoner.prepareReasoner();
-						}
+	            reasoner.prepareReasoner();
+            }
 
 			assertIteratorValues( reasoner.getInstances( DreamTeamMember, false ).getFlattened().iterator(),
 					new Object[] { Alice, Bob, Charlie } );
@@ -876,8 +872,8 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	}
 
 	@Test
-	public void testInvalidTransitivity2() throws Exception {
-		OWLOntology ont = loadOntology( new FileInputStream(base + "invalidTransitivity.owl") );
+	public void testInvalidTransitivity2() throws OWLOntologyCreationException {
+		OWLOntology ont = loadOntology( base + "invalidTransitivity.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
@@ -932,15 +928,15 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		assertEquals( SetUtils.create( b, c ), reasoner.getSameIndividuals( c ).getEntities() );
 
 		assertPropertyValues( reasoner, a, p, b, c );
-
+		
 		assertPropertyValues( reasoner, a, q, b, c );
-
+		
 		assertPropertyValues( reasoner, b, p, b, c );
-
+		
 		assertPropertyValues( reasoner, b, q, a );
-
+		
 		assertPropertyValues( reasoner, c, p, b, c );
-
+		
 		assertPropertyValues( reasoner, c, q, a );
 	}
 
@@ -1010,25 +1006,25 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	public void testRealizeByIndividualsNPE() throws Exception {
 		Properties newOptions = PropertiesBuilder.singleton( "REALIZE_INDIVIDUAL_AT_A_TIME", "true" );
 		Properties savedOptions = PelletOptions.setOptions( newOptions );
-
+		
 		try {
 			ProgressMonitor monitor = new TimedProgressMonitor( 1 );
-
-			OWLOntology ont = loadOntology( new FileInputStream(base + "food.owl") );
-
+	
+			OWLOntology ont = loadOntology( base + "food.owl" );
+			
 			PelletReasoner pellet = PelletReasonerFactory.getInstance().createReasoner( ont );
 			KnowledgeBase kb = pellet.getKB();
-
+	
 			kb.classify();
-
+	
 			kb.getTaxonomyBuilder().setProgressMonitor( monitor );
-
+	
 			kb.realize();
-
+	
 			assertFalse( kb.isRealized() );
 		}
 		finally {
-			PelletOptions.setOptions( savedOptions );
+			PelletOptions.setOptions( savedOptions );			
 		}
 	}
 
@@ -1039,7 +1035,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	public void testClassificationTimeout() throws Exception {
 		boolean timeout = false;
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "food.owl") );
+		OWLOntology ont = loadOntology( base + "food.owl" );
 
 		PelletReasoner pellet = PelletReasonerFactory.getInstance().createReasoner( ont );
 		KnowledgeBase kb = pellet.getKB();
@@ -1065,7 +1061,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	public void testRealizationTimeout() throws Exception {
 		boolean timeout = false;
 
-		OWLOntology ont = loadOntology( new FileInputStream(PelletTestSuite.base + "modularity/SWEET.owl") );
+		OWLOntology ont = loadOntology( "file:" + PelletTestSuite.base + "modularity/SWEET.owl" );
 
 		PelletReasoner pellet = PelletReasonerFactory.getInstance().createReasoner( ont );
 		KnowledgeBase kb = pellet.getKB();
@@ -1155,7 +1151,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		assertEquals( expected, actual );
 	}
-
+	
 	public void testAxiomConverterRules1c() {
 		KnowledgeBase kb = new KnowledgeBase();
 		AxiomConverter converter = new AxiomConverter( kb, OWL.manager.getOWLDataFactory() );
@@ -1185,7 +1181,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		assertEquals( expected, actual );
 	}
-
+	
 	@Test
 	public void testAxiomConverterRules2() {
 		KnowledgeBase kb = new KnowledgeBase();
@@ -1286,7 +1282,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		OWLAxiom[] axioms = {
 				OWL.subClassOf( C, D ),
 				OWL.classAssertion( anon, C ) };
-
+		
 		OWLOntology ont = OWL.Ontology( axioms );
 		PelletReasoner pellet = PelletReasonerFactory.getInstance().createReasoner( ont );
 
@@ -1294,20 +1290,20 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		assertTrue( pellet.getInstances( D, false ).getNodes().size() == 1 );
 	}
-
+	
 	@Test
 	public void testSubClassDirectParameter() {
 		OWLAxiom[] axioms = {
 				OWL.subClassOf( E, D ),
 				OWL.subClassOf( D, C ) };
-
+		
 		OWLOntology ont = OWL.Ontology( axioms );
 		PelletReasoner pellet = PelletReasonerFactory.getInstance().createReasoner( ont );
 
-		assertTrue( pellet.getSubClasses( C, true ).getNodes().size() == 1 );
+		assertTrue( pellet.getSubClasses( C, true ).getNodes().size() == 1 );		
 		assertTrue( pellet.getSubClasses( C, false ).getNodes().size() == 3 ); // includes owl:Nothing
 	}
-
+	
 	private PelletReasoner setupReasonerIndividualNodeSetPolicy(IndividualNodeSetPolicy p) {
 		OWLAxiom[] axioms = {
 				OWL.classAssertion( a, C ),
@@ -1317,30 +1313,30 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 				OWL.differentFrom( b, c ),
 				OWL.differentFrom( a, c )
 		};
-
+		
 		OWLOntology ont = OWL.Ontology( axioms );
 		OWLReasonerConfiguration config = new SimpleConfiguration( new NullReasonerProgressMonitor(), FreshEntityPolicy.ALLOW, Long.MAX_VALUE, p );
 		PelletReasoner pellet = PelletReasonerFactory.getInstance().createReasoner( ont, config );
-
+		
 		return pellet;
 	}
-
+	
 	@Test
 	public void testIndividualNodeSetPolicyBySameAs() {
 		PelletReasoner pellet = setupReasonerIndividualNodeSetPolicy(IndividualNodeSetPolicy.BY_SAME_AS);
-
-		assertTrue( pellet.getInstances( C, true ).getNodes().size() == 2 );
+		
+		assertTrue( pellet.getInstances( C, true ).getNodes().size() == 2 );		
 		assertTrue( pellet.getDifferentIndividuals( c ).getNodes().size() == 1 );
 	}
-
+	
 	@Test
 	public void testIndividualNodeSetPolicyByName() {
 		PelletReasoner pellet = setupReasonerIndividualNodeSetPolicy(IndividualNodeSetPolicy.BY_NAME);
-
-		assertTrue( pellet.getInstances( C, true ).getNodes().size() == 3 );
+		
+		assertTrue( pellet.getInstances( C, true ).getNodes().size() == 3 );		
 		assertTrue( pellet.getDifferentIndividuals( c ).getNodes().size() == 2 );
 	}
-
+	
 	@Test
 	public void testTopBottomPropertyAssertion() throws OWLOntologyCreationException {
 		OWLAxiom[] axioms = {
@@ -1348,7 +1344,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 				OWL.propertyAssertion( a, OWL.topDataProperty, lit ),
 				OWL.propertyAssertion( a, OWL.bottomObjectProperty, b ),
 				OWL.propertyAssertion( a, OWL.bottomDataProperty, lit ) };
-
+		
 		for( int i = 0; i < axioms.length; i++ ) {
 			OWLOntology ont = OWL.Ontology( axioms[i] );
 			PelletReasoner pellet = PelletReasonerFactory.getInstance().createReasoner( ont );
@@ -1356,77 +1352,77 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 			assertEquals( i < 2, pellet.isConsistent() );
 		}
 	}
-
+	
 	@Test
 	public void testTopBottomPropertyInferences() throws OWLOntologyCreationException {
-		boolean prevValue = PelletOptions.HIDE_TOP_PROPERTY_VALUES;
+		boolean prevValue = PelletOptions.HIDE_TOP_PROPERTY_VALUES; 
 		PelletOptions.HIDE_TOP_PROPERTY_VALUES = false;
 		try {
-
+			
 		createReasoner(
 				OWL.propertyAssertion( a, p, b ),
 				OWL.classAssertion( c, C ),
 				OWL.propertyAssertion( a, dp, lit )
 		);
 
-
+		
 		assertTrue( reasoner.isEntailed( OWL.subPropertyOf( p, OWL.topObjectProperty ) ) );
 		assertTrue( reasoner.isEntailed( OWL.subPropertyOf( OWL.bottomObjectProperty, p ) ) );
 		assertTrue( reasoner.isEntailed( OWL.subPropertyOf( dp, OWL.topDataProperty ) ) );
 		assertTrue( reasoner.isEntailed( OWL.subPropertyOf( OWL.bottomDataProperty, dp ) ) );
-
+		
 		assertEquals( Collections.singleton( p ), reasoner.getSubObjectProperties( OWL.topObjectProperty, true ).getFlattened() );
 		assertEquals( Collections.singleton( OWL.bottomObjectProperty ), reasoner.getSubObjectProperties( p, true ).getFlattened() );
 		assertEquals( Collections.singleton( dp ), reasoner.getSubDataProperties( OWL.topDataProperty, true ).getFlattened() );
 		assertEquals( Collections.singleton( OWL.bottomDataProperty ), reasoner.getSubDataProperties( dp, true ).getFlattened() );
-
+		
 		assertTrue( reasoner.isEntailed( propertyAssertion( a, p, b ) ) );
 		assertFalse( reasoner.isEntailed( propertyAssertion( b, p, a ) ) );
 		assertTrue( reasoner.isEntailed( propertyAssertion( a, OWL.topObjectProperty, b ) ) );
 		assertTrue( reasoner.isEntailed( propertyAssertion( b, OWL.topObjectProperty, a ) ) );
-
+		
 		assertTrue( reasoner.isEntailed( propertyAssertion( a, dp, lit ) ) );
 		assertFalse( reasoner.isEntailed( propertyAssertion( b, dp, lit ) ) );
 		assertTrue( reasoner.isEntailed( propertyAssertion( a, OWL.topDataProperty, lit ) ) );
 		assertTrue( reasoner.isEntailed( propertyAssertion( b, OWL.topDataProperty, lit ) ) );
-
-
+		
+		
 		assertPropertyValues( reasoner, a, p, b );
 		assertTrue( reasoner.getObjectPropertyValues( b, p ).getFlattened().isEmpty() );
 		assertPropertyValues( reasoner, a , OWL.topObjectProperty, a, b, c );
 		assertPropertyValues( reasoner, b , OWL.topObjectProperty, a, b, c );
 		assertPropertyValues( reasoner, a , OWL.topDataProperty, lit );
 		assertPropertyValues( reasoner, b , OWL.topDataProperty, lit );
-
+		
 		}
-		finally {
+		finally { 
 			PelletOptions.HIDE_TOP_PROPERTY_VALUES = prevValue;
 		}
 	}
-
+	
 	@Ignore
 	@Test
-	public void testSetTheory() throws Exception {
+	public void testSetTheory() throws OWLException {
 		// This tests #388
-
+		
 		String ns = "http://www.integratedmodelling.org/ks/tarassandbox/set-theory.owl#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(base + "set-theory.owl") );
+		OWLOntology ont = loadOntology( base + "set-theory.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 
 		reasoner.getKB().classify();
-
+		
 		assertEquals( SetUtils.create( OWL.Class( ns + "SetOfXSets" ), OWL.Class( ns + "XSet" ),
 				OWL.Class( ns + "XThing" ) ), reasoner.getSubClasses(
 				OWL.Class( ns + "XSetTheoryClass" ), true ).getFlattened() );
 	}
-
+	
 	@Test
-	public void datatypeDefinition() {
+	public void datatypeDefinition() {		
 		OWLDatatype between5and10 = OWL.Datatype( "between5and10" );
 		OWLDatatype between6and8 = OWL.Datatype( "between6and8" );
-
+		
 		createReasoner(
 			OWL.datatypeDefinition( between5and10, OWL.restrict( XSD.INTEGER, OWL.minInclusive( 5 ), OWL.maxInclusive( 10 ) ) ),
 			OWL.datatypeDefinition( between6and8, OWL.restrict( XSD.INTEGER, OWL.minInclusive( 6 ), OWL.maxInclusive( 8 ) ) ),
@@ -1435,27 +1431,27 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 			OWL.propertyAssertion( a, dp, OWL.constant( 9 ) ),
 			OWL.propertyAssertion( b, dp, OWL.constant( 7 ) )
 		);
-
+		
 		assertTrue( reasoner.isEntailed( OWL.subClassOf( B, A ) ) );
 		assertTrue( reasoner.isEntailed( OWL.classAssertion( a, A ) ) );
 		assertFalse( reasoner.isEntailed( OWL.classAssertion( a, B ) ) );
 		assertTrue( reasoner.isEntailed( OWL.classAssertion( b, A ) ) );
 		assertTrue( reasoner.isEntailed( OWL.classAssertion( b, B ) ) );
 	}
-
-
+	
+	
 	@Test
-	public void dataRangeEntailment() {
+	public void dataRangeEntailment() {		
 		createReasoner(
 			OWL.range( dp, XSD.INT )
 		);
-
+		
 		assertTrue( reasoner.isEntailed( OWL.range( dp, XSD.INT ) ) );
 		assertTrue( reasoner.isEntailed( OWL.range( dp, XSD.INTEGER ) ) );
 		assertFalse( reasoner.isEntailed( OWL.range( dp, XSD.FLOAT ) ) );
 		assertFalse( reasoner.isEntailed( OWL.range( dp, XSD.STRING ) ) );
 	}
-
+	
 
 	@Test
 	/**
@@ -1463,47 +1459,47 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 	 */
 	public void test149() throws OWLOntologyCreationException {
 		createReasoner(OWL.inverseProperties(p, q));
-
+		
 		assertTrue(reasoner.isEntailed(OWL.equivalentProperties(p, OWL.inverse(q))));
 	}
-
+	
 	@Test
 	/**
 	 * Tests for the bug reported in #150
 	 */
 	public void test150_1() {
 		createReasoner(OWL.disjointProperties(p, OWL.inverse(q)));
-
-		assertTrue(reasoner.isEntailed(OWL.disjointProperties(p, OWL.inverse(q))));
+		
+		assertTrue(reasoner.isEntailed(OWL.disjointProperties(p, OWL.inverse(q))));		
 	}
-
+	
 	@Test
 	/**
 	 * Tests for the bug reported in #150
 	 */
-	public void test150_2() {
+	public void test150_2() {		
 		createReasoner(
 			OWL.domain(p, C),
 			OWL.range(q, D),
 			OWL.disjointClasses(C, D)
-		);
-
+		);		
+		
 		assertTrue(reasoner.isEntailed(OWL.disjointProperties(p, OWL.inverse(q))));
 		assertTrue(reasoner.isEntailed(OWL.disjointProperties(OWL.inverse(p), q)));
 	}
-
+	
 	@Test
 	/**
 	 * Test for the enhancement required in #252
 	 */
-	public void testBooleanDatatypeConstructors() {
+	public void testBooleanDatatypeConstructors() {		
 		OWLDatatype nni = XSD.NON_NEGATIVE_INTEGER;
 		OWLDatatype npi = XSD.NON_POSITIVE_INTEGER;
 		OWLDatatype ni = XSD.NEGATIVE_INTEGER;
 		OWLDatatype pi = XSD.POSITIVE_INTEGER;
 		OWLDatatype f = XSD.FLOAT;
 		OWLDatatype i = XSD.INTEGER;
-
+		
 		createReasoner(
 			OWL.declaration(nni),
 			OWL.declaration(npi),
@@ -1511,9 +1507,9 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 			OWL.declaration(pi),
 			OWL.declaration(f),
 			OWL.declaration(dq),
-			OWL.range(dp, OWL.dataAnd( pi, ni ) )
+			OWL.range(dp, OWL.dataAnd( pi, ni ) ) 
 		);
-
+		
 		assertTrue( reasoner.isSatisfiable(OWL.some( dq, pi ) ) );
 		assertTrue( reasoner.isSatisfiable(OWL.some( dq, OWL.dataNot( pi ) ) ) );
 		assertFalse( reasoner.isSatisfiable(OWL.some( dq, OWL.dataAnd( pi, ni ) ) ) );
@@ -1525,185 +1521,185 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		assertFalse( reasoner.isSatisfiable(OWL.some( dq, OWL.dataAnd( pi, OWL.restrict( i, OWL.maxExclusive( 0 ) ) ) ) ) );
 		assertFalse( reasoner.isSatisfiable(OWL.some( dp , XSD.ANY_TYPE) ) );
 	}
-
+	
 	/**
 	 * Test for #447
 	 */
 	@Test
-	public void testGetEquivalentClasses() {
+	public void testGetEquivalentClasses() {	
 		createReasoner(
 			OWL.equivalentClasses(A, B),
 			OWL.equivalentClasses(B, C)
 		);
-
+		
 		assertEquals(SetUtils.create(A, B, C), reasoner.getEquivalentClasses(A).getEntities());
 		assertEquals(SetUtils.create(A, B, C), reasoner.getEquivalentClasses(B).getEntities());
 		assertEquals(SetUtils.create(A, B, C), reasoner.getEquivalentClasses(C).getEntities());
 	}
-
+	
 	@Test
-	public void testGetEquivalentObjectProperties() {
+	public void testGetEquivalentObjectProperties() {	
 		createReasoner(
 			OWL.equivalentProperties(p, q),
 			OWL.equivalentProperties(q, r)
 		);
-
+		
 		assertEquals(SetUtils.create(p, q, r), reasoner.getEquivalentObjectProperties(p).getEntities());
 		assertEquals(SetUtils.create(p, q, r), reasoner.getEquivalentObjectProperties(q).getEntities());
 		assertEquals(SetUtils.create(p, q, r), reasoner.getEquivalentObjectProperties(r).getEntities());
 	}
-
+	
 	@Test
-	public void testGetEquivalentDataProperties() {
+	public void testGetEquivalentDataProperties() {	
 		createReasoner(
 			OWL.equivalentDataProperties(dp, dq),
 			OWL.equivalentDataProperties(dq, dr)
 		);
-
+		
 		assertEquals(SetUtils.create(dp, dq, dr), reasoner.getEquivalentDataProperties(dp).getEntities());
 		assertEquals(SetUtils.create(dp, dq, dr), reasoner.getEquivalentDataProperties(dq).getEntities());
 		assertEquals(SetUtils.create(dp, dq, dr), reasoner.getEquivalentDataProperties(dr).getEntities());
-	}
-
+	}	
+	
 	/**
 	 * Test for #447
 	 */
 	@Test
-	public void testGetUnsatClasses() {
+	public void testGetUnsatClasses() {	
 		createReasoner(
 			OWL.disjointClasses(A, B),
 			OWL.equivalentClasses(C, OWL.and(A, B))
 		);
-
+		
 		assertEquals(SetUtils.create(C, OWL.Nothing), reasoner.getUnsatisfiableClasses().getEntities());
 		assertEquals(SetUtils.create(C, OWL.Nothing), reasoner.getEquivalentClasses(C).getEntities());
 	}
-
+	
 	@Test
-	public void test454() throws Exception {
-		OWLOntology ont = loadOntology( new FileInputStream(base + "ticket-454-test-case.owl") );
+	public void test454() {		
+		OWLOntology ont = loadOntology( base + "ticket-454-test-case.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
-
+		
 		assertFalse(reasoner.isConsistent());
 	}
-
+	
 	@Test
-	public void test456() throws Exception {
-		OWLOntology ont = loadOntology( new FileInputStream(base + "ticket-456-test-case.owl") );
+	public void test456() {		
+		OWLOntology ont = loadOntology( base + "ticket-456-test-case.owl" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
-
+		
 		assertTrue(reasoner.isConsistent());
 	}
-
+	
 	@Test
-	public void testDataDomainWithEquivalents() {
+	public void testDataDomainWithEquivalents() {		
 		createReasoner(
-				OWL.subClassOf(A, min(dp, 1)),
+		    OWL.subClassOf(A, min(dp, 1)),           
 			OWL.domain(dp, A),
 			OWL.subClassOf(A, B)
-		);
+		);		
+		
+		assertTrue(reasoner.isEntailed(OWL.domain(dp, A)));
+		assertEquals(SetUtils.create(A), reasoner.getDataPropertyDomains(dp, true).getFlattened());
+		assertEquals(SetUtils.create(A, B, OWL.Thing), reasoner.getDataPropertyDomains(dp, false).getFlattened());
+	}
+	
+	@Test
+	public void testDataDomainWithSubClasses() {		
+		createReasoner(
+		   	OWL.domain(dp, A),
+		   	OWL.subClassOf(A, B)
+		);		
 
 		assertTrue(reasoner.isEntailed(OWL.domain(dp, A)));
 		assertEquals(SetUtils.create(A), reasoner.getDataPropertyDomains(dp, true).getFlattened());
 		assertEquals(SetUtils.create(A, B, OWL.Thing), reasoner.getDataPropertyDomains(dp, false).getFlattened());
 	}
-
+	
 	@Test
-	public void testDataDomainWithSubClasses() {
+	public void testObjecDomainWithEquivalents() {		
 		createReasoner(
-				OWL.domain(dp, A),
-				OWL.subClassOf(A, B)
-		);
-
-		assertTrue(reasoner.isEntailed(OWL.domain(dp, A)));
-		assertEquals(SetUtils.create(A), reasoner.getDataPropertyDomains(dp, true).getFlattened());
-		assertEquals(SetUtils.create(A, B, OWL.Thing), reasoner.getDataPropertyDomains(dp, false).getFlattened());
-	}
-
-	@Test
-	public void testObjecDomainWithEquivalents() {
-		createReasoner(
-				OWL.subClassOf(A, min(p, 1)),
+		    OWL.subClassOf(A, min(p, 1)),           
 			OWL.domain(p, A),
 			OWL.domain(p, C),
 			OWL.subClassOf(A, B)
-		);
-
+		);		
+		
 		assertTrue(reasoner.isEntailed(OWL.domain(p, A)));
 		assertEquals(SetUtils.create(A), reasoner.getObjectPropertyDomains(p, true).getFlattened());
 		assertEquals(SetUtils.create(A, B, C, OWL.Thing), reasoner.getObjectPropertyDomains(p, false).getFlattened());
 	}
-
+	
 	@Test
-	public void testObjectDomainWithSubClasses() {
+	public void testObjectDomainWithSubClasses() {		
 		createReasoner(
-				OWL.domain(p, A),
-				OWL.subClassOf(A, B)
-		);
+		   	OWL.domain(p, A),
+		   	OWL.subClassOf(A, B)
+		);		
 
 		assertTrue(reasoner.isEntailed(OWL.domain(p, A)));
 		assertEquals(SetUtils.create(A), reasoner.getObjectPropertyDomains(p, true).getFlattened());
 		assertEquals(SetUtils.create(A, B, OWL.Thing), reasoner.getObjectPropertyDomains(p, false).getFlattened());
 	}
-
+	
 	@Test
-	public void testObjectRangeWithEquivalents() {
+	public void testObjectRangeWithEquivalents() {		
 		createReasoner(
-				OWL.equivalentClasses(C, some(inverse(p), OWL.Thing)),
+		    OWL.equivalentClasses(C, some(inverse(p), OWL.Thing)),
 			OWL.range(p, D),
 			OWL.subClassOf(C, E)
-		);
-
+		);		
+		
 		reasoner.getKB().printClassTree();
-
+		
 		assertTrue(reasoner.isEntailed(OWL.range(p, C)));
 		assertEquals(SetUtils.create(C), reasoner.getEquivalentClasses(some(inverse(p), OWL.Thing)).getEntities());
 		assertEquals(SetUtils.create(C), reasoner.getObjectPropertyRanges(p, true).getFlattened());
 		assertEquals(SetUtils.create(C, D, E, OWL.Thing), reasoner.getObjectPropertyRanges(p, false).getFlattened());
 	}
-
+	
 	@Test
-	public void testObjectRangeWithSubClasses() {
+	public void testObjectRangeWithSubClasses() {		
 		createReasoner(
-				OWL.domain(p, A),
+   			OWL.domain(p, A),
 			OWL.range(p, C),
 			OWL.range(p, D),
 			OWL.subClassOf(C, E)
-		);
+		);		
 
 		assertTrue(reasoner.isEntailed(OWL.range(p, C)));
 		assertEquals(SetUtils.create(C, D), reasoner.getObjectPropertyRanges(p, true).getFlattened());
 		assertEquals(SetUtils.create(C, D, E, OWL.Thing), reasoner.getObjectPropertyRanges(p, false).getFlattened());
 	}
-
+	
 	@Test
-	public void testQuotedLiteral() {
+	public void testQuotedLiteral() {	
 		OWLLiteral literal = OWL.constant("\"test\"");
-
+		
 		createReasoner(
-				OWL.propertyAssertion(a, dp, literal)
-		);
+   			OWL.propertyAssertion(a, dp, literal)
+		);		
 
 		assertTrue(reasoner.isEntailed(OWL.propertyAssertion(a, dp, literal)));
 		assertEquals(Collections.singleton(literal), reasoner.getDataPropertyValues(a, dp));
 	}
-
+	
 
 	@Test
-	public void testComplementRemoval() throws Exception {
+	public void testComplementRemoval() throws OWLException {
 		String ns = "http://test#";
 
-		OWLOntology ont = loadOntology( new FileInputStream(MiscTests.base + "ticket539.ofn") );
+		OWLOntology ont = loadOntology( MiscTests.base + "ticket539.ofn" );
 
 		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createNonBufferingReasoner( ont );
 
 		assertFalse(reasoner.isConsistent());
 
-		OWL.manager.removeAxiom(ont, OWL.subClassOf(OWL.Class(ns+"a_GROUP"), OWL.Class(ns+"a_TEMPORALTHING")));
+		OWL.manager.removeAxiom(ont, OWL.subClassOf(OWL.Class(ns+"a_GROUP"), OWL.Class(ns+"a_TEMPORALTHING")));		
 		assertFalse(reasoner.isConsistent());
-
+		
 		OWL.manager.removeAxiom(ont, OWL.subClassOf(OWL.Class(ns+"a_INDIVIDUAL"), OWL.not(OWL.Class(ns+"a_SETORCOLLECTION"))));
 		assertFalse(reasoner.isConsistent());
 	}

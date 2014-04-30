@@ -10,7 +10,6 @@ package com.clarkparsia.explanation.test;
 
 import static org.junit.Assume.assumeTrue;
 
-import java.io.FileInputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,6 +21,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.utils.SetUtils;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -50,11 +50,11 @@ import com.clarkparsia.owlapiv3.XSD;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- *
+ * 
  * @author Evren Sirin
  */
 public abstract class AbstractExplanationTest {
-	static final String				BASEPATH	= "file:src/test/resources/data/";
+	static final String				BASEPATH	= "file:data/";
 	static final OWLOntologyManager	manager		= OWL.manager;
 	static final URI				ontologyURI	= URI.create( "http://www.example.org/test#" );
 
@@ -93,7 +93,7 @@ public abstract class AbstractExplanationTest {
 		b = OWL.Individual( ontologyURI + "b" );
 		c = OWL.Individual( ontologyURI + "c" );
 		d = OWL.Individual( ontologyURI + "d" );
-
+		
 		dt = OWL.Datatype( ontologyURI + "dt" );
 
 		anon1 = OWL.AnonymousIndividual( "anon1" );
@@ -115,7 +115,7 @@ public abstract class AbstractExplanationTest {
 	public void testExplanations(OWLAxiom axiom, int max, OWLAxiom... explanations) throws Exception {
 		testExplanations( axiom, max, new OWLAxiom[][] { explanations } );
 	}
-
+	
 	public void testExplanations(OWLAxiom axiom, int max, OWLAxiom[]... explanations)
 			throws Exception {
 		Set<Set<OWLAxiom>> explanationSet = new HashSet<Set<OWLAxiom>>();
@@ -135,8 +135,8 @@ public abstract class AbstractExplanationTest {
 	@After
 	public void after() {
 		for( OWLOntology ont : manager.getOntologies() ) {
-					manager.removeOntology( ont );
-				}
+	        manager.removeOntology( ont );
+        }
 	}
 
 	/**
@@ -174,7 +174,7 @@ public abstract class AbstractExplanationTest {
 	@Test
 	public void anonymousIndividualPropertyAssertion() throws Exception {
 		assumeTrue( !(this instanceof JenaExplanationTest) );
-
+		
 		OWLAxiom[] axioms = {
 				OWL.propertyAssertion( a, p, anon1 ), OWL.classAssertion( anon1, A ),
 				OWL.subClassOf( OWL.some( p, A ), B ) };
@@ -256,7 +256,8 @@ public abstract class AbstractExplanationTest {
 	@Test
 	public void koalaHardWorkingDomain() throws Exception {
 		String ns = "http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#";
-		OWLOntology ontology = manager.loadOntologyFromOntologyDocument( new FileInputStream( "src/test/resources/data/modularity/koala.owl" ) );
+		OWLOntology ontology = manager.loadOntology( IRI
+				.create( "file:test/data/modularity/koala.owl" ) );
 		OWLClass animal = OWL.Class( ns + "Animal" );
 		OWLClass person = OWL.Class( ns + "Person" );
 		OWLDataProperty hardWorking = OWL.DataProperty( ns + "isHardWorking" );
@@ -481,19 +482,19 @@ public abstract class AbstractExplanationTest {
 
 	@Test
 	public void datatypeEnumeration() throws Exception {
-		OWLAxiom[] axioms = {
+		OWLAxiom[] axioms = { 
 				OWL.propertyAssertion(a, dp, OWL.constant(1)),
 				OWL.propertyAssertion(a, dp, OWL.constant(2)),
-						OWL.equivalentClasses(A, OWL.some(dp, dt)),
-						OWL.datatypeDefinition(dt, OWL.oneOf(OWL.constant(1), OWL.constant(2), OWL.constant(3))) };
+		        OWL.equivalentClasses(A, OWL.some(dp, dt)),
+		        OWL.datatypeDefinition(dt, OWL.oneOf(OWL.constant(1), OWL.constant(2), OWL.constant(3))) };
 
 		setupGenerators(Arrays.asList(axioms));
 
-		testExplanations(OWL.classAssertion(a, A), 0,
-				new OWLAxiom[] { axioms[0], axioms[2], axioms[3] },
+		testExplanations(OWL.classAssertion(a, A), 0,  
+				new OWLAxiom[] { axioms[0], axioms[2], axioms[3] },  
 				new OWLAxiom[] { axioms[1], axioms[2], axioms[3] });
 	}
-
+	
 	@Test
 	public void transitiveProperty() throws Exception {
 		OWLAxiom[] axioms = {
@@ -582,10 +583,10 @@ public abstract class AbstractExplanationTest {
 
 		testExplanations( OWL.subClassOf( A, C ), 0, axioms[0], axioms[1] );
 	}
-
+	
 	@Test
 	public void simpleType() throws Exception {
-		// this test case is to check the effect of realization and caching
+		// this test case is to check the effect of realization and caching 
 		// on explanations. the last axiom is to ebsure the EL classifier will
 		// not be used
 		OWLAxiom[] axioms = {
@@ -596,7 +597,7 @@ public abstract class AbstractExplanationTest {
 
 		testExplanations( OWL.classAssertion( a, B ), 0, axioms[0], axioms[1] );
 	}
-
+	
 	@Test
 	public void simplePropertyAssertion() throws Exception {
 		// this test case is to check the effect of hasObviousPropertyValue
@@ -607,7 +608,7 @@ public abstract class AbstractExplanationTest {
 
 		testExplanations( OWL.propertyAssertion( a, p, b ), 0, axioms );
 	}
-
+	
 	@Test
 	public void subPropertyAssertion() throws Exception {
 		// this test case is to check the effect of hasObviousPropertyValue
@@ -618,7 +619,7 @@ public abstract class AbstractExplanationTest {
 
 		testExplanations( OWL.propertyAssertion( a, q, b ), 0, axioms );
 	}
-
+	
 	@Test
 	public void functionalPropertyInMaxCardinality() throws Exception {
 		OWLAxiom[] axioms = {
@@ -638,7 +639,7 @@ public abstract class AbstractExplanationTest {
 		setupGenerators( Arrays.asList( axioms ) );
 		testExplanations( OWL.subClassOf( A, D ), 0, axioms );
 	}
-
+	
 	@Test
 	public void expressionInRange() throws Exception {
 		OWLAxiom[] axioms = {
@@ -648,14 +649,14 @@ public abstract class AbstractExplanationTest {
 		setupGenerators( Arrays.asList( axioms ) );
 		testExplanations( OWL.subClassOf( A, OWL.Nothing ), 0, axioms );
 	}
-
+	
 	@Test
 	public void differentFromAndFunctionality() throws Exception {
 		assumeTrue(!classify);
-
-		OWLAxiom[] axioms = {
+		
+		OWLAxiom[] axioms = { 
 				OWL.functional(p), OWL.propertyAssertion(a, p, b), OWL.propertyAssertion(a, p, c),
-						OWL.propertyAssertion(a, p, d), OWL.differentFrom(b, c), OWL.differentFrom(c, d) };
+		        OWL.propertyAssertion(a, p, d), OWL.differentFrom(b, c), OWL.differentFrom(c, d) };
 
 		setupGenerators( Arrays.asList( axioms ) );
 

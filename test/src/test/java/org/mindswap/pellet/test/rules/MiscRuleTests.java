@@ -27,8 +27,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 import static org.mindswap.pellet.utils.Namespaces.SWRLB;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,9 +37,7 @@ import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
@@ -88,12 +84,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 
 public class MiscRuleTests {
 
-		@org.junit.Rule
-		public TemporaryFolder tempDir = new TemporaryFolder();
-
-		private File testDir;
-
-	public final static String	base		= PelletTestSuite.base + "swrl-test/misc/";
+	public final static String	base		= "file:" + PelletTestSuite.base + "swrl-test/misc/";
 	private static final IRI	luigiFamily	= IRI
 													.create( "http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily" );
 
@@ -101,16 +92,11 @@ public class MiscRuleTests {
 		return new JUnit4TestAdapter( MiscRuleTests.class );
 	}
 
-	@Before
-	public void setUp() throws Exception {
-			testDir = tempDir.newFolder("miscruletests");
-	}
-
 	private void nonTrivialBuiltInTest() {
 		KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl d1 = literal( "1", Datatypes.INT ), d2 =
-				literal( "2", Datatypes.INT ), d12 = literal( "3", Datatypes.INTEGER ),
+		ATermAppl d1 = literal( "1", Datatypes.INT ), d2 = 
+				literal( "2", Datatypes.INT ), d12 = literal( "3", Datatypes.INTEGER ), 
 				i = term( "i" ), p = term( "p" ), q = term( "q" ), r = term( "r" );
 
 		kb.addDatatypeProperty( p );
@@ -259,21 +245,21 @@ public class MiscRuleTests {
 	public void builtInMath() {
 		KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl d1 = literal( "1", Datatypes.INT ), d2 =
+		ATermAppl d1 = literal( "1", Datatypes.INT ), d2 = 
 				literal( "1.5", Datatypes.FLOAT ), dif11 = literal(
-				"0", Datatypes.INTEGER ), dif12 = literal( "-0.5", Datatypes.FLOAT ), dif21 =
+				"0", Datatypes.INTEGER ), dif12 = literal( "-0.5", Datatypes.FLOAT ), dif21 = 
 				literal( "0.5", Datatypes.FLOAT ), dif22 = literal(
-				"0", Datatypes.FLOAT ), prod11 = literal( "1", Datatypes.INTEGER ), prod12 =
+				"0", Datatypes.FLOAT ), prod11 = literal( "1", Datatypes.INTEGER ), prod12 = 
 				literal( "1.5", Datatypes.FLOAT ), prod22 = literal(
-				"2.25", Datatypes.FLOAT ), quot11 =
+				"2.25", Datatypes.FLOAT ), quot11 = 
 				literal( "1", Datatypes.DECIMAL ), quot12 = literal(
-				Float.toString( (float)(1.0 / 1.5) ), Datatypes.FLOAT ), quot21 =
+				Float.toString( (float)(1.0 / 1.5) ), Datatypes.FLOAT ), quot21 = 
 				literal( "1.5", Datatypes.FLOAT ), quot22 = literal(
-				"1", Datatypes.FLOAT ), sum11 = literal( "2", Datatypes.INTEGER ), sum12 =
+				"1", Datatypes.FLOAT ), sum11 = literal( "2", Datatypes.INTEGER ), sum12 = 
 				literal( "2.5", Datatypes.FLOAT ), sum22 = literal(
-				"3.0", Datatypes.FLOAT ), i = term( "i" ), p =
-				term( "p" ), sum = term( "sum" ), product =
-				term( "product" ), difference = term( "difference" ), quotient =
+				"3.0", Datatypes.FLOAT ), i = term( "i" ), p = 
+				term( "p" ), sum = term( "sum" ), product = 
+				term( "product" ), difference = term( "difference" ), quotient = 
 				term( "quotient" );
 
 		kb.addDatatypeProperty( p );
@@ -359,8 +345,8 @@ public class MiscRuleTests {
 	public void dataPropertyChain1() {
 		KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl d = literal( "d" ), i = term( "i" ), j =
-				term( "j" ), k = term( "k" ), p =
+		ATermAppl d = literal( "d" ), i = term( "i" ), j = 
+				term( "j" ), k = term( "k" ), p = 
 				term( "p" ), r = term( "r" );
 
 		kb.addDatatypeProperty( p );
@@ -397,8 +383,8 @@ public class MiscRuleTests {
 	public void dataPropertyChain2() {
 		KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl d = literal( "d" ), i = term( "i" ), j =
-				term( "j" ), k = term( "k" ), p =
+		ATermAppl d = literal( "d" ), i = term( "i" ), j = 
+				term( "j" ), k = term( "k" ), p = 
 				term( "p" ), r = term( "r" );
 
 		kb.addDatatypeProperty( p );
@@ -460,7 +446,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void testRuleIndividuals() throws Exception {
-		ATermAppl c = term( "C" ), d = term( "D" ), i =
+		ATermAppl c = term( "C" ), d = term( "D" ), i = 
 				term( "i" );
 
 		KnowledgeBase kb = new KnowledgeBase();
@@ -519,13 +505,13 @@ public class MiscRuleTests {
 		OWLOntologyManager manager = OWL.manager;
 		OWLOntology familyRef = manager.loadOntology( IRI.create( base + "basicFamilyReference.owl" ) );
 		OWLOntology familyRules = manager.loadOntology( IRI.create( base + "basicFamilyRules.owl" ) );
-
+		
 		final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 		axioms.addAll( familyRef.getAxioms() );
 		axioms.addAll( familyRules.getAxioms() );
-
+		
 		OWLOntology mergedOntology = OWL.Ontology( axioms );
-
+		
 		PelletReasoner reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createReasoner( mergedOntology );
 
 		OWLIndividual nella = OWL.Individual( luigiFamily.resolve( "#Nella" ) );
@@ -537,8 +523,8 @@ public class MiscRuleTests {
 	}
 
 	public void testUncleRule() {
-		ATermAppl hasParent = term( "hasParent" ), hasSibling =
-				term( "hasSibling" ), hasUncle = term( "hasUncle" ), male =
+		ATermAppl hasParent = term( "hasParent" ), hasSibling = 
+				term( "hasSibling" ), hasUncle = term( "hasUncle" ), male = 
 				term( "Male" );
 
 		ATermAppl c11 = term( "c11" ), c12 = term( "c12" ), p1a = term( "p1a" ), p2a = term( "p2a" );
@@ -725,11 +711,11 @@ public class MiscRuleTests {
 		assertTrue( kb.isType( b, E ) );
 		assertTrue( kb.isType( c, E ) );
 	}
-
+	
 	@Test
 	public void reteRestoreTest2() {
 
-		// This test case is to test if restore/backtrack in RuleBranch
+		// This test case is to test if restore/backtrack in RuleBranch 
 		// modifies the original ABox (see ticket 302)
 
 		KnowledgeBase kb = new KnowledgeBase();
@@ -766,12 +752,12 @@ public class MiscRuleTests {
 		// asking a != b adds a = b to a copy of the ABox and checks for
 		// consistency. adding a = b causes a clash since b is a D. as a
 		// result of that clash D(x) should be added to the copy. the bug
-		// described in #302 causes this t be added to the original KB
+		// described in #302 causes this t be added to the original KB 
 		assertFalse( kb.isDifferentFrom( a, b ) );
 		// when we ask this query again if D(a) is added to the original
 		// KB we will incorrectly conclude the instance relation holds
 		assertFalse( kb.isType( a, D ) );
-
+	
 	}
 
 	@Test
@@ -912,7 +898,7 @@ public class MiscRuleTests {
 		kb.addObjectProperty( p );
 		kb.addObjectProperty( q );
 		kb.addTransitiveProperty( p );
-
+		
 		kb.addIndividual( a );
 		kb.addIndividual( b );
 		kb.addIndividual( c );
@@ -943,12 +929,12 @@ public class MiscRuleTests {
 		assertIteratorValues( results.get( b ).iterator(), new ATermAppl[] { c } );
 		assertIteratorValues( results.get( a ).iterator(), new ATermAppl[] { b, c } );
 	}
-
+	
 
 	@Test
 	public void testUnsafeVariable() {
 
-		// This test case is to test if restore/backtrack in RuleBranch
+		// This test case is to test if restore/backtrack in RuleBranch 
 		// modifies the original ABox (see ticket 302)
 
 		KnowledgeBase kb = new KnowledgeBase();
@@ -966,7 +952,7 @@ public class MiscRuleTests {
 		kb.addIndividual( b );
 
 		kb.addEquivalentClass( C, some( p, TOP ) );
-
+		
 		AtomIVariable x = new AtomIVariable( "x" );
 		AtomIVariable y = new AtomIVariable( "y" );
 		List<RuleAtom> body = new ArrayList<RuleAtom>();
@@ -975,88 +961,88 @@ public class MiscRuleTests {
 		head.add( new IndividualPropertyAtom( p, x, y ) );
 		Rule rule = new Rule( head, body );
 		kb.addRule( rule );
-
-		assertEquals( singleton( rule ), kb.getRules() );
+		
+		assertEquals( singleton( rule ), kb.getRules() );	
 		assertNull( kb.getNormalizedRules().get( rule ) );
 
-		assertTrue( kb.isConsistent() );
-		assertFalse( kb.isType( a, C ) );
+		assertTrue( kb.isConsistent() );		
+		assertFalse( kb.isType( a, C ) );		
 	}
-
+		
 	@Test
 	public void reflexiveRule() {
 		KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl A = term( "A" );
-
+		ATermAppl A = term( "A" );		
+		
 		ATermAppl p = term( "p" );
-
+		
 		ATermAppl a = term( "a" );
 		ATermAppl b = term( "b" );
 		ATermAppl c = term( "c" );
-
+		
 		kb.addClass( A );
-
+				
 		kb.addObjectProperty( p );
-
+		
 		kb.addIndividual( a );
 		kb.addIndividual( b );
 		kb.addIndividual( c );
-
+		
 		kb.addPropertyValue( p, a, a );
 		kb.addPropertyValue( p, b, a );
 		kb.addPropertyValue( p, b, c );
-
-		AtomIVariable x = new AtomIVariable( "x" );
+		
+		AtomIVariable x = new AtomIVariable( "x" );	
 		List<RuleAtom> body = Arrays.<RuleAtom>asList( new IndividualPropertyAtom( p, x, x ) );
 		List<RuleAtom> head = Arrays.<RuleAtom>asList( new ClassAtom( A, x ) );
-
+	
 		kb.addRule( new Rule( head, body ) );
-
+	
 		assertTrue( kb.isConsistent() );
-
+		
 		assertTrue( kb.isType( a, A ) );
 		assertFalse( kb.isType( b, A ) );
 		assertFalse( kb.isType( c, A ) );
 	}
-
+	
 	@Test
 	public void propertyAtomWithAConstant() {
 		KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl A = term( "A" );
-
+		ATermAppl A = term( "A" );		
+		
 		ATermAppl p = term( "p" );
-
+		
 		ATermAppl a = term( "a" );
 		ATermAppl b = term( "b" );
 		ATermAppl c = term( "c" );
-
+		
 		kb.addClass( A );
-
+				
 		kb.addObjectProperty( p );
-
+		
 		kb.addIndividual( a );
 		kb.addIndividual( b );
 		kb.addIndividual( c );
-
+		
 		kb.addPropertyValue( p, a, b );
 		kb.addPropertyValue( p, b, c );
 		kb.addPropertyValue( p, c, c );
-
-		AtomIVariable x = new AtomIVariable( "x" );
+		
+		AtomIVariable x = new AtomIVariable( "x" );	
 		List<RuleAtom> body = Arrays.<RuleAtom>asList( new IndividualPropertyAtom( p, x, new AtomIConstant( c ) ) );
 		List<RuleAtom> head = Arrays.<RuleAtom>asList( new ClassAtom( A, x ) );
-
+	
 		kb.addRule( new Rule( head, body ) );
-
+	
 		assertTrue( kb.isConsistent() );
-
+		
 		assertFalse( kb.isType( a, A ) );
 		assertTrue( kb.isType( b, A ) );
 		assertTrue( kb.isType( c, A ) );
 	}
-
+	
 	@Test
 	public void complexConsequent() {
 		Set<SWRLAtom> bodyAtoms = new HashSet<SWRLAtom>();
@@ -1100,7 +1086,7 @@ public class MiscRuleTests {
 	@Test
 	public void testDifferentFromInBody() throws Exception {
 		OntModel ontModel = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, null );
-		ontModel.read( new FileInputStream(base + "/sibling-rule.n3"), "", "TTL" );
+		ontModel.read( base + "sibling-rule.n3", "TTL" );
 
 		Resource alice = ontModel.createResource( "family:alice" );
 		Property sibling = ontModel.createProperty( "family:sibling" );

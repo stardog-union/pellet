@@ -103,7 +103,7 @@ public class DLBenchmarkTest {
 			List data = new ArrayList();	
 			data.add( files[i] );
 			try {
-				doTBoxTest(files[i].toString(), files[i].toString()+".tkb", files[i].toString()+".tree");
+				doTBoxTest(files[i].toString());
 				data.add(Integer.valueOf(kb.getClasses().size()));
 				data.add(kb.timers.getTimer("test").getTotal() + "");
 			} catch(TimeoutException e) {
@@ -124,13 +124,22 @@ public class DLBenchmarkTest {
 		System.out.print( table );
 	}
 	
-	public boolean doTBoxTest( String displayName, String tkbFile, String treeFile ) throws Exception {
+	public boolean doTBoxTest( String file ) throws Exception {
+	    String ext = ".tkb";
+		int index = file.lastIndexOf('.');
+		if(index != -1) {
+		    ext = file.substring( index );
+		    file = file.substring( 0, index );
+		}
+		index = file.lastIndexOf(File.separator);
+		String displayName = (index == -1) ? file : file.substring(index + 1);
+		
 		if( log.isLoggable( Level.INFO ) )
 			System.out.print(displayName + " ");
 		
 		loader.clear();
 		loader.getKB().timers.resetAll();
-		kb = loader.createKB( tkbFile );		
+		kb = loader.createKB( file + ext );		
 		kb.setTimeout(TBOX_LIMIT * 1000);
 		
 		Timer t = kb.timers.startTimer( "test" );
@@ -152,7 +161,7 @@ public class DLBenchmarkTest {
 		if( log.isLoggable( Level.INFO ) ) 
 			System.out.print("verifying...");
 
-		loader.verifyTBox( treeFile, kb );
+		loader.verifyTBox( file + ".tree", kb );
 		
 		if( log.isLoggable( Level.INFO ) )
 			System.out.print("done");
@@ -341,7 +350,7 @@ public class DLBenchmarkTest {
 		}
 		else if(type.equals("tbox")) {
 		    if(singleTest)
-				test.doTBoxTest(in, in + ".tkb", in + ".tree");
+				test.doTBoxTest(in);
 		    else
 				test.doAllTBoxTests(in);		    
 		}

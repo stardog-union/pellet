@@ -38,7 +38,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mindswap.pellet.KnowledgeBase;
@@ -52,7 +51,6 @@ import org.mindswap.pellet.utils.Timer;
 
 import aterm.ATermAppl;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.rules.model.AtomIVariable;
 import com.clarkparsia.pellet.rules.model.ClassAtom;
@@ -77,7 +75,6 @@ import com.clarkparsia.pellet.rules.model.RuleAtom;
  * @author Christian Halaschek-Wiener
  */
 @RunWith(Parameterized.class)
-@Category(StableTests.class)
 public class IncConsistencyTests extends AbstractKBTests {
 
 	@Parameterized.Parameters
@@ -180,9 +177,8 @@ public class IncConsistencyTests extends AbstractKBTests {
 		assertEquals( Bool.TRUE, kb.hasKnownPropertyValue( robert, ssn, literal ));
 	}
 	
-	@Override
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		preUCQ = PelletOptions.USE_COMPLETION_QUEUE;
 		preUIC = PelletOptions.USE_INCREMENTAL_CONSISTENCY;
 		preUSR = PelletOptions.USE_SMART_RESTORE;
@@ -196,7 +192,7 @@ public class IncConsistencyTests extends AbstractKBTests {
 		PelletOptions.USE_SMART_RESTORE = true;
 		PelletOptions.PRINT_ABOX = PRINT_ABOX;
 
-		super.setUp();
+		super.initializeKB();
 		
 		kb.setDoExplanation( PelletOptions.USE_TRACING );
 	}

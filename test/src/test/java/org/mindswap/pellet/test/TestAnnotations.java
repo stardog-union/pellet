@@ -14,14 +14,13 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.utils.ATermUtils;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 import aterm.ATermAppl;
 
@@ -54,17 +53,14 @@ import com.hp.hpl.jena.vocabulary.RDFS;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- *
+ * 
  * @author Markus Stocker
  */
 public class TestAnnotations {
 
-	@Rule
-	public Timeout timeout = new Timeout(10000);
-
-	private static final String	DATA1_RDF	= "src/test/resources/data/annotations/data1.rdf";
-	private static final String	DATA1_TTL	= "src/test/resources/data/annotations/data1.ttl";
-	private static final String	QUERY1_RQ	= "src/test/resources/data/annotations/query1.rq";
+	private static final String	DATA1_RDF	= "file:test/data/annotations/data1.rdf";
+	private static final String	DATA1_TTL	= "file:test/data/annotations/data1.ttl";
+	private static final String	QUERY1_RQ	= "file:test/data/annotations/query1.rq";
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter( TestAnnotations.class );
@@ -73,7 +69,7 @@ public class TestAnnotations {
 	private Properties savedOptions;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		Properties newOptions = PropertiesBuilder.singleton( "USE_ANNOTATION_SUPPORT", "true" );
 		savedOptions = PelletOptions.setOptions( newOptions );
 	}
@@ -82,9 +78,9 @@ public class TestAnnotations {
 	public void tearDown() {
 		PelletOptions.setOptions( savedOptions );
 	}
-
+	
 	@Test
-	public void addAnnotation1() {
+	public void addAnnotation1() {	
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -119,7 +115,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void addAnnotation3() {
+	public void addAnnotation3() {		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -136,7 +132,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void addAnnotations() {
+	public void addAnnotations() {	
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -156,7 +152,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void getAnnotations1() {
+	public void getAnnotations1() {		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -181,7 +177,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void getAnnotations2() {
+	public void getAnnotations2() {		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "i" );
@@ -209,7 +205,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void getAnnotations3() {
+	public void getAnnotations3() {	
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s1 = ATermUtils.makeTermAppl( "s1" );
@@ -245,7 +241,7 @@ public class TestAnnotations {
 
 	@Test
 	public void getAnnotations4() {
-		// Test kb.getAnnotationProperties()
+		// Test kb.getAnnotationProperties()		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "s" );
@@ -266,7 +262,7 @@ public class TestAnnotations {
 
 	@Test
 	public void getAnnotations5() {
-		// Test kb.getProperties()
+		// Test kb.getProperties()		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "s" );
@@ -290,7 +286,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void getAnnotations6() {
+	public void getAnnotations6() {		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "s" );
@@ -310,7 +306,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void testJenaLoader1() {
+	public void testJenaLoader1() {		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 
 		Resource s = ResourceFactory.createResource( "i" );
@@ -334,7 +330,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void testJenaLoader2() {
+	public void testJenaLoader2() {		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 
 		Resource s1 = ResourceFactory.createResource( "i" );
@@ -357,7 +353,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void testJenaLoader3() throws Exception {
+	public void testJenaLoader3() {		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.read( DATA1_TTL, "N3" );
 		model.prepare();
@@ -376,7 +372,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void testOWLAPILoader() throws Exception {
+	public void testOWLAPILoader() throws OWLOntologyCreationException {
 		KnowledgeBase kb = new OWLAPILoader().createKB( DATA1_RDF );
 
 		ATermAppl i = ATermUtils.makeTermAppl( "http://example.org#i" );
@@ -392,7 +388,7 @@ public class TestAnnotations {
 	}
 
 	@Test
-	public void testCombinedQueryEngine() throws Exception {
+	public void testCombinedQueryEngine() {
 		// This tests annotations using the SPARQL-DL combined query engine
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.read( DATA1_RDF );
@@ -411,33 +407,33 @@ public class TestAnnotations {
 			assertEquals( "o2", o.getLexicalForm() );
 		}
 	}
+	
 
-
-
+	
 	@Test
 	public void test412() {
 		KnowledgeBase kb = new KnowledgeBase();
-
+		
 		ATermAppl p = term("p");
 		ATermAppl q = term("q");
 		ATermAppl r = term("r");
 		ATermAppl s = term("s");
-
+		
 		kb.addAnnotationProperty(p);
 		kb.addAnnotationProperty(q);
 		kb.addAnnotationProperty(r);
 		kb.addAnnotationProperty(s);
-
+		
 		kb.addSubProperty(p, q);
 		kb.addSubProperty(q, r);
 		kb.addSubProperty(r, s);
-
+		
 		// The set of sub/super roles at this point are correct for each role
 		assertEquals(singletonSets(p, r, q), kb.getSubProperties(s));
 	}
 
 	@Test
-	public void getAnnotationsCopy() {
+	public void getAnnotationsCopy() {		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl s = ATermUtils.makeTermAppl( "s" );
@@ -450,7 +446,7 @@ public class TestAnnotations {
 		assertTrue( kb.addAnnotation( s, p, o ) );
 
 		assertEquals( Collections.singleton( o ), kb.getAnnotations( s, p ) );
-
+		
 		assertEquals( Collections.singleton( o ), kb.copy().getAnnotations( s, p ) );
 	}
 

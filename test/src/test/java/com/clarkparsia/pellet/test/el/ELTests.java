@@ -26,7 +26,6 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
@@ -41,7 +40,6 @@ import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
 
 import aterm.ATermAppl;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.el.SimplifiedELClassifier;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import com.clarkparsia.pellet.utils.TermFactory;
@@ -59,10 +57,9 @@ import com.clarkparsia.pellet.utils.TermFactory;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- *
+ * 
  * @author Evren Sirin
  */
-@Category(StableTests.class)
 public class ELTests extends AbstractKBTests {
 	private static final ATermAppl[] X = new ATermAppl[5];
 
@@ -104,7 +101,7 @@ public class ELTests extends AbstractKBTests {
 builder.setProgressMonitor( new SilentProgressMonitor() );
 		builder.classify();
 		Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
-
+		
 //		 taxonomy.getTop().print();
 
 		return taxonomy;
@@ -114,7 +111,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	public void testEL1() {
 		classes(A, B, C, D, E);
 		objectProperties(p);
-
+		
 		kb.addSubClass( A, and( B, some( p, C ) ) );
 		kb.addSubClass( some( p, ATermUtils.TOP ), D );
 		kb.addSubClass( and( B, D ), E );
@@ -128,7 +125,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	public void testEL2() {
 		classes(A, C, D, E);
 		objectProperties(p);
-
+		
 		kb.addSubClass( A, some( p, C ) );
 		kb.addSubClass( C, D );
 		kb.addSubClass( some( p, D ), E );
@@ -143,7 +140,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	public void testEL3a() {
 		classes(A, C, D, E, F);
 		objectProperties(p);
-
+		
 		kb.addSubClass( A, some( p, C ) );
 		kb.addSubClass( C, D );
 		kb.addSubClass( C, E );
@@ -159,7 +156,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	public void testEL3b() {
 		classes(A, C, D, E, F, G);
 		objectProperties(p);
-
+		
 		kb.addSubClass( A, some( p, C ) );
 		kb.addSubClass( C, D );
 		kb.addSubClass( C, E );
@@ -342,7 +339,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 		assertEquals( SetUtils.create( A, C ), hierarchy.getEquivalents( ATermUtils.BOTTOM ) );
 	}
-
+	
 	@Test
 	public void testTop1() {
 		classes(A, B, C, D, E, F, G);
@@ -750,7 +747,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 		assertEquals( singletonSets( E ), hierarchy.getSupers( C, true ) );
 	}
-
+	
 	@Test
 	public void testRange5() {
 		classes(A, B, C, D, E, F, G);
@@ -782,7 +779,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 		assertEquals( singletonSets( B, C, E ), hierarchy.getSupers( D, true ) );
 	}
-
+	
 	@Test
 	public void testRangeNormalization1() {
 		classes(A, B, C, D, E, F, G, X[1]);
@@ -829,7 +826,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 		assertEquals( singletonSets( B ), hierarchy.getSupers( C, true ) );
 	}
-
+	
 	@Test
 	public void testRange4() {
 		classes(A, B, C, D, E, F, G);
@@ -840,12 +837,12 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 		kb.addSubClass( A, some( p, B ) );
 		kb.addSubClass( and( B, C ), D );
 		kb.addSubClass( some( p, D ), E );
-
+		
 		Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
 		assertEquals( singletonSets( A ), hierarchy.getSubs( E, true ) );
 	}
-
+	
 	@Test
 	public void testSomeConjunction() {
 		classes(A, B, C, D, E, F, G);
@@ -854,12 +851,12 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 		kb.addSubClass( A, some( p, and( B, C, D ) ) );
 		kb.addSubClass( some( p, and( B, C ) ), E );
-
+		
 		Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
 		assertEquals( singletonSets( A ), hierarchy.getSubs( E, true ) );
 	}
-
+	
 	@Test
 	public void testDisjointRange() {
 		classes(A, B, C, D, E, F, G);
@@ -869,7 +866,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 		kb.addRange( p, C );
 		kb.addSubClass( A, some( p, B ) );
 		kb.addDisjointClass( B, C );
-
+		
 		Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
 		assertEquals( SetUtils.create( A ), hierarchy.getEquivalents( ATermUtils.BOTTOM ) );
@@ -887,38 +884,38 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 		kb.addDisjointClass( D, C );
 		kb.addSubClass( A, E );
 		kb.addSubClass( B, F );
-
+		
 		Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
 		assertEquals( SetUtils.create( A ), hierarchy.getEquivalents( ATermUtils.BOTTOM ) );
 	}
-
+	
 	@Test
-	public void testTicket424() throws Exception {
+	public void testTicket424() {
 		classes(A, B, C, D, E, F, G);
 		objectProperties(p, q, r, s);
 
 
 		KBLoader loader = new JenaLoader();
-
-		KnowledgeBase kb = loader.createKB( new String[] { PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
-
+		
+		KnowledgeBase kb = loader.createKB( new String[] { "file:" + PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
+		
 		Taxonomy<ATermAppl> toldTaxonomy = kb.getToldTaxonomy();
-
+				
 		try {
 
 			for ( ATermAppl aTerm : kb.getClasses() ) {
 
 				assertNotNull( toldTaxonomy.getNode( aTerm ) );
-
+				
 				toldTaxonomy.getFlattenedSubs(TermFactory.TOP, false);
-
+				
 			}
 		} catch ( NullPointerException e ) {
 			fail("Caught NullPointerException when querying the told taxonomy: ticket #424");
 		}
 	}
-
+	
 	@Test
 	public void testTicket465() {
 		classes(A, B, C, D, E, F, G);
@@ -929,12 +926,12 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 		kb.addSubClass(F, C);
 		kb.addSubClass(F, some(p, and(some(r, G), E)));
 		kb.addEquivalentClass(D, and(some(q, E), A));
-		kb.addSubProperty(p, q);
+		kb.addSubProperty(p, q);		
 
 		Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
 		assertEquals( singletonSets( F ), hierarchy.getSubs( D, true ) );
-	}
+	}	
 
 	@Test
 	public void testNestedSubProperty() {
@@ -948,13 +945,13 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 		Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
 		assertEquals( singletonSets( A ), hierarchy.getSubs( B, true ) );
-	}
-
+	}	
+	
 	/**
 	 * Tests to verify whether PelletOptions.DISABLE_EL_CLASSIFIER = false is respected. (Ticket #461)
 	 */
 	@Test
-	public void testELClassifierEnabled() throws Exception {
+	public void testELClassifierEnabled() {
 		classes(A, B, C, D, E, F, G);
 		objectProperties(p, q, r, s);
 
@@ -966,10 +963,10 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 			KBLoader loader = new JenaLoader();
 
-			KnowledgeBase kb = loader.createKB( new String[] { PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
+			KnowledgeBase kb = loader.createKB( new String[] { "file:" + PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
 
 			assertEquals( SimplifiedELClassifier.class, kb.getTaxonomyBuilder().getClass() );
-		}
+		} 
 		finally {
 			PelletOptions.DISABLE_EL_CLASSIFIER = savedValue;
 		}
@@ -979,7 +976,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	 * Tests to verify whether PelletOptions.DISABLE_EL_CLASSIFIER = true is respected. (Ticket #461)
 	 */
 	@Test
-	public void testELClassifierDisabled() throws Exception {
+	public void testELClassifierDisabled() {
 		boolean savedValue = PelletOptions.DISABLE_EL_CLASSIFIER ;
 
 		try {
@@ -987,15 +984,15 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 			KBLoader loader = new JenaLoader();
 
-			KnowledgeBase kb = loader.createKB( new String[] { PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
+			KnowledgeBase kb = loader.createKB( new String[] { "file:" + PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
 
 			assertFalse( SimplifiedELClassifier.class.equals( kb.getTaxonomyBuilder().getClass() ) );
-		}
+		} 
 		finally {
 			PelletOptions.DISABLE_EL_CLASSIFIER = savedValue;
 		}
 	}
-
+	
 	/**
 	 * Tests whether PelletOptions.DISABLE_EL_CLASSIFIER can be properly read from a properties file
 	 */
@@ -1003,40 +1000,40 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	public void testDisableELClassifierOptionRead() {
 		Properties newOptions = new PropertiesBuilder().set( "DISABLE_EL_CLASSIFIER", "true" ).build();
 		Properties savedOptions = PelletOptions.setOptions( newOptions );
-
+		
 		try {
 			assertTrue( PelletOptions.DISABLE_EL_CLASSIFIER );
-
+			
 			newOptions = new PropertiesBuilder().set( "DISABLE_EL_CLASSIFIER", "false" ).build();
 			PelletOptions.setOptions( newOptions );
-
+			
 			assertFalse( PelletOptions.DISABLE_EL_CLASSIFIER );
-		}
+		} 
 		finally {
 			PelletOptions.setOptions( savedOptions );
 		}
 	}
-
+	
 	@Test
 	public void testELExpressivityAnonymousInverseRestriction() {
 		classes(C, D);
 		objectProperties(p);
-
+		
 		kb.addSubClass(C, some(inv(p), D));
-
+		
 		assertFalse(kb.getExpressivity().isEL());
 
 		assertFalse(SimplifiedELClassifier.class.equals(kb.getTaxonomyBuilder().getClass()));
 	}
-
+	
 	@Test
 	public void testELExpressivityAnonymousInverseChain() {
 		classes(C, D);
 		objectProperties(p, q, r);
-
+		
 		kb.addSubProperty(list(p, inv(q)), r);
 		kb.addSubClass(C, some(p, D));
-
+		
 		assertFalse(kb.getExpressivity().isEL());
 
 		assertFalse(SimplifiedELClassifier.class.equals(kb.getTaxonomyBuilder().getClass()));

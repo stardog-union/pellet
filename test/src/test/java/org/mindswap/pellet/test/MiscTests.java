@@ -45,6 +45,7 @@ import static org.mindswap.pellet.test.PelletTestCase.assertSubClass;
 import static org.mindswap.pellet.test.PelletTestCase.assertUnsatisfiable;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -57,7 +58,6 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KnowledgeBase;
@@ -76,7 +76,6 @@ import aterm.ATerm;
 import aterm.ATermAppl;
 import aterm.ATermList;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.datatypes.Facet;
 import com.clarkparsia.pellet.datatypes.types.real.XSDByte;
@@ -86,9 +85,8 @@ import com.clarkparsia.pellet.datatypes.types.text.XSDString;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import com.clarkparsia.pellet.utils.TermFactory;
 
-@Category(StableTests.class)
 public class MiscTests extends AbstractKBTests {
-	public static String	base	= PelletTestSuite.base + "misc/";
+	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
 
 	public static void main(String args[]) {
 		junit.textui.TestRunner.run( MiscTests.suite() );
@@ -151,10 +149,10 @@ public class MiscTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testFileUtilsToURI() throws Exception {
-		String file = "src/test/resources/data/misc/propertyChainDeprecated.owl";
-		assertEquals( new File( "src/test/resources/data/misc/propertyChainDeprecated.owl" ).toURI().toURL().toString(), FileUtils
-				.toURI( file ) );
+	public void testFileUtilsToURI() throws MalformedURLException {
+
+		assertEquals( new File( "build.xml" ).toURI().toURL().toString(), FileUtils
+				.toURI( "build.xml" ) );
 		assertEquals( "http://example.com/foo", FileUtils.toURI( "http://example.com/foo" ) );
 		assertEquals( "file:///foo", FileUtils.toURI( "file:///foo" ) );
 		assertEquals( "ftp://example.com/foo", FileUtils.toURI( "ftp://example.com/foo" ) );
@@ -168,11 +166,11 @@ public class MiscTests extends AbstractKBTests {
 
 		classes( c, d, sub, sup );
 		objectProperties( p, f );
-
+		
 		kb.addFunctionalProperty( f );
-
+		
 		kb.addSubClass( sub, sup );
-
+		
 		assertSatisfiable( kb, and( min( p, 2, and( c, d ) ), max( p, 2, c ), some( p, or( and( c,
 				not( d ) ), c ) ) ) );
 		assertSubClass( kb, min( p, 4, TOP ), min( p, 2, TOP ) );
@@ -188,7 +186,7 @@ public class MiscTests extends AbstractKBTests {
 		assertSubClass( kb, and( max( f, 1, TOP ), all( f, c ) ), max( f, 1, c ) );
 		assertSubClass( kb, and( min( p, 2, c ), min( p, 2, not( c ) ) ), min( p, 4, TOP ) );
 	}
-
+	
 	@Test
 	public void testQualifiedCardinalityDataProperty() {
 		KnowledgeBase kb = new KnowledgeBase();
@@ -281,7 +279,7 @@ public class MiscTests extends AbstractKBTests {
 		assertTrue( kb.isSubClassOf( c, d ) );
 
 	}
-
+	
 	@Test
 	/**
 	 * Test for the enhancement required in #252
@@ -294,10 +292,10 @@ public class MiscTests extends AbstractKBTests {
 		ATermAppl ni = Datatypes.NEGATIVE_INTEGER;
 		ATermAppl pi = Datatypes.POSITIVE_INTEGER;
 		ATermAppl f = Datatypes.FLOAT;
-
+		
 		ATermAppl s = term( "s" );
 		kb.addDatatypeProperty( s );
-
+		
 		assertSatisfiable( kb, some( s, pi ) );
 		assertSatisfiable( kb, some( s, not ( pi ) ) );
 		assertUnsatisfiable( kb, some( s, and( pi, ni ) ) );
@@ -306,7 +304,7 @@ public class MiscTests extends AbstractKBTests {
 		assertSatisfiable( kb, some( s, and( nni, pi ) ) );
 		assertSatisfiable( kb, some( s, or( nni, npi ) ) );
 		assertSatisfiable( kb, some( s, and( nni, npi ) ) );
-	}
+	}	
 
 	@Test
 	public void testSelfRestrictionRestore() {
@@ -317,7 +315,7 @@ public class MiscTests extends AbstractKBTests {
 
 		ATermAppl p = term( "p" );
 		ATermAppl q = term( "q" );
-
+		
 		ATermAppl a = term( "a" );
 
 		kb.addClass( C );
@@ -335,8 +333,8 @@ public class MiscTests extends AbstractKBTests {
 
 		assertFalse( kb.isType( a, not( self( p ) ) ) );
 		assertFalse( kb.isType( a, not( self( q ) ) ) );
-	}
-
+	}	
+	
 	@Test
 	public void testReflexive1() {
 		KnowledgeBase kb = new KnowledgeBase();
@@ -403,14 +401,14 @@ public class MiscTests extends AbstractKBTests {
 
 		assertSatisfiable( kb, c, false );
 	}
-
+	
 
 	@Test
 	public void testReflexive3() {
 		classes( C );
 		objectProperties( r );
 		individuals( a, b, c );
-
+		
 		kb.addEquivalentClass( C, self( r ) );
 
 		kb.addPropertyValue( r, a, a );
@@ -421,19 +419,19 @@ public class MiscTests extends AbstractKBTests {
 		assertTrue( kb.hasPropertyValue( a, r, a ) );
 		assertTrue( kb.hasPropertyValue( b, r, b ) );
 		assertFalse( kb.hasPropertyValue( c, r, c ) );
-
+		
 		Map<ATermAppl,List<ATermAppl>> allRs = kb.getPropertyValues( r );
 		assertIteratorValues( allRs.get( a ).iterator(), new ATermAppl[] { a } );
 		assertIteratorValues( allRs.get( b ).iterator(), new ATermAppl[] { b } );
 		assertIteratorValues( allRs.get( c ).iterator(), new ATermAppl[] { a, b } );
-
+		
 		assertTrue( kb.isType( a, C ) );
 		assertTrue( kb.isType( b, C ) );
 		assertFalse( kb.isType( c, C ) );
-
+		
 		assertEquals( kb.getInstances( C ), SetUtils.create( a, b ) );
 	}
-
+	
 	@Test
 	public void testAsymmetry() {
 		ATermAppl p = term( "p" );
@@ -603,14 +601,14 @@ public class MiscTests extends AbstractKBTests {
 	// @Test public void testEconn1() throws Exception {
 	// String ns =
 	// "http://www.mindswap.org/2004/multipleOnt/FactoredOntologies/EasyTests/Easy2/people.owl#";
-	//
+	//        
 	// OWLReasoner reasoner = new OWLReasoner();
 	// reasoner.setEconnEnabled( true );
-	//
+	//        
 	// reasoner.load( ns );
-	//
+	//		
 	// assertTrue( reasoner.isConsistent() );
-	//
+	//        
 	// assertTrue( !reasoner.isSatisfiable( ResourceFactory.createResource( ns +
 	// "Unsat1" ) ) );
 	// assertTrue( !reasoner.isSatisfiable( ResourceFactory.createResource( ns +
@@ -635,7 +633,7 @@ public class MiscTests extends AbstractKBTests {
 
 	/**
 	 * Test for ticket #123
-	 *
+	 * 
 	 * An axiom like A = B or (not B) cause problems in classification process
 	 * (runtime exception in CD classification). Due to disjunction A is
 	 * discovered to be a told subsumer of B. A is marked as non-primitive but
@@ -652,7 +650,7 @@ public class MiscTests extends AbstractKBTests {
 		ATermAppl C = term( "C" );
 
 		ATermAppl p = term( "p" );
-
+		
 		kb.addClass( A );
 		kb.addClass( B );
 		kb.addClass( C );
@@ -670,14 +668,14 @@ public class MiscTests extends AbstractKBTests {
 		assertTrue( kb.isEquivalentClass( A, TOP ) );
 		assertFalse( kb.isEquivalentClass( B, TOP ) );
 	}
-
+	
 	/**
 	 * Same as {@link #testTopClass2()} but tests the EL classifier.
 	 */
 	@Test
 	public void testTopClass2EL() {
 		// This test was failing due to the issue explained in #157 at some point but not anymore
-		// The issue explained in #157 is still valid even though this test passes
+		// The issue explained in #157 is still valid even though this test passes 
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl A = term( "A" );
@@ -748,7 +746,7 @@ public class MiscTests extends AbstractKBTests {
 	@Test
 	public void testNonDisjointness() {
 		classes( A, B, C );
-
+		
 		kb.addSubClass( not( A ), B );
 		kb.addSubClass( C, and( A, B ) );
 
@@ -793,8 +791,8 @@ public class MiscTests extends AbstractKBTests {
 		TaxonomyNode<ATermAppl>[] nodes = new TaxonomyNode[classes.size()];
 		int i = 0;
 		for( ATermAppl c : classes ) {
-					nodes[i++] = taxonomy.getNode( c );
-				}
+	        nodes[i++] = taxonomy.getNode( c );
+        }
 
 		taxonomy.addSuper( classes.get( 1 ), classes.get( 2 ) );
 		taxonomy.addSuper( classes.get( 0 ), classes.get( 1 ) );
@@ -1152,20 +1150,20 @@ public class MiscTests extends AbstractKBTests {
 
 			kb.addClass( A );
 			kb.addObjectProperty( p );
-
+			
 			kb.addSubClass( TOP, all( p, A ) );
-
+			
 			Role r = kb.getRole( p );
 
 			assertTrue( kb.isConsistent() );
 			assertTrue( r.getRanges().contains( A ) );
-
-			assertFalse( kb.removeAxiom( ATermUtils.makeSub( TOP, all( p, A ) ) ) );
+			
+			assertFalse( kb.removeAxiom( ATermUtils.makeSub( TOP, all( p, A ) ) ) );			
 		} finally {
 			PelletOptions.setOptions( savedOptions );
 		}
 	}
-
+	
 	@Test
 	public void testAssertedSameAs() {
 		// This test case is to test the processing of sameAs processing
@@ -1331,28 +1329,28 @@ public class MiscTests extends AbstractKBTests {
 		Properties newOptions = new PropertiesBuilder().set( "SILENT_UNDEFINED_ENTITY_HANDLING",
 				"false" ).build();
 		Properties savedOptions = PelletOptions.setOptions( newOptions );
-
+		
 		try {
 			KnowledgeBase kb = new KnowledgeBase();
-
+	
 			ATermAppl p = term( "p" );
 			ATermAppl c = and( all( p, value( literal( "s" ) ) ), min( p, 2, value( literal( "l" ) ) ) );
-
+	
 			kb.addDatatypeProperty( p );
-
+	
 			assertFalse( kb.isSatisfiable( c ) );
-		}
+		} 
 		finally {
 			PelletOptions.setOptions( savedOptions );
-		}
+		}		
 	}
-
+	
 	@Test
-	public void testInvalidTransitivity2() throws Exception {
+	public void testInvalidTransitivity2() {
 		KBLoader[] loaders = { new JenaLoader() };
 		for( KBLoader loader : loaders ) {
 			KnowledgeBase kb = loader.createKB( base + "invalidTransitivity.owl" );
-
+			
 			for( Role r : kb.getRBox().getRoles() ) {
 				if ( !ATermUtils.isBuiltinProperty( r.getName() ) ) {
 					assertTrue(r.toString(), r.isSimple());
@@ -1368,7 +1366,7 @@ public class MiscTests extends AbstractKBTests {
 		}
 	}
 
-
+	
 	@Test
 	public void testInternalization() {
 		KnowledgeBase kb = new KnowledgeBase();
@@ -1386,17 +1384,17 @@ public class MiscTests extends AbstractKBTests {
 		assertSubClass( kb, A, B );
 
 		assertSubClass( kb, B, C );
-
+		
 		kb.classify();
 	}
-
+	
 	@Test
 	public void testNominalCache() {
 		// this case tests isMergable check and specifically the correctness of
 		// ConceptCache.isIndependent value. concept C below will be merged to
 		// either a or b with a dependency. if that dependency is not recorded
-		// isMergable returns incorrect results
-
+		// isMergable returns incorrect results 
+		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl A = term( "A" );
@@ -1415,7 +1413,7 @@ public class MiscTests extends AbstractKBTests {
 		kb.addDisjointClass( A, B );
 
 		assertTrue( kb.isConsistent() );
-
+		
 		assertTrue( kb.isSatisfiable( C ) );
 
 		assertNotSubClass( kb, C, A );
@@ -1428,14 +1426,14 @@ public class MiscTests extends AbstractKBTests {
 		assertFalse( kb.isType( a, not( C ) ) );
 		assertFalse( kb.isType( b, not( C ) ) );
 	}
-
+	
 	/*
 	 * From bug #312
 	 */
 	@Test
 	public void testNominalValueInteraction() {
 		KnowledgeBase kb = new KnowledgeBase();
-
+		
 		ATermAppl t1 = term("T1");
 		ATermAppl p = term("p");
 		ATermAppl i1 = term("i1");
@@ -1443,26 +1441,26 @@ public class MiscTests extends AbstractKBTests {
 		ATermAppl i22 = term("i22");
 		ATermAppl t1eq = ATermUtils.makeAnd( ATermUtils.makeHasValue( p, i21 ), ATermUtils.makeHasValue( p, i22 ) );
 		ATermAppl test = term("test");
-
+		
 		kb.addClass( t1 );
 		kb.addObjectProperty( p );
 		kb.addIndividual( i1 );
 		kb.addIndividual( i21 );
 		kb.addIndividual( i22 );
 		kb.addIndividual( test );
-
+		
 		kb.addEquivalentClass( t1, t1eq );
 		kb.addSame( i1, i21 );
 		kb.addSame( i21, i1 );
-
+		
 		kb.addPropertyValue( p, test, i21 );
 		kb.addPropertyValue( p, test, i22 );
-
+		
 		Set<ATermAppl> t1inds = kb.retrieve( t1eq, kb.getIndividuals() );
 		assertEquals( "Individual test should be of type T1. ", Collections.singleton( test ), t1inds);
-
+		
 	}
-
+	
 	@Test
 	public void testMultiEdgesWithTransitivity() {
 		// Demonstrate the problem described in #223
@@ -1471,7 +1469,7 @@ public class MiscTests extends AbstractKBTests {
 		// in getTransitivePropertyValues function. With the bug
 		// if we visit b before c we will miss the value e and if we visit c
 		// before b we miss the value d.
-
+		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl a = term( "a" );
@@ -1479,7 +1477,7 @@ public class MiscTests extends AbstractKBTests {
 		ATermAppl c = term( "c" );
 		ATermAppl d = term( "d" );
 		ATermAppl e = term( "e" );
-
+		
 		ATermAppl p = term( "p" );
 		ATermAppl r = term( "r" );
 		ATermAppl s = term( "s" );
@@ -1487,19 +1485,19 @@ public class MiscTests extends AbstractKBTests {
 		kb.addObjectProperty( p );
 		kb.addObjectProperty( r );
 		kb.addObjectProperty( s );
-
+		
 		kb.addTransitiveProperty( r );
 		kb.addTransitiveProperty( s );
-
+		
 		kb.addSubProperty( r, p );
-		kb.addSubProperty( s, p );
+		kb.addSubProperty( s, p );		
 
 		kb.addIndividual( a );
 		kb.addIndividual( b );
 		kb.addIndividual( c );
 		kb.addIndividual( d );
 		kb.addIndividual( e );
-
+		
 		kb.addPropertyValue( r, a, b );
 		kb.addPropertyValue( r, b, c );
 		kb.addPropertyValue( r, b, d );
@@ -1512,8 +1510,8 @@ public class MiscTests extends AbstractKBTests {
 		assertTrue( kb.hasPropertyValue( a, p, d ) );
 		assertTrue( kb.hasPropertyValue( a, p, e ) );
 		assertIteratorValues( kb.getPropertyValues( p, a ).iterator(), new ATermAppl[] { b, c, d, e } );
-	}
-
+	}	
+	
 	@Test
 	public void testLiteralMerge() {
 		// Tests the issue described in #250
@@ -1522,35 +1520,35 @@ public class MiscTests extends AbstractKBTests {
 		ATermAppl a = term( "a" );
 		ATermAppl b = term( "b" );
 		ATermAppl p = term( "p" );
-
+		
 		kb.addIndividual( a );
 		kb.addIndividual( b );
 
 		kb.addDatatypeProperty( p );
 		kb.addFunctionalProperty( p );
-
+		
 		// a has a p-successor which is an integer
 		kb.addType( a, some( p, XSDInteger.getInstance().getName() ) );
 		// bogus axiom to force full datatype reasoning
 		kb.addType( a, max( p, 2, TOP_LIT ) );
-
+		
 		// b has an asserted p value which is a string
 		kb.addPropertyValue( p, b, literal( "b" ) );
 
-		// check consistency whihc
+		// check consistency whihc 
 		assertTrue( kb.isConsistent() );
 
 		// this query will force a and b to be merged which will cause
 		// their p values to be merged
 		assertTrue( kb.isDifferentFrom( a, b ) );
 	}
-
+	
 	@Test
 	public void testDatatypeSubProperty1a() {
 		// Tests the issue described in #250
 		// The sub/equivalent property query was turned into a satisfiability
 		// test where a fresh datatype is used. If the property in question
-		// has a range the intersection of defined range with the fresh
+		// has a range the intersection of defined range with the fresh 
 		// datatype returned to be empty causing the reasoner to conclude
 		// subproperty relation hols even though it does not
 
@@ -1558,25 +1556,25 @@ public class MiscTests extends AbstractKBTests {
 
 		ATermAppl p = term( "p" );
 		ATermAppl q = term( "q" );
-
+		
 		ATermAppl[] ranges = {
 			null, XSDInteger.getInstance().getName(), XSDString.getInstance().getName()
 		};
-
+		
 		for( ATermAppl rangeP : ranges ) {
 			for( ATermAppl rangeQ : ranges ) {
 				kb.clear();
 
 				kb.addDatatypeProperty( p );
 				kb.addDatatypeProperty( q );
-
+				
 				if( rangeP != null ) {
-									kb.addRange( p, rangeP );
-								}
+	                kb.addRange( p, rangeP );
+                }
 				if( rangeQ != null ) {
-									kb.addRange( q, rangeQ );
-								}
-
+	                kb.addRange( q, rangeQ );
+                }
+				
 				assertTrue( kb.isConsistent() );
 
 				assertFalse( kb.isSubPropertyOf( p, q ) );
@@ -1584,10 +1582,10 @@ public class MiscTests extends AbstractKBTests {
 
 				assertFalse( kb.isEquivalentProperty( p, q ) );
 				assertFalse( kb.isEquivalentProperty( q, p ) );
-			}
+			}			
 		}
 	}
-
+	
 	@Test
 	public void testDatatypeSubProperty1b() {
 		// Another variation of testDatatypeSubProperty1 where super
@@ -1596,21 +1594,21 @@ public class MiscTests extends AbstractKBTests {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl C = term( "C" );
-
+		
 		ATermAppl p = term( "p" );
 		ATermAppl q = term( "q" );
-
+		
 		kb.addClass( C );
-
+		
 		kb.addDatatypeProperty( p );
 		kb.addDatatypeProperty( q );
-
+		
 		kb.addDomain( p, C );
-
+		
 		kb.addRange( q, XSDInteger.getInstance().getName() );
-
+		
 		kb.addSubClass( C, some( q, TOP_LIT ) );
-
+		
 		assertTrue( kb.isConsistent() );
 
 		assertFalse( kb.isSubPropertyOf( p, q ) );
@@ -1628,36 +1626,36 @@ public class MiscTests extends AbstractKBTests {
 		ATermAppl B = term( "B" );
 		ATermAppl C = term( "C" );
 		ATermAppl D = term( "D" );
-
+		
 		ATermAppl p = term( "p" );
-
+		
 		ATermAppl b = term( "b" );
 		ATermAppl c = term( "c" );
-
+		
 		kb.addClass( A );
 		kb.addClass( B );
 		kb.addClass( C );
 		kb.addClass( D );
-
+		
 		kb.addObjectProperty( p );
 
 		kb.addIndividual( b );
 		kb.addIndividual( c );
-
+		
 		kb.addEquivalentClass( A, oneOf( b, c ) );
 		kb.addEquivalentClass( B, hasValue( p, b ) );
 		kb.addEquivalentClass( C, hasValue( p, c ) );
 		kb.addEquivalentClass( D, and( some( p, A ), min( p, 1, value(b) ), min( p, 1, value(c) ), max( p, 1,
-				TOP ) ) );
-
+				TOP ) ) );		
+		
 		assertTrue( kb.isConsistent() );
 
 		kb.classify();
-
+		
 		assertTrue( kb.isSubClassOf( D, B ) );
 		assertTrue( kb.isSubClassOf( D, C ) );
 	}
-
+	
 
 	@Test
 	public void testDisjoints() {
@@ -1672,12 +1670,12 @@ public class MiscTests extends AbstractKBTests {
 		kb.addClass( B );
 		kb.addClass( C );
 		kb.addClass( D );
-
+		
 		kb.addSubClass( B, A );
 		kb.addSubClass( D, C );
 		kb.addComplementClass( B, C );
-
-		assertTrue( kb.isConsistent() );
+		
+		assertTrue( kb.isConsistent() );		
 
 		assertIteratorValues( kb.getDisjointClasses( TOP ).iterator(),
 				new Object[] { singleton( BOTTOM ) } );
@@ -1688,10 +1686,10 @@ public class MiscTests extends AbstractKBTests {
 		assertIteratorValues( kb.getDisjointClasses( C ).iterator(), new Object[] {
 				singleton( BOTTOM ), singleton( B ) } );
 		assertIteratorValues( kb.getDisjointClasses( D ).iterator(), new Object[] {
-				singleton( BOTTOM ), singleton( B ) } );
+				singleton( BOTTOM ), singleton( B ) } );	
 		assertIteratorValues( kb.getDisjointClasses( BOTTOM ).iterator(), new Object[] {
 			singleton( TOP ), singleton( A ), singleton( B ), singleton( C ), singleton( D ),
-			singleton( BOTTOM ) } );
+			singleton( BOTTOM ) } );	
 
 		assertIteratorValues( kb.getComplements( TOP ).iterator(), new Object[] { BOTTOM } );
 		assertTrue( kb.getComplements( A ).isEmpty() );
@@ -1707,32 +1705,32 @@ public class MiscTests extends AbstractKBTests {
 		assertIteratorValues( kb.getDisjointClasses( not( C ) ).iterator(), new Object[] {
 				singleton( BOTTOM ), singleton( C ), singleton( D ) } );
 		assertIteratorValues( kb.getDisjointClasses( not( D ) ).iterator(), new Object[] {
-				singleton( BOTTOM ), singleton( D ) } );
+				singleton( BOTTOM ), singleton( D ) } );		
 
 		assertIteratorValues( kb.getComplements( not( A ) ).iterator(), new Object[] { A } );
 		assertIteratorValues( kb.getComplements( not( B ) ).iterator(), new Object[] { B } );
 		assertIteratorValues( kb.getComplements( not( C ) ).iterator(), new Object[] { C } );
 		assertIteratorValues( kb.getComplements( not( D ) ).iterator(), new Object[] { D } );
 	}
-
+	
 	/**
 	 * But #305
 	 */
 	@Test
 	public void testDisjointDataProperties() {
 		KnowledgeBase kb = new KnowledgeBase();
-
+		
 		ATermAppl p = term( "p" );
 		ATermAppl q = term( "q" );
-
+		
 		kb.addDatatypeProperty( p );
 		kb.addDatatypeProperty( q );
 		kb.addRange( p, Datatypes.INT );
 		kb.addRange( q, Datatypes.INT );
-
+		
 		assertFalse( "p and q should not be disjoint!", kb.isDisjointProperty( p, q ) );
 	}
-
+	
 
 	@Test
 	public void testRemovePruned() {
@@ -1741,9 +1739,9 @@ public class MiscTests extends AbstractKBTests {
 		ATermAppl A = term( "A" );
 		ATermAppl B = term( "B" );
 		ATermAppl C = term( "C" );
-
+		
 		ATermAppl p = term( "p" );
-
+		
 		ATermAppl a = term( "a" );
 		ATermAppl b = term( "b" );
 
@@ -1755,29 +1753,29 @@ public class MiscTests extends AbstractKBTests {
 
 		kb.addIndividual( a );
 		kb.addIndividual( b );
-
+		
 		kb.addEquivalentClass( A, value( a ) );
 		kb.addSubClass( A, all( inv(p), not( B ) ) );
 		kb.addSubClass( B, or( some( p, A ), C ) );
-
+		
 		kb.addType( b, B );
-
+		
 		assertTrue( kb.isConsistent() );
 
 		assertTrue( kb.isType( b, C ) );
 		assertFalse( kb.isType( a, C ) );
 	}
-
+	
 	@Test
 	public void testDataAssertions() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl A = term( "A" );
-
+		
 		ATermAppl p = term( "p" );
-
+		
 		ATermAppl a = term( "a" );
-
+		
 		ATermAppl oneDecimal = literal( "1", Datatypes.DECIMAL );
 		ATermAppl oneInteger = literal( "1", Datatypes.INTEGER );
 		ATermAppl oneByte = literal( "1", Datatypes.BYTE );
@@ -1798,15 +1796,15 @@ public class MiscTests extends AbstractKBTests {
 		assertFalse( kb.hasPropertyValue( a, p, oneFloat ) );
 		assertEquals( singletonList( oneInteger ), kb.getDataPropertyValues( p, a ) );
 	}
-
+	
 	@Test
 	public void testDatatypeIntersection() {
 		KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl A = term( "A" );
-		ATermAppl p = term( "p" );
-		ATermAppl a = term( "a" );
-
+		ATermAppl A = term( "A" );		
+		ATermAppl p = term( "p" );		
+		ATermAppl a = term( "a" );		
+		
 		ATermAppl zeroDecimal = literal( "0", Datatypes.DECIMAL );
 		ATermAppl zeroInteger = literal( "0", Datatypes.INTEGER );
 		ATermAppl zeroByte = literal( "0", Datatypes.BYTE );
@@ -1815,12 +1813,12 @@ public class MiscTests extends AbstractKBTests {
 		kb.addClass( A );
 		kb.addDatatypeProperty( p );
 		kb.addIndividual( a );
-
+		
 		kb.addSubClass( A, some( p, Datatypes.NON_POSITIVE_INTEGER ) );
 		kb.addSubClass( A, all( p, Datatypes.NON_NEGATIVE_INTEGER ) );
-
+		
 		kb.addType( a, A );
-
+		
 		assertTrue( kb.isConsistent() );
 
 		assertTrue( kb.hasPropertyValue( a, p, zeroDecimal ) );
@@ -1829,36 +1827,36 @@ public class MiscTests extends AbstractKBTests {
 		assertFalse( kb.hasPropertyValue( a, p, zeroFloat ) );
 		assertEquals( singletonList( zeroDecimal ), kb.getDataPropertyValues( p, a ) );
 	}
-
+	
 	@Test
 	public void testDataOneOf() {
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl A = term( "A" );
-
+		
 		ATermAppl p = term( "p" );
 		ATermAppl q = term( "q" );
-
+		
 		ATermAppl a = term( "a" );
-
+		
 		ATermAppl lit1 = literal( "test" );
 		ATermAppl lit2 = literal( "1", Datatypes.DECIMAL );
-
+		
 		kb.addClass( A );
 
 		kb.addDatatypeProperty( p );
 		kb.addDatatypeProperty( q );
 
 		kb.addIndividual( a );
-
+		
 		kb.addType( a, A );
 
 		kb.addSubClass( A, min( p, 1, TOP_LIT ) );
 		kb.addRange( p, oneOf( lit1 ) );
-
+		
 		kb.addSubClass( A, some( q, TOP_LIT ) );
 		kb.addRange( q, oneOf( lit2 ) );
-
+		
 		assertTrue( kb.isConsistent() );
 
 
@@ -1866,197 +1864,197 @@ public class MiscTests extends AbstractKBTests {
 		assertEquals( singletonList( lit2 ), kb.getDataPropertyValues( q, a ) );
 		assertTrue( kb.hasPropertyValue( a, p, lit1 ) );
 		assertTrue( kb.hasPropertyValue( a, q, lit2 ) );
-	}
+	}	
 
 	@Test
 	public void testDisjointSelf() {
 		KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl A = term( "A" );
-		ATermAppl p = term( "p" );
-
+		ATermAppl A = term( "A" );		
+		ATermAppl p = term( "p" );		
+		
 		kb.addClass( A );
 		kb.addObjectProperty( p );
 
-		kb.addDisjointClasses( Arrays.asList( A, self(p) ) );
+		kb.addDisjointClasses( Arrays.asList( A, self(p) ) );		
 
 		kb.classify();
-
+		
 		assertTrue( kb.isSatisfiable( A ) );
 	}
-
+	
 	@Test
 	public void testDisjointPropertiesCache() {
 		// test case for issue #336 to verify AbstractConceptCache.isMergable does
 		// not return incorrect results.
 		KnowledgeBase kb = new KnowledgeBase();
-
+		
 		ATermAppl p1 = term( "p1" );
 		ATermAppl p2 = term( "p2" );
-
+		
 		ATermAppl a = term( "a" );
 		ATermAppl b = term( "b" );
 		ATermAppl c = term( "c" );
-
+		
 		kb.addObjectProperty( p1 );
 		kb.addObjectProperty( p2 );
 		kb.addDisjointProperty( p1, p2 );
-
+		
 		kb.addIndividual( a );
 		kb.addIndividual( b );
 		kb.addIndividual( c );
-
+		
 		kb.addPropertyValue( p1, a, c );
 		kb.addPropertyValue( p2, b, a );
-
+		
 		ATermAppl notp1a = ATermUtils.makeNot( ATermUtils.makeHasValue( p1, a ) );
-
+		
 		// no caching so consistency checking will be used here
 		assertFalse( kb.isType( a, notp1a ) );
 		assertTrue( kb.isType( b, notp1a ) );
-
+		
 		// call getInstances so some caching will happen
 		assertEquals( singleton( b ), kb.getInstances( notp1a, false ) );
-
-		// now cached nodes will be used for mergable check
+		
+		// now cached nodes will be used for mergable check 
 		assertFalse( kb.isType( a, notp1a ) );
 		assertTrue( kb.isType( b, notp1a ) );
-
+		
 	}
-
+	
 	@Test
-	public void testSynoymClassification() {
+	public void testSynoymClassification() {	
 		// Fixes the problem identified in #270. If there are two equivalent concepts
 		// where one is primitive and the other is non-primitive CD classifier was
 		// picking primitive flag and returning incorrect classification results.
-
+		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl A = term( "A" );
 		ATermAppl B = term( "B" );
 		ATermAppl C = term( "C" );
-
+		
 		ATermAppl p = term( "p" );
-
+	
 		kb.addClass( A );
 		kb.addClass( B );
 		kb.addClass( C );
-
+		
 		kb.addDatatypeProperty( p );
-
+		
 		// B is completely defined except this equivalence
 		kb.addEquivalentClass( A, B );
 		// A is not primitive because of the domain axiom
 		kb.addDomain( p, A );
 		// C should be inferred to be a subclass of A and B
 		kb.addSubClass( C, some(p, TOP_LIT ) );
-
+		
 		kb.classify();
-
+		
 		assertSubClass( kb, C, A );
 		assertSubClass( kb, C, B );
-	}
-
+	}	
+	
 	@Test
-	public void testUndefinedProperty() {
+	public void testUndefinedProperty() {	
 		// Test for #351. Calling getPropertyValues for an undefinde property should not throw NPE
-
+		
 		KnowledgeBase kb = new KnowledgeBase();
 
 		ATermAppl p = term( "p" );
 		ATermAppl q = term( "q" );
-
+		
 		ATermAppl a = term( "a" );
 		ATermAppl b = term( "b" );
-
+		
 		kb.addObjectProperty( p );
-
+		
 		kb.addIndividual( a );
 		kb.addIndividual( b );
-
+	
 		kb.addPropertyValue( p, a, b );
-
+		
 		kb.isConsistent();
-
+		
 		assertTrue( kb.getPropertyValues( q ).isEmpty() );
 	}
-
+	
 	@Test
 	public void testGetSubClassBehavior() {
 		classes( c, d, e );
-
+		
 		kb.addEquivalentClass( c, d );
 		kb.addSubClass( e, d );
-
+		
 		Set<Set<ATermAppl>> result = new HashSet<Set<ATermAppl>>();
 		result.add( Collections.singleton( ATermUtils.BOTTOM ) );
 		result.add( Collections.singleton( e ) );
 		assertEquals( result, kb.getSubClasses( c, false ) );
 	}
-
-
+	
+	
 	@Test
 	public void test354() {
 		// test case for issue #354.
 		classes( B );
 		objectProperties( p );
 		individuals( a, b, c );
-
-		kb.addFunctionalProperty( p );
-
+			
+		kb.addFunctionalProperty( p );		
+		
 		kb.addEquivalentClass( B, oneOf( b, c ) );
-
+		
 		assertFalse( kb.isType( a, not( B ) ) );
 
 		kb.isSatisfiable( B );
-
-		assertFalse( kb.isType( a, not( B ) ) );
+		
+		assertFalse( kb.isType( a, not( B ) ) );		
 	}
-
+	
 	@Test
 	public void test370() {
 		// test case for issue #370.
 		dataProperties( p );
 		individuals( a );
-
-		ATermAppl dt = restrict( Datatypes.DECIMAL,
+		
+		ATermAppl dt = restrict( Datatypes.DECIMAL, 
 				minExclusive( literal( "0.99", Datatypes.DECIMAL ) ),
-				maxExclusive( literal( "1.01", Datatypes.DECIMAL ) ) );
-
+				maxExclusive( literal( "1.01", Datatypes.DECIMAL ) ) );		
+		
 		kb.addType( a, min( p, 3, dt ) );
-
+		
 		assertTrue( kb.isConsistent() );
-	}
-
+	}		
+	
 	@Test
 	public void test348() {
 		// test case for issue #348.
 		classes( B, C, D, E );
 		individuals( a, b, c, d, e );
-
+		
 		kb.addType( a, oneOf( b, c ) );
 		kb.addType( a, oneOf( d, e ) );
-
+		
 		kb.addType( b, B );
 		kb.addType( c, C );
 		kb.addType( d, D );
 		kb.addType( e, E );
-
-		assertTrue( kb.isConsistent() );
-
+		
+		assertTrue( kb.isConsistent() );		
+				
 		assertEquals( Collections.singleton( b ), kb.retrieve( B, Arrays.asList( a, b, d, e ) ) );
 		assertEquals( Collections.singleton( c ), kb.retrieve( C, Arrays.asList( a, c, d, e ) ) );
 		assertEquals( Collections.singleton( d ), kb.retrieve( D, Arrays.asList( a, d, b, c ) ) );
 		assertEquals( Collections.singleton( e ), kb.retrieve( E, Arrays.asList( a, e, b, c ) ) );
-	}
-
-
+	}	
+	
+	
 	@Test
 	public void test375() {
 		// test case for issue #375.
 		classes( A, B, C );
 		dataProperties( p );
-
+		
 		ATermAppl dt = restrict( Datatypes.INTEGER, minExclusive( literal( 1 ) ) );
 
 		kb.addRange( p, XSDInteger.getInstance().getName() );
@@ -2064,18 +2062,18 @@ public class MiscTests extends AbstractKBTests {
 		kb.addEquivalentClass( A, some( p, dt ) );
 		kb.addSubClass( B, C );
 		kb.addEquivalentClass( B, hasValue( p, literal( 2 ) ) );
-
+		
 		assertTrue( kb.isConsistent() );
-
+		
 		assertSubClass( kb, B, A );
-
+		
 		kb.classify();
 		kb.printClassTree();
-
+		
 		assertSubClass( kb, B, A );
-
-	}
-
+		
+	}	
+	
 	@Test
 	public void minCardinalityOnIrreflexive() {
 		// related to #400
@@ -2087,10 +2085,10 @@ public class MiscTests extends AbstractKBTests {
 		kb.addSubClass( A, min( p, 1, TOP ) );
 		kb.addEquivalentClass( A, oneOf( a ) );
 		kb.addEquivalentClass( TOP, A );
-
+		
 		assertFalse( kb.isConsistent() );
 	}
-
+	
 	@Test
 	public void subPropertyWithSameRange() {
 		// test #435
@@ -2099,25 +2097,25 @@ public class MiscTests extends AbstractKBTests {
 
 		kb.addRange( p, A );
 		kb.addDomain( p, some( q, A ) );
-
+				
 		assertTrue( kb.isConsistent() );
-
+		
 		assertFalse( kb.isSubPropertyOf( p, q ) );
 		assertFalse( kb.isSubPropertyOf( q, p ) );
 	}
-
+	
 	@Test
 	public void roleAbsorptionWithQCR() {
 		classes( A, B, C );
 		objectProperties( p );
-
+		
 		kb.addSubClass( A, B );
 		kb.addEquivalentClass( A, min( p, 1, B ) );
-		kb.addSubClass( C, min( p, 1, TOP ) );
+		kb.addSubClass( C, min( p, 1, TOP ) );		
 
 		assertNotSubClass( kb, C, A );
 	}
-
+	
 	@Test
 	public void testUnsatClasses1() {
 		classes(B, C, D);
@@ -2132,7 +2130,7 @@ public class MiscTests extends AbstractKBTests {
 		assertTrue(kb.getUnsatisfiableClasses().isEmpty());
 		assertEquals(singleton(BOTTOM), kb.getAllUnsatisfiableClasses());
 	}
-
+	
 	@Test
 	public void testUnsatClasses2() {
 		classes(B, C, D);
@@ -2147,14 +2145,14 @@ public class MiscTests extends AbstractKBTests {
 
 		assertEquals(singleton(B), kb.getUnsatisfiableClasses());
 		assertEquals(SetUtils.create(B, BOTTOM), kb.getAllUnsatisfiableClasses());
-	}
+	}	
 
 	@Test
 	public void testGuessingRule() {
 		classes(C, D);
 		objectProperties(p);
 		individuals(a, b);
-
+		
 		kb.addEquivalentClass(C, hasValue(inv(p), a));
 
 		kb.addType(a, card(p, 2, D));
@@ -2170,21 +2168,21 @@ public class MiscTests extends AbstractKBTests {
 		classes(A, B, C);
 		objectProperties(p, q);
 		individuals(a);
-
+		
 		kb.addInverseProperty(p, q);
 		kb.addDomain(p, A);
 		kb.addRange(p, or(B, C));
 
 		kb.addSubClass(A, card(p, 1, B));
 		kb.addSubClass(A, card(p, 1, C));
-
+		
 		kb.addSubClass(B, card(q, 1, A));
 		kb.addSubClass(C, card(q, 1, A));
-
+		
 		kb.addDisjointClasses(Arrays.asList(A, B, C));
 
 		kb.addEquivalentClass(A, oneOf(a));
-
+		
 		assertTrue(kb.isConsistent());
 		assertEquals(Collections.emptySet(), kb.getUnsatisfiableClasses());
 	}
@@ -2202,7 +2200,7 @@ public class MiscTests extends AbstractKBTests {
 
 		assertEquals(Clash.ClashType.EMPTY_DATATYPE, kb.getABox().getLastClash().getType());
 	}
-
+	
 	@Test
 	public void test485() {
 		Properties oldOptions = PelletOptions.setOptions(PropertiesBuilder.singleton("DISABLE_EL_CLASSIFIER", "true"));
@@ -2213,7 +2211,7 @@ public class MiscTests extends AbstractKBTests {
 
 			kb.addSubClass(B, A);
 			kb.addSubClass(C, A);
-
+			
 			kb.addDomain(p, B);
 			kb.addDomain(q, A);
 
@@ -2229,21 +2227,21 @@ public class MiscTests extends AbstractKBTests {
 			PelletOptions.setOptions(oldOptions);
 		}
 	}
-
+	
 	@Test
 	public void test518() {
 		// tests if the interaction between some values restriction and inverses ends up creating a cycle in the
 		// completion graph
-
+		
 		classes(A, B, C);
 		objectProperties(p, q);
 
 		kb.addInverseFunctionalProperty(p);
 		kb.addSubProperty(q, inv(p));
-
+		
 		assertFalse(kb.isSatisfiable(some(p,some(q,all(p,BOTTOM)))));
 	}
-
+	
 	@Test
 	public void test553() {
 		KnowledgeBase kb = new KnowledgeBase();
@@ -2251,39 +2249,39 @@ public class MiscTests extends AbstractKBTests {
 		assertTrue(copyKB != kb);
 		assertTrue(copyKB.getABox().getKB() == copyKB);
 	}
-
+	
 	@Test
 	public void testFunctionalSubDataProperty() {
 		// test for ticket #551
-
+		
 		individuals(a);
 		dataProperties(p, q);
 
 		kb.addFunctionalProperty(p);
 		kb.addSubProperty(q, p);
-
+		
 		kb.addPropertyValue(p, a, literal("val1"));
 		kb.addPropertyValue(q, a, literal("val2"));
-
+		
 		assertFalse(kb.isConsistent());
 	}
-
+	
 	@Test
 	public void test549() {
 		int n = 5;
 		ATermAppl[] ind = new ATermAppl[n];
 		for (int i = 0; i < n; i++) {
-					ind[i] = term("ind" + i);
-				}
+	        ind[i] = term("ind" + i);
+        }
 		ATermAppl[] cls = new ATermAppl[n];
 		for (int i = 0; i < n; i++) {
 			cls[i] = term("C" + i);
-				}
-
+        }
+		
 		classes(cls);
 		dataProperties(p);
 		individuals(ind);
-
+		
 		kb.addClass(C);
 
 		float lower = 1.0f;
@@ -2291,26 +2289,26 @@ public class MiscTests extends AbstractKBTests {
 		for (int i = 0; i < n; i++) {
 			kb.addSubClass(cls[i], C);
 			kb.addType(ind[i], C);
-
+			
 			float upper = lower + increment;
 			ATermAppl dt = term("D" + i);
 			ATermAppl def = restrict(Datatypes.FLOAT, minInclusive(literal(lower)), maxExclusive(literal(upper)));
 			kb.addDatatypeDefinition(dt, def);
-
+			
 			kb.addEquivalentClass(cls[i], some(p, dt));
 			kb.addPropertyValue(p, ind[i], literal(lower));
 			lower = upper;
 		}
-
+		
 //		kb.realize();
 //		kb.printClassTree();
 
 		for (int i = 0; i < n; i++) {
 			assertEquals(Collections.singleton(ind[i]), kb.getInstances(cls[i]));
-				}
+        }
 
 	}
-
+	
 	@Test
 	public void test532a() {
 		classes(A, B, C, D);
@@ -2328,10 +2326,10 @@ public class MiscTests extends AbstractKBTests {
 
 		assertFalse(kb.isConsistent());
 	}
-
+	
 	@Test
 	public void test532b() {
-		// variation of the condition in 532 where the nodes involved in MaxBranch are merged
+		// variation of the condition in 532 where the nodes involved in MaxBranch are merged 
 		classes(C, D, E);
 		individuals(a, b, c, d, e, f);
 		objectProperties(p);
@@ -2343,13 +2341,13 @@ public class MiscTests extends AbstractKBTests {
 		kb.addPropertyValue(p, a, d);
 
 		assertTrue(kb.isConsistent());
-
+		
 		kb.addSame(c, e);
 		kb.addSame(d, e);
 
 		assertTrue(kb.isConsistent());
 	}
-
+	
 	@Test
 	public void test560() {
 		classes(A, B);
@@ -2360,7 +2358,7 @@ public class MiscTests extends AbstractKBTests {
 		kb.addSubProperty(q, p);
 		kb.addSubClass(A, hasValue(q,a));
 		kb.addType(a, all(inv(q), all(inv(p), oneOf(a))));
-
+		
 		assertTrue(kb.isConsistent());
 		assertTrue(kb.isSatisfiable(and(some(p,A), some(q,B))));
 	}

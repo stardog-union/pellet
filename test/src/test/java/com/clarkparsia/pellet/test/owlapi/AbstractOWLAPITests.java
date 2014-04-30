@@ -49,12 +49,11 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- *
+ * 
  * @author Evren Sirin
  */
 public abstract class AbstractOWLAPITests {
-
-	public static final String	base	= PelletTestSuite.base + "misc/";
+	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
 
 	protected static final OWLClass					A		= Class( "A" );
 	protected static final OWLClass					B		= Class( "B" );
@@ -74,45 +73,35 @@ public abstract class AbstractOWLAPITests {
 	protected static final OWLAnonymousIndividual	anon	= AnonymousIndividual();
 	protected static final OWLLiteral				lit		= constant( "lit" );
 
-
+	
 	protected OWLOntology ontology;
 	protected PelletReasoner reasoner;
-
-	public void createReasoner(OWLAxiom... axioms) {
+	
+	public void createReasoner(OWLAxiom... axioms) {		
 		ontology = OWL.Ontology( axioms );
 		reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
 	}
 
 	@Before
-	public void setUp() throws Exception {
+	@After
+	public void resetOntologyManager() {
 		ontology = null;
 		if( reasoner != null )
 			reasoner.dispose();
-
+		
 		for( OWLOntology o : OWL.manager.getOntologies() ) {
 			OWL.manager.removeOntology( o );
 		}
 	}
-
-	@After
-		public void tearDown() {
-				ontology = null;
-				if( reasoner != null )
-						reasoner.dispose();
-
-				for( OWLOntology o : OWL.manager.getOntologies() ) {
-						OWL.manager.removeOntology( o );
-				}
-		}
-
+	
 	protected boolean processAdd(OWLAxiom axiom) {
 		return processChange( new AddAxiom( ontology, axiom ) );
 	}
-
+	
 	protected boolean processRemove(OWLAxiom axiom) {
-		return processChange( new RemoveAxiom( ontology, axiom ) );
+		return processChange( new RemoveAxiom( ontology, axiom ) );	
 	}
-
+	
 	protected boolean processChange(OWLOntologyChange change) {
 		return reasoner.processChanges( Collections.singletonList( change ) );
 	}

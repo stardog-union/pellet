@@ -19,7 +19,7 @@ public class AxiomBasedRandomizedModularityTest extends RandomizedModularityTest
 	 * @param path
 	 */
 	public AxiomBasedRandomizedModularityTest() {
-		super( "/data/modularity/" );
+		super( "test/data/modularity/" );
 	}
 
 	/**

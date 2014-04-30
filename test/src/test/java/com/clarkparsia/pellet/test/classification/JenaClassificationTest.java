@@ -11,8 +11,6 @@ package com.clarkparsia.pellet.test.classification;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +26,13 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.ReasonerVocabulary;
 
 public class JenaClassificationTest extends AbstractClassificationTest {
-	public void testClassification(String inputOnt, String classifiedOnt) throws FileNotFoundException {
+	public void testClassification(String inputOnt, String classifiedOnt) {
 		OntModel premise = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		premise.read( new FileInputStream(inputOnt) , "", "RDF/XML");
+		premise.read( inputOnt );
 		premise.prepare();
 
 		Model conclusion = ModelFactory.createDefaultModel();
-		conclusion.read( new FileInputStream(classifiedOnt), "", "RDF/XML" );
+		conclusion.read( classifiedOnt );
 
 		StmtIterator stmtIter = conclusion.listStatements();
 
@@ -48,18 +46,18 @@ public class JenaClassificationTest extends AbstractClassificationTest {
 						ReasonerVocabulary.directSubClassOf, stmt.getObject() );
 			else if( stmt.getPredicate().equals( OWL.equivalentClass ) )
 				entailed = premise.contains( stmt );
-
-			if( !entailed ) {
+			
+			if( !entailed ) {				
 				if( AbstractClassificationTest.FAIL_AT_FIRST_ERROR )
 					fail( "Not entailed: " + format( stmt ) );
 				else
 					nonEntailments.add( format( stmt )  );
 			}
 		}
-
+		
 		assertTrue( nonEntailments.toString(), nonEntailments.isEmpty() );
 	}
-
+	
 	private static String format(Statement stmt) {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -70,11 +68,11 @@ public class JenaClassificationTest extends AbstractClassificationTest {
 			sb.append( ',' );
 			sb.append( stmt.getResource().getLocalName() );
 			sb.append( ']' );
-
+			
 			return sb.toString();
 		} catch( Exception e ) {
 			e.printStackTrace();
-
+			
 			return stmt.toString();
 		}
 	}

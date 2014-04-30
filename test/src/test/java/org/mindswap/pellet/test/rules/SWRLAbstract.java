@@ -33,14 +33,14 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- *
+ * 
  * @author Markus Stocker
  */
 public class SWRLAbstract {
 
 	protected static String base;
 
-	protected void test(String test) throws Exception {
+	protected void test(String test) {
 		testJena(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
 		testOWLAPIv3(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
 	}
@@ -53,7 +53,7 @@ public class SWRLAbstract {
 
 		Model conclusion = ModelFactory.createDefaultModel();
 		conclusion.read(conclusionURI);
-
+		
 		StmtIterator stmtIter = conclusion.listStatements();
 
 		while (stmtIter.hasNext()) {
@@ -61,13 +61,13 @@ public class SWRLAbstract {
 			assertTrue(premise.contains(s));
 		}
 	}
-
+	
 	private void testOWLAPIv3(String premiseURI, String conclusionURI) {
 		org.semanticweb.owlapi.model.OWLOntologyManager manager = null;
 
 		try {
 			manager = org.semanticweb.owlapi.apibinding.OWLManager.createOWLOntologyManager();
-			org.semanticweb.owlapi.model.OWLOntology premise = manager.loadOntologyFromOntologyDocument( IRI
+			org.semanticweb.owlapi.model.OWLOntology premise = manager.loadOntology( IRI
 					.create( premiseURI ) );
 			manager = org.semanticweb.owlapi.apibinding.OWLManager.createOWLOntologyManager();
 			org.semanticweb.owlapi.model.OWLOntology conclusion = manager.loadOntology( IRI
@@ -82,8 +82,8 @@ public class SWRLAbstract {
 
 	}
 
-	private String url(String filename) throws Exception {
-		return "file:" + base + filename;
+	private String url(String filename) {
+		return base + filename;
 	}
 
 	@After

@@ -14,7 +14,6 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -34,7 +33,6 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import aterm.ATermAppl;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.owlapiv3.ConceptConverter;
 import com.clarkparsia.pellet.owlapiv3.PelletVisitor;
 
@@ -54,9 +52,8 @@ import com.clarkparsia.pellet.owlapiv3.PelletVisitor;
  * 
  * @author Evren Sirin
  */
-@Category(StableTests.class)
 public class OWLAPIObjectConversionTests {
-	public static String				base			= PelletTestSuite.base + "misc/";
+	public static String				base			= "file:" + PelletTestSuite.base + "misc/";
 
 	private static String				ns				= "urn:test:";
 

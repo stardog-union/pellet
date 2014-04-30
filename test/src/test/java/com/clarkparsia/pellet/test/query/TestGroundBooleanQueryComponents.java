@@ -29,7 +29,6 @@ import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.util.FileManager;
 
 /**
  * <p>
@@ -52,7 +51,7 @@ import com.hp.hpl.jena.util.FileManager;
 @RunWith(Parameterized.class)
 public class TestGroundBooleanQueryComponents {
 
-	private static String	sourceDir	= "/data/";
+	private static String	sourceDir	= "test/data/";
 	private static String	sourceURL	= sourceDir + "misc/food.owl";
 	private static String	queryPrefix	= sourceDir + "/query/ground-boolean-query-components-";
 
@@ -79,9 +78,9 @@ public class TestGroundBooleanQueryComponents {
 
 	@BeforeClass
 	public static void setUp() {
-		//sourceURL = "file:" + sourceURL;
+		sourceURL = "file:" + sourceURL;
 		model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( TestGroundBooleanQueryComponents.class.getResourceAsStream(sourceURL), "", "RDF/XML" );
+		model.read( sourceURL );
 
 		model.prepare();
 	}
@@ -94,7 +93,7 @@ public class TestGroundBooleanQueryComponents {
 
 	@Test
 	public void test() {
-		Query query = QueryFactory.create( FileManager.get().readWholeFileAsUTF8(this.getClass().getResourceAsStream(queryURL)) );
+		Query query = QueryFactory.read( queryURL );
 		Dataset dataset = DatasetFactory.create( model );
 
 		QueryExecution qe = SparqlDLExecutionFactory.create( query, dataset, null, queryEngineType );

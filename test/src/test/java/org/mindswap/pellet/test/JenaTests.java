@@ -29,7 +29,6 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.ModelExtractor;
@@ -41,7 +40,6 @@ import org.mindswap.pellet.utils.ATermUtils;
 
 import aterm.ATermAppl;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.DatatypeReasonerImpl;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
@@ -76,10 +74,8 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 import com.hp.hpl.jena.vocabulary.ReasonerVocabulary;
 import com.hp.hpl.jena.vocabulary.XSD;
 
-@Category(StableTests.class)
 public class JenaTests {
-
-	public static String	base	= PelletTestSuite.base + "misc/";
+	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
 
 	public static void main(String args[]) {
 		junit.textui.TestRunner.run( JenaTests.suite() );
@@ -187,7 +183,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testOWL2() throws Exception {
+	public void testOWL2() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel factory = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
@@ -262,7 +258,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testUncle() throws Exception {
+	public void testUncle() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -279,7 +275,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testQualifiedCardinality1() throws Exception {
+	public void testQualifiedCardinality1() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -393,7 +389,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testReflexive2() throws Exception {
+	public void testReflexive2() {
 		String ns = "http://www.example.org/test#";
 		String foaf = "http://xmlns.com/foaf/0.1/";
 
@@ -633,13 +629,13 @@ public class JenaTests {
 
 		Literal oneDecimal = model.createTypedLiteral( "1", TypeMapper.getInstance().getTypeByName(
 				XSD.decimal.getURI() ) );
-
+		
 		assertIteratorValues( a.listPropertyValues( dp ), new Literal[] { one } );
 		assertTrue( a.hasProperty( dp, oneDecimal ) );
 	}
 
 	@Test
-	public void testClosedUniverse() throws Exception {
+	public void testClosedUniverse() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -657,10 +653,9 @@ public class JenaTests {
 
 	/**
 	 * Verifies that we can parse the OWL 1.1 self restriction RDF syntax
-	 * @throws Exception
 	 */
 	@Test
-	public void deprecatedSelfRestrictionSyntax() throws Exception {
+	public void deprecatedSelfRestrictionSyntax() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -681,7 +676,7 @@ public class JenaTests {
 	 * handled correctly.
 	 */
 	@Test
-	public void entityDeclarations() throws Exception {
+	public void entityDeclarations() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -720,7 +715,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void test3Sat() throws Exception {
+	public void test3Sat() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -762,7 +757,7 @@ public class JenaTests {
 		// System.out.println(
 		// ((org.mindswap.pellet.Individual)((PelletInfGraph)model.getGraph()).getKB().getABox().pseudoModel.
 		// getIndividual(ATermUtils.makeTermAppl(ns+"T")).getSame()).getTypes(Node.NOM));
-		//
+		//        
 		// System.out.println(
 		// ((org.mindswap.pellet.Individual)((PelletInfGraph)model.getGraph()).getKB().getABox().pseudoModel.
 		// getIndividual(ATermUtils.makeTermAppl(ns+"F")).getSame()).getTypes(Node.NOM));
@@ -848,35 +843,35 @@ public class JenaTests {
 		Individual x = model.createIndividual( ns + "x", c );
 
 		model.contains( OWL.Nothing, RDF.type, OWL.Class );
-
+		
 		assertIteratorValues( model.listStatements( x, RDF.type, (Resource) null ), new Object[] {
 			model.createStatement( x, RDF.type, OWL.Thing ),
 			model.createStatement( x, RDF.type, c )
-
+			
 		});
-
+		
 		assertIteratorValues( model.listStatements( anon, RDF.type, (Resource) null ), new Object[] {
 			model.createStatement( anon, RDF.type, OWL.Thing ),
 			model.createStatement( anon, RDF.type, c )
-
+			
 		});
-
+		
 		assertIteratorValues( model.listStatements( null, RDF.type, OWL.Thing ), new Object[] {
 			model.createStatement( anon, RDF.type, OWL.Thing ),
 			model.createStatement( x, RDF.type, OWL.Thing )
-
+			
 		});
-
+		
 		assertIteratorValues( model.listStatements( null, RDF.type, c ), new Object[] {
 			model.createStatement( anon, RDF.type, c ),
 			model.createStatement( x, RDF.type, c )
-
+			
 		});
 
 	}
 
 	@Test
-	public void testAnonInverse() throws Exception {
+	public void testAnonInverse() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1166,7 +1161,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testSudaku() throws Exception {
+	public void testSudaku() {
 		String ns = "http://sudoku.owl#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1255,7 +1250,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testInfiniteChain() throws Exception {
+	public void testInfiniteChain() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.setStrictMode( false );
 		model.read( base + "infiniteChain.owl" );
@@ -1289,7 +1284,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testParents() throws Exception {
+	public void testParents() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1331,7 +1326,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testTeams() throws Exception {
+	public void testTeams() {
 		String ns = "http://owl.man.ac.uk/2005/sssw/teams#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1421,7 +1416,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testTransitive1() throws Exception {
+	public void testTransitive1() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.read( base + "agencies.owl" );
 
@@ -1463,7 +1458,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testTransitive2() throws Exception {
+	public void testTransitive2() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.read( base + "cyclic_transitive.owl" );
 
@@ -1585,7 +1580,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testTransitiveSubProperty2() throws Exception {
+	public void testTransitiveSubProperty2() {
 		String ns = "http://www.co-ode.org/ontologies/test/pellet/transitive.owl#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1604,7 +1599,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testNominals() throws Exception {
+	public void testNominals() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1667,7 +1662,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testDatatypeHierarchy() throws Exception {
+	public void testDatatypeHierarchy() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.read( base + "all_datatypes.owl" );
 
@@ -1763,7 +1758,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testESG() throws Exception {
+	public void testESG() {
 		String ns = "http://www.csm.ornl.gov/~7lp/onto-library/esg1.1#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1790,7 +1785,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testDatapropertyRange() throws Exception {
+	public void testDatapropertyRange() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.read( base + "datataype_range.owl" );
 
@@ -1829,7 +1824,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testUserDefinedFloatDatatypes() throws Exception {
+	public void testUserDefinedFloatDatatypes() {
 		String ns = "http://www.lancs.ac.uk/ug/dobsong/owl/float_test.owl#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1858,7 +1853,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testUserDefinedDecimalDatatypes() throws Exception {
+	public void testUserDefinedDecimalDatatypes() {
 		String ns = "http://www.lancs.ac.uk/ug/dobsong/owl/decimal_test.owl#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -1953,8 +1948,8 @@ public class JenaTests {
 					OntProperty p = model.createDatatypeProperty( ns + "prop_"
 							+ datatype.getLocalName() );
 					if( addRangeRestriction ) {
-											p.addRange( datatype );
-										}
+	                    p.addRange( datatype );
+                    }
 
 					Literal value = model.createTypedLiteral( (String) datatypes[i], datatype
 							.getURI() );
@@ -2036,7 +2031,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testFamily() throws Exception {
+	public void testFamily() {
 		String ns = "http://www.example.org/family#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, null );
@@ -2088,8 +2083,8 @@ public class JenaTests {
 
 		for( int test = 0; test < 2; test++ ) {
 			if( test != 0 ) {
-							kb.realize();
-						}
+	            kb.realize();
+            }
 
 			assertTrue( hasAncestor.hasRDFType( OWL2.TransitiveProperty ) );
 			assertTrue( hasDescendant.hasRDFType( OWL2.TransitiveProperty ) );
@@ -2186,7 +2181,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testSibling() throws Exception {
+	public void testSibling() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -2204,7 +2199,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testDLSafeRules() throws Exception {
+	public void testDLSafeRules() {
 		String ns = "http://owldl.com/ontologies/dl-safe.owl#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, null );
@@ -2232,8 +2227,8 @@ public class JenaTests {
 
 		for( int test = 0; test < 1; test++ ) {
 			if( test != 0 ) {
-							kb.realize();
-						}
+	            kb.realize();
+            }
 
 			assertTrue( Abel.hasProperty( sibling, Cain ) );
 
@@ -2264,7 +2259,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testDLSafeConstants() throws Exception {
+	public void testDLSafeConstants() {
 		String ns = "http://owldl.com/ontologies/dl-safe-constants.owl#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, null );
@@ -2284,8 +2279,8 @@ public class JenaTests {
 
 		for( int test = 0; test < 1; test++ ) {
 			if( test != 0 ) {
-							kb.realize();
-						}
+	            kb.realize();
+            }
 
 			assertIteratorValues( DreamTeamMember.listInstances(), new Object[] {
 					Alice, Bob, Charlie } );
@@ -2350,11 +2345,11 @@ public class JenaTests {
 		Model leftValues = ModelFactory.createDefaultModel();
 		for( int i = 1; i <= 5; i++ ) {
 			if( i != 5 ) {
-							addStatements( rightValues, r[i], right, r[i + 1] );
-						}
+	            addStatements( rightValues, r[i], right, r[i + 1] );
+            }
 			if( i != 1 ) {
-							addStatements( leftValues, r[i], left, r[i - 1] );
-						}
+	            addStatements( leftValues, r[i], left, r[i - 1] );
+            }
 		}
 
 		assertPropertyValues( model, left, leftValues );
@@ -2397,12 +2392,12 @@ public class JenaTests {
 		ObjectProperty p = reasoner.createObjectProperty( ns + "p" );
 		ObjectProperty subP = reasoner.createObjectProperty( ns + "subP" );
 		ObjectProperty subSubP = reasoner.createObjectProperty( ns + "subSubP" );
-
+		
 		DatatypeProperty q = reasoner.createDatatypeProperty( ns + "q" );
 		DatatypeProperty subQ = reasoner.createDatatypeProperty( ns + "subQ" );
 		DatatypeProperty subSubQ = reasoner.createDatatypeProperty( ns + "subSubQ" );
-
-
+		
+		
 		// create assertions in one RDF model
 		Model assertions = ModelFactory.createDefaultModel();
 		assertions.add( subP, RDFS.subPropertyOf, p );
@@ -2450,7 +2445,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testTicket96() throws Exception {
+	public void testTicket96() {
 		OntModel pellet = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 
 		pellet.read( base + "ticket-96-test-case.rdf" );
@@ -2459,7 +2454,7 @@ public class JenaTests {
 	}
 
 	@Test
-	public void testNaryDisjointness() throws Exception {
+	public void testNaryDisjointness() {
 		// tests whether owl:Alldifferent, owl:AllDisjointClasses,
 		// owl:AllDisjointProperties
 		// statements in RDF/XML will be parsed correctly to yield
@@ -2482,8 +2477,8 @@ public class JenaTests {
 				addStatements( inferences, OWL.Nothing, OWL.disjointWith, c1 );
 				for( int j = k; j < k + 3; j++ ) {
 					if( i == j ) {
-											continue;
-										}
+	                    continue;
+                    }
 					Resource c2 = model.getResource( ns + "C" + j );
 					addStatements( inferences, c1, OWL.disjointWith, c2 );
 				}
@@ -2512,8 +2507,8 @@ public class JenaTests {
 					}
 					for( int j = k; j < k + 3; j++ ) {
 						if( i == j ) {
-													continue;
-												}
+	                        continue;
+                        }
 						Resource c2 = model.getResource( ns + prefix + j );
 						addStatements( inferences, c1, OWL2.propertyDisjointWith, c2 );
 					}
@@ -2528,8 +2523,8 @@ public class JenaTests {
 				Resource c1 = model.getResource( ns + "ind" + i );
 				for( int j = k; j < k + 3; j++ ) {
 					if( i == j ) {
-											continue;
-										}
+	                    continue;
+                    }
 					Resource c2 = model.getResource( ns + "ind" + j );
 					addStatements( inferences, c1, OWL.differentFrom, c2 );
 				}
@@ -2742,23 +2737,23 @@ public class JenaTests {
 	@Test
 	public void testDataPropertyDefinition() {
 		String ns = "foo://example#";
-		String source1 =
+		String source1 = 
 			"@prefix owl: <http://www.w3.org/2002/07/owl#>.\r\n"
 			+ "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\r\n"
 			+ "@prefix : <foo://example#>.\r\n"
 			+ ":C rdfs:subClassOf [\n"
-			+ "      a owl:Class; \n"
+			+ "      a owl:Class; \n" 
 			+ "      owl:intersectionOf( [\n"
 			+ "                  a owl:Restriction;\n"
 			+ "                  owl:onProperty :p ;\n"
-			+ "                  owl:minCardinality \"1\"\n"
+			+ "                  owl:minCardinality \"1\"\n" 
 			+ "                ] ) ] .";
-
-		String source2 =
+			
+		String source2 = 
 			"@prefix owl: <http://www.w3.org/2002/07/owl#>.\n"
 			+ "@prefix : <foo://example#>.\n"
 			+ ":p a owl:DatatypeProperty .\n";
-
+		
 		Model model1 = ModelFactory.createDefaultModel();
 		model1.read( new StringReader( source1 ), "", "N3" );
 		Model model2 = ModelFactory.createDefaultModel();
@@ -2766,50 +2761,50 @@ public class JenaTests {
 
 		Model ordered = ModelFactory.createModelForGraph( new Union( model1.getGraph(), model2.getGraph() ) );
 		OntModel pellet = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, ordered );
-
+		
 		Property p = pellet.getProperty( ns + "p" );
-
+		
 		assertTrue( pellet.contains( p, RDFS.range, RDFS.Literal ) );
 	}
-
+	
 	@Test
 	public void testRemoveSubModel() {
 		String ns = "http://www.example.org#";
-
+		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		OntModel subModel = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
 
 		OntClass C = model.createClass( ns + "C" );
-
+		
 		Resource a = model.createResource( ns + "a" );
 		Resource b = model.createResource( ns + "b" );
-
+		
 		model.add( a, RDF.type, C );
 		subModel.add( b, RDF.type, C );
-
+				
 		assertIteratorValues( model.listIndividuals( C ), new Resource[] { a } );
-
-		model.addSubModel( subModel );
+		
+		model.addSubModel( subModel );	
 		assertIteratorValues( model.listIndividuals( C ), new Resource[] { a, b } );
-
+		
 		model.removeSubModel( subModel );
 		assertIteratorValues( model.listIndividuals( C ), new Resource[] { a } );
 	}
 
 	@Test
-	public void testCardinalityParsing() throws Exception {
+	public void testCardinalityParsing() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.read( base + "cardinality_parsing.owl" );
 		model.prepare();
-
+		
 		assertTrue( ((PelletInfGraph) model.getGraph()).getLoader().getUnpportedFeatures().isEmpty() );
 	}
-
+	
 
 	@Test
 	public void testAnnotationPropertyQuery() {
 		String ns = "http://www.example.org#";
-
+		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		Property p = model.createAnnotationProperty( ns + "p" );
 		model.prepare();
@@ -2822,7 +2817,7 @@ public class JenaTests {
 		assertIteratorContains( model.listObjectsOfProperty( RDFS.label, RDF.type ), OWL.AnnotationProperty );
 		assertIteratorContains( model.listObjectsOfProperty( RDFS.label, null ), OWL.AnnotationProperty );
 	}
-
+	
 	@Test
 	public void testTopBottomPropertyAssertion() throws MalformedURLException {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, null );
@@ -2837,15 +2832,15 @@ public class JenaTests {
 			model.createStatement( a, OWL2.bottomObjectProperty, b ),
 			model.createStatement( a, OWL2.bottomDataProperty, lit )
 		};
-
-		for( int i = 0; i < stats.length; i++ ) {
+		
+		for( int i = 0; i < stats.length; i++ ) {			
 			model.add( stats[i] );
 			model.prepare();
 			assertEquals( i < 2, ((PelletInfGraph) model.getGraph()).isConsistent() );
 			model.remove( stats[i] );
-		}
+		}				
 	}
-
+	
 	@Test
 	public void testTopBottomPropertyInferences() throws MalformedURLException {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, null );
@@ -2856,95 +2851,95 @@ public class JenaTests {
 
 		Property p = model.createProperty( "p" );
 		Property dp = model.createProperty( "dp" );
-
+		
 		model.add( a, p, b );
 		model.add( a, dp, lit );
-
+		
 		assertTrue( model.contains( a, p, b ) );
 		assertFalse( model.contains( b, p, a ) );
 		assertTrue( model.contains( a, OWL2.topObjectProperty, b ) );
 		assertTrue( model.contains( b, OWL2.topObjectProperty, a ) );
-
+		
 		assertTrue( model.contains( a, dp, lit ) );
 		assertFalse( model.contains( b, dp, lit ) );
 		assertTrue( model.contains( a, OWL2.topDataProperty, lit ) );
 		assertTrue( model.contains( b, OWL2.topDataProperty, lit ) );
-	}
-
+	}	
+	
 	@Test
 	/**
 	 * Test for the enhancement required in #252
 	 */
 	public void testBooleanDatatypeConstructors() {
 		String ns = "http://www.example.org/test#";
-
+		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-
+					
 		Resource nni = XSD.nonNegativeInteger;
 		Resource npi = XSD.nonPositiveInteger;
 		Resource ni = XSD.negativeInteger;
 		Resource pi = XSD.positiveInteger;
 		Resource i = XSD.integer;
 		Resource f = XSD.xfloat;
-
+		
 		DatatypeProperty s = model.createDatatypeProperty( ns + "s" );
-
+		
 		OntClass c1 = model.createClass( ns + "c1" );
 		c1.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, pi ) );
 		assertFalse( model.contains( c1, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c2 = model.createClass( ns + "c2" );
 		Resource b2 = model.createResource();
 		model.add(b2, RDF.type, OWL2.DataRange);
 		model.add(b2, OWL2.datatypeComplementOf, pi);
 		c2.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, b2 ) );
 		assertFalse( model.contains( c2, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c3 = model.createClass( ns + "c3" );
 		RDFNode[] l3 = new RDFNode[2];
-		l3[0] = pi;
+		l3[0] = pi; 
 		l3[1] = ni;
 		c3.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, model.createIntersectionClass( null, model.createList( l3 ) ) ) );
 		assertTrue( model.contains(c3, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c4 = model.createClass( ns + "c4" );
 		RDFNode[] l41 = new RDFNode[2];
-		l41[0] = pi;
+		l41[0] = pi; 
 		l41[1] = ni;
 		RDFNode[] l42 = new RDFNode[2];
-		l42[0] = f;
+		l42[0] = f; 
 		l42[1] = model.createUnionClass( null, model.createList( l41 ) );
 		c4.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, model.createIntersectionClass( null, model.createList( l42 ) ) ) );
 		assertTrue( model.contains(c4, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c5 = model.createClass( ns + "c5" );
 		RDFNode[] l5 = new RDFNode[2];
-		l5[0] = npi;
+		l5[0] = npi; 
 		l5[1] = ni;
 		c5.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, model.createIntersectionClass( null, model.createList( l5 ) ) ) );
 		assertFalse( model.contains(c5, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c6 = model.createClass( ns + "c6" );
 		RDFNode[] l6 = new RDFNode[2];
-		l6[0] = nni;
+		l6[0] = nni; 
 		l6[1] = pi;
 		c6.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, model.createIntersectionClass( null, model.createList( l6 ) ) ) );
 		assertFalse( model.contains(c6, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c7 = model.createClass( ns + "c7" );
 		RDFNode[] l7 = new RDFNode[2];
-		l7[0] = nni;
+		l7[0] = nni; 
 		l7[1] = npi;
 		c7.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, model.createUnionClass( null, model.createList( l7 ) ) ) );
 		assertFalse( model.contains(c7, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c8 = model.createClass( ns + "c8" );
 		RDFNode[] l8 = new RDFNode[2];
-		l8[0] = nni;
+		l8[0] = nni; 
 		l8[1] = npi;
 		c8.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, model.createIntersectionClass( null, model.createList( l8 ) ) ) );
 		assertFalse( model.contains(c8, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c9 = model.createClass( ns + "c9" );
 		Resource fr9 = model.createResource();
 		model.add( fr9, OWL2.maxExclusive, model.createTypedLiteral( 0 ) );
@@ -2953,11 +2948,11 @@ public class JenaTests {
 		model.add( b9, OWL2.onDatatype, i);
 		model.add( b9, OWL2.withRestrictions, model.createList( new RDFNode[] { fr9 } ));
 		RDFNode[] l9 = new RDFNode[2];
-		l9[0] = pi;
+		l9[0] = pi; 
 		l9[1] = b9;
 		c9.addEquivalentClass( model.createSomeValuesFromRestriction( null, s, model.createIntersectionClass( null, model.createList( l9 ) ) ) );
 		assertTrue( model.contains(c9, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 		OntClass c10 = model.createClass( ns + "c10" );
 		DatatypeProperty p = model.createDatatypeProperty( ns + "p" );
 		Resource b10 = model.createResource();
@@ -2966,11 +2961,11 @@ public class JenaTests {
 		model.add(p, RDFS.range, b10 );
 		c10.addEquivalentClass( model.createSomeValuesFromRestriction( null, p, XSD.anyURI ) );
 		assertTrue( model.contains(c10, RDFS.subClassOf, OWL2.Nothing ) );
-
+		
 	}
-
+	
 	@Test
-	public void datatypeDefinition() throws Exception {
+	public void datatypeDefinition() {
 		String ns = "http://www.example.org/test#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -2979,18 +2974,18 @@ public class JenaTests {
 
 		Resource a = model.getResource( ns + "a" );
 		Resource b = model.getResource( ns + "b" );
-
+		
 		Resource A = model.getResource( ns + "A" );
 		Resource B = model.getResource( ns + "B" );
 
-
+		
 		assertTrue( model.contains( B, RDFS.subClassOf, A ) );
 		assertTrue( model.contains( a, RDF.type, A ) );
 		assertFalse( model.contains( a, RDF.type, B ) );
 		assertTrue( model.contains( b, RDF.type, A ) );
 		assertTrue( model.contains( b, RDF.type, B ) );
 	}
-
+	
 	@Test
 	public void testDirectType() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -2999,35 +2994,35 @@ public class JenaTests {
 
 		OntClass C1 = model.createClass( ns + "C1" );
 		OntClass C2 = model.createClass( ns + "C2" );
-
+		
 		C1.addSubClass( C2 );
-
+		
 		Individual ind = model.createIndividual( ns + "ind", C2 );
-
+			
 		assertFalse( model.contains( ind, ReasonerVocabulary.directRDFType, C1 ) );
 		assertTrue( model.contains( ind, ReasonerVocabulary.directRDFType, C2 ) );
-
+		
 		assertTrue( model.contains( C1, ReasonerVocabulary.directSubClassOf, OWL.Thing ) );
 		assertFalse( model.contains( C2, ReasonerVocabulary.directSubClassOf, OWL.Thing ) );
 		assertTrue( model.contains( C2, ReasonerVocabulary.directSubClassOf, C1 ) );
 	}
-
+	
 	/**
 	 * Ticket #445
 	 */
 	@Test
 	public void testListStatementsWithNullPredicate() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-
+		
 		model.prepare();
+		
+		String ns = "urn:test:";	
 
-		String ns = "urn:test:";
-
-		Resource c = model.createResource(ns+"C");
+		Resource c = model.createResource(ns+"C");	
 		Property p1 = model.createProperty(ns+"P1");
 		Property p2 = model.createProperty(ns+"P2");
 		Literal l = model.createLiteral("VAL");
-
+		
 		Statement s1 = new StatementImpl(c, p1, l);
 		Statement s2 = new StatementImpl(c, p2, l);
 
@@ -3039,8 +3034,8 @@ public class JenaTests {
 
 		List<Statement> results = new ArrayList<Statement>();
 		while(iter.hasNext()) {
-					results.add(iter.next());
-				}
+	        results.add(iter.next());
+        }
 
 		assertTrue(results.size() == 3); //s1, s2, and topProperty
 		assertTrue(results.contains(s1));
@@ -3050,30 +3045,30 @@ public class JenaTests {
 	@Test
 	public void testUntypedProperty() {
 		String ns = "http://www.example.org#";
-
+		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 
 		Resource C = model.createResource( ns + "C" );
 		Resource p = model.createResource( ns + "p" );
-
+		
 		model.add( p, RDFS.domain, C );
-
+		
 		assertIteratorContains(model.listStatements(p, null, (RDFNode) null), model.createStatement(p, RDF.type, OWL.ObjectProperty));
 	}
-
+	
 	@Test
 	public void closeModel() {
 		// ticket #487
-
+		
 		Model baseModel = ModelFactory.createDefaultModel();
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, baseModel );
 
 		model.close();
-
+		
 		assertTrue(model.isClosed());
 		assertTrue(baseModel.isClosed());
 	}
-
+	
 	@Test
 	public void closeRecursive() {
 		// ticket #487
@@ -3081,11 +3076,11 @@ public class JenaTests {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, baseModel );
 
 		((PelletInfGraph)model.getGraph()).close(true);
-
+		
 		assertTrue(model.isClosed());
 		assertTrue(baseModel.isClosed());
 	}
-
+	
 	@Test
 	public void closeNonRecursive() {
 		// ticket #487
@@ -3093,11 +3088,11 @@ public class JenaTests {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, baseModel );
 
 		((PelletInfGraph)model.getGraph()).close(false);
-
+		
 		assertTrue(model.isClosed());
 		assertFalse(baseModel.isClosed());
 	}
-
+	
 	@Test
 	public void closeMultiple() {
 		// ticket #487
@@ -3105,18 +3100,18 @@ public class JenaTests {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, baseModel );
 
 		((PelletInfGraph)model.getGraph()).close(false);
-
+		
 		assertTrue(model.isClosed());
 		assertFalse(baseModel.isClosed());
-
+		
 		((PelletInfGraph)model.getGraph()).close(false);
-
+		
 		assertTrue(model.isClosed());
 		assertFalse(baseModel.isClosed());
 	}
+	
 
-
-
+	
 	@Test
 	public void testRemoveIndividual() {
 		final Properties newOptions = PropertiesBuilder.singleton("PROCESS_JENA_UPDATES_INCREMENTALLY", "false");
@@ -3149,37 +3144,37 @@ public class JenaTests {
 
 		} finally {
 			PelletOptions.setOptions(oldOptions);
-		}
+		}	
 	}
-
+	
 	@Test
 	public void testLoadingOrder() {
 		String NS = "urn:test:";
-
+		
 		Property p1 = ResourceFactory.createProperty(NS+"p1");
 		Resource C1 = ResourceFactory.createResource(NS+"C1");
 		Property p2 = ResourceFactory.createProperty(NS+"p2");
 		Resource C2 = ResourceFactory.createResource(NS+"C2");
-
+		
 		OntModel m1 = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-		m1.add(p1, RDF.type, OWL.DatatypeProperty);
+		m1.add(p1, RDF.type, OWL.DatatypeProperty);		
 		m1.add(C1, RDFS.subClassOf, m1.createMinCardinalityRestriction(null, p2, 1));
 
 		OntModel m2 = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 		m2.add(p2, RDF.type, OWL.DatatypeProperty);
 		m2.add(C2, RDFS.subClassOf, m2.createMinCardinalityRestriction(null, p1, 1));
-
+		
 
 		OntModel reasoner = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 		reasoner.addSubModel(m1);
 		reasoner.addSubModel(m2);
-
+		
 		PelletInfGraph pellet = (PelletInfGraph) reasoner.getGraph();
 		pellet.prepare();
-
+		
 		assertEquals(Collections.emptySet(), pellet.getLoader().getUnpportedFeatures());
 	}
-
+	
 	@Test
 	public void retrieveSubjectsOfBnode() {
 		String NS = "urn:test:";
@@ -3193,9 +3188,9 @@ public class JenaTests {
 		assertEquals(Collections.singletonList(s), pelletModel.listSubjectsWithProperty(p, o).toList());
 	}
 
-
+	
 	@Test
-	public void test549() throws Exception {
+	public void test549() {
 		String ns = "urn:test:";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
@@ -3204,7 +3199,7 @@ public class JenaTests {
 
 		Resource C1 = model.getResource( ns + "46-60" );
 		Resource C2 = model.getResource( ns + "76-80" );
-
+		
 		Resource i1 = model.getResource( ns + "mark1" );
 		Resource i2 = model.getResource( ns + "mark2" );
 
@@ -3212,28 +3207,28 @@ public class JenaTests {
 		assertIteratorValues(model.listSubjectsWithProperty(RDF.type, C2), i2);
 	}
 
-
+	
 	@Test
 	public void testExtractor() {
 		String ns = "urn:test:";
 
 		Model rawModel = ModelFactory.createDefaultModel();
-
+		
 		Resource C = rawModel.createResource( ns + "C" );
 		Resource D = rawModel.createResource( ns + "C" );
 		Resource a = rawModel.createResource( ns + "a" );
-
+		
 		rawModel.add(a, RDF.type, C);
 		rawModel.add(C, RDFS.subClassOf, D);
-
+		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, rawModel );
 
 		ModelExtractor extractor = new ModelExtractor(model);
 		Model inferences = extractor.extractModel();
-
+		
 		assertTrue(inferences.contains(a, RDF.type, D));
 	}
-
+	
 	@Test
 	public void testSubmodelUpdate1() {
 		String ns = "urn:test:";
@@ -3244,19 +3239,19 @@ public class JenaTests {
 
 		Model m1 = ModelFactory.createDefaultModel();
 		m1.add(a, RDF.type, A);
-
+		
 		Model m2 = ModelFactory.createDefaultModel();
 		m2.add(B, RDF.type, OWL.Class);
-
+		
 		Model union = ModelFactory.createUnion(m1, m2);
-
+		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, union );
-
+		
 		((PelletInfGraph) model.getGraph()).setAutoDetectChanges(true);
-
+		
 		assertTrue(model.contains(a, RDF.type, A));
 		assertFalse(model.contains(a, RDF.type, B));
-
+		
 		m2.add(A, RDFS.subClassOf, B);
 
 		assertTrue(model.contains(a, RDF.type, A));
@@ -3273,23 +3268,23 @@ public class JenaTests {
 
 		Model m1 = ModelFactory.createDefaultModel();
 		m1.add(a, RDF.type, A);
-
+		
 		Model m2 = ModelFactory.createDefaultModel();
 		m2.add(B, RDF.type, OWL.Class);
-
+		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 
 		((PelletInfGraph) model.getGraph()).setAutoDetectChanges(true);
-
+		
 		assertFalse(model.contains(a, RDF.type, A));
 		assertFalse(model.contains(a, RDF.type, B));
-
+		
 		model.addSubModel(m1);
 		model.addSubModel(m2);
-
+		
 		assertTrue(model.contains(a, RDF.type, A));
 		assertFalse(model.contains(a, RDF.type, B));
-
+		
 		m2.add(A, RDFS.subClassOf, B);
 
 		assertTrue(model.contains(a, RDF.type, A));
@@ -3307,30 +3302,30 @@ public class JenaTests {
 
 		Model m1 = ModelFactory.createDefaultModel();
 		m1.add(a, RDF.type, A);
-
+		
 		Model m2 = ModelFactory.createDefaultModel();
 		m2.add(B, RDF.type, OWL.Class);
-
+		
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-
+		
 		assertFalse(model.contains(a, RDF.type, A));
 		assertFalse(model.contains(a, RDF.type, B));
-
+		
 		model.addSubModel(m1);
 		model.addSubModel(m2);
-
+		
 		assertTrue(model.contains(a, RDF.type, A));
 		assertFalse(model.contains(a, RDF.type, B));
-
+		
 		((PelletInfGraph) model.getGraph()).setAutoDetectChanges(false);
-
+		
 		m2.add(A, RDFS.subClassOf, B);
 
 		assertTrue(model.contains(a, RDF.type, A));
 		assertFalse(model.contains(a, RDF.type, B));
-
+		
 		((PelletInfGraph) model.getGraph()).setAutoDetectChanges(true);
-
+		
 		m2.add(B, RDFS.subClassOf, C);
 
 		assertTrue(model.contains(a, RDF.type, A));
