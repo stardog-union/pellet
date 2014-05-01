@@ -37,7 +37,11 @@ public interface Facet {
 			for( Facet f : XSD.values() ) {
 				map.put( f.getName(), f );
 			}
-		}
+            for( Facet f : RDF.values() ) {
+                map.put( f.getName(), f );
+            }
+
+        }
 
 		/**
 		 * Get a Facet for a URI
@@ -73,4 +77,18 @@ public interface Facet {
 		}
 
 	}
+
+    public static enum RDF implements Facet {
+        LANG_RANGE("langRange");
+
+        private final ATermAppl	name;
+
+        private RDF(String localName) {
+            name = ATermUtils.makeTermAppl( Namespaces.RDF + localName );
+        }
+
+        public ATermAppl getName() {
+            return name;
+        }
+    }
 }
