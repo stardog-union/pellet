@@ -37,6 +37,7 @@ public class Datatypes {
 	public static final ATermAppl	LITERAL					= term( Namespaces.RDFS + "Literal" );
 	
 	public static final ATermAppl	PLAIN_LITERAL			= term( Namespaces.RDF + "PlainLiteral" );
+	public static final ATermAppl	LANG_STRING			    = term( Namespaces.RDF + "langString" );
 	public static final ATermAppl	XML_LITERAL				= term( Namespaces.RDF + "XMLLiteral" );
 	
 	public static final ATermAppl	REAL					= term( Namespaces.OWL + "Real" );
