@@ -22,6 +22,7 @@ import com.clarkparsia.pellet.datatypes.types.real.*;
 import com.clarkparsia.pellet.datatypes.types.real.XSDDecimal;
 import com.clarkparsia.pellet.datatypes.types.real.XSDInteger;
 import com.clarkparsia.pellet.datatypes.types.real.XSDLong;
+import com.clarkparsia.pellet.datatypes.types.text.RDFLangString;
 import com.clarkparsia.pellet.datatypes.types.text.RDFPlainLiteral;
 import com.clarkparsia.pellet.datatypes.types.text.XSDLanguage;
 import com.clarkparsia.pellet.datatypes.types.text.XSDNCName;
@@ -76,6 +77,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner {
 
         {
             coreDatatypes.put(RDFPlainLiteral.getInstance().getName(), RDFPlainLiteral.getInstance());
+            coreDatatypes.put(RDFLangString.getInstance().getName(), RDFLangString.getInstance());
             coreDatatypes.put(XSDString.getInstance().getName(), XSDString.getInstance());
             coreDatatypes.put(XSDNormalizedString.getInstance().getName(), XSDNormalizedString.getInstance());
             coreDatatypes.put(XSDToken.getInstance().getName(), XSDToken.getInstance());

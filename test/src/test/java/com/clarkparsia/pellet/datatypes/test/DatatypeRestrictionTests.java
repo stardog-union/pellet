@@ -9,17 +9,21 @@ import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.utils.ATermUtils;
 
 import static com.clarkparsia.pellet.datatypes.Datatypes.INTEGER;
+import static com.clarkparsia.pellet.datatypes.Datatypes.LANG_STRING;
 import static com.clarkparsia.pellet.datatypes.Datatypes.PLAIN_LITERAL;
 import static com.clarkparsia.pellet.datatypes.Datatypes.POSITIVE_INTEGER;
+import static com.clarkparsia.pellet.datatypes.Datatypes.STRING;
 import static com.clarkparsia.pellet.utils.TermFactory.list;
 import static com.clarkparsia.pellet.utils.TermFactory.literal;
 import static com.clarkparsia.pellet.utils.TermFactory.maxInclusive;
 import static com.clarkparsia.pellet.utils.TermFactory.minExclusive;
 import static com.clarkparsia.pellet.utils.TermFactory.minInclusive;
 import static com.clarkparsia.pellet.utils.TermFactory.oneOf;
+import static com.clarkparsia.pellet.utils.TermFactory.or;
 import static com.clarkparsia.pellet.utils.TermFactory.restrict;
 import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static com.clarkparsia.pellet.utils.TermFactory.term;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
@@ -190,6 +194,49 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
         assertFalse(kb.isType(a, C));
 
 
+    }
+    @Test
+    public void testRDF11PlainLiteralLangTagPartition() {
+        ATermAppl langs = term("P_SOME_LANG_STRING");
+        ATermAppl strings = term("P_SOME_STRING");
+        ATermAppl plains = term("P_SOME_PLAIN_LITERAL");
+        ATermAppl ors = term("P_SOME_STRING_OR_LANG_STRING");
+
+        ATermAppl noTag = term("no_tag");
+        ATermAppl withTag = term("with_tag");
+
+        classes(langs,strings,plains,ors);
+        kb.addDatatypeDefinition(D,or(LANG_STRING,STRING) );
+
+        dataProperties(p);
+        individuals(noTag, withTag);
+        kb.addEquivalentClass(langs, some(p, LANG_STRING));
+        kb.addEquivalentClass(strings, some(p, STRING));
+        kb.addEquivalentClass(plains, some(p, PLAIN_LITERAL));
+        kb.addEquivalentClass(ors,some(p,D));
+
+        kb.addPropertyValue(p, noTag, literal("no lang tag"));
+        kb.addPropertyValue(p, withTag, literal("english string", "en"));
+
+        assertClassMembershipEquals(langs, true, withTag );
+        assertClassMembershipEquals(langs, false, noTag );
+
+        assertClassMembershipEquals(strings, true, noTag );
+        assertClassMembershipEquals(strings, false, withTag );
+
+        assertClassMembershipEquals(plains, true, noTag,withTag );
+        assertClassMembershipEquals(ors, true, noTag,withTag );
+
+
+
+
+    }
+
+    private  void assertClassMembershipEquals(ATermAppl c, boolean expected, ATermAppl... individuals) {
+        for (ATermAppl individual : individuals) {
+            String message = String.format("%s a %s",individual.getName(),c.getName());
+            assertEquals(message,expected,kb.isType(individual,c));
+        }
     }
 
     @Test

@@ -1,52 +1,40 @@
 package com.clarkparsia.pellet.datatypes.types.text;
 
-import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.Namespaces;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.datatypes.AbstractBaseDatatype;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
+import org.mindswap.pellet.utils.ATermUtils;
+import org.mindswap.pellet.utils.Namespaces;
 
-import static com.clarkparsia.pellet.datatypes.types.text.RestrictedTextDatatype.*;
+import static com.clarkparsia.pellet.datatypes.types.text.RestrictedTextDatatype.LanguageTagPresence.*;
 
 /**
  * <p>
- * Title: <code>rdf:plainLiteral</code>
+ * Title: <code>rdf:langString</code>
  * </p>
  * <p>
- * Description: Singleton implementation of <code>rdf:plainLiteral</code>
- * datatype
- * </p>
- * <p>
- * Copyright: Copyright (c) 2009
- * </p>
- * <p>
- * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
- * </p>
- * 
- * @author Mike Smith
+ * Description: Singleton implementation of <code>rdf:langString</code>
  */
-public class RDFPlainLiteral extends AbstractBaseDatatype<ATermAppl> {
+public class RDFLangString extends AbstractBaseDatatype<ATermAppl> {
 
-	private static final RDFPlainLiteral	instance;
+	private static final RDFLangString instance;
 
 	static {
-		instance = new RDFPlainLiteral();
-		addPermittedDatatype(instance.getName());
+		instance = new RDFLangString();
+		RestrictedTextDatatype.addPermittedDatatype( instance.getName() );
 	}
 
-	public static RDFPlainLiteral getInstance() {
+	public static RDFLangString getInstance() {
 		return instance;
 	}
 
 	private final RestrictedTextDatatype	dataRange;
 
-	private RDFPlainLiteral() {
-		super( ATermUtils.makeTermAppl( Namespaces.RDF + "PlainLiteral" ) );
-		dataRange = new RestrictedTextDatatype( this, LanguageTagPresence.LANGUAGE_TAG_ALLOWED );
+	private RDFLangString() {
+		super( ATermUtils.makeTermAppl( Namespaces.RDF + "langString" ) );
+		dataRange = new RestrictedTextDatatype( this, LANGUAGE_TAG_REQUIRED );
 	}
 
 	public RestrictedDatatype<ATermAppl> asDataRange() {
@@ -71,7 +59,7 @@ public class RDFPlainLiteral extends AbstractBaseDatatype<ATermAppl> {
 	}
 
 	public Datatype<?> getPrimitiveDatatype() {
-		return this;
+		return RDFPlainLiteral.getInstance();
 	}
 
 	public ATermAppl getValue(ATermAppl literal) throws InvalidLiteralException {
@@ -86,6 +74,6 @@ public class RDFPlainLiteral extends AbstractBaseDatatype<ATermAppl> {
 	}
 
 	public boolean isPrimitive() {
-		return true;
+		return false;
 	}
 }

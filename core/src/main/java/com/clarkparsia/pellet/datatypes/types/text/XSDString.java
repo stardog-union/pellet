@@ -10,6 +10,8 @@ import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 
+import static com.clarkparsia.pellet.datatypes.types.text.RestrictedTextDatatype.LanguageTagPresence.*;
+
 /**
  * <p>
  * Title: <code>xsd:string</code>
@@ -46,7 +48,7 @@ public class XSDString extends AbstractBaseDatatype<ATermAppl> {
 
 	private XSDString() {
 		super( ATermUtils.makeTermAppl( Namespaces.XSD + "string" ) );
-		dataRange = new RestrictedTextDatatype( this, false );
+		dataRange = new RestrictedTextDatatype( this, LANGUAGE_TAG_FORBIDDEN );
 	}
 
 	public RestrictedDatatype<ATermAppl> asDataRange() {
