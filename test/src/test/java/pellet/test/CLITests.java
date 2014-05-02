@@ -6,16 +6,7 @@ import java.io.File;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.rules.TemporaryFolder;
-import org.junit.rules.Timeout;
-import org.mindswap.pellet.test.utils.TestUtils;
-
-import com.clarkparsia.StableTests;
 
 import pellet.PelletClassify;
 import pellet.PelletCmdApp;
@@ -31,20 +22,9 @@ import pellet.PelletTransTree;
 import pellet.PelletUnsatisfiable;
 import pellet.Pellint;
 
-@Category(StableTests.class)
+
 public class CLITests {
 
-    /**
-     * Timeout individual tests after 60 seconds.
-     */
-    @Rule
-    public Timeout timeout = new Timeout(60000);
-    
-    @Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    protected File testDir;
-    
 	private abstract class CLIMaker {
 		
 		protected abstract PelletCmdApp create( );
@@ -103,29 +83,24 @@ public class CLITests {
 		return new JUnit4TestAdapter( CLITests.class );
 	}
 	
-   @Before
-    public void setUp() throws Exception {
-        testDir = tempDir.newFolder("clitests");
-   }
-	
 	@Test
-	public void classify() throws Exception {
+	public void classify() {
 		runWithIgnore( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletClassify();
 			}
-		}, TestUtils.copyResourceToFile(testDir, "/data/misc/family.owl") );
+		}, "test/data/misc/family.owl" );
 	}
 
 	@Test
-	public void classifyWithPersist() throws Exception {
+	public void classifyWithPersist() {
 		runWithIgnore( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletClassify();
 			}
-		}, "--persist", TestUtils.copyResourceToFile(testDir, "/data/misc/family.owl") );
+		}, "--persist", "test/data/misc/family.owl" );
 		
 		File file = new File("persisted-state-aga5g99yq71la6a89exp75qfu.zip");
 		
@@ -139,20 +114,20 @@ public class CLITests {
 			protected PelletCmdApp create() {
 				return new PelletClassify();
 			}
-		}, "--persist", TestUtils.copyResourceToFile(testDir, "/data/misc/family.owl") );
+		}, "--persist", "test/data/misc/family.owl" );
 		
 		file.delete();
 	}
 
 	
 	@Test
-	public void consistency() throws Exception {
+	public void consistency() {
 		runWithIgnore( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletConsistency();
 			}
-		}, TestUtils.copyResourceToFile(testDir, "/data/misc/family.owl") );
+		}, "test/data/misc/family.owl" );
 	}
 	
 ////DIG doesn't terminate - hard to test.
@@ -162,119 +137,115 @@ public class CLITests {
 //	}
 	
 	@Test
-	public void entailment() throws Exception {
+	public void entailment() {
 		runAppVerbose( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletEntailment();
 			}
-		}, "-e", TestUtils.copyResourceToFile(testDir, "/data/modularity/koala-conclusions.owl"), TestUtils.copyResourceToFile(testDir, "/data/modularity/koala.owl") );
+		}, "-e", "test/data/modularity/koala-conclusions.owl", "test/data/modularity/koala.owl" );
 	}
 	
 	@Test
-	public void explain() throws Exception {
+	public void explain() {
 		runAppVerbose( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletExplain();
 			}
-		}, TestUtils.copyResourceToFile(testDir, "/data/modularity/koala.owl") );
+		}, "test/data/modularity/koala.owl" );
 	}
 	
 	@Test
-	public void extract() throws Exception {
+	public void extract() {
 		runWithIgnore( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletExtractInferences();
 			}
-		}, TestUtils.copyResourceToFile(testDir, "/data/misc/family.owl") );
+		}, "test/data/misc/family.owl" );
 	}
 	
 	@Test
-	public void info() throws Exception {
+	public void info() {
 		runAppSimple( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletInfo();
 			}
-		}, TestUtils.copyResourceToFile(testDir, "/data/modularity/koala.owl"), 
-		   TestUtils.copyResourceToFile(testDir, "/data/modularity/galen.owl") , 
-		   TestUtils.copyResourceToFile(testDir, "/data/modularity/miniTambis.owl"), 
-		   TestUtils.copyResourceToFile(testDir, "/data/modularity/SUMO.owl"), 
-		   TestUtils.copyResourceToFile(testDir, "/data/modularity/SWEET.owl"), 
-		   TestUtils.copyResourceToFile(testDir, "/data/modularity/wine.owl"));
+		}, "test/data/modularity/koala.owl", "test/data/modularity/galen.owl" , 
+		"test/data/modularity/miniTambis.owl", "test/data/modularity/SUMO.owl", 
+		"test/data/modularity/SWEET.owl", "test/data/modularity/wine.owl");
 	}
 	
 	@Test
-	public void modularity() throws Exception {
+	public void modularity() {
 		runAppVerbose( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletModularity();
 			}
-		}, "-s", "Koala", TestUtils.copyResourceToFile(testDir, "/data/modularity/koala.owl"));
+		}, "-s", "Koala", "test/data/modularity/koala.owl");
 	}
 
 	@Test
-	public void pellint() throws Exception {
+	public void pellint() {
 		runAppVerbose( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new Pellint();
 			}
-		}, TestUtils.copyResourceToFile(testDir, "/data/misc/family.owl") );
+		}, "test/data/misc/family.owl" );
 	}
 	
 	@Test
-	public void query() throws Exception {
+	public void query() {
 		runAppVerbose( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletQuery();
 			}
-		}, "-q", TestUtils.copyResourceToFile(testDir, "/data/query/sameAs/sameAs-01.rq"), 
-		         TestUtils.copyResourceToFile(testDir, "/data/query/sameAs/data-01.ttl") );
+		}, "-q", "test/data/query/sameAs/sameAs-01.rq", "test/data/query/sameAs/data-01.ttl" );
 	}
 	
 	@Test
-	public void realize() throws Exception {
+	public void realize() {
 		runWithIgnore( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletRealize();
 			}
-		}, TestUtils.copyResourceToFile(testDir, "/data/misc/family.owl") );
+		}, "test/data/misc/family.owl"  );
 	}
 	
 	@Test
-	public void transTree() throws Exception {
+	public void transTree() {
 		runAppVerbose( new CLIMaker() {
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletTransTree();
 			}
-		}, "-p", "http://www.co-ode.org/ontologies/test/pellet/transitive.owl#p",TestUtils.copyResourceToFile(testDir, "/data/misc/transitiveSub.owl"));
+		}, "-p", "http://www.co-ode.org/ontologies/test/pellet/transitive.owl#p","test/data/misc/transitiveSub.owl");
 	}
 	
 	@Test
-	public void transTree2() throws Exception {
+	public void transTree2() {
 		runAppVerbose( new CLIMaker() {
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletTransTree();
 			}
-		}, "-p", "http://www.co-ode.org/ontologies/test/pellet/transitive.owl#p","-f","http://www.co-ode.org/ontologies/test/pellet/transitive.owl#A","--individuals",TestUtils.copyResourceToFile(testDir, "/data/misc/transitiveSub.owl"));
+		}, "-p", "http://www.co-ode.org/ontologies/test/pellet/transitive.owl#p","-f","http://www.co-ode.org/ontologies/test/pellet/transitive.owl#A","--individuals","test/data/misc/transitiveSub.owl");
 	}
 	
 	@Test
-	public void unsatisfiable() throws Exception {
+	public void unsatisfiable() {
 		runWithLoaders( new CLIMaker(){
 			@Override
 			protected PelletCmdApp create() {
 				return new PelletUnsatisfiable();
 			}
-		}, TestUtils.copyResourceToFile(testDir, "/data/modularity/koala.owl") );
+		}, "test/data/modularity/koala.owl" );
 	}
 	
 //	@Test

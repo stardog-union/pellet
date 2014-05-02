@@ -8,8 +8,8 @@ package com.clarkparsia.modularity.test;
 
 import static com.clarkparsia.modularity.test.TestUtils.assertInstancesEquals;
 import static com.clarkparsia.modularity.test.TestUtils.assertTypesEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,13 +55,13 @@ public class PersistenceRealizationTest {
 	}
 	
 	public void testFile(String fileName) throws IOException {
-		String common = base + fileName;
+		String common = "file:"+ base + fileName;
 		testRealization( common + ".owl");		
 	}
 	
 	public void testRealization(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
+		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
 		
 		try {
 			PelletReasoner unified = PelletReasonerFactory.getInstance().createReasoner( ontology );

@@ -8,12 +8,10 @@ package com.clarkparsia.pellet.test.query;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.sparqlowl.parser.test.ParserTest;
 
 /**
@@ -37,7 +35,6 @@ import com.clarkparsia.sparqlowl.parser.test.ParserTest;
 	TestParameterizedQuery.class, TestGroundBooleanQueryComponents.class, TestNegatedQueries.class,
 	TestUnionQueries.class, TestMiscQueries.class, TestMiscSPARQL.class, SparqlDawgTestSuite.class,
 	TestQuerySubsumption.class})
-@Category(StableTests.class)
 public class QueryTestSuite {
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(QueryTestSuite.class);

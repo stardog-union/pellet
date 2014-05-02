@@ -19,7 +19,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -33,13 +32,11 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 
 import aterm.ATermAppl;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellet.owlapiv3.AxiomConverter;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
@@ -61,9 +58,8 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  * 
  * @author Evren Sirin
  */
-@Category(StableTests.class)
 public class OWLAPIAxiomConversionTests {
-	public static String				base			= PelletTestSuite.base + "misc/";
+	public static String				base			= "file:" + PelletTestSuite.base + "misc/";
 
 	private static String				ns				= "urn:test#";
 

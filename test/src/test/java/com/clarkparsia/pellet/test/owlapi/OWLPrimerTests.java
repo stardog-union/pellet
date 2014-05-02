@@ -14,20 +14,16 @@ import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.test.PelletTestSuite;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.SetUtils;
-import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
@@ -35,7 +31,6 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 /**
  * @author Evren Sirin
  */
-@Category(StableTests.class)
 public class OWLPrimerTests extends AbstractOWLAPITests {
 	protected static final String NS = "http://example.com/owl/families/";
 	protected static final String NS2 = "http://example.org/otherOntologies/families/";
@@ -62,11 +57,10 @@ public class OWLPrimerTests extends AbstractOWLAPITests {
 	}
 
 	@Override
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
+	public void resetOntologyManager() {
+		super.resetOntologyManager();
 
-		ontology = OntologyUtils.loadOntology(TestUtils.copyResourceToFileStream(testDir, PelletTestSuite.base + "modularity/OWL2Primer.owl"));
+		ontology = OntologyUtils.loadOntology("file:" + PelletTestSuite.base + "modularity/OWL2Primer.owl");
 		reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
 	}
 

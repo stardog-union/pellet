@@ -39,7 +39,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.ATermUtils;
@@ -49,7 +48,6 @@ import aterm.ATerm;
 import aterm.ATermAppl;
 import aterm.ATermList;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.datatypes.types.real.XSDInteger;
 import com.clarkparsia.pellet.rules.RulesToATermTranslator;
@@ -60,7 +58,6 @@ import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.hp.hpl.jena.vocabulary.XSD;
 
-@Category(StableTests.class)
 public class TracingTests extends AbstractKBTests {
 
 	public static junit.framework.Test suite() {
@@ -81,8 +78,8 @@ public class TracingTests extends AbstractKBTests {
 
 	@Override
     @Before
-	public void setUp() throws Exception {
-		super.setUp();
+	public void initializeKB() {
+		super.initializeKB();
 		
 		old_USE_TRACING = PelletOptions.USE_TRACING;
 		PelletOptions.USE_TRACING = true;

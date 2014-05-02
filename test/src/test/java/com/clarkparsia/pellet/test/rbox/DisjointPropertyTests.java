@@ -23,7 +23,7 @@ import org.mindswap.pellet.test.PelletTestSuite;
 import aterm.ATermAppl;
 
 public class DisjointPropertyTests extends AbstractKBTests {
-	public static String	base	= PelletTestSuite.base + "misc/";
+	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter( DisjointPropertyTests.class );

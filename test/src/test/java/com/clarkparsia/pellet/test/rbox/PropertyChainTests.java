@@ -32,8 +32,9 @@ import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.test.PelletTestSuite;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.ATermUtils;
+
+import aterm.ATermAppl;
 
 import com.hp.hpl.jena.ontology.ObjectProperty;
 import com.hp.hpl.jena.ontology.OntClass;
@@ -41,8 +42,6 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -61,7 +60,7 @@ import aterm.ATermAppl;
  * @author Evren Sirin
  */
 public class PropertyChainTests extends AbstractKBTests {
-	public static String	base	= PelletTestSuite.base + "misc/";	
+	public static String	base	= "file:" + PelletTestSuite.base + "misc/";	
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter( PropertyChainTests.class );
@@ -334,15 +333,15 @@ public class PropertyChainTests extends AbstractKBTests {
 	}
 	
 	@Test
-	public void testPropertyChain() throws Exception {
+	public void testPropertyChain() {
 		testPropertyChainBase( "propertyChain.owl" );
 	}
 
-	public void testPropertyChainBase(String filename) throws Exception {
+	public void testPropertyChainBase(String filename) {
 		String ns = "http://www.example.org/test#";
 	
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( TestUtils.copyResourceToFile(testDir, base + filename) );
+		model.read( base + filename );
 	
 		OntClass C = model.getOntClass( ns + "C" );
 		OntClass S0 = model.getOntClass( ns + "S0" );
@@ -393,14 +392,14 @@ public class PropertyChainTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testPropertyChainDeprecated() throws Exception {
+	public void testPropertyChainDeprecated() {
 		testPropertyChainBase( "propertyChainDeprecated.owl" );
 	}
 
 	@Test
-	public void testPropertyChainInvalid() throws Exception {
+	public void testPropertyChainInvalid() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( TestUtils.copyResourceToFile(testDir, base + "propertyChainInvalid.owl") );
+		model.read( base + "propertyChainInvalid.owl" );
 	
 		model.prepare();
 	
@@ -416,11 +415,11 @@ public class PropertyChainTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testPropertyChainInverses() throws Exception {
+	public void testPropertyChainInverses() {
 		String ns = "http://www.example.org/test#";
 	
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( TestUtils.copyResourceToFile(testDir, base + "propertyChainInverses.owl") );
+		model.read( base + "propertyChainInverses.owl" );
 	
 		ObjectProperty p = model.getObjectProperty( ns + "p" );
 		ObjectProperty q = model.getObjectProperty( ns + "q" );
@@ -447,11 +446,11 @@ public class PropertyChainTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testPropertyChainValid() throws Exception {
+	public void testPropertyChainValid() {
 		String ns = "http://www.example.org/test#";
 	
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( TestUtils.copyResourceToFile(testDir, base + "propertyChainValid.owl") );
+		model.read( base + "propertyChainValid.owl" );
 	
 		ObjectProperty r = model.getObjectProperty( ns + "r" );
 	

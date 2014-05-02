@@ -27,7 +27,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 import static org.mindswap.pellet.utils.Namespaces.SWRLB;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,15 +37,12 @@ import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.test.PelletTestSuite;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -88,24 +84,14 @@ import com.hp.hpl.jena.rdf.model.Resource;
 
 public class MiscRuleTests {
 
-    @org.junit.Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    private File testDir;
-    
-	public final static String	base		= PelletTestSuite.base + "swrl-test/misc/";
+	public final static String	base		= "file:" + PelletTestSuite.base + "swrl-test/misc/";
 	private static final IRI	luigiFamily	= IRI
 													.create( "http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily" );
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter( MiscRuleTests.class );
 	}
-	
-	@Before
-	public void setUp() throws Exception {
-	    testDir = tempDir.newFolder("miscruletests");
-	}
-	
+
 	private void nonTrivialBuiltInTest() {
 		KnowledgeBase kb = new KnowledgeBase();
 
@@ -1100,7 +1086,7 @@ public class MiscRuleTests {
 	@Test
 	public void testDifferentFromInBody() throws Exception {
 		OntModel ontModel = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, null );
-		ontModel.read( TestUtils.copyResourceToFileStream(testDir, base + "/sibling-rule.n3"), "", "TTL" );
+		ontModel.read( base + "sibling-rule.n3", "TTL" );
 
 		Resource alice = ontModel.createResource( "family:alice" );
 		Property sibling = ontModel.createProperty( "family:sibling" );

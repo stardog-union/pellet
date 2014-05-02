@@ -14,11 +14,11 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -35,8 +35,8 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  */
 public class OWLAPIClassificationTest extends AbstractClassificationTest {
 	public void testClassification(String inputOnt, String classifiedOnt) throws OWLOntologyCreationException {
-		OWLOntology premise = OWL.manager.loadOntologyFromOntologyDocument( this.getClass().getResourceAsStream( inputOnt ) );
-		OWLOntology conclusion = OWL.manager.loadOntologyFromOntologyDocument( this.getClass().getResourceAsStream( classifiedOnt ) );
+		OWLOntology premise = OWL.manager.loadOntology( IRI.create( inputOnt ) );
+		OWLOntology conclusion = OWL.manager.loadOntology( IRI.create( classifiedOnt ) );
 		
 		try {
 			PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( premise );

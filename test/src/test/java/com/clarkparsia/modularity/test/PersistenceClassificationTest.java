@@ -53,13 +53,13 @@ public class PersistenceClassificationTest {
 	}
 	
 	public void testFile(String fileName) throws IOException {
-		String common = base + fileName;
+		String common = "file:"+ base + fileName;
 		testClassification( common + ".owl");		
 	}
 	
 	public void testClassification(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
+		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
 		
 		try {
 			PelletReasoner unified = PelletReasonerFactory.getInstance().createReasoner( ontology );

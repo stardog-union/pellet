@@ -15,13 +15,10 @@ import static com.clarkparsia.owlapiv3.OWL.Individual;
 import static com.clarkparsia.owlapiv3.OWL.ObjectProperty;
 import static com.clarkparsia.owlapiv3.OWL.constant;
 
-import java.io.File;
 import java.util.Collections;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAnonymousIndividual;
@@ -56,12 +53,7 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  * @author Evren Sirin
  */
 public abstract class AbstractOWLAPITests {
-    @Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    protected File testDir;
-    
-	public static final String	base	= PelletTestSuite.base + "misc/";
+	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
 
 	protected static final OWLClass					A		= Class( "A" );
 	protected static final OWLClass					B		= Class( "B" );
@@ -91,8 +83,8 @@ public abstract class AbstractOWLAPITests {
 	}
 
 	@Before
-	public void setUp() throws Exception {
-	    testDir = tempDir.newFolder("pelletowlapitests");
+	@After
+	public void resetOntologyManager() {
 		ontology = null;
 		if( reasoner != null )
 			reasoner.dispose();
@@ -102,17 +94,6 @@ public abstract class AbstractOWLAPITests {
 		}
 	}
 	
-	@After
-    public void tearDown() {
-        ontology = null;
-        if( reasoner != null )
-            reasoner.dispose();
-        
-        for( OWLOntology o : OWL.manager.getOntologies() ) {
-            OWL.manager.removeOntology( o );
-        }
-    }
-    
 	protected boolean processAdd(OWLAxiom axiom) {
 		return processChange( new AddAxiom( ontology, axiom ) );
 	}

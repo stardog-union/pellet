@@ -8,17 +8,13 @@ package org.mindswap.pellet.test.rules;
 
 import junit.framework.JUnit4TestAdapter;
 
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.clarkparsia.StableTests;
-
 @RunWith(Suite.class)
 @SuiteClasses( { BindingGeneratorsTest.class, BuiltInTests.class, MiscRuleTests.class,
 	TranslatorTests.class, SWRLTestSuite.class, SWRLBuiltIns.class })
-@Category(StableTests.class)
 public class RulesTestSuite {
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(RulesTestSuite.class);

@@ -6,31 +6,31 @@
 
 package com.clarkparsia;
 
+import static com.clarkparsia.pellet.utils.TermFactory.all;
+import static com.clarkparsia.pellet.utils.TermFactory.and;
+import static com.clarkparsia.pellet.utils.TermFactory.hasValue;
+import static com.clarkparsia.pellet.utils.TermFactory.inv;
+import static com.clarkparsia.pellet.utils.TermFactory.literal;
+import static com.clarkparsia.pellet.utils.TermFactory.max;
+import static com.clarkparsia.pellet.utils.TermFactory.min;
+import static com.clarkparsia.pellet.utils.TermFactory.not;
+import static com.clarkparsia.pellet.utils.TermFactory.oneOf;
+import static com.clarkparsia.pellet.utils.TermFactory.or;
+import static com.clarkparsia.pellet.utils.TermFactory.self;
+import static com.clarkparsia.pellet.utils.TermFactory.some;
+import static com.clarkparsia.pellet.utils.TermFactory.term;
+import static org.junit.Assert.assertEquals;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.output.ATermManchesterSyntaxRenderer;
 import org.mindswap.pellet.output.ATermRenderer;
 
 import aterm.ATermAppl;
-import static org.junit.Assert.assertEquals;
-import static com.clarkparsia.pellet.utils.TermFactory.and;
-import static com.clarkparsia.pellet.utils.TermFactory.or;
-import static com.clarkparsia.pellet.utils.TermFactory.term;
-import static com.clarkparsia.pellet.utils.TermFactory.all;
-import static com.clarkparsia.pellet.utils.TermFactory.hasValue;
-import static com.clarkparsia.pellet.utils.TermFactory.max;
-import static com.clarkparsia.pellet.utils.TermFactory.min;
-import static com.clarkparsia.pellet.utils.TermFactory.not;
-import static com.clarkparsia.pellet.utils.TermFactory.inv;
-import static com.clarkparsia.pellet.utils.TermFactory.literal;
-import static com.clarkparsia.pellet.utils.TermFactory.oneOf;
-import static com.clarkparsia.pellet.utils.TermFactory.self;
-import static com.clarkparsia.pellet.utils.TermFactory.some;
 
 /**
  * <p>
@@ -48,7 +48,6 @@ import static com.clarkparsia.pellet.utils.TermFactory.some;
  * 
  * @author Markus Stocker
  */
-@Category(StableTests.class)
 public class TestATermManchesterSyntaxRenderer {
 
 	public static junit.framework.Test suite() {

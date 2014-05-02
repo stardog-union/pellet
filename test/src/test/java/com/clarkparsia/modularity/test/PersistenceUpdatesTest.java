@@ -60,38 +60,38 @@ public class PersistenceUpdatesTest {
 	}
 	
 	public void performPersistenceRemoves(String fileName) throws IOException {
-		String common = base + fileName;
+		String common = "file:"+ base + fileName;
 		testPersistenceRemoves( common + ".owl");
 	}
 
 	public void performPersistenceAdds(String fileName) throws IOException {
-		String common = base + fileName;
+		String common = "file:"+ base + fileName;
 		testPersistenceAdds( common + ".owl");
 	}
 
 	public void performPersistenceAllowedUpdates(String fileName) throws IOException {
-		String common = base + fileName;
+		String common = "file:"+ base + fileName;
 		testAllowedUpdates( common + ".owl" );
 	}
 
 	public void performUpdatesAfterPersistence(String fileName) throws IOException {
-		String common = base + fileName;
+		String common = "file:"+ base + fileName;
 		testUpdatesAfterPersistence( common + ".owl" );
 	}
 	
 	public void performUpdatesAfterPersistence2(String fileName) throws IOException {
-		String common = base + fileName;
+		String common = "file:"+ base + fileName;
 		testUpdatesAfterPersistence2( common + ".owl" );
 	}
 	
 	public void performUpdatesWhenPersisted(String fileName) throws IOException {
-		String common = base + fileName;
+		String common = "file:"+ base + fileName;
 		testUpdatesWhenPersisted( common + ".owl" );
 	}
 
 	public void testPersistenceRemoves(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
+		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
 		
 		try {		
 			ModuleExtractor moduleExtractor = createModuleExtractor();
@@ -129,7 +129,7 @@ public class PersistenceUpdatesTest {
 	
 	public void testPersistenceAdds(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
+		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
 		
 		try {		
 			ModuleExtractor moduleExtractor = createModuleExtractor();
@@ -177,7 +177,7 @@ public class PersistenceUpdatesTest {
 	
 	public void testAllowedUpdates(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
+		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
 		
 		try {
 			ModuleExtractor moduleExtractor = createModuleExtractor();
@@ -231,7 +231,7 @@ public class PersistenceUpdatesTest {
 	 */
 	public void testUpdatesAfterPersistence(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
+		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
 		
 		try {		
 			ModuleExtractor moduleExtractor = createModuleExtractor();
@@ -280,7 +280,7 @@ public class PersistenceUpdatesTest {
 	 */
 	public void testUpdatesAfterPersistence2(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
+		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
 		
 		try {
 			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, createModuleExtractor() );		
@@ -317,7 +317,7 @@ public class PersistenceUpdatesTest {
 	
 	public void testUpdatesWhenPersisted(String inputOnt) throws IOException {
 		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(inputOnt) );
+		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
 		
 		try {
 			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, createModuleExtractor() );		

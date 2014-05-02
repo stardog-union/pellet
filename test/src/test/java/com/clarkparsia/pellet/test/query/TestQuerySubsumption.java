@@ -24,7 +24,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
  */
 
 public class TestQuerySubsumption {
-	String			ont		= "/data/misc/family.owl";
+	String			ont		= "file:test/data/misc/family.owl";
 	String			family	= "http://www.example.org/family#";
 	String			prefix	= "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"
 									+ "PREFIX family: <" + family + ">\r\n" + "SELECT * { ";
@@ -35,7 +35,7 @@ public class TestQuerySubsumption {
 	@Before
 	public void setUp() {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( this.getClass().getResourceAsStream(ont), "", "RDF/XML" );
+		model.read( ont );
 		model.prepare();
 		
 		kb = ((PelletInfGraph) model.getGraph()).getKB();

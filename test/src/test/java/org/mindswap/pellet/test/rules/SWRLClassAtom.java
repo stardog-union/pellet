@@ -36,11 +36,11 @@ public class SWRLClassAtom extends SWRLAbstract {
 	
 	@BeforeClass
 	public static void setUp() {
-		base = PelletTestSuite.base + "swrl-classAtom/";
+		base = "file:" + PelletTestSuite.base + "swrl-classAtom/";
 	}
 
 	@Test
-	public void complex() throws Exception {
+	public void complex() {
 		test( "complex" );
 	}
 }

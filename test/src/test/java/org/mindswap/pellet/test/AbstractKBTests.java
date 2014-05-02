@@ -11,32 +11,14 @@ package org.mindswap.pellet.test;
 
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
-import org.junit.rules.Timeout;
 import org.mindswap.pellet.KnowledgeBase;
 
 import aterm.ATermAppl;
 
 public class AbstractKBTests {
-    
-    /**
-     * Timeout individual tests are 60 seconds.
-     */
-    @Rule
-    public Timeout timeout = new Timeout(60000);
-    
-    @Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    protected File testDir;
-    
-	public static final String	base	= PelletTestSuite.base + "misc/";
+	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
 
 	protected static final ATermAppl A = term( "A" );
 	protected static final ATermAppl B = term( "B" );
@@ -61,8 +43,7 @@ public class AbstractKBTests {
 	protected KnowledgeBase kb;
 	
 	@Before
-	public void setUp() throws Exception {
-	    testDir = tempDir.newFolder("kbtest");
+	public void initializeKB() {
 		kb = new KnowledgeBase();
 	}
 	

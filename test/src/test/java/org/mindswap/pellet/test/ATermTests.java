@@ -31,18 +31,15 @@ import java.util.List;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Comparators;
 
 import aterm.ATermAppl;
 import aterm.ATermList;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.datatypes.DNF;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 
-@Category(StableTests.class)
 public class ATermTests {
     // Constants to be used as concepts
     public static ATermAppl a = term( "a" );

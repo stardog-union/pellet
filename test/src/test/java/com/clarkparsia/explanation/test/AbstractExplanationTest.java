@@ -20,7 +20,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -257,7 +256,8 @@ public abstract class AbstractExplanationTest {
 	@Test
 	public void koalaHardWorkingDomain() throws Exception {
 		String ns = "http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#";
-		OWLOntology ontology = manager.loadOntologyFromOntologyDocument( this.getClass().getResourceAsStream( "/data/modularity/koala.owl" ) );
+		OWLOntology ontology = manager.loadOntology( IRI
+				.create( "file:test/data/modularity/koala.owl" ) );
 		OWLClass animal = OWL.Class( ns + "Animal" );
 		OWLClass person = OWL.Class( ns + "Person" );
 		OWLDataProperty hardWorking = OWL.DataProperty( ns + "isHardWorking" );

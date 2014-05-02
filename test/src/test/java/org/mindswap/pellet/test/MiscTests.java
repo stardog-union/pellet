@@ -58,7 +58,6 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KnowledgeBase;
@@ -67,7 +66,6 @@ import org.mindswap.pellet.Role;
 import org.mindswap.pellet.jena.JenaLoader;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.FileUtils;
 import org.mindswap.pellet.utils.SetUtils;
@@ -78,7 +76,6 @@ import aterm.ATerm;
 import aterm.ATermAppl;
 import aterm.ATermList;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.datatypes.Facet;
 import com.clarkparsia.pellet.datatypes.types.real.XSDByte;
@@ -88,9 +85,8 @@ import com.clarkparsia.pellet.datatypes.types.text.XSDString;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import com.clarkparsia.pellet.utils.TermFactory;
 
-@Category(StableTests.class)
 public class MiscTests extends AbstractKBTests {
-	public static String	base	= PelletTestSuite.base + "misc/";
+	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
 
 	public static void main(String args[]) {
 		junit.textui.TestRunner.run( MiscTests.suite() );
@@ -153,10 +149,10 @@ public class MiscTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testFileUtilsToURI() throws Exception {
-	    String file = TestUtils.copyResourceToFile(testDir, "/data/misc/propertyChainDeprecated.owl");
-		assertEquals( new File( testDir, "/data/misc/propertyChainDeprecated.owl" ).toURI().toURL().toString(), FileUtils
-				.toURI( file ) );
+	public void testFileUtilsToURI() throws MalformedURLException {
+
+		assertEquals( new File( "build.xml" ).toURI().toURL().toString(), FileUtils
+				.toURI( "build.xml" ) );
 		assertEquals( "http://example.com/foo", FileUtils.toURI( "http://example.com/foo" ) );
 		assertEquals( "file:///foo", FileUtils.toURI( "file:///foo" ) );
 		assertEquals( "ftp://example.com/foo", FileUtils.toURI( "ftp://example.com/foo" ) );
@@ -1350,10 +1346,10 @@ public class MiscTests extends AbstractKBTests {
 	}
 	
 	@Test
-	public void testInvalidTransitivity2() throws Exception {
+	public void testInvalidTransitivity2() {
 		KBLoader[] loaders = { new JenaLoader() };
 		for( KBLoader loader : loaders ) {
-			KnowledgeBase kb = loader.createKB( TestUtils.copyResourceToFile(testDir, base + "invalidTransitivity.owl") );
+			KnowledgeBase kb = loader.createKB( base + "invalidTransitivity.owl" );
 			
 			for( Role r : kb.getRBox().getRoles() ) {
 				if ( !ATermUtils.isBuiltinProperty( r.getName() ) ) {

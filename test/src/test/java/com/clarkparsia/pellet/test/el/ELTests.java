@@ -26,7 +26,6 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
@@ -35,14 +34,12 @@ import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyBuilder;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.test.PelletTestSuite;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
 
 import aterm.ATermAppl;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.el.SimplifiedELClassifier;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import com.clarkparsia.pellet.utils.TermFactory;
@@ -63,7 +60,6 @@ import com.clarkparsia.pellet.utils.TermFactory;
  * 
  * @author Evren Sirin
  */
-@Category(StableTests.class)
 public class ELTests extends AbstractKBTests {
 	private static final ATermAppl[] X = new ATermAppl[5];
 
@@ -895,14 +891,14 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	}
 	
 	@Test
-	public void testTicket424() throws Exception {
+	public void testTicket424() {
 		classes(A, B, C, D, E, F, G);
 		objectProperties(p, q, r, s);
 
 
 		KBLoader loader = new JenaLoader();
 		
-		KnowledgeBase kb = loader.createKB( new String[] { TestUtils.copyResourceToFile(testDir, PelletTestSuite.base + "misc/ticket-424-test-case.owl") } );
+		KnowledgeBase kb = loader.createKB( new String[] { "file:" + PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
 		
 		Taxonomy<ATermAppl> toldTaxonomy = kb.getToldTaxonomy();
 				
@@ -955,7 +951,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	 * Tests to verify whether PelletOptions.DISABLE_EL_CLASSIFIER = false is respected. (Ticket #461)
 	 */
 	@Test
-	public void testELClassifierEnabled() throws Exception {
+	public void testELClassifierEnabled() {
 		classes(A, B, C, D, E, F, G);
 		objectProperties(p, q, r, s);
 
@@ -967,7 +963,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 			KBLoader loader = new JenaLoader();
 
-			KnowledgeBase kb = loader.createKB( new String[] { TestUtils.copyResourceToFile(testDir, PelletTestSuite.base + "misc/ticket-424-test-case.owl") } );
+			KnowledgeBase kb = loader.createKB( new String[] { "file:" + PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
 
 			assertEquals( SimplifiedELClassifier.class, kb.getTaxonomyBuilder().getClass() );
 		} 
@@ -980,7 +976,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 	 * Tests to verify whether PelletOptions.DISABLE_EL_CLASSIFIER = true is respected. (Ticket #461)
 	 */
 	@Test
-	public void testELClassifierDisabled() throws Exception {
+	public void testELClassifierDisabled() {
 		boolean savedValue = PelletOptions.DISABLE_EL_CLASSIFIER ;
 
 		try {
@@ -988,7 +984,7 @@ builder.setProgressMonitor( new SilentProgressMonitor() );
 
 			KBLoader loader = new JenaLoader();
 
-			KnowledgeBase kb = loader.createKB( new String[] { TestUtils.copyResourceToFile(testDir, PelletTestSuite.base + "misc/ticket-424-test-case.owl" ) } );
+			KnowledgeBase kb = loader.createKB( new String[] { "file:" + PelletTestSuite.base + "misc/ticket-424-test-case.owl" } );
 
 			assertFalse( SimplifiedELClassifier.class.equals( kb.getTaxonomyBuilder().getClass() ) );
 		} 

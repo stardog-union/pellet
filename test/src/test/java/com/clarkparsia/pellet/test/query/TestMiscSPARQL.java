@@ -43,13 +43,13 @@ public class TestMiscSPARQL {
 		PelletOptions.USE_ANNOTATION_SUPPORT = false;
 
 		try {
-			String aOnt = PelletTestSuite.base + "misc/ticket-247-test-case.rdf";
+			String aOnt = "file:" + PelletTestSuite.base + "misc/ticket-247-test-case.rdf";
 	
 			PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 	
 			InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 	
-			aModel.read( this.getClass().getResourceAsStream(aOnt), "", "RDF/XML" );
+			aModel.read( aOnt );
 	
 			String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
 							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
@@ -69,13 +69,13 @@ public class TestMiscSPARQL {
 	@Test
 	public void testUndefinedVarInProjection() {
 		// Test case for the bug reproted in #277
-		String aOnt = PelletTestSuite.base + "misc/ticket-277-test-case.rdf";
+		String aOnt = "file:" + PelletTestSuite.base + "misc/ticket-277-test-case.rdf";
 
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+		aModel.read( aOnt );
 
 		String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
 						"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
@@ -122,14 +122,14 @@ public class TestMiscSPARQL {
 		for( boolean b : new boolean[] { false, true } ) {
 			PelletOptions.USE_ANNOTATION_SUPPORT = b;
 			
-			String aOnt = PelletTestSuite.base + "misc/ticket-276-test-case.rdf";
+			String aOnt = "file:" + PelletTestSuite.base + "misc/ticket-276-test-case.rdf";
 
 			// Test case for #276
 			PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 
 			InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-			aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+			aModel.read( aOnt );
 
 			String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n" +
 							"PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" +
@@ -152,13 +152,13 @@ public class TestMiscSPARQL {
 	@Test
 	public void test248() {
 		// Test case for #248
-		String aOnt = PelletTestSuite.base + "misc/pizza.owl";
+		String aOnt = "file:" + PelletTestSuite.base + "misc/pizza.owl";
 
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+		aModel.read( aOnt );
 
 		String aQuery = "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>\n" +
 						"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -184,13 +184,13 @@ public class TestMiscSPARQL {
 	@Test
 	public void test196() {
 		// Test case for #196
-		String aOnt = PelletTestSuite.base + "misc/pizza.owl";
+		String aOnt = "file:" + PelletTestSuite.base + "misc/pizza.owl";
 
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+		aModel.read( aOnt );
 
 		String aQuery = "PREFIX xsd:<http://www.w3.org/2001/XMLSchema#>\n" +
 						"PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
@@ -214,12 +214,12 @@ public class TestMiscSPARQL {
 			"ontology for this test is not valid anymore")
 	@Test
 	public void test306() {
-		String aOnt = PelletTestSuite.base + "misc/longitude.ttl";
+		String aOnt = "file:" + PelletTestSuite.base + "misc/longitude.ttl";
 		
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read( this.getClass().getResourceAsStream(aOnt), "", "N3" );
+		aModel.read( aOnt, "N3" );
 		String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 				+ "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
@@ -239,12 +239,12 @@ public class TestMiscSPARQL {
 	
 	@Test
 	public void test253() {
-		String aOnt = PelletTestSuite.base + "misc/longitude2.ttl";
+		String aOnt = "file:" + PelletTestSuite.base + "misc/longitude2.ttl";
 		
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read( this.getClass().getResourceAsStream(aOnt), "", "N3" );
+		aModel.read( aOnt, "N3" );
 		String aQuery = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 				+ "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
@@ -268,12 +268,12 @@ public class TestMiscSPARQL {
 		try {
 			ARQ.getContext().set(ARQ.optFilterPlacement, false);
 			
-			String aOnt = PelletTestSuite.base + "misc/ticket-210-test-case.owl";
+			String aOnt = "file:" + PelletTestSuite.base + "misc/ticket-210-test-case.owl";
 			
 			PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 			InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 	
-			aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+			aModel.read(aOnt);
 			String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-210-test-case.owl#>\n"		
 				+ "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n"
 				+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
@@ -304,12 +304,12 @@ public class TestMiscSPARQL {
 	
 	@Test
 	public void test421() {
-		String aOnt = PelletTestSuite.base + "misc/ticket-421-test-case.owl";
+		String aOnt = "file:" + PelletTestSuite.base + "misc/ticket-421-test-case.owl";
 		
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+		aModel.read(aOnt);
 		String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-421-test-case.owl#>\n"		
 			+ "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"
@@ -333,12 +333,12 @@ public class TestMiscSPARQL {
 	
 	@Test
 	public void test444() {
-		String aOnt = PelletTestSuite.base + "misc/ticket-444-test-case.owl";
+		String aOnt = "file:" + PelletTestSuite.base + "misc/ticket-444-test-case.owl";
 		
 		PelletReasoner aReasoner = (PelletReasoner) PelletReasonerFactory.theInstance().create();
 		InfModel aModel = ModelFactory.createInfModel( aReasoner, ModelFactory.createDefaultModel() );
 
-		aModel.read(this.getClass().getResourceAsStream(aOnt), "", "RDF/XML");
+		aModel.read(aOnt);
 		String aQuery = "PREFIX : <http://www.semanticweb.org/ontologies/2010/5/ticket-444-test-case.owl#>\n"		
 			+ "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
 			+ "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n"

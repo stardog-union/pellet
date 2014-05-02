@@ -23,14 +23,10 @@ import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.mindswap.pellet.test.AbstractKBTests;
-
-import com.clarkparsia.StableTests;
 
 import aterm.ATermAppl;
 
-@Category(StableTests.class)
 public class CacheSafetyTests extends AbstractKBTests {
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(CacheSafetyTests.class);

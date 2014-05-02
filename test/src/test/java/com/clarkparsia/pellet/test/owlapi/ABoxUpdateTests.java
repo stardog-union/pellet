@@ -9,7 +9,6 @@
 package com.clarkparsia.pellet.test.owlapi;
 
 import static com.clarkparsia.owlapiv3.OWL.classAssertion;
-import static com.clarkparsia.pellet.utils.TermFactory.oneOf;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
@@ -18,7 +17,6 @@ import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLException;
 
 import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 
 /**
  * <p>

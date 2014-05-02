@@ -6,19 +6,12 @@
 
 package org.mindswap.pellet.test.utils;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Role;
@@ -126,22 +119,5 @@ public class TestUtils {
 
 	}
 	
-   public static InputStream copyResourceToFileStream(File testDir, String resource) throws Exception {
-       return new FileInputStream(copyResourceToFile(testDir, resource));
-    }
-   
-   public static String copyResourceToFile(File testDir, String resource) throws Exception {
-        String filename = resource.substring(resource.lastIndexOf('/'));
-        String directory = resource.substring(0, resource.lastIndexOf('/'));
-        File nextDirectory = new File(testDir, directory);
-        nextDirectory.mkdirs();
-        File nextFile = new File(nextDirectory, filename);
-        nextFile.createNewFile();
-        
-        InputStream inputStream = TestUtils.class.getResourceAsStream(resource);
-        assertNotNull("Missing test resource: "+resource, inputStream);
-        
-        IOUtils.copy(inputStream, new FileOutputStream(nextFile));
-        return nextFile.getAbsolutePath();
-    }
+	
 }

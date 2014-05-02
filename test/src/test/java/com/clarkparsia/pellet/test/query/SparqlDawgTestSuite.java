@@ -15,12 +15,8 @@ import java.util.Properties;
 
 import junit.framework.TestSuite;
 
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 import org.mindswap.pellet.test.PelletTestSuite;
 
-import com.clarkparsia.StableTests;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
 import com.hp.hpl.jena.rdf.model.Resource;
 
@@ -40,8 +36,6 @@ import com.hp.hpl.jena.rdf.model.Resource;
  * 
  * @author Petr Kremen
  */
-@RunWith(Suite.class)
-@Category(StableTests.class)
 public class SparqlDawgTestSuite extends TestSuite {
 	private static String getName(String manifestName) {
 		String name = manifestName;

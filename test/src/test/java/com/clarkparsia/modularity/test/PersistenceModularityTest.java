@@ -88,7 +88,7 @@ public class PersistenceModularityTest extends AbstractModularityTest {
 	}
 	
 	private void testPersistence( String file ) throws IOException {
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(file), false );
+		OWLOntology ontology = OntologyUtils.loadOntology( "file:" + file, false );
 		try {
 			testPersistence( ontology );
 		}
@@ -99,10 +99,10 @@ public class PersistenceModularityTest extends AbstractModularityTest {
 	
 	@Test
 	public void testGalen() throws IOException {
-		testPersistence("/data/modularity/galen.owl");
+		testPersistence("test/data/modularity/galen.owl");
 	}
 	
 	public static void main( String[] args ) throws IOException {
-		new PersistenceModularityTest().testPersistence("/data/modularity/galen.owl");
+		new PersistenceModularityTest().testPersistence("test/data/modularity/galen.owl");
 	}
 }

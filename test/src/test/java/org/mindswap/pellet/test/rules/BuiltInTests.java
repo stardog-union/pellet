@@ -13,7 +13,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -26,16 +25,13 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.test.PelletTestCase;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 import org.mindswap.pellet.utils.NumberUtils;
@@ -86,11 +82,6 @@ import com.hp.hpl.jena.rdf.model.Resource;
  */
 public class BuiltInTests {
 
-    @Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    private File testDir;
-    
 	private static BigInteger bigint( long l ) {
 		return new BigInteger( String.valueOf( l ) );
 	}
@@ -111,8 +102,7 @@ public class BuiltInTests {
 			len0 = literal( "0", "en" );
 
 	@Before
-	public void setUp() throws Exception {
-	    testDir = tempDir.newFolder("builtintests");
+	public void setUp() {
 		kb = new KnowledgeBase();
 		abox = kb.getABox();
 	}
@@ -685,11 +675,11 @@ public class BuiltInTests {
 	
 
 	@Test
-	public void testQuery() throws Exception {
+	public void testQuery() {
 		final String ns = "http://owldl.com/ontologies/swrl/tests/builtIns/007#";
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( TestUtils.copyResourceToFile(testDir, SWRLTestSuite.base + "builtIns/007-premise.n3"), null, "N3" );
+		model.read( "file:" + SWRLTestSuite.base + "builtIns/007-premise.n3", null, "N3" );
 		model.prepare();
 
 		Resource a = model.createResource( ns + "a" );

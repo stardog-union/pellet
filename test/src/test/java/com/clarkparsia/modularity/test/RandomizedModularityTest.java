@@ -26,7 +26,6 @@ import uk.ac.manchester.cs.owlapi.modularity.SyntacticLocalityModuleExtractor;
 import com.clarkparsia.modularity.ModularityUtils;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
 
 /**
  * 
@@ -39,13 +38,13 @@ public abstract class RandomizedModularityTest extends AbstractModularityTest {
 	public RandomizedModularityTest(String path) {
 		this.path = path;
 		
-		//if( !new File( path ).exists() ) {
-	    //    throw new RuntimeException( "Path to data files is not correct: " + path );
-        //}
+		if( !new File( path ).exists() ) {
+	        throw new RuntimeException( "Path to data files is not correct: " + path );
+        }
 	}
 
 	private void modularityTest(String file) throws OWLException {
-		OWLOntology ontology = OntologyUtils.loadOntology( this.getClass().getResourceAsStream(file), false );
+		OWLOntology ontology = OntologyUtils.loadOntology( "file:" + file, false );
 		
 		Set<OWLEntity> signature = new HashSet<OWLEntity>(); 
 		signature.addAll( TestUtils.selectRandomElements( ontology.getClassesInSignature(), 5 ) );		

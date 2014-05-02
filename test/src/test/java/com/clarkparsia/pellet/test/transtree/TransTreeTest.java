@@ -3,23 +3,16 @@ package com.clarkparsia.pellet.test.transtree;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.taxonomy.POTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.SubsumptionComparator;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.printer.ClassTreePrinter;
-import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -32,25 +25,14 @@ import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 
 public class TransTreeTest {
 	
-    @Rule
-    public TemporaryFolder tempDir = new TemporaryFolder();
-    
-    private File testDir;
-    
-    @Before
-    public void setUp() throws Exception {
-        testDir = tempDir.newFolder("transtreetest");
-    }
-    
 	@Test
-	public void testDiscoveryOntology() throws Exception {
-		testProperty( "/data/trans-tree-tests/discovery.owl", "http://purl.org/vocab/relationship/ancestorOf" );
+	public void testDiscoveryOntology() {
+		testProperty( "test/data/trans-tree-tests/discovery.owl", "http://purl.org/vocab/relationship/ancestorOf" );
 	}
-	
-	private void testProperty( String ontologyURI, String propertyURI ) throws Exception {
-	    String resourceToFile = TestUtils.copyResourceToFile(testDir, ontologyURI);
+		
+	private void testProperty( String ontologyURI, String propertyURI ) {
 		OWLAPILoader loader = new OWLAPILoader();
-		KnowledgeBase kb = loader.createKB( new String[] { resourceToFile } );
+		KnowledgeBase kb = loader.createKB( new String[] { ontologyURI } );
 		
 		OWLEntity entity = OntologyUtils.findEntity( propertyURI, loader.getAllOntologies() );
 
@@ -120,10 +102,10 @@ public class TransTreeTest {
 	}
 	
 	@Test
-	public void filter1() throws Exception {
+	public void filter1() {
 		PelletTransTree cli = new PelletTransTree();
 		
-		cli.parseArgs(new String[]{"trans-tree","-p","http://clarkparsia.com/pellet/tutorial/pops#subProjectOf","-f","http://clarkparsia.com/pellet/tutorial/pops#Employee", TestUtils.copyResourceToFile(testDir, "/data/trans-tree-tests/ontology-010.ttl")});
+		cli.parseArgs(new String[]{"trans-tree","-p","http://clarkparsia.com/pellet/tutorial/pops#subProjectOf","-f","http://clarkparsia.com/pellet/tutorial/pops#Employee","test/data/trans-tree-tests/ontology-010.ttl"});
 		cli.run();
 		
 		Taxonomy<ATermAppl> taxonomy = cli.publicTaxonomy;
@@ -153,10 +135,10 @@ public class TransTreeTest {
 	}
 	
 	@Test
-	public void filter2() throws Exception {
+	public void filter2() {
 		PelletTransTree cli = new PelletTransTree();
 		
-		cli.parseArgs(new String[]{"trans-tree","-p","http://clarkparsia.com/pellet/tutorial/pops#subProjectOf","-f","http://clarkparsia.com/pellet/tutorial/pops#Employee","--individuals", TestUtils.copyResourceToFile(testDir, "/data/trans-tree-tests/ontology-010.ttl")});		
+		cli.parseArgs(new String[]{"trans-tree","-p","http://clarkparsia.com/pellet/tutorial/pops#subProjectOf","-f","http://clarkparsia.com/pellet/tutorial/pops#Employee","--individuals","test/data/trans-tree-tests/ontology-010.ttl"});		
 		cli.run();
 		
 		Taxonomy<ATermAppl> taxonomy = cli.publicTaxonomy;
@@ -167,10 +149,10 @@ public class TransTreeTest {
 	}
 	
 	@Test
-	public void filter3() throws Exception {
+	public void filter3() {
 		PelletTransTree cli = new PelletTransTree();
 		
-		cli.parseArgs(new String[]{"trans-tree","-p","http://clarkparsia.com/pellet/tutorial/pops#subProjectOf","-f","http://clarkparsia.com/pellet/tutorial/pops#Contractor","--individuals", TestUtils.copyResourceToFile(testDir, "/data/trans-tree-tests/ontology-010.ttl")});		
+		cli.parseArgs(new String[]{"trans-tree","-p","http://clarkparsia.com/pellet/tutorial/pops#subProjectOf","-f","http://clarkparsia.com/pellet/tutorial/pops#Contractor","--individuals","test/data/trans-tree-tests/ontology-010.ttl"});		
 		cli.run();
 		
 		Taxonomy<ATermAppl> taxonomy = cli.publicTaxonomy;		
