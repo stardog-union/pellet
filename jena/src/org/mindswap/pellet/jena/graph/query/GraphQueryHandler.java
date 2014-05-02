@@ -23,6 +23,7 @@ import org.mindswap.pellet.Role;
 import org.mindswap.pellet.jena.JenaUtils;
 import org.mindswap.pellet.jena.ModelExtractor;
 import org.mindswap.pellet.jena.ModelExtractor.StatementType;
+import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 import org.mindswap.pellet.jena.vocabulary.OWL2;
 import org.mindswap.pellet.utils.iterator.FlattenningIterator;
@@ -50,7 +51,9 @@ public class GraphQueryHandler {
 	public final static Logger	log		= Logger.getLogger( GraphQueryHandler.class.getName() );
 	
 	protected static final Node VAR 	= Node.ANY;
-	protected static final Node CONST 	= Node.createURI( "CONST" );			
+	protected static final Node CONST 	= Node.createURI( "CONST" );	
+	
+	private static final Node[]	EMPTY						= new Node[0];
 	
 	private static final Node[]	BUILTIN_PREDICATES			= new Node[] {
 		RDF.type.asNode(),
@@ -153,7 +156,7 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
 					ModelExtractor me = new ModelExtractor( kb );
 					me.setSelector( StatementType.ALL_STATEMENTS );
 					Graph graph = me.extractModel().getGraph();
@@ -172,11 +175,11 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(final KnowledgeBase kb, final GraphLoader loader, final Node s, final Node p, final Node o) {
+				public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o) {
 					ExtendedIterator<Triple> builtinPredicates = NullIterator.instance();
-					if( !o.isLiteral() ) {
+					if( !o.isLiteral() && !pellet.isSkipBuiltinPredicates() ) {
 						for( Node pred : BUILTIN_PREDICATES ) {
-							builtinPredicates = builtinPredicates.andThen( findTriple( kb, loader, s, pred, o ) );
+							builtinPredicates = builtinPredicates.andThen( findTriple( kb, pellet, s, pred, o ) );
 						}
 					}
 					
@@ -185,7 +188,7 @@ public class GraphQueryHandler {
 							@Override
 							public Iterator<Triple> getInnerIterator(ATermAppl prop) {
 								Node p = JenaUtils.makeGraphNode( prop );
-								return findTriple( kb, loader, s, p, o );
+								return findTriple( kb, pellet, s, p, o );
 							}
 						}
 					);
@@ -204,10 +207,12 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(final KnowledgeBase kb, final GraphLoader loader, final Node s, final Node p, final Node o) {
+				public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o) {
 					ExtendedIterator<Triple> builtinPredicates = NullIterator.instance();
-					for( Node pred : BUILTIN_PREDICATES ) {
-						builtinPredicates = builtinPredicates.andThen( findTriple( kb, loader, s, pred, o ) );
+					if( !pellet.isSkipBuiltinPredicates() ) {
+						for( Node pred : BUILTIN_PREDICATES ) {
+							builtinPredicates = builtinPredicates.andThen( findTriple( kb, pellet, s, pred, o ) );
+						}
 					}
 					
 					ExtendedIterator<Triple> propertyAssertions =  WrappedIterator.create(
@@ -215,7 +220,7 @@ public class GraphQueryHandler {
 							@Override
 							public Iterator<Triple> getInnerIterator(ATermAppl prop) {
 								Node p = JenaUtils.makeGraphNode( prop );
-								return findTriple( kb, loader, s, p, o );
+								return findTriple( kb, pellet, s, p, o );
 							}
 						}
 					);
@@ -234,14 +239,14 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, final Node s, final Node p, Node o) {
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, final Node s, final Node p, Node o) {
 					ExtendedIterator<Triple> result = NullIterator.instance();
-					ATermAppl subj = loader.node2term( s );
-					ATermAppl obj = loader.node2term( o );
+					ATermAppl subj = pellet.getLoader().node2term( s );
+					ATermAppl obj = pellet.getLoader().node2term( o );
 					if( kb.isIndividual( subj ) || kb.isIndividual( obj ) ) {
 						
 						if( kb.isIndividual( subj )) {
-							List<ATermAppl> properties = kb.getProperties( loader.node2term( s ), loader.node2term( o ) );
+							List<ATermAppl> properties = kb.getProperties( pellet.getLoader().node2term( s ), pellet.getLoader().node2term( o ) );
 							result = propertyFiller( s, properties, o );
 							
 							if(kb.isIndividual( obj ) ) {							
@@ -252,9 +257,9 @@ public class GraphQueryHandler {
 							}
 						}
 					}
-					else {
+					else if( !pellet.isSkipBuiltinPredicates() ) {
 						for( Node pred : BUILTIN_PREDICATES ) {
-							result = result.andThen( findTriple( kb, loader, s, pred, o ) );
+							result = result.andThen( findTriple( kb, pellet, s, pred, o ) );
 						}
 					}
 					return result;
@@ -280,8 +285,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(final KnowledgeBase kb, GraphLoader loader, Node s, final Node p, Node o) {
-					final ATermAppl prop = loader.node2term( p );
+				public ExtendedIterator<Triple> find(final KnowledgeBase kb, PelletInfGraph pellet, Node s, final Node p, Node o) {
+					final ATermAppl prop = pellet.getLoader().node2term( p );
 					return WrappedIterator.create( 
 						new NestedIterator<ATermAppl,Triple>( kb.getIndividuals() ) {
 							@Override
@@ -306,9 +311,9 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					ATermAppl prop = loader.node2term( p );
-					ATermAppl val = loader.node2term( o );
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					ATermAppl prop = pellet.getLoader().node2term( p );
+					ATermAppl val = pellet.getLoader().node2term( o );
 					return subjectFiller( kb.getIndividualsWithProperty( prop, val ), p, o );
 				}
 			}
@@ -324,9 +329,9 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					ATermAppl ind = loader.node2term( s );
-					ATermAppl prop = loader.node2term( p );
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					ATermAppl ind = pellet.getLoader().node2term( s );
+					ATermAppl prop = pellet.getLoader().node2term( p );
 					return objectFiller( s, p, kb.getPropertyValues( prop, ind ) );
 				}
 			}
@@ -352,12 +357,12 @@ public class GraphQueryHandler {
 				}
 
 				@Override
-				public ExtendedIterator<Triple> find(final KnowledgeBase kb, final GraphLoader loader, final Node subj, final Node pred, Node obj) {
+				public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, Node obj) {
 					ExtendedIterator<Triple> builtinTypes = WrappedIterator.create(
 						new NestedIterator<Node,Triple>( Arrays.asList( BUILTIN_TYPES ) ) {
 							@Override
 							public Iterator<Triple> getInnerIterator(Node builtinType) {
-								return findTriple( kb, loader, subj, pred, builtinType );
+								return findTriple( kb, pellet, subj, pred, builtinType );
 							}
 						}
 					);
@@ -384,8 +389,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectFiller( kb.getInstances( loader.node2term( o ) ), p, o );
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectFiller( kb.getInstances( pellet.getLoader().node2term( o ) ), p, o );
 				}
 			}
 		);		
@@ -399,8 +404,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, final Node s, final Node p, Node o) {
-					ATermAppl term = loader.node2term( s );	
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, final Node s, final Node p, Node o) {
+					ATermAppl term = pellet.getLoader().node2term( s );	
 					
 					if( kb.isIndividual( term ) ) {
 						return objectSetFiller( s, p, kb.getTypes( term ) );
@@ -501,8 +506,8 @@ public class GraphQueryHandler {
 				}
 
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj) {
-					return objectSetFiller( subj, pred, kb.getTypes( loader.node2term( subj ), true ) );
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node subj, Node pred, Node obj) {
+					return objectSetFiller( subj, pred, kb.getTypes( pellet.getLoader().node2term( subj ), true ) );
 				}			
 			}
 		);
@@ -777,8 +782,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectSetFiller( kb.getSubClasses( loader.node2term( o ) ), p, o );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectSetFiller( kb.getSubClasses( pellet.getLoader().node2term( o ) ), p, o );
 				}	
 			}
 		);	
@@ -791,8 +796,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return objectSetFiller( s, p, kb.getSuperClasses( loader.node2term( s ) ) );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return objectSetFiller( s, p, kb.getSuperClasses( pellet.getLoader().node2term( s ) ) );
 				}	
 			}		
 		);
@@ -833,8 +838,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectSetFiller( kb.getSubClasses( loader.node2term( o ), true ), p, o );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectSetFiller( kb.getSubClasses( pellet.getLoader().node2term( o ), true ), p, o );
 				}	
 			}
 		);	
@@ -847,8 +852,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return objectSetFiller( s, p, kb.getSuperClasses( loader.node2term( s ), true ) );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return objectSetFiller( s, p, kb.getSuperClasses( pellet.getLoader().node2term( s ), true ) );
 				}	
 			}		
 		);
@@ -889,8 +894,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectFiller( kb.getAllEquivalentClasses( loader.node2term( o ) ), p, o );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectFiller( kb.getAllEquivalentClasses( pellet.getLoader().node2term( o ) ), p, o );
 				}		
 			}		
 		);
@@ -903,8 +908,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return objectFiller( s, p, kb.getAllEquivalentClasses( loader.node2term( s ) ) );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return objectFiller( s, p, kb.getAllEquivalentClasses( pellet.getLoader().node2term( s ) ) );
 				}		
 			}
 		);
@@ -945,8 +950,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectSetFiller( kb.getDisjointClasses( loader.node2term( o ) ), p, o );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectSetFiller( kb.getDisjointClasses( pellet.getLoader().node2term( o ) ), p, o );
 				}				
 			}
 		);				
@@ -959,8 +964,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return objectSetFiller( s, p, kb.getDisjointClasses( loader.node2term( s ) ) );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return objectSetFiller( s, p, kb.getDisjointClasses( pellet.getLoader().node2term( s ) ) );
 				}		
 			}
 		);				
@@ -1047,8 +1052,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectSetFiller( kb.getAllSubProperties( loader.node2term( o ) ), p, o );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectSetFiller( kb.getAllSubProperties( pellet.getLoader().node2term( o ) ), p, o );
 				}		
 			}	
 		);
@@ -1061,8 +1066,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return objectSetFiller( s, p, kb.getAllSuperProperties( loader.node2term( s ) ) );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return objectSetFiller( s, p, kb.getAllSuperProperties( pellet.getLoader().node2term( s ) ) );
 				}		
 			}		
 		);
@@ -1104,8 +1109,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectSetFiller( kb.getSubProperties( loader.node2term( o ), true ), p, o );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectSetFiller( kb.getSubProperties( pellet.getLoader().node2term( o ), true ), p, o );
 				}		
 			}	
 		);
@@ -1118,8 +1123,8 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return objectSetFiller( s, p, kb.getSuperProperties( loader.node2term( s ), true ) );
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return objectSetFiller( s, p, kb.getSuperProperties( pellet.getLoader().node2term( s ), true ) );
 				}		
 			}		
 		);
@@ -1161,9 +1166,9 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
 					List<ATermAppl> props = new ArrayList<ATermAppl>();
-					ATermAppl domain = loader.node2term( o );
+					ATermAppl domain = pellet.getLoader().node2term( o );
 					for( ATermAppl prop : kb.getProperties() ) {
 						if( kb.getDomains( prop ).contains( domain ) ) {
 							props.add( prop );
@@ -1219,9 +1224,9 @@ public class GraphQueryHandler {
 				}
 				
 				@Override
-				public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
+				public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
 					List<ATermAppl> props = new ArrayList<ATermAppl>();
-					ATermAppl range = loader.node2term( o );
+					ATermAppl range = pellet.getLoader().node2term( o );
 					for( ATermAppl prop : kb.getProperties() ) {
 						if( kb.getRanges( prop ).contains( range ) ) {
 							props.add( prop );
@@ -1277,8 +1282,8 @@ public class GraphQueryHandler {
 				}		
 								
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectFiller( kb.getAllEquivalentProperties( loader.node2term( o ) ), p, o );
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectFiller( kb.getAllEquivalentProperties( pellet.getLoader().node2term( o ) ), p, o );
 				}
 			}
 		);		
@@ -1291,8 +1296,8 @@ public class GraphQueryHandler {
 				}		
 								
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return objectFiller( s, p, kb.getAllEquivalentProperties( loader.node2term( s ) ) );
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return objectFiller( s, p, kb.getAllEquivalentProperties( pellet.getLoader().node2term( s ) ) );
 				}
 			}
 		);	
@@ -1380,8 +1385,8 @@ public class GraphQueryHandler {
 				}		
 								
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return subjectSetFiller( kb.getDisjointProperties( loader.node2term( o ) ), p, o );
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return subjectSetFiller( kb.getDisjointProperties( pellet.getLoader().node2term( o ) ), p, o );
 				}
 			}
 		);
@@ -1394,8 +1399,8 @@ public class GraphQueryHandler {
 				}		
 								
 				@Override
-				public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node s, Node p, Node o) {
-					return objectSetFiller( s, p, kb.getDisjointProperties( loader.node2term( s ) ) );
+				public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node s, Node p, Node o) {
+					return objectSetFiller( s, p, kb.getDisjointProperties( pellet.getLoader().node2term( s ) ) );
 				}
 			}
 		);
@@ -1513,7 +1518,7 @@ public class GraphQueryHandler {
 		return node == VAR || node.isVariable() ? VAR : isBuiltin( node ) ? node : CONST;
 	}
 	
-	public static ExtendedIterator<Triple> findTriple(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj) {
+	public static ExtendedIterator<Triple> findTriple(KnowledgeBase kb, PelletInfGraph pellet, Node subj, Node pred, Node obj) {
 		Node s = normalize( subj );
 		Node p = normalize( pred );
 		Node o = normalize( obj );
@@ -1531,7 +1536,7 @@ public class GraphQueryHandler {
 		
 		return qh == null
 			? NullIterator.<Triple>instance()
-			: qh.find( kb, loader, subj, pred, obj );
+			: qh.find( kb, pellet, subj, pred, obj );
 	}
 	
 	

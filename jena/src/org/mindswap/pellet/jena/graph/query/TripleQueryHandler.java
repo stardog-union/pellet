@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.JenaUtils;
+import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 
 import aterm.ATermAppl;
@@ -30,7 +31,7 @@ public abstract class TripleQueryHandler {
 	
 	public abstract boolean contains(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj);
 	
-	public abstract ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj);
+	public abstract ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node subj, Node pred, Node obj);
 	
 	protected ExtendedIterator<Triple> objectFiller(Node s, Node p, Collection<ATermAppl> objects) {
 		return objectFiller( s, p, objects.iterator() );

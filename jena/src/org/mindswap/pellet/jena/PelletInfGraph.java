@@ -91,6 +91,8 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 	
 	private boolean				autoDetectChanges;
 	
+	private boolean				skipBuiltinPredicates;
+	
 	public PelletInfGraph(KnowledgeBase kb, PelletReasoner pellet, GraphLoader loader) {
 		this( kb, Factory.createDefaultGraph(), pellet, loader );
 	}
@@ -156,7 +158,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 		Node predicate = pattern.getPredicate();
 		Node object = pattern.getObject();
 
-		ExtendedIterator<Triple> i = GraphQueryHandler.findTriple( kb, loader, subject, predicate, object );
+		ExtendedIterator<Triple> i = GraphQueryHandler.findTriple( kb, this, subject, predicate, object );
 
 		// always look at asserted triples at the end
 		if( finder != null ) {
@@ -631,5 +633,13 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 		this.autoDetectChanges = autoDetectChanges;
 		
 		graphListener.setEnabled(autoDetectChanges);
+	}
+
+	public boolean isSkipBuiltinPredicates() {
+		return skipBuiltinPredicates;
+	}
+
+	public void setSkipBuiltinPredicates(boolean skipBuiltinPredicates) {
+		this.skipBuiltinPredicates = skipBuiltinPredicates;
 	}
 }
