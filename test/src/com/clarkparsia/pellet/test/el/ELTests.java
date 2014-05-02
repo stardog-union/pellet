@@ -80,14 +80,6 @@ public class ELTests extends AbstractKBTests {
 		this.builderClass = SimplifiedELClassifier.class ;
 	}
 
-	public static <T> Set<Set<T>> singletonSets(T... es) {
-		Set<Set<T>> set = new HashSet<Set<T>>();
-		for( T e : es ) {
-			set.add( Collections.singleton( e ) );
-		}
-		return set;
-	}
-
 	public Taxonomy<ATermAppl> getHierarchy() {
 		assertTrue( "Expressivity is not EL", kb.getExpressivity().isEL() );
 

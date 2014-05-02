@@ -69,6 +69,7 @@ import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.FileUtils;
 import org.mindswap.pellet.utils.SetUtils;
+import org.mindswap.pellet.utils.TaxonomyUtils;
 import org.mindswap.pellet.utils.iterator.FlattenningIterator;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
@@ -2361,6 +2362,48 @@ public class MiscTests extends AbstractKBTests {
 		
 		assertTrue(kb.isConsistent());
 		assertTrue(kb.isSatisfiable(and(some(p,A), some(q,B))));
+	}
+	
+	@Test
+	public void testAutoRealizeEnabled() {
+		testAutoRealize(true);
+	}
+	
+	@Test
+	public void testAutoRealizeDisabled() {
+		testAutoRealize(false);
+	}	
+
+	private void testAutoRealize(boolean autoRealize) {
+		Properties newOptions = PropertiesBuilder.singleton("AUTO_REALIZE", String.valueOf(autoRealize));
+		Properties oldOptions = PelletOptions.setOptions( newOptions );
+		
+		try {
+			classes(A, B, C);
+			individuals(a, b);
+					
+			kb.addSubClass(B, A);
+			kb.addType(a, A);
+			kb.addType(b, B);
+			
+			assertTrue(kb.isConsistent());
+			
+			assertTrue(TaxonomyUtils.getTypes(kb.getTaxonomy(), a, false).isEmpty());
+			
+			assertEquals(singletonSets(A, ATermUtils.TOP), kb.getTypes(a, false));
+			assertEquals(autoRealize, kb.isRealized());
+			assertFalse(TaxonomyUtils.getTypes(kb.getTaxonomy(), a, false).isEmpty());
+			
+			assertEquals(autoRealize, !TaxonomyUtils.getTypes(kb.getTaxonomy(), b, false).isEmpty());
+		
+			assertEquals(singletonSets(B), kb.getTypes(b, true));
+			assertEquals(autoRealize, kb.isRealized());
+			assertFalse(TaxonomyUtils.getTypes(kb.getTaxonomy(), a, false).isEmpty());
+		}
+		finally {
+			PelletOptions.setOptions(oldOptions);
+		}
+
 	}
 }
 

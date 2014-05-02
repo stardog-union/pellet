@@ -3333,15 +3333,28 @@ public class KnowledgeBase {
 			return Collections.emptySet();
 		}
 
-		realize();
+		if (PelletOptions.AUTO_REALIZE) {
+			realize();
+		}
 
+		Set<Set<ATermAppl>> types = getPrimitiveTypes(ind, direct);
+		
+		if (types.isEmpty() && !PelletOptions.AUTO_REALIZE) {
+			classify();
+			builder.realize(ind);
+			types = getPrimitiveTypes(ind, direct);
+		}
+
+		return types;
+	}
+	
+	private Set<Set<ATermAppl>> getPrimitiveTypes(ATermAppl ind, boolean direct) {
 		Set<Set<ATermAppl>> types = new HashSet<Set<ATermAppl>>();
 		for( Set<ATermAppl> t : TaxonomyUtils.getTypes( builder.getTaxonomy(), ind, direct ) ) {
 			Set<ATermAppl> eqSet = ATermUtils.primitiveOrBottom( t );
 			if( !eqSet.isEmpty() )
 				types.add( eqSet );
 		}
-
 		return types;
 	}
 
@@ -3378,15 +3391,9 @@ public class KnowledgeBase {
 			return null;
 		}
 
-		realize();
+		Set<Set<ATermAppl>> types = getTypes(ind, direct);
 
-		for( Set<ATermAppl> t : TaxonomyUtils.getTypes( builder.getTaxonomy(), ind, direct ) ) {
-			Set<ATermAppl> eqSet = ATermUtils.primitiveOrBottom( t );
-			if( !eqSet.isEmpty() )
-				return eqSet.iterator().next();
-		}
-
-		return null;
+		return types.isEmpty() ? null : types.iterator().next().iterator().next();
 	}
 
 	/**
