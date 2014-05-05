@@ -1,8 +1,5 @@
 package com.clarkparsia.pellint.test.model;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.*;
 import java.util.Set;
 
 import org.junit.Before;

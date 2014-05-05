@@ -11,6 +11,10 @@ package org.mindswap.pellet.test;
 
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.After;
 import org.junit.Before;
 import org.mindswap.pellet.KnowledgeBase;
@@ -75,5 +79,13 @@ public class AbstractKBTests {
 	protected void individuals(ATermAppl... inds) {
 		for( ATermAppl ind : inds )
 			kb.addIndividual( ind );
+	}
+
+	public static <T> Set<Set<T>> singletonSets(T... es) {
+		Set<Set<T>> set = new HashSet<Set<T>>();
+		for( T e : es ) {
+			set.add( Collections.singleton( e ) );
+		}
+		return set;
 	}
 }

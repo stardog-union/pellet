@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
 import junit.framework.JUnit4TestAdapter;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.test.AbstractKBTests;

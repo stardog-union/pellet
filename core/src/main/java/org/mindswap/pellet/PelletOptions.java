@@ -148,6 +148,8 @@ public class PelletOptions {
 		REALIZE_INDIVIDUAL_AT_A_TIME = getBooleanProperty( newOptions,
 				"REALIZE_INDIVIDUAL_AT_A_TIME", REALIZE_INDIVIDUAL_AT_A_TIME, oldOptions );
 
+		AUTO_REALIZE = getBooleanProperty( newOptions, "AUTO_REALIZE", AUTO_REALIZE, oldOptions );
+
 		RETURN_DEDUCTIONS_GRAPH = getBooleanProperty( newOptions, "RETURN_DEDUCTIONS_GRAPH",
 				RETURN_DEDUCTIONS_GRAPH, oldOptions );
 
@@ -546,6 +548,14 @@ public class PelletOptions {
 	 * disadvantages. Best performance depends on the ontology characteristics.
 	 */
 	public static boolean								REALIZE_INDIVIDUAL_AT_A_TIME			= false;
+	
+	/**
+	 * When this options is set, all the individuals in the KB are realized automatically
+	 * when the types for one individual is retrieved. This might be quite costly when
+	 * there are a large number of individuals and might be wasted computation if the
+	 * KB is changed frequently.
+	 */
+	public static boolean								AUTO_REALIZE					= true;
 
 	/**
 	 * Validate ABox structure during completion (Should be used only for

@@ -11,7 +11,7 @@ import java.util.Iterator;
 
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.JenaUtils;
-import org.mindswap.pellet.jena.graph.loader.GraphLoader;
+import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.utils.iterator.NestedIterator;
 
 import aterm.ATermAppl;
@@ -27,7 +27,7 @@ abstract class SubjectObjectVarHandler extends TripleQueryHandler {
 	public abstract Iterator<ATermAppl> getObjects(KnowledgeBase kb, ATermAppl subj);
 
 	@Override
-	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, GraphLoader loader, final Node s, final Node p, final Node o) {
+	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, PelletInfGraph pellet, final Node s, final Node p, final Node o) {
 		return WrappedIterator.create( 
 			new NestedIterator<ATermAppl,Triple>( getSubjects( kb ) ) {
 				@Override

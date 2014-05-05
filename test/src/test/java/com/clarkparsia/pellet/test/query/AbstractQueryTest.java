@@ -24,11 +24,11 @@ import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.model.Query;
-import com.clarkparsia.pellet.sparqldl.model.Query.VarType;
 import com.clarkparsia.pellet.sparqldl.model.QueryAtom;
 import com.clarkparsia.pellet.sparqldl.model.QueryImpl;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
+import com.clarkparsia.pellet.sparqldl.model.Query.VarType;
 
 /**
  * <p>

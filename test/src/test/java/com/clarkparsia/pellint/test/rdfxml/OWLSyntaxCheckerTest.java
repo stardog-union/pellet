@@ -9,6 +9,9 @@ package com.clarkparsia.pellint.test.rdfxml;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.Serializable;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 

@@ -6,6 +6,7 @@ import java.io.File;
 
 import junit.framework.JUnit4TestAdapter;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import pellet.PelletClassify;

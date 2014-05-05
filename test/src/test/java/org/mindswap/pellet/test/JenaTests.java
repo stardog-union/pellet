@@ -37,6 +37,7 @@ import org.mindswap.pellet.jena.PelletReasoner;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.jena.vocabulary.OWL2;
 import org.mindswap.pellet.utils.ATermUtils;
+import org.mindswap.pellet.utils.TaxonomyUtils;
 
 import aterm.ATermAppl;
 
@@ -3331,5 +3332,46 @@ public class JenaTests {
 		assertTrue(model.contains(a, RDF.type, A));
 		assertTrue(model.contains(a, RDF.type, B));
 		assertTrue(model.contains(a, RDF.type, C));
+	}
+
+	@Test
+	public void testSkipBuiltinPredicates() {
+		String ns = "urn:test:";
+
+		Resource a = ResourceFactory.createResource( ns + "a" );
+		Resource b = ResourceFactory.createResource( ns + "b" );
+		Resource c = ResourceFactory.createResource( ns + "c" );
+		Resource A = ResourceFactory.createResource( ns + "A" );
+		Resource B = ResourceFactory.createResource( ns + "B" );
+		Property p = ResourceFactory.createProperty( ns + "p" );
+		Property q = ResourceFactory.createProperty( ns + "q" );
+		Literal l = ResourceFactory.createPlainLiteral("literal");
+
+		Statement[] stmts = {
+			ResourceFactory.createStatement(a, RDF.type, A),	
+			ResourceFactory.createStatement(a, p, b),
+			ResourceFactory.createStatement(a, q, l),
+			
+			ResourceFactory.createStatement(a, RDF.type, OWL.Thing),
+			ResourceFactory.createStatement(a, RDF.type, B),
+			ResourceFactory.createStatement(a, OWL.sameAs, a),
+			ResourceFactory.createStatement(a, OWL.sameAs, c)
+		};
+		
+		Model m = ModelFactory.createDefaultModel();
+		m.add(stmts[0]);
+		m.add(stmts[1]);
+		m.add(stmts[2]);
+		m.add(c, OWL.sameAs, a);
+		m.add(A, RDFS.subClassOf, B);
+		
+		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, m );
+	
+		assertIteratorValues( model.listStatements(a, null, (RDFNode) null), stmts );
+		
+		((PelletInfGraph) model.getGraph()).setSkipBuiltinPredicates(true);
+		
+		assertIteratorValues( model.listStatements(a, null, (RDFNode) null), stmts[0], stmts[1], stmts[2] );
+		
 	}
 }

@@ -9,6 +9,7 @@ package org.mindswap.pellet.jena.graph.query;
 import java.util.Set;
 
 import org.mindswap.pellet.KnowledgeBase;
+import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 
 import aterm.ATermAppl;
@@ -26,7 +27,7 @@ abstract class SubjectVarHandler extends TripleQueryHandler {
 	}
 	
 	@Override
-	public final ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj) {
-		return subjectFiller( getSubjects( kb, loader.node2term( obj ) ), pred, obj );
+	public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node subj, Node pred, Node obj) {
+		return subjectFiller( getSubjects( kb, pellet.getLoader().node2term( obj ) ), pred, obj );
 	}			
 }

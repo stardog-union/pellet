@@ -7,9 +7,9 @@
 package com.clarkparsia.modularity.test;
 
 import static com.clarkparsia.owlapiv3.OWL.all;
-import static com.clarkparsia.owlapiv3.OWL.classAssertion;
 import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
 import static com.clarkparsia.owlapiv3.OWL.subClassOf;
+import static com.clarkparsia.owlapiv3.OWL.classAssertion;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

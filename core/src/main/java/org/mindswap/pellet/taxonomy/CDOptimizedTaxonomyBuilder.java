@@ -1261,42 +1261,51 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder {
 	            log.finer( count + ") Realizing " + format( x.getName() ) + " " );
             }
 
-			Map<ATermAppl, Boolean> marked = new HashMap<ATermAppl, Boolean>();
-
-			List<ATermAppl> obviousTypes = new ArrayList<ATermAppl>();
-			List<ATermAppl> obviousNonTypes = new ArrayList<ATermAppl>();
-
-			kb.getABox().getObviousTypes( x.getName(), obviousTypes, obviousNonTypes );
-
-			for( ATermAppl c : obviousTypes ) {
-				// since nominals can be returned by getObviousTypes
-				// we need the following check
-				if( !taxonomy.contains( c ) ) {
-	                continue;
-                }
-
-				mark( taxonomy.getAllEquivalents( c ), marked, Boolean.TRUE );
-				mark( taxonomy.getFlattenedSupers( c, /* direct = */true ), marked, Boolean.TRUE );
-
-				// FIXME: markToldDisjoints operates on a map key'd with
-				// TaxonomyNodes, not ATermAppls
-				// markToldDisjoints( c, false );
-			}
-
-			for( ATermAppl c : obviousNonTypes ) {
-				mark( taxonomy.getAllEquivalents( c ), marked, Boolean.FALSE );
-				mark( taxonomy.getFlattenedSubs( c, /* direct = */true ), marked, Boolean.FALSE );
-			}
-
-			realizeByIndividual( x.getName(), ATermUtils.TOP, marked );
+			realize(x);
 		}
 
 		monitor.taskFinished();
 
 		return true;
 	}
+	
+	@Override
+	public void realize(ATermAppl x) {
+		realize(kb.getABox().getIndividual(x));
+	}
+	
+	private void realize(Individual x) {
+		Map<ATermAppl, Boolean> marked = new HashMap<ATermAppl, Boolean>();
 
-	private boolean realizeByIndividual(ATermAppl n, ATermAppl c, Map<ATermAppl, Boolean> marked) {
+		List<ATermAppl> obviousTypes = new ArrayList<ATermAppl>();
+		List<ATermAppl> obviousNonTypes = new ArrayList<ATermAppl>();
+
+		kb.getABox().getObviousTypes( x.getName(), obviousTypes, obviousNonTypes );
+
+		for( ATermAppl c : obviousTypes ) {
+			// since nominals can be returned by getObviousTypes
+			// we need the following check
+			if( !taxonomy.contains( c ) ) {
+                continue;
+            }
+
+			mark( taxonomy.getAllEquivalents( c ), marked, Boolean.TRUE );
+			mark( taxonomy.getFlattenedSupers( c, /* direct = */true ), marked, Boolean.TRUE );
+
+			// FIXME: markToldDisjoints operates on a map key'd with
+			// TaxonomyNodes, not ATermAppls
+			// markToldDisjoints( c, false );
+		}
+
+		for( ATermAppl c : obviousNonTypes ) {
+			mark( taxonomy.getAllEquivalents( c ), marked, Boolean.FALSE );
+			mark( taxonomy.getFlattenedSubs( c, /* direct = */true ), marked, Boolean.FALSE );
+		}
+
+		realize( x.getName(), ATermUtils.TOP, marked );
+	}
+
+	private boolean realize(ATermAppl n, ATermAppl c, Map<ATermAppl, Boolean> marked) {
 		boolean realized = false;
 
 		if( c.equals( ATermUtils.BOTTOM ) ) {
@@ -1338,7 +1347,7 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder {
 
 			for( TaxonomyNode<ATermAppl> sub : node.getSubs() ) {
 				ATermAppl d = sub.getName();
-				realized = realizeByIndividual( n, d, marked ) || realized;
+				realized = realize( n, d, marked ) || realized;
 			}
 
 			// this concept is the most specific concept x belongs to
