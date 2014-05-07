@@ -8,14 +8,22 @@ package org.mindswap.pellet.test;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestSuite;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.mindswap.pellet.utils.AlphaNumericComparator;
 
-public class LiebigTestSuite extends TestSuite {
+
+@RunWith(Parameterized.class)
+public class LiebigTestSuite {
 	public static String base = PelletTestSuite.base + "liebig-tests/";
 		
 	private static List TIMEOUTS = Arrays.asList(new String[] {
@@ -24,12 +32,11 @@ public class LiebigTestSuite extends TestSuite {
 			"Manifest10a.rdf"
 	});
 
-	private WebOntTest test;
+	@Parameters
+	public static List<Object[]> getParameters() {
+		List<Object[]> parameters = new ArrayList<Object[]>();
 
-	public LiebigTestSuite() {
-		super( LiebigTestSuite.class.getName() );
-
-		test = new WebOntTest();
+		WebOntTest test = new WebOntTest();
 		test.setAvoidFailTests(true);
 		test.setBase("http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/", "file:" + base);
 		test.setShowStats(WebOntTest.NO_STATS);
@@ -46,17 +53,23 @@ public class LiebigTestSuite extends TestSuite {
 
 		for (int j = 0; j < files.length; j++) {
 			if( !TIMEOUTS.contains( files[j].getName() ) )
-				addTest(new WebOntTestCase(test, files[j], "liebig-" + files[j].getName()));
+				parameters.add(new Object[] { new WebOntTestCase(test, files[j], "liebig-" + files[j].getName()) });
 		}
 
+		return parameters;
 	}
 
-	public static TestSuite suite() {
-		return new LiebigTestSuite();
+
+
+	private final WebOntTestCase test;
+
+	public LiebigTestSuite(WebOntTestCase test) {
+		this.test = test;
 	}
 
-	public static void main(String args[]) {
-		junit.textui.TestRunner.run(suite());
+	@Test
+	public void run() throws IOException {
+		test.runTest();
 	}
 
 }

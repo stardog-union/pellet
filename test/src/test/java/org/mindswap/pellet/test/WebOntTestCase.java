@@ -6,17 +6,21 @@
 
 package org.mindswap.pellet.test;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
-public class WebOntTestCase extends TestCase {
+public class WebOntTestCase {
 	File manifest;
 	WebOntTest test;
     
     public WebOntTestCase( WebOntTest test, File manifest, String name ) {
-        super( "OWLTestCase-" + name );
+//        super( "OWLTestCase-" + name );
         this.test = test;
         this.manifest = manifest;
     }
