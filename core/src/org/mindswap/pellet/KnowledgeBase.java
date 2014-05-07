@@ -3337,7 +3337,7 @@ public class KnowledgeBase {
 			realize();
 		}
 
-		Set<Set<ATermAppl>> types = getPrimitiveTypes(ind, direct);
+		Set<Set<ATermAppl>> types = isClassified() ? getPrimitiveTypes(ind, direct) : Collections.<Set<ATermAppl>>emptySet();
 		
 		if (types.isEmpty() && !PelletOptions.AUTO_REALIZE) {
 			classify();
