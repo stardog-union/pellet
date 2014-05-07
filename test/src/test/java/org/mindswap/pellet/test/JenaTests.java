@@ -3371,7 +3371,48 @@ public class JenaTests {
 		
 		((PelletInfGraph) model.getGraph()).setSkipBuiltinPredicates(true);
 		
-		assertIteratorValues( model.listStatements(a, null, (RDFNode) null), stmts[0], stmts[1], stmts[2] );
-		
+		assertIteratorValues( model.listStatements(a, null, (RDFNode) null), stmts[0], stmts[1], stmts[2] );		
+	}	
+	
+	@Test
+	public void testAutoRealizeEnabled() {
+		testAutoRealize(true);
 	}
+	
+	@Test
+	public void testAutoRealizeDisabled() {
+		testAutoRealize(false);
+	}	
+
+	private void testAutoRealize(boolean autoRealize) {
+		Properties newOptions = PropertiesBuilder.singleton("AUTO_REALIZE", String.valueOf(autoRealize));
+		Properties oldOptions = PelletOptions.setOptions( newOptions );
+		
+		try {
+			String ns = "urn:test:";
+
+			Resource a = ResourceFactory.createResource( ns + "a" );
+			Resource b = ResourceFactory.createResource( ns + "b" );
+			Resource A = ResourceFactory.createResource( ns + "A" );
+			Resource B = ResourceFactory.createResource( ns + "B" );
+			Resource C = ResourceFactory.createResource( ns + "C" );
+			
+			Model m = ModelFactory.createDefaultModel();
+			m.add(A, RDFS.subClassOf, C);
+			m.add(B, RDFS.subClassOf, A);
+			m.add(a, RDF.type, A);
+			m.add(b, RDF.type, B);
+			
+			OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC, m );
+
+			assertIteratorValues( model.listObjectsOfProperty(a, RDF.type), A, C, OWL.Thing );
+
+			assertIteratorValues( model.getIndividual(b.getURI()).listRDFTypes(true), B );
+		}
+		finally {
+			PelletOptions.setOptions(oldOptions);
+		}
+
+	}
+
 }
