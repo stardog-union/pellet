@@ -8,9 +8,18 @@ package org.mindswap.pellet.test;
 
 import junit.framework.TestSuite;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 import org.mindswap.pellet.test.inctest.IncConsistencyTests;
 import org.mindswap.pellet.test.inctest.IncJenaConsistencyTests;
+import org.mindswap.pellet.test.rules.BindingGeneratorsTest;
+import org.mindswap.pellet.test.rules.BuiltInTests;
+import org.mindswap.pellet.test.rules.MiscRuleTests;
 import org.mindswap.pellet.test.rules.RulesTestSuite;
+import org.mindswap.pellet.test.rules.SWRLBuiltIns;
+import org.mindswap.pellet.test.rules.SWRLTestSuite;
+import org.mindswap.pellet.test.rules.TranslatorTests;
 
 import com.clarkparsia.TestATermManchesterSyntaxRenderer;
 import com.clarkparsia.explanation.test.ExplanationTestSuite;
@@ -30,51 +39,43 @@ import com.clarkparsia.pellet.test.tbox.TBoxTests;
 import com.clarkparsia.pellet.test.transtree.TransTreeTestSuite;
 import com.clarkparsia.pellint.test.PellintTestSuite;
 
-public class PelletTestSuite extends TestSuite {
+@RunWith(Suite.class)
+@SuiteClasses( { 
+	ATermTests.class,
+	PellintTestSuite.class,
+	TracingTests.class,
+	MiscTests.class,
+	MergeTests.class,
+	RBoxTestSuite.class,
+	BlockingTests.class,
+	CacheSafetyTests.class,
+	JenaTests.class,
+	OWLAPIv3Tests.class,
+	OWLPrimerTests.class,
+	OWLAPIObjectConversionTests.class,
+	OWLAPIAxiomConversionTests.class,
+	IncConsistencyTests.class,
+	IncJenaConsistencyTests.class,
+	RulesTestSuite.class,
+	TBoxTests.class,
+	DatatypesSuite.class,
+	ELTests.class,
+	ExplanationTestSuite.class,
+	TestIsClass.class,
+	TestKnowledgeBase.class,
+	TestATermManchesterSyntaxRenderer.class,
+	AnnotationsTestSuite.class,
+	TransTreeTestSuite.class,
+	LiebigTestSuite.class,
+	QueryTestSuite.class,
+	WebOntTestSuite.class,
+	DLTestSuite.class,
+	ClassificationTestSuite.class,
+	ModularityTestSuite.class,
+	
+	// CLI Tests must go last, since some of them muck with PelletOptions!
+	pellet.test.CLITests.class
+})
+public class PelletTestSuite {
 	public static String	base	= "test/data/";
-
-	public static TestSuite suite() {
-		TestSuite suite = new TestSuite( PelletTestSuite.class.getName() );
-
-		suite.addTest( ATermTests.suite() );
-		suite.addTest( PellintTestSuite.suite() );
-		suite.addTest( TracingTests.suite() );
-		suite.addTest( MiscTests.suite() );
-		suite.addTest( MergeTests.suite() );
-		suite.addTest( RBoxTestSuite.suite() );
-		suite.addTest( BlockingTests.suite() );
-		suite.addTest( CacheSafetyTests.suite() );
-		suite.addTest( JenaTests.suite() );
-		suite.addTest( OWLAPIv3Tests.suite() );
-		suite.addTest( OWLPrimerTests.suite() );
-		suite.addTest( OWLAPIObjectConversionTests.suite() );
-		suite.addTest( OWLAPIAxiomConversionTests.suite() );
-		suite.addTest( IncConsistencyTests.suite() );
-		suite.addTest( IncJenaConsistencyTests.suite() );
-		suite.addTest( RulesTestSuite.suite() );
-		suite.addTest( TBoxTests.suite() );
-		suite.addTest( DatatypesSuite.suite() );
-		suite.addTest( ELTests.suite() );
-		suite.addTest( ExplanationTestSuite.suite() );
-		suite.addTest( TestIsClass.suite() );
-		suite.addTest( TestKnowledgeBase.suite() );
-		suite.addTest( TestATermManchesterSyntaxRenderer.suite() );
-		suite.addTest( AnnotationsTestSuite.suite() );
-		suite.addTest( TransTreeTestSuite.suite() );
-//		suite.addTest( LiebigTestSuite.suite() );
-		suite.addTest( QueryTestSuite.suite() );
-//		suite.addTest( WebOntTestSuite.suite() );
-		suite.addTest( DLTestSuite.suite() );
-		suite.addTest( ClassificationTestSuite.suite() );
-		suite.addTest( ModularityTestSuite.suite() );
-		
-		// CLI Tests must go last, since some of them muck with PelletOptions!
-		suite.addTest( pellet.test.CLITests.suite() );
-
-		return suite;
-	}
-
-	public static void main(String args[]) {
-		junit.textui.TestRunner.run( suite() );
-	}
 }

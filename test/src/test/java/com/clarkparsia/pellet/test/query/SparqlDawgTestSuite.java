@@ -8,14 +8,24 @@
 
 package com.clarkparsia.pellet.test.query;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import junit.framework.TestSuite;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.mindswap.pellet.test.PelletTestSuite;
+import org.mindswap.pellet.test.WebOntTestCase;
 
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -36,7 +46,8 @@ import com.hp.hpl.jena.rdf.model.Resource;
  * 
  * @author Petr Kremen
  */
-public class SparqlDawgTestSuite extends TestSuite {
+@RunWith(Parameterized.class)
+public class SparqlDawgTestSuite {
 	private static String getName(String manifestName) {
 		String name = manifestName;
 
@@ -51,57 +62,33 @@ public class SparqlDawgTestSuite extends TestSuite {
 		return name;
 	}
 
-	private static TestSuite addSuite(final TestSuite root, final String manifest,
+	private static void addSuite(final List<Object[]> parameters, final String manifest,
 			final Map<SparqlDawgTester, Properties> testers) {
 		final ManifestEngine engine = new ManifestEngine( null, manifest );
 		engine.setProcessor( new ManifestEngineProcessor() {
-
-			TestSuite						current	= root;
-
-			final Map<TestSuite, TestSuite>	map		= new HashMap<TestSuite, TestSuite>();
-
-			/**
-			 * {@inheritDoc}
-			 */
 			public void manifestStarted(String manifestName) {
-				final TestSuite newSuite = new TestSuite( getName( manifestName ) );
-				map.put( newSuite, current );
-				current.addTest( newSuite );
-				current = newSuite;
 			}
-
-			/**
-			 * {@inheritDoc}
-			 */
+			
 			public void test(Resource test) {
 				for( Map.Entry<SparqlDawgTester, Properties> entry : testers.entrySet() ) {
 					SparqlDawgTester tester = entry.getKey();
 					Properties options = entry.getValue();
-					current.addTest( new SparqlDawgTestCase( tester, engine, test, options ) );
+					parameters.add(new Object[] {new SparqlDawgTestCase( tester, engine, test, options ) });
 				}
 
 			}
 
-			/**
-			 * {@inheritDoc}
-			 */
 			public void manifestFinished(String manifestName) {
-				current = map.get( current );
 			}
 		} );
 
 		engine.run();
-
-		return root;
 	}
 
-	public static TestSuite suite() {
-		return new SparqlDawgTestSuite();
-	}
-	
-	public SparqlDawgTestSuite() {
-		super( SparqlDawgTestCase.class.toString() );
-		
+	@Parameters
+	public static List<Object[]> getParameters() {
+		List<Object[]> parameters = new ArrayList<Object[]>();
+
 		SparqlDawgTester arqTester = new ARQSparqlDawgTester();
 		// The third boolean parameter controls whether or not special handling
 		// of variable SPO patterns is activated. We turn special handling off
@@ -134,14 +121,24 @@ public class SparqlDawgTestSuite extends TestSuite {
 		sparqldlTesters.put( basicSparqlDLTester, undistVars );
 		sparqldlTesters.put( integratedSparqlDLTester, undistVars );
 
-		addSuite( this, sparqldlTests, sparqldlTesters );
+		addSuite( parameters, sparqldlTests, sparqldlTesters );
 		
 		Map<SparqlDawgTester, Properties> sparqlSameAsTesters = new HashMap<SparqlDawgTester, Properties>();
 		sparqlSameAsTesters.put( basicSparqlDLTester, undistVars );
-		addSuite( this, sparqlSameAsTests, sparqlSameAsTesters );
+		addSuite( parameters, sparqlSameAsTests, sparqlSameAsTesters );
+		
+		return parameters;
 	}
 
-	public static void main(String args[]) {
-		junit.textui.TestRunner.run( suite() );
+	private final SparqlDawgTestCase test;
+
+	public SparqlDawgTestSuite(SparqlDawgTestCase test) {
+		this.test = test;
 	}
+
+	@Test
+	public void run() throws IOException {
+		test.runTest();
+	}
+
 }

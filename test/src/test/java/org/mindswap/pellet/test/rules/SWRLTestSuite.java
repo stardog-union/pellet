@@ -8,11 +8,15 @@ package org.mindswap.pellet.test.rules;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestSuite;
-
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.mindswap.pellet.test.WebOntTest;
 import org.mindswap.pellet.test.WebOntTestCase;
@@ -35,26 +39,18 @@ import org.mindswap.pellet.utils.Comparators;
  * 
  * @author Ron Alford
  */
-
-public class SWRLTestSuite extends TestSuite {
-	public static String base = PelletTestSuite.base + "swrl-test/";
+@RunWith(Parameterized.class)
+public class SWRLTestSuite {
+	public static final String base = PelletTestSuite.base + "swrl-test/";
 	
 	private static List<File> IGNORE = Arrays.asList(
 	);
 
-	public static void main(String args[]) {
-		junit.textui.TestRunner.run(suite());
-	}
+	@Parameters
+	public static List<Object[]> getParameters() {
+		List<Object[]> parameters = new ArrayList<Object[]>();
 
-	public static TestSuite suite() {
-		return new SWRLTestSuite();
-	}
-
-	public SWRLTestSuite() {
-		super( SWRLTestSuite.class.getName() );
-
-		WebOntTest test;
-		test = new WebOntTest();
+		WebOntTest test = new WebOntTest();
 		test.setAvoidFailTests(true);
 		test.setBase("http://owldl.com/ontologies/swrl/tests/", "file:" + base);
 		test.setShowStats(WebOntTest.NO_STATS);
@@ -64,7 +60,9 @@ public class SWRLTestSuite extends TestSuite {
 		
 		Arrays.sort( dirs, Comparators.stringComparator );
 		
+		System.out.println(Arrays.toString(dirs));
 		for (int i = 0; i < dirs.length; i++) {
+			System.out.println(dirs[i].getAbsolutePath());
 			if(dirs[i].isFile()) continue;
 		
 			File[] files = dirs[i].listFiles(new FileFilter() {
@@ -76,12 +74,21 @@ public class SWRLTestSuite extends TestSuite {
 			
 			for (int j = 0; j < files.length; j++) {
 				if( !IGNORE.contains( files[j] ) )
-					addTest(new WebOntTestCase(test, files[j], "swrl-" + dirs[i].getName()+"-"+files[j].getName()));
+					parameters.add(new Object[] { new WebOntTestCase(test, files[j], "swrl-" + dirs[i].getName()+"-"+files[j].getName())});
 			}
 		}
 		
+		return parameters;
+	}
 
-		
+	private final WebOntTestCase test;
 
+	public SWRLTestSuite(WebOntTestCase test) {
+		this.test = test;
+	}
+
+	@Test
+	public void run() throws IOException {
+		test.runTest();
 	}
 }

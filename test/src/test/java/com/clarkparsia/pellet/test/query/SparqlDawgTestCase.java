@@ -6,6 +6,8 @@
 
 package com.clarkparsia.pellet.test.query;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Properties;
@@ -32,7 +34,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
  * 
  * @author Petr Kremen
  */
-public class SparqlDawgTestCase extends TestCase {
+public class SparqlDawgTestCase {
 
 	private final Properties pelletOptions;
 	
@@ -43,7 +45,6 @@ public class SparqlDawgTestCase extends TestCase {
 	private final SparqlDawgTester tester;
 
 	public SparqlDawgTestCase(SparqlDawgTester tester, ManifestEngine test, Resource resource, Properties pelletOptions) {
-		super(resource.getLocalName() + "-" + tester.getName() );
 		this.tester = tester;
 		this.test = test;
 		this.resource = resource;

@@ -5,22 +5,29 @@ package org.mindswap.pellet.test;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import junit.framework.TestSuite;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.mindswap.pellet.utils.AlphaNumericComparator;
 import org.mindswap.pellet.utils.Comparators;
 
-public class WebOntTestSuite extends TestSuite {
+@RunWith(Parameterized.class)
+public class WebOntTestSuite {
     public static String base = PelletTestSuite.base + "owl-test/";
 
-    WebOntTest test;
+	@Parameters
+	public static List<Object[]> getParameters() {
+		List<Object[]> parameters = new ArrayList<Object[]>();
 
-    public WebOntTestSuite() {
-        super( WebOntTestSuite.class.getName() );
-        
-        test = new WebOntTest();
+        WebOntTest test = new WebOntTest();
         test.setAvoidFailTests( true );
         test.setBase( "file:" + base );
         test.setShowStats( WebOntTest.NO_STATS );
@@ -42,17 +49,22 @@ public class WebOntTestSuite extends TestSuite {
 			Arrays.sort(files, AlphaNumericComparator.CASE_INSENSITIVE);
 			
 			for (int j = 0; j < files.length; j++)
-				addTest( new WebOntTestCase( test, files[j], dirs[i].getName() + "-" + files[j].getName() ) );
+				parameters.add(new Object[] { new WebOntTestCase( test, files[j], dirs[i].getName() + "-" + files[j].getName() ) } );
 			
-		}        
+		}    
+		
+		return parameters;
     }
-    
-    public static TestSuite suite() {
-        return new WebOntTestSuite();
-    }
-    
-    public static void main(String args[]) { 
-        junit.textui.TestRunner.run(suite());
-    }
+
+	private final WebOntTestCase test;
+
+	public WebOntTestSuite(WebOntTestCase test) {
+		this.test = test;
+	}
+
+	@Test
+	public void run() throws IOException {
+		test.runTest();
+	}
 
 }
