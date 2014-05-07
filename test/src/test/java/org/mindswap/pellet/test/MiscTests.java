@@ -151,8 +151,8 @@ public class MiscTests extends AbstractKBTests {
 	@Test
 	public void testFileUtilsToURI() throws MalformedURLException {
 
-		assertEquals( new File( "build.xml" ).toURI().toURL().toString(), FileUtils
-				.toURI( "build.xml" ) );
+		assertEquals( new File( "test" ).toURI().toURL().toString(), FileUtils
+				.toURI( "test" ) );
 		assertEquals( "http://example.com/foo", FileUtils.toURI( "http://example.com/foo" ) );
 		assertEquals( "file:///foo", FileUtils.toURI( "file:///foo" ) );
 		assertEquals( "ftp://example.com/foo", FileUtils.toURI( "ftp://example.com/foo" ) );
