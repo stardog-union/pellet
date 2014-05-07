@@ -26,7 +26,6 @@ import uk.ac.manchester.cs.owlapi.modularity.SyntacticLocalityModuleExtractor;
 import com.clarkparsia.modularity.ModularityUtils;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
 
 /**
  * 

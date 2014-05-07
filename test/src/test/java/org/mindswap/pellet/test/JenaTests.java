@@ -37,7 +37,6 @@ import org.mindswap.pellet.jena.PelletReasoner;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.jena.vocabulary.OWL2;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.TaxonomyUtils;
 
 import aterm.ATermAppl;
 

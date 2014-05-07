@@ -34,28 +34,19 @@ package org.mindswap.pellet.test;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.mindswap.pellet.KRSSLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.TimeoutException;
 import org.mindswap.pellet.output.TableData;
-import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.AlphaNumericComparator;
 import org.mindswap.pellet.utils.PatternFilter;
-import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.Timer;
-
-import aterm.ATerm;
-import aterm.ATermAppl;
 
 /**
  * Parse and test the cases from DL benchmark suite. This class provides parsing

@@ -8,8 +8,8 @@ package com.clarkparsia.modularity.test;
 
 import static com.clarkparsia.modularity.test.TestUtils.assertInstancesEquals;
 import static com.clarkparsia.modularity.test.TestUtils.assertTypesEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileInputStream;

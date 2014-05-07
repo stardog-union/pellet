@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -51,7 +52,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
 
-import java.util.logging.Logger;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.exceptions.TimeoutException;
 import org.mindswap.pellet.exceptions.UnsupportedFeatureException;

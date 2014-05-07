@@ -1,6 +1,9 @@
 package com.clarkparsia.pellint.test.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
@@ -10,7 +13,6 @@ import com.clarkparsia.pellint.lintpattern.LintPattern;
 import com.clarkparsia.pellint.model.Lint;
 import com.clarkparsia.pellint.test.PellintTestCase;
 import com.clarkparsia.pellint.test.lintpattern.MockLintPattern;
-import com.clarkparsia.pellint.test.model.MockLintFixer;
 
 /**
  * <p>

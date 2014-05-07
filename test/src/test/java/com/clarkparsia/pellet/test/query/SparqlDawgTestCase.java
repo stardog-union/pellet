@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Properties;
 
-import junit.framework.TestCase;
-
 import org.mindswap.pellet.PelletOptions;
 
 import com.hp.hpl.jena.rdf.model.Resource;

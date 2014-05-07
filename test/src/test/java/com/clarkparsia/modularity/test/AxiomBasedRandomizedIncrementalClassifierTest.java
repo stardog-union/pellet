@@ -6,9 +6,6 @@
 
 package com.clarkparsia.modularity.test;
 
-import org.junit.After;
-import org.junit.Before;
-
 import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
 import com.clarkparsia.modularity.ModuleExtractor;
 

@@ -15,6 +15,7 @@ import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import com.clarkparsia.pellet.rules.builtins.NumericPromotion;
 import com.clarkparsia.pellet.rules.builtins.NumericVisitor;
 

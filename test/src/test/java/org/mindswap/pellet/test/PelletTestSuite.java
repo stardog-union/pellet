@@ -6,20 +6,12 @@
 
 package org.mindswap.pellet.test;
 
-import junit.framework.TestSuite;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.mindswap.pellet.test.inctest.IncConsistencyTests;
 import org.mindswap.pellet.test.inctest.IncJenaConsistencyTests;
-import org.mindswap.pellet.test.rules.BindingGeneratorsTest;
-import org.mindswap.pellet.test.rules.BuiltInTests;
-import org.mindswap.pellet.test.rules.MiscRuleTests;
 import org.mindswap.pellet.test.rules.RulesTestSuite;
-import org.mindswap.pellet.test.rules.SWRLBuiltIns;
-import org.mindswap.pellet.test.rules.SWRLTestSuite;
-import org.mindswap.pellet.test.rules.TranslatorTests;
 
 import com.clarkparsia.TestATermManchesterSyntaxRenderer;
 import com.clarkparsia.explanation.test.ExplanationTestSuite;
