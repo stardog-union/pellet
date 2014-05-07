@@ -7,7 +7,7 @@
 package org.mindswap.pellet.jena.graph.query;
 
 import org.mindswap.pellet.KnowledgeBase;
-import org.mindswap.pellet.jena.graph.loader.GraphLoader;
+import org.mindswap.pellet.jena.PelletInfGraph;
 
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
@@ -17,8 +17,8 @@ import com.hp.hpl.jena.util.iterator.SingletonIterator;
 
 abstract class BooleanQueryHandler extends TripleQueryHandler {
 	@Override
-	public ExtendedIterator<Triple> find(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj) {
-		return contains( kb, loader, subj, pred, obj )
+	public ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node subj, Node pred, Node obj) {
+		return contains( kb, pellet.getLoader(), subj, pred, obj )
 			? new SingletonIterator<Triple>( Triple.create( subj, pred, obj ) )
 			: NullIterator.<Triple>instance();
 	}			

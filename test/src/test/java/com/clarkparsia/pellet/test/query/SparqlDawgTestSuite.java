@@ -8,24 +8,19 @@
 
 package com.clarkparsia.pellet.test.query;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import junit.framework.TestSuite;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.mindswap.pellet.test.PelletTestSuite;
-import org.mindswap.pellet.test.WebOntTestCase;
 
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
 import com.hp.hpl.jena.rdf.model.Resource;

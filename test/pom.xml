@@ -81,6 +81,9 @@
 					<forkCount>1</forkCount>
 					<reuseForks>true</reuseForks>
 					<argLine>-Xmx1536m -XX:MaxPermSize=512m</argLine>
+					<includes>
+						<include>**/PelletTestSuite.java</include>
+					</includes>
 					<workingDirectory>${project.basedir}/target/test-classes</workingDirectory>
 				</configuration>
 			</plugin>

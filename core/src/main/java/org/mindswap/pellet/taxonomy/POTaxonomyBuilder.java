@@ -9,6 +9,7 @@ package org.mindswap.pellet.taxonomy;
 import java.util.Map;
 import java.util.Set;
 
+import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.PartialOrderBuilder;
@@ -49,6 +50,11 @@ public class POTaxonomyBuilder implements TaxonomyBuilder {
 		 * CDOptimizedTaxonomyBuilder b = new CDOptimizedTaxonomyBuilder();
 		 * b.setKB( kb ); b.classify(); return b.realize();
 		 */
+	}
+
+	@Override
+	public void realize(ATermAppl x) {
+		throw new UnsupportedOperationException();
 	}
 
 	public void setKB(KnowledgeBase kb) {

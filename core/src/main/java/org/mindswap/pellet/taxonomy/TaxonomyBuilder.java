@@ -67,6 +67,8 @@ public interface TaxonomyBuilder {
 	 */
 	public boolean realize();
 
+    public void realize(ATermAppl x);
+
 	public Taxonomy<ATermAppl> getTaxonomy();
 	
 	public Taxonomy<ATermAppl> getToldTaxonomy();

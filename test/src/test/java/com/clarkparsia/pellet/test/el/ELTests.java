@@ -17,10 +17,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
 
 import junit.framework.JUnit4TestAdapter;
 
@@ -78,14 +75,6 @@ public class ELTests extends AbstractKBTests {
 
 	public ELTests() {
 		this.builderClass = SimplifiedELClassifier.class ;
-	}
-
-	public static <T> Set<Set<T>> singletonSets(T... es) {
-		Set<Set<T>> set = new HashSet<Set<T>>();
-		for( T e : es ) {
-			set.add( Collections.singleton( e ) );
-		}
-		return set;
 	}
 
 	public Taxonomy<ATermAppl> getHierarchy() {
