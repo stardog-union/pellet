@@ -21,7 +21,7 @@ import org.mindswap.pellet.utils.Comparators;
 public class WebOntTestSuite {
     public static String base = PelletTestSuite.base + "owl-test/";
 
-	@Parameters
+	@Parameters(name= "{index}: {0}")
 	public static List<Object[]> getParameters() {
 		List<Object[]> parameters = new ArrayList<Object[]>();
 

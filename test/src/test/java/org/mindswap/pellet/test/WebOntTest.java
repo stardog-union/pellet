@@ -89,7 +89,7 @@ public class WebOntTest {
 	public int					showStats			= ALL_STATS;
 
 	private String				base				= "http://www.w3.org/2002/03owlt/";
-	private String				localBase			= "file:test/data/";
+	private String				localBase			= PelletTestSuite.base;
 	private String				newBase;
 
 	public static boolean		DOUBLE_CHECK_ENTAILMENTS = false;

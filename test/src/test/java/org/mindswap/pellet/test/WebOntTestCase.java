@@ -24,4 +24,9 @@ public class WebOntTestCase {
     public void runTest() throws IOException {
         assertTrue( test.doSingleTest( manifest.toURI().toURL().toString() ) != WebOntTest.TEST_FAIL );
     }
+    
+    @Override
+    public String toString() {
+        return manifest.getParentFile().getName() + "/" + manifest.getName();
+    }
 }

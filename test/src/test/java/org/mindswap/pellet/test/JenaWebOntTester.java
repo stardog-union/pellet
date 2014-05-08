@@ -20,7 +20,9 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.util.LocationMapper;
+import com.hp.hpl.jena.util.LocatorFile;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
 
 public class JenaWebOntTester implements WebOntTester {
@@ -29,6 +31,9 @@ public class JenaWebOntTester implements WebOntTester {
 	
 	public JenaWebOntTester() {
 		mapper = new LocationMapper();
+		FileManager manager = OntDocumentManager.getInstance().getFileManager();
+		manager.setLocationMapper( mapper );
+		manager.addLocator( new LocatorFile(null) );
 	}
 
 	public void classify() {
@@ -64,7 +69,6 @@ public class JenaWebOntTester implements WebOntTester {
 	}
 
 	public void setInputOntology(String inputFileURI) {
-		OntDocumentManager.getInstance().getFileManager().setLocationMapper( mapper );
 		model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 		model.read( inputFileURI, inputFileURI, fileType( inputFileURI ) );
 		model.prepare();
