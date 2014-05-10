@@ -2009,7 +2009,7 @@ public class ABox {
 	 * @return
 	 */
 	public boolean isClosed() {
-		return !PelletOptions.SATURATE_TABLEAU && clash != null;
+		return !PelletOptions.SATURATE_TABLEAU && initialized && clash != null;
 	}
 
 	public Clash getClash() {
@@ -2119,7 +2119,7 @@ public class ABox {
 	 * @return Returns the initialized.
 	 */
 	public boolean isInitialized() {
-		return initialized && !kb.isChanged();
+		return initialized;
 	}
 
 	public void setInitialized(boolean initialized) {
