@@ -7,6 +7,9 @@ import java.io.File;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
+import org.semanticweb.owlapi.model.OWLOntology;
+
+import com.clarkparsia.owlapiv3.OWL;
 
 import pellet.PelletClassify;
 import pellet.PelletCmdApp;
@@ -30,6 +33,9 @@ public class CLITests {
 		protected abstract PelletCmdApp create( );
 		
 		public void run( String... args ) {
+			for (OWLOntology ont : OWL.manager.getOntologies()) {
+		        OWL.manager.removeOntology(ont);
+	        }
 			
 			PelletCmdApp app = create( );
 			app.parseArgs( prepend( args, app.getAppCmd() ) );
