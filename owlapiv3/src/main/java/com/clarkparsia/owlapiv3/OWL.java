@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.mindswap.pellet.utils.Namespaces;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -132,7 +133,7 @@ public class OWL {
 
 	
 	public static OWLOntology Ontology(Collection<? extends OWLAxiom> axioms) {
-		IRI uri = IRI.create( "http://www.example.org/ontology" + new UID() );
+		IRI uri = IRI.create( "http://www.example.org/ontology" + UUID.randomUUID() );
 
 		return Ontology( axioms, uri );
 	}
