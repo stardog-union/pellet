@@ -8,6 +8,7 @@
 
 package com.clarkparsia.pellet.test.classification;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
 
@@ -67,6 +68,7 @@ public abstract class AbstractClassificationTest {
 		testFile( "sio" );
 	}
 	
+	@Ignore
 	@Test	
 	public void mechanicalEngineeringTest() throws Exception {
 		testFile( "MechanicalEngineering" );
