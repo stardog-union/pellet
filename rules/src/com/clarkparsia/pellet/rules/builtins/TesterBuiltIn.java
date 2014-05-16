@@ -9,6 +9,7 @@ package com.clarkparsia.pellet.rules.builtins;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 
 import com.clarkparsia.pellet.rules.BindingHelper;
@@ -89,4 +90,8 @@ public class TesterBuiltIn implements BuiltIn {
 		return new TestHelper( atom );
 	}
 
+	@Override
+	public boolean apply(ABox abox, Literal[] args) {
+	    return test.test(args);
+	}
 }

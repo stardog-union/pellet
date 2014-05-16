@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.mindswap.pellet.ABox;
+import org.mindswap.pellet.Literal;
 
 import com.clarkparsia.pellet.rules.BindingHelper;
 import com.clarkparsia.pellet.rules.VariableBinding;
@@ -69,4 +70,8 @@ public class NoSuchBuiltIn implements BuiltIn {
 		return empty;
 	}
 
+	@Override
+	public boolean apply(ABox abox, Literal[] args) {
+	    return false;
+	}
 }

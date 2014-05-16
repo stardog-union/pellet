@@ -6,17 +6,59 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
+import static java.lang.String.format;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
-import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;
+import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.Role;
-import org.mindswap.pellet.utils.ATermUtils;
+import org.mindswap.pellet.exceptions.InternalReasonerException;
+import org.mindswap.pellet.utils.SetUtils;
 
 import aterm.ATermAppl;
+
+import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
+import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
+import com.clarkparsia.pellet.rules.BindingHelper;
+import com.clarkparsia.pellet.rules.ContinuousRulesStrategy;
+import com.clarkparsia.pellet.rules.PartialBinding;
+import com.clarkparsia.pellet.rules.VariableBinding;
+import com.clarkparsia.pellet.rules.VariableUtils;
+import com.clarkparsia.pellet.rules.builtins.BuiltIn;
+import com.clarkparsia.pellet.rules.builtins.BuiltInRegistry;
+import com.clarkparsia.pellet.rules.model.AtomDConstant;
+import com.clarkparsia.pellet.rules.model.AtomDObject;
+import com.clarkparsia.pellet.rules.model.AtomDVariable;
+import com.clarkparsia.pellet.rules.model.AtomIConstant;
+import com.clarkparsia.pellet.rules.model.AtomIVariable;
+import com.clarkparsia.pellet.rules.model.AtomObject;
+import com.clarkparsia.pellet.rules.model.AtomObjectVisitor;
+import com.clarkparsia.pellet.rules.model.AtomVariable;
+import com.clarkparsia.pellet.rules.model.BuiltInAtom;
+import com.clarkparsia.pellet.rules.model.ClassAtom;
+import com.clarkparsia.pellet.rules.model.DataRangeAtom;
+import com.clarkparsia.pellet.rules.model.DatavaluedPropertyAtom;
+import com.clarkparsia.pellet.rules.model.DifferentIndividualsAtom;
+import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
+import com.clarkparsia.pellet.rules.model.Rule;
+import com.clarkparsia.pellet.rules.model.RuleAtom;
+import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
+import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
+import com.clarkparsia.pellet.rules.rete.NodeProvider.ConstantNodeProvider;
+import com.clarkparsia.pellet.rules.rete.NodeProvider.TokenNodeProvider;
+import com.clarkparsia.pellet.rules.rete.NodeProvider.WMENodeProvider;
 
 /**
  * <p>
@@ -33,247 +75,442 @@ import aterm.ATermAppl;
  * </p>
  */
 public class Compiler {
-	/**
-	 * Predicate used to state two individuals are different from each other.
-	 */
-	public static final ATermAppl		DIFF_FROM;
+	protected ContinuousRulesStrategy strategy;
+	private ABox abox;
+	private AlphaNetwork alphaNet;
+	
+	private SafetyChecker safetyChecker = new SafetyChecker();
 
-	/**
-	 * Empty fact to fire empty bodied rules
-	 */
-	public static final TermTuple		EMPTY_TUPLE	= new TermTuple( DependencySet.INDEPENDENT );
-	public static final Fact			EMPTY_FACT	= new Fact( DependencySet.INDEPENDENT );
-
-	/**
-	 * standard object position
-	 */
-	public static final int				OBJ			= 2;
-	/**
-	 * standard predicate position
-	 */
-	public static final int				PRED		= 0;
-	/**
-	 * Predicate used to state two individuals are the same.
-	 */
-	public static final ATermAppl		SAME_AS;
-	/**
-	 * standard subject position
-	 */
-	public static final int				SUBJ		= 1;
-	/**
-	 * Predicate used to type an individual.
-	 */
-	public static final ATermAppl		TYPE;
-
-	static {
-		String PREFIX = "tag:clarkparsia.info,2007:pellet:dl-safe-rules:predicate:";
-		DIFF_FROM = ATermUtils.makeTermAppl( PREFIX + "differentFrom" );
-		SAME_AS = ATermUtils.makeTermAppl( PREFIX + "sameAs" );
-		TYPE = ATermUtils.makeTermAppl( PREFIX + "type" );
-	}
-
-	ABox								abox;
-	AlphaIndex							alphaIndex;
-
-	Interpreter							interpreter;
-	// the following field was not used at all and has been commented out in r1933
-	// HashSet<ATermAppl>					typesMentioned;
-
-	public Compiler(Interpreter interp, ABox abox) {
-		this.abox = abox;
-		this.interpreter = interp;
-		alphaIndex = new AlphaIndex();
-//		typesMentioned = new HashSet<ATermAppl>();
-	}
-
-	/**
-	 * Add different assertions as facts to rete.
-	 */
-	public boolean addDifferents(Individual individual) {
-		boolean changed = false;
-		for( org.mindswap.pellet.Node different : individual.getDifferents() ) {
-			if( different.isNamedIndividual() && !different.isPruned() )
-				changed |= interpreter.addFact( createDifferent( individual, different, individual
-						.getDifferenceDependency( different ) ) );
-		}
-		return changed;
-	}
-
-	/**
-	 * Add property assertion as a fact to rete (if relevant). This will
-	 * consider the role taxonomy and inverse roles.
-	 * 
-	 * @param edge
-	 *            the {@code Edge}
-	 * @return boolean {@code true} if added, {@code false} else
-	 */
-	public boolean addFact(Edge edge) {
-		final Individual from = edge.getFrom();
-		final org.mindswap.pellet.Node to = edge.getTo().getSame();
-		if( !to.isRootNominal() || to.isPruned() )
-			return false;
-		final DependencySet ds = edge.getDepends();
-		Role role = edge.getRole();
-		
-		boolean added = addFact( role, from, to, ds );
-
-		if( role.isObjectRole() ) {
-			added |= addFact( role.getInverse(), (Individual) to, from, ds );
-		}
-
-		return added;
+	public Compiler(ContinuousRulesStrategy strategy) {
+		this.strategy = strategy;
+		this.abox = strategy.getABox();
+		alphaNet = new AlphaNetwork(abox);
 	}
 	
-	private boolean addFact(Role r, Individual from, org.mindswap.pellet.Node to, DependencySet ds) {
-		boolean added = false;
-		for( Role sup : r.getSuperRoles() ) {
-				added |= interpreter.addFact( createFact( sup.getName(), from, to, 
-						ds.union( r.getExplainSuper( sup.getName() ), abox.doExplanation() ) ) );
-		}
-		return added;
+	public AlphaNetwork getAlphaNet() {
+		return alphaNet;
 	}
 
-	/**
-	 * Add concept assertion as a fact to rete (if relevant).
-	 * 
-	 * @param individual
-	 *            the {@code Individual}
-	 * @param type
-	 *            the concept
-	 * @return boolean {@code true} if added, {@code false} else
-	 */
-	public boolean addFact(Individual individual, ATermAppl type, DependencySet ds) {
-		boolean changed = false;
-
-		changed |= interpreter.addFact( createFact( individual, type, ds ) );
-		return changed;
-	}
-
-	public void compile(Rule rule, Set<ATermAppl> explain) {
-		AlphaStore alphaNodesOfRule = new AlphaStore();
-
-		// If head empty create empty TermTuple
-
-		// iterate over the left hand side (rule body)
-		// turn each triple into an alpha node, and add to AlphaStore
-		for( TermTuple anodePattern : rule.getBody() ) {
-			AlphaNode anode = makeAlphaNode( anodePattern );
-			alphaNodesOfRule.addNode( anode );
-//			if( anodePattern.getElements().get( 0 ).equals( TYPE ) ) {
-//				typesMentioned.add( (anodePattern.getElements().get( 2 )) );
-//			}
+	private RuleAtom pickNextAtom(List<RuleAtom> atoms, Set<AtomVariable> bound) {
+		int index = 0;
+		if (bound.isEmpty()) {
+			for (int i = 0; i < atoms.size(); i++) {
+				RuleAtom atom = atoms.get(i);		
+				if (safetyChecker.isSafe(atom)) {
+					return atoms.remove(i);
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < atoms.size(); i++) {
+				RuleAtom atom = atoms.get(i);
+				if (SetUtils.intersects(bound, atom.getAllArguments())) {
+					index = i;
+					if (safetyChecker.isSafe(atom)) {
+						break;
+					}
+				}
+			}
 		}
 
-		// sort them (body triples)
-		alphaNodesOfRule.sort();
+		return atoms.remove(index);		
+	}
 
-		AlphaNode alpha1, alpha2;
-		BetaNode beta;
-		switch ( alphaNodesOfRule.nodes.size() ) {
-		// no body/ascendant
-		case 0:
-			alpha1 = makeAlphaNode( EMPTY_TUPLE );
-			alphaNodesOfRule.addNode( alpha1 );
-			// Fall through to case 1
-			// 1 body/ascendant
-		case 1:
-			alpha1 = alphaNodesOfRule.nodes.get( 0 );
-			beta = makeBetaNode( alpha1, alpha1, false );
-			alpha1.add( beta );
-			beta.rule = new RuleNode( rule, explain );
-			beta.rule.betaNode = beta;
-			break;
-			// more than 2 body/ascendants
-		default:
-			Iterator<AlphaNode> nodes = alphaNodesOfRule.nodes.iterator();
+	public void compile(Rule rule, final Set<ATermAppl> explain) {		
+		List<RuleAtom> atoms = new ArrayList<RuleAtom>();
+		List<BuiltInCall> builtins = new ArrayList<BuiltInCall>();
 		
-			alpha1 = nodes.next();
-			alpha2 = nodes.next();
-
-			beta = makeBetaNode( alpha1, alpha2, true );
-
-			alpha1.add( beta );
-			alpha2.add( beta );
+		for (RuleAtom atom : rule.getBody()) {
+			if (atom instanceof BuiltInAtom) {
+				builtins.add(new BuiltInCall(abox, (BuiltInAtom) atom));
+			}
+			else if (atom instanceof DataRangeAtom) {
+//				builtins.add(new Pair<RuleAtom, BindingHelper>(atom, new DataRangeBindingHelper(abox, (DataRangeAtom) atom)));
+			}
+			else {
+				atoms.add(atom);
+			}
+		}
+		
+		Set<AtomVariable> bound = new HashSet<AtomVariable>(); 
+		List<RuleAtom> processed = new ArrayList<RuleAtom>();
+		
+		int lastSafe = -1;
+		ReteNode lastSafeBeta = null;
+		
+		boolean canReuseBeta = false;
+		
+		RuleAtom atom = null;
+		ReteNode node = null;
+		while (!atoms.isEmpty()) {
+			atom = pickNextAtom(atoms, bound);
 			
-			while( nodes.hasNext() ) {
-				AlphaNode alpha = nodes.next();
-				beta = makeBetaNode(beta, alpha, true);
-				alpha.add(beta);
+			if (!safetyChecker.isSafe(atom)) {
+				lastSafe = processed.size();
+				lastSafeBeta = node;
 			}
 			
-			beta.rule = new RuleNode(rule, explain);
-			beta.rule.betaNode = beta;				
-		}		
+			AlphaNode alpha = alphaNet.addNode(atom);
+			List<? extends AtomObject> args = atom.getAllArguments();
+			
+			List<FilterCondition> conditions = new ArrayList<FilterCondition>();
+			if (!processed.isEmpty()) {
+				for (int i = 0, n = args.size(); i < n; i++) {
+					AtomObject arg = args.get(i);
+					if (arg instanceof AtomVariable) {
+						TokenNodeProvider provider = createNodeProvider((AtomVariable) arg, processed);
+						if (provider != null) {
+	                    	conditions.add(new JoinCondition(new WMENodeProvider(i), provider));
+						}
+					}
+	            }
+			}
+			
+			processed.add(atom);
+			
+			bound.addAll(VariableUtils.getVars(atom));
+			
+			List<BuiltInCall> bindingBuiltins = new ArrayList<BuiltInCall>();
+			int bindingCount = -1;
+			while (!builtins.isEmpty() && bindingCount != bound.size()) {
+				bindingCount = bound.size();
+				for (Iterator<BuiltInCall> i = builtins.iterator(); i.hasNext();) {
+		            BuiltInCall call = i.next();
+		            if (bound.containsAll(call.getPrerequisitesVars(bound))) {            	
+		            	Collection<? extends AtomVariable> bindableVars = call.getBindableVars(bound);
+		            	if (bindableVars.isEmpty() || bound.containsAll(bindableVars)) {
+			            	conditions.add(call.createCondition(processed));
+		            	}
+		            	else {
+		            		bindingBuiltins.add(call);
+		            		bound.addAll(bindableVars);
+		            	}
+		            	i.remove();
+		            }	            
+	            }
+			}
 
-		// result of method is that the AlphaStore has all the assendants of the
-		// bodies of the rules in it
-	}
-
-	public void compileFacts(ABox abox) {
-		// compile facts
-
-		// get all the individuals
-		interpreter.addFact( EMPTY_FACT );
-		for( Iterator<Individual> i = abox.getIndIterator(); i.hasNext(); ) {
-
-			Individual ind = i.next();
-			processIndividual( ind );
-
+			boolean firstBeta = (node == null);
+			BetaNode newBeta = null;
+			
+			if (canReuseBeta) {
+				for (BetaNode existingBeta : alpha.getBetas()) {
+					if (existingBeta instanceof BetaMemoryNode) {
+						BetaMemoryNode existingBetaMem = (BetaMemoryNode) existingBeta;
+						if (existingBetaMem.getAlphaNode().equals(alpha) && existingBetaMem.getConditions().equals(conditions)) {
+							newBeta = existingBeta;
+							break;
+						}
+					}
+				}
+			}
+			
+			if (newBeta == null) {
+				newBeta = firstBeta ? new BetaMemoryNode(alpha) : new BetaMemoryNode(alpha, conditions);
+				canReuseBeta = false;
+			}
+			
+			alpha.addChild(newBeta);
+			if (!firstBeta) {
+				node.addChild(newBeta);
+			}
+			node = newBeta;
+			
+			for (BuiltInCall bindingBuiltin : bindingBuiltins) {
+				newBeta = bindingBuiltin.createBeta(processed);
+				node.addChild(newBeta);
+				node = newBeta;
+				processed.add(bindingBuiltin.atom);
+				bound.addAll(bindingBuiltin.getBindableVars(bound));
+				canReuseBeta = false;
+            }
 		}
-		return;
+		
+		if (!builtins.isEmpty()) {
+			throw new UnsupportedOperationException("Builtin using unsafe variables: " + builtins);
+		}
+		
+
+		if (lastSafe == 0) {
+			strategy.addUnsafeRule(rule, explain);
+		}
+		else if (lastSafe > 0) {
+			Map<AtomVariable, NodeProvider> args = new HashMap<AtomVariable, NodeProvider>();
+			for (int i = 0; i < lastSafe; i++) {
+	            for (AtomObject arg : processed.get(i).getAllArguments()) {
+	                if (arg instanceof AtomVariable && !args.containsKey(arg)) {
+	                	args.put((AtomVariable) arg, createNodeProvider((AtomVariable) arg, processed));
+	                }
+                }
+            }
+			
+			lastSafeBeta.addChild(new ProductionNode.ProduceBinding(strategy, explain, rule, args));	
+		}
+		
+		if (rule.getHead().isEmpty()) {
+			node.addChild(new ProductionNode.Inconsistency(strategy, explain));
+		}
+		else {
+			ProductionNodeCreator creator = new ProductionNodeCreator(processed, explain);
+			for ( RuleAtom headAtom : rule.getHead() ) {
+				node.addChild(creator.create(headAtom));
+			}
+		}
+	}
+	
+	private static TokenNodeProvider createNodeProvider(AtomVariable arg, List<RuleAtom> processed) {
+		return (TokenNodeProvider) createNodeProvider(arg, processed, false);
+	}
+	
+	private static NodeProvider createNodeProvider(AtomVariable arg, List<RuleAtom> processed, boolean lastWME) {
+		for (int index = 0, n = processed.size(); index < n; index++) {
+			RuleAtom sharedAtom = processed.get(index);	
+            int indexArg = sharedAtom.getAllArguments().indexOf(arg);
+            if (indexArg != -1) {
+            	if (lastWME && index == n -1) {
+            		return new WMENodeProvider(indexArg);
+            	}
+            	else {
+            		return new TokenNodeProvider(index, indexArg);
+            	}
+            }
+        }
+		
+		return null;
 	}
 
-	private Fact createDifferent(Individual ind1, org.mindswap.pellet.Node ind2, DependencySet ds) {
-		ATermAppl subj = ind1.getName();
-		ATermAppl obj = ind2.getName();
+	private class SafetyChecker implements RuleAtomVisitor {
+		
+		private boolean result = false;
+		
+		/**
+		 * May return true if atom is something that
+		 * will be added to the ABox during completion.
+		 */
+		public boolean isSafe(RuleAtom atom) {
+			atom.accept(this);
+			return result; 
+		}
 
-		return new Fact( ds, DIFF_FROM, subj, obj );
+		public void visit(BuiltInAtom atom) {
+			result = true;
+		}
+
+		public void visit(ClassAtom atom) {
+			ATermAppl c = atom.getPredicate();
+			result = abox.getKB().getTBox().isPrimitive( c );
+		}
+
+		public void visit(DataRangeAtom atom) {
+			result = true;
+		}
+
+		public void visit(DatavaluedPropertyAtom atom) {
+			result = true;
+		}
+
+		public void visit(DifferentIndividualsAtom atom) {
+			result = false;
+		}
+
+		public void visit(IndividualPropertyAtom atom) {
+			result = abox.getRole( atom.getPredicate() ).isSimple();
+		}
+
+		public void visit(SameIndividualAtom atom) {
+			result = true;
+		}
+	}
+	
+	private class ProductionNodeCreator implements RuleAtomVisitor {			
+		private final AtomObjectTranslator translator;
+		 
+		private Set<ATermAppl> explain;
+		private ProductionNode node;
+
+		public ProductionNodeCreator(List<RuleAtom> processed, Set<ATermAppl> explain) {
+			this.translator = new AtomObjectTranslator(abox, processed, false);
+			this.explain = explain;
+		}
+		
+		private ProductionNode create(RuleAtom atom) {
+			node = null;
+			atom.accept(this);
+			if (node == null) {
+				throw new UnsupportedOperationException("Not supported " + atom);
+			}
+			return node;
+		}
+		
+		@Override
+		public void visit(SameIndividualAtom atom) {
+			NodeProvider s = translator.translateObject(atom.getArgument1());
+			NodeProvider o = translator.translateObject(atom.getArgument2());
+			node = new ProductionNode.SameAs(strategy, explain, s, o);
+		}
+		
+		@Override
+		public void visit(IndividualPropertyAtom atom) {
+			NodeProvider s = translator.translateObject(atom.getArgument1());
+			NodeProvider o = translator.translateObject(atom.getArgument2());
+			Role r = abox.getRole(atom.getPredicate());
+			node = new ProductionNode.Edge(strategy, explain, s, r, o);
+		}
+		
+		@Override
+		public void visit(DifferentIndividualsAtom atom) {
+			NodeProvider s = translator.translateObject(atom.getArgument1());
+			NodeProvider o = translator.translateObject(atom.getArgument2());
+			node = new ProductionNode.DiffFrom(strategy, explain, s, o);
+		}
+		
+		@Override
+		public void visit(DatavaluedPropertyAtom atom) {
+			NodeProvider s = translator.translateObject(atom.getArgument1());
+			NodeProvider o = translator.translateObject(atom.getArgument2());
+			Role r = abox.getRole(atom.getPredicate());
+			node = new ProductionNode.Edge(strategy, explain, s, r, o);
+		}
+		
+		@Override
+		public void visit(DataRangeAtom atom) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void visit(ClassAtom atom) {
+			NodeProvider s = translator.translateObject(atom.getArgument());
+			ATermAppl type = atom.getPredicate();
+			node = new ProductionNode.Type(strategy, explain, s, type);
+		}
+		
+		@Override
+		public void visit(BuiltInAtom atom) {
+			// TODO Auto-generated method stub			
+		}
 	}
 
-	private Fact createFact(ATermAppl r, Individual from, org.mindswap.pellet.Node to,
-			DependencySet ds) {
-		ATermAppl pred = r, subj = from.getName(), obj = to.getName();
+	private static class AtomObjectTranslator implements AtomObjectVisitor {
+		private DependencySet dependency = DependencySet.INDEPENDENT;
+		private NodeProvider result = null;
+		
+		private final ABox abox;
+		private final List<RuleAtom> processed;
+		private final boolean lastWME;
+		
 
-		return new Fact( ds, pred, subj, obj );
+		public AtomObjectTranslator(ABox abox, List<RuleAtom> processed, boolean lastWME) {
+			this.abox = abox;
+	        this.processed = processed;
+	        this.lastWME = lastWME;
+        }
+
+		public DependencySet getDependency() {
+			return dependency;
+		}
+
+		public NodeProvider translateObject(AtomObject obj) {
+			return translateObject(obj, false);
+		}
+		
+		public NodeProvider translateObject(AtomObject obj, boolean allowNull) {
+			dependency = DependencySet.INDEPENDENT;
+			obj.accept(this);
+			if (result == null && !allowNull) {
+				throw new UnsupportedOperationException();
+            }
+			return result;
+		}
+
+		public void visit(AtomDConstant constant) {
+			ATermAppl canonical;
+			final ATermAppl literal = constant.getValue();
+			try {
+				canonical = abox.getKB().getDatatypeReasoner()
+						.getCanonicalRepresentation(literal);
+			} catch( InvalidLiteralException e ) {
+				final String msg = format( "Invalid literal (%s) in SWRL data constant: %s",
+						literal, e.getMessage() );
+				if( PelletOptions.INVALID_LITERAL_AS_INCONSISTENCY ) {
+					canonical = literal;
+				}
+				else {
+					throw new InternalReasonerException( msg, e );
+				}
+			} catch( UnrecognizedDatatypeException e ) {
+				final String msg = format(
+						"Unrecognized datatype in literal appearing (%s) in SWRL data constant: %s",
+						literal, e.getMessage() );
+				throw new InternalReasonerException( msg, e );
+			}
+			
+			result = new ConstantNodeProvider(abox.addLiteral(canonical));
+		}
+
+		public void visit(AtomDVariable variable) {
+			result = createNodeProvider(variable, processed, lastWME);
+		}
+
+		public void visit(AtomIConstant constant) {
+			abox.copyOnWrite();
+			Individual individual = abox.getIndividual(constant.getValue());
+//			if (individual.isMerged()) {
+//				dependency = individual.getMergeDependency(true);
+//				individual = individual.getSame();
+//			}
+
+			result = new ConstantNodeProvider(individual);
+		}
+
+		public void visit(AtomIVariable variable) {
+			result = createNodeProvider(variable, processed, lastWME);
+		}
 	}
+	
+	private static class BuiltInCall {
+		private ABox abox;
+		private BuiltInAtom atom;
+		private BuiltIn builtin;
+		private BindingHelper helper;
+		
+        public BuiltInCall(ABox abox, BuiltInAtom atom) {
+        	this.abox = abox; 
+        	this.atom = atom;
+			builtin = BuiltInRegistry.instance.getBuiltIn(atom.getPredicate());
+			helper = builtin.createHelper(atom);
+        }
 
-	private Fact createFact(Individual ind, ATermAppl c, DependencySet ds) {
-		ATermAppl predType = TYPE;
-		ATermAppl subj = ind.getName();
-		ATermAppl obj = c;
+		public BetaBuiltinNode createBeta(List<RuleAtom> processed) {
+	        return new BetaBuiltinNode(abox, atom.getPredicate(), builtin, createProviders(processed, false));
+        }
 
-		return new Fact( ds, predType, subj, obj );
-	}
+		public FilterCondition createCondition(List<RuleAtom> processed) {
+	        return new BuiltInCondition(abox, atom.getPredicate(), builtin, createProviders(processed, true));
+        }
 
-	private AlphaNode makeAlphaNode(TermTuple pattern) {
-		return alphaIndex.add( pattern );
-	}
-
-	private BetaNode makeBetaNode(Node node1, Node node2, @SuppressWarnings("unused")
-	boolean futureJoins) {
-		BetaNode b = new BetaNode( node1, node2, abox.doExplanation() );
-
-		return b;
-	}
-
-	public boolean processIndividual(Individual ind) {
-		// only named non-pruned individuals
-		boolean changed = false;
-		if( !ind.isRootNominal() || ind.isPruned() )
-			return false;
-
-		for( ATermAppl indType : ind.getTypes() )
-			changed |= addFact( ind, indType, ind.getDepends( indType ) );
-
-		changed |= addDifferents( ind );
-
-		for( Edge edge : ind.getOutEdges() )
-			changed |= addFact( edge );
-
-		return changed;
-	}
-
-	public String toString() {
-		return alphaIndex.toString();
+		private NodeProvider[] createProviders(List<RuleAtom> processed, boolean lastWME) {
+			List<AtomDObject> args = atom.getAllArguments();
+			NodeProvider[] providers = new NodeProvider[args.size()];
+			AtomObjectTranslator translator = new AtomObjectTranslator(abox, processed, lastWME);
+			for (int i = 0; i < providers.length; i++) {
+	            providers[i] = translator.translateObject(args.get(i), true);
+            }
+			
+	        return providers;
+        }
+		
+        public Collection<? extends AtomVariable> getPrerequisitesVars(Collection<AtomVariable> bound) {
+	        return helper.getPrerequisiteVars(bound);
+        }
+		
+        public Collection<? extends AtomVariable> getBindableVars(Collection<AtomVariable> bound) {
+        	return helper.getBindableVars(bound);
+        }		
+        
+        @Override
+        public String toString() {
+            return atom.toString();
+        }
 	}
 }

@@ -6,113 +6,46 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.logging.Level;
 
-import org.mindswap.pellet.utils.ATermUtils;
+import org.mindswap.pellet.Node;
 
-import aterm.ATermAppl;
+import com.clarkparsia.pellet.rules.model.RuleAtom;
 
 /**
- * <p>
- * Title: Alpha Node
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
- * Copyright: Copyright (c) 2007
- * </p>
- * <p>
- * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
- * </p>
  */
-public class AlphaNode extends Node {
+public abstract class AlphaNode extends ReteNode {
+	protected static final Iterator<WME> NO_MATCH = Collections.<WME>emptyList().iterator();
+	
+	protected boolean doExplanation; 
 
-	protected TermTuple			pattern;
+	public abstract Iterator<WME> getMatches(int argIndex, Node arg);
 
-	public AlphaNode(TermTuple t) {
-		this.pattern = t;
-		this.vars = pattern.getVars();
+	public abstract Iterator<WME> getMatches();
+	
+	public abstract boolean matches(RuleAtom atom);
 		
-		//Collections.sort(vars);
+	protected void activate(WME wme) {
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("Activate alpha " + wme);
+		}
+        for (BetaNode beta : getBetas()) {
+            beta.activate(wme);
+        }
 	}
 	
-	public boolean add(Fact fact) {
-		List<ATermAppl> key = match( fact );
-
-		if( key != null ) {
-			markDirty();
-			return index.add( key, new Fact( fact.getDependencySet(), key ) );
-		}
-		return false;
-	}
-
-	/**
-	 * Mark any dependent beta nodes as 'dirty' (needing to be reprocessed)
-	 */
-	public void markDirty() {
-		for ( BetaNode beta : getBetas() ) {
-			beta.markDirty();
-		}
-	}
+	public void setDoExplanation(boolean doExplanation) {
+	    this.doExplanation = doExplanation;
+    }	
 	
-	/**
-	 * Determine whether the fact matches the node's pattern
-	 * 
-	 * @return a list of constants in key order.
-	 */
-	private List<ATermAppl> match(Fact fact) {
-
-		if( fact.getElements().size() != pattern.getElements().size() )
-			return null;
-
-		Map<ATermAppl, ATermAppl> bindings = new HashMap<ATermAppl, ATermAppl>();
-		List<ATermAppl> pList = this.pattern.getElements();
-		List<ATermAppl> fList = fact.getElements();
-		ATermAppl p = null;
-		ATermAppl f = null;
-		for( int i = 0; i < pattern.getElements().size(); i++ ) {
-			p = pList.get( i );
-			f = fList.get( i );
-
-			if( !ATermUtils.isVar(p) ) {
-				if( !p.equals( f ) )
-					return null;
+	@Override
+	public void print(String indent) {
+		for (BetaNode node : getBetas()) {
+			if (node.isTop()) {
+				node.print(indent);
 			}
-			else if( !bindings.containsKey( p ) )
-				bindings.put( p, f );
-			else if( !bindings.get( p ).equals( f ) )
-				return null;
-		}
-
-		List<ATermAppl> bindingList = new ArrayList<ATermAppl>();
-		for( ATermAppl var : getKey() ) {
-			bindingList.add( bindings.get( var ) );
-		}
-		return bindingList;
-	}
-	
-	public boolean remove( Fact fact ) {
-		List<ATermAppl> key = match( fact );
-
-		if( key != null ) {
-			markDirty();
-			return index.remove( key, new Fact( fact.getDependencySet(), key ) );
-		}
-		return false;
-	}
-	
-	public void reset() {
-		super.reset();
-		for ( BetaNode beta : getBetas() ) {
-			beta.reset();
-		}
-	}
-
-	public String toString() {
-		return "AlphaNode(" + pattern.toString() + ")";
+        }
 	}
 }

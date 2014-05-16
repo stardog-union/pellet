@@ -142,6 +142,16 @@ public abstract class Node {
         inEdges = node.inEdges;
 	}
 	
+	@Override
+	public int hashCode() {
+	    return name.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    return (obj == this) || ((obj.getClass() == getClass()) && ((Node) obj).name.equals(name));
+	}
+	
 	protected void updateNodeReferences() {
         mergedTo = abox.getNode( mergedTo.getName() );
 
@@ -752,9 +762,9 @@ public abstract class Node {
 	        merged = null; // free space
 	}
 	
-	public void setSame(Node node, DependencySet ds) {
+	public boolean setSame(Node node, DependencySet ds) {
 		if( isSame( node ) ) 
-		    return;
+		    return false;
         if( isDifferent( node ) ) {
         		//CHW - added for incremental reasoning support - this is needed as we will need to backjump if possible
         		if(PelletOptions.USE_INCREMENTAL_CONSISTENCY)
@@ -762,12 +772,13 @@ public abstract class Node {
         		else
         			abox.setClash( Clash.nominal( this, ds, node.getName() ) );
         		
-		    return;
+		    return false;
 		}
 		
 		mergedTo = node;
 		mergeDepends = ds.copy( abox.getBranch() );
 		node.addMerged( this );
+		return true;
 	}
 	
 	public boolean isSame(Node node) {
@@ -786,21 +797,21 @@ public abstract class Node {
 		return differents.get(node);
 	}	
 
-	public void setDifferent(Node node, DependencySet ds) {
+	public boolean setDifferent(Node node, DependencySet ds) {
 
 		// add to effected list
 		if( abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS )
 			abox.getBranchEffectTracker().add( abox.getBranch(), node.getName() );
 
 		if( isDifferent( node ) )
-			return;
+			return false;
 		if( isSame( node ) ) {
 			ds = ds.union( this.getMergeDependency( true ), abox.doExplanation() );
 			ds = ds.union( node.getMergeDependency( true ), abox.doExplanation() );
 			abox.setClash( Clash.nominal( this, ds, node.getName() ));
 
 			if (!ds.isIndependent()) {
-				return;
+				return false;
 			}
 		}
 		
@@ -808,6 +819,7 @@ public abstract class Node {
 		differents.put(node, ds);
 		node.setDifferent(this, ds);
 		abox.setChanged( true );
+		return true;
 	}
 	
 	public void inheritDifferents( Node y, DependencySet ds ) {

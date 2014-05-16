@@ -98,7 +98,6 @@ import com.clarkparsia.pellet.el.SimplifiedELClassifier;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 import com.clarkparsia.pellet.expressivity.ExpressivityChecker;
 import com.clarkparsia.pellet.rules.ContinuousRulesStrategy;
-import com.clarkparsia.pellet.rules.RuleStrategy;
 import com.clarkparsia.pellet.rules.UsableRuleFilter;
 import com.clarkparsia.pellet.rules.model.AtomDVariable;
 import com.clarkparsia.pellet.rules.model.AtomIObject;
@@ -4487,12 +4486,7 @@ public class KnowledgeBase {
 		// there are nominals because then rules may affect concept satisfiability and we need
 		// to use rules strategy
 		if( getRules().size() > 0 && (expressivity.hasNominal() || !conceptSatisfiability) ) {
-			if( PelletOptions.USE_CONTINUOUS_RULES ) {
-				return new ContinuousRulesStrategy( abox );
-			}
-			else {
-				return new RuleStrategy( abox );
-			}
+			return new ContinuousRulesStrategy( abox );
 		}
 		
 		boolean fullDatatypeReasoning = PelletOptions.USE_FULL_DATATYPE_REASONING

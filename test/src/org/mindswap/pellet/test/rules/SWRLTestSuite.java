@@ -40,6 +40,7 @@ public class SWRLTestSuite extends TestSuite {
 	public static String base = PelletTestSuite.base + "swrl-test/";
 	
 	private static List<File> IGNORE = Arrays.asList(
+		new File (base + "equalities/Manifest002.rdf")
 	);
 
 	public static void main(String args[]) {
