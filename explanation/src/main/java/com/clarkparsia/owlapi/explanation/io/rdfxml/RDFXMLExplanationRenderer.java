@@ -11,7 +11,7 @@ import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.coode.owlapi.rdf.rdfxml.RDFXMLRenderer;
+import org.semanticweb.owlapi.rdf.rdfxml.renderer.RDFXMLRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 
@@ -55,7 +55,7 @@ public class RDFXMLExplanationRenderer implements ExplanationRenderer {
 
 	public void endRendering() throws IOException {
 		OWLOntology ontology = OWL.Ontology( axioms );
-		RDFXMLRenderer renderer = new RDFXMLRenderer(OntologyUtils.getOWLOntologyManager(), ontology, writer);
+        RDFXMLRenderer renderer = new RDFXMLRenderer(ontology, writer);
 		renderer.render();
 	}
 

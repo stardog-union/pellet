@@ -10,6 +10,7 @@ import static com.clarkparsia.owlwg.testcase.TestVocabulary.ObjectProperty.STATU
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableSet;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.search.Searcher;
 
 import com.clarkparsia.owlwg.testcase.TestVocabulary.Individual;
 
@@ -65,30 +67,28 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 
 		iri = i.getIRI();
 
-		Map<OWLDataPropertyExpression, Set<OWLLiteral>> dpValues = i
-				.getDataPropertyValues( ontology );
-		Set<OWLLiteral> identifiers = dpValues.get( IDENTIFIER.getOWLDataProperty() );
-		if( identifiers == null )
-			throw new NullPointerException();
+        Collection<OWLLiteral> identifiers = Searcher.values(
+                ontology.getDataPropertyAssertionAxioms(i),
+                IDENTIFIER.getOWLDataProperty());
 		if( identifiers.size() != 1 )
 			throw new IllegalArgumentException();
 
 		identifier = identifiers.iterator().next().getLiteral();
 
-		Map<OWLObjectPropertyExpression, Set<OWLIndividual>> opValues = i
-				.getObjectPropertyValues( ontology );
+        Collection<OWLIndividual> importedOntologies = Searcher.values(
+                ontology.getObjectPropertyAssertionAxioms(i),
+                IMPORTED_ONTOLOGY.getOWLObjectProperty());
 
 		imports = new HashMap<IRI, ImportedOntology>();
-		Set<OWLIndividual> importedOntologies = opValues.get( IMPORTED_ONTOLOGY
-				.getOWLObjectProperty() );
 		if( importedOntologies != null ) {
 			for( OWLIndividual ind : importedOntologies ) {
 				ImportedOntology io = new ImportedOntologyImpl( ontology, ind.asOWLNamedIndividual() );
 				imports.put( io.getIRI(), io );
 			}
 		}
-
-		Set<OWLIndividual> statuses = opValues.get( STATUS.getOWLObjectProperty() );
+        Collection<OWLIndividual> statuses = Searcher.values(
+                ontology.getObjectPropertyAssertionAxioms(i),
+                STATUS.getOWLObjectProperty());
 		if( statuses == null || statuses.isEmpty() )
 			status = null;
 		else if( statuses.size() > 1 )
@@ -103,8 +103,9 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 		}
 
 		satisfied = EnumSet.noneOf( SyntaxConstraint.class );
-		Set<OWLIndividual> profiles = opValues.get( PROFILE.getOWLObjectProperty() );
-		if( profiles != null ) {
+        Collection<OWLIndividual> profiles = Searcher.values(
+                ontology.getObjectPropertyAssertionAxioms(i),
+                PROFILE.getOWLObjectProperty());
 			for( OWLIndividual p : profiles ) {
 				SyntaxConstraint c = SyntaxConstraint.get( p );
 				if( c == null )
@@ -113,10 +114,9 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 									.toURI().toASCIIString(), i.getIRI() ) );
 				satisfied.add( c );
 			}
-		}
-
-		Set<OWLIndividual> species = opValues.get( SPECIES.getOWLObjectProperty() );
-		if( species != null ) {
+        Collection<OWLIndividual> species = Searcher.values(
+                ontology.getObjectPropertyAssertionAxioms(i),
+                SPECIES.getOWLObjectProperty());
 			for( OWLIndividual s : species ) {
 				if( FULL.getOWLIndividual().equals( s ) )
 					continue;
@@ -127,11 +127,11 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 							"Unexpected species ( %s ) for test case %s", s.asOWLNamedIndividual().getIRI()
 									.toURI().toASCIIString(), i.getIRI() ) );
 			}
-		}
 
 		semantics = EnumSet.noneOf( Semantics.class );
-		Set<OWLIndividual> sems = opValues.get( SEMANTICS.getOWLObjectProperty() );
-		if( sems != null ) {
+        Collection<OWLIndividual> sems = Searcher.values(
+                ontology.getObjectPropertyAssertionAxioms(i),
+                SEMANTICS.getOWLObjectProperty());
 			for( OWLIndividual sem : sems ) {
 				Semantics s = Semantics.get( sem );
 				if( s == null )
@@ -140,15 +140,12 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 									.toURI().toASCIIString(), i.getIRI() ) );
 				semantics.add( s );
 			}
-		}
-
-		Map<OWLObjectPropertyExpression, Set<OWLIndividual>> nopValues = i
-				.getNegativeObjectPropertyValues( ontology );
 
 		notsatisfied = EnumSet.noneOf( SyntaxConstraint.class );
 
-		Set<OWLIndividual> notprofiles = nopValues.get( PROFILE.getOWLObjectProperty() );
-		if( notprofiles != null ) {
+        Collection<OWLIndividual> notprofiles = Searcher.negValues(
+                ontology.getNegativeObjectPropertyAssertionAxioms(i),
+                PROFILE.getOWLObjectProperty());
 			for( OWLIndividual p : notprofiles ) {
 				SyntaxConstraint c = SyntaxConstraint.get( p );
 				if( c == null )
@@ -157,10 +154,10 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 									.toURI().toASCIIString(), i.getIRI() ) );
 				notsatisfied.add( c );
 			}
-		}
 
-		Set<OWLIndividual> notspecies = nopValues.get( SPECIES.getOWLObjectProperty() );
-		if( notspecies != null ) {
+        Collection<OWLIndividual> notspecies = Searcher.negValues(
+                ontology.getNegativeObjectPropertyAssertionAxioms(i),
+                SPECIES.getOWLObjectProperty());
 			for( OWLIndividual s : notspecies ) {
 				if( Individual.DL.getOWLIndividual().equals( s ) )
 					notsatisfied.add( SyntaxConstraint.DL );
@@ -169,11 +166,11 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 							"Unexpected species ( %s ) for test case %s", s.asOWLNamedIndividual().getIRI()
 									.toURI().toASCIIString(), i.getIRI() ) );
 			}
-		}
 
 		notsemantics = EnumSet.noneOf( Semantics.class );
-		Set<OWLIndividual> notsems = nopValues.get( SEMANTICS.getOWLObjectProperty() );
-		if( notsems != null ) {
+        Collection<OWLIndividual> notsems = Searcher.negValues(
+                ontology.getNegativeObjectPropertyAssertionAxioms(i),
+                SEMANTICS.getOWLObjectProperty());
 			for( OWLIndividual sem : notsems ) {
 				Semantics s = Semantics.get( sem );
 				if( s == null )
@@ -182,7 +179,6 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 									.toURI().toASCIIString(), i.getIRI() ) );
 				notsemantics.add( s );
 			}
-		}
 	}
 
 	public void dispose() {

@@ -338,14 +338,14 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		
 		if( dtype.equals( ATermUtils.PLAIN_LITERAL_DATATYPE ) ) {
 			if( lang.equals( ATermUtils.EMPTY ) )
-				obj = factory.getOWLStringLiteral( lexValue );
+                obj = factory.getOWLLiteral(lexValue, "");
 			else
-				obj = factory.getOWLStringLiteral( lexValue, lang.toString() );
+                obj = factory.getOWLLiteral(lexValue, lang.toString());
 		}
 		else {
 			IRI dtypeIRI = IRI.create( dtype.toString() );
 			OWLDatatype datatype = factory.getOWLDatatype( dtypeIRI );
-			obj = factory.getOWLTypedLiteral( lexValue, datatype );
+            obj = factory.getOWLLiteral(lexValue, datatype);
 		}
 	}
 

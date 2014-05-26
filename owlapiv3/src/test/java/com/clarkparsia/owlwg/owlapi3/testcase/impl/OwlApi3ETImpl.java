@@ -7,7 +7,9 @@ import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.parameters.MissingImportHandlingStrategy;
 
 import com.clarkparsia.owlwg.testcase.AbstractEntailmentTest;
 import com.clarkparsia.owlwg.testcase.EntailmentTest;
@@ -36,6 +38,8 @@ public abstract class OwlApi3ETImpl extends AbstractEntailmentTest<OWLOntology> 
 
 	private final EnumMap<SerializationFormat, OWLOntology>	parsedConclusion;
 	private final EnumMap<SerializationFormat, OWLOntology>	parsedPremise;
+    protected OWLOntologyLoaderConfiguration config = new OWLOntologyLoaderConfiguration()
+            .setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT);
 
 	public OwlApi3ETImpl(OWLOntology ontology, OWLNamedIndividual i, boolean positive) {
 		super( ontology, i, positive );
@@ -48,10 +52,9 @@ public abstract class OwlApi3ETImpl extends AbstractEntailmentTest<OWLOntology> 
 			throws OntologyParseException {
 		try {
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-			manager.setSilentMissingImportsHandling( true );
-			manager.clearIRIMappers();
+            manager.getIRIMappers().clear();
 
-			ImportsHelper.loadImports( manager, this, format );
+            ImportsHelper.loadImports(manager, this, format, config);
 			OWLOntology o = parsedConclusion.get( format );
 			if( o == null ) {
 				String l = getConclusionOntology( format );
@@ -59,7 +62,8 @@ public abstract class OwlApi3ETImpl extends AbstractEntailmentTest<OWLOntology> 
 					return null;
 
 				StringDocumentSource source = new StringDocumentSource( l );
-				o = OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument( source );
+                o = OWLManager.createOWLOntologyManager()
+                        .loadOntologyFromOntologyDocument(source, config);
 				parsedConclusion.put( format, o );
 			}
 			return o;
@@ -72,10 +76,10 @@ public abstract class OwlApi3ETImpl extends AbstractEntailmentTest<OWLOntology> 
 			throws OntologyParseException {
 		try {
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-			manager.setSilentMissingImportsHandling( true );
-			manager.clearIRIMappers();
+            manager.getIRIMappers().clear();
+            ;
 
-			ImportsHelper.loadImports( manager, this, format );
+            ImportsHelper.loadImports(manager, this, format, config);
 			OWLOntology o = parsedPremise.get( format );
 			if( o == null ) {
 				String l = getPremiseOntology( format );
@@ -83,7 +87,7 @@ public abstract class OwlApi3ETImpl extends AbstractEntailmentTest<OWLOntology> 
 					return null;
 
 				StringDocumentSource source = new StringDocumentSource( l );
-				o = manager.loadOntologyFromOntologyDocument( source );
+                o = manager.loadOntologyFromOntologyDocument(source, config);
 				parsedPremise.put( format, o );
 			}
 			return o;

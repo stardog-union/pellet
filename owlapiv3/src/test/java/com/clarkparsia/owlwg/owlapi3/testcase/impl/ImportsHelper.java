@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import com.clarkparsia.owlwg.testcase.SerializationFormat;
@@ -38,7 +39,9 @@ public class ImportsHelper {
 	}
 
 	public static void loadImports(final OWLOntologyManager manager, final OwlApi3Case t,
-			final SerializationFormat format) throws OWLOntologyCreationException {
+ final SerializationFormat format,
+            final OWLOntologyLoaderConfiguration config)
+            throws OWLOntologyCreationException {
 
 		for( IRI iri : t.getImportedOntologies() ) {
 			if( !manager.contains( iri ) ) {
@@ -51,9 +54,10 @@ public class ImportsHelper {
 					throw new OWLOntologyCreationException( msg );
 				}
 				else {
-					StringDocumentSource source = new StringDocumentSource( str, iri );
+                    StringDocumentSource source = new StringDocumentSource(str,
+                            iri, null, null);
 					try {
-						manager.loadOntologyFromOntologyDocument( source );
+                        manager.loadOntologyFromOntologyDocument(source, config);
 					} catch( OWLOntologyCreationException e ) {
 						log.warning( format( "Failed to parse imported ontology for testcase (%s)",
 								t.getIdentifier() ) );

@@ -380,7 +380,7 @@ public class PelletVisitor implements OWLObjectVisitor {
 	public void visit(OWLObjectHasValue restriction) {
 		restriction.getProperty().accept( this );
 		ATerm p = term;
-		restriction.getValue().accept( this );
+        restriction.getFiller().accept(this);
 		ATermAppl ind = term;
 
 		term = ATermUtils.makeHasValue( p, ind );
@@ -636,7 +636,7 @@ public class PelletVisitor implements OWLObjectVisitor {
 		ATermAppl c = term;
 
 		Set<ATermAppl> properties = new HashSet<ATermAppl>();
-		for( OWLPropertyExpression<?, ?> pe : axiom.getPropertyExpressions() ) {
+        for (OWLPropertyExpression pe : axiom.getPropertyExpressions()) {
 			pe.accept( this );
 			properties.add( term );
 		}
@@ -678,7 +678,7 @@ public class PelletVisitor implements OWLObjectVisitor {
 	public void visit(OWLDataHasValue restriction) {
 		restriction.getProperty().accept( this );
 		ATermAppl p = term;
-		restriction.getValue().accept( this );
+        restriction.getFiller().accept(this);
 		ATermAppl dv = term;
 
 		term = ATermUtils.makeHasValue( p, dv );

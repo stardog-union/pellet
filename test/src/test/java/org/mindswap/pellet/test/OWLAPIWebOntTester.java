@@ -60,7 +60,7 @@ public class OWLAPIWebOntTester implements WebOntTester {
 		OntologyUtils.clearOWLOntologyManager();
 		OWLOntology ont = null;
 		try {
-			manager.addIRIMapper( mapper );
+            manager.getIRIMappers().add(mapper);
 			ont = manager.loadOntology( IRI.create(inputFileURI) );
 			reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 		} catch( OWLException e ) {

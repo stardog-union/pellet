@@ -111,14 +111,14 @@ public class TestRunResultAdapter {
 		axioms.add( dataFactory.getOWLDataPropertyAssertionAxiom(
 				TestVocabulary.DatatypeProperty.IDENTIFIER.getOWLDataProperty(),
 				testAnonIndividual, dataFactory
-						.getOWLTypedLiteral( r.getTestCase().getIdentifier() ) ) );
+.getOWLLiteral(r.getTestCase().getIdentifier())));
 		final String details = r.getDetails();
 		if( details != null && details.length() > 0 ) {
 			axioms.add( dataFactory.getOWLAnnotationAssertionAxiom(
 					dataFactory.getOWLAnnotationProperty( AnnotationProperty.DETAILS
 							.getAnnotationPropertyIRI()),
-					i,
-					dataFactory.getOWLStringLiteral( details ) ) );
+ i, dataFactory
+                    .getOWLLiteral(details, "")));
 		}
 
 		axioms.addAll( runTypeAdapter.process( r ) );

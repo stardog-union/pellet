@@ -176,7 +176,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLDataAllValuesFrom theDescription) {
-		writeQuantifiedRestriction( theDescription, Keyword.ONLY );
+        writeQuantifiedRestriction(theDescription.getProperty(),
+                theDescription, Keyword.ONLY);
 	}
 
 	public void visit(OWLDataComplementOf theDescription) {
@@ -184,15 +185,18 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLDataExactCardinality theDescription) {
-		writeCardinalityRestriction( theDescription, Keyword.EXACTLY );
+        writeCardinalityRestriction(theDescription.getProperty(),
+                theDescription, Keyword.EXACTLY);
 	}
 
 	public void visit(OWLDataMaxCardinality theDescription) {
-		writeCardinalityRestriction( theDescription, Keyword.MAX );
+        writeCardinalityRestriction(theDescription.getProperty(),
+                theDescription, Keyword.MAX);
 	}
 
 	public void visit(OWLDataMinCardinality theDescription) {
-		writeCardinalityRestriction( theDescription, Keyword.MIN );
+        writeCardinalityRestriction(theDescription.getProperty(),
+                theDescription, Keyword.MIN);
 	}
 
 	public void visit(OWLDataOneOf theDescription) {
@@ -245,7 +249,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLDataSomeValuesFrom theDescription) {
-		writeQuantifiedRestriction( theDescription, Keyword.SOME );
+        writeQuantifiedRestriction(theDescription.getProperty(),
+                theDescription, Keyword.SOME);
 	}
 
 	public void visit(OWLSubDataPropertyOfAxiom theAxiom) {
@@ -258,7 +263,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLDataHasValue theDescription) {
-		writeRestriction( theDescription.getProperty(), Keyword.VALUE, theDescription.getValue() );
+        writeRestriction(theDescription.getProperty(), Keyword.VALUE,
+                theDescription.getFiller());
 	}
 
 	public void visit(OWLDeclarationAxiom theAxiom) {
@@ -362,7 +368,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLObjectAllValuesFrom theDescription) {
-		writeQuantifiedRestriction( theDescription, Keyword.ONLY );
+        writeQuantifiedRestriction(theDescription.getProperty(),
+                theDescription, Keyword.ONLY);
 	}
 
 	public void visit(OWLObjectComplementOf theDescription) {
@@ -370,7 +377,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLObjectExactCardinality theDescription) {
-		writeCardinalityRestriction( theDescription, Keyword.EXACTLY );
+        writeCardinalityRestriction(theDescription.getProperty(),
+                theDescription, Keyword.EXACTLY);
 	}
 
 	public void visit(OWLObjectIntersectionOf theDescription) {
@@ -378,11 +386,13 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLObjectMaxCardinality theDescription) {
-		writeCardinalityRestriction( theDescription, Keyword.MAX );
+        writeCardinalityRestriction(theDescription.getProperty(),
+                theDescription, Keyword.MAX);
 	}
 
 	public void visit(OWLObjectMinCardinality theDescription) {
-		writeCardinalityRestriction( theDescription, Keyword.MIN );
+        writeCardinalityRestriction(theDescription.getProperty(),
+                theDescription, Keyword.MIN);
 	}
 
 	public void visit(OWLObjectOneOf theDescription) {
@@ -426,7 +436,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLObjectSomeValuesFrom theDescription) {
-		writeQuantifiedRestriction( theDescription, Keyword.SOME );
+        writeQuantifiedRestriction(theDescription.getProperty(),
+                theDescription, Keyword.SOME);
 	}
 
 	public void visit(OWLSubObjectPropertyOfAxiom theAxiom) {
@@ -439,11 +450,12 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 
 	public void visit(OWLObjectHasValue theDescription) {
-		writeRestriction( theDescription.getProperty(), Keyword.VALUE, theDescription.getValue() );
+        writeRestriction(theDescription.getProperty(), Keyword.VALUE,
+                theDescription.getFiller());
 	}
 
 	public void visit(OWLOntology ontology) {
-		write( ontology.getOntologyID().getOntologyIRI() );
+        write(ontology.getOntologyID().getOntologyIRI().orNull());
 	}
 
 	public void visit(OWLReflexiveObjectPropertyAxiom theAxiom) {
@@ -641,13 +653,14 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		// write( ")" );
 	}
 
-	protected void writeCardinalityRestriction(OWLCardinalityRestriction<?, ?, ?> theRestriction,
+    protected void writeCardinalityRestriction(OWLPropertyExpression p,
+            OWLCardinalityRestriction<?> theRestriction,
 			Keyword theKeyword) {
 		if( theRestriction.isQualified() )
-			writeRestriction( theRestriction.getProperty(), theKeyword, theRestriction
+            writeRestriction(p, theKeyword, theRestriction
 					.getCardinality(), theRestriction.getFiller() );
 		else
-			writeRestriction( theRestriction.getProperty(), theKeyword, theRestriction
+            writeRestriction(p, theKeyword, theRestriction
 					.getCardinality() );
 	}
 
@@ -678,12 +691,14 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		}
 	}
 
-	protected void writeQuantifiedRestriction(OWLQuantifiedRestriction<?, ?, ?> theRestriction,
+    protected void writeQuantifiedRestriction(OWLPropertyExpression p,
+            OWLQuantifiedRestriction<?> theRestriction,
 			Keyword theKeyword) {
-		writeRestriction( theRestriction.getProperty(), theKeyword, theRestriction.getFiller() );
+        writeRestriction(p, theKeyword, theRestriction.getFiller());
 	}
 
-	protected void writeRestriction(OWLPropertyExpression<?, ?> theProperty, Keyword theKeyword,
+    protected void writeRestriction(OWLPropertyExpression theProperty,
+            Keyword theKeyword,
 			Object... theArgs) {
 		// write( "(" );
 

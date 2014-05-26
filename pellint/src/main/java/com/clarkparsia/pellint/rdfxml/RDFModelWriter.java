@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 
-import org.coode.owlapi.rdfxml.parser.AnonymousNodeChecker;
-import org.coode.owlapi.rdfxml.parser.OWLRDFConsumer;
+import org.semanticweb.owlapi.util.AnonymousNodeChecker;
+import org.semanticweb.owlapi.rdf.rdfxml.parser.OWLRDFConsumer;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;

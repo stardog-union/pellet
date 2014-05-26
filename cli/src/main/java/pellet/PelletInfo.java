@@ -23,7 +23,10 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.parameters.Imports;
+import org.semanticweb.owlapi.model.parameters.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.profiles.OWL2DLProfile;
 import org.semanticweb.owlapi.profiles.OWL2ELProfile;
 import org.semanticweb.owlapi.profiles.OWL2Profile;
@@ -38,6 +41,7 @@ import com.clarkparsia.pellet.owlapiv3.LimitedMapIRIMapper;
 
 public class PelletInfo extends PelletCmdApp {
 	private final List<OWLProfile> profiles = Arrays.asList(new OWL2ELProfile(), new OWL2QLProfile(), new OWL2RLProfile(), new OWL2DLProfile(),  new OWL2Profile());
+    private OWLOntologyLoaderConfiguration config;
 
 	@Override
 	public String getAppCmd() {
@@ -100,17 +104,20 @@ public class PelletInfo extends PelletCmdApp {
 
 			LimitedMapIRIMapper iriMapper = new LimitedMapIRIMapper();
 			OWLOntology	baseOntology = manager.createOntology();
-			manager.clearIRIMappers();
+            manager.getIRIMappers().clear();
+            ;
 
 			if(options.getOption("ignore-imports").getValueAsBoolean())
 			{
-				manager.addIRIMapper(iriMapper);
-				manager.setSilentMissingImportsHandling(true);				
+                manager.getIRIMappers().add(iriMapper);
+                config = new OWLOntologyLoaderConfiguration()
+                        .setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT);
 			}
 			else
 			{
-				manager.addIRIMapper(new NonMappingOntologyIRIMapper());
-				manager.setSilentMissingImportsHandling(false);
+                manager.getIRIMappers().add(new NonMappingOntologyIRIMapper());
+                config = new OWLOntologyLoaderConfiguration()
+                        .setMissingImportHandlingStrategy(MissingImportHandlingStrategy.THROW_EXCEPTION);
 			}
 
 			if(inputFiles.size() > 1)
@@ -139,7 +146,7 @@ public class PelletInfo extends PelletCmdApp {
 
 			OWLImportsDeclaration declaration = manager.getOWLDataFactory().getOWLImportsDeclaration( iri );
 			manager.applyChange( new AddImport( baseOntology, declaration ) );
-			manager.makeLoadImportRequest( declaration );
+            manager.makeLoadImportRequest(declaration, config);
 		}catch (Exception e) {
 			if(verbose)
 				System.err.println(e.getLocalizedMessage());
@@ -164,7 +171,7 @@ public class PelletInfo extends PelletCmdApp {
 	{
 		OWLOntologyManager newManager = OWLManager.createOWLOntologyManager();		
 		OWLOntology merged = newManager.createOntology();
-		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
+        List<OWLOntologyChange<?>> changes = new ArrayList<OWLOntologyChange<?>>();
 		
 		for(OWLOntology ontology: manager.getOntologies())
 		{
@@ -181,7 +188,9 @@ public class PelletInfo extends PelletCmdApp {
 		for(OWLOntology ontology: manager.getOntologies())
 		{			
 			String ontologyLocation = manager.getOntologyDocumentIRI(ontology) != null ? manager.getOntologyDocumentIRI(ontology).toString(): "ontology";
-			String ontologyBaseURI = ontology.getOntologyID().getOntologyIRI() != null? ontology.getOntologyID().getOntologyIRI().toQuotedString() : "";
+            String ontologyBaseURI = ontology.getOntologyID().getOntologyIRI()
+                    .isPresent() ? ontology.getOntologyID().getOntologyIRI()
+                    .get().toQuotedString() : "";
 			output("Information about "+ontologyLocation+" ("+ontologyBaseURI+")");
 			if(verbose)
 				printOntologyHeader(ontology);
@@ -195,7 +204,9 @@ public class PelletInfo extends PelletCmdApp {
 			output("Classes = "+ontology.getClassesInSignature().size());
 			output("Object Properties = "+ontology.getObjectPropertiesInSignature().size());
 			output("Data Properties = "+ontology.getDataPropertiesInSignature().size());
-			output("Annotation Properties = "+ontology.getAnnotationPropertiesInSignature().size());
+            output("Annotation Properties = "
+                    + ontology.getAnnotationPropertiesInSignature(
+                            Imports.EXCLUDED).size());
 
 			Set<OWLImportsDeclaration> imports = ontology.getImportsDeclarations();
 			if(imports.size() > 0)

@@ -15,6 +15,8 @@ import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.io.FileDocumentSource;
+import org.semanticweb.owlapi.io.IRIDocumentSource;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.MissingImportEvent;
@@ -23,7 +25,9 @@ import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.parameters.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.util.NonMappingOntologyIRIMapper;
 
 /**
@@ -58,12 +62,13 @@ public class OWLAPILoader extends KBLoader {
 	 * minimize the warnings printed when OWLOntologyManager.makeLoadImportRequest is called
 	 */
 	private boolean				loadSingleFile;
+    private OWLOntologyLoaderConfiguration config = new OWLOntologyLoaderConfiguration()
+            .setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT);
 
 	public OWLAPILoader() {
 		iriMapper = new LimitedMapIRIMapper();
 		manager = OWLManager.createOWLOntologyManager();
 
-		manager.setSilentMissingImportsHandling(true);
 		manager.addMissingImportListener(new MissingImportListener() {
 			public void importMissing(MissingImportEvent event) {
 				if (!ignoreImports) {
@@ -139,14 +144,20 @@ public class OWLAPILoader extends KBLoader {
 			
 			if( loadSingleFile ) {
 				// we are loading a single file so we can load it directly
-				baseOntology = manager.loadOntologyFromOntologyDocument( fileIRI );				
+                baseOntology = manager.loadOntologyFromOntologyDocument(
+                        new IRIDocumentSource(fileIRI, null, null), config);
 			}
 			else {
 				// loading multiple files so each input file should be added as
 				// an import to the base ontology we created
-				OWLOntology importOnt = manager.loadOntologyFromOntologyDocument( fileIRI );	
+                OWLOntology importOnt = manager
+                        .loadOntologyFromOntologyDocument(
+                                new IRIDocumentSource(fileIRI, null, null),
+                                config);
 				OWLImportsDeclaration declaration = manager.getOWLDataFactory()
-						.getOWLImportsDeclaration( importOnt.getOntologyID().getOntologyIRI() );
+                        .getOWLImportsDeclaration(
+                                importOnt.getOntologyID().getOntologyIRI()
+                                        .orNull());
 				manager.applyChange( new AddImport( baseOntology, declaration ) );
 			}
 		} catch( IllegalArgumentException e ) {
@@ -165,12 +176,12 @@ public class OWLAPILoader extends KBLoader {
 	public void setIgnoreImports(boolean ignoreImports) {
 		this.ignoreImports = ignoreImports;
 		if( ignoreImports ) {
-			manager.clearIRIMappers();
-			manager.addIRIMapper( iriMapper );
+            manager.getIRIMappers().clear();
+            manager.getIRIMappers().add(iriMapper);
 		}
 		else {
-			manager.clearIRIMappers();
-			manager.addIRIMapper( new NonMappingOntologyIRIMapper() );
+            manager.getIRIMappers().clear();
+            manager.getIRIMappers().add(new NonMappingOntologyIRIMapper());
 		}
 	}
 

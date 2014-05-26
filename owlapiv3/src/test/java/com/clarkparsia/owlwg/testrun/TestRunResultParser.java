@@ -21,6 +21,7 @@ import static java.lang.String.format;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +37,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.search.Searcher;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import com.clarkparsia.owlwg.runner.ReadOnlyTestRunner;
@@ -77,9 +79,10 @@ public class TestRunResultParser {
 		TestRunner<?> runner = runners.get( iri );
 		if( runner == null ) {
 			String name;
-			Set<OWLAnnotation> s = i.getAnnotations( o, o.getOWLOntologyManager()
-					.getOWLDataFactory().getOWLAnnotationProperty(
-							OWLRDFVocabulary.RDFS_LABEL.getIRI() ) );
+            Collection<OWLAnnotation> s = Searcher.annotations(
+                    o.getAnnotationAssertionAxioms(i.getIRI()), o
+                            .getOWLOntologyManager().getOWLDataFactory()
+                            .getRDFSLabel());
 			if( (s == null) || s.isEmpty() )
 				name = i.getIRI().toURI().toASCIIString();
 			else
@@ -98,20 +101,19 @@ public class TestRunResultParser {
 
 		for( OWLClassAssertionAxiom axiom : o.getClassAssertionAxioms( TEST_RUN.getOWLClass() ) ) {
 			final OWLNamedIndividual i = axiom.getIndividual().asOWLNamedIndividual();
-			final Map<OWLObjectPropertyExpression, Set<OWLIndividual>> oValues = i
-					.getObjectPropertyValues( o );
 
-			Set<OWLIndividual> testObjects = oValues.get( TEST.getOWLObjectProperty() );
+            Collection<OWLIndividual> testObjects = Searcher.values(
+                    o.getObjectPropertyAssertionAxioms(i),
+                    TEST.getOWLObjectProperty());
 			if( testObjects.size() != 1 ) {
 				log.warning( format(
 						"Skipping result, missing or more than one test assertion (\"%s\",%s)", i
 								.getIRI(), testObjects ) );
 				continue;
 			}
-			Map<OWLDataPropertyExpression, Set<OWLLiteral>> testDValues = testObjects.iterator()
-					.next().getDataPropertyValues( o );
-
-			Set<OWLLiteral> ids = testDValues.get( IDENTIFIER.getOWLDataProperty() );
+            Collection<OWLLiteral> ids = Searcher.values(o
+                    .getDataPropertyAssertionAxioms(testObjects.iterator()
+                            .next()), IDENTIFIER.getOWLDataProperty());
 			TestCase<?> testCase = null;
 			for( OWLLiteral c : ids ) {
 				String id = c.getLiteral();
@@ -125,8 +127,9 @@ public class TestRunResultParser {
 						.getIRI(), ids ) );
 				continue;
 			}
-
-			Set<OWLIndividual> runnerIris = oValues.get( RUNNER.getOWLObjectProperty() );
+            Collection<OWLIndividual> runnerIris = Searcher.values(
+                    o.getObjectPropertyAssertionAxioms(i),
+                    RUNNER.getOWLObjectProperty());
 			TestRunner<?> runner = null;
 			if( runnerIris.size() != 1 ) {
 				log
@@ -137,7 +140,8 @@ public class TestRunResultParser {
 			}
 			runner = getRunner( runnerIris.iterator().next().asOWLNamedIndividual(), o );
 
-			Set<OWLClassExpression> types = i.getTypes( o );
+            Set<OWLClassExpression> types = new HashSet<OWLClassExpression>(
+                    Searcher.types(o.getClassAssertionAxioms(i)));
 
 			RunResultType resultType = null;
 			for( RunResultType t : RunResultType.values() ) {
@@ -152,9 +156,13 @@ public class TestRunResultParser {
 			}
 
 			@SuppressWarnings("unchecked")
-			Set<OWLAnnotation> detailsAnnotations = i.getAnnotations( o, o.getOWLOntologyManager()
-					.getOWLDataFactory().getOWLAnnotationProperty(
-							DETAILS.getAnnotationPropertyIRI() ) );
+            Collection<OWLAnnotation> detailsAnnotations = Searcher
+                    .annotations(
+                            o.getAnnotationAssertionAxioms(i.getIRI()),
+                            o.getOWLOntologyManager()
+                                    .getOWLDataFactory()
+                                    .getOWLAnnotationProperty(
+                                            DETAILS.getAnnotationPropertyIRI()));
 			String details = null;
 			int ndetails = detailsAnnotations.size();
 			if( ndetails > 0 ) {
@@ -173,8 +181,9 @@ public class TestRunResultParser {
 					: new SyntaxTranslationRun( testCase, resultType, runner, details );
 			}
 			else if( types.contains( SYNTAX_CONSTRAINT_RUN.getOWLClass() ) ) {
-				Set<OWLIndividual> constraints = oValues.get( SYNTAX_CONSTRAINT
-						.getOWLObjectProperty() );
+                Collection<OWLIndividual> constraints = Searcher.values(
+                        o.getObjectPropertyAssertionAxioms(i),
+                        SYNTAX_CONSTRAINT.getOWLObjectProperty());
 				SyntaxConstraint constraint = null;
 				if( constraints.size() != 1 ) {
 					log

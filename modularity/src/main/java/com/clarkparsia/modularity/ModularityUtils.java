@@ -76,13 +76,7 @@ public class ModularityUtils {
 		case BOT:
 			return extractBottomModule( axiomIterator( ontologies ), signature );
 
-		case TOP_OF_BOT:
-			Set<OWLAxiom> bottomModule = extractBottomModule( axiomIterator( ontologies ),
-					signature );
-
-			return extractTopModule( bottomModule.iterator(), signature );
-
-		case BOT_OF_TOP:
+            case STAR:
 			Set<OWLAxiom> topModule = extractTopModule( axiomIterator( ontologies ), signature );
 
 			return extractBottomModule( topModule.iterator(), signature );

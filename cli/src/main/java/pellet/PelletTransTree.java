@@ -23,6 +23,8 @@ import org.mindswap.pellet.utils.ATermUtils;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.search.Searcher;
 
 import aterm.AFun;
 import aterm.ATermAppl;
@@ -120,7 +122,14 @@ public class PelletTransTree extends PelletCmdApp {
 		if( !(entity instanceof OWLObjectProperty) )
 			throw new PelletCmdException( "Not an object property: " + propertyName );
 
-		if( !((OWLObjectProperty) entity).isTransitive( loader.getAllOntologies() ) )
+        boolean isTransitive = false;
+        OWLObjectProperty property = (OWLObjectProperty) entity;
+        for (OWLOntology o : loader.getAllOntologies()) {
+            if (Searcher.isTransitive(o, property)) {
+                isTransitive = true;
+            }
+        }
+        if (!isTransitive)
 			throw new PelletCmdException( "Not a transitive property: " + propertyName );
 
 		ATermAppl p = ATermUtils.makeTermAppl( entity.getIRI().toString() );

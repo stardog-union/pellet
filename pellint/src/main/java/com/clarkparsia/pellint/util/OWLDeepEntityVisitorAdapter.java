@@ -11,7 +11,7 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.util.OWLEntityCollector;
+import org.semanticweb.owlapi.util.DeprecatedOWLEntityCollector;
 
 /**
  * <p>
@@ -31,7 +31,8 @@ import org.semanticweb.owlapi.util.OWLEntityCollector;
  * 
  * @author Harris Lin
  */
-public abstract class OWLDeepEntityVisitorAdapter extends OWLEntityCollector {
+public abstract class OWLDeepEntityVisitorAdapter extends
+        DeprecatedOWLEntityCollector {
 
 	public void visit(OWLClass desc) {}
 	public void visit(OWLObjectProperty property) {}

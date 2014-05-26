@@ -13,7 +13,7 @@ import static pellet.PelletCmdOptionArg.REQUIRED;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
+import org.semanticweb.owlapi.formats.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -123,10 +123,10 @@ public class PelletModularity extends PelletCmdApp {
 			moduleType = ModuleType.BOT;
 		}
 		else if( type.equalsIgnoreCase( "upper-of-lower" ) ) {
-			moduleType = ModuleType.BOT_OF_TOP;
+            moduleType = ModuleType.STAR;
 		}
 		else if( type.equalsIgnoreCase( "lower-of-upper" ) ) {
-			moduleType = ModuleType.TOP_OF_BOT;
+            moduleType = ModuleType.STAR;
 		}
 		else {
 			throw new PelletCmdException( "Unknown module type: " + type );

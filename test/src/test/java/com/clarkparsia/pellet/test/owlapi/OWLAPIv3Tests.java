@@ -95,6 +95,7 @@ import org.semanticweb.owlapi.reasoner.NullReasonerProgressMonitor;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
+import org.semanticweb.owlapi.search.Searcher;
 
 import aterm.ATermAppl;
 
@@ -434,9 +435,15 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		OWLNamedIndividual ind = Individual( ns + indName );
 
-		OWLLiteral valDouble = ind.getDataPropertyValues( pDouble, ont ).iterator().next();
-		OWLLiteral valInt = ind.getDataPropertyValues( pInt, ont ).iterator().next();
-		OWLLiteral valBoolean = ind.getDataPropertyValues( pBoolean, ont ).iterator().next();
+        OWLLiteral valDouble = Searcher
+                .values(ont.getDataPropertyAssertionAxioms(ind), pDouble)
+                .iterator().next();
+        OWLLiteral valInt = Searcher
+                .values(ont.getDataPropertyAssertionAxioms(ind), pInt)
+                .iterator().next();
+        OWLLiteral valBoolean = Searcher
+                .values(ont.getDataPropertyAssertionAxioms(ind), pBoolean)
+                .iterator().next();
 
 		assertTrue( reasoner.isConsistent() );
 		

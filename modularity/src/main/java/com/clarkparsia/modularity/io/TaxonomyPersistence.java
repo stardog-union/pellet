@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.TaxonomyUtils;
-import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.formats.OWLXMLOntologyFormat;
 import org.semanticweb.owlapi.io.StreamDocumentTarget;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -106,7 +106,7 @@ public class TaxonomyPersistence {
 		OWLOntology ontology = OWL.Ontology( Collections.<OWLAxiom>emptyList(), TAXONOMY_ONTOLOGY_IRI );
 
 		// populate the ontology
-		LinkedList<OWLOntologyChange> changes = new LinkedList<OWLOntologyChange>();
+        LinkedList<OWLOntologyChange<?>> changes = new LinkedList<OWLOntologyChange<?>>();
 		HashSet<OWLClass> processedEquivalentClasses = new HashSet<OWLClass>();
 
 		for( TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes() ) {

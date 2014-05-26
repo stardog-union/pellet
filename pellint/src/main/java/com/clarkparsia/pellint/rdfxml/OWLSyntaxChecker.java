@@ -80,7 +80,8 @@ public class OWLSyntaxChecker {
 
 		SWRL_BUILT_INS = CollectionUtil.makeSet();
 		for( SWRLBuiltInsVocabulary v : SWRLBuiltInsVocabulary.values() ) {
-			SWRL_BUILT_INS.add( ResourceFactory.createResource( v.getURI().toString() ) );
+            SWRL_BUILT_INS.add(ResourceFactory.createResource(v.getIRI()
+                    .toString()));
 		}
 	}
 

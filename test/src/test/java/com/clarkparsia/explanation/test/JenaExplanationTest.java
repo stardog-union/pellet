@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.coode.owlapi.turtle.TurtleOntologyFormat;
+import org.semanticweb.owlapi.formats.TurtleOntologyFormat;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;

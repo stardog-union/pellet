@@ -19,11 +19,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxEditorParser;
+import org.semanticweb.owlapi.mansyntax.parser.ManchesterOWLSyntaxEditorParser;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
-import org.semanticweb.owlapi.expression.ParserException;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -36,6 +35,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLProperty;
+import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
@@ -237,7 +237,8 @@ public class PelletExplain extends PelletCmdApp {
 				// Option --property-value s,p,o
 				verbose( "Explain property assertion " + name1 + " and " + name2  + " and " + name3 );
 
-				explainPropertyValue( (OWLIndividual) name1, (OWLProperty<?,?>) name2, name3 );
+                explainPropertyValue((OWLIndividual) name1,
+                        (OWLProperty) name2, name3);
 			}
 			else if( name1.isOWLClass() && name2.isOWLClass() ) {
 				// Option --subclass C,D
@@ -590,8 +591,8 @@ public class PelletExplain extends PelletCmdApp {
 					ManchesterOWLSyntaxEditorParser parser = new ManchesterOWLSyntaxEditorParser(
 							loader.getManager().getOWLDataFactory(), names[2] );
 					try {
-						name3 = parser.parseConstant();
-					} catch( ParserException e ) {
+                        name3 = parser.parseLiteral(null);
+                    } catch (OWLRuntimeException e) {
 						throw new PelletCmdException( "Not a valid literal: " + names[2] );
 					}
 				}

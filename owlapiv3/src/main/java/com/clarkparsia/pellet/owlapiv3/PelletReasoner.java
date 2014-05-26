@@ -281,7 +281,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	private final PelletVisitor			visitor;
 	
 	private final BufferingMode			bufferingMode;
-	private final List<OWLOntologyChange>	pendingChanges;
+    private final List<OWLOntologyChange<?>> pendingChanges;
 	
 	private final IndividualNodeSetPolicy individualNodeSetPolicy;
 
@@ -340,7 +340,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 		manager.addOntologyChangeListener( this );
 		
 		this.shouldRefresh = true;
-		this.pendingChanges = new ArrayList<OWLOntologyChange>();
+        this.pendingChanges = new ArrayList<OWLOntologyChange<?>>();
 		
 		refresh();
 	}
@@ -679,7 +679,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 		return Collections.emptySet();
 	}
 
-	public List<OWLOntologyChange> getPendingChanges() {
+    public List<OWLOntologyChange<?>> getPendingChanges() {
 		return pendingChanges;
 	}
 
@@ -894,7 +894,8 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException {
+    public void ontologiesChanged(List<? extends OWLOntologyChange<?>> changes)
+            throws OWLException {
 		switch( bufferingMode ) {
 		case BUFFERING:
 			pendingChanges.addAll( changes );

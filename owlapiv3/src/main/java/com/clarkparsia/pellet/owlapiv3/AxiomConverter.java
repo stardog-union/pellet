@@ -485,13 +485,8 @@ public class AxiomConverter {
 				if( name == ATermUtils.EMPTY ) {
 					axiom = factory.getSWRLRule( antecedent, consequent );
 				}
-				else if( ATermUtils.isBnode( name ) ) {
-					axiom = factory.getSWRLRule( NodeID.getNodeID( ((ATermAppl) name
-							.getArgument( 0 )).getName() ), antecedent, consequent );
-				}
 				else {
-					axiom = factory.getSWRLRule( IRI.create( name.getName() ), antecedent,
-							consequent );
+                    axiom = factory.getSWRLRule(antecedent, consequent);
 				}
 			}
 		}

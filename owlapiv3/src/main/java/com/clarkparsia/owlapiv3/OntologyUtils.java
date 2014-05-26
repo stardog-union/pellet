@@ -30,7 +30,8 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
-import org.semanticweb.owlapi.util.OWLEntityCollector;
+import org.semanticweb.owlapi.model.parameters.Imports;
+import org.semanticweb.owlapi.util.DeprecatedOWLEntityCollector;
 
 /**
  * <p>Title: </p>
@@ -68,7 +69,8 @@ public class OntologyUtils {
 	 */
 	public static Set<OWLEntity> getSignature(OWLAxiom axiom) {
 		Set<OWLEntity> entities = new HashSet<OWLEntity>();
-		OWLEntityCollector collector = new OWLEntityCollector(entities);
+        DeprecatedOWLEntityCollector collector = new DeprecatedOWLEntityCollector(
+                entities);
 		collector.setCollectDatatypes( false );
 		axiom.accept(collector);
 
@@ -120,7 +122,7 @@ public class OntologyUtils {
 		}
 	}
 
-    /**
+	/**
      * Loads the ontology with given URI.
      * 
      * @param uri the ontology uri
@@ -155,7 +157,7 @@ public class OntologyUtils {
 		return ont;
 	}
 	
-    /**
+	/**
      * Loads the ontology with given URI and optionally removes all annotations
      * leaving only logical axioms.
      * 
@@ -216,7 +218,7 @@ public class OntologyUtils {
 	 *            add - true - add; false - delete
 	 */
 	public static void updateOntology(OWLOntology ontology, Collection<? extends OWLAxiom> axioms, boolean add) {
-		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
+        List<OWLOntologyChange<?>> changes = new ArrayList<OWLOntologyChange<?>>();
 		for( OWLAxiom axiom : axioms ) {
 			OWLOntologyChange change = add
 				? new AddAxiom( ontology, axiom )
@@ -313,7 +315,7 @@ public class OntologyUtils {
 			referencedEntities.addAll( ontology.getDataPropertiesInSignature() );
 			referencedEntities.addAll( ontology.getIndividualsInSignature() );
 
-			List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
+            List<OWLOntologyChange<?>> changes = new ArrayList<OWLOntologyChange<?>>();
 			for( OWLAxiom axiom : ontology.getAxioms() ) {
 				if( !axiom.isLogicalAxiom() ) {
 					changes.add( new RemoveAxiom( ontology, axiom ) );
@@ -322,7 +324,7 @@ public class OntologyUtils {
 
 			manager.applyChanges( changes ); 
 
-			changes = new ArrayList<OWLOntologyChange>();
+            changes = new ArrayList<OWLOntologyChange<?>>();
 			for( OWLEntity entity : referencedEntities ) {
 				if( !ontology.containsEntityInSignature( entity ) ) {
 					OWLDeclarationAxiom declaration = manager.getOWLDataFactory()
@@ -387,18 +389,22 @@ public class OntologyUtils {
 			}
 
 			if( !iri.isAbsolute() ) {
-				IRI baseIRI = ontology.getOntologyID().getOntologyIRI();
+                IRI baseIRI = ontology.getOntologyID().getOntologyIRI()
+                        .orNull();
 				if( baseIRI != null )
 					iri = baseIRI.resolve( "#" + iri );
 			}
 
-			if( ontology.containsClassInSignature( iri ) )
+            if (ontology.containsClassInSignature(iri, Imports.EXCLUDED))
 				entity = OWL.Class( iri );
-			else if( ontology.containsObjectPropertyInSignature( iri ) )
+            else if (ontology.containsObjectPropertyInSignature(iri,
+                    Imports.EXCLUDED))
 				entity = OWL.ObjectProperty( iri );
-			else if( ontology.containsDataPropertyInSignature( iri ) )
+            else if (ontology.containsDataPropertyInSignature(iri,
+                    Imports.EXCLUDED))
 				entity = OWL.DataProperty( iri );
-			else if( ontology.containsIndividualInSignature( iri ) )
+            else if (ontology.containsIndividualInSignature(iri,
+                    Imports.EXCLUDED))
 				entity = OWL.Individual( iri ).asOWLNamedIndividual();
 		}
 

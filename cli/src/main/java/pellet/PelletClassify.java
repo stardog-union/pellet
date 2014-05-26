@@ -244,7 +244,8 @@ public class PelletClassify extends PelletCmdApp {
 			
 			if( ontologyDiff.getDiffCount() > 0 ) {
 				verbose( "There were changes to the underlying ontology since the classifier was persisted. Incrementally updating the classifier" );
-				result.ontologiesChanged( new LinkedList<OWLOntologyChange>( ontologyDiff.getChanges( ontology ) ) );
+                result.ontologiesChanged(new LinkedList<OWLOntologyChange<?>>(
+                        ontologyDiff.getChanges(ontology)));
 			} else {
 				currentStateSaved = true;
 			}

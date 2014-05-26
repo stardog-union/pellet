@@ -203,8 +203,8 @@ public class OntologyDiff {
 	 * @param initialOnt the initial ontology (just for the purposes of creating OWLOntologyChange objects).
 	 * @return a list of ontology change objects.
 	 */
-	public Collection<OWLOntologyChange> getChanges(OWLOntology initialOnt) {
-		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
+    public Collection<OWLOntologyChange<?>> getChanges(OWLOntology initialOnt) {
+        List<OWLOntologyChange<?>> changes = new ArrayList<OWLOntologyChange<?>>();
 
 		for( OWLAxiom axiom : additions ) {
 			changes.add( new AddAxiom( initialOnt, axiom ) );

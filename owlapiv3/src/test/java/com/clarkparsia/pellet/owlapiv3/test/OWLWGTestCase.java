@@ -64,16 +64,16 @@ public class OWLWGTestCase {
 		
 		try {
     		TestCollection<OWLOntology> cases = new TestCollection<OWLOntology>( factory, casesOntology, filter );
-    		
-    		List<Object[]> testParams = new ArrayList<Object[]>( cases.size() );
-    		for( Object test : cases.asList() ) {
-    			testParams.add( new Object[] { test } );
-    		}
-    		
-        	return testParams;
+    	
+		List<Object[]> testParams = new ArrayList<Object[]>( cases.size() );
+		for( Object test : cases.asList() ) {
+			testParams.add( new Object[] { test } );
+		}
+		
+    	return testParams;
 		} finally {
     	       manager.removeOntology( casesOntology );
-    	}
+    }
     }
     
     private TestCase<OWLOntology> test;
