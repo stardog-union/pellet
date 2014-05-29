@@ -14,7 +14,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses( { BindingGeneratorsTest.class, BuiltInTests.class, MiscRuleTests.class,
-	TranslatorTests.class, SWRLTestSuite.class, SWRLBuiltIns.class })
+	SWRLTestSuite.class, SWRLBuiltIns.class })
 public class RulesTestSuite {
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(RulesTestSuite.class);

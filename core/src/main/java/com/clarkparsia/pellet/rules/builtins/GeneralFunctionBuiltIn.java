@@ -137,5 +137,9 @@ public class GeneralFunctionBuiltIn implements BuiltIn {
 	public BindingHelper createHelper(BuiltInAtom atom) {
 		return new GeneralFunctionHelper( atom );
 	}
-	
+
+	@Override
+	public boolean apply(ABox abox, Literal[] args) {
+	    return function.apply(abox, args);
+	}
 }

@@ -6,9 +6,11 @@
 
 package com.clarkparsia.pellet.rules.builtins;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 
 import com.clarkparsia.pellet.rules.BindingHelper;
@@ -133,5 +135,11 @@ public class FunctionBuiltIn implements BuiltIn {
 	public BindingHelper createHelper(BuiltInAtom atom) {
 		return new FunctionHelper( atom );
 	}
-	
+
+	@Override
+	public boolean apply(ABox abox, Literal[] args) {
+	    Literal result = function.apply(abox, args[0], Arrays.copyOfRange(args, 1, args.length));	    
+	    args[0] = result;
+	    return result != null;
+	}
 }

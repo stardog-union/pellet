@@ -38,11 +38,11 @@ import java.util.Set;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
-import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.test.PelletTestSuite;
+import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -74,9 +74,6 @@ import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
 import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
-import com.clarkparsia.pellet.rules.rete.AlphaNode;
-import com.clarkparsia.pellet.rules.rete.BetaNode;
-import com.clarkparsia.pellet.rules.rete.TermTuple;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
@@ -128,39 +125,6 @@ public class MiscRuleTests {
 
 	}
 
-	@Test
-	public void betaNodeMarking() {
-		TermTuple t = new TermTuple( DependencySet.INDEPENDENT );
-		AlphaNode a = new AlphaNode( t );
-
-		BetaNode b1 = new BetaNode( a, a, false );
-		BetaNode b2 = new BetaNode( a, a, false );
-		BetaNode b3 = new BetaNode( b1, b2, false );
-		BetaNode b4 = new BetaNode( b3, b3, false );
-
-		assertTrue( b1.isDirty() );
-		assertTrue( b2.isDirty() );
-		assertTrue( b3.isDirty() );
-		assertTrue( b4.isDirty() );
-
-		b1.join();
-		b2.join();
-		b3.join();
-		b4.join();
-
-		assertFalse( b1.isDirty() );
-		assertFalse( b2.isDirty() );
-		assertFalse( b3.isDirty() );
-		assertFalse( b4.isDirty() );
-
-		a.markDirty();
-
-		assertTrue( b1.isDirty() );
-		assertTrue( b2.isDirty() );
-		assertTrue( b3.isDirty() );
-		assertTrue( b4.isDirty() );
-
-	}
 
 	@Test
 	public void builtInDateTime() {
@@ -403,11 +367,10 @@ public class MiscRuleTests {
 		AtomDVariable z = new AtomDVariable( "z" );
 
 		RuleAtom body1 = new IndividualPropertyAtom( r, x, y );
-		RuleAtom body2 = new DatavaluedPropertyAtom( p, x, z ), head = new DatavaluedPropertyAtom(
-				p, y, z );
+		RuleAtom body2 = new DatavaluedPropertyAtom( p, x, z );
+		RuleAtom head = new DatavaluedPropertyAtom( p, y, z );
 
-		Rule rule = new Rule( Collections.singleton( head ), Arrays.asList( new RuleAtom[] {
-				body1, body2 } ) );
+		Rule rule = new Rule( Collections.singleton( head ), Arrays.asList( body1, body2 ) );
 		kb.addRule( rule );
 
 		kb.realize();
@@ -438,6 +401,11 @@ public class MiscRuleTests {
 
 		Rule rule = new Rule( Collections.singleton( head ), Arrays.asList( body1, body2 ) );
 		kb.addRule( rule );
+		
+		kb.ensureConsistency();
+
+		assertTrue( kb.hasPropertyValue( j, r, i ) );
+		assertTrue( kb.hasPropertyValue( k, r, i ) );
 
 		assertTrue( kb.hasPropertyValue( j, p, d ) );
 		assertTrue( kb.hasPropertyValue( k, p, d ) );
@@ -640,6 +608,8 @@ public class MiscRuleTests {
 		}
 
 		assertTrue( kb.isConsistent() );
+		System.err.println( "***************************" ) ;
+		System.err.println( kb.getPropertyValues( p, x )) ;
 		assertIteratorValues( kb.getPropertyValues( p, x ).iterator(), new ATermAppl[] { a, b, c, y } );
 		assertEquals( Collections.singletonList( y ), kb.getPropertyValues( q, x ) );
 		assertFalse( kb.hasPropertyValue( x, q, c ) );
@@ -1096,5 +1066,37 @@ public class MiscRuleTests {
 
 		assertEquals( Collections.singletonList(bob), ontModel.listObjectsOfProperty( alice, sibling ).toList() );
 		assertEquals( Collections.singletonList(alice), ontModel.listObjectsOfProperty( bob, sibling ).toList() );
+	}
+
+	@Test
+	public void testRepeatedVars() throws Exception {
+		StringDocumentSource source = new StringDocumentSource("Prefix(owl:=<http://www.w3.org/2002/07/owl#>)\n" + 
+						"Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\n" + 
+						"Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)\n" + 
+						"Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)\n" + 
+						"Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n" + 
+						"\n" + 
+						"Ontology(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215>\n" + 
+						"Import(<http://www.w3.org/2006/time>)\n" + 
+						"\n" + 
+						"EquivalentClasses(<http://www.w3.org/2006/time#Instant> ObjectHasSelf(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant>))\n" + 
+						"Declaration(ObjectProperty(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant>))\n" + 
+						"Declaration(NamedIndividual(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1>))\n" + 
+						"ClassAssertion(<http://www.w3.org/2006/time#Instant> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1>)\n" + 
+						"DataPropertyAssertion(<http://www.w3.org/2006/time#inXSDDateTime> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1> \"2000-01-01T00:00:00\"^^xsd:dateTime)\n" + 
+						"Declaration(NamedIndividual(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2>))\n" + 
+						"ClassAssertion(<http://www.w3.org/2006/time#Instant> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2>)\n" + 
+						"DataPropertyAssertion(<http://www.w3.org/2006/time#inXSDDateTime> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2> \"2003-01-01T00:00:00\"^^xsd:dateTime)\n" + 
+						"DLSafeRule(Body(ObjectPropertyAtom(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant> Variable(<urn:swrl#x>) Variable(<urn:swrl#x>)) "
+						+ "ObjectPropertyAtom(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant> Variable(<urn:swrl#z>) Variable(<urn:swrl#z>)) "
+						+ "DataPropertyAtom(<http://www.w3.org/2006/time#inXSDDateTime> Variable(<urn:swrl#x>) Variable(<urn:swrl#y>)) "
+						+ "DataPropertyAtom(<http://www.w3.org/2006/time#inXSDDateTime> Variable(<urn:swrl#z>) Variable(<urn:swrl#w>)) "
+						+ "BuiltInAtom(<http://www.w3.org/2003/11/swrlb#lessThan> Variable(<urn:swrl#y>) Variable(<urn:swrl#w>)))"
+						+ "Head(ObjectPropertyAtom(<http://www.w3.org/2006/time#before> Variable(<urn:swrl#x>) Variable(<urn:swrl#z>))))\n" + 
+						")");
+
+		OWLOntology ont = OWL.manager.loadOntologyFromOntologyDocument( source );
+			PelletReasoner reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createReasoner( ont );
+			reasoner.getKB().realize();
 	}
 }

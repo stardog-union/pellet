@@ -109,7 +109,7 @@ public class CacheSafetyDynamic implements CacheSafety {
 	protected Iterator<CachedNode> getCachedNodes(ABox abox, ATermAppl c) {
 		CachedNode node = abox.getCached( c );
 		if( node != null ) {
-			return IteratorUtils.singleton( node );
+			return IteratorUtils.singletonIterator( node );
 		}
 
 		if( ATermUtils.isAnd( c ) ) {
@@ -121,7 +121,7 @@ public class CacheSafetyDynamic implements CacheSafety {
 				if( node == null )
 					return IteratorUtils.emptyIterator();
 				else if( node.isBottom() )
-					return IteratorUtils.singleton( node );
+					return IteratorUtils.singletonIterator( node );
 
 				nodes[i++] = node;
 			}

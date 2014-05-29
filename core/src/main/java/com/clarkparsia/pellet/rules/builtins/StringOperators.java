@@ -364,12 +364,15 @@ public class StringOperators {
 		
 		public Tokenize() {}
 		
-		//@Override
+		@Override
 		public BindingHelper createHelper(BuiltInAtom atom) {
-			// TODO Auto-generated method stub
 			return new TokenizeBindingHelper( atom );
 		}
 
+		@Override
+		public boolean apply(ABox abox, Literal[] args) {
+		    return false;
+		}
 	}
 
 	private static class Translate implements StringToStringFunction {

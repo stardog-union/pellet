@@ -7,6 +7,7 @@
 package com.clarkparsia.pellet.rules.model;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -31,7 +32,7 @@ public interface RuleAtom {
 	/**
 	 * Return all arguments (constants and variables) to the rule atom.
 	 */
-	public Collection<? extends AtomObject> getAllArguments();
+	public List<? extends AtomObject> getAllArguments();
 	
 	/**
 	 * Return the predicate for the rule atom. The type of this predicate

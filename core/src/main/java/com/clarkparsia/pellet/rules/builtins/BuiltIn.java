@@ -7,6 +7,9 @@
 package com.clarkparsia.pellet.rules.builtins;
 
 
+import org.mindswap.pellet.ABox;
+import org.mindswap.pellet.Literal;
+
 import com.clarkparsia.pellet.rules.BindingHelper;
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
 
@@ -30,5 +33,8 @@ import com.clarkparsia.pellet.rules.model.BuiltInAtom;
 public interface BuiltIn {
 
 	public BindingHelper createHelper( BuiltInAtom atom );
+	
+
+	public boolean apply( ABox abox, Literal[] args );
 	
 }

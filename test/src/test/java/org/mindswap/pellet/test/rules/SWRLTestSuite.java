@@ -44,6 +44,7 @@ public class SWRLTestSuite {
 	public static final String base = PelletTestSuite.base + "swrl-test/";
 	
 	private static List<File> IGNORE = Arrays.asList(
+		new File (base + "equalities/Manifest002.rdf")
 	);
 
 	@Parameters

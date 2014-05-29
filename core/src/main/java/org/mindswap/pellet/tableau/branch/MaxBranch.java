@@ -110,7 +110,7 @@ public class MaxBranch extends IndividualBranch {
 					NodeMerge nm = mergePairs.get(m);			
 					Node y = abox.getNode(nm.getSource()).getSame();
 					Node z = abox.getNode(nm.getTarget()).getSame();
-					y.setDifferent( z, prevDS[m]);
+					strategy.setDifferent(y, z, prevDS[m]);
 					//strategy.addType( y, ATermUtils.makeNot( ATermUtils.makeValue( z.getName() ) ), prevDS[m] );
 				}
 			}

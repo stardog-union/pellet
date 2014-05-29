@@ -524,7 +524,7 @@ public abstract class CompletionStrategy {
 		}
 	}
 
-	public void addEdge(Individual subj, Role pred, Node obj, DependencySet ds) {
+	public Edge addEdge(Individual subj, Role pred, Node obj, DependencySet ds) {
 		Edge edge = subj.addEdge(pred, obj, ds);
 
 		// add to the kb dependencies
@@ -558,7 +558,7 @@ public abstract class CompletionStrategy {
 					}
 
 					if (guessMin > max) {
-						return;
+						return edge;
 					}
 
 					GuessBranch newBranch = new GuessBranch(abox, this, o, pred.getInverse(), guessMin, max,
@@ -567,21 +567,23 @@ public abstract class CompletionStrategy {
 
 					// try a merge that does not trivially fail
 					if (newBranch.tryNext() == false) {
-						return;
+						return edge;
 					}
 
 					if (abox.isClosed()) {
-						return;
+						return edge;
 					}
 
 					if (subj.isPruned()) {
-						return;
+						return edge;
 					}
 				}
 			}
 
 			applyPropertyRestrictions(subj, pred, obj, ds);
 		}
+		
+		return edge;
 	}
 
 	void applyPropertyRestrictions(Edge edge) {
@@ -893,8 +895,11 @@ public abstract class CompletionStrategy {
 	 * @param ds
 	 *            Dependency of this merge operation
 	 */
-	protected void mergeIndividuals(Individual y, Individual x, DependencySet ds) {
-		y.setSame(x, ds);
+	protected boolean mergeIndividuals(Individual y, Individual x, DependencySet ds) {
+		boolean merged = y.setSame(x, ds);
+		if (!merged) {
+			return false;
+		}
 
 		// if both x and y are blockable x still remains blockable (nominal level
 		// is still set to BLOCKABLE), if one or both are nominals then x becomes
@@ -972,6 +977,8 @@ public abstract class CompletionStrategy {
 				// do not remove edge here because prune will take care of that
 			}
 		}
+		
+		return true;
 	}
 
 	/**
@@ -1019,6 +1026,10 @@ public abstract class CompletionStrategy {
 		}
 	}
 
+	public boolean setDifferent(Node y, Node z, DependencySet ds) {
+		return y.setDifferent(z, ds);
+	}
+	
 	public void restoreLocal(Individual ind, Branch br) {
 		abox.stats.localRestores++;
 		abox.setClash(null);

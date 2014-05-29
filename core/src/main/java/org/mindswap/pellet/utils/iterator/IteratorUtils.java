@@ -83,30 +83,6 @@ public class IteratorUtils {
 	public static <T> Iterator<T> flatten(Iterator<? extends Iterable<T>> iterator) {
 		return new FlattenningIterator<T>( iterator );
 	}
-	
-	public static <T> Iterator<T> singleton(final T element) {
-		return iterator( element );
-	}
-	
-	public static <T> Iterator<T> iterator(final T element) {		
-		return new Iterator<T>() {
-			private boolean hasNext = true;
-			
-	        public boolean hasNext() {
-	            return hasNext;
-	        }
-	        public T next() {
-	        	if( !hasNext )
-	        		throw new NoSuchElementException();
-	        	hasNext = false;
-	        	return element;
-	        }
-	        
-	        public void remove() {
-	            throw new UnsupportedOperationException();
-	        }
-	    };
-	}
     
 	public static <T> Iterator<T> iterator(T... elements) {
 		return new ArrayIterator<T>( elements, elements.length );
