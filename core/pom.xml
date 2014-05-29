@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.clarkparsia.pellet</groupId>
+		<artifactId>pellet-parent</artifactId>
+		<version>2.3.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>pellet-core</artifactId>
+	<name>Pellet :: Core</name>
+	<description>Pellet core module.</description>
+	<dependencies>
+		<dependency>
+			<groupId>com.github.ansell.aterms</groupId>
+			<artifactId>aterm-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-jdk1.5</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-arq</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>jcl-over-slf4j</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	  	<dependency>
+	  		<groupId>junit</groupId>
+	  		<artifactId>junit</artifactId>
+	  		<scope>test</scope>
+	  	</dependency>
+	</dependencies>
+</project>

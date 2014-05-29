@@ -1,0 +1,19 @@
+<assembly>
+	<id>onejar</id>
+
+	<formats>
+		<format>jar</format>
+	</formats>
+
+	<baseDirectory>pellet</baseDirectory>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<includeSiteDirectory>false</includeSiteDirectory>
+
+	<moduleSets>
+		<moduleSet>
+			<includes>
+				<include>*:jar:*</include>
+			</includes>
+		</moduleSet>
+	</moduleSets>
+</assembly>
