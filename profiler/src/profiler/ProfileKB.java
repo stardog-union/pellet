@@ -98,6 +98,8 @@ public class ProfileKB {
 	private Task				task				= Task.Consistency;
 
 	private LoaderType			loaderType			= LoaderType.JENA;
+	
+	private boolean				imports				= true;
 
 	private final PrintWriter	out					= new PrintWriter( System.out );
 
@@ -186,6 +188,10 @@ public class ProfileKB {
 				case 'o':
 					String ontology = g.getOptarg();
 					datasets = Arrays.asList( ontology );
+					break;
+
+				case 'i':
+					imports = Boolean.parseBoolean( g.getOptarg() );
 					break;
 
 				case '?':
@@ -323,9 +329,11 @@ public class ProfileKB {
 
 	public Collection<Result<Task>> profile(String... files) {
 		KBLoader loader = (loaderType == LoaderType.JENA)
-		? new JenaLoader()
-		: new OWLAPILoader();
-
+			? new JenaLoader()
+			: new OWLAPILoader();
+		
+		loader.setIgnoreImports(!imports);
+		
 		KnowledgeBase kb = loader.getKB();
 
 		List<Result<Task>> results = new ArrayList<Result<Task>>();
