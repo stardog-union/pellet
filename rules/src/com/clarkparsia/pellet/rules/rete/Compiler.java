@@ -194,19 +194,30 @@ public class Compiler {
 			BetaNode newBeta = null;
 			
 			if (canReuseBeta) {
-				for (BetaNode existingBeta : alpha.getBetas()) {
-					if (existingBeta instanceof BetaMemoryNode) {
-						BetaMemoryNode existingBetaMem = (BetaMemoryNode) existingBeta;
-						if (existingBetaMem.getAlphaNode().equals(alpha) && existingBetaMem.getConditions().equals(conditions)) {
+				if (firstBeta) {
+					for (BetaNode existingBeta : alpha.getBetas()) {
+						if (existingBeta.isTop()) {
 							newBeta = existingBeta;
 							break;
+						}
+					}
+				}
+				else {
+					Collection<BetaNode> sharedBetas = SetUtils.intersection(alpha.getBetas(), node.getBetas());
+					for (BetaNode existingBeta : sharedBetas) {
+						if (existingBeta instanceof BetaMemoryNode) {
+							BetaMemoryNode existingBetaMem = (BetaMemoryNode) existingBeta;
+							if (existingBetaMem.getConditions().equals(conditions)) {
+								newBeta = existingBeta;
+								break;
+							}
 						}
 					}
 				}
 			}
 			
 			if (newBeta == null) {
-				newBeta = firstBeta ? new BetaMemoryNode(alpha) : new BetaMemoryNode(alpha, conditions);
+				newBeta = firstBeta ? new BetaTopNode(alpha) : new BetaMemoryNode(alpha, conditions);
 				canReuseBeta = false;
 			}
 			
