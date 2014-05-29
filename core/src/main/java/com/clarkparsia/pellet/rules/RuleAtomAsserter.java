@@ -87,23 +87,40 @@ public class RuleAtomAsserter implements RuleAtomVisitor {
 	}
 
 	private void addType(ATermAppl ind, ATermAppl cls) {
-		Individual node = abox.getIndividual( ind ).getSame();
+		DependencySet nodeDS = ds;
+		Individual node = abox.getIndividual( ind );
+		
+		if (node.isMerged()) {
+			nodeDS = node.getMergeDependency(true);
+			node = node.getSame();
+		}	
+		
 		if( negated )
 			cls = ATermUtils.negate( cls );
 
-		strategy.addType( node, cls, ds );
+		strategy.addType( node, cls, nodeDS );
 	}
 
 	private void addEdge(ATermAppl p, ATermAppl s, ATermAppl o) {
-		Individual node1 = abox.getIndividual( s ).getSame();
+		DependencySet edgeDS = ds;
+		Individual node1 = abox.getIndividual( s );
+		
+		if (node1.isMerged()) {
+			edgeDS = node1.getMergeDependency(true);
+			node1 = node1.getSame();
+		}		
 
 		if( negated ) {
 			ATermAppl cls = all( p, not( value( o ) ) );
 			strategy.addType( node1, cls, ds );
 		}
 		else {
-			Node node2 = abox.getNode( o ).getSame();
-			strategy.addEdge( node1, abox.getRole( p ), node2, ds );
+			Node node2 = abox.getNode( o );
+			if (node2.isMerged()) {
+				edgeDS = node2.getMergeDependency(true);
+				node2 = node2.getSame();
+			}		
+			strategy.addEdge( node1, abox.getRole( p ), node2, edgeDS );
 		}
 	}
 
