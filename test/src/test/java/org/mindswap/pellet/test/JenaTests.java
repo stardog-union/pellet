@@ -3415,4 +3415,70 @@ public class JenaTests {
 
 	}
 
+	@Test
+	public void testFixedSchema() {
+		String ns = "urn:test:";
+
+		Resource a = ResourceFactory.createResource( ns + "a" );
+		Resource b = ResourceFactory.createResource( ns + "b" );
+		Resource A = ResourceFactory.createResource( ns + "A" );
+		Resource B = ResourceFactory.createResource( ns + "B" );
+		Resource C = ResourceFactory.createResource( ns + "C" );
+
+		Model schema = ModelFactory.createDefaultModel();		
+		schema.add(A, RDFS.subClassOf, B);
+		schema.add(B, RDFS.subClassOf, C);
+
+		// create a fresh spec
+		OntModelSpec fixedSchemaSpec = new OntModelSpec( OntModelSpec.OWL_MEM );
+		// create a reasoner with a fixed schema and set the spec to use it
+		fixedSchemaSpec.setReasoner(PelletReasonerFactory.theInstance().create().bindFixedSchema(schema));
+		
+		// create a new model whihc will have the schema loaded automatically
+		OntModel model = ModelFactory.createOntologyModel(fixedSchemaSpec);
+
+		PelletInfGraph graph = (PelletInfGraph) model.getGraph();
+		
+		assertFalse(graph.isClassified());
+		assertIteratorValues(model.listObjectsOfProperty(A, RDFS.subClassOf), B, C, OWL.Thing);		
+		assertTrue(graph.isClassified());
+
+		model.add(a, RDF.type, A);
+		
+		graph.prepare();
+		assertTrue(graph.isClassified());
+		assertTrue(model.contains(a, RDF.type, C));
+		assertIteratorValues(model.listObjectsOfProperty(A, RDFS.subClassOf), B, C, OWL.Thing);		
+		assertTrue(graph.isClassified());
+
+		Model subModel = ModelFactory.createDefaultModel();
+		subModel.add(b, RDF.type, B);
+		model.addSubModel(subModel);
+
+		graph.prepare();
+		assertTrue(graph.isClassified());
+		assertTrue(model.contains(a, RDF.type, C));
+		assertTrue(model.contains(b, RDF.type, C));
+		assertIteratorValues(model.listObjectsOfProperty(A, RDFS.subClassOf), B, C, OWL.Thing);		
+		assertTrue(graph.isClassified());
+
+		model.remove(a, RDF.type, A);
+
+		graph.prepare();
+		assertTrue(graph.isClassified());
+		assertFalse(model.contains(a, RDF.type, C));
+		assertTrue(model.contains(b, RDF.type, C));
+		assertIteratorValues(model.listObjectsOfProperty(A, RDFS.subClassOf), B, C, OWL.Thing);		
+		assertTrue(graph.isClassified());
+
+		model.removeSubModel(subModel);
+
+		graph.prepare();
+		assertTrue(graph.isClassified());
+		assertFalse(model.contains(a, RDF.type, C));
+		assertFalse(model.contains(b, RDF.type, C));
+		assertIteratorValues(model.listObjectsOfProperty(A, RDFS.subClassOf), B, C, OWL.Thing);		
+		assertTrue(graph.isClassified());
+	}
+
 }

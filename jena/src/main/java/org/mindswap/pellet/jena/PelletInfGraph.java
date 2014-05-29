@@ -30,6 +30,7 @@
 
 package org.mindswap.pellet.jena;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -43,6 +44,7 @@ import org.mindswap.pellet.jena.graph.loader.DefaultGraphLoader;
 import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 import org.mindswap.pellet.jena.graph.query.GraphQueryHandler;
 import org.mindswap.pellet.utils.ATermUtils;
+import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
 import aterm.ATermAppl;
 
@@ -113,6 +115,11 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 		graphListener = new PelletGraphListener( graph, kb, autoDetectChanges );
 		
 		loader.setKB( kb );
+		
+		if (pellet.isFixedSchema()) {
+			loader.load(Collections.singleton(getSchemaGraph()));
+			loader.setLoadTBox(false);
+		}
 		
 		rebind();
 	}
@@ -208,10 +215,12 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 
 		Set<Graph> graphs = graphListener.getLeafGraphs();
 		
-		Graph schema = getSchemaGraph();
-		if( schema != null ) {
-			graphs = new HashSet<Graph>(graphs);
-			graphs.add(schema);
+		if (loader.isLoadTBox()) {
+			Graph schema = getSchemaGraph();
+			if( schema != null ) {
+				graphs = new HashSet<Graph>(graphs);
+				graphs.add(schema);
+			}
 		}
 		
 		load(graphs);
@@ -584,7 +593,12 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 	}
 	
 	public void clear() {
-		kb.clear();
+		if (loader.isLoadTBox()) {
+			kb.clear();
+		}
+		else {
+			kb.clearABox();
+		}
 		loader.clear();
 	}
 

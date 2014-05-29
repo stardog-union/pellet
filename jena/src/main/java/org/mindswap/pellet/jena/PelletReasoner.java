@@ -58,6 +58,8 @@ public class PelletReasoner implements Reasoner {
     private Capabilities graphCapabilities;
     
     private Graph schema;
+    
+    private boolean fixedSchema;
 
     public PelletReasoner( ) {
         this( null, PelletReasonerFactory.theInstance().getCapabilities() );
@@ -82,12 +84,32 @@ public class PelletReasoner implements Reasoner {
         return schema;
     }
 
-    public Reasoner bindSchema( Graph graph ) throws ReasonerException {
+    public boolean isFixedSchema() {
+		return fixedSchema;
+	}
+
+	public void setFixedSchema(boolean fixedSchema) {
+		this.fixedSchema = fixedSchema;
+	}
+
+	public Reasoner bindSchema( Graph graph ) throws ReasonerException {
         return new PelletReasoner( graph, reasonerCapabilities );
     }
 
     public Reasoner bindSchema( Model model ) throws ReasonerException {
         return bindSchema( model.getGraph() );
+    }
+
+	public Reasoner bindFixedSchema( Graph graph ) throws ReasonerException {
+		PelletReasoner reasoner = new PelletReasoner( graph, reasonerCapabilities );
+		reasoner.setFixedSchema(true);
+		return reasoner;
+    }
+
+	public Reasoner bindFixedSchema( Model model ) throws ReasonerException {
+		PelletReasoner reasoner = new PelletReasoner( model.getGraph(), reasonerCapabilities );
+		reasoner.setFixedSchema(true);
+		return reasoner;
     }
 
     public PelletInfGraph bind( Graph graph ) throws ReasonerException {

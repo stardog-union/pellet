@@ -173,6 +173,8 @@ public class DefaultGraphLoader implements GraphLoader {
 
 	private boolean								loadABox				= true;
 
+	private boolean								loadTBox				= true;
+
 	private boolean								preprocessTypeTriples	= true;
 
 	protected ProgressMonitor					monitor					= new SilentProgressMonitor();
@@ -2113,6 +2115,14 @@ public class DefaultGraphLoader implements GraphLoader {
 
 	public void setLoadABox(boolean loadABox) {
 		this.loadABox = loadABox;
+	}
+
+	public boolean isLoadTBox() {
+		return loadTBox;
+	}
+
+	public void setLoadTBox(boolean loadTBox) {
+		this.loadTBox = loadTBox;
 	}
 
 	public boolean isPreprocessTypeTriples() {

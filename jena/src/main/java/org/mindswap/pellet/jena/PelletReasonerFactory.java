@@ -69,11 +69,11 @@ public class PelletReasonerFactory implements ReasonerFactory {
     private PelletReasonerFactory() {
     }
 
-    public Reasoner create() {
+    public PelletReasoner create() {
         return new PelletReasoner( getCapabilities() );
     }
     
-    public Reasoner create(Resource configuration) {
+    public PelletReasoner create(Resource configuration) {
         return new PelletReasoner( getCapabilities() );
     }
 

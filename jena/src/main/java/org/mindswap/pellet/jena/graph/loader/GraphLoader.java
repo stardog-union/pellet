@@ -100,6 +100,9 @@ public interface GraphLoader {
 	 */
 	public void setLoadABox(boolean loadABox);
 	
+	public boolean isLoadTBox();
+	public void setLoadTBox(boolean loadTBox);
+	
 	/**
 	 * Returns if the loader will preprocess rdf:type triples.
 	 * 

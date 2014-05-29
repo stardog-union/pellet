@@ -565,6 +565,35 @@ public class KnowledgeBase {
 		state.clear();
 		changes = EnumSet.of( ChangeType.ABOX_ADD, ChangeType.TBOX_ADD, ChangeType.RBOX_ADD );
 	}
+	
+
+	public void clearABox() {
+		aboxAssertions.clear();;
+		
+		annotations.clear();
+
+		if( PelletOptions.USE_INCREMENTAL_DELETION ) {
+			deletedAssertions = new HashSet<ATermAppl>();
+			dependencyIndex = new DependencyIndex( this );
+			syntacticAssertions = new HashSet<ATermAppl>();
+		}
+
+		ABox newABox = new ABox( this );
+		newABox.cache = abox.cache;
+		abox = newABox;
+
+		individuals.clear();
+
+		changes = EnumSet.of( ChangeType.ABOX_DEL );
+		
+		prepare();
+		
+		// even though we don't copy the individuals over to the new KB
+		// we should still create individuals for the
+		for( ATermAppl nominal : getExpressivity().getNominals() ) {
+			addIndividual( nominal );
+		}
+	}
 
 	/**
 	 * Create a copy of this KB with a completely new ABox copy but pointing to
