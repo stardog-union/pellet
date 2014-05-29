@@ -35,6 +35,7 @@
     <module>examples</module>
     <module>test</module>
     <module>profiler</module>
+    <module>distribution</module>
   </modules>
 
   <properties>

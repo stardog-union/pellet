@@ -39,6 +39,20 @@
         	        <include>/**</include>
 	            </includes>
         	</fileSet>
+		<fileSet>
+			<directory>../doc</directory>
+			<outputDirectory/>
+			<includes>
+				<include>/**</include>
+			</includes>
+		</fileSet>
+	        <fileSet>
+        	    <directory>../pellint</directory>
+	            <outputDirectory>doc</outputDirectory>
+	            <includes>
+        	        <include>/*.txt</include>
+	            </includes>
+        	</fileSet>
 	</fileSets>
 
 </assembly>

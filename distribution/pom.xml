@@ -47,28 +47,31 @@
                 </dependency>
                 <dependency>
                         <groupId>${project.groupId}</groupId>
-                        <artifactId>pellet-profiler</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
                         <artifactId>pellet-test</artifactId>
                         <version>${project.version}</version>
                 </dependency>
 	</dependencies>
   <build>
-	 <plugins>
-		<plugin>
-		  <artifactId>maven-assembly-plugin</artifactId>
-		  <inherited>false</inherited>
-		  <configuration>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>distro-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
 			 <finalName>pellet-${project.version}</finalName>
 			 <descriptors>
 				<!-- descriptor>src/main/assembly/onejar.xml</descriptor -->
 				<descriptor>src/main/assembly/dist.xml</descriptor>
-			 </descriptors>
-		  </configuration>
-		</plugin>
-	 </plugins>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 </project>
