@@ -32,11 +32,10 @@ import com.clarkparsia.pellet.rules.rete.WME.EdgeDirection;
 /**
  */
 public class AlphaEdgeNode extends AlphaNode {
-	protected final ABox abox;
 	protected final Role role;
 
 	public AlphaEdgeNode(ABox abox, Role role) {
-		this.abox = abox;
+		super(abox);
 	    this.role = role;
     }
 	

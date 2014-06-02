@@ -41,6 +41,7 @@ import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
+import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.IRI;
@@ -74,12 +75,13 @@ import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
 import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
+import com.clarkparsia.pellet.utils.TermFactory;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 
-public class MiscRuleTests {
+public class MiscRuleTests extends AbstractKBTests {
 
 	public final static String	base		= "file:" + PelletTestSuite.base + "swrl-test/misc/";
 	private static final IRI	luigiFamily	= IRI
@@ -90,8 +92,6 @@ public class MiscRuleTests {
 	}
 
 	private void nonTrivialBuiltInTest() {
-		KnowledgeBase kb = new KnowledgeBase();
-
 		ATermAppl d1 = literal( "1", Datatypes.INT ), d2 = 
 				literal( "2", Datatypes.INT ), d12 = literal( "3", Datatypes.INTEGER ), 
 				i = term( "i" ), p = term( "p" ), q = term( "q" ), r = term( "r" );
@@ -128,7 +128,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void builtInDateTime() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl amy = term( "Amy" ), basil = term( "Basil" ), clara = term( "Clara" ), desmond = term( "Desmond" );
 
@@ -207,7 +207,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void builtInMath() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl d1 = literal( "1", Datatypes.INT ), d2 = 
 				literal( "1.5", Datatypes.FLOAT ), dif11 = literal(
@@ -307,7 +307,7 @@ public class MiscRuleTests {
 	 */
 	@Test
 	public void dataPropertyChain1() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl d = literal( "d" ), i = term( "i" ), j = 
 				term( "j" ), k = term( "k" ), p = 
@@ -345,7 +345,7 @@ public class MiscRuleTests {
 	 */
 	@Test
 	public void dataPropertyChain2() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl d = literal( "d" ), i = term( "i" ), j = 
 				term( "j" ), k = term( "k" ), p = 
@@ -382,7 +382,7 @@ public class MiscRuleTests {
 	public void inferredProperties() throws Exception {
 		ATermAppl d = literal( "foo" ), i = term( "i" ), j = term( "j" ), k = term( "k" ), p = term( "p" ), r = term( "r" );
 
-		KnowledgeBase kb = new KnowledgeBase();
+		
 		kb.addIndividual( i );
 		kb.addIndividual( j );
 		kb.addIndividual( k );
@@ -417,7 +417,7 @@ public class MiscRuleTests {
 		ATermAppl c = term( "C" ), d = term( "D" ), i = 
 				term( "i" );
 
-		KnowledgeBase kb = new KnowledgeBase();
+		
 		kb.addClass( c );
 		kb.addClass( d );
 		kb.addIndividual( i );
@@ -441,7 +441,7 @@ public class MiscRuleTests {
 		AtomIObject x = new AtomIVariable( "x" );
 		AtomIObject y = new AtomIVariable( "y" );
 
-		KnowledgeBase kb = new KnowledgeBase();
+		
 		kb.addIndividual( i );
 		kb.addIndividual( j );
 		kb.addObjectProperty( r );
@@ -497,7 +497,7 @@ public class MiscRuleTests {
 
 		ATermAppl c11 = term( "c11" ), c12 = term( "c12" ), p1a = term( "p1a" ), p2a = term( "p2a" );
 
-		KnowledgeBase kb = new KnowledgeBase();
+		
 		kb.addClass( male );
 		kb.addObjectProperty( hasParent );
 		kb.addObjectProperty( hasSibling );
@@ -548,7 +548,7 @@ public class MiscRuleTests {
 	@Test
 	public void reteRestoreTest1() {
 		ATermAppl a, b, c, x, y, p, q, A, B, C, G, H;
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		a = term( "a" );
 		b = term( "b" );
@@ -629,7 +629,7 @@ public class MiscRuleTests {
 		// that we need the application of choose rule to get the correct
 		// entailments
 
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl C = term( "C" );
 		ATermAppl D = term( "D" );
@@ -688,7 +688,7 @@ public class MiscRuleTests {
 		// This test case is to test if restore/backtrack in RuleBranch 
 		// modifies the original ABox (see ticket 302)
 
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl C = term( "C" );
 		ATermAppl D = term( "D" );
@@ -732,7 +732,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void testEmptyRuleHead1() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl i = term( "i" );
 		ATermAppl C = term( "C" );
@@ -754,7 +754,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void testEmptyRuleHead2() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl i = term( "i" );
 		ATermAppl C = term( "C" );
@@ -779,7 +779,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void testEmptyRuleHead3() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl i = term( "i" );
 		ATermAppl C = term( "C" );
@@ -804,7 +804,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void testEmptyRuleHead4() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl i = term( "i" );
 		ATermAppl R = term( "R" );
@@ -828,7 +828,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void testEmptyRuleHead5() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl i = term( "i" );
 		ATermAppl C = term( "C" );
@@ -854,7 +854,7 @@ public class MiscRuleTests {
 
 	@Test
 	public void testTransitiveProperty() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl a = term( "a" );
 		ATermAppl b = term( "b" );
@@ -907,7 +907,7 @@ public class MiscRuleTests {
 		// This test case is to test if restore/backtrack in RuleBranch 
 		// modifies the original ABox (see ticket 302)
 
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl C = term( "C" );
 		ATermAppl p = term( "p" );
@@ -941,7 +941,7 @@ public class MiscRuleTests {
 		
 	@Test
 	public void reflexiveRule() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl A = term( "A" );		
 		
@@ -978,7 +978,7 @@ public class MiscRuleTests {
 	
 	@Test
 	public void propertyAtomWithAConstant() {
-		KnowledgeBase kb = new KnowledgeBase();
+		
 
 		ATermAppl A = term( "A" );		
 		
@@ -1098,5 +1098,64 @@ public class MiscRuleTests {
 		OWLOntology ont = OWL.manager.loadOntologyFromOntologyDocument( source );
 			PelletReasoner reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createReasoner( ont );
 			reasoner.getKB().realize();
+	}
+
+	@Test
+	public void testNoVarPropertyAtom() {
+		classes(A);
+		dataProperties(p, q);
+		individuals(a, b);
+
+		kb.addType(a, A);
+		kb.addPropertyValue(p, b, TermFactory.literal(true));
+
+		ATermAppl t = TermFactory.literal("t");
+		ATermAppl f = TermFactory.literal("f");
+
+		AtomIVariable x = new AtomIVariable("x");
+
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new DatavaluedPropertyAtom(p,
+		                new AtomIConstant(b), new AtomDConstant(TermFactory.literal(true))));
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(t)));
+		kb.addRule(new Rule(head, body));
+
+		body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new DatavaluedPropertyAtom(p, new AtomIConstant(b),
+		                new AtomDConstant(TermFactory.literal(false))));
+		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(f)));
+		kb.addRule(new Rule(head, body));
+
+		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
+		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
+	}
+	
+	@Test
+	public void testNoVarTypeAtom() {
+		classes(A, B, C);
+		dataProperties(q);
+		individuals(a, b);
+
+		kb.addType(a, A);
+		kb.addType(b, B);
+
+		ATermAppl t = TermFactory.literal("t");
+		ATermAppl f = TermFactory.literal("f");
+
+		AtomIVariable x = new AtomIVariable("x");
+
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new ClassAtom(B, new AtomIConstant(b)));
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(t)));
+		kb.addRule(new Rule(head, body));
+
+		body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new ClassAtom(A, new AtomIConstant(b)));
+		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(f)));
+		kb.addRule(new Rule(head, body));
+
+		body = Arrays.<RuleAtom> asList(new ClassAtom(B, x));
+		head = Arrays.<RuleAtom> asList(new ClassAtom(C, x));
+		kb.addRule(new Rule(head, body));
+
+		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
+		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
+		assertIteratorValues(kb.getInstances(C).iterator(), b);
 	}
 }

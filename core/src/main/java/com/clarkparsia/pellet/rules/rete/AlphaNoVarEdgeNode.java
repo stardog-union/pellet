@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Edge;
+import org.mindswap.pellet.EdgeList;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
@@ -17,8 +18,8 @@ import org.mindswap.pellet.utils.ATermUtils;
 
 import aterm.ATermAppl;
 
+import com.clarkparsia.pellet.rules.model.AtomConstant;
 import com.clarkparsia.pellet.rules.model.AtomIConstant;
-import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.BinaryAtom;
 import com.clarkparsia.pellet.rules.model.DatavaluedPropertyAtom;
 import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
@@ -27,15 +28,30 @@ import com.clarkparsia.pellet.rules.rete.WME.EdgeDirection;
 
 /**
  */
-public class AlphaFixedObjectEdgeNode extends AlphaFixedEdgeNode {
-	public AlphaFixedObjectEdgeNode(ABox abox, Role role, ATermAppl object) {
-	    super(abox, role, object);
+public class AlphaNoVarEdgeNode extends AlphaFixedEdgeNode {
+	private final ATermAppl objectName;
+	private Node objectNode;
+	
+	public AlphaNoVarEdgeNode(ABox abox, Role role, ATermAppl subjectName, ATermAppl objectName) {
+	    super(abox, role, subjectName);
+	    
+	    this.objectName = objectName;
     }
 	
+
+	protected Node initObjectNode() {
+		if (objectNode == null) {			
+			objectNode = initNode(objectName);
+		}
+		assert objectNode != null;
+		return objectNode;
+	}
+	
 	public boolean activate(Edge edge) {
+		Individual subject = initNode();
+		Node object = initObjectNode();
 		EdgeDirection dir = edgeMatches(edge);
-		Node object = initNode();
-		if (dir != null && (dir == EdgeDirection.FORWARD ? edge.getTo() : edge.getFrom()).isSame(object)) {	
+		if (dir != null && (dir == EdgeDirection.FORWARD ? edge.getFrom() : edge.getTo()).isSame(subject) && (dir == EdgeDirection.BACKWARD ? edge.getFrom() : edge.getTo()).isSame(object)) {
 			activate(WME.createEdge(edge, dir));
 			return true;
 		}
@@ -43,28 +59,26 @@ public class AlphaFixedObjectEdgeNode extends AlphaFixedEdgeNode {
 	}
 
 	public Iterator<WME> getMatches(int argIndex, Node arg) {
-		if (argIndex != 0) {
-			throw new UnsupportedOperationException();	
-		}
-		
-		Node object = initNode();
-		return getMatches((Individual) arg, role, object);
+		throw new UnsupportedOperationException();
 	}
 
 	public Iterator<WME> getMatches() {
-		Node object = initNode();
-		return toWMEs(object.getInEdges(), EdgeDirection.FORWARD);
+		Individual subject = initNode();
+		Node object = initObjectNode();
+		EdgeList edges = subject.getEdgesTo(object, role);
+		return toWMEs(edges, EdgeDirection.FORWARD);
 	}
 
 	public boolean matches(RuleAtom atom) {
 		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) 
 						&& atom.getPredicate().equals(role.getName())
-						&& ((BinaryAtom) atom).getArgument1() instanceof AtomVariable
-						&& ((BinaryAtom) atom).getArgument2() instanceof AtomIConstant
-						&& ((AtomIConstant)((BinaryAtom) atom).getArgument2()).getValue().equals(name);
+						&& ((BinaryAtom) atom).getArgument1() instanceof AtomIConstant
+						&& ((AtomIConstant)((BinaryAtom) atom).getArgument1()).getValue().equals(name)
+						&& ((BinaryAtom) atom).getArgument2() instanceof AtomConstant
+						&& ((AtomConstant)((BinaryAtom) atom).getArgument2()).getValue().equals(objectName);
 	}
 	
 	public String toString() {
-		return ATermUtils.toString(role.getName()) + "(0, " + ATermUtils.toString(name) + ")";
+		return ATermUtils.toString(role.getName()) + "(" + ATermUtils.toString(name) + ", " + ATermUtils.toString(objectName) + ")";
 	}
 }

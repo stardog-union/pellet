@@ -26,17 +26,12 @@ public class AlphaFixedEdgeNode extends AlphaEdgeNode {
 	
 	protected <N extends Node> N initNode() {
 		if (node == null) {			
-			if (ATermUtils.isLiteral(name)) {
-				node = abox.addLiteral(name);	
-			}
-			else {
-				abox.copyOnWrite();
-				node = abox.getIndividual(name);
-			}
+			node = initNode(name);
 		}
 		assert node != null;
 		return (N) node;
 	}
+	
 	@Override
     public int hashCode() {
 	    final int prime = 31;

@@ -13,14 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.mindswap.pellet.ABox;
-import org.mindswap.pellet.DefaultEdge;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
-import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.iterator.FlattenningIterator;
 
 import aterm.ATermAppl;
 
@@ -275,7 +272,12 @@ public class AlphaNetwork implements Iterable<AlphaNode> {
 			}
 			else {
 				if (s instanceof AtomConstant) {
-					result = new AlphaFixedSubjectEdgeNode(abox, role, ((AtomConstant) s).getValue());
+					if (o instanceof AtomConstant) {
+						result = new AlphaNoVarEdgeNode(abox, role, ((AtomConstant) s).getValue(), ((AtomConstant) o).getValue());
+					}
+					else {
+						result = new AlphaFixedSubjectEdgeNode(abox, role, ((AtomConstant) s).getValue());
+					}
 				}
 				else {
 					result = new AlphaFixedObjectEdgeNode(abox, role, ((AtomConstant) o).getValue());
@@ -312,7 +314,9 @@ public class AlphaNetwork implements Iterable<AlphaNode> {
 		
 		@Override
 		public void visit(ClassAtom atom) {
-			result = new AlphaTypeNode(abox, atom.getPredicate());
+			AtomObject arg = atom.getArgument();
+			ATermAppl name = (arg instanceof AtomConstant) ? ((AtomConstant) arg).getValue() : null;
+			result = new AlphaTypeNode(abox, atom.getPredicate(), name);
 		}
 		
 		@Override

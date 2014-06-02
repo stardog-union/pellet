@@ -18,28 +18,52 @@ import org.mindswap.pellet.utils.iterator.NestedIterator;
 
 import aterm.ATermAppl;
 
+import com.clarkparsia.pellet.rules.model.AtomIConstant;
+import com.clarkparsia.pellet.rules.model.AtomObject;
+import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.ClassAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 
 /**
  */
 public class AlphaTypeNode extends AlphaNode {
-	protected final ABox abox;
 	private final ATermAppl predicate;
+	private final ATermAppl name;
+	private Individual node;
 
 	public AlphaTypeNode(ABox abox, ATermAppl predicate) {
-		this.abox = abox;
+		this(abox, predicate, null);
+	}
+	
+	public AlphaTypeNode(ABox abox, ATermAppl predicate, ATermAppl name) {
+		super(abox);
 	    this.predicate = predicate;
+	    this.name = name;
     }
+	
+	protected Individual initNode() {
+		if (node == null) {			
+			node = (Individual) initNode(name);
+		}
+		assert node != null;
+		return node;
+	}
 	
 	public boolean activate(Individual ind, ATermAppl type, DependencySet ds) {
 		assert predicate.equals(type);
+		if (name != null) {
+			Individual node = initNode();
+			if (!ind.isSame(node)) {
+				return false;
+			}
+		}
+		
 		activate(WME.createType(ind, type, ds));
 		return true;
 	}
 
 	public Iterator<WME> getMatches(int argIndex, Node arg) {
-		if (argIndex != 0) {
+		if (name != null || argIndex != 0) {
 			throw new IndexOutOfBoundsException();
 		}
 		
@@ -52,13 +76,14 @@ public class AlphaTypeNode extends AlphaNode {
 	    return (depends == null) 
 	    	? IteratorUtils.<WME>emptyIterator() 
 	    	: IteratorUtils.<WME>singletonIterator(WME.createType((Individual) arg, predicate, depends));
+
     }
 
 	public Iterator<WME> getMatches() {
-		return new NestedIterator<Individual, WME>(abox.getIndIterator()) {
+		Iterator<Individual> inds = (name == null) ? abox.getIndIterator() : IteratorUtils.singletonIterator(initNode());
+		return new NestedIterator<Individual, WME>(inds) {
 			@Override
             public Iterator<WME> getInnerIterator(Individual ind) {
-
 				DependencySet depends = ind.getDepends(predicate);
 				
 			    return (depends == null) 
@@ -69,7 +94,14 @@ public class AlphaTypeNode extends AlphaNode {
 	}
 	
 	public boolean matches(RuleAtom atom) {
-		return (atom instanceof ClassAtom) && atom.getPredicate().equals(predicate);
+		return (atom instanceof ClassAtom) && atom.getPredicate().equals(predicate) && argMatches((ClassAtom) atom);
+	}
+	
+	private boolean argMatches(ClassAtom atom) {
+		AtomObject arg = atom.getArgument();
+		return name == null 
+			? arg instanceof AtomVariable 
+			: (arg instanceof AtomIConstant && ((AtomIConstant) arg).getValue().equals(name));
 	}
 	
 	@Override
@@ -89,10 +121,10 @@ public class AlphaTypeNode extends AlphaNode {
 		    return false;
 	    }
 	    AlphaTypeNode other = (AlphaTypeNode) obj;
-	    return predicate.equals(other.predicate);
+	    return predicate.equals(other.predicate) && (name == null ? other.name == null : name.equals(other.name));
     }
 
 	public String toString() {
-		return ATermUtils.toString(predicate) + "(0)";
+		return ATermUtils.toString(predicate) + "(" + (name == null ? "0" : name) + ")";
 	}
 }

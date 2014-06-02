@@ -21,10 +21,8 @@ import com.clarkparsia.pellet.rules.model.RuleAtom;
 /**
  */
 public class AlphaDiffFromNode extends AlphaNode {
-	private final ABox abox; 
-
 	public AlphaDiffFromNode(ABox abox) {
-		this.abox = abox;
+		super(abox);
     }
 	
 	public boolean activate(Individual s, Individual o, DependencySet ds) {

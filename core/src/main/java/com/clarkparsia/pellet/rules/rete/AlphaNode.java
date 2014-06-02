@@ -10,7 +10,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.logging.Level;
 
+import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Node;
+import org.mindswap.pellet.utils.ATermUtils;
+
+import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 
@@ -20,12 +24,28 @@ public abstract class AlphaNode extends ReteNode {
 	protected static final Iterator<WME> NO_MATCH = Collections.<WME>emptyList().iterator();
 	
 	protected boolean doExplanation; 
+	
+	protected final ABox abox;
+
+	public AlphaNode(ABox abox) {
+		this.abox = abox;
+    }
 
 	public abstract Iterator<WME> getMatches(int argIndex, Node arg);
 
 	public abstract Iterator<WME> getMatches();
 	
 	public abstract boolean matches(RuleAtom atom);
+		
+	protected Node initNode(ATermAppl name) {
+		if (ATermUtils.isLiteral(name)) {
+			return abox.addLiteral(name);	
+		}
+		else {
+			abox.copyOnWrite();
+			return abox.getIndividual(name);
+		}
+	}
 		
 	protected void activate(WME wme) {
 		if (log.isLoggable(Level.FINE)) {
