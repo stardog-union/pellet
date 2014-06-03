@@ -9,7 +9,6 @@ package com.clarkparsia.pellet.rules.rete;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
-import org.mindswap.pellet.utils.ATermUtils;
 
 import aterm.ATermAppl;
 
@@ -24,7 +23,8 @@ public class AlphaFixedEdgeNode extends AlphaEdgeNode {
 	    this.name = subjectName;
     }
 	
-	protected <N extends Node> N initNode() {
+	@SuppressWarnings("unchecked")
+    protected <N extends Node> N initNode() {
 		if (node == null) {			
 			node = initNode(name);
 		}

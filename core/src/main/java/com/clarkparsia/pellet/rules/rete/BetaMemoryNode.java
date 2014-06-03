@@ -71,7 +71,7 @@ public class BetaMemoryNode extends BetaNode {
 		Iterator<WME> matches = memory.getWMEs(token, alpha);
 		while (matches.hasNext()) {
 			WME wme = matches.next();
-			if (testConditions(wme, token, 1)) {
+			if (testConditions(wme, token, memory.isJoined() ? 1 : 0)) {
 		        activateChildren(wme, token);
             }
 		}

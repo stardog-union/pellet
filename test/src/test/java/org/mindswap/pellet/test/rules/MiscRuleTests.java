@@ -1158,4 +1158,72 @@ public class MiscRuleTests extends AbstractKBTests {
 		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
 		assertIteratorValues(kb.getInstances(C).iterator(), b);
 	}
+
+	@Test
+	public void testNoSharedVar() {		
+		classes(A);
+		dataProperties(p, q);
+		objectProperties(r);
+		individuals(a, b, c);
+
+		kb.addType(a, A);
+		kb.addPropertyValue(p, b, TermFactory.literal(true));
+		kb.addPropertyValue(r, b, c);
+
+		ATermAppl t = TermFactory.literal("t");
+		ATermAppl f = TermFactory.literal("f");
+
+		AtomIVariable x = new AtomIVariable("x");
+		AtomDVariable y = new AtomDVariable("y");
+
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(A, x),
+						new DatavaluedPropertyAtom(p, new AtomIConstant(b), y),
+						new BuiltInAtom(SWRLB + "equal", y, new AtomDConstant(TermFactory.literal(true))));
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(t)));
+		kb.addRule(new Rule(head, body));
+
+		body = Arrays.<RuleAtom> asList(new ClassAtom(A, x),
+						new DatavaluedPropertyAtom(p, new AtomIConstant(b), y),
+						new BuiltInAtom(SWRLB + "equal", y, new AtomDConstant(TermFactory.literal(false))));
+		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(f)));
+		kb.addRule(new Rule(head, body));
+
+		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
+		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
+	}
+
+	@Test
+	public void testNoSharedVarFixedObject() {		
+		classes(A);
+		dataProperties(p, q);
+		objectProperties(r, s);
+		individuals(a, b, c, d);
+
+		kb.addType(a, A);
+		kb.addPropertyValue(r, c, b);
+		kb.addPropertyValue(p, c, TermFactory.literal(true));
+		kb.addPropertyValue(s, d, b);
+		kb.addPropertyValue(p, d, TermFactory.literal(false));
+
+		ATermAppl t = TermFactory.literal("t");
+		ATermAppl f = TermFactory.literal("f");
+
+		AtomIVariable x = new AtomIVariable("x");
+		AtomIVariable y = new AtomIVariable("y");
+
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(A, x),
+						new IndividualPropertyAtom(r, y, new AtomIConstant(b)),
+						new DatavaluedPropertyAtom(p, y, new AtomDConstant(TermFactory.literal(true))));
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(t)));
+		kb.addRule(new Rule(head, body));
+
+		body = Arrays.<RuleAtom> asList(new ClassAtom(A, x),
+						new IndividualPropertyAtom(r, y, new AtomIConstant(b)),
+						new DatavaluedPropertyAtom(p, y, new AtomDConstant(TermFactory.literal(false))));
+		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(f)));
+		kb.addRule(new Rule(head, body));
+
+		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
+		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
+	}
 }

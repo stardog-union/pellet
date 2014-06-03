@@ -53,10 +53,11 @@ public class AlphaFixedSubjectEdgeNode extends AlphaFixedEdgeNode {
 
 	public Iterator<WME> getMatches() {
 		Individual subject = initNode();
-		return toWMEs(subject.getOutEdges(), EdgeDirection.FORWARD);
+		return toWMEs(subject.getOutEdges().getEdges(role), EdgeDirection.FORWARD);
 	}
 
-	public boolean matches(RuleAtom atom) {
+	@SuppressWarnings("rawtypes")
+    public boolean matches(RuleAtom atom) {
 		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) 
 						&& atom.getPredicate().equals(role.getName())
 						&& ((BinaryAtom) atom).getArgument1() instanceof AtomIConstant

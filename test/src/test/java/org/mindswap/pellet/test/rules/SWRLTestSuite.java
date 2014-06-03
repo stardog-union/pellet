@@ -47,7 +47,7 @@ public class SWRLTestSuite {
 		new File (base + "equalities/Manifest002.rdf")
 	);
 
-	@Parameters
+	@Parameters(name= "{0}")
 	public static List<Object[]> getParameters() {
 		List<Object[]> parameters = new ArrayList<Object[]>();
 

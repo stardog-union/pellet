@@ -30,6 +30,8 @@ public abstract class BetaMemoryIndex {
 	public abstract void restore(int branch);
 	
     public abstract void clear();
+    
+    public abstract boolean isJoined();
 
 	
 	public static BetaMemoryIndex withoutJoin() {
@@ -43,6 +45,11 @@ public abstract class BetaMemoryIndex {
 	private static class Unindexed extends BetaMemoryIndex {
 		private Token[] index = new Token[10];
 		private int size = 0;
+		
+		@Override
+		public boolean isJoined() {
+		    return false;
+		}
 		
 		@Override
 		public void add(Token token) {
@@ -118,6 +125,11 @@ public abstract class BetaMemoryIndex {
         }
 		
 		@Override
+		public boolean isJoined() {
+		    return true;
+		}
+		
+		@Override
 		public void add(Token token) {
 			memory.add(token);
 		}
@@ -163,6 +175,11 @@ public abstract class BetaMemoryIndex {
 		private JoinIndexed(JoinCondition joinCondition) {
 	        this.joinCondition = joinCondition;
         }
+		
+		@Override
+		public boolean isJoined() {
+		    return true;
+		}
 
 		@Override
 		public void add(Token token) {

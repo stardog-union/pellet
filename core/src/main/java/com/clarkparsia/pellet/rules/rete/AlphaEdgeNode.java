@@ -77,7 +77,8 @@ public class AlphaEdgeNode extends AlphaNode {
 		return false;
 	}
 
-	public boolean matches(RuleAtom atom) {
+	@SuppressWarnings("rawtypes")
+    public boolean matches(RuleAtom atom) {
 		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) 
 						&& atom.getPredicate().equals(role.getName())
 						&& ((BinaryAtom) atom).getArgument1() instanceof AtomVariable
@@ -118,7 +119,7 @@ public class AlphaEdgeNode extends AlphaNode {
 		return new NestedIterator<Individual, WME>(abox.getIndIterator()) {
 			@Override
             public Iterator<WME> getInnerIterator(Individual ind) {
-	            return toWMEs(ind.getOutEdges(), EdgeDirection.FORWARD);
+	            return toWMEs(ind.getOutEdges().getEdges(role), EdgeDirection.FORWARD);
             }
 		};
 	}

@@ -122,7 +122,7 @@ public abstract class NodeProvider {
 
 		@Override
 		public String toString() {
-		    return "tuple." + indexArg;
+		    return "wme." + indexArg;
 		}
 	}
 }
