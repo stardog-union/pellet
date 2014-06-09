@@ -38,7 +38,6 @@ import java.util.Set;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
-import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.test.AbstractKBTests;
@@ -1231,11 +1230,12 @@ public class MiscRuleTests extends AbstractKBTests {
 	public void testBindingBuiltins() {		
 		classes(A);
 		dataProperties(p, q);
-		objectProperties(r, s);
 		individuals(a, b, c, d);
 
-		kb.addPropertyValue(p, a, TermFactory.literal(5));
-		kb.addPropertyValue(p, b, TermFactory.literal(15));
+		kb.addPropertyValue(p, a, TermFactory.literal(1));
+		kb.addPropertyValue(p, b, TermFactory.literal(5));
+		kb.addPropertyValue(p, c, TermFactory.literal(10));
+		kb.addPropertyValue(p, d, TermFactory.literal(15));
 
 		AtomIVariable x = new AtomIVariable("x");
 		AtomDVariable y = new AtomDVariable("y");
@@ -1249,6 +1249,35 @@ public class MiscRuleTests extends AbstractKBTests {
 		List<RuleAtom> head = Arrays.<RuleAtom> asList(new ClassAtom(A, x));
 		kb.addRule(new Rule(head, body));
 
-		assertIteratorValues(kb.getInstances(A).iterator(), a);
+		assertIteratorValues(kb.getInstances(A).iterator(), a, b);
+	}
+
+	@Test
+	public void testTriangle() {
+		objectProperties(p, q);
+		individuals(a, b, c, d, e);
+
+		kb.addPropertyValue(p, a, b);
+		kb.addPropertyValue(p, b, c);
+		kb.addPropertyValue(p, a, c);
+		kb.addPropertyValue(p, b, e);
+		kb.addPropertyValue(p, c, e);
+
+		AtomIVariable x = new AtomIVariable("x");
+		AtomIVariable y = new AtomIVariable("y");
+		AtomIVariable z = new AtomIVariable("z");
+		
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(
+						new IndividualPropertyAtom(p, x, y),
+						new IndividualPropertyAtom(p, y, z),
+						new IndividualPropertyAtom(p, x, z)
+						);
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(q, x, z));
+		kb.addRule(new Rule(head, body));
+
+		assertIteratorValues(kb.getObjectPropertyValues(q, a).iterator(), c);
+		assertIteratorValues(kb.getObjectPropertyValues(q, b).iterator(), e);
+		assertIteratorValues(kb.getObjectPropertyValues(q, c).iterator());
+		assertIteratorValues(kb.getObjectPropertyValues(q, d).iterator());
 	}
 }
