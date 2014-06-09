@@ -1226,4 +1226,29 @@ public class MiscRuleTests extends AbstractKBTests {
 		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
 		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
 	}
+
+	@Test
+	public void testBindingBuiltins() {		
+		classes(A);
+		dataProperties(p, q);
+		objectProperties(r, s);
+		individuals(a, b, c, d);
+
+		kb.addPropertyValue(p, a, TermFactory.literal(5));
+		kb.addPropertyValue(p, b, TermFactory.literal(15));
+
+		AtomIVariable x = new AtomIVariable("x");
+		AtomDVariable y = new AtomDVariable("y");
+		AtomDVariable z = new AtomDVariable("z");
+		
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(
+						new DatavaluedPropertyAtom(p, x, y),
+						new BuiltInAtom( SWRLB + "pow", z, y, new AtomDConstant(TermFactory.literal(2))),
+						new BuiltInAtom( SWRLB + "lessThan", z, new AtomDConstant(TermFactory.literal(100)))
+						);
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new ClassAtom(A, x));
+		kb.addRule(new Rule(head, body));
+
+		assertIteratorValues(kb.getInstances(A).iterator(), a);
+	}
 }

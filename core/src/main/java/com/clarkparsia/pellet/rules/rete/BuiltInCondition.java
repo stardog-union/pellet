@@ -25,6 +25,11 @@ public class BuiltInCondition implements FilterCondition {
 	    this.name = name;
 	    this.builtin = builtin;
 	    this.args = args;
+		for (int i = 0; i < args.length; i++) {
+			if (args[i] == null) {
+				throw new NullPointerException();
+			}
+		}
     }
 
 	@Override

@@ -10,14 +10,12 @@ import static java.lang.String.format;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
@@ -33,8 +31,6 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
 import com.clarkparsia.pellet.rules.BindingHelper;
 import com.clarkparsia.pellet.rules.ContinuousRulesStrategy;
-import com.clarkparsia.pellet.rules.PartialBinding;
-import com.clarkparsia.pellet.rules.VariableBinding;
 import com.clarkparsia.pellet.rules.VariableUtils;
 import com.clarkparsia.pellet.rules.builtins.BuiltIn;
 import com.clarkparsia.pellet.rules.builtins.BuiltInRegistry;
@@ -170,25 +166,17 @@ public class Compiler {
 			
 			bound.addAll(VariableUtils.getVars(atom));
 			
-			List<BuiltInCall> bindingBuiltins = new ArrayList<BuiltInCall>();
-			int bindingCount = -1;
-			while (!builtins.isEmpty() && bindingCount != bound.size()) {
-				bindingCount = bound.size();
-				for (Iterator<BuiltInCall> i = builtins.iterator(); i.hasNext();) {
-		            BuiltInCall call = i.next();
-		            if (bound.containsAll(call.getPrerequisitesVars(bound))) {            	
-		            	Collection<? extends AtomVariable> bindableVars = call.getBindableVars(bound);
-		            	if (bindableVars.isEmpty() || bound.containsAll(bindableVars)) {
-			            	conditions.add(call.createCondition(processed));
-		            	}
-		            	else {
-		            		bindingBuiltins.add(call);
-		            		bound.addAll(bindableVars);
-		            	}
+			// any builtin that can be evaluated with current bindings should be handled here
+			for (Iterator<BuiltInCall> i = builtins.iterator(); i.hasNext();) {
+	            BuiltInCall call = i.next();
+	            if (bound.containsAll(call.getPrerequisitesVars(bound))) {            	
+	            	Collection<? extends AtomVariable> bindableVars = call.getBindableVars(bound);
+	            	if (bindableVars.isEmpty() || bound.containsAll(bindableVars)) {
+		            	conditions.add(call.createCondition(processed));
 		            	i.remove();
-		            }	            
-	            }
-			}
+	            	}
+	            }	            
+            }
 
 			boolean firstBeta = (node == null);
 			BetaNode newBeta = null;
@@ -227,14 +215,24 @@ public class Compiler {
 			}
 			node = newBeta;
 			
-			for (BuiltInCall bindingBuiltin : bindingBuiltins) {
-				newBeta = bindingBuiltin.createBeta(processed);
-				node.addChild(newBeta);
-				node = newBeta;
-				processed.add(bindingBuiltin.atom);
-				bound.addAll(bindingBuiltin.getBindableVars(bound));
-				canReuseBeta = false;
-            }
+			// process builtins at the end since binding builtins may change 
+			int bindingCount = -1;
+			while (!builtins.isEmpty() && bindingCount != bound.size()) {
+				bindingCount = bound.size();
+				for (Iterator<BuiltInCall> i = builtins.iterator(); i.hasNext();) {
+		            BuiltInCall call = i.next();
+		            if (bound.containsAll(call.getPrerequisitesVars(bound))) {  
+		            	// create the beta node before updating processed atoms
+						newBeta = call.createBeta(processed);
+						node.addChild(newBeta);
+						node = newBeta;						
+						processed.add(call.atom);
+						bound.addAll(call.getBindableVars(bound));
+						canReuseBeta = false;
+						i.remove();
+					}	            
+	            }
+			}
 		}
 		
 		if (!builtins.isEmpty()) {
