@@ -90,8 +90,14 @@ public class PelletReasoner implements Reasoner {
         return fixedSchema;
     }
 
+    /**
+     * @deprecated
+     * @param fixedSchema 
+     */
     public void setFixedSchema(boolean fixedSchema) {
         this.fixedSchema = fixedSchema;
+        if(this.fixedSchema==false)
+            this.schema = null;
     }
 
     /**
