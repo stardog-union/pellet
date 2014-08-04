@@ -21,19 +21,7 @@
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
-			<artifactId>owlapi-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.owlapi</groupId>
-			<artifactId>owlapi-impl</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>net.sourceforge.owlapi</groupId>
-            <artifactId>owlapi-parsers</artifactId>
-        </dependency>
-		<dependency>
-			<groupId>net.sourceforge.owlapi</groupId>
-			<artifactId>owlapi-apibinding</artifactId>
+			<artifactId>owlapi-compatibilitydistribution</artifactId>
 		</dependency>
 	  	<dependency>
 	  		<groupId>junit</groupId>

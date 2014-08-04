@@ -43,6 +43,7 @@ public class MultiValueMap<K,V> extends HashMap<K,Set<V>> implements Map<K,Set<V
         return super.put( key, set );
     }
 
+    @Override
     public Set<V> put( K key, Set<V> values ) {
         return super.put( key, values );
     }
@@ -67,15 +68,16 @@ public class MultiValueMap<K,V> extends HashMap<K,Set<V>> implements Map<K,Set<V
 		return values.addAll( collection );
 	}
     
-    public boolean remove( K key, V value ) {
-    	boolean removed = false;
+    public boolean remove(Object key, Object value) {
+        boolean removed = false;
     	
         Set<V> values = get( key );
         if( values != null ) { 
             removed = values.remove( value );
             
-            if( values.isEmpty() )
-            	super.remove( key );
+            if( values.isEmpty() ) {
+                super.remove( key );
+            }
         }
         
         return removed;
@@ -83,7 +85,9 @@ public class MultiValueMap<K,V> extends HashMap<K,Set<V>> implements Map<K,Set<V
 
     public boolean contains( K key, V value ) {
     	Set<V> values = get( key );
-    	if (values == null) return false;
+    	if (values == null) {
+            return false;
+        }
     	
     	return values.contains(value); 
     }
@@ -93,24 +97,29 @@ public class MultiValueMap<K,V> extends HashMap<K,Set<V>> implements Map<K,Set<V
     	    private Iterator<Set<V>> setIterator = values().iterator();
     	    private Iterator<V> valueIterator = null;    	    
 
-    	    public boolean hasNext() {
+    	    @Override
+            public boolean hasNext() {
     			while( valueIterator == null || !valueIterator.hasNext() ) {
-    				if( !setIterator.hasNext() )
-    					return false;
+    				if( !setIterator.hasNext() ) {
+                        return false;
+                    }
     				
     				valueIterator = setIterator.next().iterator();
     			}
     			return true;
     	    }
 
-    	    public V next() {
-    			if( !hasNext() )
-    				throw new NoSuchElementException();
+    	    @Override
+            public V next() {
+    			if( !hasNext() ) {
+                    throw new NoSuchElementException();
+                }
     			
     			return valueIterator.next();
     	    }
 
-			public void remove() {
+			@Override
+            public void remove() {
 				setIterator.remove();
 			}
     	};

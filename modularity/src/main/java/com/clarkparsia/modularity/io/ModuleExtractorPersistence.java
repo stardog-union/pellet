@@ -16,14 +16,14 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.mindswap.pellet.utils.MultiValueMap;
-import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
@@ -66,7 +66,8 @@ public class ModuleExtractorPersistence {
 		try {
 			OWLOntology ontology = OWL.Ontology( axioms );
 
-			OWL.manager.saveOntology( ontology, new OWLXMLOntologyFormat(), outputStream );
+            OWL.manager.saveOntology(ontology, new OWLXMLDocumentFormat(),
+                    outputStream);
 			
 			outputStream.flush();
 			

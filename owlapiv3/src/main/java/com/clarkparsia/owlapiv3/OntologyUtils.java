@@ -30,7 +30,8 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
-import org.semanticweb.owlapi.util.OWLEntityCollector;
+import org.semanticweb.owlapi.model.parameters.Imports;
+import org.semanticweb.owlapi.util.DeprecatedOWLEntityCollector;
 
 /**
  * <p>Title: </p>
@@ -56,8 +57,9 @@ public class OntologyUtils {
 
 	public static boolean containsClass(Set<Set<OWLClass>> classes, OWLClass cls) {
 		for( Set<OWLClass> set : classes ) {
-			if( set.contains( cls ) )
-				return true;
+			if( set.contains( cls ) ) {
+                return true;
+            }
 		}
 
 		return false;
@@ -68,7 +70,8 @@ public class OntologyUtils {
 	 */
 	public static Set<OWLEntity> getSignature(OWLAxiom axiom) {
 		Set<OWLEntity> entities = new HashSet<OWLEntity>();
-		OWLEntityCollector collector = new OWLEntityCollector(entities);
+        DeprecatedOWLEntityCollector collector = new DeprecatedOWLEntityCollector(
+                entities);
 		collector.setCollectDatatypes( false );
 		axiom.accept(collector);
 
@@ -78,21 +81,24 @@ public class OntologyUtils {
 	/**
 	 * @deprecated Use {@link #createOntology(Collection)} instead
 	 */
-	public static OWLOntology getOntologyFromAxioms(Collection<OWLAxiom> axioms) {
+	@Deprecated
+    public static OWLOntology getOntologyFromAxioms(Collection<OWLAxiom> axioms) {
 		return OWL.Ontology( axioms );
 	}
 
 	/**
 	 * @deprecated Use {@link #createOntology(Collection, IRI)} instead
 	 */
-	public static OWLOntology getOntologyFromAxioms(Collection<OWLAxiom> axioms, IRI iri) {
+	@Deprecated
+    public static OWLOntology getOntologyFromAxioms(Collection<OWLAxiom> axioms, IRI iri) {
 		return OWL.Ontology( axioms, iri );
 	}
 
 	/**
 	 * @deprecated Use {@link #createOntology(OWLAxiom...)} instead
 	 */
-	public static OWLOntology getOntologyFromAxioms(OWLAxiom... axioms) {
+	@Deprecated
+    public static OWLOntology getOntologyFromAxioms(OWLAxiom... axioms) {
 		return OWL.Ontology( Arrays.asList( axioms ) );
 	}
 
@@ -149,8 +155,9 @@ public class OntologyUtils {
 	public static OWLOntology loadOntology( String uri, boolean withAnnotations ) {
 		OWLOntology ont = loadOntology( uri );
 		
-		if( !withAnnotations )
-			removeAllAnnotations( ont, manager );
+		if( !withAnnotations ) {
+            removeAllAnnotations( ont, manager );
+        }
 		
 		return ont;
 	}
@@ -170,8 +177,9 @@ public class OntologyUtils {
     public static OWLOntology loadOntology( InputStream inputStream, boolean withAnnotations ) {
         OWLOntology ont = loadOntology( inputStream );
         
-        if( !withAnnotations )
+        if( !withAnnotations ) {
             removeAllAnnotations( ont, manager );
+        }
         
         return ont;
     }
@@ -182,8 +190,9 @@ public class OntologyUtils {
 	 * @param args
 	 */
 	public static void printAxioms(Collection<? extends OWLAxiom> axioms) {
-		for( OWLAxiom axiom : axioms ) 
-			System.out.println( axiom );		
+		for( OWLAxiom axiom : axioms ) {
+            System.out.println( axiom );
+        }		
 	}
 
 	/**
@@ -351,8 +360,9 @@ public class OntologyUtils {
 	public static OWLEntity findEntity(String name, Set<OWLOntology> ontologies) {
 		OWLEntity entity = null;
 		for( OWLOntology ontology : ontologies ) {
-			if( (entity = findEntity( name, ontology )) != null )
-				break;
+			if( (entity = findEntity( name, ontology )) != null ) {
+                break;
+            }
 		}
 		return entity;
 	}
@@ -375,11 +385,11 @@ public class OntologyUtils {
 	public static OWLEntity findEntity(String name, OWLOntology ontology) {
 		OWLEntity entity = null;
 
-		if( name.equals( "owl:Thing" ) )
-			entity = OWL.Thing;
-		else if( name.equals( "owl:Nothing" ) )
-			entity = OWL.Nothing;
-		else {
+		if( name.equals( "owl:Thing" ) ) {
+            entity = OWL.Thing;
+        } else if( name.equals( "owl:Nothing" ) ) {
+            entity = OWL.Nothing;
+        } else {
 			IRI iri = IRI.create( name );
 
 			if( iri == null ) {
@@ -387,19 +397,25 @@ public class OntologyUtils {
 			}
 
 			if( !iri.isAbsolute() ) {
-				IRI baseIRI = ontology.getOntologyID().getOntologyIRI();
-				if( baseIRI != null )
-					iri = baseIRI.resolve( "#" + iri );
+                IRI baseIRI = ontology.getOntologyID().getOntologyIRI()
+                        .orNull();
+				if( baseIRI != null ) {
+                    iri = baseIRI.resolve( "#" + iri );
+                }
 			}
 
-			if( ontology.containsClassInSignature( iri ) )
-				entity = OWL.Class( iri );
-			else if( ontology.containsObjectPropertyInSignature( iri ) )
-				entity = OWL.ObjectProperty( iri );
-			else if( ontology.containsDataPropertyInSignature( iri ) )
-				entity = OWL.DataProperty( iri );
-			else if( ontology.containsIndividualInSignature( iri ) )
-				entity = OWL.Individual( iri ).asOWLNamedIndividual();
+            if (ontology.containsClassInSignature(iri, Imports.EXCLUDED)) {
+                entity = OWL.Class( iri );
+            } else if (ontology.containsObjectPropertyInSignature(iri,
+                    Imports.EXCLUDED)) {
+                entity = OWL.ObjectProperty( iri );
+            } else if (ontology.containsDataPropertyInSignature(iri,
+                    Imports.EXCLUDED)) {
+                entity = OWL.DataProperty( iri );
+            } else if (ontology.containsIndividualInSignature(iri,
+                    Imports.EXCLUDED)) {
+                entity = OWL.Individual( iri ).asOWLNamedIndividual();
+            }
 		}
 
 		return entity;
