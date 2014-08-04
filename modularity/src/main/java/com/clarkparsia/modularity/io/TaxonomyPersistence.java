@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.TaxonomyUtils;
-import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.io.StreamDocumentTarget;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
@@ -81,7 +81,8 @@ public class TaxonomyPersistence {
 		try {
 			OWLOntology ontology = createTaxonomyOntology( taxonomy );
 
-			OWL.manager.saveOntology( ontology, new OWLXMLOntologyFormat(), new StreamDocumentTarget( outputStream) );
+            OWL.manager.saveOntology(ontology, new OWLXMLDocumentFormat(),
+                    new StreamDocumentTarget(outputStream));
 			
 			outputStream.flush();
 			
@@ -141,7 +142,7 @@ public class TaxonomyPersistence {
 			// save the individuals
 			Collection<OWLNamedIndividual> individuals = (Collection<OWLNamedIndividual>) taxonomyNode.getDatum( TaxonomyUtils.INSTANCES_KEY );
 			
-			if( ( individuals != null ) && ( !individuals.isEmpty() ) ) {
+			if( individuals != null && !individuals.isEmpty() ) {
 				for( OWLNamedIndividual ind : individuals ) {
 					AddAxiom classAssertionAxiom = new AddAxiom( ontology, OWL.classAssertion( ind, taxonomyNode.getName() ) );
 					changes.add( classAssertionAxiom );
@@ -231,7 +232,7 @@ public class TaxonomyPersistence {
 		
 		// post process the top and bottom nodes
 		for( TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes() ) {
-			if ( OWL.Nothing.equals(taxonomyNode.getName() ) && ( taxonomyNode.getSupers().size() > 1 ) && ( taxonomyNode.getSupers().contains( taxonomy.getTop() ) ) ) {
+			if ( OWL.Nothing.equals(taxonomyNode.getName() ) && taxonomyNode.getSupers().size() > 1 && taxonomyNode.getSupers().contains( taxonomy.getTop() ) ) {
 				taxonomy.getTop().removeSub( taxonomyNode );
 			}
 		}
@@ -240,8 +241,9 @@ public class TaxonomyPersistence {
 		for ( TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes() ) {
 			OWLClass owlClass = taxonomyNode.getName();
 			
-			if( owlClass == null || owlClass.equals( OWL.Nothing ) ) 
-				continue;			
+			if( owlClass == null || owlClass.equals( OWL.Nothing ) ) {
+                continue;
+            }			
 			
 			taxonomy.addSupers( owlClass, getSuperClasses( ontology, owlClass ) );	
 		}
@@ -253,7 +255,7 @@ public class TaxonomyPersistence {
 			for( OWLClassAssertionAxiom classAssertionAxiom : ontology.getClassAssertionAxioms( taxonomyNode.getName() ) ) {
 				OWLIndividual individual = classAssertionAxiom.getIndividual();
 				
-				if( individual.isNamed() && ( individual instanceof OWLNamedIndividual ) ) {
+				if( individual.isNamed() && individual instanceof OWLNamedIndividual ) {
 					if( individuals == null ) {
 						individuals = new HashSet<OWLNamedIndividual>();
 					}

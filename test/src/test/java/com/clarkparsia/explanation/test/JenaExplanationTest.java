@@ -9,9 +9,7 @@
 package com.clarkparsia.explanation.test;
 
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.StringReader;
@@ -21,7 +19,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.coode.owlapi.turtle.TurtleOntologyFormat;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
@@ -29,6 +26,7 @@ import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.utils.Namespaces;
+import org.semanticweb.owlapi.formats.TurtleDocumentFormat;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.io.StringDocumentTarget;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -42,9 +40,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.reasoner.Reasoner;
 import com.hp.hpl.jena.shared.PrefixMapping;
 import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.OWL2;
 import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
 
 /**
  * <p>
@@ -88,7 +84,7 @@ public class JenaExplanationTest extends AbstractExplanationTest {
 	private Graph convertOntology(OWLOntology ontology, boolean filterTypes) throws Exception {
 		StringDocumentTarget output = new StringDocumentTarget();
 
-		manager.saveOntology( ontology, new TurtleOntologyFormat(),  output );
+        manager.saveOntology(ontology, new TurtleDocumentFormat(), output);
 
 		Model model = ModelFactory.createDefaultModel();
 		model.read( new StringReader( output.toString() ), ontologyURI.toString(), "TTL" );

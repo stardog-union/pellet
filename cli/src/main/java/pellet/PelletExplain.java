@@ -8,8 +8,7 @@
 
 package pellet;
 
-import static pellet.PelletCmdOptionArg.NONE;
-import static pellet.PelletCmdOptionArg.REQUIRED;
+import static pellet.PelletCmdOptionArg.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,11 +18,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.coode.owlapi.manchesterowlsyntax.ManchesterOWLSyntaxEditorParser;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
-import org.semanticweb.owlapi.expression.ParserException;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.manchestersyntax.renderer.ParserException;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -39,6 +38,7 @@ import org.semanticweb.owlapi.model.OWLProperty;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
+import org.semanticweb.owlapi.util.mansyntax.ManchesterOWLSyntaxParser;
 
 import com.clarkparsia.owlapi.explanation.BlackBoxExplanation;
 import com.clarkparsia.owlapi.explanation.GlassBoxExplanation;
@@ -237,7 +237,8 @@ public class PelletExplain extends PelletCmdApp {
 				// Option --property-value s,p,o
 				verbose( "Explain property assertion " + name1 + " and " + name2  + " and " + name3 );
 
-				explainPropertyValue( (OWLIndividual) name1, (OWLProperty<?,?>) name2, name3 );
+                explainPropertyValue((OWLIndividual) name1,
+                        (OWLProperty) name2, name3);
 			}
 			else if( name1.isOWLClass() && name2.isOWLClass() ) {
 				// Option --subclass C,D
@@ -587,10 +588,11 @@ public class PelletExplain extends PelletCmdApp {
                     }
 				}
 				else {
-					ManchesterOWLSyntaxEditorParser parser = new ManchesterOWLSyntaxEditorParser(
-							loader.getManager().getOWLDataFactory(), names[2] );
+                    ManchesterOWLSyntaxParser parser = OWLManager
+                            .createManchesterParser();
+                    parser.setStringToParse(names[2]);
 					try {
-						name3 = parser.parseConstant();
+                        name3 = parser.parseLiteral(null);
 					} catch( ParserException e ) {
 						throw new PelletCmdException( "Not a valid literal: " + names[2] );
 					}
@@ -634,7 +636,7 @@ public class PelletExplain extends PelletCmdApp {
 
 		private RendererExplanationProgressMonitor(OWLAxiom axiom) {
 			this.axiom = axiom;
-			this.pw = new PrintWriter(System.out);
+			pw = new PrintWriter(System.out);
 			
 			setExplanations = new HashSet<Set<OWLAxiom>>();
 			try {
@@ -648,7 +650,8 @@ public class PelletExplain extends PelletCmdApp {
 			}
 		}
 
-		public void foundExplanation(Set<OWLAxiom> axioms) {
+		@Override
+        public void foundExplanation(Set<OWLAxiom> axioms) {
 
 			if (!setExplanations.contains(axioms)) {
 				setExplanations.add(axioms);
@@ -665,11 +668,13 @@ public class PelletExplain extends PelletCmdApp {
 			}
 		}
 
-		public boolean isCancelled() {
+		@Override
+        public boolean isCancelled() {
 			return false;
 		}
 
-		public void foundAllExplanations() {
+		@Override
+        public void foundAllExplanations() {
 			try {
 				rend.endRendering();
 			}

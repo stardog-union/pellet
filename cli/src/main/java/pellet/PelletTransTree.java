@@ -8,8 +8,7 @@
 
 package pellet;
 
-import static pellet.PelletCmdOptionArg.NONE;
-import static pellet.PelletCmdOptionArg.REQUIRED;
+import static pellet.PelletCmdOptionArg.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,8 +22,8 @@ import org.mindswap.pellet.utils.ATermUtils;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.search.EntitySearcher;
 
-import aterm.AFun;
 import aterm.ATermAppl;
 
 import com.clarkparsia.owlapiv3.OntologyUtils;
@@ -57,15 +56,18 @@ public class PelletTransTree extends PelletCmdApp {
 		super( );
 	}
 
-	public String getAppId() {
+	@Override
+    public String getAppId() {
 		return "PelletTransTree: Compute a transitive-tree closure";
 	}
 
-	public String getAppCmd() {
+	@Override
+    public String getAppCmd() {
 		return "pellet trans-tree " + getMandatoryOptions() + "[options] <file URI>...";
 	}
 
-	public PelletCmdOptions getOptions() {
+	@Override
+    public PelletCmdOptions getOptions() {
 		showClasses = true;
 		showIndividuals = false;
 
@@ -106,7 +108,8 @@ public class PelletTransTree extends PelletCmdApp {
 		return options;
 	}
 
-	public void run() {
+	@Override
+    public void run() {
 		propertyName = options.getOption( "property" ).getValueAsString();
 
 		OWLAPILoader loader = new OWLAPILoader();
@@ -114,14 +117,18 @@ public class PelletTransTree extends PelletCmdApp {
 
 		OWLEntity entity = OntologyUtils.findEntity( propertyName, loader.getAllOntologies() );
 
-		if( entity == null )
-			throw new PelletCmdException( "Property not found: " + propertyName );
+		if( entity == null ) {
+            throw new PelletCmdException( "Property not found: " + propertyName );
+        }
 
-		if( !(entity instanceof OWLObjectProperty) )
-			throw new PelletCmdException( "Not an object property: " + propertyName );
+		if( !(entity instanceof OWLObjectProperty) ) {
+            throw new PelletCmdException( "Not an object property: " + propertyName );
+        }
 
-		if( !((OWLObjectProperty) entity).isTransitive( loader.getAllOntologies() ) )
-			throw new PelletCmdException( "Not a transitive property: " + propertyName );
+        if (!EntitySearcher.isTransitive((OWLObjectProperty) entity,
+                loader.getAllOntologies())) {
+            throw new PelletCmdException( "Not a transitive property: " + propertyName );
+        }
 
 		ATermAppl p = ATermUtils.makeTermAppl( entity.getIRI().toString() );
 
@@ -132,10 +139,12 @@ public class PelletTransTree extends PelletCmdApp {
 		{
 			String filterName = options.getOption( "filter" ).getValueAsString();			
 			OWLEntity filterClass = OntologyUtils.findEntity( filterName, loader.getAllOntologies() );
-			if(filterClass == null)
-				throw new PelletCmdException( "Filter class not found: " + filterName );			
-			if(!(filterClass instanceof OWLClass))
-				throw new PelletCmdException( "Not a class: " + filterName );
+			if(filterClass == null) {
+                throw new PelletCmdException( "Filter class not found: " + filterName );
+            }			
+			if(!(filterClass instanceof OWLClass)) {
+                throw new PelletCmdException( "Not a class: " + filterName );
+            }
 
 			c = ATermUtils.makeTermAppl( filterClass.getIRI().toString() );
 
@@ -151,25 +160,30 @@ public class PelletTransTree extends PelletCmdApp {
 			builder = new POTaxonomyBuilder( kb, new PartIndividualsComparator( kb, p ) );
 			
 			Set<ATermAppl> individuals;			
-			if(filter)
-				individuals = kb.getInstances(c);
-			else 
-				individuals = kb.getIndividuals();	// Note: this is not an optimal solution	
+			if(filter) {
+                individuals = kb.getInstances(c);
+            }
+            else {
+                individuals = kb.getIndividuals();	// Note: this is not an optimal solution	
+            }
 			
-			for( ATermAppl individual :  individuals)
-				if (!ATermUtils.isBnode( individual ))
-					builder.classify( individual );
+			for( ATermAppl individual :  individuals) {
+                if (!ATermUtils.isBnode( individual )) {
+                    builder.classify( individual );
+                }
+            }
 		}
 		else {
 			builder = new POTaxonomyBuilder( kb, new PartClassesComparator( kb, p ) );
 			
 			if(filter)
 			{
-				for(ATermAppl cl: getDistinctSubclasses(kb, c))
-					builder.classify(cl);
-			}
-			else
-				builder.classify();
+				for(ATermAppl cl: getDistinctSubclasses(kb, c)) {
+                    builder.classify(cl);
+                }
+			} else {
+                builder.classify();
+            }
 		}
 
 		Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
@@ -186,8 +200,9 @@ public class PelletTransTree extends PelletCmdApp {
 	private Set<ATermAppl> getDistinctSubclasses(KnowledgeBase kb, ATermAppl c){
 		Set<ATermAppl> filteredClasses = new HashSet<ATermAppl>();
 		Set<Set<ATermAppl>> subclasses = kb.getSubClasses(c);		
-		for(Set<ATermAppl> s: subclasses)
-			filteredClasses.addAll(s);
+		for(Set<ATermAppl> s: subclasses) {
+            filteredClasses.addAll(s);
+        }
 		filteredClasses.add(c);
 
 		//Remove not(TOP), since taxonomy builder complains otherwise...

@@ -4,6 +4,7 @@ import java.util.EnumMap;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -42,24 +43,30 @@ public abstract class OwlApi3xCTImpl extends AbstractPremisedTest<OWLOntology> i
 		parsedPremise = new EnumMap<SerializationFormat, OWLOntology>( SerializationFormat.class );
 	}
 
-	public void dispose() {
+	@Override
+    public void dispose() {
 		parsedPremise.clear();
 		super.dispose();
 	}
 
-	public OWLOntology parsePremiseOntology(SerializationFormat format)
+	@Override
+    public OWLOntology parsePremiseOntology(SerializationFormat format)
 			throws OntologyParseException {
 		try {
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-			manager.setSilentMissingImportsHandling( true );
+            manager.setOntologyLoaderConfiguration(manager
+                    .getOntologyLoaderConfiguration()
+                    .setMissingImportHandlingStrategy(
+                            MissingImportHandlingStrategy.SILENT));
 			manager.clearIRIMappers();
 			
 			ImportsHelper.loadImports( manager, this, format );
 			OWLOntology o = parsedPremise.get( format );
 			if( o == null ) {
 				String l = getPremiseOntology( format );
-				if( l == null )
-					return null;
+				if( l == null ) {
+                    return null;
+                }
 
 				StringDocumentSource source = new StringDocumentSource( l );
 				o = manager.loadOntologyFromOntologyDocument( source );

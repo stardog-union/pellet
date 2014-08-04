@@ -1,15 +1,12 @@
 package com.clarkparsia.pellet.test.transtree;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,6 +20,7 @@ import org.mindswap.pellet.test.utils.TestUtils;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.search.EntitySearcher;
 
 import pellet.PelletTransTree;
 import aterm.ATermAppl;
@@ -54,14 +52,18 @@ public class TransTreeTest {
 		
 		OWLEntity entity = OntologyUtils.findEntity( propertyURI, loader.getAllOntologies() );
 
-		if( entity == null )
-			throw new IllegalArgumentException( "Property not found: " + propertyURI );
+		if( entity == null ) {
+            throw new IllegalArgumentException( "Property not found: " + propertyURI );
+        }
 
-		if( !(entity instanceof OWLObjectProperty) )
-			throw new IllegalArgumentException( "Not an object property: " + propertyURI );
+		if( !(entity instanceof OWLObjectProperty) ) {
+            throw new IllegalArgumentException( "Not an object property: " + propertyURI );
+        }
 
-		if( !((OWLObjectProperty) entity).isTransitive( loader.getAllOntologies() ) )
-			throw new IllegalArgumentException( "Not a transitive property: " + propertyURI );
+        if (!EntitySearcher.isTransitive((OWLObjectProperty) entity,
+                loader.getAllOntologies())) {
+            throw new IllegalArgumentException( "Not a transitive property: " + propertyURI );
+        }
 		
 		ATermAppl p = ATermUtils.makeTermAppl( entity.getIRI().toString() );
 

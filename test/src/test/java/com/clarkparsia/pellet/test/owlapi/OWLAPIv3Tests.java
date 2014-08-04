@@ -8,45 +8,10 @@
 
 package com.clarkparsia.pellet.test.owlapi;
 
-import static com.clarkparsia.owlapiv3.OWL.Class;
-import static com.clarkparsia.owlapiv3.OWL.DataProperty;
-import static com.clarkparsia.owlapiv3.OWL.Individual;
-import static com.clarkparsia.owlapiv3.OWL.ObjectProperty;
-import static com.clarkparsia.owlapiv3.OWL.all;
-import static com.clarkparsia.owlapiv3.OWL.asymmetric;
-import static com.clarkparsia.owlapiv3.OWL.classAssertion;
-import static com.clarkparsia.owlapiv3.OWL.constant;
-import static com.clarkparsia.owlapiv3.OWL.differentFrom;
-import static com.clarkparsia.owlapiv3.OWL.disjointClasses;
-import static com.clarkparsia.owlapiv3.OWL.disjointProperties;
-import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
-import static com.clarkparsia.owlapiv3.OWL.equivalentProperties;
-import static com.clarkparsia.owlapiv3.OWL.functional;
-import static com.clarkparsia.owlapiv3.OWL.inverse;
-import static com.clarkparsia.owlapiv3.OWL.inverseFunctional;
-import static com.clarkparsia.owlapiv3.OWL.irreflexive;
-import static com.clarkparsia.owlapiv3.OWL.max;
-import static com.clarkparsia.owlapiv3.OWL.min;
-import static com.clarkparsia.owlapiv3.OWL.oneOf;
-import static com.clarkparsia.owlapiv3.OWL.or;
-import static com.clarkparsia.owlapiv3.OWL.propertyAssertion;
-import static com.clarkparsia.owlapiv3.OWL.reflexive;
-import static com.clarkparsia.owlapiv3.OWL.sameAs;
-import static com.clarkparsia.owlapiv3.OWL.some;
-import static com.clarkparsia.owlapiv3.OWL.subClassOf;
-import static com.clarkparsia.owlapiv3.OWL.subPropertyOf;
-import static com.clarkparsia.owlapiv3.OWL.symmetric;
-import static com.clarkparsia.owlapiv3.OWL.transitive;
-import static com.clarkparsia.owlapiv3.OntologyUtils.addAxioms;
-import static com.clarkparsia.owlapiv3.OntologyUtils.loadOntology;
-import static com.clarkparsia.owlapiv3.OntologyUtils.removeAxioms;
-import static com.clarkparsia.owlapiv3.SWRL.classAtom;
-import static com.clarkparsia.owlapiv3.SWRL.propertyAtom;
-import static com.clarkparsia.owlapiv3.SWRL.rule;
-import static com.clarkparsia.owlapiv3.SWRL.variable;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static com.clarkparsia.owlapiv3.OWL.*;
+import static com.clarkparsia.owlapiv3.OntologyUtils.*;
+import static com.clarkparsia.owlapiv3.SWRL.*;
+import static org.junit.Assert.*;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 
 import java.util.Arrays;
@@ -95,6 +60,7 @@ import org.semanticweb.owlapi.reasoner.NullReasonerProgressMonitor;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
+import org.semanticweb.owlapi.search.EntitySearcher;
 
 import aterm.ATermAppl;
 
@@ -434,9 +400,12 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		OWLNamedIndividual ind = Individual( ns + indName );
 
-		OWLLiteral valDouble = ind.getDataPropertyValues( pDouble, ont ).iterator().next();
-		OWLLiteral valInt = ind.getDataPropertyValues( pInt, ont ).iterator().next();
-		OWLLiteral valBoolean = ind.getDataPropertyValues( pBoolean, ont ).iterator().next();
+        OWLLiteral valDouble = EntitySearcher
+                .getDataPropertyValues(ind, pDouble, ont).iterator().next();
+        OWLLiteral valInt = EntitySearcher
+                .getDataPropertyValues(ind, pInt, ont).iterator().next();
+        OWLLiteral valBoolean = EntitySearcher
+                .getDataPropertyValues(ind, pBoolean, ont).iterator().next();
 
 		assertTrue( reasoner.isConsistent() );
 		
@@ -463,7 +432,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		// assertTrue( reasoner.getDataPropertyRelationships( ind ).isEmpty() );
 
-		OWLLiteral newVal = constant( "0.0", XSD.DOUBLE );
+        OWLLiteral newVal = OWL.constant(0.0D);
 		addAxioms( ont, propertyAssertion( ind, pDouble, newVal ) );
 		if( buffering ) {
 	        reasoner.flush();
@@ -566,8 +535,8 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		assertTrue( reasoner.isEntailed( transitive( hasDescendant ) ) );
 		assertFalse( reasoner.isEntailed( functional( hasDescendant ) ) );
 
-		assertTrue( reasoner.isEntailed( ( symmetric( isMarriedTo ) ) ) );
-		assertTrue( reasoner.isEntailed( ( irreflexive( isMarriedTo ) ) ) );
+		assertTrue( reasoner.isEntailed( symmetric( isMarriedTo ) ) );
+		assertTrue( reasoner.isEntailed( irreflexive( isMarriedTo ) ) );
 
 		assertTrue( reasoner.isEntailed( subPropertyOf( hasParent, hasAncestor ) ) );
 		assertTrue( reasoner.isEntailed( subPropertyOf( hasFather, hasAncestor ) ) );
