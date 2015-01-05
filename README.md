@@ -1,6 +1,8 @@
 Pellet: An Open Source OWL DL reasoner for Java
 -----------------------------------------------
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/clarkparsia/pellet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Pellet is the OWL 2 DL reasoner: 
  
 * [open source](https://github.com/clarkparsia/pellet/blob/master/LICENSE.txt) (AGPL) or commercial license
