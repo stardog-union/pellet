@@ -1,77 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.clarkparsia.pellet</groupId>
-		<artifactId>pellet-parent</artifactId>
-		<version>2.3.2-SNAPSHOT</version>
+		<groupId>net.sourceforge.owlapi</groupId>
+		<artifactId>pellet-parent-ignazio1977</artifactId>
+		<version>2.4.0-ignazio1977-SNAPSHOT</version>
 	</parent>
 
-  <artifactId>pellet-distribution</artifactId>
-  <packaging>pom</packaging>
+	<artifactId>pellet-distribution-ignazio1977</artifactId>
+	<packaging>pom</packaging>
 
-  <name>Pellet :: Distribution</name>
-  <description>Distribution module for Pellet</description>
+	<name>Pellet :: Distribution (ignazio1977 fork)</name>
+	<description>Distribution module for Pellet</description>
 	<dependencies>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>pellet-owlapiv3</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>pellet-pellint</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>pellet-modularity</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>pellet-explanation</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>pellet-cli</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>pellet-examples</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>pellet-test</artifactId>
-                        <version>${project.version}</version>
-                </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-owlapi-ignazio1977</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-pellint-ignazio1977</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-modularity-ignazio1977</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-explanation-ignazio1977</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-cli-ignazio1977</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-examples-ignazio1977</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-test-ignazio1977</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>distro-assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-			 <finalName>pellet-${project.version}</finalName>
-			 <descriptors>
-				<!-- descriptor>src/main/assembly/onejar.xml</descriptor -->
-				<descriptor>src/main/assembly/dist.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>distro-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>pellet-${project.version}</finalName>
+							<descriptors>
+								<!-- descriptor>src/main/assembly/onejar.xml</descriptor -->
+								<descriptor>src/main/assembly/dist.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

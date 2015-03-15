@@ -156,11 +156,11 @@ public class OWLAPILoader extends KBLoader {
 				manager.applyChange( new AddImport( baseOntology, declaration ) );
 			}
 		} catch( IllegalArgumentException e ) {
-			throw new RuntimeException( e );
+			throw new RuntimeException(file, e );
 		} catch( OWLOntologyCreationException e ) {
-			throw new RuntimeException( e );
+			throw new RuntimeException(file, e );
 		} catch( OWLOntologyChangeException e ) {
-			throw new RuntimeException( e );
+			throw new RuntimeException(file, e );
 		}
 	}
 

@@ -2,38 +2,38 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.clarkparsia.pellet</groupId>
-        <artifactId>pellet-parent</artifactId>
-		<version>2.3.2-SNAPSHOT</version>
+		<groupId>net.sourceforge.owlapi</groupId>
+		<artifactId>pellet-parent-ignazio1977</artifactId>
+		<version>2.4.0-ignazio1977-SNAPSHOT</version>
 	</parent>
-	<artifactId>pellet-examples</artifactId>
-	<name>Pellet :: Examples</name>
+	<artifactId>pellet-examples-ignazio1977</artifactId>
+	<name>Pellet :: Examples (ignazio1977 fork)</name>
 	<description>Examples of Pellet Usage</description>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-jena</artifactId>
+			<artifactId>pellet-jena-ignazio1977</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-owlapiv3</artifactId>
+			<artifactId>pellet-owlapi-ignazio1977</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-modularity</artifactId>
+			<artifactId>pellet-modularity-ignazio1977</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-explanation</artifactId>
+			<artifactId>pellet-explanation-ignazio1977</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-	  	<dependency>
-	  		<groupId>junit</groupId>
-	  		<artifactId>junit</artifactId>
-	  		<scope>test</scope>
-	  	</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>
