@@ -1,13 +1,13 @@
 Pellet: An Open Source OWL DL reasoner for Java
 -----------------------------------------------
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/clarkparsia/pellet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/complexible/pellet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Pellet is the OWL 2 DL reasoner: 
  
-* [open source](https://github.com/clarkparsia/pellet/blob/master/LICENSE.txt) (AGPL) or commercial license
+* [open source](https://github.com/complexible/pellet/blob/master/LICENSE.txt) (AGPL) or commercial license
 * pure Java
-* developed and [commercially supported](http://clarkparsia.com/support) by Clark & Parsia LLC. 
+* developed and [commercially supported](http://complexible.com/) by Complexible Inc. 
 
 Pellet can be used with Jena or OWL-API libraries. Pellet provides functionality to check consistency of ontologies, compute the classification hierarchy, 
 explain inferences, and answer SPARQL queries.
@@ -20,9 +20,9 @@ see changes, new features, etc. in Pellet.
 Documentation about how to use Pellet is in the doc/ directory and there are some 
 code samples in the examples/ directory.                                    
 
-Commercial support for Pellet is [available](http://clarkparsia.com/support). The [Pellet FAQ](http://clarkparsia.com/pellet/faq) answers some frequently asked questions.
+Commercial support for Pellet is [available](http://complexible.com/). The [Pellet FAQ](http://clarkparsia.com/pellet/faq) answers some frequently asked questions.
 
 There is a [pellet-users mailing list](https://groups.google.com/forum/?fromgroups#!forum/pellet-users) for questions and feedback. You can search [pellet-users archives](http://news.gmane.org/gmane.comp.web.pellet.user). 
-Bug reports and enhancement requests should be sent to the mailing list. Before raising an issue, please search the [Pellet Issue Tracker](http://clark-parsia.trac.cvsdude.com/pellet-devel/report). Issues going forward are on [Github](http://github.com/clarkparsia/pellet/issues).
+Bug reports and enhancement requests should be sent to the mailing list. Issues are on [Github](http://github.com/complexible/pellet/issues).
 
 Thanks for using Pellet.
