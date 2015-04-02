@@ -92,7 +92,7 @@ public class ConcurrencyTest {
 			Collections.shuffle(indList);
 			
 			// now running the queries
-			for (Individual ind : indList.subList(0, Math.min(1000, indList.size() - 1))) {
+			for (Individual ind : indList.subList(0, Math.min(20000, indList.size() - 1))) {
 				printIterator(ind.listOntClasses(false), Thread.currentThread().getName());
 			}
 		}
