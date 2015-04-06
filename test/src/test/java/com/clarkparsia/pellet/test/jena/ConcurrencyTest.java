@@ -3,6 +3,7 @@
  */
 package com.clarkparsia.pellet.test.jena;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,8 +16,6 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.hp.hpl.jena.ontology.ConversionException;
 import com.hp.hpl.jena.ontology.Individual;
@@ -33,7 +32,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
  */
 public class ConcurrencyTest {
 
-	private static final Logger LOGGER_ = LoggerFactory.getLogger(ConcurrencyTest.class);
+	//private static final Logger LOGGER_ = LoggerFactory.getLogger(ConcurrencyTest.class);
 	
 	private static final String ONTOLOGY_PATH_ = "/test/data/concurrency/vicodi.ttl";
 	
@@ -59,13 +58,19 @@ public class ConcurrencyTest {
 		pool.awaitTermination(100, TimeUnit.SECONDS);
 	}
 
-	private OntModel loadOntologyModel(String ontologyPath) {
+	private OntModel loadOntologyModel(String ontologyPath) throws IOException {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-        
+		InputStream ontStream = null;
         // read the file
-        InputStream ontStream = ConcurrencyTest.class.getResourceAsStream(ontologyPath);
-        
-        model.read( ontStream, null, "TTL" );
+        try {
+			ontStream = ConcurrencyTest.class.getResourceAsStream(ontologyPath);
+			
+			model.read( ontStream, null, "TTL" );
+		} finally {
+			if (ontStream != null) {
+				ontStream.close();
+			}
+		}
         
 		return model;
 	}

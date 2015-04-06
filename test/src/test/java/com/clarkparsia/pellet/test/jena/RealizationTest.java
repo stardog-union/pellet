@@ -3,6 +3,7 @@
  */
 package com.clarkparsia.pellet.test.jena;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
@@ -58,13 +59,19 @@ public class RealizationTest {
 		System.err.println(z.listOntClasses(false).toList());
 	}
 	
-	private OntModel loadOntologyModel(String ontologyPath) {
+	private OntModel loadOntologyModel(String ontologyPath) throws IOException {
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-        
-        // read the file
-        InputStream ontStream = RealizationTest.class.getResourceAsStream(ontologyPath);
-        
-        model.read( ontStream, null, "TTL" );
+        InputStream ontStream = null;
+		// read the file
+        try {
+			ontStream = ConcurrencyTest.class.getResourceAsStream(ontologyPath);
+			
+			model.read( ontStream, null, "TTL" );
+		} finally {
+			if (ontStream != null) {
+				ontStream.close();
+			}
+		}
         
 		return model;
 	}
