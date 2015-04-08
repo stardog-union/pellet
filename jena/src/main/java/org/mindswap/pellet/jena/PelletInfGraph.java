@@ -44,8 +44,8 @@ import org.mindswap.pellet.jena.graph.loader.DefaultGraphLoader;
 import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 import org.mindswap.pellet.jena.graph.query.GraphQueryHandler;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
+import aterm.ATerm;
 import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.utils.OntBuilder;
@@ -167,8 +167,9 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 
 		ExtendedIterator<Triple> i = GraphQueryHandler.findTriple( kb, this, subject, predicate, object );
 
-		// always look at asserted triples at the end
-		if( finder != null ) {
+		ATerm predicateTerm = predicate.isURI() ? ATermUtils.makeTermAppl(predicate.getURI()) : null;
+		// look at asserted triples at the end but only for annotation properties, other triples should be inferred
+		if( finder != null && (predicateTerm == null || !kb.isObjectProperty(predicateTerm) && !kb.isDatatypeProperty(predicateTerm))) {
 			TriplePattern tp = new TriplePattern( subject, predicate, object );
 			i = i.andThen( finder.find( tp ) );
 		}
