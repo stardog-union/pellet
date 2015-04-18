@@ -30,10 +30,10 @@
 		<module>modularity</module>
 		<module>pellint</module>
 		<module>cli</module>
-		<module>examples</module>
-		<module>test</module>
+		<!-- <module>examples</module> -->
+		<!-- <module>test</module> -->
 		<module>profiler</module>
-		<module>distribution</module>
+		<!-- <module>distribution</module> -->
 	</modules>
 
 	<properties>
@@ -117,6 +117,17 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>1.6.5</version>
+					<extensions>true</extensions>
+					<configuration>
+						<serverId>ossrh</serverId>
+						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+						<autoReleaseAfterClose>true</autoReleaseAfterClose>
+					</configuration>
+				</plugin>
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -133,22 +144,19 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>2.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.9.1</version>
 					<configuration>
-						<archive>
-							<manifest>
-								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-							</manifest>
-							<manifestEntries>
-								<Bundle-Description>${project.description}</Bundle-Description>
-								<Implementation-Version>${project.version}</Implementation-Version>
-							</manifestEntries>
-						</archive>
+						<skip>false</skip>
 					</configuration>
 					<executions>
 						<execution>
+							<id>attach-javadocs</id>
 							<goals>
-								<goal>test-jar</goal>
+								<goal>jar</goal>
 							</goals>
 						</execution>
 					</executions>
@@ -160,26 +168,6 @@
 					<executions>
 						<execution>
 							<id>attach-source</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-						<execution>
-							<id>attach-test-sources</id>
-							<goals>
-								<goal>test-jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.9.1</version>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
 							<goals>
 								<goal>jar</goal>
 							</goals>
@@ -274,10 +262,58 @@
 			<id>release</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
 			</activation>
-			<modules>
-				<module>dist</module>
-			</modules>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.1.2</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<configuration>
+							<skip>false</skip>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>findbugs</id>
