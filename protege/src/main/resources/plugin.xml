@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+
+<plugin>
+
+    <extension id="pellet.reasoner.factory"
+               point="org.protege.editor.owl.inference_reasonerfactory">
+        <name value="Pellet"/>
+        <class value="com.clarkparsia.protege.plugin.pellet.PelletReasonerFactory"/>
+    </extension>
+	
+	<extension id="pellet.incremental.reasoner.factory"
+               point="org.protege.editor.owl.inference_reasonerfactory">
+        <name value="Pellet (Incremental)"/>
+        <class value="com.clarkparsia.protege.plugin.incremental.PelletIncrementalReasonerFactory"/>
+    </extension>	
+
+</plugin>

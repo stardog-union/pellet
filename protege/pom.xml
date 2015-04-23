@@ -2,48 +2,152 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.clarkparsia.pellet</groupId>
-		<artifactId>pellet-parent</artifactId>
-		<version>2.3.2-SNAPSHOT</version>
+		<groupId>net.sourceforge.owlapi</groupId>
+		<artifactId>pellet-parent-ignazio1977</artifactId>
+		<version>2.4.0-ignazio1977</version>
 	</parent>
-	<artifactId>pellet-protege</artifactId>
-	<name>Pellet :: Protege</name>
+	<artifactId>pellet-protege-ignazio1977</artifactId>
+	<name>Pellet :: Protege-ignazio1977</name>
+	<description>Integrates the Pellet reasoner (fork ignazio1977) with Protege Desktop.</description>
+	<packaging>bundle</packaging>
 	<properties>
-		<protege.version>4.3.0</protege.version>
+		<protege.version>[4.3.0, 5)</protege.version>
 	</properties>
+	<licenses>
+		<license>
+			<name>GNU Affero General Public License 3.0</name>
+			<url>http://www.fsf.org/licensing/licenses/agpl-3.0.html</url>
+		</license>
+	</licenses>
 	<dependencies>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-owlapiv3</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>pellet-modularity</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-		<dependency>
-			<groupId>edu.stanford.protege</groupId>
-			<artifactId>org.protege.common</artifactId>
-			<version>${protege.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>edu.stanford.protege</groupId>
-			<artifactId>org.protege.editor.core.application</artifactId>
-			<version>${protege.version}</version>
-			<scope>provided</scope>
-		</dependency>
 		<dependency>
 			<groupId>edu.stanford.protege</groupId>
 			<artifactId>org.protege.editor.owl</artifactId>
-			<version>${protege.version}</version>
-			<scope>provided</scope>
+			<version>[4.3.0,5.1)</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>owlapi-distribution</artifactId>
+			<version>[4.0.2,4.2)</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>pellet-owlapi-ignazio1977</artifactId>
+			<version>2.4.0-ignazio1977</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>pellet-core-ignazio1977</artifactId>
+			<version>2.4.0-ignazio1977</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>pellet-query-ignazio1977</artifactId>
+			<version>2.4.0-ignazio1977</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>pellet-jena-ignazio1977</artifactId>
+			<version>2.4.0-ignazio1977</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>pellet-pellint-ignazio1977</artifactId>
+			<version>2.4.0-ignazio1977</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>pellet-modularity-ignazio1977</artifactId>
+			<version>2.4.0-ignazio1977</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>pellet-explanation-ignazio1977</artifactId>
+			<version>2.4.0-ignazio1977</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.4.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId};singleton:=true</Bundle-SymbolicName>
+						<Bundle-Vendor>Maintained by ignazio1977</Bundle-Vendor>
+						<Bundle-Name>${project.artifactId}</Bundle-Name>
+						<Bundle-Version>2.4.0</Bundle-Version>
+						<Bundle-Activator>org.protege.editor.core.plugin.DefaultPluginActivator</Bundle-Activator>
+						<Require-Bundle>org.eclipse.equinox.registry,
+							org.eclipse.equinox.common,
+							org.protege.common,
+							org.protege.editor.core.application;bundle-version="4.3.0",
+							org.protege.editor.owl;bundle-version="4.3.0",
+							org.semanticweb.owl.owlapi;bundle-version="4.0.2"</Require-Bundle>
+						<Embed-Dependency>
+							pellet*ignazio1977;inline=true;scope=compile|runtime|provided,
+							jena-*;inline=false;scope=compile|runtime|provided,
+							aterm-java;inline=false;scope=compile|runtime|provided,
+							jgrapht-jdk1.5;inline=false;scope=compile|runtime|provided,
+							xercesImpl;inline=false;scope=compile|runtime|provided,
+							slf4j*;inline=false;scope=compile|runtime|provided,
+							jcl-over*;inline=false;scope=compile|runtime|provided,
+							xercesImpl;inline=false;scope=compile|runtime|provided,
+							xml-apis;inline=false;scope=compile|runtime|provided,
+							jjtraveler;inline=false;scope=compile|runtime|provided,
+							shared-objects;inline=false;scope=compile|runtime|provided,
+							httpclient;inline=false;scope=compile|runtime|provided,
+							antlr*;inline=false;scope=compile|runtime|provided,
+							!sesame*,
+							!org.apache.felix*,
+							!jackson*,
+							!trove4j*,
+							!org.eclipse*,
+							!org.protege*,
+							!protege*,
+							!owlapi*,
+							!aopalliance*,
+							!javax*,
+							!json*,
+							!semargl*,
+							!guava*,
+							!guice*,
+							!jsr305
+						</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
+						<Embed-Directory>lib</Embed-Directory>
+						<Export-Package>
+							net.sourceforge.owlapi.integration.pellet.PelletProtegeFactory,
+							com.clarksparsia.*,
+							org.mindswap.pellet.*,pellet
+						</Export-Package>
+						<Import-Package>org.protege.*, javax.xml.bind, org.w3c.dom.*,
+							org.semanticweb.*</Import-Package>
+					</instructions>
+					<executions>
+						<execution>
+							<id>bundle-manifest</id>
+							<phase>install</phase>
+							<goals>
+								<goal>manifest</goal>
+							</goals>
+						</execution>
+					</executions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
