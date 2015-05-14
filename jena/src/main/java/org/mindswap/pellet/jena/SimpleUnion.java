@@ -59,5 +59,16 @@ public class SimpleUnion extends Polyadic {
 		
 		return true;
 	}
+
+	@Override
+	protected ExtendedIterator<Triple> graphBaseFind(Triple t) {
+		ExtendedIterator<Triple> result = NullIterator.instance();
+		
+		for (final Graph g : m_subGraphs) {
+			result = result.andThen(g.find(t));
+		}
+
+		return result;
+	}
 	
 }
