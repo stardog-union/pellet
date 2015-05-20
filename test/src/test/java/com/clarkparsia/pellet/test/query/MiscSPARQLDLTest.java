@@ -8,8 +8,12 @@ import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 
+import com.clarkparsia.jena.test.ResourceImportLoader;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
+import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
+import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;
+import com.hp.hpl.jena.query.DatasetFactory;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryFactory;
@@ -34,7 +38,8 @@ public class MiscSPARQLDLTest {
 							"?Meal rdf:type food:MealCourse . \n" +
 							"?Meal food:hasDrink _:Wine . \n" +
 							"_:Wine wine:hasColor ?WineColor }";
-			String ontologyFile = "/test/data/misc/food2.owl";
+			//String ontologyFile = "/test/data/misc/food2.owl";
+			String ontologyFile = "/test/data/sparqldl-tests/simple/wine.rdf";
 			InputStream ontologyStream = null;
 			
 			PelletOptions.TREAT_ALL_VARS_DISTINGUISHED = false;
@@ -43,16 +48,20 @@ public class MiscSPARQLDLTest {
 			ontologyStream = this.getClass().getResourceAsStream(ontologyFile);
 			// First create a Jena ontology model backed by the Pellet reasoner
 			// (note, the Pellet reasoner is required)
+			OntDocumentManager.getInstance().setReadFailureHandler(new ResourceImportLoader());
+			
 			OntModel m = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 	
 			// Then read the data from the file into the ontology model
-			m.read( ontologyStream, null );
+			m.read( ontologyStream, "http://test.com/" );
+			
+			m.prepare();
 	
 			Query q = QueryFactory.create(query);
 	
 			// Create a SPARQL-DL query execution for the given query and
 			// ontology model
-			QueryExecution qe = SparqlDLExecutionFactory.create( q, m );
+			QueryExecution qe = SparqlDLExecutionFactory.create( q, DatasetFactory.create( m ), null, QueryEngineType.PELLET, false );
 	
 			// We want to execute a SELECT query, do it, and return the result set
 			ResultSet rs = qe.execSelect();

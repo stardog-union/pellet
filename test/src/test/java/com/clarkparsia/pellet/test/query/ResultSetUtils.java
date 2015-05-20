@@ -39,7 +39,6 @@ public class ResultSetUtils {
 		ResultSetRewindable expected = ResultSetFactory.makeRewindable( expectedResults );
 		ResultSetRewindable computed = ResultSetFactory.makeRewindable( computedResults );
 		                                            			
-		System.out.println( "Computed: " + computed.size() + " Expected: " + expected.size() );
 		if( expected.size() != computed.size() ) {
 			logResults( "Expected", expected );
 			logResults( "Real", computed );			
