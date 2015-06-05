@@ -293,7 +293,7 @@ public class MiscExplanationTests {
 		assertEquals( expected.listStatements().toSet(), actual.listStatements().toSet() );
 	}
 	
-	@Test
+	/*@Test
 	public void testExplanationWithSWRL() throws Exception {
 		Resource subject = ResourceFactory.createResource("http://www.inmindcomputing.com/test/test-commands.owl#BOMType1");
 		Property predicate = ResourceFactory.createProperty("http://www.inmindcomputing.com/test/test-commands.owl#hasProduct");
@@ -330,17 +330,17 @@ public class MiscExplanationTests {
 			Assert.assertTrue(explanation.listStatements().hasNext());
 		}
 		
-		/*String queryString = 	"PREFIX : <http://www.inmindcomputing.com/test/test-commands.owl#> \n"
-								+ "SELECT ?object WHERE \n " 
-								+ "{ <http://www.inmindcomputing.com/test/test-commands.owl#BOMType1> <http://www.inmindcomputing.com/test/test-commands.owl#hasProduct> ?obj . }";
-		Query query = QueryFactory.create( queryString );
+		//String queryString = 	"PREFIX : <http://www.inmindcomputing.com/test/test-commands.owl#> \n"
+		//						+ "SELECT ?object WHERE \n " 
+		//						+ "{ <http://www.inmindcomputing.com/test/test-commands.owl#BOMType1> <http://www.inmindcomputing.com/test/test-commands.owl#hasProduct> ?obj . }";
+		//Query query = QueryFactory.create( queryString );
 		
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, rootModel );
+		//QueryExecution qe = SparqlDLExecutionFactory.create( query, rootModel );
 		
-		ResultSet rs = qe.execSelect();
+		//ResultSet rs = qe.execSelect();
 		
-		ResultSetFormatter.out( rs );*/
-	}
+		//ResultSetFormatter.out( rs );
+	}*/
 	
 	private void loadFromResource(OntModel model, String resource) {
 		InputStream stream = null;
