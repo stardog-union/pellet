@@ -442,7 +442,7 @@ public class OntBuilder {
 	private AtomIObject convertAtomIObject(ATermAppl t) {
 		if( ATermUtils.isVar( t ) )
 			return new AtomIVariable( ((ATermAppl) t.getArgument( 0 )).getName() );
-		else if( kb.isIndividual( t ) )
+		else if( originalKB.isIndividual( t ) )
 			return new AtomIConstant( t );
 		else if( ATermUtils.isAnon( t ) )
 			return new AtomIConstant( t );
