@@ -67,7 +67,7 @@ public class MultiValueMap<K,V> extends HashMap<K,Set<V>> implements Map<K,Set<V
 		return values.addAll( collection );
 	}
     
-    public boolean remove( K key, V value ) {
+    public boolean removeSingle( K key, V value ) {
     	boolean removed = false;
     	
         Set<V> values = get( key );
