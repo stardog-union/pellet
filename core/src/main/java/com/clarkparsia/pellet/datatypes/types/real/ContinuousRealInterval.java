@@ -303,10 +303,17 @@ public class ContinuousRealInterval {
 			if( other.lower != null )
 				return false;
 		}
+		else if( other.lower == null ) {
+			if( lower != null )
+				return false;
+		}
 		else if( OWLRealUtils.compare( lower, other.lower ) != 0 )
 			return false;
 		if( upper == null ) {
 			if( other.upper != null )
+				return false;
+		} else if( other.upper == null ) {
+			if( upper != null )
 				return false;
 		}
 		else if( OWLRealUtils.compare( upper, other.upper ) != 0 )
