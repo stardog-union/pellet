@@ -42,7 +42,7 @@
     <junit.version>4.11</junit.version>
     <slf4j.version>1.7.5</slf4j.version>
     <owlapi3.version>3.4.10</owlapi3.version>
-    <jena.version>2.10.1</jena.version>
+    <jena.version>2.13.0</jena.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>

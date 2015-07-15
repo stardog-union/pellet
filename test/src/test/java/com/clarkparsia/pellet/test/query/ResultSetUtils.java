@@ -39,7 +39,6 @@ public class ResultSetUtils {
 		ResultSetRewindable expected = ResultSetFactory.makeRewindable( expectedResults );
 		ResultSetRewindable computed = ResultSetFactory.makeRewindable( computedResults );
 		                                            			
-		System.out.println( "Computed: " + computed.size() + " Expected: " + expected.size() );
 		if( expected.size() != computed.size() ) {
 			logResults( "Expected", expected );
 			logResults( "Real", computed );			
@@ -93,7 +92,7 @@ public class ResultSetUtils {
 			log.warning(name + " (" + results.size() + ")");
 			results.reset();
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			ResultSetFormatter.output(out, results, ResultsFormat.FMT_TEXT);
+			ResultSetFormatter.output(out, results, ResultsFormat.FMT_RDF_TTL);
 			log.warning("\n" + out.toString());
 		}
 	}

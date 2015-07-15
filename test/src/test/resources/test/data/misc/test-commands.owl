@@ -1,0 +1,1311 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY swrlb "http://www.w3.org/2003/11/swrlb#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY test-schema "http://www.inmindcomputing.com/test/test-commands.owl#" >
+    <!ENTITY platform-schema "http://www.inmindcomputing.com/platform/platform-schema.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.inmindcomputing.com/test/test-commands.owl#"
+     xml:base="http://www.inmindcomputing.com/test/test-commands.owl"
+     xmlns:test-schema="http://www.inmindcomputing.com/test/test-commands.owl#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:platform-schema="http://www.inmindcomputing.com/platform/platform-schema.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.inmindcomputing.com/test/test-commands.owl">
+        <owl:imports rdf:resource="resource://test/data/misc/platform-schema.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessmetaattribute -->
+
+    <owl:AnnotationProperty rdf:about="&platform-schema;businessmetaattribute"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#defaultValue -->
+
+    <owl:AnnotationProperty rdf:about="&platform-schema;defaultValue"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#group -->
+
+    <owl:AnnotationProperty rdf:about="&platform-schema;group"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#hidden -->
+
+    <owl:AnnotationProperty rdf:about="&platform-schema;hidden"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#mandatory -->
+
+    <owl:AnnotationProperty rdf:about="&platform-schema;mandatory"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#readOnly -->
+
+    <owl:AnnotationProperty rdf:about="&platform-schema;readOnly"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#sparql -->
+
+    <owl:AnnotationProperty rdf:about="&platform-schema;sparql"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#action -->
+
+    <owl:AnnotationProperty rdf:about="&test-schema;action">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#external -->
+
+    <owl:AnnotationProperty rdf:about="&test-schema;external">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessRelation -->
+
+    <owl:ObjectProperty rdf:about="&platform-schema;businessRelation"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#belongsTo -->
+
+    <owl:ObjectProperty rdf:about="&test-schema;belongsTo">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessRelation"/>
+        <rdfs:domain rdf:resource="&test-schema;Desk"/>
+        <rdfs:range>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&test-schema;People"/>
+                    <rdf:Description rdf:about="&test-schema;Region"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:range>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#hasADesk -->
+
+    <owl:ObjectProperty rdf:about="&test-schema;hasADesk">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessRelation"/>
+        <rdfs:range rdf:resource="&test-schema;Desk"/>
+        <rdfs:domain rdf:resource="&test-schema;People"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#hasBOMType -->
+
+    <owl:ObjectProperty rdf:about="&test-schema;hasBOMType">
+        <rdfs:domain rdf:resource="&platform-schema;BusinessType"/>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessRelation"/>
+        <rdfs:range rdf:resource="&test-schema;BOMType"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#hasChair -->
+
+    <owl:ObjectProperty rdf:about="&test-schema;hasChair">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessRelation"/>
+        <rdfs:range rdf:resource="&test-schema;Chair"/>
+        <rdfs:domain rdf:resource="&test-schema;People"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#hasProduct -->
+
+    <owl:ObjectProperty rdf:about="&test-schema;hasProduct">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessRelation"/>
+        <rdfs:domain rdf:resource="&test-schema;BOMType"/>
+        <rdfs:range rdf:resource="&test-schema;Product"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#hasRegion -->
+
+    <owl:ObjectProperty rdf:about="&test-schema;hasRegion">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessRelation"/>
+        <rdfs:range rdf:resource="&test-schema;Region"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&test-schema;Customer"/>
+                    <rdf:Description rdf:about="&test-schema;Office"/>
+                    <rdf:Description rdf:about="&test-schema;People"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#is -->
+
+    <owl:ObjectProperty rdf:about="&test-schema;is">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessRelation"/>
+        <rdfs:domain rdf:resource="&test-schema;Configuration"/>
+        <rdfs:range rdf:resource="&test-schema;Product"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#assertion -->
+
+    <owl:DatatypeProperty rdf:about="&platform-schema;assertion">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessData"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessData -->
+
+    <owl:DatatypeProperty rdf:about="&platform-schema;businessData"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#calculation -->
+
+    <owl:DatatypeProperty rdf:about="&platform-schema;calculation">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;businessData"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Area -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;Area">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <platform-schema:group rdf:datatype="&xsd;string">Group 0</platform-schema:group>
+        <platform-schema:readOnly rdf:datatype="&xsd;string">false</platform-schema:readOnly>
+        <platform-schema:mandatory rdf:datatype="&xsd;boolean">true</platform-schema:mandatory>
+        <platform-schema:hidden rdf:datatype="&xsd;string">true</platform-schema:hidden>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;Office"/>
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Color -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;Color">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#ConfigDate -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;ConfigDate">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#ConfigXML -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;ConfigXML">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:range rdf:resource="&rdf;XMLLiteral"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Dimension -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;Dimension">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <platform-schema:mandatory rdf:datatype="&xsd;boolean">true</platform-schema:mandatory>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;Desk"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first rdf:datatype="&xsd;integer">1</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first rdf:datatype="&xsd;integer">2</rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:first rdf:datatype="&xsd;integer">3</rdf:first>
+                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#configurationError -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;configurationError">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <platform-schema:defaultValue rdf:datatype="&xsd;boolean">false</platform-schema:defaultValue>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;calculation"/>
+        <rdfs:domain rdf:resource="&test-schema;Office"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#configurationQuantity -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;configurationQuantity">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;Configuration"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#configurationSetting -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;configurationSetting">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;Configuration"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#cost -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;cost">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <platform-schema:sparql rdf:datatype="&xsd;string">SELECT ?subject (?val as ?cost)
+WHERE {
+  ?subject test-schema:volume ?vol .
+  BIND (xsd:decimal(xsd:decimal(?vol) * 50)  AS ?val)
+}</platform-schema:sparql>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;calculation"/>
+        <rdfs:domain rdf:resource="&test-schema;Desk"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#depth -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;depth">
+        <platform-schema:defaultValue rdf:datatype="&xsd;string">1</platform-schema:defaultValue>
+        <platform-schema:mandatory rdf:datatype="&xsd;boolean">true</platform-schema:mandatory>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;BreakerOut"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#deskColor -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;deskColor">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;Desk"/>
+        <action rdf:resource="&test-schema;TableClothBlack"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+        <action>
+            <rdf:Description>
+                <deskColor rdf:datatype="&xsd;string">Blue</deskColor>
+            </rdf:Description>
+        </action>
+        <rdfs:range>
+            <rdfs:Datatype>
+                <owl:oneOf>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&rdf;List"/>
+                        <rdf:first rdf:datatype="&xsd;string">Black</rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first rdf:datatype="&xsd;string">Blue</rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&rdf;List"/>
+                                        <rdf:first rdf:datatype="&xsd;string">White</rdf:first>
+                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </owl:oneOf>
+            </rdfs:Datatype>
+        </rdfs:range>
+    </owl:DatatypeProperty>
+    <owl:Axiom>
+        <owl:annotatedTarget rdf:resource="&test-schema;TableClothBlack"/>
+        <owl:annotatedProperty rdf:resource="&test-schema;action"/>
+        <owl:annotatedSource rdf:resource="&test-schema;deskColor"/>
+        <action>
+            <rdf:Description/>
+        </action>
+    </owl:Axiom>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#deskName -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;deskName">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;Desk"/>
+        <rdfs:range rdf:resource="&rdf;PlainLiteral"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#exist -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;exist">
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:range rdf:resource="&xsd;boolean"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#firstname -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;firstname">
+        <platform-schema:defaultValue rdf:datatype="&xsd;string">xyz</platform-schema:defaultValue>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&test-schema;Customer"/>
+                    <rdf:Description rdf:about="&test-schema;Office"/>
+                    <rdf:Description rdf:about="&test-schema;People"/>
+                    <rdf:Description rdf:about="&test-schema;Region"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#height -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;height">
+        <platform-schema:defaultValue rdf:datatype="&xsd;string">2</platform-schema:defaultValue>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;BreakerOut"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#lastname -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;lastname">
+        <platform-schema:defaultValue rdf:datatype="&xsd;string">Thomas</platform-schema:defaultValue>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;Customer"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#validdate -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;validdate">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#volume -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;volume">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <platform-schema:sparql rdf:datatype="&xsd;string">SELECT ?subject (?val as ?volume)
+WHERE {
+  ?subject test-schema:Dimension ?di .
+  BIND (xsd:decimal(xsd:decimal(?di) * xsd:decimal(?di) * xsd:decimal(?di))  AS ?val)
+}</platform-schema:sparql>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;calculation"/>
+        <rdfs:domain rdf:resource="&test-schema;Desk"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#width -->
+
+    <owl:DatatypeProperty rdf:about="&test-schema;width">
+        <platform-schema:defaultValue rdf:datatype="&xsd;string">3</platform-schema:defaultValue>
+        <rdfs:subPropertyOf rdf:resource="&platform-schema;assertion"/>
+        <rdfs:domain rdf:resource="&test-schema;BreakerOut"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#BusinessType -->
+
+    <owl:Class rdf:about="&platform-schema;BusinessType"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#BOMType -->
+
+    <owl:Class rdf:about="&test-schema;BOMType">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#BreakerOut -->
+
+    <owl:Class rdf:about="&test-schema;BreakerOut">
+        <rdfs:subClassOf rdf:resource="&test-schema;Product"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Chair -->
+
+    <owl:Class rdf:about="&test-schema;Chair">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Configuration -->
+
+    <owl:Class rdf:about="&test-schema;Configuration">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Customer -->
+
+    <owl:Class rdf:about="&test-schema;Customer">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+        <external rdf:datatype="&xsd;string">file</external>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Desk -->
+
+    <owl:Class rdf:about="&test-schema;Desk">
+        <rdfs:subClassOf rdf:resource="&test-schema;Office"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Office -->
+
+    <owl:Class rdf:about="&test-schema;Office">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#People -->
+
+    <owl:Class rdf:about="&test-schema;People">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Product -->
+
+    <owl:Class rdf:about="&test-schema;Product">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Region -->
+
+    <owl:Class rdf:about="&test-schema;Region">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#SSC -->
+
+    <owl:Class rdf:about="&test-schema;SSC">
+        <rdfs:subClassOf rdf:resource="&platform-schema;BusinessType"/>
+        <external rdf:datatype="&xsd;string">SSC</external>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#BOMType1 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;BOMType1">
+        <rdf:type rdf:resource="&test-schema;BOMType"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#BreakerOut-1 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;BreakerOut-1"/>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#BreakerOut1 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;BreakerOut1">
+        <rdf:type rdf:resource="&test-schema;BreakerOut"/>
+        <ConfigDate rdf:datatype="&xsd;dateTime">2013-07-16T14:40:00Z</ConfigDate>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Customer3 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Customer3">
+        <rdf:type rdf:resource="&test-schema;Customer"/>
+        <firstname rdf:datatype="&xsd;string">IMC</firstname>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Customer4 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Customer4">
+        <rdf:type rdf:resource="&test-schema;Customer"/>
+        <firstname rdf:datatype="&xsd;string">ER</firstname>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Customer5 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Customer5">
+        <rdf:type rdf:resource="&test-schema;Customer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Desk1 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Desk1">
+        <rdf:type rdf:resource="&test-schema;Desk"/>
+        <rdfs:label rdf:datatype="&xsd;string">test</rdfs:label>
+        <Dimension rdf:datatype="&xsd;int">1</Dimension>
+        <deskColor rdf:datatype="&xsd;string">Black</deskColor>
+        <Color rdf:datatype="&xsd;string">Red</Color>
+        <hasBOMType rdf:resource="&test-schema;BOMType1"/>
+        <belongsTo rdf:resource="&test-schema;Employee1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Desk2 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Desk2">
+        <rdf:type rdf:resource="&test-schema;Desk"/>
+        <rdfs:label xml:lang="de">Schreibtisch</rdfs:label>
+        <rdfs:label xml:lang="en">Desk</rdfs:label>
+        <rdfs:label xml:lang="zh">桌子</rdfs:label>
+        <deskName xml:lang="de">Ein Schreibtisch</deskName>
+        <deskName xml:lang="en">Desk One</deskName>
+        <deskName xml:lang="zh">桌子一</deskName>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Desk3 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Desk3">
+        <rdf:type rdf:resource="&test-schema;Desk"/>
+        <Dimension rdf:datatype="&xsd;int">2</Dimension>
+        <Area rdf:datatype="&xsd;decimal">20</Area>
+        <belongsTo rdf:resource="&test-schema;Employee3"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#EMEA -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;EMEA">
+        <rdf:type rdf:resource="&test-schema;Region"/>
+        <firstname rdf:datatype="&xsd;string">EMEA</firstname>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Employee1 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Employee1">
+        <rdf:type rdf:resource="&test-schema;People"/>
+        <hasADesk rdf:resource="&test-schema;Desk1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Employee2 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Employee2">
+        <rdf:type rdf:resource="&test-schema;People"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#Employee3 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;Employee3">
+        <rdf:type rdf:resource="&test-schema;People"/>
+        <firstname rdf:datatype="&xsd;string">John</firstname>
+        <hasADesk rdf:resource="&test-schema;Desk3"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#TableClothBlack -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;TableClothBlack">
+        <rdf:type rdf:resource="&test-schema;Product"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#TableClothBlue -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;TableClothBlue">
+        <rdf:type rdf:resource="&test-schema;Product"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.inmindcomputing.com/test/test-commands.owl#conf1 -->
+
+    <owl:NamedIndividual rdf:about="&test-schema;conf1">
+        <rdf:type rdf:resource="&test-schema;Configuration"/>
+        <rdfs:label xml:lang="de">c2</rdfs:label>
+        <rdfs:label xml:lang="en">c1</rdfs:label>
+        <is rdf:resource="&test-schema;BreakerOut-1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:Restriction>
+        <rdfs:subClassOf rdf:resource="&test-schema;BreakerOut"/>
+        <owl:onProperty rdf:resource="&test-schema;is"/>
+        <owl:someValuesFrom rdf:resource="&test-schema;BreakerOut"/>
+    </owl:Restriction>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="urn:swrl#c">
+        <rdf:type rdf:resource="&swrl;Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#r">
+        <rdf:type rdf:resource="&swrl;Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#d">
+        <rdf:type rdf:resource="&swrl;Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl#st">
+        <rdf:type rdf:resource="&swrl;Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&swrl;Imp"/>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                        <swrl:argument2>AG</swrl:argument2>
+                        <swrl:propertyPredicate rdf:resource="&test-schema;lastname"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:head>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="&test-schema;Customer"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                        <rdf:rest rdf:resource="&rdf;nil"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                <swrl:argument2>IMC</swrl:argument2>
+                                <swrl:propertyPredicate rdf:resource="&test-schema;firstname"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                            </rdf:Description>
+                        </rdf:first>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&swrl;Imp"/>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="&test-schema;hasRegion"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#r"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:head>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="&test-schema;Customer"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                                <swrl:classPredicate rdf:resource="&test-schema;Region"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#r"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                        <swrl:argument2>IMC</swrl:argument2>
+                                        <swrl:propertyPredicate rdf:resource="&test-schema;firstname"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                                <swrl:argument2>EMEA</swrl:argument2>
+                                                <swrl:propertyPredicate rdf:resource="&test-schema;firstname"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#r"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&swrl;Imp"/>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="&test-schema;hasRegion"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#r"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:head>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                                <swrl:classPredicate rdf:resource="&test-schema;Region"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#r"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;AtomList"/>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                                <swrl:argument2>APJ</swrl:argument2>
+                                                <swrl:propertyPredicate rdf:resource="&test-schema;firstname"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#r"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                    </rdf:Description>
+                                </rdf:rest>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                        <swrl:argument2>ER</swrl:argument2>
+                                        <swrl:propertyPredicate rdf:resource="&test-schema;firstname"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="&test-schema;Customer"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:body>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&swrl;Imp"/>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="&test-schema;hasRegion"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#r"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:head>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="&test-schema;Customer"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                                <swrl:classPredicate rdf:resource="&test-schema;Region"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#r"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;AtomList"/>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                                <swrl:argument2>APJ</swrl:argument2>
+                                                <swrl:propertyPredicate rdf:resource="&test-schema;firstname"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#r"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                    </rdf:Description>
+                                </rdf:rest>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                        <swrl:argument2>Tata</swrl:argument2>
+                                        <swrl:propertyPredicate rdf:resource="&test-schema;firstname"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&swrl;Imp"/>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                        <swrl:argument2>Pte Ltd</swrl:argument2>
+                        <swrl:propertyPredicate rdf:resource="&test-schema;lastname"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:head>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                        <rdf:rest rdf:resource="&rdf;nil"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                <swrl:argument2>ER</swrl:argument2>
+                                <swrl:propertyPredicate rdf:resource="&test-schema;firstname"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                            </rdf:Description>
+                        </rdf:first>
+                    </rdf:Description>
+                </rdf:rest>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="&test-schema;Customer"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:body>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&swrl;Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="&test-schema;Desk"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;AtomList"/>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&swrl;BuiltinAtom"/>
+                                                <swrl:builtin rdf:resource="&swrlb;equal"/>
+                                                <swrl:arguments>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="&rdf;List"/>
+                                                        <rdf:first rdf:resource="urn:swrl#c"/>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="&rdf;List"/>
+                                                                <rdf:first rdf:datatype="&xsd;string">Blue</rdf:first>
+                                                                <rdf:rest rdf:resource="&rdf;nil"/>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </swrl:arguments>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                    </rdf:Description>
+                                </rdf:rest>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="&test-schema;deskColor"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#c"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                            </rdf:Description>
+                        </rdf:rest>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="&test-schema;hasBOMType"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#st"/>
+                            </rdf:Description>
+                        </rdf:first>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;IndividualPropertyAtom"/>
+                        <swrl:argument2 rdf:resource="&test-schema;TableClothBlue"/>
+                        <swrl:propertyPredicate rdf:resource="&test-schema;hasProduct"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#st"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&swrl;Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="&test-schema;Customer"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                        <swrl:argument2 rdf:datatype="&xsd;boolean">true</swrl:argument2>
+                        <swrl:propertyPredicate rdf:resource="&test-schema;exist"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#c"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&swrl;Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="&test-schema;Desk"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;DatavaluedPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="&test-schema;deskColor"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#c"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="&swrl;AtomList"/>
+                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="&swrl;BuiltinAtom"/>
+                                                <swrl:builtin rdf:resource="&swrlb;equal"/>
+                                                <swrl:arguments>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="&rdf;List"/>
+                                                        <rdf:first rdf:resource="urn:swrl#c"/>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="&rdf;List"/>
+                                                                <rdf:first rdf:datatype="&xsd;string">Black</rdf:first>
+                                                                <rdf:rest rdf:resource="&rdf;nil"/>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </swrl:arguments>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&swrl;IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="&test-schema;hasBOMType"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#d"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#st"/>
+                            </rdf:Description>
+                        </rdf:first>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="&swrl;AtomList"/>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="&swrl;IndividualPropertyAtom"/>
+                        <swrl:argument2 rdf:resource="&test-schema;TableClothBlack"/>
+                        <swrl:propertyPredicate rdf:resource="&test-schema;hasProduct"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#st"/>
+                    </rdf:Description>
+                </rdf:first>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

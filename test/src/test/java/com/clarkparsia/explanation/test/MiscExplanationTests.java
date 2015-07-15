@@ -11,11 +11,15 @@ package com.clarkparsia.explanation.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;
@@ -32,11 +36,16 @@ import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.NodeIterator;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
@@ -282,5 +291,71 @@ public class MiscExplanationTests {
 		expected = model.getRawModel();
 		
 		assertEquals( expected.listStatements().toSet(), actual.listStatements().toSet() );
+	}
+	
+	/*@Test
+	public void testExplanationWithSWRL() throws Exception {
+		Resource subject = ResourceFactory.createResource("http://www.inmindcomputing.com/test/test-commands.owl#BOMType1");
+		Property predicate = ResourceFactory.createProperty("http://www.inmindcomputing.com/test/test-commands.owl#hasProduct");
+
+		OntModel rootModel = ModelFactory.createOntologyModel( org.mindswap.pellet.jena.PelletReasonerFactory.THE_SPEC );
+		
+		org.mindswap.pellet.jena.PelletReasonerFactory.THE_SPEC.setDocumentManager(new OntDocumentManager() {
+
+			@Override
+			protected void loadImport(OntModel model, String importURI, List<String> queue) {
+				if (importURI.startsWith("resource://")) {
+					model.addLoadedImport( importURI );
+					loadFromResource(model, importURI.substring(11));
+				}
+				else {
+					super.loadImport(model, importURI, queue);
+				}
+			}
+			
+		});
+		
+		loadFromResource(rootModel, "test/data/misc/test-commands.owl");
+		
+		PelletInfGraph graph = (PelletInfGraph) rootModel.getGraph();
+		NodeIterator iter = rootModel.listObjectsOfProperty(subject, predicate);
+		
+		while (iter.hasNext()) {
+			RDFNode object = iter.next();
+			Statement statement = ResourceFactory.createStatement(subject, predicate, object);
+			
+			Model explanation = graph.explain(statement);
+			
+			Assert.assertNotNull(explanation);
+			Assert.assertTrue(explanation.listStatements().hasNext());
+		}
+		
+		//String queryString = 	"PREFIX : <http://www.inmindcomputing.com/test/test-commands.owl#> \n"
+		//						+ "SELECT ?object WHERE \n " 
+		//						+ "{ <http://www.inmindcomputing.com/test/test-commands.owl#BOMType1> <http://www.inmindcomputing.com/test/test-commands.owl#hasProduct> ?obj . }";
+		//Query query = QueryFactory.create( queryString );
+		
+		//QueryExecution qe = SparqlDLExecutionFactory.create( query, rootModel );
+		
+		//ResultSet rs = qe.execSelect();
+		
+		//ResultSetFormatter.out( rs );
+	}*/
+	
+	private void loadFromResource(OntModel model, String resource) {
+		InputStream stream = null;
+		
+		try {
+			stream = this.getClass().getClassLoader().getResourceAsStream(resource);
+			model.read(stream, null);	
+		}
+		finally {
+			try {
+				stream.close();
+			} catch (IOException e) {
+				// don't care
+				throw new RuntimeException(e);
+			}
+		}
 	}
 }

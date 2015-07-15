@@ -164,12 +164,12 @@ public class ARQSparqlDawgTester implements SparqlDawgTester {
 			}
 
 			if( query.isSelectType() ) {
-				final ResultSetRewindable real = ResultSetFactory
-						.makeRewindable( exec.execSelect() );
 				final ResultSetRewindable expected = ResultSetFactory.makeRewindable( JenaIOUtils
 						.parseResultSet( resultURI ) );
+				final ResultSetRewindable real = ResultSetFactory
+						.makeRewindable( exec.execSelect() );
 
-				boolean correct = ResultSetUtils.assertEquals( real, expected );
+				boolean correct = ResultSetUtils.assertEquals( expected, real );
 
 				if( !correct ) {
 					logResults( "Expected", expected );

@@ -16,14 +16,17 @@ import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.utils.URIUtils;
 
+import com.clarkparsia.jena.test.ResourceImportLoader;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
+import com.hp.hpl.jena.ontology.OntDocumentManager;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.DatasetFactory;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.util.FileManager;
+import com.hp.hpl.jena.util.FileUtils;
 
 /**
  * <p>
@@ -128,7 +131,6 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester {
 		this.handleVariableSPO = handleVariableSPO;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected Dataset createDataset() {
 		boolean useQueryGraphs = !query.getGraphURIs().isEmpty()
@@ -137,11 +139,14 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester {
 		Collection<String> graphURIs = useQueryGraphs
 			? query.getGraphURIs()
 			: this.graphURIs;
+		// this handler will intercept all import resolution failures and will
+		// try to load imports from resources (helps run these tests with maven) 	
+		OntDocumentManager.getInstance().setReadFailureHandler(new ResourceImportLoader());	
 
 		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
 
 		for( String dataURI : graphURIs ) {
-			FileManager.get().readModel( model, dataURI );
+			model.read(dataURI, FileUtils.guessLang(dataURI));
 		}
 
 		model.prepare();

@@ -179,6 +179,29 @@ public class TestTopBottom {
 	}
 	
 	@Test
+	public void topEquivalent() {
+		KnowledgeBase kb = new KnowledgeBase();
+		
+		ATermAppl p = term("concrete");		
+		ATermAppl r = term("abstract");
+		ATermAppl s = term("universal");
+		
+		kb.addObjectProperty( p );
+		kb.addObjectProperty( r );
+		kb.addObjectProperty( s );
+		kb.addSubProperty(p, r);
+		kb.addSubProperty(r, s);
+		
+		assertTrue( kb.isSubPropertyOf( p, s ) );
+		assertTrue( kb.getSubProperties(s).contains(Collections.singleton(p)) );
+		
+		kb.addEquivalentProperty(s, TOP_OBJECT_PROPERTY);
+		
+		assertTrue( kb.isSubPropertyOf( p, s ) );
+		assertTrue( kb.getSubProperties(s).contains(Collections.singleton(p)) );
+	}
+	
+	@Test
 	public void bottomObjectSymm() {
 		KnowledgeBase kb = new KnowledgeBase();
 		
