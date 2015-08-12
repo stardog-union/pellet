@@ -6,19 +6,8 @@
 
 package com.clarkparsia.pellint.rdfxml;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
-
-import org.coode.owlapi.rdfxml.parser.AnonymousNodeChecker;
-import org.coode.owlapi.rdfxml.parser.OWLRDFConsumer;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologyStorageException;
-import org.semanticweb.owlapi.model.UnknownOWLOntologyException;
-import org.xml.sax.SAXException;
 
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
@@ -49,12 +38,13 @@ public class RDFModelWriter {
 	private static final URI	TMP_URI		= URI.create( "tag:clarkparsia.com,2008:pellint:tmp" );
 
 	private static String toString(RDFNode v) {
-		if( v.isLiteral() )
-			return ((Literal) v).getLexicalForm();
-		else if( v.isAnon() )
-			return ANON_URI + v.asNode().getBlankNodeLabel();
-		else
-			return ((Resource) v).getURI();
+		if( v.isLiteral() ) {
+            return ((Literal) v).getLexicalForm();
+        } else if( v.isAnon() ) {
+            return ANON_URI + v.asNode().getBlankNodeLabel();
+        } else {
+            return ((Resource) v).getURI();
+        }
 	}
 
 	public void write(OutputStream out, RDFModel m) {
