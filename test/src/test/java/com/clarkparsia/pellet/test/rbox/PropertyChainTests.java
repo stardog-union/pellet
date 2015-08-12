@@ -553,5 +553,27 @@ public class PropertyChainTests extends AbstractKBTests {
 		assertTrue( kb.isSubClassOf( C, D ) );
 		assertTrue( kb.hasPropertyValue( a, r, d ) );
 		assertEquals( Arrays.asList( d ), kb.getPropertyValues( r, a ));
-	}	
+	}
+
+	@Test
+	public void updateAfterConsistency() {
+		classes(C, D);
+		objectProperties(p, q, r, s);
+		individuals(a, b, c, d);
+
+		kb.addSubProperty(list( p, q, r ), s);
+
+		kb.addSubClass(C, all(s, D));
+
+		kb.addType(a, C);
+		kb.addPropertyValue( p, a, b );
+		kb.addPropertyValue( q, b, c );
+
+		assertTrue(kb.isConsistent());
+		assertFalse(kb.isType(d, D));
+
+		kb.addPropertyValue(r, c, d);
+
+		assertTrue(kb.isType(d, D));
+	}
 }
