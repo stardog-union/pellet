@@ -1,0 +1,572 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY swrlb "http://www.w3.org/2003/11/swrlb#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY xpath-fn "http://www.w3.org/2005/xpath-functions#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY ps "http://www.inmindcomputing.com/platform/platform-schema.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.inmindcomputing.com/platform/platform-schema.owl#"
+     xml:base="http://www.inmindcomputing.com/platform/platform-schema.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xpath-fn="http://www.w3.org/2005/xpath-functions#"
+     xmlns:ps="http://www.inmindcomputing.com/platform/platform-schema.owl#">
+    <owl:Ontology rdf:about="http://www.inmindcomputing.com/platform/platform-schema.owl">
+        <owl:versionInfo rdf:datatype="&xsd;string">0.4</owl:versionInfo>
+        <rdfs:comment rdf:datatype="&xsd;string">This is the platform-schema ontology by In Mind Computing</rdfs:comment>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessmetaattribute -->
+
+    <owl:AnnotationProperty rdf:about="&ps;businessmetaattribute">
+        <rdfs:label rdf:datatype="&xsd;string">businessmetaattribute</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">This is the parent annotation property to be inherited from in child ontologies</rdfs:comment>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#defaultValue -->
+
+    <owl:AnnotationProperty rdf:about="&ps;defaultValue">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#description -->
+
+    <owl:AnnotationProperty rdf:about="&ps;description">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#enumerable -->
+
+    <owl:AnnotationProperty rdf:about="&ps;enumerable">
+        <rdfs:label rdf:datatype="&xsd;string">Use to mark any property to have an enumeratable range</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#group -->
+
+    <owl:AnnotationProperty rdf:about="&ps;group">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#groupCode -->
+
+    <owl:AnnotationProperty rdf:about="&ps;groupCode">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#groupDescription -->
+
+    <owl:AnnotationProperty rdf:about="&ps;groupDescription">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#groupSequenceID -->
+
+    <owl:AnnotationProperty rdf:about="&ps;groupSequenceID">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#hidden -->
+
+    <owl:AnnotationProperty rdf:about="&ps;hidden">
+        <rdfs:label rdf:datatype="&xsd;string">Use to mark any property hidden</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#mandatory -->
+
+    <owl:AnnotationProperty rdf:about="&ps;mandatory">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#printRelevant -->
+
+    <owl:AnnotationProperty rdf:about="&ps;printRelevant">
+        <rdfs:label rdf:datatype="&xsd;string">Use to mark any properties print relevant</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#readOnly -->
+
+    <owl:AnnotationProperty rdf:about="&ps;readOnly">
+        <rdfs:label rdf:datatype="&xsd;string">Use to mark any property read only</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#sequenceID -->
+
+    <owl:AnnotationProperty rdf:about="&ps;sequenceID">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#sparql -->
+
+    <owl:AnnotationProperty rdf:about="&ps;sparql">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#valueDescription -->
+
+    <owl:AnnotationProperty rdf:about="&ps;valueDescription">
+        <rdfs:subPropertyOf rdf:resource="&ps;businessmetaattribute"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#decimal -->
+
+    <rdf:Description rdf:about="&xsd;decimal">
+        <owl:equivalentClass>
+            <rdfs:Datatype>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&xsd;decimal"/>
+                    <rdfs:Datatype>
+                        <owl:oneOf>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first rdf:datatype="&xsd;string">-</rdf:first>
+                                <rdf:rest rdf:resource="&rdf;nil"/>
+                            </rdf:Description>
+                        </owl:oneOf>
+                    </rdfs:Datatype>
+                </owl:unionOf>
+            </rdfs:Datatype>
+        </owl:equivalentClass>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#int -->
+
+    <rdf:Description rdf:about="&xsd;int">
+        <owl:equivalentClass>
+            <rdfs:Datatype>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&xsd;int"/>
+                    <rdfs:Datatype>
+                        <owl:oneOf>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="&rdf;List"/>
+                                <rdf:first rdf:datatype="&xsd;string">-</rdf:first>
+                                <rdf:rest rdf:resource="&rdf;nil"/>
+                            </rdf:Description>
+                        </owl:oneOf>
+                    </rdfs:Datatype>
+                </owl:unionOf>
+            </rdfs:Datatype>
+        </owl:equivalentClass>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessRelation -->
+
+    <owl:ObjectProperty rdf:about="&ps;businessRelation">
+        <rdfs:label rdf:datatype="&xsd;string">businessRelation</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">This is the parent object property to be inherited from in child ontologies</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#containedBy -->
+
+    <owl:ObjectProperty rdf:about="&ps;containedBy">
+        <rdfs:label rdf:datatype="&xsd;string">containedBy</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">Domain=Primary
+Range=Primary</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessRelation"/>
+        <owl:inverseOf rdf:resource="&ps;contains"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#contains -->
+
+    <owl:ObjectProperty rdf:about="&ps;contains">
+        <rdfs:label rdf:datatype="&xsd;string">contains</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">a primary can contain a primary only if the containment primary exists. Needs to be checked in app code.
+Domain=Primary
+Range=Primary</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessRelation"/>
+        <owl:propertyDisjointWith rdf:resource="&ps;links"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#defines -->
+
+    <owl:ObjectProperty rdf:about="&ps;defines">
+        <rdfs:label rdf:datatype="&xsd;string">defines</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">Domain=Dependent or Primary
+Range=Category</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#has -->
+
+    <owl:ObjectProperty rdf:about="&ps;has">
+        <rdfs:label rdf:datatype="&xsd;string">has</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">Domain=BusinessType
+Range=Attribution</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#includedBy -->
+
+    <owl:ObjectProperty rdf:about="&ps;includedBy">
+        <rdfs:label rdf:datatype="&xsd;string">includedBy</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">Domain=Dependent
+Range=Attribution
+ or Dependent
+ or Primary
+ or Transient</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessRelation"/>
+        <owl:inverseOf rdf:resource="&ps;includes"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#includes -->
+
+    <owl:ObjectProperty rdf:about="&ps;includes">
+        <rdfs:label rdf:datatype="&xsd;string">includes</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">Domain=Attribution
+ or Category
+ or Dependent
+ or Primary
+ or Transient
+Range=Dependent</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#is -->
+
+    <owl:ObjectProperty rdf:about="&ps;is">
+        <rdfs:label rdf:datatype="&xsd;string">is</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">Domain=Attribution
+ or Dependent
+ or Transient
+Range=Primary</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#links -->
+
+    <owl:ObjectProperty rdf:about="&ps;links">
+        <rdfs:label rdf:datatype="&xsd;string">links</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">links and contains are different, contains should be checked on the application side as closed world check.
+Domain=Primary
+Range=Primary</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessRelation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#aggregation -->
+
+    <owl:DatatypeProperty rdf:about="&ps;aggregation">
+        <rdfs:label rdf:datatype="&xsd;string">aggregation</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">All properties which will be evaluated with SQL would come here.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessData"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#assertion -->
+
+    <owl:DatatypeProperty rdf:about="&ps;assertion">
+        <rdfs:label rdf:datatype="&xsd;string">assertion</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessData"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessData -->
+
+    <owl:DatatypeProperty rdf:about="&ps;businessData">
+        <rdfs:label rdf:datatype="&xsd;string">businessData</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">This is the parent data property to be inherited from in child ontologies</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessTypeExternalId -->
+
+    <owl:DatatypeProperty rdf:about="&ps;businessTypeExternalId">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">External ID</rdfs:label>
+        <rdfs:domain rdf:resource="&ps;BusinessType"/>
+        <rdfs:subPropertyOf rdf:resource="&ps;assertion"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessTypeId -->
+
+    <owl:DatatypeProperty rdf:about="&ps;businessTypeId">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">Internal ID</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">Uniquely identifiable GUID</rdfs:comment>
+        <rdfs:domain rdf:resource="&ps;BusinessType"/>
+        <rdfs:subPropertyOf rdf:resource="&ps;assertion"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessTypeSearchTag -->
+
+    <owl:DatatypeProperty rdf:about="&ps;businessTypeSearchTag">
+        <rdfs:label rdf:datatype="&xsd;string">Search Tag</rdfs:label>
+        <rdfs:domain rdf:resource="&ps;BusinessType"/>
+        <rdfs:subPropertyOf rdf:resource="&ps;assertion"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#businessTypeShortText -->
+
+    <owl:DatatypeProperty rdf:about="&ps;businessTypeShortText">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label rdf:datatype="&xsd;string">Name</rdfs:label>
+        <rdfs:domain rdf:resource="&ps;BusinessType"/>
+        <rdfs:subPropertyOf rdf:resource="&ps;assertion"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#calculation -->
+
+    <owl:DatatypeProperty rdf:about="&ps;calculation">
+        <rdfs:label rdf:datatype="&xsd;string">calculation</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">All calculated fields should come under this super property. Properties which are getting calculated within the realm of a BusinessType, not across BusinessTypes.
+Typical all properties done by SPARQL should come here.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessData"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#enriched -->
+
+    <owl:DatatypeProperty rdf:about="&ps;enriched">
+        <rdfs:label rdf:datatype="&xsd;string">enriched</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessData"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#materialization -->
+
+    <owl:DatatypeProperty rdf:about="&ps;materialization">
+        <rdfs:label rdf:datatype="&xsd;string">materialization</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">All materialized properties should come under this.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessData"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#materializedOnce -->
+
+    <owl:DatatypeProperty rdf:about="&ps;materializedOnce">
+        <rdfs:label rdf:datatype="&xsd;string">materializedOnce</rdfs:label>
+        <rdfs:comment rdf:datatype="&xsd;string">all those properties which once materialized should not be re-evaluated</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&ps;businessData"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#Attribution -->
+
+    <owl:Class rdf:about="&ps;Attribution">
+        <rdfs:label rdf:datatype="&xsd;string">Attribution</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ps;BusinessType"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An Attribution is a meta type in the platform.
+
+Attributions represent rather static master data (like currencies, countries, ...) and can be intended to be instantiated directly.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#BusinessType -->
+
+    <owl:Class rdf:about="&ps;BusinessType">
+        <rdfs:label rdf:datatype="&xsd;string">BusinessType</rdfs:label>
+        <owl:equivalentClass rdf:resource="&owl;Thing"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Every concept in application ontology must inherit this ontology</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#Category -->
+
+    <owl:Class rdf:about="&ps;Category">
+        <rdfs:label rdf:datatype="&xsd;string">Category</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ps;BusinessType"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An Category is another meta Class in the platform.
+
+Category objects do not have a lifecycle of their own. They are completely dependent on Primaries or Dependents for their existence.
+
+Category corresponds to the all the Objects which are transactional in nature as well as Universal in nature.
+
+As a rule of thumb a copy of a Primary should not include triples for Categories associated with the Primaries</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#Dependent -->
+
+    <owl:Class rdf:about="&ps;Dependent">
+        <rdfs:label rdf:datatype="&xsd;string">Dependent</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ps;BusinessType"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A Dependent is another meta type in the platform. Dependents are always part of a primary and can&apos;t exist on their own. To give an analogy to domain driven design (ddd) dependents map roughly to component objects within aggregates.
+
+A dependent is always includedBy some primary and can include other dependents. It can also have references (analogy: these references pass the boundaries of the aggregate) to primaries or attributions by defining relationships which inherit from has or is.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#Primary -->
+
+    <owl:Class rdf:about="&ps;Primary">
+        <rdfs:label rdf:datatype="&xsd;string">Primary</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ps;BusinessType"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A Primary is a meta type in the platform. Individuals having this class (or any subclass of it) are assumed to be self-contained. To give an analogy to domain driven design (ddd) primaries map roughly to aggregates.
+
+A primary can have references (analogy: these references pass the boundaries of the aggregate) to other primaries or attributions by defining relationships which inherit from contains or its inverse containedBy or has or links. It can also include dependents (analogy: components of the aggregate) by defining relationships which inherit from includes or its inverse includedBy.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.inmindcomputing.com/platform/platform-schema.owl#Transient -->
+
+    <owl:Class rdf:about="&ps;Transient">
+        <rdfs:label rdf:datatype="&xsd;string">Transient</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ps;BusinessType"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Transient are also another meta types.
+
+A Transient is kind of a purely virtual type. Transients only live while the application is running and are not persisted. Transients change the Role of a Primary for a certain period of time in its lifecycle.
+
+For example: A human being is a Primary, A Student is a Transient on this Primary. Transients theorectically can change the behaviour of a Primary or a Dependent.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

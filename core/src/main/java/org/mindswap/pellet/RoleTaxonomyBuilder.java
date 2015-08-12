@@ -135,11 +135,11 @@ public class RoleTaxonomyBuilder {
 			log.finer( "Property (" + (++count) + ") " + c + "..." );
 		
 		if( c.getSubRoles().contains( topRole ) ) {
-			taxonomy.getTop().addEquivalent( c.getName() );
+			taxonomy.addEquivalentNode(c.getName(), taxonomy.getTop());
 			return;
 		}
 		else if( c.getSuperRoles().contains( bottomRole ) ) {
-			taxonomy.getBottom().addEquivalent( c.getName() );
+			taxonomy.addEquivalentNode(c.getName(), taxonomy.getBottom());
 			return;
 		}
 

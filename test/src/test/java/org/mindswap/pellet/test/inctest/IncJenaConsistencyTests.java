@@ -22,6 +22,7 @@ import java.util.Properties;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -476,6 +477,47 @@ public class IncJenaConsistencyTests extends AbstractJenaTests {
 		inferences = ModelFactory.createDefaultModel();
 		inferences.add( a, p, b );
 		inferences.add( a, p, c );
+		assertPropertyValues( model, p, inferences );
+	}
+	
+	@Test
+	public void testSimpleDataPropertyAssertion() {	
+		Assume.assumeFalse("true".equals(newOptions.getProperty("USE_INCREMENTAL_DELETION")));
+		
+		String ns = "urn:test:";
+
+		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
+
+		DatatypeProperty p = model.createDatatypeProperty( ns + "p" );
+		DatatypeProperty q = model.createDatatypeProperty( ns + "q" );
+		Individual a = model.createIndividual( ns + "a", OWL.Thing );
+		Literal s1 = model.createLiteral("some test string 1");
+		Literal s2 = model.createLiteral("some test string 2");
+
+		// use a subproperty to make sure we get inferred results and not just
+		// results from raw graph
+		p.addSubProperty( q );
+
+		// no property assertion to infer yet
+		Model inferences = ModelFactory.createDefaultModel();
+		assertPropertyValues( model, q, inferences );
+
+		// add a new property assertion between two existing individuals
+		model.add( a, q, s1 );
+		model.add( a, q, s2 );
+
+		// verify inference using super property
+		inferences = ModelFactory.createDefaultModel();
+		inferences.add( a, p, s1 );
+		inferences.add( a, p, s2 );
+		assertPropertyValues( model, p, inferences );
+
+		// delete one data property assertion
+		model.remove(a, q, s2);
+
+		// verify inference using super property
+		inferences = ModelFactory.createDefaultModel();
+		inferences.add( a, p, s1 );
 		assertPropertyValues( model, p, inferences );
 	}
 	

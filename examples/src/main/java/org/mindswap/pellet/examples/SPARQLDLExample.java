@@ -38,14 +38,14 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 public class SPARQLDLExample {
 
 	// The ontology loaded as dataset
-	private static final String	ontology	= "file:examples/data/university0-0.owl";
+	private static final String	ontology	= "data/university0-0.owl";
 	private static final String[]	queries		= new String[] {
 										// One of the original LUBM queries
-			"file:examples/data/lubm-query4.sparql",
+			"data/lubm-query4.sparql",
 			// A SPARQL-DL query
-			"file:examples/data/lubm-sparql-dl.sparql",
+			"data/lubm-sparql-dl.sparql",
 			// A SPARQL-DL with the SPARQL-DL extensions vocabulary
-			"file:examples/data/lubm-sparql-dl-extvoc.sparql" };
+			"data/lubm-sparql-dl-extvoc.sparql" };
 
 	public void run() {
 		for ( int i = 0; i < queries.length ; i++ ) {

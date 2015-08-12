@@ -14,10 +14,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.exceptions.UnsupportedQueryException;
@@ -45,7 +45,6 @@ import com.hp.hpl.jena.sparql.engine.binding.Binding;
 import com.hp.hpl.jena.sparql.syntax.Template;
 import com.hp.hpl.jena.sparql.util.Context;
 import com.hp.hpl.jena.sparql.util.ModelUtils;
-import com.hp.hpl.jena.util.FileManager;
 
 /**
  * <p>
@@ -272,11 +271,6 @@ class SparqlDLExecution implements QueryExecution {
 	}
 
 	@Override
-	public void setFileManager(FileManager manager) {
-		throw new UnsupportedOperationException("Not supported yet!");
-	}
-
-	@Override
 	public void setInitialBinding(QuerySolution startSolution) {
 		initialBinding = startSolution;
 	}
@@ -396,5 +390,10 @@ class SparqlDLExecution implements QueryExecution {
 	@Override
 	public void setTimeout(long arg0, TimeUnit arg1, long arg2, TimeUnit arg3) {
 		// not supported yet
+	}
+
+	@Override
+	public boolean isClosed() {
+		return false;
 	}
 }
