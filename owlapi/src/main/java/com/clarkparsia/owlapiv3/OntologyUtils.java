@@ -66,40 +66,10 @@ public class OntologyUtils {
 	}
 
 	/**
-	 * Given a set of OWL-API axiom, return its signature.
+	 * Given an axiom, return its signature.
 	 */
 	public static Set<OWLEntity> getSignature(OWLAxiom axiom) {
-		Set<OWLEntity> entities = new HashSet<OWLEntity>();
-        DeprecatedOWLEntityCollector collector = new DeprecatedOWLEntityCollector(
-                entities);
-		collector.setCollectDatatypes( false );
-		axiom.accept(collector);
-
-		return entities;
-	}
-	
-	/**
-	 * @deprecated Use {@link #createOntology(Collection)} instead
-	 */
-	@Deprecated
-    public static OWLOntology getOntologyFromAxioms(Collection<OWLAxiom> axioms) {
-		return OWL.Ontology( axioms );
-	}
-
-	/**
-	 * @deprecated Use {@link #createOntology(Collection, IRI)} instead
-	 */
-	@Deprecated
-    public static OWLOntology getOntologyFromAxioms(Collection<OWLAxiom> axioms, IRI iri) {
-		return OWL.Ontology( axioms, iri );
-	}
-
-	/**
-	 * @deprecated Use {@link #createOntology(OWLAxiom...)} instead
-	 */
-	@Deprecated
-    public static OWLOntology getOntologyFromAxioms(OWLAxiom... axioms) {
-		return OWL.Ontology( Arrays.asList( axioms ) );
+		return axiom.getSignature();
 	}
 
 	public static OWLOntologyManager getOWLOntologyManager() {
@@ -129,7 +99,7 @@ public class OntologyUtils {
     /**
      * Loads the ontology with given URI.
      * 
-     * @param uri the ontology uri
+     * @param inputStream input ontology
      * @return the ontology
      */
     public static OWLOntology loadOntology( InputStream inputStream ) {
@@ -167,8 +137,8 @@ public class OntologyUtils {
      * leaving only logical axioms.
      * 
      * @see #removeAllAnnotations(OWLOntology, OWLOntologyManager)
-     * @param uri
-     *            the ontology uri
+     * @param inputStream
+     *            input stream
      * @param withAnnotations
      *            if <code>false</code> removes all annotation axioms from the
      *            ontology, otherwise leaves the ontology intact
@@ -186,8 +156,6 @@ public class OntologyUtils {
     
 	/**
 	 * Prints a set of axioms to console
-	 * 
-	 * @param args
 	 */
 	public static void printAxioms(Collection<? extends OWLAxiom> axioms) {
 		for( OWLAxiom axiom : axioms ) {
@@ -197,8 +165,6 @@ public class OntologyUtils {
 
 	/**
 	 * Prints an ontology to console
-	 * 
-	 * @param args
 	 */
 	public static void printOntology(OWLOntology ont) {
 		printAxioms( ont.getAxioms() );
@@ -218,11 +184,10 @@ public class OntologyUtils {
 
 	/**
 	 * Update the ontology by adding or removing the given set of axioms
-	 * 
-	 * @param OWLObject
-	 *            axiom - the axiom to add/remove
-	 * @param boolean
-	 *            add - true - add; false - delete
+	 *
+	 * @param ontology target ontology
+	 * @param axioms the axiom to add/remove
+	 * @param add true - add; false - delete
 	 */
 	public static void updateOntology(OWLOntology ontology, Collection<? extends OWLAxiom> axioms, boolean add) {
 		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
