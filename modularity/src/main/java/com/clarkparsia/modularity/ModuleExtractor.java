@@ -41,24 +41,13 @@ import com.clarkparsia.pellet.expressivity.Expressivity;
 public interface ModuleExtractor {
 	/**
 	 * Adds an axiom to the extractor.
-	 * 
-	 * @param axiom
 	 */
 	public void addAxiom(OWLAxiom axiom);
 
 	/**
-	 * Adds all the axioms from a set of ontologies to the extractor.
-	 * 
-	 * @param ontology
+	 * Adds all the axioms to the extractor.
 	 */
-	public void addOntologies(Set<OWLOntology> ontologies);
-
-	/**
-	 * Adds all the axioms of an ontology to the extractor.
-	 * 
-	 * @param ontology
-	 */
-	public void addOntology(OWLOntology ontology);
+	public void addAxioms(Iterable<OWLAxiom> axioms);
 
 	/**
 	 * Returns if the extracted modules can be updated. Returns false if the
@@ -90,8 +79,6 @@ public interface ModuleExtractor {
 	 * @return an unmodifiable set of axioms
 	 */
 	public Set<OWLAxiom> getAxioms();
-	
-	public OWLOntology getAxiomOntology();
 
 	/**
 	 * Return the axioms which references this entity
@@ -145,16 +132,13 @@ public interface ModuleExtractor {
 	/**
 	 * Update the modules with the changes that have been put into the queue so
 	 * far.
-	 * 
-	 * @param add
-	 *            If <code>true</code> apply only addition changes, otherwise
-	 *            apply deletions
+	 *
 	 * @return The set of entities whose modules are affected by the changes
 	 * @throws UnsupportedOperationException
 	 *             if modules cannot be updated as reported by
 	 *             {@link #canUpdate()} function
 	 */
-	public Set<OWLEntity> updateModules(Taxonomy<OWLClass> taxonomy, boolean add)
+	public Set<OWLEntity> applyChanges(Taxonomy<OWLClass> taxonomy)
 			throws UnsupportedOperationException;
 
 	/**

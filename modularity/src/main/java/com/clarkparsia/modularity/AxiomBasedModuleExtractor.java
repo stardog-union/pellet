@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 
 import org.mindswap.pellet.utils.DisjointSet;
 import org.mindswap.pellet.utils.SetUtils;
-import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 
 import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
@@ -163,16 +163,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 	}
 
 	/**
-	 * This is the recursive method to actually extract the signature for an
-	 * entity
-	 * 
-	 * @param po
-	 *            the partial order which houses all modules; this is updated as
-	 *            the function proceeds
-	 * @param modMap
-	 *            index to track the root class for nodes contained in cycles
-	 * @param entity
-	 *            the entity to extract
+	 * This is the recursive method to actually extract the signature for an entity
 	 */
 	private void extractModuleSignature(OWLEntity entity, DisjointSet<OWLEntity> modEqCls,
 			ArrayList<OWLEntity> stack, Set<OWLEntity> stackElements) {
@@ -264,18 +255,8 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 		stackElements.remove( entity );
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected void extractModuleSignatures(Set<? extends OWLEntity> entities) {
-
-		log.fine( "Extract module for " + entities );
-
-		ProgressMonitor monitor = new ConsoleProgressMonitor();
-		monitor.setProgressTitle( "Extracting" );
-		monitor.setProgressLength( entities.size() );
-		monitor.taskStarted();
-		
+	@Override
+	protected void extractModuleSignatures(Set<? extends OWLEntity> entities, ProgressMonitor monitor) {
 		Set<OWLEntity> nonLocalModule = new HashSet<OWLEntity>();
 		for( OWLAxiom axiom : getAxioms() ) {
 			if( !isLocal( axiom, Collections.<OWLEntity> emptySet() ) )
@@ -285,6 +266,10 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 		// iterate over classes passed in, and extract all their modules
 		for( OWLEntity ent : entities ) {
 			monitor.incrementProgress();
+
+			if (!(ent instanceof OWLClass)) {
+				continue;
+			}
 
 			if( log.isLoggable( Level.FINE ) )
 				log.fine( "Class: " + ent );
@@ -297,11 +282,6 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 					extractModuleSignature( ent, new DisjointSet<OWLEntity>(),
 							new ArrayList<OWLEntity>(), new HashSet<OWLEntity>( nonLocalModule ) );
 		}
-
-		monitor.taskFinished();
-
-		if( log.isLoggable( Level.FINE ) )
-			log.fine( modules.toString() );
 	}
 
 	/**

@@ -6,6 +6,8 @@
 
 package com.clarkparsia.modularity.test;
 
+import java.util.Arrays;
+
 import static com.clarkparsia.owlapiv3.OWL.all;
 import static com.clarkparsia.owlapiv3.OWL.and;
 import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
@@ -52,9 +54,7 @@ public abstract class SimpleModularityTest extends AbstractModularityTest {
 	 * @throws OWLException if ontology cannot be created
 	 */
 	private void extractModules(OWLAxiom[] axioms) throws OWLException {
-		createOntology( axioms );
-
-		modExtractor.addOntology( ontology );
+		modExtractor.addAxioms(Arrays.asList(axioms));
 
 		modules = modExtractor.extractModules();
 	}

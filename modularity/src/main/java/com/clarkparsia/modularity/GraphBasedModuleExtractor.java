@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.clarkparsia.pellet.owlapiv3.OWLClassTreePrinter;
 import com.clarkparsia.reachability.EntityNode;
 import com.clarkparsia.reachability.Node;
 import com.clarkparsia.reachability.PairSet;
@@ -19,6 +20,7 @@ import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 
 import static java.lang.String.format;
@@ -33,23 +35,8 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor {
 	public GraphBasedModuleExtractor() {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	protected void extractModuleSignatures(Set<? extends OWLEntity> entities) {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("Extracting module for each of " + entities);
-		}
-
-		if (entities.isEmpty()) {
-			return;
-		}
-
-		ProgressMonitor monitor = new ConsoleProgressMonitor();
-		monitor.setProgressTitle("Extracting");
-		monitor.setProgressLength(entities.size());
-		monitor.taskStarted();
-
+	@Override
+	protected void extractModuleSignatures(Set<? extends OWLEntity> entities, ProgressMonitor monitor) {
 		Timer t = getTimers().startTimer("buildGraph");
 		GraphBuilder builder = new GraphBuilder();
 
@@ -67,6 +54,11 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor {
 //		DisplayGraph.display( entities, engine.getGraph(), null );
 
 		for (OWLEntity ent : entities) {
+			if (!(ent instanceof OWLClass)) {
+				monitor.incrementProgress();
+				continue;
+			}
+
 			if (log.isLoggable(Level.FINE)) {
 				log.fine("Compute module for " + ent);
 			}
@@ -99,12 +91,6 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor {
 			else {
 				extractModule(engine, node, entities, monitor);
 			}
-		}
-
-		monitor.taskFinished();
-
-		if (log.isLoggable(Level.FINER)) {
-			log.finer("Modules: " + modules);
 		}
 	}
 
