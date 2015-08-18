@@ -20,6 +20,6 @@ package com.clarkparsia.modularity;
  */
 public class ModuleExtractorFactory {
 	public static ModuleExtractor createModuleExtractor() {
-		return new AxiomBasedModuleExtractor();
+		return new GraphBasedModuleExtractor();
 	}
 }

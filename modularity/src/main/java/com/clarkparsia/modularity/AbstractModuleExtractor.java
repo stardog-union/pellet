@@ -25,6 +25,8 @@ import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.MultiValueMap;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.Timers;
+import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
+import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -37,7 +39,6 @@ import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
 import com.clarkparsia.owlapi.modularity.locality.LocalityEvaluator;
 import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
 import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 
 /**
@@ -63,14 +64,12 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 	private Set<OWLAxiom>							additions					= new HashSet<OWLAxiom>();
 
-	private Set<OWLClass>							allClasses					= new HashSet<OWLClass>();
-
-	private OWLOntology								axiomOntology				= null;
+	private Set<OWLClass>							newClasses					= new HashSet<OWLClass>();
 	
 	/**
 	 * Map to find entities referenced in an axiom
 	 */
-	private MultiValueMap<OWLAxiom, OWLEntity>		axiomEntities				= new MultiValueMap<OWLAxiom, OWLEntity>();
+	private Set<OWLAxiom>		                    axioms				        = new HashSet<OWLAxiom>();
 
 	/**
 	 * Set of axioms that will be deleted
@@ -109,7 +108,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	public void addAxiom(OWLAxiom axiom) {
 		checkNonLocalAxiom( axiom );
 
-		if( axiomEntities.containsKey( axiom ) )
+		if( axioms.contains( axiom ) )
 			return;
 
 		if( log.isLoggable( Level.FINE ) )
@@ -156,7 +155,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	public void deleteAxiom(OWLAxiom axiom) {
 		checkNonLocalAxiom( axiom );
 
-		if( !axiomEntities.containsKey( axiom ) ) {
+		if( !axioms.contains(axiom) ) {
 			if( additions.remove( axiom ) ) {
 				if( log.isLoggable( Level.FINE ) )
 					log.fine( "Deleted axiom from add queue before processing " + axiom );
@@ -196,7 +195,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 		modules = new MultiValueMap<OWLEntity, OWLEntity>();
 
-		extractModuleSignatures( allClasses );
+		extractModuleSignatures(entityAxioms.keySet());
 
 		timer.stop();
 
@@ -211,17 +210,41 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	 * @param entities -
 	 *            the set of entities whose modules should be extracted
 	 */
-	protected abstract void extractModuleSignatures(Set<? extends OWLEntity> entities);
-	
-	/**
-	 * Given an axiom, this function locates all root nodes in the partial order
-	 * that are affected by the update
-	 * 
-	 * @param axiom -
-	 *            the update
-	 * @param add -
-	 *            Flag for additions/deletions
-	 */
+	private void extractModuleSignatures(Set<? extends OWLEntity> entities) {
+		if (log.isLoggable(Level.FINE)) {
+			log.fine("Extracting module for each of " + entities);
+		}
+
+		if (entities.isEmpty()) {
+			return;
+		}
+
+		ProgressMonitor monitor = new ConsoleProgressMonitor();
+		monitor.setProgressTitle( "Extracting" );
+		monitor.setProgressLength( entities.size() );
+		monitor.taskStarted();
+
+		extractModuleSignatures(entities, monitor);
+
+		monitor.taskFinished();
+
+		if (log.isLoggable(Level.FINER)) {
+			log.finer("Modules: " + modules);
+		}
+	}
+
+	protected abstract void extractModuleSignatures(Set<? extends OWLEntity> entities, ProgressMonitor monitor);
+
+
+		/**
+		 * Given an axiom, this function locates all root nodes in the partial order
+		 * that are affected by the update
+		 *
+		 * @param axiom -
+		 *            the update
+		 * @param add -
+		 *            Flag for additions/deletions
+		 */
 	private Set<OWLEntity> getAffectedRoots(OWLAxiom axiom, Taxonomy<OWLClass> taxonomy, boolean add) {
 		Set<OWLEntity> roots = new HashSet<OWLEntity>();
 		Set<TaxonomyNode<OWLClass>> visited = new HashSet<TaxonomyNode<OWLClass>>();
@@ -334,7 +357,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		}
 		
 		for( OWLAxiom axiom : candidates ) {
-			Set<OWLEntity> sigAxiom = axiomEntities.get( axiom );
+			Set<OWLEntity> sigAxiom = axiom.getSignature();
 
 			/*
 			 * An axiom is in the module of the signature if the augmented
@@ -378,7 +401,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	 */
 	public OWLOntology getModuleFromSignature(Set<OWLEntity> signature) {
 		Set<OWLAxiom> moduleAxioms = getModuleAxioms( signature );
-		return OWL.Ontology( moduleAxioms );
+		return OWL.Ontology(moduleAxioms);
 	}
 
 	/**
@@ -388,7 +411,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	 * @return
 	 */
 	protected Set<OWLEntity> getSignature(OWLAxiom axiom) {
-		return axiomEntities.get( axiom );
+		return axiom.getSignature();
 	}
 
 	/**
@@ -404,28 +427,24 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		return localityEvaluator.isLocal( axiom, signature );
 	}
 
-	public void addOntologies(Set<OWLOntology> ontologies) {
-		for( OWLOntology ontology : ontologies )
-			addOntology( ontology );
-	}
-
-	public void addOntology(OWLOntology ontology) {
-		for( OWLAxiom axiom : ontology.getAxioms() )
+	@Override
+	public void addAxioms(Iterable<OWLAxiom> axioms) {
+		for( OWLAxiom axiom : axioms )
 			addAxiom( axiom );
 	}
 
 	private void processAdditions() {
 		for( OWLAxiom axiom : additions ) {
-			Set<OWLEntity> signature = OntologyUtils.getSignature( axiom );
+			axioms.add( axiom );
 
-			axiomEntities.put( axiom, signature );
-
-			for( OWLEntity entity : signature ) {
-				entityAxioms.add( entity, axiom );
+			for( OWLEntity entity : axiom.getSignature() ) {
+				entityAxioms.add(entity, axiom);
 
 				if( entity instanceof OWLClass ) {
 					OWLClass cls = (OWLClass) entity;
-					allClasses.add( cls );
+					if (modules != null && !modules.containsKey(cls)) {
+						newClasses.add(cls);
+					}
 				}
 			}
 		}
@@ -433,15 +452,14 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 	private void processDeletions() {
 		for( OWLAxiom axiom : deletions ) {
-			Set<OWLEntity> entities = axiomEntities.remove( axiom );
+			axioms.remove( axiom );
 
-			for( OWLEntity entity : entities ) {
+			for( OWLEntity entity : axiom.getSignature() ) {
 				entityAxioms.remove( entity, axiom );
 
 				if( !entityAxioms.containsKey( entity ) ) {
 					if( log.isLoggable( Level.FINE ) )
 						log.fine( "Remove " + entity + " which is not mentioned anymore" );
-					allClasses.remove( entity );
 					modules.remove( entity );
 				}
 			}
@@ -452,21 +470,15 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	 * Method to 1) find affected modules and 2) update them - that is extract
 	 * their new signatures
 	 * 
-	 * @param Map
-	 *            axiomMap Index from the new/deleted axioms to their signature
-	 * @param Segmentation
-	 *            seg handle on segmentation for this ontology
-	 * @param boolean
-	 *            add Flag for additions/deletions
+	 * @param effects affected entities
+	 * @param taxonomy classification hierarchy
+	 * @param add Flag for additions/deletions
 	 */
-	private Set<OWLEntity> updateEffectedModules(Set<OWLAxiom> axioms, Taxonomy<OWLClass> taxonomy,
-			boolean add) {
+	private void updateEffectedModules(Set<OWLEntity> effects, Taxonomy<OWLClass> taxonomy, boolean add) {
 		// affected root nodes in order
 		Set<OWLEntity> affectedRoots = new HashSet<OWLEntity>();
 		// Set of all nodes affected
 		Set<OWLEntity> affected = new HashSet<OWLEntity>();
-		// Set of all entities in the module of affected entities
-		Set<OWLEntity> effects = new HashSet<OWLEntity>();
 
 		if( log.isLoggable( Level.FINE ) )
 			log.fine( "Update modules for " + (add
@@ -474,11 +486,11 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 				: "deletions") );
 
 		// any new classes are affected
-		affectedRoots.addAll( allClasses );
-		affectedRoots.removeAll( modules.keySet() );
+		affectedRoots.addAll(newClasses);
 
 		// iterate over all axioms and get find the set of root nodes
 		// affected by the update
+		Set<OWLAxiom> axioms = (add ? additions : deletions);
 		for( OWLAxiom axiom : axioms ) {
 			// find affected roots - recursive function
 			affectedRoots.addAll( getAffectedRoots( axiom, taxonomy, add ) );
@@ -517,59 +529,36 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 				
 			effects.addAll( module );
 		}
-
-		return effects;
 	}
 
-	/**
-	 * Update the modules with the changes that have been put into the queue so
-	 * far.
-	 * 
-	 * @param add
-	 *            If <code>true</code> apply only addition changes, otherwise
-	 *            apply deletions
-	 * @return The set of entities whose modules are affected by the changes
-	 * @throws UnsupportedOperationException
-	 *             if modules cannot be updated as reported by
-	 *             {@link #canUpdate()} function
-	 */
-	public Set<OWLEntity> updateModules(Taxonomy<OWLClass> taxonomy, boolean add)
-			throws UnsupportedOperationException {
+	@Override
+	public Set<OWLEntity> applyChanges(final Taxonomy<OWLClass> taxonomy) throws UnsupportedOperationException {
 		Timer timer = timers.startTimer( "updateModules" );
 
 		if( !canUpdate() )
 			throw new UnsupportedOperationException( "Modules cannot be updated!" );
 
-		Set<OWLEntity> effects = null;
-		if( add ) {
-			// cash the signatures for axioms as they are used in the next step
-			processAdditions();
-			// compute effects
-			effects = updateEffectedModules( additions, taxonomy, add );
-			// clear processed axioms
-			additions.clear();
-			
-			// update the pending change types -- remove the changes
-			// that are additions
-			changes.remove(ChangeType.ABOX_ADD);
-			changes.remove(ChangeType.RBOX_ADD);
-			changes.remove(ChangeType.TBOX_ADD);
-		}
-		else {
-			// compute effects
-			effects = updateEffectedModules( deletions, taxonomy, add );
-			// remove signatures for deleted axioms now that they are not needed
-			processDeletions();
-			// clear processed axioms
-			deletions.clear();
-			
-			// update the pending change types -- remove the changes
-			// that are additions
-			changes.remove(ChangeType.ABOX_DEL);
-			changes.remove(ChangeType.RBOX_DEL);
-			changes.remove(ChangeType.TBOX_DEL);
+		// Set of all entities in the module of affected entities
+		Set<OWLEntity> effects = new HashSet<OWLEntity>();
 
-		}
+		// cash the signatures for axioms as they are used in the next step
+		processAdditions();
+		// compute effects
+		updateEffectedModules( effects, taxonomy, true );
+
+		updateEffectedModules( effects, taxonomy, false );
+		// remove signatures for deleted axioms now that they are not needed
+		processDeletions();
+
+		// clear processed axioms
+		additions.clear();
+		deletions.clear();
+
+		// clear the pending change types
+		changes.clear();
+
+		// clear new classes as well
+		newClasses.clear();
 
 		timer.stop();
 
@@ -581,15 +570,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	}
 
 	public Set<OWLAxiom> getAxioms() {
-		return Collections.unmodifiableSet( axiomEntities.keySet() );
-	}
-	
-	public OWLOntology getAxiomOntology() {
-		if ( null == axiomOntology ) {
-			axiomOntology = OWL.Ontology( axiomEntities.keySet() );
-		}
-		
-		return axiomOntology;
+		return Collections.unmodifiableSet( axioms );
 	}
 
 	public Set<OWLEntity> getEntities() {
@@ -710,7 +691,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		ZipEntry axiomsEntry = new ZipEntry( MODULE_EXTRACTOR_AXIOMS_FILE_NAME );
 		outputStream.putNextEntry( axiomsEntry );
 		
-		ModuleExtractorPersistence.saveAxioms( axiomEntities.keySet(), new UncloseableOutputStream( outputStream ) );
+		ModuleExtractorPersistence.saveAxioms( axioms, new UncloseableOutputStream( outputStream ) );
 		
 		// next save the modules		
 		ZipEntry modulesEntry = new ZipEntry( MODULE_EXTRACTOR_MODULES_FILE_NAME );
@@ -733,7 +714,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 			throw new IllegalArgumentException( String.format( "Unexpected entry (%s) in ZipInputStream. Expected %s", zipEntry.getName(), MODULE_EXTRACTOR_AXIOMS_FILE_NAME ) );
 		}
 		
-		axiomOntology = ModuleExtractorPersistence.loadAxiomOntology( inputStream );
+		OWLOntology axiomOntology = ModuleExtractorPersistence.loadAxiomOntology( inputStream );
 		
 		Collection<OWLAxiom> axioms = axiomOntology.getAxioms();
 		

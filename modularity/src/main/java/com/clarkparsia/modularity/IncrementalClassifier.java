@@ -160,7 +160,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		
 		OWLOntology ontology = reasoner.getRootOntology();
 		for (OWLOntology ont : ontology.getImportsClosure()) { 
-			extractor.addOntology( ont );
+			extractor.addAxioms(ont.getAxioms());
 		}
 		
 		reasoner.getManager().addOntologyChangeListener( this );
@@ -173,7 +173,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		
 		modules = extractor.getModules();
 
-		OWLOntology ontology = extractor.getAxiomOntology();
+		OWLOntology ontology = OWL.Ontology(extractor.getAxioms());
 		
 		reasoner = PelletReasonerFactory.getInstance().createReasoner( ontology );
 		
@@ -261,8 +261,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 				// TODO: maybe we should move these calls somewhere else but in general
 				// the users expect that all changes are applied after classify()
 				// and unapplied changes will prevent the classifie
-				extractor.updateModules( taxonomy, true );
-				extractor.updateModules( taxonomy, false );
+				extractor.applyChanges(taxonomy);
 			}
 			return;
 		}
@@ -327,17 +326,10 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	 * modules that are affected, collect all of their axioms and classify them
 	 * all once in Pellet. This allows the exploitation current classification
 	 * optimizations
-	 * 
-	 * @param args
 	 */
 	private void incClassifyAllModStrategy() {
 		// Get the entities whose modules are affected
-		Set<OWLEntity> effects = new HashSet<OWLEntity>();
-
-		// collect entities affected by additions
-		effects.addAll( extractor.updateModules( taxonomy, true ) );
-		// collect entities affected by deletions
-		effects.addAll( extractor.updateModules( taxonomy, false ) );
+		Set<OWLEntity> effects = extractor.applyChanges(taxonomy);
 		
 		if( log.isLoggable( Level.FINE ) ) {
 	        log.fine( "Module entities " + effects );

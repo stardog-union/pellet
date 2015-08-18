@@ -19,6 +19,7 @@ import org.mindswap.pellet.tbox.impl.Unfolding;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.SetUtils;
 
+import aterm.ATerm;
 import aterm.ATermAppl;
 import aterm.ATermInt;
 import aterm.ATermList;
@@ -199,7 +200,13 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker {
 
 		public void visitAll(ATermAppl term) {
 			m_Expressivity.setHasAllValues(true);	
-			visitRole( (ATermAppl) term.getArgument( 0 ) );
+			ATerm p = term.getArgument(0);
+			// it is possible that due to property chains, a list of properties might have been added
+			// to the restriction. this would only happen if we already performed consistency so these
+			// properties should already exist in the KB and no need to process them again
+			if (p instanceof ATermAppl) {
+				visitRole( (ATermAppl) p );
+			}
 			visit( (ATermAppl) term.getArgument( 1 ) );
 		}
 

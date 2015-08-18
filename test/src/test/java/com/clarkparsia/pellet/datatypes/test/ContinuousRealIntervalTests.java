@@ -263,4 +263,22 @@ public class ContinuousRealIntervalTests {
 				BigDecimal.valueOf( Long.MAX_VALUE ) ).add( BigDecimal.valueOf( 0.123d ) ) ) );
 	}
 
+	@Test
+	public void unboundEquals() {
+		final ContinuousRealInterval lowerUnbound = new ContinuousRealInterval( null, 1000, false, false );
+		final ContinuousRealInterval upperUnbound = new ContinuousRealInterval( 100, null, false, false );
+		final ContinuousRealInterval allBound = new ContinuousRealInterval( 100, 1000, false, false );
+
+		assertFalse(lowerUnbound.equals(upperUnbound));
+		assertFalse(lowerUnbound.equals(allBound));
+		assertTrue(lowerUnbound.equals(lowerUnbound));
+
+		assertTrue(upperUnbound.equals(upperUnbound));
+		assertFalse(upperUnbound.equals(allBound));
+		assertFalse(upperUnbound.equals(lowerUnbound));
+
+		assertFalse(allBound.equals(upperUnbound));
+		assertTrue(allBound.equals(allBound));
+		assertFalse(allBound.equals(lowerUnbound));
+	}
 }
