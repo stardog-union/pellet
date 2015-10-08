@@ -35,8 +35,10 @@
     <module>examples</module>
     <module>test</module>
     <module>profiler</module>
-	<module>protege</module>
+    <module>protege</module>
     <module>distribution</module>
+    <module>server</module>
+    <module>client</module>
   </modules>
 
   <properties>
