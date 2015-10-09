@@ -4,7 +4,6 @@ import javax.servlet.ServletException;
 
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
 import com.clarkparsia.pellet.server.servlets.MessageServlet;
-import com.clarkparsia.pellet.server.servlets.ShutdownServlet;
 
 import io.undertow.Handlers;
 import io.undertow.Undertow;
@@ -17,9 +16,10 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 
 /**
- * Pellet Server implementation.
+ * Pellet Server implementation with Undertow.
  *
  * @author Edgar Rodriguez-Diaz
+ * @see <a href="http://undertow.io">undertow.io</a>
  */
 public final class Server {
 
@@ -40,8 +40,6 @@ public final class Server {
 		                                        .addServlets(Servlets.servlet("MyServlet", MessageServlet.class)
 		                                                             .addInitParam("message", "MyServlet")
 		                                                             .addMapping("/myservlet"),
-		                                                     Servlets.servlet("ShutdownServlet", ShutdownServlet.class)
-		                                                             .addMapping("/shutdown"),
 		                                                     Servlets.servlet("MessageServlet", MessageServlet.class)
 		                                                             .addInitParam("message", "Hello World")
 		                                                             .addMapping("/*"));
