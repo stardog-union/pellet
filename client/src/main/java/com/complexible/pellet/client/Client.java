@@ -2,10 +2,11 @@ package com.complexible.pellet.client;
 
 import java.io.IOException;
 
-import com.complexible.pellet.client.api.PelletService;
-import com.complexible.pellet.service.GenericJsonMessage;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import com.complexible.pellet.client.cli.PelletCommand;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -13,18 +14,11 @@ import retrofit.Retrofit;
 public class Client {
 
 	public static void main(String[] args) throws IOException {
-		Retrofit aRetrofit = new Retrofit.Builder().baseUrl("http://localhost:8080")
-		                                           .addConverterFactory(GsonConverterFactory.create())
-		                                           .build();
+		Injector aInjector = Guice.createInjector(new ClientModule());
 
-		// TODO: move this to a provider class (using guice)
-		PelletService aPelletService = aRetrofit.create(PelletService.class);
-
-		GenericJsonMessage aMessage = aPelletService.shutdown()
-		                                 .execute()
-		                                 .body();
-
-		System.out.println(aMessage.message);
+		PelletCommand aShutdown = aInjector.getInstance(Key.get(PelletCommand.class,
+		                                                        Names.named("shutdown")));
+		aShutdown.run();
 	}
 
 }

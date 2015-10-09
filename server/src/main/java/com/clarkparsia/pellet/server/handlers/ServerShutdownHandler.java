@@ -25,7 +25,7 @@ public class ServerShutdownHandler implements HttpHandler {
 	@Override
 	public void handleRequest(final HttpServerExchange exchange) throws Exception {
 		GenericJsonMessage aMessage = new GenericJsonMessage("Server is shutting down.");
-		
+
 		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, aMessage.getMimeType());
 		exchange.getResponseSender().send(aMessage.toJsonString());
 
