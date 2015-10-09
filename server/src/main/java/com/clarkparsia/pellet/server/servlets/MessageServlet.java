@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.complexible.pellet.service.Message;
+import com.complexible.pellet.service.GenericJsonMessage;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -18,17 +18,17 @@ public class MessageServlet extends HttpServlet {
 
 	private static final String MESSAGE_PARAM = "message";
 
-	private Message message;
+	private GenericJsonMessage message;
 
 	@Override
 	public void init(final ServletConfig config) throws ServletException {
 		super.init(config);
-		message = new Message(config.getInitParameter(MESSAGE_PARAM));
+		message = new GenericJsonMessage(config.getInitParameter(MESSAGE_PARAM));
 	}
 
 	@Override
 	protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws ServletException, IOException {
-		resp.setContentType("application/json");
+		resp.setContentType(message.getMimeType());
 
 		PrintWriter writer = resp.getWriter();
 		writer.write(message.toJsonString());

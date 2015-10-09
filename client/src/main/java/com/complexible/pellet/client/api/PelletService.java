@@ -1,6 +1,6 @@
 package com.complexible.pellet.client.api;
 
-import com.complexible.pellet.service.Message;
+import com.complexible.pellet.service.GenericJsonMessage;
 import retrofit.Call;
 import retrofit.http.GET;
 
@@ -12,6 +12,6 @@ import retrofit.http.GET;
 public interface PelletService {
 
 	@GET("/shutdown")
-	Call<Message> shutdown();
+	Call<GenericJsonMessage> shutdown();
 
 }

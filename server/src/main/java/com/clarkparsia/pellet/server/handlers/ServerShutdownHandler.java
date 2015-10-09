@@ -1,7 +1,8 @@
 package com.clarkparsia.pellet.server.handlers;
 
 import com.clarkparsia.pellet.server.Server;
-import com.complexible.pellet.service.Message;
+import com.complexible.pellet.service.JsonMessage;
+import com.complexible.pellet.service.GenericJsonMessage;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.GracefulShutdownHandler;
@@ -23,9 +24,9 @@ public class ServerShutdownHandler implements HttpHandler {
 
 	@Override
 	public void handleRequest(final HttpServerExchange exchange) throws Exception {
-		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "application/json");
-		Message aMessage = new Message("Server is shutting down.");
-
+		GenericJsonMessage aMessage = new GenericJsonMessage("Server is shutting down.");
+		
+		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, aMessage.getMimeType());
 		exchange.getResponseSender().send(aMessage.toJsonString());
 
 		// start closing connections and stop accepting more

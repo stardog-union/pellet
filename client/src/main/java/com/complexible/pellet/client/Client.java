@@ -3,7 +3,7 @@ package com.complexible.pellet.client;
 import java.io.IOException;
 
 import com.complexible.pellet.client.api.PelletService;
-import com.complexible.pellet.service.Message;
+import com.complexible.pellet.service.GenericJsonMessage;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
@@ -17,9 +17,10 @@ public class Client {
 		                                           .addConverterFactory(GsonConverterFactory.create())
 		                                           .build();
 
+		// TODO: move this to a provider class (using guice)
 		PelletService aPelletService = aRetrofit.create(PelletService.class);
 
-		Message aMessage = aPelletService.shutdown()
+		GenericJsonMessage aMessage = aPelletService.shutdown()
 		                                 .execute()
 		                                 .body();
 
