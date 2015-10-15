@@ -19,6 +19,25 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import aterm.ATerm;
+import aterm.ATermAppl;
+import aterm.ATermList;
+import com.clarkparsia.pellet.datatypes.Facet;
+import com.clarkparsia.pellet.rules.model.AtomDConstant;
+import com.clarkparsia.pellet.rules.model.AtomDObject;
+import com.clarkparsia.pellet.rules.model.AtomDVariable;
+import com.clarkparsia.pellet.rules.model.AtomIConstant;
+import com.clarkparsia.pellet.rules.model.AtomIObject;
+import com.clarkparsia.pellet.rules.model.AtomIVariable;
+import com.clarkparsia.pellet.rules.model.BuiltInAtom;
+import com.clarkparsia.pellet.rules.model.ClassAtom;
+import com.clarkparsia.pellet.rules.model.DataRangeAtom;
+import com.clarkparsia.pellet.rules.model.DatavaluedPropertyAtom;
+import com.clarkparsia.pellet.rules.model.DifferentIndividualsAtom;
+import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
+import com.clarkparsia.pellet.rules.model.Rule;
+import com.clarkparsia.pellet.rules.model.RuleAtom;
+import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.Role;
@@ -64,7 +83,6 @@ import org.semanticweb.owlapi.model.OWLDisjointClassesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLDisjointUnionAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentDataPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
@@ -125,27 +143,6 @@ import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.model.SWRLSameIndividualAtom;
 import org.semanticweb.owlapi.model.SWRLVariable;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
-
-import com.clarkparsia.pellet.datatypes.Facet;
-import com.clarkparsia.pellet.rules.model.AtomDConstant;
-import com.clarkparsia.pellet.rules.model.AtomDObject;
-import com.clarkparsia.pellet.rules.model.AtomDVariable;
-import com.clarkparsia.pellet.rules.model.AtomIConstant;
-import com.clarkparsia.pellet.rules.model.AtomIObject;
-import com.clarkparsia.pellet.rules.model.AtomIVariable;
-import com.clarkparsia.pellet.rules.model.BuiltInAtom;
-import com.clarkparsia.pellet.rules.model.ClassAtom;
-import com.clarkparsia.pellet.rules.model.DataRangeAtom;
-import com.clarkparsia.pellet.rules.model.DatavaluedPropertyAtom;
-import com.clarkparsia.pellet.rules.model.DifferentIndividualsAtom;
-import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
-import com.clarkparsia.pellet.rules.model.Rule;
-import com.clarkparsia.pellet.rules.model.RuleAtom;
-import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
-
 /**
  * <p>
  * Title:
@@ -185,6 +182,8 @@ public class PelletVisitor implements OWLObjectVisitor {
 	
 	private Set<OWLAxiom>												unsupportedAxioms;
 
+	private Set<OWLOntology>											visitedOntologies;
+
 	/*
 	 * Only simple properties can be used in cardinality restrictions,
 	 * disjointness axioms, irreflexivity and antisymmetry axioms. The following
@@ -208,6 +207,7 @@ public class PelletVisitor implements OWLObjectVisitor {
 		unsupportedAxioms = new HashSet<OWLAxiom>();
 		compositePropertyAxioms = new MultiValueMap<OWLObjectProperty, OWLObjectPropertyAxiom>();
 		simpleProperties = new HashSet<OWLObjectProperty>();
+		visitedOntologies = new HashSet<OWLOntology>();
 	}
 
 	private void addUnsupportedAxiom(OWLAxiom axiom) {
@@ -825,18 +825,20 @@ public class PelletVisitor implements OWLObjectVisitor {
 	
 	@Override
     public void visit(OWLOntology ont) {
-		
-		for( OWLEntity entity : ont.getSignature() ) {
-			entity.accept( this );
+		if (!visitedOntologies.add(ont)) {
+			return;
 		}
-		
+
 		for( OWLAxiom axiom : ont.getAxioms() ) {
-			
 			if( log.isLoggable( Level.FINE ) ) {
                 log.fine( "Load " + axiom );
             }
 
 			axiom.accept( this );
+		}
+
+		for (OWLOntology importOnt : ont.getDirectImports()) {
+			importOnt.accept(this);
 		}
 	}
 

@@ -58,7 +58,7 @@ public class PelletReasonerFactory implements OWLReasonerFactory {
 	 * {@inheritDoc}
 	 */
 	public PelletReasoner createReasoner(OWLOntology ontology) {
-		return new PelletReasoner( ontology, BufferingMode.BUFFERING );
+		return new PelletReasoner( ontology, new PelletReasonerConfiguration() );
 	}
 
 	/**
@@ -66,21 +66,20 @@ public class PelletReasonerFactory implements OWLReasonerFactory {
 	 */
 	public PelletReasoner createReasoner(OWLOntology ontology, OWLReasonerConfiguration config)
 			throws IllegalConfigurationException {
-		return new PelletReasoner( ontology, config, BufferingMode.BUFFERING );
+		return new PelletReasoner( ontology, new PelletReasonerConfiguration(config).buffering(true) );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public PelletReasoner createNonBufferingReasoner(OWLOntology ontology) {
-		return new PelletReasoner( ontology, BufferingMode.NON_BUFFERING );
+		return new PelletReasoner(ontology, new PelletReasonerConfiguration().buffering(false));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public PelletReasoner createNonBufferingReasoner(OWLOntology ontology,
-			OWLReasonerConfiguration config) throws IllegalConfigurationException {
-		return new PelletReasoner( ontology, config, BufferingMode.NON_BUFFERING );
+	public PelletReasoner createNonBufferingReasoner(OWLOntology ontology, OWLReasonerConfiguration config) throws IllegalConfigurationException {
+		return new PelletReasoner( ontology, new PelletReasonerConfiguration(config).buffering(false) );
 	}
 }

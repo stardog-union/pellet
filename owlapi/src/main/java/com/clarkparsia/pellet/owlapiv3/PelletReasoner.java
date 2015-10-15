@@ -6,10 +6,12 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.exceptions.PelletRuntimeException;
@@ -55,12 +57,9 @@ import org.semanticweb.owlapi.reasoner.IndividualNodeSetPolicy;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
-import org.semanticweb.owlapi.reasoner.NullReasonerProgressMonitor;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.ReasonerInterruptedException;
 import org.semanticweb.owlapi.reasoner.ReasonerProgressMonitor;
-import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import org.semanticweb.owlapi.reasoner.TimeOutException;
 import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
 import org.semanticweb.owlapi.reasoner.impl.NodeFactory;
@@ -69,8 +68,6 @@ import org.semanticweb.owlapi.reasoner.impl.OWLDataPropertyNodeSet;
 import org.semanticweb.owlapi.reasoner.impl.OWLNamedIndividualNodeSet;
 import org.semanticweb.owlapi.reasoner.impl.OWLObjectPropertyNodeSet;
 import org.semanticweb.owlapi.util.Version;
-
-import aterm.ATermAppl;
 
 public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 
@@ -277,6 +274,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	 * Imports closure for ontology
 	 */
 	private Set<OWLOntology>		importsClosure;
+	private Iterable<OWLAxiom>		axioms;
 	private boolean 				shouldRefresh;
 	private final PelletVisitor			visitor;
 	
@@ -298,20 +296,11 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	private final EntityMapper<OWLDatatype>			DT_MAPPER		= new DatatypeMapper();
 
 	private final EntityMapper<OWLClass>				CLASS_MAPPER	= new ClassMapper();
-
-	
-	public PelletReasoner(OWLOntology ontology, BufferingMode bufferingMode) {
-		this( ontology, new SimpleConfiguration( new NullReasonerProgressMonitor(),
-				org.mindswap.pellet.PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING
-					? FreshEntityPolicy.ALLOW
-					: FreshEntityPolicy.DISALLOW, 0, IndividualNodeSetPolicy.BY_SAME_AS ), bufferingMode );
-	}
 	
 	/**
 	 * Create a reasoner for the given ontology and configuration.
-	 * @param ontology
 	 */
-	public PelletReasoner(OWLOntology ontology, OWLReasonerConfiguration config, BufferingMode bufferingMode) throws IllegalConfigurationException {
+	public PelletReasoner(OWLOntology ont, PelletReasonerConfiguration config) throws IllegalConfigurationException {
 		
 		individualNodeSetPolicy = config.getIndividualNodeSetPolicy();
 		
@@ -321,26 +310,33 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 					config );
 		}
 
-		this.ontology = ontology;
+		ontology = ont;
+		if (ontology != null) {
+			manager = ontology.getOWLOntologyManager();
+
+			manager.addOntologyChangeListener( this );
+			axioms = null;
+		}
+		else {
+			manager = Objects.requireNonNull(config.getManager(), "No ontology or ontology manager provided");
+			axioms = Objects.requireNonNull(config.getAxioms(), "No ontology or axioms provided");
+		}
+
 		monitor = config.getProgressMonitor();
-		
 
 		kb = new KnowledgeBase();
 		kb.setTaxonomyBuilderProgressMonitor( new ProgressAdapter( monitor ) );
 		if( config.getTimeOut() > 0 ) {
 			kb.timers.mainTimer.setTimeout( config.getTimeOut() );
 		}
+
+		factory = manager.getOWLDataFactory();
+		visitor = new PelletVisitor( kb );
 		
-		this.manager = ontology.getOWLOntologyManager();
-		this.factory = manager.getOWLDataFactory();
-		this.visitor = new PelletVisitor( kb );
+		bufferingMode = config.getBufferingMode();
 		
-		this.bufferingMode = bufferingMode;
-		
-		manager.addOntologyChangeListener( this );
-		
-		this.shouldRefresh = true;
-		this.pendingChanges = new ArrayList<OWLOntologyChange>();
+		shouldRefresh = true;
+		pendingChanges = new ArrayList<OWLOntologyChange>();
 		
 		refresh();
 	}
@@ -399,6 +395,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public BufferingMode getBufferingMode() {
 		return bufferingMode;
 	}
@@ -959,13 +956,19 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	public void refresh() {
 		visitor.clear();
 		kb.clear();
-		
-		importsClosure = ontology.getImportsClosure();
-		
-		visitor.setAddAxiom( true );
-		for ( OWLOntology ont : importsClosure ) {
-			ont.accept( visitor );
+
+		visitor.setAddAxiom(true);
+
+		if (ontology == null) {
+			for (OWLAxiom axiom : axioms) {
+				axiom.accept(visitor);
+			}
 		}
+		else {
+			importsClosure = ontology.getImportsClosure();
+			ontology.accept(visitor);
+		}
+
 		visitor.verify();
 		
 		shouldRefresh = false;
