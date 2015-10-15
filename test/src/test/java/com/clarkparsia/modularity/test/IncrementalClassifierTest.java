@@ -10,7 +10,11 @@ import static com.clarkparsia.owlapiv3.OWL.*;
 
 import java.util.Arrays;
 
+import com.clarkparsia.modularity.ModuleExtractor;
+import com.google.common.base.Supplier;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
@@ -34,8 +38,9 @@ import com.clarkparsia.owlapiv3.OWL;
  * 
  * @author Mike Smith
  */
-public abstract class AbstractIncrementalClassifierTest extends AbstractModularityTest {
-	public AbstractIncrementalClassifierTest() {
+public class IncrementalClassifierTest extends AbstractModularityTest {
+	public IncrementalClassifierTest(final Supplier<ModuleExtractor> theModExtractorSupplier) {
+		super(theModExtractorSupplier);
 	}
 
 	private void updateTest(OWLAxiom[] axioms, OWLAxiom[] additions, OWLAxiom[] deletions)

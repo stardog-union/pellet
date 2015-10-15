@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.clarkparsia.modularity.GraphBasedModuleExtractor;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -56,7 +57,7 @@ public class PersistenceUpdatesTest {
 	private static final String TEST_FILE = "test-persistence-classification.zip";
 		
 	public ModuleExtractor createModuleExtractor() {
-		return new AxiomBasedModuleExtractor();
+		return new GraphBasedModuleExtractor();
 	}
 	
 	public void performPersistenceRemoves(String fileName) throws IOException {

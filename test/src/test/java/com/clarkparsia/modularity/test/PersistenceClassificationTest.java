@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.google.common.base.Supplier;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -43,13 +44,11 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  *
  * @author Blazej Bulka
  */
-public class PersistenceClassificationTest {
-	public static final String	base	= PelletTestSuite.base + "modularity/";
-	
+public class PersistenceClassificationTest extends AbstractModularityTest {
 	private static final String TEST_FILE = "test-persistence-classification.zip";
-		
-	public ModuleExtractor createModuleExtractor() {
-		return new AxiomBasedModuleExtractor();
+
+	public PersistenceClassificationTest(final Supplier<ModuleExtractor> theModExtractorSupplier) {
+		super(theModExtractorSupplier);
 	}
 	
 	public void testFile(String fileName) throws IOException {

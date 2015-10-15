@@ -17,6 +17,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Collections;
 
+import com.clarkparsia.modularity.ModuleExtractor;
+import com.google.common.base.Supplier;
 import org.junit.Test;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -43,7 +45,10 @@ import com.clarkparsia.owlapiv3.OntologyUtils;
  * 
  * @author Evren Sirin
  */
-public abstract class ModularityUpdateTest extends AbstractModularityTest {
+public class ModularityUpdateTest extends AbstractModularityTest {
+	public ModularityUpdateTest(final Supplier<ModuleExtractor> theModExtractorSupplier) {
+		super(theModExtractorSupplier);
+	}
 
 	@Test
 	public void addNonLocal() throws OWLException {

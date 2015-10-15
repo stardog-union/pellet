@@ -14,6 +14,7 @@ import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
 import static com.clarkparsia.owlapiv3.OWL.or;
 import static com.clarkparsia.owlapiv3.OWL.some;
 
+import com.google.common.base.Supplier;
 import org.junit.Test;
 import org.mindswap.pellet.utils.MultiValueMap;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -38,13 +39,12 @@ import com.clarkparsia.modularity.ModuleExtractor;
  * 
  * @author Evren Sirin
  */
-public abstract class SimpleModularityTest extends AbstractModularityTest {
+public class SimpleModularityTest extends AbstractModularityTest {
 	private MultiValueMap<OWLEntity, OWLEntity>	modules;
 
-	public SimpleModularityTest() {
+	public SimpleModularityTest(final Supplier<ModuleExtractor> theModExtractorSupplier) {
+		super(theModExtractorSupplier);
 	}
-	
-	public abstract ModuleExtractor createModuleExtractor();
 
 	/**
 	 * Creates an ontology from the given axioms and extracts the modules for
@@ -67,7 +67,7 @@ public abstract class SimpleModularityTest extends AbstractModularityTest {
 	 * @param expectedModule expected elements in the module
 	 */
 	private void testModule(OWLEntity entity, OWLEntity... expectedModule) {
-		OWLEntity[] computedModule = modules.get( entity ).toArray(new OWLEntity[0]);
+		OWLEntity[] computedModule = modules.get(entity).toArray(new OWLEntity[0]);
 
 		String msg = "Extractor " + modExtractor.getClass().getSimpleName() + " failed for " + entity;
 		TestUtils.assertToStringEquals( msg, expectedModule, computedModule );

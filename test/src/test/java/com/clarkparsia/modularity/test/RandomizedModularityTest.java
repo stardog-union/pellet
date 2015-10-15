@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.clarkparsia.modularity.ModuleExtractor;
+import com.google.common.base.Supplier;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -31,16 +33,9 @@ import com.clarkparsia.owlapiv3.OntologyUtils;
  * 
  * @author Evren Sirin
  */
-public abstract class RandomizedModularityTest extends AbstractModularityTest {
-
-	private String	path;
-	
-	public RandomizedModularityTest(String path) {
-		this.path = path;
-		
-		if( !new File( path ).exists() ) {
-	        throw new RuntimeException( "Path to data files is not correct: " + path );
-        }
+public class RandomizedModularityTest extends AbstractModularityTest {
+	public RandomizedModularityTest(final Supplier<ModuleExtractor> theModExtractorSupplier) {
+		super(theModExtractorSupplier);
 	}
 
 	private void modularityTest(String file) throws OWLException {
@@ -86,26 +81,26 @@ public abstract class RandomizedModularityTest extends AbstractModularityTest {
 	
 	@Test
 	public void galenModularityTest() throws OWLException {
-		modularityTest( path + "galen.owl" );
+		modularityTest( base + "galen.owl" );
 	}
 
 	@Test
 	public void koalaModularityTest() throws OWLException {
-		modularityTest( path + "koala.owl" );
+		modularityTest( base + "koala.owl" );
 	}
 
 	@Test
 	public void sumoModularityTest() throws OWLException {
-		modularityTest( path + "SUMO.owl" );
+		modularityTest( base + "SUMO.owl" );
 	}
 
 	@Test
 	public void sweetModularityTest() throws OWLException {
-		modularityTest( path + "SWEET.owl" );
+		modularityTest( base + "SWEET.owl" );
 	}
 
 	@Test
 	public void wineModularityTest() throws OWLException {
-		modularityTest( path + "wine.owl" );
+		modularityTest( base + "wine.owl" );
 	}
 }

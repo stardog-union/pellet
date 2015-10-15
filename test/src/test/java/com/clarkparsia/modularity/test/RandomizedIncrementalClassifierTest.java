@@ -10,6 +10,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.clarkparsia.modularity.ModuleExtractor;
+import com.google.common.base.Supplier;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
@@ -34,19 +36,13 @@ import com.clarkparsia.owlapiv3.OntologyUtils;
  * 
  * @author Mike Smith
  */
-public abstract class RandomizedIncrementalClassifierTest extends AbstractModularityTest {
-
-	private String	path;
-	
-	public RandomizedIncrementalClassifierTest(String path) {
-		this.path = path;
-		
-		if( !new File( path ).exists() )
-			throw new RuntimeException( "Path to data files is not correct: " + path );
+public class RandomizedIncrementalClassifierTest extends AbstractModularityTest {
+public RandomizedIncrementalClassifierTest(final Supplier<ModuleExtractor> theModExtractorSupplier) {
+		super(theModExtractorSupplier);
 	}
 
 	private void classifyCorrectnessTest(String file) throws OWLException {
-		OWLOntology ontology = OntologyUtils.loadOntology( "file:" + file, false );
+		OWLOntology ontology = OntologyUtils.loadOntology( "file:" + base + file, false );
 
 		List<OWLAxiom> axioms = new ArrayList<OWLAxiom>( TestUtils.selectRandomAxioms( ontology, 10 ) );
 
@@ -74,21 +70,21 @@ public abstract class RandomizedIncrementalClassifierTest extends AbstractModula
 
 	@Test
 	public void galenRandomizedIncrementalClassifyTest() throws OWLException {
-		classifyCorrectnessTest( path + "galen.owl" );
+		classifyCorrectnessTest( "galen.owl" );
 	}
 
 	@Test
 	public void koalaRandomizedIncrementalClassifyTest() throws OWLException {
-		classifyCorrectnessTest( path + "koala.owl" );
+		classifyCorrectnessTest( "koala.owl" );
 	}
 
 	@Test
 	public void sumoRandomizedIncrementalClassifyTest() throws OWLException {
-		classifyCorrectnessTest( path + "SUMO.owl" );
+		classifyCorrectnessTest( "SUMO.owl" );
 	}
 
 	@Test
 	public void sweetRandomizedIncrementalClassifyTest() throws OWLException {
-		classifyCorrectnessTest( path + "SWEET.owl" );
+		classifyCorrectnessTest( "SWEET.owl" );
 	}
 }

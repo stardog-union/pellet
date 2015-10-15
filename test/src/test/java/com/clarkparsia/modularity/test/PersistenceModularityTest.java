@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.google.common.base.Supplier;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mindswap.pellet.utils.MultiValueMap;
@@ -46,13 +47,9 @@ import com.clarkparsia.owlapiv3.OntologyUtils;
 public class PersistenceModularityTest extends AbstractModularityTest {
 
 	private static final String TEST_FILE = "test-persistence.zip";
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ModuleExtractor createModuleExtractor() {
-		return new AxiomBasedModuleExtractor();
+
+	public PersistenceModularityTest(final Supplier<ModuleExtractor> theModExtractorSupplier) {
+		super(theModExtractorSupplier);
 	}
 	
 	private void testPersistence( OWLOntology ontology ) throws IOException {
@@ -100,9 +97,5 @@ public class PersistenceModularityTest extends AbstractModularityTest {
 	@Test
 	public void testGalen() throws IOException {
 		testPersistence("test/data/modularity/galen.owl");
-	}
-	
-	public static void main( String[] args ) throws IOException {
-		new PersistenceModularityTest().testPersistence("test/data/modularity/galen.owl");
 	}
 }
