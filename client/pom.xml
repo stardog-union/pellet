@@ -11,12 +11,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-core</artifactId>
+			<artifactId>pellet-shared</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-shared</artifactId>
+			<artifactId>pellet-explanation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-modularity</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
