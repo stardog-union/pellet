@@ -16,12 +16,12 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 
 /**
- * Pellet Server implementation with Undertow.
+ * Pellet PelletServer implementation with Undertow.
  *
  * @author Edgar Rodriguez-Diaz
  * @see <a href="http://undertow.io">undertow.io</a>
  */
-public final class Server {
+public final class PelletServer {
 
 	private static final String HOST = "localhost";
 	private static final int PORT = 8080;
@@ -81,9 +81,9 @@ public final class Server {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Server aServer = new Server();
+		PelletServer aPelletServer = new PelletServer();
 
 		System.out.println(String.format("Listening at: http://%s:%s", HOST, PORT));
-		aServer.start();
+		aPelletServer.start();
 	}
 }

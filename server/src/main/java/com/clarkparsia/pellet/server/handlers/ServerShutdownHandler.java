@@ -1,7 +1,6 @@
 package com.clarkparsia.pellet.server.handlers;
 
-import com.clarkparsia.pellet.server.Server;
-import com.complexible.pellet.service.JsonMessage;
+import com.clarkparsia.pellet.server.PelletServer;
 import com.complexible.pellet.service.GenericJsonMessage;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -13,18 +12,18 @@ import io.undertow.util.Headers;
  */
 public class ServerShutdownHandler implements HttpHandler {
 
-	private final Server mServer;
+	private final PelletServer mPelletServer;
 	private final GracefulShutdownHandler mGracefulShutdownHandler;
 
-	private ServerShutdownHandler(final Server theServer,
+	private ServerShutdownHandler(final PelletServer thePelletServer,
 	                              final GracefulShutdownHandler theGracefulShutdownHandler) {
-		mServer = theServer;
+		mPelletServer = thePelletServer;
 		mGracefulShutdownHandler = theGracefulShutdownHandler;
 	}
 
 	@Override
 	public void handleRequest(final HttpServerExchange exchange) throws Exception {
-		GenericJsonMessage aMessage = new GenericJsonMessage("Server is shutting down.");
+		GenericJsonMessage aMessage = new GenericJsonMessage("Pellet server is shutting down.");
 
 		exchange.getResponseHeaders().put(Headers.CONTENT_TYPE, aMessage.getMimeType());
 		exchange.getResponseSender().send(aMessage.toJsonString());
@@ -37,15 +36,15 @@ public class ServerShutdownHandler implements HttpHandler {
 			@Override
 			public void shutdown(final boolean isDown) {
 				if (isDown) {
-					mServer.stop();
+					mPelletServer.stop();
 				}
 			}
 		});
 	}
 
-	public static HttpHandler newInstance(final Server theServer,
+	public static HttpHandler newInstance(final PelletServer thePelletServer,
 	                                      final GracefulShutdownHandler theGracefulShutdownHandler) {
-		return new ServerShutdownHandler(theServer, theGracefulShutdownHandler);
+		return new ServerShutdownHandler(thePelletServer, theGracefulShutdownHandler);
 	}
 
 }
