@@ -10,38 +10,49 @@ package com.clarkparsia.pellet.server.model.impl;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.google.common.collect.ImmutableMap;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
+ * Immutable implementation of a ontology server state.
+ *
  * @author Evren Sirin
  */
 public class ServerStateImpl implements ServerState {
-	private final Map<IRI, OntologyState> ontologies;
+	private final AtomicReference<Map<IRI, OntologyState>> ontologies = new AtomicReference<Map<IRI, OntologyState>>();
 
-	public ServerStateImpl(final Iterable<OWLOntology> onts) {
+	private ServerStateImpl(final Iterable<OntologyState> onts) {
 		ImmutableMap.Builder<IRI, OntologyState> builder = ImmutableMap.builder();
-		for (OWLOntology ontology : onts) {
-			OntologyState context = new OntologyStateImpl(ontology);
-			builder.put(context.getOntologyIRI(), context);
+		for (OntologyState ontoState : onts) {
+			builder.put(ontoState.getOntologyIRI(), ontoState);
 		}
 
-		ontologies = builder.build();
+		ontologies.set(builder.build());
 	}
 
 	@Override
 	public OntologyState getOntology(IRI ontology) {
-		return Objects.requireNonNull(ontologies.get(ontology), "Ontology not found: " + ontology);
+		return Objects.requireNonNull(ontologies.get().get(ontology), "Ontology not found: " + ontology);
+	}
+
+	@Override
+	public void refresh() {
+		// no-op: this implementation doesn't have an explicit source for the ontologies, it just
+		// takes whatever it is in the constructor parameters
 	}
 
 	@Override
 	public void close() throws Exception {
-		for (OntologyState ontology : ontologies.values()) {
+		for (OntologyState ontology : ontologies.get().values()) {
 			ontology.close();
 		}
+	}
+
+	public static ServerState create(final Iterable<OntologyState> onts) {
+		return new ServerStateImpl(onts);
 	}
 }

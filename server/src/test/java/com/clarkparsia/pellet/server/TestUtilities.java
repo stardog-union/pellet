@@ -42,6 +42,8 @@ import org.xml.sax.SAXException;
 public class TestUtilities {
 	private static Logger logger = Logger.getLogger(TestUtilities.class.getCanonicalName());
 
+	public static final String BASE = "file:test/data/";
+
 	public static final File SERVER_ROOT = new File("target/server-distribution/server");
 	public static final File ROOT_DIRECTORY = new File(SERVER_ROOT, "root");
 	public static final File CONFIGURATION_DIRECTORY = new File(SERVER_ROOT, "configuration");

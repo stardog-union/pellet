@@ -6,13 +6,21 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.clarkparsia.owlapiv3.OntologyUtils;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.common.io.Resources;
 import org.antlr.runtime.RecognitionException;
 
+import org.junit.Ignore;
 import org.protege.owl.server.api.AuthToken;
+import org.protege.owl.server.api.ChangeMetaData;
 import org.protege.owl.server.api.client.Client;
+import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.client.RemoteServerDirectory;
 import org.protege.owl.server.api.client.RemoteServerDocument;
 import org.protege.owl.server.api.exception.OWLServerException;
+import org.protege.owl.server.api.server.Server;
 import org.protege.owl.server.api.server.ServerTransport;
 import org.protege.owl.server.conflict.ConflictManager;
 import org.protege.owl.server.connect.local.LocalTransport;
@@ -24,6 +32,7 @@ import org.protege.owl.server.core.ServerImpl;
 import org.protege.owl.server.policy.Authenticator;
 
 import org.protege.owl.server.policy.RMILoginUtility;
+import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.model.IRI;
 
 import org.junit.After;
@@ -36,7 +45,7 @@ import static org.junit.Assert.assertTrue;
  * @author Edgar Rodriguez-Diaz
  */
 public class ProtegeServerTest extends TestUtilities {
-	private org.protege.owl.server.api.server.Server mServer;
+	private Server mServer;
 	private LocalTransport mLocalTransport;
 
 	private final static int RMI_PORT = 4875;
@@ -49,8 +58,7 @@ public class ProtegeServerTest extends TestUtilities {
 	public void startServer() throws IOException, RecognitionException, OWLServerException {
 		initializeServerRoot();
 
-		org.protege.owl.server.api.server.Server core = new ServerImpl(ROOT_DIRECTORY,
-		                                                               CONFIGURATION_DIRECTORY);
+		Server core = new ServerImpl(ROOT_DIRECTORY, CONFIGURATION_DIRECTORY);
 		mServer = new Authenticator(new ConflictManager(core), USERDB);
 
 		List<ServerTransport> transports = new ArrayList<ServerTransport>();
@@ -84,6 +92,45 @@ public class ProtegeServerTest extends TestUtilities {
 		checkClientOk(client);
 	}
 
+	@Test
+	@Ignore("Possible OWL API conflict")
+	public void traverseFileSystem() throws Exception {
+		Client client = createClient(RMI_PORT, REDMOND);
+
+		// we know that root is a directory
+		IRI root = IRI.create(client.getScheme() + "://" + client.getAuthority());
+		System.out.println("Root IRI: " + root);
+
+		IRI owl2loc = IRI.create(root.toString(), "/owl2.history");
+
+		//TODO: check this! - there's seems to be an issue with OWL API versions Protege uses 3.5 vs Pellet uses 4.1.0
+		ClientUtilities.createServerOntology(client,
+		                                     owl2loc,
+		                                     new ChangeMetaData("Initial entry"),
+		                                     OntologyUtils.loadOntology(Resources.getResource("test/data/owl2.owl")
+		                                                                         .toString()));
+
+		RemoteServerDocument aRoot = client.getServerDocument(root);
+		List<RemoteOntologyDocument> docs = Lists.newLinkedList();
+
+		list(client, (RemoteServerDirectory) aRoot, docs);
+
+		System.out.println(Joiner.on("\n,").join(docs));
+	}
+
+	private void list(final Client client,
+	                  final RemoteServerDirectory theDir,
+	                  final List<RemoteOntologyDocument> theCollector) throws OWLServerException {
+		for (RemoteServerDocument doc : client.list(theDir)) {
+			if (doc instanceof RemoteOntologyDocument) {
+				theCollector.add((RemoteOntologyDocument) doc);
+			}
+			else {
+				// recursive!! -- don't try with a lot of docs.
+				list(client, (RemoteServerDirectory) doc, theCollector);
+			}
+		}
+	}
 
 	private void checkClientOk(Client client) throws OWLServerException {
 		IRI root = IRI.create(client.getScheme() + "://" + client.getAuthority());

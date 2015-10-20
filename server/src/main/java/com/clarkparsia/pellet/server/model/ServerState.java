@@ -14,5 +14,24 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Evren Sirin
  */
 public interface ServerState extends AutoCloseable {
+
 	OntologyState getOntology(IRI ontology);
+
+	void refresh();
+
+	ServerState EMPTY = new ServerState() {
+		@Override
+		public OntologyState getOntology(final IRI ontology) {
+			return null;
+		}
+
+		@Override
+		public void refresh() {
+			// no-op
+		}
+
+		@Override
+		public void close() throws Exception {
+		}
+	};
 }
