@@ -718,7 +718,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		
 		Collection<OWLAxiom> axioms = axiomOntology.getAxioms();
 		
-		// I am not sure that this is the right way to recompute this ...
+		modules = null;
 		additions.addAll( axioms );
 		processAdditions();
 		additions.clear();
