@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.AddAxiom;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -31,7 +32,6 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
-import org.semanticweb.owlapi.util.DeprecatedOWLEntityCollector;
 
 /**
  * <p>Title: </p>
@@ -266,7 +266,7 @@ public class OntologyUtils {
 	}
 	
 	/**
-	 * Removes all annotations (non-logical axioms) from the ontology causing
+	 * Removes all annotations (non-logical axioms) but not declarations from the ontology causing
 	 * the ontology to be changed in an unreversible way. For any entity that is
 	 * only referenced in an annotation but no logical axiom a declaration is
 	 * added so that the referenced entities by the ontology remain same.
@@ -289,7 +289,8 @@ public class OntologyUtils {
 
 			List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
 			for( OWLAxiom axiom : ontology.getAxioms() ) {
-				if( !axiom.isLogicalAxiom() ) {
+				AxiomType<?> axiomType = axiom.getAxiomType();
+				if( !axiomType.isLogical() && axiomType != AxiomType.DECLARATION) {
 					changes.add( new RemoveAxiom( ontology, axiom ) );
 				}
 			}
