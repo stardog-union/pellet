@@ -40,6 +40,7 @@ public class RandomizedModularityTest extends AbstractModularityTest {
 
 	private void modularityTest(String file) throws OWLException {
 		OWLOntology ontology = OntologyUtils.loadOntology( "file:" + file, false );
+		OntologyUtils.removeAxioms(ontology, ontology.getAxioms(AxiomType.DECLARATION));
 		
 		Set<OWLEntity> signature = new HashSet<OWLEntity>(); 
 		signature.addAll( TestUtils.selectRandomElements( ontology.getClassesInSignature(), 5 ) );		
