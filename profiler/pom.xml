@@ -16,7 +16,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-owlapi</artifactId>
+			<artifactId>pellet-modularity</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
