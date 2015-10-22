@@ -5,6 +5,7 @@ import java.util.Properties;
 import com.clarkparsia.pellet.server.Configuration;
 import com.clarkparsia.pellet.server.exceptions.ProtegeConnectionException;
 import com.clarkparsia.pellet.server.model.ServerState;
+import com.clarkparsia.pellet.server.protege.model.ProtegeServerState;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -49,8 +50,8 @@ public class ProtegeServerStateProvider implements Provider<ServerState> {
 				throw new IllegalArgumentException("A host is required to connect to a Protege Server");
 			}
 			else {
-				AuthToken tim = RMILoginUtility.login("localhost", aPort, aUser, aPassword);
-				RMIClient aClient = new RMIClient(tim, "localhost", aPort);
+				AuthToken authToken = RMILoginUtility.login("localhost", aPort, aUser, aPassword);
+				RMIClient aClient = new RMIClient(authToken, "localhost", aPort);
 				aClient.initialise();
 
 				return aClient;

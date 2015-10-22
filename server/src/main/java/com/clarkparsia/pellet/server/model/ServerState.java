@@ -8,6 +8,10 @@
 
 package com.clarkparsia.pellet.server.model;
 
+import java.util.Set;
+
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -15,14 +19,28 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public interface ServerState extends AutoCloseable {
 
-	OntologyState getOntology(IRI ontology);
+	Optional<OntologyState> getOntology(IRI ontology);
+
+	Set<OntologyState> ontologies();
+
+	boolean isEmpty();
 
 	void refresh();
 
 	ServerState EMPTY = new ServerState() {
 		@Override
-		public OntologyState getOntology(final IRI ontology) {
-			return null;
+		public Optional<OntologyState> getOntology(final IRI ontology) {
+			return Optional.absent();
+		}
+
+		@Override
+		public Set<OntologyState> ontologies() {
+			return ImmutableSet.of();
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return true;
 		}
 
 		@Override

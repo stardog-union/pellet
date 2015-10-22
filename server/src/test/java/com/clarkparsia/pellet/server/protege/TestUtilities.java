@@ -1,4 +1,4 @@
-package com.clarkparsia.pellet.server;
+package com.clarkparsia.pellet.server.protege;
 
 import java.io.File;
 import java.io.IOException;

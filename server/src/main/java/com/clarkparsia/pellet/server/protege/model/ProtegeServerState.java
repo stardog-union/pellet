@@ -1,8 +1,7 @@
-package com.clarkparsia.pellet.server.protege;
+package com.clarkparsia.pellet.server.protege.model;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Stack;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,9 +10,12 @@ import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
+import com.clarkparsia.pellet.server.protege.ProtegeOntologyState;
+import com.clarkparsia.pellet.server.protege.ProtegeService;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.client.RemoteServerDirectory;
@@ -52,7 +54,7 @@ public final class ProtegeServerState implements ServerState {
 		try {
 			// scan the protege server to get all the ontologies.
 			RemoteServerDocument rootDir = mClient.getServerDocument(serverRoot);
-			Collection<RemoteOntologyDocument> docs = list(mClient, (RemoteServerDirectory) rootDir);
+			Collection<RemoteOntologyDocument> docs = ProtegeService.list(mClient, (RemoteServerDirectory) rootDir);
 
 			for (RemoteOntologyDocument ontoDoc : docs) {
 				try {
@@ -76,31 +78,28 @@ public final class ProtegeServerState implements ServerState {
 		return ServerStateImpl.create(ontologies.build());
 	}
 
-	public static Collection<RemoteOntologyDocument> list(final Client client,
-	                                                      final RemoteServerDirectory theDir) throws OWLServerException {
-		List<RemoteOntologyDocument> docs = Lists.newLinkedList();
-		Stack<RemoteServerDirectory> dirsToProc = new Stack<RemoteServerDirectory>();
-		dirsToProc.push(theDir);
 
-		while (!dirsToProc.empty()) {
-			for (final RemoteServerDocument doc : client.list(dirsToProc.pop())) {
-				if (doc != null) {
-					if (doc instanceof RemoteOntologyDocument) {
-						docs.add((RemoteOntologyDocument) doc);
-					}
-					else {
-						dirsToProc.push((RemoteServerDirectory) doc);
-					}
-				}
+
+	@Override
+	public Optional<OntologyState> getOntology(final IRI ontology) {
+		for (OntologyState aRemoteOntoState : ontologies()) {
+			ProtegeOntologyState ontoState = (ProtegeOntologyState) aRemoteOntoState;
+			if (ontoState.getRemoteOntologyIRI().equals(ontology)) {
+				return Optional.<OntologyState>of(ontoState);
 			}
 		}
 
-		return docs;
+		return Optional.absent();
 	}
 
 	@Override
-	public OntologyState getOntology(final IRI ontology) {
-		return mServerState.get().getOntology(ontology);
+	public Set<OntologyState> ontologies() {
+		return mServerState.get().ontologies();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return mServerState.get().isEmpty();
 	}
 
 	@Override
@@ -113,6 +112,11 @@ public final class ProtegeServerState implements ServerState {
 		catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Could not refresh Server State from Protege", e);
 		}
+	}
+
+	@VisibleForTesting
+	Client getClient() {
+		return mClient;
 	}
 
 	@Override

@@ -10,11 +10,14 @@ package com.clarkparsia.pellet.server.model.impl;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -35,8 +38,20 @@ public class ServerStateImpl implements ServerState {
 	}
 
 	@Override
-	public OntologyState getOntology(IRI ontology) {
-		return Objects.requireNonNull(ontologies.get().get(ontology), "Ontology not found: " + ontology);
+	public Optional<OntologyState> getOntology(IRI ontology) {
+		return Optional.<OntologyState>of(Objects.requireNonNull(ontologies.get()
+		                                                                   .get(ontology),
+		                                                         "Ontology not found: " + ontology));
+	}
+
+	@Override
+	public Set<OntologyState> ontologies() {
+		return ImmutableSet.copyOf(ontologies.get().values());
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return ontologies.get().isEmpty();
 	}
 
 	@Override
