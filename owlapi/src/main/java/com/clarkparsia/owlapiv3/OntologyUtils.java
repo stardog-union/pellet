@@ -52,7 +52,7 @@ public class OntologyUtils {
 	}
 
 	public static void addAxioms(OWLOntology ontology, OWLAxiom... axioms) {
-		addAxioms( ontology, Arrays.asList( axioms ) );
+		addAxioms(ontology, Arrays.asList(axioms));
 	}
 
 	public static boolean containsClass(Set<Set<OWLClass>> classes, OWLClass cls) {
@@ -97,18 +97,28 @@ public class OntologyUtils {
 	}
 
     /**
-     * Loads the ontology with given URI.
-     * 
-     * @param inputStream input ontology
-     * @return the ontology
+     * Loads the ontology from the given stream
      */
     public static OWLOntology loadOntology( InputStream inputStream ) {
         try {
-            return manager.loadOntologyFromOntologyDocument( inputStream );
+            return manager.loadOntologyFromOntologyDocument(inputStream);
         } catch( OWLOntologyCreationException e ) {
             throw new OWLRuntimeException( e );
         }
     }
+
+	/**
+	 * Loads the axioms from the given stream
+	 */
+	public static Set<OWLAxiom> loadAxioms( InputStream inputStream ) {
+		try {
+			OWLOntology ont = manager.loadOntologyFromOntologyDocument( inputStream );
+			manager.removeOntology(ont);
+			return ont.getAxioms();
+		} catch( OWLOntologyCreationException e ) {
+			throw new OWLRuntimeException( e );
+		}
+	}
 
 	/**
 	 * Loads the ontology with given URI and optionally removes all annotations

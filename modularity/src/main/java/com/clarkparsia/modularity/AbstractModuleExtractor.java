@@ -18,6 +18,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.clarkparsia.owlapiv3.OntologyUtils;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.KnowledgeBase.ChangeType;
 import org.mindswap.pellet.taxonomy.Taxonomy;
@@ -257,7 +258,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		 */
 		if( !add && roots.isEmpty() ) {
 			for( OWLClass unsat : taxonomy.getEquivalents( OWL.Nothing ) ) {
-				Set<OWLEntity> signature = modules.get( unsat );
+				Set<OWLEntity> signature = modules.get(unsat);
 
 				if( (signature != null) && signature.containsAll( getSignature( axiom ) ) )
 					roots.add( unsat );
@@ -294,7 +295,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		OWLEntity entity = node.getName();
 
 		// get the sig for this module
-		Set<OWLEntity> signature = modules.get( entity );
+		Set<OWLEntity> signature = modules.get(entity);
 
 		boolean outdated = false;
 
@@ -341,7 +342,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	}
 
 	public OWLOntology getModule(OWLEntity entity) {
-		return getModuleFromSignature( modules.get( entity ) );
+		return getModuleFromSignature( modules.get(entity) );
 	}
 
 	protected Set<OWLAxiom> getModuleAxioms(Set<OWLEntity> signature) {
@@ -521,7 +522,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		extractModuleSignatures( affected );
 
 		for( OWLEntity entity : affected ) {
-			Set<OWLEntity> module = modules.get( entity );
+			Set<OWLEntity> module = modules.get(entity);
 			if( module == null ) {
 				String msg = "No module for " + entity;
 				log.log( Level.SEVERE,  msg, new RuntimeException( msg ) );
@@ -713,13 +714,11 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		if( !( MODULE_EXTRACTOR_AXIOMS_FILE_NAME.equals( zipEntry.getName() ) ) ) {
 			throw new IllegalArgumentException( String.format( "Unexpected entry (%s) in ZipInputStream. Expected %s", zipEntry.getName(), MODULE_EXTRACTOR_AXIOMS_FILE_NAME ) );
 		}
-		
-		OWLOntology axiomOntology = ModuleExtractorPersistence.loadAxiomOntology( inputStream );
-		
-		Collection<OWLAxiom> axioms = axiomOntology.getAxioms();
+
+		Collection<OWLAxiom> axioms = OntologyUtils.loadAxioms(inputStream);
 		
 		modules = null;
-		additions.addAll( axioms );
+		additions.addAll(axioms);
 		processAdditions();
 		additions.clear();
 		

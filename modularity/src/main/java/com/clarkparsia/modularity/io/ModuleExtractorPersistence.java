@@ -154,29 +154,6 @@ public class ModuleExtractorPersistence {
 		pw.flush();
 	}
 
-	public static OWLOntology loadAxiomOntology( InputStream inputStream )
-	throws IOException {
-		try {
-			return OWL.manager.loadOntologyFromOntologyDocument( inputStream );	
-		} catch( OWLOntologyCreationException e ) {
-			log.log( Level.SEVERE, "Unable to create an ontology", e );
-			throw new IOException( "Unable to create an ontology" );
-		}
-	}	
-
-	
-	/**
-	 * Loads the ontology with axioms (for ModuleExtractor) from an input stream.
-	 *  
-	 * @param inputStream the input stream from which to load the ontology.
-	 * @return the collection of axioms read from the ontology
-	 * @throws IOException if an error should occur during the read operation
-	 */
-	public static Collection<OWLAxiom> loadAxioms( InputStream inputStream )
-			throws IOException {			
-		return loadAxiomOntology( inputStream ).getAxioms();		
-	}	
-	
 	private static OWLEntity createEntity( String type, String entityIRI ) {
 		if ( CLASS_KEYWORD.equals( type ) ) {
 			return OWL.Class( entityIRI );
