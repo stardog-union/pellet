@@ -1,6 +1,8 @@
 package com.clarkparsia.pellet.server.protege;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,10 +51,8 @@ public final class ProtegeServerState implements ServerState {
 
 		try {
 			// scan the protege server to get all the ontologies.
-			List<RemoteOntologyDocument> docs = Lists.newLinkedList();
 			RemoteServerDocument rootDir = mClient.getServerDocument(serverRoot);
-
-			list(mClient, (RemoteServerDirectory) rootDir, docs);
+			Collection<RemoteOntologyDocument> docs = list(mClient, (RemoteServerDirectory) rootDir);
 
 			for (RemoteOntologyDocument ontoDoc : docs) {
 				try {
@@ -76,19 +76,26 @@ public final class ProtegeServerState implements ServerState {
 		return ServerStateImpl.create(ontologies.build());
 	}
 
-	// TODO: change this method to be iterative
-	private void list(final Client client,
-	                  final RemoteServerDirectory theDir,
-	                  final List<RemoteOntologyDocument> theCollector) throws OWLServerException {
-		for (RemoteServerDocument doc : client.list(theDir)) {
-			if (doc instanceof RemoteOntologyDocument) {
-				theCollector.add((RemoteOntologyDocument) doc);
-			}
-			else {
-				// recursive!! -- don't try with a lot of docs.
-				list(client, (RemoteServerDirectory) doc, theCollector);
+	public static Collection<RemoteOntologyDocument> list(final Client client,
+	                                                      final RemoteServerDirectory theDir) throws OWLServerException {
+		List<RemoteOntologyDocument> docs = Lists.newLinkedList();
+		Stack<RemoteServerDirectory> dirsToProc = new Stack<RemoteServerDirectory>();
+		dirsToProc.push(theDir);
+
+		while (!dirsToProc.empty()) {
+			for (final RemoteServerDocument doc : client.list(dirsToProc.pop())) {
+				if (doc != null) {
+					if (doc instanceof RemoteOntologyDocument) {
+						docs.add((RemoteOntologyDocument) doc);
+					}
+					else {
+						dirsToProc.push((RemoteServerDirectory) doc);
+					}
+				}
 			}
 		}
+
+		return docs;
 	}
 
 	@Override

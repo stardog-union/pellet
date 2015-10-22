@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.clarkparsia.owlapiv3.OntologyUtils;
+import com.clarkparsia.pellet.server.protege.ProtegeServerState;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import org.antlr.runtime.RecognitionException;
 
@@ -113,25 +114,9 @@ public class ProtegeServerTest extends TestUtilities {
 		                                                                         .toString()));
 
 		RemoteServerDocument aRoot = client.getServerDocument(root);
-		List<RemoteOntologyDocument> docs = Lists.newLinkedList();
-
-		list(client, (RemoteServerDirectory) aRoot, docs);
+		Collection<RemoteOntologyDocument> docs = ProtegeServerState.list(client, (RemoteServerDirectory) aRoot);
 
 		System.out.println(Joiner.on(",").join(docs));
-	}
-
-	private void list(final Client client,
-	                  final RemoteServerDirectory theDir,
-	                  final List<RemoteOntologyDocument> theCollector) throws OWLServerException {
-		for (RemoteServerDocument doc : client.list(theDir)) {
-			if (doc instanceof RemoteOntologyDocument) {
-				theCollector.add((RemoteOntologyDocument) doc);
-			}
-			else {
-				// recursive!! -- don't try with a lot of docs.
-				list(client, (RemoteServerDirectory) doc, theCollector);
-			}
-		}
 	}
 
 	private void checkClientOk(Client client) throws OWLServerException {
