@@ -12,7 +12,6 @@ import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import org.antlr.runtime.RecognitionException;
 
-import org.junit.Ignore;
 import org.protege.owl.server.api.AuthToken;
 import org.protege.owl.server.api.ChangeMetaData;
 import org.protege.owl.server.api.client.Client;
@@ -93,7 +92,6 @@ public class ProtegeServerTest extends TestUtilities {
 	}
 
 	@Test
-	@Ignore("Possible OWL API conflict")
 	public void traverseFileSystem() throws Exception {
 		Client client = createClient(RMI_PORT, REDMOND);
 
@@ -101,13 +99,17 @@ public class ProtegeServerTest extends TestUtilities {
 		IRI root = IRI.create(client.getScheme() + "://" + client.getAuthority());
 		System.out.println("Root IRI: " + root);
 
-		IRI owl2loc = IRI.create(root.toString(), "/owl2.history");
-
-		//TODO: check this! - there's seems to be an issue with OWL API versions Protege uses 3.5 vs Pellet uses 4.1.0
+		// Needs branch with owlapi 4.1.0 - see: https://github.com/edgarRd/protege-ontology-server/tree/owlapi-4.1.0
 		ClientUtilities.createServerOntology(client,
-		                                     owl2loc,
+		                                     IRI.create(root.toString(), "/owl2.history"),
 		                                     new ChangeMetaData("Initial entry"),
 		                                     OntologyUtils.loadOntology(Resources.getResource("test/data/owl2.owl")
+		                                                                         .toString()));
+
+		ClientUtilities.createServerOntology(client,
+		                                     IRI.create(root.toString(), "/agencies.history"),
+		                                     new ChangeMetaData("Initial entry"),
+		                                     OntologyUtils.loadOntology(Resources.getResource("test/data/agencies.owl")
 		                                                                         .toString()));
 
 		RemoteServerDocument aRoot = client.getServerDocument(root);
@@ -115,7 +117,7 @@ public class ProtegeServerTest extends TestUtilities {
 
 		list(client, (RemoteServerDirectory) aRoot, docs);
 
-		System.out.println(Joiner.on("\n,").join(docs));
+		System.out.println(Joiner.on(",").join(docs));
 	}
 
 	private void list(final Client client,

@@ -3,8 +3,11 @@ package com.clarkparsia.pellet.server;
 import javax.servlet.ServletException;
 
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
+import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.servlets.MessageServlet;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
@@ -31,6 +34,12 @@ public final class PelletServer {
 
 	private Undertow server;
 	private boolean isRunning = false;
+
+	private final Injector serverInjector;
+
+	public PelletServer(final Injector theInjector) {
+		serverInjector = theInjector;
+	}
 
 	public void start() throws ServletException {
 		DeploymentInfo servletBuilder = Servlets.deployment()
@@ -81,7 +90,7 @@ public final class PelletServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		PelletServer aPelletServer = new PelletServer();
+		PelletServer aPelletServer = new PelletServer(Guice.createInjector(new PelletServerModule()));
 
 		System.out.println(String.format("Listening at: http://%s:%s", HOST, PORT));
 		aPelletServer.start();

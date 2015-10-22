@@ -9,6 +9,7 @@ import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import org.protege.owl.server.api.client.Client;
@@ -63,12 +64,13 @@ public final class ProtegeServerState implements ServerState {
 					                                        new OntologyStateImpl(ontology)));
 				}
 				catch (OWLOntologyCreationException e) {
-					LOGGER.log(Level.FINER, "Could not load one or more ontologies from Protege server");
+					LOGGER.log(Level.FINER, "Could not load one or more ontologies from Protege server", e);
 				}
 			}
 		}
 		catch (OWLServerException e) {
-			LOGGER.log(Level.FINER, "Could not capture snapshot of ontologies from Protege server");
+			LOGGER.log(Level.FINER, "Could not capture snapshot of ontologies from Protege server", e);
+			Throwables.propagate(e);
 		}
 
 		return ServerStateImpl.create(ontologies.build());

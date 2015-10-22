@@ -7,5 +7,10 @@ import java.util.Properties;
  */
 public interface Configuration {
 
+	String HOST = "host";
+	String PORT = "port";
+	String USERNAME = "username";
+	String PASSWORD = "password";
+
 	Properties getSettings();
 }

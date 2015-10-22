@@ -3,13 +3,13 @@ package com.clarkparsia.pellet.server.protege;
 import java.util.Properties;
 
 import com.clarkparsia.pellet.server.Configuration;
-import com.clarkparsia.pellet.server.ServerStateFactory;
 import com.clarkparsia.pellet.server.exceptions.ProtegeConnectionException;
-import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import org.protege.owl.server.api.AuthToken;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.connect.rmi.RMIClient;
@@ -18,7 +18,7 @@ import org.protege.owl.server.policy.RMILoginUtility;
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class ProtegeServerStateFactory implements ServerStateFactory {
+public class ProtegeServerStateProvider implements Provider<ServerState> {
 
 	private static String LOCAL_SENTINEL = "local";
 
@@ -29,22 +29,14 @@ public class ProtegeServerStateFactory implements ServerStateFactory {
 
 	private Client mClient;
 
-
 	@Inject
-	public ProtegeServerStateFactory(final Configuration theConfiguration) {
+	public ProtegeServerStateProvider(final Configuration theConfiguration) {
 		Properties aSettings = theConfiguration.getSettings();
 
-		aHost = aSettings.getProperty("host");
-		aPort = Integer.parseInt(aSettings.getProperty("port"));
-		aUser = aSettings.getProperty("username");
-		aPassword = aSettings.getProperty("password");
-	}
-
-	@Override
-	public ServerState getInstance() throws ServerException {
-		mClient = connectToProtege();
-
-		return new ProtegeServerState(mClient);
+		aHost = aSettings.getProperty(Configuration.HOST);
+		aPort = Integer.parseInt(aSettings.getProperty(Configuration.PORT));
+		aUser = aSettings.getProperty(Configuration.USERNAME);
+		aPassword = aSettings.getProperty(Configuration.PASSWORD);
 	}
 
 	private Client connectToProtege() throws ProtegeConnectionException {
@@ -67,5 +59,17 @@ public class ProtegeServerStateFactory implements ServerStateFactory {
 		catch (Exception e) {
 			throw new ProtegeConnectionException("Could not connect to Protege Server", e);
 		}
+	}
+
+	@Override
+	public ServerState get() {
+		try {
+			mClient = connectToProtege();
+		}
+		catch (ProtegeConnectionException e) {
+			Throwables.propagate(e);
+		}
+
+		return new ProtegeServerState(mClient);
 	}
 }
