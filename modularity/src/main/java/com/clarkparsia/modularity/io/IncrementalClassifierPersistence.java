@@ -127,10 +127,6 @@ public class IncrementalClassifierPersistence {
 				
 		IncrementalClassifier.PersistedState persistedState = new IncrementalClassifier.PersistedState( extractor, taxonomy, realized );
 		
-		if( loadedOntology !=null ) {
-			return new IncrementalClassifier( persistedState, loadedOntology );
-		} else {
-			return new IncrementalClassifier( persistedState );
-		}
+		return new IncrementalClassifier( persistedState, loadedOntology );
 	}
 }

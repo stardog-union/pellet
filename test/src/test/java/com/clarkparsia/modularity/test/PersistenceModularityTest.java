@@ -12,11 +12,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Set;
 
 import com.google.common.base.Supplier;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mindswap.pellet.utils.MultiValueMap;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 
@@ -56,32 +58,34 @@ public class PersistenceModularityTest extends AbstractModularityTest {
 		File testFile = new File( TEST_FILE );
 		ModuleExtractor moduleExtractor = createModuleExtractor();
 		
-		IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, moduleExtractor );	
-		modular.classify();
-		
-		MultiValueMap<OWLEntity, OWLEntity> expectedModules = modular.getModules();
-			
-		FileOutputStream fos = new FileOutputStream( testFile );
-	
-		IncrementalClassifierPersistence.save( modular, fos );
-		
-		fos.close();
-		
-		modular.dispose();
-		
-		FileInputStream fis = new FileInputStream( testFile );
-	
-		modular = IncrementalClassifierPersistence.load( fis );
-		
-		fis.close();
-		
-		modular.dispose();
+		IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(ontology, moduleExtractor);
+		IncrementalClassifier restored;
 
-		MultiValueMap<OWLEntity, OWLEntity> actualModules = modular.getModules();
-		
-		Assert.assertEquals( expectedModules, actualModules );
-		
-		assertTrue( testFile.delete() );
+		FileOutputStream fos = new FileOutputStream( testFile );
+
+		FileInputStream fis = new FileInputStream( testFile );
+
+		try {
+			modular.classify();
+
+			IncrementalClassifierPersistence.save(modular, fos);
+
+			restored = IncrementalClassifierPersistence.load( fis );
+
+			for (OWLClass cls : ontology.getClassesInSignature()) {
+				Set<OWLEntity> expectedModules = modular.getModuleExtractor().getModuleEntities(cls);
+				Set<OWLEntity> actualModules = restored.getModuleExtractor().getModuleEntities(cls);
+
+				Assert.assertEquals(cls.toString(), expectedModules, actualModules );
+			}
+		}
+		finally {
+			fos.close();
+			fis.close();
+			modular.dispose();
+			assertTrue(testFile.delete());
+		}
+
 	}
 	
 	private void testPersistence( String file ) throws IOException {

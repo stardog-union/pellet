@@ -181,7 +181,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	 * 
 	 * @return
 	 */
-	public MultiValueMap<OWLEntity, OWLEntity> extractModules() {
+	public void extractModules() {
 		Timer timer = timers.startTimer( "extractModules" );
 
 		// cache the axiom signatures
@@ -199,8 +199,6 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		extractModuleSignatures(entityAxioms.keySet());
 
 		timer.stop();
-
-		return modules;
 	}
 
 	/**
@@ -257,10 +255,10 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		 * unsatisfiable
 		 */
 		if( !add && roots.isEmpty() ) {
-			for( OWLClass unsat : taxonomy.getEquivalents( OWL.Nothing ) ) {
+			for( OWLClass unsat : taxonomy.getEquivalents(OWL.Nothing) ) {
 				Set<OWLEntity> signature = modules.get(unsat);
 
-				if( (signature != null) && signature.containsAll( getSignature( axiom ) ) )
+				if( (signature != null) && signature.containsAll(axiom.getSignature()) )
 					roots.add( unsat );
 			}
 		}
@@ -311,7 +309,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		}
 		else {
 			// only affected if sig of axiom is contained in sig of module
-			outdated = signature.containsAll( getSignature( axiom ) );
+			outdated = signature.containsAll(axiom.getSignature());
 		}
 
 		// if outdated add to effected set
@@ -341,8 +339,9 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		return axioms;
 	}
 
-	public OWLOntology getModule(OWLEntity entity) {
-		return getModuleFromSignature( modules.get(entity) );
+	@Override
+	public Set<OWLEntity> getModuleEntities(OWLEntity entity) {
+		return modules.get(entity);
 	}
 
 	protected Set<OWLAxiom> getModuleAxioms(Set<OWLEntity> signature) {
@@ -406,16 +405,6 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	}
 
 	/**
-	 * Get the entities referenced in this axiom
-	 * 
-	 * @param axiom
-	 * @return
-	 */
-	protected Set<OWLEntity> getSignature(OWLAxiom axiom) {
-		return axiom.getSignature();
-	}
-
-	/**
 	 * Checks if axioms have been added/removed and modules need to be updated
 	 * 
 	 * @return <code>true</code> if axioms have been added/removed
@@ -426,12 +415,6 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 
 	protected boolean isLocal(OWLAxiom axiom, Set<OWLEntity> signature) {
 		return localityEvaluator.isLocal( axiom, signature );
-	}
-
-	@Override
-	public void addAxioms(Iterable<OWLAxiom> axioms) {
-		for( OWLAxiom axiom : axioms )
-			addAxiom( axiom );
 	}
 
 	private void processAdditions() {

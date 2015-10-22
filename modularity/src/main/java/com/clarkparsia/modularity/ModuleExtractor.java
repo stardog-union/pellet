@@ -11,16 +11,14 @@ import java.util.Set;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.clarkparsia.pellet.expressivity.Expressivity;
 import org.mindswap.pellet.taxonomy.Taxonomy;
-import org.mindswap.pellet.utils.MultiValueMap;
 import org.mindswap.pellet.utils.Timers;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
-
-import com.clarkparsia.pellet.expressivity.Expressivity;
 
 /**
  * <p>
@@ -45,11 +43,6 @@ public interface ModuleExtractor {
 	public void addAxiom(OWLAxiom axiom);
 
 	/**
-	 * Adds all the axioms to the extractor.
-	 */
-	public void addAxioms(Iterable<OWLAxiom> axioms);
-
-	/**
 	 * Returns if the extracted modules can be updated. Returns false if the
 	 * initial module extraction has not been performed yet.
 	 * 
@@ -69,9 +62,7 @@ public interface ModuleExtractor {
 	 * 
 	 * @return
 	 */
-	public MultiValueMap<OWLEntity, OWLEntity> extractModules();
-	
-	public MultiValueMap<OWLEntity, OWLEntity> getModules();
+	public void extractModules();
 
 	/**
 	 * Returns all the axioms loaded in the extractor.
@@ -95,7 +86,7 @@ public interface ModuleExtractor {
 	 */
 	public Set<OWLEntity> getEntities();
 
-	public OWLOntology getModule(OWLEntity entity);
+	public Set<OWLEntity> getModuleEntities(OWLEntity entity);
 
 	/**
 	 * Returns a new ontology that contains the axioms that are in the module

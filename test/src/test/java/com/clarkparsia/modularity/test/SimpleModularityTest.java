@@ -6,22 +6,18 @@
 
 package com.clarkparsia.modularity.test;
 
-import java.util.Arrays;
+import com.clarkparsia.modularity.ModuleExtractor;
+import com.google.common.base.Supplier;
+import org.junit.Test;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLException;
 
 import static com.clarkparsia.owlapiv3.OWL.all;
 import static com.clarkparsia.owlapiv3.OWL.and;
 import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
 import static com.clarkparsia.owlapiv3.OWL.or;
 import static com.clarkparsia.owlapiv3.OWL.some;
-
-import com.google.common.base.Supplier;
-import org.junit.Test;
-import org.mindswap.pellet.utils.MultiValueMap;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLException;
-
-import com.clarkparsia.modularity.ModuleExtractor;
 
 /**
  * <p>
@@ -40,8 +36,6 @@ import com.clarkparsia.modularity.ModuleExtractor;
  * @author Evren Sirin
  */
 public class SimpleModularityTest extends AbstractModularityTest {
-	private MultiValueMap<OWLEntity, OWLEntity>	modules;
-
 	public SimpleModularityTest(final Supplier<ModuleExtractor> theModExtractorSupplier) {
 		super(theModExtractorSupplier);
 	}
@@ -54,9 +48,11 @@ public class SimpleModularityTest extends AbstractModularityTest {
 	 * @throws OWLException if ontology cannot be created
 	 */
 	private void extractModules(OWLAxiom[] axioms) throws OWLException {
-		modExtractor.addAxioms(Arrays.asList(axioms));
+		for (OWLAxiom axiom : axioms) {
+			modExtractor.addAxiom(axiom);
+		}
 
-		modules = modExtractor.extractModules();
+		modExtractor.extractModules();
 	}
 
 	/**
@@ -67,7 +63,7 @@ public class SimpleModularityTest extends AbstractModularityTest {
 	 * @param expectedModule expected elements in the module
 	 */
 	private void testModule(OWLEntity entity, OWLEntity... expectedModule) {
-		OWLEntity[] computedModule = modules.get(entity).toArray(new OWLEntity[0]);
+		OWLEntity[] computedModule = modExtractor.getModuleEntities(entity).toArray(new OWLEntity[0]);
 
 		String msg = "Extractor " + modExtractor.getClass().getSimpleName() + " failed for " + entity;
 		TestUtils.assertToStringEquals( msg, expectedModule, computedModule );

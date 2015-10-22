@@ -14,17 +14,15 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
+import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
+import com.clarkparsia.owlapiv3.OntologyUtils;
 import org.mindswap.pellet.utils.DisjointSet;
 import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
-
-import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
-import com.clarkparsia.owlapi.modularity.locality.LocalityEvaluator;
-import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 
 /**
  * <p>
@@ -44,8 +42,8 @@ import com.clarkparsia.owlapiv3.OntologyUtils;
  */
 public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 	public static final Logger					log							= Logger
-																					.getLogger( AxiomBasedModuleExtractor.class
-																							.getName() );
+																					.getLogger(AxiomBasedModuleExtractor.class
+																						           .getName());
 	
 	private boolean optimizeForSharedModules = true;
 	
@@ -55,10 +53,6 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 		
 	public AxiomBasedModuleExtractor(LocalityClass localityClass) {
 		super( new SyntacticLocalityEvaluator( localityClass ) );
-	}
-		
-	public AxiomBasedModuleExtractor(LocalityEvaluator localityEvaluator) {
-		super( localityEvaluator );
 	}
 
 	private OWLEntity extractModuleSignature(OWLEntity entity, Set<OWLEntity> stackElements,
@@ -96,7 +90,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 				for( OWLEntity e : addedEntities ) {
 					for( OWLAxiom a : getAxioms( e ) ) {
 						if( testLocal.add( a ) && !isLocal( a, module ) ) {
-							for( OWLEntity ent : getSignature( a ) ) {
+							for( OWLEntity ent : a.getSignature()) {
 								if( module.add( ent ) )
 									newMembers.add( ent );
 							}
@@ -205,7 +199,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 				for( OWLEntity e : addedEntities ) {
 					for( OWLAxiom a : getAxioms( e ) ) {
 						if( testLocal.add( a ) && !isLocal( a, module ) ) {
-							for( OWLEntity ent : getSignature( a ) ) {
+							for( OWLEntity ent : a.getSignature()) {
 								if( module.add( ent ) )
 									newMembers.add( ent );
 							}
