@@ -66,12 +66,12 @@ public class DeltaSet<T> extends AbstractSet<T> {
 
 	@Override
 	public boolean add(final T e) {
-		return (removals.remove(e) || !base.contains(e)) && additions.add(e);
+		return removals.remove(e) || (!base.contains(e) && additions.add(e));
 	}
 
 	@Override
 	public boolean remove(final Object e) {
-		return (additions.remove(e) || base.contains(e)) && removals.add((T) e);
+		return additions.remove(e) || (base.contains(e) && removals.add((T) e));
 	}
 
 	@Override
@@ -91,6 +91,6 @@ public class DeltaSet<T> extends AbstractSet<T> {
 
 	@Override
 	public int size() {
-		return additions.size() + (base == null ? 0 : (base.size() - removals.size()));
+		return base.size() + additions.size() - removals.size();
 	}
 }
