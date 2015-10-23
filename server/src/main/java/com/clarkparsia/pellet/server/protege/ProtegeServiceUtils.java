@@ -14,9 +14,9 @@ import org.protege.owl.server.api.exception.OWLServerException;
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public final class ProtegeService {
+public final class ProtegeServiceUtils {
 
-	private ProtegeService() {
+	private ProtegeServiceUtils() {
 		throw new IllegalStateException("Can't be instantiated!");
 	}
 

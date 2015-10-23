@@ -6,7 +6,7 @@
 // proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 
-package com.complexible.pellet.client.reasoner;
+package com.complexible.pellet.service;
 
 /**
  * Enumeration of query types for schema reasoner.

@@ -6,7 +6,7 @@
 // proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 
-package com.complexible.pellet.client.reasoner;
+package com.complexible.pellet.service.reasoner;
 
 import java.util.Map;
 
@@ -20,6 +20,8 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+
+import static com.complexible.pellet.service.reasoner.SchemaReasoner.QueryType;
 
 /**
  * @author Evren Sirin
@@ -36,25 +38,25 @@ public class SchemaReasonerUtil {
      * Execute a schema query using an OWLReasoner instance.
      *
      * @param reasoner
-     * @param query
+     * @param theQueryType
      * @param input
      * @param <T>
      * @return
      */
-    public static <T extends OWLObject> NodeSet<T> query(OWLReasoner reasoner, SchemaQuery query, OWLLogicalEntity input) {
+    public static <T extends OWLObject> NodeSet<T> query(OWLReasoner reasoner, QueryType theQueryType, OWLLogicalEntity input) {
         EntityQueryEvaluator evaluator = QUERY_EVALUATORS.get(input.getEntityType());
-        return (NodeSet) evaluator.query(reasoner, query, input);
+        return (NodeSet) evaluator.query(reasoner, theQueryType, input);
     }
 
     private interface EntityQueryEvaluator {
-        NodeSet<?> query(OWLReasoner reasoner, SchemaQuery query, OWLLogicalEntity input);
+        NodeSet<?> query(OWLReasoner reasoner, QueryType theQueryType, OWLLogicalEntity input);
     }
 
     private static class ClassQueryEvaluator implements EntityQueryEvaluator {
         @Override
-        public NodeSet<OWLClass> query(final OWLReasoner reasoner, final SchemaQuery query, final OWLLogicalEntity input) {
+        public NodeSet<OWLClass> query(final OWLReasoner reasoner, final QueryType theQueryType, final OWLLogicalEntity input) {
             OWLClass cls = (OWLClass) input;
-            switch (query) {
+            switch (theQueryType) {
                 case EQUIVALENT: return ImmutableNodeSet.of(reasoner.getEquivalentClasses(cls));
                 case CHILD: return reasoner.getSubClasses(cls, true);
                 case DESCENDANT: return reasoner.getSubClasses(cls, false);
@@ -68,9 +70,9 @@ public class SchemaReasonerUtil {
 
     private static class ObjectPropertyQueryEvaluator implements EntityQueryEvaluator {
         @Override
-        public NodeSet<?> query(final OWLReasoner reasoner, final SchemaQuery query, final OWLLogicalEntity input) {
+        public NodeSet<?> query(final OWLReasoner reasoner, final QueryType theQueryType, final OWLLogicalEntity input) {
             OWLObjectProperty pe = (OWLObjectProperty) input;
-            switch (query) {
+            switch (theQueryType) {
                 case EQUIVALENT: return ImmutableNodeSet.of(reasoner.getEquivalentObjectProperties(pe));
                 case CHILD: return reasoner.getSubObjectProperties(pe, true);
                 case DESCENDANT: return reasoner.getSubObjectProperties(pe, false);
@@ -87,9 +89,9 @@ public class SchemaReasonerUtil {
 
     private static class DataPropertyQueryEvaluator implements EntityQueryEvaluator {
         @Override
-        public NodeSet<?> query(final OWLReasoner reasoner, final SchemaQuery query, final OWLLogicalEntity input) {
+        public NodeSet<?> query(final OWLReasoner reasoner, final QueryType theQueryType, final OWLLogicalEntity input) {
             OWLDataProperty pe = (OWLDataProperty) input;
-            switch (query) {
+            switch (theQueryType) {
                 case EQUIVALENT: return ImmutableNodeSet.of(reasoner.getEquivalentDataProperties(pe));
                 case CHILD: return reasoner.getSubDataProperties(pe, true);
                 case DESCENDANT: return reasoner.getSubDataProperties(pe, false);

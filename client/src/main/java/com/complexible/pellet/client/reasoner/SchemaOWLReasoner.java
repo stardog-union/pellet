@@ -17,6 +17,7 @@ import javax.annotation.Nullable;
 
 import com.clarkparsia.owlapiv3.BufferingOntologyChangeListener;
 import com.clarkparsia.owlapiv3.OWL;
+import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -50,6 +51,8 @@ import org.semanticweb.owlapi.reasoner.ReasonerInterruptedException;
 import org.semanticweb.owlapi.reasoner.TimeOutException;
 import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
 import org.semanticweb.owlapi.util.Version;
+
+import static com.complexible.pellet.service.reasoner.SchemaReasoner.QueryType;
 
 /**
  * Implementation of {@link OWLReasoner} interface backed by a {@link SchemaReasoner}.
@@ -85,8 +88,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		return !changeListener.isChanged();
 	}
 
-	private <O extends OWLObject, T extends OWLEntity> Node<O> executeSingletonQuery(SchemaQuery query, OWLLogicalEntity input) {
-		NodeSet<O> result = executeQuery(query, input);
+	private <O extends OWLObject, T extends OWLEntity> Node<O> executeSingletonQuery(QueryType theQueryType, OWLLogicalEntity input) {
+		NodeSet<O> result = executeQuery(theQueryType, input);
 		if (!result.isSingleton()) {
 			throw new IllegalArgumentException("A singleton result expected");
 		}
@@ -94,8 +97,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		return Iterables.getOnlyElement(result);
 	}
 
-	private <O extends OWLObject> NodeSet<O> executeQuery(SchemaQuery query, OWLLogicalEntity input) {
-		return client.query(query, input);
+	private <O extends OWLObject> NodeSet<O> executeQuery(QueryType theQueryType, OWLLogicalEntity input) {
+		return client.query(theQueryType, input);
 	}
 
 	/**
@@ -126,7 +129,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public Node<OWLClass> getEquivalentClasses(OWLClassExpression clsC) {
 		flush();
 
-		return executeSingletonQuery(SchemaQuery.EQUIVALENT, requireNamedObject(clsC));
+		return executeSingletonQuery(QueryType.EQUIVALENT, requireNamedObject(clsC));
 	}
 
 	@Override
@@ -134,8 +137,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		flush();
 
 		return executeQuery(direct
-		                    ? SchemaQuery.CHILD
-		                    : SchemaQuery.PARENT, requireNamedObject(ce));
+		                    ? QueryType.CHILD
+		                    : QueryType.PARENT, requireNamedObject(ce));
 	}
 
 	@Override
@@ -184,7 +187,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeQuery(SchemaQuery.DOMAIN, pe);
+		return executeQuery(QueryType.DOMAIN, pe);
 	}
 
 	/**
@@ -236,7 +239,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {		
 		flush();
 
-		return executeQuery(SchemaQuery.DISJOINT, requireNamedObject(pe));
+		return executeQuery(QueryType.DISJOINT, requireNamedObject(pe));
 	}
 
 	/**
@@ -247,7 +250,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeSingletonQuery(SchemaQuery.EQUIVALENT, pe);
+		return executeSingletonQuery(QueryType.EQUIVALENT, pe);
 	}
 
 	/**
@@ -258,7 +261,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return (Node) executeSingletonQuery(SchemaQuery.EQUIVALENT, requireNamedObject(pe));
+		return (Node) executeSingletonQuery(QueryType.EQUIVALENT, requireNamedObject(pe));
 	}
 
 	/**
@@ -298,7 +301,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeSingletonQuery(SchemaQuery.INVERSE, requireNamedObject(pe));
+		return executeSingletonQuery(QueryType.INVERSE, requireNamedObject(pe));
 	}
 
 	/**
@@ -310,7 +313,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeQuery(SchemaQuery.DOMAIN, requireNamedObject(pe));
+		return executeQuery(QueryType.DOMAIN, requireNamedObject(pe));
 	}
 
 	/**
@@ -322,7 +325,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeQuery(SchemaQuery.RANGE, requireNamedObject(pe));
+		return executeQuery(QueryType.RANGE, requireNamedObject(pe));
 	}
 
 	/**
@@ -405,8 +408,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeQuery(direct ? SchemaQuery.CHILD
-		                           : SchemaQuery.DESCENDANT, pe);
+		return executeQuery(direct ? QueryType.CHILD
+		                           : QueryType.DESCENDANT, pe);
 	}
 
 	/**
@@ -417,8 +420,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	                                                                                          ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeQuery(direct ? SchemaQuery.CHILD
-		                           : SchemaQuery.DESCENDANT, requireNamedObject(pe));
+		return executeQuery(direct ? QueryType.CHILD
+		                           : QueryType.DESCENDANT, requireNamedObject(pe));
 	}
 
 	/**
@@ -429,8 +432,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       FreshEntitiesException, ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeQuery(direct ? SchemaQuery.PARENT
-		                           : SchemaQuery.ANCESTOR, requireNamedObject(ce));
+		return executeQuery(direct ? QueryType.PARENT
+		                           : QueryType.ANCESTOR, requireNamedObject(ce));
 	}
 
 	/**
@@ -441,8 +444,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeQuery(direct ? SchemaQuery.PARENT
-		                           : SchemaQuery.ANCESTOR, requireNamedObject(pe));
+		return executeQuery(direct ? QueryType.PARENT
+		                           : QueryType.ANCESTOR, requireNamedObject(pe));
 	}
 
 	/**
@@ -453,8 +456,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	                                                                                            ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		return executeQuery(direct ? SchemaQuery.PARENT
-		                           : SchemaQuery.ANCESTOR, requireNamedObject(pe));
+		return executeQuery(direct ? QueryType.PARENT
+		                           : QueryType.ANCESTOR, requireNamedObject(pe));
 	}
 
 	/**

@@ -102,8 +102,8 @@ public class PersistenceExample {
 			restoredClassifier = IncrementalReasoner.config().file(new File(persistenceFile)).createIncrementalReasoner(ontology);
 
 			System.out.println( "done." );
-		} catch( IOException e ) {
-			System.out.println( "I/O Error occurred while reading the current state of the incremental classifier: " + e );
+		} catch( Exception e ) {
+			System.out.println( "An Error occurred while reading the current state of the incremental classifier: " + e );
 			System.exit(1);			
 		}
 		

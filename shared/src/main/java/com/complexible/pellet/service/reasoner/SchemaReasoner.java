@@ -6,7 +6,7 @@
 // proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 
-package com.complexible.pellet.client.reasoner;
+package com.complexible.pellet.service.reasoner;
 
 import java.util.Set;
 
@@ -21,15 +21,68 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
  * @author Evren Sirin
  */
 public interface SchemaReasoner extends AutoCloseable {
+
+	/**
+	 * Enumeration of query types for schema reasoner.
+	 *
+	 * @author Evren Sirin
+	 */
+	enum QueryType {
+		/**
+		 * Query to get equivalents (equivalent class, equivalent property)
+		 */
+		EQUIVALENT,
+
+		/**
+		 * Query to get children in the hierarchy (direct subclass, direct subproperty)
+		 */
+		CHILD,
+
+		/**
+		 * Query to get parents in the hierarchy (direct superclass, direct superproperty)
+		 */
+		PARENT,
+
+		/**
+		 * Query to get descendants in the hierarchy (all subclass, all subproperty)
+		 */
+		DESCENDANT,
+
+		/**
+		 * Query to get ancestors in the hierarchy (all superclass, all superproperty)
+		 */
+		ANCESTOR,
+
+		/**
+		 * Query to get disjoints (disjoint class, disjoint property)
+		 */
+		DISJOINT,
+
+		/**
+		 * Query to get inverse properties
+		 */
+		INVERSE,
+
+		/**
+		 * Query to get property domains
+		 */
+		DOMAIN,
+
+		/**
+		 * Query to get property ranges
+		 */
+		RANGE
+	}
+
 	/**
 	 * Execute a schema query.
 	 *
-	 * @param query schema query
+	 * @param theQueryType schema query
 	 * @param input input entity
 	 * @param <T> type of return entities
 	 * @return queyr result
 	 */
-	<T extends OWLObject> NodeSet<T> query(SchemaQuery query, OWLLogicalEntity input);
+	<T extends OWLObject> NodeSet<T> query(QueryType theQueryType, OWLLogicalEntity input);
 
 	/**
 	 * Return the explanations for the given axiom.

@@ -46,7 +46,7 @@ public class MiscTest extends ProtegeServerTest {
 
 		IRI root = root(client);
 		RemoteServerDocument aRoot = client.getServerDocument(root);
-		Collection<RemoteOntologyDocument> docs = ProtegeService.list(client, (RemoteServerDirectory) aRoot);
+		Collection<RemoteOntologyDocument> docs = ProtegeServiceUtils.list(client, (RemoteServerDirectory) aRoot);
 
 		System.out.println(Joiner.on(",").join(docs));
 	}

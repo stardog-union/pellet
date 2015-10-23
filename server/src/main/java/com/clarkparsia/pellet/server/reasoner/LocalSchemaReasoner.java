@@ -6,7 +6,7 @@
 // proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 
-package com.complexible.pellet.client.reasoner;
+package com.clarkparsia.pellet.server.reasoner;
 
 import java.util.Set;
 
@@ -18,6 +18,8 @@ import com.clarkparsia.owlapi.explanation.MultipleExplanationGenerator;
 import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.complexible.pellet.service.reasoner.SchemaReasoner;
+import com.complexible.pellet.service.reasoner.SchemaReasonerUtil;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
@@ -56,8 +58,8 @@ public class LocalSchemaReasoner implements SchemaReasoner {
 
 
 	@Override
-	public <T extends OWLObject> NodeSet<T> query(final SchemaQuery query, final OWLLogicalEntity input) {
-		return SchemaReasonerUtil.query(reasoner, query, input);
+	public <T extends OWLObject> NodeSet<T> query(final QueryType theQueryType, final OWLLogicalEntity input) {
+		return SchemaReasonerUtil.query(reasoner, theQueryType, input);
 	}
 
 

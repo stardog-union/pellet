@@ -1,4 +1,4 @@
-package com.complexible.pellet.service;
+package com.complexible.pellet.service.messages;
 
 /**
  * Generic simple JSON message.

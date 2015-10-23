@@ -11,7 +11,7 @@ import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeOntologyState;
-import com.clarkparsia.pellet.server.protege.ProtegeService;
+import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
@@ -54,7 +54,7 @@ public final class ProtegeServerState implements ServerState {
 		try {
 			// scan the protege server to get all the ontologies.
 			RemoteServerDocument rootDir = mClient.getServerDocument(serverRoot);
-			Collection<RemoteOntologyDocument> docs = ProtegeService.list(mClient, (RemoteServerDirectory) rootDir);
+			Collection<RemoteOntologyDocument> docs = ProtegeServiceUtils.list(mClient, (RemoteServerDirectory) rootDir);
 
 			for (RemoteOntologyDocument ontoDoc : docs) {
 				try {

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.complexible.pellet.service.GenericJsonMessage;
+import com.complexible.pellet.service.messages.GenericJsonMessage;
 
 /**
  * @author Edgar Rodriguez-Diaz

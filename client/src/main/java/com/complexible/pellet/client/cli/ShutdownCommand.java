@@ -3,10 +3,10 @@ package com.complexible.pellet.client.cli;
 import java.io.IOException;
 
 import com.complexible.pellet.client.api.PelletService;
-import com.complexible.pellet.service.GenericJsonMessage;
+import com.complexible.pellet.service.messages.GenericJsonMessage;
 import com.google.common.base.Throwables;
 import com.google.inject.Inject;
-import io.airlift.command.Command;
+import io.airlift.airline.Command;
 
 /**
  * @author Edgar Rodriguez-Diaz

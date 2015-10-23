@@ -1,8 +1,8 @@
 package com.complexible.pellet.client.cli;
 
 import com.complexible.pellet.client.api.PelletService;
-import io.airlift.command.Option;
-import io.airlift.command.OptionType;
+import io.airlift.airline.Option;
+import io.airlift.airline.OptionType;
 
 /**
  * @author Edgar Rodriguez-Diaz
