@@ -1,9 +1,11 @@
 package com.clarkparsia.pellet.server;
 
+import java.io.File;
+
 import javax.servlet.ServletException;
 
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
-import com.clarkparsia.pellet.server.model.ServerState;
+import com.clarkparsia.pellet.server.protege.ProtegeServerConfiguration;
 import com.clarkparsia.pellet.server.servlets.MessageServlet;
 
 import com.google.inject.Guice;
@@ -67,7 +69,7 @@ public final class PelletServer {
 		GracefulShutdownHandler aShutdownHandler = Handlers.gracefulShutdown(aExceptionHandler);
 
 		// add shutdown path
-		path.addExactPath("/shutdown", ServerShutdownHandler.newInstance(this, aShutdownHandler));
+		path.addExactPath("/admin/shutdown", ServerShutdownHandler.newInstance(this, aShutdownHandler));
 
 		server = Undertow.builder()
 		                 .addHttpListener(8080, "localhost")
@@ -90,7 +92,11 @@ public final class PelletServer {
 	}
 
 	public static void main(String[] args) throws Exception {
-		PelletServer aPelletServer = new PelletServer(Guice.createInjector(new PelletServerModule()));
+		Environment.assertHome();
+
+		File aConfigFile = new File(Environment.getHome() + File.separator + Configuration.FILENAME);
+		Configuration aConfig = new ProtegeServerConfiguration(aConfigFile);
+		PelletServer aPelletServer = new PelletServer(Guice.createInjector(new PelletServerModule(aConfig)));
 
 		System.out.println(String.format("Listening at: http://%s:%s", HOST, PORT));
 		aPelletServer.start();
