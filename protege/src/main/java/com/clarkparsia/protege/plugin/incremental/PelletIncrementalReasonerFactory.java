@@ -12,7 +12,7 @@ import org.protege.editor.owl.model.inference.AbstractProtegeOWLReasonerInfo;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
-import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
 
 /**
  * @author Evren Sirin
@@ -22,7 +22,7 @@ public class PelletIncrementalReasonerFactory extends AbstractProtegeOWLReasoner
      * {@inheritDoc}
      */
     public OWLReasonerFactory getReasonerFactory() {
-	    return PelletIncremantalReasonerFactory.getInstance();
+	    return IncremantalReasonerFactory.getInstance();
     }
 
 

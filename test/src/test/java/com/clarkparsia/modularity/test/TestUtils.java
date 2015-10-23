@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
 
+import com.clarkparsia.modularity.IncrementalReasonerConfiguration;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Comparators;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -34,9 +35,9 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-import com.clarkparsia.modularity.IncrementalClassifier;
+import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.modularity.ModuleExtractor;
-import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
@@ -196,7 +197,7 @@ public class TestUtils {
 	public static void assertClassificationEquals(OWLReasoner expected, OWLReasoner actual) {
 //		assertClassificationEquals( expected, actual, OWL.Nothing );
 		
-		for( OWLClass cls : actual.getRootOntology().getClassesInSignature() ) {
+		for( OWLClass cls : expected.getRootOntology().getClassesInSignature() ) {
 			assertClassificationEquals( expected, actual, cls );
 		}
 	}
@@ -312,7 +313,7 @@ public class TestUtils {
 	
 	private static void runComparisonTest(OWLOntology ontology, ModuleExtractor modExtractor, ReasonerComparisonMethod comparisonMethod) {
 		PelletReasoner unified = PelletReasonerFactory.getInstance().createNonBufferingReasoner( ontology );
-		IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, modExtractor );
+		IncrementalReasoner modular = IncremantalReasonerFactory.getInstance().createReasoner( ontology, new IncrementalReasonerConfiguration().extractor(modExtractor));
 		
 		PelletOptions.USE_CLASSIFICATION_MONITOR = PelletOptions.MonitorType.CONSOLE;
 		modular.classify();
@@ -326,7 +327,7 @@ public class TestUtils {
 	private static void runComparisonUpdateTest(OWLOntology ontology, ModuleExtractor modExtractor, 
 			Collection<OWLAxiom> additions, Collection<OWLAxiom> deletions, ReasonerComparisonMethod comparisonMethod) {
 		PelletReasoner unified = PelletReasonerFactory.getInstance().createNonBufferingReasoner( ontology );
-		IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, modExtractor );
+		IncrementalReasoner modular = IncremantalReasonerFactory.getInstance().createReasoner( ontology, new IncrementalReasonerConfiguration().extractor(modExtractor));
 
 		PelletOptions.USE_CLASSIFICATION_MONITOR = PelletOptions.MonitorType.CONSOLE;
 		modular.classify();

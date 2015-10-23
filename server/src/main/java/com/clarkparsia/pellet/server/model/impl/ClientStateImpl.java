@@ -10,7 +10,7 @@ package com.clarkparsia.pellet.server.model.impl;
 
 import java.util.List;
 
-import com.clarkparsia.modularity.IncrementalClassifier;
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.pellet.server.model.ClientState;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -26,7 +26,7 @@ public class ClientStateImpl implements ClientState {
 
 	public ClientStateImpl(final OWLOntology theOntology) {
 		ontology = theOntology;
-		reasoner = new IncrementalClassifier(ontology);
+		reasoner = IncremantalReasonerFactory.getInstance().createReasoner(ontology);
 	}
 
 	@Override

@@ -10,14 +10,13 @@ package com.complexible.pellet.client.reasoner;
 
 import java.util.Set;
 
-import com.clarkparsia.modularity.IncrementalClassifier;
+import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.owlapi.explanation.GlassBoxExplanation;
 import com.clarkparsia.owlapi.explanation.HSTExplanationGenerator;
 import com.clarkparsia.owlapi.explanation.MultipleExplanationGenerator;
 import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
 import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerConfiguration;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -33,7 +32,7 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 public class LocalSchemaReasoner implements SchemaReasoner {
 	private OWLOntologyManager manager;
 
-	private IncrementalClassifier reasoner;
+	private IncrementalReasoner reasoner;
 
 	private SatisfiabilityConverter converter;
 
@@ -42,18 +41,16 @@ public class LocalSchemaReasoner implements SchemaReasoner {
 	private MultipleExplanationGenerator multipleExpGen;
 
 	public LocalSchemaReasoner(final OWLOntology ont) {
-		PelletReasoner pellet = new PelletReasoner(ont, new PelletReasonerConfiguration());
+		manager = ont.getOWLOntologyManager();
 
-		manager = pellet.getRootOntology().getOWLOntologyManager();
-
-		reasoner = new IncrementalClassifier(pellet);
+		reasoner = IncremantalReasonerFactory.getInstance().createReasoner(ont);
 		// explanation generator makes changes to the ontology that would cause us to lose the current state
 		// so we disable change tracking
 		manager.removeOntologyChangeListener(reasoner);
 
 		converter = new SatisfiabilityConverter(manager.getOWLDataFactory());
 
-		singleExpGen = new GlassBoxExplanation(new PelletReasonerFactory(), pellet);
+		singleExpGen = new GlassBoxExplanation(new PelletReasonerFactory(), reasoner.getReasoner());
 		multipleExpGen = new HSTExplanationGenerator(singleExpGen);
 	}
 

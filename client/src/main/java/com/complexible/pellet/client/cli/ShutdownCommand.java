@@ -6,7 +6,7 @@ import com.complexible.pellet.client.api.PelletService;
 import com.complexible.pellet.service.GenericJsonMessage;
 import com.google.common.base.Throwables;
 import com.google.inject.Inject;
-import io.airlift.airline.Command;
+import io.airlift.command.Command;
 
 /**
  * @author Edgar Rodriguez-Diaz

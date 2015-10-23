@@ -6,6 +6,20 @@
 
 package com.clarkparsia.modularity.test;
 
+import java.util.Arrays;
+import java.util.Collections;
+
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
+import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.modularity.ModuleExtractor;
+import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapiv3.OntologyUtils;
+import com.google.common.base.Supplier;
+import org.junit.Test;
+import org.mindswap.pellet.utils.SetUtils;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLException;
+
 import static com.clarkparsia.owlapiv3.OWL.all;
 import static com.clarkparsia.owlapiv3.OWL.classAssertion;
 import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
@@ -13,21 +27,6 @@ import static com.clarkparsia.owlapiv3.OWL.subClassOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-import com.clarkparsia.modularity.ModuleExtractor;
-import com.google.common.base.Supplier;
-import org.junit.Test;
-import org.mindswap.pellet.utils.SetUtils;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLException;
-
-import com.clarkparsia.modularity.IncrementalClassifier;
-import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 
 /**
  * <p>
@@ -55,7 +54,7 @@ public class ModularityUpdateTest extends AbstractModularityTest {
 		OWLAxiom[] axioms = { subClassOf( A, B ), subClassOf( C, D ) };
 		createOntology( axioms );
 
-		IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology );
+		IncrementalReasoner modular = IncremantalReasonerFactory.getInstance().createReasoner( ontology );
 		modular.classify();
 		
 		assertTrue( modular.isEntailed( subClassOf( A, B ) ) );
@@ -84,7 +83,7 @@ public class ModularityUpdateTest extends AbstractModularityTest {
 		OWLAxiom[] axioms = { subClassOf( A, B ), subClassOf( C, D ), equivalentClasses( D, all( p, D ) ) };
 		createOntology( axioms );
 
-		IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology );
+		IncrementalReasoner modular = IncremantalReasonerFactory.getInstance().createReasoner( ontology );
 		modular.classify();
 		
 		assertTrue( modular.isEntailed( subClassOf( A, B ) ) );
@@ -112,7 +111,7 @@ public class ModularityUpdateTest extends AbstractModularityTest {
 		OWLAxiom[] axioms = { subClassOf( A, B ), subClassOf( C, D ) };
 		createOntology( axioms );
 
-		IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology );
+		IncrementalReasoner modular = IncremantalReasonerFactory.getInstance().createReasoner( ontology );
 		modular.classify();
 		
 		assertTrue(modular.isClassified());

@@ -8,6 +8,7 @@
 
 package org.mindswap.pellet.examples;
 
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.Timers;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -18,7 +19,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 
-import com.clarkparsia.modularity.IncrementalClassifier;
+import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.owlapiv3.OWL;
 
 /**
@@ -47,14 +48,14 @@ public class IncrementalClassifierExample {
 
 	public void run() throws OWLOntologyCreationException {
 		// Load the ontology file into an OWL ontology object
-		OWLOntology ontology = OWL.manager.loadOntology( IRI.create( file ) );
+		OWLOntology ontology = OWL.manager.loadOntology(IRI.create(file));
 
 		// Get some entities
 		OWLClass headache = OWL.Class( NS + "Headache" );
 		OWLClass pain = OWL.Class( NS + "Pain" );
 		
 		// Get an instance of the incremental classifier
-		IncrementalClassifier classifier = new IncrementalClassifier( ontology );
+		IncrementalReasoner classifier = IncremantalReasonerFactory.getInstance().createReasoner(ontology);
 
 		// We need some timing to show the performance of the classification
 		Timers timers = new Timers();

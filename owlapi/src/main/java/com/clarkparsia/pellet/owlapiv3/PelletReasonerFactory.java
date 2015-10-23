@@ -9,7 +9,6 @@
 package com.clarkparsia.pellet.owlapiv3;
 
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.IllegalConfigurationException;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -66,7 +65,7 @@ public class PelletReasonerFactory implements OWLReasonerFactory {
 	 */
 	public PelletReasoner createReasoner(OWLOntology ontology, OWLReasonerConfiguration config)
 			throws IllegalConfigurationException {
-		return new PelletReasoner( ontology, new PelletReasonerConfiguration(config).buffering(true) );
+		return new PelletReasoner( ontology, config(config).buffering(true) );
 	}
 
 	/**
@@ -80,6 +79,10 @@ public class PelletReasonerFactory implements OWLReasonerFactory {
 	 * {@inheritDoc}
 	 */
 	public PelletReasoner createNonBufferingReasoner(OWLOntology ontology, OWLReasonerConfiguration config) throws IllegalConfigurationException {
-		return new PelletReasoner( ontology, new PelletReasonerConfiguration(config).buffering(false) );
+		return new PelletReasoner( ontology, config(config).buffering(false) );
+	}
+
+	private PelletReasonerConfiguration config(OWLReasonerConfiguration config) {
+		return (config instanceof PelletReasonerConfiguration) ? (PelletReasonerConfiguration) config : new PelletReasonerConfiguration(config);
 	}
 }

@@ -7,8 +7,6 @@
 package profiler;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -16,9 +14,9 @@ import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
-import com.clarkparsia.modularity.IncrementalClassifier;
+import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.modularity.OntologyDiff;
-import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.google.common.base.Function;
@@ -70,16 +68,16 @@ public class ProfileIncremental {
 
 		println("Computed diff " + diff.getDiffCount());
 
-	    IncrementalClassifier classifier;
+	    IncrementalReasoner classifier;
 		File classificationFile = new File(initFile.getName() + ".zip");
 		if (classificationFile.exists()) {
-		    classifier = IncrementalClassifierPersistence.load(new FileInputStream(classificationFile), initOnt);
+			classifier = IncrementalReasoner.config().file(classificationFile).createIncrementalReasoner(initOnt);
 	    }
 	    else {
-		    classifier = new IncrementalClassifier(initOnt);
+		    classifier = IncremantalReasonerFactory.getInstance().createReasoner(initOnt);
 		    classifier.classify();
-		    IncrementalClassifierPersistence.save(classifier, new FileOutputStream(classificationFile));
-	    }
+			classifier.save(classificationFile);
+		}
 
 		println("Created incremental classifier");
 

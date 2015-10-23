@@ -8,34 +8,26 @@
 
 package pellet;
 
-import static pellet.PelletCmdOptionArg.NONE;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.LinkedList;
 import java.util.logging.Level;
 
+import aterm.ATermAppl;
+import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.modularity.IncrementalReasonerConfiguration;
+import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
+import com.clarkparsia.pellet.owlapiv3.OWLClassTreePrinter;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.taxonomy.printer.ClassTreePrinter;
 import org.mindswap.pellet.taxonomy.printer.TaxonomyPrinter;
 import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
 
-import aterm.ATermAppl;
-
-import com.clarkparsia.modularity.IncrementalClassifier;
-import com.clarkparsia.modularity.OntologyDiff;
-import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
-import com.clarkparsia.pellet.owlapiv3.OWLClassTreePrinter;
+import static pellet.PelletCmdOptionArg.NONE;
 
 /**
  * <p>
@@ -154,7 +146,7 @@ public class PelletClassify extends PelletCmdApp {
 		loader.parse( getInputFiles() );
 		OWLOntology ontology = loader.getOntology();
 		
-		IncrementalClassifier incrementalClassifier = createIncrementalClassifier( ontology );
+		IncrementalReasoner incrementalClassifier = createIncrementalClassifier( ontology );
 		
 		if ( !incrementalClassifier.isClassified() ) {
 			startTask( "consistency check" );
@@ -182,19 +174,17 @@ public class PelletClassify extends PelletCmdApp {
 	 * @param ontology the ontology (the current state of it)
 	 * @return the incremental classifier
 	 */
-	private IncrementalClassifier createIncrementalClassifier( OWLOntology ontology ) {
+	private IncrementalReasoner createIncrementalClassifier( OWLOntology ontology ) {
 		File saveFile = determineSaveFile( ontology );
-		IncrementalClassifier result = null;
-		
-		// first try to restore the classifier from the file (if one exists)
+
+		IncrementalReasonerConfiguration config = IncrementalReasoner.config();
+
+		// try to restore the classifier from the file (if one exists)
 		if( saveFile.exists() ) {
-			result = loadIncrementalClassifier( ontology, saveFile );
-		} 
-		
-		// if it was not possible to restore the classifier, create one from scratch
-		if( result == null ) {
-			result = new IncrementalClassifier( ontology );
+			config.file(saveFile);
 		}
+
+		IncrementalReasoner result = new IncrementalReasoner(ontology, config);
 		
 		result.getReasoner().getKB().setTaxonomyBuilderProgressMonitor(
 		                                                               PelletOptions.USE_CLASSIFICATION_MONITOR
@@ -210,57 +200,16 @@ public class PelletClassify extends PelletCmdApp {
 	 * @param incrementalClassifier the incremental classifier to be stored
 	 * @param ontology the ontology
 	 */
-	private void persistIncrementalClassifier( IncrementalClassifier incrementalClassifier, OWLOntology ontology ) {
+	private void persistIncrementalClassifier( IncrementalReasoner incrementalClassifier, OWLOntology ontology ) {
 		File saveFile = determineSaveFile( ontology );
 		
 		try {
 			verbose( "Saving the state of the classifier to " + saveFile );
-	        FileOutputStream outputStream = new FileOutputStream( saveFile );
-	        IncrementalClassifierPersistence.save( incrementalClassifier, outputStream );
-        }
+			incrementalClassifier.save(saveFile);
+		}
         catch( IOException e ) {
         	logger.log( Level.WARNING, "Unable to persist the current classifier state: " + e.toString() );
         }		
-	}
-	
-	/**
-	 * Loads the incremental classifier from a file. If the ontology changed since the state of the classifier was
-	 * persisted, the classifier will be incrementally updated with the changes.
-	 * 
-	 * @param ontology the ontology (its current state, since class
-	 * @param file the file from which the persisted state will be read
-	 * @return the read classifier or null, if it was not possible to read the classifier
-	 */
-	private IncrementalClassifier loadIncrementalClassifier( OWLOntology ontology, File file ) {
-		try {
-			FileInputStream inputStream = new FileInputStream( file );
-		
-			verbose( "Reading persisted classifier state from " + file );
-			IncrementalClassifier result = IncrementalClassifierPersistence.load( inputStream, ontology ); 
-			
-			// check whether anything changed in the ontology in the time between the incremental classifier
-			// was persisted and the current time
-			OntologyDiff ontologyDiff = OntologyDiff.diffAxioms( result.getAxioms(), ontology.getAxioms() );
-			
-			if( ontologyDiff.getDiffCount() > 0 ) {
-				verbose( "There were changes to the underlying ontology since the classifier was persisted. Incrementally updating the classifier" );
-				result.ontologiesChanged( new LinkedList<OWLOntologyChange>( ontologyDiff.getChanges( ontology ) ) );
-			} else {
-				currentStateSaved = true;
-			}
-			
-			return result;
-		} 
-		catch( IOException e ) {
-			logger.log( Level.WARNING, "Unable to read the persisted information from a file. Pellet will perform full classification: " + e );
-			
-			return null;
-		}
-        catch( OWLException e ) {
-        	logger.log( Level.WARNING, "Unable to incrementally update the classifier. Pellet will perform full classification: " + e );
-	        
-        	return null;
-        }
 	}
 	
 	/**

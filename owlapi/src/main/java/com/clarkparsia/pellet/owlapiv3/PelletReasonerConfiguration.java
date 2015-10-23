@@ -10,7 +10,7 @@ package com.clarkparsia.pellet.owlapiv3;
 
 import javax.annotation.Nonnull;
 
-import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.FreshEntityPolicy;
@@ -32,7 +32,7 @@ public class PelletReasonerConfiguration implements OWLReasonerConfiguration  {
 	private long timeOut = 0;
 	private BufferingMode bufferingMode = BufferingMode.BUFFERING;
 	private OWLOntologyManager manager = null;
-	private Iterable<OWLAxiom> axioms;
+	private boolean listenChanges = true;
 
 	public PelletReasonerConfiguration() {
 	}
@@ -82,7 +82,7 @@ public class PelletReasonerConfiguration implements OWLReasonerConfiguration  {
 		return timeOut;
 	}
 
-	public PelletReasonerConfiguration timeOut(final long theTimeOut) {
+	public PelletReasonerConfiguration timeout(final long theTimeOut) {
 		timeOut = theTimeOut;
 		return this;
 	}
@@ -109,12 +109,16 @@ public class PelletReasonerConfiguration implements OWLReasonerConfiguration  {
 		return this;
 	}
 
-	public Iterable<OWLAxiom> getAxioms() {
-		return axioms;
+	public boolean isListenChanges() {
+		return listenChanges;
 	}
 
-	public PelletReasonerConfiguration axioms(Iterable<OWLAxiom> theAxioms) {
-		axioms = theAxioms;
+	public PelletReasonerConfiguration listenChanges(boolean isListenChanges) {
+		listenChanges = isListenChanges;
 		return this;
+	}
+
+	public PelletReasoner createReasoner(OWLOntology ont) {
+		return new PelletReasoner(ont, this);
 	}
 }

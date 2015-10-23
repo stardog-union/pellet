@@ -8,20 +8,23 @@
 
 package com.clarkparsia.pellet.test.owlapi;
 
-import static com.clarkparsia.owlapiv3.OWL.*;
-import static com.clarkparsia.owlapiv3.OntologyUtils.*;
-import static com.clarkparsia.owlapiv3.SWRL.*;
-import static org.junit.Assert.*;
-import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+import aterm.ATermAppl;
+import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
+import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapiv3.SWRL;
+import com.clarkparsia.owlapiv3.XSD;
+import com.clarkparsia.pellet.owlapiv3.AxiomConverter;
+import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
@@ -60,16 +63,45 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import org.semanticweb.owlapi.search.EntitySearcher;
 
-import aterm.ATermAppl;
-
-import com.clarkparsia.modularity.IncrementalClassifier;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.SWRL;
-import com.clarkparsia.owlapiv3.XSD;
-import com.clarkparsia.pellet.owlapiv3.AxiomConverter;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
-import com.clarkparsia.pellet.utils.PropertiesBuilder;
+import static com.clarkparsia.owlapiv3.OWL.Class;
+import static com.clarkparsia.owlapiv3.OWL.DataProperty;
+import static com.clarkparsia.owlapiv3.OWL.Individual;
+import static com.clarkparsia.owlapiv3.OWL.ObjectProperty;
+import static com.clarkparsia.owlapiv3.OWL.all;
+import static com.clarkparsia.owlapiv3.OWL.asymmetric;
+import static com.clarkparsia.owlapiv3.OWL.classAssertion;
+import static com.clarkparsia.owlapiv3.OWL.differentFrom;
+import static com.clarkparsia.owlapiv3.OWL.disjointClasses;
+import static com.clarkparsia.owlapiv3.OWL.disjointProperties;
+import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
+import static com.clarkparsia.owlapiv3.OWL.equivalentProperties;
+import static com.clarkparsia.owlapiv3.OWL.functional;
+import static com.clarkparsia.owlapiv3.OWL.inverse;
+import static com.clarkparsia.owlapiv3.OWL.inverseFunctional;
+import static com.clarkparsia.owlapiv3.OWL.irreflexive;
+import static com.clarkparsia.owlapiv3.OWL.max;
+import static com.clarkparsia.owlapiv3.OWL.min;
+import static com.clarkparsia.owlapiv3.OWL.oneOf;
+import static com.clarkparsia.owlapiv3.OWL.or;
+import static com.clarkparsia.owlapiv3.OWL.propertyAssertion;
+import static com.clarkparsia.owlapiv3.OWL.reflexive;
+import static com.clarkparsia.owlapiv3.OWL.sameAs;
+import static com.clarkparsia.owlapiv3.OWL.some;
+import static com.clarkparsia.owlapiv3.OWL.subClassOf;
+import static com.clarkparsia.owlapiv3.OWL.subPropertyOf;
+import static com.clarkparsia.owlapiv3.OWL.symmetric;
+import static com.clarkparsia.owlapiv3.OWL.transitive;
+import static com.clarkparsia.owlapiv3.OntologyUtils.addAxioms;
+import static com.clarkparsia.owlapiv3.OntologyUtils.loadOntology;
+import static com.clarkparsia.owlapiv3.OntologyUtils.removeAxioms;
+import static com.clarkparsia.owlapiv3.SWRL.classAtom;
+import static com.clarkparsia.owlapiv3.SWRL.propertyAtom;
+import static com.clarkparsia.owlapiv3.SWRL.rule;
+import static com.clarkparsia.owlapiv3.SWRL.variable;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 
 /**
  * <p>
@@ -113,8 +145,8 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		OWLOntology ont = loadOntology( base + "owl2.owl" );
 
-		IncrementalClassifier classifier = new IncrementalClassifier( ont );
-		
+		IncrementalReasoner classifier = IncremantalReasonerFactory.getInstance().createReasoner( ont ) ;
+
 		try {
 	        // force classification
 	        classifier.classify();
@@ -466,7 +498,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		OWLOntology ont = loadOntology( base + "family.owl" );
 
-		IncrementalClassifier classifier = new IncrementalClassifier( ont );
+		IncrementalReasoner classifier = IncremantalReasonerFactory.getInstance().createReasoner(ont);
 		
 		try {
 	        // force classification

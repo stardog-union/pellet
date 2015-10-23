@@ -79,10 +79,10 @@ public class EntailmentChecker extends OWLAxiomVisitorAdapter implements OWLAxio
 	public static Logger	log			= Logger.getLogger( EntailmentChecker.class.getName() );
 	
 
-	private IncrementalClassifier reasoner;
+	private IncrementalReasoner reasoner;
 	private Boolean isEntailed;
 
-	public EntailmentChecker(IncrementalClassifier reasoner) {
+	public EntailmentChecker(IncrementalReasoner reasoner) {
 		this.reasoner = reasoner;
 	}
 	

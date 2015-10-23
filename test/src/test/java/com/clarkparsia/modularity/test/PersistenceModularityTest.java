@@ -6,29 +6,22 @@
 
 package com.clarkparsia.modularity.test;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Set;
 
+import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.modularity.ModuleExtractor;
+import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.google.common.base.Supplier;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mindswap.pellet.utils.MultiValueMap;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
-import com.clarkparsia.modularity.IncrementalClassifier;
-import com.clarkparsia.modularity.ModuleExtractor;
-import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
-import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
+import static org.junit.Assert.assertTrue;
 
 /**
  * <p>
@@ -57,20 +50,16 @@ public class PersistenceModularityTest extends AbstractModularityTest {
 	private void testPersistence( OWLOntology ontology ) throws IOException {
 		File testFile = new File( TEST_FILE );
 		ModuleExtractor moduleExtractor = createModuleExtractor();
-		
-		IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(ontology, moduleExtractor);
-		IncrementalClassifier restored;
 
-		FileOutputStream fos = new FileOutputStream( testFile );
-
-		FileInputStream fis = new FileInputStream( testFile );
+		IncrementalReasoner modular = IncrementalReasoner.config().extractor(moduleExtractor).createIncrementalReasoner(ontology);
+		IncrementalReasoner restored;
 
 		try {
 			modular.classify();
 
-			IncrementalClassifierPersistence.save(modular, fos);
+			modular.save(testFile);
 
-			restored = IncrementalClassifierPersistence.load( fis );
+			restored = IncrementalReasoner.config().file(testFile).manager(OWL.manager).createIncrementalReasoner();
 
 			for (OWLClass cls : ontology.getClassesInSignature()) {
 				Set<OWLEntity> expectedModules = modular.getModuleExtractor().getModuleEntities(cls);
@@ -80,8 +69,6 @@ public class PersistenceModularityTest extends AbstractModularityTest {
 			}
 		}
 		finally {
-			fos.close();
-			fis.close();
 			modular.dispose();
 			assertTrue(testFile.delete());
 		}

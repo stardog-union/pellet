@@ -7,20 +7,17 @@
 package org.mindswap.pellet.examples;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
+import com.clarkparsia.owlapiv3.OWL;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-
-import com.clarkparsia.modularity.IncrementalClassifier;
-import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
-import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * <p>
@@ -54,25 +51,19 @@ public class PersistenceExample {
 		OWLOntology ontology = OWL.manager.loadOntology( IRI.create( file ) );
 		
 		// Get an instance of the incremental classifier
-		IncrementalClassifier classifier = new IncrementalClassifier( ontology );
+		IncrementalReasoner classifier = IncremantalReasonerFactory.getInstance().createReasoner( ontology );
 
 		// trigger classification
 		classifier.classify();
 				
 		// persist the current state of the classifier to a file
 		try {
-			System.out.print( "Saving the state of the classifier to the file ... " );
+			System.out.print("Saving the state of the classifier to the file ... ");
 			System.out.flush();
-			
-			// open the stream to a file
-			FileOutputStream outputStream = new FileOutputStream( persistenceFile );
-			
-			// write the contents to the stream
-			IncrementalClassifierPersistence.save( classifier, outputStream );			
-			
-			// close stream
-			outputStream.close();
-			
+
+			// write the contents to the file
+			classifier.save(new File(persistenceFile));
+
 			System.out.println( "done." );
 		} catch( IOException e ) {
 			System.out.println( "I/O Error occurred while saving the current state of the incremental classifier: " + e );
@@ -96,14 +87,11 @@ public class PersistenceExample {
 
 		
 		// Now let's restore the classifier from the saved file
-		IncrementalClassifier restoredClassifier = null;
+		IncrementalReasoner restoredClassifier = null;
 		
 		try {
 			System.out.print( "Reading the state of the classifier back from the file ... ");
 			System.out.flush();
-			
-			// open the previously saved file
-			FileInputStream inputStream = new FileInputStream( persistenceFile );
 			
 			// restore the classifier from the file
 			
@@ -111,10 +99,8 @@ public class PersistenceExample {
 			// state was stored in the file, and incrementally update the classifier's state
 			// (IncrementalClassifierPersistence has another "load" method without ontology parameter, which can be used
 			// for cases when there is no ontology to compare).
-			restoredClassifier = IncrementalClassifierPersistence.load( inputStream, ontology );
-			
-			// close stream
-			inputStream.close();
+			restoredClassifier = IncrementalReasoner.config().file(new File(persistenceFile)).createIncrementalReasoner(ontology);
+
 			System.out.println( "done." );
 		} catch( IOException e ) {
 			System.out.println( "I/O Error occurred while reading the current state of the incremental classifier: " + e );

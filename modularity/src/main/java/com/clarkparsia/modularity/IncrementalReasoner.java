@@ -6,6 +6,10 @@
 
 package com.clarkparsia.modularity;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import aterm.ATermAppl;
+import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
@@ -28,7 +33,6 @@ import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.taxonomy.printer.ClassTreePrinter;
 import org.mindswap.pellet.taxonomy.printer.TreeTaxonomyPrinter;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.Bool;
 import org.mindswap.pellet.utils.Namespaces;
 import org.mindswap.pellet.utils.PartialOrderBuilder;
 import org.mindswap.pellet.utils.PartialOrderComparator;
@@ -50,7 +54,6 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
@@ -61,13 +64,13 @@ import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.ClassExpressionNotInProfileException;
 import org.semanticweb.owlapi.reasoner.FreshEntitiesException;
 import org.semanticweb.owlapi.reasoner.FreshEntityPolicy;
+import org.semanticweb.owlapi.reasoner.IllegalConfigurationException;
 import org.semanticweb.owlapi.reasoner.InconsistentOntologyException;
 import org.semanticweb.owlapi.reasoner.IndividualNodeSetPolicy;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.ReasonerInterruptedException;
 import org.semanticweb.owlapi.reasoner.TimeOutException;
 import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
@@ -95,8 +98,12 @@ import org.semanticweb.owlapi.util.Version;
  * 
  * @author Evren Sirin
  */
-public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeListener {
-	public static final Logger log = Logger.getLogger(IncrementalClassifier.class.getName());
+public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListener {
+	public static final Logger log = Logger.getLogger(IncrementalReasoner.class.getName());
+
+	public static IncrementalReasonerConfiguration config() {
+		return new IncrementalReasonerConfiguration();
+	}
 
 	/**
 	 * Standard Pellet reasoner
@@ -106,7 +113,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	/**
 	 * Module extractor
 	 */
-	private ModuleExtractor extractor = ModuleExtractorFactory.createModuleExtractor();
+	private final ModuleExtractor extractor;
 
 	private Taxonomy<OWLClass> taxonomy = null;
 
@@ -116,7 +123,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	 */
 	private boolean multiThreaded = true;
 
-	public Timers timers = extractor.getTimers();
+	public final Timers timers;
 
 	private final Random RND = new Random();
 
@@ -124,51 +131,42 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	private boolean realized = false;
 
-	public IncrementalClassifier(OWLOntology ontology) {
-		this( PelletReasonerFactory.getInstance().createReasoner( ontology ), ModuleExtractorFactory.createModuleExtractor() );
-	}
-	
-	public IncrementalClassifier(OWLOntology ontology, OWLReasonerConfiguration config) {
-		this( PelletReasonerFactory.getInstance().createReasoner( ontology, config ), ModuleExtractorFactory.createModuleExtractor() );
-	}
-	
-	public IncrementalClassifier(OWLOntology ontology, ModuleExtractor moduleExtractor) {
-		this( PelletReasonerFactory.getInstance().createReasoner( ontology ), moduleExtractor );
-	}
-	
-	public IncrementalClassifier(OWLOntology ontology, OWLReasonerConfiguration config, ModuleExtractor moduleExtractor) {
-		this( PelletReasonerFactory.getInstance().createReasoner( ontology, config ), moduleExtractor );
-	}
-	
-	public IncrementalClassifier(PelletReasoner reasoner) {
-		this(reasoner, ModuleExtractorFactory.createModuleExtractor());
-	}
-	
-	public IncrementalClassifier(PelletReasoner reasoner, ModuleExtractor extractor) {
-		this.reasoner = reasoner;
-		this.extractor = extractor;
-		
-		OWLOntology ontology = reasoner.getRootOntology();
-		for (OWLOntology ont : ontology.getImportsClosure()) {
-			for (OWLAxiom axiom : ont.getAxioms()) {
-				extractor.addAxiom(axiom);
+	public IncrementalReasoner(OWLOntology ontology, IncrementalReasonerConfiguration config) {
+		extractor = config.getModuleExtractor() != null ? config.getModuleExtractor() : ModuleExtractorFactory.createModuleExtractor();
+
+		timers = extractor.getTimers();
+
+		multiThreaded = config.isMultiThreaded();
+
+		if (config.getFile() == null) {
+			reasoner = config.getReasoner() != null ? config.getReasoner() : config.createReasoner(ontology);
+
+			ontology = reasoner.getRootOntology();
+			for (OWLOntology ont : ontology.getImportsClosure()) {
+				for (OWLAxiom axiom : ont.getAxioms()) {
+					extractor.addAxiom(axiom);
+				}
 			}
 		}
-		
-		reasoner.getManager().addOntologyChangeListener(this);
-	}
-	
-	public IncrementalClassifier(PersistedState persistedState, OWLOntology ontology) {
-		extractor = persistedState.getModuleExtractor();
-		taxonomy = persistedState.getTaxonomy();
-		realized = persistedState.isRealized();
-
-		classified = true;
-
-		if (ontology == null) {
-			ontology = OWL.Ontology(extractor.getAxioms());
-		}
 		else {
+			try {
+				taxonomy = IncrementalClassifierPersistence.load(new FileInputStream(config.getFile()), extractor);
+			}
+			catch (IOException e) {
+				throw new IllegalConfigurationException("Specified file is invalid", e, config);
+			}
+
+			realized = (Boolean) taxonomy.getTop().getDatum("realized");
+
+			classified = true;
+
+			if (ontology == null) {
+				ontology = OWL.Ontology(extractor.getAxioms());
+			}
+
+			reasoner = config.getReasoner() != null ? config.getReasoner() : config.createReasoner(ontology);
+			ontology = reasoner.getRootOntology();
+
 			OntologyDiff diff = OntologyDiff.diffAxiomsWithOntologies(extractor.getAxioms(), Collections.singleton(ontology));
 
 			for (OWLAxiom addition : diff.getAdditions()) {
@@ -180,13 +178,9 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 			}
 		}
 
-		reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
-		
-		reasoner.getManager().addOntologyChangeListener( this );
-	}
-	
-	public Collection<OWLAxiom> getAxioms() {
-		return extractor.getAxioms();
+		if (config.isListenChanges()) {
+			reasoner.getManager().addOntologyChangeListener(this);
+		}
 	}
 	
 	/**
@@ -383,32 +377,6 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		return isClassified() && realized;
 	}
 
-	public boolean isDefined(OWLClass cls) {
-		return !extractor.getAxioms( cls ).isEmpty();
-	}
-
-	public boolean isDefined(OWLDataProperty prop) {
-		return !extractor.getAxioms( prop ).isEmpty();
-	}
-
-	public boolean isDefined(OWLNamedIndividual ind) {
-		return !extractor.getAxioms( ind ).isEmpty();
-	}
-
-	public boolean isDefined(OWLObjectProperty prop) {
-		return !extractor.getAxioms( prop ).isEmpty();
-	}
-
-	public boolean isEquivalentClass(OWLClassExpression clsC, OWLClassExpression clsD) {
-		if( clsC.isAnonymous() || clsD.isAnonymous() ) {
-	        throw new UnsupportedOperationException( "This reasoner only supports named classes" );
-        }
-
-		classify();
-
-		return taxonomy.isEquivalent( (OWLClass) clsC, (OWLClass) clsD ) == Bool.TRUE;
-	}
-
 	public boolean isSatisfiable(OWLClassExpression description) {
 		if( description.isAnonymous() || !isClassified() ) {
 	        return reasoner.isSatisfiable( description );
@@ -558,175 +526,11 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
         }
 
 		return moduleTaxonomy;
-	}	
-
-//	/**
-//	 * FIXME: This function is incredibly broken.
-//	 * Main method to update the partial order and find new subsumptions.
-//	 * 
-//	 * @param add
-//	 *            Flag for additions/deletions
-//	 * @param node
-//	 *            the node which is being updated
-//	 * @param newR
-//	 *            The reasoner which has been loaded and processed with the new
-//	 *            signature of this module
-//	 */
-//	private void updatePartialOrder(boolean add, TaxonomyNode<OWLClass> node, PelletReasoner newR) {
-//		if( log.isLoggable( Level.FINER ) )
-//			log.finer( "Update node " + node );
-//
-//		OWLClass clazz = node.getName();
-//
-//		// collect all of its valid super classes from the reasoner
-//		Set<Set<OWLClass>> validSupers = newR.getAncestorClasses( clazz );
-//
-//		// get all of the old super classes from the subclass index
-//		Set<OWLClass> oldSupers = null;// superClasses.get( clazz );
-//
-//		// case for add
-//		if( add ) {
-//
-//			// for each subclass check if its new...if it is, then add it to
-//			// the child of this node
-//			for( Set<OWLClass> nextCls : validSupers ) {
-//				// if this is thing, then continue
-//				if( nextCls.contains( OWL.Thing ) )
-//					continue;
-//
-//				// iterate over new super classes - again this is a set
-//				// because pellet returns a set of sets
-//				for( OWLClass next : nextCls ) {
-//					// check if this subsumption already exists
-//					if( !oldSupers.contains( next ) ) {
-//
-//						// add it to the subclass index
-//						oldSupers.add( next );
-//
-//						if( log.isLoggable( Level.FINER ) ) {
-//							log.finer( "  Found new subsumption " + clazz + " subClassOf " + next );
-//						}
-//
-//						// update the partial order
-//						TaxonomyNode<OWLClass> newSubNode = taxonomy.getNode( next );
-//						if( !newSubNode.getSubs().contains( node ) ) {
-//							newSubNode.addSub( node );
-//						}
-//					}
-//				}
-//			}
-//		}
-//		else {
-//
-//			// case for deletions
-//
-//			// if there were no previous supers then by monotonicity, there
-//			// still will not be, so return
-//			if( oldSupers.isEmpty() )
-//				return;
-//
-//			// used to track invalidated supers
-//			Set<OWLClass> removeSet = new HashSet<OWLClass>();
-//
-//			// for each old subclass check if its still exists, if not
-//			// remove it
-//			for( OWLClass nextOldSuper : oldSupers ) {
-//				// if thing, then continue
-//				if( nextOldSuper.equals( OWL.Thing ) )
-//					continue;
-//
-//				TaxonomyNode<OWLClass> oldSubNode = taxonomy.getNode( nextOldSuper );
-//
-//				// check if this subsumption still exists
-//				if( !OntologyUtils.containsClass( validSupers, nextOldSuper ) ) {
-//					// update remove set
-//					removeSet.add( nextOldSuper );
-//
-//					if( log.isLoggable( Level.FINER ) ) {
-//						log.finer( "  Found violated subsumption " + clazz + " subClassOf "
-//								+ nextOldSuper );
-//					}
-//
-//					// update partial order
-//					oldSubNode.removeSub( node );
-//				}
-//			}
-//
-//			// update subclass index
-//			oldSupers.removeAll( removeSet );
-//		}
-//	}
-
-	/**
-	 * Returns the value of multi-threaded option.
-	 * 
-	 * @see IncrementalClassifier#setMultiThreaded(boolean)
-	 * @return the value of multi-threaded option
-	 */
-	public boolean isMultiThreaded() {
-		return multiThreaded;
 	}
 
-	/**
-	 * Sets the multi-threading option. In multi-threaded mode, during the
-	 * initial setup, the regular classification and module extraction are
-	 * performed in two separate threads concurrently. Doing so might reduce
-	 * overall processing time but it also increases the memory requirements
-	 * because both processes need additional memory during running which will
-	 * be freed at the end of the process.
-	 * 
-	 * @param multiThreaded value to set the multi-threaded option
-	 */
-	public void setMultiThreaded(boolean multiThreaded) {
-		this.multiThreaded = multiThreaded;
-	}
-
-	/**
-	 * A class that has access to all the internal parts of the IncrementalClassifier that has to be persisted when saving
-	 * the state to the stream. This class enables the separation between the I/O code and the reasoning code. This class should 
-	 * not be used any other parts of code than the I/O code.
-	 * 
-	 * This class is a variation of Memento design pattern (as it encapsulates the state) with the 
-	 * important difference that actually no state is being copied; instead, this class only contains the references to the
-	 * data structures to be saved. (The I/O code is thought as actually performing the copy, and therefore completing the Memento pattern.)
-	 *
-     * <p>
-     * Copyright: Copyright (c) 2009
-     * </p>
-     * <p>
-     * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
-     * </p>
- 	 * 
-	 * @author Blazej Bulka
-	 */
-	public static class PersistedState {
-		private final ModuleExtractor extractor;
-		private final Taxonomy<OWLClass> taxonomy;
-		private final boolean realized;
-		
-		public PersistedState( IncrementalClassifier incrementalClassifier ) {
-			this.extractor = incrementalClassifier.extractor;
-			this.taxonomy = incrementalClassifier.taxonomy;
-			this.realized = incrementalClassifier.realized;
-		}
-		
-		public PersistedState( ModuleExtractor extractor, Taxonomy<OWLClass> taxonomy, boolean realized ) {
-			this.extractor = extractor;
-			this.taxonomy = taxonomy;
-			this.realized = realized;
-		}
-		
-		public ModuleExtractor getModuleExtractor() {
-			return extractor;
-		}
-
-		public Taxonomy<OWLClass> getTaxonomy() {
-			return taxonomy;
-		}
-		
-		public boolean isRealized() {
-			return realized;
-		}
+	public void save(File file) throws IOException {
+		taxonomy.getTop().putDatum("realized", realized);
+		IncrementalClassifierPersistence.save(new FileOutputStream(file), extractor, taxonomy);
 	}
 
 	/**
@@ -734,8 +538,6 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	 */
 	public void flush() {
 		reasoner.flush();
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**

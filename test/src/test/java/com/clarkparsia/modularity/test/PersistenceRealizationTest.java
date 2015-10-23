@@ -6,29 +6,24 @@
 
 package com.clarkparsia.modularity.test;
 
-import static com.clarkparsia.modularity.test.TestUtils.assertInstancesEquals;
-import static com.clarkparsia.modularity.test.TestUtils.assertTypesEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.clarkparsia.modularity.GraphBasedModuleExtractor;
-import org.junit.Test;
-import org.mindswap.pellet.test.PelletTestSuite;
-import org.semanticweb.owlapi.model.OWLOntology;
-
-import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
-import com.clarkparsia.modularity.IncrementalClassifier;
+import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.modularity.ModuleExtractor;
-import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import org.junit.Test;
+import org.mindswap.pellet.test.PelletTestSuite;
+import org.semanticweb.owlapi.model.OWLOntology;
+
+import static com.clarkparsia.modularity.test.TestUtils.assertInstancesEquals;
+import static com.clarkparsia.modularity.test.TestUtils.assertTypesEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * <p>
@@ -68,23 +63,16 @@ public class PersistenceRealizationTest {
 			PelletReasoner unified = PelletReasonerFactory.getInstance().createReasoner( ontology );
 			ModuleExtractor moduleExtractor = createModuleExtractor();
 
-			IncrementalClassifier modular = new IncrementalClassifier( unified, moduleExtractor );
+			IncrementalReasoner modular = IncrementalReasoner.config().reasoner(unified).extractor(moduleExtractor).createIncrementalReasoner(ontology);
 			modular.classify();
 
 			// first we only persist classified-but-not-realized classifier
-			assertFalse( modular.isRealized() );
+			assertFalse(modular.isRealized());
 
-			FileOutputStream fos = new FileOutputStream( testFile );
+			modular.save(testFile);
 
-			IncrementalClassifierPersistence.save( modular, fos );
+			IncrementalReasoner modular2 = IncrementalReasoner.config().file(testFile).manager(OWL.manager).createIncrementalReasoner();
 
-			fos.close();
-
-			FileInputStream fis = new FileInputStream( testFile );
-
-			IncrementalClassifier modular2 = IncrementalClassifierPersistence.load( fis );
-
-			fis.close();
 			assertTrue( testFile.delete() );
 
 			// the classifier read from file should NOT be realized at this point
@@ -97,17 +85,10 @@ public class PersistenceRealizationTest {
 //			assertTrue( modular2.isRealized() );
 
 			// save the classifier again and read it back
-			fos = new FileOutputStream( testFile );
+			modular2.save(testFile);
 
-			IncrementalClassifierPersistence.save( modular2, fos );
+			IncrementalReasoner modular3 = IncrementalReasoner.config().file(testFile).manager(OWL.manager).createIncrementalReasoner();
 
-			fos.close();
-
-			fis = new FileInputStream( testFile );
-
-			IncrementalClassifier modular3 = IncrementalClassifierPersistence.load( fis );
-
-			fis.close();
 			assertTrue( testFile.delete() );
 
 			// the classifier read from file should be realized at this point

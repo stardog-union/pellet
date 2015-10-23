@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,6 +99,10 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 		}
 		
 		return 0;
+	}
+
+	public static PelletReasonerConfiguration config() {
+		return new PelletReasonerConfiguration();
 	}
 
 	private class ChangeVisitor implements OWLOntologyChangeVisitor {
@@ -274,7 +277,6 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	 * Imports closure for ontology
 	 */
 	private Set<OWLOntology>		importsClosure;
-	private Iterable<OWLAxiom>		axioms;
 	private boolean 				shouldRefresh;
 	private final PelletVisitor			visitor;
 	
@@ -301,7 +303,6 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	 * Create a reasoner for the given ontology and configuration.
 	 */
 	public PelletReasoner(OWLOntology ont, PelletReasonerConfiguration config) throws IllegalConfigurationException {
-		
 		individualNodeSetPolicy = config.getIndividualNodeSetPolicy();
 		
 		if( !getFreshEntityPolicy().equals( config.getFreshEntityPolicy() ) ) {
@@ -311,15 +312,10 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 		}
 
 		ontology = ont;
-		if (ontology != null) {
-			manager = ontology.getOWLOntologyManager();
 
-			manager.addOntologyChangeListener( this );
-			axioms = null;
-		}
-		else {
-			manager = Objects.requireNonNull(config.getManager(), "No ontology or ontology manager provided");
-			axioms = Objects.requireNonNull(config.getAxioms(), "No ontology or axioms provided");
+		manager = ontology.getOWLOntologyManager();
+		if (config.isListenChanges()) {
+			manager.addOntologyChangeListener(this);
 		}
 
 		monitor = config.getProgressMonitor();
@@ -959,15 +955,8 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 
 		visitor.setAddAxiom(true);
 
-		if (ontology == null) {
-			for (OWLAxiom axiom : axioms) {
-				axiom.accept(visitor);
-			}
-		}
-		else {
-			importsClosure = ontology.getImportsClosure();
-			ontology.accept(visitor);
-		}
+		importsClosure = ontology.getImportsClosure();
+		ontology.accept(visitor);
 
 		visitor.verify();
 		
