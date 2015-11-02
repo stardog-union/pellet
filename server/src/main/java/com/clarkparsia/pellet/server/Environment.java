@@ -32,25 +32,25 @@ public class Environment {
 
 	public static void checkHome(final File theHome) {
 		if (!theHome.exists()) {
-			System.out.println(String.format("STARDOG_HOME directory \'%s\' does not exist",
+			System.out.println(String.format("PELLET_HOME directory \'%s\' does not exist",
 			                                 theHome.getAbsolutePath()));
 			System.exit(1);
 		}
 
 		if (!theHome.isDirectory()) {
-			System.out.println(String.format("STARDOG_HOME directory \'%s\' is not a directory",
+			System.out.println(String.format("PELLET_HOME directory \'%s\' is not a directory",
 			                                 theHome.getAbsolutePath()));
 			System.exit(1);
 		}
 
 		if (!theHome.canRead()) {
-			System.out.println(String.format("STARDOG_HOME directory \'%s\' is not readable by the current user",
+			System.out.println(String.format("PELLET_HOME directory \'%s\' is not readable by the current user",
 			                                 theHome.getAbsolutePath()));
 			System.exit(1);
 		}
 
 		if (!theHome.canWrite()) {
-			System.out.println(String.format("STARDOG_HOME directory \'%s\' is not writeable by the current user",
+			System.out.println(String.format("PELLET_HOME directory \'%s\' is not writeable by the current user",
 			                                 theHome.getAbsolutePath()));
 			System.exit(1);
 		}
@@ -59,13 +59,13 @@ public class Environment {
 		// like canRead(), canWrite() always return true, even
 		// if we have no write permission there).
 		try {
-			File tempFile = File.createTempFile("stardog", ".tmp", theHome);
+			File tempFile = File.createTempFile("pellet", ".tmp", theHome);
 			tempFile.delete();
 		}
 		catch (IOException e) {
-			// if we cannot create a temporary file in STARDOG_HOME, then the directory
+			// if we cannot create a temporary file in PELLET_HOME, then the directory
 			// is effectively not writeable by us
-			System.out.println(String.format("STARDOG_HOME directory \'%s\' is not writeable by the current user",
+			System.out.println(String.format("PELLET_HOME directory \'%s\' is not writeable by the current user",
 			                                 theHome.getAbsolutePath()));
 			System.exit(1);
 		}

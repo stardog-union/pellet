@@ -23,8 +23,8 @@ public class ShutdownCommand extends PelletCommand {
 	public void run() {
 		try {
 			GenericJsonMessage aMessage = service().shutdown()
-			                                            .execute()
-			                                            .body();
+			                                       .execute()
+			                                       .body();
 			System.out.println(aMessage.message);
 		}
 		catch (IOException e) {

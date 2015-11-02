@@ -1,24 +1,23 @@
 package com.clarkparsia.pellet.server;
 
 import java.io.File;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 
+import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
 import com.clarkparsia.pellet.server.protege.ProtegeServerConfiguration;
-import com.clarkparsia.pellet.server.servlets.MessageServlet;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.server.handlers.ExceptionHandler;
 import io.undertow.server.handlers.GracefulShutdownHandler;
 import io.undertow.server.handlers.PathHandler;
-import io.undertow.servlet.Servlets;
-import io.undertow.servlet.api.DeploymentInfo;
-import io.undertow.servlet.api.DeploymentManager;
 
 /**
  * Pellet PelletServer implementation with Undertow.
@@ -31,8 +30,7 @@ public final class PelletServer {
 	private static final String HOST = "localhost";
 	private static final int PORT = 8080;
 
-	private static final String DEPLOYMENT_NAME = "pellet-server.war";
-	private static final String ROOT_PATH = "/api";
+	public static final String ROOT_PATH = "/api";
 
 	private Undertow server;
 	private boolean isRunning = false;
@@ -44,23 +42,20 @@ public final class PelletServer {
 	}
 
 	public void start() throws ServletException {
-		DeploymentInfo servletBuilder = Servlets.deployment()
-		                                        .setClassLoader(getClass().getClassLoader())
-		                                        .setContextPath(ROOT_PATH)
-		                                        .setDeploymentName(DEPLOYMENT_NAME)
-		                                        .addServlets(Servlets.servlet("MyServlet", MessageServlet.class)
-		                                                             .addInitParam("message", "MyServlet")
-		                                                             .addMapping("/myservlet"),
-		                                                     Servlets.servlet("MessageServlet", MessageServlet.class)
-		                                                             .addInitParam("message", "Hello World")
-		                                                             .addMapping("/*"));
 
-		DeploymentManager manager = Servlets.defaultContainer().addDeployment(servletBuilder);
-		manager.deploy();
+		Set<PathHandlerSpec> pathSpecs = serverInjector.getInstance(Key.get(PelletServerModule.PATH_SPECS));
 
 		// Servlets are attached to ROOT_PATH
-		PathHandler path = Handlers.path(Handlers.redirect(ROOT_PATH))
-		                           .addPrefixPath(ROOT_PATH, manager.start());
+		PathHandler path = Handlers.path(Handlers.redirect(ROOT_PATH));
+
+		for (PathHandlerSpec spec : pathSpecs) {
+			if (spec.isExactPath()) {
+				path.addPrefixPath(spec.getPath(), spec.getHandler());
+			}
+			else {
+				path.addExactPath(spec.getPath(), spec.getHandler());
+			}
+		}
 
 		// Exceptions handler
 		ExceptionHandler aExceptionHandler = Handlers.exceptionHandler(path);
