@@ -35,6 +35,6 @@ public class ProtegeServerConfiguration implements Configuration {
 
 	@Override
 	public Properties getSettings() {
-		return null;
+		return mProps;
 	}
 }

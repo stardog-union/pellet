@@ -10,10 +10,10 @@ import io.undertow.util.Headers;
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class ReasonerQuerySpec extends ReasonerSpec {
+public class ReasonerExplainSpec extends ReasonerSpec {
 
 	@Inject
-	public ReasonerQuerySpec(final ServerState theServerState) {
+	public ReasonerExplainSpec(final ServerState theServerState) {
 		super(theServerState);
 	}
 
@@ -22,7 +22,7 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	 */
 	@Override
 	public String getPath() {
-		return path("query");
+		return path("explain");
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	 */
 	@Override
 	public HttpHandler getHandler() {
-		return new ReasonerQueryHandler(mServerState);
+		return new ReasonerExplainHandler(mServerState);
 	}
 
 	/**
@@ -41,20 +41,21 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 		return true;
 	}
 
-	static class ReasonerQueryHandler implements HttpHandler {
+	static class ReasonerExplainHandler implements HttpHandler {
 
 		private final ServerState serverState;
 
-		public ReasonerQueryHandler(final ServerState theServerState) {
+		public ReasonerExplainHandler(final ServerState theServerState) {
 			serverState = theServerState;
 		}
 
 		@Override
 		public void handleRequest(final HttpServerExchange theHttpServerExchange) throws Exception {
-			GenericJsonMessage aMessage = new GenericJsonMessage("Doing reasoning query hmm...");
+			GenericJsonMessage aMessage = new GenericJsonMessage("Doing reasoning explain hmm...");
 
 			theHttpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, aMessage.getMimeType());
 			theHttpServerExchange.getResponseSender().send(aMessage.toJsonString());
+
 			// TODO: implement using a ClientState -> schema reasoner
 		}
 	}

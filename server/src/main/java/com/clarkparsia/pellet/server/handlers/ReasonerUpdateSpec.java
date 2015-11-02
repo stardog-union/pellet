@@ -10,10 +10,10 @@ import io.undertow.util.Headers;
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class ReasonerQuerySpec extends ReasonerSpec {
+public class ReasonerUpdateSpec extends ReasonerSpec {
 
 	@Inject
-	public ReasonerQuerySpec(final ServerState theServerState) {
+	public ReasonerUpdateSpec(final ServerState theServerState) {
 		super(theServerState);
 	}
 
@@ -22,7 +22,7 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	 */
 	@Override
 	public String getPath() {
-		return path("query");
+		return path("update");
 	}
 
 	/**
@@ -30,7 +30,7 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	 */
 	@Override
 	public HttpHandler getHandler() {
-		return new ReasonerQueryHandler(mServerState);
+		return new ReasonerUpdateHandler(mServerState);
 	}
 
 	/**
@@ -38,20 +38,20 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	 */
 	@Override
 	public boolean isExactPath() {
-		return true;
+		return false;
 	}
 
-	static class ReasonerQueryHandler implements HttpHandler {
+	static class ReasonerUpdateHandler implements HttpHandler {
 
-		private final ServerState serverState;
+		private final ServerState mStateServer;
 
-		public ReasonerQueryHandler(final ServerState theServerState) {
-			serverState = theServerState;
+		public ReasonerUpdateHandler(final ServerState theServerState) {
+			mStateServer = theServerState;
 		}
 
 		@Override
 		public void handleRequest(final HttpServerExchange theHttpServerExchange) throws Exception {
-			GenericJsonMessage aMessage = new GenericJsonMessage("Doing reasoning query hmm...");
+			GenericJsonMessage aMessage = new GenericJsonMessage("Doing reasoning update hmm...");
 
 			theHttpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, aMessage.getMimeType());
 			theHttpServerExchange.getResponseSender().send(aMessage.toJsonString());
