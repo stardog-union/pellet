@@ -9,6 +9,10 @@ import io.undertow.server.HttpHandler;
  */
 public interface PathHandlerSpec {
 
+	enum PathType {
+		EXACT,  PREFIX, TEMPLATE
+	}
+
 	/**
 	 * Gets the path in which the Handler will listen.
 	 *
@@ -24,9 +28,9 @@ public interface PathHandlerSpec {
 	HttpHandler getHandler();
 
 	/**
-	 * Gets whether this spec contains an exact path or not.
+	 * Gets the type of path defined for this handler.
 	 *
-	 * @return  true if the path is exact, false otherwise
+	 * @return  the value of the {@link PathType}
 	 */
-	boolean isExactPath();
+	PathType getPathType();
 }

@@ -22,7 +22,7 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 	 */
 	@Override
 	public String getPath() {
-		return path("explain");
+		return path("{ontology}/explain");
 	}
 
 	/**
@@ -33,12 +33,9 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 		return new ReasonerExplainHandler(mServerState);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public boolean isExactPath() {
-		return true;
+	public PathType getPathType() {
+		return PathType.TEMPLATE;
 	}
 
 	static class ReasonerExplainHandler implements HttpHandler {

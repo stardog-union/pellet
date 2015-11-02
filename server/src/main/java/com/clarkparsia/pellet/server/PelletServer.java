@@ -18,6 +18,7 @@ import io.undertow.UndertowOptions;
 import io.undertow.server.handlers.ExceptionHandler;
 import io.undertow.server.handlers.GracefulShutdownHandler;
 import io.undertow.server.handlers.PathHandler;
+import io.undertow.server.handlers.PathTemplateHandler;
 
 /**
  * Pellet PelletServer implementation with Undertow.
@@ -47,18 +48,23 @@ public final class PelletServer {
 
 		// Servlets are attached to ROOT_PATH
 		PathHandler path = Handlers.path(Handlers.redirect(ROOT_PATH));
+		PathTemplateHandler pathTemplates = new PathTemplateHandler(path);
 
 		for (PathHandlerSpec spec : pathSpecs) {
-			if (spec.isExactPath()) {
-				path.addPrefixPath(spec.getPath(), spec.getHandler());
-			}
-			else {
-				path.addExactPath(spec.getPath(), spec.getHandler());
+			switch (spec.getPathType()) {
+				case PREFIX:
+					path.addPrefixPath(spec.getPath(), spec.getHandler());
+					break;
+				case TEMPLATE:
+					pathTemplates.add(spec.getPath(), spec.getHandler());
+					break;
+				default:
+					path.addExactPath(spec.getPath(), spec.getHandler());
 			}
 		}
 
 		// Exceptions handler
-		ExceptionHandler aExceptionHandler = Handlers.exceptionHandler(path);
+		ExceptionHandler aExceptionHandler = Handlers.exceptionHandler(pathTemplates);
 
 		// Shutdown handler
 		GracefulShutdownHandler aShutdownHandler = Handlers.gracefulShutdown(aExceptionHandler);
@@ -69,6 +75,7 @@ public final class PelletServer {
 		server = Undertow.builder()
 		                 .addHttpListener(8080, "localhost")
 		                 .setServerOption(UndertowOptions.ALWAYS_SET_DATE, true)
+		                 .setServerOption(UndertowOptions.ALLOW_ENCODED_SLASH, true)
 		                 .setHandler(aShutdownHandler)
 		                 .build();
 

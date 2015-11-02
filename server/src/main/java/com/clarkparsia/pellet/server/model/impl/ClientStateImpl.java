@@ -10,23 +10,24 @@ package com.clarkparsia.pellet.server.model.impl;
 
 import java.util.List;
 
-import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.pellet.server.model.ClientState;
+import com.clarkparsia.pellet.server.reasoner.LocalSchemaReasoner;
+import com.complexible.pellet.service.reasoner.SchemaReasoner;
+import com.google.common.base.Throwables;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
  * @author Evren Sirin
  */
 public class ClientStateImpl implements ClientState {
-	private final OWLReasoner reasoner;
+	private final SchemaReasoner reasoner;
 	private final OWLOntology ontology;
 
 	public ClientStateImpl(final OWLOntology theOntology) {
 		ontology = theOntology;
-		reasoner = IncremantalReasonerFactory.getInstance().createReasoner(ontology);
+		reasoner = new LocalSchemaReasoner(ontology);
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class ClientStateImpl implements ClientState {
 	}
 
 	@Override
-	public OWLReasoner getReasoner() {
+	public SchemaReasoner getReasoner() {
 		return reasoner;
 	}
 
@@ -46,6 +47,11 @@ public class ClientStateImpl implements ClientState {
 
 	@Override
 	public void close() {
-		reasoner.dispose();
+		try {
+			reasoner.close();
+		}
+		catch (Exception e) {
+			Throwables.propagate(e);
+		}
 	}
 }

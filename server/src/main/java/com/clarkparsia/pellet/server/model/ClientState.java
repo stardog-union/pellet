@@ -10,6 +10,7 @@ package com.clarkparsia.pellet.server.model;
 
 import java.util.List;
 
+import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -20,7 +21,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 public interface ClientState extends AutoCloseable {
 	IRI getOntologyIRI();
 
-	OWLReasoner getReasoner();
+	SchemaReasoner getReasoner();
 
 	void applyChanges(List<? extends OWLOntologyChange> changes);
 

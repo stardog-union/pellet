@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
+import io.undertow.util.PathTemplateMatch;
+import io.undertow.util.StatusCodes;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -22,7 +24,7 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	 */
 	@Override
 	public String getPath() {
-		return path("query");
+		return path("{ontology}/query");
 	}
 
 	/**
@@ -33,12 +35,9 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 		return new ReasonerQueryHandler(mServerState);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public boolean isExactPath() {
-		return true;
+	public PathType getPathType() {
+		return PathType.TEMPLATE;
 	}
 
 	static class ReasonerQueryHandler implements HttpHandler {
@@ -51,8 +50,11 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 
 		@Override
 		public void handleRequest(final HttpServerExchange theHttpServerExchange) throws Exception {
-			GenericJsonMessage aMessage = new GenericJsonMessage("Doing reasoning query hmm...");
+			String ontology = theHttpServerExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
+			                                       .getParameters().get("ontology");
+			GenericJsonMessage aMessage = new GenericJsonMessage("Doing reasoning query on ontology: "+ ontology +" - oohhmm...");
 
+			theHttpServerExchange.setResponseCode(StatusCodes.OK);
 			theHttpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, aMessage.getMimeType());
 			theHttpServerExchange.getResponseSender().send(aMessage.toJsonString());
 			// TODO: implement using a ClientState -> schema reasoner
