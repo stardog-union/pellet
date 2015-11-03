@@ -3,6 +3,8 @@ package com.clarkparsia.pellet.server.handlers;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.complexible.pellet.service.messages.GenericJsonMessage;
 import com.google.inject.Inject;
+import io.undertow.Handlers;
+import io.undertow.predicate.Predicates;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
@@ -30,7 +32,9 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 	 */
 	@Override
 	public HttpHandler getHandler() {
-		return new ReasonerExplainHandler(mServerState);
+		return Handlers.predicate(Predicates.parse("method(POST)"),
+		                          new ReasonerExplainHandler(mServerState),
+		                          new MethodNotAllowedHandler("POST"));
 	}
 
 	@Override

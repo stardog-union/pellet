@@ -31,7 +31,7 @@ public final class PelletServer {
 	private static final String HOST = "localhost";
 	private static final int PORT = 8080;
 
-	public static final String ROOT_PATH = "/api";
+	public static final String ROOT_PATH = "/";
 
 	private Undertow server;
 	private boolean isRunning = false;
@@ -75,7 +75,6 @@ public final class PelletServer {
 		server = Undertow.builder()
 		                 .addHttpListener(8080, "localhost")
 		                 .setServerOption(UndertowOptions.ALWAYS_SET_DATE, true)
-		                 .setServerOption(UndertowOptions.ALLOW_ENCODED_SLASH, true)
 		                 .setHandler(aShutdownHandler)
 		                 .build();
 

@@ -8,7 +8,7 @@ import com.clarkparsia.pellet.server.model.ServerState;
  */
 public abstract class ReasonerSpec implements PathHandlerSpec {
 
-	public static String REASONER_PATH = PelletServer.ROOT_PATH + "/reasoner";
+	public static String REASONER_PATH = PelletServer.ROOT_PATH + "reasoner";
 
 	protected final ServerState mServerState;
 

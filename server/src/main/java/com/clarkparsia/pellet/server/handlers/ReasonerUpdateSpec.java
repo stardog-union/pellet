@@ -32,7 +32,7 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 	 */
 	@Override
 	public HttpHandler getHandler() {
-		return Handlers.predicate(Predicates.parse("method[PUT]"),
+		return Handlers.predicate(Predicates.parse("method(PUT)"),
 		                          new ReasonerUpdateHandler(mServerState),
 		                          new MethodNotAllowedHandler("PUT"));
 	}
