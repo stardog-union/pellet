@@ -1,13 +1,13 @@
 package com.clarkparsia.pellet.server.protege;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.google.common.io.Resources;
-import org.antlr.runtime.RecognitionException;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.protege.owl.server.api.ChangeMetaData;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteServerDirectory;
@@ -26,17 +26,14 @@ import org.protege.owl.server.policy.Authenticator;
 import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.model.IRI;
 
-import org.junit.After;
-import org.junit.Before;
-
 import static org.junit.Assert.assertTrue;
 
 /**
  * @author Edgar Rodriguez-Diaz
  */
 public abstract class ProtegeServerTest extends TestUtilities {
-	private Server mServer;
-	private LocalTransport mLocalTransport;
+	private static Server mServer;
+	private static LocalTransport mLocalTransport;
 
 	protected final static int RMI_PORT = 4875;
 
@@ -47,8 +44,8 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		super();
 	}
 
-	@Before
-	public void startServer() throws IOException, RecognitionException, OWLServerException {
+	@BeforeClass
+	public static void beforeClass() throws Exception {
 		initializeServerRoot();
 
 		Server core = new ServerImpl(ROOT_DIRECTORY, CONFIGURATION_DIRECTORY);
@@ -65,8 +62,8 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		mServer.setTransports(transports);
 	}
 
-	@After
-	public void stopServer() {
+	@AfterClass
+	public static void afterClass() {
 		mServer.shutdown();
 	}
 

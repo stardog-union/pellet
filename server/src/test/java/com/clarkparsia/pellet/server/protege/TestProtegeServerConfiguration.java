@@ -7,12 +7,11 @@ import com.clarkparsia.pellet.server.Configuration;
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public enum TestProtegeServerConfiguration implements Configuration {
-	INSTANCE;
+public class TestProtegeServerConfiguration implements Configuration {
 
 	private final Properties mProperties;
 
-	TestProtegeServerConfiguration() {
+	public TestProtegeServerConfiguration() {
 		mProperties = new Properties();
 		mProperties.setProperty(Configuration.HOST, "localhost");
 		mProperties.setProperty(Configuration.PORT, "4875");

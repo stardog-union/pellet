@@ -19,9 +19,13 @@ import com.google.inject.multibindings.Multibinder;
  */
 public class PelletServerModule extends AbstractModule implements Module {
 
-	private Configuration mSettings;
+	private final Configuration mSettings;
 
 	public static TypeLiteral<Set<PathHandlerSpec>> PATH_SPECS = new TypeLiteral<Set<PathHandlerSpec>>() {};
+
+	public PelletServerModule() {
+		mSettings = null;
+	}
 
 	public PelletServerModule(final Configuration theSettings) {
 		mSettings = theSettings;
@@ -34,7 +38,9 @@ public class PelletServerModule extends AbstractModule implements Module {
 		pathsBinder.addBinding().to(ReasonerExplainSpec.class);
 		pathsBinder.addBinding().to(ReasonerUpdateSpec.class);
 
-		binder().bind(Configuration.class).toInstance(mSettings);
+		if (mSettings != null) {
+			binder().bind(Configuration.class).toInstance(mSettings);
+		}
 		binder().bind(ServerState.class).toProvider(ProtegeServerStateProvider.class).in(Singleton.class);
 	}
 }

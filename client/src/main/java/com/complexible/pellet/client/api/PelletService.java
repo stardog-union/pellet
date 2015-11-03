@@ -3,6 +3,7 @@ package com.complexible.pellet.client.api;
 import com.complexible.pellet.service.messages.request.ExplainRequest;
 import com.complexible.pellet.service.messages.GenericJsonMessage;
 import com.complexible.pellet.service.messages.request.QueryRequest;
+import com.complexible.pellet.service.messages.request.UpdateRequest;
 import com.complexible.pellet.service.messages.response.ExplainResponse;
 import com.complexible.pellet.service.messages.response.QueryResponse;
 import com.complexible.pellet.service.messages.response.UpdateResponse;
@@ -31,5 +32,5 @@ public interface PelletService {
 	Call<ExplainResponse> explain(@Path("ontology") IRI theOntology, @Body ExplainRequest theQueryRequest);
 
 	@PUT("/reasoner/{ontology}")
-	Call<UpdateResponse> update(@Path("ontology") IRI theOntology, @Body ExplainRequest theQueryRequest);
+	Call<UpdateResponse> update(@Path("ontology") IRI theOntology, @Body UpdateRequest theQueryRequest);
 }

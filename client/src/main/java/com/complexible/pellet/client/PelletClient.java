@@ -11,7 +11,7 @@ import com.google.inject.name.Names;
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class Client {
+public class PelletClient {
 
 	public static void main(String[] args) throws IOException {
 		Injector aInjector = Guice.createInjector(new ClientModule());

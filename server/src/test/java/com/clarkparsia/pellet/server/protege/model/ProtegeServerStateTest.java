@@ -23,7 +23,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 	public ProtegeServerStateTest() {
 		super();
-		mServerStateProvider = new ProtegeServerStateProvider(TestProtegeServerConfiguration.INSTANCE);
+		mServerStateProvider = new ProtegeServerStateProvider(new TestProtegeServerConfiguration());
 	}
 
 	@Test
