@@ -182,11 +182,29 @@ public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListen
 			reasoner.getManager().addOntologyChangeListener(this);
 		}
 	}
+
+	private IncrementalReasoner(IncrementalReasoner that) {
+		this.extractor = that.extractor.copy();
+
+		this.timers = that.timers;
+
+		this.multiThreaded = that.multiThreaded;
+
+		this.reasoner = PelletReasonerFactory.getInstance().createReasoner(OWL.Ontology(getRootOntology().getAxioms()));
+
+		this.classified = that.classified;
+
+		if (classified) {
+			taxonomy = buildClassHierarchy(that);
+		}
+
+		realized = false;
+	}
 	
 	/**
 	 * Build the class hierarchy based on the results from the reasoner
 	 */
-	static public Taxonomy<OWLClass> buildClassHierarchy(final PelletReasoner reasoner) {
+	static public Taxonomy<OWLClass> buildClassHierarchy(final OWLReasoner reasoner) {
 		
 		Taxonomy<OWLClass> taxonomy = new Taxonomy<OWLClass>( null, OWL.Thing, OWL.Nothing );
 
@@ -209,7 +227,7 @@ public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListen
 		return taxonomy;
 	}
 
-	static private void recursiveBuild(Taxonomy<OWLClass> taxonomy, Node<OWLClass> eqClasses, PelletReasoner reasoner) {
+	static private void recursiveBuild(Taxonomy<OWLClass> taxonomy, Node<OWLClass> eqClasses, OWLReasoner reasoner) {
 		
 		assert !eqClasses.getEntities().isEmpty() : "Equivalents empty as passed";
 

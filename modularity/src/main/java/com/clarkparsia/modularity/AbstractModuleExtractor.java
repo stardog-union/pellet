@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,9 +20,18 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.clarkparsia.modularity.io.ModuleExtractorPersistence;
+import com.clarkparsia.modularity.io.UncloseableOutputStream;
+import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
+import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
+import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
-import org.mindswap.pellet.PelletOptions;
+import com.clarkparsia.pellet.expressivity.Expressivity;
+import com.clarkparsia.pellet.utils.DeltaMap;
+import com.clarkparsia.pellet.utils.DeltaSet;
+import com.clarkparsia.pellet.utils.MultiMapUtils;
 import org.mindswap.pellet.KnowledgeBase.ChangeType;
+import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.MultiValueMap;
@@ -33,14 +44,6 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
-
-import com.clarkparsia.modularity.io.ModuleExtractorPersistence;
-import com.clarkparsia.modularity.io.UncloseableOutputStream;
-import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
-import com.clarkparsia.owlapi.modularity.locality.LocalityEvaluator;
-import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.pellet.expressivity.Expressivity;
 
 /**
  * <p>
@@ -59,51 +62,63 @@ import com.clarkparsia.pellet.expressivity.Expressivity;
  * @author Evren Sirin
  */
 public abstract class AbstractModuleExtractor implements ModuleExtractor {
-	public static final Logger						log							= Logger
-																						.getLogger( AbstractModuleExtractor.class
-																								.getName() );
+	public static final Logger log = Logger.getLogger(AbstractModuleExtractor.class.getName());
 
-	private Set<OWLAxiom>							additions					= new HashSet<OWLAxiom>();
+	private final Set<OWLAxiom> additions = new HashSet<OWLAxiom>();
 
-	private Set<OWLClass>							newClasses					= new HashSet<OWLClass>();
-	
+	private final Set<OWLClass> newClasses = new HashSet<OWLClass>();
+
 	/**
 	 * Map to find entities referenced in an axiom
 	 */
-	private Set<OWLAxiom>		                    axioms				        = new HashSet<OWLAxiom>();
+	private final Set<OWLAxiom> axioms;
 
 	/**
 	 * Set of axioms that will be deleted
 	 */
-	private Set<OWLAxiom>							deletions					= new HashSet<OWLAxiom>();
+	private final Set<OWLAxiom> deletions = new HashSet<OWLAxiom>();
 
 	/**
 	 * The types of changes that are pending in additions and deletions
 	 */
-	protected EnumSet<ChangeType>					changes						= EnumSet.noneOf(ChangeType.class);
-	
+	protected final EnumSet<ChangeType> changes = EnumSet.noneOf(ChangeType.class);
+
 	/**
 	 * Map to find axioms that references an axiom
 	 */
-	protected MultiValueMap<OWLEntity, OWLAxiom>	entityAxioms				= new MultiValueMap<OWLEntity, OWLAxiom>();
+	protected final Map<OWLEntity, Set<OWLAxiom>> entityAxioms;
 
-	private LocalityEvaluator						localityEvaluator			= null;
+	private final LocalityClass localityClass;
 
-	protected MultiValueMap<OWLEntity, OWLEntity>	modules						= null;
+	private final SyntacticLocalityEvaluator localityEvaluator;
+
+	protected Map<OWLEntity, Set<OWLEntity>> modules;
 
 	/**
 	 * Flag to check if a non-local axiom has been updated
 	 */
-	private boolean									nonLocalAxioms				= false;
+	private boolean nonLocalAxioms = false;
 
-	private Timers									timers						= new Timers();
+	private final Timers timers = new Timers();
 
 	public AbstractModuleExtractor() {
-		this( new SyntacticLocalityEvaluator( LocalityClass.BOTTOM_BOTTOM ) );
+		this(LocalityClass.BOTTOM_BOTTOM);
 	}
 	
-	public AbstractModuleExtractor(LocalityEvaluator localityEvaluator) {
-		this.localityEvaluator = localityEvaluator;
+	public AbstractModuleExtractor(LocalityClass localityClass) {
+		this.localityClass = localityClass;
+		localityEvaluator = new SyntacticLocalityEvaluator(localityClass);
+		axioms = new HashSet<OWLAxiom>();
+		entityAxioms = new HashMap<OWLEntity, Set<OWLAxiom>>();
+		modules = null;
+	}
+
+	protected AbstractModuleExtractor(AbstractModuleExtractor extractor) {
+		this.localityClass = extractor.localityClass;
+		localityEvaluator = new SyntacticLocalityEvaluator(localityClass);
+		axioms = new DeltaSet<OWLAxiom>(extractor.axioms);
+		entityAxioms = new DeltaMap<OWLEntity, Set<OWLAxiom>>(extractor.entityAxioms);
+		modules = extractor.modules == null ? null : new DeltaMap<OWLEntity, Set<OWLEntity>>(extractor.modules);
 	}
 
 	public void addAxiom(OWLAxiom axiom) {
@@ -171,10 +186,6 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		deletions.add( axiom );
 		categorizeRemovedAxiom( axiom );
 	}
-	
-	public MultiValueMap<OWLEntity,OWLEntity> getModules() {
-		return modules;
-	}
 
 	/**
 	 * Extract modules from scratch
@@ -194,7 +205,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 		
 		nonLocalAxioms = false;
 
-		modules = new MultiValueMap<OWLEntity, OWLEntity>();
+		modules = new HashMap<OWLEntity, Set<OWLEntity>>();
 
 		extractModuleSignatures(entityAxioms.keySet());
 
@@ -331,12 +342,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 	 * @return
 	 */
 	public Set<OWLAxiom> getAxioms(OWLEntity entity) {
-		Set<OWLAxiom> axioms = entityAxioms.get( entity );
-
-		if( axioms == null )
-			axioms = Collections.emptySet();
-
-		return axioms;
+		return MultiMapUtils.get(entityAxioms, entity);
 	}
 
 	@Override
@@ -422,7 +428,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 			axioms.add( axiom );
 
 			for( OWLEntity entity : axiom.getSignature() ) {
-				entityAxioms.add(entity, axiom);
+				MultiMapUtils.add(entityAxioms, entity, axiom);
 
 				if( entity instanceof OWLClass ) {
 					OWLClass cls = (OWLClass) entity;
@@ -439,7 +445,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor {
 			axioms.remove( axiom );
 
 			for( OWLEntity entity : axiom.getSignature() ) {
-				entityAxioms.remove( entity, axiom );
+				MultiMapUtils.remove(entityAxioms, entity, axiom);
 
 				if( !entityAxioms.containsKey( entity ) ) {
 					if( log.isLoggable( Level.FINE ) )

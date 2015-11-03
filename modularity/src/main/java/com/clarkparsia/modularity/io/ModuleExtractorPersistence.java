@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -135,7 +136,7 @@ public class ModuleExtractorPersistence {
 	 * @param outputStream the output stream where the data should be saved
 	 * @throws IOException if an error should occur during the save process
 	 */
-	public static void saveModules( MultiValueMap<OWLEntity, OWLEntity> modules, OutputStream outputStream ) throws IOException {
+	public static void saveModules( Map<OWLEntity, Set<OWLEntity>> modules, OutputStream outputStream ) throws IOException {
 		PrintWriter pw = new PrintWriter( outputStream );
 		
 		for ( Entry<OWLEntity, Set<OWLEntity>> entry : modules.entrySet() ) {

@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
-import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import org.mindswap.pellet.utils.DisjointSet;
 import org.mindswap.pellet.utils.SetUtils;
@@ -52,7 +51,17 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor {
 	}
 		
 	public AxiomBasedModuleExtractor(LocalityClass localityClass) {
-		super( new SyntacticLocalityEvaluator( localityClass ) );
+		super(localityClass);
+	}
+
+	private AxiomBasedModuleExtractor(final AxiomBasedModuleExtractor extractor) {
+		super(extractor);
+
+		optimizeForSharedModules = extractor.optimizeForSharedModules;
+	}
+
+	public ModuleExtractor copy() {
+		return new AxiomBasedModuleExtractor(this);
 	}
 
 	private OWLEntity extractModuleSignature(OWLEntity entity, Set<OWLEntity> stackElements,

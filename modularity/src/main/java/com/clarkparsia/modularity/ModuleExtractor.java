@@ -37,6 +37,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * @author Evren Sirin
  */
 public interface ModuleExtractor {
+	ModuleExtractor copy();
+
 	/**
 	 * Adds an axiom to the extractor.
 	 */
