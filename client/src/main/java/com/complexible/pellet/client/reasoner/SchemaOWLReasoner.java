@@ -18,9 +18,11 @@ import javax.annotation.Nullable;
 import com.clarkparsia.owlapiv3.BufferingOntologyChangeListener;
 import com.clarkparsia.owlapiv3.OWL;
 import com.complexible.pellet.service.reasoner.SchemaReasoner;
+import com.complexible.pellet.service.reasoner.SchemaReasonerFactory;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.inject.Inject;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -68,9 +70,9 @@ public class SchemaOWLReasoner implements OWLReasoner {
 
 	private final BufferingOntologyChangeListener changeListener;
 
-	public SchemaOWLReasoner(OWLOntology ontology, SchemaReasoner client) {
+	public SchemaOWLReasoner(OWLOntology ontology, SchemaReasonerFactory reasonerFactory) {
 		this.ontology = ontology;
-		this.client = client;
+		this.client = reasonerFactory.create(ontology);
 
 		Iterable<OWLOntologyID> ontologies = Iterables.transform(ontology.getImportsClosure(), new Function<OWLOntology, OWLOntologyID>() {
 			@Nullable

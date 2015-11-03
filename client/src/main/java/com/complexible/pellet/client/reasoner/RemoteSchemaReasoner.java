@@ -15,10 +15,12 @@ import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import retrofit.Call;
 import retrofit.Response;
@@ -33,11 +35,16 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 	@Inject
 	public RemoteSchemaReasoner(final PelletService thePelletService,
-	                            final IRI theOntologyIri) {
-		Preconditions.checkNotNull(theOntologyIri, "the Ontology must not be Null.");
+	                            @Assisted final OWLOntology theOntology) {
+		Preconditions.checkNotNull(theOntology, "the Ontology must not be Null.");
 
 		mService = thePelletService;
-		mOntologyIri = theOntologyIri;
+
+		assert theOntology.getOntologyID().getOntologyIRI().isPresent();
+
+		mOntologyIri = theOntology.getOntologyID()
+		                          .getOntologyIRI()
+		                          .get();
 	}
 
 	@Override
