@@ -1,4 +1,4 @@
-package com.clarkparsia.pellet.server.protege;
+package com.clarkparsia.pellet.server.protege.model;
 
 import java.util.List;
 
