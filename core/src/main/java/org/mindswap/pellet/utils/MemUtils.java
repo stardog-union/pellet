@@ -50,6 +50,11 @@ public class MemUtils {
             usedMem1 = usedMemory();
         }
     }
+
+    public static long usedMemoryAfterGC() {
+        runGC();
+        return usedMemory();
+    }
     
     public static long usedMemory() {
         return runtime.totalMemory() - runtime.freeMemory();

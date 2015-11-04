@@ -24,6 +24,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.mindswap.pellet.utils.DurationFormat;
+import org.mindswap.pellet.utils.MemUtils;
 import org.mindswap.pellet.utils.Timer;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -68,18 +69,18 @@ public class ProfileIncremental {
 
 		println("Computed diff " + diff.getDiffCount());
 
-	    IncrementalReasoner classifier;
+	    IncrementalReasoner reasoner;
 		File classificationFile = new File(initFile.getName() + ".zip");
 		if (classificationFile.exists()) {
-			classifier = IncrementalReasoner.config().file(classificationFile).createIncrementalReasoner(initOnt);
+			reasoner = IncrementalReasoner.config().file(classificationFile).createIncrementalReasoner(initOnt);
 	    }
 	    else {
-		    classifier = IncremantalReasonerFactory.getInstance().createReasoner(initOnt);
-		    classifier.classify();
-			classifier.save(classificationFile);
+		    reasoner = IncremantalReasonerFactory.getInstance().createReasoner(initOnt);
+		    reasoner.classify();
+			reasoner.save(classificationFile);
 		}
 
-		println("Created incremental classifier");
+		println("Created incremental reasoner");
 
 	    int addSize = diff.getAdditions().size() / updates;
 	    int removeSize = diff.getAdditions().size() / updates;
@@ -88,15 +89,31 @@ public class ProfileIncremental {
 
 		timer.reset();
 
+		boolean copyReasoner = false;
+		boolean disposeCopy = false;
+
+		List<IncrementalReasoner> reasoners = Lists.newArrayList();
+
 	    for (int i = 0; i < updates; i++) {
+		    IncrementalReasoner targetReasoner = copyReasoner ? reasoner.copy() : reasoner;
+		    OWLOntology targetOnt = copyReasoner ? targetReasoner.getRootOntology() : initOnt;
+
 		    List<OWLOntologyChange> changes = Lists.newArrayList();
-		    Iterators.addAll(changes, Iterators.transform(Iterators.limit(additions, addSize), toUpdate(initOnt, true)));
-		    Iterators.addAll(changes, Iterators.transform(Iterators.limit(deletions, removeSize), toUpdate(initOnt, false)));
+		    Iterators.addAll(changes, Iterators.transform(Iterators.limit(additions, addSize), toUpdate(targetOnt, true)));
+		    Iterators.addAll(changes, Iterators.transform(Iterators.limit(deletions, removeSize), toUpdate(targetOnt, false)));
 
 		    timer.start();
 		    OWL.manager.applyChanges(changes);
-		    classifier.classify();
+		    targetReasoner.classify();
 		    timer.stop();
+
+		    if (disposeCopy) {
+                targetReasoner.dispose();
+		        OWL.manager.removeOntology(targetOnt);
+		    }
+		    else {
+			    reasoners.add(targetReasoner);
+		    }
 
 		    println("Iteration " + (i + 1) + " " + DurationFormat.LONG.format(timer.getLast()));
 	    }
@@ -105,7 +122,7 @@ public class ProfileIncremental {
 	}
 
 	private static void println(String msg) {
-		System.out.println(timer.format() + " " + msg);
+		System.out.println(timer.format() + " " + msg + " " + MemUtils.mb(MemUtils.usedMemoryAfterGC()));
 	}
 
 	private static Function<OWLAxiom, OWLOntologyChange> toUpdate(final OWLOntology ont, final boolean add) {
