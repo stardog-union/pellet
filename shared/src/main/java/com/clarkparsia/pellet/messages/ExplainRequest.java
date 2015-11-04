@@ -40,12 +40,4 @@ public class ExplainRequest extends ProtoMessage {
 	public int hashCode() {
 		return Objects.hash(axiom);
 	}
-
-	@Override
-	public ByteString encode() {
-		final Messages.ExplainRequest aExplainRequest = Messages.ExplainRequest.newBuilder()
-		                                                                       .setAxiom(ProtoTools.toRawObject(axiom))
-		                                                                       .build();
-		return aExplainRequest.toByteString();
-	}
 }

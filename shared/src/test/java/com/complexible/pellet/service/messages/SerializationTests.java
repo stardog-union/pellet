@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.clarkparsia.pellet.MessageDecoders;
+import com.clarkparsia.pellet.MessageEncoders;
 import com.clarkparsia.pellet.messages.ExplainRequest;
 import com.clarkparsia.pellet.messages.QueryRequest;
 import com.clarkparsia.pellet.messages.UpdateRequest;
@@ -36,7 +37,7 @@ public class SerializationTests {
 
 		QueryRequest originalQR = new QueryRequest(entity);
 
-		ByteString encodedQR = originalQR.encode();
+		ByteString encodedQR = ByteString.copyFrom(MessageEncoders.encode(originalQR));
 		assertTrue(encodedQR.size() > 0);
 
 		QueryRequest decodedQR = MessageDecoders.queryRequest(encodedQR);
@@ -67,7 +68,7 @@ public class SerializationTests {
 
 		ExplainRequest originalER = new ExplainRequest(axiom);
 
-		ByteString encodedER = originalER.encode();
+		ByteString encodedER = ByteString.copyFrom(MessageEncoders.encode(originalER));
 		assertTrue(encodedER.size() > 0);
 
 		ExplainRequest decodedER = MessageDecoders.explainRequest(encodedER);
@@ -82,7 +83,7 @@ public class SerializationTests {
 
 		UpdateRequest originalUR = new UpdateRequest(additions, removals);
 
-		ByteString encodedUR = originalUR.encode();
+		ByteString encodedUR = ByteString.copyFrom(MessageEncoders.encode(originalUR));
 		assertTrue(encodedUR.size() > 0);
 
 		UpdateRequest decodedUR = MessageDecoders.updateRequest(encodedUR);

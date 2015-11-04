@@ -41,12 +41,4 @@ public class QueryRequest extends ProtoMessage {
 	public int hashCode() {
 		return Objects.hash(input);
 	}
-
-	@Override
-	public ByteString encode() {
-		final Messages.QueryRequest aProtoReq = Messages.QueryRequest.newBuilder()
-		                                                             .setInput(ProtoTools.toRawObject(input))
-		                                                             .build();
-		return aProtoReq.toByteString();
-	}
 }

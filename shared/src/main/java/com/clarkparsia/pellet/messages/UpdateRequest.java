@@ -52,14 +52,4 @@ public class UpdateRequest extends ProtoMessage {
 	public int hashCode() {
 		return Objects.hash(additions, removals);
 	}
-
-	@Override
-	public ByteString encode() {
-		Messages.UpdateRequest aUpdateReq = Messages.UpdateRequest.newBuilder()
-		                                                          .setAdditions(ProtoTools.toAxiomSet(additions))
-		                                                          .setRemovals(ProtoTools.toAxiomSet(removals))
-		                                                          .build();
-
-		return aUpdateReq.toByteString();
-	}
 }
