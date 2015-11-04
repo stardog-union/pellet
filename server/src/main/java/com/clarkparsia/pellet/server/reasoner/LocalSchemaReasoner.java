@@ -8,80 +8,110 @@
 
 package com.clarkparsia.pellet.server.reasoner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.clarkparsia.modularity.IncrementalReasoner;
-import com.clarkparsia.modularity.IncremantalReasonerFactory;
-import com.clarkparsia.owlapi.explanation.GlassBoxExplanation;
-import com.clarkparsia.owlapi.explanation.HSTExplanationGenerator;
-import com.clarkparsia.owlapi.explanation.MultipleExplanationGenerator;
-import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.clarkparsia.owlapi.explanation.PelletExplanation;
+import com.clarkparsia.owlapiv3.OWLListeningReasoner;
+import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import com.complexible.pellet.service.reasoner.SchemaReasonerUtil;
+import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.NodeSet;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 /**
  * @author Evren Sirin
  */
 public class LocalSchemaReasoner implements SchemaReasoner {
-	private OWLOntologyManager manager;
+	private final OWLListeningReasoner reasoner;
 
-	private IncrementalReasoner reasoner;
+	private final PelletExplanation explanation;
 
-	private SatisfiabilityConverter converter;
+	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
-	private GlassBoxExplanation singleExpGen;
-
-	private MultipleExplanationGenerator multipleExpGen;
-
-	public LocalSchemaReasoner(final OWLOntology ont) {
-		manager = ont.getOWLOntologyManager();
-
-		reasoner = IncremantalReasonerFactory.getInstance().createReasoner(ont);
-		// explanation generator makes changes to the ontology that would cause us to lose the current state
-		// so we disable change tracking
-		manager.removeOntologyChangeListener(reasoner);
-
-		converter = new SatisfiabilityConverter(manager.getOWLDataFactory());
-
-		singleExpGen = new GlassBoxExplanation(new PelletReasonerFactory(), reasoner.getReasoner());
-		multipleExpGen = new HSTExplanationGenerator(singleExpGen);
+	public LocalSchemaReasoner(final PelletReasoner pellet) {
+		this(pellet, pellet);
 	}
 
+	public LocalSchemaReasoner(final IncrementalReasoner incremental) {
+		this(incremental, incremental.getReasoner());
+	}
+
+	private LocalSchemaReasoner(final OWLListeningReasoner reasoner, final PelletReasoner pellet) {
+		this.reasoner = reasoner;
+		this.explanation = new PelletExplanation(pellet);
+
+		reasoner.setListenChanges(true);
+	}
 
 	@Override
 	public <T extends OWLObject> NodeSet<T> query(final QueryType theQueryType, final OWLLogicalEntity input) {
-		return SchemaReasonerUtil.query(reasoner, theQueryType, input);
+		lock.readLock().lock();
+		try {
+			return SchemaReasonerUtil.query(reasoner, theQueryType, input);
+		}
+		finally {
+			lock.readLock().unlock();
+		}
 	}
-
 
 	@Override
-	public Set<Set<OWLAxiom>> explain(OWLAxiom axiom, int limit) {
-		OWLClassExpression ce = converter.convert(axiom);
-		return multipleExpGen.getExplanations(ce, 0);
+	public Set<Set<OWLAxiom>> explain(final OWLAxiom axiom, final int limit) {
+		// explanation generator makes changes to the ontology so we need to acquire the write lock to prevent overlapping updates
+		lock.writeLock().lock();
+		// we disable change tracking in the reasoner not to lose the current state. after explanations are computed ontology
+		// would be left back in its original state so we can resume listening changes
+		reasoner.setListenChanges(false);
+		try {
+			return explanation.getEntailmentExplanations(axiom, limit);
+		}
+		finally {
+			reasoner.setListenChanges(true);
+			lock.writeLock().unlock();
+		}
 	}
-
 
 	@Override
 	public void update(Set<OWLAxiom> additions, Set<OWLAxiom> removals) {
-		manager.addOntologyChangeListener(reasoner);
-		OWLOntology ont = reasoner.getRootOntology();
-		OntologyUtils.addAxioms(ont, additions);
-		OntologyUtils.removeAxioms(ont, removals);
-		manager.removeOntologyChangeListener(reasoner);
+		lock.writeLock().lock();
+		try {
+			OWLOntology ontology = reasoner.getRootOntology();
+			OWLOntologyManager manager = ontology.getOWLOntologyManager();
+
+			List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
+			for (OWLAxiom axiom : additions) {
+				changes.add(new AddAxiom(ontology, axiom));
+			}
+			for (OWLAxiom axiom : removals) {
+				changes.add(new RemoveAxiom(ontology, axiom));
+			}
+			manager.applyChanges(changes);
+
+			reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
+		}
+		finally {
+			lock.writeLock().unlock();
+		}
 	}
 
 	@Override
 	public void close() throws Exception {
-		multipleExpGen.dispose();
+		explanation.dispose();
 		reasoner.dispose();
 	}
 }

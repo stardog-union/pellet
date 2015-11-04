@@ -10,6 +10,7 @@ package com.clarkparsia.pellet.server.model.impl;
 
 import java.util.List;
 
+import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.reasoner.LocalSchemaReasoner;
 import com.complexible.pellet.service.reasoner.SchemaReasoner;
@@ -17,22 +18,26 @@ import com.google.common.base.Throwables;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Evren Sirin
  */
 public class ClientStateImpl implements ClientState {
 	private final SchemaReasoner reasoner;
-	private final OWLOntology ontology;
+	private final OWLOntologyManager manager;
+	private final IRI ontologyIRI;
 
-	public ClientStateImpl(final OWLOntology theOntology) {
-		ontology = theOntology;
-		reasoner = new LocalSchemaReasoner(ontology);
+	public ClientStateImpl(final IncrementalReasoner incremental) {
+		// create the reasoner with a copy of the incremental reasoner so it won't be affected if the original reasoner is updated
+		reasoner = new LocalSchemaReasoner(incremental.copy());
+		manager = incremental.getRootOntology().getOWLOntologyManager();
+		ontologyIRI = incremental.getRootOntology().getOntologyID().getOntologyIRI().get();
 	}
 
 	@Override
 	public IRI getOntologyIRI() {
-		return  ontology.getOntologyID().getOntologyIRI().get();
+		return  ontologyIRI;
 	}
 
 	@Override
@@ -42,7 +47,7 @@ public class ClientStateImpl implements ClientState {
 
 	@Override
 	public void applyChanges(final List<? extends OWLOntologyChange> changes) {
-		ontology.getOWLOntologyManager().applyChanges(changes);
+		manager.applyChanges(changes);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.google.common.cache.CacheBuilder;
@@ -37,11 +37,16 @@ public class OntologyStateImpl implements OntologyState {
 
 	private final IRI ontologyIRI;
 
+	private final IncrementalReasoner reasoner;
+
 	private final LoadingCache<String, ClientState> clients;
 
 	public OntologyStateImpl(final OWLOntology ont) {
 		ontology = ont;
 		ontologyIRI = ontology.getOntologyID().getOntologyIRI().get();
+		reasoner = IncrementalReasoner.config().createIncrementalReasoner(ont);
+		reasoner.classify();
+
 		clients = CacheBuilder.newBuilder()
 		                      .expireAfterAccess(30, TimeUnit.MINUTES)
 		                      .removalListener(new RemovalListener<String, ClientState>() {
@@ -53,12 +58,16 @@ public class OntologyStateImpl implements OntologyState {
 		                      .build(new CacheLoader<String, ClientState>() {
 			                      @Override
 			                      public ClientState load(final String user) throws Exception {
-				                      synchronized (ontology) {
-					                      return new ClientStateImpl(OWL.Ontology(ontology.getAxioms(), ontologyIRI));
-				                      }
+				                      return newClientState();
 			                      }
 
 		                      });
+	}
+
+	private ClientState newClientState() {
+		synchronized (ontology) {
+			return new ClientStateImpl(reasoner);
+		}
 	}
 
 	@Override
@@ -86,6 +95,7 @@ public class OntologyStateImpl implements OntologyState {
 	public void applyChanges(final List<OWLOntologyChange> changes) {
 		synchronized (ontology) {
 			ontology.getOWLOntologyManager().applyChanges(changes);
+			reasoner.classify();
 		}
 	}
 
