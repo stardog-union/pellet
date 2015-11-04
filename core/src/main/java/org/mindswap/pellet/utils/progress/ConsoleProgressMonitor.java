@@ -72,7 +72,7 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor implements P
 		out.print( " " );
 		out.print( progressPercent );
 		out.print( "% complete in " );
-		out.print( DurationFormat.SHORT.format( timer.getElapsed() )  );
+		out.print( DurationFormat.LONG.format( timer.getElapsed() )  );
     }
     
     @Deprecated
@@ -88,6 +88,6 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor implements P
         out.println();        
         out.print( progressTitle );
         out.print( " finished in " );
-        out.println( DurationFormat.SHORT.format( timer.getLast() ) );
+        out.println( DurationFormat.LONG.format( timer.getLast() ) );
     }
 }
