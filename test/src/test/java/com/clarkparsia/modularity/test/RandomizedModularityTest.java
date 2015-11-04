@@ -6,7 +6,6 @@
 
 package com.clarkparsia.modularity.test;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -43,7 +42,7 @@ public class RandomizedModularityTest extends AbstractModularityTest {
 		OntologyUtils.removeAxioms(ontology, ontology.getAxioms(AxiomType.DECLARATION));
 		
 		Set<OWLEntity> signature = new HashSet<OWLEntity>(); 
-		signature.addAll( TestUtils.selectRandomElements( ontology.getClassesInSignature(), 5 ) );		
+		signature.addAll( TestUtils.selectRandomElements( ontology.getClassesInSignature(), 5, System.currentTimeMillis()) );
 		modularityTest( ontology, signature );
 		
 		OWL.manager.removeOntology( ontology );

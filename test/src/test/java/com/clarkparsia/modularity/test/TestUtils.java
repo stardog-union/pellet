@@ -6,11 +6,6 @@
 
 package com.clarkparsia.modularity.test;
 
-import static java.util.Collections.emptySet;
-import static java.util.Collections.singleton;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,7 +17,14 @@ import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
 
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
+import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.modularity.IncrementalReasonerConfiguration;
+import com.clarkparsia.modularity.ModuleExtractor;
+import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapiv3.OntologyUtils;
+import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Comparators;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -35,13 +37,10 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-import com.clarkparsia.modularity.IncrementalReasoner;
-import com.clarkparsia.modularity.ModuleExtractor;
-import com.clarkparsia.modularity.IncremantalReasonerFactory;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * <p>
@@ -137,7 +136,7 @@ public class TestUtils {
 	public static <E> Set<E> flatten(Set<Set<E>> setOfSets) {
 		Set<E> result = new HashSet<E>();
 		for( Set<E> set : setOfSets ) {
-			result.addAll( set );
+			result.addAll(set);
 		}
 		return result;
 	}
@@ -155,8 +154,6 @@ public class TestUtils {
 
 	/**
 	 * Selects a random axiom from an ontology
-	 * 
-	 * @param args
 	 */
 	public static OWLAxiom selectRandomAxiom(OWLOntology ontology) throws OWLException {
 		Set<OWLAxiom> selectedAxioms = selectRandomAxioms( ontology, 1 );
@@ -170,10 +167,10 @@ public class TestUtils {
 	public static Set<OWLAxiom> selectRandomAxioms(OWLOntology ontology, int count) {
 		Set<OWLAxiom> axioms = ontology.getAxioms();
 
-		return selectRandomElements( axioms, count );
+		return selectRandomElements(axioms, count, System.currentTimeMillis());
 	}
 
-	public static <T> Set<T> selectRandomElements(Collection<T> coll, int K) {
+	public static <T> Set<T> selectRandomElements(Collection<T> coll, int K, final long seed) {
 		// get the size
 		int N = coll.size();
 
@@ -184,7 +181,7 @@ public class TestUtils {
 			? (List<T>) coll
 			: new ArrayList<T>( coll );
 
-		Random rand = new Random();
+		Random rand = new Random(seed);
 
 		for( int k = 0; k < K; k++ ) {
 			int j = rand.nextInt( N - k ) + k;
@@ -257,15 +254,15 @@ public class TestUtils {
 	public static void runDisjointnessTest(OWLOntology ontology, ModuleExtractor modExtractor) {
 		runComparisonTest(ontology, modExtractor, new ReasonerComparisonMethod() {
 			public void compare(OWLReasoner expected, OWLReasoner actual) {
-				assertDisjointnessEquals(expected, actual);		
+				assertDisjointnessEquals(expected, actual);
 			}
 		});
 	}
 	
 	public static void runDisjointnessUpdateTest(OWLOntology ontology, ModuleExtractor modExtractor, Collection<OWLAxiom> additions, Collection<OWLAxiom> deletions) {
-		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, new ReasonerComparisonMethod() {
+		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, false, new ReasonerComparisonMethod() {
 			public void compare(OWLReasoner expected, OWLReasoner actual) {
-				assertDisjointnessEquals( expected, actual );
+				assertDisjointnessEquals(expected, actual);
 			}
 		});
 	}
@@ -273,15 +270,15 @@ public class TestUtils {
 	public static void runInstancesTest(OWLOntology ontology, ModuleExtractor modExtractor) {
 		runComparisonTest(ontology, modExtractor, new ReasonerComparisonMethod() {
 			public void compare(OWLReasoner expected, OWLReasoner actual) {
-				assertInstancesEquals(expected, actual);		
+				assertInstancesEquals(expected, actual);
 			}
 		});
 	}
 	
 	public static void runInstancesUpdateTest(OWLOntology ontology, ModuleExtractor modExtractor, Collection<OWLAxiom> additions, Collection<OWLAxiom> deletions) {
-		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, new ReasonerComparisonMethod() {
+		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, false, new ReasonerComparisonMethod() {
 			public void compare(OWLReasoner expected, OWLReasoner actual) {
-				assertInstancesEquals( expected, actual );
+				assertInstancesEquals(expected, actual);
 			}
 		});
 	}
@@ -289,22 +286,31 @@ public class TestUtils {
 	public static void runTypesTest(OWLOntology ontology, ModuleExtractor modExtractor) {
 		runComparisonTest(ontology, modExtractor, new ReasonerComparisonMethod() {
 			public void compare(OWLReasoner expected, OWLReasoner actual) {
-				assertTypesEquals(expected, actual);		
+				assertTypesEquals(expected, actual);
 			}
 		});
 	}
 	
 	public static void runTypesUpdateTest(OWLOntology ontology, ModuleExtractor modExtractor, Collection<OWLAxiom> additions, Collection<OWLAxiom> deletions) {
-		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, new ReasonerComparisonMethod() {
+		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, false, new ReasonerComparisonMethod() {
 			public void compare(OWLReasoner expected, OWLReasoner actual) {
-				assertTypesEquals( expected, actual );
+				assertTypesEquals(expected, actual);
 			}
 		});
 	}
 	
-	public static void runUpdateTest(OWLOntology ontology, ModuleExtractor modExtractor, 
+	public static void runUpdateTestOnCopy(OWLOntology ontology, ModuleExtractor modExtractor,
 			Collection<OWLAxiom> additions, Collection<OWLAxiom> deletions) throws OWLException {
-		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, new ReasonerComparisonMethod() {
+		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, true, new ReasonerComparisonMethod() {
+			public void compare(OWLReasoner expected, OWLReasoner actual) {
+				assertClassificationEquals(expected, actual);
+			}
+		});
+	}
+
+	public static void runUpdateTest(OWLOntology ontology, ModuleExtractor modExtractor,
+	                                 Collection<OWLAxiom> additions, Collection<OWLAxiom> deletions) throws OWLException {
+		runComparisonUpdateTest(ontology, modExtractor, additions, deletions, false, new ReasonerComparisonMethod() {
 			public void compare(OWLReasoner expected, OWLReasoner actual) {
 				assertClassificationEquals( expected, actual );
 			}
@@ -323,29 +329,48 @@ public class TestUtils {
 		
 		modular.dispose();
 	}
-	
-	private static void runComparisonUpdateTest(OWLOntology ontology, ModuleExtractor modExtractor, 
-			Collection<OWLAxiom> additions, Collection<OWLAxiom> deletions, ReasonerComparisonMethod comparisonMethod) {
-		PelletReasoner unified = PelletReasonerFactory.getInstance().createNonBufferingReasoner( ontology );
-		IncrementalReasoner modular = IncremantalReasonerFactory.getInstance().createReasoner( ontology, new IncrementalReasonerConfiguration().extractor(modExtractor));
+
+	private static void runComparisonUpdateTest(OWLOntology ontology, ModuleExtractor modExtractor,
+	                                            Collection<OWLAxiom> additions, Collection<OWLAxiom> deletions,
+	                                            boolean updateCopy, ReasonerComparisonMethod comparisonMethod) {
+		PelletReasoner regular = PelletReasonerFactory.getInstance().createNonBufferingReasoner( ontology );
+		IncrementalReasoner incremental = IncremantalReasonerFactory.getInstance().createReasoner(ontology, new IncrementalReasonerConfiguration().extractor(modExtractor));
 
 		PelletOptions.USE_CLASSIFICATION_MONITOR = PelletOptions.MonitorType.CONSOLE;
-		modular.classify();
+		incremental.classify();
 
-		comparisonMethod.compare( unified, modular );
-		
-		OntologyUtils.addAxioms( ontology, additions );		
-		OntologyUtils.removeAxioms( ontology, deletions );
-		
-		modular.classify();
-		unified.flush();
-		unified.getKB().classify();
-		
-		modular.timers.print();
+		comparisonMethod.compare(regular, incremental);
 
-		comparisonMethod.compare( unified, modular );
+
+		IncrementalReasoner updateIncremental;
+		OWLOntology updateOntology;
+
+		if (updateCopy) {
+			updateIncremental = incremental.copy();
+			updateOntology = updateIncremental.getRootOntology();
+		}
+		else {
+			updateIncremental = incremental;
+			updateOntology = ontology;
+		}
 		
-		modular.dispose();
+		OntologyUtils.addAxioms(updateOntology, additions);
+		OntologyUtils.removeAxioms(updateOntology, deletions);
+
+		updateIncremental.classify();
+
+		PelletReasoner updateRegular = PelletReasonerFactory.getInstance().createNonBufferingReasoner(updateOntology);
+		updateRegular.getKB().classify();
+
+		updateIncremental.timers.print();
+
+		comparisonMethod.compare(updateRegular, updateIncremental);
+		
+		incremental.dispose();
+		if (updateCopy) {
+			updateIncremental.dispose();
+			OWL.manager.removeOntology(updateOntology);
+		}
 	}
 	
 	public static <T> Set<T> set(T... elements) {

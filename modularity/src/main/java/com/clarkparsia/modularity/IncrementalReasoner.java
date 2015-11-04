@@ -58,6 +58,8 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.reasoner.AxiomNotInProfileException;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
@@ -190,8 +192,6 @@ public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListen
 
 		this.multiThreaded = that.multiThreaded;
 
-		this.reasoner = PelletReasonerFactory.getInstance().createReasoner(OWL.Ontology(getRootOntology().getAxioms()));
-
 		this.classified = that.classified;
 
 		if (classified) {
@@ -199,6 +199,24 @@ public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListen
 		}
 
 		realized = false;
+
+		try {
+			OWLOntology ont = that.getRootOntology();
+			OWLOntologyManager manager = ont.getOWLOntologyManager();
+			OWLOntology copyOnt = manager.createOntology();
+			manager.addAxioms(copyOnt, ont.getAxioms());
+
+			reasoner = PelletReasonerFactory.getInstance().createReasoner(copyOnt);
+
+			manager.addOntologyChangeListener(this);
+		}
+		catch (OWLOntologyCreationException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public IncrementalReasoner copy() {
+		return new IncrementalReasoner(this);
 	}
 	
 	/**
