@@ -12,9 +12,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -48,7 +50,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 	private Interpreter									interpreter;
 	private boolean										merging;
 	private Set<PartialBinding>							unsafeRules;
-	private Set<PartialBinding>							partialBindings;
+	private Queue<PartialBinding>						partialBindings;
 	private Map<Pair<Rule, VariableBinding>, Integer>	rulesApplied;
 	private RulesToATermTranslator						atermTranslator;
 	private RuleAtomAsserter							ruleAtomAsserter;
@@ -57,21 +59,22 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 	public ContinuousRulesStrategy(ABox abox) {
 		super( abox );
 		bindingStrategy = new BindingGeneratorStrategyImpl( abox );
-		partialBindings = new HashSet<PartialBinding>();
+		partialBindings = new LinkedList<PartialBinding>();
 		unsafeRules = new HashSet<PartialBinding>();
 		rulesApplied = new HashMap<Pair<Rule, VariableBinding>, Integer>();
 		atermTranslator = new RulesToATermTranslator();
 		ruleAtomAsserter = new RuleAtomAsserter();
 		atomTester = new TrivialSatisfactionHelpers( abox );
 	}
-	
+
 	public void addUnsafeRule(Rule rule, Set<ATermAppl> explain) {
 		unsafeRules.add(new PartialBinding(rule, new VariableBinding(abox), new DependencySet(explain)));
 	}
-	
+
 	public void addPartialBinding(PartialBinding binding) {
-	    partialBindings.add(binding);
-    }
+		if( !partialBindings.contains(binding) )
+			partialBindings.add(binding);
+	}
 
 	@Override
 	public Edge addEdge(Individual subj, Role pred, Node obj, DependencySet ds) {
@@ -82,7 +85,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 				interpreter.alphaNet.activateEdge(edge);
 			}
 		}
-		
+
 		return edge;
 	}
 
@@ -95,29 +98,29 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 			interpreter.alphaNet.activateType(ind, c, ds);
 		}
 	}
-	
+
 	@Override
 	protected boolean mergeIndividuals(Individual y, Individual x, DependencySet ds) {
-	    if (super.mergeIndividuals(y, x, ds)) {
-	    	if (interpreter != null) {
-	    		interpreter.alphaNet.activateDifferents(y);
-	    	}
-	    	return true;
-	    }
-	    return false;
+		if (super.mergeIndividuals(y, x, ds)) {
+			if (interpreter != null) {
+				interpreter.alphaNet.activateDifferents(y);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean setDifferent(Node y, Node z, DependencySet ds) {
-	    if (super.setDifferent(y, z, ds)) {
+		if (super.setDifferent(y, z, ds)) {
 			if( interpreter != null && !merging && !abox.isClosed() && y.isRootNominal() && y.isIndividual() && z.isRootNominal() && z.isIndividual()) {
 				interpreter.alphaNet.activateDifferent((Individual) y, (Individual) z, ds);
 			}
-			
-	    	return true;
-	    }
-	    
-	    return false;
+
+			return true;
+		}
+
+		return false;
 	}
 
 	public Collection<PartialBinding> applyRete() {
@@ -134,17 +137,15 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 		t = timers.startTimer( "rule-reteRun" );
 		interpreter.run();
 		t.stop();
-		
+
 		return interpreter.getBindings();
 	}
-	
-	
 
 	public void applyRuleBindings() {
 
 		int total = 0;
 
-		for( PartialBinding ruleBinding : partialBindings ) {
+		for( PartialBinding ruleBinding = partialBindings.poll(); ruleBinding != null; ruleBinding = partialBindings.poll() ) {
 			Rule rule = ruleBinding.getRule();
 			VariableBinding initial = ruleBinding.getBinding();
 
@@ -160,14 +161,14 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 						log.fine( "Binding: " + binding );
 						log.fine( "total:" + total );
 					}
-					
+
 					int branch = createDisjunctionsFromBinding( binding, rule, ruleBinding
 							.getDependencySet() );
-					
+
 					if( branch >= 0 ) {
 						rulesApplied.put( ruleKey, branch );
 					}
-					
+
 					if( abox.isClosed() ) {
 						return;
 					}
@@ -195,17 +196,17 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 				continue;
 
 			Set<ATermAppl> explain = abox.doExplanation() ? rule.getExplanation(atermTranslator) : Collections
-			                .<ATermAppl> emptySet();
+							.<ATermAppl> emptySet();
 
 			try {
-	            compiler.compile(normalizedRule, explain);
-            }
-            catch (UnsupportedOperationException uoe) {
-	            throw new RuntimeException("Unsupported rule " + normalizedRule, uoe);
-            }
+				compiler.compile(normalizedRule, explain);
+			}
+			catch(UnsupportedOperationException uoe) {
+				throw new RuntimeException("Unsupported rule " + normalizedRule, uoe);
+			}
 		}
 		t.stop();
-		
+
 		AlphaNetwork alphaNet = compiler.getAlphaNet();
 		if (abox.doExplanation()) {
 			alphaNet.setDoExplanation(true);
@@ -245,7 +246,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 					if( abox.isClosed() )
 						break;
 				}
-				
+
 				if( abox.isClosed() )
 					break;
 
@@ -310,13 +311,13 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 				atoms.add( atom );
 			}
 		}
-		
+
 		// all the atoms in the body are true
 		if( atoms.isEmpty() ) {
 			if( rule.getHead().isEmpty() ) {
 				if( log.isLoggable( Level.FINE ) )
 					log.fine( "Empty head for rule " + rule );
-				abox.setClash( Clash.unexplained( null, ds ) );				
+				abox.setClash( Clash.unexplained( null, ds ) );
 			}
 			else {
 				for( RuleAtom atom : rule.getHead() ) {
@@ -325,7 +326,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 			}
 			return -1;
 		}
-		
+
 		int bodyAtomCount = atoms.size();
 
 		for( RuleAtom atom : rule.getHead() ) {
@@ -334,7 +335,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 				atoms.add( atom );
 			}
 		}
-		
+
 		// all no head atoms are added to the list they are all true (unless
 		// there were no head atoms to begin with) which means there is nothing
 		// to be done
@@ -343,13 +344,13 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 		}
 		// if there is only one atom in the list that should be a body atom
 		// (otherwise it would mean that all body atoms are true which would
-		// have been caught with the if condition at the beginning) and we 
+		// have been caught with the if condition at the beginning) and we
 		// can directly assert it without creating a disjunction
 		else if( atoms.size() == 1 ) {
 			ruleAtomAsserter.assertAtom( atoms.get( 0 ), binding, ds, true, abox, this );
 			return -1;
 		}
-		else {		
+		else {
 			RuleBranch r = new RuleBranch( abox, this, ruleAtomAsserter, atoms, binding, bodyAtomCount, ds );
 			addBranch( r );
 			r.tryNext();
