@@ -1,0 +1,52 @@
+package com.clarkparsia.pellet;
+
+option java_outer_classname = "Messages";
+
+option optimize_for = SPEED;
+
+message RawObject {
+	required string klass = 1;
+	required bytes raw_bytes = 2;
+}
+
+message QueryRequest {
+	enum QueryType {
+		EQUIVALENT = 0;
+		CHILD = 1;
+		PARENT = 2;
+		DESCENDANT = 3;
+		ANCESTOR = 4;
+		DISJOINT = 5;
+		INVERSE = 6;
+		DOMAIN = 7;
+		RANGE = 8;
+	}
+
+	required QueryType type = 1;
+
+	required RawObject input = 2;
+}
+
+message ExplainRequest {
+	required int32 limit = 1;
+
+	required RawObject axiom = 2;
+}
+
+message AxiomSet {
+	repeated RawObject axioms = 1;
+}
+
+message UpdateRequest {
+	required AxiomSet additions = 1;
+
+	required AxiomSet removals = 2;
+}
+
+message QueryResponse {
+	required RawObject result = 1;
+}
+
+message ExplainResponse {
+	repeated AxiomSet axiomsets = 1;
+}
