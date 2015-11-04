@@ -5,12 +5,6 @@ import java.util.Set;
 
 import com.complexible.pellet.client.ClientException;
 import com.complexible.pellet.client.api.PelletService;
-import com.complexible.pellet.service.messages.request.ExplainRequest;
-import com.complexible.pellet.service.messages.request.QueryRequest;
-import com.complexible.pellet.service.messages.request.UpdateRequest;
-import com.complexible.pellet.service.messages.response.ExplainResponse;
-import com.complexible.pellet.service.messages.response.QueryResponse;
-import com.complexible.pellet.service.messages.response.UpdateResponse;
 import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
@@ -49,26 +43,17 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 	@Override
 	public <T extends OWLObject> NodeSet<T> query(final QueryType theQueryType, final OWLLogicalEntity input) {
-		final Call<QueryResponse> aQueryCall = mService.query(mOntologyIri,
-		                                                      new QueryRequest(theQueryType, input));
-
-		return (NodeSet<T>) executeCall(aQueryCall).getResults();
+		return null;
 	}
 
 	@Override
 	public Set<Set<OWLAxiom>> explain(final OWLAxiom axiom, final int limit) {
-		final Call<ExplainResponse> aExplainCall = mService.explain(mOntologyIri,
-		                                                            new ExplainRequest(axiom, limit));
-
-		return executeCall(aExplainCall).getResults();
+		return null;
 	}
 
 	@Override
 	public void update(final Set<OWLAxiom> additions, final Set<OWLAxiom> removals) {
-		final Call<UpdateResponse> aUpdateCall = mService.update(mOntologyIri,
-		                                                         new UpdateRequest(additions, removals));
 
-		executeCall(aUpdateCall);
 	}
 
 	@Override

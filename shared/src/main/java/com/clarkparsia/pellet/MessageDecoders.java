@@ -36,10 +36,9 @@ public final class MessageDecoders {
 		public QueryRequest decode(final ByteString theBytes) {
 			try {
 				final Messages.QueryRequest aProtoReq = Messages.QueryRequest.parseFrom(theBytes.toByteArray());
-				final SchemaReasoner.QueryType aQueryType = decodeQueryType(aProtoReq.getType());
 				final OWLLogicalEntity anEntity = ProtoTools.fromRawObject(aProtoReq.getInput());
 
-				return new QueryRequest(aQueryType, anEntity);
+				return new QueryRequest(anEntity);
 
 			}
 			catch (Exception e) {
@@ -47,31 +46,6 @@ public final class MessageDecoders {
 				Throwables.propagate(e);
 			}
 			return null;
-		}
-
-		private static SchemaReasoner.QueryType decodeQueryType(Messages.QueryRequest.QueryType theType) {
-			switch(theType) {
-				case EQUIVALENT:
-					return SchemaReasoner.QueryType.EQUIVALENT;
-				case CHILD:
-					return SchemaReasoner.QueryType.CHILD;
-				case PARENT:
-					return SchemaReasoner.QueryType.PARENT;
-				case DESCENDANT:
-					return SchemaReasoner.QueryType.DESCENDANT;
-				case ANCESTOR:
-					return SchemaReasoner.QueryType.ANCESTOR;
-				case DISJOINT:
-					return SchemaReasoner.QueryType.DISJOINT;
-				case INVERSE:
-					return SchemaReasoner.QueryType.INVERSE;
-				case DOMAIN:
-					return SchemaReasoner.QueryType.DOMAIN;
-				case RANGE:
-					return SchemaReasoner.QueryType.RANGE;
-				default:
-					return null;
-			}
 		}
 	}
 
@@ -82,10 +56,9 @@ public final class MessageDecoders {
 		public ExplainRequest decode(final ByteString theBytes) {
 			try {
 				final Messages.ExplainRequest aProtoReq = Messages.ExplainRequest.parseFrom(theBytes);
-				final int limit = aProtoReq.getLimit();
 				final OWLAxiom anAxiom = ProtoTools.fromRawObject(aProtoReq.getAxiom());
 
-				return new ExplainRequest(anAxiom, limit);
+				return new ExplainRequest(anAxiom);
 			}
 			catch (Exception e) {
 				// TODO: create decoding exception

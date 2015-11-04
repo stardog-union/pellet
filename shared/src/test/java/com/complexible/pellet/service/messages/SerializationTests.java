@@ -34,7 +34,7 @@ public class SerializationTests {
 	public void testQueryRequestRoundtrip() {
 		OWLLogicalEntity entity = new OWLClassImpl(IRI.create("urn:test:iri"));
 
-		QueryRequest originalQR = new QueryRequest(SchemaReasoner.QueryType.ANCESTOR, entity);
+		QueryRequest originalQR = new QueryRequest(entity);
 
 		ByteString encodedQR = originalQR.encode();
 		assertTrue(encodedQR.size() > 0);
@@ -65,7 +65,7 @@ public class SerializationTests {
 	public void testExplainRequestRoundtrip() {
 		OWLAxiom axiom = generateAxiom(0);
 
-		ExplainRequest originalER = new ExplainRequest(axiom, 10);
+		ExplainRequest originalER = new ExplainRequest(axiom);
 
 		ByteString encodedER = originalER.encode();
 		assertTrue(encodedER.size() > 0);

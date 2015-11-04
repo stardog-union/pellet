@@ -26,15 +26,15 @@ public final class Messages {
     com.google.protobuf.ByteString
         getKlassBytes();
 
-    // required bytes raw_bytes = 2;
+    // required bytes bytes = 2;
     /**
-     * <code>required bytes raw_bytes = 2;</code>
+     * <code>required bytes bytes = 2;</code>
      */
-    boolean hasRawBytes();
+    boolean hasBytes();
     /**
-     * <code>required bytes raw_bytes = 2;</code>
+     * <code>required bytes bytes = 2;</code>
      */
-    com.google.protobuf.ByteString getRawBytes();
+    com.google.protobuf.ByteString getBytes();
   }
   /**
    * Protobuf type {@code com.clarkparsia.pellet.RawObject}
@@ -94,7 +94,7 @@ public final class Messages {
             }
             case 18: {
               bitField0_ |= 0x00000002;
-              rawBytes_ = input.readBytes();
+              bytes_ = input.readBytes();
               break;
             }
           }
@@ -180,25 +180,25 @@ public final class Messages {
       }
     }
 
-    // required bytes raw_bytes = 2;
-    public static final int RAW_BYTES_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString rawBytes_;
+    // required bytes bytes = 2;
+    public static final int BYTES_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString bytes_;
     /**
-     * <code>required bytes raw_bytes = 2;</code>
+     * <code>required bytes bytes = 2;</code>
      */
-    public boolean hasRawBytes() {
+    public boolean hasBytes() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required bytes raw_bytes = 2;</code>
+     * <code>required bytes bytes = 2;</code>
      */
-    public com.google.protobuf.ByteString getRawBytes() {
-      return rawBytes_;
+    public com.google.protobuf.ByteString getBytes() {
+      return bytes_;
     }
 
     private void initFields() {
       klass_ = "";
-      rawBytes_ = com.google.protobuf.ByteString.EMPTY;
+      bytes_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -209,7 +209,7 @@ public final class Messages {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasRawBytes()) {
+      if (!hasBytes()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -224,7 +224,7 @@ public final class Messages {
         output.writeBytes(1, getKlassBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, rawBytes_);
+        output.writeBytes(2, bytes_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -241,7 +241,7 @@ public final class Messages {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, rawBytes_);
+          .computeBytesSize(2, bytes_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -361,7 +361,7 @@ public final class Messages {
         super.clear();
         klass_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        rawBytes_ = com.google.protobuf.ByteString.EMPTY;
+        bytes_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -398,7 +398,7 @@ public final class Messages {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.rawBytes_ = rawBytes_;
+        result.bytes_ = bytes_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -420,8 +420,8 @@ public final class Messages {
           klass_ = other.klass_;
           onChanged();
         }
-        if (other.hasRawBytes()) {
-          setRawBytes(other.getRawBytes());
+        if (other.hasBytes()) {
+          setBytes(other.getBytes());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -432,7 +432,7 @@ public final class Messages {
           
           return false;
         }
-        if (!hasRawBytes()) {
+        if (!hasBytes()) {
           
           return false;
         }
@@ -532,38 +532,38 @@ public final class Messages {
         return this;
       }
 
-      // required bytes raw_bytes = 2;
-      private com.google.protobuf.ByteString rawBytes_ = com.google.protobuf.ByteString.EMPTY;
+      // required bytes bytes = 2;
+      private com.google.protobuf.ByteString bytes_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required bytes raw_bytes = 2;</code>
+       * <code>required bytes bytes = 2;</code>
        */
-      public boolean hasRawBytes() {
+      public boolean hasBytes() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required bytes raw_bytes = 2;</code>
+       * <code>required bytes bytes = 2;</code>
        */
-      public com.google.protobuf.ByteString getRawBytes() {
-        return rawBytes_;
+      public com.google.protobuf.ByteString getBytes() {
+        return bytes_;
       }
       /**
-       * <code>required bytes raw_bytes = 2;</code>
+       * <code>required bytes bytes = 2;</code>
        */
-      public Builder setRawBytes(com.google.protobuf.ByteString value) {
+      public Builder setBytes(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-        rawBytes_ = value;
+        bytes_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bytes raw_bytes = 2;</code>
+       * <code>required bytes bytes = 2;</code>
        */
-      public Builder clearRawBytes() {
+      public Builder clearBytes() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        rawBytes_ = getDefaultInstance().getRawBytes();
+        bytes_ = getDefaultInstance().getBytes();
         onChanged();
         return this;
       }
@@ -582,27 +582,17 @@ public final class Messages {
   public interface QueryRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;
+    // required .com.clarkparsia.pellet.RawObject input = 1;
     /**
-     * <code>required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;</code>
-     */
-    boolean hasType();
-    /**
-     * <code>required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;</code>
-     */
-    com.clarkparsia.pellet.Messages.QueryRequest.QueryType getType();
-
-    // required .com.clarkparsia.pellet.RawObject input = 2;
-    /**
-     * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
      */
     boolean hasInput();
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
      */
     com.clarkparsia.pellet.Messages.RawObject getInput();
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
      */
     com.clarkparsia.pellet.Messages.RawObjectOrBuilder getInputOrBuilder();
   }
@@ -657,20 +647,9 @@ public final class Messages {
               }
               break;
             }
-            case 8: {
-              int rawValue = input.readEnum();
-              com.clarkparsia.pellet.Messages.QueryRequest.QueryType value = com.clarkparsia.pellet.Messages.QueryRequest.QueryType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                type_ = value;
-              }
-              break;
-            }
-            case 18: {
+            case 10: {
               com.clarkparsia.pellet.Messages.RawObject.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
                 subBuilder = input_.toBuilder();
               }
               input_ = input.readMessage(com.clarkparsia.pellet.Messages.RawObject.PARSER, extensionRegistry);
@@ -678,7 +657,7 @@ public final class Messages {
                 subBuilder.mergeFrom(input_);
                 input_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000001;
               break;
             }
           }
@@ -720,192 +699,30 @@ public final class Messages {
       return PARSER;
     }
 
-    /**
-     * Protobuf enum {@code com.clarkparsia.pellet.QueryRequest.QueryType}
-     */
-    public enum QueryType
-        implements com.google.protobuf.ProtocolMessageEnum {
-      /**
-       * <code>EQUIVALENT = 0;</code>
-       */
-      EQUIVALENT(0, 0),
-      /**
-       * <code>CHILD = 1;</code>
-       */
-      CHILD(1, 1),
-      /**
-       * <code>PARENT = 2;</code>
-       */
-      PARENT(2, 2),
-      /**
-       * <code>DESCENDANT = 3;</code>
-       */
-      DESCENDANT(3, 3),
-      /**
-       * <code>ANCESTOR = 4;</code>
-       */
-      ANCESTOR(4, 4),
-      /**
-       * <code>DISJOINT = 5;</code>
-       */
-      DISJOINT(5, 5),
-      /**
-       * <code>INVERSE = 6;</code>
-       */
-      INVERSE(6, 6),
-      /**
-       * <code>DOMAIN = 7;</code>
-       */
-      DOMAIN(7, 7),
-      /**
-       * <code>RANGE = 8;</code>
-       */
-      RANGE(8, 8),
-      ;
-
-      /**
-       * <code>EQUIVALENT = 0;</code>
-       */
-      public static final int EQUIVALENT_VALUE = 0;
-      /**
-       * <code>CHILD = 1;</code>
-       */
-      public static final int CHILD_VALUE = 1;
-      /**
-       * <code>PARENT = 2;</code>
-       */
-      public static final int PARENT_VALUE = 2;
-      /**
-       * <code>DESCENDANT = 3;</code>
-       */
-      public static final int DESCENDANT_VALUE = 3;
-      /**
-       * <code>ANCESTOR = 4;</code>
-       */
-      public static final int ANCESTOR_VALUE = 4;
-      /**
-       * <code>DISJOINT = 5;</code>
-       */
-      public static final int DISJOINT_VALUE = 5;
-      /**
-       * <code>INVERSE = 6;</code>
-       */
-      public static final int INVERSE_VALUE = 6;
-      /**
-       * <code>DOMAIN = 7;</code>
-       */
-      public static final int DOMAIN_VALUE = 7;
-      /**
-       * <code>RANGE = 8;</code>
-       */
-      public static final int RANGE_VALUE = 8;
-
-
-      public final int getNumber() { return value; }
-
-      public static QueryType valueOf(int value) {
-        switch (value) {
-          case 0: return EQUIVALENT;
-          case 1: return CHILD;
-          case 2: return PARENT;
-          case 3: return DESCENDANT;
-          case 4: return ANCESTOR;
-          case 5: return DISJOINT;
-          case 6: return INVERSE;
-          case 7: return DOMAIN;
-          case 8: return RANGE;
-          default: return null;
-        }
-      }
-
-      public static com.google.protobuf.Internal.EnumLiteMap<QueryType>
-          internalGetValueMap() {
-        return internalValueMap;
-      }
-      private static com.google.protobuf.Internal.EnumLiteMap<QueryType>
-          internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<QueryType>() {
-              public QueryType findValueByNumber(int number) {
-                return QueryType.valueOf(number);
-              }
-            };
-
-      public final com.google.protobuf.Descriptors.EnumValueDescriptor
-          getValueDescriptor() {
-        return getDescriptor().getValues().get(index);
-      }
-      public final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptorForType() {
-        return getDescriptor();
-      }
-      public static final com.google.protobuf.Descriptors.EnumDescriptor
-          getDescriptor() {
-        return com.clarkparsia.pellet.Messages.QueryRequest.getDescriptor().getEnumTypes().get(0);
-      }
-
-      private static final QueryType[] VALUES = values();
-
-      public static QueryType valueOf(
-          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-        if (desc.getType() != getDescriptor()) {
-          throw new java.lang.IllegalArgumentException(
-            "EnumValueDescriptor is not for this type.");
-        }
-        return VALUES[desc.getIndex()];
-      }
-
-      private final int index;
-      private final int value;
-
-      private QueryType(int index, int value) {
-        this.index = index;
-        this.value = value;
-      }
-
-      // @@protoc_insertion_point(enum_scope:com.clarkparsia.pellet.QueryRequest.QueryType)
-    }
-
     private int bitField0_;
-    // required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private com.clarkparsia.pellet.Messages.QueryRequest.QueryType type_;
+    // required .com.clarkparsia.pellet.RawObject input = 1;
+    public static final int INPUT_FIELD_NUMBER = 1;
+    private com.clarkparsia.pellet.Messages.RawObject input_;
     /**
-     * <code>required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
      */
-    public boolean hasType() {
+    public boolean hasInput() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;</code>
-     */
-    public com.clarkparsia.pellet.Messages.QueryRequest.QueryType getType() {
-      return type_;
-    }
-
-    // required .com.clarkparsia.pellet.RawObject input = 2;
-    public static final int INPUT_FIELD_NUMBER = 2;
-    private com.clarkparsia.pellet.Messages.RawObject input_;
-    /**
-     * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
-     */
-    public boolean hasInput() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
      */
     public com.clarkparsia.pellet.Messages.RawObject getInput() {
       return input_;
     }
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
      */
     public com.clarkparsia.pellet.Messages.RawObjectOrBuilder getInputOrBuilder() {
       return input_;
     }
 
     private void initFields() {
-      type_ = com.clarkparsia.pellet.Messages.QueryRequest.QueryType.EQUIVALENT;
       input_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
@@ -913,10 +730,6 @@ public final class Messages {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasInput()) {
         memoizedIsInitialized = 0;
         return false;
@@ -933,10 +746,7 @@ public final class Messages {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, type_.getNumber());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, input_);
+        output.writeMessage(1, input_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -949,11 +759,7 @@ public final class Messages {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, type_.getNumber());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, input_);
+          .computeMessageSize(1, input_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1072,14 +878,12 @@ public final class Messages {
 
       public Builder clear() {
         super.clear();
-        type_ = com.clarkparsia.pellet.Messages.QueryRequest.QueryType.EQUIVALENT;
-        bitField0_ = (bitField0_ & ~0x00000001);
         if (inputBuilder_ == null) {
           input_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
         } else {
           inputBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -1111,10 +915,6 @@ public final class Messages {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.type_ = type_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
         if (inputBuilder_ == null) {
           result.input_ = input_;
         } else {
@@ -1136,9 +936,6 @@ public final class Messages {
 
       public Builder mergeFrom(com.clarkparsia.pellet.Messages.QueryRequest other) {
         if (other == com.clarkparsia.pellet.Messages.QueryRequest.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
-        }
         if (other.hasInput()) {
           mergeInput(other.getInput());
         }
@@ -1147,10 +944,6 @@ public final class Messages {
       }
 
       public final boolean isInitialized() {
-        if (!hasType()) {
-          
-          return false;
-        }
         if (!hasInput()) {
           
           return false;
@@ -1181,54 +974,18 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;
-      private com.clarkparsia.pellet.Messages.QueryRequest.QueryType type_ = com.clarkparsia.pellet.Messages.QueryRequest.QueryType.EQUIVALENT;
-      /**
-       * <code>required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;</code>
-       */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;</code>
-       */
-      public com.clarkparsia.pellet.Messages.QueryRequest.QueryType getType() {
-        return type_;
-      }
-      /**
-       * <code>required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;</code>
-       */
-      public Builder setType(com.clarkparsia.pellet.Messages.QueryRequest.QueryType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required .com.clarkparsia.pellet.QueryRequest.QueryType type = 1;</code>
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = com.clarkparsia.pellet.Messages.QueryRequest.QueryType.EQUIVALENT;
-        onChanged();
-        return this;
-      }
-
-      // required .com.clarkparsia.pellet.RawObject input = 2;
+      // required .com.clarkparsia.pellet.RawObject input = 1;
       private com.clarkparsia.pellet.Messages.RawObject input_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder> inputBuilder_;
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       public boolean hasInput() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       public com.clarkparsia.pellet.Messages.RawObject getInput() {
         if (inputBuilder_ == null) {
@@ -1238,7 +995,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       public Builder setInput(com.clarkparsia.pellet.Messages.RawObject value) {
         if (inputBuilder_ == null) {
@@ -1250,11 +1007,11 @@ public final class Messages {
         } else {
           inputBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       public Builder setInput(
           com.clarkparsia.pellet.Messages.RawObject.Builder builderForValue) {
@@ -1264,15 +1021,15 @@ public final class Messages {
         } else {
           inputBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       public Builder mergeInput(com.clarkparsia.pellet.Messages.RawObject value) {
         if (inputBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
               input_ != com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance()) {
             input_ =
               com.clarkparsia.pellet.Messages.RawObject.newBuilder(input_).mergeFrom(value).buildPartial();
@@ -1283,11 +1040,11 @@ public final class Messages {
         } else {
           inputBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       public Builder clearInput() {
         if (inputBuilder_ == null) {
@@ -1296,19 +1053,19 @@ public final class Messages {
         } else {
           inputBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       public com.clarkparsia.pellet.Messages.RawObject.Builder getInputBuilder() {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         onChanged();
         return getInputFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       public com.clarkparsia.pellet.Messages.RawObjectOrBuilder getInputOrBuilder() {
         if (inputBuilder_ != null) {
@@ -1318,7 +1075,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject input = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject input = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder> 
@@ -1348,27 +1105,17 @@ public final class Messages {
   public interface ExplainRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 limit = 1;
+    // required .com.clarkparsia.pellet.RawObject axiom = 1;
     /**
-     * <code>required int32 limit = 1;</code>
-     */
-    boolean hasLimit();
-    /**
-     * <code>required int32 limit = 1;</code>
-     */
-    int getLimit();
-
-    // required .com.clarkparsia.pellet.RawObject axiom = 2;
-    /**
-     * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
      */
     boolean hasAxiom();
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
      */
     com.clarkparsia.pellet.Messages.RawObject getAxiom();
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
      */
     com.clarkparsia.pellet.Messages.RawObjectOrBuilder getAxiomOrBuilder();
   }
@@ -1423,14 +1170,9 @@ public final class Messages {
               }
               break;
             }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              limit_ = input.readInt32();
-              break;
-            }
-            case 18: {
+            case 10: {
               com.clarkparsia.pellet.Messages.RawObject.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
                 subBuilder = axiom_.toBuilder();
               }
               axiom_ = input.readMessage(com.clarkparsia.pellet.Messages.RawObject.PARSER, extensionRegistry);
@@ -1438,7 +1180,7 @@ public final class Messages {
                 subBuilder.mergeFrom(axiom_);
                 axiom_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000001;
               break;
             }
           }
@@ -1481,46 +1223,29 @@ public final class Messages {
     }
 
     private int bitField0_;
-    // required int32 limit = 1;
-    public static final int LIMIT_FIELD_NUMBER = 1;
-    private int limit_;
+    // required .com.clarkparsia.pellet.RawObject axiom = 1;
+    public static final int AXIOM_FIELD_NUMBER = 1;
+    private com.clarkparsia.pellet.Messages.RawObject axiom_;
     /**
-     * <code>required int32 limit = 1;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
      */
-    public boolean hasLimit() {
+    public boolean hasAxiom() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 limit = 1;</code>
-     */
-    public int getLimit() {
-      return limit_;
-    }
-
-    // required .com.clarkparsia.pellet.RawObject axiom = 2;
-    public static final int AXIOM_FIELD_NUMBER = 2;
-    private com.clarkparsia.pellet.Messages.RawObject axiom_;
-    /**
-     * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
-     */
-    public boolean hasAxiom() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
      */
     public com.clarkparsia.pellet.Messages.RawObject getAxiom() {
       return axiom_;
     }
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+     * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
      */
     public com.clarkparsia.pellet.Messages.RawObjectOrBuilder getAxiomOrBuilder() {
       return axiom_;
     }
 
     private void initFields() {
-      limit_ = 0;
       axiom_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
@@ -1528,10 +1253,6 @@ public final class Messages {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasLimit()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasAxiom()) {
         memoizedIsInitialized = 0;
         return false;
@@ -1548,10 +1269,7 @@ public final class Messages {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, limit_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, axiom_);
+        output.writeMessage(1, axiom_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1564,11 +1282,7 @@ public final class Messages {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, limit_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, axiom_);
+          .computeMessageSize(1, axiom_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1687,14 +1401,12 @@ public final class Messages {
 
       public Builder clear() {
         super.clear();
-        limit_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
         if (axiomBuilder_ == null) {
           axiom_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
         } else {
           axiomBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -1726,10 +1438,6 @@ public final class Messages {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.limit_ = limit_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
         if (axiomBuilder_ == null) {
           result.axiom_ = axiom_;
         } else {
@@ -1751,9 +1459,6 @@ public final class Messages {
 
       public Builder mergeFrom(com.clarkparsia.pellet.Messages.ExplainRequest other) {
         if (other == com.clarkparsia.pellet.Messages.ExplainRequest.getDefaultInstance()) return this;
-        if (other.hasLimit()) {
-          setLimit(other.getLimit());
-        }
         if (other.hasAxiom()) {
           mergeAxiom(other.getAxiom());
         }
@@ -1762,10 +1467,6 @@ public final class Messages {
       }
 
       public final boolean isInitialized() {
-        if (!hasLimit()) {
-          
-          return false;
-        }
         if (!hasAxiom()) {
           
           return false;
@@ -1796,51 +1497,18 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // required int32 limit = 1;
-      private int limit_ ;
-      /**
-       * <code>required int32 limit = 1;</code>
-       */
-      public boolean hasLimit() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 limit = 1;</code>
-       */
-      public int getLimit() {
-        return limit_;
-      }
-      /**
-       * <code>required int32 limit = 1;</code>
-       */
-      public Builder setLimit(int value) {
-        bitField0_ |= 0x00000001;
-        limit_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 limit = 1;</code>
-       */
-      public Builder clearLimit() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        limit_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required .com.clarkparsia.pellet.RawObject axiom = 2;
+      // required .com.clarkparsia.pellet.RawObject axiom = 1;
       private com.clarkparsia.pellet.Messages.RawObject axiom_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder> axiomBuilder_;
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       public boolean hasAxiom() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       public com.clarkparsia.pellet.Messages.RawObject getAxiom() {
         if (axiomBuilder_ == null) {
@@ -1850,7 +1518,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       public Builder setAxiom(com.clarkparsia.pellet.Messages.RawObject value) {
         if (axiomBuilder_ == null) {
@@ -1862,11 +1530,11 @@ public final class Messages {
         } else {
           axiomBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       public Builder setAxiom(
           com.clarkparsia.pellet.Messages.RawObject.Builder builderForValue) {
@@ -1876,15 +1544,15 @@ public final class Messages {
         } else {
           axiomBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       public Builder mergeAxiom(com.clarkparsia.pellet.Messages.RawObject value) {
         if (axiomBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
               axiom_ != com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance()) {
             axiom_ =
               com.clarkparsia.pellet.Messages.RawObject.newBuilder(axiom_).mergeFrom(value).buildPartial();
@@ -1895,11 +1563,11 @@ public final class Messages {
         } else {
           axiomBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       public Builder clearAxiom() {
         if (axiomBuilder_ == null) {
@@ -1908,19 +1576,19 @@ public final class Messages {
         } else {
           axiomBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       public com.clarkparsia.pellet.Messages.RawObject.Builder getAxiomBuilder() {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000001;
         onChanged();
         return getAxiomFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       public com.clarkparsia.pellet.Messages.RawObjectOrBuilder getAxiomOrBuilder() {
         if (axiomBuilder_ != null) {
@@ -1930,7 +1598,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject axiom = 2;</code>
+       * <code>required .com.clarkparsia.pellet.RawObject axiom = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder> 
@@ -4628,25 +4296,19 @@ public final class Messages {
   static {
     java.lang.String[] descriptorData = {
       "\n\016messages.proto\022\026com.clarkparsia.pellet" +
-      "\"-\n\tRawObject\022\r\n\005klass\030\001 \002(\t\022\021\n\traw_byte" +
-      "s\030\002 \002(\014\"\203\002\n\014QueryRequest\022<\n\004type\030\001 \002(\0162." +
-      ".com.clarkparsia.pellet.QueryRequest.Que" +
-      "ryType\0220\n\005input\030\002 \002(\0132!.com.clarkparsia." +
-      "pellet.RawObject\"\202\001\n\tQueryType\022\016\n\nEQUIVA" +
-      "LENT\020\000\022\t\n\005CHILD\020\001\022\n\n\006PARENT\020\002\022\016\n\nDESCEND" +
-      "ANT\020\003\022\014\n\010ANCESTOR\020\004\022\014\n\010DISJOINT\020\005\022\013\n\007INV" +
-      "ERSE\020\006\022\n\n\006DOMAIN\020\007\022\t\n\005RANGE\020\010\"Q\n\016Explain" +
-      "Request\022\r\n\005limit\030\001 \002(\005\0220\n\005axiom\030\002 \002(\0132!.",
-      "com.clarkparsia.pellet.RawObject\"=\n\010Axio" +
-      "mSet\0221\n\006axioms\030\001 \003(\0132!.com.clarkparsia.p" +
-      "ellet.RawObject\"x\n\rUpdateRequest\0223\n\taddi" +
-      "tions\030\001 \002(\0132 .com.clarkparsia.pellet.Axi" +
-      "omSet\0222\n\010removals\030\002 \002(\0132 .com.clarkparsi" +
-      "a.pellet.AxiomSet\"B\n\rQueryResponse\0221\n\006re" +
-      "sult\030\001 \002(\0132!.com.clarkparsia.pellet.RawO" +
-      "bject\"F\n\017ExplainResponse\0223\n\taxiomsets\030\001 " +
-      "\003(\0132 .com.clarkparsia.pellet.AxiomSetB\014B" +
-      "\010MessagesH\001"
+      "\")\n\tRawObject\022\r\n\005klass\030\001 \002(\t\022\r\n\005bytes\030\002 " +
+      "\002(\014\"@\n\014QueryRequest\0220\n\005input\030\001 \002(\0132!.com" +
+      ".clarkparsia.pellet.RawObject\"B\n\016Explain" +
+      "Request\0220\n\005axiom\030\001 \002(\0132!.com.clarkparsia" +
+      ".pellet.RawObject\"=\n\010AxiomSet\0221\n\006axioms\030" +
+      "\001 \003(\0132!.com.clarkparsia.pellet.RawObject" +
+      "\"x\n\rUpdateRequest\0223\n\tadditions\030\001 \002(\0132 .c" +
+      "om.clarkparsia.pellet.AxiomSet\0222\n\010remova" +
+      "ls\030\002 \002(\0132 .com.clarkparsia.pellet.AxiomS",
+      "et\"B\n\rQueryResponse\0221\n\006result\030\001 \002(\0132!.co" +
+      "m.clarkparsia.pellet.RawObject\"F\n\017Explai" +
+      "nResponse\0223\n\taxiomsets\030\001 \003(\0132 .com.clark" +
+      "parsia.pellet.AxiomSetB\014B\010MessagesH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4658,19 +4320,19 @@ public final class Messages {
           internal_static_com_clarkparsia_pellet_RawObject_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_clarkparsia_pellet_RawObject_descriptor,
-              new java.lang.String[] { "Klass", "RawBytes", });
+              new java.lang.String[] { "Klass", "Bytes", });
           internal_static_com_clarkparsia_pellet_QueryRequest_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_com_clarkparsia_pellet_QueryRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_clarkparsia_pellet_QueryRequest_descriptor,
-              new java.lang.String[] { "Type", "Input", });
+              new java.lang.String[] { "Input", });
           internal_static_com_clarkparsia_pellet_ExplainRequest_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_com_clarkparsia_pellet_ExplainRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_clarkparsia_pellet_ExplainRequest_descriptor,
-              new java.lang.String[] { "Limit", "Axiom", });
+              new java.lang.String[] { "Axiom", });
           internal_static_com_clarkparsia_pellet_AxiomSet_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_com_clarkparsia_pellet_AxiomSet_fieldAccessorTable = new

@@ -1,19 +1,19 @@
 package com.complexible.pellet.client.api;
 
-import com.complexible.pellet.service.messages.request.ExplainRequest;
 import com.complexible.pellet.service.messages.GenericJsonMessage;
-import com.complexible.pellet.service.messages.request.QueryRequest;
-import com.complexible.pellet.service.messages.request.UpdateRequest;
-import com.complexible.pellet.service.messages.response.ExplainResponse;
-import com.complexible.pellet.service.messages.response.QueryResponse;
-import com.complexible.pellet.service.messages.response.UpdateResponse;
+import com.complexible.pellet.service.reasoner.SchemaReasoner;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.ResponseBody;
 import org.semanticweb.owlapi.model.IRI;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Part;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * Interface definition for Pellet Service.
@@ -26,11 +26,18 @@ public interface PelletService {
 	Call<GenericJsonMessage> shutdown();
 
 	@POST("/reasoner/{ontology}/query")
-	Call<QueryResponse> query(@Path("ontology") IRI theOntology, @Body QueryRequest theQueryRequest);
+	Call<ResponseBody> query(@Path("ontology") IRI theOntology,
+	                         @Query("type") SchemaReasoner.QueryType theType,
+	                         @Body RequestBody theQueryRequest);
 
 	@POST("/reasoner/{ontology}/explain")
-	Call<ExplainResponse> explain(@Path("ontology") IRI theOntology, @Body ExplainRequest theQueryRequest);
+	Call<ResponseBody> explain(@Path("ontology") IRI theOntology,
+	                           @Query("limit") int limit,
+	                           @Body RequestBody theQueryRequest);
 
+	@Multipart
 	@PUT("/reasoner/{ontology}")
-	Call<UpdateResponse> update(@Path("ontology") IRI theOntology, @Body UpdateRequest theQueryRequest);
+	Call<ResponseBody> update(@Path("ontology") IRI theOntology,
+	                          @Part("additions") RequestBody theAdditions,
+	                          @Part("removals") RequestBody theRemovals);
 }

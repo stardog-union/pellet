@@ -18,14 +18,14 @@ public final class ProtoTools {
 		final byte[] objBytes = SerializationUtils.serialize(theObj);
 		return Messages.RawObject.newBuilder()
 		                         .setKlass(theObj.getClass().getName())
-		                         .setRawBytes(ByteString.copyFrom(objBytes))
+		                         .setBytes(ByteString.copyFrom(objBytes))
 		                         .build();
 	}
 
 	public static <T> T fromRawObject(final Messages.RawObject theRawObject) throws
 	                                                                         ClassNotFoundException {
 		final String klass = theRawObject.getKlass();
-		final byte[] objBytes = theRawObject.getRawBytes().toByteArray();
+		final byte[] objBytes = theRawObject.getBytes().toByteArray();
 		final Class<T> aAxiomClass = (Class<T>) Class.forName(klass);
 
 		return aAxiomClass.cast(SerializationUtils.deserialize(objBytes));

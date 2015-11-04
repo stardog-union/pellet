@@ -14,19 +14,12 @@ public class ExplainRequest extends ProtoMessage {
 
 	private final OWLAxiom axiom;
 
-	private final int limit;
-
-	public ExplainRequest(final OWLAxiom theOwlAxiom, final int theLimit) {
+	public ExplainRequest(final OWLAxiom theOwlAxiom) {
 		axiom = theOwlAxiom;
-		limit = theLimit;
 	}
 
 	public OWLAxiom getAxiom() {
 		return axiom;
-	}
-
-	public int getLimit() {
-		return limit;
 	}
 
 	@Override
@@ -40,18 +33,17 @@ public class ExplainRequest extends ProtoMessage {
 
 		ExplainRequest otherER = (ExplainRequest) theOther;
 
-		return Objects.deepEquals(axiom, otherER.axiom) && limit == otherER.limit;
+		return Objects.deepEquals(axiom, otherER.axiom);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(limit, axiom);
+		return Objects.hash(axiom);
 	}
 
 	@Override
 	public ByteString encode() {
 		final Messages.ExplainRequest aExplainRequest = Messages.ExplainRequest.newBuilder()
-		                                                                       .setLimit(limit)
 		                                                                       .setAxiom(ProtoTools.toRawObject(axiom))
 		                                                                       .build();
 		return aExplainRequest.toByteString();
