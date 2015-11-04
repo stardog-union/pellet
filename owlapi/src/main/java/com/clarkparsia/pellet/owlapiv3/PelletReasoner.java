@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import aterm.ATermAppl;
+import com.clarkparsia.owlapiv3.AbstractOWLListeningReasoner;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.exceptions.PelletRuntimeException;
@@ -37,7 +38,6 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.model.OWLOntologyChangeVisitor;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
@@ -56,7 +56,6 @@ import org.semanticweb.owlapi.reasoner.IndividualNodeSetPolicy;
 import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.ReasonerInterruptedException;
 import org.semanticweb.owlapi.reasoner.ReasonerProgressMonitor;
 import org.semanticweb.owlapi.reasoner.TimeOutException;
@@ -68,8 +67,7 @@ import org.semanticweb.owlapi.reasoner.impl.OWLNamedIndividualNodeSet;
 import org.semanticweb.owlapi.reasoner.impl.OWLObjectPropertyNodeSet;
 import org.semanticweb.owlapi.util.Version;
 
-public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
-
+public class PelletReasoner extends AbstractOWLListeningReasoner {
 	public static final Logger log = Logger.getLogger( PelletReasoner.class.getName() );
 
 	private static final Set<InferenceType> PRECOMPUTABLE_INFERENCES = EnumSet.of(InferenceType.CLASS_HIERARCHY,
@@ -285,8 +283,6 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	
 	private final IndividualNodeSetPolicy individualNodeSetPolicy;
 
-	private boolean listenChanges = false;
-
 	private final ChangeVisitor						changeVisitor 	= new ChangeVisitor();
 	
 	private final EntityMapper<OWLNamedIndividual>	IND_MAPPER		= new NamedIndividualMapper();
@@ -366,17 +362,6 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 		kb = null;
 	}
 
-	public void setListenChanges(boolean listen) {
-		if (listenChanges != listen) {
-			listenChanges = listen;
-			if (listenChanges) {
-				manager.addOntologyChangeListener(this);
-			}
-			else {
-				manager.removeOntologyChangeListener(this);
-			}
-		}
-	}
 	/**
 	 * {@inheritDoc}
 	 */

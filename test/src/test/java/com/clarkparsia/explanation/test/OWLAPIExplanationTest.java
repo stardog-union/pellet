@@ -92,18 +92,13 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest {
 	@After
 	public void after() {
 		super.after();
-		
+
 		if( expGen != null ) {
-			if( useGlassBox ) {
-				GlassBoxExplanation gbe = (GlassBoxExplanation) expGen.getSingleExplanationGenerator();
-				gbe.dispose();
-				reasoner.dispose();
-			}
-			else {
-				BlackBoxExplanation bbe = (BlackBoxExplanation) expGen.getSingleExplanationGenerator();
-				bbe.dispose();
-				reasoner.getManager().removeOntologyChangeListener( bbe.getDefinitionTracker() );
-			}
+			expGen.dispose();
+		}
+
+		if (reasoner != null) {
+			reasoner.dispose();
 		}
 	}
 
