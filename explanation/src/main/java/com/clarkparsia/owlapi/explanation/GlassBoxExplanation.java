@@ -7,6 +7,7 @@
 package com.clarkparsia.owlapi.explanation;
 
 
+import java.lang.ref.SoftReference;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,6 +15,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerConfiguration;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Pair;
 import org.mindswap.pellet.utils.SetUtils;
@@ -77,13 +79,14 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl {
 	 * state in the original reasoner.
 	 */
 	private PelletReasoner altReasoner = null;
-	
-	private boolean altReasonerEnabled = false;
+
+	private boolean disposeReasoner = false;
 	
 	private AxiomConverter axiomConverter;
 
 	public GlassBoxExplanation(OWLOntology ontology, PelletReasonerFactory factory) {
 		this( factory, factory.createReasoner( ontology ) );
+		disposeReasoner = true;
 	}
 	
 	public GlassBoxExplanation(PelletReasoner reasoner) {
@@ -91,20 +94,9 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl {
 	}
 		
 	public GlassBoxExplanation(PelletReasonerFactory factory, PelletReasoner reasoner) {
-		super( reasoner.getRootOntology(), factory, reasoner );
+		super(reasoner.getRootOntology(), factory, reasoner);
 		
 		axiomConverter = new AxiomConverter( reasoner );
-	}
-
-	private void setAltReasonerEnabled(boolean enabled) {
-		if( enabled ) {
-			if( altReasoner == null ) {
-				log.fine( "Create alt reasoner" );
-				altReasoner = getReasonerFactory().createNonBufferingReasoner( getOntology() );
-			}
-		}
-
-		altReasonerEnabled = enabled;
 	}
 	
 	private OWLClass getNegation(OWLClassExpression desc) {
@@ -149,13 +141,11 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl {
 		return new Pair<OWLClass, OWLClass>( sub, sup );
 	}
 	
-	private Set<OWLAxiom> getCachedExplanation(OWLClassExpression unsatClass) {
-		PelletReasoner pellet = getReasoner();
-
+	private Set<OWLAxiom> getCachedExplanation(OWLClassExpression unsatClass, PelletReasoner pellet) {
 		if( !pellet.getKB().isClassified() )
 			return null;
 
-		Pair<OWLClass,OWLClass> pair = getSubClassAxiom( unsatClass );
+		Pair<OWLClass,OWLClass> pair = getSubClassAxiom(unsatClass);
 
 		if( pair != null ) {
 			Set<Set<ATermAppl>> exps = TaxonomyUtils.getSuperExplanations( 
@@ -174,41 +164,56 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl {
 		return null;
 	}
 
+	@Override
+	public void endTransaction() {
+		super.endTransaction();
+
+		if (altReasoner != null) {
+			altReasoner.dispose();
+			altReasoner = null;
+		}
+	}
+
+	@Override
 	public Set<OWLAxiom> getExplanation(OWLClassExpression unsatClass) {
 		Set<OWLAxiom> result = null;
 
-		boolean firstExplanation = isFirstExplanation();
+		boolean isFirstExplanation = isFirstExplanation();
 
 		if( log.isLoggable( Level.FINE ) )
-			log.fine( "Explain: " + unsatClass + " " + "First: " + firstExplanation );
+			log.fine("Explain: " + unsatClass + " " + "First: " + isFirstExplanation );
 
-		if( firstExplanation ) {
-			altReasoner = null;
-			
-			result = getCachedExplanation( unsatClass );
+		final PelletReasoner pellet;
 
-			if( result == null )
-				result = getPelletExplanation( unsatClass );
+		if (isFirstExplanation) {
+			pellet = getReasoner();
+
+			result = getCachedExplanation(unsatClass, pellet);
 		}
 		else {
-			setAltReasonerEnabled( true );
-
-			try {
-				result = getPelletExplanation( unsatClass );
-			} catch( RuntimeException e ) {
-				log.log( Level.SEVERE,  "Unexpected error while trying to get explanation set from Pellet", e );
-				throw new OWLRuntimeException(e);
-			} finally {
-				setAltReasonerEnabled( false );
+			if (altReasoner == null) {
+				log.fine( "Create alt reasoner" );
+				altReasoner = getReasonerFactory().createReasoner(getOntology(), PelletReasoner.config().buffering(false));
 			}
+
+			pellet = altReasoner;
+		}
+
+		try {
+			if (result == null) {
+				result = getPelletExplanation(unsatClass, pellet);
+			}
+		}
+		catch( RuntimeException e ) {
+			log.log( Level.SEVERE,  "Unexpected error while trying to get explanation set from Pellet", e );
+			throw new OWLRuntimeException(e);
 		}
 
 		return result;
 	}
 
-	private Set<OWLAxiom> getPelletExplanation(OWLClassExpression unsatClass) {
-		PelletReasoner pellet = getReasoner();
-		
+	private Set<OWLAxiom> getPelletExplanation(OWLClassExpression unsatClass, PelletReasoner pellet) {
+		pellet.flush();
 		pellet.getKB().prepare();
 		
 		// satisfiable if there is an undefined entity
@@ -360,21 +365,29 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl {
 			throw new OWLRuntimeException( e );
 		}
 	}
-	
+
 	@Override
 	public PelletReasoner getReasoner() {
-		return altReasonerEnabled ? altReasoner : (PelletReasoner) super.getReasoner();
+		return (PelletReasoner) super.getReasoner();
 	}
 	
 	@Override
 	public PelletReasonerFactory getReasonerFactory() {
 		return (PelletReasonerFactory) super.getReasonerFactory();
 	}
-	
+
+	@Override
 	public void dispose() {
 		getOntologyManager().removeOntologyChangeListener( getDefinitionTracker() );
-		if( altReasoner != null )
+
+		if (disposeReasoner) {
+			getReasoner().dispose();
+		}
+
+		if (altReasoner != null) {
 			altReasoner.dispose();
+			altReasoner = null;
+		}
 	}
 	
 	public String toString() {

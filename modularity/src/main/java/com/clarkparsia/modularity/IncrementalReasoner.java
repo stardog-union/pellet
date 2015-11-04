@@ -133,6 +133,8 @@ public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListen
 
 	private boolean realized = false;
 
+	private boolean listenChanges = false;
+
 	public IncrementalReasoner(OWLOntology ontology, IncrementalReasonerConfiguration config) {
 		extractor = config.getModuleExtractor() != null ? config.getModuleExtractor() : ModuleExtractorFactory.createModuleExtractor();
 
@@ -180,9 +182,7 @@ public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListen
 			}
 		}
 
-		if (config.isListenChanges()) {
-			reasoner.getManager().addOntologyChangeListener(this);
-		}
+		setListenChanges(config.isListenChanges());
 	}
 
 	private IncrementalReasoner(IncrementalReasoner that) {
@@ -208,7 +208,7 @@ public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListen
 
 			reasoner = PelletReasonerFactory.getInstance().createReasoner(copyOnt);
 
-			manager.addOntologyChangeListener(this);
+			setListenChanges(true);
 		}
 		catch (OWLOntologyCreationException e) {
 			throw new RuntimeException(e);
@@ -291,9 +291,21 @@ public class IncrementalReasoner implements OWLReasoner, OWLOntologyChangeListen
 	}
 
 	public void dispose() {
+		setListenChanges(false);
+
 		reasoner.dispose();
-		
-		reasoner.getManager().removeOntologyChangeListener(this);
+	}
+
+	public void setListenChanges(boolean listen) {
+		if (listenChanges != listen) {
+			listenChanges = listen;
+			if (listenChanges) {
+				reasoner.getManager().addOntologyChangeListener(this);
+			}
+			else {
+				reasoner.getManager().removeOntologyChangeListener(this);
+			}
+		}
 	}
 
 	public Node<OWLClass> getEquivalentClasses(OWLClassExpression clsC) {

@@ -285,6 +285,8 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	
 	private final IndividualNodeSetPolicy individualNodeSetPolicy;
 
+	private boolean listenChanges = false;
+
 	private final ChangeVisitor						changeVisitor 	= new ChangeVisitor();
 	
 	private final EntityMapper<OWLNamedIndividual>	IND_MAPPER		= new NamedIndividualMapper();
@@ -314,9 +316,8 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 		ontology = ont;
 
 		manager = ontology.getOWLOntologyManager();
-		if (config.isListenChanges()) {
-			manager.addOntologyChangeListener(this);
-		}
+
+		setListenChanges(config.isListenChanges());
 
 		monitor = config.getProgressMonitor();
 
@@ -361,10 +362,21 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener  {
 	}
 
 	public void dispose() {
+		setListenChanges(false);
 		kb = null;
-		manager.removeOntologyChangeListener( this );
 	}
 
+	public void setListenChanges(boolean listen) {
+		if (listenChanges != listen) {
+			listenChanges = listen;
+			if (listenChanges) {
+				manager.addOntologyChangeListener(this);
+			}
+			else {
+				manager.removeOntologyChangeListener(this);
+			}
+		}
+	}
 	/**
 	 * {@inheritDoc}
 	 */

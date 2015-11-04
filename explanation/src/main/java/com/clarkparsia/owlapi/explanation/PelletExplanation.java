@@ -8,6 +8,7 @@ package com.clarkparsia.owlapi.explanation;
 
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -42,6 +43,8 @@ public class PelletExplanation {
 	private HSTExplanationGenerator expGen;
 	
 	private SatisfiabilityConverter converter;
+
+	private boolean disposeReasoner = false;
 	
 	public PelletExplanation(OWLOntology ontology) {
 		this( ontology, true );
@@ -49,6 +52,7 @@ public class PelletExplanation {
 	
 	public PelletExplanation(OWLOntology ontology, boolean useGlassBox) {
 		this( new PelletReasonerFactory().createReasoner( ontology ), useGlassBox );
+		disposeReasoner = true;
 	}
 
 	public PelletExplanation(PelletReasoner reasoner) {
@@ -63,10 +67,10 @@ public class PelletExplanation {
 		TransactionAwareSingleExpGen singleExp = useGlassBox 
 			? new GlassBoxExplanation( reasoner )
 			: new BlackBoxExplanation( reasoner.getRootOntology(), new PelletReasonerFactory(), reasoner );
-		
+
 		// Create multiple explanation generator
 		expGen = new HSTExplanationGenerator( singleExp );		
-		
+
 		// Create the converter that will translate axioms into class expressions
 		converter = new SatisfiabilityConverter( factory );
 	}
@@ -169,5 +173,16 @@ public class PelletExplanation {
      */
     public Set<Set<OWLAxiom>> getUnsatisfiableExplanations(OWLClassExpression unsatClass, int maxExplanations) {
     	return expGen.getExplanations( unsatClass, maxExplanations );
-    }    
+    }
+
+	/**
+	 * Disposes additional resources used to generate explanations.
+	 */
+	public void dispose() {
+		if (disposeReasoner) {
+			expGen.getReasoner().dispose();
+		}
+		expGen.dispose();
+	}
 }
+
