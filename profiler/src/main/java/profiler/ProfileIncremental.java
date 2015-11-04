@@ -7,8 +7,12 @@
 package profiler;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -17,9 +21,17 @@ import javax.annotation.Nullable;
 import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.modularity.OntologyDiff;
 import com.clarkparsia.modularity.IncremantalReasonerFactory;
+import com.clarkparsia.owlapi.explanation.GlassBoxExplanation;
+import com.clarkparsia.owlapi.explanation.HSTExplanationGenerator;
+import com.clarkparsia.owlapi.explanation.MultipleExplanationGenerator;
+import com.clarkparsia.owlapi.explanation.PelletExplanation;
+import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
+import com.clarkparsia.owlapi.explanation.io.ConciseExplanationRenderer;
+import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -28,10 +40,14 @@ import org.mindswap.pellet.utils.MemUtils;
 import org.mindswap.pellet.utils.Timer;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.RemoveAxiom;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.impl.SatisfiabilityReducer;
 
 /*
  * Created on Oct 10, 2004
@@ -45,6 +61,7 @@ public class ProfileIncremental {
 
 	private static Timer timer = new Timer();
 
+	private static Random RANDOM = new Random();
 
 	public final static void main(String[] args) throws Exception  {
 	    File initFile = new File(args[0]);
@@ -52,6 +69,8 @@ public class ProfileIncremental {
 		int updates = Integer.parseInt(args[2]);
 
 		OWLOntologyManager manager = OWL.manager;
+
+		PelletExplanation.setup();
 
 		timer.start();
 
@@ -89,12 +108,15 @@ public class ProfileIncremental {
 
 		timer.reset();
 
-		boolean copyReasoner = false;
-		boolean disposeCopy = false;
+		boolean copyReasoner = true;
+		boolean disposeCopy = true && copyReasoner;
+		int explanationCount = 0;
 
 		List<IncrementalReasoner> reasoners = Lists.newArrayList();
+		SatisfiabilityConverter converter = new SatisfiabilityConverter(manager.getOWLDataFactory());
+		ExplanationRenderer renderer = new ConciseExplanationRenderer();
 
-	    for (int i = 0; i < updates; i++) {
+	    for (int i = 1; i <= updates; i++) {
 		    IncrementalReasoner targetReasoner = copyReasoner ? reasoner.copy() : reasoner;
 		    OWLOntology targetOnt = copyReasoner ? targetReasoner.getRootOntology() : initOnt;
 
@@ -107,22 +129,65 @@ public class ProfileIncremental {
 		    targetReasoner.classify();
 		    timer.stop();
 
+		    PelletExplanation explanation = null;
+		    if (explanationCount > 0) {
+			    println("Before explanation " + i + " " + DurationFormat.LONG.format(timer.getLast()));
+
+			    explanation = new PelletExplanation(targetReasoner.getReasoner());
+
+			    manager.removeOntologyChangeListener(targetReasoner);
+
+			    for (int j = 1; j <= explanationCount; j++) {
+				    OWLAxiom axiom = selectRandomInference(targetReasoner);
+				    try {
+					    timer.start();
+					    Set<Set<OWLAxiom>> explanations = explanation.getEntailmentExplanations(axiom, explanationCount);
+
+					    renderer.startRendering(new PrintWriter(System.out));
+					    renderer.render(axiom, explanations);
+					    renderer.endRendering();
+					    timer.stop();
+
+					    println("Explanation " + j + " " + DurationFormat.LONG.format(timer.getLast()));
+				    }
+				    catch (Exception e) {
+					    System.err.println("Error explaining " + axiom);
+					    e.printStackTrace();
+				    }
+			    }
+			    manager.addOntologyChangeListener(targetReasoner);
+		    }
+
 		    if (disposeCopy) {
                 targetReasoner.dispose();
 		        OWL.manager.removeOntology(targetOnt);
+			    if (explanation != null) {
+				    explanation.dispose();
+			    }
 		    }
-		    else {
+		    else if (copyReasoner) {
 			    reasoners.add(targetReasoner);
 		    }
 
-		    println("Iteration " + (i + 1) + " " + DurationFormat.LONG.format(timer.getLast()));
+		    println("Iteration " + i + " " + DurationFormat.LONG.format(timer.getLast()));
 	    }
 
 		println("Finished " + DurationFormat.LONG.format((long) timer.getAverage()));
 	}
 
+	private static OWLAxiom selectRandomInference(OWLReasoner reasoner) {
+		OWLOntology ont = reasoner.getRootOntology();
+		OWLClass cls = selectRandom(ont.getClassesInSignature());
+		OWLClass superCls = selectRandom(reasoner.getSuperClasses(cls, false).getNodes()).getRepresentativeElement();
+		return ont.getOWLOntologyManager().getOWLDataFactory().getOWLSubClassOfAxiom(cls, superCls);
+	}
+
+	private static <T> T selectRandom(Collection<T> coll) {
+		return Iterables.get(coll, RANDOM.nextInt(coll.size()));
+	}
+
 	private static void println(String msg) {
-		System.out.println(timer.format() + " " + msg + " " + MemUtils.mb(MemUtils.usedMemoryAfterGC()));
+		System.out.print(timer.format() + " " + msg + " ");System.out.println(MemUtils.mb(MemUtils.usedMemoryAfterGC()));
 	}
 
 	private static Function<OWLAxiom, OWLOntologyChange> toUpdate(final OWLOntology ont, final boolean add) {
