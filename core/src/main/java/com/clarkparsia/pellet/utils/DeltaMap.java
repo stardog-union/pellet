@@ -12,6 +12,7 @@ import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.google.common.base.Predicate;
@@ -70,6 +71,11 @@ public class DeltaMap<K, V> extends AbstractMap<K, V> {
 	}
 
 	@Override
+	public boolean containsKey(final Object key) {
+		return additions.containsKey(key) || !removals.containsKey(key) && base.containsKey(key);
+	}
+
+	@Override
 	public V get(final Object key) {
 		V result = additions.get(key);
 		if (result == null && !removals.containsKey(key)) {
@@ -112,7 +118,7 @@ public class DeltaMap<K, V> extends AbstractMap<K, V> {
 			public Iterator<Entry<K, V>> iterator() {
 				Iterator<Entry<K, V>> result = base.entrySet().iterator();
 
-				if (!additions.isEmpty() && !removals.isEmpty()) {
+				if (!additions.isEmpty() || !removals.isEmpty()) {
 					result = Iterators.filter(result, new Predicate<Entry<K, V>>() {
 						@Override
 						public boolean apply(final Entry<K, V> theEntry) {
@@ -126,6 +132,16 @@ public class DeltaMap<K, V> extends AbstractMap<K, V> {
 				}
 
 				return result;
+			}
+
+			@Override
+			public boolean contains(final Object o) {
+				if (!(o instanceof Map.Entry))
+					return false;
+				Map.Entry<?,?> e = (Map.Entry<?,?>) o;
+				Object key = e.getKey();
+				Object value = get(key);
+				return Objects.equals(e.getValue(), value);
 			}
 
 			@Override

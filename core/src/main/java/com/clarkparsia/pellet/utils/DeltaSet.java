@@ -65,6 +65,11 @@ public class DeltaSet<T> extends AbstractSet<T> {
 	}
 
 	@Override
+	public boolean contains(final Object o) {
+		return additions.contains(o) || !removals.contains(o) && base.contains(o);
+	}
+
+	@Override
 	public boolean add(final T e) {
 		return removals.remove(e) || (!base.contains(e) && additions.add(e));
 	}

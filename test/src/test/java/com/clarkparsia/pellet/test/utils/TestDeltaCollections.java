@@ -27,6 +27,7 @@ public class TestDeltaCollections {
 
 		assertTrue(delta.add(6));
 		assertTrue(delta.add(7));
+		assertSetEquals(ImmutableSet.of(1, 2, 3, 4, 5, 6, 7), delta);
 		assertTrue(delta.remove(3));
 		assertTrue(delta.remove(5));
 		assertFalse(delta.add(2));
@@ -54,6 +55,7 @@ public class TestDeltaCollections {
 
 		assertEquals(null, delta.put(6, "6"));
 		assertEquals(null, delta.put(7, "7"));
+		assertMapEquals(ImmutableMap.<Integer, String>builder().putAll(base).put(6, "6").put(7, "7").build(), delta);
 		assertEquals(7, delta.size());
 		assertEquals("3", delta.remove(3));
 		assertEquals("5", delta.remove(5));
@@ -77,6 +79,17 @@ public class TestDeltaCollections {
 
 		delta.reset();
 		assertMapEquals(base, delta);
+	}
+	@Test
+	public void deltaMapOnlyRemovals() {
+		Map<Integer, String> base = ImmutableMap.of(1, "1", 2, "2", 3, "3", 4, "4", 5, "5");
+		DeltaMap<Integer, String> delta = new DeltaMap<Integer, String>(base);
+
+		assertEquals("3", delta.remove(3));
+		assertEquals("5", delta.remove(5));
+
+		Map<Integer, String> expected = ImmutableMap.of(1, "1", 2, "2", 4, "4");
+		assertMapEquals(expected, delta);
 	}
 
 	private <T> void assertSetEquals(Set<T> expected, Set<T> actual) {
