@@ -10,12 +10,14 @@ package com.clarkparsia.pellet.server.model.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.google.common.cache.CacheBuilder;
@@ -24,6 +26,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 
@@ -92,9 +95,9 @@ public class OntologyStateImpl implements OntologyState {
 	}
 
 	@Override
-	public void applyChanges(final List<OWLOntologyChange> changes) {
+	public void update(Set<OWLAxiom> additions, Set<OWLAxiom> removals) {
 		synchronized (ontology) {
-			ontology.getOWLOntologyManager().applyChanges(changes);
+			OntologyUtils.updateOntology(ontology, additions, removals);
 			reasoner.classify();
 		}
 	}

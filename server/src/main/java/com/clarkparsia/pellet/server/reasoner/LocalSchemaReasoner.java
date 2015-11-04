@@ -18,6 +18,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.owlapiv3.OWLListeningReasoner;
+import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import com.complexible.pellet.service.reasoner.SchemaReasonerUtil;
@@ -91,16 +92,8 @@ public class LocalSchemaReasoner implements SchemaReasoner {
 		lock.writeLock().lock();
 		try {
 			OWLOntology ontology = reasoner.getRootOntology();
-			OWLOntologyManager manager = ontology.getOWLOntologyManager();
 
-			List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-			for (OWLAxiom axiom : additions) {
-				changes.add(new AddAxiom(ontology, axiom));
-			}
-			for (OWLAxiom axiom : removals) {
-				changes.add(new RemoveAxiom(ontology, axiom));
-			}
-			manager.applyChanges(changes);
+			OntologyUtils.updateOntology(ontology, additions, removals);
 
 			reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
 		}

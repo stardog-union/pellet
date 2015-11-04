@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
@@ -32,6 +34,7 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
+import org.semanticweb.owlapi.reasoner.InferenceType;
 
 /**
  * <p>Title: </p>
@@ -48,7 +51,7 @@ public class OntologyUtils {
 	private static OWLOntologyManager	manager		= OWL.manager;
 
 	public static void addAxioms(OWLOntology ontology, Collection<? extends OWLAxiom> axioms) {
-		updateOntology( ontology, axioms, true );
+		updateOntology(ontology, axioms, ImmutableSet.<OWLAxiom>of());
 	}
 
 	public static void addAxioms(OWLOntology ontology, OWLAxiom... axioms) {
@@ -90,7 +93,7 @@ public class OntologyUtils {
 	 */
 	public static OWLOntology loadOntology( String uri ) {
 		try {
-			return manager.loadOntology( IRI.create( uri ) );
+			return manager.loadOntology(IRI.create(uri));
 		} catch( OWLOntologyCreationException e ) {
 			throw new OWLRuntimeException( e );
 		}
@@ -177,37 +180,35 @@ public class OntologyUtils {
 	 * Prints an ontology to console
 	 */
 	public static void printOntology(OWLOntology ont) {
-		printAxioms( ont.getAxioms() );
+		printAxioms(ont.getAxioms());
 	}
 
 	public static void removeAxioms(OWLOntology ontology, Collection<? extends OWLAxiom> axioms) {
-		updateOntology( ontology, axioms, false );
+		updateOntology(ontology, ImmutableSet.<OWLAxiom>of(), axioms);
 	}
 
 	public static void removeAxioms(OWLOntology ontology, OWLAxiom... axioms) {
-		removeAxioms( ontology, Arrays.asList( axioms ) );
+		removeAxioms(ontology, Arrays.asList(axioms));
 	}
 
 	public static void save(OWLOntology ont, String path) throws OWLOntologyStorageException {
-		manager.saveOntology( ont, IRI.create( new File( path ).toURI() ) );
+		manager.saveOntology(ont, IRI.create(new File(path).toURI()));
 	}
 
 	/**
-	 * Update the ontology by adding or removing the given set of axioms
-	 *
-	 * @param ontology target ontology
-	 * @param axioms the axiom to add/remove
-	 * @param add true - add; false - delete
+	 * Update the ontology by adding and/or removing the given set of axioms
 	 */
-	public static void updateOntology(OWLOntology ontology, Collection<? extends OWLAxiom> axioms, boolean add) {
-		List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
-		for( OWLAxiom axiom : axioms ) {
-			OWLOntologyChange change = add
-				? new AddAxiom( ontology, axiom )
-				: new RemoveAxiom( ontology, axiom );
-			changes.add( change );
+	public static void updateOntology(OWLOntology ontology, Iterable<? extends OWLAxiom> additions, Iterable<? extends OWLAxiom> removals) {
+		OWLOntologyManager manager = ontology.getOWLOntologyManager();
+
+		List<OWLOntologyChange> changes = Lists.newArrayList();
+		for (OWLAxiom axiom : additions) {
+			changes.add(new AddAxiom(ontology, axiom));
 		}
-		manager.applyChanges( changes );
+		for (OWLAxiom axiom : removals) {
+			changes.add(new RemoveAxiom(ontology, axiom));
+		}
+		manager.applyChanges(changes);
 	}
 
 	/**

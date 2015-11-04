@@ -1,11 +1,13 @@
 package com.clarkparsia.pellet.server.protege.model;
 
 import java.util.List;
+import java.util.Set;
 
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.google.common.collect.ForwardingObject;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 
 /**
@@ -44,8 +46,8 @@ public final class ProtegeOntologyState extends ForwardingObject implements Onto
 	}
 
 	@Override
-	public void applyChanges(final List<OWLOntologyChange> changes) {
-		mDelegate.applyChanges(changes);
+	public void update(final Set<OWLAxiom> additions, final Set<OWLAxiom> removals) {
+		mDelegate.update(additions, removals);
 	}
 
 	@Override
