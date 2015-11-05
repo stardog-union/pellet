@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.complexible.pellet.client.ClientException;
 import com.complexible.pellet.client.api.PelletService;
-import com.complexible.pellet.service.reasoner.SchemaReasoner;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.inject.Inject;

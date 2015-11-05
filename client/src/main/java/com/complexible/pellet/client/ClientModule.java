@@ -3,8 +3,8 @@ package com.complexible.pellet.client;
 import com.complexible.pellet.client.api.PelletService;
 import com.complexible.pellet.client.cli.CliModule;
 import com.complexible.pellet.client.reasoner.RemoteSchemaReasoner;
-import com.complexible.pellet.service.reasoner.SchemaReasoner;
-import com.complexible.pellet.service.reasoner.SchemaReasonerFactory;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 

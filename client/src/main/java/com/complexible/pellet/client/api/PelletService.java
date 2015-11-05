@@ -1,7 +1,7 @@
 package com.complexible.pellet.client.api;
 
-import com.clarkparsia.pellet.json.GenericJsonMessage;
-import com.complexible.pellet.service.reasoner.SchemaReasoner;
+import com.clarkparsia.pellet.service.json.GenericJsonMessage;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 import org.semanticweb.owlapi.model.IRI;

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.clarkparsia.pellet.json.GenericJsonMessage;
+import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 
 /**
  * @author Edgar Rodriguez-Diaz

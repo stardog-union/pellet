@@ -8,18 +8,11 @@
 
 package com.clarkparsia.pellet.server.model.impl;
 
-import java.util.List;
-import java.util.Set;
-
 import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.reasoner.LocalSchemaReasoner;
-import com.complexible.pellet.service.reasoner.SchemaReasoner;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Throwables;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**

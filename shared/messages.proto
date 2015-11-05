@@ -1,4 +1,4 @@
-package com.clarkparsia.pellet.proto;
+option java_package = "com.clarkparsia.pellet.service.proto";
 
 option java_outer_classname = "Messages";
 

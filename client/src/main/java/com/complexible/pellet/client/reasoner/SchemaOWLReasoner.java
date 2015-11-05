@@ -17,12 +17,11 @@ import javax.annotation.Nullable;
 
 import com.clarkparsia.owlapiv3.BufferingOntologyChangeListener;
 import com.clarkparsia.owlapiv3.OWL;
-import com.complexible.pellet.service.reasoner.SchemaReasoner;
-import com.complexible.pellet.service.reasoner.SchemaReasonerFactory;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.inject.Inject;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -54,7 +53,7 @@ import org.semanticweb.owlapi.reasoner.TimeOutException;
 import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
 import org.semanticweb.owlapi.util.Version;
 
-import static com.complexible.pellet.service.reasoner.SchemaReasoner.QueryType;
+import static com.clarkparsia.pellet.service.reasoner.SchemaReasoner.QueryType;
 
 /**
  * Implementation of {@link OWLReasoner} interface backed by a {@link SchemaReasoner}.
