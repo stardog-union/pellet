@@ -3,7 +3,6 @@ package com.clarkparsia.pellet.proto;
 import java.util.Set;
 
 import com.clarkparsia.pellet.MessageEncoder;
-import com.clarkparsia.pellet.Messages;
 import com.clarkparsia.pellet.messages.ExplainRequest;
 import com.clarkparsia.pellet.messages.ExplainResponse;
 import com.clarkparsia.pellet.messages.QueryRequest;

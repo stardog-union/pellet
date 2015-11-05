@@ -3,10 +3,8 @@ package com.clarkparsia.pellet.messages;
 import java.util.Objects;
 import java.util.Set;
 
-import com.clarkparsia.pellet.Messages;
 import com.clarkparsia.pellet.ProtoMessage;
 import com.google.common.collect.ImmutableSet;
-import com.google.protobuf.ByteString;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**

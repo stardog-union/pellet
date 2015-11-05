@@ -2,10 +2,7 @@ package com.clarkparsia.pellet.messages;
 
 import java.util.Objects;
 
-import com.clarkparsia.pellet.Messages;
 import com.clarkparsia.pellet.ProtoMessage;
-import com.complexible.pellet.service.reasoner.SchemaReasoner;
-import com.google.protobuf.ByteString;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 
 /**

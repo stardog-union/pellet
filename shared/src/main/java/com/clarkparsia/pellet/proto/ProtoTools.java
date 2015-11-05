@@ -3,7 +3,6 @@ package com.clarkparsia.pellet.proto;
 import java.io.Serializable;
 import java.util.Set;
 
-import com.clarkparsia.pellet.Messages;
 import com.clarkparsia.pellet.io.SerializableNode;
 import com.clarkparsia.pellet.io.SerializableNodeSet;
 import com.google.common.collect.ImmutableSet;
