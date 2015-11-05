@@ -1,6 +1,6 @@
 package com.complexible.pellet.client.api;
 
-import com.complexible.pellet.service.messages.GenericJsonMessage;
+import com.clarkparsia.pellet.json.GenericJsonMessage;
 import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;

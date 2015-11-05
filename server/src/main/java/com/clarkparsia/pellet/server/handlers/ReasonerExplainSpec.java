@@ -1,7 +1,7 @@
 package com.clarkparsia.pellet.server.handlers;
 
 import com.clarkparsia.pellet.server.model.ServerState;
-import com.complexible.pellet.service.messages.GenericJsonMessage;
+import com.clarkparsia.pellet.json.GenericJsonMessage;
 import com.google.inject.Inject;
 import io.undertow.Handlers;
 import io.undertow.predicate.Predicates;

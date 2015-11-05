@@ -1,7 +1,7 @@
 package com.clarkparsia.pellet.server.handlers;
 
 import com.clarkparsia.pellet.server.PelletServer;
-import com.complexible.pellet.service.messages.GenericJsonMessage;
+import com.clarkparsia.pellet.json.GenericJsonMessage;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.GracefulShutdownHandler;

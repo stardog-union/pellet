@@ -1,4 +1,4 @@
-package com.complexible.pellet.service.messages;
+package com.clarkparsia.pellet.json;
 
 import com.clarkparsia.pellet.Message;
 

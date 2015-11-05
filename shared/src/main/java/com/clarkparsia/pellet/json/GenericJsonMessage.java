@@ -1,4 +1,4 @@
-package com.complexible.pellet.service.messages;
+package com.clarkparsia.pellet.json;
 
 /**
  * Generic simple JSON message.
