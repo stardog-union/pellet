@@ -16,13 +16,13 @@ public interface ServiceDecoder {
 
 	boolean canDecode(final String theMediaType);
 
-	QueryRequest queryRequest(final ByteString theBytes);
+	QueryRequest queryRequest(final byte[] theBytes);
 
-	ExplainRequest explainRequest(final ByteString theBytes);
+	ExplainRequest explainRequest(final byte[] theBytes);
 
-	UpdateRequest updateRequest(final ByteString theBytes);
+	UpdateRequest updateRequest(final byte[] theBytes);
 
-	QueryResponse queryResponse(final ByteString theBytes);
+	QueryResponse queryResponse(final byte[] theBytes);
 
-	ExplainResponse explainResponse(final ByteString theBytes);
+	ExplainResponse explainResponse(final byte[] theBytes);
 }

@@ -8,6 +8,10 @@ import com.clarkparsia.pellet.server.handlers.ReasonerQuerySpec;
 import com.clarkparsia.pellet.server.handlers.ReasonerUpdateSpec;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.protege.ProtegeServerStateProvider;
+import com.clarkparsia.pellet.service.ServiceDecoder;
+import com.clarkparsia.pellet.service.ServiceEncoder;
+import com.clarkparsia.pellet.service.proto.ProtoServiceDecoder;
+import com.clarkparsia.pellet.service.proto.ProtoServiceEncoder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -37,6 +41,12 @@ public class PelletServerModule extends AbstractModule implements Module {
 		pathsBinder.addBinding().to(ReasonerQuerySpec.class);
 		pathsBinder.addBinding().to(ReasonerExplainSpec.class);
 		pathsBinder.addBinding().to(ReasonerUpdateSpec.class);
+
+		Multibinder<ServiceDecoder> decodersBinder = Multibinder.newSetBinder(binder(), ServiceDecoder.class);
+		decodersBinder.addBinding().to(ProtoServiceDecoder.class);
+
+		Multibinder<ServiceEncoder> encodersBinder = Multibinder.newSetBinder(binder(), ServiceEncoder.class);
+		encodersBinder.addBinding().to(ProtoServiceEncoder.class);
 
 		if (mSettings != null) {
 			binder().bind(Configuration.class).toInstance(mSettings);

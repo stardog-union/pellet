@@ -49,7 +49,7 @@ public class SerializationTests {
 		ByteString encodedQR = ByteString.copyFrom(anEncoder.encode(originalQR));
 		assertTrue(encodedQR.size() > 0);
 
-		QueryRequest decodedQR = aDecoder.queryRequest(encodedQR);
+		QueryRequest decodedQR = aDecoder.queryRequest(encodedQR.toByteArray());
 
 		assertEquals(originalQR, decodedQR);
 	}
@@ -77,8 +77,8 @@ public class SerializationTests {
 
 		ExplainRequest originalER = new ExplainRequest(axiom);
 
-		ByteString encodedER = ByteString.copyFrom(anEncoder.encode(originalER));
-		assertTrue(encodedER.size() > 0);
+		byte[] encodedER = anEncoder.encode(originalER);
+		assertTrue(encodedER.length > 0);
 
 		ExplainRequest decodedER = aDecoder.explainRequest(encodedER);
 
@@ -92,8 +92,8 @@ public class SerializationTests {
 
 		UpdateRequest originalUR = new UpdateRequest(additions, removals);
 
-		ByteString encodedUR = ByteString.copyFrom(anEncoder.encode(originalUR));
-		assertTrue(encodedUR.size() > 0);
+		byte[] encodedUR = anEncoder.encode(originalUR);
+		assertTrue(encodedUR.length > 0);
 
 		UpdateRequest decodedUR = aDecoder.updateRequest(encodedUR);
 
@@ -108,8 +108,8 @@ public class SerializationTests {
 
 		QueryResponse originalQR = new QueryResponse(classes);
 
-		ByteString encodedUR = ByteString.copyFrom(anEncoder.encode(originalQR));
-		assertTrue(encodedUR.size() > 0);
+		byte[] encodedUR = anEncoder.encode(originalQR);
+		assertTrue(encodedUR.length > 0);
 
 		QueryResponse decodedQR = aDecoder.queryResponse(encodedUR);
 
@@ -127,8 +127,8 @@ public class SerializationTests {
 		}
 
 		ExplainResponse originalER = new ExplainResponse(axiomSets);
-		ByteString encodedER = ByteString.copyFrom(anEncoder.encode(originalER));
-		assertTrue(encodedER.size() > 0);
+		byte[] encodedER = anEncoder.encode(originalER);
+		assertTrue(encodedER.length > 0);
 
 		ExplainResponse decodedUR = aDecoder.explainResponse(encodedER);
 
