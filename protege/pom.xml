@@ -1,16 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.clarkparsia.pellet</groupId>
 		<artifactId>pellet-parent</artifactId>
 		<version>2.4.0-SNAPSHOT</version>
 	</parent>
+
 	<artifactId>pellet-protege</artifactId>
+	<packaging>bundle</packaging>
+
 	<name>Pellet :: Protege</name>
 	<properties>
-		<protege.version>4.3.0</protege.version>
+		<protege.version>5.0.0-beta-15</protege.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -22,11 +26,16 @@
 			<artifactId>pellet-owlapi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>pellet-modularity</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-modularity</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>edu.stanford.protege</groupId>
 			<artifactId>org.protege.common</artifactId>
@@ -46,4 +55,38 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>plugin.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.3.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Implementation-Title>Pellet Reasoner Plug-in</Implementation-Title>
+						<Implementation-Vendor>Clark &amp; Parsia LLC</Implementation-Vendor>
+						<Implementation-Version>${project.version}</Implementation-Version>
+						<Import-Package>*</Import-Package>
+						<Export-Package>com.clarkparsia.protege.plugin.*</Export-Package>
+						<Private-Package>com.clarkparsia.*;org.mindswap.*;-split-package:=merge-first</Private-Package>
+						<Bundle-SymbolicName>com.clarkparsia.protege.plugin.pellet;singleton:=true</Bundle-SymbolicName>
+						<Bundle-Activator>org.protege.editor.core.plugin.DefaultPluginActivator</Bundle-Activator>
+						<Embed-Dependency>*;scope=compile|runtime;artifactId=!pellet-distribution|pellet-examples|pellet-cli|pellet-jena|pellet-pellint</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
+						<Update-Url>https://raw.githubusercontent.com/Complexible/pellet/master/protege/plugin/update.properties</Update-Url>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
