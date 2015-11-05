@@ -11,8 +11,11 @@ package com.clarkparsia.pellet.server.model;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.base.Function;
+import org.protege.owl.server.api.ChangeHistory;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 
 /**
@@ -23,11 +26,9 @@ public interface OntologyState extends AutoCloseable {
 
 	ClientState getClient(String clientID);
 
-	IRI getOntologyIRI();
+	IRI getIRI();
 
-	void update(Set<OWLAxiom> additions, Set<OWLAxiom> removals);
-
-	void reload();
+	void update(Function<OWLOntology, List<OWLOntologyChange>> changeSupplier);
 
 	void save();
 }

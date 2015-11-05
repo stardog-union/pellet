@@ -31,7 +31,7 @@ public class ServerStateImpl implements ServerState {
 	private ServerStateImpl(final Iterable<OntologyState> onts) {
 		ImmutableMap.Builder<IRI, OntologyState> builder = ImmutableMap.builder();
 		for (OntologyState ontoState : onts) {
-			builder.put(ontoState.getOntologyIRI(), ontoState);
+			builder.put(ontoState.getIRI(), ontoState);
 		}
 
 		ontologies.set(builder.build());

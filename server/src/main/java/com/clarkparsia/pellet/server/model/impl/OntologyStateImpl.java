@@ -20,11 +20,13 @@ import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.model.OntologyState;
+import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
+import org.protege.owl.server.api.ChangeHistory;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -38,16 +40,17 @@ public class OntologyStateImpl implements OntologyState {
 
 	private final OWLOntology ontology;
 
-	private final IRI ontologyIRI;
+	private final IRI iri;
 
 	private final IncrementalReasoner reasoner;
 
 	private final LoadingCache<String, ClientState> clients;
 
-	public OntologyStateImpl(final OWLOntology ont) {
-		ontology = ont;
-		ontologyIRI = ontology.getOntologyID().getOntologyIRI().get();
-		reasoner = IncrementalReasoner.config().createIncrementalReasoner(ont);
+	public OntologyStateImpl(final OWLOntology ontology, final IRI iri) {
+		this.ontology = ontology;
+		this.iri = iri;
+
+		reasoner = IncrementalReasoner.config().createIncrementalReasoner(ontology);
 		reasoner.classify();
 
 		clients = CacheBuilder.newBuilder()
@@ -90,21 +93,17 @@ public class OntologyStateImpl implements OntologyState {
 	}
 
 	@Override
-	public IRI getOntologyIRI() {
-		return ontologyIRI;
+	public IRI getIRI() {
+		return iri;
 	}
 
 	@Override
-	public void update(Set<OWLAxiom> additions, Set<OWLAxiom> removals) {
+	public void update(Function<OWLOntology, List<OWLOntologyChange>> changeSupplier) {
 		synchronized (ontology) {
-			OntologyUtils.updateOntology(ontology, additions, removals);
+			List<OWLOntologyChange> changes = changeSupplier.apply(ontology);
+			ontology.getOWLOntologyManager().applyChanges(changes);
 			reasoner.classify();
 		}
-	}
-
-	@Override
-	public void reload() {
-		throw new UnsupportedOperationException("NYI");
 	}
 
 	@Override

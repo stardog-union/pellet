@@ -28,19 +28,11 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 public class ClientStateImpl implements ClientState {
 	private final SchemaReasoner reasoner;
 	private final OWLOntologyManager manager;
-	private final IRI ontologyIRI;
 
 	public ClientStateImpl(final IncrementalReasoner incremental) {
 		// create the reasoner with a copy of the incremental reasoner so it won't be affected if the original reasoner is updated
 		reasoner = new LocalSchemaReasoner(incremental.copy());
 		manager = incremental.getRootOntology().getOWLOntologyManager();
-		// get the IRI from the original reasoner since the copy has an anonymous IRI
-		ontologyIRI = incremental.getRootOntology().getOntologyID().getOntologyIRI().get();
-	}
-
-	@Override
-	public IRI getOntologyIRI() {
-		return  ontologyIRI;
 	}
 
 	@Override

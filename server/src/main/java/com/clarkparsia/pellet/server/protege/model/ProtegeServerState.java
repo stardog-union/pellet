@@ -61,8 +61,7 @@ public final class ProtegeServerState implements ServerState {
 					                                                              OWLManager.createOWLOntologyManager(),
 					                                                              ontoDoc);
 					OWLOntology ontology = vont.getOntology();
-					ontologies.add(new ProtegeOntologyState(ontoDoc.getServerLocation(),
-					                                        new OntologyStateImpl(ontology)));
+					ontologies.add(new OntologyStateImpl(ontology, ontoDoc.getServerLocation()));
 				}
 				catch (OWLOntologyCreationException e) {
 					LOGGER.log(Level.FINER, "Could not load one or more ontologies from Protege server", e);
@@ -81,14 +80,7 @@ public final class ProtegeServerState implements ServerState {
 
 	@Override
 	public Optional<OntologyState> getOntology(final IRI ontology) {
-		for (OntologyState aRemoteOntoState : ontologies()) {
-			ProtegeOntologyState ontoState = (ProtegeOntologyState) aRemoteOntoState;
-			if (ontoState.getRemoteOntologyIRI().equals(ontology)) {
-				return Optional.<OntologyState>of(ontoState);
-			}
-		}
-
-		return Optional.absent();
+		return mServerState.get().getOntology(ontology);
 	}
 
 	@Override

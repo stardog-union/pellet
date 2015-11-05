@@ -21,8 +21,6 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * @author Evren Sirin
  */
 public interface ClientState extends AutoCloseable {
-	IRI getOntologyIRI();
-
 	SchemaReasoner getReasoner();
 
 	void close();
