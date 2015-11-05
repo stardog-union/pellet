@@ -1,13 +1,19 @@
-package com.clarkparsia.pellet.messages;
+package com.clarkparsia.pellet.proto;
 
 import java.io.Serializable;
 import java.util.Set;
 
 import com.clarkparsia.pellet.Messages;
+import com.clarkparsia.pellet.io.SerializableNode;
+import com.clarkparsia.pellet.io.SerializableNodeSet;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.protobuf.ByteString;
 import org.apache.commons.lang3.SerializationUtils;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.reasoner.Node;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -50,5 +56,47 @@ public final class ProtoTools {
 		}
 
 		return axioms.build();
+	}
+
+	public static Messages.Node toNode(final Node<? extends OWLObject> theNode) {
+		final Messages.Node.Builder aNode = Messages.Node.newBuilder();
+
+		int i = 0;
+		for (OWLObject owlObject : theNode) {
+			aNode.addOwlObject(i++, toRawObject(owlObject));
+		}
+
+		return aNode.build();
+	}
+
+	public static Node<OWLObject> fromNode(final Messages.Node theNode) throws ClassNotFoundException {
+		Set<OWLObject> theObjects = Sets.newLinkedHashSet();
+
+		for (Messages.RawObject aObject : theNode.getOwlObjectList()) {
+			theObjects.add(ProtoTools.<OWLObject>fromRawObject(aObject));
+		}
+
+		return new SerializableNode<OWLObject>(theObjects);
+	}
+
+	public static Messages.NodeSet toNodeSet(final NodeSet<? extends OWLObject> theNodeSet) {
+		final Messages.NodeSet.Builder aNodeSet = Messages.NodeSet.newBuilder();
+
+		int i = 0;
+		for (Node<?extends OWLObject> node : theNodeSet) {
+			aNodeSet.addNodes(i++, toNode(node));
+		}
+
+		return aNodeSet.build();
+	}
+
+	public static NodeSet<OWLObject> fromNodeSet(final Messages.NodeSet theNodeSet) throws ClassNotFoundException {
+		Set<Node<OWLObject>> aNodeSet = Sets.newLinkedHashSet();
+
+		for (Messages.Node aNode : theNodeSet.getNodesList()) {
+			aNodeSet.add(ProtoTools.<Node<OWLObject>>fromNode(aNode));
+		}
+
+		return SerializableNodeSet.create(aNodeSet);
 	}
 }

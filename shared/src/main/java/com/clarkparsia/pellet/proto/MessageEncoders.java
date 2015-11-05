@@ -1,9 +1,15 @@
-package com.clarkparsia.pellet;
+package com.clarkparsia.pellet.proto;
 
+import java.util.Set;
+
+import com.clarkparsia.pellet.MessageEncoder;
+import com.clarkparsia.pellet.Messages;
 import com.clarkparsia.pellet.messages.ExplainRequest;
-import com.clarkparsia.pellet.messages.ProtoTools;
+import com.clarkparsia.pellet.messages.ExplainResponse;
 import com.clarkparsia.pellet.messages.QueryRequest;
+import com.clarkparsia.pellet.messages.QueryResponse;
 import com.clarkparsia.pellet.messages.UpdateRequest;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -22,6 +28,14 @@ public class MessageEncoders {
 		return new UpdateRequestEncoder().encode(theUpdateRequest);
 	}
 
+	public static byte[] encode(final QueryResponse theQueryResponse) {
+		return new QueryResponseEncoder().encode(theQueryResponse);
+	}
+
+	public static byte[] encode(final ExplainResponse theExplainResponse) {
+		return new ExplainResponseEncoder().encode(theExplainResponse);
+	}
+
 	private static class QueryRequestEncoder implements MessageEncoder<QueryRequest> {
 
 		@Override
@@ -29,8 +43,7 @@ public class MessageEncoders {
 			final Messages.QueryRequest aProtoReq = Messages.QueryRequest.newBuilder()
 			                                                             .setInput(ProtoTools.toRawObject(theObject.getInput()))
 			                                                             .build();
-			return aProtoReq.toByteString()
-			                .toByteArray();
+			return aProtoReq.toByteArray();
 		}
 	}
 
@@ -41,7 +54,7 @@ public class MessageEncoders {
 			final Messages.ExplainRequest aExplainRequest = Messages.ExplainRequest.newBuilder()
 			                                                                       .setAxiom(ProtoTools.toRawObject(theObject.getAxiom()))
 			                                                                       .build();
-			return aExplainRequest.toByteString().toByteArray();
+			return aExplainRequest.toByteArray();
 		}
 	}
 
@@ -54,7 +67,33 @@ public class MessageEncoders {
 			                                                           .setRemovals(ProtoTools.toAxiomSet(theObject.getRemovals()))
 			                                                           .build();
 
-			return aUpdateReq.toByteString().toByteArray();
+			return aUpdateReq.toByteArray();
+		}
+	}
+
+	private static class QueryResponseEncoder implements MessageEncoder<QueryResponse> {
+
+		@Override
+		public byte[] encode(final QueryResponse theObject) {
+			final Messages.QueryResponse aQueryResponse = Messages.QueryResponse.newBuilder()
+			                                                                    .setResult(ProtoTools.toNodeSet(theObject.getResults()))
+			                                                                    .build();
+			return aQueryResponse.toByteArray();
+		}
+	}
+
+	private static class ExplainResponseEncoder implements MessageEncoder<ExplainResponse> {
+
+		@Override
+		public byte[] encode(final ExplainResponse theObject) {
+			final Messages.ExplainResponse.Builder aExplainResp = Messages.ExplainResponse.newBuilder();
+
+			int i = 0;
+			for (Set<OWLAxiom> aAxiomSet : theObject.getAxiomSets()) {
+				aExplainResp.addAxiomsets(i++, ProtoTools.toAxiomSet(aAxiomSet));
+			}
+
+			return aExplainResp.build().toByteArray();
 		}
 	}
 

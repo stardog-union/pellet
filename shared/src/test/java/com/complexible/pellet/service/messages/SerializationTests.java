@@ -5,12 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import com.clarkparsia.pellet.MessageDecoders;
-import com.clarkparsia.pellet.MessageEncoders;
+import com.clarkparsia.pellet.messages.ExplainResponse;
+import com.clarkparsia.pellet.messages.QueryResponse;
+import com.clarkparsia.pellet.proto.MessageDecoders;
+import com.clarkparsia.pellet.proto.MessageEncoders;
 import com.clarkparsia.pellet.messages.ExplainRequest;
 import com.clarkparsia.pellet.messages.QueryRequest;
 import com.clarkparsia.pellet.messages.UpdateRequest;
-import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.protobuf.ByteString;
@@ -18,7 +19,10 @@ import org.junit.Test;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
+import org.semanticweb.owlapi.reasoner.NodeSet;
+import org.semanticweb.owlapi.reasoner.impl.OWLClassNodeSet;
 import uk.ac.manchester.cs.owl.owlapi.OWLAnnotationAssertionAxiomImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLAnnotationPropertyImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
@@ -32,7 +36,7 @@ import static org.junit.Assert.assertTrue;
 public class SerializationTests {
 
 	@Test
-	public void testQueryRequestRoundtrip() {
+	public void testQueryRequestRoundTrip() {
 		OWLLogicalEntity entity = new OWLClassImpl(IRI.create("urn:test:iri"));
 
 		QueryRequest originalQR = new QueryRequest(entity);
@@ -63,7 +67,7 @@ public class SerializationTests {
 	}
 
 	@Test
-	public void testExplainRequestRoundtrip() {
+	public void testExplainRequestRoundTrip() {
 		OWLAxiom axiom = generateAxiom(0);
 
 		ExplainRequest originalER = new ExplainRequest(axiom);
@@ -77,7 +81,7 @@ public class SerializationTests {
 	}
 
 	@Test
-	public void testUpdateRequestRoundtrip() {
+	public void testUpdateRequestRoundTrip() {
 		Set<OWLAxiom> additions = Sets.newHashSet(generateAxioms(100));
 		Set<OWLAxiom> removals = Sets.newHashSet(generateAxioms(50));
 
@@ -91,5 +95,42 @@ public class SerializationTests {
 		assertEquals(originalUR, decodedUR);
 		assertEquals(100, decodedUR.getAdditions().size());
 		assertEquals(50, decodedUR.getRemovals().size());
+	}
+
+	@Test
+	public void testQueryResponseRoundTrip() {
+		NodeSet<OWLClass> classes = new OWLClassNodeSet(new OWLClassImpl(IRI.create("http://xmlns.com/foaf/0.1/Agent")));
+
+		QueryResponse originalQR = new QueryResponse(classes);
+
+		ByteString encodedUR = ByteString.copyFrom(MessageEncoders.encode(originalQR));
+		assertTrue(encodedUR.size() > 0);
+
+		QueryResponse decodedQR = MessageDecoders.queryResponse(encodedUR);
+
+		assertEquals(originalQR, decodedQR);
+	}
+
+	@Test
+	public void testExplainResponseRoundTrip() {
+		int n = 4;
+		int cardinality = 50;
+		Set<Set<OWLAxiom>> axiomSets = Sets.newHashSetWithExpectedSize(n);
+
+		for (int i = 0; i < n; i++) {
+			axiomSets.add(Sets.newHashSet(generateAxioms(cardinality)));
+		}
+
+		ExplainResponse originalER = new ExplainResponse(axiomSets);
+		ByteString encodedER = ByteString.copyFrom(MessageEncoders.encode(originalER));
+		assertTrue(encodedER.size() > 0);
+
+		ExplainResponse decodedUR = MessageDecoders.explainResponse(encodedER);
+
+		assertEquals(originalER, decodedUR);
+
+		for (Set<OWLAxiom> aAxioms : decodedUR.getAxiomSets()) {
+			assertEquals(cardinality, aAxioms.size());
+		}
 	}
 }

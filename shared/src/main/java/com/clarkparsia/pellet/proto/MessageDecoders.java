@@ -1,16 +1,21 @@
-package com.clarkparsia.pellet;
+package com.clarkparsia.pellet.proto;
 
 import java.util.Set;
 
+import com.clarkparsia.pellet.MessageDecoder;
+import com.clarkparsia.pellet.Messages;
 import com.clarkparsia.pellet.messages.ExplainRequest;
-import com.clarkparsia.pellet.messages.ProtoTools;
+import com.clarkparsia.pellet.messages.ExplainResponse;
 import com.clarkparsia.pellet.messages.QueryRequest;
+import com.clarkparsia.pellet.messages.QueryResponse;
 import com.clarkparsia.pellet.messages.UpdateRequest;
-import com.complexible.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Sets;
 import com.google.protobuf.ByteString;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
+import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -27,6 +32,14 @@ public final class MessageDecoders {
 
 	public static UpdateRequest updateRequest(final ByteString theBytes) {
 		return UpdateRequestDecoder.INSTANCE.decode(theBytes);
+	}
+
+	public static QueryResponse queryResponse(final ByteString theBytes) {
+		return QueryResponseDecoder.INSTANCE.decode(theBytes);
+	}
+
+	public static ExplainResponse explainResponse(final ByteString theBytes) {
+		return ExplainResponseDecoder.INSTANCE.decode(theBytes);
 	}
 
 	private enum QueryRequestDecoder implements MessageDecoder<QueryRequest> {
@@ -79,6 +92,46 @@ public final class MessageDecoders {
 				final Set<OWLAxiom> removals = ProtoTools.fromAxiomSet(aProtoReq.getRemovals());
 
 				return new UpdateRequest(additions, removals);
+			}
+			catch (Exception e) {
+				Throwables.propagate(e);
+			}
+			return null;
+		}
+	}
+
+	private enum QueryResponseDecoder implements MessageDecoder<QueryResponse> {
+		INSTANCE;
+
+		@Override
+		public QueryResponse decode(final ByteString theBytes) {
+			try {
+				final Messages.QueryResponse aQueryResp = Messages.QueryResponse.parseFrom(theBytes);
+				final NodeSet<? extends OWLObject> nodeSet = ProtoTools.fromNodeSet(aQueryResp.getResult());
+
+				return new QueryResponse(nodeSet);
+			}
+			catch (Exception e) {
+				Throwables.propagate(e);
+			}
+			return null;
+		}
+	}
+
+	private enum ExplainResponseDecoder implements MessageDecoder<ExplainResponse> {
+		INSTANCE;
+
+		@Override
+		public ExplainResponse decode(final ByteString theBytes) {
+			try {
+				final Messages.ExplainResponse aExplainResp = Messages.ExplainResponse.parseFrom(theBytes);
+				final Set<Set<OWLAxiom>> axioms = Sets.newHashSet();
+
+				for (Messages.AxiomSet aAxiomSet : aExplainResp.getAxiomsetsList()) {
+					axioms.add(ProtoTools.fromAxiomSet(aAxiomSet));
+				}
+
+				return new ExplainResponse(axioms);
 			}
 			catch (Exception e) {
 				Throwables.propagate(e);

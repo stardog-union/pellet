@@ -26,8 +26,16 @@ message UpdateRequest {
 	required AxiomSet removals = 2;
 }
 
+message Node {
+	repeated RawObject owl_object = 1;
+}
+
+message NodeSet {
+	repeated Node nodes = 1;
+}
+
 message QueryResponse {
-	required RawObject result = 1;
+	required NodeSet result = 1;
 }
 
 message ExplainResponse {

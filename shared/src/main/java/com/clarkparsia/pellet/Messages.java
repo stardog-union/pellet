@@ -3042,22 +3042,1394 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:com.clarkparsia.pellet.UpdateRequest)
   }
 
+  public interface NodeOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .com.clarkparsia.pellet.RawObject owl_object = 1;
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    java.util.List<com.clarkparsia.pellet.Messages.RawObject> 
+        getOwlObjectList();
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    com.clarkparsia.pellet.Messages.RawObject getOwlObject(int index);
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    int getOwlObjectCount();
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    java.util.List<? extends com.clarkparsia.pellet.Messages.RawObjectOrBuilder> 
+        getOwlObjectOrBuilderList();
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    com.clarkparsia.pellet.Messages.RawObjectOrBuilder getOwlObjectOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code com.clarkparsia.pellet.Node}
+   */
+  public static final class Node extends
+      com.google.protobuf.GeneratedMessage
+      implements NodeOrBuilder {
+    // Use Node.newBuilder() to construct.
+    private Node(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Node(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Node defaultInstance;
+    public static Node getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Node getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Node(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                owlObject_ = new java.util.ArrayList<com.clarkparsia.pellet.Messages.RawObject>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              owlObject_.add(input.readMessage(com.clarkparsia.pellet.Messages.RawObject.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          owlObject_ = java.util.Collections.unmodifiableList(owlObject_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_Node_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_Node_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.clarkparsia.pellet.Messages.Node.class, com.clarkparsia.pellet.Messages.Node.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Node> PARSER =
+        new com.google.protobuf.AbstractParser<Node>() {
+      public Node parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Node(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Node> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .com.clarkparsia.pellet.RawObject owl_object = 1;
+    public static final int OWL_OBJECT_FIELD_NUMBER = 1;
+    private java.util.List<com.clarkparsia.pellet.Messages.RawObject> owlObject_;
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    public java.util.List<com.clarkparsia.pellet.Messages.RawObject> getOwlObjectList() {
+      return owlObject_;
+    }
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    public java.util.List<? extends com.clarkparsia.pellet.Messages.RawObjectOrBuilder> 
+        getOwlObjectOrBuilderList() {
+      return owlObject_;
+    }
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    public int getOwlObjectCount() {
+      return owlObject_.size();
+    }
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    public com.clarkparsia.pellet.Messages.RawObject getOwlObject(int index) {
+      return owlObject_.get(index);
+    }
+    /**
+     * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+     */
+    public com.clarkparsia.pellet.Messages.RawObjectOrBuilder getOwlObjectOrBuilder(
+        int index) {
+      return owlObject_.get(index);
+    }
+
+    private void initFields() {
+      owlObject_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getOwlObjectCount(); i++) {
+        if (!getOwlObject(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < owlObject_.size(); i++) {
+        output.writeMessage(1, owlObject_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < owlObject_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, owlObject_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.clarkparsia.pellet.Messages.Node parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.clarkparsia.pellet.Messages.Node parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.clarkparsia.pellet.Messages.Node prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.clarkparsia.pellet.Node}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.clarkparsia.pellet.Messages.NodeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_Node_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_Node_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.clarkparsia.pellet.Messages.Node.class, com.clarkparsia.pellet.Messages.Node.Builder.class);
+      }
+
+      // Construct using com.clarkparsia.pellet.Messages.Node.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getOwlObjectFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (owlObjectBuilder_ == null) {
+          owlObject_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          owlObjectBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_Node_descriptor;
+      }
+
+      public com.clarkparsia.pellet.Messages.Node getDefaultInstanceForType() {
+        return com.clarkparsia.pellet.Messages.Node.getDefaultInstance();
+      }
+
+      public com.clarkparsia.pellet.Messages.Node build() {
+        com.clarkparsia.pellet.Messages.Node result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.clarkparsia.pellet.Messages.Node buildPartial() {
+        com.clarkparsia.pellet.Messages.Node result = new com.clarkparsia.pellet.Messages.Node(this);
+        int from_bitField0_ = bitField0_;
+        if (owlObjectBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            owlObject_ = java.util.Collections.unmodifiableList(owlObject_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.owlObject_ = owlObject_;
+        } else {
+          result.owlObject_ = owlObjectBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.clarkparsia.pellet.Messages.Node) {
+          return mergeFrom((com.clarkparsia.pellet.Messages.Node)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.clarkparsia.pellet.Messages.Node other) {
+        if (other == com.clarkparsia.pellet.Messages.Node.getDefaultInstance()) return this;
+        if (owlObjectBuilder_ == null) {
+          if (!other.owlObject_.isEmpty()) {
+            if (owlObject_.isEmpty()) {
+              owlObject_ = other.owlObject_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureOwlObjectIsMutable();
+              owlObject_.addAll(other.owlObject_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.owlObject_.isEmpty()) {
+            if (owlObjectBuilder_.isEmpty()) {
+              owlObjectBuilder_.dispose();
+              owlObjectBuilder_ = null;
+              owlObject_ = other.owlObject_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              owlObjectBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getOwlObjectFieldBuilder() : null;
+            } else {
+              owlObjectBuilder_.addAllMessages(other.owlObject_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getOwlObjectCount(); i++) {
+          if (!getOwlObject(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.clarkparsia.pellet.Messages.Node parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.clarkparsia.pellet.Messages.Node) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .com.clarkparsia.pellet.RawObject owl_object = 1;
+      private java.util.List<com.clarkparsia.pellet.Messages.RawObject> owlObject_ =
+        java.util.Collections.emptyList();
+      private void ensureOwlObjectIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          owlObject_ = new java.util.ArrayList<com.clarkparsia.pellet.Messages.RawObject>(owlObject_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder> owlObjectBuilder_;
+
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public java.util.List<com.clarkparsia.pellet.Messages.RawObject> getOwlObjectList() {
+        if (owlObjectBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(owlObject_);
+        } else {
+          return owlObjectBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public int getOwlObjectCount() {
+        if (owlObjectBuilder_ == null) {
+          return owlObject_.size();
+        } else {
+          return owlObjectBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.RawObject getOwlObject(int index) {
+        if (owlObjectBuilder_ == null) {
+          return owlObject_.get(index);
+        } else {
+          return owlObjectBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder setOwlObject(
+          int index, com.clarkparsia.pellet.Messages.RawObject value) {
+        if (owlObjectBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOwlObjectIsMutable();
+          owlObject_.set(index, value);
+          onChanged();
+        } else {
+          owlObjectBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder setOwlObject(
+          int index, com.clarkparsia.pellet.Messages.RawObject.Builder builderForValue) {
+        if (owlObjectBuilder_ == null) {
+          ensureOwlObjectIsMutable();
+          owlObject_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          owlObjectBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder addOwlObject(com.clarkparsia.pellet.Messages.RawObject value) {
+        if (owlObjectBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOwlObjectIsMutable();
+          owlObject_.add(value);
+          onChanged();
+        } else {
+          owlObjectBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder addOwlObject(
+          int index, com.clarkparsia.pellet.Messages.RawObject value) {
+        if (owlObjectBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureOwlObjectIsMutable();
+          owlObject_.add(index, value);
+          onChanged();
+        } else {
+          owlObjectBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder addOwlObject(
+          com.clarkparsia.pellet.Messages.RawObject.Builder builderForValue) {
+        if (owlObjectBuilder_ == null) {
+          ensureOwlObjectIsMutable();
+          owlObject_.add(builderForValue.build());
+          onChanged();
+        } else {
+          owlObjectBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder addOwlObject(
+          int index, com.clarkparsia.pellet.Messages.RawObject.Builder builderForValue) {
+        if (owlObjectBuilder_ == null) {
+          ensureOwlObjectIsMutable();
+          owlObject_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          owlObjectBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder addAllOwlObject(
+          java.lang.Iterable<? extends com.clarkparsia.pellet.Messages.RawObject> values) {
+        if (owlObjectBuilder_ == null) {
+          ensureOwlObjectIsMutable();
+          super.addAll(values, owlObject_);
+          onChanged();
+        } else {
+          owlObjectBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder clearOwlObject() {
+        if (owlObjectBuilder_ == null) {
+          owlObject_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          owlObjectBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public Builder removeOwlObject(int index) {
+        if (owlObjectBuilder_ == null) {
+          ensureOwlObjectIsMutable();
+          owlObject_.remove(index);
+          onChanged();
+        } else {
+          owlObjectBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.RawObject.Builder getOwlObjectBuilder(
+          int index) {
+        return getOwlObjectFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.RawObjectOrBuilder getOwlObjectOrBuilder(
+          int index) {
+        if (owlObjectBuilder_ == null) {
+          return owlObject_.get(index);  } else {
+          return owlObjectBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public java.util.List<? extends com.clarkparsia.pellet.Messages.RawObjectOrBuilder> 
+           getOwlObjectOrBuilderList() {
+        if (owlObjectBuilder_ != null) {
+          return owlObjectBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(owlObject_);
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.RawObject.Builder addOwlObjectBuilder() {
+        return getOwlObjectFieldBuilder().addBuilder(
+            com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.RawObject.Builder addOwlObjectBuilder(
+          int index) {
+        return getOwlObjectFieldBuilder().addBuilder(
+            index, com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.RawObject owl_object = 1;</code>
+       */
+      public java.util.List<com.clarkparsia.pellet.Messages.RawObject.Builder> 
+           getOwlObjectBuilderList() {
+        return getOwlObjectFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder> 
+          getOwlObjectFieldBuilder() {
+        if (owlObjectBuilder_ == null) {
+          owlObjectBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder>(
+                  owlObject_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          owlObject_ = null;
+        }
+        return owlObjectBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.clarkparsia.pellet.Node)
+    }
+
+    static {
+      defaultInstance = new Node(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.clarkparsia.pellet.Node)
+  }
+
+  public interface NodeSetOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .com.clarkparsia.pellet.Node nodes = 1;
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    java.util.List<com.clarkparsia.pellet.Messages.Node> 
+        getNodesList();
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    com.clarkparsia.pellet.Messages.Node getNodes(int index);
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    int getNodesCount();
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    java.util.List<? extends com.clarkparsia.pellet.Messages.NodeOrBuilder> 
+        getNodesOrBuilderList();
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    com.clarkparsia.pellet.Messages.NodeOrBuilder getNodesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code com.clarkparsia.pellet.NodeSet}
+   */
+  public static final class NodeSet extends
+      com.google.protobuf.GeneratedMessage
+      implements NodeSetOrBuilder {
+    // Use NodeSet.newBuilder() to construct.
+    private NodeSet(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private NodeSet(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final NodeSet defaultInstance;
+    public static NodeSet getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public NodeSet getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private NodeSet(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                nodes_ = new java.util.ArrayList<com.clarkparsia.pellet.Messages.Node>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              nodes_.add(input.readMessage(com.clarkparsia.pellet.Messages.Node.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          nodes_ = java.util.Collections.unmodifiableList(nodes_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_NodeSet_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_NodeSet_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.clarkparsia.pellet.Messages.NodeSet.class, com.clarkparsia.pellet.Messages.NodeSet.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<NodeSet> PARSER =
+        new com.google.protobuf.AbstractParser<NodeSet>() {
+      public NodeSet parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new NodeSet(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<NodeSet> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .com.clarkparsia.pellet.Node nodes = 1;
+    public static final int NODES_FIELD_NUMBER = 1;
+    private java.util.List<com.clarkparsia.pellet.Messages.Node> nodes_;
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    public java.util.List<com.clarkparsia.pellet.Messages.Node> getNodesList() {
+      return nodes_;
+    }
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    public java.util.List<? extends com.clarkparsia.pellet.Messages.NodeOrBuilder> 
+        getNodesOrBuilderList() {
+      return nodes_;
+    }
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    public int getNodesCount() {
+      return nodes_.size();
+    }
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    public com.clarkparsia.pellet.Messages.Node getNodes(int index) {
+      return nodes_.get(index);
+    }
+    /**
+     * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+     */
+    public com.clarkparsia.pellet.Messages.NodeOrBuilder getNodesOrBuilder(
+        int index) {
+      return nodes_.get(index);
+    }
+
+    private void initFields() {
+      nodes_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getNodesCount(); i++) {
+        if (!getNodes(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < nodes_.size(); i++) {
+        output.writeMessage(1, nodes_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < nodes_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, nodes_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.clarkparsia.pellet.Messages.NodeSet parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.clarkparsia.pellet.Messages.NodeSet parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.clarkparsia.pellet.Messages.NodeSet prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.clarkparsia.pellet.NodeSet}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.clarkparsia.pellet.Messages.NodeSetOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_NodeSet_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_NodeSet_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.clarkparsia.pellet.Messages.NodeSet.class, com.clarkparsia.pellet.Messages.NodeSet.Builder.class);
+      }
+
+      // Construct using com.clarkparsia.pellet.Messages.NodeSet.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getNodesFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (nodesBuilder_ == null) {
+          nodes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          nodesBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.clarkparsia.pellet.Messages.internal_static_com_clarkparsia_pellet_NodeSet_descriptor;
+      }
+
+      public com.clarkparsia.pellet.Messages.NodeSet getDefaultInstanceForType() {
+        return com.clarkparsia.pellet.Messages.NodeSet.getDefaultInstance();
+      }
+
+      public com.clarkparsia.pellet.Messages.NodeSet build() {
+        com.clarkparsia.pellet.Messages.NodeSet result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.clarkparsia.pellet.Messages.NodeSet buildPartial() {
+        com.clarkparsia.pellet.Messages.NodeSet result = new com.clarkparsia.pellet.Messages.NodeSet(this);
+        int from_bitField0_ = bitField0_;
+        if (nodesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            nodes_ = java.util.Collections.unmodifiableList(nodes_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.nodes_ = nodes_;
+        } else {
+          result.nodes_ = nodesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.clarkparsia.pellet.Messages.NodeSet) {
+          return mergeFrom((com.clarkparsia.pellet.Messages.NodeSet)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.clarkparsia.pellet.Messages.NodeSet other) {
+        if (other == com.clarkparsia.pellet.Messages.NodeSet.getDefaultInstance()) return this;
+        if (nodesBuilder_ == null) {
+          if (!other.nodes_.isEmpty()) {
+            if (nodes_.isEmpty()) {
+              nodes_ = other.nodes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureNodesIsMutable();
+              nodes_.addAll(other.nodes_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.nodes_.isEmpty()) {
+            if (nodesBuilder_.isEmpty()) {
+              nodesBuilder_.dispose();
+              nodesBuilder_ = null;
+              nodes_ = other.nodes_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              nodesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getNodesFieldBuilder() : null;
+            } else {
+              nodesBuilder_.addAllMessages(other.nodes_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getNodesCount(); i++) {
+          if (!getNodes(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.clarkparsia.pellet.Messages.NodeSet parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.clarkparsia.pellet.Messages.NodeSet) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .com.clarkparsia.pellet.Node nodes = 1;
+      private java.util.List<com.clarkparsia.pellet.Messages.Node> nodes_ =
+        java.util.Collections.emptyList();
+      private void ensureNodesIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          nodes_ = new java.util.ArrayList<com.clarkparsia.pellet.Messages.Node>(nodes_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.clarkparsia.pellet.Messages.Node, com.clarkparsia.pellet.Messages.Node.Builder, com.clarkparsia.pellet.Messages.NodeOrBuilder> nodesBuilder_;
+
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public java.util.List<com.clarkparsia.pellet.Messages.Node> getNodesList() {
+        if (nodesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(nodes_);
+        } else {
+          return nodesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public int getNodesCount() {
+        if (nodesBuilder_ == null) {
+          return nodes_.size();
+        } else {
+          return nodesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.Node getNodes(int index) {
+        if (nodesBuilder_ == null) {
+          return nodes_.get(index);
+        } else {
+          return nodesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder setNodes(
+          int index, com.clarkparsia.pellet.Messages.Node value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.set(index, value);
+          onChanged();
+        } else {
+          nodesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder setNodes(
+          int index, com.clarkparsia.pellet.Messages.Node.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder addNodes(com.clarkparsia.pellet.Messages.Node value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.add(value);
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder addNodes(
+          int index, com.clarkparsia.pellet.Messages.Node value) {
+        if (nodesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNodesIsMutable();
+          nodes_.add(index, value);
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder addNodes(
+          com.clarkparsia.pellet.Messages.Node.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.add(builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder addNodes(
+          int index, com.clarkparsia.pellet.Messages.Node.Builder builderForValue) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          nodesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder addAllNodes(
+          java.lang.Iterable<? extends com.clarkparsia.pellet.Messages.Node> values) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          super.addAll(values, nodes_);
+          onChanged();
+        } else {
+          nodesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder clearNodes() {
+        if (nodesBuilder_ == null) {
+          nodes_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          nodesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public Builder removeNodes(int index) {
+        if (nodesBuilder_ == null) {
+          ensureNodesIsMutable();
+          nodes_.remove(index);
+          onChanged();
+        } else {
+          nodesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.Node.Builder getNodesBuilder(
+          int index) {
+        return getNodesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.NodeOrBuilder getNodesOrBuilder(
+          int index) {
+        if (nodesBuilder_ == null) {
+          return nodes_.get(index);  } else {
+          return nodesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public java.util.List<? extends com.clarkparsia.pellet.Messages.NodeOrBuilder> 
+           getNodesOrBuilderList() {
+        if (nodesBuilder_ != null) {
+          return nodesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(nodes_);
+        }
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.Node.Builder addNodesBuilder() {
+        return getNodesFieldBuilder().addBuilder(
+            com.clarkparsia.pellet.Messages.Node.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public com.clarkparsia.pellet.Messages.Node.Builder addNodesBuilder(
+          int index) {
+        return getNodesFieldBuilder().addBuilder(
+            index, com.clarkparsia.pellet.Messages.Node.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .com.clarkparsia.pellet.Node nodes = 1;</code>
+       */
+      public java.util.List<com.clarkparsia.pellet.Messages.Node.Builder> 
+           getNodesBuilderList() {
+        return getNodesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.clarkparsia.pellet.Messages.Node, com.clarkparsia.pellet.Messages.Node.Builder, com.clarkparsia.pellet.Messages.NodeOrBuilder> 
+          getNodesFieldBuilder() {
+        if (nodesBuilder_ == null) {
+          nodesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.clarkparsia.pellet.Messages.Node, com.clarkparsia.pellet.Messages.Node.Builder, com.clarkparsia.pellet.Messages.NodeOrBuilder>(
+                  nodes_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          nodes_ = null;
+        }
+        return nodesBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:com.clarkparsia.pellet.NodeSet)
+    }
+
+    static {
+      defaultInstance = new NodeSet(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:com.clarkparsia.pellet.NodeSet)
+  }
+
   public interface QueryResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .com.clarkparsia.pellet.RawObject result = 1;
+    // required .com.clarkparsia.pellet.NodeSet result = 1;
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+     * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
      */
     boolean hasResult();
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+     * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
      */
-    com.clarkparsia.pellet.Messages.RawObject getResult();
+    com.clarkparsia.pellet.Messages.NodeSet getResult();
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+     * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
      */
-    com.clarkparsia.pellet.Messages.RawObjectOrBuilder getResultOrBuilder();
+    com.clarkparsia.pellet.Messages.NodeSetOrBuilder getResultOrBuilder();
   }
   /**
    * Protobuf type {@code com.clarkparsia.pellet.QueryResponse}
@@ -3111,11 +4483,11 @@ public final class Messages {
               break;
             }
             case 10: {
-              com.clarkparsia.pellet.Messages.RawObject.Builder subBuilder = null;
+              com.clarkparsia.pellet.Messages.NodeSet.Builder subBuilder = null;
               if (((bitField0_ & 0x00000001) == 0x00000001)) {
                 subBuilder = result_.toBuilder();
               }
-              result_ = input.readMessage(com.clarkparsia.pellet.Messages.RawObject.PARSER, extensionRegistry);
+              result_ = input.readMessage(com.clarkparsia.pellet.Messages.NodeSet.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(result_);
                 result_ = subBuilder.buildPartial();
@@ -3163,30 +4535,30 @@ public final class Messages {
     }
 
     private int bitField0_;
-    // required .com.clarkparsia.pellet.RawObject result = 1;
+    // required .com.clarkparsia.pellet.NodeSet result = 1;
     public static final int RESULT_FIELD_NUMBER = 1;
-    private com.clarkparsia.pellet.Messages.RawObject result_;
+    private com.clarkparsia.pellet.Messages.NodeSet result_;
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+     * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
      */
     public boolean hasResult() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+     * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
      */
-    public com.clarkparsia.pellet.Messages.RawObject getResult() {
+    public com.clarkparsia.pellet.Messages.NodeSet getResult() {
       return result_;
     }
     /**
-     * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+     * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
      */
-    public com.clarkparsia.pellet.Messages.RawObjectOrBuilder getResultOrBuilder() {
+    public com.clarkparsia.pellet.Messages.NodeSetOrBuilder getResultOrBuilder() {
       return result_;
     }
 
     private void initFields() {
-      result_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
+      result_ = com.clarkparsia.pellet.Messages.NodeSet.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3342,7 +4714,7 @@ public final class Messages {
       public Builder clear() {
         super.clear();
         if (resultBuilder_ == null) {
-          result_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
+          result_ = com.clarkparsia.pellet.Messages.NodeSet.getDefaultInstance();
         } else {
           resultBuilder_.clear();
         }
@@ -3437,20 +4809,20 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // required .com.clarkparsia.pellet.RawObject result = 1;
-      private com.clarkparsia.pellet.Messages.RawObject result_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
+      // required .com.clarkparsia.pellet.NodeSet result = 1;
+      private com.clarkparsia.pellet.Messages.NodeSet result_ = com.clarkparsia.pellet.Messages.NodeSet.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder> resultBuilder_;
+          com.clarkparsia.pellet.Messages.NodeSet, com.clarkparsia.pellet.Messages.NodeSet.Builder, com.clarkparsia.pellet.Messages.NodeSetOrBuilder> resultBuilder_;
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
       public boolean hasResult() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
-      public com.clarkparsia.pellet.Messages.RawObject getResult() {
+      public com.clarkparsia.pellet.Messages.NodeSet getResult() {
         if (resultBuilder_ == null) {
           return result_;
         } else {
@@ -3458,9 +4830,9 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
-      public Builder setResult(com.clarkparsia.pellet.Messages.RawObject value) {
+      public Builder setResult(com.clarkparsia.pellet.Messages.NodeSet value) {
         if (resultBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3474,10 +4846,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
       public Builder setResult(
-          com.clarkparsia.pellet.Messages.RawObject.Builder builderForValue) {
+          com.clarkparsia.pellet.Messages.NodeSet.Builder builderForValue) {
         if (resultBuilder_ == null) {
           result_ = builderForValue.build();
           onChanged();
@@ -3488,14 +4860,14 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
-      public Builder mergeResult(com.clarkparsia.pellet.Messages.RawObject value) {
+      public Builder mergeResult(com.clarkparsia.pellet.Messages.NodeSet value) {
         if (resultBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              result_ != com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance()) {
+              result_ != com.clarkparsia.pellet.Messages.NodeSet.getDefaultInstance()) {
             result_ =
-              com.clarkparsia.pellet.Messages.RawObject.newBuilder(result_).mergeFrom(value).buildPartial();
+              com.clarkparsia.pellet.Messages.NodeSet.newBuilder(result_).mergeFrom(value).buildPartial();
           } else {
             result_ = value;
           }
@@ -3507,11 +4879,11 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
       public Builder clearResult() {
         if (resultBuilder_ == null) {
-          result_ = com.clarkparsia.pellet.Messages.RawObject.getDefaultInstance();
+          result_ = com.clarkparsia.pellet.Messages.NodeSet.getDefaultInstance();
           onChanged();
         } else {
           resultBuilder_.clear();
@@ -3520,17 +4892,17 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
-      public com.clarkparsia.pellet.Messages.RawObject.Builder getResultBuilder() {
+      public com.clarkparsia.pellet.Messages.NodeSet.Builder getResultBuilder() {
         bitField0_ |= 0x00000001;
         onChanged();
         return getResultFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
-      public com.clarkparsia.pellet.Messages.RawObjectOrBuilder getResultOrBuilder() {
+      public com.clarkparsia.pellet.Messages.NodeSetOrBuilder getResultOrBuilder() {
         if (resultBuilder_ != null) {
           return resultBuilder_.getMessageOrBuilder();
         } else {
@@ -3538,14 +4910,14 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .com.clarkparsia.pellet.RawObject result = 1;</code>
+       * <code>required .com.clarkparsia.pellet.NodeSet result = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder> 
+          com.clarkparsia.pellet.Messages.NodeSet, com.clarkparsia.pellet.Messages.NodeSet.Builder, com.clarkparsia.pellet.Messages.NodeSetOrBuilder> 
           getResultFieldBuilder() {
         if (resultBuilder_ == null) {
           resultBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.clarkparsia.pellet.Messages.RawObject, com.clarkparsia.pellet.Messages.RawObject.Builder, com.clarkparsia.pellet.Messages.RawObjectOrBuilder>(
+              com.clarkparsia.pellet.Messages.NodeSet, com.clarkparsia.pellet.Messages.NodeSet.Builder, com.clarkparsia.pellet.Messages.NodeSetOrBuilder>(
                   result_,
                   getParentForChildren(),
                   isClean());
@@ -4277,6 +5649,16 @@ public final class Messages {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_com_clarkparsia_pellet_UpdateRequest_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_clarkparsia_pellet_Node_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_clarkparsia_pellet_Node_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_clarkparsia_pellet_NodeSet_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_clarkparsia_pellet_NodeSet_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_com_clarkparsia_pellet_QueryResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4305,10 +5687,13 @@ public final class Messages {
       "\"x\n\rUpdateRequest\0223\n\tadditions\030\001 \002(\0132 .c" +
       "om.clarkparsia.pellet.AxiomSet\0222\n\010remova" +
       "ls\030\002 \002(\0132 .com.clarkparsia.pellet.AxiomS",
-      "et\"B\n\rQueryResponse\0221\n\006result\030\001 \002(\0132!.co" +
-      "m.clarkparsia.pellet.RawObject\"F\n\017Explai" +
-      "nResponse\0223\n\taxiomsets\030\001 \003(\0132 .com.clark" +
-      "parsia.pellet.AxiomSetB\014B\010MessagesH\001"
+      "et\"=\n\004Node\0225\n\nowl_object\030\001 \003(\0132!.com.cla" +
+      "rkparsia.pellet.RawObject\"6\n\007NodeSet\022+\n\005" +
+      "nodes\030\001 \003(\0132\034.com.clarkparsia.pellet.Nod" +
+      "e\"@\n\rQueryResponse\022/\n\006result\030\001 \002(\0132\037.com" +
+      ".clarkparsia.pellet.NodeSet\"F\n\017ExplainRe" +
+      "sponse\0223\n\taxiomsets\030\001 \003(\0132 .com.clarkpar" +
+      "sia.pellet.AxiomSetB\014B\010MessagesH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4345,14 +5730,26 @@ public final class Messages {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_clarkparsia_pellet_UpdateRequest_descriptor,
               new java.lang.String[] { "Additions", "Removals", });
-          internal_static_com_clarkparsia_pellet_QueryResponse_descriptor =
+          internal_static_com_clarkparsia_pellet_Node_descriptor =
             getDescriptor().getMessageTypes().get(5);
+          internal_static_com_clarkparsia_pellet_Node_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_com_clarkparsia_pellet_Node_descriptor,
+              new java.lang.String[] { "OwlObject", });
+          internal_static_com_clarkparsia_pellet_NodeSet_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_com_clarkparsia_pellet_NodeSet_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_com_clarkparsia_pellet_NodeSet_descriptor,
+              new java.lang.String[] { "Nodes", });
+          internal_static_com_clarkparsia_pellet_QueryResponse_descriptor =
+            getDescriptor().getMessageTypes().get(7);
           internal_static_com_clarkparsia_pellet_QueryResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_clarkparsia_pellet_QueryResponse_descriptor,
               new java.lang.String[] { "Result", });
           internal_static_com_clarkparsia_pellet_ExplainResponse_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_com_clarkparsia_pellet_ExplainResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_clarkparsia_pellet_ExplainResponse_descriptor,
