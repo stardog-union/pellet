@@ -2,13 +2,13 @@ package com.clarkparsia.pellet.messages;
 
 import java.util.Objects;
 
-import com.clarkparsia.pellet.ProtoMessage;
+import com.clarkparsia.pellet.Message;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class QueryRequest extends ProtoMessage {
+public class QueryRequest implements Message {
 
 	private final OWLLogicalEntity input;
 

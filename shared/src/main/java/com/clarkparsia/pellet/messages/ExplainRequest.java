@@ -2,13 +2,13 @@ package com.clarkparsia.pellet.messages;
 
 import java.util.Objects;
 
-import com.clarkparsia.pellet.ProtoMessage;
+import com.clarkparsia.pellet.Message;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class ExplainRequest extends ProtoMessage {
+public class ExplainRequest implements Message {
 
 	private final OWLAxiom axiom;
 

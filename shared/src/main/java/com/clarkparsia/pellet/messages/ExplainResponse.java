@@ -3,14 +3,14 @@ package com.clarkparsia.pellet.messages;
 import java.util.Objects;
 import java.util.Set;
 
-import com.clarkparsia.pellet.ProtoMessage;
+import com.clarkparsia.pellet.Message;
 import com.google.common.collect.ImmutableSet;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class ExplainResponse extends ProtoMessage {
+public class ExplainResponse implements Message {
 
 	private final Set<Set<OWLAxiom>> axiomSets;
 

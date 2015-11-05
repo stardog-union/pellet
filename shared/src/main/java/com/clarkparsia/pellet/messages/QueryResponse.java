@@ -2,14 +2,14 @@ package com.clarkparsia.pellet.messages;
 
 import java.util.Objects;
 
-import com.clarkparsia.pellet.ProtoMessage;
+import com.clarkparsia.pellet.Message;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class QueryResponse extends ProtoMessage {
+public class QueryResponse implements Message {
 
 	private final NodeSet<? extends OWLObject> results;
 

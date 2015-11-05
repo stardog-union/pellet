@@ -5,10 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import com.clarkparsia.pellet.ServiceDecoder;
+import com.clarkparsia.pellet.ServiceEncoder;
 import com.clarkparsia.pellet.messages.ExplainResponse;
 import com.clarkparsia.pellet.messages.QueryResponse;
-import com.clarkparsia.pellet.proto.MessageDecoders;
-import com.clarkparsia.pellet.proto.MessageEncoders;
+import com.clarkparsia.pellet.proto.ProtoServiceDecoder;
+import com.clarkparsia.pellet.proto.ProtoServiceEncoder;
 import com.clarkparsia.pellet.messages.ExplainRequest;
 import com.clarkparsia.pellet.messages.QueryRequest;
 import com.clarkparsia.pellet.messages.UpdateRequest;
@@ -35,16 +37,24 @@ import static org.junit.Assert.assertTrue;
  */
 public class SerializationTests {
 
+	private ServiceEncoder anEncoder;
+	private ServiceDecoder aDecoder;
+
+	public SerializationTests() {
+		anEncoder = new ProtoServiceEncoder();
+		aDecoder = new ProtoServiceDecoder();
+	}
+
 	@Test
 	public void testQueryRequestRoundTrip() {
 		OWLLogicalEntity entity = new OWLClassImpl(IRI.create("urn:test:iri"));
 
 		QueryRequest originalQR = new QueryRequest(entity);
 
-		ByteString encodedQR = ByteString.copyFrom(MessageEncoders.encode(originalQR));
+		ByteString encodedQR = ByteString.copyFrom(anEncoder.encode(originalQR));
 		assertTrue(encodedQR.size() > 0);
 
-		QueryRequest decodedQR = MessageDecoders.queryRequest(encodedQR);
+		QueryRequest decodedQR = aDecoder.queryRequest(encodedQR);
 
 		assertEquals(originalQR, decodedQR);
 	}
@@ -72,10 +82,10 @@ public class SerializationTests {
 
 		ExplainRequest originalER = new ExplainRequest(axiom);
 
-		ByteString encodedER = ByteString.copyFrom(MessageEncoders.encode(originalER));
+		ByteString encodedER = ByteString.copyFrom(anEncoder.encode(originalER));
 		assertTrue(encodedER.size() > 0);
 
-		ExplainRequest decodedER = MessageDecoders.explainRequest(encodedER);
+		ExplainRequest decodedER = aDecoder.explainRequest(encodedER);
 
 		assertEquals(originalER, decodedER);
 	}
@@ -87,10 +97,10 @@ public class SerializationTests {
 
 		UpdateRequest originalUR = new UpdateRequest(additions, removals);
 
-		ByteString encodedUR = ByteString.copyFrom(MessageEncoders.encode(originalUR));
+		ByteString encodedUR = ByteString.copyFrom(anEncoder.encode(originalUR));
 		assertTrue(encodedUR.size() > 0);
 
-		UpdateRequest decodedUR = MessageDecoders.updateRequest(encodedUR);
+		UpdateRequest decodedUR = aDecoder.updateRequest(encodedUR);
 
 		assertEquals(originalUR, decodedUR);
 		assertEquals(100, decodedUR.getAdditions().size());
@@ -103,10 +113,10 @@ public class SerializationTests {
 
 		QueryResponse originalQR = new QueryResponse(classes);
 
-		ByteString encodedUR = ByteString.copyFrom(MessageEncoders.encode(originalQR));
+		ByteString encodedUR = ByteString.copyFrom(anEncoder.encode(originalQR));
 		assertTrue(encodedUR.size() > 0);
 
-		QueryResponse decodedQR = MessageDecoders.queryResponse(encodedUR);
+		QueryResponse decodedQR = aDecoder.queryResponse(encodedUR);
 
 		assertEquals(originalQR, decodedQR);
 	}
@@ -122,10 +132,10 @@ public class SerializationTests {
 		}
 
 		ExplainResponse originalER = new ExplainResponse(axiomSets);
-		ByteString encodedER = ByteString.copyFrom(MessageEncoders.encode(originalER));
+		ByteString encodedER = ByteString.copyFrom(anEncoder.encode(originalER));
 		assertTrue(encodedER.size() > 0);
 
-		ExplainResponse decodedUR = MessageDecoders.explainResponse(encodedER);
+		ExplainResponse decodedUR = aDecoder.explainResponse(encodedER);
 
 		assertEquals(originalER, decodedUR);
 

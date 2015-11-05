@@ -1,5 +1,7 @@
 package com.complexible.pellet.service.messages;
 
+import com.clarkparsia.pellet.Message;
+
 /**
  * @author Edgar Rodriguez-Diaz
  */

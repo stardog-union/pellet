@@ -3,6 +3,7 @@ package com.clarkparsia.pellet.proto;
 import java.util.Set;
 
 import com.clarkparsia.pellet.MessageEncoder;
+import com.clarkparsia.pellet.ServiceEncoder;
 import com.clarkparsia.pellet.messages.ExplainRequest;
 import com.clarkparsia.pellet.messages.ExplainResponse;
 import com.clarkparsia.pellet.messages.QueryRequest;
@@ -13,29 +14,41 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public class MessageEncoders {
+public class ProtoServiceEncoder implements ServiceEncoder {
 
-	public static byte[] encode(final QueryRequest theQueryRequest) {
+	private final String MEDIA_TYPE = "application/x-protobuf";
+
+	@Override
+	public String getMediaType() {
+		return MEDIA_TYPE;
+	}
+
+	@Override
+	public boolean canEncode(final String theMediaType) {
+		return MEDIA_TYPE.equals(theMediaType);
+	}
+
+	public byte[] encode(final QueryRequest theQueryRequest) {
 		return new QueryRequestEncoder().encode(theQueryRequest);
 	}
 
-	public static byte[] encode(final ExplainRequest theExplainRequest) {
+	public byte[] encode(final ExplainRequest theExplainRequest) {
 		return new ExplainRequestEncoder().encode(theExplainRequest);
 	}
 
-	public static byte[] encode(final UpdateRequest theUpdateRequest) {
+	public byte[] encode(final UpdateRequest theUpdateRequest) {
 		return new UpdateRequestEncoder().encode(theUpdateRequest);
 	}
 
-	public static byte[] encode(final QueryResponse theQueryResponse) {
+	public byte[] encode(final QueryResponse theQueryResponse) {
 		return new QueryResponseEncoder().encode(theQueryResponse);
 	}
 
-	public static byte[] encode(final ExplainResponse theExplainResponse) {
+	public byte[] encode(final ExplainResponse theExplainResponse) {
 		return new ExplainResponseEncoder().encode(theExplainResponse);
 	}
 
-	private static class QueryRequestEncoder implements MessageEncoder<QueryRequest> {
+	private static final class QueryRequestEncoder implements MessageEncoder<QueryRequest> {
 
 		@Override
 		public byte[] encode(final QueryRequest theObject) {
@@ -46,7 +59,7 @@ public class MessageEncoders {
 		}
 	}
 
-	private static class ExplainRequestEncoder implements MessageEncoder<ExplainRequest> {
+	private static final class ExplainRequestEncoder implements MessageEncoder<ExplainRequest> {
 
 		@Override
 		public byte[] encode(final ExplainRequest theObject) {
@@ -57,7 +70,7 @@ public class MessageEncoders {
 		}
 	}
 
-	private static class UpdateRequestEncoder implements MessageEncoder<UpdateRequest> {
+	private static final class UpdateRequestEncoder implements MessageEncoder<UpdateRequest> {
 
 		@Override
 		public byte[] encode(final UpdateRequest theObject) {
@@ -70,7 +83,7 @@ public class MessageEncoders {
 		}
 	}
 
-	private static class QueryResponseEncoder implements MessageEncoder<QueryResponse> {
+	private static final class QueryResponseEncoder implements MessageEncoder<QueryResponse> {
 
 		@Override
 		public byte[] encode(final QueryResponse theObject) {
@@ -81,7 +94,7 @@ public class MessageEncoders {
 		}
 	}
 
-	private static class ExplainResponseEncoder implements MessageEncoder<ExplainResponse> {
+	private static final class ExplainResponseEncoder implements MessageEncoder<ExplainResponse> {
 
 		@Override
 		public byte[] encode(final ExplainResponse theObject) {

@@ -3,6 +3,7 @@ package com.clarkparsia.pellet.proto;
 import java.util.Set;
 
 import com.clarkparsia.pellet.MessageDecoder;
+import com.clarkparsia.pellet.ServiceDecoder;
 import com.clarkparsia.pellet.messages.ExplainRequest;
 import com.clarkparsia.pellet.messages.ExplainResponse;
 import com.clarkparsia.pellet.messages.QueryRequest;
@@ -19,31 +20,46 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 /**
  * @author Edgar Rodriguez-Diaz
  */
-public final class MessageDecoders {
+public final class ProtoServiceDecoder implements ServiceDecoder {
 
-	public static QueryRequest queryRequest(final ByteString theBytes) {
-		return QueryRequestDecoder.INSTANCE.decode(theBytes);
+	private final String MEDIA_TYPE = "application/x-protobuf";
+
+	@Override
+	public String getMediaType() {
+		return MEDIA_TYPE;
 	}
 
-	public static ExplainRequest explainRequest(final ByteString theBytes) {
-		return ExplainRequestDecoder.INSTANCE.decode(theBytes);
+	@Override
+	public boolean canDecode(final String theMediaType) {
+		return MEDIA_TYPE.equals(theMediaType);
 	}
 
-	public static UpdateRequest updateRequest(final ByteString theBytes) {
-		return UpdateRequestDecoder.INSTANCE.decode(theBytes);
+	@Override
+	public QueryRequest queryRequest(final ByteString theBytes) {
+		return new QueryRequestDecoder().decode(theBytes);
 	}
 
-	public static QueryResponse queryResponse(final ByteString theBytes) {
-		return QueryResponseDecoder.INSTANCE.decode(theBytes);
+	@Override
+	public ExplainRequest explainRequest(final ByteString theBytes) {
+		return new ExplainRequestDecoder().decode(theBytes);
 	}
 
-	public static ExplainResponse explainResponse(final ByteString theBytes) {
-		return ExplainResponseDecoder.INSTANCE.decode(theBytes);
+	@Override
+	public UpdateRequest updateRequest(final ByteString theBytes) {
+		return new UpdateRequestDecoder().decode(theBytes);
 	}
 
-	private enum QueryRequestDecoder implements MessageDecoder<QueryRequest> {
-		INSTANCE;
+	@Override
+	public QueryResponse queryResponse(final ByteString theBytes) {
+		return new QueryResponseDecoder().decode(theBytes);
+	}
 
+	@Override
+	public ExplainResponse explainResponse(final ByteString theBytes) {
+		return new ExplainResponseDecoder().decode(theBytes);
+	}
+
+	private static final class QueryRequestDecoder implements MessageDecoder<QueryRequest> {
 		@Override
 		public QueryRequest decode(final ByteString theBytes) {
 			try {
@@ -61,9 +77,7 @@ public final class MessageDecoders {
 		}
 	}
 
-	private enum ExplainRequestDecoder implements MessageDecoder<ExplainRequest> {
-		INSTANCE;
-
+	private static final class ExplainRequestDecoder implements MessageDecoder<ExplainRequest> {
 		@Override
 		public ExplainRequest decode(final ByteString theBytes) {
 			try {
@@ -80,9 +94,7 @@ public final class MessageDecoders {
 		}
 	}
 
-	private enum UpdateRequestDecoder implements MessageDecoder<UpdateRequest> {
-		INSTANCE;
-
+	private static final class UpdateRequestDecoder implements MessageDecoder<UpdateRequest> {
 		@Override
 		public UpdateRequest decode(final ByteString theBytes) {
 			try {
@@ -99,8 +111,7 @@ public final class MessageDecoders {
 		}
 	}
 
-	private enum QueryResponseDecoder implements MessageDecoder<QueryResponse> {
-		INSTANCE;
+	private static final class QueryResponseDecoder implements MessageDecoder<QueryResponse> {
 
 		@Override
 		public QueryResponse decode(final ByteString theBytes) {
@@ -117,9 +128,7 @@ public final class MessageDecoders {
 		}
 	}
 
-	private enum ExplainResponseDecoder implements MessageDecoder<ExplainResponse> {
-		INSTANCE;
-
+	private static final class ExplainResponseDecoder implements MessageDecoder<ExplainResponse> {
 		@Override
 		public ExplainResponse decode(final ByteString theBytes) {
 			try {

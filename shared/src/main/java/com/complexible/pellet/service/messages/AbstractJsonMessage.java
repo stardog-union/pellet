@@ -7,7 +7,6 @@ import com.google.gson.Gson;
  */
 public abstract class AbstractJsonMessage implements JsonMessage {
 
-	@Override
 	public String getMimeType() {
 		return JsonMessage.MIME_TYPE;
 	}
