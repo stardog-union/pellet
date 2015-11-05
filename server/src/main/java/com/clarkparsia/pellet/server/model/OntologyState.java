@@ -13,6 +13,8 @@ import java.util.Set;
 
 import com.google.common.base.Function;
 import org.protege.owl.server.api.ChangeHistory;
+import org.protege.owl.server.api.OntologyDocumentRevision;
+import org.protege.owl.server.api.client.VersionedOntologyDocument;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -28,7 +30,13 @@ public interface OntologyState extends AutoCloseable {
 
 	IRI getIRI();
 
-	void update(Function<OWLOntology, List<OWLOntologyChange>> changeSupplier);
+	/**
+	 * Update the ontology with the latest changes from the backing store. Details of retrieving the changes depends on the backing store.
+	 */
+	void update();
 
+	/**
+	 * Saves the current reasoning state.
+	 */
 	void save();
 }

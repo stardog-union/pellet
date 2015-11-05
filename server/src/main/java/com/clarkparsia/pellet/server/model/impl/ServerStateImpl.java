@@ -26,7 +26,7 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Evren Sirin
  */
 public class ServerStateImpl implements ServerState {
-	private final AtomicReference<Map<IRI, OntologyState>> ontologies = new AtomicReference<Map<IRI, OntologyState>>();
+	private final ImmutableMap<IRI, OntologyState> ontologies;
 
 	private ServerStateImpl(final Iterable<OntologyState> onts) {
 		ImmutableMap.Builder<IRI, OntologyState> builder = ImmutableMap.builder();
@@ -34,35 +34,40 @@ public class ServerStateImpl implements ServerState {
 			builder.put(ontoState.getIRI(), ontoState);
 		}
 
-		ontologies.set(builder.build());
+		ontologies = builder.build();
 	}
 
 	@Override
 	public Optional<OntologyState> getOntology(IRI ontology) {
-		return Optional.<OntologyState>of(Objects.requireNonNull(ontologies.get()
-		                                                                   .get(ontology),
-		                                                         "Ontology not found: " + ontology));
+		return Optional.<OntologyState>fromNullable(ontologies.get(ontology));
 	}
 
 	@Override
-	public Set<OntologyState> ontologies() {
-		return ImmutableSet.copyOf(ontologies.get().values());
+	public Iterable<OntologyState> ontologies() {
+		return ontologies.values();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return ontologies.get().isEmpty();
+		return ontologies.isEmpty();
 	}
 
 	@Override
-	public void refresh() {
+	public void update() {
+		for (OntologyState ontState : ontologies()) {
+			ontState.update();
+		}
+	}
+
+	@Override
+	public void reload() {
 		// no-op: this implementation doesn't have an explicit source for the ontologies, it just
 		// takes whatever it is in the constructor parameters
 	}
 
 	@Override
 	public void close() throws Exception {
-		for (OntologyState ontology : ontologies.get().values()) {
+		for (OntologyState ontology : ontologies()) {
 			ontology.close();
 		}
 	}

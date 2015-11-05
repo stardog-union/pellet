@@ -27,12 +27,20 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import org.protege.owl.server.api.ChangeHistory;
+import org.protege.owl.server.api.OntologyDocumentRevision;
+import org.protege.owl.server.api.client.Client;
+import org.protege.owl.server.api.client.VersionedOntologyDocument;
+import org.protege.owl.server.api.exception.OWLServerException;
+import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
+ * Implementation of ontology state without a backing store.
+ *
  * @author Evren Sirin
  */
 public class OntologyStateImpl implements OntologyState {
@@ -40,15 +48,12 @@ public class OntologyStateImpl implements OntologyState {
 
 	private final OWLOntology ontology;
 
-	private final IRI iri;
-
 	private final IncrementalReasoner reasoner;
 
 	private final LoadingCache<String, ClientState> clients;
 
-	public OntologyStateImpl(final OWLOntology ontology, final IRI iri) {
+	public OntologyStateImpl(OWLOntology ontology) {
 		this.ontology = ontology;
-		this.iri = iri;
 
 		reasoner = IncrementalReasoner.config().createIncrementalReasoner(ontology);
 		reasoner.classify();
@@ -70,10 +75,8 @@ public class OntologyStateImpl implements OntologyState {
 		                      });
 	}
 
-	private ClientState newClientState() {
-		synchronized (ontology) {
-			return new ClientStateImpl(reasoner);
-		}
+	private synchronized ClientState newClientState() {
+		return new ClientStateImpl(reasoner);
 	}
 
 	@Override
@@ -94,21 +97,33 @@ public class OntologyStateImpl implements OntologyState {
 
 	@Override
 	public IRI getIRI() {
-		return iri;
+		return ontology.getOntologyID().getOntologyIRI().get();
 	}
 
 	@Override
-	public void update(Function<OWLOntology, List<OWLOntologyChange>> changeSupplier) {
-		synchronized (ontology) {
-			List<OWLOntologyChange> changes = changeSupplier.apply(ontology);
-			ontology.getOWLOntologyManager().applyChanges(changes);
+	public synchronized final void update() {
+		boolean updated = updateOntology();
+
+		if (updated) {
 			reasoner.classify();
+
+			save();
 		}
+	}
+
+	/**
+	 * Update ontology content with latest changes.
+	 *
+	 * @return {@code true} if there were changes or {@code false} if ontology was not updated
+	 */
+	protected boolean updateOntology() {
+		// no changes for this implementation
+		return false;
 	}
 
 	@Override
 	public void save() {
-		throw new UnsupportedOperationException("NYI");
+		// FIXME use IncrementalReasoner.save
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.clarkparsia.pellet.server.protege.model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
@@ -8,7 +9,6 @@ import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
-import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
@@ -24,8 +24,8 @@ import org.protege.owl.server.api.exception.OWLServerException;
 import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -39,6 +39,8 @@ public final class ProtegeServerState implements ServerState {
 	private final AtomicReference<ServerState> mServerState = new AtomicReference<ServerState>();
 
 	private final IRI serverRoot;
+
+	private final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
 	public ProtegeServerState(final Client theProtegeClient) {
 		mClient = theProtegeClient;
@@ -57,11 +59,8 @@ public final class ProtegeServerState implements ServerState {
 
 			for (RemoteOntologyDocument ontoDoc : docs) {
 				try {
-					VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient,
-					                                                              OWLManager.createOWLOntologyManager(),
-					                                                              ontoDoc);
-					OWLOntology ontology = vont.getOntology();
-					ontologies.add(new OntologyStateImpl(ontology, ontoDoc.getServerLocation()));
+					VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient, manager, ontoDoc);
+					ontologies.add(new ProtegeOntologyState(mClient, vont));
 				}
 				catch (OWLOntologyCreationException e) {
 					LOGGER.log(Level.FINER, "Could not load one or more ontologies from Protege server", e);
@@ -84,7 +83,7 @@ public final class ProtegeServerState implements ServerState {
 	}
 
 	@Override
-	public Set<OntologyState> ontologies() {
+	public Iterable<OntologyState> ontologies() {
 		return mServerState.get().ontologies();
 	}
 
@@ -94,7 +93,12 @@ public final class ProtegeServerState implements ServerState {
 	}
 
 	@Override
-	public void refresh() {
+	public void update() {
+		mServerState.get().update();
+	}
+
+	@Override
+	public void reload() {
 		// free resources from previous server state and update with new snapshot from server
 		try {
 			mServerState.getAndSet(snapshot())

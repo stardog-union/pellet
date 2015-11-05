@@ -18,14 +18,27 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Evren Sirin
  */
 public interface ServerState extends AutoCloseable {
-
+	/**
+	 * Return the stste associated with the given IRI.
+	 */
 	Optional<OntologyState> getOntology(IRI ontology);
 
-	Set<OntologyState> ontologies();
+	/**
+	 * Returns all the ontologies managed by this server.
+	 */
+	Iterable<OntologyState> ontologies();
 
 	boolean isEmpty();
 
-	void refresh();
+	/**
+	 * Reload the latest version of the ontologies from the repository and classify from scratch.
+	 */
+	void reload();
+
+	/**
+	 * Update all ontology states. This function will iterate over all the {@link #ontologies() ontologies} and {@link OntologyState#update() update} each one.
+	 */
+	void update();
 
 	ServerState EMPTY = new ServerState() {
 		@Override
@@ -44,7 +57,12 @@ public interface ServerState extends AutoCloseable {
 		}
 
 		@Override
-		public void refresh() {
+		public void reload() {
+			// no-op
+		}
+
+		@Override
+		public void update() {
 			// no-op
 		}
 

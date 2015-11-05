@@ -52,7 +52,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 			// when the ontologies are created/modified after ServerState instantiation we have to
 			// refresh the state.
-			aServerState.refresh();
+			aServerState.reload();
 
 			assertFalse(aServerState.isEmpty());
 
