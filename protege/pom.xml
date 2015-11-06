@@ -77,9 +77,9 @@
 						<Implementation-Vendor>Clark &amp; Parsia LLC</Implementation-Vendor>
 						<Implementation-Version>${project.version}</Implementation-Version>
 						<Import-Package>*</Import-Package>
-						<Export-Package>com.clarkparsia.protege.plugin.*</Export-Package>
+						<Export-Package>com.clarkparsia.pellet.protege.*</Export-Package>
 						<Private-Package>com.clarkparsia.*;org.mindswap.*;-split-package:=merge-first</Private-Package>
-						<Bundle-SymbolicName>com.clarkparsia.protege.plugin.pellet;singleton:=true</Bundle-SymbolicName>
+						<Bundle-SymbolicName>com.clarkparsia.pellet.protege;singleton:=true</Bundle-SymbolicName>
 						<Bundle-Activator>org.protege.editor.core.plugin.DefaultPluginActivator</Bundle-Activator>
 						<Embed-Dependency>*;scope=compile|runtime;artifactId=!pellet-distribution|pellet-examples|pellet-cli|pellet-jena|pellet-pellint</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>

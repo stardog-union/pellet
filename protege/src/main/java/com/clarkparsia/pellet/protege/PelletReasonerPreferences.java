@@ -1,4 +1,4 @@
-package com.clarkparsia.protege.plugin.remote;
+package com.clarkparsia.pellet.protege;
 
 import org.protege.editor.core.prefs.Preferences;
 import org.protege.editor.core.prefs.PreferencesManager;
@@ -7,13 +7,13 @@ import org.protege.editor.core.prefs.PreferencesManager;
  *
  * @author Evren Sirin
  */
-public class PelletRemoteReasonerPreferences {
+public class PelletReasonerPreferences {
     private static String KEY = "com.clarkparsia.pellet.remote";
-    private static PelletRemoteReasonerPreferences INSTANCE;
+    private static PelletReasonerPreferences INSTANCE;
 
-    public static synchronized PelletRemoteReasonerPreferences getInstance() {
+    public static synchronized PelletReasonerPreferences getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new PelletRemoteReasonerPreferences();
+            INSTANCE = new PelletReasonerPreferences();
         }
         return INSTANCE;
     }
@@ -30,4 +30,11 @@ public class PelletRemoteReasonerPreferences {
         return getPreferences().getString("serverURL", "http://localhost:18080");
     }
 
+    public void setReasonerType(PelletReasonerType type) {
+        getPreferences().getString("reasonerType", type.name());
+    }
+
+    public PelletReasonerType getReasonerType() {
+        return PelletReasonerType.valueOf(getPreferences().getString("serverURL", PelletReasonerType.REGULAR.name()));
+    }
 }
