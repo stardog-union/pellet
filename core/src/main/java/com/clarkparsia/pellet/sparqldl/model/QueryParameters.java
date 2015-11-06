@@ -11,12 +11,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.mindswap.pellet.jena.JenaUtils;
-import org.mindswap.pellet.utils.ATermUtils;
-
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.QuerySolutionMap;
-
 import aterm.ATermAppl;
 
 /**
@@ -41,20 +35,6 @@ public class QueryParameters {
 	
 	public QueryParameters() {
 		parameters = new HashMap<ATermAppl, ATermAppl>();
-	}
-	
-	public QueryParameters(QuerySolution initialBinding) {
-		this();
-		
-		if (initialBinding == null)
-			initialBinding = new QuerySolutionMap();
-		
-		for (Iterator iter = initialBinding.varNames(); iter.hasNext(); ) {
-			String varName = (String)iter.next();
-			ATermAppl key = ATermUtils.makeVar(varName);
-			ATermAppl value = JenaUtils.makeATerm(initialBinding.get( varName ));
-			parameters.put( key, value );
-		}
 	}
 	
 	public void add(ATermAppl key, ATermAppl value) {

@@ -44,9 +44,6 @@
 
   <properties>
     <junit.version>4.11</junit.version>
-    <slf4j.version>1.7.5</slf4j.version>
-	<owlapi.version>[4.0.2,4.2)</owlapi.version>
-    <jena.version>2.13.0</jena.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
@@ -58,64 +55,9 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-core</artifactId>
-        <version>${jena.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.jena</groupId>
-        <artifactId>jena-arq</artifactId>
-        <version>${jena.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.sourceforge.owlapi</groupId>
-        <artifactId>owlapi-distribution</artifactId>
-        <version>${owlapi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.github.ansell.aterms</groupId>
-        <artifactId>aterm-java</artifactId>
-        <version>1.8.2-p1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jgrapht</groupId>
-        <artifactId>jgrapht-jdk1.5</artifactId>
-        <version>0.7.3</version>
-      </dependency>
-      <dependency>
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.11.0</version>
-      </dependency>
-      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>${junit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.17</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>${slf4j.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

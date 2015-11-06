@@ -11,6 +11,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-query</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>pellet-owlapi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -28,10 +33,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>pellet-explanation</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
 		</dependency>
 	  	<dependency>
 	  		<groupId>junit</groupId>

@@ -12,23 +12,13 @@
 
 	<name>Pellet :: Protege</name>
 	<properties>
-		<protege.version>5.0.0-beta-15</protege.version>
+		<protege.version>5.0.0-beta-17</protege.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>pellet-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-owlapi</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-modularity</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -69,19 +59,19 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.3.7</version>
+				<version>2.5.0</version>
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
 						<Implementation-Title>Pellet Reasoner Plug-in</Implementation-Title>
 						<Implementation-Vendor>Clark &amp; Parsia LLC</Implementation-Vendor>
 						<Implementation-Version>${project.version}</Implementation-Version>
-						<Import-Package>*</Import-Package>
+						<Import-Package>org.protege.*;version="${protege.version}",!org.semanticweb.owlapi.formats,!org.semanticweb.owlapi.model.parameters,!org.semanticweb.owlapi.rdf.*,org.semanticweb.owlapi.*</Import-Package>
 						<Export-Package>com.clarkparsia.pellet.protege.*</Export-Package>
 						<Private-Package>com.clarkparsia.*;org.mindswap.*;-split-package:=merge-first</Private-Package>
 						<Bundle-SymbolicName>com.clarkparsia.pellet.protege;singleton:=true</Bundle-SymbolicName>
 						<Bundle-Activator>org.protege.editor.core.plugin.DefaultPluginActivator</Bundle-Activator>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!pellet-distribution|pellet-examples|pellet-cli|pellet-jena|pellet-pellint</Embed-Dependency>
+						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sesame*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Update-Url>https://raw.githubusercontent.com/Complexible/pellet/master/protege/plugin/update.properties</Update-Url>
 					</instructions>

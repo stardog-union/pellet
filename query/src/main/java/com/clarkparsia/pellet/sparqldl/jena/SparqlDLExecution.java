@@ -18,9 +18,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.exceptions.UnsupportedQueryException;
+import org.mindswap.pellet.jena.JenaUtils;
 import org.mindswap.pellet.jena.PelletInfGraph;
 
 import com.clarkparsia.pellet.sparqldl.model.QueryParameters;
@@ -45,6 +47,7 @@ import com.hp.hpl.jena.sparql.engine.binding.Binding;
 import com.hp.hpl.jena.sparql.syntax.Template;
 import com.hp.hpl.jena.sparql.util.Context;
 import com.hp.hpl.jena.sparql.util.ModelUtils;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
@@ -214,7 +217,16 @@ class SparqlDLExecution implements QueryExecution {
 
 			pelletInfGraph.prepare();
 
-			QueryParameters queryParameters = new QueryParameters(initialBinding);
+			QueryParameters queryParameters = new QueryParameters();
+
+			if (initialBinding != null) {
+				for (Iterator iter = initialBinding.varNames(); iter.hasNext(); ) {
+					String varName = (String) iter.next();
+					ATermAppl key = ATermUtils.makeVar(varName);
+					ATermAppl value = JenaUtils.makeATerm(initialBinding.get(varName));
+					queryParameters.add(key, value);
+				}
+			}
 
 			ARQParser parser = new ARQParser(handleVariableSPO);
 			// The parser uses the query parameterization to resolve parameters

@@ -20,6 +20,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
+import com.clarkparsia.pellet.sparqldl.parser.QueryParser;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
@@ -86,6 +88,8 @@ public class SparqlDLDawgTester implements SparqlDawgTester {
 
 	private boolean				noCheck;
 
+	private QueryParser parser = new ARQParser();
+
 	public SparqlDLDawgTester(final boolean allOrderings, final boolean noCheck) {
 		this.allOrderings = allOrderings;
 		this.noCheck = noCheck;
@@ -124,7 +128,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester {
 		this.queryURI = queryURI;
 		final com.hp.hpl.jena.query.Query query = QueryFactory.read( queryURI );
 
-		this.query = QueryEngine.getParser().parse( query.toString( Syntax.syntaxSPARQL ),
+		this.query = parser.parse( query.toString( Syntax.syntaxSPARQL ),
 				((PelletInfGraph) model.getGraph()).getKB() );
 
 	}
@@ -144,7 +148,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester {
 	 */
 	public boolean isParsable() {
 		try {
-			QueryEngine.getParser().parse( new FileInputStream( queryURI.substring( 5 ) ),
+			parser.parse( new FileInputStream( queryURI.substring( 5 ) ),
 					new KnowledgeBase() );
 
 			return true;

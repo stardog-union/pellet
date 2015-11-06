@@ -6,17 +6,19 @@
 		<artifactId>pellet-parent</artifactId>
 		<version>2.4.0-SNAPSHOT</version>
 	</parent>
+
 	<artifactId>pellet-server</artifactId>
 	<name>Pellet :: Server</name>
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-core</artifactId>
+			<artifactId>pellet-shared</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-shared</artifactId>
+			<artifactId>pellet-owlapi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -30,13 +32,8 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-owlapi</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-multibindings</artifactId>
 			<version>4.0</version>
 		</dependency>
 		<dependency>

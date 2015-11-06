@@ -40,6 +40,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,8 +77,13 @@ public class FileUtils {
 	}
 
     public static String toURI(String fileName) {
-    	if ( com.hp.hpl.jena.util.FileUtils.isURI( fileName ) )
-    		return fileName;
+	    try {
+		    if (new URI(fileName).isAbsolute()) {
+			    return fileName;
+		    }
+	    }
+	    catch (URISyntaxException e) {
+	    }
     
     	File localFile = new File(fileName);
     	if (!localFile.exists())

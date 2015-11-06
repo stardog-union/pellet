@@ -3,6 +3,7 @@ package com.clarkparsia.pellet.test.query;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
@@ -39,7 +40,7 @@ public class TestQuerySubsumption {
 		model.prepare();
 		
 		kb = ((PelletInfGraph) model.getGraph()).getKB();
-		parser = QueryEngine.getParser();
+		parser = new ARQParser();
 	}
 
 	private Query query(String queryStr) {

@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-jena</artifactId>
+			<artifactId>pellet-query</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

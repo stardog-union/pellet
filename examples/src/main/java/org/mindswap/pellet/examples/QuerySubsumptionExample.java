@@ -8,6 +8,7 @@ package org.mindswap.pellet.examples;
 
 import java.util.Iterator;
 
+import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
@@ -53,7 +54,7 @@ public class QuerySubsumptionExample {
 		model.prepare();
 		
 		kb = ((PelletInfGraph) model.getGraph()).getKB();
-		parser = QueryEngine.getParser();
+		parser = new ARQParser();
 	}
 
 	public Query query(String queryStr) {
