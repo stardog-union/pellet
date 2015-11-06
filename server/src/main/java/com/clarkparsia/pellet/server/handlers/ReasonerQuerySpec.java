@@ -37,17 +37,11 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
  */
 public class ReasonerQuerySpec extends ReasonerSpec {
 
-	private final Set<ServiceDecoder> mDecoders;
-	private final Set<ServiceEncoder> mEncoders;
-
 	@Inject
 	public ReasonerQuerySpec(final ServerState theServerState,
 	                         final Set<ServiceDecoder> theDecoders,
 	                         final Set<ServiceEncoder> theEncoders) {
-		super(theServerState);
-
-		mDecoders = theDecoders;
-		mEncoders = theEncoders;
+		super(theServerState, theDecoders, theEncoders);
 	}
 
 	/**
@@ -158,10 +152,6 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 			}
 
 			return queryType;
-		}
-
-		private void throwBadRequest(final String theMsg) throws ServerException {
-			throw new ServerException(StatusCodes.BAD_REQUEST, theMsg);
 		}
 	}
 }

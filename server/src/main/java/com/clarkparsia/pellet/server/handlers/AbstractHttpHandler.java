@@ -102,4 +102,8 @@ public abstract class AbstractHttpHandler implements HttpHandler {
 		                      Headers.CONTENT_TYPE,
 		                      mDecoders.iterator().next().getMediaType());
 	}
+
+	protected void throwBadRequest(final String theMsg) throws ServerException {
+		throw new ServerException(StatusCodes.BAD_REQUEST, theMsg);
+	}
 }
