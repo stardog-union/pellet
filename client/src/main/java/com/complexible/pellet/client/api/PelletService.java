@@ -36,6 +36,6 @@ public interface PelletService {
 
 	@Multipart
 	@PUT("/reasoner/{ontology}")
-	Call<ResponseBody> update(@Path("ontology") IRI theOntology,
-	                          @Body RequestBody theUpdateRequest);
+	Call<GenericJsonMessage> update(@Path("ontology") IRI theOntology,
+	                                @Body RequestBody theUpdateRequest);
 }
