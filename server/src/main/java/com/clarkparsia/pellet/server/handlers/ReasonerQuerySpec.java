@@ -20,12 +20,8 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
-import io.undertow.Handlers;
-import io.undertow.predicate.Predicates;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.server.handlers.BlockingHandler;
-import io.undertow.server.handlers.ExceptionHandler;
 import io.undertow.util.PathTemplateMatch;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
@@ -57,14 +53,7 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	 */
 	@Override
 	public HttpHandler getHandler() {
-		ExceptionHandler aExceptionHandler = new ExceptionHandler(new ReasonerQueryHandler(mServerState, mEncoders, mDecoders));
-		aExceptionHandler.addExceptionHandler(ServerException.class, new PelletExceptionHandler());
-
-		BlockingHandler aFnHandler = new BlockingHandler(aExceptionHandler);
-
-		return Handlers.predicate(Predicates.parse("method(POST)"),
-		                          aFnHandler,   // true
-		                          new MethodNotAllowedHandler("POST")); //false
+		return wrapHandlerToMethod("POST", new ReasonerQueryHandler(mServerState, mEncoders, mDecoders));
 	}
 
 	@Override

@@ -1,13 +1,29 @@
 package com.clarkparsia.pellet.server.handlers;
 
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Set;
+
+import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.model.ServerState;
+import com.clarkparsia.pellet.service.ServiceDecoder;
+import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.clarkparsia.pellet.service.json.GenericJsonMessage;
+import com.clarkparsia.pellet.service.json.JsonMessage;
+import com.clarkparsia.pellet.service.messages.UpdateRequest;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
+import com.google.common.base.Optional;
+import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
-import io.undertow.Handlers;
-import io.undertow.predicate.Predicates;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
+import io.undertow.util.PathTemplateMatch;
+import io.undertow.util.StatusCodes;
+import org.semanticweb.owlapi.model.IRI;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -15,8 +31,10 @@ import io.undertow.util.Headers;
 public class ReasonerUpdateSpec extends ReasonerSpec {
 
 	@Inject
-	public ReasonerUpdateSpec(final ServerState theServerState) {
-		super(theServerState);
+	public ReasonerUpdateSpec(final ServerState theServerState,
+	                          final Set<ServiceDecoder> theDecoders,
+	                          final Set<ServiceEncoder> theEncoders) {
+		super(theServerState, theDecoders, theEncoders);
 	}
 
 	/**
@@ -32,9 +50,7 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 	 */
 	@Override
 	public HttpHandler getHandler() {
-		return Handlers.predicate(Predicates.parse("method(PUT)"),
-		                          new ReasonerUpdateHandler(mServerState),
-		                          new MethodNotAllowedHandler("PUT"));
+		return wrapHandlerToMethod("PUT", new ReasonerUpdateHandler(mServerState, mEncoders, mDecoders));
 	}
 
 	@Override
@@ -42,21 +58,59 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 		return PathType.TEMPLATE;
 	}
 
-	static class ReasonerUpdateHandler implements HttpHandler {
+	static class ReasonerUpdateHandler extends AbstractHttpHandler {
 
-		private final ServerState mStateServer;
-
-		public ReasonerUpdateHandler(final ServerState theServerState) {
-			mStateServer = theServerState;
+		public ReasonerUpdateHandler(final ServerState theServerState,
+		                             final Collection<ServiceEncoder> theEncoders,
+		                             final Collection<ServiceDecoder> theDecoders) {
+			super(theServerState, theEncoders, theDecoders);
 		}
 
 		@Override
-		public void handleRequest(final HttpServerExchange theHttpServerExchange) throws Exception {
-			GenericJsonMessage aMessage = new GenericJsonMessage("Doing reasoning update hmm...");
+		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
+			final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
+			                                                     .getParameters().get("ontology"),
+			                                          StandardCharsets.UTF_8.name());
 
-			theHttpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, aMessage.getMimeType());
-			theHttpServerExchange.getResponseSender().send(aMessage.toJsonString());
-			// TODO: implement using a ClientState -> schema reasoner
+			InputStream inStream = theExchange.getInputStream();
+			byte[] inBytes = {};
+			try {
+				inBytes = ByteStreams.toByteArray(inStream);
+			}
+			finally {
+				inStream.close();
+			}
+
+			if (inBytes.length == 0) {
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Payload is empty");
+			}
+
+			final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
+			if (!decoderOpt.isPresent()) {
+				// TODO: throw appropiate exception
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't decode request payload");
+			}
+
+			final UpdateRequest aUpdateRequest = decoderOpt.get().updateRequest(inBytes);
+
+			// TODO: Is this the best way to identify the client?
+			final String clientId = theExchange.getSourceAddress().toString();
+
+			final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
+			aReasoner.update(aUpdateRequest.getAdditions(), aUpdateRequest.getRemovals());
+
+			final Optional<ServiceEncoder> encoderOpt = getEncoder(getAccept(theExchange));
+			if (!encoderOpt.isPresent()) {
+				// TODO: throw appropiate exception
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't encode response payload");
+			}
+
+			JsonMessage aJsonMessage = new GenericJsonMessage("Update successful.");
+
+			theExchange.setStatusCode(StatusCodes.OK);
+			theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, JsonMessage.MIME_TYPE);
+			theExchange.getResponseSender().send(aJsonMessage.toJsonString());
+			theExchange.endExchange();
 		}
 	}
 }

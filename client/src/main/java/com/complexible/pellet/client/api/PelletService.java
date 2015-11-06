@@ -11,7 +11,6 @@ import retrofit.http.GET;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
-import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -38,6 +37,5 @@ public interface PelletService {
 	@Multipart
 	@PUT("/reasoner/{ontology}")
 	Call<ResponseBody> update(@Path("ontology") IRI theOntology,
-	                          @Part("additions") RequestBody theAdditions,
-	                          @Part("removals") RequestBody theRemovals);
+	                          @Body RequestBody theUpdateRequest);
 }
