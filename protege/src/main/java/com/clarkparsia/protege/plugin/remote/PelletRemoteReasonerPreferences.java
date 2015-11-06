@@ -1,6 +1,5 @@
 package com.clarkparsia.protege.plugin.remote;
 
-import com.complexible.pellet.client.PelletServiceProvider;
 import org.protege.editor.core.prefs.Preferences;
 import org.protege.editor.core.prefs.PreferencesManager;
 
