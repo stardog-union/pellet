@@ -5,6 +5,8 @@ import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Deque;
+import java.util.Map;
 import java.util.Set;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
@@ -22,7 +24,8 @@ import io.undertow.Handlers;
 import io.undertow.predicate.Predicates;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.util.Headers;
+import io.undertow.server.handlers.BlockingHandler;
+import io.undertow.server.handlers.ExceptionHandler;
 import io.undertow.util.PathTemplateMatch;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
@@ -60,9 +63,14 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	 */
 	@Override
 	public HttpHandler getHandler() {
+		ExceptionHandler aExceptionHandler = new ExceptionHandler(new ReasonerQueryHandler(mServerState, mEncoders, mDecoders));
+		aExceptionHandler.addExceptionHandler(ServerException.class, new PelletExceptionHandler());
+
+		BlockingHandler aFnHandler = new BlockingHandler(aExceptionHandler);
+
 		return Handlers.predicate(Predicates.parse("method(POST)"),
-		                          new ReasonerQueryHandler(mServerState, mEncoders, mDecoders),
-		                          new MethodNotAllowedHandler("POST"));
+		                          aFnHandler,   // true
+		                          new MethodNotAllowedHandler("POST")); //false
 	}
 
 	@Override
@@ -81,25 +89,13 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 
 		@Override
 		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
-			if (theExchange.isInIoThread()) {
-				theExchange.dispatch(this);
-				return;
-			}
-
 			final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
 			                                                     .getParameters().get("ontology"),
 			                                          StandardCharsets.UTF_8.name());
 
-			final String queryTypeStr = theExchange.getQueryParameters().get("type").getFirst();
 
-			if (Strings.isNullOrEmpty(queryTypeStr)) {
-				// TODO: send exception that needs "type" query parameter.
-				throw new ServerException(StatusCodes.BAD_REQUEST, "Missing required query parameter: type");
-			}
+			final SchemaReasoner.QueryType queryType = getQueryType(theExchange);
 
-			final SchemaReasoner.QueryType queryType = SchemaReasoner.QueryType.valueOf(queryTypeStr);
-
-			theExchange.startBlocking();
 			InputStream inStream = theExchange.getInputStream();
 			byte[] inBytes = {};
 			try {
@@ -107,6 +103,10 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 			}
 			finally {
 				inStream.close();
+			}
+
+			if (inBytes.length == 0) {
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Payload is empty");
 			}
 
 			final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
@@ -134,6 +134,34 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 			                                                     .encode(new QueryResponse(result))));
 
 			theExchange.endExchange();
+		}
+
+		private SchemaReasoner.QueryType getQueryType(final HttpServerExchange theExchange) throws ServerException {
+			final Map<String, Deque<String>> queryParams = theExchange.getQueryParameters();
+
+			if (!queryParams.containsKey("type") || queryParams.get("type").isEmpty()) {
+				throwBadRequest("Missing required query parameter: type");
+			}
+
+			final String queryTypeStr = queryParams.get("type").getFirst();
+
+			if (Strings.isNullOrEmpty(queryTypeStr)) {
+				throwBadRequest("Missing required query parameter: type");
+			}
+
+			SchemaReasoner.QueryType queryType = null;
+			try {
+				queryType = SchemaReasoner.QueryType.valueOf(queryTypeStr);
+			}
+			catch (Exception e) {
+				throwBadRequest("Query 'type' parameter is not valid.");
+			}
+
+			return queryType;
+		}
+
+		private void throwBadRequest(final String theMsg) throws ServerException {
+			throw new ServerException(StatusCodes.BAD_REQUEST, theMsg);
 		}
 	}
 }

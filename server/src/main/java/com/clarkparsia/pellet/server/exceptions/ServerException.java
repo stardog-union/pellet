@@ -32,4 +32,8 @@ public class ServerException extends Exception {
 		super(theCause);
 		mErrorCode = theErrorCode;
 	}
+
+	public int getErrorCode() {
+		return mErrorCode;
+	}
 }

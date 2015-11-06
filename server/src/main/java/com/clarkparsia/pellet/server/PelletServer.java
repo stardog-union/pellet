@@ -5,7 +5,9 @@ import java.util.Set;
 
 import javax.servlet.ServletException;
 
+import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
+import com.clarkparsia.pellet.server.handlers.PelletExceptionHandler;
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
 import com.clarkparsia.pellet.server.protege.ProtegeServerConfiguration;
 
