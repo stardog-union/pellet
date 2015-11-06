@@ -1,17 +1,16 @@
 package com.clarkparsia.pellet.server.handlers;
 
+import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Set;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
-import com.clarkparsia.pellet.server.model.ClientState;
-import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
-import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 import com.clarkparsia.pellet.service.messages.QueryRequest;
 import com.clarkparsia.pellet.service.messages.QueryResponse;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
@@ -21,10 +20,8 @@ import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import io.undertow.Handlers;
 import io.undertow.predicate.Predicates;
-import io.undertow.server.BlockingHttpExchange;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.server.handlers.BlockingHandler;
 import io.undertow.util.Headers;
 import io.undertow.util.PathTemplateMatch;
 import io.undertow.util.StatusCodes;
@@ -64,7 +61,7 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 	@Override
 	public HttpHandler getHandler() {
 		return Handlers.predicate(Predicates.parse("method(POST)"),
-		                          new ReasonerQueryHandler(mServerState),
+		                          new ReasonerQueryHandler(mServerState, mEncoders, mDecoders),
 		                          new MethodNotAllowedHandler("POST"));
 	}
 
@@ -73,100 +70,70 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 		return PathType.TEMPLATE;
 	}
 
-	class ReasonerQueryHandler implements HttpHandler {
+	static class ReasonerQueryHandler extends AbstractHttpHandler {
 
-		private final ServerState serverState;
 
-		public ReasonerQueryHandler(final ServerState theServerState) {
-			serverState = theServerState;
+		public ReasonerQueryHandler(final ServerState theServerState,
+		                            final Collection<ServiceEncoder> theEncoders,
+		                            final Collection<ServiceDecoder> theDecoders) {
+			super(theServerState, theEncoders, theDecoders);
 		}
 
 		@Override
-		public void handleRequest(final HttpServerExchange theHttpServerExchange) throws Exception {
-			if (theHttpServerExchange.isInIoThread()) {
-				theHttpServerExchange.dispatch(this);
+		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
+			if (theExchange.isInIoThread()) {
+				theExchange.dispatch(this);
 				return;
 			}
 
-			String ontology = URLDecoder.decode(theHttpServerExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
-			                                                         .getParameters().get("ontology"),
-			                                    StandardCharsets.UTF_8.name());
+			final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
+			                                                     .getParameters().get("ontology"),
+			                                          StandardCharsets.UTF_8.name());
 
-			String queryTypeStr = theHttpServerExchange.getQueryParameters().get("type").getFirst();
+			final String queryTypeStr = theExchange.getQueryParameters().get("type").getFirst();
 
 			if (Strings.isNullOrEmpty(queryTypeStr)) {
 				// TODO: send exception that needs "type" query parameter.
-				throw new ServerException(400, "Missing required query parameter: type");
+				throw new ServerException(StatusCodes.BAD_REQUEST, "Missing required query parameter: type");
 			}
 
-			SchemaReasoner.QueryType queryType = SchemaReasoner.QueryType.valueOf(queryTypeStr);
+			final SchemaReasoner.QueryType queryType = SchemaReasoner.QueryType.valueOf(queryTypeStr);
 
-			theHttpServerExchange.startBlocking();
-			byte[] aBytes = ByteStreams.toByteArray(theHttpServerExchange.getInputStream());
+			theExchange.startBlocking();
+			InputStream inStream = theExchange.getInputStream();
+			byte[] inBytes = {};
+			try {
+				inBytes = ByteStreams.toByteArray(inStream);
+			}
+			finally {
+				inStream.close();
+			}
 
-			String aContentType = theHttpServerExchange.getRequestHeaders().get(Headers.CONTENT_TYPE).getFirst();
-
-			Optional<ServiceDecoder> decoderOpt = getDecoder(aContentType);
+			final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
 			if (!decoderOpt.isPresent()) {
 				// TODO: throw appropiate exception
-				throw new ServerException(400, "Could't decode request payload");
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't decode request payload");
 			}
 
-			Optional<OntologyState> ontoOpt = serverState.getOntology(IRI.create(ontology));
+			final QueryRequest aQueryReq = decoderOpt.get().queryRequest(inBytes);
 
-			if (ontoOpt.isPresent()) {
-				final QueryRequest aQueryReq = decoderOpt.get().queryRequest(aBytes);
+			// TODO: Is this the best way to identify the client?
+			final String clientId = theExchange.getSourceAddress().toString();
 
-				final OntologyState ontoState = ontoOpt.get();
-				final String clientId = theHttpServerExchange.getSourceAddress().toString();
+			final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
+			final NodeSet<? extends OWLObject> result = aReasoner.query(queryType, aQueryReq.getInput());
 
-				final ClientState clientState = ontoState.getClient(clientId);
-				SchemaReasoner aReasoner = clientState.getReasoner();
-
-				NodeSet<? extends OWLObject> result = aReasoner.query(queryType, aQueryReq.getInput());
-
-				String aAccept = theHttpServerExchange.getRequestHeaders().get(Headers.ACCEPT).getFirst();
-				Optional<ServiceEncoder> encoderOpt = getEncoder(aAccept);
-				if (!encoderOpt.isPresent()) {
-					// TODO: throw appropiate exception
-					throw new ServerException(400, "Could't encode response payload");
-				}
-
-				theHttpServerExchange.getResponseSender()
-				                     .send(ByteBuffer.wrap(encoderOpt.get()
-				                                                     .encode(new QueryResponse(result))));
-				theHttpServerExchange.endExchange();
-			}
-			else {
-				// Just send 404 when the ontology is not found.
-				theHttpServerExchange.setStatusCode(StatusCodes.NOT_FOUND);
-				theHttpServerExchange.getResponseSender().send("Ontology not found.");
-				theHttpServerExchange.endExchange();
-			}
-		}
-
-		private Optional<ServiceEncoder> getEncoder(final String theMediaType) {
-			Optional<ServiceEncoder> aFound = Optional.absent();
-
-			for (ServiceEncoder encoder : ReasonerQuerySpec.this.mEncoders) {
-				if (encoder.canEncode(theMediaType)) {
-					aFound = Optional.of(encoder);
-				}
+			final Optional<ServiceEncoder> encoderOpt = getEncoder(getAccept(theExchange));
+			if (!encoderOpt.isPresent()) {
+				// TODO: throw appropiate exception
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't encode response payload");
 			}
 
-			return aFound;
-		}
+			theExchange.getResponseSender()
+			                     .send(ByteBuffer.wrap(encoderOpt.get()
+			                                                     .encode(new QueryResponse(result))));
 
-		private Optional<ServiceDecoder> getDecoder(final String theMediaType) {
-			Optional<ServiceDecoder> aFound = Optional.absent();
-
-			for (ServiceDecoder decoder : ReasonerQuerySpec.this.mDecoders) {
-				if (decoder.canDecode(theMediaType)) {
-					aFound = Optional.of(decoder);
-				}
-			}
-
-			return aFound;
+			theExchange.endExchange();
 		}
 	}
 }
