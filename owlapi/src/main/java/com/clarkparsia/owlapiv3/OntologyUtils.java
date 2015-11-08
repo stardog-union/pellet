@@ -33,8 +33,6 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
-import org.semanticweb.owlapi.model.parameters.Imports;
-import org.semanticweb.owlapi.reasoner.InferenceType;
 
 /**
  * <p>Title: </p>
@@ -381,16 +379,13 @@ public class OntologyUtils {
                 }
 			}
 
-            if (ontology.containsClassInSignature(iri, Imports.EXCLUDED)) {
+            if (ontology.containsClassInSignature(iri)) {
                 entity = OWL.Class( iri );
-            } else if (ontology.containsObjectPropertyInSignature(iri,
-                    Imports.EXCLUDED)) {
+            } else if (ontology.containsObjectPropertyInSignature(iri)) {
                 entity = OWL.ObjectProperty( iri );
-            } else if (ontology.containsDataPropertyInSignature(iri,
-                    Imports.EXCLUDED)) {
+            } else if (ontology.containsDataPropertyInSignature(iri)) {
                 entity = OWL.DataProperty( iri );
-            } else if (ontology.containsIndividualInSignature(iri,
-                    Imports.EXCLUDED)) {
+            } else if (ontology.containsIndividualInSignature(iri)) {
                 entity = OWL.Individual( iri ).asOWLNamedIndividual();
             }
 		}

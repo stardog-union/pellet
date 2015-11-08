@@ -8,8 +8,6 @@
 
 package com.clarkparsia.pellet.owlapiv3;
 
-import javax.annotation.Nonnull;
-
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
@@ -44,7 +42,6 @@ public class PelletReasonerConfiguration implements OWLReasonerConfiguration  {
 		this.timeOut = source.getTimeOut();
 	}
 
-	@Nonnull
 	@Override
 	public ReasonerProgressMonitor getProgressMonitor() {
 		return progressMonitor;
@@ -55,7 +52,6 @@ public class PelletReasonerConfiguration implements OWLReasonerConfiguration  {
 		return this;
 	}
 
-	@Nonnull
 	@Override
 	public FreshEntityPolicy getFreshEntityPolicy() {
 		return freshEntityPolicy;
@@ -66,7 +62,6 @@ public class PelletReasonerConfiguration implements OWLReasonerConfiguration  {
 		return this;
 	}
 
-	@Nonnull
 	@Override
 	public IndividualNodeSetPolicy getIndividualNodeSetPolicy() {
 		return individualNodeSetPolicy;
