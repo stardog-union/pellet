@@ -1,6 +1,7 @@
 package pellet;
 
-import static pellet.PelletCmdOptionArg.*;
+import static pellet.PelletCmdOptionArg.NONE;
+import static pellet.PelletCmdOptionArg.REQUIRED;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +15,6 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -105,34 +105,24 @@ public class PelletInfo extends PelletCmdApp {
 			if(options.getOption("ignore-imports").getValueAsBoolean())
 			{
 				manager.addIRIMapper(iriMapper);
-                manager.setOntologyLoaderConfiguration(manager
-                        .getOntologyLoaderConfiguration()
-                        .setMissingImportHandlingStrategy(
-                                MissingImportHandlingStrategy.SILENT));
+				manager.setSilentMissingImportsHandling(true);				
 			}
 			else
 			{
 				manager.addIRIMapper(new NonMappingOntologyIRIMapper());
-                manager.setOntologyLoaderConfiguration(manager
-                        .getOntologyLoaderConfiguration()
-                        .setMissingImportHandlingStrategy(
-                                MissingImportHandlingStrategy.SILENT));
+				manager.setSilentMissingImportsHandling(false);
 			}
 
-			if(inputFiles.size() > 1) {
-                for(String inputFile: inputFiles) {
-                    addFile(inputFile, manager, iriMapper, baseOntology);
-                }
-            }
-            else {
-                addSingleFile(inputFiles.iterator().next(), manager, iriMapper);	//Prevent ugly OWLAPI messages
-            }
+			if(inputFiles.size() > 1)
+				for(String inputFile: inputFiles)
+					addFile(inputFile, manager, iriMapper, baseOntology);
+			else
+				addSingleFile(inputFiles.iterator().next(), manager, iriMapper);	//Prevent ugly OWLAPI messages
 
 			manager.removeOntology(baseOntology);
 			
-			if(options.getOption("merge").getValueAsBoolean()) {
-                manager = mergeOntologiesInNewManager(manager);
-            }
+			if(options.getOption("merge").getValueAsBoolean())
+				manager = mergeOntologiesInNewManager(manager);
 
 			printStats(manager);
 
@@ -151,9 +141,8 @@ public class PelletInfo extends PelletCmdApp {
 			manager.applyChange( new AddImport( baseOntology, declaration ) );
 			manager.makeLoadImportRequest( declaration );
 		}catch (Exception e) {
-			if(verbose) {
-                System.err.println(e.getLocalizedMessage());
-            }
+			if(verbose)
+				System.err.println(e.getLocalizedMessage());
 		}
 	}
 	
@@ -165,9 +154,8 @@ public class PelletInfo extends PelletCmdApp {
 			iriMapper.addAllowedIRI(iri);
 			manager.loadOntologyFromOntologyDocument(iri);
 		}catch (Exception e) {
-			if(verbose) {
-                System.err.println(e.getLocalizedMessage());
-            }
+			if(verbose)
+				System.err.println(e.getLocalizedMessage());
 		}
 	}
 	
@@ -193,13 +181,10 @@ public class PelletInfo extends PelletCmdApp {
 		for(OWLOntology ontology: manager.getOntologies())
 		{			
 			String ontologyLocation = manager.getOntologyDocumentIRI(ontology) != null ? manager.getOntologyDocumentIRI(ontology).toString(): "ontology";
-            String ontologyBaseURI = ontology.getOntologyID().getOntologyIRI()
-                    .isPresent() ? ontology.getOntologyID().getOntologyIRI()
-                    .get().toQuotedString() : "";
+			String ontologyBaseURI = ontology.getOntologyID().getOntologyIRI() != null? ontology.getOntologyID().getOntologyIRI().toQuotedString() : "";
 			output("Information about "+ontologyLocation+" ("+ontologyBaseURI+")");
-			if(verbose) {
-                printOntologyHeader(ontology);
-            }
+			if(verbose)
+				printOntologyHeader(ontology);
 			DLExpressivityChecker expressivityChecker = new DLExpressivityChecker(Collections.singleton(ontology));
 			output("OWL Profile = "+getProfile(ontology));
 			output("DL Expressivity = "+expressivityChecker.getDescriptionLogicName());
@@ -210,17 +195,15 @@ public class PelletInfo extends PelletCmdApp {
 			output("Classes = "+ontology.getClassesInSignature().size());
 			output("Object Properties = "+ontology.getObjectPropertiesInSignature().size());
 			output("Data Properties = "+ontology.getDataPropertiesInSignature().size());
-            output("Annotation Properties = "
-                    + ontology.getAnnotationPropertiesInSignature().size());
+			output("Annotation Properties = "+ontology.getAnnotationPropertiesInSignature().size());
 
 			Set<OWLImportsDeclaration> imports = ontology.getImportsDeclarations();
 			if(imports.size() > 0)
 			{
 				output("Direct Imports:");
 				int count = 1;
-				for(OWLImportsDeclaration imp: imports) {
-                    output(count+": "+imp.getIRI().toString());
-                }
+				for(OWLImportsDeclaration imp: imports)
+					output(count+": "+imp.getIRI().toString());
 				count++;
 			}
 			output("");
@@ -230,9 +213,8 @@ public class PelletInfo extends PelletCmdApp {
 	private String getProfile(OWLOntology ontology) {
 		for(OWLProfile profile: profiles)
 		{
-			if(profile.checkOntology(ontology).isInProfile()) {
-                return profile.getName();
-            }
+			if(profile.checkOntology(ontology).isInProfile())
+				return profile.getName();
 		}
 		return "Unknown Profile";
 	}
@@ -243,23 +225,21 @@ public class PelletInfo extends PelletCmdApp {
 			IRI property = annotation.getProperty().getIRI();			
 			OWLAnnotationValue value = annotation.getValue();
 
-			if(property.equals(OWLRDFVocabulary.OWL_VERSION_INFO.getIRI())) {
-                verbose("Version Info = "+getString(value));
-            } else if(property.equals(OWLRDFVocabulary.OWL_PRIOR_VERSION.getIRI())) {
-                verbose("Prior Version Info = "+getString(value));
-            } else if(property.equals(OWLRDFVocabulary.OWL_BACKWARD_COMPATIBLE_WITH.getIRI())) {
-                verbose("Backward Compatible With = "+getString(value));
-            } else if(property.equals(OWLRDFVocabulary.OWL_INCOMPATIBLE_WITH.getIRI())) {
-                verbose("Incompatible With = "+getString(value));
-            }
+			if(property.equals(OWLRDFVocabulary.OWL_VERSION_INFO.getIRI()))
+				verbose("Version Info = "+getString(value));
+			else if(property.equals(OWLRDFVocabulary.OWL_PRIOR_VERSION.getIRI()))
+				verbose("Prior Version Info = "+getString(value));
+			else if(property.equals(OWLRDFVocabulary.OWL_BACKWARD_COMPATIBLE_WITH.getIRI()))
+				verbose("Backward Compatible With = "+getString(value));
+			else if(property.equals(OWLRDFVocabulary.OWL_INCOMPATIBLE_WITH.getIRI()))
+				verbose("Incompatible With = "+getString(value));
 		}
 	}
 
 	private String getString(OWLAnnotationValue value) {
-		if(value instanceof OWLLiteral) {
-            return ((OWLLiteral)value).getLiteral();
-        } else {
-            return value.toString();
-        }
+		if(value instanceof OWLLiteral)
+			return ((OWLLiteral)value).getLiteral();
+		else
+			return value.toString();
 	}
 }

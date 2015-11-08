@@ -3,8 +3,6 @@ package com.clarkparsia.pellet.service.io;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.annotation.Nonnull;
-
 import com.google.common.collect.Sets;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.Node;
@@ -21,15 +19,13 @@ public class SerializableNodeSet<E extends OWLObject> extends DefaultNodeSet<E> 
 		super(theNodes);
 	}
 
-	@Nonnull
 	@Override
-	protected DefaultNode<E> getNode(@Nonnull final E entity) {
+	protected DefaultNode<E> getNode(final E entity) {
 		return null;
 	}
 
-	@Nonnull
 	@Override
-	protected DefaultNode<E> getNode(@Nonnull final Set<E> entities) {
+	protected DefaultNode<E> getNode(final Set<E> entities) {
 		return null;
 	}
 

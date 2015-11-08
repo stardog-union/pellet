@@ -6,10 +6,6 @@
 
 package com.clarkparsia.explanation.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
-
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +14,15 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.clarkparsia.owlapi.explanation.BlackBoxExplanation;
+import com.clarkparsia.owlapi.explanation.GlassBoxExplanation;
+import com.clarkparsia.owlapi.explanation.HSTExplanationGenerator;
+import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
+import com.clarkparsia.owlapi.explanation.TransactionAwareSingleExpGen;
+import com.clarkparsia.owlapi.explanation.io.ConciseExplanationRenderer;
+import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -29,15 +34,9 @@ import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 
-import com.clarkparsia.owlapi.explanation.BlackBoxExplanation;
-import com.clarkparsia.owlapi.explanation.GlassBoxExplanation;
-import com.clarkparsia.owlapi.explanation.HSTExplanationGenerator;
-import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
-import com.clarkparsia.owlapi.explanation.TransactionAwareSingleExpGen;
-import com.clarkparsia.owlapi.explanation.io.ConciseExplanationRenderer;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * <p>
@@ -94,7 +93,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest {
 		super.after();
 
 		if( expGen != null ) {
-			expGen.dispose();
+//			expGen.dispose();
 		}
 
 		if (reasoner != null) {

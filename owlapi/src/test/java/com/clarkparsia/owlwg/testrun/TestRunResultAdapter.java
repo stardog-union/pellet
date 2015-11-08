@@ -46,8 +46,7 @@ public class TestRunResultAdapter {
 			return axioms;
 		}
 
-		@Override
-        public void visit(SyntaxConstraintRun result) {
+		public void visit(SyntaxConstraintRun result) {
 			axioms.add( dataFactory.getOWLClassAssertionAxiom( result.getTestType().getOWLClass(),
 					currentIndividual ) );
 			axioms.add( dataFactory.getOWLObjectPropertyAssertionAxiom( SYNTAX_CONSTRAINT
@@ -55,14 +54,12 @@ public class TestRunResultAdapter {
 					.getOWLIndividual() ) );
 		}
 
-		@Override
-        public void visit(ReasoningRun result) {
+		public void visit(ReasoningRun result) {
 			axioms.add( dataFactory.getOWLClassAssertionAxiom( result.getTestType().getOWLClass(),
 					currentIndividual ) );
 		}
 
-		@Override
-        public void visit(SyntaxTranslationRun result) {
+		public void visit(SyntaxTranslationRun result) {
 			axioms.add( dataFactory.getOWLClassAssertionAxiom( result.getTestType().getOWLClass(),
 					currentIndividual ) );
 		}
@@ -85,18 +82,16 @@ public class TestRunResultAdapter {
 	private final RunTypeAdapter	runTypeAdapter;
 
 	public TestRunResultAdapter(OWLDataFactory dataFactory) {
-		if( dataFactory == null ) {
-            throw new NullPointerException();
-        }
+		if( dataFactory == null )
+			throw new NullPointerException();
 
 		this.dataFactory = dataFactory;
 		runTypeAdapter = new RunTypeAdapter();
 	}
 
 	public Collection<OWLAxiom> asOWLAxioms(TestRunResult r, OWLAnonymousIndividual i) {
-		if( r == null ) {
-            throw new NullPointerException();
-        }
+		if( r == null )
+			throw new NullPointerException();
 
 		List<OWLAxiom> axioms = new ArrayList<OWLAxiom>();
 
@@ -115,12 +110,15 @@ public class TestRunResultAdapter {
 				.getOWLObjectProperty(), currentIndividual, testAnonIndividual ) );
 		axioms.add( dataFactory.getOWLDataPropertyAssertionAxiom(
 				TestVocabulary.DatatypeProperty.IDENTIFIER.getOWLDataProperty(),
-                testAnonIndividual,
-                dataFactory.getOWLLiteral(r.getTestCase().getIdentifier())));
+				testAnonIndividual, dataFactory
+						.getOWLTypedLiteral( r.getTestCase().getIdentifier() ) ) );
 		final String details = r.getDetails();
 		if( details != null && details.length() > 0 ) {
 			axioms.add( dataFactory.getOWLAnnotationAssertionAxiom(
-					dataFactory.getOWLAnnotationProperty( AnnotationProperty.DETAILS						.getAnnotationPropertyIRI()), i, dataFactory                    .getOWLLiteral(details)));
+					dataFactory.getOWLAnnotationProperty( AnnotationProperty.DETAILS
+							.getAnnotationPropertyIRI()),
+					i,
+					dataFactory.getOWLStringLiteral( details ) ) );
 		}
 
 		axioms.addAll( runTypeAdapter.process( r ) );

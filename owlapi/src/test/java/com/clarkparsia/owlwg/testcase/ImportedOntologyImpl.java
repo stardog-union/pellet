@@ -3,7 +3,6 @@ package com.clarkparsia.owlwg.testcase;
 import static com.clarkparsia.owlwg.testcase.TestVocabulary.ObjectProperty.IMPORTED_ONTOLOGY_IRI;
 import static java.lang.String.format;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -18,7 +17,6 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.search.EntitySearcher;
 
 /**
  * <p>
@@ -52,11 +50,10 @@ public class ImportedOntologyImpl implements ImportedOntology {
 	private final IRI									iri;
 
 	public ImportedOntologyImpl(OWLOntology ontology, OWLNamedIndividual i) {
-        Map<OWLObjectPropertyExpression, Collection<OWLIndividual>> opValues = EntitySearcher
-                .getObjectPropertyValues(i, ontology).asMap();
+		Map<OWLObjectPropertyExpression, Set<OWLIndividual>> opValues = i
+				.getObjectPropertyValues( ontology );
 
-        Collection<OWLIndividual> iris = opValues.get(IMPORTED_ONTOLOGY_IRI
-                .getOWLObjectProperty());
+		Set<OWLIndividual> iris = opValues.get( IMPORTED_ONTOLOGY_IRI.getOWLObjectProperty() );
 		if( iris == null ) {
 			final String msg = format( "Value for property %s missing for imported ontology %s",
 					IMPORTED_ONTOLOGY_IRI.getOWLObjectProperty().getIRI(), i.getIRI() );
@@ -74,14 +71,13 @@ public class ImportedOntologyImpl implements ImportedOntology {
 			iri = iris.iterator().next().asOWLNamedIndividual().getIRI();
 		}
 
-        Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher
-                .getDataPropertyValues(i, ontology).asMap();
+		Map<OWLDataPropertyExpression, Set<OWLLiteral>> values = i
+				.getDataPropertyValues( ontology );
 
 		formats = EnumSet.noneOf( SerializationFormat.class );
 		ontologyLiteral = new EnumMap<SerializationFormat, String>( SerializationFormat.class );
 		for( SerializationFormat f : SerializationFormat.values() ) {
-            Collection<OWLLiteral> literals = values.get(f
-                    .getInputOWLDataProperty());
+			Set<OWLLiteral> literals = values.get( f.getInputOWLDataProperty() );
 			if( literals != null ) {
 				if( literals.size() > 1 ) {
 					log
@@ -96,18 +92,15 @@ public class ImportedOntologyImpl implements ImportedOntology {
 
 	}
 
-	@Override
-    public Set<SerializationFormat> getFormats() {
+	public Set<SerializationFormat> getFormats() {
 		return Collections.unmodifiableSet( formats );
 	}
 
-	@Override
-    public String getOntology(SerializationFormat format) {
+	public String getOntology(SerializationFormat format) {
 		return ontologyLiteral.get( format );
 	}
 
-	@Override
-    public IRI getIRI() {
+	public IRI getIRI() {
 		return iri;
 	}
 

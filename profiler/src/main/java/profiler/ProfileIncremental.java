@@ -7,7 +7,6 @@
 package profiler;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Iterator;
@@ -16,14 +15,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.annotation.Nullable;
-
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.modularity.OntologyDiff;
-import com.clarkparsia.modularity.IncremantalReasonerFactory;
-import com.clarkparsia.owlapi.explanation.GlassBoxExplanation;
-import com.clarkparsia.owlapi.explanation.HSTExplanationGenerator;
-import com.clarkparsia.owlapi.explanation.MultipleExplanationGenerator;
 import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
 import com.clarkparsia.owlapi.explanation.io.ConciseExplanationRenderer;
@@ -41,13 +35,11 @@ import org.mindswap.pellet.utils.Timer;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.reasoner.impl.SatisfiabilityReducer;
 
 /*
  * Created on Oct 10, 2004
@@ -192,7 +184,6 @@ public class ProfileIncremental {
 
 	private static Function<OWLAxiom, OWLOntologyChange> toUpdate(final OWLOntology ont, final boolean add) {
 		return new Function<OWLAxiom, OWLOntologyChange>() {
-			@Nullable
 			@Override
 			public OWLOntologyChange apply(final OWLAxiom axiom) {
 				return add ? new AddAxiom(ont, axiom) : new RemoveAxiom(ont, axiom);

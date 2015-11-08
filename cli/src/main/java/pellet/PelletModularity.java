@@ -13,7 +13,7 @@ import static pellet.PelletCmdOptionArg.REQUIRED;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
+import org.semanticweb.owlapi.io.RDFXMLOntologyFormat;
 import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -104,15 +104,13 @@ public class PelletModularity extends PelletCmdApp {
 	private void loadEntityNames() {
 		String signature = options.getOption( "signature" ).getValueAsString();
 
-		if( signature == null ) {
-            throw new PelletCmdException( "No signature provided" );
-        }
+		if( signature == null )
+			throw new PelletCmdException( "No signature provided" );
 
 		entityNames = signature.split( " " );
 
-		if( entityNames.length == 0 ) {
-            throw new PelletCmdException( "No signature provided" );
-        }
+		if( entityNames.length == 0 )
+			throw new PelletCmdException( "No signature provided" );
 	}
 	
 	private void loadModuleType() {
@@ -125,10 +123,10 @@ public class PelletModularity extends PelletCmdApp {
 			moduleType = ModuleType.BOT;
 		}
 		else if( type.equalsIgnoreCase( "upper-of-lower" ) ) {
-            moduleType = ModuleType.STAR;
+			moduleType = ModuleType.BOT_OF_TOP;
 		}
 		else if( type.equalsIgnoreCase( "lower-of-upper" ) ) {
-            moduleType = ModuleType.STAR;
+			moduleType = ModuleType.TOP_OF_BOT;
 		}
 		else {
 			throw new PelletCmdException( "Unknown module type: " + type );
@@ -140,9 +138,8 @@ public class PelletModularity extends PelletCmdApp {
 		for( String entityName : entityNames ) {
 			OWLEntity entity = OntologyUtils.findEntity( entityName, loader.getAllOntologies() );
 			
-			if( entity == null ) {
-                throw new PelletCmdException( "Entity not found in ontology: " + entityName );
-            }
+			if( entity == null )
+				throw new PelletCmdException( "Entity not found in ontology: " + entityName );
 
 			entities.add( entity );
 		}
@@ -151,8 +148,7 @@ public class PelletModularity extends PelletCmdApp {
 
 		try {
 			OWLOntology moduleOnt = loader.getManager().createOntology( module );
-            loader.getManager().saveOntology(moduleOnt,
-                    new RDFXMLDocumentFormat(),
+			loader.getManager().saveOntology( moduleOnt, new RDFXMLOntologyFormat(),
 					new SystemOutDocumentTarget() );
 		} catch( OWLException e ) {
 			throw new RuntimeException( e );

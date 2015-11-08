@@ -4,7 +4,6 @@ import java.util.EnumMap;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
-import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -45,24 +44,19 @@ public abstract class OwlApi3ETImpl extends AbstractEntailmentTest<OWLOntology> 
 		parsedConclusion = new EnumMap<SerializationFormat, OWLOntology>( SerializationFormat.class );
 	}
 
-	@Override
-    public OWLOntology parseConclusionOntology(SerializationFormat format)
+	public OWLOntology parseConclusionOntology(SerializationFormat format)
 			throws OntologyParseException {
 		try {
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-            manager.setOntologyLoaderConfiguration(manager
-                    .getOntologyLoaderConfiguration()
-                    .setMissingImportHandlingStrategy(
-                            MissingImportHandlingStrategy.SILENT));
+			manager.setSilentMissingImportsHandling( true );
 			manager.clearIRIMappers();
 
 			ImportsHelper.loadImports( manager, this, format );
 			OWLOntology o = parsedConclusion.get( format );
 			if( o == null ) {
 				String l = getConclusionOntology( format );
-				if( l == null ) {
-                    return null;
-                }
+				if( l == null )
+					return null;
 
 				StringDocumentSource source = new StringDocumentSource( l );
 				o = OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument( source );
@@ -74,24 +68,19 @@ public abstract class OwlApi3ETImpl extends AbstractEntailmentTest<OWLOntology> 
 		}
 	}
 
-	@Override
-    public OWLOntology parsePremiseOntology(SerializationFormat format)
+	public OWLOntology parsePremiseOntology(SerializationFormat format)
 			throws OntologyParseException {
 		try {
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-            manager.setOntologyLoaderConfiguration(manager
-                    .getOntologyLoaderConfiguration()
-                    .setMissingImportHandlingStrategy(
-                            MissingImportHandlingStrategy.SILENT));
+			manager.setSilentMissingImportsHandling( true );
 			manager.clearIRIMappers();
 
 			ImportsHelper.loadImports( manager, this, format );
 			OWLOntology o = parsedPremise.get( format );
 			if( o == null ) {
 				String l = getPremiseOntology( format );
-				if( l == null ) {
-                    return null;
-                }
+				if( l == null )
+					return null;
 
 				StringDocumentSource source = new StringDocumentSource( l );
 				o = manager.loadOntologyFromOntologyDocument( source );

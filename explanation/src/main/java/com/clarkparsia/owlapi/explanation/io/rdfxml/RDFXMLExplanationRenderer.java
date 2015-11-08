@@ -11,12 +11,13 @@ import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.coode.owlapi.rdf.rdfxml.RDFXMLRenderer;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.rdf.rdfxml.renderer.RDFXMLRenderer;
 
 import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
 import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapiv3.OntologyUtils;
 
 /**
  * <p>
@@ -39,14 +40,12 @@ public class RDFXMLExplanationRenderer implements ExplanationRenderer {
 
 	private Writer			writer;
 
-	@Override
-    public void startRendering(Writer writer) {
+	public void startRendering(Writer writer) {
 		this.writer = writer;
-		axioms = new HashSet<OWLAxiom>();
+		this.axioms = new HashSet<OWLAxiom>();
 	}
 
-	@Override
-    public void render(OWLAxiom axiom, Set<Set<OWLAxiom>> explanations) {		
+	public void render(OWLAxiom axiom, Set<Set<OWLAxiom>> explanations) {		
 		axioms.add( axiom );
 		
 		for( Set<OWLAxiom> explanation : explanations ) {
@@ -54,10 +53,9 @@ public class RDFXMLExplanationRenderer implements ExplanationRenderer {
 		}
 	}
 
-	@Override
-    public void endRendering() throws IOException {
+	public void endRendering() throws IOException {
 		OWLOntology ontology = OWL.Ontology( axioms );
-        RDFXMLRenderer renderer = new RDFXMLRenderer(ontology, writer);
+		RDFXMLRenderer renderer = new RDFXMLRenderer(OntologyUtils.getOWLOntologyManager(), ontology, writer);
 		renderer.render();
 	}
 

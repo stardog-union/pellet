@@ -51,11 +51,8 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 		mService = thePelletService;
 
-		assert theOntology.getOntologyID().getOntologyIRI().isPresent();
-
 		mOntologyIri = theOntology.getOntologyID()
-		                          .getOntologyIRI()
-		                          .get();
+		                          .getOntologyIRI();
 	}
 
 	@Override

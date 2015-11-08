@@ -83,7 +83,7 @@ public class ModularityExample {
 		// Upper-of-lower and lower-of-upper modules tend to be smaller (compared
 		// to upper and lower modules) and we'll extract upper-of-lower module in
 		// this example
-        ModuleType moduleType = ModuleType.STAR;
+		ModuleType moduleType = ModuleType.BOT_OF_TOP;
 
 		// Extract the module axioms for the specified signature
 		Set<OWLAxiom> moduleAxioms = 

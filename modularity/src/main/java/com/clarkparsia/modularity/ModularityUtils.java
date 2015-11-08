@@ -76,11 +76,16 @@ public class ModularityUtils {
 		case BOT:
 			return extractBottomModule( axiomIterator( ontologies ), signature );
 
-            case STAR:
+		case TOP_OF_BOT:
 			Set<OWLAxiom> bottomModule = extractBottomModule( axiomIterator( ontologies ),
 					signature );
 
 			return extractTopModule( bottomModule.iterator(), signature );
+
+		case BOT_OF_TOP:
+			Set<OWLAxiom> topModule = extractTopModule( axiomIterator( ontologies ), signature );
+
+			return extractBottomModule( topModule.iterator(), signature );
 
 		default:
 			throw new UnsupportedOperationException( "Unrecognized module type: " + moduleType );

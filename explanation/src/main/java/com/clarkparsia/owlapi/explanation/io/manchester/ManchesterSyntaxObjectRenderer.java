@@ -153,23 +153,19 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		return str;
 	}
 
-	@Override
-    public void visit(OWLAsymmetricObjectPropertyAxiom theAxiom) {
+	public void visit(OWLAsymmetricObjectPropertyAxiom theAxiom) {
 		writeUnaryPropertyAxiom( theAxiom, Keyword.ASYMMETRIC_PROPERTY );
 	}
 
-	@Override
-    public void visit(OWLClass theOWLClass) {
+	public void visit(OWLClass theOWLClass) {
 		write( theOWLClass.getIRI() );
 	}
 
-	@Override
-    public void visit(OWLClassAssertionAxiom theAxiom) {
+	public void visit(OWLClassAssertionAxiom theAxiom) {
 		writeKeywordInfix( Keyword.TYPE, theAxiom.getIndividual(), theAxiom.getClassExpression() );
 	}
 
-	@Override
-    public void visit(OWLAnnotation theAnnotation) {
+	public void visit(OWLAnnotation theAnnotation) {
 		write( Keyword.ANNOTATION );
 		writeSpace();
 		write( "(" );
@@ -179,43 +175,35 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( ")" );
 	}
 
-	@Override
-    public void visit(OWLDataAllValuesFrom theDescription) {
+	public void visit(OWLDataAllValuesFrom theDescription) {
 		writeQuantifiedRestriction( theDescription, Keyword.ONLY );
 	}
 
-	@Override
-    public void visit(OWLDataComplementOf theDescription) {
+	public void visit(OWLDataComplementOf theDescription) {
 		writeKeywordPrefix( Keyword.NOT, theDescription.getDataRange() );
 	}
 
-	@Override
-    public void visit(OWLDataExactCardinality theDescription) {
+	public void visit(OWLDataExactCardinality theDescription) {
 		writeCardinalityRestriction( theDescription, Keyword.EXACTLY );
 	}
 
-	@Override
-    public void visit(OWLDataMaxCardinality theDescription) {
+	public void visit(OWLDataMaxCardinality theDescription) {
 		writeCardinalityRestriction( theDescription, Keyword.MAX );
 	}
 
-	@Override
-    public void visit(OWLDataMinCardinality theDescription) {
+	public void visit(OWLDataMinCardinality theDescription) {
 		writeCardinalityRestriction( theDescription, Keyword.MIN );
 	}
 
-	@Override
-    public void visit(OWLDataOneOf theDescription) {
+	public void visit(OWLDataOneOf theDescription) {
 		writeEnumeration( theDescription.getValues() );
 	}
 
-	@Override
-    public void visit(OWLDataProperty theProperty) {
+	public void visit(OWLDataProperty theProperty) {
 		write( theProperty.getIRI() );
 	}
 
-	@Override
-    public void visit(OWLDataPropertyAssertionAxiom theAxiom) {
+	public void visit(OWLDataPropertyAssertionAxiom theAxiom) {
 		write( theAxiom.getSubject() );
 		writeSpace();
 		write( theAxiom.getProperty() );
@@ -223,25 +211,21 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( theAxiom.getObject() );
 	}
 
-	@Override
-    public void visit(OWLDataPropertyDomainAxiom theAxiom) {
+	public void visit(OWLDataPropertyDomainAxiom theAxiom) {
 		writeKeywordInfix( Keyword.DOMAIN, theAxiom.getProperty(), theAxiom.getDomain() );
 	}
 
-	@Override
-    public void visit(OWLDataPropertyRangeAxiom theAxiom) {
+	public void visit(OWLDataPropertyRangeAxiom theAxiom) {
 		writeKeywordInfix( Keyword.RANGE, theAxiom.getProperty(), theAxiom.getRange() );
 	}
 
-	@Override
-    public void visit(OWLFacetRestriction theRestriction) {
+	public void visit(OWLFacetRestriction theRestriction) {
 		write( theRestriction.getFacet().getSymbolicForm() );
 		writeSpace();
 		write( theRestriction.getFacetValue() );
 	}
 
-	@Override
-    public void visit(OWLDatatypeRestriction theRestriction) {
+	public void visit(OWLDatatypeRestriction theRestriction) {
 
 		write( theRestriction.getDatatype() );
 		write( "[" );
@@ -260,58 +244,48 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 
 	}
 
-	@Override
-    public void visit(OWLDataSomeValuesFrom theDescription) {
+	public void visit(OWLDataSomeValuesFrom theDescription) {
 		writeQuantifiedRestriction( theDescription, Keyword.SOME );
 	}
 
-	@Override
-    public void visit(OWLSubDataPropertyOfAxiom theAxiom) {
+	public void visit(OWLSubDataPropertyOfAxiom theAxiom) {
 		writeKeywordInfix( Keyword.SUB_PROPERTY_OF, theAxiom.getSubProperty(), theAxiom
 				.getSuperProperty() );
 	}
 
-	@Override
-    public void visit(OWLDatatype node) {
+	public void visit(OWLDatatype node) {
 		write( node.getIRI() );
 	}
 
-	@Override
-    public void visit(OWLDataHasValue theDescription) {
+	public void visit(OWLDataHasValue theDescription) {
 		writeRestriction( theDescription.getProperty(), Keyword.VALUE, theDescription.getValue() );
 	}
 
-	@Override
-    public void visit(OWLDeclarationAxiom theAxiom) {
+	public void visit(OWLDeclarationAxiom theAxiom) {
 		writeKeywordPrefix( Keyword.DECLARATION, theAxiom.getEntity() );
 	}
 
-	@Override
-    public void visit(OWLDifferentIndividualsAxiom theAxiom) {
+	public void visit(OWLDifferentIndividualsAxiom theAxiom) {
 		writeNaryAxiom( theAxiom.getIndividuals(), Keyword.DIFFERENT_INDIVIDUAL,
 				Keyword.DIFFERENT_INDIVIDUALS );
 	}
 
-	@Override
-    public void visit(OWLDisjointClassesAxiom theAxiom) {
+	public void visit(OWLDisjointClassesAxiom theAxiom) {
 		writeNaryAxiom( theAxiom.getClassExpressions(), Keyword.DISJOINT_CLASS,
 				Keyword.DISJOINT_CLASSES );
 	}
 
-	@Override
-    public void visit(OWLDisjointDataPropertiesAxiom theAxiom) {
+	public void visit(OWLDisjointDataPropertiesAxiom theAxiom) {
 		writeNaryAxiom( theAxiom.getProperties(), Keyword.DISJOINT_PROPERTY,
 				Keyword.DISJOINT_PROPERTIES );
 	}
 
-	@Override
-    public void visit(OWLDisjointObjectPropertiesAxiom theAxiom) {
+	public void visit(OWLDisjointObjectPropertiesAxiom theAxiom) {
 		writeNaryAxiom( theAxiom.getProperties(), Keyword.DISJOINT_PROPERTY,
 				Keyword.DISJOINT_PROPERTIES );
 	}
 
-	@Override
-    public void visit(OWLDisjointUnionAxiom theAxiom) {
+	public void visit(OWLDisjointUnionAxiom theAxiom) {
 		write( theAxiom.getOWLClass() );
 		writeSpace();
 		write( Keyword.DISJOINT_UNION );
@@ -319,62 +293,51 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		writeNaryKeyword( Keyword.OR, theAxiom.getClassExpressions() );
 	}
 
-	@Override
-    public void visit(OWLEquivalentClassesAxiom theAxiom) {
+	public void visit(OWLEquivalentClassesAxiom theAxiom) {
 		writeNaryAxiom( theAxiom.getClassExpressions(), Keyword.EQUIVALENT_TO,
 				Keyword.EQUIVALENT_CLASSES );
 	}
 
-	@Override
-    public void visit(OWLEquivalentDataPropertiesAxiom theAxiom) {
+	public void visit(OWLEquivalentDataPropertiesAxiom theAxiom) {
 		writeNaryAxiom( theAxiom.getProperties(), Keyword.EQUIVALENT_TO,
 				Keyword.EQUIVALENT_PROPERTIES );
 	}
 
-	@Override
-    public void visit(OWLEquivalentObjectPropertiesAxiom theAxiom) {
+	public void visit(OWLEquivalentObjectPropertiesAxiom theAxiom) {
 		writeNaryAxiom( theAxiom.getProperties(), Keyword.EQUIVALENT_TO,
 				Keyword.EQUIVALENT_PROPERTIES );
 	}
 
-	@Override
-    public void visit(OWLFunctionalDataPropertyAxiom theAxiom) {
+	public void visit(OWLFunctionalDataPropertyAxiom theAxiom) {
 		writeUnaryPropertyAxiom( theAxiom, Keyword.FUNCTIONAL );
 	}
 
-	@Override
-    public void visit(OWLFunctionalObjectPropertyAxiom theAxiom) {
+	public void visit(OWLFunctionalObjectPropertyAxiom theAxiom) {
 		writeUnaryPropertyAxiom( theAxiom, Keyword.FUNCTIONAL );
 	}
 
-	@Override
-    public void visit(OWLAnonymousIndividual theIndividual) {
+	public void visit(OWLAnonymousIndividual theIndividual) {
 		write( theIndividual.getID().getID() );
 	}
 	
-	@Override
-    public void visit(OWLNamedIndividual theIndividual) {
+	public void visit(OWLNamedIndividual theIndividual) {
 		write( theIndividual.getIRI() );
 	}
 
-	@Override
-    public void visit(OWLInverseFunctionalObjectPropertyAxiom theAxiom) {
+	public void visit(OWLInverseFunctionalObjectPropertyAxiom theAxiom) {
 		writeUnaryPropertyAxiom( theAxiom, Keyword.INVERSE_FUNCTIONAL );
 	}
 
-	@Override
-    public void visit(OWLInverseObjectPropertiesAxiom theAxiom) {
+	public void visit(OWLInverseObjectPropertiesAxiom theAxiom) {
 		writeKeywordInfix( Keyword.INVERSE_OF, theAxiom.getFirstProperty(), theAxiom
 				.getSecondProperty() );
 	}
 
-	@Override
-    public void visit(OWLIrreflexiveObjectPropertyAxiom theAxiom) {
+	public void visit(OWLIrreflexiveObjectPropertyAxiom theAxiom) {
 		writeUnaryPropertyAxiom( theAxiom, Keyword.IRREFLEXIVE );
 	}
 
-	@Override
-    public void visit(OWLNegativeDataPropertyAssertionAxiom theAxiom) {
+	public void visit(OWLNegativeDataPropertyAssertionAxiom theAxiom) {
 		write( Keyword.NOT_RELATIONSHIP );
 		writeSpace();
 		write( "(" );
@@ -386,8 +349,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( ")" );
 	}
 
-	@Override
-    public void visit(OWLNegativeObjectPropertyAssertionAxiom theAxiom) {
+	public void visit(OWLNegativeObjectPropertyAssertionAxiom theAxiom) {
 		write( Keyword.NOT_RELATIONSHIP );
 		writeSpace();
 		write( "(" );
@@ -399,48 +361,39 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( ")" );
 	}
 
-	@Override
-    public void visit(OWLObjectAllValuesFrom theDescription) {
+	public void visit(OWLObjectAllValuesFrom theDescription) {
 		writeQuantifiedRestriction( theDescription, Keyword.ONLY );
 	}
 
-	@Override
-    public void visit(OWLObjectComplementOf theDescription) {
+	public void visit(OWLObjectComplementOf theDescription) {
 		writeKeywordPrefix( Keyword.NOT, theDescription.getOperand() );
 	}
 
-	@Override
-    public void visit(OWLObjectExactCardinality theDescription) {
+	public void visit(OWLObjectExactCardinality theDescription) {
 		writeCardinalityRestriction( theDescription, Keyword.EXACTLY );
 	}
 
-	@Override
-    public void visit(OWLObjectIntersectionOf theDescription) {
+	public void visit(OWLObjectIntersectionOf theDescription) {
 		writeNaryKeyword( Keyword.AND, theDescription.getOperands() );
 	}
 
-	@Override
-    public void visit(OWLObjectMaxCardinality theDescription) {
+	public void visit(OWLObjectMaxCardinality theDescription) {
 		writeCardinalityRestriction( theDescription, Keyword.MAX );
 	}
 
-	@Override
-    public void visit(OWLObjectMinCardinality theDescription) {
+	public void visit(OWLObjectMinCardinality theDescription) {
 		writeCardinalityRestriction( theDescription, Keyword.MIN );
 	}
 
-	@Override
-    public void visit(OWLObjectOneOf theDescription) {
+	public void visit(OWLObjectOneOf theDescription) {
 		writeEnumeration( theDescription.getIndividuals() );
 	}
 
-	@Override
-    public void visit(OWLObjectProperty theProperty) {
+	public void visit(OWLObjectProperty theProperty) {
 		write( theProperty.getIRI() );
 	}
 
-	@Override
-    public void visit(OWLObjectPropertyAssertionAxiom theAxiom) {
+	public void visit(OWLObjectPropertyAssertionAxiom theAxiom) {
 		write( theAxiom.getSubject() );
 		writeSpace();
 		write( theAxiom.getProperty() );
@@ -448,8 +401,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( theAxiom.getObject() );
 	}
 
-	@Override
-    public void visit(OWLSubPropertyChainOfAxiom theAxiom) {
+	public void visit(OWLSubPropertyChainOfAxiom theAxiom) {
 		writeCollection( theAxiom.getPropertyChain(), " o", false );
 		writeSpace();
 		write( Keyword.SUB_PROPERTY_OF );
@@ -457,80 +409,65 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( theAxiom.getSuperProperty() );
 	}
 
-	@Override
-    public void visit(OWLObjectPropertyDomainAxiom theAxiom) {
+	public void visit(OWLObjectPropertyDomainAxiom theAxiom) {
 		writeKeywordInfix( Keyword.DOMAIN, theAxiom.getProperty(), theAxiom.getDomain() );
 	}
 
-	@Override
-    public void visit(OWLObjectInverseOf theInverse) {
+	public void visit(OWLObjectInverseOf theInverse) {
 		writeKeywordPrefix( Keyword.INVERSE, theInverse.getInverse() );
 	}
 
-	@Override
-    public void visit(OWLObjectPropertyRangeAxiom theAxiom) {
+	public void visit(OWLObjectPropertyRangeAxiom theAxiom) {
 		writeKeywordInfix( Keyword.RANGE, theAxiom.getProperty(), theAxiom.getRange() );
 	}
 
-	@Override
-    public void visit(OWLObjectHasSelf theRestriction) {
+	public void visit(OWLObjectHasSelf theRestriction) {
 		writeRestriction( theRestriction.getProperty(), Keyword.SELF );
 	}
 
-	@Override
-    public void visit(OWLObjectSomeValuesFrom theDescription) {
+	public void visit(OWLObjectSomeValuesFrom theDescription) {
 		writeQuantifiedRestriction( theDescription, Keyword.SOME );
 	}
 
-	@Override
-    public void visit(OWLSubObjectPropertyOfAxiom theAxiom) {
+	public void visit(OWLSubObjectPropertyOfAxiom theAxiom) {
 		writeKeywordInfix( Keyword.SUB_PROPERTY_OF, theAxiom.getSubProperty(), theAxiom
 				.getSuperProperty() );
 	}
 
-	@Override
-    public void visit(OWLObjectUnionOf theDescription) {
+	public void visit(OWLObjectUnionOf theDescription) {
 		writeNaryKeyword( Keyword.OR, theDescription.getOperands() );
 	}
 
-	@Override
-    public void visit(OWLObjectHasValue theDescription) {
+	public void visit(OWLObjectHasValue theDescription) {
 		writeRestriction( theDescription.getProperty(), Keyword.VALUE, theDescription.getValue() );
 	}
 
-	@Override
-    public void visit(OWLOntology ontology) {
-        write(ontology.getOntologyID().getOntologyIRI().orNull());
+	public void visit(OWLOntology ontology) {
+		write( ontology.getOntologyID().getOntologyIRI() );
 	}
 
-	@Override
-    public void visit(OWLReflexiveObjectPropertyAxiom theAxiom) {
+	public void visit(OWLReflexiveObjectPropertyAxiom theAxiom) {
 		writeUnaryPropertyAxiom( theAxiom, Keyword.REFLEXIVE_PROPERTY );
 	}
 
-	@Override
-    public void visit(OWLSameIndividualAxiom theAxiom) {
+	public void visit(OWLSameIndividualAxiom theAxiom) {
 		writeNaryAxiom( theAxiom.getIndividuals(), Keyword.SAME_INDIVIDUAL,
 				Keyword.SAME_INDIVIDUALS );
 	}
 
-	@Override
-    public void visit(OWLSubClassOfAxiom theAxiom) {
+	public void visit(OWLSubClassOfAxiom theAxiom) {
 		writeKeywordInfix( Keyword.SUB_CLASS_OF, theAxiom.getSubClass(), theAxiom.getSuperClass() );
 	}
 
-	@Override
-    public void visit(OWLSymmetricObjectPropertyAxiom theAxiom) {
+	public void visit(OWLSymmetricObjectPropertyAxiom theAxiom) {
 		writeUnaryPropertyAxiom( theAxiom, Keyword.SYMMETRIC );
 	}
 
-	@Override
-    public void visit(OWLTransitiveObjectPropertyAxiom theAxiom) {
+	public void visit(OWLTransitiveObjectPropertyAxiom theAxiom) {
 		writeUnaryPropertyAxiom( theAxiom, Keyword.TRANSITIVE );
 	}
 
-	@Override
-    public void visit(OWLLiteral node) {
+	public void visit(OWLLiteral node) {
 		if( node.isRDFPlainLiteral() ) {
 			write( "\"" );
 			write( node.getLiteral() );
@@ -557,24 +494,20 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		}
 	}
 
-	@Override
-    public void visit(SWRLLiteralArgument node) {
+	public void visit(SWRLLiteralArgument node) {
 		write( node.getLiteral() );
 	}
 
-	@Override
-    public void visit(SWRLIndividualArgument node) {
+	public void visit(SWRLIndividualArgument node) {
 		write( node.getIndividual() );
 	}
 
-	@Override
-    public void visit(SWRLVariable node) {
+	public void visit(SWRLVariable node) {
 		write( "?" );
 		write( node.getIRI() );
 	}
 
-	@Override
-    public void visit(SWRLBuiltInAtom node) {
+	public void visit(SWRLBuiltInAtom node) {
 		write( node.getPredicate() );
 		write( "(" );
 		for( SWRLArgument arg : node.getArguments() ) {
@@ -584,8 +517,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( ")" );
 	}
 
-	@Override
-    public void visit(SWRLClassAtom node) {
+	public void visit(SWRLClassAtom node) {
 		write( node.getPredicate() );
 		write( "(" );
 		write( node.getArgument() );
@@ -597,16 +529,14 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	 * using evren's concise format stuff
 	 */
 
-	@Override
-    public void visit(SWRLDataRangeAtom node) {
+	public void visit(SWRLDataRangeAtom node) {
 		write( node.getPredicate() );
 		write( "(" );
 		write( node.getArgument() );
 		write( ")" );
 	}
 
-	@Override
-    public void visit(SWRLDataPropertyAtom node) {
+	public void visit(SWRLDataPropertyAtom node) {
 		write( node.getPredicate() );
 		write( "(" );
 		write( node.getFirstArgument() );
@@ -615,8 +545,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( ")" );
 	}
 
-	@Override
-    public void visit(SWRLDifferentIndividualsAtom node) {
+	public void visit(SWRLDifferentIndividualsAtom node) {
 		write( "differentFrom" );
 		write( "(" );
 		write( node.getFirstArgument() );
@@ -625,8 +554,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		write( ")" );
 	}
 
-	@Override
-    public void visit(SWRLObjectPropertyAtom node) {
+	public void visit(SWRLObjectPropertyAtom node) {
 		write( node.getPredicate() );
 		write( "(" );
 		write( node.getFirstArgument() );
@@ -638,8 +566,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	/**
 	 * @inheritDoc
 	 */
-	@Override
-    public void visit(SWRLRule rule) {
+	public void visit(SWRLRule rule) {
 		write( "Rule" );
 		write( "(" );
 
@@ -650,11 +577,10 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 
 		boolean first = true;
 		for( SWRLAtom at : rule.getBody() ) {
-			if( first ) {
-                first = false;
-            } else {
-                write( ", " );
-            }
+			if( first )
+				first = false;
+			else
+				write( ", " );
 			write( at );
 			
 		}
@@ -662,19 +588,17 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 
 		first = true;
 		for( SWRLAtom at : rule.getHead() ) {
-			if( first ) {
-                first = false;
-            } else {
-                write( ", " );
-            }
+			if( first )
+				first = false;
+			else
+				write( ", " );
 			write( at );
 		}
 
 		write( ")" );
 	}
 
-	@Override
-    public void visit(SWRLSameIndividualAtom node) {
+	public void visit(SWRLSameIndividualAtom node) {
 		write( "sameAs" );
 		write( "(" );
 		write( node.getFirstArgument() );
@@ -691,9 +615,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		
 		// write( "(" );
 
-		if( smartIndent ) {
-            writer.startBlock();
-        }
+		if( smartIndent )
+			writer.startBlock();
 
 		write( aIter.next() );
 		while( aIter.hasNext() ) {
@@ -712,23 +635,20 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 			write( aIter.next() );
 		}
 
-		if( smartIndent ) {
-            writer.endBlock();
-        }
+		if( smartIndent )
+			writer.endBlock();
 
 		// write( ")" );
 	}
 
-    protected void writeCardinalityRestriction(
-            OWLCardinalityRestriction<?> theRestriction,
+	protected void writeCardinalityRestriction(OWLCardinalityRestriction<?, ?, ?> theRestriction,
 			Keyword theKeyword) {
-		if( theRestriction.isQualified() ) {
-            writeRestriction( theRestriction.getProperty(), theKeyword, theRestriction
+		if( theRestriction.isQualified() )
+			writeRestriction( theRestriction.getProperty(), theKeyword, theRestriction
 					.getCardinality(), theRestriction.getFiller() );
-        } else {
-            writeRestriction( theRestriction.getProperty(), theKeyword, theRestriction
+		else
+			writeRestriction( theRestriction.getProperty(), theKeyword, theRestriction
 					.getCardinality() );
-        }
 	}
 
 	/**
@@ -758,14 +678,12 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 		}
 	}
 
-    protected void writeQuantifiedRestriction(
-            OWLQuantifiedRestriction<?> theRestriction,
+	protected void writeQuantifiedRestriction(OWLQuantifiedRestriction<?, ?, ?> theRestriction,
 			Keyword theKeyword) {
 		writeRestriction( theRestriction.getProperty(), theKeyword, theRestriction.getFiller() );
 	}
 
-    protected void writeRestriction(OWLPropertyExpression theProperty,
-            Keyword theKeyword,
+	protected void writeRestriction(OWLPropertyExpression<?, ?> theProperty, Keyword theKeyword,
 			Object... theArgs) {
 		// write( "(" );
 
@@ -823,9 +741,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	}
 	
 	protected void writeCollection(Collection<? extends OWLObject> objects, String separator, boolean sort) {
-		if( sort ) {
-            objects = DescriptionSorter.toSortedSet( objects );
-        }
+		if( sort )
+			objects = DescriptionSorter.toSortedSet( objects );
 		boolean first = true;
 		for( OWLObject ind : objects ) {
 			if( first ) {
@@ -866,8 +783,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLHasKeyAxiom theAxiom) {
+	public void visit(OWLHasKeyAxiom theAxiom) {
 		write( theAxiom.getClassExpression() );
 		writeSpace();
 		write( Keyword.HAS_KEY );
@@ -881,16 +797,14 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLDatatypeDefinitionAxiom theAxiom) {
+	public void visit(OWLDatatypeDefinitionAxiom theAxiom) {
 		writeKeywordInfix( Keyword.EQUIVALENT_TO, theAxiom.getDatatype(), theAxiom.getDataRange() );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLAnnotationAssertionAxiom theAxiom) {
+	public void visit(OWLAnnotationAssertionAxiom theAxiom) {
 		write( theAxiom.getSubject() );
 		writeSpace();
 		write( theAxiom.getProperty() );
@@ -901,56 +815,49 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLSubAnnotationPropertyOfAxiom theAxiom) {
+	public void visit(OWLSubAnnotationPropertyOfAxiom theAxiom) {
 		writeKeywordInfix( Keyword.SUB_PROPERTY_OF, theAxiom.getSubProperty(), theAxiom.getSuperProperty() );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLAnnotationPropertyDomainAxiom theAxiom) {
+	public void visit(OWLAnnotationPropertyDomainAxiom theAxiom) {
 		writeKeywordInfix( Keyword.DOMAIN, theAxiom.getProperty(), theAxiom.getDomain() );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLAnnotationPropertyRangeAxiom theAxiom) {
+	public void visit(OWLAnnotationPropertyRangeAxiom theAxiom) {
 		writeKeywordInfix( Keyword.RANGE, theAxiom.getProperty(), theAxiom.getRange() );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLDataIntersectionOf node) {
+	public void visit(OWLDataIntersectionOf node) {
 		writeNaryKeyword( Keyword.AND, node.getOperands() );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLDataUnionOf node) {
+	public void visit(OWLDataUnionOf node) {
 		writeNaryKeyword( Keyword.OR, node.getOperands() );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(OWLAnnotationProperty property) {
+	public void visit(OWLAnnotationProperty property) {
 		write( property.getIRI() );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visit(IRI iri) {
+	public void visit(IRI iri) {
 		write( iri );		
 	}
 }

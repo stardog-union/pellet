@@ -64,16 +64,14 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 	public OWLIndividual convertIndividual(ATermAppl term) {
 		IRI iri = null;
 
-		if (!ATermUtils.isBnode(term)) {
-            iri = IRI.create(term.getName());
-        }
+		if (!ATermUtils.isBnode(term))
+			iri = IRI.create(term.getName());
 
 		if (kb.isIndividual(term)) {
-			if (ATermUtils.isBnode(term)) {
-                return factory.getOWLAnonymousIndividual(((ATermAppl) term.getArgument(0)).getName());
-            } else {
-                return factory.getOWLNamedIndividual(iri);
-            }
+			if (ATermUtils.isBnode(term))
+				return factory.getOWLAnonymousIndividual(((ATermAppl) term.getArgument(0)).getName());
+			else
+				return factory.getOWLNamedIndividual(iri);
 		}
 		else {
 			throw new InternalReasonerException("Cannot convert individual: " + term);
@@ -92,97 +90,83 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		return obj;
 	}
 
-	@Override
-    public void visitTerm(ATermAppl term) {
+	public void visitTerm(ATermAppl term) {
 		obj = null;
 
 		IRI iri = null;
 
-		if( !ATermUtils.isBnode( term ) ) {
-            iri = IRI.create( term.getName() );
-        }
+		if( !ATermUtils.isBnode( term ) )
+			iri = IRI.create( term.getName() );
 
-		if( term.equals( OWL_THING ) ) {
-            obj = factory.getOWLThing();
-        } else if( term.equals( OWL_NOTHING ) ) {
-            obj = factory.getOWLNothing();
-        } else if( kb.isClass( term ) ) {
-            obj = factory.getOWLClass( iri );
-        } else if( kb.isObjectProperty( term ) ) {
-			if( ATermUtils.TOP_OBJECT_PROPERTY.equals( term ) ) {
-                obj = factory.getOWLTopDataProperty();
-            } else if( ATermUtils.BOTTOM_DATA_PROPERTY.equals( term ) ) {
-                obj = factory.getOWLBottomObjectProperty();
-            } else {
-                obj = factory.getOWLObjectProperty( iri );
-            }
+		if( term.equals( OWL_THING ) )
+			obj = factory.getOWLThing();
+		else if( term.equals( OWL_NOTHING ) )
+			obj = factory.getOWLNothing();
+		else if( kb.isClass( term ) )
+			obj = factory.getOWLClass( iri );
+		else if( kb.isObjectProperty( term ) ) {
+			if( ATermUtils.TOP_OBJECT_PROPERTY.equals( term ) )
+				obj = factory.getOWLTopDataProperty();
+			else if( ATermUtils.BOTTOM_DATA_PROPERTY.equals( term ) )
+				obj = factory.getOWLBottomObjectProperty();
+			else
+				obj = factory.getOWLObjectProperty( iri );
 		}
 		else if( kb.isDatatypeProperty( term ) ) {
-			if( ATermUtils.TOP_DATA_PROPERTY.equals( term ) ) {
-                obj = factory.getOWLTopDataProperty();
-            } else if( ATermUtils.BOTTOM_DATA_PROPERTY.equals( term ) ) {
-                obj = factory.getOWLBottomDataProperty();
-            } else {
-                obj = factory.getOWLDataProperty( iri );
-            }
+			if( ATermUtils.TOP_DATA_PROPERTY.equals( term ) )
+				obj = factory.getOWLTopDataProperty();
+			else if( ATermUtils.BOTTOM_DATA_PROPERTY.equals( term ) )
+				obj = factory.getOWLBottomDataProperty();
+			else
+				obj = factory.getOWLDataProperty( iri );
 
 		}
 		else if( kb.isIndividual( term ) ) {
-			if( ATermUtils.isBnode( term ) ) {
-                obj = factory.getOWLAnonymousIndividual( ((ATermAppl)term.getArgument( 0 )).getName() );
-            } else {
-                obj = factory.getOWLNamedIndividual( iri );
-            }
+			if( ATermUtils.isBnode( term ) )
+				obj = factory.getOWLAnonymousIndividual( ((ATermAppl)term.getArgument( 0 )).getName() );
+			else
+				obj = factory.getOWLNamedIndividual( iri );
 		}
-		else if( kb.isDatatype( term ) ) {
-            obj = factory.getOWLDatatype( iri );
-        }
+		else if( kb.isDatatype( term ) )
+			obj = factory.getOWLDatatype( iri );
 
-		if( obj == null ) {
-            throw new InternalReasonerException( "Ontology does not contain: " + term );
-        }
+		if( obj == null )
+			throw new InternalReasonerException( "Ontology does not contain: " + term );
 	}
 
-	@Override
-    public void visitAnd(ATermAppl term) {
+	public void visitAnd(ATermAppl term) {
 		visitList( (ATermList) term.getArgument( 0 ) );
 		
-		if( obj instanceof OWLClassExpression ) {
-            obj = factory.getOWLObjectIntersectionOf( set );
-        } else if( obj instanceof OWLDataRange ) {
-            obj = factory.getOWLDataIntersectionOf( set );
-        }
+		if( obj instanceof OWLClassExpression )
+			obj = factory.getOWLObjectIntersectionOf( set );
+		else if( obj instanceof OWLDataRange )
+			obj = factory.getOWLDataIntersectionOf( set );
 
 	}
 
-	@Override
-    public void visitOr(ATermAppl term) {
+	public void visitOr(ATermAppl term) {
 		visitList( (ATermList) term.getArgument( 0 ) );
 
-		if( obj instanceof OWLClassExpression ) {
-            obj = factory.getOWLObjectUnionOf( set );
-        } else if( obj instanceof OWLDataRange ) {
-            obj = factory.getOWLDataUnionOf( set );
-        }
+		if( obj instanceof OWLClassExpression )
+			obj = factory.getOWLObjectUnionOf( set );
+		else if( obj instanceof OWLDataRange )
+			obj = factory.getOWLDataUnionOf( set );
 	}
 
-	@Override
-    public void visitNot(ATermAppl term) {
+	public void visitNot(ATermAppl term) {
 		visit( (ATermAppl) term.getArgument( 0 ) );
 
-		if( obj instanceof OWLClassExpression ) {
-            obj = factory.getOWLObjectComplementOf( (OWLClassExpression) obj );
-        } else if( obj instanceof OWLDataRange ) {
-            obj = factory.getOWLDataComplementOf( (OWLDataRange) obj );
-        }
+		if( obj instanceof OWLClassExpression )
+			obj = factory.getOWLObjectComplementOf( (OWLClassExpression) obj );
+		else if( obj instanceof OWLDataRange )
+			obj = factory.getOWLDataComplementOf( (OWLDataRange) obj );
 	}
 
 	// In the following method(s) we intentionally do not use OWLPropertyExpression<?,?>
 	// because of a bug in some Sun's implementation of javac
 	// http://bugs.sun.com/view_bug.do?bug_id=6548436
 	// Since lack of generic type generates a warning, we suppress it
-	@Override
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public void visitSome(ATermAppl term) {
 		visit( (ATermAppl) term.getArgument( 0 ) );
 		OWLPropertyExpression prop = (OWLPropertyExpression) obj;
@@ -201,8 +185,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		}
 	}
 
-	@Override
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     public void visitAll(ATermAppl term) {
 		visit( (ATermAppl) term.getArgument( 0 ) );
 		OWLPropertyExpression prop = (OWLPropertyExpression) obj;
@@ -222,8 +205,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 
 	}
 
-	@Override
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     public void visitMin(ATermAppl term) {
 		visit( (ATermAppl) term.getArgument( 0 ) );
 		OWLPropertyExpression prop = (OWLPropertyExpression) obj;
@@ -242,8 +224,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		}
 	}
 
-	@Override
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     public void visitCard(ATermAppl term) {
 		visit( (ATermAppl) term.getArgument( 0 ) );
 		OWLPropertyExpression prop = (OWLPropertyExpression) obj;
@@ -261,8 +242,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		}
 	}
 
-	@Override
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     public void visitMax(ATermAppl term) {
 		visit( (ATermAppl) term.getArgument( 0 ) );
 		OWLPropertyExpression prop = (OWLPropertyExpression) obj;
@@ -280,8 +260,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		}
 	}
 
-	@Override
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     public void visitHasValue(ATermAppl term) {
 		visit( (ATermAppl) term.getArgument( 0 ) );
 		OWLPropertyExpression prop = (OWLPropertyExpression) obj;
@@ -302,8 +281,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		}
 	}
 
-	@Override
-    public void visitValue(ATermAppl term) {
+	public void visitValue(ATermAppl term) {
 		ATermAppl nominal = (ATermAppl) term.getArgument(0);
 		if (ATermUtils.isLiteral(nominal)) {
 			visitLiteral(nominal);
@@ -314,8 +292,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		}
 	}
 
-	@Override
-    public void visitSelf(ATermAppl term) {
+	public void visitSelf(ATermAppl term) {
 		visit( (ATermAppl) term.getArgument( 0 ) );
 		OWLObjectPropertyExpression prop = (OWLObjectPropertyExpression) obj;
 
@@ -323,8 +300,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 
 	}
 
-	@Override
-    public void visitOneOf(ATermAppl term) {
+	public void visitOneOf(ATermAppl term) {
 		ATermList list = (ATermList) term.getArgument( 0 );	
 
 		if( ATermUtils.isLiteral((ATermAppl) ((ATermAppl) list.getFirst()).getArgument( 0 ))) {
@@ -332,9 +308,8 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 
 			for( ; !list.isEmpty(); list = list.getNext() ) {		
 				ATermAppl first = (ATermAppl) list.getFirst();
-				if (!ATermUtils.isLiteral((ATermAppl) first.getArgument(0))) {
-                    throw new InternalReasonerException("Conversion error, expecting literal but found: " + first);
-                }
+				if (!ATermUtils.isLiteral((ATermAppl) first.getArgument(0)))
+					throw new InternalReasonerException("Conversion error, expecting literal but found: " + first);
 				visitLiteral((ATermAppl) first.getArgument(0));
 				set.add( (OWLLiteral) obj );
 			}
@@ -354,8 +329,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		}
 	}
 
-	@Override
-    public void visitLiteral(ATermAppl term) {
+	public void visitLiteral(ATermAppl term) {
 		// literal(lexicalValue, language, datatypeURI)
 
 		String lexValue = ((ATermAppl) term.getArgument( 0 )).toString();
@@ -363,40 +337,36 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 		ATermAppl dtype = (ATermAppl) term.getArgument( 2 );
 		
 		if( dtype.equals( ATermUtils.PLAIN_LITERAL_DATATYPE ) ) {
-			if( lang.equals( ATermUtils.EMPTY ) ) {
-                obj = factory.getOWLLiteral( lexValue );
-            } else {
-                obj = factory.getOWLLiteral( lexValue, lang.toString() );
-            }
+			if( lang.equals( ATermUtils.EMPTY ) )
+				obj = factory.getOWLStringLiteral( lexValue );
+			else
+				obj = factory.getOWLStringLiteral( lexValue, lang.toString() );
 		}
 		else {
 			IRI dtypeIRI = IRI.create( dtype.toString() );
 			OWLDatatype datatype = factory.getOWLDatatype( dtypeIRI );
-            obj = factory.getOWLLiteral(lexValue, datatype);
+			obj = factory.getOWLTypedLiteral( lexValue, datatype );
 		}
 	}
 
-	@Override
-    public void visitList(ATermList list) {
-		set = null;
+	public void visitList(ATermList list) {
+		this.set = null;
 		Set elements = new HashSet();
 		while( !list.isEmpty() ) {
 			ATermAppl term = (ATermAppl) list.getFirst();
 			visit( term );
-			if( obj == null ) {
-                return;
-            }
+			if( obj == null )
+				return;
 			elements.add( obj );
 			list = list.getNext();
 		}
-		set = elements;
+		this.set = elements;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-    public void visitInverse(ATermAppl p) {
+	public void visitInverse(ATermAppl p) {
 		OWLObjectPropertyExpression prop = (OWLObjectPropertyExpression) convert( (ATermAppl) p
 				.getArgument( 0 ) );
 
@@ -404,8 +374,7 @@ public class ConceptConverter extends ATermBaseVisitor implements ATermVisitor {
 	}
 	
 	
-	@Override
-    public void visitRestrictedDatatype(ATermAppl dt) {
+	public void visitRestrictedDatatype(ATermAppl dt) {
         OWLDatatype baseDatatype = factory.getOWLDatatype( IRI.create( ((ATermAppl) dt
 				.getArgument( 0 )).getName() ) );
 

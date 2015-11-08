@@ -2,7 +2,6 @@ package com.clarkparsia.owlwg.testcase;
 
 import static java.lang.String.format;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -14,7 +13,6 @@ import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.search.EntitySearcher;
 
 /**
  * <p>
@@ -53,11 +51,11 @@ public abstract class AbstractEntailmentTest<O> extends AbstractPremisedTest<O> 
 		conclusionOntologyLiteral = new EnumMap<SerializationFormat, String>(
 				SerializationFormat.class );
 
-        Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher
-                .getDataPropertyValues(i, ontology).asMap();
+		Map<OWLDataPropertyExpression, Set<OWLLiteral>> values = i
+				.getDataPropertyValues( ontology );
 
 		for( SerializationFormat f : SerializationFormat.values() ) {
-            Collection<OWLLiteral> conclusions = values.get(positive
+			Set<OWLLiteral> conclusions = values.get( positive
 				? f.getConclusionOWLDataProperty()
 				: f.getNonConclusionOWLDataProperty() );
 			if( conclusions != null ) {
@@ -73,13 +71,11 @@ public abstract class AbstractEntailmentTest<O> extends AbstractPremisedTest<O> 
 		}
 	}
 
-	@Override
-    public Set<SerializationFormat> getConclusionFormats() {
+	public Set<SerializationFormat> getConclusionFormats() {
 		return Collections.unmodifiableSet( conclusionFormats );
 	}
 
-	@Override
-    public String getConclusionOntology(SerializationFormat format) {
+	public String getConclusionOntology(SerializationFormat format) {
 		return conclusionOntologyLiteral.get( format );
 	}
 }

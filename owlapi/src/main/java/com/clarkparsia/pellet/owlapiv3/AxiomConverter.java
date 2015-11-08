@@ -19,6 +19,7 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.NodeID;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -76,7 +77,7 @@ public class AxiomConverter {
 
 		this.kb = kb;
 		this.factory = factory;
-		conceptConverter = new ConceptConverter( kb, factory );
+		this.conceptConverter = new ConceptConverter( kb, factory );
 	}
 
 	public OWLAxiom convert(ATermAppl term) {
@@ -485,10 +486,11 @@ public class AxiomConverter {
 					axiom = factory.getSWRLRule( antecedent, consequent );
 				}
 				else if( ATermUtils.isBnode( name ) ) {
-                    axiom = factory.getSWRLRule(antecedent, consequent);
+					axiom = factory.getSWRLRule( NodeID.getNodeID( ((ATermAppl) name
+							.getArgument( 0 )).getName() ), antecedent, consequent );
 				}
 				else {
-                    axiom = factory.getSWRLRule(antecedent,
+					axiom = factory.getSWRLRule( IRI.create( name.getName() ), antecedent,
 							consequent );
 				}
 			}

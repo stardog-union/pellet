@@ -181,30 +181,28 @@ public class SWRL {
 
 	public static SWRLRule rule(IRI uri, Set<? extends SWRLAtom> antecendent,
 			Set<? extends SWRLAtom> consequent) {
-        return OWL.factory.getSWRLRule(antecendent, consequent);
+		return OWL.factory.getSWRLRule( uri, antecendent, consequent );
 	}
 	
 
 	public static SWRLRule rule(IRI uri, boolean anonymous, Set<? extends SWRLAtom> antecendent,
 			Set<? extends SWRLAtom> consequent) {
-		if( anonymous ) {
-            return OWL.factory.getSWRLRule( antecendent, consequent );
-        }
-        return OWL.factory.getSWRLRule(antecendent, consequent);
+		if( anonymous )
+			return OWL.factory.getSWRLRule( antecendent, consequent );
+		return OWL.factory.getSWRLRule( uri, antecendent, consequent );
 	}
 
 	public static SWRLRule rule(String uri, Set<? extends SWRLAtom> antecendent,
 			Set<? extends SWRLAtom> consequent) {
-        return OWL.factory.getSWRLRule(antecendent, consequent);
+		return OWL.factory.getSWRLRule( IRI.create( uri ), antecendent, consequent );
 	}
 	
 
 	public static SWRLRule rule(String uri, boolean anonymous, Set<? extends SWRLAtom> antecendent,
 			Set<? extends SWRLAtom> consequent) {
-		if( anonymous ) {
-            return OWL.factory.getSWRLRule( antecendent, consequent );
-        }
-        return OWL.factory.getSWRLRule(antecendent, consequent);
+		if( anonymous )
+			return OWL.factory.getSWRLRule( antecendent, consequent );
+		return OWL.factory.getSWRLRule( IRI.create( uri ), antecendent, consequent );
 	}
 	
 	public static SWRLSameIndividualAtom sameAs(SWRLIArgument ind1, SWRLIArgument ind2) {

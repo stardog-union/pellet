@@ -30,6 +30,11 @@
 			<version>4.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assistedinject</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.squareup.retrofit</groupId>
 			<artifactId>converter-gson</artifactId>
 			<version>2.0.0-beta2</version>

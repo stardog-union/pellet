@@ -2,9 +2,20 @@ package com.clarkparsia.owlwg.testrun;
 
 import static com.clarkparsia.owlwg.testcase.TestVocabulary.DatatypeProperty.IDENTIFIER;
 import static com.clarkparsia.owlwg.testrun.ResultVocabulary.AnnotationProperty.DETAILS;
-import static com.clarkparsia.owlwg.testrun.ResultVocabulary.Class.*;
-import static com.clarkparsia.owlwg.testrun.ResultVocabulary.ObjectProperty.*;
-import static com.clarkparsia.owlwg.testrun.RunTestType.*;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.Class.CONSISTENCY_RUN;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.Class.INCONSISTENCY_RUN;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.Class.NEGATIVE_ENTAILMENT_RUN;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.Class.POSITIVE_ENTAILMENT_RUN;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.Class.SYNTAX_CONSTRAINT_RUN;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.Class.SYNTAX_TRANSLATION_RUN;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.Class.TEST_RUN;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.ObjectProperty.RUNNER;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.ObjectProperty.SYNTAX_CONSTRAINT;
+import static com.clarkparsia.owlwg.testrun.ResultVocabulary.ObjectProperty.TEST;
+import static com.clarkparsia.owlwg.testrun.RunTestType.CONSISTENCY;
+import static com.clarkparsia.owlwg.testrun.RunTestType.INCONSISTENCY;
+import static com.clarkparsia.owlwg.testrun.RunTestType.NEGATIVE_ENTAILMENT;
+import static com.clarkparsia.owlwg.testrun.RunTestType.POSITIVE_ENTAILMENT;
 import static java.lang.String.format;
 
 import java.util.ArrayList;
@@ -12,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -24,7 +36,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.search.EntitySearcher;
+import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import com.clarkparsia.owlwg.runner.ReadOnlyTestRunner;
 import com.clarkparsia.owlwg.runner.TestRunner;
@@ -65,14 +77,13 @@ public class TestRunResultParser {
 		TestRunner<?> runner = runners.get( iri );
 		if( runner == null ) {
 			String name;
-            Collection<OWLAnnotation> s = EntitySearcher.getAnnotations(
-                    i.getIRI(), o, o.getOWLOntologyManager()
-                            .getOWLDataFactory().getRDFSLabel());
-			if( s == null || s.isEmpty() ) {
-                name = i.getIRI().toURI().toASCIIString();
-            } else {
-                name = s.iterator().next().getValue().toString();
-            }
+			Set<OWLAnnotation> s = i.getAnnotations( o, o.getOWLOntologyManager()
+					.getOWLDataFactory().getOWLAnnotationProperty(
+							OWLRDFVocabulary.RDFS_LABEL.getIRI() ) );
+			if( (s == null) || s.isEmpty() )
+				name = i.getIRI().toURI().toASCIIString();
+			else
+				name = s.iterator().next().getValue().toString();
 
 			runner = new ReadOnlyTestRunner( iri, name );
 			runners.put( iri, runner );
@@ -87,30 +98,26 @@ public class TestRunResultParser {
 
 		for( OWLClassAssertionAxiom axiom : o.getClassAssertionAxioms( TEST_RUN.getOWLClass() ) ) {
 			final OWLNamedIndividual i = axiom.getIndividual().asOWLNamedIndividual();
-            final Map<OWLObjectPropertyExpression, Collection<OWLIndividual>> oValues = EntitySearcher
-                    .getObjectPropertyValues(i, o).asMap();
+			final Map<OWLObjectPropertyExpression, Set<OWLIndividual>> oValues = i
+					.getObjectPropertyValues( o );
 
-            Collection<OWLIndividual> testObjects = oValues.get(TEST
-                    .getOWLObjectProperty());
+			Set<OWLIndividual> testObjects = oValues.get( TEST.getOWLObjectProperty() );
 			if( testObjects.size() != 1 ) {
 				log.warning( format(
 						"Skipping result, missing or more than one test assertion (\"%s\",%s)", i
 								.getIRI(), testObjects ) );
 				continue;
 			}
-            Map<OWLDataPropertyExpression, Collection<OWLLiteral>> testDValues = EntitySearcher
-                    .getDataPropertyValues(testObjects.iterator().next(), o)
-                    .asMap();
+			Map<OWLDataPropertyExpression, Set<OWLLiteral>> testDValues = testObjects.iterator()
+					.next().getDataPropertyValues( o );
 
-            Collection<OWLLiteral> ids = testDValues.get(IDENTIFIER
-                    .getOWLDataProperty());
+			Set<OWLLiteral> ids = testDValues.get( IDENTIFIER.getOWLDataProperty() );
 			TestCase<?> testCase = null;
 			for( OWLLiteral c : ids ) {
 				String id = c.getLiteral();
 				testCase = tests.get( id );
-				if( testCase != null ) {
-                    break;
-                }
+				if( testCase != null )
+					break;
 			}
 
 			if( testCase == null ) {
@@ -119,8 +126,7 @@ public class TestRunResultParser {
 				continue;
 			}
 
-            Collection<OWLIndividual> runnerIris = oValues.get(RUNNER
-                    .getOWLObjectProperty());
+			Set<OWLIndividual> runnerIris = oValues.get( RUNNER.getOWLObjectProperty() );
 			TestRunner<?> runner = null;
 			if( runnerIris.size() != 1 ) {
 				log
@@ -131,8 +137,7 @@ public class TestRunResultParser {
 			}
 			runner = getRunner( runnerIris.iterator().next().asOWLNamedIndividual(), o );
 
-            Collection<OWLClassExpression> types = EntitySearcher
-                    .getTypes(i, o);
+			Set<OWLClassExpression> types = i.getTypes( o );
 
 			RunResultType resultType = null;
 			for( RunResultType t : RunResultType.values() ) {
@@ -147,34 +152,28 @@ public class TestRunResultParser {
 			}
 
 			@SuppressWarnings("unchecked")
-            Collection<OWLAnnotation> detailsAnnotations = EntitySearcher
-                    .getAnnotations(
-                            i,
-                            o,
-                            o.getOWLOntologyManager()
+			Set<OWLAnnotation> detailsAnnotations = i.getAnnotations( o, o.getOWLOntologyManager()
 					.getOWLDataFactory().getOWLAnnotationProperty(
 							DETAILS.getAnnotationPropertyIRI() ) );
 			String details = null;
 			int ndetails = detailsAnnotations.size();
 			if( ndetails > 0 ) {
-				if( ndetails > 1 ) {
-                    log
+				if( ndetails > 1 )
+					log
 							.info( format(
 									"Result contains multiple details annotations, ignoring all but first (\"%s\")",
 									i.getIRI() ) );
-                }
 				details = detailsAnnotations.iterator().next().getValue().toString();
 			}
 
 			TestRunResult result = null;
 			if( types.contains( SYNTAX_TRANSLATION_RUN.getOWLClass() ) ) {
-				result = details == null
+				result = (details == null)
 					? new SyntaxTranslationRun( testCase, resultType, runner )
 					: new SyntaxTranslationRun( testCase, resultType, runner, details );
 			}
 			else if( types.contains( SYNTAX_CONSTRAINT_RUN.getOWLClass() ) ) {
-                Collection<OWLIndividual> constraints = oValues
-                        .get(ResultVocabulary.ObjectProperty.SYNTAX_CONSTRAINT
+				Set<OWLIndividual> constraints = oValues.get( SYNTAX_CONSTRAINT
 						.getOWLObjectProperty() );
 				SyntaxConstraint constraint = null;
 				if( constraints.size() != 1 ) {
@@ -197,27 +196,27 @@ public class TestRunResultParser {
 									.getIRI(), ind ) );
 					continue;
 				}
-				result = details == null
+				result = (details == null)
 					? new SyntaxConstraintRun( testCase, resultType, constraint, runner )
 					: new SyntaxConstraintRun( testCase, resultType, constraint, runner, details );
 			}
 			else if( types.contains( CONSISTENCY_RUN.getOWLClass() ) ) {
-				result = details == null
+				result = (details == null)
 					? new ReasoningRun( testCase, resultType, CONSISTENCY, runner )
 					: new ReasoningRun( testCase, resultType, CONSISTENCY, runner, details );
 			}
 			else if( types.contains( INCONSISTENCY_RUN.getOWLClass() ) ) {
-				result = details == null
+				result = (details == null)
 					? new ReasoningRun( testCase, resultType, INCONSISTENCY, runner )
 					: new ReasoningRun( testCase, resultType, INCONSISTENCY, runner, details );
 			}
 			else if( types.contains( NEGATIVE_ENTAILMENT_RUN.getOWLClass() ) ) {
-				result = details == null
+				result = (details == null)
 					? new ReasoningRun( testCase, resultType, NEGATIVE_ENTAILMENT, runner )
 					: new ReasoningRun( testCase, resultType, NEGATIVE_ENTAILMENT, runner, details );
 			}
 			else if( types.contains( POSITIVE_ENTAILMENT_RUN.getOWLClass() ) ) {
-				result = details == null
+				result = (details == null)
 					? new ReasoningRun( testCase, resultType, POSITIVE_ENTAILMENT, runner )
 					: new ReasoningRun( testCase, resultType, POSITIVE_ENTAILMENT, runner, details );
 			}

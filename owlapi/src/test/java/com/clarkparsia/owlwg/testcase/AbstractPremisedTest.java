@@ -2,7 +2,6 @@ package com.clarkparsia.owlwg.testcase;
 
 import static java.lang.String.format;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -14,7 +13,6 @@ import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.search.EntitySearcher;
 
 /**
  * <p>
@@ -52,12 +50,11 @@ public abstract class AbstractPremisedTest<O> extends AbstractBaseTestCase<O> im
 		premiseOntologyLiteral = new EnumMap<SerializationFormat, String>(
 				SerializationFormat.class );
 
-        Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher
-                .getDataPropertyValues(i, ontology).asMap();
+		Map<OWLDataPropertyExpression, Set<OWLLiteral>> values = i
+				.getDataPropertyValues( ontology );
 
 		for( SerializationFormat f : SerializationFormat.values() ) {
-            Collection<OWLLiteral> premises = values.get(f
-                    .getPremiseOWLDataProperty());
+			Set<OWLLiteral> premises = values.get( f.getPremiseOWLDataProperty() );
 			if( premises != null ) {
 				if( premises.size() > 1 ) {
 					log
@@ -71,20 +68,17 @@ public abstract class AbstractPremisedTest<O> extends AbstractBaseTestCase<O> im
 		}
 	}
 
-	@Override
-    public void dispose() {
+	public void dispose() {
 		premiseFormats.clear();
 		premiseOntologyLiteral.clear();
 		super.dispose();
 	}
 	
-	@Override
-    public Set<SerializationFormat> getPremiseFormats() {
+	public Set<SerializationFormat> getPremiseFormats() {
 		return Collections.unmodifiableSet( premiseFormats );
 	}
 
-	@Override
-    public String getPremiseOntology(SerializationFormat format) {
+	public String getPremiseOntology(SerializationFormat format) {
 		return premiseOntologyLiteral.get( format );
 	}
 }

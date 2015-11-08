@@ -56,7 +56,7 @@ public class TestReasoningWithAnnotationAxioms {
 	OWLAnnotationProperty op1 = manager.getOWLDataFactory().getOWLAnnotationProperty(IRI.create("p1"));
 	OWLAnnotationProperty op2 = manager.getOWLDataFactory().getOWLAnnotationProperty(IRI.create("p2"));
 	OWLAnnotationProperty op3 = manager.getOWLDataFactory().getOWLAnnotationProperty(IRI.create("p3"));
-    OWLAnnotationValue oo1 = manager.getOWLDataFactory().getOWLLiteral("o1");
+	OWLAnnotationValue oo1 = manager.getOWLDataFactory().getOWLStringLiteral("o1");
 	
 	OntModel model = ModelFactory.createOntologyModel( org.mindswap.pellet.jena.PelletReasonerFactory.THE_SPEC );
 	Resource ji = ResourceFactory.createResource( "http://example.org#i" );
