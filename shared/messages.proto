@@ -4,21 +4,20 @@ option java_outer_classname = "Messages";
 
 option optimize_for = SPEED;
 
-message RawObject {
-	required string klass = 1;
-	required bytes bytes = 2;
+message OwlObject {
+	required bytes bytes = 1;
 }
 
 message QueryRequest {
-	required RawObject input = 1;
+	required OwlObject input = 1;
 }
 
 message ExplainRequest {
-	required RawObject axiom = 1;
+	required OwlObject axiom = 1;
 }
 
 message AxiomSet {
-	repeated RawObject axioms = 1;
+	repeated OwlObject axioms = 1;
 }
 
 message UpdateRequest {
@@ -27,7 +26,7 @@ message UpdateRequest {
 }
 
 message Node {
-	repeated RawObject owl_object = 1;
+	repeated OwlObject owl_object = 1;
 }
 
 message NodeSet {

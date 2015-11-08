@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
+import com.clarkparsia.pellet.service.io.EncodingException;
 import com.clarkparsia.pellet.service.proto.ProtoServiceDecoder;
 import com.clarkparsia.pellet.service.proto.ProtoServiceEncoder;
 import com.google.common.collect.Lists;
@@ -41,7 +42,7 @@ public class SerializationTests {
 	}
 
 	@Test
-	public void testQueryRequestRoundTrip() {
+	public void testQueryRequestRoundTrip() throws EncodingException {
 		OWLLogicalEntity entity = new OWLClassImpl(IRI.create("urn:test:iri"));
 
 		QueryRequest originalQR = new QueryRequest(entity);
@@ -72,7 +73,7 @@ public class SerializationTests {
 	}
 
 	@Test
-	public void testExplainRequestRoundTrip() {
+	public void testExplainRequestRoundTrip() throws EncodingException {
 		OWLAxiom axiom = generateAxiom(0);
 
 		ExplainRequest originalER = new ExplainRequest(axiom);
@@ -86,7 +87,7 @@ public class SerializationTests {
 	}
 
 	@Test
-	public void testUpdateRequestRoundTrip() {
+	public void testUpdateRequestRoundTrip() throws EncodingException {
 		Set<OWLAxiom> additions = Sets.newHashSet(generateAxioms(100));
 		Set<OWLAxiom> removals = Sets.newHashSet(generateAxioms(50));
 
@@ -103,7 +104,7 @@ public class SerializationTests {
 	}
 
 	@Test
-	public void testQueryResponseRoundTrip() {
+	public void testQueryResponseRoundTrip() throws EncodingException {
 		NodeSet<OWLClass> classes = new OWLClassNodeSet(new OWLClassImpl(IRI.create("http://xmlns.com/foaf/0.1/Agent")));
 
 		QueryResponse originalQR = new QueryResponse(classes);
@@ -117,7 +118,7 @@ public class SerializationTests {
 	}
 
 	@Test
-	public void testExplainResponseRoundTrip() {
+	public void testExplainResponseRoundTrip() throws EncodingException {
 		int n = 4;
 		int cardinality = 50;
 		Set<Set<OWLAxiom>> axiomSets = Sets.newHashSetWithExpectedSize(n);

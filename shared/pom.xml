@@ -30,9 +30,9 @@
 			<version>2.6.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
+			<groupId>net.sourceforge.owlapi</groupId>
+			<artifactId>binaryowl</artifactId>
+			<version>1.4.5-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

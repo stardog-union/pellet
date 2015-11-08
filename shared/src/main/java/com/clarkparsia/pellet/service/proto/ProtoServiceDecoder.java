@@ -11,7 +11,6 @@ import com.clarkparsia.pellet.service.messages.QueryResponse;
 import com.clarkparsia.pellet.service.messages.UpdateRequest;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
-import com.google.protobuf.ByteString;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -64,7 +63,7 @@ public final class ProtoServiceDecoder implements ServiceDecoder {
 		public QueryRequest decode(final byte[] theBytes) {
 			try {
 				final Messages.QueryRequest aProtoReq = Messages.QueryRequest.parseFrom(theBytes);
-				final OWLLogicalEntity anEntity = ProtoTools.fromRawObject(aProtoReq.getInput());
+				final OWLLogicalEntity anEntity = ProtoTools.fromOwlObject(aProtoReq.getInput());
 
 				return new QueryRequest(anEntity);
 
@@ -82,7 +81,7 @@ public final class ProtoServiceDecoder implements ServiceDecoder {
 		public ExplainRequest decode(final byte[] theBytes) {
 			try {
 				final Messages.ExplainRequest aProtoReq = Messages.ExplainRequest.parseFrom(theBytes);
-				final OWLAxiom anAxiom = ProtoTools.fromRawObject(aProtoReq.getAxiom());
+				final OWLAxiom anAxiom = ProtoTools.fromOwlObject(aProtoReq.getAxiom());
 
 				return new ExplainRequest(anAxiom);
 			}

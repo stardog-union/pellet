@@ -8,53 +8,39 @@ public final class Messages {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  public interface RawObjectOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface OwlObjectOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:OwlObject)
+      com.google.protobuf.MessageOrBuilder {
 
-    // required string klass = 1;
     /**
-     * <code>required string klass = 1;</code>
-     */
-    boolean hasKlass();
-    /**
-     * <code>required string klass = 1;</code>
-     */
-    java.lang.String getKlass();
-    /**
-     * <code>required string klass = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getKlassBytes();
-
-    // required bytes bytes = 2;
-    /**
-     * <code>required bytes bytes = 2;</code>
+     * <code>required bytes bytes = 1;</code>
      */
     boolean hasBytes();
     /**
-     * <code>required bytes bytes = 2;</code>
+     * <code>required bytes bytes = 1;</code>
      */
     com.google.protobuf.ByteString getBytes();
   }
   /**
-   * Protobuf type {@code RawObject}
+   * Protobuf type {@code OwlObject}
    */
-  public static final class RawObject extends
-      com.google.protobuf.GeneratedMessage
-      implements RawObjectOrBuilder {
-    // Use RawObject.newBuilder() to construct.
-    private RawObject(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  public static final class OwlObject extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:OwlObject)
+      OwlObjectOrBuilder {
+    // Use OwlObject.newBuilder() to construct.
+    private OwlObject(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private RawObject(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private OwlObject(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final RawObject defaultInstance;
-    public static RawObject getDefaultInstance() {
+    private static final OwlObject defaultInstance;
+    public static OwlObject getDefaultInstance() {
       return defaultInstance;
     }
 
-    public RawObject getDefaultInstanceForType() {
+    public OwlObject getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -64,7 +50,7 @@ public final class Messages {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private RawObject(
+    private OwlObject(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -89,11 +75,6 @@ public final class Messages {
             }
             case 10: {
               bitField0_ |= 0x00000001;
-              klass_ = input.readBytes();
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
               bytes_ = input.readBytes();
               break;
             }
@@ -111,104 +92,56 @@ public final class Messages {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.clarkparsia.pellet.service.proto.Messages.internal_static_RawObject_descriptor;
+      return com.clarkparsia.pellet.service.proto.Messages.internal_static_OwlObject_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.clarkparsia.pellet.service.proto.Messages.internal_static_RawObject_fieldAccessorTable
+      return com.clarkparsia.pellet.service.proto.Messages.internal_static_OwlObject_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.clarkparsia.pellet.service.proto.Messages.RawObject.class, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder.class);
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject.class, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<RawObject> PARSER =
-        new com.google.protobuf.AbstractParser<RawObject>() {
-      public RawObject parsePartialFrom(
+    public static com.google.protobuf.Parser<OwlObject> PARSER =
+        new com.google.protobuf.AbstractParser<OwlObject>() {
+      public OwlObject parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new RawObject(input, extensionRegistry);
+        return new OwlObject(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<RawObject> getParserForType() {
+    public com.google.protobuf.Parser<OwlObject> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required string klass = 1;
-    public static final int KLASS_FIELD_NUMBER = 1;
-    private java.lang.Object klass_;
+    public static final int BYTES_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString bytes_;
     /**
-     * <code>required string klass = 1;</code>
+     * <code>required bytes bytes = 1;</code>
      */
-    public boolean hasKlass() {
+    public boolean hasBytes() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string klass = 1;</code>
-     */
-    public java.lang.String getKlass() {
-      java.lang.Object ref = klass_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          klass_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string klass = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getKlassBytes() {
-      java.lang.Object ref = klass_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        klass_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // required bytes bytes = 2;
-    public static final int BYTES_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString bytes_;
-    /**
-     * <code>required bytes bytes = 2;</code>
-     */
-    public boolean hasBytes() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required bytes bytes = 2;</code>
+     * <code>required bytes bytes = 1;</code>
      */
     public com.google.protobuf.ByteString getBytes() {
       return bytes_;
     }
 
     private void initFields() {
-      klass_ = "";
       bytes_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
-      if (!hasKlass()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       if (!hasBytes()) {
         memoizedIsInitialized = 0;
         return false;
@@ -221,10 +154,7 @@ public final class Messages {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getKlassBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, bytes_);
+        output.writeBytes(1, bytes_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -237,11 +167,7 @@ public final class Messages {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getKlassBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, bytes_);
+          .computeBytesSize(1, bytes_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -255,53 +181,53 @@ public final class Messages {
       return super.writeReplace();
     }
 
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseFrom(
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseFrom(
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseFrom(byte[] data)
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseFrom(
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseFrom(java.io.InputStream input)
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseFrom(
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseDelimitedFrom(java.io.InputStream input)
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseDelimitedFrom(
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseFrom(
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.clarkparsia.pellet.service.proto.Messages.RawObject parseFrom(
+    public static com.clarkparsia.pellet.service.proto.Messages.OwlObject parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -310,7 +236,7 @@ public final class Messages {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.clarkparsia.pellet.service.proto.Messages.RawObject prototype) {
+    public static Builder newBuilder(com.clarkparsia.pellet.service.proto.Messages.OwlObject prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -322,24 +248,25 @@ public final class Messages {
       return builder;
     }
     /**
-     * Protobuf type {@code RawObject}
+     * Protobuf type {@code OwlObject}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:OwlObject)
+        com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.clarkparsia.pellet.service.proto.Messages.internal_static_RawObject_descriptor;
+        return com.clarkparsia.pellet.service.proto.Messages.internal_static_OwlObject_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.clarkparsia.pellet.service.proto.Messages.internal_static_RawObject_fieldAccessorTable
+        return com.clarkparsia.pellet.service.proto.Messages.internal_static_OwlObject_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.clarkparsia.pellet.service.proto.Messages.RawObject.class, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder.class);
+                com.clarkparsia.pellet.service.proto.Messages.OwlObject.class, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder.class);
       }
 
-      // Construct using com.clarkparsia.pellet.service.proto.Messages.RawObject.newBuilder()
+      // Construct using com.clarkparsia.pellet.service.proto.Messages.OwlObject.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -359,10 +286,8 @@ public final class Messages {
 
       public Builder clear() {
         super.clear();
-        klass_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
         bytes_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -372,31 +297,27 @@ public final class Messages {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.clarkparsia.pellet.service.proto.Messages.internal_static_RawObject_descriptor;
+        return com.clarkparsia.pellet.service.proto.Messages.internal_static_OwlObject_descriptor;
       }
 
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject getDefaultInstanceForType() {
-        return com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject getDefaultInstanceForType() {
+        return com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
       }
 
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject build() {
-        com.clarkparsia.pellet.service.proto.Messages.RawObject result = buildPartial();
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject build() {
+        com.clarkparsia.pellet.service.proto.Messages.OwlObject result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject buildPartial() {
-        com.clarkparsia.pellet.service.proto.Messages.RawObject result = new com.clarkparsia.pellet.service.proto.Messages.RawObject(this);
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject buildPartial() {
+        com.clarkparsia.pellet.service.proto.Messages.OwlObject result = new com.clarkparsia.pellet.service.proto.Messages.OwlObject(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
-        }
-        result.klass_ = klass_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
         }
         result.bytes_ = bytes_;
         result.bitField0_ = to_bitField0_;
@@ -405,21 +326,16 @@ public final class Messages {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.clarkparsia.pellet.service.proto.Messages.RawObject) {
-          return mergeFrom((com.clarkparsia.pellet.service.proto.Messages.RawObject)other);
+        if (other instanceof com.clarkparsia.pellet.service.proto.Messages.OwlObject) {
+          return mergeFrom((com.clarkparsia.pellet.service.proto.Messages.OwlObject)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.clarkparsia.pellet.service.proto.Messages.RawObject other) {
-        if (other == com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance()) return this;
-        if (other.hasKlass()) {
-          bitField0_ |= 0x00000001;
-          klass_ = other.klass_;
-          onChanged();
-        }
+      public Builder mergeFrom(com.clarkparsia.pellet.service.proto.Messages.OwlObject other) {
+        if (other == com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance()) return this;
         if (other.hasBytes()) {
           setBytes(other.getBytes());
         }
@@ -428,10 +344,6 @@ public final class Messages {
       }
 
       public final boolean isInitialized() {
-        if (!hasKlass()) {
-          
-          return false;
-        }
         if (!hasBytes()) {
           
           return false;
@@ -443,11 +355,11 @@ public final class Messages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.clarkparsia.pellet.service.proto.Messages.RawObject parsedMessage = null;
+        com.clarkparsia.pellet.service.proto.Messages.OwlObject parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.clarkparsia.pellet.service.proto.Messages.RawObject) e.getUnfinishedMessage();
+          parsedMessage = (com.clarkparsia.pellet.service.proto.Messages.OwlObject) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -458,150 +370,76 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // required string klass = 1;
-      private java.lang.Object klass_ = "";
+      private com.google.protobuf.ByteString bytes_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>required string klass = 1;</code>
+       * <code>required bytes bytes = 1;</code>
        */
-      public boolean hasKlass() {
+      public boolean hasBytes() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string klass = 1;</code>
-       */
-      public java.lang.String getKlass() {
-        java.lang.Object ref = klass_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          klass_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string klass = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getKlassBytes() {
-        java.lang.Object ref = klass_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          klass_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string klass = 1;</code>
-       */
-      public Builder setKlass(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        klass_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string klass = 1;</code>
-       */
-      public Builder clearKlass() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        klass_ = getDefaultInstance().getKlass();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string klass = 1;</code>
-       */
-      public Builder setKlassBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        klass_ = value;
-        onChanged();
-        return this;
-      }
-
-      // required bytes bytes = 2;
-      private com.google.protobuf.ByteString bytes_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>required bytes bytes = 2;</code>
-       */
-      public boolean hasBytes() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required bytes bytes = 2;</code>
+       * <code>required bytes bytes = 1;</code>
        */
       public com.google.protobuf.ByteString getBytes() {
         return bytes_;
       }
       /**
-       * <code>required bytes bytes = 2;</code>
+       * <code>required bytes bytes = 1;</code>
        */
       public Builder setBytes(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000001;
         bytes_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bytes bytes = 2;</code>
+       * <code>required bytes bytes = 1;</code>
        */
       public Builder clearBytes() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         bytes_ = getDefaultInstance().getBytes();
         onChanged();
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:RawObject)
+      // @@protoc_insertion_point(builder_scope:OwlObject)
     }
 
     static {
-      defaultInstance = new RawObject(true);
+      defaultInstance = new OwlObject(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:RawObject)
+    // @@protoc_insertion_point(class_scope:OwlObject)
   }
 
-  public interface QueryRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface QueryRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:QueryRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // required .RawObject input = 1;
     /**
-     * <code>required .RawObject input = 1;</code>
+     * <code>required .OwlObject input = 1;</code>
      */
     boolean hasInput();
     /**
-     * <code>required .RawObject input = 1;</code>
+     * <code>required .OwlObject input = 1;</code>
      */
-    com.clarkparsia.pellet.service.proto.Messages.RawObject getInput();
+    com.clarkparsia.pellet.service.proto.Messages.OwlObject getInput();
     /**
-     * <code>required .RawObject input = 1;</code>
+     * <code>required .OwlObject input = 1;</code>
      */
-    com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getInputOrBuilder();
+    com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getInputOrBuilder();
   }
   /**
    * Protobuf type {@code QueryRequest}
    */
   public static final class QueryRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements QueryRequestOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:QueryRequest)
+      QueryRequestOrBuilder {
     // Use QueryRequest.newBuilder() to construct.
     private QueryRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -648,11 +486,11 @@ public final class Messages {
               break;
             }
             case 10: {
-              com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder subBuilder = null;
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder subBuilder = null;
               if (((bitField0_ & 0x00000001) == 0x00000001)) {
                 subBuilder = input_.toBuilder();
               }
-              input_ = input.readMessage(com.clarkparsia.pellet.service.proto.Messages.RawObject.PARSER, extensionRegistry);
+              input_ = input.readMessage(com.clarkparsia.pellet.service.proto.Messages.OwlObject.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(input_);
                 input_ = subBuilder.buildPartial();
@@ -700,35 +538,35 @@ public final class Messages {
     }
 
     private int bitField0_;
-    // required .RawObject input = 1;
     public static final int INPUT_FIELD_NUMBER = 1;
-    private com.clarkparsia.pellet.service.proto.Messages.RawObject input_;
+    private com.clarkparsia.pellet.service.proto.Messages.OwlObject input_;
     /**
-     * <code>required .RawObject input = 1;</code>
+     * <code>required .OwlObject input = 1;</code>
      */
     public boolean hasInput() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .RawObject input = 1;</code>
+     * <code>required .OwlObject input = 1;</code>
      */
-    public com.clarkparsia.pellet.service.proto.Messages.RawObject getInput() {
+    public com.clarkparsia.pellet.service.proto.Messages.OwlObject getInput() {
       return input_;
     }
     /**
-     * <code>required .RawObject input = 1;</code>
+     * <code>required .OwlObject input = 1;</code>
      */
-    public com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getInputOrBuilder() {
+    public com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getInputOrBuilder() {
       return input_;
     }
 
     private void initFields() {
-      input_ = com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+      input_ = com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       if (!hasInput()) {
         memoizedIsInitialized = 0;
@@ -843,8 +681,9 @@ public final class Messages {
      * Protobuf type {@code QueryRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.QueryRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:QueryRequest)
+        com.clarkparsia.pellet.service.proto.Messages.QueryRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.clarkparsia.pellet.service.proto.Messages.internal_static_QueryRequest_descriptor;
@@ -879,7 +718,7 @@ public final class Messages {
       public Builder clear() {
         super.clear();
         if (inputBuilder_ == null) {
-          input_ = com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+          input_ = com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
         } else {
           inputBuilder_.clear();
         }
@@ -974,20 +813,19 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // required .RawObject input = 1;
-      private com.clarkparsia.pellet.service.proto.Messages.RawObject input_ = com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+      private com.clarkparsia.pellet.service.proto.Messages.OwlObject input_ = com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> inputBuilder_;
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> inputBuilder_;
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
       public boolean hasInput() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject getInput() {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject getInput() {
         if (inputBuilder_ == null) {
           return input_;
         } else {
@@ -995,9 +833,9 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
-      public Builder setInput(com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+      public Builder setInput(com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (inputBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1011,10 +849,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
       public Builder setInput(
-          com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder builderForValue) {
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder builderForValue) {
         if (inputBuilder_ == null) {
           input_ = builderForValue.build();
           onChanged();
@@ -1025,14 +863,14 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
-      public Builder mergeInput(com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+      public Builder mergeInput(com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (inputBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              input_ != com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance()) {
+              input_ != com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance()) {
             input_ =
-              com.clarkparsia.pellet.service.proto.Messages.RawObject.newBuilder(input_).mergeFrom(value).buildPartial();
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject.newBuilder(input_).mergeFrom(value).buildPartial();
           } else {
             input_ = value;
           }
@@ -1044,11 +882,11 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
       public Builder clearInput() {
         if (inputBuilder_ == null) {
-          input_ = com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+          input_ = com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
           onChanged();
         } else {
           inputBuilder_.clear();
@@ -1057,17 +895,17 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder getInputBuilder() {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder getInputBuilder() {
         bitField0_ |= 0x00000001;
         onChanged();
         return getInputFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getInputOrBuilder() {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getInputOrBuilder() {
         if (inputBuilder_ != null) {
           return inputBuilder_.getMessageOrBuilder();
         } else {
@@ -1075,15 +913,15 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .RawObject input = 1;</code>
+       * <code>required .OwlObject input = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
           getInputFieldBuilder() {
         if (inputBuilder_ == null) {
           inputBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder>(
-                  input_,
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder>(
+                  getInput(),
                   getParentForChildren(),
                   isClean());
           input_ = null;
@@ -1102,29 +940,30 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:QueryRequest)
   }
 
-  public interface ExplainRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface ExplainRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ExplainRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // required .RawObject axiom = 1;
     /**
-     * <code>required .RawObject axiom = 1;</code>
+     * <code>required .OwlObject axiom = 1;</code>
      */
     boolean hasAxiom();
     /**
-     * <code>required .RawObject axiom = 1;</code>
+     * <code>required .OwlObject axiom = 1;</code>
      */
-    com.clarkparsia.pellet.service.proto.Messages.RawObject getAxiom();
+    com.clarkparsia.pellet.service.proto.Messages.OwlObject getAxiom();
     /**
-     * <code>required .RawObject axiom = 1;</code>
+     * <code>required .OwlObject axiom = 1;</code>
      */
-    com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getAxiomOrBuilder();
+    com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getAxiomOrBuilder();
   }
   /**
    * Protobuf type {@code ExplainRequest}
    */
   public static final class ExplainRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements ExplainRequestOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ExplainRequest)
+      ExplainRequestOrBuilder {
     // Use ExplainRequest.newBuilder() to construct.
     private ExplainRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -1171,11 +1010,11 @@ public final class Messages {
               break;
             }
             case 10: {
-              com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder subBuilder = null;
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder subBuilder = null;
               if (((bitField0_ & 0x00000001) == 0x00000001)) {
                 subBuilder = axiom_.toBuilder();
               }
-              axiom_ = input.readMessage(com.clarkparsia.pellet.service.proto.Messages.RawObject.PARSER, extensionRegistry);
+              axiom_ = input.readMessage(com.clarkparsia.pellet.service.proto.Messages.OwlObject.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(axiom_);
                 axiom_ = subBuilder.buildPartial();
@@ -1223,35 +1062,35 @@ public final class Messages {
     }
 
     private int bitField0_;
-    // required .RawObject axiom = 1;
     public static final int AXIOM_FIELD_NUMBER = 1;
-    private com.clarkparsia.pellet.service.proto.Messages.RawObject axiom_;
+    private com.clarkparsia.pellet.service.proto.Messages.OwlObject axiom_;
     /**
-     * <code>required .RawObject axiom = 1;</code>
+     * <code>required .OwlObject axiom = 1;</code>
      */
     public boolean hasAxiom() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .RawObject axiom = 1;</code>
+     * <code>required .OwlObject axiom = 1;</code>
      */
-    public com.clarkparsia.pellet.service.proto.Messages.RawObject getAxiom() {
+    public com.clarkparsia.pellet.service.proto.Messages.OwlObject getAxiom() {
       return axiom_;
     }
     /**
-     * <code>required .RawObject axiom = 1;</code>
+     * <code>required .OwlObject axiom = 1;</code>
      */
-    public com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getAxiomOrBuilder() {
+    public com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getAxiomOrBuilder() {
       return axiom_;
     }
 
     private void initFields() {
-      axiom_ = com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+      axiom_ = com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       if (!hasAxiom()) {
         memoizedIsInitialized = 0;
@@ -1366,8 +1205,9 @@ public final class Messages {
      * Protobuf type {@code ExplainRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.ExplainRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ExplainRequest)
+        com.clarkparsia.pellet.service.proto.Messages.ExplainRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.clarkparsia.pellet.service.proto.Messages.internal_static_ExplainRequest_descriptor;
@@ -1402,7 +1242,7 @@ public final class Messages {
       public Builder clear() {
         super.clear();
         if (axiomBuilder_ == null) {
-          axiom_ = com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+          axiom_ = com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
         } else {
           axiomBuilder_.clear();
         }
@@ -1497,20 +1337,19 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // required .RawObject axiom = 1;
-      private com.clarkparsia.pellet.service.proto.Messages.RawObject axiom_ = com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+      private com.clarkparsia.pellet.service.proto.Messages.OwlObject axiom_ = com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> axiomBuilder_;
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> axiomBuilder_;
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
       public boolean hasAxiom() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject getAxiom() {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject getAxiom() {
         if (axiomBuilder_ == null) {
           return axiom_;
         } else {
@@ -1518,9 +1357,9 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
-      public Builder setAxiom(com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+      public Builder setAxiom(com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (axiomBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1534,10 +1373,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
       public Builder setAxiom(
-          com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder builderForValue) {
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder builderForValue) {
         if (axiomBuilder_ == null) {
           axiom_ = builderForValue.build();
           onChanged();
@@ -1548,14 +1387,14 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
-      public Builder mergeAxiom(com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+      public Builder mergeAxiom(com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (axiomBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              axiom_ != com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance()) {
+              axiom_ != com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance()) {
             axiom_ =
-              com.clarkparsia.pellet.service.proto.Messages.RawObject.newBuilder(axiom_).mergeFrom(value).buildPartial();
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject.newBuilder(axiom_).mergeFrom(value).buildPartial();
           } else {
             axiom_ = value;
           }
@@ -1567,11 +1406,11 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
       public Builder clearAxiom() {
         if (axiomBuilder_ == null) {
-          axiom_ = com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance();
+          axiom_ = com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance();
           onChanged();
         } else {
           axiomBuilder_.clear();
@@ -1580,17 +1419,17 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder getAxiomBuilder() {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder getAxiomBuilder() {
         bitField0_ |= 0x00000001;
         onChanged();
         return getAxiomFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getAxiomOrBuilder() {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getAxiomOrBuilder() {
         if (axiomBuilder_ != null) {
           return axiomBuilder_.getMessageOrBuilder();
         } else {
@@ -1598,15 +1437,15 @@ public final class Messages {
         }
       }
       /**
-       * <code>required .RawObject axiom = 1;</code>
+       * <code>required .OwlObject axiom = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
           getAxiomFieldBuilder() {
         if (axiomBuilder_ == null) {
           axiomBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder>(
-                  axiom_,
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder>(
+                  getAxiom(),
                   getParentForChildren(),
                   isClean());
           axiom_ = null;
@@ -1625,40 +1464,41 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:ExplainRequest)
   }
 
-  public interface AxiomSetOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface AxiomSetOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:AxiomSet)
+      com.google.protobuf.MessageOrBuilder {
 
-    // repeated .RawObject axioms = 1;
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
-    java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> 
+    java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> 
         getAxiomsList();
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
-    com.clarkparsia.pellet.service.proto.Messages.RawObject getAxioms(int index);
+    com.clarkparsia.pellet.service.proto.Messages.OwlObject getAxioms(int index);
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
     int getAxiomsCount();
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
-    java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+    java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
         getAxiomsOrBuilderList();
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
-    com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getAxiomsOrBuilder(
+    com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getAxiomsOrBuilder(
         int index);
   }
   /**
    * Protobuf type {@code AxiomSet}
    */
   public static final class AxiomSet extends
-      com.google.protobuf.GeneratedMessage
-      implements AxiomSetOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:AxiomSet)
+      AxiomSetOrBuilder {
     // Use AxiomSet.newBuilder() to construct.
     private AxiomSet(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -1706,10 +1546,10 @@ public final class Messages {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                axioms_ = new java.util.ArrayList<com.clarkparsia.pellet.service.proto.Messages.RawObject>();
+                axioms_ = new java.util.ArrayList<com.clarkparsia.pellet.service.proto.Messages.OwlObject>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              axioms_.add(input.readMessage(com.clarkparsia.pellet.service.proto.Messages.RawObject.PARSER, extensionRegistry));
+              axioms_.add(input.readMessage(com.clarkparsia.pellet.service.proto.Messages.OwlObject.PARSER, extensionRegistry));
               break;
             }
           }
@@ -1754,38 +1594,37 @@ public final class Messages {
       return PARSER;
     }
 
-    // repeated .RawObject axioms = 1;
     public static final int AXIOMS_FIELD_NUMBER = 1;
-    private java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> axioms_;
+    private java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> axioms_;
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
-    public java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> getAxiomsList() {
+    public java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> getAxiomsList() {
       return axioms_;
     }
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
-    public java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+    public java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
         getAxiomsOrBuilderList() {
       return axioms_;
     }
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
     public int getAxiomsCount() {
       return axioms_.size();
     }
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
-    public com.clarkparsia.pellet.service.proto.Messages.RawObject getAxioms(int index) {
+    public com.clarkparsia.pellet.service.proto.Messages.OwlObject getAxioms(int index) {
       return axioms_.get(index);
     }
     /**
-     * <code>repeated .RawObject axioms = 1;</code>
+     * <code>repeated .OwlObject axioms = 1;</code>
      */
-    public com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getAxiomsOrBuilder(
+    public com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getAxiomsOrBuilder(
         int index) {
       return axioms_.get(index);
     }
@@ -1796,7 +1635,8 @@ public final class Messages {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       for (int i = 0; i < getAxiomsCount(); i++) {
         if (!getAxioms(i).isInitialized()) {
@@ -1909,8 +1749,9 @@ public final class Messages {
      * Protobuf type {@code AxiomSet}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.AxiomSetOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:AxiomSet)
+        com.clarkparsia.pellet.service.proto.Messages.AxiomSetOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.clarkparsia.pellet.service.proto.Messages.internal_static_AxiomSet_descriptor;
@@ -2060,23 +1901,22 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // repeated .RawObject axioms = 1;
-      private java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> axioms_ =
+      private java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> axioms_ =
         java.util.Collections.emptyList();
       private void ensureAxiomsIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          axioms_ = new java.util.ArrayList<com.clarkparsia.pellet.service.proto.Messages.RawObject>(axioms_);
+          axioms_ = new java.util.ArrayList<com.clarkparsia.pellet.service.proto.Messages.OwlObject>(axioms_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> axiomsBuilder_;
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> axiomsBuilder_;
 
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> getAxiomsList() {
+      public java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> getAxiomsList() {
         if (axiomsBuilder_ == null) {
           return java.util.Collections.unmodifiableList(axioms_);
         } else {
@@ -2084,7 +1924,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public int getAxiomsCount() {
         if (axiomsBuilder_ == null) {
@@ -2094,9 +1934,9 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject getAxioms(int index) {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject getAxioms(int index) {
         if (axiomsBuilder_ == null) {
           return axioms_.get(index);
         } else {
@@ -2104,10 +1944,10 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public Builder setAxioms(
-          int index, com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+          int index, com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (axiomsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2121,10 +1961,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public Builder setAxioms(
-          int index, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder builderForValue) {
+          int index, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder builderForValue) {
         if (axiomsBuilder_ == null) {
           ensureAxiomsIsMutable();
           axioms_.set(index, builderForValue.build());
@@ -2135,9 +1975,9 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public Builder addAxioms(com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+      public Builder addAxioms(com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (axiomsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2151,10 +1991,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public Builder addAxioms(
-          int index, com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+          int index, com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (axiomsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -2168,10 +2008,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public Builder addAxioms(
-          com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder builderForValue) {
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder builderForValue) {
         if (axiomsBuilder_ == null) {
           ensureAxiomsIsMutable();
           axioms_.add(builderForValue.build());
@@ -2182,10 +2022,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public Builder addAxioms(
-          int index, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder builderForValue) {
+          int index, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder builderForValue) {
         if (axiomsBuilder_ == null) {
           ensureAxiomsIsMutable();
           axioms_.add(index, builderForValue.build());
@@ -2196,13 +2036,14 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public Builder addAllAxioms(
-          java.lang.Iterable<? extends com.clarkparsia.pellet.service.proto.Messages.RawObject> values) {
+          java.lang.Iterable<? extends com.clarkparsia.pellet.service.proto.Messages.OwlObject> values) {
         if (axiomsBuilder_ == null) {
           ensureAxiomsIsMutable();
-          super.addAll(values, axioms_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, axioms_);
           onChanged();
         } else {
           axiomsBuilder_.addAllMessages(values);
@@ -2210,7 +2051,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public Builder clearAxioms() {
         if (axiomsBuilder_ == null) {
@@ -2223,7 +2064,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
       public Builder removeAxioms(int index) {
         if (axiomsBuilder_ == null) {
@@ -2236,16 +2077,16 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder getAxiomsBuilder(
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder getAxiomsBuilder(
           int index) {
         return getAxiomsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getAxiomsOrBuilder(
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getAxiomsOrBuilder(
           int index) {
         if (axiomsBuilder_ == null) {
           return axioms_.get(index);  } else {
@@ -2253,9 +2094,9 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+      public java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
            getAxiomsOrBuilderList() {
         if (axiomsBuilder_ != null) {
           return axiomsBuilder_.getMessageOrBuilderList();
@@ -2264,33 +2105,33 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder addAxiomsBuilder() {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder addAxiomsBuilder() {
         return getAxiomsFieldBuilder().addBuilder(
-            com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance());
+            com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance());
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder addAxiomsBuilder(
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder addAxiomsBuilder(
           int index) {
         return getAxiomsFieldBuilder().addBuilder(
-            index, com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance());
+            index, com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance());
       }
       /**
-       * <code>repeated .RawObject axioms = 1;</code>
+       * <code>repeated .OwlObject axioms = 1;</code>
        */
-      public java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder> 
+      public java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder> 
            getAxiomsBuilderList() {
         return getAxiomsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
           getAxiomsFieldBuilder() {
         if (axiomsBuilder_ == null) {
           axiomsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder>(
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder>(
                   axioms_,
                   ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
@@ -2311,10 +2152,10 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:AxiomSet)
   }
 
-  public interface UpdateRequestOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface UpdateRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:UpdateRequest)
+      com.google.protobuf.MessageOrBuilder {
 
-    // required .AxiomSet additions = 1;
     /**
      * <code>required .AxiomSet additions = 1;</code>
      */
@@ -2328,7 +2169,6 @@ public final class Messages {
      */
     com.clarkparsia.pellet.service.proto.Messages.AxiomSetOrBuilder getAdditionsOrBuilder();
 
-    // required .AxiomSet removals = 2;
     /**
      * <code>required .AxiomSet removals = 2;</code>
      */
@@ -2346,8 +2186,9 @@ public final class Messages {
    * Protobuf type {@code UpdateRequest}
    */
   public static final class UpdateRequest extends
-      com.google.protobuf.GeneratedMessage
-      implements UpdateRequestOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:UpdateRequest)
+      UpdateRequestOrBuilder {
     // Use UpdateRequest.newBuilder() to construct.
     private UpdateRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -2459,7 +2300,6 @@ public final class Messages {
     }
 
     private int bitField0_;
-    // required .AxiomSet additions = 1;
     public static final int ADDITIONS_FIELD_NUMBER = 1;
     private com.clarkparsia.pellet.service.proto.Messages.AxiomSet additions_;
     /**
@@ -2481,7 +2321,6 @@ public final class Messages {
       return additions_;
     }
 
-    // required .AxiomSet removals = 2;
     public static final int REMOVALS_FIELD_NUMBER = 2;
     private com.clarkparsia.pellet.service.proto.Messages.AxiomSet removals_;
     /**
@@ -2510,7 +2349,8 @@ public final class Messages {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       if (!hasAdditions()) {
         memoizedIsInitialized = 0;
@@ -2640,8 +2480,9 @@ public final class Messages {
      * Protobuf type {@code UpdateRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.UpdateRequestOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:UpdateRequest)
+        com.clarkparsia.pellet.service.proto.Messages.UpdateRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.clarkparsia.pellet.service.proto.Messages.internal_static_UpdateRequest_descriptor;
@@ -2797,7 +2638,6 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // required .AxiomSet additions = 1;
       private com.clarkparsia.pellet.service.proto.Messages.AxiomSet additions_ = com.clarkparsia.pellet.service.proto.Messages.AxiomSet.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.clarkparsia.pellet.service.proto.Messages.AxiomSet, com.clarkparsia.pellet.service.proto.Messages.AxiomSet.Builder, com.clarkparsia.pellet.service.proto.Messages.AxiomSetOrBuilder> additionsBuilder_;
@@ -2906,7 +2746,7 @@ public final class Messages {
         if (additionsBuilder_ == null) {
           additionsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.clarkparsia.pellet.service.proto.Messages.AxiomSet, com.clarkparsia.pellet.service.proto.Messages.AxiomSet.Builder, com.clarkparsia.pellet.service.proto.Messages.AxiomSetOrBuilder>(
-                  additions_,
+                  getAdditions(),
                   getParentForChildren(),
                   isClean());
           additions_ = null;
@@ -2914,7 +2754,6 @@ public final class Messages {
         return additionsBuilder_;
       }
 
-      // required .AxiomSet removals = 2;
       private com.clarkparsia.pellet.service.proto.Messages.AxiomSet removals_ = com.clarkparsia.pellet.service.proto.Messages.AxiomSet.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.clarkparsia.pellet.service.proto.Messages.AxiomSet, com.clarkparsia.pellet.service.proto.Messages.AxiomSet.Builder, com.clarkparsia.pellet.service.proto.Messages.AxiomSetOrBuilder> removalsBuilder_;
@@ -3023,7 +2862,7 @@ public final class Messages {
         if (removalsBuilder_ == null) {
           removalsBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.clarkparsia.pellet.service.proto.Messages.AxiomSet, com.clarkparsia.pellet.service.proto.Messages.AxiomSet.Builder, com.clarkparsia.pellet.service.proto.Messages.AxiomSetOrBuilder>(
-                  removals_,
+                  getRemovals(),
                   getParentForChildren(),
                   isClean());
           removals_ = null;
@@ -3042,40 +2881,41 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:UpdateRequest)
   }
 
-  public interface NodeOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface NodeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Node)
+      com.google.protobuf.MessageOrBuilder {
 
-    // repeated .RawObject owl_object = 1;
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
-    java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> 
+    java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> 
         getOwlObjectList();
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
-    com.clarkparsia.pellet.service.proto.Messages.RawObject getOwlObject(int index);
+    com.clarkparsia.pellet.service.proto.Messages.OwlObject getOwlObject(int index);
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
     int getOwlObjectCount();
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
-    java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+    java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
         getOwlObjectOrBuilderList();
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
-    com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getOwlObjectOrBuilder(
+    com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getOwlObjectOrBuilder(
         int index);
   }
   /**
    * Protobuf type {@code Node}
    */
   public static final class Node extends
-      com.google.protobuf.GeneratedMessage
-      implements NodeOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:Node)
+      NodeOrBuilder {
     // Use Node.newBuilder() to construct.
     private Node(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -3123,10 +2963,10 @@ public final class Messages {
             }
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                owlObject_ = new java.util.ArrayList<com.clarkparsia.pellet.service.proto.Messages.RawObject>();
+                owlObject_ = new java.util.ArrayList<com.clarkparsia.pellet.service.proto.Messages.OwlObject>();
                 mutable_bitField0_ |= 0x00000001;
               }
-              owlObject_.add(input.readMessage(com.clarkparsia.pellet.service.proto.Messages.RawObject.PARSER, extensionRegistry));
+              owlObject_.add(input.readMessage(com.clarkparsia.pellet.service.proto.Messages.OwlObject.PARSER, extensionRegistry));
               break;
             }
           }
@@ -3171,38 +3011,37 @@ public final class Messages {
       return PARSER;
     }
 
-    // repeated .RawObject owl_object = 1;
     public static final int OWL_OBJECT_FIELD_NUMBER = 1;
-    private java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> owlObject_;
+    private java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> owlObject_;
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
-    public java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> getOwlObjectList() {
+    public java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> getOwlObjectList() {
       return owlObject_;
     }
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
-    public java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+    public java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
         getOwlObjectOrBuilderList() {
       return owlObject_;
     }
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
     public int getOwlObjectCount() {
       return owlObject_.size();
     }
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
-    public com.clarkparsia.pellet.service.proto.Messages.RawObject getOwlObject(int index) {
+    public com.clarkparsia.pellet.service.proto.Messages.OwlObject getOwlObject(int index) {
       return owlObject_.get(index);
     }
     /**
-     * <code>repeated .RawObject owl_object = 1;</code>
+     * <code>repeated .OwlObject owl_object = 1;</code>
      */
-    public com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getOwlObjectOrBuilder(
+    public com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getOwlObjectOrBuilder(
         int index) {
       return owlObject_.get(index);
     }
@@ -3213,7 +3052,8 @@ public final class Messages {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       for (int i = 0; i < getOwlObjectCount(); i++) {
         if (!getOwlObject(i).isInitialized()) {
@@ -3326,8 +3166,9 @@ public final class Messages {
      * Protobuf type {@code Node}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.NodeOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Node)
+        com.clarkparsia.pellet.service.proto.Messages.NodeOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.clarkparsia.pellet.service.proto.Messages.internal_static_Node_descriptor;
@@ -3477,23 +3318,22 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // repeated .RawObject owl_object = 1;
-      private java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> owlObject_ =
+      private java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> owlObject_ =
         java.util.Collections.emptyList();
       private void ensureOwlObjectIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          owlObject_ = new java.util.ArrayList<com.clarkparsia.pellet.service.proto.Messages.RawObject>(owlObject_);
+          owlObject_ = new java.util.ArrayList<com.clarkparsia.pellet.service.proto.Messages.OwlObject>(owlObject_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> owlObjectBuilder_;
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> owlObjectBuilder_;
 
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject> getOwlObjectList() {
+      public java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject> getOwlObjectList() {
         if (owlObjectBuilder_ == null) {
           return java.util.Collections.unmodifiableList(owlObject_);
         } else {
@@ -3501,7 +3341,7 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public int getOwlObjectCount() {
         if (owlObjectBuilder_ == null) {
@@ -3511,9 +3351,9 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject getOwlObject(int index) {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject getOwlObject(int index) {
         if (owlObjectBuilder_ == null) {
           return owlObject_.get(index);
         } else {
@@ -3521,10 +3361,10 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public Builder setOwlObject(
-          int index, com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+          int index, com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (owlObjectBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3538,10 +3378,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public Builder setOwlObject(
-          int index, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder builderForValue) {
+          int index, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder builderForValue) {
         if (owlObjectBuilder_ == null) {
           ensureOwlObjectIsMutable();
           owlObject_.set(index, builderForValue.build());
@@ -3552,9 +3392,9 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public Builder addOwlObject(com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+      public Builder addOwlObject(com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (owlObjectBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3568,10 +3408,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public Builder addOwlObject(
-          int index, com.clarkparsia.pellet.service.proto.Messages.RawObject value) {
+          int index, com.clarkparsia.pellet.service.proto.Messages.OwlObject value) {
         if (owlObjectBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3585,10 +3425,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public Builder addOwlObject(
-          com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder builderForValue) {
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder builderForValue) {
         if (owlObjectBuilder_ == null) {
           ensureOwlObjectIsMutable();
           owlObject_.add(builderForValue.build());
@@ -3599,10 +3439,10 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public Builder addOwlObject(
-          int index, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder builderForValue) {
+          int index, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder builderForValue) {
         if (owlObjectBuilder_ == null) {
           ensureOwlObjectIsMutable();
           owlObject_.add(index, builderForValue.build());
@@ -3613,13 +3453,14 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public Builder addAllOwlObject(
-          java.lang.Iterable<? extends com.clarkparsia.pellet.service.proto.Messages.RawObject> values) {
+          java.lang.Iterable<? extends com.clarkparsia.pellet.service.proto.Messages.OwlObject> values) {
         if (owlObjectBuilder_ == null) {
           ensureOwlObjectIsMutable();
-          super.addAll(values, owlObject_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, owlObject_);
           onChanged();
         } else {
           owlObjectBuilder_.addAllMessages(values);
@@ -3627,7 +3468,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public Builder clearOwlObject() {
         if (owlObjectBuilder_ == null) {
@@ -3640,7 +3481,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
       public Builder removeOwlObject(int index) {
         if (owlObjectBuilder_ == null) {
@@ -3653,16 +3494,16 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder getOwlObjectBuilder(
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder getOwlObjectBuilder(
           int index) {
         return getOwlObjectFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder getOwlObjectOrBuilder(
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder getOwlObjectOrBuilder(
           int index) {
         if (owlObjectBuilder_ == null) {
           return owlObject_.get(index);  } else {
@@ -3670,9 +3511,9 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+      public java.util.List<? extends com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
            getOwlObjectOrBuilderList() {
         if (owlObjectBuilder_ != null) {
           return owlObjectBuilder_.getMessageOrBuilderList();
@@ -3681,33 +3522,33 @@ public final class Messages {
         }
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder addOwlObjectBuilder() {
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder addOwlObjectBuilder() {
         return getOwlObjectFieldBuilder().addBuilder(
-            com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance());
+            com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance());
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder addOwlObjectBuilder(
+      public com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder addOwlObjectBuilder(
           int index) {
         return getOwlObjectFieldBuilder().addBuilder(
-            index, com.clarkparsia.pellet.service.proto.Messages.RawObject.getDefaultInstance());
+            index, com.clarkparsia.pellet.service.proto.Messages.OwlObject.getDefaultInstance());
       }
       /**
-       * <code>repeated .RawObject owl_object = 1;</code>
+       * <code>repeated .OwlObject owl_object = 1;</code>
        */
-      public java.util.List<com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder> 
+      public java.util.List<com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder> 
            getOwlObjectBuilderList() {
         return getOwlObjectFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder> 
+          com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder> 
           getOwlObjectFieldBuilder() {
         if (owlObjectBuilder_ == null) {
           owlObjectBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.clarkparsia.pellet.service.proto.Messages.RawObject, com.clarkparsia.pellet.service.proto.Messages.RawObject.Builder, com.clarkparsia.pellet.service.proto.Messages.RawObjectOrBuilder>(
+              com.clarkparsia.pellet.service.proto.Messages.OwlObject, com.clarkparsia.pellet.service.proto.Messages.OwlObject.Builder, com.clarkparsia.pellet.service.proto.Messages.OwlObjectOrBuilder>(
                   owlObject_,
                   ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
@@ -3728,10 +3569,10 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:Node)
   }
 
-  public interface NodeSetOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface NodeSetOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:NodeSet)
+      com.google.protobuf.MessageOrBuilder {
 
-    // repeated .Node nodes = 1;
     /**
      * <code>repeated .Node nodes = 1;</code>
      */
@@ -3760,8 +3601,9 @@ public final class Messages {
    * Protobuf type {@code NodeSet}
    */
   public static final class NodeSet extends
-      com.google.protobuf.GeneratedMessage
-      implements NodeSetOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:NodeSet)
+      NodeSetOrBuilder {
     // Use NodeSet.newBuilder() to construct.
     private NodeSet(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -3857,7 +3699,6 @@ public final class Messages {
       return PARSER;
     }
 
-    // repeated .Node nodes = 1;
     public static final int NODES_FIELD_NUMBER = 1;
     private java.util.List<com.clarkparsia.pellet.service.proto.Messages.Node> nodes_;
     /**
@@ -3899,7 +3740,8 @@ public final class Messages {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       for (int i = 0; i < getNodesCount(); i++) {
         if (!getNodes(i).isInitialized()) {
@@ -4012,8 +3854,9 @@ public final class Messages {
      * Protobuf type {@code NodeSet}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.NodeSetOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:NodeSet)
+        com.clarkparsia.pellet.service.proto.Messages.NodeSetOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.clarkparsia.pellet.service.proto.Messages.internal_static_NodeSet_descriptor;
@@ -4163,7 +4006,6 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // repeated .Node nodes = 1;
       private java.util.List<com.clarkparsia.pellet.service.proto.Messages.Node> nodes_ =
         java.util.Collections.emptyList();
       private void ensureNodesIsMutable() {
@@ -4305,7 +4147,8 @@ public final class Messages {
           java.lang.Iterable<? extends com.clarkparsia.pellet.service.proto.Messages.Node> values) {
         if (nodesBuilder_ == null) {
           ensureNodesIsMutable();
-          super.addAll(values, nodes_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, nodes_);
           onChanged();
         } else {
           nodesBuilder_.addAllMessages(values);
@@ -4414,10 +4257,10 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:NodeSet)
   }
 
-  public interface QueryResponseOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface QueryResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:QueryResponse)
+      com.google.protobuf.MessageOrBuilder {
 
-    // required .NodeSet result = 1;
     /**
      * <code>required .NodeSet result = 1;</code>
      */
@@ -4435,8 +4278,9 @@ public final class Messages {
    * Protobuf type {@code QueryResponse}
    */
   public static final class QueryResponse extends
-      com.google.protobuf.GeneratedMessage
-      implements QueryResponseOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:QueryResponse)
+      QueryResponseOrBuilder {
     // Use QueryResponse.newBuilder() to construct.
     private QueryResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -4535,7 +4379,6 @@ public final class Messages {
     }
 
     private int bitField0_;
-    // required .NodeSet result = 1;
     public static final int RESULT_FIELD_NUMBER = 1;
     private com.clarkparsia.pellet.service.proto.Messages.NodeSet result_;
     /**
@@ -4563,7 +4406,8 @@ public final class Messages {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       if (!hasResult()) {
         memoizedIsInitialized = 0;
@@ -4678,8 +4522,9 @@ public final class Messages {
      * Protobuf type {@code QueryResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.QueryResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:QueryResponse)
+        com.clarkparsia.pellet.service.proto.Messages.QueryResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.clarkparsia.pellet.service.proto.Messages.internal_static_QueryResponse_descriptor;
@@ -4809,7 +4654,6 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // required .NodeSet result = 1;
       private com.clarkparsia.pellet.service.proto.Messages.NodeSet result_ = com.clarkparsia.pellet.service.proto.Messages.NodeSet.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           com.clarkparsia.pellet.service.proto.Messages.NodeSet, com.clarkparsia.pellet.service.proto.Messages.NodeSet.Builder, com.clarkparsia.pellet.service.proto.Messages.NodeSetOrBuilder> resultBuilder_;
@@ -4918,7 +4762,7 @@ public final class Messages {
         if (resultBuilder_ == null) {
           resultBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.clarkparsia.pellet.service.proto.Messages.NodeSet, com.clarkparsia.pellet.service.proto.Messages.NodeSet.Builder, com.clarkparsia.pellet.service.proto.Messages.NodeSetOrBuilder>(
-                  result_,
+                  getResult(),
                   getParentForChildren(),
                   isClean());
           result_ = null;
@@ -4937,10 +4781,10 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:QueryResponse)
   }
 
-  public interface ExplainResponseOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
+  public interface ExplainResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:ExplainResponse)
+      com.google.protobuf.MessageOrBuilder {
 
-    // repeated .AxiomSet axiomsets = 1;
     /**
      * <code>repeated .AxiomSet axiomsets = 1;</code>
      */
@@ -4969,8 +4813,9 @@ public final class Messages {
    * Protobuf type {@code ExplainResponse}
    */
   public static final class ExplainResponse extends
-      com.google.protobuf.GeneratedMessage
-      implements ExplainResponseOrBuilder {
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:ExplainResponse)
+      ExplainResponseOrBuilder {
     // Use ExplainResponse.newBuilder() to construct.
     private ExplainResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
@@ -5066,7 +4911,6 @@ public final class Messages {
       return PARSER;
     }
 
-    // repeated .AxiomSet axiomsets = 1;
     public static final int AXIOMSETS_FIELD_NUMBER = 1;
     private java.util.List<com.clarkparsia.pellet.service.proto.Messages.AxiomSet> axiomsets_;
     /**
@@ -5108,7 +4952,8 @@ public final class Messages {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
 
       for (int i = 0; i < getAxiomsetsCount(); i++) {
         if (!getAxiomsets(i).isInitialized()) {
@@ -5221,8 +5066,9 @@ public final class Messages {
      * Protobuf type {@code ExplainResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.clarkparsia.pellet.service.proto.Messages.ExplainResponseOrBuilder {
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:ExplainResponse)
+        com.clarkparsia.pellet.service.proto.Messages.ExplainResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.clarkparsia.pellet.service.proto.Messages.internal_static_ExplainResponse_descriptor;
@@ -5372,7 +5218,6 @@ public final class Messages {
       }
       private int bitField0_;
 
-      // repeated .AxiomSet axiomsets = 1;
       private java.util.List<com.clarkparsia.pellet.service.proto.Messages.AxiomSet> axiomsets_ =
         java.util.Collections.emptyList();
       private void ensureAxiomsetsIsMutable() {
@@ -5514,7 +5359,8 @@ public final class Messages {
           java.lang.Iterable<? extends com.clarkparsia.pellet.service.proto.Messages.AxiomSet> values) {
         if (axiomsetsBuilder_ == null) {
           ensureAxiomsetsIsMutable();
-          super.addAll(values, axiomsets_);
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, axiomsets_);
           onChanged();
         } else {
           axiomsetsBuilder_.addAllMessages(values);
@@ -5623,47 +5469,47 @@ public final class Messages {
     // @@protoc_insertion_point(class_scope:ExplainResponse)
   }
 
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_RawObject_descriptor;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_OwlObject_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_RawObject_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+      internal_static_OwlObject_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_QueryRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_QueryRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ExplainRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ExplainRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AxiomSet_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_AxiomSet_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_UpdateRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UpdateRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_Node_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_Node_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_NodeSet_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_NodeSet_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_QueryResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_QueryResponse_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ExplainResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -5677,85 +5523,85 @@ public final class Messages {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016messages.proto\")\n\tRawObject\022\r\n\005klass\030\001" +
-      " \002(\t\022\r\n\005bytes\030\002 \002(\014\")\n\014QueryRequest\022\031\n\005i" +
-      "nput\030\001 \002(\0132\n.RawObject\"+\n\016ExplainRequest" +
-      "\022\031\n\005axiom\030\001 \002(\0132\n.RawObject\"&\n\010AxiomSet\022" +
-      "\032\n\006axioms\030\001 \003(\0132\n.RawObject\"J\n\rUpdateReq" +
-      "uest\022\034\n\tadditions\030\001 \002(\0132\t.AxiomSet\022\033\n\010re" +
-      "movals\030\002 \002(\0132\t.AxiomSet\"&\n\004Node\022\036\n\nowl_o" +
-      "bject\030\001 \003(\0132\n.RawObject\"\037\n\007NodeSet\022\024\n\005no" +
-      "des\030\001 \003(\0132\005.Node\")\n\rQueryResponse\022\030\n\006res" +
-      "ult\030\001 \002(\0132\010.NodeSet\"/\n\017ExplainResponse\022\034",
-      "\n\taxiomsets\030\001 \003(\0132\t.AxiomSetB2\n$com.clar" +
-      "kparsia.pellet.service.protoB\010MessagesH\001"
+      "\n\016messages.proto\"\032\n\tOwlObject\022\r\n\005bytes\030\001" +
+      " \002(\014\")\n\014QueryRequest\022\031\n\005input\030\001 \002(\0132\n.Ow" +
+      "lObject\"+\n\016ExplainRequest\022\031\n\005axiom\030\001 \002(\013" +
+      "2\n.OwlObject\"&\n\010AxiomSet\022\032\n\006axioms\030\001 \003(\013" +
+      "2\n.OwlObject\"J\n\rUpdateRequest\022\034\n\tadditio" +
+      "ns\030\001 \002(\0132\t.AxiomSet\022\033\n\010removals\030\002 \002(\0132\t." +
+      "AxiomSet\"&\n\004Node\022\036\n\nowl_object\030\001 \003(\0132\n.O" +
+      "wlObject\"\037\n\007NodeSet\022\024\n\005nodes\030\001 \003(\0132\005.Nod" +
+      "e\")\n\rQueryResponse\022\030\n\006result\030\001 \002(\0132\010.Nod" +
+      "eSet\"/\n\017ExplainResponse\022\034\n\taxiomsets\030\001 \003",
+      "(\0132\t.AxiomSetB2\n$com.clarkparsia.pellet." +
+      "service.protoB\010MessagesH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          internal_static_RawObject_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_RawObject_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_RawObject_descriptor,
-              new java.lang.String[] { "Klass", "Bytes", });
-          internal_static_QueryRequest_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_QueryRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_QueryRequest_descriptor,
-              new java.lang.String[] { "Input", });
-          internal_static_ExplainRequest_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_ExplainRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ExplainRequest_descriptor,
-              new java.lang.String[] { "Axiom", });
-          internal_static_AxiomSet_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_AxiomSet_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_AxiomSet_descriptor,
-              new java.lang.String[] { "Axioms", });
-          internal_static_UpdateRequest_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_UpdateRequest_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_UpdateRequest_descriptor,
-              new java.lang.String[] { "Additions", "Removals", });
-          internal_static_Node_descriptor =
-            getDescriptor().getMessageTypes().get(5);
-          internal_static_Node_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_Node_descriptor,
-              new java.lang.String[] { "OwlObject", });
-          internal_static_NodeSet_descriptor =
-            getDescriptor().getMessageTypes().get(6);
-          internal_static_NodeSet_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_NodeSet_descriptor,
-              new java.lang.String[] { "Nodes", });
-          internal_static_QueryResponse_descriptor =
-            getDescriptor().getMessageTypes().get(7);
-          internal_static_QueryResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_QueryResponse_descriptor,
-              new java.lang.String[] { "Result", });
-          internal_static_ExplainResponse_descriptor =
-            getDescriptor().getMessageTypes().get(8);
-          internal_static_ExplainResponse_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_ExplainResponse_descriptor,
-              new java.lang.String[] { "Axiomsets", });
-          return null;
-        }
-      };
+        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
+          public com.google.protobuf.ExtensionRegistry assignDescriptors(
+              com.google.protobuf.Descriptors.FileDescriptor root) {
+            descriptor = root;
+            return null;
+          }
+        };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
+    internal_static_OwlObject_descriptor =
+      getDescriptor().getMessageTypes().get(0);
+    internal_static_OwlObject_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_OwlObject_descriptor,
+        new java.lang.String[] { "Bytes", });
+    internal_static_QueryRequest_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_QueryRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_QueryRequest_descriptor,
+        new java.lang.String[] { "Input", });
+    internal_static_ExplainRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_ExplainRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ExplainRequest_descriptor,
+        new java.lang.String[] { "Axiom", });
+    internal_static_AxiomSet_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_AxiomSet_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_AxiomSet_descriptor,
+        new java.lang.String[] { "Axioms", });
+    internal_static_UpdateRequest_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_UpdateRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_UpdateRequest_descriptor,
+        new java.lang.String[] { "Additions", "Removals", });
+    internal_static_Node_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_Node_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_Node_descriptor,
+        new java.lang.String[] { "OwlObject", });
+    internal_static_NodeSet_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_NodeSet_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_NodeSet_descriptor,
+        new java.lang.String[] { "Nodes", });
+    internal_static_QueryResponse_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_QueryResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_QueryResponse_descriptor,
+        new java.lang.String[] { "Result", });
+    internal_static_ExplainResponse_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_ExplainResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_ExplainResponse_descriptor,
+        new java.lang.String[] { "Axiomsets", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
