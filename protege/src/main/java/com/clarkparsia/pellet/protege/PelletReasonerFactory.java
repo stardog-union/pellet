@@ -1,7 +1,5 @@
 package com.clarkparsia.pellet.protege;
 
-import javax.annotation.Nonnull;
-
 import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.complexible.pellet.client.ClientModule;
@@ -10,10 +8,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.mindswap.pellet.PelletOptions;
 import org.protege.editor.owl.model.inference.AbstractProtegeOWLReasonerInfo;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
-import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
 /**
