@@ -18,7 +18,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-core</artifactId>
+			<artifactId>pellet-owlapi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -66,12 +66,12 @@
 						<Implementation-Title>Pellet Reasoner Plug-in</Implementation-Title>
 						<Implementation-Vendor>Clark &amp; Parsia LLC</Implementation-Vendor>
 						<Implementation-Version>${project.version}</Implementation-Version>
-						<Import-Package>org.protege.*;version="${protege.version}",!org.semanticweb.owlapi.formats,!org.semanticweb.owlapi.model.parameters,!org.semanticweb.owlapi.rdf.*,org.semanticweb.owlapi.*</Import-Package>
+						<Import-Package>org.protege.*;version="${protege.version}",org.semanticweb.owlapi.*,javax.xml.*,javax.swing.*</Import-Package>
 						<Export-Package>com.clarkparsia.pellet.protege.*</Export-Package>
 						<Private-Package>com.clarkparsia.*;org.mindswap.*;-split-package:=merge-first</Private-Package>
 						<Bundle-SymbolicName>com.clarkparsia.pellet.protege;singleton:=true</Bundle-SymbolicName>
 						<Bundle-Activator>org.protege.editor.core.plugin.DefaultPluginActivator</Bundle-Activator>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sesame*</Embed-Dependency>
+						<Embed-Dependency>*;scope=!provided;scope=compile|runtime;artifactId=!owlapi*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Update-Url>https://raw.githubusercontent.com/Complexible/pellet/master/protege/plugin/update.properties</Update-Url>
 					</instructions>
