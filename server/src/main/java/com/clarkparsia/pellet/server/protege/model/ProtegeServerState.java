@@ -1,8 +1,6 @@
 package com.clarkparsia.pellet.server.protege.model;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +13,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.client.RemoteServerDirectory;
@@ -36,7 +35,7 @@ public final class ProtegeServerState implements ServerState {
 
 	private final Client mClient;
 
-	private final AtomicReference<ServerState> mServerState = new AtomicReference<ServerState>();
+	private final AtomicReference<ServerState> mServerState = new AtomicReference<ServerState>(ServerState.EMPTY);
 
 	private final IRI serverRoot;
 
@@ -50,7 +49,7 @@ public final class ProtegeServerState implements ServerState {
 	}
 
 	private ServerState snapshot() {
-		ImmutableSet.Builder<OntologyState> ontologies = ImmutableSet.builder();
+		ImmutableSet.Builder<OntologyState> newBuilder = ImmutableSet.builder();
 
 		try {
 			// scan the protege server to get all the ontologies.
@@ -59,8 +58,16 @@ public final class ProtegeServerState implements ServerState {
 
 			for (RemoteOntologyDocument ontoDoc : docs) {
 				try {
-					VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient, manager, ontoDoc);
-					ontologies.add(new ProtegeOntologyState(mClient, vont));
+					final Optional<OntologyState> ontoState = this.getOntology(ontoDoc.getServerLocation());
+					if (ontoState.isPresent()) {
+						LOGGER.info("Attempting to update OntologyState for "+ ontoDoc.getServerLocation());
+						ontoState.get().update();
+					}
+					else {
+						LOGGER.info("Creating new OntologyState for "+ ontoDoc.getServerLocation());
+						VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient, manager, ontoDoc);
+						newBuilder.add(new ProtegeOntologyState(mClient, vont));
+					}
 				}
 				catch (OWLOntologyCreationException e) {
 					LOGGER.log(Level.FINER, "Could not load one or more ontologies from Protege server", e);
@@ -72,7 +79,10 @@ public final class ProtegeServerState implements ServerState {
 			Throwables.propagate(e);
 		}
 
-		return ServerStateImpl.create(ontologies.build());
+		final ImmutableSet<OntologyState> newOntologies = newBuilder.build();
+		return newOntologies.isEmpty() ? this
+		                               : ServerStateImpl.create(ImmutableSet.copyOf(Iterables.concat(newOntologies,
+		                                                                                             this.ontologies())));
 	}
 
 
@@ -94,7 +104,7 @@ public final class ProtegeServerState implements ServerState {
 
 	@Override
 	public void update() {
-		mServerState.get().update();
+		reload();
 	}
 
 	@Override
