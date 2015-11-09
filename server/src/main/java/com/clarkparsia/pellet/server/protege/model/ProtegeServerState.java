@@ -128,7 +128,5 @@ public final class ProtegeServerState implements ServerState {
 	public void close() throws Exception {
 		// close current server state
 		mServerState.get().close();
-
-		mClient.shutdown();
 	}
 }
