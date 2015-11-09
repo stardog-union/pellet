@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>net.sourceforge.owlapi</groupId>
 			<artifactId>binaryowl</artifactId>
-			<version>1.4.5-SNAPSHOT</version>
+			<version>1.4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
