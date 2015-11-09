@@ -51,21 +51,32 @@ public class OntologyStateImpl implements OntologyState {
 		reasoner = IncrementalReasoner.config().createIncrementalReasoner(ontology);
 		reasoner.classify();
 
-		clients = CacheBuilder.newBuilder()
-		                      .expireAfterAccess(30, TimeUnit.MINUTES)
-		                      .removalListener(new RemovalListener<String, ClientState>() {
-			                      @Override
-			                      public void onRemoval(final RemovalNotification<String, ClientState> theRemovalNotification) {
-				                      theRemovalNotification.getValue().close();
-			                      }
-		                      })
-		                      .build(new CacheLoader<String, ClientState>() {
-			                      @Override
-			                      public ClientState load(final String user) throws Exception {
-				                      return newClientState();
-			                      }
+		clients = initClientCache();
+	}
 
-		                      });
+	public OntologyStateImpl(final OWLOntology ontology, final IncrementalReasoner theReasoner) {
+		this.ontology = ontology;
+		this.reasoner = theReasoner;
+
+		clients = initClientCache();
+	}
+
+	private LoadingCache<String, ClientState> initClientCache() {
+		return CacheBuilder.newBuilder()
+		                   .expireAfterAccess(30, TimeUnit.MINUTES)
+		                   .removalListener(new RemovalListener<String, ClientState>() {
+			                   @Override
+			                   public void onRemoval(final RemovalNotification<String, ClientState> theRemovalNotification) {
+				                   theRemovalNotification.getValue().close();
+			                   }
+		                   })
+		                   .build(new CacheLoader<String, ClientState>() {
+			                   @Override
+			                   public ClientState load(final String user) throws Exception {
+				                   return newClientState();
+			                   }
+
+		                   });
 	}
 
 	private synchronized ClientState newClientState() {

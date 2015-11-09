@@ -1,10 +1,14 @@
 package com.clarkparsia.pellet.server.protege.model;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
@@ -42,13 +46,62 @@ public final class ProtegeServerState implements ServerState {
 
 	private final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
+	private final boolean isStrict;
+
 	public ProtegeServerState(final Client theProtegeClient) {
+		this(theProtegeClient, false);
+	}
+
+	@VisibleForTesting
+	ProtegeServerState(final Client theProtegeClient,
+	                   final boolean strictMode /* throws exception if can't load from disk with exception */) {
 		mClient = theProtegeClient;
 		serverRoot = IRI.create(mClient.getScheme() + "://" + mClient.getAuthority());
 
+		isStrict = strictMode;
+
+		// load any OntologyState elements saved on disk
+		loadFromHome();
+
+		// this will update any ontology loaded from disk
 		mServerState.set(snapshot());
 	}
 
+	private void loadFromHome() {
+		Path home = Paths.get(Environment.getHome());
+		ImmutableSet.Builder<OntologyState> diskOntoStates = ImmutableSet.builder();
+		File[] aFiles = home.toFile().listFiles();
+
+		if (aFiles != null && aFiles.length > 0) {
+			for (File aOntoDir : aFiles) {
+				if (aOntoDir.isDirectory() && aOntoDir.canWrite() && aOntoDir.getName().endsWith(".history")) {
+					try {
+						IRI docIRI = serverRoot.resolve("/"+ aOntoDir.getName());
+						RemoteOntologyDocument ontoDoc = (RemoteOntologyDocument) getClient().getServerDocument(docIRI);
+						diskOntoStates.add(ProtegeOntologyState.loadFromDisk(manager, mClient, aOntoDir, ontoDoc));
+						LOGGER.info("Loaded ontology from: "+ aOntoDir.getAbsolutePath());
+					}
+					catch (Exception theE) {
+						LOGGER.log(Level.SEVERE,
+						           "Could not load OntologyState from disk on: " + aOntoDir.getAbsolutePath(),
+						           theE);
+						if (isStrict) {
+							Throwables.propagate(theE);
+						}
+					}
+				}
+			}
+
+			mServerState.set(ServerStateImpl.create(diskOntoStates.build()));
+		}
+	}
+
+	/**
+	 * Captures a snapshot of the state in Protege Server, loading new ontologies found or updating the ones
+	 * already loaded.
+	 *
+	 * @return  the ServerState captured
+	 */
 	private ServerState snapshot() {
 		ImmutableSet.Builder<OntologyState> newBuilder = ImmutableSet.builder();
 

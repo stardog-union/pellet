@@ -120,4 +120,39 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		}
 	}
 
+	@Test
+	public void shouldSaveAndLoadOntologyStates() throws Exception {
+		ProtegeServerState aServerState = (ProtegeServerState) mServerStateProvider.get();
+		assertNotNull(aServerState);
+		try {
+			Client aClient = aServerState.getClient();
+
+			loadOntologies(aClient);
+
+			aServerState.reload();
+			aServerState.save();
+
+			assertFalse(aServerState.isEmpty());
+
+			for (OntologyState aState : aServerState.ontologies()) {
+				assertTrue(Files.exists(getOntologyHEAD(aState)));
+				assertTrue(Files.exists(getOntologyReasoner(aState)));
+			}
+
+			aServerState.close();
+			aServerState = new ProtegeServerState(aClient, true /* strict mode */);
+
+			assertFalse(aServerState.isEmpty());
+
+			for (OntologyState aState : aServerState.ontologies()) {
+				assertTrue(Files.exists(getOntologyHEAD(aState)));
+				assertTrue(Files.exists(getOntologyReasoner(aState)));
+			}
+		}
+		finally {
+			aServerState.close();
+			Environment.cleanHome();
+		}
+	}
+
 }
