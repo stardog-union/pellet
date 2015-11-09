@@ -34,7 +34,6 @@ public interface PelletService {
 	                           @Query("limit") int limit,
 	                           @Body RequestBody theQueryRequest);
 
-	@Multipart
 	@PUT("/reasoner/{ontology}")
 	Call<GenericJsonMessage> update(@Path("ontology") IRI theOntology,
 	                                @Body RequestBody theUpdateRequest);

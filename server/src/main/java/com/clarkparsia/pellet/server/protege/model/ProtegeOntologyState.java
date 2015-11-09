@@ -36,11 +36,6 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 	}
 
 	@Override
-	public IRI getIRI() {
-		return ontology.getServerDocument().getServerLocation();
-	}
-
-	@Override
 	protected boolean updateOntology() {
 		try {
 			OntologyDocumentRevision revision = ontology.getRevision();

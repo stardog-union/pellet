@@ -102,7 +102,6 @@ public class PelletServer extends PelletCmdApp {
 		}
 
 		try {
-			System.out.println(commands[0]);
 			Command command = Command.valueOf(commands[0].toUpperCase());
 
 			switch (command) {

@@ -24,8 +24,6 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
  * @author Evren Sirin
  */
 public interface OntologyState extends AutoCloseable {
-	ClientState createClient(String clientID);
-
 	ClientState getClient(String clientID);
 
 	IRI getIRI();

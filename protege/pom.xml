@@ -71,7 +71,7 @@
 						<Private-Package>com.clarkparsia.*;org.mindswap.*;-split-package:=merge-first</Private-Package>
 						<Bundle-SymbolicName>com.clarkparsia.pellet.protege;singleton:=true</Bundle-SymbolicName>
 						<Bundle-Activator>org.protege.editor.core.plugin.DefaultPluginActivator</Bundle-Activator>
-						<Embed-Dependency>*;scope=!provided;scope=compile|runtime;groupId=!net.sourceforge.owlapi|org.apache.felix</Embed-Dependency>
+						<Embed-Dependency>*;scope=!provided;scope=compile|runtime;artifactId=!owlapi*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Update-Url>https://raw.githubusercontent.com/Complexible/pellet/master/protege/plugin/update.properties</Update-Url>
 					</instructions>

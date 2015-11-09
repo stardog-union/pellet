@@ -53,7 +53,7 @@ public class BufferingOntologyChangeListener implements OWLOntologyChangeListene
 	}
 
 	public boolean isChanged() {
-		return getAdditions().isEmpty() && getRemovals().isEmpty();
+		return !getAdditions().isEmpty() || !getRemovals().isEmpty();
 	}
 
 	public Set<OWLAxiom> getAdditions() {

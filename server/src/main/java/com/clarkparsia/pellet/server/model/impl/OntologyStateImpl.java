@@ -68,7 +68,8 @@ public class OntologyStateImpl implements OntologyState {
 	}
 
 	@Override
-	public ClientState createClient(final String clientID) {
+	public ClientState getClient(final String clientID) {
+
 		try {
 			return clients.get(clientID);
 		}
@@ -76,11 +77,6 @@ public class OntologyStateImpl implements OntologyState {
 			LOGGER.log(Level.SEVERE, "Cannot create state for client " + clientID, e);
 			throw new RuntimeException(e);
 		}
-	}
-
-	@Override
-	public ClientState getClient(final String clientID) {
-		return Objects.requireNonNull(clients.getIfPresent(clientID), "No state found for " + clientID);
 	}
 
 	@Override
