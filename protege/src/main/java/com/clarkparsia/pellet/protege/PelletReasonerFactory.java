@@ -25,7 +25,8 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
 		PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING = true;
 	}
 
-	private OWLReasonerFactory factory;
+	private final PelletReasonerPreferences prefs = PelletReasonerPreferences.getInstance();
+	private OWLReasonerFactory factory = null;
 
 	/**
      * {@inheritDoc}
@@ -39,10 +40,8 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
     }
 
 	private OWLReasonerFactory createReasonerFactory() {
-	    PelletReasonerPreferences prefs = PelletReasonerPreferences.getInstance();
-
-		PelletReasonerType reasonerType = prefs.getReasonerType();
-	    switch (reasonerType) {
+		PelletReasonerMode reasonerMode = prefs.getReasonerMode();
+	    switch (reasonerMode) {
 		    case REGULAR: return com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance();
 		    case INCREMENTAL: return IncremantalReasonerFactory.getInstance();
 		    case REMOTE: {
@@ -52,7 +51,7 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
 			    // FIXME inject server URL
 			    return new SchemaOWLReasonerFactory(aInjector.getInstance(SchemaReasonerFactory.class));
 		    }
-		    default: throw new UnsupportedOperationException("Unrecognized reasoner type: " + reasonerType);
+		    default: throw new UnsupportedOperationException("Unrecognized reasoner type: " + reasonerMode);
 	    }
     }
 
@@ -62,4 +61,8 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
     public BufferingMode getRecommendedBuffering() {
 	    return BufferingMode.BUFFERING;
     }
+
+	public void preferencesUpdated() {
+		factory = null;
+	}
 }

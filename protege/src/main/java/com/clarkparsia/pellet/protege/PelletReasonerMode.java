@@ -7,6 +7,6 @@ import org.protege.editor.core.prefs.PreferencesManager;
  *
  * @author Evren Sirin
  */
-public enum PelletReasonerType {
+public enum PelletReasonerMode {
     REGULAR, INCREMENTAL, REMOTE
 }

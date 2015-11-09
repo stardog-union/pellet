@@ -1,5 +1,7 @@
 package com.clarkparsia.pellet.protege;
 
+import java.util.Objects;
+
 import org.protege.editor.core.prefs.Preferences;
 import org.protege.editor.core.prefs.PreferencesManager;
 
@@ -18,23 +20,60 @@ public class PelletReasonerPreferences {
         return INSTANCE;
     }
 
-    private Preferences getPreferences() {
-        return PreferencesManager.getInstance().getApplicationPreferences(KEY);
+    private final Preferences prefs = PreferencesManager.getInstance().getApplicationPreferences(KEY);
+
+    private PelletReasonerMode reasonerMode;
+    private String serverURL;
+
+    private boolean updated = false;
+
+    private PelletReasonerPreferences() {
+        _load();
     }
 
-    public void setServerURL(String url) {
-        getPreferences().getString("serverURL", url);
+    private void _load() {
+        reasonerMode = PelletReasonerMode.valueOf(prefs.getString("reasonerMode", PelletReasonerMode.REGULAR.name()));
+        serverURL = prefs.getString("serverURL", "http://localhost:18080");
+    }
+
+    private void _save() {
+        prefs.putString("reasonerMode", reasonerMode.name());
+        prefs.putString("serverURL", serverURL);
+    }
+
+    public boolean save() {
+        if (!updated) {
+            return false;
+        }
+
+        updated = false;
+
+        _save();
+
+        return true;
+    }
+
+    private void update(Object oldValue, Object newValue) {
+        if (!Objects.equals(oldValue, newValue)) {
+            updated = true;
+        }
+    }
+
+    public PelletReasonerMode getReasonerMode() {
+        return reasonerMode;
+    }
+
+    public void setReasonerMode(final PelletReasonerMode Mode) {
+        update(reasonerMode, Mode);
+        reasonerMode = Mode;
     }
 
     public String getServerURL() {
-        return getPreferences().getString("serverURL", "http://localhost:18080");
+        return serverURL;
     }
 
-    public void setReasonerType(PelletReasonerType type) {
-        getPreferences().getString("reasonerType", type.name());
-    }
-
-    public PelletReasonerType getReasonerType() {
-        return PelletReasonerType.valueOf(getPreferences().getString("serverURL", PelletReasonerType.REGULAR.name()));
+    public void setServerURL(final String url) {
+        update(serverURL, url);
+        serverURL = url;
     }
 }

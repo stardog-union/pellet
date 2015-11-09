@@ -55,4 +55,9 @@ public class SchemaOWLReasonerFactory implements OWLReasonerFactory {
 	public OWLReasoner createReasoner(@Nonnull final OWLOntology ontology, @Nonnull final OWLReasonerConfiguration theOWLReasonerConfiguration) {
 		return createReasoner(ontology);
 	}
+
+	@Override
+	public String toString() {
+		return getReasonerName();
+	}
 }
