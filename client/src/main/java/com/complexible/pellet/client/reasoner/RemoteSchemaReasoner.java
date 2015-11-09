@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
+import com.clarkparsia.pellet.service.io.EncodingException;
 import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 import com.clarkparsia.pellet.service.messages.ExplainRequest;
 import com.clarkparsia.pellet.service.messages.ExplainResponse;
@@ -57,17 +58,17 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 	@Override
 	public <T extends OWLObject> NodeSet<T> query(final QueryType theQueryType, final OWLLogicalEntity input) {
-		RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
-		                                       mEncoder.encode(new QueryRequest(input)));
-
-		Call<ResponseBody> queryCall = mService.query(mOntologyIri, theQueryType, aReqBody);
 		try {
+			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
+			                                          mEncoder.encode(new QueryRequest(input)));
+
+			Call<ResponseBody> queryCall = mService.query(mOntologyIri, theQueryType, aReqBody);
 			final ResponseBody aRespBody = executeCall(queryCall);
 			QueryResponse queryResponse = mDecoder.queryResponse(aRespBody.bytes());
 
 			return (NodeSet<T>) queryResponse.getResults();
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			Throwables.propagate(e);
 		}
 		return null;
@@ -75,17 +76,17 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 	@Override
 	public Set<Set<OWLAxiom>> explain(final OWLAxiom axiom, final int limit) {
-		RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
-		                                          mEncoder.encode(new ExplainRequest(axiom)));
-
-		Call<ResponseBody> explainCall = mService.explain(mOntologyIri, limit, aReqBody);
 		try {
+			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
+			                                          mEncoder.encode(new ExplainRequest(axiom)));
+
+			Call<ResponseBody> explainCall = mService.explain(mOntologyIri, limit, aReqBody);
 			final ResponseBody aRespBody = executeCall(explainCall);
 			ExplainResponse explainResponse = mDecoder.explainResponse(aRespBody.bytes());
 
 			return explainResponse.getAxiomSets();
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			Throwables.propagate(e);
 		}
 		return null;
@@ -93,11 +94,16 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 	@Override
 	public void update(final Set<OWLAxiom> additions, final Set<OWLAxiom> removals) {
-		RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
-		                                          mEncoder.encode(new UpdateRequest(additions, removals)));
+		try {
+			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
+			                                          mEncoder.encode(new UpdateRequest(additions, removals)));
 
-		Call<GenericJsonMessage> updateCall = mService.update(mOntologyIri, aReqBody);
-		executeCall(updateCall);
+			Call<GenericJsonMessage> updateCall = mService.update(mOntologyIri, aReqBody);
+			executeCall(updateCall);
+		}
+		catch (Exception e) {
+			Throwables.propagate(e);
+		}
 	}
 
 	@Override
