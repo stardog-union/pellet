@@ -13,6 +13,7 @@ import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.reasoner.LocalSchemaReasoner;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Throwables;
+import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
@@ -20,12 +21,12 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  */
 public class ClientStateImpl implements ClientState {
 	private final SchemaReasoner reasoner;
-	private final OWLOntologyManager manager;
+	private final OWLOntology ontology;
 
 	public ClientStateImpl(final IncrementalReasoner incremental) {
 		// create the reasoner with a copy of the incremental reasoner so it won't be affected if the original reasoner is updated
 		reasoner = new LocalSchemaReasoner(incremental.copy());
-		manager = incremental.getRootOntology().getOWLOntologyManager();
+		ontology = incremental.getRootOntology();
 	}
 
 	@Override
@@ -37,6 +38,11 @@ public class ClientStateImpl implements ClientState {
 	public void close() {
 		try {
 			reasoner.close();
+
+			OWLOntologyManager manager = ontology.getOWLOntologyManager();
+			if (manager != null) {
+				manager.removeOntology(ontology);
+			}
 		}
 		catch (Exception e) {
 			Throwables.propagate(e);

@@ -3,6 +3,7 @@ package com.clarkparsia.pellet.server.protege;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.google.common.io.Resources;
 
@@ -65,6 +66,8 @@ public abstract class ProtegeServerTest extends TestUtilities {
 	@AfterClass
 	public static void afterClass() {
 		mServer.shutdown();
+
+		OntologyUtils.clearOWLOntologyManager();
 	}
 
 	protected LocalTransport local() {

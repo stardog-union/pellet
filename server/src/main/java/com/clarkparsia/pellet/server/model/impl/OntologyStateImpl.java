@@ -24,6 +24,7 @@ import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * Implementation of ontology state without a backing store.
@@ -116,6 +117,11 @@ public class OntologyStateImpl implements OntologyState {
 	@Override
 	public void close() throws Exception {
 		clients.invalidateAll();
+
+		OWLOntologyManager manager = ontology.getOWLOntologyManager();
+		if (manager != null) {
+			manager.removeOntology(ontology);
+		}
 	}
 
 	@Override
