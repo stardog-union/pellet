@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.annotation.Nullable;
-
 import com.clarkparsia.owlapiv3.BufferingOntologyChangeListener;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
@@ -74,7 +72,6 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		this.client = reasonerFactory.create(ontology);
 
 		Iterable<OWLOntologyID> ontologies = Iterables.transform(ontology.getImportsClosure(), new Function<OWLOntology, OWLOntologyID>() {
-			@Nullable
 			@Override
 			public OWLOntologyID apply(final OWLOntology ont) {
 				return ont.getOntologyID();

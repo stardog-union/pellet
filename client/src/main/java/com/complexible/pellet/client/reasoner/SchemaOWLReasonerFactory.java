@@ -8,8 +8,6 @@
 
 package com.complexible.pellet.client.reasoner;
 
-import javax.annotation.Nonnull;
-
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -26,33 +24,29 @@ public class SchemaOWLReasonerFactory implements OWLReasonerFactory {
 		factory = theFactory;
 	}
 
-	@Nonnull
 	@Override
 	public String getReasonerName() {
 		return "Pellet Schema Reasoner";
 	}
 
-	@Nonnull
+	
 	@Override
-	public OWLReasoner createNonBufferingReasoner(@Nonnull final OWLOntology ontology) {
+	public OWLReasoner createNonBufferingReasoner(final OWLOntology ontology) {
 		return createReasoner(ontology);
 	}
 
-	@Nonnull
 	@Override
-	public OWLReasoner createReasoner(@Nonnull final OWLOntology ontology) {
+	public OWLReasoner createReasoner(final OWLOntology ontology) {
 		return new SchemaOWLReasoner(ontology, factory);
 	}
 
-	@Nonnull
 	@Override
-	public OWLReasoner createNonBufferingReasoner(@Nonnull final OWLOntology ontology, @Nonnull final OWLReasonerConfiguration theOWLReasonerConfiguration) {
+	public OWLReasoner createNonBufferingReasoner(final OWLOntology ontology,  final OWLReasonerConfiguration theOWLReasonerConfiguration) {
 		return createReasoner(ontology);
 	}
 
-	@Nonnull
 	@Override
-	public OWLReasoner createReasoner(@Nonnull final OWLOntology ontology, @Nonnull final OWLReasonerConfiguration theOWLReasonerConfiguration) {
+	public OWLReasoner createReasoner(final OWLOntology ontology, final OWLReasonerConfiguration theOWLReasonerConfiguration) {
 		return createReasoner(ontology);
 	}
 

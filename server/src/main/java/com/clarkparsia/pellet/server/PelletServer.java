@@ -75,10 +75,13 @@ public final class PelletServer {
 		path.addExactPath("/admin/shutdown", ServerShutdownHandler.newInstance(this, aShutdownHandler));
 
 		server = Undertow.builder()
-		                 .addHttpListener(8080, "localhost")
+		                 .addHttpListener(PORT, HOST)
 		                 .setServerOption(UndertowOptions.ALWAYS_SET_DATE, true)
 		                 .setHandler(aShutdownHandler)
 		                 .build();
+
+
+		System.out.println(String.format("Listening at: http://%s:%s", HOST, PORT));
 
 		isRunning = true;
 		server.start();
@@ -92,16 +95,5 @@ public final class PelletServer {
 			server.stop();
 			isRunning = false;
 		}
-	}
-
-	public static void main(String[] args) throws Exception {
-		Environment.assertHome();
-
-		File aConfigFile = new File(Environment.getHome() + File.separator + Configuration.FILENAME);
-		Configuration aConfig = new ProtegeServerConfiguration(aConfigFile);
-		PelletServer aPelletServer = new PelletServer(Guice.createInjector(new PelletServerModule(aConfig)));
-
-		System.out.println(String.format("Listening at: http://%s:%s", HOST, PORT));
-		aPelletServer.start();
 	}
 }

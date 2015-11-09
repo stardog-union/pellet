@@ -50,7 +50,8 @@ public class Pellet {
 		COMMANDS.put( "extract", new PelletExtractInferences() );
 		COMMANDS.put( "lint", new Pellint() );	
 		COMMANDS.put("info", new PelletInfo());
-		COMMANDS.put( "entail", new PelletEntailment() );	
+		COMMANDS.put( "entail", new PelletEntailment() );
+		COMMANDS.put( "server", new PelletServer() );
 	}
 
 	public static void main(String[] args) {
