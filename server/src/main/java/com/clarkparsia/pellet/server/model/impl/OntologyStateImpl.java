@@ -8,6 +8,10 @@
 
 package com.clarkparsia.pellet.server.model.impl;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.google.common.cache.CacheBuilder;
@@ -105,9 +110,31 @@ public class OntologyStateImpl implements OntologyState {
 		return false;
 	}
 
+	protected Path getOntologyDirectory() throws IOException {
+		final Path ontoPath = Paths.get(Environment.getHome(), getIRI().getShortForm());
+		if (!Files.exists(ontoPath)) {
+			Files.createDirectories(ontoPath);
+		}
+
+		return ontoPath;
+	}
+
+	protected void removeIfExists(final Path thePath) throws IOException {
+		if (Files.exists(thePath)) {
+			Files.delete(thePath);
+		}
+	}
+
 	@Override
 	public void save() {
-		// FIXME use IncrementalReasoner.save
+		try {
+			final Path aReasonerFilePath = getOntologyDirectory().resolve("reasoner_state.bin");
+			removeIfExists(aReasonerFilePath);
+			reasoner.save(aReasonerFilePath.toFile());
+		}
+		catch (IOException theE) {
+			LOGGER.log(Level.SEVERE, "Couldn't save the OntologyState "+ getIRI().toQuotedString(), theE);
+		}
 	}
 
 	@Override

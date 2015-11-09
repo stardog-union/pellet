@@ -1,5 +1,6 @@
 package com.clarkparsia.pellet.server.protege;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,9 @@ import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.google.common.io.Resources;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.protege.owl.server.api.ChangeMetaData;
 import org.protege.owl.server.api.client.Client;
@@ -45,8 +48,8 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		super();
 	}
 
-	@BeforeClass
-	public static void beforeClass() throws Exception {
+	@Before
+	public void before() throws Exception {
 		initializeServerRoot();
 
 		Server core = new ServerImpl(ROOT_DIRECTORY, CONFIGURATION_DIRECTORY);
@@ -63,8 +66,9 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		mServer.setTransports(transports);
 	}
 
-	@AfterClass
-	public static void afterClass() {
+	@After
+	public void after() {
+		OntologyUtils.clearOWLOntologyManager();
 		mServer.shutdown();
 
 		OntologyUtils.clearOWLOntologyManager();
@@ -76,6 +80,10 @@ public abstract class ProtegeServerTest extends TestUtilities {
 
 	protected static IRI root(final Client client) {
 		return IRI.create(client.getScheme() +"://"+ client.getAuthority() +":"+ RMI_PORT);
+	}
+
+	protected static void removeAll() {
+		delete(ROOT_DIRECTORY);
 	}
 
 	protected static void checkClientOk(Client client) throws OWLServerException {

@@ -40,6 +40,11 @@ public interface ServerState extends AutoCloseable {
 	 */
 	void update();
 
+	/**
+	 * Persists the state.
+	 */
+	void save();
+
 	ServerState EMPTY = new ServerState() {
 		@Override
 		public Optional<OntologyState> getOntology(final IRI ontology) {
@@ -63,6 +68,11 @@ public interface ServerState extends AutoCloseable {
 
 		@Override
 		public void update() {
+			// no-op
+		}
+
+		@Override
+		public void save() {
 			// no-op
 		}
 

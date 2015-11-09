@@ -151,7 +151,7 @@ public class TestUtilities {
 		client.commit(doc, changeHistory);
 	}
 
-	private static void delete(File f) {
+	protected static void delete(File f) {
 		if (f.isDirectory()) {
 			for (File child : f.listFiles()) {
 				delete(child);

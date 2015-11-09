@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
+import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
@@ -104,7 +105,18 @@ public final class ProtegeServerState implements ServerState {
 
 	@Override
 	public void update() {
-		reload();
+		for (OntologyState aOntoState : ontologies()) {
+			aOntoState.update();
+		}
+	}
+
+	@Override
+	public void save() {
+		/**
+		 * Update already goes through the ontologies and saves the changes to the incremental reasoner if there was any
+		 * {@link OntologyStateImpl#update()}  }
+ 		 */
+		update();
 	}
 
 	@Override

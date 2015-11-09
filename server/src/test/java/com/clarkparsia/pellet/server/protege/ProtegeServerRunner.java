@@ -6,7 +6,7 @@ package com.clarkparsia.pellet.server.protege;
 public class ProtegeServerRunner extends ProtegeServerTest {
 
 	public void start() throws Exception {
-		beforeClass();
+		before();
 	}
 
 	public static void main(String[] args) throws Exception {

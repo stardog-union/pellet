@@ -33,7 +33,7 @@ public class ServerStateImpl implements ServerState {
 
 	@Override
 	public Optional<OntologyState> getOntology(IRI ontology) {
-		return Optional.<OntologyState>fromNullable(ontologies.get(ontology));
+		return Optional.fromNullable(ontologies.get(ontology));
 	}
 
 	@Override
@@ -50,6 +50,13 @@ public class ServerStateImpl implements ServerState {
 	public void update() {
 		for (OntologyState ontState : ontologies()) {
 			ontState.update();
+		}
+	}
+
+	@Override
+	public void save() {
+		for (OntologyState aOntoState : ontologies()) {
+			aOntoState.save();
 		}
 	}
 

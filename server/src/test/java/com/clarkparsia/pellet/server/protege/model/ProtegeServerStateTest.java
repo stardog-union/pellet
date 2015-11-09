@@ -1,5 +1,10 @@
 package com.clarkparsia.pellet.server.protege.model;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.protege.ProtegeServerStateProvider;
@@ -8,6 +13,7 @@ import com.clarkparsia.pellet.server.protege.TestProtegeServerConfiguration;
 import com.google.common.base.Optional;
 import org.junit.Test;
 import org.protege.owl.server.api.client.Client;
+import org.protege.owl.server.api.exception.OWLServerException;
 import org.semanticweb.owlapi.model.IRI;
 
 import static org.junit.Assert.assertNotNull;
@@ -20,6 +26,10 @@ import static org.junit.Assert.assertFalse;
 public class ProtegeServerStateTest extends ProtegeServerTest {
 
 	ProtegeServerStateProvider mServerStateProvider;
+
+	static {
+		Environment.setHome(Paths.get(".test-home"));
+	}
 
 	public ProtegeServerStateTest() {
 		super();
@@ -39,6 +49,22 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		}
 	}
 
+	private void loadOntologies(final Client theClient) throws OWLServerException {
+		// create ontologies
+		createOwl2Ontology(theClient);
+		createAgenciesOntology(theClient);
+	}
+
+	private Path getOntologyHEAD(final OntologyState theState) {
+		return Paths.get(Environment.getHome(), theState.getIRI().getShortForm())
+		            .resolve("HEAD");
+	}
+
+	private Path getOntologyReasoner(final OntologyState theState) {
+		return Paths.get(Environment.getHome(), theState.getIRI().getShortForm())
+		            .resolve("reasoner_state.bin");
+	}
+
 	@Test
 	public void shouldHaveOntologies() throws Exception {
 		ProtegeServerState aServerState = (ProtegeServerState) mServerStateProvider.get();
@@ -47,8 +73,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 			Client aClient = aServerState.getClient();
 
 			// create ontologies
-			createOwl2Ontology(aClient);
-			createAgenciesOntology(aClient);
+			loadOntologies(aClient);
 
 			// when the ontologies are created/modified after ServerState instantiation we have to
 			// refresh the state.
@@ -65,8 +90,34 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		}
 		finally {
 			aServerState.close();
+			Environment.cleanHome();
 		}
 
+	}
+
+	@Test
+	public void shouldSaveOntologyStates() throws Exception {
+		ProtegeServerState aServerState = (ProtegeServerState) mServerStateProvider.get();
+		assertNotNull(aServerState);
+		try {
+			Client aClient = aServerState.getClient();
+
+			loadOntologies(aClient);
+
+			aServerState.reload();
+			aServerState.save();
+
+			assertFalse(aServerState.isEmpty());
+
+			for (OntologyState aState : aServerState.ontologies()) {
+				assertTrue(Files.exists(getOntologyHEAD(aState)));
+				assertTrue(Files.exists(getOntologyReasoner(aState)));
+			}
+		}
+		finally {
+			aServerState.close();
+			Environment.cleanHome();
+		}
 	}
 
 }

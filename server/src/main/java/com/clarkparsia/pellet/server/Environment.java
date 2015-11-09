@@ -2,6 +2,14 @@ package com.clarkparsia.pellet.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import com.google.common.base.Throwables;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.TreeTraverser;
+import org.mindswap.pellet.utils.FileUtils;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -28,6 +36,8 @@ public class Environment {
 		if (isNullOrEmpty(aHome)) {
 			System.setProperty(PELLET_HOME_PROP, getHome());
 		}
+
+		checkHome(new File(getHome()));
 	}
 
 	public static void checkHome(final File theHome) {
@@ -71,6 +81,10 @@ public class Environment {
 		}
 	}
 
+	public static void setHome(final Path theHome) {
+		System.setProperty(PELLET_HOME_PROP, theHome.toString());
+	}
+
 	public static String getHome() {
 		final String aHome = System.getProperty(PELLET_HOME_PROP);
 
@@ -85,5 +99,14 @@ public class Environment {
 		         : !isNullOrEmpty(System.getProperty(PELLET_INSTALL_ENV))
 		           ? System.getProperty(PELLET_INSTALL_ENV)
 		           : System.getProperty("user.dir"); // if anything else fails, put it in the working dir
+	}
+
+	public static void cleanHome() {
+		final Path aHome = Paths.get(getHome());
+		final TreeTraverser<File> aTraverser = com.google.common.io.Files.fileTreeTraverser();
+
+		for (File aFile : aTraverser.postOrderTraversal(aHome.toFile())) {
+			aFile.delete();
+		}
 	}
 }
