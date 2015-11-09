@@ -80,7 +80,7 @@ public final class ProtegeServerState implements ServerState {
 		}
 
 		final ImmutableSet<OntologyState> newOntologies = newBuilder.build();
-		return newOntologies.isEmpty() ? this
+		return newOntologies.isEmpty() ? mServerState.get()
 		                               : ServerStateImpl.create(ImmutableSet.copyOf(Iterables.concat(newOntologies,
 		                                                                                             this.ontologies())));
 	}

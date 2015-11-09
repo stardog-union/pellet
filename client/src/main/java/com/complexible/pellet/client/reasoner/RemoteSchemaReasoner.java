@@ -5,7 +5,6 @@ import java.util.Set;
 
 import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
-import com.clarkparsia.pellet.service.io.EncodingException;
 import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 import com.clarkparsia.pellet.service.messages.ExplainRequest;
 import com.clarkparsia.pellet.service.messages.ExplainResponse;
