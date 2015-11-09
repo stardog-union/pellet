@@ -1,5 +1,6 @@
 package com.clarkparsia.pellet.server.protege.model;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +14,9 @@ import com.clarkparsia.pellet.server.protege.TestProtegeServerConfiguration;
 import com.google.common.base.Optional;
 import org.junit.Test;
 import org.protege.owl.server.api.client.Client;
+import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.exception.OWLServerException;
+import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.model.IRI;
 
 import static org.junit.Assert.assertNotNull;
@@ -55,13 +58,12 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		createAgenciesOntology(theClient);
 	}
 
-	private Path getOntologyHEAD(final OntologyState theState) {
-		return Paths.get(Environment.getHome(), theState.getIRI().getShortForm())
-		            .resolve("HEAD");
+	private Path getOntologyHEAD(final OntologyState theState) throws IOException {
+		return ((ProtegeOntologyState) theState).getOntologyDirectory().resolve("HEAD");
 	}
 
-	private Path getOntologyReasoner(final OntologyState theState) {
-		return Paths.get(Environment.getHome(), theState.getIRI().getShortForm())
+	private Path getOntologyReasoner(final OntologyState theState) throws IOException {
+		return ((ProtegeOntologyState) theState).getOntologyDirectory()
 		            .resolve("reasoner_state.bin");
 	}
 
@@ -81,10 +83,10 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 			assertFalse(aServerState.isEmpty());
 
-			Optional<OntologyState> aOwl2State = aServerState.getOntology(IRI.create(root(aClient).toString() + "/", OWL2_HISTORY));
+			Optional<OntologyState> aOwl2State = aServerState.getOntology(IRI.create("http://www.example.org/test"));
 			assertNotNull(aOwl2State);
 			assertTrue(aOwl2State.isPresent());
-			Optional<OntologyState> aAgencyState = aServerState.getOntology(IRI.create(root(aClient).toString() + "/", AGENCIES_HISTORY));
+			Optional<OntologyState> aAgencyState = aServerState.getOntology(IRI.create("http://www.owl-ontologies.com/unnamed.owl"));
 			assertNotNull(aAgencyState);
 			assertTrue(aAgencyState.isPresent());
 		}

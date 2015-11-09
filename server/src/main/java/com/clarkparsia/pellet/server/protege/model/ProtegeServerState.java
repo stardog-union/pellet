@@ -16,6 +16,7 @@ import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -111,8 +112,9 @@ public final class ProtegeServerState implements ServerState {
 			Collection<RemoteOntologyDocument> docs = ProtegeServiceUtils.list(mClient, (RemoteServerDirectory) rootDir);
 
 			for (RemoteOntologyDocument ontoDoc : docs) {
+
 				try {
-					final Optional<OntologyState> ontoState = this.getOntology(ontoDoc.getServerLocation());
+					final Optional<OntologyState> ontoState = findOntologyByServerLocation(ontoDoc.getServerLocation());
 					if (ontoState.isPresent()) {
 						LOGGER.info("Attempting to update OntologyState for "+ ontoDoc.getServerLocation());
 						ontoState.get().update();
@@ -139,7 +141,18 @@ public final class ProtegeServerState implements ServerState {
 		                                                                                             this.ontologies())));
 	}
 
-
+	private Optional<OntologyState> findOntologyByServerLocation(final IRI theServerLocation) {
+		return Optional.fromNullable(Iterables.find(ontologies(), new Predicate<OntologyState>() {
+			@Override
+			public boolean apply(final OntologyState input) {
+				if (input instanceof ProtegeOntologyState) {
+					return ((ProtegeOntologyState) input).getServerLocation()
+					                                     .equals(theServerLocation);
+				}
+				return false;
+			}
+		}, null));
+	}
 
 	@Override
 	public Optional<OntologyState> getOntology(final IRI ontology) {

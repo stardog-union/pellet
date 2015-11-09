@@ -122,7 +122,7 @@ public class OntologyStateImpl implements OntologyState {
 	}
 
 	protected Path getOntologyDirectory() throws IOException {
-		final Path ontoPath = Paths.get(Environment.getHome(), getIRI().getShortForm());
+		final Path ontoPath = Paths.get(Environment.getHome(), getIRI().toQuotedString());
 		if (!Files.exists(ontoPath)) {
 			Files.createDirectories(ontoPath);
 		}

@@ -12,10 +12,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.google.common.base.Strings;
@@ -71,6 +73,21 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 			LOGGER.warning("Cannot retrieve changes from the server");
 			return false;
 		}
+	}
+
+	public IRI getServerLocation() {
+		return versionedOntology.getServerDocument().getServerLocation();
+	}
+
+	public Path getOntologyDirectory() throws IOException {
+		final Path ontoPath = Paths.get(Environment.getHome(),
+		                                versionedOntology.getServerDocument().getServerLocation()
+		                                                 .getFragment());
+		if (!java.nio.file.Files.exists(ontoPath)) {
+			java.nio.file.Files.createDirectories(ontoPath);
+		}
+
+		return ontoPath;
 	}
 
 	@Override
