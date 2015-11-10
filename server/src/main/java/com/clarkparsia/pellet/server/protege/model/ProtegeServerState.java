@@ -77,10 +77,10 @@ public final class ProtegeServerState implements ServerState {
 			for (File aOntoDir : aFiles) {
 				if (aOntoDir.isDirectory() && aOntoDir.canWrite() && aOntoDir.getName().endsWith(".history")) {
 					try {
+						LOGGER.info("Loading ontology from: "+ aOntoDir.getAbsolutePath());
 						IRI docIRI = serverRoot.resolve("/"+ aOntoDir.getName());
 						RemoteOntologyDocument ontoDoc = (RemoteOntologyDocument) getClient().getServerDocument(docIRI);
 						diskOntoStates.add(ProtegeOntologyState.loadFromDisk(manager, mClient, aOntoDir, ontoDoc));
-						LOGGER.info("Loaded ontology from: "+ aOntoDir.getAbsolutePath());
 					}
 					catch (Exception theE) {
 						LOGGER.log(Level.SEVERE,
@@ -116,13 +116,15 @@ public final class ProtegeServerState implements ServerState {
 				try {
 					final Optional<OntologyState> ontoState = findOntologyByServerLocation(ontoDoc.getServerLocation());
 					if (ontoState.isPresent()) {
-						LOGGER.info("Attempting to update OntologyState for "+ ontoDoc.getServerLocation());
+						LOGGER.info("Attempting to update ontology "+ ontoDoc.getServerLocation());
 						ontoState.get().update();
 					}
 					else {
-						LOGGER.info("Creating new OntologyState for "+ ontoDoc.getServerLocation());
+						LOGGER.info("Creating new ontology "+ ontoDoc.getServerLocation());
 						VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient, manager, ontoDoc);
-						newBuilder.add(new ProtegeOntologyState(mClient, vont));
+						ProtegeOntologyState state = new ProtegeOntologyState(mClient, vont);
+						newBuilder.add(state);
+						state.save();
 					}
 				}
 				catch (OWLOntologyCreationException e) {

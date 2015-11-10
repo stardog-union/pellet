@@ -104,7 +104,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 			aSink.write(aHEAD.toString());
 		}
 		catch (IOException theE) {
-			LOGGER.log(Level.SEVERE, "Couldn't save the OntologyState "+ getIRI().toQuotedString(), theE);
+			LOGGER.log(Level.SEVERE, "Couldn't save the ontology state " + getIRI().toQuotedString(), theE);
 		}
 	}
 

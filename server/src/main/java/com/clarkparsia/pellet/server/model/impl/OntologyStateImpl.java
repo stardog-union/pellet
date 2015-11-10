@@ -27,6 +27,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
+import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -49,6 +50,7 @@ public class OntologyStateImpl implements OntologyState {
 		this.ontology = ontology;
 
 		reasoner = IncrementalReasoner.config().createIncrementalReasoner(ontology);
+		reasoner.getReasoner().getKB().setTaxonomyBuilderProgressMonitor(new ConsoleProgressMonitor());
 		reasoner.classify();
 
 		clients = initClientCache();
@@ -67,19 +69,22 @@ public class OntologyStateImpl implements OntologyState {
 		                   .removalListener(new RemovalListener<String, ClientState>() {
 			                   @Override
 			                   public void onRemoval(final RemovalNotification<String, ClientState> theRemovalNotification) {
-				                   theRemovalNotification.getValue().close();
+				                   String user = theRemovalNotification.getKey();
+				                   ClientState state = theRemovalNotification.getValue();
+				                   LOGGER.info("Closing client for "+ user);
+				                   state.close();
 			                   }
 		                   })
 		                   .build(new CacheLoader<String, ClientState>() {
 			                   @Override
 			                   public ClientState load(final String user) throws Exception {
-				                   return newClientState();
+				                   return newClientState(user);
 			                   }
-
 		                   });
 	}
 
-	private synchronized ClientState newClientState() {
+	private synchronized ClientState newClientState(final String user) {
+		LOGGER.info("Creating new client for "+ user);
 		return new ClientStateImpl(reasoner);
 	}
 

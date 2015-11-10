@@ -16,6 +16,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
+import org.semanticweb.owlapi.reasoner.ReasonerProgressMonitor;
 
 /**
  *
@@ -75,6 +76,12 @@ public class IncrementalReasonerConfiguration extends PelletReasonerConfiguratio
 	 */
 	public IncrementalReasonerConfiguration multiThreaded(boolean multiThreaded) {
 		this.multiThreaded = multiThreaded;
+		return this;
+	}
+
+	@Override
+	public IncrementalReasonerConfiguration progressMonitor(final ReasonerProgressMonitor theProgressMonitor) {
+		super.progressMonitor(theProgressMonitor);
 		return this;
 	}
 

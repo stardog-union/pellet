@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.model.ServerState;
@@ -63,6 +64,7 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 	}
 
 	static class ReasonerUpdateHandler extends AbstractReasonerHandler {
+		private static final Logger LOGGER = Logger.getLogger(ReasonerUpdateHandler.class.getName());
 
 		public ReasonerUpdateHandler(final ServerState theServerState,
 		                             final Collection<ServiceEncoder> theEncoders,
@@ -72,43 +74,51 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 
 		@Override
 		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
-			final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
-			                                                     .getParameters().get("ontology"),
-			                                          StandardCharsets.UTF_8.name());
+			try {
+				final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
+				                                                     .getParameters().get("ontology"),
+				                                          StandardCharsets.UTF_8.name());
 
-			byte[] inBytes = readInput(theExchange.getInputStream(), false /* don't fail on empty input */);
+				byte[] inBytes = readInput(theExchange.getInputStream(), false /* don't fail on empty input */);
 
-			if (inBytes.length == 0) {
-				// If there's no payload we finish the exchange
+				if (inBytes.length == 0) {
+					// If there's no payload we finish the exchange
+					theExchange.setStatusCode(StatusCodes.OK);
+					theExchange.endExchange();
+					return;
+				}
+
+				final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
+				if (!decoderOpt.isPresent()) {
+					// TODO: throw appropiate exception
+					throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Couldn't decode request payload");
+				}
+
+				final UpdateRequest aUpdateRequest = decoderOpt.get().updateRequest(inBytes);
+
+				// TODO: Is this the best way to identify the client?
+				final String clientId = theExchange.getSourceAddress().toString();
+
+				final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
+
+				LOGGER.info("Updating client " + clientId + " (+" + aUpdateRequest.getAdditions().size() + ", -" + aUpdateRequest.getAdditions().size() + ")");
+
+				aReasoner.update(aUpdateRequest.getAdditions(), aUpdateRequest.getRemovals());
+
+				if (MediaType.JSON_UTF_8.is(MediaType.parse(getAccept(theExchange)))) {
+					final JsonMessage aJsonMessage = new GenericJsonMessage("Update successful.");
+
+					theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, JsonMessage.MIME_TYPE);
+					theExchange.getResponseSender().send(aJsonMessage.toJsonString());
+				}
+
 				theExchange.setStatusCode(StatusCodes.OK);
 				theExchange.endExchange();
-				return;
 			}
-
-			final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
-			if (!decoderOpt.isPresent()) {
-				// TODO: throw appropiate exception
-				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't decode request payload");
+			catch (Exception e) {
+				e.printStackTrace();
+				throw e;
 			}
-
-			final UpdateRequest aUpdateRequest = decoderOpt.get().updateRequest(inBytes);
-
-			// TODO: Is this the best way to identify the client?
-			final String clientId = theExchange.getSourceAddress().toString();
-
-			final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
-
-			aReasoner.update(aUpdateRequest.getAdditions(), aUpdateRequest.getRemovals());
-
-			if (MediaType.JSON_UTF_8.is(MediaType.parse(getAccept(theExchange)))) {
-				final JsonMessage aJsonMessage = new GenericJsonMessage("Update successful.");
-
-				theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, JsonMessage.MIME_TYPE);
-				theExchange.getResponseSender().send(aJsonMessage.toJsonString());
-			}
-
-			theExchange.setStatusCode(StatusCodes.OK);
-			theExchange.endExchange();
 		}
 	}
 }
