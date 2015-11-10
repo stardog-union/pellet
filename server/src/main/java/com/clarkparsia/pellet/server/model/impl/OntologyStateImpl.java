@@ -111,7 +111,7 @@ public class OntologyStateImpl implements OntologyState {
 
 		if (updated) {
 			LOGGER.info("Classifying updated ontology "+ ontology);
-			
+
 			reasoner.classify();
 
 			save();

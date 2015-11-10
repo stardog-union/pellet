@@ -2,6 +2,7 @@ package com.complexible.pellet.client.reasoner;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
@@ -18,11 +19,17 @@ import com.complexible.pellet.client.api.PelletService;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
+import org.mindswap.pellet.utils.Pair;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;
@@ -46,6 +53,16 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	final ServiceEncoder mEncoder = new ProtoServiceEncoder();
 	final ServiceDecoder mDecoder = new ProtoServiceDecoder();
 
+	private LoadingCache<Pair<QueryType, OWLLogicalEntity>, NodeSet<?>> cache = CacheBuilder.newBuilder()
+		                   .maximumSize(1024)
+		                   .build(new CacheLoader<Pair<QueryType, OWLLogicalEntity>, NodeSet<?>>() {
+			                   @Override
+			                   public NodeSet<?> load(final Pair<QueryType, OWLLogicalEntity> pair) throws Exception {
+				                   return executeRemoteQuery(pair.first, pair.second);
+			                   }
+		                   });
+
+
 	@Inject
 	public RemoteSchemaReasoner(final PelletService thePelletService,
 	                            @Assisted final OWLOntology theOntology) {
@@ -59,6 +76,16 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 	@Override
 	public <T extends OWLObject> NodeSet<T> query(final QueryType theQueryType, final OWLLogicalEntity input) {
+		try {
+			return (NodeSet<T>) cache.get(Pair.create(theQueryType, input));
+		}
+		catch (Exception e) {
+			Throwables.propagate(e);
+		}
+		return null;
+	}
+
+	private <T extends OWLObject> NodeSet<T> executeRemoteQuery(final QueryType theQueryType, final OWLLogicalEntity input) {
 		try {
 			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
 			                                          mEncoder.encode(new QueryRequest(input)));
@@ -102,6 +129,8 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	@Override
 	public void update(final Set<OWLAxiom> additions, final Set<OWLAxiom> removals) {
 		try {
+			cache.invalidateAll();
+
 			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
 			                                          mEncoder.encode(new UpdateRequest(additions, removals)));
 
