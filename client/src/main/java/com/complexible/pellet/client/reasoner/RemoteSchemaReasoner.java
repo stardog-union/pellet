@@ -33,6 +33,8 @@ import retrofit.Call;
 import retrofit.Response;
 
 /**
+ * Implementation of a {@link SchemaReasoner} using the Pellet Service API remote reasoner.
+ *
  * @author Edgar Rodriguez-Diaz
  */
 public class RemoteSchemaReasoner implements SchemaReasoner {

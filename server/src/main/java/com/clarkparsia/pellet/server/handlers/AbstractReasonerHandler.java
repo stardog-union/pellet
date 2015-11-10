@@ -1,5 +1,7 @@
 package com.clarkparsia.pellet.server.handlers;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
@@ -9,6 +11,7 @@ import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Optional;
+import com.google.common.io.ByteStreams;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderValues;
@@ -16,8 +19,6 @@ import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.reasoner.NodeSet;
 
 /**
  * Abstract implementation of HttpHandler with tools to reuse across all
@@ -25,7 +26,7 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
  *
  * @author Edgar Rodriguez-Diaz
  */
-public abstract class AbstractHttpHandler implements HttpHandler {
+public abstract class AbstractReasonerHandler implements HttpHandler {
 
 	private final ServerState serverState;
 
@@ -33,9 +34,9 @@ public abstract class AbstractHttpHandler implements HttpHandler {
 
 	private final Collection<ServiceDecoder> mDecoders;
 
-	public AbstractHttpHandler(final ServerState theServerState,
-	                           final Collection<ServiceEncoder> theEncoders,
-	                           final Collection<ServiceDecoder> theDecoders) {
+	public AbstractReasonerHandler(final ServerState theServerState,
+	                               final Collection<ServiceEncoder> theEncoders,
+	                               final Collection<ServiceDecoder> theDecoders) {
 		serverState = theServerState;
 		mEncoders = theEncoders;
 		mDecoders = theDecoders;
@@ -105,5 +106,27 @@ public abstract class AbstractHttpHandler implements HttpHandler {
 
 	protected void throwBadRequest(final String theMsg) throws ServerException {
 		throw new ServerException(StatusCodes.BAD_REQUEST, theMsg);
+	}
+
+	protected byte[] readInput(final InputStream theInStream,
+	                           final boolean theFailOnEmpty /* Signal to fail on empty input */) throws ServerException {
+		byte[] inBytes = {};
+		try {
+			try {
+				inBytes = ByteStreams.toByteArray(theInStream);
+			}
+			finally {
+				theInStream.close();
+			}
+		}
+		catch (IOException theE) {
+			throw new ServerException(500, "There was an IO error while reading input stream", theE);
+		}
+
+		if (theFailOnEmpty && inBytes.length == 0) {
+			throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Payload is empty");
+		}
+
+		return inBytes;
 	}
 }

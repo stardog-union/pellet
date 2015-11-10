@@ -3,12 +3,16 @@ package com.clarkparsia.pellet.server.handlers;
 import io.undertow.server.HttpHandler;
 
 /**
- * Defines a PathHandler specification for Pellet Server functionality
+ * Defines a Path-HttpHandler specification for setting up Pellet Server functionality.
  *
  * @author Edgar Rodriguez-Diaz
  */
 public interface PathHandlerSpec {
 
+	/**
+	 * The type of path to use for matching calls to the service. Specs defining paths as
+	 * template must implement the way they'll read the path parameters.
+	 */
 	enum PathType {
 		EXACT,  PREFIX, TEMPLATE
 	}

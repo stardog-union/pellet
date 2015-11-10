@@ -1,17 +1,12 @@
 package com.clarkparsia.pellet.server;
 
-import java.io.File;
 import java.util.Set;
 
 import javax.servlet.ServletException;
 
-import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
-import com.clarkparsia.pellet.server.handlers.PelletExceptionHandler;
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
-import com.clarkparsia.pellet.server.protege.ProtegeServerConfiguration;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import io.undertow.Handlers;

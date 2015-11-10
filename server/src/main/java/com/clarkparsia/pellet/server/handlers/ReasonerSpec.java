@@ -14,6 +14,8 @@ import io.undertow.server.handlers.BlockingHandler;
 import io.undertow.server.handlers.ExceptionHandler;
 
 /**
+ * Abstract Spec with tools for wrapping and setting up HttpHandlers implementing reasoner's functionality.
+ *
  * @author Edgar Rodriguez-Diaz
  */
 public abstract class ReasonerSpec implements PathHandlerSpec {
@@ -34,11 +36,13 @@ public abstract class ReasonerSpec implements PathHandlerSpec {
 	}
 
 	protected HttpHandler wrapHandlerToMethod(final String theMethod, final HttpHandler theHandler) {
-		ExceptionHandler aExceptionHandler = new ExceptionHandler(theHandler);
-		aExceptionHandler.addExceptionHandler(ServerException.class, new PelletExceptionHandler());
+		final ExceptionHandler aExceptionHandler = new ExceptionHandler(theHandler);
+		aExceptionHandler.addExceptionHandler(ServerException.class, new ServerExceptionHandler());
 
-		BlockingHandler aFnHandler = new BlockingHandler(aExceptionHandler);
+		// Since we're doing IO in the Handlers, we have to wrap them in a BlockingHandler
+		final BlockingHandler aFnHandler = new BlockingHandler(aExceptionHandler);
 
+		// Enable the functionality for only the method selected
 		return Handlers.predicate(Predicates.parse("method("+ theMethod +")"),
 		                          aFnHandler,
 		                          new MethodNotAllowedHandler(theMethod));

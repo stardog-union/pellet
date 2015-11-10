@@ -1,6 +1,5 @@
 package com.clarkparsia.pellet.server.handlers;
 
-import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -18,7 +17,6 @@ import com.clarkparsia.pellet.service.messages.ExplainResponse;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
-import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -28,6 +26,9 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
+ * Specification for {@link SchemaReasoner#explain(OWLAxiom, int)} functionality within
+ * the Pellet Server.
+ *
  * @author Edgar Rodriguez-Diaz
  */
 public class ReasonerExplainSpec extends ReasonerSpec {
@@ -55,12 +56,15 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 		return wrapHandlerToMethod("POST", new ReasonerExplainHandler(mServerState, mEncoders, mDecoders));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public PathType getPathType() {
 		return PathType.TEMPLATE;
 	}
 
-	static class ReasonerExplainHandler extends AbstractHttpHandler {
+	static class ReasonerExplainHandler extends AbstractReasonerHandler {
 
 		public ReasonerExplainHandler(final ServerState theServerState,
 		                              final Collection<ServiceEncoder> theEncoders,
@@ -76,18 +80,7 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 
 			int limit = getLimit(theExchange);
 
-			InputStream inStream = theExchange.getInputStream();
-			byte[] inBytes = {};
-			try {
-				inBytes = ByteStreams.toByteArray(inStream);
-			}
-			finally {
-				inStream.close();
-			}
-
-			if (inBytes.length == 0) {
-				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Payload is empty");
-			}
+			byte[] inBytes = readInput(theExchange.getInputStream(), true);
 
 			final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
 			if (!decoderOpt.isPresent()) {

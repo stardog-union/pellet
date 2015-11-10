@@ -1,6 +1,5 @@
 package com.clarkparsia.pellet.server.handlers;
 
-import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -18,17 +17,20 @@ import com.clarkparsia.pellet.service.messages.QueryResponse;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
-import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.PathTemplateMatch;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
 /**
+ * Specification for {@link SchemaReasoner#query(SchemaReasoner.QueryType, OWLLogicalEntity)} functionality within
+ * the Pellet Server.
+ *
  * @author Edgar Rodriguez-Diaz
  */
 public class ReasonerQuerySpec extends ReasonerSpec {
@@ -56,12 +58,15 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 		return wrapHandlerToMethod("POST", new ReasonerQueryHandler(mServerState, mEncoders, mDecoders));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public PathType getPathType() {
 		return PathType.TEMPLATE;
 	}
 
-	static class ReasonerQueryHandler extends AbstractHttpHandler {
+	static class ReasonerQueryHandler extends AbstractReasonerHandler {
 
 
 		public ReasonerQueryHandler(final ServerState theServerState,
@@ -79,18 +84,7 @@ public class ReasonerQuerySpec extends ReasonerSpec {
 
 			final SchemaReasoner.QueryType queryType = getQueryType(theExchange);
 
-			InputStream inStream = theExchange.getInputStream();
-			byte[] inBytes = {};
-			try {
-				inBytes = ByteStreams.toByteArray(inStream);
-			}
-			finally {
-				inStream.close();
-			}
-
-			if (inBytes.length == 0) {
-				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Payload is empty");
-			}
+			byte[] inBytes = readInput(theExchange.getInputStream(), true);
 
 			final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
 			if (!decoderOpt.isPresent()) {
