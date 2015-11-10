@@ -101,9 +101,15 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 
 				final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
 
-				LOGGER.info("Updating client " + clientId + " (+" + aUpdateRequest.getAdditions().size() + ", -" + aUpdateRequest.getAdditions().size() + ")");
+				LOGGER.info("Updating client " + clientId +
+				            " (+" + aUpdateRequest.getAdditions().size() + ", -" + aUpdateRequest.getAdditions().size() + ")");
 
 				aReasoner.update(aUpdateRequest.getAdditions(), aUpdateRequest.getRemovals());
+
+				LOGGER.info("Updating client " + clientId +
+				            " Success!");
+
+				theExchange.setStatusCode(StatusCodes.OK);
 
 				if (MediaType.JSON_UTF_8.is(MediaType.parse(getAccept(theExchange)))) {
 					final JsonMessage aJsonMessage = new GenericJsonMessage("Update successful.");
@@ -112,7 +118,6 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 					theExchange.getResponseSender().send(aJsonMessage.toJsonString());
 				}
 
-				theExchange.setStatusCode(StatusCodes.OK);
 				theExchange.endExchange();
 			}
 			catch (Exception e) {
