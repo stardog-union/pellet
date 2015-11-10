@@ -14,6 +14,7 @@ import com.clarkparsia.pellet.service.json.JsonMessage;
 import com.clarkparsia.pellet.service.messages.UpdateRequest;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Optional;
+import com.google.common.net.MediaType;
 import com.google.inject.Inject;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -96,19 +97,17 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 			final String clientId = theExchange.getSourceAddress().toString();
 
 			final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
+
 			aReasoner.update(aUpdateRequest.getAdditions(), aUpdateRequest.getRemovals());
 
-			final Optional<ServiceEncoder> encoderOpt = getEncoder(getAccept(theExchange));
-			if (!encoderOpt.isPresent()) {
-				// TODO: throw appropiate exception
-				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't encode response payload");
+			if (MediaType.JSON_UTF_8.is(MediaType.parse(getAccept(theExchange)))) {
+				final JsonMessage aJsonMessage = new GenericJsonMessage("Update successful.");
+
+				theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, JsonMessage.MIME_TYPE);
+				theExchange.getResponseSender().send(aJsonMessage.toJsonString());
 			}
 
-			JsonMessage aJsonMessage = new GenericJsonMessage("Update successful.");
-
 			theExchange.setStatusCode(StatusCodes.OK);
-			theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, JsonMessage.MIME_TYPE);
-			theExchange.getResponseSender().send(aJsonMessage.toJsonString());
 			theExchange.endExchange();
 		}
 	}

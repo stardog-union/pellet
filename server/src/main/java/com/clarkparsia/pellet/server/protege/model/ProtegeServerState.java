@@ -197,8 +197,7 @@ public final class ProtegeServerState implements ServerState {
 		}
 	}
 
-	@VisibleForTesting
-	Client getClient() {
+	public Client getClient() {
 		return mClient;
 	}
 

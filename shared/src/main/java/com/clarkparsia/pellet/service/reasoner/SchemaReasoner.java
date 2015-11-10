@@ -77,27 +77,27 @@ public interface SchemaReasoner extends AutoCloseable {
 	/**
 	 * Execute a schema query.
 	 *
-	 * @param theQueryType schema query
-	 * @param input input entity
-	 * @param <T> type of return entities
-	 * @return queyr result
+	 * @param theQueryType  schema query
+	 * @param input         input entity
+	 * @param <T>           type of return entities
+	 * @return              the query result
 	 */
 	<T extends OWLObject> NodeSet<T> query(QueryType theQueryType, OWLLogicalEntity input);
 
 	/**
 	 * Return the explanations for the given axiom.
 	 *
-	 * @param axiom input axiom to explain
-	 * @param limit maximum number of explanations to return
-	 * @return
+	 * @param axiom     input axiom to explain
+	 * @param limit     maximum number of explanations to return
+	 * @return          the set of axiom sets
 	 */
 	Set<Set<OWLAxiom>> explain(OWLAxiom axiom, int limit);
 
 	/**
 	 * Update the reasoner contents.
 	 *
-	 * @param additions axioms to add
-	 * @param removals axioms to remove
+	 * @param additions     axioms to add
+	 * @param removals      axioms to remove
 	 */
 	void update(Set<OWLAxiom> additions, Set<OWLAxiom> removals);
 }
