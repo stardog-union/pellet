@@ -67,7 +67,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		try {
 			OntologyDocumentRevision revision = versionedOntology.getRevision();
 			ClientUtilities.update(client, versionedOntology);
-			return revision != versionedOntology.getRevision();
+			return !revision.equals(versionedOntology.getRevision());
 		}
 		catch (OWLServerException e) {
 			LOGGER.warning("Cannot retrieve changes from the server");
@@ -144,8 +144,15 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		                                                                             theManager,
 		                                                                             theRemoteDoc, aRev);
 
-		final IncrementalReasoner aReasoner = readReasoner(theOntoDir);
+		try {
+			final IncrementalReasoner aReasoner = readReasoner(theOntoDir);
 
-		return new ProtegeOntologyState(theClient, versionedOnto, aReasoner);
+			return new ProtegeOntologyState(theClient, versionedOnto, aReasoner);
+		}
+		catch (Exception e) {
+			LOGGER.log(Level.WARNING, "Cannot read saved state from file", e);
+
+			return new ProtegeOntologyState(theClient, versionedOnto);
+		}
 	}
 }
