@@ -7,6 +7,7 @@ import com.complexible.pellet.client.reasoner.SchemaOWLReasonerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.mindswap.pellet.PelletOptions;
+import org.protege.editor.owl.client.connect.ServerConnectionManager;
 import org.protege.editor.owl.model.inference.AbstractProtegeOWLReasonerInfo;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -50,7 +51,11 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
 			    // TODO: read timeout from preferences too and pass to ClientModule, 3 min by default
 			    final Injector aInjector = Guice.createInjector(new ClientModule(serverURL));
 
-			    return new SchemaOWLReasonerFactory(aInjector.getInstance(SchemaReasonerFactory.class));
+			    ServerConnectionManager connectionManager = getOWLModelManager().get(ServerConnectionManager.ID);
+
+			    System.out.println("connectionManager " + connectionManager);
+			    
+			    return new RemotePelletReasonerFactory(aInjector.getInstance(SchemaReasonerFactory.class), connectionManager);
 		    }
 		    default: throw new UnsupportedOperationException("Unrecognized reasoner type: " + reasonerMode);
 	    }

@@ -37,6 +37,7 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.OWLOntologyChangeListener;
 import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.reasoner.AxiomNotInProfileException;
@@ -90,6 +91,10 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		ontology.getOWLOntologyManager().addOntologyChangeListener(changeListener);
 
 		LOGGER.info("Create schema reasoner with " + bufferingMode);
+	}
+
+	public OWLOntologyChangeListener getListener() {
+		return changeListener;
 	}
 
 	private boolean isFlushed() {
