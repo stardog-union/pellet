@@ -21,6 +21,8 @@ import retrofit.http.Query;
  */
 public interface PelletService {
 
+	String DEFAULT_LOCAL_ENDPOINT = "http://localhost:8080";
+
 	@GET("/admin/shutdown")
 	Call<GenericJsonMessage> shutdown();
 

@@ -45,10 +45,11 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
 		    case REGULAR: return com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance();
 		    case INCREMENTAL: return IncremantalReasonerFactory.getInstance();
 		    case REMOTE: {
-			    Injector aInjector = Guice.createInjector(new ClientModule());
+			    final String serverURL = PelletReasonerPreferences.getInstance().getServerURL();
 
-			    String serverURL = PelletReasonerPreferences.getInstance().getServerURL();
-			    // FIXME inject server URL
+			    // TODO: read timeout from preferences too and pass to ClientModule, 3 min by default
+			    final Injector aInjector = Guice.createInjector(new ClientModule(serverURL));
+
 			    return new SchemaOWLReasonerFactory(aInjector.getInstance(SchemaReasonerFactory.class));
 		    }
 		    default: throw new UnsupportedOperationException("Unrecognized reasoner type: " + reasonerMode);

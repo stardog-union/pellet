@@ -129,7 +129,10 @@ public class PelletServer extends PelletCmdApp {
 	}
 
 	private PelletService service() {
-		Injector aInjector = Guice.createInjector(new ClientModule());
+		// TODO: make this endpoint dynamic
+		final String endpoint = "http://"+ com.clarkparsia.pellet.server.PelletServer.HOST + ":" +
+		                        com.clarkparsia.pellet.server.PelletServer.PORT;
+		Injector aInjector = Guice.createInjector(new ClientModule(endpoint));
 
 		return aInjector.getInstance(PelletService.class);
 	}

@@ -1,17 +1,13 @@
 package com.clarkparsia.pellet.server.protege;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.google.common.io.Resources;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.protege.owl.server.api.ChangeMetaData;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteServerDirectory;
