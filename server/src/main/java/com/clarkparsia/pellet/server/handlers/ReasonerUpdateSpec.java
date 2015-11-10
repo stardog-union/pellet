@@ -74,9 +74,7 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 
 		@Override
 		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
-			final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
-			                                                     .getParameters().get("ontology"),
-			                                          StandardCharsets.UTF_8.name());
+			final IRI ontology = getOntology(theExchange);
 
 			byte[] inBytes = readInput(theExchange.getInputStream(), false /* don't fail on empty input */);
 
@@ -98,7 +96,7 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 			// TODO: Is this the best way to identify the client?
 			final String clientId = theExchange.getSourceAddress().toString();
 
-			final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
+			final SchemaReasoner aReasoner = getReasoner(ontology, clientId);
 
 			LOGGER.info("Updating client " + clientId +
 			            " (+" + aUpdateRequest.getAdditions().size() + ", -" + aUpdateRequest.getAdditions().size() + ")");

@@ -74,9 +74,7 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 
 		@Override
 		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
-			final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
-			                                                     .getParameters().get("ontology"),
-			                                          StandardCharsets.UTF_8.name());
+			final IRI ontology = getOntology(theExchange);
 
 			int limit = getLimit(theExchange);
 
@@ -93,7 +91,7 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 			// TODO: Is this the best way to identify the client?
 			final String clientId = theExchange.getSourceAddress().toString();
 
-			final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
+			final SchemaReasoner aReasoner = getReasoner(ontology, clientId);
 			final Set<Set<OWLAxiom>> result = aReasoner.explain(aExplainReq.getAxiom(), limit);
 
 			final Optional<ServiceEncoder> encoderOpt = getEncoder(getAccept(theExchange));

@@ -2,6 +2,9 @@ package com.clarkparsia.pellet.server.handlers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
@@ -17,6 +20,7 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderValues;
 import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
+import io.undertow.util.PathTemplateMatch;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
 
@@ -106,6 +110,17 @@ public abstract class AbstractReasonerHandler implements HttpHandler {
 
 	protected void throwBadRequest(final String theMsg) throws ServerException {
 		throw new ServerException(StatusCodes.BAD_REQUEST, theMsg);
+	}
+
+	protected IRI getOntology(final HttpServerExchange theExchange) throws ServerException {
+		try {
+			return IRI.create(URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
+			                                               .getParameters().get("ontology"),
+			                                    StandardCharsets.UTF_8.name()));
+		}
+		catch (Exception theE) {
+			throw new ServerException(StatusCodes.BAD_REQUEST, "Error parsing Ontology IRI", theE);
+		}
 	}
 
 	protected byte[] readInput(final InputStream theInStream,

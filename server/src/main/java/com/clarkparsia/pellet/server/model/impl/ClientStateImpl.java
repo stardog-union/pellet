@@ -20,6 +20,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * @author Evren Sirin
  */
 public class ClientStateImpl implements ClientState {
+
 	private final SchemaReasoner reasoner;
 	private final OWLOntology ontology;
 
