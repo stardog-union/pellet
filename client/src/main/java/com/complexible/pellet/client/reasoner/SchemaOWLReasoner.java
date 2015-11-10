@@ -8,6 +8,7 @@
 
 package com.complexible.pellet.client.reasoner;
 
+import java.util.AbstractList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,7 @@ import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -36,6 +38,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyID;
+import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.reasoner.AxiomNotInProfileException;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.ClassExpressionNotInProfileException;
@@ -69,9 +72,12 @@ public class SchemaOWLReasoner implements OWLReasoner {
 
 	private final BufferingOntologyChangeListener changeListener;
 
-	public SchemaOWLReasoner(OWLOntology ontology, SchemaReasonerFactory reasonerFactory) {
+	private final BufferingMode bufferingMode;
+
+	public SchemaOWLReasoner(OWLOntology ontology, SchemaReasonerFactory reasonerFactory, BufferingMode bufferingMode) {
 		this.ontology = ontology;
 		this.client = reasonerFactory.create(ontology);
+		this.bufferingMode = bufferingMode;
 
 		Iterable<OWLOntologyID> ontologies = Iterables.transform(ontology.getImportsClosure(), new Function<OWLOntology, OWLOntologyID>() {
 			@Override
@@ -82,6 +88,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
         changeListener = new BufferingOntologyChangeListener(ontologies);
 
 		ontology.getOWLOntologyManager().addOntologyChangeListener(changeListener);
+
+		LOGGER.info("Create schema reasoner with " + bufferingMode);
 	}
 
 	private boolean isFlushed() {
@@ -101,12 +109,21 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		return client.query(theQueryType, input);
 	}
 
+	public void autoFlush() {
+		if (bufferingMode == BufferingMode.NON_BUFFERING) {
+			flush();
+		}
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void flush() {
+		System.out.println("Flushing schema reasoner " + isFlushed() + " with updates (+" + changeListener.getAdditions().size() + ", -" + changeListener.getRemovals().size() + ")");
+
 		if (!isFlushed()) {
+			LOGGER.info("Flushing schema reasoner  with updates (+" + changeListener.getAdditions().size() + ", -" + changeListener.getAdditions().size() + ")");
 			client.update(changeListener.getAdditions(), changeListener.getRemovals());
 			changeListener.reset();
 		}
@@ -127,14 +144,14 @@ public class SchemaOWLReasoner implements OWLReasoner {
 
 	@Override
 	public Node<OWLClass> getEquivalentClasses(OWLClassExpression clsC) {
-		flush();
+		autoFlush();
 
 		return executeSingletonQuery(QueryType.EQUIVALENT, requireNamedObject(clsC));
 	}
 
 	@Override
 	public NodeSet<OWLClass> getSubClasses(OWLClassExpression ce, boolean direct) {
-		flush();
+		autoFlush();
 
 		return executeQuery(direct
 		                    ? QueryType.CHILD
@@ -175,7 +192,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	 */
 	@Override
 	public BufferingMode getBufferingMode() {
-		return BufferingMode.BUFFERING;
+		return bufferingMode;
 	}
 
 	/**
@@ -185,7 +202,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLClass> getDataPropertyDomains(OWLDataProperty pe, boolean direct)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(QueryType.DOMAIN, pe);
 	}
@@ -197,7 +214,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public Set<OWLLiteral> getDataPropertyValues(OWLNamedIndividual ind, OWLDataProperty pe)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return ImmutableSet.of();
 	}
@@ -208,7 +225,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLNamedIndividual> getDifferentIndividuals(OWLNamedIndividual ind)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return ImmutableNodeSet.empty();
 	}
@@ -217,7 +234,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	 * {@inheritDoc}
 	 */
 	public NodeSet<OWLClass> getDisjointClasses(OWLClassExpression ce) {
-		flush();
+		autoFlush();
 
 		return executeQuery(QueryType.DISJOINT, requireNamedObject(ce));
 	}
@@ -228,7 +245,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLDataProperty> getDisjointDataProperties(OWLDataPropertyExpression pe)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(QueryType.DISJOINT, requireNamedObject(pe));
 	}
@@ -239,7 +256,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLObjectPropertyExpression> getDisjointObjectProperties(OWLObjectPropertyExpression pe)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {		
-		flush();
+		autoFlush();
 
 		return executeQuery(QueryType.DISJOINT, requireNamedObject(pe));
 	}
@@ -250,7 +267,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public Node<OWLDataProperty> getEquivalentDataProperties(OWLDataProperty pe)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeSingletonQuery(QueryType.EQUIVALENT, pe);
 	}
@@ -261,7 +278,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public Node<OWLObjectPropertyExpression> getEquivalentObjectProperties(OWLObjectPropertyExpression pe)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return (Node) executeSingletonQuery(QueryType.EQUIVALENT, requireNamedObject(pe));
 	}
@@ -289,7 +306,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLNamedIndividual> getInstances(OWLClassExpression ce, boolean direct)
 		throws InconsistentOntologyException, ClassExpressionNotInProfileException,
 		       FreshEntitiesException, ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return ImmutableNodeSet.empty();
 	}
@@ -301,7 +318,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public Node<OWLObjectPropertyExpression> getInverseObjectProperties(OWLObjectPropertyExpression pe)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeSingletonQuery(QueryType.INVERSE, requireNamedObject(pe));
 	}
@@ -313,7 +330,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLClass> getObjectPropertyDomains(OWLObjectPropertyExpression pe, boolean direct)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(QueryType.DOMAIN, requireNamedObject(pe));
 	}
@@ -325,7 +342,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLClass> getObjectPropertyRanges(OWLObjectPropertyExpression pe, boolean direct)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(QueryType.RANGE, requireNamedObject(pe));
 	}
@@ -337,7 +354,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLNamedIndividual> getObjectPropertyValues(OWLNamedIndividual ind,
 	                                                           OWLObjectPropertyExpression pe) throws InconsistentOntologyException,
 	                                                                                                  FreshEntitiesException, ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return ImmutableNodeSet.empty();
 	}
@@ -363,7 +380,21 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	 */
 	@Override
 	public List<OWLOntologyChange> getPendingChanges() {
-		return Collections.emptyList();
+		return new AbstractList<OWLOntologyChange>() {
+			@Override
+			public OWLOntologyChange get(final int index) {
+				int additionsSize = getPendingAxiomAdditions().size();
+				OWLOntology ont = getRootOntology();
+				return index < additionsSize
+				       ? new AddAxiom(ont, Iterables.get(getPendingAxiomAdditions(), index))
+				       : new RemoveAxiom(ont, Iterables.get(getPendingAxiomRemovals(), index - additionsSize));
+			}
+
+			@Override
+			public int size() {
+				return getPendingAxiomAdditions().size() + getPendingAxiomRemovals().size();
+			}
+		};
 	}
 
 	/**
@@ -396,7 +427,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public Node<OWLNamedIndividual> getSameIndividuals(OWLNamedIndividual ind)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return NodeFactory.getOWLNamedIndividualNode();
 	}
@@ -407,7 +438,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLDataProperty> getSubDataProperties(OWLDataProperty pe, boolean direct)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(direct ? QueryType.CHILD
 		                           : QueryType.DESCENDANT, pe);
@@ -419,7 +450,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLObjectPropertyExpression> getSubObjectProperties(OWLObjectPropertyExpression pe,
 	                                                                   boolean direct) throws InconsistentOntologyException, FreshEntitiesException,
 	                                                                                          ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(direct ? QueryType.CHILD
 		                           : QueryType.DESCENDANT, requireNamedObject(pe));
@@ -431,7 +462,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLClass> getSuperClasses(OWLClassExpression ce, boolean direct)
 		throws InconsistentOntologyException, ClassExpressionNotInProfileException,
 		       FreshEntitiesException, ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(direct ? QueryType.PARENT
 		                           : QueryType.ANCESTOR, requireNamedObject(ce));
@@ -443,7 +474,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLDataProperty> getSuperDataProperties(OWLDataProperty pe, boolean direct)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(direct ? QueryType.PARENT
 		                           : QueryType.ANCESTOR, requireNamedObject(pe));
@@ -455,7 +486,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLObjectPropertyExpression> getSuperObjectProperties(OWLObjectPropertyExpression pe,
 	                                                                     boolean direct) throws InconsistentOntologyException, FreshEntitiesException,
 	                                                                                            ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return executeQuery(direct ? QueryType.PARENT
 		                           : QueryType.ANCESTOR, requireNamedObject(pe));
@@ -499,7 +530,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLClass> getTypes(OWLNamedIndividual ind, boolean direct)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
-		flush();
+		autoFlush();
 
 		return ImmutableNodeSet.empty();
 	}
@@ -582,7 +613,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		for (InferenceType inferenceType : inferenceTypes) {
 			switch (inferenceType) {
 				case CLASS_HIERARCHY:
-					flush();
+					autoFlush();
 				default:
 					break;
 			}

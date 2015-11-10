@@ -10,6 +10,7 @@ package com.complexible.pellet.client.reasoner;
 
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -32,17 +33,17 @@ public class SchemaOWLReasonerFactory implements OWLReasonerFactory {
 	
 	@Override
 	public OWLReasoner createNonBufferingReasoner(final OWLOntology ontology) {
-		return createReasoner(ontology);
+		return new SchemaOWLReasoner(ontology, factory, BufferingMode.NON_BUFFERING);
 	}
 
 	@Override
 	public OWLReasoner createReasoner(final OWLOntology ontology) {
-		return new SchemaOWLReasoner(ontology, factory);
+		return new SchemaOWLReasoner(ontology, factory, BufferingMode.BUFFERING);
 	}
 
 	@Override
 	public OWLReasoner createNonBufferingReasoner(final OWLOntology ontology,  final OWLReasonerConfiguration theOWLReasonerConfiguration) {
-		return createReasoner(ontology);
+		return createNonBufferingReasoner(ontology);
 	}
 
 	@Override
