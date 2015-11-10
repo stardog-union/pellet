@@ -8,6 +8,7 @@ import org.semanticweb.owlapi.model.IRI;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
+import retrofit.http.Header;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
@@ -27,14 +28,17 @@ public interface PelletService {
 	@POST("/reasoner/{ontology}/query")
 	Call<ResponseBody> query(@Path("ontology") IRI theOntology,
 	                         @Query("type") SchemaReasoner.QueryType theType,
+	                         @Header("Accept") String theAcceptMediaType,
 	                         @Body RequestBody theQueryRequest);
 
 	@POST("/reasoner/{ontology}/explain")
 	Call<ResponseBody> explain(@Path("ontology") IRI theOntology,
 	                           @Query("limit") int limit,
+	                           @Header("Accept") String theAcceptMediaType,
 	                           @Body RequestBody theQueryRequest);
 
 	@PUT("/reasoner/{ontology}")
 	Call<GenericJsonMessage> update(@Path("ontology") IRI theOntology,
+	                                @Header("Accept") String theAcceptMediaType,
 	                                @Body RequestBody theUpdateRequest);
 }

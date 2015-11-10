@@ -61,7 +61,10 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
 			                                          mEncoder.encode(new QueryRequest(input)));
 
-			Call<ResponseBody> queryCall = mService.query(mOntologyIri, theQueryType, aReqBody);
+			Call<ResponseBody> queryCall = mService.query(mOntologyIri,
+			                                              theQueryType,
+			                                              mDecoder.getMediaType(),
+			                                              aReqBody);
 			final ResponseBody aRespBody = executeCall(queryCall);
 			QueryResponse queryResponse = mDecoder.queryResponse(aRespBody.bytes());
 
@@ -79,7 +82,10 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
 			                                          mEncoder.encode(new ExplainRequest(axiom)));
 
-			Call<ResponseBody> explainCall = mService.explain(mOntologyIri, limit, aReqBody);
+			Call<ResponseBody> explainCall = mService.explain(mOntologyIri,
+			                                                  limit,
+			                                                  mDecoder.getMediaType(),
+			                                                  aReqBody);
 			final ResponseBody aRespBody = executeCall(explainCall);
 			ExplainResponse explainResponse = mDecoder.explainResponse(aRespBody.bytes());
 
@@ -97,7 +103,9 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
 			                                          mEncoder.encode(new UpdateRequest(additions, removals)));
 
-			Call<GenericJsonMessage> updateCall = mService.update(mOntologyIri, aReqBody);
+			Call<GenericJsonMessage> updateCall = mService.update(mOntologyIri,
+			                                                      GenericJsonMessage.MIME_TYPE,
+			                                                      aReqBody);
 			executeCall(updateCall);
 		}
 		catch (Exception e) {
