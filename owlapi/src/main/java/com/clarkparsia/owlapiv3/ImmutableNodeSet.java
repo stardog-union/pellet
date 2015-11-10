@@ -15,14 +15,21 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
  * @author Evren Sirin
  */
 public class ImmutableNodeSet<E extends OWLObject> implements NodeSet<E> {
-    private final Set<Node<E>> nodes;
+    private static final ImmutableNodeSet<?> EMPTY = of((Set) ImmutableSet.of());
+
+    public static <E extends OWLObject> ImmutableNodeSet<E> empty() {
+        return (ImmutableNodeSet<E>) EMPTY;
+    }
 
     public static <E extends OWLObject> ImmutableNodeSet<E> of(Node<E> node) {
         return new ImmutableNodeSet<E>(ImmutableSet.of(node));
     }
+
     public static <E extends OWLObject> ImmutableNodeSet<E> of(Set<Node<E>> nodes) {
         return new ImmutableNodeSet<E>(ImmutableSet.copyOf(nodes));
     }
+
+    private final Set<Node<E>> nodes;
 
     private ImmutableNodeSet(ImmutableSet<Node<E>> nodes) {
         this.nodes = nodes;

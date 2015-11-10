@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import com.clarkparsia.owlapiv3.BufferingOntologyChangeListener;
+import com.clarkparsia.owlapiv3.ImmutableNodeSet;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
@@ -49,6 +50,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.ReasonerInterruptedException;
 import org.semanticweb.owlapi.reasoner.TimeOutException;
 import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
+import org.semanticweb.owlapi.reasoner.impl.NodeFactory;
 import org.semanticweb.owlapi.util.Version;
 
 import static com.clarkparsia.pellet.service.reasoner.SchemaReasoner.QueryType;
@@ -191,12 +193,13 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Set<OWLLiteral> getDataPropertyValues(OWLNamedIndividual ind, OWLDataProperty pe)
 		throws InconsistentOntologyException, FreshEntitiesException,
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		throw new UnsupportedOperationException();
+		return ImmutableSet.of();
 	}
 
 	/**
@@ -207,14 +210,16 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		throw new UnsupportedOperationException();
+		return ImmutableNodeSet.empty();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public NodeSet<OWLClass> getDisjointClasses(OWLClassExpression ce) {
-		throw new UnsupportedOperationException();
+		flush();
+
+		return executeQuery(QueryType.DISJOINT, requireNamedObject(ce));
 	}
 
 	/**
@@ -225,8 +230,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		throw new UnsupportedOperationException();
-
+		return executeQuery(QueryType.DISJOINT, requireNamedObject(pe));
 	}
 
 	/**
@@ -287,7 +291,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       FreshEntitiesException, ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		throw new UnsupportedOperationException();
+		return ImmutableNodeSet.empty();
 	}
 
 	/**
@@ -335,8 +339,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	                                                                                                  FreshEntitiesException, ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		throw new UnsupportedOperationException();
-
+		return ImmutableNodeSet.empty();
 	}
 
 	/**
@@ -395,7 +398,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		throw new UnsupportedOperationException();
+		return NodeFactory.getOWLNamedIndividualNode();
 	}
 
 	/**
@@ -498,7 +501,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		flush();
 
-		throw new UnsupportedOperationException();
+		return ImmutableNodeSet.empty();
 	}
 
 	/**
@@ -533,7 +536,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public boolean isEntailed(OWLAxiom axiom) throws ReasonerInterruptedException,
 	                                                 UnsupportedEntailmentTypeException, TimeOutException, AxiomNotInProfileException,
 	                                                 FreshEntitiesException {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedEntailmentTypeException(axiom);
 	}
 
 	/**
@@ -543,14 +546,14 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public boolean isEntailed(Set<? extends OWLAxiom> axioms) throws ReasonerInterruptedException,
 	                                                                 UnsupportedEntailmentTypeException, TimeOutException, AxiomNotInProfileException,
 	                                                                 FreshEntitiesException {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedEntailmentTypeException(axioms.iterator().next());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean isEntailmentCheckingSupported(AxiomType<?> axiomType) {
-		return true;
+		return false;
 	}
 	/**
 	 * {@inheritDoc}
