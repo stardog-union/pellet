@@ -1,8 +1,6 @@
 package com.clarkparsia.pellet.server.handlers;
 
-import java.net.URLDecoder;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Map;
@@ -20,7 +18,6 @@ import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.util.PathTemplateMatch;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLLogicalEntity;

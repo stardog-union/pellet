@@ -2,6 +2,7 @@ package com.complexible.pellet.client.api;
 
 import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
+import com.google.gson.JsonObject;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.ResponseBody;
 import org.semanticweb.owlapi.model.IRI;
@@ -42,4 +43,8 @@ public interface PelletService {
 	Call<GenericJsonMessage> update(@Path("ontology") IRI theOntology,
 	                                @Header("Accept") String theAcceptMediaType,
 	                                @Body RequestBody theUpdateRequest);
+
+	@GET("/reasoner/{ontology}/version")
+	Call<JsonObject> version(@Path("ontology") IRI theOntology,
+	                         @Header("Accept") String theAcceptMediaType);
 }

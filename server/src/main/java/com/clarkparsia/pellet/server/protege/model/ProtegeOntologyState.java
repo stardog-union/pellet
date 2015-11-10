@@ -75,6 +75,10 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		}
 	}
 
+	protected int getVersion() {
+		return Integer.parseInt(versionedOntology.getRevision().toString());
+	}
+
 	public IRI getServerLocation() {
 		return versionedOntology.getServerDocument().getServerLocation();
 	}
@@ -95,7 +99,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		super.save();
 
 		try {
-			final OntologyDocumentRevision aHEAD = versionedOntology.getLocalHistory().getEndRevision();
+			final OntologyDocumentRevision aHEAD = versionedOntology.getRevision();
 			final Path aHeadFilePath = getOntologyDirectory().resolve("HEAD");
 
 			removeIfExists(aHeadFilePath);

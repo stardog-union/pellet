@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
 
+import com.clarkparsia.pellet.server.model.ServerState;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import io.undertow.Handlers;
@@ -80,6 +81,11 @@ public final class PelletServer {
 
 		isRunning = true;
 		server.start();
+	}
+
+	public void reload() {
+		final ServerState aServerState = serverInjector.getInstance(ServerState.class);
+		aServerState.reload();
 	}
 
 	public void stop() {

@@ -6,6 +6,7 @@ import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
 import com.clarkparsia.pellet.server.handlers.ReasonerExplainSpec;
 import com.clarkparsia.pellet.server.handlers.ReasonerQuerySpec;
 import com.clarkparsia.pellet.server.handlers.ReasonerUpdateSpec;
+import com.clarkparsia.pellet.server.handlers.ReasonerVersionSpec;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.protege.ProtegeServerStateProvider;
 import com.clarkparsia.pellet.service.ServiceDecoder;
@@ -41,6 +42,7 @@ public class PelletServerModule extends AbstractModule implements Module {
 		pathsBinder.addBinding().to(ReasonerQuerySpec.class);
 		pathsBinder.addBinding().to(ReasonerExplainSpec.class);
 		pathsBinder.addBinding().to(ReasonerUpdateSpec.class);
+		pathsBinder.addBinding().to(ReasonerVersionSpec.class);
 
 		Multibinder<ServiceDecoder> decodersBinder = Multibinder.newSetBinder(binder(), ServiceDecoder.class);
 		decodersBinder.addBinding().to(ProtoServiceDecoder.class);

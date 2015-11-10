@@ -24,9 +24,9 @@ public class ClientStateImpl implements ClientState {
 	private final SchemaReasoner reasoner;
 	private final OWLOntology ontology;
 
-	public ClientStateImpl(final IncrementalReasoner incremental) {
+	public ClientStateImpl(final IncrementalReasoner incremental, final int version) {
 		// create the reasoner with a copy of the incremental reasoner so it won't be affected if the original reasoner is updated
-		reasoner = new LocalSchemaReasoner(incremental.copy());
+		reasoner = new LocalSchemaReasoner(incremental.copy(), version);
 		ontology = incremental.getRootOntology();
 	}
 

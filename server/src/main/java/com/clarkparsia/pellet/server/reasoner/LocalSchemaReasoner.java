@@ -34,19 +34,32 @@ public class LocalSchemaReasoner implements SchemaReasoner {
 
 	private final PelletExplanation explanation;
 
+	private final int version;
+
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
 	public LocalSchemaReasoner(final PelletReasoner pellet) {
-		this(pellet, pellet);
+		this(pellet, pellet, NO_VERSION);
+	}
+
+	public LocalSchemaReasoner(final PelletReasoner pellet, final int version) {
+		this(pellet, pellet, version);
 	}
 
 	public LocalSchemaReasoner(final IncrementalReasoner incremental) {
-		this(incremental, incremental.getReasoner());
+		this(incremental, incremental.getReasoner(), NO_VERSION);
 	}
 
-	private LocalSchemaReasoner(final OWLListeningReasoner reasoner, final PelletReasoner pellet) {
+	public LocalSchemaReasoner(final IncrementalReasoner incremental, final int version) {
+		this(incremental, incremental.getReasoner(), version);
+	}
+
+	private LocalSchemaReasoner(final OWLListeningReasoner reasoner,
+	                            final PelletReasoner pellet,
+	                            final int version) {
 		this.reasoner = reasoner;
 		this.explanation = new PelletExplanation(pellet);
+		this.version = version;
 
 		reasoner.setListenChanges(true);
 	}
@@ -91,6 +104,11 @@ public class LocalSchemaReasoner implements SchemaReasoner {
 		finally {
 			lock.writeLock().unlock();
 		}
+	}
+
+	@Override
+	public int version() {
+		return version;
 	}
 
 	@Override

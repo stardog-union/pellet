@@ -22,6 +22,8 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
  */
 public interface SchemaReasoner extends AutoCloseable {
 
+	int NO_VERSION = -1;
+
 	/**
 	 * Enumeration of query types for schema reasoner.
 	 *
@@ -100,4 +102,11 @@ public interface SchemaReasoner extends AutoCloseable {
 	 * @param removals      axioms to remove
 	 */
 	void update(Set<OWLAxiom> additions, Set<OWLAxiom> removals);
+
+	/**
+	 * Gets the version of the data used by this reasoner.
+	 *
+	 * @return  an ID of the data version
+	 */
+	int version();
 }

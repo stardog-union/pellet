@@ -75,13 +75,17 @@ public abstract class AbstractReasonerHandler implements HttpHandler {
 	}
 
 	protected SchemaReasoner getReasoner(final IRI theOntology, final String theClientId) throws ServerException {
+		return getOntologyState(theOntology).getClient(theClientId)
+		                                    .getReasoner();
+	}
+
+	protected OntologyState getOntologyState(final IRI theOntology) throws ServerException {
 		Optional<OntologyState> aOntoState = getServerState().getOntology(theOntology);
 		if (!aOntoState.isPresent()) {
 			throw new ServerException(StatusCodes.NOT_FOUND, "Ontology not found.");
 		}
-		return aOntoState.get()
-		                 .getClient(theClientId)
-		                 .getReasoner();
+
+		return aOntoState.get();
 	}
 
 	private String getHeaderValue(final HttpServerExchange theExchange,

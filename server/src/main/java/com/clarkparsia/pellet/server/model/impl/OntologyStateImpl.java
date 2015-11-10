@@ -22,6 +22,7 @@ import com.clarkparsia.modularity.IncrementalReasoner;
 import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.model.OntologyState;
+import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -83,9 +84,14 @@ public class OntologyStateImpl implements OntologyState {
 		                   });
 	}
 
+	protected int getVersion() {
+		return SchemaReasoner.NO_VERSION;
+	}
+
 	private synchronized ClientState newClientState(final String user) {
-		LOGGER.info("Creating new client for "+ user);
-		return new ClientStateImpl(reasoner);
+		int version = getVersion();
+		LOGGER.info("Creating new client for "+ user +" with revision "+ version);
+		return new ClientStateImpl(reasoner, version);
 	}
 
 	@Override

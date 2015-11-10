@@ -49,6 +49,7 @@ public class PelletServiceProvider implements Provider<PelletService> {
 			httpClient.setWriteTimeout(mWriteTimeoutMin, TimeUnit.MINUTES);
 
 			final Retrofit aRetrofit = new Retrofit.Builder().baseUrl(mEndpoint)
+			                                                 .client(httpClient)
 			                                                 .addConverterFactory(GsonConverterFactory.create())
 			                                                 .build();
 

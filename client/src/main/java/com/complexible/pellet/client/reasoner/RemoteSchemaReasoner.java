@@ -24,6 +24,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
+import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.squareup.okhttp.MediaType;
@@ -142,6 +143,14 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 		catch (Exception e) {
 			Throwables.propagate(e);
 		}
+	}
+
+	@Override
+	public int version() {
+		final Call<JsonObject> versionCall = mService.version(mOntologyIri, GenericJsonMessage.MIME_TYPE);
+		final JsonObject aRespObj = executeCall(versionCall);
+
+		return aRespObj.get("version").getAsInt();
 	}
 
 	@Override
