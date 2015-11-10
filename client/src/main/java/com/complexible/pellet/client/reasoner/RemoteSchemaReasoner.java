@@ -126,12 +126,12 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 		try {
 			Response<O> aResp = theCall.execute();
 
-			if (aResp.isSuccess()) {
-				results = aResp.body();
+			if (!aResp.isSuccess()) {
+				throw new ClientException(String.format("Request call failed: [%d] %s",
+				                                        aResp.code(), aResp.message()));
 			}
-			else {
-				throw new ClientException("Request for query call failed");
-			}
+
+			results = aResp.body();
 		}
 		catch (IOException theE) {
 			Throwables.propagate(new ClientException(theE.getMessage(), theE));

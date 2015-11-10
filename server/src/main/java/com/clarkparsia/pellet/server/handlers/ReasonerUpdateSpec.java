@@ -80,7 +80,7 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 
 			if (inBytes.length == 0) {
 				// If there's no payload we finish the exchange
-				theExchange.setStatusCode(StatusCodes.NOT_MODIFIED);
+				theExchange.setStatusCode(StatusCodes.OK);
 				theExchange.endExchange();
 				return;
 			}
