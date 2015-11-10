@@ -74,56 +74,50 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 
 		@Override
 		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
-			try {
-				final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
-				                                                     .getParameters().get("ontology"),
-				                                          StandardCharsets.UTF_8.name());
+			final String ontology = URLDecoder.decode(theExchange.getAttachment(PathTemplateMatch.ATTACHMENT_KEY)
+			                                                     .getParameters().get("ontology"),
+			                                          StandardCharsets.UTF_8.name());
 
-				byte[] inBytes = readInput(theExchange.getInputStream(), false /* don't fail on empty input */);
+			byte[] inBytes = readInput(theExchange.getInputStream(), false /* don't fail on empty input */);
 
-				if (inBytes.length == 0) {
-					// If there's no payload we finish the exchange
-					theExchange.setStatusCode(StatusCodes.OK);
-					theExchange.endExchange();
-					return;
-				}
-
-				final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
-				if (!decoderOpt.isPresent()) {
-					// TODO: throw appropiate exception
-					throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Couldn't decode request payload");
-				}
-
-				final UpdateRequest aUpdateRequest = decoderOpt.get().updateRequest(inBytes);
-
-				// TODO: Is this the best way to identify the client?
-				final String clientId = theExchange.getSourceAddress().toString();
-
-				final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
-
-				LOGGER.info("Updating client " + clientId +
-				            " (+" + aUpdateRequest.getAdditions().size() + ", -" + aUpdateRequest.getAdditions().size() + ")");
-
-				aReasoner.update(aUpdateRequest.getAdditions(), aUpdateRequest.getRemovals());
-
-				LOGGER.info("Updating client " + clientId +
-				            " Success!");
-
+			if (inBytes.length == 0) {
+				// If there's no payload we finish the exchange
 				theExchange.setStatusCode(StatusCodes.OK);
-
-				if (MediaType.JSON_UTF_8.is(MediaType.parse(getAccept(theExchange)))) {
-					final JsonMessage aJsonMessage = new GenericJsonMessage("Update successful.");
-
-					theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, JsonMessage.MIME_TYPE);
-					theExchange.getResponseSender().send(aJsonMessage.toJsonString());
-				}
-
 				theExchange.endExchange();
+				return;
 			}
-			catch (Exception e) {
-				e.printStackTrace();
-				throw e;
+
+			final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
+			if (!decoderOpt.isPresent()) {
+				// TODO: throw appropiate exception
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Couldn't decode request payload");
 			}
+
+			final UpdateRequest aUpdateRequest = decoderOpt.get().updateRequest(inBytes);
+
+			// TODO: Is this the best way to identify the client?
+			final String clientId = theExchange.getSourceAddress().toString();
+
+			final SchemaReasoner aReasoner = getReasoner(IRI.create(ontology), clientId);
+
+			LOGGER.info("Updating client " + clientId +
+			            " (+" + aUpdateRequest.getAdditions().size() + ", -" + aUpdateRequest.getAdditions().size() + ")");
+
+			aReasoner.update(aUpdateRequest.getAdditions(), aUpdateRequest.getRemovals());
+
+			LOGGER.info("Updating client " + clientId +
+			            " Success!");
+
+			theExchange.setStatusCode(StatusCodes.OK);
+
+			if (MediaType.JSON_UTF_8.is(MediaType.parse(getAccept(theExchange)))) {
+				final JsonMessage aJsonMessage = new GenericJsonMessage("Update successful.");
+
+				theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, JsonMessage.MIME_TYPE);
+				theExchange.getResponseSender().send(aJsonMessage.toJsonString());
+			}
+
+			theExchange.endExchange();
 		}
 	}
 }

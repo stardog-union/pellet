@@ -1,5 +1,8 @@
 package com.clarkparsia.pellet.server.handlers;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 import com.clarkparsia.pellet.service.json.JsonMessage;
@@ -16,12 +19,16 @@ import io.undertow.util.Headers;
  */
 public class ServerExceptionHandler implements HttpHandler {
 
+	private static final Logger LOGGER = Logger.getLogger(ServerExceptionHandler.class.getName());
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void handleRequest(final HttpServerExchange exchange) throws Exception {
 		ServerException anException = (ServerException) exchange.getAttachment(ExceptionHandler.THROWABLE);
+
+		LOGGER.log(Level.INFO, "Exception on HttpHandler", anException);
 
 		JsonMessage aJsonMessage = new GenericJsonMessage(anException.getMessage());
 
