@@ -14,7 +14,7 @@ import com.clarkparsia.pellet.service.messages.QueryResponse;
 import com.clarkparsia.pellet.service.messages.UpdateRequest;
 import com.clarkparsia.pellet.service.proto.ProtoServiceDecoder;
 import com.clarkparsia.pellet.service.proto.ProtoServiceEncoder;
-import com.complexible.pellet.client.ClientException;
+import com.complexible.pellet.client.ClientTools;
 import com.complexible.pellet.client.api.PelletService;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Preconditions;
@@ -22,8 +22,6 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.cache.RemovalListener;
-import com.google.common.cache.RemovalNotification;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -38,7 +36,6 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import retrofit.Call;
-import retrofit.Response;
 
 /**
  * Implementation of a {@link SchemaReasoner} using the Pellet Service API remote reasoner.
@@ -95,7 +92,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			                                              theQueryType,
 			                                              mDecoder.getMediaType(),
 			                                              aReqBody);
-			final ResponseBody aRespBody = executeCall(queryCall);
+			final ResponseBody aRespBody = ClientTools.executeCall(queryCall);
 			QueryResponse queryResponse = mDecoder.queryResponse(aRespBody.bytes());
 
 			return (NodeSet<T>) queryResponse.getResults();
@@ -116,7 +113,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			                                                  limit,
 			                                                  mDecoder.getMediaType(),
 			                                                  aReqBody);
-			final ResponseBody aRespBody = executeCall(explainCall);
+			final ResponseBody aRespBody = ClientTools.executeCall(explainCall);
 			ExplainResponse explainResponse = mDecoder.explainResponse(aRespBody.bytes());
 
 			return explainResponse.getAxiomSets();
@@ -138,7 +135,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			Call<GenericJsonMessage> updateCall = mService.update(mOntologyIri,
 			                                                      GenericJsonMessage.MIME_TYPE,
 			                                                      aReqBody);
-			executeCall(updateCall);
+			ClientTools.executeCall(updateCall);
 		}
 		catch (Exception e) {
 			Throwables.propagate(e);
@@ -148,36 +145,12 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	@Override
 	public int version() {
 		final Call<JsonObject> versionCall = mService.version(mOntologyIri, GenericJsonMessage.MIME_TYPE);
-		final JsonObject aRespObj = executeCall(versionCall);
+		final JsonObject aRespObj = ClientTools.executeCall(versionCall);
 
 		return aRespObj.get("version").getAsInt();
 	}
 
 	@Override
 	public void close() throws Exception {
-
-	}
-
-	private <O> O executeCall(final Call<O> theCall) {
-		O results = null;
-
-		try {
-			Response<O> aResp = theCall.execute();
-
-			if (!aResp.isSuccess()) {
-				throw new ClientException(String.format("Request call failed: [%d] %s",
-				                                        aResp.code(), aResp.message()));
-			}
-
-			results = aResp.body();
-		}
-		catch (IOException theE) {
-			Throwables.propagate(new ClientException(theE.getMessage(), theE));
-		}
-		catch (ClientException theE) {
-			Throwables.propagate(theE);
-		}
-
-		return results;
 	}
 }
