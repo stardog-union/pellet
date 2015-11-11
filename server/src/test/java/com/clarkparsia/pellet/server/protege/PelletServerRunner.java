@@ -3,6 +3,7 @@ package com.clarkparsia.pellet.server.protege;
 import com.clarkparsia.pellet.server.PelletServer;
 import com.clarkparsia.pellet.server.PelletServerTest;
 import com.google.common.base.Throwables;
+import org.protege.owl.server.api.client.Client;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -22,5 +23,10 @@ public class PelletServerRunner extends PelletServerTest {
 		PelletServerTest.beforeClass();
 
 		new PelletServerRunner().run();
+	}
+
+	@Override
+	public Client provideClient() throws Exception {
+		return createClient(RMI_PORT, REDMOND);
 	}
 }

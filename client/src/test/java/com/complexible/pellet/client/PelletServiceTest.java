@@ -18,6 +18,7 @@ import com.squareup.okhttp.RequestBody;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.protege.owl.server.api.client.Client;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import retrofit.Call;
@@ -44,13 +45,17 @@ public class PelletServiceTest extends PelletClientTest {
 
 		// reset client in protege server state
 		final ProtegeServerState aServerState = (ProtegeServerState) pelletServer.getState();
-		aServerState.setClient(createClient(RMI_PORT, REDMOND));
 
 		// create test ontology
 		ontologyId = createAgenciesOntology(aServerState.getClient());
 
 		// force reload server state
 		pelletServer.getState().reload();
+	}
+
+	@Override
+	public Client provideClient() throws Exception {
+		return createClient(RMI_PORT, REDMOND);
 	}
 
 	@After
