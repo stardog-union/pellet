@@ -1,9 +1,9 @@
 package com.clarkparsia.pellet.protege;
 
 import com.clarkparsia.modularity.IncremantalReasonerFactory;
+import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.complexible.pellet.client.ClientModule;
-import com.complexible.pellet.client.reasoner.SchemaOWLReasonerFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.mindswap.pellet.PelletOptions;
@@ -28,6 +28,10 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
 
 	private final PelletReasonerPreferences prefs = PelletReasonerPreferences.getInstance();
 	private OWLReasonerFactory factory = null;
+
+	public PelletReasonerFactory() {
+		PelletExplanation.setup();
+	}
 
 	/**
      * {@inheritDoc}

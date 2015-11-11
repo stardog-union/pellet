@@ -1,13 +1,16 @@
 package com.clarkparsia.pellet.server.handlers;
 
-import java.net.URLDecoder;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxExplanationRenderer;
 import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.service.ServiceDecoder;
@@ -20,7 +23,6 @@ import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.util.PathTemplateMatch;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -65,6 +67,7 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 	}
 
 	static class ReasonerExplainHandler extends AbstractReasonerHandler {
+		private static final Logger LOGGER = Logger.getLogger(ReasonerExplainHandler.class.getName());
 
 		public ReasonerExplainHandler(final ServerState theServerState,
 		                              final Collection<ServiceEncoder> theEncoders,
@@ -83,7 +86,7 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 			final Optional<ServiceDecoder> decoderOpt = getDecoder(getContentType(theExchange));
 			if (!decoderOpt.isPresent()) {
 				// TODO: throw appropiate exception
-				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't decode request payload");
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Cannot decode request payload");
 			}
 
 			final ExplainRequest aExplainReq = decoderOpt.get().explainRequest(inBytes);
@@ -94,10 +97,19 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 			final SchemaReasoner aReasoner = getReasoner(ontology, clientId);
 			final Set<Set<OWLAxiom>> result = aReasoner.explain(aExplainReq.getAxiom(), limit);
 
+			if (LOGGER.isLoggable(Level.INFO)) {
+				StringWriter sw = new StringWriter();
+				ManchesterSyntaxExplanationRenderer renderer = new ManchesterSyntaxExplanationRenderer();
+				renderer.startRendering(sw);
+				renderer.render(aExplainReq.getAxiom(), result);
+				renderer.endRendering();
+				LOGGER.info(sw.toString());
+			}
+
 			final Optional<ServiceEncoder> encoderOpt = getEncoder(getAccept(theExchange));
 			if (!encoderOpt.isPresent()) {
 				// TODO: throw appropiate exception
-				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't encode response payload");
+				throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Cannot encode response payload");
 			}
 
 			theExchange.getResponseSender()

@@ -2,7 +2,6 @@ package com.clarkparsia.pellet.server.handlers;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
@@ -82,7 +81,7 @@ public abstract class AbstractReasonerHandler implements HttpHandler {
 	protected OntologyState getOntologyState(final IRI theOntology) throws ServerException {
 		Optional<OntologyState> aOntoState = getServerState().getOntology(theOntology);
 		if (!aOntoState.isPresent()) {
-			throw new ServerException(StatusCodes.NOT_FOUND, "Ontology not found.");
+			throw new ServerException(StatusCodes.NOT_FOUND, "Ontology not found: " + theOntology);
 		}
 
 		return aOntoState.get();

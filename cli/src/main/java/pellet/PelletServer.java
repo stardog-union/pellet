@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.pellet.owlapiv3.LimitedMapIRIMapper;
 import com.clarkparsia.pellet.server.Configuration;
 import com.clarkparsia.pellet.server.Environment;
@@ -95,6 +96,8 @@ public class PelletServer extends PelletCmdApp {
 
 	@Override
 	public void run() {
+		PelletExplanation.setup();
+
 		String[] commands = getInputFiles();
 
 		if (commands.length != 1) {

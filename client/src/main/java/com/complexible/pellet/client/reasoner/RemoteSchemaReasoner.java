@@ -106,6 +106,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	@Override
 	public Set<Set<OWLAxiom>> explain(final OWLAxiom axiom, final int limit) {
 		try {
+			System.out.println("Explaining " + axiom);
 			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
 			                                          mEncoder.encode(new ExplainRequest(axiom)));
 
@@ -115,7 +116,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			                                                  aReqBody);
 			final ResponseBody aRespBody = ClientTools.executeCall(explainCall);
 			ExplainResponse explainResponse = mDecoder.explainResponse(aRespBody.bytes());
-
+			System.out.println("Explanation " + explainResponse.getAxiomSets());
 			return explainResponse.getAxiomSets();
 		}
 		catch (Exception e) {

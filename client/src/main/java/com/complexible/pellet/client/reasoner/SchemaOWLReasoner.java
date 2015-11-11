@@ -97,6 +97,11 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		return changeListener;
 	}
 
+
+	public Set<Set<OWLAxiom>> explain(OWLAxiom axiom, int limit) {
+		return client.explain(axiom, limit);
+	}
+
 	private boolean isFlushed() {
 		return !changeListener.isChanged();
 	}

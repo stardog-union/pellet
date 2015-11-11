@@ -8,9 +8,15 @@
         <class value="com.clarkparsia.pellet.protege.PelletReasonerFactory"/>
     </extension>
 
-
     <extension id="pellet.reasoner.configuration" point="org.protege.editor.owl.inference_preferences">
         <label value="Pellet"/>
         <class value="com.clarkparsia.pellet.protege.PelletPreferencesPanel"/>
+    </extension>
+
+
+    <extension id="PelletExplanation"
+               point="org.protege.editor.owl.explanation">
+        <name value="Pellet Explanation Service"/>
+        <class value="com.clarkparsia.pellet.protege.PelletExplanationService"/>
     </extension>
 </plugin>
