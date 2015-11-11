@@ -8,6 +8,7 @@ import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
 
 import com.clarkparsia.pellet.server.model.ServerState;
+import com.google.common.base.Throwables;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import io.undertow.Handlers;
@@ -83,15 +84,23 @@ public final class PelletServer {
 		server.start();
 	}
 
-	public void reload() {
-		final ServerState aServerState = serverInjector.getInstance(ServerState.class);
-		aServerState.reload();
+	public ServerState getState() {
+		return serverInjector.getInstance(ServerState.class);
 	}
 
 	public void stop() {
 		if (server != null && isRunning) {
 			System.out.println("Received request to shutdown");
 			System.out.println("System is shutting down...");
+
+			// invalidate ServerState
+			try {
+				serverInjector.getInstance(ServerState.class)
+				              .close();
+			}
+			catch (Exception e) {
+				Throwables.propagate(e);
+			}
 
 			server.stop();
 			isRunning = false;

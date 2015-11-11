@@ -4,11 +4,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.util.Collection;
-import java.util.Deque;
-import java.util.Map;
 import java.util.Set;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import java.util.UUID;
 
 import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxExplanationRenderer;
 import com.clarkparsia.pellet.server.exceptions.ServerException;
@@ -19,7 +20,6 @@ import com.clarkparsia.pellet.service.messages.ExplainRequest;
 import com.clarkparsia.pellet.service.messages.ExplainResponse;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Optional;
-import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -78,6 +78,7 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 		@Override
 		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
 			final IRI ontology = getOntology(theExchange);
+			final UUID clientId = getClientID(theExchange);
 
 			int limit = getLimit(theExchange);
 
@@ -90,9 +91,6 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 			}
 
 			final ExplainRequest aExplainReq = decoderOpt.get().explainRequest(inBytes);
-
-			// TODO: Is this the best way to identify the client?
-			final String clientId = theExchange.getSourceAddress().toString();
 
 			final SchemaReasoner aReasoner = getReasoner(ontology, clientId);
 			final Set<Set<OWLAxiom>> result = aReasoner.explain(aExplainReq.getAxiom(), limit);
@@ -120,21 +118,9 @@ public class ReasonerExplainSpec extends ReasonerSpec {
 		}
 
 		private int getLimit(final HttpServerExchange theExchange) throws ServerException {
-			final Map<String, Deque<String>> queryParams = theExchange.getQueryParameters();
 			int limit = 0;
-
-			if (!queryParams.containsKey("limit") || queryParams.get("limit").isEmpty()) {
-				throwBadRequest("Missing required query parameter: limit");
-			}
-
-			final String limitStr = queryParams.get("limit").getFirst();
-
-			if (Strings.isNullOrEmpty(limitStr)) {
-				throwBadRequest("Missing required query parameter: limit");
-			}
-
 			try {
-				limit = Integer.parseInt(limitStr);
+				limit = Integer.parseInt(getQueryParameter(theExchange, "limit"));
 			}
 			catch (Exception e) {
 				throwBadRequest("Query 'limit' parameter is not valid, it must be an Integer.");

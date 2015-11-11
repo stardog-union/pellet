@@ -39,7 +39,7 @@ public final class ProtegeServerState implements ServerState {
 
 	private static final Logger LOGGER = Logger.getLogger(ProtegeServerState.class.getName());
 
-	private final Client mClient;
+	private Client mClient;
 
 	private final AtomicReference<ServerState> mServerState = new AtomicReference<ServerState>(ServerState.EMPTY);
 
@@ -201,6 +201,11 @@ public final class ProtegeServerState implements ServerState {
 
 	public Client getClient() {
 		return mClient;
+	}
+
+	@VisibleForTesting
+	public void setClient(final Client theClient) {
+		mClient = theClient;
 	}
 
 	@Override

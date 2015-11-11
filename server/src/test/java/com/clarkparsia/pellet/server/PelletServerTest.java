@@ -20,19 +20,19 @@ public abstract class PelletServerTest extends ProtegeServerTest {
 	public static void beforeClass() {
 		injector = Guice.createInjector(Modules.override(new PelletServerModule())
 		                                       .with(new TestModule()));
-
-		pelletServer = new PelletServer(injector);
 	}
 
 	@Before
 	public void before() throws Exception {
 		super.before();
+		pelletServer = new PelletServer(injector);
 		pelletServer.start();
 	}
 
 	@After
 	public void after() {
 		pelletServer.stop();
+		pelletServer = null;
 		super.after();
 	}
 

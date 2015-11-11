@@ -12,13 +12,11 @@ import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
 /**
- * TODO: add parameter for custom endpoint
+ * Provides the Pellet Service API client.
  *
  * @author Edgar Rodriguez-Diaz
  */
 public class PelletServiceProvider implements Provider<PelletService> {
-
-	PelletService mPelletService = null;
 
 	private final String mEndpoint;
 
@@ -42,20 +40,16 @@ public class PelletServiceProvider implements Provider<PelletService> {
 
 	@Override
 	public PelletService get() {
-		if (mPelletService == null) {
-			final OkHttpClient httpClient = new OkHttpClient();
-			httpClient.setConnectTimeout(mConnTimeoutMin, TimeUnit.MINUTES);
-			httpClient.setReadTimeout(mReadTimeoutMin, TimeUnit.MINUTES);
-			httpClient.setWriteTimeout(mWriteTimeoutMin, TimeUnit.MINUTES);
+		final OkHttpClient httpClient = new OkHttpClient();
+		httpClient.setConnectTimeout(mConnTimeoutMin, TimeUnit.MINUTES);
+		httpClient.setReadTimeout(mReadTimeoutMin, TimeUnit.MINUTES);
+		httpClient.setWriteTimeout(mWriteTimeoutMin, TimeUnit.MINUTES);
 
-			final Retrofit aRetrofit = new Retrofit.Builder().baseUrl(mEndpoint)
-			                                                 .client(httpClient)
-			                                                 .addConverterFactory(GsonConverterFactory.create())
-			                                                 .build();
+		final Retrofit aRetrofit = new Retrofit.Builder().baseUrl(mEndpoint)
+		                                                 .client(httpClient)
+		                                                 .addConverterFactory(GsonConverterFactory.create())
+		                                                 .build();
 
-			mPelletService = aRetrofit.create(PelletService.class);
-		}
-
-		return mPelletService;
+		return aRetrofit.create(PelletService.class);
 	}
 }

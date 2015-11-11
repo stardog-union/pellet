@@ -64,9 +64,7 @@ public abstract class ProtegeServerTest extends TestUtilities {
 
 	@After
 	public void after() {
-		OntologyUtils.clearOWLOntologyManager();
 		mServer.shutdown();
-
 		OntologyUtils.clearOWLOntologyManager();
 	}
 
@@ -89,21 +87,22 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		assertTrue(client.list((RemoteServerDirectory) doc).isEmpty());
 	}
 
-	protected static void createOwl2Ontology(final Client client) throws OWLServerException {
-		// Needs branch with owlapi 4.1.0 - see: https://github.com/edgarRd/protege-ontology-server/tree/owlapi-4.1.0
+	protected static IRI createOwl2Ontology(final Client client) throws OWLServerException {
 		ClientUtilities.createServerOntology(client,
 		                                     IRI.create(root(client).toString() +"/", OWL2_HISTORY),
 		                                     new ChangeMetaData("Initial entry"),
 		                                     OntologyUtils.loadOntology(Resources.getResource("test/data/owl2.owl")
 		                                                                         .toString()));
+		return IRI.create("http://www.example.org/test");
 	}
 
-	protected static void createAgenciesOntology(final Client client) throws OWLServerException {
+	protected static IRI createAgenciesOntology(final Client client) throws OWLServerException {
 		ClientUtilities.createServerOntology(client,
 		                                     IRI.create(root(client).toString() + "/", AGENCIES_HISTORY),
 		                                     new ChangeMetaData("Initial entry"),
 		                                     OntologyUtils.loadOntology(Resources.getResource("test/data/agencies.owl")
 		                                                                         .toString()));
+		return  IRI.create("http://www.owl-ontologies.com/unnamed.owl");
 	}
 
 }

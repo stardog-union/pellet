@@ -1,5 +1,7 @@
 package com.complexible.pellet.client.api;
 
+import java.util.UUID;
+
 import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.gson.JsonObject;
@@ -30,21 +32,25 @@ public interface PelletService {
 	@POST("/reasoner/{ontology}/query")
 	Call<ResponseBody> query(@Path("ontology") IRI theOntology,
 	                         @Query("type") SchemaReasoner.QueryType theType,
+	                         @Query("client") UUID theClientID,
 	                         @Header("Accept") String theAcceptMediaType,
 	                         @Body RequestBody theQueryRequest);
 
 	@POST("/reasoner/{ontology}/explain")
 	Call<ResponseBody> explain(@Path("ontology") IRI theOntology,
 	                           @Query("limit") int limit,
+	                           @Query("client") UUID theClientID,
 	                           @Header("Accept") String theAcceptMediaType,
 	                           @Body RequestBody theQueryRequest);
 
 	@PUT("/reasoner/{ontology}")
 	Call<GenericJsonMessage> update(@Path("ontology") IRI theOntology,
+	                                @Query("client") UUID theClientID,
 	                                @Header("Accept") String theAcceptMediaType,
 	                                @Body RequestBody theUpdateRequest);
 
 	@GET("/reasoner/{ontology}/version")
 	Call<JsonObject> version(@Path("ontology") IRI theOntology,
+	                         @Query("client") UUID theClientID,
 	                         @Header("Accept") String theAcceptMediaType);
 }

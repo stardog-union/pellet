@@ -2,6 +2,7 @@ package com.clarkparsia.pellet.server.handlers;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
@@ -72,6 +73,7 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 		@Override
 		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
 			final IRI ontology = getOntology(theExchange);
+			final UUID clientId = getClientID(theExchange);
 
 			byte[] inBytes = readInput(theExchange.getInputStream(), false /* don't fail on empty input */);
 
@@ -89,9 +91,6 @@ public class ReasonerUpdateSpec extends ReasonerSpec {
 			}
 
 			final UpdateRequest aUpdateRequest = decoderOpt.get().updateRequest(inBytes);
-
-			// TODO: Is this the best way to identify the client?
-			final String clientId = theExchange.getSourceAddress().toString();
 
 			final SchemaReasoner aReasoner = getReasoner(ontology, clientId);
 

@@ -1,8 +1,7 @@
 package com.complexible.pellet.client.reasoner;
 
-import java.io.IOException;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.UUID;
 
 import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
@@ -51,6 +50,8 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	final ServiceEncoder mEncoder = new ProtoServiceEncoder();
 	final ServiceDecoder mDecoder = new ProtoServiceDecoder();
 
+	public static UUID CLIENT_ID = UUID.randomUUID();
+
 	private LoadingCache<Pair<QueryType, OWLLogicalEntity>, NodeSet<?>> cache = CacheBuilder.newBuilder()
 		                   .maximumSize(1024)
 		                   .build(new CacheLoader<Pair<QueryType, OWLLogicalEntity>, NodeSet<?>>() {
@@ -67,7 +68,6 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 		Preconditions.checkNotNull(theOntology, "the Ontology must not be Null.");
 
 		mService = thePelletService;
-
 		mOntologyIri = theOntology.getOntologyID()
 		                          .getOntologyIRI();
 	}
@@ -90,6 +90,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 			Call<ResponseBody> queryCall = mService.query(mOntologyIri,
 			                                              theQueryType,
+			                                              CLIENT_ID,
 			                                              mDecoder.getMediaType(),
 			                                              aReqBody);
 			final ResponseBody aRespBody = ClientTools.executeCall(queryCall);
@@ -112,6 +113,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 			Call<ResponseBody> explainCall = mService.explain(mOntologyIri,
 			                                                  limit,
+			                                                  CLIENT_ID,
 			                                                  mDecoder.getMediaType(),
 			                                                  aReqBody);
 			final ResponseBody aRespBody = ClientTools.executeCall(explainCall);
@@ -134,6 +136,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			                                          mEncoder.encode(new UpdateRequest(additions, removals)));
 
 			Call<GenericJsonMessage> updateCall = mService.update(mOntologyIri,
+			                                                      CLIENT_ID,
 			                                                      GenericJsonMessage.MIME_TYPE,
 			                                                      aReqBody);
 			ClientTools.executeCall(updateCall);
@@ -145,7 +148,9 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 	@Override
 	public int version() {
-		final Call<JsonObject> versionCall = mService.version(mOntologyIri, GenericJsonMessage.MIME_TYPE);
+		final Call<JsonObject> versionCall = mService.version(mOntologyIri,
+		                                                      CLIENT_ID,
+		                                                      GenericJsonMessage.MIME_TYPE);
 		final JsonObject aRespObj = ClientTools.executeCall(versionCall);
 
 		return aRespObj.get("version").getAsInt();

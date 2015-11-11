@@ -5,6 +5,7 @@ import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.complexible.pellet.client.api.PelletService;
 import com.complexible.pellet.client.reasoner.RemoteSchemaReasoner;
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
 
@@ -49,6 +50,6 @@ public class ClientModule extends AbstractModule {
 		bind(Long.class).annotatedWith(Names.named("write_timeout"))
 		                   .toInstance(mWriteTimeoutMin);
 
-		bind(PelletService.class).toProvider(PelletServiceProvider.class);
+		bind(PelletService.class).toProvider(PelletServiceProvider.class).in(Singleton.class);
 	}
 }

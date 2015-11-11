@@ -2,6 +2,7 @@ package com.clarkparsia.pellet.server.handlers;
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.service.ServiceDecoder;
@@ -53,7 +54,7 @@ public class ReasonerVersionSpec extends ReasonerSpec {
 		@Override
 		public void handleRequest(final HttpServerExchange theExchange) throws Exception {
 			// TODO: Is this the best way to identify the client?
-			final String clientId = theExchange.getSourceAddress().toString();
+			final UUID clientId = getClientID(theExchange);
 
 			// Get local client reasoner's version
 			int version = getReasoner(getOntology(theExchange), clientId).version();

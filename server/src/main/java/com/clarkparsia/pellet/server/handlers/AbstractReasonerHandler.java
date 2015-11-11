@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Deque;
+import java.util.Map;
+import java.util.UUID;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.model.OntologyState;
@@ -13,6 +16,7 @@ import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
@@ -73,8 +77,8 @@ public abstract class AbstractReasonerHandler implements HttpHandler {
 		return aFound;
 	}
 
-	protected SchemaReasoner getReasoner(final IRI theOntology, final String theClientId) throws ServerException {
-		return getOntologyState(theOntology).getClient(theClientId)
+	protected SchemaReasoner getReasoner(final IRI theOntology, final UUID theClientId) throws ServerException {
+		return getOntologyState(theOntology).getClient(theClientId.toString())
 		                                    .getReasoner();
 	}
 
@@ -126,6 +130,15 @@ public abstract class AbstractReasonerHandler implements HttpHandler {
 		}
 	}
 
+	protected UUID getClientID(final HttpServerExchange theExchange) throws ServerException {
+		try {
+			return UUID.fromString(getQueryParameter(theExchange, "client"));
+		}
+		catch (IllegalArgumentException theE) {
+			throw new ServerException(StatusCodes.BAD_REQUEST, "Error parsing Client ID - must be a UUID", theE);
+		}
+	}
+
 	protected byte[] readInput(final InputStream theInStream,
 	                           final boolean theFailOnEmpty /* Signal to fail on empty input */) throws ServerException {
 		byte[] inBytes = {};
@@ -146,5 +159,21 @@ public abstract class AbstractReasonerHandler implements HttpHandler {
 		}
 
 		return inBytes;
+	}
+
+	protected String getQueryParameter(final HttpServerExchange theExchange,
+	                                   final String theParamName) throws ServerException {
+		final Map<String, Deque<String>> queryParams = theExchange.getQueryParameters();
+
+		if (!queryParams.containsKey(theParamName) || queryParams.get(theParamName).isEmpty()) {
+			throwBadRequest("Missing required query parameter: "+ theParamName);
+		}
+
+		final String paramVal = queryParams.get(theParamName).getFirst();
+		if (Strings.isNullOrEmpty(paramVal)) {
+			throwBadRequest("Query parameter ["+ theParamName +"] value is empty");
+		}
+
+		return paramVal;
 	}
 }
