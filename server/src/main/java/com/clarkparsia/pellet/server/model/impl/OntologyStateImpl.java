@@ -169,6 +169,8 @@ public class OntologyStateImpl implements OntologyState {
 		if (manager != null) {
 			manager.removeOntology(ontology);
 		}
+
+		reasoner.dispose();
 	}
 
 	@Override

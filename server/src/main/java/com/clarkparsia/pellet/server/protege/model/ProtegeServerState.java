@@ -4,7 +4,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,6 +51,11 @@ public final class ProtegeServerState implements ServerState {
 
 	private final boolean isStrict;
 
+	/**
+	 * Lock to control reloads of the state
+	 */
+	private ReentrantLock reloadLock = new ReentrantLock();
+
 	public ProtegeServerState(final Client theProtegeClient) {
 		this(theProtegeClient, false);
 	}
@@ -63,9 +70,6 @@ public final class ProtegeServerState implements ServerState {
 
 		// load any OntologyState elements saved on disk
 		loadFromHome();
-
-		// this will update any ontology loaded from disk
-		mServerState.set(snapshot());
 	}
 
 	private void loadFromHome() {
@@ -120,7 +124,7 @@ public final class ProtegeServerState implements ServerState {
 						ontoState.get().update();
 					}
 					else {
-						LOGGER.info("Creating new ontology "+ ontoDoc.getServerLocation());
+						LOGGER.info("Found new ontology "+ ontoDoc.getServerLocation());
 						VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient, manager, ontoDoc);
 						ProtegeOntologyState state = new ProtegeOntologyState(mClient, vont);
 						newBuilder.add(state);
@@ -172,7 +176,7 @@ public final class ProtegeServerState implements ServerState {
 	}
 
 	@Override
-	public void update() {
+	public synchronized void update() {
 		for (OntologyState aOntoState : ontologies()) {
 			aOntoState.update();
 		}
@@ -191,11 +195,24 @@ public final class ProtegeServerState implements ServerState {
 	public void reload() {
 		// free resources from previous server state and update with new snapshot from server
 		try {
-			mServerState.getAndSet(snapshot())
-			            .close();
+			if (reloadLock.tryLock(1, TimeUnit.SECONDS)) {
+				mServerState.getAndSet(snapshot())
+				            .close();
+			}
+			else {
+				LOGGER.info("Skipping reload, there's another state reload happening");
+			}
+		}
+		catch (InterruptedException ie) {
+			LOGGER.log(Level.SEVERE, "Something interrupted a Server State reload", ie);
 		}
 		catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Could not refresh Server State from Protege", e);
+		}
+		finally {
+			if (reloadLock.isHeldByCurrentThread()) {
+				reloadLock.unlock();
+			}
 		}
 	}
 

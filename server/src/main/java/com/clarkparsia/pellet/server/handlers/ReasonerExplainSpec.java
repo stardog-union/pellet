@@ -1,6 +1,5 @@
 package com.clarkparsia.pellet.server.handlers;
 
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.util.Collection;
