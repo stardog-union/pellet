@@ -1,6 +1,7 @@
 package com.clarkparsia.pellet.protege;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,10 +11,13 @@ import java.awt.event.ActionListener;
 import java.util.EnumMap;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.editor.owl.model.event.EventType;
@@ -33,16 +37,33 @@ public class PelletPreferencesPanel extends OWLPreferencesPanel {
 
 	private JTextField serverURL;
 
+	private JSpinner explanationCount;
+
 	@Override
 	public void initialise() throws Exception {
 		setLayout(new BorderLayout());
-		add(createTypePanel(), BorderLayout.NORTH);
+
+		Box box = Box.createVerticalBox();
+		box.add(createTypePanel());
+		box.add(Box.createVerticalStrut(15));
+		box.add(createExplanationPanel());
+		box.add(Box.createVerticalGlue());
+		add(box, BorderLayout.NORTH);
+	}
+
+	private Border createTitledBorder(JPanel panel, String title) {
+		Color color = panel.getBackground();
+		Border shadow = BorderFactory.createMatteBorder(1, 0, 0, 0, color.darker());
+		Border highlight = BorderFactory.createMatteBorder(1, 0, 0, 0, color.brighter());
+		Border etchedLine = BorderFactory.createCompoundBorder(shadow, highlight);
+		return BorderFactory.createTitledBorder(etchedLine, title);
 	}
 
 	private JPanel createTypePanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridBagLayout());
-		panel.setBorder(BorderFactory.createTitledBorder("Reasoner mode"));
+		panel.setBorder(createTitledBorder(panel, "Reasoner mode"));
+
 		GridBagConstraints c = new GridBagConstraints();
 
 		ActionListener listener = new ActionListener() {
@@ -91,6 +112,57 @@ public class PelletPreferencesPanel extends OWLPreferencesPanel {
 		return panel;
 	}
 
+	private JPanel createExplanationPanel() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		panel.setBorder(createTitledBorder(panel, "Explanation"));
+		GridBagConstraints c = new GridBagConstraints();
+
+		ActionListener listener = new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+			}
+		};
+
+		PelletReasonerPreferences prefs = PelletReasonerPreferences.getInstance();
+
+		int expCount = prefs.getExplanationCount();
+
+		ButtonGroup group = new ButtonGroup();
+
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.insets = new Insets(5,10,0,10);
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		panel.add(createButton("Disable explanations", group, listener), c);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(5,10,0,10);
+		panel.add(createButton("Show all explanations", group, listener), c);
+
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		c.insets = new Insets(5,10,0,10);
+		panel.add(createButton("Limit explanations to", group, listener), c);
+
+		c.gridx = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 1.0;
+		c.insets = new Insets(5, 0, 0, 10);
+		explanationCount = new JSpinner();
+		explanationCount.setEnabled(expCount > 0);
+		panel.add(explanationCount, c);
+
+
+		return panel;
+	}
+
 	private JRadioButton createButton(PelletReasonerMode type, ActionListener listener) {
 		String label = type.toString();
 		JRadioButton button = new JRadioButton(label.charAt(0) + label.substring(1).toLowerCase());
@@ -100,6 +172,15 @@ public class PelletPreferencesPanel extends OWLPreferencesPanel {
 
 		reasonerModeSelection.add(button);
 		reasonerMode.put(type, button);
+		return button;
+	}
+
+	private JRadioButton createButton(String label, ButtonGroup group, ActionListener listener) {
+		JRadioButton button = new JRadioButton(label);
+		button.setActionCommand(label);
+		button.addActionListener(listener);
+
+		group.add(button);
 		return button;
 	}
 
