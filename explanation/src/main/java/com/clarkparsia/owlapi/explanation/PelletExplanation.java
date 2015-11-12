@@ -26,6 +26,8 @@ public class PelletExplanation {
 		setup();
 	}
 
+	private static final int ALL_EXPLANATIONS = -1;
+
 	/**
 	 * Very important initialization step that needs to be called once before a
 	 * reasoner is created. This function will be called automatically when
@@ -170,6 +172,9 @@ public class PelletExplanation {
      *         class, or an empty set if the concept is satisfiable
      */
     public Set<Set<OWLAxiom>> getUnsatisfiableExplanations(OWLClassExpression unsatClass, int maxExplanations) {
+	    if (maxExplanations == ALL_EXPLANATIONS) {
+		    return expGen.getExplanations( unsatClass );
+	    }
     	return expGen.getExplanations( unsatClass, maxExplanations );
     }
 

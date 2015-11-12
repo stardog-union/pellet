@@ -412,7 +412,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	 */
 	@Override
 	public String getReasonerName() {
-		return "SPARQL-DL";
+		return "Pellet (Remote)";
 	}
 
 	/**

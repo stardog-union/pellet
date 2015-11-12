@@ -23,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.Scrollable;
+import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
@@ -41,6 +42,7 @@ import com.google.common.collect.Lists;
 import org.protege.editor.core.ui.list.MListButton;
 import org.protege.editor.core.ui.list.MListItem;
 import org.protege.editor.owl.OWLEditorKit;
+import org.protege.editor.owl.model.inference.OWLReasonerManager;
 import org.protege.editor.owl.ui.OWLAxiomTypeFramePanel;
 import org.protege.editor.owl.ui.editor.OWLObjectEditor;
 import org.protege.editor.owl.ui.explanation.ExplanationResult;
@@ -76,13 +78,18 @@ public class PelletExplanationService extends ExplanationService {
 
 	@Override
 	public boolean hasExplanation(final OWLAxiom axiom) {
-		return axiom.isLogicalAxiom() && getOWLEditorKit().getOWLModelManager().getOWLReasonerManager().getCurrentReasonerFactory() instanceof PelletReasonerFactory;
+		OWLReasonerManager manager =  getOWLEditorKit().getOWLModelManager().getOWLReasonerManager();
+		return axiom.isLogicalAxiom()
+		       && manager.getCurrentReasonerFactory() instanceof PelletReasonerFactory
+		       && manager.getCurrentReasonerName().startsWith("Pellet")
+		       && PelletReasonerPreferences.getInstance().getExplanationCount() != 0;
 	}
 
 	@Override
 	public ExplanationResult explain(final OWLAxiom axiom) {
 		try {
-			List<Explanation<OWLAxiom>> explanations = getExplanations(axiom, 3);
+			int explanationCount =  PelletReasonerPreferences.getInstance().getExplanationCount();
+			List<Explanation<OWLAxiom>> explanations = getExplanations(axiom, explanationCount);
 
 			return new StaticExplanationResult(getOWLEditorKit(), axiom, explanations);
 		}
@@ -295,9 +302,13 @@ public class PelletExplanationService extends ExplanationService {
 			JPanel explanationListPanel = new JPanel(new BorderLayout());
 			explanationListPanel.add(scrollPane);
 			explanationListPanel.setMinimumSize(new Dimension(10, 10));
-			explanationListPanel.setBorder(new CompoundBorder(new EmptyBorder(10, 0, 0, 0), new TitledBorder(new MatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY), "Explanations")));
+			explanationListPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 0, 15, 0), createTitledBorder(explanationListPanel, "Explanations")));
 
-			JComponent topPanel = createExplanationDisplay(editorKit, new Explanation<OWLAxiom>(axiom, ImmutableSet.of(axiom)), "Inferred axiom");
+			String title = "Inference";
+			JPanel topPanel = new JPanel(new BorderLayout());
+			topPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 0, 15, 0), createTitledBorder(explanationListPanel,title)));
+			JComponent display = createExplanationDisplay(editorKit, new Explanation<OWLAxiom>(axiom, ImmutableSet.of(axiom)), title);
+			topPanel.add(display);
 
 			add(topPanel, BorderLayout.NORTH);
 			add(explanationListPanel, BorderLayout.CENTER);
@@ -357,5 +368,13 @@ public class PelletExplanationService extends ExplanationService {
 		public boolean getScrollableTracksViewportHeight() {
 			return false;
 		}
+	}
+
+	private static Border createTitledBorder(JComponent component, String title) {
+		Color color = component.getBackground();
+		Border shadow = BorderFactory.createMatteBorder(1, 0, 0, 0, color.darker());
+		Border highlight = BorderFactory.createMatteBorder(1, 0, 0, 0, color.brighter());
+		Border etchedLine = BorderFactory.createCompoundBorder(shadow, highlight);
+		return BorderFactory.createTitledBorder(etchedLine, title);
 	}
 }

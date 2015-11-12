@@ -30,7 +30,6 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
 	private OWLReasonerFactory factory = null;
 
 	public PelletReasonerFactory() {
-		PelletExplanation.setup();
 	}
 
 	/**
@@ -38,6 +37,8 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
      */
     public OWLReasonerFactory getReasonerFactory() {
 	    if (factory == null) {
+		    // enable/disable tracing based on the preference
+		    PelletOptions.USE_TRACING = (prefs.getExplanationCount() != 0);
 		    factory = createReasonerFactory();
 	    }
 
@@ -69,7 +70,14 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
      * {@inheritDoc}
      */
     public BufferingMode getRecommendedBuffering() {
-	    return BufferingMode.BUFFERING;
+
+	    PelletReasonerMode reasonerMode = prefs.getReasonerMode();
+	    switch (reasonerMode) {
+		    case REGULAR:
+		    case INCREMENTAL: return BufferingMode.NON_BUFFERING;
+		    case REMOTE: return BufferingMode.BUFFERING;
+		    default: throw new UnsupportedOperationException("Unrecognized reasoner type: " + reasonerMode);
+	    }
     }
 
 	public void preferencesUpdated() {
