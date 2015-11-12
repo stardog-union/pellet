@@ -31,7 +31,6 @@ import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.client.VersionedOntologyDocument;
 import org.protege.owl.server.api.exception.OWLServerException;
 import org.protege.owl.server.util.ClientUtilities;
-import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
@@ -77,10 +76,6 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 
 	protected int getVersion() {
 		return Integer.parseInt(versionedOntology.getRevision().toString());
-	}
-
-	public IRI getServerLocation() {
-		return versionedOntology.getServerDocument().getServerLocation();
 	}
 
 	public Path getOntologyDirectory() throws IOException {

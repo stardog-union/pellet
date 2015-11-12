@@ -3,7 +3,6 @@ package com.complexible.pellet.client;
 import java.nio.file.Paths;
 
 import com.clarkparsia.pellet.server.Environment;
-import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.protege.model.ProtegeServerState;
 import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.clarkparsia.pellet.service.io.EncodingException;

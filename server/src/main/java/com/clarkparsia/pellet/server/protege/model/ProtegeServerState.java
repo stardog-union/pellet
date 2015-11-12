@@ -21,11 +21,9 @@ import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.protege.owl.server.api.AuthToken;
@@ -41,7 +39,6 @@ import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
@@ -169,65 +166,6 @@ public final class ProtegeServerState implements ServerState {
 
 		return ServerStateImpl.create(allOntologies.build());
 	}
-
-//	/**
-//	 * Captures a snapshot of the state in Protege Server, loading new ontologies found or updating the ones
-//	 * already loaded.
-//	 *
-//	 * @return  the ServerState captured
-//	 */
-//	private ServerState snapshot() {
-//		ImmutableSet.Builder<OntologyState> newBuilder = ImmutableSet.builder();
-//
-//		try {
-//			// scan the protege server to get all the ontologies.
-//			RemoteServerDocument rootDir = mClient.getServerDocument(serverRoot);
-//			Collection<RemoteOntologyDocument> docs = ProtegeServiceUtils.list(mClient, (RemoteServerDirectory) rootDir);
-//
-//			for (RemoteOntologyDocument ontoDoc : docs) {
-//
-//				try {
-//					final Optional<OntologyState> ontoState = findOntologyByServerLocation(ontoDoc.getServerLocation());
-//					if (ontoState.isPresent()) {
-//						LOGGER.info("Attempting to update ontology "+ ontoDoc.getServerLocation());
-//						ontoState.get().update();
-//					}
-//					else {
-//						LOGGER.info("Found new ontology "+ ontoDoc.getServerLocation());
-//						VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient, manager, ontoDoc);
-//						ProtegeOntologyState state = new ProtegeOntologyState(mClient, vont);
-//						newBuilder.add(state);
-//						state.save();
-//					}
-//				}
-//				catch (OWLOntologyCreationException e) {
-//					LOGGER.log(Level.FINER, "Could not load one or more ontologies from Protege server", e);
-//				}
-//			}
-//		}
-//		catch (OWLServerException e) {
-//			LOGGER.log(Level.FINER, "Could not capture snapshot of ontologies from Protege server", e);
-//			Throwables.propagate(e);
-//		}
-//
-//		final ImmutableSet<OntologyState> newOntologies = newBuilder.build();
-//		return newOntologies.isEmpty() ? serverState.get()
-//		                               : ServerStateImpl.create(ImmutableSet.copyOf(Iterables.concat(newOntologies,
-//		                                                                                             this.ontologies())));
-//	}
-
-//	private Optional<OntologyState> findOntologyByServerLocation(final IRI theServerLocation) {
-//		return Optional.fromNullable(Iterables.find(ontologies(), new Predicate<OntologyState>() {
-//			@Override
-//			public boolean apply(final OntologyState input) {
-//				if (input instanceof ProtegeOntologyState) {
-//					return ((ProtegeOntologyState) input).getServerLocation()
-//					                                     .equals(theServerLocation);
-//				}
-//				return false;
-//			}
-//		}, null));
-//	}
 
 	@Override
 	public Optional<OntologyState> getOntology(final IRI ontology) {

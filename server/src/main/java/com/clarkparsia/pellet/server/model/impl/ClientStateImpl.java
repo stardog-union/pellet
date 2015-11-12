@@ -9,7 +9,6 @@
 package com.clarkparsia.pellet.server.model.impl;
 
 import com.clarkparsia.modularity.IncrementalReasoner;
-import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.reasoner.LocalSchemaReasoner;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
