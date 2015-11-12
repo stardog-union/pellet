@@ -7,16 +7,13 @@ import java.nio.file.Paths;
 
 import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.model.OntologyState;
-import com.clarkparsia.pellet.server.model.ServerState;
-import com.clarkparsia.pellet.server.protege.ProtegeServerStateProvider;
 import com.clarkparsia.pellet.server.protege.ProtegeServerTest;
 import com.clarkparsia.pellet.server.protege.TestProtegeServerConfiguration;
 import com.google.common.base.Optional;
+import org.junit.Before;
 import org.junit.Test;
 import org.protege.owl.server.api.client.Client;
-import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.exception.OWLServerException;
-import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.model.IRI;
 
 import static org.junit.Assert.assertNotNull;
@@ -28,7 +25,7 @@ import static org.junit.Assert.assertFalse;
  */
 public class ProtegeServerStateTest extends ProtegeServerTest {
 
-	ProtegeServerStateProvider mServerStateProvider;
+	ProtegeServerState mServerState;
 
 	static {
 		Environment.setHome(Paths.get(".test-home"));
@@ -36,19 +33,23 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 	public ProtegeServerStateTest() {
 		super();
-		mServerStateProvider = new ProtegeServerStateProvider(new TestProtegeServerConfiguration());
+	}
+
+	@Before
+	public void before() throws Exception {
+		super.before();
+		mServerState = new ProtegeServerState(new TestProtegeServerConfiguration());
 	}
 
 	@Test
 	public void shouldBeEmpty() throws Exception {
-		ServerState aServerState = mServerStateProvider.get();
-		assertNotNull(aServerState);
+		assertNotNull(mServerState);
 
 		try {
-			assertTrue(aServerState.isEmpty());
+			assertTrue(mServerState.isEmpty());
 		}
 		finally {
-			aServerState.close();
+			mServerState.close();
 		}
 	}
 
@@ -69,29 +70,28 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 	@Test
 	public void shouldHaveOntologies() throws Exception {
-		ProtegeServerState aServerState = (ProtegeServerState) mServerStateProvider.get();
-		assertNotNull(aServerState);
+		assertNotNull(mServerState);
 		try {
-			Client aClient = aServerState.getClient();
+			Client aClient = mServerState.getClient();
 
 			// create ontologies
 			loadOntologies(aClient);
 
 			// when the ontologies are created/modified after ServerState instantiation we have to
 			// refresh the state.
-			aServerState.reload();
+			mServerState.reload();
 
-			assertFalse(aServerState.isEmpty());
+			assertFalse(mServerState.isEmpty());
 
-			Optional<OntologyState> aOwl2State = aServerState.getOntology(IRI.create("http://www.example.org/test"));
+			Optional<OntologyState> aOwl2State = mServerState.getOntology(IRI.create("http://www.example.org/test"));
 			assertNotNull(aOwl2State);
 			assertTrue(aOwl2State.isPresent());
-			Optional<OntologyState> aAgencyState = aServerState.getOntology(IRI.create("http://www.owl-ontologies.com/unnamed.owl"));
+			Optional<OntologyState> aAgencyState = mServerState.getOntology(IRI.create("http://www.owl-ontologies.com/unnamed.owl"));
 			assertNotNull(aAgencyState);
 			assertTrue(aAgencyState.isPresent());
 		}
 		finally {
-			aServerState.close();
+			mServerState.close();
 			Environment.cleanHome();
 		}
 
@@ -99,60 +99,58 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 	@Test
 	public void shouldSaveOntologyStates() throws Exception {
-		ProtegeServerState aServerState = (ProtegeServerState) mServerStateProvider.get();
-		assertNotNull(aServerState);
+		assertNotNull(mServerState);
 		try {
-			Client aClient = aServerState.getClient();
+			Client aClient = mServerState.getClient();
 
 			loadOntologies(aClient);
 
-			aServerState.reload();
-			aServerState.save();
+			mServerState.reload();
+			mServerState.save();
 
-			assertFalse(aServerState.isEmpty());
+			assertFalse(mServerState.isEmpty());
 
-			for (OntologyState aState : aServerState.ontologies()) {
+			for (OntologyState aState : mServerState.ontologies()) {
 				assertTrue(Files.exists(getOntologyHEAD(aState)));
 				assertTrue(Files.exists(getOntologyReasoner(aState)));
 			}
 		}
 		finally {
-			aServerState.close();
+			mServerState.close();
 			Environment.cleanHome();
 		}
 	}
 
 	@Test
 	public void shouldSaveAndLoadOntologyStates() throws Exception {
-		ProtegeServerState aServerState = (ProtegeServerState) mServerStateProvider.get();
-		assertNotNull(aServerState);
+		assertNotNull(mServerState);
 		try {
-			Client aClient = aServerState.getClient();
+			Client aClient = mServerState.getClient();
 
 			loadOntologies(aClient);
 
-			aServerState.reload();
-			aServerState.save();
+			mServerState.reload();
+			mServerState.save();
 
-			assertFalse(aServerState.isEmpty());
+			assertFalse(mServerState.isEmpty());
 
-			for (OntologyState aState : aServerState.ontologies()) {
+			for (OntologyState aState : mServerState.ontologies()) {
 				assertTrue(Files.exists(getOntologyHEAD(aState)));
 				assertTrue(Files.exists(getOntologyReasoner(aState)));
 			}
 
-			aServerState.close();
-			aServerState = new ProtegeServerState(aClient, true /* strict mode */);
+			mServerState.close();
+			mServerState = new ProtegeServerState(aClient, true /* strict mode */);
 
-			assertFalse(aServerState.isEmpty());
+			assertFalse(mServerState.isEmpty());
 
-			for (OntologyState aState : aServerState.ontologies()) {
+			for (OntologyState aState : mServerState.ontologies()) {
 				assertTrue(Files.exists(getOntologyHEAD(aState)));
 				assertTrue(Files.exists(getOntologyReasoner(aState)));
 			}
 		}
 		finally {
-			aServerState.close();
+			mServerState.close();
 			Environment.cleanHome();
 		}
 	}

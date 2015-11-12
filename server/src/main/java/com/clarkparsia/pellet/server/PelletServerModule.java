@@ -8,7 +8,7 @@ import com.clarkparsia.pellet.server.handlers.ReasonerQuerySpec;
 import com.clarkparsia.pellet.server.handlers.ReasonerUpdateSpec;
 import com.clarkparsia.pellet.server.handlers.ReasonerVersionSpec;
 import com.clarkparsia.pellet.server.model.ServerState;
-import com.clarkparsia.pellet.server.protege.ProtegeServerStateProvider;
+import com.clarkparsia.pellet.server.protege.model.ProtegeServerState;
 import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.clarkparsia.pellet.service.proto.ProtoServiceDecoder;
@@ -53,6 +53,6 @@ public class PelletServerModule extends AbstractModule implements Module {
 		if (mSettings != null) {
 			binder().bind(Configuration.class).toInstance(mSettings);
 		}
-		binder().bind(ServerState.class).toProvider(ProtegeServerStateProvider.class).in(Singleton.class);
+		binder().bind(ServerState.class).to(ProtegeServerState.class).in(Singleton.class);
 	}
 }

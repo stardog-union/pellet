@@ -4,13 +4,16 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.clarkparsia.pellet.server.Configuration;
 import com.clarkparsia.pellet.server.Environment;
+import com.clarkparsia.pellet.server.exceptions.ProtegeConnectionException;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
@@ -18,16 +21,23 @@ import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import org.protege.owl.server.api.AuthToken;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.client.RemoteServerDirectory;
 import org.protege.owl.server.api.client.RemoteServerDocument;
 import org.protege.owl.server.api.client.VersionedOntologyDocument;
 import org.protege.owl.server.api.exception.OWLServerException;
+import org.protege.owl.server.connect.rmi.RMIClient;
+import org.protege.owl.server.policy.RMILoginUtility;
 import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -37,7 +47,10 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 /**
  * @author Edgar Rodriguez-Diaz
  */
+@Singleton
 public final class ProtegeServerState implements ServerState {
+
+	private static String LOCAL_SENTINEL = "local";
 
 	private static final Logger LOGGER = Logger.getLogger(ProtegeServerState.class.getName());
 
@@ -56,8 +69,9 @@ public final class ProtegeServerState implements ServerState {
 	 */
 	private ReentrantLock reloadLock = new ReentrantLock();
 
-	public ProtegeServerState(final Client theProtegeClient) {
-		this(theProtegeClient, false);
+	@Inject
+	public ProtegeServerState(final Configuration theConfig) {
+		this(connectToProtege(theConfig), false);
 	}
 
 	@VisibleForTesting
@@ -229,5 +243,35 @@ public final class ProtegeServerState implements ServerState {
 	public void close() throws Exception {
 		// close current server state
 		mServerState.get().close();
+	}
+
+	public static Client connectToProtege(final Configuration theConfiguration) {
+		Properties aSettings = theConfiguration.getSettings();
+
+		final String aHost = aSettings.getProperty(Configuration.PROTEGE_HOST);
+		final int aPort = Integer.parseInt(aSettings.getProperty(Configuration.PROTEGE_PORT));
+		final String aUser = aSettings.getProperty(Configuration.PROTEGE_USERNAME);
+		final String aPassword = aSettings.getProperty(Configuration.PROTEGE_PASSWORD);
+
+		Preconditions.checkArgument(aUser != null);
+		Preconditions.checkArgument(aPassword != null);
+
+		try {
+			if (Strings.isNullOrEmpty(aHost) || LOCAL_SENTINEL.equals(aHost)) {
+				// in case we might want to do embedded server with Protege Server
+				throw new IllegalArgumentException("A host is required to connect to a Protege Server");
+			}
+			else {
+				AuthToken authToken = RMILoginUtility.login("localhost", aPort, aUser, aPassword);
+				RMIClient aClient = new RMIClient(authToken, "localhost", aPort);
+				aClient.initialise();
+
+				return aClient;
+			}
+		}
+		catch (Exception e) {
+			Throwables.propagate(new ProtegeConnectionException("Could not connect to Protege Server", e));
+		}
+		return null;
 	}
 }

@@ -9,10 +9,10 @@ public interface Configuration {
 
 	String FILENAME = "server.properties";
 
-	String HOST = "host";
-	String PORT = "port";
-	String USERNAME = "username";
-	String PASSWORD = "password";
+	String PROTEGE_HOST =       "protege.host";
+	String PROTEGE_PORT =       "protege.port";
+	String PROTEGE_USERNAME =   "protege.username";
+	String PROTEGE_PASSWORD =   "protege.password";
 
 	Properties getSettings();
 }

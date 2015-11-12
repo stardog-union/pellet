@@ -13,10 +13,10 @@ public class TestProtegeServerConfiguration implements Configuration {
 
 	public TestProtegeServerConfiguration() {
 		mProperties = new Properties();
-		mProperties.setProperty(Configuration.HOST, "localhost");
-		mProperties.setProperty(Configuration.PORT, "4875");
-		mProperties.setProperty(Configuration.USERNAME, "redmond");
-		mProperties.setProperty(Configuration.PASSWORD, "bicycle");
+		mProperties.setProperty(Configuration.PROTEGE_HOST, "localhost");
+		mProperties.setProperty(Configuration.PROTEGE_PORT, "4875");
+		mProperties.setProperty(Configuration.PROTEGE_USERNAME, "redmond");
+		mProperties.setProperty(Configuration.PROTEGE_PASSWORD, "bicycle");
 	}
 
 	@Override
