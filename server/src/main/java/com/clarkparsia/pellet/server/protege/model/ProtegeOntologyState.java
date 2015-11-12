@@ -67,7 +67,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		try {
 			OntologyDocumentRevision revision = versionedOntology.getRevision();
 			ClientUtilities.update(client, versionedOntology);
-			return !revision.equals(versionedOntology.getRevision());
+			return revision.compareTo(versionedOntology.getRevision()) != 0;
 		}
 		catch (OWLServerException e) {
 			LOGGER.warning("Cannot retrieve changes from the server");

@@ -7,10 +7,12 @@ import java.util.UUID;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.service.ServiceDecoder;
 import com.clarkparsia.pellet.service.ServiceEncoder;
+import com.google.common.net.MediaType;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
+import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
 
 /**
@@ -63,6 +65,7 @@ public class ReasonerVersionSpec extends ReasonerSpec {
 			aJsonResp.addProperty("version", version);
 
 			theExchange.setStatusCode(StatusCodes.OK);
+			theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
 			theExchange.getResponseSender().send(aJsonResp.toString());
 			theExchange.endExchange();
 		}

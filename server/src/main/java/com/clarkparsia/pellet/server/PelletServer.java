@@ -1,6 +1,8 @@
 package com.clarkparsia.pellet.server;
 
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
@@ -35,6 +37,8 @@ import org.quartz.impl.StdSchedulerFactory;
  * @see <a href="http://undertow.io">undertow.io</a>
  */
 public final class PelletServer {
+
+	private static final Logger LOGGER = Logger.getLogger(PelletServer.class.getName());
 
 	public static final String HOST = "localhost";
 	public static final int PORT = 8080;
@@ -96,14 +100,14 @@ public final class PelletServer {
 		server.start();
 
 		try {
-			startServerStateJob();
+			startJobs();
 		}
 		catch (SchedulerException se) {
 			throw new ServerException(500, se);
 		}
 	}
 
-	private void startServerStateJob() throws SchedulerException {
+	private void startJobs() throws SchedulerException {
 		final JobDataMap jobData = new JobDataMap();
 		jobData.put("ServerState", this.getState());
 
@@ -141,7 +145,7 @@ public final class PelletServer {
 				              .close();
 			}
 			catch (Exception e) {
-				Throwables.propagate(e);
+				LOGGER.log(Level.FINER, "Error while stopping the job scheduler", e);;
 			}
 
 			server.stop();
