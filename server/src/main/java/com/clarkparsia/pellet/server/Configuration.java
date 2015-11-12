@@ -13,6 +13,9 @@ public interface Configuration {
 	String PROTEGE_PORT =       "protege.port";
 	String PROTEGE_USERNAME =   "protege.username";
 	String PROTEGE_PASSWORD =   "protege.password";
+	String PROTEGE_ONTOLOGIES = "protege.ontologies";
+
+	String PELLET_STRICT =      "pellet.strict";
 
 	Properties getSettings();
 }

@@ -7,7 +7,6 @@ import com.google.inject.Injector;
 import com.google.inject.util.Modules;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.protege.owl.server.api.client.Client;
 
 /**
@@ -18,26 +17,29 @@ public abstract class PelletServerTest extends ProtegeServerTest {
 	protected static Injector injector;
 	protected static PelletServer pelletServer;
 
-	@BeforeClass
-	public static void beforeClass() {
-		injector = Guice.createInjector(Modules.override(new PelletServerModule())
-		                                       .with(new TestModule()));
+	public void startPelletServer() throws Exception {
+		pelletServer = new PelletServer(Guice.createInjector(Modules.override(new PelletServerModule())
+		                                                            .with(new TestModule())));
+		((ProtegeServerState)pelletServer.getState()).setClient(provideClient());
+		pelletServer.start();
 	}
 
 	@Before
 	public void before() throws Exception {
 		super.before();
-		pelletServer = new PelletServer(injector);
-		((ProtegeServerState)pelletServer.getState()).setClient(provideClient());
-		pelletServer.start();
+		startPelletServer();
+	}
+
+	public void stopPelletServer() {
+		pelletServer.stop();
+		pelletServer = null;
 	}
 
 	public abstract Client provideClient() throws Exception;
 
 	@After
 	public void after() {
-		pelletServer.stop();
-		pelletServer = null;
+		stopPelletServer();
 		super.after();
 	}
 

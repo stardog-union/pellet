@@ -4,24 +4,23 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.beust.jcommander.internal.Sets;
 import com.clarkparsia.pellet.server.Configuration;
+import com.clarkparsia.pellet.server.ConfigurationReader;
 import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.exceptions.ProtegeConnectionException;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
-import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
@@ -42,6 +41,7 @@ import org.protege.owl.server.util.ClientUtilities;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
@@ -50,46 +50,49 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 @Singleton
 public final class ProtegeServerState implements ServerState {
 
-	private static String LOCAL_SENTINEL = "local";
-
 	private static final Logger LOGGER = Logger.getLogger(ProtegeServerState.class.getName());
 
 	private Client mClient;
 
-	private final AtomicReference<ServerState> mServerState = new AtomicReference<ServerState>(ServerState.EMPTY);
+	private final ServerState serverState;
 
 	private final IRI serverRoot;
 
 	private final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
-	private final boolean isStrict;
-
 	/**
 	 * Lock to control reloads of the state
 	 */
-	private ReentrantLock reloadLock = new ReentrantLock();
+	private final ReentrantLock reloadLock = new ReentrantLock();
+
+	private final ConfigurationReader configReader;
 
 	@Inject
 	public ProtegeServerState(final Configuration theConfig) {
-		this(connectToProtege(theConfig), false);
+		this(ConfigurationReader.of(theConfig));
 	}
 
-	@VisibleForTesting
-	ProtegeServerState(final Client theProtegeClient,
-	                   final boolean strictMode /* throws exception if can't load from disk with exception */) {
-		mClient = theProtegeClient;
+	ProtegeServerState(final ConfigurationReader theConfigReader) {
+		mClient = connectToProtege(theConfigReader);
+
+		assert mClient != null;
+
 		serverRoot = IRI.create(mClient.getScheme() + "://" + mClient.getAuthority());
 
-		isStrict = strictMode;
+		configReader = theConfigReader;
 
-		// load any OntologyState elements saved on disk
-		loadFromHome();
+		serverState = loadState();
 	}
 
-	private void loadFromHome() {
-		Path home = Paths.get(Environment.getHome());
-		ImmutableSet.Builder<OntologyState> diskOntoStates = ImmutableSet.builder();
-		File[] aFiles = home.toFile().listFiles();
+	/**
+	 * Will load ontology states from disk
+	 *
+	 * @return  the ontology states loaded from disk
+	 */
+	private Set<OntologyState> loadFromHome(final Set<String> theAlreadyLoaded) {
+		final Path home = Paths.get(Environment.getHome());
+		final ImmutableSet.Builder<OntologyState> diskOntoStates = ImmutableSet.builder();
+		final File[] aFiles = home.toFile().listFiles();
 
 		if (aFiles != null && aFiles.length > 0) {
 			for (File aOntoDir : aFiles) {
@@ -99,30 +102,31 @@ public final class ProtegeServerState implements ServerState {
 						IRI docIRI = serverRoot.resolve("/"+ aOntoDir.getName());
 						RemoteOntologyDocument ontoDoc = (RemoteOntologyDocument) getClient().getServerDocument(docIRI);
 						diskOntoStates.add(ProtegeOntologyState.loadFromDisk(manager, mClient, aOntoDir, ontoDoc));
+
+						theAlreadyLoaded.add(docIRI.getFragment());
 					}
 					catch (Exception theE) {
 						LOGGER.log(Level.SEVERE,
 						           "Could not load OntologyState from disk on: " + aOntoDir.getAbsolutePath(),
 						           theE);
-						if (isStrict) {
+						if (configReader.pelletSettings().isStrict()) {
 							Throwables.propagate(theE);
 						}
 					}
 				}
 			}
-
-			mServerState.set(ServerStateImpl.create(diskOntoStates.build()));
 		}
+		return diskOntoStates.build();
 	}
 
 	/**
-	 * Captures a snapshot of the state in Protege Server, loading new ontologies found or updating the ones
-	 * already loaded.
+	 * Will load new allowed ontologies from the Protege Server.
 	 *
-	 * @return  the ServerState captured
+	 * @return  the set of ontology states loaded from the server
 	 */
-	private ServerState snapshot() {
-		ImmutableSet.Builder<OntologyState> newBuilder = ImmutableSet.builder();
+	private Set<OntologyState> loadFromServer(final Set<String> theAlreadyLoaded) {
+		final ImmutableSet.Builder<OntologyState> newBuilder = ImmutableSet.builder();
+		final Set<String> allowedOntologies = ImmutableSet.copyOf(configReader.protegeSettings().ontologies());
 
 		try {
 			// scan the protege server to get all the ontologies.
@@ -130,14 +134,9 @@ public final class ProtegeServerState implements ServerState {
 			Collection<RemoteOntologyDocument> docs = ProtegeServiceUtils.list(mClient, (RemoteServerDirectory) rootDir);
 
 			for (RemoteOntologyDocument ontoDoc : docs) {
-
 				try {
-					final Optional<OntologyState> ontoState = findOntologyByServerLocation(ontoDoc.getServerLocation());
-					if (ontoState.isPresent()) {
-						LOGGER.info("Attempting to update ontology "+ ontoDoc.getServerLocation());
-						ontoState.get().update();
-					}
-					else {
+					if (!theAlreadyLoaded.contains(ontoDoc.getServerLocation().getFragment()) &&
+					    (allowedOntologies.isEmpty() || allowedOntologies.contains(ontoDoc.getServerLocation().getFragment()))) {
 						LOGGER.info("Found new ontology "+ ontoDoc.getServerLocation());
 						VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient, manager, ontoDoc);
 						ProtegeOntologyState state = new ProtegeOntologyState(mClient, vont);
@@ -155,70 +154,109 @@ public final class ProtegeServerState implements ServerState {
 			Throwables.propagate(e);
 		}
 
-		final ImmutableSet<OntologyState> newOntologies = newBuilder.build();
-		return newOntologies.isEmpty() ? mServerState.get()
-		                               : ServerStateImpl.create(ImmutableSet.copyOf(Iterables.concat(newOntologies,
-		                                                                                             this.ontologies())));
+		return newBuilder.build();
 	}
 
-	private Optional<OntologyState> findOntologyByServerLocation(final IRI theServerLocation) {
-		return Optional.fromNullable(Iterables.find(ontologies(), new Predicate<OntologyState>() {
-			@Override
-			public boolean apply(final OntologyState input) {
-				if (input instanceof ProtegeOntologyState) {
-					return ((ProtegeOntologyState) input).getServerLocation()
-					                                     .equals(theServerLocation);
-				}
-				return false;
-			}
-		}, null));
+	private ServerState loadState() {
+		final ImmutableSet.Builder<OntologyState> allOntologies = ImmutableSet.builder();
+
+		// Will collect the ontologies we're loading
+		final Set<String> loadedOntologies = Sets.newHashSet();
+
+		// merge found and new allowed ontologies
+		allOntologies.addAll(loadFromHome(loadedOntologies));
+		allOntologies.addAll(loadFromServer(loadedOntologies));
+
+		return ServerStateImpl.create(allOntologies.build());
 	}
+
+//	/**
+//	 * Captures a snapshot of the state in Protege Server, loading new ontologies found or updating the ones
+//	 * already loaded.
+//	 *
+//	 * @return  the ServerState captured
+//	 */
+//	private ServerState snapshot() {
+//		ImmutableSet.Builder<OntologyState> newBuilder = ImmutableSet.builder();
+//
+//		try {
+//			// scan the protege server to get all the ontologies.
+//			RemoteServerDocument rootDir = mClient.getServerDocument(serverRoot);
+//			Collection<RemoteOntologyDocument> docs = ProtegeServiceUtils.list(mClient, (RemoteServerDirectory) rootDir);
+//
+//			for (RemoteOntologyDocument ontoDoc : docs) {
+//
+//				try {
+//					final Optional<OntologyState> ontoState = findOntologyByServerLocation(ontoDoc.getServerLocation());
+//					if (ontoState.isPresent()) {
+//						LOGGER.info("Attempting to update ontology "+ ontoDoc.getServerLocation());
+//						ontoState.get().update();
+//					}
+//					else {
+//						LOGGER.info("Found new ontology "+ ontoDoc.getServerLocation());
+//						VersionedOntologyDocument vont = ClientUtilities.loadOntology(mClient, manager, ontoDoc);
+//						ProtegeOntologyState state = new ProtegeOntologyState(mClient, vont);
+//						newBuilder.add(state);
+//						state.save();
+//					}
+//				}
+//				catch (OWLOntologyCreationException e) {
+//					LOGGER.log(Level.FINER, "Could not load one or more ontologies from Protege server", e);
+//				}
+//			}
+//		}
+//		catch (OWLServerException e) {
+//			LOGGER.log(Level.FINER, "Could not capture snapshot of ontologies from Protege server", e);
+//			Throwables.propagate(e);
+//		}
+//
+//		final ImmutableSet<OntologyState> newOntologies = newBuilder.build();
+//		return newOntologies.isEmpty() ? serverState.get()
+//		                               : ServerStateImpl.create(ImmutableSet.copyOf(Iterables.concat(newOntologies,
+//		                                                                                             this.ontologies())));
+//	}
+
+//	private Optional<OntologyState> findOntologyByServerLocation(final IRI theServerLocation) {
+//		return Optional.fromNullable(Iterables.find(ontologies(), new Predicate<OntologyState>() {
+//			@Override
+//			public boolean apply(final OntologyState input) {
+//				if (input instanceof ProtegeOntologyState) {
+//					return ((ProtegeOntologyState) input).getServerLocation()
+//					                                     .equals(theServerLocation);
+//				}
+//				return false;
+//			}
+//		}, null));
+//	}
 
 	@Override
 	public Optional<OntologyState> getOntology(final IRI ontology) {
-		return mServerState.get().getOntology(ontology);
+		return serverState.getOntology(ontology);
 	}
 
 	@Override
 	public Iterable<OntologyState> ontologies() {
-		return mServerState.get().ontologies();
+		return serverState.ontologies();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return mServerState.get().isEmpty();
+		return serverState.isEmpty();
 	}
 
 	@Override
-	public synchronized void update() {
-		for (OntologyState aOntoState : ontologies()) {
-			aOntoState.update();
-		}
-	}
-
-	@Override
-	public void save() {
-		/**
-		 * Update already goes through the ontologies and saves the changes to the incremental reasoner if there was any
-		 * {@link OntologyStateImpl#update()}  }
- 		 */
-		update();
-	}
-
-	@Override
-	public void reload() {
+	public void update() {
 		// free resources from previous server state and update with new snapshot from server
 		try {
 			if (reloadLock.tryLock(1, TimeUnit.SECONDS)) {
-				mServerState.getAndSet(snapshot())
-				            .close();
+				serverState.update();
 			}
 			else {
 				LOGGER.info("Skipping reload, there's another state reload happening");
 			}
 		}
 		catch (InterruptedException ie) {
-			LOGGER.log(Level.SEVERE, "Something interrupted a Server State reload", ie);
+			LOGGER.log(Level.SEVERE, "Something interrupted a Server State update", ie);
 		}
 		catch (Exception e) {
 			LOGGER.log(Level.SEVERE, "Could not refresh Server State from Protege", e);
@@ -228,6 +266,16 @@ public final class ProtegeServerState implements ServerState {
 				reloadLock.unlock();
 			}
 		}
+	}
+
+	@Override
+	public void save() {
+		serverState.save();
+	}
+
+	@Override
+	public void reload() {
+		update();
 	}
 
 	public Client getClient() {
@@ -242,28 +290,24 @@ public final class ProtegeServerState implements ServerState {
 	@Override
 	public void close() throws Exception {
 		// close current server state
-		mServerState.get().close();
+		serverState.close();
 	}
 
-	public static Client connectToProtege(final Configuration theConfiguration) {
-		Properties aSettings = theConfiguration.getSettings();
-
-		final String aHost = aSettings.getProperty(Configuration.PROTEGE_HOST);
-		final int aPort = Integer.parseInt(aSettings.getProperty(Configuration.PROTEGE_PORT));
-		final String aUser = aSettings.getProperty(Configuration.PROTEGE_USERNAME);
-		final String aPassword = aSettings.getProperty(Configuration.PROTEGE_PASSWORD);
-
-		Preconditions.checkArgument(aUser != null);
-		Preconditions.checkArgument(aPassword != null);
+	public static Client connectToProtege(final ConfigurationReader config) {
+		final ConfigurationReader.ProtegeSettings protege = config.protegeSettings();
+		final String aHost = protege.host();
 
 		try {
-			if (Strings.isNullOrEmpty(aHost) || LOCAL_SENTINEL.equals(aHost)) {
+			if (Strings.isNullOrEmpty(aHost) || "local".equals(aHost)) {
 				// in case we might want to do embedded server with Protege Server
 				throw new IllegalArgumentException("A host is required to connect to a Protege Server");
 			}
 			else {
-				AuthToken authToken = RMILoginUtility.login("localhost", aPort, aUser, aPassword);
-				RMIClient aClient = new RMIClient(authToken, "localhost", aPort);
+				AuthToken authToken = RMILoginUtility.login(aHost,
+				                                            protege.port(),
+				                                            protege.username(),
+				                                            protege.password());
+				RMIClient aClient = new RMIClient(authToken, aHost, protege.port());
 				aClient.initialise();
 
 				return aClient;

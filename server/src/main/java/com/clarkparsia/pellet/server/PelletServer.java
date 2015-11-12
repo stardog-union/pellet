@@ -149,6 +149,7 @@ public final class PelletServer {
 			}
 
 			server.stop();
+			server = null;
 			isRunning = false;
 		}
 	}

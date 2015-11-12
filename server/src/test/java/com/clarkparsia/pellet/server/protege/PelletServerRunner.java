@@ -1,8 +1,12 @@
 package com.clarkparsia.pellet.server.protege;
 
+import java.nio.file.Paths;
+
+import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.PelletServer;
+import com.clarkparsia.pellet.server.PelletServerModule;
 import com.clarkparsia.pellet.server.PelletServerTest;
-import com.google.common.base.Throwables;
+import com.google.inject.Guice;
 import org.protege.owl.server.api.client.Client;
 
 /**
@@ -10,18 +14,17 @@ import org.protege.owl.server.api.client.Client;
  */
 public class PelletServerRunner extends PelletServerTest {
 
-	public void run() {
-		try {
-			new PelletServer(injector).start();
-		}
-		catch (Exception e) {
-			Throwables.propagate(e);
-		}
+	static {
+		Environment.setHome(Paths.get(System.getProperty("user.home"), "pellet-home"));
 	}
 
-	public static void main(String[] args) {
-		PelletServerTest.beforeClass();
+	public void run() throws Exception {
+		ProtegeServerConfiguration aHomeConfig = new ProtegeServerConfiguration(Paths.get(Environment.getHome(), "server.properties").toFile());
+		pelletServer = new PelletServer(Guice.createInjector(new PelletServerModule(aHomeConfig)));
+		pelletServer.start();
+	}
 
+	public static void main(String[] args) throws Exception {
 		new PelletServerRunner().run();
 	}
 

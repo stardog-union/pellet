@@ -16,6 +16,7 @@ import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.exception.OWLServerException;
 import org.semanticweb.owlapi.model.IRI;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
@@ -38,6 +39,13 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 	@Before
 	public void before() throws Exception {
 		super.before();
+		reloadServerState();
+	}
+
+	private void reloadServerState() throws Exception {
+		if (mServerState != null) {
+			mServerState.close();
+		}
 		mServerState = new ProtegeServerState(new TestProtegeServerConfiguration());
 	}
 
@@ -79,7 +87,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 			// when the ontologies are created/modified after ServerState instantiation we have to
 			// refresh the state.
-			mServerState.reload();
+			reloadServerState();
 
 			assertFalse(mServerState.isEmpty());
 
@@ -105,7 +113,8 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 			loadOntologies(aClient);
 
-			mServerState.reload();
+			reloadServerState();
+
 			mServerState.save();
 
 			assertFalse(mServerState.isEmpty());
@@ -129,7 +138,8 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 			loadOntologies(aClient);
 
-			mServerState.reload();
+			reloadServerState();
+
 			mServerState.save();
 
 			assertFalse(mServerState.isEmpty());
@@ -139,15 +149,19 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 				assertTrue(Files.exists(getOntologyReasoner(aState)));
 			}
 
-			mServerState.close();
-			mServerState = new ProtegeServerState(aClient, true /* strict mode */);
+			reloadServerState();
 
 			assertFalse(mServerState.isEmpty());
 
+			int requiredChecks = 0;
 			for (OntologyState aState : mServerState.ontologies()) {
 				assertTrue(Files.exists(getOntologyHEAD(aState)));
 				assertTrue(Files.exists(getOntologyReasoner(aState)));
+				requiredChecks++;
 			}
+
+			// check that the 2 loaded ontologies exist
+			assertEquals(2, requiredChecks);
 		}
 		finally {
 			mServerState.close();

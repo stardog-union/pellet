@@ -3,6 +3,7 @@ package com.complexible.pellet.client;
 import java.nio.file.Paths;
 
 import com.clarkparsia.pellet.server.Environment;
+import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.protege.model.ProtegeServerState;
 import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.clarkparsia.pellet.service.io.EncodingException;
@@ -49,8 +50,15 @@ public class PelletServiceTest extends PelletClientTest {
 		// create test ontology
 		ontologyId = createAgenciesOntology(aServerState.getClient());
 
+		restartServer();
+
 		// force reload server state
 		pelletServer.getState().reload();
+	}
+
+	private void restartServer() throws Exception {
+		stopPelletServer();
+		startPelletServer();
 	}
 
 	@Override
