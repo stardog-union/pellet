@@ -16,15 +16,11 @@ import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
-import org.protege.owl.server.connect.rmi.RMIClient;
-import org.protege.owl.server.policy.RMILoginUtility;
 import org.semanticweb.owlapi.model.IRI;
 
 /**

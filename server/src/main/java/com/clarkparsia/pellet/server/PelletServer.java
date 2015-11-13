@@ -107,6 +107,9 @@ public final class PelletServer {
 
 	private void startJobs() throws SchedulerException {
 		final JobDataMap jobData = new JobDataMap();
+		final ConfigurationReader aConfig = ConfigurationReader.of(serverInjector.getInstance(Configuration.class));
+		final int updateIntervalSec = aConfig.pelletSettings().updateIntervalInSeconds();
+
 		jobData.put("ServerState", this.getState());
 
 		final JobDetail stateFetch = JobBuilder.newJob(ServerStateReload.class)
@@ -115,10 +118,12 @@ public final class PelletServer {
 		                                       .build();
 
 		final SimpleTrigger trigger = TriggerBuilder.newTrigger()
-		                                            .withIdentity("every2min")
+		                                            .withIdentity("everyNsecs")
 		                                            .startNow()
-		                                            .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(15))
+		                                            .withSchedule(SimpleScheduleBuilder.repeatSecondlyForever(updateIntervalSec))
 		                                            .build();
+
+		LOGGER.info("Starting Job Scheduler for Updates every "+ updateIntervalSec +" seconds");
 
 		jobScheduler = StdSchedulerFactory.getDefaultScheduler();
 		jobScheduler.scheduleJob(stateFetch, trigger);

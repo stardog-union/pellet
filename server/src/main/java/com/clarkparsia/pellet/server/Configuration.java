@@ -15,7 +15,8 @@ public interface Configuration {
 	String PROTEGE_PASSWORD =   "protege.password";
 	String PROTEGE_ONTOLOGIES = "protege.ontologies";
 
-	String PELLET_STRICT =      "pellet.strict";
+	String PELLET_STRICT =          "pellet.strict";
+	String PELLET_UPDATE_INTERVAL = "pellet.update.interval.sec";
 
 	Properties getSettings();
 }

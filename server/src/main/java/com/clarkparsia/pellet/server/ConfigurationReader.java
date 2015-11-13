@@ -15,8 +15,8 @@ public final class ConfigurationReader {
 
 	private static final Logger LOGGER = Logger.getLogger(ConfigurationReader.class.getName());
 
-	final ProtegeSettings protegeSettings;
-	final PelletSettings pelletSettings;
+	private final ProtegeSettings protegeSettings;
+	private final PelletSettings pelletSettings;
 
 	private ConfigurationReader(final Configuration theConfig) {
 		protegeSettings = new ProtegeSettings(theConfig.getSettings());
@@ -40,6 +40,8 @@ public final class ConfigurationReader {
 
 		private static final boolean STRICT_DEFAULT = false;
 
+		private static final int UPDATE_INTERVAL_DEFAULT_IN_SECONDS = 15;
+
 		PelletSettings(final Properties theSettings) {
 			settings = theSettings;
 		}
@@ -56,6 +58,21 @@ public final class ConfigurationReader {
 			}
 
 			return isStrict;
+		}
+
+		public int updateIntervalInSeconds() {
+			final String val = settings.getProperty(Configuration.PELLET_UPDATE_INTERVAL);
+			int intervalSecs = UPDATE_INTERVAL_DEFAULT_IN_SECONDS;
+
+			try {
+				intervalSecs = Integer.parseInt(val);
+			}
+			catch (Exception e) {
+				LOGGER.info("Couldn't parse Pellet Server's update interval from configuration, " +
+				            "using: "+ intervalSecs +" seconds");
+			}
+
+			return intervalSecs;
 		}
 	}
 
