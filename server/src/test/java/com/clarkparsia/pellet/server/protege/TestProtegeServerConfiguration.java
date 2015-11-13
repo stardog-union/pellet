@@ -12,6 +12,10 @@ public class TestProtegeServerConfiguration implements Configuration {
 
 	private final Properties mProperties;
 
+	public TestProtegeServerConfiguration() {
+		this(new String[0]);
+	}
+
 	public TestProtegeServerConfiguration(String... ontologies) {
 		mProperties = new Properties();
 		mProperties.setProperty(Configuration.PROTEGE_HOST, "localhost");

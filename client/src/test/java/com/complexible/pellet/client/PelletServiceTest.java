@@ -43,18 +43,10 @@ public class PelletServiceTest extends PelletClientTest {
 	public void before() throws Exception {
 		super.before();
 
-		// reset client in protege server state
-		final ProtegeServerState aServerState = (ProtegeServerState) pelletServer.getState();
-
 		// create test ontology
-		ontologyId = createAgenciesOntology(aServerState.getClient());
+		ontologyId = createAgenciesOntology(mClient);
 
-		restartServer();
-	}
-
-	private void restartServer() throws Exception {
-		stopPelletServer();
-		startPelletServer();
+		startPelletServer(AGENCIES_HISTORY);
 	}
 
 	@Override

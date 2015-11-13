@@ -17,17 +17,19 @@ public abstract class PelletServerTest extends ProtegeServerTest {
 	protected static Injector injector;
 	protected static PelletServer pelletServer;
 
-	public void startPelletServer() throws Exception {
+	protected Client mClient;
+
+	public void startPelletServer(String... ontologies) throws Exception {
 		pelletServer = new PelletServer(Guice.createInjector(Modules.override(new PelletServerModule())
-		                                                            .with(new TestModule())));
-		((ProtegeServerState)pelletServer.getState()).setClient(provideClient());
+		                                                            .with(new TestModule(ontologies))));
 		pelletServer.start();
 	}
 
 	@Before
 	public void before() throws Exception {
 		super.before();
-		startPelletServer();
+
+		mClient = provideClient();
 	}
 
 	public void stopPelletServer() {

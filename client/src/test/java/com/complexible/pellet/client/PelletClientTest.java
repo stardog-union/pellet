@@ -14,14 +14,4 @@ import org.junit.BeforeClass;
  */
 public abstract class PelletClientTest extends PelletServerTest {
 
-	@BeforeClass
-	public static void beforeClass() {
-		injector = Guice.createInjector(Modules.override(new PelletServerModule(),
-		                                                 new ClientModule(PelletService.DEFAULT_LOCAL_ENDPOINT,
-		                                                                  0, 0, 0)) // disable timeouts for tests
-		                                       .with(new TestModule()));
-
-		pelletServer = new PelletServer(injector);
-	}
-
 }
