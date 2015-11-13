@@ -12,16 +12,15 @@ import com.beust.jcommander.internal.Sets;
 import com.clarkparsia.pellet.server.Configuration;
 import com.clarkparsia.pellet.server.ConfigurationReader;
 import com.clarkparsia.pellet.server.Environment;
-import com.clarkparsia.pellet.server.exceptions.ProtegeConnectionException;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
+import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.protege.owl.server.api.AuthToken;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.connect.rmi.RMIClient;
@@ -41,9 +40,7 @@ public final class ProtegeServerState extends ServerStateImpl {
 	/**
 	 * Lock to control reloads of the state
 	 */
-	private final ReentrantLock reloadLock = new ReentrantLock();
-
-	private final ConfigurationReader configReader;
+	private final ReentrantLock updateLock = new ReentrantLock();
 
 	@Inject
 	public ProtegeServerState(final Configuration theConfig) {
@@ -53,11 +50,9 @@ public final class ProtegeServerState extends ServerStateImpl {
 	ProtegeServerState(final ConfigurationReader theConfigReader) {
 		super(loadOntologies(theConfigReader));
 
-		mClient = connectToProtege(theConfigReader);
+		mClient = ProtegeServiceUtils.connect(theConfigReader);
 
 		assert mClient != null;
-
-		configReader = theConfigReader;
 	}
 
 	/**
@@ -69,7 +64,7 @@ public final class ProtegeServerState extends ServerStateImpl {
 		final Set<OntologyState> ontologies = Sets.newHashSet();
 		final Set<String> allowedOntologies = ImmutableSet.copyOf(configReader.protegeSettings().ontologies());
 
-		final Client mClient = connectToProtege(configReader);
+		final Client mClient = ProtegeServiceUtils.connect(configReader);
 
 		final IRI serverRoot = IRI.create(mClient.getScheme() + "://" + mClient.getAuthority());
 
@@ -98,13 +93,12 @@ public final class ProtegeServerState extends ServerStateImpl {
 
 	@Override
 	public void update() {
-		// free resources from previous server state and update with new snapshot from server
 		try {
-			if (reloadLock.tryLock(1, TimeUnit.SECONDS)) {
+			if (updateLock.tryLock(1, TimeUnit.SECONDS)) {
 				super.update();
 			}
 			else {
-				LOGGER.info("Skipping reload, there's another state reload happening");
+				LOGGER.info("Skipping update, there's another state update still happening");
 			}
 		}
 		catch (InterruptedException ie) {
@@ -114,8 +108,8 @@ public final class ProtegeServerState extends ServerStateImpl {
 			LOGGER.log(Level.SEVERE, "Could not refresh Server State from Protege", e);
 		}
 		finally {
-			if (reloadLock.isHeldByCurrentThread()) {
-				reloadLock.unlock();
+			if (updateLock.isHeldByCurrentThread()) {
+				updateLock.unlock();
 			}
 		}
 	}
@@ -127,31 +121,5 @@ public final class ProtegeServerState extends ServerStateImpl {
 	@VisibleForTesting
 	public void setClient(final Client theClient) {
 		mClient = theClient;
-	}
-
-	public static Client connectToProtege(final ConfigurationReader config) {
-		final ConfigurationReader.ProtegeSettings protege = config.protegeSettings();
-		final String aHost = protege.host();
-
-		try {
-			if (Strings.isNullOrEmpty(aHost) || "local".equals(aHost)) {
-				// in case we might want to do embedded server with Protege Server
-				throw new IllegalArgumentException("A host is required to connect to a Protege Server");
-			}
-			else {
-				AuthToken authToken = RMILoginUtility.login(aHost,
-				                                            protege.port(),
-				                                            protege.username(),
-				                                            protege.password());
-				RMIClient aClient = new RMIClient(authToken, aHost, protege.port());
-				aClient.initialise();
-
-				return aClient;
-			}
-		}
-		catch (Exception e) {
-			Throwables.propagate(new ProtegeConnectionException("Could not connect to Protege Server", e));
-		}
-		return null;
 	}
 }

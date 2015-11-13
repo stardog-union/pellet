@@ -4,12 +4,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
+import com.clarkparsia.pellet.server.ConfigurationReader;
+import com.clarkparsia.pellet.server.exceptions.ProtegeConnectionException;
+import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
+import org.protege.owl.server.api.AuthToken;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.client.RemoteServerDirectory;
 import org.protege.owl.server.api.client.RemoteServerDocument;
 import org.protege.owl.server.api.exception.OWLServerException;
+import org.protege.owl.server.connect.rmi.RMIClient;
+import org.protege.owl.server.policy.RMILoginUtility;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -41,5 +48,31 @@ public final class ProtegeServiceUtils {
 		}
 
 		return docs;
+	}
+
+	public static Client connect(final ConfigurationReader config) {
+		final ConfigurationReader.ProtegeSettings protege = config.protegeSettings();
+		final String aHost = protege.host();
+
+		try {
+			if (Strings.isNullOrEmpty(aHost) || "local".equals(aHost)) {
+				// in case we might want to do embedded server with Protege Server
+				throw new IllegalArgumentException("A host is required to connect to a Protege Server");
+			}
+			else {
+				AuthToken authToken = RMILoginUtility.login(aHost,
+				                                            protege.port(),
+				                                            protege.username(),
+				                                            protege.password());
+				RMIClient aClient = new RMIClient(authToken, aHost, protege.port());
+				aClient.initialise();
+
+				return aClient;
+			}
+		}
+		catch (Exception e) {
+			Throwables.propagate(new ProtegeConnectionException("Could not connect to Protege Server", e));
+		}
+		return null;
 	}
 }
