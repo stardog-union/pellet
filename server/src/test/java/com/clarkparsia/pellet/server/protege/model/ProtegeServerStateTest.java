@@ -17,9 +17,9 @@ import org.protege.owl.server.api.exception.OWLServerException;
 import org.semanticweb.owlapi.model.IRI;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -42,11 +42,11 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		reloadServerState();
 	}
 
-	private void reloadServerState() throws Exception {
+	private void reloadServerState(String... ontologies) throws Exception {
 		if (mServerState != null) {
 			mServerState.close();
 		}
-		mServerState = new ProtegeServerState(new TestProtegeServerConfiguration());
+		mServerState = new ProtegeServerState(new TestProtegeServerConfiguration(ontologies));
 	}
 
 	@Test
@@ -68,12 +68,11 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 	}
 
 	private Path getOntologyHEAD(final OntologyState theState) throws IOException {
-		return ((ProtegeOntologyState) theState).getOntologyDirectory().resolve("HEAD");
+		return ((ProtegeOntologyState) theState).getPath().resolveSibling("HEAD");
 	}
 
 	private Path getOntologyReasoner(final OntologyState theState) throws IOException {
-		return ((ProtegeOntologyState) theState).getOntologyDirectory()
-		            .resolve("reasoner_state.bin");
+		return ((ProtegeOntologyState) theState).getPath();
 	}
 
 	@Test
@@ -87,7 +86,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 			// when the ontologies are created/modified after ServerState instantiation we have to
 			// refresh the state.
-			reloadServerState();
+			reloadServerState(OWL2_HISTORY, AGENCIES_HISTORY);
 
 			assertFalse(mServerState.isEmpty());
 
@@ -113,7 +112,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 			loadOntologies(aClient);
 
-			reloadServerState();
+			reloadServerState(OWL2_HISTORY, AGENCIES_HISTORY);
 
 			mServerState.save();
 
@@ -138,7 +137,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 			loadOntologies(aClient);
 
-			reloadServerState();
+			reloadServerState(OWL2_HISTORY, AGENCIES_HISTORY);
 
 			mServerState.save();
 
@@ -149,7 +148,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 				assertTrue(Files.exists(getOntologyReasoner(aState)));
 			}
 
-			reloadServerState();
+			reloadServerState(OWL2_HISTORY, AGENCIES_HISTORY);
 
 			assertFalse(mServerState.isEmpty());
 

@@ -11,7 +11,6 @@ package com.clarkparsia.pellet.server.model.impl;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.clarkparsia.modularity.IncrementalReasoner;
-import com.clarkparsia.pellet.server.Environment;
+import com.clarkparsia.modularity.IncrementalReasonerConfiguration;
 import com.clarkparsia.pellet.server.model.ClientState;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
@@ -29,6 +28,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -41,14 +41,19 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 public class OntologyStateImpl implements OntologyState {
 	public static final Logger LOGGER = Logger.getLogger(OntologyStateImpl.class.getName());
 
+	private static final OWLOntologyManager MANAGER = OWLManager.createOWLOntologyManager();
+
 	private final OWLOntology ontology;
 
 	private final IncrementalReasoner reasoner;
 
 	private final LoadingCache<String, ClientState> clients;
 
+	private final Path path;
+
 	public OntologyStateImpl(OWLOntology ontology) {
 		this.ontology = ontology;
+		this.path = null;
 
 		reasoner = IncrementalReasoner.config().createIncrementalReasoner(ontology);
 		reasoner.getReasoner().getKB().setTaxonomyBuilderProgressMonitor(new ConsoleProgressMonitor());
@@ -57,9 +62,30 @@ public class OntologyStateImpl implements OntologyState {
 		clients = initClientCache();
 	}
 
-	public OntologyStateImpl(final OWLOntology ontology, final IncrementalReasoner theReasoner) {
-		this.ontology = ontology;
-		this.reasoner = theReasoner;
+	public OntologyStateImpl(Path path) {
+		this.path = path;
+
+		IncrementalReasonerConfiguration config = IncrementalReasoner.config().manager(MANAGER);
+		OWLOntology ont = null;
+		if (Files.exists(path)) {
+			config.file(path.toFile());
+		}
+		else {
+			try {
+				if (!Files.exists(path)) {
+					Files.createDirectories(path.getParent());
+				}
+				ont = MANAGER.createOntology();
+			}
+			catch (Exception e) {
+				throw new RuntimeException("Cannot initialize ontology state", e);
+			}
+		}
+		reasoner = config.createIncrementalReasoner(ont);
+		reasoner.getReasoner().getKB().setTaxonomyBuilderProgressMonitor(new ConsoleProgressMonitor());
+		reasoner.classify();
+
+		ontology = reasoner.getRootOntology();
 
 		clients = initClientCache();
 	}
@@ -82,6 +108,10 @@ public class OntologyStateImpl implements OntologyState {
 				                   return newClientState(user);
 			                   }
 		                   });
+	}
+
+	public Path getPath() {
+		return path;
 	}
 
 	protected int getVersion() {
@@ -113,7 +143,7 @@ public class OntologyStateImpl implements OntologyState {
 
 	@Override
 	public synchronized final void update() {
-		boolean updated = updateOntology();
+		boolean updated = updateOntology(ontology);
 
 		if (updated) {
 			LOGGER.info("Classifying updated ontology "+ ontology);
@@ -129,32 +159,17 @@ public class OntologyStateImpl implements OntologyState {
 	 *
 	 * @return {@code true} if there were changes or {@code false} if ontology was not updated
 	 */
-	protected boolean updateOntology() {
+	protected boolean updateOntology(OWLOntology ontology) {
 		// no changes for this implementation
 		return false;
-	}
-
-	protected Path getOntologyDirectory() throws IOException {
-		final Path ontoPath = Paths.get(Environment.getHome(), getIRI().toQuotedString());
-		if (!Files.exists(ontoPath)) {
-			Files.createDirectories(ontoPath);
-		}
-
-		return ontoPath;
-	}
-
-	protected void removeIfExists(final Path thePath) throws IOException {
-		if (Files.exists(thePath)) {
-			Files.delete(thePath);
-		}
 	}
 
 	@Override
 	public void save() {
 		try {
-			final Path aReasonerFilePath = getOntologyDirectory().resolve("reasoner_state.bin");
-			removeIfExists(aReasonerFilePath);
-			reasoner.save(aReasonerFilePath.toFile());
+			if (path != null) {
+				reasoner.save(path.toFile());
+			}
 		}
 		catch (IOException theE) {
 			LOGGER.log(Level.SEVERE, "Couldn't save the OntologyState "+ getIRI().toQuotedString(), theE);

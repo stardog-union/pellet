@@ -7,10 +7,8 @@ import java.util.logging.Logger;
 import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
 import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
-
 import com.clarkparsia.pellet.server.jobs.ServerStateReload;
 import com.clarkparsia.pellet.server.model.ServerState;
-import com.google.common.base.Throwables;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import io.undertow.Handlers;

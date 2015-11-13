@@ -16,18 +16,24 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import aterm.ATermAppl;
-import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
+import com.clarkparsia.modularity.io.TaxonomyPersistence;
+import com.clarkparsia.modularity.io.UncloseableOutputStream;
 import com.clarkparsia.owlapiv3.AbstractOWLListeningReasoner;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.google.common.base.Strings;
 import org.mindswap.pellet.exceptions.PelletRuntimeException;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
@@ -107,6 +113,18 @@ public class IncrementalReasoner extends AbstractOWLListeningReasoner {
 		return new IncrementalReasonerConfiguration();
 	}
 
+	private interface Persistence {
+		String TAXONOMY_FILE_NAME = "Taxonomy";
+
+		String PROPERTIES_FILE_NAME = "Properties";
+
+		String PROPERTIES_FILE_COMMENT = "Properties of the IncrementalClassifier";
+
+		String REALIZED_PROPERTY = "realized";
+
+		String ONTOLOGY_IRI_PROPERTY = "ontologyIRI";
+	}
+
 	/**
 	 * Standard Pellet reasoner
 	 */
@@ -151,19 +169,45 @@ public class IncrementalReasoner extends AbstractOWLListeningReasoner {
 			}
 		}
 		else {
-			try {
-				taxonomy = IncrementalClassifierPersistence.load(new FileInputStream(config.getFile()), extractor);
+			Properties properties = new Properties();
+
+			try (ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(config.getFile()))) {
+
+				extractor.load(zipInputStream);
+
+				ZipEntry currentEntry = zipInputStream.getNextEntry();
+
+				if (!(Persistence.TAXONOMY_FILE_NAME.equals(currentEntry.getName()))) {
+					throw new IOException(String.format("Unexpected entry (%s) in ZipInputStream. Expected %s", currentEntry.getName(), Persistence.TAXONOMY_FILE_NAME));
+				}
+
+				taxonomy = TaxonomyPersistence.load(zipInputStream);
+
+				currentEntry = zipInputStream.getNextEntry();
+				if ((currentEntry != null) && (Persistence.PROPERTIES_FILE_NAME.equals(currentEntry.getName()))) {
+					properties.load(zipInputStream);
+				}
 			}
 			catch (IOException e) {
 				throw new IllegalConfigurationException("Specified file is invalid", e, config);
 			}
 
-			realized = (Boolean) taxonomy.getTop().getDatum("realized");
+
+			realized = Boolean.valueOf(properties.getProperty(Persistence.REALIZED_PROPERTY, "false"));
 
 			classified = true;
 
 			if (ontology == null) {
-				ontology = OWL.Ontology(extractor.getAxioms());
+				String ontologyIRI = properties.getProperty(Persistence.ONTOLOGY_IRI_PROPERTY);
+				try {
+					ontology = config.getManager().createOntology(Strings.isNullOrEmpty(ontologyIRI)
+					                                              ? null
+					                                              : IRI.create(ontologyIRI));
+				}
+				catch (OWLOntologyCreationException e) {
+					e.printStackTrace();
+				}
+				OntologyUtils.addAxioms(ontology, extractor.getAxioms());
 			}
 
 			reasoner = config.getReasoner() != null ? config.getReasoner() : config.createReasoner(ontology);
@@ -568,8 +612,29 @@ public class IncrementalReasoner extends AbstractOWLListeningReasoner {
 	}
 
 	public void save(File file) throws IOException {
-		taxonomy.getTop().putDatum("realized", realized);
-		IncrementalClassifierPersistence.save(new FileOutputStream(file), extractor, taxonomy);
+		ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(file));
+
+		try {
+			// save the module extractor
+			extractor.save(zipOutputStream);
+
+			// save the taxonomy
+			ZipEntry taxonomyEntry = new ZipEntry(Persistence.TAXONOMY_FILE_NAME);
+			zipOutputStream.putNextEntry(taxonomyEntry);
+
+			TaxonomyPersistence.save(taxonomy, new UncloseableOutputStream(zipOutputStream));
+
+			ZipEntry propertiesEntry = new ZipEntry(Persistence.PROPERTIES_FILE_NAME);
+			zipOutputStream.putNextEntry(propertiesEntry);
+
+			Properties properties = new Properties();
+			properties.setProperty(Persistence.REALIZED_PROPERTY, String.valueOf(realized));
+			properties.setProperty(Persistence.ONTOLOGY_IRI_PROPERTY, getRootOntology().getOntologyID().getOntologyIRI().toString());
+			properties.store(zipOutputStream, Persistence.PROPERTIES_FILE_COMMENT);
+		}
+		finally {
+			zipOutputStream.close();
+		}
 	}
 
 	/**

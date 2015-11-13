@@ -31,11 +31,6 @@ public interface ServerState extends AutoCloseable {
 	boolean isEmpty();
 
 	/**
-	 * Reload the latest version of the ontologies from the repository and classify from scratch.
-	 */
-	void reload();
-
-	/**
 	 * Update all ontology states. This function will iterate over all the {@link #ontologies() ontologies} and {@link OntologyState#update() update} each one.
 	 */
 	void update();
@@ -59,11 +54,6 @@ public interface ServerState extends AutoCloseable {
 		@Override
 		public boolean isEmpty() {
 			return true;
-		}
-
-		@Override
-		public void reload() {
-			// no-op
 		}
 
 		@Override

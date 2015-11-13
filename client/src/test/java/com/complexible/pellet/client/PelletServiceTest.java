@@ -50,9 +50,6 @@ public class PelletServiceTest extends PelletClientTest {
 		ontologyId = createAgenciesOntology(aServerState.getClient());
 
 		restartServer();
-
-		// force reload server state
-		pelletServer.getState().reload();
 	}
 
 	private void restartServer() throws Exception {

@@ -10,29 +10,25 @@ package com.clarkparsia.pellet.server.protege.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.clarkparsia.modularity.IncrementalReasoner;
-import com.clarkparsia.pellet.server.Environment;
-import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
-import com.google.common.base.Strings;
-import com.google.common.io.CharSink;
-import com.google.common.io.CharSource;
+import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import com.google.common.primitives.Ints;
+import org.protege.owl.server.api.ChangeHistory;
 import org.protege.owl.server.api.OntologyDocumentRevision;
 import org.protege.owl.server.api.RevisionPointer;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
-import org.protege.owl.server.api.client.VersionedOntologyDocument;
 import org.protege.owl.server.api.exception.OWLServerException;
-import org.protege.owl.server.util.ClientUtilities;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
+import org.semanticweb.owlapi.model.SetOntologyID;
 
 /**
  * @author Evren Sirin
@@ -41,32 +37,60 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 	public static final Logger LOGGER = Logger.getLogger(ProtegeOntologyState.class.getName());
 
 	private final Client client;
+	
+	private final RemoteOntologyDocument remoteOnt;
 
-	private final VersionedOntologyDocument versionedOntology;
+	private OntologyDocumentRevision revision;
 
 	public ProtegeOntologyState(final Client client,
-	                            final VersionedOntologyDocument theVersionedOnto) {
-		super(theVersionedOnto.getOntology());
+	                            final RemoteOntologyDocument remoteOnt,
+	                            final Path path) throws IOException {
+		super(path);
 
 		this.client = client;
-		this.versionedOntology = theVersionedOnto;
+		this.remoteOnt = remoteOnt;
+		this.revision = readRevision(path);
 	}
 
-	public ProtegeOntologyState(final Client client,
-	                            final VersionedOntologyDocument theVersionedOnto,
-	                            final IncrementalReasoner theReasoner) {
-		super(theVersionedOnto.getOntology(), theReasoner);
+	private static File revisionFile(final Path path) throws IOException {
+		return path.resolveSibling("HEAD").toFile();
+	}
 
-		this.client = client;
-		this.versionedOntology = theVersionedOnto;
+	private static OntologyDocumentRevision readRevision(final Path path) throws IOException {
+		final File aHeadFile = revisionFile(path);
+
+		if (aHeadFile.exists()) {
+			return new OntologyDocumentRevision(Ints.fromByteArray(Files.toByteArray(aHeadFile)));
+		}
+
+		return OntologyDocumentRevision.START_REVISION;
+	}
+
+	private void writeRevision() throws IOException {
+		final File aHeadFile = revisionFile(getPath());
+		Files.write(Ints.toByteArray(getVersion()), aHeadFile);
 	}
 
 	@Override
-	protected boolean updateOntology() {
+	protected boolean updateOntology(OWLOntology ontology) {
 		try {
-			OntologyDocumentRevision revision = versionedOntology.getRevision();
-			ClientUtilities.update(client, versionedOntology);
-			return revision.compareTo(versionedOntology.getRevision()) != 0;
+			OntologyDocumentRevision headRevision = client.evaluateRevisionPointer(remoteOnt, RevisionPointer.HEAD_REVISION);
+			int cmp = revision.compareTo(headRevision);
+			boolean update = cmp != 0;
+			if (update) {
+				if (cmp > 0) {
+					throw new IllegalStateException("Current revision is higher than the HEAD revision");
+				}
+
+				ChangeHistory history = client.getChanges(remoteOnt, revision.asPointer(), headRevision.asPointer());
+
+				List<OWLOntologyChange> changes = filterChanges(history.getChanges(ontology));
+				ontology.getOWLOntologyManager().applyChanges(changes);
+				// FIXME adjustImports
+
+				revision = headRevision;
+			}
+			return update;
 		}
 		catch (OWLServerException e) {
 			LOGGER.warning("Cannot retrieve changes from the server");
@@ -75,18 +99,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 	}
 
 	protected int getVersion() {
-		return Integer.parseInt(versionedOntology.getRevision().toString());
-	}
-
-	public Path getOntologyDirectory() throws IOException {
-		final Path ontoPath = Paths.get(Environment.getHome(),
-		                                versionedOntology.getServerDocument().getServerLocation()
-		                                                 .getFragment());
-		if (!java.nio.file.Files.exists(ontoPath)) {
-			java.nio.file.Files.createDirectories(ontoPath);
-		}
-
-		return ontoPath;
+		return revision.getRevisionDifferenceFrom(OntologyDocumentRevision.START_REVISION);
 	}
 
 	@Override
@@ -94,64 +107,20 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		super.save();
 
 		try {
-			final OntologyDocumentRevision aHEAD = versionedOntology.getRevision();
-			final Path aHeadFilePath = getOntologyDirectory().resolve("HEAD");
-
-			removeIfExists(aHeadFilePath);
-
-			final CharSink aSink = Files.asCharSink(aHeadFilePath.toFile(), Charset.defaultCharset());
-			aSink.write(aHEAD.toString());
+			writeRevision();
 		}
 		catch (IOException theE) {
 			LOGGER.log(Level.SEVERE, "Couldn't save the ontology state " + getIRI().toQuotedString(), theE);
 		}
 	}
 
-	private static int readHEAD(final File theOntoDir) throws IOException {
-		final Path aHeadFilePath = theOntoDir.toPath().resolve("HEAD");
-
-		CharSource aSrc = Files.asCharSource(aHeadFilePath.toFile(), Charset.defaultCharset());
-
-		// just read the first line, the revision number should be the only thing there
-		final String aLine = aSrc.readFirstLine();
-
-		if (Strings.isNullOrEmpty(aLine)) {
-			throw new RuntimeException("Revision number is invalid in HEAD file");
+	private static List<OWLOntologyChange> filterChanges(List<OWLOntologyChange> changes) {
+		final List<OWLOntologyChange> filteredChanges = Lists.newArrayList();
+		for (OWLOntologyChange change : changes) {
+			if (change instanceof SetOntologyID || change.isAxiomChange() && (change.getAxiom().isLogicalAxiom() || change.getAxiom() instanceof OWLDeclarationAxiom)) {
+				filteredChanges.add(change);
+			}
 		}
-
-		return Integer.parseInt(aLine);
-	}
-
-	private static IncrementalReasoner readReasoner(final File theOntoDir) {
-		final Path aReasonerFilePath = theOntoDir.toPath().resolve("reasoner_state.bin");
-
-		return IncrementalReasoner.config()
-		                          .file(aReasonerFilePath.toFile())
-		                          .createIncrementalReasoner();
-	}
-
-	public static OntologyState loadFromDisk(final OWLOntologyManager theManager,
-	                                         final Client theClient,
-	                                         final File theOntoDir,
-	                                         final RemoteOntologyDocument theRemoteDoc) throws IOException,
-	                                                                                           OWLOntologyCreationException,
-	                                                                                           OWLServerException {
-		final RevisionPointer aRev = new RevisionPointer(new OntologyDocumentRevision(readHEAD(theOntoDir)));
-
-		// load the ontology to the specific point were we left it
-		final VersionedOntologyDocument versionedOnto = ClientUtilities.loadOntology(theClient,
-		                                                                             theManager,
-		                                                                             theRemoteDoc, aRev);
-
-		try {
-			final IncrementalReasoner aReasoner = readReasoner(theOntoDir);
-
-			return new ProtegeOntologyState(theClient, versionedOnto, aReasoner);
-		}
-		catch (Exception e) {
-			LOGGER.log(Level.WARNING, "Cannot read saved state from file", e);
-
-			return new ProtegeOntologyState(theClient, versionedOnto);
-		}
+		return filteredChanges;
 	}
 }

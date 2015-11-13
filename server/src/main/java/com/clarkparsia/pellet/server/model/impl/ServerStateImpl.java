@@ -22,7 +22,7 @@ import org.semanticweb.owlapi.model.IRI;
 public class ServerStateImpl implements ServerState {
 	private final ImmutableMap<IRI, OntologyState> ontologies;
 
-	private ServerStateImpl(final Iterable<OntologyState> onts) {
+	protected ServerStateImpl(final Iterable<OntologyState> onts) {
 		ImmutableMap.Builder<IRI, OntologyState> builder = ImmutableMap.builder();
 		for (OntologyState ontoState : onts) {
 			builder.put(ontoState.getIRI(), ontoState);
@@ -61,19 +61,9 @@ public class ServerStateImpl implements ServerState {
 	}
 
 	@Override
-	public void reload() {
-		// no-op: this implementation doesn't have an explicit source for the ontologies, it just
-		// takes whatever it is in the constructor parameters
-	}
-
-	@Override
 	public void close() throws Exception {
 		for (OntologyState ontology : ontologies()) {
 			ontology.close();
 		}
-	}
-
-	public static ServerState create(final Iterable<OntologyState> onts) {
-		return new ServerStateImpl(onts);
 	}
 }

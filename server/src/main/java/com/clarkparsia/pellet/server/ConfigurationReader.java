@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.sun.deploy.config.Config;
 
 /**
  * @author Edgar Rodriguez-Diaz

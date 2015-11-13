@@ -29,7 +29,7 @@ public final class ServerStateReload implements Job {
 
 		LOGGER.info("Reloading server state on " + jobContext.getFireTime().toString());
 		final Stopwatch aWatch = Stopwatch.createStarted();
-		serverState.reload();
+		serverState.update();
 		aWatch.stop();
 		LOGGER.info("Done, server state reloaded in " +
 		            aWatch.elapsed(TimeUnit.MILLISECONDS) + " miliseconds");
