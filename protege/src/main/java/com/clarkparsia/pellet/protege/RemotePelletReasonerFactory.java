@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.complexible.pellet.client.reasoner.SchemaOWLReasoner;
 import org.protege.editor.owl.client.connect.ServerConnectionManager;
+import org.protege.editor.owl.model.OWLModelManager;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.VersionedOntologyDocument;
 import org.protege.owl.server.util.ClientUtilities;
@@ -32,11 +33,12 @@ public class RemotePelletReasonerFactory implements OWLReasonerFactory {
 	public static final Logger LOGGER = Logger.getLogger(RemotePelletReasonerFactory.class.getName());
 
 	private final SchemaReasonerFactory factory;
-	private final ServerConnectionManager connectionManager;
+	private final OWLModelManager modelManager;
+	private ServerConnectionManager connectionManager;
 
-	public RemotePelletReasonerFactory(final SchemaReasonerFactory theFactory, final ServerConnectionManager theConnectionManager) {
+	public RemotePelletReasonerFactory(final SchemaReasonerFactory theFactory, final OWLModelManager theModelManager) {
 		factory = theFactory;
-		connectionManager = theConnectionManager;
+		modelManager = theModelManager;
 	}
 
 	@Override
@@ -47,21 +49,37 @@ public class RemotePelletReasonerFactory implements OWLReasonerFactory {
 	private SchemaOWLReasoner createReasoner(final OWLOntology ontology, final BufferingMode bufferingMode) {
 		SchemaOWLReasoner reasoner = new SchemaOWLReasoner(ontology, factory, bufferingMode);
 
-		VersionedOntologyDocument vont = connectionManager == null ? null : connectionManager.getVersionedOntology(ontology);
-		if (vont != null) {
-			try {
-				// FIXME also compare the vont version with the remote version
-				Client client = connectionManager.createClient(ontology);
-				List<OWLOntologyChange> uncommitted = ClientUtilities.getUncommittedChanges(client, vont);
-				if (uncommitted.isEmpty()) {
-					LOGGER.info("Sending " + uncommitted.size() + " uncommitted changes to the remote server");
 
-					reasoner.getListener().ontologiesChanged(uncommitted);
-					reasoner.flush();
+		if (connectionManager == null) {
+			connectionManager = modelManager.get(ServerConnectionManager.ID);
+
+			System.out.println("connectionManager " + connectionManager);
+		}
+
+
+		if (connectionManager == null) {
+			connectionManager = modelManager.get(ServerConnectionManager.ID);
+
+			System.out.println("No connection manager can be found");
+		}
+		else {
+			VersionedOntologyDocument vont = connectionManager.getVersionedOntology(ontology);
+			if (vont != null) {
+				try {
+					// FIXME also compare the vont version with the remote version
+					Client client = connectionManager.createClient(ontology);
+					List<OWLOntologyChange> uncommitted = ClientUtilities.getUncommittedChanges(client, vont);
+					LOGGER.info("There are " + uncommitted.size() + " uncommitted change(s)");
+					if (!uncommitted.isEmpty()) {
+						LOGGER.info("Sending " + uncommitted.size() + " uncommitted changes to the remote server");
+
+						reasoner.getListener().ontologiesChanged(uncommitted);
+						reasoner.flush();
+					}
 				}
-			}
-			catch (Exception e) {
-				LOGGER.log(Level.WARNING, "Cannot synchronize remote reasoner with uncommitted changes", e);
+				catch (Exception e) {
+					LOGGER.log(Level.WARNING, "Cannot synchronize remote reasoner with uncommitted changes", e);
+				}
 			}
 		}
 

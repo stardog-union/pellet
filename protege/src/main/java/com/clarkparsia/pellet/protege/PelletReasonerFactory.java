@@ -56,11 +56,8 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
 			    // TODO: read timeout from preferences too and pass to ClientModule, 3 min by default
 			    final Injector aInjector = Guice.createInjector(new ClientModule(serverURL));
 
-			    ServerConnectionManager connectionManager = getOWLModelManager().get(ServerConnectionManager.ID);
-
-			    System.out.println("connectionManager " + connectionManager);
 			    
-			    return new RemotePelletReasonerFactory(aInjector.getInstance(SchemaReasonerFactory.class), connectionManager);
+			    return new RemotePelletReasonerFactory(aInjector.getInstance(SchemaReasonerFactory.class), getOWLModelManager());
 		    }
 		    default: throw new UnsupportedOperationException("Unrecognized reasoner type: " + reasonerMode);
 	    }
