@@ -45,6 +45,11 @@
                         <artifactId>pellet-examples</artifactId>
                         <version>${project.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>pellet-server</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
 	</dependencies>
   <build>
     <plugins>
