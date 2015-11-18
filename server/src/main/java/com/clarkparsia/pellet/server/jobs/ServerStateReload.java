@@ -27,11 +27,14 @@ public final class ServerStateReload implements Job {
 		                                                        .getJobDataMap()
 		                                                        .get("ServerState");
 
-		LOGGER.info("Reloading server state on " + jobContext.getFireTime().toString());
-		final Stopwatch aWatch = Stopwatch.createStarted();
-		serverState.update();
-		aWatch.stop();
-		LOGGER.info("Done, server state reloaded in " +
-		            aWatch.elapsed(TimeUnit.MILLISECONDS) + " miliseconds");
+		LOGGER.info("Checking for updated ontologies...");
+		boolean updated = serverState.update();
+		if (updated) {
+			LOGGER.info("Ontology updates are complete");
+		}
+		else {
+			LOGGER.info("No ontologies were updated");
+		}
+
 	}
 }

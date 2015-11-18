@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
+import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
 import com.google.common.primitives.Ints;
@@ -25,6 +26,7 @@ import org.protege.owl.server.api.RevisionPointer;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.protege.owl.server.api.exception.OWLServerException;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
@@ -50,6 +52,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		this.client = client;
 		this.remoteOnt = remoteOnt;
 		this.revision = readRevision(path);
+		writeRevision();
 	}
 
 	private static File revisionFile(final Path path) throws IOException {
@@ -60,7 +63,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 		final File aHeadFile = revisionFile(path);
 
 		if (aHeadFile.exists()) {
-			return new OntologyDocumentRevision(Ints.fromByteArray(Files.toByteArray(aHeadFile)));
+			return new OntologyDocumentRevision(Integer.parseInt(Files.toString(aHeadFile, Charsets.UTF_8)));
 		}
 
 		return OntologyDocumentRevision.START_REVISION;
@@ -68,7 +71,7 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 
 	private void writeRevision() throws IOException {
 		final File aHeadFile = revisionFile(getPath());
-		Files.write(Ints.toByteArray(getVersion()), aHeadFile);
+		Files.write(String.valueOf(getVersion()), aHeadFile, Charsets.UTF_8);
 	}
 
 	@Override
@@ -81,6 +84,8 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 				if (cmp > 0) {
 					throw new IllegalStateException("Current revision is higher than the HEAD revision");
 				}
+
+				LOGGER.info("Updating " + this + " from " + revision + " to " + headRevision);
 
 				ChangeHistory history = client.getChanges(remoteOnt, revision.asPointer(), headRevision.asPointer());
 
@@ -122,5 +127,11 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 			}
 		}
 		return filteredChanges;
+	}
+
+	@Override
+	public String toString() {
+		IRI iri = getIRI();
+		return "State(" + (iri == null ? "Anonymous ontology" : iri) + ")";
 	}
 }

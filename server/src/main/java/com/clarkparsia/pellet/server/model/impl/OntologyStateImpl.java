@@ -142,7 +142,7 @@ public class OntologyStateImpl implements OntologyState {
 	}
 
 	@Override
-	public synchronized final void update() {
+	public synchronized final boolean update() {
 		boolean updated = updateOntology(ontology);
 
 		if (updated) {
@@ -152,6 +152,8 @@ public class OntologyStateImpl implements OntologyState {
 
 			save();
 		}
+
+		return updated;
 	}
 
 	/**

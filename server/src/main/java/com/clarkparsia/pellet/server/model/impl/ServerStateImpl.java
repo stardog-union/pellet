@@ -47,10 +47,12 @@ public class ServerStateImpl implements ServerState {
 	}
 
 	@Override
-	public void update() {
+	public boolean update() {
+		boolean updated = false;
 		for (OntologyState ontState : ontologies()) {
-			ontState.update();
+			updated |= ontState.update();
 		}
+		return updated;
 	}
 
 	@Override

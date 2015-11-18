@@ -75,6 +75,8 @@ public final class ProtegeServerState extends ServerStateImpl {
 
 				ProtegeOntologyState state = new ProtegeOntologyState(mClient, ontoDoc, home.resolve(aOntoName).resolve("reasoner_state.bin"));
 
+				LOGGER.info("Loaded revision " + state.getVersion());
+
 				state.update();
 				ontologies.add(state);
 			}
@@ -88,10 +90,10 @@ public final class ProtegeServerState extends ServerStateImpl {
 	}
 
 	@Override
-	public void update() {
+	public boolean update() {
 		try {
 			if (updateLock.tryLock(1, TimeUnit.SECONDS)) {
-				super.update();
+				return super.update();
 			}
 			else {
 				LOGGER.info("Skipping update, there's another state update still happening");
@@ -108,6 +110,8 @@ public final class ProtegeServerState extends ServerStateImpl {
 				updateLock.unlock();
 			}
 		}
+
+		return false;
 	}
 
 	public Client getClient() {

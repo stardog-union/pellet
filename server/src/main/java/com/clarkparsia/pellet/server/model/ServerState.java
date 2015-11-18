@@ -33,7 +33,7 @@ public interface ServerState extends AutoCloseable {
 	/**
 	 * Update all ontology states. This function will iterate over all the {@link #ontologies() ontologies} and {@link OntologyState#update() update} each one.
 	 */
-	void update();
+	boolean update();
 
 	/**
 	 * Persists the state.
@@ -57,8 +57,9 @@ public interface ServerState extends AutoCloseable {
 		}
 
 		@Override
-		public void update() {
+		public boolean update() {
 			// no-op
+			return false;
 		}
 
 		@Override

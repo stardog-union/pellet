@@ -22,7 +22,7 @@ public interface OntologyState extends AutoCloseable {
 	/**
 	 * Update the ontology with the latest changes from the backing store. Details of retrieving the changes depends on the backing store.
 	 */
-	void update();
+	boolean update();
 
 	/**
 	 * Saves the current reasoning state.
