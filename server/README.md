@@ -1,28 +1,86 @@
-Pellet: An Open Source OWL DL reasoner for Java
------------------------------------------------
+Pellet Server
+=============
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/complexible/pellet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Pellet server integrates Pellet's schema reasoning and explanation capabilities with Protege server and allows the reasoner to be used
+from within Protege desktop client as any other reasoner. Pellet server retrieves ontolgoy contents from the Protege server and updates
+these ontologies periodically to keep the reasoning state up-to-date. Classification results are saved onto disk so when the server is
+restarted previous classification results are reused. Pellet server automatically detects when new versions are committed to the Protege
+server and updates the reasoning state via incremental classification. Pellet server only supports schema reasoning and does not support
+instance queries.
 
-Pellet is the OWL 2 DL reasoner: 
- 
-* [open source](https://github.com/complexible/pellet/blob/master/LICENSE.txt) (AGPL) or commercial license
-* pure Java
-* developed and [commercially supported](http://complexible.com/) by Complexible Inc. 
+Running the server
+------------------
 
-Pellet can be used with Jena or OWL-API libraries. Pellet provides functionality to check consistency of ontologies, compute the classification hierarchy, 
-explain inferences, and answer SPARQL queries.
+Following instructions are given for *nix systems. Adjust them accordingly for Windows systems.
 
-_Pellet 3.0, a closed source, next-gen version of Pellet, is embedded and available in [Stardog](http://stardog.com/), the RDF database._
+1. First setup Pellet home directory where configuration file and classification results will be saved.
+```bash
+$ export PELLET_HOME=/data/pellet
+```
+If PELLET_HOME isn’t defined, Pellet will use the Java `user.dir` property value.
 
-Feel free to fork this repository and submit pull requests if you want to
-see changes, new features, etc. in Pellet.
+2. Create a configuration file named `server.properties` in PELLET_HOME. Configuration file contains the information about Protege server,
+ontologies that will be loaded by the Pellet server and other server settings. An example configuration file is as follows:
+```
+# info about how to connect to the protege server
+protege.host=localhost
+protege.port=5100
+protege.username=admin
+protege.password=admin
 
-Documentation about how to use Pellet is in the doc/ directory and there are some 
-code samples in the examples/ directory.                                    
+# comma separated list of ontologies to load from the protege server. the ontologies
+# are identified by their location
+protege.ontologies=pizza.history,koala.history
 
-Commercial support for Pellet is [available](http://complexible.com/). The [Pellet FAQ](http://clarkparsia.com/pellet/faq) answers some frequently asked questions.
+# frequency (in seconds) at which pellet server will check protege server for new commits
+pellet.update.interval.sec=60
+```
+3. Start the Pellet server.
+```bash
+$ bin/pellet server start
+```
 
-There is a [pellet-users mailing list](https://groups.google.com/forum/?fromgroups#!forum/pellet-users) for questions and feedback. You can search [pellet-users archives](http://news.gmane.org/gmane.comp.web.pellet.user). 
-Bug reports and enhancement requests should be sent to the mailing list. Issues are on [Github](http://github.com/complexible/pellet/issues).
+Make sure Protege server is already running before starting the Pellet server.
 
-Thanks for using Pellet.
+Connecting through Protege
+--------------------------
+
+In order to connect to Pellet server in Protege first make sure Pellet plugin is installed. You can install the plugin form the Pellet
+update site or simply copy the plugin jar file to `plugins` directory in Protege root directory.
+
+Once Pellet plugin is installed select "Reasoner->Configure" option from the Protege menu and go to the "Pellet" tab. Select the
+"Remote" option under "Reasoner mode" and enter the URL for the Pellet server. Pellet server by default uses the port 8080 so if the
+server is running on th4e same machine enter "http://localhost:8080".
+
+You should also make sure the "Explanations" option in the configuration tab is set to "Limit explanations to". Retrieving all explanations
+can be very slow in client-server mode so this option should nto be used with Pellet server.
+
+Once the Pellet remote reasoner is configured in Protege all reasoning functionalities can be used for any ontology loaded from the same
+Protege server and specified in the Pellet server configuration file. Trying to do reasoning with any other ontology will raise an error.
+
+Note that Pellet remote reasoner works in buffered mode. This means changes performed in Protege will be buffered locally and send to the
+reasoner only when the user selects "Reasoner->Synchronize reasoner" menu option. Reasoner results will be updated after synchronization
+is complete.
+
+Multiple Protege clients can connect to the same Pellet server. Local changes performed by a Protege client will only be visible to itself
+and not shared by other clients.
+
+Building from source
+--------------------
+If you are building the server and plugin from source first generate the binaries using the following maven command:
+```bash
+$ mvn package
+```
+
+The server is included in the Pellet distribution bundle which will be located at `distribution/target/pellet-VERSION-dist.zip` with the
+current version number. Unzip the distribution and follow the instructions above for running the server. You might need to make the pellet
+script executable (`chmod u+x bin/pellet`) after unzipping the distribution.
+
+Protege plugin jar will be located at `protege/target/pellet-protege-VERSION.jar` and copied directly to the Protege plugins directory.
+Protege needs to be restarted before the plugin can be used. Follow the instructions above for configuration the Protege reasoner.
+
+
+
+
+
+
