@@ -8,8 +8,7 @@ package com.clarkparsia.owlapi.explanation;
 
 import java.util.Set;
 
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.google.common.collect.ImmutableSet;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -17,6 +16,9 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
+
+import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * @author Evren Sirin
@@ -185,7 +187,7 @@ public class PelletExplanation {
 		if (disposeReasoner) {
 			expGen.getReasoner().dispose();
 		}
-//		expGen.dispose();
+		expGen.dispose();
 	}
 }
 

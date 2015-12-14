@@ -8,7 +8,6 @@
 
 package com.clarkparsia.pellet.owlapiv3;
 
-import java.net.URI;
 import java.util.Set;
 
 import org.mindswap.pellet.KBLoader;
@@ -18,6 +17,7 @@ import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.MissingImportEvent;
+import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
 import org.semanticweb.owlapi.model.MissingImportListener;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -63,9 +63,13 @@ public class OWLAPILoader extends KBLoader {
 		iriMapper = new LimitedMapIRIMapper();
 		manager = OWLManager.createOWLOntologyManager();
 
-		manager.setSilentMissingImportsHandling(true);
+        manager.setOntologyLoaderConfiguration(manager
+                .getOntologyLoaderConfiguration()
+                .setMissingImportHandlingStrategy(
+                        MissingImportHandlingStrategy.SILENT));
 		manager.addMissingImportListener(new MissingImportListener() {
-			public void importMissing(MissingImportEvent event) {
+			@Override
+            public void importMissing(MissingImportEvent event) {
 				if (!ignoreImports) {
 					IRI importURI = event.getImportedOntologyURI();
 					System.err.println("WARNING: Cannot import " + importURI);
@@ -146,7 +150,9 @@ public class OWLAPILoader extends KBLoader {
 				// an import to the base ontology we created
 				OWLOntology importOnt = manager.loadOntologyFromOntologyDocument( fileIRI );	
 				OWLImportsDeclaration declaration = manager.getOWLDataFactory()
-						.getOWLImportsDeclaration( importOnt.getOntologyID().getOntologyIRI() );
+                        .getOWLImportsDeclaration(
+                                importOnt.getOntologyID().getOntologyIRI()
+                                        .get());
 				manager.applyChange( new AddImport( baseOntology, declaration ) );
 			}
 		} catch( IllegalArgumentException e ) {
@@ -181,8 +187,9 @@ public class OWLAPILoader extends KBLoader {
 	public void clear() {
 
 		iriMapper.clear();
-		for( OWLOntology ont : manager.getOntologies() )
-			manager.removeOntology( ont );
+		for( OWLOntology ont : manager.getOntologies() ) {
+            manager.removeOntology( ont );
+        }
 
 		try {
 			baseOntology = manager.createOntology();

@@ -138,7 +138,7 @@ public class OntologyStateImpl implements OntologyState {
 
 	@Override
 	public IRI getIRI() {
-		return ontology.getOntologyID().getOntologyIRI();
+		return ontology.getOntologyID().getOntologyIRI().orNull();
 	}
 
 	@Override

@@ -21,9 +21,11 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 
 import static com.clarkparsia.modularity.test.TestUtils.assertClassificationEquals;
@@ -229,13 +231,14 @@ public class PersistenceUpdatesTest {
 
 			modular.save(testFile);
 
-			modular = IncrementalReasoner.config().file(testFile).manager(OWL.manager).createIncrementalReasoner();
+			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+			modular = IncrementalReasoner.config().file(testFile).manager(manager).createIncrementalReasoner();
 
 			// first remove a random axiom
 			List<OWLAxiom> axiomsToRemove = new ArrayList<OWLAxiom>( TestUtils.selectRandomAxioms( ontology, 1 ) );
 
 			for( OWLAxiom axiomToRemove : axiomsToRemove ) {
-				OWL.manager.applyChange( new RemoveAxiom( modular.getRootOntology(), axiomToRemove) );
+				manager.applyChange( new RemoveAxiom( modular.getRootOntology(), axiomToRemove) );
 			}
 
 			modular.classify();

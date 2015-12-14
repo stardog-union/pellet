@@ -16,6 +16,7 @@ import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.google.common.base.Supplier;
 import org.junit.Test;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import static com.clarkparsia.modularity.test.TestUtils.assertClassificationEquals;
@@ -66,7 +67,7 @@ public class PersistenceClassificationTest extends AbstractModularityTest {
 
 			modular.save(testFile);
 
-			IncrementalReasoner modular2 = IncrementalReasoner.config().file(testFile).manager(OWL.manager).createIncrementalReasoner();
+			IncrementalReasoner modular2 = IncrementalReasoner.config().file(testFile).manager(OWLManager.createOWLOntologyManager()).createIncrementalReasoner();
 
 			assertClassificationEquals( unified, modular2 );
 

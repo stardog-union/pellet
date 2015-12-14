@@ -33,7 +33,6 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
-import org.semanticweb.owlapi.util.OWLEntityCollector;
 
 /**
  * <p>Title: </p>
@@ -59,8 +58,9 @@ public class OntologyUtils {
 
 	public static boolean containsClass(Set<Set<OWLClass>> classes, OWLClass cls) {
 		for( Set<OWLClass> set : classes ) {
-			if( set.contains( cls ) )
-				return true;
+			if( set.contains( cls ) ) {
+                return true;
+            }
 		}
 
 		return false;
@@ -136,8 +136,9 @@ public class OntologyUtils {
 	public static OWLOntology loadOntology( String uri, boolean withAnnotations ) {
 		OWLOntology ont = loadOntology( uri );
 		
-		if( !withAnnotations )
-			removeAllAnnotations( ont, manager );
+		if( !withAnnotations ) {
+            removeAllAnnotations( ont, manager );
+        }
 		
 		return ont;
 	}
@@ -157,8 +158,9 @@ public class OntologyUtils {
     public static OWLOntology loadOntology( InputStream inputStream, boolean withAnnotations ) {
         OWLOntology ont = loadOntology( inputStream );
         
-        if( !withAnnotations )
+        if( !withAnnotations ) {
             removeAllAnnotations( ont, manager );
+        }
         
         return ont;
     }
@@ -167,8 +169,9 @@ public class OntologyUtils {
 	 * Prints a set of axioms to console
 	 */
 	public static void printAxioms(Collection<? extends OWLAxiom> axioms) {
-		for( OWLAxiom axiom : axioms ) 
-			System.out.println( axiom );		
+		for( OWLAxiom axiom : axioms ) {
+            System.out.println( axiom );
+        }		
 	}
 
 	/**
@@ -332,8 +335,9 @@ public class OntologyUtils {
 	public static OWLEntity findEntity(String name, Set<OWLOntology> ontologies) {
 		OWLEntity entity = null;
 		for( OWLOntology ontology : ontologies ) {
-			if( (entity = findEntity( name, ontology )) != null )
-				break;
+			if( (entity = findEntity( name, ontology )) != null ) {
+                break;
+            }
 		}
 		return entity;
 	}
@@ -356,11 +360,11 @@ public class OntologyUtils {
 	public static OWLEntity findEntity(String name, OWLOntology ontology) {
 		OWLEntity entity = null;
 
-		if( name.equals( "owl:Thing" ) )
-			entity = OWL.Thing;
-		else if( name.equals( "owl:Nothing" ) )
-			entity = OWL.Nothing;
-		else {
+		if( name.equals( "owl:Thing" ) ) {
+            entity = OWL.Thing;
+        } else if( name.equals( "owl:Nothing" ) ) {
+            entity = OWL.Nothing;
+        } else {
 			IRI iri = IRI.create( name );
 
 			if( iri == null ) {
@@ -368,9 +372,11 @@ public class OntologyUtils {
 			}
 
 			if( !iri.isAbsolute() ) {
-				IRI baseIRI = ontology.getOntologyID().getOntologyIRI();
-				if( baseIRI != null )
-					iri = baseIRI.resolve( "#" + iri );
+                IRI baseIRI = ontology.getOntologyID().getOntologyIRI()
+                        .orNull();
+				if( baseIRI != null ) {
+                    iri = baseIRI.resolve( "#" + iri );
+                }
 			}
 
             if (ontology.containsClassInSignature(iri)) {

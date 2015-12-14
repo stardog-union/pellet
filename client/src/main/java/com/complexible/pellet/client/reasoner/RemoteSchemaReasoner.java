@@ -68,8 +68,10 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 		Preconditions.checkNotNull(theOntology, "the Ontology must not be Null.");
 
 		mService = thePelletService;
+
 		mOntologyIri = theOntology.getOntologyID()
-		                          .getOntologyIRI();
+		                          .getOntologyIRI()
+		                          .get();
 	}
 
 	@Override

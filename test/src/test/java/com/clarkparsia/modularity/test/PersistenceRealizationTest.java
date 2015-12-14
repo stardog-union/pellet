@@ -18,6 +18,7 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import static com.clarkparsia.modularity.test.TestUtils.assertInstancesEquals;
@@ -71,7 +72,7 @@ public class PersistenceRealizationTest {
 
 			modular.save(testFile);
 
-			IncrementalReasoner modular2 = IncrementalReasoner.config().file(testFile).manager(OWL.manager).createIncrementalReasoner();
+			IncrementalReasoner modular2 = IncrementalReasoner.config().file(testFile).manager(OWLManager.createOWLOntologyManager()).createIncrementalReasoner();
 
 			assertTrue( testFile.delete() );
 
@@ -87,7 +88,7 @@ public class PersistenceRealizationTest {
 			// save the classifier again and read it back
 			modular2.save(testFile);
 
-			IncrementalReasoner modular3 = IncrementalReasoner.config().file(testFile).manager(OWL.manager).createIncrementalReasoner();
+			IncrementalReasoner modular3 = IncrementalReasoner.config().file(testFile).manager(OWLManager.createOWLOntologyManager()).createIncrementalReasoner();
 
 			assertTrue( testFile.delete() );
 

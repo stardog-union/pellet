@@ -33,6 +33,7 @@ import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import org.mindswap.pellet.exceptions.PelletRuntimeException;
 import org.mindswap.pellet.taxonomy.Taxonomy;
@@ -629,7 +630,10 @@ public class IncrementalReasoner extends AbstractOWLListeningReasoner {
 
 			Properties properties = new Properties();
 			properties.setProperty(Persistence.REALIZED_PROPERTY, String.valueOf(realized));
-			properties.setProperty(Persistence.ONTOLOGY_IRI_PROPERTY, getRootOntology().getOntologyID().getOntologyIRI().toString());
+			Optional<IRI> ontIRI = getRootOntology().getOntologyID().getOntologyIRI();
+			if (ontIRI.isPresent()) {
+				properties.setProperty(Persistence.ONTOLOGY_IRI_PROPERTY, ontIRI.get().toString());
+			}
 			properties.store(zipOutputStream, Persistence.PROPERTIES_FILE_COMMENT);
 		}
 		finally {

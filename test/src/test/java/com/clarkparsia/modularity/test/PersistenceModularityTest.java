@@ -17,6 +17,7 @@ import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.google.common.base.Supplier;
 import org.junit.Assert;
 import org.junit.Test;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -59,7 +60,7 @@ public class PersistenceModularityTest extends AbstractModularityTest {
 
 			modular.save(testFile);
 
-			restored = IncrementalReasoner.config().file(testFile).manager(OWL.manager).createIncrementalReasoner();
+			restored = IncrementalReasoner.config().file(testFile).manager(OWLManager.createOWLOntologyManager()).createIncrementalReasoner();
 
 			for (OWLClass cls : ontology.getClassesInSignature()) {
 				Set<OWLEntity> expectedModules = modular.getModuleExtractor().getModuleEntities(cls);

@@ -3,20 +3,40 @@ package com.clarkparsia.pellet.service.proto;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Set;
 
+import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellet.service.io.SerializableNode;
 import com.clarkparsia.pellet.service.io.SerializableNodeSet;
+import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.protobuf.ByteString;
-import org.semanticweb.binaryowl.BinaryOWLVersion;
-import org.semanticweb.binaryowl.owlobject.OWLObjectBinaryType;
-import org.semanticweb.binaryowl.stream.BinaryOWLInputStream;
-import org.semanticweb.binaryowl.stream.BinaryOWLOutputStream;
+import org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
+import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormatFactory;
+import org.semanticweb.owlapi.functional.parser.OWLFunctionalSyntaxOWLParser;
+import org.semanticweb.owlapi.functional.renderer.OWLFunctionalSyntaxRenderer;
+import org.semanticweb.owlapi.io.OWLOntologyDocumentSource;
+import org.semanticweb.owlapi.io.OWLParser;
+import org.semanticweb.owlapi.io.OWLRenderer;
+import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLDocumentFormat;
+import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLException;
+import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
@@ -24,27 +44,79 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
  * @author Edgar Rodriguez-Diaz
  */
 public final class ProtoTools {
+	private static final OWLOntologyManager MANAGER = OWL.manager;
+	private static final OWLDataFactory FACTORY = OWL.factory;
+	private static final FunctionalSyntaxDocumentFormat FORMAT = new FunctionalSyntaxDocumentFormat();
 
-	public static final BinaryOWLVersion VERSION = BinaryOWLVersion.getVersion(1);
+	static {
+		FORMAT.setAddMissingTypes(false);
+		FORMAT.clear();
+	}
 
 	public static Messages.OwlObject toOwlObject(final OWLObject theObj) throws IOException {
 		final ByteArrayOutputStream dataOutput = new ByteArrayOutputStream();
-		final BinaryOWLOutputStream out = new BinaryOWLOutputStream(dataOutput, VERSION);
 
-		OWLObjectBinaryType.write(theObj, out);
-		final byte[] bytes = dataOutput.toByteArray();
-
-		return Messages.OwlObject.newBuilder()
-		                         .setBytes(ByteString.copyFrom(bytes))
-		                         .build();
+		return toOwlObject(FACTORY.getOWLDeclarationAxiom((OWLEntity) theObj));
 	}
 
-	public static <T extends OWLObject> T fromOwlObject(final Messages.OwlObject theRawObject) throws IOException {
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(theRawObject.getBytes().toByteArray());
-		BinaryOWLInputStream owlInStream = new BinaryOWLInputStream(inputStream, OWLManager.getOWLDataFactory(), VERSION);
+	public static Messages.OwlObject toOwlObject(final OWLAxiom theObj) throws IOException {
+		OWLOntology aOnt = null;
+		try {
+			final ByteArrayOutputStream dataOutput = new ByteArrayOutputStream();
+			aOnt = OWL.Ontology((OWLAxiom) theObj);
 
-		return OWLObjectBinaryType.read(owlInStream);
+			MANAGER.setOntologyFormat(aOnt, FORMAT);
+
+			aOnt.saveOntology(FORMAT, dataOutput);
+
+			return Messages.OwlObject.newBuilder()
+			                         .setBytes(ByteString.copyFrom(dataOutput.toByteArray()))
+			                         .build();
+		}
+		catch (OWLException e) {
+			throw new IOException(e);
+		}
+		finally {
+			if (aOnt != null) {
+				MANAGER.removeOntology(aOnt);
+			}
+		}
 	}
+
+	public static <T extends OWLEntity> T fromOwlObject(final Messages.OwlObject theRawObject) throws IOException {
+		return (T) ((OWLDeclarationAxiom) fromOwlAxiom(theRawObject)).getEntity();
+	}
+
+	public static OWLAxiom fromOwlAxiom(final Messages.OwlObject theRawObject) throws IOException {
+		OWLParser aParser = new OWLFunctionalSyntaxOWLParser();
+		OWLOntology aOnt = OWL.Ontology();
+		aParser.parse(new StringDocumentSource(theRawObject.getBytes().toStringUtf8()), aOnt, MANAGER.getOntologyLoaderConfiguration());
+
+		return Iterables.getOnlyElement(aOnt.getAxioms());
+	}
+
+	// BinaryOWL support disabled for now since it is not owlapi 4.x compatible
+	//
+	//	public static final BinaryOWLVersion VERSION = BinaryOWLVersion.getVersion(1);
+	//
+	//	public static Messages.OwlObject toOwlObject(final OWLObject theObj) throws IOException {
+	//		final ByteArrayOutputStream dataOutput = new ByteArrayOutputStream();
+	//		final BinaryOWLOutputStream out = new BinaryOWLOutputStream(dataOutput, VERSION);
+	//
+	//		OWLObjectBinaryType.write(theObj, out);
+	//		final byte[] bytes = dataOutput.toByteArray();
+	//
+	//		return Messages.OwlObject.newBuilder()
+	//		                         .setBytes(ByteString.copyFrom(bytes))
+	//		                         .build();
+	//	}
+	//
+	//	public static <T extends OWLObject> T fromOwlObject(final Messages.OwlObject theRawObject) throws IOException {
+	//		ByteArrayInputStream inputStream = new ByteArrayInputStream(theRawObject.getBytes().toByteArray());
+	//		BinaryOWLInputStream owlInStream = new BinaryOWLInputStream(inputStream, OWLManager.getOWLDataFactory(), VERSION);
+	//
+	//		return OWLObjectBinaryType.read(owlInStream);
+	//	}
 
 	public static Messages.AxiomSet toAxiomSet(final Set<OWLAxiom> theAxiomSet) throws IOException {
 		final Messages.AxiomSet.Builder aAxiomSet = Messages.AxiomSet.newBuilder();
@@ -61,7 +133,7 @@ public final class ProtoTools {
 		final ImmutableSet.Builder<OWLAxiom> axioms = ImmutableSet.builder();
 
 		for (Messages.OwlObject aRawObject : theAxiomSet.getAxiomsList()) {
-			axioms.add(ProtoTools.<OWLAxiom>fromOwlObject(aRawObject));
+			axioms.add(ProtoTools.fromOwlAxiom(aRawObject));
 		}
 
 		return axioms.build();

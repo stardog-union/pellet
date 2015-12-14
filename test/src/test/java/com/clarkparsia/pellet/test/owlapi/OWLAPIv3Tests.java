@@ -15,8 +15,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import aterm.ATermAppl;
-import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.modularity.IncrementalReasoner;
+import com.clarkparsia.modularity.IncremantalReasonerFactory;
 import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.SWRL;
 import com.clarkparsia.owlapiv3.XSD;
@@ -61,6 +61,7 @@ import org.semanticweb.owlapi.reasoner.NullReasonerProgressMonitor;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
+import org.semanticweb.owlapi.search.EntitySearcher;
 
 import static com.clarkparsia.owlapiv3.OWL.Class;
 import static com.clarkparsia.owlapiv3.OWL.DataProperty;
@@ -69,7 +70,6 @@ import static com.clarkparsia.owlapiv3.OWL.ObjectProperty;
 import static com.clarkparsia.owlapiv3.OWL.all;
 import static com.clarkparsia.owlapiv3.OWL.asymmetric;
 import static com.clarkparsia.owlapiv3.OWL.classAssertion;
-import static com.clarkparsia.owlapiv3.OWL.constant;
 import static com.clarkparsia.owlapiv3.OWL.differentFrom;
 import static com.clarkparsia.owlapiv3.OWL.disjointClasses;
 import static com.clarkparsia.owlapiv3.OWL.disjointProperties;
@@ -428,9 +428,12 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		OWLNamedIndividual ind = Individual( ns + indName );
 
-		OWLLiteral valDouble = ind.getDataPropertyValues( pDouble, ont ).iterator().next();
-		OWLLiteral valInt = ind.getDataPropertyValues( pInt, ont ).iterator().next();
-		OWLLiteral valBoolean = ind.getDataPropertyValues( pBoolean, ont ).iterator().next();
+        OWLLiteral valDouble = EntitySearcher
+                .getDataPropertyValues(ind, pDouble, ont).iterator().next();
+        OWLLiteral valInt = EntitySearcher
+                .getDataPropertyValues(ind, pInt, ont).iterator().next();
+        OWLLiteral valBoolean = EntitySearcher
+                .getDataPropertyValues(ind, pBoolean, ont).iterator().next();
 
 		assertTrue( reasoner.isConsistent() );
 		
@@ -457,7 +460,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 
 		// assertTrue( reasoner.getDataPropertyRelationships( ind ).isEmpty() );
 
-		OWLLiteral newVal = constant( "0.0", XSD.DOUBLE );
+        OWLLiteral newVal = OWL.constant(0.0D);
 		addAxioms( ont, propertyAssertion( ind, pDouble, newVal ) );
 		if( buffering ) {
 	        reasoner.flush();
@@ -560,8 +563,8 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests {
 		assertTrue( reasoner.isEntailed( transitive( hasDescendant ) ) );
 		assertFalse( reasoner.isEntailed( functional( hasDescendant ) ) );
 
-		assertTrue( reasoner.isEntailed( ( symmetric( isMarriedTo ) ) ) );
-		assertTrue( reasoner.isEntailed( ( irreflexive( isMarriedTo ) ) ) );
+		assertTrue( reasoner.isEntailed( symmetric( isMarriedTo ) ) );
+		assertTrue( reasoner.isEntailed( irreflexive( isMarriedTo ) ) );
 
 		assertTrue( reasoner.isEntailed( subPropertyOf( hasParent, hasAncestor ) ) );
 		assertTrue( reasoner.isEntailed( subPropertyOf( hasFather, hasAncestor ) ) );

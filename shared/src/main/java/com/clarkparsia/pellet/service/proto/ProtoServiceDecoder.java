@@ -81,7 +81,7 @@ public final class ProtoServiceDecoder implements ServiceDecoder {
 		public ExplainRequest decode(final byte[] theBytes) {
 			try {
 				final Messages.ExplainRequest aProtoReq = Messages.ExplainRequest.parseFrom(theBytes);
-				final OWLAxiom anAxiom = ProtoTools.fromOwlObject(aProtoReq.getAxiom());
+				final OWLAxiom anAxiom = ProtoTools.fromOwlAxiom(aProtoReq.getAxiom());
 
 				return new ExplainRequest(anAxiom);
 			}

@@ -6,21 +6,7 @@
 
 package com.clarkparsia.modularity.test;
 
-import static com.clarkparsia.owlapiv3.OWL.Thing;
-import static com.clarkparsia.owlapiv3.OWL.all;
-import static com.clarkparsia.owlapiv3.OWL.and;
-import static com.clarkparsia.owlapiv3.OWL.classAssertion;
-import static com.clarkparsia.owlapiv3.OWL.declaration;
-import static com.clarkparsia.owlapiv3.OWL.disjointClasses;
-import static com.clarkparsia.owlapiv3.OWL.domain;
-import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
-import static com.clarkparsia.owlapiv3.OWL.label;
-import static com.clarkparsia.owlapiv3.OWL.not;
-import static com.clarkparsia.owlapiv3.OWL.or;
-import static com.clarkparsia.owlapiv3.OWL.propertyAssertion;
-import static com.clarkparsia.owlapiv3.OWL.range;
-import static com.clarkparsia.owlapiv3.OWL.some;
-import static com.clarkparsia.owlapiv3.OWL.subClassOf;
+import static com.clarkparsia.owlapiv3.OWL.*;
 
 import java.util.Arrays;
 
@@ -381,7 +367,7 @@ public class IncrementalClassifierTest extends AbstractModularityTest {
 
 		try {
 			OWL.manager.applyChange(new AddImport(ontology1, OWL.factory.getOWLImportsDeclaration(ontology2.getOntologyID()
-			                .getOntologyIRI())));
+                            .getOntologyIRI().get())));
 	
 			TestUtils.runUpdateTest(ontology1, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 		}

@@ -23,13 +23,15 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.clarkparsia.owlapiv3.OWL;
 import org.mindswap.pellet.utils.MultiValueMap;
-import org.semanticweb.owlapi.io.OWLXMLOntologyFormat;
+import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+
+import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * <p>
@@ -65,7 +67,8 @@ public class ModuleExtractorPersistence {
 		try {
 			OWLOntology ontology = OWL.Ontology( axioms );
 
-			OWL.manager.saveOntology( ontology, new OWLXMLOntologyFormat(), outputStream );
+            OWL.manager.saveOntology(ontology, new OWLXMLDocumentFormat(),
+                    outputStream);
 			
 			outputStream.flush();
 			
@@ -258,7 +261,7 @@ public class ModuleExtractorPersistence {
 	/**
 	 * Reads information about the modules from the input stream that has the information stored in a form of ontology.
 	 *  
-	 * @param is the input stream from which the ontology should be read
+	 * @param inputStream the input stream from which the ontology should be read
 	 * @return the read information about the modules
 	 * @throws IOException if an error occurs during the read process. 
 	 */

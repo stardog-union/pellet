@@ -11,7 +11,7 @@
 	<name>Pellet :: OWL API</name>
 
 	<properties>
-		<owlapi.version>3.5.0</owlapi.version>
+		<owlapi.version>4.1.3</owlapi.version>
 	</properties>
 
 	<dependencies>
