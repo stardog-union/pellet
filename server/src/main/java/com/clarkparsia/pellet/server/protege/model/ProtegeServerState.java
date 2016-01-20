@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import com.beust.jcommander.internal.Sets;
 import com.clarkparsia.pellet.server.Configuration;
 import com.clarkparsia.pellet.server.ConfigurationReader;
-import com.clarkparsia.pellet.server.Environment;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
@@ -64,7 +63,7 @@ public final class ProtegeServerState extends ServerStateImpl {
 
 		final IRI serverRoot = IRI.create(mClient.getScheme() + "://" + mClient.getAuthority());
 
-		final Path home = Paths.get(Environment.getHome());
+		final Path home = Paths.get(configReader.pelletSettings().home());
 
 		for (String aOntoName : allowedOntologies) {
 			try {

@@ -2,11 +2,12 @@ package com.clarkparsia.pellet.server;
 
 import java.util.Collection;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Logger;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -38,7 +39,6 @@ public final class ConfigurationReader {
 	public static class PelletSettings {
 		private Properties settings;
 
-		private static final boolean STRICT_DEFAULT = false;
 
 		private static final int UPDATE_INTERVAL_DEFAULT_IN_SECONDS = 15;
 
@@ -46,40 +46,27 @@ public final class ConfigurationReader {
 			settings = theSettings;
 		}
 
-		public boolean isStrict() {
-			boolean isStrict = STRICT_DEFAULT;
-			final String strict = settings.getProperty(Configuration.PELLET_STRICT,
-			                                           String.valueOf(STRICT_DEFAULT));
-			try {
-				isStrict = Boolean.parseBoolean(strict);
-			}
-			catch (Exception e) {
-				LOGGER.info("Couldn't parse Pellet strict setting from configuration, default: "+ STRICT_DEFAULT);
-			}
+		public String home() {
+			return getProperty(settings, Configuration.PELLET_HOME, System.getProperty("user.dir"));
+		}
 
-			return isStrict;
+		public String host() {
+			return getProperty(settings, Configuration.PELLET_HOST, PelletServer.DEFAULT_HOST);
+		}
+
+		public int port() {
+			return getPropertyAsInteger(settings, Configuration.PELLET_PORT, PelletServer.DEFAULT_PORT);
 		}
 
 		public int updateIntervalInSeconds() {
-			final String val = settings.getProperty(Configuration.PELLET_UPDATE_INTERVAL);
-			int intervalSecs = UPDATE_INTERVAL_DEFAULT_IN_SECONDS;
-
-			try {
-				intervalSecs = Integer.parseInt(val);
-			}
-			catch (Exception e) {
-				LOGGER.info("Couldn't parse Pellet Server's update interval from configuration, " +
-				            "using: "+ intervalSecs +" seconds");
-			}
-
-			return intervalSecs;
+			return getPropertyAsInteger(settings, Configuration.PELLET_UPDATE_INTERVAL, UPDATE_INTERVAL_DEFAULT_IN_SECONDS);
 		}
 	}
 
 	public static class ProtegeSettings {
 
-		private static final String HOST_DEFAULT = "localhost";
-		private static final int PORT_DEFAULT = 4875;
+		private static final String DEFAULT_PROTEGE_HOST = "localhost";
+		private static final int DEFAULT_PROTEGE_PORT = 4875;
 
 		private Properties settings;
 
@@ -88,50 +75,24 @@ public final class ConfigurationReader {
 		}
 
 		public String host() {
-			final String aHost = settings.getProperty(Configuration.PROTEGE_HOST);
-
-			return !Strings.isNullOrEmpty(aHost) ? aHost : HOST_DEFAULT;
+			return getProperty(settings, Configuration.PROTEGE_HOST, DEFAULT_PROTEGE_HOST);
 		}
 
 		public int port() {
-			final String aPort = settings.getProperty(Configuration.PROTEGE_PORT);
-			int portNumber = PORT_DEFAULT;
-
-			try {
-				portNumber = Integer.parseInt(aPort);
-			}
-			catch (Exception e) {
-				LOGGER.info("Couldn't parse Protege Server's Port from configuration, trying port "+ PORT_DEFAULT);
-			}
-
-			return portNumber;
+			return getPropertyAsInteger(settings, Configuration.PROTEGE_PORT, DEFAULT_PROTEGE_PORT);
 		}
 
 		public String username() {
-			final String username = settings.getProperty(Configuration.PROTEGE_USERNAME);
-
-			Preconditions.checkArgument(!Strings.isNullOrEmpty(username),
-			                            "Setting 'protege.username' must not be empty");
-
-			return username;
+			return getProperty(settings, Configuration.PROTEGE_USERNAME, null);
 		}
 
 		public String password() {
-			final String username = settings.getProperty(Configuration.PROTEGE_PASSWORD);
-
-			Preconditions.checkArgument(!Strings.isNullOrEmpty(username),
-			                            "Setting 'protege.username' must not be empty");
-
-			return username;
+			return getProperty(settings, Configuration.PROTEGE_PASSWORD, null);
 		}
 
-		public Collection<String> ontologies() {
-			final String ontologiesList = settings.getProperty(Configuration.PROTEGE_ONTOLOGIES, "");
-			final ImmutableList.Builder<String> ontoNames = ImmutableList.builder();
-
-			if (Strings.isNullOrEmpty(ontologiesList)) {
-				return ontoNames.build();
-			}
+		public Set<String> ontologies() {
+			final String ontologiesList = getProperty(settings, Configuration.PROTEGE_ONTOLOGIES, null);
+			final ImmutableSet.Builder<String> ontoNames = ImmutableSet.builder();
 
 			// try parsing the ontology names list
 			for (String aOntoName : ontologiesList.split(",")) {
@@ -141,12 +102,50 @@ public final class ConfigurationReader {
 					ontoNames.add(aOntoName);
 				}
 				else {
-					LOGGER.info("Ignoring ontology name ["+ aOntoName +"] in configuration " +
+					throw new IllegalArgumentException("Invalid ontology name ["+ aOntoName +"] in configuration " +
 					            "- it must be a valid name ending in '.history'");
 				}
 			}
 
 			return ontoNames.build();
+		}
+	}
+
+	public static String getProperty(Properties properties, String key, String defaultValue) {
+		String val = properties.getProperty(key, defaultValue);
+		if (Strings.isNullOrEmpty(val)) {
+			throw new IllegalArgumentException("Value of configuration property " + key + " is missing");
+		}
+		return val;
+	}
+
+	public static int getPropertyAsInteger(Properties properties, String key, int defaultValue) {
+		String val = properties.getProperty(key);
+		if (val == null) {
+			return defaultValue;
+		}
+
+		try {
+			return Integer.parseInt(val);
+		}
+		catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Value of configuration property " + key + " is not a valid integer: " + defaultValue);
+		}
+	}
+
+	public static boolean getPropertyAsBoolean(Properties properties, String key, boolean defaultValue) {
+		String val = properties.getProperty(key);
+		if (val == null) {
+			return defaultValue;
+		}
+		else if (val.equalsIgnoreCase("true")) {
+			return true;
+		}
+		else if (val.equalsIgnoreCase("false")) {
+			return true;
+		}
+		else {
+			throw new IllegalArgumentException("Value of configuration property " + key + " is not a valid boolean: " + defaultValue);
 		}
 	}
 }

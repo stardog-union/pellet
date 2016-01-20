@@ -40,7 +40,7 @@ public abstract class PelletServerTest extends ProtegeServerTest {
 	public abstract Client provideClient() throws Exception;
 
 	@After
-	public void after() {
+	public void after() throws Exception {
 		stopPelletServer();
 		super.after();
 	}

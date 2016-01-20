@@ -1,9 +1,13 @@
 package com.clarkparsia.pellet.server.protege;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.clarkparsia.owlapiv3.OntologyUtils;
+import com.google.common.collect.TreeTraverser;
 import com.google.common.io.Resources;
 
 import org.junit.After;
@@ -37,6 +41,8 @@ public abstract class ProtegeServerTest extends TestUtilities {
 
 	protected final static int RMI_PORT = 4875;
 
+	protected final static Path TEST_HOME = Paths.get(".test-home");
+
 	protected final static String OWL2_HISTORY = "owl2.history";
 	protected final static String AGENCIES_HISTORY = "agencies.history";
 
@@ -63,9 +69,18 @@ public abstract class ProtegeServerTest extends TestUtilities {
 	}
 
 	@After
-	public void after() {
+	public void after() throws Exception {
 		mServer.shutdown();
 		OntologyUtils.clearOWLOntologyManager();
+		cleanHome();
+	}
+
+	public static void cleanHome() {
+		final TreeTraverser<File> aTraverser = com.google.common.io.Files.fileTreeTraverser();
+
+		for (File aFile : aTraverser.postOrderTraversal(TEST_HOME.toFile())) {
+			aFile.delete();
+		}
 	}
 
 	protected LocalTransport local() {

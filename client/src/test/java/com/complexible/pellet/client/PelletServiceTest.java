@@ -2,8 +2,6 @@ package com.complexible.pellet.client;
 
 import java.nio.file.Paths;
 
-import com.clarkparsia.pellet.server.Environment;
-import com.clarkparsia.pellet.server.protege.model.ProtegeServerState;
 import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.clarkparsia.pellet.service.io.EncodingException;
 import com.clarkparsia.pellet.service.json.GenericJsonMessage;
@@ -29,11 +27,6 @@ import static org.junit.Assert.assertEquals;
  * @author Edgar Rodriguez-Diaz
  */
 public class PelletServiceTest extends PelletClientTest {
-
-	static {
-		Environment.setHome(Paths.get(".test-home"));
-	}
-
 	PelletServiceProvider serviceProvider = new PelletServiceProvider(PelletService.DEFAULT_LOCAL_ENDPOINT,
 	                                                                  0, 0, 0); // disable all timeouts for tests
 
@@ -52,12 +45,6 @@ public class PelletServiceTest extends PelletClientTest {
 	@Override
 	public Client provideClient() throws Exception {
 		return createClient(RMI_PORT, REDMOND);
-	}
-
-	@After
-	public void after() {
-		super.after();
-		Environment.cleanHome();
 	}
 
 	@Test

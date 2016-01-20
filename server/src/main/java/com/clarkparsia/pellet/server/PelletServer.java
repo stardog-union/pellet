@@ -27,6 +27,7 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.SimpleTrigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
+import com.clarkparsia.pellet.server.ConfigurationReader.PelletSettings;
 
 /**
  * Pellet PelletServer implementation with Undertow.
@@ -38,8 +39,8 @@ public final class PelletServer {
 
 	private static final Logger LOGGER = Logger.getLogger(PelletServer.class.getName());
 
-	public static final String HOST = "localhost";
-	public static final int PORT = 8080;
+	public static final String DEFAULT_HOST = "localhost";
+	public static final int DEFAULT_PORT = 18080;
 
 	public static final String ROOT_PATH = "/";
 
@@ -84,31 +85,34 @@ public final class PelletServer {
 		// add shutdown path
 		path.addExactPath("/admin/shutdown", ServerShutdownHandler.newInstance(this, aShutdownHandler));
 
+		final ConfigurationReader aConfig = ConfigurationReader.of(serverInjector.getInstance(Configuration.class));
+
+		final PelletSettings aPelletSettings = aConfig.pelletSettings();
+
 		server = Undertow.builder()
-		                 .addHttpListener(PORT, HOST)
+		                 .addHttpListener(aPelletSettings.port(), aPelletSettings.host())
 		                 .setServerOption(UndertowOptions.ALWAYS_SET_DATE, true)
 		                 .setHandler(aShutdownHandler)
 		                 .build();
 
 
-		System.out.println(String.format("Pellet Home: %s", Environment.getHome()));
-		System.out.println(String.format("Listening at: http://%s:%s", HOST, PORT));
+		System.out.println(String.format("Pellet Home: %s", aPelletSettings.home()));
+		System.out.println(String.format("Listening at: http://%s:%s", aPelletSettings.host(), aPelletSettings.port()));
 
 		isRunning = true;
 		server.start();
 
 		try {
-			startJobs();
+			startJobs(aPelletSettings);
 		}
 		catch (SchedulerException se) {
 			throw new ServerException(500, se);
 		}
 	}
 
-	private void startJobs() throws SchedulerException {
+	private void startJobs(PelletSettings aPelletSettings) throws SchedulerException {
 		final JobDataMap jobData = new JobDataMap();
-		final ConfigurationReader aConfig = ConfigurationReader.of(serverInjector.getInstance(Configuration.class));
-		final int updateIntervalSec = aConfig.pelletSettings().updateIntervalInSeconds();
+		final int updateIntervalSec = aPelletSettings.updateIntervalInSeconds();
 
 		jobData.put("ServerState", this.getState());
 

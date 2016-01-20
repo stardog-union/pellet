@@ -2,49 +2,20 @@ package pellet;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 import com.clarkparsia.owlapi.explanation.PelletExplanation;
-import com.clarkparsia.pellet.owlapiv3.LimitedMapIRIMapper;
 import com.clarkparsia.pellet.server.Configuration;
-import com.clarkparsia.pellet.server.Environment;
+import com.clarkparsia.pellet.server.ConfigurationReader;
 import com.clarkparsia.pellet.server.PelletServerModule;
 import com.clarkparsia.pellet.server.protege.ProtegeServerConfiguration;
 import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 import com.complexible.pellet.client.ClientModule;
 import com.complexible.pellet.client.api.PelletService;
+import com.google.common.base.Joiner;
+import com.google.common.collect.FluentIterable;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.name.Names;
-import org.mindswap.pellet.utils.FileUtils;
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.AddAxiom;
-import org.semanticweb.owlapi.model.AddImport;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAnnotation;
-import org.semanticweb.owlapi.model.OWLAnnotationValue;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLImportsDeclaration;
-import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.profiles.OWL2DLProfile;
-import org.semanticweb.owlapi.profiles.OWL2ELProfile;
-import org.semanticweb.owlapi.profiles.OWL2Profile;
-import org.semanticweb.owlapi.profiles.OWL2QLProfile;
-import org.semanticweb.owlapi.profiles.OWL2RLProfile;
-import org.semanticweb.owlapi.profiles.OWLProfile;
-import org.semanticweb.owlapi.util.DLExpressivityChecker;
-import org.semanticweb.owlapi.util.NonMappingOntologyIRIMapper;
-import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 import static pellet.PelletCmdOptionArg.NONE;
 import static pellet.PelletCmdOptionArg.REQUIRED;
@@ -52,9 +23,11 @@ import static pellet.PelletCmdOptionArg.REQUIRED;
 public class PelletServer extends PelletCmdApp {
 	private enum Command { START, STOP }
 
+	private Configuration serverConfig;
+
 	@Override
 	public String getAppCmd() {
-		return "pellet server " + getMandatoryOptions() + "[options] <command>";
+		return "pellet server " + getMandatoryOptions() + "[options] (start|stop)";
 	}
 
 	@Override
@@ -100,8 +73,8 @@ public class PelletServer extends PelletCmdApp {
 
 		String[] commands = getInputFiles();
 
-		if (commands.length != 1) {
-			throw new PelletCmdException("A single command is required");
+		if (commands.length < 1) {
+			throw new PelletCmdException("A command (start or stop) is required");
 		}
 
 		try {
@@ -109,7 +82,7 @@ public class PelletServer extends PelletCmdApp {
 
 			switch (command) {
 				case START: startServer(); break;
-				case STOP: stopServer(); break;
+				case STOP: stopServer(commands); break;
 				default: throw new IllegalArgumentException();
 			}
 		}
@@ -122,28 +95,42 @@ public class PelletServer extends PelletCmdApp {
 	}
 
 	private void startServer() throws Exception {
-		Environment.assertHome();
-
-		File aConfigFile = new File(Environment.getHome() + File.separator + Configuration.FILENAME);
-		Configuration aConfig = new ProtegeServerConfiguration(aConfigFile);
+		Configuration aConfig = getServerConfig();
 		com.clarkparsia.pellet.server.PelletServer aPelletServer =
 			new com.clarkparsia.pellet.server.PelletServer(Guice.createInjector(new PelletServerModule(aConfig)));
 		aPelletServer.start();
 	}
 
-	private PelletService service() {
-		// TODO: make this endpoint dynamic
-		final String endpoint = "http://"+ com.clarkparsia.pellet.server.PelletServer.HOST + ":" +
-		                        com.clarkparsia.pellet.server.PelletServer.PORT;
+	private PelletService service(String endpoint) {
 		Injector aInjector = Guice.createInjector(new ClientModule(endpoint));
 
 		return aInjector.getInstance(PelletService.class);
 	}
 
-	private void stopServer() throws IOException {
-		GenericJsonMessage aMessage = service().shutdown()
-		                                       .execute()
-		                                       .body();
+	private void stopServer(final String[] args) throws IOException {
+		String endpoint;
+		if (args.length > 1) {
+			endpoint = args[1];
+		}
+		else {
+			ConfigurationReader.PelletSettings settings = ConfigurationReader.of(getServerConfig()).pelletSettings();
+			endpoint = "http://"+ settings.host() + ":" + settings.port();
+		}
+
+		GenericJsonMessage aMessage = service(endpoint).shutdown().execute().body();
+
 		System.out.println(aMessage.message);
+	}
+
+	private Configuration getServerConfig() throws IOException {
+		if (serverConfig == null) {
+			String configFile = options.getOption("config").getValueAsString();
+			if( configFile != null ) {
+				configFile = "server.properties";
+			}
+			serverConfig = new ProtegeServerConfiguration(new File(configFile));
+		}
+
+		return serverConfig;
 	}
 }
