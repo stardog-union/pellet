@@ -13,51 +13,70 @@ import java.util.Properties;
 /**
  * @author ronwalf
  * 
- * Automatic (from ant) version information for Pellet
+ *         Automatic (from ant) version information for Pellet
  */
-public class VersionInfo {
-    private Properties versionProperties = null;
+public class VersionInfo
+{
+	private Properties versionProperties = null;
 
-    private static String UNKNOWN = "(unknown)";
+	private static String UNKNOWN = "(unknown)";
 
-    public VersionInfo() {
-        versionProperties = new Properties();
-        // System.out.print(VersionInfo.class.getResource(""));
+	public VersionInfo()
+	{
+		versionProperties = new Properties();
+		// System.out.print(VersionInfo.class.getResource(""));
 
-        InputStream vstream = VersionInfo.class
-            .getResourceAsStream( "/org/mindswap/pellet/version.properties" );
-        if( vstream != null ) {
-            try {
-                versionProperties.load( vstream );
-            }
-            catch( IOException e ) {
-                System.err.println( "Could not load version properties:" );
-                e.printStackTrace();
-            } 
-            finally {
-            	try {
-					vstream.close();
-				} catch (IOException e) {
-					System.err.println( "Could not close version properties:" );
-	                e.printStackTrace();
+		try (final InputStream vstream = VersionInfo.class.getResourceAsStream("/org/mindswap/pellet/version.properties"))
+		{
+			if (vstream != null)
+			{
+				try
+				{
+					versionProperties.load(vstream);
 				}
-            }
-        }
-    }
-    
-    public static final VersionInfo getInstance() {
-    	return new VersionInfo();
-    }
+				catch (final IOException e)
+				{
+					System.err.println("Could not load version properties:");
+					e.printStackTrace();
+				}
+				finally
+				{
+					try
+					{
+						vstream.close();
+					}
+					catch (final IOException e)
+					{
+						System.err.println("Could not close version properties:");
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		catch (final IOException exception)
+		{
+			exception.printStackTrace();
+		}
+	}
 
-    public String getVersionString() {
-        return versionProperties.getProperty( "org.mindswap.pellet.version", "(unreleased)" );
-    }
+	public static final VersionInfo getInstance()
+	{
+		return new VersionInfo();
+	}
 
-    public String getReleaseDate() {
-        return versionProperties.getProperty( "org.mindswap.pellet.releaseDate", UNKNOWN );
-    }
-    
-    public String toString() {
-		return "Version: " + getVersionString()  + " Released: " + getReleaseDate();
-    }
+	public String getVersionString()
+	{
+		return versionProperties.getProperty("org.mindswap.pellet.version", "(unreleased)");
+	}
+
+	public String getReleaseDate()
+	{
+		return versionProperties.getProperty("org.mindswap.pellet.releaseDate", UNKNOWN);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Version: " + getVersionString() + " Released: " + getReleaseDate();
+	}
 }

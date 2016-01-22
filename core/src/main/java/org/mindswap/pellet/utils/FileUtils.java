@@ -45,143 +45,159 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class FileUtils {
-    public static boolean exists( String file ) {
-        return new File( file ).exists();
-    }
-    
-    public static String readURL(URL fileURL) throws IOException {
+public class FileUtils
+{
+	public static boolean exists(String file)
+	{
+		return new File(file).exists();
+	}
+
+	public static String readURL(URL fileURL) throws IOException
+	{
 		return readAll(new InputStreamReader(fileURL.openStream()));
 	}
-		
-	public static String readFile(File file) throws FileNotFoundException, IOException {
+
+	public static String readFile(File file) throws FileNotFoundException, IOException
+	{
 		return readAll(new FileReader(file));
 	}
-	
-	public static String readFile(String fileName) throws FileNotFoundException, IOException {
+
+	public static String readFile(String fileName) throws FileNotFoundException, IOException
+	{
 		return readAll(new FileReader(fileName));
 	}
-	
-	public static String readAll(Reader reader) throws IOException {
-		StringBuffer buffer = new StringBuffer();
-				
-		BufferedReader in = new BufferedReader(reader);
-		int ch;
-		while ((ch = in.read()) > -1) {
-			buffer.append((char)ch);
+
+	public static String readAll(Reader reader) throws IOException
+	{
+		final StringBuffer buffer = new StringBuffer();
+
+		try (BufferedReader in = new BufferedReader(reader))
+		{
+			int ch;
+			while ((ch = in.read()) > -1)
+				buffer.append((char) ch);
 		}
-		in.close();
 
 		return buffer.toString();
 	}
 
-    public static String toURI(String fileName) {
-    	if ( com.hp.hpl.jena.util.FileUtils.isURI( fileName ) )
-    		return fileName;
-    
-    	File localFile = new File(fileName);
-    	if (!localFile.exists())
-    		throw new RuntimeException(new FileNotFoundException(localFile.getAbsolutePath()));
-    
-    	try {
-    		return localFile.toURI().toURL().toExternalForm();
-    	} catch (MalformedURLException e) {
-    		throw new RuntimeException(fileName + " is not a valid URI");
-    	}
-    }
+	public static String toURI(String fileName)
+	{
+		if (com.hp.hpl.jena.util.FileUtils.isURI(fileName))
+			return fileName;
+
+		final File localFile = new File(fileName);
+		if (!localFile.exists())
+			throw new RuntimeException(new FileNotFoundException(localFile.getAbsolutePath()));
+
+		try
+		{
+			return localFile.toURI().toURL().toExternalForm();
+		}
+		catch (final MalformedURLException e)
+		{
+			throw new RuntimeException(fileName + " is not a valid URI");
+		}
+	}
 
 	/**
 	 * <p>
-	 * Creates a collection of URIs from a given regex list. The given list can
-	 * contain either absolute (local or remote) URIs or a Java regex expression
-	 * for a local path. If a regex is given all the files whose name matches
-	 * the regex will be added to the resulting list.
+	 * Creates a collection of URIs from a given regex list. The given list can contain either absolute (local or remote) URIs or a Java regex expression for a local path. If a regex is given all the files whose name matches the regex will be added to the resulting list.
 	 * </p>
 	 * <p>
-	 * The regular expressions supported by this function are Java regular
-	 * expressions. If we want to get the URIS for all the files in a directory
-	 * we need to pass <code>/path/to/dir/.*</code>
+	 * The regular expressions supported by this function are Java regular expressions. If we want to get the URIS for all the files in a directory we need to pass <code>/path/to/dir/.*</code>
 	 * </p>
 	 * 
 	 * @param fileNameRegexList
 	 *            list of regular expressions for fiel URIs
 	 * @return list of file URIs matching the given regular expressions
 	 */
-	public static Collection<String> getFileURIsFromRegex(String... fileNameRegexList) {
-		Collection<String> uris = new ArrayList<String>();
-	
-		for( String fileNameRegex : fileNameRegexList ) {
-			File file = new File( fileNameRegex );
-			File dir = file.getParentFile();
-	
-			if( dir != null && dir.exists() ) {
+	public static Collection<String> getFileURIsFromRegex(String... fileNameRegexList)
+	{
+		final Collection<String> uris = new ArrayList<String>();
+
+		for (final String fileNameRegex : fileNameRegexList)
+		{
+			final File file = new File(fileNameRegex);
+			final File dir = file.getParentFile();
+
+			if (dir != null && dir.exists())
+			{
 				final String filter = file.getName();
-	
-				File[] files = dir.listFiles( new FilenameFilter() {
-					public boolean accept(File dir, String name) {
-						return dir != null && name.matches( filter );
-					}
-				} );
-						
-				if( files.length == 0 )
-					throw new RuntimeException("File not found: " + fileNameRegex );
-				
-				Arrays.sort( files, AlphaNumericComparator.CASE_INSENSITIVE );
-	
-				for( File f : files ) {
-					uris.add( f.toURI().toString() );
+
+				final File[] files = dir.listFiles((FilenameFilter) (dir1, name) -> dir1 != null && name.matches(filter));
+
+				if (files.length == 0)
+					throw new RuntimeException("File not found: " + fileNameRegex);
+
+				Arrays.sort(files, AlphaNumericComparator.CASE_INSENSITIVE);
+
+				for (final File f : files)
+				{
+					uris.add(f.toURI().toString());
 				}
 			}
-			else {
-				if( file.exists() )
-					uris.add( file.toURI().toString() );
-				else if( URI.create( fileNameRegex ) == null )
-					throw new RuntimeException( new FileNotFoundException( fileNameRegex ) );
+			else
+			{
+				if (file.exists())
+					uris.add(file.toURI().toString());
 				else
-					uris.add( fileNameRegex );
+					if (URI.create(fileNameRegex) == null)
+						throw new RuntimeException(new FileNotFoundException(fileNameRegex));
+					else
+						uris.add(fileNameRegex);
 			}
 		}
-	
+
 		return uris;
-	}	
-	
+	}
+
 	/**
 	 * Creates a collection of URIs from a given list of files.
 	 * 
 	 * @param fileNameList the list of files
 	 * @return a list of URIs
 	 */
-	public static Collection<String> getFileURIs(String... fileNameList) {
-		Collection<String> uris = new ArrayList<String>();
+	public static Collection<String> getFileURIs(String... fileNameList)
+	{
+		final Collection<String> uris = new ArrayList<String>();
 
-		for( String fileName : fileNameList ) {
-			uris.add( getFileURI( fileName ) );
+		for (final String fileName : fileNameList)
+		{
+			uris.add(getFileURI(fileName));
 		}
 
 		return uris;
-	}	
-	
+	}
+
 	/**
 	 * Creates a URI from a given file name.
 	 * 
 	 * @param fileNameList the list of files
 	 * @return a string representing the file URI
 	 */
-	public static String getFileURI(String fileName) {
-		File file = new File( fileName );
-		File dir = file.getParentFile();
+	public static String getFileURI(String fileName)
+	{
+		final File file = new File(fileName);
+		final File dir = file.getParentFile();
 
-		if( file.exists() ) {
+		if (file.exists())
+		{
 			return file.toURI().toString();
 		}
-		else if( dir != null && dir.exists() ) {
-			throw new RuntimeException( new FileNotFoundException( fileName ) );
-		}
-		else if( URI.create( fileName ) == null ) {
-			throw new RuntimeException( new FileNotFoundException( fileName ) );
-		}
-		else {
-			return fileName;
-		}
+		else
+			if (dir != null && dir.exists())
+			{
+				throw new RuntimeException(new FileNotFoundException(fileName));
+			}
+			else
+				if (URI.create(fileName) == null)
+				{
+					throw new RuntimeException(new FileNotFoundException(fileName));
+				}
+				else
+				{
+					return fileName;
+				}
 	}
 }

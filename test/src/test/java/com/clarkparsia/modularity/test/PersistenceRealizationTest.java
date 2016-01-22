@@ -11,15 +11,6 @@ import static com.clarkparsia.modularity.test.TestUtils.assertTypesEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import org.junit.Test;
-import org.mindswap.pellet.test.PelletTestSuite;
-import org.semanticweb.owlapi.model.OWLOntology;
-
 import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.ModuleExtractor;
@@ -28,6 +19,13 @@ import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import org.junit.Test;
+import org.mindswap.pellet.test.PelletTestSuite;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * <p>
@@ -45,98 +43,105 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  *
  * @author Blazej Bulka
  */
-public class PersistenceRealizationTest {
-	public static final String	base	= PelletTestSuite.base + "modularity/";
-	
+public class PersistenceRealizationTest
+{
+	public static final String base = PelletTestSuite.base + "modularity/";
+
 	private static final String TEST_FILE = "test-persistence-realization.zip";
-		
-	public ModuleExtractor createModuleExtractor() {
+
+	public ModuleExtractor createModuleExtractor()
+	{
 		return new AxiomBasedModuleExtractor();
 	}
-	
-	public void testFile(String fileName) throws IOException {
-		String common = "file:"+ base + fileName;
-		testRealization( common + ".owl");		
-	}
-	
-	public void testRealization(String inputOnt) throws IOException {
-		File testFile = new File( TEST_FILE );
-		OWLOntology ontology = OntologyUtils.loadOntology( inputOnt );
-		
-		try {
-			PelletReasoner unified = PelletReasonerFactory.getInstance().createReasoner( ontology );
-			ModuleExtractor moduleExtractor = createModuleExtractor();
 
-			IncrementalClassifier modular = new IncrementalClassifier( unified, moduleExtractor );
+	public void testFile(String fileName) throws IOException
+	{
+		final String common = "file:" + base + fileName;
+		testRealization(common + ".owl");
+	}
+
+	public void testRealization(String inputOnt) throws IOException
+	{
+		final File testFile = new File(TEST_FILE);
+		final OWLOntology ontology = OntologyUtils.loadOntology(inputOnt);
+
+		try
+		{
+			final PelletReasoner unified = PelletReasonerFactory.getInstance().createReasoner(ontology);
+			final ModuleExtractor moduleExtractor = createModuleExtractor();
+
+			final IncrementalClassifier modular = new IncrementalClassifier(unified, moduleExtractor);
 			modular.classify();
 
 			// first we only persist classified-but-not-realized classifier
-			assertFalse( modular.isRealized() );
+			assertFalse(modular.isRealized());
 
-			FileOutputStream fos = new FileOutputStream( testFile );
+			try (FileOutputStream fos = new FileOutputStream(testFile))
+			{
+				IncrementalClassifierPersistence.save(modular, fos);
+			}
 
-			IncrementalClassifierPersistence.save( modular, fos );
-
-			fos.close();
-
-			FileInputStream fis = new FileInputStream( testFile );
-
-			IncrementalClassifier modular2 = IncrementalClassifierPersistence.load( fis );
-
-			fis.close();
-			assertTrue( testFile.delete() );
+			final IncrementalClassifier modular2;
+			try (FileInputStream fis = new FileInputStream(testFile))
+			{
+				modular2 = IncrementalClassifierPersistence.load(fis);
+			}
+			assertTrue(testFile.delete());
 
 			// the classifier read from file should NOT be realized at this point
-			assertFalse( modular.isRealized() );
-			
-			assertInstancesEquals( unified, modular2 );
-			assertTypesEquals( unified, modular2 );
-			
+			assertFalse(modular.isRealized());
+
+			assertInstancesEquals(unified, modular2);
+			assertTypesEquals(unified, modular2);
+
 			// the previous tests should have triggered realization
-			assertTrue( modular2.isRealized() );
+			assertTrue(modular2.isRealized());
 
 			// save the classifier again and read it back
-			fos = new FileOutputStream( testFile );
+			try (final FileOutputStream fos = new FileOutputStream(testFile))
+			{
+				IncrementalClassifierPersistence.save(modular2, fos);
+			}
 
-			IncrementalClassifierPersistence.save( modular2, fos );
-
-			fos.close();
-
-			fis = new FileInputStream( testFile );
-
-			IncrementalClassifier modular3 = IncrementalClassifierPersistence.load( fis );
-
-			fis.close();
-			assertTrue( testFile.delete() );
+			final IncrementalClassifier modular3;
+			try (final FileInputStream fis = new FileInputStream(testFile))
+			{
+				modular3 = IncrementalClassifierPersistence.load(fis);
+			}
+			assertTrue(testFile.delete());
 
 			// the classifier read from file should be realized at this point
-			assertTrue( modular3.isRealized() );
-			
-			assertInstancesEquals( unified, modular3 );
-			assertTypesEquals( unified, modular3 );
-			
+			assertTrue(modular3.isRealized());
+
+			assertInstancesEquals(unified, modular3);
+			assertTypesEquals(unified, modular3);
+
 			unified.dispose();
 			modular.dispose();
 			modular2.dispose();
 			modular3.dispose();
-		} 
-		finally {
-			OWL.manager.removeOntology( ontology );
 		}
-	}	
-	
-	@Test
-	public void koalaPersistenceRealizationTest() throws IOException {
-		testFile( "koala" );
+		finally
+		{
+			OWL.manager.removeOntology(ontology);
+		}
 	}
 
 	@Test
-	public void sumoPersistenceRealizationTest() throws IOException {
-		testFile( "SUMO" );
+	public void koalaPersistenceRealizationTest() throws IOException
+	{
+		testFile("koala");
 	}
 
 	@Test
-	public void sweetPersistenceRealizationTest() throws IOException {
-		testFile( "SWEET" );
+	public void sumoPersistenceRealizationTest() throws IOException
+	{
+		testFile("SUMO");
+	}
+
+	@Test
+	public void sweetPersistenceRealizationTest() throws IOException
+	{
+		testFile("SWEET");
 	}
 }

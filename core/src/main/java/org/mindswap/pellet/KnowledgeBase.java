@@ -39,6 +39,29 @@ import static com.clarkparsia.pellet.utils.TermFactory.and;
 import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static java.lang.String.format;
 
+import aterm.ATerm;
+import aterm.ATermAppl;
+import aterm.ATermFactory;
+import aterm.ATermList;
+import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
+import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
+import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
+import com.clarkparsia.pellet.el.SimplifiedELClassifier;
+import com.clarkparsia.pellet.expressivity.Expressivity;
+import com.clarkparsia.pellet.expressivity.ExpressivityChecker;
+import com.clarkparsia.pellet.rules.ContinuousRulesStrategy;
+import com.clarkparsia.pellet.rules.UsableRuleFilter;
+import com.clarkparsia.pellet.rules.model.AtomDVariable;
+import com.clarkparsia.pellet.rules.model.AtomIObject;
+import com.clarkparsia.pellet.rules.model.AtomIVariable;
+import com.clarkparsia.pellet.rules.model.ClassAtom;
+import com.clarkparsia.pellet.rules.model.DatavaluedPropertyAtom;
+import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
+import com.clarkparsia.pellet.rules.model.Rule;
+import com.clarkparsia.pellet.rules.model.RuleAtom;
+import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
+import com.clarkparsia.pellet.utils.CollectionUtils;
+import com.clarkparsia.pellet.utils.MultiMapUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -57,7 +80,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.PelletOptions.InstanceRetrievalMethod;
 import org.mindswap.pellet.exceptions.InconsistentOntologyException;
 import org.mindswap.pellet.exceptions.UndefinedEntityException;
@@ -86,60 +108,34 @@ import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.Timers;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermFactory;
-import aterm.ATermList;
-
-import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
-import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
-import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
-import com.clarkparsia.pellet.el.SimplifiedELClassifier;
-import com.clarkparsia.pellet.expressivity.Expressivity;
-import com.clarkparsia.pellet.expressivity.ExpressivityChecker;
-import com.clarkparsia.pellet.rules.ContinuousRulesStrategy;
-import com.clarkparsia.pellet.rules.UsableRuleFilter;
-import com.clarkparsia.pellet.rules.model.AtomDVariable;
-import com.clarkparsia.pellet.rules.model.AtomIObject;
-import com.clarkparsia.pellet.rules.model.AtomIVariable;
-import com.clarkparsia.pellet.rules.model.ClassAtom;
-import com.clarkparsia.pellet.rules.model.DatavaluedPropertyAtom;
-import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
-import com.clarkparsia.pellet.rules.model.Rule;
-import com.clarkparsia.pellet.rules.model.RuleAtom;
-import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
-import com.clarkparsia.pellet.utils.CollectionUtils;
-import com.clarkparsia.pellet.utils.MultiMapUtils;
-
 /**
  * @author Evren Sirin
  */
-public class KnowledgeBase {
-	public final static Logger								log		= Logger
-																			.getLogger( KnowledgeBase.class
-																					.getName() );
+public class KnowledgeBase
+{
+	public final static Logger log = Logger.getLogger(KnowledgeBase.class.getName());
 
 	// This field is to ensure memory profiler will first process ATermFactory
 	// which makes it easier to analyze the results
 	@SuppressWarnings("unused")
-	private ATermFactory									factory	= ATermUtils.getFactory();
+	private final ATermFactory factory = ATermUtils.getFactory();
 
-	protected ABox											abox;
-	protected TBox											tbox;
-	protected RBox											rbox;
+	protected ABox abox;
+	protected TBox tbox;
+	protected RBox rbox;
 
-	private Set<ATermAppl>									individuals;
+	private Set<ATermAppl> individuals;
 
-	protected TaxonomyBuilder								builder;
-	private ProgressMonitor									builderProgressMonitor;
+	protected TaxonomyBuilder builder;
+	private ProgressMonitor builderProgressMonitor;
 
-	private boolean											consistent;
+	private boolean consistent;
 
-	private SizeEstimate									estimate;
-	
-	private boolean											explainOnlyInconsistency = false;
+	private SizeEstimate estimate;
 
-	private Map<ATermAppl, Map<ATermAppl, Set<ATermAppl>>>	annotations;
+	private boolean explainOnlyInconsistency = false;
+
+	private final Map<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> annotations;
 
 	/**
 	 * The state of KB w.r.t. reasoning. The state is not valid if KB is
@@ -148,15 +144,16 @@ public class KnowledgeBase {
 	 * called. If KB is modified after classification, calling prepare might
 	 * remove CONSISTENCY but leave CLASSIFY.
 	 */
-	protected enum ReasoningState {
+	protected enum ReasoningState
+	{
 		CONSISTENCY, CLASSIFY, REALIZE
 	}
 
-	protected EnumSet<ReasoningState>		state	= EnumSet.noneOf( ReasoningState.class );
+	protected EnumSet<ReasoningState> state = EnumSet.noneOf(ReasoningState.class);
 
-	private Map<ATermAppl, Set<ATermAppl>>	instances;
+	private Map<ATermAppl, Set<ATermAppl>> instances;
 
-	private ExpressivityChecker				expChecker;
+	private ExpressivityChecker expChecker;
 
 	/**
 	 * Timers used in various different parts of KB. There may be many different
@@ -164,248 +161,317 @@ public class KnowledgeBase {
 	 * requirements. However, there are three major timers that are guaranteed
 	 * to exist.
 	 * <ul>
-	 * <li> <b>main</b> - This is the main timer that exists in any Timers
-	 * objects. All the other timers defined in here will have this timer as its
-	 * dependant so setting a timeout on this timer will put a limit on every
-	 * operation done inside KB.</li>
-	 * <li> <b>preprocessing</b> - This is the operation where TBox creation,
-	 * absorbtion and normalization is done. It also includes computing
-	 * hierarchy of properties in RBox and merging the individuals in ABox if
-	 * there are explicit sameAs assertions.</li>
-	 * <li> <b>consistency</b> - This is the timer for ABox consistency check.
-	 * Putting a timeout will mean that any single consistency check should be
-	 * completed in a certain amount of time.</li>
+	 * <li><b>main</b> - This is the main timer that exists in any Timers objects. All the other timers defined in here will have this timer as its dependant so setting a timeout on this timer will put a limit on every operation done inside KB.</li>
+	 * <li><b>preprocessing</b> - This is the operation where TBox creation, absorbtion and normalization is done. It also includes computing hierarchy of properties in RBox and merging the individuals in ABox if there are explicit sameAs assertions.</li>
+	 * <li><b>consistency</b> - This is the timer for ABox consistency check. Putting a timeout will mean that any single consistency check should be completed in a certain amount of time.</li>
 	 * </ul>
 	 */
-	public Timers							timers	= new Timers();
+	public Timers timers = new Timers();
 
 	/**
-	 * Rules added to this KB. The key is the asserted rule, 
+	 * Rules added to this KB. The key is the asserted rule,
 	 */
-	private Map<Rule,Rule>					rules;
+	private Map<Rule, Rule> rules;
 
 	// !!!!THE FOLLOWING ARE USED FOR INCREMENTAL REASONING!!!!
 	// Structure for tracking which assertions are deleted
-	private Set<ATermAppl>					deletedAssertions;
+	private Set<ATermAppl> deletedAssertions;
 
 	// Index used for abox deletions
-	private DependencyIndex					dependencyIndex;
+	private DependencyIndex dependencyIndex;
 
 	// set of syntactic assertions
-	private Set<ATermAppl>					syntacticAssertions;
+	private Set<ATermAppl> syntacticAssertions;
 
-	public enum AssertionType {
+	public enum AssertionType
+	{
 		TYPE, OBJ_ROLE, DATA_ROLE
 	}
 
-	protected MultiValueMap<AssertionType, ATermAppl>	aboxAssertions;
+	protected MultiValueMap<AssertionType, ATermAppl> aboxAssertions;
 
-	public enum ChangeType {
+	public enum ChangeType
+	{
 		ABOX_ADD, ABOX_DEL, TBOX_ADD, TBOX_DEL, RBOX_ADD, RBOX_DEL
 	}
 
-	protected EnumSet<ChangeType>	changes;
+	protected EnumSet<ChangeType> changes;
 
-	protected boolean				canUseIncConsistency;
+	protected boolean canUseIncConsistency;
 
-	FullyDefinedClassVisitor		fullyDefinedVisitor	= new FullyDefinedClassVisitor();
-	DatatypeVisitor					datatypeVisitor		= new DatatypeVisitor();
+	FullyDefinedClassVisitor fullyDefinedVisitor = new FullyDefinedClassVisitor();
+	DatatypeVisitor datatypeVisitor = new DatatypeVisitor();
 
-	class DatatypeVisitor extends ATermBaseVisitor {
+	class DatatypeVisitor extends ATermBaseVisitor
+	{
 
-		private boolean	isDatatype	= false;
+		private boolean isDatatype = false;
 
-		public boolean isDatatype(ATermAppl term) {
+		public boolean isDatatype(ATermAppl term)
+		{
 			isDatatype = false;
-			visit( term );
+			visit(term);
 
 			return isDatatype;
 		}
 
 		@Override
-		public void visit(ATermAppl term) {
-			super.visit( term );
-		}
-
-		public void visitOr(ATermAppl term) {
-			visitList( (ATermList) term.getArgument( 0 ) );
-		}
-
-		public void visitValue(ATermAppl term) {
-			ATermAppl nominal = (ATermAppl) term.getArgument( 0 );
-
-			if( ATermUtils.isLiteral( nominal ) )
-				isDatatype = true;
-		}
-
-		public void visitTerm(ATermAppl term) {
-			if( getDatatypeReasoner().isDeclared( term ) )
-				isDatatype = true;
-		}
-
-		public void visitNot(ATermAppl term) {
-			this.visit( (ATermAppl) term.getArgument( 0 ) );
-		}
-
-		public void visitAll(ATermAppl term) {
-		}
-
-		public void visitAnd(ATermAppl term) {
-			visitList( (ATermList) term.getArgument( 0 ) );
-		}
-
-		public void visitCard(ATermAppl term) {
-		}
-
-		public void visitHasValue(ATermAppl term) {
-		}
-
-		public void visitLiteral(ATermAppl term) {
-		}
-
-		public void visitMax(ATermAppl term) {
-		}
-
-		public void visitMin(ATermAppl term) {
-		}
-
-		public void visitOneOf(ATermAppl term) {
-			visitList( (ATermList) term.getArgument( 0 ) );
-		}
-
-		public void visitSelf(ATermAppl term) {
-		}
-
-		public void visitSome(ATermAppl term) {
-		}
-
-		public void visitInverse(ATermAppl term) {
-		}
-
-		public void visitRestrictedDatatype(ATermAppl dt) {
-			isDatatype( (ATermAppl) dt.getArgument( 0 ) );
-		}
-	}
-
-	class FullyDefinedClassVisitor extends ATermBaseVisitor {
-
-		private boolean	fullyDefined	= true;
-
-		public boolean isFullyDefined(ATermAppl term) {
-			fullyDefined = true;
-			visit( term );
-			return fullyDefined;
-		}
-
-		private void visitQCR(ATermAppl term) {
-			visitRestr( term );
-			if( fullyDefined ) {
-				ATermAppl q = (ATermAppl) term.getArgument( 2 );
-				if( !isDatatype( q ) )
-					this.visit( q );
-			}
-		}
-
-		private void visitQR(ATermAppl term) {
-			visitRestr( term );
-			if( fullyDefined ) {
-				ATermAppl q = (ATermAppl) term.getArgument( 1 );
-				if( !isDatatype( q ) )
-					this.visit( q );
-			}
-		}
-
-		private void visitRestr(ATermAppl term) {
-			fullyDefined = fullyDefined && isProperty( term.getArgument( 0 ) );
+		public void visit(ATermAppl term)
+		{
+			super.visit(term);
 		}
 
 		@Override
-		public void visit(ATermAppl term) {
-			if( term.equals( ATermUtils.TOP ) || term.equals( ATermUtils.BOTTOM )
-					|| term.equals( ATermUtils.TOP_LIT ) || term.equals( ATermUtils.BOTTOM_LIT ) )
+		public void visitOr(ATermAppl term)
+		{
+			visitList((ATermList) term.getArgument(0));
+		}
+
+		@Override
+		public void visitValue(ATermAppl term)
+		{
+			final ATermAppl nominal = (ATermAppl) term.getArgument(0);
+
+			if (ATermUtils.isLiteral(nominal))
+				isDatatype = true;
+		}
+
+		@Override
+		public void visitTerm(ATermAppl term)
+		{
+			if (getDatatypeReasoner().isDeclared(term))
+				isDatatype = true;
+		}
+
+		@Override
+		public void visitNot(ATermAppl term)
+		{
+			this.visit((ATermAppl) term.getArgument(0));
+		}
+
+		@Override
+		public void visitAll(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitAnd(ATermAppl term)
+		{
+			visitList((ATermList) term.getArgument(0));
+		}
+
+		@Override
+		public void visitCard(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitHasValue(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitLiteral(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitMax(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitMin(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitOneOf(ATermAppl term)
+		{
+			visitList((ATermList) term.getArgument(0));
+		}
+
+		@Override
+		public void visitSelf(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitSome(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitInverse(ATermAppl term)
+		{
+		}
+
+		@Override
+		public void visitRestrictedDatatype(ATermAppl dt)
+		{
+			isDatatype((ATermAppl) dt.getArgument(0));
+		}
+	}
+
+	class FullyDefinedClassVisitor extends ATermBaseVisitor
+	{
+
+		private boolean fullyDefined = true;
+
+		public boolean isFullyDefined(ATermAppl term)
+		{
+			fullyDefined = true;
+			visit(term);
+			return fullyDefined;
+		}
+
+		private void visitQCR(ATermAppl term)
+		{
+			visitRestr(term);
+			if (fullyDefined)
+			{
+				final ATermAppl q = (ATermAppl) term.getArgument(2);
+				if (!isDatatype(q))
+					this.visit(q);
+			}
+		}
+
+		private void visitQR(ATermAppl term)
+		{
+			visitRestr(term);
+			if (fullyDefined)
+			{
+				final ATermAppl q = (ATermAppl) term.getArgument(1);
+				if (!isDatatype(q))
+					this.visit(q);
+			}
+		}
+
+		private void visitRestr(ATermAppl term)
+		{
+			fullyDefined = fullyDefined && isProperty(term.getArgument(0));
+		}
+
+		@Override
+		public void visit(ATermAppl term)
+		{
+			if (term.equals(ATermUtils.TOP) || term.equals(ATermUtils.BOTTOM) || term.equals(ATermUtils.TOP_LIT) || term.equals(ATermUtils.BOTTOM_LIT))
 				return;
 
-			super.visit( term );
+			super.visit(term);
 		}
 
-		public void visitAll(ATermAppl term) {
-			visitQR( term );
+		@Override
+		public void visitAll(ATermAppl term)
+		{
+			visitQR(term);
 		}
 
-		public void visitAnd(ATermAppl term) {
-			if( fullyDefined )
-				visitList( (ATermList) term.getArgument( 0 ) );
+		@Override
+		public void visitAnd(ATermAppl term)
+		{
+			if (fullyDefined)
+				visitList((ATermList) term.getArgument(0));
 		}
 
-		public void visitCard(ATermAppl term) {
-			visitQCR( term );
+		@Override
+		public void visitCard(ATermAppl term)
+		{
+			visitQCR(term);
 		}
 
-		public void visitHasValue(ATermAppl term) {
-			visitQR( term );
+		@Override
+		public void visitHasValue(ATermAppl term)
+		{
+			visitQR(term);
 		}
 
-		public void visitLiteral(ATermAppl term) {
+		@Override
+		public void visitLiteral(ATermAppl term)
+		{
 			return;
 		}
 
-		public void visitMax(ATermAppl term) {
-			visitQCR( term );
+		@Override
+		public void visitMax(ATermAppl term)
+		{
+			visitQCR(term);
 		}
 
-		public void visitMin(ATermAppl term) {
-			visitQCR( term );
+		@Override
+		public void visitMin(ATermAppl term)
+		{
+			visitQCR(term);
 		}
 
-		public void visitNot(ATermAppl term) {
-			this.visit( (ATermAppl) term.getArgument( 0 ) );
+		@Override
+		public void visitNot(ATermAppl term)
+		{
+			this.visit((ATermAppl) term.getArgument(0));
 		}
 
-		public void visitOneOf(ATermAppl term) {
-			if( fullyDefined )
-				visitList( (ATermList) term.getArgument( 0 ) );
+		@Override
+		public void visitOneOf(ATermAppl term)
+		{
+			if (fullyDefined)
+				visitList((ATermList) term.getArgument(0));
 		}
 
-		public void visitOr(ATermAppl term) {
-			if( fullyDefined )
-				visitList( (ATermList) term.getArgument( 0 ) );
+		@Override
+		public void visitOr(ATermAppl term)
+		{
+			if (fullyDefined)
+				visitList((ATermList) term.getArgument(0));
 		}
 
-		public void visitSelf(ATermAppl term) {
-			visitRestr( term );
+		@Override
+		public void visitSelf(ATermAppl term)
+		{
+			visitRestr(term);
 		}
 
-		public void visitSome(ATermAppl term) {
-			visitQR( term );
+		@Override
+		public void visitSome(ATermAppl term)
+		{
+			visitQR(term);
 		}
 
-		public void visitTerm(ATermAppl term) {
-			fullyDefined = fullyDefined && tbox.getClasses().contains( term );
-			if( !fullyDefined )
+		@Override
+		public void visitTerm(ATermAppl term)
+		{
+			fullyDefined = fullyDefined && tbox.getClasses().contains(term);
+			if (!fullyDefined)
 				return;
 		}
 
-		public void visitValue(ATermAppl term) {
-			ATermAppl nominal = (ATermAppl) term.getArgument( 0 );
-			if( ATermUtils.isLiteral( nominal ) )
+		@Override
+		public void visitValue(ATermAppl term)
+		{
+			final ATermAppl nominal = (ATermAppl) term.getArgument(0);
+			if (ATermUtils.isLiteral(nominal))
 				fullyDefined = false;
-			else if( !ATermUtils.isLiteral( nominal ) )
-				fullyDefined = fullyDefined && individuals.contains( nominal );
+			else
+				if (!ATermUtils.isLiteral(nominal))
+					fullyDefined = fullyDefined && individuals.contains(nominal);
 		}
 
-		public void visitInverse(ATermAppl term) {
-			ATermAppl p = (ATermAppl) term.getArgument( 0 );
-			if( ATermUtils.isPrimitive( p ) )
-				fullyDefined = fullyDefined && isProperty( p );
+		@Override
+		public void visitInverse(ATermAppl term)
+		{
+			final ATermAppl p = (ATermAppl) term.getArgument(0);
+			if (ATermUtils.isPrimitive(p))
+				fullyDefined = fullyDefined && isProperty(p);
 			else
-				visitInverse( p );
+				visitInverse(p);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		public void visitRestrictedDatatype(ATermAppl dt) {
-			fullyDefined = fullyDefined && isDatatype( (ATermAppl) dt.getArgument( 0 ) );
+		@Override
+		public void visitRestrictedDatatype(ATermAppl dt)
+		{
+			fullyDefined = fullyDefined && isDatatype((ATermAppl) dt.getArgument(0));
 		}
 
 	}
@@ -413,17 +479,19 @@ public class KnowledgeBase {
 	/**
 	 * 
 	 */
-	public KnowledgeBase() {
+	public KnowledgeBase()
+	{
 		clear();
 
-		timers.createTimer( "preprocessing" );
-		timers.createTimer( "consistency" );
-		timers.createTimer( "complete" );
-		state = EnumSet.noneOf( ReasoningState.class );
+		timers.createTimer("preprocessing");
+		timers.createTimer("consistency");
+		timers.createTimer("complete");
+		state = EnumSet.noneOf(ReasoningState.class);
 
-		if( PelletOptions.USE_INCREMENTAL_DELETION ) {
+		if (PelletOptions.USE_INCREMENTAL_DELETION)
+		{
 			deletedAssertions = new HashSet<ATermAppl>();
-			dependencyIndex = new DependencyIndex( this );
+			dependencyIndex = new DependencyIndex(this);
 			syntacticAssertions = new HashSet<ATermAppl>();
 		}
 
@@ -438,79 +506,91 @@ public class KnowledgeBase {
 	 * 
 	 * @param kb
 	 */
-	protected KnowledgeBase(KnowledgeBase kb, boolean emptyABox) {
+	protected KnowledgeBase(KnowledgeBase kb, boolean emptyABox)
+	{
 		tbox = kb.tbox;
 		rbox = kb.rbox;
 		rules = kb.rules;
 
 		aboxAssertions = new MultiValueMap<AssertionType, ATermAppl>();
-		
+
 		annotations = kb.annotations;
 
-		expChecker = new ExpressivityChecker( this, kb.getExpressivity() );
+		expChecker = new ExpressivityChecker(this, kb.getExpressivity());
 
 		changes = kb.changes.clone();
 
-		if( PelletOptions.USE_INCREMENTAL_DELETION ) {
+		if (PelletOptions.USE_INCREMENTAL_DELETION)
+		{
 			deletedAssertions = new HashSet<ATermAppl>();
-			dependencyIndex = new DependencyIndex( this );
+			dependencyIndex = new DependencyIndex(this);
 			syntacticAssertions = new HashSet<ATermAppl>();
 		}
 
-		if( emptyABox ) {
-			abox = new ABox( this );
+		if (emptyABox)
+		{
+			abox = new ABox(this);
 
 			individuals = new HashSet<ATermAppl>();
 			instances = new HashMap<ATermAppl, Set<ATermAppl>>();
 
 			// even though we don't copy the individuals over to the new KB
 			// we should still create individuals for the
-			for( ATermAppl nominal : kb.getExpressivity().getNominals() ) {
-				addIndividual( nominal );
+			for (final ATermAppl nominal : kb.getExpressivity().getNominals())
+			{
+				addIndividual(nominal);
 			}
 		}
-		else {
+		else
+		{
 			abox = kb.abox.copy(this);
 
-			if( PelletOptions.KEEP_ABOX_ASSERTIONS ) {
-				for( AssertionType assertionType : AssertionType.values() ) {
-					Set<ATermAppl> assertions = kb.aboxAssertions.get( assertionType );
-					if( !assertions.isEmpty() )
-						aboxAssertions.put( assertionType, new HashSet<ATermAppl>( assertions ) );
+			if (PelletOptions.KEEP_ABOX_ASSERTIONS)
+			{
+				for (final AssertionType assertionType : AssertionType.values())
+				{
+					final Set<ATermAppl> assertions = kb.aboxAssertions.get(assertionType);
+					if (!assertions.isEmpty())
+						aboxAssertions.put(assertionType, new HashSet<ATermAppl>(assertions));
 				}
 			}
 
-			individuals = new HashSet<ATermAppl>( kb.individuals );
-			instances = new HashMap<ATermAppl, Set<ATermAppl>>( kb.instances );
+			individuals = new HashSet<ATermAppl>(kb.individuals);
+			instances = new HashMap<ATermAppl, Set<ATermAppl>>(kb.instances);
 
 			// copy deleted assertions
-			if( kb.getDeletedAssertions() != null ) {
-				deletedAssertions = new HashSet<ATermAppl>( kb.getDeletedAssertions() );
+			if (kb.getDeletedAssertions() != null)
+			{
+				deletedAssertions = new HashSet<ATermAppl>(kb.getDeletedAssertions());
 			}
 
-			if( PelletOptions.USE_INCREMENTAL_CONSISTENCY && PelletOptions.USE_INCREMENTAL_DELETION ) {
+			if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && PelletOptions.USE_INCREMENTAL_DELETION)
+			{
 				// copy the dependency index
-				dependencyIndex = new DependencyIndex( this, kb.dependencyIndex );
+				dependencyIndex = new DependencyIndex(this, kb.dependencyIndex);
 			}
 
 			// copy syntactic assertions
-			if( kb.syntacticAssertions != null ) {
-				syntacticAssertions = new HashSet<ATermAppl>( kb.syntacticAssertions );
+			if (kb.syntacticAssertions != null)
+			{
+				syntacticAssertions = new HashSet<ATermAppl>(kb.syntacticAssertions);
 			}
 		}
 
-		if( kb.isConsistencyDone() ) {
+		if (kb.isConsistencyDone())
+		{
 			prepare();
 
-			state = EnumSet.of( ReasoningState.CONSISTENCY );
+			state = EnumSet.of(ReasoningState.CONSISTENCY);
 			consistent = kb.consistent;
 
-			abox.setComplete( true );
+			abox.setComplete(true);
 
-			estimate = new SizeEstimate( this );
+			estimate = new SizeEstimate(this);
 		}
-		else {
-			state = EnumSet.noneOf( ReasoningState.class );
+		else
+		{
+			state = EnumSet.noneOf(ReasoningState.class);
 		}
 
 		timers = kb.timers;
@@ -518,14 +598,16 @@ public class KnowledgeBase {
 		// timers.createTimer("consistency");
 	}
 
-	public Expressivity getExpressivity() {
+	public Expressivity getExpressivity()
+	{
 		return getExpressivityChecker().getExpressivity();
 	}
 
-	public ExpressivityChecker getExpressivityChecker() {
+	public ExpressivityChecker getExpressivityChecker()
+	{
 		// if we can use incremental reasoning then expressivity has been
 		// updated as only the ABox was incrementally changed
-		if( canUseIncConsistency() )
+		if (canUseIncConsistency())
 			return expChecker;
 
 		prepare();
@@ -533,26 +615,29 @@ public class KnowledgeBase {
 		return expChecker;
 	}
 
-	public void clear() {
+	public void clear()
+	{
 
-		if( abox == null ) {
-			abox = new ABox( this );
+		if (abox == null)
+		{
+			abox = new ABox(this);
 		}
-		else {
-			boolean doExplanation = abox.doExplanation();
-			boolean keepLastCompletion = abox.isKeepLastCompletion();
-			abox = new ABox( this );
-			abox.setDoExplanation( doExplanation );
-			abox.setKeepLastCompletion( keepLastCompletion );
+		else
+		{
+			final boolean doExplanation = abox.doExplanation();
+			final boolean keepLastCompletion = abox.isKeepLastCompletion();
+			abox = new ABox(this);
+			abox.setDoExplanation(doExplanation);
+			abox.setKeepLastCompletion(keepLastCompletion);
 		}
 
-		tbox = TBoxFactory.createTBox( this );
-		
+		tbox = TBoxFactory.createTBox(this);
+
 		rbox = new RBox();
-		
-		rules = new HashMap<Rule,Rule>();
 
-		expChecker = new ExpressivityChecker( this );
+		rules = new HashMap<Rule, Rule>();
+
+		expChecker = new ExpressivityChecker(this);
 		individuals = new HashSet<ATermAppl>();
 
 		aboxAssertions = new MultiValueMap<AssertionType, ATermAppl>();
@@ -563,35 +648,37 @@ public class KnowledgeBase {
 		builder = null;
 
 		state.clear();
-		changes = EnumSet.of( ChangeType.ABOX_ADD, ChangeType.TBOX_ADD, ChangeType.RBOX_ADD );
+		changes = EnumSet.of(ChangeType.ABOX_ADD, ChangeType.TBOX_ADD, ChangeType.RBOX_ADD);
 	}
-	
 
-	public void clearABox() {
+	public void clearABox()
+	{
 		aboxAssertions.clear();;
-		
+
 		annotations.clear();
 
-		if( PelletOptions.USE_INCREMENTAL_DELETION ) {
+		if (PelletOptions.USE_INCREMENTAL_DELETION)
+		{
 			deletedAssertions = new HashSet<ATermAppl>();
-			dependencyIndex = new DependencyIndex( this );
+			dependencyIndex = new DependencyIndex(this);
 			syntacticAssertions = new HashSet<ATermAppl>();
 		}
 
-		ABox newABox = new ABox( this );
+		final ABox newABox = new ABox(this);
 		newABox.cache = abox.cache;
 		abox = newABox;
 
 		individuals.clear();
 
-		changes = EnumSet.of( ChangeType.ABOX_DEL );
-		
+		changes = EnumSet.of(ChangeType.ABOX_DEL);
+
 		prepare();
-		
+
 		// even though we don't copy the individuals over to the new KB
 		// we should still create individuals for the
-		for( ATermAppl nominal : getExpressivity().getNominals() ) {
-			addIndividual( nominal );
+		for (final ATermAppl nominal : getExpressivity().getNominals())
+		{
+			addIndividual(nominal);
 		}
 	}
 
@@ -601,15 +688,14 @@ public class KnowledgeBase {
 	 * 
 	 * @return A copy of this KB
 	 */
-	public KnowledgeBase copy() {
-		return copy( false );
+	public KnowledgeBase copy()
+	{
+		return copy(false);
 	}
 
 	/**
-	 * Create a copy of this KB. Depending on the value of
-	 * <code>emptyABox</code> either a completely new copy of ABox will be
-	 * created or the new KB will have an empty ABox. If <code>emptyABox</code>
-	 * parameter is true but the original KB contains nominals in its RBox or
+	 * Create a copy of this KB. Depending on the value of <code>emptyABox</code> either a completely new copy of ABox will be
+	 * created or the new KB will have an empty ABox. If <code>emptyABox</code> parameter is true but the original KB contains nominals in its RBox or
 	 * TBox the new KB will have the definition of those individuals (but not )
 	 * In either case, the new KB will point to the same RBox and TBox so
 	 * changing one KB's RBox or TBox will affect other.
@@ -618,120 +704,135 @@ public class KnowledgeBase {
 	 *            If <code>true</code> ABox is not copied to the new KB
 	 * @return A copy of this KB
 	 */
-	public KnowledgeBase copy(boolean emptyABox) {
-		return new KnowledgeBase( this, emptyABox );
+	public KnowledgeBase copy(boolean emptyABox)
+	{
+		return new KnowledgeBase(this, emptyABox);
 	}
 
-	public void loadKRSS(Reader reader) throws IOException {
-		KRSSLoader loader = new KRSSLoader( this );
-		loader.parse( reader );
+	public void loadKRSS(Reader reader) throws IOException
+	{
+		final KRSSLoader loader = new KRSSLoader(this);
+		loader.parse(reader);
 	}
 
-	public void addClass(ATermAppl c) {
-		if( c.equals( ATermUtils.TOP ) || ATermUtils.isComplexClass( c ) )
+	public void addClass(ATermAppl c)
+	{
+		if (c.equals(ATermUtils.TOP) || ATermUtils.isComplexClass(c))
 			return;
 
-		boolean added = tbox.addClass( c );
+		final boolean added = tbox.addClass(c);
 
-		if( added ) {
-			changes.add( ChangeType.TBOX_ADD );
+		if (added)
+		{
+			changes.add(ChangeType.TBOX_ADD);
 
-			if( log.isLoggable( Level.FINER ) )
-				log.finer( "class " + c );
+			if (log.isLoggable(Level.FINER))
+				log.finer("class " + c);
 		}
 	}
 
-	public void addSubClass(ATermAppl sub, ATermAppl sup) {
-		if( sub.equals( sup ) )
+	public void addSubClass(ATermAppl sub, ATermAppl sup)
+	{
+		if (sub.equals(sup))
 			return;
 
-		changes.add( ChangeType.TBOX_ADD );
+		changes.add(ChangeType.TBOX_ADD);
 
-		tbox.addAxiom( ATermUtils.makeSub( sub, sup ) );
-		
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "sub-class " + sub + " " + sup );
+		tbox.addAxiom(ATermUtils.makeSub(sub, sup));
+
+		if (log.isLoggable(Level.FINER))
+			log.finer("sub-class " + sub + " " + sup);
 	}
 
-	public void addEquivalentClass(ATermAppl c1, ATermAppl c2) {
-		if( c1.equals( c2 ) )
+	public void addEquivalentClass(ATermAppl c1, ATermAppl c2)
+	{
+		if (c1.equals(c2))
 			return;
 
-		changes.add( ChangeType.TBOX_ADD );
+		changes.add(ChangeType.TBOX_ADD);
 
-		tbox.addAxiom( ATermUtils.makeEqClasses( c1, c2 ) );
-		
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "eq-class " + c1 + " " + c2 );
+		tbox.addAxiom(ATermUtils.makeEqClasses(c1, c2));
+
+		if (log.isLoggable(Level.FINER))
+			log.finer("eq-class " + c1 + " " + c2);
 	}
 
-	public void addKey(ATermAppl c, Set<ATermAppl> properties) {
+	public void addKey(ATermAppl c, Set<ATermAppl> properties)
+	{
 		int varId = 0;
-		Collection<RuleAtom> head = CollectionUtils.makeSet();
-		Collection<RuleAtom> body = CollectionUtils.makeSet();
+		final Collection<RuleAtom> head = CollectionUtils.makeSet();
+		final Collection<RuleAtom> body = CollectionUtils.makeSet();
 
-		AtomIVariable x = new AtomIVariable( "x" );
-		AtomIVariable y = new AtomIVariable( "y" );
+		final AtomIVariable x = new AtomIVariable("x");
+		final AtomIVariable y = new AtomIVariable("y");
 
-		head.add( new SameIndividualAtom( x, y ) );
+		head.add(new SameIndividualAtom(x, y));
 
 		// Process the body
 		// First add the property atom pairs for each property
-		for( ATermAppl property : properties ) {
-			if( isObjectProperty( property ) ) {
-				AtomIVariable z = new AtomIVariable( "z" + varId );
-				body.add( new IndividualPropertyAtom( property, x, z ) );
-				body.add( new IndividualPropertyAtom( property, y, z ) );
+		for (final ATermAppl property : properties)
+		{
+			if (isObjectProperty(property))
+			{
+				final AtomIVariable z = new AtomIVariable("z" + varId);
+				body.add(new IndividualPropertyAtom(property, x, z));
+				body.add(new IndividualPropertyAtom(property, y, z));
 			}
-			else if( isDatatypeProperty( property ) ) {
-				AtomDVariable z = new AtomDVariable( "z" + varId );
-				body.add( new DatavaluedPropertyAtom( property, x, z ) );
-				body.add( new DatavaluedPropertyAtom( property, y, z ) );
-			}
+			else
+				if (isDatatypeProperty(property))
+				{
+					final AtomDVariable z = new AtomDVariable("z" + varId);
+					body.add(new DatavaluedPropertyAtom(property, x, z));
+					body.add(new DatavaluedPropertyAtom(property, y, z));
+				}
 
 			varId++;
 		}
 
 		// Then add the class atoms for the two subject variables
-		body.add( new ClassAtom( c, x ) );
-		body.add( new ClassAtom( c, y ) );
-		
-		addRule( new Rule( head, body ) );
+		body.add(new ClassAtom(c, x));
+		body.add(new ClassAtom(c, y));
+
+		addRule(new Rule(head, body));
 	}
 
-	public void addDisjointClasses(ATermList classes) {		
-		changes.add( ChangeType.TBOX_ADD );
+	public void addDisjointClasses(ATermList classes)
+	{
+		changes.add(ChangeType.TBOX_ADD);
 
-		tbox.addAxiom( ATermUtils.makeDisjoints( classes ) );
-		
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "disjoints " + classes );
+		tbox.addAxiom(ATermUtils.makeDisjoints(classes));
+
+		if (log.isLoggable(Level.FINER))
+			log.finer("disjoints " + classes);
 	}
 
-	public void addDisjointClasses(List<ATermAppl> classes) {
-		addDisjointClasses( ATermUtils.toSet( classes ) );
+	public void addDisjointClasses(List<ATermAppl> classes)
+	{
+		addDisjointClasses(ATermUtils.toSet(classes));
 	}
 
-	public void addDisjointClass(ATermAppl c1, ATermAppl c2) {
-		changes.add( ChangeType.TBOX_ADD );
+	public void addDisjointClass(ATermAppl c1, ATermAppl c2)
+	{
+		changes.add(ChangeType.TBOX_ADD);
 
-		tbox.addAxiom( ATermUtils.makeDisjoint( c1, c2 ) );
-		
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "disjoint " + c1 + " " + c2 );
+		tbox.addAxiom(ATermUtils.makeDisjoint(c1, c2));
+
+		if (log.isLoggable(Level.FINER))
+			log.finer("disjoint " + c1 + " " + c2);
 	}
 
-	public void addComplementClass(ATermAppl c1, ATermAppl c2) {
-		changes.add( ChangeType.TBOX_ADD );
-		ATermAppl notC2 = ATermUtils.makeNot( c2 );
+	public void addComplementClass(ATermAppl c1, ATermAppl c2)
+	{
+		changes.add(ChangeType.TBOX_ADD);
+		final ATermAppl notC2 = ATermUtils.makeNot(c2);
 
-		if( c1.equals( notC2 ) )
+		if (c1.equals(notC2))
 			return;
 
-		tbox.addAxiom( ATermUtils.makeEqClasses( c1, notC2 ) );
+		tbox.addAxiom(ATermUtils.makeEqClasses(c1, notC2));
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "complement " + c1 + " " + c2 );
+		if (log.isLoggable(Level.FINER))
+			log.finer("complement " + c1 + " " + c2);
 	}
 
 	/**
@@ -746,162 +847,171 @@ public class KnowledgeBase {
 	 *            ATermUtils.makeXXXLiteral functions
 	 * @deprecated Use addPropertyValue instead
 	 */
-	public void addDataPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o) {
-		addPropertyValue( p, s, o );
+	@Deprecated
+	public void addDataPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o)
+	{
+		addPropertyValue(p, s, o);
 	}
 
-	public Individual addIndividual(ATermAppl i) {
-		Node node = abox.getNode( i );
-		if( node != null ) {
-			if( node instanceof Literal )
-				throw new UnsupportedFeatureException(
-						"Trying to use a literal as an individual: " + ATermUtils.toString( i ) );
+	public Individual addIndividual(ATermAppl i)
+	{
+		final Node node = abox.getNode(i);
+		if (node != null)
+		{
+			if (node instanceof Literal)
+				throw new UnsupportedFeatureException("Trying to use a literal as an individual: " + ATermUtils.toString(i));
 
 			return (Individual) node;
 		}
-		else if( ATermUtils.isLiteral( i ) ) {
-			throw new UnsupportedFeatureException(
-					"Trying to use a literal as an individual: " + ATermUtils.toString( i ) );
-		}
+		else
+			if (ATermUtils.isLiteral(i)) { throw new UnsupportedFeatureException("Trying to use a literal as an individual: " + ATermUtils.toString(i)); }
 
-		int remember = abox.getBranch();
-		abox.setBranch( DependencySet.NO_BRANCH );
+		final int remember = abox.getBranch();
+		abox.setBranch(DependencySet.NO_BRANCH);
 
-		abox.setSyntacticUpdate( true );
-		Individual ind = abox.addIndividual( i, DependencySet.INDEPENDENT );
-		individuals.add( i );
+		abox.setSyntacticUpdate(true);
+		final Individual ind = abox.addIndividual(i, DependencySet.INDEPENDENT);
+		individuals.add(i);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "individual " + i );
+		if (log.isLoggable(Level.FINER))
+			log.finer("individual " + i);
 
-		abox.setSyntacticUpdate( false );
+		abox.setSyntacticUpdate(false);
 
-		if( !PelletOptions.USE_PSEUDO_NOMINALS ) {
+		if (!PelletOptions.USE_PSEUDO_NOMINALS)
+		{
 			// add value(x) for nominal node but do not apply UC yet
 			// because it might not be complete. it will be added
 			// by CompletionStrategy.initialize()
-			ATermAppl nominal = ATermUtils.makeValue( i );
-			abox.addType( i, nominal, DependencySet.INDEPENDENT );
+			final ATermAppl nominal = ATermUtils.makeValue(i);
+			abox.addType(i, nominal, DependencySet.INDEPENDENT);
 		}
 
 		// set addition flag
-		changes.add( ChangeType.ABOX_ADD );
+		changes.add(ChangeType.ABOX_ADD);
 
 		// if we can use inc reasoning then update incremental completion
 		// structures
-		if( canUseIncConsistency() ) {
-			abox.setSyntacticUpdate( true );
+		if (canUseIncConsistency())
+		{
+			abox.setSyntacticUpdate(true);
 
 			// need to update the branch node count as this is node has been
 			// added otherwise during back jumping this node can be removed
-			for( int j = 0; j < abox.getBranches().size(); j++ ) {
+			for (int j = 0; j < abox.getBranches().size(); j++)
+			{
 				// get next branch
-				Branch branch = abox.getBranches().get( j );
-				branch.setNodeCount( branch.getNodeCount() + 1 );
+				final Branch branch = abox.getBranches().get(j);
+				branch.setNodeCount(branch.getNodeCount() + 1);
 			}
 
 			// track updated and new individuals; this is needed for the
 			// incremental completion strategy
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( abox.getIndividual( i ) );
-			abox.getIncrementalChangeTracker().addNewIndividual( abox.getIndividual( i ) );
-			abox.setSyntacticUpdate( false );
+			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i));
+			abox.getIncrementalChangeTracker().addNewIndividual(abox.getIndividual(i));
+			abox.setSyntacticUpdate(false);
 		}
 
-		abox.setBranch( remember );
+		abox.setBranch(remember);
 
 		return ind;
 	}
 
-	public void addType(ATermAppl i, ATermAppl c) {
-		if (AnnotationClasses.contains(c)) {
-			return;
-		}
+	public void addType(ATermAppl i, ATermAppl c)
+	{
+		if (AnnotationClasses.contains(c)) { return; }
 
-		ATermAppl typeAxiom = ATermUtils.makeTypeAtom( i, c );
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( typeAxiom )
-			: DependencySet.INDEPENDENT;
+		final ATermAppl typeAxiom = ATermUtils.makeTypeAtom(i, c);
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(typeAxiom) : DependencySet.INDEPENDENT;
 
 		// add type assertion to syntactic assertions and update dependency
 		// index
-		if( PelletOptions.USE_INCREMENTAL_DELETION ) {
-			syntacticAssertions.add( typeAxiom );
-			dependencyIndex.addTypeDependency( i, c, ds );
+		if (PelletOptions.USE_INCREMENTAL_DELETION)
+		{
+			syntacticAssertions.add(typeAxiom);
+			dependencyIndex.addTypeDependency(i, c, ds);
 		}
 
-		if( PelletOptions.KEEP_ABOX_ASSERTIONS )
-			aboxAssertions.add( AssertionType.TYPE, typeAxiom );
+		if (PelletOptions.KEEP_ABOX_ASSERTIONS)
+			aboxAssertions.add(AssertionType.TYPE, typeAxiom);
 
-		addType( i, c, ds );
+		addType(i, c, ds);
 	}
 
-	public void addType(ATermAppl i, ATermAppl c, DependencySet ds) {
+	public void addType(ATermAppl i, ATermAppl c, DependencySet ds)
+	{
 		// set addition flag
-		changes.add( ChangeType.ABOX_ADD );
+		changes.add(ChangeType.ABOX_ADD);
 
 		// if use incremental reasoning then update the cached pseudo model as
 		// well
-		if( canUseIncConsistency() ) {
+		if (canUseIncConsistency())
+		{
 			// TODO: refactor the access to the updatedIndividuals and
 			// newIndividuals - add get method
 			// add this individuals to the affected list - used for inc.
 			// consistency checking
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( abox.getIndividual( i ) );
+			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i));
 		}
 
-		abox.setSyntacticUpdate( true );
-		abox.addType( i, c, ds );
-		abox.setSyntacticUpdate( false );
+		abox.setSyntacticUpdate(true);
+		abox.addType(i, c, ds);
+		abox.setSyntacticUpdate(false);
 
-		if( canUseIncConsistency() ) {
+		if (canUseIncConsistency())
+		{
 			// incrementally update the expressivity of the KB, so that we do
 			// not have to reperform if from scratch!
-			updateExpressivity( i, c );
+			updateExpressivity(i, c);
 		}
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "type " + i + " " + c );
+		if (log.isLoggable(Level.FINER))
+			log.finer("type " + i + " " + c);
 	}
 
-	public void addSame(ATermAppl i1, ATermAppl i2) {
+	public void addSame(ATermAppl i1, ATermAppl i2)
+	{
 		// set addition flag
-		changes.add( ChangeType.ABOX_ADD );
+		changes.add(ChangeType.ABOX_ADD);
 
-		if( canUseIncConsistency() ) {
+		if (canUseIncConsistency())
+		{
 			// TODO: refactor the access to the updatedIndividuals and
 			// newIndividuals - add get method
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( abox.getIndividual( i1 ) );
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( abox.getIndividual( i2 ) );
+			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i1));
+			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i2));
 
 			// add to pseudomodel - note branch is not set to zero - this is
 			// done in SHOIQIncStrategy, prior
 			// to merging nodes
-			abox.addSame( i1, i2 );
+			abox.addSame(i1, i2);
 		}
 
-		abox.addSame( i1, i2 );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "same " + i1 + " " + i2 );
+		abox.addSame(i1, i2);
+		if (log.isLoggable(Level.FINER))
+			log.finer("same " + i1 + " " + i2);
 	}
 
-	public void addAllDifferent(ATermList list) {
+	public void addAllDifferent(ATermList list)
+	{
 		// set addition flag
-		changes.add( ChangeType.ABOX_ADD );
+		changes.add(ChangeType.ABOX_ADD);
 
 		// if we can use incremental consistency checking then add to
 		// pseudomodel
-		if( canUseIncConsistency() ) {
+		if (canUseIncConsistency())
+		{
 			ATermList outer = list;
 			// add to updated inds
-			while( !outer.isEmpty() ) {
+			while (!outer.isEmpty())
+			{
 				ATermList inner = outer.getNext();
-				while( !inner.isEmpty() ) {
+				while (!inner.isEmpty())
+				{
 					// TODO: refactor the access to the updatedIndividuals and
 					// newIndividuals - add get method
-					abox.getIncrementalChangeTracker().addUpdatedIndividual(
-							abox.getIndividual( outer.getFirst() ) );
-					abox.getIncrementalChangeTracker().addUpdatedIndividual(
-							abox.getIndividual( inner.getFirst() ) );
+					abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(outer.getFirst()));
+					abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(inner.getFirst()));
 					inner = inner.getNext();
 				}
 				outer = outer.getNext();
@@ -910,220 +1020,244 @@ public class KnowledgeBase {
 			// add to pseudomodel - note branch must be temporarily set to 0 to
 			// ensure that asssertion
 			// will not be restored during backtracking
-			int branch = abox.getBranch();
-			abox.setBranch( 0 );
+			final int branch = abox.getBranch();
+			abox.setBranch(0);
 			// update pseudomodel
-			abox.addAllDifferent( list );
-			abox.setBranch( branch );
+			abox.addAllDifferent(list);
+			abox.setBranch(branch);
 		}
 
-		abox.addAllDifferent( list );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "all diff " + list );
+		abox.addAllDifferent(list);
+		if (log.isLoggable(Level.FINER))
+			log.finer("all diff " + list);
 	}
 
-	public void addDifferent(ATermAppl i1, ATermAppl i2) {
+	public void addDifferent(ATermAppl i1, ATermAppl i2)
+	{
 		// set addition flag
-		changes.add( ChangeType.ABOX_ADD );
+		changes.add(ChangeType.ABOX_ADD);
 
 		// if we can use incremental consistency checking then add to
 		// pseudomodel
-		if( canUseIncConsistency() ) {
+		if (canUseIncConsistency())
+		{
 			// TODO: refactor the access to the updatedIndividuals and
 			// newIndividuals - add get method
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( abox.getIndividual( i1 ) );
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( abox.getIndividual( i2 ) );
+			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i1));
+			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i2));
 
 			// add to pseudomodel - note branch must be temporarily set to 0 to
 			// ensure that asssertion
 			// will not be restored during backtracking
-			int branch = abox.getBranch();
-			abox.setBranch( 0 );
-			abox.addDifferent( i1, i2 );
-			abox.setBranch( branch );
+			final int branch = abox.getBranch();
+			abox.setBranch(0);
+			abox.addDifferent(i1, i2);
+			abox.setBranch(branch);
 		}
 
-		abox.addDifferent( i1, i2 );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "diff " + i1 + " " + i2 );
+		abox.addDifferent(i1, i2);
+		if (log.isLoggable(Level.FINER))
+			log.finer("diff " + i1 + " " + i2);
 	}
 
 	/**
 	 * @deprecated Use addPropertyValue instead
 	 */
-	public void addObjectPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o) {
-		addPropertyValue( p, s, o );
+	@Deprecated
+	public void addObjectPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o)
+	{
+		addPropertyValue(p, s, o);
 	}
 
-	public boolean addPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o) {
-		Individual subj = abox.getIndividual( s );
-		Role role = getRole( p );
+	public boolean addPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o)
+	{
+		final Individual subj = abox.getIndividual(s);
+		final Role role = getRole(p);
 		Node obj = null;
 
-		if( subj == null ) {
-			log.warning( s + " is not a known individual!" );
+		if (subj == null)
+		{
+			log.warning(s + " is not a known individual!");
 			return false;
 		}
 
-		if( role == null ) {
-			log.warning( p + " is not a known property!" );
+		if (role == null)
+		{
+			log.warning(p + " is not a known property!");
 			return false;
 		}
 
-		if( !role.isObjectRole() && !role.isDatatypeRole() )
+		if (!role.isObjectRole() && !role.isDatatypeRole())
 			return false;
 
-		ATermAppl propAxiom = ATermUtils.makePropAtom( p, s, o );
+		final ATermAppl propAxiom = ATermUtils.makePropAtom(p, s, o);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( propAxiom )
-			: DependencySet.INDEPENDENT;
+		DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(propAxiom) : DependencySet.INDEPENDENT;
 
-		if( role.isObjectRole() ) {
-			obj = abox.getIndividual( o );
-			if( obj == null ) {
-				if( ATermUtils.isLiteral( o ) ) {
-					log.warning( "Ignoring literal value " + o + " for object property " + p );
+		if (role.isObjectRole())
+		{
+			obj = abox.getIndividual(o);
+			if (obj == null)
+			{
+				if (ATermUtils.isLiteral(o))
+				{
+					log.warning("Ignoring literal value " + o + " for object property " + p);
 					return false;
 				}
-				else {
-					log.warning( o + " is not a known individual!" );
+				else
+				{
+					log.warning(o + " is not a known individual!");
 					return false;
 				}
 			}
-			if( PelletOptions.KEEP_ABOX_ASSERTIONS )
-				aboxAssertions.add( AssertionType.OBJ_ROLE, propAxiom );
+			if (PelletOptions.KEEP_ABOX_ASSERTIONS)
+				aboxAssertions.add(AssertionType.OBJ_ROLE, propAxiom);
 		}
-		else if( role.isDatatypeRole() ) {
-			if( !ATermUtils.isLiteral( o ) ) {
-				log.warning( "Ignoring non-literal value " + o + " for data property " + p );
-				return false;
+		else
+			if (role.isDatatypeRole())
+			{
+				if (!ATermUtils.isLiteral(o))
+				{
+					log.warning("Ignoring non-literal value " + o + " for data property " + p);
+					return false;
+				}
+				obj = abox.addLiteral(o, ds);
+				if (PelletOptions.KEEP_ABOX_ASSERTIONS)
+					aboxAssertions.add(AssertionType.DATA_ROLE, propAxiom);
 			}
-			obj = abox.addLiteral( o, ds );
-			if( PelletOptions.KEEP_ABOX_ASSERTIONS )
-				aboxAssertions.add( AssertionType.DATA_ROLE, propAxiom );
-		}
 
 		// set addition flag
-		changes.add( ChangeType.ABOX_ADD );
+		changes.add(ChangeType.ABOX_ADD);
 
-		if( !canUseIncConsistency() ) {
-			Edge edge = abox.addEdge( p, s, obj.getName(), ds );
-			
-			if( edge == null ) {
+		if (obj != null && !canUseIncConsistency())
+		{
+			Edge edge = abox.addEdge(p, s, obj.getName(), ds);
+
+			if (edge == null)
+			{
 				abox.reset();
-				edge = abox.addEdge( p, s, obj.getName(), ds );
-				
+				edge = abox.addEdge(p, s, obj.getName(), ds);
+
 				assert edge != null;
 			}
 
-			if( PelletOptions.USE_INCREMENTAL_DELETION ) {
+			if (PelletOptions.USE_INCREMENTAL_DELETION)
+			{
 				// add to syntactic assertions
-				syntacticAssertions.add( propAxiom );
+				syntacticAssertions.add(propAxiom);
 
 				// add to dependency index
-				dependencyIndex.addEdgeDependency( edge, edge.getDepends() );
+				dependencyIndex.addEdgeDependency(edge, edge.getDepends());
 			}
 		}
-		else if( canUseIncConsistency() ) {
-			// TODO: refactor the access to the updatedIndividuals and
-			// newIndividuals - add get method
-			// add this individual to the affected list
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( abox.getIndividual( s ) );
+		else
+			if (canUseIncConsistency())
+			{
+				// TODO: refactor the access to the updatedIndividuals and
+				// newIndividuals - add get method
+				// add this individual to the affected list
+				abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(s));
 
-			if( role.isObjectRole() ) {
-				// if this is an object property then add the object to the
-				// affected list
-				abox.getIncrementalChangeTracker().addUpdatedIndividual( abox.getIndividual( o ) );
-				
-				obj = abox.getIndividual( o );
-				if( obj.isPruned() || obj.isMerged() )
-					obj = obj.getSame();
+				if (role.isObjectRole())
+				{
+					// if this is an object property then add the object to the
+					// affected list
+					abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(o));
+
+					obj = abox.getIndividual(o);
+					if (obj.isPruned() || obj.isMerged())
+						obj = obj.getSame();
+				}
+
+				// get the subject
+				Individual subj2 = abox.getIndividual(s);
+				if (subj2.isPruned() || subj2.isMerged())
+					subj2 = subj2.getSame();
+
+				// generate dependency for new edge
+				ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makePropAtom(p, s, o)) : DependencySet.INDEPENDENT;
+
+				// add to pseudomodel - note branch must be temporarily set to 0 to
+				// ensure that assertion
+				// will not be restored during backtracking
+				final int branch = abox.getBranch();
+				abox.setBranch(DependencySet.NO_BRANCH);
+				// add the edge
+				final Edge newEdge = subj2.addEdge(role, obj, ds);
+				abox.setBranch(branch);
+
+				// add new edge to affected set
+				if (newEdge != null)
+					abox.getIncrementalChangeTracker().addNewEdge(newEdge);
 			}
 
-			// get the subject
-			Individual subj2 = abox.getIndividual( s );
-			if( subj2.isPruned() || subj2.isMerged() )
-				subj2 = subj2.getSame();
-
-			// generate dependency for new edge
-			ds = PelletOptions.USE_TRACING
-				? new DependencySet( ATermUtils.makePropAtom( p, s, o ) )
-				: DependencySet.INDEPENDENT;
-
-			// add to pseudomodel - note branch must be temporarily set to 0 to
-			// ensure that assertion
-			// will not be restored during backtracking
-			int branch = abox.getBranch();
-			abox.setBranch( DependencySet.NO_BRANCH );
-			// add the edge
-			Edge newEdge = subj2.addEdge( role, obj, ds );
-			abox.setBranch( branch );
-
-			// add new edge to affected set
-			if( newEdge != null )
-				abox.getIncrementalChangeTracker().addNewEdge( newEdge );
-		}
-
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "prop-value " + s + " " + p + " " + o );
+		if (log.isLoggable(Level.FINER))
+			log.finer("prop-value " + s + " " + p + " " + o);
 
 		return true;
 	}
 
-	public boolean addNegatedPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o) {
-		changes.add( ChangeType.ABOX_ADD );
+	public boolean addNegatedPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o)
+	{
+		changes.add(ChangeType.ABOX_ADD);
 
-		Individual subj = abox.getIndividual( s );
-		Role role = getRole( p );
-		
-		if( subj == null ) {
-			log.warning( s + " is not a known individual!" );
+		final Individual subj = abox.getIndividual(s);
+		final Role role = getRole(p);
+
+		if (subj == null)
+		{
+			log.warning(s + " is not a known individual!");
 			return false;
 		}
 
-		if( role == null ) {
-			log.warning( p + " is not a known property!" );
+		if (role == null)
+		{
+			log.warning(p + " is not a known property!");
 			return false;
 		}
 
-		ATermAppl propAxiom = ATermUtils.makeNot( ATermUtils.makePropAtom( p, s, o ) );
+		final ATermAppl propAxiom = ATermUtils.makeNot(ATermUtils.makePropAtom(p, s, o));
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( propAxiom )
-			: DependencySet.INDEPENDENT;
-			
-		if( role.isObjectRole() ) {
-			if( abox.getIndividual( o )  == null ) {
-				if( ATermUtils.isLiteral( o ) ) {
-					log.warning( "Ignoring literal value " + o + " for object property " + p );
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(propAxiom) : DependencySet.INDEPENDENT;
+
+		if (role.isObjectRole())
+		{
+			if (abox.getIndividual(o) == null)
+			{
+				if (ATermUtils.isLiteral(o))
+				{
+					log.warning("Ignoring literal value " + o + " for object property " + p);
 					return false;
 				}
-				else {
-					log.warning( o + " is not a known individual!" );
+				else
+				{
+					log.warning(o + " is not a known individual!");
 					return false;
 				}
 			}
 		}
-		else if( role.isDatatypeRole() ) {
-			abox.addLiteral( o, ds );
-		}
+		else
+			if (role.isDatatypeRole())
+			{
+				abox.addLiteral(o, ds);
+			}
 
-		ATermAppl C = ATermUtils.makeNot( ATermUtils.makeHasValue( p, o ) );
+		final ATermAppl C = ATermUtils.makeNot(ATermUtils.makeHasValue(p, o));
 
-		addType( s, C, ds );
+		addType(s, C, ds);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "not-prop-value " + s + " " + p + " " + o );
+		if (log.isLoggable(Level.FINER))
+			log.finer("not-prop-value " + s + " " + p + " " + o);
 
 		return true;
 	}
 
-	public void addProperty(ATermAppl p) {
-		changes.add( ChangeType.RBOX_ADD );
-		rbox.addRole( p );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "prop " + p );
+	public void addProperty(ATermAppl p)
+	{
+		changes.add(ChangeType.RBOX_ADD);
+		rbox.addRole(p);
+		if (log.isLoggable(Level.FINER))
+			log.finer("prop " + p);
 	}
 
 	/**
@@ -1135,15 +1269,17 @@ public class KnowledgeBase {
 	 *            Name of the property
 	 * @return True if property is added, false if not
 	 */
-	public boolean addObjectProperty(ATerm p) {
-		boolean exists = getPropertyType( p ) == PropertyType.OBJECT;
+	public boolean addObjectProperty(ATerm p)
+	{
+		final boolean exists = getPropertyType(p) == PropertyType.OBJECT;
 
-		Role role = rbox.addObjectRole( (ATermAppl) p );
+		final Role role = rbox.addObjectRole((ATermAppl) p);
 
-		if( !exists ) {
-			changes.add( ChangeType.RBOX_ADD );
-			if( log.isLoggable( Level.FINER ) )
-				log.finer( "object-prop " + p );
+		if (!exists)
+		{
+			changes.add(ChangeType.RBOX_ADD);
+			if (log.isLoggable(Level.FINER))
+				log.finer("object-prop " + p);
 		}
 
 		return role != null;
@@ -1157,363 +1293,385 @@ public class KnowledgeBase {
 	 * @param p
 	 * @return True if property is added, false if not
 	 */
-	public boolean addDatatypeProperty(ATerm p) {
-		boolean exists = getPropertyType( p ) == PropertyType.DATATYPE;
+	public boolean addDatatypeProperty(ATerm p)
+	{
+		final boolean exists = getPropertyType(p) == PropertyType.DATATYPE;
 
-		Role role = rbox.addDatatypeRole( (ATermAppl) p );
+		final Role role = rbox.addDatatypeRole((ATermAppl) p);
 
-		if( !exists ) {
-			changes.add( ChangeType.RBOX_ADD );
-			if( log.isLoggable( Level.FINER ) )
-				log.finer( "data-prop " + p );
+		if (!exists)
+		{
+			changes.add(ChangeType.RBOX_ADD);
+			if (log.isLoggable(Level.FINER))
+				log.finer("data-prop " + p);
 		}
 
 		return role != null;
 	}
 
 	@Deprecated
-	public void addOntologyProperty(ATermAppl p) {
-		addAnnotationProperty(p);		
+	public void addOntologyProperty(ATermAppl p)
+	{
+		addAnnotationProperty(p);
 	}
 
-	public boolean addAnnotationProperty(ATerm p) {
-		boolean exists = getPropertyType( p ) == PropertyType.ANNOTATION;
+	public boolean addAnnotationProperty(ATerm p)
+	{
+		final boolean exists = getPropertyType(p) == PropertyType.ANNOTATION;
 
-		Role role = rbox.addAnnotationRole( (ATermAppl) p );
+		final Role role = rbox.addAnnotationRole((ATermAppl) p);
 
-		if( !exists ) {
-			changes.add( ChangeType.RBOX_ADD );
-			if( log.isLoggable( Level.FINER ) )
-				log.finer( "annotation-prop " + p );
+		if (!exists)
+		{
+			changes.add(ChangeType.RBOX_ADD);
+			if (log.isLoggable(Level.FINER))
+				log.finer("annotation-prop " + p);
 		}
 
 		return role != null;
 	}
 
-	public boolean addAnnotation(ATermAppl s, ATermAppl p, ATermAppl o) {
-		if( !PelletOptions.USE_ANNOTATION_SUPPORT )
+	public boolean addAnnotation(ATermAppl s, ATermAppl p, ATermAppl o)
+	{
+		if (!PelletOptions.USE_ANNOTATION_SUPPORT)
 			return false;
 
-		if( !isAnnotationProperty( p ) )
+		if (!isAnnotationProperty(p))
 			return false;
 
-		Map<ATermAppl, Set<ATermAppl>> pidx = annotations.get( s );
+		Map<ATermAppl, Set<ATermAppl>> pidx = annotations.get(s);
 
-		if( pidx == null )
+		if (pidx == null)
 			pidx = new HashMap<ATermAppl, Set<ATermAppl>>();
 
-		Set<ATermAppl> oidx = pidx.get( p );
+		Set<ATermAppl> oidx = pidx.get(p);
 
-		if( oidx == null )
+		if (oidx == null)
 			oidx = new HashSet<ATermAppl>();
 
-		oidx.add( o );
-		pidx.put( p, oidx );
-		annotations.put( s, pidx );
+		oidx.add(o);
+		pidx.put(p, oidx);
+		annotations.put(s, pidx);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "annotation " + s + " " + p + " " + o );
+		if (log.isLoggable(Level.FINER))
+			log.finer("annotation " + s + " " + p + " " + o);
 
 		return true;
 	}
 
-	public Set<ATermAppl> getAnnotations(ATermAppl s, ATermAppl p) {
-		Map<ATermAppl, Set<ATermAppl>> pidx = annotations.get( s );
+	public Set<ATermAppl> getAnnotations(ATermAppl s, ATermAppl p)
+	{
+		final Map<ATermAppl, Set<ATermAppl>> pidx = annotations.get(s);
 
-		if( pidx == null )
+		if (pidx == null)
 			return Collections.emptySet();
 
-		Set<ATermAppl> values = new HashSet<ATermAppl>();
+		final Set<ATermAppl> values = new HashSet<ATermAppl>();
 
-		for( ATermAppl subproperty : getSubAnnotationProperties( p ) ) {
-			if( pidx.get( subproperty ) != null ) {
-				for( ATermAppl value : pidx.get( subproperty ) ) {
-					values.add( value );
+		for (final ATermAppl subproperty : getSubAnnotationProperties(p))
+		{
+			if (pidx.get(subproperty) != null)
+			{
+				for (final ATermAppl value : pidx.get(subproperty))
+				{
+					values.add(value);
 				}
 			}
 		}
-		
+
 		return values;
 	}
 
 	/**
 	 * Temporary method until we incorporate annotation properties to the taxonomy ([t:412])
+	 * 
 	 * @param p
 	 * @return
 	 */
-	private Set<ATermAppl> getSubAnnotationProperties(ATermAppl p) {
-		
-		Set<ATermAppl> values = new HashSet<ATermAppl>();
-		
-		List<ATermAppl> temp = new ArrayList<ATermAppl>(); 
+	private Set<ATermAppl> getSubAnnotationProperties(ATermAppl p)
+	{
+
+		final Set<ATermAppl> values = new HashSet<ATermAppl>();
+
+		final List<ATermAppl> temp = new ArrayList<ATermAppl>();
 		temp.add(p);
-		while(!temp.isEmpty()){
-			ATermAppl value = temp.remove(0);
+		while (!temp.isEmpty())
+		{
+			final ATermAppl value = temp.remove(0);
 			values.add(value);
-			
-			for(ATermAppl property : this.getAnnotationProperties()){
-				if(value != property && this.isSubPropertyOf(property, value)){
+
+			for (final ATermAppl property : this.getAnnotationProperties())
+			{
+				if (value != property && this.isSubPropertyOf(property, value))
+				{
 					temp.add(property);
 				}
 			}
 		}
-		
+
 		return values;
 	}
 
-	public Set<ATermAppl> getIndividualsWithAnnotation(ATermAppl p, ATermAppl o) {
-		Set<ATermAppl> ret = new HashSet<ATermAppl>();
+	public Set<ATermAppl> getIndividualsWithAnnotation(ATermAppl p, ATermAppl o)
+	{
+		final Set<ATermAppl> ret = new HashSet<ATermAppl>();
 
-		for( Map.Entry<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> e1 : annotations.entrySet() ) {
-			ATermAppl st = e1.getKey();
-			Map<ATermAppl, Set<ATermAppl>> pidx = e1.getValue();
+		for (final Map.Entry<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> e1 : annotations.entrySet())
+		{
+			final ATermAppl st = e1.getKey();
+			final Map<ATermAppl, Set<ATermAppl>> pidx = e1.getValue();
 
-			for( Map.Entry<ATermAppl, Set<ATermAppl>> e2 : pidx.entrySet() ) {
-				ATermAppl pt = e2.getKey();
-				Set<ATermAppl> oidx = e2.getValue();
+			for (final Map.Entry<ATermAppl, Set<ATermAppl>> e2 : pidx.entrySet())
+			{
+				final ATermAppl pt = e2.getKey();
+				final Set<ATermAppl> oidx = e2.getValue();
 
-				if( pt.equals( p ) && oidx.contains( o ) )
-					ret.add( st );
+				if (pt.equals(p) && oidx.contains(o))
+					ret.add(st);
 			}
 		}
 
 		return ret;
 	}
 
-	public boolean isAnnotation(ATermAppl s, ATermAppl p, ATermAppl o) {
-		Set<ATermAppl> oidx = getAnnotations( s, p );
+	public boolean isAnnotation(ATermAppl s, ATermAppl p, ATermAppl o)
+	{
+		final Set<ATermAppl> oidx = getAnnotations(s, p);
 
-		if( oidx == null )
+		if (oidx == null)
 			return false;
 
-		return oidx.contains( o );
+		return oidx.contains(o);
 	}
 
-	public void addSubProperty(ATerm sub, ATermAppl sup) {
-		changes.add( ChangeType.RBOX_ADD );
-		rbox.addSubRole( sub, sup );
+	public void addSubProperty(ATerm sub, ATermAppl sup)
+	{
+		changes.add(ChangeType.RBOX_ADD);
+		rbox.addSubRole(sub, sup);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "sub-prop " + sub + " " + sup );
+		if (log.isLoggable(Level.FINER))
+			log.finer("sub-prop " + sub + " " + sup);
 	}
 
-	public void addEquivalentProperty(ATermAppl p1, ATermAppl p2) {
-		changes.add( ChangeType.RBOX_ADD );
-		rbox.addEquivalentRole( p1, p2 );
+	public void addEquivalentProperty(ATermAppl p1, ATermAppl p2)
+	{
+		changes.add(ChangeType.RBOX_ADD);
+		rbox.addEquivalentRole(p1, p2);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "same-prop " + p1 + " " + p2 );
+		if (log.isLoggable(Level.FINER))
+			log.finer("same-prop " + p1 + " " + p2);
 	}
 
-	public void addDisjointProperties(ATermList properties) {
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeDisjointProperties( properties ) )
-			: DependencySet.INDEPENDENT;
+	public void addDisjointProperties(ATermList properties)
+	{
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeDisjointProperties(properties)) : DependencySet.INDEPENDENT;
 
-		for( ATermList l1 = properties; !l1.isEmpty(); l1 = l1.getNext() ) {
-			ATermAppl p1 = (ATermAppl) l1.getFirst();
-			for( ATermList l2 = l1.getNext(); !l2.isEmpty(); l2 = l2.getNext() ) {
-				ATermAppl p2 = (ATermAppl) l2.getFirst();
-				addDisjointProperty( p1, p2, ds );
+		for (ATermList l1 = properties; !l1.isEmpty(); l1 = l1.getNext())
+		{
+			final ATermAppl p1 = (ATermAppl) l1.getFirst();
+			for (ATermList l2 = l1.getNext(); !l2.isEmpty(); l2 = l2.getNext())
+			{
+				final ATermAppl p2 = (ATermAppl) l2.getFirst();
+				addDisjointProperty(p1, p2, ds);
 			}
 		}
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "disjoints " + properties );
+		if (log.isLoggable(Level.FINER))
+			log.finer("disjoints " + properties);
 	}
 
-	public void addDisjointProperties(List<ATermAppl> properties) {
-		addDisjointProperties( ATermUtils.toSet( properties ) );
+	public void addDisjointProperties(List<ATermAppl> properties)
+	{
+		addDisjointProperties(ATermUtils.toSet(properties));
 	}
 
-	public void addDisjointProperty(ATermAppl p1, ATermAppl p2) {
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeDisjointProperty( p1, p2 ) )
-			: DependencySet.INDEPENDENT;
+	public void addDisjointProperty(ATermAppl p1, ATermAppl p2)
+	{
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeDisjointProperty(p1, p2)) : DependencySet.INDEPENDENT;
 
-		addDisjointProperty( p1, p2, ds );
+		addDisjointProperty(p1, p2, ds);
 	}
 
-	public void addDisjointProperty(ATermAppl p1, ATermAppl p2, DependencySet ds) {
-		changes.add( ChangeType.RBOX_ADD );
-		rbox.addDisjointRole( p1, p2, ds );
+	public void addDisjointProperty(ATermAppl p1, ATermAppl p2, DependencySet ds)
+	{
+		changes.add(ChangeType.RBOX_ADD);
+		rbox.addDisjointRole(p1, p2, ds);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "dis-prop " + p1 + " " + p2 );
+		if (log.isLoggable(Level.FINER))
+			log.finer("dis-prop " + p1 + " " + p2);
 	}
 
-	public void addInverseProperty(ATermAppl p1, ATermAppl p2) {
-		if( PelletOptions.IGNORE_INVERSES ) {
-			log.warning( "Ignoring inverseOf(" + p1 + " " + p2
-					+ ") axiom due to the IGNORE_INVERSES option" );
+	public void addInverseProperty(ATermAppl p1, ATermAppl p2)
+	{
+		if (PelletOptions.IGNORE_INVERSES)
+		{
+			log.warning("Ignoring inverseOf(" + p1 + " " + p2 + ") axiom due to the IGNORE_INVERSES option");
 			return;
 		}
 
-		changes.add( ChangeType.RBOX_ADD );
+		changes.add(ChangeType.RBOX_ADD);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeInvProp( p1, p2 ) )
-			: DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeInvProp(p1, p2)) : DependencySet.INDEPENDENT;
 
-		rbox.addInverseRole( p1, p2, ds );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "inv-prop " + p1 + " " + p2 );
+		rbox.addInverseRole(p1, p2, ds);
+		if (log.isLoggable(Level.FINER))
+			log.finer("inv-prop " + p1 + " " + p2);
 	}
 
-	public void addTransitiveProperty(ATermAppl p) {
-		changes.add( ChangeType.RBOX_ADD );
+	public void addTransitiveProperty(ATermAppl p)
+	{
+		changes.add(ChangeType.RBOX_ADD);
 
-		Role r = rbox.getDefinedRole( p );
+		final Role r = rbox.getDefinedRole(p);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeTransitive( p ) )
-			: DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeTransitive(p)) : DependencySet.INDEPENDENT;
 
 		// r.setTransitive(true);
-		r.addSubRoleChain( ATermUtils.makeList( new ATerm[] { p, p } ), ds );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "trans-prop " + p );
+		r.addSubRoleChain(ATermUtils.makeList(new ATerm[] { p, p }), ds);
+		if (log.isLoggable(Level.FINER))
+			log.finer("trans-prop " + p);
 	}
 
-	public void addSymmetricProperty(ATermAppl p) {
-		if( PelletOptions.IGNORE_INVERSES ) {
-			log.warning( "Ignoring SymmetricProperty(" + p
-					+ ") axiom due to the IGNORE_INVERSES option" );
+	public void addSymmetricProperty(ATermAppl p)
+	{
+		if (PelletOptions.IGNORE_INVERSES)
+		{
+			log.warning("Ignoring SymmetricProperty(" + p + ") axiom due to the IGNORE_INVERSES option");
 			return;
 		}
 
-		changes.add( ChangeType.RBOX_ADD );
+		changes.add(ChangeType.RBOX_ADD);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeSymmetric( p ) )
-			: DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeSymmetric(p)) : DependencySet.INDEPENDENT;
 
-		rbox.addInverseRole( p, p, ds );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "sym-prop " + p );
+		rbox.addInverseRole(p, p, ds);
+		if (log.isLoggable(Level.FINER))
+			log.finer("sym-prop " + p);
 	}
 
 	/**
 	 * @deprecated Use {@link #addAsymmetricProperty(ATermAppl)}
 	 */
-	public void addAntisymmetricProperty(ATermAppl p) {
-		addAsymmetricProperty( p );
+	@Deprecated
+	public void addAntisymmetricProperty(ATermAppl p)
+	{
+		addAsymmetricProperty(p);
 	}
 
-	public void addAsymmetricProperty(ATermAppl p) {
-		changes.add( ChangeType.RBOX_ADD );
-		Role r = rbox.getDefinedRole( p );
+	public void addAsymmetricProperty(ATermAppl p)
+	{
+		changes.add(ChangeType.RBOX_ADD);
+		final Role r = rbox.getDefinedRole(p);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeAsymmetric( p ) )
-			: DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeAsymmetric(p)) : DependencySet.INDEPENDENT;
 
-		r.setAsymmetric( true, ds );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "anti-sym-prop " + p );
+		r.setAsymmetric(true, ds);
+		if (log.isLoggable(Level.FINER))
+			log.finer("anti-sym-prop " + p);
 	}
 
-	public void addReflexiveProperty(ATermAppl p) {
-		changes.add( ChangeType.RBOX_ADD );
-		Role r = rbox.getDefinedRole( p );
+	public void addReflexiveProperty(ATermAppl p)
+	{
+		changes.add(ChangeType.RBOX_ADD);
+		final Role r = rbox.getDefinedRole(p);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeReflexive( p ) )
-			: DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeReflexive(p)) : DependencySet.INDEPENDENT;
 
-		r.setReflexive( true, ds );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "reflexive-prop " + p );
+		r.setReflexive(true, ds);
+		if (log.isLoggable(Level.FINER))
+			log.finer("reflexive-prop " + p);
 	}
 
-	public void addIrreflexiveProperty(ATermAppl p) {
-		changes.add( ChangeType.RBOX_ADD );
-		Role r = rbox.getDefinedRole( p );
+	public void addIrreflexiveProperty(ATermAppl p)
+	{
+		changes.add(ChangeType.RBOX_ADD);
+		final Role r = rbox.getDefinedRole(p);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeIrreflexive( p ) )
-			: DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeIrreflexive(p)) : DependencySet.INDEPENDENT;
 
-		r.setIrreflexive( true, ds );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "irreflexive-prop " + p );
+		r.setIrreflexive(true, ds);
+		if (log.isLoggable(Level.FINER))
+			log.finer("irreflexive-prop " + p);
 	}
 
-	public void addFunctionalProperty(ATermAppl p) {
-		changes.add( ChangeType.RBOX_ADD );
-		Role r = rbox.getDefinedRole( p );
+	public void addFunctionalProperty(ATermAppl p)
+	{
+		changes.add(ChangeType.RBOX_ADD);
+		final Role r = rbox.getDefinedRole(p);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeFunctional( p ) )
-			: DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeFunctional(p)) : DependencySet.INDEPENDENT;
 
-		r.setFunctional( true, ds );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "func-prop " + p );
+		r.setFunctional(true, ds);
+		if (log.isLoggable(Level.FINER))
+			log.finer("func-prop " + p);
 	}
 
-	public void addInverseFunctionalProperty(ATerm p) {
-		if( PelletOptions.IGNORE_INVERSES ) {
-			log.warning( "Ignoring InverseFunctionalProperty(" + p
-					+ ") axiom due to the IGNORE_INVERSES option" );
+	public void addInverseFunctionalProperty(ATerm p)
+	{
+		if (PelletOptions.IGNORE_INVERSES)
+		{
+			log.warning("Ignoring InverseFunctionalProperty(" + p + ") axiom due to the IGNORE_INVERSES option");
 			return;
 		}
 
-		changes.add( ChangeType.RBOX_ADD );
-		Role role = rbox.getDefinedRole( p );
+		changes.add(ChangeType.RBOX_ADD);
+		final Role role = rbox.getDefinedRole(p);
 
-		DependencySet ds = PelletOptions.USE_TRACING
-			? new DependencySet( ATermUtils.makeInverseFunctional( p ) )
-			: DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeInverseFunctional(p)) : DependencySet.INDEPENDENT;
 
-		role.setInverseFunctional( true, ds );
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "inv-func-prop " + p );
+		role.setInverseFunctional(true, ds);
+		if (log.isLoggable(Level.FINER))
+			log.finer("inv-func-prop " + p);
 	}
 
-	public void addDomain(ATerm p, ATermAppl c) {
-		changes.add( ChangeType.RBOX_ADD );
+	public void addDomain(ATerm p, ATermAppl c)
+	{
+		changes.add(ChangeType.RBOX_ADD);
 
-		rbox.addDomain( p, c );
+		rbox.addDomain(p, c);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "domain " + p + " " + c );
+		if (log.isLoggable(Level.FINER))
+			log.finer("domain " + p + " " + c);
 	}
 
 	/**
 	 * For internal use when domain axioms come from TBox absorption
 	 */
-	public void addDomain(ATerm p, ATermAppl c, Set<ATermAppl> explain) {
-		changes.add( ChangeType.RBOX_ADD );
+	public void addDomain(ATerm p, ATermAppl c, Set<ATermAppl> explain)
+	{
+		changes.add(ChangeType.RBOX_ADD);
 
-		rbox.addDomain( p, c, explain );
+		rbox.addDomain(p, c, explain);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "domain " + p + " " + c + " " + explain );
+		if (log.isLoggable(Level.FINER))
+			log.finer("domain " + p + " " + c + " " + explain);
 	}
 
-	public void addRange(ATerm p, ATermAppl c) {
-		changes.add( ChangeType.RBOX_ADD );
+	public void addRange(ATerm p, ATermAppl c)
+	{
+		changes.add(ChangeType.RBOX_ADD);
 
-		rbox.addRange( p, c );
+		rbox.addRange(p, c);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "range " + p + " " + c );
+		if (log.isLoggable(Level.FINER))
+			log.finer("range " + p + " " + c);
 	}
 
 	/**
 	 * For internal use when range axioms come from TBox absorption
 	 */
-	public void addRange(ATerm p, ATermAppl c, Set<ATermAppl> explain) {
-		changes.add( ChangeType.RBOX_ADD );
+	public void addRange(ATerm p, ATermAppl c, Set<ATermAppl> explain)
+	{
+		changes.add(ChangeType.RBOX_ADD);
 
-		rbox.addRange( p, c, explain );
+		rbox.addRange(p, c, explain);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "range " + p + " " + c + " " + explain );
+		if (log.isLoggable(Level.FINER))
+			log.finer("range " + p + " " + c + " " + explain);
 	}
 
-	public void addDatatype(ATermAppl p) {
-		getDatatypeReasoner().declare( p );
+	public void addDatatype(ATermAppl p)
+	{
+		getDatatypeReasoner().declare(p);
 	}
 
 	/**
@@ -1523,14 +1681,14 @@ public class KnowledgeBase {
 	 * @param datarange a data range expression
 	 * @return
 	 */
-	public boolean addDatatypeDefinition(ATermAppl name, ATermAppl datarange) {
-		return getDatatypeReasoner().define( name, datarange );
+	public boolean addDatatypeDefinition(ATermAppl name, ATermAppl datarange)
+	{
+		return getDatatypeReasoner().define(name, datarange);
 	}
 
 	/**
 	 * Removes (if possible) the given property domain axiom from the KB and
-	 * return <code>true</code> if removal was successful. See also
-	 * {@link #addDomain(ATerm, ATermAppl)}.
+	 * return <code>true</code> if removal was successful. See also {@link #addDomain(ATerm, ATermAppl)}.
 	 * 
 	 * @param p
 	 *            Property in domain axiom
@@ -1539,91 +1697,102 @@ public class KnowledgeBase {
 	 * @return <code>true</code> if axiom is removed, <code>false</code> if
 	 *         removal failed
 	 */
-	public boolean removeDomain(ATerm p, ATermAppl c) {
+	public boolean removeDomain(ATerm p, ATermAppl c)
+	{
 
-		final Role role = getRole( p );
-		if( role == null ) {
-			handleUndefinedEntity( p + " is not a property!" );
+		final Role role = getRole(p);
+		if (role == null)
+		{
+			handleUndefinedEntity(p + " is not a property!");
 			return false;
 		}
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a valid class expression" );
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a valid class expression");
 			return false;
 		}
 
-		boolean removed = getRBox().removeDomain( p, c );
+		final boolean removed = getRBox().removeDomain(p, c);
 
-		if( removed )
-			changes.add( ChangeType.RBOX_DEL );
+		if (removed)
+			changes.add(ChangeType.RBOX_DEL);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "Remove domain " + p + " " + c );
+		if (log.isLoggable(Level.FINER))
+			log.finer("Remove domain " + p + " " + c);
 
 		return removed;
 	}
 
-	public boolean removePropertyValue(ATermAppl p, ATermAppl i1, ATermAppl i2) {
-		if( ATermUtils.isLiteral( i2 ) ) {
-			try {
-				i2 = abox.getDatatypeReasoner().getCanonicalRepresentation( i2 );
-			} catch( InvalidLiteralException e ) {
-				log.warning( format(
-						"Unable to remove property value (%s,%s,%s) due to invalid literal: %s", p,
-						i1, i2, e.getMessage() ) );
+	public boolean removePropertyValue(ATermAppl p, ATermAppl i1, ATermAppl i2)
+	{
+		if (ATermUtils.isLiteral(i2))
+		{
+			try
+			{
+				i2 = abox.getDatatypeReasoner().getCanonicalRepresentation(i2);
+			}
+			catch (final InvalidLiteralException e)
+			{
+				log.warning(format("Unable to remove property value (%s,%s,%s) due to invalid literal: %s", p, i1, i2, e.getMessage()));
 				return false;
-			} catch( UnrecognizedDatatypeException e ) {
-				log
-						.warning( format(
-								"Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s",
-								p, i1, i2, e.getMessage() ) );
+			}
+			catch (final UnrecognizedDatatypeException e)
+			{
+				log.warning(format("Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s", p, i1, i2, e.getMessage()));
 				return false;
 			}
 		}
 
-		Individual subj = abox.getIndividual( i1 );
-		Node obj = abox.getNode( i2 );
-		Role role = getRole( p );
+		final Individual subj = abox.getIndividual(i1);
+		final Node obj = abox.getNode(i2);
+		final Role role = getRole(p);
 
-		if( subj == null ) {
-			if( PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING )
-				throw new UnsupportedFeatureException( i1 + " is not an individual!" );
+		if (subj == null)
+		{
+			if (PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
+				throw new UnsupportedFeatureException(i1 + " is not an individual!");
 			else
 				return false;
 		}
 
-		if( obj == null ) {
-			handleUndefinedEntity( i2 + " is not an individual!" );
+		if (obj == null)
+		{
+			handleUndefinedEntity(i2 + " is not an individual!");
 			return false;
 		}
 
-		if( role == null ) {
-			handleUndefinedEntity( p + " is not a property!" );
+		if (role == null)
+		{
+			handleUndefinedEntity(p + " is not a property!");
 			return false;
 		}
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "Remove ObjectPropertyValue " + i1 + " " + p + " " + i2 );
+		if (log.isLoggable(Level.FINER))
+			log.finer("Remove ObjectPropertyValue " + i1 + " " + p + " " + i2);
 
 		// make sure edge exists in assertions
-		Edge edge = subj.getOutEdges().getExactEdge( subj, role, obj );
-		
-		if( edge == null && obj.isMerged() ) {
-			edge = obj.getInEdges().getExactEdge( subj, role, obj );
-		}		
+		Edge edge = subj.getOutEdges().getExactEdge(subj, role, obj);
 
-		if( edge == null )
+		if (edge == null && obj.isMerged())
+		{
+			edge = obj.getInEdges().getExactEdge(subj, role, obj);
+		}
+
+		if (edge == null)
 			return false;
 
 		// set deletion flag
-		changes.add( ChangeType.ABOX_DEL );
+		changes.add(ChangeType.ABOX_DEL);
 
-		if( !canUseIncConsistency() ) {
+		if (!canUseIncConsistency())
+		{
 			abox.reset();
-			
-			subj.removeEdge( edge );
-			obj.removeInEdge( edge );
+
+			subj.removeEdge(edge);
+			obj.removeInEdge(edge);
 		}
-		else {
+		else
+		{
 			// if use inc. reasoning then we need to track the deleted
 			// assertion.
 			// Note that the actual edge will be deleted when
@@ -1631,23 +1800,24 @@ public class KnowledgeBase {
 			// structures in ABox.isIncConsistent()
 
 			// add to deleted assertions
-			getDeletedAssertions().add( ATermUtils.makePropAtom( p, i1, i2 ) );
+			getDeletedAssertions().add(ATermUtils.makePropAtom(p, i1, i2));
 
 			// add this individual to the affected list
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( subj );
+			abox.getIncrementalChangeTracker().addUpdatedIndividual(subj);
 
 			// if this is an object property then add the object to the affected
 			// list
-			if( !role.isDatatypeRole() )
-				abox.getIncrementalChangeTracker().addUpdatedIndividual( (Individual) obj );
+			if (!role.isDatatypeRole())
+				abox.getIncrementalChangeTracker().addUpdatedIndividual((Individual) obj);
 		}
 
-		if( PelletOptions.KEEP_ABOX_ASSERTIONS ) {
-			ATermAppl propAxiom = ATermUtils.makePropAtom( p, i1, i2 );
-			if( ATermUtils.isLiteral( i2 ) )
-				aboxAssertions.remove( AssertionType.DATA_ROLE, propAxiom );
+		if (PelletOptions.KEEP_ABOX_ASSERTIONS)
+		{
+			final ATermAppl propAxiom = ATermUtils.makePropAtom(p, i1, i2);
+			if (ATermUtils.isLiteral(i2))
+				aboxAssertions.remove(AssertionType.DATA_ROLE, propAxiom);
 			else
-				aboxAssertions.remove( AssertionType.OBJ_ROLE, propAxiom );
+				aboxAssertions.remove(AssertionType.OBJ_ROLE, propAxiom);
 		}
 
 		return true;
@@ -1655,8 +1825,7 @@ public class KnowledgeBase {
 
 	/**
 	 * Removes (if possible) the given property range axiom from the KB and
-	 * return <code>true</code> if removal was successful. See also
-	 * {@link #addRange(ATerm, ATermAppl)}.
+	 * return <code>true</code> if removal was successful. See also {@link #addRange(ATerm, ATermAppl)}.
 	 * 
 	 * @param p
 	 *            Property in range axiom
@@ -1665,131 +1834,142 @@ public class KnowledgeBase {
 	 * @return <code>true</code> if axiom is removed, <code>false</code> if
 	 *         removal failed
 	 */
-	public boolean removeRange(ATerm p, ATermAppl c) {
+	public boolean removeRange(ATerm p, ATermAppl c)
+	{
 
-		final Role role = getRole( p );
-		if( role == null ) {
-			handleUndefinedEntity( p + " is not a property!" );
+		final Role role = getRole(p);
+		if (role == null)
+		{
+			handleUndefinedEntity(p + " is not a property!");
 			return false;
 		}
-		if( !isClass( c ) && !isDatatype( c ) ) {
-			handleUndefinedEntity( c + " is not a valid class expression or data range" );
+		if (!isClass(c) && !isDatatype(c))
+		{
+			handleUndefinedEntity(c + " is not a valid class expression or data range");
 			return false;
 		}
 
-		boolean removed = getRBox().removeRange( p, c );
+		final boolean removed = getRBox().removeRange(p, c);
 
-		if( removed )
-			changes.add( ChangeType.RBOX_DEL );
+		if (removed)
+			changes.add(ChangeType.RBOX_DEL);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "Remove range" + p + " " + c );
+		if (log.isLoggable(Level.FINER))
+			log.finer("Remove range" + p + " " + c);
 
 		return removed;
 	}
 
+	public boolean removeType(ATermAppl ind, ATermAppl c)
+	{
+		final Individual subj = abox.getIndividual(ind);
 
-	public boolean removeType(ATermAppl ind, ATermAppl c) {
-		Individual subj = abox.getIndividual( ind );
-
-		if( subj == null ) {
-			if( PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING )
+		if (subj == null)
+		{
+			if (PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
 				return false;
 			else
-				throw new UnsupportedFeatureException( ind + " is not an individual!" );
+				throw new UnsupportedFeatureException(ind + " is not an individual!");
 		}
-		
-		ATermAppl normC = ATermUtils.normalize( c );
-		DependencySet ds = subj.getDepends( normC );
-		
-		if( ds == null || !ds.isIndependent() )
+
+		final ATermAppl normC = ATermUtils.normalize(c);
+		final DependencySet ds = subj.getDepends(normC);
+
+		if (ds == null || !ds.isIndependent())
 			return false;
 
 		boolean removed = true;
-		
-		if( !canUseIncConsistency() || !PelletOptions.USE_INCREMENTAL_DELETION ) {
+
+		if (!canUseIncConsistency() || !PelletOptions.USE_INCREMENTAL_DELETION)
+		{
 			abox.reset();
-			
-			removed = subj.removeType( normC );
+
+			removed = subj.removeType(normC);
 		}
-		else {
+		else
+		{
 			// if use inc. reasoning then we need to track the deleted
 			// assertion.
 			// Note that the actual edge type be deleted when undo all dependent
 			// structures in ABox.isIncConsistent()
 
 			// add axiom to deletion set
-			getDeletedAssertions().add( ATermUtils.makeTypeAtom( ind, c ) );
+			getDeletedAssertions().add(ATermUtils.makeTypeAtom(ind, c));
 
 			// add this individuals to the affected list - used for inc.
 			// consistency checking
-			abox.getIncrementalChangeTracker().addUpdatedIndividual( subj );
+			abox.getIncrementalChangeTracker().addUpdatedIndividual(subj);
 
 			// we may need to update the expressivity here, however so far it
 			// does not seem necessary!
 			// updateExpressivity(i, c);
 		}
 
-		if( PelletOptions.KEEP_ABOX_ASSERTIONS ) {
-			ATermAppl typeAxiom = ATermUtils.makeTypeAtom( ind, c );
-			aboxAssertions.remove( AssertionType.TYPE, typeAxiom );
+		if (PelletOptions.KEEP_ABOX_ASSERTIONS)
+		{
+			final ATermAppl typeAxiom = ATermUtils.makeTypeAtom(ind, c);
+			aboxAssertions.remove(AssertionType.TYPE, typeAxiom);
 		}
-		
-		// set deletion flag
-		changes.add( ChangeType.ABOX_DEL );
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "Remove Type " + ind + " " + c );
-		
+		// set deletion flag
+		changes.add(ChangeType.ABOX_DEL);
+
+		if (log.isLoggable(Level.FINER))
+			log.finer("Remove Type " + ind + " " + c);
+
 		return removed;
 	}
 
 	/**
-	 * Removes (if possible) the given TBox axiom from the KB and return
-	 * <code>true</code> if removal was successful.
+	 * Removes (if possible) the given TBox axiom from the KB and return <code>true</code> if removal was successful.
 	 * 
 	 * @param axiom
 	 *            TBox axiom to remove
 	 * @return <code>true</code> if axiom is removed, <code>false</code> if
 	 *         removal failed
 	 */
-	public boolean removeAxiom(ATermAppl axiom) {
+	public boolean removeAxiom(ATermAppl axiom)
+	{
 		boolean removed = false;
 
-		try {
-			removed = tbox.removeAxiom( axiom );
-		} catch( Exception e ) {
-			log.log( Level.SEVERE, "Removal failed for axiom " + axiom, e );
+		try
+		{
+			removed = tbox.removeAxiom(axiom);
+		}
+		catch (final Exception e)
+		{
+			log.log(Level.SEVERE, "Removal failed for axiom " + axiom, e);
 		}
 
-		if( removed )
-			changes.add( ChangeType.TBOX_DEL );
+		if (removed)
+			changes.add(ChangeType.TBOX_DEL);
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "Remove " + axiom + ": " + removed );
+		if (log.isLoggable(Level.FINER))
+			log.finer("Remove " + axiom + ": " + removed);
 
 		return removed;
 	}
 
-	public void prepare() {
-		if( !isChanged() )
+	public void prepare()
+	{
+		if (!isChanged())
 			return;
 
-		boolean explain = abox.doExplanation();
-		abox.setDoExplanation( true );
+		final boolean explain = abox.doExplanation();
+		abox.setDoExplanation(true);
 
-		Timer timer = timers.startTimer( "preprocessing" );
+		final Timer timer = timers.startTimer("preprocessing");
 		Timer t;
 
 		// consistency need to be repeated after modifications
-		state.remove( ReasoningState.CONSISTENCY );
+		state.remove(ReasoningState.CONSISTENCY);
 		// realization need to be repeated after modifications
-		state.remove( ReasoningState.REALIZE );
-		
+		state.remove(ReasoningState.REALIZE);
+
 		// classification may notbve repeated if ...
-		boolean reuseTaxonomy =
+		final boolean reuseTaxonomy =
 				// classification has been previously done
-				state.contains( ReasoningState.CLASSIFY )
+				state.contains(ReasoningState.CLASSIFY)
 				// TBox did not change since classification
 				&& !isTBoxChanged()
 				// RBox did not change since classification
@@ -1797,40 +1977,47 @@ public class KnowledgeBase {
 				// there are no nominals
 				&& (!expChecker.getExpressivity().hasNominal() || PelletOptions.USE_PSEUDO_NOMINALS);
 
-		if( isRBoxChanged() ) {
-			if( log.isLoggable( Level.FINER ) )
-				log.finer( "Role hierarchy..." );
-			t = timers.startTimer( "rbox" );
+		if (isRBoxChanged())
+		{
+			if (log.isLoggable(Level.FINER))
+				log.finer("Role hierarchy...");
+			t = timers.startTimer("rbox");
 			rbox.prepare();
 			t.stop();
 		}
 
-		if( isTBoxChanged() ) {
-			if( log.isLoggable( Level.FINER ) )
-				log.finer( "Prepare TBox..." );
-			t = timers.startTimer( "normalize" );
+		if (isTBoxChanged())
+		{
+			if (log.isLoggable(Level.FINER))
+				log.finer("Prepare TBox...");
+			t = timers.startTimer("normalize");
 			tbox.prepare();
 			t.stop();
 		}
 
-		if( isRBoxChanged() ) {
+		if (isRBoxChanged())
+		{
 			rbox.propagateDomainRange();
 		}
 
 		canUseIncConsistency = canUseIncConsistency();
 
-		if( abox.isComplete() ) {
-			if( changes.contains( ChangeType.TBOX_DEL ) || changes.contains( ChangeType.RBOX_DEL )
-					|| (!canUseIncConsistency && changes.contains( ChangeType.ABOX_DEL )) ) {
+		if (abox.isComplete())
+		{
+			if (changes.contains(ChangeType.TBOX_DEL) || changes.contains(ChangeType.RBOX_DEL) || (!canUseIncConsistency && changes.contains(ChangeType.ABOX_DEL)))
+			{
 				abox.reset();
 			}
-			else if( changes.contains( ChangeType.TBOX_ADD )
-					|| changes.contains( ChangeType.RBOX_ADD ) ) {
-				abox.resetQueue();
-			}
-			else if( canUseIncConsistency && changes.contains( ChangeType.ABOX_DEL ) ) {
-				IncrementalRestore.restoreDependencies( this );
-			}
+			else
+				if (changes.contains(ChangeType.TBOX_ADD) || changes.contains(ChangeType.RBOX_ADD))
+				{
+					abox.resetQueue();
+				}
+				else
+					if (canUseIncConsistency && changes.contains(ChangeType.ABOX_DEL))
+					{
+						IncrementalRestore.restoreDependencies(this);
+					}
 		}
 
 		// reset flags
@@ -1838,35 +2025,38 @@ public class KnowledgeBase {
 
 		instances.clear();
 
-		estimate = new SizeEstimate( this );
-		abox.setDoExplanation( explain );
+		estimate = new SizeEstimate(this);
+		abox.setDoExplanation(explain);
 
-		if( !canUseIncConsistency ) {
-			if( log.isLoggable( Level.FINER ) )
-				log.finer( "Expressivity..." );
+		if (!canUseIncConsistency)
+		{
+			if (log.isLoggable(Level.FINER))
+				log.finer("Expressivity...");
 
 			expChecker.prepare();
 		}
-		
-		abox.clearCaches( !reuseTaxonomy );
-		abox.cache.setMaxSize( PelletOptions.MAX_ANONYMOUS_CACHE );
 
-		if( !reuseTaxonomy ) {
-			state.remove( ReasoningState.CLASSIFY );
+		abox.clearCaches(!reuseTaxonomy);
+		abox.cache.setMaxSize(PelletOptions.MAX_ANONYMOUS_CACHE);
+
+		if (!reuseTaxonomy)
+		{
+			state.remove(ReasoningState.CLASSIFY);
 			builder = null;
 			// taxonomy = null;
 		}
 
 		timer.stop();
 
-		if( log.isLoggable( Level.FINE ) ) {
-			StringBuffer info = new StringBuffer();
-			info.append( "Expressivity: " + expChecker.getExpressivity() + ", " );
-			info.append( "Classes: " + getClasses().size() + " " );
-			info.append( "Properties: " + getProperties().size() + " " );
-			info.append( "Individuals: " + individuals.size() );
+		if (log.isLoggable(Level.FINE))
+		{
+			final StringBuffer info = new StringBuffer();
+			info.append("Expressivity: " + expChecker.getExpressivity() + ", ");
+			info.append("Classes: " + getClasses().size() + " ");
+			info.append("Properties: " + getProperties().size() + " ");
+			info.append("Individuals: " + individuals.size());
 			// info.append( " Strategy: " + chooseStrategy( abox ) );
-			log.fine( info.toString() );
+			log.fine(info.toString());
 		}
 	}
 
@@ -1874,31 +2064,33 @@ public class KnowledgeBase {
 	 * This method is used for incremental reasoning. We do not want to
 	 * recompute the expressivity from scratch.
 	 */
-	public void updateExpressivity(ATermAppl i, ATermAppl c) {
+	public void updateExpressivity(ATermAppl i, ATermAppl c)
+	{
 
 		// if the tbox or rbox changed then we cannot use incremental reasoning!
-		if( !isChanged() || isTBoxChanged() || isRBoxChanged() )
+		if (!isChanged() || isTBoxChanged() || isRBoxChanged())
 			return;
 
 		// update expressivity given this individual
-		expChecker.updateWithIndividual( i, c );
+		expChecker.updateWithIndividual(i, c);
 
 		// update the size estimate as this could be a new individual
-		estimate = new SizeEstimate( this );
+		estimate = new SizeEstimate(this);
 	}
 
-	public String getInfo() {
+	public String getInfo()
+	{
 		prepare();
 
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( "Expressivity: " + expChecker.getExpressivity() + " " );
-		buffer.append( "Classes: " + getClasses().size() + " " );
-		buffer.append( "Properties: " + getProperties().size() + " " );
-		buffer.append( "Individuals: " + individuals.size() + " " );
+		final StringBuffer buffer = new StringBuffer();
+		buffer.append("Expressivity: " + expChecker.getExpressivity() + " ");
+		buffer.append("Classes: " + getClasses().size() + " ");
+		buffer.append("Properties: " + getProperties().size() + " ");
+		buffer.append("Individuals: " + individuals.size() + " ");
 
-		Expressivity expressivity = expChecker.getExpressivity();
-		if( expressivity.hasNominal() )
-			buffer.append( "Nominals: " + expressivity.getNominals().size() + " " );
+		final Expressivity expressivity = expChecker.getExpressivity();
+		if (expressivity.hasNominal())
+			buffer.append("Nominals: " + expressivity.getNominals().size() + " ");
 
 		return buffer.toString();
 	}
@@ -1907,40 +2099,48 @@ public class KnowledgeBase {
 	 * Returns true if the consistency check has been done and nothing in th KB
 	 * has changed after that.
 	 */
-	public boolean isConsistencyDone() {
-		return !isChanged() && state.contains( ReasoningState.CONSISTENCY );
+	public boolean isConsistencyDone()
+	{
+		return !isChanged() && state.contains(ReasoningState.CONSISTENCY);
 	}
 
 	/**
 	 * Returns true if the classification check has been done and nothing in the
 	 * KB has changed after that.
 	 */
-	public boolean isClassified() {
-		return !isChanged() && state.contains( ReasoningState.CLASSIFY );
+	public boolean isClassified()
+	{
+		return !isChanged() && state.contains(ReasoningState.CLASSIFY);
 	}
 
-	public boolean isRealized() {
-		return !isChanged() && state.contains( ReasoningState.REALIZE );
+	public boolean isRealized()
+	{
+		return !isChanged() && state.contains(ReasoningState.REALIZE);
 	}
 
-	public boolean isChanged() {
+	public boolean isChanged()
+	{
 		return !changes.isEmpty();
 	}
 
-	public boolean isChanged(ChangeType change) {
-		return changes.contains( change );
+	public boolean isChanged(ChangeType change)
+	{
+		return changes.contains(change);
 	}
 
-	public boolean isTBoxChanged() {
-		return changes.contains( ChangeType.TBOX_ADD ) || changes.contains( ChangeType.TBOX_DEL );
+	public boolean isTBoxChanged()
+	{
+		return changes.contains(ChangeType.TBOX_ADD) || changes.contains(ChangeType.TBOX_DEL);
 	}
 
-	public boolean isRBoxChanged() {
-		return changes.contains( ChangeType.RBOX_ADD ) || changes.contains( ChangeType.RBOX_DEL );
+	public boolean isRBoxChanged()
+	{
+		return changes.contains(ChangeType.RBOX_ADD) || changes.contains(ChangeType.RBOX_DEL);
 	}
 
-	public boolean isABoxChanged() {
-		return changes.contains( ChangeType.ABOX_ADD ) || changes.contains( ChangeType.ABOX_DEL );
+	public boolean isABoxChanged()
+	{
+		return changes.contains(ChangeType.ABOX_ADD) || changes.contains(ChangeType.ABOX_DEL);
 	}
 
 	/**
@@ -1949,36 +2149,42 @@ public class KnowledgeBase {
 	 * 
 	 * @return all unsatisfiable classes in the KB excluding the BOTTOM concept
 	 */
-	public Set<ATermAppl> getUnsatisfiableClasses() {
+	public Set<ATermAppl> getUnsatisfiableClasses()
+	{
 		return getUnsatisfiableClasses(false);
 	}
-		
+
 	/**
 	 * Returns all unsatisfiable classes in the KB including the BOTTOM concept. Since BOTTOM concept is built-in the
 	 * result will always have at least one element.
 	 * 
 	 * @return all unsatisfiable classes in the KB including the BOTTOM concept
 	 */
-	public Set<ATermAppl> getAllUnsatisfiableClasses() {
+	public Set<ATermAppl> getAllUnsatisfiableClasses()
+	{
 		return getUnsatisfiableClasses(true);
 	}
-		
-	private Set<ATermAppl> getUnsatisfiableClasses(boolean includeBottom) {	
+
+	private Set<ATermAppl> getUnsatisfiableClasses(boolean includeBottom)
+	{
 		Set<ATermAppl> aUnsatClasses = new HashSet<ATermAppl>();
 
-		if (isClassified()) {
+		if (isClassified())
+		{
 			// if the kb is already classified we can get them this way
-			aUnsatClasses = includeBottom ? getAllEquivalentClasses(ATermUtils.BOTTOM)
-			                : getEquivalentClasses(ATermUtils.BOTTOM);				
+			aUnsatClasses = includeBottom ? getAllEquivalentClasses(ATermUtils.BOTTOM) : getEquivalentClasses(ATermUtils.BOTTOM);
 		}
-		else {
+		else
+		{
 			if (includeBottom)
 				aUnsatClasses.add(BOTTOM);
 
 			// if not, check for them like this, without triggering classification
-			Set<ATermAppl> aClasses = getClasses();
-			for (ATermAppl aClass : aClasses) {
-				if (!isSatisfiable(aClass)) {
+			final Set<ATermAppl> aClasses = getClasses();
+			for (final ATermAppl aClass : aClasses)
+			{
+				if (!isSatisfiable(aClass))
+				{
 					aUnsatClasses.add(aClass);
 				}
 			}
@@ -1987,43 +2193,45 @@ public class KnowledgeBase {
 		return aUnsatClasses;
 	}
 
-	private void consistency() {
-		if( isConsistencyDone() )
+	private void consistency()
+	{
+		if (isConsistencyDone())
 			return;
 
-		abox.setInitialized( false );
+		abox.setInitialized(false);
 
 		// prepare the KB
-		prepare();		
-		
-		for( Entry<Rule, Rule> normalizedRule : rules.entrySet() ) {
-			if( normalizedRule.getValue() == null ) {
-				Rule rule = normalizedRule.getKey();
-				String msg = UsableRuleFilter.explainNotUsable( rule );				
-				log.warning( "Ignoring rule " + rule + ": " + msg );
+		prepare();
+
+		for (final Entry<Rule, Rule> normalizedRule : rules.entrySet())
+		{
+			if (normalizedRule.getValue() == null)
+			{
+				final Rule rule = normalizedRule.getKey();
+				final String msg = UsableRuleFilter.explainNotUsable(rule);
+				log.warning("Ignoring rule " + rule + ": " + msg);
 			}
 		}
 
-		Timer timer = timers.startTimer( "consistency" );
+		final Timer timer = timers.startTimer("consistency");
 
-		boolean doExplanation = abox.doExplanation();
-		
-		if( PelletOptions.USE_TRACING && !explainOnlyInconsistency ) 
-			abox.setDoExplanation( true );
-			
+		final boolean doExplanation = abox.doExplanation();
+
+		if (PelletOptions.USE_TRACING && !explainOnlyInconsistency)
+			abox.setDoExplanation(true);
+
 		// perform the consistency check
-		consistent = canUseIncConsistency
-			? abox.isIncConsistent()
-			: abox.isConsistent();
+		consistent = canUseIncConsistency ? abox.isIncConsistent() : abox.isConsistent();
 
 		// final clean up
-		if( PelletOptions.USE_INCREMENTAL_CONSISTENCY )
+		if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
 			abox.getIncrementalChangeTracker().clear();
 
-		if( PelletOptions.USE_INCREMENTAL_DELETION )
+		if (PelletOptions.USE_INCREMENTAL_DELETION)
 			getDeletedAssertions().clear();
 
-		if( !consistent ) {
+		if (!consistent)
+		{
 			// the behavior of Pellet 1.5.1 (and prior versions) was to generate
 			// explanations for inconsistent ontologies even if the
 			// doExplanation
@@ -2039,119 +2247,128 @@ public class KnowledgeBase {
 			// but only if we can generate it (i.e. tracing is turned on) and
 			// we haven't already done so (i.e. doExplanation flag was false at
 			// the beginning)
-			if( PelletOptions.USE_TRACING && explainOnlyInconsistency && !abox.doExplanation() ) {
-				abox.setDoExplanation( true );
+			if (PelletOptions.USE_TRACING && explainOnlyInconsistency && !abox.doExplanation())
+			{
+				abox.setDoExplanation(true);
 
 				abox.reset();
 				abox.isConsistent();
 
-				abox.setDoExplanation( false );
+				abox.setDoExplanation(false);
 			}
 
-			if ( log.isLoggable( Level.FINE )) {
-				log.fine( "Inconsistent ontology. Reason: " + getExplanation() );
+			if (log.isLoggable(Level.FINE))
+			{
+				log.fine("Inconsistent ontology. Reason: " + getExplanation());
 			}
 
-			if( PelletOptions.USE_TRACING && log.isLoggable( Level.FINE )) {
-				log.fine( renderExplanationSet() );
+			if (PelletOptions.USE_TRACING && log.isLoggable(Level.FINE))
+			{
+				log.fine(renderExplanationSet());
 			}
 		}
-		
-		abox.setDoExplanation( doExplanation );
-		
-		state.add( ReasoningState.CONSISTENCY );
-		
+
+		abox.setDoExplanation(doExplanation);
+
+		state.add(ReasoningState.CONSISTENCY);
+
 		timer.stop();
-		
-		if ( log.isLoggable( Level.FINE ) ) {
-			log.fine( "Consistent: " + consistent + " (" + timer.getLast() + "ms)" );
+
+		if (log.isLoggable(Level.FINE))
+		{
+			log.fine("Consistent: " + consistent + " (" + timer.getLast() + "ms)");
 		}
 
 		assert isConsistencyDone() : "Consistency flag not set";
 	}
 
-	private String renderExplanationSet() {
-		StringBuilder msg = new StringBuilder("ExplanationSet: [");
-		Set<ATermAppl> explanation = getExplanationSet();
-		for( ATermAppl axiom : explanation ) {
-			msg.append( ATermUtils.toString( axiom ) );
-			msg.append( "," );
+	private String renderExplanationSet()
+	{
+		final StringBuilder msg = new StringBuilder("ExplanationSet: [");
+		final Set<ATermAppl> explanation = getExplanationSet();
+		for (final ATermAppl axiom : explanation)
+		{
+			msg.append(ATermUtils.toString(axiom));
+			msg.append(",");
 		}
-		if( explanation.isEmpty() )
-			msg.append( ']' );
+		if (explanation.isEmpty())
+			msg.append(']');
 		else
-			msg.setCharAt( msg.length() - 1, ']' );
+			msg.setCharAt(msg.length() - 1, ']');
 
 		return msg.toString();
 	}
 
-	public boolean isConsistent() {
+	public boolean isConsistent()
+	{
 		consistency();
 
 		return consistent;
 	}
 
-	public Taxonomy<ATermAppl> getToldTaxonomy() {
+	public Taxonomy<ATermAppl> getToldTaxonomy()
+	{
 		return getTaxonomyBuilder().getToldTaxonomy();
 	}
 
-	public Map<ATermAppl, Set<ATermAppl>> getToldDisjoints() {
+	public Map<ATermAppl, Set<ATermAppl>> getToldDisjoints()
+	{
 		return getTaxonomyBuilder().getToldDisjoints();
 	}
 
-	public void ensureConsistency() {
-		if( !isConsistent() )
-			throw new InconsistentOntologyException(
-					"Cannot do reasoning with inconsistent ontologies!\n" +
-					"Reason for inconsistency: " + getExplanation() +
-					(PelletOptions.USE_TRACING ? "\n" + renderExplanationSet() : "" ));
+	public void ensureConsistency()
+	{
+		if (!isConsistent())
+			throw new InconsistentOntologyException("Cannot do reasoning with inconsistent ontologies!\n" + "Reason for inconsistency: " + getExplanation() + (PelletOptions.USE_TRACING ? "\n" + renderExplanationSet() : ""));
 	}
 
-	public void classify() {
+	public void classify()
+	{
 		ensureConsistency();
 
-		if( isClassified() )
+		if (isClassified())
 			return;
 
-		if( log.isLoggable( Level.FINE ) )
-			log.fine( "Classifying..." );
+		if (log.isLoggable(Level.FINE))
+			log.fine("Classifying...");
 
-		Timer timer = timers.startTimer( "classify" );
+		final Timer timer = timers.startTimer("classify");
 
 		builder = getTaxonomyBuilder();
 
-		boolean isClassified = builder.classify();
+		final boolean isClassified = builder.classify();
 
 		timer.stop();
 
-		if( !isClassified )
+		if (!isClassified)
 			return;
 
-		state.add( ReasoningState.CLASSIFY );
+		state.add(ReasoningState.CLASSIFY);
 
 		estimate.computKBCosts();
 	}
 
-	public void realize() {
-		if( isRealized() )
+	public void realize()
+	{
+		if (isRealized())
 			return;
 
 		classify();
 
-		if( !isClassified() )
+		if (!isClassified())
 			return;
 
-		Timer timer = timers.startTimer( "realize" );
+		final Timer timer = timers.startTimer("realize");
 
 		// This is false if the progress monitor is canceled
-		boolean isRealized = builder.realize();
+		final boolean isRealized = builder.realize();
 
 		timer.stop();
 
-		if( !isRealized )
+		if (!isRealized)
 			return;
 
-		state.add( ReasoningState.REALIZE );
+		state.add(ReasoningState.REALIZE);
 
 		estimate.computKBCosts();
 	}
@@ -2161,8 +2378,9 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	public Set<ATermAppl> getClasses() {
-		return Collections.unmodifiableSet( tbox.getClasses() );
+	public Set<ATermAppl> getClasses()
+	{
+		return Collections.unmodifiableSet(tbox.getClasses());
 	}
 
 	/**
@@ -2171,8 +2389,9 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	public Set<ATermAppl> getAllClasses() {
-		return Collections.unmodifiableSet( tbox.getAllClasses() );
+	public Set<ATermAppl> getAllClasses()
+	{
+		return Collections.unmodifiableSet(tbox.getAllClasses());
 	}
 
 	/**
@@ -2180,13 +2399,14 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	public Set<ATermAppl> getProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p )
-					&& (role.isObjectRole() || role.isDatatypeRole() || role.isAnnotationRole()) )
-				set.add( p );
+	public Set<ATermAppl> getProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && (role.isObjectRole() || role.isDatatypeRole() || role.isAnnotationRole()))
+				set.add(p);
 		}
 		return set;
 	}
@@ -2196,43 +2416,51 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	public Set<ATermAppl> getObjectProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isObjectRole() )
-				set.add( p );
+	public Set<ATermAppl> getObjectProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isObjectRole())
+				set.add(p);
 		}
 		return set;
 	}
 
-	public Set<ATermAppl> getAnnotationProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isAnnotationRole() )
-				set.add( p );
+	public Set<ATermAppl> getAnnotationProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isAnnotationRole())
+				set.add(p);
 		}
 		return set;
 	}
 
-	public Set<ATermAppl> getTransitiveProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isTransitive() )
-				set.add( p );
+	public Set<ATermAppl> getTransitiveProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isTransitive())
+				set.add(p);
 		}
-		set.add( ATermUtils.BOTTOM_OBJECT_PROPERTY );
+		set.add(ATermUtils.BOTTOM_OBJECT_PROPERTY);
 		return set;
 	}
 
-	public Set<ATermAppl> getSymmetricProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isSymmetric() )
-				set.add( p );
+	public Set<ATermAppl> getSymmetricProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isSymmetric())
+				set.add(p);
 		}
 		return set;
 	}
@@ -2240,60 +2468,72 @@ public class KnowledgeBase {
 	/**
 	 * @deprecated Use {@link #getAntisymmetricProperties()}
 	 */
-	public Set<ATermAppl> getAntisymmetricProperties() {
+	@Deprecated
+	public Set<ATermAppl> getAntisymmetricProperties()
+	{
 		return getAsymmetricProperties();
 	}
 
-	public Set<ATermAppl> getAsymmetricProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isAsymmetric() )
-				set.add( p );
+	public Set<ATermAppl> getAsymmetricProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isAsymmetric())
+				set.add(p);
 		}
 		return set;
 	}
 
-	public Set<ATermAppl> getReflexiveProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isReflexive() )
-				set.add( p );
+	public Set<ATermAppl> getReflexiveProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isReflexive())
+				set.add(p);
 		}
 		return set;
 	}
 
-	public Set<ATermAppl> getIrreflexiveProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isIrreflexive() )
-				set.add( p );
+	public Set<ATermAppl> getIrreflexiveProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isIrreflexive())
+				set.add(p);
 		}
 		return set;
 	}
 
-	public Set<ATermAppl> getFunctionalProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isFunctional() )
-				set.add( p );
+	public Set<ATermAppl> getFunctionalProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isFunctional())
+				set.add(p);
 		}
-		set.add( ATermUtils.BOTTOM_DATA_PROPERTY );
-		set.add( ATermUtils.BOTTOM_OBJECT_PROPERTY );
+		set.add(ATermUtils.BOTTOM_DATA_PROPERTY);
+		set.add(ATermUtils.BOTTOM_OBJECT_PROPERTY);
 		return set;
 	}
 
-	public Set<ATermAppl> getInverseFunctionalProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isInverseFunctional() )
-				set.add( p );
+	public Set<ATermAppl> getInverseFunctionalProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isInverseFunctional())
+				set.add(p);
 		}
-		set.add( ATermUtils.BOTTOM_OBJECT_PROPERTY );
+		set.add(ATermUtils.BOTTOM_OBJECT_PROPERTY);
 		return set;
 	}
 
@@ -2302,12 +2542,14 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	public Set<ATermAppl> getDataProperties() {
-		Set<ATermAppl> set = new HashSet<ATermAppl>();
-		for( Role role : rbox.getRoles() ) {
-			ATermAppl p = role.getName();
-			if( ATermUtils.isPrimitive( p ) && role.isDatatypeRole() )
-				set.add( p );
+	public Set<ATermAppl> getDataProperties()
+	{
+		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		for (final Role role : rbox.getRoles())
+		{
+			final ATermAppl p = role.getName();
+			if (ATermUtils.isPrimitive(p) && role.isDatatypeRole())
+				set.add(p);
 		}
 		return set;
 	}
@@ -2317,356 +2559,397 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	public Set<ATermAppl> getIndividuals() {
-		return Collections.unmodifiableSet( individuals );
+	public Set<ATermAppl> getIndividuals()
+	{
+		return Collections.unmodifiableSet(individuals);
 	}
-	
+
 	/**
 	 * Returns the set of key values of the annotations map
+	 * 
 	 * @return
 	 */
-	public Set<ATermAppl> getAnnotationSubjects(){
+	public Set<ATermAppl> getAnnotationSubjects()
+	{
 		return annotations.keySet();
 	}
 
-	public Role getProperty(ATerm r) {
-		return rbox.getRole( r );
+	public Role getProperty(ATerm r)
+	{
+		return rbox.getRole(r);
 	}
 
-	public PropertyType getPropertyType(ATerm r) {
-		Role role = getProperty( r );
-		return (role == null)
-			? PropertyType.UNTYPED
-			: role.getType();
+	public PropertyType getPropertyType(ATerm r)
+	{
+		final Role role = getProperty(r);
+		return (role == null) ? PropertyType.UNTYPED : role.getType();
 	}
 
-	public boolean isClass(ATerm c) {
+	public boolean isClass(ATerm c)
+	{
 
-		if( tbox.getClasses().contains( c ) || c.equals( ATermUtils.TOP ) )
+		if (tbox.getClasses().contains(c) || c.equals(ATermUtils.TOP))
 			return true;
-		else if( ATermUtils.isComplexClass( c ) ) {
-			return fullyDefinedVisitor.isFullyDefined( (ATermAppl) c );
-		}
 		else
-			return false;
+			if (ATermUtils.isComplexClass(c))
+			{
+				return fullyDefinedVisitor.isFullyDefined((ATermAppl) c);
+			}
+			else
+				return false;
 	}
 
-	public boolean isProperty(ATerm p) {
-		return rbox.isRole( p );
+	public boolean isProperty(ATerm p)
+	{
+		return rbox.isRole(p);
 	}
 
-	public boolean isDatatypeProperty(ATerm p) {
-		return getPropertyType( p ) == PropertyType.DATATYPE;
+	public boolean isDatatypeProperty(ATerm p)
+	{
+		return getPropertyType(p) == PropertyType.DATATYPE;
 	}
 
-	public boolean isObjectProperty(ATerm p) {
-		return getPropertyType( p ) == PropertyType.OBJECT;
+	public boolean isObjectProperty(ATerm p)
+	{
+		return getPropertyType(p) == PropertyType.OBJECT;
 	}
 
-	public boolean isABoxProperty(ATerm p) {
-		PropertyType type = getPropertyType( p );
+	public boolean isABoxProperty(ATerm p)
+	{
+		final PropertyType type = getPropertyType(p);
 		return (type == PropertyType.OBJECT) || (type == PropertyType.DATATYPE);
 	}
 
-	public boolean isAnnotationProperty(ATerm p) {
-		return getPropertyType( p ) == PropertyType.ANNOTATION;
+	public boolean isAnnotationProperty(ATerm p)
+	{
+		return getPropertyType(p) == PropertyType.ANNOTATION;
 	}
 
 	@Deprecated
-	public boolean isOntologyProperty(ATerm p) {
+	public boolean isOntologyProperty(ATerm p)
+	{
 		return false;
 	}
 
-	public boolean isIndividual(ATerm ind) {
-		return getIndividuals().contains( ind );
+	public boolean isIndividual(ATerm ind)
+	{
+		return getIndividuals().contains(ind);
 	}
 
-	public boolean isTransitiveProperty(ATermAppl r) {
-		Role role = getRole( r );
+	public boolean isTransitiveProperty(ATermAppl r)
+	{
+		final Role role = getRole(r);
 
-		if( role == null ) {
-			handleUndefinedEntity( r + " is not a known property" );
+		if (role == null)
+		{
+			handleUndefinedEntity(r + " is not a known property");
 			return false;
 		}
 
-		if( role.isTransitive() ) {
-			if( doExplanation() )
-				abox.setExplanation( role.getExplainTransitive() );
+		if (role.isTransitive())
+		{
+			if (doExplanation())
+				abox.setExplanation(role.getExplainTransitive());
 			return true;
 		}
-		else if( !role.isObjectRole() || role.isFunctional() || role.isInverseFunctional() )
-			return false;
+		else
+			if (!role.isObjectRole() || role.isFunctional() || role.isInverseFunctional())
+				return false;
 
 		ensureConsistency();
 
-		ATermAppl c = ATermUtils.makeTermAppl( "_C_" );
-		ATermAppl notC = ATermUtils.makeNot( c );
-		ATermAppl test = ATermUtils.makeAnd( ATermUtils.makeSomeValues( r, ATermUtils
-				.makeSomeValues( r, c ) ), ATermUtils.makeAllValues( r, notC ) );
+		final ATermAppl c = ATermUtils.makeTermAppl("_C_");
+		final ATermAppl notC = ATermUtils.makeNot(c);
+		final ATermAppl test = ATermUtils.makeAnd(ATermUtils.makeSomeValues(r, ATermUtils.makeSomeValues(r, c)), ATermUtils.makeAllValues(r, notC));
 
-		return !abox.isSatisfiable( test );
+		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isSymmetricProperty(ATermAppl p) {
-		return isInverse( p, p );
+	public boolean isSymmetricProperty(ATermAppl p)
+	{
+		return isInverse(p, p);
 	}
 
-	public boolean isFunctionalProperty(ATermAppl p) {
-		Role role = getRole( p );
+	public boolean isFunctionalProperty(ATermAppl p)
+	{
+		final Role role = getRole(p);
 
-		if( role == null ) {
-			handleUndefinedEntity( p + " is not a known property" );
+		if (role == null)
+		{
+			handleUndefinedEntity(p + " is not a known property");
 			return false;
 		}
-		
-		if(role.isAnnotationRole())
-			return false;
-		
-		if( role.isBottom() ) {
-			if ( doExplanation() )
-				abox.setExplanation( DependencySet.INDEPENDENT );
-			return true;
-		}
-		else if( role.isFunctional() ) {
-			if( doExplanation() )
-				abox.setExplanation( role.getExplainFunctional() );
-			return true;
-		}
-		else if( !role.isSimple() )
+
+		if (role.isAnnotationRole())
 			return false;
 
-		ATermAppl min2P = role.isDatatypeRole()
-			? ATermUtils.makeMin( p, 2, ATermUtils.TOP_LIT )
-			: ATermUtils.makeMin( p, 2, ATermUtils.TOP );
-		return !isSatisfiable( min2P );
+		if (role.isBottom())
+		{
+			if (doExplanation())
+				abox.setExplanation(DependencySet.INDEPENDENT);
+			return true;
+		}
+		else
+			if (role.isFunctional())
+			{
+				if (doExplanation())
+					abox.setExplanation(role.getExplainFunctional());
+				return true;
+			}
+			else
+				if (!role.isSimple())
+					return false;
+
+		final ATermAppl min2P = role.isDatatypeRole() ? ATermUtils.makeMin(p, 2, ATermUtils.TOP_LIT) : ATermUtils.makeMin(p, 2, ATermUtils.TOP);
+		return !isSatisfiable(min2P);
 	}
 
-	public boolean isInverseFunctionalProperty(ATermAppl p) {
-		Role role = getRole( p );
+	public boolean isInverseFunctionalProperty(ATermAppl p)
+	{
+		final Role role = getRole(p);
 
-		if( role == null ) {
-			handleUndefinedEntity( p + " is not a known property" );
+		if (role == null)
+		{
+			handleUndefinedEntity(p + " is not a known property");
 			return false;
 		}
 
-		if( !role.isObjectRole() ) {
+		if (!role.isObjectRole())
+		{
 			return false;
-		}		
-		else if( role.isInverseFunctional() || role.isBottom() ) {
-			if( doExplanation() )
-				abox.setExplanation( role.getExplainInverseFunctional() );
-			return true;
 		}
+		else
+			if (role.isInverseFunctional() || role.isBottom())
+			{
+				if (doExplanation())
+					abox.setExplanation(role.getExplainInverseFunctional());
+				return true;
+			}
 
-		ATermAppl invP = role.getInverse().getName();
-		ATermAppl max1invP = ATermUtils.makeMax( invP, 1, ATermUtils.TOP );
-		return isSubClassOf( ATermUtils.TOP, max1invP );
+		final ATermAppl invP = role.getInverse().getName();
+		final ATermAppl max1invP = ATermUtils.makeMax(invP, 1, ATermUtils.TOP);
+		return isSubClassOf(ATermUtils.TOP, max1invP);
 	}
 
-	public boolean isReflexiveProperty(ATermAppl p) {
-		Role role = getRole( p );
+	public boolean isReflexiveProperty(ATermAppl p)
+	{
+		final Role role = getRole(p);
 
-		if( role == null ) {
-			handleUndefinedEntity( p + " is not a known property" );
+		if (role == null)
+		{
+			handleUndefinedEntity(p + " is not a known property");
 			return false;
 		}
 
-		if( !role.isObjectRole() || role.isIrreflexive() )
+		if (!role.isObjectRole() || role.isIrreflexive())
 			return false;
-		else if( role.isReflexive() ) {
-			if( doExplanation() )
-				abox.setExplanation( role.getExplainReflexive() );
-			return true;
-		}
+		else
+			if (role.isReflexive())
+			{
+				if (doExplanation())
+					abox.setExplanation(role.getExplainReflexive());
+				return true;
+			}
 
 		ensureConsistency();
 
-		ATermAppl c = ATermUtils.makeTermAppl( "_C_" );
-		ATermAppl notC = ATermUtils.makeNot( c );
-		ATermAppl test = ATermUtils.makeAnd( c, ATermUtils.makeAllValues( p, notC ) );
+		final ATermAppl c = ATermUtils.makeTermAppl("_C_");
+		final ATermAppl notC = ATermUtils.makeNot(c);
+		final ATermAppl test = ATermUtils.makeAnd(c, ATermUtils.makeAllValues(p, notC));
 
-		return !abox.isSatisfiable( test );
+		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isIrreflexiveProperty(ATermAppl p) {
-		Role role = getRole( p );
+	public boolean isIrreflexiveProperty(ATermAppl p)
+	{
+		final Role role = getRole(p);
 
-		if( role == null ) {
-			handleUndefinedEntity( p + " is not a known property" );
+		if (role == null)
+		{
+			handleUndefinedEntity(p + " is not a known property");
 			return false;
 		}
 
-		if( !role.isObjectRole() || role.isReflexive() )
+		if (!role.isObjectRole() || role.isReflexive())
 			return false;
-		else if( role.isIrreflexive() ) {
-			if( doExplanation() )
-				abox.setExplanation( role.getExplainIrreflexive() );
-			return true;
-		}
-		else if( role.isAsymmetric() ) {
-			if( doExplanation() )
-				abox.setExplanation( role.getExplainAsymmetric() );
-			return true;
-		}
+		else
+			if (role.isIrreflexive())
+			{
+				if (doExplanation())
+					abox.setExplanation(role.getExplainIrreflexive());
+				return true;
+			}
+			else
+				if (role.isAsymmetric())
+				{
+					if (doExplanation())
+						abox.setExplanation(role.getExplainAsymmetric());
+					return true;
+				}
 
 		ensureConsistency();
 
-		ATermAppl test = ATermUtils.makeSelf( p );
+		final ATermAppl test = ATermUtils.makeSelf(p);
 
-		return !abox.isSatisfiable( test );
+		return !abox.isSatisfiable(test);
 	}
 
 	/**
 	 * @deprecated Use {@link #isAsymmetricProperty(ATermAppl)}
 	 */
-	public boolean isAntisymmetricProperty(ATermAppl p) {
-		return isAsymmetricProperty( p );
+	@Deprecated
+	public boolean isAntisymmetricProperty(ATermAppl p)
+	{
+		return isAsymmetricProperty(p);
 	}
 
-	public boolean isAsymmetricProperty(ATermAppl p) {
-		Role role = getRole( p );
+	public boolean isAsymmetricProperty(ATermAppl p)
+	{
+		final Role role = getRole(p);
 
-		if( role == null ) {
-			handleUndefinedEntity( p + " is not a known property" );
+		if (role == null)
+		{
+			handleUndefinedEntity(p + " is not a known property");
 			return false;
 		}
 
-		if( !role.isObjectRole() )
+		if (!role.isObjectRole())
 			return false;
-		else if( role.isAsymmetric() ) {
-			if( doExplanation() )
-				abox.setExplanation( role.getExplainAsymmetric() );
-			return true;
-		}
+		else
+			if (role.isAsymmetric())
+			{
+				if (doExplanation())
+					abox.setExplanation(role.getExplainAsymmetric());
+				return true;
+			}
 
 		ensureConsistency();
 
-		ATermAppl o = ATermUtils.makeAnonNominal( Integer.MAX_VALUE );
-		ATermAppl nom = ATermUtils.makeValue( o );
-		ATermAppl test = ATermUtils.makeAnd( nom, ATermUtils.makeSomeValues( p, ATermUtils.makeAnd(
-				ATermUtils.makeNot( nom ), ATermUtils.makeSomeValues( p, nom ) ) ) );
+		final ATermAppl o = ATermUtils.makeAnonNominal(Integer.MAX_VALUE);
+		final ATermAppl nom = ATermUtils.makeValue(o);
+		final ATermAppl test = ATermUtils.makeAnd(nom, ATermUtils.makeSomeValues(p, ATermUtils.makeAnd(ATermUtils.makeNot(nom), ATermUtils.makeSomeValues(p, nom))));
 
-		return !abox.isSatisfiable( test );
-	} 
-
-	public boolean isSubPropertyOf(ATermAppl sub, ATermAppl sup) {
-		Role roleSub = rbox.getRole( sub );
-		Role roleSup = rbox.getRole( sup );
-
-		if( roleSub == null ) {
-			handleUndefinedEntity( sub + " is not a known property" );
-			return false;
-		}
-
-		if( roleSup == null ) {
-			handleUndefinedEntity( sup + " is not a known property" );
-			return false;
-		}
-
-		if( roleSub.isSubRoleOf( roleSup ) ) {
-			if( doExplanation() )
-				abox.setExplanation( roleSub.getExplainSuper( sup ) );
-			return true;
-		}
-
-		if( roleSub.getType() != roleSup.getType() )
-			return false;
-		
-		ensureConsistency();
-		
-		ATermAppl test;
-		if( roleSub.isObjectRole() ) {
-			ATermAppl c = ATermUtils.makeTermAppl( "_C_" );
-			ATermAppl notC = ATermUtils.makeNot( c );
-			test = ATermUtils.makeAnd( ATermUtils.makeSomeValues( sub, c ), ATermUtils
-					.makeAllValues( sup, notC ) );
-		}
-		else if( roleSub.isDatatypeRole() ) {
-			ATermAppl anon = ATermUtils
-					.makeLiteral( ATermUtils.makeAnonNominal( Integer.MAX_VALUE ) );
-			test = ATermUtils.makeAnd( ATermUtils.makeHasValue( sub, anon ), ATermUtils
-					.makeAllValues( sup, ATermUtils.makeNot( ATermUtils.makeValue( anon ) ) ) );
-		}
-		else if( roleSub.isAnnotationRole() ) {
-			return false; //temporary statement until we incorporate annotation properties to the taxonomy ([t:412])
-		} else
-			throw new IllegalArgumentException();
-
-		return !abox.isSatisfiable( test );
+		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isEquivalentProperty(ATermAppl p1, ATermAppl p2) {
-		Role role1 = rbox.getRole( p1 );
-		Role role2 = rbox.getRole( p2 );
+	public boolean isSubPropertyOf(ATermAppl sub, ATermAppl sup)
+	{
+		final Role roleSub = rbox.getRole(sub);
+		final Role roleSup = rbox.getRole(sup);
 
-		if( role1 == null ) {
-			handleUndefinedEntity( p1 + " is not a known property" );
+		if (roleSub == null)
+		{
+			handleUndefinedEntity(sub + " is not a known property");
 			return false;
 		}
 
-		if( role2 == null ) {
-			handleUndefinedEntity( p2 + " is not a known property" );
+		if (roleSup == null)
+		{
+			handleUndefinedEntity(sup + " is not a known property");
 			return false;
 		}
 
-		if( role1.isSubRoleOf( role2 ) && role2.isSubRoleOf( role1 ) ) {
-			if( doExplanation() )
-				abox.setExplanation( role1.getExplainSuper( p2 ).union( role1.getExplainSub( p2 ),
-						doExplanation() ) );
+		if (roleSub.isSubRoleOf(roleSup))
+		{
+			if (doExplanation())
+				abox.setExplanation(roleSub.getExplainSuper(sup));
 			return true;
 		}
 
-		if( role1.isAnnotationRole() || role2.isAnnotationRole() )
-			return false;
-
-		if( role1.getType() != role2.getType() )
+		if (roleSub.getType() != roleSup.getType())
 			return false;
 
 		ensureConsistency();
 
 		ATermAppl test;
-		if( role1.isObjectRole() ) {
-			ATermAppl c = !role1.getRanges().isEmpty()
-				? role1.getRanges().iterator().next()
-				: !role2.getRanges().isEmpty()
-					? role2.getRanges().iterator().next()
-					: ATermUtils.makeTermAppl( "_C_" );
-			ATermAppl notC = ATermUtils.makeNot( c );
-			test = ATermUtils.makeOr( ATermUtils.makeAnd( ATermUtils.makeSomeValues( p1, c ),
-					ATermUtils.makeAllValues( p2, notC ) ), ATermUtils.makeAnd( ATermUtils
-					.makeSomeValues( p2, c ), ATermUtils.makeAllValues( p1, notC ) ) );
-		}
-		else if( role1.isDatatypeRole() ) {
-			ATermAppl anon = ATermUtils
-			.makeLiteral( ATermUtils.makeAnonNominal( Integer.MAX_VALUE ) );
-			test = ATermUtils.makeOr(
-				ATermUtils.makeAnd(
-					ATermUtils.makeHasValue( p1, anon ),
-					ATermUtils.makeAllValues( p2, ATermUtils.makeNot( ATermUtils.makeValue( anon ) ) )
-				),
-				ATermUtils.makeAnd(
-					ATermUtils.makeHasValue( p2, anon ),
-					ATermUtils.makeAllValues( p1, ATermUtils.makeNot( ATermUtils.makeValue( anon ) ) )
-				)
-			);
+		if (roleSub.isObjectRole())
+		{
+			final ATermAppl c = ATermUtils.makeTermAppl("_C_");
+			final ATermAppl notC = ATermUtils.makeNot(c);
+			test = ATermUtils.makeAnd(ATermUtils.makeSomeValues(sub, c), ATermUtils.makeAllValues(sup, notC));
 		}
 		else
-			throw new IllegalArgumentException();
+			if (roleSub.isDatatypeRole())
+			{
+				final ATermAppl anon = ATermUtils.makeLiteral(ATermUtils.makeAnonNominal(Integer.MAX_VALUE));
+				test = ATermUtils.makeAnd(ATermUtils.makeHasValue(sub, anon), ATermUtils.makeAllValues(sup, ATermUtils.makeNot(ATermUtils.makeValue(anon))));
+			}
+			else
+				if (roleSub.isAnnotationRole())
+				{
+					return false; //temporary statement until we incorporate annotation properties to the taxonomy ([t:412])
+				}
+				else
+					throw new IllegalArgumentException();
 
-		return !abox.isSatisfiable( test );
+		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isInverse(ATermAppl r1, ATermAppl r2) {
-		Role role1 = getRole( r1 );
-		Role role2 = getRole( r2 );
+	public boolean isEquivalentProperty(ATermAppl p1, ATermAppl p2)
+	{
+		final Role role1 = rbox.getRole(p1);
+		final Role role2 = rbox.getRole(p2);
 
-		if( role1 == null ) {
-			handleUndefinedEntity( r1 + " is not a known property" );
+		if (role1 == null)
+		{
+			handleUndefinedEntity(p1 + " is not a known property");
 			return false;
 		}
 
-		if( role2 == null ) {
-			handleUndefinedEntity( r2 + " is not a known property" );
+		if (role2 == null)
+		{
+			handleUndefinedEntity(p2 + " is not a known property");
+			return false;
+		}
+
+		if (role1.isSubRoleOf(role2) && role2.isSubRoleOf(role1))
+		{
+			if (doExplanation())
+				abox.setExplanation(role1.getExplainSuper(p2).union(role1.getExplainSub(p2), doExplanation()));
+			return true;
+		}
+
+		if (role1.isAnnotationRole() || role2.isAnnotationRole())
+			return false;
+
+		if (role1.getType() != role2.getType())
+			return false;
+
+		ensureConsistency();
+
+		ATermAppl test;
+		if (role1.isObjectRole())
+		{
+			final ATermAppl c = !role1.getRanges().isEmpty() ? role1.getRanges().iterator().next() : !role2.getRanges().isEmpty() ? role2.getRanges().iterator().next() : ATermUtils.makeTermAppl("_C_");
+			final ATermAppl notC = ATermUtils.makeNot(c);
+			test = ATermUtils.makeOr(ATermUtils.makeAnd(ATermUtils.makeSomeValues(p1, c), ATermUtils.makeAllValues(p2, notC)), ATermUtils.makeAnd(ATermUtils.makeSomeValues(p2, c), ATermUtils.makeAllValues(p1, notC)));
+		}
+		else
+			if (role1.isDatatypeRole())
+			{
+				final ATermAppl anon = ATermUtils.makeLiteral(ATermUtils.makeAnonNominal(Integer.MAX_VALUE));
+				test = ATermUtils.makeOr(ATermUtils.makeAnd(ATermUtils.makeHasValue(p1, anon), ATermUtils.makeAllValues(p2, ATermUtils.makeNot(ATermUtils.makeValue(anon)))), ATermUtils.makeAnd(ATermUtils.makeHasValue(p2, anon), ATermUtils.makeAllValues(p1, ATermUtils.makeNot(ATermUtils.makeValue(anon)))));
+			}
+			else
+				throw new IllegalArgumentException();
+
+		return !abox.isSatisfiable(test);
+	}
+
+	public boolean isInverse(ATermAppl r1, ATermAppl r2)
+	{
+		final Role role1 = getRole(r1);
+		final Role role2 = getRole(r2);
+
+		if (role1 == null)
+		{
+			handleUndefinedEntity(r1 + " is not a known property");
+			return false;
+		}
+
+		if (role2 == null)
+		{
+			handleUndefinedEntity(r2 + " is not a known property");
 			return false;
 		}
 
@@ -2675,71 +2958,76 @@ public class KnowledgeBase {
 		// if( !role1.hasNamedInverse() )
 		// return false;
 
-		if( !role1.isObjectRole() || !role2.isObjectRole() )
+		if (!role1.isObjectRole() || !role2.isObjectRole())
 			return false;
 
-		if( role1.getInverse().equals( role2 ) ) {
-			return true;
-		}
+		if (role1.getInverse().equals(role2)) { return true; }
 
 		ensureConsistency();
 
-		ATermAppl c = ATermUtils.makeTermAppl( "_C_" );
-		ATermAppl notC = ATermUtils.makeNot( c );
+		final ATermAppl c = ATermUtils.makeTermAppl("_C_");
+		final ATermAppl notC = ATermUtils.makeNot(c);
 
-		ATermAppl test = ATermUtils.makeAnd( c, ATermUtils.makeOr( ATermUtils.makeSomeValues( r1,
-				ATermUtils.makeAllValues( r2, notC ) ), ATermUtils.makeSomeValues( r2, ATermUtils
-				.makeAllValues( r1, notC ) ) ) );
+		final ATermAppl test = ATermUtils.makeAnd(c, ATermUtils.makeOr(ATermUtils.makeSomeValues(r1, ATermUtils.makeAllValues(r2, notC)), ATermUtils.makeSomeValues(r2, ATermUtils.makeAllValues(r1, notC))));
 
-		return !abox.isSatisfiable( test );
+		return !abox.isSatisfiable(test);
 	}
 
-	public boolean hasDomain(ATermAppl p, ATermAppl c) {
-		Role r = rbox.getRole( p );
-		if( r == null ) {
-			handleUndefinedEntity( p + " is not a property!" );
+	public boolean hasDomain(ATermAppl p, ATermAppl c)
+	{
+		final Role r = rbox.getRole(p);
+		if (r == null)
+		{
+			handleUndefinedEntity(p + " is not a property!");
 			return false;
 		}
 
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a valid class expression" );
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a valid class expression");
 			return false;
 		}
 
-		ATermAppl someP = ATermUtils.makeSomeValues( p, ATermUtils.getTop( r ) );
-		return isSubClassOf( someP, c );
+		final ATermAppl someP = ATermUtils.makeSomeValues(p, ATermUtils.getTop(r));
+		return isSubClassOf(someP, c);
 	}
 
-	public boolean hasRange(ATermAppl p, ATermAppl c) {
-		if( !isClass( c ) && !isDatatype( c ) ) {
-			handleUndefinedEntity( c + " is not a valid class expression" );
+	public boolean hasRange(ATermAppl p, ATermAppl c)
+	{
+		if (!isClass(c) && !isDatatype(c))
+		{
+			handleUndefinedEntity(c + " is not a valid class expression");
 			return false;
 		}
-		ATermAppl allValues = ATermUtils.makeAllValues( p, c );
-		return isSubClassOf( ATermUtils.TOP, allValues );
+		final ATermAppl allValues = ATermUtils.makeAllValues(p, c);
+		return isSubClassOf(ATermUtils.TOP, allValues);
 	}
 
-	public boolean isDatatype(ATermAppl c) {
-		return datatypeVisitor.isDatatype( c );
+	public boolean isDatatype(ATermAppl c)
+	{
+		return datatypeVisitor.isDatatype(c);
 	}
 
-	public boolean isSatisfiable(ATermAppl c) {
+	public boolean isSatisfiable(ATermAppl c)
+	{
 		ensureConsistency();
 
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a known class!" );
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a known class!");
 			return false;
 		}
 
-		c = ATermUtils.normalize( c );
+		c = ATermUtils.normalize(c);
 
-		if( isClassified() && !doExplanation() ) {
-			Bool equivToBottom = builder.getTaxonomy().isEquivalent( ATermUtils.BOTTOM, c );
-			if( equivToBottom.isKnown() )
+		if (isClassified() && !doExplanation())
+		{
+			final Bool equivToBottom = builder.getTaxonomy().isEquivalent(ATermUtils.BOTTOM, c);
+			if (equivToBottom.isKnown())
 				return equivToBottom.isFalse();
 		}
 
-		return abox.isSatisfiable( c );
+		return abox.isSatisfiable(c);
 	}
 
 	/**
@@ -2749,29 +3037,33 @@ public class KnowledgeBase {
 	 * @param c
 	 * @return
 	 */
-	public boolean hasInstance(ATerm d) {
-		if( !isClass( d ) ) {
-			handleUndefinedEntity( d + " is not a class!" );
+	public boolean hasInstance(ATerm d)
+	{
+		if (!isClass(d))
+		{
+			handleUndefinedEntity(d + " is not a class!");
 			return false;
 		}
 
 		ensureConsistency();
 
-		ATermAppl c = ATermUtils.normalize( (ATermAppl) d );
+		final ATermAppl c = ATermUtils.normalize((ATermAppl) d);
 
-		List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
-		Iterator<Individual> i = new IndividualIterator( abox );
-		while( i.hasNext() ) {
-			ATermAppl x = i.next().getName();
+		final List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
+		final Iterator<Individual> i = new IndividualIterator(abox);
+		while (i.hasNext())
+		{
+			final ATermAppl x = i.next().getName();
 
-			Bool knownType = abox.isKnownType( x, c );
-			if( knownType.isTrue() )
+			final Bool knownType = abox.isKnownType(x, c);
+			if (knownType.isTrue())
 				return true;
-			else if( knownType.isUnknown() )
-				unknowns.add( x );
+			else
+				if (knownType.isUnknown())
+					unknowns.add(x);
 		}
 
-		boolean hasInstance = !unknowns.isEmpty() && abox.isType( unknowns, c );
+		final boolean hasInstance = !unknowns.isEmpty() && abox.isType(unknowns, c);
 
 		return hasInstance;
 	}
@@ -2790,7 +3082,7 @@ public class KnowledgeBase {
 
 		return getDatatypeReasoner().isSubTypeOf( d1, d2 );
 	}
-	*/
+	 */
 
 	/**
 	 * Check if class c1 is subclass of class c2.
@@ -2799,33 +3091,37 @@ public class KnowledgeBase {
 	 * @param c2
 	 * @return
 	 */
-	public boolean isSubClassOf(ATermAppl c1, ATermAppl c2) {
+	public boolean isSubClassOf(ATermAppl c1, ATermAppl c2)
+	{
 		ensureConsistency();
 
-		if( !isClass( c1 ) ) {
-			handleUndefinedEntity( c1 + " is not a known class" );
+		if (!isClass(c1))
+		{
+			handleUndefinedEntity(c1 + " is not a known class");
 			return false;
 		}
 
-		if( !isClass( c2 ) ) {
-			handleUndefinedEntity( c2 + " is not a known class" );
+		if (!isClass(c2))
+		{
+			handleUndefinedEntity(c2 + " is not a known class");
 			return false;
 		}
 
-		if( c1.equals( c2 ) )
+		if (c1.equals(c2))
 			return true;
 
 		// normalize concepts
-		c1 = ATermUtils.normalize( c1 );
-		c2 = ATermUtils.normalize( c2 );
+		c1 = ATermUtils.normalize(c1);
+		c2 = ATermUtils.normalize(c2);
 
-		if( isClassified() && !doExplanation() ) {
-			Bool isSubNode = builder.getTaxonomy().isSubNodeOf( c1, c2 );
-			if( isSubNode.isKnown() )
+		if (isClassified() && !doExplanation())
+		{
+			final Bool isSubNode = builder.getTaxonomy().isSubNodeOf(c1, c2);
+			if (isSubNode.isKnown())
 				return isSubNode.isTrue();
 		}
 
-		return abox.isSubClassOf( c1, c2 );
+		return abox.isSubClassOf(c1, c2);
 	}
 
 	/**
@@ -2835,288 +3131,324 @@ public class KnowledgeBase {
 	 * @param c2
 	 * @return
 	 */
-	public boolean isEquivalentClass(ATermAppl c1, ATermAppl c2) {
+	public boolean isEquivalentClass(ATermAppl c1, ATermAppl c2)
+	{
 		ensureConsistency();
 
-		if( !isClass( c1 ) ) {
-			handleUndefinedEntity( c1 + " is not a known class" );
+		if (!isClass(c1))
+		{
+			handleUndefinedEntity(c1 + " is not a known class");
 			return false;
 		}
 
-		if( !isClass( c2 ) ) {
-			handleUndefinedEntity( c2 + " is not a known class" );
+		if (!isClass(c2))
+		{
+			handleUndefinedEntity(c2 + " is not a known class");
 			return false;
 		}
 
-		if( c1.equals( c2 ) )
+		if (c1.equals(c2))
 			return true;
 
 		// normalize concepts
-		c1 = ATermUtils.normalize( c1 );
-		c2 = ATermUtils.normalize( c2 );
+		c1 = ATermUtils.normalize(c1);
+		c2 = ATermUtils.normalize(c2);
 
-		if( !doExplanation() ) {
+		if (!doExplanation())
+		{
 			Bool isEquivalent = Bool.UNKNOWN;
-			if( isClassified() )
-				isEquivalent = builder.getTaxonomy().isEquivalent( c1, c2 );
+			if (isClassified())
+				isEquivalent = builder.getTaxonomy().isEquivalent(c1, c2);
 
-			if( isEquivalent.isUnknown() )
-				isEquivalent = abox.isKnownSubClassOf( c1, c2 ).and(
-						abox.isKnownSubClassOf( c2, c1 ) );
+			if (isEquivalent.isUnknown())
+				isEquivalent = abox.isKnownSubClassOf(c1, c2).and(abox.isKnownSubClassOf(c2, c1));
 
-			if( isEquivalent.isKnown() )
+			if (isEquivalent.isKnown())
 				return isEquivalent.isTrue();
 		}
 
-		ATermAppl notC2 = ATermUtils.negate( c2 );
-		ATermAppl notC1 = ATermUtils.negate( c1 );
-		ATermAppl c1NotC2 = ATermUtils.makeAnd( c1, notC2 );
-		ATermAppl c2NotC1 = ATermUtils.makeAnd( c2, notC1 );
-		ATermAppl test = ATermUtils.makeOr( c1NotC2, c2NotC1 );
+		final ATermAppl notC2 = ATermUtils.negate(c2);
+		final ATermAppl notC1 = ATermUtils.negate(c1);
+		final ATermAppl c1NotC2 = ATermUtils.makeAnd(c1, notC2);
+		final ATermAppl c2NotC1 = ATermUtils.makeAnd(c2, notC1);
+		final ATermAppl test = ATermUtils.makeOr(c1NotC2, c2NotC1);
 
-		return !isSatisfiable( test );
+		return !isSatisfiable(test);
 	}
 
-	public boolean isDisjoint(ATermAppl c1, ATermAppl c2) {
-		if( isClass( c1 ) && isClass( c2 ) )
-			return isDisjointClass( c1, c2 );
-		else if( isProperty( c1 ) && isProperty( c2 ) )
-			return isDisjointProperty( c1, c2 );
+	public boolean isDisjoint(ATermAppl c1, ATermAppl c2)
+	{
+		if (isClass(c1) && isClass(c2))
+			return isDisjointClass(c1, c2);
 		else
-			return false;
+			if (isProperty(c1) && isProperty(c2))
+				return isDisjointProperty(c1, c2);
+			else
+				return false;
 	}
 
-	public boolean isDisjointClass(ATermAppl c1, ATermAppl c2) {
-		ATermAppl notC2 = ATermUtils.makeNot( c2 );
+	public boolean isDisjointClass(ATermAppl c1, ATermAppl c2)
+	{
+		final ATermAppl notC2 = ATermUtils.makeNot(c2);
 
-		return isSubClassOf( c1, notC2 );
+		return isSubClassOf(c1, notC2);
 	}
 
-	public boolean isDisjointProperty(ATermAppl r1, ATermAppl r2) {
-		Role role1 = getRole( r1 );
-		Role role2 = getRole( r2 );
+	public boolean isDisjointProperty(ATermAppl r1, ATermAppl r2)
+	{
+		final Role role1 = getRole(r1);
+		final Role role2 = getRole(r2);
 
-		if( role1 == null ) {
-			handleUndefinedEntity( r1 + " is not a known property" );
-			return false;
-		}
-
-		if( role2 == null ) {
-			handleUndefinedEntity( r2 + " is not a known property" );
-			return false;
-		}
-				
-		if( role1.getType() != role2.getType() ) {
-			return false;
-		}
-		else if( role1.isBottom() || role2.isBottom() ) {
-			if( doExplanation() )
-				abox.setExplanation( DependencySet.INDEPENDENT );
-			return true;
-		}
-		else if( role1.isTop() || role2.isTop() ) {
-			return false;
-		}
-		else if( role1.getSubRoles().contains(role2) || role2.getSubRoles().contains(role1) ) {
+		if (role1 == null)
+		{
+			handleUndefinedEntity(r1 + " is not a known property");
 			return false;
 		}
 
-		if( role1.getDisjointRoles().contains( role2 ) && !doExplanation() )
+		if (role2 == null)
+		{
+			handleUndefinedEntity(r2 + " is not a known property");
+			return false;
+		}
+
+		if (role1.getType() != role2.getType())
+		{
+			return false;
+		}
+		else
+			if (role1.isBottom() || role2.isBottom())
+			{
+				if (doExplanation())
+					abox.setExplanation(DependencySet.INDEPENDENT);
+				return true;
+			}
+			else
+				if (role1.isTop() || role2.isTop())
+				{
+					return false;
+				}
+				else
+					if (role1.getSubRoles().contains(role2) || role2.getSubRoles().contains(role1)) { return false; }
+
+		if (role1.getDisjointRoles().contains(role2) && !doExplanation())
 			return true;
 
 		ensureConsistency();
-				
+
 		ATermAppl anon = ATermUtils.makeAnonNominal(Integer.MAX_VALUE);
-		if( role1.isDatatypeRole() ) {
+		if (role1.isDatatypeRole())
+		{
 			anon = ATermUtils.makeLiteral(anon);
 		}
-		ATermAppl nominal = ATermUtils.makeValue(anon);
-		ATermAppl test = and( some( r1, nominal ), some( r2, nominal ));
-		
-		return !abox.isSatisfiable( test );
+		final ATermAppl nominal = ATermUtils.makeValue(anon);
+		final ATermAppl test = and(some(r1, nominal), some(r2, nominal));
+
+		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isComplement(ATermAppl c1, ATermAppl c2) {
-		ATermAppl notC2 = ATermUtils.makeNot( c2 );
+	public boolean isComplement(ATermAppl c1, ATermAppl c2)
+	{
+		final ATermAppl notC2 = ATermUtils.makeNot(c2);
 
-		return isEquivalentClass( c1, notC2 );
+		return isEquivalentClass(c1, notC2);
 	}
 
 	/**
 	 * Answers the isType question without doing any satisfiability check. It
-	 * might return <code>Bool.TRUE</code>, <code>Bool.FALSE</code>, or
-	 * <code>Bool.UNKNOWN</code>. If <code>Bool.UNKNOWN</code> is returned
-	 * <code>isType</code> function needs to be called to get the answer.
+	 * might return <code>Bool.TRUE</code>, <code>Bool.FALSE</code>, or <code>Bool.UNKNOWN</code>. If <code>Bool.UNKNOWN</code> is returned <code>isType</code> function needs to be called to get the answer.
 	 * 
 	 * @param x
 	 * @param c
 	 * @return
 	 */
-	public Bool isKnownType(ATermAppl x, ATermAppl c) {
+	public Bool isKnownType(ATermAppl x, ATermAppl c)
+	{
 		ensureConsistency();
 
-		if( !isIndividual( x ) ) {
-			handleUndefinedEntity( x + " is not an individual!" );
+		if (!isIndividual(x))
+		{
+			handleUndefinedEntity(x + " is not an individual!");
 			return Bool.FALSE;
 		}
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a valid class expression" );
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a valid class expression");
 			return Bool.FALSE;
 		}
 
-		c = ATermUtils.normalize( c );
+		c = ATermUtils.normalize(c);
 
-		return abox.isKnownType( x, c );
+		return abox.isKnownType(x, c);
 	}
 
-	public boolean isType(ATermAppl x, ATermAppl c) {
+	public boolean isType(ATermAppl x, ATermAppl c)
+	{
 		ensureConsistency();
 
-		if( !isIndividual( x ) ) {
-			handleUndefinedEntity( x + " is not an individual!" );
+		if (!isIndividual(x))
+		{
+			handleUndefinedEntity(x + " is not an individual!");
 			return false;
 		}
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a valid class expression" );
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a valid class expression");
 			return false;
 		}
 
-		if( isRealized() && !doExplanation() ) {
-			if( builder == null )
-				throw new NullPointerException( "Builder is null" );
+		if (isRealized() && !doExplanation())
+		{
+			if (builder == null)
+				throw new NullPointerException("Builder is null");
 
-			Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+			final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 
-			if( taxonomy == null )
-				throw new NullPointerException( "Taxonomy is null" );
+			if (taxonomy == null)
+				throw new NullPointerException("Taxonomy is null");
 
-			if( taxonomy.contains( c ) )
-				return TaxonomyUtils.isType( taxonomy, x, c );
+			if (taxonomy.contains(c))
+				return TaxonomyUtils.isType(taxonomy, x, c);
 		}
 
-		return abox.isType( x, c );
+		return abox.isType(x, c);
 	}
 
-	public boolean isSameAs(ATermAppl t1, ATermAppl t2) {
+	public boolean isSameAs(ATermAppl t1, ATermAppl t2)
+	{
 		ensureConsistency();
 
-		if( !isIndividual( t1 ) ) {
-			handleUndefinedEntity( t1 + " is not an individual!" );
+		if (!isIndividual(t1))
+		{
+			handleUndefinedEntity(t1 + " is not an individual!");
 			return false;
 		}
-		if( !isIndividual( t2 ) ) {
-			handleUndefinedEntity( t2 + " is not an individual!" );
+		if (!isIndividual(t2))
+		{
+			handleUndefinedEntity(t2 + " is not an individual!");
 			return false;
 		}
 
-		if( t1.equals( t2 ) )
+		if (t1.equals(t2))
 			return true;
 
-		Set<ATermAppl> knowns = new HashSet<ATermAppl>();
-		Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
+		final Set<ATermAppl> knowns = new HashSet<ATermAppl>();
+		final Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
 
-		Individual ind = abox.getIndividual( t1 );
-		if( ind.isMerged() && !ind.getMergeDependency( true ).isIndependent() )
-			abox.getSames( ind.getSame(), unknowns, unknowns );
+		final Individual ind = abox.getIndividual(t1);
+		if (ind.isMerged() && !ind.getMergeDependency(true).isIndependent())
+			abox.getSames(ind.getSame(), unknowns, unknowns);
 		else
-			abox.getSames( ind.getSame(), knowns, unknowns );
+			abox.getSames(ind.getSame(), knowns, unknowns);
 
-		if( knowns.contains( t2 ) ) {
-			if( !doExplanation() )
+		if (knowns.contains(t2))
+		{
+			if (!doExplanation())
 				return true;
 		}
-		else if( !unknowns.contains( t2 ) ) {
-			return false;
-		}
+		else
+			if (!unknowns.contains(t2)) { return false; }
 
-		return abox.isSameAs( t1, t2 );
+		return abox.isSameAs(t1, t2);
 	}
 
-	public boolean isDifferentFrom(ATermAppl t1, ATermAppl t2) {
-		Individual ind1 = abox.getIndividual( t1 );
-		Individual ind2 = abox.getIndividual( t2 );
+	public boolean isDifferentFrom(ATermAppl t1, ATermAppl t2)
+	{
+		final Individual ind1 = abox.getIndividual(t1);
+		final Individual ind2 = abox.getIndividual(t2);
 
-		if( ind1 == null ) {
-			handleUndefinedEntity( t1 + " is not an individual!" );
+		if (ind1 == null)
+		{
+			handleUndefinedEntity(t1 + " is not an individual!");
 			return false;
 		}
 
-		if( ind2 == null ) {
-			handleUndefinedEntity( t2 + " is not an individual!" );
+		if (ind2 == null)
+		{
+			handleUndefinedEntity(t2 + " is not an individual!");
 			return false;
 		}
 
-		if( ind1.isDifferent( ind2 ) && !doExplanation() )
+		if (ind1.isDifferent(ind2) && !doExplanation())
 			return true;
 
-		ATermAppl c = ATermUtils.makeNot( ATermUtils.makeValue( t2 ) );
+		final ATermAppl c = ATermUtils.makeNot(ATermUtils.makeValue(t2));
 
-		return isType( t1, c );
+		return isType(t1, c);
 	}
 
-	public Set<ATermAppl> getDifferents(ATermAppl name) {
+	public Set<ATermAppl> getDifferents(ATermAppl name)
+	{
 		ensureConsistency();
-		
-		Individual ind = abox.getIndividual( name );
 
-		if( ind == null ) {
-			handleUndefinedEntity( name + " is not an individual!" );
+		Individual ind = abox.getIndividual(name);
+
+		if (ind == null)
+		{
+			handleUndefinedEntity(name + " is not an individual!");
 			return Collections.emptySet();
 		}
 
 		boolean isIndependent = true;
-		if( ind.isMerged() ) {
-			isIndependent = ind.getMergeDependency( true ).isIndependent();
+		if (ind.isMerged())
+		{
+			isIndependent = ind.getMergeDependency(true).isIndependent();
 			ind = ind.getSame();
 		}
-		
-		ATermAppl c = ATermUtils.makeNot( ATermUtils.makeValue( name ) );
 
-		Set<ATermAppl> differents = new HashSet<ATermAppl>();
-		for( ATermAppl x : individuals ) {
-			Bool isType = abox.isKnownType( x, c );
-			if( isIndependent && isType.isKnown() ) {
-				if( isType.isTrue() )
-					differents.add( x );
+		final ATermAppl c = ATermUtils.makeNot(ATermUtils.makeValue(name));
+
+		final Set<ATermAppl> differents = new HashSet<ATermAppl>();
+		for (final ATermAppl x : individuals)
+		{
+			final Bool isType = abox.isKnownType(x, c);
+			if (isIndependent && isType.isKnown())
+			{
+				if (isType.isTrue())
+					differents.add(x);
 			}
-			else if( isType( x, c ) ) {
-				differents.add( x );				
-			}
+			else
+				if (isType(x, c))
+				{
+					differents.add(x);
+				}
 		}
 
 		return differents;
 	}
 
-	public boolean hasPropertyValue(ATermAppl s, ATermAppl p, ATermAppl o) {
+	public boolean hasPropertyValue(ATermAppl s, ATermAppl p, ATermAppl o)
+	{
 		ensureConsistency();
 
-		if( !isIndividual( s ) ) {
-			handleUndefinedEntity( s + " is not an individual!" );
+		if (!isIndividual(s))
+		{
+			handleUndefinedEntity(s + " is not an individual!");
 			return false;
 		}
 
-		if( !isProperty( p ) ) {
-			handleUndefinedEntity( p + " is not a known property!" );
+		if (!isProperty(p))
+		{
+			handleUndefinedEntity(p + " is not a known property!");
 			return false;
 		}
 
-		if( o != null ) {
-			if( isDatatypeProperty( p ) ) {
-				if( !ATermUtils.isLiteral( o ) )
+		if (o != null)
+		{
+			if (isDatatypeProperty(p))
+			{
+				if (!ATermUtils.isLiteral(o))
 					return false;
 			}
-			else if( !isIndividual( o ) ) {
-				return false;
-			}
+			else
+				if (!isIndividual(o)) { return false; }
 		}
 
-		return abox.hasPropertyValue( s, p, o );
+		return abox.hasPropertyValue(s, p, o);
 	}
 
 	/**
 	 * Answers the hasPropertyValue question without doing any satisfiability
-	 * check. It might return <code>Boolean.TRUE</code>,
-	 * <code>Boolean.FALSE</code>, or <code>null</code> (unknown). If the
+	 * check. It might return <code>Boolean.TRUE</code>, <code>Boolean.FALSE</code>, or <code>null</code> (unknown). If the
 	 * null value is returned <code>hasPropertyValue</code> function needs to
 	 * be called to get the answer.
 	 * 
@@ -3128,37 +3460,42 @@ public class KnowledgeBase {
 	 *            Object (<code>null</code> can be used as wildcard)
 	 * @return
 	 */
-	public Bool hasKnownPropertyValue(ATermAppl s, ATermAppl p, ATermAppl o) {
+	public Bool hasKnownPropertyValue(ATermAppl s, ATermAppl p, ATermAppl o)
+	{
 		ensureConsistency();
 
-		return abox.hasObviousPropertyValue( s, p, o );
+		return abox.hasObviousPropertyValue(s, p, o);
 	}
 
 	/**
 	 * @return Returns the abox.
 	 */
-	public ABox getABox() {
+	public ABox getABox()
+	{
 		return abox;
 	}
 
 	/**
 	 * @return Returns the rbox.
 	 */
-	public RBox getRBox() {
+	public RBox getRBox()
+	{
 		return rbox;
 	}
 
 	/**
 	 * @return Returns the tbox.
 	 */
-	public TBox getTBox() {
+	public TBox getTBox()
+	{
 		return tbox;
 	}
 
 	/**
 	 * @return Returns the DatatypeReasoner
 	 */
-	public DatatypeReasoner getDatatypeReasoner() {
+	public DatatypeReasoner getDatatypeReasoner()
+	{
 		return abox.getDatatypeReasoner();
 	}
 
@@ -3167,9 +3504,8 @@ public class KnowledgeBase {
 	 * parameter the resulting list will include either all or only the direct
 	 * superclasses. A class d is a direct superclass of c iff
 	 * <ol>
-	 * <li> d is superclass of c </li>
-	 * <li> there is no other class x such that x is superclass of c and d is
-	 * superclass of x </li>
+	 * <li>d is superclass of c</li>
+	 * <li>there is no other class x such that x is superclass of c and d is superclass of x</li>
 	 * </ol>
 	 * The class c itself is not included in the list but all the other classes
 	 * that are sameAs c are put into the list. Also note that the returned list
@@ -3186,26 +3522,29 @@ public class KnowledgeBase {
 	 *         equivalence class. The elements of the inner class are ATermAppl
 	 *         objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperClasses(ATermAppl c, boolean direct) {
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a class!" );
+	public Set<Set<ATermAppl>> getSuperClasses(ATermAppl c, boolean direct)
+	{
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a class!");
 			return Collections.emptySet();
 		}
 
-		c = ATermUtils.normalize( c );
+		c = ATermUtils.normalize(c);
 
 		classify();
 
-		Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 
-		if( !taxonomy.contains( c ) )
-			builder.classify( c );
+		if (!taxonomy.contains(c))
+			builder.classify(c);
 
-		Set<Set<ATermAppl>> supers = new HashSet<Set<ATermAppl>>();
-		for( Set<ATermAppl> s : taxonomy.getSupers( c, direct ) ) {
-			Set<ATermAppl> supEqSet = ATermUtils.primitiveOrBottom( s );
-			if( !supEqSet.isEmpty() )
-				supers.add( supEqSet );
+		final Set<Set<ATermAppl>> supers = new HashSet<Set<ATermAppl>>();
+		for (final Set<ATermAppl> s : taxonomy.getSupers(c, direct))
+		{
+			final Set<ATermAppl> supEqSet = ATermUtils.primitiveOrBottom(s);
+			if (!supEqSet.isEmpty())
+				supers.add(supEqSet);
 		}
 
 		return supers;
@@ -3228,89 +3567,98 @@ public class KnowledgeBase {
 	 *         equivalence class. The elements of the inner class are ATermAppl
 	 *         objects.
 	 */
-	public Set<Set<ATermAppl>> getSubClasses(ATermAppl c) {
-		return getSubClasses( c, false );
+	public Set<Set<ATermAppl>> getSubClasses(ATermAppl c)
+	{
+		return getSubClasses(c, false);
 	}
 
-	public Set<Set<ATermAppl>> getDisjoints(ATermAppl c) {
-		if( isClass( c ) )
-			return getDisjointClasses( c );
-		else if( isProperty( c ) )
-			return getDisjointProperties( c );
+	public Set<Set<ATermAppl>> getDisjoints(ATermAppl c)
+	{
+		if (isClass(c))
+			return getDisjointClasses(c);
 		else
-			handleUndefinedEntity( c + " is not a property nor a class!" );
+			if (isProperty(c))
+				return getDisjointProperties(c);
+			else
+				handleUndefinedEntity(c + " is not a property nor a class!");
 		return Collections.emptySet();
 	}
 
-	public Set<Set<ATermAppl>> getDisjointClasses(ATermAppl c) {
-		return getDisjointClasses( c, false );
+	public Set<Set<ATermAppl>> getDisjointClasses(ATermAppl c)
+	{
+		return getDisjointClasses(c, false);
 	}
-	
-	public Set<Set<ATermAppl>> getDisjointClasses(ATermAppl c, boolean direct) {
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a class!" );
+
+	public Set<Set<ATermAppl>> getDisjointClasses(ATermAppl c, boolean direct)
+	{
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a class!");
 			return Collections.emptySet();
 		}
-		
-		ATermAppl notC = ATermUtils.normalize( ATermUtils.makeNot( c ) );
-		
 
-		Set<ATermAppl> complements = getAllEquivalentClasses( notC );
-		if( notC.equals( ATermUtils.BOTTOM ) ) 
-			complements.add( ATermUtils.BOTTOM );
-		if( direct && !complements.isEmpty() ) {
-			return Collections.singleton( complements );
-		}
-		
-		Set<Set<ATermAppl>> disjoints = getSubClasses( notC, direct );		
-		
-		if( !complements.isEmpty() )
-			disjoints.add( complements );
+		final ATermAppl notC = ATermUtils.normalize(ATermUtils.makeNot(c));
+
+		final Set<ATermAppl> complements = getAllEquivalentClasses(notC);
+		if (notC.equals(ATermUtils.BOTTOM))
+			complements.add(ATermUtils.BOTTOM);
+		if (direct && !complements.isEmpty()) { return Collections.singleton(complements); }
+
+		final Set<Set<ATermAppl>> disjoints = getSubClasses(notC, direct);
+
+		if (!complements.isEmpty())
+			disjoints.add(complements);
 
 		return disjoints;
 	}
 
-	public Set<Set<ATermAppl>> getDisjointProperties(ATermAppl p) {
-		return getDisjointProperties( p, false );
+	public Set<Set<ATermAppl>> getDisjointProperties(ATermAppl p)
+	{
+		return getDisjointProperties(p, false);
 	}
-	
-	public Set<Set<ATermAppl>> getDisjointProperties(ATermAppl p, boolean direct) {
-		if( !isProperty( p ) ) {
-			handleUndefinedEntity( p + " is not a property!" );
+
+	public Set<Set<ATermAppl>> getDisjointProperties(ATermAppl p, boolean direct)
+	{
+		if (!isProperty(p))
+		{
+			handleUndefinedEntity(p + " is not a property!");
 			return Collections.emptySet();
 		}
 
-		Role role = rbox.getRole( p );
+		final Role role = rbox.getRole(p);
 
-		if( !role.isObjectRole() && !role.isDatatypeRole() )
+		if (!role.isObjectRole() && !role.isDatatypeRole())
 			return Collections.emptySet();
-		
-		Set<Set<ATermAppl>> disjoints = new HashSet<Set<ATermAppl>>();
-		
-		TaxonomyNode<ATermAppl> node = getRoleTaxonomy( role.isObjectRole() ).getTop();
-		
-		Set<TaxonomyNode<ATermAppl>> marked = new HashSet<TaxonomyNode<ATermAppl>>();
-		List<TaxonomyNode<ATermAppl>> visit = new ArrayList<TaxonomyNode<ATermAppl>>();
-		visit.add( node );
 
-		for( int i = 0; i < visit.size(); i++ ) {
-			node = visit.get( i );
+		final Set<Set<ATermAppl>> disjoints = new HashSet<Set<ATermAppl>>();
 
-			if( node.isHidden() || node.getEquivalents().isEmpty() || marked.contains( node ) )
+		TaxonomyNode<ATermAppl> node = getRoleTaxonomy(role.isObjectRole()).getTop();
+
+		final Set<TaxonomyNode<ATermAppl>> marked = new HashSet<TaxonomyNode<ATermAppl>>();
+		final List<TaxonomyNode<ATermAppl>> visit = new ArrayList<TaxonomyNode<ATermAppl>>();
+		visit.add(node);
+
+		for (int i = 0; i < visit.size(); i++)
+		{
+			node = visit.get(i);
+
+			if (node.isHidden() || node.getEquivalents().isEmpty() || marked.contains(node))
 				continue;
-			
-			ATermAppl r = node.getName();
-			if( isDisjointProperty( p, r ) ) {
-				Set<ATermAppl> eqs = getAllEquivalentProperties( r );
-				if( !eqs.isEmpty() )
-					disjoints.add( eqs );
-				if( direct )
-					mark( node, marked );
+
+			final ATermAppl r = node.getName();
+			if (isDisjointProperty(p, r))
+			{
+				final Set<ATermAppl> eqs = getAllEquivalentProperties(r);
+				if (!eqs.isEmpty())
+					disjoints.add(eqs);
+				if (direct)
+					mark(node, marked);
 				else
-					disjoints.addAll( getSubProperties( r ) );
+					disjoints.addAll(getSubProperties(r));
 			}
-			else {
-				visit.addAll( node.getSubs() );
+			else
+			{
+				visit.addAll(node.getSubs());
 			}
 
 		}
@@ -3318,25 +3666,29 @@ public class KnowledgeBase {
 		return disjoints;
 	}
 
-	private void mark(TaxonomyNode<ATermAppl> node, Set<TaxonomyNode<ATermAppl>> marked) {	    
-	    marked.add( node );
-	    
-		for( TaxonomyNode<ATermAppl> next : node.getSubs() ) {
-			mark( next, marked );
+	private void mark(TaxonomyNode<ATermAppl> node, Set<TaxonomyNode<ATermAppl>> marked)
+	{
+		marked.add(node);
+
+		for (final TaxonomyNode<ATermAppl> next : node.getSubs())
+		{
+			mark(next, marked);
 		}
 	}
-	
-	public Set<ATermAppl> getComplements(ATermAppl c) {
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a class!" );
+
+	public Set<ATermAppl> getComplements(ATermAppl c)
+	{
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a class!");
 			return Collections.emptySet();
 		}
 
-		ATermAppl notC = ATermUtils.normalize( ATermUtils.makeNot( c ) );
-		Set<ATermAppl> complements = getAllEquivalentClasses( notC );
+		final ATermAppl notC = ATermUtils.normalize(ATermUtils.makeNot(c));
+		final Set<ATermAppl> complements = getAllEquivalentClasses(notC);
 
-		if( notC.equals( ATermUtils.BOTTOM ) ) 
-			complements.add( ATermUtils.BOTTOM );
+		if (notC.equals(ATermUtils.BOTTOM))
+			complements.add(ATermUtils.BOTTOM);
 
 		return complements;
 	}
@@ -3355,19 +3707,23 @@ public class KnowledgeBase {
 	 *         equivalence class. The elements of the inner class are ATermAppl
 	 *         objects.
 	 */
-	public Set<Set<ATermAppl>> getTypes(ATermAppl ind, boolean direct) {
-		if( !isIndividual( ind ) ) {
-			handleUndefinedEntity( ind + " is not an individual!" );
+	public Set<Set<ATermAppl>> getTypes(ATermAppl ind, boolean direct)
+	{
+		if (!isIndividual(ind))
+		{
+			handleUndefinedEntity(ind + " is not an individual!");
 			return Collections.emptySet();
 		}
 
-		if (PelletOptions.AUTO_REALIZE) {
+		if (PelletOptions.AUTO_REALIZE)
+		{
 			realize();
 		}
 
-		Set<Set<ATermAppl>> types = isClassified() ? getPrimitiveTypes(ind, direct) : Collections.<Set<ATermAppl>>emptySet();
-		
-		if (types.isEmpty() && !PelletOptions.AUTO_REALIZE) {
+		Set<Set<ATermAppl>> types = isClassified() ? getPrimitiveTypes(ind, direct) : Collections.<Set<ATermAppl>> emptySet();
+
+		if (types.isEmpty() && !PelletOptions.AUTO_REALIZE)
+		{
 			classify();
 			builder.realize(ind);
 			types = getPrimitiveTypes(ind, direct);
@@ -3375,13 +3731,15 @@ public class KnowledgeBase {
 
 		return types;
 	}
-	
-	private Set<Set<ATermAppl>> getPrimitiveTypes(ATermAppl ind, boolean direct) {
-		Set<Set<ATermAppl>> types = new HashSet<Set<ATermAppl>>();
-		for( Set<ATermAppl> t : TaxonomyUtils.getTypes( builder.getTaxonomy(), ind, direct ) ) {
-			Set<ATermAppl> eqSet = ATermUtils.primitiveOrBottom( t );
-			if( !eqSet.isEmpty() )
-				types.add( eqSet );
+
+	private Set<Set<ATermAppl>> getPrimitiveTypes(ATermAppl ind, boolean direct)
+	{
+		final Set<Set<ATermAppl>> types = new HashSet<Set<ATermAppl>>();
+		for (final Set<ATermAppl> t : TaxonomyUtils.getTypes(builder.getTaxonomy(), ind, direct))
+		{
+			final Set<ATermAppl> eqSet = ATermUtils.primitiveOrBottom(t);
+			if (!eqSet.isEmpty())
+				types.add(eqSet);
 		}
 		return types;
 	}
@@ -3398,28 +3756,33 @@ public class KnowledgeBase {
 	 *         equivalence class. The elements of the inner class are ATermAppl
 	 *         objects.
 	 */
-	public Set<Set<ATermAppl>> getTypes(ATermAppl ind) {
-		return getTypes( ind, /* direct = */false );
+	public Set<Set<ATermAppl>> getTypes(ATermAppl ind)
+	{
+		return getTypes(ind, /* direct = */false);
 	}
 
-	public ATermAppl getType(ATermAppl ind) {
-		if( !isIndividual( ind ) ) {
-			handleUndefinedEntity( ind + " is not an individual!" );
+	public ATermAppl getType(ATermAppl ind)
+	{
+		if (!isIndividual(ind))
+		{
+			handleUndefinedEntity(ind + " is not an individual!");
 			return null;
 		}
 
 		// there is always at least one atomic class guranteed to exist (i.e.
 		// owl:Thing)
-		return abox.getIndividual( ind ).getTypes( Node.ATOM ).iterator().next();
+		return abox.getIndividual(ind).getTypes(Node.ATOM).iterator().next();
 	}
 
-	public ATermAppl getType(ATermAppl ind, boolean direct) {
-		if( !isIndividual( ind ) ) {
-			handleUndefinedEntity( ind + " is not an individual!" );
+	public ATermAppl getType(ATermAppl ind, boolean direct)
+	{
+		if (!isIndividual(ind))
+		{
+			handleUndefinedEntity(ind + " is not an individual!");
 			return null;
 		}
 
-		Set<Set<ATermAppl>> types = getTypes(ind, direct);
+		final Set<Set<ATermAppl>> types = getTypes(ind, direct);
 
 		return types.isEmpty() ? null : types.iterator().next().iterator().next();
 	}
@@ -3432,28 +3795,32 @@ public class KnowledgeBase {
 	 *            class whose instances are returned
 	 * @return A set of ATerm objects
 	 */
-	public Set<ATermAppl> getInstances(ATermAppl c) {
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a class!" );
+	public Set<ATermAppl> getInstances(ATermAppl c)
+	{
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a class!");
 			return Collections.emptySet();
 		}
 
-		if( instances.containsKey( c ) )
-			return instances.get( c );
-		else if( isRealized() ) {
-			if( builder == null )
-				throw new NullPointerException( "Builder is null" );
+		if (instances.containsKey(c))
+			return instances.get(c);
+		else
+			if (isRealized())
+			{
+				if (builder == null)
+					throw new NullPointerException("Builder is null");
 
-			Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+				final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 
-			if( taxonomy == null )
-				throw new NullPointerException( "Taxonomy is null" );
+				if (taxonomy == null)
+					throw new NullPointerException("Taxonomy is null");
 
-			if( taxonomy.contains( c ) && ATermUtils.isPrimitive( c ) )
-				return TaxonomyUtils.getAllInstances( taxonomy, c );
-		}
+				if (taxonomy.contains(c) && ATermUtils.isPrimitive(c))
+					return TaxonomyUtils.getAllInstances(taxonomy, c);
+			}
 
-		return new HashSet<ATermAppl>( retrieve( c, individuals ) );
+		return new HashSet<ATermAppl>(retrieve(c, individuals));
 	}
 
 	/**
@@ -3472,52 +3839,55 @@ public class KnowledgeBase {
 	 *            the instances
 	 * @return A set of ATerm objects
 	 */
-	public Set<ATermAppl> getInstances(ATermAppl c, boolean direct) {
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a class!" );
+	public Set<ATermAppl> getInstances(ATermAppl c, boolean direct)
+	{
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a class!");
 			return Collections.emptySet();
 		}
 
 		// All instances for anonymous concepts
-		if( !direct )
-			return getInstances( c );
+		if (!direct)
+			return getInstances(c);
 
 		realize();
 
-		if( builder == null )
-			throw new NullPointerException( "Builder is null" );
+		if (builder == null)
+			throw new NullPointerException("Builder is null");
 
-		Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 
-		if( taxonomy == null )
-			throw new NullPointerException( "Taxonomy is null" );
+		if (taxonomy == null)
+			throw new NullPointerException("Taxonomy is null");
 
 		// Named concepts
-		if( ATermUtils.isPrimitive( c ) )
-			return TaxonomyUtils.getDirectInstances( taxonomy, c );
+		if (ATermUtils.isPrimitive(c))
+			return TaxonomyUtils.getDirectInstances(taxonomy, c);
 
-		if( !taxonomy.contains( c ) )
-			builder.classify( c );
+		if (!taxonomy.contains(c))
+			builder.classify(c);
 
 		// Direct instances for anonymous concepts
-		Set<ATermAppl> ret = new HashSet<ATermAppl>();
-		Set<Set<ATermAppl>> sups = getSuperClasses( c, true );
+		final Set<ATermAppl> ret = new HashSet<ATermAppl>();
+		final Set<Set<ATermAppl>> sups = getSuperClasses(c, true);
 
-		for( Set<ATermAppl> s : sups ) {
-			Iterator<ATermAppl> i = s.iterator();
-			ATermAppl term = i.next();
-			Set<ATermAppl> cand = TaxonomyUtils.getDirectInstances( taxonomy, term );
+		for (final Set<ATermAppl> s : sups)
+		{
+			final Iterator<ATermAppl> i = s.iterator();
+			final ATermAppl term = i.next();
+			final Set<ATermAppl> cand = TaxonomyUtils.getDirectInstances(taxonomy, term);
 
-			if( ret.isEmpty() )
-				ret.addAll( cand );
+			if (ret.isEmpty())
+				ret.addAll(cand);
 			else
-				ret.retainAll( cand );
+				ret.retainAll(cand);
 
-			if( ret.isEmpty() )
+			if (ret.isEmpty())
 				return ret;
 		}
 
-		return retrieve( c, ret );
+		return retrieve(c, ret);
 	}
 
 	/**
@@ -3531,9 +3901,10 @@ public class KnowledgeBase {
 	 *            class whose equivalent classes are found
 	 * @return A set of ATerm objects
 	 */
-	public Set<ATermAppl> getEquivalentClasses(ATermAppl c) {
-		Set<ATermAppl> result = getAllEquivalentClasses( c );
-		result.remove( c );
+	public Set<ATermAppl> getEquivalentClasses(ATermAppl c)
+	{
+		final Set<ATermAppl> result = getAllEquivalentClasses(c);
+		result.remove(c);
 
 		return result;
 	}
@@ -3549,22 +3920,24 @@ public class KnowledgeBase {
 	 *            class whose equivalent classes are found
 	 * @return A set of ATerm objects
 	 */
-	public Set<ATermAppl> getAllEquivalentClasses(ATermAppl c) {
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a class!" );
+	public Set<ATermAppl> getAllEquivalentClasses(ATermAppl c)
+	{
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a class!");
 			return Collections.emptySet();
 		}
 
-		c = ATermUtils.normalize( c );
+		c = ATermUtils.normalize(c);
 
 		classify();
 
-		Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 
-		if( !taxonomy.contains( c ) )
-			builder.classify( c );
+		if (!taxonomy.contains(c))
+			builder.classify(c);
 
-		return ATermUtils.primitiveOrBottom( taxonomy.getAllEquivalents( c ) );
+		return ATermUtils.primitiveOrBottom(taxonomy.getAllEquivalents(c));
 	}
 
 	/**
@@ -3584,8 +3957,9 @@ public class KnowledgeBase {
 	 *         equivalence class. The elements of the inner class are ATermAppl
 	 *         objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperClasses(ATermAppl c) {
-		return getSuperClasses( c, false );
+	public Set<Set<ATermAppl>> getSuperClasses(ATermAppl c)
+	{
+		return getSuperClasses(c, false);
 	}
 
 	/**
@@ -3594,8 +3968,7 @@ public class KnowledgeBase {
 	 * direct subclasses. A class d is a direct subclass of c iff
 	 * <ol>
 	 * <li>d is subclass of c</li>
-	 * <li>there is no other class x different from c and d such that x is
-	 * subclass of c and d is subclass of x</li>
+	 * <li>there is no other class x different from c and d such that x is subclass of c and d is subclass of x</li>
 	 * </ol>
 	 * The class c itself is not included in the list but all the other classes
 	 * that are sameAs c are put into the list. Also note that the returned list
@@ -3616,39 +3989,44 @@ public class KnowledgeBase {
 	 *         equivalence class. The elements of the inner class are ATermAppl
 	 *         objects.
 	 */
-	public Set<Set<ATermAppl>> getSubClasses(ATermAppl c, boolean direct) {
-		if( !isClass( c ) ) {
-			handleUndefinedEntity( c + " is not a class!" );
+	public Set<Set<ATermAppl>> getSubClasses(ATermAppl c, boolean direct)
+	{
+		if (!isClass(c))
+		{
+			handleUndefinedEntity(c + " is not a class!");
 			return Collections.emptySet();
 		}
 
-		c = ATermUtils.normalize( c );
+		c = ATermUtils.normalize(c);
 
 		classify();
 
-		Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 
-		if( !taxonomy.contains( c ) )
-			builder.classify( c );
+		if (!taxonomy.contains(c))
+			builder.classify(c);
 
-		Set<Set<ATermAppl>> subs = new HashSet<Set<ATermAppl>>();
-		for( Set<ATermAppl> s : taxonomy.getSubs( c, direct ) ) {
-			Set<ATermAppl> subEqSet = ATermUtils.primitiveOrBottom( s );
-			if( !subEqSet.isEmpty() )
-				subs.add( subEqSet );
+		final Set<Set<ATermAppl>> subs = new HashSet<Set<ATermAppl>>();
+		for (final Set<ATermAppl> s : taxonomy.getSubs(c, direct))
+		{
+			final Set<ATermAppl> subEqSet = ATermUtils.primitiveOrBottom(s);
+			if (!subEqSet.isEmpty())
+				subs.add(subEqSet);
 		}
 
 		return subs;
 	}
 
-	public Set<Set<ATermAppl>> getAllSuperProperties(ATermAppl prop) {
-		if( !isProperty( prop ) ) {
-			handleUndefinedEntity( prop + " is not a property!" );
+	public Set<Set<ATermAppl>> getAllSuperProperties(ATermAppl prop)
+	{
+		if (!isProperty(prop))
+		{
+			handleUndefinedEntity(prop + " is not a property!");
 			return Collections.emptySet();
 		}
-		
-		Set<Set<ATermAppl>> supers = getSuperProperties( prop );
-		supers.add( getAllEquivalentProperties( prop ) );
+
+		final Set<Set<ATermAppl>> supers = getSuperProperties(prop);
+		supers.add(getAllEquivalentProperties(prop));
 
 		return supers;
 	}
@@ -3661,8 +4039,9 @@ public class KnowledgeBase {
 	 *         of equivalent properties. The elements of the inner class are
 	 *         Role objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperProperties(ATermAppl prop) {
-		return getSuperProperties( prop, false );
+	public Set<Set<ATermAppl>> getSuperProperties(ATermAppl prop)
+	{
+		return getSuperProperties(prop, false);
 	}
 
 	/**
@@ -3678,33 +4057,39 @@ public class KnowledgeBase {
 	 *         of equivalent properties. The elements of the inner class are
 	 *         Role objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperProperties(ATermAppl prop, boolean direct) {
-		if( !isProperty( prop ) ) {
-			handleUndefinedEntity( prop + " is not a property!" );
+	public Set<Set<ATermAppl>> getSuperProperties(ATermAppl prop, boolean direct)
+	{
+		if (!isProperty(prop))
+		{
+			handleUndefinedEntity(prop + " is not a property!");
 			return Collections.emptySet();
 		}
-		
-		Set<Set<ATermAppl>> supers = new HashSet<Set<ATermAppl>>();
-		Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy( prop );
-		if( taxonomy != null ) {
-			for( Set<ATermAppl> s : taxonomy.getSupers( prop, direct ) ) {
-				Set<ATermAppl> supEqSet = ATermUtils.primitiveOrBottom( s );
-				if( !supEqSet.isEmpty() )
-					supers.add( supEqSet );
+
+		final Set<Set<ATermAppl>> supers = new HashSet<Set<ATermAppl>>();
+		final Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy(prop);
+		if (taxonomy != null)
+		{
+			for (final Set<ATermAppl> s : taxonomy.getSupers(prop, direct))
+			{
+				final Set<ATermAppl> supEqSet = ATermUtils.primitiveOrBottom(s);
+				if (!supEqSet.isEmpty())
+					supers.add(supEqSet);
 			}
 		}
 
 		return supers;
 	}
 
-	public Set<Set<ATermAppl>> getAllSubProperties(ATermAppl prop) {
-		if( !isProperty( prop ) ) {
-			handleUndefinedEntity( prop + " is not a property!" );
+	public Set<Set<ATermAppl>> getAllSubProperties(ATermAppl prop)
+	{
+		if (!isProperty(prop))
+		{
+			handleUndefinedEntity(prop + " is not a property!");
 			return Collections.emptySet();
 		}
-		
-		Set<Set<ATermAppl>> subs = getSubProperties( prop );
-		subs.add( getAllEquivalentProperties( prop ) );
+
+		final Set<Set<ATermAppl>> subs = getSubProperties(prop);
+		subs.add(getAllEquivalentProperties(prop));
 
 		return subs;
 	}
@@ -3717,8 +4102,9 @@ public class KnowledgeBase {
 	 *         of equivalent properties. The elements of the inner class are
 	 *         ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSubProperties(ATermAppl prop) {
-		return getSubProperties( prop, false );
+	public Set<Set<ATermAppl>> getSubProperties(ATermAppl prop)
+	{
+		return getSubProperties(prop, false);
 	}
 
 	/**
@@ -3734,22 +4120,27 @@ public class KnowledgeBase {
 	 *         of equivalent properties. The elements of the inner class are
 	 *         ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSubProperties(ATermAppl prop, boolean direct) {
-		if( !isProperty( prop ) ) {
-			handleUndefinedEntity( prop + " is not a property!" );
+	public Set<Set<ATermAppl>> getSubProperties(ATermAppl prop, boolean direct)
+	{
+		if (!isProperty(prop))
+		{
+			handleUndefinedEntity(prop + " is not a property!");
 			return Collections.emptySet();
 		}
 
-		Set<Set<ATermAppl>> subs = new HashSet<Set<ATermAppl>>();
-		Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy( prop );
-		if( taxonomy != null ) {
-			for( Set<ATermAppl> s : taxonomy.getSubs( prop, direct ) ) {
-				Set<ATermAppl> subEqSet = ATermUtils.primitiveOrBottom( s );
-				if( !subEqSet.isEmpty() )
-					subs.add( subEqSet );
+		final Set<Set<ATermAppl>> subs = new HashSet<Set<ATermAppl>>();
+		final Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy(prop);
+		if (taxonomy != null)
+		{
+			for (final Set<ATermAppl> s : taxonomy.getSubs(prop, direct))
+			{
+				final Set<ATermAppl> subEqSet = ATermUtils.primitiveOrBottom(s);
+				if (!subEqSet.isEmpty())
+					subs.add(subEqSet);
 			}
 		}
-		else {
+		else
+		{
 			System.out.print("");
 		}
 
@@ -3762,26 +4153,28 @@ public class KnowledgeBase {
 	 * @param prop
 	 * @return A set of ATermAppl objects.
 	 */
-	public Set<ATermAppl> getEquivalentProperties(ATermAppl prop) {
-		if( !isProperty( prop ) ) {
-			handleUndefinedEntity( prop + " is not a property!" );
+	public Set<ATermAppl> getEquivalentProperties(ATermAppl prop)
+	{
+		if (!isProperty(prop))
+		{
+			handleUndefinedEntity(prop + " is not a property!");
 			return Collections.emptySet();
 		}
-		
-		Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy( prop );		
-		return taxonomy != null ? ATermUtils.primitiveOrBottom(taxonomy.getEquivalents(prop)) : Collections
-		                .<ATermAppl> emptySet();
+
+		final Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy(prop);
+		return taxonomy != null ? ATermUtils.primitiveOrBottom(taxonomy.getEquivalents(prop)) : Collections.<ATermAppl> emptySet();
 	}
 
-	public Set<ATermAppl> getAllEquivalentProperties(ATermAppl prop) {
-		if( !isProperty( prop ) ) {
-			handleUndefinedEntity( prop + " is not a property!" );
+	public Set<ATermAppl> getAllEquivalentProperties(ATermAppl prop)
+	{
+		if (!isProperty(prop))
+		{
+			handleUndefinedEntity(prop + " is not a property!");
 			return Collections.emptySet();
 		}
-		
-		Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy( prop );		
-		return taxonomy != null ? ATermUtils.primitiveOrBottom(taxonomy.getAllEquivalents(prop)) : Collections
-		                .<ATermAppl> emptySet();
+
+		final Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy(prop);
+		return taxonomy != null ? ATermUtils.primitiveOrBottom(taxonomy.getAllEquivalents(prop)) : Collections.<ATermAppl> emptySet();
 	}
 
 	/**
@@ -3790,10 +4183,12 @@ public class KnowledgeBase {
 	 * @param prop
 	 * @return
 	 */
-	public Set<ATermAppl> getInverses(ATerm name) {
-		ATermAppl invR = getInverse( name );
-		if( invR != null ) {
-			Set<ATermAppl> inverses = getAllEquivalentProperties( invR );
+	public Set<ATermAppl> getInverses(ATerm name)
+	{
+		final ATermAppl invR = getInverse(name);
+		if (invR != null)
+		{
+			final Set<ATermAppl> inverses = getAllEquivalentProperties(invR);
 			return inverses;
 		}
 
@@ -3811,59 +4206,61 @@ public class KnowledgeBase {
 	 * @return Inverse property or null if given property is not defined or it
 	 *         is not an object property
 	 */
-	public ATermAppl getInverse(ATerm name) {
-		Role prop = rbox.getRole( name );
-		if( prop == null ) {
-			handleUndefinedEntity( name + " is not a property!" );
+	public ATermAppl getInverse(ATerm name)
+	{
+		final Role prop = rbox.getRole(name);
+		if (prop == null)
+		{
+			handleUndefinedEntity(name + " is not a property!");
 			return null;
 		}
 
-		Role invProp = prop.getInverse();
+		final Role invProp = prop.getInverse();
 
-		return invProp != null
-			? invProp.getName()
-			: null;
+		return invProp != null ? invProp.getName() : null;
 	}
 
 	/**
 	 * Return the domain restrictions on the property. The results of this
-	 * function is not guaranteed to be complete. Use
-	 * {@link #hasDomain(ATermAppl, ATermAppl)} to get complete answers.
+	 * function is not guaranteed to be complete. Use {@link #hasDomain(ATermAppl, ATermAppl)} to get complete answers.
 	 * 
 	 * @param prop
 	 * @return
 	 */
-	public Set<ATermAppl> getDomains(ATermAppl name) {
+	public Set<ATermAppl> getDomains(ATermAppl name)
+	{
 		ensureConsistency();
 
-		Role prop = rbox.getRole( name );
-		if( prop == null ) {
-			handleUndefinedEntity( name + " is not a property!" );
+		final Role prop = rbox.getRole(name);
+		if (prop == null)
+		{
+			handleUndefinedEntity(name + " is not a property!");
 			return Collections.emptySet();
 		}
 
-		return ATermUtils.primitiveOrBottom( prop.getDomains() );
+		return ATermUtils.primitiveOrBottom(prop.getDomains());
 	}
 
 	/**
 	 * Return the domain restrictions on the property. The results of this
-	 * function is not guaranteed to be complete. Use
-	 * {@link #hasRange(ATermAppl, ATermAppl)} to get complete answers.
+	 * function is not guaranteed to be complete. Use {@link #hasRange(ATermAppl, ATermAppl)} to get complete answers.
 	 * 
 	 * @param prop
 	 * @return
 	 */
-	public Set<ATermAppl> getRanges(ATerm name) {
+	public Set<ATermAppl> getRanges(ATerm name)
+	{
 		ensureConsistency();
 
-		Set<ATermAppl> set = Collections.emptySet();
-		Role prop = rbox.getRole( name );
-		if( prop == null ) {
-			handleUndefinedEntity( name + " is not a property!" );
+		final Set<ATermAppl> set = Collections.emptySet();
+		final Role prop = rbox.getRole(name);
+		if (prop == null)
+		{
+			handleUndefinedEntity(name + " is not a property!");
 			return set;
 		}
 
-		return ATermUtils.primitiveOrBottom( prop.getRanges() );
+		return ATermUtils.primitiveOrBottom(prop.getRanges());
 	}
 
 	/**
@@ -3873,29 +4270,33 @@ public class KnowledgeBase {
 	 * @param name
 	 * @return
 	 */
-	public Set<ATermAppl> getAllSames(ATermAppl name) {
+	public Set<ATermAppl> getAllSames(ATermAppl name)
+	{
 		ensureConsistency();
 
-		Set<ATermAppl> knowns = new HashSet<ATermAppl>();
-		Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
+		final Set<ATermAppl> knowns = new HashSet<ATermAppl>();
+		final Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
 
-		Individual ind = abox.getIndividual( name );
-		if( ind == null ) {
-			handleUndefinedEntity( name + " is not an individual!" );
+		final Individual ind = abox.getIndividual(name);
+		if (ind == null)
+		{
+			handleUndefinedEntity(name + " is not an individual!");
 			return Collections.emptySet();
 		}
 
-		if( ind.isMerged() && !ind.getMergeDependency( true ).isIndependent() ) {
-			knowns.add( name );
-			abox.getSames( ind.getSame(), unknowns, unknowns );
-			unknowns.remove( name );
+		if (ind.isMerged() && !ind.getMergeDependency(true).isIndependent())
+		{
+			knowns.add(name);
+			abox.getSames(ind.getSame(), unknowns, unknowns);
+			unknowns.remove(name);
 		}
 		else
-			abox.getSames( ind.getSame(), knowns, unknowns );
+			abox.getSames(ind.getSame(), knowns, unknowns);
 
-		for( ATermAppl other : unknowns ) {
-			if( abox.isSameAs( name, other ) )
-				knowns.add( other );
+		for (final ATermAppl other : unknowns)
+		{
+			if (abox.isSameAs(name, other))
+				knowns.add(other);
 		}
 
 		return knowns;
@@ -3908,9 +4309,10 @@ public class KnowledgeBase {
 	 * @param name
 	 * @return
 	 */
-	public Set<ATermAppl> getSames(ATermAppl name) {
-		Set<ATermAppl> sames = getAllSames( name );
-		sames.remove( name );
+	public Set<ATermAppl> getSames(ATermAppl name)
+	{
+		final Set<ATermAppl> sames = getAllSames(name);
+		sames.remove(name);
 
 		return sames;
 	}
@@ -3925,38 +4327,47 @@ public class KnowledgeBase {
 	 * @return List of ATermAppl objects representing literals. These objects
 	 *         are in the form literal(value, lang, datatypeURI).
 	 */
-	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x, ATermAppl datatype) {
+	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x, ATermAppl datatype)
+	{
 		ensureConsistency();
 
-		Individual ind = abox.getIndividual( x );
-		Role role = rbox.getRole( r );
+		final Individual ind = abox.getIndividual(x);
+		final Role role = rbox.getRole(r);
 
-		if( ind == null ) {
-			handleUndefinedEntity( x + " is not an individual!" );
+		if (ind == null)
+		{
+			handleUndefinedEntity(x + " is not an individual!");
 			return Collections.emptyList();
 		}
 
-		if( role == null || !role.isDatatypeRole() ) {
-			handleUndefinedEntity( r + " is not a known data property!" );
+		if (role == null || !role.isDatatypeRole())
+		{
+			handleUndefinedEntity(r + " is not a known data property!");
 			return Collections.emptyList();
 		}
-		
-		if( role.isTop() ) {
-			List<ATermAppl> literals = new ArrayList<ATermAppl>();
-			if( !PelletOptions.HIDE_TOP_PROPERTY_VALUES ) {
-				for( Node node : abox.getNodes() ) {
-					if( node.isLiteral() && node.getTerm() != null )
-						literals.add( node.getTerm() );
+
+		if (role.isTop())
+		{
+			final List<ATermAppl> literals = new ArrayList<ATermAppl>();
+			if (!PelletOptions.HIDE_TOP_PROPERTY_VALUES)
+			{
+				for (final Node node : abox.getNodes())
+				{
+					if (node.isLiteral() && node.getTerm() != null)
+						literals.add(node.getTerm());
 				}
 			}
 			return literals;
 		}
-		else if( role.isBottom() ) {
-			return Collections.emptyList();			
-		}
-		else {
-			return abox.getDataPropertyValues( x, role, datatype );
-		}
+		else
+			if (role.isBottom())
+			{
+				return Collections.emptyList();
+			}
+			else
+			{
+				return abox.getDataPropertyValues(x, role, datatype);
+			}
 	}
 
 	/**
@@ -3968,17 +4379,19 @@ public class KnowledgeBase {
 	 * @param lang
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x, String lang) {
-		List<ATermAppl> values = getDataPropertyValues( r, x );
-		if( lang == null )
+	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x, String lang)
+	{
+		final List<ATermAppl> values = getDataPropertyValues(r, x);
+		if (lang == null)
 			return values;
 
-		List<ATermAppl> result = new ArrayList<ATermAppl>();
-		for( ATermAppl lit : values ) {
-			String litLang = ((ATermAppl) lit.getArgument( 1 )).getName();
+		final List<ATermAppl> result = new ArrayList<ATermAppl>();
+		for (final ATermAppl lit : values)
+		{
+			final String litLang = ((ATermAppl) lit.getArgument(1)).getName();
 
-			if( litLang.equals( lang ) )
-				result.add( lit );
+			if (litLang.equals(lang))
+				result.add(lit);
 		}
 
 		return result;
@@ -3991,8 +4404,9 @@ public class KnowledgeBase {
 	 * @param x
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x) {
-		return getDataPropertyValues( r, x, (ATermAppl) null );
+	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x)
+	{
+		return getDataPropertyValues(r, x, (ATermAppl) null);
 	}
 
 	/**
@@ -4002,41 +4416,48 @@ public class KnowledgeBase {
 	 * @param x
 	 * @return A list of ATermAppl objects
 	 */
-	public List<ATermAppl> getObjectPropertyValues(ATermAppl r, ATermAppl x) {
+	public List<ATermAppl> getObjectPropertyValues(ATermAppl r, ATermAppl x)
+	{
 		ensureConsistency();
 
-		Role role = rbox.getRole( r );
+		final Role role = rbox.getRole(r);
 
-		if( role == null || !role.isObjectRole() ) {
-			handleUndefinedEntity( r + " is not a known object property!" );
+		if (role == null || !role.isObjectRole())
+		{
+			handleUndefinedEntity(r + " is not a known object property!");
 			return Collections.emptyList();
 		}
 
-		if( !isIndividual( x ) ) {
-			handleUndefinedEntity( x + " is not a known individual!" );
+		if (!isIndividual(x))
+		{
+			handleUndefinedEntity(x + " is not a known individual!");
 			return Collections.emptyList();
 		}
-		
+
 		// TODO get rid of unnecessary Set + List creation
 		Set<ATermAppl> knowns = new HashSet<ATermAppl>();
-		Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
+		final Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
 
-		if( role.isTop() ) {
-			if( !PelletOptions.HIDE_TOP_PROPERTY_VALUES )
+		if (role.isTop())
+		{
+			if (!PelletOptions.HIDE_TOP_PROPERTY_VALUES)
 				knowns = getIndividuals();
 		}
-		else if( !role.isBottom() ) {
-			abox.getObjectPropertyValues( x, role, knowns, unknowns, true );			
+		else
+			if (!role.isBottom())
+			{
+				abox.getObjectPropertyValues(x, role, knowns, unknowns, true);
+			}
+
+		if (!unknowns.isEmpty())
+		{
+			final ATermAppl valueX = ATermUtils.makeHasValue(role.getInverse().getName(), x);
+			final ATermAppl c = ATermUtils.normalize(valueX);
+
+			binaryInstanceRetrieval(c, new ArrayList<ATermAppl>(unknowns), knowns);
 		}
 
-		if( !unknowns.isEmpty() ) {
-			ATermAppl valueX = ATermUtils.makeHasValue( role.getInverse().getName(), x );
-			ATermAppl c = ATermUtils.normalize( valueX );
-
-			binaryInstanceRetrieval( c, new ArrayList<ATermAppl>( unknowns ), knowns );
-		}
-
-		return new ArrayList<ATermAppl>( knowns );
+		return new ArrayList<ATermAppl>(knowns);
 	}
 
 	/**
@@ -4046,26 +4467,29 @@ public class KnowledgeBase {
 	 * @param x
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getPropertyValues(ATermAppl r, ATermAppl x) {
-		Role role = rbox.getRole( r );
+	public List<ATermAppl> getPropertyValues(ATermAppl r, ATermAppl x)
+	{
+		final Role role = rbox.getRole(r);
 
-		if( role == null || role.isUntypedRole() ) {
-			handleUndefinedEntity( r + " is not a known property!" );
+		if (role == null || role.isUntypedRole())
+		{
+			handleUndefinedEntity(r + " is not a known property!");
 			return Collections.emptyList();
 		}
 
-		if( role.isObjectRole() )
-			return getObjectPropertyValues( r, x );
-		else if ( role.isDatatypeRole() )
-			return getDataPropertyValues( r, x );
-		else if( role.isAnnotationRole() ) {
-			final Set<ATermAppl> values = getAnnotations( x, r );
-			return values.isEmpty()
-				? Collections.<ATermAppl> emptyList()
-				: Arrays.asList( values.toArray( new ATermAppl[0] ) );
-		}
+		if (role.isObjectRole())
+			return getObjectPropertyValues(r, x);
 		else
-			throw new IllegalArgumentException();
+			if (role.isDatatypeRole())
+				return getDataPropertyValues(r, x);
+			else
+				if (role.isAnnotationRole())
+				{
+					final Set<ATermAppl> values = getAnnotations(x, r);
+					return values.isEmpty() ? Collections.<ATermAppl> emptyList() : Arrays.asList(values.toArray(new ATermAppl[0]));
+				}
+				else
+					throw new IllegalArgumentException();
 	}
 
 	/**
@@ -4080,24 +4504,30 @@ public class KnowledgeBase {
 	 *            details)
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getIndividualsWithProperty(ATermAppl r, ATermAppl x) {
-		Role role = rbox.getRole( r );
+	public List<ATermAppl> getIndividualsWithProperty(ATermAppl r, ATermAppl x)
+	{
+		final Role role = rbox.getRole(r);
 
-		if( role == null ) {
-			handleUndefinedEntity( r + " is not a known property!" );
+		if (role == null)
+		{
+			handleUndefinedEntity(r + " is not a known property!");
 			return Collections.emptyList();
 		}
 
-		if( role.isObjectRole() ) {
-			return getIndividualsWithObjectProperty( r, x );
+		if (role.isObjectRole())
+		{
+			return getIndividualsWithObjectProperty(r, x);
 		}
-		else if( role.isDatatypeRole() ) {
-			return getIndividualsWithDataProperty( r, x );
-		}
-		else if( role.isAnnotationRole() )
-			return Arrays.asList( getIndividualsWithAnnotation( r, x ).toArray( new ATermAppl[0] ) );
 		else
-			throw new IllegalArgumentException();
+			if (role.isDatatypeRole())
+			{
+				return getIndividualsWithDataProperty(r, x);
+			}
+			else
+				if (role.isAnnotationRole())
+					return Arrays.asList(getIndividualsWithAnnotation(r, x).toArray(new ATermAppl[0]));
+				else
+					throw new IllegalArgumentException();
 	}
 
 	/**
@@ -4111,45 +4541,53 @@ public class KnowledgeBase {
 	 * @param x
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getIndividualsWithDataProperty(ATermAppl r, ATermAppl litValue) {
-		if (!ATermUtils.isLiteral(litValue)) {
-			return Collections.emptyList();
-		}
+	public List<ATermAppl> getIndividualsWithDataProperty(ATermAppl r, ATermAppl litValue)
+	{
+		if (!ATermUtils.isLiteral(litValue)) { return Collections.emptyList(); }
 
 		ensureConsistency();
-		
-		List<ATermAppl> knowns = new ArrayList<ATermAppl>();
-		List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
+
+		final List<ATermAppl> knowns = new ArrayList<ATermAppl>();
+		final List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
 
 		ATermAppl canonicalLit;
-		try {
-			canonicalLit = getDatatypeReasoner().getCanonicalRepresentation( litValue );
-		} catch( InvalidLiteralException e ) {
-			log.warning( format("Invalid literal '%s' passed as input, returning empty set of individuals: %s", litValue, e.getMessage()) );
-			return Collections.emptyList();
-		} catch( UnrecognizedDatatypeException e ) {
-			log.warning( format("Unrecognized datatype for literal '%s' passed as input, returning empty set of individuals: %s", litValue, e.getMessage()) );
+		try
+		{
+			canonicalLit = getDatatypeReasoner().getCanonicalRepresentation(litValue);
+		}
+		catch (final InvalidLiteralException e)
+		{
+			log.warning(format("Invalid literal '%s' passed as input, returning empty set of individuals: %s", litValue, e.getMessage()));
 			return Collections.emptyList();
 		}
-		Literal literal = abox.getLiteral( canonicalLit );
+		catch (final UnrecognizedDatatypeException e)
+		{
+			log.warning(format("Unrecognized datatype for literal '%s' passed as input, returning empty set of individuals: %s", litValue, e.getMessage()));
+			return Collections.emptyList();
+		}
+		final Literal literal = abox.getLiteral(canonicalLit);
 
-		if( literal != null ) {
-			Role role = getRole( r );
-			EdgeList edges = literal.getInEdges();
-			for( Edge edge : edges ) {
-				if( edge.getRole().isSubRoleOf( role ) ) {
-					ATermAppl subj = edge.getFrom().getName();
-					if( edge.getDepends().isIndependent() )
-						knowns.add( subj );
+		if (literal != null)
+		{
+			final Role role = getRole(r);
+			final EdgeList edges = literal.getInEdges();
+			for (final Edge edge : edges)
+			{
+				if (edge.getRole().isSubRoleOf(role))
+				{
+					final ATermAppl subj = edge.getFrom().getName();
+					if (edge.getDepends().isIndependent())
+						knowns.add(subj);
 					else
-						unknowns.add( subj );
+						unknowns.add(subj);
 				}
 			}
 
-			if( !unknowns.isEmpty() ) {
-				ATermAppl c = ATermUtils.normalize( ATermUtils.makeHasValue( r, litValue ) );
+			if (!unknowns.isEmpty())
+			{
+				final ATermAppl c = ATermUtils.normalize(ATermUtils.makeHasValue(r, litValue));
 
-				binaryInstanceRetrieval( c, unknowns, knowns );
+				binaryInstanceRetrieval(c, unknowns, knowns);
 			}
 		}
 
@@ -4164,55 +4602,61 @@ public class KnowledgeBase {
 	 *            An ATerm object that is the URI of an individual
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getIndividualsWithObjectProperty(ATermAppl r, ATermAppl o) {
+	public List<ATermAppl> getIndividualsWithObjectProperty(ATermAppl r, ATermAppl o)
+	{
 		ensureConsistency();
 
-		if( !isIndividual( o ) ) {
-			handleUndefinedEntity( o + " is not an individual!" );
+		if (!isIndividual(o))
+		{
+			handleUndefinedEntity(o + " is not an individual!");
 			return Collections.emptyList();
 		}
 
-		Role role = rbox.getRole( r );
+		final Role role = rbox.getRole(r);
 
-		ATermAppl invR = role.getInverse().getName();
+		final ATermAppl invR = role.getInverse().getName();
 
-		return getObjectPropertyValues( invR, o );
+		return getObjectPropertyValues(invR, o);
 	}
 
 	/**
 	 * List all properties asserted between a subject and object.
 	 */
-	public List<ATermAppl> getProperties(ATermAppl s, ATermAppl o) {
-		if( !isIndividual( s ) ) {
-			handleUndefinedEntity( s + " is not an individual!" );
+	public List<ATermAppl> getProperties(ATermAppl s, ATermAppl o)
+	{
+		if (!isIndividual(s))
+		{
+			handleUndefinedEntity(s + " is not an individual!");
 			return Collections.emptyList();
 		}
 
-		if( !isIndividual( o ) && !ATermUtils.isLiteral( o ) ) {
-			handleUndefinedEntity( o + " is not an individual!" );
+		if (!isIndividual(o) && !ATermUtils.isLiteral(o))
+		{
+			handleUndefinedEntity(o + " is not an individual!");
 			return Collections.emptyList();
 		}
 
-		List<ATermAppl> props = new ArrayList<ATermAppl>();
+		final List<ATermAppl> props = new ArrayList<ATermAppl>();
 
-		Set<ATermAppl> allProps = ATermUtils.isLiteral( o )
-			? getDataProperties()
-			: getObjectProperties();
-		for( ATermAppl p : allProps ) {
-			if( abox.hasPropertyValue( s, p, o ) )
-				props.add( p );
+		final Set<ATermAppl> allProps = ATermUtils.isLiteral(o) ? getDataProperties() : getObjectProperties();
+		for (final ATermAppl p : allProps)
+		{
+			if (abox.hasPropertyValue(s, p, o))
+				props.add(p);
 		}
 
 		return props;
 	}
 
-	public Map<ATermAppl, List<ATermAppl>> getPropertyValues(ATermAppl pred) {
-		Map<ATermAppl, List<ATermAppl>> result = new HashMap<ATermAppl, List<ATermAppl>>();
+	public Map<ATermAppl, List<ATermAppl>> getPropertyValues(ATermAppl pred)
+	{
+		final Map<ATermAppl, List<ATermAppl>> result = new HashMap<ATermAppl, List<ATermAppl>>();
 
-		for( ATermAppl subj : individuals ) {
-			List<ATermAppl> objects = getPropertyValues( pred, subj );
-			if( !objects.isEmpty() )
-				result.put( subj, objects );
+		for (final ATermAppl subj : individuals)
+		{
+			final List<ATermAppl> objects = getPropertyValues(pred, subj);
+			if (!objects.isEmpty())
+				result.put(subj, objects);
 		}
 
 		return result;
@@ -4225,66 +4669,76 @@ public class KnowledgeBase {
 	 * @param d
 	 * @return
 	 */
-	public Set<ATermAppl> retrieve(ATermAppl d, Collection<ATermAppl> individuals) {
+	public Set<ATermAppl> retrieve(ATermAppl d, Collection<ATermAppl> individuals)
+	{
 		ensureConsistency();
 
-		ATermAppl c = ATermUtils.normalize( d );
+		final ATermAppl c = ATermUtils.normalize(d);
 
-		Timer timer = timers.startTimer( "retrieve" );
+		final Timer timer = timers.startTimer("retrieve");
 
-		ATermAppl notC = ATermUtils.negate( c );
-		List<ATermAppl> knowns = new ArrayList<ATermAppl>();
+		final ATermAppl notC = ATermUtils.negate(c);
+		final List<ATermAppl> knowns = new ArrayList<ATermAppl>();
 
 		// this is mostly to ensure that a model for notC is cached
-		if( !abox.isSatisfiable( notC ) ) {
+		if (!abox.isSatisfiable(notC))
+		{
 			// if negation is unsat c itself is TOP
-			knowns.addAll( getIndividuals() );
+			knowns.addAll(getIndividuals());
 		}
-		else if( abox.isSatisfiable( c ) ) {
-			Set<ATermAppl> subs = Collections.emptySet();
-			if( isClassified() ) {
-				if( builder == null )
-					throw new NullPointerException( "Builder is null" );
+		else
+			if (abox.isSatisfiable(c))
+			{
+				Set<ATermAppl> subs = Collections.emptySet();
+				if (isClassified())
+				{
+					if (builder == null)
+						throw new NullPointerException("Builder is null");
 
-				Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+					final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 
-				if( taxonomy == null )
-					throw new NullPointerException( "Taxonomy" );
+					if (taxonomy == null)
+						throw new NullPointerException("Taxonomy");
 
-				if( taxonomy.contains( c ) )
-					subs = taxonomy.getFlattenedSubs( c, false );
-			}
-
-			List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
-			for( ATermAppl x : individuals ) {
-				Bool isType = abox.isKnownType( x, c, subs );
-				if( isType.isTrue() )
-					knowns.add( x );
-				else if( isType.isUnknown() )
-					unknowns.add( x );
-			}
-
-			if( !unknowns.isEmpty() ) {
-				if( PelletOptions.INSTANCE_RETRIEVAL == InstanceRetrievalMethod.TRACING_BASED
-						&& PelletOptions.USE_TRACING ) {
-					tracingBasedInstanceRetrieval( c, unknowns, knowns );
+					if (taxonomy.contains(c))
+						subs = taxonomy.getFlattenedSubs(c, false);
 				}
-				else if( abox.isType( unknowns, c ) ) {
-					if( PelletOptions.INSTANCE_RETRIEVAL == InstanceRetrievalMethod.BINARY )
-						binaryInstanceRetrieval( c, unknowns, knowns );
+
+				final List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
+				for (final ATermAppl x : individuals)
+				{
+					final Bool isType = abox.isKnownType(x, c, subs);
+					if (isType.isTrue())
+						knowns.add(x);
 					else
-						linearInstanceRetrieval( c, unknowns, knowns );
+						if (isType.isUnknown())
+							unknowns.add(x);
 				}
-			}
 
-		}
+				if (!unknowns.isEmpty())
+				{
+					if (PelletOptions.INSTANCE_RETRIEVAL == InstanceRetrievalMethod.TRACING_BASED && PelletOptions.USE_TRACING)
+					{
+						tracingBasedInstanceRetrieval(c, unknowns, knowns);
+					}
+					else
+						if (abox.isType(unknowns, c))
+						{
+							if (PelletOptions.INSTANCE_RETRIEVAL == InstanceRetrievalMethod.BINARY)
+								binaryInstanceRetrieval(c, unknowns, knowns);
+							else
+								linearInstanceRetrieval(c, unknowns, knowns);
+						}
+				}
+
+			}
 
 		timer.stop();
 
-		Set<ATermAppl> result = Collections.unmodifiableSet( new HashSet<ATermAppl>( knowns ) );
+		final Set<ATermAppl> result = Collections.unmodifiableSet(new HashSet<ATermAppl>(knowns));
 
-		if( PelletOptions.CACHE_RETRIEVAL )
-			instances.put( c, result );
+		if (PelletOptions.CACHE_RETRIEVAL)
+			instances.put(c, result);
 
 		return result;
 	}
@@ -4293,105 +4747,122 @@ public class KnowledgeBase {
 	 * Retrieve individuals which possibly have a property value for the given
 	 * property.
 	 */
-	public List<ATermAppl> retrieveIndividualsWithProperty(ATermAppl r) {
+	public List<ATermAppl> retrieveIndividualsWithProperty(ATermAppl r)
+	{
 		ensureConsistency();
 
-		Role role = rbox.getRole( r );
-		if( role == null ) {
-			handleUndefinedEntity( r + " is not a known property!" );
+		final Role role = rbox.getRole(r);
+		if (role == null)
+		{
+			handleUndefinedEntity(r + " is not a known property!");
 			return Collections.emptyList();
 		}
-		
-		List<ATermAppl> result = new ArrayList<ATermAppl>();
-		for( ATermAppl ind : individuals ) {
-			if( !abox.hasObviousPropertyValue( ind, r, null ).isFalse() )
-				result.add( ind );
+
+		final List<ATermAppl> result = new ArrayList<ATermAppl>();
+		for (final ATermAppl ind : individuals)
+		{
+			if (!abox.hasObviousPropertyValue(ind, r, null).isFalse())
+				result.add(ind);
 		}
 
 		return result;
 	}
 
-	public void tracingBasedInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates,
-			Collection<ATermAppl> results) {
-		boolean doExplanation = doExplanation();
-		setDoExplanation( true );
+	public void tracingBasedInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates, Collection<ATermAppl> results)
+	{
+		final boolean doExplanation = doExplanation();
+		setDoExplanation(true);
 
-		ATermAppl notC = ATermUtils.negate( c );
-		while( abox.isType( candidates, c ) ) {
+		final ATermAppl notC = ATermUtils.negate(c);
+		while (abox.isType(candidates, c))
+		{
 			final Set<ATermAppl> explanationSet = getExplanationSet();
 
-			for( ATermAppl axiom : explanationSet ) {
-				if( axiom.getAFun().equals( ATermUtils.TYPEFUN )
-						&& axiom.getArgument( 1 ).equals( notC ) ) {
-					ATermAppl ind = (ATermAppl) axiom.getArgument( 0 );
-					int index = candidates.indexOf( ind );
-					if( index >= 0 ) {
-						if( log.isLoggable( Level.FINER ) )
-							log.finer( "Filter instance " + axiom + " while retrieving " + c );
-						Collections.swap( candidates, index, 0 );
-						results.add( ind );
-						candidates = candidates.subList( 1, candidates.size() );
+			for (final ATermAppl axiom : explanationSet)
+			{
+				if (axiom.getAFun().equals(ATermUtils.TYPEFUN) && axiom.getArgument(1).equals(notC))
+				{
+					final ATermAppl ind = (ATermAppl) axiom.getArgument(0);
+					final int index = candidates.indexOf(ind);
+					if (index >= 0)
+					{
+						if (log.isLoggable(Level.FINER))
+							log.finer("Filter instance " + axiom + " while retrieving " + c);
+						Collections.swap(candidates, index, 0);
+						results.add(ind);
+						candidates = candidates.subList(1, candidates.size());
 						break;
 					}
 				}
 			}
 		}
 
-		setDoExplanation( doExplanation );
+		setDoExplanation(doExplanation);
 	}
 
-	public void linearInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates,
-			Collection<ATermAppl> results) {
-		for( ATermAppl ind : candidates ) {
-			if( abox.isType( ind, c ) )
-				results.add( ind );
+	public void linearInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates, Collection<ATermAppl> results)
+	{
+		for (final ATermAppl ind : candidates)
+		{
+			if (abox.isType(ind, c))
+				results.add(ind);
 		}
 	}
 
-	public void binaryInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates,
-			Collection<ATermAppl> results) {
-		if( candidates.isEmpty() )
+	public void binaryInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates, Collection<ATermAppl> results)
+	{
+		if (candidates.isEmpty())
 			return;
-		else {
-			List<ATermAppl>[] partitions = partition( candidates );
-			partitionInstanceRetrieval( c, partitions, results );
+		else
+		{
+			final List<ATermAppl>[] partitions = partition(candidates);
+			partitionInstanceRetrieval(c, partitions, results);
 		}
 	}
 
-	private void partitionInstanceRetrieval(ATermAppl c, List<ATermAppl>[] partitions,
-			Collection<ATermAppl> results) {
-		if( partitions[0].size() == 1 ) {
-			ATermAppl i = partitions[0].get( 0 );
-			binaryInstanceRetrieval( c, partitions[1], results );
+	private void partitionInstanceRetrieval(ATermAppl c, List<ATermAppl>[] partitions, Collection<ATermAppl> results)
+	{
+		if (partitions[0].size() == 1)
+		{
+			final ATermAppl i = partitions[0].get(0);
+			binaryInstanceRetrieval(c, partitions[1], results);
 
-			if( abox.isType( i, c ) )
-				results.add( i );
+			if (abox.isType(i, c))
+				results.add(i);
 		}
-		else if( !abox.isType( partitions[0], c ) ) {
-			binaryInstanceRetrieval( c, partitions[1], results );
-		}
-		else {
-			if( !abox.isType( partitions[1], c ) ) {
-				binaryInstanceRetrieval( c, partitions[0], results );
+		else
+			if (!abox.isType(partitions[0], c))
+			{
+				binaryInstanceRetrieval(c, partitions[1], results);
 			}
-			else {
-				binaryInstanceRetrieval( c, partitions[0], results );
-				binaryInstanceRetrieval( c, partitions[1], results );
+			else
+			{
+				if (!abox.isType(partitions[1], c))
+				{
+					binaryInstanceRetrieval(c, partitions[0], results);
+				}
+				else
+				{
+					binaryInstanceRetrieval(c, partitions[0], results);
+					binaryInstanceRetrieval(c, partitions[1], results);
+				}
 			}
-		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<ATermAppl>[] partition(List<ATermAppl> candidates) {
-		List<ATermAppl>[] partitions = new List[2];
-		int n = candidates.size();
-		if( n <= 1 ) {
+	private List<ATermAppl>[] partition(List<ATermAppl> candidates)
+	{
+		final List<ATermAppl>[] partitions = new List[2];
+		final int n = candidates.size();
+		if (n <= 1)
+		{
 			partitions[0] = candidates;
 			partitions[1] = new ArrayList<ATermAppl>();
 		}
-		else {
-			partitions[0] = candidates.subList( 0, n / 2 );
-			partitions[1] = candidates.subList( n / 2, n );
+		else
+		{
+			partitions[0] = candidates.subList(0, n / 2);
+			partitions[1] = candidates.subList(n / 2, n);
 		}
 
 		return partitions;
@@ -4433,19 +4904,22 @@ public class KnowledgeBase {
 	/**
 	 * Print the class hierarchy on the standard output.
 	 */
-	public void printClassTree() {
+	public void printClassTree()
+	{
 		classify();
 
-		new ClassTreePrinter().print( builder.getTaxonomy() );
+		new ClassTreePrinter().print(builder.getTaxonomy());
 	}
 
-	public void printClassTree(PrintWriter out) {
+	public void printClassTree(PrintWriter out)
+	{
 		classify();
 
-		new ClassTreePrinter().print( builder.getTaxonomy(), out );
+		new ClassTreePrinter().print(builder.getTaxonomy(), out);
 	}
 
-	public boolean doExplanation() {
+	public boolean doExplanation()
+	{
 		return abox.doExplanation();
 	}
 
@@ -4453,30 +4927,37 @@ public class KnowledgeBase {
 	 * @param doExplanation
 	 *            The doExplanation to set.
 	 */
-	public void setDoExplanation(boolean doExplanation) {
-		abox.setDoExplanation( doExplanation );
+	public void setDoExplanation(boolean doExplanation)
+	{
+		abox.setDoExplanation(doExplanation);
 	}
 
-	public String getExplanation() {
+	public String getExplanation()
+	{
 		return abox.getExplanation();
 	}
 
 	/**
 	 * @deprecated Use setDoExplanation instead
 	 */
-	public void setDoDependencyAxioms(boolean doDepAxioms) {
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "Setting DoDependencyAxioms = " + doDepAxioms );
+	@Deprecated
+	public void setDoDependencyAxioms(boolean doDepAxioms)
+	{
+		if (log.isLoggable(Level.FINER))
+			log.finer("Setting DoDependencyAxioms = " + doDepAxioms);
 	}
 
 	/**
 	 * @deprecated Use getExplanation instead
 	 */
-	public boolean getDoDependencyAxioms() {
+	@Deprecated
+	public boolean getDoDependencyAxioms()
+	{
 		return false;
 	}
 
-	public Set<ATermAppl> getExplanationSet() {
+	public Set<ATermAppl> getExplanationSet()
+	{
 		return abox.getExplanationSet();
 	}
 
@@ -4484,7 +4965,8 @@ public class KnowledgeBase {
 	 * @param rbox
 	 *            The rbox to set.
 	 */
-	public void setRBox(RBox rbox) {
+	public void setRBox(RBox rbox)
+	{
 		this.rbox = rbox;
 	}
 
@@ -4492,12 +4974,14 @@ public class KnowledgeBase {
 	 * @param tbox
 	 *            The tbox to set.
 	 */
-	public void setTBox(TBox tbox) {
+	public void setTBox(TBox tbox)
+	{
 		this.tbox = tbox;
 	}
 
-	CompletionStrategy chooseStrategy(ABox abox) {
-		return chooseStrategy( abox, getExpressivity() );
+	CompletionStrategy chooseStrategy(ABox abox)
+	{
+		return chooseStrategy(abox, getExpressivity());
 	}
 
 	/**
@@ -4507,27 +4991,23 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	CompletionStrategy chooseStrategy(ABox abox, Expressivity expressivity) {
-		boolean conceptSatisfiability = (abox.size() == 1)
-				&& new IndividualIterator( abox ).next().isConceptRoot();
-		
+	CompletionStrategy chooseStrategy(ABox abox, Expressivity expressivity)
+	{
+		final boolean conceptSatisfiability = (abox.size() == 1) && new IndividualIterator(abox).next().isConceptRoot();
+
 		// We don't need to use rules strategy if we are checking concept satisfiability unless
 		// there are nominals because then rules may affect concept satisfiability and we need
 		// to use rules strategy
-		if( getRules().size() > 0 && (expressivity.hasNominal() || !conceptSatisfiability) ) {
-			return new ContinuousRulesStrategy( abox );
+		if (getRules().size() > 0 && (expressivity.hasNominal() || !conceptSatisfiability)) { return new ContinuousRulesStrategy(abox); }
+
+		final boolean fullDatatypeReasoning = PelletOptions.USE_FULL_DATATYPE_REASONING && (expressivity.hasCardinalityD() || expressivity.hasKeys());
+
+		if (!fullDatatypeReasoning)
+		{
+			if (conceptSatisfiability && !expressivity.hasNominal()) { return new EmptySRIQStrategy(abox); }
 		}
-		
-		boolean fullDatatypeReasoning = PelletOptions.USE_FULL_DATATYPE_REASONING
-				&& (expressivity.hasCardinalityD() || expressivity.hasKeys());
 
-		if( !fullDatatypeReasoning ) {
-			if( conceptSatisfiability && !expressivity.hasNominal() ) {
-				return new EmptySRIQStrategy( abox );
-			}							
-		}		
-
-		return new SROIQStrategy( abox );
+		return new SROIQStrategy(abox);
 	}
 
 	/**
@@ -4536,163 +5016,186 @@ public class KnowledgeBase {
 	 * 
 	 * @param timeout
 	 */
-	public void setTimeout(long timeout) {
-		timers.mainTimer.setTimeout( timeout );
+	public void setTimeout(long timeout)
+	{
+		timers.mainTimer.setTimeout(timeout);
 	}
 
 	/**
 	 * @param term
 	 * @return
 	 */
-	public Role getRole(ATerm term) {
-		return rbox.getRole( term );
+	public Role getRole(ATerm term)
+	{
+		return rbox.getRole(term);
 	}
 
 	/**
 	 * Get the classification results.
 	 */
-	public Taxonomy<ATermAppl> getTaxonomy() {
+	public Taxonomy<ATermAppl> getTaxonomy()
+	{
 		classify();
 
 		return builder.getTaxonomy();
 	}
 
-	public TaxonomyBuilder getTaxonomyBuilder() {
-		if( builder == null ) {
+	public TaxonomyBuilder getTaxonomyBuilder()
+	{
+		if (builder == null)
+		{
 			prepare();
 
-			if( expChecker.getExpressivity().isEL() && !PelletOptions.DISABLE_EL_CLASSIFIER ) {
+			if (expChecker.getExpressivity().isEL() && !PelletOptions.DISABLE_EL_CLASSIFIER)
+			{
 				builder = new SimplifiedELClassifier();
 			}
-			else {
+			else
+			{
 				builder = new CDOptimizedTaxonomyBuilder();
 			}
-			builder.setKB( this );
-			
-			if (builderProgressMonitor != null) {
+			builder.setKB(this);
+
+			if (builderProgressMonitor != null)
+			{
 				builder.setProgressMonitor(builderProgressMonitor);
 			}
 		}
 
 		return builder;
 	}
-	
-	public void setTaxonomyBuilderProgressMonitor(ProgressMonitor progressMonitor) {
+
+	public void setTaxonomyBuilderProgressMonitor(ProgressMonitor progressMonitor)
+	{
 		builderProgressMonitor = progressMonitor;
-		
-		if (builder != null) {
-			builder.setProgressMonitor( progressMonitor );
+
+		if (builder != null)
+		{
+			builder.setProgressMonitor(progressMonitor);
 		}
 	}
 
-	public Taxonomy<ATermAppl> getRoleTaxonomy(boolean objectTaxonomy) {
+	public Taxonomy<ATermAppl> getRoleTaxonomy(boolean objectTaxonomy)
+	{
 		prepare();
-		
-		return objectTaxonomy
-			? rbox.getObjectTaxonomy()
-			: rbox.getDataTaxonomy();
-		
+
+		return objectTaxonomy ? rbox.getObjectTaxonomy() : rbox.getDataTaxonomy();
+
 	}
-	
-	public Taxonomy<ATermAppl> getRoleTaxonomy(ATermAppl r) {
+
+	public Taxonomy<ATermAppl> getRoleTaxonomy(ATermAppl r)
+	{
 		prepare();
-		
-		if (isObjectProperty(r)) {
+
+		if (isObjectProperty(r))
+		{
 			return rbox.getObjectTaxonomy();
 		}
-		else if (isDatatypeProperty(r)) {
-			return rbox.getDataTaxonomy();
-		}
-		else if (isAnnotationProperty(r)) {
-			return rbox.getAnnotationTaxonomy();
-		}
-		
+		else
+			if (isDatatypeProperty(r))
+			{
+				return rbox.getDataTaxonomy();
+			}
+			else
+				if (isAnnotationProperty(r)) { return rbox.getAnnotationTaxonomy(); }
+
 		return null;
 	}
 
-	public SizeEstimate getSizeEstimate() {
+	public SizeEstimate getSizeEstimate()
+	{
 		return estimate;
 	}
 
 	/**
 	 * Add a rule to the KB.
 	 */
-	public boolean addRule(Rule rule) {
+	public boolean addRule(Rule rule)
+	{
 		// DL-safe rules affects the ABox so we might redo the reasoning
-		changes.add( ChangeType.ABOX_ADD );
+		changes.add(ChangeType.ABOX_ADD);
 
-		rules.put( rule, normalize( rule ) );
+		rules.put(rule, normalize(rule));
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "rule " + rule );
+		if (log.isLoggable(Level.FINER))
+			log.finer("rule " + rule);
 
 		return true;
 	}
 
-	private Rule normalize(Rule rule) {
-		if( !UsableRuleFilter.isUsable( rule ) ) {
-			return null;
-		}
+	private Rule normalize(Rule rule)
+	{
+		if (!UsableRuleFilter.isUsable(rule)) { return null; }
 
-		Set<RuleAtom> head = new LinkedHashSet<RuleAtom>();
-		Set<RuleAtom> body = new LinkedHashSet<RuleAtom>();
+		final Set<RuleAtom> head = new LinkedHashSet<RuleAtom>();
+		final Set<RuleAtom> body = new LinkedHashSet<RuleAtom>();
 
-		for( RuleAtom atom : rule.getHead() ) {
-			if( atom instanceof ClassAtom ) {
-				ClassAtom ca = (ClassAtom) atom;
-				AtomIObject arg = ca.getArgument();
-				ATermAppl c = ca.getPredicate();
-				ATermAppl normC = ATermUtils.normalize( c );
-				if( c != normC )
-					atom = new ClassAtom( normC, arg );
+		for (RuleAtom atom : rule.getHead())
+		{
+			if (atom instanceof ClassAtom)
+			{
+				final ClassAtom ca = (ClassAtom) atom;
+				final AtomIObject arg = ca.getArgument();
+				final ATermAppl c = ca.getPredicate();
+				final ATermAppl normC = ATermUtils.normalize(c);
+				if (c != normC)
+					atom = new ClassAtom(normC, arg);
 			}
-			head.add( atom );
+			head.add(atom);
 		}
 
-		Map<AtomIObject, Set<ATermAppl>> types = new HashMap<AtomIObject, Set<ATermAppl>>();
+		final Map<AtomIObject, Set<ATermAppl>> types = new HashMap<AtomIObject, Set<ATermAppl>>();
 
-		for( RuleAtom atom : rule.getBody() ) {
-			if( atom instanceof IndividualPropertyAtom ) {
-				IndividualPropertyAtom propAtom = (IndividualPropertyAtom) atom;
-				ATermAppl prop = propAtom.getPredicate();
+		for (final RuleAtom atom : rule.getBody())
+		{
+			if (atom instanceof IndividualPropertyAtom)
+			{
+				final IndividualPropertyAtom propAtom = (IndividualPropertyAtom) atom;
+				final ATermAppl prop = propAtom.getPredicate();
 
-				AtomIObject subj = propAtom.getArgument1();
-				if( subj instanceof AtomIVariable ) {
-					Set<ATermAppl> domains = getRole( prop ).getDomains();
-					if( domains != null )
-						MultiMapUtils.addAll( types, subj, domains );
+				final AtomIObject subj = propAtom.getArgument1();
+				if (subj instanceof AtomIVariable)
+				{
+					final Set<ATermAppl> domains = getRole(prop).getDomains();
+					if (domains != null)
+						MultiMapUtils.addAll(types, subj, domains);
 				}
 
-				AtomIObject obj = propAtom.getArgument2();
-				if( obj instanceof AtomIVariable ) {
-					Set<ATermAppl> ranges = getRole( prop ).getRanges();
-					if( ranges != null )
-						MultiMapUtils.addAll( types, obj, ranges );
+				final AtomIObject obj = propAtom.getArgument2();
+				if (obj instanceof AtomIVariable)
+				{
+					final Set<ATermAppl> ranges = getRole(prop).getRanges();
+					if (ranges != null)
+						MultiMapUtils.addAll(types, obj, ranges);
 				}
 			}
 		}
 
-		for( RuleAtom atom : rule.getBody() ) {
-			if( atom instanceof ClassAtom ) {
-				ClassAtom ca = (ClassAtom) atom;
-				AtomIObject arg = ca.getArgument();
-				ATermAppl c = ca.getPredicate();
-				ATermAppl normC = ATermUtils.normalize( c );
-				if( MultiMapUtils.contains( types, arg, normC ) )
+		for (RuleAtom atom : rule.getBody())
+		{
+			if (atom instanceof ClassAtom)
+			{
+				final ClassAtom ca = (ClassAtom) atom;
+				final AtomIObject arg = ca.getArgument();
+				final ATermAppl c = ca.getPredicate();
+				final ATermAppl normC = ATermUtils.normalize(c);
+				if (MultiMapUtils.contains(types, arg, normC))
 					continue;
-				else if( c != normC )
-					atom = new ClassAtom( normC, ca.getArgument() );
+				else
+					if (c != normC)
+						atom = new ClassAtom(normC, ca.getArgument());
 			}
-			body.add( atom );
+			body.add(atom);
 		}
 
-		return new Rule( rule.getName(), head, body );
+		return new Rule(rule.getName(), head, body);
 	}
 
 	/**
 	 * Return all the asserted rules.
 	 */
-	public Set<Rule> getRules() {
+	public Set<Rule> getRules()
+	{
 		return rules.keySet();
 	}
 
@@ -4703,7 +5206,8 @@ public class KnowledgeBase {
 	 * 
 	 * @return set of rules where
 	 */
-	public Map<Rule,Rule> getNormalizedRules() {
+	public Map<Rule, Rule> getNormalizedRules()
+	{
 		return rules;
 	}
 
@@ -4712,52 +5216,54 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	protected boolean canUseIncConsistency() {
+	protected boolean canUseIncConsistency()
+	{
 		// can we do incremental consistency checking
-		Expressivity expressivity = expChecker.getExpressivity();
-		if( expressivity == null )
+		final Expressivity expressivity = expChecker.getExpressivity();
+		if (expressivity == null)
 			return false;
 
-		boolean canUseIncConsistency = 
-				!(expressivity.hasNominal() && expressivity.hasInverse())
-				&& getRules().isEmpty()
-				&& !isTBoxChanged() && !isRBoxChanged() && abox.isComplete()
-				&& PelletOptions.USE_INCREMENTAL_CONSISTENCY &&
+		final boolean canUseIncConsistency = !(expressivity.hasNominal() && expressivity.hasInverse()) && getRules().isEmpty() && !isTBoxChanged() && !isRBoxChanged() && abox.isComplete() && PelletOptions.USE_INCREMENTAL_CONSISTENCY &&
 				// support additions only; also support deletions with or with
 				// additions, however tracing must be on to support incremental
 				// deletions
-				(!changes.contains( ChangeType.ABOX_DEL ) || PelletOptions.USE_INCREMENTAL_DELETION);
+				(!changes.contains(ChangeType.ABOX_DEL) || PelletOptions.USE_INCREMENTAL_DELETION);
 
 		return canUseIncConsistency;
 	}
 
-	public void ensureIncConsistency(boolean aboxDeletion) {
-		if( canUseIncConsistency() )
+	public void ensureIncConsistency(boolean aboxDeletion)
+	{
+		if (canUseIncConsistency())
 			return;
 
-		Expressivity expressivity = expChecker.getExpressivity();
+		final Expressivity expressivity = expChecker.getExpressivity();
 
-		String msg = "ABox " + (aboxDeletion
-			? "deletion"
-			: "addition") + " failed because ";
-		if( expressivity == null )
+		String msg = "ABox " + (aboxDeletion ? "deletion" : "addition") + " failed because ";
+		if (expressivity == null)
 			msg += "an initial consistency check has not been performed on this KB";
-		else if( expressivity.hasNominal() )
-			msg += "KB has nominals";
-		else if( expressivity.hasInverse() )
-			msg += "KB has inverse properties";
-		else if( isTBoxChanged() )
-			msg += "TBox changed";
-		else if( isRBoxChanged() )
-			msg += "RBox changed";
-		else if( PelletOptions.USE_INCREMENTAL_CONSISTENCY )
-			msg += "configuration option USE_INCREMENTAL_CONSISTENCY is not enabled";
-		else if( aboxDeletion )
-			msg += "configuration option USE_INCREMENTAL_DELETION is not enabled";
 		else
-			msg += "of an unknown reason";
+			if (expressivity.hasNominal())
+				msg += "KB has nominals";
+			else
+				if (expressivity.hasInverse())
+					msg += "KB has inverse properties";
+				else
+					if (isTBoxChanged())
+						msg += "TBox changed";
+					else
+						if (isRBoxChanged())
+							msg += "RBox changed";
+						else
+							if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
+								msg += "configuration option USE_INCREMENTAL_CONSISTENCY is not enabled";
+							else
+								if (aboxDeletion)
+									msg += "configuration option USE_INCREMENTAL_DELETION is not enabled";
+								else
+									msg += "of an unknown reason";
 
-		throw new UnsupportedOperationException( msg );
+		throw new UnsupportedOperationException(msg);
 	}
 
 	/**
@@ -4765,7 +5271,8 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	public DependencyIndex getDependencyIndex() {
+	public DependencyIndex getDependencyIndex()
+	{
 		return dependencyIndex;
 	}
 
@@ -4774,55 +5281,59 @@ public class KnowledgeBase {
 	 * 
 	 * @return
 	 */
-	public Set<ATermAppl> getSyntacticAssertions() {
+	public Set<ATermAppl> getSyntacticAssertions()
+	{
 		return syntacticAssertions;
 	}
 
-	protected static void handleUndefinedEntity(String s) {
-		if( !PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING )
-			throw new UndefinedEntityException( s );
+	protected static void handleUndefinedEntity(String s)
+	{
+		if (!PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
+			throw new UndefinedEntityException(s);
 	}
 
-	public Set<ATermAppl> getABoxAssertions(AssertionType assertionType) {
-		Set<ATermAppl> assertions = aboxAssertions.get( assertionType );
+	public Set<ATermAppl> getABoxAssertions(AssertionType assertionType)
+	{
+		final Set<ATermAppl> assertions = aboxAssertions.get(assertionType);
 
-		if( assertions == null )
+		if (assertions == null)
 			return Collections.emptySet();
 		else
-			return Collections.unmodifiableSet( assertions );
+			return Collections.unmodifiableSet(assertions);
 	}
 
 	/**
-	 * @deprecated Use
-	 *             {@link #getABoxAssertions(org.mindswap.pellet.KnowledgeBase.AssertionType)}
-	 *             instead
+	 * @deprecated Use {@link #getABoxAssertions(org.mindswap.pellet.KnowledgeBase.AssertionType)} instead
 	 */
-	public Set<ATermAppl> getAboxMembershipAssertions() {
-		return getABoxAssertions( AssertionType.TYPE );
+	@Deprecated
+	public Set<ATermAppl> getAboxMembershipAssertions()
+	{
+		return getABoxAssertions(AssertionType.TYPE);
 	}
 
 	/**
-	 * @deprecated Use
-	 *             {@link #getABoxAssertions(org.mindswap.pellet.KnowledgeBase.AssertionType)}
-	 *             instead
+	 * @deprecated Use {@link #getABoxAssertions(org.mindswap.pellet.KnowledgeBase.AssertionType)} instead
 	 */
-	public Set<ATermAppl> getAboxObjectRoleAssertions() {
-		return getABoxAssertions( AssertionType.OBJ_ROLE );
+	@Deprecated
+	public Set<ATermAppl> getAboxObjectRoleAssertions()
+	{
+		return getABoxAssertions(AssertionType.OBJ_ROLE);
 	}
 
 	/**
-	 * @deprecated Use
-	 *             {@link #getABoxAssertions(org.mindswap.pellet.KnowledgeBase.AssertionType)}
-	 *             instead
+	 * @deprecated Use {@link #getABoxAssertions(org.mindswap.pellet.KnowledgeBase.AssertionType)} instead
 	 */
-	public Set<ATermAppl> getAboxDataRoleAssertions() {
-		return getABoxAssertions( AssertionType.DATA_ROLE );
+	@Deprecated
+	public Set<ATermAppl> getAboxDataRoleAssertions()
+	{
+		return getABoxAssertions(AssertionType.DATA_ROLE);
 	}
 
 	/**
 	 * @return the deletedAssertions
 	 */
-	public Set<ATermAppl> getDeletedAssertions() {
+	public Set<ATermAppl> getDeletedAssertions()
+	{
 		return deletedAssertions;
 	}
 
@@ -4832,7 +5343,8 @@ public class KnowledgeBase {
 	 * @see #setExplainOnlyInconsistency(boolean)
 	 * @return current value of explainOnlyInconsistency option
 	 */
-	public boolean isExplainOnlyInconsistency() {
+	public boolean isExplainOnlyInconsistency()
+	{
 		return explainOnlyInconsistency;
 	}
 
@@ -4849,7 +5361,8 @@ public class KnowledgeBase {
 	 * @param explainOnlyInconsistency
 	 *            new value for explainOnlyInconsistency option
 	 */
-	public void setExplainOnlyInconsistency(boolean explainOnlyInconsistency) {
+	public void setExplainOnlyInconsistency(boolean explainOnlyInconsistency)
+	{
 		this.explainOnlyInconsistency = explainOnlyInconsistency;
 	}
 

@@ -6,12 +6,13 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
+import aterm.ATermAppl;
+import aterm.ATermInt;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
-
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
@@ -25,9 +26,6 @@ import org.mindswap.pellet.tableau.branch.MaxBranch;
 import org.mindswap.pellet.tableau.completion.CompletionStrategy;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
 import org.mindswap.pellet.utils.SetUtils;
-
-import aterm.ATermAppl;
-import aterm.ATermInt;
 
 /**
  * <p>
@@ -45,326 +43,347 @@ import aterm.ATermInt;
  * 
  * @author Evren Sirin
  */
-public class MaxRule extends AbstractTableauRule {
-	public MaxRule(CompletionStrategy strategy) {
-		super( strategy, NodeSelector.MAX_NUMBER, BlockingType.INDIRECT );
+public class MaxRule extends AbstractTableauRule
+{
+	public MaxRule(CompletionStrategy strategy)
+	{
+		super(strategy, NodeSelector.MAX_NUMBER, BlockingType.INDIRECT);
 	}
 
-    /**
-     * Apply max rule to the individual.
-     */
-    public void apply( Individual x ) {
-        if( !x.canApply( Individual.MAX ) )
-        	return;
+	/**
+	 * Apply max rule to the individual.
+	 */
+	@Override
+	public void apply(Individual x)
+	{
+		if (!x.canApply(Individual.MAX))
+			return;
 
-        List<ATermAppl> maxCardinality = x.getTypes( Node.MAX );
-        for( int i = 0; i < maxCardinality.size(); i++ ) {
-            ATermAppl mc = maxCardinality.get( i );
+		final List<ATermAppl> maxCardinality = x.getTypes(Node.MAX);
+		for (int i = 0; i < maxCardinality.size(); i++)
+		{
+			final ATermAppl mc = maxCardinality.get(i);
 
-            applyMaxRule( x, mc );
-            
-            if( strategy.getABox().isClosed() )
-                return;
+			applyMaxRule(x, mc);
 
-            if( x.isMerged() ) 
-                return;
-        }
-        x.applyNext[Individual.MAX] = maxCardinality.size();
-    }
-    
-    protected void applyMaxRule( Individual x, ATermAppl mc ) {
- 
-        // max(r, n) is in normalized form not(min(p, n + 1))
-        ATermAppl max = (ATermAppl) mc.getArgument( 0 );
+			if (strategy.getABox().isClosed())
+				return;
 
-        Role r = strategy.getABox().getRole( max.getArgument( 0 ) );
-        int n = ((ATermInt) max.getArgument( 1 )).getInt() - 1;
-        ATermAppl c = (ATermAppl) max.getArgument( 2 );
+			if (x.isMerged())
+				return;
+		}
+		x.applyNext[Individual.MAX] = maxCardinality.size();
+	}
 
-        DependencySet ds = x.getDepends( mc );
+	protected void applyMaxRule(Individual x, ATermAppl mc)
+	{
 
-        if(!PelletOptions.MAINTAIN_COMPLETION_QUEUE && ds == null)
-        		return;
-        		
-        
-        if( n == 1 ) {
-            applyFunctionalMaxRule( x, r, c, ds );
-            if( strategy.getABox().isClosed() )
-                return;
-        }
-        else {
-            boolean hasMore = true;
-            
-            while( hasMore ) {
-            		hasMore = applyMaxRule( x, r, c, n, ds );
+		// max(r, n) is in normalized form not(min(p, n + 1))
+		final ATermAppl max = (ATermAppl) mc.getArgument(0);
 
-                if( strategy.getABox().isClosed() )
-                    return;
+		final Role r = strategy.getABox().getRole(max.getArgument(0));
+		final int n = ((ATermInt) max.getArgument(1)).getInt() - 1;
+		final ATermAppl c = (ATermAppl) max.getArgument(2);
 
-                if( x.isMerged() ) {
-                    return;
-                }
+		DependencySet ds = x.getDepends(mc);
 
-                if( hasMore ) {
-                    // subsequent merges depend on the previous merge
-                    ds = ds.union( new DependencySet( strategy.getABox().getBranches().size() ), strategy.getABox().doExplanation() );
-                }
-            }
-        }   
-    }
-    
+		if (!PelletOptions.MAINTAIN_COMPLETION_QUEUE && ds == null)
+			return;
 
-    /**
-     * 
-     * applyMaxRule
-     * 
-     * @param x
-     * @param r
-     * @param k
-     * @param ds
-     * 
-     * @return true if more merges are required for this maxCardinality
-     */
-    protected boolean applyMaxRule( Individual x, Role r, ATermAppl c, int k, DependencySet ds ) {
+		if (n == 1)
+		{
+			applyFunctionalMaxRule(x, r, c, ds);
+			if (strategy.getABox().isClosed())
+				return;
+		}
+		else
+		{
+			boolean hasMore = true;
 
-        EdgeList edges = x.getRNeighborEdges( r );
-        // find all distinct R-neighbors of x
-        Set<Node> neighbors = edges.getFilteredNeighbors( x, c );
+			while (hasMore)
+			{
+				hasMore = applyMaxRule(x, r, c, n, ds);
 
-        int n = neighbors.size();
+				if (strategy.getABox().isClosed())
+					return;
 
-        // if( log.isLoggable( Level.FINE ) )
-        // log.fine( "Neighbors: " + n + " maxCardinality: " + k);
+				if (x.isMerged()) { return; }
 
-        // if restriction was maxCardinality 0 then having any R-neighbor
-        // violates the restriction. no merge can fix this. compute the
-        // dependency and return
-        if( k == 0 && n > 0 ) {
-            for( int e = 0; e < edges.size(); e++ ) {
-                Edge edge = edges.edgeAt( e );
-                Node neighbor = edge.getNeighbor( x );
-                DependencySet typeDS = neighbor.getDepends( c );
-                if( typeDS != null ) {
-                	Role edgeRole = edge.getRole();
-    				DependencySet subDS = r.getExplainSubOrInv( edgeRole );
-					ds = ds.union( subDS, strategy.getABox().doExplanation() );
-	                ds = ds.union( edge.getDepends(), strategy.getABox().doExplanation() );
-	                ds = ds.union( typeDS, strategy.getABox().doExplanation() );
-	                
-                }
-            }
+				if (hasMore)
+				{
+					// subsequent merges depend on the previous merge
+					ds = ds.union(new DependencySet(strategy.getABox().getBranches().size()), strategy.getABox().doExplanation());
+				}
+			}
+		}
+	}
 
-            strategy.getABox().setClash( Clash.maxCardinality( x, ds, r.getName(), 0 ) );
-            return false;
-        }
+	/**
+	 * 
+	 * applyMaxRule
+	 * 
+	 * @param x
+	 * @param r
+	 * @param k
+	 * @param ds
+	 * 
+	 * @return true if more merges are required for this maxCardinality
+	 */
+	protected boolean applyMaxRule(Individual x, Role r, ATermAppl c, int k, DependencySet ds)
+	{
 
-        // if there are less than n neighbors than max rule won't be triggered
-        // return false because no more merge required for this role
-        if( n <= k )
-            return false;        
-        
-        // create the pairs to be merged
-        List<NodeMerge> mergePairs = new ArrayList<NodeMerge>();
-        DependencySet differenceDS = findMergeNodes( neighbors, x, mergePairs );
-        ds = ds.union( differenceDS, strategy.getABox().doExplanation() );
+		final EdgeList edges = x.getRNeighborEdges(r);
+		// find all distinct R-neighbors of x
+		final Set<Node> neighbors = edges.getFilteredNeighbors(x, c);
 
-        // if no pairs were found, i.e. all were defined to be different from
-        // each other, then it means this max cardinality restriction is
-        // violated. dependency of this clash is on all the neighbors plus the
-        // dependency of the restriction type
-        if( mergePairs.size() == 0 ) {
-            DependencySet dsEdges = x.hasDistinctRNeighborsForMax( r, k + 1, c );
-            if( dsEdges == null ) {
-            	if( log.isLoggable( Level.FINE ) )
-                	log.fine( "Cannot determine the exact clash dependency for " + x );
-                strategy.getABox().setClash( Clash.maxCardinality( x, ds ) );
-                return false;
-            }
-            else {
-                if( log.isLoggable( Level.FINE ) )
-                    log.fine( "Early clash detection for max rule worked " + x + " has more than "
-                        + k + " " + r + " edges " + ds.union( dsEdges, strategy.getABox().doExplanation() ) + " "
-                        + x.getRNeighborEdges( r ).getNeighbors( x ) );
+		final int n = neighbors.size();
 
-                if( strategy.getABox().doExplanation() )
-                    strategy.getABox().setClash( Clash.maxCardinality( x, ds.union( dsEdges, strategy.getABox().doExplanation() ), r.getName(), k ) );
-                else
-                    strategy.getABox().setClash( Clash.maxCardinality( x, ds.union( dsEdges, strategy.getABox().doExplanation() ) ) );
+		// if( log.isLoggable( Level.FINE ) )
+		// log.fine( "Neighbors: " + n + " maxCardinality: " + k);
 
-                return false;
-            }
-        }
+		// if restriction was maxCardinality 0 then having any R-neighbor
+		// violates the restriction. no merge can fix this. compute the
+		// dependency and return
+		if (k == 0 && n > 0)
+		{
+			for (int e = 0; e < edges.size(); e++)
+			{
+				final Edge edge = edges.edgeAt(e);
+				final Node neighbor = edge.getNeighbor(x);
+				final DependencySet typeDS = neighbor.getDepends(c);
+				if (typeDS != null)
+				{
+					final Role edgeRole = edge.getRole();
+					final DependencySet subDS = r.getExplainSubOrInv(edgeRole);
+					ds = ds.union(subDS, strategy.getABox().doExplanation());
+					ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
+					ds = ds.union(typeDS, strategy.getABox().doExplanation());
 
-        // add the list of possible pairs to be merged in the branch list
-        MaxBranch newBranch = new MaxBranch( strategy.getABox(), strategy, x, r, k, c, mergePairs, ds );
-        strategy.addBranch( newBranch );
+				}
+			}
 
-        // try a merge that does not trivially fail
-        if( newBranch.tryNext() == false )
-            return false;
+			strategy.getABox().setClash(Clash.maxCardinality(x, ds, r.getName(), 0));
+			return false;
+		}
 
-        if( log.isLoggable( Level.FINE ) )
-            log.fine( "hasMore: " + (n > k + 1) );
+		// if there are less than n neighbors than max rule won't be triggered
+		// return false because no more merge required for this role
+		if (n <= k)
+			return false;
 
-        // if there were exactly k + 1 neighbors the previous step would
-        // eliminate one node and only n neighbors would be left. This means
-        // restriction is satisfied. If there were more than k + 1 neighbors
-        // merging one pair would not be enough and more merges are required,
-        // thus false is returned
-        return n > k + 1;
-    }
-    
+		// create the pairs to be merged
+		final List<NodeMerge> mergePairs = new ArrayList<NodeMerge>();
+		final DependencySet differenceDS = findMergeNodes(neighbors, x, mergePairs);
+		ds = ds.union(differenceDS, strategy.getABox().doExplanation());
 
-    DependencySet findMergeNodes( Set<Node> neighbors, Individual node, List<NodeMerge> pairs ) {
-        DependencySet ds = DependencySet.INDEPENDENT;
+		// if no pairs were found, i.e. all were defined to be different from
+		// each other, then it means this max cardinality restriction is
+		// violated. dependency of this clash is on all the neighbors plus the
+		// dependency of the restriction type
+		if (mergePairs.size() == 0)
+		{
+			final DependencySet dsEdges = x.hasDistinctRNeighborsForMax(r, k + 1, c);
+			if (dsEdges == null)
+			{
+				if (log.isLoggable(Level.FINE))
+					log.fine("Cannot determine the exact clash dependency for " + x);
+				strategy.getABox().setClash(Clash.maxCardinality(x, ds));
+				return false;
+			}
+			else
+			{
+				if (log.isLoggable(Level.FINE))
+					log.fine("Early clash detection for max rule worked " + x + " has more than " + k + " " + r + " edges " + ds.union(dsEdges, strategy.getABox().doExplanation()) + " " + x.getRNeighborEdges(r).getNeighbors(x));
 
-        List<Node> nodes = new ArrayList<Node>( neighbors );
-        for( int i = 0; i < nodes.size(); i++ ) {
-            Node y = nodes.get( i );
-            for( int j = i + 1; j < nodes.size(); j++ ) {
-                Node x = nodes.get( j );
+				if (strategy.getABox().doExplanation())
+					strategy.getABox().setClash(Clash.maxCardinality(x, ds.union(dsEdges, strategy.getABox().doExplanation()), r.getName(), k));
+				else
+					strategy.getABox().setClash(Clash.maxCardinality(x, ds.union(dsEdges, strategy.getABox().doExplanation())));
 
-                if( y.isDifferent( x ) ) {
-                	ds = ds.union( y.getDifferenceDependency( x ), strategy.getABox().doExplanation() );
-                    continue;
-                }
+				return false;
+			}
+		}
 
-                // 1. if x is a nominal node (of lower level), then Merge(y, x)
-                if( x.getNominalLevel() < y.getNominalLevel() )
-                    pairs.add( new NodeMerge( y, x ) );
-                // 2. if y is a nominal node or an ancestor of x, then Merge(x, y)
-                else if( y.isNominal() )
-                    pairs.add( new NodeMerge( x, y ) );
-                // 3. if y is an ancestor of x, then Merge(x, y)
-                // Note: y is an ancestor of x iff the max cardinality
-                // on node merges the "node"'s parent y with "node"'s
-                // child x
-                else if( y.hasSuccessor( node ) )
-                    pairs.add( new NodeMerge( x, y ) );
-                // 4. else Merge(y, x)
-                else
-                    pairs.add( new NodeMerge( y, x ) );
-            }
-        }
+		// add the list of possible pairs to be merged in the branch list
+		final MaxBranch newBranch = new MaxBranch(strategy.getABox(), strategy, x, r, k, c, mergePairs, ds);
+		strategy.addBranch(newBranch);
 
-        return ds;
-    }
-    
+		// try a merge that does not trivially fail
+		if (newBranch.tryNext() == false)
+			return false;
 
-    public void applyFunctionalMaxRule( Individual x, Role s, ATermAppl c, DependencySet ds ) {
-        Set<Role> functionalSupers = s.getFunctionalSupers();
-        if( functionalSupers.isEmpty() )
-            functionalSupers = SetUtils.singleton( s );
-        LOOP:
-        for( Iterator<Role> it = functionalSupers.iterator(); it.hasNext(); ) {
-            Role r = it.next();
+		if (log.isLoggable(Level.FINE))
+			log.fine("hasMore: " + (n > k + 1));
 
-            if (PelletOptions.USE_TRACING) {
-            	ds = ds.union( s.getExplainSuper(r.getName()), strategy.getABox().doExplanation() ).union( r.getExplainFunctional(), strategy.getABox().doExplanation() );
-            }
-            
-            EdgeList edges = x.getRNeighborEdges( r );
+		// if there were exactly k + 1 neighbors the previous step would
+		// eliminate one node and only n neighbors would be left. This means
+		// restriction is satisfied. If there were more than k + 1 neighbors
+		// merging one pair would not be enough and more merges are required,
+		// thus false is returned
+		return n > k + 1;
+	}
 
-            // if there is not more than one edge then func max rule won't be triggered
-            if( edges.size() <= 1 )
-                continue;
+	DependencySet findMergeNodes(Set<Node> neighbors, Individual node, List<NodeMerge> pairs)
+	{
+		DependencySet ds = DependencySet.INDEPENDENT;
 
-            // find all distinct R-neighbors of x
-            Set<Node> neighbors = edges.getFilteredNeighbors( x, c );
+		final List<Node> nodes = new ArrayList<Node>(neighbors);
+		for (int i = 0; i < nodes.size(); i++)
+		{
+			final Node y = nodes.get(i);
+			for (int j = i + 1; j < nodes.size(); j++)
+			{
+				final Node x = nodes.get(j);
 
-            // if there is not more than one neighbor then func max rule won't be triggered
-            if( neighbors.size() <= 1 )
-                continue;
+				if (y.isDifferent(x))
+				{
+					ds = ds.union(y.getDifferenceDependency(x), strategy.getABox().doExplanation());
+					continue;
+				}
 
-            Node head = null;
+				// 1. if x is a nominal node (of lower level), then Merge(y, x)
+				if (x.getNominalLevel() < y.getNominalLevel())
+					pairs.add(new NodeMerge(y, x));
+				// 2. if y is a nominal node or an ancestor of x, then Merge(x, y)
+				else
+					if (y.isNominal())
+						pairs.add(new NodeMerge(x, y));
+				// 3. if y is an ancestor of x, then Merge(x, y)
+				// Note: y is an ancestor of x iff the max cardinality
+				// on node merges the "node"'s parent y with "node"'s
+				// child x
+					else
+						if (y.hasSuccessor(node))
+							pairs.add(new NodeMerge(x, y));
+				// 4. else Merge(y, x)
+						else
+							pairs.add(new NodeMerge(y, x));
+			}
+		}
 
-            int edgeIndex = 0;
-            int edgeCount = edges.size();
+		return ds;
+	}
 
-            // find the head and its corresponding dependency information. 
-            // since head is not necessarily the first element in the 
-            // neighbor list we need to first find the un-pruned node 
-            for( ; edgeIndex < edgeCount; edgeIndex++ ) {
-                Edge edge = edges.edgeAt( edgeIndex );
-                head = edge.getNeighbor( x );
+	public void applyFunctionalMaxRule(Individual x, Role s, ATermAppl c, DependencySet ds)
+	{
+		Set<Role> functionalSupers = s.getFunctionalSupers();
+		if (functionalSupers.isEmpty())
+			functionalSupers = SetUtils.singleton(s);
+		LOOP: for (final Iterator<Role> it = functionalSupers.iterator(); it.hasNext();)
+		{
+			final Role r = it.next();
 
-                if( head.isPruned() || !neighbors.contains( head ) )
-                    continue;
+			if (PelletOptions.USE_TRACING)
+			{
+				ds = ds.union(s.getExplainSuper(r.getName()), strategy.getABox().doExplanation()).union(r.getExplainFunctional(), strategy.getABox().doExplanation());
+			}
 
-                // this node is included in the merge list because the edge
-                // exists and the node has the qualification in its types
-                ds = ds.union( edge.getDepends(), strategy.getABox().doExplanation() );
-                ds = ds.union( head.getDepends( c ), strategy.getABox().doExplanation() );
-                ds = ds.union( r.getExplainSubOrInv( edge.getRole() ), strategy.getABox().doExplanation() );
-                break;
-            }
+			final EdgeList edges = x.getRNeighborEdges(r);
 
-            // now iterate through the rest of the elements in the neighbors
-            // and merge them to the head node. it is possible that we will
-            // switch the head at some point because of merging rules such
-            // that you always merge to a nominal of higher level
-            for( edgeIndex++; edgeIndex < edgeCount; edgeIndex++ ) {
-                Edge edge = edges.edgeAt( edgeIndex );
-                Node next = edge.getNeighbor( x );
+			// if there is not more than one edge then func max rule won't be triggered
+			if (edges.size() <= 1)
+				continue;
 
-                if( next.isPruned() || !neighbors.contains( next ) )
-                    continue;
+			// find all distinct R-neighbors of x
+			final Set<Node> neighbors = edges.getFilteredNeighbors(x, c);
 
-                // it is possible that there are multiple edges to the same
-                // node, e.g. property p and its super property, so check if
-                // we already merged this one
-                if( head.isSame( next ) )
-                    continue;
+			// if there is not more than one neighbor then func max rule won't be triggered
+			if (neighbors.size() <= 1)
+				continue;
 
-                // this node is included in the merge list because the edge
-                // exists and the node has the qualification in its types
-                ds = ds.union( edge.getDepends(), strategy.getABox().doExplanation() );
-                ds = ds.union( next.getDepends( c ), strategy.getABox().doExplanation() );
-                ds = ds.union( r.getExplainSubOrInv( edge.getRole() ), strategy.getABox().doExplanation() );
+			Node head = null;
 
-                if( next.isDifferent( head ) ) {
-                    ds = ds.union( head.getDepends( c ), strategy.getABox().doExplanation() );
-                    ds = ds.union( next.getDepends( c ), strategy.getABox().doExplanation() );
-                    ds = ds.union( next.getDifferenceDependency( head ), strategy.getABox().doExplanation() );
-                    if( r.isFunctional() )
-                        strategy.getABox().setClash( Clash.functionalCardinality( x, ds, r.getName() ) );
-                    else
-                        strategy.getABox().setClash( Clash.maxCardinality( x, ds, r.getName(), 1 ) );
+			int edgeIndex = 0;
+			final int edgeCount = edges.size();
 
-                    break;
-                }
+			// find the head and its corresponding dependency information. 
+			// since head is not necessarily the first element in the 
+			// neighbor list we need to first find the un-pruned node 
+			for (; edgeIndex < edgeCount; edgeIndex++)
+			{
+				final Edge edge = edges.edgeAt(edgeIndex);
+				head = edge.getNeighbor(x);
 
-                if( x.isNominal() && head.isBlockable() && next.isBlockable()
-                    && head.hasSuccessor( x ) && next.hasSuccessor( x ) ) {
-                    Individual newNominal = strategy.createFreshIndividual( null, ds );
+				if (head.isPruned() || !neighbors.contains(head))
+					continue;
 
-                    strategy.addEdge( x, r, newNominal, ds );
+				// this node is included in the merge list because the edge
+				// exists and the node has the qualification in its types
+				ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
+				ds = ds.union(head.getDepends(c), strategy.getABox().doExplanation());
+				ds = ds.union(r.getExplainSubOrInv(edge.getRole()), strategy.getABox().doExplanation());
+				break;
+			}
 
-                    continue LOOP;
-                }
-                // always merge to a nominal (of lowest level) or an ancestor
-                else if( (next.getNominalLevel() < head.getNominalLevel())
-                    || (!head.isNominal() && next.hasSuccessor( x )) ) {
-                    Node temp = head;
-                    head = next;
-                    next = temp;
-                }
+			// now iterate through the rest of the elements in the neighbors
+			// and merge them to the head node. it is possible that we will
+			// switch the head at some point because of merging rules such
+			// that you always merge to a nominal of higher level
+			for (edgeIndex++; edgeIndex < edgeCount; edgeIndex++)
+			{
+				final Edge edge = edges.edgeAt(edgeIndex);
+				Node next = edge.getNeighbor(x);
 
-                if( log.isLoggable( Level.FINE ) )
-                    log.fine( "FUNC: " + x + " for prop " + r + " merge " + next + " -> " + head
-                        + " " + ds );
+				if (next.isPruned() || !neighbors.contains(next))
+					continue;
 
-                strategy.mergeTo( next, head, ds );
+				// it is possible that there are multiple edges to the same
+				// node, e.g. property p and its super property, so check if
+				// we already merged this one
+				if (head == null || head.isSame(next))
+					continue;
 
-                if( strategy.getABox().isClosed() )
-                    return;
+				// this node is included in the merge list because the edge
+				// exists and the node has the qualification in its types
+				ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
+				ds = ds.union(next.getDepends(c), strategy.getABox().doExplanation());
+				ds = ds.union(r.getExplainSubOrInv(edge.getRole()), strategy.getABox().doExplanation());
 
-                if( head.isPruned() ) {
-                    ds = ds.union( head.getMergeDependency( true ), strategy.getABox().doExplanation() );
-                    head = head.getSame();
-                }
-            }
-        }
-    }
+				if (next.isDifferent(head))
+				{
+					ds = ds.union(head.getDepends(c), strategy.getABox().doExplanation());
+					ds = ds.union(next.getDepends(c), strategy.getABox().doExplanation());
+					ds = ds.union(next.getDifferenceDependency(head), strategy.getABox().doExplanation());
+					if (r.isFunctional())
+						strategy.getABox().setClash(Clash.functionalCardinality(x, ds, r.getName()));
+					else
+						strategy.getABox().setClash(Clash.maxCardinality(x, ds, r.getName(), 1));
+
+					break;
+				}
+
+				if (x.isNominal() && head.isBlockable() && next.isBlockable() && head.hasSuccessor(x) && next.hasSuccessor(x))
+				{
+					final Individual newNominal = strategy.createFreshIndividual(null, ds);
+
+					strategy.addEdge(x, r, newNominal, ds);
+
+					continue LOOP;
+				}
+				// always merge to a nominal (of lowest level) or an ancestor
+				else
+					if ((next.getNominalLevel() < head.getNominalLevel()) || (!head.isNominal() && next.hasSuccessor(x)))
+					{
+						final Node temp = head;
+						head = next;
+						next = temp;
+					}
+
+				if (log.isLoggable(Level.FINE))
+					log.fine("FUNC: " + x + " for prop " + r + " merge " + next + " -> " + head + " " + ds);
+
+				strategy.mergeTo(next, head, ds);
+
+				if (strategy.getABox().isClosed())
+					return;
+
+				if (head.isPruned())
+				{
+					ds = ds.union(head.getMergeDependency(true), strategy.getABox().doExplanation());
+					head = head.getSame();
+				}
+			}
+		}
+	}
 
 }
