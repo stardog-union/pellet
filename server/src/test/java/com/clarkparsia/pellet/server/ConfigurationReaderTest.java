@@ -16,12 +16,12 @@ import static org.junit.Assert.assertTrue;
 public class ConfigurationReaderTest {
 
 	// Defaults
-	private static final String USERNAME = "redmond";
-	private static final String PASSWORD = "bicycle";
-	private static final int PORT_DEFAULT = 4875;
+	private static final String USERNAME = "username";
+	private static final String PASSWORD = "password";
+	private static final int PORT_DEFAULT = 5100;
 	private static final String HOST_DEFAULT = "localhost";
 	private static final boolean STRICT_DEFAULT = false;
-	private static final int UPDATE_INTERVAL_DEFAULT_IN_SECONDS = 15;
+	private static final int UPDATE_INTERVAL_DEFAULT_IN_SECONDS = 300;
 
 	enum MinimumConfiguration implements Configuration {
 		INSTANCE;
@@ -33,7 +33,6 @@ public class ConfigurationReaderTest {
 
 			minimumSettings.setProperty(Configuration.PROTEGE_USERNAME, USERNAME);
 			minimumSettings.setProperty(Configuration.PROTEGE_PASSWORD, PASSWORD);
-			minimumSettings.setProperty(Configuration.PROTEGE_ONTOLOGIES, "ont.history");
 		}
 
 		@Override
@@ -77,7 +76,7 @@ public class ConfigurationReaderTest {
 		assertEquals(USERNAME, configReader.protegeSettings().username());
 		assertEquals(PASSWORD, configReader.protegeSettings().password());
 
-		assertEquals(1, configReader.protegeSettings().ontologies().size());
+		assertEquals(0, configReader.protegeSettings().ontologies().size());
 
 		assertEquals(PelletServer.DEFAULT_HOST, configReader.pelletSettings().host());
 		assertEquals(PelletServer.DEFAULT_PORT, configReader.pelletSettings().port());

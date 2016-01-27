@@ -41,8 +41,7 @@ public final class ConfigurationReader {
 	public static class PelletSettings {
 		private Properties settings;
 
-
-		private static final int UPDATE_INTERVAL_DEFAULT_IN_SECONDS = 15;
+		private static final int UPDATE_INTERVAL_DEFAULT_IN_SECONDS = 300;
 
 		PelletSettings(final Properties theSettings) {
 			settings = theSettings;
@@ -68,7 +67,7 @@ public final class ConfigurationReader {
 	public static class ProtegeSettings {
 
 		private static final String DEFAULT_PROTEGE_HOST = "localhost";
-		private static final int DEFAULT_PROTEGE_PORT = 4875;
+		private static final int DEFAULT_PROTEGE_PORT = 5100;
 
 		private Properties settings;
 

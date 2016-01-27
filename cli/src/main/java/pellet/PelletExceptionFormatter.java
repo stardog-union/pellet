@@ -55,6 +55,9 @@ public class PelletExceptionFormatter {
 			if( index != -1 )
 				msg = msg.substring( 0, index );
 		}
+		else {
+			msg = e.toString();
+		}
 		
 		return msg + "\nUse -v for detail.";
 	}
