@@ -9,6 +9,7 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.UUID;
 
+import com.clarkparsia.pellet.server.PelletServer;
 import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
@@ -18,7 +19,6 @@ import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
-import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderValues;
 import io.undertow.util.Headers;
@@ -28,53 +28,66 @@ import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
- * Abstract implementation of HttpHandler with tools to reuse across all
- * HttpHandlers implemented for the Pellet Server.
+ * Abstract handler with tools for wrapping and setting up HttpHandlers implementing reasoner's functionality.
  *
  * @author Edgar Rodriguez-Diaz
  */
-public abstract class AbstractReasonerHandler implements HttpHandler {
+public abstract class AbstractRoutingHandler implements RoutingHandler {
+	public static String REASONER_PATH = PelletServer.ROOT_PATH + "reasoner";
 
+	private final String mPath;
+	private final String mMethod;
 	private final ServerState serverState;
 
 	private final Collection<ServiceEncoder> mEncoders;
 
 	private final Collection<ServiceDecoder> mDecoders;
 
-	public AbstractReasonerHandler(final ServerState theServerState,
-	                               final Collection<ServiceEncoder> theEncoders,
-	                               final Collection<ServiceDecoder> theDecoders) {
+	public AbstractRoutingHandler(final String theMethod,
+	                              final String thePath,
+	                              final ServerState theServerState,
+	                              final Collection<ServiceEncoder> theEncoders,
+	                              final Collection<ServiceDecoder> theDecoders) {
 		serverState = theServerState;
 		mEncoders = theEncoders;
 		mDecoders = theDecoders;
+		mMethod = theMethod;
+		mPath = REASONER_PATH + "/" + thePath;
 	}
+
+	@Override
+	public final String getMethod() {
+		return mMethod;
+	}
+
+	@Override
+	public final String getPath() {
+		return mPath;
+	}
+
 
 	protected ServerState getServerState() {
 		return serverState;
 	}
 
-	protected Optional<ServiceEncoder> getEncoder(final String theMediaType) {
-		Optional<ServiceEncoder> aFound = Optional.absent();
-
+	protected ServiceEncoder getEncoder(final String theMediaType) throws ServerException {
 		for (ServiceEncoder encoder : mEncoders) {
 			if (encoder.canEncode(theMediaType)) {
-				aFound = Optional.of(encoder);
+				return encoder;
 			}
 		}
 
-		return aFound;
+		throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't decode request payload");
 	}
 
-	protected Optional<ServiceDecoder> getDecoder(final String theMediaType) {
-		Optional<ServiceDecoder> aFound = Optional.absent();
-
+	protected ServiceDecoder getDecoder(final String theMediaType) throws ServerException {
 		for (ServiceDecoder decoder : mDecoders) {
 			if (decoder.canDecode(theMediaType)) {
-				aFound = Optional.of(decoder);
+				return decoder;
 			}
 		}
 
-		return aFound;
+		throw new ServerException(StatusCodes.NOT_ACCEPTABLE, "Could't decode request payload");
 	}
 
 	protected SchemaReasoner getReasoner(final IRI theOntology, final UUID theClientId) throws ServerException {

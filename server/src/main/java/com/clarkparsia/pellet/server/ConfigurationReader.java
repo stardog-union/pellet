@@ -5,6 +5,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.beust.jcommander.internal.Sets;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -91,29 +93,16 @@ public final class ConfigurationReader {
 		}
 
 		public Set<String> ontologies() {
-			final String ontologiesList = getProperty(settings, Configuration.PROTEGE_ONTOLOGIES, null);
-			final ImmutableSet.Builder<String> ontoNames = ImmutableSet.builder();
+			final String ontologiesList = getProperty(settings, Configuration.PROTEGE_ONTOLOGIES, "");
 
 			// try parsing the ontology names list
-			for (String aOntoName : ontologiesList.split(",")) {
-				aOntoName = aOntoName.trim();
-				// only add the ones with valid names ending in '.history'
-				if (aOntoName.endsWith(".history")) {
-					ontoNames.add(aOntoName);
-				}
-				else {
-					throw new IllegalArgumentException("Invalid ontology name ["+ aOntoName +"] in configuration " +
-					            "- it must be a valid name ending in '.history'");
-				}
-			}
-
-			return ontoNames.build();
+			return ImmutableSet.copyOf(Splitter.on(',').omitEmptyStrings().trimResults().split(ontologiesList));
 		}
 	}
 
 	public static String getProperty(Properties properties, String key, String defaultValue) {
 		String val = properties.getProperty(key, defaultValue);
-		if (Strings.isNullOrEmpty(val)) {
+		if (val == null) {
 			throw new IllegalArgumentException("Value of configuration property " + key + " is missing");
 		}
 		return val;

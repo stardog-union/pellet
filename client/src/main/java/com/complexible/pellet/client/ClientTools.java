@@ -3,8 +3,8 @@ package com.complexible.pellet.client;
 import java.io.IOException;
 
 import com.google.common.base.Throwables;
-import retrofit.Call;
-import retrofit.Response;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Set of static tools to work with client API

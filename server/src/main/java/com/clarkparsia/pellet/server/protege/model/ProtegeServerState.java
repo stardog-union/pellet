@@ -1,5 +1,6 @@
 package com.clarkparsia.pellet.server.protege.model;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
@@ -11,7 +12,9 @@ import java.util.logging.Logger;
 import com.beust.jcommander.internal.Sets;
 import com.clarkparsia.pellet.server.Configuration;
 import com.clarkparsia.pellet.server.ConfigurationReader;
+import com.clarkparsia.pellet.server.exceptions.ProtegeConnectionException;
 import com.clarkparsia.pellet.server.model.OntologyState;
+import com.clarkparsia.pellet.server.model.impl.OntologyStateImpl;
 import com.clarkparsia.pellet.server.model.impl.ServerStateImpl;
 import com.clarkparsia.pellet.server.protege.ProtegeServiceUtils;
 import com.google.common.annotations.VisibleForTesting;
@@ -21,6 +24,8 @@ import com.google.inject.Singleton;
 import org.protege.owl.server.api.client.Client;
 import org.protege.owl.server.api.client.RemoteOntologyDocument;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -30,7 +35,11 @@ public final class ProtegeServerState extends ServerStateImpl {
 
 	private static final Logger LOGGER = Logger.getLogger(ProtegeServerState.class.getName());
 
-	private Client mClient;
+	private final Client mClient;
+
+	private final IRI mServerRoot;
+
+	private final Path mHome;
 
 	/**
 	 * Lock to control reloads of the state
@@ -38,54 +47,42 @@ public final class ProtegeServerState extends ServerStateImpl {
 	private final ReentrantLock updateLock = new ReentrantLock();
 
 	@Inject
-	public ProtegeServerState(final Configuration theConfig) {
+	public ProtegeServerState(final Configuration theConfig) throws ProtegeConnectionException, OWLOntologyCreationException {
 		this(ConfigurationReader.of(theConfig));
 	}
 
-	ProtegeServerState(final ConfigurationReader theConfigReader) {
-		super(loadOntologies(theConfigReader));
+	ProtegeServerState(final ConfigurationReader theConfigReader) throws ProtegeConnectionException, OWLOntologyCreationException {
+		super(ImmutableSet.<OntologyState>of());
+
+		mHome = Paths.get(theConfigReader.pelletSettings().home());
 
 		mClient = ProtegeServiceUtils.connect(theConfigReader);
+		mServerRoot = IRI.create(mClient.getScheme() + "://" + mClient.getAuthority());
 
-		assert mClient != null;
+		for (String aOntology : theConfigReader.protegeSettings().ontologies()) {
+			addOntology(aOntology);
+		}
 	}
 
-	/**
-	 * Will load new allowed ontologies from the Protege Server.
-	 *
-	 * @return  the set of ontology states loaded from the server
-	 */
-	private static Set<OntologyState> loadOntologies(final ConfigurationReader configReader) {
-		final Set<OntologyState> ontologies = Sets.newHashSet();
-		final Set<String> allowedOntologies = ImmutableSet.copyOf(configReader.protegeSettings().ontologies());
-
-		final Client mClient = ProtegeServiceUtils.connect(configReader);
-
+	protected OntologyState createOntologyState(final String ontologyPath) throws OWLOntologyCreationException {
 		final IRI serverRoot = IRI.create(mClient.getScheme() + "://" + mClient.getAuthority());
+		LOGGER.info("Loading ontology " + ontologyPath);
 
-		final Path home = Paths.get(configReader.pelletSettings().home());
+		try {
+			IRI remoteIRI = serverRoot.resolve("/"+ ontologyPath);
+			RemoteOntologyDocument ontoDoc = (RemoteOntologyDocument) mClient.getServerDocument(remoteIRI);
 
-		for (String aOntoName : allowedOntologies) {
-			try {
-				LOGGER.info("Loading ontology " + aOntoName);
+			ProtegeOntologyState state = new ProtegeOntologyState(mClient, ontoDoc, mHome.resolve(ontologyPath).resolve("reasoner_state.bin"));
 
-				IRI remoteIRI = serverRoot.resolve("/"+ aOntoName);
-				RemoteOntologyDocument ontoDoc = (RemoteOntologyDocument) mClient.getServerDocument(remoteIRI);
+			LOGGER.info("Loaded revision " + state.getVersion());
 
-				ProtegeOntologyState state = new ProtegeOntologyState(mClient, ontoDoc, home.resolve(aOntoName).resolve("reasoner_state.bin"));
+			state.update();
 
-				LOGGER.info("Loaded revision " + state.getVersion());
-
-				state.update();
-				ontologies.add(state);
-			}
-			catch (Exception e) {
-				LOGGER.log(Level.WARNING, "Could not load ontology from Protege server: " + aOntoName, e);
-			}
-
+			return state;
 		}
-
-		return ontologies;
+		catch (Exception e) {
+			throw new OWLOntologyCreationException("Could not load ontology from Protege server: " + ontologyPath, e);
+		}
 	}
 
 	@Override
@@ -115,10 +112,5 @@ public final class ProtegeServerState extends ServerStateImpl {
 
 	public Client getClient() {
 		return mClient;
-	}
-
-	@VisibleForTesting
-	public void setClient(final Client theClient) {
-		mClient = theClient;
 	}
 }

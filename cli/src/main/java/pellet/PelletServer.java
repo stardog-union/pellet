@@ -2,20 +2,19 @@ package pellet;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.pellet.server.Configuration;
 import com.clarkparsia.pellet.server.ConfigurationReader;
 import com.clarkparsia.pellet.server.PelletServerModule;
 import com.clarkparsia.pellet.server.protege.ProtegeServerConfiguration;
-import com.clarkparsia.pellet.service.json.GenericJsonMessage;
 import com.complexible.pellet.client.ClientModule;
+import com.complexible.pellet.client.ClientTools;
 import com.complexible.pellet.client.api.PelletService;
-import com.google.common.base.Joiner;
-import com.google.common.collect.FluentIterable;
+import com.complexible.pellet.client.reasoner.RemoteSchemaReasoner;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import retrofit2.Call;
 
 import static pellet.PelletCmdOptionArg.NONE;
 import static pellet.PelletCmdOptionArg.REQUIRED;
@@ -117,9 +116,10 @@ public class PelletServer extends PelletCmdApp {
 			endpoint = "http://"+ settings.host() + ":" + settings.port();
 		}
 
-		GenericJsonMessage aMessage = service(endpoint).shutdown().execute().body();
+		Call<Void> shutdownCall = service(endpoint).shutdown();
+		ClientTools.executeCall(shutdownCall);
 
-		System.out.println(aMessage.message);
+		System.out.println("Pellet server is shutting down");
 	}
 
 	private Configuration getServerConfig() throws IOException {

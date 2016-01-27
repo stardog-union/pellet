@@ -5,8 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.clarkparsia.pellet.server.exceptions.ServerException;
-import com.clarkparsia.pellet.server.handlers.PathHandlerSpec;
-import com.clarkparsia.pellet.server.handlers.ServerShutdownHandler;
+import com.clarkparsia.pellet.server.handlers.RoutingHandler;
 import com.clarkparsia.pellet.server.jobs.ServerStateReload;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.google.inject.Injector;
@@ -14,10 +13,11 @@ import com.google.inject.Key;
 import io.undertow.Handlers;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
+import io.undertow.server.HttpHandler;
+import io.undertow.server.HttpServerExchange;
+import io.undertow.server.handlers.BlockingHandler;
 import io.undertow.server.handlers.ExceptionHandler;
 import io.undertow.server.handlers.GracefulShutdownHandler;
-import io.undertow.server.handlers.PathHandler;
-import io.undertow.server.handlers.PathTemplateHandler;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
@@ -56,34 +56,39 @@ public final class PelletServer {
 	}
 
 	public void start() throws ServerException {
+		final Set<RoutingHandler> aHandlers = serverInjector.getInstance(Key.get(PelletServerModule.HANDLERS));
 
-		final Set<PathHandlerSpec> pathSpecs = serverInjector.getInstance(Key.get(PelletServerModule.PATH_SPECS));
-
-		// Servlets are attached to ROOT_PATH
-		final PathHandler path = Handlers.path(Handlers.redirect(ROOT_PATH));
-		final PathTemplateHandler pathTemplates = new PathTemplateHandler(path);
-
-		for (PathHandlerSpec spec : pathSpecs) {
-			switch (spec.getPathType()) {
-				case PREFIX:
-					path.addPrefixPath(spec.getPath(), spec.getHandler());
-					break;
-				case TEMPLATE:
-					pathTemplates.add(spec.getPath(), spec.getHandler());
-					break;
-				default:
-					path.addExactPath(spec.getPath(), spec.getHandler());
-			}
-		}
+		// Routing handler
+		final io.undertow.server.RoutingHandler router = Handlers.routing();
 
 		// Exceptions handler
-		final ExceptionHandler aExceptionHandler = Handlers.exceptionHandler(pathTemplates);
+		final ExceptionHandler aExceptionHandler = Handlers.exceptionHandler(router);
 
 		// Shutdown handler
 		final GracefulShutdownHandler aShutdownHandler = Handlers.gracefulShutdown(aExceptionHandler);
 
+		for (RoutingHandler spec : aHandlers) {
+			// Since we're doing IO in the Handlers, we have to wrap them in a BlockingHandler
+			final BlockingHandler aHandler = new BlockingHandler(spec);
+			router.add(spec.getMethod(), spec.getPath(), aHandler);
+		}
+
 		// add shutdown path
-		path.addExactPath("/admin/shutdown", ServerShutdownHandler.newInstance(this, aShutdownHandler));
+		router.add("GET", "/admin/shutdown", new HttpHandler() {
+			@Override
+			public void handleRequest(final HttpServerExchange exchange) throws Exception {
+				aShutdownHandler.shutdown();
+				aShutdownHandler.addShutdownListener(new GracefulShutdownHandler.ShutdownListener() {
+					@Override
+					public void shutdown(final boolean isDown) {
+						if (isDown) {
+							stop();
+						}
+					}
+				});
+				exchange.endExchange();
+			}
+		});
 
 		final ConfigurationReader aConfig = ConfigurationReader.of(serverInjector.getInstance(Configuration.class));
 

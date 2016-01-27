@@ -3,7 +3,6 @@ package com.clarkparsia.pellet.server.protege.model;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.protege.ProtegeServerTest;
@@ -34,7 +33,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 	@Before
 	public void before() throws Exception {
 		super.before();
-		reloadServerState("dummy.history");
+		recreateServerState();
 	}
 
 	@Before
@@ -46,7 +45,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		}
 	}
 
-	private void reloadServerState(String... ontologies) throws Exception {
+	private void recreateServerState(String... ontologies) throws Exception {
 		if (mServerState != null) {
 			mServerState.close();
 		}
@@ -57,7 +56,7 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 	public void shouldBeEmpty() throws Exception {
 		assertNotNull(mServerState);
 
-		assertTrue(mServerState.isEmpty());
+		assertTrue(mServerState.ontologies().isEmpty());
 	}
 
 	private void loadOntologies(final Client theClient) throws OWLServerException {
@@ -74,6 +73,17 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		return ((ProtegeOntologyState) theState).getPath();
 	}
 
+	private void assertOntologies(String... ontologies) {
+		assertEquals(ontologies.length, mServerState.ontologies().size());
+
+		for (String ontology : ontologies) {
+			IRI ontologyIRI = IRI.create(ontology);
+			Optional<OntologyState> state = mServerState.getOntology(ontologyIRI);
+			assertTrue(state.isPresent());
+			assertEquals(ontologyIRI, state.get().getIRI());
+		}
+	}
+
 	@Test
 	public void shouldHaveOntologies() throws Exception {
 		assertNotNull(mServerState);
@@ -83,18 +93,39 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 		// create ontologies
 		loadOntologies(aClient);
 
-		// when the ontologies are created/modified after ServerState instantiation we have to
-		// refresh the state.
-		reloadServerState(OWL2_HISTORY, AGENCIES_HISTORY);
+		recreateServerState(OWL2_HISTORY, AGENCIES_HISTORY);
 
-		assertFalse(mServerState.isEmpty());
+		assertOntologies("http://www.example.org/test", "http://www.owl-ontologies.com/unnamed.owl");
+	}
 
-		Optional<OntologyState> aOwl2State = mServerState.getOntology(IRI.create("http://www.example.org/test"));
-		assertNotNull(aOwl2State);
-		assertTrue(aOwl2State.isPresent());
-		Optional<OntologyState> aAgencyState = mServerState.getOntology(IRI.create("http://www.owl-ontologies.com/unnamed.owl"));
-		assertNotNull(aAgencyState);
-		assertTrue(aAgencyState.isPresent());
+	@Test
+	public void addRemoveOntologies() throws Exception {
+		assertNotNull(mServerState);
+
+		Client aClient = mServerState.getClient();
+
+		// create ontologies
+		loadOntologies(aClient);
+
+		OntologyState s = mServerState.addOntology(OWL2_HISTORY);
+		assertOntologies("http://www.example.org/test");
+		assertNotNull(s);
+
+		s = mServerState.addOntology(AGENCIES_HISTORY);
+		assertOntologies("http://www.example.org/test", "http://www.owl-ontologies.com/unnamed.owl");
+		assertNotNull(s);
+
+		boolean removed = mServerState.removeOntology(IRI.create("http://www.example.org/test"));
+		assertOntologies("http://www.owl-ontologies.com/unnamed.owl");
+		assertTrue(removed);
+
+		removed = mServerState.removeOntology(IRI.create("http://www.example.com/does-not-exist"));
+		assertOntologies("http://www.owl-ontologies.com/unnamed.owl");
+		assertFalse(removed);
+
+		removed = mServerState.removeOntology(IRI.create("http://www.owl-ontologies.com/unnamed.owl"));
+		assertOntologies();
+		assertTrue(removed);
 	}
 
 	@Test
@@ -105,11 +136,11 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 		loadOntologies(aClient);
 
-		reloadServerState(OWL2_HISTORY, AGENCIES_HISTORY);
+		recreateServerState(OWL2_HISTORY, AGENCIES_HISTORY);
 
 		mServerState.save();
 
-		assertFalse(mServerState.isEmpty());
+		assertFalse(mServerState.ontologies().isEmpty());
 
 		for (OntologyState aState : mServerState.ontologies()) {
 			assertTrue(Files.exists(getOntologyHEAD(aState)));
@@ -125,20 +156,20 @@ public class ProtegeServerStateTest extends ProtegeServerTest {
 
 		loadOntologies(aClient);
 
-		reloadServerState(OWL2_HISTORY, AGENCIES_HISTORY);
+		recreateServerState(OWL2_HISTORY, AGENCIES_HISTORY);
 
 		mServerState.save();
 
-		assertFalse(mServerState.isEmpty());
+		assertFalse(mServerState.ontologies().isEmpty());
 
 		for (OntologyState aState : mServerState.ontologies()) {
 			assertTrue(Files.exists(getOntologyHEAD(aState)));
 			assertTrue(Files.exists(getOntologyReasoner(aState)));
 		}
 
-		reloadServerState(OWL2_HISTORY, AGENCIES_HISTORY);
+		recreateServerState(OWL2_HISTORY, AGENCIES_HISTORY);
 
-		assertFalse(mServerState.isEmpty());
+		assertFalse(mServerState.ontologies().isEmpty());
 
 		int requiredChecks = 0;
 		for (OntologyState aState : mServerState.ontologies()) {

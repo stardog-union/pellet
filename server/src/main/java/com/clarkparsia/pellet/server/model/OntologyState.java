@@ -14,13 +14,18 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Evren Sirin
  */
 public interface OntologyState extends AutoCloseable {
-
+	/**
+	 * Returns the client state for the given ID.
+	 */
 	ClientState getClient(String clientID);
 
+	/**
+	 * Returns the IRI of the ontology.
+	 */
 	IRI getIRI();
 
 	/**
-	 * Update the ontology with the latest changes from the backing store. Details of retrieving the changes depends on the backing store.
+	 * Updates the ontology with the latest changes from the backing store. Details of retrieving the changes depends on the backing store.
 	 */
 	boolean update();
 
@@ -28,4 +33,10 @@ public interface OntologyState extends AutoCloseable {
 	 * Saves the current reasoning state.
 	 */
 	void save();
+
+	/**
+	 * Closes this ontology state and disposes the asscoaited reasoner and client states.
+	 */
+	@Override
+	void close();
 }

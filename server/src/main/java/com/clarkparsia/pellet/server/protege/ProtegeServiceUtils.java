@@ -50,7 +50,7 @@ public final class ProtegeServiceUtils {
 		return docs;
 	}
 
-	public static Client connect(final ConfigurationReader config) {
+	public static Client connect(final ConfigurationReader config) throws ProtegeConnectionException {
 		final ConfigurationReader.ProtegeSettings protege = config.protegeSettings();
 		final String aHost = protege.host();
 
@@ -71,8 +71,7 @@ public final class ProtegeServiceUtils {
 			}
 		}
 		catch (Exception e) {
-			Throwables.propagate(new ProtegeConnectionException("Could not connect to Protege Server", e));
+			throw new ProtegeConnectionException("Could not connect to Protege Server", e);
 		}
-		return null;
 	}
 }

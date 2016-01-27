@@ -179,7 +179,7 @@ public class OntologyStateImpl implements OntologyState {
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() {
 		clients.invalidateAll();
 
 		OWLOntologyManager manager = ontology.getOWLOntologyManager();

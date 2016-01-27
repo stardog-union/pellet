@@ -8,11 +8,14 @@
 
 package com.clarkparsia.pellet.server.model;
 
+import java.util.Collection;
 import java.util.Set;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
  * @author Evren Sirin
@@ -23,12 +26,14 @@ public interface ServerState extends AutoCloseable {
 	 */
 	Optional<OntologyState> getOntology(IRI ontology);
 
+	boolean removeOntology(IRI ontology);
+
+	OntologyState addOntology(String ontologyPath) throws OWLOntologyCreationException;
+
 	/**
 	 * Returns all the ontologies managed by this server.
 	 */
-	Iterable<OntologyState> ontologies();
-
-	boolean isEmpty();
+	Collection<OntologyState> ontologies();
 
 	/**
 	 * Update all ontology states. This function will iterate over all the {@link #ontologies() ontologies} and {@link OntologyState#update() update} each one.
@@ -39,36 +44,4 @@ public interface ServerState extends AutoCloseable {
 	 * Persists the state.
 	 */
 	void save();
-
-	ServerState EMPTY = new ServerState() {
-		@Override
-		public Optional<OntologyState> getOntology(final IRI ontology) {
-			return Optional.absent();
-		}
-
-		@Override
-		public Set<OntologyState> ontologies() {
-			return ImmutableSet.of();
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return true;
-		}
-
-		@Override
-		public boolean update() {
-			// no-op
-			return false;
-		}
-
-		@Override
-		public void save() {
-			// no-op
-		}
-
-		@Override
-		public void close() throws Exception {
-		}
-	};
 }

@@ -8,11 +8,21 @@
 
 package com.clarkparsia.pellet.server.model.impl;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+
 import com.clarkparsia.pellet.server.model.OntologyState;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * Immutable implementation of a ontology server state.
@@ -20,15 +30,17 @@ import org.semanticweb.owlapi.model.IRI;
  * @author Evren Sirin
  */
 public class ServerStateImpl implements ServerState {
-	private final ImmutableMap<IRI, OntologyState> ontologies;
+	protected final OWLOntologyManager manager;
+
+	private final Map<IRI, OntologyState> ontologies;
 
 	protected ServerStateImpl(final Iterable<OntologyState> onts) {
-		ImmutableMap.Builder<IRI, OntologyState> builder = ImmutableMap.builder();
-		for (OntologyState ontoState : onts) {
-			builder.put(ontoState.getIRI(), ontoState);
-		}
+		manager = OWLManager.createOWLOntologyManager();
 
-		ontologies = builder.build();
+		ontologies = Maps.newConcurrentMap();
+		for (OntologyState ontoState : onts) {
+			ontologies.put(ontoState.getIRI(), ontoState);
+		}
 	}
 
 	@Override
@@ -36,14 +48,31 @@ public class ServerStateImpl implements ServerState {
 		return Optional.fromNullable(ontologies.get(ontology));
 	}
 
-	@Override
-	public Iterable<OntologyState> ontologies() {
-		return ontologies.values();
+	protected OntologyState createOntologyState(final String ontologyPath) throws OWLOntologyCreationException {
+		OWLOntology ont = manager.loadOntologyFromOntologyDocument(new File(ontologyPath));
+		return new OntologyStateImpl(ont);
 	}
 
 	@Override
-	public boolean isEmpty() {
-		return ontologies.isEmpty();
+	public OntologyState addOntology(final String ontologyPath) throws OWLOntologyCreationException {
+		OntologyState state = createOntologyState(ontologyPath);
+		ontologies.put(state.getIRI(), state);
+		return state;
+	}
+
+	@Override
+	public boolean removeOntology(final IRI ontology) {
+		OntologyState state = ontologies.remove(ontology);
+		boolean removed = (state != null);
+		if (removed) {
+			state.close();
+		}
+		return removed;
+	}
+
+	@Override
+	public Collection<OntologyState> ontologies() {
+		return Collections.unmodifiableCollection(ontologies.values());
 	}
 
 	@Override
