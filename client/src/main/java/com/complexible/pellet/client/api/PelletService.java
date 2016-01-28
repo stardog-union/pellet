@@ -2,7 +2,6 @@ package com.complexible.pellet.client.api;
 
 import java.util.UUID;
 
-import com.clarkparsia.pellet.service.json.JsonMessage;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.google.gson.JsonObject;
 import okhttp3.RequestBody;

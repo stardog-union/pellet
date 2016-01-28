@@ -2,7 +2,6 @@ package com.clarkparsia.pellet.server;
 
 import java.util.Properties;
 
-import com.beust.jcommander.internal.Sets;
 import org.junit.Before;
 import org.junit.Test;
 

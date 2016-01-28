@@ -91,7 +91,6 @@ public class ProtegeOntologyState extends OntologyStateImpl {
 
 				List<OWLOntologyChange> changes = filterChanges(history.getChanges(ontology));
 				ontology.getOWLOntologyManager().applyChanges(changes);
-				// FIXME adjustImports
 
 				revision = headRevision;
 			}

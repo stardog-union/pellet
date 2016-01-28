@@ -1,5 +1,7 @@
 package com.complexible.pellet.client;
 
+import java.util.UUID;
+
 import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.clarkparsia.pellet.service.io.EncodingException;
 import com.clarkparsia.pellet.service.messages.UpdateRequest;
@@ -24,8 +26,7 @@ import static org.junit.Assert.assertThat;
  * @author Edgar Rodriguez-Diaz
  */
 public class PelletServiceTest extends PelletClientTest {
-	PelletServiceProvider serviceProvider = new PelletServiceProvider(PelletService.DEFAULT_LOCAL_ENDPOINT,
-	                                                                  0, 0, 0); // disable all timeouts for tests
+	private UUID ID = UUID.randomUUID();
 
 	private IRI agencyOntId;
 	private IRI owl2OntId;
@@ -41,11 +42,6 @@ public class PelletServiceTest extends PelletClientTest {
 		startPelletServer(AGENCIES_HISTORY);
 	}
 
-	@Override
-	public Client provideClient() throws Exception {
-		return createClient(RMI_PORT, REDMOND);
-	}
-
 	@Test
 	public void shouldUpdateWithEmptySets() throws EncodingException {
 		PelletService aService = serviceProvider.get();
@@ -54,7 +50,7 @@ public class PelletServiceTest extends PelletClientTest {
 		RequestBody aBody = RequestBody.create(MediaType.parse(encoder.getMediaType()),
 		                                       encoder.encode(updateReq));
 
-		Call<Void> updateCall = aService.update(agencyOntId, RemoteSchemaReasoner.CLIENT_ID, aBody);
+		Call<Void> updateCall = aService.update(agencyOntId, ID, aBody);
 		ClientTools.executeCall(updateCall);
 	}
 
@@ -62,7 +58,7 @@ public class PelletServiceTest extends PelletClientTest {
 	public void shouldGetVersionFromClient() {
 		PelletService aService = serviceProvider.get();
 
-		Call<Integer> aVersionCall = aService.version(agencyOntId, RemoteSchemaReasoner.CLIENT_ID);
+		Call<Integer> aVersionCall = aService.version(agencyOntId, ID);
 
 		int aVersion = ClientTools.executeCall(aVersionCall);
 

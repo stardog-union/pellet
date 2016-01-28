@@ -49,6 +49,20 @@
                     <groupId>${project.groupId}</groupId>
                     <artifactId>pellet-server</artifactId>
                     <version>${project.version}</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.antlr</groupId>
+                            <artifactId>*</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.testng</groupId>
+                            <artifactId>*</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.apache.felix</groupId>
+                            <artifactId>*</artifactId>
+                        </exclusion>
+                    </exclusions>
                 </dependency>
 	</dependencies>
   <build>

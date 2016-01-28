@@ -17,7 +17,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 
 /**
@@ -58,7 +57,6 @@ public class PelletServiceProvider implements Provider<PelletService> {
 		final Retrofit aRetrofit = new Retrofit.Builder().baseUrl(mEndpoint)
 		                                                 .client(httpClient)
 		                                                 .addConverterFactory(PRIMITIVE_FACTORY)
-		                                                 .addConverterFactory(GsonConverterFactory.create())
 		                                                 .build();
 
 		return aRetrofit.create(PelletService.class);

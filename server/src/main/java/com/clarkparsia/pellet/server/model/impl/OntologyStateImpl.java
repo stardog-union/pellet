@@ -30,8 +30,10 @@ import com.google.common.cache.RemovalNotification;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.Node;
 
 /**
  * Implementation of ontology state without a backing store.

@@ -47,6 +47,7 @@ public class TestUtilities {
 	public static final File SERVER_ROOT = new File("target/server-distribution/server");
 	public static final File ROOT_DIRECTORY = new File(SERVER_ROOT, "root");
 	public static final File CONFIGURATION_DIRECTORY = new File(SERVER_ROOT, "configuration");
+	public static final File PELLET_DIRECTORY = new File(SERVER_ROOT, "pellet");
 	public static final String PREFIX;
 	static {
 		StringBuffer sb = new StringBuffer();
@@ -84,8 +85,10 @@ public class TestUtilities {
 	public static File initializeServerRoot() {
 		delete(ROOT_DIRECTORY);
 		delete(CONFIGURATION_DIRECTORY);
+		delete(PELLET_DIRECTORY);
 		ROOT_DIRECTORY.mkdirs();
 		CONFIGURATION_DIRECTORY.mkdirs();
+		PELLET_DIRECTORY.mkdirs();
 
 		return ROOT_DIRECTORY;
 	}

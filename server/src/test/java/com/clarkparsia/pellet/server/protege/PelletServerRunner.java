@@ -22,9 +22,4 @@ public class PelletServerRunner extends PelletServerTest {
 	public static void main(String[] args) throws Exception {
 		new PelletServerRunner().run();
 	}
-
-	@Override
-	public Client provideClient() throws Exception {
-		return createClient(RMI_PORT, REDMOND);
-	}
 }

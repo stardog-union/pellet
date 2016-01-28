@@ -20,7 +20,6 @@ import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import okhttp3.MediaType;
@@ -49,7 +48,9 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	final ServiceEncoder mEncoder = new ProtoServiceEncoder();
 	final ServiceDecoder mDecoder = new ProtoServiceDecoder();
 
-	public static UUID CLIENT_ID = UUID.randomUUID();
+	private static final UUID CLIENT_ID = UUID.randomUUID();
+
+	private final UUID mClientID;
 
 	private LoadingCache<Pair<QueryType, OWLLogicalEntity>, NodeSet<?>> cache = CacheBuilder.newBuilder()
 		                   .maximumSize(1024)
@@ -64,9 +65,14 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	@Inject
 	public RemoteSchemaReasoner(final PelletService thePelletService,
 	                            @Assisted final OWLOntology theOntology) {
-		Preconditions.checkNotNull(theOntology, "the Ontology must not be Null.");
+		this(thePelletService, CLIENT_ID, theOntology);
+	}
 
+	public RemoteSchemaReasoner(final PelletService thePelletService,
+	                            final UUID theClientID,
+	                            final OWLOntology theOntology) {
 		mService = thePelletService;
+		mClientID = theClientID;
 
 		mOntologyIri = theOntology.getOntologyID()
 		                          .getOntologyIRI()
@@ -91,7 +97,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 			Call<ResponseBody> queryCall = mService.query(mOntologyIri,
 			                                              theQueryType,
-			                                              CLIENT_ID,
+			                                              mClientID,
 			                                              mDecoder.getMediaType(),
 			                                              aReqBody);
 			final ResponseBody aRespBody = ClientTools.executeCall(queryCall);
@@ -114,7 +120,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 			Call<ResponseBody> explainCall = mService.explain(mOntologyIri,
 			                                                  limit,
-			                                                  CLIENT_ID,
+			                                                  mClientID,
 			                                                  mDecoder.getMediaType(),
 			                                                  aReqBody);
 			final ResponseBody aRespBody = ClientTools.executeCall(explainCall);
@@ -136,7 +142,7 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
 			                                          mEncoder.encode(new UpdateRequest(additions, removals)));
 
-			Call<Void> updateCall = mService.update(mOntologyIri, CLIENT_ID, aReqBody);
+			Call<Void> updateCall = mService.update(mOntologyIri, mClientID, aReqBody);
 			ClientTools.executeCall(updateCall);
 		}
 		catch (Exception e) {
@@ -146,11 +152,12 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 
 	@Override
 	public int version() {
-		final Call<Integer> versionCall = mService.version(mOntologyIri, CLIENT_ID);
+		final Call<Integer> versionCall = mService.version(mOntologyIri, mClientID);
 		return ClientTools.executeCall(versionCall);
 	}
 
 	@Override
 	public void close() throws Exception {
+		cache.invalidateAll();
 	}
 }

@@ -1,42 +1,28 @@
 package com.clarkparsia.pellet.service.proto;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Set;
 
+import com.clarkparsia.owlapiv3.ImmutableNode;
+import com.clarkparsia.owlapiv3.ImmutableNodeSet;
 import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.pellet.service.io.SerializableNode;
-import com.clarkparsia.pellet.service.io.SerializableNodeSet;
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.protobuf.ByteString;
-import org.semanticweb.owlapi.apibinding.OWLFunctionalSyntaxFactory;
-import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormat;
-import org.semanticweb.owlapi.formats.FunctionalSyntaxDocumentFormatFactory;
 import org.semanticweb.owlapi.functional.parser.OWLFunctionalSyntaxOWLParser;
-import org.semanticweb.owlapi.functional.renderer.OWLFunctionalSyntaxRenderer;
-import org.semanticweb.owlapi.io.OWLOntologyDocumentSource;
 import org.semanticweb.owlapi.io.OWLParser;
-import org.semanticweb.owlapi.io.OWLRenderer;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
-import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
-import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
@@ -157,7 +143,7 @@ public final class ProtoTools {
 			theObjects.add(ProtoTools.fromOwlObject(aObject));
 		}
 
-		return new SerializableNode<OWLObject>(theObjects);
+		return ImmutableNode.of(theObjects);
 	}
 
 	public static Messages.NodeSet toNodeSet(final NodeSet<? extends OWLObject> theNodeSet) throws IOException {
@@ -178,6 +164,6 @@ public final class ProtoTools {
 			aNodeSet.add(ProtoTools.<Node<OWLObject>>fromNode(aNode));
 		}
 
-		return SerializableNodeSet.create(aNodeSet);
+		return ImmutableNodeSet.of(aNodeSet);
 	}
 }

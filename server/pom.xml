@@ -40,6 +40,12 @@
 			<groupId>edu.stanford.protege</groupId>
 			<artifactId>org.protege.owl.server</artifactId>
 			<version>3.0.0-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sourceforge.owlapi</groupId>
+					<artifactId>owlapi-osgidistribution</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.undertow</groupId>

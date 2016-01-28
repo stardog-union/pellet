@@ -41,7 +41,7 @@ public abstract class ProtegeServerTest extends TestUtilities {
 
 	protected final static int RMI_PORT = 4875;
 
-	protected final static Path TEST_HOME = Paths.get(".test-home");
+	protected final static Path TEST_HOME = Paths.get(PELLET_DIRECTORY.toURI());
 
 	protected final static String OWL2_HISTORY = "owl2.history";
 	protected final static String AGENCIES_HISTORY = "agencies.history";
@@ -106,7 +106,7 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		ClientUtilities.createServerOntology(client,
 		                                     IRI.create(root(client).toString() +"/", OWL2_HISTORY),
 		                                     new ChangeMetaData("Initial entry"),
-		                                     OntologyUtils.loadOntology(Resources.getResource("test/data/owl2.owl")
+		                                     OntologyUtils.loadOntology(Resources.getResource("owl2.owl")
 		                                                                         .toString()));
 		return IRI.create("http://www.example.org/test");
 	}
@@ -115,7 +115,7 @@ public abstract class ProtegeServerTest extends TestUtilities {
 		ClientUtilities.createServerOntology(client,
 		                                     IRI.create(root(client).toString() + "/", AGENCIES_HISTORY),
 		                                     new ChangeMetaData("Initial entry"),
-		                                     OntologyUtils.loadOntology(Resources.getResource("test/data/agencies.owl")
+		                                     OntologyUtils.loadOntology(Resources.getResource("agencies.owl")
 		                                                                         .toString()));
 		return  IRI.create("http://www.owl-ontologies.com/unnamed.owl");
 	}
