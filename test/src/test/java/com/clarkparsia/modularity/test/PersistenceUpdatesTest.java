@@ -108,16 +108,15 @@ public class PersistenceUpdatesTest {
 			// at this point there should be a change to the ontology that is not applied yet to the classifier
 			// this should cause the save operation to fail
 
+			FileOutputStream fos = new FileOutputStream( testFile );
 			try {
-				FileOutputStream fos = new FileOutputStream( testFile );
-
 				IncrementalClassifierPersistence.save( modular, fos );
 				fail( "The incremental classifer must not allow itself to be persisted if there are any unapplied changes to the ontology" );
-
-				fos.close();
 			} catch( IllegalStateException e ) {
-				assertTrue( testFile.delete() );
 				// correct behavior
+			} finally {
+				fos.close();
+				assertTrue( testFile.delete() );
 			}
 
 		} finally {
@@ -155,17 +154,16 @@ public class PersistenceUpdatesTest {
 			// at this point there should be a change to the ontology that is not applied yet to the classifier
 			// this should cause the save operation to fail
 
+			FileOutputStream fos = new FileOutputStream( testFile );
 			try {
-				FileOutputStream fos = new FileOutputStream( testFile );
-
 				IncrementalClassifierPersistence.save( modular, fos );
 				fail( "The incremental classifer must not allow itself to be persisted if there are any unapplied changes to the ontology" );
-
-				fos.close();
 			} catch( IllegalStateException e ) {
-				assertTrue( testFile.delete() );
 				// correct behavior
-			} 		
+			} finally {
+				fos.close();
+				assertTrue( testFile.delete() );
+			}		
 			
 			modular.dispose();
 		} finally {
@@ -208,13 +206,15 @@ public class PersistenceUpdatesTest {
 			modular.classify();
 
 			// at this point, the ontology should be updated (despite the changes), and the save should succeed.		
+			
 			FileOutputStream fos = new FileOutputStream( testFile );
-
-			IncrementalClassifierPersistence.save( modular, fos );
-
-			fos.close();
-
-			assertTrue( testFile.delete() );		
+			try {
+				IncrementalClassifierPersistence.save( modular, fos );
+			} finally {
+				fos.close();
+				assertTrue( testFile.delete() );
+			}
+					
 		} finally {
 			OWL.manager.removeOntology( ontology );	
 		}	
@@ -239,18 +239,23 @@ public class PersistenceUpdatesTest {
 			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, moduleExtractor );
 			modular.classify();
 
-			FileOutputStream fos = new FileOutputStream( testFile );
+			try {
+				FileOutputStream fos = new FileOutputStream( testFile );
+				try {
+					IncrementalClassifierPersistence.save( modular, fos );
+				} finally {
+					fos.close();
+				}
 
-			IncrementalClassifierPersistence.save( modular, fos );
-
-			fos.close();
-
-
-			FileInputStream fis = new FileInputStream( testFile );
-
-			modular = IncrementalClassifierPersistence.load( fis );
-
-			fis.close();
+				FileInputStream fis = new FileInputStream( testFile );
+				try {
+					modular = IncrementalClassifierPersistence.load( fis );
+				} finally {
+					fis.close();
+				}
+			} finally {
+				assertTrue( testFile.delete() );
+			}
 
 			// first remove a random axiom
 			List<OWLAxiom> axiomsToRemove = new ArrayList<OWLAxiom>( TestUtils.selectRandomAxioms( ontology, 1 ) );
@@ -286,17 +291,23 @@ public class PersistenceUpdatesTest {
 			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, createModuleExtractor() );		
 			modular.classify();
 
-			FileOutputStream fos = new FileOutputStream( testFile );
+			try {
+				FileOutputStream fos = new FileOutputStream( testFile );
+				try {
+					IncrementalClassifierPersistence.save( modular, fos );
+				} finally {
+					fos.close();
+				}
 
-			IncrementalClassifierPersistence.save( modular, fos );
-
-			fos.close();
-
-			FileInputStream fis = new FileInputStream( testFile );
-
-			modular = IncrementalClassifierPersistence.load( fis, ontology );
-
-			fis.close();
+				FileInputStream fis = new FileInputStream( testFile );
+				try {
+					modular = IncrementalClassifierPersistence.load( fis, ontology );
+				} finally {
+					fis.close();
+				}
+			} finally {
+				assertTrue( testFile.delete() );
+			}
 
 			// first remove a random axiom
 			List<OWLAxiom> axiomsToRemove = new ArrayList<OWLAxiom>( TestUtils.selectRandomAxioms( ontology, 1 ) );
@@ -323,25 +334,31 @@ public class PersistenceUpdatesTest {
 			IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner( ontology, createModuleExtractor() );		
 			modular.classify();
 
-			FileOutputStream fos = new FileOutputStream( testFile );
+			try {
+				FileOutputStream fos = new FileOutputStream( testFile );
+				try {
+					IncrementalClassifierPersistence.save( modular, fos );
+				} finally {
+					fos.close();
+				}
 
-			IncrementalClassifierPersistence.save( modular, fos );
+				// perform changes while the classifier is stored on disk
+				// first remove a random axiom
+				List<OWLAxiom> axiomsToRemove = new ArrayList<OWLAxiom>( TestUtils.selectRandomAxioms( ontology, 1 ) );
 
-			fos.close();
+				for( OWLAxiom axiomToRemove : axiomsToRemove ) {
+					OWL.manager.applyChange( new RemoveAxiom(ontology, axiomToRemove ) );
+				}
 
-			// perform changes while the classifier is stored on disk
-			// first remove a random axiom
-			List<OWLAxiom> axiomsToRemove = new ArrayList<OWLAxiom>( TestUtils.selectRandomAxioms( ontology, 1 ) );
-
-			for( OWLAxiom axiomToRemove : axiomsToRemove ) {
-				OWL.manager.applyChange( new RemoveAxiom(ontology, axiomToRemove ) );
+				FileInputStream fis = new FileInputStream( testFile );
+				try {
+					modular = IncrementalClassifierPersistence.load( fis, ontology );
+				} finally {
+					fis.close();
+				}
+			} finally {
+				assertTrue( testFile.delete() );
 			}
-
-			FileInputStream fis = new FileInputStream( testFile );
-
-			modular = IncrementalClassifierPersistence.load( fis, ontology );
-
-			fis.close();
 
 			PelletReasoner expected = PelletReasonerFactory.getInstance().createReasoner( ontology );
 
