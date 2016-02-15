@@ -8,7 +8,7 @@ package org.mindswap.pellet.jena.graph.loader;
 
 import org.mindswap.pellet.utils.Bool;
 
-import com.hp.hpl.jena.graph.Node;
+import org.apache.jena.graph.Node;
 
 /**
  * <p>

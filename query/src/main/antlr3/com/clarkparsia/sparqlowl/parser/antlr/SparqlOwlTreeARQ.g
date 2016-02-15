@@ -20,60 +20,61 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.datatypes.TypeMapper;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryParseException;
-import com.hp.hpl.jena.rdf.model.AnonId;
-import com.hp.hpl.jena.sparql.core.Prologue;
-import com.hp.hpl.jena.sparql.core.Var;
-import com.hp.hpl.jena.sparql.expr.E_Add;
-import com.hp.hpl.jena.sparql.expr.E_Bound;
-import com.hp.hpl.jena.sparql.expr.E_Datatype;
-import com.hp.hpl.jena.sparql.expr.E_Divide;
-import com.hp.hpl.jena.sparql.expr.E_Equals;
-import com.hp.hpl.jena.sparql.expr.E_Function;
-import com.hp.hpl.jena.sparql.expr.E_GreaterThan;
-import com.hp.hpl.jena.sparql.expr.E_GreaterThanOrEqual;
-import com.hp.hpl.jena.sparql.expr.E_IsBlank;
-import com.hp.hpl.jena.sparql.expr.E_IsIRI;
-import com.hp.hpl.jena.sparql.expr.E_IsLiteral;
-import com.hp.hpl.jena.sparql.expr.E_IsURI;
-import com.hp.hpl.jena.sparql.expr.E_Lang;
-import com.hp.hpl.jena.sparql.expr.E_LangMatches;
-import com.hp.hpl.jena.sparql.expr.E_LessThan;
-import com.hp.hpl.jena.sparql.expr.E_LessThanOrEqual;
-import com.hp.hpl.jena.sparql.expr.E_LogicalAnd;
-import com.hp.hpl.jena.sparql.expr.E_LogicalNot;
-import com.hp.hpl.jena.sparql.expr.E_LogicalOr;
-import com.hp.hpl.jena.sparql.expr.E_Multiply;
-import com.hp.hpl.jena.sparql.expr.E_NotEquals;
-import com.hp.hpl.jena.sparql.expr.E_Regex;
-import com.hp.hpl.jena.sparql.expr.E_SameTerm;
-import com.hp.hpl.jena.sparql.expr.E_Str;
-import com.hp.hpl.jena.sparql.expr.E_Subtract;
-import com.hp.hpl.jena.sparql.expr.E_UnaryMinus;
-import com.hp.hpl.jena.sparql.expr.E_UnaryPlus;
-import com.hp.hpl.jena.sparql.expr.Expr;
-import com.hp.hpl.jena.sparql.expr.ExprList;
-import com.hp.hpl.jena.sparql.syntax.Element;
-import com.hp.hpl.jena.sparql.syntax.ElementFilter;
-import com.hp.hpl.jena.sparql.syntax.ElementGroup;
-import com.hp.hpl.jena.sparql.syntax.ElementNamedGraph;
-import com.hp.hpl.jena.sparql.syntax.ElementOptional;
-import com.hp.hpl.jena.sparql.syntax.ElementTriplesBlock;
-import com.hp.hpl.jena.sparql.syntax.ElementUnion;
-import com.hp.hpl.jena.sparql.syntax.Template;
-import com.hp.hpl.jena.sparql.syntax.TripleCollector;
-import com.hp.hpl.jena.sparql.syntax.TripleCollectorBGP;
-import com.hp.hpl.jena.sparql.util.LabelToNodeMap;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
-import com.hp.hpl.jena.vocabulary.XSD;
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.TypeMapper;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.NodeFactory;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryParseException;
+import org.apache.jena.rdf.model.AnonId;
+import org.apache.jena.sparql.core.Prologue;
+import org.apache.jena.sparql.core.Var;
+import org.apache.jena.sparql.expr.E_Add;
+import org.apache.jena.sparql.expr.E_Bound;
+import org.apache.jena.sparql.expr.E_Datatype;
+import org.apache.jena.sparql.expr.E_Divide;
+import org.apache.jena.sparql.expr.E_Equals;
+import org.apache.jena.sparql.expr.E_Function;
+import org.apache.jena.sparql.expr.E_GreaterThan;
+import org.apache.jena.sparql.expr.E_GreaterThanOrEqual;
+import org.apache.jena.sparql.expr.E_IsBlank;
+import org.apache.jena.sparql.expr.E_IsIRI;
+import org.apache.jena.sparql.expr.E_IsLiteral;
+import org.apache.jena.sparql.expr.E_IsURI;
+import org.apache.jena.sparql.expr.E_Lang;
+import org.apache.jena.sparql.expr.E_LangMatches;
+import org.apache.jena.sparql.expr.E_LessThan;
+import org.apache.jena.sparql.expr.E_LessThanOrEqual;
+import org.apache.jena.sparql.expr.E_LogicalAnd;
+import org.apache.jena.sparql.expr.E_LogicalNot;
+import org.apache.jena.sparql.expr.E_LogicalOr;
+import org.apache.jena.sparql.expr.E_Multiply;
+import org.apache.jena.sparql.expr.E_NotEquals;
+import org.apache.jena.sparql.expr.E_Regex;
+import org.apache.jena.sparql.expr.E_SameTerm;
+import org.apache.jena.sparql.expr.E_Str;
+import org.apache.jena.sparql.expr.E_Subtract;
+import org.apache.jena.sparql.expr.E_UnaryMinus;
+import org.apache.jena.sparql.expr.E_UnaryPlus;
+import org.apache.jena.sparql.expr.Expr;
+import org.apache.jena.sparql.expr.ExprList;
+import org.apache.jena.sparql.syntax.Element;
+import org.apache.jena.sparql.syntax.ElementFilter;
+import org.apache.jena.sparql.syntax.ElementGroup;
+import org.apache.jena.sparql.syntax.ElementNamedGraph;
+import org.apache.jena.sparql.syntax.ElementOptional;
+import org.apache.jena.sparql.syntax.ElementTriplesBlock;
+import org.apache.jena.sparql.syntax.ElementUnion;
+import org.apache.jena.sparql.syntax.Template;
+import org.apache.jena.sparql.syntax.TripleCollector;
+import org.apache.jena.sparql.syntax.TripleCollectorBGP;
+import org.apache.jena.sparql.util.LabelToNodeMap;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.XSD;
 import org.mindswap.pellet.jena.vocabulary.OWL2;
 
 import static com.clarkparsia.sparqlowl.parser.ParserUtilities.dropFirstAndLast;
@@ -84,7 +85,7 @@ import static com.clarkparsia.sparqlowl.parser.arq.ARQParserUtilities.isOWL2Data
 import static com.clarkparsia.sparqlowl.parser.arq.ARQParserUtilities.listToTriples;
 import static com.clarkparsia.sparqlowl.parser.arq.ARQParserUtilities.XSD_BOOLEAN_FALSE;
 import static com.clarkparsia.sparqlowl.parser.arq.ARQParserUtilities.XSD_BOOLEAN_TRUE;
-import static com.hp.hpl.jena.sparql.util.ExprUtils.nodeToExpr;
+import static org.apache.jena.sparql.util.ExprUtils.nodeToExpr;
 }
 
 @members{
@@ -1361,13 +1362,13 @@ iriRefOrFunction
 rdfLiteral
 	returns [Node l]
 	:	^(LITERAL_PLAIN string)
-		{ $l = Node.createLiteral( $string.s ); }
+		{ $l = NodeFactory.createLiteral( $string.s ); }
 	| ^(LITERAL_LANG string lang=LANGTAG)
-		{ $l = Node.createLiteral( $string.s, $lang.text, false ); }
+		{ $l = NodeFactory.createLiteral( $string.s, $lang.text, false ); }
 	|	^(LITERAL_TYPED string iriRef)
 		{
 			RDFDatatype dType = TypeMapper.getInstance().getSafeTypeByName( $iriRef.i.getURI() );
-			$l = Node.createLiteral( $string.s, null, dType );
+			$l = NodeFactory.createLiteral( $string.s, null, dType );
 		}
 	;
 
@@ -1403,7 +1404,7 @@ numericLiteral
 			)
 			{ t = XSDDatatype.XSDdouble ; }
 		)
-		{ $n = Node.createLiteral( s, null, t ); }
+		{ $n = NodeFactory.createLiteral( s, null, t ); }
 	;
 
 /*
@@ -1434,12 +1435,12 @@ string
  iriRef
 	returns [Node i]
 	:	^(IRI_REF ref=IRI_REF_TERM)
-		{ $i = Node.createURI( $ref.text ); }
+		{ $i = NodeFactory.createURI( $ref.text ); }
 	| ^(PREFIXED_NAME ( p=PNAME_LN | p=PNAME_NS ) )
 		{
 			String resolved = this.prologue.expandPrefixedName( $p.text );
 			// FIXME: Null case
-			$i = Node.createURI( resolved );
+			$i = NodeFactory.createURI( resolved );
 		}
 	;
 

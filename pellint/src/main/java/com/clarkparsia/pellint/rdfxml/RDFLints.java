@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.clarkparsia.pellint.util.CollectionUtil;
-import com.hp.hpl.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.Statement;
 
 /**
  * <p>

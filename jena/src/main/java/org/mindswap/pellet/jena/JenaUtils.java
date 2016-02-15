@@ -33,6 +33,8 @@ package org.mindswap.pellet.jena;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.jena.graph.BlankNodeId;
+import org.apache.jena.graph.NodeFactory;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.jena.vocabulary.OWL2;
 import org.mindswap.pellet.utils.ATermUtils;
@@ -41,19 +43,18 @@ import org.mindswap.pellet.utils.QNameProvider;
 import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.datatypes.Datatypes;
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.datatypes.TypeMapper;
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.impl.LiteralLabel;
-import com.hp.hpl.jena.rdf.model.AnonId;
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.shared.PrefixMapping;
-import com.hp.hpl.jena.vocabulary.OWL;
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.datatypes.TypeMapper;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.impl.LiteralLabel;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.shared.PrefixMapping;
+import org.apache.jena.vocabulary.OWL;
 
 /**
  * Utility functions related to Jena structures. The functions here may have
@@ -134,16 +135,16 @@ public class JenaUtils {
 
 		if( datatype.equals( ATermUtils.PLAIN_LITERAL_DATATYPE ) ) {
 			if( lang.equals( ATermUtils.EMPTY ) )
-				node = Node.createLiteral( lexicalValue );
+				node =  NodeFactory.createLiteral( lexicalValue );
 			else
-				node = Node.createLiteral( lexicalValue, lang.getName(), false );
+				node = NodeFactory.createLiteral( lexicalValue, lang.getName(), false );
 		}
 		else if( datatype.equals( Datatypes.XML_LITERAL ) ) {
-			node = Node.createLiteral( lexicalValue, "", true );
+			node = NodeFactory.createLiteral( lexicalValue, "", true );
 		}
 		else {			
 			RDFDatatype type = TypeMapper.getInstance().getTypeByName( datatype.getName() );
-			node = Node.createLiteral( lexicalValue, "", type );
+			node = NodeFactory.createLiteral( lexicalValue, "", type );
 		}
 
 		return node;
@@ -151,7 +152,7 @@ public class JenaUtils {
 
 	static public Node makeGraphResource(ATermAppl term) {
 		if( ATermUtils.isBnode( term ) ) {
-			return Node.createAnon( new AnonId( ((ATermAppl) term.getArgument( 0 )).getName() ) );
+			return NodeFactory.createBlankNode( new BlankNodeId( ((ATermAppl) term.getArgument( 0 )).getName() ) );
 		}
 		else if( term.equals( ATermUtils.TOP ) ) {
 			return OWL.Thing.asNode();
@@ -172,7 +173,7 @@ public class JenaUtils {
 			return OWL2.bottomObjectProperty.asNode();
 		}
 		else if( term.getArity() == 0 ) {
-			return Node.createURI( term.getName() );
+			return NodeFactory.createURI( term.getName() );
 		}
 		else {
 			throw new InternalReasonerException( "Invalid term found " + term );

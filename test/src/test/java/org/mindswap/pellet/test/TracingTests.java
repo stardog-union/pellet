@@ -56,7 +56,7 @@ import com.clarkparsia.pellet.rules.model.ClassAtom;
 import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
 import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
-import com.hp.hpl.jena.vocabulary.XSD;
+import org.apache.jena.vocabulary.XSD;
 
 public class TracingTests extends AbstractKBTests {
 

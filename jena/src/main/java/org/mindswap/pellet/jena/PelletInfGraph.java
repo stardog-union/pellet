@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.jena.util.iterator.UniqueFilter;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.ModelExtractor.StatementType;
@@ -49,27 +50,26 @@ import aterm.ATerm;
 import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.utils.OntBuilder;
-import com.hp.hpl.jena.graph.Factory;
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.reasoner.BaseInfGraph;
-import com.hp.hpl.jena.reasoner.Finder;
-import com.hp.hpl.jena.reasoner.InfGraph;
-import com.hp.hpl.jena.reasoner.StandardValidityReport;
-import com.hp.hpl.jena.reasoner.TriplePattern;
-import com.hp.hpl.jena.reasoner.ValidityReport;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.hp.hpl.jena.util.iterator.UniqueExtendedIterator;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
+import org.apache.jena.graph.Factory;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.reasoner.BaseInfGraph;
+import org.apache.jena.reasoner.Finder;
+import org.apache.jena.reasoner.InfGraph;
+import org.apache.jena.reasoner.StandardValidityReport;
+import org.apache.jena.reasoner.TriplePattern;
+import org.apache.jena.reasoner.ValidityReport;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 
 /**
  * Implementation of Jena InfGraph interface which is backed by Pellet reasoner.
@@ -175,7 +175,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph {
 		}
 
 		// make sure we don't have duplicates
-		return UniqueExtendedIterator.create( i );
+		return i.filterKeep(new UniqueFilter());
 	}
 
 	@Override

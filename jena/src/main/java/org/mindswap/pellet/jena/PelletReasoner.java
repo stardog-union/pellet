@@ -35,17 +35,17 @@ import java.util.logging.Logger;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.graph.loader.DefaultGraphLoader;
 
-import com.hp.hpl.jena.graph.Capabilities;
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.rdf.model.InfModel;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.reasoner.Reasoner;
-import com.hp.hpl.jena.reasoner.ReasonerException;
-import com.hp.hpl.jena.reasoner.BaseInfGraph.InfFindSafeCapabilities;
-import com.hp.hpl.jena.vocabulary.ReasonerVocabulary;
+import org.apache.jena.graph.Capabilities;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.rdf.model.InfModel;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.reasoner.Reasoner;
+import org.apache.jena.reasoner.ReasonerException;
+import org.apache.jena.reasoner.BaseInfGraph.InfFindSafeCapabilities;
+import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 /**
  * @author Evren Sirin

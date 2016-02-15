@@ -30,9 +30,9 @@
 
 package org.mindswap.pellet.jena.vocabulary;
 
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
 
 public class SWRL {
 	private static final String		URI							= "http://www.w3.org/2003/11/swrl#";
