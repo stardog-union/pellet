@@ -76,7 +76,7 @@ import org.apache.jena.vocabulary.ReasonerVocabulary;
 import org.apache.jena.vocabulary.XSD;
 
 public class JenaTests {
-	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
+	public static String	base	= PelletTestSuite.base + "misc/";
 
 	public static void main(String args[]) {
 		junit.textui.TestRunner.run( JenaTests.suite() );

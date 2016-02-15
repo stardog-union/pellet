@@ -58,9 +58,9 @@ import org.apache.jena.vocabulary.RDFS;
  */
 public class TestAnnotations {
 
-	private static final String	DATA1_RDF	= "file:test/data/annotations/data1.rdf";
-	private static final String	DATA1_TTL	= "file:test/data/annotations/data1.ttl";
-	private static final String	QUERY1_RQ	= "file:test/data/annotations/query1.rq";
+	private static final String	DATA1_RDF	= "test/data/annotations/data1.rdf";
+	private static final String	DATA1_TTL	= "test/data/annotations/data1.ttl";
+	private static final String	QUERY1_RQ	= "test/data/annotations/query1.rq";
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter( TestAnnotations.class );
