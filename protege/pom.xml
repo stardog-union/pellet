@@ -12,7 +12,7 @@
 
 	<name>Pellet :: Protege</name>
 	<properties>
-		<protege.version>5.0.0-beta-20</protege.version>
+		<protege.version>5.0.0-beta-21</protege.version>
 	</properties>
 
 	<dependencies>
