@@ -125,7 +125,7 @@ public class PelletServer extends PelletCmdApp {
 	private Configuration getServerConfig() throws IOException {
 		if (serverConfig == null) {
 			String configFile = options.getOption("config").getValueAsString();
-			if( configFile != null ) {
+			if( configFile == null ) {
 				configFile = "server.properties";
 			}
 			serverConfig = new ProtegeServerConfiguration(new File(configFile));
