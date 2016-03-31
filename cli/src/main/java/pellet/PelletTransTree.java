@@ -8,11 +8,14 @@
 
 package pellet;
 
-import static pellet.PelletCmdOptionArg.*;
+import static pellet.PelletCmdOptionArg.NONE;
+import static pellet.PelletCmdOptionArg.REQUIRED;
 
+import aterm.ATermAppl;
+import com.clarkparsia.owlapiv3.OntologyUtils;
+import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.taxonomy.POTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.SubsumptionComparator;
@@ -24,18 +27,12 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.search.EntitySearcher;
 
-import aterm.ATermAppl;
-
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
-
 /**
  * <p>
  * Title: PelletTransTree
  * </p>
  * <p>
- * Description: Compute the hierarchy for part-of classes (or individuals) given
- * a (transitive) property.
+ * Description: Compute the hierarchy for part-of classes (or individuals) given a (transitive) property.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -46,107 +43,102 @@ import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
  * 
  * @author Markus Stocker
  */
-public class PelletTransTree extends PelletCmdApp {
+public class PelletTransTree extends PelletCmdApp
+{
 
-	private String	propertyName;
-	private boolean	showClasses;
-	private boolean	showIndividuals;
+	private String propertyName;
+	private boolean showClasses;
+	private boolean showIndividuals;
 
-	public PelletTransTree() {
-		super( );
+	public PelletTransTree()
+	{
+		super();
 	}
 
 	@Override
-    public String getAppId() {
+	public String getAppId()
+	{
 		return "PelletTransTree: Compute a transitive-tree closure";
 	}
 
 	@Override
-    public String getAppCmd() {
+	public String getAppCmd()
+	{
 		return "pellet trans-tree " + getMandatoryOptions() + "[options] <file URI>...";
 	}
 
 	@Override
-    public PelletCmdOptions getOptions() {
+	public PelletCmdOptions getOptions()
+	{
 		showClasses = true;
 		showIndividuals = false;
 
-		PelletCmdOptions options = getGlobalOptions();
+		final PelletCmdOptions options = getGlobalOptions();
 
-		PelletCmdOption option = new PelletCmdOption( "property" );
-		option.setShortOption( "p" );
-		option.setType( "<URI>" );
-		option.setDescription( "The part-of (transitive) property" );
-		option.setIsMandatory( true );
-		option.setArg( REQUIRED );
-		options.add( option );
+		PelletCmdOption option = new PelletCmdOption("property");
+		option.setShortOption("p");
+		option.setType("<URI>");
+		option.setDescription("The part-of (transitive) property");
+		option.setIsMandatory(true);
+		option.setArg(REQUIRED);
+		options.add(option);
 
-		option = new PelletCmdOption( "classes" );
-		option.setShortOption( "c" );
-		option.setDescription( "Show parts hierarchy for classes" );
-		option.setDefaultValue( showClasses );
-		option.setIsMandatory( false );
-		option.setArg( NONE );
-		options.add( option );
+		option = new PelletCmdOption("classes");
+		option.setShortOption("c");
+		option.setDescription("Show parts hierarchy for classes");
+		option.setDefaultValue(showClasses);
+		option.setIsMandatory(false);
+		option.setArg(NONE);
+		options.add(option);
 
-		option = new PelletCmdOption( "individuals" );
-		option.setShortOption( "i" );
-		option.setDescription( "Show parts hierarchy for individuals" );
-		option.setDefaultValue( showIndividuals );
-		option.setIsMandatory( false );
-		option.setArg( NONE );
-		options.add( option );
+		option = new PelletCmdOption("individuals");
+		option.setShortOption("i");
+		option.setDescription("Show parts hierarchy for individuals");
+		option.setDefaultValue(showIndividuals);
+		option.setIsMandatory(false);
+		option.setArg(NONE);
+		options.add(option);
 
-		option = new PelletCmdOption( "filter" );
-		option.setShortOption( "f" );
-		option.setType( "<URI>" );
-		option.setDescription( "The class to filter" );
-		option.setIsMandatory( false );
-		option.setArg( REQUIRED );
-		options.add( option );
+		option = new PelletCmdOption("filter");
+		option.setShortOption("f");
+		option.setType("<URI>");
+		option.setDescription("The class to filter");
+		option.setIsMandatory(false);
+		option.setArg(REQUIRED);
+		options.add(option);
 
 		return options;
 	}
 
 	@Override
-    public void run() {
-		propertyName = options.getOption( "property" ).getValueAsString();
+	public void run()
+	{
+		propertyName = options.getOption("property").getValueAsString();
 
-		OWLAPILoader loader = new OWLAPILoader();
-		KnowledgeBase kb = loader.createKB( getInputFiles() );
+		final OWLAPILoader loader = new OWLAPILoader();
+		final KnowledgeBase kb = loader.createKB(getInputFiles());
 
-		OWLEntity entity = OntologyUtils.findEntity( propertyName, loader.getAllOntologies() );
+		final OWLEntity entity = OntologyUtils.findEntity(propertyName, loader.getAllOntologies());
 
-		if( entity == null ) {
-            throw new PelletCmdException( "Property not found: " + propertyName );
-        }
+		if (entity == null) { throw new PelletCmdException("Property not found: " + propertyName); }
 
-		if( !(entity instanceof OWLObjectProperty) ) {
-            throw new PelletCmdException( "Not an object property: " + propertyName );
-        }
+		if (!(entity instanceof OWLObjectProperty)) { throw new PelletCmdException("Not an object property: " + propertyName); }
 
-        if (!EntitySearcher.isTransitive((OWLObjectProperty) entity,
-                loader.getAllOntologies())) {
-            throw new PelletCmdException( "Not a transitive property: " + propertyName );
-        }
+		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.getAllOntologies().stream())) { throw new PelletCmdException("Not a transitive property: " + propertyName); }
 
-		ATermAppl p = ATermUtils.makeTermAppl( entity.getIRI().toString() );
+		final ATermAppl p = ATermUtils.makeTermAppl(entity.getIRI().toString());
 
 		ATermAppl c = null;
 		boolean filter = false;
 
-		if(options.getOption( "filter" ).exists())
+		if (options.getOption("filter").exists())
 		{
-			String filterName = options.getOption( "filter" ).getValueAsString();			
-			OWLEntity filterClass = OntologyUtils.findEntity( filterName, loader.getAllOntologies() );
-			if(filterClass == null) {
-                throw new PelletCmdException( "Filter class not found: " + filterName );
-            }			
-			if(!(filterClass instanceof OWLClass)) {
-                throw new PelletCmdException( "Not a class: " + filterName );
-            }
+			final String filterName = options.getOption("filter").getValueAsString();
+			final OWLEntity filterClass = OntologyUtils.findEntity(filterName, loader.getAllOntologies());
+			if (filterClass == null) { throw new PelletCmdException("Filter class not found: " + filterName); }
+			if (!(filterClass instanceof OWLClass)) { throw new PelletCmdException("Not a class: " + filterName); }
 
-			c = ATermUtils.makeTermAppl( filterClass.getIRI().toString() );
+			c = ATermUtils.makeTermAppl(filterClass.getIRI().toString());
 
 			filter = true;
 		}
@@ -155,54 +147,65 @@ public class PelletTransTree extends PelletCmdApp {
 
 		// Test first the individuals parameter, as per default the --classes
 		// option is true
-		if( options.getOption( "individuals" ).getValueAsBoolean() ) {
+		if (options.getOption("individuals").getValueAsBoolean())
+		{
 			// Parts for individuals
-			builder = new POTaxonomyBuilder( kb, new PartIndividualsComparator( kb, p ) );
-			
-			Set<ATermAppl> individuals;			
-			if(filter) {
-                individuals = kb.getInstances(c);
-            }
-            else {
-                individuals = kb.getIndividuals();	// Note: this is not an optimal solution	
-            }
-			
-			for( ATermAppl individual :  individuals) {
-                if (!ATermUtils.isBnode( individual )) {
-                    builder.classify( individual );
-                }
-            }
-		}
-		else {
-			builder = new POTaxonomyBuilder( kb, new PartClassesComparator( kb, p ) );
-			
-			if(filter)
+			builder = new POTaxonomyBuilder(kb, new PartIndividualsComparator(kb, p));
+
+			Set<ATermAppl> individuals;
+			if (filter)
 			{
-				for(ATermAppl cl: getDistinctSubclasses(kb, c)) {
-                    builder.classify(cl);
-                }
-			} else {
-                builder.classify();
-            }
+				individuals = kb.getInstances(c);
+			}
+			else
+			{
+				individuals = kb.getIndividuals();	// Note: this is not an optimal solution	
+			}
+
+			for (final ATermAppl individual : individuals)
+			{
+				if (!ATermUtils.isBnode(individual))
+				{
+					builder.classify(individual);
+				}
+			}
+		}
+		else
+		{
+			builder = new POTaxonomyBuilder(kb, new PartClassesComparator(kb, p));
+
+			if (filter)
+			{
+				for (final ATermAppl cl : getDistinctSubclasses(kb, c))
+				{
+					builder.classify(cl);
+				}
+			}
+			else
+			{
+				builder.classify();
+			}
 		}
 
-		Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 
-		ClassTreePrinter printer = new ClassTreePrinter();
-		printer.print( taxonomy );
-		
+		final ClassTreePrinter printer = new ClassTreePrinter();
+		printer.print(taxonomy);
+
 		publicTaxonomy = taxonomy;
 	}
-	
-	/** Unit testing access only*/
+
+	/** Unit testing access only */
 	public Taxonomy<ATermAppl> publicTaxonomy;
-	
-	private Set<ATermAppl> getDistinctSubclasses(KnowledgeBase kb, ATermAppl c){
-		Set<ATermAppl> filteredClasses = new HashSet<ATermAppl>();
-		Set<Set<ATermAppl>> subclasses = kb.getSubClasses(c);		
-		for(Set<ATermAppl> s: subclasses) {
-            filteredClasses.addAll(s);
-        }
+
+	private Set<ATermAppl> getDistinctSubclasses(KnowledgeBase kb, ATermAppl c)
+	{
+		final Set<ATermAppl> filteredClasses = new HashSet<ATermAppl>();
+		final Set<Set<ATermAppl>> subclasses = kb.getSubClasses(c);
+		for (final Set<ATermAppl> s : subclasses)
+		{
+			filteredClasses.addAll(s);
+		}
 		filteredClasses.add(c);
 
 		//Remove not(TOP), since taxonomy builder complains otherwise...
@@ -211,35 +214,41 @@ public class PelletTransTree extends PelletCmdApp {
 		return filteredClasses;
 	}
 
-	private static class PartClassesComparator extends SubsumptionComparator {
+	private static class PartClassesComparator extends SubsumptionComparator
+	{
 
-		private ATermAppl	p;
+		private final ATermAppl p;
 
-		public PartClassesComparator(KnowledgeBase kb, ATermAppl p) {
-			super( kb );
+		public PartClassesComparator(KnowledgeBase kb, ATermAppl p)
+		{
+			super(kb);
 			this.p = p;
 		}
 
 		@Override
-		protected boolean isSubsumedBy(ATermAppl a, ATermAppl b) {
-			ATermAppl someB = ATermUtils.makeSomeValues( p, b );
+		protected boolean isSubsumedBy(ATermAppl a, ATermAppl b)
+		{
+			final ATermAppl someB = ATermUtils.makeSomeValues(p, b);
 
-			return kb.isSubClassOf( a, someB );
+			return kb.isSubClassOf(a, someB);
 		}
 	}
 
-	private static class PartIndividualsComparator extends SubsumptionComparator {
+	private static class PartIndividualsComparator extends SubsumptionComparator
+	{
 
-		private ATermAppl	p;
+		private final ATermAppl p;
 
-		public PartIndividualsComparator(KnowledgeBase kb, ATermAppl p) {
-			super( kb );
+		public PartIndividualsComparator(KnowledgeBase kb, ATermAppl p)
+		{
+			super(kb);
 			this.p = p;
 		}
 
 		@Override
-		protected boolean isSubsumedBy(ATermAppl a, ATermAppl b) {
-			return kb.hasPropertyValue( a, p, b );
+		protected boolean isSubsumedBy(ATermAppl a, ATermAppl b)
+		{
+			return kb.hasPropertyValue(a, p, b);
 		}
 	}
 }

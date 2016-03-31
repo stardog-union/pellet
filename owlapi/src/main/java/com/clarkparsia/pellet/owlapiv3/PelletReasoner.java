@@ -29,7 +29,6 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
@@ -291,7 +290,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 			if (ATermUtils.BOTTOM_OBJECT_PROPERTY.equals(term))
 				return factory.getOWLBottomObjectProperty();
 			if (ATermUtils.isInv(term))
-				return factory.getOWLObjectInverseOf(OP_MAPPER.map(term));
+				return OP_MAPPER.map(term).getInverseProperty();
 			return factory.getOWLObjectProperty(iri(term));
 		}
 	}
@@ -1065,7 +1064,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException
+	public void ontologiesChanged(List<? extends OWLOntologyChange> changes)// throws OWLException
 	{
 		switch (bufferingMode)
 		{

@@ -47,7 +47,6 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -470,7 +469,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	}
 
 	@Override
-	public void ontologiesChanged(List<? extends OWLOntologyChange> changes) throws OWLException
+	public void ontologiesChanged(List<? extends OWLOntologyChange> changes)
 	{
 		if (!getRootOntology().getOWLOntologyManager().contains(getRootOntology().getOntologyID())) { return; }
 

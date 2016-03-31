@@ -466,7 +466,7 @@ public class OWL
 		return factory.getOWLNamedIndividual(iri);
 	}
 
-	public static OWLObjectInverseOf inverse(OWLObjectPropertyExpression p)
+	public static OWLObjectInverseOf inverse(OWLObjectProperty p)
 	{
 		return factory.getOWLObjectInverseOf(p);
 	}
@@ -763,7 +763,7 @@ public class OWL
 
 	private static <T> Set<T> set(T... elements)
 	{
-		final Set<T> set = new HashSet<T>();
+		final Set<T> set = new HashSet<>();
 		for (final T e : elements)
 		{
 			set.add(e);
@@ -774,7 +774,7 @@ public class OWL
 
 	private static <T> Set<T> set(T e1, T e2)
 	{
-		final Set<T> set = new HashSet<T>();
+		final Set<T> set = new HashSet<>();
 		set.add(e1);
 		set.add(e2);
 

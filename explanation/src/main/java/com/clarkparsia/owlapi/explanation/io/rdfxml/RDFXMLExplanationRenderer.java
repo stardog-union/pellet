@@ -6,17 +6,16 @@
 
 package com.clarkparsia.owlapi.explanation.io.rdfxml;
 
+import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
+import com.clarkparsia.owlapiv3.OWL;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.rdf.rdfxml.renderer.RDFXMLRenderer;
-
-import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
-import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * <p>
@@ -34,31 +33,35 @@ import com.clarkparsia.owlapiv3.OWL;
  * 
  * @author Evren Sirin
  */
-public class RDFXMLExplanationRenderer implements ExplanationRenderer {
-	private Set<OWLAxiom>	axioms;
+public class RDFXMLExplanationRenderer implements ExplanationRenderer
+{
+	private Set<OWLAxiom> axioms;
 
-	private Writer			writer;
+	private Writer writer;
 
 	@Override
-    public void startRendering(Writer writer) {
+	public void startRendering(Writer writer)
+	{
 		this.writer = writer;
-		axioms = new HashSet<OWLAxiom>();
+		axioms = new HashSet<>();
 	}
 
 	@Override
-    public void render(OWLAxiom axiom, Set<Set<OWLAxiom>> explanations) {		
-		axioms.add( axiom );
-		
-		for( Set<OWLAxiom> explanation : explanations ) {
-			axioms.addAll( explanation );
+	public void render(OWLAxiom axiom, Set<Set<OWLAxiom>> explanations)
+	{
+		axioms.add(axiom);
+
+		for (final Set<OWLAxiom> explanation : explanations)
+		{
+			axioms.addAll(explanation);
 		}
 	}
 
 	@Override
-    public void endRendering() throws IOException {
-		OWLOntology ontology = OWL.Ontology( axioms );
-        RDFXMLRenderer renderer = new RDFXMLRenderer(ontology, writer);
+	public void endRendering() throws IOException
+	{
+		final OWLOntology ontology = OWL.Ontology(axioms);
+		final RDFXMLRenderer renderer = new RDFXMLRenderer(ontology, new PrintWriter(writer));
 		renderer.render();
 	}
-
 }

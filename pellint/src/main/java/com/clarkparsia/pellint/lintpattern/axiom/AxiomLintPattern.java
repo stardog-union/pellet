@@ -6,20 +6,18 @@
 
 package com.clarkparsia.pellint.lintpattern.axiom;
 
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.util.OWLAxiomVisitorAdapter;
-
 import com.clarkparsia.pellint.lintpattern.LintPattern;
 import com.clarkparsia.pellint.model.Lint;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAxiomVisitor;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * <p>
  * Title: Axiom-based Lint Pattern Abstract Class
  * </p>
  * <p>
- * Description: Provides convenience (protected) methods to create and set {@link com.clarkparsia.pellint.model.Lint},
- * and methods to traverse an OWLAxiom (through OWLAxiomVisitorAdapter).
+ * Description: Provides convenience (protected) methods to create and set {@link com.clarkparsia.pellint.model.Lint}, and methods to traverse an OWLAxiom (through OWLAxiomVisitorAdapter).
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -30,21 +28,23 @@ import com.clarkparsia.pellint.model.Lint;
  * 
  * @author Harris Lin
  */
-public abstract class AxiomLintPattern extends OWLAxiomVisitorAdapter implements LintPattern {
+public abstract class AxiomLintPattern implements LintPattern, OWLAxiomVisitor
+{
 	private Lint m_Lint;
 	private OWLOntology m_Ontology;
-	
-	protected Lint makeLint() {
+
+	protected Lint makeLint()
+	{
 		return new Lint(this, m_Ontology);
 	}
-	
-	protected void setLint(Lint lint) {
+
+	protected void setLint(Lint lint)
+	{
 		m_Lint = lint;
 	}
-	
+
 	/**
-	 * Match an OWLAxiom and returns a {@link com.clarkparsia.pellint.model.Lint}
-	 * for the axiom if found.
+	 * Match an OWLAxiom and returns a {@link com.clarkparsia.pellint.model.Lint} for the axiom if found.
 	 * Do not override this method.
 	 * To create and return a {@link com.clarkparsia.pellint.model.Lint}, implementers of this class should
 	 * call {@link #makeLint()} first, set any necessary information on the {@link com.clarkparsia.pellint.model.Lint},
@@ -54,7 +54,8 @@ public abstract class AxiomLintPattern extends OWLAxiomVisitorAdapter implements
 	 * 
 	 * @see com.clarkparsia.pellint.model.Lint
 	 */
-	public final Lint match(OWLOntology ontology, OWLAxiom axiom) {
+	public final Lint match(OWLOntology ontology, OWLAxiom axiom)
+	{
 		m_Lint = null;
 		m_Ontology = ontology;
 		axiom.accept(this);
