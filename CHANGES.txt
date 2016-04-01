@@ -1,6 +1,20 @@
 Change Log
 ==========
 
+Pellet 2.5.0 (Apr 15, 2016)
+---------------------------
+
+* UPDATED: OWLAPI v4 to 5.0.2
+
+* UPDATED: Jena to 3.0.2
+
+
+Pellet 2.4.0 (Feb 15, 2016)
+---------------------------
+
+* UPDATED: OWLAPI v4 to 4.2.0
+
+
 Pellet 2.3.1 (May 7, 2013)
 --------------------------
 

@@ -4,10 +4,10 @@
 	<parent>
 		<groupId>com.clarkparsia.pellet</groupId>
 		<artifactId>pellet-parent</artifactId>
-		<version>2.4.0-galigator</version>
+		<version>2.5.0-galigator</version>
 	</parent>
 	<artifactId>pellet-owlapi</artifactId>
-	<name>Pellet :: OWL API (ignazio1977 fork)</name>
+	<name>Pellet :: OWL API</name>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
