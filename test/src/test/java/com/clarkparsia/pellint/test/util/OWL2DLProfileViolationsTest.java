@@ -3,8 +3,9 @@ package com.clarkparsia.pellint.test.util;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
+import com.clarkparsia.owlapi.OWL;
 
+import java.io.File;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -12,8 +13,6 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.profiles.OWL2DLProfile;
-
-import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * 

@@ -10,19 +10,18 @@ package com.clarkparsia.explanation.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.StringWriter;
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.XSD;
 
+import java.io.StringWriter;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-
 import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxObjectRenderer;
 import com.clarkparsia.owlapi.explanation.io.manchester.TextBlockWriter;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.XSD;
 
 /**
  * <p>

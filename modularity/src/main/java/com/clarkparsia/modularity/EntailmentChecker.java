@@ -6,7 +6,8 @@
 
 package com.clarkparsia.modularity;
 
-import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapi.OWL;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;

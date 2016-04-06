@@ -2,13 +2,14 @@ package pellet;
 
 import static pellet.PelletCmdOptionArg.*;
 
+import com.clarkparsia.pellet.owlapi.LimitedMapIRIMapper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
 import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -33,8 +34,6 @@ import org.semanticweb.owlapi.profiles.OWLProfile;
 import org.semanticweb.owlapi.util.DLExpressivityChecker;
 import org.semanticweb.owlapi.util.NonMappingOntologyIRIMapper;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
-
-import com.clarkparsia.pellet.owlapiv3.LimitedMapIRIMapper;
 
 public class PelletInfo extends PelletCmdApp {
 	private final List<OWLProfile> profiles = Arrays.asList(new OWL2ELProfile(), new OWL2QLProfile(), new OWL2RLProfile(), new OWL2DLProfile(),  new OWL2Profile());

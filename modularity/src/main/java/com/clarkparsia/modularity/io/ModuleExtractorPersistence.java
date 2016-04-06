@@ -8,6 +8,8 @@
 
 package com.clarkparsia.modularity.io;
 
+import com.clarkparsia.owlapi.OWL;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +23,6 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.utils.MultiValueMap;
 import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -29,8 +30,6 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-
-import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * <p>

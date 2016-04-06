@@ -6,9 +6,10 @@
 
 package org.mindswap.pellet.examples;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+
 import java.util.Iterator;
 import java.util.Set;
-
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -23,8 +24,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
-
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -98,7 +97,7 @@ public class IndividualsExample {
 		OWLOntology ontology = manager.loadOntology( IRI.create(ont) );
 		
 		// load the ontology to the reasoner
-		PelletReasoner reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createReasoner( ontology );
+		PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance().createReasoner( ontology );
 		
 		// create property and resources to query the reasoner
 		OWLClass Person = factory.getOWLClass(IRI.create("http://xmlns.com/foaf/0.1/Person"));

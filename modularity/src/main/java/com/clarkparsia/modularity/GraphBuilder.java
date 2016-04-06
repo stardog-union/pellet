@@ -6,13 +6,13 @@
 
 package com.clarkparsia.modularity;
 
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 import com.clarkparsia.reachability.Node;
 import com.clarkparsia.reachability.ReachabilityGraph;
 import org.mindswap.pellet.utils.SetUtils;

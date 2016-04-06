@@ -6,6 +6,8 @@
 
 package com.clarkparsia.modularity;
 
+import com.clarkparsia.owlapi.OntologyUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,18 +15,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.utils.DisjointSet;
 import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
-
 import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
 import com.clarkparsia.owlapi.modularity.locality.LocalityEvaluator;
 import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 
 /**
  * <p>

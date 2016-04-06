@@ -11,20 +11,19 @@ package pellet;
 import static pellet.PelletCmdOptionArg.NONE;
 import static pellet.PelletCmdOptionArg.REQUIRED;
 
+import com.clarkparsia.pellet.owlapi.EntailmentChecker;
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+
 import java.io.PrintWriter;
 import java.util.Set;
-
 import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLLogicalAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
-
 import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxObjectRenderer;
 import com.clarkparsia.owlapi.explanation.io.manchester.TextBlockWriter;
-import com.clarkparsia.pellet.owlapiv3.EntailmentChecker;
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 
 /**
  * <p>

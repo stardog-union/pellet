@@ -7,17 +7,15 @@
 package com.clarkparsia.modularity.test;
 
 import static com.clarkparsia.modularity.test.TestUtils.set;
-import static com.clarkparsia.owlapiv3.OWL.Class;
-import static com.clarkparsia.owlapiv3.OWL.ObjectProperty;
-import static com.clarkparsia.owlapiv3.OWL.Thing;
-import static com.clarkparsia.owlapiv3.OWL.domain;
+import static com.clarkparsia.owlapi.OWL.Class;
+import static com.clarkparsia.owlapi.OWL.ObjectProperty;
+import static com.clarkparsia.owlapi.OWL.Thing;
+import static com.clarkparsia.owlapi.OWL.domain;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
-
 import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
 import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
 

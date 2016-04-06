@@ -3,9 +3,10 @@ package com.clarkparsia.pellet.test.transtree;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+
+import com.clarkparsia.owlapi.OntologyUtils;
 import aterm.ATermAppl;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;

@@ -6,8 +6,9 @@
 
 package com.clarkparsia.owlapi.explanation.io.rdfxml;
 
+import com.clarkparsia.owlapi.OWL;
+
 import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
-import com.clarkparsia.owlapiv3.OWL;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;

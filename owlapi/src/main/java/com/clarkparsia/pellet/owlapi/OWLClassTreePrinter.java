@@ -1,4 +1,4 @@
-package com.clarkparsia.pellet.owlapiv3;
+package com.clarkparsia.pellet.owlapi;
 
 import java.io.PrintWriter;
 import java.util.Collections;

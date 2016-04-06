@@ -8,16 +8,15 @@
 
 package com.clarkparsia.modularity;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.IllegalConfigurationException;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
-
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 
 
 /**

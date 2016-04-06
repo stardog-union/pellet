@@ -6,8 +6,10 @@
 
 package org.mindswap.pellet.examples;
 
-import java.util.Set;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 
+import java.util.Set;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -19,9 +21,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
-
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /*
  * Created on Oct 10, 2004

@@ -2,12 +2,11 @@ package com.clarkparsia.modularity.test;
 
 import static org.junit.Assert.assertEquals;
 
+import com.clarkparsia.owlapi.OWL;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import com.clarkparsia.owlapiv3.OWL;
 import org.junit.Test;
-
 import com.clarkparsia.reachability.EntityNode;
 import com.clarkparsia.reachability.ReachabilityGraph;
 import com.clarkparsia.reachability.Node;

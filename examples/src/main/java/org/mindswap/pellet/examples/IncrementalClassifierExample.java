@@ -8,6 +8,8 @@
 
 package org.mindswap.pellet.examples;
 
+import com.clarkparsia.owlapi.OWL;
+
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.Timers;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -17,9 +19,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
-
 import com.clarkparsia.modularity.IncrementalClassifier;
-import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * <p>

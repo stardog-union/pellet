@@ -21,13 +21,13 @@ import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+
+import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.test.MiscTests;
-
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 
 public class BlockingTests extends AbstractKBTests {
 	public static junit.framework.Test suite() {

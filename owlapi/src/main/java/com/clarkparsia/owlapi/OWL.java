@@ -6,7 +6,7 @@
 // proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 
-package com.clarkparsia.owlapiv3;
+package com.clarkparsia.owlapi;
 
 import java.util.Arrays;
 import java.util.Collection;

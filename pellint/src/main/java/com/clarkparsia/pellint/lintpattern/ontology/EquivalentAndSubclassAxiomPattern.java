@@ -6,19 +6,18 @@
 
 package com.clarkparsia.pellint.lintpattern.ontology;
 
+import com.clarkparsia.owlapi.OWL;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-
-import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellint.format.CompactClassLintFormat;
 import com.clarkparsia.pellint.format.LintFormat;
 import com.clarkparsia.pellint.model.Lint;

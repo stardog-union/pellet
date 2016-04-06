@@ -8,27 +8,25 @@
 
 package com.clarkparsia.pellet.test.rbox;
 
-import static com.clarkparsia.owlapiv3.OWL.classAssertion;
-import static com.clarkparsia.owlapiv3.OWL.constant;
-import static com.clarkparsia.owlapiv3.OWL.declaration;
-import static com.clarkparsia.owlapiv3.OWL.domain;
-import static com.clarkparsia.owlapiv3.OWL.or;
-import static com.clarkparsia.owlapiv3.OWL.propertyAssertion;
-import static com.clarkparsia.owlapiv3.OWL.range;
+import static com.clarkparsia.owlapi.OWL.classAssertion;
+import static com.clarkparsia.owlapi.OWL.constant;
+import static com.clarkparsia.owlapi.OWL.declaration;
+import static com.clarkparsia.owlapi.OWL.domain;
+import static com.clarkparsia.owlapi.OWL.or;
+import static com.clarkparsia.owlapi.OWL.propertyAssertion;
+import static com.clarkparsia.owlapi.OWL.range;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.clarkparsia.pellet.owlapi.PelletLoader;
+
+import com.clarkparsia.owlapi.XSD;
 import java.util.Properties;
-
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;
-
-import com.clarkparsia.owlapiv3.XSD;
-import com.clarkparsia.pellet.owlapiv3.PelletLoader;
 import com.clarkparsia.pellet.test.owlapi.AbstractOWLAPITests;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 

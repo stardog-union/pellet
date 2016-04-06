@@ -10,12 +10,13 @@ package pellet;
 
 import static pellet.PelletCmdOptionArg.NONE;
 
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+import com.clarkparsia.pellet.owlapi.OWLClassTreePrinter;
+
 import aterm.ATermAppl;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.OntologyDiff;
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
-import com.clarkparsia.pellet.owlapiv3.OWLClassTreePrinter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

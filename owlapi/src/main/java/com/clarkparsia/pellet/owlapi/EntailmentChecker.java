@@ -4,7 +4,7 @@
 // Please see LICENSE.txt for full license terms, including the availability of proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 
-package com.clarkparsia.pellet.owlapiv3;
+package com.clarkparsia.pellet.owlapi;
 
 import aterm.ATermAppl;
 import java.util.ArrayList;

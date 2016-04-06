@@ -6,12 +6,12 @@
 
 package com.clarkparsia.modularity;
 
+import com.clarkparsia.pellet.owlapi.OWLClassTreePrinter;
+
 import java.util.Collections;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.clarkparsia.pellet.owlapiv3.OWLClassTreePrinter;
 import com.clarkparsia.reachability.EntityNode;
 import com.clarkparsia.reachability.Node;
 import com.clarkparsia.reachability.PairSet;
@@ -22,7 +22,6 @@ import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
-
 import static java.lang.String.format;
 
 /**

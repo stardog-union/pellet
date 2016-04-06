@@ -3,7 +3,8 @@ package com.clarkparsia.modularity.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.owlapi.OWL;
+
 import com.clarkparsia.reachability.EntityNode;
 import com.clarkparsia.reachability.ReachabilityGraph;
 import com.clarkparsia.reachability.SCC;

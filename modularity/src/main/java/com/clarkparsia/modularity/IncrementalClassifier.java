@@ -6,11 +6,12 @@
 
 package com.clarkparsia.modularity;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
+
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
 import aterm.ATermAppl;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;

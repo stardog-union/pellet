@@ -2,14 +2,13 @@ package pellet.test;
 
 import static org.junit.Assert.assertTrue;
 
+import com.clarkparsia.owlapi.OWL;
+
 import java.io.File;
 import java.io.FilenameFilter;
-
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLOntology;
-
 import pellet.PelletClassify;
 import pellet.PelletCmdApp;
 import pellet.PelletConsistency;
@@ -23,8 +22,6 @@ import pellet.PelletRealize;
 import pellet.PelletTransTree;
 import pellet.PelletUnsatisfiable;
 import pellet.Pellint;
-
-import com.clarkparsia.owlapiv3.OWL;
 
 public class CLITests {
 

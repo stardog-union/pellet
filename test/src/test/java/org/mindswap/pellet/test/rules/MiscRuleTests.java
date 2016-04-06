@@ -27,6 +27,10 @@ import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 import static org.mindswap.pellet.utils.Namespaces.SWRLB;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.SWRL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,9 +38,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
@@ -53,13 +55,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.SWRLAtom;
 import org.semanticweb.owlapi.model.SWRLVariable;
-
 import aterm.ATermAppl;
-
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.SWRL;
 import com.clarkparsia.pellet.datatypes.Datatypes;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.rules.VariableUtils;
 import com.clarkparsia.pellet.rules.model.AtomDConstant;
 import com.clarkparsia.pellet.rules.model.AtomDVariable;
@@ -479,7 +476,7 @@ public class MiscRuleTests extends AbstractKBTests {
 		
 		OWLOntology mergedOntology = OWL.Ontology( axioms );
 		
-		PelletReasoner reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createReasoner( mergedOntology );
+		PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance().createReasoner( mergedOntology );
 
 		OWLIndividual nella = OWL.Individual( luigiFamily.resolve( "#Nella" ) );
 		OWLObjectProperty hasUncle = OWL.ObjectProperty( luigiFamily.resolve( "#hasUncle" ) );
@@ -1043,7 +1040,7 @@ public class MiscRuleTests extends AbstractKBTests {
 
 		OWLOntology ontology = OWL.Ontology( axioms );
 
-		PelletReasoner reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory
+		PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory
 				.getInstance().createNonBufferingReasoner( ontology );
 
 		assertTrue( reasoner.isConsistent() );
@@ -1095,7 +1092,7 @@ public class MiscRuleTests extends AbstractKBTests {
 						")");
 
 		OWLOntology ont = OWL.manager.loadOntologyFromOntologyDocument( source );
-			PelletReasoner reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createReasoner( ont );
+			PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance().createReasoner( ont );
 			reasoner.getKB().realize();
 	}
 

@@ -5,14 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
+import com.clarkparsia.owlapi.OWL;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-
-import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellint.lintpattern.axiom.LargeCardinalityPattern;
 import com.clarkparsia.pellint.model.Lint;
 import com.clarkparsia.pellint.test.PellintTestCase;

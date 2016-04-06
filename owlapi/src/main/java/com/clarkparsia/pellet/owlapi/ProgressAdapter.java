@@ -1,4 +1,4 @@
-package com.clarkparsia.pellet.owlapiv3;
+package com.clarkparsia.pellet.owlapi;
 
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.semanticweb.owlapi.reasoner.ReasonerProgressMonitor;

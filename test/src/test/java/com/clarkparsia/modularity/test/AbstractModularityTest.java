@@ -6,9 +6,12 @@
 
 package com.clarkparsia.modularity.test;
 
-import static com.clarkparsia.owlapiv3.OWL.Class;
-import static com.clarkparsia.owlapiv3.OWL.Individual;
-import static com.clarkparsia.owlapiv3.OWL.ObjectProperty;
+import static com.clarkparsia.owlapi.OWL.Class;
+import static com.clarkparsia.owlapi.OWL.Individual;
+import static com.clarkparsia.owlapi.OWL.ObjectProperty;
+
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,10 +20,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
-
 import com.clarkparsia.modularity.ModuleExtractor;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 
 /**
  * <p>

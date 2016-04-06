@@ -1,4 +1,4 @@
-package com.clarkparsia.pellet.owlapiv3;
+package com.clarkparsia.pellet.owlapi;
 
 import aterm.ATermAppl;
 import java.util.ArrayList;

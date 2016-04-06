@@ -7,19 +7,16 @@
 package com.clarkparsia.modularity.test;
 
 import java.util.Arrays;
-
-import static com.clarkparsia.owlapiv3.OWL.all;
-import static com.clarkparsia.owlapiv3.OWL.and;
-import static com.clarkparsia.owlapiv3.OWL.equivalentClasses;
-import static com.clarkparsia.owlapiv3.OWL.or;
-import static com.clarkparsia.owlapiv3.OWL.some;
-
+import static com.clarkparsia.owlapi.OWL.all;
+import static com.clarkparsia.owlapi.OWL.and;
+import static com.clarkparsia.owlapi.OWL.equivalentClasses;
+import static com.clarkparsia.owlapi.OWL.or;
+import static com.clarkparsia.owlapi.OWL.some;
 import org.junit.Test;
 import org.mindswap.pellet.utils.MultiValueMap;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
-
 import com.clarkparsia.modularity.ModuleExtractor;
 
 /**

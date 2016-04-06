@@ -8,15 +8,18 @@
 
 package com.clarkparsia.pellet.test.owlapi;
 
-import static com.clarkparsia.owlapiv3.OWL.AnonymousIndividual;
-import static com.clarkparsia.owlapiv3.OWL.Class;
-import static com.clarkparsia.owlapiv3.OWL.DataProperty;
-import static com.clarkparsia.owlapiv3.OWL.Individual;
-import static com.clarkparsia.owlapiv3.OWL.ObjectProperty;
-import static com.clarkparsia.owlapiv3.OWL.constant;
+import static com.clarkparsia.owlapi.OWL.AnonymousIndividual;
+import static com.clarkparsia.owlapi.OWL.Class;
+import static com.clarkparsia.owlapi.OWL.DataProperty;
+import static com.clarkparsia.owlapi.OWL.Individual;
+import static com.clarkparsia.owlapi.OWL.ObjectProperty;
+import static com.clarkparsia.owlapi.OWL.constant;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
+
+import com.clarkparsia.owlapi.OWL;
 import java.util.Collections;
-
 import org.junit.After;
 import org.junit.Before;
 import org.mindswap.pellet.test.PelletTestSuite;
@@ -31,10 +34,6 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.RemoveAxiom;
-
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * <p>

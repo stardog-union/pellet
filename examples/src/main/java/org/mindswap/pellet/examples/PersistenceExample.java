@@ -6,9 +6,10 @@
 
 package org.mindswap.pellet.examples;
 
+import com.clarkparsia.owlapi.OWL;
+
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
-import com.clarkparsia.owlapiv3.OWL;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

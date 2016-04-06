@@ -7,13 +7,18 @@
 package com.clarkparsia.owlapi.explanation;
 
 
+import com.clarkparsia.pellet.owlapi.AxiomConverter;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
+
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Pair;
 import org.mindswap.pellet.utils.SetUtils;
@@ -26,15 +31,8 @@ import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.owlapi.explanation.util.DefinitionTracker;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.AxiomConverter;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * <p>

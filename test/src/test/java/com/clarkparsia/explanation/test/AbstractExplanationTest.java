@@ -10,12 +10,15 @@ package com.clarkparsia.explanation.test;
 
 import static org.junit.Assume.assumeTrue;
 
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.SWRL;
+import com.clarkparsia.owlapi.XSD;
+
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -32,10 +35,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.SWRLVariable;
 import org.semanticweb.owlapi.vocab.SWRLBuiltInsVocabulary;
-
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.SWRL;
-import com.clarkparsia.owlapiv3.XSD;
 
 /**
  * <p>

@@ -11,9 +11,12 @@ package com.clarkparsia.pellet.test.classification;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
+
+import com.clarkparsia.owlapi.OWL;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -24,10 +27,6 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * 

@@ -10,21 +10,19 @@ package pellet;
 
 import static pellet.PelletCmdOptionArg.REQUIRED;
 
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+
+import com.clarkparsia.owlapi.OntologyUtils;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.io.SystemOutDocumentTarget;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
-
 import uk.ac.manchester.cs.owlapi.modularity.ModuleType;
-
 import com.clarkparsia.modularity.ModularityUtils;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 
 
 /**

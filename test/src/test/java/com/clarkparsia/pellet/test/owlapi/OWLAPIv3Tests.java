@@ -8,20 +8,25 @@
 
 package com.clarkparsia.pellet.test.owlapi;
 
-import static com.clarkparsia.owlapiv3.OWL.*;
-import static com.clarkparsia.owlapiv3.OntologyUtils.*;
-import static com.clarkparsia.owlapiv3.SWRL.*;
+import static com.clarkparsia.owlapi.OWL.*;
+import static com.clarkparsia.owlapi.OntologyUtils.*;
+import static com.clarkparsia.owlapi.SWRL.*;
 import static org.junit.Assert.*;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
 
+import com.clarkparsia.pellet.owlapi.AxiomConverter;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
+
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.SWRL;
+import com.clarkparsia.owlapi.XSD;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
@@ -59,16 +64,8 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import org.semanticweb.owlapi.search.EntitySearcher;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.modularity.IncrementalClassifier;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.SWRL;
-import com.clarkparsia.owlapiv3.XSD;
-import com.clarkparsia.pellet.owlapiv3.AxiomConverter;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 
 /**

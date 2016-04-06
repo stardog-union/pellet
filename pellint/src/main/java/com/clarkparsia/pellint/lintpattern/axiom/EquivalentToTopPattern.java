@@ -6,13 +6,12 @@
 
 package com.clarkparsia.pellint.lintpattern.axiom;
 
+import com.clarkparsia.owlapi.OWL;
+
 import java.util.Collections;
 import java.util.HashSet;
-
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
-
-import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellint.format.CompactClassLintFormat;
 import com.clarkparsia.pellint.format.LintFormat;
 import com.clarkparsia.pellint.model.Lint;

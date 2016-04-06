@@ -8,12 +8,12 @@ package org.mindswap.pellet.test.rules;
 
 import static org.junit.Assert.assertTrue;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+
+import com.clarkparsia.owlapi.OntologyUtils;
 import org.junit.After;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.semanticweb.owlapi.model.IRI;
-
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -73,7 +73,7 @@ public class SWRLAbstract {
 			org.semanticweb.owlapi.model.OWLOntology conclusion = manager.loadOntology( IRI
 					.create( conclusionURI ) );
 
-			PelletReasoner reasoner = new com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory()
+			PelletReasoner reasoner = new com.clarkparsia.pellet.owlapi.PelletReasonerFactory()
 					.createReasoner( premise );
 			assertTrue( reasoner.isEntailed( conclusion.getAxioms() ) );
 		} catch( org.semanticweb.owlapi.model.OWLOntologyCreationException e ) {

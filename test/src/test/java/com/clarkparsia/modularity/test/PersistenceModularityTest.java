@@ -8,13 +8,14 @@ package com.clarkparsia.modularity.test;
 
 import static org.junit.Assert.assertTrue;
 
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
+
 import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.ModuleExtractor;
 import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

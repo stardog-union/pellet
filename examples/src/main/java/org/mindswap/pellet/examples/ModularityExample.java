@@ -8,20 +8,18 @@
 
 package org.mindswap.pellet.examples;
 
+import com.clarkparsia.owlapi.OWL;
+
 import java.util.HashSet;
 import java.util.Set;
-
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-
 import uk.ac.manchester.cs.owlapi.modularity.ModuleType;
-
 import com.clarkparsia.modularity.ModularityUtils;
-import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * <p>

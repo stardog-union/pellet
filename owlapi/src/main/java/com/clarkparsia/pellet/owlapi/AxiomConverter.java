@@ -6,7 +6,7 @@
 // proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 
-package com.clarkparsia.pellet.owlapiv3;
+package com.clarkparsia.pellet.owlapi;
 
 import java.util.ArrayList;
 import java.util.HashSet;

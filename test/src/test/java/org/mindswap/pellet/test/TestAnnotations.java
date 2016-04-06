@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,10 +21,7 @@ import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-
 import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import com.hp.hpl.jena.ontology.OntModel;

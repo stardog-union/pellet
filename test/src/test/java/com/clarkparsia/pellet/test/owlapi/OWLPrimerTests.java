@@ -10,10 +10,12 @@ package com.clarkparsia.pellet.test.owlapi;
 
 import static org.junit.Assert.assertTrue;
 
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
+
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
 import java.util.Set;
-
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.mindswap.pellet.utils.SetUtils;
@@ -23,10 +25,6 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
-
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * @author Evren Sirin

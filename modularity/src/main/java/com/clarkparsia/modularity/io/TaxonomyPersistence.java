@@ -8,6 +8,8 @@
 
 package com.clarkparsia.modularity.io;
 
+import com.clarkparsia.owlapi.OWL;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,7 +20,6 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.TaxonomyUtils;
@@ -39,8 +40,6 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-
-import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * <p>

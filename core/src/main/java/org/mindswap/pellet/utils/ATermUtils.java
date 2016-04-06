@@ -208,6 +208,11 @@ public class ATermUtils
 		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), EMPTY, makeTermAppl(dt));
 	}
 
+	static public ATermAppl makeTypedPlainLangLiteral(String value, String lang)
+	{
+		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), makeTermAppl(lang), ATermUtils.PLAIN_LITERAL_DATATYPE);
+	}
+
 	static public ATermAppl NO_DATATYPE = makeTermAppl("NO_DATATYPE");
 
 	static public ATermAppl makeLiteral(ATermAppl name)
@@ -1012,7 +1017,7 @@ public class ATermUtils
 								}
 	}
 
-	static public ATermAppl[] toArray(ATermList list)
+	static public ATermAppl[] toArray(ATermList list) // TODO rewrite this.
 	{
 		final ATermAppl[] a = new ATermAppl[list.getLength()];
 

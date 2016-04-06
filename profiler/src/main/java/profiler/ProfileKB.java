@@ -8,7 +8,8 @@ package profiler;
 
 import static profiler.ProfileUtils.error;
 
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
 import java.io.BufferedReader;

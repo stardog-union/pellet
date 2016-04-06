@@ -11,6 +11,11 @@ import static java.util.Collections.singleton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
+
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,7 +26,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
-
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Comparators;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -33,14 +37,9 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
-
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.ModuleExtractor;
 import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * <p>

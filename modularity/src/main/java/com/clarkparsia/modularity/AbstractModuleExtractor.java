@@ -6,6 +6,8 @@
 
 package com.clarkparsia.modularity;
 
+import com.clarkparsia.owlapi.OWL;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,7 +19,6 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.KnowledgeBase.ChangeType;
 import org.mindswap.pellet.taxonomy.Taxonomy;
@@ -32,13 +33,11 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
-
 import com.clarkparsia.modularity.io.ModuleExtractorPersistence;
 import com.clarkparsia.modularity.io.UncloseableOutputStream;
 import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
 import com.clarkparsia.owlapi.modularity.locality.LocalityEvaluator;
 import com.clarkparsia.owlapi.modularity.locality.SyntacticLocalityEvaluator;
-import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 
 /**

@@ -3,15 +3,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Set;
+import com.clarkparsia.owlapi.OWL;
 
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-
-import com.clarkparsia.owlapiv3.OWL;
 import com.clarkparsia.pellint.model.LintFixer;
 import com.clarkparsia.pellint.test.PellintTestCase;
 import com.clarkparsia.pellint.util.CollectionUtil;

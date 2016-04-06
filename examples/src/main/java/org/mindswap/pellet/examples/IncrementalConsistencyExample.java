@@ -6,6 +6,8 @@
 
 package org.mindswap.pellet.examples;
 
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletInfGraph;
@@ -20,10 +22,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-
 import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -120,7 +119,7 @@ public class IncrementalConsistencyExample {
 		OWLOntology ontology = manager.loadOntology( IRI.create( mindswappers ) );
 
 		// we want a non-buffering reasoner here (a buffering reasoner would not process any additions, until manually refreshed)
-		PelletReasoner reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createNonBufferingReasoner( ontology );
+		PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance().createNonBufferingReasoner( ontology );
 		manager.addOntologyChangeListener( reasoner );
 
 		// perform initial consistency check

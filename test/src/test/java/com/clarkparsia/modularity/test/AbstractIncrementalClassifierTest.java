@@ -6,17 +6,16 @@
 
 package com.clarkparsia.modularity.test;
 
-import static com.clarkparsia.owlapiv3.OWL.*;
+import static com.clarkparsia.owlapi.OWL.*;
+
+import com.clarkparsia.owlapi.OWL;
 
 import java.util.Arrays;
-
 import org.junit.Test;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
-
-import com.clarkparsia.owlapiv3.OWL;
 
 /**
  * <p>

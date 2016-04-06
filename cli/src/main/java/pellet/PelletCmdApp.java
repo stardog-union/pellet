@@ -11,6 +11,8 @@ package pellet;
 import static pellet.PelletCmdOptionArg.NONE;
 import static pellet.PelletCmdOptionArg.REQUIRED;
 
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -23,7 +25,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KRSSLoader;
 import org.mindswap.pellet.KnowledgeBase;
@@ -31,8 +32,6 @@ import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.JenaLoader;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.Timers;
-
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.RDFReaderF;

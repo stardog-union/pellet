@@ -10,6 +10,12 @@ package pellet;
 
 import static pellet.PelletCmdOptionArg.*;
 
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
+
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -17,7 +23,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
@@ -39,7 +44,6 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.util.mansyntax.ManchesterOWLSyntaxParser;
-
 import com.clarkparsia.owlapi.explanation.BlackBoxExplanation;
 import com.clarkparsia.owlapi.explanation.GlassBoxExplanation;
 import com.clarkparsia.owlapi.explanation.HSTExplanationGenerator;
@@ -49,11 +53,6 @@ import com.clarkparsia.owlapi.explanation.TransactionAwareSingleExpGen;
 import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
 import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxExplanationRenderer;
 import com.clarkparsia.owlapi.explanation.util.ExplanationProgressMonitor;
-import com.clarkparsia.owlapiv3.OWL;
-import com.clarkparsia.owlapiv3.OntologyUtils;
-import com.clarkparsia.pellet.owlapiv3.OWLAPILoader;
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 /**
  * <p>
