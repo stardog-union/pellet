@@ -4,17 +4,15 @@ import java.util.Set;
 
 import com.clarkparsia.pellet.server.handlers.OntologyAddHandler;
 import com.clarkparsia.pellet.server.handlers.OntologyRemoveHandler;
-import com.clarkparsia.pellet.server.handlers.RoutingHandler;
+import com.clarkparsia.pellet.server.handlers.ReasonerClassifyHandler;
+import com.clarkparsia.pellet.server.handlers.ReasonerDeleteHandler;
 import com.clarkparsia.pellet.server.handlers.ReasonerExplainHandler;
+import com.clarkparsia.pellet.server.handlers.ReasonerInsertHandler;
 import com.clarkparsia.pellet.server.handlers.ReasonerQueryHandler;
-import com.clarkparsia.pellet.server.handlers.ReasonerUpdateHandler;
 import com.clarkparsia.pellet.server.handlers.ReasonerVersionHandler;
+import com.clarkparsia.pellet.server.handlers.RoutingHandler;
 import com.clarkparsia.pellet.server.model.ServerState;
 import com.clarkparsia.pellet.server.protege.model.ProtegeServerState;
-import com.clarkparsia.pellet.service.ServiceDecoder;
-import com.clarkparsia.pellet.service.ServiceEncoder;
-import com.clarkparsia.pellet.service.proto.ProtoServiceDecoder;
-import com.clarkparsia.pellet.service.proto.ProtoServiceEncoder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -43,16 +41,12 @@ public class PelletServerModule extends AbstractModule implements Module {
 		Multibinder<RoutingHandler> pathsBinder = Multibinder.newSetBinder(binder(), RoutingHandler.class);
 		pathsBinder.addBinding().to(ReasonerQueryHandler.class);
 		pathsBinder.addBinding().to(ReasonerExplainHandler.class);
-		pathsBinder.addBinding().to(ReasonerUpdateHandler.class);
+		pathsBinder.addBinding().to(ReasonerInsertHandler.class);
+		pathsBinder.addBinding().to(ReasonerDeleteHandler.class);
+		pathsBinder.addBinding().to(ReasonerClassifyHandler.class);
 		pathsBinder.addBinding().to(ReasonerVersionHandler.class);
 		pathsBinder.addBinding().to(OntologyAddHandler.class);
 		pathsBinder.addBinding().to(OntologyRemoveHandler.class);
-
-		Multibinder<ServiceDecoder> decodersBinder = Multibinder.newSetBinder(binder(), ServiceDecoder.class);
-		decodersBinder.addBinding().to(ProtoServiceDecoder.class);
-
-		Multibinder<ServiceEncoder> encodersBinder = Multibinder.newSetBinder(binder(), ServiceEncoder.class);
-		encodersBinder.addBinding().to(ProtoServiceEncoder.class);
 
 		if (mSettings != null) {
 			binder().bind(Configuration.class).toInstance(mSettings);

@@ -74,9 +74,9 @@ public class ProfileIncremental {
 
 		timer.start();
 
-	    OWLOntology finalOnt = OntologyUtils.loadOntology(finalFile.toURI().toString(), false);
-	    Set<OWLAxiom> finalAxioms = Sets.newHashSet(finalOnt.getAxioms());
-	    manager.removeOntology(finalOnt);
+//	    OWLOntology finalOnt = OntologyUtils.loadOntology(finalFile.toURI().toString(), false);
+//	    Set<OWLAxiom> finalAxioms = Sets.newHashSet(finalOnt.getAxioms());
+//	    manager.removeOntology(finalOnt);
 
 	    println("Loaded final ont");
 
@@ -84,9 +84,9 @@ public class ProfileIncremental {
 
 		println("Loaded init ont");
 
-	    OntologyDiff diff = OntologyDiff.diffAxioms(initOnt.getAxioms(), finalAxioms);
+//	    OntologyDiff diff = OntologyDiff.diffAxioms(initOnt.getAxioms(), finalAxioms);
 
-		println("Computed diff " + diff.getDiffCount());
+//		println("Computed diff " + diff.getDiffCount());
 
 	    IncrementalReasoner reasoner;
 		File classificationFile = new File(initFile.getName() + ".zip");
@@ -101,33 +101,33 @@ public class ProfileIncremental {
 
 		println("Created incremental reasoner");
 
-	    int addSize = diff.getAdditions().size() / updates;
-	    int removeSize = diff.getAdditions().size() / updates;
-	    Iterator<OWLAxiom> additions = diff.getAdditions().iterator();
-	    Iterator<OWLAxiom> deletions = diff.getDeletions().iterator();
-
+//	    int addSize = diff.getAdditions().size() / updates;
+//	    int removeSize = diff.getAdditions().size() / updates;
+//	    Iterator<OWLAxiom> additions = diff.getAdditions().iterator();
+//	    Iterator<OWLAxiom> deletions = diff.getDeletions().iterator();
+//
 		timer.reset();
-
-		boolean copyReasoner = true;
-		boolean disposeCopy = true && copyReasoner;
-		int explanationCount = 0;
-
-		List<IncrementalReasoner> reasoners = Lists.newArrayList();
+//
+		boolean copyReasoner = false;
+//		boolean disposeCopy = false && copyReasoner;
+		int explanationCount = 2;
+//
+//		List<IncrementalReasoner> reasoners = Lists.newArrayList();
 		SatisfiabilityConverter converter = new SatisfiabilityConverter(manager.getOWLDataFactory());
 		ExplanationRenderer renderer = new ConciseExplanationRenderer();
-
+//
 	    for (int i = 1; i <= updates; i++) {
 		    IncrementalReasoner targetReasoner = copyReasoner ? reasoner.copy() : reasoner;
-		    OWLOntology targetOnt = copyReasoner ? targetReasoner.getRootOntology() : initOnt;
-
-		    List<OWLOntologyChange> changes = Lists.newArrayList();
-		    Iterators.addAll(changes, Iterators.transform(Iterators.limit(additions, addSize), toUpdate(targetOnt, true)));
-		    Iterators.addAll(changes, Iterators.transform(Iterators.limit(deletions, removeSize), toUpdate(targetOnt, false)));
-
-		    timer.start();
-		    OWL.manager.applyChanges(changes);
-		    targetReasoner.classify();
-		    timer.stop();
+//		    OWLOntology targetOnt = copyReasoner ? targetReasoner.getRootOntology() : initOnt;
+//
+//		    List<OWLOntologyChange> changes = Lists.newArrayList();
+//		    Iterators.addAll(changes, Iterators.transform(Iterators.limit(additions, addSize), toUpdate(targetOnt, true)));
+//		    Iterators.addAll(changes, Iterators.transform(Iterators.limit(deletions, removeSize), toUpdate(targetOnt, false)));
+//
+//		    timer.start();
+//		    OWL.manager.applyChanges(changes);
+//		    targetReasoner.classify();
+//		    timer.stop();
 
 		    PelletExplanation explanation = null;
 		    if (explanationCount > 0) {
@@ -158,17 +158,17 @@ public class ProfileIncremental {
 			    manager.addOntologyChangeListener(targetReasoner);
 		    }
 
-		    if (disposeCopy) {
-                targetReasoner.dispose();
-		        OWL.manager.removeOntology(targetOnt);
-			    if (explanation != null) {
-				    explanation.dispose();
-			    }
-		    }
-		    else if (copyReasoner) {
-			    reasoners.add(targetReasoner);
-		    }
-
+//		    if (disposeCopy) {
+//                targetReasoner.dispose();
+//		        OWL.manager.removeOntology(targetOnt);
+//			    if (explanation != null) {
+//				    explanation.dispose();
+//			    }
+//		    }
+//		    else if (copyReasoner) {
+//			    reasoners.add(targetReasoner);
+//		    }
+//
 		    println("Iteration " + i + " " + DurationFormat.LONG.format(timer.getLast()));
 	    }
 

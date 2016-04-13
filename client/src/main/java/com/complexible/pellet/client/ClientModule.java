@@ -2,7 +2,6 @@ package com.complexible.pellet.client;
 
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
-import com.complexible.pellet.client.api.PelletService;
 import com.complexible.pellet.client.reasoner.RemoteSchemaReasoner;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;

@@ -14,25 +14,18 @@ import retrofit2.Response;
 public final class ClientTools {
 
 	public static <O> O executeCall(final Call<O> theCall) {
-		O results = null;
-
 		try {
 			Response<O> aResp = theCall.execute();
 
 			if (!aResp.isSuccess()) {
-				throw new ClientException(String.format("Request call failed: [%d] %s",
-				                                        aResp.code(), aResp.message()));
+				throw new RuntimeException(String.format("Request call failed: [%d] %s",
+				                                         aResp.code(), aResp.message()));
 			}
 
-			results = aResp.body();
+			return aResp.body();
 		}
-		catch (IOException theE) {
-			Throwables.propagate(new ClientException(theE.getMessage(), theE));
+		catch (IOException e) {
+			throw Throwables.propagate(e);
 		}
-		catch (ClientException theE) {
-			Throwables.propagate(theE);
-		}
-
-		return results;
 	}
 }

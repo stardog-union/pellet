@@ -2,25 +2,14 @@ package com.complexible.pellet.client;
 
 import java.util.UUID;
 
-import com.clarkparsia.pellet.service.ServiceEncoder;
-import com.clarkparsia.pellet.service.io.EncodingException;
-import com.clarkparsia.pellet.service.messages.UpdateRequest;
-import com.clarkparsia.pellet.service.proto.ProtoServiceEncoder;
-import com.complexible.pellet.client.api.PelletService;
-import com.complexible.pellet.client.reasoner.RemoteSchemaReasoner;
-import com.google.common.collect.ImmutableSet;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import com.clarkparsia.owlapiv3.OWL;
 import org.junit.Before;
 import org.junit.Test;
-import org.protege.owl.server.api.client.Client;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
 import retrofit2.Call;
 import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 /**
  * @author Edgar Rodriguez-Diaz
@@ -43,15 +32,11 @@ public class PelletServiceTest extends PelletClientTest {
 	}
 
 	@Test
-	public void shouldUpdateWithEmptySets() throws EncodingException {
+	public void shouldUpdateWithEmptySets() throws Exception {
 		PelletService aService = serviceProvider.get();
-		UpdateRequest updateReq = new UpdateRequest(ImmutableSet.<OWLAxiom>of(), ImmutableSet.<OWLAxiom>of());
-		ServiceEncoder encoder = new ProtoServiceEncoder();
-		RequestBody aBody = RequestBody.create(MediaType.parse(encoder.getMediaType()),
-		                                       encoder.encode(updateReq));
 
-		Call<Void> updateCall = aService.update(agencyOntId, ID, aBody);
-		ClientTools.executeCall(updateCall);
+		ClientTools.executeCall(aService.insert(agencyOntId, ID, OWL.Ontology()));
+		ClientTools.executeCall(aService.delete(agencyOntId, ID, OWL.Ontology()));
 	}
 
 	@Test
@@ -69,11 +54,11 @@ public class PelletServiceTest extends PelletClientTest {
 	public void ontologyAddDelete() throws Exception {
 		PelletService aService = serviceProvider.get();
 
-		ClientTools.executeCall(aService.add(OWL2_HISTORY));
+		ClientTools.executeCall(aService.load(OWL2_HISTORY));
 
-		ClientTools.executeCall(aService.remove(owl2OntId));
+		ClientTools.executeCall(aService.unload(owl2OntId));
 
-		Response<Void> aResp = aService.remove(owl2OntId).execute();
+		Response<Void> aResp = aService.unload(owl2OntId).execute();
 		assertEquals(400, aResp.code());
 		assertEquals("Ontology not found: " + owl2OntId, aResp.message());
 	}

@@ -11,7 +11,6 @@ package com.clarkparsia.pellet.service.reasoner;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLLogicalEntity;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
@@ -25,66 +24,13 @@ public interface SchemaReasoner extends AutoCloseable {
 	int NO_VERSION = -1;
 
 	/**
-	 * Enumeration of query types for schema reasoner.
-	 *
-	 * @author Evren Sirin
-	 */
-	enum QueryType {
-		/**
-		 * Query to get equivalents (equivalent class, equivalent property)
-		 */
-		EQUIVALENT,
-
-		/**
-		 * Query to get children in the hierarchy (direct subclass, direct subproperty)
-		 */
-		CHILD,
-
-		/**
-		 * Query to get parents in the hierarchy (direct superclass, direct superproperty)
-		 */
-		PARENT,
-
-		/**
-		 * Query to get descendants in the hierarchy (all subclass, all subproperty)
-		 */
-		DESCENDANT,
-
-		/**
-		 * Query to get ancestors in the hierarchy (all superclass, all superproperty)
-		 */
-		ANCESTOR,
-
-		/**
-		 * Query to get disjoints (disjoint class, disjoint property)
-		 */
-		DISJOINT,
-
-		/**
-		 * Query to get inverse properties
-		 */
-		INVERSE,
-
-		/**
-		 * Query to get property domains
-		 */
-		DOMAIN,
-
-		/**
-		 * Query to get property ranges
-		 */
-		RANGE
-	}
-
-	/**
 	 * Execute a schema query.
 	 *
-	 * @param theQueryType  schema query
-	 * @param input         input entity
+	 * @param query         schema query
 	 * @param <T>           type of return entities
 	 * @return              the query result
 	 */
-	<T extends OWLObject> NodeSet<T> query(QueryType theQueryType, OWLLogicalEntity input);
+	<T extends OWLObject> NodeSet<T> query(SchemaQuery query);
 
 	/**
 	 * Return the explanations for the given axiom.
@@ -99,14 +45,18 @@ public interface SchemaReasoner extends AutoCloseable {
 	 * Update the reasoner contents.
 	 *
 	 * @param additions     axioms to add
-	 * @param removals      axioms to remove
 	 */
-	void update(Set<OWLAxiom> additions, Set<OWLAxiom> removals);
+	void insert(Set<OWLAxiom> additions);
 
 	/**
-	 * Gets the version of the data used by this reasoner.
+	 * Update the reasoner contents.
 	 *
-	 * @return  an ID of the data version
+	 * @param removals      axioms to remove
 	 */
-	int version();
+	void delete(Set<OWLAxiom> removals);
+
+	/**
+	 * Classifies the reasoner.
+	 */
+	void classify();
 }

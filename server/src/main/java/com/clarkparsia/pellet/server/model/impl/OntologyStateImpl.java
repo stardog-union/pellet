@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -30,10 +31,8 @@ import com.google.common.cache.RemovalNotification;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.reasoner.Node;
 
 /**
  * Implementation of ontology state without a backing store.
@@ -49,7 +48,7 @@ public class OntologyStateImpl implements OntologyState {
 
 	private final IncrementalReasoner reasoner;
 
-	private final LoadingCache<String, ClientState> clients;
+	private final LoadingCache<UUID, ClientState> clients;
 
 	private final Path path;
 
@@ -92,21 +91,21 @@ public class OntologyStateImpl implements OntologyState {
 		clients = initClientCache();
 	}
 
-	private LoadingCache<String, ClientState> initClientCache() {
+	private LoadingCache<UUID, ClientState> initClientCache() {
 		return CacheBuilder.newBuilder()
 		                   .expireAfterAccess(30, TimeUnit.MINUTES)
-		                   .removalListener(new RemovalListener<String, ClientState>() {
+		                   .removalListener(new RemovalListener<UUID, ClientState>() {
 			                   @Override
-			                   public void onRemoval(final RemovalNotification<String, ClientState> theRemovalNotification) {
-				                   String user = theRemovalNotification.getKey();
+			                   public void onRemoval(final RemovalNotification<UUID, ClientState> theRemovalNotification) {
+				                   UUID user = theRemovalNotification.getKey();
 				                   ClientState state = theRemovalNotification.getValue();
 				                   LOGGER.info("Closing client for "+ user);
 				                   state.close();
 			                   }
 		                   })
-		                   .build(new CacheLoader<String, ClientState>() {
+		                   .build(new CacheLoader<UUID, ClientState>() {
 			                   @Override
-			                   public ClientState load(final String user) throws Exception {
+			                   public ClientState load(final UUID user) throws Exception {
 				                   return newClientState(user);
 			                   }
 		                   });
@@ -120,14 +119,14 @@ public class OntologyStateImpl implements OntologyState {
 		return SchemaReasoner.NO_VERSION;
 	}
 
-	private synchronized ClientState newClientState(final String user) {
+	private synchronized ClientState newClientState(final UUID user) {
 		int version = getVersion();
 		LOGGER.info("Creating new client for "+ user +" with revision "+ version);
 		return new ClientStateImpl(reasoner, version);
 	}
 
 	@Override
-	public ClientState getClient(final String clientID) {
+	public ClientState getClient(final UUID clientID) {
 
 		try {
 			return clients.get(clientID);

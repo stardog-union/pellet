@@ -78,7 +78,7 @@
 						<Implementation-Title>Pellet Reasoner Plug-in</Implementation-Title>
 						<Implementation-Vendor>Clark &amp; Parsia LLC</Implementation-Vendor>
 						<Implementation-Version>${project.version}</Implementation-Version>
-						<Import-Package>!javax.servlet.*,org.semanticweb.*,uk.ac.manchester.*,javax.*,org.protege.*,com.google.common.*</Import-Package>
+						<Import-Package>!javax.servlet.*,!org.osgi.*,org.semanticweb.*,uk.ac.manchester.*,javax.*,org.protege.*,com.google.common.*</Import-Package>
 						<Export-Package>!org.semanticweb.*,com.clarkparsia.pellet.protege.*</Export-Package>
 						<Private-Package>com.clarkparsia.*;org.mindswap.*;-split-package:=merge-first</Private-Package>
 						<Bundle-SymbolicName>com.clarkparsia.pellet.protege;singleton:=true</Bundle-SymbolicName>

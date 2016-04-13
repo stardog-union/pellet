@@ -16,5 +16,12 @@ import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 public interface ClientState extends AutoCloseable {
 	SchemaReasoner getReasoner();
 
+	/**
+	 * Gets the version of the data used by this reasoner.
+	 *
+	 * @return  an ID of the data version
+	 */
+	int version();
+
 	void close();
 }

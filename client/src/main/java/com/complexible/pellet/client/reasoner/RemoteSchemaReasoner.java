@@ -1,38 +1,32 @@
 package com.complexible.pellet.client.reasoner;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import com.clarkparsia.pellet.service.ServiceDecoder;
-import com.clarkparsia.pellet.service.ServiceEncoder;
-import com.clarkparsia.pellet.service.messages.ExplainRequest;
-import com.clarkparsia.pellet.service.messages.ExplainResponse;
-import com.clarkparsia.pellet.service.messages.QueryRequest;
-import com.clarkparsia.pellet.service.messages.QueryResponse;
-import com.clarkparsia.pellet.service.messages.UpdateRequest;
-import com.clarkparsia.pellet.service.proto.ProtoServiceDecoder;
-import com.clarkparsia.pellet.service.proto.ProtoServiceEncoder;
-import com.complexible.pellet.client.ClientTools;
-import com.complexible.pellet.client.api.PelletService;
+import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.pellet.service.reasoner.SchemaQuery;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
-import com.google.common.base.Preconditions;
+import com.complexible.pellet.client.ClientTools;
+import com.complexible.pellet.client.PelletService;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import org.mindswap.pellet.utils.Pair;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLLogicalEntity;
+import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 import retrofit2.Call;
+
 
 /**
  * Implementation of a {@link SchemaReasoner} using the Pellet Service API remote reasoner.
@@ -44,20 +38,16 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	final PelletService mService;
 	final IRI mOntologyIri;
 
-	// TODO: provide this via guice and some configurable parameters for more formats
-	final ServiceEncoder mEncoder = new ProtoServiceEncoder();
-	final ServiceDecoder mDecoder = new ProtoServiceDecoder();
-
 	private static final UUID CLIENT_ID = UUID.randomUUID();
 
 	private final UUID mClientID;
 
-	private LoadingCache<Pair<QueryType, OWLLogicalEntity>, NodeSet<?>> cache = CacheBuilder.newBuilder()
+	private LoadingCache<SchemaQuery, NodeSet<?>> cache = CacheBuilder.newBuilder()
 		                   .maximumSize(1024)
-		                   .build(new CacheLoader<Pair<QueryType, OWLLogicalEntity>, NodeSet<?>>() {
+		                   .build(new CacheLoader<SchemaQuery, NodeSet<?>>() {
 			                   @Override
-			                   public NodeSet<?> load(final Pair<QueryType, OWLLogicalEntity> pair) throws Exception {
-				                   return executeRemoteQuery(pair.first, pair.second);
+			                   public NodeSet<?> load(final SchemaQuery query) throws Exception {
+				                   return executeRemoteQuery(query);
 			                   }
 		                   });
 
@@ -80,9 +70,9 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	}
 
 	@Override
-	public <T extends OWLObject> NodeSet<T> query(final QueryType theQueryType, final OWLLogicalEntity input) {
+	public <T extends OWLObject> NodeSet<T> query(final SchemaQuery query) {
 		try {
-			return (NodeSet<T>) cache.get(Pair.create(theQueryType, input));
+			return (NodeSet<T>) cache.get(query);
 		}
 		catch (Exception e) {
 			Throwables.propagate(e);
@@ -90,43 +80,34 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 		return null;
 	}
 
-	private <T extends OWLObject> NodeSet<T> executeRemoteQuery(final QueryType theQueryType, final OWLLogicalEntity input) {
-		try {
-			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
-			                                          mEncoder.encode(new QueryRequest(input)));
-
-			Call<ResponseBody> queryCall = mService.query(mOntologyIri,
-			                                              theQueryType,
-			                                              mClientID,
-			                                              mDecoder.getMediaType(),
-			                                              aReqBody);
-			final ResponseBody aRespBody = ClientTools.executeCall(queryCall);
-			QueryResponse queryResponse = mDecoder.queryResponse(aRespBody.bytes());
-
-			return (NodeSet<T>) queryResponse.getResults();
-		}
-		catch (Exception e) {
-			Throwables.propagate(e);
-		}
-		return null;
+	private <T extends OWLObject> NodeSet<T> executeRemoteQuery(final SchemaQuery query) {
+		Call<NodeSet> queryCall = mService.query(mOntologyIri, mClientID, query);
+		return ClientTools.executeCall(queryCall);
 	}
 
 	@Override
-	public Set<Set<OWLAxiom>> explain(final OWLAxiom axiom, final int limit) {
+	public Set<Set<OWLAxiom>> explain(final OWLAxiom inference, final int limit) {
 		try {
-			// System.out.println("Explaining " + axiom);
-			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
-			                                          mEncoder.encode(new ExplainRequest(axiom)));
-
-			Call<ResponseBody> explainCall = mService.explain(mOntologyIri,
-			                                                  limit,
+			Call<OWLOntology> explainCall = mService.explain(mOntologyIri,
 			                                                  mClientID,
-			                                                  mDecoder.getMediaType(),
-			                                                  aReqBody);
-			final ResponseBody aRespBody = ClientTools.executeCall(explainCall);
-			ExplainResponse explainResponse = mDecoder.explainResponse(aRespBody.bytes());
-			// System.out.println("Explanation " + explainResponse.getAxiomSets());
-			return explainResponse.getAxiomSets();
+			                                                  limit,
+			                                                  inference);
+			final OWLOntology ont = ClientTools.executeCall(explainCall);
+
+			final OWLAnnotationProperty label = ont.getOWLOntologyManager().getOWLDataFactory().getRDFSLabel();
+			Map<String, Set<OWLAxiom>> explanations = Maps.newHashMap();
+			for (OWLAxiom axiom : ont.getLogicalAxioms()) {
+				OWLAnnotation annotation = axiom.getAnnotations(label).iterator().next();
+				String explanationId = ((OWLLiteral) annotation.getValue()).getLiteral();
+				Set<OWLAxiom> explanation = explanations.get(explanationId);
+				if (explanation == null) {
+					explanation = Sets.newHashSet();
+					explanations.put(explanationId, explanation);
+				}
+				explanation.add(axiom.getAxiomWithoutAnnotations());
+			}
+
+			return Sets.newHashSet(explanations.values());
 		}
 		catch (Exception e) {
 			Throwables.propagate(e);
@@ -135,15 +116,21 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	}
 
 	@Override
-	public void update(final Set<OWLAxiom> additions, final Set<OWLAxiom> removals) {
+	public void classify() {
+		try {
+			ClientTools.executeCall(mService.classify(mOntologyIri, mClientID));
+		}
+		catch (Exception e) {
+			Throwables.propagate(e);
+		}
+	}
+
+	@Override
+	public void insert(Set<OWLAxiom> additions) {
 		try {
 			cache.invalidateAll();
 
-			RequestBody aReqBody = RequestBody.create(MediaType.parse(mEncoder.getMediaType()),
-			                                          mEncoder.encode(new UpdateRequest(additions, removals)));
-
-			Call<Void> updateCall = mService.update(mOntologyIri, mClientID, aReqBody);
-			ClientTools.executeCall(updateCall);
+			ClientTools.executeCall(mService.insert(mOntologyIri, mClientID, OWL.Ontology(additions)));
 		}
 		catch (Exception e) {
 			Throwables.propagate(e);
@@ -151,9 +138,15 @@ public class RemoteSchemaReasoner implements SchemaReasoner {
 	}
 
 	@Override
-	public int version() {
-		final Call<Integer> versionCall = mService.version(mOntologyIri, mClientID);
-		return ClientTools.executeCall(versionCall);
+	public void delete(Set<OWLAxiom> removals) {
+		try {
+			cache.invalidateAll();
+
+			ClientTools.executeCall(mService.delete(mOntologyIri, mClientID, OWL.Ontology(removals)));
+		}
+		catch (Exception e) {
+			Throwables.propagate(e);
+		}
 	}
 
 	@Override

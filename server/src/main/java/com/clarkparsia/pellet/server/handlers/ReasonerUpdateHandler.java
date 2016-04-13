@@ -4,32 +4,25 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import com.clarkparsia.pellet.server.exceptions.ServerException;
 import com.clarkparsia.pellet.server.model.ServerState;
-import com.clarkparsia.pellet.service.ServiceDecoder;
-import com.clarkparsia.pellet.service.ServiceEncoder;
-import com.clarkparsia.pellet.service.messages.UpdateRequest;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
-import com.google.common.base.Optional;
-import com.google.inject.Inject;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAxiom;
 
 /**
- * Specification for {@link SchemaReasoner#update(Set, Set)} functionality within
- * the Pellet Server.
- *
- * @author Edgar Rodriguez-Diaz
+ * @author Evren Sirin
  */
 public class ReasonerUpdateHandler extends AbstractRoutingHandler {
 	private static final Logger LOGGER = Logger.getLogger(ReasonerUpdateHandler.class.getName());
+	private final boolean insert;
 
-	@Inject
 	public ReasonerUpdateHandler(final ServerState theServerState,
-	                             final Set<ServiceDecoder> theDecoders,
-	                             final Set<ServiceEncoder> theEncoders) {
-		super("POST", "{ontology}", theServerState, theEncoders, theDecoders);
+	                             final boolean insert) {
+		super("POST", "{ontology}/" + (insert ? "insert" : "delete"), theServerState);
+
+		this.insert = insert;
 	}
 
 	@Override
@@ -37,30 +30,22 @@ public class ReasonerUpdateHandler extends AbstractRoutingHandler {
 		final IRI ontology = getOntology(theExchange);
 		final UUID clientId = getClientID(theExchange);
 
-		byte[] inBytes = readInput(theExchange.getInputStream(), false /* don't fail on empty input */);
-
-		if (inBytes.length == 0) {
-			// If there's no payload we finish the exchange
-			theExchange.setStatusCode(StatusCodes.OK);
-			theExchange.endExchange();
-			return;
-		}
-
-		final ServiceDecoder decoderOpt = getDecoder(getContentType(theExchange));
-
-		final UpdateRequest aUpdateRequest = decoderOpt.updateRequest(inBytes);
-
 		final SchemaReasoner aReasoner = getReasoner(ontology, clientId);
 
-		LOGGER.info("Updating client " + clientId +
-		            " (+" + aUpdateRequest.getAdditions().size() + ", -" + aUpdateRequest.getAdditions().size() + ")");
+		final Set<OWLAxiom> axioms = readAxioms(theExchange.getInputStream());
 
-		aReasoner.update(aUpdateRequest.getAdditions(), aUpdateRequest.getRemovals());
+		LOGGER.info("Updating client " + clientId + " (+" + axioms.size() + ")");
+
+		if (insert) {
+			aReasoner.insert(axioms);
+		}
+		else {
+			aReasoner.delete(axioms);
+		}
 
 		LOGGER.info("Updating client " + clientId + " Success!");
 
 		theExchange.setStatusCode(StatusCodes.OK);
-
 		theExchange.endExchange();
 	}
 }

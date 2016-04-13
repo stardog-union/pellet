@@ -1,8 +1,6 @@
 package com.complexible.pellet.client;
 
 import com.clarkparsia.pellet.server.PelletServerTest;
-import com.complexible.pellet.client.api.PelletService;
-import org.protege.owl.server.api.client.Client;
 
 /**
  * @author Edgar Rodriguez-Diaz

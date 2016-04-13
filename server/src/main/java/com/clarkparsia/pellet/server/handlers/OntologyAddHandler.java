@@ -1,10 +1,6 @@
 package com.clarkparsia.pellet.server.handlers;
 
-import java.util.Set;
-
 import com.clarkparsia.pellet.server.model.ServerState;
-import com.clarkparsia.pellet.service.ServiceDecoder;
-import com.clarkparsia.pellet.service.ServiceEncoder;
 import com.google.inject.Inject;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.StatusCodes;
@@ -15,10 +11,8 @@ import io.undertow.util.StatusCodes;
 public class OntologyAddHandler extends AbstractRoutingHandler {
 
 	@Inject
-	public OntologyAddHandler(final ServerState theServerState,
-	                          final Set<ServiceDecoder> theDecoders,
-	                          final Set<ServiceEncoder> theEncoders) {
-		super("PUT", "{ontology}", theServerState, theEncoders, theDecoders);
+	public OntologyAddHandler(final ServerState theServerState) {
+		super("PUT", "{ontology}", theServerState);
 	}
 
 	/**

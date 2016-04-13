@@ -9,7 +9,6 @@
 package com.complexible.pellet.client.reasoner;
 
 import java.util.AbstractList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -17,6 +16,7 @@ import java.util.logging.Logger;
 import com.clarkparsia.owlapiv3.BufferingOntologyChangeListener;
 import com.clarkparsia.owlapiv3.ImmutableNodeSet;
 import com.clarkparsia.owlapiv3.OWL;
+import com.clarkparsia.pellet.service.reasoner.SchemaQuery;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasoner;
 import com.clarkparsia.pellet.service.reasoner.SchemaReasonerFactory;
 import com.google.common.base.Function;
@@ -57,7 +57,7 @@ import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
 import org.semanticweb.owlapi.reasoner.impl.NodeFactory;
 import org.semanticweb.owlapi.util.Version;
 
-import static com.clarkparsia.pellet.service.reasoner.SchemaReasoner.QueryType;
+import com.clarkparsia.pellet.service.reasoner.SchemaQueryType;
 
 /**
  * Implementation of {@link OWLReasoner} interface backed by a {@link SchemaReasoner}.
@@ -106,7 +106,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		return !changeListener.isChanged();
 	}
 
-	private <O extends OWLObject, T extends OWLEntity> Node<O> executeSingletonQuery(QueryType theQueryType, OWLLogicalEntity input) {
+	private <O extends OWLObject, T extends OWLEntity> Node<O> executeSingletonQuery(SchemaQueryType theQueryType, OWLLogicalEntity input) {
 		NodeSet<O> result = executeQuery(theQueryType, input);
 		if (!result.isSingleton()) {
 			throw new IllegalArgumentException("A singleton result expected");
@@ -115,8 +115,8 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		return Iterables.getOnlyElement(result);
 	}
 
-	private <O extends OWLObject> NodeSet<O> executeQuery(QueryType theQueryType, OWLLogicalEntity input) {
-		return client.query(theQueryType, input);
+	private <O extends OWLObject> NodeSet<O> executeQuery(SchemaQueryType queryType, OWLLogicalEntity input) {
+		return client.query(new SchemaQuery(queryType, input));
 	}
 
 	public void autoFlush() {
@@ -134,7 +134,9 @@ public class SchemaOWLReasoner implements OWLReasoner {
 
 		if (!isFlushed()) {
 			LOGGER.info("Flushing schema reasoner  with updates (+" + changeListener.getAdditions().size() + ", -" + changeListener.getAdditions().size() + ")");
-			client.update(changeListener.getAdditions(), changeListener.getRemovals());
+			client.insert(changeListener.getAdditions());
+			client.delete(changeListener.getRemovals());
+			client.classify();
 			changeListener.reset();
 		}
 	}
@@ -152,19 +154,19 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		throw new IllegalArgumentException("This reasoner only supports named entities");
 	}
 
-	private QueryType querySub(boolean direct) {
-		return direct ? QueryType.CHILD : QueryType.DESCENDANT;
+	private SchemaQueryType querySub(boolean direct) {
+		return direct ? SchemaQueryType.CHILD : SchemaQueryType.DESCENDANT;
 	}
 
-	private QueryType querySuper(boolean direct) {
-		return direct ? QueryType.PARENT : QueryType.ANCESTOR;
+	private SchemaQueryType querySuper(boolean direct) {
+		return direct ? SchemaQueryType.PARENT : SchemaQueryType.ANCESTOR;
 	}
 
 	@Override
 	public Node<OWLClass> getEquivalentClasses(OWLClassExpression clsC) {
 		autoFlush();
 
-		return executeSingletonQuery(QueryType.EQUIVALENT, requireNamedObject(clsC));
+		return executeSingletonQuery(SchemaQueryType.EQUIVALENT, requireNamedObject(clsC));
 	}
 
 	@Override
@@ -220,7 +222,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		autoFlush();
 
-		return executeQuery(QueryType.DOMAIN, pe);
+		return executeQuery(SchemaQueryType.DOMAIN, pe);
 	}
 
 	/**
@@ -252,7 +254,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 	public NodeSet<OWLClass> getDisjointClasses(OWLClassExpression ce) {
 		autoFlush();
 
-		return executeQuery(QueryType.DISJOINT, requireNamedObject(ce));
+		return executeQuery(SchemaQueryType.DISJOINT, requireNamedObject(ce));
 	}
 
 	/**
@@ -263,7 +265,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		autoFlush();
 
-		return executeQuery(QueryType.DISJOINT, requireNamedObject(pe));
+		return executeQuery(SchemaQueryType.DISJOINT, requireNamedObject(pe));
 	}
 
 	/**
@@ -274,7 +276,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {		
 		autoFlush();
 
-		return executeQuery(QueryType.DISJOINT, requireNamedObject(pe));
+		return executeQuery(SchemaQueryType.DISJOINT, requireNamedObject(pe));
 	}
 
 	/**
@@ -285,7 +287,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		autoFlush();
 
-		return executeSingletonQuery(QueryType.EQUIVALENT, pe);
+		return executeSingletonQuery(SchemaQueryType.EQUIVALENT, pe);
 	}
 
 	/**
@@ -296,7 +298,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		autoFlush();
 
-		return (Node) executeSingletonQuery(QueryType.EQUIVALENT, requireNamedObject(pe));
+		return (Node) executeSingletonQuery(SchemaQueryType.EQUIVALENT, requireNamedObject(pe));
 	}
 
 	/**
@@ -336,7 +338,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		autoFlush();
 
-		return executeSingletonQuery(QueryType.INVERSE, requireNamedObject(pe));
+		return executeSingletonQuery(SchemaQueryType.INVERSE, requireNamedObject(pe));
 	}
 
 	/**
@@ -348,7 +350,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		autoFlush();
 
-		return executeQuery(QueryType.DOMAIN, requireNamedObject(pe));
+		return executeQuery(SchemaQueryType.DOMAIN, requireNamedObject(pe));
 	}
 
 	/**
@@ -360,7 +362,7 @@ public class SchemaOWLReasoner implements OWLReasoner {
 		       ReasonerInterruptedException, TimeOutException {
 		autoFlush();
 
-		return executeQuery(QueryType.RANGE, requireNamedObject(pe));
+		return executeQuery(SchemaQueryType.RANGE, requireNamedObject(pe));
 	}
 
 	/**

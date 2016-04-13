@@ -3,21 +3,19 @@ package com.clarkparsia.pellet.server.handlers;
 import java.util.UUID;
 
 import com.clarkparsia.pellet.server.model.ServerState;
-import com.google.common.net.MediaType;
 import com.google.inject.Inject;
 import io.undertow.server.HttpServerExchange;
-import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
- * @author Edgar Rodriguez-Diaz
+ * @author Evren Sirin
  */
-public class ReasonerVersionHandler extends AbstractRoutingHandler {
+public class ReasonerClassifyHandler extends AbstractRoutingHandler {
 
 	@Inject
-	public ReasonerVersionHandler(final ServerState theServerState) {
-		super("GET", "{ontology}/version", theServerState);
+	public ReasonerClassifyHandler(final ServerState theServerState) {
+		super("GET", "{ontology}/classify", theServerState);
 	}
 
 	/**
@@ -29,11 +27,9 @@ public class ReasonerVersionHandler extends AbstractRoutingHandler {
 		final UUID clientId = getClientID(theExchange);
 
 		// Get local client reasoner's version
-		int version = getClientState(ontology, clientId).version();
+		getReasoner(ontology, clientId).classify();
 
 		theExchange.setStatusCode(StatusCodes.OK);
-		theExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, MediaType.PLAIN_TEXT_UTF_8.toString());
-		theExchange.getResponseSender().send(String.valueOf(version));
 		theExchange.endExchange();
 	}
 }

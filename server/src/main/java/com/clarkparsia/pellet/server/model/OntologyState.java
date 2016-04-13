@@ -8,6 +8,8 @@
 
 package com.clarkparsia.pellet.server.model;
 
+import java.util.UUID;
+
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -17,7 +19,7 @@ public interface OntologyState extends AutoCloseable {
 	/**
 	 * Returns the client state for the given ID.
 	 */
-	ClientState getClient(String clientID);
+	ClientState getClient(UUID clientID);
 
 	/**
 	 * Returns the IRI of the ontology.
