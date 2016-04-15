@@ -14,3 +14,10 @@ target/
 *.iws
 *.ipr
 test-persistence-classification.zip
+
+*.rej
+*.orig
+*~
+#*#
+.#*
+.DS_Store
