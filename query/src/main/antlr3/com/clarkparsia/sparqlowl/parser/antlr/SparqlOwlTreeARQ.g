@@ -631,10 +631,19 @@ prefixDecl
 		/*
 		 * Trim the final ':' off the token matched by PNAME_NS
 		 */
-		final int n = $pname.text.length();
-		$prefix = ( n == 1 )
-			? ""
-			: $pname.text.substring( 0, n - 1);
+		String pnameTextToken = $pname.text;
+		
+		if (pnameTextToken != null)
+		{
+			final int n = pnameTextToken.length();
+			$prefix = ( n == 1 )
+				? ""
+				: pnameTextToken.substring( 0, n - 1);
+		}
+		else
+		{
+			$prefix = "";
+		}
 		$expansion = $ref.text;
 	}
 	;
@@ -965,10 +974,12 @@ triplesSameSubject[TripleCollector e]
 					)
 					m=propertyListNotEmpty )
 				{
-					for ( Map.Entry<Node,List<Node>> pair : $m.m.entrySet() ) {
-						for ( Node o : pair.getValue() )
-							$e.addTriple( new Triple( s, pair.getKey(), o ) );
-					}
+					Map<Node, List<Node>> map = $m.m;  
+					if (map != null)
+						for ( Map.Entry<Node,List<Node>> pair : map.entrySet() ) {
+							for ( Node o : pair.getValue() )
+								$e.addTriple( new Triple( s, pair.getKey(), o ) );
+						}
 					for ( Triple t : $m.triples )
 						$e.addTriple( t );
 				}
@@ -980,7 +991,9 @@ triplesSameSubject[TripleCollector e]
 					}
 					(	m=propertyListNotEmpty
 						{
-							for ( Map.Entry<Node,List<Node>> pair : $m.m.entrySet() ) {
+							Map<Node, List<Node>> map = $m.m;
+							if (map != null)
+							for ( Map.Entry<Node,List<Node>> pair : map.entrySet() ) {
 								for ( Node o : pair.getValue() )
 									$e.addTriple( new Triple( s, pair.getKey(), o ) );
 							}
@@ -1081,10 +1094,12 @@ blankNodePropertyList
 	:	^(BNODE_PROPERTY_LIST m=propertyListNotEmpty)
 		{
 			$n = getAnon( );
-			for ( Map.Entry<Node,List<Node>> pair : $m.m.entrySet() ) {
-				for ( Node o : pair.getValue() )
-					$triples.add( new Triple( $n, pair.getKey(), o ) );
-			}
+			Map<Node, List<Node>> map = $m.m;
+			if (map != null)
+				for ( Map.Entry<Node,List<Node>> pair : map.entrySet() ) {
+					for ( Node o : pair.getValue() )
+						$triples.add( new Triple( $n, pair.getKey(), o ) );
+				}
 			$triples.addAll( $m.triples );
 		}
 	;
