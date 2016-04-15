@@ -1,7 +1,8 @@
 Pellet: An Open Source OWL DL reasoner for Java
 -----------------------------------------------
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/complexible/pellet?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Travis](https://api.travis-ci.org/Galigator/pellet.svg?branch=owlapi5)]
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Galigator/pelletEvolution?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Pellet is the OWL 2 DL reasoner: 
 --------------------------------
@@ -23,7 +24,7 @@ Bug reports and enhancement requests should be sent to the mailing list. Issues 
 
 
 
-Pellet 2.5:
+Pellet 2.5.X:
 -----------
 
 * full java 8 support
