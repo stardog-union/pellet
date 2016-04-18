@@ -24,16 +24,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Comparators;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
@@ -128,6 +130,14 @@ public class TestUtils
 		}
 	}
 
+	static void assertStreamEquals(final String message, Stream<?> s1, Stream<?> s2)
+	{
+		final Iterator<?> iter1 = s1.iterator(), iter2 = s2.iterator();
+		while (iter1.hasNext() && iter2.hasNext())
+			assertEquals(message, iter1.next(), iter2.next());
+		assert !iter1.hasNext() && !iter2.hasNext();
+	}
+
 	public static List<OWLOntologyChange> createChanges(OWLOntology ontology, Collection<? extends OWLAxiom> axioms, boolean add)
 	{
 		final List<OWLOntologyChange> changes = new ArrayList<>();
@@ -168,7 +178,7 @@ public class TestUtils
 	 * 
 	 * @param args
 	 */
-	public static OWLAxiom selectRandomAxiom(OWLOntology ontology) throws OWLException
+	public static OWLAxiom selectRandomAxiom(OWLOntology ontology)
 	{
 		final Set<OWLAxiom> selectedAxioms = selectRandomAxioms(ontology, 1);
 
@@ -180,9 +190,7 @@ public class TestUtils
 	 */
 	public static Set<OWLAxiom> selectRandomAxioms(OWLOntology ontology, int count)
 	{
-		final Set<OWLAxiom> axioms = ontology.getAxioms();
-
-		return selectRandomElements(axioms, count);
+		return selectRandomElements(ontology.axioms().collect(Collectors.toSet()), count);
 	}
 
 	public static <T> Set<T> selectRandomElements(Collection<T> coll, int K)
@@ -191,7 +199,7 @@ public class TestUtils
 		final int N = coll.size();
 
 		if (K > N)
-			throw new IllegalArgumentException(K + " >= " + N);
+			throw new IllegalArgumentException(K + " > " + N);
 
 		final List<T> list = (coll instanceof RandomAccess) ? (List<T>) coll : new ArrayList<>(coll);
 
@@ -214,71 +222,52 @@ public class TestUtils
 
 	public static void assertClassificationEquals(OWLReasoner expected, OWLReasoner actual, OWLClass cls)
 	{
-		final Set<OWLClass> expectedEquivalents = expected.getEquivalentClasses(cls).getEntities();
-		final Set<OWLClass> actualEquivalents = actual.getEquivalentClasses(cls).getEntities();
+		final Stream<OWLClass> expectedEquivalents = expected.getEquivalentClasses(cls).entities();
+		final Stream<OWLClass> actualEquivalents = actual.getEquivalentClasses(cls).entities();
+		assertStreamEquals("Equivalents different for Class: " + cls, expectedEquivalents, actualEquivalents);
 
-		System.out.println("--------equivalent-classes-----------");
-		System.out.println(expectedEquivalents);
-		System.out.println(actualEquivalents);
-		System.out.println();
-		assertEquals("Equivalents different for Class: " + cls, expectedEquivalents, actualEquivalents);
-
-		final Set<OWLClass> expectedSupers = expected.getSuperClasses(cls, true).getFlattened();
-		final Set<OWLClass> actualSupers = actual.getSuperClasses(cls, true).getFlattened();
-
-		System.out.println("---------super-classes----------");
-		System.out.println(expectedSupers);
-		System.out.println(actualSupers);
-		System.out.println();
-		assertEquals("Supers different for Class: " + cls, expectedSupers, actualSupers);
+		final Stream<OWLClass> expectedSupers = expected.getSuperClasses(cls, true).entities();
+		final Stream<OWLClass> actualSupers = actual.getSuperClasses(cls, true).entities();
+		assertStreamEquals("Supers different for Class: " + cls, expectedSupers, actualSupers);
 	}
 
 	public static void assertDisjointnessEquals(OWLReasoner expected, OWLReasoner actual)
 	{
-		for (final OWLClass cls : actual.getRootOntology().getClassesInSignature())
-		{
-			assertDisjointnessEquals(expected, actual, cls);
-		}
+		actual.getRootOntology().classesInSignature().forEach(cls -> assertDisjointnessEquals(expected, actual, cls));
 	}
 
 	public static void assertDisjointnessEquals(OWLReasoner expected, OWLReasoner actual, OWLClass cls)
 	{
-		final Set<OWLClass> expectedDisjoints = expected.getDisjointClasses(cls).getFlattened();
-		final Set<OWLClass> actualDisjoints = actual.getDisjointClasses(cls).getFlattened();
+		final Stream<OWLClass> expectedDisjoints = expected.getDisjointClasses(cls).entities();
+		final Stream<OWLClass> actualDisjoints = actual.getDisjointClasses(cls).entities();
 
-		assertEquals("Disjoint classes different for Class: " + cls, expectedDisjoints, actualDisjoints);
+		assertStreamEquals("Disjoint classes different for Class: " + cls, expectedDisjoints, actualDisjoints);
 	}
 
 	public static void assertInstancesEquals(OWLReasoner expected, OWLReasoner actual)
 	{
-		for (final OWLClass cls : actual.getRootOntology().getClassesInSignature())
-		{
-			assertInstancesEquals(expected, actual, cls);
-		}
+		actual.getRootOntology().classesInSignature().forEach(cls -> assertInstancesEquals(expected, actual, cls));
 	}
 
 	public static void assertInstancesEquals(OWLReasoner expected, OWLReasoner actual, OWLClass cls)
 	{
-		final Set<OWLNamedIndividual> expectedIndividuals = expected.getInstances(cls, true).getFlattened();
-		final Set<OWLNamedIndividual> actualIndividuals = actual.getInstances(cls, true).getFlattened();
+		final Stream<OWLNamedIndividual> expectedIndividuals = expected.getInstances(cls, true).entities();
+		final Stream<OWLNamedIndividual> actualIndividuals = actual.getInstances(cls, true).entities();
 
-		assertEquals("Instances different for Class: " + cls, expectedIndividuals, actualIndividuals);
+		assertStreamEquals("Instances different for Class: " + cls, expectedIndividuals, actualIndividuals);
 	}
 
 	public static void assertTypesEquals(OWLReasoner expected, OWLReasoner actual)
 	{
-		for (final OWLNamedIndividual ind : actual.getInstances(OWL.Thing, false).getFlattened())
-		{
-			assertTypesEquals(expected, actual, ind);
-		}
+		actual.getInstances(OWL.Thing, false).entities().forEach(ind -> assertTypesEquals(expected, actual, ind));
 	}
 
 	public static void assertTypesEquals(OWLReasoner expected, OWLReasoner actual, OWLNamedIndividual individual)
 	{
-		final Set<OWLClass> expectedTypes = expected.getTypes(individual, true).getFlattened();
-		final Set<OWLClass> actualTypes = actual.getTypes(individual, true).getFlattened();
+		final Stream<OWLClass> expectedTypes = expected.getTypes(individual, true).entities();
+		final Stream<OWLClass> actualTypes = actual.getTypes(individual, true).entities();
 
-		assertEquals("Types different for individual: " + individual, expectedTypes, actualTypes);
+		assertStreamEquals("Types different for individual: " + individual, expectedTypes, actualTypes);
 	}
 
 	public static void runDisjointnessTest(OWLOntology ontology, ModuleExtractor modExtractor)
@@ -354,6 +343,7 @@ public class TestUtils
 		modular.dispose();
 	}
 
+	@SafeVarargs
 	public static <T> Set<T> set(T... elements)
 	{
 		switch (elements.length)
