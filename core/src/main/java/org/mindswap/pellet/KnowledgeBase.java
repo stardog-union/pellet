@@ -252,6 +252,7 @@ public class KnowledgeBase
 		@Override
 		public void visitAll(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
@@ -263,26 +264,31 @@ public class KnowledgeBase
 		@Override
 		public void visitCard(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
 		public void visitHasValue(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
 		public void visitLiteral(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
 		public void visitMax(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
 		public void visitMin(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
@@ -294,16 +300,19 @@ public class KnowledgeBase
 		@Override
 		public void visitSelf(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
 		public void visitSome(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
 		public void visitInverse(ATermAppl term)
 		{
+			//
 		}
 
 		@Override
@@ -490,14 +499,14 @@ public class KnowledgeBase
 
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 		{
-			deletedAssertions = new HashSet<ATermAppl>();
+			deletedAssertions = new HashSet<>();
 			dependencyIndex = new DependencyIndex(this);
-			syntacticAssertions = new HashSet<ATermAppl>();
+			syntacticAssertions = new HashSet<>();
 		}
 
-		aboxAssertions = new MultiValueMap<AssertionType, ATermAppl>();
+		aboxAssertions = new MultiValueMap<>();
 
-		annotations = new HashMap<ATermAppl, Map<ATermAppl, Set<ATermAppl>>>();
+		annotations = new HashMap<>();
 	}
 
 	/**
@@ -512,7 +521,7 @@ public class KnowledgeBase
 		rbox = kb.rbox;
 		rules = kb.rules;
 
-		aboxAssertions = new MultiValueMap<AssertionType, ATermAppl>();
+		aboxAssertions = new MultiValueMap<>();
 
 		annotations = kb.annotations;
 
@@ -522,17 +531,17 @@ public class KnowledgeBase
 
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 		{
-			deletedAssertions = new HashSet<ATermAppl>();
+			deletedAssertions = new HashSet<>();
 			dependencyIndex = new DependencyIndex(this);
-			syntacticAssertions = new HashSet<ATermAppl>();
+			syntacticAssertions = new HashSet<>();
 		}
 
 		if (emptyABox)
 		{
 			abox = new ABox(this);
 
-			individuals = new HashSet<ATermAppl>();
-			instances = new HashMap<ATermAppl, Set<ATermAppl>>();
+			individuals = new HashSet<>();
+			instances = new HashMap<>();
 
 			// even though we don't copy the individuals over to the new KB
 			// we should still create individuals for the
@@ -551,17 +560,17 @@ public class KnowledgeBase
 				{
 					final Set<ATermAppl> assertions = kb.aboxAssertions.get(assertionType);
 					if (!assertions.isEmpty())
-						aboxAssertions.put(assertionType, new HashSet<ATermAppl>(assertions));
+						aboxAssertions.put(assertionType, new HashSet<>(assertions));
 				}
 			}
 
-			individuals = new HashSet<ATermAppl>(kb.individuals);
-			instances = new HashMap<ATermAppl, Set<ATermAppl>>(kb.instances);
+			individuals = new HashSet<>(kb.individuals);
+			instances = new HashMap<>(kb.instances);
 
 			// copy deleted assertions
 			if (kb.getDeletedAssertions() != null)
 			{
-				deletedAssertions = new HashSet<ATermAppl>(kb.getDeletedAssertions());
+				deletedAssertions = new HashSet<>(kb.getDeletedAssertions());
 			}
 
 			if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && PelletOptions.USE_INCREMENTAL_DELETION)
@@ -573,7 +582,7 @@ public class KnowledgeBase
 			// copy syntactic assertions
 			if (kb.syntacticAssertions != null)
 			{
-				syntacticAssertions = new HashSet<ATermAppl>(kb.syntacticAssertions);
+				syntacticAssertions = new HashSet<>(kb.syntacticAssertions);
 			}
 		}
 
@@ -635,14 +644,14 @@ public class KnowledgeBase
 
 		rbox = new RBox();
 
-		rules = new HashMap<Rule, Rule>();
+		rules = new HashMap<>();
 
 		expChecker = new ExpressivityChecker(this);
-		individuals = new HashSet<ATermAppl>();
+		individuals = new HashSet<>();
 
-		aboxAssertions = new MultiValueMap<AssertionType, ATermAppl>();
+		aboxAssertions = new MultiValueMap<>();
 
-		instances = new HashMap<ATermAppl, Set<ATermAppl>>();
+		instances = new HashMap<>();
 		// typeChecks = new HashMap();
 
 		builder = null;
@@ -659,9 +668,9 @@ public class KnowledgeBase
 
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 		{
-			deletedAssertions = new HashSet<ATermAppl>();
+			deletedAssertions = new HashSet<>();
 			dependencyIndex = new DependencyIndex(this);
-			syntacticAssertions = new HashSet<ATermAppl>();
+			syntacticAssertions = new HashSet<>();
 		}
 
 		final ABox newABox = new ABox(this);
@@ -1342,12 +1351,12 @@ public class KnowledgeBase
 		Map<ATermAppl, Set<ATermAppl>> pidx = annotations.get(s);
 
 		if (pidx == null)
-			pidx = new HashMap<ATermAppl, Set<ATermAppl>>();
+			pidx = new HashMap<>();
 
 		Set<ATermAppl> oidx = pidx.get(p);
 
 		if (oidx == null)
-			oidx = new HashSet<ATermAppl>();
+			oidx = new HashSet<>();
 
 		oidx.add(o);
 		pidx.put(p, oidx);
@@ -1366,7 +1375,7 @@ public class KnowledgeBase
 		if (pidx == null)
 			return Collections.emptySet();
 
-		final Set<ATermAppl> values = new HashSet<ATermAppl>();
+		final Set<ATermAppl> values = new HashSet<>();
 
 		for (final ATermAppl subproperty : getSubAnnotationProperties(p))
 		{
@@ -1391,9 +1400,9 @@ public class KnowledgeBase
 	private Set<ATermAppl> getSubAnnotationProperties(ATermAppl p)
 	{
 
-		final Set<ATermAppl> values = new HashSet<ATermAppl>();
+		final Set<ATermAppl> values = new HashSet<>();
 
-		final List<ATermAppl> temp = new ArrayList<ATermAppl>();
+		final List<ATermAppl> temp = new ArrayList<>();
 		temp.add(p);
 		while (!temp.isEmpty())
 		{
@@ -1414,7 +1423,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getIndividualsWithAnnotation(ATermAppl p, ATermAppl o)
 	{
-		final Set<ATermAppl> ret = new HashSet<ATermAppl>();
+		final Set<ATermAppl> ret = new HashSet<>();
 
 		for (final Map.Entry<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> e1 : annotations.entrySet())
 		{
@@ -2167,7 +2176,7 @@ public class KnowledgeBase
 
 	private Set<ATermAppl> getUnsatisfiableClasses(boolean includeBottom)
 	{
-		Set<ATermAppl> aUnsatClasses = new HashSet<ATermAppl>();
+		Set<ATermAppl> aUnsatClasses = new HashSet<>();
 
 		if (isClassified())
 		{
@@ -2401,7 +2410,7 @@ public class KnowledgeBase
 	 */
 	public Set<ATermAppl> getProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2418,7 +2427,7 @@ public class KnowledgeBase
 	 */
 	public Set<ATermAppl> getObjectProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2430,7 +2439,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getAnnotationProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2442,7 +2451,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getTransitiveProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2455,7 +2464,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getSymmetricProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2476,7 +2485,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getAsymmetricProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2488,7 +2497,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getReflexiveProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2500,7 +2509,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getIrreflexiveProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2512,7 +2521,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getFunctionalProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2526,7 +2535,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getInverseFunctionalProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -2544,7 +2553,7 @@ public class KnowledgeBase
 	 */
 	public Set<ATermAppl> getDataProperties()
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		for (final Role role : rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
@@ -3049,7 +3058,7 @@ public class KnowledgeBase
 
 		final ATermAppl c = ATermUtils.normalize((ATermAppl) d);
 
-		final List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
+		final List<ATermAppl> unknowns = new ArrayList<>();
 		final Iterator<Individual> i = new IndividualIterator(abox);
 		while (i.hasNext())
 		{
@@ -3331,8 +3340,8 @@ public class KnowledgeBase
 		if (t1.equals(t2))
 			return true;
 
-		final Set<ATermAppl> knowns = new HashSet<ATermAppl>();
-		final Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
+		final Set<ATermAppl> knowns = new HashSet<>();
+		final Set<ATermAppl> unknowns = new HashSet<>();
 
 		final Individual ind = abox.getIndividual(t1);
 		if (ind.isMerged() && !ind.getMergeDependency(true).isIndependent())
@@ -3397,7 +3406,7 @@ public class KnowledgeBase
 
 		final ATermAppl c = ATermUtils.makeNot(ATermUtils.makeValue(name));
 
-		final Set<ATermAppl> differents = new HashSet<ATermAppl>();
+		final Set<ATermAppl> differents = new HashSet<>();
 		for (final ATermAppl x : individuals)
 		{
 			final Bool isType = abox.isKnownType(x, c);
@@ -3539,7 +3548,7 @@ public class KnowledgeBase
 		if (!taxonomy.contains(c))
 			builder.classify(c);
 
-		final Set<Set<ATermAppl>> supers = new HashSet<Set<ATermAppl>>();
+		final Set<Set<ATermAppl>> supers = new HashSet<>();
 		for (final Set<ATermAppl> s : taxonomy.getSupers(c, direct))
 		{
 			final Set<ATermAppl> supEqSet = ATermUtils.primitiveOrBottom(s);
@@ -3630,12 +3639,12 @@ public class KnowledgeBase
 		if (!role.isObjectRole() && !role.isDatatypeRole())
 			return Collections.emptySet();
 
-		final Set<Set<ATermAppl>> disjoints = new HashSet<Set<ATermAppl>>();
+		final Set<Set<ATermAppl>> disjoints = new HashSet<>();
 
 		TaxonomyNode<ATermAppl> node = getRoleTaxonomy(role.isObjectRole()).getTop();
 
-		final Set<TaxonomyNode<ATermAppl>> marked = new HashSet<TaxonomyNode<ATermAppl>>();
-		final List<TaxonomyNode<ATermAppl>> visit = new ArrayList<TaxonomyNode<ATermAppl>>();
+		final Set<TaxonomyNode<ATermAppl>> marked = new HashSet<>();
+		final List<TaxonomyNode<ATermAppl>> visit = new ArrayList<>();
 		visit.add(node);
 
 		for (int i = 0; i < visit.size(); i++)
@@ -3734,7 +3743,7 @@ public class KnowledgeBase
 
 	private Set<Set<ATermAppl>> getPrimitiveTypes(ATermAppl ind, boolean direct)
 	{
-		final Set<Set<ATermAppl>> types = new HashSet<Set<ATermAppl>>();
+		final Set<Set<ATermAppl>> types = new HashSet<>();
 		for (final Set<ATermAppl> t : TaxonomyUtils.getTypes(builder.getTaxonomy(), ind, direct))
 		{
 			final Set<ATermAppl> eqSet = ATermUtils.primitiveOrBottom(t);
@@ -3820,7 +3829,7 @@ public class KnowledgeBase
 					return TaxonomyUtils.getAllInstances(taxonomy, c);
 			}
 
-		return new HashSet<ATermAppl>(retrieve(c, individuals));
+		return new HashSet<>(retrieve(c, individuals));
 	}
 
 	/**
@@ -3869,7 +3878,7 @@ public class KnowledgeBase
 			builder.classify(c);
 
 		// Direct instances for anonymous concepts
-		final Set<ATermAppl> ret = new HashSet<ATermAppl>();
+		final Set<ATermAppl> ret = new HashSet<>();
 		final Set<Set<ATermAppl>> sups = getSuperClasses(c, true);
 
 		for (final Set<ATermAppl> s : sups)
@@ -4006,7 +4015,7 @@ public class KnowledgeBase
 		if (!taxonomy.contains(c))
 			builder.classify(c);
 
-		final Set<Set<ATermAppl>> subs = new HashSet<Set<ATermAppl>>();
+		final Set<Set<ATermAppl>> subs = new HashSet<>();
 		for (final Set<ATermAppl> s : taxonomy.getSubs(c, direct))
 		{
 			final Set<ATermAppl> subEqSet = ATermUtils.primitiveOrBottom(s);
@@ -4065,7 +4074,7 @@ public class KnowledgeBase
 			return Collections.emptySet();
 		}
 
-		final Set<Set<ATermAppl>> supers = new HashSet<Set<ATermAppl>>();
+		final Set<Set<ATermAppl>> supers = new HashSet<>();
 		final Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy(prop);
 		if (taxonomy != null)
 		{
@@ -4128,7 +4137,7 @@ public class KnowledgeBase
 			return Collections.emptySet();
 		}
 
-		final Set<Set<ATermAppl>> subs = new HashSet<Set<ATermAppl>>();
+		final Set<Set<ATermAppl>> subs = new HashSet<>();
 		final Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy(prop);
 		if (taxonomy != null)
 		{
@@ -4274,8 +4283,8 @@ public class KnowledgeBase
 	{
 		ensureConsistency();
 
-		final Set<ATermAppl> knowns = new HashSet<ATermAppl>();
-		final Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
+		final Set<ATermAppl> knowns = new HashSet<>();
+		final Set<ATermAppl> unknowns = new HashSet<>();
 
 		final Individual ind = abox.getIndividual(name);
 		if (ind == null)
@@ -4348,7 +4357,7 @@ public class KnowledgeBase
 
 		if (role.isTop())
 		{
-			final List<ATermAppl> literals = new ArrayList<ATermAppl>();
+			final List<ATermAppl> literals = new ArrayList<>();
 			if (!PelletOptions.HIDE_TOP_PROPERTY_VALUES)
 			{
 				for (final Node node : abox.getNodes())
@@ -4385,7 +4394,7 @@ public class KnowledgeBase
 		if (lang == null)
 			return values;
 
-		final List<ATermAppl> result = new ArrayList<ATermAppl>();
+		final List<ATermAppl> result = new ArrayList<>();
 		for (final ATermAppl lit : values)
 		{
 			final String litLang = ((ATermAppl) lit.getArgument(1)).getName();
@@ -4435,8 +4444,8 @@ public class KnowledgeBase
 		}
 
 		// TODO get rid of unnecessary Set + List creation
-		Set<ATermAppl> knowns = new HashSet<ATermAppl>();
-		final Set<ATermAppl> unknowns = new HashSet<ATermAppl>();
+		Set<ATermAppl> knowns = new HashSet<>();
+		final Set<ATermAppl> unknowns = new HashSet<>();
 
 		if (role.isTop())
 		{
@@ -4454,10 +4463,10 @@ public class KnowledgeBase
 			final ATermAppl valueX = ATermUtils.makeHasValue(role.getInverse().getName(), x);
 			final ATermAppl c = ATermUtils.normalize(valueX);
 
-			binaryInstanceRetrieval(c, new ArrayList<ATermAppl>(unknowns), knowns);
+			binaryInstanceRetrieval(c, new ArrayList<>(unknowns), knowns);
 		}
 
-		return new ArrayList<ATermAppl>(knowns);
+		return new ArrayList<>(knowns);
 	}
 
 	/**
@@ -4547,8 +4556,8 @@ public class KnowledgeBase
 
 		ensureConsistency();
 
-		final List<ATermAppl> knowns = new ArrayList<ATermAppl>();
-		final List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
+		final List<ATermAppl> knowns = new ArrayList<>();
+		final List<ATermAppl> unknowns = new ArrayList<>();
 
 		ATermAppl canonicalLit;
 		try
@@ -4636,7 +4645,7 @@ public class KnowledgeBase
 			return Collections.emptyList();
 		}
 
-		final List<ATermAppl> props = new ArrayList<ATermAppl>();
+		final List<ATermAppl> props = new ArrayList<>();
 
 		final Set<ATermAppl> allProps = ATermUtils.isLiteral(o) ? getDataProperties() : getObjectProperties();
 		for (final ATermAppl p : allProps)
@@ -4650,7 +4659,7 @@ public class KnowledgeBase
 
 	public Map<ATermAppl, List<ATermAppl>> getPropertyValues(ATermAppl pred)
 	{
-		final Map<ATermAppl, List<ATermAppl>> result = new HashMap<ATermAppl, List<ATermAppl>>();
+		final Map<ATermAppl, List<ATermAppl>> result = new HashMap<>();
 
 		for (final ATermAppl subj : individuals)
 		{
@@ -4678,7 +4687,7 @@ public class KnowledgeBase
 		final Timer timer = timers.startTimer("retrieve");
 
 		final ATermAppl notC = ATermUtils.negate(c);
-		final List<ATermAppl> knowns = new ArrayList<ATermAppl>();
+		final List<ATermAppl> knowns = new ArrayList<>();
 
 		// this is mostly to ensure that a model for notC is cached
 		if (!abox.isSatisfiable(notC))
@@ -4704,7 +4713,7 @@ public class KnowledgeBase
 						subs = taxonomy.getFlattenedSubs(c, false);
 				}
 
-				final List<ATermAppl> unknowns = new ArrayList<ATermAppl>();
+				final List<ATermAppl> unknowns = new ArrayList<>();
 				for (final ATermAppl x : individuals)
 				{
 					final Bool isType = abox.isKnownType(x, c, subs);
@@ -4735,7 +4744,7 @@ public class KnowledgeBase
 
 		timer.stop();
 
-		final Set<ATermAppl> result = Collections.unmodifiableSet(new HashSet<ATermAppl>(knowns));
+		final Set<ATermAppl> result = Collections.unmodifiableSet(new HashSet<>(knowns));
 
 		if (PelletOptions.CACHE_RETRIEVAL)
 			instances.put(c, result);
@@ -4758,7 +4767,7 @@ public class KnowledgeBase
 			return Collections.emptyList();
 		}
 
-		final List<ATermAppl> result = new ArrayList<ATermAppl>();
+		final List<ATermAppl> result = new ArrayList<>();
 		for (final ATermAppl ind : individuals)
 		{
 			if (!abox.hasObviousPropertyValue(ind, r, null).isFalse())
@@ -4857,7 +4866,7 @@ public class KnowledgeBase
 		if (n <= 1)
 		{
 			partitions[0] = candidates;
-			partitions[1] = new ArrayList<ATermAppl>();
+			partitions[1] = new ArrayList<>();
 		}
 		else
 		{
@@ -5127,8 +5136,8 @@ public class KnowledgeBase
 	{
 		if (!UsableRuleFilter.isUsable(rule)) { return null; }
 
-		final Set<RuleAtom> head = new LinkedHashSet<RuleAtom>();
-		final Set<RuleAtom> body = new LinkedHashSet<RuleAtom>();
+		final Set<RuleAtom> head = new LinkedHashSet<>();
+		final Set<RuleAtom> body = new LinkedHashSet<>();
 
 		for (RuleAtom atom : rule.getHead())
 		{
@@ -5144,7 +5153,7 @@ public class KnowledgeBase
 			head.add(atom);
 		}
 
-		final Map<AtomIObject, Set<ATermAppl>> types = new HashMap<AtomIObject, Set<ATermAppl>>();
+		final Map<AtomIObject, Set<ATermAppl>> types = new HashMap<>();
 
 		for (final RuleAtom atom : rule.getBody())
 		{

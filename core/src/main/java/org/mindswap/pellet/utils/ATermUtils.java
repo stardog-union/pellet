@@ -169,6 +169,7 @@ public class ATermUtils
 
 	public static final ATermInt ONE = factory.makeInt(1);
 
+	public static final ATermAppl LITERAL_STRING = ATermUtils.makeTermAppl("http://www.w3.org/2001/XMLSchema#string");
 	public static final ATermAppl PLAIN_LITERAL_DATATYPE = ATermUtils.makeTermAppl(Namespaces.RDF + "PlainLiteral");
 
 	public static QNameProvider qnames = new QNameProvider();
@@ -186,6 +187,11 @@ public class ATermUtils
 	final static public ATermAppl makePropAtom(ATermAppl p, ATermAppl s, ATermAppl o)
 	{
 		return factory.makeAppl(PROPFUN, p, s, o);
+	}
+
+	static public ATermAppl makeStringLiteral(String value)
+	{
+		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), EMPTY, LITERAL_STRING);
 	}
 
 	static public ATermAppl makePlainLiteral(String value)
@@ -1067,7 +1073,7 @@ public class ATermUtils
 
 	public static Set<ATermAppl> listToSet(ATermList list)
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		while (!list.isEmpty())
 		{
 			set.add((ATermAppl) list.getFirst());
@@ -1078,7 +1084,7 @@ public class ATermUtils
 
 	public static Set<ATermAppl> getPrimitives(ATermList list)
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
 		while (!list.isEmpty())
 		{
 			final ATermAppl term = (ATermAppl) list.getFirst();
@@ -1373,7 +1379,7 @@ public class ATermUtils
 
 	public static Collection<ATermAppl> normalize(Collection<ATermAppl> terms)
 	{
-		final List<ATermAppl> list = new ArrayList<ATermAppl>();
+		final List<ATermAppl> list = new ArrayList<>();
 		for (final ATermAppl term : terms)
 		{
 			list.add(normalize(term));
@@ -1530,8 +1536,8 @@ public class ATermUtils
 					}
 					else
 					{
-						final Set<ATermAppl> set = new HashSet<ATermAppl>();
-						final List<ATermAppl> negations = new ArrayList<ATermAppl>();
+						final Set<ATermAppl> set = new HashSet<>();
+						final List<ATermAppl> negations = new ArrayList<>();
 						final MultiListIterator i = new MultiListIterator(conjuncts);
 						while (i.hasNext())
 						{
@@ -1626,10 +1632,10 @@ public class ATermUtils
 	 */
 	public static ATermAppl makeSimplifiedAnd(Collection<ATermAppl> conjuncts)
 	{
-		final Set<ATermAppl> set = new HashSet<ATermAppl>();
-		final List<ATermAppl> negations = new ArrayList<ATermAppl>();
+		final Set<ATermAppl> set = new HashSet<>();
+		final List<ATermAppl> negations = new ArrayList<>();
 		final MultiListIterator listIt = new MultiListIterator(EMPTY_LIST);
-		final Iterator<ATermAppl> i = new PairIterator<ATermAppl>(conjuncts.iterator(), listIt);
+		final Iterator<ATermAppl> i = new PairIterator<>(conjuncts.iterator(), listIt);
 		while (i.hasNext())
 		{
 			final ATermAppl c = i.next();
@@ -1685,7 +1691,7 @@ public class ATermUtils
 
 	public static Set<ATermAppl> findPrimitives(ATermAppl term)
 	{
-		final Set<ATermAppl> primitives = new HashSet<ATermAppl>();
+		final Set<ATermAppl> primitives = new HashSet<>();
 
 		findPrimitives(term, primitives, false, false);
 		return primitives;
@@ -1693,7 +1699,7 @@ public class ATermUtils
 
 	public static Set<ATermAppl> findPrimitives(ATermAppl term, boolean skipRestrictions, boolean skipTopLevel)
 	{
-		final Set<ATermAppl> primitives = new HashSet<ATermAppl>();
+		final Set<ATermAppl> primitives = new HashSet<>();
 
 		findPrimitives(term, primitives, skipRestrictions, skipTopLevel);
 
@@ -1764,7 +1770,7 @@ public class ATermUtils
 
 	public static Collection<ATermAppl> primitiveOrBottom(Collection<ATermAppl> collection)
 	{
-		final List<ATermAppl> ret = new ArrayList<ATermAppl>();
+		final List<ATermAppl> ret = new ArrayList<>();
 		for (final Iterator<ATermAppl> i = collection.iterator(); i.hasNext();)
 		{
 			final ATermAppl a = i.next();
@@ -1778,7 +1784,7 @@ public class ATermUtils
 
 	public static Set<ATermAppl> primitiveOrBottom(Set<ATermAppl> collection)
 	{
-		final Set<ATermAppl> ret = new HashSet<ATermAppl>();
+		final Set<ATermAppl> ret = new HashSet<>();
 		for (final Iterator<ATermAppl> i = collection.iterator(); i.hasNext();)
 		{
 			final ATermAppl a = i.next();

@@ -8,7 +8,6 @@ package com.clarkparsia.modularity.test;
 
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.OntologyUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * Title:
  * </p>
  * <p>
- * Description: Test modular classification for correctness against unified
- * classification
+ * Description: Test modular classification for correctness against unified classification
  * <p>
  * Copyright: Copyright (c) 2007
  * </p>
@@ -33,61 +31,79 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * 
  * @author Mike Smith
  */
-public abstract class RandomizedIncrementalClassifierTest extends AbstractModularityTest {
+public abstract class RandomizedIncrementalClassifierTest extends AbstractModularityTest
+{
 
-	private String	path;
-	
-	public RandomizedIncrementalClassifierTest(String path) {
-		this.path = path;
-		
-		if( !new File( path ).exists() )
-			throw new RuntimeException( "Path to data files is not correct: " + path );
+	private String _path;
+
+	public RandomizedIncrementalClassifierTest(String path)
+	{
+		_path = path;
+
+		if (!new File(path).exists())
+		{
+			_path = "src/test/resources/" + path;
+
+			if (!new File(_path).exists())//
+				throw new RuntimeException("Path to data files is not correct: " + path);
+		}
 	}
 
-	private void classifyCorrectnessTest(String file) throws OWLException {
-		OWLOntology ontology = OntologyUtils.loadOntology( "file:" + file, false );
+	private void classifyCorrectnessTest(String file) throws OWLException
+	{
+		final OWLOntology ontology = OntologyUtils.loadOntology("file:" + file, false);
 
-		List<OWLAxiom> axioms = new ArrayList<OWLAxiom>( TestUtils.selectRandomAxioms( ontology, 10 ) );
+		final List<OWLAxiom> axioms = new ArrayList<OWLAxiom>(TestUtils.selectRandomAxioms(ontology, 10));
 
 		// Delete 5 axioms before the test
-		OntologyUtils.removeAxioms( ontology, axioms.subList( 0, 5 ) );		
-		
+		OntologyUtils.removeAxioms(ontology, axioms.subList(0, 5));
+
 		// Update test will add 5 axioms and remove 5 axioms
-		List<OWLAxiom> additions = axioms.subList( 0, 5 );		
-		List<OWLAxiom> deletions = axioms.subList( 5, 10 );	
-		try {
-			TestUtils.runUpdateTest( ontology, modExtractor, additions, deletions );
-		} catch( AssertionError e ) {
-			System.err.println( "Additions: " + additions );
-			System.err.println( "Deletions: " + deletions );
-			throw e;
-		} catch( RuntimeException e ) {
-			System.err.println( "Additions: " + additions );
-			System.err.println( "Deletions: " + deletions );
+		final List<OWLAxiom> additions = axioms.subList(0, 5);
+		final List<OWLAxiom> deletions = axioms.subList(5, 10);
+		try
+		{
+			TestUtils.runUpdateTest(ontology, modExtractor, additions, deletions);
+		}
+		catch (final AssertionError e)
+		{
+			System.err.println("Additions: " + additions);
+			System.err.println("Deletions: " + deletions);
 			throw e;
 		}
-		finally {
-			OWL.manager.removeOntology( ontology );
+		catch (final RuntimeException e)
+		{
+			System.err.println("Additions: " + additions);
+			System.err.println("Deletions: " + deletions);
+			throw e;
+		}
+		finally
+		{
+			OWL.manager.removeOntology(ontology);
 		}
 	}
 
 	@Test
-	public void galenRandomizedIncrementalClassifyTest() throws OWLException {
-		classifyCorrectnessTest( path + "galen.owl" );
+	public void galenRandomizedIncrementalClassifyTest() throws OWLException
+	{
+		classifyCorrectnessTest(_path + "galen.owl");
 	}
 
 	@Test
-	public void koalaRandomizedIncrementalClassifyTest() throws OWLException {
-		classifyCorrectnessTest( path + "koala.owl" );
+	public void koalaRandomizedIncrementalClassifyTest() throws OWLException
+	{
+		classifyCorrectnessTest(_path + "koala.owl");
 	}
 
 	@Test
-	public void sumoRandomizedIncrementalClassifyTest() throws OWLException {
-		classifyCorrectnessTest( path + "SUMO.owl" );
+	public void sumoRandomizedIncrementalClassifyTest() throws OWLException
+	{
+		classifyCorrectnessTest(_path + "SUMO.owl");
 	}
 
 	@Test
-	public void sweetRandomizedIncrementalClassifyTest() throws OWLException {
-		classifyCorrectnessTest( path + "SWEET.owl" );
+	public void sweetRandomizedIncrementalClassifyTest() throws OWLException
+	{
+		classifyCorrectnessTest(_path + "SWEET.owl");
 	}
 }
