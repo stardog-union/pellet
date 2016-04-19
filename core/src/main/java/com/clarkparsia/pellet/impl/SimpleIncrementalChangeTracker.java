@@ -61,6 +61,7 @@ public class SimpleIncrementalChangeTracker implements IncrementalChangeTracker
 	{
 
 		this.deletedEdges = new HashSet<>(src.deletedEdges.size());
+		this.newEdges = new HashSet<>(src.newEdges.size());
 
 		for (final Edge se : src.deletedEdges)
 		{
@@ -83,8 +84,6 @@ public class SimpleIncrementalChangeTracker implements IncrementalChangeTracker
 				throw new NullPointerException();
 			this.deletedTypes.put(n, new HashSet<>(e.getValue()));
 		}
-
-		this.newEdges = new HashSet<>(src.newEdges.size());
 
 		for (final Edge se : src.newEdges)
 		{
