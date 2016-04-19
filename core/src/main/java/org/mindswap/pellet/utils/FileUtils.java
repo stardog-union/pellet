@@ -81,10 +81,9 @@ public class FileUtils
 		return buffer.toString();
 	}
 
-
 	public static String toURI(String fileName)
 	{
-		if (com.hp.hpl.jena.util.FileUtils.isURI(fileName))
+		if (org.apache.jena.util.FileUtils.isURI(fileName))
 			return fileName;
 
 		final File localFile = new File(fileName);
@@ -100,7 +99,6 @@ public class FileUtils
 			throw new RuntimeException(fileName + " is not a valid URI");
 		}
 	}
-
 
 	/**
 	 * <p>

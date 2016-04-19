@@ -4,15 +4,10 @@
 package com.clarkparsia.jena.test;
 
 import com.clarkparsia.pellet.test.query.MiscSPARQLDLTest;
-
-import com.hp.hpl.jena.ontology.OntDocumentManager.ReadFailureHandler;
-import com.hp.hpl.jena.rdf.model.Model;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.apache.jena.ontology.OntDocumentManager.ReadFailureHandler;
 import org.apache.jena.rdf.model.Model;
-
 
 /**
  * @author Pavel Klinov

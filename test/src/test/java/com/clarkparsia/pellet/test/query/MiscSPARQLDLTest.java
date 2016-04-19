@@ -3,21 +3,8 @@ package com.clarkparsia.pellet.test.query;
 import com.clarkparsia.jena.test.ResourceImportLoader;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
-import com.hp.hpl.jena.ontology.OntDocumentManager;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.DatasetFactory;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 import java.io.IOException;
 import java.io.InputStream;
-import org.junit.Assert;
-import org.junit.Test;
-import org.mindswap.pellet.PelletOptions;
-import org.mindswap.pellet.jena.PelletReasonerFactory;
-
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.DatasetFactory;
@@ -26,7 +13,10 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
-
+import org.junit.Assert;
+import org.junit.Test;
+import org.mindswap.pellet.PelletOptions;
+import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 /**
  * 
