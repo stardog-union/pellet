@@ -34,17 +34,6 @@
 
 package org.mindswap.pellet.test;
 
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +48,17 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.exceptions.TimeoutException;
 import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
@@ -131,7 +131,7 @@ public class WebOntTest
 	int MAX_TEST_COUNT = Integer.MAX_VALUE;
 
 	WebOntTester[] testers = {
-	/** new JenaWebOntTester(), new OWLAPIWebOntTester() */
+			/** new JenaWebOntTester(), new OWLAPIWebOntTester() */
 	};
 
 	public final static void main(String[] args)
@@ -224,9 +224,9 @@ public class WebOntTest
 						if (!manifestFile.startsWith("http://"))
 							manifestFile = "http://www.w3.org/2002/03owlt/" + manifestFile;
 					}
-					// else if(arg.equals("-base")) {
-					// setBase( args[++i] );
-					// }
+			// else if(arg.equals("-base")) {
+			// setBase( args[++i] );
+			// }
 					else
 						if (arg.equals("-validate"))
 							PelletOptions.VALIDATE_ABOX = true;
@@ -644,16 +644,16 @@ public class WebOntTest
 		{
 			final int rowHeight = details.isSelected() ? table.getRowHeight(0) : 1;
 
-					for (int l = 0; l < LEVELS.size(); l++)
+			for (int l = 0; l < LEVELS.size(); l++)
 			{
-						for (int t = 0; t < TYPES.size(); t++)
+				for (int t = 0; t < TYPES.size(); t++)
 				{
-							table.setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
-							tables[0].setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
-							tables[1].setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
-							tables[2].setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
-						}
-					}
+					table.setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
+					tables[0].setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
+					tables[1].setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
+					tables[2].setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
+				}
+			}
 		});
 		details.doClick();
 		optionsPanel.add(details);
@@ -708,80 +708,80 @@ public class WebOntTest
 	{
 		String inputFile = testCase.hasProperty(OWLTestVocabulary.inputDocument) ? testCase.getProperty(OWLTestVocabulary.inputDocument).getObject().toString() : null;
 
-				if (inputFile != null)
+		if (inputFile != null)
 		{
-					inputFile = getFileName(inputFile);
+			inputFile = getFileName(inputFile);
 
-					log.fine("Input : " + inputFile);
-				}
+			log.fine("Input : " + inputFile);
+		}
 
-				for (int i = 0; i < testers.length; i++)
+		for (int i = 0; i < testers.length; i++)
 		{
-					final WebOntTester tester = testers[i];
+			final WebOntTester tester = testers[i];
 
-					log.fine("Tester: " + tester.getClass().getName());
+			log.fine("Tester: " + tester.getClass().getName());
 
-					tester.setInputOntology(inputFile);
+			tester.setInputOntology(inputFile);
 
-					if (tester.isConsistent() != isConsistent)
+			if (tester.isConsistent() != isConsistent)
 			{
-						log.severe("Fail  : Consistency error");
-						return TEST_FAIL;
-					}
-				}
+				log.severe("Fail  : Consistency error");
+				return TEST_FAIL;
+			}
+		}
 
-				log.fine("Result: PASS");
+		log.fine("Result: PASS");
 
-				return TEST_PASS;
+		return TEST_PASS;
 	}
 
 	int doEntailmentTest(Resource testCase, boolean isEntailed, boolean classifyFirst)
 	{
 		String inputFile = testCase.hasProperty(OWLTestVocabulary.premiseDocument) ? testCase.getProperty(OWLTestVocabulary.premiseDocument).getObject().toString() : null;
-				String conclusionsFile = testCase.getProperty(OWLTestVocabulary.conclusionDocument).getObject().toString();
+		String conclusionsFile = testCase.getProperty(OWLTestVocabulary.conclusionDocument).getObject().toString();
 
-				if (inputFile != null)
+		if (inputFile != null)
 		{
-					inputFile = getFileName(inputFile);
+			inputFile = getFileName(inputFile);
 
-					log.fine("Input : " + inputFile);
-				}
-				conclusionsFile = getFileName(conclusionsFile);
-				log.fine("Conc. : " + conclusionsFile);
+			log.fine("Input : " + inputFile);
+		}
+		conclusionsFile = getFileName(conclusionsFile);
+		log.fine("Conc. : " + conclusionsFile);
 
-				for (int i = 0; i < testers.length; i++)
+		for (int i = 0; i < testers.length; i++)
 		{
-					final WebOntTester tester = testers[i];
+			final WebOntTester tester = testers[i];
 
-					log.fine("Tester: " + tester.getClass().getName());
-					tester.setInputOntology(inputFile);
+			log.fine("Tester: " + tester.getClass().getName());
+			tester.setInputOntology(inputFile);
 
-					if (!tester.isConsistent())
+			if (!tester.isConsistent())
 			{
-						log.severe("Fail  : Premises file is not consistent!");
-						return TEST_FAIL;
-					}
+				log.severe("Fail  : Premises file is not consistent!");
+				return TEST_FAIL;
+			}
 
-					// This is for the ClassificationTest used for galen, koala, SUMO,
-					// SWEET, wine
-					if (classifyFirst)
-						tester.classify();
+			// This is for the ClassificationTest used for galen, koala, SUMO,
+			// SWEET, wine
+			if (classifyFirst)
+				tester.classify();
 
-					tester.testEntailment(conclusionsFile, isEntailed);
+			tester.testEntailment(conclusionsFile, isEntailed);
 
-					// double check for entailments after classification and realization
-					// to test for possible bugs in caching and taxonomy
-					if (WebOntTest.DOUBLE_CHECK_ENTAILMENTS)
+			// double check for entailments after classification and realization
+			// to test for possible bugs in caching and taxonomy
+			if (WebOntTest.DOUBLE_CHECK_ENTAILMENTS)
 			{
-						tester.classify();
+				tester.classify();
 
-						tester.testEntailment(conclusionsFile, isEntailed);
-					}
-				}
+				tester.testEntailment(conclusionsFile, isEntailed);
+			}
+		}
 
-				log.fine("Result: PASS");
+		log.fine("Result: PASS");
 
-				return TEST_PASS;
+		return TEST_PASS;
 	}
 
 	int doTestCase(Resource testCase, Resource testType)

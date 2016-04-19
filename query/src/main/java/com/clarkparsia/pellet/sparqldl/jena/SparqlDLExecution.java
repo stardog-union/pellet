@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.jena.atlas.lib.NotImplemented;
+import org.apache.jena.sparql.core.Quad;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.exceptions.UnsupportedQueryException;
@@ -25,26 +27,26 @@ import org.mindswap.pellet.jena.PelletInfGraph;
 
 import com.clarkparsia.pellet.sparqldl.model.QueryParameters;
 import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.DatasetFactory;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryException;
-import com.hp.hpl.jena.query.QueryExecException;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.SortCondition;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.sparql.engine.binding.Binding;
-import com.hp.hpl.jena.sparql.syntax.Template;
-import com.hp.hpl.jena.sparql.util.Context;
-import com.hp.hpl.jena.sparql.util.ModelUtils;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryException;
+import org.apache.jena.query.QueryExecException;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.SortCondition;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.sparql.engine.binding.Binding;
+import org.apache.jena.sparql.syntax.Template;
+import org.apache.jena.sparql.util.Context;
+import org.apache.jena.sparql.util.ModelUtils;
 
 /**
  * <p>
@@ -322,6 +324,21 @@ class SparqlDLExecution implements QueryExecution {
 	@Override
 	public Iterator<Triple> execConstructTriples() {
 		return ModelUtils.statementsToTriples(execConstruct().listStatements());
+	}
+
+	@Override
+	public Iterator<Quad> execConstructQuads() {
+		throw new NotImplemented();
+	}
+
+	@Override
+	public Dataset execConstructDataset() {
+		throw new NotImplemented();
+	}
+
+	@Override
+	public Dataset execConstructDataset(Dataset dataset) {
+		throw new NotImplemented();
 	}
 
 	/**

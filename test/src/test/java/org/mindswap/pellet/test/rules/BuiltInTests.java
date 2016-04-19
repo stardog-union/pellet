@@ -33,12 +33,6 @@ import com.clarkparsia.pellet.rules.model.AtomDVariable;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
 import com.clarkparsia.pellet.utils.TermFactory;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -47,6 +41,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import junit.framework.JUnit4TestAdapter;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -557,14 +557,14 @@ public class BuiltInTests
 		  fn:substring("motor car", 6) returns " car".
 
 		  Characters starting at position 6 to the end of $sourceString are selected.
-		*/
+		 */
 		stringFunc(StringOperators.substring, " car", "motor car", "6");
 
 		/*
 		  fn:substring("metadata", 4, 3) returns "ada".
 
 		  Characters at positions greater than or equal to 4 and less than 7 are selected.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "ada", "metadata", "4", "3");
 
@@ -572,7 +572,7 @@ public class BuiltInTests
 		  fn:substring("12345", 1.5, 2.6) returns "234".
 
 		  Characters at positions greater than or equal to 2 and less than 5 are selected.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "234", "12345", "1.5", "2.6");
 
@@ -580,7 +580,7 @@ public class BuiltInTests
 		  fn:substring("12345", 0, 3) returns "12".
 
 		  Characters at positions greater than or equal to 0 and less than 3 are selected. Since the first position is 1, these are the characters at positions 1 and 2.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "12", "12345", "0", "3");
 
@@ -588,7 +588,7 @@ public class BuiltInTests
 		  fn:substring("12345", 5, -3) returns "".
 
 		  Characters at positions greater than or equal to 5 and less than 2 are selected.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "", "12345", "5", "-3");
 
@@ -596,7 +596,7 @@ public class BuiltInTests
 		  fn:substring("12345", -3, 5) returns "1".
 
 		  Characters at positions greater than or equal to -3 and less than 2 are selected. Since the first position is 1, this is the character at position 1.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "1", "12345", "-3", "5");
 
@@ -604,7 +604,7 @@ public class BuiltInTests
 		  fn:substring("12345", 0 div 0E0, 3) returns "".
 
 		  Since 0 div 0E0 returns NaN, and NaN compared to any other number returns false, no characters are selected.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "", "12345", "NaN", "3");
 
@@ -612,13 +612,13 @@ public class BuiltInTests
 		  fn:substring("12345", 1, 0 div 0E0) returns "".
 
 		  As above.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "", "12345", "1", "NaN");
 
 		/*
 		  fn:substring((), 1, 3) returns "".
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "", "", "1", "3");
 
@@ -626,7 +626,7 @@ public class BuiltInTests
 		  fn:substring("12345", -42, 1 div 0E0) returns "12345".
 
 		  Characters at positions greater than or equal to -42 and less than INF are selected.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "12345", "12345", "-42", new Double(1 / 0E0).toString());
 
@@ -634,7 +634,7 @@ public class BuiltInTests
 		  fn:substring("12345", -1 div 0E0, 1 div 0E0) returns "".
 
 		  Since -INF + INF returns NaN, no characters are selected.
-		*/
+		 */
 
 		stringFunc(StringOperators.substring, "", "12345", new Double(-1 / 0E0).toString(), new Double(1 / 0E0).toString());
 

@@ -11,11 +11,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFactory;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.sparql.resultset.XMLInput;
-import com.hp.hpl.jena.util.FileManager;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFactory;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.sparql.resultset.ResultsFormat;
+import org.apache.jena.sparql.resultset.XMLInput;
+import org.apache.jena.util.FileManager;
 
 /**
  * <p>
@@ -55,10 +56,10 @@ public class JenaIOUtils {
 			return ResultSetFactory.fromXML( URI.create( resultURI ).toURL().openStream() );
 		}
 		else if( resultURI.endsWith( "ttl" ) ) {
-			return ResultSetFactory.fromRDF( FileManager.get().loadModel( resultURI ) );
+			return ResultSetFactory.load( resultURI, ResultsFormat.FMT_RDF_TTL);
 		}
 		else if( resultURI.endsWith( "rdf" ) ) {
-			return ResultSetFactory.fromRDF( FileManager.get().loadModel( resultURI ) );
+			return ResultSetFactory.load( resultURI, ResultsFormat.FMT_RDF_XML );
 		}
 		else {
 			throw new RuntimeException( "Unknown format." );

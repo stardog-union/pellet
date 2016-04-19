@@ -19,11 +19,11 @@ import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 
 import aterm.ATermAppl;
 
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.hp.hpl.jena.util.iterator.Map1;
-import com.hp.hpl.jena.util.iterator.WrappedIterator;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.util.iterator.Map1;
+import org.apache.jena.util.iterator.WrappedIterator;
 
 public abstract class TripleQueryHandler {
 	public TripleQueryHandler() {
@@ -39,7 +39,12 @@ public abstract class TripleQueryHandler {
 
 	protected ExtendedIterator<Triple> objectFiller(final Node s, final Node p, final Iterator<ATermAppl> objects) {
 		Map1<ATermAppl, Triple> map = new Map1<ATermAppl, Triple>() {
-		    public Triple map1( ATermAppl o ) {
+			@Override
+			public Triple apply(ATermAppl aTermAppl) {
+				return map1(aTermAppl);
+			}
+
+			public Triple map1(ATermAppl o ) {
 		         return Triple.create( s, p, JenaUtils.makeGraphNode( o ) );
 		    }
 		};
@@ -57,7 +62,12 @@ public abstract class TripleQueryHandler {
 	
 	protected ExtendedIterator<Triple> propertyFiller(final Node s, final Iterator<ATermAppl> properties, final Node o) {
 		Map1<ATermAppl, Triple> map = new Map1<ATermAppl, Triple>() {
-		    public Triple map1( ATermAppl p ) {
+			@Override
+			public Triple apply(ATermAppl aTermAppl) {
+				return map1(aTermAppl);
+			}
+
+			public Triple map1(ATermAppl p ) {
 		         return Triple.create( s, JenaUtils.makeGraphNode( p ), o );
 		    }
 		};
@@ -71,7 +81,12 @@ public abstract class TripleQueryHandler {
 	
 	protected ExtendedIterator<Triple> subjectFiller(final Iterator<ATermAppl> subjects, final Node p, final Node o) {
 		Map1<ATermAppl, Triple> map = new Map1<ATermAppl, Triple>() {
-		    public Triple map1( ATermAppl s ) {
+			@Override
+			public Triple apply(ATermAppl aTermAppl) {
+				return map1(aTermAppl);
+			}
+
+			public Triple map1(ATermAppl s ) {
 		         return Triple.create( JenaUtils.makeGraphNode( s ), p, o );
 		    }
 		};

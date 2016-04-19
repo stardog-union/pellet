@@ -92,7 +92,7 @@ public abstract class AbstractExplanationTest {
 		b = OWL.Individual( ontologyURI + "b" );
 		c = OWL.Individual( ontologyURI + "c" );
 		d = OWL.Individual( ontologyURI + "d" );
-		
+
 		dt = OWL.Datatype( ontologyURI + "dt" );
 
 		anon1 = OWL.AnonymousIndividual( "anon1" );
@@ -114,7 +114,7 @@ public abstract class AbstractExplanationTest {
 	public void testExplanations(OWLAxiom axiom, int max, OWLAxiom... explanations) throws Exception {
 		testExplanations( axiom, max, new OWLAxiom[][] { explanations } );
 	}
-	
+
 	public void testExplanations(OWLAxiom axiom, int max, OWLAxiom[]... explanations)
 			throws Exception {
 		Set<Set<OWLAxiom>> explanationSet = new HashSet<Set<OWLAxiom>>();
@@ -173,7 +173,7 @@ public abstract class AbstractExplanationTest {
 	@Test
 	public void anonymousIndividualPropertyAssertion() throws Exception {
 		assumeTrue( !(this instanceof JenaExplanationTest) );
-		
+
 		OWLAxiom[] axioms = {
 				OWL.propertyAssertion( a, p, anon1 ), OWL.classAssertion( anon1, A ),
 				OWL.subClassOf( OWL.some( p, A ), B ) };
@@ -255,8 +255,8 @@ public abstract class AbstractExplanationTest {
 	@Test
 	public void koalaHardWorkingDomain() throws Exception {
 		String ns = "http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#";
-		OWLOntology ontology = manager.loadOntology( IRI
-				.create( "file:test/data/modularity/koala.owl" ) );
+		OWLOntology ontology = manager.loadOntologyFromOntologyDocument(
+				ClassLoader.getSystemResourceAsStream( "test/data/modularity/koala.owl" ) );
 		OWLClass animal = OWL.Class( ns + "Animal" );
 		OWLClass person = OWL.Class( ns + "Person" );
 		OWLDataProperty hardWorking = OWL.DataProperty( ns + "isHardWorking" );

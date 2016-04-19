@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import org.mindswap.pellet.PelletOptions;
 
-import com.hp.hpl.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Resource;
 
 /**
  * <p>

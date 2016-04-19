@@ -83,7 +83,7 @@ public class FileUtils
 
 	public static String toURI(String fileName)
 	{
-		if (com.hp.hpl.jena.util.FileUtils.isURI(fileName))
+		if (org.apache.jena.util.FileUtils.isURI(fileName))
 			return fileName;
 
 		final File localFile = new File(fileName);

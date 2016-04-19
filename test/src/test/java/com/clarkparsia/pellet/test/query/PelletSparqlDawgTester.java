@@ -19,14 +19,14 @@ import org.mindswap.pellet.utils.URIUtils;
 import com.clarkparsia.jena.test.ResourceImportLoader;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
-import com.hp.hpl.jena.ontology.OntDocumentManager;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.Dataset;
-import com.hp.hpl.jena.query.DatasetFactory;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.util.FileManager;
-import com.hp.hpl.jena.util.FileUtils;
+import org.apache.jena.ontology.OntDocumentManager;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.Dataset;
+import org.apache.jena.query.DatasetFactory;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.util.FileManager;
+import org.apache.jena.util.FileUtils;
 
 /**
  * <p>

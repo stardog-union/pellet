@@ -32,10 +32,11 @@ import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.JenaLoader;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.Timers;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.RDFReaderF;
-import com.hp.hpl.jena.shared.NoReaderForLangException;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFReaderF;
+import org.apache.jena.shared.NoReaderForLangException;
+
 
 /**
  * <p>

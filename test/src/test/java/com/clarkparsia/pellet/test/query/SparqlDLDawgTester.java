@@ -34,18 +34,18 @@ import com.clarkparsia.pellet.sparqldl.jena.SparqlDLResultSet;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFactory;
-import com.hp.hpl.jena.query.ResultSetFormatter;
-import com.hp.hpl.jena.query.ResultSetRewindable;
-import com.hp.hpl.jena.query.Syntax;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.sparql.engine.binding.Binding;
-import com.hp.hpl.jena.sparql.engine.binding.BindingBase;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.ResultSetFactory;
+import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.query.ResultSetRewindable;
+import org.apache.jena.query.Syntax;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.sparql.engine.binding.Binding;
+import org.apache.jena.sparql.engine.binding.BindingBase;
 
 /**
  * <p>
@@ -122,7 +122,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester {
 		}
 
 		this.queryURI = queryURI;
-		final com.hp.hpl.jena.query.Query query = QueryFactory.read( queryURI );
+		final org.apache.jena.query.Query query = QueryFactory.read( queryURI );
 
 		this.query = QueryEngine.getParser().parse( query.toString( Syntax.syntaxSPARQL ),
 				((PelletInfGraph) model.getGraph()).getKB() );

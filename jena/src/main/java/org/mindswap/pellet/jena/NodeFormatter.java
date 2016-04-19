@@ -19,15 +19,15 @@ import aterm.ATerm;
 import aterm.ATermAppl;
 import aterm.ATermList;
 
-import com.hp.hpl.jena.rdf.model.InfModel;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.reasoner.InfGraph;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.apache.jena.rdf.model.InfModel;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.reasoner.InfGraph;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
 
 /**
  * @author Evren Sirin
@@ -105,8 +105,8 @@ public class NodeFormatter {
         	return ATermUtils.TOP_OBJECT_PROPERTY;
         else if (node.equals( OWL2.bottomObjectProperty ))
         	return ATermUtils.BOTTOM_OBJECT_PROPERTY;
-        else if(node instanceof com.hp.hpl.jena.rdf.model.Literal) {
-            com.hp.hpl.jena.rdf.model.Literal l = (com.hp.hpl.jena.rdf.model.Literal) node;
+        else if(node instanceof org.apache.jena.rdf.model.Literal) {
+            org.apache.jena.rdf.model.Literal l = (org.apache.jena.rdf.model.Literal) node;
             String datatypeURI = l.getDatatypeURI();
             if(datatypeURI != null)
                 aTerm = ATermUtils.makeTypedLiteral(l.getString(), datatypeURI);

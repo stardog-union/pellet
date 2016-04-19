@@ -9,18 +9,6 @@ import aterm.ATermAppl;
 import com.clarkparsia.pellet.owlapi.OWLAPILoader;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.hp.hpl.jena.vocabulary.RDFS;
 import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
@@ -35,6 +23,18 @@ import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.utils.ATermUtils;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryExecution;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.vocabulary.RDFS;
 
 /**
  * <p>
@@ -70,9 +70,15 @@ public class TestAnnotations
 			return path;
 	}
 
+<<<<<<< HEAD
 	private static final String DATA1_RDF = "file:" + checkPath("test/data/annotations/data1.rdf");
 	private static final String DATA1_TTL = "file:" + checkPath("test/data/annotations/data1.ttl");
 	private static final String QUERY1_RQ = "file:" + checkPath("test/data/annotations/query1.rq");
+=======
+	private static final String	DATA1_RDF	= "test/data/annotations/data1.rdf";
+	private static final String	DATA1_TTL	= "test/data/annotations/data1.ttl";
+	private static final String	QUERY1_RQ	= "test/data/annotations/query1.rq";
+>>>>>>> jena3
 
 	public static junit.framework.Test suite()
 	{
