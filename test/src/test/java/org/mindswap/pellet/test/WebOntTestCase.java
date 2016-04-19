@@ -11,22 +11,26 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
-public class WebOntTestCase {
+public class WebOntTestCase
+{
 	File manifest;
 	WebOntTest test;
-    
-    public WebOntTestCase( WebOntTest test, File manifest, String name ) {
-//        super( "OWLTestCase-" + name );
-        this.test = test;
-        this.manifest = manifest;
-    }
 
-    public void runTest() throws IOException {
-        assertTrue( test.doSingleTest( manifest.toURI().toURL().toString() ) != WebOntTest.TEST_FAIL );
-    }
-    
-    @Override
-    public String toString() {
-        return manifest.getParentFile().getName() + "/" + manifest.getName();
-    }
+	public WebOntTestCase(final WebOntTest test, final File manifest, @SuppressWarnings("unused") final String name)
+	{
+		//        super( "OWLTestCase-" + name );
+		this.test = test;
+		this.manifest = manifest;
+	}
+
+	public void runTest() throws IOException
+	{
+		assertTrue(test.doSingleTest(manifest.toURI().toURL().toString()) != WebOntTest.TEST_FAIL);
+	}
+
+	@Override
+	public String toString()
+	{
+		return manifest.getParentFile().getName() + "/" + manifest.getName();
+	}
 }

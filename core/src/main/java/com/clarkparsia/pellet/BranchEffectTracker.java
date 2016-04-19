@@ -6,9 +6,8 @@
 
 package com.clarkparsia.pellet;
 
-import java.util.Set;
-
 import aterm.ATermAppl;
+import java.util.Set;
 
 /**
  * <p>
@@ -23,20 +22,18 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public interface BranchEffectTracker {
+public interface BranchEffectTracker
+{
 
 	/**
 	 * Record that a node is affected by a branch
-	 * 
-	 * @param branch
-	 *            Branch integer identifier
-	 * @param a
-	 *            Node name
-	 * @return boolean {@code true} if effect not already noted for branch+node
-	 *         pair, {@code false} else
+	 *
+	 * @param branch Branch integer identifier
+	 * @param a Node name
+	 * @return boolean {@code true} if effect not already noted for branch+node pair, {@code false} else
 	 */
 	public boolean add(int branch, ATermAppl a);
 
@@ -47,30 +44,25 @@ public interface BranchEffectTracker {
 
 	/**
 	 * Retrieve nodes affected by a branch and all subsequent branches
-	 * 
-	 * @param branch
-	 *            Branch integer identifier
+	 *
+	 * @param branch Branch integer identifier
 	 * @return Names of all nodes affected by branch and subsequent branches
 	 */
 	public Set<ATermAppl> getAll(int branch);
 
 	/**
-	 * Remove a branch from the tracker. Note that this causes the branch to
-	 * effects association to change for all subsequent branches and should only
-	 * be used if the branch indices are changed in ABox and all other
-	 * structures.
-	 * 
-	 * @param branch
-	 *            Branch integer identifier
+	 * Remove a branch from the tracker. Note that this causes the branch to effects association to change for all subsequent branches and should only be used
+	 * if the branch indices are changed in ABox and all other structures.
+	 *
+	 * @param branch Branch integer identifier
 	 * @return Names of all nodes affected by branch
 	 */
 	public Set<ATermAppl> remove(int branch);
 
 	/**
 	 * Remove a branch and all subsequent branches from the tracker.
-	 * 
-	 * @param branch
-	 *            Branch integer identifier
+	 *
+	 * @param branch Branch integer identifier
 	 * @return Names of all nodes affected by branch and subsequent branches
 	 */
 	public Set<ATermAppl> removeAll(int branch);

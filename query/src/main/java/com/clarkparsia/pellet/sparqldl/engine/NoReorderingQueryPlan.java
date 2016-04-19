@@ -15,7 +15,7 @@ import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
  * Title: Query Plan that returns the atoms in the order as they appear in the query.
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,16 +23,18 @@ import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class NoReorderingQueryPlan extends QueryPlan {
+public class NoReorderingQueryPlan extends QueryPlan
+{
 
 	private int index;
 
-	private int size;
+	private final int size;
 
-	public NoReorderingQueryPlan(Query query) {
+	public NoReorderingQueryPlan(final Query query)
+	{
 		super(query);
 
 		index = 0;
@@ -41,22 +43,26 @@ public class NoReorderingQueryPlan extends QueryPlan {
 	}
 
 	@Override
-	public QueryAtom next(ResultBinding binding) {
+	public QueryAtom next(final ResultBinding binding)
+	{
 		return query.getAtoms().get(index++).apply(binding);
 	}
 
 	@Override
-	public boolean hasNext() {
+	public boolean hasNext()
+	{
 		return index < size;
 	}
 
 	@Override
-	public void back() {
+	public void back()
+	{
 		index--;
 	}
 
 	@Override
-	public void reset() {
+	public void reset()
+	{
 		index = 0;
 	}
 }

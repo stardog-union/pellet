@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.sparqldl.engine;
 
-
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 
@@ -15,7 +14,7 @@ import com.clarkparsia.pellet.sparqldl.model.QueryResult;
  * Title: Query Execution.
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,10 +22,11 @@ import com.clarkparsia.pellet.sparqldl.model.QueryResult;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public interface QueryExec {
+public interface QueryExec
+{
 
 	public QueryResult exec(Query plan);
 

@@ -27,14 +27,14 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
 public abstract class RandomizedIncrementalClassifierTest extends AbstractModularityTest
 {
 	private String _path;
 
-	public RandomizedIncrementalClassifierTest(String path)
+	public RandomizedIncrementalClassifierTest(final String path)
 	{
 		_path = path;
 
@@ -47,7 +47,7 @@ public abstract class RandomizedIncrementalClassifierTest extends AbstractModula
 		}
 	}
 
-	private void classifyCorrectnessTest(String file)
+	private void classifyCorrectnessTest(final String file)
 	{
 		final int n = 5;
 		final OWLOntology loadedOntology = OntologyUtils.loadOntology("file:" + file, false);

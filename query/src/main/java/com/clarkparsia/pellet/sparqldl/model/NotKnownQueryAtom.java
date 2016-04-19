@@ -8,11 +8,10 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
+import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -27,85 +26,100 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class NotKnownQueryAtom implements QueryAtom {
-	private List<QueryAtom>	atoms;
+public class NotKnownQueryAtom implements QueryAtom
+{
+	private final List<QueryAtom> atoms;
 	private boolean isGround;
-	private List<ATermAppl> args;
+	private final List<ATermAppl> args;
 
-	public NotKnownQueryAtom(QueryAtom atom) {
-		this( Collections.singletonList( atom ) );
+	public NotKnownQueryAtom(final QueryAtom atom)
+	{
+		this(Collections.singletonList(atom));
 	}
 
-	public NotKnownQueryAtom(List<QueryAtom> atoms) {
-		this.atoms = Collections.unmodifiableList( atoms );
-		
+	public NotKnownQueryAtom(final List<QueryAtom> atoms)
+	{
+		this.atoms = Collections.unmodifiableList(atoms);
+
 		isGround = true;
-		args = new ArrayList<ATermAppl>();
-		for( QueryAtom atom : atoms ) {
-			args.addAll( atom.getArguments() );
-			if ( isGround && !atom.isGround() )
+		args = new ArrayList<>();
+		for (final QueryAtom atom : atoms)
+		{
+			args.addAll(atom.getArguments());
+			if (isGround && !atom.isGround())
 				isGround = false;
 		}
 	}
 
-	public QueryAtom apply(final ResultBinding binding) {
-		List<QueryAtom>	newAtoms;
-		if( atoms.size() == 1 ) {
-			 newAtoms = Collections.singletonList( atoms.get( 0 ).apply( binding ) );
+	@Override
+	public QueryAtom apply(final ResultBinding binding)
+	{
+		List<QueryAtom> newAtoms;
+		if (atoms.size() == 1)
+			newAtoms = Collections.singletonList(atoms.get(0).apply(binding));
+		else
+		{
+			newAtoms = new ArrayList<>();
+			for (final QueryAtom atom : atoms)
+				newAtoms.add(atom.apply(binding));
 		}
-		else {
-			newAtoms = new ArrayList<QueryAtom>();
-			for( QueryAtom atom : atoms ) {
-				newAtoms.add( atom.apply( binding ) );
-			}
-		}
-		
-		return new NotKnownQueryAtom( newAtoms );		
+
+		return new NotKnownQueryAtom(newAtoms);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if( !(obj instanceof NotKnownQueryAtom) )
+	public boolean equals(final Object obj)
+	{
+		if (!(obj instanceof NotKnownQueryAtom))
 			return false;
-		
-		return atoms.equals( ((NotKnownQueryAtom) obj).atoms );
+
+		return atoms.equals(((NotKnownQueryAtom) obj).atoms);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<ATermAppl> getArguments() {
+	@Override
+	public List<ATermAppl> getArguments()
+	{
 		return args;
 	}
 
-	public List<QueryAtom> getAtoms() {
+	public List<QueryAtom> getAtoms()
+	{
 		return atoms;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public QueryPredicate getPredicate() {
+	@Override
+	public QueryPredicate getPredicate()
+	{
 		return QueryPredicate.NotKnown;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return 17 * atoms.hashCode();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isGround() {
+	@Override
+	public boolean isGround()
+	{
 		return isGround;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "NotKnown" + atoms;
 	}
 }

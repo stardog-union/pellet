@@ -6,24 +6,22 @@
 
 package com.clarkparsia.pellint.lintpattern.ontology;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.semanticweb.owlapi.model.AxiomType;
-import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
-
 import com.clarkparsia.pellint.format.CompactClassLintFormat;
 import com.clarkparsia.pellint.format.LintFormat;
 import com.clarkparsia.pellint.model.Lint;
 import com.clarkparsia.pellint.model.Severity;
+import java.util.ArrayList;
+import java.util.List;
+import org.semanticweb.owlapi.model.AxiomType;
+import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -31,50 +29,63 @@ import com.clarkparsia.pellint.model.Severity;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class TooManyDifferentIndividualsPattern implements OntologyLintPattern {
+public class TooManyDifferentIndividualsPattern implements OntologyLintPattern
+{
 	private static final LintFormat DEFAULT_LINT_FORMAT = new CompactClassLintFormat();
-	
+
 	private int m_MaxAllowed = 50;
-	
-	public String getName() {
+
+	@Override
+	public String getName()
+	{
 		return getClass().getSimpleName() + " (MaxAllowed = " + m_MaxAllowed + ")";
 	}
-	
-	public String getDescription() {
+
+	@Override
+	public String getDescription()
+	{
 		return "Too many individuals involved in DifferentIndividuals axioms - maximum recommended is " + m_MaxAllowed;
 	}
 
-	public boolean isFixable() {
+	@Override
+	public boolean isFixable()
+	{
 		return false;
 	}
-	
-	public LintFormat getDefaultLintFormat() {
+
+	@Override
+	public LintFormat getDefaultLintFormat()
+	{
 		return DEFAULT_LINT_FORMAT;
 	}
 
-	public void setMaxAllowed(int value) {
+	public void setMaxAllowed(final int value)
+	{
 		m_MaxAllowed = value;
 	}
 
-	public List<Lint> match(OWLOntology ontology) {
+	@Override
+	public List<Lint> match(final OWLOntology ontology)
+	{
 		int totalEstimatedMemory = 0;
-		for (OWLDifferentIndividualsAxiom axiom : ontology.getAxioms(AxiomType.DIFFERENT_INDIVIDUALS)) {
+		for (final OWLDifferentIndividualsAxiom axiom : ontology.getAxioms(AxiomType.DIFFERENT_INDIVIDUALS))
 			totalEstimatedMemory += estimateMemoryConcumption(axiom.getIndividuals().size());
-		}
-		
-		List<Lint> allLints = new ArrayList<Lint>();
-		if (totalEstimatedMemory > estimateMemoryConcumption(m_MaxAllowed)) {
-			Lint lint = new Lint(this, ontology);
+
+		final List<Lint> allLints = new ArrayList<Lint>();
+		if (totalEstimatedMemory > estimateMemoryConcumption(m_MaxAllowed))
+		{
+			final Lint lint = new Lint(this, ontology);
 			lint.setSeverity(new Severity(totalEstimatedMemory));
-			allLints.add(lint);	
+			allLints.add(lint);
 		}
 		return allLints;
 	}
-	
-	private static int estimateMemoryConcumption(int individualCount) {
+
+	private static int estimateMemoryConcumption(final int individualCount)
+	{
 		return individualCount * (individualCount - 1);
 	}
 }

@@ -5,8 +5,7 @@ package com.clarkparsia.pellet.datatypes;
  * Title: IEEE Float Type
  * </p>
  * <p>
- * Description: Implementation of {@link FloatingPointType} to support
- * <code>xsd:float</code>
+ * Description: Implementation of {@link FloatingPointType} to support <code>xsd:float</code>
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -14,58 +13,80 @@ package com.clarkparsia.pellet.datatypes;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class IEEEFloatType implements FloatingPointType<Float> {
+public class IEEEFloatType implements FloatingPointType<Float>
+{
 
-	private static final IEEEFloatType	INSTANCE;
+	private static final IEEEFloatType INSTANCE;
 
-	static {
+	static
+	{
 		INSTANCE = new IEEEFloatType();
 	}
 
-	public static IEEEFloatType getInstance() {
+	public static IEEEFloatType getInstance()
+	{
 		return INSTANCE;
 	}
 
-	private IEEEFloatType() {
+	private IEEEFloatType()
+	{
 		;
 	}
 
-	public Float cast(Object o) {
-		return Float.class.cast( o );
+	@Override
+	public Float cast(final Object o)
+	{
+		return Float.class.cast(o);
 	}
 
-	public Float decrement(Float n) {
-		return FloatingPointUtils.decrement( n );
+	@Override
+	public Float decrement(final Float n)
+	{
+		return FloatingPointUtils.decrement(n);
 	}
 
-	public Float getNaN() {
+	@Override
+	public Float getNaN()
+	{
 		return Float.NaN;
 	}
 
-	public Float getNegativeInfinity() {
+	@Override
+	public Float getNegativeInfinity()
+	{
 		return Float.NEGATIVE_INFINITY;
 	}
 
-	public Float getPositiveInfinity() {
+	@Override
+	public Float getPositiveInfinity()
+	{
 		return Float.POSITIVE_INFINITY;
 	}
 
-	public Float increment(Float n) {
-		return FloatingPointUtils.increment( n );
+	@Override
+	public Float increment(final Float n)
+	{
+		return FloatingPointUtils.increment(n);
 	}
 
-	public Number intervalSize(Float lower, Float upper) {
-		return FloatingPointUtils.intervalSize( lower, upper );
+	@Override
+	public Number intervalSize(final Float lower, final Float upper)
+	{
+		return FloatingPointUtils.intervalSize(lower, upper);
 	}
 
-	public boolean isInstance(Object o) {
-		return Float.class.isInstance( o );
+	@Override
+	public boolean isInstance(final Object o)
+	{
+		return Float.class.isInstance(o);
 	}
 
-	public boolean isNaN(Float f) {
+	@Override
+	public boolean isNaN(final Float f)
+	{
 		return f.isNaN();
 	}
 

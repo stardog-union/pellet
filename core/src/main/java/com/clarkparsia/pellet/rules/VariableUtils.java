@@ -6,16 +6,14 @@
 
 package com.clarkparsia.pellet.rules;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import com.clarkparsia.pellet.rules.model.AtomDVariable;
 import com.clarkparsia.pellet.rules.model.AtomIVariable;
 import com.clarkparsia.pellet.rules.model.AtomObject;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.DefaultAtomObjectVisitor;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
-
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * <p>
@@ -30,119 +28,132 @@ import com.clarkparsia.pellet.rules.model.RuleAtom;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class VariableUtils {
+public class VariableUtils
+{
 
-	/** 
+	/**
 	 * Collects all variables that it visits
-	 *
 	 */
-	private static class VisitingCollector extends DefaultAtomObjectVisitor {
-		private Collection<AtomVariable>	variables;
+	private static class VisitingCollector extends DefaultAtomObjectVisitor
+	{
+		private final Collection<AtomVariable> variables;
 
-		public VisitingCollector() {
-			variables = new HashSet<AtomVariable>();
+		public VisitingCollector()
+		{
+			variables = new HashSet<>();
 		}
 
-		public Collection<AtomVariable> getVariables() {
+		public Collection<AtomVariable> getVariables()
+		{
 			return variables;
 		}
 
-		public void visit(AtomDVariable var) {
-			variables.add( var );
+		@Override
+		public void visit(final AtomDVariable var)
+		{
+			variables.add(var);
 		}
 
-		public void visit(AtomIVariable var) {
-			variables.add( var );
+		@Override
+		public void visit(final AtomIVariable var)
+		{
+			variables.add(var);
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Collects all data variables that it visits
-	 *
 	 */
-	private static class VisitingDCollector extends DefaultAtomObjectVisitor {
-		private Collection<AtomDVariable>	variables;
+	private static class VisitingDCollector extends DefaultAtomObjectVisitor
+	{
+		private final Collection<AtomDVariable> variables;
 
-		public VisitingDCollector() {
-			variables = new HashSet<AtomDVariable>();
+		public VisitingDCollector()
+		{
+			variables = new HashSet<>();
 		}
 
-		public Collection<AtomDVariable> getVariables() {
+		public Collection<AtomDVariable> getVariables()
+		{
 			return variables;
 		}
 
-		public void visit(AtomDVariable var) {
-			variables.add( var );
+		@Override
+		public void visit(final AtomDVariable var)
+		{
+			variables.add(var);
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Collects all instance variables that it visits
-	 *
 	 */
-	private static class VisitingICollector extends DefaultAtomObjectVisitor {
-		private Collection<AtomIVariable>	variables;
+	private static class VisitingICollector extends DefaultAtomObjectVisitor
+	{
+		private final Collection<AtomIVariable> variables;
 
-		public VisitingICollector() {
-			variables = new HashSet<AtomIVariable>();
+		public VisitingICollector()
+		{
+			variables = new HashSet<>();
 		}
 
-		public Collection<AtomIVariable> getVariables() {
+		public Collection<AtomIVariable> getVariables()
+		{
 			return variables;
 		}
 
-		public void visit(AtomIVariable var) {
-			variables.add( var );
+		@Override
+		public void visit(final AtomIVariable var)
+		{
+			variables.add(var);
 		}
 	}
-	
+
 	/**
-	 * Static convenience function to return the instance variables used
-	 * in the given atom.
+	 * Static convenience function to return the instance variables used in the given atom.
 	 */
-	public static Collection<AtomDVariable> getDVars(RuleAtom atom) {
-		VisitingDCollector collector = new VisitingDCollector();
-		for( AtomObject obj : atom.getAllArguments() ) {
-			obj.accept( collector );
-		}
+	public static Collection<AtomDVariable> getDVars(final RuleAtom atom)
+	{
+		final VisitingDCollector collector = new VisitingDCollector();
+		for (final AtomObject obj : atom.getAllArguments())
+			obj.accept(collector);
 		return collector.getVariables();
 	}
-	
+
 	/**
-	 * Static convenience function to return the instance variables used
-	 * in the given atom.
+	 * Static convenience function to return the instance variables used in the given atom.
 	 */
-	public static Collection<AtomIVariable> getIVars(RuleAtom atom) {
-		VisitingICollector collector = new VisitingICollector();
-		for( AtomObject obj : atom.getAllArguments() ) {
-			obj.accept( collector );
-		}
+	public static Collection<AtomIVariable> getIVars(final RuleAtom atom)
+	{
+		final VisitingICollector collector = new VisitingICollector();
+		for (final AtomObject obj : atom.getAllArguments())
+			obj.accept(collector);
 		return collector.getVariables();
 	}
-	
+
 	/**
-	 * Static convenience function to return the variables used
-	 * in the given atom.
+	 * Static convenience function to return the variables used in the given atom.
 	 */
-	public static Collection<AtomVariable> getVars(RuleAtom atom) {
-		VisitingCollector collector = new VisitingCollector();
-		for( AtomObject obj : atom.getAllArguments() ) {
-			obj.accept( collector );
-		}
+	public static Collection<AtomVariable> getVars(final RuleAtom atom)
+	{
+		final VisitingCollector collector = new VisitingCollector();
+		for (final AtomObject obj : atom.getAllArguments())
+			obj.accept(collector);
 		return collector.getVariables();
 	}
 
 	/**
 	 * Returns true if atom object is a variable
 	 */
-	public static boolean isVariable(AtomObject obj) {
-		VisitingCollector collector = new VisitingCollector();
-		obj.accept( collector );
+	public static boolean isVariable(final AtomObject obj)
+	{
+		final VisitingCollector collector = new VisitingCollector();
+		obj.accept(collector);
 
 		return collector.getVariables().size() == 1;
 	}
-	
+
 }

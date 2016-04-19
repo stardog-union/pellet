@@ -19,10 +19,11 @@ package org.mindswap.pellet.utils.progress;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public interface ProgressMonitor {
+public interface ProgressMonitor
+{
 
 	public int getProgress();
 

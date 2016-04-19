@@ -10,53 +10,63 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * 
  * @author Evren Sirin
  */
-public abstract class NestedIterator<Outer, Inner> implements Iterator<Inner> {
+public abstract class NestedIterator<Outer, Inner> implements Iterator<Inner>
+{
 	private Iterator<? extends Outer> outerIterator;
 	private Iterator<? extends Inner> innerIterator;
 
-	public NestedIterator(Iterable<? extends Outer> outerIterable) {
-		this( outerIterable.iterator() );
+	public NestedIterator(final Iterable<? extends Outer> outerIterable)
+	{
+		this(outerIterable.iterator());
 	}
-	
-	public NestedIterator(Iterator<? extends Outer> outerIterator) {
+
+	public NestedIterator(final Iterator<? extends Outer> outerIterator)
+	{
 		this.outerIterator = outerIterator;
 		findIterator();
 	}
 
-	private void findIterator() {
-		while( outerIterator.hasNext() ) {
-			Outer subj = outerIterator.next();
-			innerIterator = getInnerIterator( subj );
+	private void findIterator()
+	{
+		while (outerIterator.hasNext())
+		{
+			final Outer subj = outerIterator.next();
+			innerIterator = getInnerIterator(subj);
 
-			if( innerIterator.hasNext() )
+			if (innerIterator.hasNext())
 				return;
 		}
 
 		innerIterator = IteratorUtils.emptyIterator();
 	}
-	
+
 	public abstract Iterator<? extends Inner> getInnerIterator(Outer outer);
 
-	public boolean hasNext() {
+	@Override
+	public boolean hasNext()
+	{
 		return innerIterator.hasNext();
 	}
 
-	public Inner next() {
-		if( !hasNext() )
+	@Override
+	public Inner next()
+	{
+		if (!hasNext())
 			throw new NoSuchElementException();
 
-		Inner value = innerIterator.next();
-		
-		if( !innerIterator.hasNext() )
+		final Inner value = innerIterator.next();
+
+		if (!innerIterator.hasNext())
 			findIterator();
-		
+
 		return value;
 	}
-	
-	public void remove() {
+
+	@Override
+	public void remove()
+	{
 		innerIterator.remove();
 	}
 }

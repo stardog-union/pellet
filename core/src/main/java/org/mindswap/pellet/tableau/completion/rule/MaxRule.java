@@ -9,7 +9,6 @@ package org.mindswap.pellet.tableau.completion.rule;
 import aterm.ATermAppl;
 import aterm.ATermInt;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -40,12 +39,12 @@ import org.mindswap.pellet.utils.SetUtils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 public class MaxRule extends AbstractTableauRule
 {
-	public MaxRule(CompletionStrategy strategy)
+	public MaxRule(final CompletionStrategy strategy)
 	{
 		super(strategy, NodeSelector.MAX_NUMBER, BlockingType.INDIRECT);
 	}
@@ -54,9 +53,9 @@ public class MaxRule extends AbstractTableauRule
 	 * Apply max rule to the individual.
 	 */
 	@Override
-	public void apply(Individual x)
+	public void apply(final Individual x)
 	{
-		if (!x.canApply(Individual.MAX))
+		if (!x.canApply(Node.MAX))
 			return;
 
 		final List<ATermAppl> maxCardinality = x.getTypes(Node.MAX);
@@ -72,10 +71,10 @@ public class MaxRule extends AbstractTableauRule
 			if (x.isMerged())
 				return;
 		}
-		x.applyNext[Individual.MAX] = maxCardinality.size();
+		x.applyNext[Node.MAX] = maxCardinality.size();
 	}
 
-	protected void applyMaxRule(Individual x, ATermAppl mc)
+	protected void applyMaxRule(final Individual x, final ATermAppl mc)
 	{
 
 		// max(r, n) is in normalized form not(min(p, n + 1))
@@ -107,29 +106,26 @@ public class MaxRule extends AbstractTableauRule
 				if (strategy.getABox().isClosed())
 					return;
 
-				if (x.isMerged()) { return; }
+				if (x.isMerged())
+					return;
 
 				if (hasMore)
-				{
 					// subsequent merges depend on the previous merge
 					ds = ds.union(new DependencySet(strategy.getABox().getBranches().size()), strategy.getABox().doExplanation());
-				}
 			}
 		}
 	}
 
 	/**
-	 * 
 	 * applyMaxRule
-	 * 
+	 *
 	 * @param x
 	 * @param r
 	 * @param k
 	 * @param ds
-	 * 
 	 * @return true if more merges are required for this maxCardinality
 	 */
-	protected boolean applyMaxRule(Individual x, Role r, ATermAppl c, int k, DependencySet ds)
+	protected boolean applyMaxRule(final Individual x, final Role r, final ATermAppl c, final int k, DependencySet ds)
 	{
 
 		final EdgeList edges = x.getRNeighborEdges(r);
@@ -172,7 +168,7 @@ public class MaxRule extends AbstractTableauRule
 			return false;
 
 		// create the pairs to be merged
-		final List<NodeMerge> mergePairs = new ArrayList<NodeMerge>();
+		final List<NodeMerge> mergePairs = new ArrayList<>();
 		final DependencySet differenceDS = findMergeNodes(neighbors, x, mergePairs);
 		ds = ds.union(differenceDS, strategy.getABox().doExplanation());
 
@@ -223,11 +219,11 @@ public class MaxRule extends AbstractTableauRule
 		return n > k + 1;
 	}
 
-	DependencySet findMergeNodes(Set<Node> neighbors, Individual node, List<NodeMerge> pairs)
+	DependencySet findMergeNodes(final Set<Node> neighbors, final Individual node, final List<NodeMerge> pairs)
 	{
 		DependencySet ds = DependencySet.INDEPENDENT;
 
-		final List<Node> nodes = new ArrayList<Node>(neighbors);
+		final List<Node> nodes = new ArrayList<>(neighbors);
 		for (int i = 0; i < nodes.size(); i++)
 		{
 			final Node y = nodes.get(i);
@@ -248,14 +244,14 @@ public class MaxRule extends AbstractTableauRule
 				else
 					if (y.isNominal())
 						pairs.add(new NodeMerge(x, y));
-				// 3. if y is an ancestor of x, then Merge(x, y)
-				// Note: y is an ancestor of x iff the max cardinality
-				// on node merges the "node"'s parent y with "node"'s
-				// child x
+					// 3. if y is an ancestor of x, then Merge(x, y)
+					// Note: y is an ancestor of x iff the max cardinality
+					// on node merges the "node"'s parent y with "node"'s
+					// child x
 					else
 						if (y.hasSuccessor(node))
 							pairs.add(new NodeMerge(x, y));
-				// 4. else Merge(y, x)
+						// 4. else Merge(y, x)
 						else
 							pairs.add(new NodeMerge(y, x));
 			}
@@ -264,19 +260,15 @@ public class MaxRule extends AbstractTableauRule
 		return ds;
 	}
 
-	public void applyFunctionalMaxRule(Individual x, Role s, ATermAppl c, DependencySet ds)
+	public void applyFunctionalMaxRule(final Individual x, final Role s, final ATermAppl c, DependencySet ds)
 	{
 		Set<Role> functionalSupers = s.getFunctionalSupers();
 		if (functionalSupers.isEmpty())
 			functionalSupers = SetUtils.singleton(s);
-		LOOP: for (final Iterator<Role> it = functionalSupers.iterator(); it.hasNext();)
+		LOOP: for (Role r : functionalSupers)
 		{
-			final Role r = it.next();
-
 			if (PelletOptions.USE_TRACING)
-			{
 				ds = ds.union(s.getExplainSuper(r.getName()), strategy.getABox().doExplanation()).union(r.getExplainFunctional(), strategy.getABox().doExplanation());
-			}
 
 			final EdgeList edges = x.getRNeighborEdges(r);
 
@@ -296,9 +288,9 @@ public class MaxRule extends AbstractTableauRule
 			int edgeIndex = 0;
 			final int edgeCount = edges.size();
 
-			// find the head and its corresponding dependency information. 
-			// since head is not necessarily the first element in the 
-			// neighbor list we need to first find the un-pruned node 
+			// find the head and its corresponding dependency information.
+			// since head is not necessarily the first element in the
+			// neighbor list we need to first find the un-pruned node
 			for (; edgeIndex < edgeCount; edgeIndex++)
 			{
 				final Edge edge = edges.edgeAt(edgeIndex);

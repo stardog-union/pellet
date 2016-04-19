@@ -21,29 +21,35 @@ import java.util.Properties;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class PropertiesBuilder {
+public class PropertiesBuilder
+{
 	private Properties properties = new Properties();
 
-	public PropertiesBuilder() {		
+	public PropertiesBuilder()
+	{
 	}
 
-	public PropertiesBuilder(Properties defaults) {	
-		this.properties = new Properties( defaults );
+	public PropertiesBuilder(final Properties defaults)
+	{
+		this.properties = new Properties(defaults);
 	}
-	
-	public PropertiesBuilder set(String key, String value) {
-		properties.setProperty( key, value );
+
+	public PropertiesBuilder set(final String key, final String value)
+	{
+		properties.setProperty(key, value);
 		return this;
 	}
-	
-	public Properties build() {
+
+	public Properties build()
+	{
 		return properties;
-	}	
-	
-	public static Properties singleton(String key, String value) {
-		return new PropertiesBuilder().set( key, value ).build();
+	}
+
+	public static Properties singleton(final String key, final String value)
+	{
+		return new PropertiesBuilder().set(key, value).build();
 	}
 }

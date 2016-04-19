@@ -1,4 +1,3 @@
-
 package org.mindswap.pellet.examples;
 
 import java.awt.Color;
@@ -7,7 +6,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -16,225 +14,243 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
-
-import org.mindswap.pellet.jena.PelletInfGraph;
-import org.mindswap.pellet.jena.PelletReasonerFactory;
-
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntResource;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.vocabulary.OWL;
+import org.mindswap.pellet.jena.PelletInfGraph;
+import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 /**
- * An example to show how to use OWLReasoner class. This example creates a JTree that displays the
- * class hierarchy. This is a simplified version of the class tree displayed in SWOOP.
- * 
- * usage: java ClassTree <ontology URI>
- * 
+ * An example to show how to use OWLReasoner class. This example creates a JTree that displays the class hierarchy. This is a simplified version of the class
+ * tree displayed in SWOOP. usage: java ClassTree <ontology URI>
+ *
  * @author Evren Sirin
  */
-public class ClassTree {
-    OntModel model;
+public class ClassTree
+{
+	OntModel model;
 
-    Set<OntResource> unsatConcepts;
+	Set<OntResource> unsatConcepts;
 
-    // render the classes using the prefixes from the model
-    TreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer() {
-        @SuppressWarnings("unchecked")
-		public Component getTreeCellRendererComponent( JTree tree, Object value, boolean sel,
-                                                      boolean expanded, boolean leaf, int row,
-                                                      boolean hasFocus ) {
+	// render the classes using the prefixes from the model
+	TreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer()
+	{
+		/**
+		 * TODO
+		 *
+		 * @since
+		 */
+		private static final long serialVersionUID = 5769333442039176739L;
 
-            super.getTreeCellRendererComponent( tree, value, sel, expanded, leaf, row, hasFocus );
+		@Override
+		@SuppressWarnings("unchecked")
+		public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus)
+		{
 
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
-            // each node represents a set of classes
-            Set<OntResource> set = (Set) node.getUserObject();
-            StringBuffer label = new StringBuffer();
+			final DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
-            // a set may contain one or more elements
-            if( set.size() > 1 )
-                label.append( "[" );
-            Iterator<OntResource> i = set.iterator();
+			// each node represents a set of classes
+			final Set<OntResource> set = (Set) node.getUserObject();
+			final StringBuffer label = new StringBuffer();
 
-            // get the first one and add it to the label
-            OntResource first = i.next();
-            label.append( model.shortForm( first.getURI() ) );
-            // add the rest (if they exist)
-            while( i.hasNext() ) {
-                OntResource c = i.next();
+			// a set may contain one or more elements
+			if (set.size() > 1)
+				label.append("[");
+			final Iterator<OntResource> i = set.iterator();
 
-                label.append( " = " );
-                label.append( model.shortForm( c.getURI() ) );
-            }
-            if( set.size() > 1 )
-                label.append( "]" );
+			// get the first one and add it to the label
+			final OntResource first = i.next();
+			label.append(model.shortForm(first.getURI()));
+			// add the rest (if they exist)
+			while (i.hasNext())
+			{
+				final OntResource c = i.next();
 
-            // show unsatisfiable concepts red
-            if( unsatConcepts.contains( first ) ) {
-                setForeground( Color.RED );
-            }
+				label.append(" = ");
+				label.append(model.shortForm(c.getURI()));
+			}
+			if (set.size() > 1)
+				label.append("]");
 
-            setText( label.toString() );
-            setIcon( getDefaultClosedIcon() );
+			// show unsatisfiable concepts red
+			if (unsatConcepts.contains(first))
+				setForeground(Color.RED);
 
-            return this;
-        }
+			setText(label.toString());
+			setIcon(getDefaultClosedIcon());
 
-    };
+			return this;
+		}
 
-    public ClassTree( String ontology ) throws Exception {
-        // create a reasoner
-        model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
+	};
 
-        // create a model for the ontology
-        System.out.print( "Reading..." );
-        model.read( ontology );
-        System.out.println( "done" );
+	@SuppressWarnings("unused")
+	public ClassTree(final String ontology)
+	{
+		// create a reasoner
+		model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-        // load the model to the reasoner
-        System.out.print( "Preparing..." );
-        model.prepare();
-        System.out.println( "done" );
+		// create a model for the ontology
+		System.out.print("Reading...");
+		model.read(ontology);
+		System.out.println("done");
 
-        // compute the classification tree
-        System.out.print( "Classifying..." );
-        ((PelletInfGraph) model.getGraph()).getKB().classify();
-        System.out.println( "done" );
-    }
+		// load the model to the reasoner
+		System.out.print("Preparing...");
+		model.prepare();
+		System.out.println("done");
 
-    public Set<OntResource> collect( Iterator i ) {
-        Set<OntResource> set = new HashSet<OntResource>();
-        while( i.hasNext() ) {
-            OntResource res = (OntResource) i.next();
-            if( res.isAnon() )
-                continue;
-            
-            set.add( res );
-        }
-        
-        return set;
-    }
+		// compute the classification tree
+		System.out.print("Classifying...");
+		((PelletInfGraph) model.getGraph()).getKB().classify();
+		System.out.println("done");
+	}
 
-    public JTree getJTree() {
-        // Use OntClass for convenience
-        OntClass owlThing = model.getOntClass( OWL.Thing.getURI() );
-        OntClass owlNothing = model.getOntClass( OWL.Nothing.getURI() );
+	public Set<OntResource> collect(final Iterator i)
+	{
+		final Set<OntResource> set = new HashSet<>();
+		while (i.hasNext())
+		{
+			final OntResource res = (OntResource) i.next();
+			if (res.isAnon())
+				continue;
 
-        // Find all unsatisfiable concepts, i.e classes equivalent
-        // to owl:Nothing
-        unsatConcepts = collect( owlNothing.listEquivalentClasses() );
+			set.add(res);
+		}
 
-        // create a tree starting with owl:Thing node as the root
-        DefaultMutableTreeNode thing = createTree( owlThing );
+		return set;
+	}
 
-        Iterator<OntResource> i = unsatConcepts.iterator();
-        if( i.hasNext() ) {
-            // We want to display every unsatisfiable concept as a
-            // different node in the tree
-            DefaultMutableTreeNode nothing = createSingletonNode( owlNothing );
-            // iterate through unsatisfiable concepts and add them to
-            // the tree
-            while( i.hasNext() ) {
-                OntClass unsat = (OntClass) i.next();
+	public JTree getJTree()
+	{
+		// Use OntClass for convenience
+		final OntClass owlThing = model.getOntClass(OWL.Thing.getURI());
+		final OntClass owlNothing = model.getOntClass(OWL.Nothing.getURI());
 
-                if( unsat.equals( owlNothing ) )
-                    continue;
-                
-                DefaultMutableTreeNode node = createSingletonNode( unsat );
-                nothing.add( node );
-            }
+		// Find all unsatisfiable concepts, i.e classes equivalent
+		// to owl:Nothing
+		unsatConcepts = collect(owlNothing.listEquivalentClasses());
 
-            // add nothing as a child node to owl:Thing
-            thing.add( nothing );
-        }
+		// create a tree starting with owl:Thing node as the root
+		final DefaultMutableTreeNode thing = createTree(owlThing);
 
-        // create the tree
-        JTree classTree = new JTree( new DefaultTreeModel( thing ) );
-        classTree.setCellRenderer( treeCellRenderer );
+		final Iterator<OntResource> i = unsatConcepts.iterator();
+		if (i.hasNext())
+		{
+			// We want to display every unsatisfiable concept as a
+			// different node in the tree
+			final DefaultMutableTreeNode nothing = createSingletonNode(owlNothing);
+			// iterate through unsatisfiable concepts and add them to
+			// the tree
+			while (i.hasNext())
+			{
+				final OntClass unsat = (OntClass) i.next();
 
-        // expand everything
-        for( int r = 0; r < classTree.getRowCount(); r++ )
-            classTree.expandRow( r );
+				if (unsat.equals(owlNothing))
+					continue;
 
-        return classTree;
-    }
+				final DefaultMutableTreeNode node = createSingletonNode(unsat);
+				nothing.add(node);
+			}
 
-    /**
-     * Create a root node for the given concepts and add child nodes for the subclasses. Return null
-     * for owl:Nothing
-     * 
-     * @param concepts
-     * @return
-     */
-    DefaultMutableTreeNode createTree( OntClass cls ) {
-        if( unsatConcepts.contains( cls ) )
-            return null;
+			// add nothing as a child node to owl:Thing
+			thing.add(nothing);
+		}
 
-        DefaultMutableTreeNode root = createNode( cls );
+		// create the tree
+		final JTree classTree = new JTree(new DefaultTreeModel(thing));
+		classTree.setCellRenderer(treeCellRenderer);
 
-        Set processedSubs = new HashSet();
-        
-        // get only direct subclasses
-        Iterator subs = cls.listSubClasses( true );
-        while( subs.hasNext() ) {
-            OntClass sub = (OntClass) subs.next();
-            
-            if( sub.isAnon() )
-                continue;
+		// expand everything
+		for (int r = 0; r < classTree.getRowCount(); r++)
+			classTree.expandRow(r);
 
-            if( processedSubs.contains( sub ) )
-                continue;
-            
-            DefaultMutableTreeNode node = createTree( sub );
-            // if set contains owl:Nothing tree will be null
-            if( node != null ) {
-                root.add( node );
-            
-                processedSubs.addAll( (Set) node.getUserObject() );
-            }
-        }
+		return classTree;
+	}
 
-        return root;
-    }
+	/**
+	 * Create a root node for the given concepts and add child nodes for the subclasses. Return null for owl:Nothing
+	 * 
+	 * @param concepts
+	 * @return
+	 */
+	DefaultMutableTreeNode createTree(final OntClass cls)
+	{
+		if (unsatConcepts.contains(cls))
+			return null;
 
-    /**
-     * Create a TreeNode for the given class
-     * 
-     * @param entity
-     * @return
-     */
-    DefaultMutableTreeNode createSingletonNode( OntResource cls ) {
-        return new DefaultMutableTreeNode( Collections.singleton( cls ) );
-    }
+		final DefaultMutableTreeNode root = createNode(cls);
 
-    /**
-     * Create a TreeNode for the given set of classes
-     * 
-     * @param entity
-     * @return
-     */
-    DefaultMutableTreeNode createNode( OntClass cls ) {
-        Set<OntResource> eqs = collect( cls.listEquivalentClasses() );
-        
-        return new DefaultMutableTreeNode( eqs );
-    }
+		final Set processedSubs = new HashSet();
 
-    public static void main( String[] args ) throws Exception {
-        if( args.length == 0 ) {
-            System.out.println( "ERROR: No ontology URI given!" );
-            System.out.println( "" );
-            System.out.println( "usage: java ClassTree <ontology URI>" );
-            System.exit( 0 );
-        }
-        ClassTree tree = new ClassTree( args[0] );
+		// get only direct subclasses
+		final Iterator subs = cls.listSubClasses(true);
+		while (subs.hasNext())
+		{
+			final OntClass sub = (OntClass) subs.next();
 
-        JFrame frame = new JFrame( "Ontology Hierarchy" );
-        frame.getContentPane().add( new JScrollPane( tree.getJTree() ) );
-        frame.setSize( 800, 600 );
-        frame.setVisible( true );
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-    }
+			if (sub.isAnon())
+				continue;
+
+			if (processedSubs.contains(sub))
+				continue;
+
+			final DefaultMutableTreeNode node = createTree(sub);
+			// if set contains owl:Nothing tree will be null
+			if (node != null)
+			{
+				root.add(node);
+
+				processedSubs.addAll((Set) node.getUserObject());
+			}
+		}
+
+		return root;
+	}
+
+	/**
+	 * Create a TreeNode for the given class
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	DefaultMutableTreeNode createSingletonNode(final OntResource cls)
+	{
+		return new DefaultMutableTreeNode(Collections.singleton(cls));
+	}
+
+	/**
+	 * Create a TreeNode for the given set of classes
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	DefaultMutableTreeNode createNode(final OntClass cls)
+	{
+		final Set<OntResource> eqs = collect(cls.listEquivalentClasses());
+
+		return new DefaultMutableTreeNode(eqs);
+	}
+
+	public static void main(final String[] args) throws Exception
+	{
+		if (args.length == 0)
+		{
+			System.out.println("ERROR: No ontology URI given!");
+			System.out.println("");
+			System.out.println("usage: java ClassTree <ontology URI>");
+			System.exit(0);
+		}
+		final ClassTree tree = new ClassTree(args[0]);
+
+		final JFrame frame = new JFrame("Ontology Hierarchy");
+		frame.getContentPane().add(new JScrollPane(tree.getJTree()));
+		frame.setSize(800, 600);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	}
 }

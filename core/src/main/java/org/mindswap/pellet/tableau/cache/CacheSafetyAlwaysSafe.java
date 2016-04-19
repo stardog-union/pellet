@@ -8,39 +8,43 @@
 
 package org.mindswap.pellet.tableau.cache;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.expressivity.Expressivity;
 import org.mindswap.pellet.Individual;
 
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.expressivity.Expressivity;
-
 /**
- * A singleton implementation of CacheSafety that always says it is safe to
- * reuse cached results.
- * 
+ * A singleton implementation of CacheSafety that always says it is safe to reuse cached results.
+ *
  * @author Evren Sirin
  */
-public class CacheSafetyAlwaysSafe implements CacheSafety {
-	private static CacheSafetyAlwaysSafe	INSTANCE	= new CacheSafetyAlwaysSafe();
+public class CacheSafetyAlwaysSafe implements CacheSafety
+{
+	private static CacheSafetyAlwaysSafe INSTANCE = new CacheSafetyAlwaysSafe();
 
-	public static CacheSafetyAlwaysSafe getInstance() {
+	public static CacheSafetyAlwaysSafe getInstance()
+	{
 		return INSTANCE;
 	}
 
-	private CacheSafetyAlwaysSafe() {
+	private CacheSafetyAlwaysSafe()
+	{
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isSafe(ATermAppl c, Individual ind) {
+	@Override
+	public boolean isSafe(final ATermAppl c, final Individual ind)
+	{
 		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean canSupport(Expressivity expressivity) {
+	@Override
+	public boolean canSupport(final Expressivity expressivity)
+	{
 		return expressivity.hasNominal() && expressivity.hasInverse();
 	}
 }

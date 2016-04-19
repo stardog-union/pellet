@@ -6,14 +6,12 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-
-
 /**
  * <p>
  * Title: Different Individuals Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -21,22 +19,27 @@ package com.clarkparsia.pellet.rules.model;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class DifferentIndividualsAtom extends BinaryAtom<String, AtomIObject, AtomIObject> {
+ */
+public class DifferentIndividualsAtom extends BinaryAtom<String, AtomIObject, AtomIObject>
+{
 
-	public DifferentIndividualsAtom(AtomIObject argument1, AtomIObject argument2) {
+	public DifferentIndividualsAtom(final AtomIObject argument1, final AtomIObject argument2)
+	{
 		super("DIFFERENT", argument1, argument2);
 	}
 
 	@Override
-	public void accept(RuleAtomVisitor visitor) {
-		visitor.visit( this );
+	public void accept(final RuleAtomVisitor visitor)
+	{
+		visitor.visit(this);
 	}
-	
-	public String toString() {
-		return getArgument1()+" != "+getArgument2();
+
+	@Override
+	public String toString()
+	{
+		return getArgument1() + " != " + getArgument2();
 	}
 
 }

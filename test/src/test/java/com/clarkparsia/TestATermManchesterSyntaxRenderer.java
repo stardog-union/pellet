@@ -21,16 +21,13 @@ import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertEquals;
 
+import aterm.ATermAppl;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Test;
 import org.mindswap.pellet.output.ATermManchesterSyntaxRenderer;
 import org.mindswap.pellet.output.ATermRenderer;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -45,218 +42,232 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class TestATermManchesterSyntaxRenderer {
+public class TestATermManchesterSyntaxRenderer
+{
 
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( TestATermManchesterSyntaxRenderer.class );
-	}
-	
-	@Test
-	public void testAll() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
-
-		ATermAppl C = term( "C" );
-		ATermAppl p = term( "p" );
-
-		r.visit( all( p, C ) );
-
-		String expected = "(p only C)";
-		String actual = s.toString();
-
-		assertEquals( expected, actual );
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(TestATermManchesterSyntaxRenderer.class);
 	}
 
 	@Test
-	public void testAnd() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testAll()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl C = term( "C" );
-		ATermAppl D = term( "D" );
-		ATermAppl E = term( "E" );
+		final ATermAppl C = term("C");
+		final ATermAppl p = term("p");
 
-		r.visit( and( C, D, E ) );
+		r.visit(all(p, C));
 
-		String expected = "(C and D and E)";
-		String actual = s.toString();
+		final String expected = "(p only C)";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testHasValue() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testAnd()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl l = literal( "foobar" );
-		ATermAppl p = term( "p" );
+		final ATermAppl C = term("C");
+		final ATermAppl D = term("D");
+		final ATermAppl E = term("E");
 
-		r.visit( hasValue( p, l ) );
+		r.visit(and(C, D, E));
 
-		String expected = "(p value \"foobar\")";
-		String actual = s.toString();
+		final String expected = "(C and D and E)";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testInverse() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testHasValue()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl p = term( "p" );
+		final ATermAppl l = literal("foobar");
+		final ATermAppl p = term("p");
 
-		r.visit( inv( p ) );
+		r.visit(hasValue(p, l));
 
-		String expected = "inverse p";
-		String actual = s.toString();
+		final String expected = "(p value \"foobar\")";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testMax() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testInverse()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl C = term( "C" );
-		ATermAppl p = term( "p" );
+		final ATermAppl p = term("p");
 
-		r.visit( max( p, 3, C ) );
+		r.visit(inv(p));
 
-		String expected = "(p max 3 C)";
-		String actual = s.toString();
+		final String expected = "inverse p";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testMin() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testMax()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl C = term( "C" );
-		ATermAppl p = term( "p" );
+		final ATermAppl C = term("C");
+		final ATermAppl p = term("p");
 
-		r.visit( min( p, 3, C ) );
+		r.visit(max(p, 3, C));
 
-		String expected = "(p min 3 C)";
-		String actual = s.toString();
+		final String expected = "(p max 3 C)";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testNot() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testMin()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl C = term( "C" );
+		final ATermAppl C = term("C");
+		final ATermAppl p = term("p");
 
-		r.visit( not( C ) );
+		r.visit(min(p, 3, C));
 
-		String expected = "not C";
-		String actual = s.toString();
+		final String expected = "(p min 3 C)";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testOneOf() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testNot()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl C = term( "C" );
-		ATermAppl D = term( "D" );
-		ATermAppl E = term( "E" );
+		final ATermAppl C = term("C");
 
-		r.visit( oneOf( C, D, E ) );
+		r.visit(not(C));
+
+		final String expected = "not C";
+		final String actual = s.toString();
+
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testOneOf()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
+
+		final ATermAppl C = term("C");
+		final ATermAppl D = term("D");
+		final ATermAppl E = term("E");
+
+		r.visit(oneOf(C, D, E));
 
 		// oneOf inserts new list elements on top of the list
-		String expected = "{E D C}";
-		String actual = s.toString();
+		final String expected = "{E D C}";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testOr() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testOr()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl C = term( "C" );
-		ATermAppl D = term( "D" );
-		ATermAppl E = term( "E" );
+		final ATermAppl C = term("C");
+		final ATermAppl D = term("D");
+		final ATermAppl E = term("E");
 
-		r.visit( or( C, D, E ) );
+		r.visit(or(C, D, E));
 
-		String expected = "(C or D or E)";
-		String actual = s.toString();
+		final String expected = "(C or D or E)";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testSelf() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testSelf()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl p = term( "p" );
+		final ATermAppl p = term("p");
 
-		r.visit( self( p ) );
+		r.visit(self(p));
 
-		String expected = "(p Self)";
-		String actual = s.toString();
+		final String expected = "(p Self)";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void testSome() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void testSome()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl C = term( "C" );
-		ATermAppl p = term( "p" );
+		final ATermAppl C = term("C");
+		final ATermAppl p = term("p");
 
-		r.visit( some( p, C ) );
+		r.visit(some(p, C));
 
-		String expected = "(p some C)";
-		String actual = s.toString();
+		final String expected = "(p some C)";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void test1() {
-		StringWriter s = new StringWriter();
-		ATermRenderer r = new ATermManchesterSyntaxRenderer();
-		r.setWriter( new PrintWriter( s ) );
+	public void test1()
+	{
+		final StringWriter s = new StringWriter();
+		final ATermRenderer r = new ATermManchesterSyntaxRenderer();
+		r.setWriter(new PrintWriter(s));
 
-		ATermAppl C = term( "C" );
-		ATermAppl D = term( "D" );
-		ATermAppl p = term( "p" );
+		final ATermAppl C = term("C");
+		final ATermAppl D = term("D");
+		final ATermAppl p = term("p");
 
-		r.visit( and( C, some( p, D ) ));
+		r.visit(and(C, some(p, D)));
 
-		String expected = "(C and (p some D))";
-		String actual = s.toString();
+		final String expected = "(C and (p some D))";
+		final String actual = s.toString();
 
-		assertEquals( expected, actual );
+		assertEquals(expected, actual);
 	}
 }

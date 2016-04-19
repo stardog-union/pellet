@@ -6,28 +6,22 @@
 
 package org.mindswap.pellet;
 
+import aterm.ATermAppl;
 import java.util.Iterator;
 import java.util.List;
-
-import org.mindswap.pellet.ABox;
-import org.mindswap.pellet.Individual;
-import org.mindswap.pellet.Node;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
 
-import aterm.ATermAppl;
-
-
 /**
- * An iterator to return nodes in the order they are added. Having a separate 
- * iterator instead of using nodes.iterator() allows to change the nodes
- * table without resetting the iteration process. 
- * 
+ * An iterator to return nodes in the order they are added. Having a separate iterator instead of using nodes.iterator() allows to change the nodes table
+ * without resetting the iteration process.
+ *
  * @author Evren Sirin
  */
-public class IndividualIterator implements Iterator<Individual> {
-    /**
-     * ABox where the individuals are stored
-     */
+public class IndividualIterator implements Iterator<Individual>
+{
+	/**
+	 * ABox where the individuals are stored
+	 */
 	protected ABox abox;
 	/**
 	 * List of node names
@@ -46,41 +40,51 @@ public class IndividualIterator implements Iterator<Individual> {
 	/**
 	 * Create an iterator over all the individuals in the ABox
 	 */
-	public IndividualIterator(ABox abox) {
+	public IndividualIterator(final ABox abox)
+	{
 		this.abox = abox;
 		nodeList = abox.getNodeNames();
 		stop = nodeList.size();
 		index = 0;
 
 		findNext();
-	}		
-    
-	protected void findNext() {
-		for(; index < stop; index++) {
-		    Node node = abox.getNode( nodeList.get( index ) ) ;
-			if( !node.isPruned() && node.isIndividual() )
+	}
+
+	protected void findNext()
+	{
+		for (; index < stop; index++)
+		{
+			final Node node = abox.getNode(nodeList.get(index));
+			if (!node.isPruned() && node.isIndividual())
 				break;
 		}
 	}
-	
-	public boolean hasNext() {
+
+	@Override
+	public boolean hasNext()
+	{
 		findNext();
 		return index < stop;
 	}
-	
-	public void reset(NodeSelector s) {
+
+	public void reset(final NodeSelector s)
+	{
 		index = 0;
 		findNext();
 	}
 
-	public Individual next() {
+	@Override
+	public Individual next()
+	{
 		findNext();
-		Individual ind = abox.getIndividual(nodeList.get(index++));
-		
+		final Individual ind = abox.getIndividual(nodeList.get(index++));
+
 		return ind;
 	}
 
-	public void remove() {
+	@Override
+	public void remove()
+	{
 		throw new UnsupportedOperationException();
 	}
 }

@@ -5,8 +5,7 @@ package com.clarkparsia.pellet.datatypes.exceptions;
  * Title: Datatype Reasoner Exception
  * </p>
  * <p>
- * Description: Exception superclass for all exceptions thrown by datatype
- * reasoner methods.
+ * Description: Exception superclass for all exceptions thrown by datatype reasoner methods.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -14,23 +13,27 @@ package com.clarkparsia.pellet.datatypes.exceptions;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class DatatypeReasonerException extends Exception {
+public class DatatypeReasonerException extends Exception
+{
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	public DatatypeReasonerException(String message) {
-		super( message );
+	public DatatypeReasonerException(final String message)
+	{
+		super(message);
 	}
 
-	public DatatypeReasonerException(Throwable cause) {
-		super( cause );
+	public DatatypeReasonerException(final Throwable cause)
+	{
+		super(cause);
 	}
 
-	public DatatypeReasonerException(String message, Throwable cause) {
-		super( message, cause );
+	public DatatypeReasonerException(final String message, final Throwable cause)
+	{
+		super(message, cause);
 	}
 
 }

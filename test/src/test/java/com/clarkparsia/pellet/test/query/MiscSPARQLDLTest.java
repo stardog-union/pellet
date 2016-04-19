@@ -19,9 +19,7 @@ import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 /**
- * 
  * @author Pavel Klinov
- *
  */
 public class MiscSPARQLDLTest
 {
@@ -65,7 +63,7 @@ public class MiscSPARQLDLTest
 		}
 	}
 
-	private void assertNumberOfResults(int expected, ResultSet rs)
+	private void assertNumberOfResults(final int expected, final ResultSet rs)
 	{
 		int cnt = 0;
 

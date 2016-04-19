@@ -32,7 +32,6 @@ package org.mindswap.pellet.tableau.blocking;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
@@ -41,113 +40,125 @@ import org.mindswap.pellet.utils.Timer;
 
 /**
  * <p>
- * Generic class to check if an individual in an completion graph is blocked by
- * another individual. Blocking prevents infinite models to be created and can
+ * Generic class to check if an individual in an completion graph is blocked by another individual. Blocking prevents infinite models to be created and can
  * improve performance by limiting the size of the completion graph built.
  * </p>
  * <p>
- * This abstract class defines the basic functionality needed to check for
- * blocking and leaves the actual check of blocking condition between a pair of
- * individuals to its concrete subclasses that may do different things based on
- * the expressivity of the current kb.
+ * This abstract class defines the basic functionality needed to check for blocking and leaves the actual check of blocking condition between a pair of
+ * individuals to its concrete subclasses that may do different things based on the expressivity of the current kb.
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public abstract class Blocking {
-    public final static Logger log = Logger.getLogger( Blocking.class.getName() );
+public abstract class Blocking
+{
+	public final static Logger log = Logger.getLogger(Blocking.class.getName());
 
-    protected static final BlockingCondition block1 = new Block1();
-    protected static final BlockingCondition block2 = new Block2();
-    protected static final BlockingCondition block3 = new Block3();
-    protected static final BlockingCondition block4 = new Block4();
-    protected static final BlockingCondition block5 = new Block5();
-    protected static final BlockingCondition block6 = new Block6();
-    
-	protected Blocking() {		
+	protected static final BlockingCondition block1 = new Block1();
+	protected static final BlockingCondition block2 = new Block2();
+	protected static final BlockingCondition block3 = new Block3();
+	protected static final BlockingCondition block4 = new Block4();
+	protected static final BlockingCondition block5 = new Block5();
+	protected static final BlockingCondition block6 = new Block6();
+
+	protected Blocking()
+	{
 	}
-	
-	public boolean isDynamic() {
+
+	public boolean isDynamic()
+	{
 		return true;
 	}
-	
-	public boolean isBlocked(Individual blocked) {
-		Timer t = blocked.getABox().getKB().timers.startTimer( "blocking" );
-		try {
-			return !blocked.isRoot() && (isIndirectlyBlocked( blocked ) || isDirectlyBlockedInt( blocked ));
+
+	public boolean isBlocked(final Individual blocked)
+	{
+		final Timer t = blocked.getABox().getKB().timers.startTimer("blocking");
+		try
+		{
+			return !blocked.isRoot() && (isIndirectlyBlocked(blocked) || isDirectlyBlockedInt(blocked));
 		}
-		finally {
+		finally
+		{
 			t.stop();
 		}
 	}
-	
-	public boolean isIndirectlyBlocked(Individual blocked) {
-		Individual parent = blocked.getParent();
-		if( parent == null )
+
+	public boolean isIndirectlyBlocked(final Individual blocked)
+	{
+		final Individual parent = blocked.getParent();
+		if (parent == null)
 			return false;
-		blocked.setBlocked( isBlocked( parent ) );
+		blocked.setBlocked(isBlocked(parent));
 		return blocked.isBlocked();
 	}
-	
-	public boolean isDirectlyBlocked(Individual blocked) {
-		Timer t = blocked.getABox().getKB().timers.startTimer( "dBlocking" );	
-		try {		
-			return isDirectlyBlockedInt( blocked );
+
+	public boolean isDirectlyBlocked(final Individual blocked)
+	{
+		final Timer t = blocked.getABox().getKB().timers.startTimer("dBlocking");
+		try
+		{
+			return isDirectlyBlockedInt(blocked);
 		}
-		finally {
+		finally
+		{
 			t.stop();
 		}
 	}
-	
-	protected boolean isDirectlyBlockedInt(Individual blocked) {
-		Individual parentBlocked = blocked.getParent();
-		if( blocked.isRoot() || parentBlocked.isRoot() )
+
+	protected boolean isDirectlyBlockedInt(final Individual blocked)
+	{
+		final Individual parentBlocked = blocked.getParent();
+		if (blocked.isRoot() || parentBlocked.isRoot())
 			return false;
-		
-		BlockingContext cxt = new BlockingContext( blocked );		
-		while( cxt.moveBlockerUp() ) {			
-	    	if( isDirectlyBlockedBy( cxt ) )  {
-	    		blocked.setBlocked( true );
-	    		if( log.isLoggable( Level.FINER ) )
-	    			log.finer( blocked +  " blocked by " + cxt.blocker );	    			
+
+		final BlockingContext cxt = new BlockingContext(blocked);
+		while (cxt.moveBlockerUp())
+			if (isDirectlyBlockedBy(cxt))
+			{
+				blocked.setBlocked(true);
+				if (log.isLoggable(Level.FINER))
+					log.finer(blocked + " blocked by " + cxt.blocker);
 				return true;
-	    	}
-	    }
-	    
-		if( PelletOptions.USE_ANYWHERE_BLOCKING ) {					
+			}
+
+		if (PelletOptions.USE_ANYWHERE_BLOCKING)
+		{
 			assert cxt.blocker.isRoot();
 
-			return isDirectlyBlockedByDescendant( cxt );			
+			return isDirectlyBlockedByDescendant(cxt);
 		}
-		
+
 		return false;
 	}
 
-	protected boolean isDirectlyBlockedByDescendant(BlockingContext cxt) {
-		if( cxt.blocked.getParent().equals( cxt.blocker ) )
+	protected boolean isDirectlyBlockedByDescendant(final BlockingContext cxt)
+	{
+		if (cxt.blocked.getParent().equals(cxt.blocker))
 			return false;
-		
-		if( !cxt.blocker.isRoot() && isDirectlyBlockedBy( cxt ) ) {
-			cxt.blocked.setBlocked( true );
-    		if( log.isLoggable( Level.FINER ) )
-    			log.finer( cxt.blocked +  " blocked by " + cxt.blocker );
+
+		if (!cxt.blocker.isRoot() && isDirectlyBlockedBy(cxt))
+		{
+			cxt.blocked.setBlocked(true);
+			if (log.isLoggable(Level.FINER))
+				log.finer(cxt.blocked + " blocked by " + cxt.blocker);
 			return true;
 		}
-		
-		Individual blocker = cxt.blocker;
-		for( Edge e : blocker.getOutEdges() ) {
-			Node child = e.getTo();
 
-			if( cxt.moveBlockerDown( child ) ) {
-				if( isDirectlyBlockedByDescendant( cxt ) ) {			
+		final Individual blocker = cxt.blocker;
+		for (final Edge e : blocker.getOutEdges())
+		{
+			final Node child = e.getTo();
+
+			if (cxt.moveBlockerDown(child))
+			{
+				if (isDirectlyBlockedByDescendant(cxt))
 					return true;
-				}
 				cxt.moveBlockerUp();
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	protected abstract boolean isDirectlyBlockedBy(BlockingContext cxt);
 }

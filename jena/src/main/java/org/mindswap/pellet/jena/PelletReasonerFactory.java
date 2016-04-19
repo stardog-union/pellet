@@ -34,7 +34,6 @@ import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerFactory;
 import org.apache.jena.reasoner.ReasonerRegistry;
 import org.apache.jena.vocabulary.RDFS;
@@ -42,63 +41,65 @@ import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 /**
  * @author Evren Sirin
- *
  */
-public class PelletReasonerFactory implements ReasonerFactory {
-    private static final String URI = "http://pellet.owldl.com";
+public class PelletReasonerFactory implements ReasonerFactory
+{
+	private static final String URI = "http://pellet.owldl.com";
 
-    private static PelletReasonerFactory theInstance;
+	private static PelletReasonerFactory theInstance;
 
-    public static OntModelSpec THE_SPEC;
-    
-    static {
-        theInstance = new PelletReasonerFactory();
-        
-        THE_SPEC = new OntModelSpec( OntModelSpec.OWL_MEM );        
-        THE_SPEC.setReasonerFactory( theInstance );
-        
-        ReasonerRegistry.theRegistry().register( PelletReasonerFactory.theInstance() );
+	public static OntModelSpec THE_SPEC;
+
+	static
+	{
+		theInstance = new PelletReasonerFactory();
+
+		THE_SPEC = new OntModelSpec(OntModelSpec.OWL_MEM);
+		THE_SPEC.setReasonerFactory(theInstance);
+
+		ReasonerRegistry.theRegistry().register(PelletReasonerFactory.theInstance());
 	}
-    
-    public static PelletReasonerFactory theInstance() {
-        return theInstance;
-    }
 
-    private Model reasonerCapabilities;    
+	public static PelletReasonerFactory theInstance()
+	{
+		return theInstance;
+	}
 
-    private PelletReasonerFactory() {
-    }
+	private Model reasonerCapabilities;
 
-    public PelletReasoner create() {
-        return new PelletReasoner( getCapabilities() );
-    }
-    
-    public PelletReasoner create(Resource configuration) {
-        return new PelletReasoner( getCapabilities() );
-    }
+	private PelletReasonerFactory()
+	{
+	}
 
-    public Model getCapabilities() {
-        if (reasonerCapabilities == null) {
-            reasonerCapabilities = ModelFactory.createDefaultModel();
-            Resource base = reasonerCapabilities.createResource(URI);
-            base.addProperty(ReasonerVocabulary.nameP, "Pellet Reasoner")
-                .addProperty(ReasonerVocabulary.descriptionP, "Reasoner that is backed by the OWL DL reasoner Pellet." )
-                .addProperty(ReasonerVocabulary.supportsP, RDFS.subClassOf)
-                .addProperty(ReasonerVocabulary.supportsP, RDFS.subPropertyOf)
-                .addProperty(ReasonerVocabulary.supportsP, RDFS.member)
-                .addProperty(ReasonerVocabulary.supportsP, RDFS.range)
-                .addProperty(ReasonerVocabulary.supportsP, RDFS.domain)
-                
-                .addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.individualAsThingP )
-                .addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directSubClassOf )
-                .addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directSubPropertyOf )
-            	.addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directRDFType );
-        }
-        
-        return reasonerCapabilities;
-    }
+	public PelletReasoner create()
+	{
+		return new PelletReasoner(getCapabilities());
+	}
 
-    public String getURI() {
-        return URI;
-    }
+	@Override
+	public PelletReasoner create(final Resource configuration)
+	{
+		return new PelletReasoner(getCapabilities());
+	}
+
+	@Override
+	public Model getCapabilities()
+	{
+		if (reasonerCapabilities == null)
+		{
+			reasonerCapabilities = ModelFactory.createDefaultModel();
+			final Resource base = reasonerCapabilities.createResource(URI);
+			base.addProperty(ReasonerVocabulary.nameP, "Pellet Reasoner").addProperty(ReasonerVocabulary.descriptionP, "Reasoner that is backed by the OWL DL reasoner Pellet.").addProperty(ReasonerVocabulary.supportsP, RDFS.subClassOf).addProperty(ReasonerVocabulary.supportsP, RDFS.subPropertyOf).addProperty(ReasonerVocabulary.supportsP, RDFS.member).addProperty(ReasonerVocabulary.supportsP, RDFS.range).addProperty(ReasonerVocabulary.supportsP, RDFS.domain)
+
+			.addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.individualAsThingP).addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directSubClassOf).addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directSubPropertyOf).addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directRDFType);
+		}
+
+		return reasonerCapabilities;
+	}
+
+	@Override
+	public String getURI()
+	{
+		return URI;
+	}
 }

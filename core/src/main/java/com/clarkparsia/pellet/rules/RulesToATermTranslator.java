@@ -6,10 +6,7 @@
 
 package com.clarkparsia.pellet.rules;
 
-import org.mindswap.pellet.utils.ATermUtils;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.rules.model.AtomDConstant;
 import com.clarkparsia.pellet.rules.model.AtomDObject;
 import com.clarkparsia.pellet.rules.model.AtomDVariable;
@@ -27,159 +24,189 @@ import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class RulesToATermTranslator implements RuleAtomVisitor, AtomObjectVisitor {
+public class RulesToATermTranslator implements RuleAtomVisitor, AtomObjectVisitor
+{
 	private ATermAppl term;
-	
-	public ATermAppl translate(Rule rule) {
+
+	public ATermAppl translate(final Rule rule)
+	{
 		term = null;
-		visit( rule );
+		visit(rule);
 		return term;
 	}
-	
-	public ATermAppl translate(RuleAtom ruleAtom) {
+
+	public ATermAppl translate(final RuleAtom ruleAtom)
+	{
 		term = null;
-		ruleAtom.accept( this );
+		ruleAtom.accept(this);
 		return term;
 	}
-	
-	public ATermAppl translate(AtomObject obj) {
+
+	public ATermAppl translate(final AtomObject obj)
+	{
 		term = null;
-		obj.accept( this );
+		obj.accept(this);
 		return term;
 	}
-	
-	public void visit(Rule rule) {
-		ATermAppl[] head = new ATermAppl[rule.getHead().size()];
-		ATermAppl[] body = new ATermAppl[rule.getBody().size()];
-		
+
+	public void visit(final Rule rule)
+	{
+		final ATermAppl[] head = new ATermAppl[rule.getHead().size()];
+		final ATermAppl[] body = new ATermAppl[rule.getBody().size()];
+
 		int i = 0;
-		for( RuleAtom atom : rule.getHead() ) {
-			head[i++] = translate( atom );
-		}	
-		
+		for (final RuleAtom atom : rule.getHead())
+			head[i++] = translate(atom);
+
 		i = 0;
-		for( RuleAtom atom : rule.getBody() ) {
-			body[i++] = translate( atom );
-		}
-		
-		term = ATermUtils.makeRule( rule.getName(), head, body );
+		for (final RuleAtom atom : rule.getBody())
+			body[i++] = translate(atom);
+
+		term = ATermUtils.makeRule(rule.getName(), head, body);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(BuiltInAtom atom) {
-		int arity = atom.getAllArguments().size();
-		ATermAppl[] args = new ATermAppl[arity+1];
-		args[0] = ATermUtils.makeTermAppl( atom.getPredicate() );
+	@Override
+	public void visit(final BuiltInAtom atom)
+	{
+		final int arity = atom.getAllArguments().size();
+		final ATermAppl[] args = new ATermAppl[arity + 1];
+		args[0] = ATermUtils.makeTermAppl(atom.getPredicate());
 		int i = 1;
-		for( AtomDObject arg : atom.getAllArguments() ) {
-			args[i++] = translate( arg );
-		}		
-		
-		term = ATermUtils.makeBuiltinAtom( args );
+		for (final AtomDObject arg : atom.getAllArguments())
+			args[i++] = translate(arg);
+
+		term = ATermUtils.makeBuiltinAtom(args);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(ClassAtom atom) {
-		ATermAppl c = atom.getPredicate();
-		ATermAppl i = translate(  atom.getArgument() );
-		
-		term = ATermUtils.makeTypeAtom( i, c );
+	@Override
+	public void visit(final ClassAtom atom)
+	{
+		final ATermAppl c = atom.getPredicate();
+		final ATermAppl i = translate(atom.getArgument());
+
+		term = ATermUtils.makeTypeAtom(i, c);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(DataRangeAtom atom) {
-		ATermAppl d = atom.getPredicate();
-		ATermAppl l = translate(  atom.getArgument() );
-		
-		term = ATermUtils.makeTypeAtom( l ,d );
+	@Override
+	public void visit(final DataRangeAtom atom)
+	{
+		final ATermAppl d = atom.getPredicate();
+		final ATermAppl l = translate(atom.getArgument());
+
+		term = ATermUtils.makeTypeAtom(l, d);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(DatavaluedPropertyAtom atom) {
-		ATermAppl p = atom.getPredicate();
-		ATermAppl s = translate(  atom.getArgument1() );
-		ATermAppl o = translate(  atom.getArgument2() );
-		
-		term = ATermUtils.makePropAtom( p, s, o );
+	@Override
+	public void visit(final DatavaluedPropertyAtom atom)
+	{
+		final ATermAppl p = atom.getPredicate();
+		final ATermAppl s = translate(atom.getArgument1());
+		final ATermAppl o = translate(atom.getArgument2());
+
+		term = ATermUtils.makePropAtom(p, s, o);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(DifferentIndividualsAtom atom) {
-		ATermAppl t1 = translate(  atom.getArgument1() );
-		ATermAppl t2 = translate(  atom.getArgument2() );
-		
-		term = ATermUtils.makeDifferent( t1, t2 );
+	@Override
+	public void visit(final DifferentIndividualsAtom atom)
+	{
+		final ATermAppl t1 = translate(atom.getArgument1());
+		final ATermAppl t2 = translate(atom.getArgument2());
+
+		term = ATermUtils.makeDifferent(t1, t2);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(IndividualPropertyAtom atom) {
-		ATermAppl p = atom.getPredicate();
-		ATermAppl s = translate(  atom.getArgument1() );
-		ATermAppl o = translate(  atom.getArgument2() );
-		
-		term = ATermUtils.makePropAtom( p, s, o );
+	@Override
+	public void visit(final IndividualPropertyAtom atom)
+	{
+		final ATermAppl p = atom.getPredicate();
+		final ATermAppl s = translate(atom.getArgument1());
+		final ATermAppl o = translate(atom.getArgument2());
+
+		term = ATermUtils.makePropAtom(p, s, o);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(SameIndividualAtom atom) {
-		ATermAppl t1 = translate(  atom.getArgument1() );
-		ATermAppl t2 = translate(  atom.getArgument2() );
-		
-		term = ATermUtils.makeSameAs( t1, t2 );
+	@Override
+	public void visit(final SameIndividualAtom atom)
+	{
+		final ATermAppl t1 = translate(atom.getArgument1());
+		final ATermAppl t2 = translate(atom.getArgument2());
+
+		term = ATermUtils.makeSameAs(t1, t2);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(AtomDConstant constant) {
+	@Override
+	public void visit(final AtomDConstant constant)
+	{
 		term = constant.getValue();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(AtomDVariable variable) {
-		term = ATermUtils.makeVar( variable.getName() );
+	@Override
+	public void visit(final AtomDVariable variable)
+	{
+		term = ATermUtils.makeVar(variable.getName());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(AtomIConstant constant) {
+	@Override
+	public void visit(final AtomIConstant constant)
+	{
 		term = constant.getValue();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void visit(AtomIVariable variable) {
-		term = ATermUtils.makeVar( variable.getName() );
+	@Override
+	public void visit(final AtomIVariable variable)
+	{
+		term = ATermUtils.makeVar(variable.getName());
 	}
 
 }

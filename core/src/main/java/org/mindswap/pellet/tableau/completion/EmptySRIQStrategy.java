@@ -60,10 +60,9 @@ import org.mindswap.pellet.utils.Bool;
 import org.mindswap.pellet.utils.Timer;
 
 /**
- * Completion strategy for a SRIQ KB that does not have individuals in the ABox.
- * When ABox is empty completion always starts with a single root individual
- * that represents the concept whose satisfiability is being searched.
- * 
+ * Completion strategy for a SRIQ KB that does not have individuals in the ABox. When ABox is empty completion always starts with a single root individual that
+ * represents the concept whose satisfiability is being searched.
+ *
  * @author Evren Sirin
  */
 public class EmptySRIQStrategy extends CompletionStrategy
@@ -84,27 +83,26 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	private Map<Individual, ATermAppl> cachedNodes;
 
 	/**
-	 * Cache safety checker to decide if a cached satisfiability result can be
-	 * reused for a given node in the completion graph
+	 * Cache safety checker to decide if a cached satisfiability result can be reused for a given node in the completion graph
 	 */
 	private CacheSafety cacheSafety;
 
 	//	private static int cache = 0;
 	//	private static int block = 0;
 
-	public EmptySRIQStrategy(ABox abox)
+	public EmptySRIQStrategy(final ABox abox)
 	{
 		super(abox);
 	}
 
 	@Override
-	public void initialize(Expressivity expressivity)
+	public void initialize(final Expressivity expressivity)
 	{
-		mergeList = new ArrayList<NodeMerge>();
+		mergeList = new ArrayList<>();
 
-		cachedNodes = new HashMap<Individual, ATermAppl>();
+		cachedNodes = new HashMap<>();
 
-		mnx = new ArrayList<List<Individual>>();
+		mnx = new ArrayList<>();
 		// add a null entry so Branch.branch index will match with the index in this array
 		mnx.add(null);
 
@@ -116,7 +114,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		applyUniversalRestrictions(root);
 		selfRule.apply(root);
 
-		mayNeedExpanding = new LinkedList<Individual>();
+		mayNeedExpanding = new LinkedList<>();
 		mayNeedExpanding.add(root);
 
 		abox.setBranch(1);
@@ -127,7 +125,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	}
 
 	@Override
-	public void complete(Expressivity expr)
+	public void complete(final Expressivity expr)
 	{
 		if (log.isLoggable(Level.FINE))
 			log.fine("************  " + EmptySRIQStrategy.class.getName() + "  ************");
@@ -188,10 +186,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			abox.printTree();
 
 		if (PelletOptions.USE_ADVANCED_CACHING)
-		{
 			// if completion tree is clash free cache all sat concepts
 			if (!abox.isClosed())
-			{
 				for (final Iterator<Individual> i = new IndividualIterator(abox); i.hasNext();)
 				{
 					final Individual ind = i.next();
@@ -201,31 +197,25 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 					addCacheSat(c);
 				}
-			}
-		}
 	}
 
-	private List<Individual> getDescendants(Individual ind)
+	private List<Individual> getDescendants(final Individual ind)
 	{
-		final List<Individual> descendants = new ArrayList<Individual>();
+		final List<Individual> descendants = new ArrayList<>();
 		getDescendants(ind, descendants);
 		return descendants;
 	}
 
-	private void getDescendants(Individual ind, List<Individual> descendants)
+	private void getDescendants(final Individual ind, final List<Individual> descendants)
 	{
 		descendants.add(ind);
 
 		for (final Edge edge : ind.getOutEdges())
-		{
 			if (edge.getTo().isIndividual() && !edge.getTo().equals(ind))
-			{
 				getDescendants((Individual) edge.getTo(), descendants);
-			}
-		}
 	}
 
-	private void addCacheSat(ATermAppl c)
+	private void addCacheSat(final ATermAppl c)
 	{
 		if (!abox.getCache().putSat(c, true))
 			return;
@@ -237,20 +227,19 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		{
 			ATermList list = (ATermList) c.getArgument(0);
 			for (; !list.isEmpty(); list = list.getNext())
-			{
 				addCacheSat((ATermAppl) list.getFirst());
-			}
 		}
 	}
 
 	private Individual getNextIndividual()
 	{
-		if (mayNeedExpanding.isEmpty()) { return null; }
+		if (mayNeedExpanding.isEmpty())
+			return null;
 
 		return mayNeedExpanding.get(0);
 	}
 
-	private boolean parentNeedsExpanding(Individual x)
+	private boolean parentNeedsExpanding(final Individual x)
 	{
 		if (x.isRoot())
 			return false;
@@ -260,7 +249,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		return parent.canApply(Node.ATOM) || parent.canApply(Node.OR) || parent.canApply(Node.SOME) || parent.canApply(Node.MIN) || parent.canApply(Node.MAX);
 	}
 
-	private void expand(Individual x)
+	private void expand(final Individual x)
 	{
 		checkTimer();
 
@@ -281,9 +270,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				{
 					// set the clash information to be the union of all types
 					DependencySet ds = DependencySet.EMPTY;
-					for (final Iterator<ATermAppl> i = x.getTypes().iterator(); i.hasNext();)
+					for (final ATermAppl c : x.getTypes())
 					{
-						final ATermAppl c = i.next();
 						ds = ds.union(x.getDepends(c), abox.doExplanation());
 					}
 					abox.setClash(Clash.atomic(x, ds));
@@ -302,7 +290,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				return;
 			}
 			//			else if ( SubsetBlocking.getInstance().isDirectlyBlocked( x ) ) {
-			//				System.err.println( "BLOCK " + ++block ); 
+			//				System.err.println( "BLOCK " + ++block );
 			//			}
 
 			unfoldingRule.apply(x);
@@ -352,31 +340,23 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		final EdgeList sortedSuccessors = x.getOutEdges().sort();
 		if (PelletOptions.SEARCH_TYPE == PelletOptions.DEPTH_FIRST)
-		{
 			for (final Edge edge : sortedSuccessors)
 			{
 				final Node succ = edge.getTo();
 				if (!succ.isLiteral() && !succ.equals(x))
-				{
 					mayNeedExpanding.add((Individual) succ);
-				}
 			}
-		}
 		else
-		{
 			for (int i = sortedSuccessors.size() - 1; i >= 0; i--)
 			{
 				final Edge edge = sortedSuccessors.edgeAt(i);
 				final Node succ = edge.getTo();
 				if (!succ.isLiteral() && !succ.equals(x))
-				{
 					mayNeedExpanding.add((Individual) succ);
-				}
 			}
-		}
 	}
 
-	private ATermAppl createConcept(Individual x)
+	private ATermAppl createConcept(final Individual x)
 	{
 		int count = 0;
 		final ATermAppl[] terms = new ATermAppl[x.getTypes().size()];
@@ -403,7 +383,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		}
 	}
 
-	private Bool isCachedSat(Individual x)
+	private Bool isCachedSat(final Individual x)
 	{
 		if (x.isRoot())
 			return Bool.UNKNOWN;
@@ -436,7 +416,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		return sat;
 	}
 
-	private Bool isCachedSat(ATermAppl c)
+	private Bool isCachedSat(final ATermAppl c)
 	{
 		Bool sat = abox.getCachedSat(c);
 
@@ -474,7 +454,6 @@ public class EmptySRIQStrategy extends CompletionStrategy
 						// do nothing, intersection with TOP is redundant
 					}
 					else
-					{
 						if (cached1 == null)
 							cached1 = node;
 						else
@@ -486,42 +465,33 @@ public class EmptySRIQStrategy extends CompletionStrategy
 								sat = Bool.UNKNOWN;
 								break;
 							}
-					}
 		}
 
 		// we can do mergability check
 		if (sat == null)
-		{
 			if (cached2 == null)
-			{
 				// only one element in the intersection that is not TOP so the intersection is
 				// satisfiable
 				sat = Bool.TRUE;
-			}
 			else
-			{
 				// there are two classes in the intersection, so check if the cahed models can
 				// be merged without a clash
 				sat = abox.getCache().isMergable(abox.getKB(), cached1, cached2);
-			}
-		}
 
 		if (sat.isKnown())
-		{
 			abox.getCache().putSat(c, sat.isTrue());
-		}
 
 		return sat;
 	}
 
 	@Override
-	public void restoreLocal(Individual ind, Branch br)
+	public void restoreLocal(final Individual ind, final Branch br)
 	{
 		restore(br);
 	}
 
 	@Override
-	public void restore(Branch br)
+	public void restore(final Branch br)
 	{
 		final Timer timer = timers.startTimer("restore");
 
@@ -542,7 +512,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		// is to keep the name of anon nodes smaller to make debugging easier. For this reason,
 		// the above line is not removed and under special circumstances may be uncommented
 		// to help debugging only with the intent that it will be commented again after
-		// debugging is complete  
+		// debugging is complete
 		// abox.setAnonCount( br.getAnonCount() );
 
 		mergeList.clear();
@@ -565,7 +535,6 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				abox.removeNode(x);
 				final ATermAppl c = cachedNodes.remove(node);
 				if (c != null && PelletOptions.USE_ADVANCED_CACHING)
-				{
 					if (clashPath.contains(x))
 					{
 						if (log.isLoggable(Level.FINEST))
@@ -575,7 +544,6 @@ public class EmptySRIQStrategy extends CompletionStrategy
 					else
 						if (log.isLoggable(Level.FINEST))
 							log.finest("--- Do not cache concept " + c + " " + x + " " + clashNode + " " + clashPath);
-				}
 			}
 			else
 			{
@@ -583,9 +551,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 				// FIXME should we look at the clash path or clash node
 				if (node.equals(clashNode))
-				{
 					cachedNodes.remove(node);
-				}
 			}
 		}
 		nodeList.subList(br.getNodeCount(), nodeList.size()).clear();
@@ -653,7 +619,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			{
 				// create another copy of the mnx list here because we may backtrack to the same
 				// branch multiple times and we want the same copy to be available every time
-				mayNeedExpanding = new LinkedList<Individual>(mnx.get(newBranch.getBranch()));
+				mayNeedExpanding = new LinkedList<>(mnx.get(newBranch.getBranch()));
 				mnx.subList(newBranch.getBranch() + 1, mnx.size()).clear();
 				if (log.isLoggable(Level.FINE))
 					log.fine("MNX : " + mayNeedExpanding);
@@ -667,13 +633,13 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	}
 
 	@Override
-	public void addBranch(Branch newBranch)
+	public void addBranch(final Branch newBranch)
 	{
 		super.addBranch(newBranch);
 
 		assert mnx.size() == newBranch.getBranch() : mnx.size() + " != " + newBranch.getBranch();
 
 		// create a copy of the mnx list so that changes in the current branch will not affect it
-		mnx.add(new ArrayList<Individual>(mayNeedExpanding));
+		mnx.add(new ArrayList<>(mayNeedExpanding));
 	}
 }

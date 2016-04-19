@@ -22,15 +22,17 @@
 
 package org.mindswap.pellet.exceptions;
 
+public class UnsupportedQueryException extends UnsupportedFeatureException
+{
+	private static final long serialVersionUID = -4419249331397988411L;
 
-public class UnsupportedQueryException extends UnsupportedFeatureException {
-	private static final long	serialVersionUID	= -4419249331397988411L;
-
-	public UnsupportedQueryException() {
+	public UnsupportedQueryException()
+	{
 		super();
 	}
 
-	public UnsupportedQueryException(String e) {
-		super( e );
+	public UnsupportedQueryException(final String e)
+	{
+		super(e);
 	}
 }

@@ -14,8 +14,7 @@ import org.mindswap.pellet.Literal;
  * Title: Function
  * </p>
  * <p>
- * Description: Interface for built-ins that can bind the first argument to a built-in atom
- * to a new value.
+ * Description: Interface for built-ins that can bind the first argument to a built-in atom to a new value.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,20 +22,16 @@ import org.mindswap.pellet.Literal;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface Function {
+ */
+public interface Function
+{
 
 	/**
-	 * Apply the function against a set of arguments.  Test the
-	 * expected argument against the result.
-	 * Return null if the arguments were invalid.
-	 * If 'expected' was not null and matched the result, return 'expected'.
-	 * If 'expected' was not null and did not match, return null;
-	 * 
-	 * Otherwise, return the result.
+	 * Apply the function against a set of arguments. Test the expected argument against the result. Return null if the arguments were invalid. If 'expected'
+	 * was not null and matched the result, return 'expected'. If 'expected' was not null and did not match, return null; Otherwise, return the result.
 	 */
-	public Literal apply( ABox abox, Literal expected, Literal... args );
-	
+	public Literal apply(ABox abox, Literal expected, Literal... args);
+
 }

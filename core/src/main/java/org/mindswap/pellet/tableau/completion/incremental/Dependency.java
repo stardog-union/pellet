@@ -6,12 +6,11 @@
 
 package org.mindswap.pellet.tableau.completion.incremental;
 
-
 /**
  * Dependency interface
- * 
- * @author Christian Halaschek-Wiener
  *
+ * @author Christian Halaschek-Wiener
  */
-public interface Dependency {
+public interface Dependency
+{
 }

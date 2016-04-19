@@ -20,39 +20,44 @@ import java.util.Set;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class UnionDataRange<T> implements DataRange<T> {
+public class UnionDataRange<T> implements DataRange<T>
+{
 
-	private final ArrayList<RestrictedDatatype<? extends T>>	ranges;
-	private final Set<? extends T>								values;
+	private final ArrayList<RestrictedDatatype<? extends T>> ranges;
+	private final Set<? extends T> values;
 
-	public UnionDataRange(Collection<RestrictedDatatype<? extends T>> ranges,
-			Collection<? extends T> values) {
-		this.ranges = new ArrayList<RestrictedDatatype<? extends T>>( ranges );
-		this.values = new HashSet<T>( values );
+	public UnionDataRange(final Collection<RestrictedDatatype<? extends T>> ranges, final Collection<? extends T> values)
+	{
+		this.ranges = new ArrayList<>(ranges);
+		this.values = new HashSet<T>(values);
 	}
 
-	public boolean contains(Object value) {
-		if( values.contains( value ) )
+	@Override
+	public boolean contains(final Object value)
+	{
+		if (values.contains(value))
 			return true;
 
-		for( RestrictedDatatype<? extends T> rd : ranges ) {
-			if( rd.contains( value ) )
+		for (final RestrictedDatatype<? extends T> rd : ranges)
+			if (rd.contains(value))
 				return true;
-		}
 
 		return false;
 	}
 
-	public boolean containsAtLeast(int n) {
+	@Override
+	public boolean containsAtLeast(int n)
+	{
 		n -= values.size();
-		if( n <= 0 )
+		if (n <= 0)
 			return true;
 
-		for( RestrictedDatatype<?> rd : ranges ) {
-			if( rd.containsAtLeast( n ) )
+		for (final RestrictedDatatype<?> rd : ranges)
+		{
+			if (rd.containsAtLeast(n))
 				return true;
 
 			n -= rd.size();
@@ -61,27 +66,39 @@ public class UnionDataRange<T> implements DataRange<T> {
 		return n <= 0;
 	}
 
-	public T getValue(int i) {
+	@Override
+	public T getValue(final int i)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return false;
 	}
 
-	public boolean isEnumerable() {
+	@Override
+	public boolean isEnumerable()
+	{
 		return true;
 	}
 
-	public boolean isFinite() {
+	@Override
+	public boolean isFinite()
+	{
 		return true;
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public Iterator<T> valueIterator() {
+	@Override
+	public Iterator<T> valueIterator()
+	{
 
 		/*
 		 * This implementation avoids allocating the value iterators for the
@@ -89,42 +106,47 @@ public class UnionDataRange<T> implements DataRange<T> {
 		 * micro-optimization relative to using
 		 * org.mindswap.pellet.utils.iterator.MultiIterator
 		 */
-		return new Iterator<T>() {
-			final Iterator<? extends T>						enumIt	= values.iterator();
-			final Iterator<RestrictedDatatype<? extends T>>	rangeIt	= ranges.iterator();
-			Iterator<? extends T>							valueIt	= null;
+		return new Iterator<T>()
+		{
+			final Iterator<? extends T> enumIt = values.iterator();
+			final Iterator<RestrictedDatatype<? extends T>> rangeIt = ranges.iterator();
+			Iterator<? extends T> valueIt = null;
 
-			public boolean hasNext() {
-				if( enumIt.hasNext() )
+			@Override
+			public boolean hasNext()
+			{
+				if (enumIt.hasNext())
 					return true;
 
-				if( valueIt == null ) {
-					if( rangeIt.hasNext() )
+				if (valueIt == null)
+					if (rangeIt.hasNext())
 						valueIt = rangeIt.next().valueIterator();
 					else
 						return false;
-				}
 
-				while( !valueIt.hasNext() ) {
-					if( rangeIt.hasNext() )
+				while (!valueIt.hasNext())
+					if (rangeIt.hasNext())
 						valueIt = rangeIt.next().valueIterator();
 					else
 						return false;
-				}
 				return true;
 			}
 
-			public T next() {
-				if( !hasNext() )
+			@Override
+			public T next()
+			{
+				if (!hasNext())
 					throw new NoSuchElementException();
 
-				if( valueIt == null )
+				if (valueIt == null)
 					return enumIt.next();
 
 				return valueIt.next();
 			}
 
-			public void remove() {
+			@Override
+			public void remove()
+			{
 				throw new UnsupportedOperationException();
 			}
 		};

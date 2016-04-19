@@ -12,66 +12,71 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * 
  * @author Evren Sirin
  */
-public abstract class ReteNode {
+public abstract class ReteNode
+{
 	public final static Logger log = Logger.getLogger(ReteNode.class.getName());
-	
-	private List<BetaNode> children = new ArrayList<BetaNode>();
-	
+
+	private final List<BetaNode> children = new ArrayList<>();
+
 	private boolean marked = false;
 
-	public ReteNode() {
+	public ReteNode()
+	{
 	}
 
 	/**
 	 * Add a directly dependent node.
 	 */
-	public void addChild( BetaNode beta ) {
-		children.add( beta );
+	public void addChild(final BetaNode beta)
+	{
+		children.add(beta);
 	}
 
 	/**
 	 * Return any directly dependent nodes.
 	 */
-	public Collection<BetaNode> getBetas() {
+	public Collection<BetaNode> getBetas()
+	{
 		return children;
 	}
 
 	/**
-	 * Reset any dependent nodes 
+	 * Reset any dependent nodes
 	 */
-	public void reset() {
-		for ( BetaNode child : children ) {
+	public void reset()
+	{
+		for (final BetaNode child : children)
 			child.reset();
-		}
 	}
-	
-	public void restore(int branch) {
-//		if (!marked) {
-			for ( BetaNode child : children ) {
-				child.restore(branch);
-			}
-//		}
+
+	public void restore(final int branch)
+	{
+		//		if (!marked) {
+		for (final BetaNode child : children)
+			child.restore(branch);
 	}
-	
-	public void mark() {
+
+	public void mark()
+	{
 		setMark(true);
 	}
-	
-	public void unmark() {
+
+	public void unmark()
+	{
 		setMark(false);
 	}
-	
-	private void setMark(boolean value) {
+
+	private void setMark(final boolean value)
+	{
 		marked = value;
-		for (ReteNode child : children) {
+		for (final ReteNode child : children)
 			child.setMark(value);
-		}
 	}
-	
-	public void print(String indent) {
+
+	public void print(final String indent)
+	{
 		System.out.print(indent);
 		System.out.println(this);
 	}

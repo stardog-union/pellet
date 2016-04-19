@@ -10,29 +10,31 @@ import java.io.File;
 import java.io.FileFilter;
 
 /**
- * File filter implementation that filters by pattern matching on the file name using
- * regular expressions. Two patterns are specified. A file is accepted if its name 
- * matches the first pattern and does NOT match the second pattern.
- * 
- * @author Evren Sirin
+ * File filter implementation that filters by pattern matching on the file name using regular expressions. Two patterns are specified. A file is accepted if its
+ * name matches the first pattern and does NOT match the second pattern.
  *
+ * @author Evren Sirin
  */
-public class PatternFilter implements FileFilter {
-    private String match;
-    private String noMatch;
-    
-    public PatternFilter( String match ) {
-        this.match = match;
-        this.noMatch = "";
-    }
-    
-    public PatternFilter( String match, String noMatch ) {
-        this.match = match;
-        this.noMatch = noMatch;
-    }
-    
-	public boolean accept( File file ) {
-		return file.getName().matches( match ) 
-            && !file.getName().matches( noMatch );
-	}			
+public class PatternFilter implements FileFilter
+{
+	private final String match;
+	private final String noMatch;
+
+	public PatternFilter(final String match)
+	{
+		this.match = match;
+		this.noMatch = "";
+	}
+
+	public PatternFilter(final String match, final String noMatch)
+	{
+		this.match = match;
+		this.noMatch = noMatch;
+	}
+
+	@Override
+	public boolean accept(final File file)
+	{
+		return file.getName().matches(match) && !file.getName().matches(noMatch);
+	}
 }

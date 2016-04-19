@@ -30,98 +30,105 @@
 
 package org.mindswap.pellet.tableau.completion.queue;
 
-import org.mindswap.pellet.Node;
-
 import aterm.ATermAppl;
-
+import org.mindswap.pellet.Node;
 
 /**
  * Structured stored on the completion queue
- * 
- * @author Christian Halaschek-Wiener
  *
+ * @author Christian Halaschek-Wiener
  */
-public class QueueElement {
+public class QueueElement
+{
 
 	/**
-	 * Label for this element 
+	 * Label for this element
 	 */
 	private ATermAppl label;
-	
+
 	/**
-	 * Node for this element 
+	 * Node for this element
 	 */
 	private ATermAppl node;
-	
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
+	 * 
 	 * @param ATermAppl The node
 	 * @param ATermAppl The label
 	 */
-	public QueueElement(Node n) {
-		this( n, null );
+	public QueueElement(final Node n)
+	{
+		this(n, null);
 	}
-	
-	public QueueElement(Node n, ATermAppl l) {
-		this( n.getName(), l );
+
+	public QueueElement(final Node n, final ATermAppl l)
+	{
+		this(n.getName(), l);
 	}
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
+	 * 
 	 * @param ATermAppl The node
 	 * @param ATermAppl The label
 	 */
-	private QueueElement(ATermAppl n, ATermAppl l) {
+	private QueueElement(final ATermAppl n, final ATermAppl l)
+	{
 		node = n;
-		
+
 		//This will be set to null only if its called from ABox.createLiteral or Node.setChanged
 		//In these cases, the element will be added to the LITERALLIST or DATATYPELIST respectively
 		//In both cases it does not matter.
 		label = l;
 	}
-	
 
 	/**
-	 * To string 
+	 * To string
 	 */
-	public String toString(){
+	@Override
+	public String toString()
+	{
 		return node.getName() + "[" + label + "]";
 	}
-	
+
 	/**
 	 * Set label
-	 * 
+	 *
 	 * @param ATermAppl The label
 	 */
-	public void setLabel(ATermAppl l){
+	public void setLabel(final ATermAppl l)
+	{
 		label = l;
 	}
 
 	/**
 	 * Set the node
-	 * 
+	 *
 	 * @param ATermAppl The node
 	 */
-	public void setNode(ATermAppl n){
+	public void setNode(final ATermAppl n)
+	{
 		node = n;
-	}	
-	
+	}
+
 	/**
 	 * Get the label
-	 * 
+	 *
 	 * @return ATermAppl The label
 	 */
-	public ATermAppl getLabel(){
+	public ATermAppl getLabel()
+	{
 		return label;
 	}
 
 	/**
 	 * Get the node
-	 * 
+	 *
 	 * @return ATermAppl The node
 	 */
-	public ATermAppl getNode(){
+	public ATermAppl getNode()
+	{
 		return node;
 	}
 }

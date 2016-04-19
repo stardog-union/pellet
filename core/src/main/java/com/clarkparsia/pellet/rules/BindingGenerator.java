@@ -19,9 +19,10 @@ package com.clarkparsia.pellet.rules;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public interface BindingGenerator extends Iterable<VariableBinding> {
+public interface BindingGenerator extends Iterable<VariableBinding>
+{
 
 }

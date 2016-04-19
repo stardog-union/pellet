@@ -8,17 +8,12 @@
 
 package com.clarkparsia.pellet.test.query;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
-import org.mindswap.pellet.jena.PelletInfGraph;
-import org.mindswap.pellet.jena.PelletReasonerFactory;
-import org.mindswap.pellet.utils.URIUtils;
-
 import com.clarkparsia.jena.test.ResourceImportLoader;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Dataset;
@@ -27,6 +22,9 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileManager;
 import org.apache.jena.util.FileUtils;
+import org.mindswap.pellet.jena.PelletInfGraph;
+import org.mindswap.pellet.jena.PelletReasonerFactory;
+import org.mindswap.pellet.utils.URIUtils;
 
 /**
  * <p>
@@ -41,22 +39,23 @@ import org.apache.jena.util.FileUtils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class PelletSparqlDawgTester extends ARQSparqlDawgTester {
-	public static boolean			CLASSIFY_KB_IN_ADVANCE			= false;
+public class PelletSparqlDawgTester extends ARQSparqlDawgTester
+{
+	public static boolean CLASSIFY_KB_IN_ADVANCE = false;
 
-	private List<String>			avoidList						= Arrays.asList( new String[] {
-																	// FIXME
-																	// with some
-																	// effort
-																	// some of
-																	// the
-																	// following
-																	// queries
-																	// can be
-																	// handled
+	private final List<String> avoidList = Arrays.asList(new String[] {
+			// FIXME
+			// with some
+			// effort
+			// some of
+			// the
+			// following
+			// queries
+			// can be
+			// handled
 
 			// The following test assumes simple entailment but Pellet does
 			// D-entailment
@@ -101,88 +100,78 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester {
 
 			// ?x p "+3"^^xsd:int does not match "3"^^xsd:int
 			"unplus-1",
-			
+
 			// ?x p "01"^^xsd:int does not match "1"^^xsd:int
 			"open-eq-03",
-
 
 			// The following tests will not pass because they require
 			// alternative literal forms in results. Mostly, this is
 			// xsd:integer when Pellet returns xsd:decimal
 
-			"var-1", "var-2",
-			"open-eq-04",
-			"nested-opt-1", "nested-opt-2", "opt-filter-1", "opt-filter-2", "filter-scope-1",
-			"dawg-optional-complex-2",
-			"dawg-optional-filter-001", "dawg-optional-filter-002", "dawg-optional-filter-003", "dawg-optional-filter-005-simplified",
-			"dawg-graph-01", "dawg-graph-03", "dawg-graph-05", "dawg-graph-06", "dawg-graph-07", "dawg-graph-08", "dawg-graph-11",
-			"dawg-dataset-01", "dawg-dataset-03", "dawg-dataset-05", "dawg-dataset-06", "dawg-dataset-07", "dawg-dataset-08", "dawg-dataset-11", "dawg-dataset-12", "dawg-dataset-12b",
-			"no-distinct-1", "distinct-1",
-			"dawg-sort-4", "dawg-sort-5", "dawg-sort-7", "dawg-sort-9", "dawg-sort-10",
-			"limit-1", "limit-2", "limit-4", "offset-1", "offset-2", "offset-4", "slice-1", "slice-2", "slice-4", "slice-5"
-																	} );
+			"var-1", "var-2", "open-eq-04", "nested-opt-1", "nested-opt-2", "opt-filter-1", "opt-filter-2", "filter-scope-1", "dawg-optional-complex-2", "dawg-optional-filter-001", "dawg-optional-filter-002", "dawg-optional-filter-003", "dawg-optional-filter-005-simplified", "dawg-graph-01", "dawg-graph-03", "dawg-graph-05", "dawg-graph-06", "dawg-graph-07", "dawg-graph-08", "dawg-graph-11", "dawg-dataset-01", "dawg-dataset-03", "dawg-dataset-05", "dawg-dataset-06", "dawg-dataset-07", "dawg-dataset-08", "dawg-dataset-11", "dawg-dataset-12", "dawg-dataset-12b", "no-distinct-1", "distinct-1", "dawg-sort-4", "dawg-sort-5", "dawg-sort-7", "dawg-sort-9", "dawg-sort-10", "limit-1", "limit-2", "limit-4", "offset-1", "offset-2", "offset-4", "slice-1", "slice-2", "slice-4", "slice-5" });
 
-	protected QueryEngineType 		queryEngineType;
+	protected QueryEngineType queryEngineType;
 
-	protected boolean				handleVariableSPO				= true;
+	protected boolean handleVariableSPO = true;
 
-	public PelletSparqlDawgTester(QueryEngineType queryEngineType, boolean handleVariableSPO) {
+	public PelletSparqlDawgTester(final QueryEngineType queryEngineType, final boolean handleVariableSPO)
+	{
 		this.queryEngineType = queryEngineType;
 		this.handleVariableSPO = handleVariableSPO;
 	}
 
 	@Override
-	protected Dataset createDataset() {
-		boolean useQueryGraphs = !query.getGraphURIs().isEmpty()
-				|| !query.getNamedGraphURIs().isEmpty();
+	protected Dataset createDataset()
+	{
+		final boolean useQueryGraphs = !query.getGraphURIs().isEmpty() || !query.getNamedGraphURIs().isEmpty();
 
-		Collection<String> graphURIs = useQueryGraphs
-			? query.getGraphURIs()
-			: this.graphURIs;
-		// this handler will intercept all import resolution failures and will
-		// try to load imports from resources (helps run these tests with maven) 	
-		OntDocumentManager.getInstance().setReadFailureHandler(new ResourceImportLoader());	
+		final Collection<String> graphURIs = useQueryGraphs ? query.getGraphURIs() : this.graphURIs;
+				// this handler will intercept all import resolution failures and will
+				// try to load imports from resources (helps run these tests with maven)
+				OntDocumentManager.getInstance().setReadFailureHandler(new ResourceImportLoader());
 
-		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
+		OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		for( String dataURI : graphURIs ) {
-			model.read(dataURI, FileUtils.guessLang(dataURI));
-		}
+				for (final String dataURI : graphURIs)
+					model.read(dataURI, FileUtils.guessLang(dataURI));
 
-		model.prepare();
+				model.prepare();
 
-		if( PelletSparqlDawgTester.CLASSIFY_KB_IN_ADVANCE ) {
-			((PelletInfGraph) (model.getGraph())).getKB().classify();
-		}
+				if (PelletSparqlDawgTester.CLASSIFY_KB_IN_ADVANCE)
+					((PelletInfGraph) (model.getGraph())).getKB().classify();
 
-		Dataset dataset = DatasetFactory.create( model );
+				final Dataset dataset = DatasetFactory.create(model);
 
-		Collection<String> namedGraphURIs = useQueryGraphs
-			? query.getNamedGraphURIs()
-			: this.namedGraphURIs;
+				final Collection<String> namedGraphURIs = useQueryGraphs ? query.getNamedGraphURIs() : this.namedGraphURIs;
 
-		for( String graphURI : namedGraphURIs ) {
-			model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-			FileManager.get().readModel( model, graphURI );
-			dataset.addNamedModel( graphURI, model );
-		}
+						for (final String graphURI : namedGraphURIs)
+		{
+							model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+							FileManager.get().readModel(model, graphURI);
+							dataset.addNamedModel(graphURI, model);
+						}
 
-		return dataset;
+						return dataset;
 	}
 
 	@Override
-	protected QueryExecution createQueryExecution() {		
-		return SparqlDLExecutionFactory.create( query, createDataset(), null, queryEngineType, handleVariableSPO );		
+	protected QueryExecution createQueryExecution()
+	{
+		return SparqlDLExecutionFactory.create(query, createDataset(), null, queryEngineType, handleVariableSPO);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isApplicable(String uri) {
-		return !avoidList.contains( URIUtils.getLocalName( uri ) );
+	@Override
+	public boolean isApplicable(final String uri)
+	{
+		return !avoidList.contains(URIUtils.getLocalName(uri));
 	}
 
-	public String getName() {		
+	@Override
+	public String getName()
+	{
 		return queryEngineType.toString();
 	}
 }

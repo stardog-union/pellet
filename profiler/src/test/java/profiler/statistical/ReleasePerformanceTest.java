@@ -72,7 +72,7 @@ public class ReleasePerformanceTest {
 	{
 		loadProperties( "profiler/releasetesting.properties");		
 
-		List<Object[]> params = new ArrayList<Object[]>();
+		List<Object[]> params = new ArrayList<>();
 
 		ReleaseManager manager = new ReleaseManager();
 		manager.load(RELEASE_REPOSITORY);
@@ -179,7 +179,7 @@ public class ReleasePerformanceTest {
 		pkb.setTask(TASK);
 
 		//Get all the results for the current release
-		Map<String, List<Result<Task>>> results = new LinkedHashMap<String, List<Result<Task>>>();
+		Map<String, List<Result<Task>>> results = new LinkedHashMap<>();
 		BufferedReader reader = new BufferedReader(new FileReader(ONTOLOGIES));		
 		String line;
 		
@@ -208,7 +208,7 @@ public class ReleasePerformanceTest {
 
 			for(int i=0; i<ITERATIONS; i++)
 			{
-				List<Result<Task>> res = new ArrayList<Result<Task>>(pkb.profile( files ));
+				List<Result<Task>> res = new ArrayList<>(pkb.profile( files ));
 				List<Result<Task>> previousRes = results.get(name);
 				if(previousRes == null)
 					results.put(name, res);
@@ -224,7 +224,7 @@ public class ReleasePerformanceTest {
 		//Extract the necessary statistics from the results
 		for(Entry<String, List<Result<Task>>> entry: results.entrySet())
 		{
-			List<ReleaseStatistics> stats = new ArrayList<ReleaseStatistics>();
+			List<ReleaseStatistics> stats = new ArrayList<>();
 			for(Result<Task> task: entry.getValue())
 				stats.add(new ReleaseStatistics(task));
 			current.addStatistics(entry.getKey(), stats);

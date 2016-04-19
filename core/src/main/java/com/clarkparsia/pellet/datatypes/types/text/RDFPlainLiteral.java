@@ -1,22 +1,19 @@
 package com.clarkparsia.pellet.datatypes.types.text;
 
-import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.Namespaces;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.datatypes.AbstractBaseDatatype;
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
+import org.mindswap.pellet.utils.ATermUtils;
+import org.mindswap.pellet.utils.Namespaces;
 
 /**
  * <p>
  * Title: <code>rdf:plainLiteral</code>
  * </p>
  * <p>
- * Description: Singleton implementation of <code>rdf:plainLiteral</code>
- * datatype
+ * Description: Singleton implementation of <code>rdf:plainLiteral</code> datatype
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -24,66 +21,86 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class RDFPlainLiteral extends AbstractBaseDatatype<ATermAppl> {
+public class RDFPlainLiteral extends AbstractBaseDatatype<ATermAppl>
+{
 
-	private static final RDFPlainLiteral	instance;
+	private static final RDFPlainLiteral instance;
 
-	static {
+	static
+	{
 		instance = new RDFPlainLiteral();
-		RestrictedTextDatatype.addPermittedDatatype( instance.getName() );
+		RestrictedTextDatatype.addPermittedDatatype(instance.getName());
 	}
 
-	public static RDFPlainLiteral getInstance() {
+	public static RDFPlainLiteral getInstance()
+	{
 		return instance;
 	}
 
-	private final RestrictedTextDatatype	dataRange;
+	private final RestrictedTextDatatype dataRange;
 
-	private RDFPlainLiteral() {
-		super( ATermUtils.makeTermAppl( Namespaces.RDF + "PlainLiteral" ) );
-		dataRange = new RestrictedTextDatatype( this, true );
+	private RDFPlainLiteral()
+	{
+		super(ATermUtils.makeTermAppl(Namespaces.RDF + "PlainLiteral"));
+		dataRange = new RestrictedTextDatatype(this, true);
 	}
 
-	public RestrictedDatatype<ATermAppl> asDataRange() {
+	@Override
+	public RestrictedDatatype<ATermAppl> asDataRange()
+	{
 		return dataRange;
 	}
 
-	public ATermAppl getCanonicalRepresentation(ATermAppl input) throws InvalidLiteralException {
-		return getValue( input );
+	@Override
+	public ATermAppl getCanonicalRepresentation(final ATermAppl input) throws InvalidLiteralException
+	{
+		return getValue(input);
 	}
 
-	public ATermAppl getLiteral(Object value) {
-		if( value instanceof ATermAppl ) {
+	@Override
+	public ATermAppl getLiteral(final Object value)
+	{
+		if (value instanceof ATermAppl)
+		{
 			final ATermAppl literal = (ATermAppl) value;
-			try {
-				return getCanonicalRepresentation( literal );
-			} catch( InvalidLiteralException e ) {
-				throw new IllegalStateException( e );
+			try
+			{
+				return getCanonicalRepresentation(literal);
+			}
+			catch (final InvalidLiteralException e)
+			{
+				throw new IllegalStateException(e);
 			}
 		}
 		else
 			throw new IllegalArgumentException();
 	}
 
-	public Datatype<?> getPrimitiveDatatype() {
+	@Override
+	public Datatype<?> getPrimitiveDatatype()
+	{
 		return this;
 	}
 
-	public ATermAppl getValue(ATermAppl literal) throws InvalidLiteralException {
+	@Override
+	public ATermAppl getValue(final ATermAppl literal) throws InvalidLiteralException
+	{
 		/*
 		 * This call checks that the input is a literal and the datatype name
 		 * matches. The return value is not needed because plain literal values
 		 * cannot be canonicalized.
 		 */
-		getLexicalForm( literal );
+		getLexicalForm(literal);
 
 		return literal;
 	}
 
-	public boolean isPrimitive() {
+	@Override
+	public boolean isPrimitive()
+	{
 		return true;
 	}
 }

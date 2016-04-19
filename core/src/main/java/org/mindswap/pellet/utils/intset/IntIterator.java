@@ -7,18 +7,24 @@
 package org.mindswap.pellet.utils.intset;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2007
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public interface IntIterator {
+public interface IntIterator
+{
 	public boolean hasNext();
-	
+
 	public int next();
 }

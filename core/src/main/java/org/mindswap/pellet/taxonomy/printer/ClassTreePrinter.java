@@ -30,80 +30,93 @@
 
 package org.mindswap.pellet.taxonomy.printer;
 
+import aterm.ATermAppl;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Set;
-
-import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.QNameProvider;
 import org.mindswap.pellet.utils.TaxonomyUtils;
 
-import aterm.ATermAppl;
-
 /**
- * <p>Title: </p>
- *
- * <p>Description: Specialized tree printer for class hierarchies that prints instaces for each class</p>
- *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description: Specialized tree printer for class hierarchies that prints instaces for each class
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2007
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class ClassTreePrinter extends TreeTaxonomyPrinter<ATermAppl> implements TaxonomyPrinter<ATermAppl> {
-	private QNameProvider qnames = new QNameProvider();
-	
-	public ClassTreePrinter() {
-	}
-	
-	@Override
-	protected void printNode(Set<ATermAppl> set) {
-		super.printNode( set );
-		
-		Set<ATermAppl> instances = TaxonomyUtils.getDirectInstances( taxonomy, set.iterator().next() );
-		if(instances.size() > 0) {
-			out.print(" - (");
-			boolean printed = false;
-			int anonCount = 0;
-			Iterator<ATermAppl> ins = instances.iterator();			
-			for(int k = 0; ins.hasNext(); k++) {
-				ATermAppl x = ins.next();
-				
-				if( ATermUtils.isBnode( x ) ) {
-				    anonCount++;
-				}
-				else {
-				    if(printed) 
-				        out.print(", ");
-				    else
-				        printed = true;
-				    printURI(out, x);
-				}				
-			}
-			if(anonCount > 0) {
-			    if(printed) out.print(", ");
-			    out.print(anonCount + " Anonymous Individual");
-			    if(anonCount > 1) out.print("s");
-			}
-			out.print(")");
-		}	
+public class ClassTreePrinter extends TreeTaxonomyPrinter<ATermAppl> implements TaxonomyPrinter<ATermAppl>
+{
+	private final QNameProvider qnames = new QNameProvider();
+
+	public ClassTreePrinter()
+	{
 	}
 
 	@Override
-	protected void printURI(PrintWriter out, ATermAppl c) {
-	    String str = null;
-	    
-		if(c.equals(ATermUtils.TOP)) 
+	protected void printNode(final Set<ATermAppl> set)
+	{
+		super.printNode(set);
+
+		final Set<ATermAppl> instances = TaxonomyUtils.getDirectInstances(taxonomy, set.iterator().next());
+		if (instances.size() > 0)
+		{
+			out.print(" - (");
+			boolean printed = false;
+			int anonCount = 0;
+			final Iterator<ATermAppl> ins = instances.iterator();
+			for (int k = 0; ins.hasNext(); k++)
+			{
+				final ATermAppl x = ins.next();
+
+				if (ATermUtils.isBnode(x))
+					anonCount++;
+				else
+				{
+					if (printed)
+						out.print(", ");
+					else
+						printed = true;
+					printURI(out, x);
+				}
+			}
+			if (anonCount > 0)
+			{
+				if (printed)
+					out.print(", ");
+				out.print(anonCount + " Anonymous Individual");
+				if (anonCount > 1)
+					out.print("s");
+			}
+			out.print(")");
+		}
+	}
+
+	@Override
+	protected void printURI(final PrintWriter out, final ATermAppl c)
+	{
+		String str = null;
+
+		if (c.equals(ATermUtils.TOP))
 			str = "owl:Thing";
-		else if(c.equals(ATermUtils.BOTTOM))
-			str = "owl:Nothing";
-		else if( ATermUtils.isPrimitive( c ) ) 
-			str = qnames.shortForm( c.getName() );		
 		else
-			str = c.toString();
-		
-		out.print( str );		
+			if (c.equals(ATermUtils.BOTTOM))
+				str = "owl:Nothing";
+			else
+				if (ATermUtils.isPrimitive(c))
+					str = qnames.shortForm(c.getName());
+				else
+					str = c.toString();
+
+		out.print(str);
 	}
 }

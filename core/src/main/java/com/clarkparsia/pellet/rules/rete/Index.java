@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.mindswap.pellet.utils.Pair;
 
 /**
@@ -21,8 +20,7 @@ import org.mindswap.pellet.utils.Pair;
  * Title: Index
  * </p>
  * <p>
- * Description: An indexing structure that associates an
- * object with a list of objects as the key.
+ * Description: An indexing structure that associates an object with a list of objects as the key.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -30,210 +28,224 @@ import org.mindswap.pellet.utils.Pair;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class Index<S, T> implements Iterable<T> {
+public class Index<S, T> implements Iterable<T>
+{
 
-	private static class IndexNode<I, J> {
-		private Map<I, IndexNode<I, J>>	children;
-		private Collection<J>			leaves;
+	private static class IndexNode<I, J>
+	{
+		private final Map<I, IndexNode<I, J>> children;
+		private final Collection<J> leaves;
 
-		public IndexNode() {
-			children = new HashMap<I, IndexNode<I, J>>();
-			leaves = new HashSet<J>();
+		public IndexNode()
+		{
+			children = new HashMap<>();
+			leaves = new HashSet<>();
 		}
 
-		public boolean add(List<I> key, J obj) {
-			if( key.size() == 0 ) {
-				return leaves.add( obj );
-			}
-			else {
-				I pivot = key.get( 0 );
-				IndexNode<I, J> child = children.get( pivot );
-				if( child == null ) {
-					child = new IndexNode<I, J>();
-					children.put( pivot, child );
+		public boolean add(final List<I> key, final J obj)
+		{
+			if (key.size() == 0)
+				return leaves.add(obj);
+			else
+			{
+				final I pivot = key.get(0);
+				IndexNode<I, J> child = children.get(pivot);
+				if (child == null)
+				{
+					child = new IndexNode<>();
+					children.put(pivot, child);
 				}
-				return child.add( key.subList( 1, key.size() ), obj );
+				return child.add(key.subList(1, key.size()), obj);
 			}
 		}
 
-		private Collection<J> getAllLeaves() {
-			Collection<J> results = new ArrayList<J>();
-			getAllLeaves( results );
+		private Collection<J> getAllLeaves()
+		{
+			final Collection<J> results = new ArrayList<>();
+			getAllLeaves(results);
 			return results;
 		}
 
-		private void getAllLeaves(Collection<J> result) {
-			result.addAll( leaves );
-			for( IndexNode<I, J> child : children.values() ) {
-				child.getAllLeaves( result );
-			}
-		}
-		
-		public <V> void join(IndexNode<I, V> node, int shared, Collection<Pair<J, V>> results) {
-			if( shared > 0 ) {
-				for( Map.Entry<I, IndexNode<I, J>> entry : children.entrySet() ) {
-					if( entry.getKey() != null ) {
-						IndexNode<I, V> nodeChild = node.children.get( entry.getKey() );
-						if( nodeChild != null ) {
-							entry.getValue().join( nodeChild, shared - 1, results );
-						}
-
-						IndexNode<I, V> nullNodeChild = node.children.get( null );
-						if( nullNodeChild != null ) {
-							entry.getValue().join( nullNodeChild, shared - 1, results );
-						}
-					}
-					else {
-						for( IndexNode<I, V> child : node.children.values() ) {
-							entry.getValue().join( child, shared - 1, results );
-						}
-					}
-				}
-			}
-			else {
-				for( J leaf : getAllLeaves() ) {
-					for( V joinLeaf : node.getAllLeaves() ) {
-						results.add( new Pair<J, V>( leaf, joinLeaf ) );
-					}
-				}
-			}
+		private void getAllLeaves(final Collection<J> result)
+		{
+			result.addAll(leaves);
+			for (final IndexNode<I, J> child : children.values())
+				child.getAllLeaves(result);
 		}
 
-		public void match(List<I> key, Collection<J> results) {
-			if( key.size() == 0 ) {
-				results.addAll( leaves );
+		public <V> void join(final IndexNode<I, V> node, final int shared, final Collection<Pair<J, V>> results)
+		{
+			if (shared > 0)
+			{
+				for (final Map.Entry<I, IndexNode<I, J>> entry : children.entrySet())
+					if (entry.getKey() != null)
+					{
+						final IndexNode<I, V> nodeChild = node.children.get(entry.getKey());
+						if (nodeChild != null)
+							entry.getValue().join(nodeChild, shared - 1, results);
+
+						final IndexNode<I, V> nullNodeChild = node.children.get(null);
+						if (nullNodeChild != null)
+							entry.getValue().join(nullNodeChild, shared - 1, results);
+					}
+					else
+						for (final IndexNode<I, V> child : node.children.values())
+							entry.getValue().join(child, shared - 1, results);
 			}
-			else {
-				List<I> subKey = key.subList( 1, key.size() );
+			else
+				for (final J leaf : getAllLeaves())
+					for (final V joinLeaf : node.getAllLeaves())
+						results.add(new Pair<>(leaf, joinLeaf));
+		}
 
-				IndexNode<I, J> pivotChild = children.get( key.get( 0 ) );
-				if( pivotChild != null )
-					pivotChild.match( subKey, results );
+		public void match(final List<I> key, final Collection<J> results)
+		{
+			if (key.size() == 0)
+				results.addAll(leaves);
+			else
+			{
+				final List<I> subKey = key.subList(1, key.size());
 
-				IndexNode<I, J> nullChild = children.get( null );
-				if( nullChild != null )
-					nullChild.match( subKey, results );
+				final IndexNode<I, J> pivotChild = children.get(key.get(0));
+				if (pivotChild != null)
+					pivotChild.match(subKey, results);
+
+				final IndexNode<I, J> nullChild = children.get(null);
+				if (nullChild != null)
+					nullChild.match(subKey, results);
 			}
 		}
 
-		public void print(StringBuilder buffer, String prefix) {
-			if( leaves.size() > 0 ) {
-				buffer.append( leaves.toString() );
-			}
-			buffer.append( ":\n" );
+		public void print(final StringBuilder buffer, String prefix)
+		{
+			if (leaves.size() > 0)
+				buffer.append(leaves.toString());
+			buffer.append(":\n");
 			prefix = prefix + " ";
-			for( Map.Entry<I, IndexNode<I, J>> entry : children.entrySet() ) {
-				buffer.append( prefix ).append( entry.getKey() ).append( " " );
-				entry.getValue().print( buffer, prefix );
+			for (final Map.Entry<I, IndexNode<I, J>> entry : children.entrySet())
+			{
+				buffer.append(prefix).append(entry.getKey()).append(" ");
+				entry.getValue().print(buffer, prefix);
 			}
 		}
-		
-		public boolean remove( List<I> key, J obj ) {
-			if( key.size() == 0 ) {
-				return leaves.remove( obj );
-			}
-			else {
-				I pivot = key.get( 0 );
-				IndexNode<I, J> child = children.get( pivot );
-				if( child == null ) {
+
+		public boolean remove(final List<I> key, final J obj)
+		{
+			if (key.size() == 0)
+				return leaves.remove(obj);
+			else
+			{
+				final I pivot = key.get(0);
+				final IndexNode<I, J> child = children.get(pivot);
+				if (child == null)
 					return false;
-				}
-				boolean result = child.remove( key.subList( 1, key.size() ), obj );
-				if ( result && child.leaves.isEmpty() )
-					children.remove( child );
+				final boolean result = child.remove(key.subList(1, key.size()), obj);
+				if (result && child.leaves.isEmpty())
+					children.remove(child);
 				return result;
 			}
 		}
 
-		public String toString() {
-			StringBuilder result = new StringBuilder( "Index Node " );
-			print( result, "" );
+		@Override
+		public String toString()
+		{
+			final StringBuilder result = new StringBuilder("Index Node ");
+			print(result, "");
 			return result.toString();
 		}
 
 	}
-	
-	private int size;
-	private IndexNode<S, T>	root;
 
-	public Index() {
+	private int size;
+	private IndexNode<S, T> root;
+
+	public Index()
+	{
 		clear();
 	}
 
 	/**
 	 * Add an object to the index.
-	 * @param key null key positions are counted as wild-cards.  
+	 * 
+	 * @param key null key positions are counted as wild-cards.
 	 * @param obj
 	 * @return
 	 */
-	public boolean add(List<S> key, T obj) {
-		if ( root.add( key, obj ) ) {
+	public boolean add(final List<S> key, final T obj)
+	{
+		if (root.add(key, obj))
+		{
 			size++;
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Remove all nodes from the index.
 	 */
-	public void clear() {
-		root = new IndexNode<S, T>();
+	public void clear()
+	{
+		root = new IndexNode<>();
 		size = 0;
 	}
 
-
-	public Iterator<T> iterator() {
+	@Override
+	public Iterator<T> iterator()
+	{
 		return root.getAllLeaves().iterator();
 	}
-	
+
 	/**
-	 * Return a join of this index to the given index, joining on the first
-	 * <code>shared</code> variables.
+	 * Return a join of this index to the given index, joining on the first <code>shared</code> variables.
 	 */
-	public <U> Collection<Pair<T, U>> join(Index<S, U> index, int shared) {
-		Collection<Pair<T, U>> results = new ArrayList<Pair<T, U>>();
-		root.join( index.root, shared, results );
+	public <U> Collection<Pair<T, U>> join(final Index<S, U> index, final int shared)
+	{
+		final Collection<Pair<T, U>> results = new ArrayList<>();
+		root.join(index.root, shared, results);
 		return results;
 	}
 
 	/**
-	 * Return all matches to the key.  There may be no null values in the key.
-	 * The returned objects will be stored under keys whose elements
-	 * are either equal to the corresponding element of the given key or are null.
+	 * Return all matches to the key. There may be no null values in the key. The returned objects will be stored under keys whose elements are either equal to
+	 * the corresponding element of the given key or are null.
 	 */
-	public Collection<T> match(List<S> key) {
-		Collection<T> results = new ArrayList<T>();
-		root.match( key, results );
+	public Collection<T> match(final List<S> key)
+	{
+		final Collection<T> results = new ArrayList<>();
+		root.match(key, results);
 		return results;
 	}
-	
+
 	/**
-	 * Remove the element of the index stored under the key 'key'.
-	 * Return true if the element exists and was removed.
-	 * Otherwise, remove false.
+	 * Remove the element of the index stored under the key 'key'. Return true if the element exists and was removed. Otherwise, remove false.
 	 */
-	public boolean remove( List<S> key, T obj ) {
-		if ( root.remove( key, obj ) ) {
+	public boolean remove(final List<S> key, final T obj)
+	{
+		if (root.remove(key, obj))
+		{
 			size--;
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Return the number of objects added to the index.
 	 */
-	public int size() {
+	public int size()
+	{
 		return size;
 	}
 
-	public String toString() {
-		StringBuilder buffer = new StringBuilder( "Index " );
-		root.print( buffer, "" );
+	@Override
+	public String toString()
+	{
+		final StringBuilder buffer = new StringBuilder("Index ");
+		root.print(buffer, "");
 
 		return buffer.toString();
 	}

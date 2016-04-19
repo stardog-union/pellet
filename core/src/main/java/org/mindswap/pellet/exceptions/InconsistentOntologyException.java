@@ -22,15 +22,17 @@
 
 package org.mindswap.pellet.exceptions;
 
+public class InconsistentOntologyException extends PelletRuntimeException
+{
+	private static final long serialVersionUID = 2024765932121830884L;
 
-public class InconsistentOntologyException extends PelletRuntimeException {
-	private static final long	serialVersionUID	= 2024765932121830884L;
-
-	public InconsistentOntologyException() {
+	public InconsistentOntologyException()
+	{
 		super();
 	}
 
-	public InconsistentOntologyException(String e) {
-		super( e );
+	public InconsistentOntologyException(final String e)
+	{
+		super(e);
 	}
 }

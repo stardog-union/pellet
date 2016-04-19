@@ -9,6 +9,7 @@ package pellet;
 /**
  * @author Evren Sirin
  */
-public enum PelletCmdOptionArg {
+public enum PelletCmdOptionArg
+{
 	NONE, OPTIONAL, REQUIRED
 }

@@ -23,10 +23,11 @@ import org.apache.jena.rdf.model.ResourceFactory;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class EarlResultVocabulary {
+public class EarlResultVocabulary
+{
 
 	public static final String doapBase = "http://usefulinc.com/ns/doap#";
 
@@ -34,22 +35,16 @@ public class EarlResultVocabulary {
 
 	// DOAP
 	// general classes
-	public static final Resource Project = ResourceFactory
-			.createResource(doapBase + "Project");
+	public static final Resource Project = ResourceFactory.createResource(doapBase + "Project");
 
-	public static final Resource Version = ResourceFactory
-			.createResource(doapBase + "Version");
+	public static final Resource Version = ResourceFactory.createResource(doapBase + "Version");
 
 	// general properties
-	public static final Property doapName = ResourceFactory
-			.createProperty(doapBase + "name");
+	public static final Property doapName = ResourceFactory.createProperty(doapBase + "name");
 
-	public static final Property created = ResourceFactory
-			.createProperty(doapBase + "created");
+	public static final Property created = ResourceFactory.createProperty(doapBase + "created");
 
-	public static final Property release = ResourceFactory
-			.createProperty(doapBase + "release");
+	public static final Property release = ResourceFactory.createProperty(doapBase + "release");
 
-	public static final Property revision = ResourceFactory
-			.createProperty(doapBase + "release");
+	public static final Property revision = ResourceFactory.createProperty(doapBase + "release");
 }

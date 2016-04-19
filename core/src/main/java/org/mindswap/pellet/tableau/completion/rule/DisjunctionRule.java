@@ -8,10 +8,11 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
+import aterm.ATermAppl;
+import aterm.ATermList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.PelletOptions;
@@ -20,9 +21,6 @@ import org.mindswap.pellet.tableau.branch.DisjunctionBranch;
 import org.mindswap.pellet.tableau.completion.CompletionStrategy;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
-import aterm.ATermList;
 
 /**
  * <p>
@@ -37,73 +35,74 @@ import aterm.ATermList;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class DisjunctionRule extends AbstractTableauRule {
-	public DisjunctionRule(CompletionStrategy strategy) {
-		super( strategy, NodeSelector.DISJUNCTION, BlockingType.COMPLETE );
+public class DisjunctionRule extends AbstractTableauRule
+{
+	public DisjunctionRule(final CompletionStrategy strategy)
+	{
+		super(strategy, NodeSelector.DISJUNCTION, BlockingType.COMPLETE);
 	}
 
-	public void apply(Individual node) {
-		if( !node.canApply( Node.OR ) )
+	@Override
+	public void apply(final Individual node)
+	{
+		if (!node.canApply(Node.OR))
 			return;
 
-		List<ATermAppl> types = node.getTypes( Node.OR );
+		final List<ATermAppl> types = node.getTypes(Node.OR);
 
-		int size = types.size();
-		ATermAppl[] disjunctions = new ATermAppl[size - node.applyNext[Node.OR]];
-		types.subList( node.applyNext[Node.OR], size ).toArray( disjunctions );
-		if( PelletOptions.USE_DISJUNCTION_SORTING != PelletOptions.NO_SORTING )
-			sortDisjunctions( node, disjunctions );
+		final int size = types.size();
+		final ATermAppl[] disjunctions = new ATermAppl[size - node.applyNext[Node.OR]];
+		types.subList(node.applyNext[Node.OR], size).toArray(disjunctions);
+		if (PelletOptions.USE_DISJUNCTION_SORTING != PelletOptions.NO_SORTING)
+			sortDisjunctions(node, disjunctions);
 
-		for( int j = 0, n = disjunctions.length; j < n; j++ ) {
-			ATermAppl disjunction = disjunctions[j];
+		for (final ATermAppl disjunction : disjunctions)
+		{
+			applyDisjunctionRule(node, disjunction);
 
-			applyDisjunctionRule( node, disjunction );
-
-			if( strategy.getABox().isClosed() || node.isMerged() )
+			if (strategy.getABox().isClosed() || node.isMerged())
 				return;
 		}
 		node.applyNext[Node.OR] = size;
 	}
 
-	private static void sortDisjunctions(final Individual node, ATermAppl[] disjunctions) {
-		if( PelletOptions.USE_DISJUNCTION_SORTING == PelletOptions.OLDEST_FIRST ) {
-			Comparator<ATermAppl> comparator = new Comparator<ATermAppl>() {
-				public int compare(ATermAppl d1, ATermAppl d2) {
-					return node.getDepends( d1 ).max() - node.getDepends( d2 ).max();
-				}
-			};
+	private static void sortDisjunctions(final Individual node, final ATermAppl[] disjunctions)
+	{
+		if (PelletOptions.USE_DISJUNCTION_SORTING == PelletOptions.OLDEST_FIRST)
+		{
+			final Comparator<ATermAppl> comparator = (d1, d2) -> node.getDepends(d1).max() - node.getDepends(d2).max();
 
-			Arrays.sort( disjunctions, comparator );
+			Arrays.sort(disjunctions, comparator);
 		}
 		else
-			throw new InternalReasonerException( "Unknown disjunction sorting option "
-					+ PelletOptions.USE_DISJUNCTION_SORTING );
+			throw new InternalReasonerException("Unknown disjunction sorting option " + PelletOptions.USE_DISJUNCTION_SORTING);
 	}
 
 	/**
 	 * Apply the disjunction rule to an specific label for an individual
-	 * 
+	 *
 	 * @param node
 	 * @param disjunction
 	 */
-	protected void applyDisjunctionRule(Individual node, ATermAppl disjunction) {
+	protected void applyDisjunctionRule(final Individual node, final ATermAppl disjunction)
+	{
 		// disjunction is now in the form not(and([not(d1), not(d2), ...]))
-		ATermAppl a = (ATermAppl) disjunction.getArgument( 0 );
-		ATermList disjuncts = (ATermList) a.getArgument( 0 );
-		ATermAppl[] disj = new ATermAppl[disjuncts.getLength()];
+		final ATermAppl a = (ATermAppl) disjunction.getArgument(0);
+		ATermList disjuncts = (ATermList) a.getArgument(0);
+		final ATermAppl[] disj = new ATermAppl[disjuncts.getLength()];
 
-		for( int index = 0; !disjuncts.isEmpty(); disjuncts = disjuncts.getNext(), index++ ) {
-			disj[index] = ATermUtils.negate( (ATermAppl) disjuncts.getFirst() );
-			if( node.hasType( disj[index] ) )
+		for (int index = 0; !disjuncts.isEmpty(); disjuncts = disjuncts.getNext(), index++)
+		{
+			disj[index] = ATermUtils.negate((ATermAppl) disjuncts.getFirst());
+			if (node.hasType(disj[index]))
 				return;
 		}
 
-		DisjunctionBranch newBranch = new DisjunctionBranch( strategy.getABox(), strategy, node,
-				disjunction, node.getDepends( disjunction ), disj );
-		strategy.addBranch( newBranch );
+		final DisjunctionBranch newBranch = new DisjunctionBranch(strategy.getABox(), strategy, node, disjunction, node.getDepends(disjunction), disj);
+		strategy.addBranch(newBranch);
 
 		newBranch.tryNext();
 	}

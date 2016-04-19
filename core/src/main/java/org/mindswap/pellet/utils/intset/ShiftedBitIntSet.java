@@ -8,7 +8,6 @@ package org.mindswap.pellet.utils.intset;
 
 import java.util.NoSuchElementException;
 
-
 /**
  * <p>
  * Title:
@@ -22,77 +21,100 @@ import java.util.NoSuchElementException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class ShiftedBitIntSet extends BitIntSet {
-	private int	min	= Integer.MAX_VALUE;
+public class ShiftedBitIntSet extends BitIntSet
+{
+	private int min = Integer.MAX_VALUE;
 
-	public ShiftedBitIntSet() {
+	public ShiftedBitIntSet()
+	{
 		super();
 	}
 
-	public ShiftedBitIntSet(ShiftedBitIntSet other) {
-		super( other );
+	public ShiftedBitIntSet(final ShiftedBitIntSet other)
+	{
+		super(other);
 
 		min = other.min;
 	}
 
-	public void add(int value) {
-		if( isEmpty() ) {
+	@Override
+	public void add(final int value)
+	{
+		if (isEmpty())
+		{
 			min = value;
-			super.add( 0 );
+			super.add(0);
 		}
-		else if( value >= min ) {
-			super.add( value - min );
-		}
-		else {
-			throw new UnsupportedOperationException( "Not implemented" );
-		}
+		else
+			if (value >= min)
+				super.add(value - min);
+			else
+				throw new UnsupportedOperationException("Not implemented");
 	}
 
-	public boolean contains(int value) {
-		if( value >= min )
-			return super.contains( value - min );
+	@Override
+	public boolean contains(final int value)
+	{
+		if (value >= min)
+			return super.contains(value - min);
 		else
 			return false;
 	}
 
-	public IntSet copy() {
-		return new ShiftedBitIntSet( this );
+	@Override
+	public IntSet copy()
+	{
+		return new ShiftedBitIntSet(this);
 	}
 
-	public IntIterator iterator() {
-		return new IntIterator() {
-			private IntIterator base = ShiftedBitIntSet.super.iterator();
+	@Override
+	public IntIterator iterator()
+	{
+		return new IntIterator()
+		{
+			private final IntIterator base = ShiftedBitIntSet.super.iterator();
 
-			public boolean hasNext() {
+			@Override
+			public boolean hasNext()
+			{
 				return base.hasNext();
 			}
 
-			public int next() {				
+			@Override
+			public int next()
+			{
 				return min + base.next();
-			}			
+			}
 		};
 	}
 
-	public int max() {
-		if( isEmpty() )
+	@Override
+	public int max()
+	{
+		if (isEmpty())
 			throw new NoSuchElementException();
 		else
 			return min + super.max();
 	}
 
-	public int min() {
-		if( isEmpty() )
+	@Override
+	public int min()
+	{
+		if (isEmpty())
 			throw new NoSuchElementException();
 		else
 			return min;
 	}
 
-	public void remove(int value) {
-		if( value >= min ) {
-			super.remove( value - min );
+	@Override
+	public void remove(final int value)
+	{
+		if (value >= min)
+		{
+			super.remove(value - min);
 			min = super.min();
 		}
 	}

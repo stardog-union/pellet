@@ -7,7 +7,6 @@
 package com.clarkparsia.pellet.test.classification;
 
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -17,13 +16,11 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 
 @RunWith(Suite.class)
-@SuiteClasses( {
-	SimpleClassificationTests.class,
-	JenaClassificationTest.class,
-	OWLAPIClassificationTest.class
-})
-public class ClassificationTestSuite {
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( ClassificationTestSuite.class );
+@SuiteClasses({ SimpleClassificationTests.class, JenaClassificationTest.class, OWLAPIClassificationTest.class })
+public class ClassificationTestSuite
+{
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(ClassificationTestSuite.class);
 	}
 }

@@ -7,7 +7,6 @@
 package com.clarkparsia.modularity.test;
 
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -25,24 +24,16 @@ import org.junit.runners.Suite.SuiteClasses;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
 
 @RunWith(Suite.class)
-@SuiteClasses( {
-	SyntacticBottomLocalityTests.class,
-	SyntacticTopLocalityTests.class, 
-	SyntacticTopTopLocalityTests.class, 
-	AxiomBasedModularityTestSuite.class,
-	GraphBasedModularityTestSuite.class,
-    PersistenceModularityTest.class,
-	PersistenceClassificationTest.class,
-	PersistenceRealizationTest.class,
-	PersistenceUpdatesTest.class
-})
-public class ModularityTestSuite {
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( ModularityTestSuite.class );
+@SuiteClasses({ SyntacticBottomLocalityTests.class, SyntacticTopLocalityTests.class, SyntacticTopTopLocalityTests.class, AxiomBasedModularityTestSuite.class, GraphBasedModularityTestSuite.class, PersistenceModularityTest.class, PersistenceClassificationTest.class, PersistenceRealizationTest.class, PersistenceUpdatesTest.class })
+public class ModularityTestSuite
+{
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(ModularityTestSuite.class);
 	}
 }

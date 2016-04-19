@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,7 +13,7 @@ import java.util.List;
  * Title: Rule Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -22,23 +21,23 @@ import java.util.List;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface RuleAtom {
+ */
+public interface RuleAtom
+{
 
-	public void accept( RuleAtomVisitor visitor );
-	
+	public void accept(RuleAtomVisitor visitor);
+
 	/**
 	 * Return all arguments (constants and variables) to the rule atom.
 	 */
 	public List<? extends AtomObject> getAllArguments();
-	
+
 	/**
-	 * Return the predicate for the rule atom. The type of this predicate
-	 * will depend on the implementation of this interface.  Use
-	 * the RuleAtomVisitor for type safety.
+	 * Return the predicate for the rule atom. The type of this predicate will depend on the implementation of this interface. Use the RuleAtomVisitor for type
+	 * safety.
 	 */
 	public Object getPredicate();
-	
+
 }

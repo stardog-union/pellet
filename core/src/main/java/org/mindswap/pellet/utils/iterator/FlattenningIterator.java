@@ -9,21 +9,24 @@ package org.mindswap.pellet.utils.iterator;
 import java.util.Iterator;
 
 /**
- * 
  * @author Evren Sirin
  */
-public class FlattenningIterator<T> extends NestedIterator<Iterable<T>,T> {
-	public FlattenningIterator(Iterator<? extends Iterable<T>> outerIterator) {
-		super( outerIterator );
+public class FlattenningIterator<T> extends NestedIterator<Iterable<T>, T>
+{
+	public FlattenningIterator(final Iterator<? extends Iterable<T>> outerIterator)
+	{
+		super(outerIterator);
 	}
-	
-	public FlattenningIterator(Iterable<? extends Iterable<T>> outerIterable) {
-		super( outerIterable );
+
+	public FlattenningIterator(final Iterable<? extends Iterable<T>> outerIterable)
+	{
+		super(outerIterable);
 	}
 
 	@Override
-	public Iterator<T> getInnerIterator(Iterable<T> outer) {
+	public Iterator<T> getInnerIterator(final Iterable<T> outer)
+	{
 		return outer.iterator();
 	}
-	
+
 }

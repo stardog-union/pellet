@@ -22,93 +22,121 @@ import java.util.NoSuchElementException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class BitIntSet implements IntSet {
-	private BitSet	bits;
+public class BitIntSet implements IntSet
+{
+	private final BitSet bits;
 
-	public BitIntSet() {
+	public BitIntSet()
+	{
 		bits = new BitSet();
 	}
 
-	public BitIntSet(BitIntSet other) {
+	public BitIntSet(final BitIntSet other)
+	{
 		bits = (BitSet) other.bits.clone();
 	}
 
-	public void add(int value) {
-		if( value < 0 )
-			throw new UnsupportedOperationException(
-					"Negatibe integers cannot be added to this set" );
+	@Override
+	public void add(final int value)
+	{
+		if (value < 0)
+			throw new UnsupportedOperationException("Negatibe integers cannot be added to this set");
 
-		bits.set( value );
+		bits.set(value);
 	}
 
-	public void addAll(IntSet values) {
-		if( values instanceof BitIntSet ) {
-			bits.or( ((BitIntSet) values).bits );
+	@Override
+	public void addAll(final IntSet values)
+	{
+		if (values instanceof BitIntSet)
+			bits.or(((BitIntSet) values).bits);
+		else
+		{
+			final IntIterator i = values.iterator();
+			while (i.hasNext())
+				add(i.next());
 		}
-		else {
-			IntIterator i = values.iterator();
-			while( i.hasNext() ) {
-				add( i.next() );
-			}
-		}
 	}
 
-	public boolean contains(int value) {
-		return bits.get( value );
+	@Override
+	public boolean contains(final int value)
+	{
+		return bits.get(value);
 	}
 
-	public IntSet copy() {
-		return new BitIntSet( this );
+	@Override
+	public IntSet copy()
+	{
+		return new BitIntSet(this);
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return bits.isEmpty();
 	}
 
-	public IntIterator iterator() {
-		return new IntIterator() {
-			private int	next	= bits.nextSetBit( 0 );
+	@Override
+	public IntIterator iterator()
+	{
+		return new IntIterator()
+		{
+			private int next = bits.nextSetBit(0);
 
-			public boolean hasNext() {
+			@Override
+			public boolean hasNext()
+			{
 				return next != -1;
 			}
 
-			public int next() {
-				int curr = next;
-				if( curr == -1 )
+			@Override
+			public int next()
+			{
+				final int curr = next;
+				if (curr == -1)
 					throw new NoSuchElementException();
-				next = bits.nextSetBit( 0 );
+				next = bits.nextSetBit(0);
 				return curr;
 			}
 		};
 	}
 
-	public int max() {
+	@Override
+	public int max()
+	{
 		return bits.length() - 1;
 	}
 
-	public int min() {
-		return bits.nextSetBit( 0 );
+	@Override
+	public int min()
+	{
+		return bits.nextSetBit(0);
 	}
 
-	public void remove(int value) {
-		if( value >= 0 )
-			bits.clear( value );
+	@Override
+	public void remove(final int value)
+	{
+		if (value >= 0)
+			bits.clear(value);
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		return bits.cardinality();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public IntSet union(IntSet values) {
-		IntSet newSet = copy();
-		newSet.addAll( values );
+	@Override
+	public IntSet union(final IntSet values)
+	{
+		final IntSet newSet = copy();
+		newSet.addAll(values);
 
 		return newSet;
 	}

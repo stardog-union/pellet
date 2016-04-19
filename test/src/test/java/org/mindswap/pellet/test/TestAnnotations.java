@@ -49,13 +49,13 @@ import org.mindswap.pellet.utils.ATermUtils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
 public class TestAnnotations
 {
 
-	protected static String checkPath(String path)
+	protected static String checkPath(final String path)
 	{
 		if (!new File(path).exists())
 		{
@@ -264,7 +264,7 @@ public class TestAnnotations
 	@Test
 	public void getAnnotations4()
 	{
-		// Test kb.getAnnotationProperties()		
+		// Test kb.getAnnotationProperties()
 		final KnowledgeBase kb = new KnowledgeBase();
 
 		final ATermAppl s = ATermUtils.makeTermAppl("s");
@@ -286,7 +286,7 @@ public class TestAnnotations
 	@Test
 	public void getAnnotations5()
 	{
-		// Test kb.getProperties()		
+		// Test kb.getProperties()
 		final KnowledgeBase kb = new KnowledgeBase();
 
 		final ATermAppl s = ATermUtils.makeTermAppl("s");
@@ -484,13 +484,11 @@ public class TestAnnotations
 	}
 
 	@SafeVarargs
-	public static <T> Set<Set<T>> singletonSets(T... es)
+	public static <T> Set<Set<T>> singletonSets(final T... es)
 	{
 		final Set<Set<T>> set = new HashSet<>();
 		for (final T e : es)
-		{
 			set.add(Collections.singleton(e));
-		}
 		return set;
 	}
 }

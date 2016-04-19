@@ -19,23 +19,28 @@ package com.clarkparsia.pellet.rules.model;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class AtomDVariable extends AtomVariable implements AtomDObject {
+ */
+public class AtomDVariable extends AtomVariable implements AtomDObject
+{
 
-	public AtomDVariable(String name) {
+	public AtomDVariable(final String name)
+	{
 		super(name);
 	}
 
-	public void accept(AtomObjectVisitor visitor) {
-		visitor.visit( this );
+	@Override
+	public void accept(final AtomObjectVisitor visitor)
+	{
+		visitor.visit(this);
 	}
 
-	public boolean equals( Object other ) {
-		if ( other instanceof AtomDVariable ) {
-			return super.equals( other );
-		} 
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (other instanceof AtomDVariable)
+			return super.equals(other);
 		return false;
 	}
 }

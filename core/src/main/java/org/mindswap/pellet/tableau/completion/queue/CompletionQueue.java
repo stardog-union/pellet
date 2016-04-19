@@ -30,22 +30,18 @@
 
 package org.mindswap.pellet.tableau.completion.queue;
 
+import aterm.ATermAppl;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.Node;
-
-import aterm.ATermAppl;
-
 
 /**
  * <p>
  * Title: Completion Queue
  * </p>
  * <p>
- * Description: A queue for individuals that need to have completion rules
- * applied
+ * Description: A queue for individuals that need to have completion rules applied
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -53,182 +49,173 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Christian Halaschek-Wiener
  */
-public abstract class CompletionQueue extends IndividualIterator{
-    
-	public final static Logger log = Logger.getLogger( CompletionQueue.class.getName() );
-	
+public abstract class CompletionQueue extends IndividualIterator
+{
+
+	public final static Logger log = Logger.getLogger(CompletionQueue.class.getName());
+
 	/**
-	 * Pointer to the abox 
+	 * Pointer to the abox
 	 */
 	//protected ABox abox;
-	
-	
+
 	private boolean allowLiterals;
-	
+
 	protected int currentType;
-	
+
 	protected boolean closed;
-	
+
 	/**
 	 * Constructor - create queue
-	 * 
+	 *
 	 * @param abox
 	 */
-	protected CompletionQueue(ABox abox) {
-		super(abox);		
+	protected CompletionQueue(final ABox abox)
+	{
+		super(abox);
 		closed = false;
 		allowLiterals = false;
-	}		
+	}
 
 	/**
-	 * Find the next individual in a given queue 
+	 * Find the next individual in a given queue
+	 * 
 	 * @param type
 	 */
-	protected abstract void  findNext(int type);
-	
+	protected abstract void findNext(int type);
 
-	
 	/**
 	 * Reset the queue to be the current nodes in the abox; Also reset the type index to 0
-	 * 
+	 *
 	 * @param branch
 	 */
 	public abstract void restore(int branch);
-	
-	
 
 	/**
-	 * Add an element to the queue 
+	 * Add an element to the queue
+	 * 
 	 * @param x
 	 * @param type
 	 */
 	public abstract void add(QueueElement x, NodeSelector s);
-	
+
 	/**
-	 * Add an element to all queues 
+	 * Add an element to all queues
+	 * 
 	 * @param x
 	 * @param type
 	 */
 	public abstract void add(QueueElement x);
-	
+
 	/**
 	 * Reset the current pointer
+	 * 
 	 * @param type
 	 */
 	@Override
 	public abstract void reset(NodeSelector s);
 
-	
-	
 	/**
-	 * Set branch pointers to current pointer. This is done whenever abox.incrementBranch is called 
+	 * Set branch pointers to current pointer. This is done whenever abox.incrementBranch is called
+	 * 
 	 * @param branch
 	 */
 	public abstract void incrementBranch(int branch);
-	
 
 	/**
 	 * Copy the queue
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract CompletionQueue copy();
-	
-	
+
 	/**
 	 * Set the abox for the queue
+	 * 
 	 * @param ab
 	 */
-	public void setABox(ABox ab){
-    		this.abox = ab;
-    }
-	
-	
-	
+	public void setABox(final ABox ab)
+	{
+		this.abox = ab;
+	}
+
 	/**
 	 * Print method for a given queue type
-	 * 
+	 *
 	 * @param type
 	 */
 	public abstract void print(int type);
-	
-	
-	
+
 	/**
 	 * Print method for entire queue
-	 *
 	 */
 	public abstract void print();
 
-	
 	/**
 	 * Print branch information
-	 *
 	 */
-	public void printBranchInfo(){
+	public void printBranchInfo()
+	{
 		return;
-	}	
-	
+	}
+
 	/**
 	 * Set flag to allow literals
-	 * 
+	 *
 	 * @param val
 	 */
-	public void setAllowLiterals(boolean val){
+	public void setAllowLiterals(final boolean val)
+	{
 		allowLiterals = val;
 	}
-	
-	
+
 	/**
 	 * Flush the queue
-	 * 
 	 */
 	public abstract void flushQueue();
-	
-	
+
 	/**
 	 * Flush the queue
-	 * 
 	 */
-	protected abstract void flushQueue( NodeSelector s );
-	
-	
+	protected abstract void flushQueue(NodeSelector s);
+
 	/**
 	 * Clear the queue
-	 * 
 	 */
-	public abstract void clearQueue( NodeSelector s );
-	
+	public abstract void clearQueue(NodeSelector s);
+
 	/**
 	 * Get flag to allow literals
-	 * 
+	 *
 	 * @return
 	 */
-	protected boolean allowLiterals(){
+	protected boolean allowLiterals()
+	{
 		return allowLiterals;
 	}
-	
+
 	/**
 	 * Get next literal
-	 * 
+	 *
 	 * @return
 	 */
 	public abstract Node nextLiteral();
-	
+
 	/**
 	 * Get next label
-	 * 
+	 *
 	 * @return
 	 */
-	protected ATermAppl getNextLabel(){
+	protected ATermAppl getNextLabel()
+	{
 		return null;
 	}
-	
-	
-	public void setClosed( boolean isClash ){
+
+	public void setClosed(final boolean isClash)
+	{
 		closed = isClash;
 	}
 }

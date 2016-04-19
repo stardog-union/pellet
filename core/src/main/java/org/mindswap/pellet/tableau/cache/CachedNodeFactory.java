@@ -6,35 +6,44 @@
 
 package org.mindswap.pellet.tableau.cache;
 
+import aterm.ATermAppl;
 import org.mindswap.pellet.Individual;
 
-import aterm.ATermAppl;
-
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class CachedNodeFactory {
-	public static CachedNode createTopNode() {
+public class CachedNodeFactory
+{
+	public static CachedNode createTopNode()
+	{
 		return CachedConstantNode.TOP;
 	}
 
-	public static CachedNode createBottomNode() {
+	public static CachedNode createBottomNode()
+	{
 		return CachedConstantNode.BOTTOM;
 	}
 
-	public static CachedNode createSatisfiableNode() {
+	public static CachedNode createSatisfiableNode()
+	{
 		return CachedConstantNode.INCOMPLETE;
 	}
 
-	public static CachedNode createNode(ATermAppl name, Individual node) {
-		return new CachedConceptNode( name, node );
+	public static CachedNode createNode(final ATermAppl name, final Individual node)
+	{
+		return new CachedConceptNode(name, node);
 	}
 }

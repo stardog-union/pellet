@@ -8,12 +8,11 @@
 
 package org.mindswap.pellet.jena;
 
-import org.mindswap.pellet.KBLoader;
-import org.mindswap.pellet.KnowledgeBase;
-
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileManager;
+import org.mindswap.pellet.KBLoader;
+import org.mindswap.pellet.KnowledgeBase;
 
 /**
  * <p>
@@ -28,21 +27,24 @@ import org.apache.jena.util.FileManager;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class JenaLoader extends KBLoader {
+public class JenaLoader extends KBLoader
+{
 	private static final FileManager manager = FileManager.get();
-	
-	private OntModel		model;
 
-	private PelletInfGraph	pellet;
-	
-	public JenaLoader() {
+	private OntModel model;
+
+	private PelletInfGraph pellet;
+
+	public JenaLoader()
+	{
 		clear();
 	}
 
-	public PelletInfGraph getGraph() {
+	public PelletInfGraph getGraph()
+	{
 		return pellet;
 	}
 
@@ -50,11 +52,13 @@ public class JenaLoader extends KBLoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public KnowledgeBase getKB() {
+	public KnowledgeBase getKB()
+	{
 		return pellet.getKB();
 	}
 
-	public OntModel getModel() {
+	public OntModel getModel()
+	{
 		return model;
 	}
 
@@ -62,44 +66,49 @@ public class JenaLoader extends KBLoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void load() {
-		pellet.prepare( false );
+	public void load()
+	{
+		pellet.prepare(false);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void parseFile(String file) {
-		manager.readModel( model, file, inputFormat );
+	protected void parseFile(final String file)
+	{
+		manager.readModel(model, file, inputFormat);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void clear() {
-		if( model != null )
+	public void clear()
+	{
+		if (model != null)
 			model.close();
-		model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
+		model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 		pellet = (PelletInfGraph) model.getGraph();
 	}
 
 	/**
 	 * Used for the Jena loader
-	 * 
+	 *
 	 * @param inputFormat
 	 */
-	public void setInputFormat(String inputFormat) {
+	public void setInputFormat(final String inputFormat)
+	{
 		this.inputFormat = inputFormat.toUpperCase();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setIgnoreImports(boolean ignoreImports) {
-		model.getDocumentManager().setProcessImports( !ignoreImports );
+	public void setIgnoreImports(final boolean ignoreImports)
+	{
+		model.getDocumentManager().setProcessImports(!ignoreImports);
 	}
-	
+
 }

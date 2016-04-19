@@ -74,7 +74,7 @@ public class JenaTests
 {
 	public static String base = PelletTestSuite.base + "misc/";
 
-	public static void main(String args[])
+	public static void main(final String args[])
 	{
 		junit.textui.TestRunner.run(JenaTests.suite());
 	}
@@ -319,15 +319,15 @@ public class JenaTests
 
 		final Statement[] statements = new Statement[] { ont.createStatement(p1, RDF.type, OWL.FunctionalProperty), ont.createStatement(p1, RDF.type, OWL.InverseFunctionalProperty), ont.createStatement(p1, RDF.type, OWL2.IrreflexiveProperty), ont.createStatement(p1, RDF.type, OWL2.AsymmetricProperty), ont.createStatement(p1, OWL2.propertyDisjointWith, p2), ont.createStatement(C, RDFS.subClassOf, ont.createMinCardinalityRestriction(null, p1, 2)), ont.createStatement(x, RDF.type, ont.createMaxCardinalityRestriction(null, p1, 3)), ont.createStatement(C, OWL.disjointWith, ont.createCardinalityRestriction(null, p1, 2)), };
 
-		for (int i = 0; i < statements.length; i++)
+		for (final Statement statement : statements)
 		{
-			ont.add(statements[i]);
+			ont.add(statement);
 
 			pellet = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, ont);
-			assertTrue(statements[i].toString(), pellet.contains(y, RDF.type, C));
-			assertFalse(statements[i].toString(), pellet.contains(z, RDF.type, C));
+			assertTrue(statement.toString(), pellet.contains(y, RDF.type, C));
+			assertFalse(statement.toString(), pellet.contains(z, RDF.type, C));
 
-			ont.remove(statements[i]);
+			ont.remove(statement);
 		}
 	}
 
@@ -362,15 +362,15 @@ public class JenaTests
 		final Restriction card = ont.createCardinalityRestriction(null, p1, 2);
 		final Statement[] statements = new Statement[] { ont.createStatement(p1, RDF.type, OWL.FunctionalProperty), ont.createStatement(p1, RDF.type, OWL.InverseFunctionalProperty), ont.createStatement(p1, RDF.type, OWL2.IrreflexiveProperty), ont.createStatement(p1, RDF.type, OWL2.AsymmetricProperty), ont.createStatement(p1, OWL2.propertyDisjointWith, p2), ont.createStatement(C, RDFS.subClassOf, min), ont.createStatement(x, RDF.type, max), ont.createStatement(C, OWL.disjointWith, card), };
 
-		for (int i = 0; i < statements.length; i++)
+		for (final Statement statement : statements)
 		{
-			ont.add(statements[i]);
+			ont.add(statement);
 
 			pellet = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, ont);
-			assertTrue(statements[i].toString(), pellet.contains(x, p1, y));
-			assertFalse(statements[i].toString(), pellet.contains(x, p1, z));
+			assertTrue(statement.toString(), pellet.contains(x, p1, y));
+			assertFalse(statement.toString(), pellet.contains(x, p1, z));
 
-			ont.remove(statements[i]);
+			ont.remove(statement);
 		}
 	}
 
@@ -386,7 +386,7 @@ public class JenaTests
 		final ObjectProperty[] knows = { model.getObjectProperty(foaf + "knows"), model.getObjectProperty(ns + "knows2"), model.getObjectProperty(ns + "knows3") };
 
 		final Individual[] people = new Individual[5];
-		for (int j = 0; j < knows.length; j++)
+		for (final ObjectProperty know : knows)
 		{
 			final Model knowsRelations = ModelFactory.createDefaultModel();
 
@@ -394,9 +394,9 @@ public class JenaTests
 			{
 				people[i] = model.getIndividual(ns + "P" + (i + 1));
 
-				knowsRelations.add(people[i], knows[j], people[i]);
+				knowsRelations.add(people[i], know, people[i]);
 			}
-			assertPropertyValues(model, knows[j], knowsRelations);
+			assertPropertyValues(model, know, knowsRelations);
 		}
 	}
 
@@ -635,8 +635,7 @@ public class JenaTests
 	}
 
 	/**
-	 * Verifies that OWL 2 entity declarations are parsed from RDF/XML and
-	 * handled correctly.
+	 * Verifies that OWL 2 entity declarations are parsed from RDF/XML and handled correctly.
 	 */
 	@Test
 	public void entityDeclarations()
@@ -725,7 +724,7 @@ public class JenaTests
 		// System.out.println(
 		// ((org.mindswap.pellet.Individual)((PelletInfGraph)model.getGraph()).getKB().getABox().pseudoModel.
 		// getIndividual(ATermUtils.makeTermAppl(ns+"T")).getSame()).getTypes(Node.NOM));
-		//        
+		//
 		// System.out.println(
 		// ((org.mindswap.pellet.Individual)((PelletInfGraph)model.getGraph()).getKB().getABox().pseudoModel.
 		// getIndividual(ATermUtils.makeTermAppl(ns+"F")).getSame()).getTypes(Node.NOM));
@@ -759,9 +758,9 @@ public class JenaTests
 		final OntModel ont = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
 
 		final ObjectProperty p = ont.createInverseFunctionalProperty(ns + "p1", /*
-		 * functional
-		 * =
-		 */true);
+																				* functional
+																				* =
+																				*/true);
 
 		final Individual s1 = ont.createIndividual(ns + "s1", OWL.Thing);
 		final Individual s2 = ont.createIndividual(ns + "s2", OWL.Thing);
@@ -918,9 +917,7 @@ public class JenaTests
 
 		final Individual[] inds = new Individual[6];
 		for (int j = 0; j < 6; j++)
-		{
 			inds[j] = ontmodel.createIndividual(nc + "Ind" + j, OWL.Thing);
-		}
 
 		inds[0].addRDFType(class1);
 		inds[1].addRDFType(class1);
@@ -1152,18 +1149,14 @@ public class JenaTests
 
 		final Individual[][] eq = new Individual[][] { { V[1][1], V[2][2], V[3][3], N[1] }, { V[1][3], V[2][1], V[3][2], N[2] }, { V[1][2], V[2][3], V[3][1], N[3] } };
 		for (int k = 0; k < 3; k++)
-		{
 			for (int i = 0; i < 4; i++)
 			{
 				final Individual ind = eq[k][i];
 				for (int j = 0; j < 4; j++)
-				{
 					// System.out.println( ind + " = " + eq[k][j] );
 					assertTrue(ind.isSameAs(eq[k][j]));
-				}
 				assertIteratorValues(ind.listSameAs(), eq[k]);
 			}
-		}
 	}
 
 	@Test
@@ -1864,7 +1857,6 @@ public class JenaTests
 		final Object[] datatypes = { XSD.anyURI, "http://www.w3.com\\invalid", XSD.xboolean, "True", "01", XSD.xbyte, "-12093421034", "257", "2147483648", XSD.date, "2004-15-03", "2004/03/15", "03-15-2004", XSD.dateTime, "2003-12-25", XSD.decimal, "x3.1415292", XSD.xdouble, "Inf", XSD.duration, "P-8M", XSD.xfloat, "3.1g-1", XSD.gDay, "11", "Monday", "Mon", XSD.gMonth, "02", "Feb", "February", XSD.gMonthDay, "02-14", "02/14", XSD.gYear, "0000", "542", XSD.gYearMonth, "1972/08", "197208", XSD.xint, "2147483648", "9223372036854775808", XSD.integer, "1.1", XSD.xlong, "9223372036854775808", XSD.negativeInteger, "0", "1", XSD.nonNegativeInteger, "-1", XSD.nonPositiveInteger, "1", XSD.positiveInteger, "-1", XSD.xshort, "32768", "1.1", };
 
 		for (final boolean addRangeRestriction : new boolean[] { false, true })
-		{
 			for (int i = 0; i < datatypes.length;)
 			{
 				final Resource datatype = (Resource) datatypes[i++];
@@ -1876,9 +1868,7 @@ public class JenaTests
 
 					final OntProperty p = model.createDatatypeProperty(ns + "prop_" + datatype.getLocalName());
 					if (addRangeRestriction)
-					{
 						p.addRange(datatype);
-					}
 
 					final Literal value = model.createTypedLiteral((String) datatypes[i], datatype.getURI());
 					ind.addProperty(p, value);
@@ -1887,7 +1877,6 @@ public class JenaTests
 					i++;
 				}
 			}
-		}
 	}
 
 	@Test
@@ -1944,9 +1933,7 @@ public class JenaTests
 			model.prepare();
 
 			for (int j = start; j < i; j++)
-			{
 				assertTrue(datatype.getLocalName() + " " + datatypes[j], model.getIndividual(ns + "testInd" + j).hasRDFType(model.getIndividual(ns + "testCls" + j)));
-			}
 		}
 	}
 
@@ -2001,13 +1988,11 @@ public class JenaTests
 		for (int test = 0; test < 2; test++)
 		{
 			if (test != 0)
-			{
 				kb.realize();
-			}
 
-			assertTrue(hasAncestor.hasRDFType(OWL2.TransitiveProperty));
-			assertTrue(hasDescendant.hasRDFType(OWL2.TransitiveProperty));
-			assertTrue(isMarriedTo.hasRDFType(OWL2.SymmetricProperty));
+			assertTrue(hasAncestor.hasRDFType(OWL.TransitiveProperty));
+			assertTrue(hasDescendant.hasRDFType(OWL.TransitiveProperty));
+			assertTrue(isMarriedTo.hasRDFType(OWL.SymmetricProperty));
 			assertTrue(isMarriedTo.hasRDFType(OWL2.IrreflexiveProperty));
 
 			assertTrue(hasParent.hasSuperProperty(hasAncestor, false));
@@ -2146,9 +2131,7 @@ public class JenaTests
 		for (int test = 0; test < 1; test++)
 		{
 			if (test != 0)
-			{
 				kb.realize();
-			}
 
 			assertTrue(Abel.hasProperty(sibling, Cain));
 
@@ -2201,9 +2184,7 @@ public class JenaTests
 		for (int test = 0; test < 1; test++)
 		{
 			if (test != 0)
-			{
 				kb.realize();
-			}
 
 			assertIteratorValues(DreamTeamMember.listInstances(), new Object[] { Alice, Bob, Charlie });
 
@@ -2241,13 +2222,9 @@ public class JenaTests
 		for (int i = 1; i <= 5; i++)
 		{
 			if (i != 5)
-			{
 				addStatements(rightValues, r[i], right, r[i + 1]);
-			}
 			if (i != 1)
-			{
 				addStatements(leftValues, r[i], left, r[i - 1]);
-			}
 		}
 
 		assertPropertyValues(model, left, leftValues);
@@ -2311,9 +2288,7 @@ public class JenaTests
 		inferences.add(assertions);
 		// rdfs:subPropertyOf is reflexive
 		for (final Property op : new Property[] { p, subP, subSubP, q, subQ, subSubQ })
-		{
 			inferences.add(op, RDFS.subPropertyOf, op);
-		}
 		// All object properties are a sub property of topObjectProperty
 		for (final Property op : new Property[] { p, subP, subSubP, OWL2.topObjectProperty, OWL2.bottomObjectProperty })
 		{
@@ -2373,7 +2348,6 @@ public class JenaTests
 		addStatements(inferences, OWL.Nothing, OWL.disjointWith, OWL.Thing);
 		addStatements(inferences, OWL.Thing, OWL.disjointWith, OWL.Nothing);
 		for (int k = 1; k < 6; k += 3)
-		{
 			for (int i = k; i < k + 3; i++)
 			{
 				final Resource c1 = model.getResource(ns + "C" + i);
@@ -2382,14 +2356,11 @@ public class JenaTests
 				for (int j = k; j < k + 3; j++)
 				{
 					if (i == j)
-					{
 						continue;
-					}
 					final Resource c2 = model.getResource(ns + "C" + j);
 					addStatements(inferences, c1, OWL.disjointWith, c2);
 				}
 			}
-		}
 		assertPropertyValues(model, OWL.disjointWith, inferences);
 
 		inferences = ModelFactory.createDefaultModel();
@@ -2400,9 +2371,7 @@ public class JenaTests
 		addStatements(inferences, OWL2.topDataProperty, OWL2.propertyDisjointWith, OWL2.bottomDataProperty);
 		addStatements(inferences, OWL2.bottomDataProperty, OWL2.propertyDisjointWith, OWL2.topDataProperty);
 		for (final String prefix : new String[] { "op", "dp" })
-		{
 			for (int k = 1; k < 6; k += 3)
-			{
 				for (int i = k; i < k + 3; i++)
 				{
 					final Resource c1 = model.getResource(ns + prefix + i);
@@ -2419,35 +2388,27 @@ public class JenaTests
 					for (int j = k; j < k + 3; j++)
 					{
 						if (i == j)
-						{
 							continue;
-						}
 						final Resource c2 = model.getResource(ns + prefix + j);
 						addStatements(inferences, c1, OWL2.propertyDisjointWith, c2);
 					}
 				}
-			}
-		}
 		assertPropertyValues(model, OWL2.propertyDisjointWith, inferences);
 
 		inferences = ModelFactory.createDefaultModel();
 		for (int k = 1; k < 6; k += 3)
-		{
 			for (int i = k; i < k + 3; i++)
 			{
 				final Resource c1 = model.getResource(ns + "ind" + i);
 				for (int j = k; j < k + 3; j++)
 				{
 					if (i == j)
-					{
 						continue;
-					}
 					final Resource c2 = model.getResource(ns + "ind" + j);
 					addStatements(inferences, c1, OWL.differentFrom, c2);
 				}
 			}
-		}
-		assertPropertyValues(model, OWL2.differentFrom, inferences);
+		assertPropertyValues(model, OWL.differentFrom, inferences);
 	}
 
 	@Test
@@ -2799,21 +2760,21 @@ public class JenaTests
 
 		final OntClass c1 = model.createClass(ns + "c1");
 		c1.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, pi));
-		assertFalse(model.contains(c1, RDFS.subClassOf, OWL2.Nothing));
+		assertFalse(model.contains(c1, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c2 = model.createClass(ns + "c2");
 		final Resource b2 = model.createResource();
-		model.add(b2, RDF.type, OWL2.DataRange);
+		model.add(b2, RDF.type, OWL.DataRange);
 		model.add(b2, OWL2.datatypeComplementOf, pi);
 		c2.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, b2));
-		assertFalse(model.contains(c2, RDFS.subClassOf, OWL2.Nothing));
+		assertFalse(model.contains(c2, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c3 = model.createClass(ns + "c3");
 		final RDFNode[] l3 = new RDFNode[2];
 		l3[0] = pi;
 		l3[1] = ni;
 		c3.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, model.createIntersectionClass(null, model.createList(l3))));
-		assertTrue(model.contains(c3, RDFS.subClassOf, OWL2.Nothing));
+		assertTrue(model.contains(c3, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c4 = model.createClass(ns + "c4");
 		final RDFNode[] l41 = new RDFNode[2];
@@ -2823,35 +2784,35 @@ public class JenaTests
 		l42[0] = f;
 		l42[1] = model.createUnionClass(null, model.createList(l41));
 		c4.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, model.createIntersectionClass(null, model.createList(l42))));
-		assertTrue(model.contains(c4, RDFS.subClassOf, OWL2.Nothing));
+		assertTrue(model.contains(c4, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c5 = model.createClass(ns + "c5");
 		final RDFNode[] l5 = new RDFNode[2];
 		l5[0] = npi;
 		l5[1] = ni;
 		c5.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, model.createIntersectionClass(null, model.createList(l5))));
-		assertFalse(model.contains(c5, RDFS.subClassOf, OWL2.Nothing));
+		assertFalse(model.contains(c5, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c6 = model.createClass(ns + "c6");
 		final RDFNode[] l6 = new RDFNode[2];
 		l6[0] = nni;
 		l6[1] = pi;
 		c6.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, model.createIntersectionClass(null, model.createList(l6))));
-		assertFalse(model.contains(c6, RDFS.subClassOf, OWL2.Nothing));
+		assertFalse(model.contains(c6, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c7 = model.createClass(ns + "c7");
 		final RDFNode[] l7 = new RDFNode[2];
 		l7[0] = nni;
 		l7[1] = npi;
 		c7.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, model.createUnionClass(null, model.createList(l7))));
-		assertFalse(model.contains(c7, RDFS.subClassOf, OWL2.Nothing));
+		assertFalse(model.contains(c7, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c8 = model.createClass(ns + "c8");
 		final RDFNode[] l8 = new RDFNode[2];
 		l8[0] = nni;
 		l8[1] = npi;
 		c8.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, model.createIntersectionClass(null, model.createList(l8))));
-		assertFalse(model.contains(c8, RDFS.subClassOf, OWL2.Nothing));
+		assertFalse(model.contains(c8, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c9 = model.createClass(ns + "c9");
 		final Resource fr9 = model.createResource();
@@ -2864,7 +2825,7 @@ public class JenaTests
 		l9[0] = pi;
 		l9[1] = b9;
 		c9.addEquivalentClass(model.createSomeValuesFromRestriction(null, s, model.createIntersectionClass(null, model.createList(l9))));
-		assertTrue(model.contains(c9, RDFS.subClassOf, OWL2.Nothing));
+		assertTrue(model.contains(c9, RDFS.subClassOf, OWL.Nothing));
 
 		final OntClass c10 = model.createClass(ns + "c10");
 		final DatatypeProperty p = model.createDatatypeProperty(ns + "p");
@@ -2873,7 +2834,7 @@ public class JenaTests
 		model.add(b10, OWL.unionOf, model.createList(new RDFNode[] { pi, ni }));
 		model.add(p, RDFS.range, b10);
 		c10.addEquivalentClass(model.createSomeValuesFromRestriction(null, p, XSD.anyURI));
-		assertTrue(model.contains(c10, RDFS.subClassOf, OWL2.Nothing));
+		assertTrue(model.contains(c10, RDFS.subClassOf, OWL.Nothing));
 
 	}
 
@@ -2947,11 +2908,9 @@ public class JenaTests
 
 		final StmtIterator iter = model.listStatements(c, null, l);
 
-		final List<Statement> results = new ArrayList<Statement>();
+		final List<Statement> results = new ArrayList<>();
 		while (iter.hasNext())
-		{
 			results.add(iter.next());
-		}
 
 		assertTrue(results.size() == 3); //s1, s2, and topProperty
 		assertTrue(results.contains(s1));
@@ -3276,7 +3235,7 @@ public class JenaTests
 
 		final Statement[] stmts = { ResourceFactory.createStatement(a, RDF.type, A), ResourceFactory.createStatement(a, p, b), ResourceFactory.createStatement(a, q, l),
 
-				ResourceFactory.createStatement(a, RDF.type, OWL.Thing), ResourceFactory.createStatement(a, RDF.type, B), ResourceFactory.createStatement(a, OWL.sameAs, a), ResourceFactory.createStatement(a, OWL.sameAs, c) };
+		ResourceFactory.createStatement(a, RDF.type, OWL.Thing), ResourceFactory.createStatement(a, RDF.type, B), ResourceFactory.createStatement(a, OWL.sameAs, a), ResourceFactory.createStatement(a, OWL.sameAs, c) };
 
 		final Model m = ModelFactory.createDefaultModel();
 		m.add(stmts[0]);
@@ -3306,7 +3265,7 @@ public class JenaTests
 		testAutoRealize(false);
 	}
 
-	private void testAutoRealize(boolean autoRealize)
+	private void testAutoRealize(final boolean autoRealize)
 	{
 		final Properties newOptions = PropertiesBuilder.singleton("AUTO_REALIZE", String.valueOf(autoRealize));
 		final Properties oldOptions = PelletOptions.setOptions(newOptions);

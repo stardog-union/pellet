@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-
 import aterm.ATermAppl;
 
 /**
@@ -14,7 +13,7 @@ import aterm.ATermAppl;
  * Title: Class Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -22,17 +21,21 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class ClassAtom extends UnaryAtom<AtomIObject> {
+ */
+public class ClassAtom extends UnaryAtom<AtomIObject>
+{
 
-	public ClassAtom(ATermAppl predicate, AtomIObject argument) {
+	public ClassAtom(final ATermAppl predicate, final AtomIObject argument)
+	{
 		super(predicate, argument);
 	}
 
-	public void accept(RuleAtomVisitor visitor) {
-		visitor.visit( this );	
+	@Override
+	public void accept(final RuleAtomVisitor visitor)
+	{
+		visitor.visit(this);
 	}
 
 }

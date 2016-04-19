@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.SortCondition;
@@ -32,30 +31,30 @@ import org.apache.jena.sparql.engine.binding.BindingComparator;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class SortedResultSet implements ResultSet {
-	private List<Binding>		sortedRows;
-	
-	private Iterator<Binding>	iterator;
+public class SortedResultSet implements ResultSet
+{
+	private final List<Binding> sortedRows;
 
-	private int					row;
+	private final Iterator<Binding> iterator;
 
-	private List<String>		resultVars;
+	private final int row;
 
-	@SuppressWarnings("unchecked")
-	public SortedResultSet(ResultSet results, List<SortCondition> sortConditions) {
+	private final List<String> resultVars;
+
+	public SortedResultSet(final ResultSet results, final List<SortCondition> sortConditions)
+	{
 		resultVars = results.getResultVars();
-		
-		sortedRows = new ArrayList<Binding>();        
-        while( results.hasNext() ) {
-        	sortedRows.add( results.nextBinding() );
-        }
-        
-		BindingComparator cmp = new BindingComparator( sortConditions );
-        Collections.sort( sortedRows, cmp );
-        
+
+		sortedRows = new ArrayList<>();
+		while (results.hasNext())
+			sortedRows.add(results.nextBinding());
+
+		final BindingComparator cmp = new BindingComparator(sortConditions);
+		Collections.sort(sortedRows, cmp);
+
 		iterator = sortedRows.iterator();
 		row = 0;
 	}
@@ -63,67 +62,86 @@ public class SortedResultSet implements ResultSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<String> getResultVars() {
+	@Override
+	public List<String> getResultVars()
+	{
 		return resultVars;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRowNumber() {
+	@Override
+	public int getRowNumber()
+	{
 		return row;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean hasNext() {
+	@Override
+	public boolean hasNext()
+	{
 		return iterator.hasNext();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isOrdered() {
+	public boolean isOrdered()
+	{
 		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public QuerySolution next() {
+	@Override
+	public QuerySolution next()
+	{
 		return nextSolution();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Binding nextBinding() {
+	@Override
+	public Binding nextBinding()
+	{
 		return iterator.next();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public QuerySolution nextSolution() {
-		return new ResultBinding( null, nextBinding() );
+	@Override
+	public QuerySolution nextSolution()
+	{
+		return new ResultBinding(null, nextBinding());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void remove() {
+	@Override
+	public void remove()
+	{
 		throw new UnsupportedOperationException();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public String toString() {
+	@Override
+	public String toString()
+	{
 		return sortedRows.toString();
 	}
-	
-	public Model getResourceModel() {
+
+	@Override
+	public Model getResourceModel()
+	{
 		return null;
 	}
 }

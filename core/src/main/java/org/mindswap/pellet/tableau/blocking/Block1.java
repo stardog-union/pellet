@@ -11,8 +11,11 @@ import org.mindswap.pellet.utils.SetUtils;
 /**
  * @author Evren Sirin
  */
-public class Block1 implements BlockingCondition {
-	public boolean isBlocked(BlockingContext cxt) {
-		return SetUtils.subset(cxt.blocked.getTypes(), cxt.blocker.getTypes());	
+public class Block1 implements BlockingCondition
+{
+	@Override
+	public boolean isBlocked(final BlockingContext cxt)
+	{
+		return SetUtils.subset(cxt.blocked.getTypes(), cxt.blocker.getTypes());
 	}
 }

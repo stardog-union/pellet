@@ -22,15 +22,19 @@ import java.math.BigInteger;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
+ */
 
-public interface NumericFunction {
+public interface NumericFunction
+{
 
-	public Number apply( BigDecimal... args );
-	public Number apply( BigInteger... args );
-	public Number apply( Double... args );
-	public Number apply( Float... args );
-	
+	public Number apply(BigDecimal... args);
+
+	public Number apply(BigInteger... args);
+
+	public Number apply(Double... args);
+
+	public Number apply(Float... args);
+
 }

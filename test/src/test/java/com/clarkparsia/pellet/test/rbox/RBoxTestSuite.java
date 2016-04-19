@@ -7,7 +7,6 @@
 package com.clarkparsia.pellet.test.rbox;
 
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -16,10 +15,11 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Evren Sirin
  */
 @RunWith(Suite.class)
-@SuiteClasses( { DisjointPropertyTests.class, PropertyChainTests.class, PropertyCharacteristicsTests.class,
-                TestTopBottom.class, RBoxUpdateTests.class })
-public class RBoxTestSuite {
-	public static junit.framework.Test suite() {
+@SuiteClasses({ DisjointPropertyTests.class, PropertyChainTests.class, PropertyCharacteristicsTests.class, TestTopBottom.class, RBoxUpdateTests.class })
+public class RBoxTestSuite
+{
+	public static junit.framework.Test suite()
+	{
 		return new JUnit4TestAdapter(RBoxTestSuite.class);
 	}
 }

@@ -7,22 +7,21 @@
 package com.clarkparsia.pellint.lintpattern.axiom;
 
 import com.clarkparsia.owlapi.OWL;
-
-import java.util.Collections;
-import java.util.HashSet;
-import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import com.clarkparsia.pellint.format.CompactClassLintFormat;
 import com.clarkparsia.pellint.format.LintFormat;
 import com.clarkparsia.pellint.model.Lint;
 import com.clarkparsia.pellint.model.LintFixer;
+import java.util.Collections;
+import java.util.HashSet;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -30,33 +29,45 @@ import com.clarkparsia.pellint.model.LintFixer;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class EquivalentToTopPattern extends AxiomLintPattern {
+public class EquivalentToTopPattern extends AxiomLintPattern
+{
 	private static final LintFormat DEFAULT_LINT_FORMAT = new CompactClassLintFormat();
-	
-	public String getName() {
+
+	@Override
+	public String getName()
+	{
 		return getClass().getSimpleName();
 	}
-	
-	public String getDescription() {
+
+	@Override
+	public String getDescription()
+	{
 		return "Top is equivalent to some concept or is part of an equivalent classes axiom";
 	}
 
-	public boolean isFixable() {
+	@Override
+	public boolean isFixable()
+	{
 		return true;
 	}
-	
-	public LintFormat getDefaultLintFormat() {
+
+	@Override
+	public LintFormat getDefaultLintFormat()
+	{
 		return DEFAULT_LINT_FORMAT;
 	}
 
-	public void visit(OWLEquivalentClassesAxiom axiom) {
-		if (axiom.getClassExpressions().contains(OWL.Thing)) {
-			Lint lint = makeLint();
+	@Override
+	public void visit(final OWLEquivalentClassesAxiom axiom)
+	{
+		if (axiom.getClassExpressions().contains(OWL.Thing))
+		{
+			final Lint lint = makeLint();
 			lint.addParticipatingAxiom(axiom);
-			LintFixer fixer = new LintFixer(Collections.singleton(axiom), new HashSet<OWLAxiom>());
+			final LintFixer fixer = new LintFixer(Collections.singleton(axiom), new HashSet<OWLAxiom>());
 			lint.setLintFixer(fixer);
 			setLint(lint);
 		}

@@ -34,28 +34,33 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.utils.Comparators;
 
 /**
  * @author Evren Sirin
  */
-public class TreeTaxonomyPrinter<T> implements TaxonomyPrinter<T> {
+public class TreeTaxonomyPrinter<T> implements TaxonomyPrinter<T>
+{
 	// Indentation string used when classification tree is printed
-	final static String		INDENT	= "  ";
+	final static String INDENT = "  ";
 
-	protected Taxonomy<T>	taxonomy;
-	protected PrintWriter	out;
+	protected Taxonomy<T> taxonomy;
+	protected PrintWriter out;
 
-	public TreeTaxonomyPrinter() {
+	public TreeTaxonomyPrinter()
+	{
 	}
 
-	public void print(Taxonomy<T> taxonomy) {
-		print( taxonomy, new PrintWriter(System.out) );
+	@Override
+	public void print(final Taxonomy<T> taxonomy)
+	{
+		print(taxonomy, new PrintWriter(System.out));
 	}
 
-	public void print(Taxonomy<T> taxonomy, PrintWriter out) {
+	@Override
+	public void print(final Taxonomy<T> taxonomy, final PrintWriter out)
+	{
 		this.taxonomy = taxonomy;
 		this.out = out;
 
@@ -68,86 +73,95 @@ public class TreeTaxonomyPrinter<T> implements TaxonomyPrinter<T> {
 	/**
 	 * Print the taxonomy as an indented tree
 	 */
-	protected void printTree() {
-		Set<T> top = new TreeSet<T>( Comparators.stringComparator );
-		top.add( taxonomy.getTop().getName() );
-		top.addAll( taxonomy.getTop().getEquivalents() );
-		printTree( top, " " );
+	protected void printTree()
+	{
+		final Set<T> top = new TreeSet<>(Comparators.stringComparator);
+		top.add(taxonomy.getTop().getName());
+		top.addAll(taxonomy.getTop().getEquivalents());
+		printTree(top, " ");
 
-		Set<T> bottom = new TreeSet<T>( Comparators.stringComparator );
-		bottom.add( taxonomy.getBottom().getName() );
-		bottom.addAll( taxonomy.getBottom().getEquivalents() );
+		final Set<T> bottom = new TreeSet<>(Comparators.stringComparator);
+		bottom.add(taxonomy.getBottom().getName());
+		bottom.addAll(taxonomy.getBottom().getEquivalents());
 
-		if( bottom.size() > 1 )
-			printNode( bottom, " " );
+		if (bottom.size() > 1)
+			printNode(bottom, " ");
 	}
 
 	/**
 	 * Print the tree rooted at the given node
-	 * 
+	 *
 	 * @param node
 	 * @param indent
 	 */
-	protected void printTree(Set<T> set, String indent) {
-		if( set.contains( taxonomy.getBottom().getName() ) )
+	protected void printTree(final Set<T> set, final String indent)
+	{
+		if (set.contains(taxonomy.getBottom().getName()))
 			return;
 
-		printNode( set, indent );
+		printNode(set, indent);
 
-		T c = set.iterator().next();
-		Set<Set<T>> subs = ss( taxonomy.getSubs( c, true ) );
-		Iterator<Set<T>> j = subs.iterator();
+		final T c = set.iterator().next();
+		final Set<Set<T>> subs = ss(taxonomy.getSubs(c, true));
+		final Iterator<Set<T>> j = subs.iterator();
 
-		while( j.hasNext() ) {
-			Set<T> eqs = j.next();
-			if( eqs.contains( c ) )
+		while (j.hasNext())
+		{
+			final Set<T> eqs = j.next();
+			if (eqs.contains(c))
 				continue;
 
-			printTree( s( eqs ), indent + "   " );
+			printTree(s(eqs), indent + "   ");
 		}
 	}
 
 	/**
 	 * Print the node contents with indentation and newline
-	 * 
+	 *
 	 * @param set
 	 * @param indent
 	 */
-	protected void printNode(Set<T> set, String indent) {
-		out.print( indent );
-		printNode( set );
+	protected void printNode(final Set<T> set, final String indent)
+	{
+		out.print(indent);
+		printNode(set);
 		out.println();
 	}
 
 	/**
 	 * Print the node contents in one line
-	 * 
+	 *
 	 * @param set
 	 */
-	protected void printNode(Set<T> set) {
-		Iterator<T> i = set.iterator();
-		T c = i.next();
-		printURI( out, c );
-		while( i.hasNext() ) {
-			out.print( " = " );
-			printURI( out, i.next() );
+	protected void printNode(final Set<T> set)
+	{
+		final Iterator<T> i = set.iterator();
+		final T c = i.next();
+		printURI(out, c);
+		while (i.hasNext())
+		{
+			out.print(" = ");
+			printURI(out, i.next());
 		}
 	}
 
-	protected void printURI(PrintWriter out, T e) {
-		out.print( e.toString() );
+	protected void printURI(final PrintWriter out, final T e)
+	{
+		out.print(e.toString());
 	}
 
-	private Set<Set<T>> ss(Set<Set<T>> subs) {
-		Set<Set<T>> sorted = new TreeSet<Set<T>>( Comparators.stringComparator );
-		sorted.addAll( subs );
+	private Set<Set<T>> ss(final Set<Set<T>> subs)
+	{
+		final Set<Set<T>> sorted = new TreeSet<>(Comparators.stringComparator);
+		sorted.addAll(subs);
 
 		return sorted;
 	}
 
-	private Set<T> s(Set<T> set) {
-		Set<T> sorted = new TreeSet<T>( Comparators.stringComparator );
-		sorted.addAll( set );
+	private Set<T> s(final Set<T> set)
+	{
+		final Set<T> sorted = new TreeSet<>(Comparators.stringComparator);
+		sorted.addAll(set);
 
 		return sorted;
 	}

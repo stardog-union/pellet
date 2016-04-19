@@ -21,21 +21,23 @@ import org.mindswap.pellet.Literal;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public abstract class BinaryTester implements Tester {
+ */
+public abstract class BinaryTester implements Tester
+{
 
-	public boolean test(Literal[] args) {
-		if ( args.length == 2 ) {
-			return test( args[0], args[1] );
-		}
+	@Override
+	public boolean test(final Literal[] args)
+	{
+		if (args.length == 2)
+			return test(args[0], args[1]);
 		return false;
 	}
-	
+
 	/**
 	 * Overriden to provide test functionality
 	 */
-	protected abstract boolean test( Literal l1, Literal l2 );
+	protected abstract boolean test(Literal l1, Literal l2);
 
 }

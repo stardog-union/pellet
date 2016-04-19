@@ -28,74 +28,83 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-
 package org.mindswap.pellet;
 
 import aterm.ATermAppl;
 
 /**
- * Stores a pair of nodes to be merged. Order of nodes is important, always first node is 
- * going to be merged to the second one.
- * 
+ * Stores a pair of nodes to be merged. Order of nodes is important, always first node is going to be merged to the second one.
+ *
  * @author Evren Sirin
  */
-public class NodeMerge {
+public class NodeMerge
+{
 	private ATermAppl source;
 	private ATermAppl target;
 	private DependencySet ds;
-	
-	public NodeMerge(Node y, Node z) {
-		this.setSource( y.getName() );
-		this.setTarget( z.getName() );
+
+	public NodeMerge(final Node y, final Node z)
+	{
+		this.setSource(y.getName());
+		this.setTarget(z.getName());
 	}
-	
-	public NodeMerge(Node y, Node z, DependencySet ds) {
-		this.setSource( y.getName() );
-		this.setTarget( z.getName() );		
+
+	public NodeMerge(final Node y, final Node z, final DependencySet ds)
+	{
+		this.setSource(y.getName());
+		this.setTarget(z.getName());
 		this.ds = ds;
 	}
-	
-	NodeMerge(ATermAppl y, ATermAppl z) {
-		this.setSource( y );
-		this.setTarget( z );
+
+	NodeMerge(final ATermAppl y, final ATermAppl z)
+	{
+		this.setSource(y);
+		this.setTarget(z);
 	}
-	
-	public String toString() {
+
+	@Override
+	public String toString()
+	{
 		return getSource() + " -> " + getTarget() + " " + ds;
 	}
 
 	/**
 	 * @param source the source to set
 	 */
-	public void setSource(ATermAppl source) {
+	public void setSource(final ATermAppl source)
+	{
 		this.source = source;
 	}
 
 	/**
 	 * @return the source
 	 */
-	public ATermAppl getSource() {
+	public ATermAppl getSource()
+	{
 		return source;
 	}
 
 	/**
 	 * @param target the target to set
 	 */
-	public void setTarget(ATermAppl target) {
+	public void setTarget(final ATermAppl target)
+	{
 		this.target = target;
 	}
 
 	/**
 	 * @return the target
 	 */
-	public ATermAppl getTarget() {
+	public ATermAppl getTarget()
+	{
 		return target;
 	}
 
 	/**
 	 * @return the dependecy set
 	 */
-	public DependencySet getDepends() {
+	public DependencySet getDepends()
+	{
 		return ds;
 	}
 }

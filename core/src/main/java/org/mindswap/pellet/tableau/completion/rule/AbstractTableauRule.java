@@ -7,7 +7,6 @@
 package org.mindswap.pellet.tableau.completion.rule;
 
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.Node;
@@ -29,62 +28,76 @@ import org.mindswap.pellet.tableau.completion.queue.QueueElement;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public abstract class AbstractTableauRule implements TableauRule {
-    public final static Logger log = Logger.getLogger( AbstractTableauRule.class.getName() );
+public abstract class AbstractTableauRule implements TableauRule
+{
+	public final static Logger log = Logger.getLogger(AbstractTableauRule.class.getName());
 
-    protected enum BlockingType { NONE, DIRECT, INDIRECT, COMPLETE }
-    
-    protected CompletionStrategy strategy;
-    protected NodeSelector nodeSelector;
-    protected BlockingType blockingType;
+	protected enum BlockingType
+	{
+		NONE, DIRECT, INDIRECT, COMPLETE
+	}
 
-	public AbstractTableauRule(CompletionStrategy strategy, NodeSelector nodeSelector, BlockingType blockingType) {
+	protected CompletionStrategy strategy;
+	protected NodeSelector nodeSelector;
+	protected BlockingType blockingType;
+
+	public AbstractTableauRule(final CompletionStrategy strategy, final NodeSelector nodeSelector, final BlockingType blockingType)
+	{
 		this.strategy = strategy;
 		this.nodeSelector = nodeSelector;
 		this.blockingType = blockingType;
 	}
-	
-	public boolean isDisabled() {
+
+	public boolean isDisabled()
+	{
 		return false;
 	}
-	
-	public void apply( IndividualIterator i ) {
-        i.reset( nodeSelector );
-        while( i.hasNext() ) {
-            Individual node = i.next();
-			
-            if( strategy.getBlocking().isBlocked( node ) ) {
-				if( PelletOptions.USE_COMPLETION_QUEUE )
-					addQueueElement( node );				
+
+	@Override
+	public void apply(final IndividualIterator i)
+	{
+		i.reset(nodeSelector);
+		while (i.hasNext())
+		{
+			final Individual node = i.next();
+
+			if (strategy.getBlocking().isBlocked(node))
+			{
+				if (PelletOptions.USE_COMPLETION_QUEUE)
+					addQueueElement(node);
 			}
-            else {            
-	            apply( node );
-	
-	            if( strategy.getABox().isClosed() )
-	                return;
-            }
-        }
-    }
-	
-	protected boolean isBlocked(Individual node) {
-		switch( blockingType ) {
-		case NONE:
-			return false;
-		case DIRECT:
-			return strategy.getBlocking().isDirectlyBlocked( node );
-		case INDIRECT:
-			return strategy.getBlocking().isIndirectlyBlocked( node );
-		case COMPLETE:
-			return strategy.getBlocking().isBlocked( node );
-		default:
-			throw new AssertionError();
+			else
+			{
+				apply(node);
+
+				if (strategy.getABox().isClosed())
+					return;
+			}
 		}
 	}
-	
-	protected void addQueueElement(Node node) {
-		strategy.getABox().getCompletionQueue().add( new QueueElement( node ), nodeSelector );
+
+	protected boolean isBlocked(final Individual node)
+	{
+		switch (blockingType)
+		{
+			case NONE:
+				return false;
+			case DIRECT:
+				return strategy.getBlocking().isDirectlyBlocked(node);
+			case INDIRECT:
+				return strategy.getBlocking().isIndirectlyBlocked(node);
+			case COMPLETE:
+				return strategy.getBlocking().isBlocked(node);
+			default:
+				throw new AssertionError();
+		}
+	}
+
+	protected void addQueueElement(final Node node)
+	{
+		strategy.getABox().getCompletionQueue().add(new QueueElement(node), nodeSelector);
 	}
 }

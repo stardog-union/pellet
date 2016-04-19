@@ -22,69 +22,92 @@ import java.util.Iterator;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class HashIntSet extends AbstractIntSet implements IntSet {
-	private HashSet<Integer>	ints;
+public class HashIntSet extends AbstractIntSet implements IntSet
+{
+	private final HashSet<Integer> ints;
 
-	public HashIntSet() {
-		ints = new HashSet<Integer>();
+	public HashIntSet()
+	{
+		ints = new HashSet<>();
 	}
 
-	public void add(int value) {
-		if( value < 0 )
+	@Override
+	public void add(final int value)
+	{
+		if (value < 0)
 			throw new IndexOutOfBoundsException();
-		
-		ints.add( value );
-		added( value, value );
+
+		ints.add(value);
+		added(value, value);
 	}
 
-	public void addAll(IntSet values) {
-		if( values instanceof HashIntSet ) {
-			ints.addAll( ((HashIntSet) values).ints );
-			if( !values.isEmpty() )
-				added( values.min(), values.max() );
+	@Override
+	public void addAll(final IntSet values)
+	{
+		if (values instanceof HashIntSet)
+		{
+			ints.addAll(((HashIntSet) values).ints);
+			if (!values.isEmpty())
+				added(values.min(), values.max());
 		}
-		else {
-			super.addAll( values );
-		}
+		else
+			super.addAll(values);
 	}
 
-	public boolean contains(int value) {
-		return ints.contains( value );
+	@Override
+	public boolean contains(final int value)
+	{
+		return ints.contains(value);
 	}
 
-	public IntSet copy() {
-		HashIntSet copy = new HashIntSet();		
-		copy.addAll( this );
+	@Override
+	public IntSet copy()
+	{
+		final HashIntSet copy = new HashIntSet();
+		copy.addAll(this);
 		return copy;
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return ints.isEmpty();
 	}
 
-	public IntIterator iterator() {
-		return new IntIterator() {
-			private Iterator<Integer> base = ints.iterator();
+	@Override
+	public IntIterator iterator()
+	{
+		return new IntIterator()
+		{
+			private final Iterator<Integer> base = ints.iterator();
 
-			public boolean hasNext() {
+			@Override
+			public boolean hasNext()
+			{
 				return base.hasNext();
 			}
 
-			public int next() {				
+			@Override
+			public int next()
+			{
 				return base.next();
-			}			
+			}
 		};
 	}
 
-	public void remove(int value) {
-		ints.remove( value );
+	@Override
+	public void remove(final int value)
+	{
+		ints.remove(value);
 		removed(value, value);
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		return ints.size();
 	}
 

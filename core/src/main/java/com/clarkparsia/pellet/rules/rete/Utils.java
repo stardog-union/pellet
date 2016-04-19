@@ -6,10 +6,9 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
+import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.List;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -25,30 +24,34 @@ import aterm.ATermAppl;
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
  */
-public class Utils {
+public class Utils
+{
 
-	public static <T> List<T> concat(List<T> l, List<T> m) {
-		List<T> tmp = new ArrayList<T>();
-		tmp.addAll( l );
-		tmp.addAll( m );
+	public static <T> List<T> concat(final List<T> l, final List<T> m)
+	{
+		final List<T> tmp = new ArrayList<>();
+		tmp.addAll(l);
+		tmp.addAll(m);
 		return tmp;
 	}
 
-	public static List<ATermAppl> getSharedVars(Node node1, Node node2) {
-		List<ATermAppl> result = new ArrayList<ATermAppl>();
+	public static List<ATermAppl> getSharedVars(final Node node1, final Node node2)
+	{
+		final List<ATermAppl> result = new ArrayList<>();
 
-		for( ATermAppl node1var : node1.vars )
-			if( node2.vars.contains( node1var ) )
-				result.add( node1var );
+		for (final ATermAppl node1var : node1.vars)
+			if (node2.vars.contains(node1var))
+				result.add(node1var);
 
-		return Utils.removeDups( result );
+		return Utils.removeDups(result);
 	}
 
-	public static <T> List<T> removeDups(List<T> l) {
-		List<T> noDups = new ArrayList<T>();
-		for( int i = 0; i < l.size(); i++ )
-			if( !noDups.contains( l.get( i ) ) )
-				noDups.add( l.get( i ) );
+	public static <T> List<T> removeDups(final List<T> l)
+	{
+		final List<T> noDups = new ArrayList<>();
+		for (int i = 0; i < l.size(); i++)
+			if (!noDups.contains(l.get(i)))
+				noDups.add(l.get(i));
 		return noDups;
 	}
 

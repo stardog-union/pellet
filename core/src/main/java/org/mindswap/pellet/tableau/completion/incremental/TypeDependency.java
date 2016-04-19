@@ -8,84 +8,84 @@ package org.mindswap.pellet.tableau.completion.incremental;
 
 import aterm.ATermAppl;
 
-
 /**
  * A type dependency.
- * 
- * @author Christian Halaschek-Wiener
  *
+ * @author Christian Halaschek-Wiener
  */
-public class TypeDependency implements Dependency{
+public class TypeDependency implements Dependency
+{
 
 	/**
 	 * The type
 	 */
-	private ATermAppl type;
-	
+	private final ATermAppl type;
+
 	/**
 	 * The individual
 	 */
-	private ATermAppl ind;
-	
-	
+	private final ATermAppl ind;
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param ind
 	 * @param type
 	 */
-	public TypeDependency(ATermAppl ind, ATermAppl type){
+	public TypeDependency(final ATermAppl ind, final ATermAppl type)
+	{
 		this.type = type;
 		this.ind = ind;
 	}
 
-
 	/**
 	 * Get the individual
-	 * 
+	 *
 	 * @return
 	 */
-	public ATermAppl getInd() {
+	public ATermAppl getInd()
+	{
 		return ind;
 	}
 
-
 	/**
 	 * Get the type
-	 * 
+	 *
 	 * @return
 	 */
-	public ATermAppl getType() {
+	public ATermAppl getType()
+	{
 		return type;
 	}
-	
-	
-	
+
 	/**
 	 * ToString method
 	 */
-	public String toString(){
+	@Override
+	public String toString()
+	{
 		return "Type [" + ind + "]  - [" + type + "]";
 	}
-	
-	
-	
+
 	/**
 	 * Equals method
 	 */
-	public boolean equals(Object other){
-		if(other instanceof TypeDependency){
-			return this.ind.equals(((TypeDependency)other).ind) && this.type.equals(((TypeDependency)other).type);	
-		}else
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (other instanceof TypeDependency)
+			return this.ind.equals(((TypeDependency) other).ind) && this.type.equals(((TypeDependency) other).type);
+		else
 			return false;
 	}
-	
-	
+
 	/**
 	 * Hashcode method
 	 */
-	public int hashCode(){ 
-		return this.ind.hashCode() + this.type.hashCode(); 
+	@Override
+	public int hashCode()
+	{
+		return this.ind.hashCode() + this.type.hashCode();
 	}
 
 }

@@ -11,24 +11,28 @@ import java.util.Set;
 /**
  * @author Evren Sirin
  */
-public class SCC {
+public class SCC
+{
 
-	private SCC() {
+	private SCC()
+	{
 	}
 
 	/**
 	 * Computes the strongly connected components of a graph. This implementation is based on Tarjan's algorithm
 	 */
-	public static <E> List<Set<EntityNode<E>>> computeSCC(ReachabilityGraph<E> graph) {
+	public static <E> List<Set<EntityNode<E>>> computeSCC(final ReachabilityGraph<E> graph)
+	{
 		return new SCCComputer<E>().computeSCC(graph);
 	}
 
 	/*
 	 * Simple structure to keep track of info for nodes.
 	 */
-	private static class NodeInfo {
+	private static class NodeInfo
+	{
 
-		private Node node;
+		private final Node node;
 
 		private int index;
 
@@ -36,19 +40,23 @@ public class SCC {
 
 		private boolean onStack;
 
-		private NodeInfo(Node n) {
+		private NodeInfo(final Node n)
+		{
 			node = n;
 			index = -1;
 			lowlink = -1;
 			onStack = false;
 		}
 
-		public String toString() {
+		@Override
+		public String toString()
+		{
 			return node.toString();
 		}
 	}
 
-	private static class SCCComputer<E> {
+	private static class SCCComputer<E>
+	{
 
 		private List<Set<EntityNode<E>>> stronglyConnectedComponents;
 
@@ -58,15 +66,16 @@ public class SCC {
 
 		private Map<Node, NodeInfo> nodeInfos;
 
-		public List<Set<EntityNode<E>>> computeSCC(ReachabilityGraph<E> graph) {
+		public List<Set<EntityNode<E>>> computeSCC(final ReachabilityGraph<E> graph)
+		{
 			stronglyConnectedComponents = new ArrayList<Set<EntityNode<E>>>();
 			nodeInfos = new HashMap<Node, NodeInfo>();
 
-			Collection<EntityNode<E>> nodes = graph.getEntityNodes();
-			for (Node node : nodes) {
-				if (nodeInfos.containsKey(node)) {
+			final Collection<EntityNode<E>> nodes = graph.getEntityNodes();
+			for (final Node node : nodes)
+			{
+				if (nodeInfos.containsKey(node))
 					continue;
-				}
 
 				computeSCC(node);
 			}
@@ -74,16 +83,18 @@ public class SCC {
 			return stronglyConnectedComponents;
 		}
 
-		private void computeSCC(Node node) {
+		private void computeSCC(final Node node)
+		{
 			index = 0;
 
 			stack = new ArrayList<NodeInfo>();
 
-			NodeInfo nodeInfo = new NodeInfo(node);
+			final NodeInfo nodeInfo = new NodeInfo(node);
 			visit(nodeInfo);
 		}
 
-		private void visit(NodeInfo nodeInfo) {
+		private void visit(final NodeInfo nodeInfo)
+		{
 			nodeInfos.put(nodeInfo.node, nodeInfo);
 			nodeInfo.index = index;
 			nodeInfo.lowlink = index;
@@ -92,43 +103,44 @@ public class SCC {
 			stack.add(nodeInfo);
 			nodeInfo.onStack = true;
 
-			for (Node out : nodeInfo.node.getOutputs()) {
+			for (final Node out : nodeInfo.node.getOutputs())
+			{
 				// ignore AndNodes because connectivity through AndNode does not
 				// necessarily mean equivalent modules
-				if (out instanceof AndNode) {
+				if (out instanceof AndNode)
 					continue;
-				}
 
 				NodeInfo outInfo = nodeInfos.get(out);
-				if (outInfo == null) {
+				if (outInfo == null)
+				{
 					outInfo = new NodeInfo(out);
 					visit(outInfo);
 					nodeInfo.lowlink = Math.min(nodeInfo.lowlink, outInfo.lowlink);
 				}
-				else if (outInfo.onStack) {
-					nodeInfo.lowlink = Math.min(nodeInfo.lowlink, outInfo.index);
-				}
+				else
+					if (outInfo.onStack)
+						nodeInfo.lowlink = Math.min(nodeInfo.lowlink, outInfo.index);
 			}
 
-			if (nodeInfo.lowlink == nodeInfo.index) {
-				Set<EntityNode<E>> connectedComponent = new HashSet<EntityNode<E>>();
+			if (nodeInfo.lowlink == nodeInfo.index)
+			{
+				final Set<EntityNode<E>> connectedComponent = new HashSet<EntityNode<E>>();
 
 				int i = stack.size() - 1;
 				NodeInfo info = null;
-				while (info != nodeInfo) {
+				while (info != nodeInfo)
+				{
 					info = stack.get(i);
 					info.onStack = false;
 					// do not include OrNodes in the component
-					if (info.node instanceof EntityNode) {
+					if (info.node instanceof EntityNode)
 						connectedComponent.add((EntityNode) info.node);
-					}
 					i--;
 				}
 
 				// ignore if the component was a singleton OrNode
-				if (connectedComponent.size() > 0) {
+				if (connectedComponent.size() > 0)
 					stronglyConnectedComponents.add(connectedComponent);
-				}
 				stack.subList(i + 1, stack.size()).clear();
 			}
 		}

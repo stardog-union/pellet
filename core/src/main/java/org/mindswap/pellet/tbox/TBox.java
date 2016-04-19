@@ -30,27 +30,26 @@
 
 package org.mindswap.pellet.tbox;
 
+import aterm.ATermAppl;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
-
 import org.mindswap.pellet.tbox.impl.Unfolding;
 
-import aterm.ATermAppl;
-
-public interface TBox {
+public interface TBox
+{
 	/**
 	 * Add a named class declaration
-	 * 
+	 *
 	 * @return <code>true</code> if TBox changed as a result of this call
 	 */
-	public boolean addClass( ATermAppl term );
+	public boolean addClass(ATermAppl term);
 
 	/**
-	 * Return all the named classes 
+	 * Return all the named classes
 	 */
 	public Set<ATermAppl> getClasses();
-	
+
 	/**
 	 * Return all the named classes plus TOP and BOTTOM
 	 */
@@ -67,82 +66,70 @@ public interface TBox {
 	public Collection<ATermAppl> getAssertedAxioms();
 
 	/**
-	 * Return all the sub and equivalent class axioms that have 
-	 * the given concept on the left hand side
+	 * Return all the sub and equivalent class axioms that have the given concept on the left hand side
 	 */
-	public Collection<ATermAppl> getAxioms( ATermAppl concept );
+	public Collection<ATermAppl> getAxioms(ATermAppl concept);
 
 	/**
 	 * Lazy unfold the given concept
-	 *  
+	 * 
 	 * @param c
 	 * @return
 	 */
-	public Iterator<Unfolding> unfold( ATermAppl c );
+	public Iterator<Unfolding> unfold(ATermAppl c);
 
 	/**
-	 * Returns if a concept has only primitive definitions in this TBox. Only
-	 * primitive definitions mean the concept did not have any equivalents
-	 * defined or all equivalence axioms has been absorbed into primitive
-	 * definitions. This function returns <code>false</code> for complex class
-	 * expressions.
-	 * 
-	 * @param c
-	 *            a concept (named concept or a concept expression)
-	 * @return <code>true</code> if the concept is not complex and has only
-	 *         primitive definitions
+	 * Returns if a concept has only primitive definitions in this TBox. Only primitive definitions mean the concept did not have any equivalents defined or all
+	 * equivalence axioms has been absorbed into primitive definitions. This function returns <code>false</code> for complex class expressions.
+	 *
+	 * @param c a concept (named concept or a concept expression)
+	 * @return <code>true</code> if the concept is not complex and has only primitive definitions
 	 */
-	public boolean isPrimitive( ATermAppl c );	
+	public boolean isPrimitive(ATermAppl c);
 
 	/**
 	 * Add a TBox axiom.
-	 * 
+	 *
 	 * @param axiom
 	 * @return
 	 */
 	public boolean addAxiom(ATermAppl axiom);
-	
+
 	/**
-	 * Remove {@code axiom} from TBox and all other axioms that depend on it. An
-	 * axiom depends on another axiom if it is a syntactic transformation (as in
-	 * disjoint axiom is transformed into subclass) or it is obtained via
-	 * absorption (as equivalent class axioms are absorbed into subclass
-	 * axioms). This method is syntactic sugar for
-	 * {@link #removeAxiom(ATermAppl, ATermAppl)} where both parameters are
-	 * {@code axiom}.
-	 * 
+	 * Remove {@code axiom} from TBox and all other axioms that depend on it. An axiom depends on another axiom if it is a syntactic transformation (as in
+	 * disjoint axiom is transformed into subclass) or it is obtained via absorption (as equivalent class axioms are absorbed into subclass axioms). This method
+	 * is syntactic sugar for {@link #removeAxiom(ATermAppl, ATermAppl)} where both parameters are {@code axiom}.
+	 *
 	 * @param axiom
 	 * @return
 	 */
 	public boolean removeAxiom(ATermAppl axiom);
 
 	/**
-	 * Remove all explanations for {@code dependantAxiom} that contain
-	 * {@code explanationAxiom}. If no explanations remain,
-	 * {@code dependantAxiom} is removed and all axioms which depend on it are
-	 * updated (and will be removed if they have no additional explanations).
-	 * 
+	 * Remove all explanations for {@code dependantAxiom} that contain {@code explanationAxiom}. If no explanations remain, {@code dependantAxiom} is removed
+	 * and all axioms which depend on it are updated (and will be removed if they have no additional explanations).
+	 *
 	 * @param dependantAxiom
 	 * @param explanationAxiom
 	 * @return
 	 */
 	public boolean removeAxiom(ATermAppl dependantAxiom, ATermAppl explanationAxiom);
-	
+
 	/**
 	 * Return a single explanation for the given TBox axiom.
-	 * 
+	 *
 	 * @param axiom
 	 * @return
 	 */
 	public Set<ATermAppl> getAxiomExplanation(ATermAppl axiom);
-	
+
 	/**
 	 * Return multiple explanations for the given TBox axiom.
-	 * 
+	 *
 	 * @param axiom
 	 * @return
 	 */
-	public Set<Set<ATermAppl>> getAxiomExplanations(ATermAppl axiom);	
+	public Set<Set<ATermAppl>> getAxiomExplanations(ATermAppl axiom);
 
 	/**
 	 * Make any preparation necessary before reasoning.

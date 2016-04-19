@@ -19,12 +19,14 @@ package org.mindswap.pellet.taxonomy.printer;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class RDFALLXMLTaxonomyPrinter extends RDFXMLTaxonomyPrinter {
+public class RDFALLXMLTaxonomyPrinter extends RDFXMLTaxonomyPrinter
+{
 
-	public RDFALLXMLTaxonomyPrinter() {
+	public RDFALLXMLTaxonomyPrinter()
+	{
 		onlyDirectSubclass = false;
 	}
 }

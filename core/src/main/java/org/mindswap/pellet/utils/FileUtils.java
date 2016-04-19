@@ -47,27 +47,27 @@ import java.util.Collection;
 
 public class FileUtils
 {
-	public static boolean exists(String file)
+	public static boolean exists(final String file)
 	{
 		return new File(file).exists();
 	}
 
-	public static String readURL(URL fileURL) throws IOException
+	public static String readURL(final URL fileURL) throws IOException
 	{
 		return readAll(new InputStreamReader(fileURL.openStream()));
 	}
 
-	public static String readFile(File file) throws FileNotFoundException, IOException
+	public static String readFile(final File file) throws FileNotFoundException, IOException
 	{
 		return readAll(new FileReader(file));
 	}
 
-	public static String readFile(String fileName) throws FileNotFoundException, IOException
+	public static String readFile(final String fileName) throws FileNotFoundException, IOException
 	{
 		return readAll(new FileReader(fileName));
 	}
 
-	public static String readAll(Reader reader) throws IOException
+	public static String readAll(final Reader reader) throws IOException
 	{
 		final StringBuffer buffer = new StringBuffer();
 
@@ -81,7 +81,7 @@ public class FileUtils
 		return buffer.toString();
 	}
 
-	public static String toURI(String fileName)
+	public static String toURI(final String fileName)
 	{
 		if (org.apache.jena.util.FileUtils.isURI(fileName))
 			return fileName;
@@ -102,19 +102,20 @@ public class FileUtils
 
 	/**
 	 * <p>
-	 * Creates a collection of URIs from a given regex list. The given list can contain either absolute (local or remote) URIs or a Java regex expression for a local path. If a regex is given all the files whose name matches the regex will be added to the resulting list.
+	 * Creates a collection of URIs from a given regex list. The given list can contain either absolute (local or remote) URIs or a Java regex expression for a
+	 * local path. If a regex is given all the files whose name matches the regex will be added to the resulting list.
 	 * </p>
 	 * <p>
-	 * The regular expressions supported by this function are Java regular expressions. If we want to get the URIS for all the files in a directory we need to pass <code>/path/to/dir/.*</code>
+	 * The regular expressions supported by this function are Java regular expressions. If we want to get the URIS for all the files in a directory we need to
+	 * pass <code>/path/to/dir/.*</code>
 	 * </p>
-	 * 
-	 * @param fileNameRegexList
-	 *            list of regular expressions for fiel URIs
+	 *
+	 * @param fileNameRegexList list of regular expressions for fiel URIs
 	 * @return list of file URIs matching the given regular expressions
 	 */
-	public static Collection<String> getFileURIsFromRegex(String... fileNameRegexList)
+	public static Collection<String> getFileURIsFromRegex(final String... fileNameRegexList)
 	{
-		final Collection<String> uris = new ArrayList<String>();
+		final Collection<String> uris = new ArrayList<>();
 
 		for (final String fileNameRegex : fileNameRegexList)
 		{
@@ -133,12 +134,9 @@ public class FileUtils
 				Arrays.sort(files, AlphaNumericComparator.CASE_INSENSITIVE);
 
 				for (final File f : files)
-				{
 					uris.add(f.toURI().toString());
-				}
 			}
 			else
-			{
 				if (file.exists())
 					uris.add(file.toURI().toString());
 				else
@@ -146,7 +144,6 @@ public class FileUtils
 						throw new RuntimeException(new FileNotFoundException(fileNameRegex));
 					else
 						uris.add(fileNameRegex);
-			}
 		}
 
 		return uris;
@@ -154,50 +151,40 @@ public class FileUtils
 
 	/**
 	 * Creates a collection of URIs from a given list of files.
-	 * 
+	 *
 	 * @param fileNameList the list of files
 	 * @return a list of URIs
 	 */
-	public static Collection<String> getFileURIs(String... fileNameList)
+	public static Collection<String> getFileURIs(final String... fileNameList)
 	{
-		final Collection<String> uris = new ArrayList<String>();
+		final Collection<String> uris = new ArrayList<>();
 
 		for (final String fileName : fileNameList)
-		{
 			uris.add(getFileURI(fileName));
-		}
 
 		return uris;
 	}
 
 	/**
 	 * Creates a URI from a given file name.
-	 * 
+	 *
 	 * @param fileNameList the list of files
 	 * @return a string representing the file URI
 	 */
-	public static String getFileURI(String fileName)
+	public static String getFileURI(final String fileName)
 	{
 		final File file = new File(fileName);
 		final File dir = file.getParentFile();
 
 		if (file.exists())
-		{
 			return file.toURI().toString();
-		}
 		else
 			if (dir != null && dir.exists())
-			{
 				throw new RuntimeException(new FileNotFoundException(fileName));
-			}
 			else
 				if (URI.create(fileName) == null)
-				{
 					throw new RuntimeException(new FileNotFoundException(fileName));
-				}
 				else
-				{
 					return fileName;
-				}
 	}
 }

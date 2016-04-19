@@ -11,10 +11,10 @@ package com.clarkparsia.explanation.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import com.clarkparsia.pellet.owlapi.PelletReasoner;
-import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.explanation.PelletExplanation;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -32,7 +32,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletInfGraph;
-import org.mindswap.pellet.jena.vocabulary.OWL2;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -53,7 +52,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
 public class MiscExplanationTests
@@ -84,7 +83,7 @@ public class MiscExplanationTests
 		final OWLIndividual i = OWL.Individual("i");
 		final OWLIndividual j = OWL.Individual("j");
 
-		final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> axioms = new HashSet<>();
 		axioms.add(OWL.disjointClasses(A, B));
 		axioms.add(OWL.equivalentClasses(C, OWL.Nothing));
 		axioms.add(OWL.classAssertion(i, A));
@@ -97,22 +96,23 @@ public class MiscExplanationTests
 
 		final Set<Set<OWLAxiom>> actual = explain.getInconsistencyExplanations();
 
-		final Set<OWLAxiom> f = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> f = new HashSet<>();
 		f.add(OWL.classAssertion(i, B));
 		f.add(OWL.classAssertion(i, A));
 		f.add(OWL.disjointClasses(A, B));
 
-		final Set<OWLAxiom> s = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> s = new HashSet<>();
 		s.add(OWL.equivalentClasses(C, OWL.Nothing));
 		s.add(OWL.classAssertion(j, C));
 
-		final Set<Set<OWLAxiom>> expected = new HashSet<Set<OWLAxiom>>();
+		final Set<Set<OWLAxiom>> expected = new HashSet<>();
 		expected.add(f);
 		expected.add(s);
 
 		assertEquals(expected, actual);
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void testPunning1() throws Exception
 	{
@@ -120,7 +120,7 @@ public class MiscExplanationTests
 		final OWLClass B = OWL.Class("B");
 		final OWLIndividual i = OWL.Individual("A");
 
-		final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> axioms = new HashSet<>();
 		axioms.add(OWL.disjointClasses(A, B));
 		axioms.add(OWL.classAssertion(i, A));
 		axioms.add(OWL.classAssertion(i, B));
@@ -132,6 +132,7 @@ public class MiscExplanationTests
 		assertFalse(explain.getInconsistencyExplanations().isEmpty());
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void testPunning2() throws Exception
 	{
@@ -139,7 +140,7 @@ public class MiscExplanationTests
 		final OWLObjectProperty S = OWL.ObjectProperty("S");
 		final OWLIndividual i = OWL.Individual("P");
 
-		final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> axioms = new HashSet<>();
 		axioms.add(OWL.disjointProperties(P, S));
 		axioms.add(OWL.propertyAssertion(i, P, i));
 		axioms.add(OWL.propertyAssertion(i, S, i));
@@ -151,6 +152,7 @@ public class MiscExplanationTests
 		assertFalse(explain.getInconsistencyExplanations().isEmpty());
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void testPunning3() throws Exception
 	{
@@ -160,7 +162,7 @@ public class MiscExplanationTests
 		final OWLClass B = OWL.Class("B");
 		final OWLIndividual j = OWL.Individual("B");
 
-		final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> axioms = new HashSet<>();
 		axioms.add(OWL.disjointClasses(A, B));
 		axioms.add(OWL.classAssertion(i, A));
 		axioms.add(OWL.classAssertion(j, B));
@@ -180,7 +182,7 @@ public class MiscExplanationTests
 		final OWLIndividual a = OWL.Individual("A");
 		final OWLIndividual b = OWL.Individual("b");
 
-		final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> axioms = new HashSet<>();
 		axioms.add(OWL.equivalentClasses(A, OWL.oneOf(a, b)));
 
 		final OWLOntology ontology = OWL.Ontology(axioms);
@@ -196,7 +198,7 @@ public class MiscExplanationTests
 		final OWLClass A = OWL.Class("A");
 		final OWLIndividual a = OWL.Individual("A");
 
-		final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> axioms = new HashSet<>();
 		axioms.add(OWL.equivalentClasses(A, OWL.oneOf(a)));
 
 		final OWLOntology ontology = OWL.Ontology(axioms);
@@ -215,7 +217,7 @@ public class MiscExplanationTests
 		final Resource i = ResourceFactory.createResource("i");
 
 		final Model expected = ModelFactory.createDefaultModel();
-		expected.add(A, OWL2.disjointWith, B);
+		expected.add(A, org.apache.jena.vocabulary.OWL.disjointWith, B);
 		expected.add(i, RDF.type, A);
 		expected.add(i, RDF.type, B);
 
@@ -332,7 +334,7 @@ public class MiscExplanationTests
 		}
 
 		//String queryString = 	"PREFIX : <http://www.inmindcomputing.com/test/test-commands.owl#> \n"
-		//						+ "SELECT ?object WHERE \n " 
+		//						+ "SELECT ?object WHERE \n "
 		//						+ "{ <http://www.inmindcomputing.com/test/test-commands.owl#BOMType1> <http://www.inmindcomputing.com/test/test-commands.owl#hasProduct> ?obj . }";
 		//Query query = QueryFactory.create( queryString );
 
@@ -343,7 +345,7 @@ public class MiscExplanationTests
 		//ResultSetFormatter.out( rs );
 	}*/
 
-	private void loadFromResource(OntModel model, String resource)
+	private void loadFromResource(final OntModel model, final String resource)
 	{
 
 		try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream(resource))

@@ -10,9 +10,9 @@ import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import aterm.ATermAppl;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
@@ -32,16 +32,13 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.vocab.OWL2Datatype;
 import org.semanticweb.owlapi.vocab.OWLFacet;
-import aterm.ATermAppl;
 
 /**
  * <p>
  * Title: TestIsClass
  * </p>
  * <p>
- * Description: This test cases have been written to resolve issue #141 and #140
- * where certain terms were wrongly evaluated as classes, e.g.
- * value(literal(...))
+ * Description: This test cases have been written to resolve issue #141 and #140 where certain terms were wrongly evaluated as classes, e.g. value(literal(...))
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -49,100 +46,99 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class TestIsClass {
+public class TestIsClass
+{
 
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( TestIsClass.class );
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(TestIsClass.class);
 	}
 
 	@Test
-	public void testIsClass1() {
-		KnowledgeBase kb = new KnowledgeBase();
+	public void testIsClass1()
+	{
+		final KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl p = term( "p" );
-		ATermAppl l = ATermUtils.makeTermAppl( "l" );
-		ATermAppl v = ATermUtils.makeValue( ATermUtils.makeLiteral( l ) );
-		ATermAppl c = ATermUtils.makeSomeValues( p, v );
+		final ATermAppl p = term("p");
+		final ATermAppl l = ATermUtils.makeTermAppl("l");
+		final ATermAppl v = ATermUtils.makeValue(ATermUtils.makeLiteral(l));
+		final ATermAppl c = ATermUtils.makeSomeValues(p, v);
 
-		kb.addProperty( p );
+		kb.addProperty(p);
 
-		assertTrue( kb.isClass( c ) );
+		assertTrue(kb.isClass(c));
 	}
 
 	@Test
-	public void testIsClass2() {
-		KnowledgeBase kb = new KnowledgeBase();
+	public void testIsClass2()
+	{
+		final KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl l = ATermUtils.makeTermAppl( "l" );
-		ATermAppl v = ATermUtils.makeValue( ATermUtils.makeLiteral( l ) );
+		final ATermAppl l = ATermUtils.makeTermAppl("l");
+		final ATermAppl v = ATermUtils.makeValue(ATermUtils.makeLiteral(l));
 
-		assertFalse( kb.isClass( v ) );
+		assertFalse(kb.isClass(v));
 	}
 
 	@Test
-	public void testIsClass3() {
-		KnowledgeBase kb = new KnowledgeBase();
+	public void testIsClass3()
+	{
+		final KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl l1 = ATermUtils.makeTermAppl( "l1" );
-		ATermAppl l2 = ATermUtils.makeTermAppl( "l2" );
-		ATermAppl v1 = ATermUtils.makeValue( ATermUtils.makeLiteral( l1 ) );
-		ATermAppl v2 = ATermUtils.makeValue( ATermUtils.makeLiteral( l2 ) );
-		ATermAppl t = ATermUtils.makeOr( v1, v2 );
+		final ATermAppl l1 = ATermUtils.makeTermAppl("l1");
+		final ATermAppl l2 = ATermUtils.makeTermAppl("l2");
+		final ATermAppl v1 = ATermUtils.makeValue(ATermUtils.makeLiteral(l1));
+		final ATermAppl v2 = ATermUtils.makeValue(ATermUtils.makeLiteral(l2));
+		final ATermAppl t = ATermUtils.makeOr(v1, v2);
 
-		assertFalse( kb.isClass( t ) );
+		assertFalse(kb.isClass(t));
 	}
 
 	@Test
-	public void testIsClass4() {
-		KnowledgeBase kb = new KnowledgeBase();
+	public void testIsClass4()
+	{
+		final KnowledgeBase kb = new KnowledgeBase();
 
-		ATermAppl l = ATermUtils.makeTermAppl( "l" );
-		ATermAppl v = ATermUtils.makeValue( ATermUtils.makeLiteral( l ) );
-		ATermAppl n = ATermUtils.makeNot( v );
+		final ATermAppl l = ATermUtils.makeTermAppl("l");
+		final ATermAppl v = ATermUtils.makeValue(ATermUtils.makeLiteral(l));
+		final ATermAppl n = ATermUtils.makeNot(v);
 
-		assertFalse( kb.isClass( n ) );
+		assertFalse(kb.isClass(n));
 	}
 
 	@Test
-	public void testIsClass5() throws OWLOntologyCreationException {
-		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-		OWLDataFactory factory = manager.getOWLDataFactory();
-		OWLOntology ontology = manager.createOntology(IRI
-				.create("http://example.org"));
-		
-		OWLDatatype dataRange = factory.getOWLDatatype(OWL2Datatype.XSD_INTEGER.getIRI());
-		OWLFacetRestriction dataRangeFacetRestriction = factory
-				.getOWLFacetRestriction(
-						OWLFacet.MIN_EXCLUSIVE, 1);
-		OWLDataRange dataRangeRestriction = factory
-				.getOWLDatatypeRestriction(dataRange,
-						dataRangeFacetRestriction);
+	public void testIsClass5() throws OWLOntologyCreationException
+	{
+		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		final OWLDataFactory factory = manager.getOWLDataFactory();
+		final OWLOntology ontology = manager.createOntology(IRI.create("http://example.org"));
 
-		OWLDataProperty p = factory.getOWLDataProperty(IRI
-				.create("http://example#p"));
-		OWLDataSomeValuesFrom dataSomeRestriction = factory
-				.getOWLDataSomeValuesFrom(p, dataRangeRestriction);
+		final OWLDatatype dataRange = factory.getOWLDatatype(OWL2Datatype.XSD_INTEGER.getIRI());
+		final OWLFacetRestriction dataRangeFacetRestriction = factory.getOWLFacetRestriction(OWLFacet.MIN_EXCLUSIVE, 1);
+		final OWLDataRange dataRangeRestriction = factory.getOWLDatatypeRestriction(dataRange, dataRangeFacetRestriction);
 
-		OWLClass c = factory.getOWLClass(IRI.create("http://example#c"));
+		final OWLDataProperty p = factory.getOWLDataProperty(IRI.create("http://example#p"));
+		final OWLDataSomeValuesFrom dataSomeRestriction = factory.getOWLDataSomeValuesFrom(p, dataRangeRestriction);
 
-		OWLSubClassOfAxiom sc = factory.getOWLSubClassOfAxiom(c,
-				dataSomeRestriction);
+		final OWLClass c = factory.getOWLClass(IRI.create("http://example#c"));
+
+		final OWLSubClassOfAxiom sc = factory.getOWLSubClassOfAxiom(c, dataSomeRestriction);
 
 		manager.addAxiom(ontology, sc);
-		
-		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
+
+		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
 
 		assertTrue(reasoner.isConsistent());
-		
-		KnowledgeBase kb = reasoner.getKB();
+
+		final KnowledgeBase kb = reasoner.getKB();
 		assertTrue(kb.isClass(term("http://example#c")));
-		
-		// check for complex class that refers to a user-defined datatype 
-		ATermAppl term = reasoner.term( dataSomeRestriction );
-		term = ATermUtils.normalize( term );
-		assertTrue( kb.isClass( term ) );		
+
+		// check for complex class that refers to a user-defined datatype
+		ATermAppl term = reasoner.term(dataSomeRestriction);
+		term = ATermUtils.normalize(term);
+		assertTrue(kb.isClass(term));
 	}
 }

@@ -11,7 +11,7 @@ package com.clarkparsia.pellet.rules.model;
  * Title: Atom Object
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -19,11 +19,12 @@ package com.clarkparsia.pellet.rules.model;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface AtomObject {
+ */
+public interface AtomObject
+{
 
-	public void accept( AtomObjectVisitor visitor );
-	
+	public void accept(AtomObjectVisitor visitor);
+
 }

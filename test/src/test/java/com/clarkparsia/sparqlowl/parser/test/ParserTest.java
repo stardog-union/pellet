@@ -8,12 +8,17 @@ package com.clarkparsia.sparqlowl.parser.test;
 
 import static org.junit.Assert.assertEquals;
 
+import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
+import com.clarkparsia.sparqlowl.parser.arq.ARQTerpParser;
+import com.clarkparsia.sparqlowl.parser.arq.TerpSyntax;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
-
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.Syntax;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,13 +33,6 @@ import org.mindswap.pellet.test.PelletTestSuite;
 import org.mindswap.pellet.utils.FileUtils;
 import org.mindswap.pellet.utils.SetUtils;
 
-import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
-import com.clarkparsia.sparqlowl.parser.arq.ARQTerpParser;
-import com.clarkparsia.sparqlowl.parser.arq.TerpSyntax;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.Syntax;
-
 /**
  * <p>
  * Title:
@@ -48,30 +46,31 @@ import org.apache.jena.query.Syntax;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 @RunWith(Parameterized.class)
-public class ParserTest {
+public class ParserTest
+{
 	public static final String base = PelletTestSuite.base + "/sparqldl-tests/simple/";
-	
+
 	@Parameters
-	public static Collection<Object[]> getParameters() {
-		Collection<Object[]> parameters = new ArrayList<Object[]>();
-		
+	public static Collection<Object[]> getParameters()
+	{
+		final Collection<Object[]> parameters = new ArrayList<>();
+
 		addParameter(parameters, "simple", 1, 8, 6);
 		addParameter(parameters, "parent", 1, 11);
-		
+
 		return parameters;
 	}
-	
-	private static void addParameter(Collection<Object[]> parameters, String prefix, int minIndex, int maxIndex, Integer... ignoreIndices) {	
-		Set<Integer> ignoreSet = SetUtils.create(ignoreIndices);
-		for (int i = minIndex; i <= maxIndex; i++) {
-			if( !ignoreSet.contains(i)) {
-	            parameters.add( new Object[] { prefix + ".ttl", prefix + i + ".rq", prefix + i + ".terp" } );
-            }    
-        }
+
+	private static void addParameter(final Collection<Object[]> parameters, final String prefix, final int minIndex, final int maxIndex, final Integer... ignoreIndices)
+	{
+		final Set<Integer> ignoreSet = SetUtils.create(ignoreIndices);
+		for (int i = minIndex; i <= maxIndex; i++)
+			if (!ignoreSet.contains(i))
+				parameters.add(new Object[] { prefix + ".ttl", prefix + i + ".rq", prefix + i + ".terp" });
 	}
 
 	private static ARQParser parser;
@@ -80,43 +79,49 @@ public class ParserTest {
 	private KnowledgeBase kb;
 	private final String sparqlFile;
 	private final String sparqlOWLFile;
-	
-	public ParserTest(String kbFile, String sparqlFile, String sparqlOWLFile) {
+
+	public ParserTest(final String kbFile, final String sparqlFile, final String sparqlOWLFile)
+	{
 		this.kbFile = kbFile;
 		this.sparqlFile = sparqlFile;
 		this.sparqlOWLFile = sparqlOWLFile;
 	}
-	
+
 	@BeforeClass
-	public static void beforeClass() {
+	public static void beforeClass()
+	{
 		ARQTerpParser.registerFactory();
 	}
-	
+
 	@AfterClass
-	public static void afterClass() {
+	public static void afterClass()
+	{
 		ARQTerpParser.unregisterFactory();
 	}
-		
+
 	@Before
-	public void before() {
+	public void before()
+	{
 		kb = new JenaLoader().createKB(base + kbFile);
 		parser = new ARQParser();
 	}
-	
+
 	@After
-	public void after() {
+	public void after()
+	{
 		kb = null;
 		parser = null;
 	}
-	
+
 	@Test
-	public void compareQuery() throws FileNotFoundException, IOException {
-		Query sparql = QueryFactory.create( FileUtils.readFile( base + sparqlFile ), Syntax.syntaxSPARQL );
-		com.clarkparsia.pellet.sparqldl.model.Query expected = parser.parse( sparql, kb );
-		
-		Query sparqlOWL = QueryFactory.create( FileUtils.readFile( base + sparqlOWLFile ), TerpSyntax.getInstance() );		
-		com.clarkparsia.pellet.sparqldl.model.Query actual = parser.parse( sparqlOWL, kb );
-		
-		assertEquals( expected.getAtoms(), actual.getAtoms() );
+	public void compareQuery() throws FileNotFoundException, IOException
+	{
+		final Query sparql = QueryFactory.create(FileUtils.readFile(base + sparqlFile), Syntax.syntaxSPARQL);
+		final com.clarkparsia.pellet.sparqldl.model.Query expected = parser.parse(sparql, kb);
+
+		final Query sparqlOWL = QueryFactory.create(FileUtils.readFile(base + sparqlOWLFile), TerpSyntax.getInstance());
+		final com.clarkparsia.pellet.sparqldl.model.Query actual = parser.parse(sparqlOWL, kb);
+
+		assertEquals(expected.getAtoms(), actual.getAtoms());
 	}
 }

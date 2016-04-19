@@ -18,11 +18,12 @@ import java.util.logging.Logger;
  *
  * @author Evren Sirin
  */
-public class Reachability<E> {
+public class Reachability<E>
+{
 
 	public static final Logger log = Logger.getLogger(Reachability.class.getName());
 
-	private ReachabilityGraph<E> graph;
+	private final ReachabilityGraph<E> graph;
 
 	private Set<E> activatedEntities;
 
@@ -30,25 +31,28 @@ public class Reachability<E> {
 
 	private Queue<Node> waitingQueue;
 
-	public Reachability(ReachabilityGraph<E> graph) {
+	public Reachability(final ReachabilityGraph<E> graph)
+	{
 		this.graph = graph;
 	}
 
-	public ReachabilityGraph<E> getGraph() {
+	public ReachabilityGraph<E> getGraph()
+	{
 		return graph;
 	}
 
-	private void reset() {
+	private void reset()
+	{
 		activatedEntities = new HashSet<E>();
 		affectedNodes = new HashSet<Node>();
 		waitingQueue = new LinkedList<Node>();
 		waitingQueue.add(graph.getStartNode());
 	}
 
-	private void activateNode(EntityNode<E> node) {
-		if (node.isActive()) {
+	private void activateNode(final EntityNode<E> node)
+	{
+		if (node.isActive())
 			throw new IllegalStateException();
-		}
 
 		affectedNodes.add(node);
 		activatedEntities.addAll(node.getEntities());
@@ -56,65 +60,66 @@ public class Reachability<E> {
 
 		node.inputActivated();
 
-		if (log.isLoggable(Level.FINE)) {
+		if (log.isLoggable(Level.FINE))
 			log.fine("Activated: " + node);
-		}
 	}
 
-	public boolean contains(E entity) {
+	public boolean contains(final E entity)
+	{
 		return graph.getNode(entity) != null;
 	}
 
-	public Set<E> computeReachable(Iterable<E> initialEntities) {
+	public Set<E> computeReachable(final Iterable<E> initialEntities)
+	{
 		reset();
 
-		for (E initialEntity : initialEntities) {
-			EntityNode<E> initialNode = graph.getNode(initialEntity);
-			if (initialNode == null) {
+		for (final E initialEntity : initialEntities)
+		{
+			final EntityNode<E> initialNode = graph.getNode(initialEntity);
+			if (initialNode == null)
 				throw new IllegalArgumentException("Unknown entity: " + initialEntity);
-			}
-			if (!initialNode.isActive()) {
+			if (!initialNode.isActive())
 				activateNode(initialNode);
-			}
 		}
 
-		while (!waitingQueue.isEmpty()) {
-			Node node = waitingQueue.poll();
+		while (!waitingQueue.isEmpty())
+		{
+			final Node node = waitingQueue.poll();
 
 			assert node.isActive();
 
-			for (Node outputNode : node.getOutputs()) {
-				if (outputNode.isActive()) {
-					if (log.isLoggable(Level.FINE)) {
+			for (final Node outputNode : node.getOutputs())
+			{
+				if (outputNode.isActive())
+				{
+					if (log.isLoggable(Level.FINE))
 						log.fine("Already activated: " + outputNode);
-					}
 					continue;
 				}
 
 				affectedNodes.add(outputNode);
 
-				if (outputNode.inputActivated()) {
-					if (log.isLoggable(Level.FINE)) {
+				if (outputNode.inputActivated())
+				{
+					if (log.isLoggable(Level.FINE))
 						log.fine("Activated: " + outputNode);
-					}
 
 					waitingQueue.add(outputNode);
-					if (outputNode instanceof EntityNode) {
+					if (outputNode instanceof EntityNode)
 						activatedEntities.addAll(entityNode(outputNode).getEntities());
-					}
 				}
 			}
 		}
 
-		for (Node node : affectedNodes) {
+		for (final Node node : affectedNodes)
 			node.reset();
-		}
 
 		return activatedEntities;
 	}
 
 	@SuppressWarnings("unchecked")
-	private EntityNode<E> entityNode(Node node) {
+	private EntityNode<E> entityNode(final Node node)
+	{
 		return (EntityNode) node;
 	}
 }

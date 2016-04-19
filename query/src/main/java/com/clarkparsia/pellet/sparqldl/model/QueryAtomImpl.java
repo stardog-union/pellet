@@ -8,13 +8,11 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
+import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -29,51 +27,57 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class QueryAtomImpl implements QueryAtom {
+public class QueryAtomImpl implements QueryAtom
+{
 
-	protected final QueryPredicate	predicate;
+	protected final QueryPredicate predicate;
 
-	protected final List<ATermAppl>	arguments;
+	protected final List<ATermAppl> arguments;
 
-	protected boolean				ground;
+	protected boolean ground;
 
-	public QueryAtomImpl(final QueryPredicate predicate, final ATermAppl... arguments) {
-		this( predicate, Arrays.asList( arguments ) );
+	public QueryAtomImpl(final QueryPredicate predicate, final ATermAppl... arguments)
+	{
+		this(predicate, Arrays.asList(arguments));
 	}
 
-	public QueryAtomImpl(final QueryPredicate predicate, final List<ATermAppl> arguments) {
-		if( predicate == null ) {
-			throw new RuntimeException( "Predicate cannot be null." );
-		}
+	public QueryAtomImpl(final QueryPredicate predicate, final List<ATermAppl> arguments)
+	{
+		if (predicate == null)
+			throw new RuntimeException("Predicate cannot be null.");
 
 		this.predicate = predicate;
 		this.arguments = arguments;
 		// this.vars = new HashSet<ATermAppl>();
 		//
 		ground = true;
-		for( final ATermAppl a : arguments ) {
-			if( ATermUtils.isVar( a ) ) {
+		for (final ATermAppl a : arguments)
+			if (ATermUtils.isVar(a))
+			{
 				ground = false;
 				// vars.add(a);
 				break;
 			}
-		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public QueryPredicate getPredicate() {
+	@Override
+	public QueryPredicate getPredicate()
+	{
 		return predicate;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<ATermAppl> getArguments() {
+	@Override
+	public List<ATermAppl> getArguments()
+	{
 		return arguments;
 	}
 
@@ -87,63 +91,64 @@ public class QueryAtomImpl implements QueryAtom {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isGround() {
+	@Override
+	public boolean isGround()
+	{
 		return ground;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public QueryAtom apply(final ResultBinding binding) {
-		if( isGround() ) {
+	@Override
+	public QueryAtom apply(final ResultBinding binding)
+	{
+		if (isGround())
 			return this;
-		}
 
-		final List<ATermAppl> newArguments = new ArrayList<ATermAppl>();
+		final List<ATermAppl> newArguments = new ArrayList<>();
 
-		for( final ATermAppl a : arguments ) {
-			if( binding.isBound( a ) ) {
-				newArguments.add( binding.getValue( a ) );
-			}
-			else {
-				newArguments.add( a );
-			}
-		}
+		for (final ATermAppl a : arguments)
+			if (binding.isBound(a))
+				newArguments.add(binding.getValue(a));
+			else
+				newArguments.add(a);
 
-		return newArguments.isEmpty()
-			? this
-			: new QueryAtomImpl( predicate, newArguments );
+		return newArguments.isEmpty() ? this : new QueryAtomImpl(predicate, newArguments);
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return 31 * predicate.hashCode() + arguments.hashCode();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if( this == obj )
+	public boolean equals(final Object obj)
+	{
+		if (this == obj)
 			return true;
-		if( obj == null )
+		if (obj == null)
 			return false;
-		if( getClass() != obj.getClass() )
+		if (getClass() != obj.getClass())
 			return false;
 		final QueryAtomImpl other = (QueryAtomImpl) obj;
 
-		return predicate.equals( other.predicate ) && arguments.equals( other.arguments );
+		return predicate.equals(other.predicate) && arguments.equals(other.arguments);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		final StringBuffer sb = new StringBuffer();
 
-		for( int i = 0; i < arguments.size(); i++ ) {
-			final ATermAppl a = arguments.get( i );
-			if( i > 0 ) {
-				sb.append( ", " );
-			}
+		for (int i = 0; i < arguments.size(); i++)
+		{
+			final ATermAppl a = arguments.get(i);
+			if (i > 0)
+				sb.append(", ");
 
-			sb.append( ATermUtils.toString( a ) );
+			sb.append(ATermUtils.toString(a));
 		}
 
 		return predicate + "(" + sb.toString() + ")";

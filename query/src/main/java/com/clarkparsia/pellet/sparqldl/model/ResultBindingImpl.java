@@ -6,20 +6,17 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
+import aterm.ATermAppl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import org.mindswap.pellet.exceptions.InternalReasonerException;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
  * Title: Default implementation of the result binding.
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -27,91 +24,108 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class ResultBindingImpl implements ResultBinding {
+public class ResultBindingImpl implements ResultBinding
+{
 
-	private final Map<ATermAppl, ATermAppl> bindings = new HashMap<ATermAppl, ATermAppl>();
+	private final Map<ATermAppl, ATermAppl> bindings = new HashMap<>();
 
-	public ResultBindingImpl() {
+	public ResultBindingImpl()
+	{
 	}
 
-	private ResultBindingImpl(final Map<ATermAppl, ATermAppl> bindings) {
+	private ResultBindingImpl(final Map<ATermAppl, ATermAppl> bindings)
+	{
 		this.bindings.putAll(bindings);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setValue(ATermAppl var, ATermAppl binding) {
+	@Override
+	public void setValue(final ATermAppl var, final ATermAppl binding)
+	{
 		bindings.put(var, binding);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setValues(ResultBinding binding) {
-		if (binding instanceof ResultBindingImpl) {
+	@Override
+	public void setValues(final ResultBinding binding)
+	{
+		if (binding instanceof ResultBindingImpl)
 			bindings.putAll(((ResultBindingImpl) binding).bindings);
-		} else {
-			for (final ATermAppl var : binding.getAllVariables()) {
+		else
+			for (final ATermAppl var : binding.getAllVariables())
 				setValue(var, binding.getValue(var));
-			}
-		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public ATermAppl getValue(ATermAppl var) {
+	@Override
+	public ATermAppl getValue(final ATermAppl var)
+	{
 		return bindings.get(var);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isBound(ATermAppl var) {
+	@Override
+	public boolean isBound(final ATermAppl var)
+	{
 		return bindings.containsKey(var);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Set<ATermAppl> getAllVariables() {
+	@Override
+	public Set<ATermAppl> getAllVariables()
+	{
 		return bindings.keySet();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public ResultBinding duplicate() {
-		return new ResultBindingImpl( this.bindings );
+	@Override
+	public ResultBinding duplicate()
+	{
+		return new ResultBindingImpl(this.bindings);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return bindings.toString();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return bindings.isEmpty();
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result
-				+ ((bindings == null) ? 0 : bindings.hashCode());
+		result = PRIME * result + ((bindings == null) ? 0 : bindings.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -119,11 +133,14 @@ public class ResultBindingImpl implements ResultBinding {
 		if (getClass() != obj.getClass())
 			return false;
 		final ResultBindingImpl other = (ResultBindingImpl) obj;
-		if (bindings == null) {
+		if (bindings == null)
+		{
 			if (other.bindings != null)
 				return false;
-		} else if (!bindings.equals(other.bindings))
-			return false;
+		}
+		else
+			if (!bindings.equals(other.bindings))
+				return false;
 		return true;
 	}
 }

@@ -19,10 +19,11 @@ package org.mindswap.pellet.utils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public interface PartialOrderComparator<T> {
+public interface PartialOrderComparator<T>
+{
 
 	public PartialOrderRelation compare(T a, T b);
 }

@@ -6,19 +6,17 @@
 
 package com.clarkparsia.pellet.rules.model;
 
+import aterm.ATermAppl;
 import java.util.Collections;
 import java.util.List;
-
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
  * Title: Unary Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -26,29 +24,35 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public abstract class UnaryAtom<A extends AtomObject> extends RuleAtomImpl<ATermAppl> {
+ */
+public abstract class UnaryAtom<A extends AtomObject> extends RuleAtomImpl<ATermAppl>
+{
 
-	private A argument;
-	
-	public UnaryAtom(ATermAppl predicate, A argument) {
+	private final A argument;
+
+	public UnaryAtom(final ATermAppl predicate, final A argument)
+	{
 		super(predicate);
 		this.argument = argument;
 	}
-	
+
 	@Override
-	public List<A> getAllArguments() {
-		return Collections.singletonList( getArgument() );
+	public List<A> getAllArguments()
+	{
+		return Collections.singletonList(getArgument());
 	}
-	
-	public A getArgument() {
+
+	public A getArgument()
+	{
 		return argument;
 	}
-	
-	public String toString() {
-		return ATermUtils.toString(getPredicate())+"("+getArgument()+")";
+
+	@Override
+	public String toString()
+	{
+		return ATermUtils.toString(getPredicate()) + "(" + getArgument() + ")";
 	}
 
 }

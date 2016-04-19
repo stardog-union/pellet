@@ -26,14 +26,16 @@ import java.io.PrintWriter;
 import java.io.Writer;
 
 /**
- * A special kind of visitor that is designed to render the terms to output. The
- * output is sent to an OutputFormatter so that outputing HTML format is supported.
- * 
+ * A special kind of visitor that is designed to render the terms to output. The output is sent to an OutputFormatter so that outputing HTML format is
+ * supported.
+ *
  * @author Evren Sirin
  */
-public interface ATermRenderer extends ATermVisitor {
-    public void setWriter(PrintWriter out);
-    public PrintWriter getWriter();
-    
-    public void setWriter(Writer out);
+public interface ATermRenderer extends ATermVisitor
+{
+	public void setWriter(PrintWriter out);
+
+	public PrintWriter getWriter();
+
+	public void setWriter(Writer out);
 }

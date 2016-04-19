@@ -8,28 +8,31 @@
 
 package com.clarkparsia.protege.plugin.incremental;
 
+import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
 import org.protege.editor.owl.model.inference.AbstractProtegeOWLReasonerInfo;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
-import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
-
 /**
  * @author Evren Sirin
  */
-public class PelletIncrementalReasonerFactory extends AbstractProtegeOWLReasonerInfo  {
+public class PelletIncrementalReasonerFactory extends AbstractProtegeOWLReasonerInfo
+{
 	/**
-     * {@inheritDoc}
-     */
-    public OWLReasonerFactory getReasonerFactory() {
-	    return PelletIncremantalReasonerFactory.getInstance();
-    }
-
+	 * {@inheritDoc}
+	 */
+	@Override
+	public OWLReasonerFactory getReasonerFactory()
+	{
+		return PelletIncremantalReasonerFactory.getInstance();
+	}
 
 	/**
-     * {@inheritDoc}
-     */
-    public BufferingMode getRecommendedBuffering() {
-	    return BufferingMode.BUFFERING;
-    }
+	 * {@inheritDoc}
+	 */
+	@Override
+	public BufferingMode getRecommendedBuffering()
+	{
+		return BufferingMode.BUFFERING;
+	}
 }

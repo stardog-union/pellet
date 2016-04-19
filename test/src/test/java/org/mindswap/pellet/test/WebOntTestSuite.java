@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -18,50 +17,52 @@ import org.mindswap.pellet.utils.AlphaNumericComparator;
 import org.mindswap.pellet.utils.Comparators;
 
 @RunWith(Parameterized.class)
-public class WebOntTestSuite {
-    public static String base = PelletTestSuite.base + "owl-test/";
+public class WebOntTestSuite
+{
+	public static String base = PelletTestSuite.base + "owl-test/";
 
-	@Parameters(name= "{index}: {0}")
-	public static List<Object[]> getParameters() {
-		List<Object[]> parameters = new ArrayList<Object[]>();
+	@Parameters(name = "{index}: {0}")
+	public static List<Object[]> getParameters()
+	{
+		final List<Object[]> parameters = new ArrayList<>();
 
-        WebOntTest test = new WebOntTest();
-        test.setAvoidFailTests( true );
-        test.setBase( "file:" + base );
-        test.setShowStats( WebOntTest.NO_STATS );
-        
-		File testDir = new File( base );
-		File[] dirs = testDir.listFiles();
-		
-		Arrays.sort( dirs, Comparators.stringComparator );
-		
-		for (int i = 0; i < dirs.length; i++) {
-			if(dirs[i].isFile()) continue;
+		final WebOntTest test = new WebOntTest();
+		test.setAvoidFailTests(true);
+		test.setBase("file:" + base);
+		test.setShowStats(WebOntTest.NO_STATS);
 
-			File[] files = dirs[i].listFiles(  new FileFilter() {
-	            public boolean accept( File file ) {
-	                return file.getName().indexOf( "Manifest" ) != -1;
-	            }		    
-			});
-			
+		final File testDir = new File(base);
+		final File[] dirs = testDir.listFiles();
+
+		Arrays.sort(dirs, Comparators.stringComparator);
+
+		for (final File dir : dirs)
+		{
+			if (dir.isFile())
+				continue;
+
+			final File[] files = dir.listFiles((FileFilter) file -> file.getName().indexOf("Manifest") != -1);
+
 			Arrays.sort(files, AlphaNumericComparator.CASE_INSENSITIVE);
-			
-			for (int j = 0; j < files.length; j++)
-				parameters.add(new Object[] { new WebOntTestCase( test, files[j], dirs[i].getName() + "-" + files[j].getName() ) } );
-			
-		}    
-		
+
+			for (final File file : files)
+				parameters.add(new Object[] { new WebOntTestCase(test, file, dir.getName() + "-" + file.getName()) });
+
+		}
+
 		return parameters;
-    }
+	}
 
 	private final WebOntTestCase test;
 
-	public WebOntTestSuite(WebOntTestCase test) {
+	public WebOntTestSuite(final WebOntTestCase test)
+	{
 		this.test = test;
 	}
 
 	@Test
-	public void run() throws IOException {
+	public void run() throws IOException
+	{
 		test.runTest();
 	}
 

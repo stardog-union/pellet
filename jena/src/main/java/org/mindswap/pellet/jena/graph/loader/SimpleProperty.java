@@ -11,9 +11,8 @@ package org.mindswap.pellet.jena.graph.loader;
  * Title:
  * </p>
  * <p>
- * Description: Only simple properties can be used in cardinality restrictions,
- * disjointness axioms, irreflexivity and antisymmetry axioms. This enumeration
- * is used to identify why a certain property should be treated as simple
+ * Description: Only simple properties can be used in cardinality restrictions, disjointness axioms, irreflexivity and antisymmetry axioms. This enumeration is
+ * used to identify why a certain property should be treated as simple
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -21,21 +20,23 @@ package org.mindswap.pellet.jena.graph.loader;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public enum SimpleProperty {
-	SELF("self restriction"), CARDINALITY("cardinality restriction"),
-	IRREFLEXIVE("irreflexivity axiom"), ANTI_SYM("antisymmetry axiom"),
-	DISJOINT("disjointness axioms");
+public enum SimpleProperty
+{
+	SELF("self restriction"), CARDINALITY("cardinality restriction"), IRREFLEXIVE("irreflexivity axiom"), ANTI_SYM("antisymmetry axiom"), DISJOINT("disjointness axioms");
 
-	private String	description;
+	private String description;
 
-	SimpleProperty(String desc) {
+	SimpleProperty(final String desc)
+	{
 		description = desc;
 	}
 
-	public String toString() {
+	@Override
+	public String toString()
+	{
 		return description;
 	}
 }

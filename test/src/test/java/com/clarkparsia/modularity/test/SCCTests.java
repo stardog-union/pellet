@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.clarkparsia.owlapi.OWL;
-
 import com.clarkparsia.reachability.EntityNode;
 import com.clarkparsia.reachability.ReachabilityGraph;
 import com.clarkparsia.reachability.SCC;
@@ -22,23 +21,21 @@ public class SCCTests
 
 	private EntityNode[] nodes;
 
-	private void addEdge(int in, int out)
+	private void addEdge(final int in, final int out)
 	{
 		nodes[in].addOutput(nodes[out]);
 	}
 
-	private void createGraph(int n)
+	private void createGraph(final int n)
 	{
 		graph = new ReachabilityGraph();
 
 		nodes = new EntityNode[n];
 		for (int i = 0; i < n; i++)
-		{
 			nodes[i] = graph.createEntityNode(OWL.Class("entity" + i));
-		}
 	}
 
-	private void testSCC(int[][] expectedSCC)
+	private void testSCC(final int[][] expectedSCC)
 	{
 		final List<Set<EntityNode<Object>>> computed = SCC.computeSCC((ReachabilityGraph<Object>) graph);
 
@@ -46,11 +43,9 @@ public class SCCTests
 
 		for (final int[] component : expectedSCC)
 		{
-			final Set<EntityNode> set = new HashSet<EntityNode>();
+			final Set<EntityNode> set = new HashSet<>();
 			for (final int i : component)
-			{
 				set.add(nodes[i]);
-			}
 
 			assertTrue(computed.contains(set));
 		}

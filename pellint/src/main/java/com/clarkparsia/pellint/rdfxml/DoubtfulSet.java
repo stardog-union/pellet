@@ -11,10 +11,10 @@ import java.util.Set;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -22,44 +22,54 @@ import java.util.Set;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class DoubtfulSet<E> extends HashSet<E> {
+public class DoubtfulSet<E> extends HashSet<E>
+{
 	private static final long serialVersionUID = 1L;
 
-	private HashSet<E> m_Definite;
-	
-	public DoubtfulSet() {
+	private final HashSet<E> m_Definite;
+
+	public DoubtfulSet()
+	{
 		m_Definite = new HashSet<E>();
 	}
-	
-	public void clear() {
+
+	@Override
+	public void clear()
+	{
 		super.clear();
 		m_Definite.clear();
 	}
-	
-	public boolean remove(Object o) {
+
+	@Override
+	public boolean remove(final Object o)
+	{
 		m_Definite.remove(o);
 		return super.remove(o);
 	}
-	
-	public boolean addDefinite(E o) {
+
+	public boolean addDefinite(final E o)
+	{
 		super.add(o);
 		return m_Definite.add(o);
 	}
-	
-	public boolean containsDefinite(E o) {
+
+	public boolean containsDefinite(final E o)
+	{
 		return m_Definite.contains(o);
 	}
-	
-	public Set<E> getDefiniteElements() {
-        return m_Definite;
-    }
-	
-	public Set<E> getDoubtfulElements() {
-    	Set<E> doubtfulSet = new HashSet<E>(this);
-    	doubtfulSet.removeAll(m_Definite);
-        return doubtfulSet;
-    }
+
+	public Set<E> getDefiniteElements()
+	{
+		return m_Definite;
+	}
+
+	public Set<E> getDoubtfulElements()
+	{
+		final Set<E> doubtfulSet = new HashSet<E>(this);
+		doubtfulSet.removeAll(m_Definite);
+		return doubtfulSet;
+	}
 }

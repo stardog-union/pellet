@@ -28,15 +28,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-
 package org.mindswap.pellet;
-
 
 import static com.clarkparsia.pellet.utils.TermFactory.BOTTOM_DATA_PROPERTY;
 import static com.clarkparsia.pellet.utils.TermFactory.BOTTOM_OBJECT_PROPERTY;
 import static com.clarkparsia.pellet.utils.TermFactory.TOP_DATA_PROPERTY;
 import static com.clarkparsia.pellet.utils.TermFactory.TOP_OBJECT_PROPERTY;
 
+import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -47,243 +46,234 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.ATermUtils;
 
-import aterm.ATermAppl;
-
 /**
  * @author Evren Sirin
- *
  */
-public class RoleTaxonomyBuilder {
-    protected static Logger log = Logger.getLogger( Taxonomy.class.getName() ); 
-    
+public class RoleTaxonomyBuilder
+{
+	protected static Logger log = Logger.getLogger(Taxonomy.class.getName());
+
 	public static final ATermAppl TOP_ANNOTATION_PROPERTY = ATermUtils.makeTermAppl("_TOP_ANNOTATION_PROPERTY_");
 	public static final ATermAppl BOTTOM_ANNOTATION_PROPERTY = ATermUtils.makeTermAppl("_BOTTOM_ANNOTATION_PROPERTY_");
-    
-	private static enum Propagate { UP, DOWN, NONE }
-    
+
+	private static enum Propagate
+	{
+		UP, DOWN, NONE
+	}
+
 	protected Collection<Role> properties;
-	
-	protected Taxonomy<ATermAppl> taxonomy; 
+
+	protected Taxonomy<ATermAppl> taxonomy;
 	protected RBox rbox;
 	protected Role topRole;
 	protected Role bottomRole;
 	protected PropertyType propertyType;
-	
-	public RoleTaxonomyBuilder(RBox rbox, PropertyType type) {
+
+	public RoleTaxonomyBuilder(final RBox rbox, final PropertyType type)
+	{
 		this.rbox = rbox;
 		this.propertyType = type;
-		properties =  rbox.getRoles();
-		
-		switch(this.propertyType){
-		case OBJECT:
-			taxonomy = new Taxonomy<ATermAppl>( null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY );
-			break;
-		case DATATYPE:
-			taxonomy = new Taxonomy<ATermAppl>( null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY );
-			break;
-		case ANNOTATION:
-			taxonomy = new Taxonomy<ATermAppl>( null, TOP_ANNOTATION_PROPERTY, BOTTOM_ANNOTATION_PROPERTY );
-			//Hide the artificial roles TOP_ANNOTATION_PROPERTY and BOTTOM_ANNOTATION_PROPERTY
-			taxonomy.getTop().setHidden(true);
-			taxonomy.getBottom().setHidden(true);
-			break;
-		default:
-			throw new AssertionError("Unknown property type: " + this.propertyType);
+		properties = rbox.getRoles();
+
+		switch (this.propertyType)
+		{
+			case OBJECT:
+				taxonomy = new Taxonomy<>(null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY);
+				break;
+			case DATATYPE:
+				taxonomy = new Taxonomy<>(null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY);
+				break;
+			case ANNOTATION:
+				taxonomy = new Taxonomy<>(null, TOP_ANNOTATION_PROPERTY, BOTTOM_ANNOTATION_PROPERTY);
+				//Hide the artificial roles TOP_ANNOTATION_PROPERTY and BOTTOM_ANNOTATION_PROPERTY
+				taxonomy.getTop().setHidden(true);
+				taxonomy.getBottom().setHidden(true);
+				break;
+			default:
+				throw new AssertionError("Unknown property type: " + this.propertyType);
 		}
-		
-		topRole = rbox.getRole( taxonomy.getTop().getName() );
-		bottomRole = rbox.getRole( taxonomy.getBottom().getName() );
+
+		topRole = rbox.getRole(taxonomy.getTop().getName());
+		bottomRole = rbox.getRole(taxonomy.getBottom().getName());
 	}
-	
-	public RoleTaxonomyBuilder(RBox rbox, boolean objectRoles) {
+
+	public RoleTaxonomyBuilder(final RBox rbox, final boolean objectRoles)
+	{
 		this.rbox = rbox;
-		
-		properties =  rbox.getRoles();
-	    taxonomy = objectRoles
-	    	? new Taxonomy<ATermAppl>( null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY )
-	    	: new Taxonomy<ATermAppl>( null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY );
-		topRole = rbox.getRole( taxonomy.getTop().getName() );
-		bottomRole = rbox.getRole( taxonomy.getBottom().getName() );
+
+		properties = rbox.getRoles();
+		taxonomy = objectRoles ? new Taxonomy<>(null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY) : new Taxonomy<>(null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY);
+		topRole = rbox.getRole(taxonomy.getTop().getName());
+		bottomRole = rbox.getRole(taxonomy.getBottom().getName());
 	}
 
-	public Taxonomy<ATermAppl> classify() {
-		if( log.isLoggable( Level.FINE ) ) {
-			log.fine( "Properties: " + properties.size() );
-		}
+	public Taxonomy<ATermAppl> classify()
+	{
+		if (log.isLoggable(Level.FINE))
+			log.fine("Properties: " + properties.size());
 
-		for( Role r : properties ) {
-			if( propertyType != r.getType() )
+		for (final Role r : properties)
+		{
+			if (propertyType != r.getType())
 				continue;
 
-			classify( r );		
+			classify(r);
 		}
 
 		return taxonomy;
 	}
 
-	int count= 0;
-	private void classify(Role c) {
-		if( taxonomy.contains( c.getName() ) )
+	int count = 0;
+
+	private void classify(final Role c)
+	{
+		if (taxonomy.contains(c.getName()))
 			return;
 
-		if( log.isLoggable( Level.FINER ) )
-			log.finer( "Property (" + (++count) + ") " + c + "..." );
-		
-		if( c.getSubRoles().contains( topRole ) ) {
+		if (log.isLoggable(Level.FINER))
+			log.finer("Property (" + (++count) + ") " + c + "...");
+
+		if (c.getSubRoles().contains(topRole))
+		{
 			taxonomy.addEquivalentNode(c.getName(), taxonomy.getTop());
 			return;
 		}
-		else if( c.getSuperRoles().contains( bottomRole ) ) {
-			taxonomy.addEquivalentNode(c.getName(), taxonomy.getBottom());
-			return;
-		}
+		else
+			if (c.getSuperRoles().contains(bottomRole))
+			{
+				taxonomy.addEquivalentNode(c.getName(), taxonomy.getBottom());
+				return;
+			}
 
-		Map<TaxonomyNode<ATermAppl>, Boolean> marked = new HashMap<TaxonomyNode<ATermAppl>, Boolean>();
-		mark( taxonomy.getTop(), marked, Boolean.TRUE, Propagate.NONE );
-		mark( taxonomy.getBottom(), marked, Boolean.FALSE, Propagate.NONE );
+		Map<TaxonomyNode<ATermAppl>, Boolean> marked = new HashMap<>();
+		mark(taxonomy.getTop(), marked, Boolean.TRUE, Propagate.NONE);
+		mark(taxonomy.getBottom(), marked, Boolean.FALSE, Propagate.NONE);
 
-		Collection<TaxonomyNode<ATermAppl>> superNodes = search( true, c, taxonomy.getTop(),
-				new HashSet<TaxonomyNode<ATermAppl>>(), new ArrayList<TaxonomyNode<ATermAppl>>(),
-				marked );
+		final Collection<TaxonomyNode<ATermAppl>> superNodes = search(true, c, taxonomy.getTop(), new HashSet<TaxonomyNode<ATermAppl>>(), new ArrayList<TaxonomyNode<ATermAppl>>(), marked);
 
-		marked = new HashMap<TaxonomyNode<ATermAppl>, Boolean>();
-		mark( taxonomy.getTop(), marked, Boolean.FALSE, Propagate.NONE );
-		mark( taxonomy.getBottom(), marked, Boolean.TRUE, Propagate.NONE );
+		marked = new HashMap<>();
+		mark(taxonomy.getTop(), marked, Boolean.FALSE, Propagate.NONE);
+		mark(taxonomy.getBottom(), marked, Boolean.TRUE, Propagate.NONE);
 
-		if( superNodes.size() == 1 ) {
-			TaxonomyNode<ATermAppl> sup = superNodes.iterator().next();
+		if (superNodes.size() == 1)
+		{
+			final TaxonomyNode<ATermAppl> sup = superNodes.iterator().next();
 
 			// if i has only one super class j and j is a subclass
 			// of i then it means i = j. There is no need to classify
 			// i since we already know everything about j
-			if( subsumed( sup, c, marked ) ) {
-				if( log.isLoggable( Level.FINER ) )
-					log.finer( ATermUtils.toString( c.getName() ) + " = " + ATermUtils.toString( sup.getName() ) );
+			if (subsumed(sup, c, marked))
+			{
+				if (log.isLoggable(Level.FINER))
+					log.finer(ATermUtils.toString(c.getName()) + " = " + ATermUtils.toString(sup.getName()));
 
-				taxonomy.addEquivalentNode( c.getName(), sup );
+				taxonomy.addEquivalentNode(c.getName(), sup);
 				return;
 			}
 		}
 
-		Collection<TaxonomyNode<ATermAppl>> subNodes = search( false, c, taxonomy.getBottom(),
-				new HashSet<TaxonomyNode<ATermAppl>>(), new ArrayList<TaxonomyNode<ATermAppl>>(),
-				marked );
-		
-		List<ATermAppl> supers = new ArrayList<ATermAppl>();
-		for( TaxonomyNode<ATermAppl> n : superNodes ) {
-			supers.add( n.getName() );
-		}
+		final Collection<TaxonomyNode<ATermAppl>> subNodes = search(false, c, taxonomy.getBottom(), new HashSet<TaxonomyNode<ATermAppl>>(), new ArrayList<TaxonomyNode<ATermAppl>>(), marked);
 
-		List<ATermAppl> subs = new ArrayList<ATermAppl>();
-		for( TaxonomyNode<ATermAppl> n : subNodes ) {
-			subs.add( n.getName() );
-		}
+		final List<ATermAppl> supers = new ArrayList<>();
+		for (final TaxonomyNode<ATermAppl> n : superNodes)
+			supers.add(n.getName());
 
-		taxonomy.addNode( Collections.singleton( c.getName() ),
-				supers, subs, /* hidden = */false );
-	}	
-	
-	private Collection<TaxonomyNode<ATermAppl>> search(boolean topSearch, Role c,
-			TaxonomyNode<ATermAppl> x, Set<TaxonomyNode<ATermAppl>> visited,
-			List<TaxonomyNode<ATermAppl>> result, Map<TaxonomyNode<ATermAppl>, Boolean> marked) {
-		List<TaxonomyNode<ATermAppl>> posSucc = new ArrayList<TaxonomyNode<ATermAppl>>();
-		visited.add( x );
+		final List<ATermAppl> subs = new ArrayList<>();
+		for (final TaxonomyNode<ATermAppl> n : subNodes)
+			subs.add(n.getName());
 
-		Collection<TaxonomyNode<ATermAppl>> list = topSearch
-			? x.getSubs()
-			: x.getSupers();
-		for( TaxonomyNode<ATermAppl> next : list ) {
-			if( topSearch ) {
-				if( subsumes( next, c, marked ) )
-					posSucc.add( next );
+		taxonomy.addNode(Collections.singleton(c.getName()), supers, subs, /* hidden = */false);
+	}
+
+	private Collection<TaxonomyNode<ATermAppl>> search(final boolean topSearch, final Role c, final TaxonomyNode<ATermAppl> x, final Set<TaxonomyNode<ATermAppl>> visited, final List<TaxonomyNode<ATermAppl>> result, final Map<TaxonomyNode<ATermAppl>, Boolean> marked)
+	{
+		final List<TaxonomyNode<ATermAppl>> posSucc = new ArrayList<>();
+		visited.add(x);
+
+		final Collection<TaxonomyNode<ATermAppl>> list = topSearch ? x.getSubs() : x.getSupers();
+		for (final TaxonomyNode<ATermAppl> next : list)
+			if (topSearch)
+			{
+				if (subsumes(next, c, marked))
+					posSucc.add(next);
 			}
-			else {
-				if( subsumed( next, c, marked ) )
-					posSucc.add( next );
-			}
-		}
+			else
+				if (subsumed(next, c, marked))
+					posSucc.add(next);
 
-		if( posSucc.isEmpty() ) {
-			result.add( x );
-		}
-		else {
-			for( TaxonomyNode<ATermAppl> y : posSucc ) {
-				if( !visited.contains( y ) )
-					search( topSearch, c, y, visited, result, marked );
-			}
-		}
+		if (posSucc.isEmpty())
+			result.add(x);
+		else
+			for (final TaxonomyNode<ATermAppl> y : posSucc)
+				if (!visited.contains(y))
+					search(topSearch, c, y, visited, result, marked);
 
 		return result;
 	}
 
+	private boolean subsumes(final TaxonomyNode<ATermAppl> node, final Role c, final Map<TaxonomyNode<ATermAppl>, Boolean> marked)
+	{
+		final Boolean cached = marked.get(node);
+		if (cached != null)
+			return cached.booleanValue();
 
-	private boolean subsumes(TaxonomyNode<ATermAppl> node, Role c,
-			Map<TaxonomyNode<ATermAppl>, Boolean> marked) {	
-	    Boolean cached = marked.get( node ); 
-	    if( cached != null )
-	        return cached.booleanValue();
-		
 		// check subsumption
-		boolean subsumes = subsumes( rbox.getRole( node.getName() ), c );
+		final boolean subsumes = subsumes(rbox.getRole(node.getName()), c);
 		// create an object based on result
-		Boolean value = subsumes ? Boolean.TRUE : Boolean.FALSE;
+		final Boolean value = subsumes ? Boolean.TRUE : Boolean.FALSE;
 		// during top search only negative information is propagated down
-		Propagate propagate = subsumes ? Propagate.NONE : Propagate.DOWN;
+		final Propagate propagate = subsumes ? Propagate.NONE : Propagate.DOWN;
 		// mark the node appropriately
-		mark( node, marked, value, propagate);
-		
+		mark(node, marked, value, propagate);
+
 		return subsumes;
 	}
 
-	private boolean subsumed(TaxonomyNode<ATermAppl> node, Role c,
-			Map<TaxonomyNode<ATermAppl>, Boolean> marked) {		
-	    Boolean cached = marked.get( node ); 
-	    if( cached != null )
-	        return cached.booleanValue();
+	private boolean subsumed(final TaxonomyNode<ATermAppl> node, final Role c, final Map<TaxonomyNode<ATermAppl>, Boolean> marked)
+	{
+		final Boolean cached = marked.get(node);
+		if (cached != null)
+			return cached.booleanValue();
 
-	    // check subsumption
-		boolean subsumed = subsumes( c, rbox.getRole( node.getName() ) );
+		// check subsumption
+		final boolean subsumed = subsumes(c, rbox.getRole(node.getName()));
 		// create an object based on result
-		Boolean value = subsumed ? Boolean.TRUE : Boolean.FALSE;
+		final Boolean value = subsumed ? Boolean.TRUE : Boolean.FALSE;
 		// during bottom search only negative information is propagated down
-		Propagate propagate = subsumed ? Propagate.NONE : Propagate.UP;
+		final Propagate propagate = subsumed ? Propagate.NONE : Propagate.UP;
 		// mark the node appropriately
-		mark( node, marked, value, propagate);
-		
+		mark(node, marked, value, propagate);
+
 		return subsumed;
 	}
-	
-	private void mark(TaxonomyNode<ATermAppl> node, Map<TaxonomyNode<ATermAppl>, Boolean> marked,
-			Boolean value, Propagate propagate) {
-	    Boolean exists = marked.get( node );
-	    if( exists != null ) {
-	        if( !exists.equals( value ) )
-	            throw new RuntimeException("Inconsistent classification result " + 
-	                node.getName() + " " + exists + " " + value);
-	        else 
-	            return;
-	    }
-	    marked.put( node, value );
-	    
-	    if( propagate != Propagate.NONE ) {
-	    	Collection<TaxonomyNode<ATermAppl>> others = (propagate == Propagate.UP)
-				? node.getSupers()
-				: node.getSubs();
-			for( TaxonomyNode<ATermAppl> next : others ) {
-				mark( next, marked, value, propagate );
-			}
+
+	private void mark(final TaxonomyNode<ATermAppl> node, final Map<TaxonomyNode<ATermAppl>, Boolean> marked, final Boolean value, final Propagate propagate)
+	{
+		final Boolean exists = marked.get(node);
+		if (exists != null)
+			if (!exists.equals(value))
+				throw new RuntimeException("Inconsistent classification result " + node.getName() + " " + exists + " " + value);
+			else
+				return;
+		marked.put(node, value);
+
+		if (propagate != Propagate.NONE)
+		{
+			final Collection<TaxonomyNode<ATermAppl>> others = (propagate == Propagate.UP) ? node.getSupers() : node.getSubs();
+			for (final TaxonomyNode<ATermAppl> next : others)
+				mark(next, marked, value, propagate);
 		}
 	}
-	
-	private boolean subsumes(Role sup, Role sub) {
-	    boolean result = sup.isSuperRoleOf( sub );
-		ATermUtils.assertTrue(sub.isSubRoleOf( sup ) == result);
+
+	private boolean subsumes(final Role sup, final Role sub)
+	{
+		final boolean result = sup.isSuperRoleOf(sub);
+		ATermUtils.assertTrue(sub.isSubRoleOf(sup) == result);
 		return result;
-	} 
-	
+	}
+
 }

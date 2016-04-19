@@ -22,11 +22,12 @@ import org.mindswap.pellet.IndividualIterator;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public interface TableauRule {
+public interface TableauRule
+{
 	public void apply(IndividualIterator i);
-	
+
 	public void apply(Individual ind);
 }

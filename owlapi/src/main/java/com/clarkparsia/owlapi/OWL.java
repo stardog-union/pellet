@@ -104,7 +104,7 @@ import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 public class OWL
@@ -125,14 +125,14 @@ public class OWL
 
 	public static final OWLDataProperty bottomDataProperty = DataProperty(Namespaces.OWL + "bottomDataProperty");
 
-	public static OWLOntology Ontology(Collection<? extends OWLAxiom> axioms)
+	public static OWLOntology Ontology(final Collection<? extends OWLAxiom> axioms)
 	{
 		final IRI uri = IRI.create("http://www.example.org/ontology" + UUID.randomUUID());
 
 		return Ontology(axioms, uri);
 	}
 
-	public static OWLOntology Ontology(Collection<? extends OWLAxiom> axioms, IRI iri)
+	public static OWLOntology Ontology(final Collection<? extends OWLAxiom> axioms, final IRI iri)
 	{
 		OWLOntology ontology;
 		try
@@ -152,17 +152,17 @@ public class OWL
 		return ontology;
 	}
 
-	public static OWLOntology Ontology(OWLAxiom... axioms)
+	public static OWLOntology Ontology(final OWLAxiom... axioms)
 	{
 		return Ontology(Arrays.asList(axioms));
 	}
 
-	public static OWLDataAllValuesFrom all(OWLDataPropertyExpression property, OWLDataRange datatype)
+	public static OWLDataAllValuesFrom all(final OWLDataPropertyExpression property, final OWLDataRange datatype)
 	{
 		return factory.getOWLDataAllValuesFrom(property, datatype);
 	}
 
-	public static OWLObjectAllValuesFrom all(OWLObjectPropertyExpression property, OWLClassExpression description)
+	public static OWLObjectAllValuesFrom all(final OWLObjectPropertyExpression property, final OWLClassExpression description)
 	{
 		return factory.getOWLObjectAllValuesFrom(property, description);
 	}
@@ -171,42 +171,42 @@ public class OWL
 	 * @deprecated Use {@link #all(OWLObjectPropertyExpression, OWLClassExpression)} instead
 	 */
 	@Deprecated
-	public static OWLObjectAllValuesFrom allValuesFrom(OWLObjectPropertyExpression property, OWLClassExpression description)
+	public static OWLObjectAllValuesFrom allValuesFrom(final OWLObjectPropertyExpression property, final OWLClassExpression description)
 	{
 		return factory.getOWLObjectAllValuesFrom(property, description);
 	}
 
-	public static OWLObjectIntersectionOf and(OWLClassExpression... descriptions)
+	public static OWLObjectIntersectionOf and(final OWLClassExpression... descriptions)
 	{
 		return factory.getOWLObjectIntersectionOf(set(descriptions));
 	}
 
-	public static OWLObjectIntersectionOf and(Set<? extends OWLClassExpression> descriptions)
+	public static OWLObjectIntersectionOf and(final Set<? extends OWLClassExpression> descriptions)
 	{
 		return factory.getOWLObjectIntersectionOf(descriptions);
 	}
 
-	public static OWLDataIntersectionOf dataAnd(OWLDataRange... descriptions)
+	public static OWLDataIntersectionOf dataAnd(final OWLDataRange... descriptions)
 	{
 		return factory.getOWLDataIntersectionOf(set(descriptions));
 	}
 
-	public static OWLDataIntersectionOf dataAnd(Set<? extends OWLDataRange> descriptions)
+	public static OWLDataIntersectionOf dataAnd(final Set<? extends OWLDataRange> descriptions)
 	{
 		return factory.getOWLDataIntersectionOf(descriptions);
 	}
 
-	public static OWLAnnotationAssertionAxiom annotation(OWLEntity entity, OWLAnnotation annotation)
+	public static OWLAnnotationAssertionAxiom annotation(final OWLEntity entity, final OWLAnnotation annotation)
 	{
 		return factory.getOWLAnnotationAssertionAxiom(entity.getIRI(), annotation);
 	}
 
-	public static OWLAnnotationAssertionAxiom annotation(OWLEntity entity, IRI annotationIRI, OWLLiteral constant)
+	public static OWLAnnotationAssertionAxiom annotation(final OWLEntity entity, final IRI annotationIRI, final OWLLiteral constant)
 	{
 		return factory.getOWLAnnotationAssertionAxiom(factory.getOWLAnnotationProperty(annotationIRI), entity.getIRI(), constant);
 	}
 
-	public static OWLAnnotationAssertionAxiom annotation(OWLEntity entity, IRI annotationIRI, OWLIndividual individual)
+	public static OWLAnnotationAssertionAxiom annotation(final OWLEntity entity, final IRI annotationIRI, final OWLIndividual individual)
 	{
 		if (individual.isAnonymous())
 			return factory.getOWLAnnotationAssertionAxiom(entity.getIRI(), factory.getOWLAnnotation(factory.getOWLAnnotationProperty(annotationIRI), individual.asOWLAnonymousIndividual()));
@@ -219,32 +219,32 @@ public class OWL
 		return factory.getOWLAnonymousIndividual();
 	}
 
-	public static OWLAnonymousIndividual AnonymousIndividual(String anonId)
+	public static OWLAnonymousIndividual AnonymousIndividual(final String anonId)
 	{
 		return factory.getOWLAnonymousIndividual(anonId);
 	}
 
-	public static OWLAsymmetricObjectPropertyAxiom asymmetric(OWLObjectPropertyExpression p)
+	public static OWLAsymmetricObjectPropertyAxiom asymmetric(final OWLObjectPropertyExpression p)
 	{
 		return factory.getOWLAsymmetricObjectPropertyAxiom(p);
 	}
 
-	public static OWLClass Class(String iri)
+	public static OWLClass Class(final String iri)
 	{
 		return factory.getOWLClass(IRI.create(iri));
 	}
 
-	public static OWLClass Class(IRI iri)
+	public static OWLClass Class(final IRI iri)
 	{
 		return factory.getOWLClass(iri);
 	}
 
-	public static OWLClassAssertionAxiom classAssertion(OWLIndividual ind, OWLClassExpression desc)
+	public static OWLClassAssertionAxiom classAssertion(final OWLIndividual ind, final OWLClassExpression desc)
 	{
 		return factory.getOWLClassAssertionAxiom(desc, ind);
 	}
 
-	public static OWLAnnotationAssertionAxiom comment(OWLEntity entity, String comment)
+	public static OWLAnnotationAssertionAxiom comment(final OWLEntity entity, final String comment)
 	{
 		return factory.getOWLAnnotationAssertionAxiom(entity.getIRI(), factory.getOWLAnnotation(factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_COMMENT.getIRI()), factory.getOWLLiteral(comment)));
 
@@ -254,525 +254,515 @@ public class OWL
 	 * @deprecated Use {@link #not(OWLClassExpression)} instead
 	 */
 	@Deprecated
-	public static OWLObjectComplementOf complementOf(OWLClassExpression description)
+	public static OWLObjectComplementOf complementOf(final OWLClassExpression description)
 	{
 		return factory.getOWLObjectComplementOf(description);
 	}
 
 	/**
 	 * Convenience method that obtains a constant typed as an integer.
-	 * 
-	 * @param value
-	 *            The value of the constant
-	 * @return An <code>OWLLiteral</code> whose literal is the lexical
-	 *         value of the integer, and whose data type is xsd:boolean.
+	 *
+	 * @param value The value of the constant
+	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose data type is xsd:boolean.
 	 */
-	public static OWLLiteral constant(boolean value)
+	public static OWLLiteral constant(final boolean value)
 	{
 		return factory.getOWLLiteral(value);
 	}
 
 	/**
 	 * Convenience method that obtains a constant typed as an integer.
-	 * 
-	 * @param value
-	 *            The value of the constant
-	 * @return An <code>OWLLiteral</code> whose literal is the lexical
-	 *         value of the integer, and whose data type is xsd:double.
+	 *
+	 * @param value The value of the constant
+	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose data type is xsd:double.
 	 */
-	public static OWLLiteral constant(double value)
+	public static OWLLiteral constant(final double value)
 	{
 		return factory.getOWLLiteral(value);
 	}
 
 	/**
 	 * Convenience method that obtains a constant typed as an integer.
-	 * 
-	 * @param value
-	 *            The value of the constant
-	 * @return An <code>OWLLiteral</code> whose literal is the lexical
-	 *         value of the integer, and whose data type is xsd:float.
+	 *
+	 * @param value The value of the constant
+	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose data type is xsd:float.
 	 */
-	public static OWLLiteral constant(float value)
+	public static OWLLiteral constant(final float value)
 	{
 		return factory.getOWLLiteral(value);
 	}
 
 	/**
 	 * Convenience method that obtains a constant typed as an integer.
-	 * 
-	 * @param value
-	 *            The value of the constant
-	 * @return An <code>OWLLiteral</code> whose literal is the lexical
-	 *         value of the integer, and whose data type is xsd:integer.
+	 *
+	 * @param value The value of the constant
+	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose data type is xsd:integer.
 	 */
-	public static OWLLiteral constant(int value)
+	public static OWLLiteral constant(final int value)
 	{
 		return factory.getOWLLiteral(value);
 	}
 
-	public static OWLLiteral constant(String value)
+	public static OWLLiteral constant(final String value)
 	{
 		return factory.getOWLLiteral(value);
 	}
 
-	public static OWLLiteral constant(String value, OWLDatatype datatype)
+	public static OWLLiteral constant(final String value, final OWLDatatype datatype)
 	{
 		return factory.getOWLLiteral(value, datatype);
 	}
 
-	public static OWLLiteral constant(String value, String lang)
+	public static OWLLiteral constant(final String value, final String lang)
 	{
 		return factory.getOWLLiteral(value, lang);
 	}
 
-	public static OWLDataProperty DataProperty(String iri)
+	public static OWLDataProperty DataProperty(final String iri)
 	{
 		return factory.getOWLDataProperty(IRI.create(iri));
 	}
 
-	public static OWLDataProperty DataProperty(IRI iri)
+	public static OWLDataProperty DataProperty(final IRI iri)
 	{
 		return factory.getOWLDataProperty(iri);
 	}
 
-	public static OWLDatatype Datatype(String datatypeURI)
+	public static OWLDatatype Datatype(final String datatypeURI)
 	{
 		return factory.getOWLDatatype(IRI.create(datatypeURI));
 	}
 
-	public static OWLDatatype Datatype(IRI datatypeIRI)
+	public static OWLDatatype Datatype(final IRI datatypeIRI)
 	{
 		return factory.getOWLDatatype(datatypeIRI);
 	}
 
-	public static OWLDeclarationAxiom declaration(OWLEntity entity)
+	public static OWLDeclarationAxiom declaration(final OWLEntity entity)
 	{
 		return factory.getOWLDeclarationAxiom(entity);
 	}
 
-	public static OWLDifferentIndividualsAxiom differentFrom(OWLIndividual i1, OWLIndividual i2)
+	public static OWLDifferentIndividualsAxiom differentFrom(final OWLIndividual i1, final OWLIndividual i2)
 	{
 		return factory.getOWLDifferentIndividualsAxiom(set(i1, i2));
 	}
 
-	public static OWLDifferentIndividualsAxiom differentFrom(Set<OWLIndividual> inds)
+	public static OWLDifferentIndividualsAxiom differentFrom(final Set<OWLIndividual> inds)
 	{
 		return factory.getOWLDifferentIndividualsAxiom(inds);
 	}
 
-	public static OWLDisjointClassesAxiom disjointClasses(OWLClassExpression d1, OWLClassExpression d2)
+	public static OWLDisjointClassesAxiom disjointClasses(final OWLClassExpression d1, final OWLClassExpression d2)
 	{
 		return factory.getOWLDisjointClassesAxiom(set(d1, d2));
 	}
 
-	public static OWLDisjointClassesAxiom disjointClasses(Set<? extends OWLClassExpression> descriptions)
+	public static OWLDisjointClassesAxiom disjointClasses(final Set<? extends OWLClassExpression> descriptions)
 	{
 		return factory.getOWLDisjointClassesAxiom(descriptions);
 	}
 
-	public static OWLDisjointDataPropertiesAxiom disjointProperties(OWLDataPropertyExpression d1, OWLDataPropertyExpression d2)
+	public static OWLDisjointDataPropertiesAxiom disjointProperties(final OWLDataPropertyExpression d1, final OWLDataPropertyExpression d2)
 	{
 		return factory.getOWLDisjointDataPropertiesAxiom(set(d1, d2));
 	}
 
-	public static OWLDisjointObjectPropertiesAxiom disjointProperties(OWLObjectPropertyExpression d1, OWLObjectPropertyExpression d2)
+	public static OWLDisjointObjectPropertiesAxiom disjointProperties(final OWLObjectPropertyExpression d1, final OWLObjectPropertyExpression d2)
 	{
 		return factory.getOWLDisjointObjectPropertiesAxiom(set(d1, d2));
 	}
 
-	public static OWLDataPropertyDomainAxiom domain(OWLDataPropertyExpression p, OWLClassExpression d)
+	public static OWLDataPropertyDomainAxiom domain(final OWLDataPropertyExpression p, final OWLClassExpression d)
 	{
 		return factory.getOWLDataPropertyDomainAxiom(p, d);
 	}
 
-	public static OWLObjectPropertyDomainAxiom domain(OWLObjectPropertyExpression p, OWLClassExpression d)
+	public static OWLObjectPropertyDomainAxiom domain(final OWLObjectPropertyExpression p, final OWLClassExpression d)
 	{
 		return factory.getOWLObjectPropertyDomainAxiom(p, d);
 	}
 
-	public static OWLDatatypeDefinitionAxiom datatypeDefinition(OWLDatatype d1, OWLDataRange d2)
+	public static OWLDatatypeDefinitionAxiom datatypeDefinition(final OWLDatatype d1, final OWLDataRange d2)
 	{
 		return factory.getOWLDatatypeDefinitionAxiom(d1, d2);
 	}
 
-	public static OWLEquivalentClassesAxiom equivalentClasses(OWLClassExpression d1, OWLClassExpression d2)
+	public static OWLEquivalentClassesAxiom equivalentClasses(final OWLClassExpression d1, final OWLClassExpression d2)
 	{
 		return factory.getOWLEquivalentClassesAxiom(set(d1, d2));
 	}
 
-	public static OWLEquivalentClassesAxiom equivalentClasses(Set<? extends OWLClassExpression> descriptions)
+	public static OWLEquivalentClassesAxiom equivalentClasses(final Set<? extends OWLClassExpression> descriptions)
 	{
 		return factory.getOWLEquivalentClassesAxiom(descriptions);
 	}
 
-	public static OWLEquivalentDataPropertiesAxiom equivalentDataProperties(OWLDataPropertyExpression p1, OWLDataPropertyExpression p2)
+	public static OWLEquivalentDataPropertiesAxiom equivalentDataProperties(final OWLDataPropertyExpression p1, final OWLDataPropertyExpression p2)
 	{
 		return factory.getOWLEquivalentDataPropertiesAxiom(set(p1, p2));
 	}
 
-	public static OWLEquivalentDataPropertiesAxiom equivalentDataProperties(Set<? extends OWLDataPropertyExpression> properties)
+	public static OWLEquivalentDataPropertiesAxiom equivalentDataProperties(final Set<? extends OWLDataPropertyExpression> properties)
 	{
 		return factory.getOWLEquivalentDataPropertiesAxiom(properties);
 	}
 
-	public static OWLEquivalentObjectPropertiesAxiom equivalentProperties(OWLObjectPropertyExpression p1, OWLObjectPropertyExpression p2)
+	public static OWLEquivalentObjectPropertiesAxiom equivalentProperties(final OWLObjectPropertyExpression p1, final OWLObjectPropertyExpression p2)
 	{
 		return factory.getOWLEquivalentObjectPropertiesAxiom(set(p1, p2));
 	}
 
-	public static OWLEquivalentObjectPropertiesAxiom equivalentProperties(Set<? extends OWLObjectPropertyExpression> properties)
+	public static OWLEquivalentObjectPropertiesAxiom equivalentProperties(final Set<? extends OWLObjectPropertyExpression> properties)
 	{
 		return factory.getOWLEquivalentObjectPropertiesAxiom(properties);
 	}
 
-	public static OWLClassExpression exactly(OWLDataProperty p, int card)
+	public static OWLClassExpression exactly(final OWLDataProperty p, final int card)
 	{
 		return factory.getOWLDataExactCardinality(card, p);
 	}
 
-	public static OWLClassExpression exactly(OWLDataProperty p, int card, OWLDataRange d)
+	public static OWLClassExpression exactly(final OWLDataProperty p, final int card, final OWLDataRange d)
 	{
 		return factory.getOWLDataExactCardinality(card, p, d);
 	}
 
-	public static OWLClassExpression exactly(OWLObjectProperty p, int card)
+	public static OWLClassExpression exactly(final OWLObjectProperty p, final int card)
 	{
 		return factory.getOWLObjectExactCardinality(card, p);
 	}
 
-	public static OWLClassExpression exactly(OWLObjectProperty p, int card, OWLClassExpression desc)
+	public static OWLClassExpression exactly(final OWLObjectProperty p, final int card, final OWLClassExpression desc)
 	{
 		return factory.getOWLObjectExactCardinality(card, p, desc);
 	}
 
-	public static OWLFunctionalDataPropertyAxiom functional(OWLDataPropertyExpression p)
+	public static OWLFunctionalDataPropertyAxiom functional(final OWLDataPropertyExpression p)
 	{
 		return factory.getOWLFunctionalDataPropertyAxiom(p);
 	}
 
-	public static OWLFunctionalObjectPropertyAxiom functional(OWLObjectPropertyExpression p)
+	public static OWLFunctionalObjectPropertyAxiom functional(final OWLObjectPropertyExpression p)
 	{
 		return factory.getOWLFunctionalObjectPropertyAxiom(p);
 	}
 
-	public static OWLNamedIndividual Individual(String iri)
+	public static OWLNamedIndividual Individual(final String iri)
 	{
 		return factory.getOWLNamedIndividual(IRI.create(iri));
 	}
 
-	public static OWLNamedIndividual Individual(IRI iri)
+	public static OWLNamedIndividual Individual(final IRI iri)
 	{
 		return factory.getOWLNamedIndividual(iri);
 	}
 
-	public static OWLObjectInverseOf inverse(OWLObjectProperty p)
+	public static OWLObjectInverseOf inverse(final OWLObjectProperty p)
 	{
 		return factory.getOWLObjectInverseOf(p);
 	}
 
-	public static OWLInverseFunctionalObjectPropertyAxiom inverseFunctional(OWLObjectPropertyExpression p)
+	public static OWLInverseFunctionalObjectPropertyAxiom inverseFunctional(final OWLObjectPropertyExpression p)
 	{
 		return factory.getOWLInverseFunctionalObjectPropertyAxiom(p);
 	}
 
-	public static OWLInverseObjectPropertiesAxiom inverseProperties(OWLObjectPropertyExpression p1, OWLObjectPropertyExpression p2)
+	public static OWLInverseObjectPropertiesAxiom inverseProperties(final OWLObjectPropertyExpression p1, final OWLObjectPropertyExpression p2)
 	{
 		return factory.getOWLInverseObjectPropertiesAxiom(p1, p2);
 	}
 
-	public static OWLIrreflexiveObjectPropertyAxiom irreflexive(OWLObjectPropertyExpression p)
+	public static OWLIrreflexiveObjectPropertyAxiom irreflexive(final OWLObjectPropertyExpression p)
 	{
 		return factory.getOWLIrreflexiveObjectPropertyAxiom(p);
 	}
 
-	public static OWLAnnotationAssertionAxiom label(OWLEntity entity, String label)
+	public static OWLAnnotationAssertionAxiom label(final OWLEntity entity, final String label)
 	{
 		return factory.getOWLAnnotationAssertionAxiom(factory.getOWLAnnotationProperty(OWLRDFVocabulary.RDFS_LABEL.getIRI()), entity.getIRI(), factory.getOWLLiteral(label));
 	}
 
-	public static OWLFacetRestriction length(int constant)
+	public static OWLFacetRestriction length(final int constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.LENGTH, constant);
 	}
 
-	public static OWLFacetRestriction length(OWLLiteral constant)
+	public static OWLFacetRestriction length(final OWLLiteral constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.LENGTH, constant);
 	}
 
-	public static OWLDataMaxCardinality max(OWLDataPropertyExpression p, int max)
+	public static OWLDataMaxCardinality max(final OWLDataPropertyExpression p, final int max)
 	{
 		return factory.getOWLDataMaxCardinality(max, p);
 	}
 
-	public static OWLDataMaxCardinality max(OWLDataPropertyExpression p, int max, OWLDataRange filler)
+	public static OWLDataMaxCardinality max(final OWLDataPropertyExpression p, final int max, final OWLDataRange filler)
 	{
 		return factory.getOWLDataMaxCardinality(max, p, filler);
 	}
 
-	public static OWLObjectMaxCardinality max(OWLObjectPropertyExpression p, int max)
+	public static OWLObjectMaxCardinality max(final OWLObjectPropertyExpression p, final int max)
 	{
 		return factory.getOWLObjectMaxCardinality(max, p);
 	}
 
-	public static OWLObjectMaxCardinality max(OWLObjectPropertyExpression p, int max, OWLClassExpression filler)
+	public static OWLObjectMaxCardinality max(final OWLObjectPropertyExpression p, final int max, final OWLClassExpression filler)
 	{
 		return factory.getOWLObjectMaxCardinality(max, p, filler);
 	}
 
-	public static OWLFacetRestriction maxExclusive(double constant)
+	public static OWLFacetRestriction maxExclusive(final double constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_EXCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction maxExclusive(float constant)
+	public static OWLFacetRestriction maxExclusive(final float constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_EXCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction maxExclusive(int constant)
+	public static OWLFacetRestriction maxExclusive(final int constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_EXCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction maxExclusive(OWLLiteral constant)
+	public static OWLFacetRestriction maxExclusive(final OWLLiteral constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_EXCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction maxInclusive(double constant)
+	public static OWLFacetRestriction maxInclusive(final double constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_INCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction maxInclusive(float constant)
+	public static OWLFacetRestriction maxInclusive(final float constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_INCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction maxInclusive(int constant)
+	public static OWLFacetRestriction maxInclusive(final int constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_INCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction maxInclusive(OWLLiteral constant)
+	public static OWLFacetRestriction maxInclusive(final OWLLiteral constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_INCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction maxLength(int constant)
+	public static OWLFacetRestriction maxLength(final int constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_LENGTH, constant);
 	}
 
-	public static OWLFacetRestriction maxLength(OWLLiteral constant)
+	public static OWLFacetRestriction maxLength(final OWLLiteral constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MAX_LENGTH, constant);
 	}
 
-	public static OWLDataMinCardinality min(OWLDataPropertyExpression p, int min)
+	public static OWLDataMinCardinality min(final OWLDataPropertyExpression p, final int min)
 	{
 		return factory.getOWLDataMinCardinality(min, p);
 	}
 
-	public static OWLDataMinCardinality min(OWLDataPropertyExpression p, int min, OWLDataRange filler)
+	public static OWLDataMinCardinality min(final OWLDataPropertyExpression p, final int min, final OWLDataRange filler)
 	{
 		return factory.getOWLDataMinCardinality(min, p, filler);
 	}
 
-	public static OWLObjectMinCardinality min(OWLObjectPropertyExpression p, int min)
+	public static OWLObjectMinCardinality min(final OWLObjectPropertyExpression p, final int min)
 	{
 		return factory.getOWLObjectMinCardinality(min, p);
 	}
 
-	public static OWLObjectMinCardinality min(OWLObjectPropertyExpression p, int min, OWLClassExpression filler)
+	public static OWLObjectMinCardinality min(final OWLObjectPropertyExpression p, final int min, final OWLClassExpression filler)
 	{
 		return factory.getOWLObjectMinCardinality(min, p, filler);
 	}
 
-	public static OWLFacetRestriction minExclusive(double constant)
+	public static OWLFacetRestriction minExclusive(final double constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_EXCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction minExclusive(float constant)
+	public static OWLFacetRestriction minExclusive(final float constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_EXCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction minExclusive(int constant)
+	public static OWLFacetRestriction minExclusive(final int constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_EXCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction minExclusive(OWLLiteral constant)
+	public static OWLFacetRestriction minExclusive(final OWLLiteral constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_EXCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction minInclusive(double constant)
+	public static OWLFacetRestriction minInclusive(final double constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_INCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction minInclusive(float constant)
+	public static OWLFacetRestriction minInclusive(final float constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_INCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction minInclusive(int constant)
+	public static OWLFacetRestriction minInclusive(final int constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_INCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction minInclusive(OWLLiteral constant)
+	public static OWLFacetRestriction minInclusive(final OWLLiteral constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_INCLUSIVE, constant);
 	}
 
-	public static OWLFacetRestriction minLength(int constant)
+	public static OWLFacetRestriction minLength(final int constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_LENGTH, constant);
 	}
 
-	public static OWLFacetRestriction minLength(OWLLiteral constant)
+	public static OWLFacetRestriction minLength(final OWLLiteral constant)
 	{
 		return factory.getOWLFacetRestriction(OWLFacet.MIN_LENGTH, constant);
 	}
 
-	public static OWLObjectComplementOf not(OWLClassExpression description)
+	public static OWLObjectComplementOf not(final OWLClassExpression description)
 	{
 		return factory.getOWLObjectComplementOf(description);
 	}
 
-	public static OWLDataComplementOf dataNot(OWLDataRange description)
+	public static OWLDataComplementOf dataNot(final OWLDataRange description)
 	{
 		return factory.getOWLDataComplementOf(description);
 	}
 
-	public static OWLObjectProperty ObjectProperty(String iri)
+	public static OWLObjectProperty ObjectProperty(final String iri)
 	{
 		return factory.getOWLObjectProperty(IRI.create(iri));
 	}
 
-	public static OWLObjectProperty ObjectProperty(IRI iri)
+	public static OWLObjectProperty ObjectProperty(final IRI iri)
 	{
 		return factory.getOWLObjectProperty(iri);
 	}
 
-	public static OWLDataOneOf oneOf(OWLLiteral... constants)
+	public static OWLDataOneOf oneOf(final OWLLiteral... constants)
 	{
 		return factory.getOWLDataOneOf(set(constants));
 	}
 
-	public static OWLObjectOneOf oneOf(OWLIndividual... individuals)
+	public static OWLObjectOneOf oneOf(final OWLIndividual... individuals)
 	{
 		return factory.getOWLObjectOneOf(set(individuals));
 	}
 
-	public static OWLDataOneOf dataOneOf(Set<? extends OWLLiteral> constants)
+	public static OWLDataOneOf dataOneOf(final Set<? extends OWLLiteral> constants)
 	{
 		return factory.getOWLDataOneOf(constants);
 	}
 
-	public static OWLObjectOneOf objectOneOf(Set<OWLIndividual> individuals)
+	public static OWLObjectOneOf objectOneOf(final Set<OWLIndividual> individuals)
 	{
 		return factory.getOWLObjectOneOf(individuals);
 	}
 
-	public static OWLDataAllValuesFrom only(OWLDataPropertyExpression property, OWLDataRange datatype)
+	public static OWLDataAllValuesFrom only(final OWLDataPropertyExpression property, final OWLDataRange datatype)
 	{
 		return factory.getOWLDataAllValuesFrom(property, datatype);
 	}
 
-	public static OWLObjectAllValuesFrom only(OWLObjectPropertyExpression property, OWLClassExpression description)
+	public static OWLObjectAllValuesFrom only(final OWLObjectPropertyExpression property, final OWLClassExpression description)
 	{
 		return factory.getOWLObjectAllValuesFrom(property, description);
 	}
 
-	public static OWLObjectUnionOf or(OWLClassExpression... descriptions)
+	public static OWLObjectUnionOf or(final OWLClassExpression... descriptions)
 	{
 		return factory.getOWLObjectUnionOf(set(descriptions));
 	}
 
-	public static OWLObjectUnionOf or(Set<? extends OWLClassExpression> descriptions)
+	public static OWLObjectUnionOf or(final Set<? extends OWLClassExpression> descriptions)
 	{
 		return factory.getOWLObjectUnionOf(descriptions);
 	}
 
-	public static OWLDataUnionOf dataOr(OWLDataRange... descriptions)
+	public static OWLDataUnionOf dataOr(final OWLDataRange... descriptions)
 	{
 		return factory.getOWLDataUnionOf(set(descriptions));
 	}
 
-	public static OWLDataUnionOf dataOr(Set<? extends OWLDataRange> descriptions)
+	public static OWLDataUnionOf dataOr(final Set<? extends OWLDataRange> descriptions)
 	{
 		return factory.getOWLDataUnionOf(descriptions);
 	}
 
-	public static OWLDataPropertyAssertionAxiom propertyAssertion(OWLIndividual subj, OWLDataPropertyExpression pred, OWLLiteral obj)
+	public static OWLDataPropertyAssertionAxiom propertyAssertion(final OWLIndividual subj, final OWLDataPropertyExpression pred, final OWLLiteral obj)
 	{
 		return factory.getOWLDataPropertyAssertionAxiom(pred, subj, obj);
 	}
 
-	public static OWLObjectPropertyAssertionAxiom propertyAssertion(OWLIndividual subj, OWLObjectPropertyExpression pred, OWLIndividual obj)
+	public static OWLObjectPropertyAssertionAxiom propertyAssertion(final OWLIndividual subj, final OWLObjectPropertyExpression pred, final OWLIndividual obj)
 	{
 		return factory.getOWLObjectPropertyAssertionAxiom(pred, subj, obj);
 	}
 
-	public static OWLDataPropertyRangeAxiom range(OWLDataPropertyExpression p, OWLDataRange d)
+	public static OWLDataPropertyRangeAxiom range(final OWLDataPropertyExpression p, final OWLDataRange d)
 	{
 		return factory.getOWLDataPropertyRangeAxiom(p, d);
 	}
 
-	public static OWLObjectPropertyRangeAxiom range(OWLObjectPropertyExpression p, OWLClassExpression d)
+	public static OWLObjectPropertyRangeAxiom range(final OWLObjectPropertyExpression p, final OWLClassExpression d)
 	{
 		return factory.getOWLObjectPropertyRangeAxiom(p, d);
 	}
 
-	public static OWLReflexiveObjectPropertyAxiom reflexive(OWLObjectPropertyExpression p)
+	public static OWLReflexiveObjectPropertyAxiom reflexive(final OWLObjectPropertyExpression p)
 	{
 		return factory.getOWLReflexiveObjectPropertyAxiom(p);
 	}
 
-	public static OWLDataRange restrict(OWLDatatype datatype, OWLFacetRestriction... restrictions)
+	public static OWLDataRange restrict(final OWLDatatype datatype, final OWLFacetRestriction... restrictions)
 	{
 		return factory.getOWLDatatypeRestriction(datatype, restrictions);
 	}
 
-	public static OWLDataRange restrict(OWLDatatype datatype, Set<OWLFacetRestriction> restrictions)
+	public static OWLDataRange restrict(final OWLDatatype datatype, final Set<OWLFacetRestriction> restrictions)
 	{
 		return factory.getOWLDatatypeRestriction(datatype, restrictions);
 	}
 
-	public static OWLSameIndividualAxiom sameAs(OWLIndividual i1, OWLIndividual i2)
+	public static OWLSameIndividualAxiom sameAs(final OWLIndividual i1, final OWLIndividual i2)
 	{
 		return factory.getOWLSameIndividualAxiom(set(i1, i2));
 	}
 
-	public static OWLSameIndividualAxiom sameAs(Set<OWLIndividual> inds)
+	public static OWLSameIndividualAxiom sameAs(final Set<OWLIndividual> inds)
 	{
 		return factory.getOWLSameIndividualAxiom(inds);
 	}
 
-	public static OWLObjectHasSelf self(OWLObjectPropertyExpression p)
+	public static OWLObjectHasSelf self(final OWLObjectPropertyExpression p)
 	{
 		return factory.getOWLObjectHasSelf(p);
 	}
 
-	private static <T> Set<T> set(T... elements)
+	private static <T> Set<T> set(final T... elements)
 	{
 		final Set<T> set = new HashSet<>();
 		for (final T e : elements)
-		{
 			set.add(e);
-		}
 
 		return set;
 	}
 
-	private static <T> Set<T> set(T e1, T e2)
+	private static <T> Set<T> set(final T e1, final T e2)
 	{
 		final Set<T> set = new HashSet<>();
 		set.add(e1);
@@ -781,52 +771,52 @@ public class OWL
 		return set;
 	}
 
-	public static OWLDataSomeValuesFrom some(OWLDataPropertyExpression property, OWLDataRange datatype)
+	public static OWLDataSomeValuesFrom some(final OWLDataPropertyExpression property, final OWLDataRange datatype)
 	{
 		return factory.getOWLDataSomeValuesFrom(property, datatype);
 	}
 
-	public static OWLObjectSomeValuesFrom some(OWLObjectPropertyExpression property, OWLClassExpression description)
+	public static OWLObjectSomeValuesFrom some(final OWLObjectPropertyExpression property, final OWLClassExpression description)
 	{
 		return factory.getOWLObjectSomeValuesFrom(property, description);
 	}
 
-	public static OWLSubClassOfAxiom subClassOf(OWLClassExpression sub, OWLClassExpression sup)
+	public static OWLSubClassOfAxiom subClassOf(final OWLClassExpression sub, final OWLClassExpression sup)
 	{
 		return factory.getOWLSubClassOfAxiom(sub, sup);
 	}
 
-	public static OWLSubDataPropertyOfAxiom subPropertyOf(OWLDataPropertyExpression sub, OWLDataPropertyExpression sup)
+	public static OWLSubDataPropertyOfAxiom subPropertyOf(final OWLDataPropertyExpression sub, final OWLDataPropertyExpression sup)
 	{
 		return factory.getOWLSubDataPropertyOfAxiom(sub, sup);
 	}
 
-	public static OWLSubObjectPropertyOfAxiom subPropertyOf(OWLObjectPropertyExpression sub, OWLObjectPropertyExpression sup)
+	public static OWLSubObjectPropertyOfAxiom subPropertyOf(final OWLObjectPropertyExpression sub, final OWLObjectPropertyExpression sup)
 	{
 		return factory.getOWLSubObjectPropertyOfAxiom(sub, sup);
 	}
 
-	public static OWLSubPropertyChainOfAxiom subPropertyOf(OWLObjectPropertyExpression[] subChain, OWLObjectPropertyExpression sup)
+	public static OWLSubPropertyChainOfAxiom subPropertyOf(final OWLObjectPropertyExpression[] subChain, final OWLObjectPropertyExpression sup)
 	{
 		return factory.getOWLSubPropertyChainOfAxiom(Arrays.asList(subChain), sup);
 	}
 
-	public static OWLSymmetricObjectPropertyAxiom symmetric(OWLObjectPropertyExpression p)
+	public static OWLSymmetricObjectPropertyAxiom symmetric(final OWLObjectPropertyExpression p)
 	{
 		return factory.getOWLSymmetricObjectPropertyAxiom(p);
 	}
 
-	public static OWLTransitiveObjectPropertyAxiom transitive(OWLObjectPropertyExpression p)
+	public static OWLTransitiveObjectPropertyAxiom transitive(final OWLObjectPropertyExpression p)
 	{
 		return factory.getOWLTransitiveObjectPropertyAxiom(p);
 	}
 
-	public static OWLDataHasValue value(OWLDataPropertyExpression property, OWLLiteral constant)
+	public static OWLDataHasValue value(final OWLDataPropertyExpression property, final OWLLiteral constant)
 	{
 		return factory.getOWLDataHasValue(property, constant);
 	}
 
-	public static OWLObjectHasValue value(OWLObjectPropertyExpression property, OWLIndividual value)
+	public static OWLObjectHasValue value(final OWLObjectPropertyExpression property, final OWLIndividual value)
 	{
 		return factory.getOWLObjectHasValue(property, value);
 	}

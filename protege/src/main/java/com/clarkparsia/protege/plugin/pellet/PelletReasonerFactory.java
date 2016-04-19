@@ -6,11 +6,12 @@ import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
 /**
- * 
  * @author Evren Sirin
  */
-public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
-	static {
+public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo
+{
+	static
+	{
 		// true = (default) Non DL axioms will be ignored (eg as use of complex
 		// roles in cardinality restrictions)
 		// false = pellet will throw an exception if non DL axioms are included
@@ -20,17 +21,20 @@ public class PelletReasonerFactory extends AbstractProtegeOWLReasonerInfo {
 	}
 
 	/**
-     * {@inheritDoc}
-     */
-    public OWLReasonerFactory getReasonerFactory() {
-	    return com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance();
-    }
-
+	 * {@inheritDoc}
+	 */
+	@Override
+	public OWLReasonerFactory getReasonerFactory()
+	{
+		return com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance();
+	}
 
 	/**
-     * {@inheritDoc}
-     */
-    public BufferingMode getRecommendedBuffering() {
-	    return BufferingMode.BUFFERING;
-    }
+	 * {@inheritDoc}
+	 */
+	@Override
+	public BufferingMode getRecommendedBuffering()
+	{
+		return BufferingMode.BUFFERING;
+	}
 }

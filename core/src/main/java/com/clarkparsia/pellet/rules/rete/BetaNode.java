@@ -9,19 +9,21 @@ package com.clarkparsia.pellet.rules.rete;
 /**
  * @author Evren Sirin
  */
-public abstract class BetaNode extends ReteNode {
+public abstract class BetaNode extends ReteNode
+{
 	public abstract void activate(WME wme);
-	
+
 	public abstract void activate(Token token);
-	
-	public boolean isTop() {
+
+	public boolean isTop()
+	{
 		return false;
 	}
-	
-	protected void activateChildren(WME wme, Token token) {
-        Token newToken = Token.create(wme, token);
-        for (BetaNode beta : getBetas()) {
-            beta.activate(newToken);
-        }
+
+	protected void activateChildren(final WME wme, final Token token)
+	{
+		final Token newToken = Token.create(wme, token);
+		for (final BetaNode beta : getBetas())
+			beta.activate(newToken);
 	}
 }

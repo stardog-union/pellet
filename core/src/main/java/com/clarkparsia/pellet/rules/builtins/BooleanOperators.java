@@ -8,16 +8,11 @@
 
 package com.clarkparsia.pellet.rules.builtins;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.Arrays;
-
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
-import org.mindswap.pellet.utils.ATermUtils;
-
-import com.clarkparsia.pellet.datatypes.types.bool.XSDBoolean;
-import com.clarkparsia.pellet.utils.TermFactory;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -32,61 +27,66 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class BooleanOperators {
+public class BooleanOperators
+{
 
-	private static class BooleanNot implements GeneralFunction {
+	private static class BooleanNot implements GeneralFunction
+	{
 
-		public boolean apply(ABox abox, Literal[] args) {
-			if( args.length != 2 )
+		@Override
+		public boolean apply(final ABox abox, final Literal[] args)
+		{
+			if (args.length != 2)
 				return false;
 
-			if( args[0] == null ) {
-				if( (args[1] != null) && (args[1].getValue() instanceof Boolean) ) {
-					args[0] = abox.addLiteral( ((Boolean) args[1].getValue()).booleanValue()
-						? FALSE_TERM
-						: TRUE_TERM );
+			if (args[0] == null)
+			{
+				if ((args[1] != null) && (args[1].getValue() instanceof Boolean))
+				{
+					args[0] = abox.addLiteral(((Boolean) args[1].getValue()).booleanValue() ? FALSE_TERM : TRUE_TERM);
 					return true;
 				}
 			}
-			else if( args[1] == null ) {
-				if( (args[0].getValue() instanceof Boolean) ) {
-					args[1] = abox.addLiteral( ((Boolean) args[0].getValue()).booleanValue()
-						? FALSE_TERM
-						: TRUE_TERM );
-					return true;
+			else
+				if (args[1] == null)
+				{
+					if ((args[0].getValue() instanceof Boolean))
+					{
+						args[1] = abox.addLiteral(((Boolean) args[0].getValue()).booleanValue() ? FALSE_TERM : TRUE_TERM);
+						return true;
+					}
 				}
-			}
-			else {
-				if( (args[0].getValue() instanceof Boolean)
-						&& (args[1].getValue() instanceof Boolean) ) {
-					return !args[0].equals( args[1] );
-				}
-			}
+				else
+					if ((args[0].getValue() instanceof Boolean) && (args[1].getValue() instanceof Boolean))
+						return !args[0].equals(args[1]);
 
 			return false;
 		}
 
-		public boolean isApplicable(boolean[] boundPositions) {
-			if( boundPositions.length != 2 )
+		@Override
+		public boolean isApplicable(final boolean[] boundPositions)
+		{
+			if (boundPositions.length != 2)
 				return false;
 
-			if( Arrays.equals( boundPositions, new boolean[] { false, false } ) )
+			if (Arrays.equals(boundPositions, new boolean[] { false, false }))
 				return false;
 
 			return true;
 		}
 	}
 
-	public final static GeneralFunction	booleanNot;
+	public final static GeneralFunction booleanNot;
 
-	private static final ATermAppl		TRUE_TERM, FALSE_TERM;
+	private static final ATermAppl TRUE_TERM, FALSE_TERM;
 
-	static {
-		TRUE_TERM = TermFactory.literal( true );
-		FALSE_TERM = TermFactory.literal( false );
+	static
+	{
+		TRUE_TERM = TermFactory.literal(true);
+		FALSE_TERM = TermFactory.literal(false);
 
 		booleanNot = new BooleanNot();
 	}

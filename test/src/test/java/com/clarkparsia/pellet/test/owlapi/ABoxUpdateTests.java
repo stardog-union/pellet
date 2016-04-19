@@ -13,7 +13,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.clarkparsia.owlapi.OWL;
-
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLException;
@@ -31,75 +30,68 @@ import org.semanticweb.owlapi.model.OWLException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class ABoxUpdateTests extends AbstractOWLAPITests {
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( ABoxUpdateTests.class );
+public class ABoxUpdateTests extends AbstractOWLAPITests
+{
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(ABoxUpdateTests.class);
 	}
 
 	@Test
-	public void removeType() throws OWLException {
-		createReasoner(
-			OWL.classAssertion( a, C ),
-			OWL.classAssertion( a, D ) 
-		);
+	public void removeType() throws OWLException
+	{
+		createReasoner(OWL.classAssertion(a, C), OWL.classAssertion(a, D));
 
-		assertTrue( reasoner.isConsistent() );
+		assertTrue(reasoner.isConsistent());
 
-		assertTrue( reasoner.isEntailed( classAssertion( a, C ) ) );
-		assertTrue( reasoner.isEntailed( classAssertion( a, D ) ) );
-		
-		boolean changeApplied = processRemove( OWL.classAssertion( a, D )  );
-		assertTrue( changeApplied );
+		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
+		assertTrue(reasoner.isEntailed(classAssertion(a, D)));
 
-		assertTrue( reasoner.isEntailed( classAssertion( a, C ) ) );
-		assertFalse( reasoner.isEntailed( classAssertion( a, D ) ) );
+		final boolean changeApplied = processRemove(OWL.classAssertion(a, D));
+		assertTrue(changeApplied);
+
+		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
+		assertFalse(reasoner.isEntailed(classAssertion(a, D)));
 	}
 
 	@Test
-	public void removeTypeFromMergedNode() throws OWLException {
-		createReasoner(
-			OWL.classAssertion( a, OWL.oneOf( b, c ) ),
-			OWL.classAssertion( a, A ),
-			OWL.classAssertion( b, B ),
-			OWL.classAssertion( c, C ),
-			OWL.classAssertion( a, D ) 
-		);
+	public void removeTypeFromMergedNode() throws OWLException
+	{
+		createReasoner(OWL.classAssertion(a, OWL.oneOf(b, c)), OWL.classAssertion(a, A), OWL.classAssertion(b, B), OWL.classAssertion(c, C), OWL.classAssertion(a, D));
 
-		assertTrue( reasoner.isConsistent() );
+		assertTrue(reasoner.isConsistent());
 
-		assertTrue( reasoner.isEntailed( classAssertion( a, A ) ) );
-		assertFalse( reasoner.isEntailed( classAssertion( a, B ) ) );
-		assertFalse( reasoner.isEntailed( classAssertion( a, C ) ) );
-		assertTrue( reasoner.isEntailed( classAssertion( a, D ) ) );
-		
-		boolean changeApplied = processRemove( OWL.classAssertion( a, D )  );
-		assertTrue( changeApplied );
+		assertTrue(reasoner.isEntailed(classAssertion(a, A)));
+		assertFalse(reasoner.isEntailed(classAssertion(a, B)));
+		assertFalse(reasoner.isEntailed(classAssertion(a, C)));
+		assertTrue(reasoner.isEntailed(classAssertion(a, D)));
 
-		assertTrue( reasoner.isEntailed( classAssertion( a, A ) ) );
-		assertFalse( reasoner.isEntailed( classAssertion( a, B ) ) );
-		assertFalse( reasoner.isEntailed( classAssertion( a, C ) ) );
-		assertFalse( reasoner.isEntailed( classAssertion( a, D ) ) );
+		final boolean changeApplied = processRemove(OWL.classAssertion(a, D));
+		assertTrue(changeApplied);
+
+		assertTrue(reasoner.isEntailed(classAssertion(a, A)));
+		assertFalse(reasoner.isEntailed(classAssertion(a, B)));
+		assertFalse(reasoner.isEntailed(classAssertion(a, C)));
+		assertFalse(reasoner.isEntailed(classAssertion(a, D)));
 	}
 
 	@Test
-	public void removePropertyValue() throws OWLException {
-		createReasoner(
-			OWL.propertyAssertion( a, p, b ),
-			OWL.propertyAssertion( a, p, c ) 
-		);
+	public void removePropertyValue() throws OWLException
+	{
+		createReasoner(OWL.propertyAssertion(a, p, b), OWL.propertyAssertion(a, p, c));
 
-		assertTrue( reasoner.isConsistent() );
+		assertTrue(reasoner.isConsistent());
 
-		assertTrue( reasoner.isEntailed( OWL.propertyAssertion( a, p, b ) ) );
-		assertTrue( reasoner.isEntailed( OWL.propertyAssertion( a, p, c ) ) );
-		
-		boolean changeApplied = processRemove( OWL.propertyAssertion( a, p, c ) );
-		assertTrue( changeApplied );
+		assertTrue(reasoner.isEntailed(OWL.propertyAssertion(a, p, b)));
+		assertTrue(reasoner.isEntailed(OWL.propertyAssertion(a, p, c)));
 
-		assertTrue( reasoner.isEntailed( OWL.propertyAssertion( a, p, b ) ) );
-		assertFalse( reasoner.isEntailed( OWL.propertyAssertion( a, p, c ) ) );
+		final boolean changeApplied = processRemove(OWL.propertyAssertion(a, p, c));
+		assertTrue(changeApplied);
+
+		assertTrue(reasoner.isEntailed(OWL.propertyAssertion(a, p, b)));
+		assertFalse(reasoner.isEntailed(OWL.propertyAssertion(a, p, c)));
 	}
 }

@@ -7,16 +7,16 @@
 package org.mindswap.pellet.test.rules;
 
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses( { BindingGeneratorsTest.class, BuiltInTests.class, MiscRuleTests.class,
-	SWRLTestSuite.class, SWRLBuiltIns.class })
-public class RulesTestSuite {
-	public static junit.framework.Test suite() {
+@SuiteClasses({ BindingGeneratorsTest.class, BuiltInTests.class, MiscRuleTests.class, SWRLTestSuite.class, SWRLBuiltIns.class })
+public class RulesTestSuite
+{
+	public static junit.framework.Test suite()
+	{
 		return new JUnit4TestAdapter(RulesTestSuite.class);
 	}
 }

@@ -8,11 +8,9 @@
 
 package org.mindswap.pellet.tbox.impl;
 
-import java.util.Set;
-
-import org.mindswap.pellet.utils.ATermUtils;
-
 import aterm.ATermAppl;
+import java.util.Set;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
@@ -27,61 +25,72 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public abstract class Unfolding {	
+public abstract class Unfolding
+{
 	public abstract ATermAppl getCondition();
 
 	public abstract Set<ATermAppl> getExplanation();
 
 	public abstract ATermAppl getResult();
-	
-	public static Unfolding create(ATermAppl result, Set<ATermAppl> explanation) {
-		return new Unconditional( result, explanation );
-	}
-	
-	public static Unfolding create(ATermAppl result, ATermAppl condition, Set<ATermAppl> explanation) {
-		return new Conditional( result, condition, explanation );
-	}
-	
-	private static class Unconditional extends Unfolding {
-		private ATermAppl		result;
 
-		private Set<ATermAppl>	explanation;
+	public static Unfolding create(final ATermAppl result, final Set<ATermAppl> explanation)
+	{
+		return new Unconditional(result, explanation);
+	}
 
-		private Unconditional(ATermAppl result, Set<ATermAppl> explanation) {
+	public static Unfolding create(final ATermAppl result, final ATermAppl condition, final Set<ATermAppl> explanation)
+	{
+		return new Conditional(result, condition, explanation);
+	}
+
+	private static class Unconditional extends Unfolding
+	{
+		private final ATermAppl result;
+
+		private final Set<ATermAppl> explanation;
+
+		private Unconditional(final ATermAppl result, final Set<ATermAppl> explanation)
+		{
 			this.result = result;
 			this.explanation = explanation;
 		}
 
 		@Override
-		public boolean equals(Object obj) {
-			if( this == obj )
+		public boolean equals(final Object obj)
+		{
+			if (this == obj)
 				return true;
-			if( !(obj instanceof Unfolding) )
+			if (!(obj instanceof Unfolding))
 				return false;
-			Unconditional other = (Unconditional) obj;
-			
-			return getCondition().equals( other.getCondition() ) 
-				&& explanation.equals( other.explanation )
-				&& result.equals( other.result );
+			final Unconditional other = (Unconditional) obj;
+
+			return getCondition().equals(other.getCondition()) && explanation.equals(other.explanation) && result.equals(other.result);
 		}
 
-		public ATermAppl getCondition() {
+		@Override
+		public ATermAppl getCondition()
+		{
 			return ATermUtils.TOP;
 		}
 
-		public Set<ATermAppl> getExplanation() {
+		@Override
+		public Set<ATermAppl> getExplanation()
+		{
 			return explanation;
 		}
 
-		public ATermAppl getResult() {
+		@Override
+		public ATermAppl getResult()
+		{
 			return result;
 		}
 
 		@Override
-		public int hashCode() {
+		public int hashCode()
+		{
 			final int prime = 31;
 			int hashCode = 1;
 			hashCode = prime * hashCode + getCondition().hashCode();
@@ -89,30 +98,35 @@ public abstract class Unfolding {
 			hashCode = prime * hashCode + result.hashCode();
 			return hashCode;
 		}
-		
+
 		@Override
-		public String toString() {
-			return ATermUtils.toString( result );
+		public String toString()
+		{
+			return ATermUtils.toString(result);
 		}
 	}
 
-	private static class Conditional extends Unconditional {
-		private ATermAppl		condition;
+	private static class Conditional extends Unconditional
+	{
+		private final ATermAppl condition;
 
-		private Conditional(ATermAppl result, ATermAppl condition, Set<ATermAppl> explanation) {
-			super( result, explanation );
-			
+		private Conditional(final ATermAppl result, final ATermAppl condition, final Set<ATermAppl> explanation)
+		{
+			super(result, explanation);
+
 			this.condition = condition;
 		}
 
 		@Override
-		public ATermAppl getCondition() {
+		public ATermAppl getCondition()
+		{
 			return condition;
 		}
-		
+
 		@Override
-		public String toString() {
-			return ATermUtils.toString( condition ) + " ? " + ATermUtils.toString( getResult() );
+		public String toString()
+		{
+			return ATermUtils.toString(condition) + " ? " + ATermUtils.toString(getResult());
 		}
 	}
 }

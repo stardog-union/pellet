@@ -1,23 +1,19 @@
 package com.clarkparsia.pellet.datatypes;
 
+import aterm.ATermAppl;
+import aterm.ATermList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.mindswap.pellet.output.ATermBaseVisitor;
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
-import aterm.ATermList;
 
 /**
  * <p>
  * Title: Named Data Range Expander
  * </p>
  * <p>
- * Description: Substitutes one {@link ATermAppl} for another in a data range
- * description, based on input map. Used to implement OWL 2 datatype
- * definitions.
+ * Description: Substitutes one {@link ATermAppl} for another in a data range description, based on input map. Used to implement OWL 2 datatype definitions.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -25,139 +21,184 @@ import aterm.ATermList;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class NamedDataRangeExpander extends ATermBaseVisitor {
+public class NamedDataRangeExpander extends ATermBaseVisitor
+{
 
-	private Map<ATermAppl, ATermAppl>	map;
-	private ATermAppl					ret;
-	private boolean						change;
+	private Map<ATermAppl, ATermAppl> map;
+	private ATermAppl ret;
+	private boolean change;
 
 	/*
 	 * TODO: Handle nesting and cycles in definitions
 	 */
-	public ATermAppl expand(ATermAppl input, Map<ATermAppl, ATermAppl> map) {
-		if( map.isEmpty() )
+	public ATermAppl expand(final ATermAppl input, final Map<ATermAppl, ATermAppl> map)
+	{
+		if (map.isEmpty())
 			return input;
 
 		this.map = map;
-		try {
-			this.visit( input );
-		} catch( UnsupportedOperationException e ) {
-			throw new IllegalArgumentException( e );
+		try
+		{
+			this.visit(input);
+		}
+		catch (final UnsupportedOperationException e)
+		{
+			throw new IllegalArgumentException(e);
 		}
 		return ret;
 	}
 
-	public void visitAll(ATermAppl term) {
+	@Override
+	public void visitAll(final ATermAppl term)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitAnd(ATermAppl term) {
+	@Override
+	public void visitAnd(final ATermAppl term)
+	{
 		boolean listChange = false;
-		List<ATermAppl> args = new ArrayList<ATermAppl>();
-		for( ATermList l = (ATermList) term.getArgument( 0 ); !l.isEmpty(); l = l.getNext() ) {
-			ATermAppl a = (ATermAppl) l.getFirst();
-			this.visit( a );
-			args.add( ret );
-			if( change )
+		final List<ATermAppl> args = new ArrayList<>();
+		for (ATermList l = (ATermList) term.getArgument(0); !l.isEmpty(); l = l.getNext())
+		{
+			final ATermAppl a = (ATermAppl) l.getFirst();
+			this.visit(a);
+			args.add(ret);
+			if (change)
 				listChange = true;
 		}
-		if( listChange ) {
+		if (listChange)
+		{
 			change = true;
-			ret = ATermUtils.makeAnd( ATermUtils.makeList( args ) );
+			ret = ATermUtils.makeAnd(ATermUtils.makeList(args));
 		}
-		else {
+		else
+		{
 			change = false;
 			ret = term;
 		}
 	}
 
-	public void visitCard(ATermAppl term) {
+	@Override
+	public void visitCard(final ATermAppl term)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitHasValue(ATermAppl term) {
+	@Override
+	public void visitHasValue(final ATermAppl term)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitInverse(ATermAppl p) {
+	@Override
+	public void visitInverse(final ATermAppl p)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitLiteral(ATermAppl term) {
+	@Override
+	public void visitLiteral(final ATermAppl term)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitMax(ATermAppl term) {
+	@Override
+	public void visitMax(final ATermAppl term)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitMin(ATermAppl term) {
+	@Override
+	public void visitMin(final ATermAppl term)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitNot(ATermAppl term) {
-		ATermAppl a = (ATermAppl) term.getArgument( 0 );
-		this.visit( a );
-		if( change )
-			ret = ATermUtils.makeNot( ret );
+	@Override
+	public void visitNot(final ATermAppl term)
+	{
+		final ATermAppl a = (ATermAppl) term.getArgument(0);
+		this.visit(a);
+		if (change)
+			ret = ATermUtils.makeNot(ret);
 		else
 			ret = term;
 	}
 
-	public void visitOneOf(ATermAppl term) {
+	@Override
+	public void visitOneOf(final ATermAppl term)
+	{
 		ret = term;
 		change = false;
 	}
 
-	public void visitOr(ATermAppl term) {
+	@Override
+	public void visitOr(final ATermAppl term)
+	{
 		boolean listChange = false;
-		List<ATermAppl> args = new ArrayList<ATermAppl>();
-		for( ATermList l = (ATermList) term.getArgument( 0 ); !l.isEmpty(); l = l.getNext() ) {
-			ATermAppl a = (ATermAppl) l.getFirst();
-			this.visit( a );
-			args.add( ret );
-			if( change )
+		final List<ATermAppl> args = new ArrayList<>();
+		for (ATermList l = (ATermList) term.getArgument(0); !l.isEmpty(); l = l.getNext())
+		{
+			final ATermAppl a = (ATermAppl) l.getFirst();
+			this.visit(a);
+			args.add(ret);
+			if (change)
 				listChange = true;
 		}
-		if( listChange ) {
+		if (listChange)
+		{
 			change = true;
-			ret = ATermUtils.makeOr( ATermUtils.makeList( args ) );
+			ret = ATermUtils.makeOr(ATermUtils.makeList(args));
 		}
-		else {
+		else
+		{
 			change = false;
 			ret = term;
 		}
 	}
 
-	public void visitRestrictedDatatype(ATermAppl dt) {
+	@Override
+	public void visitRestrictedDatatype(final ATermAppl dt)
+	{
 		ret = dt;
 		change = false;
 	}
 
-	public void visitSelf(ATermAppl term) {
+	@Override
+	public void visitSelf(final ATermAppl term)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitSome(ATermAppl term) {
+	@Override
+	public void visitSome(final ATermAppl term)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void visitTerm(ATermAppl term) {
-		ATermAppl a = map.get( term );
-		if( a == null ) {
+	@Override
+	public void visitTerm(final ATermAppl term)
+	{
+		final ATermAppl a = map.get(term);
+		if (a == null)
+		{
 			ret = term;
 			change = false;
 		}
-		else {
+		else
+		{
 			ret = a;
 			change = true;
 		}
 	}
 
-	public void visitValue(ATermAppl term) {
+	@Override
+	public void visitValue(final ATermAppl term)
+	{
 		ret = term;
 		change = false;
 	}

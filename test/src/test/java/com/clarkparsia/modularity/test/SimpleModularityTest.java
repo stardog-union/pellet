@@ -6,18 +6,19 @@
 
 package com.clarkparsia.modularity.test;
 
-import java.util.Arrays;
 import static com.clarkparsia.owlapi.OWL.all;
 import static com.clarkparsia.owlapi.OWL.and;
 import static com.clarkparsia.owlapi.OWL.equivalentClasses;
 import static com.clarkparsia.owlapi.OWL.or;
 import static com.clarkparsia.owlapi.OWL.some;
+
+import com.clarkparsia.modularity.ModuleExtractor;
+import java.util.Arrays;
 import org.junit.Test;
 import org.mindswap.pellet.utils.MultiValueMap;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
-import com.clarkparsia.modularity.ModuleExtractor;
 
 /**
  * <p>
@@ -32,99 +33,104 @@ import com.clarkparsia.modularity.ModuleExtractor;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public abstract class SimpleModularityTest extends AbstractModularityTest {
-	private MultiValueMap<OWLEntity, OWLEntity>	modules;
+public abstract class SimpleModularityTest extends AbstractModularityTest
+{
+	private MultiValueMap<OWLEntity, OWLEntity> modules;
 
-	public SimpleModularityTest() {
+	public SimpleModularityTest()
+	{
 	}
-	
+
+	@Override
 	public abstract ModuleExtractor createModuleExtractor();
 
 	/**
-	 * Creates an ontology from the given axioms and extracts the modules for
-	 * each class in the ontology.
-	 * 
+	 * Creates an ontology from the given axioms and extracts the modules for each class in the ontology.
+	 *
 	 * @param axioms that will be used to construct the ontology
 	 * @throws OWLException if ontology cannot be created
 	 */
-	private void extractModules(OWLAxiom[] axioms) throws OWLException {
+	private void extractModules(final OWLAxiom[] axioms) throws OWLException
+	{
 		modExtractor.addAxioms(Arrays.asList(axioms));
 
 		modules = modExtractor.extractModules();
 	}
 
 	/**
-	 * Tests if the computed module of the given entity is same as the 
-	 * expected module.
-	 *  
+	 * Tests if the computed module of the given entity is same as the expected module.
+	 * 
 	 * @param entity for which the module is being tested
 	 * @param expectedModule expected elements in the module
 	 */
-	private void testModule(OWLEntity entity, OWLEntity... expectedModule) {
-		OWLEntity[] computedModule = modules.get( entity ).toArray(new OWLEntity[0]);
+	private void testModule(final OWLEntity entity, final OWLEntity... expectedModule)
+	{
+		final OWLEntity[] computedModule = modules.get(entity).toArray(new OWLEntity[0]);
 
-		String msg = "Extractor " + modExtractor.getClass().getSimpleName() + " failed for " + entity;
-		TestUtils.assertToStringEquals( msg, expectedModule, computedModule );
+		final String msg = "Extractor " + modExtractor.getClass().getSimpleName() + " failed for " + entity;
+		TestUtils.assertToStringEquals(msg, expectedModule, computedModule);
 	}
 
 	@Test
-	public void intersectionTest() throws OWLException {
-		OWLAxiom[] axioms = { equivalentClasses( A, and( B, C ) ) };
+	public void intersectionTest() throws OWLException
+	{
+		final OWLAxiom[] axioms = { equivalentClasses(A, and(B, C)) };
 
-		extractModules( axioms );
+		extractModules(axioms);
 
-		testModule( A, A, B, C );
-		testModule( B, B );
-		testModule( C, C );
+		testModule(A, A, B, C);
+		testModule(B, B);
+		testModule(C, C);
 	}
-	
+
 	@Test
-	public void unionTest() throws OWLException {
-		OWLAxiom[] axioms = { equivalentClasses( A, or( B, C ) ) };
+	public void unionTest() throws OWLException
+	{
+		final OWLAxiom[] axioms = { equivalentClasses(A, or(B, C)) };
 
-		extractModules( axioms );
+		extractModules(axioms);
 
-		testModule( A, A, B, C );
-		testModule( B, A, B, C );
-		testModule( C, A, B, C );
+		testModule(A, A, B, C);
+		testModule(B, A, B, C);
+		testModule(C, A, B, C);
 	}
-	
-	
+
 	@Test
-	public void nestedUnionTest() throws OWLException {
-		OWLAxiom[] axioms = { 
-			equivalentClasses( A, and( B, or( C, D ) ) ),
-			equivalentClasses( E, and( B, C ) )};
+	public void nestedUnionTest() throws OWLException
+	{
+		final OWLAxiom[] axioms = { equivalentClasses(A, and(B, or(C, D))), equivalentClasses(E, and(B, C)) };
 
-		extractModules( axioms );
+		extractModules(axioms);
 
-		testModule( A, A, B, C, D, E );
-		testModule( B, B );
-		testModule( C, C );
-		testModule( D, D );
-		testModule( E, A, B, C, D, E );
+		testModule(A, A, B, C, D, E);
+		testModule(B, B);
+		testModule(C, C);
+		testModule(D, D);
+		testModule(E, A, B, C, D, E);
 	}
-	
+
 	@Test
-	public void someValuesTest() throws OWLException {
-		OWLAxiom[] axioms = { equivalentClasses( A, some( p, B ) ) };
+	public void someValuesTest() throws OWLException
+	{
+		final OWLAxiom[] axioms = { equivalentClasses(A, some(p, B)) };
 
-		extractModules( axioms );
+		extractModules(axioms);
 
-		testModule( A, A, p, B );
-		testModule( B, B );
+		testModule(A, A, p, B);
+		testModule(B, B);
 	}
-	
+
 	@Test
-	public void allValuesTest() throws OWLException {
-		OWLAxiom[] axioms = { equivalentClasses( A, all( p, B ) ) };
+	public void allValuesTest() throws OWLException
+	{
+		final OWLAxiom[] axioms = { equivalentClasses(A, all(p, B)) };
 
-		extractModules( axioms );
+		extractModules(axioms);
 
-		testModule( A, A, p, B );
-		testModule( B, A, p, B );
+		testModule(A, A, p, B);
+		testModule(B, A, p, B);
 	}
 }

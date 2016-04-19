@@ -6,45 +6,51 @@
 
 package org.mindswap.pellet.taxonomy;
 
+import aterm.ATermAppl;
 import java.util.Map;
 import java.util.Set;
-
-import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.PartialOrderBuilder;
 import org.mindswap.pellet.utils.PartialOrderComparator;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 
-import aterm.ATermAppl;
+public class POTaxonomyBuilder implements TaxonomyBuilder
+{
 
-public class POTaxonomyBuilder implements TaxonomyBuilder {
+	private final PartialOrderBuilder<ATermAppl> builder;
+	private KnowledgeBase kb;
+	private final Taxonomy<ATermAppl> tax;
 
-	private PartialOrderBuilder<ATermAppl>	builder;
-	private KnowledgeBase					kb;
-	private Taxonomy<ATermAppl>				tax;
-
-	public POTaxonomyBuilder(KnowledgeBase kb) {
-		this( kb, new SubsumptionComparator( kb ) );
+	public POTaxonomyBuilder(final KnowledgeBase kb)
+	{
+		this(kb, new SubsumptionComparator(kb));
 	}
 
-	public POTaxonomyBuilder(KnowledgeBase kb, PartialOrderComparator<ATermAppl> comparator) {
+	public POTaxonomyBuilder(final KnowledgeBase kb, final PartialOrderComparator<ATermAppl> comparator)
+	{
 		this.kb = kb;
-		this.tax = new Taxonomy<ATermAppl>( null, ATermUtils.TOP, ATermUtils.BOTTOM );
-		this.builder = new PartialOrderBuilder<ATermAppl>( tax, comparator );
+		this.tax = new Taxonomy<>(null, ATermUtils.TOP, ATermUtils.BOTTOM);
+		this.builder = new PartialOrderBuilder<>(tax, comparator);
 	}
 
-	public boolean classify() {
-		builder.addAll( kb.getClasses() );
-		
+	@Override
+	public boolean classify()
+	{
+		builder.addAll(kb.getClasses());
+
 		return true;
 	}
 
-	public void classify(ATermAppl c) {
-		builder.add( c );
+	@Override
+	public void classify(final ATermAppl c)
+	{
+		builder.add(c);
 	}
 
-	public boolean realize() {
+	@Override
+	public boolean realize()
+	{
 		throw new UnsupportedOperationException();
 		/*
 		 * CDOptimizedTaxonomyBuilder b = new CDOptimizedTaxonomyBuilder();
@@ -53,40 +59,53 @@ public class POTaxonomyBuilder implements TaxonomyBuilder {
 	}
 
 	@Override
-	public void realize(ATermAppl x) {
+	public void realize(final ATermAppl x)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public void setKB(KnowledgeBase kb) {
+	@Override
+	public void setKB(final KnowledgeBase kb)
+	{
 		this.kb = kb;
 	}
-	
-	public PartialOrderComparator<ATermAppl> getComparator() {
+
+	public PartialOrderComparator<ATermAppl> getComparator()
+	{
 		return builder.getComparator();
 	}
 
-	public void setComparator(PartialOrderComparator<ATermAppl> comparator) {
-		builder.setComparator( comparator );
+	public void setComparator(final PartialOrderComparator<ATermAppl> comparator)
+	{
+		builder.setComparator(comparator);
 	}
 
-	public void setProgressMonitor(ProgressMonitor monitor) {
+	@Override
+	public void setProgressMonitor(final ProgressMonitor monitor)
+	{
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Map<ATermAppl, Set<ATermAppl>> getToldDisjoints() {
+	@Override
+	public Map<ATermAppl, Set<ATermAppl>> getToldDisjoints()
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Taxonomy<ATermAppl> getToldTaxonomy() {
+	@Override
+	public Taxonomy<ATermAppl> getToldTaxonomy()
+	{
 		throw new UnsupportedOperationException();
 	}
-	
-	public Taxonomy<ATermAppl> getTaxonomy() {
+
+	@Override
+	public Taxonomy<ATermAppl> getTaxonomy()
+	{
 		return tax;
 	}
-} 
+}

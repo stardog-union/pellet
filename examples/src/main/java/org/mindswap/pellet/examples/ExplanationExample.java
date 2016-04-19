@@ -8,10 +8,11 @@
 
 package org.mindswap.pellet.examples;
 
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.explanation.PelletExplanation;
+import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxExplanationRenderer;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
-import com.clarkparsia.owlapi.OWL;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
@@ -22,8 +23,6 @@ import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import com.clarkparsia.owlapi.explanation.PelletExplanation;
-import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxExplanationRenderer;
 
 /**
  * <p>
@@ -38,56 +37,58 @@ import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxExplanat
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  * @author Evren Sirin
  */
-public class ExplanationExample {
+public class ExplanationExample
+{
 
-	private static final String	file	= "file:examples/data/people+pets.owl";
-	private static final String	NS		= "http://cohse.semanticweb.org/ontologies/people#";
+	private static final String file = "file:examples/data/people+pets.owl";
+	private static final String NS = "http://cohse.semanticweb.org/ontologies/people#";
 
-	public void run() throws OWLOntologyCreationException, OWLException, IOException {
+	public void run() throws OWLOntologyCreationException, OWLException, IOException
+	{
 		PelletExplanation.setup();
-		
+
 		// The renderer is used to pretty print explanation
-		ManchesterSyntaxExplanationRenderer renderer = new ManchesterSyntaxExplanationRenderer();
+		final ManchesterSyntaxExplanationRenderer renderer = new ManchesterSyntaxExplanationRenderer();
 		// The writer used for the explanation rendered
-		PrintWriter out = new PrintWriter( System.out );
-		renderer.startRendering( out );
+		final PrintWriter out = new PrintWriter(System.out);
+		renderer.startRendering(out);
 
 		// Create an OWLAPI manager that allows to load an ontology file and
 		// create OWLEntities
-		OWLOntologyManager manager = OWL.manager;
-		OWLOntology ontology = manager.loadOntology( IRI.create( file ) );
+		final OWLOntologyManager manager = OWL.manager;
+		final OWLOntology ontology = manager.loadOntology(IRI.create(file));
 
 		// Create the reasoner and load the ontology
-		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ontology );
+		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
 
 		// Create an explanation generator
-		PelletExplanation expGen = new PelletExplanation( reasoner );
+		final PelletExplanation expGen = new PelletExplanation(reasoner);
 
 		// Create some concepts
-		OWLClass madCow = OWL.Class( NS + "mad+cow" );
-		OWLClass animalLover = OWL.Class( NS + "animal+lover" );
-		OWLClass petOwner = OWL.Class( NS + "pet+owner" );
+		final OWLClass madCow = OWL.Class(NS + "mad+cow");
+		final OWLClass animalLover = OWL.Class(NS + "animal+lover");
+		final OWLClass petOwner = OWL.Class(NS + "pet+owner");
 
 		// Explain why mad cow is an unsatisfiable concept
-		Set<Set<OWLAxiom>> exp = expGen.getUnsatisfiableExplanations( madCow );
-		out.println( "Why is " + madCow + " concept unsatisfiable?" );		
-		renderer.render( exp );
+		Set<Set<OWLAxiom>> exp = expGen.getUnsatisfiableExplanations(madCow);
+		out.println("Why is " + madCow + " concept unsatisfiable?");
+		renderer.render(exp);
 
 		// Now explain why animal lover is a sub class of pet owner
-		exp = expGen.getSubClassExplanations( animalLover, petOwner );
-		out.println( "Why is " + animalLover + " subclass of " + petOwner + "?" );
-		renderer.render( exp );
-		
+		exp = expGen.getSubClassExplanations(animalLover, petOwner);
+		out.println("Why is " + animalLover + " subclass of " + petOwner + "?");
+		renderer.render(exp);
+
 		renderer.endRendering();
 	}
 
-	public static void main(String[] args) throws OWLOntologyCreationException, OWLException,
-			IOException {
-		ExplanationExample app = new ExplanationExample();
+	public static void main(final String[] args) throws OWLOntologyCreationException, OWLException, IOException
+	{
+		final ExplanationExample app = new ExplanationExample();
 
 		app.run();
 	}

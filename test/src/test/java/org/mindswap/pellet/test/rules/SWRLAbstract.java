@@ -8,17 +8,16 @@ package org.mindswap.pellet.test.rules;
 
 import static org.junit.Assert.assertTrue;
 
-import com.clarkparsia.pellet.owlapi.PelletReasoner;
-
 import com.clarkparsia.owlapi.OntologyUtils;
-import org.junit.After;
-import org.mindswap.pellet.jena.PelletReasonerFactory;
-import org.semanticweb.owlapi.model.IRI;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
+import org.junit.After;
+import org.mindswap.pellet.jena.PelletReasonerFactory;
+import org.semanticweb.owlapi.model.IRI;
 
 /**
  * <p>
@@ -33,61 +32,67 @@ import org.apache.jena.rdf.model.StmtIterator;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class SWRLAbstract {
+public class SWRLAbstract
+{
 
 	protected static String base;
 
-	protected void test(String test) {
+	protected void test(final String test)
+	{
 		testJena(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
 		testOWLAPI(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
 	}
 
-	private void testJena(String premiseURI, String conclusionURI) {
-		OntModel premise = ModelFactory
-				.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+	private void testJena(final String premiseURI, final String conclusionURI)
+	{
+		final OntModel premise = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 		premise.read(premiseURI);
 		premise.prepare();
 
-		Model conclusion = ModelFactory.createDefaultModel();
+		final Model conclusion = ModelFactory.createDefaultModel();
 		conclusion.read(conclusionURI);
-		
-		StmtIterator stmtIter = conclusion.listStatements();
 
-		while (stmtIter.hasNext()) {
-			Statement s = stmtIter.nextStatement();
+		final StmtIterator stmtIter = conclusion.listStatements();
+
+		while (stmtIter.hasNext())
+		{
+			final Statement s = stmtIter.nextStatement();
 			assertTrue(premise.contains(s));
 		}
 	}
-	
-	private void testOWLAPI(String premiseURI, String conclusionURI) {
+
+	private void testOWLAPI(final String premiseURI, final String conclusionURI)
+	{
 		org.semanticweb.owlapi.model.OWLOntologyManager manager = null;
 
-		try {
+		try
+		{
 			manager = org.semanticweb.owlapi.apibinding.OWLManager.createOWLOntologyManager();
-			org.semanticweb.owlapi.model.OWLOntology premise = manager.loadOntology( IRI
-					.create( premiseURI ) );
+			final org.semanticweb.owlapi.model.OWLOntology premise = manager.loadOntology(IRI.create(premiseURI));
 			manager = org.semanticweb.owlapi.apibinding.OWLManager.createOWLOntologyManager();
-			org.semanticweb.owlapi.model.OWLOntology conclusion = manager.loadOntology( IRI
-					.create( conclusionURI ) );
+			final org.semanticweb.owlapi.model.OWLOntology conclusion = manager.loadOntology(IRI.create(conclusionURI));
 
-			PelletReasoner reasoner = new com.clarkparsia.pellet.owlapi.PelletReasonerFactory()
-					.createReasoner( premise );
-			assertTrue( reasoner.isEntailed( conclusion.getAxioms() ) );
-		} catch( org.semanticweb.owlapi.model.OWLOntologyCreationException e ) {
-			throw new RuntimeException( e );
+			final PelletReasoner reasoner = new com.clarkparsia.pellet.owlapi.PelletReasonerFactory().createReasoner(premise);
+			assertTrue(reasoner.isEntailed(conclusion.getAxioms()));
+		}
+		catch (final org.semanticweb.owlapi.model.OWLOntologyCreationException e)
+		{
+			throw new RuntimeException(e);
 		}
 
 	}
 
-	private String url(String filename) {
+	private String url(final String filename)
+	{
 		return base + filename;
 	}
 
 	@After
-	public void after() {
+	public void after()
+	{
 		OntologyUtils.clearOWLOntologyManager();
 	}
 }

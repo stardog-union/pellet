@@ -6,61 +6,64 @@
 
 package org.mindswap.pellet.tableau.blocking;
 
-import java.util.Iterator;
+import aterm.ATerm;
+import aterm.ATermAppl;
+import aterm.ATermList;
 import java.util.Set;
-
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.utils.ATermUtils;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
-
 /**
  * @author Evren Sirin
  */
-public class Block2 implements BlockingCondition {
-	public boolean isBlocked(BlockingContext cxt) {
-		for (ATermAppl av : cxt.blocker.getTypes(Node.ALL)) {
-			ATerm p = av.getArgument(0);
-			ATermAppl c = (ATermAppl) av.getArgument(1);
-			Role s = cxt.blocked.getABox().getRole(p);
+public class Block2 implements BlockingCondition
+{
+	@Override
+	public boolean isBlocked(final BlockingContext cxt)
+	{
+		for (final ATermAppl av : cxt.blocker.getTypes(Node.ALL))
+		{
+			final ATerm p = av.getArgument(0);
+			final ATermAppl c = (ATermAppl) av.getArgument(1);
+			final Role s = cxt.blocked.getABox().getRole(p);
 
-			if (p instanceof ATermList) {
-				ATermList chain = (ATermList) p;
+			if (p instanceof ATermList)
+			{
+				final ATermList chain = (ATermList) p;
 
 				if (!isBlockedByChain(cxt, chain, c))
 					return false;
 			}
-			else if (s.isDatatypeRole()) {
-				continue;
-			}
-			else {
-				Role invS = s.getInverse();
+			else
+				if (s.isDatatypeRole())
+					continue;
+				else
+				{
+					final Role invS = s.getInverse();
 
-				if (cxt.isRSuccessor(invS) && !cxt.blocked.getParent().hasType(c))
-					return false;
+					if (cxt.isRSuccessor(invS) && !cxt.blocked.getParent().hasType(c))
+						return false;
 
-				if (!s.isSimple()) {
-					Set<ATermList> subRoleChains = s.getSubRoleChains();
-					for (Iterator<ATermList> it = subRoleChains.iterator(); it.hasNext();) {
-						ATermList chain = it.next();
-
-						if (!isBlockedByChain(cxt, chain, c))
-							return false;
+					if (!s.isSimple())
+					{
+						final Set<ATermList> subRoleChains = s.getSubRoleChains();
+						for (final ATermList chain : subRoleChains)
+						{
+							if (!isBlockedByChain(cxt, chain, c))
+								return false;
+						}
 					}
 				}
-			}
 		}
 
 		return true;
 	}
 
-	protected boolean isBlockedByChain(BlockingContext cxt, ATermList chain, ATermAppl c) {
-		Role firstRole = cxt.blocked.getABox().getRole(chain.getFirst());
+	protected boolean isBlockedByChain(final BlockingContext cxt, final ATermList chain, final ATermAppl c)
+	{
+		final Role firstRole = cxt.blocked.getABox().getRole(chain.getFirst());
 
-		return !cxt.getIncomingRoles().contains(firstRole.getInverse())
-		       && cxt.blocked.getParent().hasType(ATermUtils.makeAllValues(chain.getNext(), c));
+		return !cxt.getIncomingRoles().contains(firstRole.getInverse()) && cxt.blocked.getParent().hasType(ATermUtils.makeAllValues(chain.getNext(), c));
 	}
 }

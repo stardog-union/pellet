@@ -1,16 +1,14 @@
 package com.clarkparsia.pellet.datatypes;
 
-import org.mindswap.pellet.utils.ATermUtils;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
  * Title: Abstract base datatype type
  * </p>
  * <p>
- * Description: Base implementation to handle some boiler plate code shared by
- * all datatype implementations
+ * Description: Base implementation to handle some boiler plate code shared by all datatype implementations
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -18,18 +16,20 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public abstract class AbstractBaseDatatype<T> implements Datatype<T> {
+public abstract class AbstractBaseDatatype<T> implements Datatype<T>
+{
 
-	private final int		hashCode;
-	private final ATermAppl	name;
+	private final int hashCode;
+	private final ATermAppl name;
 
-	protected AbstractBaseDatatype(ATermAppl name) {
-		if( name == null )
+	protected AbstractBaseDatatype(final ATermAppl name)
+	{
+		if (name == null)
 			throw new NullPointerException();
-		if( name.getArity() != 0 )
+		if (name.getArity() != 0)
 			throw new IllegalArgumentException();
 
 		this.name = name;
@@ -37,46 +37,47 @@ public abstract class AbstractBaseDatatype<T> implements Datatype<T> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj)
+	{
 		/*
 		 * Note that this implementation assumes singleton classes for each
 		 * datatype
 		 */
-		if( this == obj )
+		if (this == obj)
 			return true;
-		if( obj == null )
+		if (obj == null)
 			return false;
-		if( getClass() != obj.getClass() )
+		if (getClass() != obj.getClass())
 			return false;
 
 		return true;
 	}
 
 	/**
-	 * Gets the lexical form for a properly typed literal. Useful because it
-	 * also validates that the input value is valid (i.e., has the correct ATerm
-	 * structure and datatype).
-	 * 
-	 * @param input
-	 *            Input <code>ATermAppl</code>, should be a literal
+	 * Gets the lexical form for a properly typed literal. Useful because it also validates that the input value is valid (i.e., has the correct ATerm structure
+	 * and datatype).
+	 *
+	 * @param input Input <code>ATermAppl</code>, should be a literal
 	 * @return <code>ATermUtils.getLiteralValue( input )</code>
-	 * @throws IllegalArgumentException
-	 *             if <code>!ATermUtils.isLiteral( input )</code> or if the
-	 *             datatype URI does not match this datatype
+	 * @throws IllegalArgumentException if <code>!ATermUtils.isLiteral( input )</code> or if the datatype URI does not match this datatype
 	 */
-	protected String getLexicalForm(ATermAppl input) {
-		if( !ATermUtils.isLiteral( input ) )
+	protected String getLexicalForm(final ATermAppl input)
+	{
+		if (!ATermUtils.isLiteral(input))
 			throw new IllegalArgumentException();
 
-		return ATermUtils.getLiteralValue( input );
+		return ATermUtils.getLiteralValue(input);
 	}
 
-	public ATermAppl getName() {
+	@Override
+	public ATermAppl getName()
+	{
 		return name;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return hashCode;
 	}
 

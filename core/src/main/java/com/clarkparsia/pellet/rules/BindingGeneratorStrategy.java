@@ -13,9 +13,8 @@ import com.clarkparsia.pellet.rules.model.Rule;
  * Title: Binding Generator Strategy
  * </p>
  * <p>
- * Description: Interface for BindingGenerator construction strategies.
- * The strategy takes a rule, and returns a binding generator that iterates
- * over possible bindings.
+ * Description: Interface for BindingGenerator construction strategies. The strategy takes a rule, and returns a binding generator that iterates over possible
+ * bindings.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,17 +22,18 @@ import com.clarkparsia.pellet.rules.model.Rule;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
 
-public interface BindingGeneratorStrategy {
+public interface BindingGeneratorStrategy
+{
 
 	/**
 	 * Creates a <code>BindingGenerator</code> for a single rule.
 	 */
-	public BindingGenerator createGenerator( Rule rule );
-	
-	public BindingGenerator createGenerator( Rule rule, VariableBinding initialBinding );
-	
+	public BindingGenerator createGenerator(Rule rule);
+
+	public BindingGenerator createGenerator(Rule rule, VariableBinding initialBinding);
+
 }

@@ -8,7 +8,6 @@ package com.clarkparsia.pellet.rules.builtins;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
@@ -28,47 +27,62 @@ import org.mindswap.pellet.utils.Namespaces;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class NumberToLiteralVisitor implements NumericVisitor {
+public class NumberToLiteralVisitor implements NumericVisitor
+{
 
-	private ABox abox;
+	private final ABox abox;
 	private Literal result;
-	
-	public NumberToLiteralVisitor( ABox abox ) {
+
+	public NumberToLiteralVisitor(final ABox abox)
+	{
 		this.abox = abox;
 	}
-	
-	private void argCheck(Number[] args) {
-		if ( args.length != 1 )
-			throw new InternalReasonerException( "Wrong number of arguments to visitor." );
-	}
-	
-	public Literal getLiteral() { return result; }
-	
-	private void setLiteral( Number arg, String typeURI ) {
-		result = abox.addLiteral( ATermUtils.makeTypedLiteral( arg.toString(), typeURI ) );
-	}
-	
-	public void visit(BigDecimal[] args) {
-		argCheck( args );
-		setLiteral( args[0], Namespaces.XSD + "decimal" );
+
+	private void argCheck(final Number[] args)
+	{
+		if (args.length != 1)
+			throw new InternalReasonerException("Wrong number of arguments to visitor.");
 	}
 
-	public void visit(BigInteger[] args) {
+	public Literal getLiteral()
+	{
+		return result;
+	}
+
+	private void setLiteral(final Number arg, final String typeURI)
+	{
+		result = abox.addLiteral(ATermUtils.makeTypedLiteral(arg.toString(), typeURI));
+	}
+
+	@Override
+	public void visit(final BigDecimal[] args)
+	{
+		argCheck(args);
+		setLiteral(args[0], Namespaces.XSD + "decimal");
+	}
+
+	@Override
+	public void visit(final BigInteger[] args)
+	{
 		argCheck(args);
 		setLiteral(args[0], Namespaces.XSD + "integer");
 	}
 
-	public void visit(Double[] args) {
-		argCheck( args );
-		setLiteral( args[0], Namespaces.XSD + "double" );
+	@Override
+	public void visit(final Double[] args)
+	{
+		argCheck(args);
+		setLiteral(args[0], Namespaces.XSD + "double");
 	}
 
-	public void visit(Float[] args) {
-		argCheck( args );
-		setLiteral( args[0], Namespaces.XSD + "float" );
+	@Override
+	public void visit(final Float[] args)
+	{
+		argCheck(args);
+		setLiteral(args[0], Namespaces.XSD + "float");
 	}
 
 }

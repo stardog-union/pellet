@@ -13,7 +13,7 @@ import aterm.ATermAppl;
  * Title: Atom Constant
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -21,34 +21,41 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public abstract class AtomConstant implements AtomObject {
+public abstract class AtomConstant implements AtomObject
+{
 
-	private ATermAppl value;
+	private final ATermAppl value;
 
-	public AtomConstant(ATermAppl value) {
+	public AtomConstant(final ATermAppl value)
+	{
 		this.value = value;
 	}
 
-	public boolean equals(Object other) {
-		if( this == other )
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (this == other)
 			return true;
-		if( !( other instanceof AtomConstant ) )
+		if (!(other instanceof AtomConstant))
 			return false;
-		Object otherValue = ( ( AtomConstant ) other ).value;
-		return value == otherValue || ( value != null && value.equals( otherValue ) );
+		final Object otherValue = ((AtomConstant) other).value;
+		return value == otherValue || (value != null && value.equals(otherValue));
 	}
 
 	/**
 	 * Returns the aterm value this constant was initialized with.
 	 */
-	public ATermAppl getValue() {
+	public ATermAppl getValue()
+	{
 		return value;
 	}
 
-	public int hashCode() {
+	@Override
+	public int hashCode()
+	{
 		return value.hashCode();
 	}
 

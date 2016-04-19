@@ -10,48 +10,56 @@ import java.util.logging.Level;
 
 /**
  */
-public class BetaTopNode extends BetaNode {
+public class BetaTopNode extends BetaNode
+{
 	private final AlphaNode alpha;
 
-	public BetaTopNode(AlphaNode alpha) {
+	public BetaTopNode(final AlphaNode alpha)
+	{
 		this.alpha = alpha;
 	}
-	
-	public AlphaNode getAlphaNode() {
+
+	public AlphaNode getAlphaNode()
+	{
 		return alpha;
 	}
-	
-	public boolean isTop() {
+
+	@Override
+	public boolean isTop()
+	{
 		return true;
 	}
-	
+
 	@Override
-	public void activate(WME wme) {
-		if (log.isLoggable(Level.FINE)) {
+	public void activate(final WME wme)
+	{
+		if (log.isLoggable(Level.FINE))
 			log.fine("Activate beta " + wme);
-		}
-		
+
 		activateChildren(wme, null);
 	}
-	
+
 	@Override
-	public void activate(Token token) {
+	public void activate(final Token token)
+	{
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
-	public void print(String indent) {
+	public void print(String indent)
+	{
 		System.out.print(indent);
 		System.out.println(alpha);
 		indent += "  ";
 		System.out.print(indent);
 		System.out.println(this);
-		for (BetaNode node : getBetas()) {
-	        node.print(indent);
-        }
+		for (final BetaNode node : getBetas())
+			node.print(indent);
 	}
-	
-	public String toString() {
+
+	@Override
+	public String toString()
+	{
 		return "Top";
 	}
 }

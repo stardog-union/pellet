@@ -6,16 +6,20 @@
 
 package org.mindswap.pellet;
 
-public enum PropertyType {
+public enum PropertyType
+{
 	UNTYPED, OBJECT, DATATYPE, ANNOTATION;
 
 	private String str;
-	
-    private PropertyType() {
-	    str = name().substring(0,1) + name().substring(1).toLowerCase();
-    }
 
-	public String toString() {
+	private PropertyType()
+	{
+		str = name().substring(0, 1) + name().substring(1).toLowerCase();
+	}
+
+	@Override
+	public String toString()
+	{
 		return str;
 	}
 }

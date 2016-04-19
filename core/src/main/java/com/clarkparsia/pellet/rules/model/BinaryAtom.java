@@ -14,7 +14,7 @@ import java.util.List;
  * Title: Property Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -22,34 +22,38 @@ import java.util.List;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public abstract class BinaryAtom<P, A extends AtomObject, B extends AtomObject> extends RuleAtomImpl<P> {
-	
-	private A argument1;
-	private B argument2;
-	
-	
-	public BinaryAtom( P predicate, A argument1, B argument2 ) {
+ */
+public abstract class BinaryAtom<P, A extends AtomObject, B extends AtomObject> extends RuleAtomImpl<P>
+{
+
+	private final A argument1;
+	private final B argument2;
+
+	public BinaryAtom(final P predicate, final A argument1, final B argument2)
+	{
 		super(predicate);
 		this.argument1 = argument1;
 		this.argument2 = argument2;
 	}
 
 	@Override
-	public List<AtomObject> getAllArguments() {
-		List<AtomObject> list = new ArrayList<AtomObject>(2);
-		list.add( getArgument1() );
-		list.add( getArgument2() );
+	public List<AtomObject> getAllArguments()
+	{
+		final List<AtomObject> list = new ArrayList<>(2);
+		list.add(getArgument1());
+		list.add(getArgument2());
 		return list;
 	}
-	
-	public A getArgument1() {
+
+	public A getArgument1()
+	{
 		return argument1;
 	}
-	
-	public B getArgument2() {
+
+	public B getArgument2()
+	{
 		return argument2;
 	}
 }

@@ -6,21 +6,20 @@
 
 package com.clarkparsia.pellint.lintpattern.axiom;
 
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-
 import com.clarkparsia.pellint.format.LintFormat;
 import com.clarkparsia.pellint.format.SimpleLintFormat;
 import com.clarkparsia.pellint.model.Lint;
 import com.clarkparsia.pellint.util.OWLUtil;
+import org.semanticweb.owlapi.model.OWLClassExpression;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -28,48 +27,61 @@ import com.clarkparsia.pellint.util.OWLUtil;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class GCIPattern extends AxiomLintPattern {
+public class GCIPattern extends AxiomLintPattern
+{
 	private static final LintFormat DEFAULT_LINT_FORMAT = new SimpleLintFormat();
-	
-	public String getName() {
+
+	@Override
+	public String getName()
+	{
 		return getClass().getSimpleName();
 	}
-	
-	public String getDescription() {
+
+	@Override
+	public String getDescription()
+	{
 		return "GCI axiom, or equivalence classes axiom with two or more complex concepts";
 	}
 
-	public boolean isFixable() {
+	@Override
+	public boolean isFixable()
+	{
 		return false;
 	}
-	
-	public LintFormat getDefaultLintFormat() {
+
+	@Override
+	public LintFormat getDefaultLintFormat()
+	{
 		return DEFAULT_LINT_FORMAT;
 	}
 
-	public void visit(OWLEquivalentClassesAxiom axiom) {
+	@Override
+	public void visit(final OWLEquivalentClassesAxiom axiom)
+	{
 		int complexCount = 0;
-		for (OWLClassExpression desc : axiom.getClassExpressions()) {
-			if (OWLUtil.isComplex(desc)) {
+		for (final OWLClassExpression desc : axiom.getClassExpressions())
+			if (OWLUtil.isComplex(desc))
 				complexCount++;
-			}
-		}
-		
-		if (complexCount > 1) {
-			Lint lint = makeLint();
+
+		if (complexCount > 1)
+		{
+			final Lint lint = makeLint();
 			lint.addParticipatingAxiom(axiom);
 			setLint(lint);
 		}
 	}
-	
-	public void visit(OWLSubClassOfAxiom axiom) {
-		if (OWLUtil.isComplex(axiom.getSubClass())) {
-			Lint lint = makeLint();
+
+	@Override
+	public void visit(final OWLSubClassOfAxiom axiom)
+	{
+		if (OWLUtil.isComplex(axiom.getSubClass()))
+		{
+			final Lint lint = makeLint();
 			lint.addParticipatingAxiom(axiom);
-			setLint(lint);			
-		}		
+			setLint(lint);
+		}
 	}
 }

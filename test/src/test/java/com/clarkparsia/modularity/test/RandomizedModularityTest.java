@@ -27,82 +27,95 @@ import uk.ac.manchester.cs.owlapi.modularity.SyntacticLocalityModuleExtractor;
 /**
  * @author Evren Sirin
  */
-public abstract class RandomizedModularityTest
-extends AbstractModularityTest {
-	
+public abstract class RandomizedModularityTest extends AbstractModularityTest
+{
+
 	private String _path;
-	
-	public RandomizedModularityTest(final String path) {
+
+	public RandomizedModularityTest(final String path)
+	{
 		_path = path;
-		
-		if (!new File(path).exists()) {
+
+		if (!new File(path).exists())
+		{
 			_path = "src/test/resources/" + path;
-			
+
 			if (!new File(_path).exists())//
-			throw new RuntimeException("Path to data files is not correct: " + path);
+				throw new RuntimeException("Path to data files is not correct: " + path);
 		}
 	}
-	
-	private void modularityTest(final String file) {
+
+	private void modularityTest(final String file)
+	{
 		final OWLOntology ontology = OntologyUtils.loadOntology("file:" + file, false);
-		
+
 		final Set<OWLEntity> signature = new HashSet<>();
 		signature.addAll(TestUtils.selectRandomElements(ontology.classesInSignature().collect(Collectors.toList()), 5));
 		modularityTest(ontology, signature);
-		
+
 		OWL.manager.removeOntology(ontology);
 	}
-	
-	private void modularityTest(final OWLOntology ontology, final Set<OWLEntity> signature) {
+
+	private void modularityTest(final OWLOntology ontology, final Set<OWLEntity> signature)
+	{
 		modularityTest(ontology, signature, ModuleType.BOT);
 		modularityTest(ontology, signature, ModuleType.TOP);
 		//		modularityTest( ontology, signature, ModuleType.BOT_OF_TOP );
 		//		modularityTest( ontology, signature, ModuleType.TOP_OF_BOT );
 	}
-	
-	private void modularityTest(final OWLOntology ontology, final Set<OWLEntity> signature, final ModuleType moduleType) {
+
+	private void modularityTest(final OWLOntology ontology, final Set<OWLEntity> signature, final ModuleType moduleType)
+	{
 		final Set<OWLAxiom> computed = ModularityUtils.extractModule(ontology, signature, moduleType);
-		
+
 		final OntologySegmenter segmenter = new SyntacticLocalityModuleExtractor(OWL.manager, ontology, moduleType);
 		final Set<OWLAxiom> expected = segmenter.extract(signature);
-		
+
 		// prune declarations to avoid mismatches related to declarations
-		for (final OWLEntity entity : signature) {
+		for (final OWLEntity entity : signature)
+		{
 			final OWLDeclarationAxiom declaration = OWL.declaration(entity);
 			computed.remove(declaration);
 			computed.remove(declaration);
 		}
-		
-		for (final Iterator<OWLAxiom> i = expected.iterator(); i.hasNext();) {
+
+		for (final Iterator<OWLAxiom> i = expected.iterator(); i.hasNext();)
+		{
 			final OWLAxiom axiom = i.next();
-			if (axiom.getAxiomType() == AxiomType.SAME_INDIVIDUAL || axiom.getAxiomType() == AxiomType.DIFFERENT_INDIVIDUALS) i.remove();
+			if (axiom.getAxiomType() == AxiomType.SAME_INDIVIDUAL || axiom.getAxiomType() == AxiomType.DIFFERENT_INDIVIDUALS)
+				i.remove();
 		}
-		
+
 		TestUtils.assertToStringEquals("Modules diff for " + signature, expected.toArray(new OWLAxiom[0]), computed.toArray(new OWLAxiom[0]));
 	}
-	
+
 	@Test
-	public void galenModularityTest() {
+	public void galenModularityTest()
+	{
 		modularityTest(_path + "galen.owl");
 	}
-	
+
 	@Test
-	public void koalaModularityTest() {
+	public void koalaModularityTest()
+	{
 		modularityTest(_path + "koala.owl");
 	}
-	
+
 	@Test
-	public void sumoModularityTest() {
+	public void sumoModularityTest()
+	{
 		modularityTest(_path + "SUMO.owl");
 	}
-	
+
 	@Test
-	public void sweetModularityTest() {
+	public void sweetModularityTest()
+	{
 		modularityTest(_path + "SWEET.owl");
 	}
-	
+
 	@Test
-	public void wineModularityTest() {
+	public void wineModularityTest()
+	{
 		modularityTest(_path + "wine.owl");
 	}
 }

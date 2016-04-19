@@ -6,9 +6,8 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
-import java.util.List;
-
 import aterm.ATermAppl;
+import java.util.List;
 
 /**
  * <p>
@@ -23,38 +22,35 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public interface QueryAtom {
+public interface QueryAtom
+{
 
 	/**
 	 * Returns predicate of the query atom.
-	 * 
+	 *
 	 * @return predicate of the query atom
 	 */
 	public QueryPredicate getPredicate();
 
 	/**
 	 * Returns arguments of the atom.
-	 * 
+	 *
 	 * @return arguments of the atom
 	 */
 	public List<ATermAppl> getArguments();
 
 	/**
-	 * 
-	 * @return true if the atom is ground, i.e. does not use variables, either
-	 *         distinguished or undistinguished ones.
+	 * @return true if the atom is ground, i.e. does not use variables, either distinguished or undistinguished ones.
 	 */
 	public boolean isGround();
 
 	/**
-	 * Applies variable binding to the current atom and returns the result which
-	 * might be same as the current atom. Current atom is not affected.
-	 * 
-	 * @param binding
-	 *            QueryBinding to apply
+	 * Applies variable binding to the current atom and returns the result which might be same as the current atom. Current atom is not affected.
+	 *
+	 * @param binding QueryBinding to apply
 	 * @return a query atom with applied query binding
 	 */
 	public QueryAtom apply(final ResultBinding binding);

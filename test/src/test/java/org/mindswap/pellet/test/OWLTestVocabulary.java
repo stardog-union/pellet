@@ -22,7 +22,6 @@
 
 package org.mindswap.pellet.test;
 
-
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -31,28 +30,29 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.OWL;
 
-public class OWLTestVocabulary {
-	private static      Model  model = ModelFactory.createDefaultModel();
-	private static      String otest = "http://www.w3.org/2002/03owlt/testOntology#";
-	private static      String rtest = "http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#";
+public class OWLTestVocabulary
+{
+	private static Model model = ModelFactory.createDefaultModel();
+	private static String otest = "http://www.w3.org/2002/03owlt/testOntology#";
+	private static String rtest = "http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#";
 
-	public static final Resource NotOwlFeatureTest = ResourceFactory.createResource(otest+"NotOwlFeatureTest");
-	public static final Resource PositiveEntailmentTest = ResourceFactory.createResource(otest+"PositiveEntailmentTest");
-	public static final Resource NegativeEntailmentTest = ResourceFactory.createResource(otest+"NegativeEntailmentTest");
-	public static final Resource TrueTest = ResourceFactory.createResource(otest+"TrueTest");
-	public static final Resource OWLforOWLTest = ResourceFactory.createResource(otest+"OWLforOWLTest");
-	public static final Resource ConsistencyTest = ResourceFactory.createResource(otest+"ConsistencyTest");
-	public static final Resource InconsistencyTest = ResourceFactory.createResource(otest+"InconsistencyTest");
-	public static final Resource ImportEntailmentTest = ResourceFactory.createResource(otest+"ImportEntailmentTest");
-	public static final Resource ImportLevelTest = ResourceFactory.createResource(otest+"ImportLevelTest");
-	public static final Resource DL = ResourceFactory.createResource(otest+"DL");
-	public static final Resource Lite = ResourceFactory.createResource(otest+"Lite");
-	public static final Resource Full = ResourceFactory.createResource(otest+"Full");
-	public static final Resource ClassificationTest = ResourceFactory.createResource(otest+"ClassificationTest");
-	public static final Literal  Approved = model.createLiteral("APPROVED", null);
-	public static final Literal  Proposed = model.createLiteral("PROPOSED", null);
-	public static final Literal  Obsoleted = model.createLiteral("OBSOLETED", null);
-	public static final Literal  ExtraCredit = model.createLiteral("EXTRACREDIT", null);
+	public static final Resource NotOwlFeatureTest = ResourceFactory.createResource(otest + "NotOwlFeatureTest");
+	public static final Resource PositiveEntailmentTest = ResourceFactory.createResource(otest + "PositiveEntailmentTest");
+	public static final Resource NegativeEntailmentTest = ResourceFactory.createResource(otest + "NegativeEntailmentTest");
+	public static final Resource TrueTest = ResourceFactory.createResource(otest + "TrueTest");
+	public static final Resource OWLforOWLTest = ResourceFactory.createResource(otest + "OWLforOWLTest");
+	public static final Resource ConsistencyTest = ResourceFactory.createResource(otest + "ConsistencyTest");
+	public static final Resource InconsistencyTest = ResourceFactory.createResource(otest + "InconsistencyTest");
+	public static final Resource ImportEntailmentTest = ResourceFactory.createResource(otest + "ImportEntailmentTest");
+	public static final Resource ImportLevelTest = ResourceFactory.createResource(otest + "ImportLevelTest");
+	public static final Resource DL = ResourceFactory.createResource(otest + "DL");
+	public static final Resource Lite = ResourceFactory.createResource(otest + "Lite");
+	public static final Resource Full = ResourceFactory.createResource(otest + "Full");
+	public static final Resource ClassificationTest = ResourceFactory.createResource(otest + "ClassificationTest");
+	public static final Literal Approved = model.createLiteral("APPROVED", null);
+	public static final Literal Proposed = model.createLiteral("PROPOSED", null);
+	public static final Literal Obsoleted = model.createLiteral("OBSOLETED", null);
+	public static final Literal ExtraCredit = model.createLiteral("EXTRACREDIT", null);
 
 	public static final Property level = ResourceFactory.createProperty(otest, "level");
 	public static final Property status = ResourceFactory.createProperty(rtest, "status");

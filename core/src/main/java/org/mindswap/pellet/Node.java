@@ -30,6 +30,10 @@
 
 package org.mindswap.pellet;
 
+import aterm.ATerm;
+import aterm.ATermAppl;
+import aterm.ATermList;
+import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -38,9 +42,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
-
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
@@ -50,85 +53,79 @@ import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Bool;
 import org.mindswap.pellet.utils.SetUtils;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
-
-import com.clarkparsia.pellet.utils.CollectionUtils;
-
 /**
  * @author Evren Sirin
- *
  */
-public abstract class Node {
-	public final static Logger log = Logger.getLogger( Node.class.getName() );
-	
+public abstract class Node
+{
+	public final static Logger log = Logger.getLogger(Node.class.getName());
+
 	public final static int BLOCKABLE = Integer.MAX_VALUE;
-	public final static int NOMINAL   = 0;
-	
-	public final static int CHANGED   = 0x7F;
+	public final static int NOMINAL = 0;
+
+	public final static int CHANGED = 0x7F;
 	public final static int UNCHANGED = 0x00;
 	public final static int ATOM = 0;
-	public final static int OR   = 1;
+	public final static int OR = 1;
 	public final static int SOME = 2;
-	public final static int ALL  = 3;
-	public final static int MIN  = 4;
-	public final static int MAX  = 5;
-	public final static int NOM  = 6;
+	public final static int ALL = 3;
+	public final static int MIN = 4;
+	public final static int MAX = 5;
+	public final static int NOM = 6;
 	public final static int TYPES = 7;
-	
+
 	protected ABox abox;
 	protected ATermAppl name;
 	protected Map<ATermAppl, DependencySet> depends;
-	private boolean isRoot;
-	private boolean isConceptRoot;		
-	
+	private final boolean isRoot;
+	private boolean isConceptRoot;
+
 	/**
-	 * If this node is merged to another one, points to that node otherwise
-	 * points to itself. This is a linked list implementation of disjoint-union
-	 * data structure.
+	 * If this node is merged to another one, points to that node otherwise points to itself. This is a linked list implementation of disjoint-union data
+	 * structure.
 	 */
 	protected Node mergedTo = this;
-    
-    protected EdgeList inEdges;
-	
+
+	protected EdgeList inEdges;
+
 	/**
 	 * Dependency information about why merged happened (if at all)
 	 */
 	protected DependencySet mergeDepends = null;
-	
+
 	protected DependencySet pruned = null;
-	
+
 	/**
-	 * Set of other nodes that have been merged to this node. Note that this 
-	 * is only the set of nodes directly merged to this one. A recursive traversal
-	 * is required to get all the merged nodes.
+	 * Set of other nodes that have been merged to this node. Note that this is only the set of nodes directly merged to this one. A recursive traversal is
+	 * required to get all the merged nodes.
 	 */
 	protected Set<Node> merged;
-	
-	protected Map<Node, DependencySet> differents;
-	
-	protected Node(ATermAppl name, ABox abox) {
-		this.name = name;
-		this.abox = abox;		
 
-		isRoot = !ATermUtils.isAnon( name );
+	protected Map<Node, DependencySet> differents;
+
+	protected Node(final ATermAppl name, final ABox abox)
+	{
+		this.name = name;
+		this.abox = abox;
+
+		isRoot = !ATermUtils.isAnon(name);
 		isConceptRoot = false;
-		
-		mergeDepends = DependencySet.INDEPENDENT; 
+
+		mergeDepends = DependencySet.INDEPENDENT;
 		differents = CollectionUtils.makeMap();
 		depends = CollectionUtils.makeMap();
 
-        inEdges = new EdgeList();
+		inEdges = new EdgeList();
 	}
 
-	protected Node(Node node, ABox abox) {
+	protected Node(final Node node, final ABox abox)
+	{
 		this.name = node.getName();
 		this.abox = abox;
 
 		isRoot = node.isRoot;
 		isConceptRoot = node.isConceptRoot;
-		
+
 		mergeDepends = node.mergeDepends;
 		mergedTo = node.mergedTo;
 		merged = node.merged;
@@ -138,421 +135,453 @@ public abstract class Node {
 		// update node references later anyway
 		differents = node.differents;
 		depends = CollectionUtils.makeMap(node.depends);
-		        
-        inEdges = node.inEdges;
+
+		inEdges = node.inEdges;
 	}
-	
+
 	@Override
-	public int hashCode() {
-	    return name.hashCode();
+	public int hashCode()
+	{
+		return name.hashCode();
 	}
-	
+
 	@Override
-	public boolean equals(Object obj) {
-	    return (obj == this) || ((obj.getClass() == getClass()) && ((Node) obj).name.equals(name));
+	public boolean equals(final Object obj)
+	{
+		return (obj == this) || ((obj.getClass() == getClass()) && ((Node) obj).name.equals(name));
 	}
-	
-	protected void updateNodeReferences() {
-        mergedTo = abox.getNode( mergedTo.getName() );
 
-        Map<Node, DependencySet> diffs = new HashMap<Node, DependencySet>( differents.size() );
-        for(Map.Entry<Node, DependencySet> entry : differents.entrySet() ) {
-            Node node = entry.getKey();
+	protected void updateNodeReferences()
+	{
+		mergedTo = abox.getNode(mergedTo.getName());
 
-            diffs.put( abox.getNode( node.getName() ), entry.getValue() );
-        }
-        differents = diffs;
+		final Map<Node, DependencySet> diffs = new HashMap<>(differents.size());
+		for (final Map.Entry<Node, DependencySet> entry : differents.entrySet())
+		{
+			final Node node = entry.getKey();
 
-        if( merged != null ) {
-            Set<Node> sames = new HashSet<Node>( merged.size() );
-            for( Node node : merged ) {
-                sames.add( abox.getNode( node.getName() ) );
-            }
-            merged = sames;
-        }        
-        
-        EdgeList oldEdges = inEdges;
-        inEdges = new EdgeList(oldEdges.size());
-        for(int i = 0; i < oldEdges.size(); i++) {
-            Edge edge = oldEdges.edgeAt(i);
-            
-            Individual from = abox.getIndividual( edge.getFrom().getName() );
-			Edge newEdge = new DefaultEdge( edge.getRole(), from, this, edge.getDepends() );
-			
-			inEdges.addEdge( newEdge );	      
-			if( !isPruned() ) 
-				from.getOutEdges().addEdge( newEdge );
-        }
-    }
+			diffs.put(abox.getNode(node.getName()), entry.getValue());
+		}
+		differents = diffs;
+
+		if (merged != null)
+		{
+			final Set<Node> sames = new HashSet<>(merged.size());
+			for (final Node node : merged)
+				sames.add(abox.getNode(node.getName()));
+			merged = sames;
+		}
+
+		final EdgeList oldEdges = inEdges;
+		inEdges = new EdgeList(oldEdges.size());
+		for (int i = 0; i < oldEdges.size(); i++)
+		{
+			final Edge edge = oldEdges.edgeAt(i);
+
+			final Individual from = abox.getIndividual(edge.getFrom().getName());
+			final Edge newEdge = new DefaultEdge(edge.getRole(), from, this, edge.getDepends());
+
+			inEdges.addEdge(newEdge);
+			if (!isPruned())
+				from.getOutEdges().addEdge(newEdge);
+		}
+	}
 
 	/**
-	 * Indicates that node has been changed in a way that requires us to recheck
-	 * the concepts of given type.
-	 *  
+	 * Indicates that node has been changed in a way that requires us to recheck the concepts of given type.
+	 * 
 	 * @param type type of concepts that need to be rechecked
 	 */
-	public void setChanged(int type) {		
-		//Check if we need to updated the completion queue 
+	public void setChanged(final int type)
+	{
+		//Check if we need to updated the completion queue
 		//Currently we only updated the changed lists for checkDatatypeCount()
-		QueueElement newElement = new QueueElement(this);
+		final QueueElement newElement = new QueueElement(this);
 
 		//update the datatype queue
-		if( (type == Node.ALL || type == Node.MIN) && PelletOptions.USE_COMPLETION_QUEUE )
-			abox.getCompletionQueue().add( newElement, NodeSelector.DATATYPE );		
+		if ((type == Node.ALL || type == Node.MIN) && PelletOptions.USE_COMPLETION_QUEUE)
+			abox.getCompletionQueue().add(newElement, NodeSelector.DATATYPE);
 
 		// add node to effected list
-		if( abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS )
-			abox.getBranchEffectTracker().add( abox.getBranch(), this.getName() );
-	}	
+		if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+			abox.getBranchEffectTracker().add(abox.getBranch(), this.getName());
+	}
 
-	
 	/**
 	 * Returns true if this is the node created for the concept satisfiability check.
-	 *  
+	 * 
 	 * @return
 	 */
-	public boolean isConceptRoot() {
-	    return isConceptRoot;
-	}
-	
-	public void setConceptRoot( boolean isConceptRoot ) {
-	    this.isConceptRoot = isConceptRoot;
-	}
-	
-	public boolean isBnode() {
-		return ATermUtils.isBnode( name );
+	public boolean isConceptRoot()
+	{
+		return isConceptRoot;
 	}
 
-	public boolean isNamedIndividual() {
+	public void setConceptRoot(final boolean isConceptRoot)
+	{
+		this.isConceptRoot = isConceptRoot;
+	}
+
+	public boolean isBnode()
+	{
+		return ATermUtils.isBnode(name);
+	}
+
+	public boolean isNamedIndividual()
+	{
 		return isRoot && !isConceptRoot && !isBnode();
 	}
-	
-	public boolean isRoot() {
+
+	public boolean isRoot()
+	{
 		return isRoot || isNominal();
-	}	
-	
+	}
+
 	public abstract boolean isLeaf();
-		
-	public boolean isRootNominal() {
+
+	public boolean isRootNominal()
+	{
 		return isRoot && isNominal();
 	}
-	
+
 	public abstract Node copyTo(ABox abox);
-	
-	protected void addInEdge(Edge edge) {
-        inEdges.addEdge( edge );   
-    }
 
-    public EdgeList getInEdges() {
-	    return inEdges;
-    }	
-    
-    public boolean removeInEdge(Edge edge) {
-        boolean removed = inEdges.removeEdge(edge);
-        
-        if( !removed ){
-     		throw new InternalReasonerException("Trying to remove a non-existing edge " + edge);           
-        }
-        
-        return true;
-    }
-    
-    public void removeInEdges() {
-        inEdges = new EdgeList();
-    }
+	protected void addInEdge(final Edge edge)
+	{
+		inEdges.addEdge(edge);
+	}
 
-    public void reset(boolean onlyApplyTypes) {
-    	assert onlyApplyTypes || isRootNominal() : "Only asserted individuals can be reset: " + this;
-    	
-		if( PelletOptions.USE_COMPLETION_QUEUE )
-			abox.getCompletionQueue().add( new QueueElement( this ) );
-		
-		if( onlyApplyTypes )
+	public EdgeList getInEdges()
+	{
+		return inEdges;
+	}
+
+	public boolean removeInEdge(final Edge edge)
+	{
+		final boolean removed = inEdges.removeEdge(edge);
+
+		if (!removed)
+			throw new InternalReasonerException("Trying to remove a non-existing edge " + edge);
+
+		return true;
+	}
+
+	public void removeInEdges()
+	{
+		inEdges = new EdgeList();
+	}
+
+	public void reset(final boolean onlyApplyTypes)
+	{
+		assert onlyApplyTypes || isRootNominal() : "Only asserted individuals can be reset: " + this;
+
+		if (PelletOptions.USE_COMPLETION_QUEUE)
+			abox.getCompletionQueue().add(new QueueElement(this));
+
+		if (onlyApplyTypes)
 			return;
-		
-		if( pruned != null )
-			unprune( DependencySet.NO_BRANCH );
-		
-    	mergedTo = this;
-    	mergeDepends = DependencySet.INDEPENDENT;
-    	merged = null;
-    	
-    	Iterator<DependencySet> i = differents.values().iterator();
-    	while( i.hasNext()) {
-    		DependencySet d = i.next();
-			if( d.getBranch() != DependencySet.NO_BRANCH ) {
+
+		if (pruned != null)
+			unprune(DependencySet.NO_BRANCH);
+
+		mergedTo = this;
+		mergeDepends = DependencySet.INDEPENDENT;
+		merged = null;
+
+		final Iterator<DependencySet> i = differents.values().iterator();
+		while (i.hasNext())
+		{
+			final DependencySet d = i.next();
+			if (d.getBranch() != DependencySet.NO_BRANCH)
 				i.remove();
-			}			    
 		}
-    	
-    	resetTypes();
-    	
-    	inEdges.reset();
-    }
-    
-    protected void resetTypes() {
-    	Iterator<DependencySet> i = depends.values().iterator();
-    	while( i.hasNext()) {
-    		DependencySet d = i.next();
-			if( d.getBranch() != DependencySet.NO_BRANCH ) {
+
+		resetTypes();
+
+		inEdges.reset();
+	}
+
+	protected void resetTypes()
+	{
+		final Iterator<DependencySet> i = depends.values().iterator();
+		while (i.hasNext())
+		{
+			final DependencySet d = i.next();
+			if (d.getBranch() != DependencySet.NO_BRANCH)
 				i.remove();
-			}			    
 		}
-    }
-    
-	public Boolean restorePruned(int branch) {		
+	}
 
-		if( PelletOptions.TRACK_BRANCH_EFFECTS )
-			abox.getBranchEffectTracker().add( abox.getBranch(), name );
+	public Boolean restorePruned(final int branch)
+	{
 
-		if( pruned != null ) {
-			if( pruned.getBranch() > branch ) {			
-				if( log.isLoggable( Level.FINE ) ) 
-				    log.fine("RESTORE: " + this + " merged node " + mergedTo + " " + mergeDepends);
-				
-				if( mergeDepends.getBranch() > branch )
-				    undoSetSame();
-				
-				unprune( branch );
+		if (PelletOptions.TRACK_BRANCH_EFFECTS)
+			abox.getBranchEffectTracker().add(abox.getBranch(), name);
 
-				if( PelletOptions.USE_INCREMENTAL_CONSISTENCY )
-					abox.getIncrementalChangeTracker().addUnprunedNode( this );
+		if (pruned != null)
+			if (pruned.getBranch() > branch)
+			{
+				if (log.isLoggable(Level.FINE))
+					log.fine("RESTORE: " + this + " merged node " + mergedTo + " " + mergeDepends);
+
+				if (mergeDepends.getBranch() > branch)
+					undoSetSame();
+
+				unprune(branch);
+
+				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
+					abox.getIncrementalChangeTracker().addUnprunedNode(this);
 
 				// we may need to remerge this node
-				if( this instanceof Individual ) {
+				if (this instanceof Individual)
+				{
 					final Individual ind = (Individual) this;
 
-					if( PelletOptions.USE_COMPLETION_QUEUE ) {
+					if (PelletOptions.USE_COMPLETION_QUEUE)
+					{
 						ind.applyNext[Node.NOM] = 0;
-						abox.getCompletionQueue().add( new QueueElement( this ),
-								NodeSelector.NOMINAL );
+						abox.getCompletionQueue().add(new QueueElement(this), NodeSelector.NOMINAL);
 					}
 
 				}
 
 				return Boolean.TRUE;
 			}
-			else {
-				if( log.isLoggable( Level.FINE ) ) 
-					log.fine("DO NOT RESTORE: pruned node " + this + " = " + mergedTo + " " + mergeDepends);	
+			else
+			{
+				if (log.isLoggable(Level.FINE))
+					log.fine("DO NOT RESTORE: pruned node " + this + " = " + mergedTo + " " + mergeDepends);
 
 				return Boolean.FALSE;
 			}
-	    }
-	    
-	    return null;
-	}
-	
-	
-	public boolean restore(int branch) {		
 
-		if( PelletOptions.TRACK_BRANCH_EFFECTS )
-			abox.getBranchEffectTracker().add( abox.getBranch(), name );
+		return null;
+	}
+
+	public boolean restore(final int branch)
+	{
+
+		if (PelletOptions.TRACK_BRANCH_EFFECTS)
+			abox.getBranchEffectTracker().add(abox.getBranch(), name);
 
 		boolean restored = false;
-		
-		List<ATermAppl> conjunctions = new ArrayList<ATermAppl>();
 
-		
+		final List<ATermAppl> conjunctions = new ArrayList<>();
+
 		boolean removed = false;
-		
-		for( Iterator<ATermAppl> i = getTypes().iterator(); i.hasNext(); ) {									
-			ATermAppl c = i.next();	
-			DependencySet d = getDepends(c);
-			
-			boolean removeType = PelletOptions.USE_SMART_RESTORE
-//                ? ( !d.contains( branch ) )
-                ? ( d.max() >= branch )
-				: ( d.getBranch() > branch );  
 
-			if( removeType ) {
+		for (final Iterator<ATermAppl> i = getTypes().iterator(); i.hasNext();)
+		{
+			final ATermAppl c = i.next();
+			final DependencySet d = getDepends(c);
+
+			final boolean removeType = PelletOptions.USE_SMART_RESTORE
+			//                ? ( !d.contains( branch ) )
+			? (d.max() >= branch)
+					: (d.getBranch() > branch);
+
+			if (removeType)
+			{
 				removed = true;
-				
-				if( log.isLoggable( Level.FINE ) ) 
-                    log.fine("RESTORE: " + this + " remove type " + c + " " + d + " " + branch);
-				
+
+				if (log.isLoggable(Level.FINE))
+					log.fine("RESTORE: " + this + " remove type " + c + " " + d + " " + branch);
+
 				//track that this node is affected
-				if( PelletOptions.USE_INCREMENTAL_CONSISTENCY && this instanceof Individual ) {
-					abox.getIncrementalChangeTracker().addDeletedType( this, c );
-				}
-								
+				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && this instanceof Individual)
+					abox.getIncrementalChangeTracker().addDeletedType(this, c);
+
 				i.remove();
 				removeType(c);
 				restored = true;
 			}
-			else if( PelletOptions.USE_SMART_RESTORE && ATermUtils.isAnd( c ) ) {
-			    conjunctions.add( c );
-			}			    
-		}			
-		
-		//update the queue with things that could readd this type
-		if( removed && PelletOptions.USE_COMPLETION_QUEUE && this instanceof Individual ) {
-			Individual ind = (Individual)this;
-			ind.applyNext[Node.ATOM] = 0;
-			ind.applyNext[Node.OR] = 0;
-			
-			QueueElement qe = new QueueElement( this );
-			abox.getCompletionQueue().add( qe, NodeSelector.DISJUNCTION );
-			abox.getCompletionQueue().add( qe, NodeSelector.ATOM );
+			else
+				if (PelletOptions.USE_SMART_RESTORE && ATermUtils.isAnd(c))
+					conjunctions.add(c);
 		}
 
-		
-		// with smart restore there is a possibility that we remove a conjunct 
-		// but not the conjunction. this is the case if conjunct was added before 
+		//update the queue with things that could readd this type
+		if (removed && PelletOptions.USE_COMPLETION_QUEUE && this instanceof Individual)
+		{
+			final Individual ind = (Individual) this;
+			ind.applyNext[Node.ATOM] = 0;
+			ind.applyNext[Node.OR] = 0;
+
+			final QueueElement qe = new QueueElement(this);
+			abox.getCompletionQueue().add(qe, NodeSelector.DISJUNCTION);
+			abox.getCompletionQueue().add(qe, NodeSelector.ATOM);
+		}
+
+		// with smart restore there is a possibility that we remove a conjunct
+		// but not the conjunction. this is the case if conjunct was added before
 		// the conjunction but depended on an earlier branch. so we need to make
 		// sure all conjunctions are actually applied
-		if( PelletOptions.USE_SMART_RESTORE ) {
-			for( Iterator<ATermAppl> i = conjunctions.iterator(); i.hasNext(); ) {
-				ATermAppl c = i.next();
-				DependencySet d = getDepends(c);
-				for(ATermList cs = (ATermList) c.getArgument(0); !cs.isEmpty(); cs = cs.getNext()) {
-					ATermAppl conj = (ATermAppl) cs.getFirst();
-					
-					addType(conj, d);
-				}            
-	        }
-		}        
-        
-		for( Iterator<Entry<Node,DependencySet>> i = differents.entrySet().iterator(); i.hasNext(); ) {
-			Entry<Node,DependencySet> entry = i.next();
-			Node node = entry.getKey();
-			DependencySet d = entry.getValue();
+		if (PelletOptions.USE_SMART_RESTORE)
+			for (final ATermAppl c : conjunctions)
+			{
+				final DependencySet d = getDepends(c);
+				for (ATermList cs = (ATermList) c.getArgument(0); !cs.isEmpty(); cs = cs.getNext())
+				{
+					final ATermAppl conj = (ATermAppl) cs.getFirst();
 
-			if( d.getBranch() > branch ) {			
-				if( log.isLoggable( Level.FINE ) ) 
+					addType(conj, d);
+				}
+			}
+
+		for (final Iterator<Entry<Node, DependencySet>> i = differents.entrySet().iterator(); i.hasNext();)
+		{
+			final Entry<Node, DependencySet> entry = i.next();
+			final Node node = entry.getKey();
+			final DependencySet d = entry.getValue();
+
+			if (d.getBranch() > branch)
+			{
+				if (log.isLoggable(Level.FINE))
 					log.fine("RESTORE: " + name + " delete difference " + node);
 				i.remove();
 				restored = true;
-			}			
+			}
 		}
-		
+
 		removed = false;
-		for( Iterator<Edge> i = inEdges.iterator(); i.hasNext(); ) {
-			Edge e = i.next();
-			DependencySet d = e.getDepends();
-            
-			if( d.getBranch() > branch ) {           
-				if( log.isLoggable( Level.FINE ) ) 
+		for (final Iterator<Edge> i = inEdges.iterator(); i.hasNext();)
+		{
+			final Edge e = i.next();
+			final DependencySet d = e.getDepends();
+
+			if (d.getBranch() > branch)
+			{
+				if (log.isLoggable(Level.FINE))
 					log.fine("RESTORE: " + name + " delete reverse edge " + e);
-                
-				if( PelletOptions.USE_INCREMENTAL_CONSISTENCY )
-					abox.getIncrementalChangeTracker().addDeletedEdge( e );
+
+				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
+					abox.getIncrementalChangeTracker().addDeletedEdge(e);
 
 				i.remove();
 				restored = true;
 				removed = true;
-			}           
+			}
 		}
-		
-		if( removed && PelletOptions.USE_COMPLETION_QUEUE ) {
-			QueueElement qe = new QueueElement( this );
-			abox.getCompletionQueue().add( qe, NodeSelector.EXISTENTIAL );
-			abox.getCompletionQueue().add( qe, NodeSelector.MIN_NUMBER );
+
+		if (removed && PelletOptions.USE_COMPLETION_QUEUE)
+		{
+			final QueueElement qe = new QueueElement(this);
+			abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
+			abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
 		}
 
 		return restored;
 	}
-	
-	public void addType(ATermAppl c, DependencySet ds) {
-	    if( isPruned() )
-	        throw new InternalReasonerException( "Adding type to a pruned node " + this + " " + c );
-	    else if( isMerged() )
-	        return;
-	    
-	    // add to effected list
-	    if( abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS ) {
-			abox.getBranchEffectTracker().add( abox.getBranch(), this.getName() );
-		}
-		
+
+	public void addType(final ATermAppl c, DependencySet ds)
+	{
+		if (isPruned())
+			throw new InternalReasonerException("Adding type to a pruned node " + this + " " + c);
+		else
+			if (isMerged())
+				return;
+
+		// add to effected list
+		if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+			abox.getBranchEffectTracker().add(abox.getBranch(), this.getName());
+
 		int b = abox.getBranch();
-		
-		int max = ds.max();
-		if(b == -1 && max != 0)
-		    b = max + 1;
-		ds = ds.copy( b );
+
+		final int max = ds.max();
+		if (b == -1 && max != 0)
+			b = max + 1;
+		ds = ds.copy(b);
 		depends.put(c, ds);
-		
-		abox.setChanged( true );
+
+		abox.setChanged(true);
 	}
 
-	public boolean removeType(ATermAppl c) {
+	public boolean removeType(final ATermAppl c)
+	{
 		return depends.remove(c) != null;
 	}
 
-	public boolean hasType(ATerm c) {
+	public boolean hasType(final ATerm c)
+	{
 		return depends.containsKey(c);
 	}
-	
-	public Bool hasObviousType(ATermAppl c) {
-		DependencySet ds = getDepends( c );
 
-		if( ds != null ) {
-			if( ds.isIndependent() ) {
-				return Bool.TRUE;
-			}
-		}
-		else if( (ds = getDepends(ATermUtils.negate(c))) != null ) { 
-			if( ds.isIndependent() ) {
-				return Bool.FALSE;
-			}
-		}
-		else if( isIndividual() && ATermUtils.isNominal( c ) ) {
-			// TODO probably redundant if : Bool.FALSE
-			if( !c.getArgument( 0 ).equals( this.getName() ) ) {
-				return Bool.FALSE;
-			}
-			else {
-				return Bool.TRUE;
-			}
-		}
+	public Bool hasObviousType(final ATermAppl c)
+	{
+		DependencySet ds = getDepends(c);
 
-		if( isIndividual() ) {
+		if (ds != null)
+		{
+			if (ds.isIndependent())
+				return Bool.TRUE;
+		}
+		else
+			if ((ds = getDepends(ATermUtils.negate(c))) != null)
+			{
+				if (ds.isIndependent())
+					return Bool.FALSE;
+			}
+			else
+				if (isIndividual() && ATermUtils.isNominal(c))
+					// TODO probably redundant if : Bool.FALSE
+					if (!c.getArgument(0).equals(this.getName()))
+						return Bool.FALSE;
+					else
+						return Bool.TRUE;
+
+		if (isIndividual())
+		{
 			ATermAppl r = null;
 			ATermAppl d = null;
 
-			if( ATermUtils.isNot( c ) ) {
-				final ATermAppl notC = (ATermAppl) c.getArgument( 0 );
-				if( ATermUtils.isAllValues( notC ) ) {
-					r = (ATermAppl) notC.getArgument( 0 );
-					d = ATermUtils.negate( (ATermAppl) notC.getArgument( 1 ) );
+			if (ATermUtils.isNot(c))
+			{
+				final ATermAppl notC = (ATermAppl) c.getArgument(0);
+				if (ATermUtils.isAllValues(notC))
+				{
+					r = (ATermAppl) notC.getArgument(0);
+					d = ATermUtils.negate((ATermAppl) notC.getArgument(1));
 				}
 			}
-			else if( ATermUtils.isSomeValues( c ) ) {
-				r = (ATermAppl) c.getArgument( 0 );
-				d = (ATermAppl) c.getArgument( 1 );
-			}
+			else
+				if (ATermUtils.isSomeValues(c))
+				{
+					r = (ATermAppl) c.getArgument(0);
+					d = (ATermAppl) c.getArgument(1);
+				}
 
-			if( r != null ) {
-				Individual ind = (Individual) this;
+			if (r != null)
+			{
+				final Individual ind = (Individual) this;
 
-				Role role = abox.getRole( r );
+				final Role role = abox.getRole(r);
 
-				if( !role.isObjectRole() || !role.isSimple() ) {
+				if (!role.isObjectRole() || !role.isSimple())
 					return Bool.UNKNOWN;
-				}
 
-				EdgeList edges = ind.getRNeighborEdges( role );
+				final EdgeList edges = ind.getRNeighborEdges(role);
 
 				Bool ot = Bool.FALSE;
 
-				for( int e = 0; e < edges.size(); e++ ) {
-					Edge edge = edges.edgeAt( e );
+				for (int e = 0; e < edges.size(); e++)
+				{
+					final Edge edge = edges.edgeAt(e);
 
-					if( !edge.getDepends().isIndependent() ) {
+					if (!edge.getDepends().isIndependent())
+					{
 						ot = Bool.UNKNOWN;
 						continue;
 					}
 
-					Individual y = (Individual) edge.getNeighbor( ind );
+					final Individual y = (Individual) edge.getNeighbor(ind);
 
 					// TODO all this stuff in one method - this is only for
 					// handling AND
 					// clauses - they are implemented in abox.isKnownType
-					ot = ot.or( abox.isKnownType( y, d, SetUtils.<ATermAppl>emptySet() ) );// y.hasObviousType(d));
+					ot = ot.or(abox.isKnownType(y, d, SetUtils.<ATermAppl> emptySet()));// y.hasObviousType(d));
 
-					if( ot.isTrue() ) {
+					if (ot.isTrue())
 						return ot;
-					}
 				}
 				return ot;
 			}
@@ -561,334 +590,371 @@ public abstract class Node {
 		return Bool.UNKNOWN;
 	}
 
-	public boolean hasObviousType( Collection<ATermAppl> coll ) {
-		for(Iterator<ATermAppl> i = coll.iterator(); i.hasNext();) {
-            ATermAppl c = i.next();
-            
-    		DependencySet ds = getDepends( c );
-    		
-    		if( ds != null && ds.isIndependent() )
-    			return true;
-        }
-		
-		return false;
-	}			
+	public boolean hasObviousType(final Collection<ATermAppl> coll)
+	{
+		for (final ATermAppl c : coll)
+		{
+			final DependencySet ds = getDepends(c);
 
-	boolean hasPredecessor( Individual x ) {
-		return x.hasSuccessor( this );
+			if (ds != null && ds.isIndependent())
+				return true;
+		}
+
+		return false;
 	}
-	
-	public abstract boolean hasSuccessor( Node x );
-	
+
+	boolean hasPredecessor(final Individual x)
+	{
+		return x.hasSuccessor(this);
+	}
+
+	public abstract boolean hasSuccessor(Node x);
+
 	public abstract DependencySet getNodeDepends();
-	
-	public DependencySet getDepends(ATerm c) {
+
+	public DependencySet getDepends(final ATerm c)
+	{
 		return depends.get(c);
 	}
-	
-	public Map<ATermAppl,DependencySet> getDepends() {
+
+	public Map<ATermAppl, DependencySet> getDepends()
+	{
 		return depends;
 	}
-	
-	public Set<ATermAppl> getTypes() {
-		return depends.keySet();
-	}	
 
-	public void removeTypes() {
+	public Set<ATermAppl> getTypes()
+	{
+		return depends.keySet();
+	}
+
+	public void removeTypes()
+	{
 		depends.clear();
 	}
 
-	public int prunedAt() {	    
+	public int prunedAt()
+	{
 		return pruned.getBranch();
 	}
-	
-	public boolean isPruned() {
+
+	public boolean isPruned()
+	{
 		return pruned != null;
 	}
-	
-	public DependencySet getPruned() {
+
+	public DependencySet getPruned()
+	{
 		return pruned;
 	}
-		
+
 	public abstract void prune(DependencySet ds);
 
-	public void unprune( int branch ) {
-        pruned = null;
+	public void unprune(final int branch)
+	{
+		pruned = null;
 
-        boolean added = false;
-        
-        for(int i = 0; i < inEdges.size(); i++) {
-            Edge edge = inEdges.edgeAt( i );
-            DependencySet d = edge.getDepends();
+		boolean added = false;
 
-            if( d.getBranch() <= branch ) {
-                Individual pred = edge.getFrom();
-                Role role = edge.getRole();
+		for (int i = 0; i < inEdges.size(); i++)
+		{
+			final Edge edge = inEdges.edgeAt(i);
+			final DependencySet d = edge.getDepends();
 
-                // if both pred and *this* were merged to other nodes (in that order)
-                // there is a chance we might duplicate the edge so first check for
-                // the existence of the edge
-                if( !pred.getOutEdges().hasExactEdge( pred, role, this ) ) {
-                    pred.addOutEdge( edge );
+			if (d.getBranch() <= branch)
+			{
+				final Individual pred = edge.getFrom();
+				final Role role = edge.getRole();
 
-                    // update affected
-					if( PelletOptions.TRACK_BRANCH_EFFECTS ) {
-						abox.getBranchEffectTracker().add( d.getBranch(), pred.name );
-						abox.getBranchEffectTracker().add( d.getBranch(), name );
+				// if both pred and *this* were merged to other nodes (in that order)
+				// there is a chance we might duplicate the edge so first check for
+				// the existence of the edge
+				if (!pred.getOutEdges().hasExactEdge(pred, role, this))
+				{
+					pred.addOutEdge(edge);
+
+					// update affected
+					if (PelletOptions.TRACK_BRANCH_EFFECTS)
+					{
+						abox.getBranchEffectTracker().add(d.getBranch(), pred.name);
+						abox.getBranchEffectTracker().add(d.getBranch(), name);
 					}
-                    
-                    if( PelletOptions.USE_COMPLETION_QUEUE ){
-                    		added = true;
-                    		pred.applyNext[Node.MAX] = 0;
-                    		
-                    		QueueElement qe = new QueueElement( pred );
-                			abox.getCompletionQueue().add( qe, NodeSelector.MAX_NUMBER );
-                			abox.getCompletionQueue().add( qe, NodeSelector.GUESS );
-                			abox.getCompletionQueue().add( qe, NodeSelector.CHOOSE );
-                			abox.getCompletionQueue().add( qe, NodeSelector.UNIVERSAL );       
-                    }
-                    
-                    if( log.isLoggable( Level.FINE ) ) 
-                        log.fine( "RESTORE: " + name + " ADD reverse edge " + edge );
-                }
-            }
-        }
-        
-        if( added ){
-	        if( this instanceof Individual ){
-	    			Individual ind = (Individual)this;
-	    			ind.applyNext[Node.MAX] = 0;
-	    			QueueElement qe = new QueueElement( ind );
-	    			abox.getCompletionQueue().add( qe, NodeSelector.MAX_NUMBER );
-	    			abox.getCompletionQueue().add( qe, NodeSelector.GUESS );
-	    			abox.getCompletionQueue().add( qe, NodeSelector.CHOOSE );
-	    			abox.getCompletionQueue().add( qe, NodeSelector.UNIVERSAL );       
-	        }
-        }
-    }
+
+					if (PelletOptions.USE_COMPLETION_QUEUE)
+					{
+						added = true;
+						pred.applyNext[Node.MAX] = 0;
+
+						final QueueElement qe = new QueueElement(pred);
+						abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
+						abox.getCompletionQueue().add(qe, NodeSelector.GUESS);
+						abox.getCompletionQueue().add(qe, NodeSelector.CHOOSE);
+						abox.getCompletionQueue().add(qe, NodeSelector.UNIVERSAL);
+					}
+
+					if (log.isLoggable(Level.FINE))
+						log.fine("RESTORE: " + name + " ADD reverse edge " + edge);
+				}
+			}
+		}
+
+		if (added)
+			if (this instanceof Individual)
+			{
+				final Individual ind = (Individual) this;
+				ind.applyNext[Node.MAX] = 0;
+				final QueueElement qe = new QueueElement(ind);
+				abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
+				abox.getCompletionQueue().add(qe, NodeSelector.GUESS);
+				abox.getCompletionQueue().add(qe, NodeSelector.CHOOSE);
+				abox.getCompletionQueue().add(qe, NodeSelector.UNIVERSAL);
+			}
+	}
 
 	public abstract int getNominalLevel();
-	
+
 	public abstract boolean isNominal();
-	
+
 	public abstract boolean isBlockable();
-	
+
 	public abstract boolean isLiteral();
-	
+
 	public abstract boolean isIndividual();
-	
-	public int mergedAt() {	    
+
+	public int mergedAt()
+	{
 		return mergeDepends.getBranch();
 	}
-	
-	public boolean isMerged() {
+
+	public boolean isMerged()
+	{
 		return mergedTo != this;
 	}
 
-	public Node getMergedTo() {
+	public Node getMergedTo()
+	{
 		return mergedTo;
 	}
-	
-//	public DependencySet getMergeDependency() {
-//		return mergeDepends;
-//	}
-	
-    /**
-     * Get the dependency if this node is merged to another node. This
-     * node may be merged to another node which is later merged to another 
-     * node and so on. This function may return the dependency for the 
-     * first step or the union of all steps.
-     *
-     */
-    public DependencySet getMergeDependency( boolean all ) {
-        if( !isMerged() || !all )
-            return mergeDepends;
 
-        DependencySet ds = mergeDepends;
-        Node node = mergedTo;
-        while( node.isMerged() ) {
-            ds = ds.union( node.mergeDepends, abox.doExplanation() );
-            node = node.mergedTo;            
-        }
-        
-        return ds;
-    }
-    
-	public Node getSame() {
-		if(mergedTo == this)
+	//	public DependencySet getMergeDependency() {
+	//		return mergeDepends;
+	//	}
+
+	/**
+	 * Get the dependency if this node is merged to another node. This node may be merged to another node which is later merged to another node and so on. This
+	 * function may return the dependency for the first step or the union of all steps.
+	 */
+	public DependencySet getMergeDependency(final boolean all)
+	{
+		if (!isMerged() || !all)
+			return mergeDepends;
+
+		DependencySet ds = mergeDepends;
+		Node node = mergedTo;
+		while (node.isMerged())
+		{
+			ds = ds.union(node.mergeDepends, abox.doExplanation());
+			node = node.mergedTo;
+		}
+
+		return ds;
+	}
+
+	public Node getSame()
+	{
+		if (mergedTo == this)
 			return this;
-		
+
 		return mergedTo.getSame();
 	}
-	
-	public void undoSetSame() {
-		mergedTo.removeMerged( this );
+
+	public void undoSetSame()
+	{
+		mergedTo.removeMerged(this);
 		mergeDepends = DependencySet.INDEPENDENT;
-		mergedTo = this;	    
+		mergedTo = this;
 	}
-	
-	private void addMerged( Node node ) {
-	    if( merged == null )
-	        merged = new HashSet<Node>( 3 );
-	    merged.add( node );
+
+	private void addMerged(final Node node)
+	{
+		if (merged == null)
+			merged = new HashSet<>(3);
+		merged.add(node);
 	}
-		
-	public Set<Node> getMerged() {
-		if ( merged == null )
+
+	public Set<Node> getMerged()
+	{
+		if (merged == null)
 			return SetUtils.emptySet();
-	    return merged;
+		return merged;
 	}
-	
-	public Map<Node,DependencySet> getAllMerged() {
-		Map<Node,DependencySet> result = new HashMap<Node,DependencySet>();
-		getAllMerged( DependencySet.INDEPENDENT, result );
+
+	public Map<Node, DependencySet> getAllMerged()
+	{
+		final Map<Node, DependencySet> result = new HashMap<>();
+		getAllMerged(DependencySet.INDEPENDENT, result);
 		return result;
 	}
-	
-	private void getAllMerged(DependencySet ds, Map<Node,DependencySet> result) {
-		if ( merged == null )
+
+	private void getAllMerged(final DependencySet ds, final Map<Node, DependencySet> result)
+	{
+		if (merged == null)
 			return;
-		
-		for( Node mergedNode : merged ) {
-			DependencySet mergeDS = ds.union( mergedNode.getMergeDependency( false ), false );
-			result.put( mergedNode, mergeDS );
-			mergedNode.getAllMerged( mergeDS, result );
-		}		
-	}
-	
-	private void removeMerged( Node node ) {
-	    merged.remove( node );
-	    if( merged.isEmpty() )
-	        merged = null; // free space
-	}
-	
-	public boolean setSame(Node node, DependencySet ds) {
-		if( isSame( node ) ) 
-		    return false;
-        if( isDifferent( node ) ) {
-        		//CHW - added for incremental reasoning support - this is needed as we will need to backjump if possible
-        		if(PelletOptions.USE_INCREMENTAL_CONSISTENCY)
-        			abox.setClash( Clash.nominal( this, ds.union(this.mergeDepends, abox.doExplanation()).union(node.mergeDepends, abox.doExplanation()), node.getName() ));
-        		else
-        			abox.setClash( Clash.nominal( this, ds, node.getName() ) );
-        		
-		    return false;
+
+		for (final Node mergedNode : merged)
+		{
+			final DependencySet mergeDS = ds.union(mergedNode.getMergeDependency(false), false);
+			result.put(mergedNode, mergeDS);
+			mergedNode.getAllMerged(mergeDS, result);
 		}
-		
+	}
+
+	private void removeMerged(final Node node)
+	{
+		merged.remove(node);
+		if (merged.isEmpty())
+			merged = null; // free space
+	}
+
+	public boolean setSame(final Node node, final DependencySet ds)
+	{
+		if (isSame(node))
+			return false;
+		if (isDifferent(node))
+		{
+			//CHW - added for incremental reasoning support - this is needed as we will need to backjump if possible
+			if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
+				abox.setClash(Clash.nominal(this, ds.union(this.mergeDepends, abox.doExplanation()).union(node.mergeDepends, abox.doExplanation()), node.getName()));
+			else
+				abox.setClash(Clash.nominal(this, ds, node.getName()));
+
+			return false;
+		}
+
 		mergedTo = node;
-		mergeDepends = ds.copy( abox.getBranch() );
-		node.addMerged( this );
+		mergeDepends = ds.copy(abox.getBranch());
+		node.addMerged(this);
 		return true;
 	}
-	
-	public boolean isSame(Node node) {
-		return getSame().equals( node.getSame() );
+
+	public boolean isSame(final Node node)
+	{
+		return getSame().equals(node.getSame());
 	}
-		
-	public boolean isDifferent( Node node ) {
+
+	public boolean isDifferent(final Node node)
+	{
 		return differents.containsKey(node);
 	}
-		
-	public Set<Node> getDifferents() {
+
+	public Set<Node> getDifferents()
+	{
 		return differents.keySet();
 	}
 
-	public DependencySet getDifferenceDependency(Node node) {
+	public DependencySet getDifferenceDependency(final Node node)
+	{
 		return differents.get(node);
-	}	
+	}
 
-	public boolean setDifferent(Node node, DependencySet ds) {
+	public boolean setDifferent(final Node node, DependencySet ds)
+	{
 
 		// add to effected list
-		if( abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS )
-			abox.getBranchEffectTracker().add( abox.getBranch(), node.getName() );
+		if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+			abox.getBranchEffectTracker().add(abox.getBranch(), node.getName());
 
-		if( isDifferent( node ) )
+		if (isDifferent(node))
 			return false;
-		if( isSame( node ) ) {
-			ds = ds.union( this.getMergeDependency( true ), abox.doExplanation() );
-			ds = ds.union( node.getMergeDependency( true ), abox.doExplanation() );
-			abox.setClash( Clash.nominal( this, ds, node.getName() ));
+		if (isSame(node))
+		{
+			ds = ds.union(this.getMergeDependency(true), abox.doExplanation());
+			ds = ds.union(node.getMergeDependency(true), abox.doExplanation());
+			abox.setClash(Clash.nominal(this, ds, node.getName()));
 
-			if (!ds.isIndependent()) {
+			if (!ds.isIndependent())
 				return false;
-			}
 		}
-		
-		ds = ds.copy( abox.getBranch() );
+
+		ds = ds.copy(abox.getBranch());
 		differents.put(node, ds);
 		node.setDifferent(this, ds);
-		abox.setChanged( true );
+		abox.setChanged(true);
 		return true;
 	}
-	
-	public void inheritDifferents( Node y, DependencySet ds ) {
-		for( Map.Entry<Node,DependencySet> entry : y.differents.entrySet() ) {
-			Node yDiff = entry.getKey();
-			DependencySet finalDS = ds.union( entry.getValue(), abox.doExplanation() );
-			
-			setDifferent( yDiff, finalDS );
+
+	public void inheritDifferents(final Node y, final DependencySet ds)
+	{
+		for (final Map.Entry<Node, DependencySet> entry : y.differents.entrySet())
+		{
+			final Node yDiff = entry.getKey();
+			final DependencySet finalDS = ds.union(entry.getValue(), abox.doExplanation());
+
+			setDifferent(yDiff, finalDS);
 		}
 	}
 
-	public ATermAppl getName() {
+	public ATermAppl getName()
+	{
 		return name;
 	}
-	
+
 	public abstract ATermAppl getTerm();
-	
-	public String getNameStr() {
+
+	public String getNameStr()
+	{
 		return name.getName();
 	}
-	
-	public String toString() {
-		return ATermUtils.toString( name );
+
+	@Override
+	public String toString()
+	{
+		return ATermUtils.toString(name);
 	}
-	
+
 	/**
-	 * A string that identifies this node either using its name or the path
-	 * of individuals that comes to this node. For example, a node that has
-	 * been generated by the completion rules needs to be identified with
-	 * respect to a named individual. Ultimately, we need the shortest path
-	 * or something like that but right now we just use the first inEdge 
-	 * 
+	 * A string that identifies this node either using its name or the path of individuals that comes to this node. For example, a node that has been generated
+	 * by the completion rules needs to be identified with respect to a named individual. Ultimately, we need the shortest path or something like that but right
+	 * now we just use the first inEdge
+	 *
 	 * @return
 	 */
-	public List<ATermAppl> getPath() {	
-	    LinkedList<ATermAppl> path = new LinkedList<ATermAppl>();
+	public List<ATermAppl> getPath()
+	{
+		final LinkedList<ATermAppl> path = new LinkedList<>();
 
-        if(isNamedIndividual()) 
-            path.add(name);
-	    else {
-            Set<Node> cycle = new HashSet<Node>();
-		    Node node = this;
-		    while(!node.getInEdges().isEmpty()) {
-		        Edge inEdge = node.getInEdges().edgeAt(0);
-		        node = inEdge.getFrom();
-                if( cycle.contains( node ) )
-                    break;
-                else
-                    cycle.add( node );
-	            path.addFirst( inEdge.getRole().getName() );
-                if( node.isNamedIndividual() ) {
-                    path.addFirst( node.getName() );
-                    break;
-                }
-		    }
-	    }
-	    
-		
+		if (isNamedIndividual())
+			path.add(name);
+		else
+		{
+			final Set<Node> cycle = new HashSet<>();
+			Node node = this;
+			while (!node.getInEdges().isEmpty())
+			{
+				final Edge inEdge = node.getInEdges().edgeAt(0);
+				node = inEdge.getFrom();
+				if (cycle.contains(node))
+					break;
+				else
+					cycle.add(node);
+				path.addFirst(inEdge.getRole().getName());
+				if (node.isNamedIndividual())
+				{
+					path.addFirst(node.getName());
+					break;
+				}
+			}
+		}
+
 		return path;
 	}
-	
 
 	/**
 	 * getABox
-	 * 
+	 *
 	 * @return
 	 */
-	public ABox getABox() {
+	public ABox getABox()
+	{
 		return abox;
 	}
 }
-

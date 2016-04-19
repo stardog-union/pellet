@@ -6,34 +6,39 @@
 
 package com.clarkparsia.pellet.rules;
 
+import com.clarkparsia.pellet.rules.model.Rule;
 import org.mindswap.pellet.DependencySet;
 
-import com.clarkparsia.pellet.rules.model.Rule;
+public class PartialBinding
+{
+	private final Rule rule;
+	private final VariableBinding binding;
+	private final DependencySet ds;
 
-public class PartialBinding {
-	private Rule rule;
-	private VariableBinding binding;
-	private DependencySet ds;
-	
-    public PartialBinding(Rule rule, VariableBinding binding, DependencySet ds) {
-	    this.rule = rule;
-	    this.binding = binding;
-	    this.ds = ds;
-    }
+	public PartialBinding(final Rule rule, final VariableBinding binding, final DependencySet ds)
+	{
+		this.rule = rule;
+		this.binding = binding;
+		this.ds = ds;
+	}
 
-	Rule getRule() {
-    	return rule;
-    }
+	Rule getRule()
+	{
+		return rule;
+	}
 
-    VariableBinding getBinding() {
-    	return binding;
-    }
+	VariableBinding getBinding()
+	{
+		return binding;
+	}
 
-    DependencySet getDependencySet() {
-    	return ds;
-    }
+	DependencySet getDependencySet()
+	{
+		return ds;
+	}
 
-    int getBranch() {
-    	return ds.max();
-    }
+	int getBranch()
+	{
+		return ds.max();
+	}
 }

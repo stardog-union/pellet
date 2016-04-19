@@ -23,81 +23,107 @@ import java.util.TreeSet;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class TreeIntSet extends AbstractIntSet implements IntSet {
-	private TreeSet<Integer>	ints;
+public class TreeIntSet extends AbstractIntSet implements IntSet
+{
+	private final TreeSet<Integer> ints;
 
-	public TreeIntSet() {
-		ints = new TreeSet<Integer>();
+	public TreeIntSet()
+	{
+		ints = new TreeSet<>();
 	}
 
-	public TreeIntSet(TreeIntSet other) {
-		ints = new TreeSet<Integer>( other.ints );
+	public TreeIntSet(final TreeIntSet other)
+	{
+		ints = new TreeSet<>(other.ints);
 	}
 
-	public void add(int value) {
-		if( value < 0 )
+	@Override
+	public void add(final int value)
+	{
+		if (value < 0)
 			throw new IndexOutOfBoundsException();
-		
-		ints.add( value );
+
+		ints.add(value);
 	}
 
-	public void addAll(IntSet values) {
-		if( values instanceof TreeIntSet ) {
-			ints.addAll( ((TreeIntSet) values).ints );
-		}
-		else {
-			super.addAll( values );
-		}
+	@Override
+	public void addAll(final IntSet values)
+	{
+		if (values instanceof TreeIntSet)
+			ints.addAll(((TreeIntSet) values).ints);
+		else
+			super.addAll(values);
 	}
 
-	public boolean contains(int value) {
-		return ints.contains( value );
+	@Override
+	public boolean contains(final int value)
+	{
+		return ints.contains(value);
 	}
 
-	public IntSet copy() {
-		return new TreeIntSet( this );
+	@Override
+	public IntSet copy()
+	{
+		return new TreeIntSet(this);
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return ints.isEmpty();
 	}
 
-	public IntIterator iterator() {
-		return new IntIterator() {
-			private Iterator<Integer> base = ints.iterator();
+	@Override
+	public IntIterator iterator()
+	{
+		return new IntIterator()
+		{
+			private final Iterator<Integer> base = ints.iterator();
 
-			public boolean hasNext() {
+			@Override
+			public boolean hasNext()
+			{
 				return base.hasNext();
 			}
 
-			public int next() {				
+			@Override
+			public int next()
+			{
 				return base.next();
-			}			
+			}
 		};
 	}
 
-	public int max() {
-		if( isEmpty() )
+	@Override
+	public int max()
+	{
+		if (isEmpty())
 			throw new NoSuchElementException();
 		else
 			return ints.last();
 	}
 
-	public int min() {
-		if( isEmpty() )
+	@Override
+	public int min()
+	{
+		if (isEmpty())
 			throw new NoSuchElementException();
 		else
 			return ints.first();
 	}
 
-	public void remove(int value) {
-		ints.remove( value );
+	@Override
+	public void remove(final int value)
+	{
+		ints.remove(value);
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		return ints.size();
 	}
 

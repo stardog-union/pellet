@@ -7,9 +7,15 @@
 package org.mindswap.pellet.examples;
 
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
-
 import java.util.Iterator;
 import java.util.Set;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -24,114 +30,111 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
-import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.OntClass;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.rdf.model.Literal;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.Resource;
 
 /**
- * Example to demonstrate how to use the reasoner for queries related to individuals. Exact 
- * same functionality is shown for both Jena and OWL-API interfaces. 
- * 
+ * Example to demonstrate how to use the reasoner for queries related to individuals. Exact same functionality is shown for both Jena and OWL-API interfaces.
+ *
  * @author Evren Sirin
  */
-public class IndividualsExample {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Results using Jena interface");
-        System.out.println("----------------------------");
-        runWithJena();
-        
-        System.out.println("Results using OWL-API interface");
-        System.out.println("-------------------------------");
-        runWithOWLAPI();
-    }
-    
-    public static void runWithJena() {
-        // ontology that will be used
-        String ont = "http://www.mindswap.org/2004/owl/mindswappers#";
+public class IndividualsExample
+{
+	public static void main(final String[] args) throws Exception
+	{
+		System.out.println("Results using Jena interface");
+		System.out.println("----------------------------");
+		runWithJena();
 
-        // load the ontology with its imports and no reasoning
-		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( ont );
+		System.out.println("Results using OWL-API interface");
+		System.out.println("-------------------------------");
+		runWithOWLAPI();
+	}
+
+	public static void runWithJena()
+	{
+		// ontology that will be used
+		final String ont = "http://www.mindswap.org/2004/owl/mindswappers#";
+
+		// load the ontology with its imports and no reasoning
+		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.read(ont);
 
 		// load the model to the reasoner
 		model.prepare();
-		
+
 		// create property and resources to query the reasoner
-		OntClass Person = model.getOntClass("http://xmlns.com/foaf/0.1/Person");
-		Property workHomepage = model.getProperty("http://xmlns.com/foaf/0.1/workInfoHomepage");
-		Property foafName = model.getProperty("http://xmlns.com/foaf/0.1/name");
-		
+		final OntClass Person = model.getOntClass("http://xmlns.com/foaf/0.1/Person");
+		final Property workHomepage = model.getProperty("http://xmlns.com/foaf/0.1/workInfoHomepage");
+		final Property foafName = model.getProperty("http://xmlns.com/foaf/0.1/name");
+
 		// get all instances of Person class
-		Iterator<?> i = Person.listInstances();
-		while( i.hasNext() ) {
-		    Individual ind = (Individual) i.next();
-		    
-		    // get the info about this specific individual
-		    String name = ((Literal) ind.getPropertyValue( foafName )).getString();
-		    Resource type = ind.getRDFType();
-		    Resource homepage = (Resource) ind.getPropertyValue(workHomepage);
-		    
-		    // print the results
-		    System.out.println("Name: " + name);
-		    System.out.println("Type: " + type.getLocalName());
-		    if(homepage == null)
-		        System.out.println("Homepage: Unknown");
-		    else
-		        System.out.println("Homepage: " + homepage);
-		    System.out.println();
+		final Iterator<?> i = Person.listInstances();
+		while (i.hasNext())
+		{
+			final Individual ind = (Individual) i.next();
+
+			// get the info about this specific individual
+			final String name = ((Literal) ind.getPropertyValue(foafName)).getString();
+			final Resource type = ind.getRDFType();
+			final Resource homepage = (Resource) ind.getPropertyValue(workHomepage);
+
+			// print the results
+			System.out.println("Name: " + name);
+			System.out.println("Type: " + type.getLocalName());
+			if (homepage == null)
+				System.out.println("Homepage: Unknown");
+			else
+				System.out.println("Homepage: " + homepage);
+			System.out.println();
 		}
-    }
-    
-	public static void runWithOWLAPI() throws OWLException {
-		String ont = "http://www.mindswap.org/2004/owl/mindswappers#";
-		
+	}
+
+	public static void runWithOWLAPI() throws OWLException
+	{
+		final String ont = "http://www.mindswap.org/2004/owl/mindswappers#";
+
 		// create an ontology manager
-		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-		OWLDataFactory factory = manager.getOWLDataFactory();
-		
+		final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		final OWLDataFactory factory = manager.getOWLDataFactory();
+
 		// read the ontology
-		OWLOntology ontology = manager.loadOntology( IRI.create(ont) );
-		
+		final OWLOntology ontology = manager.loadOntology(IRI.create(ont));
+
 		// load the ontology to the reasoner
-		PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance().createReasoner( ontology );
-		
+		final PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance().createReasoner(ontology);
+
 		// create property and resources to query the reasoner
-		OWLClass Person = factory.getOWLClass(IRI.create("http://xmlns.com/foaf/0.1/Person"));
-		OWLObjectProperty workHomepage = factory.getOWLObjectProperty(IRI.create("http://xmlns.com/foaf/0.1/workInfoHomepage"));
-		OWLDataProperty foafName = factory.getOWLDataProperty(IRI.create("http://xmlns.com/foaf/0.1/name"));
-		
+		final OWLClass Person = factory.getOWLClass(IRI.create("http://xmlns.com/foaf/0.1/Person"));
+		final OWLObjectProperty workHomepage = factory.getOWLObjectProperty(IRI.create("http://xmlns.com/foaf/0.1/workInfoHomepage"));
+		final OWLDataProperty foafName = factory.getOWLDataProperty(IRI.create("http://xmlns.com/foaf/0.1/name"));
+
 		// get all instances of Person class
-		Set<OWLNamedIndividual> individuals = reasoner.getInstances( Person, false ).getFlattened();
-		for(OWLNamedIndividual ind : individuals) {			
-		    // get the info about this specific individual
-			Set<OWLLiteral> names = reasoner.getDataPropertyValues( ind, foafName );	    		    		    	
-		    NodeSet<OWLClass> types = reasoner.getTypes( ind, true );		    
-		    NodeSet<OWLNamedIndividual> homepages = reasoner.getObjectPropertyValues( ind, workHomepage );
-		    
-		    // we know there is a single name for each person so we can get that value directly
-		    String name = names.iterator().next().getLiteral();
-			System.out.println( "Name: " + name );
-		    
+		final Set<OWLNamedIndividual> individuals = reasoner.getInstances(Person, false).getFlattened();
+		for (final OWLNamedIndividual ind : individuals)
+		{
+			// get the info about this specific individual
+			final Set<OWLLiteral> names = reasoner.getDataPropertyValues(ind, foafName);
+			final NodeSet<OWLClass> types = reasoner.getTypes(ind, true);
+			final NodeSet<OWLNamedIndividual> homepages = reasoner.getObjectPropertyValues(ind, workHomepage);
+
+			// we know there is a single name for each person so we can get that value directly
+			final String name = names.iterator().next().getLiteral();
+			System.out.println("Name: " + name);
+
 			// at least one direct type is guaranteed to exist for each individual 
-		    OWLClass type = types.iterator().next().getRepresentativeElement();
-			System.out.println( "Type:" + type );
-		    
-		    // there may be zero or more homepages so check first if there are any found
-			if( homepages.isEmpty() ) {
-				System.out.print( "Homepage: Unknown" );
+			final OWLClass type = types.iterator().next().getRepresentativeElement();
+			System.out.println("Type:" + type);
+
+			// there may be zero or more homepages so check first if there are any found
+			if (homepages.isEmpty())
+				System.out.print("Homepage: Unknown");
+			else
+			{
+				System.out.print("Homepage:");
+				for (final Node<OWLNamedIndividual> homepage : homepages)
+					System.out.print(" " + homepage.getRepresentativeElement().getIRI());
 			}
-			else {
-				System.out.print( "Homepage:" );
-				for( Node<OWLNamedIndividual> homepage : homepages ) {
-					System.out.print( " " + homepage.getRepresentativeElement().getIRI() );
-				}
-			}
-		    System.out.println();
-		    System.out.println();
+			System.out.println();
+			System.out.println();
 		}
 	}
 }

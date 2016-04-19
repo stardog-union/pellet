@@ -6,16 +6,15 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-import org.mindswap.pellet.utils.URIUtils;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.utils.URIUtils;
 
 /**
  * <p>
  * Title: Datavalued Property Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,21 +22,27 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class DatavaluedPropertyAtom extends BinaryAtom<ATermAppl, AtomIObject, AtomDObject> {
+ */
+public class DatavaluedPropertyAtom extends BinaryAtom<ATermAppl, AtomIObject, AtomDObject>
+{
 
-	public DatavaluedPropertyAtom(ATermAppl predicate, AtomIObject subject, AtomDObject object) {
+	public DatavaluedPropertyAtom(final ATermAppl predicate, final AtomIObject subject, final AtomDObject object)
+	{
 		super(predicate, subject, object);
 	}
 
-	public void accept(RuleAtomVisitor visitor) {
-		visitor.visit( this );
+	@Override
+	public void accept(final RuleAtomVisitor visitor)
+	{
+		visitor.visit(this);
 	}
-	
-	public String toString() {
-		return URIUtils.getLocalName(getPredicate().getName())+"("+getArgument1()+","+getArgument2()+")";
+
+	@Override
+	public String toString()
+	{
+		return URIUtils.getLocalName(getPredicate().getName()) + "(" + getArgument1() + "," + getArgument2() + ")";
 	}
 
 }

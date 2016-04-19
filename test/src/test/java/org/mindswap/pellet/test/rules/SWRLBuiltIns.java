@@ -9,7 +9,6 @@
 package org.mindswap.pellet.test.rules;
 
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
@@ -19,8 +18,7 @@ import org.mindswap.pellet.test.PelletTestSuite;
  * Title: SWRLBuiltIns
  * </p>
  * <p>
- * Description: Perform tests for (implemented) SWRL built-ins written in
- * RDF/XML for both Jena and OWL API
+ * Description: Perform tests for (implemented) SWRL built-ins written in RDF/XML for both Jena and OWL API
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -28,248 +26,297 @@ import org.mindswap.pellet.test.PelletTestSuite;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class SWRLBuiltIns extends SWRLAbstract {
+public class SWRLBuiltIns extends SWRLAbstract
+{
 
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( SWRLBuiltIns.class );
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(SWRLBuiltIns.class);
 	}
 
 	@BeforeClass
-	public static void setUp() {
+	public static void setUp()
+	{
 		base = "file:" + PelletTestSuite.base + "swrl-builtIns/";
 	}
 
 	@Test
-	public void equal() {
-		test( "equal" );
+	public void equal()
+	{
+		test("equal");
 	}
 
 	@Test
-	public void notEqual() {
-		test( "notEqual" );
+	public void notEqual()
+	{
+		test("notEqual");
 	}
 
 	@Test
-	public void lessThan() {
-		test( "lessThan" );
+	public void lessThan()
+	{
+		test("lessThan");
 	}
 
 	@Test
-	public void lessThanOrEqual() {
-		test( "lessThanOrEqual" );
+	public void lessThanOrEqual()
+	{
+		test("lessThanOrEqual");
 	}
 
 	@Test
-	public void greaterThan() {
-		test( "greaterThan" );
+	public void greaterThan()
+	{
+		test("greaterThan");
 	}
 
 	@Test
-	public void greaterThanOrEqual() {
-		test( "greaterThanOrEqual" );
+	public void greaterThanOrEqual()
+	{
+		test("greaterThanOrEqual");
 	}
 
 	@Test
-	public void add() {
-		test( "add" );
+	public void add()
+	{
+		test("add");
 	}
 
 	@Test
-	public void subtract() {
-		test( "subtract" );
+	public void subtract()
+	{
+		test("subtract");
 	}
 
 	@Test
-	public void multiply() {
-		test( "multiply" );
+	public void multiply()
+	{
+		test("multiply");
 	}
 
 	@Test
-	public void divide() {
-		test( "divide" );
+	public void divide()
+	{
+		test("divide");
 	}
 
 	@Test
-	public void integerDivide() {
-		test( "integerDivide" );
+	public void integerDivide()
+	{
+		test("integerDivide");
 	}
 
 	@Test
-	public void mod() {
-		test( "mod" );
+	public void mod()
+	{
+		test("mod");
 	}
 
 	@Test
-	public void pow() {
-		test( "pow" );
+	public void pow()
+	{
+		test("pow");
 	}
 
 	@Test
-	public void unaryPlus() {
-		test( "unaryPlus" );
+	public void unaryPlus()
+	{
+		test("unaryPlus");
 	}
 
 	@Test
-	public void unaryMinus() {
-		test( "unaryMinus" );
+	public void unaryMinus()
+	{
+		test("unaryMinus");
 	}
 
 	@Test
-	public void abs() {
-		test( "abs" );
+	public void abs()
+	{
+		test("abs");
 	}
 
 	@Test
-	public void ceiling() {
-		test( "ceiling" );
+	public void ceiling()
+	{
+		test("ceiling");
 	}
 
 	@Test
-	public void floor() {
-		test( "floor" );
+	public void floor()
+	{
+		test("floor");
 	}
 
 	@Test
-	public void round() {
-		test( "round" );
+	public void round()
+	{
+		test("round");
 	}
 
 	@Test
-	public void roundHalfToEven() {
-		test( "roundHalfToEven" );
+	public void roundHalfToEven()
+	{
+		test("roundHalfToEven");
 	}
 
 	@Test
-	public void sin() {
-		test( "sin" );
+	public void sin()
+	{
+		test("sin");
 	}
 
 	@Test
-	public void cos() {
-		test( "cos" );
+	public void cos()
+	{
+		test("cos");
 	}
 
 	@Test
-	public void tan() {
-		test( "tan" );
+	public void tan()
+	{
+		test("tan");
 	}
 
 	@Test
-	public void booleanNot() {
-		test( "booleanNot" );
+	public void booleanNot()
+	{
+		test("booleanNot");
 	}
 
 	@Test
-	public void stringEqualIgnoreCase() {
-		test( "stringEqualIgnoreCase" );
+	public void stringEqualIgnoreCase()
+	{
+		test("stringEqualIgnoreCase");
 	}
 
 	@Test
-	public void stringConcat() {
-		test( "stringConcat" );
+	public void stringConcat()
+	{
+		test("stringConcat");
 	}
 
 	@Test
-	public void substring() {
-		test( "substring" );
+	public void substring()
+	{
+		test("substring");
 	}
 
 	@Test
-	public void stringLength() {
-		test( "stringLength" );
+	public void stringLength()
+	{
+		test("stringLength");
 	}
 
 	@Test
-	public void normalizeSpace() {
-		test( "normalizeSpace" );
+	public void normalizeSpace()
+	{
+		test("normalizeSpace");
 	}
 
 	@Test
-	public void upperCase() {
-		test( "upperCase" );
+	public void upperCase()
+	{
+		test("upperCase");
 	}
 
 	@Test
-	public void lowerCase() {
-		test( "lowerCase" );
+	public void lowerCase()
+	{
+		test("lowerCase");
 	}
 
 	@Test
-	public void translate() {
-		test( "translate" );
+	public void translate()
+	{
+		test("translate");
 	}
 
 	@Test
-	public void contains() {
-		test( "contains" );
+	public void contains()
+	{
+		test("contains");
 	}
 
 	@Test
-	public void containsIgnoreCase() {
-		test( "containsIgnoreCase" );
+	public void containsIgnoreCase()
+	{
+		test("containsIgnoreCase");
 	}
 
 	@Test
-	public void startsWith() {
-		test( "startsWith" );
+	public void startsWith()
+	{
+		test("startsWith");
 	}
 
 	@Test
-	public void endsWith() {
-		test( "endsWith" );
+	public void endsWith()
+	{
+		test("endsWith");
 	}
 
 	@Test
-	public void substringBefore() {
-		test( "substringBefore" );
+	public void substringBefore()
+	{
+		test("substringBefore");
 	}
 
 	@Test
-	public void substringAfter() {
-		test( "substringAfter" );
+	public void substringAfter()
+	{
+		test("substringAfter");
 	}
 
 	@Test
-	public void matches() {
-		test( "matches" );
+	public void matches()
+	{
+		test("matches");
 	}
 
 	@Test
-	public void replace() {
-		test( "replace" );
+	public void replace()
+	{
+		test("replace");
 	}
 
 	@Test
-	public void tokenize() {
-		test( "tokenize" );
+	public void tokenize()
+	{
+		test("tokenize");
 	}
 
 	@Test
-	public void yearMonthDuration() {
-		test( "yearMonthDuration" );
+	public void yearMonthDuration()
+	{
+		test("yearMonthDuration");
 	}
 
 	@Test
-	public void dayTimeDuration() {
-		test( "dayTimeDuration" );
+	public void dayTimeDuration()
+	{
+		test("dayTimeDuration");
 	}
 
 	@Test
-	public void dateTime() {
-		test( "dateTime" );
+	public void dateTime()
+	{
+		test("dateTime");
 	}
 
 	@Test
-	public void date() {
-		test( "date" );
+	public void date()
+	{
+		test("date");
 	}
 
 	@Test
-	public void time() {
-		test( "time" );
+	public void time()
+	{
+		test("time");
 	}
 
 	// TODO
@@ -297,12 +344,14 @@ public class SWRLBuiltIns extends SWRLAbstract {
 	//subtractDateTimesYieldingDayTimeDuration
 
 	@Test
-	public void resolveURI() {
-		test( "resolveURI" );
+	public void resolveURI()
+	{
+		test("resolveURI");
 	}
 
 	@Test
-	public void anyURI() {
-		test( "anyURI" );
+	public void anyURI()
+	{
+		test("anyURI");
 	}
 }

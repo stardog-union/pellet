@@ -8,10 +8,10 @@ package com.clarkparsia.pellint.util;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -19,17 +19,20 @@ package com.clarkparsia.pellint.util;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class IllegalPellintArgumentException extends Exception {
+public class IllegalPellintArgumentException extends Exception
+{
 	private static final long serialVersionUID = 1653653327855824045L;
 
-	public IllegalPellintArgumentException() {
+	public IllegalPellintArgumentException()
+	{
 		super();
 	}
-	
-	public IllegalPellintArgumentException(String msg) {
+
+	public IllegalPellintArgumentException(final String msg)
+	{
 		super(msg);
 	}
 }

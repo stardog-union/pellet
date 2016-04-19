@@ -22,41 +22,48 @@ import java.util.NoSuchElementException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class ArrayIntSet implements IntSet {
-	private static int	INIT_CAPACITY	= 1;
+public class ArrayIntSet implements IntSet
+{
+	private static int INIT_CAPACITY = 1;
 
-	private int[]		ints;
-	private int			size;
+	private int[] ints;
+	private int size;
 
-	public ArrayIntSet() {
+	public ArrayIntSet()
+	{
 		size = 0;
 		ints = new int[INIT_CAPACITY];
 	}
 
-	public ArrayIntSet(ArrayIntSet other) {
+	public ArrayIntSet(final ArrayIntSet other)
+	{
 		size = other.size;
 		ints = new int[size];
-		System.arraycopy( other.ints, 0, ints, 0, size );
+		System.arraycopy(other.ints, 0, ints, 0, size);
 	}
-	
-	private ArrayIntSet(ArrayIntSet set1, ArrayIntSet set2) {
-		setToUnionOf( set1, set2 );
+
+	private ArrayIntSet(final ArrayIntSet set1, final ArrayIntSet set2)
+	{
+		setToUnionOf(set1, set2);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void add(int value) {
-		ensureCapacity( size + 1 );
+	@Override
+	public void add(final int value)
+	{
+		ensureCapacity(size + 1);
 
-		int index = binarySearch( ints, value );
-		if( index < 0 ) {
+		int index = binarySearch(ints, value);
+		if (index < 0)
+		{
 			index = -index - 1;
-			if( index < size )
-				System.arraycopy( ints, index, ints, index + 1, size - index );
+			if (index < size)
+				System.arraycopy(ints, index, ints, index + 1, size - index);
 			ints[index] = value;
 			size++;
 		}
@@ -65,34 +72,38 @@ public class ArrayIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void addAll(IntSet values) {
-		if( values instanceof ArrayIntSet ) {
-			setToUnionOf( this, (ArrayIntSet) values );
-		}
-		else {
-			ensureCapacity( size + values.size() );
+	@Override
+	public void addAll(final IntSet values)
+	{
+		if (values instanceof ArrayIntSet)
+			setToUnionOf(this, (ArrayIntSet) values);
+		else
+		{
+			ensureCapacity(size + values.size());
 
-			IntIterator i = values.iterator();
-			while( i.hasNext() ) {
-				add( i.next() );
-			}
+			final IntIterator i = values.iterator();
+			while (i.hasNext())
+				add(i.next());
 		}
 	}
-	
-	private int binarySearch(int[] a, int key) {
+
+	private int binarySearch(final int[] a, final int key)
+	{
 		int low = 0;
 		int high = size - 1;
 
-		while( low <= high ) {
-			int mid = (low + high) >>> 1;
-			int midVal = a[mid];
+		while (low <= high)
+		{
+			final int mid = (low + high) >>> 1;
+			final int midVal = a[mid];
 
-			if( midVal < key )
+			if (midVal < key)
 				low = mid + 1;
-			else if( midVal > key )
-				high = mid - 1;
 			else
-				return mid; // key found
+				if (midVal > key)
+					high = mid - 1;
+				else
+					return mid; // key found
 		}
 		return -(low + 1); // key not found.
 	}
@@ -100,67 +111,85 @@ public class ArrayIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean contains(int value) {
-		return binarySearch( ints, value ) >= 0;
+	@Override
+	public boolean contains(final int value)
+	{
+		return binarySearch(ints, value) >= 0;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public IntSet copy() {
-		return new ArrayIntSet( this );
+	@Override
+	public IntSet copy()
+	{
+		return new ArrayIntSet(this);
 	}
-	
-	public int hashCode() {		
-		return Arrays.hashCode( ints );
+
+	@Override
+	public int hashCode()
+	{
+		return Arrays.hashCode(ints);
 	}
-	
-	public boolean equals(Object o) {
-		if( !(o instanceof IntSet) )
+
+	@Override
+	public boolean equals(final Object o)
+	{
+		if (!(o instanceof IntSet))
 			return false;
-		IntSet that = (IntSet) o;
-		if( this.size() != that.size() )
+		final IntSet that = (IntSet) o;
+		if (this.size() != that.size())
 			return false;
-		IntIterator i = this.iterator();
-		while( i.hasNext() ) {
-			if( !that.contains( i.next() ) )
+		final IntIterator i = this.iterator();
+		while (i.hasNext())
+			if (!that.contains(i.next()))
 				return false;
-		}
 		return true;
 	}
 
-	private void ensureCapacity(int minCapacity) {
-		int oldCapacity = ints.length;
-		if( minCapacity > oldCapacity ) {
-			int oldData[] = ints;
+	private void ensureCapacity(final int minCapacity)
+	{
+		final int oldCapacity = ints.length;
+		if (minCapacity > oldCapacity)
+		{
+			final int oldData[] = ints;
 			int newCapacity = (oldCapacity * 3) / 2 + 1;
-			if( newCapacity < minCapacity )
+			if (newCapacity < minCapacity)
 				newCapacity = minCapacity;
 			ints = new int[newCapacity];
-			System.arraycopy( oldData, 0, ints, 0, size );
+			System.arraycopy(oldData, 0, ints, 0, size);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return size == 0;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public IntIterator iterator() {
-		return new IntIterator() {
-			private int	next	= 0;
+	@Override
+	public IntIterator iterator()
+	{
+		return new IntIterator()
+		{
+			private int next = 0;
 
-			public boolean hasNext() {
+			@Override
+			public boolean hasNext()
+			{
 				return next < size;
 			}
 
-			public int next() {
-				if( !hasNext() )
+			@Override
+			public int next()
+			{
+				if (!hasNext())
 					throw new NoSuchElementException();
 
 				return ints[next++];
@@ -171,8 +200,10 @@ public class ArrayIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int max() {
-		if( isEmpty() )
+	@Override
+	public int max()
+	{
+		if (isEmpty())
 			throw new NoSuchElementException();
 
 		return ints[size - 1];
@@ -181,8 +212,10 @@ public class ArrayIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int min() {
-		if( isEmpty() )
+	@Override
+	public int min()
+	{
+		if (isEmpty())
 			throw new NoSuchElementException();
 
 		return ints[0];
@@ -191,12 +224,15 @@ public class ArrayIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void remove(int value) {
-		int index = binarySearch( ints, value );
+	@Override
+	public void remove(final int value)
+	{
+		final int index = binarySearch(ints, value);
 
-		if( index >= 0 ) {
-			if( index < size - 1 )
-				System.arraycopy( ints, index + 1, ints, index, size - index - 1);
+		if (index >= 0)
+		{
+			if (index < size - 1)
+				System.arraycopy(ints, index + 1, ints, index, size - index - 1);
 			size--;
 		}
 	}
@@ -204,68 +240,80 @@ public class ArrayIntSet implements IntSet {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int size() {
+	@Override
+	public int size()
+	{
 		return size;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public String toString() {
-		if( size == 0 )
+	@Override
+	public String toString()
+	{
+		if (size == 0)
 			return "[]";
 
-		StringBuilder buf = new StringBuilder();
-		buf.append( '[' );
-		buf.append( ints[0] );
+		final StringBuilder buf = new StringBuilder();
+		buf.append('[');
+		buf.append(ints[0]);
 
-		for( int i = 1; i < size; i++ ) {
-			buf.append( ", " );
-			buf.append( ints[i] );
+		for (int i = 1; i < size; i++)
+		{
+			buf.append(", ");
+			buf.append(ints[i]);
 		}
 
-		buf.append( "]" );
+		buf.append("]");
 		return buf.toString();
 	}
-	
-	private void setToUnionOf(ArrayIntSet set1, ArrayIntSet set2) {
-		int[] ints1 = set1.ints;
-		int[] ints2 = set2.ints;
-		int size1 = set1.size;
-		int size2 = set2.size;
+
+	private void setToUnionOf(final ArrayIntSet set1, final ArrayIntSet set2)
+	{
+		final int[] ints1 = set1.ints;
+		final int[] ints2 = set2.ints;
+		final int size1 = set1.size;
+		final int size2 = set2.size;
 		size = size1 + size2;
 		ints = new int[size];
 
-		for( int i = 0, i1 = 0, i2 = 0; i < size; i++ ) {
-			if( i1 == size1 ) {
+		for (int i = 0, i1 = 0, i2 = 0; i < size; i++)
+			if (i1 == size1)
+			{
 				// we consumed ints1, so copy rest of i2 and finish
-				System.arraycopy( ints2, i2, ints, i, size2 - i2 );
-				break;
-			}	
-			else if( i2 == size2 ) {
-				// we consumed ints2, so copy rest of i1 and finish
-				System.arraycopy( ints1, i1, ints, i, size1 - i1 );
+				System.arraycopy(ints2, i2, ints, i, size2 - i2);
 				break;
 			}
-			else if( ints1[i1] < ints2[i2] ) {
-				// element in ints1 is smaller so copy it
-				ints[i] = ints1[i1++];
-			}
-			else {
-				// element in ints2 is not greater so copy it
-				ints[i] = ints2[i2++];
-				
-				// is the element we copied from ints2 same as the one in ints1?
-				if( ints[i] == ints1[i1] ) {
-					// we have a duplicate so increment i1 and decrement size
-					i1++;
-					size--;
+			else
+				if (i2 == size2)
+				{
+					// we consumed ints2, so copy rest of i1 and finish
+					System.arraycopy(ints1, i1, ints, i, size1 - i1);
+					break;
 				}
-			}
-		}
+				else
+					if (ints1[i1] < ints2[i2])
+						// element in ints1 is smaller so copy it
+						ints[i] = ints1[i1++];
+					else
+					{
+						// element in ints2 is not greater so copy it
+						ints[i] = ints2[i2++];
+
+						// is the element we copied from ints2 same as the one in ints1?
+						if (ints[i] == ints1[i1])
+						{
+							// we have a duplicate so increment i1 and decrement size
+							i1++;
+							size--;
+						}
+					}
 	}
 
-	public IntSet union(IntSet values) {
-		return new ArrayIntSet( this, (ArrayIntSet) values );
+	@Override
+	public IntSet union(final IntSet values)
+	{
+		return new ArrayIntSet(this, (ArrayIntSet) values);
 	}
 }

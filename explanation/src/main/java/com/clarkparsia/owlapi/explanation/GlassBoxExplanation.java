@@ -6,13 +6,13 @@
 
 package com.clarkparsia.owlapi.explanation;
 
-
+import aterm.ATermAppl;
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
+import com.clarkparsia.owlapi.explanation.util.DefinitionTracker;
 import com.clarkparsia.pellet.owlapi.AxiomConverter;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
-import com.clarkparsia.owlapi.OWL;
-import com.clarkparsia.owlapi.OntologyUtils;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -31,16 +31,13 @@ import org.semanticweb.owlapi.model.OWLObjectIntersectionOf;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
-import aterm.ATermAppl;
-import com.clarkparsia.owlapi.explanation.util.DefinitionTracker;
 
 /**
  * <p>
  * Title: GlassBoxExplanation
  * </p>
  * <p>
- * Description: Implementation of SingleExplanationGenerator interface using the
- * axiom tracing facilities of Pellet.
+ * Description: Implementation of SingleExplanationGenerator interface using the axiom tracing facilities of Pellet.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -48,123 +45,132 @@ import com.clarkparsia.owlapi.explanation.util.DefinitionTracker;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class GlassBoxExplanation extends SingleExplanationGeneratorImpl {	
-	static {
+public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
+{
+	static
+	{
 		setup();
-	}	
-	
+	}
+
 	/**
-	 * Very important initialization step that needs to be called once before a reasoner
-	 * is created. this function will be called automatically when GlassBoxExplanation
-	 * is loaded by the class loader.
+	 * Very important initialization step that needs to be called once before a reasoner is created. this function will be called automatically when
+	 * GlassBoxExplanation is loaded by the class loader.
 	 */
-	public static void setup() {
+	public static void setup()
+	{
 		// initialize PelletOptions to required values for explanations
 		// to work before any Pellet reasoner instance is created
 		PelletOptions.USE_TRACING = true;
 	}
-	
-	public static final Logger	log			= Logger
-													.getLogger( GlassBoxExplanation.class.getName() );
+
+	public static final Logger log = Logger.getLogger(GlassBoxExplanation.class.getName());
 
 	/**
-	 * Alternative reasoner. We use a second reasoner because we do not want to lose the 
-	 * state in the original reasoner.
+	 * Alternative reasoner. We use a second reasoner because we do not want to lose the state in the original reasoner.
 	 */
 	private PelletReasoner altReasoner = null;
-	
+
 	private boolean altReasonerEnabled = false;
-	
-	private AxiomConverter axiomConverter;
 
-	public GlassBoxExplanation(OWLOntology ontology, PelletReasonerFactory factory) {
-		this( factory, factory.createReasoner( ontology ) );
-	}
-	
-	public GlassBoxExplanation(PelletReasoner reasoner) {
-		this( new PelletReasonerFactory(), reasoner );
-	}
-		
-	public GlassBoxExplanation(PelletReasonerFactory factory, PelletReasoner reasoner) {
-		super( reasoner.getRootOntology(), factory, reasoner );
-		
-		axiomConverter = new AxiomConverter( reasoner );
+	private final AxiomConverter axiomConverter;
+
+	public GlassBoxExplanation(final OWLOntology ontology, final PelletReasonerFactory factory)
+	{
+		this(factory, factory.createReasoner(ontology));
 	}
 
-	private void setAltReasonerEnabled(boolean enabled) {
-		if( enabled ) {
-			if( altReasoner == null ) {
-				log.fine( "Create alt reasoner" );
-				altReasoner = getReasonerFactory().createNonBufferingReasoner( getOntology() );
+	public GlassBoxExplanation(final PelletReasoner reasoner)
+	{
+		this(new PelletReasonerFactory(), reasoner);
+	}
+
+	public GlassBoxExplanation(final PelletReasonerFactory factory, final PelletReasoner reasoner)
+	{
+		super(reasoner.getRootOntology(), factory, reasoner);
+
+		axiomConverter = new AxiomConverter(reasoner);
+	}
+
+	private void setAltReasonerEnabled(final boolean enabled)
+	{
+		if (enabled)
+			if (altReasoner == null)
+			{
+				log.fine("Create alt reasoner");
+				altReasoner = getReasonerFactory().createNonBufferingReasoner(getOntology());
 			}
-		}
 
 		altReasonerEnabled = enabled;
 	}
-	
-	private OWLClass getNegation(OWLClassExpression desc) {
-		if( !(desc instanceof OWLObjectComplementOf) )
+
+	private OWLClass getNegation(final OWLClassExpression desc)
+	{
+		if (!(desc instanceof OWLObjectComplementOf))
 			return null;
-		
-		OWLClassExpression not = ((OWLObjectComplementOf) desc).getOperand();
-		if( not.isAnonymous() )
+
+		final OWLClassExpression not = ((OWLObjectComplementOf) desc).getOperand();
+		if (not.isAnonymous())
 			return null;
-		
+
 		return (OWLClass) not;
 	}
-	
-	private Pair<OWLClass,OWLClass> getSubClassAxiom(OWLClassExpression desc) {
-		if( !(desc instanceof OWLObjectIntersectionOf) )
+
+	private Pair<OWLClass, OWLClass> getSubClassAxiom(final OWLClassExpression desc)
+	{
+		if (!(desc instanceof OWLObjectIntersectionOf))
 			return null;
-		
-		OWLObjectIntersectionOf conj = (OWLObjectIntersectionOf) desc; 
-			
-		if( conj.getOperands().size() != 2 )
+
+		final OWLObjectIntersectionOf conj = (OWLObjectIntersectionOf) desc;
+
+		if (conj.getOperands().size() != 2)
 			return null;
-		
-		Iterator<OWLClassExpression> conjuncts = conj.getOperands().iterator();		
-		OWLClassExpression c1 = conjuncts.next();
-		OWLClassExpression c2 = conjuncts.next();
+
+		final Iterator<OWLClassExpression> conjuncts = conj.getOperands().iterator();
+		final OWLClassExpression c1 = conjuncts.next();
+		final OWLClassExpression c2 = conjuncts.next();
 
 		OWLClass sub = null;
 		OWLClass sup = null;
-		
-		if( !c1.isAnonymous() ) {
+
+		if (!c1.isAnonymous())
+		{
 			sub = (OWLClass) c1;
-			sup = getNegation( c2 );
+			sup = getNegation(c2);
 		}
-		else if( !c2.isAnonymous() ) {
-			sub = (OWLClass) c2;
-			sup = getNegation( c2 );
-		}
-		
-		if( sup == null )
+		else
+			if (!c2.isAnonymous())
+			{
+				sub = (OWLClass) c2;
+				sup = getNegation(c2);
+			}
+
+		if (sup == null)
 			return null;
-		
-		return new Pair<OWLClass, OWLClass>( sub, sup );
+
+		return new Pair<>(sub, sup);
 	}
-	
-	private Set<OWLAxiom> getCachedExplanation(OWLClassExpression unsatClass) {
-		PelletReasoner pellet = getReasoner();
 
-		if( !pellet.getKB().isClassified() )
+	private Set<OWLAxiom> getCachedExplanation(final OWLClassExpression unsatClass)
+	{
+		final PelletReasoner pellet = getReasoner();
+
+		if (!pellet.getKB().isClassified())
 			return null;
 
-		Pair<OWLClass,OWLClass> pair = getSubClassAxiom( unsatClass );
+		final Pair<OWLClass, OWLClass> pair = getSubClassAxiom(unsatClass);
 
-		if( pair != null ) {
-			Set<Set<ATermAppl>> exps = TaxonomyUtils.getSuperExplanations( 
-					pellet.getKB().getTaxonomy(), 
-					pellet.term( pair.first ), 
-					pellet.term( pair.second ) );
+		if (pair != null)
+		{
+			final Set<Set<ATermAppl>> exps = TaxonomyUtils.getSuperExplanations(pellet.getKB().getTaxonomy(), pellet.term(pair.first), pellet.term(pair.second));
 
-			if( exps != null ) {
-				Set<OWLAxiom> result = convertExplanation( exps.iterator().next() ); 
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "Cached explanation: " + result );
+			if (exps != null)
+			{
+				final Set<OWLAxiom> result = convertExplanation(exps.iterator().next());
+				if (log.isLoggable(Level.FINE))
+					log.fine("Cached explanation: " + result);
 				return result;
 			}
 		}
@@ -172,210 +178,218 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl {
 		return null;
 	}
 
-	public Set<OWLAxiom> getExplanation(OWLClassExpression unsatClass) {
+	@Override
+	public Set<OWLAxiom> getExplanation(final OWLClassExpression unsatClass)
+	{
 		Set<OWLAxiom> result = null;
 
-		boolean firstExplanation = isFirstExplanation();
+		final boolean firstExplanation = isFirstExplanation();
 
-		if( log.isLoggable( Level.FINE ) )
-			log.fine( "Explain: " + unsatClass + " " + "First: " + firstExplanation );
+		if (log.isLoggable(Level.FINE))
+			log.fine("Explain: " + unsatClass + " " + "First: " + firstExplanation);
 
-		if( firstExplanation ) {
+		if (firstExplanation)
+		{
 			altReasoner = null;
-			
-			result = getCachedExplanation( unsatClass );
 
-			if( result == null )
-				result = getPelletExplanation( unsatClass );
+			result = getCachedExplanation(unsatClass);
+
+			if (result == null)
+				result = getPelletExplanation(unsatClass);
 		}
-		else {
-			setAltReasonerEnabled( true );
+		else
+		{
+			setAltReasonerEnabled(true);
 
-			try {
-				result = getPelletExplanation( unsatClass );
-			} catch( RuntimeException e ) {
-				log.log( Level.SEVERE,  "Unexpected error while trying to get explanation set from Pellet", e );
+			try
+			{
+				result = getPelletExplanation(unsatClass);
+			}
+			catch (final RuntimeException e)
+			{
+				log.log(Level.SEVERE, "Unexpected error while trying to get explanation set from Pellet", e);
 				throw new OWLRuntimeException(e);
-			} finally {
-				setAltReasonerEnabled( false );
+			}
+			finally
+			{
+				setAltReasonerEnabled(false);
 			}
 		}
 
 		return result;
 	}
 
-	private Set<OWLAxiom> getPelletExplanation(OWLClassExpression unsatClass) {
-		PelletReasoner pellet = getReasoner();
-		
+	private Set<OWLAxiom> getPelletExplanation(final OWLClassExpression unsatClass)
+	{
+		final PelletReasoner pellet = getReasoner();
+
 		pellet.getKB().prepare();
-		
+
 		// satisfiable if there is an undefined entity
-		boolean sat = !getDefinitionTracker().isDefined( unsatClass );
-				
-		if( !sat ) {
-			sat = isSatisfiable( pellet, unsatClass, true );
-		}
-		else if( log.isLoggable( Level.FINE ) )
-			log.fine( "Undefined entity in " + unsatClass );
-			
+		boolean sat = !getDefinitionTracker().isDefined(unsatClass);
 
-		if( sat ) {
+		if (!sat)
+			sat = isSatisfiable(pellet, unsatClass, true);
+		else
+			if (log.isLoggable(Level.FINE))
+				log.fine("Undefined entity in " + unsatClass);
+
+		if (sat)
 			return Collections.emptySet();
-		}
-		else {
-			Set<OWLAxiom> explanation = convertExplanation( pellet.getKB().getExplanationSet() );
+		else
+		{
+			final Set<OWLAxiom> explanation = convertExplanation(pellet.getKB().getExplanationSet());
 
-			if( log.isLoggable( Level.FINE ) )
-				log.fine( "Explanation " + explanation );
+			if (log.isLoggable(Level.FINE))
+				log.fine("Explanation " + explanation);
 
-			Set<OWLAxiom> prunedExplanation = pruneExplanation( unsatClass, explanation, true );
-			
-			int prunedAxiomCount = explanation.size() - prunedExplanation.size();
-			if( log.isLoggable( Level.FINE ) && prunedAxiomCount > 0 ) {
-				log.fine( "Pruned " + prunedAxiomCount + " axioms from the explanation: "
-						+ SetUtils.difference( explanation, prunedExplanation ) );
-				log.fine( "New explanation " + prunedExplanation );
+			final Set<OWLAxiom> prunedExplanation = pruneExplanation(unsatClass, explanation, true);
+
+			final int prunedAxiomCount = explanation.size() - prunedExplanation.size();
+			if (log.isLoggable(Level.FINE) && prunedAxiomCount > 0)
+			{
+				log.fine("Pruned " + prunedAxiomCount + " axioms from the explanation: " + SetUtils.difference(explanation, prunedExplanation));
+				log.fine("New explanation " + prunedExplanation);
 			}
 
 			return prunedExplanation;
 		}
 	}
-	
-	private boolean isSatisfiable(PelletReasoner pellet, OWLClassExpression unsatClass, boolean doExplanation) {
-		pellet.getKB().setDoExplanation( doExplanation );
-		boolean sat = unsatClass.isOWLThing()
-			? pellet.isConsistent()
-			: pellet.isSatisfiable( unsatClass );
-		pellet.getKB().setDoExplanation( false );
-		
+
+	private boolean isSatisfiable(final PelletReasoner pellet, final OWLClassExpression unsatClass, final boolean doExplanation)
+	{
+		pellet.getKB().setDoExplanation(doExplanation);
+		final boolean sat = unsatClass.isOWLThing() ? pellet.isConsistent() : pellet.isSatisfiable(unsatClass);
+				pellet.getKB().setDoExplanation(false);
+
 		return sat;
 	}
-	
-	private Set<OWLAxiom> convertExplanation(Set<ATermAppl> explanation) {
-				if( explanation == null || explanation.isEmpty() )
-			throw new OWLRuntimeException( "No explanation computed" );
-		
-		Set<OWLAxiom> result = new HashSet<OWLAxiom>();
 
-		for( ATermAppl term : explanation ) {
-			OWLAxiom axiom = axiomConverter.convert( term );
-			if( axiom == null )
-				throw new OWLRuntimeException( "Cannot convert: " + term );
-			result.add( axiom );
+	private Set<OWLAxiom> convertExplanation(final Set<ATermAppl> explanation)
+	{
+		if (explanation == null || explanation.isEmpty())
+			throw new OWLRuntimeException("No explanation computed");
+
+		final Set<OWLAxiom> result = new HashSet<>();
+
+		for (final ATermAppl term : explanation)
+		{
+			final OWLAxiom axiom = axiomConverter.convert(term);
+			if (axiom == null)
+				throw new OWLRuntimeException("Cannot convert: " + term);
+			result.add(axiom);
 		}
 
 		return result;
 	}
 
 	/**
-	 * <p>Prunes the given explanation using slow pruning technique of BlackBox
-	 * explanation. The explanation returned from Pellet axiom tracing is not
-	 * guaranteed to be minimal so pruning is necessary to ensure minimality.
-	 * The idea is to create an ontology with only the axioms in the
-	 * explanation, remove an axiom, test satisfiability, and restore the axiom
-	 * if the class turns to be satisfiable after the removal. 
-	 * 
-	 * <p>There are two
-	 * different pruning techniques. Incremental pruning attaches the reasoner
-	 * as a listener and updates the reasoner with axiom removals/restores.
-	 * Non-incremental pruning clears the reasoner at each iteration and reloads
-	 * the axioms from scratch each time. Incremental pruning is faster but may
-	 * return incorrect answers since axiom updates are less robust.
+	 * <p>
+	 * Prunes the given explanation using slow pruning technique of BlackBox explanation. The explanation returned from Pellet axiom tracing is not guaranteed
+	 * to be minimal so pruning is necessary to ensure minimality. The idea is to create an ontology with only the axioms in the explanation, remove an axiom,
+	 * test satisfiability, and restore the axiom if the class turns to be satisfiable after the removal.
+	 * <p>
+	 * There are two different pruning techniques. Incremental pruning attaches the reasoner as a listener and updates the reasoner with axiom
+	 * removals/restores. Non-incremental pruning clears the reasoner at each iteration and reloads the axioms from scratch each time. Incremental pruning is
+	 * faster but may return incorrect answers since axiom updates are less robust.
 	 */
-	private Set<OWLAxiom> pruneExplanation(OWLClassExpression unsatClass, Set<OWLAxiom> explanation, boolean incremental) {
-		try {
+	private Set<OWLAxiom> pruneExplanation(final OWLClassExpression unsatClass, final Set<OWLAxiom> explanation, final boolean incremental)
+	{
+		try
+		{
 			// initialize pruned explanation to be same as the given explanation
-			Set<OWLAxiom> prunedExplanation = new HashSet<OWLAxiom>( explanation );
+			final Set<OWLAxiom> prunedExplanation = new HashSet<>(explanation);
 
 			// we can only prune if there is more than one axiom in the
 			// explanation
-			if( prunedExplanation.size() <= 1 )
+			if (prunedExplanation.size() <= 1)
 				return prunedExplanation;
 
 			// create an ontology from the explanation axioms
-			OWLOntology debuggingOntology = OWL.Ontology( explanation );
-			
-			DefinitionTracker defTracker = new DefinitionTracker( debuggingOntology );
+			final OWLOntology debuggingOntology = OWL.Ontology(explanation);
+
+			final DefinitionTracker defTracker = new DefinitionTracker(debuggingOntology);
 
 			// since explanation size is generally small we can create and use a
 			// completely new reasoner rather than destroying the state on already
 			// existing reasoner
-			PelletReasoner reasoner = getReasonerFactory().createNonBufferingReasoner( debuggingOntology );
-						
-			if( !defTracker.isDefined( unsatClass ) ) {
-				log.warning( "Some of the entities in " + unsatClass
-						+ " are not defined in the explanation " + explanation );
-			}
-			
-			if( isSatisfiable( reasoner, unsatClass, true ) ) {
-				log.warning( "Explanation incomplete: Concept " + unsatClass
-						+ " is satisfiable in the explanation " + explanation );
-			}
+			PelletReasoner reasoner = getReasonerFactory().createNonBufferingReasoner(debuggingOntology);
+
+			if (!defTracker.isDefined(unsatClass))
+				log.warning("Some of the entities in " + unsatClass + " are not defined in the explanation " + explanation);
+
+			if (isSatisfiable(reasoner, unsatClass, true))
+				log.warning("Explanation incomplete: Concept " + unsatClass + " is satisfiable in the explanation " + explanation);
 
 			// simply remove axioms one at a time. If the unsatClass turns
 			// satisfiable then we know that axiom cannot be a part of minimal
 			// explanation
-			for( OWLAxiom axiom : explanation ) {
-				if( log.isLoggable( Level.FINER ) )
-					log.finer( "Try pruning " + axiom );
-				
-				if( !incremental) {
+			for (final OWLAxiom axiom : explanation)
+			{
+				if (log.isLoggable(Level.FINER))
+					log.finer("Try pruning " + axiom);
+
+				if (!incremental)
 					reasoner.dispose();
-				}
-				
-				OntologyUtils.removeAxioms( debuggingOntology, axiom );
-				
-				if( !incremental) {
-					reasoner = getReasonerFactory().createNonBufferingReasoner( debuggingOntology );
-				}
-				
+
+				OntologyUtils.removeAxioms(debuggingOntology, axiom);
+
+				if (!incremental)
+					reasoner = getReasonerFactory().createNonBufferingReasoner(debuggingOntology);
+
 				reasoner.getKB().prepare();
 
-				if( defTracker.isDefined( unsatClass )
-						&& !isSatisfiable( reasoner, unsatClass, false ) ) {
+				if (defTracker.isDefined(unsatClass) && !isSatisfiable(reasoner, unsatClass, false))
+				{
 					// does not affect satisfiability so remove from the results
-					prunedExplanation.remove( axiom );
-					
-					if( log.isLoggable( Level.FINER ) )
-						log.finer( "Pruned " + axiom );					
+					prunedExplanation.remove(axiom);
+
+					if (log.isLoggable(Level.FINER))
+						log.finer("Pruned " + axiom);
 				}
-				else {
+				else
 					// affects satisfiability so add back to the ontology
-					OntologyUtils.addAxioms( debuggingOntology, axiom );				
-				}
+					OntologyUtils.addAxioms(debuggingOntology, axiom);
 			}
-			
-			if( incremental ) {
+
+			if (incremental)
 				// remove the listener and the ontology to avoid memory leaks
 				reasoner.dispose();
-			}
-			
-			OWL.manager.removeOntology( debuggingOntology );
-			OWL.manager.removeOntologyChangeListener( defTracker );			
+
+			OWL.manager.removeOntology(debuggingOntology);
+			OWL.manager.removeOntologyChangeListener(defTracker);
 
 			return prunedExplanation;
-		} catch( OWLOntologyChangeException e ) {
-			throw new OWLRuntimeException( e );
+		}
+		catch (final OWLOntologyChangeException e)
+		{
+			throw new OWLRuntimeException(e);
 		}
 	}
-	
+
 	@Override
-	public PelletReasoner getReasoner() {
+	public PelletReasoner getReasoner()
+	{
 		return altReasonerEnabled ? altReasoner : (PelletReasoner) super.getReasoner();
 	}
-	
+
 	@Override
-	public PelletReasonerFactory getReasonerFactory() {
+	public PelletReasonerFactory getReasonerFactory()
+	{
 		return (PelletReasonerFactory) super.getReasonerFactory();
 	}
-	
-	public void dispose() {
-		getOntologyManager().removeOntologyChangeListener( getDefinitionTracker() );
-		if( altReasoner != null )
+
+	@Override
+	public void dispose()
+	{
+		getOntologyManager().removeOntologyChangeListener(getDefinitionTracker());
+		if (altReasoner != null)
 			altReasoner.dispose();
 	}
-	
-	public String toString() {
+
+	@Override
+	public String toString()
+	{
 		return "GlassBox";
 	}
 }

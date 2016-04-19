@@ -8,21 +8,18 @@ package com.clarkparsia.pellet.rules.model;
 
 import static java.util.Collections.singleton;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.rules.RulesToATermTranslator;
 import java.util.Collection;
 import java.util.Set;
-
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.rules.RulesToATermTranslator;
 
 /**
  * <p>
  * Title: Rule
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -30,81 +27,97 @@ import com.clarkparsia.pellet.rules.RulesToATermTranslator;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class Rule {
+ */
+public class Rule
+{
 
-	private ATermAppl name;
+	private final ATermAppl name;
 
-	private Collection<? extends RuleAtom>	body;
-	private Collection<? extends RuleAtom>	head;
-	
+	private final Collection<? extends RuleAtom> body;
+	private final Collection<? extends RuleAtom> head;
+
 	private Set<ATermAppl> explanation;
-	
-	public Rule( Collection<? extends RuleAtom> head, Collection<? extends RuleAtom> body ) {
-		this( head, body, null );
+
+	public Rule(final Collection<? extends RuleAtom> head, final Collection<? extends RuleAtom> body)
+	{
+		this(head, body, null);
 	}
-	
-	public Rule( Collection<? extends RuleAtom> head, Collection<? extends RuleAtom> body, Set<ATermAppl> explanation ) {
-		this( null, head, body, explanation );
+
+	public Rule(final Collection<? extends RuleAtom> head, final Collection<? extends RuleAtom> body, final Set<ATermAppl> explanation)
+	{
+		this(null, head, body, explanation);
 	}
-	
-	public Rule( ATermAppl name, Collection<? extends RuleAtom> head, Collection<? extends RuleAtom> body) {
-		this( name, head, body, null );
+
+	public Rule(final ATermAppl name, final Collection<? extends RuleAtom> head, final Collection<? extends RuleAtom> body)
+	{
+		this(name, head, body, null);
 	}
-		
-	public Rule( ATermAppl name, Collection<? extends RuleAtom> head, Collection<? extends RuleAtom> body, Set<ATermAppl> explanation ) {
-		this.name= name;
+
+	public Rule(final ATermAppl name, final Collection<? extends RuleAtom> head, final Collection<? extends RuleAtom> body, final Set<ATermAppl> explanation)
+	{
+		this.name = name;
 		this.body = body;
 		this.head = head;
 		this.explanation = explanation;
 	}
-	
-	public Set<ATermAppl> getExplanation(RulesToATermTranslator translator) {
-		if( explanation == null ) {
-			explanation = singleton( translator.translate( this ) );
-		}
+
+	public Set<ATermAppl> getExplanation(final RulesToATermTranslator translator)
+	{
+		if (explanation == null)
+			explanation = singleton(translator.translate(this));
 		return explanation;
 	}
-	
-	public boolean equals( Object other ) {
-		if ( other != null && getClass().equals( other.getClass() ) ) {
-			Rule rule = ( Rule ) other;
-			return getHead().equals( rule.getHead() ) && getBody().equals( rule.getBody() ) ; 
-				
+
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (other != null && getClass().equals(other.getClass()))
+		{
+			final Rule rule = (Rule) other;
+			return getHead().equals(rule.getHead()) && getBody().equals(rule.getBody());
+
 		}
 		return false;
 	}
 
-	public Collection<? extends RuleAtom> getBody() {
+	public Collection<? extends RuleAtom> getBody()
+	{
 		return body;
 	}
 
-	public Collection<? extends RuleAtom> getHead() {
+	public Collection<? extends RuleAtom> getHead()
+	{
 		return head;
 	}
-	
-	public ATermAppl getName() {
+
+	public ATermAppl getName()
+	{
 		return name;
 	}
-	
-	public int hashCode() {
+
+	@Override
+	public int hashCode()
+	{
 		return getBody().hashCode() + getHead().hashCode();
 	}
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(  "Rule(" );
-		if( name != null ) {
-			sb.append( ATermUtils.toString(name) );
-			sb.append( " " );
+	@Override
+	public String toString()
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append("Rule(");
+		if (name != null)
+		{
+			sb.append(ATermUtils.toString(name));
+			sb.append(" ");
 		}
-		sb.append( getBody() );
-		sb.append( " => " );
-		sb.append( getHead() );
-		sb.append( ")" );
-		
+		sb.append(getBody());
+		sb.append(" => ");
+		sb.append(getHead());
+		sb.append(")");
+
 		return sb.toString();
 	}
 }

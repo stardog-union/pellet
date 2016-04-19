@@ -6,9 +6,8 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-import org.mindswap.pellet.utils.URIUtils;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.utils.URIUtils;
 
 /**
  * <p>
@@ -23,21 +22,27 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class AtomIConstant extends AtomConstant implements AtomIObject{
+ */
+public class AtomIConstant extends AtomConstant implements AtomIObject
+{
 
-	public AtomIConstant(ATermAppl value) {
+	public AtomIConstant(final ATermAppl value)
+	{
 		super(value);
 	}
 
-	public void accept(AtomObjectVisitor visitor) {
-		visitor.visit( this );
+	@Override
+	public void accept(final AtomObjectVisitor visitor)
+	{
+		visitor.visit(this);
 	}
 
-	public String toString() {
-		return URIUtils.getLocalName( getValue().getName() );
+	@Override
+	public String toString()
+	{
+		return URIUtils.getLocalName(getValue().getName());
 	}
 
 }

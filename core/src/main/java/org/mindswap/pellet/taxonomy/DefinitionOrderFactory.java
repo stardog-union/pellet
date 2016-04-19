@@ -6,28 +6,26 @@
 
 package org.mindswap.pellet.taxonomy;
 
-import java.util.Comparator;
-import static org.mindswap.pellet.PelletOptions.OrderedClassification.*;
+import static org.mindswap.pellet.PelletOptions.OrderedClassification.DISABLED;
+import static org.mindswap.pellet.PelletOptions.OrderedClassification.ENABLED_LEGACY_ORDERING;
 
+import aterm.ATerm;
+import java.util.Comparator;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Comparators;
 
-import aterm.ATerm;
-
 /**
  * Creates a definition order based on the configuration options defined in {@link PelletOptions}.
- * 
+ *
  * @author Evren Sirin
  */
-public class DefinitionOrderFactory {
-	public static DefinitionOrder createDefinitionOrder(KnowledgeBase kb) {
-		Comparator<ATerm> comparator = PelletOptions.ORDERED_CLASSIFICATION != DISABLED
-			? Comparators.termComparator
-			: null;
-		
-		return PelletOptions.ORDERED_CLASSIFICATION == ENABLED_LEGACY_ORDERING
-			? new TaxonomyBasedDefinitionOrder( kb, comparator )
-			: new JGraphBasedDefinitionOrder( kb, comparator );
+public class DefinitionOrderFactory
+{
+	public static DefinitionOrder createDefinitionOrder(final KnowledgeBase kb)
+	{
+		final Comparator<ATerm> comparator = PelletOptions.ORDERED_CLASSIFICATION != DISABLED ? Comparators.termComparator : null;
+
+		return PelletOptions.ORDERED_CLASSIFICATION == ENABLED_LEGACY_ORDERING ? new TaxonomyBasedDefinitionOrder(kb, comparator) : new JGraphBasedDefinitionOrder(kb, comparator);
 	}
 }

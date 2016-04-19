@@ -21,10 +21,11 @@ import org.apache.jena.rdf.model.Resource;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public interface ManifestEngineProcessor {
+public interface ManifestEngineProcessor
+{
 
 	public void manifestStarted(final String manifestURI);
 

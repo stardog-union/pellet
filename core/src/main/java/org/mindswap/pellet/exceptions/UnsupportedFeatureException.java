@@ -22,15 +22,17 @@
 
 package org.mindswap.pellet.exceptions;
 
+public class UnsupportedFeatureException extends PelletRuntimeException
+{
+	private static final long serialVersionUID = 1660322365999927445L;
 
-public class UnsupportedFeatureException extends PelletRuntimeException {
-	private static final long	serialVersionUID	= 1660322365999927445L;
-
-	public UnsupportedFeatureException() {
+	public UnsupportedFeatureException()
+	{
 		super();
 	}
 
-	public UnsupportedFeatureException(String e) {
-		super( e );
+	public UnsupportedFeatureException(final String e)
+	{
+		super(e);
 	}
 }

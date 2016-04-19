@@ -11,21 +11,18 @@ package com.clarkparsia.pellet.el;
 import static com.clarkparsia.pellet.el.ELSyntaxUtils.isEL;
 import static com.clarkparsia.pellet.el.ELSyntaxUtils.simplify;
 
+import aterm.AFun;
+import aterm.ATermAppl;
+import aterm.ATermList;
+import com.clarkparsia.pellet.expressivity.Expressivity;
+import com.clarkparsia.pellet.expressivity.ProfileBasedExpressivityChecker;
 import java.util.Collection;
 import java.util.Iterator;
-
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.AFun;
-import aterm.ATermAppl;
-import aterm.ATermList;
-
-import com.clarkparsia.pellet.expressivity.Expressivity;
-import com.clarkparsia.pellet.expressivity.ProfileBasedExpressivityChecker;
 
 /**
  * <p>
@@ -40,40 +37,46 @@ import com.clarkparsia.pellet.expressivity.ProfileBasedExpressivityChecker;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class ELExpressivityChecker extends ProfileBasedExpressivityChecker {
+public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
+{
 
-	private Expressivity	m_Expressivity;
+	private Expressivity m_Expressivity;
 
-	public ELExpressivityChecker(KnowledgeBase kb) {
-		super( kb );
+	public ELExpressivityChecker(final KnowledgeBase kb)
+	{
+		super(kb);
 	}
 
 	@Override
-    public boolean compute(Expressivity expressivity) {
+	public boolean compute(final Expressivity expressivity)
+	{
 		m_Expressivity = expressivity;
 
-		if( !processIndividuals() )
+		if (!processIndividuals())
 			return false;
-		if( !processClasses() )
+		if (!processClasses())
 			return false;
-		if( !processRoles() )
+		if (!processRoles())
 			return false;
 		return true;
 	}
 
-	private boolean processIndividuals() {
-		IndividualIterator i = m_KB.getABox().getIndIterator();
-		while( i.hasNext() ) {
-			Individual ind = i.next();
-			ATermAppl nominal = ATermUtils.makeValue( ind.getName() );
-			for( ATermAppl term : ind.getTypes() ) {
-				if( term.equals( nominal ) )
+	private boolean processIndividuals()
+	{
+		final IndividualIterator i = m_KB.getABox().getIndIterator();
+		while (i.hasNext())
+		{
+			final Individual ind = i.next();
+			final ATermAppl nominal = ATermUtils.makeValue(ind.getName());
+			for (final ATermAppl term : ind.getTypes())
+			{
+				if (term.equals(nominal))
 					continue;
 
-				if( !isEL( term ) )
+				if (!isEL(term))
 					return false;
 			}
 		}
@@ -81,124 +84,126 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker {
 		return true;
 	}
 
-	private boolean processClasses() {
-		for( ATermAppl axiom : m_KB.getTBox().getAssertedAxioms() ) {
-			AFun fun = axiom.getAFun();
+	private boolean processClasses()
+	{
+		for (final ATermAppl axiom : m_KB.getTBox().getAssertedAxioms())
+		{
+			final AFun fun = axiom.getAFun();
 
-			if( fun.equals( ATermUtils.DISJOINTSFUN ) ) {
-				m_Expressivity.setHasDisjointClasses( true );
+			if (fun.equals(ATermUtils.DISJOINTSFUN))
+			{
+				m_Expressivity.setHasDisjointClasses(true);
 
-				ATermList args = (ATermList) axiom.getArgument( 0 );
-				for( ; !args.isEmpty(); args = args.getNext() ) {
-					if( !isEL( (ATermAppl) args.getFirst() ) ) {
+				ATermList args = (ATermList) axiom.getArgument(0);
+				for (; !args.isEmpty(); args = args.getNext())
+					if (!isEL((ATermAppl) args.getFirst()))
 						return false;
-					}
-				}
 			}
-			else {
-				ATermAppl sub = (ATermAppl) axiom.getArgument( 0 );
-				ATermAppl sup = (ATermAppl) axiom.getArgument( 1 );
+			else
+			{
+				final ATermAppl sub = (ATermAppl) axiom.getArgument(0);
+				final ATermAppl sup = (ATermAppl) axiom.getArgument(1);
 
-				if( !isEL( sub ) || !isEL( sup ) ) {
+				if (!isEL(sub) || !isEL(sup))
 					return false;
-				}
 
-				if( fun.equals( ATermUtils.SUBFUN ) ) {
-					if( ATermUtils.isBottom( simplify( sup ) ) ) {
-						m_Expressivity.setHasDisjointClasses( true );
+				if (fun.equals(ATermUtils.SUBFUN))
+				{
+					if (ATermUtils.isBottom(simplify(sup)))
+						m_Expressivity.setHasDisjointClasses(true);
+				}
+				else
+					if (fun.equals(ATermUtils.EQCLASSFUN))
+					{
+						if (ATermUtils.isBottom(simplify(sub)) || ATermUtils.isBottom(simplify(sup)))
+							m_Expressivity.setHasDisjointClasses(true);
 					}
-				}
-				else if( fun.equals( ATermUtils.EQCLASSFUN ) ) {
-					if( ATermUtils.isBottom( simplify( sub ) )
-							|| ATermUtils.isBottom( simplify( sup ) ) ) {
-						m_Expressivity.setHasDisjointClasses( true );
-					}
-				}
-				else if( fun.equals( ATermUtils.DISJOINTFUN ) ) {
-					m_Expressivity.setHasDisjointClasses( true );
-				}
-				else {
-					return false;
-				}
+					else
+						if (fun.equals(ATermUtils.DISJOINTFUN))
+							m_Expressivity.setHasDisjointClasses(true);
+						else
+							return false;
 			}
 		}
 
 		return true;
 	}
 
-	private boolean processRoles() {
-		Collection<Role> roles = m_KB.getRBox().getRoles();
+	private boolean processRoles()
+	{
+		final Collection<Role> roles = m_KB.getRBox().getRoles();
 
-		for( Role r : roles ) {
-			if( r.isBuiltin() )
+		for (final Role r : roles)
+		{
+			if (r.isBuiltin())
 				continue;
-			
-			if( r.isDatatypeRole() )
+
+			if (r.isDatatypeRole())
 				return false;
 
-			if( r.isAnon() ) {
-				for( Role subRole : r.getSubRoles() ) {
-					if( !subRole.isAnon() && !subRole.isBottom() )
+			if (r.isAnon())
+				for (final Role subRole : r.getSubRoles())
+					if (!subRole.isAnon() && !subRole.isBottom())
 						return false;
-				}
-			}
 
 			// InverseFunctionalProperty declaration may mean that a named
 			// property has an anonymous inverse property which is functional
 			// The following condition checks this case
-			if( r.isAnon() && r.isFunctional() )
+			if (r.isAnon() && r.isFunctional())
 				return false;
-			if( r.isFunctional() )
+			if (r.isFunctional())
 				return false;
-			if( r.isTransitive() )
-				m_Expressivity.setHasTransitivity( true );
-			if( r.isReflexive() )
-				m_Expressivity.setHasReflexivity( true );
-			if( r.isIrreflexive() )
+			if (r.isTransitive())
+				m_Expressivity.setHasTransitivity(true);
+			if (r.isReflexive())
+				m_Expressivity.setHasReflexivity(true);
+			if (r.isIrreflexive())
 				return false;
-			if( r.isAsymmetric() )
+			if (r.isAsymmetric())
 				return false;
-			if( !r.getDisjointRoles().isEmpty() )
+			if (!r.getDisjointRoles().isEmpty())
 				return false;
-			if( r.hasComplexSubRole() ) {
-				m_Expressivity.setHasComplexSubRoles( true );
-				
+			if (r.hasComplexSubRole())
+			{
+				m_Expressivity.setHasComplexSubRoles(true);
+
 				// if a property is named, all the properties in its subproperty chains should be named. since we have
 				// anonymous inverses automatically created, we can have chains with inverses. in this case all the
-				// properties in the chain should b einverse as well as the super property.  
-				boolean isInv = r.isAnon();
-				for (ATermList chain: r.getSubRoleChains()) {
-					for( ; !chain.isEmpty(); chain = chain.getNext()) {
-						if( ATermUtils.isInv((ATermAppl) chain.getFirst()) != isInv )
+				// properties in the chain should b einverse as well as the super property.
+				final boolean isInv = r.isAnon();
+				for (ATermList chain : r.getSubRoleChains())
+					for (; !chain.isEmpty(); chain = chain.getNext())
+						if (ATermUtils.isInv((ATermAppl) chain.getFirst()) != isInv)
 							return false;
-					}
-				}
 			}
 
 			// Each property has itself included in the subroles set. We need
 			// at least two properties in the set to conclude there is a role
 			// hierarchy defined in the ontology
-			if( r.getSubRoles().size() > 1 )
-				m_Expressivity.setHasRoleHierarchy( true );
+			if (r.getSubRoles().size() > 1)
+				m_Expressivity.setHasRoleHierarchy(true);
 		}
 
-		for( Role r : roles ) {
-			Iterator<ATermAppl> assertedDomains = m_KB.getRBox().getAssertedDomains(r);
-			while (assertedDomains.hasNext()) {
-				ATermAppl domain = assertedDomains.next();
-				if( !isEL( domain ) )
+		for (final Role r : roles)
+		{
+			final Iterator<ATermAppl> assertedDomains = m_KB.getRBox().getAssertedDomains(r);
+			while (assertedDomains.hasNext())
+			{
+				final ATermAppl domain = assertedDomains.next();
+				if (!isEL(domain))
 					return false;
 
-				m_Expressivity.setHasDomain( true );
+				m_Expressivity.setHasDomain(true);
 			}
-			
-			Iterator<ATermAppl> assertedRanges = m_KB.getRBox().getAssertedRanges(r);
-			while (assertedRanges.hasNext()) {
-				ATermAppl range = assertedRanges.next();
-				if( !isEL( range ) )
+
+			final Iterator<ATermAppl> assertedRanges = m_KB.getRBox().getAssertedRanges(r);
+			while (assertedRanges.hasNext())
+			{
+				final ATermAppl range = assertedRanges.next();
+				if (!isEL(range))
 					return false;
 
-				m_Expressivity.setHasDomain( true );
+				m_Expressivity.setHasDomain(true);
 			}
 		}
 
@@ -206,7 +211,8 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker {
 	}
 
 	@Override
-    public boolean updateWith(Expressivity expressivity, ATermAppl term) {
+	public boolean updateWith(final Expressivity expressivity, final ATermAppl term)
+	{
 		return false;
 	}
 }

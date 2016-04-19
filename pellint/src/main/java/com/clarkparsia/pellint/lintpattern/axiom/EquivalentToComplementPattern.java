@@ -7,24 +7,23 @@
 package com.clarkparsia.pellint.lintpattern.axiom;
 
 import com.clarkparsia.owlapi.OWL;
-
+import com.clarkparsia.pellint.format.CompactClassLintFormat;
+import com.clarkparsia.pellint.format.LintFormat;
+import com.clarkparsia.pellint.model.Lint;
+import com.clarkparsia.pellint.model.LintFixer;
 import java.util.Set;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLObjectComplementOf;
-import com.clarkparsia.pellint.format.CompactClassLintFormat;
-import com.clarkparsia.pellint.format.LintFormat;
-import com.clarkparsia.pellint.model.Lint;
-import com.clarkparsia.pellint.model.LintFixer;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -32,48 +31,60 @@ import com.clarkparsia.pellint.model.LintFixer;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class EquivalentToComplementPattern extends AxiomLintPattern {
+public class EquivalentToComplementPattern extends AxiomLintPattern
+{
 	private static final LintFormat DEFAULT_LINT_FORMAT = new CompactClassLintFormat();
-	
-	public String getName() {
+
+	@Override
+	public String getName()
+	{
 		return getClass().getSimpleName();
 	}
-	
-	public String getDescription() {
+
+	@Override
+	public String getDescription()
+	{
 		return "A named concept is equivalent to some complement";
 	}
 
-	public boolean isFixable() {
+	@Override
+	public boolean isFixable()
+	{
 		return true;
 	}
-	
-	public LintFormat getDefaultLintFormat() {
+
+	@Override
+	public LintFormat getDefaultLintFormat()
+	{
 		return DEFAULT_LINT_FORMAT;
 	}
 
-	public void visit(OWLEquivalentClassesAxiom axiom) {
-		Set<OWLClassExpression> owlDescs = axiom.getClassExpressions();
-		if (owlDescs.size() != 2) return;
-		
+	@Override
+	public void visit(final OWLEquivalentClassesAxiom axiom)
+	{
+		final Set<OWLClassExpression> owlDescs = axiom.getClassExpressions();
+		if (owlDescs.size() != 2)
+			return;
+
 		OWLClass namedClass = null;
 		OWLClassExpression complementOf = null;
-		for (OWLClassExpression owlDesc : owlDescs) {
-			if (!owlDesc.isAnonymous()) {
+		for (final OWLClassExpression owlDesc : owlDescs)
+			if (!owlDesc.isAnonymous())
 				namedClass = owlDesc.asOWLClass();
-			} else if (owlDesc instanceof OWLObjectComplementOf) {
-				complementOf = owlDesc;
-			}
-		}
-		
-		if (namedClass != null && complementOf != null) {
-			Lint lint = makeLint();
+			else
+				if (owlDesc instanceof OWLObjectComplementOf)
+					complementOf = owlDesc;
+
+		if (namedClass != null && complementOf != null)
+		{
+			final Lint lint = makeLint();
 			lint.addParticipatingClass(namedClass);
 			lint.addParticipatingAxiom(axiom);
-			OWLAxiom newAxiom = OWL.subClassOf(namedClass, complementOf);
-			LintFixer fixer = new LintFixer(axiom, newAxiom);
+			final OWLAxiom newAxiom = OWL.subClassOf(namedClass, complementOf);
+			final LintFixer fixer = new LintFixer(axiom, newAxiom);
 			lint.setLintFixer(fixer);
 			setLint(lint);
 		}

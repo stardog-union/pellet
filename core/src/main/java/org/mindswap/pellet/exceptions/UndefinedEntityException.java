@@ -20,15 +20,18 @@ package org.mindswap.pellet.exceptions;
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
  */
-public class UndefinedEntityException extends PelletRuntimeException {
+public class UndefinedEntityException extends PelletRuntimeException
+{
 
-	private static final long	serialVersionUID	= 6971431370937629622L;
+	private static final long serialVersionUID = 6971431370937629622L;
 
-	public UndefinedEntityException() {
+	public UndefinedEntityException()
+	{
 		super();
 	}
 
-	public UndefinedEntityException(String e) {
-		super( e );
+	public UndefinedEntityException(final String e)
+	{
+		super(e);
 	}
 }

@@ -6,125 +6,131 @@
 
 package com.clarkparsia.owlapi.explanation.io.manchester;
 
+import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Set;
-
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
 
-import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
-
 /**
- * An explanation renderer implementation that prints the axioms in the
- * explanation using Manchester syntax.
- * 
+ * An explanation renderer implementation that prints the axioms in the explanation using Manchester syntax.
+ *
  * @author Evren Sirin
  */
-public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer {
-	protected ManchesterSyntaxObjectRenderer	renderer;
+public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
+{
+	protected ManchesterSyntaxObjectRenderer renderer;
 
-	protected BlockWriter						writer;
+	protected BlockWriter writer;
 
-	protected OWLAxiom							currentAxiom;
+	protected OWLAxiom currentAxiom;
 
-	private boolean								wrapLines			= true;
+	private boolean wrapLines = true;
 
-	private boolean								smartIndent			= true;
+	private boolean smartIndent = true;
 
 	private int index;
 
-	public ManchesterSyntaxExplanationRenderer() {
+	public ManchesterSyntaxExplanationRenderer()
+	{
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void endRendering() {
+	@Override
+	public void endRendering()
+	{
 		writer.flush();
 	}
 
 	/**
-	 * Returns the current axioms being whose explanation is being rendered or
-	 * <code>null</code> if no axiom has been provided.
-	 * 
-	 * @return the current axioms being whose explanation is being rendered or
-	 *         <code>null</code> if no axiom has been provided
+	 * Returns the current axioms being whose explanation is being rendered or <code>null</code> if no axiom has been provided.
+	 *
+	 * @return the current axioms being whose explanation is being rendered or <code>null</code> if no axiom has been provided
 	 */
-	protected OWLAxiom getCurrentAxiom() {
+	protected OWLAxiom getCurrentAxiom()
+	{
 		return currentAxiom;
 	}
 
 	/**
 	 * Returns the current smart indent value.
-	 * 
+	 *
 	 * @return the current smart indent value
 	 */
-	public boolean isSmartIndent() {
+	public boolean isSmartIndent()
+	{
 		return smartIndent;
 	}
 
 	/**
 	 * Returns the current line wrapping value.
-	 * 
+	 *
 	 * @return the current line wrapping value
 	 */
-	public boolean isWrapLines() {
+	public boolean isWrapLines()
+	{
 		return wrapLines;
 	}
-	
+
 	/**
-	 * Render an explanation without the axiom header. This function is not guaranteed 
-	 * to be supported by the subclasses since an explanation renderer may rely on the
-	 * axiom being explained to reorder the axioms or find irrelevant bits.
-	 * 
+	 * Render an explanation without the axiom header. This function is not guaranteed to be supported by the subclasses since an explanation renderer may rely
+	 * on the axiom being explained to reorder the axioms or find irrelevant bits.
+	 *
 	 * @param explanations Set of explanations we are rendering
 	 * @throws OWLException
 	 * @throws IOException
 	 * @throws UnsupportedOperationException
 	 */
-	public void render(Set<Set<OWLAxiom>> explanations) throws OWLException,
-	IOException, UnsupportedOperationException {
-		render( (OWLAxiom) null, explanations );
+	public void render(final Set<Set<OWLAxiom>> explanations) throws OWLException, IOException, UnsupportedOperationException
+	{
+		render((OWLAxiom) null, explanations);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void render(OWLAxiom axiom, Set<Set<OWLAxiom>> explanations) throws OWLException,
-			IOException {
-		setCurrentAxiom( axiom );
-		
-		if (index == 1) {
-			if (axiom != null) {
+	@Override
+	public void render(final OWLAxiom axiom, final Set<Set<OWLAxiom>> explanations) throws OWLException, IOException
+	{
+		setCurrentAxiom(axiom);
+
+		if (index == 1)
+		{
+			if (axiom != null)
+			{
 				writer.print("Axiom: ");
 				axiom.accept(renderer);
 				writer.println();
 				writer.println();
 			}
-			if (explanations.isEmpty()) {
-				writer.println( "Explanation: AXIOM IS NOT ENTAILED!" );
+			if (explanations.isEmpty())
+			{
+				writer.println("Explanation: AXIOM IS NOT ENTAILED!");
 				return;
 			}
 			writer.println("Explanation(s): ");
 		}
 
-		String header = index++ + ")";
+		final String header = index++ + ")";
 		writer.print(header);
 		renderSingleExplanation(explanations.iterator().next());
 		writer.println();
 	}
-	
-	protected void renderSingleExplanation(Set<OWLAxiom> explanation) throws OWLException,
-			IOException {
+
+	protected void renderSingleExplanation(final Set<OWLAxiom> explanation)
+	{
 		writer.printSpace();
 		writer.printSpace();
 		writer.printSpace();
 
 		writer.startBlock();
 
-		for( OWLAxiom a : explanation ) {
-			a.accept( renderer );
+		for (final OWLAxiom a : explanation)
+		{
+			a.accept(renderer);
 			writer.println();
 		}
 
@@ -132,41 +138,42 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer 
 		writer.println();
 	}
 
-	protected void setCurrentAxiom(OWLAxiom currentAxiom) {
+	protected void setCurrentAxiom(final OWLAxiom currentAxiom)
+	{
 		this.currentAxiom = currentAxiom;
 	}
 
 	/**
-	 * Sets the smart indent option which will align the elements of
-	 * intersections and unions in columns when line wrapping is turned on.
-	 * 
-	 * @param smartIndent
-	 *            the smart indent value
+	 * Sets the smart indent option which will align the elements of intersections and unions in columns when line wrapping is turned on.
+	 *
+	 * @param smartIndent the smart indent value
 	 * @see #setWrapLines(boolean)
 	 */
-	public void setSmartIndent(boolean smartIndent) {
+	public void setSmartIndent(final boolean smartIndent)
+	{
 		this.smartIndent = smartIndent;
 	}
 
 	/**
-	 * Sets the line wrapping option which will print the elements of
-	 * intersections and unions into multiple lines.
-	 * 
-	 * @param wrapLines
-	 *            the line wrapping value
+	 * Sets the line wrapping option which will print the elements of intersections and unions into multiple lines.
+	 *
+	 * @param wrapLines the line wrapping value
 	 */
-	public void setWrapLines(boolean wrapLines) {
+	public void setWrapLines(final boolean wrapLines)
+	{
 		this.wrapLines = wrapLines;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void startRendering(Writer w) {
-		writer = new TextBlockWriter( w );
-		renderer = new ManchesterSyntaxObjectRenderer( this.writer );
-		renderer.setWrapLines( isWrapLines() );
-		renderer.setSmartIndent( isSmartIndent() );
+	@Override
+	public void startRendering(final Writer w)
+	{
+		writer = new TextBlockWriter(w);
+		renderer = new ManchesterSyntaxObjectRenderer(this.writer);
+		renderer.setWrapLines(isWrapLines());
+		renderer.setSmartIndent(isSmartIndent());
 		index = 1;
 	}
 }

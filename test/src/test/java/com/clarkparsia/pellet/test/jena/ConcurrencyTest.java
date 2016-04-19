@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.clarkparsia.pellet.test.jena;
 
@@ -24,12 +24,10 @@ import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 /**
- * Verifies that Pellet doesn't throw any exceptions when doing concurrent ABox
- * queries provided that classification and realization are down synchronously
+ * Verifies that Pellet doesn't throw any exceptions when doing concurrent ABox queries provided that classification and realization are down synchronously
  * before.
- * 
- * @author Pavel Klinov
  *
+ * @author Pavel Klinov
  */
 public class ConcurrencyTest
 {
@@ -53,22 +51,20 @@ public class ConcurrencyTest
 		System.err.println("Realizing the ontology");
 
 		((PelletInfGraph) ontModel.getGraph()).realize();
-		final BlockingQueue<Iterable<Individual>> toDo = new ArrayBlockingQueue<Iterable<Individual>>(2 * THREAD_NUMBER);
+		final BlockingQueue<Iterable<Individual>> toDo = new ArrayBlockingQueue<>(2 * THREAD_NUMBER);
 
 		// launching threads which will concurrently run type queries on instances
 		final ExecutorService pool = Executors.newFixedThreadPool(THREAD_NUMBER);
 
 		for (int i = 0; i < THREAD_NUMBER; i++)
-		{
 			pool.execute(new QueryRunner(ontModel, toDo));
-		}
 
 		// adding the individuals to the processing queue for the threads to process concurrently
 		final Iterator<Individual> individuals = ontModel.listIndividuals();
 
 		while (individuals.hasNext())
 		{
-			final List<Individual> batch = new ArrayList<Individual>(BATCH_SIZE);
+			final List<Individual> batch = new ArrayList<>(BATCH_SIZE);
 
 			for (int i = 0; i < BATCH_SIZE && individuals.hasNext(); i++)
 			{
@@ -78,22 +74,18 @@ public class ConcurrencyTest
 			}
 
 			if (!batch.isEmpty())
-			{
 				toDo.put(batch);
-			}
 		}
 
 		// letting the threads die...
 		for (int i = 0; i < THREAD_NUMBER; i++)
-		{
 			toDo.put(POISON);
-		}
 
 		pool.shutdown();
 		pool.awaitTermination(100, TimeUnit.SECONDS);
 	}
 
-	private OntModel loadOntologyModel(String ontologyPath) throws IOException
+	private OntModel loadOntologyModel(final String ontologyPath) throws IOException
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
@@ -112,7 +104,7 @@ public class ConcurrencyTest
 
 		private final BlockingQueue<Iterable<Individual>> toDo_;
 
-		QueryRunner(OntModel model, BlockingQueue<Iterable<Individual>> toDo)
+		QueryRunner(final OntModel model, final BlockingQueue<Iterable<Individual>> toDo)
 		{
 			model_ = model;
 			toDo_ = toDo;
@@ -135,14 +127,12 @@ public class ConcurrencyTest
 				}
 
 				if (batch == POISON)
-				{
 					// we're done
 					break;
-				}
 
 				for (final Individual ind : batch)
 				{
-					// querying for all object property values for each individual	
+					// querying for all object property values for each individual
 					Iterator<? extends Property> propertyIter = model_.listObjectProperties();
 
 					while (propertyIter.hasNext())
@@ -152,7 +142,7 @@ public class ConcurrencyTest
 						printIterator(ind.listPropertyValues(property), Thread.currentThread().getName() + ": " + ind.getLocalName() + " -- " + property.getLocalName() + " --> ");
 					}
 
-					// querying for all data property values for each individual	
+					// querying for all data property values for each individual
 					propertyIter = model_.listDatatypeProperties();
 
 					while (propertyIter.hasNext())
@@ -165,21 +155,17 @@ public class ConcurrencyTest
 			}
 		}
 
-		public void printIterator(Iterator<?> iterator, String threadId)
+		public void printIterator(final Iterator<?> iterator, final String threadId)
 		{
 			if (iterator.hasNext())
-			{
 				while (iterator.hasNext())
-				{
 					try
-					{
+			{
 						System.err.println(threadId + ": " + iterator.next());
-					}
-					catch (final ConversionException e)
-					{
-						// swallow, this is due to the lack of OWL 2 support
-					}
-				}
+			}
+			catch (final ConversionException e)
+			{
+				// swallow, this is due to the lack of OWL 2 support
 			}
 		}
 

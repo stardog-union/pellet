@@ -1,23 +1,19 @@
 package com.clarkparsia.pellet.datatypes.types.datetime;
 
+import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
-
-import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 
 /**
  * <p>
  * Title: <code>xsd:gDay</code>
  * </p>
  * <p>
- * Description: Singleton implementation of <code>xsd:gDay</code> datatype. This
- * implementation diverges from the XML Schema specification because
+ * Description: Singleton implementation of <code>xsd:gDay</code> datatype. This implementation diverges from the XML Schema specification because
  * <ol>
- * <li>the value space is disjoint from the value space of other timeline based
- * datatypes (e.g., xsd:dateTime)</li>
+ * <li>the value space is disjoint from the value space of other timeline based datatypes (e.g., xsd:dateTime)</li>
  * <li>values are treated as points, not as intervals</li>
  * </ol>
  * </p>
@@ -27,30 +23,36 @@ import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class XSDGDay extends AbstractTimelineDatatype {
+public class XSDGDay extends AbstractTimelineDatatype
+{
 
-	private static final XSDGDay	instance;
+	private static final XSDGDay instance;
 
-	static {
+	static
+	{
 		instance = new XSDGDay();
 	}
 
-	public static XSDGDay getInstance() {
+	public static XSDGDay getInstance()
+	{
 		return instance;
 	}
 
-	private final RestrictedTimelineDatatype	dataRange;
+	private final RestrictedTimelineDatatype dataRange;
 
-	private XSDGDay() {
-		super( ATermUtils.makeTermAppl( Namespaces.XSD + "gDay" ), DatatypeConstants.GDAY );
+	private XSDGDay()
+	{
+		super(ATermUtils.makeTermAppl(Namespaces.XSD + "gDay"), DatatypeConstants.GDAY);
 
-		dataRange = new RestrictedTimelineDatatype( this, DatatypeConstants.GDAY, false );
+		dataRange = new RestrictedTimelineDatatype(this, DatatypeConstants.GDAY, false);
 	}
 
-	public RestrictedDatatype<XMLGregorianCalendar> asDataRange() {
+	@Override
+	public RestrictedDatatype<XMLGregorianCalendar> asDataRange()
+	{
 		return dataRange;
 	}
 }

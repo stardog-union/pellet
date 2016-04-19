@@ -9,24 +9,29 @@ package org.mindswap.pellet.exceptions;
 /*
  * Superclass for all pellet-specific exceptions.
  */
-public class PelletRuntimeException extends RuntimeException {
+public class PelletRuntimeException extends RuntimeException
+{
 
-	private static final long	serialVersionUID	= 6095814026634083920L;
+	private static final long serialVersionUID = 6095814026634083920L;
 
-	public PelletRuntimeException() {
+	public PelletRuntimeException()
+	{
 		super();
 	}
 
-	public PelletRuntimeException(String s) {
-		super( s );
+	public PelletRuntimeException(final String s)
+	{
+		super(s);
 	}
 
-	public PelletRuntimeException(Throwable e) {
-		super( e );
+	public PelletRuntimeException(final Throwable e)
+	{
+		super(e);
 	}
 
-	public PelletRuntimeException(String msg, Throwable cause) {
-		super( msg, cause );
+	public PelletRuntimeException(final String msg, final Throwable cause)
+	{
+		super(msg, cause);
 	}
 
 }

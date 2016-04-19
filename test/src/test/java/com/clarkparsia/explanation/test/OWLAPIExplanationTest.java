@@ -56,7 +56,7 @@ import org.semanticweb.owlapi.model.SWRLRule;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 @RunWith(Parameterized.class)
@@ -84,7 +84,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 		return parameters;
 	}
 
-	public OWLAPIExplanationTest(boolean useGlassBox, boolean classify)
+	public OWLAPIExplanationTest(final boolean useGlassBox, final boolean classify)
 	{
 		super(classify);
 
@@ -104,7 +104,6 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 		super.after();
 
 		if (expGen != null)
-		{
 			if (useGlassBox)
 			{
 				final GlassBoxExplanation gbe = (GlassBoxExplanation) expGen.getSingleExplanationGenerator();
@@ -117,11 +116,10 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 				bbe.dispose();
 				reasoner.getManager().removeOntologyChangeListener(bbe.getDefinitionTracker());
 			}
-		}
 	}
 
 	@Override
-	public void setupGenerators(Collection<OWLAxiom> ontologyAxioms) throws Exception
+	public void setupGenerators(final Collection<OWLAxiom> ontologyAxioms) throws Exception
 	{
 		// USE_TRACING should be turned on for glass box explanation which is done by
 		// ExplanationTestSuite that calls this class. We don't set this value here to
@@ -160,7 +158,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 	}
 
 	@Override
-	public void testInconsistencyExplanations(int max, OWLAxiom[]... explanations) throws Exception
+	public void testInconsistencyExplanations(final int max, final OWLAxiom[]... explanations) throws Exception
 	{
 		assumeTrue(useGlassBox);
 
@@ -176,21 +174,21 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 		{
 			if (null == _representation) // Sort the axiom to get a easy common representation of this sub ontology.
 				_representation = _base.stream()//
-						.map(axiom ->
-						{	// Inside of the SWRLRule, the representation can vary because they are 'Set'.
-							// So test can pass on some java-vm but not on some other.
-							// The solution is to sort everything.
-							if (axiom instanceof SWRLRule)
-							{
-								final SWRLRule rule = (SWRLRule) axiom;
-								return "DLSafeRule( " + //
-										"Body(" + rule.body().map(SWRLAtom::toString).sorted().collect(Collectors.joining(" ")) + ") " + //
-										"Head(" + rule.head().map(SWRLAtom::toString).sorted().collect(Collectors.joining(" ")) + ") " + //
-										" )";//
-							}
-							return axiom.toString();
-						})//
-						.sorted().collect(Collectors.joining("\n"));
+				.map(axiom ->
+				{ // Inside of the SWRLRule, the representation can vary because they are 'Set'.
+					// So test can pass on some java-vm but not on some other.
+					// The solution is to sort everything.
+					if (axiom instanceof SWRLRule)
+					{
+						final SWRLRule rule = (SWRLRule) axiom;
+						return "DLSafeRule( " + //
+						"Body(" + rule.body().map(SWRLAtom::toString).sorted().collect(Collectors.joining(" ")) + ") " + //
+						"Head(" + rule.head().map(SWRLAtom::toString).sorted().collect(Collectors.joining(" ")) + ") " + //
+						" )";//
+					}
+					return axiom.toString();
+				})//
+				.sorted().collect(Collectors.joining("\n"));
 			return _representation;
 		}
 

@@ -6,27 +6,32 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
+import aterm.ATermAppl;
 import java.util.Collection;
 
-import aterm.ATermAppl;
-
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2007
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Petr Kremen
  */
-public interface Core extends QueryAtom {
+public interface Core extends QueryAtom
+{
 
 	public abstract Collection<ATermAppl> getConstants();
 
 	public abstract Collection<ATermAppl> getDistVars();
 
 	public abstract Collection<ATermAppl> getUndistVars();
-	
+
 }

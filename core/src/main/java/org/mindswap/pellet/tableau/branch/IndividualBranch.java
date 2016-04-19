@@ -36,17 +36,20 @@ import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.tableau.completion.CompletionStrategy;
 
-
-public abstract class IndividualBranch extends Branch {
+public abstract class IndividualBranch extends Branch
+{
 	protected Individual ind;
-	
-	protected IndividualBranch(ABox abox, CompletionStrategy strategy, Individual x, DependencySet ds, int n) {
+
+	protected IndividualBranch(final ABox abox, final CompletionStrategy strategy, final Individual x, final DependencySet ds, final int n)
+	{
 		super(abox, strategy, ds, n);
-		
+
 		ind = x;
 	}
-	
-	public Node getNode() {
+
+	@Override
+	public Node getNode()
+	{
 		return ind;
 	}
 }

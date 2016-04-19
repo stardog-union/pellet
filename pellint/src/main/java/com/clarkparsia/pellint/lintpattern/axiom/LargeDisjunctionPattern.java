@@ -33,7 +33,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
 public class LargeDisjunctionPattern extends AxiomLintPattern
@@ -72,36 +72,36 @@ public class LargeDisjunctionPattern extends AxiomLintPattern
 		return DEFAULT_LINT_FORMAT;
 	}
 
-	public void setMaxAllowed(int value)
+	public void setMaxAllowed(final int value)
 	{
 		m_MaxAllowed = value;
 	}
 
 	@Override
-	public void visit(OWLDisjointClassesAxiom axiom)
+	public void visit(final OWLDisjointClassesAxiom axiom)
 	{
 		visitNaryClassAxiom(axiom);
 	}
 
 	@Override
-	public void visit(OWLDisjointUnionAxiom axiom)
+	public void visit(final OWLDisjointUnionAxiom axiom)
 	{
 		visitNaryClassAxiom(axiom);
 	}
 
 	@Override
-	public void visit(OWLEquivalentClassesAxiom axiom)
+	public void visit(final OWLEquivalentClassesAxiom axiom)
 	{
 		visitNaryClassAxiom(axiom);
 	}
 
 	@Override
-	public void visit(OWLSubClassOfAxiom axiom)
+	public void visit(final OWLSubClassOfAxiom axiom)
 	{
 		visitNaryClassAxiom(axiom);
 	}
 
-	private void visitNaryClassAxiom(OWLClassAxiom axiom)
+	private void visitNaryClassAxiom(final OWLClassAxiom axiom)
 	{
 		m_Visitor.reset();
 		axiom.accept(m_Visitor);
@@ -131,13 +131,11 @@ class DisjunctionSizeCollector extends OWLDeepEntityVisitorAdapter
 	}
 
 	@Override
-	public Collection<OWLEntity> visit(OWLObjectUnionOf union)
+	public Collection<OWLEntity> visit(final OWLObjectUnionOf union)
 	{
 		final int size = union.getOperands().size();
 		if (size > m_Size)
-		{
 			m_Size = size;
-		}
 		return super.visit(union);
 	}
 }

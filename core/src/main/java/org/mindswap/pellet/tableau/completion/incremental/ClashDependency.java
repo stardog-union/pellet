@@ -6,92 +6,86 @@
 
 package org.mindswap.pellet.tableau.completion.incremental;
 
-
-import org.mindswap.pellet.Clash;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.Clash;
 
 /**
  * A clash dependency.
- * 
- * @author Christian Halaschek-Wiener
  *
+ * @author Christian Halaschek-Wiener
  */
-public class ClashDependency implements Dependency{
+public class ClashDependency implements Dependency
+{
 
 	/**
 	 * The assertion
 	 */
-	private ATermAppl assertion;
-	
-	
+	private final ATermAppl assertion;
+
 	/**
 	 * The clash
 	 */
-	private Clash clash;
-	
+	private final Clash clash;
+
 	/**
 	 * Constructor
+	 * 
 	 * @param assertion
 	 * @param clash
 	 */
-	public ClashDependency(ATermAppl assertion, Clash clash){
+	public ClashDependency(final ATermAppl assertion, final Clash clash)
+	{
 		this.assertion = assertion;
 		this.clash = clash;
 	}
 
-
-	
-	
 	/**
 	 * ToString method
 	 */
-	public String toString(){
+	@Override
+	public String toString()
+	{
 		return "Clash [" + assertion + "]  - [" + clash + "]";
 	}
-	
-	
-	
+
 	/**
 	 * Equals method
 	 */
-	public boolean equals(Object other){
-		if(other instanceof ClashDependency){
-			return this.assertion.equals(((ClashDependency)other).assertion) && this.clash.getNode().equals(((ClashDependency)other).clash.getNode()) && this.clash.getType() == ((ClashDependency)other).clash.getType() && this.clash.getDepends().equals(((ClashDependency)other).clash.getDepends());	
-		}else
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (other instanceof ClashDependency)
+			return this.assertion.equals(((ClashDependency) other).assertion) && this.clash.getNode().equals(((ClashDependency) other).clash.getNode()) && this.clash.getType() == ((ClashDependency) other).clash.getType() && this.clash.getDepends().equals(((ClashDependency) other).clash.getDepends());
+		else
 			return false;
 	}
-	
-	
+
 	/**
-	 * Hashcode method
-	 * TODO: this may not be sufficient
+	 * Hashcode method TODO: this may not be sufficient
 	 */
-	public int hashCode(){ 
-		return this.clash.getType().hashCode()+ this.clash.getDepends().hashCode() + this.clash.getNode().hashCode() + this.assertion.hashCode(); 
+	@Override
+	public int hashCode()
+	{
+		return this.clash.getType().hashCode() + this.clash.getDepends().hashCode() + this.clash.getNode().hashCode() + this.assertion.hashCode();
 	}
-
-
-
 
 	/**
 	 * Get the assertion
-	 *  
-	 * @return
-	 */
-	protected ATermAppl getAssertion() {
-		return assertion;
-	}
-
-
-
-
-	/**
-	 * Get the clash
 	 * 
 	 * @return
 	 */
-	public Clash getClash() {
+	protected ATermAppl getAssertion()
+	{
+		return assertion;
+	}
+
+	/**
+	 * Get the clash
+	 *
+	 * @return
+	 */
+	public Clash getClash()
+	{
 		return clash;
 	}
 

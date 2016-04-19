@@ -12,21 +12,25 @@ import org.mindswap.pellet.tbox.impl.TBoxExpImpl;
 import org.mindswap.pellet.tbox.impl.TBoxImpl;
 
 /**
- * 
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2007
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class TBoxFactory {
-	public static TBox createTBox( KnowledgeBase kb ) {
-		return PelletOptions.USE_LEGACY_TBOX 
-			? new TBoxExpImpl( kb )
-			: new TBoxImpl( kb );
+public class TBoxFactory
+{
+	public static TBox createTBox(final KnowledgeBase kb)
+	{
+		return PelletOptions.USE_LEGACY_TBOX ? new TBoxExpImpl(kb) : new TBoxImpl(kb);
 	}
 }

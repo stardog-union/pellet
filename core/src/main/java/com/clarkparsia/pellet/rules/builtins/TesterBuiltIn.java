@@ -6,26 +6,23 @@
 
 package com.clarkparsia.pellet.rules.builtins;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import org.mindswap.pellet.ABox;
-import org.mindswap.pellet.Literal;
-
 import com.clarkparsia.pellet.rules.BindingHelper;
 import com.clarkparsia.pellet.rules.VariableBinding;
 import com.clarkparsia.pellet.rules.VariableUtils;
 import com.clarkparsia.pellet.rules.model.AtomDObject;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
+import java.util.Collection;
+import java.util.Collections;
+import org.mindswap.pellet.ABox;
+import org.mindswap.pellet.Literal;
 
 /**
  * <p>
  * Title: Test Built-In
  * </p>
  * <p>
- * Description: An implementation of BuiltInFunction for
- * Tests.
+ * Description: An implementation of BuiltInFunction for Tests.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -33,65 +30,81 @@ import com.clarkparsia.pellet.rules.model.BuiltInAtom;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class TesterBuiltIn implements BuiltIn {
-	
-	private class TestHelper implements BindingHelper {
-		
-		private BuiltInAtom atom;
+ */
+public class TesterBuiltIn implements BuiltIn
+{
+
+	private class TestHelper implements BindingHelper
+	{
+
+		private final BuiltInAtom atom;
 		private boolean result;
-		
-		
-		public TestHelper( BuiltInAtom atom ) {
+
+		public TestHelper(final BuiltInAtom atom)
+		{
 			this.atom = atom;
 			result = false;
 		}
-		
-		public Collection<? extends AtomVariable> getBindableVars( Collection<AtomVariable> bound ) {
+
+		@Override
+		public Collection<? extends AtomVariable> getBindableVars(final Collection<AtomVariable> bound)
+		{
 			return Collections.emptySet();
 		}
 
-		public Collection<? extends AtomVariable> getPrerequisiteVars( Collection<AtomVariable> bound ) {
-			return VariableUtils.getVars( atom );
+		@Override
+		public Collection<? extends AtomVariable> getPrerequisiteVars(final Collection<AtomVariable> bound)
+		{
+			return VariableUtils.getVars(atom);
 		}
 
-		public void rebind(VariableBinding newBinding) {
-			Literal[] arguments = new Literal[ atom.getAllArguments().size() ];
+		@Override
+		public void rebind(final VariableBinding newBinding)
+		{
+			final Literal[] arguments = new Literal[atom.getAllArguments().size()];
 			int i = 0;
-			for ( AtomDObject obj : atom.getAllArguments() ) {
-				arguments[i++] = newBinding.get( obj );
-			}
-			result = test.test( arguments );
+			for (final AtomDObject obj : atom.getAllArguments())
+				arguments[i++] = newBinding.get(obj);
+			result = test.test(arguments);
 		}
 
-		public boolean selectNextBinding() {
-			if ( result ) {
+		@Override
+		public boolean selectNextBinding()
+		{
+			if (result)
+			{
 				result = false;
 				return true;
 			}
 			return false;
 		}
 
-		public void setCurrentBinding(VariableBinding currentBinding) {
+		@Override
+		public void setCurrentBinding(final VariableBinding currentBinding)
+		{
 			// Nothing to do.
 		}
-		
+
 	}
-	
-	private Tester test;
-	
-	public TesterBuiltIn( Tester test ) {
+
+	private final Tester test;
+
+	public TesterBuiltIn(final Tester test)
+	{
 		this.test = test;
-	}
-	
-	public BindingHelper createHelper( BuiltInAtom atom ) {
-		return new TestHelper( atom );
 	}
 
 	@Override
-	public boolean apply(ABox abox, Literal[] args) {
-	    return test.test(args);
+	public BindingHelper createHelper(final BuiltInAtom atom)
+	{
+		return new TestHelper(atom);
+	}
+
+	@Override
+	public boolean apply(final ABox abox, final Literal[] args)
+	{
+		return test.test(args);
 	}
 }

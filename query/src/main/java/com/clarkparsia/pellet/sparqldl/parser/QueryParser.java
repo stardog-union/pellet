@@ -6,18 +6,16 @@
 
 package com.clarkparsia.pellet.sparqldl.parser;
 
-import java.io.InputStream;
-
-import org.mindswap.pellet.KnowledgeBase;
-
 import com.clarkparsia.pellet.sparqldl.model.Query;
+import java.io.InputStream;
+import org.mindswap.pellet.KnowledgeBase;
 
 /**
  * <p>
  * Title: SPARQL-DL Query Parser Interface
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -25,10 +23,11 @@ import com.clarkparsia.pellet.sparqldl.model.Query;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public interface QueryParser {
+public interface QueryParser
+{
 
 	public Query parse(final String queryString, KnowledgeBase kb);
 

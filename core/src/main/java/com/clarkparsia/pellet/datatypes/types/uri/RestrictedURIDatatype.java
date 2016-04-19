@@ -1,18 +1,15 @@
 package com.clarkparsia.pellet.datatypes.types.uri;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.datatypes.Datatype;
+import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
+import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.datatypes.Datatype;
-import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
-import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetException;
 
 /**
  * <p>
@@ -27,97 +24,119 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetExcep
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class RestrictedURIDatatype implements RestrictedDatatype<ATermAppl> {
-	private final Datatype<ATermAppl>	dt;
+public class RestrictedURIDatatype implements RestrictedDatatype<ATermAppl>
+{
+	private final Datatype<ATermAppl> dt;
 	private final Set<Object> excludedValues;
 
-	public RestrictedURIDatatype(Datatype<ATermAppl> dt) {
+	public RestrictedURIDatatype(final Datatype<ATermAppl> dt)
+	{
 		this(dt, Collections.emptySet());
 	}
-	
-	private RestrictedURIDatatype(Datatype<ATermAppl> dt, Set<Object> excludedValues) {
+
+	private RestrictedURIDatatype(final Datatype<ATermAppl> dt, final Set<Object> excludedValues)
+	{
 		this.dt = dt;
 		this.excludedValues = excludedValues;
 	}
 
-	public RestrictedDatatype<ATermAppl> applyConstrainingFacet(ATermAppl facet, Object value)
-			throws InvalidConstrainingFacetException {
+	@Override
+	public RestrictedDatatype<ATermAppl> applyConstrainingFacet(final ATermAppl facet, final Object value) throws InvalidConstrainingFacetException
+	{
 		// TODO: support facets
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean contains(Object value) {
-		if( value instanceof ATermAppl ) {
+	@Override
+	public boolean contains(final Object value)
+	{
+		if (value instanceof ATermAppl)
+		{
 			final ATermAppl a = (ATermAppl) value;
 
-			if (excludedValues.contains(a)) {
+			if (excludedValues.contains(a))
 				return false;
-			}
 
-			if( ATermUtils.isLiteral( a )
-					&& XSDAnyURI.NAME.equals( a.getArgument( ATermUtils.LIT_URI_INDEX ) ) ) {
+			if (ATermUtils.isLiteral(a) && XSDAnyURI.NAME.equals(a.getArgument(ATermUtils.LIT_URI_INDEX)))
 				return true;
-			}
 		}
 		return false;
 	}
 
-	public boolean containsAtLeast(int n) {
+	@Override
+	public boolean containsAtLeast(final int n)
+	{
 		return true;
 	}
 
-	public RestrictedDatatype<ATermAppl> exclude(Collection<?> values) {
-		Set<Object> newExcludedValues = new HashSet<Object>(values);
+	@Override
+	public RestrictedDatatype<ATermAppl> exclude(final Collection<?> values)
+	{
+		final Set<Object> newExcludedValues = new HashSet<>(values);
 		newExcludedValues.addAll(excludedValues);
 		return new RestrictedURIDatatype(dt, newExcludedValues);
 	}
 
-	public Datatype<? extends ATermAppl> getDatatype() {
+	@Override
+	public Datatype<? extends ATermAppl> getDatatype()
+	{
 		return dt;
 	}
 
-	public ATermAppl getValue(int i) {
+	@Override
+	public ATermAppl getValue(final int i)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public RestrictedDatatype<ATermAppl> intersect(RestrictedDatatype<?> other, boolean negated) {
-		if( other instanceof RestrictedURIDatatype ) {
+	@Override
+	public RestrictedDatatype<ATermAppl> intersect(final RestrictedDatatype<?> other, final boolean negated)
+	{
+		if (other instanceof RestrictedURIDatatype)
 			return this;
-		}
-        else {
-	        throw new IllegalArgumentException();
-        }
+		else
+			throw new IllegalArgumentException();
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return false;
 	}
 
-	public boolean isEnumerable() {
+	@Override
+	public boolean isEnumerable()
+	{
 		return false;
 	}
 
-	public boolean isFinite() {
+	@Override
+	public boolean isFinite()
+	{
 		return false;
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		throw new IllegalStateException();
 	}
 
-	public RestrictedDatatype<ATermAppl> union(RestrictedDatatype<?> other) {
-		if( other instanceof RestrictedURIDatatype ) {
+	@Override
+	public RestrictedDatatype<ATermAppl> union(final RestrictedDatatype<?> other)
+	{
+		if (other instanceof RestrictedURIDatatype)
 			return this;
-		}
-        else {
-	        throw new IllegalArgumentException();
-        }
+		else
+			throw new IllegalArgumentException();
 	}
 
-	public Iterator<ATermAppl> valueIterator() {
+	@Override
+	public Iterator<ATermAppl> valueIterator()
+	{
 		throw new IllegalStateException();
 	}
 

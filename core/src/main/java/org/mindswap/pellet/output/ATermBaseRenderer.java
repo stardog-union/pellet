@@ -30,47 +30,53 @@
 
 package org.mindswap.pellet.output;
 
+import aterm.ATermAppl;
 import java.io.PrintWriter;
 import java.io.Writer;
-
 import org.mindswap.pellet.utils.URIUtils;
 
-import aterm.ATermAppl;
-
 /**
- * Base implementation of renderer interface to ease the implementation for different output
- * formats.
- * 
+ * Base implementation of renderer interface to ease the implementation for different output formats.
+ *
  * @author Evren Sirin
  */
-public abstract class ATermBaseRenderer extends ATermBaseVisitor implements ATermRenderer {
-    PrintWriter out;
+public abstract class ATermBaseRenderer extends ATermBaseVisitor implements ATermRenderer
+{
+	PrintWriter out;
 
-    /* (non-Javadoc)
-     * @see org.mindswap.pellet.utils.ATermRenderer#setWriter(org.mindswap.pellet.utils.OutputFormatter)
-     */
-    public void setWriter(PrintWriter out) {
-        this.out = out;
-    }
+	/* (non-Javadoc)
+	 * @see org.mindswap.pellet.utils.ATermRenderer#setWriter(org.mindswap.pellet.utils.OutputFormatter)
+	 */
+	@Override
+	public void setWriter(final PrintWriter out)
+	{
+		this.out = out;
+	}
 
-    /* (non-Javadoc)
-     * @see org.mindswap.pellet.utils.ATermRenderer#getWriter()
-     */
-    public PrintWriter getWriter() {
-        return out;
-    }
+	/* (non-Javadoc)
+	 * @see org.mindswap.pellet.utils.ATermRenderer#getWriter()
+	 */
+	@Override
+	public PrintWriter getWriter()
+	{
+		return out;
+	}
 
-    /* (non-Javadoc)
-     * @see org.mindswap.pellet.utils.ATermRenderer#setWriter(java.io.Writer)
-     */
-    public void setWriter(Writer out) {
-        this.out = new PrintWriter(out);
-    }
+	/* (non-Javadoc)
+	 * @see org.mindswap.pellet.utils.ATermRenderer#setWriter(java.io.Writer)
+	 */
+	@Override
+	public void setWriter(final Writer out)
+	{
+		this.out = new PrintWriter(out);
+	}
 
-    /* (non-Javadoc)
-     * @see org.mindswap.pellet.utils.ATermVisitor#visitTerm(aterm.ATermAppl)
-     */
-    public void visitTerm(ATermAppl term) {
-		out.print( URIUtils.getLocalName( term.getName() ));
-    }
+	/* (non-Javadoc)
+	 * @see org.mindswap.pellet.utils.ATermVisitor#visitTerm(aterm.ATermAppl)
+	 */
+	@Override
+	public void visitTerm(final ATermAppl term)
+	{
+		out.print(URIUtils.getLocalName(term.getName()));
+	}
 }

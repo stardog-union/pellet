@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,60 +35,59 @@ import org.mindswap.pellet.utils.Comparators;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
 @RunWith(Parameterized.class)
-public class SWRLTestSuite {
+public class SWRLTestSuite
+{
 	public static final String base = PelletTestSuite.base + "swrl-test/";
-	
-	private static List<File> IGNORE = Arrays.asList(
-		new File (base + "equalities/Manifest002.rdf")
-	);
 
-	@Parameters(name= "{0}")
-	public static List<Object[]> getParameters() {
-		List<Object[]> parameters = new ArrayList<Object[]>();
+	private static List<File> IGNORE = Arrays.asList(new File(base + "equalities/Manifest002.rdf"));
 
-		WebOntTest test = new WebOntTest();
+	@Parameters(name = "{0}")
+	public static List<Object[]> getParameters()
+	{
+		final List<Object[]> parameters = new ArrayList<>();
+
+		final WebOntTest test = new WebOntTest();
 		test.setAvoidFailTests(true);
 		test.setBase("http://owldl.com/ontologies/swrl/tests/", "file:" + base);
 		test.setShowStats(WebOntTest.NO_STATS);
 
-		File testDir = new File(base);
-		File[] dirs = testDir.listFiles();
-		
-		Arrays.sort( dirs, Comparators.stringComparator );
-		
+		final File testDir = new File(base);
+		final File[] dirs = testDir.listFiles();
+
+		Arrays.sort(dirs, Comparators.stringComparator);
+
 		System.out.println(Arrays.toString(dirs));
-		for (int i = 0; i < dirs.length; i++) {
-			System.out.println(dirs[i].getAbsolutePath());
-			if(dirs[i].isFile()) continue;
-		
-			File[] files = dirs[i].listFiles(new FileFilter() {
-				public boolean accept(File file) {
-					return file.getName().indexOf("Manifest") != -1;
-				}
-			});
+		for (final File dir : dirs)
+		{
+			System.out.println(dir.getAbsolutePath());
+			if (dir.isFile())
+				continue;
+
+			final File[] files = dir.listFiles((FileFilter) file -> file.getName().indexOf("Manifest") != -1);
 			Arrays.sort(files, AlphaNumericComparator.CASE_INSENSITIVE);
-			
-			for (int j = 0; j < files.length; j++) {
-				if( !IGNORE.contains( files[j] ) )
-					parameters.add(new Object[] { new WebOntTestCase(test, files[j], "swrl-" + dirs[i].getName()+"-"+files[j].getName())});
-			}
+
+			for (int j = 0; j < files.length; j++)
+				if (!IGNORE.contains(files[j]))
+					parameters.add(new Object[] { new WebOntTestCase(test, files[j], "swrl-" + dir.getName() + "-" + files[j].getName()) });
 		}
-		
+
 		return parameters;
 	}
 
 	private final WebOntTestCase test;
 
-	public SWRLTestSuite(WebOntTestCase test) {
+	public SWRLTestSuite(final WebOntTestCase test)
+	{
 		this.test = test;
 	}
 
 	@Test
-	public void run() throws IOException {
+	public void run() throws IOException
+	{
 		test.runTest();
 	}
 }

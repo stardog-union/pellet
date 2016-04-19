@@ -30,23 +30,28 @@
 
 package org.mindswap.pellet.exceptions;
 
-public class InternalReasonerException extends PelletRuntimeException {
-	private static final long	serialVersionUID	= 90692698762371513L;
+public class InternalReasonerException extends PelletRuntimeException
+{
+	private static final long serialVersionUID = 90692698762371513L;
 
-	public InternalReasonerException() {
+	public InternalReasonerException()
+	{
 		super();
 	}
 
-	public InternalReasonerException(String e) {
-		super( e );
+	public InternalReasonerException(final String e)
+	{
+		super(e);
 	}
 
-	public InternalReasonerException(Throwable e) {
-		super( e );
+	public InternalReasonerException(final Throwable e)
+	{
+		super(e);
 	}
 
-	public InternalReasonerException(String msg, Throwable cause) {
-		super( msg, cause );
+	public InternalReasonerException(final String msg, final Throwable cause)
+	{
+		super(msg, cause);
 	}
 
 }

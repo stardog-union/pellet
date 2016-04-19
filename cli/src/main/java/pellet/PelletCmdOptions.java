@@ -28,53 +28,60 @@ import java.util.Set;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class PelletCmdOptions {
+public class PelletCmdOptions
+{
 
-	private Map<String, PelletCmdOption>	options;
-	private Map<String, PelletCmdOption>	shortOptions;
-	private Set<PelletCmdOption>			mandatory;
+	private final Map<String, PelletCmdOption> options;
+	private final Map<String, PelletCmdOption> shortOptions;
+	private final Set<PelletCmdOption> mandatory;
 
-	public PelletCmdOptions() {
-		options = new LinkedHashMap<String, PelletCmdOption>();
-		shortOptions = new HashMap<String, PelletCmdOption>();
-		mandatory = new HashSet<PelletCmdOption>();
+	public PelletCmdOptions()
+	{
+		options = new LinkedHashMap<>();
+		shortOptions = new HashMap<>();
+		mandatory = new HashSet<>();
 	}
 
-	public void add(PelletCmdOption option) {
-		String shortOption = option.getShortOption();
-		String longOption = option.getLongOption();
+	public void add(final PelletCmdOption option)
+	{
+		final String shortOption = option.getShortOption();
+		final String longOption = option.getLongOption();
 
-		if( options.containsKey( longOption ) )
-			throw new PelletCmdException( "Duplicate long option for command: " + longOption );
-		else if( shortOption != null && shortOptions.containsKey( shortOption ) )
-			throw new PelletCmdException( "Duplicate short option for command: " + shortOption );
+		if (options.containsKey(longOption))
+			throw new PelletCmdException("Duplicate long option for command: " + longOption);
+		else
+			if (shortOption != null && shortOptions.containsKey(shortOption))
+				throw new PelletCmdException("Duplicate short option for command: " + shortOption);
 
-		shortOptions.put( shortOption, option );
-		options.put( longOption, option );
+		shortOptions.put(shortOption, option);
+		options.put(longOption, option);
 
-		if( option.isMandatory() )
-			mandatory.add( option );
+		if (option.isMandatory())
+			mandatory.add(option);
 	}
 
-	public PelletCmdOption getOption(String key) {
+	public PelletCmdOption getOption(final String key)
+	{
 		// If key is short option then this matches
-		PelletCmdOption option = shortOptions.get( key );
+		PelletCmdOption option = shortOptions.get(key);
 
 		// Else, key is long option, retrieve its short option
-		if( option == null )
-			option = options.get( key );
+		if (option == null)
+			option = options.get(key);
 
 		return option;
 	}
 
-	public Set<PelletCmdOption> getMandatoryOptions() {
+	public Set<PelletCmdOption> getMandatoryOptions()
+	{
 		return mandatory;
 	}
 
-	public Collection<PelletCmdOption> getOptions() {
+	public Collection<PelletCmdOption> getOptions()
+	{
 		return options.values();
 	}
 }

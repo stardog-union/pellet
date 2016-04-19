@@ -19,10 +19,11 @@ package org.mindswap.pellet.utils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public enum KBOperation {
+public enum KBOperation
+{
 	IS_DIRECT_TYPE, // TODO
 	IS_TYPE, // if realized trivial, oth. 1 sat (more frq
 	// than hpv, but less than sc)
@@ -52,7 +53,7 @@ public enum KBOperation {
 	IS_INVERSE_OF, IS_SYMMETRIC_PROPERTY, GET_INVERSES, // triv.
 
 	IS_ASYMMETRIC_PROPERTY, IS_REFLEXIVE_PROPERTY, IS_IRREFLEXIVE_PROPERTY,
-	
+
 	// TODO complexity get instances
 	GET_DIRECT_INSTANCES, // TODO
 	GET_INSTANCES, // if realized triv, otherwise binary
@@ -72,9 +73,9 @@ public enum KBOperation {
 	GET_OBJECT_PROPERTIES, GET_DATATYPE_PROPERTIES, // triv.
 
 	GET_FUNCTIONAL_PROPERTIES, GET_INVERSE_FUNCTIONAL_PROPERTIES, GET_TRANSITIVE_PROPERTIES, GET_SYMMETRIC_PROPERTIES, // triv.
-	
+
 	GET_ASYMMETRIC_PROPERTIES, GET_REFLEXIVE_PROPERTIES, GET_IRREFLEXIVE_PROPERTIES,
-	
+
 	// -
 	// not
 	// complete

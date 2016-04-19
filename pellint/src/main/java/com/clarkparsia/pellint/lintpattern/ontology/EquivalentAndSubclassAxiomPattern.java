@@ -7,7 +7,11 @@
 package com.clarkparsia.pellint.lintpattern.ontology;
 
 import com.clarkparsia.owlapi.OWL;
-
+import com.clarkparsia.pellint.format.CompactClassLintFormat;
+import com.clarkparsia.pellint.format.LintFormat;
+import com.clarkparsia.pellint.model.Lint;
+import com.clarkparsia.pellint.model.LintFixer;
+import com.clarkparsia.pellint.util.OWLUtil;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,18 +22,13 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
-import com.clarkparsia.pellint.format.CompactClassLintFormat;
-import com.clarkparsia.pellint.format.LintFormat;
-import com.clarkparsia.pellint.model.Lint;
-import com.clarkparsia.pellint.model.LintFixer;
-import com.clarkparsia.pellint.util.OWLUtil;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -37,69 +36,85 @@ import com.clarkparsia.pellint.util.OWLUtil;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class EquivalentAndSubclassAxiomPattern implements OntologyLintPattern {
+public class EquivalentAndSubclassAxiomPattern implements OntologyLintPattern
+{
 	private static final LintFormat DEFAULT_LINT_FORMAT = new CompactClassLintFormat();
-	
-	public String getName() {
+
+	@Override
+	public String getName()
+	{
 		return getClass().getSimpleName();
 	}
-	
-	public String getDescription() {
+
+	@Override
+	public String getDescription()
+	{
 		return "A named concept appears in equivalent axiom(s) and on the left-hand side of a subclass axiom";
 	}
 
-	public boolean isFixable() {
+	@Override
+	public boolean isFixable()
+	{
 		return true;
 	}
-	
-	public LintFormat getDefaultLintFormat() {
+
+	@Override
+	public LintFormat getDefaultLintFormat()
+	{
 		return DEFAULT_LINT_FORMAT;
 	}
 
-	public List<Lint> match(OWLOntology ontology) {
-		List<Lint> allLints = new ArrayList<Lint>();
-		for (OWLClass owlClass : ontology.getClassesInSignature()) {
-			Set<OWLEquivalentClassesAxiom> equivalents = ontology.getEquivalentClassesAxioms(owlClass);
-			Set<OWLSubClassOfAxiom> subclasses = ontology.getSubClassAxiomsForSubClass(owlClass);
-			
-			Set<OWLEquivalentClassesAxiom> badEquivalents = new HashSet<OWLEquivalentClassesAxiom>();
-			for (OWLEquivalentClassesAxiom equivalent : equivalents) {
-				for (OWLClassExpression desc : equivalent.getClassExpressions()) {
-					if (OWLUtil.isComplex(desc)) {
+	@Override
+	public List<Lint> match(final OWLOntology ontology)
+	{
+		final List<Lint> allLints = new ArrayList<Lint>();
+		for (final OWLClass owlClass : ontology.getClassesInSignature())
+		{
+			final Set<OWLEquivalentClassesAxiom> equivalents = ontology.getEquivalentClassesAxioms(owlClass);
+			final Set<OWLSubClassOfAxiom> subclasses = ontology.getSubClassAxiomsForSubClass(owlClass);
+
+			final Set<OWLEquivalentClassesAxiom> badEquivalents = new HashSet<OWLEquivalentClassesAxiom>();
+			for (final OWLEquivalentClassesAxiom equivalent : equivalents)
+				for (final OWLClassExpression desc : equivalent.getClassExpressions())
+					if (OWLUtil.isComplex(desc))
+					{
 						badEquivalents.add(equivalent);
 						break;
 					}
-				}
-			}
-			
-			if (badEquivalents.isEmpty()) continue;
-			if (badEquivalents.size() == 1 && subclasses.isEmpty()) continue;
-			
-			Lint lint = new Lint(this, ontology);
+
+			if (badEquivalents.isEmpty())
+				continue;
+			if (badEquivalents.size() == 1 && subclasses.isEmpty())
+				continue;
+
+			final Lint lint = new Lint(this, ontology);
 			lint.addParticipatingClass(owlClass);
 			lint.addAllParticipatingAxioms(badEquivalents);
 			lint.addAllParticipatingAxioms(subclasses);
-			Set<OWLClassAxiom> fixedAxioms = fixEquivalentAxioms(owlClass, badEquivalents);
-			LintFixer fixer = new LintFixer(badEquivalents, fixedAxioms);
+			final Set<OWLClassAxiom> fixedAxioms = fixEquivalentAxioms(owlClass, badEquivalents);
+			final LintFixer fixer = new LintFixer(badEquivalents, fixedAxioms);
 			lint.setLintFixer(fixer);
 			allLints.add(lint);
 		}
-		
+
 		return allLints;
 	}
-	
-	private static Set<OWLClassAxiom> fixEquivalentAxioms(OWLClass classToFix, Set<OWLEquivalentClassesAxiom> axioms) {
-		Set<OWLClassAxiom> fixes = new HashSet<OWLClassAxiom>();
-		for (OWLEquivalentClassesAxiom axiom : axioms) {
-			Set<OWLClassExpression> descs = new HashSet<OWLClassExpression>(axiom.getClassExpressions());
+
+	private static Set<OWLClassAxiom> fixEquivalentAxioms(final OWLClass classToFix, final Set<OWLEquivalentClassesAxiom> axioms)
+	{
+		final Set<OWLClassAxiom> fixes = new HashSet<OWLClassAxiom>();
+		for (final OWLEquivalentClassesAxiom axiom : axioms)
+		{
+			final Set<OWLClassExpression> descs = new HashSet<OWLClassExpression>(axiom.getClassExpressions());
 			descs.remove(classToFix);
-			
-			if (descs.size() == 1) {
+
+			if (descs.size() == 1)
 				fixes.add(OWL.subClassOf(classToFix, descs.iterator().next()));
-			} else {
+			else
+			{
 				fixes.add(OWL.equivalentClasses(descs));
 				fixes.add(OWL.subClassOf(classToFix, OWL.and(descs)));
 			}

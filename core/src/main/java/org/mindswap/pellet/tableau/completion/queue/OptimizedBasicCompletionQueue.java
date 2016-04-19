@@ -17,7 +17,7 @@
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Christian Halaschek-Wiener
  */
 
@@ -49,8 +49,8 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	 */
 	protected Set<ATermAppl>[] newQueue;
 
-	//TODO: This will be refactored; however currently there are some unit tests which will not 	
-	//terminate due to the order in which the completion rules are applied to individuals 
+	//TODO: This will be refactored; however currently there are some unit tests which will not
+	//terminate due to the order in which the completion rules are applied to individuals
 	//ont the queue. An example of this is MiscTests.testIFDP3() - in this example,
 	//if the LiteralRule is applied to the individual "b" first, then an infinite number
 	//of non-deterministic choices are created...talk to Evren about this.
@@ -82,11 +82,11 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 	/**
 	 * Constructor - create queue
-	 * 
+	 *
 	 * @param abox
 	 */
 	@SuppressWarnings("unchecked")
-	public OptimizedBasicCompletionQueue(ABox abox)
+	public OptimizedBasicCompletionQueue(final ABox abox)
 	{
 		super(abox);
 		final int nSelectors = NodeSelector.numSelectors();
@@ -100,9 +100,9 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 		for (int i = 0; i < nSelectors; i++)
 		{
-			queue[i] = new ArrayList<ATermAppl>();
-			newQueue[i] = new HashSet<ATermAppl>();
-			newQueueList[i] = new ArrayList<ATermAppl>();
+			queue[i] = new ArrayList<>();
+			newQueue[i] = new HashSet<>();
+			newQueueList[i] = new ArrayList<>();
 
 			current[i] = 0;
 			cutOff[i] = 0;
@@ -114,11 +114,11 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 	/**
 	 * Find the next individual in a given queue
-	 * 
+	 *
 	 * @param type
 	 */
 	@Override
-	protected void findNext(int type)
+	protected void findNext(final int type)
 	{
 		for (; current[type] < cutOff[type]; current[type]++)
 		{
@@ -138,7 +138,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 	/**
 	 * Test if there is another element on the queue to process
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -151,11 +151,11 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 	/**
 	 * Reset the queue to be the current nodes in the abox; Also reset the type index to 0
-	 * 
+	 *
 	 * @param branch
 	 */
 	@Override
-	public void restore(int branch)
+	public void restore(final int branch)
 	{
 		for (int i = 0; i < NodeSelector.numSelectors(); i++)
 		{
@@ -171,7 +171,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 	/**
 	 * Get the next element of a queue of a given type
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -188,7 +188,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 	/**
 	 * Get the next element of a queue of a given type
-	 * 
+	 *
 	 * @param type
 	 * @return
 	 */
@@ -204,7 +204,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	@Override
-	public void add(QueueElement x, NodeSelector s)
+	public void add(final QueueElement x, final NodeSelector s)
 	{
 		final int type = s.ordinal();
 		if (!newQueue[type].contains(x.getNode()))
@@ -215,25 +215,23 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	@Override
-	public void add(QueueElement x)
+	public void add(final QueueElement x)
 	{
 		for (int i = 0; i < NodeSelector.numSelectors(); i++)
-		{
 			if (!newQueue[i].contains(x.getNode()))
 			{
 				newQueue[i].add(x.getNode());
 				newQueueList[i].add(x.getNode());
 			}
-		}
 	}
 
 	/**
 	 * Reset the cutoff for a given type index
-	 * 
+	 *
 	 * @param type
 	 */
 	@Override
-	public void reset(NodeSelector s)
+	public void reset(final NodeSelector s)
 	{
 		currentType = s.ordinal();
 		cutOff[currentType] = end[currentType];
@@ -242,18 +240,18 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 	/**
 	 * Set branch pointers to current pointer. This is done whenever abox.incrementBranch is called
-	 * 
+	 *
 	 * @param branch
 	 */
 	@Override
-	public void incrementBranch(int branch)
+	public void incrementBranch(final int branch)
 	{
 		return;
 	}
 
 	/**
 	 * Copy the queue
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
@@ -263,9 +261,9 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 		for (int i = 0; i < NodeSelector.numSelectors(); i++)
 		{
-			copy.queue[i] = new ArrayList<ATermAppl>(this.queue[i]);
-			copy.newQueue[i] = new HashSet<ATermAppl>(this.newQueue[i]);
-			copy.newQueueList[i] = new ArrayList<ATermAppl>(this.newQueueList[i]);
+			copy.queue[i] = new ArrayList<>(this.queue[i]);
+			copy.newQueue[i] = new HashSet<>(this.newQueue[i]);
+			copy.newQueueList[i] = new ArrayList<>(this.newQueueList[i]);
 
 			copy.current[i] = this.current[i];
 			copy.cutOff[i] = this.cutOff[i];
@@ -280,30 +278,30 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 		//		for(int i = 0; i < branchEffects.size(); i++){
 		//			HashSet<ATermAppl> cp = new HashSet<ATermAppl>();
 		//			cp.addAll((Set<ATermAppl>)branchEffects.get(i));
-		//			copy.branchEffects.add(cp);		
+		//			copy.branchEffects.add(cp);
 		//		}
-		//		
+		//
 		return copy;
 	}
 
 	/**
 	 * Set the abox for the queue
-	 * 
+	 *
 	 * @param ab
 	 */
 	@Override
-	public void setABox(ABox ab)
+	public void setABox(final ABox ab)
 	{
 		this.abox = ab;
 	}
 
 	/**
 	 * Print method for a given queue type
-	 * 
+	 *
 	 * @param type
 	 */
 	@Override
-	public void print(int type)
+	public void print(final int type)
 	{
 		if (type > NodeSelector.numSelectors())
 			return;
@@ -312,7 +310,6 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 	/**
 	 * Print method for entire queue
-	 *
 	 */
 	@Override
 	public void print()
@@ -337,17 +334,11 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 		{
 
 			if (!backtracked && !closed)
-			{
 				queue[i].clear();
-			}
 			else
-			{
 				if (closed)
-				{
 					if (!abox.isClosed())
 						closed = false;
-				}
-			}
 
 			queue[i].addAll(newQueueList[i]);
 
@@ -361,15 +352,13 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	@Override
-	protected void flushQueue(NodeSelector s)
+	protected void flushQueue(final NodeSelector s)
 	{
 
 		final int index = s.ordinal();
 
 		if (index == NodeSelector.UNIVERSAL.ordinal() || !backtracked)
-		{
 			queue[index].clear();
-		}
 
 		queue[index].addAll(newQueueList[index]);
 
@@ -380,7 +369,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	@Override
-	public void clearQueue(NodeSelector s)
+	public void clearQueue(final NodeSelector s)
 	{
 
 		final int index = s.ordinal();

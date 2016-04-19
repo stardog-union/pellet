@@ -10,10 +10,6 @@ package com.clarkparsia.pellet.test.query;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-import org.mindswap.pellet.PelletOptions;
-import org.mindswap.pellet.jena.PelletReasonerFactory;
-
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
 import org.apache.jena.ontology.Individual;
@@ -34,6 +30,9 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.junit.Test;
+import org.mindswap.pellet.PelletOptions;
+import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 /**
  * <p>
@@ -48,306 +47,296 @@ import org.apache.jena.vocabulary.RDFS;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class TestSingleSPARQLDLQueries {
-	private final String	NS	= "http://example.org#";
+public class TestSingleSPARQLDLQueries
+{
+	private final String NS = "http://example.org#";
+
 	@Test
-	public void testVariableSPO1() {
+	public void testVariableSPO1()
+	{
 		// Handle variable SPO pattern. This query is executed by ARQ (fall back
 		// from SPARQL-DL)
 
-		String q = "SELECT * WHERE { ?s ?p ?o }";
+		final String q = "SELECT * WHERE { ?s ?p ?o }";
 
-		Resource s = ResourceFactory.createResource( NS + "i" );
-		Property p = RDF.type;
-		Resource o = ResourceFactory.createResource( NS + "C" );
+		final Resource s = ResourceFactory.createResource(NS + "i");
+		final Property p = RDF.type;
+		final Resource o = ResourceFactory.createResource(NS + "C");
 
-		Model model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.add( s, p, o );
+		final Model model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.add(s, p, o);
 
-		Query query = QueryFactory.create( q );
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, model );
+		final Query query = QueryFactory.create(q);
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, model);
 
-		ResultSet rs = qe.execSelect();
-		ResultSetFormatter.consume( rs );
+		final ResultSet rs = qe.execSelect();
+		ResultSetFormatter.consume(rs);
 
-		assertEquals( model.listStatements().toList().size(), rs.getRowNumber() );
+		assertEquals(model.listStatements().toList().size(), rs.getRowNumber());
 	}
 
 	@Test
-	public void testVariableSPO2() {
+	public void testVariableSPO2()
+	{
 		// Handle variable SPO pattern. This query is executed by ARQ (fall back
 		// from SPARQL-DL)
 
-		String q = "SELECT * WHERE { ?s ?p ?o }";
+		final String q = "SELECT * WHERE { ?s ?p ?o }";
 
-		Resource s = ResourceFactory.createResource( NS + "i" );
-		Property p = ResourceFactory.createProperty( NS + "p" );
-		Resource o = ResourceFactory.createResource( NS + "C" );
+		final Resource s = ResourceFactory.createResource(NS + "i");
+		final Property p = ResourceFactory.createProperty(NS + "p");
+		final Resource o = ResourceFactory.createResource(NS + "C");
 
-		Model model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.add( s, p, o );
+		final Model model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.add(s, p, o);
 
-		Query query = QueryFactory.create( q );
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, model );
+		final Query query = QueryFactory.create(q);
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, model);
 
-		ResultSet rs = qe.execSelect();
-		ResultSetFormatter.consume( rs );
+		final ResultSet rs = qe.execSelect();
+		ResultSetFormatter.consume(rs);
 
-		assertEquals( model.listStatements().toList().size(), rs.getRowNumber() );
+		assertEquals(model.listStatements().toList().size(), rs.getRowNumber());
 	}
 
 	@Test
-	public void testVariableSPO3() {
+	public void testVariableSPO3()
+	{
 		// Handle variable SPO pattern. No fall back here
 
-		String q = "PREFIX owl: <http://www.w3.org/2002/07/owl#> "
-				+ "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " + "PREFIX ex: <"
-				+ NS + "> " + "SELECT * WHERE { ?s ?p ?o . ?p rdf:type owl:ObjectProperty }";
+		final String q = "PREFIX owl: <http://www.w3.org/2002/07/owl#> " + "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " + "PREFIX ex: <" + NS + "> " + "SELECT * WHERE { ?s ?p ?o . ?p rdf:type owl:ObjectProperty }";
 
-		Resource s = ResourceFactory.createResource( NS + "i" );
-		Property p = ResourceFactory.createProperty( NS + "p" );
-		Resource o = ResourceFactory.createResource( NS + "j" );
+		final Resource s = ResourceFactory.createResource(NS + "i");
+		final Property p = ResourceFactory.createProperty(NS + "p");
+		final Resource o = ResourceFactory.createResource(NS + "j");
 
-		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.add( s, p, o );
-		model.add( p, RDF.type, OWL.ObjectProperty );
+		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.add(s, p, o);
+		model.add(p, RDF.type, OWL.ObjectProperty);
 
-		Query query = QueryFactory.create( q );
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, model );
+		final Query query = QueryFactory.create(q);
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, model);
 
-		ResultSet rs = qe.execSelect();
-		ResultSetFormatter.consume( rs );
+		final ResultSet rs = qe.execSelect();
+		ResultSetFormatter.consume(rs);
 
-		assertEquals( 1, rs.getRowNumber() );
+		assertEquals(1, rs.getRowNumber());
 	}
 
 	@Test
-	public void testVariableSPO4() {
+	public void testVariableSPO4()
+	{
 		// Don't handle variable SPO pattern in the query. The result set size
 		// is incomplete.
 
-		String q = "SELECT * WHERE { ?s ?p ?o }";
+		final String q = "SELECT * WHERE { ?s ?p ?o }";
 
-		Resource s = ResourceFactory.createResource( NS + "i" );
-		Property p = ResourceFactory.createProperty( NS + "p" );
-		Resource o = ResourceFactory.createResource( NS + "C" );
+		final Resource s = ResourceFactory.createResource(NS + "i");
+		final Property p = ResourceFactory.createProperty(NS + "p");
+		final Resource o = ResourceFactory.createResource(NS + "C");
 
-		Model model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.add( s, p, o );
+		final Model model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.add(s, p, o);
 
-		Query query = QueryFactory.create( q );
-		QueryExecution qe = SparqlDLExecutionFactory.create( 
-				query, DatasetFactory.create( model ), null, QueryEngineType.PELLET, false );
+		final Query query = QueryFactory.create(q);
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, DatasetFactory.create(model), null, QueryEngineType.PELLET, false);
 
-		ResultSet rs = qe.execSelect();
-		ResultSetFormatter.consume( rs );
+		final ResultSet rs = qe.execSelect();
+		ResultSetFormatter.consume(rs);
 
-		assertEquals( 1, rs.getRowNumber() );
+		assertEquals(1, rs.getRowNumber());
 	}
 
 	@Test
-	public void testDAWG1() {
-		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( "file:test/data/sparql-dawg-tests/data-r2/basic/data-1.ttl", "N3" );
+	public void testDAWG1()
+	{
+		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.read("file:test/data/sparql-dawg-tests/data-r2/basic/data-1.ttl", "N3");
 
-		Query query = QueryFactory
-				.read( "file:test/data/sparql-dawg-tests/data-r2/basic/base-prefix-1.rq" );
+		final Query query = QueryFactory.read("file:test/data/sparql-dawg-tests/data-r2/basic/base-prefix-1.rq");
 
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, model );
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, model);
 
-		ResultSet rs = qe.execSelect();
+		final ResultSet rs = qe.execSelect();
 		//ResultSetFormatter.out( rs );
-		ResultSetFormatter.consume( rs );
-		
+		ResultSetFormatter.consume(rs);
+
 		// Type, sameAs, one entry for each property assertion
-		assertEquals( 1 + 1 + 2, rs.getRowNumber() );
+		assertEquals(1 + 1 + 2, rs.getRowNumber());
 	}
 
 	@Test
-	public void testDAWG2() {
+	public void testDAWG2()
+	{
 		// Query PREFIX : <http://example/> SELECT * { ?s ?p ?o }
 		// The same as testDAWG3 but here we handle the variable SPO pattern
 		// with the SPARQL-DL engine, i.e. we fall back to ARQ as the SPARQL-DL
 		// engine cannot handle it. The result set size is 20 because the
 		// PelletInfGraph contains all inferred triples.
 
-		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( "file:test/data/sparql-dawg-tests/data-r2/graph/data-g1.ttl", "N3" );
+		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.read("file:test/data/sparql-dawg-tests/data-r2/graph/data-g1.ttl", "N3");
 
-		Query query = QueryFactory
-				.read( "file:test/data/sparql-dawg-tests/data-r2/graph/graph-01.rq" );
+		final Query query = QueryFactory.read("file:test/data/sparql-dawg-tests/data-r2/graph/graph-01.rq");
 
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, model );
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, model);
 
-		ResultSet rs = qe.execSelect();
-		ResultSetFormatter.consume( rs );
+		final ResultSet rs = qe.execSelect();
+		ResultSetFormatter.consume(rs);
 
-		assertEquals( model.listStatements().toList().size(), rs.getRowNumber() );
+		assertEquals(model.listStatements().toList().size(), rs.getRowNumber());
 	}
 
 	@Test
-	public void testDAWG3() {
+	public void testDAWG3()
+	{
 		// Query PREFIX : <http://example/> SELECT * { ?s ?p ?o }
 		// The same as testDAWG2 but this time we don't handle the variable SPO
 		// pattern, i.e. we handle the pattern as a property value
 
-		OntModel model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( "file:test/data/sparql-dawg-tests/data-r2/graph/data-g1.ttl", "N3" );
+		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.read("file:test/data/sparql-dawg-tests/data-r2/graph/data-g1.ttl", "N3");
 
-		Query query = QueryFactory
-				.read( "file:test/data/sparql-dawg-tests/data-r2/graph/graph-01.rq" );
+		final Query query = QueryFactory.read("file:test/data/sparql-dawg-tests/data-r2/graph/graph-01.rq");
 
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, 
-				DatasetFactory.create( model ), null, QueryEngineType.MIXED, false );
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, DatasetFactory.create(model), null, QueryEngineType.MIXED, false);
 
-		ResultSet rs = qe.execSelect();
-		ResultSetFormatter.consume( rs );
+		final ResultSet rs = qe.execSelect();
+		ResultSetFormatter.consume(rs);
 
-		assertEquals( 2, rs.getRowNumber() );
+		assertEquals(2, rs.getRowNumber());
 	}
 
 	@Test
-	public void testDAWG4() {
-		Model model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.read( "file:test/data/sparql-dawg-tests/data-r2/optional-filter/data-1.ttl", "N3" );
+	public void testDAWG4()
+	{
+		final Model model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.read("file:test/data/sparql-dawg-tests/data-r2/optional-filter/data-1.ttl", "N3");
 
-		Query query = QueryFactory
-				.read( "file:test/data/sparql-dawg-tests/data-r2/optional-filter/expr-5.rq" );
+		final Query query = QueryFactory.read("file:test/data/sparql-dawg-tests/data-r2/optional-filter/expr-5.rq");
 
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, model );
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, model);
 
-		ResultSet rs = qe.execSelect();
-		ResultSetFormatter.consume( rs );
+		final ResultSet rs = qe.execSelect();
+		ResultSetFormatter.consume(rs);
 
-		assertEquals( 3, rs.getRowNumber() );
+		assertEquals(3, rs.getRowNumber());
 	}
-	
+
 	@Test
-	public void testUnsupportedBuiltin() {
-		OntModel ontmodel = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
+	public void testUnsupportedBuiltin()
+	{
+		final OntModel ontmodel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		String nc = "urn:test:";
+		final String nc = "urn:test:";
 
-		OntClass class1 = ontmodel.createClass( nc + "C1" );
-		
-		Individual[] inds = new Individual[6];
-		for( int j = 0; j < 6; j++ ) {
-			inds[j] = ontmodel.createIndividual( nc + "Ind" + j, OWL.Thing );
-		}
-		
-		ontmodel.add( class1, RDFS.subClassOf, ontmodel.createEnumeratedClass( null, ontmodel.createList( inds ) ) );
-		
-		Query query = QueryFactory.create( "PREFIX rdf:<" + RDF.getURI() + ">\n" +
-				"SELECT * WHERE {\n" +
-				"  ?x rdf:first ?y .\n" +
-				"}" );
-		QueryExecution qe = SparqlDLExecutionFactory.create( query, ontmodel );
-		
-		ResultSet rs = qe.execSelect();
-		ResultSetFormatter.consume( rs );
-		
-		assertEquals( 6, rs.getRowNumber() );
-		
-		
+		final OntClass class1 = ontmodel.createClass(nc + "C1");
+
+		final Individual[] inds = new Individual[6];
+		for (int j = 0; j < 6; j++)
+			inds[j] = ontmodel.createIndividual(nc + "Ind" + j, OWL.Thing);
+
+		ontmodel.add(class1, RDFS.subClassOf, ontmodel.createEnumeratedClass(null, ontmodel.createList(inds)));
+
+		final Query query = QueryFactory.create("PREFIX rdf:<" + RDF.getURI() + ">\n" + "SELECT * WHERE {\n" + "  ?x rdf:first ?y .\n" + "}");
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, ontmodel);
+
+		final ResultSet rs = qe.execSelect();
+		ResultSetFormatter.consume(rs);
+
+		assertEquals(6, rs.getRowNumber());
+
 	}
-	
+
 	@Test
-	public void testAnnotationQueryWithClassesAndProperties() {
+	public void testAnnotationQueryWithClassesAndProperties()
+	{
 		PelletOptions.USE_ANNOTATION_SUPPORT = true;
-		
-		Resource class1 = ResourceFactory.createResource( NS + "class1" );
-		Property property1 = ResourceFactory.createProperty( NS + "property1");
-		Literal literal1 = ResourceFactory.createPlainLiteral("Annotation 1");
 
-		Model model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.add( class1, RDF.type, OWL.Class );
-		model.add( class1, RDFS.label, literal1 );
-		model.add( property1, RDF.type, RDF.Property );
-		model.add( property1, RDFS.label, literal1 );
-		
+		final Resource class1 = ResourceFactory.createResource(NS + "class1");
+		final Property property1 = ResourceFactory.createProperty(NS + "property1");
+		final Literal literal1 = ResourceFactory.createPlainLiteral("Annotation 1");
+
+		final Model model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.add(class1, RDF.type, OWL.Class);
+		model.add(class1, RDFS.label, literal1);
+		model.add(property1, RDF.type, RDF.Property);
+		model.add(property1, RDFS.label, literal1);
+
 		String q;
 		Query query;
 		QueryExecution qe;
 		ResultSet rs;
-	
-		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" +
-		"SELECT * WHERE { ?x rdfs:label ?y }";
-		query = QueryFactory.create( q );
-		qe = SparqlDLExecutionFactory.createPelletExecution( query, model  );
-		rs = qe.execSelect();
-		assertEquals( 2, ResultSetFormatter.consume(rs) );
-		
-		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" +
-		"PREFIX ex:<" + NS + ">\n" +
-		"SELECT * WHERE { ex:property1 rdfs:label ?y }";
-		query = QueryFactory.create( q );
-		qe = SparqlDLExecutionFactory.createPelletExecution( query, model  );
-		rs = qe.execSelect();
-		assertEquals( 1, ResultSetFormatter.consume(rs) );
-		
-		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" +
-		"PREFIX ex:<" + NS + ">\n" +
-		"SELECT * WHERE { ?x rdfs:label \"Annotation 1\" }";
-		query = QueryFactory.create( q );
-		qe = SparqlDLExecutionFactory.createPelletExecution( query, model  );
-		rs = qe.execSelect();
-		assertEquals( 2, ResultSetFormatter.consume(rs) );
-	}
-	
-	@Test
-	public void testAnnotationQueryWithGroundAtoms() {
-		PelletOptions.USE_ANNOTATION_SUPPORT = true;
-		
-		Resource class1 = ResourceFactory.createResource( NS + "class1" );
-		Literal literal1 = ResourceFactory.createPlainLiteral("Annotation 1");
 
-		Model model = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-		model.add( class1, RDF.type, OWL.Class );
-		model.add( class1, RDFS.label, literal1 );
-		
+		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" + "SELECT * WHERE { ?x rdfs:label ?y }";
+		query = QueryFactory.create(q);
+		qe = SparqlDLExecutionFactory.createPelletExecution(query, model);
+		rs = qe.execSelect();
+		assertEquals(2, ResultSetFormatter.consume(rs));
+
+		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" + "PREFIX ex:<" + NS + ">\n" + "SELECT * WHERE { ex:property1 rdfs:label ?y }";
+		query = QueryFactory.create(q);
+		qe = SparqlDLExecutionFactory.createPelletExecution(query, model);
+		rs = qe.execSelect();
+		assertEquals(1, ResultSetFormatter.consume(rs));
+
+		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" + "PREFIX ex:<" + NS + ">\n" + "SELECT * WHERE { ?x rdfs:label \"Annotation 1\" }";
+		query = QueryFactory.create(q);
+		qe = SparqlDLExecutionFactory.createPelletExecution(query, model);
+		rs = qe.execSelect();
+		assertEquals(2, ResultSetFormatter.consume(rs));
+	}
+
+	@Test
+	public void testAnnotationQueryWithGroundAtoms()
+	{
+		PelletOptions.USE_ANNOTATION_SUPPORT = true;
+
+		final Resource class1 = ResourceFactory.createResource(NS + "class1");
+		final Literal literal1 = ResourceFactory.createPlainLiteral("Annotation 1");
+
+		final Model model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		model.add(class1, RDF.type, OWL.Class);
+		model.add(class1, RDFS.label, literal1);
+
 		String q;
 		Query query;
 		QueryExecution qe;
 		ResultSet rs;
-		
-		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" +
-		"SELECT * WHERE { ?x rdfs:label ?y }";
-		query = QueryFactory.create( q );
-		qe = SparqlDLExecutionFactory.createPelletExecution( query, model  );
+
+		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" + "SELECT * WHERE { ?x rdfs:label ?y }";
+		query = QueryFactory.create(q);
+		qe = SparqlDLExecutionFactory.createPelletExecution(query, model);
 		rs = qe.execSelect();
-		assertEquals( 1, ResultSetFormatter.consume(rs) );
-		
-		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" +
-		"SELECT * WHERE { <" + NS + "class1> rdfs:label \"Annotation 1\" }";
-		query = QueryFactory.create( q );
-		qe = SparqlDLExecutionFactory.createPelletExecution( query, model  );
+		assertEquals(1, ResultSetFormatter.consume(rs));
+
+		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" + "SELECT * WHERE { <" + NS + "class1> rdfs:label \"Annotation 1\" }";
+		query = QueryFactory.create(q);
+		qe = SparqlDLExecutionFactory.createPelletExecution(query, model);
 		rs = qe.execSelect();
-		assertEquals( 1, ResultSetFormatter.consume(rs) );
-		
-		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" +
-		"SELECT * WHERE { <" + NS + "class1> rdfs:label \"Random Annotation\" }";
-		query = QueryFactory.create( q );
-		qe = SparqlDLExecutionFactory.createPelletExecution( query, model  );
+		assertEquals(1, ResultSetFormatter.consume(rs));
+
+		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" + "SELECT * WHERE { <" + NS + "class1> rdfs:label \"Random Annotation\" }";
+		query = QueryFactory.create(q);
+		qe = SparqlDLExecutionFactory.createPelletExecution(query, model);
 		rs = qe.execSelect();
-		assertEquals( 0, ResultSetFormatter.consume(rs) );
-		
-		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" +
-		"SELECT * WHERE { ?x rdfs:label \"Annotation 1\" }";
-		query = QueryFactory.create( q );
-		qe = SparqlDLExecutionFactory.createPelletExecution( query, model  );
+		assertEquals(0, ResultSetFormatter.consume(rs));
+
+		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" + "SELECT * WHERE { ?x rdfs:label \"Annotation 1\" }";
+		query = QueryFactory.create(q);
+		qe = SparqlDLExecutionFactory.createPelletExecution(query, model);
 		rs = qe.execSelect();
-		assertEquals( 1, ResultSetFormatter.consume(rs) );
-		
-		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" +
-		"SELECT * WHERE { ?x rdfs:label \"Random Annotation \" }";
-		query = QueryFactory.create( q );
-		qe = SparqlDLExecutionFactory.createPelletExecution( query, model  );
+		assertEquals(1, ResultSetFormatter.consume(rs));
+
+		q = "PREFIX rdfs:<" + RDFS.getURI() + ">\n" + "SELECT * WHERE { ?x rdfs:label \"Random Annotation \" }";
+		query = QueryFactory.create(q);
+		qe = SparqlDLExecutionFactory.createPelletExecution(query, model);
 		rs = qe.execSelect();
-		assertEquals( 0, ResultSetFormatter.consume(rs) );
-		
+		assertEquals(0, ResultSetFormatter.consume(rs));
+
 	}
-	
+
 }

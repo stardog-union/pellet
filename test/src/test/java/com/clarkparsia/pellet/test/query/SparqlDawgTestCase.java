@@ -11,10 +11,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Properties;
-
-import org.mindswap.pellet.PelletOptions;
-
 import org.apache.jena.rdf.model.Resource;
+import org.mindswap.pellet.PelletOptions;
 
 /**
  * <p>
@@ -29,20 +27,22 @@ import org.apache.jena.rdf.model.Resource;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class SparqlDawgTestCase {
+public class SparqlDawgTestCase
+{
 
 	private final Properties pelletOptions;
-	
+
 	private final Resource resource;
 
 	private final ManifestEngine test;
-	
+
 	private final SparqlDawgTester tester;
 
-	public SparqlDawgTestCase(SparqlDawgTester tester, ManifestEngine test, Resource resource, Properties pelletOptions) {
+	public SparqlDawgTestCase(final SparqlDawgTester tester, final ManifestEngine test, final Resource resource, final Properties pelletOptions)
+	{
 		this.tester = tester;
 		this.test = test;
 		this.resource = resource;
@@ -52,14 +52,16 @@ public class SparqlDawgTestCase {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void runTest() throws IOException {
-		Properties oldOptions = PelletOptions.setOptions( pelletOptions );		
-		try {
-			assertTrue(EnumSet.of(ResultEnum.PASS, ResultEnum.SKIP).contains(
-					test.doSingleTest(tester, resource).getResult()));
+	public void runTest() throws IOException
+	{
+		final Properties oldOptions = PelletOptions.setOptions(pelletOptions);
+		try
+		{
+			assertTrue(EnumSet.of(ResultEnum.PASS, ResultEnum.SKIP).contains(test.doSingleTest(tester, resource).getResult()));
 		}
-		finally {
-			PelletOptions.setOptions( oldOptions );
+		finally
+		{
+			PelletOptions.setOptions(oldOptions);
 		}
 	}
 }

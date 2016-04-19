@@ -8,18 +8,16 @@
 
 package com.clarkparsia.pellet.sparqldl.engine;
 
-import java.util.List;
-import java.util.Stack;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.mindswap.pellet.exceptions.InternalReasonerException;
-import org.mindswap.pellet.utils.SetUtils;
-
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryAtom;
 import com.clarkparsia.pellet.sparqldl.model.QueryPredicate;
 import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
+import java.util.List;
+import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.mindswap.pellet.exceptions.InternalReasonerException;
+import org.mindswap.pellet.utils.SetUtils;
 
 /**
  * <p>
@@ -34,109 +32,112 @@ import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class IncrementalQueryPlan extends QueryPlan {
+public class IncrementalQueryPlan extends QueryPlan
+{
 
-	private static final Logger		log	= Logger.getLogger( IncrementalQueryPlan.class.getName() );
+	private static final Logger log = Logger.getLogger(IncrementalQueryPlan.class.getName());
 
-	public final Stack<Integer>		explored;
+	public final Stack<Integer> explored;
 
-	private final List<QueryAtom>	atoms;
+	private final List<QueryAtom> atoms;
 
-	private int						size;
+	private final int size;
 
-	private QueryCost				cost;
+	private final QueryCost cost;
 
-	public IncrementalQueryPlan(Query query) {
-		super( query );
+	public IncrementalQueryPlan(final Query query)
+	{
+		super(query);
 
-		QuerySizeEstimator.computeSizeEstimate( query );
+		QuerySizeEstimator.computeSizeEstimate(query);
 
-		explored = new Stack<Integer>();
+		explored = new Stack<>();
 
 		atoms = query.getAtoms();
 
 		size = atoms.size();
 
-		cost = new QueryCost( query.getKB() );
+		cost = new QueryCost(query.getKB());
 
 		reset();
 	}
 
 	@Override
-	public QueryAtom next(final ResultBinding binding) {
+	public QueryAtom next(final ResultBinding binding)
+	{
 		int best = -1;
 		QueryAtom bestAtom = null;
 		double bestCost = Double.POSITIVE_INFINITY;
 
-		LOOP: for( int i = 0; i < size; i++ ) {
-			if( !explored.contains( i ) ) {
-				QueryAtom atom = atoms.get( i );
-				QueryAtom atom2 = atom.apply( binding );
+		LOOP: for (int i = 0; i < size; i++)
+			if (!explored.contains(i))
+			{
+				final QueryAtom atom = atoms.get(i);
+				final QueryAtom atom2 = atom.apply(binding);
 
-				
-				if( atom2.getPredicate().equals( QueryPredicate.NotKnown ) && !atom2.isGround() ) {
-					for( int j = 0; j < atoms.size(); j++ ) {
-						if( i == j || explored.contains( j ) ) {
+				if (atom2.getPredicate().equals(QueryPredicate.NotKnown) && !atom2.isGround())
+					for (int j = 0; j < atoms.size(); j++)
+					{
+						if (i == j || explored.contains(j))
 							continue;
-						}
 
-						QueryAtom nextAtom = atoms.get( j );
-						if( SetUtils.intersects( nextAtom.getArguments(), atom2.getArguments() ) ) {
-							if( log.isLoggable( Level.FINE ) )
-								log.fine( "Unbound vars for not" );
+						final QueryAtom nextAtom = atoms.get(j);
+						if (SetUtils.intersects(nextAtom.getArguments(), atom2.getArguments()))
+						{
+							if (log.isLoggable(Level.FINE))
+								log.fine("Unbound vars for not");
 							continue LOOP;
 						}
 					}
-				}				
 
-				final double atomCost = cost.estimate( atom2 );
+				final double atomCost = cost.estimate(atom2);
 
-				if( log.isLoggable( Level.FINER ) ) {
-					log.finer( "Atom=" + atom + ", cost=" + cost + ", best cost=" + bestCost );
-				}
-				if( atomCost <= bestCost ) {
+				if (log.isLoggable(Level.FINER))
+					log.finer("Atom=" + atom + ", cost=" + cost + ", best cost=" + bestCost);
+				if (atomCost <= bestCost)
+				{
 					bestCost = atomCost;
 					bestAtom = atom2;
 					best = i;
 				}
 			}
-		}
 
-		if( best == -1 ) {
-			throw new InternalReasonerException( "Cannot find a valid atom in " + atoms
-					+ " where explored=" + explored );
-		}
+		if (best == -1)
+			throw new InternalReasonerException("Cannot find a valid atom in " + atoms + " where explored=" + explored);
 
-		explored.add( best );
+		explored.add(best);
 
-		if( log.isLoggable( Level.FINER ) ) {
-			StringBuffer indent = new StringBuffer();
-			for( int j = 0; j < explored.size(); j++ ) {
-				indent.append( " " );
-			}
-			String treePrint = indent.toString() + bestAtom + " : " + bestCost;
+		if (log.isLoggable(Level.FINER))
+		{
+			final StringBuffer indent = new StringBuffer();
+			for (int j = 0; j < explored.size(); j++)
+				indent.append(" ");
+			final String treePrint = indent.toString() + bestAtom + " : " + bestCost;
 
-			log.finer( treePrint );
+			log.finer(treePrint);
 		}
 
 		return bestAtom;
 	}
 
 	@Override
-	public boolean hasNext() {
+	public boolean hasNext()
+	{
 		return explored.size() < size;
 	}
 
 	@Override
-	public void back() {
+	public void back()
+	{
 		explored.pop();
 	}
 
 	@Override
-	public void reset() {
+	public void reset()
+	{
 		explored.clear();
 	}
 }

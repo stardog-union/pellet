@@ -47,7 +47,7 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 public class OWLAPIObjectConversionTests
@@ -95,7 +95,7 @@ public class OWLAPIObjectConversionTests
 		return new JUnit4TestAdapter(OWLAPIObjectConversionTests.class);
 	}
 
-	private void testConversion(OWLObject object)
+	private void testConversion(final OWLObject object)
 	{
 		try
 		{

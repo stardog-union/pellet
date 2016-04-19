@@ -73,18 +73,18 @@ import org.mindswap.pellet.utils.NumberUtils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
 public class BuiltInTests
 {
 
-	private static BigInteger bigint(long l)
+	private static BigInteger bigint(final long l)
 	{
 		return new BigInteger(String.valueOf(l));
 	}
 
-	private static BigDecimal bigdec(double d)
+	private static BigDecimal bigdec(final double d)
 	{
 		return new BigDecimal(String.valueOf(d));
 	}
@@ -101,7 +101,7 @@ public class BuiltInTests
 		abox = kb.getABox();
 	}
 
-	private boolean equal(Literal l1, Literal l2)
+	private boolean equal(final Literal l1, final Literal l2)
 	{
 		if (l1 == null && l2 == null)
 			return true;
@@ -112,7 +112,7 @@ public class BuiltInTests
 		return ComparisonTesters.equal.test(new Literal[] { l1, l2 });
 	}
 
-	private void generalFunc(GeneralFunction func, ATermAppl... args)
+	private void generalFunc(final GeneralFunction func, final ATermAppl... args)
 	{
 		final Literal[] litArgs = new Literal[args.length];
 		for (int i = 0; i < args.length; i++)
@@ -123,7 +123,7 @@ public class BuiltInTests
 		generalFunc(func, litArgs);
 	}
 
-	private void generalFunc(GeneralFunction func, Literal... args)
+	private void generalFunc(final GeneralFunction func, final Literal... args)
 	{
 		assertTrue("Full binding not accepted", func.apply(abox, args));
 		for (int i = 0; i < args.length; i++)
@@ -142,32 +142,32 @@ public class BuiltInTests
 		}
 	}
 
-	private boolean greaterThan(Literal l1, Literal l2)
+	private boolean greaterThan(final Literal l1, final Literal l2)
 	{
 		return ComparisonTesters.greaterThan.test(new Literal[] { l1, l2 });
 	}
 
-	private boolean greaterThanOrEqual(Literal l1, Literal l2)
+	private boolean greaterThanOrEqual(final Literal l1, final Literal l2)
 	{
 		return ComparisonTesters.greaterThanOrEqual.test(new Literal[] { l1, l2 });
 	}
 
-	private boolean lessThan(Literal l1, Literal l2)
+	private boolean lessThan(final Literal l1, final Literal l2)
 	{
 		return ComparisonTesters.lessThan.test(new Literal[] { l1, l2 });
 	}
 
-	private boolean lessThanOrEqual(Literal l1, Literal l2)
+	private boolean lessThanOrEqual(final Literal l1, final Literal l2)
 	{
 		return ComparisonTesters.lessThanOrEqual.test(new Literal[] { l1, l2 });
 	}
 
-	private boolean notEqual(Literal l1, Literal l2)
+	private boolean notEqual(final Literal l1, final Literal l2)
 	{
 		return ComparisonTesters.notEqual.test(new Literal[] { l1, l2 });
 	}
 
-	private void numeric(NumericFunction f, Number expected, Number... args)
+	private void numeric(final NumericFunction f, final Number expected, final Number... args)
 	{
 		final NumericPromotion promoter = new NumericPromotion();
 		promoter.promote(args);
@@ -177,44 +177,38 @@ public class BuiltInTests
 		final Number result = visitor.getResult();
 
 		if (expected == null)
-		{
 			assertNull(result);
-		}
 		else
 		{
 			assertNotNull(result);
 			assertTrue(expected + " not equal to " + result, NumberUtils.compare(expected, result) == 0);
 		}
 		if (result != null && expected != null)
-		{
 			assertEquals("Wrong numeric type from function.", expected.getClass(), result.getClass());
-		}
 
 	}
 
-	private void stringFunc(Function func, String expected, String... args)
+	private void stringFunc(final Function func, final String expected, final String... args)
 	{
 		final ATermAppl expectedTerm = literal(expected);
 		stringFunc(func, expectedTerm, args);
 	}
 
-	private void stringFunc(Function func, ATermAppl term, String... args)
+	private void stringFunc(final Function func, final ATermAppl term, final String... args)
 	{
 		final Literal expected = abox.addLiteral(term);
 		stringFunc(func, expected, args);
 	}
 
-	private void stringFunc(Function func, Literal expected, String... args)
+	private void stringFunc(final Function func, final Literal expected, final String... args)
 	{
 		final Literal[] litArgs = new Literal[args.length];
 		for (int i = 0; i < args.length; i++)
-		{
 			litArgs[i] = abox.addLiteral(literal(args[i]));
-		}
 		stringFunc(func, expected, litArgs);
 	}
 
-	private void stringFunc(Function func, Literal expected, Literal... args)
+	private void stringFunc(final Function func, final Literal expected, final Literal... args)
 	{
 		final Literal result = func.apply(abox, null, args);
 		if (expected == null || result == null)
@@ -226,13 +220,11 @@ public class BuiltInTests
 		assertEquals("Unexpected equality", null, func.apply(abox, abox.addLiteral(DependencySet.INDEPENDENT), args));
 	}
 
-	private boolean stringTest(Tester tester, String... args)
+	private boolean stringTest(final Tester tester, final String... args)
 	{
 		final Literal[] litArgs = new Literal[args.length];
 		for (int i = 0; i < args.length; i++)
-		{
 			litArgs[i] = abox.addLiteral(literal(args[i]));
-		}
 		return tester.test(litArgs);
 	}
 
@@ -343,11 +335,11 @@ public class BuiltInTests
 	{
 		System.out.println("Starting date time tests");
 		// Date Creation tests.
-		//		stringFunc( DateTimeOperators.date, literal( "2008-01-28", Datatypes.DATE ), 
+		//		stringFunc( DateTimeOperators.date, literal( "2008-01-28", Datatypes.DATE ),
 		//				"2008", "01", "28" );
-		//		stringFunc( DateTimeOperators.date, literal( "2008-01-28Z", Datatypes.DATE ), 
+		//		stringFunc( DateTimeOperators.date, literal( "2008-01-28Z", Datatypes.DATE ),
 		//				"2008", "01", "28", "Z" );
-		//		stringFunc( DateTimeOperators.date, literal( "2008-01-28", Datatypes.DATE ), 
+		//		stringFunc( DateTimeOperators.date, literal( "2008-01-28", Datatypes.DATE ),
 		//				"2008", "1", "28" );
 		generalFunc(DateTimeOperators.date, literal("2008-01-28", Datatypes.DATE), literal("2008", Datatypes.INTEGER), literal("1", Datatypes.INTEGER), literal("28", Datatypes.INTEGER));
 		generalFunc(DateTimeOperators.date, literal("2008-01-28Z", Datatypes.DATE), literal("2008", Datatypes.INTEGER), literal("1", Datatypes.INTEGER), literal("28", Datatypes.INTEGER), literal("Z"));
@@ -702,7 +694,7 @@ public class BuiltInTests
 
 		final VariableBinding fillBinding = new VariableBinding(kb.getABox());
 		final List<String> expected = Arrays.asList(new String[] { "hi", "bye", "foo", "bar" });
-		final List<String> tokens = new ArrayList<String>();
+		final List<String> tokens = new ArrayList<>();
 		while (sharedVarHelper.selectNextBinding())
 		{
 			sharedVarHelper.setCurrentBinding(fillBinding);
@@ -731,7 +723,7 @@ public class BuiltInTests
 
 		final VariableBinding fillBinding = new VariableBinding(kb.getABox());
 		final List<String> expected = Collections.singletonList(ATermUtils.getLiteralValue(data.getValue()));
-		final List<String> tokens = new ArrayList<String>();
+		final List<String> tokens = new ArrayList<>();
 		while (sharedVarHelper.selectNextBinding())
 		{
 			sharedVarHelper.setCurrentBinding(fillBinding);

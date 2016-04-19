@@ -17,10 +17,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
-import org.mindswap.pellet.utils.VersionInfo;
-
 import org.apache.jena.query.ARQ;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -32,6 +28,8 @@ import org.apache.jena.sparql.vocabulary.FOAF;
 import org.apache.jena.util.FileManager;
 import org.apache.jena.util.LocatorFile;
 import org.apache.jena.vocabulary.RDF;
+import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
+import org.mindswap.pellet.utils.VersionInfo;
 
 /**
  * <p>
@@ -46,11 +44,12 @@ import org.apache.jena.vocabulary.RDF;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
 
-public class ManifestEngine {
+public class ManifestEngine
+{
 	private static final Logger log = Logger.getLogger(ManifestEngine.class.getName());
 
 	// MANIFESTS
@@ -60,46 +59,56 @@ public class ManifestEngine {
 	private ManifestEngineProcessor singleTestExecutor;
 
 	// RESULTS
-	private final List<SingleTestResult> results = new ArrayList<SingleTestResult>();
-	
+	private final List<SingleTestResult> results = new ArrayList<>();
+
 	private boolean writeResults = false;
 
-	public ManifestEngine(final SparqlDawgTester tester,
-			final String manifest) {
+	public ManifestEngine(final SparqlDawgTester tester, final String manifest)
+	{
 		this.manifest = manifest;
-		this.singleTestExecutor = new ManifestEngineProcessor() {
+		this.singleTestExecutor = new ManifestEngineProcessor()
+		{
 			/**
 			 * {@inheritDoc}
 			 */
-			public void manifestStarted(String manifestURI) {
+			@Override
+			public void manifestStarted(final String manifestURI)
+			{
 				log.fine("START manifest: " + manifestURI);
 			}
 
 			/**
 			 * {@inheritDoc}
 			 */
-			public void test(Resource test) {
+			@Override
+			public void test(final Resource test)
+			{
 				results.add(doSingleTest(tester, test));
 			}
 
 			/**
 			 * {@inheritDoc}
 			 */
-			public void manifestFinished(String manifestURI) {
+			@Override
+			public void manifestFinished(final String manifestURI)
+			{
 				log.fine("FINISH manifest: " + manifestURI);
 			}
 		};
 	}
 
-	public void setProcessor(final ManifestEngineProcessor processor) {
+	public void setProcessor(final ManifestEngineProcessor processor)
+	{
 		this.singleTestExecutor = processor;
 	}
 
-	public ManifestEngineProcessor setProcessor() {
+	public ManifestEngineProcessor setProcessor()
+	{
 		return singleTestExecutor;
 	}
 
-	public void run() {
+	public void run()
+	{
 		ARQ.setStrictMode();
 
 		doTests();
@@ -107,14 +116,14 @@ public class ManifestEngine {
 		writeEarlResults();
 	}
 
-	private void writeEarlResults() {
-		if( !writeResults )
+	private void writeEarlResults()
+	{
+		if (!writeResults)
 			return;
-		
+
 		final Model model = ModelFactory.createDefaultModel();
 
-		model.setNsPrefix(EarlResultVocabulary.doapBaseNs,
-				EarlResultVocabulary.doapBase);
+		model.setNsPrefix(EarlResultVocabulary.doapBaseNs, EarlResultVocabulary.doapBase);
 		model.setNsPrefix("earl", EARL.getURI());
 		model.setNsPrefix("foaf", FOAF.getURI());
 
@@ -124,17 +133,16 @@ public class ManifestEngine {
 		model.add(organization, FOAF.homepage, "http://www.clarkparsia.com/");
 
 		// project
-		final Resource project = model.createResource(
-				"http://pellet.owldl.com/", EarlResultVocabulary.Project);
+		final Resource project = model.createResource("http://pellet.owldl.com/", EarlResultVocabulary.Project);
 		model.add(project, EarlResultVocabulary.doapName, "Pellet");
 
-		final Resource release = model
-				.createResource(EarlResultVocabulary.Version);
+		final Resource release = model.createResource(EarlResultVocabulary.Version);
 
 		model.add(release, EarlResultVocabulary.revision, VersionInfo.getInstance().getVersionString());
 		model.add(project, EarlResultVocabulary.release, release);
 
-		for (final SingleTestResult result : results) {
+		for (final SingleTestResult result : results)
+		{
 			final Resource assertion = model.createResource(EARL.Assertion);
 			model.add(assertion, EARL.assertedBy, organization);
 
@@ -142,58 +150,61 @@ public class ManifestEngine {
 
 			final Resource resultState;
 
-			switch (result.getResult()) {
-			case PASS:
-				resultState = EARL.passed;
-				break;
-			case FAIL:
-				resultState = EARL.failed;
-				break;
-			case SKIP:
-				resultState = EARL.NotTested;
-				break;
-			default:
-				throw new IllegalArgumentException("Unknown result type : "
-						+ result);
+			switch (result.getResult())
+			{
+				case PASS:
+					resultState = EARL.passed;
+					break;
+				case FAIL:
+					resultState = EARL.failed;
+					break;
+				case SKIP:
+					resultState = EARL.NotTested;
+					break;
+				default:
+					throw new IllegalArgumentException("Unknown result type : " + result);
 			}
 
 			model.add(testResult, EARL.outcome, resultState);
 			model.add(assertion, EARL.result, testResult);
 			model.add(assertion, EARL.subject, project);
-			model.add(assertion, EARL.test, model.createResource(result
-					.getUri().toString()));
+			model.add(assertion, EARL.test, model.createResource(result.getUri().toString()));
 		}
 
-		try {
-			model.write(new FileWriter("dawg" + "-pellet-"
-					+ VersionInfo.getInstance().getVersionString() + ".rdf"),
-					"RDF/XML-ABBREV");
-		} catch (IOException e) {
-			log.log( Level.SEVERE, e.getMessage(), e);
+		try
+		{
+			model.write(new FileWriter("dawg" + "-pellet-" + VersionInfo.getInstance().getVersionString() + ".rdf"), "RDF/XML-ABBREV");
+		}
+		catch (final IOException e)
+		{
+			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	private void doTests() {
+	private void doTests()
+	{
 		results.clear();
 
-		try {
-			String base = new URI( manifest ).getPath();
+		try
+		{
+			final String base = new URI(manifest).getPath();
 			FileManager.get().addLocator(new LocatorFile(base));
-		} catch( URISyntaxException e ) {
+		}
+		catch (final URISyntaxException e)
+		{
 			e.printStackTrace();
 		}
-		_doTest(manifest);	
+		_doTest(manifest);
 
 		printStatistics();
 	}
 
-	private void printStatistics() {
-		int[] sizes = new int[] { 60, 10, 10 };
-		final String format = "| %1$-" + sizes[0] + "s| %2$-" + sizes[1]
-				+ "s| %3$-" + sizes[1] + "s|";
+	private void printStatistics()
+	{
+		final int[] sizes = new int[] { 60, 10, 10 };
+		final String format = "| %1$-" + sizes[0] + "s| %2$-" + sizes[1] + "s| %3$-" + sizes[1] + "s|";
 
-		final char[] a = new char[String.format(format,
-				new Object[sizes.length]).length()];
+		final char[] a = new char[String.format(format, new Object[sizes.length]).length()];
 
 		Arrays.fill(a, '=');
 		final String separator = new String(a);
@@ -202,82 +213,75 @@ public class ManifestEngine {
 		log.fine(String.format(format, "name", "result", "time [ms]"));
 		log.fine(separator);
 
-		for (final SingleTestResult test : results) {
-			log.log( Level.FINE, String.format(format, test.getUri().getFragment(), test
-					.getResult(), test.getTime()));
-		}
+		for (final SingleTestResult test : results)
+			log.log(Level.FINE, String.format(format, test.getUri().getFragment(), test.getResult(), test.getTime()));
 		log.fine(separator);
 	}
 
-	private void _doTest(final String manifestURI) {
+	private void _doTest(final String manifestURI)
+	{
 		log.fine("Processing manifest : " + manifestURI + "'.");
 		singleTestExecutor.manifestStarted(manifestURI);
-		try {
+		try
+		{
 			final Model model = ModelFactory.createDefaultModel();
 
-			URI uri = URI.create( manifestURI );
+			final URI uri = URI.create(manifestURI);
 			FileManager.get().readModel(model, uri.toString());
 
-			final StmtIterator i = model.listStatements(null, RDF.type,
-					SparqlDawgTestVocabulary.Manifest);
-			while (i.hasNext()) {
+			final StmtIterator i = model.listStatements(null, RDF.type, SparqlDawgTestVocabulary.Manifest);
+			while (i.hasNext())
+			{
 				final Statement stmt = i.nextStatement();
 
 				final Resource manifest = stmt.getSubject();
 
 				// DFS: include all nested manifests
-				final Statement includeStmt = manifest
-						.getProperty(SparqlDawgTestVocabulary.include);
+				final Statement includeStmt = manifest.getProperty(SparqlDawgTestVocabulary.include);
 
-				if (includeStmt != null) {
-					final Resource manifestsCollection = includeStmt
-							.getResource();
+				if (includeStmt != null)
+				{
+					final Resource manifestsCollection = includeStmt.getResource();
 					final List<Resource> container = parseList(manifestsCollection);
 
-					for (final Resource singleManifest : container) {
+					for (final Resource singleManifest : container)
 						_doTest(singleManifest.getURI());
-					}
 				}
 
 				// execute single tests
-				final Statement singleTests = manifest
-						.getProperty(SparqlDawgTestVocabulary.entries);
+				final Statement singleTests = manifest.getProperty(SparqlDawgTestVocabulary.entries);
 
-				if (singleTests != null) {
-					final List<Resource> set = parseList(singleTests
-							.getResource());
+				if (singleTests != null)
+				{
+					final List<Resource> set = parseList(singleTests.getResource());
 
-					for (final Resource singleTest : set) {
-						singleTestExecutor.test(singleTest);						
-					}
+					for (final Resource singleTest : set)
+						singleTestExecutor.test(singleTest);
 				}
 
 				singleTestExecutor.manifestFinished(manifestURI);
 			}
-		} catch (Exception e) {
-			log.log( Level.SEVERE, e.getMessage(), e);
+		}
+		catch (final Exception e)
+		{
+			log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	public SingleTestResult doSingleTest(final SparqlDawgTester tester, final Resource singleTest) {
-		final Resource testType = singleTest.getProperty(RDF.type)
-				.getResource();
+	public SingleTestResult doSingleTest(final SparqlDawgTester tester, final Resource singleTest)
+	{
+		final Resource testType = singleTest.getProperty(RDF.type).getResource();
 
-		final Statement statement = singleTest
-				.getProperty(SparqlDawgTestVocabulary.approval);
+		final Statement statement = singleTest.getProperty(SparqlDawgTestVocabulary.approval);
 		final Resource testApprovalStatus;
-		if (statement != null) {
-			testApprovalStatus = singleTest.getProperty(
-					SparqlDawgTestVocabulary.approval).getResource();
-		} else {
+		if (statement != null)
+			testApprovalStatus = singleTest.getProperty(SparqlDawgTestVocabulary.approval).getResource();
+		else
 			testApprovalStatus = SparqlDawgTestVocabulary.NotClassified;
-		}
 
 		log.fine("Test : " + singleTest);
 		log.fine("Type : " + testType.getLocalName() + " ");
-		log.finer("Name : "
-				+ singleTest.getProperty(SparqlDawgTestVocabulary.name)
-						.getString());
+		log.finer("Name : " + singleTest.getProperty(SparqlDawgTestVocabulary.name).getString());
 		log.finer("Appr.: " + testApprovalStatus.getLocalName());
 		log.finer("Tester: " + tester.getClass().getName());
 
@@ -286,17 +290,18 @@ public class ManifestEngine {
 		log.finer("");
 		log.fine("Result: " + result.getResult());
 		log.fine("Time Elapsed: " + result.getTime());
-		log
-				.fine("--------------------------------------------------------------------");
+		log.fine("--------------------------------------------------------------------");
 
 		return result;
 	}
 
-	private List<Resource> parseList(final Resource start) {
-		final List<Resource> set = new ArrayList<Resource>();
+	private List<Resource> parseList(final Resource start)
+	{
+		final List<Resource> set = new ArrayList<>();
 		Resource list = start;
 
-		while (!RDF.nil.equals(list)) {
+		while (!RDF.nil.equals(list))
+		{
 			set.add(list.getProperty(RDF.first).getResource());
 			list = list.getProperty(RDF.rest).getResource();
 		}
@@ -304,91 +309,77 @@ public class ManifestEngine {
 		return set;
 	}
 
-	private SingleTestResult doSyntaxTest(final SparqlDawgTester tester, final Resource testCase,
-			final boolean parsable) {
-		final String queryFile = testCase.getProperty(
-				SparqlDawgTestVocabulary.action).getResource().getURI();
+	private SingleTestResult doSyntaxTest(final SparqlDawgTester tester, final Resource testCase, final boolean parsable)
+	{
+		final String queryFile = testCase.getProperty(SparqlDawgTestVocabulary.action).getResource().getURI();
 
-		if (tester.isApplicable(testCase.getURI())) {
+		if (tester.isApplicable(testCase.getURI()))
+		{
 			tester.setQueryURI(queryFile);
 			final long startPoint = System.currentTimeMillis();
 			final boolean result = tester.isParsable();
 			final long time = System.currentTimeMillis() - startPoint;
 
-			if (result == parsable) {
-				return new SingleTestResult(URI.create(testCase.getURI()),
-						ResultEnum.PASS, time);
-			} else {
-				if (parsable) {
-					log
-							.log( Level.SEVERE, "Fail: The input should be parsable, but parsing fails.");
-				} else {
-					log
-							.log( Level.SEVERE, "Fail: The input should not be parsable, but parsing is succesful.");
-				}
-				return new SingleTestResult(URI.create(testCase.getURI()),
-						ResultEnum.FAIL, time);
+			if (result == parsable)
+				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.PASS, time);
+			else
+			{
+				if (parsable)
+					log.log(Level.SEVERE, "Fail: The input should be parsable, but parsing fails.");
+				else
+					log.log(Level.SEVERE, "Fail: The input should not be parsable, but parsing is succesful.");
+				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, time);
 			}
-		} else {
-			return new SingleTestResult(URI.create(testCase.getURI()),
-					ResultEnum.SKIP, 0);
 		}
+		else
+			return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.SKIP, 0);
 	}
 
-	private SingleTestResult doEvaluationTest(final SparqlDawgTester tester, Resource testCase) {
+	private SingleTestResult doEvaluationTest(final SparqlDawgTester tester, final Resource testCase)
+	{
 		// more 'action' values are allowed !!!
 
 		String queryFile = null;
-		Set<String> dataFiles = new HashSet<String>();
-		Set<String> graphDataFiles = new HashSet<String>();
+		final Set<String> dataFiles = new HashSet<>();
+		final Set<String> graphDataFiles = new HashSet<>();
 
-		final StmtIterator i = testCase
-				.listProperties(SparqlDawgTestVocabulary.action);
-		while (i.hasNext()) {
+		final StmtIterator i = testCase.listProperties(SparqlDawgTestVocabulary.action);
+		while (i.hasNext())
+		{
 			final Resource actionNode = i.nextStatement().getResource();
 
 			// QUERY
-			Statement qfCandidate = actionNode
-					.getProperty(SparqlDawgTestVocabulary.query);
+			final Statement qfCandidate = actionNode.getProperty(SparqlDawgTestVocabulary.query);
 
-			if (qfCandidate != null) {
-				if (queryFile == null) {
+			if (qfCandidate != null)
+				if (queryFile == null)
 					queryFile = qfCandidate.getResource().getURI();
-				} else {
-					throw new IllegalArgumentException(
-							"More than 1 query has been set : " + queryFile
-									+ " vs. " + qfCandidate);
-				}
-			}
+				else
+					throw new IllegalArgumentException("More than 1 query has been set : " + queryFile + " vs. " + qfCandidate);
 
 			// GRAPH
-			final StmtIterator dataI = actionNode
-					.listProperties(SparqlDawgTestVocabulary.data);
-			while (dataI.hasNext()) {
+			final StmtIterator dataI = actionNode.listProperties(SparqlDawgTestVocabulary.data);
+			while (dataI.hasNext())
 				dataFiles.add(dataI.nextStatement().getResource().getURI());
-			}
 
 			// NAMED GRAPH
-			final StmtIterator graphDataI = actionNode
-					.listProperties(SparqlDawgTestVocabulary.graphData);
-			while (graphDataI.hasNext()) {
-				graphDataFiles.add(graphDataI.nextStatement().getResource()
-						.getURI());
-			}
+			final StmtIterator graphDataI = actionNode.listProperties(SparqlDawgTestVocabulary.graphData);
+			while (graphDataI.hasNext())
+				graphDataFiles.add(graphDataI.nextStatement().getResource().getURI());
 		}
 
-		final Statement resultFileStmt = testCase
-				.getProperty(SparqlDawgTestVocabulary.result);
+		final Statement resultFileStmt = testCase.getProperty(SparqlDawgTestVocabulary.result);
 
 		String resultFile = null;
 
-		if (resultFileStmt != null) {
+		if (resultFileStmt != null)
 			resultFile = resultFileStmt.getResource().getURI();
-		}
-		
-		if (tester.isApplicable(testCase.getURI())) {
+
+		if (tester.isApplicable(testCase.getURI()))
+		{
 			long startPoint = 0;
-			try {
+			try
+			{
 				tester.setDatasetURIs(dataFiles, graphDataFiles);
 				tester.setQueryURI(queryFile);
 				tester.setResult(resultFile);
@@ -396,50 +387,52 @@ public class ManifestEngine {
 
 				final boolean result = tester.isCorrectlyEvaluated();
 				final long time = System.currentTimeMillis() - startPoint;
-								
-				if (result) {
-					return new SingleTestResult(URI.create(testCase.getURI()),
-							ResultEnum.PASS, time);
-				} else {
+
+				if (result)
+					return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.PASS, time);
+				else
+				{
 					log.severe("Fail: Evaluation of the query is not correct.");
-					return new SingleTestResult(URI.create(testCase.getURI()),
-							ResultEnum.FAIL, time);
+					return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, time);
 				}
-			} catch( UnsupportedFeatureException e ) {
-				log.log( Level.SEVERE, e.getMessage(), e);
-				return new SingleTestResult(URI.create(testCase.getURI()),
-						ResultEnum.SKIP, System.currentTimeMillis()
-								- startPoint);
-			} catch (Exception e) {
-				log.log( Level.SEVERE, e.getMessage(), e);
-				return new SingleTestResult(URI.create(testCase.getURI()),
-						ResultEnum.FAIL, System.currentTimeMillis()
-								- startPoint);
+			}
+			catch (final UnsupportedFeatureException e)
+			{
+				log.log(Level.SEVERE, e.getMessage(), e);
+				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.SKIP, System.currentTimeMillis() - startPoint);
+			}
+			catch (final Exception e)
+			{
+				log.log(Level.SEVERE, e.getMessage(), e);
+				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, System.currentTimeMillis() - startPoint);
 			}
 
-		} else {
-			return new SingleTestResult(URI.create(testCase.getURI()),
-					ResultEnum.SKIP, 0);
 		}
+		else
+			return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.SKIP, 0);
 	}
 
-	private SingleTestResult doTestCase(final SparqlDawgTester tester,Resource testCase, Resource testType) {
+	private SingleTestResult doTestCase(final SparqlDawgTester tester, final Resource testCase, final Resource testType)
+	{
 		if (testType.equals(SparqlDawgTestVocabulary.PositiveSyntaxTest))
 			return doSyntaxTest(tester, testCase, true);
-		else if (testType.equals(SparqlDawgTestVocabulary.NegativeSyntaxTest))
-			return doSyntaxTest(tester, testCase, false);
-		else if (testType.equals(SparqlDawgTestVocabulary.QueryEvaluationTest))
-			return doEvaluationTest(tester, testCase);
+		else
+			if (testType.equals(SparqlDawgTestVocabulary.NegativeSyntaxTest))
+				return doSyntaxTest(tester, testCase, false);
+			else
+				if (testType.equals(SparqlDawgTestVocabulary.QueryEvaluationTest))
+					return doEvaluationTest(tester, testCase);
 
-		throw new RuntimeException("Unknown test type "
-				+ testType.getLocalName() + " for " + testCase);
+		throw new RuntimeException("Unknown test type " + testType.getLocalName() + " for " + testCase);
 	}
 
-	public boolean isWriteResults() {
+	public boolean isWriteResults()
+	{
 		return writeResults;
 	}
 
-	public void setWriteResults(boolean writeResults) {
+	public void setWriteResults(final boolean writeResults)
+	{
 		this.writeResults = writeResults;
 	}
 }

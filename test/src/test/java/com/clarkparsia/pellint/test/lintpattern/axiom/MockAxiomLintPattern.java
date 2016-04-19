@@ -8,7 +8,7 @@ import com.clarkparsia.pellint.lintpattern.axiom.AxiomLintPattern;
  * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -16,42 +16,55 @@ import com.clarkparsia.pellint.lintpattern.axiom.AxiomLintPattern;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class MockAxiomLintPattern extends AxiomLintPattern {
+public class MockAxiomLintPattern extends AxiomLintPattern
+{
 	private int m_IntParam;
 	private String m_StringParam;
 
-	public String getName() {
-		return this.toString();
-	}
-	
-	public String getDescription() {
+	@Override
+	public String getName()
+	{
 		return this.toString();
 	}
 
-	public boolean isFixable() {
+	@Override
+	public String getDescription()
+	{
+		return this.toString();
+	}
+
+	@Override
+	public boolean isFixable()
+	{
 		return false;
 	}
 
-	public LintFormat getDefaultLintFormat() {
+	@Override
+	public LintFormat getDefaultLintFormat()
+	{
 		return null;
 	}
-	
-	public void setIntParam(int v) {
+
+	public void setIntParam(final int v)
+	{
 		m_IntParam = v;
 	}
-	
-	public int getIntParam() {
+
+	public int getIntParam()
+	{
 		return m_IntParam;
 	}
 
-	public void setStringParam(String v) {
+	public void setStringParam(final String v)
+	{
 		m_StringParam = v;
 	}
-	
-	public String getStringParam() {
+
+	public String getStringParam()
+	{
 		return m_StringParam;
 	}
 

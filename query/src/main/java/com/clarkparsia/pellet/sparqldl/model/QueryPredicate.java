@@ -21,21 +21,18 @@ package com.clarkparsia.pellet.sparqldl.model;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
 
-public enum QueryPredicate {
-	Type, PropertyValue, NegativePropertyValue, SameAs, DifferentFrom, SubClassOf, EquivalentClass,
-	DisjointWith, ComplementOf, EquivalentProperty, SubPropertyOf, InverseOf, ObjectProperty,
-	DatatypeProperty, Domain, Range, Functional, InverseFunctional, Transitive, Symmetric, Asymmetric, 
-	Reflexive, Irreflexive, propertyDisjointWith, Annotation,
+public enum QueryPredicate
+{
+	Type, PropertyValue, NegativePropertyValue, SameAs, DifferentFrom, SubClassOf, EquivalentClass, DisjointWith, ComplementOf, EquivalentProperty, SubPropertyOf, InverseOf, ObjectProperty, DatatypeProperty, Domain, Range, Functional, InverseFunctional, Transitive, Symmetric, Asymmetric, Reflexive, Irreflexive, propertyDisjointWith, Annotation,
 
 	Datatype,
-	
+
 	// SPARQL-DL non-monotonic extensions
-	StrictSubClassOf, DirectSubClassOf, DirectType, DirectSubPropertyOf, StrictSubPropertyOf,
-	NotKnown,
+	StrictSubClassOf, DirectSubClassOf, DirectType, DirectSubPropertyOf, StrictSubPropertyOf, NotKnown,
 
 	// Union query
 	Union,
@@ -43,11 +40,13 @@ public enum QueryPredicate {
 	// undistinguished variable core
 	UndistVarCore;
 
-	private QueryPredicate() {
+	private QueryPredicate()
+	{
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return name();
 	}
 }

@@ -10,71 +10,76 @@ import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 
 /**
-* <p>
-* Title: Numeric Adapter
-* </p>
-* <p>
-* Description: Adapter from Numeric Functions to built-in Function.
-* </p>
-* <p>
-* Copyright: Copyright (c) 2007
-* </p>
-* <p>
-* Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
-* </p>
-* 
-* @author Ron Alford
-*/ 
+ * <p>
+ * Title: Numeric Adapter
+ * </p>
+ * <p>
+ * Description: Adapter from Numeric Functions to built-in Function.
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2007
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
+ * 
+ * @author Ron Alford
+ */
 
-public class NumericAdapter implements Function {
-	
-	private NumericFunction function;
-	
-	public NumericAdapter( NumericFunction function ) {
+public class NumericAdapter implements Function
+{
+
+	private final NumericFunction function;
+
+	public NumericAdapter(final NumericFunction function)
+	{
 		this.function = function;
 	}
-	
-	public Literal apply( ABox abox, Literal expected, Literal... args ) {
+
+	@Override
+	public Literal apply(final ABox abox, final Literal expected, final Literal... args)
+	{
 		Number expectedNum = null;
 		Number result = null;
 		Literal resultLit = null;
-		
-		if (expected != null) {
-			if (!(expected.getValue() instanceof Number)) {
-				ABox.log.info("Testing non-numeric against the result of a numeric function '"
-								+ function + "': " + expected);
+
+		if (expected != null)
+		{
+			if (!(expected.getValue() instanceof Number))
+			{
+				ABox.log.info("Testing non-numeric against the result of a numeric function '" + function + "': " + expected);
 				return null;
 			}
 			expectedNum = (Number) expected.getValue();
 		}
-		
-		Number[] numArgs = new Number[ args.length ];
-		for ( int i = 0; i < args.length; i++ ) {
-			if ( args[i].getValue() instanceof Number ) {
+
+		final Number[] numArgs = new Number[args.length];
+		for (int i = 0; i < args.length; i++)
+			if (args[i].getValue() instanceof Number)
 				numArgs[i] = (Number) args[i].getValue();
-			} else {
-				ABox.log.info( "Non numeric arguments to numeric function '" + function + "': " + args[i]);
+			else
+			{
+				ABox.log.info("Non numeric arguments to numeric function '" + function + "': " + args[i]);
 				return null;
 			}
-		}
-		
-		NumericPromotion promoter = new NumericPromotion();
-		promoter.promote( numArgs );
-		FunctionApplicationVisitor visitor = new FunctionApplicationVisitor( function, expectedNum );
-		promoter.accept( visitor );
-		
+
+		final NumericPromotion promoter = new NumericPromotion();
+		promoter.promote(numArgs);
+		final FunctionApplicationVisitor visitor = new FunctionApplicationVisitor(function, expectedNum);
+		promoter.accept(visitor);
+
 		result = visitor.getResult();
-		if ( result != null ) {
-			if ( expected != null ) {
+		if (result != null)
+			if (expected != null)
 				resultLit = expected;
-			} else {
-				NumberToLiteralVisitor converter = new NumberToLiteralVisitor( abox );
-				promoter.promote( result );
-				promoter.accept( converter );
+			else
+			{
+				final NumberToLiteralVisitor converter = new NumberToLiteralVisitor(abox);
+				promoter.promote(result);
+				promoter.accept(converter);
 				resultLit = converter.getLiteral();
 			}
-		}
-		
+
 		return resultLit;
 	}
 

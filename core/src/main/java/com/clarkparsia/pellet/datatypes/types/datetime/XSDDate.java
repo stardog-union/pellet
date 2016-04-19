@@ -1,23 +1,19 @@
 package com.clarkparsia.pellet.datatypes.types.datetime;
 
+import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
-
-import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 
 /**
  * <p>
  * Title: <code>xsd:date</code>
  * </p>
  * <p>
- * Description: Singleton implementation of <code>xsd:date</code> datatype. This
- * implementation diverges from the XML Schema specification because
+ * Description: Singleton implementation of <code>xsd:date</code> datatype. This implementation diverges from the XML Schema specification because
  * <ol>
- * <li>the value space is disjoint from the value space of other timeline based
- * datatypes (e.g., xsd:dateTime)</li>
+ * <li>the value space is disjoint from the value space of other timeline based datatypes (e.g., xsd:dateTime)</li>
  * <li>values are treated as points, not as intervals</li>
  * </ol>
  * </p>
@@ -27,30 +23,36 @@ import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class XSDDate extends AbstractTimelineDatatype {
+public class XSDDate extends AbstractTimelineDatatype
+{
 
-	private static final XSDDate	instance;
+	private static final XSDDate instance;
 
-	static {
+	static
+	{
 		instance = new XSDDate();
 	}
 
-	public static XSDDate getInstance() {
+	public static XSDDate getInstance()
+	{
 		return instance;
 	}
 
-	private final RestrictedTimelineDatatype	dataRange;
+	private final RestrictedTimelineDatatype dataRange;
 
-	private XSDDate() {
-		super( ATermUtils.makeTermAppl( Namespaces.XSD + "date" ), DatatypeConstants.DATE );
+	private XSDDate()
+	{
+		super(ATermUtils.makeTermAppl(Namespaces.XSD + "date"), DatatypeConstants.DATE);
 
-		dataRange = new RestrictedTimelineDatatype( this, DatatypeConstants.DATE, false );
+		dataRange = new RestrictedTimelineDatatype(this, DatatypeConstants.DATE, false);
 	}
 
-	public RestrictedDatatype<XMLGregorianCalendar> asDataRange() {
+	@Override
+	public RestrictedDatatype<XMLGregorianCalendar> asDataRange()
+	{
 		return dataRange;
 	}
 }

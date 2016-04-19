@@ -6,16 +6,14 @@
 
 package com.clarkparsia.pellet.rules.builtins;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import org.mindswap.pellet.ABox;
-import org.mindswap.pellet.Literal;
-
 import com.clarkparsia.pellet.rules.BindingHelper;
 import com.clarkparsia.pellet.rules.VariableBinding;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
+import java.util.Collection;
+import java.util.Collections;
+import org.mindswap.pellet.ABox;
+import org.mindswap.pellet.Literal;
 
 /**
  * <p>
@@ -30,48 +28,65 @@ import com.clarkparsia.pellet.rules.model.BuiltInAtom;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class NoSuchBuiltIn implements BuiltIn {
-	
-	private static class EmptyHelper implements BindingHelper {
+ */
+public class NoSuchBuiltIn implements BuiltIn
+{
 
-		public Collection<? extends AtomVariable> getBindableVars( Collection<AtomVariable> bound ) {
+	private static class EmptyHelper implements BindingHelper
+	{
+
+		@Override
+		public Collection<? extends AtomVariable> getBindableVars(final Collection<AtomVariable> bound)
+		{
 			return Collections.emptySet();
 		}
 
-		public Collection<? extends AtomVariable> getPrerequisiteVars( Collection<AtomVariable> bound ) {
+		@Override
+		public Collection<? extends AtomVariable> getPrerequisiteVars(final Collection<AtomVariable> bound)
+		{
 			return Collections.emptySet();
 		}
 
-		public void rebind(VariableBinding newBinding) {
+		@Override
+		public void rebind(final VariableBinding newBinding)
+		{
 			// Nothing to do
 		}
 
-		public boolean selectNextBinding() {
+		@Override
+		public boolean selectNextBinding()
+		{
 			return false;
 		}
 
-		public void setCurrentBinding(VariableBinding currentBinding) {
+		@Override
+		public void setCurrentBinding(final VariableBinding currentBinding)
+		{
 			// Nothing to do
 		}
-		
+
 	}
-	
-	private BindingHelper empty = new EmptyHelper();
-	
+
+	private final BindingHelper empty = new EmptyHelper();
+
 	public static final BuiltIn instance = new NoSuchBuiltIn();
-	
-	private NoSuchBuiltIn(){}
-	
-	public BindingHelper createHelper(BuiltInAtom atom) {
-		ABox.log.warning( "Returning an empty binding helper for unimplemented built-in "+atom );
+
+	private NoSuchBuiltIn()
+	{
+	}
+
+	@Override
+	public BindingHelper createHelper(final BuiltInAtom atom)
+	{
+		ABox.log.warning("Returning an empty binding helper for unimplemented built-in " + atom);
 		return empty;
 	}
 
 	@Override
-	public boolean apply(ABox abox, Literal[] args) {
-	    return false;
+	public boolean apply(final ABox abox, final Literal[] args)
+	{
+		return false;
 	}
 }

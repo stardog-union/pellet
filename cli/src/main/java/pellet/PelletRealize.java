@@ -8,11 +8,10 @@
 
 package pellet;
 
+import aterm.ATermAppl;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.taxonomy.printer.ClassTreePrinter;
 import org.mindswap.pellet.taxonomy.printer.TaxonomyPrinter;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -27,57 +26,63 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class PelletRealize extends PelletCmdApp {
+public class PelletRealize extends PelletCmdApp
+{
 
-	public PelletRealize() {
-		super( );
+	public PelletRealize()
+	{
+		super();
 	}
 
 	@Override
-	public String getAppCmd() {
+	public String getAppCmd()
+	{
 		return "pellet realize " + getMandatoryOptions() + "[options] <file URI>...";
 	}
 
 	@Override
-	public String getAppId() {
+	public String getAppId()
+	{
 		return "PelletRealize: Compute and display the most specific instances for each class";
 	}
 
 	@Override
-	public PelletCmdOptions getOptions() {
-		PelletCmdOptions options = getGlobalOptions();
-		
-		options.add( getLoaderOption() );
-		options.add( getIgnoreImportsOption() );
-		options.add( getInputFormatOption() );
+	public PelletCmdOptions getOptions()
+	{
+		final PelletCmdOptions options = getGlobalOptions();
+
+		options.add(getLoaderOption());
+		options.add(getIgnoreImportsOption());
+		options.add(getInputFormatOption());
 
 		return options;
 	}
 
 	@Override
-	public void run() {
-		KnowledgeBase kb = getKB();
-		
-		startTask( "consistency check" );
-		boolean isConsistent = kb.isConsistent();
-		finishTask( "consistency check" );
+	public void run()
+	{
+		final KnowledgeBase kb = getKB();
 
-		if( !isConsistent )
-			throw new PelletCmdException( "Ontology is inconsistent, run \"pellet explain\" to get the reason" );
+		startTask("consistency check");
+		final boolean isConsistent = kb.isConsistent();
+		finishTask("consistency check");
 
-		startTask( "classification" );
+		if (!isConsistent)
+			throw new PelletCmdException("Ontology is inconsistent, run \"pellet explain\" to get the reason");
+
+		startTask("classification");
 		kb.classify();
-		finishTask( "classification" );
-		
-		startTask( "realization" );
-		kb.realize();
-		finishTask( "realization" );
+		finishTask("classification");
 
-		TaxonomyPrinter<ATermAppl> printer = new ClassTreePrinter();
-		printer.print( kb.getTaxonomy() );
+		startTask("realization");
+		kb.realize();
+		finishTask("realization");
+
+		final TaxonomyPrinter<ATermAppl> printer = new ClassTreePrinter();
+		printer.print(kb.getTaxonomy());
 	}
 
 }

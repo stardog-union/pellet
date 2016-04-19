@@ -1,15 +1,12 @@
 package com.clarkparsia.pellet.datatypes.types.duration;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import javax.xml.datatype.Duration;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.datatypes.Datatype;
 import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetException;
+import java.util.Collection;
+import java.util.Iterator;
+import javax.xml.datatype.Duration;
 
 /**
  * <p>
@@ -24,79 +21,103 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetExcep
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class RestrictedDurationDatatype implements RestrictedDatatype<Duration> {
-	private final Datatype<Duration>	dt;
+public class RestrictedDurationDatatype implements RestrictedDatatype<Duration>
+{
+	private final Datatype<Duration> dt;
 
-	public RestrictedDurationDatatype(Datatype<Duration> dt) {
+	public RestrictedDurationDatatype(final Datatype<Duration> dt)
+	{
 		this.dt = dt;
 	}
 
-	public RestrictedDatatype<Duration> applyConstrainingFacet(ATermAppl facet, Object value)
-			throws InvalidConstrainingFacetException {
+	@Override
+	public RestrictedDatatype<Duration> applyConstrainingFacet(final ATermAppl facet, final Object value) throws InvalidConstrainingFacetException
+	{
 		// TODO: support facets
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean contains(Object value) {
-		if( value instanceof Duration ) {
+	@Override
+	public boolean contains(final Object value)
+	{
+		if (value instanceof Duration)
 			return true;
-		}
 		return false;
 	}
 
-	public boolean containsAtLeast(int n) {
+	@Override
+	public boolean containsAtLeast(final int n)
+	{
 		return true;
 	}
 
-	public RestrictedDatatype<Duration> exclude(Collection<?> values) {
+	@Override
+	public RestrictedDatatype<Duration> exclude(final Collection<?> values)
+	{
 		// TODO:
 		throw new UnsupportedOperationException();
 	}
 
-	public Datatype<? extends Duration> getDatatype() {
+	@Override
+	public Datatype<? extends Duration> getDatatype()
+	{
 		return dt;
 	}
 
-	public Duration getValue(int i) {
+	@Override
+	public Duration getValue(final int i)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public RestrictedDatatype<Duration> intersect(RestrictedDatatype<?> other, boolean negated) {
-		if( other instanceof RestrictedDurationDatatype ) {
+	@Override
+	public RestrictedDatatype<Duration> intersect(final RestrictedDatatype<?> other, final boolean negated)
+	{
+		if (other instanceof RestrictedDurationDatatype)
 			return this;
-		}
 		else
 			throw new IllegalArgumentException();
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return false;
 	}
 
-	public boolean isEnumerable() {
+	@Override
+	public boolean isEnumerable()
+	{
 		return false;
 	}
 
-	public boolean isFinite() {
+	@Override
+	public boolean isFinite()
+	{
 		return false;
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		throw new IllegalStateException();
 	}
 
-	public RestrictedDatatype<Duration> union(RestrictedDatatype<?> other) {
-		if( other instanceof RestrictedDurationDatatype ) {
+	@Override
+	public RestrictedDatatype<Duration> union(final RestrictedDatatype<?> other)
+	{
+		if (other instanceof RestrictedDurationDatatype)
 			return this;
-		}
 		else
 			throw new IllegalArgumentException();
 	}
 
-	public Iterator<Duration> valueIterator() {
+	@Override
+	public Iterator<Duration> valueIterator()
+	{
 		throw new IllegalStateException();
 	}
 

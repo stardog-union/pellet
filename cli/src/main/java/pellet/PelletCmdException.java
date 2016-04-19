@@ -21,21 +21,31 @@ package pellet;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class PelletCmdException extends RuntimeException {
+public class PelletCmdException extends RuntimeException
+{
+
+	/**
+	 * TODO
+	 *
+	 * @since
+	 */
+	private static final long serialVersionUID = -5472994436987740189L;
 
 	/**
 	 * Create an exception with the given error message.
-	 * 
+	 *
 	 * @param msg
 	 */
-	public PelletCmdException(String msg) {
-		super( msg );
+	public PelletCmdException(final String msg)
+	{
+		super(msg);
 	}
-	
-	public PelletCmdException(Throwable cause) {
-		super( cause );
+
+	public PelletCmdException(final Throwable cause)
+	{
+		super(cause);
 	}
 }

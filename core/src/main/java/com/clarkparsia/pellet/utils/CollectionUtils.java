@@ -28,68 +28,84 @@ import java.util.Set;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  * @author Evren Sirin
  */
-public class CollectionUtils {
-	public static <K, V> Map<K, V> makeIdentityMap() {
-		return new IdentityHashMap<K, V>();
+public class CollectionUtils
+{
+	public static <K, V> Map<K, V> makeIdentityMap()
+	{
+		return new IdentityHashMap<>();
 	}
 
-	public static <K, V> Map<K, V> makeIdentityMap(int size) {
-		return new IdentityHashMap<K, V>( size );
+	public static <K, V> Map<K, V> makeIdentityMap(final int size)
+	{
+		return new IdentityHashMap<>(size);
 	}
 
-	public static <K, V> Map<K, V> makeIdentityMap(Map<? extends K, ? extends V> map) {
-		return new IdentityHashMap<K, V>( map );
+	public static <K, V> Map<K, V> makeIdentityMap(final Map<? extends K, ? extends V> map)
+	{
+		return new IdentityHashMap<>(map);
 	}
 
-	public static <T> Set<T> makeIdentitySet() {
-		return new IdentityHashSet<T>();
+	public static <T> Set<T> makeIdentitySet()
+	{
+		return new IdentityHashSet<>();
 	}
 
-	public static <T> Set<T> makeIdentitySet(int size) {
-		return new IdentityHashSet<T>( size );
+	public static <T> Set<T> makeIdentitySet(final int size)
+	{
+		return new IdentityHashSet<>(size);
 	}
 
-	public static <T> Set<T> makeIdentitySet(Collection<? extends T> a) {
-		return new IdentityHashSet<T>( a );
+	public static <T> Set<T> makeIdentitySet(final Collection<? extends T> a)
+	{
+		return new IdentityHashSet<>(a);
 	}
 
-	public static <T> List<T> makeList() {
-		return new ArrayList<T>();
+	public static <T> List<T> makeList()
+	{
+		return new ArrayList<>();
 	}
 
-	public static <T> List<T> makeList(int size) {
-		return new ArrayList<T>( size );
+	public static <T> List<T> makeList(final int size)
+	{
+		return new ArrayList<>(size);
 	}
 
-	public static <T> List<T> makeList(Collection<? extends T> a) {
-		return new ArrayList<T>( a );
+	public static <T> List<T> makeList(final Collection<? extends T> a)
+	{
+		return new ArrayList<>(a);
 	}
 
-	public static <K, V> Map<K, V> makeMap() {
-		return new HashMap<K, V>();
+	public static <K, V> Map<K, V> makeMap()
+	{
+		return new HashMap<>();
 	}
 
-	public static <K, V> Map<K, V> makeMap(int size) {
-		return new HashMap<K, V>( size );
+	public static <K, V> Map<K, V> makeMap(final int size)
+	{
+		return new HashMap<>(size);
 	}
 
-	public static <K, V> Map<K, V> makeMap(Map<? extends K, ? extends V> map) {
-		return new HashMap<K, V>( map );
+	public static <K, V> Map<K, V> makeMap(final Map<? extends K, ? extends V> map)
+	{
+		return new HashMap<>(map);
 	}
 
-	public static <T> Set<T> makeSet() {
-		return new HashSet<T>();
+	public static <T> Set<T> makeSet()
+	{
+		return new HashSet<>();
 	}
 
-	public static <T> Set<T> makeSet(int size) {
-		return new HashSet<T>( size );
+	public static <T> Set<T> makeSet(final int size)
+	{
+		return new HashSet<>(size);
 	}
 
-	public static <T> Set<T> makeSet(Collection<? extends T> a) {
-		return new HashSet<T>( a );
+	public static <T> Set<T> makeSet(final Collection<? extends T> a)
+	{
+		return new HashSet<>(a);
 	}
 }

@@ -8,14 +8,13 @@ package com.clarkparsia.modularity.test;
 
 import static org.junit.Assert.assertTrue;
 
-import com.clarkparsia.owlapi.OWL;
-import com.clarkparsia.owlapi.OntologyUtils;
-
 import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.ModuleExtractor;
 import com.clarkparsia.modularity.PelletIncremantalReasonerFactory;
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -56,7 +55,7 @@ public class PersistenceModularityTest extends AbstractModularityTest
 		return new AxiomBasedModuleExtractor();
 	}
 
-	private void testPersistence(OWLOntology ontology) throws IOException
+	private void testPersistence(final OWLOntology ontology) throws IOException
 	{
 		final File testFile = new File(TEST_FILE);
 		final ModuleExtractor moduleExtractor = createModuleExtractor();
@@ -87,7 +86,7 @@ public class PersistenceModularityTest extends AbstractModularityTest
 		assertTrue(testFile.delete());
 	}
 
-	private void testPersistence(String file) throws IOException
+	private void testPersistence(final String file) throws IOException
 	{
 		final OWLOntology ontology = OntologyUtils.loadOntology("file:" + file, false);
 		try
@@ -106,7 +105,7 @@ public class PersistenceModularityTest extends AbstractModularityTest
 		testPersistence("test/data/modularity/galen.owl");
 	}
 
-	public static void main(String[] args) throws IOException
+	public static void main(final String[] args) throws IOException
 	{
 		new PersistenceModularityTest().testPersistence("test/data/modularity/galen.owl");
 	}

@@ -19,15 +19,16 @@ package org.mindswap.pellet.tableau.completion.queue;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public enum NodeSelector {
+public enum NodeSelector
+{
 
-	ATOM, CHOOSE, DATATYPE, DISJUNCTION, EXISTENTIAL, GUESS, LITERAL, MAX_NUMBER, MIN_NUMBER,
-	NOMINAL, UNIVERSAL;
+	ATOM, CHOOSE, DATATYPE, DISJUNCTION, EXISTENTIAL, GUESS, LITERAL, MAX_NUMBER, MIN_NUMBER, NOMINAL, UNIVERSAL;
 
-	public static int numSelectors() {
+	public static int numSelectors()
+	{
 		return values().length;
 	}
 }

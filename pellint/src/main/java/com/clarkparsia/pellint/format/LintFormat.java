@@ -13,7 +13,7 @@ import com.clarkparsia.pellint.model.Lint;
  * Title: Lint String Formatting Interface
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -21,11 +21,12 @@ import com.clarkparsia.pellint.model.Lint;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public interface LintFormat {
-	
+public interface LintFormat
+{
+
 	//Could add a new interface: StringBuilder format(StringBuilder builder, Lint lint)
 	//if this turns out to be too inefficient - i.e. creating lots of StringBuilder's
 	//all the time.

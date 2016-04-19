@@ -14,8 +14,7 @@ import org.mindswap.pellet.Literal;
  * Title: General Function
  * </p>
  * <p>
- * Description: Interface for built-ins that can bind arbitrary argument positions
- * to a new value.
+ * Description: Interface for built-ins that can bind arbitrary argument positions to a new value.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,19 +22,17 @@ import org.mindswap.pellet.Literal;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface GeneralFunction {
+ */
+public interface GeneralFunction
+{
 
 	/**
-	 * Apply the function against a set of arguments.
-	 * Set null values of argument array.
-	 * 
-	 * Return true if function succeeded, false if it cannot.
+	 * Apply the function against a set of arguments. Set null values of argument array. Return true if function succeeded, false if it cannot.
 	 */
-	public boolean apply( ABox abox, Literal[] args );
-	
-	public boolean isApplicable( boolean[] boundPositions );
-	
+	public boolean apply(ABox abox, Literal[] args);
+
+	public boolean isApplicable(boolean[] boundPositions);
+
 }

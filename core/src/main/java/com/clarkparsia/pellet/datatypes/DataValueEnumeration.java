@@ -20,68 +20,87 @@ import java.util.Set;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class DataValueEnumeration<T> implements DataRange<T> {
+public class DataValueEnumeration<T> implements DataRange<T>
+{
 
-	private final Set<T>	values;
-	private final int		size;
+	private final Set<T> values;
+	private final int size;
 
-	public DataValueEnumeration(Collection<? extends T> values) {
-		if( values == null )
+	public DataValueEnumeration(final Collection<? extends T> values)
+	{
+		if (values == null)
 			throw new NullPointerException();
-		if( values.isEmpty() )
+		if (values.isEmpty())
 			throw new IllegalArgumentException();
 
-		this.values = Collections.unmodifiableSet( new LinkedHashSet<T>( values ) );
+		this.values = Collections.unmodifiableSet(new LinkedHashSet<T>(values));
 		this.size = this.values.size();
 	}
 
-	public boolean contains(Object value) {
-		return values.contains( value );
+	@Override
+	public boolean contains(final Object value)
+	{
+		return values.contains(value);
 	}
 
-	public boolean containsAtLeast(int n) {
+	@Override
+	public boolean containsAtLeast(final int n)
+	{
 		return size >= n;
 	}
 
-	public T getValue(int i) {
+	@Override
+	public T getValue(final int i)
+	{
 		/*
 		 * Inefficient, but no one should be using this method!
 		 */
-		if( i >= size )
+		if (i >= size)
 			throw new NoSuchElementException();
 
-		Iterator<T> it = values.iterator();
-		for( int j = 0; j < i; j++ )
+		final Iterator<T> it = values.iterator();
+		for (int j = 0; j < i; j++)
 			it.next();
 
 		return it.next();
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return false;
 	}
 
-	public boolean isEnumerable() {
+	@Override
+	public boolean isEnumerable()
+	{
 		return true;
 	}
 
-	public boolean isFinite() {
+	@Override
+	public boolean isFinite()
+	{
 		return true;
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		return size;
 	}
 
-	public Iterator<T> valueIterator() {
+	@Override
+	public Iterator<T> valueIterator()
+	{
 		return values.iterator();
 	}
 
 	@Override
-	public String toString() {
-		return String.format( "OneOf%s", values );
+	public String toString()
+	{
+		return String.format("OneOf%s", values);
 	}
 }

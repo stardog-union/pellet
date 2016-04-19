@@ -6,25 +6,22 @@
 
 package com.clarkparsia.pellet.el;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
 import org.mindswap.pellet.RBox;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.utils.CollectionUtils;
-
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -32,62 +29,69 @@ import com.clarkparsia.pellet.utils.CollectionUtils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class RoleRestrictionCache {
-	private Map<ATermAppl, ATermAppl> m_Domains;
-	private Map<ATermAppl, ATermAppl> m_Ranges;
-	
-	public RoleRestrictionCache(RBox rbox) {
+public class RoleRestrictionCache
+{
+	private final Map<ATermAppl, ATermAppl> m_Domains;
+	private final Map<ATermAppl, ATermAppl> m_Ranges;
+
+	public RoleRestrictionCache(final RBox rbox)
+	{
 		m_Domains = CollectionUtils.makeMap();
 		m_Ranges = CollectionUtils.makeMap();
 
-		prepareDomainsRanges( rbox );
+		prepareDomainsRanges(rbox);
 	}
 
-	private void prepareDomainsRanges(RBox rbox) {
-		for (Role role : rbox.getRoles()) {
-			Iterator<ATermAppl> assertedDomains = rbox.getAssertedDomains(role);
-			if (assertedDomains.hasNext()) {
+	private void prepareDomainsRanges(final RBox rbox)
+	{
+		for (final Role role : rbox.getRoles())
+		{
+			final Iterator<ATermAppl> assertedDomains = rbox.getAssertedDomains(role);
+			if (assertedDomains.hasNext())
 				addTo(m_Domains, role.getName(), IteratorUtils.toSet(assertedDomains));
-			}
-			
-			Iterator<ATermAppl> assertedRanges = rbox.getAssertedRanges(role);
-			if (assertedRanges.hasNext()) {
+
+			final Iterator<ATermAppl> assertedRanges = rbox.getAssertedRanges(role);
+			if (assertedRanges.hasNext())
 				addTo(m_Ranges, role.getName(), IteratorUtils.toSet(assertedRanges));
-			}
 		}
 	}
 
-	private static void addTo(Map<ATermAppl, ATermAppl> map, ATermAppl roleName, Set<ATermAppl> asserted) {
-		if (asserted.isEmpty()) return;
-		
-		ATermAppl range = null;
-		if (asserted.size() == 1) {
-			range = asserted.iterator().next();
-		} else {
-			range = ATermUtils.makeAnd(ATermUtils.toSet(asserted));
-		}
+	private static void addTo(final Map<ATermAppl, ATermAppl> map, final ATermAppl roleName, final Set<ATermAppl> asserted)
+	{
+		if (asserted.isEmpty())
+			return;
 
-		range = ELSyntaxUtils.simplify( ATermUtils.nnf( range ) );
+		ATermAppl range = null;
+		if (asserted.size() == 1)
+			range = asserted.iterator().next();
+		else
+			range = ATermUtils.makeAnd(ATermUtils.toSet(asserted));
+
+		range = ELSyntaxUtils.simplify(ATermUtils.nnf(range));
 
 		map.put(roleName, range);
 	}
 
-	public Map<ATermAppl, ATermAppl> getDomains() {
+	public Map<ATermAppl, ATermAppl> getDomains()
+	{
 		return m_Domains;
 	}
-	
-	public Map<ATermAppl, ATermAppl> getRanges() {
+
+	public Map<ATermAppl, ATermAppl> getRanges()
+	{
 		return m_Ranges;
 	}
 
-	public ATermAppl getDomain(ATermAppl prop) {
+	public ATermAppl getDomain(final ATermAppl prop)
+	{
 		return m_Domains.get(prop);
 	}
-	
-	public ATermAppl getRange(ATermAppl prop) {
+
+	public ATermAppl getRange(final ATermAppl prop)
+	{
 		return m_Ranges.get(prop);
 	}
 }

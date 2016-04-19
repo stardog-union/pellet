@@ -13,10 +13,10 @@ package com.clarkparsia.pellet.datatypes;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public enum IntervalRelations {
-	CONTAINS, DURING, EQUALS, FINISHED_BY, FINISHES, MEETS, MET_BY, OVERLAPPED_BY, OVERLAPS,
-	PRECEDED_BY, PRECEDES, STARTED_BY, STARTS
+public enum IntervalRelations
+{
+	CONTAINS, DURING, EQUALS, FINISHED_BY, FINISHES, MEETS, MET_BY, OVERLAPPED_BY, OVERLAPS, PRECEDED_BY, PRECEDES, STARTED_BY, STARTS
 }

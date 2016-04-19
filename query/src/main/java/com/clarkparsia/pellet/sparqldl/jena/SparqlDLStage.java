@@ -8,25 +8,18 @@
 
 package com.clarkparsia.pellet.sparqldl.jena;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.mindswap.pellet.exceptions.UnsupportedQueryException;
-import org.mindswap.pellet.jena.PelletInfGraph;
-import org.mindswap.pellet.jena.graph.loader.GraphLoader;
-import org.mindswap.pellet.utils.ATermUtils;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
 import com.clarkparsia.pellet.sparqldl.model.ResultBindingImpl;
 import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
@@ -38,17 +31,18 @@ import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.iterator.QueryIterRepeatApply;
 import org.apache.jena.sparql.engine.iterator.QueryIteratorResultSet;
 import org.apache.jena.sparql.engine.main.StageGeneratorGeneric;
+import org.mindswap.pellet.exceptions.UnsupportedQueryException;
+import org.mindswap.pellet.jena.PelletInfGraph;
+import org.mindswap.pellet.jena.graph.loader.GraphLoader;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
  * Title:
  * </p>
  * <p>
- * Description: An implementation of ARQ query stage for PelletInfGraph. The
- * {@link BasicPattern} is converted into a native Pellet SPARQL-DL query and
- * answered by the Pellet query engine. The conversion to Pellet query might
- * fail if the pattern is not a SPARQL-DL query in which case the default ARQ
- * handler is used.
+ * Description: An implementation of ARQ query stage for PelletInfGraph. The {@link BasicPattern} is converted into a native Pellet SPARQL-DL query and answered
+ * by the Pellet query engine. The conversion to Pellet query might fail if the pattern is not a SPARQL-DL query in which case the default ARQ handler is used.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -56,99 +50,110 @@ import org.apache.jena.sparql.engine.main.StageGeneratorGeneric;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-class SparqlDLStage {
-	public final static Logger	log					= Logger.getLogger( SparqlDLStage.class
-															.getName() );
+class SparqlDLStage
+{
+	public final static Logger log = Logger.getLogger(SparqlDLStage.class.getName());
 
-	private ARQParser			parser;
+	private final ARQParser parser;
 
-	private BasicPattern		pattern;
-	private Collection<String>	vars;
+	private final BasicPattern pattern;
+	private Collection<String> vars;
 
-	public SparqlDLStage(BasicPattern pattern) {
-		this( pattern, true );
+	public SparqlDLStage(final BasicPattern pattern)
+	{
+		this(pattern, true);
 	}
 
-	public SparqlDLStage(BasicPattern pattern, boolean handleVariableSPO) {
+	public SparqlDLStage(final BasicPattern pattern, final boolean handleVariableSPO)
+	{
 		this.pattern = pattern;
 		this.parser = new ARQParser(handleVariableSPO);
 
 		initVars();
 	}
 
-	private void initVars() {
-		vars = new LinkedHashSet<String>();
-		for( int i = 0; i < pattern.size(); i++ ) {
-			Triple t = pattern.get( i );
+	private void initVars()
+	{
+		vars = new LinkedHashSet<>();
+		for (int i = 0; i < pattern.size(); i++)
+		{
+			final Triple t = pattern.get(i);
 
-			if( ARQParser.isDistinguishedVariable( t.getSubject() ) )
-				vars.add( t.getSubject().getName() );
-			if( t.getPredicate().isVariable() )
-				vars.add( t.getPredicate().getName() );
-			if( ARQParser.isDistinguishedVariable( t.getObject() ) )
-				vars.add( t.getObject().getName() );
+			if (ARQParser.isDistinguishedVariable(t.getSubject()))
+				vars.add(t.getSubject().getName());
+			if (t.getPredicate().isVariable())
+				vars.add(t.getPredicate().getName());
+			if (ARQParser.isDistinguishedVariable(t.getObject()))
+				vars.add(t.getObject().getName());
 		}
 	}
 
-	public QueryIterator build(QueryIterator input, ExecutionContext execCxt) {
-		Graph graph = execCxt.getActiveGraph();
-		if( !(graph instanceof PelletInfGraph) )
-			throw new UnsupportedOperationException( "A Pellet-backed model is required" );
+	public QueryIterator build(final QueryIterator input, final ExecutionContext execCxt)
+	{
+		final Graph graph = execCxt.getActiveGraph();
+		if (!(graph instanceof PelletInfGraph))
+			throw new UnsupportedOperationException("A Pellet-backed model is required");
 
-		PelletInfGraph pellet = (PelletInfGraph) graph;
+		final PelletInfGraph pellet = (PelletInfGraph) graph;
 
 		pellet.prepare();
 
-		Query query = parsePattern( pellet );
+		final Query query = parsePattern(pellet);
 
-		if( query != null ) {
-			return new PelletQueryIterator( pellet, query, input, execCxt );
-		}
-		else {
-			return new StageGeneratorGeneric().execute( pattern, input, execCxt );
-		}
+		if (query != null)
+			return new PelletQueryIterator(pellet, query, input, execCxt);
+		else
+			return new StageGeneratorGeneric().execute(pattern, input, execCxt);
 	}
 
-	private Query parsePattern(PelletInfGraph pellet) {
-		try {
-			return parser.parse( pattern, vars, pellet.getKB(), false );
-		} catch( UnsupportedQueryException e ) {
-			if( log.isLoggable( Level.FINE ) )
-				log.log( Level.FINE, "Falling back to Jena stage", e );
+	private Query parsePattern(final PelletInfGraph pellet)
+	{
+		try
+		{
+			return parser.parse(pattern, vars, pellet.getKB(), false);
+		}
+		catch (final UnsupportedQueryException e)
+		{
+			if (log.isLoggable(Level.FINE))
+				log.log(Level.FINE, "Falling back to Jena stage", e);
 
 			return null;
 		}
 	}
 
-	private static class PelletQueryIterator extends QueryIterRepeatApply {
-		private PelletInfGraph	pellet;
-		private Query			query;
+	private static class PelletQueryIterator extends QueryIterRepeatApply
+	{
+		private final PelletInfGraph pellet;
+		private final Query query;
 
 		/**
 		 * @param input
 		 * @param context
 		 */
-		public PelletQueryIterator(PelletInfGraph pellet, Query query, QueryIterator input,
-				ExecutionContext execCxt) {
-			super( input, execCxt );
+		public PelletQueryIterator(final PelletInfGraph pellet, final Query query, final QueryIterator input, final ExecutionContext execCxt)
+		{
+			super(input, execCxt);
 
 			this.pellet = pellet;
 			this.query = query;
 		}
 
-		private ResultBinding convertBinding(Binding binding) {
-			ResultBinding pelletBinding = new ResultBindingImpl();
-			GraphLoader loader = pellet.getLoader();
-			for( Iterator<?> vars = binding.vars(); vars.hasNext(); ) {
-				Var var = (Var) vars.next();
-				Node value = binding.get( var );
-				if( value != null ) {
-					ATermAppl pelletVar = ATermUtils.makeVar( var.getVarName() );
-					ATermAppl pelletValue = loader.node2term( value );
-					pelletBinding.setValue( pelletVar, pelletValue );
+		private ResultBinding convertBinding(final Binding binding)
+		{
+			final ResultBinding pelletBinding = new ResultBindingImpl();
+			final GraphLoader loader = pellet.getLoader();
+			for (final Iterator<?> vars = binding.vars(); vars.hasNext();)
+			{
+				final Var var = (Var) vars.next();
+				final Node value = binding.get(var);
+				if (value != null)
+				{
+					final ATermAppl pelletVar = ATermUtils.makeVar(var.getVarName());
+					final ATermAppl pelletValue = loader.node2term(value);
+					pelletBinding.setValue(pelletVar, pelletValue);
 				}
 			}
 
@@ -159,14 +164,15 @@ class SparqlDLStage {
 		 * {@inheritDoc}
 		 */
 		@Override
-		protected QueryIterator nextStage(Binding binding) {
-			Query newQuery = query.apply( convertBinding( binding ) );
+		protected QueryIterator nextStage(final Binding binding)
+		{
+			final Query newQuery = query.apply(convertBinding(binding));
 
-			QueryResult results = QueryEngine.exec( newQuery );
+			final QueryResult results = QueryEngine.exec(newQuery);
 
-			SparqlDLResultSet resultSet = new SparqlDLResultSet( results, null, binding );
+			final SparqlDLResultSet resultSet = new SparqlDLResultSet(results, null, binding);
 
-			QueryIteratorResultSet iter = new QueryIteratorResultSet( resultSet );
+			final QueryIteratorResultSet iter = new QueryIteratorResultSet(resultSet);
 
 			return iter;
 		}

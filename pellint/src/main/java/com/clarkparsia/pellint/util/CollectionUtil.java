@@ -19,7 +19,7 @@ import java.util.Set;
  * Title: Collection Utilities
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -27,31 +27,38 @@ import java.util.Set;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class CollectionUtil {
-	public static <T> List<T> makeList() {
+public class CollectionUtil
+{
+	public static <T> List<T> makeList()
+	{
 		return new ArrayList<T>();
 	}
-	
-	public static <T> Set<T> makeSet() {
+
+	public static <T> Set<T> makeSet()
+	{
 		return new HashSet<T>();
 	}
-	
-	public static <K,V> Map<K,V> makeMap() {
-		return new HashMap<K,V>();
+
+	public static <K, V> Map<K, V> makeMap()
+	{
+		return new HashMap<K, V>();
 	}
 
-	public static <T> List<T> copy(List<? extends T> a) {
+	public static <T> List<T> copy(final List<? extends T> a)
+	{
 		return new ArrayList<T>(a);
 	}
 
-	public static <T> Set<T> copy(Set<? extends T> a) {
+	public static <T> Set<T> copy(final Set<? extends T> a)
+	{
 		return new HashSet<T>(a);
 	}
 
-	public static <T> Set<T> asSet(T... a) {
+	public static <T> Set<T> asSet(final T... a)
+	{
 		return new HashSet<T>(Arrays.asList(a));
 	}
 }

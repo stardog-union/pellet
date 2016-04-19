@@ -21,33 +21,38 @@ import java.net.URI;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class SingleTestResult {
+public class SingleTestResult
+{
 
-	private URI uri;
+	private final URI uri;
 
-	private ResultEnum result;
+	private final ResultEnum result;
 
-	private long time;
+	private final long time;
 
-	public SingleTestResult(URI uri, ResultEnum result, long time) {
+	public SingleTestResult(final URI uri, final ResultEnum result, final long time)
+	{
 		super();
 		this.uri = uri;
 		this.result = result;
 		this.time = time;
 	}
 
-	public URI getUri() {
+	public URI getUri()
+	{
 		return uri;
 	}
 
-	public ResultEnum getResult() {
+	public ResultEnum getResult()
+	{
 		return result;
 	}
 
-	public long getTime() {
+	public long getTime()
+	{
 		return time;
 	}
 }

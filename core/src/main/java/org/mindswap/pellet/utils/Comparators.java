@@ -6,70 +6,58 @@
 
 package org.mindswap.pellet.utils;
 
+import aterm.ATerm;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 
-import aterm.ATerm;
+public class Comparators
+{
+	public static final Comparator<Comparable<Object>> comparator = (o1, o2) -> o1.compareTo(o2);
 
-public class Comparators {
-    public static final Comparator<Comparable<Object>> comparator = new Comparator<Comparable<Object>>() {
-        public int compare( Comparable<Object> o1, Comparable<Object> o2 ) {
-            return o1.compareTo( o2 );
-        }
-    };
+	public static final Comparator<ATerm> termComparator = (o1, o2) ->
+	{
+		final int h1 = o1.hashCode();
+		final int h2 = o2.hashCode();
 
-    public static final Comparator<ATerm> termComparator = new Comparator<ATerm>() {
-        public int compare( ATerm o1, ATerm o2 ) {
-        	int h1 = o1.hashCode();
-        	int h2 = o2.hashCode();
+		if (h1 < h2)
+			return -1;
+		else
+			if (h1 > h2)
+				return 1;
+			else
+				if (o1 == o2)
+					// aterm equality is identity equality due to maximal structure
+					// sharing
+					return 0;
+				else
+					// ATerm.toString is very inefficient but hashcodes of ATerms
+					// clash very infrequently. The need to compare two different
+					// terms with same hascode is nto very common either. String
+					// comparison gives us a stable ordering over different runs
+					return o1.toString().compareTo(o2.toString());
+	};
 
-            if( h1 < h2 )
-                return -1;
-            else if( h1 > h2 )
-                return 1;
-            else if( o1 == o2 ) {
-            	// aterm equality is identity equality due to maximal structure
-            	// sharing
-            	return 0;
-            }
-        	else {
-        		// ATerm.toString is very inefficient but hashcodes of ATerms
-        		// clash very infrequently. The need to compare two different
-        		// terms with same hascode is nto very common either. String
-        		// comparison gives us a stable ordering over different runs
-        		return o1.toString().compareTo( o2.toString() );
-        	}
-        }
-    };
+	public static final Comparator<Number> numberComparator = (n1, n2) -> NumberUtils.compare(n1, n2);
 
-    public static final Comparator<Number> numberComparator = new Comparator<Number>() {
-        public int compare( Number n1, Number n2 ) {
-            return NumberUtils.compare( n1, n2 );
-        }
-    };
+	public static final Comparator<Object> stringComparator = (o1, o2) -> o1.toString().compareTo(o2.toString());
 
-    public static final Comparator<Object> stringComparator = new Comparator<Object>() {
-        public int compare( Object o1, Object o2 ) {
-            return o1.toString().compareTo( o2.toString() );
-        }
-    };
+	public static final Comparator<Calendar> calendarComparator = (c1, c2) ->
+	{
+		final long t1 = c1.getTimeInMillis();
+		final long t2 = c2.getTimeInMillis();
 
-    public static final Comparator<Calendar> calendarComparator = new Comparator<Calendar>() {
-        public int compare( Calendar c1, Calendar c2 ) {
-            long t1 = c1.getTimeInMillis();
-            long t2 = c2.getTimeInMillis();
+		if (t1 < t2)
+			return -1;
+		else
+			if (t1 == t2)
+				return 0;
+			else
+				return 1;
+	};
 
-            if( t1 < t2 )
-                return -1;
-            else if( t1 == t2 )
-                return 0;
-            else
-                return 1;
-        }
-    };
-    
-    public static <T> Comparator<T> reverse( final Comparator<T> cmp ) {
-        return Collections.reverseOrder( cmp );
-    }
+	public static <T> Comparator<T> reverse(final Comparator<T> cmp)
+	{
+		return Collections.reverseOrder(cmp);
+	}
 }

@@ -26,23 +26,26 @@ import org.apache.jena.util.FileManager;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class RDFModelReader {
-	public RDFModel read(String uri, boolean loadImports) {
-		RDFModel m = new RDFModel();
-		
-		OntModel model = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
-		model.getDocumentManager().setProcessImports( loadImports );
-		
-		FileManager.get().readModel( model, uri );
+public class RDFModelReader
+{
+	public RDFModel read(final String uri, final boolean loadImports)
+	{
+		final RDFModel m = new RDFModel();
 
-		StmtIterator stmtIter = model.listStatements();
+		final OntModel model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+		model.getDocumentManager().setProcessImports(loadImports);
 
-		while( stmtIter.hasNext() ) {
-			Statement stmt = stmtIter.nextStatement();
-			m.addStatement( stmt );
+		FileManager.get().readModel(model, uri);
+
+		final StmtIterator stmtIter = model.listStatements();
+
+		while (stmtIter.hasNext())
+		{
+			final Statement stmt = stmtIter.nextStatement();
+			m.addStatement(stmt);
 		}
 
 		return m;

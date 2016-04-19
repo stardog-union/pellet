@@ -1,19 +1,15 @@
 package profiler.statistical;
 
-
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.Map.Entry;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,7 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
@@ -33,32 +28,39 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StatisticalLineAndShapeRenderer;
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset;
 import org.jfree.ui.RefineryUtilities;
-
 import profiler.ProfileKB.Task;
 
 @SuppressWarnings("serial")
-public class ReleasePerformanceVisualizer extends JFrame{
+public class ReleasePerformanceVisualizer extends JFrame
+{
 
+	/**
+	 * TODO
+	 *
+	 * @since
+	 */
+	private static final long serialVersionUID = 3529811414164984003L;
 	private static String REPOSITORY;
 
-	public static void main(String[] args) throws IOException{
-		Properties properties = new Properties();
+	public static void main(final String[] args) throws IOException
+	{
+		final Properties properties = new Properties();
 		properties.load(new FileInputStream("profiler/releasevisualizer.properties"));
 		REPOSITORY = properties.getProperty("REPOSITORY", "profiler/releases");
-		
-		ReleasePerformanceVisualizer viz = new ReleasePerformanceVisualizer("Release Performance Visualizer");		
+
+		final ReleasePerformanceVisualizer viz = new ReleasePerformanceVisualizer("Release Performance Visualizer");
 		viz.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viz.pack();
 		RefineryUtilities.centerFrameOnScreen(viz);
 		viz.setVisible(true);
 	}
 
-	private JPanel mainPanel;
+	private final JPanel mainPanel;
 	private JPanel chart;
-	private MenuPanel menu;
-	private ReleaseManager manager;
+	private final MenuPanel menu;
+	private final ReleaseManager manager;
 
-	public ReleasePerformanceVisualizer(String title)
+	public ReleasePerformanceVisualizer(final String title)
 	{
 		super(title);
 
@@ -70,137 +72,139 @@ public class ReleasePerformanceVisualizer extends JFrame{
 
 		menu = new MenuPanel(manager);
 		mainPanel.add(menu, BorderLayout.EAST);
-		
+
 		chart = createChartPanel();
 		mainPanel.add(chart, BorderLayout.CENTER);
-		
+
 		setContentPane(mainPanel);
 	}
 
 	private DefaultStatisticalCategoryDataset createDataset()
 	{
-		DefaultStatisticalCategoryDataset dataset = new DefaultStatisticalCategoryDataset();	
+		final DefaultStatisticalCategoryDataset dataset = new DefaultStatisticalCategoryDataset();
 		int count = 0;
-		
-		List<Release> releases = manager.getReleases();
-		for(int i = releases.size()-1; i>=0 ; i--)
+
+		final List<Release> releases = manager.getReleases();
+		for (int i = releases.size() - 1; i >= 0; i--)
 		{
-			Release release = releases.get(i);
-			if(menu.releases.isSelectedIndex(count))
+			final Release release = releases.get(i);
+			if (menu.releases.isSelectedIndex(count))
 			{
-				List<ReleaseStatistics> stats = release.getStatistics((String)menu.ontology.getSelectedItem());
-				if(stats != null)
-				{
-					for(ReleaseStatistics stat: stats)
-					{
-						if(menu.tasks.isSelectedIndex(stat.getTask().ordinal()))
+				final List<ReleaseStatistics> stats = release.getStatistics((String) menu.ontology.getSelectedItem());
+				if (stats != null)
+					for (final ReleaseStatistics stat : stats)
+						if (menu.tasks.isSelectedIndex(stat.getTask().ordinal()))
 						{
 							double mean, variance;
 
-							if(menu.time.getSelectedIndex() == 0){
+							if (menu.time.getSelectedIndex() == 0)
+							{
 								mean = stat.getTimeStat("avg");
 								variance = stat.getTimeStat("var");
-							}else{
+							}
+							else
+							{
 								mean = stat.getMemStat("avg");
 								variance = stat.getMemStat("var");
 							}
-							dataset.add(mean, Math.sqrt(variance), stat.getTask().toString(), release.getVersion());	
+							dataset.add(mean, Math.sqrt(variance), stat.getTask().toString(), release.getVersion());
 						}
-					}
-				}
 			}
 			count++;
-		}		
+		}
 		return dataset;
 	}
 
-	private JFreeChart createChart(DefaultStatisticalCategoryDataset dataset)
+	private JFreeChart createChart(final DefaultStatisticalCategoryDataset dataset)
 	{
-		CategoryItemRenderer renderer = new StatisticalLineAndShapeRenderer(true,true);
+		final CategoryItemRenderer renderer = new StatisticalLineAndShapeRenderer(true, true);
 		//CategoryItemRenderer renderer = new StatisticalBarRenderer();
 
-		for(int i=0; i< dataset.getRowCount(); i++)
+		for (int i = 0; i < dataset.getRowCount(); i++)
 			renderer.setSeriesStroke(i, new BasicStroke(5f));
 
-		String numberAxisLabel = menu.time.getSelectedIndex() == 0? "Execution Time (s)":"Used Memory (%)";
-		CategoryPlot plot = new CategoryPlot(dataset, new CategoryAxis("Release"), new NumberAxis(numberAxisLabel), renderer);
+		final String numberAxisLabel = menu.time.getSelectedIndex() == 0 ? "Execution Time (s)" : "Used Memory (%)";
+		final CategoryPlot plot = new CategoryPlot(dataset, new CategoryAxis("Release"), new NumberAxis(numberAxisLabel), renderer);
 		plot.setBackgroundPaint(Color.lightGray);
 		plot.setDomainGridlinesVisible(true);
 		plot.setDomainGridlinePaint(Color.white);
 		plot.setRangeGridlinesVisible(true);
-		plot.setRangeGridlinePaint(Color.white);    
+		plot.setRangeGridlinePaint(Color.white);
 		plot.setForegroundAlpha(0.8f);
 
-		return new JFreeChart((String)menu.ontology.getSelectedItem(),plot);
+		return new JFreeChart((String) menu.ontology.getSelectedItem(), plot);
 	}
 
-	public JPanel createChartPanel() {
-		JFreeChart chart = createChart(createDataset());
+	public JPanel createChartPanel()
+	{
+		final JFreeChart chart = createChart(createDataset());
 		return new ChartPanel(chart);
 	}
 
-
 	/**
 	 * JPanel that encapsulates all the components in the menu
+	 * 
 	 * @author Pedro Oliveira <pedro@clarkparsia.com>
-	 *
 	 */
 	private class MenuPanel extends JPanel
 	{
+		/**
+		 * TODO
+		 *
+		 * @since
+		 */
+		private static final long serialVersionUID = 8213647324959034612L;
 		JComboBox time;
 		JList tasks;
 		JComboBox ontology;
 		JList releases;
 		JButton ok;
 
-		public MenuPanel(ReleaseManager manager)
+		public MenuPanel(final ReleaseManager manager)
 		{
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			//DesignGridLayout
-			
+
 			//Time Menu
-			time = new JComboBox(new String[]{"Time","Memory"});
+			time = new JComboBox(new String[] { "Time", "Memory" });
 			time.setBorder(BorderFactory.createTitledBorder("Statistic"));
-			add(time);			
+			add(time);
 			add(Box.createVerticalGlue());
-			
+
 			//Tasks Menu
 			tasks = new JList(Task.values());
-			tasks.setSelectionInterval(0, tasks.getModel().getSize()-1);
+			tasks.setSelectionInterval(0, tasks.getModel().getSize() - 1);
 			tasks.setBorder(BorderFactory.createTitledBorder("Task"));
-			tasks.setVisibleRowCount(5);			
+			tasks.setVisibleRowCount(5);
 			add(new JScrollPane(tasks));
 			add(Box.createVerticalGlue());
-			
-			//Ontology Menu	
-			Set<String> ontologies = new HashSet<String>();
-			for(Release release: manager.getReleases())
-			{
-				for(Entry<String, List<ReleaseStatistics>> statistic: release.getAllStatistics().entrySet())
+
+			//Ontology Menu
+			final Set<String> ontologies = new HashSet<>();
+			for (final Release release : manager.getReleases())
+				for (final Entry<String, List<ReleaseStatistics>> statistic : release.getAllStatistics().entrySet())
 					ontologies.add(statistic.getKey());
-			}
-			ontology = new JComboBox(ontologies.toArray());	
+			ontology = new JComboBox(ontologies.toArray());
 			ontology.setBorder(BorderFactory.createTitledBorder("Ontology"));
 			add(ontology);
 			add(Box.createVerticalGlue());
 
 			//Releases menu
 			releases = new JList(manager.getReleases().toArray());
-			releases.setSelectionInterval(0, releases.getModel().getSize()-1);
+			releases.setSelectionInterval(0, releases.getModel().getSize() - 1);
 			releases.setBorder(BorderFactory.createTitledBorder("Releases"));
-			releases.setVisibleRowCount(5);			
+			releases.setVisibleRowCount(5);
 			add(new JScrollPane(releases));
 			add(Box.createVerticalGlue());
 
 			//Ok button
 			ok = new JButton("Draw");
-			ok.addActionListener(new ActionListener(){			
-				public void actionPerformed(ActionEvent e) {
-					mainPanel.remove(chart);
-					chart = createChartPanel();
-					mainPanel.add(chart, BorderLayout.CENTER);
-					mainPanel.validate();
-				}
+			ok.addActionListener(e ->
+			{
+				mainPanel.remove(chart);
+				chart = createChartPanel();
+				mainPanel.add(chart, BorderLayout.CENTER);
+				mainPanel.validate();
 			});
 			add(ok);
 		}

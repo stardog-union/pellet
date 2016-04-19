@@ -8,7 +8,6 @@ package com.clarkparsia.pellet.rules;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.Node;
 
@@ -25,39 +24,47 @@ import org.mindswap.pellet.Node;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class LiteralFilter implements Iterator<Literal> {
+public class LiteralFilter implements Iterator<Literal>
+{
 
-	private Iterator<Node> iterator;
+	private final Iterator<Node> iterator;
 	private Literal next;
-	
-	public LiteralFilter( Iterator<Node> iterator ) {
+
+	public LiteralFilter(final Iterator<Node> iterator)
+	{
 		this.iterator = iterator;
 	}
-	
-	public boolean hasNext() {
-		while ( ( next == null ) && iterator.hasNext() ) {
-			Node node = iterator.next();
-			if ( node.isLiteral() && node.isRootNominal() ) 
-				next = ( Literal ) node;
+
+	@Override
+	public boolean hasNext()
+	{
+		while ((next == null) && iterator.hasNext())
+		{
+			final Node node = iterator.next();
+			if (node.isLiteral() && node.isRootNominal())
+				next = (Literal) node;
 		}
 		return next != null;
 	}
 
-	public Literal next() {
-		if ( !hasNext() ) {
+	@Override
+	public Literal next()
+	{
+		if (!hasNext())
 			throw new NoSuchElementException();
-		}
-		
-		Literal result = next;
+
+		final Literal result = next;
 		next = null;
-		
+
 		return result;
 	}
 
-	public void remove() {
+	@Override
+	public void remove()
+	{
 		iterator.remove();
 	}
 

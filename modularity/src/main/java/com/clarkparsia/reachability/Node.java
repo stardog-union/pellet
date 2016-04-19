@@ -13,37 +13,41 @@ import java.util.Set;
 /**
  * @author Evren Sirin
  */
-public abstract class Node {
+public abstract class Node
+{
 
 	protected Set<Node> outputs;
 
 	protected Set<Node> inputs;
 
-	public Node() {
+	public Node()
+	{
 		this.outputs = new HashSet<Node>();
 		this.inputs = new HashSet<Node>();
 	}
 
-	public void addOutput(Node output) {
-		if (output.equals(this)) {
+	public void addOutput(final Node output)
+	{
+		if (output.equals(this))
 			return;
-		}
 
-//		outputs.add( output );
-		if (outputs.add(output)) {
+		//		outputs.add( output );
+		if (outputs.add(output))
 			output.inputs.add(this);
-		}
 	}
 
-	public boolean hasOutput(Node node) {
+	public boolean hasOutput(final Node node)
+	{
 		return outputs.contains(node);
 	}
 
-	public Set<Node> getInputs() {
+	public Set<Node> getInputs()
+	{
 		return Collections.unmodifiableSet(inputs);
 	}
 
-	public Set<Node> getOutputs() {
+	public Set<Node> getOutputs()
+	{
 		return Collections.unmodifiableSet(outputs);
 	}
 
@@ -51,38 +55,38 @@ public abstract class Node {
 
 	public abstract boolean isActive();
 
-	public boolean isRedundant() {
+	public boolean isRedundant()
+	{
 		return false;
 	}
 
-	public void removeOutput(Node output) {
-		if (outputs.remove(output)) {
+	public void removeOutput(final Node output)
+	{
+		if (outputs.remove(output))
 			output.inputs.remove(output);
-		}
 	}
 
-	public void removeInOuts() {
-		for (Node input : inputs) {
+	public void removeInOuts()
+	{
+		for (final Node input : inputs)
 			input.outputs.remove(this);
-		}
 		inputs = null;
 
-		for (Node output : outputs) {
+		for (final Node output : outputs)
 			output.inputs.remove(this);
-		}
 		outputs = null;
 	}
 
-	public void remove() {
-		for (Node input : inputs) {
+	public void remove()
+	{
+		for (final Node input : inputs)
+		{
 			input.outputs.remove(this);
-			for (Node output : outputs) {
+			for (final Node output : outputs)
 				input.addOutput(output);
-			}
 		}
-		for (Node output : outputs) {
+		for (final Node output : outputs)
 			output.inputs.remove(this);
-		}
 		inputs = null;
 		outputs = null;
 	}

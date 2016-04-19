@@ -15,7 +15,7 @@ import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
  * Title: Query Plan abstraction.
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,24 +23,27 @@ import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public abstract class QueryPlan {
+public abstract class QueryPlan
+{
 
 	protected Query query;
 
-	public QueryPlan(final Query query) {
+	public QueryPlan(final Query query)
+	{
 		this.query = query;
 	}
 
-	public Query getQuery() {
+	public Query getQuery()
+	{
 		return query;
 	}
 
 	/**
 	 * Returns next atom to be executed w.r. to the current binding.
-	 * 
+	 *
 	 * @param binding
 	 * @return
 	 */
@@ -53,7 +56,7 @@ public abstract class QueryPlan {
 
 	/**
 	 * Checks whether there is another atom to execute.
-	 * 
+	 *
 	 * @return true if there is another atom to execute.
 	 */
 	public abstract boolean hasNext();

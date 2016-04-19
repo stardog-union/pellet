@@ -15,16 +15,14 @@ public class PelletExceptionFormatter
 
 	/**
 	 * Format a user-friendly exception
-	 * 
+	 *
 	 * @param e
 	 */
-	public String formatException(Throwable e)
+	public String formatException(final Throwable e)
 	{
 		Throwable cause = e;
 		while (cause.getCause() != null)
-		{
 			cause = cause.getCause();
-		}
 
 		if (!verbose)
 		{
@@ -44,22 +42,22 @@ public class PelletExceptionFormatter
 
 	}
 
-	private String format(FileNotFoundException e)
+	private String format(final FileNotFoundException e)
 	{
 		return "ERROR: Cannot open " + e.getMessage();
 	}
 
-	private String format(PelletCmdException e)
+	private String format(final PelletCmdException e)
 	{
 		return "ERROR: " + e.getMessage();
 	}
 
 	/**
 	 * Return a generic exception message.
-	 * 
+	 *
 	 * @param e
 	 */
-	private String formatGeneric(Throwable e)
+	private String formatGeneric(final Throwable e)
 	{
 		String msg = e.getMessage();
 		if (msg != null)
@@ -72,7 +70,7 @@ public class PelletExceptionFormatter
 		return msg + "\nUse -v for detail.";
 	}
 
-	public void setVerbose(boolean verbose)
+	public void setVerbose(final boolean verbose)
 	{
 		this.verbose = verbose;
 	}

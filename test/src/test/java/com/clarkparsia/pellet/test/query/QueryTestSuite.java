@@ -6,13 +6,11 @@
 
 package com.clarkparsia.pellet.test.query;
 
+import com.clarkparsia.sparqlowl.parser.test.ParserTest;
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
-
-import com.clarkparsia.sparqlowl.parser.test.ParserTest;
 
 /**
  * <p>
@@ -27,16 +25,15 @@ import com.clarkparsia.sparqlowl.parser.test.ParserTest;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 @RunWith(Suite.class)
-@SuiteClasses( { TestBooleanQueries.class, TestSingleSPARQLDLQueries.class, ParserTest.class,
-	TestParameterizedQuery.class, TestGroundBooleanQueryComponents.class, TestNegatedQueries.class,
-	TestUnionQueries.class, TestMiscQueries.class, TestMiscSPARQL.class, SparqlDawgTestSuite.class,
-	TestQuerySubsumption.class})
-public class QueryTestSuite {
-	public static junit.framework.Test suite() {
+@SuiteClasses({ TestBooleanQueries.class, TestSingleSPARQLDLQueries.class, ParserTest.class, TestParameterizedQuery.class, TestGroundBooleanQueryComponents.class, TestNegatedQueries.class, TestUnionQueries.class, TestMiscQueries.class, TestMiscSPARQL.class, SparqlDawgTestSuite.class, TestQuerySubsumption.class })
+public class QueryTestSuite
+{
+	public static junit.framework.Test suite()
+	{
 		return new JUnit4TestAdapter(QueryTestSuite.class);
 	}
 }

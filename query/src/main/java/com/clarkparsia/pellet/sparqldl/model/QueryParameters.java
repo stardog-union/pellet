@@ -6,18 +6,15 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
+import aterm.ATermAppl;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import org.mindswap.pellet.jena.JenaUtils;
-import org.mindswap.pellet.utils.ATermUtils;
-
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.QuerySolutionMap;
-
-import aterm.ATermAppl;
+import org.mindswap.pellet.jena.JenaUtils;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
@@ -32,48 +29,58 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class QueryParameters {
+public class QueryParameters
+{
 
-	private Map<ATermAppl, ATermAppl> parameters ;
-	
-	public QueryParameters() {
-		parameters = new HashMap<ATermAppl, ATermAppl>();
+	private final Map<ATermAppl, ATermAppl> parameters;
+
+	public QueryParameters()
+	{
+		parameters = new HashMap<>();
 	}
-	
-	public QueryParameters(QuerySolution initialBinding) {
+
+	public QueryParameters(QuerySolution initialBinding)
+	{
 		this();
-		
+
 		if (initialBinding == null)
 			initialBinding = new QuerySolutionMap();
-		
-		for (Iterator iter = initialBinding.varNames(); iter.hasNext(); ) {
-			String varName = (String)iter.next();
-			ATermAppl key = ATermUtils.makeVar(varName);
-			ATermAppl value = JenaUtils.makeATerm(initialBinding.get( varName ));
-			parameters.put( key, value );
+
+		for (final Iterator iter = initialBinding.varNames(); iter.hasNext();)
+		{
+			final String varName = (String) iter.next();
+			final ATermAppl key = ATermUtils.makeVar(varName);
+			final ATermAppl value = JenaUtils.makeATerm(initialBinding.get(varName));
+			parameters.put(key, value);
 		}
 	}
-	
-	public void add(ATermAppl key, ATermAppl value) {
-		parameters.put( key, value );
+
+	public void add(final ATermAppl key, final ATermAppl value)
+	{
+		parameters.put(key, value);
 	}
-	
-	public Set<Map.Entry<ATermAppl, ATermAppl>> entrySet() {
+
+	public Set<Map.Entry<ATermAppl, ATermAppl>> entrySet()
+	{
 		return parameters.entrySet();
 	}
-	
-	public boolean cointains(ATermAppl key) {
-		return parameters.containsKey( key );
+
+	public boolean cointains(final ATermAppl key)
+	{
+		return parameters.containsKey(key);
 	}
-	
-	public ATermAppl get(ATermAppl key) {
-		return parameters.get( key );
+
+	public ATermAppl get(final ATermAppl key)
+	{
+		return parameters.get(key);
 	}
-	
-	public String toString() {
+
+	@Override
+	public String toString()
+	{
 		return parameters.toString();
 	}
 }

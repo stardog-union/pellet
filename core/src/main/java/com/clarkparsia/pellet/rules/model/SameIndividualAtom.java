@@ -6,14 +6,12 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-
-
 /**
  * <p>
  * Title: Same Individual Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -21,21 +19,27 @@ package com.clarkparsia.pellet.rules.model;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class SameIndividualAtom extends BinaryAtom<String, AtomIObject, AtomIObject> {
+ */
+public class SameIndividualAtom extends BinaryAtom<String, AtomIObject, AtomIObject>
+{
 
-	public SameIndividualAtom( AtomIObject argument1, AtomIObject argument2 ) {
-		super( "SAME", argument1, argument2 );
+	public SameIndividualAtom(final AtomIObject argument1, final AtomIObject argument2)
+	{
+		super("SAME", argument1, argument2);
 	}
 
-	public void accept( RuleAtomVisitor visitor ) {
-		visitor.visit( this );
+	@Override
+	public void accept(final RuleAtomVisitor visitor)
+	{
+		visitor.visit(this);
 	}
-	
-	public String toString() {
-		return getArgument1()+" = "+getArgument2();
+
+	@Override
+	public String toString()
+	{
+		return getArgument1() + " = " + getArgument2();
 	}
 
 }

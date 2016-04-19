@@ -6,37 +6,45 @@
 
 package org.mindswap.pellet.tableau.cache;
 
+import aterm.ATermAppl;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Role;
 
-import aterm.ATermAppl;
-
 /**
- * <p>Title: </p>
- *
- * <p>Description: Represents a cached incoming edge. </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description: Represents a cached incoming edge.
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class CachedInEdge extends CachedEdge {
-	public CachedInEdge(Edge edge) {
-		super( edge.getRole(), edge.getFromName(), edge.getDepends() );
+public class CachedInEdge extends CachedEdge
+{
+	public CachedInEdge(final Edge edge)
+	{
+		super(edge.getRole(), edge.getFromName(), edge.getDepends());
 	}
 
-	public CachedInEdge(Role role, ATermAppl from, DependencySet ds) {
-		super( role, from, ds );
+	public CachedInEdge(final Role role, final ATermAppl from, final DependencySet ds)
+	{
+		super(role, from, ds);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ATermAppl getFromName() {
+	public ATermAppl getFromName()
+	{
 		return neighbor;
 	}
 }

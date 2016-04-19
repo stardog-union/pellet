@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 
@@ -19,7 +18,7 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
  * Title: Tuple Implementation
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -27,39 +26,47 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class Tuple<T> {
-	private DependencySet	ds;
-	private List<T>			elements;
+public class Tuple<T>
+{
+	private final DependencySet ds;
+	private final List<T> elements;
 
-	public Tuple(DependencySet ds, T... elementArgs) {
-		if ( ds == null ) {
-			throw new InternalReasonerException( "Null dependencyset argument to rete tuple" );
-		}
+	public Tuple(final DependencySet ds, final T... elementArgs)
+	{
+		if (ds == null)
+			throw new InternalReasonerException("Null dependencyset argument to rete tuple");
 		this.ds = ds;
-		this.elements = Collections.unmodifiableList( Arrays.asList( elementArgs ) );
+		this.elements = Collections.unmodifiableList(Arrays.asList(elementArgs));
 	}
 
-	public Tuple(DependencySet ds, List<T> elements) {
+	public Tuple(final DependencySet ds, final List<T> elements)
+	{
 		this.ds = ds;
-		this.elements = Collections.unmodifiableList( new ArrayList<T>( elements ) );
+		this.elements = Collections.unmodifiableList(new ArrayList<>(elements));
 	}
 
-	public DependencySet getDependencySet() {
+	public DependencySet getDependencySet()
+	{
 		return ds;
 	}
 
-	public List<T> getElements() {
+	public List<T> getElements()
+	{
 		return elements;
 	}
 
-	public int hashCode() {
+	@Override
+	public int hashCode()
+	{
 		return elements.hashCode();
 	}
 
-	public String toString() {
+	@Override
+	public String toString()
+	{
 		return elements.toString();
 	}
 }

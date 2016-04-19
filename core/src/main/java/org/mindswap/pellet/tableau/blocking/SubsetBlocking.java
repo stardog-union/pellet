@@ -30,33 +30,44 @@
 
 package org.mindswap.pellet.tableau.blocking;
 
-
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class SubsetBlocking extends Blocking {
+public class SubsetBlocking extends Blocking
+{
 	private static final SubsetBlocking INSTANCE = new SubsetBlocking();
-	
-	public static SubsetBlocking getInstance() {
+
+	public static SubsetBlocking getInstance()
+	{
 		return INSTANCE;
 	}
-	
-	private SubsetBlocking() {		
+
+	private SubsetBlocking()
+	{
 	}
-	
-	public boolean isDynamic() {
+
+	@Override
+	public boolean isDynamic()
+	{
 		return false;
 	}
 
-	public boolean isDirectlyBlockedBy(BlockingContext cxt) {
-		return block1.isBlocked( cxt );
-	}	
+	@Override
+	public boolean isDirectlyBlockedBy(final BlockingContext cxt)
+	{
+		return block1.isBlocked(cxt);
+	}
 }

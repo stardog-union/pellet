@@ -9,7 +9,6 @@ package profiler;
 import static profiler.ProfileUtils.error;
 
 import com.clarkparsia.pellet.owlapi.OWLAPILoader;
-
 import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
 import java.io.BufferedReader;
@@ -43,7 +42,7 @@ import profiler.utils.ObjectProfiler;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 public class ProfileKB
@@ -64,7 +63,7 @@ public class ProfileKB
 
 		private boolean requiresInstances;
 
-		Task(boolean requiresInstances)
+		Task(final boolean requiresInstances)
 		{
 			this.requiresInstances = requiresInstances;
 		}
@@ -75,23 +74,21 @@ public class ProfileKB
 		}
 	}
 
-	public static void main(String[] args) throws Exception
+	public static void main(final String[] args) throws Exception
 	{
 		new ProfileKB().run(args);
 	}
 
-	public static List<String> readConfigFile(String configFile) throws IOException
+	public static List<String> readConfigFile(final String configFile) throws IOException
 	{
-		final List<String> datasets = new ArrayList<String>();
+		final List<String> datasets = new ArrayList<>();
 
 		try (final BufferedReader in = new BufferedReader(new FileReader(configFile)))
 		{
 			String line = null;
 
 			while ((line = in.readLine()) != null && line.length() > 0)
-			{
 				datasets.add(line);
-			}
 		}
 
 		return datasets;
@@ -115,22 +112,22 @@ public class ProfileKB
 	{
 	}
 
-	public void setMemoryProfiling(MemoryProfiling memoryProfiling)
+	public void setMemoryProfiling(final MemoryProfiling memoryProfiling)
 	{
 		this.memoryProfiling = memoryProfiling;
 	}
 
-	public void setTask(Task task)
+	public void setTask(final Task task)
 	{
 		this.task = task;
 	}
 
-	public void setLoaderType(LoaderType loaderType)
+	public void setLoaderType(final LoaderType loaderType)
 	{
 		this.loaderType = loaderType;
 	}
 
-	public List<String> parseArgs(String[] args) throws Exception
+	public List<String> parseArgs(final String[] args) throws Exception
 	{
 		List<String> datasets = null;
 
@@ -151,7 +148,6 @@ public class ProfileKB
 		{
 			int c;
 			while ((c = g.getopt()) != -1)
-			{
 				switch (c)
 				{
 					case 'h':
@@ -221,7 +217,6 @@ public class ProfileKB
 					default:
 						error("Unrecognized option: " + (char) c);
 				}
-			}
 		}
 		catch (final NumberFormatException e)
 		{
@@ -229,9 +224,7 @@ public class ProfileKB
 		}
 
 		if (datasets == null)
-		{
 			error("No config file (-f) or input ontology (-o) provided!");
-		}
 
 		return datasets;
 	}
@@ -270,8 +263,7 @@ public class ProfileKB
 
 		sb.append(name);
 
-		if (node.object() != null) // skip shell pseudo-nodes
-		{
+		if (node.object() != null)
 			if (node.name().endsWith("#table") || node.name().endsWith("#elementData"))
 			{
 				IObjectProfileNode shell = null;
@@ -301,18 +293,15 @@ public class ProfileKB
 					sb.append(node.refcount());
 				}
 			}
-		}
 
 		out.println(sb);
 		out.flush();
 
 		for (final IObjectProfileNode child : children)
-		{
 			print(child);
-		}
 	}
 
-	private double printProfile(KnowledgeBase kb, KBLoader loader, String header)
+	private double printProfile(final KnowledgeBase kb, final KBLoader loader, final String header)
 	{
 		long mem = 0;
 
@@ -338,13 +327,11 @@ public class ProfileKB
 				print(profile);
 				mem = profile.size();
 				for (final IObjectProfileNode node : profile.children())
-				{
 					if (node.object() != null && node.object().equals(ATermUtils.getFactory()))
 					{
 						mem -= node.size();
 						break;
 					}
-				}
 				break;
 			case APPROX:
 				System.out.println(header);
@@ -362,7 +349,7 @@ public class ProfileKB
 		return ProfileUtils.mb(mem);
 	}
 
-	public Collection<Result<Task>> profile(String... files)
+	public Collection<Result<Task>> profile(final String... files)
 	{
 		final KBLoader loader = (loaderType == LoaderType.JENA) ? new JenaLoader() : new OWLAPILoader();
 
@@ -370,7 +357,7 @@ public class ProfileKB
 
 		final KnowledgeBase kb = loader.getKB();
 
-		final List<Result<Task>> results = new ArrayList<Result<Task>>();
+		final List<Result<Task>> results = new ArrayList<>();
 
 		for (int i = 0; i <= task.ordinal(); i++)
 		{
@@ -408,7 +395,7 @@ public class ProfileKB
 
 			final double time = (System.currentTimeMillis() - start) / 1000.0;
 			final double mem = task.requiresInstances() && kb.getABox().isEmpty() ? results.get(results.size() - 1).getAvgMemory() : printProfile(kb, loader, "After " + task);
-			results.add(new Result<Task>(task, mem, time));
+			results.add(new Result<>(task, mem, time));
 		}
 		kb.timers.print();
 		try
@@ -425,7 +412,7 @@ public class ProfileKB
 		return results;
 	}
 
-	public void run(String[] args)
+	public void run(final String[] args)
 	{
 		try
 		{
@@ -433,15 +420,14 @@ public class ProfileKB
 
 			final int colCount = memoryProfiling == MemoryProfiling.NONE ? 1 : 2;
 			final int colWidth = 8;
-			final ResultList<Task> results = new ResultList<Task>(colCount, colWidth);
+			final ResultList<Task> results = new ResultList<>(colCount, colWidth);
 			for (int i = 0; i < iterations; i++)
 			{
 				System.out.println("\n\n\nITERATION: " + (i + 1) + "\n\n\n");
 
 				for (final String dataset : datasets)
-				{
 					try
-					{
+				{
 						final String[] files = dataset.split(" ");
 						final String name = files[0];
 
@@ -452,11 +438,10 @@ public class ProfileKB
 						System.out.println("\n\n\nRESULT " + (i + 1) + ":");
 						System.out.println("Version: " + VersionInfo.getInstance().getVersionString());
 						results.print();
-					}
-					catch (final RuntimeException e)
-					{
-						e.printStackTrace();
-					}
+				}
+				catch (final RuntimeException e)
+				{
+					e.printStackTrace();
 				}
 
 				//				MemUtils.runGC();

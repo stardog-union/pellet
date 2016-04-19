@@ -3,18 +3,17 @@ package com.clarkparsia.pellint.test.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import com.clarkparsia.pellint.util.OptimizedDirectedMultigraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.clarkparsia.pellint.util.OptimizedDirectedMultigraph;
 
 /**
  * <p>
  * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -22,35 +21,39 @@ import com.clarkparsia.pellint.util.OptimizedDirectedMultigraph;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class OptimizedDirectedMultigraphTest {
-	private static final String V[] = new String[] {"a", "b", "c"};
+public class OptimizedDirectedMultigraphTest
+{
+	private static final String V[] = new String[] { "a", "b", "c" };
 	private OptimizedDirectedMultigraph<String> m_Graph;
-	
+
 	@Before
-	public void setUp() {
-		m_Graph = new OptimizedDirectedMultigraph<String>();
-		for (String v : V) {
+	public void setUp()
+	{
+		m_Graph = new OptimizedDirectedMultigraph<>();
+		for (final String v : V)
 			m_Graph.addVertex(v);
-		}
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testAddEdgeToNonExistentVertices() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddEdgeToNonExistentVertices()
+	{
 		// Adding edge to non-existent vertices should throw IllegalArgumentException
 		m_Graph.addEdge("alien1", "alien2");
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testAddEdgeLoop() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddEdgeLoop()
+	{
 		// Adding a loop should throw IllegalArgumentException
 		m_Graph.addEdge(V[0], V[0]);
 	}
 
 	@Test
-	public void testAddEdgeSimple() {
+	public void testAddEdgeSimple()
+	{
 		DefaultWeightedEdge edge = m_Graph.getEdge(V[0], V[1]);
 		assertNull(edge);
 		edge = m_Graph.addEdge("a", "b");
@@ -60,7 +63,8 @@ public class OptimizedDirectedMultigraphTest {
 	}
 
 	@Test
-	public void testAddEdgeMultiple() {
+	public void testAddEdgeMultiple()
+	{
 		m_Graph.addEdge("a", "b");
 		m_Graph.addEdge("a", "b");
 		m_Graph.addEdge("b", "a");
@@ -75,31 +79,35 @@ public class OptimizedDirectedMultigraphTest {
 	}
 
 	@Test
-	public void testAddEdgeWithMultiplicity() {
+	public void testAddEdgeWithMultiplicity()
+	{
 		m_Graph.addEdge("a", "b", 10);
 		m_Graph.addEdge("a", "b", 1);
 		m_Graph.addEdge("a", "b", 1);
-		DefaultWeightedEdge edge = m_Graph.getEdge("a", "b");
+		final DefaultWeightedEdge edge = m_Graph.getEdge("a", "b");
 		assertEquals(12, m_Graph.getEdgeMultiplicity(edge));
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void testAddEdgeWithZeroMultiplicity() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddEdgeWithZeroMultiplicity()
+	{
 		// Adding non-positive multiplicity should throw IllegalArgumentException
 		m_Graph.addEdge("a", "b", 0);
 	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testAddEdgeWithNegativeMultiplicity() {
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddEdgeWithNegativeMultiplicity()
+	{
 		// Adding non-positive multiplicity should throw IllegalArgumentException
 		m_Graph.addEdge("a", "b", -1);
 	}
 
 	@Test
-	public void testRemoveEdge() {
+	public void testRemoveEdge()
+	{
 		m_Graph.addEdge("a", "b", 10);
 		m_Graph.removeEdge("a", "b");
-		DefaultWeightedEdge edge = m_Graph.getEdge("a", "b");
+		final DefaultWeightedEdge edge = m_Graph.getEdge("a", "b");
 		assertNull(edge);
 	}
 }

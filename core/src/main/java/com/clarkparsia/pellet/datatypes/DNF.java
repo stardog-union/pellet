@@ -9,22 +9,19 @@ import static org.mindswap.pellet.utils.ATermUtils.makeOr;
 import static org.mindswap.pellet.utils.ATermUtils.nnf;
 import static org.mindswap.pellet.utils.ATermUtils.toSet;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.mindswap.pellet.utils.iterator.MultiListIterator;
-
 import aterm.AFun;
 import aterm.ATermAppl;
 import aterm.ATermList;
+import java.util.ArrayList;
+import java.util.List;
+import org.mindswap.pellet.utils.iterator.MultiListIterator;
 
 /**
  * <p>
  * Title: Disjunction Normal Form
  * </p>
  * <p>
- * Description: Static implementation to translate ATermAppl descriptions of
- * complex data ranges to disjunction normal form
+ * Description: Static implementation to translate ATermAppl descriptions of complex data ranges to disjunction normal form
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -32,30 +29,31 @@ import aterm.ATermList;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class DNF {
+public class DNF
+{
 
 	/**
 	 * Get disjunctive normal form for an expression
-	 * 
-	 * @param term
-	 *            The expression
+	 *
+	 * @param term The expression
 	 * @return <code>term</code> in DNF
 	 */
-	public static ATermAppl dnf(ATermAppl term) {
-		return dnfFromNnf( nnf( term ) );
+	public static ATermAppl dnf(final ATermAppl term)
+	{
+		return dnfFromNnf(nnf(term));
 	}
 
 	/**
 	 * Internal method that assumes input is NNF
-	 * 
-	 * @param term
-	 *            A NNF expression
+	 *
+	 * @param term A NNF expression
 	 * @return <code>term</code> in DNF
 	 */
-	private static ATermAppl dnfFromNnf(ATermAppl term) {
+	private static ATermAppl dnfFromNnf(final ATermAppl term)
+	{
 		/*
 		 * TODO: Avoid processing DataOneOf when forcing into NNF
 		 */
@@ -68,23 +66,26 @@ public class DNF {
 		 * If the term is a conjunction, each conjunct must be converted to dnf
 		 * and then element-wise distributed.
 		 */
-		if( ANDFUN.equals( fun ) ) {
+		if (ANDFUN.equals(fun))
+		{
 
 			/*
 			 * Step 1: the input conjunction may have conjunctions as arguments.
 			 * After this step, <code>conjuncts</code> is the flattened list of
 			 * conjuncts, each in DNF
 			 */
-			ATermList rootConjuncts = (ATermList) term.getArgument( 0 );
-			List<ATermAppl> conjuncts = new ArrayList<ATermAppl>();
-			MultiListIterator i = new MultiListIterator( rootConjuncts );
-			while( i.hasNext() ) {
-				ATermAppl a = i.next();
-				if( isAnd( a ) )
-					i.append( (ATermList) a.getArgument( 0 ) );
-				else {
-					ATermAppl dnfA = dnfFromNnf( a ); 
-					conjuncts.add( dnfA );
+			final ATermList rootConjuncts = (ATermList) term.getArgument(0);
+			final List<ATermAppl> conjuncts = new ArrayList<>();
+			final MultiListIterator i = new MultiListIterator(rootConjuncts);
+			while (i.hasNext())
+			{
+				final ATermAppl a = i.next();
+				if (isAnd(a))
+					i.append((ATermList) a.getArgument(0));
+				else
+				{
+					final ATermAppl dnfA = dnfFromNnf(a);
+					conjuncts.add(dnfA);
 				}
 			}
 
@@ -92,65 +93,66 @@ public class DNF {
 			 * Step 2: element-wise distribute any disjunction among the
 			 * conjuncts.
 			 */
-			List<ATermAppl> disjuncts = new ArrayList<ATermAppl>();
-			for( ATermAppl a : conjuncts ) {
-				if( disjuncts.isEmpty() ) {
-					addToList( a, isOr( a ), disjuncts );
-				}
-				else {
-					List<ATermAppl> thisArgs = new ArrayList<ATermAppl>();
-					List<ATermAppl> newDisjuncts = new ArrayList<ATermAppl>();
-					addToList( a, isOr( a ), thisArgs );
+			List<ATermAppl> disjuncts = new ArrayList<>();
+			for (final ATermAppl a : conjuncts)
+				if (disjuncts.isEmpty())
+					addToList(a, isOr(a), disjuncts);
+				else
+				{
+					final List<ATermAppl> thisArgs = new ArrayList<>();
+					final List<ATermAppl> newDisjuncts = new ArrayList<>();
+					addToList(a, isOr(a), thisArgs);
 
-					for( ATermAppl a1 : thisArgs ) {
-						for( ATermAppl b : disjuncts ) {
-							List<ATermAppl> list = new ArrayList<ATermAppl>();
-							addToList( a1, isAnd( a1 ), list );
-							addToList( b, isAnd( b ), list );							
-							newDisjuncts.add( makeAnd( toSet( list ) ) );
+					for (final ATermAppl a1 : thisArgs)
+						for (final ATermAppl b : disjuncts)
+						{
+							final List<ATermAppl> list = new ArrayList<>();
+							addToList(a1, isAnd(a1), list);
+							addToList(b, isAnd(b), list);
+							newDisjuncts.add(makeAnd(toSet(list)));
 						}
-					}
 					disjuncts = newDisjuncts;
 				}
-			}
 
-			dnf = makeOr( toSet( disjuncts ) );
+			dnf = makeOr(toSet(disjuncts));
 
 		}
 		/*
 		 * If the term is a disjunction merge each element into DNF
 		 */
-		else if( ORFUN.equals( fun ) ) {
-			ATermList disjuncts = (ATermList) term.getArgument( 0 );
-			MultiListIterator i = new MultiListIterator( disjuncts );
-			List<ATermAppl> args = new ArrayList<ATermAppl>();
-			while( i.hasNext() ) {
-				ATermAppl a = i.next();
-				if( isOr( a ) )
-					i.append( (ATermList) a.getArgument( 0 ) );
-				else
-					args.add( dnfFromNnf( a ) );
-			}
-			dnf = makeOr( toSet( args ) );
-		}
-		/*
-		 * If the term is not a conjunction or disjunction (and its in NNF), it
-		 * is already in DNF
-		 */
 		else
-			dnf = term;
+			if (ORFUN.equals(fun))
+			{
+				final ATermList disjuncts = (ATermList) term.getArgument(0);
+				final MultiListIterator i = new MultiListIterator(disjuncts);
+				final List<ATermAppl> args = new ArrayList<>();
+				while (i.hasNext())
+				{
+					final ATermAppl a = i.next();
+					if (isOr(a))
+						i.append((ATermList) a.getArgument(0));
+					else
+						args.add(dnfFromNnf(a));
+				}
+				dnf = makeOr(toSet(args));
+			}
+			/*
+			 * If the term is not a conjunction or disjunction (and its in NNF), it
+			 * is already in DNF
+			 */
+			else
+				dnf = term;
 
 		return dnf;
 	}
 
-	private static void addToList(ATermAppl term, boolean flatten, List<ATermAppl> result) {
-		if( flatten ) {
-			for( ATermList l = (ATermList) term.getArgument( 0 ); !l.isEmpty(); l = l.getNext() )
-				result.add( (ATermAppl) l.getFirst() );
-		}
-		else {
-			result.add( term );
-		}
+	private static void addToList(final ATermAppl term, final boolean flatten, final List<ATermAppl> result)
+	{
+		if (flatten)
+			for (ATermList l = (ATermList) term.getArgument(0); !l.isEmpty(); l = l.getNext())
+				result.add((ATermAppl) l.getFirst());
+		else
+			result.add(term);
 	}
-	
+
 }

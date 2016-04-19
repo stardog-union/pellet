@@ -20,20 +20,22 @@ import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
+import aterm.ATermAppl;
+import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.mindswap.pellet.test.AbstractKBTests;
 
-import aterm.ATermAppl;
-
-public class CacheSafetyTests extends AbstractKBTests {
-	public static junit.framework.Test suite() {
+public class CacheSafetyTests extends AbstractKBTests
+{
+	public static junit.framework.Test suite()
+	{
 		return new JUnit4TestAdapter(CacheSafetyTests.class);
 	}
 
 	@Test
-	public void somePallInvP() {
+	public void somePallInvP()
+	{
 		classes(C, D);
 		objectProperties(p);
 
@@ -46,7 +48,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void someSubPallInvP() {
+	public void someSubPallInvP()
+	{
 		classes(C, D);
 		objectProperties(p, q);
 
@@ -61,7 +64,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void somePallInvPwithReflexivity() {
+	public void somePallInvPwithReflexivity()
+	{
 		classes(C, D);
 		objectProperties(p, r);
 
@@ -76,7 +80,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void somePallInvPSubClass() {
+	public void somePallInvPSubClass()
+	{
 		classes(B, C, D, E);
 		objectProperties(p);
 
@@ -91,7 +96,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void somePallInvSubP() {
+	public void somePallInvSubP()
+	{
 		classes(C, D);
 		objectProperties(p, q);
 
@@ -106,7 +112,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void someFunctionalP() {
+	public void someFunctionalP()
+	{
 		classes(C, D);
 		objectProperties(p);
 
@@ -120,7 +127,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void functionalInv() {
+	public void functionalInv()
+	{
 		classes(C, D);
 		objectProperties(f);
 
@@ -135,7 +143,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void max1Inv() {
+	public void max1Inv()
+	{
 		classes(C, D);
 		objectProperties(f);
 
@@ -148,9 +157,10 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void functionalInvTrans() {
-		ATermAppl invF = term("invF");
-		ATermAppl invR = term("invR");
+	public void functionalInvTrans()
+	{
+		final ATermAppl invF = term("invF");
+		final ATermAppl invR = term("invR");
 
 		classes(C, D);
 		objectProperties(r, f, invF, invR);
@@ -175,9 +185,10 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void maxCardinalityInvTrans() {
-		ATermAppl invF = term("invF");
-		ATermAppl invR = term("invR");
+	public void maxCardinalityInvTrans()
+	{
+		final ATermAppl invF = term("invF");
+		final ATermAppl invR = term("invR");
 
 		classes(C, D);
 		objectProperties(r, f, invF, invR);
@@ -198,7 +209,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void maxCardinalitySub() {
+	public void maxCardinalitySub()
+	{
 		classes(C, D);
 		objectProperties(p, r, f);
 
@@ -213,7 +225,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void functionalSubTrans() {
+	public void functionalSubTrans()
+	{
 		classes(A);
 		objectProperties(r, f);
 
@@ -228,7 +241,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void maxCardinalitySubTrans() {
+	public void maxCardinalitySubTrans()
+	{
 		classes(A);
 		objectProperties(r, f);
 
@@ -243,7 +257,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void somePQallInvR() {
+	public void somePQallInvR()
+	{
 		classes(C, D);
 		objectProperties(p, q, r);
 
@@ -257,7 +272,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void somePQallAnonInvR1() {
+	public void somePQallAnonInvR1()
+	{
 		classes(C);
 		objectProperties(p, q, r);
 
@@ -270,7 +286,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void somePQallAnonInvR2() {
+	public void somePQallAnonInvR2()
+	{
 		classes(C);
 		objectProperties(p, q, r);
 
@@ -283,7 +300,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void nestedPropertyChains() {
+	public void nestedPropertyChains()
+	{
 		classes(C);
 
 		objectProperties(p, q, r, f);
@@ -298,7 +316,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void cachedIntersectionUnsat() {
+	public void cachedIntersectionUnsat()
+	{
 		classes(B, C, D);
 		objectProperties(p);
 
@@ -312,7 +331,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void cachedIntersectionWithTop1() {
+	public void cachedIntersectionWithTop1()
+	{
 		classes(B, C, D);
 		objectProperties(p);
 
@@ -326,7 +346,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void cachedIntersectionWithTop2() {
+	public void cachedIntersectionWithTop2()
+	{
 		classes(B, C, D);
 		objectProperties(p);
 
@@ -341,7 +362,8 @@ public class CacheSafetyTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void cachedIntersectionWithTop3() {
+	public void cachedIntersectionWithTop3()
+	{
 		classes(B, C, D, E);
 		objectProperties(p);
 
@@ -351,7 +373,7 @@ public class CacheSafetyTests extends AbstractKBTests {
 
 		assertTrue(kb.isConsistent());
 		assertFalse(kb.isSatisfiable(not(C)));
-		assertFalse(kb.isSatisfiable(not(D)));		
+		assertFalse(kb.isSatisfiable(not(D)));
 		assertTrue(kb.isSatisfiable(B));
 		assertTrue(kb.isSatisfiable(E));
 		assertTrue(kb.isSatisfiable(B));

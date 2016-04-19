@@ -10,23 +10,30 @@ import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
 import com.clarkparsia.modularity.ModuleExtractor;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class AxiomBasedModularityTest extends SimpleModularityTest {
+public class AxiomBasedModularityTest extends SimpleModularityTest
+{
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ModuleExtractor createModuleExtractor() {
+	public ModuleExtractor createModuleExtractor()
+	{
 		return new AxiomBasedModuleExtractor();
 	}
 

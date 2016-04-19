@@ -21,11 +21,12 @@ import org.mindswap.pellet.Literal;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface Tester {
-	
-	public boolean test( Literal[] args );
-	
+ */
+public interface Tester
+{
+
+	public boolean test(Literal[] args);
+
 }

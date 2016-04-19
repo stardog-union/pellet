@@ -30,123 +30,127 @@
 
 package org.mindswap.pellet.tbox.impl;
 
+import aterm.AFun;
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.AFun;
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.utils.CollectionUtils;
 
 /**
  * @author Evren Sirin
  */
-public class TermDefinition {
-	private List<ATermAppl>	subClassAxioms;
-	private List<ATermAppl>	eqClassAxioms;
-	private Set<ATermAppl>	dependencies;
+public class TermDefinition
+{
+	private final List<ATermAppl> subClassAxioms;
+	private final List<ATermAppl> eqClassAxioms;
+	private Set<ATermAppl> dependencies;
 
-	public TermDefinition() {
-		subClassAxioms = new ArrayList<ATermAppl>();
-		eqClassAxioms = new ArrayList<ATermAppl>();
+	public TermDefinition()
+	{
+		subClassAxioms = new ArrayList<>();
+		eqClassAxioms = new ArrayList<>();
 		updateDependencies();
 	}
-	
-	public Set<ATermAppl> getDependencies() {
-		if (dependencies == null) updateDependencies(); 
+
+	public Set<ATermAppl> getDependencies()
+	{
+		if (dependencies == null)
+			updateDependencies();
 		return dependencies;
 	}
-	
-	public void clearDependencies() {
+
+	public void clearDependencies()
+	{
 		dependencies = null;
 	}
 
-	public ATermAppl getName() {
-		if( !subClassAxioms.isEmpty() )
-			return (ATermAppl) subClassAxioms.get( 0 ).getArgument( 0 );
+	public ATermAppl getName()
+	{
+		if (!subClassAxioms.isEmpty())
+			return (ATermAppl) subClassAxioms.get(0).getArgument(0);
 
-		if( !eqClassAxioms.isEmpty() )
-			return (ATermAppl) eqClassAxioms.get( 0 ).getArgument( 0 );
+		if (!eqClassAxioms.isEmpty())
+			return (ATermAppl) eqClassAxioms.get(0).getArgument(0);
 
 		return null;
 	}
 
-	public boolean addDef(ATermAppl appl) {
-		boolean added = false;		
-		
-		AFun fun = appl.getAFun();
-		if( fun.equals( ATermUtils.SUBFUN ) ) {
-			added = subClassAxioms.contains(appl) ? false : subClassAxioms.add( appl );
-		}
-		else if( fun.equals( ATermUtils.EQCLASSFUN ) ) {
-			added = eqClassAxioms.contains(appl) ? false : eqClassAxioms.add( appl );
-		}
-		else {
-			throw new RuntimeException( "Cannot add non-definition!" );
-		}
-		
-		if( added )
+	public boolean addDef(final ATermAppl appl)
+	{
+		boolean added = false;
+
+		final AFun fun = appl.getAFun();
+		if (fun.equals(ATermUtils.SUBFUN))
+			added = subClassAxioms.contains(appl) ? false : subClassAxioms.add(appl);
+		else
+			if (fun.equals(ATermUtils.EQCLASSFUN))
+				added = eqClassAxioms.contains(appl) ? false : eqClassAxioms.add(appl);
+			else
+				throw new RuntimeException("Cannot add non-definition!");
+
+		if (added)
 			updateDependencies();
-		
+
 		return added;
 	}
 
-	public boolean removeDef(ATermAppl axiom) {
+	public boolean removeDef(final ATermAppl axiom)
+	{
 		boolean removed;
 
-		AFun fun = axiom.getAFun();
-		if( fun.equals( ATermUtils.SUBFUN ) ) {
-			removed = subClassAxioms.remove( axiom );
-		}
-		else if( fun.equals( ATermUtils.EQCLASSFUN ) ) {
-			removed = eqClassAxioms.remove( axiom );
-		}
-		else {
-			throw new RuntimeException( "Cannot remove non-definition!" );
-		}
+		final AFun fun = axiom.getAFun();
+		if (fun.equals(ATermUtils.SUBFUN))
+			removed = subClassAxioms.remove(axiom);
+		else
+			if (fun.equals(ATermUtils.EQCLASSFUN))
+				removed = eqClassAxioms.remove(axiom);
+			else
+				throw new RuntimeException("Cannot remove non-definition!");
 
 		updateDependencies();
 
 		return removed;
 	}
 
-	public boolean isPrimitive() {
+	public boolean isPrimitive()
+	{
 		return eqClassAxioms.isEmpty();
 	}
 
-	public boolean isUnique() {
-		return eqClassAxioms.isEmpty()
-			|| (subClassAxioms.isEmpty() && eqClassAxioms.size() == 1 );
-	}
-	
-	public boolean isUnique(ATermAppl axiom) {
-		return eqClassAxioms.isEmpty()
-			&& (subClassAxioms.isEmpty() || axiom.getAFun().equals( ATermUtils.SUBFUN ));
+	public boolean isUnique()
+	{
+		return eqClassAxioms.isEmpty() || (subClassAxioms.isEmpty() && eqClassAxioms.size() == 1);
 	}
 
-	public List<ATermAppl> getSubClassAxioms() {
+	public boolean isUnique(final ATermAppl axiom)
+	{
+		return eqClassAxioms.isEmpty() && (subClassAxioms.isEmpty() || axiom.getAFun().equals(ATermUtils.SUBFUN));
+	}
+
+	public List<ATermAppl> getSubClassAxioms()
+	{
 		return subClassAxioms;
 	}
 
-	public List<ATermAppl> getEqClassAxioms() {
+	public List<ATermAppl> getEqClassAxioms()
+	{
 		return eqClassAxioms;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return subClassAxioms + "; " + eqClassAxioms;
 	}
 
-	protected void updateDependencies() {
+	protected void updateDependencies()
+	{
 		dependencies = CollectionUtils.makeIdentitySet();
-		for( ATermAppl sub : getSubClassAxioms() ) {
-			ATermUtils.findPrimitives( (ATermAppl) sub.getArgument( 1 ), dependencies );
-		}
-		for( ATermAppl eq : getEqClassAxioms() ) {
-			ATermUtils.findPrimitives( (ATermAppl) eq.getArgument( 1 ), dependencies );
-		}
+		for (final ATermAppl sub : getSubClassAxioms())
+			ATermUtils.findPrimitives((ATermAppl) sub.getArgument(1), dependencies);
+		for (final ATermAppl eq : getEqClassAxioms())
+			ATermUtils.findPrimitives((ATermAppl) eq.getArgument(1), dependencies);
 	}
 }

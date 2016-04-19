@@ -19,9 +19,10 @@ package com.clarkparsia.pellet.test.query;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public enum ResultEnum {
+public enum ResultEnum
+{
 	PASS, FAIL, SKIP
 }

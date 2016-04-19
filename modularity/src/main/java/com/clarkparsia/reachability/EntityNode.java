@@ -13,55 +13,60 @@ import java.util.Set;
 /**
  * @author Evren Sirin
  */
-public class EntityNode<E> extends Node {
+public class EntityNode<E> extends Node
+{
 
 	private boolean active = false;
 
 	private Set<E> entities;
 
-	public EntityNode(E entity) {
+	public EntityNode(final E entity)
+	{
 		this.entities = Collections.singleton(entity);
 	}
 
-	public void addEntities(Set<E> entity) {
-		if (entities.size() == 1) {
+	public void addEntities(final Set<E> entity)
+	{
+		if (entities.size() == 1)
 			entities = new HashSet<E>(entities);
-		}
 
 		entities.addAll(entity);
 	}
 
-	public void addEntity(E entity) {
-		if (entities.size() == 1) {
+	public void addEntity(final E entity)
+	{
+		if (entities.size() == 1)
 			entities = new HashSet<E>(entities);
-		}
 
 		entities.add(entity);
 	}
 
-	public Set<E> getEntities() {
+	public Set<E> getEntities()
+	{
 		return entities;
 	}
 
 	@Override
-	public boolean inputActivated() {
-		return active
-		       ? false
-		       : (active = true);
+	public boolean inputActivated()
+	{
+		return active ? false : (active = true);
 	}
 
 	@Override
-	public boolean isActive() {
+	public boolean isActive()
+	{
 		return active;
 	}
 
 	@Override
-	public void reset() {
+	public void reset()
+	{
 		active = false;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return entities.toString();
 	}
 }

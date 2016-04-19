@@ -1,20 +1,17 @@
 package com.clarkparsia.pellet.datatypes;
 
+import aterm.ATermAppl;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
  * Title: Facet
  * </p>
  * <p>
- * Description: Interface to centralize enumeration and query of supported
- * constraining facets
+ * Description: Interface to centralize enumeration and query of supported constraining facets
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -22,53 +19,55 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public interface Facet {
+public interface Facet
+{
 
 	public abstract ATermAppl getName();
 
-	public static class Registry {
+	public static class Registry
+	{
 
-		private static final Map<ATermAppl, Facet>	map;
-		static {
-			map = new HashMap<ATermAppl, Facet>();
-			for( Facet f : XSD.values() ) {
-				map.put( f.getName(), f );
-			}
+		private static final Map<ATermAppl, Facet> map;
+		static
+		{
+			map = new HashMap<>();
+			for (final Facet f : XSD.values())
+				map.put(f.getName(), f);
 		}
 
 		/**
 		 * Get a Facet for a URI
-		 * 
-		 * @param name
-		 *            the name of the facet, generally a URI
+		 *
+		 * @param name the name of the facet, generally a URI
 		 * @return A facet if the name is registered, <code>null</code> else
 		 */
-		public static Facet get(ATermAppl name) {
-			return map.get( name );
+		public static Facet get(final ATermAppl name)
+		{
+			return map.get(name);
 		}
 
 	}
 
 	/**
-	 * Facets in the XSD name space (and documented in the XML Schema
-	 * specifications)
+	 * Facets in the XSD name space (and documented in the XML Schema specifications)
 	 */
-	public static enum XSD implements Facet {
-		MAX_EXCLUSIVE("maxExclusive"), MAX_INCLUSIVE("maxInclusive"),
-		MIN_EXCLUSIVE("minExclusive"), MIN_INCLUSIVE("minInclusive"),
-		LENGTH("length"), MIN_LENGTH("minLength"), MAX_LENGTH("maxLength"),
-		PATTERN("pattern");
+	public static enum XSD implements Facet
+	{
+		MAX_EXCLUSIVE("maxExclusive"), MAX_INCLUSIVE("maxInclusive"), MIN_EXCLUSIVE("minExclusive"), MIN_INCLUSIVE("minInclusive"), LENGTH("length"), MIN_LENGTH("minLength"), MAX_LENGTH("maxLength"), PATTERN("pattern");
 
-		private final ATermAppl	name;
+		private final ATermAppl name;
 
-		private XSD(String localName) {
-			name = ATermUtils.makeTermAppl( Namespaces.XSD + localName );
+		private XSD(final String localName)
+		{
+			name = ATermUtils.makeTermAppl(Namespaces.XSD + localName);
 		}
 
-		public ATermAppl getName() {
+		@Override
+		public ATermAppl getName()
+		{
 			return name;
 		}
 

@@ -1,11 +1,9 @@
 package com.clarkparsia.pellet.datatypes.types.real;
 
+import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import javax.xml.bind.DatatypeConverter;
-
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
-
-import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 
 /**
  * <p>
@@ -20,31 +18,39 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class XSDInteger extends AbstractDerivedIntegerType {
+public class XSDInteger extends AbstractDerivedIntegerType
+{
 
-	private static final XSDInteger	instance;
+	private static final XSDInteger instance;
 
-	static {
+	static
+	{
 		instance = new XSDInteger();
 	}
 
-	public static XSDInteger getInstance() {
+	public static XSDInteger getInstance()
+	{
 		return instance;
 	}
 
-	private XSDInteger() {
-		super( ATermUtils.makeTermAppl( Namespaces.XSD + "integer" ), null, null );
+	private XSDInteger()
+	{
+		super(ATermUtils.makeTermAppl(Namespaces.XSD + "integer"), null, null);
 	}
 
 	@Override
-	protected Number fromLexicalForm(String lexicalForm) throws InvalidLiteralException {
-		try {
-			return DatatypeConverter.parseInteger( lexicalForm );
-		} catch( NumberFormatException e ) {
-			throw new InvalidLiteralException( getName(), lexicalForm );
+	protected Number fromLexicalForm(final String lexicalForm) throws InvalidLiteralException
+	{
+		try
+		{
+			return DatatypeConverter.parseInteger(lexicalForm);
+		}
+		catch (final NumberFormatException e)
+		{
+			throw new InvalidLiteralException(getName(), lexicalForm);
 		}
 	}
 }

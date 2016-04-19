@@ -13,80 +13,83 @@ import static com.clarkparsia.pellet.utils.TermFactory.hasValue;
 import static com.clarkparsia.pellet.utils.TermFactory.or;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
-
-import org.junit.Test;
 
 import aterm.ATermAppl;
+import junit.framework.JUnit4TestAdapter;
+import org.junit.Test;
 
-public class UpdateTests extends AbstractKBTests {
-	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
+public class UpdateTests extends AbstractKBTests
+{
+	public static String base = "file:" + PelletTestSuite.base + "misc/";
 
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( UpdateTests.class );
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(UpdateTests.class);
 	}
 
 	/**
 	 * Test case for #404
 	 */
 	@Test
-	public void addPropertyValueAfterConsistency() {
-		objectProperties( p );
-		individuals( a, c, d );
+	public void addPropertyValueAfterConsistency()
+	{
+		objectProperties(p);
+		individuals(a, c, d);
 
 		// either p(a, c) or p(a, d) holds
-		kb.addType( a, or( hasValue( p, c ), hasValue( p, d ) ) );
+		kb.addType(a, or(hasValue(p, c), hasValue(p, d)));
 
-		assertTrue( kb.isConsistent() );
+		assertTrue(kb.isConsistent());
 
 		// check which non-deterministic choice was made
-		ATermAppl succ = kb.getABox().getIndividual( a ).getOutEdges().edgeAt(0).getToName();
-		ATermAppl nonSucc = succ.equals( c ) ? d : c;
-		
-		// no entailment can be made yet
-		assertFalse( kb.hasPropertyValue( a, p, nonSucc ) );
-		assertFalse( kb.hasPropertyValue( a, p, succ ) );
-		
-		// assert the property value in non-deterministic choice
-		kb.addPropertyValue( p, a, succ );
+		final ATermAppl succ = kb.getABox().getIndividual(a).getOutEdges().edgeAt(0).getToName();
+		final ATermAppl nonSucc = succ.equals(c) ? d : c;
 
-		assertTrue( kb.isConsistent() );
+		// no entailment can be made yet
+		assertFalse(kb.hasPropertyValue(a, p, nonSucc));
+		assertFalse(kb.hasPropertyValue(a, p, succ));
+
+		// assert the property value in non-deterministic choice
+		kb.addPropertyValue(p, a, succ);
+
+		assertTrue(kb.isConsistent());
 
 		// this entailment still does not hold
-		assertFalse( kb.hasPropertyValue( a, p, nonSucc ) );
+		assertFalse(kb.hasPropertyValue(a, p, nonSucc));
 		// this entailment should now hold
-		assertTrue( kb.hasPropertyValue( a, p, succ ) );		
+		assertTrue(kb.hasPropertyValue(a, p, succ));
 	}
 
 	/**
 	 * Test case for #399
 	 */
 	@Test
-	public void addTypeValueWithNonDeterministic() {
-		classes( C, D );
-		individuals( a );
+	public void addTypeValueWithNonDeterministic()
+	{
+		classes(C, D);
+		individuals(a);
 
 		// either C(a) or D(a) holds
-		kb.addType( a, or( C, D ) );
+		kb.addType(a, or(C, D));
 
-		assertTrue( kb.isConsistent() );
+		assertTrue(kb.isConsistent());
 
 		// check which non-deterministic choice was made
-		ATermAppl type = kb.getABox().getIndividual( a ).hasType( C ) ? C : D;
-		ATermAppl nonType = type.equals( C ) ? D : C;
-		
+		final ATermAppl type = kb.getABox().getIndividual(a).hasType(C) ? C : D;
+		final ATermAppl nonType = type.equals(C) ? D : C;
+
 		// no entailment can be made yet
-		assertFalse( kb.isType( a, nonType ) );
-		assertFalse( kb.isType( a, type ) );
+		assertFalse(kb.isType(a, nonType));
+		assertFalse(kb.isType(a, type));
 
 		// assert the type in non-deterministic choice
-		kb.addType( a, type );
+		kb.addType(a, type);
 
-		assertTrue( kb.isConsistent() );
+		assertTrue(kb.isConsistent());
 
 		// this entailment still does not hold
-		assertFalse( kb.isType( a, nonType ) );
+		assertFalse(kb.isType(a, nonType));
 		// this entailment should now hold
-		assertTrue( kb.isType( a, type ) );
+		assertTrue(kb.isType(a, type));
 	}
 }

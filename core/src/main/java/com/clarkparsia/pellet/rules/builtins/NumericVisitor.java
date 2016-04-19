@@ -22,14 +22,18 @@ import java.math.BigInteger;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public interface NumericVisitor {
-	
-	public void visit( BigDecimal[] args);
-	public void visit( BigInteger[] args );
-	public void visit( Double[] args);
-	public void visit( Float[] args);
-	
+public interface NumericVisitor
+{
+
+	public void visit(BigDecimal[] args);
+
+	public void visit(BigInteger[] args);
+
+	public void visit(Double[] args);
+
+	public void visit(Float[] args);
+
 }

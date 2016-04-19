@@ -11,8 +11,8 @@ import static com.clarkparsia.pellet.utils.TermFactory.inv;
 import static com.clarkparsia.pellet.utils.TermFactory.list;
 import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
+import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.mindswap.pellet.test.AbstractKBTests;
 
@@ -29,63 +29,68 @@ import org.mindswap.pellet.test.AbstractKBTests;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class SimpleClassificationTests extends AbstractKBTests {
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( SimpleClassificationTests.class );
+public class SimpleClassificationTests extends AbstractKBTests
+{
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(SimpleClassificationTests.class);
 	}
-	
+
 	@Test
-	public void cdClassificationWithInverses() {
-		classes( C, D, E );
-		objectProperties( p );
+	public void cdClassificationWithInverses()
+	{
+		classes(C, D, E);
+		objectProperties(p);
 
-		kb.addSubClass( C, some( p, D ) );
-		kb.addSubClass( D, all( inv( p ), E ) );
+		kb.addSubClass(C, some(p, D));
+		kb.addSubClass(D, all(inv(p), E));
 
-		assertTrue( kb.isConsistent() );
-		assertTrue( kb.isSubClassOf( C, E ) );
-		
+		assertTrue(kb.isConsistent());
+		assertTrue(kb.isSubClassOf(C, E));
+
 		kb.classify();
-		
-		assertTrue( kb.isSubClassOf( C, E ) );
+
+		assertTrue(kb.isSubClassOf(C, E));
 	}
-	
+
 	@Test
-	public void cdClassificationWithCyclicInverses() {
-		classes( C, D, E );
-		objectProperties( p, q );
+	public void cdClassificationWithCyclicInverses()
+	{
+		classes(C, D, E);
+		objectProperties(p, q);
 
-		kb.addSubClass( E, some( p, C ) );
-		kb.addSubClass( C, all( inv( p ), D ) );
-		kb.addSubClass( D, some( q, E ) );
+		kb.addSubClass(E, some(p, C));
+		kb.addSubClass(C, all(inv(p), D));
+		kb.addSubClass(D, some(q, E));
 
-		assertTrue( kb.isConsistent() );
-		assertTrue( kb.isSubClassOf( E, D ) );
-		
+		assertTrue(kb.isConsistent());
+		assertTrue(kb.isSubClassOf(E, D));
+
 		kb.classify();
-		
-		assertTrue( kb.isSubClassOf( E, D ) );
+
+		assertTrue(kb.isSubClassOf(E, D));
 	}
-	
+
 	@Test
-	public void cdClassificationWithPropChain() {
-		classes( C, D, E );
-		objectProperties( p, q, r );
+	public void cdClassificationWithPropChain()
+	{
+		classes(C, D, E);
+		objectProperties(p, q, r);
 
-		kb.addSubProperty( list( p, q ), r );
-		kb.addSubClass( C, some( p, some( q, D ) ) );
-		kb.addSubClass( D, all( inv( r ), E ) );
+		kb.addSubProperty(list(p, q), r);
+		kb.addSubClass(C, some(p, some(q, D)));
+		kb.addSubClass(D, all(inv(r), E));
 
-		assertTrue( kb.isConsistent() );
-		assertTrue( kb.isSubClassOf( C, E ) );
-		
+		assertTrue(kb.isConsistent());
+		assertTrue(kb.isSubClassOf(C, E));
+
 		kb.classify();
-		
+
 		kb.printClassTree();
-		
-		assertTrue( kb.isSubClassOf( C, E ) );
+
+		assertTrue(kb.isSubClassOf(C, E));
 	}
 }

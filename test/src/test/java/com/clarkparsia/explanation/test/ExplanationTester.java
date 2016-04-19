@@ -9,7 +9,9 @@ package com.clarkparsia.explanation.test;
 import static org.junit.Assert.assertNotNull;
 
 import com.clarkparsia.owlapi.OntologyUtils;
-
+import com.clarkparsia.owlapi.explanation.ExplanationGenerator;
+import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
+import com.clarkparsia.owlapi.explanation.io.ConciseExplanationRenderer;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,9 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import com.clarkparsia.owlapi.explanation.ExplanationGenerator;
-import com.clarkparsia.owlapi.explanation.SatisfiabilityConverter;
-import com.clarkparsia.owlapi.explanation.io.ConciseExplanationRenderer;
 
 /**
  * <p>
@@ -34,71 +33,75 @@ import com.clarkparsia.owlapi.explanation.io.ConciseExplanationRenderer;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class ExplanationTester {
-	private static final Logger			log			= Logger.getLogger( ExplanationTester.class.getName() );
+public class ExplanationTester
+{
+	private static final Logger log = Logger.getLogger(ExplanationTester.class.getName());
 
-	private SatisfiabilityConverter		converter;
-	private ConciseExplanationRenderer	renderer;
-	private ExplanationGenerator		expGen;
+	private final SatisfiabilityConverter converter;
+	private final ConciseExplanationRenderer renderer;
+	private final ExplanationGenerator expGen;
 
-	private int							axiomCount	= 0;
+	private int axiomCount = 0;
 
-	public ExplanationTester(ExplanationGenerator expGen) {
+	public ExplanationTester(final ExplanationGenerator expGen)
+	{
 		this.expGen = expGen;
 
 		converter = new SatisfiabilityConverter(OntologyUtils.getOWLOntologyManager().getOWLDataFactory());
 		renderer = new ConciseExplanationRenderer();
 	}
 
-	public void testExplanations(OWLAxiom axiom, int max, Set<Set<OWLAxiom>> expectedExplanations)
-			throws Exception {
-		OWLClassExpression unsatClass = converter.convert( axiom );
+	public void testExplanations(final OWLAxiom axiom, final int max, final Set<Set<OWLAxiom>> expectedExplanations) throws Exception
+	{
+		final OWLClassExpression unsatClass = converter.convert(axiom);
 
-		if( log.isLoggable( Level.FINE ) )
-			log.fine( "Axiom " + (++axiomCount) + ": " + axiom + " Expecting "
-					+ expectedExplanations.size() + " explanations" );
+		if (log.isLoggable(Level.FINE))
+			log.fine("Axiom " + (++axiomCount) + ": " + axiom + " Expecting " + expectedExplanations.size() + " explanations");
 
-		Set<Set<OWLAxiom>> generatedExplanations = expGen.getExplanations( unsatClass, max );
-		Set<Set<OWLAxiom>> notFoundExplanations = new HashSet<Set<OWLAxiom>>( expectedExplanations );
+		final Set<Set<OWLAxiom>> generatedExplanations = expGen.getExplanations(unsatClass, max);
+		final Set<Set<OWLAxiom>> notFoundExplanations = new HashSet<>(expectedExplanations);
 
-		if( log.isLoggable( Level.FINER ) ) {
-			StringWriter sw = new StringWriter();
-			renderer.startRendering( sw );
-			renderer.render( axiom, expectedExplanations );
+		if (log.isLoggable(Level.FINER))
+		{
+			final StringWriter sw = new StringWriter();
+			renderer.startRendering(sw);
+			renderer.render(axiom, expectedExplanations);
 			renderer.endRendering();
-			log.finer( "Expected:\n" + sw );
+			log.finer("Expected:\n" + sw);
 		}
 
-		assertNotNull( "Axiom " + axiom + " not entailed", generatedExplanations );
+		assertNotNull("Axiom " + axiom + " not entailed", generatedExplanations);
 
-		Set<Set<OWLAxiom>> unexpectedExplanations = new HashSet<Set<OWLAxiom>>();
-		for( Set<OWLAxiom> explanation : generatedExplanations ) {
-			if( !notFoundExplanations.remove( explanation ) )
-				unexpectedExplanations.add( explanation );
-		}
+		final Set<Set<OWLAxiom>> unexpectedExplanations = new HashSet<>();
+		for (final Set<OWLAxiom> explanation : generatedExplanations)
+			if (!notFoundExplanations.remove(explanation))
+				unexpectedExplanations.add(explanation);
 
-		if( !notFoundExplanations.isEmpty() || !unexpectedExplanations.isEmpty() ) {
-			StringWriter sw = new StringWriter();
-			ConciseExplanationRenderer renderer = new ConciseExplanationRenderer();
-			renderer.startRendering( sw );
-			sw.getBuffer().append( "\nExpected:\n" );
-			renderer.render( axiom, expectedExplanations );
-			if( !notFoundExplanations.isEmpty() ) {
-				sw.getBuffer().append( "Not Found:\n" );
-				renderer.render( axiom, notFoundExplanations );
+		if (!notFoundExplanations.isEmpty() || !unexpectedExplanations.isEmpty())
+		{
+			final StringWriter sw = new StringWriter();
+			final ConciseExplanationRenderer renderer = new ConciseExplanationRenderer();
+			renderer.startRendering(sw);
+			sw.getBuffer().append("\nExpected:\n");
+			renderer.render(axiom, expectedExplanations);
+			if (!notFoundExplanations.isEmpty())
+			{
+				sw.getBuffer().append("Not Found:\n");
+				renderer.render(axiom, notFoundExplanations);
 			}
-			if( !unexpectedExplanations.isEmpty() ) {
-				sw.getBuffer().append( "Unexpected:\n" );
-				renderer.render( axiom, unexpectedExplanations );
+			if (!unexpectedExplanations.isEmpty())
+			{
+				sw.getBuffer().append("Unexpected:\n");
+				renderer.render(axiom, unexpectedExplanations);
 			}
 			renderer.endRendering();
-			
-			log.severe( "Error in explanation: " + sw );
-			
-			org.junit.Assert.fail( "Error in explanation, see the log file for details" );
+
+			log.severe("Error in explanation: " + sw);
+
+			org.junit.Assert.fail("Error in explanation, see the log file for details");
 		}
 	}
 }

@@ -6,28 +6,28 @@
 
 package org.mindswap.pellet.jena.graph.query;
 
+import aterm.ATermAppl;
 import java.util.Set;
-
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.util.iterator.ExtendedIterator;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 
-import aterm.ATermAppl;
-
-import org.apache.jena.graph.Node;
-import org.apache.jena.graph.Triple;
-import org.apache.jena.util.iterator.ExtendedIterator;
-
-abstract class ObjectVarHandler extends TripleQueryHandler {
+abstract class ObjectVarHandler extends TripleQueryHandler
+{
 	public abstract Set<ATermAppl> getObjects(KnowledgeBase kb, ATermAppl subj);
-	
+
 	@Override
-	public final boolean contains(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj) {
-		return !getObjects( kb, loader.node2term( subj ) ).isEmpty();
+	public final boolean contains(final KnowledgeBase kb, final GraphLoader loader, final Node subj, final Node pred, final Node obj)
+	{
+		return !getObjects(kb, loader.node2term(subj)).isEmpty();
 	}
-	
+
 	@Override
-	public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node subj, Node pred, Node obj) {
-		return objectFiller( subj, pred, getObjects( kb, pellet.getLoader().node2term( subj ) ) );
-	}			
+	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, final Node obj)
+	{
+		return objectFiller(subj, pred, getObjects(kb, pellet.getLoader().node2term(subj)));
+	}
 }

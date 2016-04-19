@@ -1,12 +1,10 @@
 package com.clarkparsia.pellet.datatypes.types.datetime;
 
+import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
-
-import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
 
 /**
  * <p>
@@ -21,30 +19,36 @@ import com.clarkparsia.pellet.datatypes.RestrictedDatatype;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class XSDDateTime extends AbstractTimelineDatatype {
+public class XSDDateTime extends AbstractTimelineDatatype
+{
 
-	private static final XSDDateTime	instance;
+	private static final XSDDateTime instance;
 
-	static {
+	static
+	{
 		instance = new XSDDateTime();
 	}
 
-	public static XSDDateTime getInstance() {
+	public static XSDDateTime getInstance()
+	{
 		return instance;
 	}
 
-	private final RestrictedTimelineDatatype	dataRange;
+	private final RestrictedTimelineDatatype dataRange;
 
-	private XSDDateTime() {
-		super( ATermUtils.makeTermAppl( Namespaces.XSD + "dateTime" ), DatatypeConstants.DATETIME );
+	private XSDDateTime()
+	{
+		super(ATermUtils.makeTermAppl(Namespaces.XSD + "dateTime"), DatatypeConstants.DATETIME);
 
-		dataRange = new RestrictedTimelineDatatype( this, DatatypeConstants.DATETIME, false );
+		dataRange = new RestrictedTimelineDatatype(this, DatatypeConstants.DATETIME, false);
 	}
 
-	public RestrictedDatatype<XMLGregorianCalendar> asDataRange() {
+	@Override
+	public RestrictedDatatype<XMLGregorianCalendar> asDataRange()
+	{
 		return dataRange;
 	}
 }

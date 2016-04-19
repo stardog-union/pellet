@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.clarkparsia.pellet.test.jena;
 
@@ -14,11 +14,9 @@ import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 /**
- * A simple check to see when classification and realization are triggered by
- * ABox changes.
- * 
- * @author Pavel Klinov
+ * A simple check to see when classification and realization are triggered by ABox changes.
  *
+ * @author Pavel Klinov
  */
 public class RealizationTest
 {
@@ -59,7 +57,7 @@ public class RealizationTest
 		System.err.println(z.listOntClasses(false).toList());
 	}
 
-	private OntModel loadOntologyModel(String ontologyPath) throws IOException
+	private OntModel loadOntologyModel(final String ontologyPath) throws IOException
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 		// read the file

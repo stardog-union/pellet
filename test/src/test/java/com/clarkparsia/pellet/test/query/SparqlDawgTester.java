@@ -21,54 +21,47 @@ import java.util.Set;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  * @author Markus Stocker
  */
-public interface SparqlDawgTester {
+public interface SparqlDawgTester
+{
 
 	public void setQueryURI(final String queryURI);
 
-	public void setDatasetURIs(final Set<String> graphURIs,
-			final Set<String> namedGraphURIs);
+	public void setDatasetURIs(final Set<String> graphURIs, final Set<String> namedGraphURIs);
 
 	public void setResult(final String queryURI);
 
 	/**
 	 * Checks whether the given query can be parsed.
-	 * 
+	 *
 	 * @return true if the query can be parsed.
 	 */
 	public boolean isParsable();
 
 	/**
-	 * Checks whether the query is correctly evaluated with respect to given
-	 * graph (dataURI), named graphs (namedDataURIs) and expected results
-	 * (result URI)
-	 * 
-	 * @param dataURI
-	 *            URI of the graph to be the query executed against
-	 * @param namedDataURIs
-	 *            URIs of the named graphs
-	 * @param resultURI
-	 *            URI of the results
+	 * Checks whether the query is correctly evaluated with respect to given graph (dataURI), named graphs (namedDataURIs) and expected results (result URI)
+	 *
+	 * @param dataURI URI of the graph to be the query executed against
+	 * @param namedDataURIs URIs of the named graphs
+	 * @param resultURI URI of the results
 	 * @return true if the expected and actual results match
 	 */
 	public boolean isCorrectlyEvaluated();
 
 	/**
-	 * Determines whether the given test name is applicable for the given
-	 * tester. Allows for using avoid lists.
-	 * 
-	 * @param name
-	 *            name of the test
+	 * Determines whether the given test name is applicable for the given tester. Allows for using avoid lists.
+	 *
+	 * @param name name of the test
 	 * @return true, if the tester can be run on the test.
 	 */
-	public boolean isApplicable( final String testURI );
-	
+	public boolean isApplicable(final String testURI);
+
 	/**
 	 * Returns a user-friendly name for this tester
-	 * 
+	 *
 	 * @return the name of this tester.
 	 */
 	public String getName();

@@ -11,10 +11,10 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -22,11 +22,13 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class OWLUtil {
-	public static boolean isComplex(OWLClassExpression desc) {
+public class OWLUtil
+{
+	public static boolean isComplex(final OWLClassExpression desc)
+	{
 		return desc.isAnonymous() && !(desc instanceof OWLObjectOneOf);
 	}
 }

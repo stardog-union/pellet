@@ -6,19 +6,16 @@
 
 package com.clarkparsia.pellint.format;
 
-import java.util.Set;
-
-import org.semanticweb.owlapi.model.OWLClass;
-
 import com.clarkparsia.pellint.model.Lint;
+import java.util.Set;
+import org.semanticweb.owlapi.model.OWLClass;
 
 /**
  * <p>
  * Title: Compact Class Lint Format
  * </p>
  * <p>
- * Description: A compact formatter which only prints one participating OWLClass for
- * a Lint without line breaks.  If there are multiple participating OWLClasses,
+ * Description: A compact formatter which only prints one participating OWLClass for a Lint without line breaks. If there are multiple participating OWLClasses,
  * it arbitrary chooses one.
  * </p>
  * <p>
@@ -27,16 +24,20 @@ import com.clarkparsia.pellint.model.Lint;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class CompactClassLintFormat implements LintFormat {
+public class CompactClassLintFormat implements LintFormat
+{
 
-	public String format(Lint lint) {
-		Set<OWLClass> participatingClasses = lint.getParticipatingClasses();
-		if (participatingClasses == null || participatingClasses.isEmpty()) return "";
-		
-		StringBuilder strBuilder = new StringBuilder();
+	@Override
+	public String format(final Lint lint)
+	{
+		final Set<OWLClass> participatingClasses = lint.getParticipatingClasses();
+		if (participatingClasses == null || participatingClasses.isEmpty())
+			return "";
+
+		final StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append(participatingClasses.iterator().next());
 		strBuilder.append(' ');
 		return strBuilder.toString();

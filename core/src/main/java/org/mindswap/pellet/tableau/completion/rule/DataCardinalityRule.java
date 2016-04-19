@@ -6,13 +6,17 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
+import aterm.ATerm;
+import aterm.ATermAppl;
+import aterm.ATermInt;
+import aterm.ATermList;
+import com.clarkparsia.pellet.datatypes.exceptions.DatatypeReasonerException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Individual;
@@ -21,13 +25,6 @@ import org.mindswap.pellet.Role;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.completion.CompletionStrategy;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
-
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermInt;
-import aterm.ATermList;
-
-import com.clarkparsia.pellet.datatypes.exceptions.DatatypeReasonerException;
 
 /**
  * <p>
@@ -42,65 +39,72 @@ import com.clarkparsia.pellet.datatypes.exceptions.DatatypeReasonerException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class DataCardinalityRule extends AbstractTableauRule {
-	public DataCardinalityRule(CompletionStrategy strategy) {
-		super( strategy, NodeSelector.DATATYPE, BlockingType.NONE );
+public class DataCardinalityRule extends AbstractTableauRule
+{
+	public DataCardinalityRule(final CompletionStrategy strategy)
+	{
+		super(strategy, NodeSelector.DATATYPE, BlockingType.NONE);
 	}
 
-	public void apply(Individual x) {
-		final Map<ATermAppl, Collection<ATermAppl>> dataranges = new HashMap<ATermAppl, Collection<ATermAppl>>();
-		final Map<ATermAppl, DependencySet> rangeDepends = new HashMap<ATermAppl, DependencySet>();
+	@Override
+	public void apply(final Individual x)
+	{
+		final Map<ATermAppl, Collection<ATermAppl>> dataranges = new HashMap<>();
+		final Map<ATermAppl, DependencySet> rangeDepends = new HashMap<>();
 
 		/*
-		 * Gather all data properties that appear in universal restrictions on this node. 
+		 * Gather all data properties that appear in universal restrictions on this node.
 		 */
-		for( ATermAppl allDesc : x.getTypes( Node.ALL ) ) {
+		for (final ATermAppl allDesc : x.getTypes(Node.ALL))
+		{
 			final ATerm rTerm = allDesc.getArgument(0);
-			
+
 			/*
 			 * Skip object property chains
 			 */
 			if (rTerm instanceof ATermList)
 				continue;
-			
-			final ATermAppl r = (ATermAppl)rTerm;
-			final Role role = strategy.getABox().getRole( r );
-			
+
+			final ATermAppl r = (ATermAppl) rTerm;
+			final Role role = strategy.getABox().getRole(r);
+
 			/*
 			 * Skip any roles that are not datatype properties
 			 */
 			if (!role.isDatatypeRole())
 				continue;
-			
+
 			/*
-			 * Collect the data range and its dependency set 
+			 * Collect the data range and its dependency set
 			 */
-			Collection<ATermAppl> existing = dataranges.get( r );
-			DependencySet ds = x.getDepends( allDesc );
-			if (existing == null) {
-				existing = new ArrayList<ATermAppl>();
-				dataranges.put( r, existing ); 
-			} else {
-				ds = ds.union( rangeDepends.get( r ), strategy.getABox().doExplanation() );
+			Collection<ATermAppl> existing = dataranges.get(r);
+			DependencySet ds = x.getDepends(allDesc);
+			if (existing == null)
+			{
+				existing = new ArrayList<>();
+				dataranges.put(r, existing);
 			}
-			existing.add( (ATermAppl) allDesc.getArgument(1) );
-			rangeDepends.put( r, ds );
+			else
+				ds = ds.union(rangeDepends.get(r), strategy.getABox().doExplanation());
+			existing.add((ATermAppl) allDesc.getArgument(1));
+			rangeDepends.put(r, ds);
 
 		}
 
 		/*
 		 * Get the ranges of any data properties that have min cardinality restrictions
 		 */
-		for (ATermAppl minDesc : x.getTypes( Node.MIN )) {
+		for (final ATermAppl minDesc : x.getTypes(Node.MIN))
+		{
 			/*
 			 * TODO: Verify that minDesc will never have a property chain
 			 */
-			final ATermAppl r = (ATermAppl)minDesc.getArgument( 0 );
-			final Role role = strategy.getABox().getRole( r );
-			
+			final ATermAppl r = (ATermAppl) minDesc.getArgument(0);
+			final Role role = strategy.getABox().getRole(r);
+
 			/*
 			 * Skip any roles that are not datatype properties
 			 */
@@ -108,25 +112,29 @@ public class DataCardinalityRule extends AbstractTableauRule {
 				continue;
 
 			final Set<ATermAppl> ranges = role.getRanges();
-			if( !ranges.isEmpty() ) {
-				Collection<ATermAppl> existing = dataranges.get( r );
+			if (!ranges.isEmpty())
+			{
+				Collection<ATermAppl> existing = dataranges.get(r);
 				DependencySet ds;
-				if( existing == null ) {
-					existing = new ArrayList<ATermAppl>();
-					dataranges.put( r, existing );
+				if (existing == null)
+				{
+					existing = new ArrayList<>();
+					dataranges.put(r, existing);
 					ds = DependencySet.EMPTY;
-				} else
-					ds = rangeDepends.get( r );
+				}
+				else
+					ds = rangeDepends.get(r);
 
-				for( ATermAppl dataRange : role.getRanges() ) {
+				for (final ATermAppl dataRange : role.getRanges())
+				{
 					/*
 					 * TODO: Verify the dependency set handling here. The old
 					 * implementation just used independent (thus could avoid
 					 * this loop and call addAll)
 					 */
-					existing.add( dataRange );
-					ds = ds.union( role.getExplainRange( dataRange ), strategy.getABox().doExplanation() );
-					rangeDepends.put( r, ds );
+					existing.add(dataRange);
+					ds = ds.union(role.getExplainRange(dataRange), strategy.getABox().doExplanation());
+					rangeDepends.put(r, ds);
 				}
 			}
 		}
@@ -134,41 +142,50 @@ public class DataCardinalityRule extends AbstractTableauRule {
 		/*
 		 * For each of the min cardinality restrictions, verify that the data range is large enough
 		 */
-		for (ATermAppl minDesc : x.getTypes( Node.MIN )) {
-			final ATermAppl r = (ATermAppl)minDesc.getArgument( 0 );
-			final Role role = strategy.getABox().getRole( r );
+		for (final ATermAppl minDesc : x.getTypes(Node.MIN))
+		{
+			final ATermAppl r = (ATermAppl) minDesc.getArgument(0);
+			final Role role = strategy.getABox().getRole(r);
 
-			Set<ATermAppl> drs = new HashSet<ATermAppl>();
-			Collection<ATermAppl> direct = dataranges.get( r );
+			final Set<ATermAppl> drs = new HashSet<>();
+			final Collection<ATermAppl> direct = dataranges.get(r);
 			DependencySet ds;
-			if (direct != null) {
+			if (direct != null)
+			{
 				drs.addAll(direct);
-				ds = rangeDepends.get( r );
-			} else
+				ds = rangeDepends.get(r);
+			}
+			else
 				ds = DependencySet.EMPTY;
-			
-			ds = ds.union(x.getDepends(minDesc), strategy.getABox().doExplanation() );
 
-			for (Role superRole : role.getSuperRoles()) {
+			ds = ds.union(x.getDepends(minDesc), strategy.getABox().doExplanation());
+
+			for (final Role superRole : role.getSuperRoles())
+			{
 				final ATermAppl s = superRole.getName();
-				Collection<ATermAppl> inherited = dataranges.get( s );
-				if( inherited != null ) {
-					drs.addAll( inherited );
-					ds = ds.union( rangeDepends.get( s ), strategy.getABox().doExplanation() ).union(
-							role.getExplainSuper( s ), strategy.getABox().doExplanation() );
+				final Collection<ATermAppl> inherited = dataranges.get(s);
+				if (inherited != null)
+				{
+					drs.addAll(inherited);
+					ds = ds.union(rangeDepends.get(s), strategy.getABox().doExplanation()).union(role.getExplainSuper(s), strategy.getABox().doExplanation());
 				}
 			}
 
-			if( !drs.isEmpty() ) {
-				final int n = ((ATermInt)minDesc.getArgument( 1 )).getInt();
-				try {
-					if( !strategy.getABox().getDatatypeReasoner().containsAtLeast( n, drs ) ) {
-						strategy.getABox().setClash( Clash.minMax( x, ds ) );
+			if (!drs.isEmpty())
+			{
+				final int n = ((ATermInt) minDesc.getArgument(1)).getInt();
+				try
+				{
+					if (!strategy.getABox().getDatatypeReasoner().containsAtLeast(n, drs))
+					{
+						strategy.getABox().setClash(Clash.minMax(x, ds));
 						return;
 					}
-				} catch( DatatypeReasonerException e ) {
+				}
+				catch (final DatatypeReasonerException e)
+				{
 					// TODO Better Error Handling
-					throw new InternalReasonerException( e );
+					throw new InternalReasonerException(e);
 				}
 			}
 		}

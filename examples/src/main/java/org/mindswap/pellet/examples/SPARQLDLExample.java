@@ -8,8 +8,6 @@
 
 package org.mindswap.pellet.examples;
 
-import org.mindswap.pellet.jena.PelletReasonerFactory;
-
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Query;
@@ -18,6 +16,7 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 /**
  * <p>
@@ -32,57 +31,59 @@ import org.apache.jena.rdf.model.ModelFactory;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class SPARQLDLExample {
+public class SPARQLDLExample
+{
 
 	// The ontology loaded as dataset
-	private static final String	ontology	= "data/university0-0.owl";
-	private static final String[]	queries		= new String[] {
-										// One of the original LUBM queries
-			"data/lubm-query4.sparql",
-			// A SPARQL-DL query
-			"data/lubm-sparql-dl.sparql",
-			// A SPARQL-DL with the SPARQL-DL extensions vocabulary
-			"data/lubm-sparql-dl-extvoc.sparql" };
+	private static final String ontology = "data/university0-0.owl";
+	private static final String[] queries = new String[] {
+			// One of the original LUBM queries
+		"data/lubm-query4.sparql",
+		// A SPARQL-DL query
+		"data/lubm-sparql-dl.sparql",
+		// A SPARQL-DL with the SPARQL-DL extensions vocabulary
+	"data/lubm-sparql-dl-extvoc.sparql" };
 
-	public void run() {
-		for ( int i = 0; i < queries.length ; i++ ) {
-			String query = queries[i];
-			
+	public void run()
+	{
+		for (final String query : queries)
+		{
 			// First create a Jena ontology model backed by the Pellet reasoner
 			// (note, the Pellet reasoner is required)
-			OntModel m = ModelFactory.createOntologyModel( PelletReasonerFactory.THE_SPEC );
-	
+			final OntModel m = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+
 			// Then read the data from the file into the ontology model
-			m.read( ontology );
-	
+			m.read(ontology);
+
 			// Now read the query file into a query object
-			Query q = QueryFactory.read( query );
-	
+			final Query q = QueryFactory.read(query);
+
 			// Create a SPARQL-DL query execution for the given query and
 			// ontology model
-			QueryExecution qe = SparqlDLExecutionFactory.create( q, m );
-	
+			final QueryExecution qe = SparqlDLExecutionFactory.create(q, m);
+
 			// We want to execute a SELECT query, do it, and return the result set
-			ResultSet rs = qe.execSelect();
-	
+			final ResultSet rs = qe.execSelect();
+
 			// Print the query for better understanding
 			System.out.println(q.toString());
-			
+
 			// There are different things we can do with the result set, for
 			// instance iterate over it and process the query solutions or, what we
 			// do here, just print out the results
-			ResultSetFormatter.out( rs );
-			
+			ResultSetFormatter.out(rs);
+
 			// And an empty line to make it pretty
 			System.out.println();
 		}
 	}
 
-	public static void main(String[] args) {
-		SPARQLDLExample app = new SPARQLDLExample();
+	public static void main(final String[] args)
+	{
+		final SPARQLDLExample app = new SPARQLDLExample();
 		app.run();
 	}
 

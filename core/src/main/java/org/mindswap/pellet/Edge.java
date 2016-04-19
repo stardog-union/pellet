@@ -3,26 +3,32 @@
 //
 // Please see LICENSE.txt for full license terms, including the availability of proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
- 
+
 package org.mindswap.pellet;
 
 import aterm.ATermAppl;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: Represents an edge in the tableau completion graph.</p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description: Represents an edge in the tableau completion graph.
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public interface Edge {
+public interface Edge
+{
 	/**
 	 * Given a node upon which this edge is incident, the opposite incident node is returned.
-	 * 
+	 *
 	 * @param node a node upon which this edge is incident
 	 * @return the other node this edge is incident upon
 	 */
@@ -32,14 +38,14 @@ public interface Edge {
 	 * @return Returns the depends.
 	 */
 	public abstract DependencySet getDepends();
-	
+
 	public abstract void setDepends(DependencySet ds);
 
 	/**
 	 * @return Returns the source of this edge
 	 */
 	public abstract Individual getFrom();
-	
+
 	/**
 	 * @return Returns the name of the source node
 	 */

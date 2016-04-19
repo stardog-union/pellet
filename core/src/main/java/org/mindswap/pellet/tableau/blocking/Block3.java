@@ -6,37 +6,39 @@
 
 package org.mindswap.pellet.tableau.blocking;
 
+import aterm.ATermAppl;
+import aterm.ATermInt;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.utils.ATermUtils;
 
-import aterm.ATermAppl;
-import aterm.ATermInt;
-
 /**
  * @author Evren Sirin
  */
-public class Block3 implements BlockingCondition {
-	public boolean isBlocked(BlockingContext cxt) {
-		for( ATermAppl normMax : cxt.blocker.getTypes( Node.MAX ) ) {
-			ATermAppl max = (ATermAppl) normMax.getArgument( 0 );
-			Role s = cxt.blocked.getABox().getRole( max.getArgument( 0 ) );
-			int n = ((ATermInt) max.getArgument( 1 )).getInt() - 1;
-			ATermAppl c = (ATermAppl) max.getArgument( 2 );
+public class Block3 implements BlockingCondition
+{
+	@Override
+	public boolean isBlocked(final BlockingContext cxt)
+	{
+		for (final ATermAppl normMax : cxt.blocker.getTypes(Node.MAX))
+		{
+			final ATermAppl max = (ATermAppl) normMax.getArgument(0);
+			final Role s = cxt.blocked.getABox().getRole(max.getArgument(0));
+			final int n = ((ATermInt) max.getArgument(1)).getInt() - 1;
+			final ATermAppl c = (ATermAppl) max.getArgument(2);
 
-			if( s.isDatatypeRole() )
+			if (s.isDatatypeRole())
 				continue;
 
-			Role invS = s.getInverse();
+			final Role invS = s.getInverse();
 
-			if( !cxt.isRSuccessor( invS ) )
+			if (!cxt.isRSuccessor(invS))
 				continue;
-			
-			if( cxt.blocked.getParent().hasType( ATermUtils.negate( c ) ) )
+
+			if (cxt.blocked.getParent().hasType(ATermUtils.negate(c)))
 				continue;
-			
-			if( cxt.blocked.getParent().hasType( c ) 
-				&& cxt.blocker.getRSuccessors( s, c ).size() < n )
+
+			if (cxt.blocked.getParent().hasType(c) && cxt.blocker.getRSuccessors(s, c).size() < n)
 				continue;
 
 			return false;

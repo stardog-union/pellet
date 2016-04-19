@@ -10,24 +10,25 @@ import com.clarkparsia.pellet.expressivity.Expressivity;
 
 /**
  * Factory to choose the most-efficient blocking strategy for a given expressivity.
- * 
+ *
  * @author Evren Sirin
  */
-public class BlockingFactory {
+public class BlockingFactory
+{
 	/**
 	 * Returns the most-efficient blocking strategy for a given expressivity.
-	 * 
+	 *
 	 * @param expr expressivity of the kb for which the blocking will be used
 	 * @return a blocking strategy
 	 */
-	public static Blocking createBlocking(Expressivity expr) {
-		if( expr.hasInverse() ) {
-			if( expr.hasFunctionality() || expr.hasCardinality() || expr.hasCardinalityQ() )
+	public static Blocking createBlocking(final Expressivity expr)
+	{
+		if (expr.hasInverse())
+			if (expr.hasFunctionality() || expr.hasCardinality() || expr.hasCardinalityQ())
 				return OptimizedDoubleBlocking.getInstance();
 			else
 				return EqualityBlocking.getInstance();
-		}
-			
+
 		return SubsetBlocking.getInstance();
 	}
 }

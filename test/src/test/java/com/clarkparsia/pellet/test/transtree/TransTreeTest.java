@@ -3,10 +3,9 @@ package com.clarkparsia.pellet.test.transtree;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.clarkparsia.pellet.owlapi.OWLAPILoader;
-
-import com.clarkparsia.owlapi.OntologyUtils;
 import aterm.ATermAppl;
+import com.clarkparsia.owlapi.OntologyUtils;
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -31,18 +30,21 @@ public class TransTreeTest
 		testProperty("test/data/trans-tree-tests/discovery.owl", "http://purl.org/vocab/relationship/ancestorOf");
 	}
 
-	private void testProperty(String ontologyURI, String propertyURI)
+	private void testProperty(final String ontologyURI, final String propertyURI)
 	{
 		final OWLAPILoader loader = new OWLAPILoader();
 		final KnowledgeBase kb = loader.createKB(new String[] { ontologyURI });
 
 		final OWLEntity entity = OntologyUtils.findEntity(propertyURI, loader.getAllOntologies());
 
-		if (entity == null) { throw new IllegalArgumentException("Property not found: " + propertyURI); }
+		if (entity == null)
+			throw new IllegalArgumentException("Property not found: " + propertyURI);
 
-		if (!(entity instanceof OWLObjectProperty)) { throw new IllegalArgumentException("Not an object property: " + propertyURI); }
+		if (!(entity instanceof OWLObjectProperty))
+			throw new IllegalArgumentException("Not an object property: " + propertyURI);
 
-		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.getAllOntologies().stream())) { throw new IllegalArgumentException("Not a transitive property: " + propertyURI); }
+		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.getAllOntologies().stream()))
+			throw new IllegalArgumentException("Not a transitive property: " + propertyURI);
 
 		final ATermAppl p = ATermUtils.makeTermAppl(entity.getIRI().toString());
 
@@ -73,14 +75,14 @@ public class TransTreeTest
 
 		private final ATermAppl p;
 
-		public PartClassesComparator(KnowledgeBase kb, ATermAppl p)
+		public PartClassesComparator(final KnowledgeBase kb, final ATermAppl p)
 		{
 			super(kb);
 			this.p = p;
 		}
 
 		@Override
-		protected boolean isSubsumedBy(ATermAppl a, ATermAppl b)
+		protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 		{
 			final ATermAppl someB = ATermUtils.makeSomeValues(p, b);
 
@@ -93,14 +95,14 @@ public class TransTreeTest
 
 		private final ATermAppl p;
 
-		public PartIndividualsComparator(KnowledgeBase kb, ATermAppl p)
+		public PartIndividualsComparator(final KnowledgeBase kb, final ATermAppl p)
 		{
 			super(kb);
 			this.p = p;
 		}
 
 		@Override
-		protected boolean isSubsumedBy(ATermAppl a, ATermAppl b)
+		protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 		{
 			return kb.hasPropertyValue(a, p, b);
 		}
@@ -116,15 +118,15 @@ public class TransTreeTest
 
 		final Taxonomy<ATermAppl> taxonomy = cli.publicTaxonomy;
 
-		assertEquals(5, taxonomy.getClasses().size());	//TOP, not(TOP), Employee, CivilServant, Contractor
+		assertEquals(5, taxonomy.getClasses().size()); //TOP, not(TOP), Employee, CivilServant, Contractor
 
 		final Set<Set<ATermAppl>> subclasses = taxonomy.getSubs(ATermUtils.TOP);
 
-		assertEquals(4, subclasses.size());	//not(TOP), Employee, CivilServant, Contractor
+		assertEquals(4, subclasses.size()); //not(TOP), Employee, CivilServant, Contractor
 
 		final Iterator<Set<ATermAppl>> iterator = subclasses.iterator();
 
-		final Set<ATermAppl> elements = new HashSet<ATermAppl>(4);
+		final Set<ATermAppl> elements = new HashSet<>(4);
 
 		while (iterator.hasNext())
 		{
@@ -151,7 +153,7 @@ public class TransTreeTest
 		final Taxonomy<ATermAppl> taxonomy = cli.publicTaxonomy;
 
 		final Set<ATermAppl> classes = taxonomy.getClasses();
-		assertEquals(3, classes.size());		//TOP, not(TOP), 1 Employee
+		assertEquals(3, classes.size()); //TOP, not(TOP), 1 Employee
 		assertTrue(classes.contains(ATermUtils.makeTermAppl("http://clarkparsia.com/pellet/tutorial/pops#Employee1")));
 	}
 
@@ -164,6 +166,6 @@ public class TransTreeTest
 		cli.run();
 
 		final Taxonomy<ATermAppl> taxonomy = cli.publicTaxonomy;
-		assertEquals(2, taxonomy.getClasses().size());		//TOP, not(TOP) (no Contractors)
+		assertEquals(2, taxonomy.getClasses().size()); //TOP, not(TOP) (no Contractors)
 	}
 }

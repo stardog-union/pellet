@@ -51,11 +51,9 @@ import org.mindswap.pellet.utils.iterator.MultiListIterator;
 import org.mindswap.pellet.utils.iterator.PairIterator;
 
 /**
- * This class provides the functions ATerm related functions. Creating terms for
- * URI's and complex class descriptions is done here. There are also functions
- * for normalization, simplification and conversion to NNF (Normal Negation
- * Form).
- * 
+ * This class provides the functions ATerm related functions. Creating terms for URI's and complex class descriptions is done here. There are also functions for
+ * normalization, simplification and conversion to NNF (Normal Negation Form).
+ *
  * @author Evren Sirin
  */
 public class ATermUtils
@@ -179,92 +177,93 @@ public class ATermUtils
 		return factory;
 	}
 
-	final static public ATermAppl makeTypeAtom(ATermAppl ind, ATermAppl c)
+	final static public ATermAppl makeTypeAtom(final ATermAppl ind, final ATermAppl c)
 	{
 		return factory.makeAppl(TYPEFUN, ind, c);
 	}
 
-	final static public ATermAppl makePropAtom(ATermAppl p, ATermAppl s, ATermAppl o)
+	final static public ATermAppl makePropAtom(final ATermAppl p, final ATermAppl s, final ATermAppl o)
 	{
 		return factory.makeAppl(PROPFUN, p, s, o);
 	}
 
-	static public ATermAppl makeStringLiteral(String value)
+	static public ATermAppl makeStringLiteral(final String value)
 	{
 		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), EMPTY, LITERAL_STRING);
 	}
 
-	static public ATermAppl makePlainLiteral(String value)
+	static public ATermAppl makePlainLiteral(final String value)
 	{
 		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), EMPTY, PLAIN_LITERAL_DATATYPE);
 	}
 
-	static public ATermAppl makePlainLiteral(String value, String lang)
+	static public ATermAppl makePlainLiteral(final String value, final String lang)
 	{
 		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), makeTermAppl(lang), PLAIN_LITERAL_DATATYPE);
 	}
 
-	static public ATermAppl makeTypedLiteral(String value, ATermAppl dt)
+	static public ATermAppl makeTypedLiteral(final String value, final ATermAppl dt)
 	{
 		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), EMPTY, dt);
 	}
 
-	static public ATermAppl makeTypedLiteral(String value, String dt)
+	static public ATermAppl makeTypedLiteral(final String value, final String dt)
 	{
 		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), EMPTY, makeTermAppl(dt));
 	}
 
-	static public ATermAppl makeTypedPlainLangLiteral(String value, String lang)
+	static public ATermAppl makeTypedPlainLangLiteral(final String value, final String lang)
 	{
 		return factory.makeAppl(ATermUtils.LITFUN, makeTermAppl(value), makeTermAppl(lang), ATermUtils.PLAIN_LITERAL_DATATYPE);
 	}
 
 	static public ATermAppl NO_DATATYPE = makeTermAppl("NO_DATATYPE");
 
-	static public ATermAppl makeLiteral(ATermAppl name)
+	static public ATermAppl makeLiteral(final ATermAppl name)
 	{
 		return factory.makeAppl(ATermUtils.LITFUN, name, EMPTY, NO_DATATYPE);
 	}
 
-	static public String getLiteralValue(ATermAppl literal)
+	static public String getLiteralValue(final ATermAppl literal)
 	{
 		return ((ATermAppl) literal.getArgument(LIT_VAL_INDEX)).getName();
 	}
 
-	static public String getLiteralLang(ATermAppl literal)
+	static public String getLiteralLang(final ATermAppl literal)
 	{
 		return ((ATermAppl) literal.getArgument(LIT_LANG_INDEX)).getName();
 	}
 
-	static public String getLiteralDatatype(ATermAppl literal)
+	static public String getLiteralDatatype(final ATermAppl literal)
 	{
 		return ((ATermAppl) literal.getArgument(LIT_URI_INDEX)).getName();
 	}
 
-	static public ATermAppl makeTermAppl(String name)
+	static public ATermAppl makeTermAppl(final String name)
 	{
 		return factory.makeAppl(factory.makeAFun(name, 0, false));
 	}
 
-	static public ATermAppl makeTermAppl(AFun fun, ATerm[] args)
+	static public ATermAppl makeTermAppl(final AFun fun, final ATerm[] args)
 	{
 		return factory.makeAppl(fun, args);
 	}
 
-	static public ATermAppl makeNot(ATerm c)
+	static public ATermAppl makeNot(final ATerm c)
 	{
 		return factory.makeAppl(NOTFUN, c);
 	}
 
-	static public ATerm term(String str)
+	static public ATerm term(final String str)
 	{
 		return factory.parse(str);
 	}
 
 	// negate all the elements in the list and return the new list
-	static public ATermList negate(ATermList list)
+	static public ATermList negate(final ATermList list)
 	{
-		if (list.isEmpty()) { return list; }
+		if (list.isEmpty())
+			return list;
 
 		ATermAppl a = (ATermAppl) list.getFirst();
 		a = isNot(a) ? (ATermAppl) a.getArgument(0) : makeNot(a);
@@ -273,7 +272,7 @@ public class ATermUtils
 		return result;
 	}
 
-	final static public ATermAppl negate(ATermAppl a)
+	final static public ATermAppl negate(final ATermAppl a)
 	{
 		return isNot(a) ? (ATermAppl) a.getArgument(0) : makeNot(a);
 	}
@@ -286,130 +285,130 @@ public class ATermUtils
 	static
 	{
 		for (int i = 0; i < anonCache.length; i++)
-		{
 			anonCache[i] = factory.makeAppl(ANON_FUN, factory.makeInt(i));
-		}
 	}
 
-	final static public boolean isAnonNominal(ATermAppl term)
+	final static public boolean isAnonNominal(final ATermAppl term)
 	{
 		return term.getAFun().equals(ANON_NOMINAL_FUN);
 	}
 
-	final static public ATermAppl makeAnonNominal(int id)
+	final static public ATermAppl makeAnonNominal(final int id)
 	{
 		return factory.makeAppl(ANON_NOMINAL_FUN, factory.makeInt(id));
 	}
 
-	final static public ATermAppl makeAnon(int id)
+	final static public ATermAppl makeAnon(final int id)
 	{
-		if (id < anonCache.length) { return anonCache[id]; }
+		if (id < anonCache.length)
+			return anonCache[id];
 		return factory.makeAppl(ANON_FUN, factory.makeInt(id));
 	}
 
-	final static public ATermAppl makeBnode(String id)
+	final static public ATermAppl makeBnode(final String id)
 	{
 		return factory.makeAppl(BNODE_FUN, makeTermAppl(id));
 	}
 
-	final static public ATermAppl makeVar(String name)
+	final static public ATermAppl makeVar(final String name)
 	{
 		return factory.makeAppl(VARFUN, makeTermAppl(name));
 	}
 
-	final static public ATermAppl makeVar(ATermAppl name)
+	final static public ATermAppl makeVar(final ATermAppl name)
 	{
 		return factory.makeAppl(VARFUN, name);
 	}
 
-	final static public ATermAppl makeValue(ATerm c)
+	final static public ATermAppl makeValue(final ATerm c)
 	{
 		return factory.makeAppl(VALUEFUN, c);
 	}
 
-	final static public ATermAppl makeInv(ATermAppl r)
+	final static public ATermAppl makeInv(final ATermAppl r)
 	{
-		if (isInv(r)) { return (ATermAppl) r.getArgument(0); }
+		if (isInv(r))
+			return (ATermAppl) r.getArgument(0);
 
 		return factory.makeAppl(INVFUN, r);
 	}
 
-	final static public ATermAppl makeInvProp(ATerm r, ATerm s)
+	final static public ATermAppl makeInvProp(final ATerm r, final ATerm s)
 	{
 		return factory.makeAppl(INVPROPFUN, r, s);
 	}
 
-	final static public ATermAppl makeSub(ATerm a, ATerm b)
+	final static public ATermAppl makeSub(final ATerm a, final ATerm b)
 	{
 		return factory.makeAppl(SUBFUN, a, b);
 	}
 
-	final static public ATermAppl makeEqClasses(ATerm a, ATerm b)
+	final static public ATermAppl makeEqClasses(final ATerm a, final ATerm b)
 	{
 		return factory.makeAppl(EQCLASSFUN, a, b);
 	}
 
-	final static public ATermAppl makeSameAs(ATerm a, ATerm b)
+	final static public ATermAppl makeSameAs(final ATerm a, final ATerm b)
 	{
 		return factory.makeAppl(SAMEASFUN, a, b);
 	}
 
-	final static public ATermAppl makeSubProp(ATerm r, ATerm s)
+	final static public ATermAppl makeSubProp(final ATerm r, final ATerm s)
 	{
 		return factory.makeAppl(SUBPROPFUN, r, s);
 	}
 
-	final static public ATermAppl makeEqProp(ATerm r, ATerm s)
+	final static public ATermAppl makeEqProp(final ATerm r, final ATerm s)
 	{
 		return factory.makeAppl(EQPROPFUN, r, s);
 	}
 
-	final static public ATermAppl makeDomain(ATerm r, ATerm c)
+	final static public ATermAppl makeDomain(final ATerm r, final ATerm c)
 	{
 		return factory.makeAppl(DOMAINFUN, r, c);
 	}
 
-	final static public ATermAppl makeRange(ATerm r, ATerm c)
+	final static public ATermAppl makeRange(final ATerm r, final ATerm c)
 	{
 		return factory.makeAppl(RANGEFUN, r, c);
 	}
 
-	final static public ATermAppl makeComplement(ATerm a, ATerm b)
+	final static public ATermAppl makeComplement(final ATerm a, final ATerm b)
 	{
 		return factory.makeAppl(COMPLEMENTFUN, a, b);
 	}
 
-	final static public ATermAppl makeDisjoint(ATerm a, ATerm b)
+	final static public ATermAppl makeDisjoint(final ATerm a, final ATerm b)
 	{
 		return factory.makeAppl(DISJOINTFUN, a, b);
 	}
 
-	final static public ATermAppl makeDisjoints(ATermList list)
+	final static public ATermAppl makeDisjoints(final ATermList list)
 	{
 		return factory.makeAppl(DISJOINTSFUN, list);
 	}
 
-	final static public ATermAppl makeDisjointProperty(ATerm a, ATerm b)
+	final static public ATermAppl makeDisjointProperty(final ATerm a, final ATerm b)
 	{
 		return factory.makeAppl(DISJOINTPROPFUN, a, b);
 	}
 
-	final static public ATermAppl makeDisjointProperties(ATermList list)
+	final static public ATermAppl makeDisjointProperties(final ATermList list)
 	{
 		return factory.makeAppl(DISJOINTPROPSFUN, list);
 	}
 
-	final static public ATermAppl makeDifferent(ATerm a, ATerm b)
+	final static public ATermAppl makeDifferent(final ATerm a, final ATerm b)
 	{
 		return factory.makeAppl(DIFFERENTFUN, a, b);
 	}
 
-	final static public ATermAppl makeAllDifferent(ATermList list)
+	final static public ATermAppl makeAllDifferent(final ATermList list)
 	{
 		return factory.makeAppl(ALLDIFFERENTFUN, list);
 	}
 
-	final static public ATermAppl makeAsymmetric(ATerm r)
+	final static public ATermAppl makeAsymmetric(final ATerm r)
 	{
 		return factory.makeAppl(ASYMMETRICFUN, r);
 	}
@@ -418,124 +417,116 @@ public class ATermUtils
 	 * @deprecated Use {@link #makeAsymmetric(ATerm)}
 	 */
 	@Deprecated
-	final static public ATermAppl makeAntisymmetric(ATerm r)
+	final static public ATermAppl makeAntisymmetric(final ATerm r)
 	{
 		return makeAsymmetric(r);
 	}
 
-	final static public ATermAppl makeFunctional(ATerm a)
+	final static public ATermAppl makeFunctional(final ATerm a)
 	{
 		return factory.makeAppl(FUNCTIONALFUN, a);
 	}
 
-	final static public ATermAppl makeInverseFunctional(ATerm a)
+	final static public ATermAppl makeInverseFunctional(final ATerm a)
 	{
 		return factory.makeAppl(INVFUNCTIONALFUN, a);
 	}
 
-	final static public ATermAppl makeIrreflexive(ATerm r)
+	final static public ATermAppl makeIrreflexive(final ATerm r)
 	{
 		return factory.makeAppl(IRREFLEXIVEFUN, r);
 	}
 
-	final static public ATermAppl makeReflexive(ATerm r)
+	final static public ATermAppl makeReflexive(final ATerm r)
 	{
 		return factory.makeAppl(REFLEXIVEFUN, r);
 	}
 
-	final static public ATermAppl makeSymmetric(ATerm r)
+	final static public ATermAppl makeSymmetric(final ATerm r)
 	{
 		return factory.makeAppl(SYMMETRICFUN, r);
 	}
 
-	final static public ATermAppl makeTransitive(ATerm r)
+	final static public ATermAppl makeTransitive(final ATerm r)
 	{
 		return factory.makeAppl(TRANSITIVEFUN, r);
 	}
 
-	final static public ATermAppl makeAnd(ATerm c1, ATerm c2)
+	final static public ATermAppl makeAnd(final ATerm c1, final ATerm c2)
 	{
 		return makeAnd(makeList(c2).insert(c1));
 	}
 
-	static public ATermAppl makeAnd(ATermList list)
+	static public ATermAppl makeAnd(final ATermList list)
 	{
 		if (list == null)
-		{
 			throw new NullPointerException();
-		}
 		else
 			if (list.isEmpty())
-			{
 				return TOP;
-			}
 			else
-				if (list.getNext().isEmpty()) { return (ATermAppl) list.getFirst(); }
+				if (list.getNext().isEmpty())
+					return (ATermAppl) list.getFirst();
 
 		return factory.makeAppl(ANDFUN, list);
 	}
 
-	final static public ATermAppl makeOr(ATermAppl c1, ATermAppl c2)
+	final static public ATermAppl makeOr(final ATermAppl c1, final ATermAppl c2)
 	{
 		return makeOr(makeList(c2).insert(c1));
 	}
 
-	static public ATermAppl makeOr(ATermList list)
+	static public ATermAppl makeOr(final ATermList list)
 	{
 		if (list == null)
-		{
 			throw new NullPointerException();
-		}
 		else
 			if (list.isEmpty())
-			{
 				return BOTTOM;
-			}
 			else
-				if (list.getNext().isEmpty()) { return (ATermAppl) list.getFirst(); }
+				if (list.getNext().isEmpty())
+					return (ATermAppl) list.getFirst();
 
 		return factory.makeAppl(ORFUN, list);
 	}
 
-	final static public ATermAppl makeAllValues(ATerm r, ATerm c)
+	final static public ATermAppl makeAllValues(ATerm r, final ATerm c)
 	{
 		if (r.getType() == ATerm.LIST)
 		{
 			final ATermList list = (ATermList) r;
 			if (list.getLength() == 1)
-			{
 				r = list.getFirst();
-			}
 		}
 		return factory.makeAppl(ALLFUN, r, c);
 	}
 
-	final static public ATermAppl makeSomeValues(ATerm r, ATerm c)
+	final static public ATermAppl makeSomeValues(final ATerm r, final ATerm c)
 	{
 		assertTrue(c instanceof ATermAppl);
 
 		return factory.makeAppl(SOMEFUN, r, c);
 	}
 
-	final static public ATermAppl makeSelf(ATermAppl r)
+	final static public ATermAppl makeSelf(final ATermAppl r)
 	{
 		return factory.makeAppl(SELFFUN, r);
 	}
 
-	final static public ATermAppl makeHasValue(ATerm r, ATerm ind)
+	final static public ATermAppl makeHasValue(final ATerm r, final ATerm ind)
 	{
 		final ATermAppl c = makeValue(ind);
 		return factory.makeAppl(SOMEFUN, r, c);
 	}
 
-	final static public ATermAppl makeNormalizedMax(ATermAppl r, int n, ATermAppl c)
+	final static public ATermAppl makeNormalizedMax(final ATermAppl r, final int n, final ATermAppl c)
 	{
 		assertTrue(n >= 0);
 
 		return makeNot(makeMin(r, n + 1, c));
 	}
 
-	final static public ATermAppl makeMax(ATerm r, int n, ATerm c)
+	final static public ATermAppl makeMax(final ATerm r, final int n, final ATerm c)
 	{
 		// assertTrue( n >= 0 );
 
@@ -545,14 +536,14 @@ public class ATermUtils
 		return makeMax(r, factory.makeInt(n), c);
 	}
 
-	final static public ATermAppl makeMax(ATerm r, ATermInt n, ATerm c)
+	final static public ATermAppl makeMax(final ATerm r, final ATermInt n, final ATerm c)
 	{
 		assertTrue(n.getInt() >= 0);
 
 		return factory.makeAppl(MAXFUN, r, n, c);
 	}
 
-	final static public ATermAppl makeMin(ATerm r, int n, ATerm c)
+	final static public ATermAppl makeMin(final ATerm r, final int n, final ATerm c)
 	{
 		// comment out built-in simplification so that explanation
 		// axioms will come out right
@@ -562,35 +553,35 @@ public class ATermUtils
 		return makeMin(r, factory.makeInt(n), c);
 	}
 
-	final static public ATermAppl makeMin(ATerm r, ATermInt n, ATerm c)
+	final static public ATermAppl makeMin(final ATerm r, final ATermInt n, final ATerm c)
 	{
 		assertTrue(n.getInt() >= 0);
 
 		return factory.makeAppl(MINFUN, r, n, c);
 	}
 
-	final static public ATermAppl makeDisplayCard(ATerm r, int n, ATerm c)
+	final static public ATermAppl makeDisplayCard(final ATerm r, final int n, final ATerm c)
 	{
 		assertTrue(n >= 0);
 
 		return factory.makeAppl(CARDFUN, r, factory.makeInt(n), c);
 	}
 
-	final static public ATermAppl makeDisplayMax(ATerm r, int n, ATerm c)
+	final static public ATermAppl makeDisplayMax(final ATerm r, final int n, final ATerm c)
 	{
 		assertTrue(n >= 0);
 
 		return factory.makeAppl(MAXFUN, r, factory.makeInt(n), c);
 	}
 
-	final static public ATermAppl makeDisplayMin(ATerm r, int n, ATerm c)
+	final static public ATermAppl makeDisplayMin(final ATerm r, final int n, final ATerm c)
 	{
 		assertTrue(n >= 0);
 
 		return factory.makeAppl(MINFUN, r, factory.makeInt(n), c);
 	}
 
-	final static public ATermAppl makeCard(ATerm r, int n, ATerm c)
+	final static public ATermAppl makeCard(final ATerm r, final int n, final ATerm c)
 	{
 		return makeDisplayCard(r, n, c);
 		// ATermAppl max = makeMax( r, n, c );
@@ -601,94 +592,94 @@ public class ATermUtils
 		// return makeAnd( min, max );
 	}
 
-	final static public ATermAppl makeExactCard(ATerm r, int n, ATerm c)
+	final static public ATermAppl makeExactCard(final ATerm r, final int n, final ATerm c)
 	{
 		return makeExactCard(r, factory.makeInt(n), c);
 	}
 
-	final static public ATermAppl makeExactCard(ATerm r, ATermInt n, ATerm c)
+	final static public ATermAppl makeExactCard(final ATerm r, final ATermInt n, final ATerm c)
 	{
 		final ATermAppl max = makeMax(r, n, c);
 
-		if (n.getInt() == 0) { return max; }
+		if (n.getInt() == 0)
+			return max;
 
 		final ATermAppl min = makeMin(r, n, c);
 		return makeAnd(min, max);
 	}
 
-	final static public ATermAppl makeFacetRestriction(ATermAppl facetName, ATermAppl facetValue)
+	final static public ATermAppl makeFacetRestriction(final ATermAppl facetName, final ATermAppl facetValue)
 	{
 		return factory.makeAppl(FACET, facetName, facetValue);
 	}
 
-	final static public ATermAppl makeRestrictedDatatype(ATermAppl baseDatatype, ATermAppl[] restrictions)
+	final static public ATermAppl makeRestrictedDatatype(final ATermAppl baseDatatype, final ATermAppl[] restrictions)
 	{
 		return factory.makeAppl(RESTRDATATYPEFUN, baseDatatype, makeList(restrictions));
 	}
 
-	final static public ATermAppl makeDatatypeDefinition(ATermAppl datatype, ATermAppl definition)
+	final static public ATermAppl makeDatatypeDefinition(final ATermAppl datatype, final ATermAppl definition)
 	{
 		return factory.makeAppl(DATATYPEDEFFUN, datatype, definition);
 	}
 
-	final static public boolean isRestrictedDatatype(ATermAppl term)
+	final static public boolean isRestrictedDatatype(final ATermAppl term)
 	{
 		return term.getAFun().equals(RESTRDATATYPEFUN);
 	}
 
-	final static public ATermList makeList(ATerm singleton)
+	final static public ATermList makeList(final ATerm singleton)
 	{
 		return factory.makeList(singleton, EMPTY_LIST);
 	}
 
-	final static public ATermList makeList(ATerm first, ATermList rest)
+	final static public ATermList makeList(final ATerm first, final ATermList rest)
 	{
 		return factory.makeList(first, rest);
 	}
 
-	public static ATermList makeList(Collection<ATermAppl> set)
+	public static ATermList makeList(final Collection<ATermAppl> set)
 	{
 		ATermList list = EMPTY_LIST;
 
 		for (final ATerm term : set)
-		{
 			list = list.insert(term);
-		}
 		return list;
 	}
 
-	final static public ATermList makeList(ATerm[] aTerms)
+	final static public ATermList makeList(final ATerm[] aTerms)
 	{
 		return makeList(aTerms, 0);
 	}
 
-	static private ATermList makeList(ATerm[] aTerms, int index)
+	static private ATermList makeList(final ATerm[] aTerms, final int index)
 	{
 		if (index >= aTerms.length)
-		{
 			return EMPTY_LIST;
-		}
 		else
-			if (index == aTerms.length - 1) { return makeList(aTerms[index]); }
+			if (index == aTerms.length - 1)
+				return makeList(aTerms[index]);
 
 		return makeList(aTerms[index], makeList(aTerms, index + 1));
 	}
 
-	final static public boolean member(ATerm a, ATermList list)
+	final static public boolean member(final ATerm a, final ATermList list)
 	{
 		return (list.indexOf(a, 0) != -1);
 	}
 
 	static public boolean isSet(ATermList list)
 	{
-		if (list.isEmpty()) { return true; }
+		if (list.isEmpty())
+			return true;
 
 		ATerm curr = list.getFirst();
 		list = list.getNext();
 		while (!list.isEmpty())
 		{
 			final ATerm next = list.getFirst();
-			if (Comparators.termComparator.compare(curr, next) >= 0) { return false; }
+			if (Comparators.termComparator.compare(curr, next) >= 0)
+				return false;
 			curr = next;
 			list = list.getNext();
 		}
@@ -696,17 +687,16 @@ public class ATermUtils
 		return true;
 	}
 
-	static public ATermList toSet(ATermList list)
+	static public ATermList toSet(final ATermList list)
 	{
-		if (isSet(list)) { return list; }
+		if (isSet(list))
+			return list;
 
 		final int size = list.getLength();
 
 		ATerm[] a = toArray(list);
 		if (a == null || a.length < size)
-		{
 			a = new ATerm[Math.max(100, size)];
-		}
 
 		Arrays.sort(a, 0, size, Comparators.termComparator);
 
@@ -715,15 +705,13 @@ public class ATermUtils
 		{
 			final ATerm s = set.getFirst();
 			if (!s.equals(a[i]))
-			{
 				set = set.insert(a[i]);
-			}
 		}
 
 		return set;
 	}
 
-	static public ATermList toSet(ATerm[] a, int size)
+	static public ATermList toSet(final ATerm[] a, final int size)
 	{
 		Arrays.sort(a, 0, size, Comparators.termComparator);
 
@@ -732,15 +720,13 @@ public class ATermUtils
 		{
 			final ATerm s = set.getFirst();
 			if (!s.equals(a[i]))
-			{
 				set = set.insert(a[i]);
-			}
 		}
 
 		return set;
 	}
 
-	static public ATermList toSet(Collection<ATermAppl> terms)
+	static public ATermList toSet(final Collection<ATermAppl> terms)
 	{
 		final int size = terms.size();
 
@@ -751,15 +737,16 @@ public class ATermUtils
 	}
 
 	/**
-	 * Return the string representations of the terms in a collection. For each element of the collection {@link #toString(ATermAppl)} function will be called to create the string representation.
-	 * 
-	 * @param terms
-	 *            a collection of terms
+	 * Return the string representations of the terms in a collection. For each element of the collection {@link #toString(ATermAppl)} function will be called
+	 * to create the string representation.
+	 *
+	 * @param terms a collection of terms
 	 * @return string representation of the terms
 	 */
-	public static String toString(Collection<ATermAppl> terms)
+	public static String toString(final Collection<ATermAppl> terms)
 	{
-		if (terms.isEmpty()) { return "[]"; }
+		if (terms.isEmpty())
+			return "[]";
 
 		final StringBuilder sb = new StringBuilder();
 		sb.append("[");
@@ -778,34 +765,28 @@ public class ATermUtils
 	}
 
 	/**
-	 * Return a string representation of the term which might be representing a named
-	 * term, literal, variable or a complex concept expression. The URIs used in the
-	 * term will be shortened into local names. The concept expressions are printed
-	 * in NNF format.
-	 * 
+	 * Return a string representation of the term which might be representing a named term, literal, variable or a complex concept expression. The URIs used in
+	 * the term will be shortened into local names. The concept expressions are printed in NNF format.
+	 *
 	 * @param term term whose string representation we are creating
 	 * @return string representation of the term
 	 */
-	public static String toString(ATermAppl term)
+	public static String toString(final ATermAppl term)
 	{
 		return toString(term, true, true);
 	}
 
 	/**
-	 * Return a string representation of the term which might be representing a named
-	 * term, literal, variable or a complex concept expression. The URIs used in the
-	 * term can be shortened into local names. The concept expressions can be printed
-	 * in NNF format.
-	 * 
+	 * Return a string representation of the term which might be representing a named term, literal, variable or a complex concept expression. The URIs used in
+	 * the term can be shortened into local names. The concept expressions can be printed in NNF format.
+	 *
 	 * @param term term whose string representation we are creating
 	 * @return string representation of the term
 	 */
-	public static String toString(ATermAppl term, boolean printLocalName, boolean printNNF)
+	public static String toString(final ATermAppl term, final boolean printLocalName, final boolean printNNF)
 	{
 		if (term == null)
-		{
 			return "<null>";
-		}
 		else
 		{
 			final StringBuilder sb = new StringBuilder();
@@ -816,31 +797,25 @@ public class ATermUtils
 
 	/**
 	 * Helper for toString function.
-	 * 
+	 *
 	 * @param term term
 	 * @param sb the builder we are
 	 * @param negated
 	 * @param useLocalName
 	 */
-	private static void toString(ATermAppl term, StringBuilder sb, Bool negated, boolean printLocalName)
+	private static void toString(final ATermAppl term, final StringBuilder sb, final Bool negated, final boolean printLocalName)
 	{
 		if (term.equals(ATermUtils.TOP))
-		{
 			sb.append(negated.isTrue() ? "owl:Nothing" : "owl:Thing");
-		}
 		else
 			if (term.equals(ATermUtils.BOTTOM))
-			{
 				sb.append(negated.isTrue() ? "owl:Thing" : "owl:Nothing");
-			}
 			else
 				if (ATermUtils.isVar(term))
 				{
 					String name = ((ATermAppl) term.getArgument(0)).getName();
 					if (printLocalName)
-					{
 						name = URIUtils.getLocalName(name);
-					}
 					sb.append("?").append(name);
 				}
 				else
@@ -852,9 +827,7 @@ public class ATermUtils
 
 						sb.append('"').append(value).append('"');
 						if (!lang.equals(""))
-						{
 							sb.append('@').append(lang);
-						}
 						else
 							if (!datatypeURI.equals(NO_DATATYPE) && !datatypeURI.equals(PLAIN_LITERAL_DATATYPE))
 							{
@@ -866,23 +839,17 @@ public class ATermUtils
 						if (ATermUtils.isPrimitive(term))
 						{
 							if (negated.isTrue())
-							{
 								sb.append("not(");
-							}
 							final String name = term.getName();
 							sb.append(URIUtils.getLocalName(name));
 							if (negated.isTrue())
-							{
 								sb.append(")");
-							}
 						}
 						else
 							if (ATermUtils.isRestrictedDatatype(term))
 							{
 								if (negated.isTrue())
-								{
 									sb.append("not(");
-								}
 								toString((ATermAppl) term.getArgument(0), sb, Bool.FALSE, printLocalName);
 								sb.append("[");
 								ATermList list = (ATermList) term.getArgument(1);
@@ -894,93 +861,63 @@ public class ATermUtils
 									toString((ATermAppl) facet.getArgument(1), sb, Bool.FALSE, printLocalName);
 									list = list.getNext();
 									if (!list.isEmpty())
-									{
 										sb.append(", ");
-									}
 								}
 								sb.append("]");
 								if (negated.isTrue())
-								{
 									sb.append(")");
-								}
 							}
 							else
 								if (negated.isKnown() && ATermUtils.isNot(term))
-								{
 									toString((ATermAppl) term.getArgument(0), sb, negated.not(), printLocalName);
-								}
 								else
 								{
 									final AFun fun = term.getAFun();
 									if (negated.isTrue())
 									{
 										if (fun.equals(ATermUtils.ANDFUN))
-										{
 											sb.append(ATermUtils.ORFUN.getName());
-										}
 										else
 											if (fun.equals(ATermUtils.ORFUN))
-											{
 												sb.append(ATermUtils.ANDFUN.getName());
-											}
 											else
 												if (fun.equals(ATermUtils.SOMEFUN))
-												{
 													sb.append(ATermUtils.ALLFUN.getName());
-												}
 												else
 													if (fun.equals(ATermUtils.ALLFUN))
-													{
 														sb.append(ATermUtils.SOMEFUN.getName());
-													}
 													else
 														if (fun.equals(ATermUtils.MINFUN))
-														{
 															sb.append(ATermUtils.MAXFUN.getName());
-														}
 														else
 															if (fun.equals(ATermUtils.MAXFUN))
-															{
 																sb.append(ATermUtils.MINFUN.getName());
-															}
 															else
 																if (!fun.equals(ATermUtils.NOTFUN))
 																{
 																	if (fun.equals(ATermUtils.VALUEFUN) || fun.equals(ATermUtils.RESTRDATATYPEFUN))
-																	{
 																		sb.append("not(");
-																	}
 																	sb.append(fun.getName());
 																}
 									}
 									else
-									{
 										sb.append(fun.getName());
-									}
 
 									Bool negatedRecurse = negated;
 									if (negated.isKnown() && fun.equals(ATermUtils.MINFUN) || fun.equals(ATermUtils.MAXFUN))
-									{
 										negatedRecurse = Bool.FALSE;
-									}
 									else
 										if (fun.equals(ATermUtils.NOTFUN))
-										{
 											negatedRecurse = negated.not();
-										}
 
 									sb.append("(");
 									for (int i = 0, n = term.getArity(); i < n; i++)
 									{
 										if (i > 0)
-										{
 											sb.append(", ");
-										}
 										final ATerm arg = term.getArgument(i);
 										if (arg instanceof ATermAppl)
-										{
 											toString((ATermAppl) arg, sb, i > 0 ? negatedRecurse : Bool.FALSE, printLocalName);
-										}
 										else
 											if (arg instanceof ATermList)
 											{
@@ -991,9 +928,7 @@ public class ATermUtils
 													toString((ATermAppl) list.getFirst(), sb, negatedRecurse, printLocalName);
 													list = list.getNext();
 													if (!list.isEmpty())
-													{
 														sb.append(", ");
-													}
 												}
 												sb.append("]");
 											}
@@ -1001,25 +936,17 @@ public class ATermUtils
 											{
 												int value = ((ATermInt) arg).getInt();
 												if (negated.isTrue())
-												{
 													if (fun.equals(ATermUtils.MINFUN))
-													{
 														value--;
-													}
 													else
 														if (fun.equals(ATermUtils.MAXFUN))
-														{
 															value++;
-														}
-												}
 												sb.append(value);
 											}
 									}
 									sb.append(")");
 									if ((fun.equals(ATermUtils.VALUEFUN) || fun.equals(ATermUtils.RESTRDATATYPEFUN)) && negated.isTrue())
-									{
 										sb.append(")");
-									}
 								}
 	}
 
@@ -1028,46 +955,46 @@ public class ATermUtils
 		final ATermAppl[] a = new ATermAppl[list.getLength()];
 
 		for (int i = 0; !list.isEmpty(); list = list.getNext())
-		{
 			a[i++] = (ATermAppl) list.getFirst();
-		}
 
 		return a;
 	}
 
-	public final static void assertTrue(boolean condition)
+	public final static void assertTrue(final boolean condition)
 	{
-		if (!condition) { throw new RuntimeException("assertion failed."); }
+		if (!condition)
+			throw new RuntimeException("assertion failed.");
 	}
 
-	public static final boolean isPrimitive(ATermAppl c)
+	public static final boolean isPrimitive(final ATermAppl c)
 	{
 		return c.getArity() == 0;
 	}
 
-	public static final boolean isNegatedPrimitive(ATermAppl c)
+	public static final boolean isNegatedPrimitive(final ATermAppl c)
 	{
 		return isNot(c) && isPrimitive((ATermAppl) c.getArgument(0));
 	}
 
-	public static final boolean isPrimitiveOrNegated(ATermAppl c)
+	public static final boolean isPrimitiveOrNegated(final ATermAppl c)
 	{
 		return isPrimitive(c) || isNegatedPrimitive(c);
 	}
 
-	public static final boolean isBnode(ATermAppl name)
+	public static final boolean isBnode(final ATermAppl name)
 	{
 		return name.getAFun().equals(BNODE_FUN);
 	}
 
-	public static final boolean isAnon(ATermAppl term)
+	public static final boolean isAnon(final ATermAppl term)
 	{
 		return term.getAFun().equals(ANON_FUN);
 	}
 
-	public static final boolean isBuiltinProperty(ATermAppl name)
+	public static final boolean isBuiltinProperty(final ATermAppl name)
 	{
-		if (TOP_OBJECT_PROPERTY.equals(name) || BOTTOM_OBJECT_PROPERTY.equals(name) || makeInv(TOP_OBJECT_PROPERTY).equals(name) || makeInv(BOTTOM_OBJECT_PROPERTY).equals(name) || TOP_DATA_PROPERTY.equals(name) || BOTTOM_DATA_PROPERTY.equals(name)) { return true; }
+		if (TOP_OBJECT_PROPERTY.equals(name) || BOTTOM_OBJECT_PROPERTY.equals(name) || makeInv(TOP_OBJECT_PROPERTY).equals(name) || makeInv(BOTTOM_OBJECT_PROPERTY).equals(name) || TOP_DATA_PROPERTY.equals(name) || BOTTOM_DATA_PROPERTY.equals(name))
+			return true;
 		return false;
 	}
 
@@ -1089,107 +1016,109 @@ public class ATermUtils
 		{
 			final ATermAppl term = (ATermAppl) list.getFirst();
 			if (isPrimitive(term))
-			{
 				set.add(term);
-			}
 			list = list.getNext();
 		}
 		return set;
 	}
 
-	public final static ATermAppl getTop(Role r)
+	public final static ATermAppl getTop(final Role r)
 	{
 		return r.isDatatypeRole() ? TOP_LIT : TOP;
 	}
 
-	public final static boolean isTop(ATermAppl a)
+	public final static boolean isTop(final ATermAppl a)
 	{
 		return a.equals(TOP) || a.equals(TOP_LIT);
 	}
 
-	public final static boolean isBottom(ATermAppl a)
+	public final static boolean isBottom(final ATermAppl a)
 	{
 		return a.equals(BOTTOM) || a.equals(BOTTOM_LIT);
 	}
 
-	final static public boolean isInv(ATermAppl r)
+	final static public boolean isInv(final ATermAppl r)
 	{
 		return r.getAFun().equals(INVFUN);
 	}
 
-	public final static boolean isAnd(ATermAppl a)
+	public final static boolean isAnd(final ATermAppl a)
 	{
 		return a.getAFun().equals(ANDFUN);
 	}
 
-	public final static boolean isOr(ATermAppl a)
+	public final static boolean isOr(final ATermAppl a)
 	{
 		return a.getAFun().equals(ORFUN);
 	}
 
-	public final static boolean isAllValues(ATermAppl a)
+	public final static boolean isAllValues(final ATermAppl a)
 	{
 		return a.getAFun().equals(ALLFUN);
 	}
 
-	public final static boolean isSomeValues(ATermAppl a)
+	public final static boolean isSomeValues(final ATermAppl a)
 	{
 		return a.getAFun().equals(SOMEFUN);
 	}
 
-	public final static boolean isSelf(ATermAppl a)
+	public final static boolean isSelf(final ATermAppl a)
 	{
 		return a.getAFun().equals(SELFFUN);
 	}
 
-	public final static boolean isHasValue(ATermAppl a)
+	public final static boolean isHasValue(final ATermAppl a)
 	{
 		return a.getAFun().equals(SOMEFUN) && ((ATermAppl) a.getArgument(1)).getAFun().equals(VALUEFUN);
 	}
 
-	public final static boolean isNominal(ATermAppl a)
+	public final static boolean isNominal(final ATermAppl a)
 	{
 		return a.getAFun().equals(VALUEFUN);
 	}
 
-	public final static boolean isOneOf(ATermAppl a)
+	public final static boolean isOneOf(final ATermAppl a)
 	{
-		if (!a.getAFun().equals(ORFUN)) { return false; }
+		if (!a.getAFun().equals(ORFUN))
+			return false;
 
 		ATermList list = (ATermList) a.getArgument(0);
 		while (!list.isEmpty())
 		{
-			if (!isNominal((ATermAppl) list.getFirst())) { return false; }
+			if (!isNominal((ATermAppl) list.getFirst()))
+				return false;
 			list = list.getNext();
 		}
 		return true;
 	}
 
-	public final static boolean isDataRange(ATermAppl a)
+	public final static boolean isDataRange(final ATermAppl a)
 	{
-		if (!a.getAFun().equals(ORFUN)) { return false; }
+		if (!a.getAFun().equals(ORFUN))
+			return false;
 
 		ATermList list = (ATermList) a.getArgument(0);
 		while (!list.isEmpty())
 		{
 			final ATermAppl term = (ATermAppl) list.getFirst();
-			if (!isNominal(term) || !isLiteral((ATermAppl) term.getArgument(0))) { return false; }
+			if (!isNominal(term) || !isLiteral((ATermAppl) term.getArgument(0)))
+				return false;
 			list = list.getNext();
 		}
 		return true;
 	}
 
-	public final static boolean isNot(ATermAppl a)
+	public final static boolean isNot(final ATermAppl a)
 	{
 		return a.getAFun().equals(NOTFUN);
 	}
 
-	public final static boolean isMax(ATermAppl a)
+	public final static boolean isMax(final ATermAppl a)
 	{
 		return a.getAFun().equals(MAXFUN);
 	}
 
-	public final static boolean isMin(ATermAppl a)
+	public final static boolean isMin(final ATermAppl a)
 	{
 		return a.getAFun().equals(MINFUN);
 	}
@@ -1197,9 +1126,7 @@ public class ATermUtils
 	public final static boolean isCard(ATermAppl a)
 	{
 		if (isMin(a) || isMax(a))
-		{
 			return true;
-		}
 		else
 			if (isAnd(a))
 			{
@@ -1210,22 +1137,22 @@ public class ATermUtils
 		return false;
 	}
 
-	public final static boolean isLiteral(ATermAppl a)
+	public final static boolean isLiteral(final ATermAppl a)
 	{
 		return a.getAFun().equals(LITFUN);
 	}
 
-	final static public boolean isVar(ATermAppl a)
+	final static public boolean isVar(final ATermAppl a)
 	{
 		return a.getAFun().equals(VARFUN);
 	}
 
-	final static public boolean isTransitiveChain(ATermList chain, ATerm r)
+	final static public boolean isTransitiveChain(final ATermList chain, final ATerm r)
 	{
 		return chain.getLength() == 2 && chain.getFirst().equals(r) && chain.getLast().equals(r);
 	}
 
-	public static boolean isComplexClass(ATerm c)
+	public static boolean isComplexClass(final ATerm c)
 	{
 		if (c instanceof ATermAppl)
 		{
@@ -1236,20 +1163,22 @@ public class ATermUtils
 		return false;
 	}
 
-	public final static boolean isPropertyAssertion(ATermAppl a)
+	public final static boolean isPropertyAssertion(final ATermAppl a)
 	{
 		return a.getAFun().equals(PROPFUN);
 	}
 
-	public final static boolean isTypeAssertion(ATermAppl a)
+	public final static boolean isTypeAssertion(final ATermAppl a)
 	{
 		return a.getAFun().equals(TYPEFUN);
 	}
 
-	public static ATerm nnf(ATerm term)
+	public static ATerm nnf(final ATerm term)
 	{
-		if (term instanceof ATermList) { return nnf((ATermList) term); }
-		if (term instanceof ATermAppl) { return nnf((ATermAppl) term); }
+		if (term instanceof ATermList)
+			return nnf((ATermList) term);
+		if (term instanceof ATermAppl)
+			return nnf((ATermAppl) term);
 
 		return null;
 	}
@@ -1270,7 +1199,7 @@ public class ATermUtils
 	 * return the term in NNF form, i.e. negation only occurs in front of atomic
 	 * concepts
 	 */
-	public static ATermAppl nnf(ATermAppl term)
+	public static ATermAppl nnf(final ATermAppl term)
 	{
 		ATermAppl newterm = null;
 
@@ -1285,19 +1214,13 @@ public class ATermUtils
 			af = arg.getAFun();
 
 			if (arg.getArity() == 0)
-			{
 				newterm = term; // Negation is in as far as it can go
-			}
 			else
 				if (af.equals(ATermUtils.NOTFUN))
-				{ // Double negation.
 					newterm = nnf((ATermAppl) arg.getArgument(0));
-				}
 				else
 					if (af.equals(ATermUtils.VALUEFUN) || af.equals(ATermUtils.SELFFUN) || af.equals(ATermUtils.RESTRDATATYPEFUN))
-					{
 						newterm = term;
-					}
 					else
 						if (af.equals(ATermUtils.MAXFUN))
 						{
@@ -1309,29 +1232,19 @@ public class ATermUtils
 							{
 								final ATermInt n = (ATermInt) arg.getArgument(1);
 								if (n.getInt() == 0)
-								{
 									newterm = ATermUtils.BOTTOM;
-								}
 								else
-								{
 									newterm = ATermUtils.makeMax(arg.getArgument(0), n.getInt() - 1, nnf(arg.getArgument(2)));
-								}
 							}
 							else
 								if (af.equals(ATermUtils.CARDFUN))
-								{
 									newterm = nnf(makeNot(makeExactCard(arg.getArgument(0), ((ATermInt) arg.getArgument(1)), arg.getArgument(2))));
-								}
 								else
 									if (af.equals(ATermUtils.ANDFUN))
-									{
 										newterm = ATermUtils.makeOr(nnf(negate((ATermList) arg.getArgument(0))));
-									}
 									else
 										if (af.equals(ATermUtils.ORFUN))
-										{
 											newterm = ATermUtils.makeAnd(nnf(negate((ATermList) arg.getArgument(0))));
-										}
 										else
 											if (af.equals(ATermUtils.SOMEFUN))
 											{
@@ -1347,28 +1260,20 @@ public class ATermUtils
 													newterm = ATermUtils.makeSomeValues(p, nnf(makeNot(c)));
 												}
 												else
-												{
 													throw new InternalReasonerException("Unknown term type: " + term);
-												}
 		}
 		else
 			if (af.equals(ATermUtils.MINFUN) || af.equals(ATermUtils.MAXFUN) || af.equals(ATermUtils.SELFFUN))
-			{
 				newterm = term;
-			}
 			else
 				if (af.equals(ATermUtils.CARDFUN))
-				{
 					newterm = nnf(makeExactCard(term.getArgument(0), ((ATermInt) term.getArgument(1)), term.getArgument(2)));
-				}
 				else
 				{
 					// Return the term with all of its arguments in nnf
 					final ATerm args[] = new ATerm[term.getArity()];
 					for (int i = 0; i < term.getArity(); i++)
-					{
 						args[i] = nnf(term.getArgument(i));
-					}
 					newterm = factory.makeAppl(af, args);
 				}
 
@@ -1377,13 +1282,11 @@ public class ATermUtils
 		return newterm;
 	}
 
-	public static Collection<ATermAppl> normalize(Collection<ATermAppl> terms)
+	public static Collection<ATermAppl> normalize(final Collection<ATermAppl> terms)
 	{
 		final List<ATermAppl> list = new ArrayList<>();
 		for (final ATermAppl term : terms)
-		{
 			list.add(normalize(term));
-		}
 
 		return list;
 	}
@@ -1410,11 +1313,11 @@ public class ATermUtils
 	 * <li>some(p, c) -> all(p, not(c))</li>
 	 * <li>max(p, n) -> not(min(p, n+1))</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param term
 	 * @return
 	 */
-	public static ATermAppl normalize(ATermAppl term)
+	public static ATermAppl normalize(final ATermAppl term)
 	{
 		ATermAppl norm = term;
 		final AFun fun = term.getAFun();
@@ -1430,15 +1333,11 @@ public class ATermUtils
 			if (fun.equals(NOTFUN))
 			{
 				if (!isPrimitive((ATermAppl) arg1))
-				{
 					norm = simplify(makeNot(normalize((ATermAppl) arg1)));
-				}
 			}
 			else
 				if (fun.equals(ANDFUN))
-				{
 					norm = simplify(makeAnd(normalize((ATermList) arg1)));
-				}
 				else
 					if (fun.equals(ORFUN))
 					{
@@ -1449,24 +1348,16 @@ public class ATermUtils
 					}
 					else
 						if (fun.equals(ALLFUN))
-						{
 							norm = simplify(makeAllValues(arg1, normalize((ATermAppl) arg2)));
-						}
 						else
 							if (fun.equals(SOMEFUN))
-							{
 								norm = normalize(makeNot(makeAllValues(arg1, makeNot(arg2))));
-							}
 							else
 								if (fun.equals(MAXFUN) && arg2 != null)
-								{
 									norm = normalize(makeNot(makeMin(arg1, ((ATermInt) arg2).getInt() + 1, arg3)));
-								}
 								else
 									if (fun.equals(MINFUN))
-									{
 										norm = simplify(makeMin(arg1, (ATermInt) arg2, normalize((ATermAppl) arg3)));
-									}
 									else
 										if (fun.equals(CARDFUN) && arg2 != null)
 										{
@@ -1475,9 +1366,7 @@ public class ATermUtils
 											norm = simplify(makeAnd(normMin, normMax));
 										}
 										else
-										{
 											throw new InternalReasonerException("Unknown concept type: " + term);
-										}
 
 		return norm;
 	}
@@ -1492,11 +1381,11 @@ public class ATermUtils
 	 * <li>and([a, not(a), ...]) -> BOTTOM</li>
 	 * <li>not(C) -> not(simplify(C))</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param term
 	 * @return
 	 */
-	public static ATermAppl simplify(ATermAppl term)
+	public static ATermAppl simplify(final ATermAppl term)
 	{
 		ATermAppl simp = term;
 		final AFun fun = term.getAFun();
@@ -1513,17 +1402,13 @@ public class ATermUtils
 			{
 				final ATermAppl arg = (ATermAppl) arg1;
 				if (isNot(arg))
-				{
 					simp = simplify((ATermAppl) arg.getArgument(0));
-				}
 				else
 					if (isMin(arg))
 					{
 						final ATermInt n = (ATermInt) arg.getArgument(1);
 						if (n.getInt() == 0)
-						{
 							simp = BOTTOM;
-						}
 					}
 			}
 			else
@@ -1531,9 +1416,7 @@ public class ATermUtils
 				{
 					final ATermList conjuncts = (ATermList) arg1;
 					if (conjuncts.isEmpty())
-					{
 						simp = TOP;
-					}
 					else
 					{
 						final Set<ATermAppl> set = new HashSet<>();
@@ -1543,47 +1426,38 @@ public class ATermUtils
 						{
 							final ATermAppl c = i.next();
 							if (c.equals(TOP))
-							{
 								continue;
-							}
 							else
 								if (c.equals(BOTTOM))
-								{
 									return BOTTOM;
-								}
 								else
 									if (isAnd(c))
-									{
 										i.append((ATermList) c.getArgument(0));
-									}
 									else
 										if (isNot(c))
-										{
 											negations.add(c);
-										}
 										else
-										{
 											set.add(c);
-										}
 						}
 
 						for (final ATermAppl notC : negations)
 						{
 							final ATermAppl c = (ATermAppl) notC.getArgument(0);
-							if (set.contains(c)) { return BOTTOM; }
+							if (set.contains(c))
+								return BOTTOM;
 						}
 
 						if (set.isEmpty())
 						{
 							if (negations.isEmpty())
-							{
 								return TOP;
-							}
 							else
-								if (negations.size() == 1) { return negations.get(0); }
+								if (negations.size() == 1)
+									return negations.get(0);
 						}
 						else
-							if (set.size() == 1 && negations.isEmpty()) { return set.iterator().next(); }
+							if (set.size() == 1 && negations.isEmpty())
+								return set.iterator().next();
 
 						negations.addAll(set);
 						final int size = negations.size();
@@ -1616,21 +1490,18 @@ public class ATermUtils
 									simp = TOP;
 							}
 							else
-							{
 								throw new InternalReasonerException("Unknown term type: " + term);
-							}
 
 		return simp;
 	}
 
 	/**
-	 * Creates a simplified and assuming that all the elements have already been
-	 * normalized.
-	 * 
+	 * Creates a simplified and assuming that all the elements have already been normalized.
+	 *
 	 * @param conjuncts
 	 * @return
 	 */
-	public static ATermAppl makeSimplifiedAnd(Collection<ATermAppl> conjuncts)
+	public static ATermAppl makeSimplifiedAnd(final Collection<ATermAppl> conjuncts)
 	{
 		final Set<ATermAppl> set = new HashSet<>();
 		final List<ATermAppl> negations = new ArrayList<>();
@@ -1640,47 +1511,38 @@ public class ATermUtils
 		{
 			final ATermAppl c = i.next();
 			if (c.equals(TOP))
-			{
 				continue;
-			}
 			else
 				if (c.equals(BOTTOM))
-				{
 					return BOTTOM;
-				}
 				else
 					if (isAnd(c))
-					{
 						listIt.append((ATermList) c.getArgument(0));
-					}
 					else
 						if (isNot(c))
-						{
 							negations.add(c);
-						}
 						else
-						{
 							set.add(c);
-						}
 		}
 
 		for (final ATermAppl notC : negations)
 		{
 			final ATermAppl c = (ATermAppl) notC.getArgument(0);
-			if (set.contains(c)) { return BOTTOM; }
+			if (set.contains(c))
+				return BOTTOM;
 		}
 
 		if (set.isEmpty())
 		{
 			if (negations.isEmpty())
-			{
 				return TOP;
-			}
 			else
-				if (negations.size() == 1) { return negations.get(0); }
+				if (negations.size() == 1)
+					return negations.get(0);
 		}
 		else
-			if (set.size() == 1 && negations.isEmpty()) { return set.iterator().next(); }
+			if (set.size() == 1 && negations.isEmpty())
+				return set.iterator().next();
 
 		negations.addAll(set);
 		final int size = negations.size();
@@ -1689,7 +1551,7 @@ public class ATermUtils
 		return makeAnd(toSet(terms, size));
 	}
 
-	public static Set<ATermAppl> findPrimitives(ATermAppl term)
+	public static Set<ATermAppl> findPrimitives(final ATermAppl term)
 	{
 		final Set<ATermAppl> primitives = new HashSet<>();
 
@@ -1697,7 +1559,7 @@ public class ATermUtils
 		return primitives;
 	}
 
-	public static Set<ATermAppl> findPrimitives(ATermAppl term, boolean skipRestrictions, boolean skipTopLevel)
+	public static Set<ATermAppl> findPrimitives(final ATermAppl term, final boolean skipRestrictions, final boolean skipTopLevel)
 	{
 		final Set<ATermAppl> primitives = new HashSet<>();
 
@@ -1706,19 +1568,17 @@ public class ATermUtils
 		return primitives;
 	}
 
-	public static void findPrimitives(ATermAppl term, Set<ATermAppl> primitives)
+	public static void findPrimitives(final ATermAppl term, final Set<ATermAppl> primitives)
 	{
 		findPrimitives(term, primitives, false, false);
 	}
 
-	public static void findPrimitives(ATermAppl term, Set<ATermAppl> primitives, boolean skipRestrictions, boolean skipTopLevel)
+	public static void findPrimitives(final ATermAppl term, final Set<ATermAppl> primitives, final boolean skipRestrictions, final boolean skipTopLevel)
 	{
 		final AFun fun = term.getAFun();
 
 		if (isPrimitive(term))
-		{
 			primitives.add(term);
-		}
 		else
 			if (fun.equals(SELFFUN) || fun.equals(VALUEFUN) || fun.equals(RESTRDATATYPEFUN))
 			{
@@ -1729,9 +1589,7 @@ public class ATermUtils
 				{
 					final ATermAppl arg = (ATermAppl) term.getArgument(0);
 					if (!isPrimitive(arg) || !skipTopLevel)
-					{
 						findPrimitives(arg, primitives, skipRestrictions, false);
-					}
 				}
 				else
 					if (fun.equals(ANDFUN) || fun.equals(ORFUN))
@@ -1741,15 +1599,12 @@ public class ATermUtils
 						{
 							final ATermAppl arg = (ATermAppl) list.getFirst();
 							if (!isNegatedPrimitive(arg) || !skipTopLevel)
-							{
 								findPrimitives(arg, primitives, skipRestrictions, false);
-							}
 							list = list.getNext();
 						}
 					}
 					else
 						if (!skipRestrictions)
-						{
 							if (fun.equals(ALLFUN) || fun.equals(SOMEFUN))
 							{
 								final ATermAppl arg = (ATermAppl) term.getArgument(1);
@@ -1762,51 +1617,42 @@ public class ATermUtils
 									findPrimitives(arg, primitives, skipRestrictions, false);
 								}
 								else
-								{
 									throw new InternalReasonerException("Unknown concept type: " + term);
-								}
-						}
 	}
 
-	public static Collection<ATermAppl> primitiveOrBottom(Collection<ATermAppl> collection)
+	public static Collection<ATermAppl> primitiveOrBottom(final Collection<ATermAppl> collection)
 	{
 		final List<ATermAppl> ret = new ArrayList<>();
-		for (final Iterator<ATermAppl> i = collection.iterator(); i.hasNext();)
+		for (ATermAppl a : collection)
 		{
-			final ATermAppl a = i.next();
 			if (isPrimitive(a) || a == ATermUtils.BOTTOM)
-			{
 				ret.add(a);
-			}
 		}
 		return ret;
 	}
 
-	public static Set<ATermAppl> primitiveOrBottom(Set<ATermAppl> collection)
+	public static Set<ATermAppl> primitiveOrBottom(final Set<ATermAppl> collection)
 	{
 		final Set<ATermAppl> ret = new HashSet<>();
-		for (final Iterator<ATermAppl> i = collection.iterator(); i.hasNext();)
+		for (ATermAppl a : collection)
 		{
-			final ATermAppl a = i.next();
 			if (isPrimitive(a) || a == ATermUtils.BOTTOM)
-			{
 				ret.add(a);
-			}
 		}
 		return ret;
 	}
 
-	public static ATermAppl makeRule(ATermAppl[] head, ATermAppl[] body)
+	public static ATermAppl makeRule(final ATermAppl[] head, final ATermAppl[] body)
 	{
 		return makeRule(null, head, body);
 	}
 
-	public static ATermAppl makeRule(ATermAppl name, ATermAppl[] head, ATermAppl[] body)
+	public static ATermAppl makeRule(final ATermAppl name, final ATermAppl[] head, final ATermAppl[] body)
 	{
 		return factory.makeAppl(RULEFUN, name == null ? EMPTY : name, makeList(head), makeList(body));
 	}
 
-	public static ATermAppl makeBuiltinAtom(ATermAppl[] args)
+	public static ATermAppl makeBuiltinAtom(final ATermAppl[] args)
 	{
 		return factory.makeAppl(BUILTINFUN, makeList(args));
 	}

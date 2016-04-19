@@ -10,18 +10,16 @@ package com.clarkparsia.sparqlowl.parser.test;
 
 import static java.lang.String.format;
 
+import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlLexer;
+import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlParser;
+import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlTreeARQ;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.CommonTreeNodeStream;
-
-import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlLexer;
-import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlParser;
-import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlTreeARQ;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryParseException;
 import org.apache.jena.vocabulary.OWL;
@@ -34,8 +32,7 @@ import org.apache.jena.vocabulary.XSD;
  * Title: TreeARQ Driver
  * </p>
  * <p>
- * Description: Stub driver that reads Terp query on stdin and writes the
- * ARQ friendly version on stdout. Useful to exercise {@link SparqlOwlTreeARQ}.
+ * Description: Stub driver that reads Terp query on stdin and writes the ARQ friendly version on stdout. Useful to exercise {@link SparqlOwlTreeARQ}.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -43,42 +40,44 @@ import org.apache.jena.vocabulary.XSD;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
- * @author Mike Smith <a
- *         href="mailto:msmith@clarkparsia.com">msmith@clarkparsia.com</a>
+ *
+ * @author Mike Smith <a href="mailto:msmith@clarkparsia.com">msmith@clarkparsia.com</a>
  */
-public class TreeARQDriver {
+public class TreeARQDriver
+{
 
-	public static void main(String[] args) throws IOException, RecognitionException {
-		SparqlOwlLexer lexer = new SparqlOwlLexer( new ANTLRReaderStream( new InputStreamReader(
-				System.in ) ) );
-		CommonTokenStream tokenStream = new CommonTokenStream( lexer );
-		SparqlOwlParser parser = new SparqlOwlParser( tokenStream );
+	public static void main(final String[] args) throws IOException, RecognitionException
+	{
+		final SparqlOwlLexer lexer = new SparqlOwlLexer(new ANTLRReaderStream(new InputStreamReader(System.in)));
+		final CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+		final SparqlOwlParser parser = new SparqlOwlParser(tokenStream);
 		SparqlOwlParser.query_return result;
-		try {
+		try
+		{
 			result = parser.query();
-		} catch( RecognitionException e ) {
-			throw new QueryParseException( format( "%s %s", parser.getErrorHeader( e ), parser
-					.getErrorMessage( e, parser.getTokenNames() ) ), e.line, e.charPositionInLine );
 		}
-		CommonTree t = (CommonTree) result.getTree();
+		catch (final RecognitionException e)
+		{
+			throw new QueryParseException(format("%s %s", parser.getErrorHeader(e), parser.getErrorMessage(e, parser.getTokenNames())), e.line, e.charPositionInLine);
+		}
+		final CommonTree t = result.getTree();
 
-		CommonTreeNodeStream nodes = new CommonTreeNodeStream( t );
-		nodes.setTokenStream( tokenStream );
+		final CommonTreeNodeStream nodes = new CommonTreeNodeStream(t);
+		nodes.setTokenStream(tokenStream);
 
-		SparqlOwlTreeARQ treeWalker = new SparqlOwlTreeARQ( nodes );
-		Query q = treeWalker.query( null );
+		final SparqlOwlTreeARQ treeWalker = new SparqlOwlTreeARQ(nodes);
+		final Query q = treeWalker.query(null);
 
-		if( q.getPrefix( "rdf" ) == null )
-			q.setPrefix( "rdf", RDF.getURI() );
-		if( q.getPrefix( "rdfs" ) == null )
-			q.setPrefix( "rdfs", RDFS.getURI() );
-		if( q.getPrefix( "owl" ) == null )
-			q.setPrefix( "owl", OWL.getURI() );
-		if( q.getPrefix( "xsd" ) == null )
-			q.setPrefix( "xsd", XSD.getURI() );
+		if (q.getPrefix("rdf") == null)
+			q.setPrefix("rdf", RDF.getURI());
+		if (q.getPrefix("rdfs") == null)
+			q.setPrefix("rdfs", RDFS.getURI());
+		if (q.getPrefix("owl") == null)
+			q.setPrefix("owl", OWL.getURI());
+		if (q.getPrefix("xsd") == null)
+			q.setPrefix("xsd", XSD.getURI());
 
-		System.out.print( "\nARQ Query\n---------\n" );
-		q.serialize( System.out );
+		System.out.print("\nARQ Query\n---------\n");
+		q.serialize(System.out);
 	}
 }

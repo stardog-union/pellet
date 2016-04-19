@@ -36,7 +36,7 @@ public class EntailmentQueryVisitor implements OWLAxiomVisitor
 
 		private ATermAppl term;
 
-		public ATermAppl getTerm(OWLIndividual individual)
+		public ATermAppl getTerm(final OWLIndividual individual)
 		{
 			term = null;
 			individual.accept(this);
@@ -45,14 +45,14 @@ public class EntailmentQueryVisitor implements OWLAxiomVisitor
 
 		//@Override
 		@Override
-		public void visit(OWLNamedIndividual individual)
+		public void visit(final OWLNamedIndividual individual)
 		{
 			term = reasoner.term(individual);
 		}
 
 		//@Override
 		@Override
-		public void visit(OWLAnonymousIndividual individual)
+		public void visit(final OWLAnonymousIndividual individual)
 		{
 			term = ATermUtils.makeVar(individual.toStringID());
 		}
@@ -98,14 +98,12 @@ public class EntailmentQueryVisitor implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLDifferentIndividualsAxiom axiom)
 	{
-		final List<ATermAppl> differents = new ArrayList<ATermAppl>();
+		final List<ATermAppl> differents = new ArrayList<>();
 		for (final OWLIndividual ind : axiom.getIndividuals())
 		{
 			final ATermAppl term = indConv.getTerm(ind);
 			for (final ATermAppl dterm : differents)
-			{
 				query.add(QueryAtomFactory.DifferentFromAtom(term, dterm));
-			}
 		}
 	}
 

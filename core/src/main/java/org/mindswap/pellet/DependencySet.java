@@ -30,9 +30,9 @@
 
 package org.mindswap.pellet;
 
+import aterm.ATermAppl;
 import java.util.HashSet;
 import java.util.Set;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mindswap.pellet.tableau.completion.incremental.DependencyIndex;
@@ -40,15 +40,14 @@ import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.intset.IntSet;
 import org.mindswap.pellet.utils.intset.IntSetFactory;
 
-import aterm.ATermAppl;
-
 /**
  * DependencySet for concepts and edges in the ABox for backjumping
- * 
+ *
  * @author Evren Sirin
  */
-public class DependencySet {
-    public static final Logger log;
+public class DependencySet
+{
+	public static final Logger log;
 
 	public static final int NO_BRANCH;
 
@@ -58,280 +57,286 @@ public class DependencySet {
 	public static final DependencySet EMPTY;
 
 	/**
-	 * Used for assertions that are true by nature, i.e. an individual always
-	 * has type owl:Thing
+	 * Used for assertions that are true by nature, i.e. an individual always has type owl:Thing
 	 */
-	public static final DependencySet	INDEPENDENT;
+	public static final DependencySet INDEPENDENT;
 
-	public static final IntSet			ZERO;
-	static {
-		log			= Logger.getLogger( DependencySet.class.getName() );
-		NO_BRANCH	= -1;
+	public static final IntSet ZERO;
+	static
+	{
+		log = Logger.getLogger(DependencySet.class.getName());
+		NO_BRANCH = -1;
 		ZERO = IntSetFactory.create();
-		ZERO.add( 0 );
+		ZERO.add(0);
 		EMPTY = new DependencySet();
-		INDEPENDENT	= new DependencySet( 0 );
+		INDEPENDENT = new DependencySet(0);
 	}
 
 	/**
-	 * A dummy dependency set that is used just to indicate there is a
-	 * dependency
+	 * A dummy dependency set that is used just to indicate there is a dependency
 	 */
-	public static final DependencySet	DUMMY		= new DependencySet( 1 );
+	public static final DependencySet DUMMY = new DependencySet(1);
 
 	/**
 	 * index of branches this assertion depends on
 	 */
-	private IntSet						depends;
+	private IntSet depends;
 
 	/**
 	 * branch number when this assertion was added to ABox
 	 */
-	private int							branch		= NO_BRANCH;
+	private int branch = NO_BRANCH;
 
-	private Set<ATermAppl>				explain;
+	private Set<ATermAppl> explain;
 
 	/**
 	 * Create an empty set
 	 */
-	private DependencySet() {
+	private DependencySet()
+	{
 		depends = IntSetFactory.create();
-		setExplain( SetUtils.<ATermAppl>emptySet() );
+		setExplain(SetUtils.<ATermAppl> emptySet());
 	}
 
 	/**
 	 * Create a dependency set that depends on a single branch
-	 * 
-	 * @param branch
-	 *            Branch number
+	 *
+	 * @param branch Branch number
 	 */
-	public DependencySet(int branch) {
+	public DependencySet(final int branch)
+	{
 		this.depends = IntSetFactory.create();
 
-		depends.add( branch );
-		setExplain( SetUtils.<ATermAppl>emptySet() );
+		depends.add(branch);
+		setExplain(SetUtils.<ATermAppl> emptySet());
 	}
 
 	/**
-	 * Creates a dependency set with the given IntSet (no separate copy of
-	 * IntSet is created so if IntSet is modified this DependencySet will be
-	 * affected).
+	 * Creates a dependency set with the given IntSet (no separate copy of IntSet is created so if IntSet is modified this DependencySet will be affected).
 	 */
-	private DependencySet(int branch, IntSet depends, Set<ATermAppl> explain) {
+	private DependencySet(final int branch, final IntSet depends, final Set<ATermAppl> explain)
+	{
 		this.branch = branch;
 		this.depends = depends;
-		this.setExplain( explain );
+		this.setExplain(explain);
 	}
 
 	/**
 	 * Creates a dependency set with no dependency and single explanation atom
 	 */
-	public DependencySet(ATermAppl explainAtom) {
+	public DependencySet(final ATermAppl explainAtom)
+	{
 		this.depends = DependencySet.ZERO;
-		this.setExplain( SetUtils.singleton( explainAtom ) );
+		this.setExplain(SetUtils.singleton(explainAtom));
 
 	}
 
 	/**
-	 * Creates a dependency set with no dependency and a set of explanation
-	 * atoms
+	 * Creates a dependency set with no dependency and a set of explanation atoms
 	 */
-	public DependencySet(Set<ATermAppl> explain) {
+	public DependencySet(final Set<ATermAppl> explain)
+	{
 		this.depends = DependencySet.ZERO;
-		this.setExplain( explain );
+		this.setExplain(explain);
 	}
 
 	/**
-	 * Creates a new DependencySet object with a new branch number where the IntSet 
-     * is shared (changing one will change the other).
-	 * 
+	 * Creates a new DependencySet object with a new branch number where the IntSet is shared (changing one will change the other).
+	 *
 	 * @return
 	 */
-	public DependencySet copy(int newBranch) {
-		return new DependencySet( newBranch, depends, explain );
+	public DependencySet copy(final int newBranch)
+	{
+		return new DependencySet(newBranch, depends, explain);
 	}
 
 	/**
 	 * Return true if <code>b</code> is in this set.
-	 * 
+	 *
 	 * @param b
 	 * @return
 	 */
-	public boolean contains(int b) {
-		return depends.contains( b );
+	public boolean contains(final int b)
+	{
+		return depends.contains(b);
 	}
 
 	/**
 	 * Add the integer value <code>b</code> to this DependencySet.
-	 * 
+	 *
 	 * @param b
 	 */
-	public void add(int b) {
-		depends.add( b );
+	public void add(final int b)
+	{
+		depends.add(b);
 	}
 
 	/**
 	 * Remove the integer value <code>b</code> from this DependencySet.
-	 * 
+	 *
 	 * @param b
 	 */
-	public void remove(int b) {
-		depends.remove( b );
+	public void remove(final int b)
+	{
+		depends.remove(b);
 	}
 
 	/**
 	 * Return true if there is no dependency on a non-deterministic branch
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean isIndependent() {
+	public boolean isIndependent()
+	{
 		return max() <= 0;
 	}
 
 	/**
 	 * Get the branch number when the dependency set was created
 	 */
-	public int getBranch() {
+	public int getBranch()
+	{
 		return branch;
 	}
-	
+
 	/**
 	 * Return the number of elements in this set.
-	 * 
+	 *
 	 * @return
 	 */
-	public int size() {
+	public int size()
+	{
 		return depends.size();
 	}
 
 	/**
 	 * Return the maximum value in this set.
-	 * 
+	 *
 	 * @return
 	 */
-	public int max() {
+	public int max()
+	{
 		return depends.isEmpty() ? -1 : depends.max();
 	}
 
-	
 	/**
-	 * Create a new DependencySet and all the elements of <code>this</code>
-	 * and <code>set</code> .
-	 * 
+	 * Create a new DependencySet and all the elements of <code>this</code> and <code>set</code> .
+	 *
 	 * @param ds
 	 * @return
 	 */
-	public DependencySet union(IntSet set) {
-		return new DependencySet( branch, depends.union( set ), explain );
+	public DependencySet union(final IntSet set)
+	{
+		return new DependencySet(branch, depends.union(set), explain);
 	}
-	
+
 	/**
-	 * Create a new DependencySet and all the elements of <code>this</code>
-	 * and <code>ds</code>.
-	 * 
+	 * Create a new DependencySet and all the elements of <code>this</code> and <code>ds</code>.
+	 *
 	 * @param ds
 	 * @param doExplanation
 	 * @return
 	 */
-	public DependencySet union(DependencySet ds, boolean doExplanation) {
-		IntSet newDepends = depends.union( ds.depends );
+	public DependencySet union(final DependencySet ds, final boolean doExplanation)
+	{
+		final IntSet newDepends = depends.union(ds.depends);
 		Set<ATermAppl> newExplain;
-		
-		if( doExplanation ) {
-			newExplain = SetUtils.union( explain, ds.explain );
-		}
-		else {
-			newExplain = SetUtils.emptySet();
-		}
 
-		return new DependencySet( branch, newDepends, newExplain );
+		if (doExplanation)
+			newExplain = SetUtils.union(explain, ds.explain);
+		else
+			newExplain = SetUtils.emptySet();
+
+		return new DependencySet(branch, newDepends, newExplain);
 	}
 
 	/**
-	 * 
 	 * @param explain
 	 * @param doExplanation
 	 * @return
 	 */
-	public DependencySet union(Set<ATermAppl> explain, boolean doExplanation) {
-		if( !doExplanation || explain.isEmpty() )
+	public DependencySet union(final Set<ATermAppl> explain, final boolean doExplanation)
+	{
+		if (!doExplanation || explain.isEmpty())
 			return this;
 
-		return new DependencySet( branch, depends.copy(), SetUtils.union( this.explain, explain ) );
+		return new DependencySet(branch, depends.copy(), SetUtils.union(this.explain, explain));
 	}
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append( "[" );
-		sb.append( branch );
-		sb.append( "-" );
-		sb.append( depends );
-		if( log.isLoggable( Level.FINE ) ) {
-			sb.append( " " );
-			sb.append( explain );
+	@Override
+	public String toString()
+	{
+		final StringBuilder sb = new StringBuilder();
+		sb.append("[");
+		sb.append(branch);
+		sb.append("-");
+		sb.append(depends);
+		if (log.isLoggable(Level.FINE))
+		{
+			sb.append(" ");
+			sb.append(explain);
 		}
-		sb.append( "]" );
+		sb.append("]");
 		return sb.toString();
 	}
 
 	/**
 	 * Remove explanation sets which contain references to a syntactic assertion
-	 * 
+	 *
 	 * @param assertion
 	 */
-	public void removeExplain(ATermAppl assertion) {
-		if( getExplain().contains( assertion ) ) {
-			setExplain( new HashSet<ATermAppl>() );
-			if( DependencyIndex.log.isLoggable( Level.FINE ) )
-				DependencyIndex.log.fine( "             Explain: removed " );
+	public void removeExplain(final ATermAppl assertion)
+	{
+		if (getExplain().contains(assertion))
+		{
+			setExplain(new HashSet<ATermAppl>());
+			if (DependencyIndex.log.isLoggable(Level.FINE))
+				DependencyIndex.log.fine("             Explain: removed ");
 		}
 
 	}
 
-	public void setDepends(IntSet depends) {
+	public void setDepends(final IntSet depends)
+	{
 		this.depends = depends;
 	}
 
-	public IntSet getDepends() {
+	public IntSet getDepends()
+	{
 		return depends;
 	}
 
 	/**
 	 * @param explain the explain to set
 	 */
-	public void setExplain(Set<ATermAppl> explain) {
+	public void setExplain(final Set<ATermAppl> explain)
+	{
 		this.explain = explain;
 	}
 
 	/**
 	 * Return the set of explanations associated with this DependencySet.
-	 * 
+	 *
 	 * @return
 	 */
-	public Set<ATermAppl> getExplain() {
+	public Set<ATermAppl> getExplain()
+	{
 		return explain;
 	}
-	
+
 	/**
-	 * Return a dummy representation of this DependencySet such that
-	 * 
-	 * <code>this.isIndependent() == this.copyForCache().isIndependent()</code>
-	 * 
-	 * The returned copy will not be accurate w.r.t. any other function call,
-	 * e.g. <code>contains(int)</code> for the copy will return different
-	 * results for the copy. This function does not create a new DependencySet
-	 * object so will not require additional memory. Caching this copy is
-	 * more appropriate so we don't waste space for storing the actual
-	 * dependency set or the explanation which are not used in caches anyway.
-	 * 
+	 * Return a dummy representation of this DependencySet such that <code>this.isIndependent() == this.copyForCache().isIndependent()</code> The returned copy
+	 * will not be accurate w.r.t. any other function call, e.g. <code>contains(int)</code> for the copy will return different results for the copy. This
+	 * function does not create a new DependencySet object so will not require additional memory. Caching this copy is more appropriate so we don't waste space
+	 * for storing the actual dependency set or the explanation which are not used in caches anyway.
+	 *
 	 * @return
 	 */
-	public DependencySet cache() {
-    	if( isIndependent() ) {
-    		return DependencySet.INDEPENDENT;
-    	}
-    	else {
-    		return DependencySet.DUMMY;
-    	}
+	public DependencySet cache()
+	{
+		if (isIndependent())
+			return DependencySet.INDEPENDENT;
+		else
+			return DependencySet.DUMMY;
 	}
 }

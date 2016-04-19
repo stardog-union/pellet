@@ -6,6 +6,13 @@
 
 package com.clarkparsia.pellet.rules;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.expressivity.Expressivity;
+import com.clarkparsia.pellet.rules.model.Rule;
+import com.clarkparsia.pellet.rules.model.RuleAtom;
+import com.clarkparsia.pellet.rules.rete.AlphaNetwork;
+import com.clarkparsia.pellet.rules.rete.Compiler;
+import com.clarkparsia.pellet.rules.rete.Interpreter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,7 +24,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
-
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
@@ -34,96 +40,96 @@ import org.mindswap.pellet.tableau.completion.rule.TableauRule;
 import org.mindswap.pellet.utils.Pair;
 import org.mindswap.pellet.utils.Timer;
 
-import aterm.ATermAppl;
+public class ContinuousRulesStrategy extends SROIQStrategy
+{
+	private final BindingGeneratorStrategy bindingStrategy;
+	private Interpreter interpreter;
+	private boolean merging;
+	private final Set<PartialBinding> unsafeRules;
+	private final Set<PartialBinding> partialBindings;
+	private final Map<Pair<Rule, VariableBinding>, Integer> rulesApplied;
+	private final RulesToATermTranslator atermTranslator;
+	private final RuleAtomAsserter ruleAtomAsserter;
+	private final TrivialSatisfactionHelpers atomTester;
 
-import com.clarkparsia.pellet.expressivity.Expressivity;
-import com.clarkparsia.pellet.rules.model.Rule;
-import com.clarkparsia.pellet.rules.model.RuleAtom;
-import com.clarkparsia.pellet.rules.rete.AlphaNetwork;
-import com.clarkparsia.pellet.rules.rete.Compiler;
-import com.clarkparsia.pellet.rules.rete.Interpreter;
-
-public class ContinuousRulesStrategy extends SROIQStrategy {
-	private BindingGeneratorStrategy					bindingStrategy;
-	private Interpreter									interpreter;
-	private boolean										merging;
-	private Set<PartialBinding>							unsafeRules;
-	private Set<PartialBinding>							partialBindings;
-	private Map<Pair<Rule, VariableBinding>, Integer>	rulesApplied;
-	private RulesToATermTranslator						atermTranslator;
-	private RuleAtomAsserter							ruleAtomAsserter;
-	private TrivialSatisfactionHelpers					atomTester;
-
-	public ContinuousRulesStrategy(ABox abox) {
-		super( abox );
-		bindingStrategy = new BindingGeneratorStrategyImpl( abox );
-		partialBindings = new HashSet<PartialBinding>();
-		unsafeRules = new HashSet<PartialBinding>();
-		rulesApplied = new HashMap<Pair<Rule, VariableBinding>, Integer>();
+	public ContinuousRulesStrategy(final ABox abox)
+	{
+		super(abox);
+		bindingStrategy = new BindingGeneratorStrategyImpl(abox);
+		partialBindings = new HashSet<>();
+		unsafeRules = new HashSet<>();
+		rulesApplied = new HashMap<>();
 		atermTranslator = new RulesToATermTranslator();
 		ruleAtomAsserter = new RuleAtomAsserter();
-		atomTester = new TrivialSatisfactionHelpers( abox );
+		atomTester = new TrivialSatisfactionHelpers(abox);
 	}
-	
-	public void addUnsafeRule(Rule rule, Set<ATermAppl> explain) {
+
+	public void addUnsafeRule(final Rule rule, final Set<ATermAppl> explain)
+	{
 		unsafeRules.add(new PartialBinding(rule, new VariableBinding(abox), new DependencySet(explain)));
 	}
-	
-	public void addPartialBinding(PartialBinding binding) {
-	    partialBindings.add(binding);
-    }
+
+	public void addPartialBinding(final PartialBinding binding)
+	{
+		partialBindings.add(binding);
+	}
 
 	@Override
-	public Edge addEdge(Individual subj, Role pred, Node obj, DependencySet ds) {
-		Edge edge = super.addEdge( subj, pred, obj, ds );
+	public Edge addEdge(final Individual subj, final Role pred, final Node obj, final DependencySet ds)
+	{
+		final Edge edge = super.addEdge(subj, pred, obj, ds);
 
-		if( edge != null && !abox.isClosed() && subj.isRootNominal() && obj.isRootNominal() ) {
-			if( interpreter != null ) {
+		if (edge != null && !abox.isClosed() && subj.isRootNominal() && obj.isRootNominal())
+			if (interpreter != null)
 				interpreter.alphaNet.activateEdge(edge);
-			}
-		}
-		
+
 		return edge;
 	}
 
 	@Override
-	public void addType(Node node, ATermAppl c, DependencySet ds) {
-		super.addType( node, c, ds );
+	public void addType(final Node node, final ATermAppl c, final DependencySet ds)
+	{
+		super.addType(node, c, ds);
 
-		if( !merging && !abox.isClosed() && node.isRootNominal() && interpreter != null && node.isIndividual() ) {
-			Individual ind = (Individual) node;
+		if (!merging && !abox.isClosed() && node.isRootNominal() && interpreter != null && node.isIndividual())
+		{
+			final Individual ind = (Individual) node;
 			interpreter.alphaNet.activateType(ind, c, ds);
 		}
 	}
-	
+
 	@Override
-	protected boolean mergeIndividuals(Individual y, Individual x, DependencySet ds) {
-	    if (super.mergeIndividuals(y, x, ds)) {
-	    	if (interpreter != null) {
-	    		interpreter.alphaNet.activateDifferents(y);
-	    	}
-	    	return true;
-	    }
-	    return false;
+	protected boolean mergeIndividuals(final Individual y, final Individual x, final DependencySet ds)
+	{
+		if (super.mergeIndividuals(y, x, ds))
+		{
+			if (interpreter != null)
+				interpreter.alphaNet.activateDifferents(y);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public boolean setDifferent(Node y, Node z, DependencySet ds) {
-	    if (super.setDifferent(y, z, ds)) {
-			if( interpreter != null && !merging && !abox.isClosed() && y.isRootNominal() && y.isIndividual() && z.isRootNominal() && z.isIndividual()) {
+	public boolean setDifferent(final Node y, final Node z, final DependencySet ds)
+	{
+		if (super.setDifferent(y, z, ds))
+		{
+			if (interpreter != null && !merging && !abox.isClosed() && y.isRootNominal() && y.isIndividual() && z.isRootNominal() && z.isIndividual())
 				interpreter.alphaNet.activateDifferent((Individual) y, (Individual) z, ds);
-			}
-			
-	    	return true;
-	    }
-	    
-	    return false;
+
+			return true;
+		}
+
+		return false;
 	}
 
-	public Collection<PartialBinding> applyRete() {
+	public Collection<PartialBinding> applyRete()
+	{
 		Timer t;
-		if( PelletOptions.ALWAYS_REBUILD_RETE ) {
-			t = timers.startTimer( "rule-rebuildRete" );
+		if (PelletOptions.ALWAYS_REBUILD_RETE)
+		{
+			t = timers.startTimer("rule-rebuildRete");
 
 			partialBindings.clear();
 			partialBindings.addAll(unsafeRules);
@@ -131,278 +137,286 @@ public class ContinuousRulesStrategy extends SROIQStrategy {
 			t.stop();
 		}
 
-		t = timers.startTimer( "rule-reteRun" );
+		t = timers.startTimer("rule-reteRun");
 		interpreter.run();
 		t.stop();
-		
+
 		return interpreter.getBindings();
 	}
-	
-	
 
-	public void applyRuleBindings() {
+	public void applyRuleBindings()
+	{
 
 		int total = 0;
 
-		for( PartialBinding ruleBinding : partialBindings ) {
-			Rule rule = ruleBinding.getRule();
-			VariableBinding initial = ruleBinding.getBinding();
+		for (final PartialBinding ruleBinding : partialBindings)
+		{
+			final Rule rule = ruleBinding.getRule();
+			final VariableBinding initial = ruleBinding.getBinding();
 
-			for( VariableBinding binding : bindingStrategy.createGenerator( rule, initial ) ) {
+			for (final VariableBinding binding : bindingStrategy.createGenerator(rule, initial))
+			{
 
-				Pair<Rule, VariableBinding> ruleKey = new Pair<Rule, VariableBinding>( rule,
-						binding );
-				if( !rulesApplied.containsKey( ruleKey ) ) {
+				final Pair<Rule, VariableBinding> ruleKey = new Pair<>(rule, binding);
+				if (!rulesApplied.containsKey(ruleKey))
+				{
 					total++;
 
-					if( log.isLoggable( Level.FINE ) ) {
-						log.fine( "Rule: " + rule );
-						log.fine( "Binding: " + binding );
-						log.fine( "total:" + total );
+					if (log.isLoggable(Level.FINE))
+					{
+						log.fine("Rule: " + rule);
+						log.fine("Binding: " + binding);
+						log.fine("total:" + total);
 					}
-					
-					int branch = createDisjunctionsFromBinding( binding, rule, ruleBinding
-							.getDependencySet() );
-					
-					if( branch >= 0 ) {
-						rulesApplied.put( ruleKey, branch );
-					}
-					
-					if( abox.isClosed() ) {
+
+					final int branch = createDisjunctionsFromBinding(binding, rule, ruleBinding.getDependencySet());
+
+					if (branch >= 0)
+						rulesApplied.put(ruleKey, branch);
+
+					if (abox.isClosed())
 						return;
-					}
 				}
 			}
 
 		}
 	}
 
-	public void complete(Expressivity expr) {
+	@Override
+	public void complete(final Expressivity expr)
+	{
 		Timer t;
 
-		Expressivity expressivity = abox.getKB().getExpressivity();
+		final Expressivity expressivity = abox.getKB().getExpressivity();
 
-		initialize( expressivity );
+		initialize(expressivity);
 
 		merging = false;
-		t = timers.startTimer( "rule-buildReteRules" );
-		Compiler compiler = new Compiler(this);
-		for (Entry<Rule, Rule> e : abox.getKB().getNormalizedRules().entrySet()) {
-			Rule rule = e.getKey();
-			Rule normalizedRule = e.getValue();
+		t = timers.startTimer("rule-buildReteRules");
+		final Compiler compiler = new Compiler(this);
+		for (final Entry<Rule, Rule> e : abox.getKB().getNormalizedRules().entrySet())
+		{
+			final Rule rule = e.getKey();
+			final Rule normalizedRule = e.getValue();
 
 			if (normalizedRule == null)
 				continue;
 
-			Set<ATermAppl> explain = abox.doExplanation() ? rule.getExplanation(atermTranslator) : Collections
-			                .<ATermAppl> emptySet();
+			final Set<ATermAppl> explain = abox.doExplanation() ? rule.getExplanation(atermTranslator) : Collections.<ATermAppl> emptySet();
 
-			try {
-	            compiler.compile(normalizedRule, explain);
-            }
-            catch (UnsupportedOperationException uoe) {
-	            throw new RuntimeException("Unsupported rule " + normalizedRule, uoe);
-            }
+			try
+			{
+				compiler.compile(normalizedRule, explain);
+			}
+			catch (final UnsupportedOperationException uoe)
+			{
+				throw new RuntimeException("Unsupported rule " + normalizedRule, uoe);
+			}
 		}
 		t.stop();
-		
-		AlphaNetwork alphaNet = compiler.getAlphaNet();
-		if (abox.doExplanation()) {
+
+		final AlphaNetwork alphaNet = compiler.getAlphaNet();
+		if (abox.doExplanation())
 			alphaNet.setDoExplanation(true);
-		}
 		interpreter = new Interpreter(alphaNet);
 		partialBindings.clear();
 		partialBindings.addAll(unsafeRules);
 		rulesApplied.clear();
 
+		//		t.stop();
 
-//		t.stop();		
-
-//		t = timers.startTimer( "rule-compileReteFacts" );
+		//		t = timers.startTimer( "rule-compileReteFacts" );
 		applyRete();
-//		t.stop();
+		//		t.stop();
 
-		while( !abox.isComplete() ) {
-			while( abox.isChanged() && !abox.isClosed() ) {
+		while (!abox.isComplete())
+		{
+			while (abox.isChanged() && !abox.isClosed())
+			{
 				completionTimer.check();
 
-				abox.setChanged( false );
+				abox.setChanged(false);
 
-				if( log.isLoggable( Level.FINE ) ) {
-					log.fine( "Branch: " + abox.getBranch() + ", Depth: " + abox.stats.treeDepth
-							+ ", Size: " + abox.getNodes().size() + ", Mem: "
-							+ (Runtime.getRuntime().freeMemory() / 1000) + "kb" );
+				if (log.isLoggable(Level.FINE))
+				{
+					log.fine("Branch: " + abox.getBranch() + ", Depth: " + abox.stats.treeDepth + ", Size: " + abox.getNodes().size() + ", Mem: " + (Runtime.getRuntime().freeMemory() / 1000) + "kb");
 					abox.validate();
 					// printBlocked();
 					abox.printTree();
 					interpreter.alphaNet.print();
 				}
 
-				IndividualIterator i = abox.getIndIterator();
+				final IndividualIterator i = abox.getIndIterator();
 
-				for( TableauRule tableauRule : tableauRules ) {
-					tableauRule.apply( i );
-					if( abox.isClosed() )
+				for (final TableauRule tableauRule : tableauRules)
+				{
+					tableauRule.apply(i);
+					if (abox.isClosed())
 						break;
 				}
-				
-				if( abox.isClosed() )
+
+				if (abox.isClosed())
 					break;
 
-				if (!abox.isChanged() && !partialBindings.isEmpty()) {
-//					t = timers.startTimer( "rule-bindings" );
+				if (!abox.isChanged() && !partialBindings.isEmpty())
+				{
+					//					t = timers.startTimer( "rule-bindings" );
 					applyRuleBindings();
-//					t.stop();
-					if( abox.isClosed() )
+					//					t.stop();
+					if (abox.isClosed())
 						break;
 				}
 
 			}
 
-			if( abox.isClosed() ) {
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "Clash at Branch (" + abox.getBranch() + ") " + abox.getClash() );
+			if (abox.isClosed())
+			{
+				if (log.isLoggable(Level.FINE))
+					log.fine("Clash at Branch (" + abox.getBranch() + ") " + abox.getClash());
 
-				if( backtrack() )
-					abox.setClash( null );
+				if (backtrack())
+					abox.setClash(null);
 				else
-					abox.setComplete( true );
+					abox.setComplete(true);
 			}
-			else {
-				if( PelletOptions.SATURATE_TABLEAU ) {
+			else
+				if (PelletOptions.SATURATE_TABLEAU)
+				{
 					Branch unexploredBranch = null;
-					for( int i = abox.getBranches().size() - 1; i >= 0; i-- ) {
-						unexploredBranch = abox.getBranches().get( i );
-						unexploredBranch.setTryNext( unexploredBranch.getTryNext() + 1 );
-						if( unexploredBranch.getTryNext() < unexploredBranch.getTryCount() ) {
-							restore( unexploredBranch );
-							System.out.println( "restoring branch " + unexploredBranch.getBranch()
-									+ " tryNext = " + unexploredBranch.getTryNext()
-									+ " tryCount = " + unexploredBranch.getTryCount() );
+					for (int i = abox.getBranches().size() - 1; i >= 0; i--)
+					{
+						unexploredBranch = abox.getBranches().get(i);
+						unexploredBranch.setTryNext(unexploredBranch.getTryNext() + 1);
+						if (unexploredBranch.getTryNext() < unexploredBranch.getTryCount())
+						{
+							restore(unexploredBranch);
+							System.out.println("restoring branch " + unexploredBranch.getBranch() + " tryNext = " + unexploredBranch.getTryNext() + " tryCount = " + unexploredBranch.getTryCount());
 							unexploredBranch.tryNext();
 							break;
 						}
-						else {
-							System.out.println( "removing branch " + unexploredBranch.getBranch() );
-							abox.getBranches().remove( i );
+						else
+						{
+							System.out.println("removing branch " + unexploredBranch.getBranch());
+							abox.getBranches().remove(i);
 							unexploredBranch = null;
 						}
 					}
-					if( unexploredBranch == null ) {
-						abox.setComplete( true );
-					}
+					if (unexploredBranch == null)
+						abox.setComplete(true);
 				}
 				else
-					abox.setComplete( true );
-			}
+					abox.setComplete(true);
 		}
 	}
 
-	private int createDisjunctionsFromBinding(VariableBinding binding, Rule rule, DependencySet ds) {
-		List<RuleAtom> atoms = new ArrayList<RuleAtom>();
+	private int createDisjunctionsFromBinding(final VariableBinding binding, final Rule rule, DependencySet ds)
+	{
+		final List<RuleAtom> atoms = new ArrayList<>();
 
-		for( RuleAtom atom : rule.getBody() ) {
-			DependencySet atomDS = atomTester.isAtomTrue( atom, binding );
-			if( atomDS != null ) {
-				ds = ds.union( atomDS, abox.doExplanation() );
-			}
-			else {
-				atoms.add( atom );
-			}
+		for (final RuleAtom atom : rule.getBody())
+		{
+			final DependencySet atomDS = atomTester.isAtomTrue(atom, binding);
+			if (atomDS != null)
+				ds = ds.union(atomDS, abox.doExplanation());
+			else
+				atoms.add(atom);
 		}
-		
+
 		// all the atoms in the body are true
-		if( atoms.isEmpty() ) {
-			if( rule.getHead().isEmpty() ) {
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "Empty head for rule " + rule );
-				abox.setClash( Clash.unexplained( null, ds ) );				
+		if (atoms.isEmpty())
+		{
+			if (rule.getHead().isEmpty())
+			{
+				if (log.isLoggable(Level.FINE))
+					log.fine("Empty head for rule " + rule);
+				abox.setClash(Clash.unexplained(null, ds));
 			}
-			else {
-				for( RuleAtom atom : rule.getHead() ) {
-					ruleAtomAsserter.assertAtom( atom, binding, ds, false, abox, this );
-				}
-			}
+			else
+				for (final RuleAtom atom : rule.getHead())
+					ruleAtomAsserter.assertAtom(atom, binding, ds, false, abox, this);
 			return -1;
 		}
-		
-		int bodyAtomCount = atoms.size();
 
-		for( RuleAtom atom : rule.getHead() ) {
-			DependencySet atomDS = atomTester.isAtomTrue( atom, binding );
-			if( atomDS == null ) {
-				atoms.add( atom );
-			}
+		final int bodyAtomCount = atoms.size();
+
+		for (final RuleAtom atom : rule.getHead())
+		{
+			final DependencySet atomDS = atomTester.isAtomTrue(atom, binding);
+			if (atomDS == null)
+				atoms.add(atom);
 		}
-		
+
 		// all no head atoms are added to the list they are all true (unless
 		// there were no head atoms to begin with) which means there is nothing
 		// to be done
-		if( atoms.size() == bodyAtomCount && !rule.getHead().isEmpty() ) {
+		if (atoms.size() == bodyAtomCount && !rule.getHead().isEmpty())
 			return -1;
-		}
-		// if there is only one atom in the list that should be a body atom
-		// (otherwise it would mean that all body atoms are true which would
-		// have been caught with the if condition at the beginning) and we 
-		// can directly assert it without creating a disjunction
-		else if( atoms.size() == 1 ) {
-			ruleAtomAsserter.assertAtom( atoms.get( 0 ), binding, ds, true, abox, this );
-			return -1;
-		}
-		else {		
-			RuleBranch r = new RuleBranch( abox, this, ruleAtomAsserter, atoms, binding, bodyAtomCount, ds );
-			addBranch( r );
-			r.tryNext();
-			return r.getBranch();
-		}
+		else
+			if (atoms.size() == 1)
+			{
+				ruleAtomAsserter.assertAtom(atoms.get(0), binding, ds, true, abox, this);
+				return -1;
+			}
+			else
+			{
+				final RuleBranch r = new RuleBranch(abox, this, ruleAtomAsserter, atoms, binding, bodyAtomCount, ds);
+				addBranch(r);
+				r.tryNext();
+				return r.getBranch();
+			}
 	}
 
 	@Override
-	public void mergeTo(Node y, Node z, DependencySet ds) {
+	public void mergeTo(final Node y, final Node z, final DependencySet ds)
+	{
 		merging = true;
-		super.mergeTo( y, z, ds );
-		if( !abox.isClosed() && (interpreter != null) && (y.isRootNominal() || z.isRootNominal()) ) {
-//			if( y.isRootNominal() )
-//				runRules |= interpreter.removeMentions( y.getTerm() );
-//			if( z.isIndividual() )
-//				runRules |= interpreter.rete.processIndividual( (Individual) z );
+		super.mergeTo(y, z, ds);
+		if (!abox.isClosed() && (interpreter != null) && (y.isRootNominal() || z.isRootNominal()))
+		{
+			//			if( y.isRootNominal() )
+			//				runRules |= interpreter.removeMentions( y.getTerm() );
+			//			if( z.isIndividual() )
+			//				runRules |= interpreter.rete.processIndividual( (Individual) z );
 		}
 		merging = false;
 	}
 
 	@Override
-	public void restore(Branch branch) {
-		super.restore( branch );
-		restoreRules( branch );
+	public void restore(final Branch branch)
+	{
+		super.restore(branch);
+		restoreRules(branch);
 	}
 
 	@Override
-	public void restoreLocal(Individual ind, Branch branch) {
-		super.restoreLocal( ind, branch );
-		restoreRules( branch );
+	public void restoreLocal(final Individual ind, final Branch branch)
+	{
+		super.restoreLocal(ind, branch);
+		restoreRules(branch);
 	}
 
-	private void restoreRules(Branch branch) {
+	private void restoreRules(final Branch branch)
+	{
 		int total = 0;
-		for( Iterator<Map.Entry<Pair<Rule, VariableBinding>, Integer>> ruleAppIter = rulesApplied
-				.entrySet().iterator(); ruleAppIter.hasNext(); ) {
-			Map.Entry<Pair<Rule, VariableBinding>, Integer> ruleBranchEntry = ruleAppIter.next();
-			if( ruleBranchEntry.getValue() > branch.getBranch() ) {
+		for (final Iterator<Map.Entry<Pair<Rule, VariableBinding>, Integer>> ruleAppIter = rulesApplied.entrySet().iterator(); ruleAppIter.hasNext();)
+		{
+			final Map.Entry<Pair<Rule, VariableBinding>, Integer> ruleBranchEntry = ruleAppIter.next();
+			if (ruleBranchEntry.getValue() > branch.getBranch())
+			{
 				// System.out.println( "Removing " + ruleBranchEntry.getKey() );
 				ruleAppIter.remove();
 				total++;
 			}
 		}
 
-		for( Iterator<PartialBinding> iter = partialBindings.iterator(); iter
-				.hasNext(); ) {
-			PartialBinding binding = iter.next();
-			if( binding.getBranch() > branch.getBranch() ) {
+		for (final Iterator<PartialBinding> iter = partialBindings.iterator(); iter.hasNext();)
+		{
+			final PartialBinding binding = iter.next();
+			if (binding.getBranch() > branch.getBranch())
 				iter.remove();
-			}
 		}
 
-		interpreter.restore( branch.getBranch() );
+		interpreter.restore(branch.getBranch());
 		// rebuildFacts = true;
 	}
 }

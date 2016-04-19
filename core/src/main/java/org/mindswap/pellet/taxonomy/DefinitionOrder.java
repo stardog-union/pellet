@@ -8,30 +8,27 @@
 
 package org.mindswap.pellet.taxonomy;
 
+import aterm.ATermAppl;
 import java.util.Iterator;
 
-import aterm.ATermAppl;
-
 /**
- * A class to compute the definition order for concepts and tell if a concept is
- * used in cyclic definition. The definition order is computed after the TBox
- * preprocessing is applied so the definitions used for computing this order is
- * not always same as asserted definitions. The notion of cyclic definition
- * depends on the expressivity of the ontology. If there are no inverses a
- * definition the concepts used inside restrictions are ignored.
- * 
+ * A class to compute the definition order for concepts and tell if a concept is used in cyclic definition. The definition order is computed after the TBox
+ * preprocessing is applied so the definitions used for computing this order is not always same as asserted definitions. The notion of cyclic definition depends
+ * on the expressivity of the ontology. If there are no inverses a definition the concepts used inside restrictions are ignored.
+ *
  * @author Evren Sirin
  */
-public interface DefinitionOrder extends Iterable<ATermAppl> {
+public interface DefinitionOrder extends Iterable<ATermAppl>
+{
 	/**
-	 * Returns an iterator over all the classes in the ontology sorted based on
-	 * the definition order.
+	 * Returns an iterator over all the classes in the ontology sorted based on the definition order.
 	 */
+	@Override
 	public Iterator<ATermAppl> iterator();
 
 	/**
 	 * Returns if a concept is used in cyclic definitions.
-	 * 
+	 *
 	 * @param concept concept to check
 	 * @return <code>true</code> if concept is used in a cyclic definition
 	 */

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.clarkparsia.jena.test;
 
@@ -11,7 +11,6 @@ import org.apache.jena.rdf.model.Model;
 
 /**
  * @author Pavel Klinov
- *
  */
 public class ResourceImportLoader implements ReadFailureHandler
 {
@@ -20,7 +19,7 @@ public class ResourceImportLoader implements ReadFailureHandler
 	 * @see org.apache.jena.ontology.OntDocumentManager.ReadFailureHandler#handleFailedRead(java.lang.String, org.apache.jena.rdf.model.Model, java.lang.Exception)
 	 */
 	@Override
-	public void handleFailedRead(String url, Model m, Exception e)
+	public void handleFailedRead(final String url, final Model m, final Exception e)
 	{
 		//FIXME
 		System.out.println("+++" + url + "+++");

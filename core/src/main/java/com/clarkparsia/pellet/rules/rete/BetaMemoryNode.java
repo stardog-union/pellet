@@ -9,112 +9,120 @@ package com.clarkparsia.pellet.rules.rete;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
+
 /**
  */
-public class BetaMemoryNode extends BetaNode {
+public class BetaMemoryNode extends BetaNode
+{
 	private final BetaMemoryIndex memory;
-	
+
 	private final AlphaNode alpha;
-	
+
 	private final List<FilterCondition> conditions;
 
-	public BetaMemoryNode(AlphaNode alpha, List<FilterCondition> conditions) {
-		if (conditions == null) {
+	public BetaMemoryNode(final AlphaNode alpha, final List<FilterCondition> conditions)
+	{
+		if (conditions == null)
 			throw new NullPointerException();
-		}
 		this.alpha = alpha;
 		this.conditions = conditions;
 		this.memory = createIndex(conditions);
 	}
-	
-	private static BetaMemoryIndex createIndex(List<FilterCondition> conditions) {		
-		if (!conditions.isEmpty() && (conditions.get(0) instanceof JoinCondition)) {
+
+	private static BetaMemoryIndex createIndex(final List<FilterCondition> conditions)
+	{
+		if (!conditions.isEmpty() && (conditions.get(0) instanceof JoinCondition))
 			return BetaMemoryIndex.withJoin((JoinCondition) conditions.get(0));
-		}
-		
+
 		return BetaMemoryIndex.withoutJoin();
 	}
-	
-	public AlphaNode getAlphaNode() {
+
+	public AlphaNode getAlphaNode()
+	{
 		return alpha;
-	}	
-
-    public List<FilterCondition> getConditions() {
-	    return conditions;
-    }
-
-	
-	@Override
-	public void activate(WME wme) {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("Activate beta " + wme);
-		}
-
-		Iterator<Token> wmeTokens = memory.getTokens(wme);
-		
-		while (wmeTokens.hasNext()) {
-            Token token = wmeTokens.next();
-	        if (testConditions(wme, token, 0)) {
-		        activateChildren(wme, token);
-            }	        
-        }
 	}
-	
+
+	public List<FilterCondition> getConditions()
+	{
+		return conditions;
+	}
+
 	@Override
-	public void activate(Token token) {
-		if (log.isLoggable(Level.FINE)) {
-			log.fine("Activate beta " + token);
+	public void activate(final WME wme)
+	{
+		if (log.isLoggable(Level.FINE))
+			log.fine("Activate beta " + wme);
+
+		final Iterator<Token> wmeTokens = memory.getTokens(wme);
+
+		while (wmeTokens.hasNext())
+		{
+			final Token token = wmeTokens.next();
+			if (testConditions(wme, token, 0))
+				activateChildren(wme, token);
 		}
+	}
+
+	@Override
+	public void activate(final Token token)
+	{
+		if (log.isLoggable(Level.FINE))
+			log.fine("Activate beta " + token);
 
 		memory.add(token);
-		
-		Iterator<WME> matches = memory.getWMEs(token, alpha);
-		while (matches.hasNext()) {
-			WME wme = matches.next();
-			if (testConditions(wme, token, memory.isJoined() ? 1 : 0)) {
-		        activateChildren(wme, token);
-            }
+
+		final Iterator<WME> matches = memory.getWMEs(token, alpha);
+		while (matches.hasNext())
+		{
+			final WME wme = matches.next();
+			if (testConditions(wme, token, memory.isJoined() ? 1 : 0))
+				activateChildren(wme, token);
 		}
 	}
-	
-	private boolean testConditions(WME wme, Token token, int start) {
-		for (int i = start, n = conditions.size(); i < n; i++) {
-			FilterCondition condition = conditions.get(i);
-			if (!condition.test(wme, token)) {
-            	return false;
-            }
-        }
+
+	private boolean testConditions(final WME wme, final Token token, final int start)
+	{
+		for (int i = start, n = conditions.size(); i < n; i++)
+		{
+			final FilterCondition condition = conditions.get(i);
+			if (!condition.test(wme, token))
+				return false;
+		}
 		return true;
 	}
-	
+
 	@Override
-	public void reset() {
-	    super.reset();
-	    
-	    memory.clear();
+	public void reset()
+	{
+		super.reset();
+
+		memory.clear();
 	}
-	
+
 	@Override
-	public void restore(int branch) { 
+	public void restore(final int branch)
+	{
 		super.restore(branch);
 		memory.restore(branch);
 	}
-	
+
 	@Override
-	public void print(String indent) {
+	public void print(String indent)
+	{
 		System.out.print(indent);
 		System.out.println(alpha);
 		indent += "  ";
 		System.out.print(indent);
 		System.out.print(this);
-		System.out.print( " ");
+		System.out.print(" ");
 		System.out.println(memory);
-		for (BetaNode node : getBetas()) {
-	        node.print(indent);
-        }
+		for (final BetaNode node : getBetas())
+			node.print(indent);
 	}
-	
-	public String toString() {
+
+	@Override
+	public String toString()
+	{
 		return isTop() ? "Top" : "Beta" + conditions;
 	}
 }

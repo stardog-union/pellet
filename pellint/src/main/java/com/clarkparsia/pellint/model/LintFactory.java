@@ -6,16 +6,15 @@
 
 package com.clarkparsia.pellint.model;
 
-import org.semanticweb.owlapi.model.OWLOntology;
-
 import com.clarkparsia.pellint.lintpattern.LintPattern;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * <p>
  * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -23,19 +22,22 @@ import com.clarkparsia.pellint.lintpattern.LintPattern;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class LintFactory {
-	private LintPattern m_LintPattern;
-	private OWLOntology m_ParticipatingOntology;
-	
-	public LintFactory(LintPattern lintPattern, OWLOntology participatingOntology) {
+public class LintFactory
+{
+	private final LintPattern m_LintPattern;
+	private final OWLOntology m_ParticipatingOntology;
+
+	public LintFactory(final LintPattern lintPattern, final OWLOntology participatingOntology)
+	{
 		m_LintPattern = lintPattern;
 		m_ParticipatingOntology = participatingOntology;
 	}
-	
-	public Lint make() {
+
+	public Lint make()
+	{
 		return new Lint(m_LintPattern, m_ParticipatingOntology);
 	}
 }

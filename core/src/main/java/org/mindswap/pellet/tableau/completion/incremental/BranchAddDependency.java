@@ -6,72 +6,72 @@
 
 package org.mindswap.pellet.tableau.completion.incremental;
 
-import org.mindswap.pellet.tableau.branch.Branch;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.tableau.branch.Branch;
 
 /**
  * Dependency structure for when a branch is added.
- * 
- * @author Christian Halaschek-Wiener
  *
+ * @author Christian Halaschek-Wiener
  */
-public class BranchAddDependency extends BranchDependency{
+public class BranchAddDependency extends BranchDependency
+{
 
 	/**
 	 * The actual branch
 	 */
-	private Branch branch;
-	
-	
-	
+	private final Branch branch;
+
 	/**
 	 * Constructor
+	 * 
 	 * @param index
 	 * @param branch
 	 */
-	public BranchAddDependency(ATermAppl assertion, int index, Branch branch){
+	public BranchAddDependency(final ATermAppl assertion, final int index, final Branch branch)
+	{
 		super(assertion);
 		this.branch = branch;
 	}
 
-
-
 	/**
 	 * Get branch
+	 * 
 	 * @return
 	 */
-	public Branch getBranch() {
+	public Branch getBranch()
+	{
 		return branch;
 	}
-	
-	
-	
+
 	/**
 	 * ToString method
 	 */
-	public String toString(){
+	@Override
+	public String toString()
+	{
 		return "Branch  - [" + branch + "]";
 	}
-	
-	
-	
+
 	/**
 	 * Equals method
 	 */
-	public boolean equals(Object other){
-		if(other instanceof BranchAddDependency){
-			return (this.branch.getBranch() == ((BranchAddDependency)other).branch.getBranch()) && this.assertion.equals(((BranchAddDependency)other).assertion) ;	
-		}else
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (other instanceof BranchAddDependency)
+			return (this.branch.getBranch() == ((BranchAddDependency) other).branch.getBranch()) && this.assertion.equals(((BranchAddDependency) other).assertion);
+		else
 			return false;
 	}
-	
-	
+
 	/**
 	 * Hashcode method
 	 */
-	public int hashCode(){ 
-		return this.branch.getBranch() + this.assertion.hashCode(); 
+	@Override
+	public int hashCode()
+	{
+		return this.branch.getBranch() + this.assertion.hashCode();
 	}
-	
+
 }

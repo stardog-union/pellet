@@ -30,73 +30,79 @@
 
 package org.mindswap.pellet.tbox.impl;
 
+import aterm.ATerm;
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Map;
-
 import java.util.logging.Logger;
 import org.mindswap.pellet.KnowledgeBase;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
+public class TBoxBase
+{
+	public static Logger log = Logger.getLogger(TBoxBase.class.getName());
 
-import com.clarkparsia.pellet.utils.CollectionUtils;
-
-public class TBoxBase {
-	public static Logger log = Logger.getLogger( TBoxBase.class.getName() );
-	
 	protected KnowledgeBase kb;
 	protected TBoxExpImpl tbox;
-	
-	protected Map<ATermAppl,TermDefinition> termhash = CollectionUtils.makeIdentityMap();
-	
-	public TBoxBase(TBoxExpImpl tbox) {
+
+	protected Map<ATermAppl, TermDefinition> termhash = CollectionUtils.makeIdentityMap();
+
+	public TBoxBase(final TBoxExpImpl tbox)
+	{
 		this.tbox = tbox;
 		this.kb = tbox.getKB();
 	}
-	
-	public boolean addDef(ATermAppl def) {
-		ATermAppl name = (ATermAppl) def.getArgument(0);
-		if (termhash.containsKey(name)) {
+
+	public boolean addDef(final ATermAppl def)
+	{
+		final ATermAppl name = (ATermAppl) def.getArgument(0);
+		if (termhash.containsKey(name))
 			getTD(name).addDef(def);
-		} else {
-			TermDefinition td = new TermDefinition();
+		else
+		{
+			final TermDefinition td = new TermDefinition();
 			td.addDef(def);
 			termhash.put(name, td);
 		}
-		
+
 		return true;
 	}
-	
-	public boolean removeDef(ATermAppl axiom) {
+
+	public boolean removeDef(final ATermAppl axiom)
+	{
 		boolean removed = false;
-		
-		ATermAppl name = (ATermAppl) axiom.getArgument( 0 );
-		TermDefinition td = getTD( name );
-		if( td != null ) 
-			removed = td.removeDef( axiom );		
-		
+
+		final ATermAppl name = (ATermAppl) axiom.getArgument(0);
+		final TermDefinition td = getTD(name);
+		if (td != null)
+			removed = td.removeDef(axiom);
+
 		return removed;
 	}
-	
-	public boolean contains(ATerm name) {
+
+	public boolean contains(final ATerm name)
+	{
 		return termhash.containsKey(name);
 	}
-	
-	public TermDefinition getTD(ATerm name) {
+
+	public TermDefinition getTD(final ATerm name)
+	{
 		return termhash.get(name);
 
-	}	
-	
-	public boolean isEmpty() {
+	}
+
+	public boolean isEmpty()
+	{
 		return (termhash.size() == 0);
 	}
-	
+
 	/**
 	 * Returns the number of term definitions stored in this TBox.
-	 * 
+	 *
 	 * @return
 	 */
-	public int size() {
+	public int size()
+	{
 		return termhash.size();
-	}	
-	
+	}
+
 }

@@ -8,6 +8,7 @@
 
 package com.clarkparsia.pellet.test.query;
 
+import com.clarkparsia.pellet.sparqldl.jena.JenaIOUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,10 +18,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.mindswap.pellet.utils.URIUtils;
-
-import com.clarkparsia.pellet.sparqldl.jena.JenaIOUtils;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.Query;
@@ -33,6 +30,7 @@ import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.query.ResultSetRewindable;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.util.FileManager;
+import org.mindswap.pellet.utils.URIUtils;
 
 /**
  * <p>
@@ -47,16 +45,16 @@ import org.apache.jena.util.FileManager;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class ARQSparqlDawgTester implements SparqlDawgTester {
+public class ARQSparqlDawgTester implements SparqlDawgTester
+{
 
-	private static final Logger	log				= Logger.getLogger( ARQSparqlDawgTester.class
-														.getName() );
+	private static final Logger log = Logger.getLogger(ARQSparqlDawgTester.class.getName());
 
-	private List<String>		avoidList		= Arrays.asList( new String[] {
-												// FIXME with some effort some
+	private final List<String> avoidList = Arrays.asList(new String[] {
+			// FIXME with some effort some
 			// of the following queries can
 			// be handled
 
@@ -69,81 +67,92 @@ public class ARQSparqlDawgTester implements SparqlDawgTester {
 			"dawg-optional-filter-005-not-simplified",
 
 			// fails due to bugs in ARQ filter handling
-			"date-2", "date-3",				
+			"date-2", "date-3",
 
 			// ?x p "+3"^^xsd:int does not match "3"^^xsd:int
 			"unplus-1",
-			
+
 			// ?x p "01"^^xsd:int does not match "1"^^xsd:int
-			"open-eq-03",		
-			
+			"open-eq-03",
+
 			// "1"^^xsd:int does not match different lexical forms
-			"eq-1", "eq-2"
-	} );
+			"eq-1", "eq-2" });
 
-	private String				queryURI		= "";
+	private String queryURI = "";
 
-	protected Set<String>		graphURIs		= new HashSet<String>();
+	protected Set<String> graphURIs = new HashSet<>();
 
-	protected Set<String>		namedGraphURIs	= new HashSet<String>();
+	protected Set<String> namedGraphURIs = new HashSet<>();
 
-	protected Query				query			= null;
+	protected Query query = null;
 
-	private String				resultURI		= null;
+	private String resultURI = null;
 
-	public ARQSparqlDawgTester() {
+	public ARQSparqlDawgTester()
+	{
 	}
 
-	protected void afterExecution() {
+	protected void afterExecution()
+	{
 		// do nothing
 	}
 
-	protected void beforeExecution() {
+	protected void beforeExecution()
+	{
 		// do nothing
 	}
 
-	protected Dataset createDataset() {
-		if( query.getGraphURIs().isEmpty() && query.getNamedGraphURIs().isEmpty() ) {
-			return DatasetFactory.create( new ArrayList<String>( graphURIs ),
-					new ArrayList<String>( namedGraphURIs ) );
-		}
-		else {
-			return DatasetFactory.create( query.getGraphURIs(), query.getNamedGraphURIs() );
-		}
+	protected Dataset createDataset()
+	{
+		if (query.getGraphURIs().isEmpty() && query.getNamedGraphURIs().isEmpty())
+			return DatasetFactory.create(new ArrayList<>(graphURIs), new ArrayList<>(namedGraphURIs));
+		else
+			return DatasetFactory.create(query.getGraphURIs(), query.getNamedGraphURIs());
 
 	}
 
-	protected QueryExecution createQueryExecution() {
-		return QueryExecutionFactory.create( query, createDataset() );
+	protected QueryExecution createQueryExecution()
+	{
+		return QueryExecutionFactory.create(query, createDataset());
 	}
 
-	public void setDatasetURIs(Set<String> graphURIs, Set<String> namedGraphURIs) {
+	@Override
+	public void setDatasetURIs(final Set<String> graphURIs, final Set<String> namedGraphURIs)
+	{
 		this.graphURIs = graphURIs;
 		this.namedGraphURIs = namedGraphURIs;
 	}
 
-	public void setQueryURI(String queryURI) {
-		if( this.queryURI.equals( queryURI ) ) {
+	@Override
+	public void setQueryURI(final String queryURI)
+	{
+		if (this.queryURI.equals(queryURI))
 			return;
-		}
 
 		this.queryURI = queryURI;
-		query = QueryFactory.read( queryURI );
+		query = QueryFactory.read(queryURI);
 	}
 
-	public void setResult(String resultURI) {
+	@Override
+	public void setResult(final String resultURI)
+	{
 		this.resultURI = resultURI;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isParsable() {
-		try {
-			query = QueryFactory.read( queryURI );
+	@Override
+	public boolean isParsable()
+	{
+		try
+		{
+			query = QueryFactory.read(queryURI);
 			return true;
-		} catch( Exception e ) {
-			log.log( Level.INFO, e.getMessage(), e );
+		}
+		catch (final Exception e)
+		{
+			log.log(Level.INFO, e.getMessage(), e);
 			return false;
 		}
 	}
@@ -151,99 +160,119 @@ public class ARQSparqlDawgTester implements SparqlDawgTester {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isCorrectlyEvaluated() {
-		try {
+	@Override
+	public boolean isCorrectlyEvaluated()
+	{
+		try
+		{
 			beforeExecution();
 			final QueryExecution exec = createQueryExecution();
 
-			if( resultURI == null ) {
-				log.log( Level.WARNING,
-						"No result set associated with this test, assumuing success!" );
+			if (resultURI == null)
+			{
+				log.log(Level.WARNING, "No result set associated with this test, assumuing success!");
 				return true;
 			}
 
-			if( query.isSelectType() ) {
-				final ResultSetRewindable expected = ResultSetFactory.makeRewindable( JenaIOUtils
-						.parseResultSet( resultURI ) );
-				final ResultSetRewindable real = ResultSetFactory
-						.makeRewindable( exec.execSelect() );
+			if (query.isSelectType())
+			{
+				final ResultSetRewindable expected = ResultSetFactory.makeRewindable(JenaIOUtils.parseResultSet(resultURI));
+				final ResultSetRewindable real = ResultSetFactory.makeRewindable(exec.execSelect());
 
-				boolean correct = ResultSetUtils.assertEquals( expected, real );
+				final boolean correct = ResultSetUtils.assertEquals(expected, real);
 
-				if( !correct ) {
-					logResults( "Expected", expected );
-					logResults( "Real", real );
+				if (!correct)
+				{
+					logResults("Expected", expected);
+					logResults("Real", real);
 				}
 
 				return correct;
 
 			}
-			else if( query.isAskType() ) {
-				final boolean askReal = exec.execAsk();
-				final boolean askExpected = JenaIOUtils.parseAskResult( resultURI );
+			else
+				if (query.isAskType())
+				{
+					final boolean askReal = exec.execAsk();
+					final boolean askExpected = JenaIOUtils.parseAskResult(resultURI);
 
-				log.fine( "Expected=" + askExpected );
-				log.fine( "Real=" + askReal );
+					log.fine("Expected=" + askExpected);
+					log.fine("Real=" + askReal);
 
-				return askReal == askExpected;
-			}
-			else if( query.isConstructType() ) {
-				final Model real = exec.execConstruct();
-				final Model expected = FileManager.get().loadModel( resultURI );
+					return askReal == askExpected;
+				}
+				else
+					if (query.isConstructType())
+					{
+						final Model real = exec.execConstruct();
+						final Model expected = FileManager.get().loadModel(resultURI);
 
-				log.fine( "Expected=" + real );
-				log.fine( "Real=" + expected );
+						log.fine("Expected=" + real);
+						log.fine("Real=" + expected);
 
-				return real.isIsomorphicWith( expected );
-			}
-			else if( query.isDescribeType() ) {
-				final Model real = exec.execDescribe();
-				final Model expected = FileManager.get().loadModel( resultURI );
+						return real.isIsomorphicWith(expected);
+					}
+					else
+						if (query.isDescribeType())
+						{
+							final Model real = exec.execDescribe();
+							final Model expected = FileManager.get().loadModel(resultURI);
 
-				log.fine( "Expected=" + real );
-				log.fine( "Real=" + expected );
+							log.fine("Expected=" + real);
+							log.fine("Real=" + expected);
 
-				return real.isIsomorphicWith( expected );
-			}
-			else {
-				throw new RuntimeException( "The query has invalid type." );
-			}
-		} catch( IOException e ) {
-			log.log( Level.SEVERE, e.getMessage(), e );
+							return real.isIsomorphicWith(expected);
+						}
+						else
+							throw new RuntimeException("The query has invalid type.");
+		}
+		catch (final IOException e)
+		{
+			log.log(Level.SEVERE, e.getMessage(), e);
 			return false;
-		} finally {
+		}
+		finally
+		{
 			afterExecution();
 		}
 	}
 
-	private void logResults(String name, ResultSetRewindable results) {
-		if( log.isLoggable( Level.WARNING ) ) {
+	private void logResults(final String name, final ResultSetRewindable results)
+	{
+		if (log.isLoggable(Level.WARNING))
+		{
 			results.reset();
-			StringBuilder sb = new StringBuilder( name + " (" + results.size() + ")=" );
+			final StringBuilder sb = new StringBuilder(name + " (" + results.size() + ")=");
 
-			while( results.hasNext() ) {
-				QuerySolution result = results.nextSolution();
-				sb.append( result );
+			while (results.hasNext())
+			{
+				final QuerySolution result = results.nextSolution();
+				sb.append(result);
 			}
 
-			log.warning( sb.toString() );
+			log.warning(sb.toString());
 		}
 
-		if( log.isLoggable( Level.FINE ) ) {
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			ResultSetFormatter.out( out, results );
-			log.fine( out.toString() );
+		if (log.isLoggable(Level.FINE))
+		{
+			final ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ResultSetFormatter.out(out, results);
+			log.fine(out.toString());
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isApplicable(final String testURI) {
-		return !avoidList.contains( URIUtils.getLocalName( testURI ) );
+	@Override
+	public boolean isApplicable(final String testURI)
+	{
+		return !avoidList.contains(URIUtils.getLocalName(testURI));
 	}
 
-	public String getName() {
+	@Override
+	public String getName()
+	{
 		return "ARQ";
 	}
 }

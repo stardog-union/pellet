@@ -6,7 +6,6 @@
 
 package com.clarkparsia.pellet.rules.builtins;
 
-
 /**
  * <p>
  * Title: String-to-String Function
@@ -20,11 +19,12 @@ package com.clarkparsia.pellet.rules.builtins;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface StringToStringFunction {
+ */
+public interface StringToStringFunction
+{
 
-	public String apply( String... args );
+	public String apply(String... args);
 
 }

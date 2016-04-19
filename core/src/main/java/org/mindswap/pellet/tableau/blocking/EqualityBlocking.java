@@ -30,29 +30,38 @@
 
 package org.mindswap.pellet.tableau.blocking;
 
-
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class EqualityBlocking extends Blocking {
+public class EqualityBlocking extends Blocking
+{
 	private static final EqualityBlocking INSTANCE = new EqualityBlocking();
-	
-	public static EqualityBlocking getInstance() {
+
+	public static EqualityBlocking getInstance()
+	{
 		return INSTANCE;
 	}
-	
-	private EqualityBlocking() {		
+
+	private EqualityBlocking()
+	{
 	}
 
-	public boolean isDirectlyBlockedBy(BlockingContext cxt) {
-	    return block1.isBlocked( cxt ) && block2.isBlocked( cxt );
-	}	
+	@Override
+	public boolean isDirectlyBlockedBy(final BlockingContext cxt)
+	{
+		return block1.isBlocked(cxt) && block2.isBlocked(cxt);
+	}
 }

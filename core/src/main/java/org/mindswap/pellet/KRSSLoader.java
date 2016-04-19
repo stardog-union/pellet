@@ -34,6 +34,11 @@
 
 package org.mindswap.pellet;
 
+import aterm.ATerm;
+import aterm.ATermAppl;
+import aterm.ATermList;
+import com.clarkparsia.pellet.datatypes.Facet;
+import com.clarkparsia.pellet.datatypes.types.real.XSDInteger;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,760 +49,871 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.SetUtils;
 
-import com.clarkparsia.pellet.datatypes.Facet;
-import com.clarkparsia.pellet.datatypes.types.real.XSDInteger;
-
-import aterm.ATerm;
-import aterm.ATermAppl;
-import aterm.ATermList;
-
 /**
  * Parse files written in KRSS format and loads into the given KB.
- * 
+ *
  * @author Evren Sirin
  */
-public class KRSSLoader extends KBLoader {
-	public final static Logger				log			= Logger.getLogger( KRSSLoader.class
-																.getName() );
+public class KRSSLoader extends KBLoader
+{
+	public final static Logger log = Logger.getLogger(KRSSLoader.class.getName());
 
-	private final static ATermAppl			XSD_INTEGER	= XSDInteger.getInstance().getName();
+	private final static ATermAppl XSD_INTEGER = XSDInteger.getInstance().getName();
 
-	private StreamTokenizer					in;
+	private StreamTokenizer in;
 
-	private KnowledgeBase					kb;
+	private final KnowledgeBase kb;
 
-	private ArrayList<ATermAppl>			terms;
+	private ArrayList<ATermAppl> terms;
 
-	private Map<ATermAppl, List<ATermAppl>>	disjoints;
+	private Map<ATermAppl, List<ATermAppl>> disjoints;
 
-	private boolean							forceUppercase;
+	private boolean forceUppercase;
 
-	private static final int				QUOTE		= '|';
+	private static final int QUOTE = '|';
 
-	public KRSSLoader() {
-		this( new KnowledgeBase() );
+	public KRSSLoader()
+	{
+		this(new KnowledgeBase());
 	}
-	
-	public KRSSLoader(KnowledgeBase kb) {
+
+	public KRSSLoader(final KnowledgeBase kb)
+	{
 		this.kb = kb;
 
 		forceUppercase = false;
 	}
 
-	public void clear() {
+	@Override
+	public void clear()
+	{
 		kb.clear();
 	}
 
-	public boolean isForceUppercase() {
+	public boolean isForceUppercase()
+	{
 		return forceUppercase;
 	}
 
-	public void setForceUppercase(boolean forceUppercase) {
+	public void setForceUppercase(final boolean forceUppercase)
+	{
 		this.forceUppercase = forceUppercase;
 	}
 
-	private void initTokenizer(Reader reader) {
-		in = new StreamTokenizer( reader );
-		in.lowerCaseMode( false );
-		in.commentChar( ';' );
-		in.wordChars( '/', '/' );
-		in.wordChars( '_', '_' );
-		in.wordChars( '*', '*' );
-		in.wordChars( '?', '?' );
-		in.wordChars( '%', '%' );
-		in.wordChars( '>', '>' );
-		in.wordChars( '<', '<' );
-		in.wordChars( '=', '=' );
-		in.quoteChar( QUOTE );
+	private void initTokenizer(final Reader reader)
+	{
+		in = new StreamTokenizer(reader);
+		in.lowerCaseMode(false);
+		in.commentChar(';');
+		in.wordChars('/', '/');
+		in.wordChars('_', '_');
+		in.wordChars('*', '*');
+		in.wordChars('?', '?');
+		in.wordChars('%', '%');
+		in.wordChars('>', '>');
+		in.wordChars('<', '<');
+		in.wordChars('=', '=');
+		in.quoteChar(QUOTE);
 	}
 
-	private void skipNext() throws IOException {
+	private void skipNext() throws IOException
+	{
 		in.nextToken();
 	}
 
-	private void skipNext(int token) throws IOException {
-		ATermUtils.assertTrue( token == in.nextToken() );
+	private void skipNext(final int token) throws IOException
+	{
+		ATermUtils.assertTrue(token == in.nextToken());
 	}
 
-	private void skipNext(String token) throws IOException {
+	private void skipNext(final String token) throws IOException
+	{
 		in.nextToken();
-		ATermUtils.assertTrue( token.equals( in.sval ) );
+		ATermUtils.assertTrue(token.equals(in.sval));
 	}
 
-	private boolean peekNext(int token) throws IOException {
-		int next = in.nextToken();
+	private boolean peekNext(final int token) throws IOException
+	{
+		final int next = in.nextToken();
 		in.pushBack();
 		return (token == next);
 	}
 
-	private String nextString() throws IOException {
+	private String nextString() throws IOException
+	{
 		in.nextToken();
 
-		switch ( in.ttype ) {
-		case StreamTokenizer.TT_WORD:
-		case QUOTE:
-			return in.sval;
-		case StreamTokenizer.TT_NUMBER:
-			return String.valueOf( in.nval );
-		default:
-			throw new RuntimeException( "Expecting string found " + (char) in.ttype );
+		switch (in.ttype)
+		{
+			case StreamTokenizer.TT_WORD:
+			case QUOTE:
+				return in.sval;
+			case StreamTokenizer.TT_NUMBER:
+				return String.valueOf(in.nval);
+			default:
+				throw new RuntimeException("Expecting string found " + (char) in.ttype);
 		}
 	}
 
-	private int nextInt() throws IOException {
+	private int nextInt() throws IOException
+	{
 		in.nextToken();
 
 		return (int) in.nval;
 	}
 
-	private String nextNumber() throws IOException {
+	private String nextNumber() throws IOException
+	{
 		in.nextToken();
 
-		String strVal = String.valueOf( (long) in.nval );
+		final String strVal = String.valueOf((long) in.nval);
 		return strVal;
 	}
 
-	private ATermAppl nextTerm() throws IOException {
+	private ATermAppl nextTerm() throws IOException
+	{
 		String token = nextString();
-		if( forceUppercase )
+		if (forceUppercase)
 			token = token.toUpperCase();
-		return ATermUtils.makeTermAppl( token );
+		return ATermUtils.makeTermAppl(token);
 	}
 
-	private ATermAppl[] parseExprList() throws IOException {
+	private ATermAppl[] parseExprList() throws IOException
+	{
 		int count = 0;
-		while( peekNext( '(' ) ) {
+		while (peekNext('('))
+		{
 			skipNext();
 			count++;
 		}
 
-		List<ATermAppl> terms = new ArrayList<ATermAppl>();
-		while( true ) {
-			if( peekNext( ')' ) ) {
-				if( count == 0 )
+		final List<ATermAppl> terms = new ArrayList<>();
+		while (true)
+			if (peekNext(')'))
+			{
+				if (count == 0)
 					break;
 				skipNext();
 				count--;
-				if( count == 0 )
+				if (count == 0)
 					break;
 			}
-			else if( peekNext( '(' ) ) {
-				skipNext();
-				count++;
-			}
 			else
-				terms.add( parseExpr() );
-		}
+				if (peekNext('('))
+				{
+					skipNext();
+					count++;
+				}
+				else
+					terms.add(parseExpr());
 
-		return terms.toArray( new ATermAppl[terms.size()] );
+		return terms.toArray(new ATermAppl[terms.size()]);
 	}
 
-	private ATermAppl parseExpr() throws IOException {
+	private ATermAppl parseExpr() throws IOException
+	{
 		ATermAppl a = null;
 
 		int token = in.nextToken();
 		String s = in.sval;
-		if( token == StreamTokenizer.TT_WORD || token == QUOTE ) {
-			if( s.equalsIgnoreCase( "TOP" ) || s.equalsIgnoreCase( "*TOP*" )
-					|| s.equalsIgnoreCase( ":TOP" ) )
+		if (token == StreamTokenizer.TT_WORD || token == QUOTE)
+		{
+			if (s.equalsIgnoreCase("TOP") || s.equalsIgnoreCase("*TOP*") || s.equalsIgnoreCase(":TOP"))
 				a = ATermUtils.TOP;
-			else if( s.equalsIgnoreCase( "BOTTOM" ) || s.equalsIgnoreCase( "*BOTTOM*" ) )
-				a = ATermUtils.BOTTOM;
-			else {
-				if( forceUppercase )
-					s = s.toUpperCase();
-				a = ATermUtils.makeTermAppl( s );
-			}
-		}
-		else if( token == StreamTokenizer.TT_NUMBER ) {
-			a = ATermUtils.makeTermAppl( String.valueOf( in.nval ) );
-		}
-		else if( token == ':' ) {
-			s = nextString();
-			if( s.equalsIgnoreCase( "TOP" ) )
-				a = ATermUtils.TOP;
-			else if( s.equalsIgnoreCase( "BOTTOM" ) )
-				a = ATermUtils.BOTTOM;
 			else
-				throw new RuntimeException( "Parse exception after ':' " + s );
-		}
-		else if( token == '(' ) {
-			token = in.nextToken();
-			ATermUtils.assertTrue( token == StreamTokenizer.TT_WORD );
-
-			s = in.sval;
-			if( s.equalsIgnoreCase( "NOT" ) ) {
-				ATermAppl c = parseExpr();
-				a = ATermUtils.makeNot( c );
-
-				if( ATermUtils.isPrimitive( c ) )
-					kb.addClass( c );
-			}
-			else if( s.equalsIgnoreCase( "AND" ) ) {
-				ATermList list = ATermUtils.EMPTY_LIST;
-
-				while( !peekNext( ')' ) ) {
-					ATermAppl c = parseExpr();
-
-					if( ATermUtils.isPrimitive( c ) )
-						kb.addClass( c );
-					list = list.insert( c );
+				if (s.equalsIgnoreCase("BOTTOM") || s.equalsIgnoreCase("*BOTTOM*"))
+					a = ATermUtils.BOTTOM;
+				else
+				{
+					if (forceUppercase)
+						s = s.toUpperCase();
+					a = ATermUtils.makeTermAppl(s);
 				}
-				a = ATermUtils.makeAnd( list );
-			}
-			else if( s.equalsIgnoreCase( "OR" ) ) {
-				ATermList list = ATermUtils.EMPTY_LIST;
-
-				while( !peekNext( ')' ) ) {
-					ATermAppl c = parseExpr();
-
-					if( ATermUtils.isPrimitive( c ) )
-						kb.addClass( c );
-					list = list.insert( c );
-				}
-				a = ATermUtils.makeOr( list );
-			}
-			else if( s.equalsIgnoreCase( "ONE-OF" ) ) {
-				ATermList list = ATermUtils.EMPTY_LIST;
-
-				while( !peekNext( ')' ) ) {
-					ATermAppl c = parseExpr();
-
-					kb.addIndividual( c );
-					list = list.insert( ATermUtils.makeValue( c ) );
-				}
-				a = ATermUtils.makeOr( list );
-			}
-			else if( s.equalsIgnoreCase( "ALL" ) ) {
-				ATermAppl r = parseExpr();
-				kb.addObjectProperty( r );
-				ATermAppl c = parseExpr();
-				if( ATermUtils.isPrimitive( c ) )
-					kb.addClass( c );
-
-				a = ATermUtils.makeAllValues( r, c );
-			}
-			else if( s.equalsIgnoreCase( "SOME" ) ) {
-				ATermAppl r = parseExpr();
-				kb.addObjectProperty( r );
-				ATermAppl c = parseExpr();
-				if( ATermUtils.isPrimitive( c ) )
-					kb.addClass( c );
-				a = ATermUtils.makeSomeValues( r, c );
-			}
-			else if( s.equalsIgnoreCase( "AT-LEAST" ) || s.equalsIgnoreCase( "ATLEAST" ) ) {
-				int n = nextInt();
-				ATermAppl r = parseExpr();
-				kb.addObjectProperty( r );
-
-				ATermAppl c = ATermUtils.TOP;
-				if( !peekNext( ')' ) )
-					c = parseExpr();
-
-				a = ATermUtils.makeMin( r, n, c );
-			}
-			else if( s.equalsIgnoreCase( "AT-MOST" ) || s.equalsIgnoreCase( "ATMOST" ) ) {
-				int n = nextInt();
-				ATermAppl r = parseExpr();
-				kb.addObjectProperty( r );
-
-				ATermAppl c = ATermUtils.TOP;
-				if( !peekNext( ')' ) )
-					c = parseExpr();
-
-				a = ATermUtils.makeMax( r, n, c );
-			}
-			else if( s.equalsIgnoreCase( "EXACTLY" ) ) {
-				int n = nextInt();
-				ATermAppl r = parseExpr();
-				kb.addObjectProperty( r );
-
-				ATermAppl c = ATermUtils.TOP;
-				if( !peekNext( ')' ) )
-					c = parseExpr();
-
-				a = ATermUtils.makeCard( r, n, c );
-			}
-			else if( s.equalsIgnoreCase( "A" ) ) {
-				ATermAppl r = nextTerm();
-				// TODO what does term 'A' stand for
-				kb.addDatatypeProperty( r );
-				kb.addFunctionalProperty( r );
-				a = ATermUtils.makeMin( r, 1, ATermUtils.TOP_LIT );
-			}
-			else if( s.equalsIgnoreCase( "MIN" ) || s.equals( ">=" ) ) {
-				ATermAppl r = nextTerm();
-				kb.addDatatypeProperty( r );
-				String val = nextNumber();
-				ATermAppl dr = ATermUtils.makeRestrictedDatatype( XSD_INTEGER,
-						new ATermAppl[] { ATermUtils.makeFacetRestriction( Facet.XSD.MIN_INCLUSIVE
-								.getName(), ATermUtils.makeTypedLiteral( val, XSD_INTEGER ) ) } );
-				a = ATermUtils.makeAllValues( r, dr );
-			}
-			else if( s.equalsIgnoreCase( "MAX" ) || s.equals( "<=" ) ) {
-				ATermAppl r = nextTerm();
-				kb.addDatatypeProperty( r );
-				String val = nextNumber();
-				ATermAppl dr = ATermUtils.makeRestrictedDatatype( XSD_INTEGER,
-						new ATermAppl[] { ATermUtils.makeFacetRestriction( Facet.XSD.MAX_INCLUSIVE
-								.getName(), ATermUtils.makeTypedLiteral( val, XSD_INTEGER ) ) } );
-				a = ATermUtils.makeAllValues( r, dr );
-			}
-			else if( s.equals( "=" ) ) {
-				ATermAppl r = nextTerm();
-				kb.addDatatypeProperty( r );
-				String val = nextNumber();
-				ATermAppl dr = ATermUtils.makeOr( ATermUtils.makeList( ATermUtils
-						.makeValue( ATermUtils.makeTypedLiteral( val, XSD_INTEGER ) ) ) );
-				a = ATermUtils.makeAllValues( r, dr );
-			}
-			else if( s.equalsIgnoreCase( "INV" ) ) {
-				ATermAppl r = parseExpr();
-				kb.addObjectProperty( r );
-				a = kb.getProperty( r ).getInverse().getName();
-			}
-			else {
-				throw new RuntimeException( "Unknown expression " + s );
-			}
-
-			if( in.nextToken() != ')' ) {
-				// if( s.equalsIgnoreCase( "AT-LEAST" ) || s.equalsIgnoreCase(
-				// "AT-MOST" )
-				// || s.equalsIgnoreCase( "ATLEAST" ) || s.equalsIgnoreCase(
-				// "ATMOST" ) ) {
-				// s = nextString();
-				// if( s.equalsIgnoreCase( "TOP" ) || s.equalsIgnoreCase(
-				// "*TOP*" )
-				// || s.equalsIgnoreCase( ":TOP" ) )
-				// skipNext( ')' );
-				// else
-				// throw new UnsupportedFeatureException( "Qualified cardinality
-				// restrictions" );
-				// }
-				// else
-				throw new RuntimeException( "Parse exception at term " + s );
-			}
 		}
-		else if( token == '#' ) {
-			int n = nextInt();
-			if( peekNext( '#' ) ) {
-				skipNext();
-				a = terms.get( n );
-				if( a == null )
-					throw new RuntimeException( "Parse exception: #" + n + "# is not defined" );
-			}
-			else {
-				skipNext( "=" );
-				a = parseExpr();
-
-				while( terms.size() <= n )
-					terms.add( null );
-
-				terms.set( n, a );
-			}
-		}
-		else if( token == StreamTokenizer.TT_EOF )
-			a = null;
 		else
-			throw new RuntimeException( "Invalid token" );
+			if (token == StreamTokenizer.TT_NUMBER)
+				a = ATermUtils.makeTermAppl(String.valueOf(in.nval));
+			else
+				if (token == ':')
+				{
+					s = nextString();
+					if (s.equalsIgnoreCase("TOP"))
+						a = ATermUtils.TOP;
+					else
+						if (s.equalsIgnoreCase("BOTTOM"))
+							a = ATermUtils.BOTTOM;
+						else
+							throw new RuntimeException("Parse exception after ':' " + s);
+				}
+				else
+					if (token == '(')
+					{
+						token = in.nextToken();
+						ATermUtils.assertTrue(token == StreamTokenizer.TT_WORD);
+
+						s = in.sval;
+						if (s.equalsIgnoreCase("NOT"))
+						{
+							final ATermAppl c = parseExpr();
+							a = ATermUtils.makeNot(c);
+
+							if (ATermUtils.isPrimitive(c))
+								kb.addClass(c);
+						}
+						else
+							if (s.equalsIgnoreCase("AND"))
+							{
+								ATermList list = ATermUtils.EMPTY_LIST;
+
+								while (!peekNext(')'))
+								{
+									final ATermAppl c = parseExpr();
+
+									if (ATermUtils.isPrimitive(c))
+										kb.addClass(c);
+									list = list.insert(c);
+								}
+								a = ATermUtils.makeAnd(list);
+							}
+							else
+								if (s.equalsIgnoreCase("OR"))
+								{
+									ATermList list = ATermUtils.EMPTY_LIST;
+
+									while (!peekNext(')'))
+									{
+										final ATermAppl c = parseExpr();
+
+										if (ATermUtils.isPrimitive(c))
+											kb.addClass(c);
+										list = list.insert(c);
+									}
+									a = ATermUtils.makeOr(list);
+								}
+								else
+									if (s.equalsIgnoreCase("ONE-OF"))
+									{
+										ATermList list = ATermUtils.EMPTY_LIST;
+
+										while (!peekNext(')'))
+										{
+											final ATermAppl c = parseExpr();
+
+											kb.addIndividual(c);
+											list = list.insert(ATermUtils.makeValue(c));
+										}
+										a = ATermUtils.makeOr(list);
+									}
+									else
+										if (s.equalsIgnoreCase("ALL"))
+										{
+											final ATermAppl r = parseExpr();
+											kb.addObjectProperty(r);
+											final ATermAppl c = parseExpr();
+											if (ATermUtils.isPrimitive(c))
+												kb.addClass(c);
+
+											a = ATermUtils.makeAllValues(r, c);
+										}
+										else
+											if (s.equalsIgnoreCase("SOME"))
+											{
+												final ATermAppl r = parseExpr();
+												kb.addObjectProperty(r);
+												final ATermAppl c = parseExpr();
+												if (ATermUtils.isPrimitive(c))
+													kb.addClass(c);
+												a = ATermUtils.makeSomeValues(r, c);
+											}
+											else
+												if (s.equalsIgnoreCase("AT-LEAST") || s.equalsIgnoreCase("ATLEAST"))
+												{
+													final int n = nextInt();
+													final ATermAppl r = parseExpr();
+													kb.addObjectProperty(r);
+
+													ATermAppl c = ATermUtils.TOP;
+													if (!peekNext(')'))
+														c = parseExpr();
+
+													a = ATermUtils.makeMin(r, n, c);
+												}
+												else
+													if (s.equalsIgnoreCase("AT-MOST") || s.equalsIgnoreCase("ATMOST"))
+													{
+														final int n = nextInt();
+														final ATermAppl r = parseExpr();
+														kb.addObjectProperty(r);
+
+														ATermAppl c = ATermUtils.TOP;
+														if (!peekNext(')'))
+															c = parseExpr();
+
+														a = ATermUtils.makeMax(r, n, c);
+													}
+													else
+														if (s.equalsIgnoreCase("EXACTLY"))
+														{
+															final int n = nextInt();
+															final ATermAppl r = parseExpr();
+															kb.addObjectProperty(r);
+
+															ATermAppl c = ATermUtils.TOP;
+															if (!peekNext(')'))
+																c = parseExpr();
+
+															a = ATermUtils.makeCard(r, n, c);
+														}
+														else
+															if (s.equalsIgnoreCase("A"))
+															{
+																final ATermAppl r = nextTerm();
+																// TODO what does term 'A' stand for
+																kb.addDatatypeProperty(r);
+																kb.addFunctionalProperty(r);
+																a = ATermUtils.makeMin(r, 1, ATermUtils.TOP_LIT);
+															}
+															else
+																if (s.equalsIgnoreCase("MIN") || s.equals(">="))
+																{
+																	final ATermAppl r = nextTerm();
+																	kb.addDatatypeProperty(r);
+																	final String val = nextNumber();
+																	final ATermAppl dr = ATermUtils.makeRestrictedDatatype(XSD_INTEGER, new ATermAppl[] { ATermUtils.makeFacetRestriction(Facet.XSD.MIN_INCLUSIVE.getName(), ATermUtils.makeTypedLiteral(val, XSD_INTEGER)) });
+																	a = ATermUtils.makeAllValues(r, dr);
+																}
+																else
+																	if (s.equalsIgnoreCase("MAX") || s.equals("<="))
+																	{
+																		final ATermAppl r = nextTerm();
+																		kb.addDatatypeProperty(r);
+																		final String val = nextNumber();
+																		final ATermAppl dr = ATermUtils.makeRestrictedDatatype(XSD_INTEGER, new ATermAppl[] { ATermUtils.makeFacetRestriction(Facet.XSD.MAX_INCLUSIVE.getName(), ATermUtils.makeTypedLiteral(val, XSD_INTEGER)) });
+																		a = ATermUtils.makeAllValues(r, dr);
+																	}
+																	else
+																		if (s.equals("="))
+																		{
+																			final ATermAppl r = nextTerm();
+																			kb.addDatatypeProperty(r);
+																			final String val = nextNumber();
+																			final ATermAppl dr = ATermUtils.makeOr(ATermUtils.makeList(ATermUtils.makeValue(ATermUtils.makeTypedLiteral(val, XSD_INTEGER))));
+																			a = ATermUtils.makeAllValues(r, dr);
+																		}
+																		else
+																			if (s.equalsIgnoreCase("INV"))
+																			{
+																				final ATermAppl r = parseExpr();
+																				kb.addObjectProperty(r);
+																				a = kb.getProperty(r).getInverse().getName();
+																			}
+																			else
+																				throw new RuntimeException("Unknown expression " + s);
+
+						if (in.nextToken() != ')')
+							// if( s.equalsIgnoreCase( "AT-LEAST" ) || s.equalsIgnoreCase(
+							// "AT-MOST" )
+							// || s.equalsIgnoreCase( "ATLEAST" ) || s.equalsIgnoreCase(
+							// "ATMOST" ) ) {
+							// s = nextString();
+							// if( s.equalsIgnoreCase( "TOP" ) || s.equalsIgnoreCase(
+							// "*TOP*" )
+							// || s.equalsIgnoreCase( ":TOP" ) )
+							// skipNext( ')' );
+							// else
+							// throw new UnsupportedFeatureException( "Qualified cardinality
+							// restrictions" );
+							// }
+							// else
+							throw new RuntimeException("Parse exception at term " + s);
+					}
+					else
+						if (token == '#')
+						{
+							final int n = nextInt();
+							if (peekNext('#'))
+							{
+								skipNext();
+								a = terms.get(n);
+								if (a == null)
+									throw new RuntimeException("Parse exception: #" + n + "# is not defined");
+							}
+							else
+							{
+								skipNext("=");
+								a = parseExpr();
+
+								while (terms.size() <= n)
+									terms.add(null);
+
+								terms.set(n, a);
+							}
+						}
+						else
+							if (token == StreamTokenizer.TT_EOF)
+								a = null;
+							else
+								throw new RuntimeException("Invalid token");
 
 		return a;
 	}
 
-	public void parseFile(String fileURI) {
-		try {
-			InputStream stream = URI.create( fileURI ).toURL().openStream();
-			parse( new InputStreamReader( stream ) );
-		} catch( Exception e ) {
-			throw new RuntimeException( e );		
+	@Override
+	public void parseFile(final String fileURI)
+	{
+		try
+		{
+			final InputStream stream = URI.create(fileURI).toURL().openStream();
+			parse(new InputStreamReader(stream));
+		}
+		catch (final Exception e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
-	
-	public void parse(Reader reader) throws IOException {
-		initTokenizer( reader );
 
-		terms = new ArrayList<ATermAppl>();
-		disjoints = new HashMap<ATermAppl, List<ATermAppl>>();
+	public void parse(final Reader reader) throws IOException
+	{
+		initTokenizer(reader);
+
+		terms = new ArrayList<>();
+		disjoints = new HashMap<>();
 
 		int token = in.nextToken();
-		while( token != StreamTokenizer.TT_EOF ) {
-			if( token == '#' ) {
-				in.ordinaryChar( QUOTE );
+		while (token != StreamTokenizer.TT_EOF)
+		{
+			if (token == '#')
+			{
+				in.ordinaryChar(QUOTE);
 				token = in.nextToken();
-				while( token != '#' )
+				while (token != '#')
 					token = in.nextToken();
-				in.quoteChar( QUOTE );
+				in.quoteChar(QUOTE);
 				token = in.nextToken();
-				if( token == StreamTokenizer.TT_EOF )
+				if (token == StreamTokenizer.TT_EOF)
 					break;
 			}
-			if( token != '(' )
-				throw new RuntimeException( "Parsing error: Expecting '(' but found " + in );
+			if (token != '(')
+				throw new RuntimeException("Parsing error: Expecting '(' but found " + in);
 
-			String str = nextString();
-			if( str.equalsIgnoreCase( "DEFINE-ROLE" )
-					|| str.equalsIgnoreCase( "DEFINE-PRIMITIVE-ROLE" )
-					|| str.equalsIgnoreCase( "DEFPRIMROLE" )
-					|| str.equalsIgnoreCase( "DEFINE-ATTRIBUTE" )
-					|| str.equalsIgnoreCase( "DEFINE-PRIMITIVE-ATTRIBUTE" )
-					|| str.equalsIgnoreCase( "DEFPRIMATTRIBUTE" )
-					|| str.equalsIgnoreCase( "DEFINE-DATATYPE-PROPERTY" ) ) {
-				ATermAppl r = nextTerm();
+			final String str = nextString();
+			if (str.equalsIgnoreCase("DEFINE-ROLE") || str.equalsIgnoreCase("DEFINE-PRIMITIVE-ROLE") || str.equalsIgnoreCase("DEFPRIMROLE") || str.equalsIgnoreCase("DEFINE-ATTRIBUTE") || str.equalsIgnoreCase("DEFINE-PRIMITIVE-ATTRIBUTE") || str.equalsIgnoreCase("DEFPRIMATTRIBUTE") || str.equalsIgnoreCase("DEFINE-DATATYPE-PROPERTY"))
+			{
+				final ATermAppl r = nextTerm();
 
-				boolean dataProp = str.equalsIgnoreCase( "DEFINE-DATATYPE-PROPERTY" );
-				boolean functional = str.equalsIgnoreCase( "DEFINE-PRIMITIVE-ATTRIBUTE" )
-						|| str.equalsIgnoreCase( "DEFPRIMATTRIBUTE" );
-				boolean primDef = str.indexOf( "PRIm" ) != -1;
+				final boolean dataProp = str.equalsIgnoreCase("DEFINE-DATATYPE-PROPERTY");
+				final boolean functional = str.equalsIgnoreCase("DEFINE-PRIMITIVE-ATTRIBUTE") || str.equalsIgnoreCase("DEFPRIMATTRIBUTE");
+				final boolean primDef = str.indexOf("PRIm") != -1;
 
-				if( dataProp ) {
-					kb.addDatatypeProperty( r );
-					if( log.isLoggable( Level.FINE ) )
-						log.fine( "DEFINE-DATATYPE-ROLE " + r );
+				if (dataProp)
+				{
+					kb.addDatatypeProperty(r);
+					if (log.isLoggable(Level.FINE))
+						log.fine("DEFINE-DATATYPE-ROLE " + r);
 				}
-				else {
-					kb.addObjectProperty( r );
-					if( functional ) {
-						kb.addFunctionalProperty( r );
-						if( log.isLoggable( Level.FINE ) )
-							log.fine( "DEFINE-PRIMITIVE-ATTRIBUTE " + r );
+				else
+				{
+					kb.addObjectProperty(r);
+					if (functional)
+					{
+						kb.addFunctionalProperty(r);
+						if (log.isLoggable(Level.FINE))
+							log.fine("DEFINE-PRIMITIVE-ATTRIBUTE " + r);
 					}
-					else if( log.isLoggable( Level.FINE ) )
-						log.fine( "DEFINE-PRIMITIVE-ROLE " + r );
+					else
+						if (log.isLoggable(Level.FINE))
+							log.fine("DEFINE-PRIMITIVE-ROLE " + r);
 				}
 
-				while( !peekNext( ')' ) ) {
-					if( peekNext( ':' ) ) {
-						skipNext( ':' );
-						String cmd = nextString();
-						if( cmd.equalsIgnoreCase( "parents" ) ) {
-							boolean paren = peekNext( '(' );
-							if( paren ) {
-								skipNext( '(' );
-								while( !peekNext( ')' ) ) {
-									ATermAppl s = nextTerm();
-									if( !s.getName().equals( "NIL" ) ) {
-										kb.addObjectProperty( s );
-										kb.addSubProperty( r, s );
-										if( log.isLoggable( Level.FINE ) )
-											log.fine( "PARENT-ROLE " + r + " " + s );
+				while (!peekNext(')'))
+					if (peekNext(':'))
+					{
+						skipNext(':');
+						final String cmd = nextString();
+						if (cmd.equalsIgnoreCase("parents"))
+						{
+							final boolean paren = peekNext('(');
+							if (paren)
+							{
+								skipNext('(');
+								while (!peekNext(')'))
+								{
+									final ATermAppl s = nextTerm();
+									if (!s.getName().equals("NIL"))
+									{
+										kb.addObjectProperty(s);
+										kb.addSubProperty(r, s);
+										if (log.isLoggable(Level.FINE))
+											log.fine("PARENT-ROLE " + r + " " + s);
 									}
 								}
-								skipNext( ')' );
+								skipNext(')');
 							}
-							else {
-								ATermAppl s = nextTerm();
-								if( !s.toString().equalsIgnoreCase( "NIL" ) ) {
-									kb.addObjectProperty( s );
-									kb.addSubProperty( r, s );
-									if( log.isLoggable( Level.FINE ) )
-										log.fine( "PARENT-ROLE " + r + " " + s );
+							else
+							{
+								final ATermAppl s = nextTerm();
+								if (!s.toString().equalsIgnoreCase("NIL"))
+								{
+									kb.addObjectProperty(s);
+									kb.addSubProperty(r, s);
+									if (log.isLoggable(Level.FINE))
+										log.fine("PARENT-ROLE " + r + " " + s);
 								}
 							}
 						}
-						else if( cmd.equalsIgnoreCase( "feature" ) ) {
-							ATermUtils.assertTrue( nextString().equalsIgnoreCase( "T" ) );
-							kb.addFunctionalProperty( r );
-							if( log.isLoggable( Level.FINE ) )
-								log.fine( "FUNCTIONAL-ROLE " + r );
-						}
-						else if( cmd.equalsIgnoreCase( "transitive" ) ) {
-							ATermUtils.assertTrue( nextString().equalsIgnoreCase( "T" ) );
-							kb.addTransitiveProperty( r );
-							if( log.isLoggable( Level.FINE ) )
-								log.fine( "TRANSITIVE-ROLE " + r );
-						}
-						else if( cmd.equalsIgnoreCase( "range" ) ) {
-							ATermAppl range = parseExpr();
-							kb.addClass( range );
-							kb.addRange( r, range );
-							if( log.isLoggable( Level.FINE ) )
-								log.fine( "RANGE " + r + " " + range );
-						}
-						else if( cmd.equalsIgnoreCase( "domain" ) ) {
-							ATermAppl domain = parseExpr();
-							kb.addClass( domain );
-							kb.addDomain( r, domain );
-							if( log.isLoggable( Level.FINE ) )
-								log.fine( "DOMAIN " + r + " " + domain );
-						}
-						else if( cmd.equalsIgnoreCase( "inverse" ) ) {
-							ATermAppl inv = nextTerm();
-							kb.addInverseProperty( r, inv );
-							if( log.isLoggable( Level.FINE ) )
-								log.fine( "INVERSE " + r + " " + inv );
+						else
+							if (cmd.equalsIgnoreCase("feature"))
+							{
+								ATermUtils.assertTrue(nextString().equalsIgnoreCase("T"));
+								kb.addFunctionalProperty(r);
+								if (log.isLoggable(Level.FINE))
+									log.fine("FUNCTIONAL-ROLE " + r);
+							}
+							else
+								if (cmd.equalsIgnoreCase("transitive"))
+								{
+									ATermUtils.assertTrue(nextString().equalsIgnoreCase("T"));
+									kb.addTransitiveProperty(r);
+									if (log.isLoggable(Level.FINE))
+										log.fine("TRANSITIVE-ROLE " + r);
+								}
+								else
+									if (cmd.equalsIgnoreCase("range"))
+									{
+										final ATermAppl range = parseExpr();
+										kb.addClass(range);
+										kb.addRange(r, range);
+										if (log.isLoggable(Level.FINE))
+											log.fine("RANGE " + r + " " + range);
+									}
+									else
+										if (cmd.equalsIgnoreCase("domain"))
+										{
+											final ATermAppl domain = parseExpr();
+											kb.addClass(domain);
+											kb.addDomain(r, domain);
+											if (log.isLoggable(Level.FINE))
+												log.fine("DOMAIN " + r + " " + domain);
+										}
+										else
+											if (cmd.equalsIgnoreCase("inverse"))
+											{
+												final ATermAppl inv = nextTerm();
+												kb.addInverseProperty(r, inv);
+												if (log.isLoggable(Level.FINE))
+													log.fine("INVERSE " + r + " " + inv);
+											}
+											else
+												throw new RuntimeException("Parsing error: Unrecognized keyword in role definition " + cmd);
+					}
+					else
+						if (peekNext('('))
+						{
+							skipNext('(');
+							final String cmd = nextString();
+							if (cmd.equalsIgnoreCase("domain-range"))
+							{
+								final ATermAppl domain = nextTerm();
+								final ATermAppl range = nextTerm();
+
+								kb.addDomain(r, domain);
+								kb.addRange(r, range);
+								if (log.isLoggable(Level.FINE))
+									log.fine("DOMAIN-RANGE " + r + " " + domain + " " + range);
+							}
+							else
+								throw new RuntimeException("Parsing error: Unrecognized keyword in role definition");
+							skipNext(')');
 						}
 						else
-							throw new RuntimeException( "Parsing error: Unrecognized keyword in role definition " + cmd );
-					}
-					else if( peekNext( '(' ) ) {
-						skipNext( '(' );
-						String cmd = nextString();
-						if( cmd.equalsIgnoreCase( "domain-range" ) ) {
-							ATermAppl domain = nextTerm();
-							ATermAppl range = nextTerm();
+						{
+							final ATermAppl s = parseExpr();
 
-							kb.addDomain( r, domain );
-							kb.addRange( r, range );
-							if( log.isLoggable( Level.FINE ) )
-								log.fine( "DOMAIN-RANGE " + r + " " + domain + " " + range );
+							if (dataProp)
+								kb.addDatatypeProperty(s);
+							else
+								kb.addObjectProperty(r);
+
+							if (primDef)
+								kb.addSubProperty(r, s);
+							else
+								kb.addEquivalentProperty(r, s);
+
+							log.fine("PARENT-ROLE " + r + " " + s);
 						}
-						else
-							throw new RuntimeException( "Parsing error: Unrecognized keyword in role definition" );
-						skipNext( ')' );
-					}
-					else {
-						ATermAppl s = parseExpr();
-
-						if( dataProp )
-							kb.addDatatypeProperty( s );
-						else
-							kb.addObjectProperty( r );
-
-						if( primDef )
-							kb.addSubProperty( r, s );
-						else
-							kb.addEquivalentProperty( r, s );
-
-						log.fine( "PARENT-ROLE " + r + " " + s );
-					}
-
-				}
-			}
-			else if( str.equalsIgnoreCase( "DEFINE-PRIMITIVE-CONCEPT" )
-					|| str.equalsIgnoreCase( "DEFPRIMCONCEPT" ) ) {
-				ATermAppl c = nextTerm();
-				kb.addClass( c );
-
-				ATermAppl expr = null;
-				if( !peekNext( ')' ) ) {
-					expr = parseExpr();
-
-					if( !expr.getName().equals( "NIL" ) ) {
-						kb.addClass( expr );
-						kb.addSubClass( c, expr );
-					}
-				}
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "DEFINE-PRIMITIVE-CONCEPT " + c + " " + (expr == null
-						? ""
-						: expr.toString()) );
-			}
-			else if( str.equalsIgnoreCase( "DEFINE-DISJOINT-PRIMITIVE-CONCEPT" ) ) {
-				ATermAppl c = nextTerm();
-				kb.addClass( c );
-
-				skipNext( '(' );
-				while( !peekNext( ')' ) ) {
-					ATermAppl expr = parseExpr();
-
-					List<ATermAppl> prevDefinitions = disjoints.get( expr );
-					if( prevDefinitions == null )
-						prevDefinitions = new ArrayList<ATermAppl>();
-					for( Iterator<ATermAppl> i = prevDefinitions.iterator(); i.hasNext(); ) {
-						ATermAppl d = i.next();
-						kb.addDisjointClass( c, d );
-						if( log.isLoggable( Level.FINE ) )
-							log.fine( "DEFINE-PRIMITIVE-DISJOINT " + c + " " + d );
-					}
-					prevDefinitions.add( c );
-				}
-				skipNext( ')' );
-
-				ATermAppl expr = parseExpr();
-				kb.addSubClass( c, expr );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "DEFINE-PRIMITIVE-CONCEPT " + c + " " + expr );
-			}
-			else if( str.equalsIgnoreCase( "DEFINE-CONCEPT" )
-					|| str.equalsIgnoreCase( "DEFCONCEPT" ) || str.equalsIgnoreCase( "EQUAL_C" ) ) {
-				ATermAppl c = nextTerm();
-				kb.addClass( c );
-
-				ATermAppl expr = parseExpr();
-				kb.addEquivalentClass( c, expr );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "DEFINE-CONCEPT " + c + " " + expr );
-			}
-			else if( str.equalsIgnoreCase( "IMPLIES" ) || str.equalsIgnoreCase( "IMPLIES_C" ) ) {
-				ATermAppl c1 = parseExpr();
-				ATermAppl c2 = parseExpr();
-				kb.addClass( c1 );
-				kb.addClass( c2 );
-				kb.addSubClass( c1, c2 );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "IMPLIES " + c1 + " " + c2 );
-			}
-			else if( str.equalsIgnoreCase( "IMPLIES_R" ) ) {
-				ATermAppl p1 = parseExpr();
-				ATermAppl p2 = parseExpr();
-				kb.addProperty( p1 );
-				kb.addProperty( p2 );
-				kb.addSubProperty( p1, p2 );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "IMPLIES_R " + p1 + " " + p2 );
-			}
-			else if( str.equalsIgnoreCase( "EQUAL_R" ) ) {
-				ATermAppl p1 = parseExpr();
-				ATermAppl p2 = parseExpr();
-				kb.addObjectProperty( p1 );
-				kb.addObjectProperty( p2 );
-				kb.addEquivalentProperty( p1, p2 );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "EQUAL_R " + p1 + " " + p2 );
-			}
-			else if( str.equalsIgnoreCase( "DOMAIN" ) ) {
-				ATermAppl p = parseExpr();
-				ATermAppl c = parseExpr();
-				kb.addProperty( p );
-				kb.addClass( c );
-				kb.addDomain( p, c );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "DOMAIN " + p + " " + c );
-			}
-			else if( str.equalsIgnoreCase( "RANGE" ) ) {
-				ATermAppl p = parseExpr();
-				ATermAppl c = parseExpr();
-				kb.addProperty( p );
-				kb.addClass( c );
-				kb.addRange( p, c );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "RANGE " + p + " " + c );
-			}
-			else if( str.equalsIgnoreCase( "FUNCTIONAL" ) ) {
-				ATermAppl p = parseExpr();
-				kb.addProperty( p );
-				kb.addFunctionalProperty( p );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "FUNCTIONAL " + p );
-			}
-			else if( str.equalsIgnoreCase( "TRANSITIVE" ) ) {
-				ATermAppl p = parseExpr();
-				kb.addObjectProperty( p );
-				kb.addTransitiveProperty( p );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "TRANSITIVE " + p );
-			}
-			else if( str.equalsIgnoreCase( "DISJOINT" ) ) {
-				ATermAppl[] list = parseExprList();
-				for( int i = 0; i < list.length - 1; i++ ) {
-					ATermAppl c1 = list[i];
-					for( int j = i + 1; j < list.length; j++ ) {
-						ATermAppl c2 = list[j];
-						kb.addClass( c2 );
-						kb.addDisjointClass( c1, c2 );
-						if( log.isLoggable( Level.FINE ) )
-							log.fine( "DISJOINT " + c1 + " " + c2 );
-					}
-				}
-			}
-			else if( str.equalsIgnoreCase( "DEFINDIVIDUAL" ) ) {
-				ATermAppl x = nextTerm();
-
-				kb.addIndividual( x );
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "DEFINDIVIDUAL " + x );
-			}
-			else if( str.equalsIgnoreCase( "INSTANCE" ) ) {
-				ATermAppl x = nextTerm();
-				ATermAppl c = parseExpr();
-
-				kb.addIndividual( x );
-				kb.addType( x, c );
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "INSTANCE " + x + " " + c );
-			}
-			else if( str.equalsIgnoreCase( "RELATED" ) ) {
-				ATermAppl x = nextTerm();
-				ATermAppl y = nextTerm();
-				ATermAppl r = nextTerm();
-
-				kb.addIndividual( x );
-				kb.addIndividual( y );
-				kb.addPropertyValue( r, x, y );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "RELATED " + x + " - " + r + " -> " + y );
-			}
-			else if( str.equalsIgnoreCase( "DIFFERENT" ) ) {
-				ATermAppl x = nextTerm();
-				ATermAppl y = nextTerm();
-
-				kb.addIndividual( x );
-				kb.addIndividual( y );
-				kb.addDifferent( x, y );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "DIFFERENT " + x + " " + y );
-			}
-			else if( str.equalsIgnoreCase( "DATATYPE-ROLE-FILLER" ) ) {
-				ATermAppl x = nextTerm();
-				ATermAppl y = ATermUtils.makePlainLiteral( nextString() );
-				ATermAppl r = nextTerm();
-
-				kb.addIndividual( x );
-				kb.addIndividual( y );
-				kb.addPropertyValue( r, x, y );
-
-				if( log.isLoggable( Level.FINE ) )
-					log.fine( "DATATYPE-ROLE-FILLER " + x + " - " + r + " -> " + y );
 			}
 			else
-				throw new RuntimeException( "Parsing error: Unknown command " + str );
-			skipNext( ')' );
+				if (str.equalsIgnoreCase("DEFINE-PRIMITIVE-CONCEPT") || str.equalsIgnoreCase("DEFPRIMCONCEPT"))
+				{
+					final ATermAppl c = nextTerm();
+					kb.addClass(c);
+
+					ATermAppl expr = null;
+					if (!peekNext(')'))
+					{
+						expr = parseExpr();
+
+						if (!expr.getName().equals("NIL"))
+						{
+							kb.addClass(expr);
+							kb.addSubClass(c, expr);
+						}
+					}
+
+					if (log.isLoggable(Level.FINE))
+						log.fine("DEFINE-PRIMITIVE-CONCEPT " + c + " " + (expr == null ? "" : expr.toString()));
+				}
+				else
+					if (str.equalsIgnoreCase("DEFINE-DISJOINT-PRIMITIVE-CONCEPT"))
+					{
+						final ATermAppl c = nextTerm();
+						kb.addClass(c);
+
+						skipNext('(');
+						while (!peekNext(')'))
+						{
+							final ATermAppl expr = parseExpr();
+
+							List<ATermAppl> prevDefinitions = disjoints.get(expr);
+							if (prevDefinitions == null)
+								prevDefinitions = new ArrayList<>();
+							for (final ATermAppl d : prevDefinitions)
+							{
+								kb.addDisjointClass(c, d);
+								if (log.isLoggable(Level.FINE))
+									log.fine("DEFINE-PRIMITIVE-DISJOINT " + c + " " + d);
+							}
+							prevDefinitions.add(c);
+						}
+						skipNext(')');
+
+						final ATermAppl expr = parseExpr();
+						kb.addSubClass(c, expr);
+
+						if (log.isLoggable(Level.FINE))
+							log.fine("DEFINE-PRIMITIVE-CONCEPT " + c + " " + expr);
+					}
+					else
+						if (str.equalsIgnoreCase("DEFINE-CONCEPT") || str.equalsIgnoreCase("DEFCONCEPT") || str.equalsIgnoreCase("EQUAL_C"))
+						{
+							final ATermAppl c = nextTerm();
+							kb.addClass(c);
+
+							final ATermAppl expr = parseExpr();
+							kb.addEquivalentClass(c, expr);
+
+							if (log.isLoggable(Level.FINE))
+								log.fine("DEFINE-CONCEPT " + c + " " + expr);
+						}
+						else
+							if (str.equalsIgnoreCase("IMPLIES") || str.equalsIgnoreCase("IMPLIES_C"))
+							{
+								final ATermAppl c1 = parseExpr();
+								final ATermAppl c2 = parseExpr();
+								kb.addClass(c1);
+								kb.addClass(c2);
+								kb.addSubClass(c1, c2);
+
+								if (log.isLoggable(Level.FINE))
+									log.fine("IMPLIES " + c1 + " " + c2);
+							}
+							else
+								if (str.equalsIgnoreCase("IMPLIES_R"))
+								{
+									final ATermAppl p1 = parseExpr();
+									final ATermAppl p2 = parseExpr();
+									kb.addProperty(p1);
+									kb.addProperty(p2);
+									kb.addSubProperty(p1, p2);
+
+									if (log.isLoggable(Level.FINE))
+										log.fine("IMPLIES_R " + p1 + " " + p2);
+								}
+								else
+									if (str.equalsIgnoreCase("EQUAL_R"))
+									{
+										final ATermAppl p1 = parseExpr();
+										final ATermAppl p2 = parseExpr();
+										kb.addObjectProperty(p1);
+										kb.addObjectProperty(p2);
+										kb.addEquivalentProperty(p1, p2);
+
+										if (log.isLoggable(Level.FINE))
+											log.fine("EQUAL_R " + p1 + " " + p2);
+									}
+									else
+										if (str.equalsIgnoreCase("DOMAIN"))
+										{
+											final ATermAppl p = parseExpr();
+											final ATermAppl c = parseExpr();
+											kb.addProperty(p);
+											kb.addClass(c);
+											kb.addDomain(p, c);
+
+											if (log.isLoggable(Level.FINE))
+												log.fine("DOMAIN " + p + " " + c);
+										}
+										else
+											if (str.equalsIgnoreCase("RANGE"))
+											{
+												final ATermAppl p = parseExpr();
+												final ATermAppl c = parseExpr();
+												kb.addProperty(p);
+												kb.addClass(c);
+												kb.addRange(p, c);
+
+												if (log.isLoggable(Level.FINE))
+													log.fine("RANGE " + p + " " + c);
+											}
+											else
+												if (str.equalsIgnoreCase("FUNCTIONAL"))
+												{
+													final ATermAppl p = parseExpr();
+													kb.addProperty(p);
+													kb.addFunctionalProperty(p);
+
+													if (log.isLoggable(Level.FINE))
+														log.fine("FUNCTIONAL " + p);
+												}
+												else
+													if (str.equalsIgnoreCase("TRANSITIVE"))
+													{
+														final ATermAppl p = parseExpr();
+														kb.addObjectProperty(p);
+														kb.addTransitiveProperty(p);
+
+														if (log.isLoggable(Level.FINE))
+															log.fine("TRANSITIVE " + p);
+													}
+													else
+														if (str.equalsIgnoreCase("DISJOINT"))
+														{
+															final ATermAppl[] list = parseExprList();
+															for (int i = 0; i < list.length - 1; i++)
+															{
+																final ATermAppl c1 = list[i];
+																for (int j = i + 1; j < list.length; j++)
+																{
+																	final ATermAppl c2 = list[j];
+																	kb.addClass(c2);
+																	kb.addDisjointClass(c1, c2);
+																	if (log.isLoggable(Level.FINE))
+																		log.fine("DISJOINT " + c1 + " " + c2);
+																}
+															}
+														}
+														else
+															if (str.equalsIgnoreCase("DEFINDIVIDUAL"))
+															{
+																final ATermAppl x = nextTerm();
+
+																kb.addIndividual(x);
+																if (log.isLoggable(Level.FINE))
+																	log.fine("DEFINDIVIDUAL " + x);
+															}
+															else
+																if (str.equalsIgnoreCase("INSTANCE"))
+																{
+																	final ATermAppl x = nextTerm();
+																	final ATermAppl c = parseExpr();
+
+																	kb.addIndividual(x);
+																	kb.addType(x, c);
+																	if (log.isLoggable(Level.FINE))
+																		log.fine("INSTANCE " + x + " " + c);
+																}
+																else
+																	if (str.equalsIgnoreCase("RELATED"))
+																	{
+																		final ATermAppl x = nextTerm();
+																		final ATermAppl y = nextTerm();
+																		final ATermAppl r = nextTerm();
+
+																		kb.addIndividual(x);
+																		kb.addIndividual(y);
+																		kb.addPropertyValue(r, x, y);
+
+																		if (log.isLoggable(Level.FINE))
+																			log.fine("RELATED " + x + " - " + r + " -> " + y);
+																	}
+																	else
+																		if (str.equalsIgnoreCase("DIFFERENT"))
+																		{
+																			final ATermAppl x = nextTerm();
+																			final ATermAppl y = nextTerm();
+
+																			kb.addIndividual(x);
+																			kb.addIndividual(y);
+																			kb.addDifferent(x, y);
+
+																			if (log.isLoggable(Level.FINE))
+																				log.fine("DIFFERENT " + x + " " + y);
+																		}
+																		else
+																			if (str.equalsIgnoreCase("DATATYPE-ROLE-FILLER"))
+																			{
+																				final ATermAppl x = nextTerm();
+																				final ATermAppl y = ATermUtils.makePlainLiteral(nextString());
+																				final ATermAppl r = nextTerm();
+
+																				kb.addIndividual(x);
+																				kb.addIndividual(y);
+																				kb.addPropertyValue(r, x, y);
+
+																				if (log.isLoggable(Level.FINE))
+																					log.fine("DATATYPE-ROLE-FILLER " + x + " - " + r + " -> " + y);
+																			}
+																			else
+																				throw new RuntimeException("Parsing error: Unknown command " + str);
+			skipNext(')');
 
 			token = in.nextToken();
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setIgnoreImports(boolean ignoreImports) {
+	public void setIgnoreImports(final boolean ignoreImports)
+	{
 		// Nothing to do.
 	}
 
-	public void verifyTBox(String file, KnowledgeBase kb) throws Exception {
-		initTokenizer( new FileReader( file ) );
+	public void verifyTBox(final String file, final KnowledgeBase kb) throws Exception
+	{
+		initTokenizer(new FileReader(file));
 
 		boolean failed = false;
 		int verifiedCount = 0;
 		int token = in.nextToken();
-		while( token != ')' && token != StreamTokenizer.TT_EOF ) {
-			ATermUtils.assertTrue( token == '(' );
+		while (token != ')' && token != StreamTokenizer.TT_EOF)
+		{
+			ATermUtils.assertTrue(token == '(');
 
 			verifiedCount++;
 
 			ATermAppl c = null;
-			if( peekNext( '(' ) ) {
-				ATermAppl[] list = parseExprList();
+			if (peekNext('('))
+			{
+				final ATermAppl[] list = parseExprList();
 				c = list[0];
-				Set<ATermAppl> eqs = kb.getEquivalentClasses( c );
-				for( int i = 1; i < list.length; i++ ) {
-					ATermAppl t = list[i];
+				final Set<ATermAppl> eqs = kb.getEquivalentClasses(c);
+				for (int i = 1; i < list.length; i++)
+				{
+					final ATermAppl t = list[i];
 
-					if( !eqs.contains( t ) ) {
-						log.severe( t + " is not equivalent to " + c );
+					if (!eqs.contains(t))
+					{
+						log.severe(t + " is not equivalent to " + c);
 						failed = true;
 					}
 				}
@@ -805,19 +921,22 @@ public class KRSSLoader extends KBLoader {
 			else
 				c = parseExpr();
 
-			Set<ATermAppl> supers = SetUtils.union( kb.getSuperClasses( c, true ) );
-			Set<ATermAppl> subs = SetUtils.union( kb.getSubClasses( c, true ) );
+			final Set<ATermAppl> supers = SetUtils.union(kb.getSuperClasses(c, true));
+			final Set<ATermAppl> subs = SetUtils.union(kb.getSubClasses(c, true));
 
-			if( log.isLoggable( Level.FINE ) )
-				log.fine( "Verify (" + verifiedCount + ") " + c + " " + supers + " " + subs );
+			if (log.isLoggable(Level.FINE))
+				log.fine("Verify (" + verifiedCount + ") " + c + " " + supers + " " + subs);
 
-			if( peekNext( '(' ) ) {
-				ATermAppl[] terms = parseExprList();
-				for( int i = 0; i < terms.length; i++ ) {
-					ATerm t = terms[i];
+			if (peekNext('('))
+			{
+				final ATermAppl[] terms = parseExprList();
+				for (final ATermAppl term : terms)
+				{
+					final ATerm t = term;
 
-					if( !supers.contains( t ) ) {
-						log.severe( t + " is not a superclass of " + c + " " );
+					if (!supers.contains(t))
+					{
+						log.severe(t + " is not a superclass of " + c + " ");
 						failed = true;
 					}
 				}
@@ -825,17 +944,21 @@ public class KRSSLoader extends KBLoader {
 			else
 				skipNext();
 
-			if( peekNext( '(' ) ) {
-				ATermAppl[] terms = parseExprList();
-				for( int i = 0; i < terms.length; i++ ) {
-					ATermAppl t = terms[i];
+			if (peekNext('('))
+			{
+				final ATermAppl[] terms = parseExprList();
+				for (final ATermAppl term : terms)
+				{
+					final ATermAppl t = term;
 
-					if( !subs.contains( t ) ) {
-						Set<ATermAppl> temp = new HashSet<ATermAppl>( subs );
-						Set<ATermAppl> sames = kb.getEquivalentClasses( t );
-						temp.retainAll( sames );
-						if( temp.size() == 0 ) {
-							log.severe( t + " is not a subclass of " + c );
+					if (!subs.contains(t))
+					{
+						final Set<ATermAppl> temp = new HashSet<>(subs);
+						final Set<ATermAppl> sames = kb.getEquivalentClasses(t);
+						temp.retainAll(sames);
+						if (temp.size() == 0)
+						{
+							log.severe(t + " is not a subclass of " + c);
 							failed = true;
 						}
 					}
@@ -847,57 +970,59 @@ public class KRSSLoader extends KBLoader {
 			token = in.nextToken();
 		}
 
-		ATermUtils.assertTrue( in.nextToken() == StreamTokenizer.TT_EOF );
+		ATermUtils.assertTrue(in.nextToken() == StreamTokenizer.TT_EOF);
 
-		if( failed )
-			throw new RuntimeException( "Classification results are not correct!" );
+		if (failed)
+			throw new RuntimeException("Classification results are not correct!");
 	}
 
-	public void verifyABox(String file, KnowledgeBase kb) throws Exception {
-		initTokenizer( new FileReader( file ) );
+	public void verifyABox(final String file, final KnowledgeBase kb) throws Exception
+	{
+		initTokenizer(new FileReader(file));
 
-		boolean longFormat = !peekNext( '(' );
+		final boolean longFormat = !peekNext('(');
 
-		while( !peekNext( StreamTokenizer.TT_EOF ) ) {
-			if( longFormat ) {
-				skipNext( "Command" );
-				skipNext( '=' );
+		while (!peekNext(StreamTokenizer.TT_EOF))
+		{
+			if (longFormat)
+			{
+				skipNext("Command");
+				skipNext('=');
 			}
 
-			skipNext( '(' );
-			skipNext( "INDIVIDUAL-INSTANCE?" );
+			skipNext('(');
+			skipNext("INDIVIDUAL-INSTANCE?");
 
-			ATermAppl ind = nextTerm();
-			ATermAppl c = parseExpr();
+			final ATermAppl ind = nextTerm();
+			final ATermAppl c = parseExpr();
 
-			if( log.isLoggable( Level.FINE ) )
-				log.fine( "INDIVIDUAL-INSTANCE? " + ind + " " + c );
+			if (log.isLoggable(Level.FINE))
+				log.fine("INDIVIDUAL-INSTANCE? " + ind + " " + c);
 
-			skipNext( ')' );
+			skipNext(')');
 
 			boolean isType;
-			if( longFormat ) {
-				skipNext( '-' );
-				skipNext( '>' );
-				String result = nextString();
-				if( result.equalsIgnoreCase( "T" ) )
+			if (longFormat)
+			{
+				skipNext('-');
+				skipNext('>');
+				final String result = nextString();
+				if (result.equalsIgnoreCase("T"))
 					isType = true;
-				else if( result.equalsIgnoreCase( "NIL" ) )
-					isType = false;
 				else
-					throw new RuntimeException( "Unknown result " + result );
+					if (result.equalsIgnoreCase("NIL"))
+						isType = false;
+					else
+						throw new RuntimeException("Unknown result " + result);
 			}
 			else
 				isType = true;
 
-			if( log.isLoggable( Level.FINE ) )
-				log.fine( " -> " + isType );
+			if (log.isLoggable(Level.FINE))
+				log.fine(" -> " + isType);
 
-			if( kb.isType( ind, c ) != isType ) {
-				throw new RuntimeException( "Individual " + ind + " is " + (isType
-					? "not"
-					: "") + " an instance of " + c );
-			}
+			if (kb.isType(ind, c) != isType)
+				throw new RuntimeException("Individual " + ind + " is " + (isType ? "not" : "") + " an instance of " + c);
 		}
 	}
 
@@ -905,7 +1030,8 @@ public class KRSSLoader extends KBLoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public KnowledgeBase getKB() {
+	public KnowledgeBase getKB()
+	{
 		return kb;
 	}
 
@@ -913,7 +1039,8 @@ public class KRSSLoader extends KBLoader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void load() {
+	public void load()
+	{
 		// nothing to do here since we load to the KB directly
 	}
 

@@ -9,52 +9,52 @@ package com.clarkparsia.reachability;
 /**
  * @author Evren Sirin
  */
-public class OrNode extends Node {
+public class OrNode extends Node
+{
 
-	private int id;
+	private final int id;
 
 	private boolean active = false;
 
-	public OrNode(int id) {
+	public OrNode(final int id)
+	{
 		this.id = id;
 	}
 
 	@Override
-	public boolean inputActivated() {
-		return active
-		       ? false
-		       : (active = true);
+	public boolean inputActivated()
+	{
+		return active ? false : (active = true);
 	}
 
 	@Override
-	public boolean isActive() {
+	public boolean isActive()
+	{
 		return active;
 	}
 
 	@Override
-	public boolean isRedundant() {
-		if (inputs.size() <= 1) {
+	public boolean isRedundant()
+	{
+		if (inputs.size() <= 1)
 			return true;
-		}
 
-		for (Node output : outputs) {
-			if (output instanceof AndNode) {
+		for (final Node output : outputs)
+			if (output instanceof AndNode)
 				return false;
-			}
-		}
 
 		return true;
 	}
 
 	@Override
-	public void reset() {
+	public void reset()
+	{
 		active = false;
 	}
 
 	@Override
-	public String toString() {
-		return "Or(" + id + ")[" + (active
-		                            ? "1"
-		                            : "0") + "]";
+	public String toString()
+	{
+		return "Or(" + id + ")[" + (active ? "1" : "0") + "]";
 	}
 }

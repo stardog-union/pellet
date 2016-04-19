@@ -11,21 +11,20 @@ import profiler.ProfileKB.Task;
 
 /**
  * Some utilities to deal with release performance results.
- * 
- * @author Pedro Oliveira <pedro@clarkparsia.com>
  *
+ * @author Pedro Oliveira <pedro@clarkparsia.com>
  */
 public class ReleaseUtils
 {
 
 	/**
 	 * Read release performance results from file
-	 * 
+	 *
 	 * @param filename
 	 * @return
 	 * @throws Exception
 	 */
-	public static Release readFromFile(String filename) throws Exception
+	public static Release readFromFile(final String filename) throws Exception
 	{
 		System.out.println("Reading file: " + filename);
 		final Release release;
@@ -41,7 +40,7 @@ public class ReleaseUtils
 				final String[] values = line.split(";");
 
 				final String name = values[0];
-				final List<ReleaseStatistics> statistics = new ArrayList<ReleaseStatistics>();
+				final List<ReleaseStatistics> statistics = new ArrayList<>();
 
 				for (int i = 1, nTasks = 0; i + 5 < values.length && nTasks < tasks.length; nTasks++, i += 6)
 				{
@@ -66,12 +65,12 @@ public class ReleaseUtils
 
 	/**
 	 * Write release performance results to file
-	 * 
+	 *
 	 * @param release
 	 * @param filename
 	 * @throws Exception
 	 */
-	public static void writeToFile(Release release, String filename) throws Exception
+	public static void writeToFile(final Release release, final String filename) throws Exception
 	{
 		try (final BufferedWriter writer = new BufferedWriter(new FileWriter(filename)))
 		{

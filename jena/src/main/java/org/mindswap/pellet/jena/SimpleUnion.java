@@ -7,42 +7,43 @@ import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.jena.util.iterator.NullIterator;
 
 /**
- * A simple union graph implementation whose find function may contain duplicate
- * triples. The contains function is overridden so as not to call the find method.
- * 
+ * A simple union graph implementation whose find function may contain duplicate triples. The contains function is overridden so as not to call the find method.
+ *
  * @author Evren Sirin
  */
-public class SimpleUnion extends Polyadic {
+public class SimpleUnion extends Polyadic
+{
 	/**
 	 * @param graphs
 	 */
-	public SimpleUnion(Iterable<Graph> graphs) {
-		super( graphs.iterator() );
+	public SimpleUnion(final Iterable<Graph> graphs)
+	{
+		super(graphs.iterator());
 	}
 
-//	/**
-//	 * {@inheritDoc}
-//	 */
-//	@Override
-//	protected ExtendedIterator<Triple> graphBaseFind(TripleMatch m) {
-//		ExtendedIterator<Triple> result = NullIterator.instance();
-//		for (final Graph g : m_subGraphs) {
-//			result = result.andThen(g.find(m));
-//		}
-//
-//		return result;
-//	}
+	//	/**
+	//	 * {@inheritDoc}
+	//	 */
+	//	@Override
+	//	protected ExtendedIterator<Triple> graphBaseFind(TripleMatch m) {
+	//		ExtendedIterator<Triple> result = NullIterator.instance();
+	//		for (final Graph g : m_subGraphs) {
+	//			result = result.andThen(g.find(m));
+	//		}
+	//
+	//		return result;
+	//	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected boolean graphBaseContains(Triple t) {
-		for (final Graph g : m_subGraphs) {
-			if( g.contains( t ) )
+	protected boolean graphBaseContains(final Triple t)
+	{
+		for (final Graph g : m_subGraphs)
+			if (g.contains(t))
 				return true;
-		}
-		
+
 		return false;
 	}
 
@@ -50,24 +51,24 @@ public class SimpleUnion extends Polyadic {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isEmpty() {
-		for (final Graph g : m_subGraphs) {
-			if( !g.isEmpty() )
+	public boolean isEmpty()
+	{
+		for (final Graph g : m_subGraphs)
+			if (!g.isEmpty())
 				return false;
-		}
-		
+
 		return true;
 	}
 
 	@Override
-	protected ExtendedIterator<Triple> graphBaseFind(Triple t) {
+	protected ExtendedIterator<Triple> graphBaseFind(final Triple t)
+	{
 		ExtendedIterator<Triple> result = NullIterator.instance();
-		
-		for (final Graph g : m_subGraphs) {
+
+		for (final Graph g : m_subGraphs)
 			result = result.andThen(g.find(t));
-		}
 
 		return result;
 	}
-	
+
 }

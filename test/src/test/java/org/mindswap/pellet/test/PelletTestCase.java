@@ -12,6 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,13 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.mindswap.pellet.KnowledgeBase;
-import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.iterator.IteratorUtils;
-
-import aterm.ATermAppl;
-
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
@@ -37,239 +31,253 @@ import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.util.iterator.Filter;
+import org.mindswap.pellet.KnowledgeBase;
+import org.mindswap.pellet.utils.ATermUtils;
+import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
-public final class PelletTestCase {
-	public static <T> Set<T> set(T... elements) {
-		Set<T> set = new HashSet<T>();
-		for( T element : elements ) {
-			set.add( element );
-		}
+public final class PelletTestCase
+{
+	public static <T> Set<T> set(final T... elements)
+	{
+		final Set<T> set = new HashSet<>();
+		for (final T element : elements)
+			set.add(element);
 		return set;
 	}
 
-	protected static boolean isAnonValue(Object n) {
-		return ((n instanceof Resource) && ((Resource) n).isAnon())
-				|| ((n instanceof Statement) && ((Statement) n).getSubject().isAnon())
-				|| ((n instanceof Statement) && isAnonValue( ((Statement) n).getObject() ));
+	protected static boolean isAnonValue(final Object n)
+	{
+		return ((n instanceof Resource) && ((Resource) n).isAnon()) || ((n instanceof Statement) && ((Statement) n).getSubject().isAnon()) || ((n instanceof Statement) && isAnonValue(((Statement) n).getObject()));
 	}
 
-	public static <T> void assertIteratorContains(Iterator<T> it, T val) {
+	public static <T> void assertIteratorContains(final Iterator<T> it, final T val)
+	{
 		boolean found = false;
-		while( it.hasNext() && !found ) {
-			Object obj = it.next();
-			found = obj.equals( val );
+		while (it.hasNext() && !found)
+		{
+			final Object obj = it.next();
+			found = obj.equals(val);
 		}
 
-		assertTrue( "Failed to find expected iterator value: " + val, found );
+		assertTrue("Failed to find expected iterator value: " + val, found);
 	}
 
 	@SuppressWarnings("unchecked")
-    public static <T> void assertIteratorValues(Iterator<? extends T> it, Iterator<? extends T> expected) {
-		assertIteratorValues( it, (T[]) IteratorUtils.toList(expected).toArray() );
+	public static <T> void assertIteratorValues(final Iterator<? extends T> it, final Iterator<? extends T> expected)
+	{
+		assertIteratorValues(it, (T[]) IteratorUtils.toList(expected).toArray());
 	}
 
-	public static <T> void assertIteratorValues(Iterator<? extends T> it, T... expected) {
-		boolean[] found = new boolean[expected.length];
+	public static <T> void assertIteratorValues(final Iterator<? extends T> it, final T... expected)
+	{
+		final boolean[] found = new boolean[expected.length];
 
-		for( int i = 0; i < expected.length; i++ )
+		for (int i = 0; i < expected.length; i++)
 			found[i] = false;
 
-		while( it.hasNext() ) {
-			Object n = it.next();
+		while (it.hasNext())
+		{
+			final Object n = it.next();
 			boolean gotit = false;
 
-			for( int i = 0; i < expected.length; i++ ) {
-				if( n.equals( expected[i] ) ) {
+			for (int i = 0; i < expected.length; i++)
+				if (n.equals(expected[i]))
+				{
 					gotit = true;
 					found[i] = true;
 				}
-			}
-			assertTrue( "Found unexpected iterator value: " + n, gotit );
+			assertTrue("Found unexpected iterator value: " + n, gotit);
 		}
 
 		// check that all expected values were found
-		List<T> unfound = new ArrayList<T>();
-		for( int i = 0; i < expected.length; i++ )
-			if( !found[i] )
-				unfound.add( expected[i] );
+		final List<T> unfound = new ArrayList<>();
+		for (int i = 0; i < expected.length; i++)
+			if (!found[i])
+				unfound.add(expected[i]);
 
-		assertTrue( "Failed to find expected iterator values: " + unfound, unfound.isEmpty() );
+		assertTrue("Failed to find expected iterator values: " + unfound, unfound.isEmpty());
 	}
 
-	public static Set<Statement> createStatements(Resource subject, Property predicate,
-			RDFNode... objects) {
-		Set<Statement> set = new HashSet<Statement>();
-		for( RDFNode object : objects ) {
-			set.add( ResourceFactory.createStatement( subject, predicate, object ) );
-		}
+	public static Set<Statement> createStatements(final Resource subject, final Property predicate, final RDFNode... objects)
+	{
+		final Set<Statement> set = new HashSet<>();
+		for (final RDFNode object : objects)
+			set.add(ResourceFactory.createStatement(subject, predicate, object));
 
 		return set;
 	}
 
-	public static void addStatements(Model model, Resource subject, Property predicate,
-			RDFNode... objects) {
-		for( RDFNode object : objects ) {
-			model.add( subject, predicate, object );
-		}
+	public static void addStatements(final Model model, final Resource subject, final Property predicate, final RDFNode... objects)
+	{
+		for (final RDFNode object : objects)
+			model.add(subject, predicate, object);
 	}
 
-	public static void assertPropertyValues(Model model, Resource subject, Property predicate,
-			RDFNode... objects) {
-		Model values = ModelFactory.createDefaultModel();
-		addStatements( values, subject, predicate, objects );
-		assertPropertyValues( model, predicate, values );
+	public static void assertPropertyValues(final Model model, final Resource subject, final Property predicate, final RDFNode... objects)
+	{
+		final Model values = ModelFactory.createDefaultModel();
+		addStatements(values, subject, predicate, objects);
+		assertPropertyValues(model, predicate, values);
 	}
 
-	public static void assertPropertyValues(Model model, final Property pred, Model inferences) {
-		Filter<Statement> predFilter = new Filter<Statement>() {
+	public static void assertPropertyValues(final Model model, final Property pred, final Model inferences)
+	{
+		final Filter<Statement> predFilter = new Filter<Statement>()
+		{
 			@Override
-            public boolean accept(Statement stmt) {
-				return stmt.getPredicate().equals( pred );
+			public boolean accept(final Statement stmt)
+			{
+				return stmt.getPredicate().equals(pred);
 			}
 		};
 
-		for( StmtIterator i = inferences.listStatements(); i.hasNext(); ) {
-			Statement statement = i.nextStatement();
+		for (final StmtIterator i = inferences.listStatements(); i.hasNext();)
+		{
+			final Statement statement = i.nextStatement();
 
-			assertEquals( pred, statement.getPredicate() );
+			assertEquals(pred, statement.getPredicate());
 
-			assertTrue( statement + " not inferred", model.contains( statement ) );
+			assertTrue(statement + " not inferred", model.contains(statement));
 		}
 
-		assertIteratorValues( model.listStatements( null, pred, (RDFNode) null ), inferences
-				.listStatements() );
+		assertIteratorValues(model.listStatements(null, pred, (RDFNode) null), inferences.listStatements());
 
-		Set<Resource> testedSubj = new HashSet<Resource>();
-		Set<RDFNode> testedObj = new HashSet<RDFNode>();
-		for( StmtIterator i = inferences.listStatements(); i.hasNext(); ) {
-			Statement statement = i.nextStatement();
-			Resource subj = statement.getSubject();
-			RDFNode obj = statement.getObject();
+		final Set<Resource> testedSubj = new HashSet<>();
+		final Set<RDFNode> testedObj = new HashSet<>();
+		for (final StmtIterator i = inferences.listStatements(); i.hasNext();)
+		{
+			final Statement statement = i.nextStatement();
+			final Resource subj = statement.getSubject();
+			final RDFNode obj = statement.getObject();
 
-			if( testedSubj.add( subj ) ) {
-				assertIteratorValues( 
-					model.listStatements( subj, pred, (RDFNode) null ),
-					inferences.listStatements( subj, pred, (RDFNode) null ) );
+			if (testedSubj.add(subj))
+			{
+				assertIteratorValues(model.listStatements(subj, pred, (RDFNode) null), inferences.listStatements(subj, pred, (RDFNode) null));
 
-				assertIteratorValues( 
-					model.listStatements( subj, null, (RDFNode) null ).filterKeep( predFilter ), 
-					inferences.listStatements( subj, null, (RDFNode) null ).filterKeep( predFilter ) );
+				assertIteratorValues(model.listStatements(subj, null, (RDFNode) null).filterKeep(predFilter), inferences.listStatements(subj, null, (RDFNode) null).filterKeep(predFilter));
 			}
 
-			if( testedObj.add( obj ) ) {
-				assertIteratorValues( 
-					model.listStatements( null, pred, obj ), 
-					inferences.listStatements( null, pred, obj ) );
+			if (testedObj.add(obj))
+			{
+				assertIteratorValues(model.listStatements(null, pred, obj), inferences.listStatements(null, pred, obj));
 
-				assertIteratorValues( 
-					model.listStatements( null, null, obj ).filterKeep( predFilter ), 
-					inferences.listStatements( null, null, obj ).filterKeep( predFilter ) );
+				assertIteratorValues(model.listStatements(null, null, obj).filterKeep(predFilter), inferences.listStatements(null, null, obj).filterKeep(predFilter));
 			}
 		}
 	}
 
-	public static void testResultSet(ResultSet results, List<Map<String,RDFNode>> ans) {
-		List<Map<String,RDFNode>> answers = new ArrayList<Map<String,RDFNode>>( ans );
-		while( results.hasNext() ) {
-			QuerySolution sol = results.nextSolution();
-			assertNotNull( "QuerySolution", sol );
+	public static void testResultSet(final ResultSet results, final List<Map<String, RDFNode>> ans)
+	{
+		final List<Map<String, RDFNode>> answers = new ArrayList<>(ans);
+		while (results.hasNext())
+		{
+			final QuerySolution sol = results.nextSolution();
+			assertNotNull("QuerySolution", sol);
 
-			Map<String,RDFNode> answer = new HashMap<String,RDFNode>();
-			for( String var : results.getResultVars() ) {
-				RDFNode val = sol.get( var );
-				assertNotNull( "Variable: " + var, val );
+			final Map<String, RDFNode> answer = new HashMap<>();
+			for (final String var : results.getResultVars())
+			{
+				final RDFNode val = sol.get(var);
+				assertNotNull("Variable: " + var, val);
 
-				answer.put( var, val );
+				answer.put(var, val);
 			}
 
-			assertTrue( "Unexpected binding found: " + answer, answers.remove( answer ) );
+			assertTrue("Unexpected binding found: " + answer, answers.remove(answer));
 		}
 
-		assertTrue( "Binding not found: " + answers, answers.isEmpty() );
+		assertTrue("Binding not found: " + answers, answers.isEmpty());
 	}
 
-	public static Map<String,RDFNode> createBinding(String[] keys, RDFNode[] values) {
-		assertTrue( keys.length == values.length );
+	public static Map<String, RDFNode> createBinding(final String[] keys, final RDFNode[] values)
+	{
+		assertTrue(keys.length == values.length);
 
-		Map<String,RDFNode> answer = new HashMap<String,RDFNode>();
-		for( int i = 0; i < keys.length; i++ )
-			answer.put( keys[i], values[i] );
+		final Map<String, RDFNode> answer = new HashMap<>();
+		for (int i = 0; i < keys.length; i++)
+			answer.put(keys[i], values[i]);
 
 		return answer;
 	}
 
-	public static List<Map<String,RDFNode>> createBindings(String[] keys, RDFNode[][] values) {
-		List<Map<String,RDFNode>> answers = new ArrayList<Map<String,RDFNode>>();
-		for( int i = 0; i < values.length; i++ ) {
-			Map<String,RDFNode> answer = new HashMap<String,RDFNode>();
-			for( int j = 0; j < keys.length; j++ )
-				answer.put( keys[j], values[i][j] );
-			answers.add( answer );
+	public static List<Map<String, RDFNode>> createBindings(final String[] keys, final RDFNode[][] values)
+	{
+		final List<Map<String, RDFNode>> answers = new ArrayList<>();
+		for (final RDFNode[] value : values)
+		{
+			final Map<String, RDFNode> answer = new HashMap<>();
+			for (int j = 0; j < keys.length; j++)
+				answer.put(keys[j], value[j]);
+			answers.add(answer);
 		}
 
 		return answers;
 	}
 
-	public static void printAll(Iterator<?> i) {
-		while( i.hasNext() ) {
-			System.out.println( i.next() );
-		}
+	public static void printAll(final Iterator<?> i)
+	{
+		while (i.hasNext())
+			System.out.println(i.next());
 	}
 
-	public static void printAll(Iterator<?> i, String head) {
-		System.out.print( head + ": " );
-		if( i.hasNext() ) {
+	public static void printAll(final Iterator<?> i, final String head)
+	{
+		System.out.print(head + ": ");
+		if (i.hasNext())
+		{
 			System.out.println();
-			while( i.hasNext() ) {
-				System.out.println( i.next() );
-			}
+			while (i.hasNext())
+				System.out.println(i.next());
 		}
 		else
-			System.out.println( "<EMPTY>" );
+			System.out.println("<EMPTY>");
 	}
 
-	public static void assertSatisfiable(KnowledgeBase kb, ATermAppl c) {
-		assertSatisfiable( kb, c, true );
+	public static void assertSatisfiable(final KnowledgeBase kb, final ATermAppl c)
+	{
+		assertSatisfiable(kb, c, true);
 	}
 
-	public static void assertUnsatisfiable(KnowledgeBase kb, ATermAppl c) {
-		assertSatisfiable( kb, c, false );
+	public static void assertUnsatisfiable(final KnowledgeBase kb, final ATermAppl c)
+	{
+		assertSatisfiable(kb, c, false);
 	}
 
-	public static void assertSatisfiable(KnowledgeBase kb, ATermAppl c, boolean isSatisfiable) {
-		assertEquals( "Satisfiability for " + c + " failed", isSatisfiable, kb.isSatisfiable( c ) );
+	public static void assertSatisfiable(final KnowledgeBase kb, final ATermAppl c, final boolean isSatisfiable)
+	{
+		assertEquals("Satisfiability for " + c + " failed", isSatisfiable, kb.isSatisfiable(c));
 	}
 
-	public static void assertSubClass(KnowledgeBase kb, String c1, String c2) {
-		assertSubClass( kb, term( c1 ), term( c2 ) );
+	public static void assertSubClass(final KnowledgeBase kb, final String c1, final String c2)
+	{
+		assertSubClass(kb, term(c1), term(c2));
 	}
 
-	public static void assertSubClass(KnowledgeBase kb, ATermAppl c1, ATermAppl c2) {
-		assertSubClass( kb, c1, c2, true );
+	public static void assertSubClass(final KnowledgeBase kb, final ATermAppl c1, final ATermAppl c2)
+	{
+		assertSubClass(kb, c1, c2, true);
 	}
 
-	public static void assertNotSubClass(KnowledgeBase kb, ATermAppl c1, ATermAppl c2) {
-		assertSubClass( kb, c1, c2, false );
+	public static void assertNotSubClass(final KnowledgeBase kb, final ATermAppl c1, final ATermAppl c2)
+	{
+		assertSubClass(kb, c1, c2, false);
 	}
 
-	public static void assertSubClass(KnowledgeBase kb, ATermAppl c1, ATermAppl c2,
-			boolean expectedSubClass) {
-		boolean computedSubClass = kb.isSubClassOf( c1, c2 );
+	public static void assertSubClass(final KnowledgeBase kb, final ATermAppl c1, final ATermAppl c2, final boolean expectedSubClass)
+	{
+		boolean computedSubClass = kb.isSubClassOf(c1, c2);
 
-		assertEquals( "Subclass check failed for (" + ATermUtils.toString( c1 ) + " [= "
-				+ ATermUtils.toString( c2 ) + ")", expectedSubClass, computedSubClass );
+		assertEquals("Subclass check failed for (" + ATermUtils.toString(c1) + " [= " + ATermUtils.toString(c2) + ")", expectedSubClass, computedSubClass);
 
-		kb.isSatisfiable( c1 );
-		kb.isSatisfiable( not( c1 ) );
-		kb.isSatisfiable( c2 );
-		kb.isSatisfiable( not( c2 ) );
+		kb.isSatisfiable(c1);
+		kb.isSatisfiable(not(c1));
+		kb.isSatisfiable(c2);
+		kb.isSatisfiable(not(c2));
 
-		long satCount = kb.getABox().stats.satisfiabilityCount;
-		computedSubClass = kb.isSubClassOf( c1, c2 );
-		boolean cached = (satCount == kb.getABox().stats.satisfiabilityCount);
+		final long satCount = kb.getABox().stats.satisfiabilityCount;
+		computedSubClass = kb.isSubClassOf(c1, c2);
+		final boolean cached = (satCount == kb.getABox().stats.satisfiabilityCount);
 
-		assertEquals( "Subclass check (Cached: " + cached + ") failed for ("
-				+ ATermUtils.toString( c1 ) + " [= " + ATermUtils.toString( c2 ) + ")",
-				expectedSubClass, computedSubClass );
+		assertEquals("Subclass check (Cached: " + cached + ") failed for (" + ATermUtils.toString(c1) + " [= " + ATermUtils.toString(c2) + ")", expectedSubClass, computedSubClass);
 	}
 }

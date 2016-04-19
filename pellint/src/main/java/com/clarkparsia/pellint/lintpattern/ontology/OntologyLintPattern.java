@@ -6,19 +6,17 @@
 
 package com.clarkparsia.pellint.lintpattern.ontology;
 
-import java.util.List;
-
-import org.semanticweb.owlapi.model.OWLOntology;
-
 import com.clarkparsia.pellint.lintpattern.LintPattern;
 import com.clarkparsia.pellint.model.Lint;
+import java.util.List;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * <p>
  * Title: Ontology-based Lint Pattern Interface
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -26,17 +24,16 @@ import com.clarkparsia.pellint.model.Lint;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public interface OntologyLintPattern extends LintPattern {
+public interface OntologyLintPattern extends LintPattern
+{
 
 	/**
-	 * Match an OWLOntology and returns a list of {@link com.clarkparsia.pellint.model.Lint}
-	 * for the OWLOntology.
-	 * 
+	 * Match an OWLOntology and returns a list of {@link com.clarkparsia.pellint.model.Lint} for the OWLOntology.
+	 *
 	 * @return A possibly empty list of {@link com.clarkparsia.pellint.model.Lint} for the OWLOntology. Never returns <code>null</code>.
-	 * 
 	 * @see com.clarkparsia.pellint.model.Lint
 	 */
 	List<Lint> match(OWLOntology ontology);

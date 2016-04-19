@@ -11,15 +11,14 @@ import static com.clarkparsia.modularity.test.TestUtils.assertTypesEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.clarkparsia.pellet.owlapi.PelletReasoner;
-import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
-import com.clarkparsia.owlapi.OWL;
-import com.clarkparsia.owlapi.OntologyUtils;
 import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.ModuleExtractor;
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
+import com.clarkparsia.owlapi.OWL;
+import com.clarkparsia.owlapi.OntologyUtils;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -55,13 +54,13 @@ public class PersistenceRealizationTest
 		return new AxiomBasedModuleExtractor();
 	}
 
-	public void testFile(String fileName) throws IOException
+	public void testFile(final String fileName) throws IOException
 	{
 		final String common = "file:" + base + fileName;
 		testRealization(common + ".owl");
 	}
 
-	public void testRealization(String inputOnt) throws IOException
+	public void testRealization(final String inputOnt) throws IOException
 	{
 		final File testFile = new File(TEST_FILE);
 		final OWLOntology ontology = OntologyUtils.loadOntology(inputOnt);

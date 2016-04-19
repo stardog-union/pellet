@@ -9,36 +9,37 @@ package com.clarkparsia.modularity.test;
 import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
 import com.clarkparsia.modularity.ModuleExtractor;
 
-
 /**
  * <p>
  * Title:
  * </p>
  * <p>
- * Description: Test modular classification for correctness against unified
- * classification
+ * Description: Test modular classification for correctness against unified classification
  * <p>
  * Copyright: Copyright (c) 2007
  * </p>
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class AxiomBasedRandomizedIncrementalClassifierTest extends RandomizedIncrementalClassifierTest {
+public class AxiomBasedRandomizedIncrementalClassifierTest extends RandomizedIncrementalClassifierTest
+{
 	/**
 	 * @param path
 	 */
-	public AxiomBasedRandomizedIncrementalClassifierTest() {
-		super( "test/data/modularity/" );
+	public AxiomBasedRandomizedIncrementalClassifierTest()
+	{
+		super("test/data/modularity/");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ModuleExtractor createModuleExtractor() {
+	public ModuleExtractor createModuleExtractor()
+	{
 		return new AxiomBasedModuleExtractor();
 	}
 }

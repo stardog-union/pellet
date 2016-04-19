@@ -22,33 +22,36 @@ import org.apache.jena.query.Syntax;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
- * @author Mike Smith <a
- *         href="mailto:msmith@clarkparsia.com">msmith@clarkparsia.com</a>
+ *
+ * @author Mike Smith <a href="mailto:msmith@clarkparsia.com">msmith@clarkparsia.com</a>
  */
-public class TerpSyntax extends Syntax {
+public class TerpSyntax extends Syntax
+{
 
-	private static final TerpSyntax	INSTANCE;
-	private static final String		NAME;
-	private static final String		URI;
+	private static final TerpSyntax INSTANCE;
+	private static final String NAME;
+	private static final String URI;
 
-	static {
+	static
+	{
 		URI = "tag:clarkparsia.com,2010:terp/syntax";
 		NAME = "terp";
 		INSTANCE = new TerpSyntax();
-		Syntax.querySyntaxNames.put( NAME, INSTANCE );
+		Syntax.querySyntaxNames.put(NAME, INSTANCE);
 	}
 
-	private TerpSyntax() {
-		super( URI );
+	private TerpSyntax()
+	{
+		super(URI);
 	}
 
 	/**
 	 * Get the singleton instance of the class
-	 * 
+	 *
 	 * @return the singleton instance
 	 */
-	public static TerpSyntax getInstance() {
+	public static TerpSyntax getInstance()
+	{
 		return INSTANCE;
 	}
 }

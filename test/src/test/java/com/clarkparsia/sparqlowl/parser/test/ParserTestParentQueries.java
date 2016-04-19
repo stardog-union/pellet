@@ -8,13 +8,17 @@ package com.clarkparsia.sparqlowl.parser.test;
 
 import static org.junit.Assert.assertEquals;
 
+import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
+import com.clarkparsia.sparqlowl.parser.arq.ARQTerpParser;
+import com.clarkparsia.sparqlowl.parser.arq.TerpSyntax;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import junit.framework.JUnit4TestAdapter;
-
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.Syntax;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,13 +29,6 @@ import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.JenaLoader;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.mindswap.pellet.utils.FileUtils;
-
-import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
-import com.clarkparsia.sparqlowl.parser.arq.ARQTerpParser;
-import com.clarkparsia.sparqlowl.parser.arq.TerpSyntax;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.Syntax;
 
 /**
  * <p>
@@ -46,69 +43,76 @@ import org.apache.jena.query.Syntax;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 @RunWith(Parameterized.class)
-public class ParserTestParentQueries {
+public class ParserTestParentQueries
+{
 	public static final String base = PelletTestSuite.base + "/sparqldl-tests/simple/";
-	
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( ParserTestParentQueries.class );
+
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(ParserTestParentQueries.class);
 	}
-	
+
 	@Parameters
-	public static Collection<Object[]> getParameters() {
-		Collection<Object[]> parameters = new ArrayList<Object[]>();
-		parameters.add( new Object[] { "parent1.rq", "parent1.sparqlowl" } );
-		parameters.add( new Object[] { "parent2.rq", "parent2.sparqlowl" } );
-		parameters.add( new Object[] { "parent3.rq", "parent3.sparqlowl" } );
-		parameters.add( new Object[] { "parent4.rq", "parent4.sparqlowl" } );
-		parameters.add( new Object[] { "parent5.rq", "parent5.sparqlowl" } );
-		parameters.add( new Object[] { "parent6.rq", "parent6.sparqlowl" } );
-		parameters.add( new Object[] { "parent7.rq", "parent7.sparqlowl" } );
-		parameters.add( new Object[] { "parent8.rq", "parent8.sparqlowl" } );
-		parameters.add( new Object[] { "parent9.rq", "parent9.sparqlowl" } );
+	public static Collection<Object[]> getParameters()
+	{
+		final Collection<Object[]> parameters = new ArrayList<>();
+		parameters.add(new Object[] { "parent1.rq", "parent1.sparqlowl" });
+		parameters.add(new Object[] { "parent2.rq", "parent2.sparqlowl" });
+		parameters.add(new Object[] { "parent3.rq", "parent3.sparqlowl" });
+		parameters.add(new Object[] { "parent4.rq", "parent4.sparqlowl" });
+		parameters.add(new Object[] { "parent5.rq", "parent5.sparqlowl" });
+		parameters.add(new Object[] { "parent6.rq", "parent6.sparqlowl" });
+		parameters.add(new Object[] { "parent7.rq", "parent7.sparqlowl" });
+		parameters.add(new Object[] { "parent8.rq", "parent8.sparqlowl" });
+		parameters.add(new Object[] { "parent9.rq", "parent9.sparqlowl" });
 		//parameters.add( new Object[] { "parent10.rq", "parent10.sparqlowl" } );	//Not supported
 		return parameters;
 	}
 
 	private static KnowledgeBase kb;
 	private static ARQParser parser;
-	
-	private String sparqlFile;
-	private String sparqlOWLFile;
-	
-	public ParserTestParentQueries(String sparqlFile, String sparqlOWLFile) {
+
+	private final String sparqlFile;
+	private final String sparqlOWLFile;
+
+	public ParserTestParentQueries(final String sparqlFile, final String sparqlOWLFile)
+	{
 		this.sparqlFile = sparqlFile;
 		this.sparqlOWLFile = sparqlOWLFile;
 	}
-	
+
 	@BeforeClass
-	public static void beforeClass() {
+	public static void beforeClass()
+	{
 		ARQTerpParser.registerFactory();
-		
-		JenaLoader loader = new JenaLoader();
-		kb = loader.createKB(base+"parent.ttl");
-		 parser = new ARQParser();
+
+		final JenaLoader loader = new JenaLoader();
+		kb = loader.createKB(base + "parent.ttl");
+		parser = new ARQParser();
 	}
-	
+
 	@AfterClass
-	public static void afterClass() {
+	public static void afterClass()
+	{
 		ARQTerpParser.unregisterFactory();
-		
+
 		kb = null;
 		parser = null;
 	}
-	
+
 	@Test
-	public void compareQuery() throws FileNotFoundException, IOException {
-		Query sparql = QueryFactory.create( FileUtils.readFile( base + sparqlFile ), Syntax.syntaxSPARQL );
-		com.clarkparsia.pellet.sparqldl.model.Query expected = parser.parse( sparql, kb );
-		
-		Query sparqlOWL = QueryFactory.create( FileUtils.readFile( base + sparqlOWLFile ), TerpSyntax.getInstance() );		
-		com.clarkparsia.pellet.sparqldl.model.Query actual = parser.parse( sparqlOWL, kb );
-		
-		assertEquals( expected.getAtoms(), actual.getAtoms() );
+	public void compareQuery() throws FileNotFoundException, IOException
+	{
+		final Query sparql = QueryFactory.create(FileUtils.readFile(base + sparqlFile), Syntax.syntaxSPARQL);
+		final com.clarkparsia.pellet.sparqldl.model.Query expected = parser.parse(sparql, kb);
+
+		final Query sparqlOWL = QueryFactory.create(FileUtils.readFile(base + sparqlOWLFile), TerpSyntax.getInstance());
+		final com.clarkparsia.pellet.sparqldl.model.Query actual = parser.parse(sparqlOWL, kb);
+
+		assertEquals(expected.getAtoms(), actual.getAtoms());
 	}
 }

@@ -13,8 +13,7 @@ import java.util.logging.Logger;
  * Title: Discrete Interval
  * </p>
  * <p>
- * Description: An abstract base class interval representation of discrete value
- * spaces. Instances are immutable.
+ * Description: An abstract base class interval representation of discrete value spaces. Instances are immutable.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -22,22 +21,26 @@ import java.util.logging.Logger;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public abstract class DiscreteInterval<T extends Number, U extends DiscreteInterval<T, U>> {
+public abstract class DiscreteInterval<T extends Number, U extends DiscreteInterval<T, U>>
+{
 
-	protected static enum NullSemantics {
+	protected static enum NullSemantics
+	{
 		GREATEST, LEAST, NA
 	}
 
-	public class ValueIterator implements Iterator<T> {
-		private final T			last;
-		private T				next;
-		private final boolean	increment;
+	public class ValueIterator implements Iterator<T>
+	{
+		private final T last;
+		private T next;
+		private final boolean increment;
 
-		public ValueIterator(T lower, T upper, boolean increment) {
-			if( lower == null )
+		public ValueIterator(final T lower, final T upper, final boolean increment)
+		{
+			if (lower == null)
 				throw new NullPointerException();
 
 			this.next = lower;
@@ -45,22 +48,26 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 			this.increment = increment;
 		}
 
-		public boolean hasNext() {
+		@Override
+		public boolean hasNext()
+		{
 			return next != null;
 		}
 
-		public T next() {
+		@Override
+		public T next()
+		{
 			final T ret = next;
-			if( getUpper() != null && equal( next, last ) )
+			if (getUpper() != null && equal(next, last))
 				next = null;
 			else
-				next = increment
-					? increment( next )
-					: decrement( next );
-			return ret;
+				next = increment ? increment(next) : decrement(next);
+				return ret;
 		}
 
-		public void remove() {
+		@Override
+		public void remove()
+		{
 			throw new UnsupportedOperationException();
 		}
 
@@ -70,29 +77,29 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 	 * These constants are setup so that reference to the NullSemantics enum
 	 * does not need qualification within this class.
 	 */
-	protected final static NullSemantics	GREATEST, LEAST, NA;
-	private static final Logger				log;
+	protected final static NullSemantics GREATEST, LEAST, NA;
+	private static final Logger log;
 
-	static {
-		log = Logger.getLogger( DiscreteInterval.class.getCanonicalName() );
+	static
+	{
+		log = Logger.getLogger(DiscreteInterval.class.getCanonicalName());
 
 		GREATEST = NullSemantics.GREATEST;
 		LEAST = NullSemantics.LEAST;
 		NA = NullSemantics.NA;
 	}
 
-	private final T							lower;
-	private final T							upper;
+	private final T lower;
+	private final T upper;
 
 	/**
-	 * Create a point interval. This is equivalent to
-	 * {@link #DiscreteInterval(T, T)} with arguments <code>point,point</code>
-	 * 
-	 * @param point
-	 *            Value of point interval
+	 * Create a point interval. This is equivalent to {@link #DiscreteInterval(T, T)} with arguments <code>point,point</code>
+	 *
+	 * @param point Value of point interval
 	 */
-	public DiscreteInterval(T point) {
-		if( point == null )
+	public DiscreteInterval(final T point)
+	{
+		if (point == null)
 			throw new NullPointerException();
 
 		this.lower = point;
@@ -101,38 +108,40 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 
 	/**
 	 * Create an interval.
-	 * 
-	 * @param lower
-	 *            Interval lower bound
-	 * @param upper
-	 *            Interval upper bound
+	 *
+	 * @param lower Interval lower bound
+	 * @param upper Interval upper bound
 	 */
-	public DiscreteInterval(T lower, T upper) {
-		if( !valid( lower ) )
+	public DiscreteInterval(final T lower, final T upper)
+	{
+		if (!valid(lower))
 			throw new IllegalArgumentException();
-		if( !valid( upper ) )
+		if (!valid(upper))
 			throw new IllegalArgumentException();
 
-		final int cmp = compare( lower, LEAST, upper, GREATEST );
-		if( cmp > 0 ) {
-			final String msg = format(
-					"Lower bound of interval (%s) should not be greater than upper bound of interval (%s)",
-					lower, upper );
-			log.severe( msg );
-			throw new IllegalArgumentException( msg );
+		final int cmp = compare(lower, LEAST, upper, GREATEST);
+		if (cmp > 0)
+		{
+			final String msg = format("Lower bound of interval (%s) should not be greater than upper bound of interval (%s)", lower, upper);
+			log.severe(msg);
+			throw new IllegalArgumentException(msg);
 		}
 
 		this.lower = lower;
 		this.upper = upper;
 	}
 
-	public boolean canUnionWith(U other) {
-		final int ll = compare( this.getLower(), LEAST, other.getLower(), LEAST );
-		final int uu = compare( this.getUpper(), GREATEST, other.getUpper(), GREATEST );
-		if( ll <= 0 ) {
-			if( uu < 0 ) {
-				if( compare( this.getUpper(), GREATEST, other.getLower(), LEAST ) < 0 ) {
-					if( equal( increment( this.getUpper() ), other.getLower() ) )
+	public boolean canUnionWith(final U other)
+	{
+		final int ll = compare(this.getLower(), LEAST, other.getLower(), LEAST);
+		final int uu = compare(this.getUpper(), GREATEST, other.getUpper(), GREATEST);
+		if (ll <= 0)
+		{
+			if (uu < 0)
+			{
+				if (compare(this.getUpper(), GREATEST, other.getLower(), LEAST) < 0)
+				{
+					if (equal(increment(this.getUpper()), other.getLower()))
 						return true;
 					else
 						return false;
@@ -143,10 +152,12 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 			else
 				return true;
 		}
-		else {
-			if( uu > 0 ) {
-				if( compare( this.getLower(), LEAST, other.getUpper(), GREATEST ) > 0 ) {
-					if( equal( increment( other.getUpper() ), this.getLower() ) )
+		else
+			if (uu > 0)
+			{
+				if (compare(this.getLower(), LEAST, other.getUpper(), GREATEST) > 0)
+				{
+					if (equal(increment(other.getUpper()), this.getLower()))
 						return true;
 					else
 						return false;
@@ -156,25 +167,25 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 			}
 			else
 				return true;
-		}
 	}
 
 	protected abstract U cast(DiscreteInterval<T, U> i);
 
 	protected abstract int compare(T a, NullSemantics na, T b, NullSemantics nb);
 
-	public boolean contains(T n) {
-		if( !valid( n ) )
+	public boolean contains(final T n)
+	{
+		if (!valid(n))
 			throw new IllegalArgumentException();
 
-		final int lcmp = compare( getLower(), LEAST, n, NA );
-		if( lcmp > 0 )
+		final int lcmp = compare(getLower(), LEAST, n, NA);
+		if (lcmp > 0)
 			return false;
-		if( lcmp == 0 )
+		if (lcmp == 0)
 			return true;
 
-		final int ucmp = compare( getUpper(), GREATEST, n, NA );
-		if( ucmp < 0 )
+		final int ucmp = compare(getUpper(), GREATEST, n, NA);
+		if (ucmp < 0)
 			return false;
 
 		return true;
@@ -189,224 +200,242 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 	@Override
 	public abstract boolean equals(Object obj);
 
-	public T getLower() {
+	public T getLower()
+	{
 		return lower;
 	}
 
-	public T getUpper() {
+	public T getUpper()
+	{
 		return upper;
 	}
 
 	/**
 	 * Get the subinterval greater than n
-	 * 
+	 *
 	 * @param n
-	 * @return a new interval, formed by intersecting this interval with
-	 *         (n,+inf) or <code>null</code> if that intersection is empty
+	 * @return a new interval, formed by intersecting this interval with (n,+inf) or <code>null</code> if that intersection is empty
 	 */
-	public U greater(T n) {
-		if( n == null )
+	public U greater(final T n)
+	{
+		if (n == null)
 			throw new NullPointerException();
-		if( !valid( n ) )
+		if (!valid(n))
 			throw new IllegalArgumentException();
 
-		if( compare( getLower(), LEAST, n, NA ) > 0 )
-			return cast( this );
-		else if( compare( getUpper(), GREATEST, n, NA ) <= 0 )
-			return null;
+		if (compare(getLower(), LEAST, n, NA) > 0)
+			return cast(this);
 		else
-			return create( increment( n ), getUpper() );
+			if (compare(getUpper(), GREATEST, n, NA) <= 0)
+				return null;
+			else
+				return create(increment(n), getUpper());
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((getLower() == null)
-			? 0
-			: getLower().hashCode());
-		result = prime * result + ((getUpper() == null)
-			? 0
-			: getUpper().hashCode());
+		result = prime * result + ((getLower() == null) ? 0 : getLower().hashCode());
+		result = prime * result + ((getUpper() == null) ? 0 : getUpper().hashCode());
 		return result;
 	}
 
 	protected abstract T increment(T t);
 
-	public U intersection(U that) {
+	public U intersection(final U that)
+	{
 
-		final int ll = compare( this.getLower(), LEAST, that.getLower(), LEAST );
-		final int uu = compare( this.getUpper(), GREATEST, that.getUpper(), GREATEST );
-		if( ll <= 0 ) {
-			if( uu < 0 ) {
-				if( compare( this.getUpper(), GREATEST, that.getLower(), LEAST ) < 0 )
+		final int ll = compare(this.getLower(), LEAST, that.getLower(), LEAST);
+		final int uu = compare(this.getUpper(), GREATEST, that.getUpper(), GREATEST);
+		if (ll <= 0)
+		{
+			if (uu < 0)
+			{
+				if (compare(this.getUpper(), GREATEST, that.getLower(), LEAST) < 0)
 					return null;
 				else
-					return create( that.getLower(), this.getUpper() );
+					return create(that.getLower(), this.getUpper());
 			}
 			else
 				return that;
 		}
-		else {
-			if( uu > 0 ) {
-				if( compare( this.getLower(), LEAST, that.getUpper(), GREATEST ) > 0 )
+		else
+			if (uu > 0)
+			{
+				if (compare(this.getLower(), LEAST, that.getUpper(), GREATEST) > 0)
 					return null;
 				else
-					return create( this.getLower(), that.getUpper() );
+					return create(this.getLower(), that.getUpper());
 			}
 			else
-				return cast( this );
-		}
+				return cast(this);
 	}
 
-	public boolean isFinite() {
+	public boolean isFinite()
+	{
 		return getLower() != null && getUpper() != null;
 	}
 
 	/**
 	 * Get the subinterval less than n
-	 * 
+	 *
 	 * @param n
-	 * @return a new interval, formed by intersecting this interval with
-	 *         (-inf,n) or <code>null</code> if that intersection is empty
+	 * @return a new interval, formed by intersecting this interval with (-inf,n) or <code>null</code> if that intersection is empty
 	 */
-	public U less(T n) {
-		if( n == null )
+	public U less(final T n)
+	{
+		if (n == null)
 			throw new NullPointerException();
-		if( !valid( n ) )
+		if (!valid(n))
 			throw new IllegalArgumentException();
 
-		if( compare( getUpper(), GREATEST, n, NA ) < 0 )
-			return cast( this );
-		else if( compare( getLower(), LEAST, n, NA ) >= 0 )
-			return null;
+		if (compare(getUpper(), GREATEST, n, NA) < 0)
+			return cast(this);
 		else
-			return create( getLower(), decrement( n ) );
+			if (compare(getLower(), LEAST, n, NA) >= 0)
+				return null;
+			else
+				return create(getLower(), decrement(n));
 	}
 
-	public List<U> remove(U other) {
+	public List<U> remove(final U other)
+	{
 
 		U before, after;
 
-		final int ll = compare( this.getLower(), LEAST, other.getLower(), LEAST );
-		final int lu = compare( this.getLower(), LEAST, other.getUpper(), GREATEST );
-		final int ul = compare( this.getUpper(), GREATEST, other.getLower(), LEAST );
-		final int uu = compare( this.getUpper(), GREATEST, other.getUpper(), GREATEST );
+		final int ll = compare(this.getLower(), LEAST, other.getLower(), LEAST);
+		final int lu = compare(this.getLower(), LEAST, other.getUpper(), GREATEST);
+		final int ul = compare(this.getUpper(), GREATEST, other.getLower(), LEAST);
+		final int uu = compare(this.getUpper(), GREATEST, other.getUpper(), GREATEST);
 
-		if( ll < 0 ) {
-			if( ul < 0 ) {
-				before = cast( this );
+		if (ll < 0)
+		{
+			if (ul < 0)
+			{
+				before = cast(this);
 				after = null;
 			}
-			else {
-				before = create( this.getLower(), decrement( other.getLower() ) );
-				if( uu <= 0 )
+			else
+			{
+				before = create(this.getLower(), decrement(other.getLower()));
+				if (uu <= 0)
 					after = null;
 				else
-					after = create( increment( other.getUpper() ), this.getUpper() );
+					after = create(increment(other.getUpper()), this.getUpper());
 			}
 		}
-		else {
-			if( lu > 0 ) {
+		else
+			if (lu > 0)
+			{
 				before = null;
-				after = cast( this );
+				after = cast(this);
 			}
-			else {
-				if( uu <= 0 ) {
+			else
+				if (uu <= 0)
+				{
 					before = null;
 					after = null;
 				}
-				else {
+				else
+				{
 					before = null;
-					after = create( increment( other.getUpper() ), this.getUpper() );
+					after = create(increment(other.getUpper()), this.getUpper());
 				}
-			}
-		}
 
-		if( before == null )
-			if( after == null )
+		if (before == null)
+			if (after == null)
 				return Collections.emptyList();
 			else
-				return Collections.singletonList( after );
-		else if( after == null )
-			return Collections.singletonList( before );
-		else {
-			@SuppressWarnings("unchecked")
-			final List<U> ret = Arrays.asList( before, after );
-			return ret;
-		}
+				return Collections.singletonList(after);
+		else
+			if (after == null)
+				return Collections.singletonList(before);
+			else
+			{
+				@SuppressWarnings("unchecked")
+				final List<U> ret = Arrays.asList(before, after);
+				return ret;
+			}
 	}
 
 	public abstract Number size();
 
-	public List<U> union(U other) {
+	public List<U> union(final U other)
+	{
 		U first, second;
 
-		final int ll = compare( this.getLower(), LEAST, other.getLower(), LEAST );
-		final int lu = compare( this.getLower(), LEAST, other.getUpper(), GREATEST );
-		final int ul = compare( this.getUpper(), GREATEST, other.getLower(), LEAST );
-		final int uu = compare( this.getUpper(), GREATEST, other.getUpper(), GREATEST );
+		final int ll = compare(this.getLower(), LEAST, other.getLower(), LEAST);
+		final int lu = compare(this.getLower(), LEAST, other.getUpper(), GREATEST);
+		final int ul = compare(this.getUpper(), GREATEST, other.getLower(), LEAST);
+		final int uu = compare(this.getUpper(), GREATEST, other.getUpper(), GREATEST);
 
-		if( ll < 0 ) {
-			if( ul < 0 ) {
-				first = cast( this );
+		if (ll < 0)
+		{
+			if (ul < 0)
+			{
+				first = cast(this);
 				second = other;
 			}
-			else {
+			else
+			{
 				second = null;
-				if( uu < 0 )
-					first = create( this.getLower(), other.getUpper() );
+				if (uu < 0)
+					first = create(this.getLower(), other.getUpper());
 				else
-					first = cast( this );
+					first = cast(this);
 			}
 		}
-		else {
-			if( lu > 0 ) {
+		else
+			if (lu > 0)
+			{
 				first = other;
-				second = cast( this );
+				second = cast(this);
 			}
-			else {
+			else
+			{
 				second = null;
-				if( uu <= 0 )
+				if (uu <= 0)
 					first = other;
 				else
-					first = create( other.getLower(), this.getUpper() );
+					first = create(other.getLower(), this.getUpper());
 			}
-		}
 
-		if( first == null )
-			if( second == null )
+		if (first == null)
+			if (second == null)
 				return Collections.emptyList();
 			else
-				return Collections.singletonList( second );
-		else if( second == null )
-			return Collections.singletonList( first );
-		else {
-			@SuppressWarnings("unchecked")
-			final List<U> ret = Arrays.asList( first, second );
-			return ret;
-		}
+				return Collections.singletonList(second);
+		else
+			if (second == null)
+				return Collections.singletonList(first);
+			else
+			{
+				@SuppressWarnings("unchecked")
+				final List<U> ret = Arrays.asList(first, second);
+				return ret;
+			}
 	}
 
 	protected abstract boolean valid(T t);
 
-	public Iterator<T> valueIterator() {
-		if( getLower() == null ) {
-			if( getUpper() == null )
+	public Iterator<T> valueIterator()
+	{
+		if (getLower() == null)
+		{
+			if (getUpper() == null)
 				throw new IllegalStateException();
 			else
-				return new ValueIterator( getUpper(), getLower(), false );
+				return new ValueIterator(getUpper(), getLower(), false);
 		}
 		else
-			return new ValueIterator( getLower(), getUpper(), true );
+			return new ValueIterator(getLower(), getUpper(), true);
 	}
 
 	@Override
-	public String toString() {
-		return format( "[%s,%s]", getLower() != null
-			? getLower()
-			: "-Inf", getUpper() != null
-			? getUpper()
-			: "+Inf" );
+	public String toString()
+	{
+		return format("[%s,%s]", getLower() != null ? getLower() : "-Inf", getUpper() != null ? getUpper() : "+Inf");
 	}
 }

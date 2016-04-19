@@ -10,13 +10,12 @@ package pellet;
 
 import static pellet.PelletCmdOptionArg.NONE;
 
-import com.clarkparsia.pellet.owlapi.OWLAPILoader;
-import com.clarkparsia.pellet.owlapi.OWLClassTreePrinter;
-
 import aterm.ATermAppl;
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.OntologyDiff;
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
+import com.clarkparsia.pellet.owlapi.OWLClassTreePrinter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,7 +46,7 @@ import org.semanticweb.owlapi.model.OWLOntologyChange;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
 public class PelletClassify extends PelletCmdApp
@@ -59,9 +58,8 @@ public class PelletClassify extends PelletCmdApp
 	private static final int ENCODING_RADIX = 36;
 
 	/**
-	 * The pattern for the names of the files containing the persisted data of the incremental classifier. The
-	 * parameter in the pattern should be replaced with the MD5 of the root ontology IRI (to prevent mixing up
-	 * files that belong to different ontologies).
+	 * The pattern for the names of the files containing the persisted data of the incremental classifier. The parameter in the pattern should be replaced with
+	 * the MD5 of the root ontology IRI (to prevent mixing up files that belong to different ontologies).
 	 */
 	private static final String FILE_NAME_PATTERN = "persisted-state-%s.zip";
 
@@ -114,13 +112,9 @@ public class PelletClassify extends PelletCmdApp
 	public void run()
 	{
 		if (options.getOption("persist").getValueAsBoolean())
-		{
 			runIncrementalClassify();
-		}
 		else
-		{
 			runClassicClassify();
-		}
 	}
 
 	/**
@@ -153,9 +147,7 @@ public class PelletClassify extends PelletCmdApp
 		final String loaderName = options.getOption("loader").getValueAsString();
 
 		if (!"OWLAPIv3".equals(loaderName))
-		{
 			logger.log(Level.WARNING, "Ignoring -l " + loaderName + " option. When using --persist the only allowed loader is OWLAPIv3");
-		}
 
 		final OWLAPILoader loader = (OWLAPILoader) getLoader("OWLAPIv3");
 
@@ -182,33 +174,27 @@ public class PelletClassify extends PelletCmdApp
 		printer.print(incrementalClassifier.getTaxonomy());
 
 		if (!currentStateSaved)
-		{
 			persistIncrementalClassifier(incrementalClassifier, ontology);
-		}
 	}
 
 	/**
 	 * Creates incremental classifier by either creating it from scratch or by reading its state from file (if there exists such a state)
-	 * 
+	 *
 	 * @param ontology the ontology (the current state of it)
 	 * @return the incremental classifier
 	 */
-	private IncrementalClassifier createIncrementalClassifier(OWLOntology ontology)
+	private IncrementalClassifier createIncrementalClassifier(final OWLOntology ontology)
 	{
 		final File saveFile = determineSaveFile(ontology);
 		IncrementalClassifier result = null;
 
 		// first try to restore the classifier from the file (if one exists)
 		if (saveFile.exists())
-		{
 			result = loadIncrementalClassifier(ontology, saveFile);
-		}
 
 		// if it was not possible to restore the classifier, create one from scratch
 		if (result == null)
-		{
 			result = new IncrementalClassifier(ontology);
-		}
 
 		result.getReasoner().getKB().setTaxonomyBuilderProgressMonitor(PelletOptions.USE_CLASSIFICATION_MONITOR.create());
 
@@ -216,13 +202,12 @@ public class PelletClassify extends PelletCmdApp
 	}
 
 	/**
-	 * Stores the current state of the incremental classifier to a file (the file name is determined automatically
-	 * based on ontology's IRI).
-	 * 
+	 * Stores the current state of the incremental classifier to a file (the file name is determined automatically based on ontology's IRI).
+	 *
 	 * @param incrementalClassifier the incremental classifier to be stored
 	 * @param ontology the ontology
 	 */
-	private void persistIncrementalClassifier(IncrementalClassifier incrementalClassifier, OWLOntology ontology)
+	private void persistIncrementalClassifier(final IncrementalClassifier incrementalClassifier, final OWLOntology ontology)
 	{
 		final File saveFile = determineSaveFile(ontology);
 
@@ -239,14 +224,14 @@ public class PelletClassify extends PelletCmdApp
 	}
 
 	/**
-	 * Loads the incremental classifier from a file. If the ontology changed since the state of the classifier was
-	 * persisted, the classifier will be incrementally updated with the changes.
-	 * 
+	 * Loads the incremental classifier from a file. If the ontology changed since the state of the classifier was persisted, the classifier will be
+	 * incrementally updated with the changes.
+	 *
 	 * @param ontology the ontology (its current state, since class
 	 * @param file the file from which the persisted state will be read
 	 * @return the read classifier or null, if it was not possible to read the classifier
 	 */
-	private IncrementalClassifier loadIncrementalClassifier(OWLOntology ontology, File file)
+	private IncrementalClassifier loadIncrementalClassifier(final OWLOntology ontology, final File file)
 	{
 		try
 		{
@@ -262,12 +247,10 @@ public class PelletClassify extends PelletCmdApp
 			if (ontologyDiff.getDiffCount() > 0)
 			{
 				verbose("There were changes to the underlying ontology since the classifier was persisted. Incrementally updating the classifier");
-				result.ontologiesChanged(new LinkedList<OWLOntologyChange>(ontologyDiff.getChanges(ontology)));
+				result.ontologiesChanged(new LinkedList<>(ontologyDiff.getChanges(ontology)));
 			}
 			else
-			{
 				currentStateSaved = true;
-			}
 
 			return result;
 		}
@@ -281,10 +264,10 @@ public class PelletClassify extends PelletCmdApp
 
 	/**
 	 * Computes the name of the file to which the state of the incremental classifier will be persisted/read from.
-	 * 
+	 *
 	 * @return the file name
 	 */
-	private File determineSaveFile(OWLOntology ontology)
+	private File determineSaveFile(final OWLOntology ontology)
 	{
 		final String fileName = String.format(FILE_NAME_PATTERN, hashOntologyIRI(ontology));
 
@@ -292,13 +275,13 @@ public class PelletClassify extends PelletCmdApp
 	}
 
 	/**
-	 * Computes the hash code of the ontology IRI and returns the string representation of the hash code. The hash code
-	 * is used to identify which files contain information about the particular ontology (and we can't use directly IRIs since they can contain special
-	 * characters that are not allowed in file names, not to mention that this would make the file names too long).
-	 * 
+	 * Computes the hash code of the ontology IRI and returns the string representation of the hash code. The hash code is used to identify which files contain
+	 * information about the particular ontology (and we can't use directly IRIs since they can contain special characters that are not allowed in file names,
+	 * not to mention that this would make the file names too long).
+	 *
 	 * @return the string representation of the hash code of the ontology IRI
 	 */
-	private String hashOntologyIRI(OWLOntology ontology)
+	private String hashOntologyIRI(final OWLOntology ontology)
 	{
 		final byte[] uriBytes = ontology.getOntologyID().getOntologyIRI().toString().getBytes();
 

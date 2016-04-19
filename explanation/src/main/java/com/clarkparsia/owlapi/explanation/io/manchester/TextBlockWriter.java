@@ -14,12 +14,10 @@ import java.util.ArrayList;
  * Title:
  * </p>
  * <p>
- * Description: Concrete implementation of {@link BlockWriter} for purely
- * textual output like console output. It can probably be used for any kind of
- * output where monospaced font is used.
+ * Description: Concrete implementation of {@link BlockWriter} for purely textual output like console output. It can probably be used for any kind of output
+ * where monospaced font is used.
  * </p>
- * This implementation simply counts the number of characters printed on one
- * line and pads the next line with the same number of spaces.
+ * This implementation simply counts the number of characters printed on one line and pads the next line with the same number of spaces.
  * <p>
  * </p>
  * <p>
@@ -28,101 +26,115 @@ import java.util.ArrayList;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class TextBlockWriter extends BlockWriter {
+public class TextBlockWriter extends BlockWriter
+{
 	/**
 	 * Number of spaces that need to be printed for each block
 	 */
-	private ArrayList<Integer>	blockColumns	= new ArrayList<Integer>();
-	
+	private final ArrayList<Integer> blockColumns = new ArrayList<>();
+
 	/**
-	 * The current column (number of the characters printed) for the current
-	 * line
+	 * The current column (number of the characters printed) for the current line
 	 */
-	private int					column			= 0;
-	
+	private int column = 0;
+
 	/**
 	 * @param out
 	 */
-	public TextBlockWriter(Writer out) {
-		super( out, " " );
+	public TextBlockWriter(final Writer out)
+	{
+		super(out, " ");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	protected void startNewLine() {
-		if( newLine ) {
+	@Override
+	protected void startNewLine()
+	{
+		if (newLine)
+		{
 			newLine = false;
 
-			if( !blockColumns.isEmpty() ) {
-				int blockStart = blockColumns.get( blockColumns.size() - 1 );
-				indent( blockStart );
+			if (!blockColumns.isEmpty())
+			{
+				final int blockStart = blockColumns.get(blockColumns.size() - 1);
+				indent(blockStart);
 				column = blockStart;
 			}
-			else {
+			else
 				column = 0;
-			}
 		}
 	}
-	
-	public void println() {
-		super.println();
-		
-		column = 0;		
-	}
-	
+
 	@Override
-	public void printSpace() {
-		super.print( " " );
+	public void println()
+	{
+		super.println();
+
+		column = 0;
 	}
-	
+
+	@Override
+	public void printSpace()
+	{
+		super.print(" ");
+	}
+
 	/**
 	 * Print given number of spaces.
-	 * 
+	 *
 	 * @param count
 	 */
-	public void indent(int count) {
-		for( int i = 0; i < count; i++ ) {
-			print( pad );
-		}
+	public void indent(final int count)
+	{
+		for (int i = 0; i < count; i++)
+			print(pad);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void clearBlocks() {
+	@Override
+	public void clearBlocks()
+	{
 		blockColumns.clear();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void startBlock() {
+	@Override
+	public void startBlock()
+	{
 		// save the current column
-		blockColumns.add( column );
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public void endBlock() {
-		if( blockColumns.isEmpty() )
-			throw new IllegalStateException( "No block to end!" );
-		
-		// remove the lastly column
-		blockColumns.remove( blockColumns.size() - 1 );
+		blockColumns.add(column);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void write(char[] buf, int off, int len) {
-		super.write( buf, off, len );
-		
+	public void endBlock()
+	{
+		if (blockColumns.isEmpty())
+			throw new IllegalStateException("No block to end!");
+
+		// remove the lastly column
+		blockColumns.remove(blockColumns.size() - 1);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void write(final char[] buf, final int off, final int len)
+	{
+		super.write(buf, off, len);
+
 		column += len;
 	}
 
@@ -130,9 +142,10 @@ public class TextBlockWriter extends BlockWriter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void write(int c) {
-		super.write( c );
-		
+	public void write(final int c)
+	{
+		super.write(c);
+
 		column += 1;
 	}
 
@@ -140,9 +153,10 @@ public class TextBlockWriter extends BlockWriter {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void write(String s, int off, int len) {
-		super.write( s, off, len );
-		
+	public void write(final String s, final int off, final int len)
+	{
+		super.write(s, off, len);
+
 		column += len;
 	}
 }

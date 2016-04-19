@@ -12,56 +12,70 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class MultiIterator<T> implements Iterator<T> {
-    private List<Iterator<? extends T>> list = new ArrayList<Iterator<? extends T>>(2);
+public class MultiIterator<T> implements Iterator<T>
+{
+	private final List<Iterator<? extends T>> list = new ArrayList<>(2);
 
-    private int index = 0;
+	private int index = 0;
 
-    private Iterator<? extends T> curr;
+	private Iterator<? extends T> curr;
 
-    public MultiIterator(Iterator<? extends T> first) {
-        curr = first;
-    }
+	public MultiIterator(final Iterator<? extends T> first)
+	{
+		curr = first;
+	}
 
-    public MultiIterator(Iterator<? extends T> first, Iterator <? extends T>second) {
-        curr = first;
-        list.add( second );
-    }
-    
-    public boolean hasNext() {
-        while( !curr.hasNext() && index < list.size() )
-            curr = list.get( index++ );
-        
-        return curr.hasNext();
-    }
+	public MultiIterator(final Iterator<? extends T> first, final Iterator<? extends T> second)
+	{
+		curr = first;
+		list.add(second);
+	}
 
-    public T next() {
-        if( !hasNext() )
-            throw new NoSuchElementException( "multi iterator" );
-        
-        return curr.next(); 
-    }
+	@Override
+	public boolean hasNext()
+	{
+		while (!curr.hasNext() && index < list.size())
+			curr = list.get(index++);
 
-    public void append(Iterator<? extends T> other) {
-    	if( other.hasNext() ) {
-	        if( other instanceof MultiIterator )
-	            list.addAll( ((MultiIterator<? extends T>) other).list );
-	        else
-	            list.add( other );
-    	}
-    }
+		return curr.hasNext();
+	}
 
-    public void remove() {
-        curr.remove();
-    }
+	@Override
+	public T next()
+	{
+		if (!hasNext())
+			throw new NoSuchElementException("multi iterator");
+
+		return curr.next();
+	}
+
+	public void append(final Iterator<? extends T> other)
+	{
+		if (other.hasNext())
+			if (other instanceof MultiIterator)
+				list.addAll(((MultiIterator<? extends T>) other).list);
+			else
+				list.add(other);
+	}
+
+	@Override
+	public void remove()
+	{
+		curr.remove();
+	}
 }

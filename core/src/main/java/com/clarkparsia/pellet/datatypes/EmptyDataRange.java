@@ -8,8 +8,7 @@ import java.util.NoSuchElementException;
  * Title: Empty Data Range
  * </p>
  * <p>
- * Description: Re-usable empty data range implementation. Cannot be static so
- * that parameterization is handled correctly.
+ * Description: Re-usable empty data range implementation. Cannot be static so that parameterization is handled correctly.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -17,46 +16,64 @@ import java.util.NoSuchElementException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class EmptyDataRange<T> implements DataRange<T> {
+public class EmptyDataRange<T> implements DataRange<T>
+{
 
-	final private Iterator<T>	iterator;
+	final private Iterator<T> iterator;
 
-	public EmptyDataRange() {
-		this.iterator = new EmptyIterator<T>();
+	public EmptyDataRange()
+	{
+		this.iterator = new EmptyIterator<>();
 	}
 
-	public boolean contains(Object value) {
+	@Override
+	public boolean contains(final Object value)
+	{
 		return false;
 	}
 
-	public boolean containsAtLeast(int n) {
+	@Override
+	public boolean containsAtLeast(final int n)
+	{
 		return n <= 0;
 	}
 
-	public T getValue(int i) {
+	@Override
+	public T getValue(final int i)
+	{
 		throw new NoSuchElementException();
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return true;
 	}
 
-	public boolean isEnumerable() {
+	@Override
+	public boolean isEnumerable()
+	{
 		return true;
 	}
 
-	public boolean isFinite() {
+	@Override
+	public boolean isFinite()
+	{
 		return true;
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		return 0;
 	}
 
-	public Iterator<T> valueIterator() {
+	@Override
+	public Iterator<T> valueIterator()
+	{
 		return iterator;
 	}
 

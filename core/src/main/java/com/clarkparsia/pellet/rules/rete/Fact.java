@@ -6,11 +6,9 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import java.util.List;
-
-import org.mindswap.pellet.DependencySet;
-
 import aterm.ATermAppl;
+import java.util.List;
+import org.mindswap.pellet.DependencySet;
 
 /**
  * <p>
@@ -25,28 +23,36 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class Fact extends Tuple<ATermAppl> {
+public class Fact extends Tuple<ATermAppl>
+{
 
-	public Fact(DependencySet ds, ATermAppl... constants) {
-		super( ds, constants );
+	public Fact(final DependencySet ds, final ATermAppl... constants)
+	{
+		super(ds, constants);
 	}
 
-	public Fact(DependencySet ds, List<ATermAppl> constants) {
-		super( ds, constants );
+	public Fact(final DependencySet ds, final List<ATermAppl> constants)
+	{
+		super(ds, constants);
 	}
 
-	public boolean equals(Object other) {
-		if( other instanceof Fact ) {
-			Fact otherFact = (Fact) other;
-			return getElements().equals( otherFact.getElements() );
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (other instanceof Fact)
+		{
+			final Fact otherFact = (Fact) other;
+			return getElements().equals(otherFact.getElements());
 		}
 		return false;
 	}
 
-	public String toString() {
+	@Override
+	public String toString()
+	{
 		return "Fact( " + getElements() + ")";
 	}
 

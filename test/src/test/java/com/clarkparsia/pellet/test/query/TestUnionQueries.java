@@ -12,13 +12,10 @@ import static com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory.PropertyVal
 import static com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory.TypeAtom;
 import static com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory.UnionAtom;
 
-import java.util.Arrays;
-
-import org.junit.Test;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.sparqldl.model.Query;
+import java.util.Arrays;
+import org.junit.Test;
 
 /**
  * <p>
@@ -33,63 +30,56 @@ import com.clarkparsia.pellet.sparqldl.model.Query;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class TestUnionQueries extends AbstractQueryTest {
+public class TestUnionQueries extends AbstractQueryTest
+{
 	@Test
-	public void test1() {
-		classes( A, B );
-		individuals( a, b, c );
-		
-		kb.addType( a, A );
-		kb.addType( b, B );
+	public void test1()
+	{
+		classes(A, B);
+		individuals(a, b, c);
 
-		Query q = query( select( x ), 
-						 where( UnionAtom(Arrays.asList(
-								Arrays.asList(TypeAtom( x, A )), 
-								Arrays.asList(TypeAtom( x, B ))) ) ) );
+		kb.addType(a, A);
+		kb.addType(b, B);
 
-		testQuery( q, new ATermAppl[][] { { a }, { b } } );
+		final Query q = query(select(x), where(UnionAtom(Arrays.asList(Arrays.asList(TypeAtom(x, A)), Arrays.asList(TypeAtom(x, B))))));
+
+		testQuery(q, new ATermAppl[][] { { a }, { b } });
 	}
 
 	@Test
-	public void test2() {
-		classes( A, B, C );
-		objectProperties( p );
-		individuals( a, b, c );
+	public void test2()
+	{
+		classes(A, B, C);
+		objectProperties(p);
+		individuals(a, b, c);
 
-		kb.addType( a, A );
-		kb.addType( a, C );
-		kb.addType( b, A );
-		kb.addType( b, B );
+		kb.addType(a, A);
+		kb.addType(a, C);
+		kb.addType(b, A);
+		kb.addType(b, B);
 
-		Query q = query( select( x ), 
-						 where( TypeAtom( x, A ), 
-								UnionAtom(Arrays.asList(
-										Arrays.asList(TypeAtom( x, B )), 
-										Arrays.asList(TypeAtom( x, C ))) ) ) );
+		final Query q = query(select(x), where(TypeAtom(x, A), UnionAtom(Arrays.asList(Arrays.asList(TypeAtom(x, B)), Arrays.asList(TypeAtom(x, C))))));
 
-		testQuery( q, new ATermAppl[][] { { a }, { b } } );
+		testQuery(q, new ATermAppl[][] { { a }, { b } });
 	}
-	
+
 	@Test
-	public void test3() {
-		classes( A, B );
-		objectProperties( p, q );
-		individuals( a, b, c );
+	public void test3()
+	{
+		classes(A, B);
+		objectProperties(p, q);
+		individuals(a, b, c);
 
-		kb.addType( a, A );
-		kb.addType( b, A );
-		kb.addPropertyValue( p, a, c );
-		kb.addPropertyValue( p, b, c );
+		kb.addType(a, A);
+		kb.addType(b, A);
+		kb.addPropertyValue(p, a, c);
+		kb.addPropertyValue(p, b, c);
 
-		Query q1 = query( select( x, y ), 
-						 where( TypeAtom( x, A ), 
-								UnionAtom(Arrays.asList(
-										Arrays.asList(PropertyValueAtom( x, p, y )), 
-										Arrays.asList(PropertyValueAtom( x, q, y ))))) );
+		final Query q1 = query(select(x, y), where(TypeAtom(x, A), UnionAtom(Arrays.asList(Arrays.asList(PropertyValueAtom(x, p, y)), Arrays.asList(PropertyValueAtom(x, q, y))))));
 
-		testQuery( q1, new ATermAppl[][] { { a, c }, { b, c } } );
+		testQuery(q1, new ATermAppl[][] { { a, c }, { b, c } });
 	}
 }

@@ -7,12 +7,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.math.BigDecimal;
-
-import org.junit.Test;
-
 import com.clarkparsia.pellet.datatypes.OWLRealUtils;
 import com.clarkparsia.pellet.datatypes.types.real.Rational;
+import java.math.BigDecimal;
+import org.junit.Test;
 
 /**
  * <p>
@@ -27,21 +25,25 @@ import com.clarkparsia.pellet.datatypes.types.real.Rational;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class OWLRealUtilsTests {
+public class OWLRealUtilsTests
+{
 
-	private static Number decimal(String s) {
+	private static Number decimal(final String s)
+	{
 		return new BigDecimal(s);
 	}
 
-	private static Rational rational(Number a, Number b) {
+	private static Rational rational(final Number a, final Number b)
+	{
 		return new Rational(a, b);
 	}
 
 	@Test
-	public void compareWithRational() {
+	public void compareWithRational()
+	{
 
 		assertTrue(compare(decimal("0.333"), rational(1, 3)) < 0);
 		assertTrue(compare(decimal("0.334"), rational(1, 3)) > 0);
@@ -54,15 +56,17 @@ public class OWLRealUtilsTests {
 	}
 
 	@Test
-	public void canonicalBigDecimal() {
+	public void canonicalBigDecimal()
+	{
 		assertEquals(Byte.valueOf((byte) 1), getCanonicalObject(BigDecimal.valueOf(10, 1)));
 		assertEquals(Byte.valueOf((byte) 1), getCanonicalObject(BigDecimal.valueOf(1, 0)));
 		assertEquals(Byte.valueOf((byte) 0), getCanonicalObject(BigDecimal.valueOf(0, 0)));
-		assertEquals(Byte.valueOf((byte) 0), getCanonicalObject(BigDecimal.valueOf(0, 1)));		
+		assertEquals(Byte.valueOf((byte) 0), getCanonicalObject(BigDecimal.valueOf(0, 1)));
 	}
-	
+
 	@Test
-	public void isDecimalValueInteger() {
+	public void isDecimalValueInteger()
+	{
 		assertTrue(isInteger(new BigDecimal("0")));
 		assertTrue(isInteger(new BigDecimal("1")));
 		assertTrue(isInteger(new BigDecimal("10")));

@@ -9,24 +9,25 @@ package com.clarkparsia.modularity.test;
 import com.clarkparsia.modularity.AxiomBasedModuleExtractor;
 import com.clarkparsia.modularity.ModuleExtractor;
 
-
 /**
- * 
  * @author Evren Sirin
  */
-public class AxiomBasedRandomizedModularityTest extends RandomizedModularityTest {
+public class AxiomBasedRandomizedModularityTest extends RandomizedModularityTest
+{
 	/**
 	 * @param path
 	 */
-	public AxiomBasedRandomizedModularityTest() {
-		super( "test/data/modularity/" );
+	public AxiomBasedRandomizedModularityTest()
+	{
+		super("test/data/modularity/");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ModuleExtractor createModuleExtractor() {
+	public ModuleExtractor createModuleExtractor()
+	{
 		return new AxiomBasedModuleExtractor();
 	}
 }

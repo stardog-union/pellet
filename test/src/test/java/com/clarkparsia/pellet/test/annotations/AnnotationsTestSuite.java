@@ -1,7 +1,6 @@
 package com.clarkparsia.pellet.test.annotations;
 
 import junit.framework.TestSuite;
-
 import org.mindswap.pellet.test.TestAnnotations;
 
 /**
@@ -17,21 +16,24 @@ import org.mindswap.pellet.test.TestAnnotations;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Hector Perez-Urbina
  */
-public class AnnotationsTestSuite extends TestSuite {
+public class AnnotationsTestSuite extends TestSuite
+{
 
-	public static TestSuite suite() {
-		TestSuite suite = new TestSuite( AnnotationsTestSuite.class.getName() );
-		
-		suite.addTest( TestAnnotations.suite());
-		suite.addTest( TestReasoningWithAnnotationAxioms.suite() );
-		
+	public static TestSuite suite()
+	{
+		final TestSuite suite = new TestSuite(AnnotationsTestSuite.class.getName());
+
+		suite.addTest(TestAnnotations.suite());
+		suite.addTest(TestReasoningWithAnnotationAxioms.suite());
+
 		return suite;
 	}
 
-	public static void main(String args[]) {
-		junit.textui.TestRunner.run( suite() );
+	public static void main(final String args[])
+	{
+		junit.textui.TestRunner.run(suite());
 	}
 }

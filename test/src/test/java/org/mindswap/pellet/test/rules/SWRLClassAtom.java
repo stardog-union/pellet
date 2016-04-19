@@ -7,7 +7,6 @@
 package org.mindswap.pellet.test.rules;
 
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
@@ -25,22 +24,26 @@ import org.mindswap.pellet.test.PelletTestSuite;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class SWRLClassAtom extends SWRLAbstract {
-	
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( SWRLClassAtom.class );
+public class SWRLClassAtom extends SWRLAbstract
+{
+
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(SWRLClassAtom.class);
 	}
-	
+
 	@BeforeClass
-	public static void setUp() {
+	public static void setUp()
+	{
 		base = "file:" + PelletTestSuite.base + "swrl-classAtom/";
 	}
 
 	@Test
-	public void complex() {
-		test( "complex" );
+	public void complex()
+	{
+		test("complex");
 	}
 }

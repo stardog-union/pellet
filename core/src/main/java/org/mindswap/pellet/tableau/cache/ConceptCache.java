@@ -6,12 +6,10 @@
 
 package org.mindswap.pellet.tableau.cache;
 
+import aterm.ATermAppl;
 import java.util.Map;
-
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.Bool;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -26,27 +24,28 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public interface ConceptCache extends Map<ATermAppl, CachedNode> {
+public interface ConceptCache extends Map<ATermAppl, CachedNode>
+{
 	/**
 	 * Get the maximum number of non-primitive concepts allowed in the cache
-	 * 
+	 *
 	 * @return
 	 */
 	public int getMaxSize();
 
 	/**
 	 * Set the maximum number of non-primitive concepts allowed in the cache
-	 * 
+	 *
 	 * @return
 	 */
 	public void setMaxSize(int maxSize);
 
 	/**
 	 * Get the satisfiability status of a concept as a three-value boolean.
-	 * 
+	 *
 	 * @param c
 	 * @return
 	 */
@@ -54,7 +53,7 @@ public interface ConceptCache extends Map<ATermAppl, CachedNode> {
 
 	/**
 	 * Put an incomplete
-	 * 
+	 *
 	 * @param c
 	 * @param isSatisfiable
 	 * @return
@@ -77,7 +76,7 @@ public interface ConceptCache extends Map<ATermAppl, CachedNode> {
 
 	/**
 	 * Returns safety checker that tells which concepts are safe to cache.
-	 *  
+	 * 
 	 * @return safety checker
 	 */
 	public CacheSafety getSafety();

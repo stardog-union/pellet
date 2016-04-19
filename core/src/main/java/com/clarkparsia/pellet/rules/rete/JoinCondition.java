@@ -9,51 +9,57 @@ package com.clarkparsia.pellet.rules.rete;
 import com.clarkparsia.pellet.rules.rete.NodeProvider.TokenNodeProvider;
 import com.clarkparsia.pellet.rules.rete.NodeProvider.WMENodeProvider;
 
-public class JoinCondition implements FilterCondition {
+public class JoinCondition implements FilterCondition
+{
 	private final WMENodeProvider wmeProvider;
 	private final TokenNodeProvider tokenProvider;
-	
-	public JoinCondition(WMENodeProvider wme, TokenNodeProvider token) {
-        this.wmeProvider = wme;
-        this.tokenProvider = token;
-    }
-	
+
+	public JoinCondition(final WMENodeProvider wme, final TokenNodeProvider token)
+	{
+		this.wmeProvider = wme;
+		this.tokenProvider = token;
+	}
+
 	@Override
-    public boolean test(WME wme, Token token) {
+	public boolean test(final WME wme, final Token token)
+	{
 		return wmeProvider.getNode(wme, token).getTerm().equals(tokenProvider.getNode(wme, token).getTerm());
 	}
-	
-	public WMENodeProvider getWME() {
+
+	public WMENodeProvider getWME()
+	{
 		return wmeProvider;
 	}
 
-	public TokenNodeProvider getToken() {
+	public TokenNodeProvider getToken()
+	{
 		return tokenProvider;
 	}
-	
-	@Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + wmeProvider.hashCode();
-        result = prime * result + tokenProvider.hashCode();
-        return result;
-    }
 
 	@Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-	        return true;
-        }
-        if (!(obj instanceof JoinCondition)) {
-	        return false;
-        }
-        JoinCondition other = (JoinCondition) obj;
-        return wmeProvider.equals(other.wmeProvider) && tokenProvider.equals(other.tokenProvider);
-    }
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + wmeProvider.hashCode();
+		result = prime * result + tokenProvider.hashCode();
+		return result;
+	}
 
 	@Override
-	public String toString() {
-	    return wmeProvider + "=" + tokenProvider;
+	public boolean equals(final Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!(obj instanceof JoinCondition))
+			return false;
+		final JoinCondition other = (JoinCondition) obj;
+		return wmeProvider.equals(other.wmeProvider) && tokenProvider.equals(other.tokenProvider);
+	}
+
+	@Override
+	public String toString()
+	{
+		return wmeProvider + "=" + tokenProvider;
 	}
 }

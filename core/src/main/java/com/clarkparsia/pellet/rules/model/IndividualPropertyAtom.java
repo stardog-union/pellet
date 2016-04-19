@@ -6,16 +6,15 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-import org.mindswap.pellet.utils.URIUtils;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.utils.URIUtils;
 
 /**
  * <p>
  * Title: Individual Property Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,21 +22,26 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class IndividualPropertyAtom extends BinaryAtom<ATermAppl, AtomIObject, AtomIObject> {
+ */
+public class IndividualPropertyAtom extends BinaryAtom<ATermAppl, AtomIObject, AtomIObject>
+{
 
-	public IndividualPropertyAtom(ATermAppl predicate, AtomIObject subject, AtomIObject object) {
+	public IndividualPropertyAtom(final ATermAppl predicate, final AtomIObject subject, final AtomIObject object)
+	{
 		super(predicate, subject, object);
 	}
 
 	@Override
-	public void accept(RuleAtomVisitor visitor) {
-		visitor.visit( this );
+	public void accept(final RuleAtomVisitor visitor)
+	{
+		visitor.visit(this);
 	}
-	
-	public String toString() {
-		return URIUtils.getLocalName(getPredicate().getName())+"("+getArgument1()+","+getArgument2()+")";
+
+	@Override
+	public String toString()
+	{
+		return URIUtils.getLocalName(getPredicate().getName()) + "(" + getArgument1() + "," + getArgument2() + ")";
 	}
 }

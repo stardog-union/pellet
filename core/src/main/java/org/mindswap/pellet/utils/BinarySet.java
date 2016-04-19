@@ -11,64 +11,77 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * A specialized immutable implementation of Set interface that always contains
- * exactly two elements.
- * 
+ * A specialized immutable implementation of Set interface that always contains exactly two elements.
+ *
  * @author Evren Sirin
  */
-public class BinarySet<T> extends AbstractSet<T> {
-	private T first;
-	private T second;
-		
-	private BinarySet(T first, T second) {
-		if( first.equals( second ) )
-			throw new IllegalArgumentException( "Cannot create a binary set with single element: "
-					+ first );
+public class BinarySet<T> extends AbstractSet<T>
+{
+	private final T first;
+	private final T second;
+
+	private BinarySet(final T first, final T second)
+	{
+		if (first.equals(second))
+			throw new IllegalArgumentException("Cannot create a binary set with single element: " + first);
 		this.first = first;
 		this.second = second;
 	}
-	
-	public static <T> BinarySet<T> create(T first, T second) {
-		return new BinarySet<T>( first, second );
+
+	public static <T> BinarySet<T> create(final T first, final T second)
+	{
+		return new BinarySet<>(first, second);
 	}
-	
-	public T first() {
+
+	public T first()
+	{
 		return first;
 	}
-	
-	public T second() {
+
+	public T second()
+	{
 		return second;
 	}
 
 	@Override
-	public boolean contains(Object o) {
-		return first.equals( o ) || second.equals( o );
+	public boolean contains(final Object o)
+	{
+		return first.equals(o) || second.equals(o);
 	}
 
 	@Override
-	public Iterator<T> iterator() {
-		return new Iterator<T>() {
+	public Iterator<T> iterator()
+	{
+		return new Iterator<T>()
+		{
 			private int i = 0;
-			
-			public boolean hasNext() {
+
+			@Override
+			public boolean hasNext()
+			{
 				return i < 2;
 			}
 
-			public T next() {
-				if( !hasNext() )
+			@Override
+			public T next()
+			{
+				if (!hasNext())
 					throw new NoSuchElementException();
 
 				return (i++ == 0) ? first : second;
 			}
 
-			public void remove() {
+			@Override
+			public void remove()
+			{
 				throw new UnsupportedOperationException();
 			}
 		};
 	}
 
 	@Override
-	public int size() {
+	public int size()
+	{
 		return 2;
 	}
 

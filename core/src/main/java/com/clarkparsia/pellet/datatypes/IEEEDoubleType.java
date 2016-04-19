@@ -5,8 +5,7 @@ package com.clarkparsia.pellet.datatypes;
  * Title: IEEE Double Type
  * </p>
  * <p>
- * Description: Implementation of {@link FloatingPointType} to support
- * <code>xsd:double</code>
+ * Description: Implementation of {@link FloatingPointType} to support <code>xsd:double</code>
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -14,58 +13,80 @@ package com.clarkparsia.pellet.datatypes;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class IEEEDoubleType implements FloatingPointType<Double> {
+public class IEEEDoubleType implements FloatingPointType<Double>
+{
 
-	private static final IEEEDoubleType	INSTANCE;
+	private static final IEEEDoubleType INSTANCE;
 
-	static {
+	static
+	{
 		INSTANCE = new IEEEDoubleType();
 	}
 
-	public static IEEEDoubleType getInstance() {
+	public static IEEEDoubleType getInstance()
+	{
 		return INSTANCE;
 	}
 
-	private IEEEDoubleType() {
+	private IEEEDoubleType()
+	{
 		;
 	}
 
-	public Double cast(Object o) {
-		return Double.class.cast( o );
+	@Override
+	public Double cast(final Object o)
+	{
+		return Double.class.cast(o);
 	}
 
-	public Double decrement(Double n) {
-		return FloatingPointUtils.decrement( n );
+	@Override
+	public Double decrement(final Double n)
+	{
+		return FloatingPointUtils.decrement(n);
 	}
 
-	public Double getNaN() {
+	@Override
+	public Double getNaN()
+	{
 		return Double.NaN;
 	}
 
-	public Double getNegativeInfinity() {
+	@Override
+	public Double getNegativeInfinity()
+	{
 		return Double.NEGATIVE_INFINITY;
 	}
 
-	public Double getPositiveInfinity() {
+	@Override
+	public Double getPositiveInfinity()
+	{
 		return Double.POSITIVE_INFINITY;
 	}
 
-	public Double increment(Double n) {
-		return FloatingPointUtils.increment( n );
+	@Override
+	public Double increment(final Double n)
+	{
+		return FloatingPointUtils.increment(n);
 	}
 
-	public Number intervalSize(Double lower, Double upper) {
-		return FloatingPointUtils.intervalSize( lower, upper );
+	@Override
+	public Number intervalSize(final Double lower, final Double upper)
+	{
+		return FloatingPointUtils.intervalSize(lower, upper);
 	}
 
-	public boolean isInstance(Object o) {
-		return Double.class.isInstance( o );
+	@Override
+	public boolean isInstance(final Object o)
+	{
+		return Double.class.isInstance(o);
 	}
 
-	public boolean isNaN(Double f) {
+	@Override
+	public boolean isNaN(final Double f)
+	{
 		return f.isNaN();
 	}
 

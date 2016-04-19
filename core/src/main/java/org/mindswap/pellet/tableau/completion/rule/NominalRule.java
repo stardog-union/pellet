@@ -8,9 +8,9 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
+import aterm.ATermAppl;
 import java.util.List;
 import java.util.logging.Level;
-
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Individual;
@@ -20,8 +20,6 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.completion.CompletionStrategy;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -36,50 +34,55 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class NominalRule extends AbstractTableauRule {
+public class NominalRule extends AbstractTableauRule
+{
 
-	public NominalRule(CompletionStrategy strategy) {
-		super( strategy, NodeSelector.NOMINAL, BlockingType.NONE );
+	public NominalRule(final CompletionStrategy strategy)
+	{
+		super(strategy, NodeSelector.NOMINAL, BlockingType.NONE);
 	}
 
-	public void apply(Individual y) {
-		List<ATermAppl> types = y.getTypes( Node.NOM );
-		int size = types.size();
-		for( int j = 0; j < size; j++ ) {
-			ATermAppl nc = types.get( j );
-			DependencySet ds = y.getDepends( nc );
+	@Override
+	public void apply(final Individual y)
+	{
+		final List<ATermAppl> types = y.getTypes(Node.NOM);
+		final int size = types.size();
+		for (int j = 0; j < size; j++)
+		{
+			final ATermAppl nc = types.get(j);
+			final DependencySet ds = y.getDepends(nc);
 
-			if( !PelletOptions.MAINTAIN_COMPLETION_QUEUE && ds == null )
+			if (!PelletOptions.MAINTAIN_COMPLETION_QUEUE && ds == null)
 				continue;
 
-			applyNominalRule( y, nc, ds );
+			applyNominalRule(y, nc, ds);
 
-			if( strategy.getABox().isClosed() )
+			if (strategy.getABox().isClosed())
 				return;
-			
-			if( y.isMerged() ) {
-				apply( y.getSame() );
+
+			if (y.isMerged())
+			{
+				apply(y.getSame());
 				return;
 			}
 		}
 	}
 
-	void applyNominalRule(Individual y, ATermAppl nc, DependencySet ds) {
+	void applyNominalRule(final Individual y, final ATermAppl nc, DependencySet ds)
+	{
 		strategy.getABox().copyOnWrite();
 
-		ATermAppl nominal = (ATermAppl) nc.getArgument( 0 );
+		final ATermAppl nominal = (ATermAppl) nc.getArgument(0);
 		// first find the individual for the given nominal
-		Individual z = strategy.getABox().getIndividual( nominal );
-		if( z == null ) {
-			if( ATermUtils.isAnonNominal( nominal ) ) {
-				z = strategy.getABox().addIndividual( nominal, ds );
-			}
+		Individual z = strategy.getABox().getIndividual(nominal);
+		if (z == null)
+			if (ATermUtils.isAnonNominal(nominal))
+				z = strategy.getABox().addIndividual(nominal, ds);
 			else
-				throw new InternalReasonerException( "Nominal " + nominal + " not found in KB!" );
-		}
+				throw new InternalReasonerException("Nominal " + nominal + " not found in KB!");
 
 		// Get the value of mergedTo because of the following possibility:
 		// Suppose there are three individuals like this
@@ -88,27 +91,29 @@ public class NominalRule extends AbstractTableauRule {
 		// the node y. It is too hard to update all the references of
 		// value(x) so here we find the actual representative node
 		// by calling getSame()
-		if( z.isMerged() ) {
-			ds = ds.union( z.getMergeDependency( true ), strategy.getABox().doExplanation() );
+		if (z.isMerged())
+		{
+			ds = ds.union(z.getMergeDependency(true), strategy.getABox().doExplanation());
 
 			z = z.getSame();
 		}
 
-		if( y.isSame( z ) )
+		if (y.isSame(z))
 			return;
 
-		if( y.isDifferent( z ) ) {
-			ds = ds.union( y.getDifferenceDependency( z ), strategy.getABox().doExplanation() );
-			if( strategy.getABox().doExplanation() )
-				strategy.getABox().setClash( Clash.nominal( y, ds, z.getName() ) );
+		if (y.isDifferent(z))
+		{
+			ds = ds.union(y.getDifferenceDependency(z), strategy.getABox().doExplanation());
+			if (strategy.getABox().doExplanation())
+				strategy.getABox().setClash(Clash.nominal(y, ds, z.getName()));
 			else
-				strategy.getABox().setClash( Clash.nominal( y, ds ) );
+				strategy.getABox().setClash(Clash.nominal(y, ds));
 			return;
 		}
 
-		if( log.isLoggable( Level.FINE ) )
-			log.fine( "NOM:  " + y + " -> " + z );
+		if (log.isLoggable(Level.FINE))
+			log.fine("NOM:  " + y + " -> " + z);
 
-		strategy.mergeTo( y, z, ds );
+		strategy.mergeTo(y, z, ds);
 	}
 }

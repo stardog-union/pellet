@@ -31,7 +31,6 @@
 package org.mindswap.pellet.tableau.branch;
 
 import java.util.logging.Logger;
-
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
@@ -52,96 +51,100 @@ import org.mindswap.pellet.tableau.completion.CompletionStrategy;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public abstract class Branch {
-    public static final Logger log = Logger.getLogger( Branch.class.getName() );
-        
-    protected ABox abox;
+public abstract class Branch
+{
+	public static final Logger log = Logger.getLogger(Branch.class.getName());
+
+	protected ABox abox;
 	protected CompletionStrategy strategy;
 	protected int branch;
 	protected int tryCount;
 	protected int tryNext;
-	
+
 	private DependencySet termDepends;
-    private DependencySet prevDS;
-	
+	private DependencySet prevDS;
+
 	// store things that can be changed after this branch
-    protected int anonCount;
+	protected int anonCount;
 	protected int nodeCount;
-	
-	Branch(ABox abox, CompletionStrategy strategy, DependencySet ds, int n) {
+
+	Branch(final ABox abox, final CompletionStrategy strategy, final DependencySet ds, final int n)
+	{
 		this.abox = abox;
-		this.setStrategy( strategy );
-		
-		setTermDepends( ds );
-		setTryCount( n );
+		this.setStrategy(strategy);
+
+		setTermDepends(ds);
+		setTryCount(n);
 		prevDS = DependencySet.EMPTY;
-		setTryNext( 0 );			
-		
-		setBranch( abox.getBranch() );
-		setAnonCount( abox.getAnonCount() );
-		setNodeCount( abox.size() );
+		setTryNext(0);
+
+		setBranch(abox.getBranch());
+		setAnonCount(abox.getAnonCount());
+		setNodeCount(abox.size());
 	}
-    
-    public void setLastClash( DependencySet ds ) {
-    		if(getTryNext()>=0){
-    			prevDS = prevDS.union( ds, abox.doExplanation() );
-    			if(PelletOptions.USE_INCREMENTAL_DELETION){
-	    			//CHW - added for incremental deletions support THIS SHOULD BE MOVED TO SUPER
-	    			abox.getKB().getDependencyIndex().addCloseBranchDependency(this, ds);		
-    			}
-    		}
-    }
-	
-    public DependencySet getCombinedClash() {
-        return prevDS;
-    }
-    
-	public void setStrategy(CompletionStrategy strategy) {
-	    this.strategy = strategy;
-	}
-	
-	public boolean tryNext() {			
-		// nothing more to try, update the clash dependency
-		if( getTryNext() == getTryCount() ) {
-			if( !abox.isClosed() )
-				abox.setClash( Clash.unexplained(getNode(), termDepends) );
-			else
-				abox.getClash().setDepends( getCombinedClash() );
+
+	public void setLastClash(final DependencySet ds)
+	{
+		if (getTryNext() >= 0)
+		{
+			prevDS = prevDS.union(ds, abox.doExplanation());
+			if (PelletOptions.USE_INCREMENTAL_DELETION)
+				//CHW - added for incremental deletions support THIS SHOULD BE MOVED TO SUPER
+				abox.getKB().getDependencyIndex().addCloseBranchDependency(this, ds);
 		}
-		
+	}
+
+	public DependencySet getCombinedClash()
+	{
+		return prevDS;
+	}
+
+	public void setStrategy(final CompletionStrategy strategy)
+	{
+		this.strategy = strategy;
+	}
+
+	public boolean tryNext()
+	{
+		// nothing more to try, update the clash dependency
+		if (getTryNext() == getTryCount())
+			if (!abox.isClosed())
+				abox.setClash(Clash.unexplained(getNode(), termDepends));
+			else
+				abox.getClash().setDepends(getCombinedClash());
+
 		// if there is no clash try next possibility
-		if( !abox.isClosed() )
+		if (!abox.isClosed())
 			tryBranch();
 
 		// there is a clash so there is no point in trying this
 		// branch again. remove this branch from clash dependency
-		if( abox.isClosed() ) {
-			if( !PelletOptions.USE_INCREMENTAL_DELETION )
-				abox.getClash().getDepends().remove( getBranch() );
-		}
-		
+		if (abox.isClosed())
+			if (!PelletOptions.USE_INCREMENTAL_DELETION)
+				abox.getClash().getDepends().remove(getBranch());
+
 		return !abox.isClosed();
 	}
-	
+
 	public abstract Branch copyTo(ABox abox);
-	
+
 	protected abstract void tryBranch();
-	
+
 	public abstract Node getNode();
-	
-	public String toString() {
-//		return "Branch " + branch + " (" + tryCount + ")";
-		return "Branch on node " + getNode() + "  Branch number: "+ getBranch() + " " + getTryNext() + "(" + getTryCount() + ")";
+
+	@Override
+	public String toString()
+	{
+		//		return "Branch " + branch + " (" + tryCount + ")";
+		return "Branch on node " + getNode() + "  Branch number: " + getBranch() + " " + getTryNext() + "(" + getTryCount() + ")";
 	}
-	
-	
+
 	/**
-	 * Added for to re-open closed branches.
-	 * This is needed for incremental reasoning through deletions
-	 * 
+	 * Added for to re-open closed branches. This is needed for incremental reasoning through deletions
+	 *
 	 * @param index The shift index
 	 */
 	public abstract void shiftTryNext(int index);
@@ -149,82 +152,94 @@ public abstract class Branch {
 	/**
 	 * @param nodeCount the nodeCount to set
 	 */
-	public void setNodeCount(int nodeCount) {
+	public void setNodeCount(final int nodeCount)
+	{
 		this.nodeCount = nodeCount;
 	}
-	
+
 	/**
 	 * @return the nodeCount
 	 */
-	public int getNodeCount() {
+	public int getNodeCount()
+	{
 		return nodeCount;
 	}
 
-	public void setBranch(int branch) {
+	public void setBranch(final int branch)
+	{
 		this.branch = branch;
 	}
-	
+
 	/**
 	 * @return the branch
 	 */
-	public int getBranch() {
+	public int getBranch()
+	{
 		return branch;
 	}
 
 	/**
 	 * @return the anonCount
 	 */
-	public int getAnonCount() {
+	public int getAnonCount()
+	{
 		return anonCount;
 	}
 
 	/**
 	 * @param tryNext the tryNext to set
 	 */
-	public void setTryNext(int tryNext) {
+	public void setTryNext(final int tryNext)
+	{
 		this.tryNext = tryNext;
 	}
 
 	/**
 	 * @return the tryNext
 	 */
-	public int getTryNext() {
+	public int getTryNext()
+	{
 		return tryNext;
 	}
 
 	/**
 	 * @param tryCount the tryCount to set
 	 */
-	public void setTryCount(int tryCount) {
+	public void setTryCount(final int tryCount)
+	{
 		this.tryCount = tryCount;
 	}
 
 	/**
 	 * @return the tryCount
 	 */
-	public int getTryCount() {
+	public int getTryCount()
+	{
 		return tryCount;
 	}
 
 	/**
 	 * @param termDepends the termDepends to set
 	 */
-	public void setTermDepends(DependencySet termDepends) {
+	public void setTermDepends(final DependencySet termDepends)
+	{
 		this.termDepends = termDepends;
 	}
 
 	/**
 	 * @return the termDepends
 	 */
-	public DependencySet getTermDepends() {
+	public DependencySet getTermDepends()
+	{
 		return termDepends;
 	}
 
 	/**
 	 * @param anonCount the anonCount to set
 	 */
-	public void setAnonCount(int anonCount) {
+	public void setAnonCount(final int anonCount)
+	{
 		this.anonCount = anonCount;
 	}
-	
+
 }

@@ -9,11 +9,10 @@ package org.mindswap.pellet.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.clarkparsia.pellet.owlapi.PelletReasoner;
-import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.OntologyUtils;
+import com.clarkparsia.pellet.owlapi.PelletReasoner;
+import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLException;
@@ -21,63 +20,83 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import uk.ac.manchester.cs.owl.owlapi.OWLOntologyIRIMapperImpl;
 
-public class OWLAPIWebOntTester implements WebOntTester {
-	OWLOntologyManager			manager;
-	PelletReasoner				reasoner;
-	OWLOntologyIRIMapperImpl	mapper;
+public class OWLAPIWebOntTester implements WebOntTester
+{
+	OWLOntologyManager manager;
+	PelletReasoner reasoner;
+	OWLOntologyIRIMapperImpl mapper;
 
-	public OWLAPIWebOntTester() {
+	public OWLAPIWebOntTester()
+	{
 		manager = OWL.manager;
 		mapper = new OWLOntologyIRIMapperImpl();
 	}
 
-	public void classify() {
+	@Override
+	public void classify()
+	{
 		reasoner.getKB().realize();
 	}
 
-	public boolean isConsistent() {
+	@Override
+	public boolean isConsistent()
+	{
 		return reasoner.isConsistent();
 	}
 
-	public void testEntailment(String entailmentFileURI, boolean positiveEntailment) {
-		try {
-			OWLOntology ont = manager.loadOntology( IRI.create( entailmentFileURI ) );
-			for( OWLAxiom axiom : ont.getLogicalAxioms() ) {
-				if( !reasoner.isEntailed( axiom ) ) {
-					assertFalse( "Entailment failed for " + axiom, positiveEntailment );
+	@Override
+	public void testEntailment(final String entailmentFileURI, final boolean positiveEntailment)
+	{
+		try
+		{
+			final OWLOntology ont = manager.loadOntology(IRI.create(entailmentFileURI));
+			for (final OWLAxiom axiom : ont.getLogicalAxioms())
+				if (!reasoner.isEntailed(axiom))
+				{
+					assertFalse("Entailment failed for " + axiom, positiveEntailment);
 					return;
 				}
-			}
-			
-			assertTrue( "All axioms entailed in negative entailment test", positiveEntailment );
-		} catch( OWLException e ) {
-			throw new RuntimeException( e );
+
+			assertTrue("All axioms entailed in negative entailment test", positiveEntailment);
+		}
+		catch (final OWLException e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
 
-	public void setInputOntology(String inputFileURI) {
+	@Override
+	public void setInputOntology(final String inputFileURI)
+	{
 		OntologyUtils.clearOWLOntologyManager();
 		OWLOntology ont = null;
-		try {
-			manager.addIRIMapper( mapper );
-			ont = manager.loadOntology( IRI.create(inputFileURI) );
+		try
+		{
+			manager.addIRIMapper(mapper);
+			ont = manager.loadOntology(IRI.create(inputFileURI));
 			reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
-		} catch( OWLException e ) {
-			throw new RuntimeException( e );
 		}
-		finally {
-			if (ont != null) {
+		catch (final OWLException e)
+		{
+			throw new RuntimeException(e);
+		}
+		finally
+		{
+			if (ont != null)
 				manager.removeOntology(ont);
-			}
 		}
 	}
 
-	public void setTimeout(long timeout) {
-		reasoner.getKB().setTimeout( timeout );
+	@Override
+	public void setTimeout(final long timeout)
+	{
+		reasoner.getKB().setTimeout(timeout);
 	}
 
-	public void registerURIMapping(String fromURI, String toURI) {
-		mapper.addMapping( IRI.create( fromURI ), IRI.create( toURI ) );
+	@Override
+	public void registerURIMapping(final String fromURI, final String toURI)
+	{
+		mapper.addMapping(IRI.create(fromURI), IRI.create(toURI));
 	}
 
 }

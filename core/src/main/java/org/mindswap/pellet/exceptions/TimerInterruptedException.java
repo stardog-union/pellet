@@ -7,19 +7,23 @@
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 package org.mindswap.pellet.exceptions;
 
-public class TimerInterruptedException extends PelletRuntimeException {
+public class TimerInterruptedException extends PelletRuntimeException
+{
 
-	private static final long	serialVersionUID	= 2528189321875269169L;
+	private static final long serialVersionUID = 2528189321875269169L;
 
-	public TimerInterruptedException() {
+	public TimerInterruptedException()
+	{
 		super();
 	}
 
-	public TimerInterruptedException(String s) {
-		super( s );
+	public TimerInterruptedException(final String s)
+	{
+		super(s);
 	}
 
-	public TimerInterruptedException(Throwable e) {
-		super( e );
+	public TimerInterruptedException(final Throwable e)
+	{
+		super(e);
 	}
 }

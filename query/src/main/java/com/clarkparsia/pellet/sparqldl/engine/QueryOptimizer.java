@@ -6,16 +6,14 @@
 
 package com.clarkparsia.pellet.sparqldl.engine;
 
+import com.clarkparsia.pellet.sparqldl.model.Query;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mindswap.pellet.PelletOptions;
 
-import com.clarkparsia.pellet.sparqldl.model.Query;
-
 /**
  * <p>
- * Title: Optimizer of the query. Provides query atoms for the engine in
- * particular ordering.
+ * Title: Optimizer of the query. Provides query atoms for the engine in particular ordering.
  * </p>
  * <p>
  * Description:
@@ -26,27 +24,29 @@ import com.clarkparsia.pellet.sparqldl.model.Query;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class QueryOptimizer {
+public class QueryOptimizer
+{
 
 	private static final Logger LOG = Logger.getLogger(QueryOptimizer.class.getName());
 
-	public QueryPlan getExecutionPlan(Query query) {
-		if (PelletOptions.SAMPLING_RATIO == 0) {
+	public QueryPlan getExecutionPlan(final Query query)
+	{
+		if (PelletOptions.SAMPLING_RATIO == 0)
 			return new NoReorderingQueryPlan(query);
-		}
 
-		if (query.getAtoms().size() > PelletOptions.STATIC_REORDERING_LIMIT) {
-			if (LOG.isLoggable( Level.FINE )) {
+		if (query.getAtoms().size() > PelletOptions.STATIC_REORDERING_LIMIT)
+		{
+			if (LOG.isLoggable(Level.FINE))
 				LOG.fine("Using incremental query plan.");
-			}
 			return new IncrementalQueryPlan(query);
-		} else {
-			if (LOG.isLoggable( Level.FINE )) {
+		}
+		else
+		{
+			if (LOG.isLoggable(Level.FINE))
 				LOG.fine("Using full query plan.");
-			}
 			return new CostBasedQueryPlanNew(query);
 		}
 

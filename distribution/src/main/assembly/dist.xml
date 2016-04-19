@@ -7,83 +7,83 @@
 	</formats>
 
 	<baseDirectory>pellet-${project.version}</baseDirectory>
-  <dependencySets>
-    <dependencySet>
-      <outputDirectory>/lib</outputDirectory>
-      <unpack>false</unpack>
-      <scope>runtime</scope>
-    </dependencySet>
-  </dependencySets>
-  
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>/lib</outputDirectory>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+	</dependencySets>
+
 	<moduleSets>
 		<moduleSet>
 			<sources>
 				<outputDirectory>src/${artifactId}</outputDirectory>
 			</sources>
 		</moduleSet>
-		
-		   
-        <moduleSet>
-            <binaries>
-                <attachmentClassifier>javadoc</attachmentClassifier>
-                <includeDependencies>false</includeDependencies>
-                <outputDirectory>apidoc-jars</outputDirectory>
-            </binaries>
-        </moduleSet>
+
+
+		<moduleSet>
+			<binaries>
+				<attachmentClassifier>javadoc</attachmentClassifier>
+				<includeDependencies>false</includeDependencies>
+				<outputDirectory>apidoc-jars</outputDirectory>
+			</binaries>
+		</moduleSet>
 	</moduleSets>
 
 	<fileSets>
 		<fileSet>
 			<directory>../</directory>
-			<outputDirectory/>
+			<outputDirectory />
 			<includes>
 				<include>*.txt</include>
 				<include>*.md</include>
 			</includes>
 		</fileSet>
-        <fileSet>
-       	    <directory>../cli/target/pelletcli/bin</directory>
-            <outputDirectory>/bin</outputDirectory>
-            <includes>
-       	        <include>/**</include>
-            </includes>
-       	</fileSet>
 		<fileSet>
-			<directory>../doc</directory>
-			<outputDirectory/>
+			<directory>../cli/target/pelletcli/bin</directory>
+			<outputDirectory>/bin</outputDirectory>
 			<includes>
 				<include>/**</include>
 			</includes>
 		</fileSet>
-        <fileSet>
-       	    <directory>../pellint</directory>
-            <outputDirectory>doc</outputDirectory>
-            <includes>
-       	        <include>/*.txt</include>
-            </includes>
-       	</fileSet>
-        <fileSet>
-       	    <directory>../examples</directory>
-            <outputDirectory>examples</outputDirectory>
-            <includes>
-       	        <include>src/**</include>
-       	        <include>logging.properties</include>
-            </includes>
-       	</fileSet>
-        <fileSet>
-       	    <directory>../examples</directory>
-            <outputDirectory>../core/src</outputDirectory>
-            <includes>
-       	        <include>**/pellet.properties</include>
-            </includes>
-       	</fileSet>
-        <fileSet>
-       	    <directory>../examples</directory>
-            <outputDirectory>../pellint</outputDirectory>
-            <includes>
-       	        <include>pellint.properties</include>
-            </includes>
-       	</fileSet>
+		<fileSet>
+			<directory>../doc</directory>
+			<outputDirectory />
+			<includes>
+				<include>/**</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../pellint</directory>
+			<outputDirectory>doc</outputDirectory>
+			<includes>
+				<include>/*.txt</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../examples</directory>
+			<outputDirectory>examples</outputDirectory>
+			<includes>
+				<include>src/**</include>
+				<include>logging.properties</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../examples</directory>
+			<outputDirectory>../core/src</outputDirectory>
+			<includes>
+				<include>**/pellet.properties</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../examples</directory>
+			<outputDirectory>../pellint</outputDirectory>
+			<includes>
+				<include>pellint.properties</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 
 </assembly>

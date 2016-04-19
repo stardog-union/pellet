@@ -22,82 +22,78 @@
 
 package org.mindswap.pellet.tableau.completion.incremental;
 
-import org.mindswap.pellet.tableau.branch.Branch;
-
 import aterm.ATermAppl;
-
+import org.mindswap.pellet.tableau.branch.Branch;
 
 /**
  * A depedency for a closed disjunct, merge pair, etc. for a branch
- * 
- * 
- * @author Christian Halaschek-Wiener
  *
+ * @author Christian Halaschek-Wiener
  */
-public class CloseBranchDependency extends BranchDependency{
+public class CloseBranchDependency extends BranchDependency
+{
 
-	private int tryNext;
-	
-	private Branch theBranch;
-	
-	
-	public CloseBranchDependency(ATermAppl assertion, int tryNext, Branch theBranch){
+	private final int tryNext;
+
+	private final Branch theBranch;
+
+	public CloseBranchDependency(final ATermAppl assertion, final int tryNext, final Branch theBranch)
+	{
 		super(assertion);
 		this.tryNext = tryNext;
 		this.theBranch = theBranch;
 	}
 
-
 	/**
-	 * 
 	 * @return
 	 */
-	public ATermAppl getInd() {
+	public ATermAppl getInd()
+	{
 		return theBranch.getNode().getName();
 	}
 
-
-	
 	/**
 	 * ToString method
 	 */
-	public String toString(){
+	@Override
+	public String toString()
+	{
 		return "Branch [" + theBranch.getNode().getName() + "]  -  [" + theBranch.getBranch() + "]";
 	}
-	
-	
-	
+
 	/**
 	 * Equals method
 	 */
-	public boolean equals(Object other){
-		if(other instanceof CloseBranchDependency){
-			return this.getInd().equals(((CloseBranchDependency)other).getInd()) && this.getBranch() == ((CloseBranchDependency)other).getBranch() && this.tryNext == ((CloseBranchDependency)other).tryNext;
-		}else
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (other instanceof CloseBranchDependency)
+			return this.getInd().equals(((CloseBranchDependency) other).getInd()) && this.getBranch() == ((CloseBranchDependency) other).getBranch() && this.tryNext == ((CloseBranchDependency) other).tryNext;
+		else
 			return false;
 	}
-	
-	
+
 	/**
-	 * Hashcode method
-	 * TODO: this may not be sufficient
+	 * Hashcode method TODO: this may not be sufficient
 	 */
-	public int hashCode(){ 
+	@Override
+	public int hashCode()
+	{
 		return this.getInd().hashCode() + this.getBranch() + this.tryNext;
 	}
 
-
-	public int getBranch() {
+	public int getBranch()
+	{
 		return theBranch.getBranch();
 	}
 
-
-	public int getTryNext() {
+	public int getTryNext()
+	{
 		return tryNext;
 	}
 
-
-	public Branch getTheBranch() {
+	public Branch getTheBranch()
+	{
 		return theBranch;
 	}
 

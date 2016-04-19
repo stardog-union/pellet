@@ -27,60 +27,71 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class PelletReasonerFactory implements OWLReasonerFactory {
+public class PelletReasonerFactory implements OWLReasonerFactory
+{
 	private static final PelletReasonerFactory INSTANCE = new PelletReasonerFactory();
-	
+
 	/**
 	 * Returns a static factory instance that can be used to create reasoners.
-	 * 
-	 * @return a static factory instance 
+	 *
+	 * @return a static factory instance
 	 */
-	public static PelletReasonerFactory getInstance() {
+	public static PelletReasonerFactory getInstance()
+	{
 		return INSTANCE;
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getReasonerName() {
+	@Override
+	public String getReasonerName()
+	{
 		return "Pellet";
 	}
 
-	public String toString() {
+	@Override
+	public String toString()
+	{
 		return getReasonerName();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public PelletReasoner createReasoner(OWLOntology ontology) {
-		return new PelletReasoner( ontology, BufferingMode.BUFFERING );
+	@Override
+	public PelletReasoner createReasoner(final OWLOntology ontology)
+	{
+		return new PelletReasoner(ontology, BufferingMode.BUFFERING);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public PelletReasoner createReasoner(OWLOntology ontology, OWLReasonerConfiguration config)
-			throws IllegalConfigurationException {
-		return new PelletReasoner( ontology, config, BufferingMode.BUFFERING );
+	@Override
+	public PelletReasoner createReasoner(final OWLOntology ontology, final OWLReasonerConfiguration config) throws IllegalConfigurationException
+	{
+		return new PelletReasoner(ontology, config, BufferingMode.BUFFERING);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public PelletReasoner createNonBufferingReasoner(OWLOntology ontology) {
-		return new PelletReasoner( ontology, BufferingMode.NON_BUFFERING );
+	@Override
+	public PelletReasoner createNonBufferingReasoner(final OWLOntology ontology)
+	{
+		return new PelletReasoner(ontology, BufferingMode.NON_BUFFERING);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public PelletReasoner createNonBufferingReasoner(OWLOntology ontology,
-			OWLReasonerConfiguration config) throws IllegalConfigurationException {
-		return new PelletReasoner( ontology, config, BufferingMode.NON_BUFFERING );
+	@Override
+	public PelletReasoner createNonBufferingReasoner(final OWLOntology ontology, final OWLReasonerConfiguration config) throws IllegalConfigurationException
+	{
+		return new PelletReasoner(ontology, config, BufferingMode.NON_BUFFERING);
 	}
 }

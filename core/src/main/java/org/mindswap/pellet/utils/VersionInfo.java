@@ -11,9 +11,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * @author ronwalf
- * 
- *         Automatic (from ant) version information for Pellet
+ * @author ronwalf Automatic (from ant) version information for Pellet
  */
 public class VersionInfo
 {
@@ -29,27 +27,25 @@ public class VersionInfo
 		try (final InputStream vstream = VersionInfo.class.getResourceAsStream("/org/mindswap/pellet/version.properties"))
 		{
 			if (vstream != null)
+				try
+			{
+					versionProperties.load(vstream);
+			}
+			catch (final IOException e)
+			{
+				System.err.println("Could not load version properties:");
+				e.printStackTrace();
+			}
+			finally
 			{
 				try
 				{
-					versionProperties.load(vstream);
+					vstream.close();
 				}
 				catch (final IOException e)
 				{
-					System.err.println("Could not load version properties:");
+					System.err.println("Could not close version properties:");
 					e.printStackTrace();
-				}
-				finally
-				{
-					try
-					{
-						vstream.close();
-					}
-					catch (final IOException e)
-					{
-						System.err.println("Could not close version properties:");
-						e.printStackTrace();
-					}
 				}
 			}
 		}

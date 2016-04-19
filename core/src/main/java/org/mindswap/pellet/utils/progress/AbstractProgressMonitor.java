@@ -8,7 +8,6 @@ package org.mindswap.pellet.utils.progress;
 
 import org.mindswap.pellet.utils.Timer;
 
-
 /**
  * <p>
  * Title:
@@ -22,89 +21,116 @@ import org.mindswap.pellet.utils.Timer;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public abstract class AbstractProgressMonitor implements ProgressMonitor {
-	protected String	progressTitle	= "";
+public abstract class AbstractProgressMonitor implements ProgressMonitor
+{
+	protected String progressTitle = "";
 
-	protected String	progressMessage	= "";
+	protected String progressMessage = "";
 
-	protected int		progress		= 0;
+	protected int progress = 0;
 
-	protected int		progressLength	= 0;
+	protected int progressLength = 0;
 
-	protected int		progressPercent	= -1;
+	protected int progressPercent = -1;
 
-	protected Timer		timer			= new Timer();
+	protected Timer timer = new Timer();
 
-	protected boolean	cancelled		= false;
+	protected boolean cancelled = false;
 
-	public AbstractProgressMonitor() {
+	public AbstractProgressMonitor()
+	{
 	}
 
-	public AbstractProgressMonitor(int length) {
-		setProgressLength( length );
+	public AbstractProgressMonitor(final int length)
+	{
+		setProgressLength(length);
 	}
 
-	public int getProgress() {
+	@Override
+	public int getProgress()
+	{
 		return progress;
 	}
 
-	public int getProgressLength() {
+	public int getProgressLength()
+	{
 		return progressLength;
 	}
 
-	public String getProgressMessage() {
+	public String getProgressMessage()
+	{
 		return progressMessage;
 	}
 
-	public int getProgressPercent() {
+	@Override
+	public int getProgressPercent()
+	{
 		return progressPercent;
 	}
 
-	public String getProgressTitle() {
+	public String getProgressTitle()
+	{
 		return progressTitle;
 	}
 
-	public void incrementProgress() {
-		setProgress( progress + 1 );
+	@Override
+	public void incrementProgress()
+	{
+		setProgress(progress + 1);
 	}
 
-	public boolean isCanceled() {
+	@Override
+	public boolean isCanceled()
+	{
 		return cancelled;
 	}
 
-	protected void resetProgress() {
+	protected void resetProgress()
+	{
 		progress = 0;
 		progressPercent = -1;
 	}
 
-	public void setProgress(int progress) {
+	@Override
+	public void setProgress(final int progress)
+	{
 		this.progress = progress;
 
 		updateProgress();
 	}
 
-	public void setProgressLength(int progressLength) {
+	@Override
+	public void setProgressLength(final int progressLength)
+	{
 		this.progressLength = progressLength;
 
 		resetProgress();
 	}
 
-	public void setProgressMessage(String progressMessage) {
+	@Override
+	public void setProgressMessage(final String progressMessage)
+	{
 		this.progressMessage = progressMessage;
 	}
 
-	public void setProgressTitle(String progressTitle) {
+	@Override
+	public void setProgressTitle(final String progressTitle)
+	{
 		this.progressTitle = progressTitle;
 	}
 
-	public void taskFinished() {
+	@Override
+	public void taskFinished()
+	{
 		timer.stop();
 	}
 
-	public void taskStarted() {
+	@Override
+	public void taskStarted()
+	{
 		resetProgress();
 
 		timer.start();

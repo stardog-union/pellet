@@ -8,13 +8,11 @@
 
 package com.clarkparsia.pellet.sparqldl.model;
 
+import aterm.ATermAppl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -29,47 +27,47 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class CoreImpl extends QueryAtomImpl implements Core {
+public class CoreImpl extends QueryAtomImpl implements Core
+{
 
-	private List<ATermAppl>			distVars	= null;
-	private List<ATermAppl>			consts		= null;
+	private List<ATermAppl> distVars = null;
+	private List<ATermAppl> consts = null;
 
-	private Collection<ATermAppl>	undistVars	= null;
+	private Collection<ATermAppl> undistVars = null;
 
-	private Collection<QueryAtom>	atoms;
+	private final Collection<QueryAtom> atoms;
 
-	public CoreImpl(final List<ATermAppl> arguments, final Collection<ATermAppl> uv,
-			final Collection<QueryAtom> atoms) {
-		super( QueryPredicate.UndistVarCore, arguments );
+	public CoreImpl(final List<ATermAppl> arguments, final Collection<ATermAppl> uv, final Collection<QueryAtom> atoms)
+	{
+		super(QueryPredicate.UndistVarCore, arguments);
 
 		this.atoms = atoms;
 		this.undistVars = uv;
 	}
 
-	private void setup() {
-		distVars = new ArrayList<ATermAppl>();
-		consts = new ArrayList<ATermAppl>();
-		for( final ATermAppl a : arguments ) {
-			if( ATermUtils.isVar( a ) ) {
-				distVars.add( a );
-			}
-			else {
-				consts.add( a );
-			}
-		}
+	private void setup()
+	{
+		distVars = new ArrayList<>();
+		consts = new ArrayList<>();
+		for (final ATermAppl a : arguments)
+			if (ATermUtils.isVar(a))
+				distVars.add(a);
+			else
+				consts.add(a);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.mindswap.pellet.sparqldl.model.CoreIF#getConstants()
 	 */
-	public Collection<ATermAppl> getConstants() {
-		if( consts == null ) {
+	@Override
+	public Collection<ATermAppl> getConstants()
+	{
+		if (consts == null)
 			setup();
-		}
 
 		return consts;
 	}
@@ -78,10 +76,11 @@ public class CoreImpl extends QueryAtomImpl implements Core {
 	 * (non-Javadoc)
 	 * @see org.mindswap.pellet.sparqldl.model.CoreIF#getDistVars()
 	 */
-	public Collection<ATermAppl> getDistVars() {
-		if( distVars == null ) {
+	@Override
+	public Collection<ATermAppl> getDistVars()
+	{
+		if (distVars == null)
 			setup();
-		}
 
 		return distVars;
 	}
@@ -90,10 +89,11 @@ public class CoreImpl extends QueryAtomImpl implements Core {
 	 * (non-Javadoc)
 	 * @see org.mindswap.pellet.sparqldl.model.CoreIF#getUndistVars()
 	 */
-	public Collection<ATermAppl> getUndistVars() {
-		if( undistVars == null ) {
+	@Override
+	public Collection<ATermAppl> getUndistVars()
+	{
+		if (undistVars == null)
 			setup();
-		}
 
 		return undistVars;
 	}
@@ -104,46 +104,45 @@ public class CoreImpl extends QueryAtomImpl implements Core {
 	 * org.mindswap.pellet.sparqldl.model.CoreIF#apply(org.mindswap.pellet.sparqldl
 	 * .model.ResultBinding)
 	 */
-	public QueryAtom apply(final ResultBinding binding) {
-		if( isGround() ) {
+	@Override
+	public QueryAtom apply(final ResultBinding binding)
+	{
+		if (isGround())
 			return this;
-		}
-		
-		final List<ATermAppl> newArguments = new ArrayList<ATermAppl>();
 
-		for( final ATermAppl a : arguments ) {
-			if( binding.isBound( a ) ) {
-				newArguments.add( binding.getValue( a ) );
-			}
-			else {
-				newArguments.add( a );
-			}
-		}
+		final List<ATermAppl> newArguments = new ArrayList<>();
 
-		final List<QueryAtom> newAtoms = new ArrayList<QueryAtom>();
+		for (final ATermAppl a : arguments)
+			if (binding.isBound(a))
+				newArguments.add(binding.getValue(a));
+			else
+				newArguments.add(a);
 
-		for( final QueryAtom a : atoms ) {
-			newAtoms.add( a.apply( binding ) );
-		}
+		final List<QueryAtom> newAtoms = new ArrayList<>();
 
-		return new CoreImpl( newArguments, undistVars, newAtoms );
+		for (final QueryAtom a : atoms)
+			newAtoms.add(a.apply(binding));
+
+		return new CoreImpl(newArguments, undistVars, newAtoms);
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return arguments.hashCode();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if( this == obj )
+	public boolean equals(final Object obj)
+	{
+		if (this == obj)
 			return true;
-		if( obj == null )
+		if (obj == null)
 			return false;
-		if( getClass() != obj.getClass() )
+		if (getClass() != obj.getClass())
 			return false;
 		final CoreImpl other = (CoreImpl) obj;
 
-		return arguments.equals( other.arguments );
+		return arguments.equals(other.arguments);
 	}
 }

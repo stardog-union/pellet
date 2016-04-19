@@ -9,30 +9,37 @@ package profiler;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2007
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class Result<Task> {
+public class Result<Task>
+{
 	// task that has been performed
-	private Task	task;
+	private Task task;
 	// size of KB in memory after task
-	private DescriptiveStatistics	memory;
+	private DescriptiveStatistics memory;
 	// time taken to complete the task
-	private DescriptiveStatistics	time;
+	private DescriptiveStatistics time;
 
-
-	public Result(Task task, double time) {
-		this( task, -1, time );
+	public Result(final Task task, final double time)
+	{
+		this(task, -1, time);
 	}
-	
-	public Result(Task task, double memory, double time) {
+
+	public Result(final Task task, final double memory, final double time)
+	{
 		this.task = task;
 		this.memory = new DescriptiveStatistics();
 		this.memory.addValue(memory);
@@ -40,42 +47,50 @@ public class Result<Task> {
 		this.time.addValue(time);
 	}
 
-	public void addIteration(double memory, double time) {
+	public void addIteration(final double memory, final double time)
+	{
 		this.memory.addValue(memory);
 		this.time.addValue(time);
 	}
 
-	public void addIteration(Result<Task> other) {
-		if( !task.equals( other.task ) )
-			throw new IllegalArgumentException( task + " != " + other.task );
+	public void addIteration(final Result<Task> other)
+	{
+		if (!task.equals(other.task))
+			throw new IllegalArgumentException(task + " != " + other.task);
 
-		for(double mem: other.getMemory().getValues())
+		for (final double mem : other.getMemory().getValues())
 			memory.addValue(mem);
-		for(double t: other.getTime().getValues())
+		for (final double t : other.getTime().getValues())
 			time.addValue(t);
 	}
 
-	public int getIterations() {
-		return (int)memory.getN();
+	public int getIterations()
+	{
+		return (int) memory.getN();
 	}
 
-	public double getAvgMemory() {
+	public double getAvgMemory()
+	{
 		return memory.getMean();
 	}
 
-	public Task getTask() {
+	public Task getTask()
+	{
 		return task;
 	}
 
-	public double getAvgTime() {
+	public double getAvgTime()
+	{
 		return time.getMean();
 	}
-	
-	public DescriptiveStatistics getTime(){
+
+	public DescriptiveStatistics getTime()
+	{
 		return time;
 	}
-	
-	public DescriptiveStatistics getMemory(){
+
+	public DescriptiveStatistics getMemory()
+	{
 		return memory;
 	}
 }

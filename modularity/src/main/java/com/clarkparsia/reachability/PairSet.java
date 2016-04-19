@@ -12,24 +12,26 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 /**
- * An unmodifiable Set implementation that is a wrapper around a pair of sets without additional storage for set elements. There may be common elements in two sets which will be
- * not be visible to the outside, i.e. iterator will discard duplicates on-the-fly.
+ * An unmodifiable Set implementation that is a wrapper around a pair of sets without additional storage for set elements. There may be common elements in two
+ * sets which will be not be visible to the outside, i.e. iterator will discard duplicates on-the-fly.
  *
  * @author Evren Sirin
  */
-public class PairSet<T> extends AbstractSet<T> implements Set<T> {
+public class PairSet<T> extends AbstractSet<T> implements Set<T>
+{
 
-	private Set<T> firstSet;
+	private final Set<T> firstSet;
 
-	private Set<T> secondSet;
+	private final Set<T> secondSet;
 
-	private int size;
+	private final int size;
 
 	/**
-	 * Iterate through first and second set filtering any duplicates that might be in both sets. We always iterate through the large set first because every element in the second
-	 * set will be checked for possible duplicates.
+	 * Iterate through first and second set filtering any duplicates that might be in both sets. We always iterate through the large set first because every
+	 * element in the second set will be checked for possible duplicates.
 	 */
-	public class PairIterator implements Iterator<T> {
+	public class PairIterator implements Iterator<T>
+	{
 
 		/**
 		 * The first set we iterate over (not necessarily same as firstSet)
@@ -51,14 +53,17 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T> {
 		 */
 		private T next;
 
-		public PairIterator() {
+		public PairIterator()
+		{
 			// iterate over the large set first
-			if (firstSet.size() < secondSet.size()) {
+			if (firstSet.size() < secondSet.size())
+			{
 				firstIteratedSet = firstSet;
 				firstIterator = firstSet.iterator();
 				secondIterator = secondSet.iterator();
 			}
-			else {
+			else
+			{
 				firstIteratedSet = secondSet;
 				firstIterator = secondSet.iterator();
 				secondIterator = firstSet.iterator();
@@ -68,82 +73,88 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T> {
 			findNext();
 		}
 
-		private void findNext() {
-			if (firstIterator.hasNext()) {
+		private void findNext()
+		{
+			if (firstIterator.hasNext())
 				// get the next element from the first iterator (no need to
 				// worry about duplicates since it is a set)
 				next = firstIterator.next();
-			}
-			else {
+			else
+			{
 				// assume there are no more elements
 				next = null;
 				// iterate until we find an element from second set that is not
 				// also in the first set
-				while (secondIterator.hasNext() && next == null) {
+				while (secondIterator.hasNext() && next == null)
+				{
 					next = secondIterator.next();
 
 					// if this element is a duplicate
-					if (firstIteratedSet.contains(next)) {
+					if (firstIteratedSet.contains(next))
 						// invalidate this element and continue
 						next = null;
-					}
 				}
 			}
 		}
 
-		public boolean hasNext() {
+		@Override
+		public boolean hasNext()
+		{
 			return next != null;
 		}
 
-		public T next() {
-			if (!hasNext()) {
+		@Override
+		public T next()
+		{
+			if (!hasNext())
 				throw new NoSuchElementException();
-			}
 
-			T result = next;
+			final T result = next;
 			findNext();
 			return result;
 		}
 
-		public void remove() {
+		@Override
+		public void remove()
+		{
 			throw new UnsupportedOperationException();
 		}
 	}
 
-	public PairSet(Set<T> first, Set<T> second) {
+	public PairSet(final Set<T> first, final Set<T> second)
+	{
 		firstSet = first;
 		secondSet = second;
 
 		size = computeUnionSize();
 	}
 
-	private int computeUnionSize() {
+	private int computeUnionSize()
+	{
 		int size = firstSet.size() + secondSet.size();
-		if (firstSet.size() < secondSet.size()) {
-			for (T e : firstSet) {
-				if (secondSet.contains(e)) {
+		if (firstSet.size() < secondSet.size())
+		{
+			for (final T e : firstSet)
+				if (secondSet.contains(e))
 					size--;
-				}
-			}
 		}
-		else {
-			for (T e : secondSet) {
-				if (firstSet.contains(e)) {
+		else
+			for (final T e : secondSet)
+				if (firstSet.contains(e))
 					size--;
-				}
-			}
-		}
 
 		return size;
 	}
 
 	@Override
-	public boolean add(T o) {
+	public boolean add(final T o)
+	{
 		throw new UnsupportedOperationException("Pair sets are read-only");
 	}
 
 	@Override
-	public boolean contains(Object o) {
+	public boolean contains(final Object o)
+	{
 		return firstSet.contains(o) || secondSet.contains(o);
 	}
 
@@ -151,12 +162,14 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterator<T> iterator() {
+	public Iterator<T> iterator()
+	{
 		return new PairIterator();
 	}
 
 	@Override
-	public boolean remove(Object o) {
+	public boolean remove(final Object o)
+	{
 		throw new UnsupportedOperationException("Pair sets are read-only");
 	}
 
@@ -164,7 +177,8 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int size() {
+	public int size()
+	{
 		return size;
 	}
 

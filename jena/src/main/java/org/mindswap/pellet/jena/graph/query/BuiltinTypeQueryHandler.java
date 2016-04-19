@@ -6,28 +6,28 @@
 
 package org.mindswap.pellet.jena.graph.query;
 
+import aterm.ATermAppl;
 import java.util.Collection;
-
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.util.iterator.ExtendedIterator;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 
-import aterm.ATermAppl;
-
-import org.apache.jena.graph.Node;
-import org.apache.jena.graph.Triple;
-import org.apache.jena.util.iterator.ExtendedIterator;
-
-abstract class BuiltinTypeQueryHandler extends TripleQueryHandler {
+abstract class BuiltinTypeQueryHandler extends TripleQueryHandler
+{
 	public abstract Collection<ATermAppl> getResults(KnowledgeBase kb);
-	
+
 	@Override
-	public final boolean contains(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj) {
-		return !getResults( kb ).isEmpty();
+	public final boolean contains(final KnowledgeBase kb, final GraphLoader loader, final Node subj, final Node pred, final Node obj)
+	{
+		return !getResults(kb).isEmpty();
 	}
-	
+
 	@Override
-	public final ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node subj, Node pred, Node obj) {
-		return subjectFiller( getResults( kb ), pred, obj );
-	}			
+	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, final Node obj)
+	{
+		return subjectFiller(getResults(kb), pred, obj);
+	}
 }

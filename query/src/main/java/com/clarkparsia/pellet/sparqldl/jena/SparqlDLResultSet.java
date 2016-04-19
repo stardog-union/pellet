@@ -6,19 +6,15 @@
 
 package com.clarkparsia.pellet.sparqldl.jena;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.sparqldl.model.QueryParameters;
+import com.clarkparsia.pellet.sparqldl.model.QueryResult;
+import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.mindswap.pellet.jena.JenaUtils;
-
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.sparqldl.model.QueryParameters;
-import com.clarkparsia.pellet.sparqldl.model.QueryResult;
-import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
 import org.apache.jena.graph.Node;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSetRewindable;
@@ -27,6 +23,7 @@ import org.apache.jena.sparql.core.Var;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.binding.BindingHashMap;
 import org.apache.jena.sparql.engine.binding.BindingMap;
+import org.mindswap.pellet.jena.JenaUtils;
 
 /**
  * <p>
@@ -41,41 +38,45 @@ import org.apache.jena.sparql.engine.binding.BindingMap;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  * @author Evren Sirin
  */
-public class SparqlDLResultSet implements ResultSetRewindable {
-	private Model					model;
+public class SparqlDLResultSet implements ResultSetRewindable
+{
+	private final Model model;
 
-	private List<ATermAppl>			resultVars;
+	private final List<ATermAppl> resultVars;
 
-	private List<String>			resultVarsString;
+	private final List<String> resultVarsString;
 
-	private QueryResult				queryResult;
+	private final QueryResult queryResult;
 
-	private int						index;
+	private int index;
 
-	private Iterator<ResultBinding>	bindings;
+	private Iterator<ResultBinding> bindings;
 
-	private Binding					parent;
+	private final Binding parent;
 
-	private QueryParameters			parameters;
+	private QueryParameters parameters;
 
-	public SparqlDLResultSet(QueryResult answers, Model model) {
-		this( answers, model, null, null );
+	public SparqlDLResultSet(final QueryResult answers, final Model model)
+	{
+		this(answers, model, null, null);
 	}
 
-	public SparqlDLResultSet(QueryResult answers, Model model, Binding parent) {
-		this( answers, model, parent, null );
+	public SparqlDLResultSet(final QueryResult answers, final Model model, final Binding parent)
+	{
+		this(answers, model, parent, null);
 	}
 
-	public SparqlDLResultSet(QueryResult answers, Model model, QueryParameters parameters) {
-		this( answers, model, null, parameters );
+	public SparqlDLResultSet(final QueryResult answers, final Model model, final QueryParameters parameters)
+	{
+		this(answers, model, null, parameters);
 	}
 
-	public SparqlDLResultSet(QueryResult answers, Model model, Binding parent,
-			QueryParameters parameters) {
+	public SparqlDLResultSet(final QueryResult answers, final Model model, final Binding parent, final QueryParameters parameters)
+	{
 		this.parent = parent;
 		this.queryResult = answers;
 		this.model = model;
@@ -83,79 +84,80 @@ public class SparqlDLResultSet implements ResultSetRewindable {
 		this.index = 0;
 		this.bindings = answers.iterator();
 
-		resultVars = new ArrayList<ATermAppl>();
-		resultVarsString = new ArrayList<String>();
+		resultVars = new ArrayList<>();
+		resultVarsString = new ArrayList<>();
 
-		for( final ATermAppl var : queryResult.getResultVars() ) {
-			resultVars.add( var );
-			resultVarsString.add( getVarName( var ) );
+		for (final ATermAppl var : queryResult.getResultVars())
+		{
+			resultVars.add(var);
+			resultVarsString.add(getVarName(var));
 		}
 
 		// Ensure initial bindings is not a null pointer
-		if( parameters == null )
+		if (parameters == null)
 			this.parameters = new QueryParameters();
 	}
-	
-	protected String getVarName(ATermAppl term) {
-		return ((ATermAppl) term.getArgument( 0 )).getName();
+
+	protected String getVarName(final ATermAppl term)
+	{
+		return ((ATermAppl) term.getArgument(0)).getName();
 	}
 
 	/**
 	 * Return the underlying QueryResults object
-	 * 
+	 *
 	 * @return
 	 */
-	public QueryResult getQueryResult() {
+	public QueryResult getQueryResult()
+	{
 		return queryResult;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean hasNext() {
+	@Override
+	public boolean hasNext()
+	{
 		return bindings.hasNext();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Binding nextBinding() {
+	@Override
+	public Binding nextBinding()
+	{
 		index++;
 		final ResultBinding binding = bindings.next();
 
-		BindingMap result = parent == null
-			? new BindingHashMap()
-			: new BindingHashMap( parent );
+		final BindingMap result = parent == null ? new BindingHashMap() : new BindingHashMap(parent);
 
-		for( final ATermAppl var : resultVars ) {
-			if( binding.isBound( var ) ) {
-				String varName = getVarName( var );
+		for (final ATermAppl var : resultVars)
+			if (binding.isBound(var))
+			{
+				final String varName = getVarName(var);
 
-				ATermAppl value = binding.getValue( var );
+				final ATermAppl value = binding.getValue(var);
 
-				if( value == null ) {
+				if (value == null)
 					continue;
-				}
 
-				Node node = JenaUtils.makeGraphNode( value );
-				result.add( Var.alloc( varName ), node );
+				final Node node = JenaUtils.makeGraphNode(value);
+				result.add(Var.alloc(varName), node);
 			}
-		}
 
-		if( resultVars.size() == 0 ) {
-			// SELECT * parameterized queries may have results
-			for( Iterator<Entry<ATermAppl, ATermAppl>> iter = parameters.entrySet().iterator(); iter
-					.hasNext(); ) {
-				Entry<ATermAppl, ATermAppl> entry = iter.next();
-				ATermAppl term = entry.getKey();
+		if (resultVars.size() == 0)
+			for (final Entry<ATermAppl, ATermAppl> entry : parameters.entrySet())
+			{
+				final ATermAppl term = entry.getKey();
 
-				String varName = getVarName( term );
-				Var var = Var.alloc( varName );
+				final String varName = getVarName(term);
+				final Var var = Var.alloc(varName);
 
-				if( !result.contains( var ) )
-					result.add( var, JenaUtils.makeGraphNode( entry.getValue() ) );
+				if (!result.contains(var))
+					result.add(var, JenaUtils.makeGraphNode(entry.getValue()));
 			}
-		}
 
 		return result;
 	}
@@ -163,61 +165,76 @@ public class SparqlDLResultSet implements ResultSetRewindable {
 	/**
 	 * {@inheritDoc}
 	 */
-	public QuerySolution nextSolution() {
-		return new org.apache.jena.sparql.core.ResultBinding( model, nextBinding() );
+	@Override
+	public QuerySolution nextSolution()
+	{
+		return new org.apache.jena.sparql.core.ResultBinding(model, nextBinding());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public QuerySolution next() {
+	@Override
+	public QuerySolution next()
+	{
 		return nextSolution();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isDistinct() {
+	public boolean isDistinct()
+	{
 		return queryResult.isDistinct();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isOrdered() {
+	public boolean isOrdered()
+	{
 		return false;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRowNumber() {
+	@Override
+	public int getRowNumber()
+	{
 		return index;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<String> getResultVars() {
-		return Collections.unmodifiableList( resultVarsString );
+	@Override
+	public List<String> getResultVars()
+	{
+		return Collections.unmodifiableList(resultVarsString);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void remove() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException( "Remove not supported" );
+	@Override
+	public void remove() throws UnsupportedOperationException
+	{
+		throw new UnsupportedOperationException("Remove not supported");
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return queryResult.toString();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void reset() {
+	@Override
+	public void reset()
+	{
 		index = 0;
 		bindings = queryResult.iterator();
 	}
@@ -225,11 +242,15 @@ public class SparqlDLResultSet implements ResultSetRewindable {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int size() {
+	@Override
+	public int size()
+	{
 		return queryResult.size();
 	}
-	
-	public Model getResourceModel() {
+
+	@Override
+	public Model getResourceModel()
+	{
 		return model;
 	}
 }

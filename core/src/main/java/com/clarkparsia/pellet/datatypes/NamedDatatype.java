@@ -1,10 +1,8 @@
 package com.clarkparsia.pellet.datatypes;
 
-import org.mindswap.pellet.utils.ATermUtils;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
@@ -19,14 +17,16 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-class NamedDatatype<T> implements Datatype<T> {
+class NamedDatatype<T> implements Datatype<T>
+{
 	private final ATermAppl name;
 	private final RestrictedDatatype<T> range;
 
-	NamedDatatype(ATermAppl name, RestrictedDatatype<T> range) {
+	NamedDatatype(final ATermAppl name, final RestrictedDatatype<T> range)
+	{
 		if (name == null)
 			throw new NullPointerException();
 		if (name.getArity() != 0)
@@ -36,34 +36,44 @@ class NamedDatatype<T> implements Datatype<T> {
 		this.range = range;
 	}
 
-	public RestrictedDatatype<T> asDataRange() {
+	@Override
+	public RestrictedDatatype<T> asDataRange()
+	{
 		return range;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		NamedDatatype other = (NamedDatatype) obj;
-		if (name == null) {
+		final NamedDatatype other = (NamedDatatype) obj;
+		if (name == null)
+		{
 			if (other.name != null)
 				return false;
 		}
-		else if (!name.equals(other.name))
-			return false;
+		else
+			if (!name.equals(other.name))
+				return false;
 		return true;
 	}
 
-	public ATermAppl getCanonicalRepresentation(ATermAppl input) throws InvalidLiteralException {
+	@Override
+	public ATermAppl getCanonicalRepresentation(final ATermAppl input) throws InvalidLiteralException
+	{
 		return range.getDatatype().getCanonicalRepresentation(input);
 	}
 
-	public ATermAppl getLiteral(Object value) {
-		if (value instanceof ATermAppl) {
+	@Override
+	public ATermAppl getLiteral(final Object value)
+	{
+		if (value instanceof ATermAppl)
+		{
 			final ATermAppl a = (ATermAppl) value;
 			if (ATermUtils.isLiteral(a))
 				if (name.equals(a.getArgument(ATermUtils.LIT_URI_INDEX)))
@@ -72,16 +82,22 @@ class NamedDatatype<T> implements Datatype<T> {
 		throw new IllegalArgumentException();
 	}
 
-	public ATermAppl getName() {
+	@Override
+	public ATermAppl getName()
+	{
 		return name;
 	}
 
-	public Datatype<?> getPrimitiveDatatype() {
+	@Override
+	public Datatype<?> getPrimitiveDatatype()
+	{
 		return range.getDatatype().getPrimitiveDatatype();
 	}
 
-	public T getValue(ATermAppl literal) throws InvalidLiteralException {
-		T value = range.getDatatype().getValue(literal);
+	@Override
+	public T getValue(final ATermAppl literal) throws InvalidLiteralException
+	{
+		final T value = range.getDatatype().getValue(literal);
 
 		if (!range.contains(value))
 			throw new InvalidLiteralException(name, literal.getArgument(ATermUtils.LIT_VAL_INDEX).toString());
@@ -90,19 +106,23 @@ class NamedDatatype<T> implements Datatype<T> {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
-	public boolean isPrimitive() {
+	@Override
+	public boolean isPrimitive()
+	{
 		return false;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return name.getName();
 	}
 

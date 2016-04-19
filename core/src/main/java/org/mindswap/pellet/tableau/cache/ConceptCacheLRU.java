@@ -6,26 +6,23 @@
 
 package org.mindswap.pellet.tableau.cache;
 
+import aterm.ATermAppl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
  * Title:
  * </p>
  * <p>
- * Description: LRU implementation of ConceptCache. Primitive concepts and their
- * negation are always kept in the cache. The least recently used complex
- * concept will be removed from the cache if the max size is reached.
+ * Description: LRU implementation of ConceptCache. Primitive concepts and their negation are always kept in the cache. The least recently used complex concept
+ * will be removed from the cache if the max size is reached.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -33,126 +30,163 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class ConceptCacheLRU extends AbstractConceptCache implements ConceptCache {
-	private Map<ATermAppl, CachedNode>				primitive;
-	private LinkedHashMap<ATermAppl, CachedNode>	nonPrimitive;
-	
-	private CacheSafety					cacheSafety;
+public class ConceptCacheLRU extends AbstractConceptCache implements ConceptCache
+{
+	private Map<ATermAppl, CachedNode> primitive;
+	private LinkedHashMap<ATermAppl, CachedNode> nonPrimitive;
+
+	private CacheSafety cacheSafety;
 
 	/**
 	 * Creates an empty ConceptCacheImpl with no size restrictions
-	 * 
+	 *
 	 * @param maxSize
 	 */
-	public ConceptCacheLRU(KnowledgeBase kb) {
-		this( kb, Integer.MAX_VALUE );
+	public ConceptCacheLRU(final KnowledgeBase kb)
+	{
+		this(kb, Integer.MAX_VALUE);
 	}
 
 	/**
-	 * Creates an empty cache with at most <code>maxSize</code> elements which
-	 * are neither named or negations of names.
-	 * 
+	 * Creates an empty cache with at most <code>maxSize</code> elements which are neither named or negations of names.
+	 *
 	 * @param maxSize
 	 */
 	@SuppressWarnings("serial")
-	public ConceptCacheLRU(KnowledgeBase kb, int maxSize) {
-		super( maxSize );
-		
-		cacheSafety = CacheSafetyFactory.createCacheSafety( kb.getExpressivity() );
-				
-		primitive = new HashMap<ATermAppl, CachedNode>();
-		nonPrimitive = new LinkedHashMap<ATermAppl, CachedNode>( 16, 0.75f, true ) {
-			protected boolean removeEldestEntry(Map.Entry<ATermAppl, CachedNode> eldest) {
+	public ConceptCacheLRU(final KnowledgeBase kb, final int maxSize)
+	{
+		super(maxSize);
+
+		cacheSafety = CacheSafetyFactory.createCacheSafety(kb.getExpressivity());
+
+		primitive = new HashMap<>();
+		nonPrimitive = new LinkedHashMap<ATermAppl, CachedNode>(16, 0.75f, true)
+		{
+			/**
+			 * TODO
+			 *
+			 * @since
+			 */
+			private static final long serialVersionUID = 3701638684292370398L;
+
+			@Override
+			protected boolean removeEldestEntry(final Map.Entry<ATermAppl, CachedNode> eldest)
+			{
 				return nonPrimitive.size() > getMaxSize();
 			}
 		};
 	}
-	
-	public CacheSafety getSafety() {
+
+	@Override
+	public CacheSafety getSafety()
+	{
 		return cacheSafety;
 	}
 
-	public void clear() {
+	@Override
+	public void clear()
+	{
 		primitive.clear();
 		nonPrimitive.clear();
 	}
 
-	public boolean containsKey(Object key) {
-		if( primitive.containsKey( key ) || nonPrimitive.containsKey( key ) ) {
+	@Override
+	public boolean containsKey(final Object key)
+	{
+		if (primitive.containsKey(key) || nonPrimitive.containsKey(key))
 			return true;
-		}
 		return false;
 	}
 
-	public boolean containsValue(Object value) {
-		if( primitive.containsValue( value ) || nonPrimitive.containsValue( value ) ) {
+	@Override
+	public boolean containsValue(final Object value)
+	{
+		if (primitive.containsValue(value) || nonPrimitive.containsValue(value))
 			return true;
-		}
 		return false;
 	}
 
-	public Set<java.util.Map.Entry<ATermAppl, CachedNode>> entrySet() {
+	@Override
+	public Set<java.util.Map.Entry<ATermAppl, CachedNode>> entrySet()
+	{
 		Set<java.util.Map.Entry<ATermAppl, CachedNode>> returnSet;
-		returnSet = new HashSet<java.util.Map.Entry<ATermAppl, CachedNode>>( primitive.entrySet() );
-		returnSet.addAll( nonPrimitive.entrySet() );
+		returnSet = new HashSet<>(primitive.entrySet());
+		returnSet.addAll(nonPrimitive.entrySet());
 		return returnSet;
 	}
 
-	public CachedNode get(Object key) {
-		if( primitive.containsKey( key ) )
-			return primitive.get( key );
-		return nonPrimitive.get( key );
+	@Override
+	public CachedNode get(final Object key)
+	{
+		if (primitive.containsKey(key))
+			return primitive.get(key);
+		return nonPrimitive.get(key);
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return primitive.isEmpty() && nonPrimitive.isEmpty();
 	}
 
-	public Set<ATermAppl> keySet() {
-		Set<ATermAppl> keys = new HashSet<ATermAppl>( primitive.keySet() );
-		keys.addAll( nonPrimitive.keySet() );
+	@Override
+	public Set<ATermAppl> keySet()
+	{
+		final Set<ATermAppl> keys = new HashSet<>(primitive.keySet());
+		keys.addAll(nonPrimitive.keySet());
 		return keys;
 	}
 
-	public CachedNode put(ATermAppl key, CachedNode value) {
-		if( ATermUtils.isPrimitiveOrNegated( key ) ) {
-			CachedNode prev = primitive.put( key, value );
-			if( isFull() ) {
+	@Override
+	public CachedNode put(final ATermAppl key, final CachedNode value)
+	{
+		if (ATermUtils.isPrimitiveOrNegated(key))
+		{
+			final CachedNode prev = primitive.put(key, value);
+			if (isFull())
 				nonPrimitive.entrySet();
-			}
 			return prev;
 		}
 
-		return nonPrimitive.put( key, value );
+		return nonPrimitive.put(key, value);
 	}
 
-	public void putAll(Map<? extends ATermAppl, ? extends CachedNode> t) {
-		for( java.util.Map.Entry<? extends ATermAppl, ? extends CachedNode> entry : t.entrySet() ) {
-			put( entry.getKey(), entry.getValue() );
-		}
+	@Override
+	public void putAll(final Map<? extends ATermAppl, ? extends CachedNode> t)
+	{
+		for (final java.util.Map.Entry<? extends ATermAppl, ? extends CachedNode> entry : t.entrySet())
+			put(entry.getKey(), entry.getValue());
 	}
 
-	public CachedNode remove(Object key) {
-		if( primitive.containsKey( key ) )
-			return primitive.remove( key );
-		return nonPrimitive.remove( key );
+	@Override
+	public CachedNode remove(final Object key)
+	{
+		if (primitive.containsKey(key))
+			return primitive.remove(key);
+		return nonPrimitive.remove(key);
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		return primitive.size() + nonPrimitive.size();
 	}
 
-	public Collection<CachedNode> values() {
-		Set<CachedNode> valueSet = new HashSet<CachedNode>( primitive.values() );
-		valueSet.addAll( nonPrimitive.values() );
+	@Override
+	public Collection<CachedNode> values()
+	{
+		final Set<CachedNode> valueSet = new HashSet<>(primitive.values());
+		valueSet.addAll(nonPrimitive.values());
 		return valueSet;
 	}
 
-	public String toString() {
+	@Override
+	public String toString()
+	{
 		return "[Cache size: " + primitive.size() + "," + nonPrimitive.size() + "]";
 	}
-	
+
 }

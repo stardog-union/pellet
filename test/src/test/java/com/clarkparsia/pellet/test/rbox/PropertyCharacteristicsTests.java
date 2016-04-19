@@ -13,8 +13,8 @@ import static com.clarkparsia.pellet.utils.TermFactory.not;
 import static com.clarkparsia.pellet.utils.TermFactory.self;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import junit.framework.JUnit4TestAdapter;
 
+import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.mindswap.pellet.test.AbstractKBTests;
 
@@ -31,96 +31,101 @@ import org.mindswap.pellet.test.AbstractKBTests;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class PropertyCharacteristicsTests extends AbstractKBTests {
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( PropertyCharacteristicsTests.class );
+public class PropertyCharacteristicsTests extends AbstractKBTests
+{
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(PropertyCharacteristicsTests.class);
 	}
 
-	
 	@Test
-	public void reflexivePropertyCausingMerge1() {
+	public void reflexivePropertyCausingMerge1()
+	{
 		// test #433
-		classes( A, B );
-		individuals( a, b );
-		objectProperties( p );
+		classes(A, B);
+		individuals(a, b);
+		objectProperties(p);
 
-		kb.addReflexiveProperty( p );
-		kb.addSymmetricProperty( p );
-		kb.addFunctionalProperty( p );
-		
-		kb.addSubClass( A, B );
-		
-		kb.addType( a, A );
-		kb.addType( b, A );
-		
-		kb.addPropertyValue( p, a, b );
-				
-		assertTrue( kb.isConsistent() );
-		assertTrue( kb.isSameAs( a, b ) );
+		kb.addReflexiveProperty(p);
+		kb.addSymmetricProperty(p);
+		kb.addFunctionalProperty(p);
+
+		kb.addSubClass(A, B);
+
+		kb.addType(a, A);
+		kb.addType(b, A);
+
+		kb.addPropertyValue(p, a, b);
+
+		assertTrue(kb.isConsistent());
+		assertTrue(kb.isSameAs(a, b));
 	}
-	
+
 	@Test
-	public void reflexivePropertyCausingMerge2() {
+	public void reflexivePropertyCausingMerge2()
+	{
 		// test #433
-		classes( A );
-		individuals( a, b );
-		objectProperties( p );
+		classes(A);
+		individuals(a, b);
+		objectProperties(p);
 
-		kb.addReflexiveProperty( p );
-		kb.addSymmetricProperty( p );
-		kb.addFunctionalProperty( p );
-		
-		kb.addDomain( TOP_OBJECT_PROPERTY, A );
-		
-		kb.addPropertyValue( p, a, b );
-				
-		assertTrue( kb.isConsistent() );
-		assertTrue( kb.isSameAs( a, b ) );
+		kb.addReflexiveProperty(p);
+		kb.addSymmetricProperty(p);
+		kb.addFunctionalProperty(p);
+
+		kb.addDomain(TOP_OBJECT_PROPERTY, A);
+
+		kb.addPropertyValue(p, a, b);
+
+		assertTrue(kb.isConsistent());
+		assertTrue(kb.isSameAs(a, b));
 	}
-	
+
 	@Test
-	public void irreflexiveSH() {
+	public void irreflexiveSH()
+	{
 		// test #433
-		objectProperties( p );
+		objectProperties(p);
 
-		kb.addIrreflexiveProperty( inv( p ) );
+		kb.addIrreflexiveProperty(inv(p));
 
-		assertTrue( kb.isConsistent() );
-		assertTrue( kb.isIrreflexiveProperty( p ) );
+		assertTrue(kb.isConsistent());
+		assertTrue(kb.isIrreflexiveProperty(p));
 	}
-	
 
-	
 	@Test
 	/**
 	 * Tests for the bug reported in #376
 	 */
-	public void test376() {
-		annotationProperties( p );
-		
-		assertFalse( kb.isFunctionalProperty( p ) );
+	public void test376()
+	{
+		annotationProperties(p);
+
+		assertFalse(kb.isFunctionalProperty(p));
 	}
-	
+
 	@Test
-	public void testReflexiveDisjoint() {
+	public void testReflexiveDisjoint()
+	{
 		classes(C);
 		objectProperties(p, q);
-		
+
 		kb.addReflexiveProperty(p);
 		kb.addDomain(q, C);
 		kb.addRange(q, not(C));
 
 		assertTrue(kb.isConsistent());
 		assertFalse(kb.isDisjointProperty(p, q));
-	}	
+	}
 
 	@Test
-	public void testAsymmetricEquivalent() {
+	public void testAsymmetricEquivalent()
+	{
 		objectProperties(q, r);
-		
+
 		kb.addAsymmetricProperty(q);
 		kb.addEquivalentProperty(q, r);
 
@@ -130,9 +135,10 @@ public class PropertyCharacteristicsTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testAsymmetricInverseDisjoint() {
+	public void testAsymmetricInverseDisjoint()
+	{
 		objectProperties(p, q, r);
-		
+
 		kb.addInverseProperty(p, q);
 		kb.addAsymmetricProperty(q);
 		kb.addEquivalentProperty(q, r);
@@ -140,12 +146,13 @@ public class PropertyCharacteristicsTests extends AbstractKBTests {
 		assertTrue(kb.isConsistent());
 		assertTrue(kb.isDisjointProperty(p, q));
 		assertTrue(kb.isDisjointProperty(p, r));
-	}	
+	}
 
 	@Test
-	public void testReflexiveSubPropertyExplicit() {
+	public void testReflexiveSubPropertyExplicit()
+	{
 		objectProperties(p, q);
-		
+
 		kb.addReflexiveProperty(p);
 		kb.addSubProperty(p, q);
 
@@ -155,10 +162,11 @@ public class PropertyCharacteristicsTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testReflexiveSubPropertyImplicit() {
+	public void testReflexiveSubPropertyImplicit()
+	{
 		classes(C);
 		objectProperties(p, q);
-		
+
 		kb.addSubClass(TOP, self(p));
 		kb.addSubProperty(p, q);
 
@@ -168,9 +176,10 @@ public class PropertyCharacteristicsTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testIrreflexive() {
+	public void testIrreflexive()
+	{
 		objectProperties(p, q);
-		
+
 		kb.addIrreflexiveProperty(p);
 
 		assertTrue(kb.isConsistent());
@@ -178,20 +187,22 @@ public class PropertyCharacteristicsTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void testIrreflexiveAsymetric() {
+	public void testIrreflexiveAsymetric()
+	{
 		objectProperties(p, q);
-		
+
 		kb.addAsymmetricProperty(p);
 
 		assertTrue(kb.isConsistent());
 		assertTrue(kb.isIrreflexiveProperty(p));
 		assertFalse(kb.isReflexiveProperty(p));
 	}
-	
+
 	@Test
-	public void testNotIrreflexive() {
+	public void testNotIrreflexive()
+	{
 		objectProperties(p, q);
-		
+
 		kb.addIrreflexiveProperty(p);
 		kb.addSubProperty(p, q);
 
@@ -199,18 +210,19 @@ public class PropertyCharacteristicsTests extends AbstractKBTests {
 		assertTrue(kb.isIrreflexiveProperty(p));
 		assertFalse(kb.isIrreflexiveProperty(q));
 	}
-	
-	@Test
-	public void irreflexivePropertyCausingDifferentFrom() {
-		// test #433
-		individuals( a, b );
-		objectProperties( p );
 
-		kb.addIrreflexiveProperty( p );
-		
-		kb.addPropertyValue( p, a, b );		
-				
-		assertTrue( kb.isConsistent() );
-		assertTrue( kb.isDifferentFrom( a, b ) );
+	@Test
+	public void irreflexivePropertyCausingDifferentFrom()
+	{
+		// test #433
+		individuals(a, b);
+		objectProperties(p);
+
+		kb.addIrreflexiveProperty(p);
+
+		kb.addPropertyValue(p, a, b);
+
+		assertTrue(kb.isConsistent());
+		assertTrue(kb.isDifferentFrom(a, b));
 	}
 }

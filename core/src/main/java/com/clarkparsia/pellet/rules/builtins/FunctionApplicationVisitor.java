@@ -22,69 +22,81 @@ import java.math.BigInteger;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class FunctionApplicationVisitor implements NumericVisitor {
-	
+public class FunctionApplicationVisitor implements NumericVisitor
+{
+
 	NumericFunction function;
 	Number result;
-	
-	public FunctionApplicationVisitor( NumericFunction function ) {
-		this( function, null );
+
+	public FunctionApplicationVisitor(final NumericFunction function)
+	{
+		this(function, null);
 	}
-	
+
 	/**
-	 * Takes a function and an optionally null expected value to compare against the function result.
-	 * If the expected value is not null, the result and value will be promoted to the same 
-	 * type and checked for equality.
+	 * Takes a function and an optionally null expected value to compare against the function result. If the expected value is not null, the result and value
+	 * will be promoted to the same type and checked for equality.
 	 */
-	public FunctionApplicationVisitor( NumericFunction function, Number expected ) {
+	public FunctionApplicationVisitor(final NumericFunction function, final Number expected)
+	{
 		this.function = function;
 		this.result = expected;
 	}
-	
-	/**
-	 * Returns the result of the function application. If the application was
-	 * a failure, the result will be null. If the expected value was non-null
-	 * and matched the result once both were promoted, the result will be the 
-	 * expected value (unpromoted).
-	 */
-	public Number getResult() { return result; }
-	
-	private void testAndSetResult( Number theResult ) {
-		if (result == null) {
-			result = theResult;
-		} else {
 
-			NumericComparisonVisitor visitor = new NumericComparisonVisitor();
-			NumericPromotion promoter = new NumericPromotion();
+	/**
+	 * Returns the result of the function application. If the application was a failure, the result will be null. If the expected value was non-null and matched
+	 * the result once both were promoted, the result will be the expected value (unpromoted).
+	 */
+	public Number getResult()
+	{
+		return result;
+	}
+
+	private void testAndSetResult(final Number theResult)
+	{
+		if (result == null)
+			result = theResult;
+		else
+		{
+
+			final NumericComparisonVisitor visitor = new NumericComparisonVisitor();
+			final NumericPromotion promoter = new NumericPromotion();
 			promoter.promote(result, theResult);
 			promoter.accept(visitor);
 
-			if (visitor.getComparison() == 0) {
+			if (visitor.getComparison() == 0)
 				result = theResult;
-			} else {
+			else
 				result = null;
-			}
 
 		}
 	}
-	
-	public void visit(BigDecimal[] args) {
-		testAndSetResult( function.apply( args ) );
+
+	@Override
+	public void visit(final BigDecimal[] args)
+	{
+		testAndSetResult(function.apply(args));
 	}
 
-	public void visit(BigInteger[] args) {
-		testAndSetResult( function.apply( args ) );
+	@Override
+	public void visit(final BigInteger[] args)
+	{
+		testAndSetResult(function.apply(args));
 	}
 
-	public void visit(Double[] args) {
-		testAndSetResult( function.apply( args ) );
+	@Override
+	public void visit(final Double[] args)
+	{
+		testAndSetResult(function.apply(args));
 	}
 
-	public void visit(Float[] args) {
-		testAndSetResult( function.apply( args ) );
+	@Override
+	public void visit(final Float[] args)
+	{
+		testAndSetResult(function.apply(args));
 	}
 
 }

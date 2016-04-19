@@ -6,16 +6,15 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-import org.mindswap.pellet.utils.ATermUtils;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
  * Title: Atom Data Constant
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,21 +22,27 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class AtomDConstant extends AtomConstant implements AtomDObject {
+ */
+public class AtomDConstant extends AtomConstant implements AtomDObject
+{
 
-	public AtomDConstant(ATermAppl value) {
+	public AtomDConstant(final ATermAppl value)
+	{
 		super(value);
 	}
 
-	public void accept(AtomObjectVisitor visitor) {
-		visitor.visit( this );
+	@Override
+	public void accept(final AtomObjectVisitor visitor)
+	{
+		visitor.visit(this);
 	}
 
-	public String toString() {
-		return ATermUtils.toString( getValue() );
+	@Override
+	public String toString()
+	{
+		return ATermUtils.toString(getValue());
 	}
 
 }

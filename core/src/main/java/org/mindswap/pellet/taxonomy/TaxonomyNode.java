@@ -41,206 +41,232 @@ import java.util.Set;
 /**
  * @author Evren Sirin
  */
-public class TaxonomyNode<T> {
+public class TaxonomyNode<T>
+{
 
-	private Map<Object, Object>		dataMap	= new HashMap<Object, Object>();
+	private final Map<Object, Object> dataMap = new HashMap<>();
 
-	private Set<T>					equivalents;
+	private Set<T> equivalents;
 
-	private boolean					hidden;
+	private boolean hidden;
 
-	protected Boolean				mark;
-	private T						name;
+	protected Boolean mark;
+	private T name;
 
-	protected short					depth	= 0;
-	
-	private Set<TaxonomyNode<T>>	subs = new HashSet<TaxonomyNode<T>>(2);
-	private Set<TaxonomyNode<T>>	supers = new HashSet<TaxonomyNode<T>>();
+	protected short depth = 0;
 
-	public TaxonomyNode(T name, boolean hidden) {
+	private Set<TaxonomyNode<T>> subs = new HashSet<>(2);
+	private Set<TaxonomyNode<T>> supers = new HashSet<>();
+
+	public TaxonomyNode(final T name, final boolean hidden)
+	{
 		this.name = name;
 		this.hidden = hidden;
 
-		if( name == null )
+		if (name == null)
 			equivalents = Collections.emptySet();
 		else
-			equivalents = Collections.singleton( name );
+			equivalents = Collections.singleton(name);
 	}
 
-	public TaxonomyNode(Collection<T> equivalents, boolean hidden) {
+	public TaxonomyNode(final Collection<T> equivalents, final boolean hidden)
+	{
 
-		if( equivalents == null || equivalents.isEmpty() ) {
+		if (equivalents == null || equivalents.isEmpty())
+		{
 			this.name = null;
 			this.equivalents = Collections.emptySet();
 		}
-		else {
+		else
+		{
 			this.name = equivalents.iterator().next();
-			this.equivalents = new HashSet<T>( equivalents );
+			this.equivalents = new HashSet<>(equivalents);
 		}
 
 		this.hidden = hidden;
 	}
 
-	public void addEquivalent(T t) {
-		if( equivalents.size() < 2 )
-			equivalents = new HashSet<T>( equivalents );
+	public void addEquivalent(final T t)
+	{
+		if (equivalents.size() < 2)
+			equivalents = new HashSet<>(equivalents);
 
-		equivalents.add( t );
+		equivalents.add(t);
 	}
 
-	public void addSub(TaxonomyNode<T> other) {
-		if( this.equals( other ) || subs.contains( other ) ) {
+	public void addSub(final TaxonomyNode<T> other)
+	{
+		if (this.equals(other) || subs.contains(other))
 			return;
-		}
 
-		subs.add( other );
-		if( !hidden )
-			other.supers.add( this );
+		subs.add(other);
+		if (!hidden)
+			other.supers.add(this);
 	}
 
-	public void addSubs(Collection<TaxonomyNode<T>> others) {
-		for( TaxonomyNode<T> t : others ) {
-			addSub( t );
-		}
+	public void addSubs(final Collection<TaxonomyNode<T>> others)
+	{
+		for (final TaxonomyNode<T> t : others)
+			addSub(t);
 	}
 
-	public void addSupers(Collection<TaxonomyNode<T>> others) {
-		supers.addAll( others );
-		if( !hidden ) {
-			for( TaxonomyNode<T> other : others ) {
-				other.subs.add( this );
-			}
-		}
+	public void addSupers(final Collection<TaxonomyNode<T>> others)
+	{
+		supers.addAll(others);
+		if (!hidden)
+			for (final TaxonomyNode<T> other : others)
+				other.subs.add(this);
 	}
 
-	public void clearData() {
+	public void clearData()
+	{
 		dataMap.clear();
 	}
 
-	public boolean contains(T t) {
-		return equivalents.contains( t );
+	public boolean contains(final T t)
+	{
+		return equivalents.contains(t);
 	}
 
-	public void disconnect() {
-		for( Iterator<TaxonomyNode<T>> j = subs.iterator(); j.hasNext(); ) {
-			TaxonomyNode<T> sub = j.next();
+	public void disconnect()
+	{
+		for (final Iterator<TaxonomyNode<T>> j = subs.iterator(); j.hasNext();)
+		{
+			final TaxonomyNode<T> sub = j.next();
 			j.remove();
-			sub.supers.remove( this );
+			sub.supers.remove(this);
 		}
 
-		for( Iterator<TaxonomyNode<T>> j = supers.iterator(); j.hasNext(); ) {
-			TaxonomyNode<T> sup = j.next();
+		for (final Iterator<TaxonomyNode<T>> j = supers.iterator(); j.hasNext();)
+		{
+			final TaxonomyNode<T> sup = j.next();
 			j.remove();
-			sup.subs.remove( this );
+			sup.subs.remove(this);
 		}
 	}
 
-	public Object getDatum(Object key) {
-		return dataMap.get( key );
+	public Object getDatum(final Object key)
+	{
+		return dataMap.get(key);
 	}
 
-	public Set<T> getEquivalents() {
+	public Set<T> getEquivalents()
+	{
 		return equivalents;
 	}
 
-	public T getName() {
+	public T getName()
+	{
 		return name;
 	}
 
-	public Collection<TaxonomyNode<T>> getSubs() {
+	public Collection<TaxonomyNode<T>> getSubs()
+	{
 		return subs;
 	}
 
-	public Collection<TaxonomyNode<T>> getSupers() {
+	public Collection<TaxonomyNode<T>> getSupers()
+	{
 		return supers;
 	}
 
-	public boolean isBottom() {
+	public boolean isBottom()
+	{
 		return subs.isEmpty();
 	}
 
-	public boolean isHidden() {
+	public boolean isHidden()
+	{
 		return hidden;
 	}
 
-	public boolean isLeaf() {
+	public boolean isLeaf()
+	{
 		return subs.size() == 1 && subs.iterator().next().isBottom();
 	}
 
-	public boolean isTop() {
+	public boolean isTop()
+	{
 		return supers.isEmpty();
 	}
 
-	public void print() {
-		print( "" );
+	public void print()
+	{
+		print("");
 	}
 
-	public void print(String indent) {
-		if( subs.isEmpty() )
+	public void print(String indent)
+	{
+		if (subs.isEmpty())
 			return;
 
-		System.out.print( indent );
-		Iterator<T> i = equivalents.iterator();
-		while( i.hasNext() ) {
-			System.out.print( i.next() );
-			if( i.hasNext() )
-				System.out.print( " = " );
+		System.out.print(indent);
+		final Iterator<T> i = equivalents.iterator();
+		while (i.hasNext())
+		{
+			System.out.print(i.next());
+			if (i.hasNext())
+				System.out.print(" = ");
 		}
 		System.out.println();
-		
+
 		indent += "  ";
-		for( TaxonomyNode<T> sub : subs ) {
-			sub.print( indent );
-		}
+		for (final TaxonomyNode<T> sub : subs)
+			sub.print(indent);
 	}
 
-	public Object putDatum(Object key, Object value) {
-		return dataMap.put( key, value );
-	}
-	
-
-	public Object removeDatum(Object key) {
-		return dataMap.remove( key );
+	public Object putDatum(final Object key, final Object value)
+	{
+		return dataMap.put(key, value);
 	}
 
-	public void removeMultiplePaths() {
-		if( !hidden ) {
-			for( TaxonomyNode<T> sup : supers ) {
-				for( TaxonomyNode<T> sub : subs ) {
-					sup.removeSub( sub );
-				}
-			}
-		}
+	public Object removeDatum(final Object key)
+	{
+		return dataMap.remove(key);
 	}
-	
-	public void removeEquivalent(T t) {
-		equivalents.remove( t );
-		
-		if( name != null && name.equals( t ) ) {
+
+	public void removeMultiplePaths()
+	{
+		if (!hidden)
+			for (final TaxonomyNode<T> sup : supers)
+				for (final TaxonomyNode<T> sub : subs)
+					sup.removeSub(sub);
+	}
+
+	public void removeEquivalent(final T t)
+	{
+		equivalents.remove(t);
+
+		if (name != null && name.equals(t))
 			name = equivalents.iterator().next();
-		}
 	}
 
-	public void removeSub(TaxonomyNode<T> other) {
-		subs.remove( other );
-		other.supers.remove( this );
+	public void removeSub(final TaxonomyNode<T> other)
+	{
+		subs.remove(other);
+		other.supers.remove(this);
 	}
 
-	public void setHidden(boolean hidden) {
+	public void setHidden(final boolean hidden)
+	{
 		this.hidden = hidden;
 	}
 
 	@Deprecated
-	public void setSubs(Set<TaxonomyNode<T>> subs) {
+	public void setSubs(final Set<TaxonomyNode<T>> subs)
+	{
 		this.subs = subs;
 	}
 
 	@Deprecated
-	public void setSupers(Set<TaxonomyNode<T>> supers) {
+	public void setSupers(final Set<TaxonomyNode<T>> supers)
+	{
 		this.supers = supers;
 	}
 
-	public String toString() {
+	@Override
+	public String toString()
+	{
 		return name.toString();// + " = " + equivalents;
 	}
 }

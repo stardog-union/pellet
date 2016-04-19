@@ -6,13 +6,11 @@
 
 package org.mindswap.pellet.tableau.cache;
 
+import aterm.ATermAppl;
 import java.util.Map;
-
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.EdgeList;
 import org.mindswap.pellet.Role;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -27,95 +25,120 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class CachedConstantNode implements CachedNode {
-	public static final CachedNode	TOP			= new CachedConstantNode( CachedNodeType.TOP );
-	public static final CachedNode	BOTTOM		= new CachedConstantNode( CachedNodeType.BOTTOM );
-	public static final CachedNode	INCOMPLETE	= new CachedConstantNode( CachedNodeType.INCOMPLETE );
+public class CachedConstantNode implements CachedNode
+{
+	public static final CachedNode TOP = new CachedConstantNode(CachedNodeType.TOP);
+	public static final CachedNode BOTTOM = new CachedConstantNode(CachedNodeType.BOTTOM);
+	public static final CachedNode INCOMPLETE = new CachedConstantNode(CachedNodeType.INCOMPLETE);
 
-	private enum CachedNodeType {
+	private enum CachedNodeType
+	{
 		TOP, BOTTOM, INCOMPLETE
 	}
 
-	private CachedNodeType	type;
+	private final CachedNodeType type;
 
-	private CachedConstantNode(CachedNodeType type) {
+	private CachedConstantNode(final CachedNodeType type)
+	{
 		this.type = type;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isIndependent() {
+	@Override
+	public boolean isIndependent()
+	{
 		return true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public EdgeList getInEdges() {
+	@Override
+	public EdgeList getInEdges()
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public EdgeList getOutEdges() {
+	@Override
+	public EdgeList getOutEdges()
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Map<ATermAppl, DependencySet> getDepends() {
+	@Override
+	public Map<ATermAppl, DependencySet> getDepends()
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean hasRNeighbor(Role role) {
+	@Override
+	public boolean hasRNeighbor(final Role role)
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isNamedIndividual() {
+	@Override
+	public boolean isNamedIndividual()
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isBottom() {
+	@Override
+	public boolean isBottom()
+	{
 		return type == CachedNodeType.BOTTOM;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isComplete() {
+	@Override
+	public boolean isComplete()
+	{
 		return type != CachedNodeType.INCOMPLETE;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean isTop() {
+	@Override
+	public boolean isTop()
+	{
 		return type == CachedNodeType.TOP;
 	}
 
-	public String toString() {
+	@Override
+	public String toString()
+	{
 		return "Cached." + type;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public ATermAppl getName() {
+	@Override
+	public ATermAppl getName()
+	{
 		return null;
 	}
 }

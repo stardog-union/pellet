@@ -6,20 +6,26 @@
 
 package com.clarkparsia.modularity;
 
-
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2007</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2007
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class ModuleExtractorFactory {
-	public static ModuleExtractor createModuleExtractor() {
+public class ModuleExtractorFactory
+{
+	public static ModuleExtractor createModuleExtractor()
+	{
 		return new GraphBasedModuleExtractor();
 	}
 }

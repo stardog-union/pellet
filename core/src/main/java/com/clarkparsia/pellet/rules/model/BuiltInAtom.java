@@ -9,7 +9,6 @@ package com.clarkparsia.pellet.rules.model;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.mindswap.pellet.utils.URIUtils;
 
 /**
@@ -17,7 +16,7 @@ import org.mindswap.pellet.utils.URIUtils;
  * Title: Built-In Atom
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -25,33 +24,41 @@ import org.mindswap.pellet.utils.URIUtils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
+ */
 
-public class BuiltInAtom extends RuleAtomImpl<String> {
+public class BuiltInAtom extends RuleAtomImpl<String>
+{
 
-	private List<AtomDObject> arguments;
-	
-	public BuiltInAtom( String predicate, AtomDObject... arguments ) {
-		this( predicate, Arrays.asList( arguments ) );
+	private final List<AtomDObject> arguments;
+
+	public BuiltInAtom(final String predicate, final AtomDObject... arguments)
+	{
+		this(predicate, Arrays.asList(arguments));
 	}
-	
-	public BuiltInAtom(String predicate, List<AtomDObject> arguments) {
+
+	public BuiltInAtom(final String predicate, final List<AtomDObject> arguments)
+	{
 		super(predicate);
 		this.arguments = arguments;
 	}
 
-	public void accept(RuleAtomVisitor visitor) {
-		visitor.visit( this );
+	@Override
+	public void accept(final RuleAtomVisitor visitor)
+	{
+		visitor.visit(this);
 	}
 
 	@Override
-	public List<AtomDObject> getAllArguments() {
-		return Collections.unmodifiableList( arguments );
+	public List<AtomDObject> getAllArguments()
+	{
+		return Collections.unmodifiableList(arguments);
 	}
-	
-	public String toString() {
-		return URIUtils.getLocalName(getPredicate().toString())+"("+getAllArguments()+")";
+
+	@Override
+	public String toString()
+	{
+		return URIUtils.getLocalName(getPredicate().toString()) + "(" + getAllArguments() + ")";
 	}
 }

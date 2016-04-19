@@ -15,50 +15,69 @@ import java.util.Iterator;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class NegatedDataRange<T> implements DataRange<T> {
+public class NegatedDataRange<T> implements DataRange<T>
+{
 
-	private final DataRange<? extends T>	datarange;
+	private final DataRange<? extends T> datarange;
 
-	public NegatedDataRange(DataRange<? extends T> datarange) {
+	public NegatedDataRange(final DataRange<? extends T> datarange)
+	{
 		this.datarange = datarange;
 	}
 
-	public boolean contains(Object value) {
-		return !datarange.contains( value );
+	@Override
+	public boolean contains(final Object value)
+	{
+		return !datarange.contains(value);
 	}
 
-	public boolean containsAtLeast(int n) {
+	@Override
+	public boolean containsAtLeast(final int n)
+	{
 		return true;
 	}
 
-	public T getValue(int i) {
+	@Override
+	public T getValue(final int i)
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean isEmpty() {
+	@Override
+	public boolean isEmpty()
+	{
 		return false;
 	}
 
-	public boolean isEnumerable() {
+	@Override
+	public boolean isEnumerable()
+	{
 		return false;
 	}
 
-	public boolean isFinite() {
+	@Override
+	public boolean isFinite()
+	{
 		return false;
 	}
 
-	public int size() {
+	@Override
+	public int size()
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public Iterator<T> valueIterator() {
+	@Override
+	public Iterator<T> valueIterator()
+	{
 		throw new UnsupportedOperationException();
 	}
 
-	public DataRange<? extends T> getDataRange() {
+	public DataRange<? extends T> getDataRange()
+	{
 		return datarange;
 	}
 }

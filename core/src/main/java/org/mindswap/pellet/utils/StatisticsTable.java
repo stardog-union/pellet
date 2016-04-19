@@ -14,93 +14,92 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-public class StatisticsTable<ROW, COL> {
+public class StatisticsTable<ROW, COL>
+{
 
 	private static final Logger log = Logger.getLogger(StatisticsTable.class.getName());
 
-	private Map<COL, Map<ROW, Number>> statistics = new HashMap<COL, Map<ROW, Number>>();
+	private final Map<COL, Map<ROW, Number>> statistics = new HashMap<>();
 
-	private List<COL> cols = new ArrayList<COL>();
-	private List<ROW> rows = new ArrayList<ROW>();
+	private final List<COL> cols = new ArrayList<>();
+	private final List<ROW> rows = new ArrayList<>();
 
 	private int firstColumnSize = 10;
 
-	public void add(final ROW row, final COL col, final Number stat) {
+	public void add(final ROW row, final COL col, final Number stat)
+	{
 		Map<ROW, Number> getCol = statistics.get(col);
 
-		if (getCol == null) {
-			getCol = new HashMap<ROW, Number>();
+		if (getCol == null)
+		{
+			getCol = new HashMap<>();
 			statistics.put(col, getCol);
 			cols.add(col);
 		}
 
-		Number getStat = getCol.get(row);
+		final Number getStat = getCol.get(row);
 
-		if (getStat != null) {
+		if (getStat != null)
 			log.warning("Overwriting [" + row + " : " + col + "].");
-		} else {
-			if (!rows.contains(row)) {
-				if (firstColumnSize < row.toString().length()) {
+		else
+			if (!rows.contains(row))
+			{
+				if (firstColumnSize < row.toString().length())
 					firstColumnSize = row.toString().length();
-				}
 				rows.add(row);
 			}
-		}
 
 		getCol.put(row, stat);
 	}
 
-	public void add(final COL col, final Map<ROW, ? extends Number> stat) {
-		for (Entry <ROW, ? extends Number> entry : stat.entrySet() ) {
-			add( entry.getKey(), col, entry.getValue());
-		}
+	public void add(final COL col, final Map<ROW, ? extends Number> stat)
+	{
+		for (final Entry<ROW, ? extends Number> entry : stat.entrySet())
+			add(entry.getKey(), col, entry.getValue());
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		String s = "";
-		List<Integer> colSizes = new ArrayList<Integer>();
+		final List<Integer> colSizes = new ArrayList<>();
 
-		for (COL col : cols) {
+		for (final COL col : cols)
 			colSizes.add(col.toString().length() + 2);
-		}
 
 		// format of first column
-		String firstCol = "| %1$-" + (firstColumnSize + 2) + "s ";
+		final String firstCol = "| %1$-" + (firstColumnSize + 2) + "s ";
 
 		// format of one line
-		StringBuffer lineFormat = new StringBuffer();
+		final StringBuffer lineFormat = new StringBuffer();
 
-		for (int i = 1; i < colSizes.size() + 1; i++) {
-			lineFormat.append( "| %" ).append( i ).append( "$-10.10s " );
-		}
+		for (int i = 1; i < colSizes.size() + 1; i++)
+			lineFormat.append("| %").append(i).append("$-10.10s ");
 
-		lineFormat.append( "|\n" );
+		lineFormat.append("|\n");
 
 		// separator
-		final char[] a = new char[String.format(lineFormat.toString(), cols.toArray())
-				.length()
-				+ String.format(firstCol, "").length()];
+		final char[] a = new char[String.format(lineFormat.toString(), cols.toArray()).length() + String.format(firstCol, "").length()];
 
 		Arrays.fill(a, '=');
 		final String separator = new String(a);
 
 		s += separator + "\n";
-		s += String.format(firstCol, "")
-				+ String.format(lineFormat.toString(), cols.toArray());
+		s += String.format(firstCol, "") + String.format(lineFormat.toString(), cols.toArray());
 		s += separator + "\n";
 
-		for (final ROW row : rows) {
-			final List<Number> rowData = new ArrayList<Number>();
-			for (final COL col : cols) {
+		for (final ROW row : rows)
+		{
+			final List<Number> rowData = new ArrayList<>();
+			for (final COL col : cols)
+			{
 				final Map<ROW, Number> map = statistics.get(col);
-				Number stat = map.get(row);
+				final Number stat = map.get(row);
 
-				if (stat == null) {
+				if (stat == null)
 					rowData.add(Double.POSITIVE_INFINITY);
-				} else {
+				else
 					rowData.add(stat);
-				}
 			}
 
 			String rowName;
@@ -112,8 +111,7 @@ public class StatisticsTable<ROW, COL> {
 			rowName = row.toString();
 			// }
 
-			s += String.format(firstCol, new Object[] { rowName })
-					+ String.format(lineFormat.toString(), rowData.toArray());
+			s += String.format(firstCol, new Object[] { rowName }) + String.format(lineFormat.toString(), rowData.toArray());
 		}
 
 		s += separator + "\n";

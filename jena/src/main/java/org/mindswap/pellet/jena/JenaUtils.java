@@ -30,23 +30,16 @@
 
 package org.mindswap.pellet.jena;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.datatypes.Datatypes;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.apache.jena.graph.BlankNodeId;
-import org.apache.jena.graph.NodeFactory;
-import org.mindswap.pellet.exceptions.InternalReasonerException;
-import org.mindswap.pellet.jena.vocabulary.OWL2;
-import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.QNameProvider;
-
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.datatypes.Datatypes;
 import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.datatypes.TypeMapper;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.graph.BlankNodeId;
 import org.apache.jena.graph.Node;
+import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.impl.LiteralLabel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -55,160 +48,171 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.vocabulary.OWL;
+import org.mindswap.pellet.exceptions.InternalReasonerException;
+import org.mindswap.pellet.jena.vocabulary.OWL2;
+import org.mindswap.pellet.utils.ATermUtils;
+import org.mindswap.pellet.utils.QNameProvider;
 
 /**
- * Utility functions related to Jena structures. The functions here may have
- * similar functionality to the ones in ATermUtils but they are provided here
- * because ATermUtils is supposed to be library-independent (it should NOT
- * import Jena packages otherwise applications based on OWL-API would require
- * Jena packages)
- * 
+ * Utility functions related to Jena structures. The functions here may have similar functionality to the ones in ATermUtils but they are provided here because
+ * ATermUtils is supposed to be library-independent (it should NOT import Jena packages otherwise applications based on OWL-API would require Jena packages)
+ *
  * @author Evren Sirin
  */
-public class JenaUtils {
-	final public static Literal	XSD_BOOLEAN_TRUE	= ResourceFactory.createTypedLiteral(
-															Boolean.TRUE.toString(),
-															XSDDatatype.XSDboolean );
+public class JenaUtils
+{
+	final public static Literal XSD_BOOLEAN_TRUE = ResourceFactory.createTypedLiteral(Boolean.TRUE.toString(), XSDDatatype.XSDboolean);
 
-	static public ATermAppl makeLiteral(LiteralLabel jenaLiteral) {
-		String lexicalValue = jenaLiteral.getLexicalForm();
-		String datatypeURI = jenaLiteral.getDatatypeURI();
+	static public ATermAppl makeLiteral(final LiteralLabel jenaLiteral)
+	{
+		final String lexicalValue = jenaLiteral.getLexicalForm();
+		final String datatypeURI = jenaLiteral.getDatatypeURI();
 		ATermAppl literalValue = null;
 
-		if( datatypeURI != null )
-			literalValue = ATermUtils.makeTypedLiteral( lexicalValue, datatypeURI );
-		else if( jenaLiteral.language() != null )
-			literalValue = ATermUtils.makePlainLiteral( lexicalValue, jenaLiteral.language() );
+		if (datatypeURI != null)
+			literalValue = ATermUtils.makeTypedLiteral(lexicalValue, datatypeURI);
 		else
-			literalValue = ATermUtils.makePlainLiteral( lexicalValue );
+			if (jenaLiteral.language() != null)
+				literalValue = ATermUtils.makePlainLiteral(lexicalValue, jenaLiteral.language());
+			else
+				literalValue = ATermUtils.makePlainLiteral(lexicalValue);
 
 		return literalValue;
 	}
 
-	static public ATermAppl makeATerm(RDFNode node) {
-		return makeATerm( node.asNode() );
+	static public ATermAppl makeATerm(final RDFNode node)
+	{
+		return makeATerm(node.asNode());
 	}
-	
-	static public ATermAppl makeATerm(Node node) {
-		if( node.isLiteral() ) {
-			return makeLiteral( node.getLiteral() );
-		}
-		else if( node.isBlank() ) {
-			return ATermUtils.makeBnode( node.getBlankNodeLabel() );
-		}
-		else if( node.isURI() ) {
-			if( node.equals( OWL.Thing.asNode() ) ) {
-				return ATermUtils.TOP;
-			}
-			else if( node.equals( OWL.Nothing.asNode() ) ) {
-				return ATermUtils.BOTTOM;
-			}
-			else if ( node.equals( OWL2.topDataProperty.asNode() ) ) {
-				return ATermUtils.TOP_DATA_PROPERTY;
-			}
-			else if ( node.equals( OWL2.bottomDataProperty.asNode() ) ) {
-				return ATermUtils.BOTTOM_DATA_PROPERTY;
-			}
-			else if ( node.equals( OWL2.topObjectProperty.asNode() ) ) {
-				return ATermUtils.TOP_OBJECT_PROPERTY;
-			}
-			else if ( node.equals( OWL2.bottomObjectProperty.asNode() ) ) {
-				return ATermUtils.BOTTOM_OBJECT_PROPERTY;
-			}
-			else {
-				return ATermUtils.makeTermAppl( node.getURI() );
-			}
-		}
-		else if( node.isVariable() ) {
-			return ATermUtils.makeVar( node.getName() );
-		}
+
+	static public ATermAppl makeATerm(final Node node)
+	{
+		if (node.isLiteral())
+			return makeLiteral(node.getLiteral());
+		else
+			if (node.isBlank())
+				return ATermUtils.makeBnode(node.getBlankNodeLabel());
+			else
+				if (node.isURI())
+				{
+					if (node.equals(OWL.Thing.asNode()))
+						return ATermUtils.TOP;
+					else
+						if (node.equals(OWL.Nothing.asNode()))
+							return ATermUtils.BOTTOM;
+						else
+							if (node.equals(OWL2.topDataProperty.asNode()))
+								return ATermUtils.TOP_DATA_PROPERTY;
+							else
+								if (node.equals(OWL2.bottomDataProperty.asNode()))
+									return ATermUtils.BOTTOM_DATA_PROPERTY;
+								else
+									if (node.equals(OWL2.topObjectProperty.asNode()))
+										return ATermUtils.TOP_OBJECT_PROPERTY;
+									else
+										if (node.equals(OWL2.bottomObjectProperty.asNode()))
+											return ATermUtils.BOTTOM_OBJECT_PROPERTY;
+										else
+											return ATermUtils.makeTermAppl(node.getURI());
+				}
+				else
+					if (node.isVariable())
+						return ATermUtils.makeVar(node.getName());
 
 		return null;
 	}
 
-	static public Node makeGraphLiteral(ATermAppl literal) {
+	static public Node makeGraphLiteral(final ATermAppl literal)
+	{
 		Node node;
 
-		String lexicalValue = ((ATermAppl) literal.getArgument( 0 )).getName();
-		ATermAppl lang = (ATermAppl) literal.getArgument( 1 );
-		ATermAppl datatype = (ATermAppl) literal.getArgument( 2 );
+		final String lexicalValue = ((ATermAppl) literal.getArgument(0)).getName();
+		final ATermAppl lang = (ATermAppl) literal.getArgument(1);
+		final ATermAppl datatype = (ATermAppl) literal.getArgument(2);
 
-		if( datatype.equals( ATermUtils.PLAIN_LITERAL_DATATYPE ) ) {
-			if( lang.equals( ATermUtils.EMPTY ) )
-				node =  NodeFactory.createLiteral( lexicalValue );
+		if (datatype.equals(ATermUtils.PLAIN_LITERAL_DATATYPE))
+		{
+			if (lang.equals(ATermUtils.EMPTY))
+				node = NodeFactory.createLiteral(lexicalValue);
 			else
-				node = NodeFactory.createLiteral( lexicalValue, lang.getName(), false );
+				node = NodeFactory.createLiteral(lexicalValue, lang.getName(), false);
 		}
-		else if( datatype.equals( Datatypes.XML_LITERAL ) ) {
-			node = NodeFactory.createLiteral( lexicalValue, "", true );
-		}
-		else {			
-			RDFDatatype type = TypeMapper.getInstance().getTypeByName( datatype.getName() );
-			node = NodeFactory.createLiteral( lexicalValue, "", type );
-		}
+		else
+			if (datatype.equals(Datatypes.XML_LITERAL))
+				node = NodeFactory.createLiteral(lexicalValue, "", true);
+			else
+			{
+				final RDFDatatype type = TypeMapper.getInstance().getTypeByName(datatype.getName());
+				node = NodeFactory.createLiteral(lexicalValue, "", type);
+			}
 
 		return node;
 	}
 
-	static public Node makeGraphResource(ATermAppl term) {
-		if( ATermUtils.isBnode( term ) ) {
-			return NodeFactory.createBlankNode( new BlankNodeId( ((ATermAppl) term.getArgument( 0 )).getName() ) );
-		}
-		else if( term.equals( ATermUtils.TOP ) ) {
-			return OWL.Thing.asNode();
-		}
-		else if( term.equals( ATermUtils.BOTTOM ) ) {
-			return OWL.Nothing.asNode();
-		}
-		else if ( term.equals( ATermUtils.TOP_DATA_PROPERTY ) ) {
-			return OWL2.topDataProperty.asNode();
-		}
-		else if ( term.equals( ATermUtils.BOTTOM_DATA_PROPERTY ) ) {
-			return OWL2.bottomDataProperty.asNode();
-		}
-		else if ( term.equals( ATermUtils.TOP_OBJECT_PROPERTY ) ) {
-			return OWL2.topObjectProperty.asNode();
-		}
-		else if ( term.equals( ATermUtils.BOTTOM_OBJECT_PROPERTY ) ) {
-			return OWL2.bottomObjectProperty.asNode();
-		}
-		else if( term.getArity() == 0 ) {
-			return NodeFactory.createURI( term.getName() );
-		}
-		else {
-			throw new InternalReasonerException( "Invalid term found " + term );
-		}
-	}
-
-	static public Node makeGraphNode(ATermAppl value) {
-		if( ATermUtils.isLiteral( value ) )
-			return makeGraphLiteral( value );
+	static public Node makeGraphResource(final ATermAppl term)
+	{
+		if (ATermUtils.isBnode(term))
+			return NodeFactory.createBlankNode(new BlankNodeId(((ATermAppl) term.getArgument(0)).getName()));
 		else
-			return makeGraphResource( value );
+			if (term.equals(ATermUtils.TOP))
+				return OWL.Thing.asNode();
+			else
+				if (term.equals(ATermUtils.BOTTOM))
+					return OWL.Nothing.asNode();
+				else
+					if (term.equals(ATermUtils.TOP_DATA_PROPERTY))
+						return OWL2.topDataProperty.asNode();
+					else
+						if (term.equals(ATermUtils.BOTTOM_DATA_PROPERTY))
+							return OWL2.bottomDataProperty.asNode();
+						else
+							if (term.equals(ATermUtils.TOP_OBJECT_PROPERTY))
+								return OWL2.topObjectProperty.asNode();
+							else
+								if (term.equals(ATermUtils.BOTTOM_OBJECT_PROPERTY))
+									return OWL2.bottomObjectProperty.asNode();
+								else
+									if (term.getArity() == 0)
+										return NodeFactory.createURI(term.getName());
+									else
+										throw new InternalReasonerException("Invalid term found " + term);
 	}
 
-	static public Literal makeLiteral(ATermAppl literal, Model model) {
-		return (Literal) model.asRDFNode( makeGraphLiteral( literal ) );
+	static public Node makeGraphNode(final ATermAppl value)
+	{
+		if (ATermUtils.isLiteral(value))
+			return makeGraphLiteral(value);
+		else
+			return makeGraphResource(value);
 	}
 
-	static public Resource makeResource(ATermAppl term, Model model) {
-		return (Resource) model.asRDFNode( makeGraphResource( term ) );
+	static public Literal makeLiteral(final ATermAppl literal, final Model model)
+	{
+		return (Literal) model.asRDFNode(makeGraphLiteral(literal));
 	}
 
-	static public RDFNode makeRDFNode(ATermAppl term, Model model) {
-		return model.asRDFNode( makeGraphNode( term ) );
+	static public Resource makeResource(final ATermAppl term, final Model model)
+	{
+		return (Resource) model.asRDFNode(makeGraphResource(term));
 	}
 
-	static public QNameProvider makeQNameProvider(PrefixMapping mapping) {
-		QNameProvider qnames = new QNameProvider();
+	static public RDFNode makeRDFNode(final ATermAppl term, final Model model)
+	{
+		return model.asRDFNode(makeGraphNode(term));
+	}
 
-		Iterator<Map.Entry<String, String>> entries = mapping.getNsPrefixMap().entrySet().iterator();
-		while( entries.hasNext() ) {
-			Map.Entry<String, String> entry = entries.next();
-			String prefix = entry.getKey();
-			String uri = entry.getValue();
+	static public QNameProvider makeQNameProvider(final PrefixMapping mapping)
+	{
+		final QNameProvider qnames = new QNameProvider();
 
-			qnames.setMapping( prefix, uri );
+		final Iterator<Map.Entry<String, String>> entries = mapping.getNsPrefixMap().entrySet().iterator();
+		while (entries.hasNext())
+		{
+			final Map.Entry<String, String> entry = entries.next();
+			final String prefix = entry.getKey();
+			final String uri = entry.getValue();
+
+			qnames.setMapping(prefix, uri);
 		}
 
 		return qnames;

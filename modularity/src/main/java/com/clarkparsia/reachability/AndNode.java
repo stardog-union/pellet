@@ -9,48 +9,54 @@ package com.clarkparsia.reachability;
 /**
  * @author Evren Sirin
  */
-public class AndNode extends Node {
+public class AndNode extends Node
+{
 
 	//	private final int	activationLimit;
 	private int activatedInputs;
 
-	private int id;
+	private final int id;
 
-	public AndNode(int id) {
+	public AndNode(final int id)
+	{
 		this.id = id;
-//		this.activationLimit = activationLimit;
+		//		this.activationLimit = activationLimit;
 		this.activatedInputs = 0;
 
-//		if( activationLimit < 2 )
-//			throw new IllegalArgumentException();
+		//		if( activationLimit < 2 )
+		//			throw new IllegalArgumentException();
 	}
 
 	@Override
-	public boolean inputActivated() {
-//		if( activatedInputs >= activationLimit )
-//			throw new IllegalStateException();
+	public boolean inputActivated()
+	{
+		//		if( activatedInputs >= activationLimit )
+		//			throw new IllegalStateException();
 
 		return (++activatedInputs == inputs.size());
 	}
 
 	@Override
-	public boolean isActive() {
+	public boolean isActive()
+	{
 		return (activatedInputs == inputs.size());
 	}
 
 	@Override
-	public boolean isRedundant() {
-		return outputs.isEmpty() || inputs.size() == 1 || outputs.size() == 1
-		                                                  && outputs.iterator().next() instanceof AndNode;
+	public boolean isRedundant()
+	{
+		return outputs.isEmpty() || inputs.size() == 1 || outputs.size() == 1 && outputs.iterator().next() instanceof AndNode;
 	}
 
 	@Override
-	public void reset() {
+	public void reset()
+	{
 		activatedInputs = 0;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "And(" + id + ")[" + activatedInputs + "," + inputs.size() + "]";
 	}
 }

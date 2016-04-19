@@ -2,40 +2,39 @@ package profiler.statistical;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
-
-import profiler.Result;
 import profiler.ProfileKB.Task;
+import profiler.Result;
 
 /**
  * Provides some statistics about the performance of a certain task
+ * 
  * @author Pedro Oliveira <pedro@clarkparsia.com>
- *
  */
-public class ReleaseStatistics {
+public class ReleaseStatistics
+{
 
-	private Task task;
-	private Map<String, Double> memStats;
-	private Map<String, Double> timeStats;
+	private final Task task;
+	private final Map<String, Double> memStats;
+	private final Map<String, Double> timeStats;
 
-	public ReleaseStatistics(Task task)
-	{		
+	public ReleaseStatistics(final Task task)
+	{
 		this.task = task;
-		memStats = new LinkedHashMap<String, Double>();
-		timeStats = new LinkedHashMap<String, Double>();
+		memStats = new LinkedHashMap<>();
+		timeStats = new LinkedHashMap<>();
 	}
 
-	public ReleaseStatistics(Result<Task> task)
+	public ReleaseStatistics(final Result<Task> task)
 	{
 		this(task.getTask());
-		
-		DescriptiveStatistics mem = task.getMemory();
-		addMemStat("avg",mem.getMean());
-		addMemStat("var",mem.getVariance());
-		addMemStat("n",mem.getN());
-		
-		DescriptiveStatistics time = task.getTime();
+
+		final DescriptiveStatistics mem = task.getMemory();
+		addMemStat("avg", mem.getMean());
+		addMemStat("var", mem.getVariance());
+		addMemStat("n", mem.getN());
+
+		final DescriptiveStatistics time = task.getTime();
 		addTimeStat("avg", time.getMean());
 		addTimeStat("var", mem.getVariance());
 		addTimeStat("n", mem.getN());
@@ -46,30 +45,32 @@ public class ReleaseStatistics {
 		return task;
 	}
 
-	public double getMemStat(String name)
+	public double getMemStat(final String name)
 	{
 		return memStats.get(name);
 	}
 
-	public double getTimeStat(String name)
+	public double getTimeStat(final String name)
 	{
 		return timeStats.get(name);
 	}
 
-	public Map<String, Double> getMemStats() {
+	public Map<String, Double> getMemStats()
+	{
 		return memStats;
 	}
 
-	public Map<String, Double> getTimeStats() {
+	public Map<String, Double> getTimeStats()
+	{
 		return timeStats;
 	}
 
-	public void addMemStat(String name, double value)
+	public void addMemStat(final String name, final double value)
 	{
 		memStats.put(name, value);
 	}
 
-	public void addTimeStat(String name, double value)
+	public void addTimeStat(final String name, final double value)
 	{
 		timeStats.put(name, value);
 	}

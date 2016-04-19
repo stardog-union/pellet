@@ -6,10 +6,9 @@
 
 package org.mindswap.pellet.examples;
 
-import com.clarkparsia.owlapi.OWL;
-
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.modularity.io.IncrementalClassifierPersistence;
+import com.clarkparsia.owlapi.OWL;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -136,7 +135,7 @@ public class PersistenceExample
 		fileToDelete.delete();
 	}
 
-	public static void main(String[] args) throws OWLOntologyCreationException
+	public static void main(final String[] args) throws OWLOntologyCreationException
 	{
 		final PersistenceExample app = new PersistenceExample();
 		app.run();

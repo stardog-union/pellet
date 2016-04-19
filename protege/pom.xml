@@ -22,11 +22,11 @@
 			<artifactId>pellet-owlapi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>pellet-modularity</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>pellet-modularity</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>edu.stanford.protege</groupId>
 			<artifactId>org.protege.common</artifactId>

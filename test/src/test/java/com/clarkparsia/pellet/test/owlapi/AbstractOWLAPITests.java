@@ -15,10 +15,9 @@ import static com.clarkparsia.owlapi.OWL.Individual;
 import static com.clarkparsia.owlapi.OWL.ObjectProperty;
 import static com.clarkparsia.owlapi.OWL.constant;
 
+import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
-import com.clarkparsia.owlapi.OWL;
 import java.util.Collections;
 import org.junit.After;
 import org.junit.Before;
@@ -48,62 +47,65 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public abstract class AbstractOWLAPITests {
-	public static String	base	= "file:" + PelletTestSuite.base + "misc/";
+public abstract class AbstractOWLAPITests
+{
+	public static String base = "file:" + PelletTestSuite.base + "misc/";
 
-	protected static final OWLClass					A		= Class( "A" );
-	protected static final OWLClass					B		= Class( "B" );
-	protected static final OWLClass					C		= Class( "C" );
-	protected static final OWLClass					D		= Class( "D" );
-	protected static final OWLClass					E		= Class( "E" );
-	protected static final OWLClass					F		= Class( "F" );
-	protected static final OWLObjectProperty		p		= ObjectProperty( "p" );
-	protected static final OWLObjectProperty		q		= ObjectProperty( "q" );
-	protected static final OWLObjectProperty		r		= ObjectProperty( "r" );
-	protected static final OWLDataProperty			dp		= DataProperty( "dp" );
-	protected static final OWLDataProperty			dq		= DataProperty( "dq" );
-	protected static final OWLDataProperty			dr		= DataProperty( "dr" );
-	protected static final OWLNamedIndividual		a		= Individual( "a" );
-	protected static final OWLNamedIndividual		b		= Individual( "b" );
-	protected static final OWLNamedIndividual		c		= Individual( "c" );
-	protected static final OWLAnonymousIndividual	anon	= AnonymousIndividual();
-	protected static final OWLLiteral				lit		= constant( "lit" );
+	protected static final OWLClass A = Class("A");
+	protected static final OWLClass B = Class("B");
+	protected static final OWLClass C = Class("C");
+	protected static final OWLClass D = Class("D");
+	protected static final OWLClass E = Class("E");
+	protected static final OWLClass F = Class("F");
+	protected static final OWLObjectProperty p = ObjectProperty("p");
+	protected static final OWLObjectProperty q = ObjectProperty("q");
+	protected static final OWLObjectProperty r = ObjectProperty("r");
+	protected static final OWLDataProperty dp = DataProperty("dp");
+	protected static final OWLDataProperty dq = DataProperty("dq");
+	protected static final OWLDataProperty dr = DataProperty("dr");
+	protected static final OWLNamedIndividual a = Individual("a");
+	protected static final OWLNamedIndividual b = Individual("b");
+	protected static final OWLNamedIndividual c = Individual("c");
+	protected static final OWLAnonymousIndividual anon = AnonymousIndividual();
+	protected static final OWLLiteral lit = constant("lit");
 
-	
 	protected OWLOntology ontology;
 	protected PelletReasoner reasoner;
-	
-	public void createReasoner(OWLAxiom... axioms) {		
-		ontology = OWL.Ontology( axioms );
+
+	public void createReasoner(final OWLAxiom... axioms)
+	{
+		ontology = OWL.Ontology(axioms);
 		reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
 	}
 
 	@Before
 	@After
-	public void resetOntologyManager() {
+	public void resetOntologyManager()
+	{
 		ontology = null;
-		if( reasoner != null )
+		if (reasoner != null)
 			reasoner.dispose();
-		
-		for( OWLOntology o : OWL.manager.getOntologies() ) {
-			OWL.manager.removeOntology( o );
-		}
-	}
-	
-	protected boolean processAdd(OWLAxiom axiom) {
-		return processChange( new AddAxiom( ontology, axiom ) );
-	}
-	
-	protected boolean processRemove(OWLAxiom axiom) {
-		return processChange( new RemoveAxiom( ontology, axiom ) );	
-	}
-	
-	protected boolean processChange(OWLOntologyChange change) {
-		return reasoner.processChanges( Collections.singletonList( change ) );
+
+		for (final OWLOntology o : OWL.manager.getOntologies())
+			OWL.manager.removeOntology(o);
 	}
 
+	protected boolean processAdd(final OWLAxiom axiom)
+	{
+		return processChange(new AddAxiom(ontology, axiom));
+	}
+
+	protected boolean processRemove(final OWLAxiom axiom)
+	{
+		return processChange(new RemoveAxiom(ontology, axiom));
+	}
+
+	protected boolean processChange(final OWLOntologyChange change)
+	{
+		return reasoner.processChanges(Collections.singletonList(change));
+	}
 
 }

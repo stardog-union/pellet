@@ -11,7 +11,7 @@ package com.clarkparsia.pellet.rules.model;
  * Title: Atom Individual Object
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -19,9 +19,10 @@ package com.clarkparsia.pellet.rules.model;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface AtomIObject extends AtomObject {
+ */
+public interface AtomIObject extends AtomObject
+{
 
 }

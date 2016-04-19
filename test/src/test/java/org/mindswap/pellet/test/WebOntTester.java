@@ -6,16 +6,17 @@
 
 package org.mindswap.pellet.test;
 
-public interface WebOntTester {
-	public void setInputOntology( String inputFileURI );
-	
-	public void setTimeout( long timeout );
-	
+public interface WebOntTester
+{
+	public void setInputOntology(String inputFileURI);
+
+	public void setTimeout(long timeout);
+
 	public boolean isConsistent();
-	
-	public void classify(); 
-	
-	public void testEntailment( String entailmentFileURI, boolean positiveEntailment );
-	
+
+	public void classify();
+
+	public void testEntailment(String entailmentFileURI, boolean positiveEntailment);
+
 	public void registerURIMapping(String fromURI, String toURI);
 }

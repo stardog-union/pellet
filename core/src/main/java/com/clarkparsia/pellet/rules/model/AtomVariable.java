@@ -6,16 +6,15 @@
 
 package com.clarkparsia.pellet.rules.model;
 
-import org.mindswap.pellet.utils.URIUtils;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.utils.URIUtils;
 
 /**
  * <p>
  * Title: Atom Variable
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -23,41 +22,51 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public abstract class AtomVariable implements AtomObject {
-	
-	private String name;
-	
-	public AtomVariable( String name ) {
+ */
+public abstract class AtomVariable implements AtomObject
+{
+
+	private final String name;
+
+	public AtomVariable(final String name)
+	{
 		this.name = name;
 	}
-	
-	public int compareTo( ATermAppl arg0 ) {
-		return getName().compareTo( arg0.getName() );
+
+	public int compareTo(final ATermAppl arg0)
+	{
+		return getName().compareTo(arg0.getName());
 	}
 
-    /**
-     * Checks if this variable is equal to some other variable.
- 	 */
-    public boolean equals(Object other) {
-		if( this == other )
+	/**
+	 * Checks if this variable is equal to some other variable.
+	 */
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (this == other)
 			return true;
-		if( !( other instanceof AtomVariable ) )
+		if (!(other instanceof AtomVariable))
 			return false;
-		return getName().equals( ( ( AtomVariable ) other ).getName() );
+		return getName().equals(((AtomVariable) other).getName());
 	}
-    
-    public String getName() {
+
+	public String getName()
+	{
 		return name;
-	}    
-    
-    public int hashCode() {
-        return name.hashCode();
-    }
-    
-	public String toString() {
-        return "?" + URIUtils.getLocalName( name );
-    }
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return name.hashCode();
+	}
+
+	@Override
+	public String toString()
+	{
+		return "?" + URIUtils.getLocalName(name);
+	}
 }

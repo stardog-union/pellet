@@ -8,7 +8,7 @@ import com.clarkparsia.pellint.lintpattern.LintPattern;
  * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -16,33 +16,44 @@ import com.clarkparsia.pellint.lintpattern.LintPattern;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class MockLintPattern implements LintPattern {
-	private boolean m_IsFixable;
-	
-	public MockLintPattern() {
+public class MockLintPattern implements LintPattern
+{
+	private final boolean m_IsFixable;
+
+	public MockLintPattern()
+	{
 		this(false);
 	}
 
-	public MockLintPattern(boolean isFixable) {
+	public MockLintPattern(final boolean isFixable)
+	{
 		m_IsFixable = isFixable;
 	}
-	
-	public String getName() {
+
+	@Override
+	public String getName()
+	{
 		return this.toString();
 	}
 
-	public String getDescription() {
+	@Override
+	public String getDescription()
+	{
 		return this.toString();
 	}
 
-	public boolean isFixable() {
+	@Override
+	public boolean isFixable()
+	{
 		return m_IsFixable;
 	}
 
-	public LintFormat getDefaultLintFormat() {
+	@Override
+	public LintFormat getDefaultLintFormat()
+	{
 		return null;
 	}
 

@@ -74,7 +74,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
 public class DatatypeReasonerImpl implements DatatypeReasoner
@@ -89,7 +89,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	{
 		log = Logger.getLogger(DatatypeReasonerImpl.class.getCanonicalName());
 
-		coreDatatypes = new HashMap<ATermAppl, Datatype<?>>();
+		coreDatatypes = new HashMap<>();
 
 		{
 			coreDatatypes.put(RDFPlainLiteral.getInstance().getName(), RDFPlainLiteral.getInstance());
@@ -148,31 +148,31 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 
 	static
 	{
-		EMPTY_RANGE = new EmptyDataRange<Object>();
+		EMPTY_RANGE = new EmptyDataRange<>();
 
 		TRIVIALLY_SATISFIABLE = new DataRange<Object>()
-				{
+		{
 
 			@Override
-			public boolean contains(Object value)
+			public boolean contains(final Object value)
 			{
 				return true;
 			}
 
 			@Override
-			public boolean containsAtLeast(int n)
+			public boolean containsAtLeast(final int n)
 			{
 				return true;
 			}
 
 			@Override
-			public boolean equals(Object obj)
+			public boolean equals(final Object obj)
 			{
 				return this == obj;
 			}
 
 			@Override
-			public Object getValue(int i)
+			public Object getValue(final int i)
 			{
 				throw new UnsupportedOperationException();
 			}
@@ -213,10 +213,10 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				throw new UnsupportedOperationException();
 			}
 
-				};
+		};
 	}
 
-	private static <T> DataValueEnumeration<? extends T> findSmallestEnumeration(Collection<DataValueEnumeration<? extends T>> ranges)
+	private static <T> DataValueEnumeration<? extends T> findSmallestEnumeration(final Collection<DataValueEnumeration<? extends T>> ranges)
 	{
 		DataValueEnumeration<? extends T> ret = null;
 		int best = Integer.MAX_VALUE;
@@ -233,7 +233,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		return ret;
 	}
 
-	private static final ATermAppl getDatatypeName(ATermAppl literal)
+	private static final ATermAppl getDatatypeName(final ATermAppl literal)
 	{
 		if (!ATermUtils.isLiteral(literal))
 		{
@@ -253,69 +253,55 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		return dtName;
 	}
 
-	private static int inequalityCount(Set<Integer>[] nes, int xIndex)
+	private static int inequalityCount(final Set<Integer>[] nes, final int xIndex)
 	{
 
 		final Set<Integer> others = nes[xIndex];
 		return others == null ? 0 : others.size();
 	}
 
-	private static <T> void partitionDConjunction(Collection<DataRange<? extends T>> dconjunction, Set<DataValueEnumeration<? extends T>> positiveEnumerations, Set<DataValueEnumeration<? extends T>> negativeEnumerations, Set<RestrictedDatatype<? extends T>> positiveRestrictions, Set<RestrictedDatatype<? extends T>> negativeRestrictions)
+	private static <T> void partitionDConjunction(final Collection<DataRange<? extends T>> dconjunction, final Set<DataValueEnumeration<? extends T>> positiveEnumerations, final Set<DataValueEnumeration<? extends T>> negativeEnumerations, final Set<RestrictedDatatype<? extends T>> positiveRestrictions, final Set<RestrictedDatatype<? extends T>> negativeRestrictions)
 	{
 		for (final DataRange<? extends T> dr : dconjunction)
-		{
 			if (dr instanceof DataValueEnumeration)
-			{
 				positiveEnumerations.add((DataValueEnumeration<? extends T>) dr);
-			}
 			else
 				if (dr instanceof RestrictedDatatype)
-				{
 					positiveRestrictions.add((RestrictedDatatype<? extends T>) dr);
-				}
 				else
 					if (dr instanceof NegatedDataRange)
 					{
 						final DataRange<? extends T> ndr = ((NegatedDataRange<? extends T>) dr).getDataRange();
 						if (ndr instanceof DataValueEnumeration)
-						{
 							negativeEnumerations.add((DataValueEnumeration<? extends T>) ndr);
-						}
 						else
 							if (ndr instanceof RestrictedDatatype)
-							{
 								negativeRestrictions.add((RestrictedDatatype<? extends T>) ndr);
-							}
 							else
 								if (dr != TRIVIALLY_SATISFIABLE)
-								{
 									log.warning("Unknown datatype: " + dr);
-								}
 					}
 					else
 						if (dr != TRIVIALLY_SATISFIABLE)
-						{
 							log.warning("Unknown datatype: " + dr);
-						}
-		}
 	}
 
-	private static boolean removeInequalities(Set<Integer>[] nes, int xIndex)
+	private static boolean removeInequalities(final Set<Integer>[] nes, final int xIndex)
 	{
 
 		final Set<Integer> others = nes[xIndex];
 
 		if (others == null)
-		{
 			return false;
-		}
 		else
 		{
 			for (final Integer yIndex : others)
 			{
 				final Set<Integer> s = nes[yIndex];
-				if (s == null) { throw new IllegalStateException(); }
-				if (!s.remove(xIndex)) { throw new IllegalStateException(); }
+				if (s == null)
+					throw new IllegalStateException();
+				if (!s.remove(xIndex))
+					throw new IllegalStateException();
 			}
 			return true;
 		}
@@ -327,43 +313,38 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 
 	public DatatypeReasonerImpl()
 	{
-		declaredUndefined = new HashSet<ATermAppl>();
+		declaredUndefined = new HashSet<>();
 		expander = new NamedDataRangeExpander();
-		namedDataRanges = new HashMap<ATermAppl, ATermAppl>();
+		namedDataRanges = new HashMap<>();
 	}
 
-	private boolean containedIn(Object value, ATermAppl dconjunction) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	private boolean containedIn(final Object value, final ATermAppl dconjunction) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
 		if (ATermUtils.isAnd(dconjunction))
 		{
 			for (ATermList l = (ATermList) dconjunction.getArgument(0); !l.isEmpty(); l = l.getNext())
-			{
-				if (!getDataRange((ATermAppl) l.getFirst()).contains(value)) { return false; }
-			}
+				if (!getDataRange((ATermAppl) l.getFirst()).contains(value))
+					return false;
 			return true;
 		}
 		else
-		{
 			return getDataRange(dconjunction).contains(value);
-		}
 	}
 
 	@Override
-	public boolean containsAtLeast(int n, Collection<ATermAppl> ranges) throws UnrecognizedDatatypeException, InvalidConstrainingFacetException, InvalidLiteralException
+	public boolean containsAtLeast(final int n, final Collection<ATermAppl> ranges) throws UnrecognizedDatatypeException, InvalidConstrainingFacetException, InvalidLiteralException
 	{
 
 		final ATermAppl and = ATermUtils.makeAnd(ATermUtils.makeList(ranges));
 		final ATermAppl dnf = DNF.dnf(expander.expand(and, namedDataRanges));
 		if (ATermUtils.isOr(dnf))
 		{
-			final List<DataRange<?>> disjuncts = new ArrayList<DataRange<?>>();
+			final List<DataRange<?>> disjuncts = new ArrayList<>();
 			for (ATermList l = (ATermList) dnf.getArgument(0); !l.isEmpty(); l = l.getNext())
 			{
 				final DataRange<?> dr = normalizeVarRanges((ATermAppl) l.getFirst());
 				if (!dr.isEmpty())
-				{
 					disjuncts.add(dr);
-				}
 			}
 
 			final DataRange<?> disjunction = getDisjunction(disjuncts);
@@ -378,12 +359,10 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	}
 
 	@Override
-	public boolean declare(ATermAppl name)
+	public boolean declare(final ATermAppl name)
 	{
 		if (isDeclared(name))
-		{
 			return false;
-		}
 		else
 		{
 			declaredUndefined.add(name);
@@ -392,12 +371,11 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	}
 
 	@Override
-	public ATermAppl getCanonicalRepresentation(ATermAppl literal) throws InvalidLiteralException, UnrecognizedDatatypeException
+	public ATermAppl getCanonicalRepresentation(final ATermAppl literal) throws InvalidLiteralException, UnrecognizedDatatypeException
 	{
 		final ATermAppl dtName = getDatatypeName(literal);
 		final Datatype<?> dt = getDatatype(dtName);
 		if (dt == null)
-		{
 			switch (PelletOptions.UNDEFINED_DATATYPE_HANDLING)
 			{
 				case INFINITE_STRING:
@@ -409,26 +387,25 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				default:
 					throw new IllegalStateException();
 			}
-		}
 		else
-		{
 			return dt.getCanonicalRepresentation(literal);
-		}
 	}
 
-	private DataRange<?> getDataRange(ATermAppl a) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	private DataRange<?> getDataRange(final ATermAppl a) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
 		// TODO: Investigate the impact of keeping a results cache here
 
 		/*
 		 * rdfs:Literal
 		 */
-		if (a.equals(ATermUtils.TOP_LIT)) { return TRIVIALLY_SATISFIABLE; }
+		if (a.equals(ATermUtils.TOP_LIT))
+			return TRIVIALLY_SATISFIABLE;
 
 		/*
 		 * Negation of rdfs:Literal
 		 */
-		if (a.equals(ATermUtils.BOTTOM_LIT)) { return EMPTY_RANGE; }
+		if (a.equals(ATermUtils.BOTTOM_LIT))
+			return EMPTY_RANGE;
 
 		/*
 		 * Named datatype
@@ -437,7 +414,6 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		{
 			Datatype<?> dt = getDatatype(a);
 			if (dt == null)
-			{
 				switch (PelletOptions.UNDEFINED_DATATYPE_HANDLING)
 				{
 					case INFINITE_STRING:
@@ -450,7 +426,6 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 					default:
 						throw new IllegalStateException();
 				}
-			}
 			return dt.asDataRange();
 		}
 
@@ -465,7 +440,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			 */
 			final ATermAppl dtTerm = (ATermAppl) a.getArgument(0);
 			final DataRange<?> dt = getDataRange(dtTerm);
-			if (!(dt instanceof RestrictedDatatype<?>)) { throw new InvalidConstrainingFacetException(dtTerm, dt); }
+			if (!(dt instanceof RestrictedDatatype<?>))
+				throw new InvalidConstrainingFacetException(dtTerm, dt);
 
 			RestrictedDatatype<?> dr = (RestrictedDatatype<?>) dt;
 
@@ -516,7 +492,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		if (ATermUtils.isNominal(a))
 		{
 			final ATermAppl literal = (ATermAppl) a.getArgument(0);
-			final DataRange<?> dr = new DataValueEnumeration<Object>(Collections.singleton(getValue(literal)));
+			final DataRange<?> dr = new DataValueEnumeration<>(Collections.singleton(getValue(literal)));
 			return dr;
 		}
 
@@ -526,7 +502,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	}
 
 	@Override
-	public Datatype<?> getDatatype(ATermAppl uri)
+	public Datatype<?> getDatatype(final ATermAppl uri)
 	{
 		try
 		{
@@ -535,7 +511,6 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			{
 				final ATermAppl definition = namedDataRanges.get(uri);
 				if (definition != null)
-				{
 					if (ATermUtils.isRestrictedDatatype(definition))
 					{
 						final RestrictedDatatype<?> dataRange = (RestrictedDatatype<?>) getDataRange(definition);
@@ -543,7 +518,6 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 						final NamedDatatype namedDatatype = new NamedDatatype(uri, dataRange);
 						dt = namedDatatype;
 					}
-				}
 			}
 
 			return dt;
@@ -554,24 +528,23 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		}
 	}
 
-	private DataRange<?> getDisjunction(Collection<DataRange<?>> ranges)
+	private DataRange<?> getDisjunction(final Collection<DataRange<?>> ranges)
 	{
 
-		if (ranges.size() == 1) { return ranges.iterator().next(); }
+		if (ranges.size() == 1)
+			return ranges.iterator().next();
 
 		for (final DataRange<?> r : ranges)
-		{
-			if (r == TRIVIALLY_SATISFIABLE) { return r; }
-		}
+			if (r == TRIVIALLY_SATISFIABLE)
+				return r;
 
 		Set<Object> oneOf = Collections.emptySet();
-		final Map<Datatype<?>, Set<RestrictedDatatype<?>>> byPrimitive = new HashMap<Datatype<?>, Set<RestrictedDatatype<?>>>();
+		final Map<Datatype<?>, Set<RestrictedDatatype<?>>> byPrimitive = new HashMap<>();
 
 		/*
 		 * Organize the input data ranges into restrictions partitioned by data and a merged value enumeration.
 		 */
 		for (final DataRange<?> dr : ranges)
-		{
 			if (dr instanceof RestrictedDatatype)
 			{
 				final RestrictedDatatype<?> rd = (RestrictedDatatype<?>) dr;
@@ -579,7 +552,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				Set<RestrictedDatatype<?>> others = byPrimitive.get(pd);
 				if (others == null)
 				{
-					others = new HashSet<RestrictedDatatype<?>>();
+					others = new HashSet<>();
 					byPrimitive.put(pd, others);
 				}
 				others.add(rd);
@@ -589,28 +562,21 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				{
 					final DataValueEnumeration<?> enm = (DataValueEnumeration<?>) dr;
 					if (oneOf.isEmpty())
-					{
-						oneOf = new HashSet<Object>();
-					}
+						oneOf = new HashSet<>();
 					for (final Iterator<?> it = enm.valueIterator(); it.hasNext();)
-					{
 						oneOf.add(it.next());
-					}
 				}
-		}
 
 		/*
 		 * Merge data ranges that have the same primitive datatype
 		 */
-		final Set<RestrictedDatatype<?>> disjointRanges = new HashSet<RestrictedDatatype<?>>();
+		final Set<RestrictedDatatype<?>> disjointRanges = new HashSet<>();
 		for (final Set<RestrictedDatatype<?>> s : byPrimitive.values())
 		{
 			final Iterator<RestrictedDatatype<?>> it = s.iterator();
 			RestrictedDatatype<?> merge = it.next();
 			while (it.hasNext())
-			{
 				merge = merge.union(it.next());
-			}
 
 			disjointRanges.add(merge);
 		}
@@ -622,27 +588,20 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		{
 			final Object o = it.next();
 			for (final RestrictedDatatype<?> rd : disjointRanges)
-			{
 				if (rd.contains(o))
-				{
 					it.remove();
-				}
-			}
 		}
 
-		return new UnionDataRange<Object>(disjointRanges, oneOf);
+		return new UnionDataRange<>(disjointRanges, oneOf);
 	}
 
 	@Override
-	public ATermAppl getLiteral(Object value)
+	public ATermAppl getLiteral(final Object value)
 	{
 		for (final Datatype<?> dt : coreDatatypes.values())
-		{
 			if (dt.isPrimitive())
-			{
-				if (dt.asDataRange().contains(value)) { return dt.getLiteral(value); }
-			}
-		}
+				if (dt.asDataRange().contains(value))
+					return dt.getLiteral(value);
 
 		final String msg = "Value is not in the value space of any recognized datatypes: " + value.toString();
 		log.severe(msg);
@@ -650,12 +609,11 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	}
 
 	@Override
-	public Object getValue(ATermAppl literal) throws InvalidLiteralException, UnrecognizedDatatypeException
+	public Object getValue(final ATermAppl literal) throws InvalidLiteralException, UnrecognizedDatatypeException
 	{
 		final ATermAppl dtName = getDatatypeName(literal);
 		final Datatype<?> dt = getDatatype(dtName);
 		if (dt == null)
-		{
 			switch (PelletOptions.UNDEFINED_DATATYPE_HANDLING)
 			{
 				case INFINITE_STRING:
@@ -667,44 +625,44 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				default:
 					throw new IllegalStateException();
 			}
-		}
 		else
-		{
 			return dt.getValue(literal);
-		}
 	}
 
 	@Override
-	public boolean isDeclared(ATermAppl name)
+	public boolean isDeclared(final ATermAppl name)
 	{
 		return ATermUtils.TOP_LIT.equals(name) || coreDatatypes.containsKey(name) || namedDataRanges.containsKey(name) || declaredUndefined.contains(name);
 	}
 
 	@Override
-	public boolean isDefined(ATermAppl name)
+	public boolean isDefined(final ATermAppl name)
 	{
-		if (ATermUtils.TOP_LIT.equals(name)) { return true; }
+		if (ATermUtils.TOP_LIT.equals(name))
+			return true;
 
-		if (coreDatatypes.containsKey(name)) { return true; }
-		if (namedDataRanges.containsKey(name)) { return true; }
+		if (coreDatatypes.containsKey(name))
+			return true;
+		if (namedDataRanges.containsKey(name))
+			return true;
 
 		return false;
 	}
 
 	@Override
-	public ATermAppl getDefinition(ATermAppl name)
+	public ATermAppl getDefinition(final ATermAppl name)
 	{
 		return namedDataRanges.get(name);
 	}
 
 	@Override
-	public boolean isSatisfiable(Collection<ATermAppl> dataranges) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	public boolean isSatisfiable(final Collection<ATermAppl> dataranges) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
 		return isSatisfiable(dataranges, null);
 	}
 
 	@Override
-	public boolean isSatisfiable(Collection<ATermAppl> dataranges, Object value) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	public boolean isSatisfiable(final Collection<ATermAppl> dataranges, final Object value) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
 		Set<Integer> consts, vars;
 
@@ -713,8 +671,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			/*
 			 * TODO: See if code in next method can be restructured to avoid this allocation.
 			 */
-			consts = new HashSet<Integer>();
-			vars = new HashSet<Integer>(Collections.singleton(0));
+			consts = new HashSet<>();
+			vars = new HashSet<>(Collections.singleton(0));
 		}
 		else
 		{
@@ -727,17 +685,13 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		Collection<ATermAppl> dnfDisjuncts;
 		if (ATermUtils.isOr(dnf))
 		{
-			final List<ATermAppl> disjuncts = new ArrayList<ATermAppl>();
+			final List<ATermAppl> disjuncts = new ArrayList<>();
 			for (ATermList l = (ATermList) dnf.getArgument(0); !l.isEmpty(); l = l.getNext())
-			{
 				disjuncts.add((ATermAppl) l.getFirst());
-			}
 			dnfDisjuncts = disjuncts;
 		}
 		else
-		{
 			dnfDisjuncts = Collections.singleton(dnf);
-		}
 
 		@SuppressWarnings("unchecked")
 		final Collection<ATermAppl>[] dnfTypes = new Collection[] { dnfDisjuncts };
@@ -748,7 +702,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		return isSatisfiable(consts, vars, dnfTypes, new Object[] { value }, ne);
 	}
 
-	private boolean isSatisfiable(Set<Integer> consts, Set<Integer> vars, Collection<ATermAppl>[] dnfTypes, Object[] constValues, Set<Integer>[] ne) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	private boolean isSatisfiable(final Set<Integer> consts, final Set<Integer> vars, final Collection<ATermAppl>[] dnfTypes, final Object[] constValues, final Set<Integer>[] ne) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
 
 		/*
@@ -767,11 +721,10 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			{
 				final ATermAppl dr = it.next();
 				if (ATermUtils.BOTTOM_LIT.equals(dr))
-				{
 					it.remove();
-				}
 			}
-			if (drs.isEmpty()) { return false; }
+			if (drs.isEmpty())
+				return false;
 		}
 
 		/*
@@ -779,34 +732,26 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		 */
 		final DataRange<?>[] normalized = new DataRange[n];
 		for (int i = 0; i < n; i++)
-		{
-
 			if (consts.contains(i))
 			{
 
 				boolean satisfied = false;
 				for (final ATermAppl a : dnfTypes[i])
-				{
 					if (containedIn(constValues[i], a))
 					{
 						satisfied = true;
 						break;
 					}
-				}
 				if (satisfied)
-				{
 					normalized[i] = TRIVIALLY_SATISFIABLE;
-				}
 				else
-				{
 					return false;
-				}
 
 			}
 			else
 			{
 
-				List<DataRange<?>> drs = new ArrayList<DataRange<?>>();
+				List<DataRange<?>> drs = new ArrayList<>();
 				for (final ATermAppl a : dnfTypes[i])
 				{
 					final DataRange<?> dr = normalizeVarRanges(a);
@@ -817,21 +762,14 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 					}
 					else
 						if (!dr.isEmpty())
-						{
 							drs.add(dr);
-						}
 				}
 				if (drs.isEmpty())
-				{
 					return false;
-				}
 				else
-				{
 					normalized[i] = getDisjunction(drs);
-				}
 
 			}
-		}
 
 		/*
 		 * Alg lines 7 - 22 (without the 12-13 or 19-20 blocks)
@@ -854,7 +792,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			/*
 			 * Line 15
 			 */
-			if (dr.isEmpty()) { return false; }
+			if (dr.isEmpty())
+				return false;
 
 			/*
 			 * Second half of condition 9 - 11 block
@@ -881,9 +820,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		}
 
 		if (log.isLoggable(Level.FINEST))
-		{
 			log.finest(format("After variable data range normalization %d variables and %d constants", vars.size(), consts.size()));
-		}
 
 		/*
 		 * Constant checks (alg lines 23 - 30)
@@ -896,20 +833,19 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			 */
 			final Set<Integer> diffs = ne[i];
 			if (diffs != null)
-			{
 				for (final Iterator<Integer> it = diffs.iterator(); it.hasNext();)
 				{
 					final int j = it.next();
 					if (consts.contains(j))
 					{
 
-						if (constValues[i].equals(constValues[j])) { return false; }
+						if (constValues[i].equals(constValues[j]))
+							return false;
 
 						it.remove();
 						ne[j].remove(i);
 					}
 				}
-			}
 		}
 
 		/*
@@ -937,11 +873,10 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		}
 
 		if (log.isLoggable(Level.FINEST))
-		{
 			log.finest(format("After size check on variable data ranges %d variables", vars.size()));
-		}
 
-		if (vars.isEmpty()) { return true; }
+		if (vars.isEmpty())
+			return true;
 
 		/*
 		 * Assertion: at this point, all remaining variables are from finite and enumerable data ranges.
@@ -950,18 +885,18 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		/*
 		 * Partition remaining variables into disjoint collections
 		 */
-		final Set<Integer> remaining = new HashSet<Integer>(vars);
-		final List<Set<Integer>> partitions = new ArrayList<Set<Integer>>();
+		final Set<Integer> remaining = new HashSet<>(vars);
+		final List<Set<Integer>> partitions = new ArrayList<>();
 		while (!remaining.isEmpty())
 		{
-			final Set<Integer> p = new HashSet<Integer>();
+			final Set<Integer> p = new HashSet<>();
 			final Iterator<Integer> it = remaining.iterator();
 			final int i = it.next();
 			it.remove();
 			p.add(i);
 			if (ne[i] != null)
 			{
-				final Set<Integer> others = new HashSet<Integer>();
+				final Set<Integer> others = new HashSet<>();
 				others.addAll(ne[i]);
 				while (!others.isEmpty())
 				{
@@ -973,9 +908,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 						p.add(j);
 						remaining.remove(j);
 						if (ne[j] != null)
-						{
 							others.addAll(ne[j]);
-						}
 					}
 				}
 
@@ -984,9 +917,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		}
 
 		if (log.isLoggable(Level.FINEST))
-		{
 			log.finest(format("Enumerating to find solutions for %d partitions", partitions.size()));
-		}
 
 		/*
 		 * Enumerate until a solution is found
@@ -996,7 +927,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			final int nPart = p.size();
 
 			final int[] indices = new int[nPart];
-			final Map<Integer, Integer> revInd = new HashMap<Integer, Integer>();
+			final Map<Integer, Integer> revInd = new HashMap<>();
 			final DataRange<?>[] drs = new DataRange[nPart];
 
 			int i = 0;
@@ -1010,18 +941,14 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 
 			final Iterator<?>[] its = new Iterator[nPart];
 			for (i = 0; i < nPart; i++)
-			{
 				its[i] = drs[i].valueIterator();
-			}
 
 			final Object[] values = new Object[nPart];
 			/*
 			 * Assign a value to each
 			 */
 			for (i = 0; i < nPart; i++)
-			{
 				values[i] = its[i].next();
-			}
 
 			boolean solutionFound = false;
 			while (!solutionFound)
@@ -1041,13 +968,9 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 
 							Object b;
 							if (p.contains(j))
-							{
 								b = values[revInd.get(j)];
-							}
 							else
-							{
 								b = constValues[j];
-							}
 
 							if (a.equals(b))
 							{
@@ -1066,7 +989,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 					i = nPart - 1;
 					while (!its[i].hasNext())
 					{
-						if (i == 0) { return false; }
+						if (i == 0)
+							return false;
 						its[i] = drs[i].valueIterator();
 						values[i] = its[i].next();
 						i--;
@@ -1080,17 +1004,17 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	}
 
 	@Override
-	public boolean isSatisfiable(Set<Literal> nodes, Map<Literal, Set<Literal>> neqs) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	public boolean isSatisfiable(final Set<Literal> nodes, final Map<Literal, Set<Literal>> neqs) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
 
 		final Literal[] literals = nodes.toArray(new Literal[0]);
 
 		// TODO: Evaluate replacing with intset or just int arrays.
-		final Set<Integer> vars = new HashSet<Integer>();
-		final Set<Integer> consts = new HashSet<Integer>();
+		final Set<Integer> vars = new HashSet<>();
+		final Set<Integer> consts = new HashSet<>();
 		final Object[] constValues = new Object[literals.length];
 
-		final Map<Literal, Integer> rev = new HashMap<Literal, Integer>();
+		final Map<Literal, Integer> rev = new HashMap<>();
 
 		for (int i = 0; i < literals.length; i++)
 		{
@@ -1101,9 +1025,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				constValues[i] = literals[i].getValue();
 			}
 			else
-			{
 				vars.add(i);
-			}
 		}
 
 		@SuppressWarnings("unchecked")
@@ -1111,18 +1033,14 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		for (final Map.Entry<Literal, Set<Literal>> e : neqs.entrySet())
 		{
 			final int index = rev.get(e.getKey());
-			ne[index] = new HashSet<Integer>();
+			ne[index] = new HashSet<>();
 			for (final Literal l : e.getValue())
-			{
 				ne[index].add(rev.get(l));
-			}
 
 		}
 
 		if (log.isLoggable(Level.FINEST))
-		{
 			log.finest(format("Checking satisfiability for %d variables and %d constants", vars.size(), consts.size()));
-		}
 
 		/*
 		 * 1. Get to DNF. After this step <code>dnfMap</code> associates literals with a collection of D-conjunctions,
@@ -1136,28 +1054,26 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			final ATermAppl dnf = DNF.dnf(expander.expand(and, namedDataRanges));
 			if (ATermUtils.isOr(dnf))
 			{
-				final List<ATermAppl> disjuncts = new ArrayList<ATermAppl>();
+				final List<ATermAppl> disjuncts = new ArrayList<>();
 				for (ATermList l = (ATermList) dnf.getArgument(0); !l.isEmpty(); l = l.getNext())
-				{
 					disjuncts.add((ATermAppl) l.getFirst());
-				}
 				dnfs[i] = disjuncts;
 			}
 			else
-			{
 				dnfs[i] = Collections.singleton(dnf);
-			}
 		}
 
 		return isSatisfiable(consts, vars, dnfs, constValues, ne);
 	}
 
 	@Override
-	public boolean define(ATermAppl name, ATermAppl datarange)
+	public boolean define(final ATermAppl name, final ATermAppl datarange)
 	{
-		if (name.equals(datarange)) { throw new IllegalArgumentException(); }
+		if (name.equals(datarange))
+			throw new IllegalArgumentException();
 
-		if (namedDataRanges.containsKey(name)) { return false; }
+		if (namedDataRanges.containsKey(name))
+			return false;
 
 		namedDataRanges.put(name, datarange);
 		declaredUndefined.remove(name);
@@ -1165,25 +1081,26 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		return true;
 	}
 
-	private DataRange<?> normalizeVarRanges(ATermAppl dconjunction) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	private DataRange<?> normalizeVarRanges(final ATermAppl dconjunction) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
 
 		DataRange<?> ret;
 
 		if (ATermUtils.isAnd(dconjunction))
 		{
-			final Collection<DataRange<?>> ranges = new LinkedHashSet<DataRange<?>>();
+			final Collection<DataRange<?>> ranges = new LinkedHashSet<>();
 			for (ATermList l = (ATermList) dconjunction.getArgument(0); !l.isEmpty(); l = l.getNext())
 			{
 				final DataRange<?> dr = getDataRange((ATermAppl) l.getFirst());
-				if (dr.isEmpty()) { return EMPTY_RANGE; }
+				if (dr.isEmpty())
+					return EMPTY_RANGE;
 				ranges.add(dr);
 			}
 
-			final Set<DataValueEnumeration<?>> positiveEnumerations = new HashSet<DataValueEnumeration<?>>();
-			final Set<DataValueEnumeration<?>> negativeEnumerations = new HashSet<DataValueEnumeration<?>>();
-			final Set<RestrictedDatatype<?>> positiveRestrictions = new HashSet<RestrictedDatatype<?>>();
-			final Set<RestrictedDatatype<?>> negativeRestrictions = new HashSet<RestrictedDatatype<?>>();
+			final Set<DataValueEnumeration<?>> positiveEnumerations = new HashSet<>();
+			final Set<DataValueEnumeration<?>> negativeEnumerations = new HashSet<>();
+			final Set<RestrictedDatatype<?>> positiveRestrictions = new HashSet<>();
+			final Set<RestrictedDatatype<?>> negativeRestrictions = new HashSet<>();
 
 			partitionDConjunction(ranges, positiveEnumerations, negativeEnumerations, positiveRestrictions, negativeRestrictions);
 
@@ -1193,7 +1110,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			if (!positiveEnumerations.isEmpty())
 			{
 				final DataRange<?> enumeration = findSmallestEnumeration(positiveEnumerations);
-				final Set<Object> remainingValues = new HashSet<Object>();
+				final Set<Object> remainingValues = new HashSet<>();
 				final Iterator<?> it = enumeration.valueIterator();
 				boolean same = true;
 				while (it.hasNext())
@@ -1201,39 +1118,30 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 					final Object value = it.next();
 					boolean permit = true;
 					for (final DataRange<?> dr : ranges)
-					{
 						if ((dr != enumeration) && !dr.contains(value))
 						{
 							permit = false;
 							same = false;
 							break;
 						}
-					}
 					if (permit)
-					{
 						remainingValues.add(value);
-					}
 				}
 				if (same)
-				{
 					return enumeration;
-				}
 				else
 					if (remainingValues.isEmpty())
-					{
 						return EMPTY_RANGE;
-					}
 					else
-					{
-						return new DataValueEnumeration<Object>(remainingValues);
-					}
+						return new DataValueEnumeration<>(remainingValues);
 			}
 
 			/*
 			 * If there are only negative restrictions, the conjunction is trivially satisfiable (because the
 			 * interpretation domain is infinite).
 			 */
-			if (positiveRestrictions.isEmpty()) { return TRIVIALLY_SATISFIABLE; }
+			if (positiveRestrictions.isEmpty())
+				return TRIVIALLY_SATISFIABLE;
 
 			/*
 			 * Verify that all positive restrictions are on the same primitive type. If not, the data range is empty
@@ -1247,7 +1155,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				if (rootDt == null)
 					rootDt = dt;
 				else
-					if (!rootDt.equals(dt)) { return EMPTY_RANGE; }
+					if (!rootDt.equals(dt))
+						return EMPTY_RANGE;
 			}
 
 			final Iterator<RestrictedDatatype<?>> it = positiveRestrictions.iterator();
@@ -1273,25 +1182,20 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 
 			if (!negativeEnumerations.isEmpty())
 			{
-				final Set<Object> notOneOf = new HashSet<Object>();
+				final Set<Object> notOneOf = new HashSet<>();
 				for (final DataValueEnumeration<?> enm : negativeEnumerations)
-				{
 					for (final Iterator<?> oi = enm.valueIterator(); oi.hasNext();)
-					{
 						notOneOf.add(oi.next());
-					}
-				}
 				rd = rd.exclude(notOneOf);
 			}
 
 			ret = rd;
 		}
 		else
-		{
 			ret = getDataRange(dconjunction);
-		}
 
-		if (!ret.isFinite()) { return TRIVIALLY_SATISFIABLE; }
+		if (!ret.isFinite())
+			return TRIVIALLY_SATISFIABLE;
 
 		return ret;
 	}
@@ -1299,7 +1203,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	@Override
 	public Collection<ATermAppl> listDataRanges()
 	{
-		final Collection<ATermAppl> dataRanges = new HashSet<ATermAppl>(coreDatatypes.keySet());
+		final Collection<ATermAppl> dataRanges = new HashSet<>(coreDatatypes.keySet());
 		dataRanges.addAll(declaredUndefined);
 		dataRanges.addAll(namedDataRanges.keySet());
 
@@ -1307,13 +1211,16 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	}
 
 	@Override
-	public boolean validLiteral(ATermAppl typedLiteral) throws UnrecognizedDatatypeException
+	public boolean validLiteral(final ATermAppl typedLiteral) throws UnrecognizedDatatypeException
 	{
-		if (!ATermUtils.isLiteral(typedLiteral)) { throw new IllegalArgumentException(); }
+		if (!ATermUtils.isLiteral(typedLiteral))
+			throw new IllegalArgumentException();
 		final ATermAppl dtTerm = (ATermAppl) typedLiteral.getArgument(ATermUtils.LIT_URI_INDEX);
-		if (dtTerm == null) { throw new IllegalArgumentException(); }
+		if (dtTerm == null)
+			throw new IllegalArgumentException();
 		final Datatype<?> dt = getDatatype(dtTerm);
-		if (dt == null) { throw new UnrecognizedDatatypeException(dtTerm); }
+		if (dt == null)
+			throw new UnrecognizedDatatypeException(dtTerm);
 		try
 		{
 			dt.getValue(typedLiteral);
@@ -1326,14 +1233,14 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 	}
 
 	@Override
-	public Iterator<?> valueIterator(Collection<ATermAppl> dataranges) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	public Iterator<?> valueIterator(final Collection<ATermAppl> dataranges) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
 
 		final ATermAppl and = ATermUtils.makeAnd(ATermUtils.makeList(dataranges));
 		final ATermAppl dnf = DNF.dnf(expander.expand(and, namedDataRanges));
 		if (ATermUtils.isOr(dnf))
 		{
-			final List<DataRange<?>> disjuncts = new ArrayList<DataRange<?>>();
+			final List<DataRange<?>> disjuncts = new ArrayList<>();
 			for (ATermList l = (ATermList) dnf.getArgument(0); !l.isEmpty(); l = l.getNext())
 			{
 				final DataRange<?> dr = normalizeVarRanges((ATermAppl) l.getFirst());
@@ -1342,25 +1249,17 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 
 			final DataRange<?> disjunction = getDisjunction(disjuncts);
 			if (!disjunction.isEnumerable())
-			{
 				throw new IllegalArgumentException();
-			}
 			else
-			{
 				return disjunction.valueIterator();
-			}
 		}
 		else
 		{
 			final DataRange<?> dr = normalizeVarRanges(dnf);
 			if (!dr.isEnumerable())
-			{
 				throw new IllegalArgumentException();
-			}
 			else
-			{
 				return dr.valueIterator();
-			}
 		}
 	}
 

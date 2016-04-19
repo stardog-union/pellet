@@ -6,66 +6,73 @@
 
 package org.mindswap.pellet.taxonomy;
 
+import aterm.ATerm;
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
-
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.ATermUtils;
 
-import aterm.ATerm;
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.utils.CollectionUtils;
-
 /**
- * 
  * @author Evren Sirin
  */
-public class TaxonomyBasedDefinitionOrder extends AbstractDefinitionOrder {
+public class TaxonomyBasedDefinitionOrder extends AbstractDefinitionOrder
+{
 	private Taxonomy<ATermAppl> definitionOrderTaxonomy;
 
-	public TaxonomyBasedDefinitionOrder(KnowledgeBase kb, Comparator<ATerm> comparator) {
-		super( kb, comparator );
-	}
-	
-	protected void initialize() {
-		definitionOrderTaxonomy = new Taxonomy<ATermAppl>( kb.getClasses(),
-				ATermUtils.TOP, ATermUtils.BOTTOM );
+	public TaxonomyBasedDefinitionOrder(final KnowledgeBase kb, final Comparator<ATerm> comparator)
+	{
+		super(kb, comparator);
 	}
 
 	@Override
-	protected void addUses(ATermAppl c, ATermAppl d) {		
-		if( definitionOrderTaxonomy.isEquivalent( c, d ).isTrue() )
-			return;
-	
-		TaxonomyNode<ATermAppl> cNode = definitionOrderTaxonomy.getNode( c );
-		TaxonomyNode<ATermAppl> dNode = definitionOrderTaxonomy.getNode( d );
-		if( cNode == null )
-			throw new InternalReasonerException( c + " is not in the definition order" );
-		else if( cNode.equals( definitionOrderTaxonomy.getTop() ) )
-			definitionOrderTaxonomy.merge( cNode, dNode );
-		else {
-			definitionOrderTaxonomy.addSuper( c, d );
-			definitionOrderTaxonomy.removeCycles( cNode );
-		}
+	protected void initialize()
+	{
+		definitionOrderTaxonomy = new Taxonomy<>(kb.getClasses(), ATermUtils.TOP, ATermUtils.BOTTOM);
 	}
 
-	protected Set<ATermAppl> computeCycles() {
-		Set<ATermAppl> cyclicConcepts = CollectionUtils.makeIdentitySet();
-		for( TaxonomyNode<ATermAppl> node : definitionOrderTaxonomy.getNodes() ) {
-			Set<ATermAppl> names = node.getEquivalents();
-			if( names.size() > 1 )
-				cyclicConcepts.addAll( names );
+	@Override
+	protected void addUses(final ATermAppl c, final ATermAppl d)
+	{
+		if (definitionOrderTaxonomy.isEquivalent(c, d).isTrue())
+			return;
+
+		final TaxonomyNode<ATermAppl> cNode = definitionOrderTaxonomy.getNode(c);
+		final TaxonomyNode<ATermAppl> dNode = definitionOrderTaxonomy.getNode(d);
+		if (cNode == null)
+			throw new InternalReasonerException(c + " is not in the definition order");
+		else
+			if (cNode.equals(definitionOrderTaxonomy.getTop()))
+				definitionOrderTaxonomy.merge(cNode, dNode);
+			else
+			{
+				definitionOrderTaxonomy.addSuper(c, d);
+				definitionOrderTaxonomy.removeCycles(cNode);
+			}
+	}
+
+	@Override
+	protected Set<ATermAppl> computeCycles()
+	{
+		final Set<ATermAppl> cyclicConcepts = CollectionUtils.makeIdentitySet();
+		for (final TaxonomyNode<ATermAppl> node : definitionOrderTaxonomy.getNodes())
+		{
+			final Set<ATermAppl> names = node.getEquivalents();
+			if (names.size() > 1)
+				cyclicConcepts.addAll(names);
 		}
-		
+
 		return cyclicConcepts;
 	}
-	
-	protected List<ATermAppl> computeDefinitionOrder() {
+
+	@Override
+	protected List<ATermAppl> computeDefinitionOrder()
+	{
 		definitionOrderTaxonomy.assertValid();
 
-		return definitionOrderTaxonomy.topologocialSort( true, comparator );
+		return definitionOrderTaxonomy.topologocialSort(true, comparator);
 	}
 }

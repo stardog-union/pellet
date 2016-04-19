@@ -20,10 +20,9 @@ import static org.mindswap.pellet.utils.ATermUtils.makeNot;
 import static org.mindswap.pellet.utils.ATermUtils.makeOr;
 import static org.mindswap.pellet.utils.ATermUtils.makeSub;
 
+import aterm.ATermAppl;
 import java.util.Collections;
-
 import junit.framework.JUnit4TestAdapter;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;
@@ -32,15 +31,12 @@ import org.mindswap.pellet.tbox.impl.Unfolding;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
-import aterm.ATermAppl;
-
 /**
  * <p>
  * Title: TBoxTests
  * </p>
  * <p>
- * Description: TBox unit tests (those than can be done without depending on the
- * Knowledgebase or ABox)
+ * Description: TBox unit tests (those than can be done without depending on the Knowledgebase or ABox)
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -48,47 +44,52 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class TBoxTests extends AbstractKBTests {
+public class TBoxTests extends AbstractKBTests
+{
 
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter( TBoxTests.class );
+	public static junit.framework.Test suite()
+	{
+		return new JUnit4TestAdapter(TBoxTests.class);
 	}
 
 	private TBox tbox;
-	
-	
+
+	@Override
 	@Before
-	public void initializeKB() {
+	public void initializeKB()
+	{
 		super.initializeKB();
 		tbox = kb.getTBox();
 	}
-	
-	private void prepareTBox() {
+
+	private void prepareTBox()
+	{
 		tbox.prepare();
 	}
 
 	/**
-	 * Test that tbox axioms which have been "simplified away" during absorption
-	 * are re-added if removal of another tbox axiom necessitates it.
+	 * Test that tbox axioms which have been "simplified away" during absorption are re-added if removal of another tbox axiom necessitates it.
 	 */
 	@Test
-	public void removedByAbsorbReaddedOnChange() {
+	public void removedByAbsorbReaddedOnChange()
+	{
 
-		boolean oldTracing = PelletOptions.USE_TRACING;
+		final boolean oldTracing = PelletOptions.USE_TRACING;
 		PelletOptions.USE_TRACING = true;
-		try {
-			classes( A, B, C, D );
+		try
+		{
+			classes(A, B, C, D);
 
-			ATermAppl axiom1 = makeEqClasses( A, makeOr( C, D ) );
-			assertTrue( tbox.addAxiom( axiom1 ) );
+			final ATermAppl axiom1 = makeEqClasses(A, makeOr(C, D));
+			assertTrue(tbox.addAxiom(axiom1));
 
-			ATermAppl axiom2 = makeSub( A, B );
-			assertTrue( tbox.addAxiom( axiom2 ) );
+			final ATermAppl axiom2 = makeSub(A, B);
+			assertTrue(tbox.addAxiom(axiom2));
 
-			Unfolding unfoldForAxiom2 = Unfolding.create( B, Collections.singleton( axiom2 ) );
+			final Unfolding unfoldForAxiom2 = Unfolding.create(B, Collections.singleton(axiom2));
 
 			prepareTBox();
 
@@ -99,27 +100,30 @@ public class TBoxTests extends AbstractKBTests {
 			 * TBox implementation is broken, it may mean the implementation has
 			 * changed in a way that makes this test not useful.
 			 */
-			assertFalse( IteratorUtils.toSet( tbox.unfold( A ) ).contains( unfoldForAxiom2 ) );
+			assertFalse(IteratorUtils.toSet(tbox.unfold(A)).contains(unfoldForAxiom2));
 
-			tbox.removeAxiom( axiom1 );
+			tbox.removeAxiom(axiom1);
 			prepareTBox();
 
 			/*
 			 * After the equivalence is removed, any simplification (e.g., the
 			 * one above) must be corrected.
 			 */
-			assertTrue( IteratorUtils.toSet( tbox.unfold( A ) ).contains( unfoldForAxiom2 ) );
-		} finally {
+			assertTrue(IteratorUtils.toSet(tbox.unfold(A)).contains(unfoldForAxiom2));
+		}
+		finally
+		{
 			PelletOptions.USE_TRACING = oldTracing;
 		}
 	}
-	
-	@Test
-	public void assertedAxioms() {
-		classes( A, B, C, D );
 
-		ATermAppl axiom = makeSub( makeAnd(A, B), makeNot(B) );
-		tbox.addAxiom( axiom );
+	@Test
+	public void assertedAxioms()
+	{
+		classes(A, B, C, D);
+
+		final ATermAppl axiom = makeSub(makeAnd(A, B), makeNot(B));
+		tbox.addAxiom(axiom);
 
 		prepareTBox();
 
@@ -127,48 +131,50 @@ public class TBoxTests extends AbstractKBTests {
 		assertTrue(tbox.getAxioms().contains(axiom));
 		assertEquals(Collections.singleton(axiom), tbox.getAssertedAxioms());
 	}
-	
-	@Test
-	public void binaryAbsorption() {
-		ATermAppl SPECIALCLIENT = term("SPECIALCLIENT");
-		ATermAppl CLIENT = term("CLIENT");
-		ATermAppl EXPENSIVE = term("EXPENSIVE");
-		ATermAppl PROFITABLE = term("PROFITABLE");
-		ATermAppl TRUSTEDCLIENT = term("TRUSTEDCLIENT");
-		ATermAppl Recommend = term("Recommend");
-		ATermAppl Buy = term("Buy");
-		
-		classes( SPECIALCLIENT, CLIENT, EXPENSIVE, PROFITABLE, TRUSTEDCLIENT );
-		objectProperties( Buy, Recommend );
 
-		tbox.addAxiom( makeSub( SPECIALCLIENT, TRUSTEDCLIENT ) );
-		tbox.addAxiom( makeEqClasses( SPECIALCLIENT, 
-				and( CLIENT , 
-					 some(Buy, or(EXPENSIVE, PROFITABLE)), 
-					 some(inv(Recommend), TRUSTEDCLIENT))));
-		
+	@Test
+	public void binaryAbsorption()
+	{
+		final ATermAppl SPECIALCLIENT = term("SPECIALCLIENT");
+		final ATermAppl CLIENT = term("CLIENT");
+		final ATermAppl EXPENSIVE = term("EXPENSIVE");
+		final ATermAppl PROFITABLE = term("PROFITABLE");
+		final ATermAppl TRUSTEDCLIENT = term("TRUSTEDCLIENT");
+		final ATermAppl Recommend = term("Recommend");
+		final ATermAppl Buy = term("Buy");
+
+		classes(SPECIALCLIENT, CLIENT, EXPENSIVE, PROFITABLE, TRUSTEDCLIENT);
+		objectProperties(Buy, Recommend);
+
+		tbox.addAxiom(makeSub(SPECIALCLIENT, TRUSTEDCLIENT));
+		tbox.addAxiom(makeEqClasses(SPECIALCLIENT, and(CLIENT, some(Buy, or(EXPENSIVE, PROFITABLE)), some(inv(Recommend), TRUSTEDCLIENT))));
+
 		prepareTBox();
 	}
-	
+
 	@Test
-	public void removeAssertedAxioms() {
-		boolean oldTracing = PelletOptions.USE_TRACING;
+	public void removeAssertedAxioms()
+	{
+		final boolean oldTracing = PelletOptions.USE_TRACING;
 		PelletOptions.USE_TRACING = true;
-		try {
-			classes( A, B, C, D );
-	
-			ATermAppl axiom = makeSub( makeAnd(A, B), makeNot(B) );
-			tbox.addAxiom( axiom );
-	
+		try
+		{
+			classes(A, B, C, D);
+
+			final ATermAppl axiom = makeSub(makeAnd(A, B), makeNot(B));
+			tbox.addAxiom(axiom);
+
 			prepareTBox();
-			
+
 			tbox.removeAxiom(axiom);
-			
+
 			prepareTBox();
-	
+
 			assertTrue(tbox.getAxioms().isEmpty());
 			assertTrue(tbox.getAssertedAxioms().isEmpty());
-		} finally {
+		}
+		finally
+		{
 			PelletOptions.USE_TRACING = oldTracing;
 		}
 	}

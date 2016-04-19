@@ -97,13 +97,11 @@ public class WebOntTest
 
 	public boolean avoidFailTests = false;
 	/**
-	 * Pellet is known to fail the following test cases either because they are
-	 * not in OWL DL or they are extremely hard, e.g. more than 100 GCI's, or a
-	 * very large number restriction. Such cases are not very realistic and it
-	 * is not considered to be a problem to fail those test cases. But if Pellet
-	 * fails on one of the other test cases then it indicates a problem.
+	 * Pellet is known to fail the following test cases either because they are not in OWL DL or they are extremely hard, e.g. more than 100 GCI's, or a very
+	 * large number restriction. Such cases are not very realistic and it is not considered to be a problem to fail those test cases. But if Pellet fails on one
+	 * of the other test cases then it indicates a problem.
 	 */
-	final static List AVOID = Arrays.asList(new Resource[] { ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Class/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/DatatypeProperty/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest661#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest662#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest663#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest664#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest903#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest905#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest906#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest907#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest908#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest909#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest910#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/disjointWith/Manifest010#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentClass/Manifest008#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentProperty/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest004#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.1/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.24/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest007#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest014#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest015#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest004#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest007#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest012#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest017#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest202#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest205#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest302#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Ontology/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/sameAs/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Thing/Manifest005#test") });
+	final static List<Resource> AVOID = Arrays.asList(new Resource[] { ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Class/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/DatatypeProperty/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest661#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest662#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest663#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest664#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest903#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest905#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest906#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest907#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest908#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest909#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest910#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/disjointWith/Manifest010#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentClass/Manifest008#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentProperty/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest004#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.1/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.24/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest007#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest014#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest015#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest004#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest007#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest012#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest017#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest202#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest205#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest302#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Ontology/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/sameAs/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Thing/Manifest005#test") });
 
 	int syntacticTestCount = 0;
 	int syntacticTestPass = 0;
@@ -111,7 +109,7 @@ public class WebOntTest
 	final public static int TEST_PASS = 0;
 	final public static int TEST_FAIL = 1;
 	final public static int TEST_SKIP = 2;
-	final public static List RESULTS = Arrays.asList(new String[] { "PASS", "FAIL", "SKIP" });
+	final public static List<String> RESULTS = Arrays.asList(new String[] { "PASS", "FAIL", "SKIP" });
 
 	// There are three test levels Lite, DL, Full. There are three test
 	// status: Approved, Proposed, Obsolete. There are three different
@@ -131,10 +129,10 @@ public class WebOntTest
 	int MAX_TEST_COUNT = Integer.MAX_VALUE;
 
 	WebOntTester[] testers = {
-			/** new JenaWebOntTester(), new OWLAPIWebOntTester() */
+	/** new JenaWebOntTester(), new OWLAPIWebOntTester() */
 	};
 
-	public final static void main(String[] args)
+	public final static void main(final String[] args)
 	{
 		final WebOntTest owlTest = new WebOntTest();
 		owlTest.run(args);
@@ -142,10 +140,8 @@ public class WebOntTest
 
 	public WebOntTest()
 	{
-		for (int i = 0; i < testers.length; i++)
+		for (final WebOntTester tester : testers)
 		{
-			final WebOntTester tester = testers[i];
-
 			tester.registerURIMapping("http://www.w3.org/2002/03owlt/imports/support001-A", localBase + "owl-test/imports/support001-A.rdf");
 			tester.registerURIMapping("http://www.w3.org/2002/03owlt/imports/support003-A", localBase + "owl-test/imports/support003-A.rdf");
 			tester.registerURIMapping("http://www.w3.org/2002/03owlt/imports/support011-A", localBase + "owl-test/imports/support011-A.rdf");
@@ -161,7 +157,7 @@ public class WebOntTest
 		return Arrays.asList(testers);
 	}
 
-	public void setTesters(List<WebOntTester> testers)
+	public void setTesters(final List<WebOntTester> testers)
 	{
 		this.testers = testers.toArray(new WebOntTester[0]);
 	}
@@ -171,12 +167,12 @@ public class WebOntTest
 		return newBase;
 	}
 
-	public void setBase(String newBase)
+	public void setBase(final String newBase)
 	{
 		setBase(base, newBase);
 	}
 
-	public void setBase(String base, String newBase)
+	public void setBase(final String base, final String newBase)
 	{
 		this.base = base;
 		this.newBase = newBase;
@@ -187,7 +183,7 @@ public class WebOntTest
 		return avoidFailTests;
 	}
 
-	public void setAvoidFailTests(boolean avoidFailTests)
+	public void setAvoidFailTests(final boolean avoidFailTests)
 	{
 		this.avoidFailTests = avoidFailTests;
 	}
@@ -197,12 +193,12 @@ public class WebOntTest
 		return showStats;
 	}
 
-	public void setShowStats(int showStats)
+	public void setShowStats(final int showStats)
 	{
 		this.showStats = showStats;
 	}
 
-	public void run(String[] args)
+	public void run(final String[] args)
 	{
 		String manifestFile = base + "Manifest.rdf";
 
@@ -214,9 +210,7 @@ public class WebOntTest
 				timeout = Integer.parseInt(args[++i]);
 			else
 				if (arg.equals("-avoidFail"))
-				{
 					avoidFailTests = true;
-				}
 				else
 					if (arg.equals("-manifest"))
 					{
@@ -224,24 +218,22 @@ public class WebOntTest
 						if (!manifestFile.startsWith("http://"))
 							manifestFile = "http://www.w3.org/2002/03owlt/" + manifestFile;
 					}
-			// else if(arg.equals("-base")) {
-			// setBase( args[++i] );
-			// }
+					// else if(arg.equals("-base")) {
+					// setBase( args[++i] );
+					// }
 					else
 						if (arg.equals("-validate"))
 							PelletOptions.VALIDATE_ABOX = true;
 						else
 							if (arg.equals("-n"))
-							{
 								try
-								{
+			{
 									MAX_TEST_COUNT = Integer.parseInt(args[++i]);
-								}
-								catch (final Exception e)
-								{
-									System.err.println(e);
-								}
-							}
+			}
+			catch (final Exception e)
+			{
+				System.err.println(e);
+			}
 							else
 								if (arg.startsWith("-stats"))
 								{
@@ -269,7 +261,7 @@ public class WebOntTest
 		System.out.println("Total time: " + time);
 	}
 
-	public boolean doTest(String manifestFile)
+	public boolean doTest(final String manifestFile)
 	{
 		boolean allPassed = true;
 		int testCount = 0;
@@ -402,19 +394,13 @@ public class WebOntTest
 				if (testResult == TEST_FAIL)
 				{
 					if (time >= timeout * 1000)
-					{
 						resultType = ResourceFactory.createResource("http://www.w3.org/2002/03owlt/resultsOntology#IncompleteRun");
-					}
 					else
-					{
 						resultType = ResourceFactory.createResource("http://www.w3.org/2002/03owlt/resultsOntology#FailingRun");
-					}
 				}
 				else
 					if (testResult == TEST_PASS)
-					{
 						resultType = ResourceFactory.createResource("http://www.w3.org/2002/03owlt/resultsOntology#PassingRun");
-					}
 					else
 						if (testResult == TEST_SKIP)
 						{
@@ -477,7 +463,7 @@ public class WebOntTest
 		return allPassed;
 	}
 
-	public int doSingleTest(String manifestFile)
+	public int doSingleTest(final String manifestFile)
 	{
 		final Model model = ModelFactory.createDefaultModel();
 
@@ -486,9 +472,8 @@ public class WebOntTest
 		final StmtIterator i = model.listStatements(null, RDF.type, (Resource) null);
 		Statement stmt;
 		do
-		{
 			stmt = i.nextStatement();
-		} while (!TYPES.contains(stmt.getObject()));
+		while (!TYPES.contains(stmt.getObject()));
 
 		final Resource testCase = stmt.getSubject();
 		final Statement statusStmt = testCase.getProperty(OWLTestVocabulary.status);
@@ -601,7 +586,7 @@ public class WebOntTest
 			showStatistics(dataArray);
 	}
 
-	private void showStatistics(ArrayList dataArray)
+	private void showStatistics(final ArrayList dataArray)
 	{
 		final Object[][] types = new String[LEVELS.size() * (TYPES.size() + 1) + 1][1];
 		for (int l = 0; l < LEVELS.size(); l++)
@@ -645,7 +630,6 @@ public class WebOntTest
 			final int rowHeight = details.isSelected() ? table.getRowHeight(0) : 1;
 
 			for (int l = 0; l < LEVELS.size(); l++)
-			{
 				for (int t = 0; t < TYPES.size(); t++)
 				{
 					table.setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
@@ -653,7 +637,6 @@ public class WebOntTest
 					tables[1].setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
 					tables[2].setRowHeight(l * (TYPES.size() + 1) + t + 1, rowHeight);
 				}
-			}
 		});
 		details.doClick();
 		optionsPanel.add(details);
@@ -688,9 +671,7 @@ public class WebOntTest
 	}
 
 	/**
-	 * Given a filename converts it to file path on local machine if use_cache
-	 * option is set. This is used when testing is done without network
-	 * connection
+	 * Given a filename converts it to file path on local machine if use_cache option is set. This is used when testing is done without network connection
 	 */
 	String getFileName(String fileName)
 	{
@@ -704,7 +685,7 @@ public class WebOntTest
 
 	}
 
-	int doConsistencyTest(Resource testCase, boolean isConsistent)
+	int doConsistencyTest(final Resource testCase, final boolean isConsistent)
 	{
 		String inputFile = testCase.hasProperty(OWLTestVocabulary.inputDocument) ? testCase.getProperty(OWLTestVocabulary.inputDocument).getObject().toString() : null;
 
@@ -715,10 +696,8 @@ public class WebOntTest
 			log.fine("Input : " + inputFile);
 		}
 
-		for (int i = 0; i < testers.length; i++)
+		for (final WebOntTester tester : testers)
 		{
-			final WebOntTester tester = testers[i];
-
 			log.fine("Tester: " + tester.getClass().getName());
 
 			tester.setInputOntology(inputFile);
@@ -735,7 +714,7 @@ public class WebOntTest
 		return TEST_PASS;
 	}
 
-	int doEntailmentTest(Resource testCase, boolean isEntailed, boolean classifyFirst)
+	int doEntailmentTest(final Resource testCase, final boolean isEntailed, final boolean classifyFirst)
 	{
 		String inputFile = testCase.hasProperty(OWLTestVocabulary.premiseDocument) ? testCase.getProperty(OWLTestVocabulary.premiseDocument).getObject().toString() : null;
 		String conclusionsFile = testCase.getProperty(OWLTestVocabulary.conclusionDocument).getObject().toString();
@@ -749,9 +728,9 @@ public class WebOntTest
 		conclusionsFile = getFileName(conclusionsFile);
 		log.fine("Conc. : " + conclusionsFile);
 
-		for (int i = 0; i < testers.length; i++)
+		for (final WebOntTester tester2 : testers)
 		{
-			final WebOntTester tester = testers[i];
+			final WebOntTester tester = tester2;
 
 			log.fine("Tester: " + tester.getClass().getName());
 			tester.setInputOntology(inputFile);
@@ -784,7 +763,7 @@ public class WebOntTest
 		return TEST_PASS;
 	}
 
-	int doTestCase(Resource testCase, Resource testType)
+	int doTestCase(final Resource testCase, final Resource testType)
 	{
 		if (testType.equals(OWLTestVocabulary.PositiveEntailmentTest))
 			return doEntailmentTest(testCase, true, false);
@@ -816,7 +795,7 @@ public class WebOntTest
 		throw new RuntimeException("Unknown test type " + testType.getLocalName() + " for " + testCase);
 	}
 
-	public static void printStackTrace(Throwable e)
+	public static void printStackTrace(final Throwable e)
 	{
 		final StackTraceElement[] ste = e.getStackTrace();
 
@@ -830,9 +809,7 @@ public class WebOntTest
 				System.err.println("   " + ste[i]);
 		}
 		else
-		{
-			for (int i = 0; i < ste.length; i++)
-				System.err.println("   " + ste[i]);
-		}
+			for (final StackTraceElement element : ste)
+				System.err.println("   " + element);
 	}
 }

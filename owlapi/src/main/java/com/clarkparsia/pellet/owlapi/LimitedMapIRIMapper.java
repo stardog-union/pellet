@@ -2,7 +2,6 @@ package com.clarkparsia.pellet.owlapi;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 
@@ -19,31 +18,44 @@ import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class LimitedMapIRIMapper implements OWLOntologyIRIMapper {
+public class LimitedMapIRIMapper implements OWLOntologyIRIMapper
+{
 
-	private Map<IRI, IRI> allowed;
-	
-	public LimitedMapIRIMapper() {
-		allowed = new HashMap<IRI, IRI>();
+	/**
+	 * TODO
+	 *
+	 * @since
+	 */
+	private static final long serialVersionUID = 6168686462330770641L;
+	private final Map<IRI, IRI> allowed;
+
+	public LimitedMapIRIMapper()
+	{
+		allowed = new HashMap<>();
 	}
-	
-	public void addAllowedIRI(IRI ontologyIRI) {
-		addAllowedIRI( ontologyIRI, ontologyIRI );
+
+	public void addAllowedIRI(final IRI ontologyIRI)
+	{
+		addAllowedIRI(ontologyIRI, ontologyIRI);
 	}
-	
-	public void addAllowedIRI(IRI fromIRI, IRI toIRI) {
-		allowed.put( fromIRI, toIRI );
+
+	public void addAllowedIRI(final IRI fromIRI, final IRI toIRI)
+	{
+		allowed.put(fromIRI, toIRI);
 	}
-	
-	public void clear() {
+
+	public void clear()
+	{
 		allowed.clear();
 	}
-	
-	public IRI getDocumentIRI(IRI ontologyIRI) {
-		return allowed.get( ontologyIRI );
+
+	@Override
+	public IRI getDocumentIRI(final IRI ontologyIRI)
+	{
+		return allowed.get(ontologyIRI);
 	}
 
 }

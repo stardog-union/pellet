@@ -11,10 +11,9 @@ package pellet;
 import static pellet.PelletCmdOptionArg.NONE;
 import static pellet.PelletCmdOptionArg.REQUIRED;
 
-import com.clarkparsia.pellet.owlapi.OWLAPILoader;
-
-import com.clarkparsia.owlapi.OntologyUtils;
 import aterm.ATermAppl;
+import com.clarkparsia.owlapi.OntologyUtils;
+import com.clarkparsia.pellet.owlapi.OWLAPILoader;
 import java.util.HashSet;
 import java.util.Set;
 import org.mindswap.pellet.KnowledgeBase;
@@ -41,7 +40,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
 public class PelletTransTree extends PelletCmdApp
@@ -121,11 +120,14 @@ public class PelletTransTree extends PelletCmdApp
 
 		final OWLEntity entity = OntologyUtils.findEntity(propertyName, loader.getAllOntologies());
 
-		if (entity == null) { throw new PelletCmdException("Property not found: " + propertyName); }
+		if (entity == null)
+			throw new PelletCmdException("Property not found: " + propertyName);
 
-		if (!(entity instanceof OWLObjectProperty)) { throw new PelletCmdException("Not an object property: " + propertyName); }
+		if (!(entity instanceof OWLObjectProperty))
+			throw new PelletCmdException("Not an object property: " + propertyName);
 
-		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.getAllOntologies().stream())) { throw new PelletCmdException("Not a transitive property: " + propertyName); }
+		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.getAllOntologies().stream()))
+			throw new PelletCmdException("Not a transitive property: " + propertyName);
 
 		final ATermAppl p = ATermUtils.makeTermAppl(entity.getIRI().toString());
 
@@ -136,8 +138,10 @@ public class PelletTransTree extends PelletCmdApp
 		{
 			final String filterName = options.getOption("filter").getValueAsString();
 			final OWLEntity filterClass = OntologyUtils.findEntity(filterName, loader.getAllOntologies());
-			if (filterClass == null) { throw new PelletCmdException("Filter class not found: " + filterName); }
-			if (!(filterClass instanceof OWLClass)) { throw new PelletCmdException("Not a class: " + filterName); }
+			if (filterClass == null)
+				throw new PelletCmdException("Filter class not found: " + filterName);
+			if (!(filterClass instanceof OWLClass))
+				throw new PelletCmdException("Not a class: " + filterName);
 
 			c = ATermUtils.makeTermAppl(filterClass.getIRI().toString());
 
@@ -155,37 +159,23 @@ public class PelletTransTree extends PelletCmdApp
 
 			Set<ATermAppl> individuals;
 			if (filter)
-			{
 				individuals = kb.getInstances(c);
-			}
 			else
-			{
-				individuals = kb.getIndividuals();	// Note: this is not an optimal solution	
-			}
+				individuals = kb.getIndividuals(); // Note: this is not an optimal solution
 
 			for (final ATermAppl individual : individuals)
-			{
 				if (!ATermUtils.isBnode(individual))
-				{
 					builder.classify(individual);
-				}
-			}
 		}
 		else
 		{
 			builder = new POTaxonomyBuilder(kb, new PartClassesComparator(kb, p));
 
 			if (filter)
-			{
 				for (final ATermAppl cl : getDistinctSubclasses(kb, c))
-				{
 					builder.classify(cl);
-				}
-			}
 			else
-			{
 				builder.classify();
-			}
 		}
 
 		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
@@ -199,14 +189,12 @@ public class PelletTransTree extends PelletCmdApp
 	/** Unit testing access only */
 	public Taxonomy<ATermAppl> publicTaxonomy;
 
-	private Set<ATermAppl> getDistinctSubclasses(KnowledgeBase kb, ATermAppl c)
+	private Set<ATermAppl> getDistinctSubclasses(final KnowledgeBase kb, final ATermAppl c)
 	{
-		final Set<ATermAppl> filteredClasses = new HashSet<ATermAppl>();
+		final Set<ATermAppl> filteredClasses = new HashSet<>();
 		final Set<Set<ATermAppl>> subclasses = kb.getSubClasses(c);
 		for (final Set<ATermAppl> s : subclasses)
-		{
 			filteredClasses.addAll(s);
-		}
 		filteredClasses.add(c);
 
 		//Remove not(TOP), since taxonomy builder complains otherwise...
@@ -220,14 +208,14 @@ public class PelletTransTree extends PelletCmdApp
 
 		private final ATermAppl p;
 
-		public PartClassesComparator(KnowledgeBase kb, ATermAppl p)
+		public PartClassesComparator(final KnowledgeBase kb, final ATermAppl p)
 		{
 			super(kb);
 			this.p = p;
 		}
 
 		@Override
-		protected boolean isSubsumedBy(ATermAppl a, ATermAppl b)
+		protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 		{
 			final ATermAppl someB = ATermUtils.makeSomeValues(p, b);
 
@@ -240,14 +228,14 @@ public class PelletTransTree extends PelletCmdApp
 
 		private final ATermAppl p;
 
-		public PartIndividualsComparator(KnowledgeBase kb, ATermAppl p)
+		public PartIndividualsComparator(final KnowledgeBase kb, final ATermAppl p)
 		{
 			super(kb);
 			this.p = p;
 		}
 
 		@Override
-		protected boolean isSubsumedBy(ATermAppl a, ATermAppl b)
+		protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 		{
 			return kb.hasPropertyValue(a, p, b);
 		}

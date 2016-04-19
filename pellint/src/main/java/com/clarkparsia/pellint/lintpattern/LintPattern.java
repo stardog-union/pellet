@@ -9,7 +9,6 @@ package com.clarkparsia.pellint.lintpattern;
 import com.clarkparsia.pellint.format.LintFormat;
 import com.clarkparsia.pellint.model.LintFixer;
 
-
 /**
  * <p>
  * Title: Lint Pattern Interface
@@ -23,11 +22,12 @@ import com.clarkparsia.pellint.model.LintFixer;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public interface LintPattern {
-	
+public interface LintPattern
+{
+
 	/**
 	 * @return The name of the pattern.
 	 */
@@ -39,18 +39,16 @@ public interface LintPattern {
 	String getDescription();
 
 	/**
-	 * Returns <code>true</code> if this pattern provides an automatic fix for every {@link com.clarkparsia.pellint.model.Lint} it matches.
-	 * An automatic fix for every {@link com.clarkparsia.pellint.model.Lint} can be made available by calling {@link com.clarkparsia.pellint.model.Lint#setLintFixer(LintFixer)}.
-	 * 
+	 * Returns <code>true</code> if this pattern provides an automatic fix for every {@link com.clarkparsia.pellint.model.Lint} it matches. An automatic fix for
+	 * every {@link com.clarkparsia.pellint.model.Lint} can be made available by calling {@link com.clarkparsia.pellint.model.Lint#setLintFixer(LintFixer)}.
+	 *
 	 * @return <code>true</code> if this pattern provides an automatic fix for every {@link com.clarkparsia.pellint.model.Lint} it matches.
-	 * 
 	 * @see com.clarkparsia.pellint.model.Lint#setLintFixer(LintFixer)
 	 */
 	boolean isFixable();
-	
+
 	/**
-	 * @return The default {@link LintFormat} for this pattern. 
-	 * 
+	 * @return The default {@link LintFormat} for this pattern.
 	 * @see LintFormat
 	 */
 	LintFormat getDefaultLintFormat();

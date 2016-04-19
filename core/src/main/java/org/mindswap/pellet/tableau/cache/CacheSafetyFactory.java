@@ -6,9 +6,8 @@
 
 package org.mindswap.pellet.tableau.cache;
 
-import org.mindswap.pellet.PelletOptions;
-
 import com.clarkparsia.pellet.expressivity.Expressivity;
+import org.mindswap.pellet.PelletOptions;
 
 /**
  * <p>
@@ -23,21 +22,15 @@ import com.clarkparsia.pellet.expressivity.Expressivity;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class CacheSafetyFactory {
-	public static CacheSafety createCacheSafety(Expressivity expr) {
-		CacheSafety cacheSafety = expr.hasInverse()
-			? expr.hasNominal()
-					? CacheSafetyNeverSafe.getInstance()
-					: PelletOptions.USE_INVERSE_CACHING
-						? new CacheSafetyDynamic(expr)
-						: CacheSafetyNeverSafe.getInstance()
-			: expr.hasNominal() 
-				? CacheSafetyNeverSafe.getInstance()
-				: CacheSafetyAlwaysSafe.getInstance();
-				
+public class CacheSafetyFactory
+{
+	public static CacheSafety createCacheSafety(final Expressivity expr)
+	{
+		final CacheSafety cacheSafety = expr.hasInverse() ? expr.hasNominal() ? CacheSafetyNeverSafe.getInstance() : PelletOptions.USE_INVERSE_CACHING ? new CacheSafetyDynamic(expr) : CacheSafetyNeverSafe.getInstance() : expr.hasNominal() ? CacheSafetyNeverSafe.getInstance() : CacheSafetyAlwaysSafe.getInstance();
+
 		return cacheSafety;
 	}
 }

@@ -8,13 +8,12 @@ package com.clarkparsia.modularity;
 
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.OntologyUtils;
-
+import com.clarkparsia.reachability.Node;
+import com.clarkparsia.reachability.ReachabilityGraph;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
-import com.clarkparsia.reachability.Node;
-import com.clarkparsia.reachability.ReachabilityGraph;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLAnnotationPropertyDomainAxiom;
@@ -53,7 +52,6 @@ import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLInverseFunctionalObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectAllValuesFrom;
@@ -85,53 +83,68 @@ import org.semanticweb.owlapi.model.SWRLRule;
 /**
  * @author Evren Sirin
  */
-public class GraphBuilder {
+public class GraphBuilder
+{
 
 	public static final Logger log = Logger.getLogger(GraphBuilder.class.getName());
 
-	private class AxiomVisitor implements OWLAxiomVisitor {
+	private class AxiomVisitor implements OWLAxiomVisitor
+	{
 
-		public AxiomVisitor() {
+		public AxiomVisitor()
+		{
 		}
 
-		public void visit(OWLAsymmetricObjectPropertyAxiom axiom) {
+		@Override
+		public void visit(final OWLAsymmetricObjectPropertyAxiom axiom)
+		{
 			// unary axiom has no effect
 		}
 
-		public void visit(OWLAnnotationAssertionAxiom axiom) {
+		@Override
+		public void visit(final OWLAnnotationAssertionAxiom axiom)
+		{
 			// nothing to do for annotations
 		}
 
 		@Override
-		public void visit(final OWLSubAnnotationPropertyOfAxiom axiom) {
+		public void visit(final OWLSubAnnotationPropertyOfAxiom axiom)
+		{
 			// nothing to do for annotations
 		}
 
 		@Override
-		public void visit(final OWLAnnotationPropertyDomainAxiom axiom) {
+		public void visit(final OWLAnnotationPropertyDomainAxiom axiom)
+		{
 			// nothing to do for annotations
 		}
 
 		@Override
-		public void visit(final OWLAnnotationPropertyRangeAxiom axiom) {
+		public void visit(final OWLAnnotationPropertyRangeAxiom axiom)
+		{
 			// nothing to do for annotations
 		}
 
-		public void visit(OWLClassAssertionAxiom axiom) {
-			if (axiom.getIndividual().isAnonymous()) {
+		@Override
+		public void visit(final OWLClassAssertionAxiom axiom)
+		{
+			if (axiom.getIndividual().isAnonymous())
 				return;
-			}
-			Node node = bottomEvaluator.evaluate(axiom.getClassExpression());
+			final Node node = bottomEvaluator.evaluate(axiom.getClassExpression());
 			addOutputs(node, axiom);
-			addOutputs(graph.createEntityNode((OWLNamedIndividual) axiom.getIndividual()), axiom);
+			addOutputs(graph.createEntityNode(axiom.getIndividual()), axiom);
 		}
 
-		public void visit(OWLDataPropertyAssertionAxiom axiom) {
+		@Override
+		public void visit(final OWLDataPropertyAssertionAxiom axiom)
+		{
 			addOutputs(axiom);
 		}
 
-		public void visit(OWLDataPropertyDomainAxiom axiom) {
-			Set<Node> nodes = new HashSet<Node>();
+		@Override
+		public void visit(final OWLDataPropertyDomainAxiom axiom)
+		{
+			final Set<Node> nodes = new HashSet<Node>();
 
 			nodes.add(graph.createEntityNode(axiom.getProperty().asOWLDataProperty()));
 			nodes.add(topEvaluator.evaluate(axiom.getDomain()));
@@ -139,167 +152,207 @@ public class GraphBuilder {
 			addOutputs(graph.createAndNode(nodes), axiom);
 		}
 
-		public void visit(OWLDataPropertyRangeAxiom axiom) {
+		@Override
+		public void visit(final OWLDataPropertyRangeAxiom axiom)
+		{
 			// do nothing
 		}
 
-		public void visit(OWLSubDataPropertyOfAxiom axiom) {
-			Node subNode = graph.createEntityNode(axiom.getSubProperty().asOWLDataProperty());
-			Node supNode = graph.createEntityNode(axiom.getSuperProperty().asOWLDataProperty());
+		@Override
+		public void visit(final OWLSubDataPropertyOfAxiom axiom)
+		{
+			final Node subNode = graph.createEntityNode(axiom.getSubProperty().asOWLDataProperty());
+			final Node supNode = graph.createEntityNode(axiom.getSuperProperty().asOWLDataProperty());
 
 			subNode.getOutputs().add(supNode);
 		}
 
-		public void visit(OWLDeclarationAxiom axiom) {
+		@Override
+		public void visit(final OWLDeclarationAxiom axiom)
+		{
 			// do nothing
 		}
 
 		@Override
-		public void visit(final OWLDatatypeDefinitionAxiom axiom) {
+		public void visit(final OWLDatatypeDefinitionAxiom axiom)
+		{
 			// do nothing
 		}
 
-		public void visit(OWLDifferentIndividualsAxiom axiom) {
+		@Override
+		public void visit(final OWLDifferentIndividualsAxiom axiom)
+		{
 			// do nothing
 		}
 
-		public void visit(OWLDisjointClassesAxiom axiom) {
+		@Override
+		public void visit(final OWLDisjointClassesAxiom axiom)
+		{
 			processDisjoints(axiom, axiom.getClassExpressions());
 		}
 
-		protected void processDisjoints(OWLAxiom axiom, Set<OWLClassExpression> desc) {
-			OWLClassExpression descriptions[] = desc.toArray(new OWLClassExpression[0]);
-			Set<Node> or = new HashSet<Node>();
-			for (int i = 0; i < descriptions.length - 1; i++) {
-				for (int j = i; j < descriptions.length; j++) {
-					Node n1 = bottomEvaluator.evaluate(descriptions[i]);
-					Node n2 = bottomEvaluator.evaluate(descriptions[j]);
+		protected void processDisjoints(final OWLAxiom axiom, final Set<OWLClassExpression> desc)
+		{
+			final OWLClassExpression descriptions[] = desc.toArray(new OWLClassExpression[0]);
+			final Set<Node> or = new HashSet<Node>();
+			for (int i = 0; i < descriptions.length - 1; i++)
+				for (int j = i; j < descriptions.length; j++)
+				{
+					final Node n1 = bottomEvaluator.evaluate(descriptions[i]);
+					final Node n2 = bottomEvaluator.evaluate(descriptions[j]);
 
 					or.add(graph.createAndNode(SetUtils.create(n1, n2)));
 				}
-			}
 
-			if (!or.isEmpty()) {
-				if (or.size() == 1) {
+			if (!or.isEmpty())
+				if (or.size() == 1)
 					addOutputs(or.iterator().next(), axiom);
-				}
-				else {
+				else
 					addOutputs(graph.createOrNode(or), axiom);
-				}
-			}
 		}
 
-		public void visit(OWLDisjointDataPropertiesAxiom axiom) {
+		@Override
+		public void visit(final OWLDisjointDataPropertiesAxiom axiom)
+		{
 			// FIXME not implemented
 		}
 
-		public void visit(OWLDisjointObjectPropertiesAxiom axiom) {
+		@Override
+		public void visit(final OWLDisjointObjectPropertiesAxiom axiom)
+		{
 			// FIXME not implemented
 		}
 
-		public void visit(OWLDisjointUnionAxiom axiom) {
+		@Override
+		public void visit(final OWLDisjointUnionAxiom axiom)
+		{
 			processDisjoints(axiom, axiom.getClassExpressions());
 			processEquivalent(axiom, axiom.getOWLClass(), OWL.or(axiom.getClassExpressions()));
 		}
 
-		public void visit(OWLEquivalentClassesAxiom axiom) {
-			Iterator<OWLClassExpression> eqs = axiom.getClassExpressions().iterator();
-			OWLClassExpression c1 = eqs.next();
+		@Override
+		public void visit(final OWLEquivalentClassesAxiom axiom)
+		{
+			final Iterator<OWLClassExpression> eqs = axiom.getClassExpressions().iterator();
+			final OWLClassExpression c1 = eqs.next();
 
 			// if the axiom is a singleton we can ignore it. a concept
 			// being equivalent to itself has no effect.
-			if (!eqs.hasNext()) {
+			if (!eqs.hasNext())
 				return;
-			}
 
-			OWLClassExpression c2 = eqs.next();
+			final OWLClassExpression c2 = eqs.next();
 
-			if (eqs.hasNext()) {
-				throw new UnsupportedOperationException(
-					                                       "OWLEquivalentClassesAxiom with more than 2 elements");
-			}
+			if (eqs.hasNext())
+				throw new UnsupportedOperationException("OWLEquivalentClassesAxiom with more than 2 elements");
 
 			processEquivalent(axiom, c1, c2);
 		}
 
-		protected void processEquivalent(OWLAxiom axiom, OWLClassExpression c1, OWLClassExpression c2) {
-			Set<Node> nodes1 = new HashSet<Node>();
+		protected void processEquivalent(final OWLAxiom axiom, final OWLClassExpression c1, final OWLClassExpression c2)
+		{
+			final Set<Node> nodes1 = new HashSet<Node>();
 			nodes1.add(topEvaluator.evaluate(c1));
 			nodes1.add(topEvaluator.evaluate(c2));
 
-			Set<Node> nodes2 = new HashSet<Node>();
+			final Set<Node> nodes2 = new HashSet<Node>();
 			nodes2.add(bottomEvaluator.evaluate(c1));
 			nodes2.add(bottomEvaluator.evaluate(c2));
 
-			Node or1 = graph.createOrNode(nodes1);
-			Node or2 = graph.createOrNode(nodes2);
+			final Node or1 = graph.createOrNode(nodes1);
+			final Node or2 = graph.createOrNode(nodes2);
 
-			Node result = graph.createAndNode(SetUtils.create(or1, or2));
+			final Node result = graph.createAndNode(SetUtils.create(or1, or2));
 
 			addOutputs(result, axiom);
 		}
 
-		public void visit(OWLEquivalentDataPropertiesAxiom axiom) {
-			addOutputs(axiom);
-		}
-
-		public void visit(OWLEquivalentObjectPropertiesAxiom axiom) {
-			addOutputs(axiom);
-		}
-
-		public void visit(OWLFunctionalDataPropertyAxiom axiom) {
-			// unary axiom has no effect
-		}
-
-		public void visit(OWLFunctionalObjectPropertyAxiom axiom) {
-			// unary axiom has no effect
-		}
-
-		public void visit(OWLImportsDeclaration axiom) {
-			// nothing to do with declarations
-		}
-
-		public void visit(OWLInverseFunctionalObjectPropertyAxiom axiom) {
-			// unary axiom has no effect
-		}
-
-		public void visit(OWLInverseObjectPropertiesAxiom axiom) {
+		@Override
+		public void visit(final OWLEquivalentDataPropertiesAxiom axiom)
+		{
 			addOutputs(axiom);
 		}
 
 		@Override
-		public void visit(final OWLHasKeyAxiom theOWLHasKeyAxiom) {
-			// do nothing
+		public void visit(final OWLEquivalentObjectPropertiesAxiom axiom)
+		{
+			addOutputs(axiom);
 		}
 
-		public void visit(OWLIrreflexiveObjectPropertyAxiom axiom) {
+		@Override
+		public void visit(final OWLFunctionalDataPropertyAxiom axiom)
+		{
 			// unary axiom has no effect
 		}
 
-		public void visit(OWLNegativeDataPropertyAssertionAxiom axiom) {
+		@Override
+		public void visit(final OWLFunctionalObjectPropertyAxiom axiom)
+		{
+			// unary axiom has no effect
+		}
+
+		public void visit(final OWLImportsDeclaration axiom)
+		{
+			// nothing to do with declarations
+		}
+
+		@Override
+		public void visit(final OWLInverseFunctionalObjectPropertyAxiom axiom)
+		{
+			// unary axiom has no effect
+		}
+
+		@Override
+		public void visit(final OWLInverseObjectPropertiesAxiom axiom)
+		{
 			addOutputs(axiom);
 		}
 
-		public void visit(OWLNegativeObjectPropertyAssertionAxiom axiom) {
+		@Override
+		public void visit(final OWLHasKeyAxiom theOWLHasKeyAxiom)
+		{
+			// do nothing
+		}
+
+		@Override
+		public void visit(final OWLIrreflexiveObjectPropertyAxiom axiom)
+		{
+			// unary axiom has no effect
+		}
+
+		@Override
+		public void visit(final OWLNegativeDataPropertyAssertionAxiom axiom)
+		{
 			addOutputs(axiom);
 		}
 
-		public void visit(OWLObjectPropertyAssertionAxiom axiom) {
+		@Override
+		public void visit(final OWLNegativeObjectPropertyAssertionAxiom axiom)
+		{
 			addOutputs(axiom);
 		}
 
-		public void visit(OWLSubPropertyChainOfAxiom axiom) {
-			Set<Node> nodes = new HashSet<Node>();
+		@Override
+		public void visit(final OWLObjectPropertyAssertionAxiom axiom)
+		{
+			addOutputs(axiom);
+		}
 
-			for (OWLObjectPropertyExpression p : axiom.getPropertyChain()) {
+		@Override
+		public void visit(final OWLSubPropertyChainOfAxiom axiom)
+		{
+			final Set<Node> nodes = new HashSet<Node>();
+
+			for (final OWLObjectPropertyExpression p : axiom.getPropertyChain())
 				nodes.add(graph.createEntityNode(p.getNamedProperty()));
-			}
 
 			addOutputs(graph.createAndNode(nodes), axiom);
 		}
 
-		public void visit(OWLObjectPropertyDomainAxiom axiom) {
-			Set<Node> nodes = new HashSet<Node>();
+		@Override
+		public void visit(final OWLObjectPropertyDomainAxiom axiom)
+		{
+			final Set<Node> nodes = new HashSet<Node>();
 
 			nodes.add(graph.createEntityNode(axiom.getProperty().getNamedProperty()));
 			nodes.add(topEvaluator.evaluate(axiom.getDomain()));
@@ -307,8 +360,10 @@ public class GraphBuilder {
 			addOutputs(graph.createAndNode(nodes), axiom);
 		}
 
-		public void visit(OWLObjectPropertyRangeAxiom axiom) {
-			Set<Node> nodes = new HashSet<Node>();
+		@Override
+		public void visit(final OWLObjectPropertyRangeAxiom axiom)
+		{
+			final Set<Node> nodes = new HashSet<Node>();
 
 			nodes.add(graph.createEntityNode(axiom.getProperty().getNamedProperty()));
 			nodes.add(topEvaluator.evaluate(axiom.getRange()));
@@ -316,146 +371,185 @@ public class GraphBuilder {
 			addOutputs(graph.createAndNode(nodes), axiom);
 		}
 
-		public void visit(OWLSubObjectPropertyOfAxiom axiom) {
-			Node subNode = graph.createEntityNode(axiom.getSubProperty().getNamedProperty());
-			Node supNode = graph.createEntityNode(axiom.getSuperProperty().getNamedProperty());
+		@Override
+		public void visit(final OWLSubObjectPropertyOfAxiom axiom)
+		{
+			final Node subNode = graph.createEntityNode(axiom.getSubProperty().getNamedProperty());
+			final Node supNode = graph.createEntityNode(axiom.getSuperProperty().getNamedProperty());
 
 			subNode.addOutput(supNode);
 		}
 
-		public void visit(OWLReflexiveObjectPropertyAxiom axiom) {
+		@Override
+		public void visit(final OWLReflexiveObjectPropertyAxiom axiom)
+		{
 			// unary axiom has no effect
 		}
 
-		public void visit(OWLSameIndividualAxiom axiom) {
+		@Override
+		public void visit(final OWLSameIndividualAxiom axiom)
+		{
 			addOutputs(axiom);
 		}
 
-		public void visit(OWLSubClassOfAxiom axiom) {
-			Set<Node> nodes = new HashSet<Node>();
+		@Override
+		public void visit(final OWLSubClassOfAxiom axiom)
+		{
+			final Set<Node> nodes = new HashSet<Node>();
 
 			nodes.add(topEvaluator.evaluate(axiom.getSuperClass()));
 			nodes.add(bottomEvaluator.evaluate(axiom.getSubClass()));
 
-			if (!nodes.isEmpty()) {
+			if (!nodes.isEmpty())
 				addOutputs(graph.createAndNode(nodes), axiom);
-			}
 		}
 
-		public void visit(OWLSymmetricObjectPropertyAxiom axiom) {
+		@Override
+		public void visit(final OWLSymmetricObjectPropertyAxiom axiom)
+		{
 			// unary axiom has no effect
 		}
 
-		public void visit(OWLTransitiveObjectPropertyAxiom axiom) {
+		@Override
+		public void visit(final OWLTransitiveObjectPropertyAxiom axiom)
+		{
 			// unary axiom has no effect
 		}
 
-		public void visit(SWRLRule axiom) {
+		@Override
+		public void visit(final SWRLRule axiom)
+		{
 			// nothing to do with rules
 		}
 	}
 
-	private class BottomEvaluator implements OWLClassExpressionVisitor {
+	private class BottomEvaluator implements OWLClassExpressionVisitor
+	{
 
 		private Node node;
 
-		public BottomEvaluator() {
+		public BottomEvaluator()
+		{
 		}
 
-		public Node evaluate(OWLClassExpression desc) {
+		public Node evaluate(final OWLClassExpression desc)
+		{
 			// reset the result first
 			node = null;
 
 			desc.accept(this);
 
 			// a null value indicates error
-			if (node == null) {
+			if (node == null)
 				throw new IllegalStateException("Evaluation returned null");
-			}
 
 			return node;
 		}
 
-		public void visit(OWLClass desc) {
-			node = desc.equals(OWL.Nothing)
-			       ? START_NODE
-			       : desc.equals(OWL.Thing)
-			         ? NULL_NODE
-			         : graph.createEntityNode(desc);
+		@Override
+		public void visit(final OWLClass desc)
+		{
+			node = desc.equals(OWL.Nothing) ? START_NODE : desc.equals(OWL.Thing) ? NULL_NODE : graph.createEntityNode(desc);
 		}
 
-		public void visit(OWLDataAllValuesFrom desc) {
+		@Override
+		public void visit(final OWLDataAllValuesFrom desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLDataExactCardinality desc) {
+		@Override
+		public void visit(final OWLDataExactCardinality desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLDataMaxCardinality desc) {
-			node = (desc.getCardinality() == 0)
-			       ? graph.createEntityNode(desc.getProperty().asOWLDataProperty())
-			       : START_NODE;
+		@Override
+		public void visit(final OWLDataMaxCardinality desc)
+		{
+			node = (desc.getCardinality() == 0) ? graph.createEntityNode(desc.getProperty().asOWLDataProperty()) : START_NODE;
 		}
 
-		public void visit(OWLDataMinCardinality desc) {
+		@Override
+		public void visit(final OWLDataMinCardinality desc)
+		{
 			// TODO: Special handling for the n == 0 case
 			node = graph.createEntityNode(desc.getProperty().asOWLDataProperty());
 		}
 
-		public void visit(OWLDataSomeValuesFrom desc) {
+		@Override
+		public void visit(final OWLDataSomeValuesFrom desc)
+		{
 			node = graph.createEntityNode(desc.getProperty().asOWLDataProperty());
 		}
 
-		public void visit(OWLDataHasValue desc) {
+		@Override
+		public void visit(final OWLDataHasValue desc)
+		{
 			node = graph.createEntityNode(desc.getProperty().asOWLDataProperty());
 		}
 
-		public void visit(OWLObjectAllValuesFrom desc) {
+		@Override
+		public void visit(final OWLObjectAllValuesFrom desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLObjectComplementOf desc) {
+		@Override
+		public void visit(final OWLObjectComplementOf desc)
+		{
 			node = topEvaluator.evaluate(desc.getOperand());
 		}
 
-		public void visit(OWLObjectExactCardinality desc) {
+		@Override
+		public void visit(final OWLObjectExactCardinality desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLObjectIntersectionOf desc) {
-			Set<Node> inputNodes = new HashSet<Node>();
-			for (OWLClassExpression c : desc.getOperands()) {
-				Node conjNode = evaluate(c);
+		@Override
+		public void visit(final OWLObjectIntersectionOf desc)
+		{
+			final Set<Node> inputNodes = new HashSet<Node>();
+			for (final OWLClassExpression c : desc.getOperands())
+			{
+				final Node conjNode = evaluate(c);
 				inputNodes.add(conjNode);
 			}
 
-			if (!inputNodes.isEmpty()) {
+			if (!inputNodes.isEmpty())
 				node = graph.createAndNode(inputNodes);
-			}
 		}
 
-		public void visit(OWLObjectMaxCardinality desc) {
-			node = (desc.getCardinality() == 0)
-			       ? graph.createEntityNode(desc.getProperty().getNamedProperty())
-			       : START_NODE;
+		@Override
+		public void visit(final OWLObjectMaxCardinality desc)
+		{
+			node = (desc.getCardinality() == 0) ? graph.createEntityNode(desc.getProperty().getNamedProperty()) : START_NODE;
 		}
 
-		public void visit(OWLObjectMinCardinality desc) {
+		@Override
+		public void visit(final OWLObjectMinCardinality desc)
+		{
 			// TODO: Special handling for the n == 0 case
 			node = graph.createEntityNode(desc.getProperty().getNamedProperty());
 		}
 
-		public void visit(OWLObjectOneOf desc) {
+		@Override
+		public void visit(final OWLObjectOneOf desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLObjectHasSelf desc) {
+		@Override
+		public void visit(final OWLObjectHasSelf desc)
+		{
 			node = graph.createEntityNode(desc.getProperty().getNamedProperty());
 		}
 
-		public void visit(OWLObjectSomeValuesFrom desc) {
-			Set<Node> inputNodes = new HashSet<Node>();
+		@Override
+		public void visit(final OWLObjectSomeValuesFrom desc)
+		{
+			final Set<Node> inputNodes = new HashSet<Node>();
 
 			inputNodes.add(graph.createEntityNode(desc.getProperty().getNamedProperty()));
 			inputNodes.add(evaluate(desc.getFiller()));
@@ -463,75 +557,96 @@ public class GraphBuilder {
 			node = graph.createAndNode(inputNodes);
 		}
 
-		public void visit(OWLObjectUnionOf desc) {
-			Set<Node> inputNodes = new HashSet<Node>();
-			for (OWLClassExpression disj : desc.getOperands()) {
-				Node disjNode = evaluate(disj);
+		@Override
+		public void visit(final OWLObjectUnionOf desc)
+		{
+			final Set<Node> inputNodes = new HashSet<Node>();
+			for (final OWLClassExpression disj : desc.getOperands())
+			{
+				final Node disjNode = evaluate(disj);
 				inputNodes.add(disjNode);
 			}
 
 			node = graph.createOrNode(inputNodes);
 		}
 
-		public void visit(OWLObjectHasValue desc) {
+		@Override
+		public void visit(final OWLObjectHasValue desc)
+		{
 			node = graph.createEntityNode(desc.getProperty().getNamedProperty());
 		}
 	}
 
-	private class TopEvaluator implements OWLClassExpressionVisitor {
+	private class TopEvaluator implements OWLClassExpressionVisitor
+	{
 
 		private Node node;
 
-		public TopEvaluator() {
+		public TopEvaluator()
+		{
 		}
 
-		public Node evaluate(OWLClassExpression desc) {
+		public Node evaluate(final OWLClassExpression desc)
+		{
 			// reset the result first
 			node = null;
 
 			desc.accept(this);
 
 			// a null value indicates error
-			if (node == null) {
+			if (node == null)
 				throw new IllegalStateException("Evaluation returned null");
-			}
 
 			return node;
 		}
 
-		public void visit(OWLClass desc) {
-			node = desc.equals(OWL.Thing)
-			       ? NULL_NODE
-			       : START_NODE;
+		@Override
+		public void visit(final OWLClass desc)
+		{
+			node = desc.equals(OWL.Thing) ? NULL_NODE : START_NODE;
 		}
 
-		public void visit(OWLDataAllValuesFrom desc) {
+		@Override
+		public void visit(final OWLDataAllValuesFrom desc)
+		{
 			node = graph.createEntityNode(desc.getProperty().asOWLDataProperty());
 		}
 
-		public void visit(OWLDataExactCardinality desc) {
+		@Override
+		public void visit(final OWLDataExactCardinality desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLDataMaxCardinality desc) {
+		@Override
+		public void visit(final OWLDataMaxCardinality desc)
+		{
 			// TODO: Special handling for the n == 0 case
 			node = graph.createEntityNode(desc.getProperty().asOWLDataProperty());
 		}
 
-		public void visit(OWLDataMinCardinality desc) {
+		@Override
+		public void visit(final OWLDataMinCardinality desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLDataSomeValuesFrom desc) {
+		@Override
+		public void visit(final OWLDataSomeValuesFrom desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLDataHasValue desc) {
+		@Override
+		public void visit(final OWLDataHasValue desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLObjectAllValuesFrom desc) {
-			Set<Node> inputNodes = new HashSet<Node>();
+		@Override
+		public void visit(final OWLObjectAllValuesFrom desc)
+		{
+			final Set<Node> inputNodes = new HashSet<Node>();
 
 			inputNodes.add(graph.createEntityNode(desc.getProperty().getNamedProperty()));
 			inputNodes.add(evaluate(desc.getFiller()));
@@ -539,119 +654,146 @@ public class GraphBuilder {
 			node = graph.createAndNode(inputNodes);
 		}
 
-		public void visit(OWLObjectComplementOf desc) {
+		@Override
+		public void visit(final OWLObjectComplementOf desc)
+		{
 			node = bottomEvaluator.evaluate(desc.getOperand());
 		}
 
-		public void visit(OWLObjectExactCardinality desc) {
+		@Override
+		public void visit(final OWLObjectExactCardinality desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLObjectIntersectionOf desc) {
-			Set<Node> inputNodes = new HashSet<Node>();
-			for (OWLClassExpression conj : desc.getOperands()) {
-				Node conjNode = evaluate(conj);
+		@Override
+		public void visit(final OWLObjectIntersectionOf desc)
+		{
+			final Set<Node> inputNodes = new HashSet<Node>();
+			for (final OWLClassExpression conj : desc.getOperands())
+			{
+				final Node conjNode = evaluate(conj);
 				inputNodes.add(conjNode);
 			}
 
 			node = graph.createOrNode(inputNodes);
 		}
 
-		public void visit(OWLObjectMaxCardinality desc) {
+		@Override
+		public void visit(final OWLObjectMaxCardinality desc)
+		{
 			// TODO: Special handling for the n == 0 case
 			node = graph.createEntityNode(desc.getProperty().getNamedProperty());
 		}
 
-		public void visit(OWLObjectMinCardinality desc) {
+		@Override
+		public void visit(final OWLObjectMinCardinality desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLObjectOneOf desc) {
+		@Override
+		public void visit(final OWLObjectOneOf desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLObjectHasSelf desc) {
+		@Override
+		public void visit(final OWLObjectHasSelf desc)
+		{
 			node = NULL_NODE;
 		}
 
-		public void visit(OWLObjectSomeValuesFrom desc) {
+		@Override
+		public void visit(final OWLObjectSomeValuesFrom desc)
+		{
 			node = START_NODE;
 		}
 
-		public void visit(OWLObjectUnionOf desc) {
-			Set<Node> inputNodes = new HashSet<Node>();
-			for (OWLClassExpression disj : desc.getOperands()) {
-				Node disjNode = evaluate(disj);
+		@Override
+		public void visit(final OWLObjectUnionOf desc)
+		{
+			final Set<Node> inputNodes = new HashSet<Node>();
+			for (final OWLClassExpression disj : desc.getOperands())
+			{
+				final Node disjNode = evaluate(disj);
 				inputNodes.add(disjNode);
 			}
 
-			if (!inputNodes.isEmpty()) {
+			if (!inputNodes.isEmpty())
 				node = graph.createAndNode(inputNodes);
-			}
 		}
 
-		public void visit(OWLObjectHasValue desc) {
+		@Override
+		public void visit(final OWLObjectHasValue desc)
+		{
 			node = START_NODE;
 		}
 	}
 
-	private ReachabilityGraph graph = new ReachabilityGraph();
+	private final ReachabilityGraph graph = new ReachabilityGraph();
 
-	private AxiomVisitor axiomVisitor = new AxiomVisitor();
+	private final AxiomVisitor axiomVisitor = new AxiomVisitor();
 
-	private BottomEvaluator bottomEvaluator = new BottomEvaluator();
+	private final BottomEvaluator bottomEvaluator = new BottomEvaluator();
 
-	private TopEvaluator topEvaluator = new TopEvaluator();
+	private final TopEvaluator topEvaluator = new TopEvaluator();
 
 	private final Node NULL_NODE = graph.getNullNode();
 
 	private final Node START_NODE = graph.getStartNode();
 
-	public void addAxiom(OWLAxiom axiom) {
+	public void addAxiom(final OWLAxiom axiom)
+	{
 		axiom.accept(axiomVisitor);
 	}
 
-	private void addOutputs(Node node, OWLAxiom axiom) {
-		// the following if statement was added to be consistent 
-		// with earlier implementation that only considered axioms 
+	private void addOutputs(final Node node, final OWLAxiom axiom)
+	{
+		// the following if statement was added to be consistent
+		// with earlier implementation that only considered axioms
 		// whose signature had a common element with the current
 		// signature of the module. this behavior is not consistent
-		// with the theoretical description of the modularity 
+		// with the theoretical description of the modularity
 		// algorithm and may cause incorrect results in incremental
-		// classification (see deleteNonLocal() test inside 
+		// classification (see deleteNonLocal() test inside
 		// SimpleCorrectnessTest)
-//		if( node.equals( START_NODE ) ) {
-//			log.warn( "Non-local axiom: " + axiom );
-//			addOutputs( axiom );
-//			return;
-//		}		 
+		//		if( node.equals( START_NODE ) ) {
+		//			log.warn( "Non-local axiom: " + axiom );
+		//			addOutputs( axiom );
+		//			return;
+		//		}
 
-		if (node.equals(NULL_NODE)) {
+		if (node.equals(NULL_NODE))
 			return;
-		}
 
-		Set<OWLEntity> entities = OntologyUtils.getSignature(axiom);
+		final Set<OWLEntity> entities = OntologyUtils.getSignature(axiom);
 
-		for (OWLEntity entity : entities) {
-			Node outNode = graph.createEntityNode(entity);
+		for (final OWLEntity entity : entities)
+		{
+			final Node outNode = graph.createEntityNode(entity);
 			node.addOutput(outNode);
 		}
 	}
 
-	private void addOutputs(OWLAxiom axiom) {
-		Set<OWLEntity> signature = OntologyUtils.getSignature(axiom);
-		OWLEntity[] entities = signature.toArray(new OWLEntity[signature.size()]);
-		for (int i = 0, n = entities.length; i < n - 1; i++) {
-			Node n1 = graph.createEntityNode(entities[i]);
-			for (int j = i + 1; j < n; j++) {
-				Node n2 = graph.createEntityNode(entities[j]);
+	private void addOutputs(final OWLAxiom axiom)
+	{
+		final Set<OWLEntity> signature = OntologyUtils.getSignature(axiom);
+		final OWLEntity[] entities = signature.toArray(new OWLEntity[signature.size()]);
+		for (int i = 0, n = entities.length; i < n - 1; i++)
+		{
+			final Node n1 = graph.createEntityNode(entities[i]);
+			for (int j = i + 1; j < n; j++)
+			{
+				final Node n2 = graph.createEntityNode(entities[j]);
 				n1.addOutput(n2);
 				n2.addOutput(n1);
 			}
 		}
 	}
 
-	public ReachabilityGraph build() {
+	public ReachabilityGraph build()
+	{
 		graph.simplify();
 		return graph;
 	}

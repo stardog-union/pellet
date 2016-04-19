@@ -12,15 +12,7 @@ import static com.clarkparsia.pellet.utils.TermFactory.all;
 import static com.clarkparsia.pellet.utils.TermFactory.not;
 import static com.clarkparsia.pellet.utils.TermFactory.value;
 
-import org.mindswap.pellet.ABox;
-import org.mindswap.pellet.DependencySet;
-import org.mindswap.pellet.Individual;
-import org.mindswap.pellet.Node;
-import org.mindswap.pellet.tableau.completion.CompletionStrategy;
-import org.mindswap.pellet.utils.ATermUtils;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
 import com.clarkparsia.pellet.rules.model.ClassAtom;
 import com.clarkparsia.pellet.rules.model.DataRangeAtom;
@@ -30,6 +22,12 @@ import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
+import org.mindswap.pellet.ABox;
+import org.mindswap.pellet.DependencySet;
+import org.mindswap.pellet.Individual;
+import org.mindswap.pellet.Node;
+import org.mindswap.pellet.tableau.completion.CompletionStrategy;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
@@ -44,24 +42,26 @@ import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class RuleAtomAsserter implements RuleAtomVisitor {
-	private ABox				abox;
-	private CompletionStrategy	strategy;
+public class RuleAtomAsserter implements RuleAtomVisitor
+{
+	private ABox abox;
+	private CompletionStrategy strategy;
 
-	private VariableBinding		binding;
-	private DependencySet		ds;
-	private boolean				negated;
+	private VariableBinding binding;
+	private DependencySet ds;
+	private boolean negated;
 
-	private boolean				asserted;
+	private boolean asserted;
 
-	public RuleAtomAsserter() {
+	public RuleAtomAsserter()
+	{
 	}
 
-	public boolean assertAtom(RuleAtom atom, VariableBinding binding, DependencySet ds,
-			boolean negated,ABox abox, CompletionStrategy strategy) {
+	public boolean assertAtom(final RuleAtom atom, final VariableBinding binding, final DependencySet ds, final boolean negated, final ABox abox, final CompletionStrategy strategy)
+	{
 		asserted = true;
 
 		this.binding = binding;
@@ -70,94 +70,115 @@ public class RuleAtomAsserter implements RuleAtomVisitor {
 		this.strategy = strategy;
 		this.abox = abox;
 
-		atom.accept( this );
+		atom.accept(this);
 
 		return asserted;
 	}
 
-	public void visit(BuiltInAtom atom) {
+	@Override
+	public void visit(final BuiltInAtom atom)
+	{
 		asserted = false;
 	}
 
-	public void visit(ClassAtom atom) {
-		ATermAppl cls = atom.getPredicate();
-		ATermAppl ind = binding.get( atom.getArgument() ).getName();
+	@Override
+	public void visit(final ClassAtom atom)
+	{
+		final ATermAppl cls = atom.getPredicate();
+		final ATermAppl ind = binding.get(atom.getArgument()).getName();
 
-		addType( ind, cls );
+		addType(ind, cls);
 	}
 
-	private void addType(ATermAppl ind, ATermAppl cls) {
+	private void addType(final ATermAppl ind, ATermAppl cls)
+	{
 		DependencySet nodeDS = ds;
-		Individual node = abox.getIndividual( ind );
-		
-		if (node.isMerged()) {
+		Individual node = abox.getIndividual(ind);
+
+		if (node.isMerged())
+		{
 			nodeDS = node.getMergeDependency(true);
 			node = node.getSame();
-		}	
-		
-		if( negated )
-			cls = ATermUtils.negate( cls );
+		}
 
-		strategy.addType( node, cls, nodeDS );
+		if (negated)
+			cls = ATermUtils.negate(cls);
+
+		strategy.addType(node, cls, nodeDS);
 	}
 
-	private void addEdge(ATermAppl p, ATermAppl s, ATermAppl o) {
+	private void addEdge(final ATermAppl p, final ATermAppl s, final ATermAppl o)
+	{
 		DependencySet edgeDS = ds;
-		Individual node1 = abox.getIndividual( s );
-		
-		if (node1.isMerged()) {
+		Individual node1 = abox.getIndividual(s);
+
+		if (node1.isMerged())
+		{
 			edgeDS = node1.getMergeDependency(true);
 			node1 = node1.getSame();
-		}		
-
-		if( negated ) {
-			ATermAppl cls = all( p, not( value( o ) ) );
-			strategy.addType( node1, cls, ds );
 		}
-		else {
-			Node node2 = abox.getNode( o );
-			if (node2.isMerged()) {
+
+		if (negated)
+		{
+			final ATermAppl cls = all(p, not(value(o)));
+			strategy.addType(node1, cls, ds);
+		}
+		else
+		{
+			Node node2 = abox.getNode(o);
+			if (node2.isMerged())
+			{
 				edgeDS = node2.getMergeDependency(true);
 				node2 = node2.getSame();
-			}		
-			strategy.addEdge( node1, abox.getRole( p ), node2, edgeDS );
+			}
+			strategy.addEdge(node1, abox.getRole(p), node2, edgeDS);
 		}
 	}
 
-	public void visit(DataRangeAtom atom) {
+	@Override
+	public void visit(final DataRangeAtom atom)
+	{
 		asserted = false;
 	}
 
-	public void visit(DatavaluedPropertyAtom atom) {
-		ATermAppl p = atom.getPredicate();
-		ATermAppl s = binding.get( atom.getArgument1() ).getName();
-		ATermAppl o = binding.get( atom.getArgument2() ).getName();
+	@Override
+	public void visit(final DatavaluedPropertyAtom atom)
+	{
+		final ATermAppl p = atom.getPredicate();
+		final ATermAppl s = binding.get(atom.getArgument1()).getName();
+		final ATermAppl o = binding.get(atom.getArgument2()).getName();
 
-		addEdge( p, s, o );
+		addEdge(p, s, o);
 	}
 
-	public void visit(DifferentIndividualsAtom atom) {
-		ATermAppl ind1 = binding.get( atom.getArgument1() ).getName();
-		ATermAppl ind2 = binding.get( atom.getArgument2() ).getName();
-		ATermAppl cls = not( value( ind2 ) );
+	@Override
+	public void visit(final DifferentIndividualsAtom atom)
+	{
+		final ATermAppl ind1 = binding.get(atom.getArgument1()).getName();
+		final ATermAppl ind2 = binding.get(atom.getArgument2()).getName();
+		final ATermAppl cls = not(value(ind2));
 
-		addType( ind1, cls );
+		addType(ind1, cls);
 	}
 
-	public void visit(IndividualPropertyAtom atom) {
-		ATermAppl p = atom.getPredicate();
-		ATermAppl s = binding.get( atom.getArgument1() ).getName();
-		ATermAppl o = binding.get( atom.getArgument2() ).getName();
+	@Override
+	public void visit(final IndividualPropertyAtom atom)
+	{
+		final ATermAppl p = atom.getPredicate();
+		final ATermAppl s = binding.get(atom.getArgument1()).getName();
+		final ATermAppl o = binding.get(atom.getArgument2()).getName();
 
-		addEdge( p, s, o );
+		addEdge(p, s, o);
 	}
 
-	public void visit(SameIndividualAtom atom) {
-		ATermAppl ind1 = binding.get( atom.getArgument1() ).getName();
-		ATermAppl ind2 = binding.get( atom.getArgument2() ).getName();
-		ATermAppl cls = value( ind2 );
+	@Override
+	public void visit(final SameIndividualAtom atom)
+	{
+		final ATermAppl ind1 = binding.get(atom.getArgument1()).getName();
+		final ATermAppl ind2 = binding.get(atom.getArgument2()).getName();
+		final ATermAppl cls = value(ind2);
 
-		addType( ind1, cls );
+		addType(ind1, cls);
 	}
 
 }

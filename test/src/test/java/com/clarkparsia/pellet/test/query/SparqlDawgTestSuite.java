@@ -8,6 +8,7 @@
 
 package com.clarkparsia.pellet.test.query;
 
+import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -15,15 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
+import org.apache.jena.rdf.model.Resource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.mindswap.pellet.test.PelletTestSuite;
-
-import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
-import org.apache.jena.rdf.model.Resource;
 
 /**
  * <p>
@@ -38,101 +36,117 @@ import org.apache.jena.rdf.model.Resource;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
 @RunWith(Parameterized.class)
-public class SparqlDawgTestSuite {
-	private static String getName(String manifestName) {
+public class SparqlDawgTestSuite
+{
+	private static String getName(final String manifestName)
+	{
 		String name = manifestName;
 
-		try {
-			URI uri = URI.create( manifestName );
-			String[] pathComponents = uri.getPath().split( "/" );
+		try
+		{
+			final URI uri = URI.create(manifestName);
+			final String[] pathComponents = uri.getPath().split("/");
 			name = pathComponents[pathComponents.length - 2];
-		} catch( Exception e ) {
+		}
+		catch (final Exception e)
+		{
 			e.printStackTrace();
 		}
 
 		return name;
 	}
 
-	private static void addSuite(final List<Object[]> parameters, final String manifest,
-			final Map<SparqlDawgTester, Properties> testers) {
-		final ManifestEngine engine = new ManifestEngine( null, manifest );
-		engine.setProcessor( new ManifestEngineProcessor() {
-			public void manifestStarted(String manifestName) {
+	private static void addSuite(final List<Object[]> parameters, final String manifest, final Map<SparqlDawgTester, Properties> testers)
+	{
+		final ManifestEngine engine = new ManifestEngine(null, manifest);
+		engine.setProcessor(new ManifestEngineProcessor()
+		{
+			@Override
+			public void manifestStarted(final String manifestName)
+			{
 			}
-			
-			public void test(Resource test) {
-				for( Map.Entry<SparqlDawgTester, Properties> entry : testers.entrySet() ) {
-					SparqlDawgTester tester = entry.getKey();
-					Properties options = entry.getValue();
-					parameters.add(new Object[] {new SparqlDawgTestCase( tester, engine, test, options ) });
+
+			@Override
+			public void test(final Resource test)
+			{
+				for (final Map.Entry<SparqlDawgTester, Properties> entry : testers.entrySet())
+				{
+					final SparqlDawgTester tester = entry.getKey();
+					final Properties options = entry.getValue();
+					parameters.add(new Object[] { new SparqlDawgTestCase(tester, engine, test, options) });
 				}
 
 			}
 
-			public void manifestFinished(String manifestName) {
+			@Override
+			public void manifestFinished(final String manifestName)
+			{
 			}
-		} );
+		});
 
 		engine.run();
 	}
 
 	@Parameters
-	public static List<Object[]> getParameters() {
-		List<Object[]> parameters = new ArrayList<Object[]>();
+	public static List<Object[]> getParameters()
+	{
+		final List<Object[]> parameters = new ArrayList<>();
 
-		SparqlDawgTester arqTester = new ARQSparqlDawgTester();
+		final SparqlDawgTester arqTester = new ARQSparqlDawgTester();
 		// The third boolean parameter controls whether or not special handling
 		// of variable SPO patterns is activated. We turn special handling off
 		// for the test suite because handling variable SPO patterns can result
 		// in a fall back to ARQ on a PelletInfGraph and return a result set
 		// which is different to the result sets provided by the DAWG test suite.
-		SparqlDawgTester basicSparqlDLTester = new PelletSparqlDawgTester( QueryEngineType.PELLET, false );
-		SparqlDawgTester integratedSparqlDLTester = new PelletSparqlDawgTester( QueryEngineType.MIXED, false );
+		final SparqlDawgTester basicSparqlDLTester = new PelletSparqlDawgTester(QueryEngineType.PELLET, false);
+		final SparqlDawgTester integratedSparqlDLTester = new PelletSparqlDawgTester(QueryEngineType.MIXED, false);
 
-//		String dawgTests = PelletTestSuite.base
-//				+ "sparql-dawg-tests/data-r2/manifest-evaluation.ttl";
-		String sparqldlTests = PelletTestSuite.base + "sparqldl-tests/manifest.ttl";
-		String sparqlSameAsTests = PelletTestSuite.base + "query/sameAs/manifest.ttl";
-		Properties noUndistVars = new Properties();
-		noUndistVars.setProperty( "IGNORE_UNSUPPORTED_AXIOMS", "false" );
-		noUndistVars.setProperty( "TREAT_ALL_VARS_DISTINGUISHED", "true" );
+		//		String dawgTests = PelletTestSuite.base
+		//				+ "sparql-dawg-tests/data-r2/manifest-evaluation.ttl";
+		final String sparqldlTests = PelletTestSuite.base + "sparqldl-tests/manifest.ttl";
+		final String sparqlSameAsTests = PelletTestSuite.base + "query/sameAs/manifest.ttl";
+		final Properties noUndistVars = new Properties();
+		noUndistVars.setProperty("IGNORE_UNSUPPORTED_AXIOMS", "false");
+		noUndistVars.setProperty("TREAT_ALL_VARS_DISTINGUISHED", "true");
 
-		Properties undistVars = new Properties();
-		undistVars.setProperty( "IGNORE_UNSUPPORTED_AXIOMS", "false" );
-		undistVars.setProperty( "TREAT_ALL_VARS_DISTINGUISHED", "false" );
+		final Properties undistVars = new Properties();
+		undistVars.setProperty("IGNORE_UNSUPPORTED_AXIOMS", "false");
+		undistVars.setProperty("TREAT_ALL_VARS_DISTINGUISHED", "false");
 
-		Map<SparqlDawgTester, Properties> dawgTesters = new HashMap<SparqlDawgTester, Properties>();
-		dawgTesters.put( arqTester, noUndistVars );
-		dawgTesters.put( basicSparqlDLTester, noUndistVars );
-		dawgTesters.put( integratedSparqlDLTester, noUndistVars );
+		final Map<SparqlDawgTester, Properties> dawgTesters = new HashMap<>();
+		dawgTesters.put(arqTester, noUndistVars);
+		dawgTesters.put(basicSparqlDLTester, noUndistVars);
+		dawgTesters.put(integratedSparqlDLTester, noUndistVars);
 
 		//addSuite( this, dawgTests, dawgTesters );
 
-		Map<SparqlDawgTester, Properties> sparqldlTesters = new HashMap<SparqlDawgTester, Properties>();
-		sparqldlTesters.put( basicSparqlDLTester, undistVars );
-		sparqldlTesters.put( integratedSparqlDLTester, undistVars );
+		final Map<SparqlDawgTester, Properties> sparqldlTesters = new HashMap<>();
+		sparqldlTesters.put(basicSparqlDLTester, undistVars);
+		sparqldlTesters.put(integratedSparqlDLTester, undistVars);
 
-		addSuite( parameters, sparqldlTests, sparqldlTesters );
-		
-		Map<SparqlDawgTester, Properties> sparqlSameAsTesters = new HashMap<SparqlDawgTester, Properties>();
-		sparqlSameAsTesters.put( basicSparqlDLTester, undistVars );
-		addSuite( parameters, sparqlSameAsTests, sparqlSameAsTesters );
-		
+		addSuite(parameters, sparqldlTests, sparqldlTesters);
+
+		final Map<SparqlDawgTester, Properties> sparqlSameAsTesters = new HashMap<>();
+		sparqlSameAsTesters.put(basicSparqlDLTester, undistVars);
+		addSuite(parameters, sparqlSameAsTests, sparqlSameAsTesters);
+
 		return parameters;
 	}
 
 	private final SparqlDawgTestCase test;
 
-	public SparqlDawgTestSuite(SparqlDawgTestCase test) {
+	public SparqlDawgTestSuite(final SparqlDawgTestCase test)
+	{
 		this.test = test;
 	}
 
 	@Test
-	public void run() throws IOException {
+	public void run() throws IOException
+	{
 		test.runTest();
 	}
 

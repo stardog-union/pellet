@@ -1,9 +1,12 @@
 package com.clarkparsia.pellet.rules.rete;
 
-public class RetePrinter {
-	public void print(AlphaNetwork network) {
-		for (AlphaNode node : network) {
-	        
-        }
+public class RetePrinter
+{
+	public void print(final AlphaNetwork network)
+	{
+		for (final AlphaNode node : network)
+		{
+
+		}
 	}
 }

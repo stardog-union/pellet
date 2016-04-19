@@ -13,98 +13,119 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class IdentityHashSet<T> extends AbstractSet<T> implements Set<T>, Cloneable {
-	private static final Object						VALUE	= new Object();
+public class IdentityHashSet<T> extends AbstractSet<T> implements Set<T>, Cloneable
+{
+	private static final Object VALUE = new Object();
 
-	private transient IdentityHashMap<T, Object>	map;
+	private transient IdentityHashMap<T, Object> map;
 
-	public IdentityHashSet() {
-		map = new IdentityHashMap<T, Object>();
+	public IdentityHashSet()
+	{
+		map = new IdentityHashMap<>();
 	}
 
-	public IdentityHashSet(Collection<? extends T> c) {
-		map = new IdentityHashMap<T, Object>( Math.max( (int) (c.size() / .75f) + 1, 16 ) );
-		addAll( c );
+	public IdentityHashSet(final Collection<? extends T> c)
+	{
+		map = new IdentityHashMap<>(Math.max((int) (c.size() / .75f) + 1, 16));
+		addAll(c);
 	}
 
-	public IdentityHashSet(int size) {
-		map = new IdentityHashMap<T, Object>( size );
+	public IdentityHashSet(final int size)
+	{
+		map = new IdentityHashMap<>(size);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean add(T element) {
-		return map.put( element, VALUE ) == null;
+	public boolean add(final T element)
+	{
+		return map.put(element, VALUE) == null;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void clear() {
+	public void clear()
+	{
 		map.clear();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
-	public Object clone() {
-		try {
-			IdentityHashSet<T> newSet = (IdentityHashSet<T>) super.clone();
+	public Object clone()
+	{
+		try
+		{
+			final IdentityHashSet<T> newSet = (IdentityHashSet<T>) super.clone();
 			newSet.map = (IdentityHashMap<T, Object>) map.clone();
 			return newSet;
-		} catch( CloneNotSupportedException e ) {
+		}
+		catch (final CloneNotSupportedException e)
+		{
 			throw new InternalError();
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contains(Object o) {
-		return map.containsKey( o );
+	public boolean contains(final Object o)
+	{
+		return map.containsKey(o);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isEmpty() {
+	public boolean isEmpty()
+	{
 		return map.isEmpty();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterator<T> iterator() {
+	public Iterator<T> iterator()
+	{
 		return map.keySet().iterator();
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean remove(Object element) {
-		return map.remove( element ) != VALUE;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int size() {
+	public boolean remove(final Object element)
+	{
+		return map.remove(element) != VALUE;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int size()
+	{
 		return map.size();
 	}
 

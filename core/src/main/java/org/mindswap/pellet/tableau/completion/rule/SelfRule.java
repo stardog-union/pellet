@@ -6,9 +6,9 @@
 
 package org.mindswap.pellet.tableau.completion.rule;
 
+import aterm.ATermAppl;
 import java.util.List;
 import java.util.logging.Level;
-
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.PelletOptions;
@@ -16,8 +16,6 @@ import org.mindswap.pellet.Role;
 import org.mindswap.pellet.tableau.completion.CompletionStrategy;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
 import org.mindswap.pellet.utils.ATermUtils;
-
-import aterm.ATermAppl;
 
 /**
  * <p>
@@ -32,35 +30,40 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class SelfRule extends AbstractTableauRule {
+public class SelfRule extends AbstractTableauRule
+{
 
-	public SelfRule(CompletionStrategy strategy) {
-		super( strategy, NodeSelector.ATOM, BlockingType.NONE );
+	public SelfRule(final CompletionStrategy strategy)
+	{
+		super(strategy, NodeSelector.ATOM, BlockingType.NONE);
 	}
 
-    public final void apply( Individual node ) {
-        List<ATermAppl> types = node.getTypes( Node.ATOM );
-        int size = types.size();
-        for( int j = 0; j < size; j++ ) {
-            ATermAppl c = types.get( j );
+	@Override
+	public final void apply(final Individual node)
+	{
+		final List<ATermAppl> types = node.getTypes(Node.ATOM);
+		final int size = types.size();
+		for (int j = 0; j < size; j++)
+		{
+			final ATermAppl c = types.get(j);
 
-            if(!PelletOptions.MAINTAIN_COMPLETION_QUEUE && node.getDepends(c) == null)
+			if (!PelletOptions.MAINTAIN_COMPLETION_QUEUE && node.getDepends(c) == null)
 				continue;
 
-            
-            if( ATermUtils.isSelf( c ) ) {
-                ATermAppl pred = (ATermAppl) c.getArgument( 0 );
-                Role role = strategy.getABox().getRole( pred );
-                if( log.isLoggable( Level.FINE ) && !node.hasRSuccessor( role, node ) )
-                    log.fine( "SELF: " + node + " " + role + " " + node.getDepends( c ) );
-                strategy.addEdge( node, role, node, node.getDepends( c ) );
+			if (ATermUtils.isSelf(c))
+			{
+				final ATermAppl pred = (ATermAppl) c.getArgument(0);
+				final Role role = strategy.getABox().getRole(pred);
+				if (log.isLoggable(Level.FINE) && !node.hasRSuccessor(role, node))
+					log.fine("SELF: " + node + " " + role + " " + node.getDepends(c));
+				strategy.addEdge(node, role, node, node.getDepends(c));
 
-                if( strategy.getABox().isClosed() )
-                    return;
-            }
-        }
-    }
+				if (strategy.getABox().isClosed())
+					return;
+			}
+		}
+	}
 }

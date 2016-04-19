@@ -7,7 +7,6 @@
 package com.clarkparsia.owlapi.explanation.io.rdfxml;
 
 import com.clarkparsia.owlapi.OWL;
-
 import com.clarkparsia.owlapi.explanation.io.ExplanationRenderer;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,7 +30,7 @@ import org.semanticweb.owlapi.rdf.rdfxml.renderer.RDFXMLRenderer;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
 public class RDFXMLExplanationRenderer implements ExplanationRenderer
@@ -41,21 +40,19 @@ public class RDFXMLExplanationRenderer implements ExplanationRenderer
 	private Writer writer;
 
 	@Override
-	public void startRendering(Writer writer)
+	public void startRendering(final Writer writer)
 	{
 		this.writer = writer;
 		axioms = new HashSet<>();
 	}
 
 	@Override
-	public void render(OWLAxiom axiom, Set<Set<OWLAxiom>> explanations)
+	public void render(final OWLAxiom axiom, final Set<Set<OWLAxiom>> explanations)
 	{
 		axioms.add(axiom);
 
 		for (final Set<OWLAxiom> explanation : explanations)
-		{
 			axioms.addAll(explanation);
-		}
 	}
 
 	@Override

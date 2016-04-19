@@ -10,31 +10,37 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * 
  * @author Evren Sirin
  */
-public class PairIterator<T> implements Iterator<T> {
-    private Iterator<T> first;
-    private Iterator<T> second;
+public class PairIterator<T> implements Iterator<T>
+{
+	private final Iterator<T> first;
+	private final Iterator<T> second;
 
+	public PairIterator(final Iterator<T> first, final Iterator<T> second)
+	{
+		this.first = first;
+		this.second = second;
+	}
 
-    public PairIterator(Iterator<T> first, Iterator <T>second) {
-        this.first = first;
-        this.second = second;
-    }
-    
-    public boolean hasNext() {
-        return first.hasNext() || second.hasNext();
-    }
+	@Override
+	public boolean hasNext()
+	{
+		return first.hasNext() || second.hasNext();
+	}
 
-    public T next() {
-        if( !hasNext() )
-            throw new NoSuchElementException();
-        
-        return first.hasNext() ? first.next() : second.next(); 
-    }
+	@Override
+	public T next()
+	{
+		if (!hasNext())
+			throw new NoSuchElementException();
 
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
+		return first.hasNext() ? first.next() : second.next();
+	}
+
+	@Override
+	public void remove()
+	{
+		throw new UnsupportedOperationException();
+	}
 }

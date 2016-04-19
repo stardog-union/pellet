@@ -6,9 +6,8 @@
 
 package org.mindswap.pellet.jena.graph.loader;
 
-import org.mindswap.pellet.utils.Bool;
-
 import org.apache.jena.graph.Node;
+import org.mindswap.pellet.utils.Bool;
 
 /**
  * <p>
@@ -23,57 +22,69 @@ import org.apache.jena.graph.Node;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class RestrictionInfo {
-	private Node	type;
-	private Node	predicate;
-	private Node	filler;
-	private Node	detail;
-	private Bool	isObjectRestriction	= Bool.UNKNOWN;
+public class RestrictionInfo
+{
+	private Node type;
+	private Node predicate;
+	private Node filler;
+	private Node detail;
+	private Bool isObjectRestriction = Bool.UNKNOWN;
 
-	public RestrictionInfo(Node predicate) {
+	public RestrictionInfo(final Node predicate)
+	{
 		this.predicate = predicate;
 	}
 
-	public Node getType() {
+	public Node getType()
+	{
 		return type;
 	}
 
-	public void setType(Node type) {
+	public void setType(final Node type)
+	{
 		this.type = type;
 	}
 
-	public Node getPredicate() {
+	public Node getPredicate()
+	{
 		return predicate;
 	}
 
-	public void setPredicate(Node predicate) {
+	public void setPredicate(final Node predicate)
+	{
 		this.predicate = predicate;
 	}
 
-	public Node getFiller() {
+	public Node getFiller()
+	{
 		return filler;
 	}
 
-	public void setFiller(Node filler) {
+	public void setFiller(final Node filler)
+	{
 		this.filler = filler;
 	}
 
-	public Node getDetail() {
+	public Node getDetail()
+	{
 		return detail;
 	}
 
-	public void setDetail(Node detail) {
+	public void setDetail(final Node detail)
+	{
 		this.detail = detail;
 	}
 
-	public Bool isObjectRestriction() {
+	public Bool isObjectRestriction()
+	{
 		return isObjectRestriction;
 	}
 
-	public void setObjectRestriction(boolean isObjectRestriction) {
-		this.isObjectRestriction = Bool.create( isObjectRestriction );
+	public void setObjectRestriction(final boolean isObjectRestriction)
+	{
+		this.isObjectRestriction = Bool.create(isObjectRestriction);
 	}
 }

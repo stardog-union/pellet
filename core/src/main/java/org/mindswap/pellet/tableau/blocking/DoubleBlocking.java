@@ -34,36 +34,44 @@ import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.utils.SetUtils;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2008</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2008
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren Sirin
  */
-public class DoubleBlocking extends Blocking {
+public class DoubleBlocking extends Blocking
+{
 	private static final DoubleBlocking INSTANCE = new DoubleBlocking();
-	
-	public static DoubleBlocking getInstance() {
+
+	public static DoubleBlocking getInstance()
+	{
 		return INSTANCE;
 	}
-	
-	private DoubleBlocking() {		
+
+	private DoubleBlocking()
+	{
 	}
 
-	public boolean isDirectlyBlockedBy(BlockingContext cxt) {
-		Individual parentBlocked = cxt.blocked.getParent();
-		Individual parentBlocker = cxt.blocker.getParent();
-		
-		if( SetUtils.equals( cxt.blocked.getTypes(), cxt.blocker.getTypes() )
-				&& SetUtils.equals( parentBlocked.getTypes(), parentBlocker.getTypes() ) ) {
-			if( SetUtils.equals( cxt.getIncomingRoles(), BlockingContext.getIncomingRoles( cxt.blocker ) ) )
-				return true;					
-		}
-		
+	@Override
+	public boolean isDirectlyBlockedBy(final BlockingContext cxt)
+	{
+		final Individual parentBlocked = cxt.blocked.getParent();
+		final Individual parentBlocker = cxt.blocker.getParent();
+
+		if (SetUtils.equals(cxt.blocked.getTypes(), cxt.blocker.getTypes()) && SetUtils.equals(parentBlocked.getTypes(), parentBlocker.getTypes()))
+			if (SetUtils.equals(cxt.getIncomingRoles(), BlockingContext.getIncomingRoles(cxt.blocker)))
+				return true;
+
 		return false;
 	}
 }

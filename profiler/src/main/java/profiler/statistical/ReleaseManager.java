@@ -3,57 +3,54 @@ package profiler.statistical;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
  * Manages information about several releases
+ * 
  * @author Pedro Oliveira <pedro@clarkparsia.com>
- *
  */
-public class ReleaseManager {
+public class ReleaseManager
+{
 
-	private List<Release> releases;
+	private final List<Release> releases;
 
-	public ReleaseManager() {
-		releases = new ArrayList<Release>();
+	public ReleaseManager()
+	{
+		releases = new ArrayList<>();
 	}
 
-	private void sort() 
+	private void sort()
 	{
-		Collections.sort(releases, new Comparator<Release>(){
-			public int compare(Release o1, Release o2) {
-				return o2.getReleaseDate().compareTo(o1.getReleaseDate());
-			}
-		});
+		Collections.sort(releases, (o1, o2) -> o2.getReleaseDate().compareTo(o1.getReleaseDate()));
 	}
 
 	public Release getLatestRelease()
 	{
-		if(releases.size() > 0)
+		if (releases.size() > 0)
 			return releases.get(0);
 		return null;
 	}
 
-	public Release getRelease(int index){
+	public Release getRelease(final int index)
+	{
 		return releases.get(index);
 	}
 
-	public List<Release> getReleases() {
+	public List<Release> getReleases()
+	{
 		return releases;
 	}
 
-	public void load(String filename)
+	public void load(final String filename)
 	{
-		File f = new File(filename);
+		final File f = new File(filename);
 
-		if(f.isDirectory())
+		if (f.isDirectory())
 		{
-			for(File file: f.listFiles())
-			{
-				if(file.isFile() && !file.isHidden())
+			for (final File file : f.listFiles())
+				if (file.isFile() && !file.isHidden())
 					addReleaseFromFile(file.getAbsolutePath());
-			}
 		}
 		else
 			addReleaseFromFile(filename);
@@ -61,14 +58,16 @@ public class ReleaseManager {
 		sort();
 	}
 
-	private void addReleaseFromFile(String filename)
+	private void addReleaseFromFile(final String filename)
 	{
 		try
 		{
-			Release r = ReleaseUtils.readFromFile(filename);
+			final Release r = ReleaseUtils.readFromFile(filename);
 			releases.add(r);
-		}catch (Exception e) {
-			System.err.println("Problem reading release information file "+filename);
+		}
+		catch (final Exception e)
+		{
+			System.err.println("Problem reading release information file " + filename);
 			e.printStackTrace();
 		}
 	}

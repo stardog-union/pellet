@@ -12,7 +12,8 @@ import static org.junit.Assert.assertEquals;
 
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.XSD;
-
+import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxObjectRenderer;
+import com.clarkparsia.owlapi.explanation.io.manchester.TextBlockWriter;
 import java.io.StringWriter;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -20,8 +21,6 @@ import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
-import com.clarkparsia.owlapi.explanation.io.manchester.ManchesterSyntaxObjectRenderer;
-import com.clarkparsia.owlapi.explanation.io.manchester.TextBlockWriter;
 
 /**
  * <p>
@@ -36,103 +35,91 @@ import com.clarkparsia.owlapi.explanation.io.manchester.TextBlockWriter;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class ExplanationRendererTest {
-	private static final OWLClass			A	= OWL.Class( "A" );
-	private static final OWLClass			B	= OWL.Class( "B" );
-	private static final OWLObjectProperty	p	= OWL.ObjectProperty( "p" );
-	private static final OWLObjectProperty	q	= OWL.ObjectProperty( "q" );
-	private static final OWLIndividual		a	= OWL.Individual( "a" );
+public class ExplanationRendererTest
+{
+	private static final OWLClass A = OWL.Class("A");
+	private static final OWLClass B = OWL.Class("B");
+	private static final OWLObjectProperty p = OWL.ObjectProperty("p");
+	private static final OWLObjectProperty q = OWL.ObjectProperty("q");
+	private static final OWLIndividual a = OWL.Individual("a");
 
-	protected void assertRendering(String expected, OWLObject obj) {
-		StringWriter sw = new StringWriter();
-		ManchesterSyntaxObjectRenderer renderer = new ManchesterSyntaxObjectRenderer(
-				new TextBlockWriter( sw ) );
-		obj.accept( renderer );
-		String actual = sw.toString();
+	protected void assertRendering(final String expected, final OWLObject obj)
+	{
+		final StringWriter sw = new StringWriter();
+		final ManchesterSyntaxObjectRenderer renderer = new ManchesterSyntaxObjectRenderer(new TextBlockWriter(sw));
+		obj.accept(renderer);
+		final String actual = sw.toString();
 
-		assertEquals( expected, actual );
-	}
-
-	@Test
-	public void classAssertion() throws Exception {
-		assertRendering( 
-			"a type A", 
-			OWL.classAssertion( a, A ) );
+		assertEquals(expected, actual);
 	}
 
 	@Test
-	public void subClassOf() throws Exception {
-		assertRendering( 
-			"A subClassOf B", 
-			OWL.subClassOf( A, B ) );
+	public void classAssertion()
+	{
+		assertRendering("a type A", OWL.classAssertion(a, A));
 	}
-	
+
 	@Test
-	public void subPropertyOf() throws Exception {
-		OWLObjectPropertyExpression[] a = { p, q };
-		assertRendering( 
-			"p o q subPropertyOf p", 
-			OWL.subPropertyOf( a, p ) );
+	public void subClassOf()
+	{
+		assertRendering("A subClassOf B", OWL.subClassOf(A, B));
 	}
-	
+
 	@Test
-	public void qualifiedExactCardinality() throws Exception {
-		assertRendering( 
-			"p exactly 1 A", 
-			OWL.exactly( p, 1, A ) );
+	public void subPropertyOf()
+	{
+		final OWLObjectPropertyExpression[] a = { p, q };
+		assertRendering("p o q subPropertyOf p", OWL.subPropertyOf(a, p));
 	}
-	
+
 	@Test
-	public void exactCardinality() throws Exception {
-		assertRendering( 
-			"p exactly 1", 
-			OWL.exactly( p, 1 ) );
+	public void qualifiedExactCardinality()
+	{
+		assertRendering("p exactly 1 A", OWL.exactly(p, 1, A));
 	}
-	
-	
+
 	@Test
-	public void someValuesFrom() throws Exception {
-		assertRendering( 
-			"p some A", 
-			OWL.some( p, A ) );
+	public void exactCardinality()
+	{
+		assertRendering("p exactly 1", OWL.exactly(p, 1));
 	}
-	
-	
+
 	@Test
-	public void allValuesFrom() throws Exception {
-		assertRendering( 
-			"p only A", 
-			OWL.all( p, A ) );
+	public void someValuesFrom()
+	{
+		assertRendering("p some A", OWL.some(p, A));
 	}
-	
+
 	@Test
-	public void maxExclusive() throws Exception {
-		assertRendering( 
-			"double[< \"2.0\"^^double]", 
-			OWL.restrict( XSD.DOUBLE, OWL.maxExclusive( 2.0 ) ) );
+	public void allValuesFrom()
+	{
+		assertRendering("p only A", OWL.all(p, A));
 	}
-	
+
 	@Test
-	public void minExclusive() throws Exception {
-		assertRendering( 
-			"double[> \"2.0\"^^double]", 
-			OWL.restrict( XSD.DOUBLE, OWL.minExclusive( 2.0 ) ) );
+	public void maxExclusive()
+	{
+		assertRendering("double[< \"2.0\"^^double]", OWL.restrict(XSD.DOUBLE, OWL.maxExclusive(2.0)));
 	}
-	
+
 	@Test
-	public void maxInclusive() throws Exception {
-		assertRendering( 
-			"double[<= \"2.0\"^^double]", 
-			OWL.restrict( XSD.DOUBLE, OWL.maxInclusive( 2.0 ) ) );
+	public void minExclusive()
+	{
+		assertRendering("double[> \"2.0\"^^double]", OWL.restrict(XSD.DOUBLE, OWL.minExclusive(2.0)));
 	}
-	
+
 	@Test
-	public void minInclusive() throws Exception {
-		assertRendering( 
-			"double[>= \"2.0\"^^double]", 
-			OWL.restrict( XSD.DOUBLE, OWL.minInclusive( 2.0 ) ) );
+	public void maxInclusive()
+	{
+		assertRendering("double[<= \"2.0\"^^double]", OWL.restrict(XSD.DOUBLE, OWL.maxInclusive(2.0)));
+	}
+
+	@Test
+	public void minInclusive()
+	{
+		assertRendering("double[>= \"2.0\"^^double]", OWL.restrict(XSD.DOUBLE, OWL.minInclusive(2.0)));
 	}
 }

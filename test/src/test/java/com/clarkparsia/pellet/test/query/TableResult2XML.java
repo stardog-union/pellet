@@ -17,10 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import org.mindswap.pellet.jena.JenaUtils;
-import org.mindswap.pellet.utils.ATermUtils;
-
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.QuerySolutionMap;
 import org.apache.jena.query.ResultSet;
@@ -29,14 +25,15 @@ import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.sparql.engine.binding.Binding;
 import org.apache.jena.sparql.engine.binding.BindingUtils;
+import org.mindswap.pellet.jena.JenaUtils;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
  * Title:
  * </p>
  * <p>
- * Description: Small utility to transform text result sets from TXT to XML
- * format.
+ * Description: Small utility to transform text result sets from TXT to XML format.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -44,138 +41,153 @@ import org.apache.jena.sparql.engine.binding.BindingUtils;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Petr Kremen
  */
-public class TableResult2XML {
+public class TableResult2XML
+{
 
-	public static void main(String[] args) {
+	public static void main(final String[] args)
+	{
 
-		if (args.length == 0) {
-			System.out
-					.println("Usage: java TableResult2XML <filename> [-vars var1 [var2] ...]");
-			System.out
-					.println("		where <filename> is the path to the result file or a directory of result files");
-			System.out
-					.println("		      -vars says that first line does not contain names of the vars and thus we supply them.");
+		if (args.length == 0)
+		{
+			System.out.println("Usage: java TableResult2XML <filename> [-vars var1 [var2] ...]");
+			System.out.println("		where <filename> is the path to the result file or a directory of result files");
+			System.out.println("		      -vars says that first line does not contain names of the vars and thus we supply them.");
 			return;
 		}
 
-		final List<String> files = new ArrayList<String>();
+		final List<String> files = new ArrayList<>();
 
-		if (new File(args[0]).isDirectory()) {
-			for (final File f : new File(args[0]).listFiles()) {
-				if (!f.isDirectory() && !f.getAbsolutePath().endsWith(".srx")) {
+		if (new File(args[0]).isDirectory())
+		{
+			for (final File f : new File(args[0]).listFiles())
+				if (!f.isDirectory() && !f.getAbsolutePath().endsWith(".srx"))
 					files.add(f.getAbsolutePath());
-				}
-			}
-		} else {
-			files.add(args[0]);
 		}
+		else
+			files.add(args[0]);
 
 		List<String> varNames = null;
-		if (args.length > 1) {
-			if (!args[1].equals("-vars")) {
-				System.out.println("Unknown parameter " + args[1]
-						+ " - ignoring.");
-			} else {
+		if (args.length > 1)
+			if (!args[1].equals("-vars"))
+				System.out.println("Unknown parameter " + args[1] + " - ignoring.");
+			else
 				varNames = Arrays.asList(args).subList(2, args.length);
-			}
-		}
 
-		for (final String arg : files) {
+		for (final String arg : files)
+		{
 
-			final List<String> vars = new ArrayList<String>();
-			final List<QuerySolution> solutions = new ArrayList<QuerySolution>();
+			final List<String> vars = new ArrayList<>();
+			final List<QuerySolution> solutions = new ArrayList<>();
 
-			try {
+			try
+			{
 				final FileInputStream f = new FileInputStream(arg);
-				final BufferedReader r = new BufferedReader(
-						new InputStreamReader(f));
+				final BufferedReader r = new BufferedReader(new InputStreamReader(f));
 
 				// first line are the result variables
 				String line;
 				StringTokenizer t;
 
-				if (varNames == null) {
+				if (varNames == null)
+				{
 					line = r.readLine();
-					if (line != null) {
+					if (line != null)
+					{
 						t = new StringTokenizer(line, " \t");
-						while (t.hasMoreTokens()) {
+						while (t.hasMoreTokens())
 							vars.add(t.nextToken());
-						}
 					}
-				} else {
-					vars.addAll(varNames);
 				}
+				else
+					vars.addAll(varNames);
 
 				final Model m = ModelFactory.createDefaultModel();
 
 				// next lines contain data
-				while ((line = r.readLine()) != null) {
+				while ((line = r.readLine()) != null)
+				{
 					int i = 0;
 					t = new StringTokenizer(line, " \t");
 
 					final QuerySolutionMap s = new QuerySolutionMap();
 
-					while (t.hasMoreTokens()) {
+					while (t.hasMoreTokens())
+					{
 						final String token = t.nextToken();
 
-						if (token.startsWith("http://")
-								|| token.startsWith("file:///")) {
-							s.add(vars.get(i++), JenaUtils.makeRDFNode(
-									ATermUtils.makeTermAppl(token), m));
-						} else {
-							s.add(vars.get(i++), JenaUtils.makeRDFNode(
-									ATermUtils.makePlainLiteral(token), m));
-						}
+						if (token.startsWith("http://") || token.startsWith("file:///"))
+							s.add(vars.get(i++), JenaUtils.makeRDFNode(ATermUtils.makeTermAppl(token), m));
+						else
+							s.add(vars.get(i++), JenaUtils.makeRDFNode(ATermUtils.makePlainLiteral(token), m));
 					}
 
 					solutions.add(s);
 				}
 
-				ResultSetFormatter.outputAsXML(new FileOutputStream(arg
-						+ ".srx"), new ResultSet() {
+				ResultSetFormatter.outputAsXML(new FileOutputStream(arg + ".srx"), new ResultSet()
+				{
 
 					private int index = 0;
 
-					public List<String> getResultVars() {
+					@Override
+					public List<String> getResultVars()
+					{
 						return vars;
 					}
 
-					public int getRowNumber() {
+					@Override
+					public int getRowNumber()
+					{
 						return index;
 					}
 
-					public boolean hasNext() {
+					@Override
+					public boolean hasNext()
+					{
 						return index < solutions.size();
 					}
-					
-					public QuerySolution next() {
+
+					@Override
+					public QuerySolution next()
+					{
 						return nextSolution();
 					}
 
-					public Binding nextBinding() {
+					@Override
+					public Binding nextBinding()
+					{
 						return BindingUtils.asBinding(nextSolution());
 					}
 
-					public QuerySolution nextSolution() {
+					@Override
+					public QuerySolution nextSolution()
+					{
 						return solutions.get(index++);
 					}
 
-					public void remove() {
-						throw new IllegalArgumentException(
-								"Removing is not supported.");
+					@Override
+					public void remove()
+					{
+						throw new IllegalArgumentException("Removing is not supported.");
 					}
-					
-					public Model getResourceModel() {
+
+					@Override
+					public Model getResourceModel()
+					{
 						return null;
 					}
 
 				});
-			} catch (FileNotFoundException e) {
+			}
+			catch (final FileNotFoundException e)
+			{
 				e.printStackTrace();
-			} catch (IOException e) {
+			}
+			catch (final IOException e)
+			{
 				e.printStackTrace();
 			}
 		}

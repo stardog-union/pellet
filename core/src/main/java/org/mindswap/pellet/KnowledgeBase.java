@@ -138,11 +138,9 @@ public class KnowledgeBase
 	private final Map<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> annotations;
 
 	/**
-	 * The state of KB w.r.t. reasoning. The state is not valid if KB is
-	 * changed, i.e. !changes.isEmpty(). These states are added in the order
-	 * CONSISTENCY < CLASSIFY < REALIZE when the corresponding functions are
-	 * called. If KB is modified after classification, calling prepare might
-	 * remove CONSISTENCY but leave CLASSIFY.
+	 * The state of KB w.r.t. reasoning. The state is not valid if KB is changed, i.e. !changes.isEmpty(). These states are added in the order CONSISTENCY <
+	 * CLASSIFY < REALIZE when the corresponding functions are called. If KB is modified after classification, calling prepare might remove CONSISTENCY but
+	 * leave CLASSIFY.
 	 */
 	protected enum ReasoningState
 	{
@@ -156,14 +154,15 @@ public class KnowledgeBase
 	private ExpressivityChecker expChecker;
 
 	/**
-	 * Timers used in various different parts of KB. There may be many different
-	 * timers created here depending on the level of debugging or application
-	 * requirements. However, there are three major timers that are guaranteed
-	 * to exist.
+	 * Timers used in various different parts of KB. There may be many different timers created here depending on the level of debugging or application
+	 * requirements. However, there are three major timers that are guaranteed to exist.
 	 * <ul>
-	 * <li><b>main</b> - This is the main timer that exists in any Timers objects. All the other timers defined in here will have this timer as its dependant so setting a timeout on this timer will put a limit on every operation done inside KB.</li>
-	 * <li><b>preprocessing</b> - This is the operation where TBox creation, absorbtion and normalization is done. It also includes computing hierarchy of properties in RBox and merging the individuals in ABox if there are explicit sameAs assertions.</li>
-	 * <li><b>consistency</b> - This is the timer for ABox consistency check. Putting a timeout will mean that any single consistency check should be completed in a certain amount of time.</li>
+	 * <li><b>main</b> - This is the main timer that exists in any Timers objects. All the other timers defined in here will have this timer as its dependant so
+	 * setting a timeout on this timer will put a limit on every operation done inside KB.</li>
+	 * <li><b>preprocessing</b> - This is the operation where TBox creation, absorbtion and normalization is done. It also includes computing hierarchy of
+	 * properties in RBox and merging the individuals in ABox if there are explicit sameAs assertions.</li>
+	 * <li><b>consistency</b> - This is the timer for ABox consistency check. Putting a timeout will mean that any single consistency check should be completed
+	 * in a certain amount of time.</li>
 	 * </ul>
 	 */
 	public Timers timers = new Timers();
@@ -207,7 +206,7 @@ public class KnowledgeBase
 
 		private boolean isDatatype = false;
 
-		public boolean isDatatype(ATermAppl term)
+		public boolean isDatatype(final ATermAppl term)
 		{
 			isDatatype = false;
 			visit(term);
@@ -216,19 +215,19 @@ public class KnowledgeBase
 		}
 
 		@Override
-		public void visit(ATermAppl term)
+		public void visit(final ATermAppl term)
 		{
 			super.visit(term);
 		}
 
 		@Override
-		public void visitOr(ATermAppl term)
+		public void visitOr(final ATermAppl term)
 		{
 			visitList((ATermList) term.getArgument(0));
 		}
 
 		@Override
-		public void visitValue(ATermAppl term)
+		public void visitValue(final ATermAppl term)
 		{
 			final ATermAppl nominal = (ATermAppl) term.getArgument(0);
 
@@ -237,86 +236,86 @@ public class KnowledgeBase
 		}
 
 		@Override
-		public void visitTerm(ATermAppl term)
+		public void visitTerm(final ATermAppl term)
 		{
 			if (getDatatypeReasoner().isDeclared(term))
 				isDatatype = true;
 		}
 
 		@Override
-		public void visitNot(ATermAppl term)
+		public void visitNot(final ATermAppl term)
 		{
 			this.visit((ATermAppl) term.getArgument(0));
 		}
 
 		@Override
-		public void visitAll(ATermAppl term)
+		public void visitAll(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitAnd(ATermAppl term)
+		public void visitAnd(final ATermAppl term)
 		{
 			visitList((ATermList) term.getArgument(0));
 		}
 
 		@Override
-		public void visitCard(ATermAppl term)
+		public void visitCard(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitHasValue(ATermAppl term)
+		public void visitHasValue(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitLiteral(ATermAppl term)
+		public void visitLiteral(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitMax(ATermAppl term)
+		public void visitMax(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitMin(ATermAppl term)
+		public void visitMin(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitOneOf(ATermAppl term)
+		public void visitOneOf(final ATermAppl term)
 		{
 			visitList((ATermList) term.getArgument(0));
 		}
 
 		@Override
-		public void visitSelf(ATermAppl term)
+		public void visitSelf(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitSome(ATermAppl term)
+		public void visitSome(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitInverse(ATermAppl term)
+		public void visitInverse(final ATermAppl term)
 		{
 			//
 		}
 
 		@Override
-		public void visitRestrictedDatatype(ATermAppl dt)
+		public void visitRestrictedDatatype(final ATermAppl dt)
 		{
 			isDatatype((ATermAppl) dt.getArgument(0));
 		}
@@ -327,14 +326,14 @@ public class KnowledgeBase
 
 		private boolean fullyDefined = true;
 
-		public boolean isFullyDefined(ATermAppl term)
+		public boolean isFullyDefined(final ATermAppl term)
 		{
 			fullyDefined = true;
 			visit(term);
 			return fullyDefined;
 		}
 
-		private void visitQCR(ATermAppl term)
+		private void visitQCR(final ATermAppl term)
 		{
 			visitRestr(term);
 			if (fullyDefined)
@@ -345,7 +344,7 @@ public class KnowledgeBase
 			}
 		}
 
-		private void visitQR(ATermAppl term)
+		private void visitQR(final ATermAppl term)
 		{
 			visitRestr(term);
 			if (fullyDefined)
@@ -356,13 +355,13 @@ public class KnowledgeBase
 			}
 		}
 
-		private void visitRestr(ATermAppl term)
+		private void visitRestr(final ATermAppl term)
 		{
 			fullyDefined = fullyDefined && isProperty(term.getArgument(0));
 		}
 
 		@Override
-		public void visit(ATermAppl term)
+		public void visit(final ATermAppl term)
 		{
 			if (term.equals(ATermUtils.TOP) || term.equals(ATermUtils.BOTTOM) || term.equals(ATermUtils.TOP_LIT) || term.equals(ATermUtils.BOTTOM_LIT))
 				return;
@@ -371,82 +370,82 @@ public class KnowledgeBase
 		}
 
 		@Override
-		public void visitAll(ATermAppl term)
+		public void visitAll(final ATermAppl term)
 		{
 			visitQR(term);
 		}
 
 		@Override
-		public void visitAnd(ATermAppl term)
+		public void visitAnd(final ATermAppl term)
 		{
 			if (fullyDefined)
 				visitList((ATermList) term.getArgument(0));
 		}
 
 		@Override
-		public void visitCard(ATermAppl term)
+		public void visitCard(final ATermAppl term)
 		{
 			visitQCR(term);
 		}
 
 		@Override
-		public void visitHasValue(ATermAppl term)
+		public void visitHasValue(final ATermAppl term)
 		{
 			visitQR(term);
 		}
 
 		@Override
-		public void visitLiteral(ATermAppl term)
+		public void visitLiteral(final ATermAppl term)
 		{
 			return;
 		}
 
 		@Override
-		public void visitMax(ATermAppl term)
+		public void visitMax(final ATermAppl term)
 		{
 			visitQCR(term);
 		}
 
 		@Override
-		public void visitMin(ATermAppl term)
+		public void visitMin(final ATermAppl term)
 		{
 			visitQCR(term);
 		}
 
 		@Override
-		public void visitNot(ATermAppl term)
+		public void visitNot(final ATermAppl term)
 		{
 			this.visit((ATermAppl) term.getArgument(0));
 		}
 
 		@Override
-		public void visitOneOf(ATermAppl term)
+		public void visitOneOf(final ATermAppl term)
 		{
 			if (fullyDefined)
 				visitList((ATermList) term.getArgument(0));
 		}
 
 		@Override
-		public void visitOr(ATermAppl term)
+		public void visitOr(final ATermAppl term)
 		{
 			if (fullyDefined)
 				visitList((ATermList) term.getArgument(0));
 		}
 
 		@Override
-		public void visitSelf(ATermAppl term)
+		public void visitSelf(final ATermAppl term)
 		{
 			visitRestr(term);
 		}
 
 		@Override
-		public void visitSome(ATermAppl term)
+		public void visitSome(final ATermAppl term)
 		{
 			visitQR(term);
 		}
 
 		@Override
-		public void visitTerm(ATermAppl term)
+		public void visitTerm(final ATermAppl term)
 		{
 			fullyDefined = fullyDefined && tbox.getClasses().contains(term);
 			if (!fullyDefined)
@@ -454,7 +453,7 @@ public class KnowledgeBase
 		}
 
 		@Override
-		public void visitValue(ATermAppl term)
+		public void visitValue(final ATermAppl term)
 		{
 			final ATermAppl nominal = (ATermAppl) term.getArgument(0);
 			if (ATermUtils.isLiteral(nominal))
@@ -465,7 +464,7 @@ public class KnowledgeBase
 		}
 
 		@Override
-		public void visitInverse(ATermAppl term)
+		public void visitInverse(final ATermAppl term)
 		{
 			final ATermAppl p = (ATermAppl) term.getArgument(0);
 			if (ATermUtils.isPrimitive(p))
@@ -478,7 +477,7 @@ public class KnowledgeBase
 		 * {@inheritDoc}
 		 */
 		@Override
-		public void visitRestrictedDatatype(ATermAppl dt)
+		public void visitRestrictedDatatype(final ATermAppl dt)
 		{
 			fullyDefined = fullyDefined && isDatatype((ATermAppl) dt.getArgument(0));
 		}
@@ -486,7 +485,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public KnowledgeBase()
 	{
@@ -510,12 +509,11 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Create a KB based on an existing one. New KB has a copy of the ABox but
-	 * TBox and RBox is shared between two.
-	 * 
+	 * Create a KB based on an existing one. New KB has a copy of the ABox but TBox and RBox is shared between two.
+	 *
 	 * @param kb
 	 */
-	protected KnowledgeBase(KnowledgeBase kb, boolean emptyABox)
+	protected KnowledgeBase(final KnowledgeBase kb, final boolean emptyABox)
 	{
 		tbox = kb.tbox;
 		rbox = kb.rbox;
@@ -546,44 +544,34 @@ public class KnowledgeBase
 			// even though we don't copy the individuals over to the new KB
 			// we should still create individuals for the
 			for (final ATermAppl nominal : kb.getExpressivity().getNominals())
-			{
 				addIndividual(nominal);
-			}
 		}
 		else
 		{
 			abox = kb.abox.copy(this);
 
 			if (PelletOptions.KEEP_ABOX_ASSERTIONS)
-			{
 				for (final AssertionType assertionType : AssertionType.values())
 				{
 					final Set<ATermAppl> assertions = kb.aboxAssertions.get(assertionType);
 					if (!assertions.isEmpty())
 						aboxAssertions.put(assertionType, new HashSet<>(assertions));
 				}
-			}
 
 			individuals = new HashSet<>(kb.individuals);
 			instances = new HashMap<>(kb.instances);
 
 			// copy deleted assertions
 			if (kb.getDeletedAssertions() != null)
-			{
 				deletedAssertions = new HashSet<>(kb.getDeletedAssertions());
-			}
 
 			if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && PelletOptions.USE_INCREMENTAL_DELETION)
-			{
 				// copy the dependency index
 				dependencyIndex = new DependencyIndex(this, kb.dependencyIndex);
-			}
 
 			// copy syntactic assertions
 			if (kb.syntacticAssertions != null)
-			{
 				syntacticAssertions = new HashSet<>(kb.syntacticAssertions);
-			}
 		}
 
 		if (kb.isConsistencyDone())
@@ -598,9 +586,7 @@ public class KnowledgeBase
 			estimate = new SizeEstimate(this);
 		}
 		else
-		{
 			state = EnumSet.noneOf(ReasoningState.class);
-		}
 
 		timers = kb.timers;
 		// timers.createTimer("preprocessing");
@@ -628,9 +614,7 @@ public class KnowledgeBase
 	{
 
 		if (abox == null)
-		{
 			abox = new ABox(this);
-		}
 		else
 		{
 			final boolean doExplanation = abox.doExplanation();
@@ -686,15 +670,12 @@ public class KnowledgeBase
 		// even though we don't copy the individuals over to the new KB
 		// we should still create individuals for the
 		for (final ATermAppl nominal : getExpressivity().getNominals())
-		{
 			addIndividual(nominal);
-		}
 	}
 
 	/**
-	 * Create a copy of this KB with a completely new ABox copy but pointing to
-	 * the same RBox and TBox.
-	 * 
+	 * Create a copy of this KB with a completely new ABox copy but pointing to the same RBox and TBox.
+	 *
 	 * @return A copy of this KB
 	 */
 	public KnowledgeBase copy()
@@ -703,28 +684,25 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Create a copy of this KB. Depending on the value of <code>emptyABox</code> either a completely new copy of ABox will be
-	 * created or the new KB will have an empty ABox. If <code>emptyABox</code> parameter is true but the original KB contains nominals in its RBox or
-	 * TBox the new KB will have the definition of those individuals (but not )
-	 * In either case, the new KB will point to the same RBox and TBox so
-	 * changing one KB's RBox or TBox will affect other.
-	 * 
-	 * @param emptyABox
-	 *            If <code>true</code> ABox is not copied to the new KB
+	 * Create a copy of this KB. Depending on the value of <code>emptyABox</code> either a completely new copy of ABox will be created or the new KB will have
+	 * an empty ABox. If <code>emptyABox</code> parameter is true but the original KB contains nominals in its RBox or TBox the new KB will have the definition
+	 * of those individuals (but not ) In either case, the new KB will point to the same RBox and TBox so changing one KB's RBox or TBox will affect other.
+	 *
+	 * @param emptyABox If <code>true</code> ABox is not copied to the new KB
 	 * @return A copy of this KB
 	 */
-	public KnowledgeBase copy(boolean emptyABox)
+	public KnowledgeBase copy(final boolean emptyABox)
 	{
 		return new KnowledgeBase(this, emptyABox);
 	}
 
-	public void loadKRSS(Reader reader) throws IOException
+	public void loadKRSS(final Reader reader) throws IOException
 	{
 		final KRSSLoader loader = new KRSSLoader(this);
 		loader.parse(reader);
 	}
 
-	public void addClass(ATermAppl c)
+	public void addClass(final ATermAppl c)
 	{
 		if (c.equals(ATermUtils.TOP) || ATermUtils.isComplexClass(c))
 			return;
@@ -740,7 +718,7 @@ public class KnowledgeBase
 		}
 	}
 
-	public void addSubClass(ATermAppl sub, ATermAppl sup)
+	public void addSubClass(final ATermAppl sub, final ATermAppl sup)
 	{
 		if (sub.equals(sup))
 			return;
@@ -753,7 +731,7 @@ public class KnowledgeBase
 			log.finer("sub-class " + sub + " " + sup);
 	}
 
-	public void addEquivalentClass(ATermAppl c1, ATermAppl c2)
+	public void addEquivalentClass(final ATermAppl c1, final ATermAppl c2)
 	{
 		if (c1.equals(c2))
 			return;
@@ -766,7 +744,7 @@ public class KnowledgeBase
 			log.finer("eq-class " + c1 + " " + c2);
 	}
 
-	public void addKey(ATermAppl c, Set<ATermAppl> properties)
+	public void addKey(final ATermAppl c, final Set<ATermAppl> properties)
 	{
 		int varId = 0;
 		final Collection<RuleAtom> head = CollectionUtils.makeSet();
@@ -805,7 +783,7 @@ public class KnowledgeBase
 		addRule(new Rule(head, body));
 	}
 
-	public void addDisjointClasses(ATermList classes)
+	public void addDisjointClasses(final ATermList classes)
 	{
 		changes.add(ChangeType.TBOX_ADD);
 
@@ -815,12 +793,12 @@ public class KnowledgeBase
 			log.finer("disjoints " + classes);
 	}
 
-	public void addDisjointClasses(List<ATermAppl> classes)
+	public void addDisjointClasses(final List<ATermAppl> classes)
 	{
 		addDisjointClasses(ATermUtils.toSet(classes));
 	}
 
-	public void addDisjointClass(ATermAppl c1, ATermAppl c2)
+	public void addDisjointClass(final ATermAppl c1, final ATermAppl c2)
 	{
 		changes.add(ChangeType.TBOX_ADD);
 
@@ -830,7 +808,7 @@ public class KnowledgeBase
 			log.finer("disjoint " + c1 + " " + c2);
 	}
 
-	public void addComplementClass(ATermAppl c1, ATermAppl c2)
+	public void addComplementClass(final ATermAppl c1, final ATermAppl c2)
 	{
 		changes.add(ChangeType.TBOX_ADD);
 		final ATermAppl notC2 = ATermUtils.makeNot(c2);
@@ -846,23 +824,19 @@ public class KnowledgeBase
 
 	/**
 	 * Add the value of a DatatypeProperty.
-	 * 
-	 * @param p
-	 *            Datatype Property
-	 * @param ind
-	 *            Individual value being added to
-	 * @param literalValue
-	 *            A literal ATerm which should be constructed with one of
-	 *            ATermUtils.makeXXXLiteral functions
+	 *
+	 * @param p Datatype Property
+	 * @param ind Individual value being added to
+	 * @param literalValue A literal ATerm which should be constructed with one of ATermUtils.makeXXXLiteral functions
 	 * @deprecated Use addPropertyValue instead
 	 */
 	@Deprecated
-	public void addDataPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o)
+	public void addDataPropertyValue(final ATermAppl p, final ATermAppl s, final ATermAppl o)
 	{
 		addPropertyValue(p, s, o);
 	}
 
-	public Individual addIndividual(ATermAppl i)
+	public Individual addIndividual(final ATermAppl i)
 	{
 		final Node node = abox.getNode(i);
 		if (node != null)
@@ -873,7 +847,8 @@ public class KnowledgeBase
 			return (Individual) node;
 		}
 		else
-			if (ATermUtils.isLiteral(i)) { throw new UnsupportedFeatureException("Trying to use a literal as an individual: " + ATermUtils.toString(i)); }
+			if (ATermUtils.isLiteral(i))
+				throw new UnsupportedFeatureException("Trying to use a literal as an individual: " + ATermUtils.toString(i));
 
 		final int remember = abox.getBranch();
 		abox.setBranch(DependencySet.NO_BRANCH);
@@ -926,9 +901,10 @@ public class KnowledgeBase
 		return ind;
 	}
 
-	public void addType(ATermAppl i, ATermAppl c)
+	public void addType(final ATermAppl i, final ATermAppl c)
 	{
-		if (AnnotationClasses.contains(c)) { return; }
+		if (AnnotationClasses.contains(c))
+			return;
 
 		final ATermAppl typeAxiom = ATermUtils.makeTypeAtom(i, c);
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(typeAxiom) : DependencySet.INDEPENDENT;
@@ -947,7 +923,7 @@ public class KnowledgeBase
 		addType(i, c, ds);
 	}
 
-	public void addType(ATermAppl i, ATermAppl c, DependencySet ds)
+	public void addType(final ATermAppl i, final ATermAppl c, final DependencySet ds)
 	{
 		// set addition flag
 		changes.add(ChangeType.ABOX_ADD);
@@ -955,30 +931,26 @@ public class KnowledgeBase
 		// if use incremental reasoning then update the cached pseudo model as
 		// well
 		if (canUseIncConsistency())
-		{
 			// TODO: refactor the access to the updatedIndividuals and
 			// newIndividuals - add get method
 			// add this individuals to the affected list - used for inc.
 			// consistency checking
 			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i));
-		}
 
 		abox.setSyntacticUpdate(true);
 		abox.addType(i, c, ds);
 		abox.setSyntacticUpdate(false);
 
 		if (canUseIncConsistency())
-		{
 			// incrementally update the expressivity of the KB, so that we do
 			// not have to reperform if from scratch!
 			updateExpressivity(i, c);
-		}
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("type " + i + " " + c);
 	}
 
-	public void addSame(ATermAppl i1, ATermAppl i2)
+	public void addSame(final ATermAppl i1, final ATermAppl i2)
 	{
 		// set addition flag
 		changes.add(ChangeType.ABOX_ADD);
@@ -1001,7 +973,7 @@ public class KnowledgeBase
 			log.finer("same " + i1 + " " + i2);
 	}
 
-	public void addAllDifferent(ATermList list)
+	public void addAllDifferent(final ATermList list)
 	{
 		// set addition flag
 		changes.add(ChangeType.ABOX_ADD);
@@ -1041,7 +1013,7 @@ public class KnowledgeBase
 			log.finer("all diff " + list);
 	}
 
-	public void addDifferent(ATermAppl i1, ATermAppl i2)
+	public void addDifferent(final ATermAppl i1, final ATermAppl i2)
 	{
 		// set addition flag
 		changes.add(ChangeType.ABOX_ADD);
@@ -1073,12 +1045,12 @@ public class KnowledgeBase
 	 * @deprecated Use addPropertyValue instead
 	 */
 	@Deprecated
-	public void addObjectPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o)
+	public void addObjectPropertyValue(final ATermAppl p, final ATermAppl s, final ATermAppl o)
 	{
 		addPropertyValue(p, s, o);
 	}
 
-	public boolean addPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o)
+	public boolean addPropertyValue(final ATermAppl p, final ATermAppl s, final ATermAppl o)
 	{
 		final Individual subj = abox.getIndividual(s);
 		final Role role = getRole(p);
@@ -1107,7 +1079,6 @@ public class KnowledgeBase
 		{
 			obj = abox.getIndividual(o);
 			if (obj == null)
-			{
 				if (ATermUtils.isLiteral(o))
 				{
 					log.warning("Ignoring literal value " + o + " for object property " + p);
@@ -1118,7 +1089,6 @@ public class KnowledgeBase
 					log.warning(o + " is not a known individual!");
 					return false;
 				}
-			}
 			if (PelletOptions.KEEP_ABOX_ASSERTIONS)
 				aboxAssertions.add(AssertionType.OBJ_ROLE, propAxiom);
 		}
@@ -1206,7 +1176,7 @@ public class KnowledgeBase
 		return true;
 	}
 
-	public boolean addNegatedPropertyValue(ATermAppl p, ATermAppl s, ATermAppl o)
+	public boolean addNegatedPropertyValue(final ATermAppl p, final ATermAppl s, final ATermAppl o)
 	{
 		changes.add(ChangeType.ABOX_ADD);
 
@@ -1232,7 +1202,6 @@ public class KnowledgeBase
 		if (role.isObjectRole())
 		{
 			if (abox.getIndividual(o) == null)
-			{
 				if (ATermUtils.isLiteral(o))
 				{
 					log.warning("Ignoring literal value " + o + " for object property " + p);
@@ -1243,13 +1212,10 @@ public class KnowledgeBase
 					log.warning(o + " is not a known individual!");
 					return false;
 				}
-			}
 		}
 		else
 			if (role.isDatatypeRole())
-			{
 				abox.addLiteral(o, ds);
-			}
 
 		final ATermAppl C = ATermUtils.makeNot(ATermUtils.makeHasValue(p, o));
 
@@ -1261,7 +1227,7 @@ public class KnowledgeBase
 		return true;
 	}
 
-	public void addProperty(ATermAppl p)
+	public void addProperty(final ATermAppl p)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 		rbox.addRole(p);
@@ -1270,15 +1236,12 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Add a new object property. If property was earlier defined to be a
-	 * datatype property then this function will simply return without changing
-	 * the KB.
-	 * 
-	 * @param p
-	 *            Name of the property
+	 * Add a new object property. If property was earlier defined to be a datatype property then this function will simply return without changing the KB.
+	 *
+	 * @param p Name of the property
 	 * @return True if property is added, false if not
 	 */
-	public boolean addObjectProperty(ATerm p)
+	public boolean addObjectProperty(final ATerm p)
 	{
 		final boolean exists = getPropertyType(p) == PropertyType.OBJECT;
 
@@ -1295,14 +1258,12 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Add a new object property. If property was earlier defined to be a
-	 * datatype property then this function will simply return without changing
-	 * the KB.
-	 * 
+	 * Add a new object property. If property was earlier defined to be a datatype property then this function will simply return without changing the KB.
+	 *
 	 * @param p
 	 * @return True if property is added, false if not
 	 */
-	public boolean addDatatypeProperty(ATerm p)
+	public boolean addDatatypeProperty(final ATerm p)
 	{
 		final boolean exists = getPropertyType(p) == PropertyType.DATATYPE;
 
@@ -1319,12 +1280,12 @@ public class KnowledgeBase
 	}
 
 	@Deprecated
-	public void addOntologyProperty(ATermAppl p)
+	public void addOntologyProperty(final ATermAppl p)
 	{
 		addAnnotationProperty(p);
 	}
 
-	public boolean addAnnotationProperty(ATerm p)
+	public boolean addAnnotationProperty(final ATerm p)
 	{
 		final boolean exists = getPropertyType(p) == PropertyType.ANNOTATION;
 
@@ -1340,7 +1301,7 @@ public class KnowledgeBase
 		return role != null;
 	}
 
-	public boolean addAnnotation(ATermAppl s, ATermAppl p, ATermAppl o)
+	public boolean addAnnotation(final ATermAppl s, final ATermAppl p, final ATermAppl o)
 	{
 		if (!PelletOptions.USE_ANNOTATION_SUPPORT)
 			return false;
@@ -1368,7 +1329,7 @@ public class KnowledgeBase
 		return true;
 	}
 
-	public Set<ATermAppl> getAnnotations(ATermAppl s, ATermAppl p)
+	public Set<ATermAppl> getAnnotations(final ATermAppl s, final ATermAppl p)
 	{
 		final Map<ATermAppl, Set<ATermAppl>> pidx = annotations.get(s);
 
@@ -1378,26 +1339,20 @@ public class KnowledgeBase
 		final Set<ATermAppl> values = new HashSet<>();
 
 		for (final ATermAppl subproperty : getSubAnnotationProperties(p))
-		{
 			if (pidx.get(subproperty) != null)
-			{
 				for (final ATermAppl value : pidx.get(subproperty))
-				{
 					values.add(value);
-				}
-			}
-		}
 
 		return values;
 	}
 
 	/**
 	 * Temporary method until we incorporate annotation properties to the taxonomy ([t:412])
-	 * 
+	 *
 	 * @param p
 	 * @return
 	 */
-	private Set<ATermAppl> getSubAnnotationProperties(ATermAppl p)
+	private Set<ATermAppl> getSubAnnotationProperties(final ATermAppl p)
 	{
 
 		final Set<ATermAppl> values = new HashSet<>();
@@ -1410,18 +1365,14 @@ public class KnowledgeBase
 			values.add(value);
 
 			for (final ATermAppl property : this.getAnnotationProperties())
-			{
 				if (value != property && this.isSubPropertyOf(property, value))
-				{
 					temp.add(property);
-				}
-			}
 		}
 
 		return values;
 	}
 
-	public Set<ATermAppl> getIndividualsWithAnnotation(ATermAppl p, ATermAppl o)
+	public Set<ATermAppl> getIndividualsWithAnnotation(final ATermAppl p, final ATermAppl o)
 	{
 		final Set<ATermAppl> ret = new HashSet<>();
 
@@ -1443,7 +1394,7 @@ public class KnowledgeBase
 		return ret;
 	}
 
-	public boolean isAnnotation(ATermAppl s, ATermAppl p, ATermAppl o)
+	public boolean isAnnotation(final ATermAppl s, final ATermAppl p, final ATermAppl o)
 	{
 		final Set<ATermAppl> oidx = getAnnotations(s, p);
 
@@ -1453,7 +1404,7 @@ public class KnowledgeBase
 		return oidx.contains(o);
 	}
 
-	public void addSubProperty(ATerm sub, ATermAppl sup)
+	public void addSubProperty(final ATerm sub, final ATermAppl sup)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 		rbox.addSubRole(sub, sup);
@@ -1462,7 +1413,7 @@ public class KnowledgeBase
 			log.finer("sub-prop " + sub + " " + sup);
 	}
 
-	public void addEquivalentProperty(ATermAppl p1, ATermAppl p2)
+	public void addEquivalentProperty(final ATermAppl p1, final ATermAppl p2)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 		rbox.addEquivalentRole(p1, p2);
@@ -1471,7 +1422,7 @@ public class KnowledgeBase
 			log.finer("same-prop " + p1 + " " + p2);
 	}
 
-	public void addDisjointProperties(ATermList properties)
+	public void addDisjointProperties(final ATermList properties)
 	{
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeDisjointProperties(properties)) : DependencySet.INDEPENDENT;
 
@@ -1488,19 +1439,19 @@ public class KnowledgeBase
 			log.finer("disjoints " + properties);
 	}
 
-	public void addDisjointProperties(List<ATermAppl> properties)
+	public void addDisjointProperties(final List<ATermAppl> properties)
 	{
 		addDisjointProperties(ATermUtils.toSet(properties));
 	}
 
-	public void addDisjointProperty(ATermAppl p1, ATermAppl p2)
+	public void addDisjointProperty(final ATermAppl p1, final ATermAppl p2)
 	{
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeDisjointProperty(p1, p2)) : DependencySet.INDEPENDENT;
 
 		addDisjointProperty(p1, p2, ds);
 	}
 
-	public void addDisjointProperty(ATermAppl p1, ATermAppl p2, DependencySet ds)
+	public void addDisjointProperty(final ATermAppl p1, final ATermAppl p2, final DependencySet ds)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 		rbox.addDisjointRole(p1, p2, ds);
@@ -1509,7 +1460,7 @@ public class KnowledgeBase
 			log.finer("dis-prop " + p1 + " " + p2);
 	}
 
-	public void addInverseProperty(ATermAppl p1, ATermAppl p2)
+	public void addInverseProperty(final ATermAppl p1, final ATermAppl p2)
 	{
 		if (PelletOptions.IGNORE_INVERSES)
 		{
@@ -1526,7 +1477,7 @@ public class KnowledgeBase
 			log.finer("inv-prop " + p1 + " " + p2);
 	}
 
-	public void addTransitiveProperty(ATermAppl p)
+	public void addTransitiveProperty(final ATermAppl p)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 
@@ -1540,7 +1491,7 @@ public class KnowledgeBase
 			log.finer("trans-prop " + p);
 	}
 
-	public void addSymmetricProperty(ATermAppl p)
+	public void addSymmetricProperty(final ATermAppl p)
 	{
 		if (PelletOptions.IGNORE_INVERSES)
 		{
@@ -1561,12 +1512,12 @@ public class KnowledgeBase
 	 * @deprecated Use {@link #addAsymmetricProperty(ATermAppl)}
 	 */
 	@Deprecated
-	public void addAntisymmetricProperty(ATermAppl p)
+	public void addAntisymmetricProperty(final ATermAppl p)
 	{
 		addAsymmetricProperty(p);
 	}
 
-	public void addAsymmetricProperty(ATermAppl p)
+	public void addAsymmetricProperty(final ATermAppl p)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 		final Role r = rbox.getDefinedRole(p);
@@ -1578,7 +1529,7 @@ public class KnowledgeBase
 			log.finer("anti-sym-prop " + p);
 	}
 
-	public void addReflexiveProperty(ATermAppl p)
+	public void addReflexiveProperty(final ATermAppl p)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 		final Role r = rbox.getDefinedRole(p);
@@ -1590,7 +1541,7 @@ public class KnowledgeBase
 			log.finer("reflexive-prop " + p);
 	}
 
-	public void addIrreflexiveProperty(ATermAppl p)
+	public void addIrreflexiveProperty(final ATermAppl p)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 		final Role r = rbox.getDefinedRole(p);
@@ -1602,7 +1553,7 @@ public class KnowledgeBase
 			log.finer("irreflexive-prop " + p);
 	}
 
-	public void addFunctionalProperty(ATermAppl p)
+	public void addFunctionalProperty(final ATermAppl p)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 		final Role r = rbox.getDefinedRole(p);
@@ -1614,7 +1565,7 @@ public class KnowledgeBase
 			log.finer("func-prop " + p);
 	}
 
-	public void addInverseFunctionalProperty(ATerm p)
+	public void addInverseFunctionalProperty(final ATerm p)
 	{
 		if (PelletOptions.IGNORE_INVERSES)
 		{
@@ -1632,7 +1583,7 @@ public class KnowledgeBase
 			log.finer("inv-func-prop " + p);
 	}
 
-	public void addDomain(ATerm p, ATermAppl c)
+	public void addDomain(final ATerm p, final ATermAppl c)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 
@@ -1645,7 +1596,7 @@ public class KnowledgeBase
 	/**
 	 * For internal use when domain axioms come from TBox absorption
 	 */
-	public void addDomain(ATerm p, ATermAppl c, Set<ATermAppl> explain)
+	public void addDomain(final ATerm p, final ATermAppl c, final Set<ATermAppl> explain)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 
@@ -1655,7 +1606,7 @@ public class KnowledgeBase
 			log.finer("domain " + p + " " + c + " " + explain);
 	}
 
-	public void addRange(ATerm p, ATermAppl c)
+	public void addRange(final ATerm p, final ATermAppl c)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 
@@ -1668,7 +1619,7 @@ public class KnowledgeBase
 	/**
 	 * For internal use when range axioms come from TBox absorption
 	 */
-	public void addRange(ATerm p, ATermAppl c, Set<ATermAppl> explain)
+	public void addRange(final ATerm p, final ATermAppl c, final Set<ATermAppl> explain)
 	{
 		changes.add(ChangeType.RBOX_ADD);
 
@@ -1678,35 +1629,32 @@ public class KnowledgeBase
 			log.finer("range " + p + " " + c + " " + explain);
 	}
 
-	public void addDatatype(ATermAppl p)
+	public void addDatatype(final ATermAppl p)
 	{
 		getDatatypeReasoner().declare(p);
 	}
 
 	/**
 	 * Adds a new datatype defined to be equivalent to the given data range expression.
-	 * 
+	 *
 	 * @param name name of the datatype
 	 * @param datarange a data range expression
 	 * @return
 	 */
-	public boolean addDatatypeDefinition(ATermAppl name, ATermAppl datarange)
+	public boolean addDatatypeDefinition(final ATermAppl name, final ATermAppl datarange)
 	{
 		return getDatatypeReasoner().define(name, datarange);
 	}
 
 	/**
-	 * Removes (if possible) the given property domain axiom from the KB and
-	 * return <code>true</code> if removal was successful. See also {@link #addDomain(ATerm, ATermAppl)}.
-	 * 
-	 * @param p
-	 *            Property in domain axiom
-	 * @param c
-	 *            Class in domain axiom
-	 * @return <code>true</code> if axiom is removed, <code>false</code> if
-	 *         removal failed
+	 * Removes (if possible) the given property domain axiom from the KB and return <code>true</code> if removal was successful. See also
+	 * {@link #addDomain(ATerm, ATermAppl)}.
+	 *
+	 * @param p Property in domain axiom
+	 * @param c Class in domain axiom
+	 * @return <code>true</code> if axiom is removed, <code>false</code> if removal failed
 	 */
-	public boolean removeDomain(ATerm p, ATermAppl c)
+	public boolean removeDomain(final ATerm p, final ATermAppl c)
 	{
 
 		final Role role = getRole(p);
@@ -1732,10 +1680,9 @@ public class KnowledgeBase
 		return removed;
 	}
 
-	public boolean removePropertyValue(ATermAppl p, ATermAppl i1, ATermAppl i2)
+	public boolean removePropertyValue(final ATermAppl p, final ATermAppl i1, ATermAppl i2)
 	{
 		if (ATermUtils.isLiteral(i2))
-		{
 			try
 			{
 				i2 = abox.getDatatypeReasoner().getCanonicalRepresentation(i2);
@@ -1750,19 +1697,16 @@ public class KnowledgeBase
 				log.warning(format("Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s", p, i1, i2, e.getMessage()));
 				return false;
 			}
-		}
 
 		final Individual subj = abox.getIndividual(i1);
 		final Node obj = abox.getNode(i2);
 		final Role role = getRole(p);
 
 		if (subj == null)
-		{
 			if (PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
 				throw new UnsupportedFeatureException(i1 + " is not an individual!");
 			else
 				return false;
-		}
 
 		if (obj == null)
 		{
@@ -1783,9 +1727,7 @@ public class KnowledgeBase
 		Edge edge = subj.getOutEdges().getExactEdge(subj, role, obj);
 
 		if (edge == null && obj.isMerged())
-		{
 			edge = obj.getInEdges().getExactEdge(subj, role, obj);
-		}
 
 		if (edge == null)
 			return false;
@@ -1833,17 +1775,14 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Removes (if possible) the given property range axiom from the KB and
-	 * return <code>true</code> if removal was successful. See also {@link #addRange(ATerm, ATermAppl)}.
-	 * 
-	 * @param p
-	 *            Property in range axiom
-	 * @param c
-	 *            Class or datatype in range axiom
-	 * @return <code>true</code> if axiom is removed, <code>false</code> if
-	 *         removal failed
+	 * Removes (if possible) the given property range axiom from the KB and return <code>true</code> if removal was successful. See also
+	 * {@link #addRange(ATerm, ATermAppl)}.
+	 *
+	 * @param p Property in range axiom
+	 * @param c Class or datatype in range axiom
+	 * @return <code>true</code> if axiom is removed, <code>false</code> if removal failed
 	 */
-	public boolean removeRange(ATerm p, ATermAppl c)
+	public boolean removeRange(final ATerm p, final ATermAppl c)
 	{
 
 		final Role role = getRole(p);
@@ -1869,17 +1808,15 @@ public class KnowledgeBase
 		return removed;
 	}
 
-	public boolean removeType(ATermAppl ind, ATermAppl c)
+	public boolean removeType(final ATermAppl ind, final ATermAppl c)
 	{
 		final Individual subj = abox.getIndividual(ind);
 
 		if (subj == null)
-		{
 			if (PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
 				return false;
 			else
 				throw new UnsupportedFeatureException(ind + " is not an individual!");
-		}
 
 		final ATermAppl normC = ATermUtils.normalize(c);
 		final DependencySet ds = subj.getDepends(normC);
@@ -1931,13 +1868,11 @@ public class KnowledgeBase
 
 	/**
 	 * Removes (if possible) the given TBox axiom from the KB and return <code>true</code> if removal was successful.
-	 * 
-	 * @param axiom
-	 *            TBox axiom to remove
-	 * @return <code>true</code> if axiom is removed, <code>false</code> if
-	 *         removal failed
+	 *
+	 * @param axiom TBox axiom to remove
+	 * @return <code>true</code> if axiom is removed, <code>false</code> if removal failed
 	 */
-	public boolean removeAxiom(ATermAppl axiom)
+	public boolean removeAxiom(final ATermAppl axiom)
 	{
 		boolean removed = false;
 
@@ -1977,9 +1912,9 @@ public class KnowledgeBase
 
 		// classification may notbve repeated if ...
 		final boolean reuseTaxonomy =
-				// classification has been previously done
-				state.contains(ReasoningState.CLASSIFY)
-				// TBox did not change since classification
+		// classification has been previously done
+		state.contains(ReasoningState.CLASSIFY)
+		// TBox did not change since classification
 				&& !isTBoxChanged()
 				// RBox did not change since classification
 				&& !isRBoxChanged()
@@ -2005,29 +1940,19 @@ public class KnowledgeBase
 		}
 
 		if (isRBoxChanged())
-		{
 			rbox.propagateDomainRange();
-		}
 
 		canUseIncConsistency = canUseIncConsistency();
 
 		if (abox.isComplete())
-		{
 			if (changes.contains(ChangeType.TBOX_DEL) || changes.contains(ChangeType.RBOX_DEL) || (!canUseIncConsistency && changes.contains(ChangeType.ABOX_DEL)))
-			{
 				abox.reset();
-			}
 			else
 				if (changes.contains(ChangeType.TBOX_ADD) || changes.contains(ChangeType.RBOX_ADD))
-				{
 					abox.resetQueue();
-				}
 				else
 					if (canUseIncConsistency && changes.contains(ChangeType.ABOX_DEL))
-					{
 						IncrementalRestore.restoreDependencies(this);
-					}
-		}
 
 		// reset flags
 		changes.clear();
@@ -2070,10 +1995,9 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * This method is used for incremental reasoning. We do not want to
-	 * recompute the expressivity from scratch.
+	 * This method is used for incremental reasoning. We do not want to recompute the expressivity from scratch.
 	 */
-	public void updateExpressivity(ATermAppl i, ATermAppl c)
+	public void updateExpressivity(final ATermAppl i, final ATermAppl c)
 	{
 
 		// if the tbox or rbox changed then we cannot use incremental reasoning!
@@ -2105,8 +2029,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns true if the consistency check has been done and nothing in th KB
-	 * has changed after that.
+	 * Returns true if the consistency check has been done and nothing in th KB has changed after that.
 	 */
 	public boolean isConsistencyDone()
 	{
@@ -2114,8 +2037,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns true if the classification check has been done and nothing in the
-	 * KB has changed after that.
+	 * Returns true if the classification check has been done and nothing in the KB has changed after that.
 	 */
 	public boolean isClassified()
 	{
@@ -2132,7 +2054,7 @@ public class KnowledgeBase
 		return !changes.isEmpty();
 	}
 
-	public boolean isChanged(ChangeType change)
+	public boolean isChanged(final ChangeType change)
 	{
 		return changes.contains(change);
 	}
@@ -2153,9 +2075,9 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all unsatisfiable classes in the KB excluding the BOTTOM concept. The result may be empty if there is no
-	 * user-defined concept in the KB that is unsatisfiable.
-	 * 
+	 * Returns all unsatisfiable classes in the KB excluding the BOTTOM concept. The result may be empty if there is no user-defined concept in the KB that is
+	 * unsatisfiable.
+	 *
 	 * @return all unsatisfiable classes in the KB excluding the BOTTOM concept
 	 */
 	public Set<ATermAppl> getUnsatisfiableClasses()
@@ -2164,9 +2086,9 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all unsatisfiable classes in the KB including the BOTTOM concept. Since BOTTOM concept is built-in the
-	 * result will always have at least one element.
-	 * 
+	 * Returns all unsatisfiable classes in the KB including the BOTTOM concept. Since BOTTOM concept is built-in the result will always have at least one
+	 * element.
+	 *
 	 * @return all unsatisfiable classes in the KB including the BOTTOM concept
 	 */
 	public Set<ATermAppl> getAllUnsatisfiableClasses()
@@ -2174,15 +2096,13 @@ public class KnowledgeBase
 		return getUnsatisfiableClasses(true);
 	}
 
-	private Set<ATermAppl> getUnsatisfiableClasses(boolean includeBottom)
+	private Set<ATermAppl> getUnsatisfiableClasses(final boolean includeBottom)
 	{
 		Set<ATermAppl> aUnsatClasses = new HashSet<>();
 
 		if (isClassified())
-		{
 			// if the kb is already classified we can get them this way
 			aUnsatClasses = includeBottom ? getAllEquivalentClasses(ATermUtils.BOTTOM) : getEquivalentClasses(ATermUtils.BOTTOM);
-		}
 		else
 		{
 			if (includeBottom)
@@ -2191,12 +2111,8 @@ public class KnowledgeBase
 			// if not, check for them like this, without triggering classification
 			final Set<ATermAppl> aClasses = getClasses();
 			for (final ATermAppl aClass : aClasses)
-			{
 				if (!isSatisfiable(aClass))
-				{
 					aUnsatClasses.add(aClass);
-				}
-			}
 		}
 
 		return aUnsatClasses;
@@ -2213,14 +2129,12 @@ public class KnowledgeBase
 		prepare();
 
 		for (final Entry<Rule, Rule> normalizedRule : rules.entrySet())
-		{
 			if (normalizedRule.getValue() == null)
 			{
 				final Rule rule = normalizedRule.getKey();
 				final String msg = UsableRuleFilter.explainNotUsable(rule);
 				log.warning("Ignoring rule " + rule + ": " + msg);
 			}
-		}
 
 		final Timer timer = timers.startTimer("consistency");
 
@@ -2267,14 +2181,10 @@ public class KnowledgeBase
 			}
 
 			if (log.isLoggable(Level.FINE))
-			{
 				log.fine("Inconsistent ontology. Reason: " + getExplanation());
-			}
 
 			if (PelletOptions.USE_TRACING && log.isLoggable(Level.FINE))
-			{
 				log.fine(renderExplanationSet());
-			}
 		}
 
 		abox.setDoExplanation(doExplanation);
@@ -2284,9 +2194,7 @@ public class KnowledgeBase
 		timer.stop();
 
 		if (log.isLoggable(Level.FINE))
-		{
 			log.fine("Consistent: " + consistent + " (" + timer.getLast() + "ms)");
-		}
 
 		assert isConsistencyDone() : "Consistency flag not set";
 	}
@@ -2384,7 +2292,7 @@ public class KnowledgeBase
 
 	/**
 	 * Return the set of all named classes. Returned set is unmodifiable!
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getClasses()
@@ -2393,9 +2301,8 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return the set of all named classes including TOP and BOTTOM. Returned
-	 * set is modifiable.
-	 * 
+	 * Return the set of all named classes including TOP and BOTTOM. Returned set is modifiable.
+	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getAllClasses()
@@ -2405,7 +2312,7 @@ public class KnowledgeBase
 
 	/**
 	 * Return the set of all properties.
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getProperties()
@@ -2422,7 +2329,7 @@ public class KnowledgeBase
 
 	/**
 	 * Return the set of all object properties.
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getObjectProperties()
@@ -2548,7 +2455,7 @@ public class KnowledgeBase
 
 	/**
 	 * Return the set of all object properties.
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getDataProperties()
@@ -2565,7 +2472,7 @@ public class KnowledgeBase
 
 	/**
 	 * Return the set of all individuals. Returned set is unmodifiable!
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getIndividuals()
@@ -2575,7 +2482,7 @@ public class KnowledgeBase
 
 	/**
 	 * Returns the set of key values of the annotations map
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getAnnotationSubjects()
@@ -2583,69 +2490,67 @@ public class KnowledgeBase
 		return annotations.keySet();
 	}
 
-	public Role getProperty(ATerm r)
+	public Role getProperty(final ATerm r)
 	{
 		return rbox.getRole(r);
 	}
 
-	public PropertyType getPropertyType(ATerm r)
+	public PropertyType getPropertyType(final ATerm r)
 	{
 		final Role role = getProperty(r);
 		return (role == null) ? PropertyType.UNTYPED : role.getType();
 	}
 
-	public boolean isClass(ATerm c)
+	public boolean isClass(final ATerm c)
 	{
 
 		if (tbox.getClasses().contains(c) || c.equals(ATermUtils.TOP))
 			return true;
 		else
 			if (ATermUtils.isComplexClass(c))
-			{
 				return fullyDefinedVisitor.isFullyDefined((ATermAppl) c);
-			}
 			else
 				return false;
 	}
 
-	public boolean isProperty(ATerm p)
+	public boolean isProperty(final ATerm p)
 	{
 		return rbox.isRole(p);
 	}
 
-	public boolean isDatatypeProperty(ATerm p)
+	public boolean isDatatypeProperty(final ATerm p)
 	{
 		return getPropertyType(p) == PropertyType.DATATYPE;
 	}
 
-	public boolean isObjectProperty(ATerm p)
+	public boolean isObjectProperty(final ATerm p)
 	{
 		return getPropertyType(p) == PropertyType.OBJECT;
 	}
 
-	public boolean isABoxProperty(ATerm p)
+	public boolean isABoxProperty(final ATerm p)
 	{
 		final PropertyType type = getPropertyType(p);
 		return (type == PropertyType.OBJECT) || (type == PropertyType.DATATYPE);
 	}
 
-	public boolean isAnnotationProperty(ATerm p)
+	public boolean isAnnotationProperty(final ATerm p)
 	{
 		return getPropertyType(p) == PropertyType.ANNOTATION;
 	}
 
 	@Deprecated
-	public boolean isOntologyProperty(ATerm p)
+	public boolean isOntologyProperty(final ATerm p)
 	{
 		return false;
 	}
 
-	public boolean isIndividual(ATerm ind)
+	public boolean isIndividual(final ATerm ind)
 	{
 		return getIndividuals().contains(ind);
 	}
 
-	public boolean isTransitiveProperty(ATermAppl r)
+	public boolean isTransitiveProperty(final ATermAppl r)
 	{
 		final Role role = getRole(r);
 
@@ -2674,12 +2579,12 @@ public class KnowledgeBase
 		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isSymmetricProperty(ATermAppl p)
+	public boolean isSymmetricProperty(final ATermAppl p)
 	{
 		return isInverse(p, p);
 	}
 
-	public boolean isFunctionalProperty(ATermAppl p)
+	public boolean isFunctionalProperty(final ATermAppl p)
 	{
 		final Role role = getRole(p);
 
@@ -2713,7 +2618,7 @@ public class KnowledgeBase
 		return !isSatisfiable(min2P);
 	}
 
-	public boolean isInverseFunctionalProperty(ATermAppl p)
+	public boolean isInverseFunctionalProperty(final ATermAppl p)
 	{
 		final Role role = getRole(p);
 
@@ -2724,9 +2629,7 @@ public class KnowledgeBase
 		}
 
 		if (!role.isObjectRole())
-		{
 			return false;
-		}
 		else
 			if (role.isInverseFunctional() || role.isBottom())
 			{
@@ -2740,7 +2643,7 @@ public class KnowledgeBase
 		return isSubClassOf(ATermUtils.TOP, max1invP);
 	}
 
-	public boolean isReflexiveProperty(ATermAppl p)
+	public boolean isReflexiveProperty(final ATermAppl p)
 	{
 		final Role role = getRole(p);
 
@@ -2769,7 +2672,7 @@ public class KnowledgeBase
 		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isIrreflexiveProperty(ATermAppl p)
+	public boolean isIrreflexiveProperty(final ATermAppl p)
 	{
 		final Role role = getRole(p);
 
@@ -2807,12 +2710,12 @@ public class KnowledgeBase
 	 * @deprecated Use {@link #isAsymmetricProperty(ATermAppl)}
 	 */
 	@Deprecated
-	public boolean isAntisymmetricProperty(ATermAppl p)
+	public boolean isAntisymmetricProperty(final ATermAppl p)
 	{
 		return isAsymmetricProperty(p);
 	}
 
-	public boolean isAsymmetricProperty(ATermAppl p)
+	public boolean isAsymmetricProperty(final ATermAppl p)
 	{
 		final Role role = getRole(p);
 
@@ -2841,7 +2744,7 @@ public class KnowledgeBase
 		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isSubPropertyOf(ATermAppl sub, ATermAppl sup)
+	public boolean isSubPropertyOf(final ATermAppl sub, final ATermAppl sup)
 	{
 		final Role roleSub = rbox.getRole(sub);
 		final Role roleSup = rbox.getRole(sup);
@@ -2885,16 +2788,14 @@ public class KnowledgeBase
 			}
 			else
 				if (roleSub.isAnnotationRole())
-				{
 					return false; //temporary statement until we incorporate annotation properties to the taxonomy ([t:412])
-				}
 				else
 					throw new IllegalArgumentException();
 
 		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isEquivalentProperty(ATermAppl p1, ATermAppl p2)
+	public boolean isEquivalentProperty(final ATermAppl p1, final ATermAppl p2)
 	{
 		final Role role1 = rbox.getRole(p1);
 		final Role role2 = rbox.getRole(p2);
@@ -2945,7 +2846,7 @@ public class KnowledgeBase
 		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isInverse(ATermAppl r1, ATermAppl r2)
+	public boolean isInverse(final ATermAppl r1, final ATermAppl r2)
 	{
 		final Role role1 = getRole(r1);
 		final Role role2 = getRole(r2);
@@ -2970,7 +2871,8 @@ public class KnowledgeBase
 		if (!role1.isObjectRole() || !role2.isObjectRole())
 			return false;
 
-		if (role1.getInverse().equals(role2)) { return true; }
+		if (role1.getInverse().equals(role2))
+			return true;
 
 		ensureConsistency();
 
@@ -2982,7 +2884,7 @@ public class KnowledgeBase
 		return !abox.isSatisfiable(test);
 	}
 
-	public boolean hasDomain(ATermAppl p, ATermAppl c)
+	public boolean hasDomain(final ATermAppl p, final ATermAppl c)
 	{
 		final Role r = rbox.getRole(p);
 		if (r == null)
@@ -3001,7 +2903,7 @@ public class KnowledgeBase
 		return isSubClassOf(someP, c);
 	}
 
-	public boolean hasRange(ATermAppl p, ATermAppl c)
+	public boolean hasRange(final ATermAppl p, final ATermAppl c)
 	{
 		if (!isClass(c) && !isDatatype(c))
 		{
@@ -3012,7 +2914,7 @@ public class KnowledgeBase
 		return isSubClassOf(ATermUtils.TOP, allValues);
 	}
 
-	public boolean isDatatype(ATermAppl c)
+	public boolean isDatatype(final ATermAppl c)
 	{
 		return datatypeVisitor.isDatatype(c);
 	}
@@ -3040,13 +2942,12 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns true if there is at least one named individual that belongs to
-	 * the given class
-	 * 
+	 * Returns true if there is at least one named individual that belongs to the given class
+	 *
 	 * @param c
 	 * @return
 	 */
-	public boolean hasInstance(ATerm d)
+	public boolean hasInstance(final ATerm d)
 	{
 		if (!isClass(d))
 		{
@@ -3095,7 +2996,7 @@ public class KnowledgeBase
 
 	/**
 	 * Check if class c1 is subclass of class c2.
-	 * 
+	 *
 	 * @param c1
 	 * @param c2
 	 * @return
@@ -3135,7 +3036,7 @@ public class KnowledgeBase
 
 	/**
 	 * Check if class c1 is equivalent to class c2.
-	 * 
+	 *
 	 * @param c1
 	 * @param c2
 	 * @return
@@ -3185,7 +3086,7 @@ public class KnowledgeBase
 		return !isSatisfiable(test);
 	}
 
-	public boolean isDisjoint(ATermAppl c1, ATermAppl c2)
+	public boolean isDisjoint(final ATermAppl c1, final ATermAppl c2)
 	{
 		if (isClass(c1) && isClass(c2))
 			return isDisjointClass(c1, c2);
@@ -3196,14 +3097,14 @@ public class KnowledgeBase
 				return false;
 	}
 
-	public boolean isDisjointClass(ATermAppl c1, ATermAppl c2)
+	public boolean isDisjointClass(final ATermAppl c1, final ATermAppl c2)
 	{
 		final ATermAppl notC2 = ATermUtils.makeNot(c2);
 
 		return isSubClassOf(c1, notC2);
 	}
 
-	public boolean isDisjointProperty(ATermAppl r1, ATermAppl r2)
+	public boolean isDisjointProperty(final ATermAppl r1, final ATermAppl r2)
 	{
 		final Role role1 = getRole(r1);
 		final Role role2 = getRole(r2);
@@ -3221,9 +3122,7 @@ public class KnowledgeBase
 		}
 
 		if (role1.getType() != role2.getType())
-		{
 			return false;
-		}
 		else
 			if (role1.isBottom() || role2.isBottom())
 			{
@@ -3233,11 +3132,10 @@ public class KnowledgeBase
 			}
 			else
 				if (role1.isTop() || role2.isTop())
-				{
 					return false;
-				}
 				else
-					if (role1.getSubRoles().contains(role2) || role2.getSubRoles().contains(role1)) { return false; }
+					if (role1.getSubRoles().contains(role2) || role2.getSubRoles().contains(role1))
+						return false;
 
 		if (role1.getDisjointRoles().contains(role2) && !doExplanation())
 			return true;
@@ -3246,16 +3144,14 @@ public class KnowledgeBase
 
 		ATermAppl anon = ATermUtils.makeAnonNominal(Integer.MAX_VALUE);
 		if (role1.isDatatypeRole())
-		{
 			anon = ATermUtils.makeLiteral(anon);
-		}
 		final ATermAppl nominal = ATermUtils.makeValue(anon);
 		final ATermAppl test = and(some(r1, nominal), some(r2, nominal));
 
 		return !abox.isSatisfiable(test);
 	}
 
-	public boolean isComplement(ATermAppl c1, ATermAppl c2)
+	public boolean isComplement(final ATermAppl c1, final ATermAppl c2)
 	{
 		final ATermAppl notC2 = ATermUtils.makeNot(c2);
 
@@ -3263,14 +3159,14 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Answers the isType question without doing any satisfiability check. It
-	 * might return <code>Bool.TRUE</code>, <code>Bool.FALSE</code>, or <code>Bool.UNKNOWN</code>. If <code>Bool.UNKNOWN</code> is returned <code>isType</code> function needs to be called to get the answer.
-	 * 
+	 * Answers the isType question without doing any satisfiability check. It might return <code>Bool.TRUE</code>, <code>Bool.FALSE</code>, or
+	 * <code>Bool.UNKNOWN</code>. If <code>Bool.UNKNOWN</code> is returned <code>isType</code> function needs to be called to get the answer.
+	 *
 	 * @param x
 	 * @param c
 	 * @return
 	 */
-	public Bool isKnownType(ATermAppl x, ATermAppl c)
+	public Bool isKnownType(final ATermAppl x, ATermAppl c)
 	{
 		ensureConsistency();
 
@@ -3290,7 +3186,7 @@ public class KnowledgeBase
 		return abox.isKnownType(x, c);
 	}
 
-	public boolean isType(ATermAppl x, ATermAppl c)
+	public boolean isType(final ATermAppl x, final ATermAppl c)
 	{
 		ensureConsistency();
 
@@ -3322,7 +3218,7 @@ public class KnowledgeBase
 		return abox.isType(x, c);
 	}
 
-	public boolean isSameAs(ATermAppl t1, ATermAppl t2)
+	public boolean isSameAs(final ATermAppl t1, final ATermAppl t2)
 	{
 		ensureConsistency();
 
@@ -3355,12 +3251,13 @@ public class KnowledgeBase
 				return true;
 		}
 		else
-			if (!unknowns.contains(t2)) { return false; }
+			if (!unknowns.contains(t2))
+				return false;
 
 		return abox.isSameAs(t1, t2);
 	}
 
-	public boolean isDifferentFrom(ATermAppl t1, ATermAppl t2)
+	public boolean isDifferentFrom(final ATermAppl t1, final ATermAppl t2)
 	{
 		final Individual ind1 = abox.getIndividual(t1);
 		final Individual ind2 = abox.getIndividual(t2);
@@ -3385,7 +3282,7 @@ public class KnowledgeBase
 		return isType(t1, c);
 	}
 
-	public Set<ATermAppl> getDifferents(ATermAppl name)
+	public Set<ATermAppl> getDifferents(final ATermAppl name)
 	{
 		ensureConsistency();
 
@@ -3417,15 +3314,13 @@ public class KnowledgeBase
 			}
 			else
 				if (isType(x, c))
-				{
 					differents.add(x);
-				}
 		}
 
 		return differents;
 	}
 
-	public boolean hasPropertyValue(ATermAppl s, ATermAppl p, ATermAppl o)
+	public boolean hasPropertyValue(final ATermAppl s, final ATermAppl p, final ATermAppl o)
 	{
 		ensureConsistency();
 
@@ -3442,34 +3337,28 @@ public class KnowledgeBase
 		}
 
 		if (o != null)
-		{
 			if (isDatatypeProperty(p))
 			{
 				if (!ATermUtils.isLiteral(o))
 					return false;
 			}
 			else
-				if (!isIndividual(o)) { return false; }
-		}
+				if (!isIndividual(o))
+					return false;
 
 		return abox.hasPropertyValue(s, p, o);
 	}
 
 	/**
-	 * Answers the hasPropertyValue question without doing any satisfiability
-	 * check. It might return <code>Boolean.TRUE</code>, <code>Boolean.FALSE</code>, or <code>null</code> (unknown). If the
-	 * null value is returned <code>hasPropertyValue</code> function needs to
-	 * be called to get the answer.
-	 * 
-	 * @param s
-	 *            Subject
-	 * @param p
-	 *            Predicate
-	 * @param o
-	 *            Object (<code>null</code> can be used as wildcard)
+	 * Answers the hasPropertyValue question without doing any satisfiability check. It might return <code>Boolean.TRUE</code>, <code>Boolean.FALSE</code>, or
+	 * <code>null</code> (unknown). If the null value is returned <code>hasPropertyValue</code> function needs to be called to get the answer.
+	 *
+	 * @param s Subject
+	 * @param p Predicate
+	 * @param o Object (<code>null</code> can be used as wildcard)
 	 * @return
 	 */
-	public Bool hasKnownPropertyValue(ATermAppl s, ATermAppl p, ATermAppl o)
+	public Bool hasKnownPropertyValue(final ATermAppl s, final ATermAppl p, final ATermAppl o)
 	{
 		ensureConsistency();
 
@@ -3509,29 +3398,23 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns the (named) superclasses of class c. Depending on the second
-	 * parameter the resulting list will include either all or only the direct
+	 * Returns the (named) superclasses of class c. Depending on the second parameter the resulting list will include either all or only the direct
 	 * superclasses. A class d is a direct superclass of c iff
 	 * <ol>
 	 * <li>d is superclass of c</li>
 	 * <li>there is no other class x such that x is superclass of c and d is superclass of x</li>
 	 * </ol>
-	 * The class c itself is not included in the list but all the other classes
-	 * that are sameAs c are put into the list. Also note that the returned list
-	 * will always have at least one element. The list will either include one
-	 * other concept from the hierarchy or the TOP concept if no other class
-	 * subsumes c. By definition TOP concept is superclass of every concept.
+	 * The class c itself is not included in the list but all the other classes that are sameAs c are put into the list. Also note that the returned list will
+	 * always have at least one element. The list will either include one other concept from the hierarchy or the TOP concept if no other class subsumes c. By
+	 * definition TOP concept is superclass of every concept.
 	 * <p>
 	 * *** This function will first classify the whole ontology ***
 	 * </p>
-	 * 
-	 * @param c
-	 *            class whose superclasses are returned
-	 * @return A set of sets, where each set in the collection represents an
-	 *         equivalence class. The elements of the inner class are ATermAppl
-	 *         objects.
+	 *
+	 * @param c class whose superclasses are returned
+	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperClasses(ATermAppl c, boolean direct)
+	public Set<Set<ATermAppl>> getSuperClasses(ATermAppl c, final boolean direct)
 	{
 		if (!isClass(c))
 		{
@@ -3560,28 +3443,22 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all the (named) subclasses of class c. The class c itself is not
-	 * included in the list but all the other classes that are equivalent to c
-	 * are put into the list. Also note that the returned list will always have
-	 * at least one element, that is the BOTTOM concept. By definition BOTTOM
-	 * concept is subclass of every concept. This function is equivalent to
-	 * calling getSubClasses(c, true).
+	 * Returns all the (named) subclasses of class c. The class c itself is not included in the list but all the other classes that are equivalent to c are put
+	 * into the list. Also note that the returned list will always have at least one element, that is the BOTTOM concept. By definition BOTTOM concept is
+	 * subclass of every concept. This function is equivalent to calling getSubClasses(c, true).
 	 * <p>
 	 * *** This function will first classify the whole ontology ***
 	 * </p>
-	 * 
-	 * @param c
-	 *            class whose subclasses are returned
-	 * @return A set of sets, where each set in the collection represents an
-	 *         equivalence class. The elements of the inner class are ATermAppl
-	 *         objects.
+	 *
+	 * @param c class whose subclasses are returned
+	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSubClasses(ATermAppl c)
+	public Set<Set<ATermAppl>> getSubClasses(final ATermAppl c)
 	{
 		return getSubClasses(c, false);
 	}
 
-	public Set<Set<ATermAppl>> getDisjoints(ATermAppl c)
+	public Set<Set<ATermAppl>> getDisjoints(final ATermAppl c)
 	{
 		if (isClass(c))
 			return getDisjointClasses(c);
@@ -3593,12 +3470,12 @@ public class KnowledgeBase
 		return Collections.emptySet();
 	}
 
-	public Set<Set<ATermAppl>> getDisjointClasses(ATermAppl c)
+	public Set<Set<ATermAppl>> getDisjointClasses(final ATermAppl c)
 	{
 		return getDisjointClasses(c, false);
 	}
 
-	public Set<Set<ATermAppl>> getDisjointClasses(ATermAppl c, boolean direct)
+	public Set<Set<ATermAppl>> getDisjointClasses(final ATermAppl c, final boolean direct)
 	{
 		if (!isClass(c))
 		{
@@ -3611,7 +3488,8 @@ public class KnowledgeBase
 		final Set<ATermAppl> complements = getAllEquivalentClasses(notC);
 		if (notC.equals(ATermUtils.BOTTOM))
 			complements.add(ATermUtils.BOTTOM);
-		if (direct && !complements.isEmpty()) { return Collections.singleton(complements); }
+		if (direct && !complements.isEmpty())
+			return Collections.singleton(complements);
 
 		final Set<Set<ATermAppl>> disjoints = getSubClasses(notC, direct);
 
@@ -3621,12 +3499,12 @@ public class KnowledgeBase
 		return disjoints;
 	}
 
-	public Set<Set<ATermAppl>> getDisjointProperties(ATermAppl p)
+	public Set<Set<ATermAppl>> getDisjointProperties(final ATermAppl p)
 	{
 		return getDisjointProperties(p, false);
 	}
 
-	public Set<Set<ATermAppl>> getDisjointProperties(ATermAppl p, boolean direct)
+	public Set<Set<ATermAppl>> getDisjointProperties(final ATermAppl p, final boolean direct)
 	{
 		if (!isProperty(p))
 		{
@@ -3666,26 +3544,22 @@ public class KnowledgeBase
 					disjoints.addAll(getSubProperties(r));
 			}
 			else
-			{
 				visit.addAll(node.getSubs());
-			}
 
 		}
 
 		return disjoints;
 	}
 
-	private void mark(TaxonomyNode<ATermAppl> node, Set<TaxonomyNode<ATermAppl>> marked)
+	private void mark(final TaxonomyNode<ATermAppl> node, final Set<TaxonomyNode<ATermAppl>> marked)
 	{
 		marked.add(node);
 
 		for (final TaxonomyNode<ATermAppl> next : node.getSubs())
-		{
 			mark(next, marked);
-		}
 	}
 
-	public Set<ATermAppl> getComplements(ATermAppl c)
+	public Set<ATermAppl> getComplements(final ATermAppl c)
 	{
 		if (!isClass(c))
 		{
@@ -3703,20 +3577,13 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns the (named) classes individual belongs to. Depending on the
-	 * second parameter the result will include either all types or only the
-	 * direct types.
-	 * 
-	 * @param ind
-	 *            An individual name
-	 * @param direct
-	 *            If true return only the direct types, otherwise return all
-	 *            types
-	 * @return A set of sets, where each set in the collection represents an
-	 *         equivalence class. The elements of the inner class are ATermAppl
-	 *         objects.
+	 * Returns the (named) classes individual belongs to. Depending on the second parameter the result will include either all types or only the direct types.
+	 *
+	 * @param ind An individual name
+	 * @param direct If true return only the direct types, otherwise return all types
+	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getTypes(ATermAppl ind, boolean direct)
+	public Set<Set<ATermAppl>> getTypes(final ATermAppl ind, final boolean direct)
 	{
 		if (!isIndividual(ind))
 		{
@@ -3725,9 +3592,7 @@ public class KnowledgeBase
 		}
 
 		if (PelletOptions.AUTO_REALIZE)
-		{
 			realize();
-		}
 
 		Set<Set<ATermAppl>> types = isClassified() ? getPrimitiveTypes(ind, direct) : Collections.<Set<ATermAppl>> emptySet();
 
@@ -3741,7 +3606,7 @@ public class KnowledgeBase
 		return types;
 	}
 
-	private Set<Set<ATermAppl>> getPrimitiveTypes(ATermAppl ind, boolean direct)
+	private Set<Set<ATermAppl>> getPrimitiveTypes(final ATermAppl ind, final boolean direct)
 	{
 		final Set<Set<ATermAppl>> types = new HashSet<>();
 		for (final Set<ATermAppl> t : TaxonomyUtils.getTypes(builder.getTaxonomy(), ind, direct))
@@ -3758,19 +3623,16 @@ public class KnowledgeBase
 	 * <p>
 	 * *** This function will first realize the whole ontology ***
 	 * </p>
-	 * 
-	 * @param ind
-	 *            An individual name
-	 * @return A set of sets, where each set in the collection represents an
-	 *         equivalence class. The elements of the inner class are ATermAppl
-	 *         objects.
+	 *
+	 * @param ind An individual name
+	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getTypes(ATermAppl ind)
+	public Set<Set<ATermAppl>> getTypes(final ATermAppl ind)
 	{
 		return getTypes(ind, /* direct = */false);
 	}
 
-	public ATermAppl getType(ATermAppl ind)
+	public ATermAppl getType(final ATermAppl ind)
 	{
 		if (!isIndividual(ind))
 		{
@@ -3783,7 +3645,7 @@ public class KnowledgeBase
 		return abox.getIndividual(ind).getTypes(Node.ATOM).iterator().next();
 	}
 
-	public ATermAppl getType(ATermAppl ind, boolean direct)
+	public ATermAppl getType(final ATermAppl ind, final boolean direct)
 	{
 		if (!isIndividual(ind))
 		{
@@ -3797,14 +3659,12 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all the instances of concept c. If TOP concept is used every
-	 * individual in the knowledge base will be returned
-	 * 
-	 * @param c
-	 *            class whose instances are returned
+	 * Returns all the instances of concept c. If TOP concept is used every individual in the knowledge base will be returned
+	 *
+	 * @param c class whose instances are returned
 	 * @return A set of ATerm objects
 	 */
-	public Set<ATermAppl> getInstances(ATermAppl c)
+	public Set<ATermAppl> getInstances(final ATermAppl c)
 	{
 		if (!isClass(c))
 		{
@@ -3833,22 +3693,17 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns the instances of class c. Depending on the second parameter the
-	 * resulting list will include all or only the direct instances. An
-	 * individual x is a direct instance of c iff x is of type c and there is no
-	 * subclass d of c such that x is of type d.
+	 * Returns the instances of class c. Depending on the second parameter the resulting list will include all or only the direct instances. An individual x is
+	 * a direct instance of c iff x is of type c and there is no subclass d of c such that x is of type d.
 	 * <p>
 	 * *** This function will first realize the whole ontology ***
 	 * </p>
-	 * 
-	 * @param c
-	 *            class whose instances are returned
-	 * @param direct
-	 *            if true return only the direct instances, otherwise return all
-	 *            the instances
+	 *
+	 * @param c class whose instances are returned
+	 * @param direct if true return only the direct instances, otherwise return all the instances
 	 * @return A set of ATerm objects
 	 */
-	public Set<ATermAppl> getInstances(ATermAppl c, boolean direct)
+	public Set<ATermAppl> getInstances(final ATermAppl c, final boolean direct)
 	{
 		if (!isClass(c))
 		{
@@ -3900,17 +3755,15 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all the classes that are equivalent to class c, excluding c
-	 * itself.
+	 * Returns all the classes that are equivalent to class c, excluding c itself.
 	 * <p>
 	 * *** This function will first classify the whole ontology ***
 	 * </p>
-	 * 
-	 * @param c
-	 *            class whose equivalent classes are found
+	 *
+	 * @param c class whose equivalent classes are found
 	 * @return A set of ATerm objects
 	 */
-	public Set<ATermAppl> getEquivalentClasses(ATermAppl c)
+	public Set<ATermAppl> getEquivalentClasses(final ATermAppl c)
 	{
 		final Set<ATermAppl> result = getAllEquivalentClasses(c);
 		result.remove(c);
@@ -3919,14 +3772,12 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all the classes that are equivalent to class c, including c
-	 * itself.
+	 * Returns all the classes that are equivalent to class c, including c itself.
 	 * <p>
 	 * *** This function will first classify the whole ontology ***
 	 * </p>
-	 * 
-	 * @param c
-	 *            class whose equivalent classes are found
+	 *
+	 * @param c class whose equivalent classes are found
 	 * @return A set of ATerm objects
 	 */
 	public Set<ATermAppl> getAllEquivalentClasses(ATermAppl c)
@@ -3950,55 +3801,40 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all the superclasses (implicitly or explicitly defined) of class
-	 * c. The class c itself is not included in the list. but all the other
-	 * classes that are sameAs c are put into the list. Also note that the
-	 * returned list will always have at least one element, that is TOP concept.
-	 * By definition TOP concept is superclass of every concept. This function
-	 * is equivalent to calling getSuperClasses(c, true).
+	 * Returns all the superclasses (implicitly or explicitly defined) of class c. The class c itself is not included in the list. but all the other classes
+	 * that are sameAs c are put into the list. Also note that the returned list will always have at least one element, that is TOP concept. By definition TOP
+	 * concept is superclass of every concept. This function is equivalent to calling getSuperClasses(c, true).
 	 * <p>
 	 * *** This function will first classify the whole ontology ***
 	 * </p>
-	 * 
-	 * @param c
-	 *            class whose superclasses are returned
-	 * @return A set of sets, where each set in the collection represents an
-	 *         equivalence class. The elements of the inner class are ATermAppl
-	 *         objects.
+	 *
+	 * @param c class whose superclasses are returned
+	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperClasses(ATermAppl c)
+	public Set<Set<ATermAppl>> getSuperClasses(final ATermAppl c)
 	{
 		return getSuperClasses(c, false);
 	}
 
 	/**
-	 * Returns the (named) subclasses of class c. Depending on the second
-	 * parameter the result will include either all subclasses or only the
-	 * direct subclasses. A class d is a direct subclass of c iff
+	 * Returns the (named) subclasses of class c. Depending on the second parameter the result will include either all subclasses or only the direct subclasses.
+	 * A class d is a direct subclass of c iff
 	 * <ol>
 	 * <li>d is subclass of c</li>
 	 * <li>there is no other class x different from c and d such that x is subclass of c and d is subclass of x</li>
 	 * </ol>
-	 * The class c itself is not included in the list but all the other classes
-	 * that are sameAs c are put into the list. Also note that the returned list
-	 * will always have at least one element. The list will either include one
-	 * other concept from the hierarchy or the BOTTOM concept if no other class
-	 * is subsumed by c. By definition BOTTOM concept is subclass of every
-	 * concept.
+	 * The class c itself is not included in the list but all the other classes that are sameAs c are put into the list. Also note that the returned list will
+	 * always have at least one element. The list will either include one other concept from the hierarchy or the BOTTOM concept if no other class is subsumed
+	 * by c. By definition BOTTOM concept is subclass of every concept.
 	 * <p>
 	 * *** This function will first classify the whole ontology ***
 	 * </p>
-	 * 
-	 * @param c
-	 *            class whose subclasses are returned
-	 * @param direct
-	 *            If true return only the direct subclasses, otherwise return
-	 *            all the subclasses
-	 * @return A set of sets, where each set in the collection represents an
-	 *         equivalence class. The elements of the inner class are ATermAppl
-	 *         objects.
+	 *
+	 * @param c class whose subclasses are returned
+	 * @param direct If true return only the direct subclasses, otherwise return all the subclasses
+	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSubClasses(ATermAppl c, boolean direct)
+	public Set<Set<ATermAppl>> getSubClasses(ATermAppl c, final boolean direct)
 	{
 		if (!isClass(c))
 		{
@@ -4026,7 +3862,7 @@ public class KnowledgeBase
 		return subs;
 	}
 
-	public Set<Set<ATermAppl>> getAllSuperProperties(ATermAppl prop)
+	public Set<Set<ATermAppl>> getAllSuperProperties(final ATermAppl prop)
 	{
 		if (!isProperty(prop))
 		{
@@ -4042,31 +3878,24 @@ public class KnowledgeBase
 
 	/**
 	 * Return all the super properties of p.
-	 * 
+	 *
 	 * @param prop
-	 * @return A set of sets, where each set in the collection represents a set
-	 *         of equivalent properties. The elements of the inner class are
-	 *         Role objects.
+	 * @return A set of sets, where each set in the collection represents a set of equivalent properties. The elements of the inner class are Role objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperProperties(ATermAppl prop)
+	public Set<Set<ATermAppl>> getSuperProperties(final ATermAppl prop)
 	{
 		return getSuperProperties(prop, false);
 	}
 
 	/**
-	 * Return the super properties of p. Depending on the second parameter the
-	 * result will include either all super properties or only the direct super
+	 * Return the super properties of p. Depending on the second parameter the result will include either all super properties or only the direct super
 	 * properties.
-	 * 
+	 *
 	 * @param prop
-	 * @param direct
-	 *            If true return only the direct super properties, otherwise
-	 *            return all the super properties
-	 * @return A set of sets, where each set in the collection represents a set
-	 *         of equivalent properties. The elements of the inner class are
-	 *         Role objects.
+	 * @param direct If true return only the direct super properties, otherwise return all the super properties
+	 * @return A set of sets, where each set in the collection represents a set of equivalent properties. The elements of the inner class are Role objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperProperties(ATermAppl prop, boolean direct)
+	public Set<Set<ATermAppl>> getSuperProperties(final ATermAppl prop, final boolean direct)
 	{
 		if (!isProperty(prop))
 		{
@@ -4077,19 +3906,17 @@ public class KnowledgeBase
 		final Set<Set<ATermAppl>> supers = new HashSet<>();
 		final Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy(prop);
 		if (taxonomy != null)
-		{
 			for (final Set<ATermAppl> s : taxonomy.getSupers(prop, direct))
 			{
 				final Set<ATermAppl> supEqSet = ATermUtils.primitiveOrBottom(s);
 				if (!supEqSet.isEmpty())
 					supers.add(supEqSet);
 			}
-		}
 
 		return supers;
 	}
 
-	public Set<Set<ATermAppl>> getAllSubProperties(ATermAppl prop)
+	public Set<Set<ATermAppl>> getAllSubProperties(final ATermAppl prop)
 	{
 		if (!isProperty(prop))
 		{
@@ -4105,31 +3932,23 @@ public class KnowledgeBase
 
 	/**
 	 * Return all the sub properties of p.
-	 * 
+	 *
 	 * @param prop
-	 * @return A set of sets, where each set in the collection represents a set
-	 *         of equivalent properties. The elements of the inner class are
-	 *         ATermAppl objects.
+	 * @return A set of sets, where each set in the collection represents a set of equivalent properties. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSubProperties(ATermAppl prop)
+	public Set<Set<ATermAppl>> getSubProperties(final ATermAppl prop)
 	{
 		return getSubProperties(prop, false);
 	}
 
 	/**
-	 * Return the sub properties of p. Depending on the second parameter the
-	 * result will include either all subproperties or only the direct
-	 * subproperties.
-	 * 
+	 * Return the sub properties of p. Depending on the second parameter the result will include either all subproperties or only the direct subproperties.
+	 *
 	 * @param prop
-	 * @param direct
-	 *            If true return only the direct subproperties, otherwise return
-	 *            all the subproperties
-	 * @return A set of sets, where each set in the collection represents a set
-	 *         of equivalent properties. The elements of the inner class are
-	 *         ATermAppl objects.
+	 * @param direct If true return only the direct subproperties, otherwise return all the subproperties
+	 * @return A set of sets, where each set in the collection represents a set of equivalent properties. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSubProperties(ATermAppl prop, boolean direct)
+	public Set<Set<ATermAppl>> getSubProperties(final ATermAppl prop, final boolean direct)
 	{
 		if (!isProperty(prop))
 		{
@@ -4140,29 +3959,25 @@ public class KnowledgeBase
 		final Set<Set<ATermAppl>> subs = new HashSet<>();
 		final Taxonomy<ATermAppl> taxonomy = getRoleTaxonomy(prop);
 		if (taxonomy != null)
-		{
 			for (final Set<ATermAppl> s : taxonomy.getSubs(prop, direct))
 			{
 				final Set<ATermAppl> subEqSet = ATermUtils.primitiveOrBottom(s);
 				if (!subEqSet.isEmpty())
 					subs.add(subEqSet);
 			}
-		}
 		else
-		{
 			System.out.print("");
-		}
 
 		return subs;
 	}
 
 	/**
 	 * Return all the properties that are equivalent to p.
-	 * 
+	 *
 	 * @param prop
 	 * @return A set of ATermAppl objects.
 	 */
-	public Set<ATermAppl> getEquivalentProperties(ATermAppl prop)
+	public Set<ATermAppl> getEquivalentProperties(final ATermAppl prop)
 	{
 		if (!isProperty(prop))
 		{
@@ -4174,7 +3989,7 @@ public class KnowledgeBase
 		return taxonomy != null ? ATermUtils.primitiveOrBottom(taxonomy.getEquivalents(prop)) : Collections.<ATermAppl> emptySet();
 	}
 
-	public Set<ATermAppl> getAllEquivalentProperties(ATermAppl prop)
+	public Set<ATermAppl> getAllEquivalentProperties(final ATermAppl prop)
 	{
 		if (!isProperty(prop))
 		{
@@ -4188,11 +4003,11 @@ public class KnowledgeBase
 
 	/**
 	 * Return the named inverse property and all its equivalent properties.
-	 * 
+	 *
 	 * @param prop
 	 * @return
 	 */
-	public Set<ATermAppl> getInverses(ATerm name)
+	public Set<ATermAppl> getInverses(final ATerm name)
 	{
 		final ATermAppl invR = getInverse(name);
 		if (invR != null)
@@ -4205,17 +4020,13 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns the inverse of given property. This could possibly be an internal
-	 * property created by the reasoner rather than a named property. In case
-	 * the given property has more than one inverse any one of them can be
-	 * returned.
-	 * 
-	 * @param name
-	 *            Property whose inverse being sought
-	 * @return Inverse property or null if given property is not defined or it
-	 *         is not an object property
+	 * Returns the inverse of given property. This could possibly be an internal property created by the reasoner rather than a named property. In case the
+	 * given property has more than one inverse any one of them can be returned.
+	 *
+	 * @param name Property whose inverse being sought
+	 * @return Inverse property or null if given property is not defined or it is not an object property
 	 */
-	public ATermAppl getInverse(ATerm name)
+	public ATermAppl getInverse(final ATerm name)
 	{
 		final Role prop = rbox.getRole(name);
 		if (prop == null)
@@ -4230,13 +4041,13 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return the domain restrictions on the property. The results of this
-	 * function is not guaranteed to be complete. Use {@link #hasDomain(ATermAppl, ATermAppl)} to get complete answers.
-	 * 
+	 * Return the domain restrictions on the property. The results of this function is not guaranteed to be complete. Use
+	 * {@link #hasDomain(ATermAppl, ATermAppl)} to get complete answers.
+	 *
 	 * @param prop
 	 * @return
 	 */
-	public Set<ATermAppl> getDomains(ATermAppl name)
+	public Set<ATermAppl> getDomains(final ATermAppl name)
 	{
 		ensureConsistency();
 
@@ -4251,13 +4062,13 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return the domain restrictions on the property. The results of this
-	 * function is not guaranteed to be complete. Use {@link #hasRange(ATermAppl, ATermAppl)} to get complete answers.
-	 * 
+	 * Return the domain restrictions on the property. The results of this function is not guaranteed to be complete. Use
+	 * {@link #hasRange(ATermAppl, ATermAppl)} to get complete answers.
+	 *
 	 * @param prop
 	 * @return
 	 */
-	public Set<ATermAppl> getRanges(ATerm name)
+	public Set<ATermAppl> getRanges(final ATerm name)
 	{
 		ensureConsistency();
 
@@ -4273,13 +4084,12 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return all the indviduals asserted to be equal to the given individual
-	 * inluding the individual itself.
-	 * 
+	 * Return all the indviduals asserted to be equal to the given individual inluding the individual itself.
+	 *
 	 * @param name
 	 * @return
 	 */
-	public Set<ATermAppl> getAllSames(ATermAppl name)
+	public Set<ATermAppl> getAllSames(final ATermAppl name)
 	{
 		ensureConsistency();
 
@@ -4303,22 +4113,19 @@ public class KnowledgeBase
 			abox.getSames(ind.getSame(), knowns, unknowns);
 
 		for (final ATermAppl other : unknowns)
-		{
 			if (abox.isSameAs(name, other))
 				knowns.add(other);
-		}
 
 		return knowns;
 	}
 
 	/**
-	 * Return all the individuals asserted to be equal to the given individual
-	 * but not the the individual itself.
-	 * 
+	 * Return all the individuals asserted to be equal to the given individual but not the the individual itself.
+	 *
 	 * @param name
 	 * @return
 	 */
-	public Set<ATermAppl> getSames(ATermAppl name)
+	public Set<ATermAppl> getSames(final ATermAppl name)
 	{
 		final Set<ATermAppl> sames = getAllSames(name);
 		sames.remove(name);
@@ -4327,16 +4134,14 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return all literal values for a given dataproperty that belongs to the
-	 * specified datatype.
-	 * 
+	 * Return all literal values for a given dataproperty that belongs to the specified datatype.
+	 *
 	 * @param r
 	 * @param x
 	 * @param lang
-	 * @return List of ATermAppl objects representing literals. These objects
-	 *         are in the form literal(value, lang, datatypeURI).
+	 * @return List of ATermAppl objects representing literals. These objects are in the form literal(value, lang, datatypeURI).
 	 */
-	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x, ATermAppl datatype)
+	public List<ATermAppl> getDataPropertyValues(final ATermAppl r, final ATermAppl x, final ATermAppl datatype)
 	{
 		ensureConsistency();
 
@@ -4359,36 +4164,27 @@ public class KnowledgeBase
 		{
 			final List<ATermAppl> literals = new ArrayList<>();
 			if (!PelletOptions.HIDE_TOP_PROPERTY_VALUES)
-			{
 				for (final Node node : abox.getNodes())
-				{
 					if (node.isLiteral() && node.getTerm() != null)
 						literals.add(node.getTerm());
-				}
-			}
 			return literals;
 		}
 		else
 			if (role.isBottom())
-			{
 				return Collections.emptyList();
-			}
 			else
-			{
 				return abox.getDataPropertyValues(x, role, datatype);
-			}
 	}
 
 	/**
-	 * Return all literal values for a given dataproperty that has the specified
-	 * language identifier.
-	 * 
+	 * Return all literal values for a given dataproperty that has the specified language identifier.
+	 *
 	 * @param r
 	 * @param x
 	 * @param lang
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x, String lang)
+	public List<ATermAppl> getDataPropertyValues(final ATermAppl r, final ATermAppl x, final String lang)
 	{
 		final List<ATermAppl> values = getDataPropertyValues(r, x);
 		if (lang == null)
@@ -4408,24 +4204,24 @@ public class KnowledgeBase
 
 	/**
 	 * Return all literal values for a given dataproperty and subject value.
-	 * 
+	 *
 	 * @param r
 	 * @param x
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getDataPropertyValues(ATermAppl r, ATermAppl x)
+	public List<ATermAppl> getDataPropertyValues(final ATermAppl r, final ATermAppl x)
 	{
 		return getDataPropertyValues(r, x, (ATermAppl) null);
 	}
 
 	/**
 	 * Return all property values for a given object property and subject value.
-	 * 
+	 *
 	 * @param r
 	 * @param x
 	 * @return A list of ATermAppl objects
 	 */
-	public List<ATermAppl> getObjectPropertyValues(ATermAppl r, ATermAppl x)
+	public List<ATermAppl> getObjectPropertyValues(final ATermAppl r, final ATermAppl x)
 	{
 		ensureConsistency();
 
@@ -4454,9 +4250,7 @@ public class KnowledgeBase
 		}
 		else
 			if (!role.isBottom())
-			{
 				abox.getObjectPropertyValues(x, role, knowns, unknowns, true);
-			}
 
 		if (!unknowns.isEmpty())
 		{
@@ -4471,12 +4265,12 @@ public class KnowledgeBase
 
 	/**
 	 * Return all property values for a given property and subject value.
-	 * 
+	 *
 	 * @param r
 	 * @param x
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getPropertyValues(ATermAppl r, ATermAppl x)
+	public List<ATermAppl> getPropertyValues(final ATermAppl r, final ATermAppl x)
 	{
 		final Role role = rbox.getRole(r);
 
@@ -4503,17 +4297,13 @@ public class KnowledgeBase
 
 	/**
 	 * List all subjects with a given property and property value.
-	 * 
+	 *
 	 * @param r
-	 * @param x
-	 *            If property is an object property an ATermAppl object that is
-	 *            the URI of the individual, if the property is a data property
-	 *            an ATerm object that contains the literal value (See {#link
-	 *            #getIndividualsWithDataProperty(ATermAppl, ATermAppl)} for
-	 *            details)
+	 * @param x If property is an object property an ATermAppl object that is the URI of the individual, if the property is a data property an ATerm object that
+	 *        contains the literal value (See {#link #getIndividualsWithDataProperty(ATermAppl, ATermAppl)} for details)
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getIndividualsWithProperty(ATermAppl r, ATermAppl x)
+	public List<ATermAppl> getIndividualsWithProperty(final ATermAppl r, final ATermAppl x)
 	{
 		final Role role = rbox.getRole(r);
 
@@ -4524,14 +4314,10 @@ public class KnowledgeBase
 		}
 
 		if (role.isObjectRole())
-		{
 			return getIndividualsWithObjectProperty(r, x);
-		}
 		else
 			if (role.isDatatypeRole())
-			{
 				return getIndividualsWithDataProperty(r, x);
-			}
 			else
 				if (role.isAnnotationRole())
 					return Arrays.asList(getIndividualsWithAnnotation(r, x).toArray(new ATermAppl[0]));
@@ -4540,19 +4326,17 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * List all subjects with the given literal value for the specified data
-	 * property.
-	 * 
-	 * @param r
-	 *            An ATerm object that contains the literal value in the form
-	 *            literal(lexicalValue, langIdentifier, datatypeURI). Should be
-	 *            created with ATermUtils.makeXXXLiteral() functions.
+	 * List all subjects with the given literal value for the specified data property.
+	 *
+	 * @param r An ATerm object that contains the literal value in the form literal(lexicalValue, langIdentifier, datatypeURI). Should be created with
+	 *        ATermUtils.makeXXXLiteral() functions.
 	 * @param x
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getIndividualsWithDataProperty(ATermAppl r, ATermAppl litValue)
+	public List<ATermAppl> getIndividualsWithDataProperty(final ATermAppl r, final ATermAppl litValue)
 	{
-		if (!ATermUtils.isLiteral(litValue)) { return Collections.emptyList(); }
+		if (!ATermUtils.isLiteral(litValue))
+			return Collections.emptyList();
 
 		ensureConsistency();
 
@@ -4581,7 +4365,6 @@ public class KnowledgeBase
 			final Role role = getRole(r);
 			final EdgeList edges = literal.getInEdges();
 			for (final Edge edge : edges)
-			{
 				if (edge.getRole().isSubRoleOf(role))
 				{
 					final ATermAppl subj = edge.getFrom().getName();
@@ -4590,7 +4373,6 @@ public class KnowledgeBase
 					else
 						unknowns.add(subj);
 				}
-			}
 
 			if (!unknowns.isEmpty())
 			{
@@ -4605,13 +4387,12 @@ public class KnowledgeBase
 
 	/**
 	 * List all subjects with the given value for the specified object property.
-	 * 
+	 *
 	 * @param r
-	 * @param o
-	 *            An ATerm object that is the URI of an individual
+	 * @param o An ATerm object that is the URI of an individual
 	 * @return List of ATermAppl objects.
 	 */
-	public List<ATermAppl> getIndividualsWithObjectProperty(ATermAppl r, ATermAppl o)
+	public List<ATermAppl> getIndividualsWithObjectProperty(final ATermAppl r, final ATermAppl o)
 	{
 		ensureConsistency();
 
@@ -4631,7 +4412,7 @@ public class KnowledgeBase
 	/**
 	 * List all properties asserted between a subject and object.
 	 */
-	public List<ATermAppl> getProperties(ATermAppl s, ATermAppl o)
+	public List<ATermAppl> getProperties(final ATermAppl s, final ATermAppl o)
 	{
 		if (!isIndividual(s))
 		{
@@ -4649,15 +4430,13 @@ public class KnowledgeBase
 
 		final Set<ATermAppl> allProps = ATermUtils.isLiteral(o) ? getDataProperties() : getObjectProperties();
 		for (final ATermAppl p : allProps)
-		{
 			if (abox.hasPropertyValue(s, p, o))
 				props.add(p);
-		}
 
 		return props;
 	}
 
-	public Map<ATermAppl, List<ATermAppl>> getPropertyValues(ATermAppl pred)
+	public Map<ATermAppl, List<ATermAppl>> getPropertyValues(final ATermAppl pred)
 	{
 		final Map<ATermAppl, List<ATermAppl>> result = new HashMap<>();
 
@@ -4672,13 +4451,12 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return all the individuals that belong to the given class which is not
-	 * necessarily a named class.
-	 * 
+	 * Return all the individuals that belong to the given class which is not necessarily a named class.
+	 *
 	 * @param d
 	 * @return
 	 */
-	public Set<ATermAppl> retrieve(ATermAppl d, Collection<ATermAppl> individuals)
+	public Set<ATermAppl> retrieve(final ATermAppl d, final Collection<ATermAppl> individuals)
 	{
 		ensureConsistency();
 
@@ -4691,10 +4469,8 @@ public class KnowledgeBase
 
 		// this is mostly to ensure that a model for notC is cached
 		if (!abox.isSatisfiable(notC))
-		{
 			// if negation is unsat c itself is TOP
 			knowns.addAll(getIndividuals());
-		}
 		else
 			if (abox.isSatisfiable(c))
 			{
@@ -4725,20 +4501,14 @@ public class KnowledgeBase
 				}
 
 				if (!unknowns.isEmpty())
-				{
 					if (PelletOptions.INSTANCE_RETRIEVAL == InstanceRetrievalMethod.TRACING_BASED && PelletOptions.USE_TRACING)
-					{
 						tracingBasedInstanceRetrieval(c, unknowns, knowns);
-					}
 					else
 						if (abox.isType(unknowns, c))
-						{
 							if (PelletOptions.INSTANCE_RETRIEVAL == InstanceRetrievalMethod.BINARY)
 								binaryInstanceRetrieval(c, unknowns, knowns);
 							else
 								linearInstanceRetrieval(c, unknowns, knowns);
-						}
-				}
 
 			}
 
@@ -4753,10 +4523,9 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Retrieve individuals which possibly have a property value for the given
-	 * property.
+	 * Retrieve individuals which possibly have a property value for the given property.
 	 */
-	public List<ATermAppl> retrieveIndividualsWithProperty(ATermAppl r)
+	public List<ATermAppl> retrieveIndividualsWithProperty(final ATermAppl r)
 	{
 		ensureConsistency();
 
@@ -4769,15 +4538,13 @@ public class KnowledgeBase
 
 		final List<ATermAppl> result = new ArrayList<>();
 		for (final ATermAppl ind : individuals)
-		{
 			if (!abox.hasObviousPropertyValue(ind, r, null).isFalse())
 				result.add(ind);
-		}
 
 		return result;
 	}
 
-	public void tracingBasedInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates, Collection<ATermAppl> results)
+	public void tracingBasedInstanceRetrieval(final ATermAppl c, List<ATermAppl> candidates, final Collection<ATermAppl> results)
 	{
 		final boolean doExplanation = doExplanation();
 		setDoExplanation(true);
@@ -4788,7 +4555,6 @@ public class KnowledgeBase
 			final Set<ATermAppl> explanationSet = getExplanationSet();
 
 			for (final ATermAppl axiom : explanationSet)
-			{
 				if (axiom.getAFun().equals(ATermUtils.TYPEFUN) && axiom.getArgument(1).equals(notC))
 				{
 					final ATermAppl ind = (ATermAppl) axiom.getArgument(0);
@@ -4803,22 +4569,19 @@ public class KnowledgeBase
 						break;
 					}
 				}
-			}
 		}
 
 		setDoExplanation(doExplanation);
 	}
 
-	public void linearInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates, Collection<ATermAppl> results)
+	public void linearInstanceRetrieval(final ATermAppl c, final List<ATermAppl> candidates, final Collection<ATermAppl> results)
 	{
 		for (final ATermAppl ind : candidates)
-		{
 			if (abox.isType(ind, c))
 				results.add(ind);
-		}
 	}
 
-	public void binaryInstanceRetrieval(ATermAppl c, List<ATermAppl> candidates, Collection<ATermAppl> results)
+	public void binaryInstanceRetrieval(final ATermAppl c, final List<ATermAppl> candidates, final Collection<ATermAppl> results)
 	{
 		if (candidates.isEmpty())
 			return;
@@ -4829,7 +4592,7 @@ public class KnowledgeBase
 		}
 	}
 
-	private void partitionInstanceRetrieval(ATermAppl c, List<ATermAppl>[] partitions, Collection<ATermAppl> results)
+	private void partitionInstanceRetrieval(final ATermAppl c, final List<ATermAppl>[] partitions, final Collection<ATermAppl> results)
 	{
 		if (partitions[0].size() == 1)
 		{
@@ -4841,25 +4604,19 @@ public class KnowledgeBase
 		}
 		else
 			if (!abox.isType(partitions[0], c))
-			{
 				binaryInstanceRetrieval(c, partitions[1], results);
-			}
 			else
-			{
 				if (!abox.isType(partitions[1], c))
-				{
 					binaryInstanceRetrieval(c, partitions[0], results);
-				}
 				else
 				{
 					binaryInstanceRetrieval(c, partitions[0], results);
 					binaryInstanceRetrieval(c, partitions[1], results);
 				}
-			}
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<ATermAppl>[] partition(List<ATermAppl> candidates)
+	private List<ATermAppl>[] partition(final List<ATermAppl> candidates)
 	{
 		final List<ATermAppl>[] partitions = new List[2];
 		final int n = candidates.size();
@@ -4885,7 +4642,7 @@ public class KnowledgeBase
 	// return partitionSubClassRetrieval(c, partitions);
 	// }
 	// }
-	//	
+	//
 	// private List partitionSubClassRetrieval(ATermAppl c, List[] partitions) {
 	// if(partitions[0].size() == 1) {
 	// ATermAppl d = (ATermAppl) partitions[0].get(0);
@@ -4893,7 +4650,7 @@ public class KnowledgeBase
 	//
 	// if(isSubclassOf(d, c))
 	// l.add(d);
-	//			
+	//
 	// return l;
 	// }
 	// else if(!abox.isSubClassOf(partitions[0], c))
@@ -4903,9 +4660,9 @@ public class KnowledgeBase
 	// else {
 	// List l1 = binarySubClassRetrieval(c, partitions[0]);
 	// List l2 = binarySubClassRetrieval(c, partitions[1]);
-	//			
+	//
 	// l1.addAll(l2);
-	//			
+	//
 	// return l1;
 	// }
 	// }
@@ -4920,7 +4677,7 @@ public class KnowledgeBase
 		new ClassTreePrinter().print(builder.getTaxonomy());
 	}
 
-	public void printClassTree(PrintWriter out)
+	public void printClassTree(final PrintWriter out)
 	{
 		classify();
 
@@ -4933,10 +4690,9 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * @param doExplanation
-	 *            The doExplanation to set.
+	 * @param doExplanation The doExplanation to set.
 	 */
-	public void setDoExplanation(boolean doExplanation)
+	public void setDoExplanation(final boolean doExplanation)
 	{
 		abox.setDoExplanation(doExplanation);
 	}
@@ -4950,7 +4706,7 @@ public class KnowledgeBase
 	 * @deprecated Use setDoExplanation instead
 	 */
 	@Deprecated
-	public void setDoDependencyAxioms(boolean doDepAxioms)
+	public void setDoDependencyAxioms(final boolean doDepAxioms)
 	{
 		if (log.isLoggable(Level.FINER))
 			log.finer("Setting DoDependencyAxioms = " + doDepAxioms);
@@ -4971,61 +4727,57 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * @param rbox
-	 *            The rbox to set.
+	 * @param rbox The rbox to set.
 	 */
-	public void setRBox(RBox rbox)
+	public void setRBox(final RBox rbox)
 	{
 		this.rbox = rbox;
 	}
 
 	/**
-	 * @param tbox
-	 *            The tbox to set.
+	 * @param tbox The tbox to set.
 	 */
-	public void setTBox(TBox tbox)
+	public void setTBox(final TBox tbox)
 	{
 		this.tbox = tbox;
 	}
 
-	CompletionStrategy chooseStrategy(ABox abox)
+	CompletionStrategy chooseStrategy(final ABox abox)
 	{
 		return chooseStrategy(abox, getExpressivity());
 	}
 
 	/**
-	 * Choose a completion strategy based on the expressivity of the KB. The
-	 * abox given is not necessarily the ABox that belongs to this KB but can be
-	 * a derivative.
-	 * 
+	 * Choose a completion strategy based on the expressivity of the KB. The abox given is not necessarily the ABox that belongs to this KB but can be a
+	 * derivative.
+	 *
 	 * @return
 	 */
-	CompletionStrategy chooseStrategy(ABox abox, Expressivity expressivity)
+	CompletionStrategy chooseStrategy(final ABox abox, final Expressivity expressivity)
 	{
 		final boolean conceptSatisfiability = (abox.size() == 1) && new IndividualIterator(abox).next().isConceptRoot();
 
 		// We don't need to use rules strategy if we are checking concept satisfiability unless
 		// there are nominals because then rules may affect concept satisfiability and we need
 		// to use rules strategy
-		if (getRules().size() > 0 && (expressivity.hasNominal() || !conceptSatisfiability)) { return new ContinuousRulesStrategy(abox); }
+		if (getRules().size() > 0 && (expressivity.hasNominal() || !conceptSatisfiability))
+			return new ContinuousRulesStrategy(abox);
 
 		final boolean fullDatatypeReasoning = PelletOptions.USE_FULL_DATATYPE_REASONING && (expressivity.hasCardinalityD() || expressivity.hasKeys());
 
 		if (!fullDatatypeReasoning)
-		{
-			if (conceptSatisfiability && !expressivity.hasNominal()) { return new EmptySRIQStrategy(abox); }
-		}
+			if (conceptSatisfiability && !expressivity.hasNominal())
+				return new EmptySRIQStrategy(abox);
 
 		return new SROIQStrategy(abox);
 	}
 
 	/**
-	 * Set a timeout for the main timer. Used to stop an automated test after a
-	 * reasonable amount of time has passed.
-	 * 
+	 * Set a timeout for the main timer. Used to stop an automated test after a reasonable amount of time has passed.
+	 *
 	 * @param timeout
 	 */
-	public void setTimeout(long timeout)
+	public void setTimeout(final long timeout)
 	{
 		timers.mainTimer.setTimeout(timeout);
 	}
@@ -5034,7 +4786,7 @@ public class KnowledgeBase
 	 * @param term
 	 * @return
 	 */
-	public Role getRole(ATerm term)
+	public Role getRole(final ATerm term)
 	{
 		return rbox.getRole(term);
 	}
@@ -5056,35 +4808,27 @@ public class KnowledgeBase
 			prepare();
 
 			if (expChecker.getExpressivity().isEL() && !PelletOptions.DISABLE_EL_CLASSIFIER)
-			{
 				builder = new SimplifiedELClassifier();
-			}
 			else
-			{
 				builder = new CDOptimizedTaxonomyBuilder();
-			}
 			builder.setKB(this);
 
 			if (builderProgressMonitor != null)
-			{
 				builder.setProgressMonitor(builderProgressMonitor);
-			}
 		}
 
 		return builder;
 	}
 
-	public void setTaxonomyBuilderProgressMonitor(ProgressMonitor progressMonitor)
+	public void setTaxonomyBuilderProgressMonitor(final ProgressMonitor progressMonitor)
 	{
 		builderProgressMonitor = progressMonitor;
 
 		if (builder != null)
-		{
 			builder.setProgressMonitor(progressMonitor);
-		}
 	}
 
-	public Taxonomy<ATermAppl> getRoleTaxonomy(boolean objectTaxonomy)
+	public Taxonomy<ATermAppl> getRoleTaxonomy(final boolean objectTaxonomy)
 	{
 		prepare();
 
@@ -5092,21 +4836,18 @@ public class KnowledgeBase
 
 	}
 
-	public Taxonomy<ATermAppl> getRoleTaxonomy(ATermAppl r)
+	public Taxonomy<ATermAppl> getRoleTaxonomy(final ATermAppl r)
 	{
 		prepare();
 
 		if (isObjectProperty(r))
-		{
 			return rbox.getObjectTaxonomy();
-		}
 		else
 			if (isDatatypeProperty(r))
-			{
 				return rbox.getDataTaxonomy();
-			}
 			else
-				if (isAnnotationProperty(r)) { return rbox.getAnnotationTaxonomy(); }
+				if (isAnnotationProperty(r))
+					return rbox.getAnnotationTaxonomy();
 
 		return null;
 	}
@@ -5119,7 +4860,7 @@ public class KnowledgeBase
 	/**
 	 * Add a rule to the KB.
 	 */
-	public boolean addRule(Rule rule)
+	public boolean addRule(final Rule rule)
 	{
 		// DL-safe rules affects the ABox so we might redo the reasoning
 		changes.add(ChangeType.ABOX_ADD);
@@ -5132,9 +4873,10 @@ public class KnowledgeBase
 		return true;
 	}
 
-	private Rule normalize(Rule rule)
+	private Rule normalize(final Rule rule)
 	{
-		if (!UsableRuleFilter.isUsable(rule)) { return null; }
+		if (!UsableRuleFilter.isUsable(rule))
+			return null;
 
 		final Set<RuleAtom> head = new LinkedHashSet<>();
 		final Set<RuleAtom> body = new LinkedHashSet<>();
@@ -5156,7 +4898,6 @@ public class KnowledgeBase
 		final Map<AtomIObject, Set<ATermAppl>> types = new HashMap<>();
 
 		for (final RuleAtom atom : rule.getBody())
-		{
 			if (atom instanceof IndividualPropertyAtom)
 			{
 				final IndividualPropertyAtom propAtom = (IndividualPropertyAtom) atom;
@@ -5178,7 +4919,6 @@ public class KnowledgeBase
 						MultiMapUtils.addAll(types, obj, ranges);
 				}
 			}
-		}
 
 		for (RuleAtom atom : rule.getBody())
 		{
@@ -5209,10 +4949,9 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return the asserted rules with their normalized form. A normalized rule
-	 * is a rule where any class expression occurring in the rules is in
-	 * normalized form.
-	 * 
+	 * Return the asserted rules with their normalized form. A normalized rule is a rule where any class expression occurring in the rules is in normalized
+	 * form.
+	 *
 	 * @return set of rules where
 	 */
 	public Map<Rule, Rule> getNormalizedRules()
@@ -5222,7 +4961,7 @@ public class KnowledgeBase
 
 	/**
 	 * Check if we can use incremental consistency checking
-	 * 
+	 *
 	 * @return
 	 */
 	protected boolean canUseIncConsistency()
@@ -5233,15 +4972,15 @@ public class KnowledgeBase
 			return false;
 
 		final boolean canUseIncConsistency = !(expressivity.hasNominal() && expressivity.hasInverse()) && getRules().isEmpty() && !isTBoxChanged() && !isRBoxChanged() && abox.isComplete() && PelletOptions.USE_INCREMENTAL_CONSISTENCY &&
-				// support additions only; also support deletions with or with
-				// additions, however tracing must be on to support incremental
-				// deletions
+		// support additions only; also support deletions with or with
+		// additions, however tracing must be on to support incremental
+		// deletions
 				(!changes.contains(ChangeType.ABOX_DEL) || PelletOptions.USE_INCREMENTAL_DELETION);
 
 		return canUseIncConsistency;
 	}
 
-	public void ensureIncConsistency(boolean aboxDeletion)
+	public void ensureIncConsistency(final boolean aboxDeletion)
 	{
 		if (canUseIncConsistency())
 			return;
@@ -5277,7 +5016,7 @@ public class KnowledgeBase
 
 	/**
 	 * Get the dependency index for syntactic assertions in this kb
-	 * 
+	 *
 	 * @return
 	 */
 	public DependencyIndex getDependencyIndex()
@@ -5287,7 +5026,7 @@ public class KnowledgeBase
 
 	/**
 	 * Get syntactic assertions in the kb
-	 * 
+	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getSyntacticAssertions()
@@ -5295,13 +5034,13 @@ public class KnowledgeBase
 		return syntacticAssertions;
 	}
 
-	protected static void handleUndefinedEntity(String s)
+	protected static void handleUndefinedEntity(final String s)
 	{
 		if (!PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
 			throw new UndefinedEntityException(s);
 	}
 
-	public Set<ATermAppl> getABoxAssertions(AssertionType assertionType)
+	public Set<ATermAppl> getABoxAssertions(final AssertionType assertionType)
 	{
 		final Set<ATermAppl> assertions = aboxAssertions.get(assertionType);
 
@@ -5348,7 +5087,7 @@ public class KnowledgeBase
 
 	/**
 	 * Returns current value of explainOnlyInconsistency option.
-	 * 
+	 *
 	 * @see #setExplainOnlyInconsistency(boolean)
 	 * @return current value of explainOnlyInconsistency option
 	 */
@@ -5358,19 +5097,14 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Controls what kind of explanations can be generated using this KB. With
-	 * this option enabled explanations for inconsistent ontologies will be
-	 * returned. But if the ontology is consistent, it will not be possible to
-	 * retrieve explanations for inferences about instances. This option is
-	 * disabled by default. It should be turned on if explanations are only
-	 * needed for inconsistencies but not other inferences. Turning this option
-	 * on improves the performance of consistency checking for consistent
-	 * ontologies.
-	 * 
-	 * @param explainOnlyInconsistency
-	 *            new value for explainOnlyInconsistency option
+	 * Controls what kind of explanations can be generated using this KB. With this option enabled explanations for inconsistent ontologies will be returned.
+	 * But if the ontology is consistent, it will not be possible to retrieve explanations for inferences about instances. This option is disabled by default.
+	 * It should be turned on if explanations are only needed for inconsistencies but not other inferences. Turning this option on improves the performance of
+	 * consistency checking for consistent ontologies.
+	 *
+	 * @param explainOnlyInconsistency new value for explainOnlyInconsistency option
 	 */
-	public void setExplainOnlyInconsistency(boolean explainOnlyInconsistency)
+	public void setExplainOnlyInconsistency(final boolean explainOnlyInconsistency)
 	{
 		this.explainOnlyInconsistency = explainOnlyInconsistency;
 	}

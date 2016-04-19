@@ -16,48 +16,58 @@ import java.util.Set;
 
 /**
  * DisjointSet data structure. Uses path compression and union by rank.
- * 
+ *
  * @author Evren Sirin
  */
-public class DisjointSet<T> {
-	private class Node<U> {
-		U		object;
-		Node<U>	parent	= this;
-		int		rank	= 0;
+public class DisjointSet<T>
+{
+	private class Node<U>
+	{
+		U object;
+		Node<U> parent = this;
+		int rank = 0;
 
-		Node(U o) {
+		Node(final U o)
+		{
 			object = o;
 		}
 	}
 
-	private Map<T, Node<T>>	elements;
+	private final Map<T, Node<T>> elements;
 
-	public DisjointSet() {
-		elements = new HashMap<T, Node<T>>();
+	public DisjointSet()
+	{
+		elements = new HashMap<>();
 	}
 
-	public void add(T o) {
-		if( elements.containsKey( o ) )
+	public void add(final T o)
+	{
+		if (elements.containsKey(o))
 			return;
 
-		elements.put( o, new Node<T>( o ) );
+		elements.put(o, new Node<>(o));
 	}
 
-	public boolean contains(T o) {
-		return elements.containsKey( o );
+	public boolean contains(final T o)
+	{
+		return elements.containsKey(o);
 	}
 
-	public Collection<T> elements() {
-		return Collections.unmodifiableSet( elements.keySet() );
+	public Collection<T> elements()
+	{
+		return Collections.unmodifiableSet(elements.keySet());
 	}
 
-	public T find(T o) {
-		return findRoot( o ).object;
+	public T find(final T o)
+	{
+		return findRoot(o).object;
 	}
 
-	private Node<T> findRoot(T o) {
-		Node<T> node = elements.get( o );
-		while( node.parent.parent != node.parent ) {
+	private Node<T> findRoot(final T o)
+	{
+		Node<T> node = elements.get(o);
+		while (node.parent.parent != node.parent)
+		{
 			node.parent = node.parent.parent;
 			node = node.parent;
 		}
@@ -65,56 +75,66 @@ public class DisjointSet<T> {
 		return node.parent;
 	}
 
-	public Collection<Set<T>> getEquivalanceSets() {
+	public Collection<Set<T>> getEquivalanceSets()
+	{
 
-		Map<T, Set<T>> equivalanceSets = new HashMap<T, Set<T>>();
+		final Map<T, Set<T>> equivalanceSets = new HashMap<>();
 
-		for( T x : elements.keySet() ) {
-			T representative = find( x );
+		for (final T x : elements.keySet())
+		{
+			final T representative = find(x);
 
-			Set<T> equivalanceSet = equivalanceSets.get( representative );
-			if( equivalanceSet == null ) {
-				equivalanceSet = new HashSet<T>();
-				equivalanceSets.put( representative, equivalanceSet );
+			Set<T> equivalanceSet = equivalanceSets.get(representative);
+			if (equivalanceSet == null)
+			{
+				equivalanceSet = new HashSet<>();
+				equivalanceSets.put(representative, equivalanceSet);
 			}
-			equivalanceSet.add( x );
+			equivalanceSet.add(x);
 		}
 
 		return equivalanceSets.values();
 	}
 
-	public boolean isSame(T x, T y) {
-		return find( x ).equals( find( y ) );
+	public boolean isSame(final T x, final T y)
+	{
+		return find(x).equals(find(y));
 	}
 
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
+	@Override
+	public String toString()
+	{
+		final StringBuffer buffer = new StringBuffer();
 
-		buffer.append( "{" );
-		for( Iterator<Node<T>> i = elements.values().iterator(); i.hasNext(); ) {
-			Node<T> node = i.next();
-			buffer.append( node.object );
-			buffer.append( " -> " );
-			buffer.append( node.parent.object );
-			if( i.hasNext() )
-				buffer.append( ", " );
+		buffer.append("{");
+		for (final Iterator<Node<T>> i = elements.values().iterator(); i.hasNext();)
+		{
+			final Node<T> node = i.next();
+			buffer.append(node.object);
+			buffer.append(" -> ");
+			buffer.append(node.parent.object);
+			if (i.hasNext())
+				buffer.append(", ");
 		}
-		buffer.append( "}" );
+		buffer.append("}");
 
 		return buffer.toString();
 	}
 
-	public Node<T> union(T x, T y) {
-		Node<T> rootX = findRoot( x );
-		Node<T> rootY = findRoot( y );
+	public Node<T> union(final T x, final T y)
+	{
+		Node<T> rootX = findRoot(x);
+		Node<T> rootY = findRoot(y);
 
-		if( rootX.rank > rootY.rank ) {
-			Node<T> node = rootX;
+		if (rootX.rank > rootY.rank)
+		{
+			final Node<T> node = rootX;
 			rootX = rootY;
 			rootY = node;
 		}
-		else if( rootX.rank == rootY.rank )
-			++rootY.rank;
+		else
+			if (rootX.rank == rootY.rank)
+				++rootY.rank;
 
 		rootX.parent = rootY;
 

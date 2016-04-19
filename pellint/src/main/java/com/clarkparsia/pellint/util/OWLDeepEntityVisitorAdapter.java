@@ -21,7 +21,8 @@ import org.semanticweb.owlapi.util.DeprecatedOWLEntityCollector;
  * Title: OWL Deep-Entity-Visitor Adapter
  * </p>
  * <p>
- * Description: A visitor that visits the entire structure of any OWL entity - a workaround to OWLAPI since the visitor pattern was adapted such that the visitors are responsible for the traversals instead of the object structures.
+ * Description: A visitor that visits the entire structure of any OWL entity - a workaround to OWLAPI since the visitor pattern was adapted such that the
+ * visitors are responsible for the traversals instead of the object structures.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -29,36 +30,37 @@ import org.semanticweb.owlapi.util.DeprecatedOWLEntityCollector;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
 public abstract class OWLDeepEntityVisitorAdapter extends DeprecatedOWLEntityCollector
 {
 
 	@Override
-	public Collection<OWLEntity> visit(OWLClass desc)
+	public Collection<OWLEntity> visit(final OWLClass desc)
 	{
 		return Collections.emptyList();
 	}
 
 	@Override
-	public Collection<OWLEntity> visit(OWLObjectProperty property)
+	public Collection<OWLEntity> visit(final OWLObjectProperty property)
 	{
 		return Collections.emptyList();
 	}
 
 	@Override
-	public Collection<OWLEntity> visit(OWLDataProperty property)
+	public Collection<OWLEntity> visit(final OWLDataProperty property)
 	{
 		return Collections.emptyList();
 	}
 
-	public void visit(OWLIndividual individual)
+	public void visit(@SuppressWarnings("unused") final OWLIndividual individual)
 	{
+		//
 	}
 
 	@Override
-	public Collection<OWLEntity> visit(OWLDatatype datatype)
+	public Collection<OWLEntity> visit(final OWLDatatype datatype)
 	{
 		return Collections.emptyList();
 	}

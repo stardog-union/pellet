@@ -23,48 +23,55 @@ import org.mindswap.pellet.KnowledgeBase;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Markus Stocker
  */
-public class PelletConsistency extends PelletCmdApp {
+public class PelletConsistency extends PelletCmdApp
+{
 
-	public PelletConsistency() {
+	public PelletConsistency()
+	{
 	}
 
 	@Override
-	public String getAppCmd() {
+	public String getAppCmd()
+	{
 		return "pellet consistency " + getMandatoryOptions() + "[options] <file URI>...";
 	}
 
 	@Override
-	public String getAppId() {
+	public String getAppId()
+	{
 		return "PelletConsistency: Check the consistency of an ontology";
 	}
 
 	@Override
-	public PelletCmdOptions getOptions() {
-		PelletCmdOptions options = getGlobalOptions();
-		
-		options.add( getLoaderOption() );
-		options.add( getIgnoreImportsOption() );
-		options.add( getInputFormatOption() );
-		
+	public PelletCmdOptions getOptions()
+	{
+		final PelletCmdOptions options = getGlobalOptions();
+
+		options.add(getLoaderOption());
+		options.add(getIgnoreImportsOption());
+		options.add(getInputFormatOption());
+
 		return options;
 	}
 
 	@Override
-	public void run() {
-		KnowledgeBase kb = getKB();
+	public void run()
+	{
+		final KnowledgeBase kb = getKB();
 
-		startTask( "consistency check" );
-		boolean isConsistent = kb.isConsistent();
-		finishTask( "consistency check" );
+		startTask("consistency check");
+		final boolean isConsistent = kb.isConsistent();
+		finishTask("consistency check");
 
-		if( isConsistent )
-			output( "Consistent: Yes" );
-		else {
-			output( "Consistent: No" );
-			output( "Reason: " + kb.getExplanation() );
+		if (isConsistent)
+			output("Consistent: Yes");
+		else
+		{
+			output("Consistent: No");
+			output("Reason: " + kb.getExplanation());
 		}
 	}
 

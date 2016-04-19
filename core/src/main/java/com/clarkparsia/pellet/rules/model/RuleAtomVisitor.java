@@ -11,7 +11,7 @@ package com.clarkparsia.pellet.rules.model;
  * Title: Rule Atom Visitor
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -19,22 +19,23 @@ package com.clarkparsia.pellet.rules.model;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface RuleAtomVisitor {
+ */
+public interface RuleAtomVisitor
+{
 
-	public void visit( BuiltInAtom atom );
-	
-	public void visit( ClassAtom atom );
-	
-	public void visit( DataRangeAtom atom );
-	
-	public void visit( DatavaluedPropertyAtom atom );
-	
-	public void visit( DifferentIndividualsAtom atom );
-	
-	public void visit( IndividualPropertyAtom atom );
-	
-	public void visit( SameIndividualAtom atom );
+	public void visit(BuiltInAtom atom);
+
+	public void visit(ClassAtom atom);
+
+	public void visit(DataRangeAtom atom);
+
+	public void visit(DatavaluedPropertyAtom atom);
+
+	public void visit(DifferentIndividualsAtom atom);
+
+	public void visit(IndividualPropertyAtom atom);
+
+	public void visit(SameIndividualAtom atom);
 }

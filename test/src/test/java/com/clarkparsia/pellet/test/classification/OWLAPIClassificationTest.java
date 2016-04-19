@@ -11,10 +11,9 @@ package com.clarkparsia.pellet.test.classification;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
-import com.clarkparsia.owlapi.OWL;
 import java.util.ArrayList;
 import java.util.List;
 import org.semanticweb.owlapi.model.AxiomType;
@@ -29,59 +28,62 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 /**
- * 
  * @author Evren Sirin
  */
-public class OWLAPIClassificationTest extends AbstractClassificationTest {
-	public void testClassification(String inputOnt, String classifiedOnt) throws OWLOntologyCreationException {
-		OWLOntology premise = OWL.manager.loadOntology( IRI.create( inputOnt ) );
-		OWLOntology conclusion = OWL.manager.loadOntology( IRI.create( classifiedOnt ) );
-		
-		try {
-			PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( premise );
+public class OWLAPIClassificationTest extends AbstractClassificationTest
+{
+	@Override
+	public void testClassification(final String inputOnt, final String classifiedOnt) throws OWLOntologyCreationException
+	{
+		final OWLOntology premise = OWL.manager.loadOntology(IRI.create(inputOnt));
+		final OWLOntology conclusion = OWL.manager.loadOntology(IRI.create(classifiedOnt));
+
+		try
+		{
+			final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(premise);
 			reasoner.getKB().classify();
-	
-			List<OWLAxiom> nonEntailments = new ArrayList<OWLAxiom>();
-					
-			for( OWLSubClassOfAxiom axiom : conclusion.getAxioms( AxiomType.SUBCLASS_OF ) ) {
-				boolean entailed = reasoner.getSubClasses( axiom.getSuperClass(), true ).containsEntity( (OWLClass) axiom.getSubClass() );
-				
-				if( !entailed ) {
-					if( AbstractClassificationTest.FAIL_AT_FIRST_ERROR )
-						fail( "Not entailed: " + axiom );
+
+			final List<OWLAxiom> nonEntailments = new ArrayList<>();
+
+			for (final OWLSubClassOfAxiom axiom : conclusion.getAxioms(AxiomType.SUBCLASS_OF))
+			{
+				final boolean entailed = reasoner.getSubClasses(axiom.getSuperClass(), true).containsEntity((OWLClass) axiom.getSubClass());
+
+				if (!entailed)
+					if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
+						fail("Not entailed: " + axiom);
 					else
-						nonEntailments.add( axiom );
-				}
+						nonEntailments.add(axiom);
 			}
-	
-			for( OWLEquivalentClassesAxiom axiom : conclusion
-					.getAxioms( AxiomType.EQUIVALENT_CLASSES ) ) {
-				boolean entailed = reasoner.isEntailed( axiom );
-				
-				if( !entailed ) {
-					if( AbstractClassificationTest.FAIL_AT_FIRST_ERROR )
-						fail( "Not entailed: " + axiom );
+
+			for (final OWLEquivalentClassesAxiom axiom : conclusion.getAxioms(AxiomType.EQUIVALENT_CLASSES))
+			{
+				final boolean entailed = reasoner.isEntailed(axiom);
+
+				if (!entailed)
+					if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
+						fail("Not entailed: " + axiom);
 					else
-						nonEntailments.add( axiom );
-				}
+						nonEntailments.add(axiom);
 			}
-			
-			for( OWLClassAssertionAxiom axiom : conclusion.getAxioms( AxiomType.CLASS_ASSERTION ) ) {
-				boolean entailed = reasoner.getInstances( axiom.getClassExpression(), true ).containsEntity( (OWLNamedIndividual) axiom.getIndividual() );
-				
-				if( !entailed ) {
-					if( AbstractClassificationTest.FAIL_AT_FIRST_ERROR )
-						fail( "Not entailed: " + axiom );
+
+			for (final OWLClassAssertionAxiom axiom : conclusion.getAxioms(AxiomType.CLASS_ASSERTION))
+			{
+				final boolean entailed = reasoner.getInstances(axiom.getClassExpression(), true).containsEntity((OWLNamedIndividual) axiom.getIndividual());
+
+				if (!entailed)
+					if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
+						fail("Not entailed: " + axiom);
 					else
-						nonEntailments.add( axiom );
-				}
+						nonEntailments.add(axiom);
 			}
-			
-			assertTrue( nonEntailments.size() + " " +nonEntailments.toString(), nonEntailments.isEmpty() );
+
+			assertTrue(nonEntailments.size() + " " + nonEntailments.toString(), nonEntailments.isEmpty());
 		}
-		finally {
-			OWL.manager.removeOntology( premise );
-			OWL.manager.removeOntology( conclusion );
+		finally
+		{
+			OWL.manager.removeOntology(premise);
+			OWL.manager.removeOntology(conclusion);
 		}
 	}
 

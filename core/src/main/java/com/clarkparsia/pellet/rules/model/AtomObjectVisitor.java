@@ -11,7 +11,7 @@ package com.clarkparsia.pellet.rules.model;
  * Title: Atom Object Visitor
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -19,17 +19,18 @@ package com.clarkparsia.pellet.rules.model;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public interface AtomObjectVisitor {
+ */
+public interface AtomObjectVisitor
+{
 
-	public void visit( AtomDConstant constant );
-	
-	public void visit( AtomDVariable variable );
-	
-	public void visit( AtomIConstant constant );
-	
-	public void visit( AtomIVariable variable );
-	
+	public void visit(AtomDConstant constant);
+
+	public void visit(AtomDVariable variable);
+
+	public void visit(AtomIConstant constant);
+
+	public void visit(AtomIVariable variable);
+
 }

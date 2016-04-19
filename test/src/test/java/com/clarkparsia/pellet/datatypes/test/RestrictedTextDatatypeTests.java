@@ -29,7 +29,7 @@ import org.junit.Test;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Hector Perez-Urbina
  */
 public class RestrictedTextDatatypeTests

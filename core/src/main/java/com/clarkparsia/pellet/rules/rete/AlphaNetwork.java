@@ -6,21 +6,7 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.mindswap.pellet.ABox;
-import org.mindswap.pellet.DependencySet;
-import org.mindswap.pellet.Edge;
-import org.mindswap.pellet.Individual;
-import org.mindswap.pellet.Node;
-import org.mindswap.pellet.Role;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.rules.model.AtomConstant;
 import com.clarkparsia.pellet.rules.model.AtomObject;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
@@ -34,6 +20,17 @@ import com.clarkparsia.pellet.rules.model.IndividualPropertyAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.mindswap.pellet.ABox;
+import org.mindswap.pellet.DependencySet;
+import org.mindswap.pellet.Edge;
+import org.mindswap.pellet.Individual;
+import org.mindswap.pellet.Node;
+import org.mindswap.pellet.Role;
 
 /**
  * <p>
@@ -49,280 +46,282 @@ import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
  */
-public class AlphaNetwork implements Iterable<AlphaNode> {	
-//	private final Map<ATermAppl, List<AlphaTypeNode>> typeNodes = new HashMap<Object, List<AlphaNode>>();
-	
-	private final Map<Object, List<AlphaNode>> map = new HashMap<Object, List<AlphaNode>>();
-	private final List<AlphaNode> alphaNodes = new ArrayList<AlphaNode>();
+public class AlphaNetwork implements Iterable<AlphaNode>
+{
+	//	private final Map<ATermAppl, List<AlphaTypeNode>> typeNodes = new HashMap<Object, List<AlphaNode>>();
+
+	private final Map<Object, List<AlphaNode>> map = new HashMap<>();
+	private final List<AlphaNode> alphaNodes = new ArrayList<>();
 	private final AlphaNodeCreator creator = new AlphaNodeCreator();
 	private final ABox abox;
-	
 
-	public AlphaNetwork(ABox abox) {
+	public AlphaNetwork(final ABox abox)
+	{
 		this.abox = abox;
 	}
-	
+
 	@Override
-	public Iterator<AlphaNode> iterator() {
-	    return alphaNodes.iterator();
+	public Iterator<AlphaNode> iterator()
+	{
+		return alphaNodes.iterator();
 	}
-	
-	public AlphaNode addNode(RuleAtom atom) {
-		Object pred = atom.getPredicate();
+
+	public AlphaNode addNode(final RuleAtom atom)
+	{
+		final Object pred = atom.getPredicate();
 		List<AlphaNode> nodes = map.get(pred);
-		if (nodes == null) {
-			nodes = new ArrayList<AlphaNode>();
-			map.put(pred,  nodes);
+		if (nodes == null)
+		{
+			nodes = new ArrayList<>();
+			map.put(pred, nodes);
 		}
-		else {
-			for (AlphaNode node : nodes) {
-	            if (node.matches(atom)) {
-	            	return node;
-	            }
-            }
-		}
-		
-		AlphaNode node = creator.create(atom);
-		if (node != null) {
-			if (node instanceof AlphaEdgeNode) {
-				Role role = ((AlphaEdgeNode) node).getRole();
+		else
+			for (final AlphaNode node : nodes)
+				if (node.matches(atom))
+					return node;
+
+		final AlphaNode node = creator.create(atom);
+		if (node != null)
+			if (node instanceof AlphaEdgeNode)
+			{
+				final Role role = ((AlphaEdgeNode) node).getRole();
 				addAlphaNodeForSubs(role, node);
-				if (role.isObjectRole()) {
+				if (role.isObjectRole())
 					addAlphaNodeForSubs(role.getInverse(), node);
-				}
 			}
-			else {
+			else
 				nodes.add(node);
-			}
-		}
-		
+
 		alphaNodes.add(node);
-		
+
 		return node;
 	}
-	
-	private void addAlphaNodeForSubs(Role r, AlphaNode node) {
-		for (Role sub : r.getSubRoles()) {
-			if (!sub.isBottom()) {
+
+	private void addAlphaNodeForSubs(final Role r, final AlphaNode node)
+	{
+		for (final Role sub : r.getSubRoles())
+			if (!sub.isBottom())
 				addAlphaNode(sub, node);
-			}
-        }
 	}
-	
-	private void addAlphaNode(Role r, AlphaNode node) {
-		if (!r.isAnon()) {
+
+	private void addAlphaNode(final Role r, final AlphaNode node)
+	{
+		if (!r.isAnon())
+		{
 			List<AlphaNode> subNodes = map.get(r.getName());
-			if (subNodes == null) {
-				subNodes = new ArrayList<AlphaNode>();
+			if (subNodes == null)
+			{
+				subNodes = new ArrayList<>();
 				map.put(r.getName(), subNodes);
 			}
 			subNodes.add(node);
 		}
 	}
-	
-	public void activateAll() {
-//		interpreter.addFact( EMPTY_FACT );
-		for( Iterator<Individual> i = abox.getIndIterator(); i.hasNext(); ) {
-			Individual ind = i.next();
-			activateIndividual( ind );
+
+	public void activateAll()
+	{
+		//		interpreter.addFact( EMPTY_FACT );
+		for (final Iterator<Individual> i = abox.getIndIterator(); i.hasNext();)
+		{
+			final Individual ind = i.next();
+			activateIndividual(ind);
 		}
-		
+
 		return;
 	}
 
-	public boolean activateIndividual(Individual ind) {
+	public boolean activateIndividual(final Individual ind)
+	{
 		// only named non-pruned individuals
-		boolean changed = false;
-		if( !ind.isRootNominal() || ind.isPruned() ) {
+		final boolean changed = false;
+		if (!ind.isRootNominal() || ind.isPruned())
 			return false;
-		}
 
-		List<ATermAppl> types = ind.getTypes(Individual.ATOM);
-		for (int i = 0; i < types.size(); i++) {
-	        ATermAppl type = types.get(i);	        
+		final List<ATermAppl> types = ind.getTypes(Node.ATOM);
+		for (int i = 0; i < types.size(); i++)
+		{
+			final ATermAppl type = types.get(i);
 			activateType(ind, type, ind.getDepends(type));
 		}
 
-		activateDifferents( ind );
+		activateDifferents(ind);
 
-		for( Edge edge : ind.getOutEdges() ) {
-			if (edge.getTo().isRootNominal()) {
+		for (final Edge edge : ind.getOutEdges())
+			if (edge.getTo().isRootNominal())
 				activateEdge(edge);
-			}
-		}
 
 		return changed;
 	}
-	
-	public void activateType(Individual ind, ATermAppl type, DependencySet ds) {
-		List<AlphaNode> alphas = map.get(type);
-		if (alphas != null) {
-			for (AlphaNode alpha : alphas) {
+
+	public void activateType(final Individual ind, final ATermAppl type, final DependencySet ds)
+	{
+		final List<AlphaNode> alphas = map.get(type);
+		if (alphas != null)
+			for (final AlphaNode alpha : alphas)
 				((AlphaTypeNode) alpha).activate(ind, type, ds);
-			}	
-		}
 	}
 
-	public void activateEdge(Edge edge) {
+	public void activateEdge(final Edge edge)
+	{
 		Role r = edge.getRole();
-		if (r.isAnon()) {
+		if (r.isAnon())
 			r = r.getInverse();
-		}
-		List<AlphaNode> alphas = map.get(r.getName());
-		if (alphas != null) {
-			for (AlphaNode alpha : alphas) {
+		final List<AlphaNode> alphas = map.get(r.getName());
+		if (alphas != null)
+			for (final AlphaNode alpha : alphas)
 				((AlphaEdgeNode) alpha).activate(edge);
-			}	
-		}
-    }
+	}
 
-//	private void activateEdge(Edge edge, boolean inverse) {
-//		Role role = edge.getRole();
-//		if (inverse) {
-//			role = role.getInverse();
-//			if (role == null) {
-//				return;
-//			}
-//		}
-//		for (Role r : role.getSuperRoles()) {
-//			if (r.isAnon()) {
-//				continue;
-//			}
-//			List<AlphaNode> alphas = map.get(r.getName());
-//			if (alphas != null) {
-//				if (inverse) {
-//					edge = new DefaultEdge(role,(Individual)edge.getTo(),  edge.getFrom(), edge.getDepends());
-//				}
-//				for (AlphaNode alpha : alphas) {
-//					((AlphaEdgeNode) alpha).activate(edge);
-//				}	
-//			}
-//        }
-//    }
-	
-	public void activateDifferents(Individual ind) {
-		List<AlphaNode> alphas = map.get("DIFFERENT");
-		if (alphas != null) {
-			for (Node n : ind.getDifferents()) {
-				Individual diff = (Individual) n;
-				for (AlphaNode alpha : alphas) {
+	//	private void activateEdge(Edge edge, boolean inverse) {
+	//		Role role = edge.getRole();
+	//		if (inverse) {
+	//			role = role.getInverse();
+	//			if (role == null) {
+	//				return;
+	//			}
+	//		}
+	//		for (Role r : role.getSuperRoles()) {
+	//			if (r.isAnon()) {
+	//				continue;
+	//			}
+	//			List<AlphaNode> alphas = map.get(r.getName());
+	//			if (alphas != null) {
+	//				if (inverse) {
+	//					edge = new DefaultEdge(role,(Individual)edge.getTo(),  edge.getFrom(), edge.getDepends());
+	//				}
+	//				for (AlphaNode alpha : alphas) {
+	//					((AlphaEdgeNode) alpha).activate(edge);
+	//				}	
+	//			}
+	//        }
+	//    }
+
+	public void activateDifferents(final Individual ind)
+	{
+		final List<AlphaNode> alphas = map.get("DIFFERENT");
+		if (alphas != null)
+			for (final Node n : ind.getDifferents())
+			{
+				final Individual diff = (Individual) n;
+				for (final AlphaNode alpha : alphas)
 					((AlphaDiffFromNode) alpha).activate(ind, diff, ind.getDifferenceDependency(diff));
-				}
-            }	
-		}
-	}
-	
-	public void activateDifferent(Individual ind, Individual diff, DependencySet ds) {
-		List<AlphaNode> alphas = map.get("DIFFERENT");
-		if (alphas != null) {
-			for (AlphaNode alpha : alphas) {
-				((AlphaDiffFromNode) alpha).activate(ind, diff, ds);
 			}
-		}
 	}
-	
-	public void setDoExplanation(boolean doExplanation) {
-	    for (AlphaNode alphaNode : alphaNodes) {
-	    	alphaNode.setDoExplanation(doExplanation);
-        }
-    }
-	
-	public void print() {
-		for (AlphaNode node : alphaNodes) {
+
+	public void activateDifferent(final Individual ind, final Individual diff, final DependencySet ds)
+	{
+		final List<AlphaNode> alphas = map.get("DIFFERENT");
+		if (alphas != null)
+			for (final AlphaNode alpha : alphas)
+				((AlphaDiffFromNode) alpha).activate(ind, diff, ds);
+	}
+
+	public void setDoExplanation(final boolean doExplanation)
+	{
+		for (final AlphaNode alphaNode : alphaNodes)
+			alphaNode.setDoExplanation(doExplanation);
+	}
+
+	public void print()
+	{
+		for (final AlphaNode node : alphaNodes)
 			node.unmark();
-		}
-		for (AlphaNode node : alphaNodes) {
+		for (final AlphaNode node : alphaNodes)
 			node.print("");
-		}
 	}
-	
+
 	@Override
-	public String toString() {
-		StringBuilder tmp = new StringBuilder();
-		for (AlphaNode node : this) {
+	public String toString()
+	{
+		final StringBuilder tmp = new StringBuilder();
+		for (final AlphaNode node : this)
 			tmp.append(node.toString()).append("\n");
-		}
 		return tmp.toString();
 	}
-	
-	private class AlphaNodeCreator implements RuleAtomVisitor {		
+
+	private class AlphaNodeCreator implements RuleAtomVisitor
+	{
 		private AlphaNode result;
-		
-		private AlphaNode create(RuleAtom atom) {
+
+		private AlphaNode create(final RuleAtom atom)
+		{
 			result = null;
 			atom.accept(this);
-			if (result == null) {
+			if (result == null)
 				throw new UnsupportedOperationException("Not supported " + atom);
-			}
 			return result;
 		}
-		
-		private void addPropertyAtom(BinaryAtom<ATermAppl, ? extends AtomObject, ? extends AtomObject> atom) {
-			AtomObject s = atom.getArgument1();
-			AtomObject o = atom.getArgument2();
-			
-			Role role = abox.getRole(atom.getPredicate());
-			if (s instanceof AtomVariable && o instanceof AtomVariable) {
-				if (s.equals(o)) {
+
+		private void addPropertyAtom(final BinaryAtom<ATermAppl, ? extends AtomObject, ? extends AtomObject> atom)
+		{
+			final AtomObject s = atom.getArgument1();
+			final AtomObject o = atom.getArgument2();
+
+			final Role role = abox.getRole(atom.getPredicate());
+			if (s instanceof AtomVariable && o instanceof AtomVariable)
+			{
+				if (s.equals(o))
 					result = new AlphaReflexiveEdgeNode(abox, role);
-				}
-				else {
+				else
 					result = new AlphaEdgeNode(abox, role);
-				}
 			}
-			else {
-				if (s instanceof AtomConstant) {
-					if (o instanceof AtomConstant) {
+			else
+				if (s instanceof AtomConstant)
+				{
+					if (o instanceof AtomConstant)
 						result = new AlphaNoVarEdgeNode(abox, role, ((AtomConstant) s).getValue(), ((AtomConstant) o).getValue());
-					}
-					else {
+					else
 						result = new AlphaFixedSubjectEdgeNode(abox, role, ((AtomConstant) s).getValue());
-					}
 				}
-				else {
+				else
 					result = new AlphaFixedObjectEdgeNode(abox, role, ((AtomConstant) o).getValue());
-				}
-			}
 		}
-		
+
 		@Override
-		public void visit(SameIndividualAtom atom) {
+		public void visit(final SameIndividualAtom atom)
+		{
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
-		public void visit(IndividualPropertyAtom atom) {
+		public void visit(final IndividualPropertyAtom atom)
+		{
 			addPropertyAtom(atom);
 		}
-		
+
 		@Override
-		public void visit(DifferentIndividualsAtom atom) {
+		public void visit(final DifferentIndividualsAtom atom)
+		{
 			result = new AlphaDiffFromNode(abox);
 		}
-		
+
 		@Override
-		public void visit(DatavaluedPropertyAtom atom) {
+		public void visit(final DatavaluedPropertyAtom atom)
+		{
 			addPropertyAtom(atom);
 		}
-		
+
 		@Override
-		public void visit(DataRangeAtom atom) {
+		public void visit(final DataRangeAtom atom)
+		{
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
-		public void visit(ClassAtom atom) {
-			AtomObject arg = atom.getArgument();
-			ATermAppl name = (arg instanceof AtomConstant) ? ((AtomConstant) arg).getValue() : null;
+		public void visit(final ClassAtom atom)
+		{
+			final AtomObject arg = atom.getArgument();
+			final ATermAppl name = (arg instanceof AtomConstant) ? ((AtomConstant) arg).getValue() : null;
 			result = new AlphaTypeNode(abox, atom.getPredicate(), name);
 		}
-		
+
 		@Override
-		public void visit(BuiltInAtom atom) {
+		public void visit(final BuiltInAtom atom)
+		{
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 }

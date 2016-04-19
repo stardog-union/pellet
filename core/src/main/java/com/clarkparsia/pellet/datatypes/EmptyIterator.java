@@ -8,8 +8,7 @@ import java.util.NoSuchElementException;
  * Title: Empty Iterator
  * </p>
  * <p>
- * Description: Re-usable empty iterator implementation. Cannot be static so
- * that parameterization is handled correctly.
+ * Description: Re-usable empty iterator implementation. Cannot be static so that parameterization is handled correctly.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -17,20 +16,27 @@ import java.util.NoSuchElementException;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class EmptyIterator<E> implements Iterator<E> {
+public class EmptyIterator<E> implements Iterator<E>
+{
 
-	public boolean hasNext() {
+	@Override
+	public boolean hasNext()
+	{
 		return false;
 	}
 
-	public E next() {
+	@Override
+	public E next()
+	{
 		throw new NoSuchElementException();
 	}
 
-	public void remove() {
+	@Override
+	public void remove()
+	{
 		throw new IllegalStateException();
 	}
 

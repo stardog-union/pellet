@@ -6,15 +6,13 @@
 
 package com.clarkparsia.pellet.impl;
 
+import aterm.ATermAppl;
+import com.clarkparsia.pellet.BranchEffectTracker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import aterm.ATermAppl;
-
-import com.clarkparsia.pellet.BranchEffectTracker;
 
 /**
  * <p>
@@ -29,82 +27,93 @@ import com.clarkparsia.pellet.BranchEffectTracker;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class SimpleBranchEffectTracker implements BranchEffectTracker {
+public class SimpleBranchEffectTracker implements BranchEffectTracker
+{
 
-	private ArrayList<Set<ATermAppl>>	effects;
+	private final ArrayList<Set<ATermAppl>> effects;
 
-	public SimpleBranchEffectTracker() {
-		effects = new ArrayList<Set<ATermAppl>>();
+	public SimpleBranchEffectTracker()
+	{
+		effects = new ArrayList<>();
 	}
 
-	private SimpleBranchEffectTracker(SimpleBranchEffectTracker other) {
+	private SimpleBranchEffectTracker(final SimpleBranchEffectTracker other)
+	{
 		final int n = other.effects.size();
 
-		this.effects = new ArrayList<Set<ATermAppl>>( n );
-		for( int i = 0; i < n; i++ ) {
-			Set<ATermAppl> s = other.effects.get( i );
-			this.effects.add( (s == null)
-				? null
-				: new HashSet<ATermAppl>( s ) );
+		this.effects = new ArrayList<>(n);
+		for (int i = 0; i < n; i++)
+		{
+			final Set<ATermAppl> s = other.effects.get(i);
+			this.effects.add((s == null) ? null : new HashSet<>(s));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.clarkparsia.pellet.BranchEffectTracker#add(int, aterm.ATermAppl)
 	 */
-	public boolean add(int branch, ATermAppl a) {
+	@Override
+	public boolean add(final int branch, final ATermAppl a)
+	{
 
-		if( branch <= 0 )
+		if (branch <= 0)
 			return false;
 
 		final int diff = branch - effects.size();
-		if( diff > 0 ) {
+		if (diff > 0)
+		{
 			@SuppressWarnings("unchecked")
-			Set<ATermAppl> nulls[] = (Set<ATermAppl>[]) new Set[diff];
-			effects.addAll( Arrays.asList( nulls ) );
+			final Set<ATermAppl> nulls[] = new Set[diff];
+			effects.addAll(Arrays.asList(nulls));
 		}
 
-		Set<ATermAppl> existing = effects.get( branch - 1 );
-		if( existing == null ) {
-			existing = new HashSet<ATermAppl>();
-			effects.set( branch - 1, existing );
+		Set<ATermAppl> existing = effects.get(branch - 1);
+		if (existing == null)
+		{
+			existing = new HashSet<>();
+			effects.set(branch - 1, existing);
 		}
 
-		return existing.add( a );
+		return existing.add(a);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.clarkparsia.pellet.BranchEffectTracker#copy()
 	 */
-	public SimpleBranchEffectTracker copy() {
-		return new SimpleBranchEffectTracker( this );
+	@Override
+	public SimpleBranchEffectTracker copy()
+	{
+		return new SimpleBranchEffectTracker(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.clarkparsia.pellet.BranchEffectTracker#getAll(int)
 	 */
-	public Set<ATermAppl> getAll(int branch) {
+	@Override
+	public Set<ATermAppl> getAll(final int branch)
+	{
 
-		if( branch < 1 )
+		if (branch < 1)
 			throw new IllegalArgumentException();
 
-		if( branch > effects.size() )
+		if (branch > effects.size())
 			return Collections.emptySet();
 
-		Set<ATermAppl> ret = new HashSet<ATermAppl>();
-		for( int i = branch - 1; i < effects.size(); i++ ) {
-			Set<ATermAppl> s = effects.get( i );
-			if( s != null )
-				ret.addAll( s );
+		final Set<ATermAppl> ret = new HashSet<>();
+		for (int i = branch - 1; i < effects.size(); i++)
+		{
+			final Set<ATermAppl> s = effects.get(i);
+			if (s != null)
+				ret.addAll(s);
 		}
 
 		return ret;
@@ -112,19 +121,21 @@ public class SimpleBranchEffectTracker implements BranchEffectTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.clarkparsia.pellet.BranchEffectTracker#remove(int)
 	 */
-	public Set<ATermAppl> remove(int branch) {
+	@Override
+	public Set<ATermAppl> remove(final int branch)
+	{
 
-		if( branch < 1 )
+		if (branch < 1)
 			throw new IllegalArgumentException();
 
-		if( branch > effects.size() )
+		if (branch > effects.size())
 			return Collections.emptySet();
 
-		Set<ATermAppl> ret = effects.remove( branch - 1 );
-		if( ret == null )
+		final Set<ATermAppl> ret = effects.remove(branch - 1);
+		if (ret == null)
 			return Collections.emptySet();
 
 		return ret;
@@ -132,22 +143,25 @@ public class SimpleBranchEffectTracker implements BranchEffectTracker {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see com.clarkparsia.pellet.BranchEffectTracker#removeAll(int)
 	 */
-	public Set<ATermAppl> removeAll(int branch) {
+	@Override
+	public Set<ATermAppl> removeAll(final int branch)
+	{
 
-		if( branch < 1 )
+		if (branch < 1)
 			throw new IllegalArgumentException();
 
-		if( branch > effects.size() )
+		if (branch > effects.size())
 			return Collections.emptySet();
 
-		Set<ATermAppl> ret = new HashSet<ATermAppl>();
-		for( int i = (effects.size() - 1); i >= (branch - 1); i-- ) {
-			Set<ATermAppl> s = effects.remove( i );
-			if( s != null )
-				ret.addAll( s );
+		final Set<ATermAppl> ret = new HashSet<>();
+		for (int i = (effects.size() - 1); i >= (branch - 1); i--)
+		{
+			final Set<ATermAppl> s = effects.remove(i);
+			if (s != null)
+				ret.addAll(s);
 		}
 
 		return ret;

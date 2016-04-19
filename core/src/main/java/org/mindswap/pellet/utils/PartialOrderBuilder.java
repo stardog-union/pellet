@@ -14,7 +14,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 
@@ -31,152 +30,157 @@ import org.mindswap.pellet.taxonomy.TaxonomyNode;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Mike Smith
  */
-public class PartialOrderBuilder<T> {
+public class PartialOrderBuilder<T>
+{
 
-	private static final boolean	CHILDREN_SEARCH	= false;
-	private static final boolean	PARENTS_SEARCH	= true;
+	private static final boolean CHILDREN_SEARCH = false;
+	private static final boolean PARENTS_SEARCH = true;
 
-	public static <T> Taxonomy<T> build(Collection<? extends T> elements,
-			PartialOrderComparator<T> comparator) {
-		return build( elements, comparator, null, null );
+	public static <T> Taxonomy<T> build(final Collection<? extends T> elements, final PartialOrderComparator<T> comparator)
+	{
+		return build(elements, comparator, null, null);
 	}
 
-	public static <T> Taxonomy<T> build(Collection<? extends T> elements,
-			PartialOrderComparator<T> comparator, T top, T bottom) {
-		Taxonomy<T> hierarchy = new Taxonomy<T>( null, top, bottom );
-		PartialOrderBuilder<T> builder = new PartialOrderBuilder<T>( hierarchy, comparator );
-		builder.addAll( elements );
+	public static <T> Taxonomy<T> build(final Collection<? extends T> elements, final PartialOrderComparator<T> comparator, final T top, final T bottom)
+	{
+		final Taxonomy<T> hierarchy = new Taxonomy<>(null, top, bottom);
+		final PartialOrderBuilder<T> builder = new PartialOrderBuilder<>(hierarchy, comparator);
+		builder.addAll(elements);
 
 		return hierarchy;
 	}
 
-	private PartialOrderComparator<T>	comparator;
+	private PartialOrderComparator<T> comparator;
 
-	private Taxonomy<T>					taxonomy;
+	private Taxonomy<T> taxonomy;
 
 	/**
 	 * Initialize the builder with given taxonomy and comparator.
 	 */
-	public PartialOrderBuilder(Taxonomy<T> taxonomy, PartialOrderComparator<T> comparator) {
+	public PartialOrderBuilder(final Taxonomy<T> taxonomy, final PartialOrderComparator<T> comparator)
+	{
 		this.taxonomy = taxonomy;
 		this.comparator = comparator;
 	}
 
-	public void add(T toAdd) {
+	public void add(final T toAdd)
+	{
 		add(toAdd, false);
 	}
-	
+
 	/**
-	 * Add a new element to the partial order of this builder with its
-	 * comparator.
-	 * 
-	 * @param toAdd
-	 *            the element to be added
+	 * Add a new element to the partial order of this builder with its comparator.
+	 *
+	 * @param toAdd the element to be added
 	 */
-	public void add(T toAdd, boolean hidden) {
+	public void add(final T toAdd, final boolean hidden)
+	{
 
-		Set<T> elements = taxonomy.getClasses();
-		int nElements = elements.size();
+		final Set<T> elements = taxonomy.getClasses();
+		final int nElements = elements.size();
 
-		if( nElements == 0 ) {
+		if (nElements == 0)
+		{
 			final Set<T> empty = Collections.emptySet();
-			taxonomy.addNode( Collections.singleton( toAdd ), empty, empty, /* hidden = */false );
+			taxonomy.addNode(Collections.singleton(toAdd), empty, empty, /* hidden = */false);
 		}
-		else {
+		else
+		{
 
 			Collection<T> parents;
 			Collection<T> children;
 
 			// From max, work down to find parents
 			{
-				Collection<T> maxElements = new ArrayList<T>();
-				for( TaxonomyNode<T> n : taxonomy.getTop().getSubs() )
-					maxElements.add( n.getName() );
-				parents = search( taxonomy, toAdd, maxElements, comparator, PARENTS_SEARCH );
+				final Collection<T> maxElements = new ArrayList<>();
+				for (final TaxonomyNode<T> n : taxonomy.getTop().getSubs())
+					maxElements.add(n.getName());
+				parents = search(taxonomy, toAdd, maxElements, comparator, PARENTS_SEARCH);
 
-				if( parents == null )
+				if (parents == null)
 					return;
 			}
 
 			// From the leaves reachable from parents, identify children
 			{
-				Collection<T> leaves = new ArrayList<T>();
+				final Collection<T> leaves = new ArrayList<>();
 
 				// Collect reachable leaves first
 				{
-					Set<T> visited = new HashSet<T>();
-					Queue<Set<T>> toVisit = new LinkedList<Set<T>>();
-					if( parents.isEmpty() ) {
-						for( TaxonomyNode<T> n : taxonomy.getBottom().getSupers() )
-							leaves.add( n.getName() );
-					}
-					else {
-						for( T p : parents ) {
-							Set<Set<T>> subs = taxonomy.getSubs( p, /* direct = */true );
-							if( !subs.isEmpty() )
-								toVisit.addAll( subs );
+					final Set<T> visited = new HashSet<>();
+					final Queue<Set<T>> toVisit = new LinkedList<>();
+					if (parents.isEmpty())
+						for (final TaxonomyNode<T> n : taxonomy.getBottom().getSupers())
+							leaves.add(n.getName());
+					else
+						for (final T p : parents)
+						{
+							final Set<Set<T>> subs = taxonomy.getSubs(p, /* direct = */true);
+							if (!subs.isEmpty())
+								toVisit.addAll(subs);
 						}
-					}
-					
-					Set<Set<T>> bottoms = Collections.singleton( taxonomy.getBottom()
-							.getEquivalents() );
 
-					while( !toVisit.isEmpty() ) {
-						Set<T> current = toVisit.remove();
+					final Set<Set<T>> bottoms = Collections.singleton(taxonomy.getBottom().getEquivalents());
+
+					while (!toVisit.isEmpty())
+					{
+						final Set<T> current = toVisit.remove();
 						assert !current.isEmpty();
-						T rep = current.iterator().next();
+						final T rep = current.iterator().next();
 
-						if( visited.contains( rep ) )
+						if (visited.contains(rep))
 							continue;
-						visited.addAll( current );
-						Set<Set<T>> subs = taxonomy.getSubs( rep, /* direct = */true );
-						if( subs.equals( bottoms ) )
-							leaves.add( rep );
+						visited.addAll(current);
+						final Set<Set<T>> subs = taxonomy.getSubs(rep, /* direct = */true);
+						if (subs.equals(bottoms))
+							leaves.add(rep);
 						else
-							toVisit.addAll( subs );
+							toVisit.addAll(subs);
 					}
 				}
 
-				children = search( taxonomy, toAdd, leaves, comparator, CHILDREN_SEARCH );
-				if( children == null )
+				children = search(taxonomy, toAdd, leaves, comparator, CHILDREN_SEARCH);
+				if (children == null)
 					return;
 			}
 
-			taxonomy.addNode( Collections.singleton( toAdd ), parents, children, hidden );
+			taxonomy.addNode(Collections.singleton(toAdd), parents, children, hidden);
 		}
 	}
 
 	/**
 	 * Adds a collection of elements to the partial order.
-	 * 
+	 *
 	 * @param elements new elements to add
 	 */
-	public void addAll(Collection<? extends T> elements) {
-		for( T toInsert : elements ) {
-			add( toInsert );
-		}
+	public void addAll(final Collection<? extends T> elements)
+	{
+		for (final T toInsert : elements)
+			add(toInsert);
 	}
 
-	public PartialOrderComparator<T> getComparator() {
+	public PartialOrderComparator<T> getComparator()
+	{
 		return comparator;
 	}
 
-	public Taxonomy<T> getTaxonomy() {
+	public Taxonomy<T> getTaxonomy()
+	{
 		return taxonomy;
 	}
 
-	private Collection<T> search(Taxonomy<T> tax, T toInsert, Collection<T> from,
-			PartialOrderComparator<T> comparator, boolean direction) {
+	private Collection<T> search(final Taxonomy<T> tax, final T toInsert, final Collection<T> from, final PartialOrderComparator<T> comparator, final boolean direction)
+	{
 
-		Collection<T> retSet = new ArrayList<T>();
+		final Collection<T> retSet = new ArrayList<>();
 
-		Queue<Map<T, ? extends Collection<T>>> pending = new LinkedList<Map<T, ? extends Collection<T>>>();
-		pending.add( Collections.singletonMap( (T) null, from ) );
+		final Queue<Map<T, ? extends Collection<T>>> pending = new LinkedList<>();
+		pending.add(Collections.singletonMap((T) null, from));
 
-		Set<T> visited = new HashSet<T>();
+		final Set<T> visited = new HashSet<>();
 
 		/*
 		 * Comment written as if maxToMin == true Each pass over the loop a node
@@ -189,63 +193,66 @@ public class PartialOrderBuilder<T> {
 		 * The loop is iterated until the queue is empty, at which point all
 		 * parents have been identified.
 		 */
-		while( !pending.isEmpty() ) {
-			Map.Entry<T, ? extends Collection<T>> pair = pending.remove().entrySet().iterator()
-					.next();
-			T candidate = pair.getKey();
+		while (!pending.isEmpty())
+		{
+			final Map.Entry<T, ? extends Collection<T>> pair = pending.remove().entrySet().iterator().next();
+			final T candidate = pair.getKey();
 
-			if( candidate != null ) {
-				if( visited.contains( candidate ) )
+			if (candidate != null)
+			{
+				if (visited.contains(candidate))
 					continue;
-				visited.addAll( tax.getAllEquivalents( candidate ) );
+				visited.addAll(tax.getAllEquivalents(candidate));
 			}
 
 			boolean hasSuccessors = false;
-			Collection<T> candidatesChildren = pair.getValue();
-			for( T child : candidatesChildren ) {
-				switch ( comparator.compare( toInsert, child ) ) {
-				case LESS:
-					if( direction == PARENTS_SEARCH ) {
-						Set<Set<T>> subs = tax.getSubs( child, /* direct = */true );
-						Collection<T> next = new ArrayList<T>( subs.size() );
-						for( Set<T> sub : subs ) {
-							next.add( sub.iterator().next() );
+			final Collection<T> candidatesChildren = pair.getValue();
+			for (final T child : candidatesChildren)
+				switch (comparator.compare(toInsert, child))
+				{
+					case LESS:
+						if (direction == PARENTS_SEARCH)
+						{
+							final Set<Set<T>> subs = tax.getSubs(child, /* direct = */true);
+							final Collection<T> next = new ArrayList<>(subs.size());
+							for (final Set<T> sub : subs)
+								next.add(sub.iterator().next());
+							pending.add(Collections.singletonMap(child, next));
+							hasSuccessors = true;
 						}
-						pending.add( Collections.singletonMap( child, next ) );
-						hasSuccessors = true;
-					}
-					break;
-				case EQUAL:
-					tax.addEquivalents( child, Collections.singleton( toInsert ) );
-					return null;
-				case GREATER:
-					if( direction == CHILDREN_SEARCH ) {
-						Set<Set<T>> sups = tax.getSupers( child, /* direct = */true );
-						Collection<T> next = new ArrayList<T>( sups.size() );
-						for( Set<T> sup : sups ) {
-							next.add( sup.iterator().next() );
+						break;
+					case EQUAL:
+						tax.addEquivalents(child, Collections.singleton(toInsert));
+						return null;
+					case GREATER:
+						if (direction == CHILDREN_SEARCH)
+						{
+							final Set<Set<T>> sups = tax.getSupers(child, /* direct = */true);
+							final Collection<T> next = new ArrayList<>(sups.size());
+							for (final Set<T> sup : sups)
+								next.add(sup.iterator().next());
+							pending.add(Collections.singletonMap(child, next));
+							hasSuccessors = true;
 						}
-						pending.add( Collections.singletonMap( child, next ) );
-						hasSuccessors = true;
-					}
-					break;
-				case INCOMPARABLE:
-					break;
+						break;
+					case INCOMPARABLE:
+						break;
 				}
-			}
 
-			if( !hasSuccessors && (candidate != null) )
-				retSet.add( candidate );
+			if (!hasSuccessors && (candidate != null))
+				retSet.add(candidate);
 		}
 
 		return retSet;
 	}
 
-	public void setComparator(PartialOrderComparator<T> comparator) {
+	public void setComparator(final PartialOrderComparator<T> comparator)
+	{
 		this.comparator = comparator;
 	}
 
-	public void setTaxonomy(Taxonomy<T> taxonomy) {
+	public void setTaxonomy(final Taxonomy<T> taxonomy)
+	{
 		this.taxonomy = taxonomy;
 	}
 }

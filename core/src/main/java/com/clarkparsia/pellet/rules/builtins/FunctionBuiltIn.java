@@ -6,27 +6,24 @@
 
 package com.clarkparsia.pellet.rules.builtins;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-
-import org.mindswap.pellet.ABox;
-import org.mindswap.pellet.Literal;
-
 import com.clarkparsia.pellet.rules.BindingHelper;
 import com.clarkparsia.pellet.rules.VariableBinding;
 import com.clarkparsia.pellet.rules.VariableUtils;
 import com.clarkparsia.pellet.rules.model.AtomDObject;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import org.mindswap.pellet.ABox;
+import org.mindswap.pellet.Literal;
 
 /**
  * <p>
  * Title: Function Built-In
  * </p>
  * <p>
- * Description: A wrapper for built-ins that bind
- * the first argument.
+ * Description: A wrapper for built-ins that bind the first argument.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -34,112 +31,131 @@ import com.clarkparsia.pellet.rules.model.BuiltInAtom;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
-public class FunctionBuiltIn implements BuiltIn {
+ */
+public class FunctionBuiltIn implements BuiltIn
+{
 
-	private class FunctionHelper implements BindingHelper {
-		
-		private BuiltInAtom atom;
+	private class FunctionHelper implements BindingHelper
+	{
+
+		private final BuiltInAtom atom;
 		private AtomDObject head;
 		private Literal value;
 		private boolean used;
-		
-		public FunctionHelper( BuiltInAtom atom ) {
+
+		public FunctionHelper(final BuiltInAtom atom)
+		{
 			this.atom = atom;
 		}
-		
-		public Collection<? extends AtomVariable> getBindableVars( Collection<AtomVariable> bound ) {
+
+		@Override
+		public Collection<? extends AtomVariable> getBindableVars(final Collection<AtomVariable> bound)
+		{
 			AtomDObject head = null;
-			for ( AtomDObject obj : atom.getAllArguments() ) {
-				if (head == null) {
+			for (final AtomDObject obj : atom.getAllArguments())
+				if (head == null)
+				{
 					head = obj;
 					// Can only bind first argument to a function
-					if ( !VariableUtils.isVariable( head ) )
-						return Collections.emptySet();
-				} else {
-					// Cannot bind a variable that occurs in multiple places.
-					if ( head.equals( obj ) )
+					if (!VariableUtils.isVariable(head))
 						return Collections.emptySet();
 				}
-			}
-			if ( head == null )
+				else
+					// Cannot bind a variable that occurs in multiple places.
+					if (head.equals(obj))
+						return Collections.emptySet();
+			if (head == null)
 				return Collections.emptySet();
-			return Collections.singleton( (AtomVariable) head );
+			return Collections.singleton((AtomVariable) head);
 		}
 
-		public Collection<? extends AtomVariable> getPrerequisiteVars( Collection<AtomVariable> bound ) {
-			Collection<AtomVariable> vars = VariableUtils.getVars( atom );
-			vars.removeAll( getBindableVars( bound ) );
+		@Override
+		public Collection<? extends AtomVariable> getPrerequisiteVars(final Collection<AtomVariable> bound)
+		{
+			final Collection<AtomVariable> vars = VariableUtils.getVars(atom);
+			vars.removeAll(getBindableVars(bound));
 			return vars;
 		}
 
-		public void rebind(VariableBinding newBinding) {
+		@Override
+		public void rebind(final VariableBinding newBinding)
+		{
 			used = false;
 			head = null;
 			value = null;
 			Literal resultLit = null;
-			
+
 			// Can't bind the first arg if it doesn't exist!
-			if ( atom.getAllArguments().size() == 0 )
+			if (atom.getAllArguments().size() == 0)
 				return;
-			
+
 			// The arguments to a numeric function number one less than the arguments
 			// to the SWRL atom.  The first argument to the atom is either set
 			// or tested against the result of the function.
-			Literal[] arguments = new Literal[ atom.getAllArguments().size() - 1 ];
-			
+			final Literal[] arguments = new Literal[atom.getAllArguments().size() - 1];
+
 			int i = 0;
-			for ( AtomDObject obj : atom.getAllArguments() ) {
-				Literal lit = newBinding.get( obj );
-				
-				if ( i == 0 ) {
-					if (lit != null) {
+			for (final AtomDObject obj : atom.getAllArguments())
+			{
+				final Literal lit = newBinding.get(obj);
+
+				if (i == 0)
+				{
+					if (lit != null)
 						resultLit = lit;
-					}
-					
+
 					head = obj;
 					i++;
 					continue;
 				}
-				
-				arguments[i-1] = lit;
+
+				arguments[i - 1] = lit;
 				i++;
 			}
-			
-			value = function.apply( newBinding.getABox(), resultLit, arguments );
-			
+
+			value = function.apply(newBinding.getABox(), resultLit, arguments);
+
 		}
 
-		public boolean selectNextBinding() {
-			if ( value != null && used == false ) {
+		@Override
+		public boolean selectNextBinding()
+		{
+			if (value != null && used == false)
+			{
 				used = true;
 				return true;
 			}
 			return false;
 		}
 
-		public void setCurrentBinding(VariableBinding currentBinding) {
-			currentBinding.set( head, value );
+		@Override
+		public void setCurrentBinding(final VariableBinding currentBinding)
+		{
+			currentBinding.set(head, value);
 		}
-		
+
 	}
-	
-	private Function function;
-	
-	public FunctionBuiltIn( Function function ) {
+
+	private final Function function;
+
+	public FunctionBuiltIn(final Function function)
+	{
 		this.function = function;
-	}
-	
-	public BindingHelper createHelper(BuiltInAtom atom) {
-		return new FunctionHelper( atom );
 	}
 
 	@Override
-	public boolean apply(ABox abox, Literal[] args) {
-	    Literal result = function.apply(abox, args[0], Arrays.copyOfRange(args, 1, args.length));	    
-	    args[0] = result;
-	    return result != null;
+	public BindingHelper createHelper(final BuiltInAtom atom)
+	{
+		return new FunctionHelper(atom);
+	}
+
+	@Override
+	public boolean apply(final ABox abox, final Literal[] args)
+	{
+		final Literal result = function.apply(abox, args[0], Arrays.copyOfRange(args, 1, args.length));
+		args[0] = result;
+		return result != null;
 	}
 }

@@ -7,50 +7,64 @@
 package org.mindswap.pellet.utils;
 
 /**
- * <p>Title: </p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2006</p>
- *
- * <p>Company: Clark & Parsia, LLC. <http://www.clarkparsia.com></p>
+ * <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2006
+ * </p>
+ * <p>
+ * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * </p>
  *
  * @author Evren sirin
  */
-public class Pair<F,S> {
-    public F first;
-    public S second;
+public class Pair<F, S>
+{
+	public F first;
+	public S second;
 
-    public Pair( F first, S second ) {
-        if( first == null || second == null )
-            throw new NullPointerException();
-        
-        this.first = first;
-        this.second = second;        
-    }
-    
-    public static <F,S> Pair<F,S> create(F f, S s) {
-    	return new Pair<F,S>( f, s );
-    }
+	public Pair(final F first, final S second)
+	{
+		if (first == null || second == null)
+			throw new NullPointerException();
 
-    public int hashCode() {
-        return first.hashCode() + second.hashCode();        
-    }
-    
-    @SuppressWarnings("unchecked")
-	public boolean equals( Object o ) {
-        if( o == this )
-            return true;
+		this.first = first;
+		this.second = second;
+	}
 
-        if( !(o instanceof Pair) )
-            return false;
+	public static <F, S> Pair<F, S> create(final F f, final S s)
+	{
+		return new Pair<>(f, s);
+	}
 
-        Pair p = (Pair) o;
+	@Override
+	public int hashCode()
+	{
+		return first.hashCode() + second.hashCode();
+	}
 
-        return first.equals( p.first ) && second.equals( p.second );
-    }
-    
-    public String toString() {
-        return "[" + first + ", " + second + "]";
-    }
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean equals(final Object o)
+	{
+		if (o == this)
+			return true;
+
+		if (!(o instanceof Pair))
+			return false;
+
+		final Pair p = (Pair) o;
+
+		return first.equals(p.first) && second.equals(p.second);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "[" + first + ", " + second + "]";
+	}
 }

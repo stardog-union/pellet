@@ -6,10 +6,9 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
+import com.clarkparsia.pellet.rules.PartialBinding;
 import java.util.Collection;
 import java.util.Collections;
-
-import com.clarkparsia.pellet.rules.PartialBinding;
 
 /**
  * <p>
@@ -25,50 +24,51 @@ import com.clarkparsia.pellet.rules.PartialBinding;
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
  */
-public class Interpreter {
+public class Interpreter
+{
 	public AlphaNetwork alphaNet;
 
-	public Interpreter(AlphaNetwork alphaNet) {
+	public Interpreter(final AlphaNetwork alphaNet)
+	{
 		super();
 
 		this.alphaNet = alphaNet;
 	}
-	
-	
+
 	/**
 	 * Remove all facts from the interpreter, leaving the rules intact.
 	 */
-	public void reset() {
-		for (AlphaNode alpha : alphaNet) {
-	        alpha.reset();
-        }
+	public void reset()
+	{
+		for (final AlphaNode alpha : alphaNet)
+			alpha.reset();
 	}
 
 	/**
 	 * Restore abox to the given branch
-	 * 
+	 *
 	 * @return true if a matching TermTuple was removed. False otherwise.
 	 */
-	public void restore(int branch) {
-		for (AlphaNode alpha : alphaNet) {
-	        alpha.unmark();
-        }
+	public void restore(final int branch)
+	{
+		for (final AlphaNode alpha : alphaNet)
+			alpha.unmark();
 
-		for (AlphaNode alpha : alphaNet) {
-	        alpha.restore(branch);
-        }
+		for (final AlphaNode alpha : alphaNet)
+			alpha.restore(branch);
 	}
 
-	public void run() {
+	public void run()
+	{
 		alphaNet.activateAll();
 	}
-
 
 	/**
 	 * @return
 	 */
-    public Collection<PartialBinding> getBindings() {
-	    // TODO Auto-generated method stub
-	    return Collections.emptyList();
-    }
+	public Collection<PartialBinding> getBindings()
+	{
+		// TODO Auto-generated method stub
+		return Collections.emptyList();
+	}
 }

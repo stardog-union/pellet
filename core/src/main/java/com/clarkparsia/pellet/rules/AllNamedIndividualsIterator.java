@@ -8,7 +8,6 @@ package com.clarkparsia.pellet.rules;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
@@ -26,25 +25,31 @@ import org.mindswap.pellet.Node;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
  */
-public class AllNamedIndividualsIterator implements Iterator<Individual> {
+public class AllNamedIndividualsIterator implements Iterator<Individual>
+{
 
-	private Individual				nextIndividual;
-	private Iterator<Individual>	nodeIterator;
+	private Individual nextIndividual;
+	private final Iterator<Individual> nodeIterator;
 
-	public AllNamedIndividualsIterator(ABox abox) {
+	public AllNamedIndividualsIterator(final ABox abox)
+	{
 		nodeIterator = abox.getIndIterator();
 	}
 
-	public boolean hasNext() {
-		if( nextIndividual != null )
+	@Override
+	public boolean hasNext()
+	{
+		if (nextIndividual != null)
 			return true;
 
-		while( nodeIterator.hasNext() ) {
-			Node candidate = nodeIterator.next();
-			if( (candidate instanceof Individual) && candidate.isRootNominal() ) {
+		while (nodeIterator.hasNext())
+		{
+			final Node candidate = nodeIterator.next();
+			if ((candidate instanceof Individual) && candidate.isRootNominal())
+			{
 				nextIndividual = (Individual) candidate;
 				return true;
 			}
@@ -53,16 +58,19 @@ public class AllNamedIndividualsIterator implements Iterator<Individual> {
 		return false;
 	}
 
-	public Individual next() {
-		if( !hasNext() ) {
+	@Override
+	public Individual next()
+	{
+		if (!hasNext())
 			throw new NoSuchElementException();
-		}
-		Individual result = nextIndividual;
+		final Individual result = nextIndividual;
 		nextIndividual = null;
 		return result;
 	}
 
-	public void remove() {
+	@Override
+	public void remove()
+	{
 		throw new UnsupportedOperationException();
 	}
 

@@ -14,21 +14,23 @@ import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
-import junit.framework.JUnit4TestAdapter;
 
+import aterm.ATermAppl;
+import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.test.AbstractKBTests;
 
-import aterm.ATermAppl;
-
-public class DatatypeRestrictionTests extends AbstractKBTests {
-	public static junit.framework.Test suite() {
+public class DatatypeRestrictionTests extends AbstractKBTests
+{
+	public static junit.framework.Test suite()
+	{
 		return new JUnit4TestAdapter(DatatypeRestrictionTests.class);
 	}
 
 	@Test
-	public void simpleRestriction() {
+	public void simpleRestriction()
+	{
 		classes(C);
 		dataProperties(p);
 		individuals(a, b);
@@ -43,7 +45,8 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void nestedRestriction() {
+	public void nestedRestriction()
+	{
 		classes(C);
 		dataProperties(p);
 		individuals(a, b);
@@ -59,7 +62,8 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void invalidRestriction() {
+	public void invalidRestriction()
+	{
 		classes(C);
 		dataProperties(p);
 		individuals(a, b);
@@ -75,7 +79,8 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void invalidLiteralBuiltInDatatype() {
+	public void invalidLiteralBuiltInDatatype()
+	{
 		dataProperties(p);
 		individuals(a);
 
@@ -86,11 +91,12 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void invalidLiteralRestrictedDatatype() {
+	public void invalidLiteralRestrictedDatatype()
+	{
 		dataProperties(p);
 		individuals(a);
 
-		ATermAppl uri = term("http//example.com/datatype");
+		final ATermAppl uri = term("http//example.com/datatype");
 
 		kb.addRange(p, INTEGER);
 		kb.addDatatypeDefinition(uri, restrict(INTEGER, minExclusive(literal(0))));
@@ -100,11 +106,12 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void validLiteralRestrictedDatatype() {
+	public void validLiteralRestrictedDatatype()
+	{
 		dataProperties(p);
 		individuals(a);
 
-		ATermAppl uri = term("http//example.com/datatype");
+		final ATermAppl uri = term("http//example.com/datatype");
 
 		kb.addRange(p, INTEGER);
 		kb.addDatatypeDefinition(uri, restrict(INTEGER, minExclusive(literal(0))));
@@ -114,11 +121,12 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void validLiteralStringRestriction1() {
+	public void validLiteralStringRestriction1()
+	{
 		dataProperties(p);
 		individuals(a);
 
-		ATermAppl uri = term("http//example.com/datatype");
+		final ATermAppl uri = term("http//example.com/datatype");
 
 		kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
 		kb.addRange(p, uri);
@@ -128,13 +136,14 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void invalidLiteralStringRestriction() {
+	public void invalidLiteralStringRestriction()
+	{
 		assumeTrue(PelletOptions.INVALID_LITERAL_AS_INCONSISTENCY);
-		
+
 		dataProperties(p);
 		individuals(a);
 
-		ATermAppl uri = term("http//example.com/datatype");
+		final ATermAppl uri = term("http//example.com/datatype");
 
 		kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
 		kb.addRange(p, uri);
@@ -144,11 +153,12 @@ public class DatatypeRestrictionTests extends AbstractKBTests {
 	}
 
 	@Test
-	public void validLiteralStringRestriction2() {
+	public void validLiteralStringRestriction2()
+	{
 		dataProperties(p);
 		individuals(a, b, c);
 
-		ATermAppl uri = term("http//example.com/datatype");
+		final ATermAppl uri = term("http//example.com/datatype");
 
 		kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
 		kb.addRange(p, uri);

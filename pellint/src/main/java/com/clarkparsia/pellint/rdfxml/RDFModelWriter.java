@@ -8,7 +8,6 @@ package com.clarkparsia.pellint.rdfxml;
 
 import java.io.OutputStream;
 import java.net.URI;
-
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -29,39 +28,41 @@ import org.apache.jena.rdf.model.Statement;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public class RDFModelWriter {
+public class RDFModelWriter
+{
 
-	private static final String	ANON_URI	= "#anon";
-	private static final URI	TMP_URI		= URI.create( "tag:clarkparsia.com,2008:pellint:tmp" );
+	private static final String ANON_URI = "#anon";
+	private static final URI TMP_URI = URI.create("tag:clarkparsia.com,2008:pellint:tmp");
 
-	private static String toString(RDFNode v) {
-		if( v.isLiteral() ) {
-            return ((Literal) v).getLexicalForm();
-        } else if( v.isAnon() ) {
-            return ANON_URI + v.asNode().getBlankNodeLabel();
-        } else {
-            return ((Resource) v).getURI();
-        }
+	private static String toString(final RDFNode v)
+	{
+		if (v.isLiteral())
+			return ((Literal) v).getLexicalForm();
+		else
+			if (v.isAnon())
+				return ANON_URI + v.asNode().getBlankNodeLabel();
+			else
+				return ((Resource) v).getURI();
 	}
 
-	public void write(OutputStream out, RDFModel m) {
-		Model model = ModelFactory.createDefaultModel();
+	public void write(final OutputStream out, final RDFModel m)
+	{
+		final Model model = ModelFactory.createDefaultModel();
 
-//		for( Map.Entry<String, String> entry : m.getNamespaces().entrySet() ) {
-//			writer.handleNamespace( entry.getKey(), entry.getValue() );
-//		}
-//
-//		for( String comment : m.getComments() ) {
-//			writer.handleComment( comment );
-//		}
+		//		for( Map.Entry<String, String> entry : m.getNamespaces().entrySet() ) {
+		//			writer.handleNamespace( entry.getKey(), entry.getValue() );
+		//		}
+		//
+		//		for( String comment : m.getComments() ) {
+		//			writer.handleComment( comment );
+		//		}
 
-		for( Statement stmt : m.getStatements() ) {
-			model.add( stmt );
-		}
-		
-		model.write( out );
+		for (final Statement stmt : m.getStatements())
+			model.add(stmt);
+
+		model.write(out);
 	}
 }

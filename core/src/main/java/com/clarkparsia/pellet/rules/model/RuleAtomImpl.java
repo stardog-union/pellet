@@ -13,7 +13,7 @@ import java.util.List;
  * Title: Rule Atom Implementation
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -21,35 +21,46 @@ import java.util.List;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Ron Alford
- */ 
+ */
 
-public abstract class RuleAtomImpl<P> implements RuleAtom {
+public abstract class RuleAtomImpl<P> implements RuleAtom
+{
 
 	P predicate;
-	
-	public RuleAtomImpl( P predicate ) {
+
+	public RuleAtomImpl(final P predicate)
+	{
 		this.predicate = predicate;
 	}
-	
-	public abstract void accept( RuleAtomVisitor visitor );
-	
-	public boolean equals( Object other ) {
-		if ( other != null && getClass().equals( other.getClass() ) ) {
-			RuleAtom atom = ( RuleAtom ) other;
-			return getPredicate().equals( atom.getPredicate() ) && getAllArguments().equals( atom.getAllArguments() );
+
+	@Override
+	public abstract void accept(RuleAtomVisitor visitor);
+
+	@Override
+	public boolean equals(final Object other)
+	{
+		if (other != null && getClass().equals(other.getClass()))
+		{
+			final RuleAtom atom = (RuleAtom) other;
+			return getPredicate().equals(atom.getPredicate()) && getAllArguments().equals(atom.getAllArguments());
 		}
 		return false;
 	}
-	
+
+	@Override
 	public abstract List<? extends AtomObject> getAllArguments();
-	
-	public P getPredicate() {
+
+	@Override
+	public P getPredicate()
+	{
 		return predicate;
 	}
-	
-	public int hashCode() {
+
+	@Override
+	public int hashCode()
+	{
 		return predicate.hashCode() + getAllArguments().hashCode();
-	}	
+	}
 }

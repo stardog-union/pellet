@@ -6,57 +6,59 @@
 
 package org.mindswap.pellet.tableau.blocking;
 
+import aterm.ATermAppl;
+import aterm.ATermInt;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.utils.ATermUtils;
 
-import aterm.ATermAppl;
-import aterm.ATermInt;
-
 /**
  * @author Evren Sirin
  */
-public class Block4 implements BlockingCondition {
-	public boolean isBlocked(BlockingContext cxt) {
-		for( ATermAppl min : cxt.blocker.getTypes( Node.MIN ) ) {
-			if( !block4( cxt, min ) )
+public class Block4 implements BlockingCondition
+{
+	@Override
+	public boolean isBlocked(final BlockingContext cxt)
+	{
+		for (final ATermAppl min : cxt.blocker.getTypes(Node.MIN))
+			if (!block4(cxt, min))
 				return false;
-		}
 
-		for( ATermAppl normSome : cxt.blocker.getTypes( Node.SOME ) ) {
-			ATermAppl some = (ATermAppl) normSome.getArgument( 0 );
-			if( !block4( cxt, some ) )
+		for (final ATermAppl normSome : cxt.blocker.getTypes(Node.SOME))
+		{
+			final ATermAppl some = (ATermAppl) normSome.getArgument(0);
+			if (!block4(cxt, some))
 				return false;
 		}
 
 		return true;
 	}
-	
-	protected boolean block4(BlockingContext cxt, ATermAppl term) {
-		Role t = cxt.blocked.getABox().getRole( term.getArgument( 0 ) );
+
+	protected boolean block4(final BlockingContext cxt, final ATermAppl term)
+	{
+		final Role t = cxt.blocked.getABox().getRole(term.getArgument(0));
 		int m = 1;
 		ATermAppl c;
-		
-		if( ATermUtils.isMin( term ) ) {
-			c = (ATermAppl) term.getArgument( 2 );
-			m = ((ATermInt) term.getArgument( 1 )).getInt();
-		}
-		else {
-			c = ATermUtils.negate( (ATermAppl) term.getArgument( 1 ) );
-		}
 
-		if( t.isDatatypeRole() )
+		if (ATermUtils.isMin(term))
+		{
+			c = (ATermAppl) term.getArgument(2);
+			m = ((ATermInt) term.getArgument(1)).getInt();
+		}
+		else
+			c = ATermUtils.negate((ATermAppl) term.getArgument(1));
+
+		if (t.isDatatypeRole())
 			return true;
 
-		Role invT = t.getInverse();         
-		
-		if( cxt.isRSuccessor( invT )
-			&& cxt.blocked.getParent().hasType( c ) )
+		final Role invT = t.getInverse();
+
+		if (cxt.isRSuccessor(invT) && cxt.blocked.getParent().hasType(c))
 			return true;
-		
-		if( cxt.blocker.getRSuccessors( t, c ).size() >= m )
+
+		if (cxt.blocker.getRSuccessors(t, c).size() >= m)
 			return true;
-		
+
 		return false;
 	}
 }

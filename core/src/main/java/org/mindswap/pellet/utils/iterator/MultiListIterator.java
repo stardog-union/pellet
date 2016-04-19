@@ -6,48 +6,56 @@
 
 package org.mindswap.pellet.utils.iterator;
 
+import aterm.ATermAppl;
+import aterm.ATermList;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import aterm.ATermAppl;
-import aterm.ATermList;
+public class MultiListIterator implements Iterator<ATermAppl>
+{
+	private final List<ATermList> list = new ArrayList<>(2);
 
-public class MultiListIterator implements Iterator<ATermAppl> {
-    private List<ATermList> list = new ArrayList<ATermList>( 2 );
+	private int index = 0;
 
-    private int index = 0;
+	private ATermList curr;
 
-    private ATermList curr;
+	public MultiListIterator(final ATermList first)
+	{
+		curr = first;
+	}
 
-    public MultiListIterator( ATermList first ) {
-        curr = first;
-    }
+	@Override
+	public boolean hasNext()
+	{
+		while (curr.isEmpty() && index < list.size())
+			curr = list.get(index++);
 
-    public boolean hasNext() {
-        while( curr.isEmpty() && index < list.size() )
-            curr = list.get( index++ );
-        
-        return !curr.isEmpty();
-    }
+		return !curr.isEmpty();
+	}
 
-    public ATermAppl next() {
-        if( !hasNext() )
-            throw new NoSuchElementException();
-                
-        ATermAppl next = (ATermAppl) curr.getFirst();
-        
-        curr = curr.getNext();
-        
-        return next; 
-    }
+	@Override
+	public ATermAppl next()
+	{
+		if (!hasNext())
+			throw new NoSuchElementException();
 
-    public void append( ATermList other ) {
-        list.add( other );
-    }
+		final ATermAppl next = (ATermAppl) curr.getFirst();
 
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
+		curr = curr.getNext();
+
+		return next;
+	}
+
+	public void append(final ATermList other)
+	{
+		list.add(other);
+	}
+
+	@Override
+	public void remove()
+	{
+		throw new UnsupportedOperationException();
+	}
 }

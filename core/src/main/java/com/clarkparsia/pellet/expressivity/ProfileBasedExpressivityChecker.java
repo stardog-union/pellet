@@ -6,16 +6,15 @@
 
 package com.clarkparsia.pellet.expressivity;
 
-import org.mindswap.pellet.KnowledgeBase;
-
 import aterm.ATermAppl;
+import org.mindswap.pellet.KnowledgeBase;
 
 /**
  * <p>
- * Title: 
+ * Title:
  * </p>
  * <p>
- * Description: 
+ * Description:
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -23,31 +22,30 @@ import aterm.ATermAppl;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Harris Lin
  */
-public abstract class ProfileBasedExpressivityChecker {
+public abstract class ProfileBasedExpressivityChecker
+{
 	protected KnowledgeBase m_KB;
-	
-	public ProfileBasedExpressivityChecker(KnowledgeBase kb) {
+
+	public ProfileBasedExpressivityChecker(final KnowledgeBase kb)
+	{
 		m_KB = kb;
 	}
-	
+
 	/**
-	 * Compute the expressivity from the {@link org.mindswap.pellet.KnowledgeBase}
-	 * and update it to the given {@link com.clarkparsia.pellet.expressivity.Expressivity}.
-	 * 
-	 * @return <code>true</code> if the expressivity is within the profile defined by the implementation,
-	 * <code>false</code> otherwise.
+	 * Compute the expressivity from the {@link org.mindswap.pellet.KnowledgeBase} and update it to the given
+	 * {@link com.clarkparsia.pellet.expressivity.Expressivity}.
+	 *
+	 * @return <code>true</code> if the expressivity is within the profile defined by the implementation, <code>false</code> otherwise.
 	 */
 	public abstract boolean compute(Expressivity expressivity);
-	
+
 	/**
-	 * Update the given {@link com.clarkparsia.pellet.expressivity.Expressivity} by adding
-	 * the new @{link aterm.ATermAppl}. 
-	 * 
-	 * @return <code>true</code> if the new expressivity is within the profile defined by the implementation,
-	 * <code>false</code> otherwise.
+	 * Update the given {@link com.clarkparsia.pellet.expressivity.Expressivity} by adding the new @{link aterm.ATermAppl}.
+	 *
+	 * @return <code>true</code> if the new expressivity is within the profile defined by the implementation, <code>false</code> otherwise.
 	 */
 	public abstract boolean updateWith(Expressivity expressivity, ATermAppl term);
 }

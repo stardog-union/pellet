@@ -22,13 +22,14 @@
 
 package org.mindswap.pellet.exceptions;
 
+public class TimeoutException extends PelletRuntimeException
+{
 
-public class TimeoutException extends PelletRuntimeException {
+	private static final long serialVersionUID = 5221180564972622324L;
 
-	private static final long	serialVersionUID	= 5221180564972622324L;
-
-	public TimeoutException(String msg) {
-		super( msg );
+	public TimeoutException(final String msg)
+	{
+		super(msg);
 	}
 
 }

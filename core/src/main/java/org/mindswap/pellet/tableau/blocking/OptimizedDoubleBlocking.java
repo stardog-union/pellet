@@ -34,8 +34,6 @@
 
 package org.mindswap.pellet.tableau.blocking;
 
-
-
 /**
  * <p>
  * Title:
@@ -49,30 +47,36 @@ package org.mindswap.pellet.tableau.blocking;
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
- * 
+ *
  * @author Evren Sirin
  */
-public class OptimizedDoubleBlocking extends Blocking {
+public class OptimizedDoubleBlocking extends Blocking
+{
 	private static final OptimizedDoubleBlocking INSTANCE = new OptimizedDoubleBlocking();
-	
-	public static OptimizedDoubleBlocking getInstance() {
+
+	public static OptimizedDoubleBlocking getInstance()
+	{
 		return INSTANCE;
 	}
-	
-	private OptimizedDoubleBlocking() {		
+
+	private OptimizedDoubleBlocking()
+	{
 	}
 
-	public boolean isDirectlyBlockedBy(BlockingContext cxt) {
-		if( block1.isBlocked( cxt ) && block2.isBlocked( cxt ) ) {
-			if( !cxt.isInvSuccessor() )
+	@Override
+	public boolean isDirectlyBlockedBy(final BlockingContext cxt)
+	{
+		if (block1.isBlocked(cxt) && block2.isBlocked(cxt))
+		{
+			if (!cxt.isInvSuccessor())
 				return true;
-			
+
 			// aBlock
-			if( block3.isBlocked( cxt ) && block4.isBlocked( cxt ) )
+			if (block3.isBlocked(cxt) && block4.isBlocked(cxt))
 				return true;
 
 			// cBlock
-			if( block4.isBlocked( cxt ) && block5.isBlocked( cxt ) )
+			if (block4.isBlocked(cxt) && block5.isBlocked(cxt))
 				return true;
 		}
 

@@ -7,10 +7,10 @@
 package com.clarkparsia.pellet.rules.rete;
 
 /**
- * 
  * @author Evren Sirin
  */
-public interface FilterCondition {
+public interface FilterCondition
+{
 
 	public abstract boolean test(WME wme, Token token);
 

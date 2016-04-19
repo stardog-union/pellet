@@ -8,37 +8,35 @@ package org.mindswap.pellet.tableau.completion.incremental;
 
 import aterm.ATermAppl;
 
-
 /**
  * Abstract class for a branch dependency
- * 
- * @author Christian Halaschek-Wiener
  *
+ * @author Christian Halaschek-Wiener
  */
-public abstract class BranchDependency implements Dependency{
+public abstract class BranchDependency implements Dependency
+{
 
 	/**
 	 * The assertion which this branch is indexed on
 	 */
 	protected ATermAppl assertion;
-	
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param assertion
 	 */
-	public BranchDependency(ATermAppl assertion){
-		this.assertion = assertion; 
+	public BranchDependency(final ATermAppl assertion)
+	{
+		this.assertion = assertion;
 	}
 
 	/**
-	 * 
 	 * @return
 	 */
-	public ATermAppl getAssertion() {
+	public ATermAppl getAssertion()
+	{
 		return assertion;
 	}
-	
-	
+
 }

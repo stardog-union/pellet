@@ -6,8 +6,8 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
+import aterm.ATermAppl;
 import java.util.Arrays;
-
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;
@@ -15,192 +15,231 @@ import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.Node;
 import org.mindswap.pellet.utils.ATermUtils;
 
-import aterm.ATermAppl;
-
 /**
  */
-public abstract class WME {
-	public enum Kind {
+public abstract class WME
+{
+	public enum Kind
+	{
 		TYPE, EDGE, SAME_AS, DIFF_FROM, BUILT_IN
 	}
 
 	public abstract Node getArg(int index);
 
 	public abstract DependencySet getDepends();
-	
-    public boolean dependsOn(int branch) {
-    	return getDepends().max() > branch;
-    }
+
+	public boolean dependsOn(final int branch)
+	{
+		return getDepends().max() > branch;
+	}
 
 	public abstract Kind getKind();
 
-	private abstract static class AbstractWME extends WME {
+	private abstract static class AbstractWME extends WME
+	{
 		protected final Individual subject;
 		private final DependencySet depends;
 
-		public AbstractWME(Individual subject, DependencySet depends) {
+		public AbstractWME(final Individual subject, final DependencySet depends)
+		{
 			this.subject = subject;
 			this.depends = depends;
 		}
 
 		@Override
-		public DependencySet getDepends() {
+		public DependencySet getDepends()
+		{
 			return depends;
 		}
 	}
 
-	private abstract static class BinaryWME extends AbstractWME {
+	private abstract static class BinaryWME extends AbstractWME
+	{
 		private final Individual object;
 
-		public BinaryWME(Individual subject, Individual object, DependencySet depends) {
+		public BinaryWME(final Individual subject, final Individual object, final DependencySet depends)
+		{
 			super(subject, depends);
 
 			this.object = object;
 		}
 
 		@Override
-		public Node getArg(int index) {
+		public Node getArg(final int index)
+		{
 			assert index == 0 || index == 1;
 			return (index == 0) ? subject : object;
 		}
-		
+
 		@Override
-		public String toString() {
-		    return getKind() + "(" + subject + ", " + object + ")";
+		public String toString()
+		{
+			return getKind() + "(" + subject + ", " + object + ")";
 		}
 	}
 
-	public static class TypeWME extends AbstractWME {
+	public static class TypeWME extends AbstractWME
+	{
 		private final ATermAppl type;
 
-		public TypeWME(Individual subject, ATermAppl type, DependencySet depends) {
+		public TypeWME(final Individual subject, final ATermAppl type, final DependencySet depends)
+		{
 			super(subject, depends);
 
 			this.type = type;
 		}
 
 		@Override
-		public Kind getKind() {
+		public Kind getKind()
+		{
 			return Kind.TYPE;
 		}
 
 		@Override
-		public Node getArg(int index) {
+		public Node getArg(final int index)
+		{
 			assert index == 0;
 			return subject;
 		}
-		
+
 		@Override
-		public String toString() {
-		    return ATermUtils.toString(type) + "(" + subject + ")";
+		public String toString()
+		{
+			return ATermUtils.toString(type) + "(" + subject + ")";
 		}
 	}
 
-	public static class SameAs extends BinaryWME {
-		public SameAs(Individual subject, Individual object, DependencySet depends) {
+	public static class SameAs extends BinaryWME
+	{
+		public SameAs(final Individual subject, final Individual object, final DependencySet depends)
+		{
 			super(subject, object, depends);
 		}
 
 		@Override
-		public Kind getKind() {
+		public Kind getKind()
+		{
 			return Kind.SAME_AS;
 		}
 	}
 
-	public static class DiffFrom extends BinaryWME {
-		public DiffFrom(Individual subject, Individual object, DependencySet depends) {
+	public static class DiffFrom extends BinaryWME
+	{
+		public DiffFrom(final Individual subject, final Individual object, final DependencySet depends)
+		{
 			super(subject, object, depends);
 		}
 
 		@Override
-		public Kind getKind() {
+		public Kind getKind()
+		{
 			return Kind.DIFF_FROM;
 		}
 	}
 
-	public static class EdgeWME extends WME {
+	public static class EdgeWME extends WME
+	{
 		private final Edge edge;
 		private final EdgeDirection dir;
 
-		public EdgeWME(Edge edge, EdgeDirection dir) {
-			if (dir == null || dir == EdgeDirection.BOTH) {
+		public EdgeWME(final Edge edge, final EdgeDirection dir)
+		{
+			if (dir == null || dir == EdgeDirection.BOTH)
 				throw new IllegalArgumentException();
-			}
 			this.edge = edge;
 			this.dir = dir;
 		}
 
 		@Override
-		public Kind getKind() {
+		public Kind getKind()
+		{
 			return Kind.EDGE;
 		}
 
 		@Override
-		public Node getArg(int index) {
-			assert index == 0 || index == 1;			
+		public Node getArg(final int index)
+		{
+			assert index == 0 || index == 1;
 			return (index == (dir == EdgeDirection.FORWARD ? 0 : 1)) ? edge.getFrom() : edge.getTo();
 		}
-		
+
 		@Override
-		public DependencySet getDepends() {
-		    return edge.getDepends();
+		public DependencySet getDepends()
+		{
+			return edge.getDepends();
 		}
-		
+
 		@Override
-		public String toString() {
-			boolean isFwd = (dir == EdgeDirection.FORWARD);
+		public String toString()
+		{
+			final boolean isFwd = (dir == EdgeDirection.FORWARD);
 			return String.format("%s%s-%s-%s%s %s", edge.getFrom(), isFwd ? "" : "<", edge.getRole(), isFwd ? ">" : "", edge.getTo(), edge.getDepends());
 		}
 	}
 
-	public static class BuiltinWME extends WME {
+	public static class BuiltinWME extends WME
+	{
 		private final Literal[] literals;
 		private final DependencySet depends;
 
-		public BuiltinWME(Literal[] literals, DependencySet depends) {
+		public BuiltinWME(final Literal[] literals, final DependencySet depends)
+		{
 			this.literals = literals;
 			this.depends = depends;
 		}
 
 		@Override
-		public Kind getKind() {
+		public Kind getKind()
+		{
 			return Kind.BUILT_IN;
 		}
+
 		@Override
-		public Node getArg(int index) {
+		public Node getArg(final int index)
+		{
 			return literals[index];
 		}
-		
+
 		@Override
-		public DependencySet getDepends() {
-		    return depends;
+		public DependencySet getDepends()
+		{
+			return depends;
 		}
-		
+
 		@Override
-		public String toString() {
-		    return getKind() + Arrays.toString(literals);
+		public String toString()
+		{
+			return getKind() + Arrays.toString(literals);
 		}
 	}
 
-	public enum EdgeDirection { FORWARD, BACKWARD, BOTH }
+	public enum EdgeDirection
+	{
+		FORWARD, BACKWARD, BOTH
+	}
 
-	public static TypeWME createType(Individual arg, ATermAppl type, DependencySet depends) {
+	public static TypeWME createType(final Individual arg, final ATermAppl type, final DependencySet depends)
+	{
 		return new TypeWME(arg, type, depends);
 	}
 
-	public static DiffFrom createDiffFrom(Individual subject, Individual object, DependencySet depends) {
+	public static DiffFrom createDiffFrom(final Individual subject, final Individual object, final DependencySet depends)
+	{
 		return new DiffFrom(subject, object, depends);
 	}
 
-	public static WME createEdge(Edge edge) {
+	public static WME createEdge(final Edge edge)
+	{
 		return new EdgeWME(edge, EdgeDirection.FORWARD);
 	}
 
-	public static WME createEdge(Edge edge, EdgeDirection dir) {
+	public static WME createEdge(final Edge edge, final EdgeDirection dir)
+	{
 		return new EdgeWME(edge, dir);
 	}
-	
-    public static WME createBuiltin(Literal[] literals, DependencySet ds) {
-	    return new BuiltinWME(literals, ds);
-    }
+
+	public static WME createBuiltin(final Literal[] literals, final DependencySet ds)
+	{
+		return new BuiltinWME(literals, ds);
+	}
 }
