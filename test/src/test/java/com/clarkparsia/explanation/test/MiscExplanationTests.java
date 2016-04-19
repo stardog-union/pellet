@@ -13,12 +13,8 @@ import static org.junit.Assert.assertFalse;
 
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.explanation.PelletExplanation;
-
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;

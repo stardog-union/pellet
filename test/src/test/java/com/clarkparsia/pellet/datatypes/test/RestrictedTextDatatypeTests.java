@@ -4,13 +4,7 @@ import static com.clarkparsia.pellet.utils.TermFactory.literal;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import org.junit.Test;
-
 import aterm.ATermAppl;
-
 import com.clarkparsia.pellet.datatypes.DatatypeReasoner;
 import com.clarkparsia.pellet.datatypes.DatatypeReasonerImpl;
 import com.clarkparsia.pellet.datatypes.Datatypes;
@@ -18,6 +12,9 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetExcep
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
 import com.clarkparsia.pellet.datatypes.types.text.RestrictedTextDatatype;
+import java.util.Arrays;
+import java.util.Collection;
+import org.junit.Test;
 
 /**
  * <p>
@@ -33,14 +30,15 @@ import com.clarkparsia.pellet.datatypes.types.text.RestrictedTextDatatype;
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
  * </p>
  * 
- * @author HŽctor PŽrez-Urbina
+ * @author Hector Perez-Urbina
  */
-public class RestrictedTextDatatypeTests {
-	private DatatypeReasoner reasoner = new DatatypeReasonerImpl();
+public class RestrictedTextDatatypeTests
+{
+	private final DatatypeReasoner reasoner = new DatatypeReasonerImpl();
 
 	@Test
-	public void testXSDString() throws InvalidConstrainingFacetException, InvalidLiteralException,
-	                UnrecognizedDatatypeException {
+	public void testXSDString() throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	{
 		final Collection<ATermAppl> types = Arrays.asList(Datatypes.STRING);
 
 		assertTrue(reasoner.isSatisfiable(types));
@@ -84,8 +82,8 @@ public class RestrictedTextDatatypeTests {
 	}
 
 	@Test
-	public void testXSDNormalizedString() throws InvalidConstrainingFacetException, InvalidLiteralException,
-	                UnrecognizedDatatypeException {
+	public void testXSDNormalizedString() throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	{
 		final Collection<ATermAppl> types = Arrays.asList(Datatypes.NORMALIZED_STRING);
 
 		assertTrue(reasoner.isSatisfiable(types));
@@ -131,8 +129,8 @@ public class RestrictedTextDatatypeTests {
 	}
 
 	@Test
-	public void testXSDToken() throws InvalidConstrainingFacetException, InvalidLiteralException,
-	                UnrecognizedDatatypeException {
+	public void testXSDToken() throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	{
 		final Collection<ATermAppl> types = Arrays.asList(Datatypes.TOKEN);
 
 		assertTrue(reasoner.isSatisfiable(types));
@@ -178,8 +176,8 @@ public class RestrictedTextDatatypeTests {
 	}
 
 	@Test
-	public void testXSDLanguage() throws InvalidConstrainingFacetException, InvalidLiteralException,
-	                UnrecognizedDatatypeException {
+	public void testXSDLanguage() throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	{
 		final Collection<ATermAppl> types = Arrays.asList(Datatypes.LANGUAGE);
 
 		assertTrue(reasoner.isSatisfiable(types));
@@ -225,8 +223,8 @@ public class RestrictedTextDatatypeTests {
 	}
 
 	@Test
-	public void testXSDNMToken() throws InvalidConstrainingFacetException, InvalidLiteralException,
-	                UnrecognizedDatatypeException {
+	public void testXSDNMToken() throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	{
 		final Collection<ATermAppl> types = Arrays.asList(Datatypes.NMTOKEN);
 
 		assertTrue(reasoner.isSatisfiable(types));
@@ -245,8 +243,8 @@ public class RestrictedTextDatatypeTests {
 	}
 
 	@Test
-	public void testXSDName() throws InvalidConstrainingFacetException, InvalidLiteralException,
-	                UnrecognizedDatatypeException {
+	public void testXSDName() throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	{
 		final Collection<ATermAppl> types = Arrays.asList(Datatypes.NAME);
 
 		assertTrue(reasoner.isSatisfiable(types));
@@ -264,8 +262,8 @@ public class RestrictedTextDatatypeTests {
 	}
 
 	@Test
-	public void testXSDNCName() throws InvalidConstrainingFacetException, InvalidLiteralException,
-	                UnrecognizedDatatypeException {
+	public void testXSDNCName() throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
+	{
 		final Collection<ATermAppl> types = Arrays.asList(Datatypes.NCNAME);
 
 		assertTrue(reasoner.isSatisfiable(types));

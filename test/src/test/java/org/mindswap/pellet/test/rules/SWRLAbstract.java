@@ -14,7 +14,6 @@ import com.clarkparsia.owlapi.OntologyUtils;
 import org.junit.After;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.semanticweb.owlapi.model.IRI;
-import com.clarkparsia.owlapiv3.OntologyUtils;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -43,7 +42,7 @@ public class SWRLAbstract {
 
 	protected void test(String test) {
 		testJena(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
-		testOWLAPIv3(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
+		testOWLAPI(url(test + "-premise.rdf"), url(test + "-conclusion.rdf"));
 	}
 
 	private void testJena(String premiseURI, String conclusionURI) {
@@ -63,7 +62,7 @@ public class SWRLAbstract {
 		}
 	}
 	
-	private void testOWLAPIv3(String premiseURI, String conclusionURI) {
+	private void testOWLAPI(String premiseURI, String conclusionURI) {
 		org.semanticweb.owlapi.model.OWLOntologyManager manager = null;
 
 		try {

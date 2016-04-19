@@ -15,14 +15,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 import junit.framework.JUnit4TestAdapter;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.mindswap.pellet.KnowledgeBase;
-import org.mindswap.pellet.PelletOptions;
-import org.mindswap.pellet.jena.PelletInfGraph;
-import org.mindswap.pellet.jena.PelletReasonerFactory;
-import org.mindswap.pellet.utils.ATermUtils;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -35,6 +27,14 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.vocabulary.RDFS;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.mindswap.pellet.KnowledgeBase;
+import org.mindswap.pellet.PelletOptions;
+import org.mindswap.pellet.jena.PelletInfGraph;
+import org.mindswap.pellet.jena.PelletReasonerFactory;
+import org.mindswap.pellet.utils.ATermUtils;
 
 /**
  * <p>
@@ -70,15 +70,9 @@ public class TestAnnotations
 			return path;
 	}
 
-<<<<<<< HEAD
 	private static final String DATA1_RDF = "file:" + checkPath("test/data/annotations/data1.rdf");
 	private static final String DATA1_TTL = "file:" + checkPath("test/data/annotations/data1.ttl");
 	private static final String QUERY1_RQ = "file:" + checkPath("test/data/annotations/query1.rq");
-=======
-	private static final String	DATA1_RDF	= "test/data/annotations/data1.rdf";
-	private static final String	DATA1_TTL	= "test/data/annotations/data1.ttl";
-	private static final String	QUERY1_RQ	= "test/data/annotations/query1.rq";
->>>>>>> jena3
 
 	public static junit.framework.Test suite()
 	{
@@ -350,7 +344,7 @@ public class TestAnnotations
 
 		final ATermAppl st = ATermUtils.makeTermAppl("i");
 		final ATermAppl pt = ATermUtils.makeTermAppl(RDFS.label.getURI());
-		final ATermAppl ot = ATermUtils.makePlainLiteral("o");
+		final ATermAppl ot = ATermUtils.makeStringLiteral("o");
 
 		final KnowledgeBase kb = ((PelletInfGraph) model.getGraph()).getKB();
 		final Set<ATermAppl> actual = kb.getAnnotations(st, pt);
@@ -394,7 +388,7 @@ public class TestAnnotations
 
 		final ATermAppl i = ATermUtils.makeTermAppl("http://example.org#i");
 		final ATermAppl label = ATermUtils.makeTermAppl(RDFS.label.getURI());
-		final ATermAppl o1 = ATermUtils.makePlainLiteral("o1");
+		final ATermAppl o1 = ATermUtils.makeStringLiteral("o1");
 
 		final KnowledgeBase kb = ((PelletInfGraph) model.getGraph()).getKB();
 		final Set<ATermAppl> actual = kb.getAnnotations(i, label);
