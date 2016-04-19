@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.jena.graph.NodeFactory;
 import org.mindswap.pellet.taxonomy.TaxonomyBuilder;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.MultiValueMap;
@@ -23,21 +24,21 @@ import aterm.ATermAppl;
 import aterm.ATermList;
 
 import com.clarkparsia.pellet.utils.CollectionUtils;
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.reasoner.InfGraph;
-import com.hp.hpl.jena.reasoner.Reasoner;
-import com.hp.hpl.jena.reasoner.TriplePattern;
-import com.hp.hpl.jena.reasoner.rulesys.Builtin;
-import com.hp.hpl.jena.reasoner.rulesys.ClauseEntry;
-import com.hp.hpl.jena.reasoner.rulesys.Functor;
-import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
-import com.hp.hpl.jena.reasoner.rulesys.Node_RuleVariable;
-import com.hp.hpl.jena.reasoner.rulesys.Rule;
-import com.hp.hpl.jena.reasoner.rulesys.builtins.NotEqual;
-import com.hp.hpl.jena.sparql.graph.GraphFactory;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.reasoner.InfGraph;
+import org.apache.jena.reasoner.Reasoner;
+import org.apache.jena.reasoner.TriplePattern;
+import org.apache.jena.reasoner.rulesys.Builtin;
+import org.apache.jena.reasoner.rulesys.ClauseEntry;
+import org.apache.jena.reasoner.rulesys.Functor;
+import org.apache.jena.reasoner.rulesys.GenericRuleReasoner;
+import org.apache.jena.reasoner.rulesys.Node_RuleVariable;
+import org.apache.jena.reasoner.rulesys.Rule;
+import org.apache.jena.reasoner.rulesys.builtins.NotEqual;
+import org.apache.jena.sparql.graph.GraphFactory;
+import org.apache.jena.util.iterator.ExtendedIterator;
 
 /**
  * <p>
@@ -57,7 +58,7 @@ import com.hp.hpl.jena.util.iterator.ExtendedIterator;
  */
 public class JenaBasedELClassifier extends RuleBasedELClassifier implements TaxonomyBuilder {	
 	private static final String PREDICATE_PREFIX = "tag:clarkparsia.com,2008:pellet:el:predicate:";
-	private static final Node PRED_SUB = Node.createURI(PREDICATE_PREFIX + "subclassOf");
+	private static final Node PRED_SUB = NodeFactory.createURI(PREDICATE_PREFIX + "subclassOf");
 	private static final Builtin NOT_EQUAL = new NotEqual();
 	
 	private final Node TOP;
@@ -353,9 +354,9 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier implements Taxo
 			Node c = m_Constants.get(term);
 			if (c == null) {
 				if (term == ATermUtils.BOTTOM) {
-					c = Node.createURI("_BOTTOM_");
+					c = NodeFactory.createURI("_BOTTOM_");
 				} else {
-					c = Node.createURI(term.getName());
+					c = NodeFactory.createURI(term.getName());
 				}
 				m_Constants.put(term, c);
 			}

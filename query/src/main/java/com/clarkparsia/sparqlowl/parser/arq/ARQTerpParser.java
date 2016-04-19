@@ -18,12 +18,12 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlLexer;
 import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlParser;
 import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlTreeARQ;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryParseException;
-import com.hp.hpl.jena.query.Syntax;
-import com.hp.hpl.jena.sparql.lang.SPARQLParser;
-import com.hp.hpl.jena.sparql.lang.SPARQLParserFactory;
-import com.hp.hpl.jena.sparql.lang.SPARQLParserRegistry;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryParseException;
+import org.apache.jena.query.Syntax;
+import org.apache.jena.sparql.lang.SPARQLParser;
+import org.apache.jena.sparql.lang.SPARQLParserFactory;
+import org.apache.jena.sparql.lang.SPARQLParserRegistry;
 
 /**
  * <p>

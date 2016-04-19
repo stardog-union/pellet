@@ -7,17 +7,12 @@
 package org.mindswap.pellet.jena.graph.query;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.jena.graph.NodeFactory;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.jena.JenaUtils;
@@ -33,25 +28,25 @@ import org.mindswap.pellet.utils.iterator.NestedIterator;
 import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.utils.CollectionUtils;
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.hp.hpl.jena.util.iterator.Map1;
-import com.hp.hpl.jena.util.iterator.NullIterator;
-import com.hp.hpl.jena.util.iterator.SingletonIterator;
-import com.hp.hpl.jena.util.iterator.WrappedIterator;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
-import com.hp.hpl.jena.vocabulary.ReasonerVocabulary;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.util.iterator.Map1;
+import org.apache.jena.util.iterator.NullIterator;
+import org.apache.jena.util.iterator.SingletonIterator;
+import org.apache.jena.util.iterator.WrappedIterator;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 public class GraphQueryHandler {
 	public final static Logger	log		= Logger.getLogger( GraphQueryHandler.class.getName() );
 	
 	protected static final Node VAR 	= Node.ANY;
-	protected static final Node CONST 	= Node.createURI( "CONST" );	
+	protected static final Node CONST 	= NodeFactory.createURI( "CONST" );
 	
 	private static final Node[]	EMPTY						= new Node[0];
 	
@@ -450,7 +445,12 @@ public class GraphQueryHandler {
 					}
 					
 					Map1<Node, Triple> map = new Map1<Node, Triple>() {
-					    public Triple map1( Node o ) {
+						@Override
+						public Triple apply(Node node) {
+							return map1(node);
+						}
+
+						public Triple map1(Node o ) {
 					         return Triple.create( s, p, o );
 					    }
 					};

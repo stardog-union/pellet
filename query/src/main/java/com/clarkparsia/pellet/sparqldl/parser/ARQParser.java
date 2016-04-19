@@ -52,23 +52,23 @@ import com.clarkparsia.pellet.sparqldl.model.Query.VarType;
 import com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory;
 import com.clarkparsia.pellet.sparqldl.model.QueryImpl;
 import com.clarkparsia.pellet.utils.TermFactory;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.QuerySolutionMap;
-import com.hp.hpl.jena.query.Syntax;
-import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.sparql.core.BasicPattern;
-import com.hp.hpl.jena.sparql.core.TriplePath;
-import com.hp.hpl.jena.sparql.core.Var;
-import com.hp.hpl.jena.sparql.syntax.Element;
-import com.hp.hpl.jena.sparql.syntax.ElementGroup;
-import com.hp.hpl.jena.sparql.syntax.ElementPathBlock;
-import com.hp.hpl.jena.sparql.syntax.ElementTriplesBlock;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.query.QueryFactory;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.QuerySolutionMap;
+import org.apache.jena.query.Syntax;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.sparql.core.BasicPattern;
+import org.apache.jena.sparql.core.TriplePath;
+import org.apache.jena.sparql.core.Var;
+import org.apache.jena.sparql.syntax.Element;
+import org.apache.jena.sparql.syntax.ElementGroup;
+import org.apache.jena.sparql.syntax.ElementPathBlock;
+import org.apache.jena.sparql.syntax.ElementTriplesBlock;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 
 /**
  * <p>
@@ -128,7 +128,7 @@ public class ARQParser implements QueryParser {
 	 * {@inheritDoc}
 	 */
 	public Query parse(String queryStr, KnowledgeBase kb) {
-		com.hp.hpl.jena.query.Query sparql = QueryFactory.create( queryStr, Syntax.syntaxSPARQL );
+		org.apache.jena.query.Query sparql = QueryFactory.create( queryStr, Syntax.syntaxSPARQL );
 
 		return parse( sparql, kb );
 	}
@@ -146,7 +146,7 @@ public class ARQParser implements QueryParser {
 		return parse( queryString.toString(), kb );
 	}
 
-	public Query parse(com.hp.hpl.jena.query.Query sparql, KnowledgeBase kb) {
+	public Query parse(org.apache.jena.query.Query sparql, KnowledgeBase kb) {
 		this.kb = kb;
 
 		if( sparql.isDescribeType() )

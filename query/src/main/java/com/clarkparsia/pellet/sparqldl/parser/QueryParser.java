@@ -34,5 +34,5 @@ public interface QueryParser {
 
 	public Query parse(final InputStream stream, KnowledgeBase kb);
 
-	public Query parse(final com.hp.hpl.jena.query.Query stream, KnowledgeBase kb);
+	public Query parse(final org.apache.jena.query.Query stream, KnowledgeBase kb);
 }

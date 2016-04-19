@@ -19,14 +19,14 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
 import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.utils.CollectionUtils;
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.graph.GraphListener;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.graph.compose.Dyadic;
-import com.hp.hpl.jena.graph.compose.Polyadic;
-import com.hp.hpl.jena.reasoner.InfGraph;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.GraphListener;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.graph.compose.Dyadic;
+import org.apache.jena.graph.compose.Polyadic;
+import org.apache.jena.reasoner.InfGraph;
+import org.apache.jena.vocabulary.RDF;
 
 /**
  * A graph listener that listens to graph change events and if possible processes the change event. The listener is
