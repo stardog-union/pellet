@@ -96,6 +96,15 @@ import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
+import org.apache.jena.graph.Factory;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.util.iterator.ClosableIterator;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 
 /**
  * <p>

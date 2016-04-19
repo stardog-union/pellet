@@ -14,13 +14,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.jena.graph.NodeFactory;
 import org.mindswap.pellet.jena.vocabulary.OWL2;
 
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.XSD;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.graph.Node;
+import org.apache.jena.graph.Triple;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.XSD;
 
 /**
  * <p>
@@ -58,17 +59,17 @@ public class ARQParserUtilities {
 	public static final Node		XSD_BOOLEAN_TRUE;
 
 	static {
-		XSD_BOOLEAN_FALSE = Node.createLiteral( Boolean.FALSE.toString(), null,
+		XSD_BOOLEAN_FALSE = NodeFactory.createLiteral( Boolean.FALSE.toString(), null,
 				XSDDatatype.XSDboolean );
-		XSD_BOOLEAN_TRUE = Node.createLiteral( Boolean.TRUE.toString(), null,
+		XSD_BOOLEAN_TRUE = NodeFactory.createLiteral( Boolean.TRUE.toString(), null,
 				XSDDatatype.XSDboolean );
 
 		/*
 		 * After merging the newer datatype reasoner, the Collection below
 		 * should be pulled from that code.
 		 */
-		OWL2_DATATYPES = Collections.unmodifiableSet( new HashSet<Node>( Arrays.<Node> asList( Node
-				.createURI( OWL2.getURI() + "real" ), Node.createURI( OWL2.getURI() + "rational" ),
+		OWL2_DATATYPES = Collections.unmodifiableSet( new HashSet<Node>( Arrays.<Node> asList( NodeFactory
+				.createURI( OWL2.getURI() + "real" ), NodeFactory.createURI( OWL2.getURI() + "rational" ),
 				XSD.decimal.asNode(), XSD.integer.asNode(), XSD.nonNegativeInteger.asNode(),
 				XSD.nonPositiveInteger.asNode(), XSD.negativeInteger.asNode(), XSD.positiveInteger
 						.asNode(), XSD.xlong.asNode(), XSD.xint.asNode(), XSD.xshort.asNode(),
@@ -77,8 +78,8 @@ public class ARQParserUtilities {
 				XSD.xfloat.asNode(), XSD.xstring.asNode(), XSD.normalizedString.asNode(), XSD.token
 						.asNode(), XSD.language.asNode(), XSD.Name.asNode(), XSD.NCName.asNode(),
 				XSD.xboolean.asNode(), XSD.hexBinary.asNode(), XSD.base64Binary.asNode(),
-				XSD.anyURI.asNode(), XSD.dateTime.asNode(), Node.createURI( XSD.getURI()
-						+ "dateTimeStamp" ), Node.createURI( RDF.getURI() + "XMLLiteral" ) ) ) );
+				XSD.anyURI.asNode(), XSD.dateTime.asNode(), NodeFactory.createURI( XSD.getURI()
+						+ "dateTimeStamp" ), NodeFactory.createURI( RDF.getURI() + "XMLLiteral" ) ) ) );
 	}
 
 	/**
@@ -90,7 +91,7 @@ public class ARQParserUtilities {
 	 * @return A literal <code>Node</code>
 	 */
 	public static Node createNonNegativeInteger(String s) {
-		return Node.createLiteral( s, null, XSDDatatype.XSDnonNegativeInteger );
+		return NodeFactory.createLiteral( s, null, XSDDatatype.XSDnonNegativeInteger );
 	}
 
 	/**
@@ -121,7 +122,7 @@ public class ARQParserUtilities {
 		for( int i = nodes.size() - 1; i >= 0; i-- ) {
 			final Node oldList = list;
 			final Node first = nodes.get( i );
-			list = Node.createAnon();
+			list = NodeFactory.createAnon();
 			triples.add( new Triple( list, RDF.Nodes.first, first ) );
 			triples.add( new Triple( list, RDF.Nodes.rest, oldList ) );
 		}

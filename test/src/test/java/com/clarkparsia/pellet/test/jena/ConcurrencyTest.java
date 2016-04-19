@@ -23,6 +23,13 @@ import org.junit.Test;
 import org.mindswap.pellet.jena.PelletInfGraph;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 
+import org.apache.jena.ontology.ConversionException;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+
+
 /**
  * Verifies that Pellet doesn't throw any exceptions when doing concurrent ABox
  * queries provided that classification and realization are down synchronously

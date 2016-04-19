@@ -1,5 +1,7 @@
 package org.mindswap.pellet.jena.graph.converter;
 
+import org.apache.jena.graph.BlankNodeId;
+import org.apache.jena.graph.NodeFactory;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.jena.JenaUtils;
 import org.mindswap.pellet.jena.vocabulary.OWL2;
@@ -9,14 +11,14 @@ import org.mindswap.pellet.utils.ATermUtils;
 import aterm.ATermAppl;
 import aterm.ATermList;
 
-import com.hp.hpl.jena.graph.Graph;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.rdf.model.AnonId;
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
+import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
+import org.apache.jena.rdf.model.AnonId;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 
 /**
  * <p>
@@ -127,7 +129,7 @@ public class AxiomConverter {
 			Node s = converter.convert( axiom.getArgument( 1 ) );
 			Node o = converter.convert( axiom.getArgument( 2 ) );
 
-			Node n = Node.createAnon();
+			Node n = NodeFactory.createAnon();
 			TripleAdder.add( graph, n, RDF.type, OWL2.NegativePropertyAssertion );
 			TripleAdder.add( graph, n, RDF.subject, s );
 			TripleAdder.add( graph, n, RDF.predicate, p );
@@ -145,13 +147,13 @@ public class AxiomConverter {
 			
 			ATermAppl name = (ATermAppl) axiom.getArgument( 0 );
 			if( name == ATermUtils.EMPTY ) {
-				node = Node.createAnon();
+				node = NodeFactory.createAnon();
 			}
 			else if( ATermUtils.isBnode( name ) ) {
-				node = Node.createAnon( new AnonId( ((ATermAppl) name.getArgument( 0 )).getName() ) );
+				node = NodeFactory.createAnon( new BlankNodeId( ((ATermAppl) name.getArgument( 0 )).getName() ) );
 			}
 			else {
-				node = Node.createURI( name.getName() );
+				node = NodeFactory.createURI( name.getName() );
 			}
 						
 			TripleAdder.add( graph, node, RDF.type, SWRL.Imp );
@@ -164,7 +166,7 @@ public class AxiomConverter {
 				Node list = null;
 				for( ; !head.isEmpty(); head = head.getNext() ) {
 					Node atomNode = convertAtom( (ATermAppl) head.getFirst() );
-					Node newList = Node.createAnon();
+					Node newList = NodeFactory.createAnon();
 					TripleAdder.add( graph, newList, RDF.type, SWRL.AtomList );
 					TripleAdder.add( graph, newList, RDF.first, atomNode );
 					if( list != null )
@@ -184,7 +186,7 @@ public class AxiomConverter {
 				Node list = null;
 				for( ; !body.isEmpty(); body = body.getNext() ) {
 					Node atomNode = convertAtom( (ATermAppl) body.getFirst() );
-					Node newList = Node.createAnon();
+					Node newList = NodeFactory.createAnon();
 					TripleAdder.add( graph, newList, RDF.type, SWRL.AtomList );
 					TripleAdder.add( graph, newList, RDF.first, atomNode );
 					if( list != null )
@@ -199,7 +201,7 @@ public class AxiomConverter {
 	}	
 
 	private Node convertAtom(ATermAppl term) {
-		Node atom = Node.createAnon();
+		Node atom = NodeFactory.createAnon();
 
 		if( term.getAFun().equals( ATermUtils.TYPEFUN ) ) {
 			ATermAppl ind = (ATermAppl) term.getArgument( 0 );
@@ -264,7 +266,7 @@ public class AxiomConverter {
 			args = args.getNext();
 			
 			TripleAdder.add( graph, atom, RDF.type, SWRL.BuiltinAtom );
-			TripleAdder.add( graph, atom, SWRL.builtin, Node.createURI( builtin.toString() ) );			
+			TripleAdder.add( graph, atom, SWRL.builtin, NodeFactory.createURI( builtin.toString() ) );			
 			
 			if( args.isEmpty() ) {
 				TripleAdder.add( graph, atom, SWRL.arguments, RDF.nil );
@@ -273,7 +275,7 @@ public class AxiomConverter {
 				Node list = null;
 				for( ; !args.isEmpty(); args = args.getNext() ) {
 					Node atomNode = convertAtomObject( (ATermAppl) args.getFirst() );
-					Node newList = Node.createAnon();
+					Node newList = NodeFactory.createAnon();
 					TripleAdder.add( graph, newList, RDF.first, atomNode );
 					if( list != null )
 						TripleAdder.add( graph, list, RDF.rest, newList );
@@ -305,7 +307,7 @@ public class AxiomConverter {
 	}
 
 	private void convertNary(ATermAppl axiom, Resource type, Property p) {
-		Node n = Node.createAnon();
+		Node n = NodeFactory.createAnon();
 		TripleAdder.add( graph, n, RDF.type, type );
 
 		ATermList concepts = (ATermList) axiom.getArgument( 0 );

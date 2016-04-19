@@ -62,10 +62,24 @@ import javax.swing.WindowConstants;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.exceptions.TimeoutException;
 import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+
 
 public class WebOntTest
 {
 	public static Logger log = Logger.getLogger(WebOntTest.class.getName());
+
+
 
 	// each test case should be handled in timeout seconds
 	// or otherwise is assumed to fail that test case

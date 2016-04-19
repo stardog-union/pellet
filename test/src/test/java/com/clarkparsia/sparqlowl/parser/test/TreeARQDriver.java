@@ -22,12 +22,12 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlLexer;
 import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlParser;
 import com.clarkparsia.sparqlowl.parser.antlr.SparqlOwlTreeARQ;
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryParseException;
-import com.hp.hpl.jena.vocabulary.OWL;
-import com.hp.hpl.jena.vocabulary.RDF;
-import com.hp.hpl.jena.vocabulary.RDFS;
-import com.hp.hpl.jena.vocabulary.XSD;
+import org.apache.jena.query.Query;
+import org.apache.jena.query.QueryParseException;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.XSD;
 
 /**
  * <p>

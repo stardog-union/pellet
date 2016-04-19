@@ -19,14 +19,14 @@ import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.model.QueryParameters;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
 import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSetRewindable;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.sparql.core.Var;
-import com.hp.hpl.jena.sparql.engine.binding.Binding;
-import com.hp.hpl.jena.sparql.engine.binding.BindingHashMap;
-import com.hp.hpl.jena.sparql.engine.binding.BindingMap;
+import org.apache.jena.graph.Node;
+import org.apache.jena.query.QuerySolution;
+import org.apache.jena.query.ResultSetRewindable;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.sparql.core.Var;
+import org.apache.jena.sparql.engine.binding.Binding;
+import org.apache.jena.sparql.engine.binding.BindingHashMap;
+import org.apache.jena.sparql.engine.binding.BindingMap;
 
 /**
  * <p>
@@ -164,7 +164,7 @@ public class SparqlDLResultSet implements ResultSetRewindable {
 	 * {@inheritDoc}
 	 */
 	public QuerySolution nextSolution() {
-		return new com.hp.hpl.jena.sparql.core.ResultBinding( model, nextBinding() );
+		return new org.apache.jena.sparql.core.ResultBinding( model, nextBinding() );
 	}
 
 	/**
