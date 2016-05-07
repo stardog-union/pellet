@@ -66,7 +66,7 @@ public class TermFactory
 	 * Create a list of terms.
 	 *
 	 * @param args elements of thre list
-	 * @return an ATermList with given elements in the given order
+	 * @return an ATermList with given elements in the given _order
 	 */
 	public static ATermList list(final ATermAppl... args)
 	{

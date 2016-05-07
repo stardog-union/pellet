@@ -17,7 +17,7 @@ import org.mindswap.pellet.Node;
  * Title: All Named Individuals Iterator
  * </p>
  * <p>
- * Description: Iterates over all named individuals in the abox,
+ * Description: Iterates over all named individuals in the _abox,
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007

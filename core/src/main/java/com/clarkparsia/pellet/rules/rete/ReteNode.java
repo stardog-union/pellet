@@ -27,7 +27,7 @@ public abstract class ReteNode
 	}
 
 	/**
-	 * Add a directly dependent node.
+	 * Add a directly dependent _node.
 	 */
 	public void addChild(final BetaNode beta)
 	{

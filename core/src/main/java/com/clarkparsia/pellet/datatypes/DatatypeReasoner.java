@@ -117,16 +117,16 @@ public interface DatatypeReasoner
 	/**
 	 * Shorthand for {@link #isSatisfiable(Collection, Object)} where <code>value == null</code>.
 	 *
-	 * @param dataranges The data ranges on the literal node
+	 * @param dataranges The data ranges on the literal _node
 	 * @return <code>true</code> if the conjunction of the data ranges is satisfiable, <code>false</code> else.
 	 */
 	public boolean isSatisfiable(Collection<ATermAppl> dataranges) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException;
 
 	/**
-	 * Check the data ranges on a single literal node are satisfiable (independent of other nodes).
+	 * Check the data ranges on a single literal _node are satisfiable (independent of other nodes).
 	 *
-	 * @param dconjunction The data ranges on the literal node
-	 * @param value A constant value asserted for the node or <code>null</code> if no such value is present.
+	 * @param dconjunction The data ranges on the literal _node
+	 * @param value A constant value asserted for the _node or <code>null</code> if no such value is present.
 	 * @return <code>true</code> if the conjunction of the data ranges is satisfiable, <code>false</code> else.
 	 */
 	public boolean isSatisfiable(Collection<ATermAppl> dataranges, Object value) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException;

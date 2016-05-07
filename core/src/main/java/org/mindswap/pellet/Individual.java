@@ -223,7 +223,7 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Collects atomic concepts such that either that concept or its negation exist in the types list without depending on any non-deterministic branch. First
+	 * Collects atomic concepts such that either that concept or its negation exist in the types list without depending on any non-deterministic _branch. First
 	 * list is filled with types and second list is filled with non-types, i.e. this individual can never be an instance of any element in the second list.
 	 *
 	 * @param types All atomic concepts found in types
@@ -256,7 +256,7 @@ public class Individual extends Node implements CachedNode
 		if (checkForPruned)
 		{
 			if (isPruned())
-				throw new InternalReasonerException("Adding type to a pruned node " + this + " " + c);
+				throw new InternalReasonerException("Adding type to a pruned _node " + this + " " + c);
 			else
 				if (isMerged())
 					return;
@@ -276,9 +276,9 @@ public class Individual extends Node implements CachedNode
 		//        if( ABox.log.isLoggable( Level.FINE ) ) 
 		//            ABox.log.fine( "TYPE: " + this + " " + c );        
 
-		// if we are checking entailment using a precompleted ABox, abox.branch
+		// if we are checking entailment using a precompleted ABox, _abox.branch
 		// is set to -1. however, since applyAllValues is done automatically
-		// and the edge used in applyAllValues may depend on a branch we want
+		// and the edge used in applyAllValues may depend on a _branch we want
 		// this type to be deleted when that edge goes away, i.e. we backtrack
 		// to a position before the max dependency of this type
 		int b = abox.getBranch();
@@ -352,7 +352,7 @@ public class Individual extends Node implements CachedNode
 							// list. otherwise a clash found will prevent the
 							// addition to the type list and term will be only in the
 							// dependency map. smart restore may not remove the cardinality
-							// from dependency map leaving the node in an invalid state.
+							// from dependency map leaving the _node in an invalid state.
 							checkMinClash(c, ds);
 						}
 					}
@@ -399,7 +399,7 @@ public class Individual extends Node implements CachedNode
 											// list. otherwise a clash found will prevent the
 											// addition to the type list and term will be only in the
 											// dependency map. smart restore may not remove the cardinality
-											// from depdendency map leaving the node in an invalid state.
+											// from depdendency map leaving the _node in an invalid state.
 											checkMaxClash(c, ds);
 										}
 									}
@@ -757,10 +757,10 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Get neighbor edges to a specific node
+	 * Get _neighbor edges to a specific _node
 	 *
 	 * @param r
-	 * @param node
+	 * @param _node
 	 * @return
 	 */
 	public EdgeList getRNeighborEdges(final Role r, final Node node)
@@ -791,11 +791,11 @@ public class Individual extends Node implements CachedNode
 	 * @param r Role we use to find neighbors
 	 * @param n Number of neighbors
 	 * @param c The type that all neighbors should belong to
-	 * @return The union of dependencies for the edges leading to neighbors and the dependency of the type assertion for each neighbor
+	 * @return The union of dependencies for the edges leading to neighbors and the dependency of the type assertion for each _neighbor
 	 */
 	public DependencySet hasDistinctRNeighborsForMax(final Role r, final int n, final ATermAppl c)
 	{
-		//	    Timer t = abox.getKB().timers.startTimer("hasDistinctRNeighbors1"); 
+		//	    Timer t = _abox.getKB().timers.startTimer("hasDistinctRNeighbors1"); 
 
 		boolean hasNeighbors = false;
 
@@ -978,7 +978,7 @@ public class Individual extends Node implements CachedNode
 	 * Check the property assertions to see if it is possible for this individual to have the value for the given datatype property. This function is meaningful
 	 * only called for individuals in a completed ABox (a pseudo model for the KB). In a completed ABox, individual will have some literal successors that may
 	 * or may not have a known value. The individual has the data property value only if it has a literal successor that has the exact given value and the edge
-	 * between the individual and the literal does not depend on any non- deterministic branch. If the literal value is there but the edge depends on a branch
+	 * between the individual and the literal does not depend on any non- deterministic _branch. If the literal value is there but the edge depends on a _branch
 	 * then we cannot exactly say if the literal value is there or not. If there is no literal successor with the given value then we can for sure say that
 	 * individual does not have the data property value (because it does not have the value in at least one model)
 	 *
@@ -1081,7 +1081,7 @@ public class Individual extends Node implements CachedNode
 		}
 
 		if (isPruned())
-			throw new InternalReasonerException("Adding edge to a pruned node " + this + " " + r + " " + x);
+			throw new InternalReasonerException("Adding edge to a pruned _node " + this + " " + r + " " + x);
 		else
 			if (isMerged())
 				return null;
@@ -1113,7 +1113,7 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Resets this node (types, edges, sames, differents) to contain only asserted information. This function can be seen a specialized case of restore but a
+	 * Resets this _node (types, edges, sames, differents) to contain only asserted information. This function can be seen a specialized case of restore but a
 	 * special function is needed both for correctness (e.g. SMART_RESTORE option should not change behavior) and performance
 	 */
 	@Override
@@ -1241,8 +1241,8 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Prune the given node by removing all links going to nominal nodes and recurse through all successors. No need to remove incoming edges because either the
-	 * node is the first one being pruned so the merge function already handled it or this is a successor node and its successor is also being pruned
+	 * Prune the given _node by removing all links going to nominal nodes and recurse through all successors. No need to remove incoming edges because either the
+	 * _node is the first one being pruned so the merge function already handled it or this is a successor _node and its successor is also being pruned
 	 *
 	 * @param succ
 	 * @param ds

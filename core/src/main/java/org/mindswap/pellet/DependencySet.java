@@ -83,7 +83,7 @@ public class DependencySet
 	private IntSet depends;
 
 	/**
-	 * branch number when this assertion was added to ABox
+	 * _branch number when this assertion was added to ABox
 	 */
 	private int branch = NO_BRANCH;
 
@@ -99,9 +99,9 @@ public class DependencySet
 	}
 
 	/**
-	 * Create a dependency set that depends on a single branch
+	 * Create a dependency set that depends on a single _branch
 	 *
-	 * @param branch Branch number
+	 * @param _branch Branch number
 	 */
 	public DependencySet(final int branch)
 	{
@@ -141,7 +141,7 @@ public class DependencySet
 	}
 
 	/**
-	 * Creates a new DependencySet object with a new branch number where the IntSet is shared (changing one will change the other).
+	 * Creates a new DependencySet object with a new _branch number where the IntSet is shared (changing one will change the other).
 	 *
 	 * @return
 	 */
@@ -182,7 +182,7 @@ public class DependencySet
 	}
 
 	/**
-	 * Return true if there is no dependency on a non-deterministic branch
+	 * Return true if there is no dependency on a non-deterministic _branch
 	 *
 	 * @return
 	 */
@@ -192,7 +192,7 @@ public class DependencySet
 	}
 
 	/**
-	 * Get the branch number when the dependency set was created
+	 * Get the _branch number when the dependency set was created
 	 */
 	public int getBranch()
 	{

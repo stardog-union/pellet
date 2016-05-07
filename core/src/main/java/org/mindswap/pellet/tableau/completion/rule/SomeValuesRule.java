@@ -102,22 +102,22 @@ public class SomeValuesRule extends AbstractTableauRule
 
 		final Role role = strategy.getABox().getRole(s);
 
-		// Is there a r-neighbor that satisfies the someValuesFrom restriction
+		// Is there a r-_neighbor that satisfies the someValuesFrom restriction
 		boolean neighborFound = false;
 		// Safety condition as defined in the SHOIQ algorithm.
-		// An R-neighbor y of a node x is safe if
+		// An R-_neighbor y of a _node x is safe if
 		// (i) x is blockable or if
-		// (ii) x is a nominal node and y is not blocked.
+		// (ii) x is a nominal _node and y is not blocked.
 		final boolean neighborSafe = x.isBlockable();
-		// y is going to be the node we create, and edge its connection to the
-		// current node
+		// y is going to be the _node we create, and edge its connection to the
+		// current _node
 		Node y = null;
 		Edge edge = null;
 
-		// edges contains all the edges going into of coming out from the node
+		// edges contains all the edges going into of coming out from the _node
 		// And labeled with the role R
 		EdgeList edges = x.getRNeighborEdges(role);
-		// We examine all those edges one by one and check if the neighbor has
+		// We examine all those edges one by one and check if the _neighbor has
 		// type C, in which case we set neighborFound to true
 		for (final Iterator<Edge> i = edges.iterator(); i.hasNext();)
 		{
@@ -139,7 +139,7 @@ public class SomeValuesRule extends AbstractTableauRule
 			}
 		}
 
-		// If we have found a R-neighbor with type C, continue, do nothing
+		// If we have found a R-_neighbor with type C, continue, do nothing
 		if (neighborFound)
 			return;
 
@@ -230,9 +230,9 @@ public class SomeValuesRule extends AbstractTableauRule
 				{
 					ds = ds.union(maxCardDS, strategy.getABox().doExplanation());
 
-					// if there is an r-neighbor and we can have at most one r then
-					// we should reuse that node and edge. there is no way that neighbor
-					// is not safe (a node is unsafe only if it is blockable and has
+					// if there is an r-_neighbor and we can have at most one r then
+					// we should reuse that _node and edge. there is no way that _neighbor
+					// is not safe (a _node is unsafe only if it is blockable and has
 					// a nominal successor which is not possible if there is a cardinality
 					// restriction on the property)
 					if (edge != null)
@@ -241,14 +241,14 @@ public class SomeValuesRule extends AbstractTableauRule
 					{
 						// this is the tricky part. we need some merges to happen
 						// under following conditions:
-						// 1) if r is functional and there is a p-neighbor where
+						// 1) if r is functional and there is a p-_neighbor where
 						// p is superproperty of r then we need to reuse that
-						// p neighbor for the some values restriction (no
+						// p _neighbor for the some values restriction (no
 						// need to check subproperties because functionality of r
 						// precents having two or more successors for subproperties)
 						// 2) if r is not functional, i.e. max(r, 1) is in the types,
-						// then having a p neighbor (where p is subproperty of r)
-						// means we need to reuse that p-neighbor
+						// then having a p _neighbor (where p is subproperty of r)
+						// means we need to reuse that p-_neighbor
 						// In either case if there are more than one such value we also
 						// need to merge them together
 						final Set<Role> fs = role.isFunctional() ? role.getFunctionalSupers() : role.getSubRoles();

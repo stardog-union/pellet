@@ -9,17 +9,17 @@ package org.mindswap.pellet.tableau.blocking;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 
 /**
- * Factory to choose the most-efficient blocking strategy for a given expressivity.
+ * Factory to choose the most-efficient blocking _strategy for a given expressivity.
  *
  * @author Evren Sirin
  */
 public class BlockingFactory
 {
 	/**
-	 * Returns the most-efficient blocking strategy for a given expressivity.
+	 * Returns the most-efficient blocking _strategy for a given expressivity.
 	 *
 	 * @param expr expressivity of the kb for which the blocking will be used
-	 * @return a blocking strategy
+	 * @return a blocking _strategy
 	 */
 	public static Blocking createBlocking(final Expressivity expr)
 	{

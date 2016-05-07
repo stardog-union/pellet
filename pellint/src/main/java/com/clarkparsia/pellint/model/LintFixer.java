@@ -20,7 +20,7 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  * Title: Lint Fixer
  * </p>
  * <p>
- * Description: Contains a set of OWLAxiom's to remove and a set of OWLAxiom's to add in order to fix a lint.
+ * Description: Contains a set of OWLAxiom's to remove and a set of OWLAxiom's to add in _order to fix a lint.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008

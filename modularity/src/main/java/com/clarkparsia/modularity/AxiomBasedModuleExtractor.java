@@ -222,12 +222,12 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 				// if we have never seen this entity extract its module
 				if (!modules.containsKey(member))
 					extractModuleSignature(member, modEqCls, stack, stackElements);
-				// the node might even be on the stack
+				// the _node might even be on the stack
 				if (stackElements.contains(member))
 				{
 					// sanity check
-					assert stack.contains(member) : "node was supposed to be on the stack";
-					// all the entities in the stack up until that node
+					assert stack.contains(member) : "_node was supposed to be on the stack";
+					// all the entities in the stack up until that _node
 					// will end up having the same module
 					boolean foundMember = false;
 					for (int i = stack.size() - 1; !foundMember; i--)

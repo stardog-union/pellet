@@ -57,7 +57,7 @@ public class LargeDisjunctionPattern extends AxiomLintPattern
 	@Override
 	public String getDescription()
 	{
-		return "Too many disjuncts in a disjunction - maximum recommended is " + m_MaxAllowed;
+		return "Too many disjuncts in a _disjunction - maximum recommended is " + m_MaxAllowed;
 	}
 
 	@Override

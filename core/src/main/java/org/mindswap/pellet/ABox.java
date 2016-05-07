@@ -104,8 +104,8 @@ public class ABox
 	// following two variables are used to generate names
 	// for newly generated individuals. so during rules are
 	// applied anon1, anon2, etc. will be generated. This prefix
-	// will also make sure that any node whose name starts with
-	// this prefix is not a root node
+	// will also make sure that any _node whose name starts with
+	// this prefix is not a root _node
 	private int anonCount = 0;
 
 	public ABoxStats stats = new ABoxStats();
@@ -116,12 +116,12 @@ public class ABox
 	protected final DatatypeReasoner dtReasoner;
 
 	/**
-	 * This is a list of nodes. Each node has a name expressed as an ATerm which is used as the key in the Hashtable. The value is the actual node object
+	 * This is a list of nodes. Each _node has a name expressed as an ATerm which is used as the key in the Hashtable. The value is the actual _node object
 	 */
 	protected Map<ATermAppl, Node> nodes;
 
 	/**
-	 * This is a list of node names. This list stores the individuals in the order they are created
+	 * This is a list of _node names. This list stores the individuals in the _order they are created
 	 */
 	protected List<ATermAppl> nodeList;
 
@@ -134,7 +134,7 @@ public class ABox
 
 	// cached satisfiability results
 	// the table maps every atomic concept A (and also its negation not(A))
-	// to the root node of its completed tree. If a concept is mapped to
+	// to the root _node of its completed tree. If a concept is mapped to
 	// null value it means it is not satisfiable
 	protected ConceptCache cache;
 
@@ -158,7 +158,7 @@ public class ABox
 
 	private final Set<Clash> assertedClashes;
 
-	// the current branch number
+	// the current _branch number
 	private int branch;
 	private List<Branch> branches;
 
@@ -185,7 +185,7 @@ public class ABox
 	private CompletionQueue completionQueue;
 	private IncrementalChangeTracker incChangeTracker;
 
-	// flag set when incrementally updating the abox with explicit assertions
+	// flag set when incrementally updating the _abox with explicit assertions
 	private boolean syntacticUpdate = false;
 
 	public ABox(final KnowledgeBase kb)
@@ -316,7 +316,7 @@ public class ABox
 		}
 
 		// Copy of the incChangeTracker looks up nodes in the new ABox, so this
-		// copy must follow node copying
+		// copy must follow _node copying
 		if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
 		{
 			if (copyIndividuals)
@@ -379,7 +379,7 @@ public class ABox
 	}
 
 	/**
-	 * Create a copy of this ABox with one more additional individual. This is <b>NOT</b> equivalent to create a copy and then add the individual. The order of
+	 * Create a copy of this ABox with one more additional individual. This is <b>NOT</b> equivalent to create a copy and then add the individual. The _order of
 	 * individuals in the ABox is important to figure out which individuals exist in the original ontology and which ones are created by the tableau algorithm.
 	 * This function creates a new ABox such that the individual is supposed to exist in the original ontology. This is very important when satisfiability of a
 	 * concept starts with a pesudo model rather than the initial ABox.
@@ -1212,7 +1212,7 @@ public class ABox
 	}
 
 	/**
-	 * Return true if this ABox is consistent. Consistent ABox means after applying all the tableau completion rules at least one branch with no clashes was
+	 * Return true if this ABox is consistent. Consistent ABox means after applying all the tableau completion rules at least one _branch with no clashes was
 	 * found
 	 *
 	 * @return
@@ -1451,13 +1451,13 @@ public class ABox
 		if (log.isLoggable(Level.FINE))
 			log.fine("Consistency check starts");
 
-		// currently there is only one incremental consistency strategy
+		// currently there is only one incremental consistency _strategy
 		final CompletionStrategy incStrategy = new SROIQIncStrategy(this);
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Strategy: " + incStrategy.getClass().getName());
 
-		// set abox to not being complete
+		// set _abox to not being complete
 		setComplete(false);
 		final Timer completionTimer = kb.timers.getTimer("complete");
 		completionTimer.start();
@@ -1543,10 +1543,10 @@ public class ABox
 		c = ATermUtils.normalize(c);
 
 		// when a type is being added to
-		// an ABox that has already been completed, the branch
+		// an ABox that has already been completed, the _branch
 		// of the dependency set will automatically be set to
-		// the current branch. We need to set it to the initial
-		// branch number to make sure that this type assertion
+		// the current _branch. We need to set it to the initial
+		// _branch number to make sure that this type assertion
 		// will not be removed during backtracking
 		final int remember = branch;
 		setBranch(DependencySet.NO_BRANCH);
@@ -1619,7 +1619,7 @@ public class ABox
 	}
 
 	/**
-	 * Remove the given node from the node map which maps names to nodes. Does not remove the node from the node list or other nodes' edge lists.
+	 * Remove the given _node from the _node map which maps names to nodes. Does not remove the _node from the _node list or other nodes' edge lists.
 	 *
 	 * @param x
 	 * @return
@@ -1770,7 +1770,7 @@ public class ABox
 	{
 		final Individual ind = addIndividual(x, null, ds);
 
-		// update affected inds for this branch
+		// update affected inds for this _branch
 		if (getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
 			branchEffects.add(getBranch(), ind.getName());
 
@@ -1792,7 +1792,7 @@ public class ABox
 	private Individual addIndividual(final ATermAppl x, final Individual parent, final DependencySet ds)
 	{
 		if (nodes.containsKey(x))
-			throw new InternalReasonerException("adding a node twice " + x);
+			throw new InternalReasonerException("adding a _node twice " + x);
 
 		setChanged(true);
 
@@ -1847,7 +1847,7 @@ public class ABox
 
 		// update syntactic assertions - currently i do not add this to the
 		// dependency index
-		// now, as it will simply be used during the completion strategy
+		// now, as it will simply be used during the completion _strategy
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 			kb.getSyntacticAssertions().add(diffAxiom);
 
@@ -1855,7 +1855,7 @@ public class ABox
 		// DependencySet(explanationTable.getCurrent()));
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(diffAxiom) : DependencySet.INDEPENDENT;
 
-		// Temporarily reset the branch so that this assertion survives resets
+		// Temporarily reset the _branch so that this assertion survives resets
 		final int remember = branch;
 		setBranch(DependencySet.NO_BRANCH);
 
@@ -2031,9 +2031,9 @@ public class ABox
 	}
 
 	/**
-	 * Return the current branch number. Branches are created when a non-deterministic rule, e.g. disjunction or max rule, is being applied.
+	 * Return the current _branch number. Branches are created when a non-deterministic rule, e.g. _disjunction or max rule, is being applied.
 	 *
-	 * @return Returns the branch.
+	 * @return Returns the _branch.
 	 */
 	public int getBranch()
 	{
@@ -2041,9 +2041,9 @@ public class ABox
 	}
 
 	/**
-	 * Set the branch number (should only be called when backjumping is in progress)
+	 * Set the _branch number (should only be called when backjumping is in progress)
 	 *
-	 * @param branch
+	 * @param _branch
 	 */
 	public void setBranch(final int branch)
 	{
@@ -2051,9 +2051,9 @@ public class ABox
 	}
 
 	/**
-	 * Increment the branch number (should only be called when a non-deterministic rule, e.g. disjunction or max rule, is being applied)
+	 * Increment the _branch number (should only be called when a non-deterministic rule, e.g. _disjunction or max rule, is being applied)
 	 *
-	 * @param branch
+	 * @param _branch
 	 */
 	public void incrementBranch()
 	{
@@ -2204,7 +2204,7 @@ public class ABox
 			final EdgeList preds = node.getInEdges();
 			final boolean validPred = preds.size() == 1 || (preds.size() == 2 && preds.hasEdgeFrom(node));
 			if (!validPred)
-				throw new InternalReasonerException("Invalid blockable node: " + node + " " + node.getInEdges());
+				throw new InternalReasonerException("Invalid blockable _node: " + node + " " + node.getInEdges());
 
 		}
 		else
@@ -2212,7 +2212,7 @@ public class ABox
 			{
 				final ATermAppl nominal = ATermUtils.makeValue(node.getName());
 				if (!ATermUtils.isAnonNominal(node.getName()) && !node.hasType(nominal))
-					throw new InternalReasonerException("Invalid nominal node: " + node + " " + node.getTypes());
+					throw new InternalReasonerException("Invalid nominal _node: " + node + " " + node.getTypes());
 			}
 
 		for (final ATermAppl c : node.getDepends().keySet())
@@ -2225,7 +2225,7 @@ public class ABox
 			// Individual z = getIndividual(c.getArgument(0));
 			// if(z == null)
 			// throw new InternalReasonerException("Nominal to non-existing
-			// node: " + node + " " + c + " " + ds + " " + branch);
+			// _node: " + _node + " " + c + " " + ds + " " + _branch);
 			// }
 			// }
 		}
@@ -2243,11 +2243,11 @@ public class ABox
 			final Edge edge = edges.edgeAt(e);
 			final Node succ = edge.getTo();
 			if (nodes.get(succ.getName()) != succ)
-				throw new InternalReasonerException("Invalid edge to a non-existing node: " + edge + " " + nodes.get(succ.getName()) + "(" + nodes.get(succ.getName()).hashCode() + ")" + succ + "(" + succ.hashCode() + ")");
+				throw new InternalReasonerException("Invalid edge to a non-existing _node: " + edge + " " + nodes.get(succ.getName()) + "(" + nodes.get(succ.getName()).hashCode() + ")" + succ + "(" + succ.hashCode() + ")");
 			if (!succ.getInEdges().hasEdge(edge))
 				throw new InternalReasonerException("Invalid edge: " + edge);
 			if (succ.isMerged())
-				throw new InternalReasonerException("Invalid edge to a removed node: " + edge + " " + succ.isMerged());
+				throw new InternalReasonerException("Invalid edge to a removed _node: " + edge + " " + succ.isMerged());
 			final DependencySet ds = edge.getDepends();
 			if (ds.max() > branch || ds.getBranch() > branch)
 				throw new InternalReasonerException("Invalid ds: " + edge + " " + ds);
@@ -2284,9 +2284,9 @@ public class ABox
 	}
 
 	/**
-	 * Print the node in the completion tree.
+	 * Print the _node in the completion tree.
 	 *
-	 * @param node
+	 * @param _node
 	 * @param printed
 	 * @param indent
 	 */
@@ -2307,7 +2307,7 @@ public class ABox
 		}
 		else
 			if (node.isPruned())
-				throw new InternalReasonerException("Pruned node: " + node);
+				throw new InternalReasonerException("Pruned _node: " + node);
 
 		System.err.print(" = ");
 		for (int i = 0; i < Node.TYPES; i++)
@@ -2463,7 +2463,7 @@ public class ABox
 	}
 
 	/**
-	 * @param anonCount the anonCount to set
+	 * @param _anonCount the _anonCount to set
 	 */
 	public int setAnonCount(final int anonCount)
 	{
@@ -2471,7 +2471,7 @@ public class ABox
 	}
 
 	/**
-	 * @return the anonCount
+	 * @return the _anonCount
 	 */
 	public int getAnonCount()
 	{

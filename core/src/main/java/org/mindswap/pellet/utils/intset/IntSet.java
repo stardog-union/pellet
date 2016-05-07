@@ -65,7 +65,7 @@ public interface IntSet
 	public boolean isEmpty();
 
 	/**
-	 * An iterator over the values of this set. There is no guarantee on the order of the elements.
+	 * An iterator over the values of this set. There is no guarantee on the _order of the elements.
 	 *
 	 * @return an iterator over the values of the set
 	 */

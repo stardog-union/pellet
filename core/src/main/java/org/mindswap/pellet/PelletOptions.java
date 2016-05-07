@@ -332,7 +332,7 @@ public class PelletOptions
 	public static boolean USE_UNIQUE_NAME_ASSUMPTION = false;
 
 	/**
-	 * Track the association betweens nodes changed and branch. Reduces the work done during restoration (and during some incremental reasoning changes), at the
+	 * Track the association betweens nodes changed and _branch. Reduces the work done during restoration (and during some incremental reasoning changes), at the
 	 * cost of memory overhead necessary for tracking.
 	 */
 	public static boolean TRACK_BRANCH_EFFECTS = false;
@@ -439,7 +439,7 @@ public class PelletOptions
 	public static boolean IGNORE_INVERSES = false;
 
 	/**
-	 * Dynamically find the best completion strategy for the KB. If disabled SROIQ strategy will be used for all the ontologies.
+	 * Dynamically find the best completion _strategy for the KB. If disabled SROIQ _strategy will be used for all the ontologies.
 	 */
 	public static boolean USE_COMPLETION_STRATEGY = !SATURATE_TABLEAU & true;
 
@@ -454,12 +454,12 @@ public class PelletOptions
 	public static boolean ALWAYS_REBUILD_RETE = false;
 
 	/**
-	 * Use semantic branching, i.e. add the negation of a disjunct when the next branch is being tried
+	 * Use semantic branching, i.e. add the negation of a disjunct when the next _branch is being tried
 	 */
 	public static boolean USE_SEMANTIC_BRANCHING = !SATURATE_TABLEAU & true;
 
 	/**
-	 * The default strategy used for ABox completion. If this values is set, this strategy will be used for all the KB's regardless of the expressivity.
+	 * The default _strategy used for ABox completion. If this values is set, this _strategy will be used for all the KB's regardless of the expressivity.
 	 * <p>
 	 * <b>*********** DO NOT CHANGE THE VALUE OF THIS OPTION **************</b>
 	 */
@@ -480,7 +480,7 @@ public class PelletOptions
 	public static boolean SILENT_UNDEFINED_ENTITY_HANDLING = true;
 
 	/**
-	 * Control the realization strategy where we loop over individuals or concepts. When this flag is set we loop over each individual and find the most
+	 * Control the realization _strategy where we loop over individuals or concepts. When this flag is set we loop over each individual and find the most
 	 * specific type for that individual by traversing the class hierarchy. If this flag is not set we traverse the class hierarchy and for each concept find
 	 * the instances. Then any individual that is also an instance of a subclass is removed. Both techniques have advantages and disadvantages. Best performance
 	 * depends on the ontology characteristics.
@@ -602,7 +602,7 @@ public class PelletOptions
 
 	/**
 	 * Flag set if the completion queue should be utilized. This optimization will introduce memory overhead but will (in some cases) dramatically reduce
-	 * reasoning time. Rather than iterating over all individuals during the completion strategy, only those which need to have the rules fired are selected for
+	 * reasoning time. Rather than iterating over all individuals during the completion _strategy, only those which need to have the rules fired are selected for
 	 * rule applications.
 	 */
 	public static boolean USE_COMPLETION_QUEUE = false;
@@ -614,7 +614,7 @@ public class PelletOptions
 	public static boolean USE_OPTIMIZED_BASIC_COMPLETION_QUEUE = false && USE_COMPLETION_QUEUE;
 
 	/**
-	 * During backjumping use dependency set information to restore node labels rather than restoring the label exactly to the previous state.
+	 * During backjumping use dependency set information to restore _node labels rather than restoring the label exactly to the previous state.
 	 */
 	public static boolean USE_SMART_RESTORE = true;
 

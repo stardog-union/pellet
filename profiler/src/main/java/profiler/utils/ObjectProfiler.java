@@ -50,12 +50,12 @@ public abstract class ObjectProfiler
 	public static final int FLOAT_FIELD_SIZE = 4;
 
 	/**
-	 * Set this to 'true' to make the node names default to using class names without package prefixing for more compact dumps
+	 * Set this to 'true' to make the _node names default to using class names without package prefixing for more compact dumps
 	 */
 	public static final boolean SHORT_TYPE_NAMES = false;
 
 	/**
-	 * If this is 'true', node names will use short class names for common classes in java.lang.* and java.util.*, regardless of {@link #SHORT_TYPE_NAMES}
+	 * If this is 'true', _node names will use short class names for common classes in java.lang.* and java.util.*, regardless of {@link #SHORT_TYPE_NAMES}
 	 * setting.
 	 */
 	public static final boolean SHORT_COMMON_TYPE_NAMES = true;
@@ -118,7 +118,7 @@ public abstract class ObjectProfiler
 	 * 
 	 * @see IObjectProfileNode
 	 * @param obj input object instance to be profiled [may not be null]
-	 * @return the profile tree root node [never null]
+	 * @return the profile tree root _node [never null]
 	 */
 	public static IObjectProfileNode profile(final Object obj)
 	{
@@ -186,7 +186,7 @@ public abstract class ObjectProfiler
 
 	// package: ...............................................................
 
-	static final String INPUT_OBJECT_NAME = "<INPUT>"; // root node name
+	static final String INPUT_OBJECT_NAME = "<INPUT>"; // root _node name
 
 	// private: ...............................................................
 
@@ -336,7 +336,7 @@ public abstract class ObjectProfiler
 	}
 
 	/*
-	 * Performs phase 1 of profile creation: bread-first traversal and node
+	 * Performs phase 1 of profile creation: bread-first traversal and _node
 	 * creation.
 	 */
 	private static ObjectProfileNode createProfileTree(Object obj, final IdentityHashMap visited, final Map /* Class->ClassMetadata */metadataMap)
@@ -363,7 +363,7 @@ public abstract class ObjectProfiler
 				final int arrayLength = Array.getLength(obj);
 				final Class componentType = objClass.getComponentType();
 
-				// add shell pseudo-node:
+				// add shell pseudo-_node:
 				final AbstractShellProfileNode shell = new ArrayShellProfileNode(node, objClass, arrayLength);
 				shell.m_size = sizeofArrayShell(arrayLength, componentType);
 
@@ -398,7 +398,7 @@ public abstract class ObjectProfiler
 				final ClassMetadata metadata = getClassMetadata(objClass, metadataMap, caAction, faAction);
 				final Field[] fields = metadata.m_refFields;
 
-				// add shell pseudo-node:
+				// add shell pseudo-_node:
 				final AbstractShellProfileNode shell = new ObjectShellProfileNode(node, metadata.m_primitiveFieldCount, metadata.m_refFields.length);
 				shell.m_size = metadata.m_shellSize;
 
@@ -441,8 +441,8 @@ public abstract class ObjectProfiler
 	}
 
 	/*
-	 * Performs phase 2 of profile creation: totalling of node sizes (via
-	 * non-recursive post-order traversal of the tree created in phase 1)
+	 * Performs phase 2 of profile creation: totalling of _node sizes (via
+	 * non-recursive post-_order traversal of the tree created in phase 1)
 	 * and 'locking down' of profile nodes into their most compact form.
 	 */
 	private static void finishProfileTree(ObjectProfileNode node)
@@ -452,8 +452,8 @@ public abstract class ObjectProfiler
 
 		while (node != null)
 		{
-			// note that an unfinished non-shell node has its child count
-			// in m_size and m_children[0] is its shell node:
+			// note that an unfinished non-shell _node has its child count
+			// in m_size and m_children[0] is its shell _node:
 
 			if ((node.m_size == 1) || (lastFinished == node.m_children[1]))
 			{

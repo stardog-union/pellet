@@ -89,9 +89,9 @@ public class TreeTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 	}
 
 	/**
-	 * Print the tree rooted at the given node
+	 * Print the tree rooted at the given _node
 	 *
-	 * @param node
+	 * @param _node
 	 * @param indent
 	 */
 	protected void printTree(final Set<T> set, final String indent)
@@ -116,7 +116,7 @@ public class TreeTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 	}
 
 	/**
-	 * Print the node contents with indentation and newline
+	 * Print the _node contents with indentation and newline
 	 *
 	 * @param set
 	 * @param indent
@@ -129,7 +129,7 @@ public class TreeTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 	}
 
 	/**
-	 * Print the node contents in one line
+	 * Print the _node contents in one line
 	 *
 	 * @param set
 	 */

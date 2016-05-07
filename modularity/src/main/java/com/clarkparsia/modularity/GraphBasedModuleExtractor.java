@@ -116,31 +116,31 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 			}
 		}
 
-		// if we don't have a module and the initial node has a single output
+		// if we don't have a module and the initial _node has a single output
 		// we may skip running the activation engine
 		if (module == null && node.getOutputs().size() == 1)
 		{
 			final Node output = node.getOutputs().iterator().next();
 
-			// we will have cached module for the output node only if it is
-			// an entity node
+			// we will have cached module for the output _node only if it is
+			// an entity _node
 			if (output instanceof EntityNode)
 			{
-				// recursively extract the module for output node
+				// recursively extract the module for output _node
 				final Set<OWLEntity> outputModule = extractModule(engine, (EntityNode) output, entities, monitor);
 
 				if (log.isLoggable(Level.FINE))
 					log.fine("Cached module size " + outputModule.size());
 
 				// the module is the union of the outputModule and the entities
-				// in this node
+				// in this _node
 				module = new PairSet<>(outputModule, node.getEntities());
 			}
 		}
 
 		// compute reachability if we don't have a cached result
 		if (module == null)
-			// compute nodes reachable from the current node entities
+			// compute nodes reachable from the current _node entities
 			module = engine.computeReachable(node.getEntities());
 
 		if (log.isLoggable(Level.FINE))

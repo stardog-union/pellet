@@ -256,7 +256,7 @@ public class Literal extends Node
 		super.addType(c, d);
 
 		// TODO when two literals are being merged this is not efficient
-		// if(abox.isInitialized())
+		// if(_abox.isInitialized())
 		checkClash();
 	}
 

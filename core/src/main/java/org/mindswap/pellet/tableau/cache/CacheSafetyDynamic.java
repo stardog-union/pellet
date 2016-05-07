@@ -32,11 +32,11 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
  */
 public class CacheSafetyDynamic implements CacheSafety
 {
-	private final Expressivity expressivity;
+	private final Expressivity _expressivity;
 
 	CacheSafetyDynamic(final Expressivity e)
 	{
-		this.expressivity = new Expressivity(e);
+		this._expressivity = new Expressivity(e);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class CacheSafetyDynamic implements CacheSafety
 	@Override
 	public boolean canSupport(final Expressivity expressivity)
 	{
-		return !expressivity.hasNominal() && this.expressivity.getAnonInverses().equals(expressivity.getAnonInverses());
+		return !expressivity.hasNominal() && this._expressivity.getAnonInverses().equals(expressivity.getAnonInverses());
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class CacheSafetyDynamic implements CacheSafety
 		if (interactsWithInversesSimple(role))
 			return true;
 
-		return expressivity.hasComplexSubRoles() && interactsWithInversesComplex(kb, role);
+		return _expressivity.hasComplexSubRoles() && interactsWithInversesComplex(kb, role);
 	}
 
 	protected boolean interactsWithInversesSimple(final Role role)
@@ -268,7 +268,7 @@ public class CacheSafetyDynamic implements CacheSafety
 
 	protected boolean interactsWithInversesComplex(final KnowledgeBase kb, final Role role)
 	{
-		for (final ATermAppl p : expressivity.getAnonInverses())
+		for (final ATermAppl p : _expressivity.getAnonInverses())
 		{
 			final Role anonRole = kb.getRole(p);
 			if (anonRole.hasComplexSubRole() && anonRole.getFSM().getAlpahabet().contains(role))
@@ -281,6 +281,6 @@ public class CacheSafetyDynamic implements CacheSafety
 
 	protected boolean hasAnonInverse(final Role role)
 	{
-		return !role.isBuiltin() && (role.isAnon() || expressivity.getAnonInverses().contains(role.getName()));
+		return !role.isBuiltin() && (role.isAnon() || _expressivity.getAnonInverses().contains(role.getName()));
 	}
 }

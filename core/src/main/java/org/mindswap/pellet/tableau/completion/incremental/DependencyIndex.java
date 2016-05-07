@@ -184,7 +184,7 @@ public class DependencyIndex
 	}
 
 	/**
-	 * Add a new branch dependency
+	 * Add a new _branch dependency
 	 * 
 	 * @param ind
 	 * @param type
@@ -202,12 +202,12 @@ public class DependencyIndex
 					dependencies.put(nextAtom, new DependencyEntry());
 
 				if (log.isLoggable(Level.FINE))
-					log.fine("DependencyIndex- Adding branch add dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]");
+					log.fine("DependencyIndex- Adding _branch add dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]");
 
 				//add the dependency
 				final BranchDependency newDep = dependencies.get(nextAtom).addBranchAddDependency(nextAtom, branch.getBranch(), branch);
 
-				//add dependency to index so that backjumping can be supported (ie, we need a fast way to remove the branch dependencies
+				//add dependency to index so that backjumping can be supported (ie, we need a fast way to remove the _branch dependencies
 				if (!branchIndex.containsKey(branch))
 				{
 					final Set<BranchDependency> newS = new HashSet<>();
@@ -220,7 +220,7 @@ public class DependencyIndex
 	}
 
 	/**
-	 * Add a new branch ds removal dependency
+	 * Add a new _branch ds removal dependency
 	 * 
 	 * @param ind
 	 * @param type
@@ -242,12 +242,12 @@ public class DependencyIndex
 					label = ((DisjunctionBranch) branch).getDisjunct(branch.getTryNext());
 
 				if (log.isLoggable(Level.FINE))
-					log.fine("DependencyIndex- Adding branch remove ds dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]   on label [" + label + "]  ,    tryNext [" + branch.getTryNext() + "]");
+					log.fine("DependencyIndex- Adding _branch remove ds dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]   on label [" + label + "]  ,    _tryNext [" + branch.getTryNext() + "]");
 
 				//add the dependency
 				final BranchDependency newDep = dependencies.get(nextAtom).addCloseBranchDependency(nextAtom, branch);
 
-				//add depedency to index so that backjumping can be supported (ie, we need a fast way to remove the branch dependencies
+				//add depedency to index so that backjumping can be supported (ie, we need a fast way to remove the _branch dependencies
 				if (!branchIndex.containsKey(branch))
 				{
 					final Set<BranchDependency> newS = new HashSet<>();
@@ -270,7 +270,7 @@ public class DependencyIndex
 	}
 
 	/**
-	 * Remove branch dependencies - this is needed due to backjumping!
+	 * Remove _branch dependencies - this is needed due to backjumping!
 	 * 
 	 * @param b
 	 */
@@ -287,7 +287,7 @@ public class DependencyIndex
 		for (final BranchDependency next : deps)
 		{
 			if (log.isLoggable(Level.FINE))
-				log.fine("DependencyIndex: RESTORE causing remove of branch index for assertion: " + next.getAssertion() + " branch dep.: " + next);
+				log.fine("DependencyIndex: RESTORE causing remove of _branch index for assertion: " + next.getAssertion() + " _branch dep.: " + next);
 			if (next instanceof BranchAddDependency)
 				//remove the dependency
 				dependencies.get(next.getAssertion()).getBranchAdds().remove(next);

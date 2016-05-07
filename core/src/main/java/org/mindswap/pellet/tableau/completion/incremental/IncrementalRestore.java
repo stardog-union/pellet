@@ -59,15 +59,15 @@ public class IncrementalRestore
 	}
 
 	/**
-	 * Restore a branch add dependency
+	 * Restore a _branch add dependency
 	 *
 	 * @param assertion
-	 * @param branch
+	 * @param _branch
 	 */
 	private void restoreBranchAdd(final ATermAppl assertion, final BranchAddDependency branch)
 	{
 		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("    Removing branch add? " + branch.getBranch());
+			DependencyIndex.log.fine("    Removing _branch add? " + branch.getBranch());
 
 		// get merge dependency
 		final DependencySet ds = branch.getBranch().getTermDepends();
@@ -79,7 +79,7 @@ public class IncrementalRestore
 		if (ds.getExplain().isEmpty())
 		{
 			if (DependencyIndex.log.isLoggable(Level.FINE))
-				DependencyIndex.log.fine("           Actually removing branch!");
+				DependencyIndex.log.fine("           Actually removing _branch!");
 
 			final Collection<ATermAppl> allEffects = PelletOptions.TRACK_BRANCH_EFFECTS ? kb.getABox().getBranchEffectTracker().getAll(branch.getBranch().getBranch()) : kb.getABox().getNodeNames();
 
@@ -88,7 +88,7 @@ public class IncrementalRestore
 			for (final ATermAppl a : allEffects)
 			{
 
-				// get the actual node
+				// get the actual _node
 						final Node node = kb.getABox().getNode(a);
 
 				// update type dependencies
@@ -113,7 +113,7 @@ public class IncrementalRestore
 
 					updatedList.add(tDS.getDepends());
 
-					// update branch if necessary
+					// update _branch if necessary
 							if (tDS.getBranch() > branch.getBranch().getBranch())
 								tDS = tDS.copy(tDS.getBranch() - 1);
 
@@ -148,7 +148,7 @@ public class IncrementalRestore
 
 					updatedList.add(tDS.getDepends());
 
-					// update branch if necessary
+					// update _branch if necessary
 							if (tDS.getBranch() > branch.getBranch().getBranch())
 								tDS = tDS.copy(edge.getDepends().getBranch() - 1);
 
@@ -165,8 +165,8 @@ public class IncrementalRestore
 
 				// //TODO:The following code update outedges as well - after
 						// testing is seems that this is un-necessary
-						// if(node instanceof Individual){
-						// Individual ind = (Individual)node;
+						// if(_node instanceof Individual){
+						// Individual ind = (Individual)_node;
 						//
 						// //update edge depdencies
 						// //update type dependencies
@@ -175,11 +175,11 @@ public class IncrementalRestore
 						// //get next type
 						// Edge edge = (Edge)eIt.next();
 						//
-						// //update branch if necessary
-						// if(edge.getDepends().branch > branch.getBranch().branch)
+						// //update _branch if necessary
+						// if(edge.getDepends().branch > _branch.getBranch().branch)
 						// edge.getDepends().branch--;
 						//
-						// for(int i = branch.getBranch().branch; i <=
+						// for(int i = _branch.getBranch().branch; i <=
 						// kb.getABox().getBranches().size(); i++){
 						// //update dependency set
 						// if(edge.getDepends().contains(i)){
@@ -195,10 +195,10 @@ public class IncrementalRestore
 						kb.getABox().getBranchEffectTracker().remove(branch.getBranch().getBranch() + 1);
 
 			// !!!!!!!!!!!!!!!! Next update kb.getABox() branches !!!!!!!!!!!!!!
-					// remove the branch from branches
+					// remove the _branch from branches
 					final List<Branch> branches = kb.getABox().getBranches();
 
-			// decrease branch id for each branch after the branch we're
+			// decrease _branch id for each _branch after the _branch we're
 					// removing
 					// also need to change the dependency set for each label
 					for (int i = branch.getBranch().getBranch(); i < branches.size(); i++)
@@ -208,7 +208,7 @@ public class IncrementalRestore
 
 				DependencySet tDS = br.getTermDepends();
 
-				// update the term depends in the branch
+				// update the term depends in the _branch
 						if (tDS.getBranch() > branch.getBranch().getBranch())
 							tDS = tDS.copy(tDS.getBranch() - 1);
 
@@ -219,15 +219,15 @@ public class IncrementalRestore
 								tDS.add(j - 1);
 							}
 
-				// also need to decrement the branch number
+				// also need to decrement the _branch number
 						br.setBranch(br.getBranch() - 1);
 						br.setTermDepends(tDS);
 					}
 
-			// remove the actual branch
+			// remove the actual _branch
 					branches.remove(branch.getBranch());
 
-			// set the branch counter
+			// set the _branch counter
 					kb.getABox().setBranch(kb.getABox().getBranch() - 1);
 		}
 	}
@@ -258,20 +258,20 @@ public class IncrementalRestore
 	}
 
 	/**
-	 * Restore a disjunct, merge pairs, etc. of a branch that has been closed due to a clash whose dependency set contains an assertion that has been deleted
+	 * Restore a disjunct, merge pairs, etc. of a _branch that has been closed due to a clash whose dependency set contains an assertion that has been deleted
 	 *
 	 * @param assertion
-	 * @param branch
+	 * @param _branch
 	 */
 	private void restoreCloseBranch(final ATermAppl assertion, final CloseBranchDependency branch)
 	{
-		// only proceed if tryNext is larger than 1!
+		// only proceed if _tryNext is larger than 1!
 		if (branch.getTheBranch().getTryNext() > -1)
 		{
 			if (DependencyIndex.log.isLoggable(Level.FINE))
-				DependencyIndex.log.fine("    Undoing branch remove - branch " + branch.getBranch() + "  -  " + branch.getInd() + "   tryNext: " + branch.getTryNext());
+				DependencyIndex.log.fine("    Undoing _branch remove - _branch " + branch.getBranch() + "  -  " + branch.getInd() + "   _tryNext: " + branch.getTryNext());
 
-			// shift try next for branch
+			// shift try next for _branch
 			branch.getTheBranch().shiftTryNext(branch.getTryNext());
 		}
 	}
@@ -442,7 +442,7 @@ public class IncrementalRestore
 			if (!ind.isPruned())
 				throw new InternalReasonerException(" Restore merge error: " + ind + " not pruned");
 
-			// unprune to prune branch
+			// unprune to prune _branch
 			ind.unprune(ind.getPruned().getBranch());
 
 			// undo set same
@@ -451,12 +451,12 @@ public class IncrementalRestore
 			// add to updated
 			// Note that ind.unprune may add edges, however we do not need to
 			// add them to the updated individuals as
-			// they will be added when the edge is removed from the node which
+			// they will be added when the edge is removed from the _node which
 			// this individual was merged to
 			// add to updated
 			final IncrementalChangeTracker tracker = kb.getABox().getIncrementalChangeTracker();
 
-			// because this node was pruned, we must guarantee that all of
+			// because this _node was pruned, we must guarantee that all of
 			// its lables have been fired
 			tracker.addUnprunedNode(ind);
 

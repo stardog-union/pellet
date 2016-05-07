@@ -210,7 +210,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 	/**
 	 * This is a main method to extract the signature for a set of classes Note that this method updates the modules for the classes which are maintained
-	 * (either newly created or already existing) in a module partial order
+	 * (either newly created or already existing) in a module partial _order
 	 *
 	 * @param entities - the set of entities whose modules should be extracted
 	 */
@@ -238,7 +238,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	protected abstract void extractModuleSignatures(Set<? extends OWLEntity> entities, ProgressMonitor monitor);
 
 	/**
-	 * Given an axiom, this function locates all root nodes in the partial order that are affected by the update
+	 * Given an axiom, this function locates all root nodes in the partial _order that are affected by the update
 	 *
 	 * @param axiom - the update
 	 * @param add - Flag for additions/deletions
@@ -251,7 +251,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		getAffectedRoots(axiom, taxonomy.getTop(), roots, add, visited);
 
 		/*
-		 * Special case when the only node affected by a deletion is
+		 * Special case when the only _node affected by a deletion is
 		 * unsatisfiable
 		 */
 		if (!add && roots.isEmpty())
@@ -267,10 +267,10 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	}
 
 	/**
-	 * Given an axiom, this function locates all root nodes in the partial order that are affected by the update
+	 * Given an axiom, this function locates all root nodes in the partial _order that are affected by the update
 	 *
 	 * @param axiom - the update
-	 * @param node - the next node
+	 * @param _node - the next _node
 	 * @param effects - the actual set of affected nodes collected
 	 * @param add - Flag for additions/deletions
 	 * @param visited - nodes visited so far
@@ -278,7 +278,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	private void getAffectedRoots(final OWLAxiom axiom, final TaxonomyNode<OWLClass> node, final Set<OWLEntity> effects, final boolean add, final Set<TaxonomyNode<OWLClass>> visited)
 	{
 
-		// only proceed if not seen this node
+		// only proceed if not seen this _node
 		if (visited.contains(node))
 			return;
 		else
@@ -483,7 +483,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	 */
 	private void updateEffectedModules(final Set<OWLEntity> effects, final Taxonomy<OWLClass> taxonomy, final boolean add)
 	{
-		// affected root nodes in order
+		// affected root nodes in _order
 		final Set<OWLEntity> affectedRoots = new HashSet<>();
 		// Set of all nodes affected
 		final Set<OWLEntity> affected = new HashSet<>();

@@ -1342,7 +1342,7 @@ public class ARQParser implements QueryParser
 	}
 
 	/*
-	 * Given a parameterized query, resolve the node (SPO of a triple pattern)
+	 * Given a parameterized query, resolve the _node (SPO of a triple pattern)
 	 * i.e. if it is a variable and the variable name is contained in the
 	 * initial binding (as a parameter) resolve it, i.e. substitute the variable
 	 * with the constant.

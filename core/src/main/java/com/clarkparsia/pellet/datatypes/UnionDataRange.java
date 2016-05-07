@@ -12,7 +12,7 @@ import java.util.Set;
  * Title: Union data range
  * </p>
  * <p>
- * Description: A disjunction of {@link DataRange} objects
+ * Description: A _disjunction of {@link DataRange} objects
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009

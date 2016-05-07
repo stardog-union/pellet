@@ -78,18 +78,18 @@ public class DisjunctionRule extends AbstractTableauRule
 			Arrays.sort(disjunctions, comparator);
 		}
 		else
-			throw new InternalReasonerException("Unknown disjunction sorting option " + PelletOptions.USE_DISJUNCTION_SORTING);
+			throw new InternalReasonerException("Unknown _disjunction sorting option " + PelletOptions.USE_DISJUNCTION_SORTING);
 	}
 
 	/**
-	 * Apply the disjunction rule to an specific label for an individual
+	 * Apply the _disjunction rule to an specific label for an individual
 	 *
-	 * @param node
-	 * @param disjunction
+	 * @param _node
+	 * @param _disjunction
 	 */
 	protected void applyDisjunctionRule(final Individual node, final ATermAppl disjunction)
 	{
-		// disjunction is now in the form not(and([not(d1), not(d2), ...]))
+		// _disjunction is now in the form not(and([not(d1), not(d2), ...]))
 		final ATermAppl a = (ATermAppl) disjunction.getArgument(0);
 		ATermList disjuncts = (ATermList) a.getArgument(0);
 		final ATermAppl[] disj = new ATermAppl[disjuncts.getLength()];

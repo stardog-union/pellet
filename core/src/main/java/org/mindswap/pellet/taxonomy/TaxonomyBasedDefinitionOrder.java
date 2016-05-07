@@ -43,7 +43,7 @@ public class TaxonomyBasedDefinitionOrder extends AbstractDefinitionOrder
 		final TaxonomyNode<ATermAppl> cNode = definitionOrderTaxonomy.getNode(c);
 		final TaxonomyNode<ATermAppl> dNode = definitionOrderTaxonomy.getNode(d);
 		if (cNode == null)
-			throw new InternalReasonerException(c + " is not in the definition order");
+			throw new InternalReasonerException(c + " is not in the definition _order");
 		else
 			if (cNode.equals(definitionOrderTaxonomy.getTop()))
 				definitionOrderTaxonomy.merge(cNode, dNode);

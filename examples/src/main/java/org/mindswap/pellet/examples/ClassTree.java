@@ -53,7 +53,7 @@ public class ClassTree
 
 			final DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
-			// each node represents a set of classes
+			// each _node represents a set of classes
 			final Set<OntResource> set = (Set) node.getUserObject();
 			final StringBuffer label = new StringBuffer();
 
@@ -135,14 +135,14 @@ public class ClassTree
 		// to owl:Nothing
 		unsatConcepts = collect(owlNothing.listEquivalentClasses());
 
-		// create a tree starting with owl:Thing node as the root
+		// create a tree starting with owl:Thing _node as the root
 		final DefaultMutableTreeNode thing = createTree(owlThing);
 
 		final Iterator<OntResource> i = unsatConcepts.iterator();
 		if (i.hasNext())
 		{
 			// We want to display every unsatisfiable concept as a
-			// different node in the tree
+			// different _node in the tree
 			final DefaultMutableTreeNode nothing = createSingletonNode(owlNothing);
 			// iterate through unsatisfiable concepts and add them to
 			// the tree
@@ -157,7 +157,7 @@ public class ClassTree
 				nothing.add(node);
 			}
 
-			// add nothing as a child node to owl:Thing
+			// add nothing as a child _node to owl:Thing
 			thing.add(nothing);
 		}
 
@@ -173,7 +173,7 @@ public class ClassTree
 	}
 
 	/**
-	 * Create a root node for the given concepts and add child nodes for the subclasses. Return null for owl:Nothing
+	 * Create a root _node for the given concepts and add child nodes for the subclasses. Return null for owl:Nothing
 	 * 
 	 * @param concepts
 	 * @return

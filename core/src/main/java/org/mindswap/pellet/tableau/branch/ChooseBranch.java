@@ -23,6 +23,6 @@ public class ChooseBranch extends DisjunctionBranch
 	@Override
 	protected String getDebugMsg()
 	{
-		return "CHOS: Branch (" + getBranch() + ") try (" + (getTryNext() + 1) + "/" + getTryCount() + ") " + node.getName() + " " + getDisjunct(getTryNext());
+		return "CHOS: Branch (" + getBranch() + ") try (" + (getTryNext() + 1) + "/" + getTryCount() + ") " + _node.getName() + " " + getDisjunct(getTryNext());
 	}
 }

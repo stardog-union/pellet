@@ -324,7 +324,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	}
 
 	/**
-	 * This incremental classification strategy does the following: for all modules that are affected, collect all of their axioms and classify them all once in
+	 * This incremental classification _strategy does the following: for all modules that are affected, collect all of their axioms and classify them all once in
 	 * Pellet. This allows the exploitation current classification optimizations
 	 */
 	private void incClassifyAllModStrategy()
@@ -585,21 +585,21 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	//	/**
 	//	 * FIXME: This function is incredibly broken.
-	//	 * Main method to update the partial order and find new subsumptions.
+	//	 * Main method to update the partial _order and find new subsumptions.
 	//	 *
 	//	 * @param add
 	//	 *            Flag for additions/deletions
-	//	 * @param node
-	//	 *            the node which is being updated
+	//	 * @param _node
+	//	 *            the _node which is being updated
 	//	 * @param newR
 	//	 *            The reasoner which has been loaded and processed with the new
 	//	 *            signature of this module
 	//	 */
-	//	private void updatePartialOrder(boolean add, TaxonomyNode<OWLClass> node, PelletReasoner newR) {
+	//	private void updatePartialOrder(boolean add, TaxonomyNode<OWLClass> _node, PelletReasoner newR) {
 	//		if( log.isLoggable( Level.FINER ) )
-	//			log.finer( "Update node " + node );
+	//			log.finer( "Update _node " + _node );
 	//
-	//		OWLClass clazz = node.getName();
+	//		OWLClass clazz = _node.getName();
 	//
 	//		// collect all of its valid super classes from the reasoner
 	//		Set<Set<OWLClass>> validSupers = newR.getAncestorClasses( clazz );
@@ -611,7 +611,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//		if( add ) {
 	//
 	//			// for each subclass check if its new...if it is, then add it to
-	//			// the child of this node
+	//			// the child of this _node
 	//			for( Set<OWLClass> nextCls : validSupers ) {
 	//				// if this is thing, then continue
 	//				if( nextCls.contains( OWL.Thing ) )
@@ -630,10 +630,10 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//							log.finer( "  Found new subsumption " + clazz + " subClassOf " + next );
 	//						}
 	//
-	//						// update the partial order
+	//						// update the partial _order
 	//						TaxonomyNode<OWLClass> newSubNode = taxonomy.getNode( next );
-	//						if( !newSubNode.getSubs().contains( node ) ) {
-	//							newSubNode.addSub( node );
+	//						if( !newSubNode.getSubs().contains( _node ) ) {
+	//							newSubNode.addSub( _node );
 	//						}
 	//					}
 	//				}
@@ -670,8 +670,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//								+ nextOldSuper );
 	//					}
 	//
-	//					// update partial order
-	//					oldSubNode.removeSub( node );
+	//					// update partial _order
+	//					oldSubNode.removeSub( _node );
 	//				}
 	//			}
 	//
@@ -1363,7 +1363,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 			if (node == null)
 			{
-				log.warning(" no node for " + c);
+				log.warning(" no _node for " + c);
 				return instances;
 			}
 

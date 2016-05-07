@@ -72,7 +72,7 @@ public class PartialOrderBuilder<T>
 	}
 
 	/**
-	 * Add a new element to the partial order of this builder with its comparator.
+	 * Add a new element to the partial _order of this builder with its comparator.
 	 *
 	 * @param toAdd the element to be added
 	 */
@@ -152,7 +152,7 @@ public class PartialOrderBuilder<T>
 	}
 
 	/**
-	 * Adds a collection of elements to the partial order.
+	 * Adds a collection of elements to the partial _order.
 	 *
 	 * @param elements new elements to add
 	 */
@@ -183,13 +183,13 @@ public class PartialOrderBuilder<T>
 		final Set<T> visited = new HashSet<>();
 
 		/*
-		 * Comment written as if maxToMin == true Each pass over the loop a node
+		 * Comment written as if maxToMin == true Each pass over the loop a _node
 		 * (called the candidate) and its children are pulled from the pending
-		 * queue. If the node to be inserted is less than one of the children,
+		 * queue. If the _node to be inserted is less than one of the children,
 		 * that child and its children are pushed on to the pending queue. If
-		 * the node to be inserted is equal to one of the children, it is
-		 * inserted and processing stops. If the node to be inserted is not less
-		 * than or equal to any of the children, the candidate node is a parent.
+		 * the _node to be inserted is equal to one of the children, it is
+		 * inserted and processing stops. If the _node to be inserted is not less
+		 * than or equal to any of the children, the candidate _node is a parent.
 		 * The loop is iterated until the queue is empty, at which point all
 		 * parents have been identified.
 		 */

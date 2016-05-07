@@ -12,61 +12,61 @@ public interface IObjectProfileNode
 	// public: ................................................................
 
 	/**
-	 * A generic interface for defining node filters. A node filter is used as a guard to determine whether a given visitor should be given a shot as doing
-	 * something with a profile tree node.
+	 * A generic interface for defining _node filters. A _node filter is used as a guard to determine whether a given visitor should be given a shot as doing
+	 * something with a profile tree _node.
 	 */
 	interface INodeFilter
 	{
 		/**
-		 * @param node about to be visited [never null]
-		 * @return 'true' if 'node' and its children should be visited
+		 * @param _node about to be visited [never null]
+		 * @return 'true' if '_node' and its children should be visited
 		 */
 		boolean accept(IObjectProfileNode node);
 
 	} // end of nested interface
 
 	/**
-	 * A generic interface for defining node visitors. A node visitor is applied to a profile tree node both before and after visiting the node's children, if
+	 * A generic interface for defining _node visitors. A _node visitor is applied to a profile tree _node both before and after visiting the _node's children, if
 	 * any.
 	 */
 	interface INodeVisitor
 	{
 		/**
-		 * Pre-order visit.
+		 * Pre-_order visit.
 		 * 
-		 * @param node being visited [never null]
+		 * @param _node being visited [never null]
 		 */
 		void previsit(IObjectProfileNode node);
 
 		/**
-		 * Post-order visit.
+		 * Post-_order visit.
 		 * 
-		 * @param node being visited [never null]
+		 * @param _node being visited [never null]
 		 */
 		void postvisit(IObjectProfileNode node);
 
 	} // end of nested interface
 
 	/**
-	 * Returns the object associated with this node. This is never null except for shell pseudo-nodes.
+	 * Returns the object associated with this _node. This is never null except for shell pseudo-nodes.
 	 * 
 	 * @return object instance [null only for shell nodes]
 	 */
 	Object object();
 
 	/**
-	 * Returns a human-readable name for this node, usually derived from the class field or array index that was used to reach the {@link #object() object}
-	 * associated with this node.
+	 * Returns a human-readable name for this _node, usually derived from the class field or array index that was used to reach the {@link #object() object}
+	 * associated with this _node.
 	 * 
-	 * @return node name [never null]
+	 * @return _node name [never null]
 	 */
 	String name();
 
 	/**
-	 * Returns the full size (in bytes) assigned to this node in its profile tree. This is the sum of sizes of the node class's {@link #shell() shell} and its
+	 * Returns the full size (in bytes) assigned to this _node in its profile tree. This is the sum of sizes of the _node class's {@link #shell() shell} and its
 	 * non-primitive non-null {@link #children() instance fields}, computed as a closure over the spanning tree produced by {@link ObjectProfiler#profile}.
 	 * 
-	 * @return total node size [always positive]
+	 * @return total _node size [always positive]
 	 */
 	int size();
 
@@ -79,57 +79,57 @@ public interface IObjectProfileNode
 	int refcount();
 
 	/**
-	 * Returns the assigned ownership parent for this node. This is null for the root node.
+	 * Returns the assigned ownership parent for this _node. This is null for the root _node.
 	 * 
-	 * @return parent node [null only for the root node]
+	 * @return parent _node [null only for the root _node]
 	 */
 	IObjectProfileNode parent();
 
 	/**
-	 * Returns all children of this node. These are non-null references found in this object's class fields (or array slots if the object is of an array type).
-	 * The result is sorted in decreasing {@link #size() size} order.
+	 * Returns all children of this _node. These are non-null references found in this object's class fields (or array slots if the object is of an array type).
+	 * The result is sorted in decreasing {@link #size() size} _order.
 	 * <P>
-	 * Note: the returned array also contains the {@link #shell() shell} pseudo-node.
+	 * Note: the returned array also contains the {@link #shell() shell} pseudo-_node.
 	 * 
 	 * @return array of children nodes, sorted by size [never null, may be empty]
 	 */
 	IObjectProfileNode[] children();
 
 	/**
-	 * Returns the shell pseudo-node for this node. This represents all instance data fields that are "inlined" in the class definition represented by this node
+	 * Returns the shell pseudo-_node for this _node. This represents all instance data fields that are "inlined" in the class definition represented by this _node
 	 * (including all superclasses all the way to java.lang.Object). This includes primitive data fields, object references representing non-primitive fields,
 	 * and (for arrays) the array length field and storage required for the array slots.
 	 * <P>
-	 * Another way to describe this is that node.shell().size() is the minimum size an instance of node.object().getClass() can be (when all non-primitive
+	 * Another way to describe this is that _node.shell().size() is the minimum size an instance of _node.object().getClass() can be (when all non-primitive
 	 * instance fields are set to 'null').
 	 * <P>
-	 * The returned reference is also guaranteed to be present somewhere in the array returned by {@link #children()}. This data is kept in a separate node
-	 * instance to simplify tree visiting and node filtering.
+	 * The returned reference is also guaranteed to be present somewhere in the array returned by {@link #children()}. This data is kept in a separate _node
+	 * instance to simplify tree visiting and _node filtering.
 	 * 
-	 * @return shell pseudo-node [null only for shell nodes]
+	 * @return shell pseudo-_node [null only for shell nodes]
 	 */
 	IObjectProfileNode shell();
 
 	/**
-	 * Returns the full path from the profile tree root to this node, in that direction. The result includes the root node as well as the current node.
+	 * Returns the full path from the profile tree root to this _node, in that direction. The result includes the root _node as well as the current _node.
 	 * <P>
-	 * Invariant: node.root() == node.path()[0] Invariant: node.path()[node.path().length - 1] == node Invariant: node.path().length == node.pathlength()
+	 * Invariant: _node.root() == _node.path()[0] Invariant: _node.path()[_node.path().length - 1] == _node Invariant: _node.path().length == _node.pathlength()
 	 * 
-	 * @return node tree path [never null/empty]
+	 * @return _node tree path [never null/empty]
 	 */
 	IObjectProfileNode[] path();
 
 	/**
-	 * A convenience method for retrieving the root node from any node in a profile tree.
+	 * A convenience method for retrieving the root _node from any _node in a profile tree.
 	 * <P>
-	 * Invariant: node.root() == node iff 'node' is the root of its profile tree Invariant: node.root() == node.path()[0]
+	 * Invariant: _node.root() == _node iff '_node' is the root of its profile tree Invariant: _node.root() == _node.path()[0]
 	 * 
-	 * @return the root node for the profile tree that the current node is a part of [never null]
+	 * @return the root _node for the profile tree that the current _node is a part of [never null]
 	 */
 	IObjectProfileNode root();
 
 	/**
-	 * A convenience method for retrieving this node's tree path length.
+	 * A convenience method for retrieving this _node's tree path length.
 	 * 
 	 * @return path length [always positive]
 	 */
@@ -141,12 +141,12 @@ public interface IObjectProfileNode
 	 * 
 	 * @param filter [null is equivalent to no filtering]
 	 * @param visitor [may not be null]
-	 * @return 'true' iff either 'filter' was null or it returned 'true' for this node
+	 * @return 'true' iff either 'filter' was null or it returned 'true' for this _node
 	 */
 	boolean traverse(INodeFilter filter, INodeVisitor visitor);
 
 	/**
-	 * Dumps this node into a flat-text format used by the {@link ObjectProfileVisitors#newDefaultNodePrinter()} default node visitor.
+	 * Dumps this _node into a flat-text format used by the {@link ObjectProfileVisitors#newDefaultNodePrinter()} default _node visitor.
 	 * 
 	 * @return indented dump string [could be very large]
 	 */

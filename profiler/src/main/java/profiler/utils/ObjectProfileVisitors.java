@@ -9,7 +9,7 @@ import java.text.NumberFormat;
 
 // ----------------------------------------------------------------------------
 /**
- * A Factory for a few stock node visitors. See the implementation for details.
+ * A Factory for a few stock _node visitors. See the implementation for details.
  *
  * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
  */
@@ -18,7 +18,7 @@ public abstract class ObjectProfileVisitors
 	// public: ................................................................
 
 	/**
-	 * Factory method for creating the default plain text node node print visitor. It is up to the caller to buffer 'out'.
+	 * Factory method for creating the default plain text _node _node print visitor. It is up to the caller to buffer 'out'.
 	 * 
 	 * @param out writer to dump the nodes into [may not be null]
 	 * @param indent indent increment string [null is equivalent to "  "]
@@ -31,7 +31,7 @@ public abstract class ObjectProfileVisitors
 	}
 
 	/**
-	 * Factory method for creating the XML output visitor. To create a valid XML document, start the traversal on the profile root node. It is up to the caller
+	 * Factory method for creating the XML output visitor. To create a valid XML document, start the traversal on the profile root _node. It is up to the caller
 	 * to buffer 'out'.
 	 * 
 	 * @param out stream to dump the nodes into [may not be null]
@@ -69,7 +69,7 @@ public abstract class ObjectProfileVisitors
 	} // end of nested class
 
 	/**
-	 * This visitor prints out a node in plain text format. The output is indented according to the length of the node's path within its profile tree.
+	 * This visitor prints out a _node in plain text format. The output is indented according to the length of the _node's path within its profile tree.
 	 */
 	private static final class DefaultNodePrinter extends AbstractProfileNodeVisitor
 	{
@@ -84,7 +84,7 @@ public abstract class ObjectProfileVisitors
 			final IObjectProfileNode root = node.root();
 
 			sb.append(node.size());
-			if (node != root) // root node is always 100% of the overall size
+			if (node != root) // root _node is always 100% of the overall size
 			{
 				sb.append(" (");
 				sb.append(m_format.format((double) node.size() / root.size()));

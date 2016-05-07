@@ -316,7 +316,7 @@ public class MiscRuleTests extends AbstractKBTests
 	}
 
 	/**
-	 * More complicated property chain test. Tests the rule strategy
+	 * More complicated property chain test. Tests the rule _strategy
 	 */
 	@Test
 	public void dataPropertyChain2()

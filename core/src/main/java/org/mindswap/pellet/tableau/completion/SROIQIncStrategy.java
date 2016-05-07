@@ -59,7 +59,7 @@ import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Timer;
 
 /**
- * The completion strategy for incremental consistency checking.
+ * The completion _strategy for incremental consistency checking.
  *
  * @author Christian Halaschek-Wiener
  */
@@ -69,7 +69,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	/**
 	 * Constructor
 	 *
-	 * @param abox
+	 * @param _abox
 	 */
 	public SROIQIncStrategy(final ABox abox)
 	{
@@ -138,7 +138,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	}
 
 	/**
-	 * There are additional rule that must be fired in the event of incremental additions and deletions in order to guarantee completeness. These are done here.
+	 * There are additional rule that must be fired in the event of incremental additions and deletions in _order to guarantee completeness. These are done here.
 	 */
 	@Override
 	public void initialize(final Expressivity expr)
@@ -161,10 +161,10 @@ public class SROIQIncStrategy extends SROIQStrategy
 		// if this is an incremental addition we may need to merge nodes and
 		// handle newly added individuals
 
-		// merge nodes - note branch must be temporarily set to 0 to
+		// merge nodes - note _branch must be temporarily set to 0 to
 		// ensure that assertion
 		// will not be restored during backtracking
-		// int branch = abox.getBranch();
+		// int _branch = _abox.getBranch();
 		abox.setBranch(0);
 
 		mergeList.addAll(abox.getToBeMerged());
@@ -245,7 +245,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 		if (!mergeList.isEmpty())
 			mergeAll();
 
-		//set appropriate branch
+		//set appropriate _branch
 		abox.setBranch(abox.getBranches().size() + 1);
 
 		// we will also need to add stuff to the queue in the event of a
@@ -292,7 +292,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 				//readd the conjunctions
 				readdConjunctions(ind);
 
-				//it could be the case that the type can be added from unfolding, a forAll application on a self loop, or the disjunction rule
+				//it could be the case that the type can be added from unfolding, a forAll application on a self loop, or the _disjunction rule
 				ind.applyNext[Node.ATOM] = 0;
 				ind.applyNext[Node.ALL] = 0;
 				ind.applyNext[Node.OR] = 0;
@@ -323,7 +323,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 							else
 								addType(ind, domain, ds.union(pred.getExplainDomain(domain), abox.doExplanation()));
 
-					//it could be the case that this label prevented the firing of the all values, some, or min rules of the neighbor
+					//it could be the case that this label prevented the firing of the all values, some, or min rules of the _neighbor
 					if (obj instanceof Individual)
 					{
 						final Individual objInd = (Individual) obj;
@@ -359,7 +359,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 						else
 							addType(node, range, ds.union(pred.getExplainRange(range), abox.doExplanation()));
 
-				//it could be the case that this label prevented the firing of the all values, some, or min rules of the neighbor
+				//it could be the case that this label prevented the firing of the all values, some, or min rules of the _neighbor
 				subj.applyNext[Node.ALL] = 0;
 				subj.applyNext[Node.SOME] = 0;
 				subj.applyNext[Node.MIN] = 0;
@@ -376,8 +376,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 		while (i.hasNext())
 			applyPropertyRestrictions(i.next());
 
-		//due to unmerging any node that was pruned could need rules applied to it. This is because these rules
-		//would have been originally applied to the node that the pruned node was merged into.
+		//due to unmerging any _node that was pruned could need rules applied to it. This is because these rules
+		//would have been originally applied to the _node that the pruned _node was merged into.
 		for (final Iterator<Node> nodeIt = getUnPrunedIterator(); nodeIt.hasNext();)
 		{
 			final Node n = nodeIt.next();
@@ -450,9 +450,9 @@ public class SROIQIncStrategy extends SROIQStrategy
 	}
 
 	/**
-	 * Test if a type should be readded to a node
+	 * Test if a type should be readded to a _node
 	 *
-	 * @param node
+	 * @param _node
 	 * @param type
 	 * @return
 	 */
@@ -533,7 +533,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	/**
 	 * Find applicable all values for a removed type during a restore
 	 *
-	 * @param node
+	 * @param _node
 	 * @param removedTypes
 	 * @return
 	 */
@@ -572,8 +572,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 	/**
 	 * Method to find the edges which an all values could be applied to
 	 * 
-	 * @param node
-	 * @param neighbor
+	 * @param _node
+	 * @param _neighbor
 	 * @param removedTypes
 	 * @param edge
 	 * @return
@@ -610,7 +610,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 		//two cases depending on input
 		if (edge == null)
-			//get all edges to this node
+			//get all edges to this _node
 			for (int i = 0; i < applicableRoles.size(); i++)
 			{
 				final ATerm p = applicableRoles.get(i);
@@ -625,7 +625,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	}
 
 	/**
-	 * Check if a node contains a particular type that has been removed
+	 * Check if a _node contains a particular type that has been removed
 	 * 
 	 * @param type
 	 * @param removedTypes

@@ -13,7 +13,7 @@ import com.clarkparsia.pellet.expressivity.Expressivity;
 import org.mindswap.pellet.Individual;
 
 /**
- * A class to check if a previsouly cached satisfiability result is safe to reuse for a specific node in the completion graph.
+ * A class to check if a previsouly cached satisfiability result is safe to reuse for a specific _node in the completion graph.
  *
  * @author Evren Sirin
  */
@@ -28,10 +28,10 @@ public interface CacheSafety
 	public boolean canSupport(Expressivity expressivity);
 
 	/**
-	 * Returns if a previously cached satisfiability result is safe to reuse for a given concept and node in the completion graph.
+	 * Returns if a previously cached satisfiability result is safe to reuse for a given concept and _node in the completion graph.
 	 *
 	 * @param c The concept for which we want to reuse previously cached satisfiability result
-	 * @param ind The node in the completion graph represented by the concept
+	 * @param ind The _node in the completion graph represented by the concept
 	 * @return <code>true</code> if a previously cached satisfiability result is safe to reuse
 	 */
 	public abstract boolean isSafe(ATermAppl c, Individual ind);

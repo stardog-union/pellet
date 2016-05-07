@@ -80,7 +80,7 @@ public class GuessRule extends AbstractTableauRule
 			return;
 
 		// FIXME instead of doing the following check set a flag when the edge is added
-		// check that x has to have at least one r neighbor y
+		// check that x has to have at least one r _neighbor y
 		// which is blockable and has successor x
 		// (so y is an inv(r) predecessor of x)
 		boolean apply = false;

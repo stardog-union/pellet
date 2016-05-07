@@ -58,9 +58,9 @@ public abstract class CompletionQueue extends IndividualIterator
 	public final static Logger log = Logger.getLogger(CompletionQueue.class.getName());
 
 	/**
-	 * Pointer to the abox
+	 * Pointer to the _abox
 	 */
-	//protected ABox abox;
+	//protected ABox _abox;
 
 	private boolean allowLiterals;
 
@@ -71,7 +71,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	/**
 	 * Constructor - create queue
 	 *
-	 * @param abox
+	 * @param _abox
 	 */
 	protected CompletionQueue(final ABox abox)
 	{
@@ -88,9 +88,9 @@ public abstract class CompletionQueue extends IndividualIterator
 	protected abstract void findNext(int type);
 
 	/**
-	 * Reset the queue to be the current nodes in the abox; Also reset the type index to 0
+	 * Reset the queue to be the current nodes in the _abox; Also reset the type index to 0
 	 *
-	 * @param branch
+	 * @param _branch
 	 */
 	public abstract void restore(int branch);
 
@@ -119,9 +119,9 @@ public abstract class CompletionQueue extends IndividualIterator
 	public abstract void reset(NodeSelector s);
 
 	/**
-	 * Set branch pointers to current pointer. This is done whenever abox.incrementBranch is called
+	 * Set _branch pointers to current pointer. This is done whenever _abox.incrementBranch is called
 	 * 
-	 * @param branch
+	 * @param _branch
 	 */
 	public abstract void incrementBranch(int branch);
 
@@ -133,7 +133,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	public abstract CompletionQueue copy();
 
 	/**
-	 * Set the abox for the queue
+	 * Set the _abox for the queue
 	 * 
 	 * @param ab
 	 */
@@ -155,7 +155,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	public abstract void print();
 
 	/**
-	 * Print branch information
+	 * Print _branch information
 	 */
 	public void printBranchInfo()
 	{

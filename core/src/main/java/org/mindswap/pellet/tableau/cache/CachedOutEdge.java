@@ -45,7 +45,7 @@ public class CachedOutEdge extends CachedEdge
 	@Override
 	public ATermAppl getToName()
 	{
-		return neighbor;
+		return _neighbor;
 	}
 
 }

@@ -149,7 +149,7 @@ public class ATermUtils
 	public static Set<AFun> AXIOM_FUN = SetUtils.create(new AFun[] { TYPEFUN, PROPFUN, SAMEASFUN, DIFFERENTFUN, ALLDIFFERENTFUN, SUBFUN, EQCLASSFUN, DISJOINTFUN, DISJOINTSFUN, COMPLEMENTFUN, SUBPROPFUN, EQPROPFUN, INVPROPFUN, DOMAINFUN, RANGEFUN, FUNCTIONALFUN, INVFUNCTIONALFUN, TRANSITIVEFUN, SYMMETRICFUN, REFLEXIVEFUN, IRREFLEXIVEFUN, ANTISYMMETRICFUN, });
 
 	// TOP and BOTTOM concepts. TOP is not defined as T or not(T) any
-	// more but added to each node manually. Defining TOP as a primitive
+	// more but added to each _node manually. Defining TOP as a primitive
 	// concept reduces number of GCIs and makes other reasoning tasks
 	// faster
 	public static final ATermAppl TOP = ATermUtils.makeTermAppl("_TOP_");

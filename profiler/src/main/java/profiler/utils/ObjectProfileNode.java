@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 // ----------------------------------------------------------------------------
 /**
- * A non-shell profile tree node implementation. This implementation trades off some object orientation "niceness" to achieve more memory compactness.
+ * A non-shell profile tree _node implementation. This implementation trades off some object orientation "niceness" to achieve more memory compactness.
  *
  * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
  */
@@ -66,7 +66,7 @@ final class ObjectProfileNode extends AbstractProfileNode
 	// package: ...............................................................
 
 	/*
-	 * This method manages the vector in m_children field for an unfinished node.
+	 * This method manages the vector in m_children field for an unfinished _node.
 	 */
 	void addFieldRef(final IObjectProfileNode node)
 	{
@@ -84,13 +84,13 @@ final class ObjectProfileNode extends AbstractProfileNode
 	}
 
 	/*
-	 * This method is called once on every node to lock it down into its
+	 * This method is called once on every _node to lock it down into its
 	 * immutable and most compact representation during phase 2 of profile
 	 * tree construction.
 	 */
 	void finish()
 	{
-		final int childCount = m_size; // m_size is the child count for a non-shell node
+		final int childCount = m_size; // m_size is the child count for a non-shell _node
 		if (childCount > 0)
 		{
 			if (childCount < m_children.length)
@@ -106,7 +106,7 @@ final class ObjectProfileNode extends AbstractProfileNode
 			int size = 0;
 			for (int i = 0; i < childCount; ++i)
 				size += m_children[i].size();
-			m_size = size; // m_size is the full node size for all nodes
+			m_size = size; // m_size is the full _node size for all nodes
 		}
 	}
 

@@ -18,8 +18,8 @@ import org.mindswap.pellet.Role;
  * Title:
  * </p>
  * <p>
- * Description: Represents an edge cached for a {@link CachedNode}. A cached edge stores the information about only one node (the neighbor of the cached node
- * where this edge is stored) and for that node only the name is stored. This keeps the memory footprint of cached nodes to a minimum without causing any slow
+ * Description: Represents an edge cached for a {@link CachedNode}. A cached edge stores the information about only one _node (the _neighbor of the cached _node
+ * where this edge is stored) and for that _node only the name is stored. This keeps the memory footprint of cached nodes to a minimum without causing any slow
  * downs (since cached nodes are used only in limited ways).
  * </p>
  * <p>
@@ -33,16 +33,16 @@ import org.mindswap.pellet.Role;
  */
 public abstract class CachedEdge implements Edge
 {
-	protected ATermAppl neighbor;
-	private final Role role;
+	protected ATermAppl _neighbor;
+	private final Role _role;
 
-	private DependencySet depends;
+	private DependencySet _depends;
 
 	public CachedEdge(final Role role, final ATermAppl neighbor, final DependencySet ds)
 	{
-		this.role = role;
-		this.neighbor = neighbor;
-		this.depends = ds.cache();
+		this._role = role;
+		this._neighbor = neighbor;
+		this._depends = ds.cache();
 	}
 
 	/**
@@ -51,7 +51,7 @@ public abstract class CachedEdge implements Edge
 	@Override
 	public DependencySet getDepends()
 	{
-		return depends;
+		return _depends;
 	}
 
 	/**
@@ -87,7 +87,7 @@ public abstract class CachedEdge implements Edge
 	@Override
 	public Role getRole()
 	{
-		return role;
+		return _role;
 	}
 
 	/**
@@ -114,12 +114,12 @@ public abstract class CachedEdge implements Edge
 	@Override
 	public void setDepends(final DependencySet ds)
 	{
-		depends = ds;
+		_depends = ds;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "[" + role + ", " + neighbor + "] - " + depends;
+		return "[" + _role + ", " + _neighbor + "] - " + _depends;
 	}
 }

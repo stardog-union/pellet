@@ -62,14 +62,14 @@ public interface ConceptCache extends Map<ATermAppl, CachedNode>
 
 	/**
 	 * @param kb
-	 * @param node
+	 * @param _node
 	 * @return
 	 */
 	public abstract Bool isMergable(KnowledgeBase kb, CachedNode node1, CachedNode node2);
 
 	/**
 	 * @param kb
-	 * @param node
+	 * @param _node
 	 * @return
 	 */
 	public abstract Bool checkNominalEdges(KnowledgeBase kb, CachedNode node1, CachedNode node2);

@@ -788,7 +788,7 @@ public class DefaultGraphLoader implements GraphLoader
 				return new AtomIConstant(node2term(node));
 			else
 			{
-				addUnsupportedFeature("Cannot create rule individual object for node " + node);
+				addUnsupportedFeature("Cannot create rule individual object for _node " + node);
 				return null;
 			}
 		}

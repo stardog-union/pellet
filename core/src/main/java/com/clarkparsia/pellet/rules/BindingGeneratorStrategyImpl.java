@@ -31,7 +31,7 @@ import org.mindswap.pellet.ABox;
  * Title: Binding Generator Strategy Implementation
  * </p>
  * <p>
- * Description: Implementation of a BindingGenerator construction strategy
+ * Description: Implementation of a BindingGenerator construction _strategy
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007

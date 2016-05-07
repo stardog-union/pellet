@@ -31,9 +31,9 @@ public class MergeTests extends AbstractKBTests
 
 	/*
 	 * The purpose of this test case is create a merging chain x -> y -> z where
-	 * each merge depends on a different non-deterministic branch. Then we do
+	 * each merge depends on a different non-deterministic _branch. Then we do
 	 * instance checking on x which should return true. This test shows that
-	 * ABox.addType should add the type to each node in the merging chain to
+	 * ABox.addType should add the type to each _node in the merging chain to
 	 * ensure that restores will not cause the added type to be lost.
 	 */
 	@Test

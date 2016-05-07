@@ -63,10 +63,10 @@ public class BlockingContext
 	}
 
 	/**
-	 * Returns if the blocked node is an r-successor of its parent.
+	 * Returns if the blocked _node is an r-successor of its parent.
 	 *
 	 * @param r the property to check for r-successor relation
-	 * @return <true> if the blocked node is an r-successor of its parent.
+	 * @return <true> if the blocked _node is an r-successor of its parent.
 	 */
 	public boolean isRSuccessor(final Role r)
 	{

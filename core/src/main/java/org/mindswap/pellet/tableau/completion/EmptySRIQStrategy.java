@@ -60,7 +60,7 @@ import org.mindswap.pellet.utils.Bool;
 import org.mindswap.pellet.utils.Timer;
 
 /**
- * Completion strategy for a SRIQ KB that does not have individuals in the ABox. When ABox is empty completion always starts with a single root individual that
+ * Completion _strategy for a SRIQ KB that does not have individuals in the ABox. When ABox is empty completion always starts with a single root individual that
  * represents the concept whose satisfiability is being searched.
  *
  * @author Evren Sirin
@@ -73,7 +73,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	private LinkedList<Individual> mayNeedExpanding;
 
 	/**
-	 * Cached mayNeedExpanding at a certain branch that will be restored during backtracking
+	 * Cached mayNeedExpanding at a certain _branch that will be restored during backtracking
 	 */
 	private List<List<Individual>> mnx;
 
@@ -83,7 +83,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	private Map<Individual, ATermAppl> cachedNodes;
 
 	/**
-	 * Cache safety checker to decide if a cached satisfiability result can be reused for a given node in the completion graph
+	 * Cache safety checker to decide if a cached satisfiability result can be reused for a given _node in the completion graph
 	 */
 	private CacheSafety cacheSafety;
 
@@ -103,10 +103,10 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		cachedNodes = new HashMap<>();
 
 		mnx = new ArrayList<>();
-		// add a null entry so Branch.branch index will match with the index in this array
+		// add a null entry so Branch._branch index will match with the index in this array
 		mnx.add(null);
 
-		assert abox.size() == 1 : "This strategy can only be used with originally empty ABoxes";
+		assert abox.size() == 1 : "This _strategy can only be used with originally empty ABoxes";
 
 		blocking = BlockingFactory.createBlocking(expressivity);
 
@@ -137,7 +137,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		}
 		else
 			if (abox.getNodes().size() > 1)
-				throw new RuntimeException("This strategy can only be used with an ABox that has a single individual.");
+				throw new RuntimeException("This _strategy can only be used with an ABox that has a single individual.");
 
 		cacheSafety = abox.getCache().getSafety().canSupport(expr) ? abox.getCache().getSafety() : CacheSafetyFactory.createCacheSafety(expr);
 
@@ -155,7 +155,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 			if (log.isLoggable(Level.FINE))
 			{
-				log.fine("Starting with node " + x);
+				log.fine("Starting with _node " + x);
 				abox.printTree();
 
 				abox.validate();
@@ -322,7 +322,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 			// we don't have any inverse properties but we could have
 			// domain restrictions which means we might have to re-apply
-			// unfolding and disjunction rules
+			// unfolding and _disjunction rules
 			if (x.canApply(Node.ATOM) || x.canApply(Node.OR))
 				continue;
 
@@ -503,17 +503,17 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		abox.setBranch(br.getBranch());
 		abox.setClash(null);
-		// Setting the anonCount to the value at the time of branch creation is incorrect
-		// when SMART_RESTORE option is turned on. If we create an anon node after branch
-		// creation but node depends on an earlier branch restore operation will not remove
-		// the node. But setting anonCount to a smaller number may mean the anonCount will
-		// be incremented to that value and creating a fresh anon node will actually reuse
-		// the not-removed node. The only advantage of setting anonCount to a smaller value
+		// Setting the _anonCount to the value at the time of _branch creation is incorrect
+		// when SMART_RESTORE option is turned on. If we create an anon _node after _branch
+		// creation but _node depends on an earlier _branch restore operation will not remove
+		// the _node. But setting _anonCount to a smaller number may mean the _anonCount will
+		// be incremented to that value and creating a fresh anon _node will actually reuse
+		// the not-removed _node. The only advantage of setting _anonCount to a smaller value
 		// is to keep the name of anon nodes smaller to make debugging easier. For this reason,
 		// the above line is not removed and under special circumstances may be uncommented
 		// to help debugging only with the intent that it will be commented again after
 		// debugging is complete
-		// abox.setAnonCount( br.getAnonCount() );
+		// _abox.setAnonCount( br.getAnonCount() );
 
 		mergeList.clear();
 
@@ -549,7 +549,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			{
 				node.restore(br.getBranch());
 
-				// FIXME should we look at the clash path or clash node
+				// FIXME should we look at the clash path or clash _node
 				if (node.equals(clashNode))
 					cachedNodes.remove(node);
 			}
@@ -594,7 +594,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				if (log.isLoggable(Level.FINE))
 					log.fine("JUMP: " + lastBranch);
 				if (newBranch == null || lastBranch != newBranch.getBranch())
-					throw new RuntimeException("Internal error in reasoner: Trying to backtrack branch " + lastBranch + " but got " + newBranch);
+					throw new RuntimeException("Internal error in reasoner: Trying to backtrack _branch " + lastBranch + " but got " + newBranch);
 
 				if (newBranch.getTryNext() < newBranch.getTryCount())
 					newBranch.setLastClash(abox.getClash().getDepends());
@@ -618,7 +618,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			else
 			{
 				// create another copy of the mnx list here because we may backtrack to the same
-				// branch multiple times and we want the same copy to be available every time
+				// _branch multiple times and we want the same copy to be available every time
 				mayNeedExpanding = new LinkedList<>(mnx.get(newBranch.getBranch()));
 				mnx.subList(newBranch.getBranch() + 1, mnx.size()).clear();
 				if (log.isLoggable(Level.FINE))
@@ -639,7 +639,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		assert mnx.size() == newBranch.getBranch() : mnx.size() + " != " + newBranch.getBranch();
 
-		// create a copy of the mnx list so that changes in the current branch will not affect it
+		// create a copy of the mnx list so that changes in the current _branch will not affect it
 		mnx.add(new ArrayList<>(mayNeedExpanding));
 	}
 }

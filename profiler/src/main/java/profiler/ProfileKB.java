@@ -242,7 +242,7 @@ public class ProfileKB
 		final double sizeInMB = ProfileUtils.mb(node.size());
 
 		sb.append(String.format("%.2f", sizeInMB));
-		if (node != root) // root node is always 100% of the overall size
+		if (node != root) // root _node is always 100% of the overall size
 		{
 			final double percent = (double) node.size() / root.size();
 

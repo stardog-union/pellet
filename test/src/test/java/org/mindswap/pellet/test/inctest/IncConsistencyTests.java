@@ -140,7 +140,7 @@ public class IncConsistencyTests extends AbstractKBTests
 	}
 
 	/**
-	 * Test that node merge state is correctly handled in reset. In trunk r1495, this is known to cause a NPE because Node.mergeDepends is incorrectly reset to
+	 * Test that _node merge state is correctly handled in reset. In trunk r1495, this is known to cause a NPE because Node.mergeDepends is incorrectly reset to
 	 * null
 	 */
 	@Test
@@ -224,7 +224,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addDomain(ownsAnimal, person);
 		kb.addRange(ownsAnimal, animal);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(victor);
 		kb.addIndividual(mary);
@@ -288,7 +288,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addInverseProperty(owns, ownedBy);
 		kb.addObjectProperty(knows);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(mary);
 
@@ -309,7 +309,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addType(robert, manOrDog);
 		kb.addType(robert, not(dog));
 		assertFalse(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -320,7 +320,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.removeType(robert, not(dog));
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -353,7 +353,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addInverseProperty(owns, ownedBy);
 		kb.addObjectProperty(knows);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(mary);
 		kb.addIndividual(chris);
@@ -408,7 +408,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		// basic properties
 		kb.addObjectProperty(sibling);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(mary);
 		kb.addIndividual(chris);
 		kb.addIndividual(victor);
@@ -481,7 +481,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		final ATermAppl max = max(sibling, 1, TOP);
 		kb.addClass(max);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(mary);
 		kb.addIndividual(chris);
 		kb.addIndividual(victor);
@@ -507,7 +507,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addType(mary, woman);
 
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -522,7 +522,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addType(bill, max);
 
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -535,7 +535,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.removeType(bill, max);
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -566,7 +566,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addInverseProperty(owns, ownedBy);
 		kb.addObjectProperty(knows);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(victor);
 
@@ -588,7 +588,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addType(victor, manOrWoman);
 
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -601,7 +601,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.addType(victor, not(man));
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -614,7 +614,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.removeType(victor, not(man));
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -626,7 +626,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.addType(robert, not(man));
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -638,7 +638,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.removeType(robert, not(man));
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -650,7 +650,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.addType(robert, not(woman));
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -682,7 +682,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addInverseProperty(owns, ownedBy);
 		kb.addObjectProperty(knows);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(victor);
 		kb.addIndividual(mary);
@@ -712,7 +712,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addType(bill, manOrWoman);
 
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -729,7 +729,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.removeType(victor, manOrWoman);
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -748,7 +748,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.addType(chris, not(man));
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -776,7 +776,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.addRange(relative, person);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(victor);
 		kb.addIndividual(mary);
@@ -816,13 +816,13 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addClass(person);
 		kb.addClass(notPerson);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(mary);
 
 		kb.addType(robert, person);
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -833,7 +833,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.addType(robert, notPerson);
 		assertFalse(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -844,7 +844,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.removeType(robert, notPerson);
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -900,7 +900,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addClass(someWoman);
 		kb.addSubClass(woman, someWoman);
 
-		// add abox
+		// add _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(mary);
 		kb.addIndividual(john);
@@ -956,7 +956,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addClass(D);
 		kb.addClass(E);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(a);
 
 		// add specific test case axioms/assertions
@@ -1027,7 +1027,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addInverseProperty(owns, ownedBy);
 		kb.addObjectProperty(knows);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(mary);
 		kb.addIndividual(victor);
@@ -1055,7 +1055,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addType(robert, owersAreCats);
 
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -1070,7 +1070,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		assertTrue(kb.isConsistent());
 
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -1101,7 +1101,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addInverseProperty(owns, ownedBy);
 		kb.addObjectProperty(knows);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(mary);
 		kb.addIndividual(victor);
@@ -1154,7 +1154,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addInverseProperty(owns, ownedBy);
 		kb.addObjectProperty(knows);
 
-		// basic abox
+		// basic _abox
 		kb.addIndividual(robert);
 		kb.addIndividual(mary);
 		kb.addIndividual(victor);
@@ -1185,7 +1185,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		kb.addType(victor, manOrDog);
 
 		assertTrue(kb.isConsistent());
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -1200,7 +1200,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		assertTrue(kb.isConsistent());
 
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -1213,7 +1213,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.addType(victor, man);
 
-		// print the abox
+		// print the _abox
 		if (PRINT_ABOX)
 		{
 
@@ -1491,7 +1491,7 @@ public class IncConsistencyTests extends AbstractKBTests
 	@Test
 	public void testTBoxConsistencyChange()
 	{
-		// this test requires tracing in order to remove TBox axioms
+		// this test requires tracing in _order to remove TBox axioms
 		// regardless of all other tests
 		final boolean ut = PelletOptions.USE_TRACING;
 		PelletOptions.USE_TRACING = true;
@@ -1831,13 +1831,13 @@ public class IncConsistencyTests extends AbstractKBTests
 		// this test case is to verify the following bug is resolved:
 		// 1) an ABox with a hasValue restriction on a literal
 		// 2) checking consistency causes literal to be added with
-		//    rdfs:Literal (in the buggy version the branch of the
+		//    rdfs:Literal (in the buggy version the _branch of the
 		//    dependency for this type was not NO_BRANCH)
 		// 3) a property value is removed
 		// 4) a consistency check is performed causing a reset. a
 		//    reset operation leaves the literal in the ABox (since
 		//    it is a nominal) but removes the rdfs:Literal type
-		//    (since its branch is not NO_BRANCH)
+		//    (since its _branch is not NO_BRANCH)
 		// 5) there is a literal in the ABox without rdfs:Literal
 		//    type invalidating the main assumption about literals
 

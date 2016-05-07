@@ -17,7 +17,7 @@ import org.mindswap.pellet.Role;
  * Title:
  * </p>
  * <p>
- * Description: Represents a cached node that is used in different KBs.
+ * Description: Represents a cached _node that is used in different KBs.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008

@@ -27,10 +27,10 @@ import aterm.ATermAppl;
 public interface Edge
 {
 	/**
-	 * Given a node upon which this edge is incident, the opposite incident node is returned.
+	 * Given a _node upon which this edge is incident, the opposite incident _node is returned.
 	 *
-	 * @param node a node upon which this edge is incident
-	 * @return the other node this edge is incident upon
+	 * @param _node a _node upon which this edge is incident
+	 * @return the other _node this edge is incident upon
 	 */
 	public abstract Node getNeighbor(Node node);
 
@@ -47,7 +47,7 @@ public interface Edge
 	public abstract Individual getFrom();
 
 	/**
-	 * @return Returns the name of the source node
+	 * @return Returns the name of the source _node
 	 */
 	public abstract ATermAppl getFromName();
 
@@ -62,7 +62,7 @@ public interface Edge
 	public abstract Node getTo();
 
 	/**
-	 * @return Returns the name of the target node
+	 * @return Returns the name of the target _node
 	 */
 	public abstract ATermAppl getToName();
 }

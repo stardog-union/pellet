@@ -56,7 +56,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 		final Map<ATermAppl, DependencySet> rangeDepends = new HashMap<>();
 
 		/*
-		 * Gather all data properties that appear in universal restrictions on this node.
+		 * Gather all data properties that appear in universal restrictions on this _node.
 		 */
 		for (final ATermAppl allDesc : x.getTypes(Node.ALL))
 		{

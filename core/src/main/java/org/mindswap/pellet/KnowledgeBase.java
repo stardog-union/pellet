@@ -138,7 +138,7 @@ public class KnowledgeBase
 	private final Map<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> annotations;
 
 	/**
-	 * The state of KB w.r.t. reasoning. The state is not valid if KB is changed, i.e. !changes.isEmpty(). These states are added in the order CONSISTENCY <
+	 * The state of KB w.r.t. reasoning. The state is not valid if KB is changed, i.e. !changes.isEmpty(). These states are added in the _order CONSISTENCY <
 	 * CLASSIFY < REALIZE when the corresponding functions are called. If KB is modified after classification, calling prepare might remove CONSISTENCY but
 	 * leave CLASSIFY.
 	 */
@@ -176,7 +176,7 @@ public class KnowledgeBase
 	// Structure for tracking which assertions are deleted
 	private Set<ATermAppl> deletedAssertions;
 
-	// Index used for abox deletions
+	// Index used for _abox deletions
 	private DependencyIndex dependencyIndex;
 
 	// set of syntactic assertions
@@ -864,7 +864,7 @@ public class KnowledgeBase
 
 		if (!PelletOptions.USE_PSEUDO_NOMINALS)
 		{
-			// add value(x) for nominal node but do not apply UC yet
+			// add value(x) for nominal _node but do not apply UC yet
 			// because it might not be complete. it will be added
 			// by CompletionStrategy.initialize()
 			final ATermAppl nominal = ATermUtils.makeValue(i);
@@ -880,17 +880,17 @@ public class KnowledgeBase
 		{
 			abox.setSyntacticUpdate(true);
 
-			// need to update the branch node count as this is node has been
-			// added otherwise during back jumping this node can be removed
+			// need to update the _branch _node count as this is _node has been
+			// added otherwise during back jumping this _node can be removed
 			for (int j = 0; j < abox.getBranches().size(); j++)
 			{
-				// get next branch
+				// get next _branch
 				final Branch branch = abox.getBranches().get(j);
 				branch.setNodeCount(branch.getNodeCount() + 1);
 			}
 
 			// track updated and new individuals; this is needed for the
-			// incremental completion strategy
+			// incremental completion _strategy
 			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i));
 			abox.getIncrementalChangeTracker().addNewIndividual(abox.getIndividual(i));
 			abox.setSyntacticUpdate(false);
@@ -962,7 +962,7 @@ public class KnowledgeBase
 			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i1));
 			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i2));
 
-			// add to pseudomodel - note branch is not set to zero - this is
+			// add to pseudomodel - note _branch is not set to zero - this is
 			// done in SHOIQIncStrategy, prior
 			// to merging nodes
 			abox.addSame(i1, i2);
@@ -998,7 +998,7 @@ public class KnowledgeBase
 				outer = outer.getNext();
 			}
 
-			// add to pseudomodel - note branch must be temporarily set to 0 to
+			// add to pseudomodel - note _branch must be temporarily set to 0 to
 			// ensure that asssertion
 			// will not be restored during backtracking
 			final int branch = abox.getBranch();
@@ -1027,7 +1027,7 @@ public class KnowledgeBase
 			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i1));
 			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i2));
 
-			// add to pseudomodel - note branch must be temporarily set to 0 to
+			// add to pseudomodel - note _branch must be temporarily set to 0 to
 			// ensure that asssertion
 			// will not be restored during backtracking
 			final int branch = abox.getBranch();
@@ -1156,7 +1156,7 @@ public class KnowledgeBase
 				// generate dependency for new edge
 				ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makePropAtom(p, s, o)) : DependencySet.INDEPENDENT;
 
-				// add to pseudomodel - note branch must be temporarily set to 0 to
+				// add to pseudomodel - note _branch must be temporarily set to 0 to
 				// ensure that assertion
 				// will not be restored during backtracking
 				final int branch = abox.getBranch();
@@ -1989,7 +1989,7 @@ public class KnowledgeBase
 			info.append("Classes: " + getClasses().size() + " ");
 			info.append("Properties: " + getProperties().size() + " ");
 			info.append("Individuals: " + individuals.size());
-			// info.append( " Strategy: " + chooseStrategy( abox ) );
+			// info.append( " Strategy: " + chooseStrategy( _abox ) );
 			log.fine(info.toString());
 		}
 	}
@@ -2160,7 +2160,7 @@ public class KnowledgeBase
 			// doExplanation
 			// was not set. this was causing an overhead for repeated
 			// consistency
-			// tests that mostly turn out to be consistent. the new strategy is
+			// tests that mostly turn out to be consistent. the new _strategy is
 			// to repeat the consistency test for inconsistent ontologies by
 			// manually setting the doExplanation flag. this will generate more
 			// overhead for inconsistent ontologies but inconsistent ontologies
@@ -3366,7 +3366,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * @return Returns the abox.
+	 * @return Returns the _abox.
 	 */
 	public ABox getABox()
 	{
@@ -4653,9 +4653,9 @@ public class KnowledgeBase
 	//
 	// return l;
 	// }
-	// else if(!abox.isSubClassOf(partitions[0], c))
+	// else if(!_abox.isSubClassOf(partitions[0], c))
 	// return binarySubClassRetrieval(c, partitions[1]);
-	// else if(!abox.isSubClassOf(partitions[1], c))
+	// else if(!_abox.isSubClassOf(partitions[1], c))
 	// return binarySubClassRetrieval(c, partitions[0]);
 	// else {
 	// List l1 = binarySubClassRetrieval(c, partitions[0]);
@@ -4748,7 +4748,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Choose a completion strategy based on the expressivity of the KB. The abox given is not necessarily the ABox that belongs to this KB but can be a
+	 * Choose a completion _strategy based on the expressivity of the KB. The _abox given is not necessarily the ABox that belongs to this KB but can be a
 	 * derivative.
 	 *
 	 * @return
@@ -4757,9 +4757,9 @@ public class KnowledgeBase
 	{
 		final boolean conceptSatisfiability = (abox.size() == 1) && new IndividualIterator(abox).next().isConceptRoot();
 
-		// We don't need to use rules strategy if we are checking concept satisfiability unless
+		// We don't need to use rules _strategy if we are checking concept satisfiability unless
 		// there are nominals because then rules may affect concept satisfiability and we need
-		// to use rules strategy
+		// to use rules _strategy
 		if (getRules().size() > 0 && (expressivity.hasNominal() || !conceptSatisfiability))
 			return new ContinuousRulesStrategy(abox);
 

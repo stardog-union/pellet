@@ -29,40 +29,45 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 
 	protected static enum NullSemantics
 	{
-		GREATEST, LEAST, NA
+		@SuppressWarnings("hiding")
+		GREATEST, //
+		@SuppressWarnings("hiding")
+		LEAST, //
+		@SuppressWarnings("hiding")
+		NA
 	}
 
 	public class ValueIterator implements Iterator<T>
 	{
-		private final T last;
-		private T next;
-		private final boolean increment;
+		private final T _last;
+		private T _next;
+		private final boolean _increment;
 
 		public ValueIterator(final T lower, final T upper, final boolean increment)
 		{
 			if (lower == null)
 				throw new NullPointerException();
 
-			this.next = lower;
-			this.last = upper;
-			this.increment = increment;
+			this._next = lower;
+			this._last = upper;
+			this._increment = increment;
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return next != null;
+			return _next != null;
 		}
 
 		@Override
 		public T next()
 		{
-			final T ret = next;
-			if (getUpper() != null && equal(next, last))
-				next = null;
+			final T ret = _next;
+			if (getUpper() != null && equal(_next, _last))
+				_next = null;
 			else
-				next = increment ? increment(next) : decrement(next);
-				return ret;
+				_next = _increment ? increment(_next) : decrement(_next);
+			return ret;
 		}
 
 		@Override
@@ -89,8 +94,8 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 		NA = NullSemantics.NA;
 	}
 
-	private final T lower;
-	private final T upper;
+	private final T _lower;
+	private final T _upper;
 
 	/**
 	 * Create a point interval. This is equivalent to {@link #DiscreteInterval(T, T)} with arguments <code>point,point</code>
@@ -102,15 +107,15 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 		if (point == null)
 			throw new NullPointerException();
 
-		this.lower = point;
-		this.upper = point;
+		this._lower = point;
+		this._upper = point;
 	}
 
 	/**
 	 * Create an interval.
 	 *
-	 * @param lower Interval lower bound
-	 * @param upper Interval upper bound
+	 * @param _lower Interval _lower bound
+	 * @param _upper Interval _upper bound
 	 */
 	public DiscreteInterval(final T lower, final T upper)
 	{
@@ -122,13 +127,13 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 		final int cmp = compare(lower, LEAST, upper, GREATEST);
 		if (cmp > 0)
 		{
-			final String msg = format("Lower bound of interval (%s) should not be greater than upper bound of interval (%s)", lower, upper);
+			final String msg = format("Lower bound of interval (%s) should not be greater than _upper bound of interval (%s)", lower, upper);
 			log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
-		this.lower = lower;
-		this.upper = upper;
+		this._lower = lower;
+		this._upper = upper;
 	}
 
 	public boolean canUnionWith(final U other)
@@ -202,12 +207,12 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 
 	public T getLower()
 	{
-		return lower;
+		return _lower;
 	}
 
 	public T getUpper()
 	{
-		return upper;
+		return _upper;
 	}
 
 	/**
@@ -354,9 +359,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 				return Collections.singletonList(before);
 			else
 			{
-				@SuppressWarnings("unchecked")
-				final List<U> ret = Arrays.asList(before, after);
-				return ret;
+				return Arrays.asList(before, after);
 			}
 	}
 
@@ -411,11 +414,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 			if (second == null)
 				return Collections.singletonList(first);
 			else
-			{
-				@SuppressWarnings("unchecked")
-				final List<U> ret = Arrays.asList(first, second);
-				return ret;
-			}
+				return Arrays.asList(first, second);
 	}
 
 	protected abstract boolean valid(T t);

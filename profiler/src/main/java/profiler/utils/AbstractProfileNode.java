@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 // ----------------------------------------------------------------------------
 /**
- * Abstract base class for all node implementations in this package.
+ * Abstract base class for all _node implementations in this package.
  *
  * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
  */

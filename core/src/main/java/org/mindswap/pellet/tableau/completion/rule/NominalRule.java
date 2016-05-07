@@ -88,8 +88,8 @@ public class NominalRule extends AbstractTableauRule
 		// Suppose there are three individuals like this
 		// [x,{}],[y,{value(x)}],[z,{value(y)}]
 		// After we merge x to y, the individual x is now represented by
-		// the node y. It is too hard to update all the references of
-		// value(x) so here we find the actual representative node
+		// the _node y. It is too hard to update all the references of
+		// value(x) so here we find the actual representative _node
 		// by calling getSame()
 		if (z.isMerged())
 		{

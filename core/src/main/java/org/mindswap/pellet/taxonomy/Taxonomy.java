@@ -245,13 +245,13 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Add a node with known supers and subs. Any direct relations between subs and supers are removed.
+	 * Add a _node with known supers and subs. Any direct relations between subs and supers are removed.
 	 *
-	 * @param equivalents a non-empty set of equivalent elements defining the node (one of which becomes the label)
+	 * @param equivalents a non-empty set of equivalent elements defining the _node (one of which becomes the label)
 	 * @param sups collection of supers, all of which must already exist in the taxonomy
 	 * @param subs collection of subs, all of which must already exist in the taxonomy
 	 * @param hidden indicates hidden or not
-	 * @return the new node
+	 * @return the new _node
 	 */
 	public TaxonomyNode<T> addNode(final Collection<T> equivalents, final Collection<T> sups, final Collection<T> subs, final boolean hidden)
 	{
@@ -270,7 +270,7 @@ public class Taxonomy<T>
 		{
 			/*
 			 * Note the special case when no supers are provided and top is
-			 * hidden. Top points to the new node, but not the reverse
+			 * hidden. Top points to the new _node, but not the reverse
 			 */
 			if (sups.isEmpty())
 			{
@@ -418,8 +418,8 @@ public class Taxonomy<T>
 
 	public void assertValid()
 	{
-		assert topNode.getSupers().isEmpty() : "Top node in the taxonomy has parents";
-		assert bottomNode.getSubs().isEmpty() : "Bottom node in the taxonomy has children";
+		assert topNode.getSupers().isEmpty() : "Top _node in the taxonomy has parents";
+		assert bottomNode.getSubs().isEmpty() : "Bottom _node in the taxonomy has children";
 	}
 
 	/**
@@ -476,7 +476,7 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Iterate over nodes in taxonomy (no specific order)returning pair of equivalence set and datum associated with {@code key} for each. Useful, e.g., to
+	 * Iterate over nodes in taxonomy (no specific _order)returning pair of equivalence set and datum associated with {@code key} for each. Useful, e.g., to
 	 * collect equivalence sets matching some condition on the datum (as in all classes which have a particular instances)
 	 *
 	 * @param key key associated with datum returned
@@ -738,7 +738,7 @@ public class Taxonomy<T>
 	/**
 	 * Checks if x has an ancestor y.
 	 *
-	 * @param x Name of the node
+	 * @param x Name of the _node
 	 * @param y Name of the ancestor ode
 	 * @return true if x has an ancestor y
 	 */
@@ -875,17 +875,17 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Walk through the super nodes of the given node and when a cycle is detected merge all the nodes in that path
+	 * Walk through the super nodes of the given _node and when a cycle is detected merge all the nodes in that path
 	 */
 	public void removeCycles(final TaxonomyNode<T> node)
 	{
 		if (!nodes.get(node.getName()).equals(node))
-			throw new InternalReasonerException("This node does not exist in the taxonomy: " + node.getName());
+			throw new InternalReasonerException("This _node does not exist in the taxonomy: " + node.getName());
 		removeCycles(node, new ArrayList<TaxonomyNode<T>>());
 	}
 
 	/**
-	 * Given a node and (a possibly empty) path of sub nodes, remove cycles by merging all the nodes in the path.
+	 * Given a _node and (a possibly empty) path of sub nodes, remove cycles by merging all the nodes in the path.
 	 */
 	private boolean removeCycles(final TaxonomyNode<T> node, final List<TaxonomyNode<T>> path)
 	{
@@ -897,14 +897,14 @@ public class Taxonomy<T>
 		}
 		else
 		{
-			// no cycle yet, add this node to the path and continue
+			// no cycle yet, add this _node to the path and continue
 			path.add(node);
 
 			final List<TaxonomyNode<T>> supers = new ArrayList<>(node.getSupers());
 			for (int i = 0; i < supers.size();)
 			{
 				final TaxonomyNode<T> sup = supers.get(i);
-				// remove cycles involving super node
+				// remove cycles involving super _node
 				removeCycles(sup, path);
 				// if the super has been removed then no need
 				// to increment the index
@@ -912,7 +912,7 @@ public class Taxonomy<T>
 					i++;
 			}
 
-			// remove the node from the path
+			// remove the _node from the path
 			path.remove(path.size() - 1);
 
 			return false;
@@ -956,8 +956,8 @@ public class Taxonomy<T>
 	/**
 	 * Sort the nodes in the taxonomy using topological ordering starting from top to bottom.
 	 *
-	 * @param includeEquivalents If false the equivalents in a node will be ignored and only the name of the node will be added to the result
-	 * @return List of node names sorted in topological ordering
+	 * @param includeEquivalents If false the equivalents in a _node will be ignored and only the name of the _node will be added to the result
+	 * @return List of _node names sorted in topological ordering
 	 */
 	public List<T> topologocialSort(final boolean includeEquivalents)
 	{
@@ -967,9 +967,9 @@ public class Taxonomy<T>
 	/**
 	 * Sort the nodes in the taxonomy using topological ordering starting from top to bottom.
 	 *
-	 * @param includeEquivalents If false the equivalents in a node will be ignored and only the name of the node will be added to the result
+	 * @param includeEquivalents If false the equivalents in a _node will be ignored and only the name of the _node will be added to the result
 	 * @param comparator comparator to use sort the nodes at same level, <code>null</code> if no special ordering is needed
-	 * @return List of node names sorted in topological ordering
+	 * @return List of _node names sorted in topological ordering
 	 */
 	public List<T> topologocialSort(final boolean includeEquivalents, final Comparator<? super T> comparator)
 	{

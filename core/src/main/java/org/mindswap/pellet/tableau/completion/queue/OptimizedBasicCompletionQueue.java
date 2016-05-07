@@ -50,7 +50,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	protected Set<ATermAppl>[] newQueue;
 
 	//TODO: This will be refactored; however currently there are some unit tests which will not
-	//terminate due to the order in which the completion rules are applied to individuals
+	//terminate due to the _order in which the completion rules are applied to individuals
 	//ont the queue. An example of this is MiscTests.testIFDP3() - in this example,
 	//if the LiteralRule is applied to the individual "b" first, then an infinite number
 	//of non-deterministic choices are created...talk to Evren about this.
@@ -83,7 +83,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	/**
 	 * Constructor - create queue
 	 *
-	 * @param abox
+	 * @param _abox
 	 */
 	@SuppressWarnings("unchecked")
 	public OptimizedBasicCompletionQueue(final ABox abox)
@@ -124,7 +124,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 		{
 			Node node = abox.getNode(queue[type].get(current[type]));
 
-			//because we do not maitain the queue during restore this node could be non-existent
+			//because we do not maitain the queue during restore this _node could be non-existent
 			if (node == null)
 				continue;
 
@@ -150,9 +150,9 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Reset the queue to be the current nodes in the abox; Also reset the type index to 0
+	 * Reset the queue to be the current nodes in the _abox; Also reset the type index to 0
 	 *
-	 * @param branch
+	 * @param _branch
 	 */
 	@Override
 	public void restore(final int branch)
@@ -239,9 +239,9 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Set branch pointers to current pointer. This is done whenever abox.incrementBranch is called
+	 * Set _branch pointers to current pointer. This is done whenever _abox.incrementBranch is called
 	 *
-	 * @param branch
+	 * @param _branch
 	 */
 	@Override
 	public void incrementBranch(final int branch)
@@ -274,7 +274,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 
 		copy.setAllowLiterals(this.allowLiterals());
 
-		//copy branch effects
+		//copy _branch effects
 		//		for(int i = 0; i < branchEffects.size(); i++){
 		//			HashSet<ATermAppl> cp = new HashSet<ATermAppl>();
 		//			cp.addAll((Set<ATermAppl>)branchEffects.get(i));
@@ -285,7 +285,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Set the abox for the queue
+	 * Set the _abox for the queue
 	 *
 	 * @param ab
 	 */

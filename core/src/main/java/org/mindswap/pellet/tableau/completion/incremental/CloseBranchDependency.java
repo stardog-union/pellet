@@ -26,7 +26,7 @@ import aterm.ATermAppl;
 import org.mindswap.pellet.tableau.branch.Branch;
 
 /**
- * A depedency for a closed disjunct, merge pair, etc. for a branch
+ * A depedency for a closed disjunct, merge pair, etc. for a _branch
  *
  * @author Christian Halaschek-Wiener
  */

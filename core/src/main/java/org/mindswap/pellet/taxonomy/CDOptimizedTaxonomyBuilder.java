@@ -227,7 +227,7 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 		if (log.isLoggable(Level.FINE))
 			log.fine("Satisfiability Count: " + (kb.getABox().stats.satisfiabilityCount - (2 * kb.getClasses().size())));
 
-		// Reset the definition order, so the sorted copy can be gc'd
+		// Reset the definition _order, so the sorted copy can be gc'd
 		definitionOrder = null;
 
 		taxonomy.assertValid();
@@ -654,10 +654,10 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 		final TaxonomyNode<ATermAppl> dNode = toldTaxonomy.getNode(d);
 
 		if (cNode == null)
-			throw new InternalReasonerException(c + " is not in the definition order");
+			throw new InternalReasonerException(c + " is not in the definition _order");
 
 		if (dNode == null)
-			throw new InternalReasonerException(d + " is not in the definition order");
+			throw new InternalReasonerException(d + " is not in the definition _order");
 
 		if (cNode.equals(dNode))
 			return;
@@ -1119,7 +1119,7 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 
 				// check subsumption
 				final boolean calcdMark = topDown ? subsumes(node.getName(), c) : subsumes(c, node.getName());
-						// mark the node appropriately
+						// mark the _node appropriately
 						mark(node, Boolean.valueOf(calcdMark), Propogate.NONE);
 
 						return calcdMark;

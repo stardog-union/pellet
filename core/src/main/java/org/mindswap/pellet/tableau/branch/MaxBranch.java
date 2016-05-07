@@ -51,35 +51,35 @@ import org.mindswap.pellet.utils.ATermUtils;
 
 public class MaxBranch extends IndividualBranch
 {
-	private final List<NodeMerge> mergePairs;
-	private final Role r;
-	private final int n;
-	private final ATermAppl qualification;
-	private DependencySet[] prevDS;
+	private final List<NodeMerge> _mergePairs;
+	private final Role _r;
+	private final int _n;
+	private final ATermAppl _qualification;
+	private DependencySet[] _prevDS;
 
 	public MaxBranch(final ABox abox, final CompletionStrategy strategy, final Individual x, final Role r, final int n, final ATermAppl qualification, final List<NodeMerge> mergePairs, final DependencySet ds)
 	{
 		super(abox, strategy, x, ds, mergePairs.size());
 
-		this.r = r;
-		this.n = n;
-		this.mergePairs = mergePairs;
-		this.qualification = qualification;
-		this.prevDS = new DependencySet[mergePairs.size()];
+		this._r = r;
+		this._n = n;
+		this._mergePairs = mergePairs;
+		this._qualification = qualification;
+		this._prevDS = new DependencySet[mergePairs.size()];
 	}
 
 	@Override
 	public IndividualBranch copyTo(final ABox abox)
 	{
 		final Individual x = abox.getIndividual(ind.getName());
-		final MaxBranch b = new MaxBranch(abox, null, x, r, n, qualification, mergePairs, getTermDepends());
+		final MaxBranch b = new MaxBranch(abox, null, x, _r, _n, _qualification, _mergePairs, getTermDepends());
 		b.setAnonCount(getAnonCount());
-		b.setNodeCount(nodeCount);
-		b.setBranch(branch);
-		b.setStrategy(strategy);
-		b.setTryNext(tryNext);
-		b.prevDS = new DependencySet[prevDS.length];
-		System.arraycopy(prevDS, 0, b.prevDS, 0, getTryNext());
+		b.setNodeCount(_nodeCount);
+		b.setBranch(_branch);
+		b.setStrategy(_strategy);
+		b.setTryNext(_tryNext);
+		b._prevDS = new DependencySet[_prevDS.length];
+		System.arraycopy(_prevDS, 0, b._prevDS, 0, getTryNext());
 
 		return b;
 	}
@@ -87,49 +87,49 @@ public class MaxBranch extends IndividualBranch
 	@Override
 	protected void tryBranch()
 	{
-		abox.incrementBranch();
+		_abox.incrementBranch();
 
 		//we must re-add this individual to the max queue. This is because we may still need to keep
 		//applying the max rule for additional merges
 		//recreate the label for the individuals
-		ATermAppl maxCon = ATermUtils.makeMax(this.r.getName(), this.n, this.qualification);
+		ATermAppl maxCon = ATermUtils.makeMax(this._r.getName(), this._n, this._qualification);
 		//normalize the label
 		maxCon = ATermUtils.normalize(maxCon);
 
 		if (PelletOptions.USE_COMPLETION_QUEUE)
 		{
 			final QueueElement qElement = new QueueElement(ind, maxCon);
-			abox.getCompletionQueue().add(qElement, NodeSelector.MAX_NUMBER);
-			abox.getCompletionQueue().add(qElement, NodeSelector.CHOOSE);
+			_abox.getCompletionQueue().add(qElement, NodeSelector.MAX_NUMBER);
+			_abox.getCompletionQueue().add(qElement, NodeSelector.CHOOSE);
 		}
 
 		DependencySet ds = getTermDepends();
-		for (; getTryNext() < getTryCount(); tryNext++)
+		for (; getTryNext() < getTryCount(); _tryNext++)
 		{
-			this.abox.getKB().timers.mainTimer.check();
+			this._abox.getKB().timers.mainTimer.check();
 			if (PelletOptions.USE_SEMANTIC_BRANCHING)
 				for (int m = 0; m < getTryNext(); m++)
 				{
-					final NodeMerge nm = mergePairs.get(m);
-					final Node y = abox.getNode(nm.getSource()).getSame();
-					final Node z = abox.getNode(nm.getTarget()).getSame();
-					strategy.setDifferent(y, z, prevDS[m]);
-					//strategy.addType( y, ATermUtils.makeNot( ATermUtils.makeValue( z.getName() ) ), prevDS[m] );
+					final NodeMerge nm = _mergePairs.get(m);
+					final Node y = _abox.getNode(nm.getSource()).getSame();
+					final Node z = _abox.getNode(nm.getTarget()).getSame();
+					_strategy.setDifferent(y, z, _prevDS[m]);
+					//_strategy.addType( y, ATermUtils.makeNot( ATermUtils.makeValue( z.getName() ) ), _prevDS[m] );
 				}
 
-			final NodeMerge nm = mergePairs.get(getTryNext());
-			final Node y = abox.getNode(nm.getSource()).getSame();
-			final Node z = abox.getNode(nm.getTarget()).getSame();
+			final NodeMerge nm = _mergePairs.get(getTryNext());
+			final Node y = _abox.getNode(nm.getSource()).getSame();
+			final Node z = _abox.getNode(nm.getTarget()).getSame();
 
 			if (log.isLoggable(Level.FINE))
-				log.fine("MAX : (" + (getTryNext() + 1) + "/" + mergePairs.size() + ") at branch (" + getBranch() + ") to  " + ind + " for prop " + r + " qualification " + qualification + " merge " + y + " -> " + z + " " + ds);
+				log.fine("MAX : (" + (getTryNext() + 1) + "/" + _mergePairs.size() + ") at _branch (" + getBranch() + ") to  " + ind + " for prop " + _r + " _qualification " + _qualification + " merge " + y + " -> " + z + " " + ds);
 
-			ds = ds.union(new DependencySet(getBranch()), abox.doExplanation());
+			ds = ds.union(new DependencySet(getBranch()), _abox.doExplanation());
 
 			// max cardinality merge also depends on all the edges
 			// between the individual that has the cardinality and
 			// nodes that are going to be merged
-			final EdgeList rNeighbors = ind.getRNeighborEdges(r);
+			final EdgeList rNeighbors = ind.getRNeighborEdges(_r);
 			boolean yEdge = false, zEdge = false;
 			for (final Edge edge : rNeighbors)
 			{
@@ -137,42 +137,42 @@ public class MaxBranch extends IndividualBranch
 
 				if (neighbor.equals(y))
 				{
-					ds = ds.union(edge.getDepends(), abox.doExplanation());
+					ds = ds.union(edge.getDepends(), _abox.doExplanation());
 					yEdge = true;
 				}
 				else
 					if (neighbor.equals(z))
 					{
-						ds = ds.union(edge.getDepends(), abox.doExplanation());
+						ds = ds.union(edge.getDepends(), _abox.doExplanation());
 						zEdge = true;
 					}
 			}
 
-			// if there is no edge coming into the node that is
+			// if there is no edge coming into the _node that is
 			// going to be merged then it is not possible that
 			// they are affected by the cardinality restriction
 			// just die instead of possibly unsound results
 			if (!yEdge || !zEdge)
-				throw new InternalReasonerException("An error occurred related to the max cardinality restriction about " + r);
+				throw new InternalReasonerException("An error occurred related to the max cardinality restriction about " + _r);
 
-			// if the neighbor nodes did not have the qualification
+			// if the _neighbor nodes did not have the _qualification
 			// in their type list they would have not been affected
 			// by the cardinality restriction. so this merges depends
 			// on their types
-			ds = ds.union(y.getDepends(qualification), abox.doExplanation());
-			ds = ds.union(z.getDepends(qualification), abox.doExplanation());
+			ds = ds.union(y.getDepends(_qualification), _abox.doExplanation());
+			ds = ds.union(z.getDepends(_qualification), _abox.doExplanation());
 
 			// if there were other merges based on the exact same cardinality
 			// restriction then this merge depends on them, too (we wouldn't
 			// have to merge these two nodes if the previous merge did not
 			// eliminate some other possibilities)
-			for (int b = abox.getBranches().size() - 2; b >= 0; b--)
+			for (int b = _abox.getBranches().size() - 2; b >= 0; b--)
 			{
-				final Branch branch = abox.getBranches().get(b);
+				final Branch branch = _abox.getBranches().get(b);
 				if (branch instanceof MaxBranch)
 				{
 					final MaxBranch prevBranch = (MaxBranch) branch;
-					if (prevBranch.ind.equals(ind) && prevBranch.r.equals(r) && prevBranch.qualification.equals(qualification))
+					if (prevBranch.ind.equals(ind) && prevBranch._r.equals(_r) && prevBranch._qualification.equals(_qualification))
 						ds.add(prevBranch.getBranch());
 					else
 						break;
@@ -181,27 +181,27 @@ public class MaxBranch extends IndividualBranch
 					break;
 			}
 
-			strategy.mergeTo(y, z, ds);
+			_strategy.mergeTo(y, z, ds);
 
-			//			abox.validate();
+			//			_abox.validate();
 
-			final boolean earlyClash = abox.isClosed();
+			final boolean earlyClash = _abox.isClosed();
 			if (earlyClash)
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("CLASH: Branch " + getBranch() + " " + abox.getClash() + "!");
+					log.fine("CLASH: Branch " + getBranch() + " " + _abox.getClash() + "!");
 
-				final DependencySet clashDepends = abox.getClash().getDepends();
+				final DependencySet clashDepends = _abox.getClash().getDepends();
 
 				if (clashDepends.contains(getBranch()))
 				{
 					// we need a global restore here because the merge operation modified three
 					// different nodes and possibly other global variables
-					strategy.restore(this);
+					_strategy.restore(this);
 
-					// global restore sets the branch number to previous value so we need to
+					// global restore sets the _branch number to previous value so we need to
 					// increment it again
-					abox.incrementBranch();
+					_abox.incrementBranch();
 
 					setLastClash(clashDepends);
 				}
@@ -218,10 +218,10 @@ public class MaxBranch extends IndividualBranch
 		if (!PelletOptions.USE_INCREMENTAL_DELETION)
 			ds.remove(getBranch());
 
-		if (abox.doExplanation())
-			abox.setClash(Clash.maxCardinality(ind, ds, r.getName(), n));
+		if (_abox.doExplanation())
+			_abox.setClash(Clash.maxCardinality(ind, ds, _r.getName(), _n));
 		else
-			abox.setClash(Clash.maxCardinality(ind, ds));
+			_abox.setClash(Clash.maxCardinality(ind, ds));
 
 		return;
 	}
@@ -231,14 +231,14 @@ public class MaxBranch extends IndividualBranch
 	{
 		super.setLastClash(ds);
 		if (getTryNext() >= 0)
-			prevDS[getTryNext()] = ds;
+			_prevDS[getTryNext()] = ds;
 	}
 
 	@Override
 	public String toString()
 	{
-		if (getTryNext() < mergePairs.size())
-			return "Branch " + getBranch() + " max rule on " + ind + " merged  " + mergePairs.get(getTryNext());
+		if (getTryNext() < _mergePairs.size())
+			return "Branch " + getBranch() + " max rule on " + ind + " merged  " + _mergePairs.get(getTryNext());
 
 		return "Branch " + getBranch() + " max rule on " + ind + " exhausted merge possibilities";
 	}
@@ -252,18 +252,18 @@ public class MaxBranch extends IndividualBranch
 	public void shiftTryNext(final int openIndex)
 	{
 		//save vals
-		//		DependencySet preDS = prevDS[openIndex];
+		//		DependencySet preDS = _prevDS[openIndex];
 
 		//re-open the merge pair
-		final NodeMerge nm = mergePairs.remove(openIndex);
-		mergePairs.add(nm);
+		final NodeMerge nm = _mergePairs.remove(openIndex);
+		_mergePairs.add(nm);
 
 		//shift the previous ds
-		for (int i = openIndex; i < mergePairs.size(); i++)
-			prevDS[i] = prevDS[i + 1];
+		for (int i = openIndex; i < _mergePairs.size(); i++)
+			_prevDS[i] = _prevDS[i + 1];
 
 		//move open label to end
-		prevDS[mergePairs.size() - 1] = null;
+		_prevDS[_mergePairs.size() - 1] = null;
 
 		//decrement trynext
 		setTryNext(getTryNext() - 1);

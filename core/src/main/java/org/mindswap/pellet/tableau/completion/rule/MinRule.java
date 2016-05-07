@@ -48,7 +48,7 @@ public class MinRule extends AbstractTableauRule
 		if (!x.canApply(Node.MIN))
 			return;
 
-		// We get all the minCard restrictions in the node and store
+		// We get all the minCard restrictions in the _node and store
 		// them in the list ''types''
 		final List<ATermAppl> types = x.getTypes(Node.MIN);
 		final int size = types.size();

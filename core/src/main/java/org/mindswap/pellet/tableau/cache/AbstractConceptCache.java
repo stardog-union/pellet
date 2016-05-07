@@ -52,21 +52,21 @@ public abstract class AbstractConceptCache implements ConceptCache
 {
 	public final static Logger log = Logger.getLogger(AbstractConceptCache.class.getName());
 
-	private int maxSize;
+	private int _maxSize;
 
 	/**
-	 * Creates an empty cache with at most <code>maxSize</code> elements which are neither named or negations of names.
+	 * Creates an empty cache with at most <code>_maxSize</code> elements which are neither named or negations of names.
 	 *
-	 * @param maxSize
+	 * @param _maxSize
 	 */
 	public AbstractConceptCache(final int maxSize)
 	{
-		this.maxSize = maxSize;
+		this._maxSize = maxSize;
 	}
 
 	protected boolean isFull()
 	{
-		return size() == maxSize;
+		return size() == _maxSize;
 	}
 
 	@Override
@@ -104,13 +104,13 @@ public abstract class AbstractConceptCache implements ConceptCache
 	@Override
 	public int getMaxSize()
 	{
-		return maxSize;
+		return _maxSize;
 	}
 
 	@Override
 	public void setMaxSize(final int maxSize)
 	{
-		this.maxSize = maxSize;
+		this._maxSize = maxSize;
 	}
 
 	private Bool checkTrivialClash(final CachedNode node1, final CachedNode node2)
@@ -245,7 +245,7 @@ public abstract class AbstractConceptCache implements ConceptCache
 		return Bool.TRUE;
 	}
 
-	private Bool checkBinaryClash(final KnowledgeBase kb, final ATermAppl c, final CachedNode root, final CachedNode otherRoot)
+	private Bool checkBinaryClash(final KnowledgeBase kb, final ATermAppl c, @SuppressWarnings("unused") final CachedNode root, final CachedNode otherRoot)
 	{
 		final Iterator<Unfolding> unfoldingList = kb.getTBox().unfold(c);
 
@@ -273,7 +273,7 @@ public abstract class AbstractConceptCache implements ConceptCache
 			if (otherRoot.hasRNeighbor(role))
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine(root + " has " + av + " " + otherRoot + " has " + role + " neighbor");
+					log.fine(root + " has " + av + " " + otherRoot + " has " + role + " _neighbor");
 
 				return Bool.UNKNOWN;
 			}
@@ -285,7 +285,7 @@ public abstract class AbstractConceptCache implements ConceptCache
 				if (otherRoot.hasRNeighbor(t.getName()))
 				{
 					if (log.isLoggable(Level.FINE))
-						log.fine(root + " has " + av + " " + otherRoot + " has " + t.getName() + " neighbor");
+						log.fine(root + " has " + av + " " + otherRoot + " has " + t.getName() + " _neighbor");
 
 					return Bool.UNKNOWN;
 				}
@@ -307,7 +307,7 @@ public abstract class AbstractConceptCache implements ConceptCache
 		if (n1 + n2 > max)
 		{
 			if (log.isLoggable(Level.FINE))
-				log.fine(root + " has " + mc + " " + otherRoot + " has R-neighbor");
+				log.fine(root + " has " + mc + " " + otherRoot + " has R-_neighbor");
 			return Bool.UNKNOWN;
 		}
 
@@ -510,20 +510,20 @@ public abstract class AbstractConceptCache implements ConceptCache
 	private Bool checkNominalEdges(final KnowledgeBase kb, final CachedNode pNode, final CachedNode cNode, final boolean checkInverses)
 	{
 		final EdgeList edges = checkInverses ? cNode.getInEdges() : cNode.getOutEdges();
-				for (final Edge edge : edges)
+		for (final Edge edge : edges)
 		{
-					final Role role = checkInverses ? edge.getRole().getInverse() : edge.getRole();
-							final DependencySet ds = edge.getDepends();
+			final Role role = checkInverses ? edge.getRole().getInverse() : edge.getRole();
+			final DependencySet ds = edge.getDepends();
 
-							if (!ds.isIndependent())
-								continue;
+			if (!ds.isIndependent())
+				continue;
 
-							boolean found = false;
-							final ATermAppl val = checkInverses ? edge.getFromName() : edge.getToName();
+			boolean found = false;
+			final ATermAppl val = checkInverses ? edge.getFromName() : edge.getToName();
 
-									if (!role.isObjectRole())
-										found = pNode.hasRNeighbor(role);
-									else
+			if (!role.isObjectRole())
+				found = pNode.hasRNeighbor(role);
+			else
 				if (!isRootNominal(kb, val))
 				{
 					if (!role.hasComplexSubRole())
@@ -558,50 +558,50 @@ public abstract class AbstractConceptCache implements ConceptCache
 					found = SetUtils.intersects(samesAndMaybes, neighbors);
 				}
 
-									if (!found)
-										return Bool.FALSE;
+			if (!found)
+				return Bool.FALSE;
 
-				}
+		}
 
-				return Bool.UNKNOWN;
+		return Bool.UNKNOWN;
 	}
 
 	/**
 	 * @param val
 	 * @return
 	 */
-	private boolean isRootNominal(final KnowledgeBase kb, final ATermAppl val)
-	{
-		final Individual ind = kb.getABox().getIndividual(val);
+	 private boolean isRootNominal(final KnowledgeBase kb, final ATermAppl val)
+	 {
+		 final Individual ind = kb.getABox().getIndividual(val);
 
-		return ind != null && ind.isRootNominal();
-	}
+		 return ind != null && ind.isRootNominal();
+	 }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	private Set<ATermAppl> getRNeighbors(final CachedNode node, Role role)
-	{
-		final Set<ATermAppl> neighbors = new HashSet<>();
+	 /**
+	  * {@inheritDoc}
+	  */
+	 private Set<ATermAppl> getRNeighbors(final CachedNode node, Role role)
+	 {
+		 final Set<ATermAppl> neighbors = new HashSet<>();
 
-		for (final Edge edge : node.getOutEdges())
-		{
-			final Role r = edge.getRole();
-			if (r.isSubRoleOf(role))
-				neighbors.add(edge.getToName());
-		}
+		 for (final Edge edge : node.getOutEdges())
+		 {
+			 final Role r = edge.getRole();
+			 if (r.isSubRoleOf(role))
+				 neighbors.add(edge.getToName());
+		 }
 
-		if (role.isObjectRole())
-		{
-			role = role.getInverse();
-			for (final Edge edge : node.getInEdges())
-			{
-				final Role r = edge.getRole();
-				if (r.isSubRoleOf(role))
-					neighbors.add(edge.getFromName());
-			}
-		}
+		 if (role.isObjectRole())
+		 {
+			 role = role.getInverse();
+			 for (final Edge edge : node.getInEdges())
+			 {
+				 final Role r = edge.getRole();
+				 if (r.isSubRoleOf(role))
+					 neighbors.add(edge.getFromName());
+			 }
+		 }
 
-		return neighbors;
-	}
+		 return neighbors;
+	 }
 }

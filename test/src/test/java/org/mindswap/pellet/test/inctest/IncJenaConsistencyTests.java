@@ -149,7 +149,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		assertTrue(!PelletOptions.USE_INCREMENTAL_CONSISTENCY || graph.getKB().timers.getTimer("isIncConsistent").getCount() == 1);
 	}
 
-	@Ignore("This test is know to fail when the processing order of disjoint axiom changes.")
+	@Ignore("This test is know to fail when the processing _order of disjoint axiom changes.")
 	@Test
 	public void testTypeAssertions()
 	{

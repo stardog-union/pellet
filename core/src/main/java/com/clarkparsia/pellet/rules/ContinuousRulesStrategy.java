@@ -290,13 +290,13 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 						if (unexploredBranch.getTryNext() < unexploredBranch.getTryCount())
 						{
 							restore(unexploredBranch);
-							System.out.println("restoring branch " + unexploredBranch.getBranch() + " tryNext = " + unexploredBranch.getTryNext() + " tryCount = " + unexploredBranch.getTryCount());
+							System.out.println("restoring _branch " + unexploredBranch.getBranch() + " _tryNext = " + unexploredBranch.getTryNext() + " _tryCount = " + unexploredBranch.getTryCount());
 							unexploredBranch.tryNext();
 							break;
 						}
 						else
 						{
-							System.out.println("removing branch " + unexploredBranch.getBranch());
+							System.out.println("removing _branch " + unexploredBranch.getBranch());
 							abox.getBranches().remove(i);
 							unexploredBranch = null;
 						}

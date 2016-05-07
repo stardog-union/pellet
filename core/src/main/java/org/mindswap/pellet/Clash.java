@@ -375,7 +375,7 @@ public class Clash
 	}
 
 	/**
-	 * @param node the node to set
+	 * @param _node the _node to set
 	 */
 	public void setNode(final Node node)
 	{
@@ -383,7 +383,7 @@ public class Clash
 	}
 
 	/**
-	 * @return the node
+	 * @return the _node
 	 */
 	public Node getNode()
 	{

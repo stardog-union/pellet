@@ -21,7 +21,7 @@ import org.mindswap.pellet.utils.iterator.MultiListIterator;
  * Title: Disjunction Normal Form
  * </p>
  * <p>
- * Description: Static implementation to translate ATermAppl descriptions of complex data ranges to disjunction normal form
+ * Description: Static implementation to translate ATermAppl descriptions of complex data ranges to _disjunction normal form
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -90,7 +90,7 @@ public class DNF
 			}
 
 			/*
-			 * Step 2: element-wise distribute any disjunction among the
+			 * Step 2: element-wise distribute any _disjunction among the
 			 * conjuncts.
 			 */
 			List<ATermAppl> disjuncts = new ArrayList<>();
@@ -118,7 +118,7 @@ public class DNF
 
 		}
 		/*
-		 * If the term is a disjunction merge each element into DNF
+		 * If the term is a _disjunction merge each element into DNF
 		 */
 		else
 			if (ORFUN.equals(fun))
@@ -137,7 +137,7 @@ public class DNF
 				dnf = makeOr(toSet(args));
 			}
 			/*
-			 * If the term is not a conjunction or disjunction (and its in NNF), it
+			 * If the term is not a conjunction or _disjunction (and its in NNF), it
 			 * is already in DNF
 			 */
 			else

@@ -119,7 +119,7 @@ public class MiscTests extends AbstractKBTests
 
 		/*
 		 * At this point we can get onto one of two branches. In one p(x,"0"),
-		 * in the other p(x,"1") The branch point is a concept disjunction and
+		 * in the other p(x,"1") The _branch point is a concept _disjunction and
 		 * we're provoking a datatype clash.
 		 */
 		assertTrue(kb.isConsistent());
@@ -133,7 +133,7 @@ public class MiscTests extends AbstractKBTests
 		assertNotNull(kb.getABox().getIndividual(term("y")));
 
 		/*
-		 * This assertion causes a clash regardless of which branch we are on
+		 * This assertion causes a clash regardless of which _branch we are on
 		 */
 		kb.addPropertyValue(term("p"), term("x"), ATermUtils.makePlainLiteral("2"));
 
@@ -630,7 +630,7 @@ public class MiscTests extends AbstractKBTests
 	}
 
 	/**
-	 * Test for ticket #123 An axiom like A = B or (not B) cause problems in classification process (runtime exception in CD classification). Due to disjunction
+	 * Test for ticket #123 An axiom like A = B or (not B) cause problems in classification process (runtime exception in CD classification). Due to _disjunction
 	 * A is discovered to be a told subsumer of B. A is marked as non-primitive but since marking is done on unfolding map all we see is A = TOP and B is left
 	 * as CD. In phase 1, B is tried to be CD-classified but A is eft for phase 2 thus unclassified at that time causing the exception.
 	 */
@@ -1496,7 +1496,7 @@ public class MiscTests extends AbstractKBTests
 	{
 		// Demonstrate the problem described in #223
 		// This test is more complicated than necessary to ensure
-		// that bug is triggered regardless of the traversal order
+		// that bug is triggered regardless of the traversal _order
 		// in getTransitivePropertyValues function. With the bug
 		// if we visit b before c we will miss the value e and if we visit c
 		// before b we miss the value d.

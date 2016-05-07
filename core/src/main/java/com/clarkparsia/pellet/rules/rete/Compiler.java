@@ -123,7 +123,7 @@ public class Compiler
 			else
 				if (atom instanceof DataRangeAtom)
 				{
-					//				builtins.add(new Pair<RuleAtom, BindingHelper>(atom, new DataRangeBindingHelper(abox, (DataRangeAtom) atom)));
+					//				builtins.add(new Pair<RuleAtom, BindingHelper>(atom, new DataRangeBindingHelper(_abox, (DataRangeAtom) atom)));
 				}
 				else
 					atoms.add(atom);
@@ -232,7 +232,7 @@ public class Compiler
 					final BuiltInCall call = i.next();
 					if (bound.containsAll(call.getPrerequisitesVars(bound)))
 					{
-						// create the beta node before updating processed atoms
+						// create the beta _node before updating processed atoms
 						newBeta = call.createBeta(processed);
 						node.addChild(newBeta);
 						node = newBeta;

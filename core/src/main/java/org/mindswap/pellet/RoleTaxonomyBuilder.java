@@ -227,7 +227,7 @@ public class RoleTaxonomyBuilder
 		final Boolean value = subsumes ? Boolean.TRUE : Boolean.FALSE;
 		// during top search only negative information is propagated down
 		final Propagate propagate = subsumes ? Propagate.NONE : Propagate.DOWN;
-		// mark the node appropriately
+		// mark the _node appropriately
 		mark(node, marked, value, propagate);
 
 		return subsumes;
@@ -245,7 +245,7 @@ public class RoleTaxonomyBuilder
 		final Boolean value = subsumed ? Boolean.TRUE : Boolean.FALSE;
 		// during bottom search only negative information is propagated down
 		final Propagate propagate = subsumed ? Propagate.NONE : Propagate.UP;
-		// mark the node appropriately
+		// mark the _node appropriately
 		mark(node, marked, value, propagate);
 
 		return subsumed;

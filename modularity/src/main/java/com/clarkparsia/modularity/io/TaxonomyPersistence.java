@@ -194,7 +194,7 @@ public class TaxonomyPersistence
 		processedEquivalentClasses.add(OWL.Nothing);
 
 		// first create all the nodes in the taxonomy based on classes in the ontology and the equivalence relationships among them
-		// (only one node in taxonomy for all the equivalent classes in the group)
+		// (only one _node in taxonomy for all the equivalent classes in the group)
 		for (final OWLClass owlClass : ontology.getClassesInSignature())
 		{
 			if (processedEquivalentClasses.contains(owlClass))

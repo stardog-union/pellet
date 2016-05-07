@@ -19,7 +19,7 @@ import org.mindswap.pellet.Individual;
  * Title: Object Variable Binding Helper
  * </p>
  * <p>
- * Description: A binding helper that will iterate over all named individuals in the abox.
+ * Description: A binding helper that will iterate over all named individuals in the _abox.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007

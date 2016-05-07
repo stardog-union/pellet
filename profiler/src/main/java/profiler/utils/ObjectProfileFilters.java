@@ -2,7 +2,7 @@ package profiler.utils;
 
 // ----------------------------------------------------------------------------
 /**
- * A Factory for a few stock node filters. See the implementation for details.
+ * A Factory for a few stock _node filters. See the implementation for details.
  *
  * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
  */
@@ -13,7 +13,7 @@ public abstract class ObjectProfileFilters
 	/**
 	 * Factory method for creating a visitor that only accepts profile nodes with sizes larger than a given threshold value.
 	 * 
-	 * @param threshold node size in bytes
+	 * @param threshold _node size in bytes
 	 */
 	public static ObjectProfileNode.INodeFilter newSizeFilter(final int threshold)
 	{
@@ -21,8 +21,8 @@ public abstract class ObjectProfileFilters
 	}
 
 	/**
-	 * Factory method for creating a visitor that accepts a profile node only if it is at least the k-th largest child of its parent for a given value of k.
-	 * E.g., newRankFilter(1) will prune the profile tree so that only the largest child is visited for every node.
+	 * Factory method for creating a visitor that accepts a profile _node only if it is at least the k-th largest child of its parent for a given value of k.
+	 * E.g., newRankFilter(1) will prune the profile tree so that only the largest child is visited for every _node.
 	 * 
 	 * @param rank acceptable size rank [must be >= 0]
 	 */
@@ -32,7 +32,7 @@ public abstract class ObjectProfileFilters
 	}
 
 	/**
-	 * Factory method for creating a visitor that accepts a profile node only if its size is larger than a given threshold relative to the size of the root node
+	 * Factory method for creating a visitor that accepts a profile _node only if its size is larger than a given threshold relative to the size of the root _node
 	 * (i.e., size of the entire profile tree).
 	 * 
 	 * @param threshold size fraction threshold
@@ -43,8 +43,8 @@ public abstract class ObjectProfileFilters
 	}
 
 	/**
-	 * Factory method for creating a visitor that accepts a profile node only if its size is larger than a given threshold relative to the size of its parent
-	 * node. This is useful for pruning the profile tree to show the largest contributors at every tree level.
+	 * Factory method for creating a visitor that accepts a profile _node only if its size is larger than a given threshold relative to the size of its parent
+	 * _node. This is useful for pruning the profile tree to show the largest contributors at every tree level.
 	 * 
 	 * @param threshold size fraction threshold
 	 */
@@ -133,7 +133,7 @@ public abstract class ObjectProfileFilters
 		{
 			final IObjectProfileNode parent = node.parent();
 			if (parent == null)
-				return true; // always accept root node
+				return true; // always accept root _node
 			else
 				if (node.size() >= m_threshold * parent.size())
 					return true;

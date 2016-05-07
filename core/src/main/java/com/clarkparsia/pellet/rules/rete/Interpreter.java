@@ -45,7 +45,7 @@ public class Interpreter
 	}
 
 	/**
-	 * Restore abox to the given branch
+	 * Restore _abox to the given _branch
 	 *
 	 * @return true if a matching TermTuple was removed. False otherwise.
 	 */

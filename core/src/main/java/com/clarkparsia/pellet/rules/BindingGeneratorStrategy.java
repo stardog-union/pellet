@@ -13,7 +13,7 @@ import com.clarkparsia.pellet.rules.model.Rule;
  * Title: Binding Generator Strategy
  * </p>
  * <p>
- * Description: Interface for BindingGenerator construction strategies. The strategy takes a rule, and returns a binding generator that iterates over possible
+ * Description: Interface for BindingGenerator construction strategies. The _strategy takes a rule, and returns a binding generator that iterates over possible
  * bindings.
  * </p>
  * <p>

@@ -46,11 +46,11 @@ public class ARQParserUtilities
 	 */
 	private static final Set<Node> OWL2_DATATYPES;
 	/**
-	 * Jena node for "false"^^xsd:boolean
+	 * Jena _node for "false"^^xsd:boolean
 	 */
 	public static final Node XSD_BOOLEAN_FALSE;
 	/**
-	 * Jena node for "true"^^xsd:boolean
+	 * Jena _node for "true"^^xsd:boolean
 	 */
 	public static final Node XSD_BOOLEAN_TRUE;
 
@@ -93,7 +93,7 @@ public class ARQParserUtilities
 	 *
 	 * @param nodes The list of <code>Node</code>s
 	 * @param triples A mutable container to which the <code>Triple</code>s representing the container will be added.
-	 * @return The blank node used as the start of the container
+	 * @return The blank _node used as the start of the container
 	 */
 	public static Node listToTriples(final List<Node> nodes, final Collection<Triple> triples)
 	{

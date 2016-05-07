@@ -371,7 +371,7 @@ public class QueryImpl implements Query
 				{
 					if (targetOuts.size() == 0)
 					{
-						// this is a simple leaf node
+						// this is a simple leaf _node
 						if (kb.isDatatypeProperty(pred))
 							return ATermUtils.makeSomeValues(pred, ATermUtils.TOP_LIT);
 						else
@@ -379,7 +379,7 @@ public class QueryImpl implements Query
 					}
 					else
 					{
-						// not a leaf node, recurse over all outgoing edges
+						// not a leaf _node, recurse over all outgoing edges
 						ATermList outs = ATermUtils.EMPTY_LIST;
 
 						for (final QueryAtom currEdge : targetOuts)
@@ -390,11 +390,11 @@ public class QueryImpl implements Query
 				}
 				else
 					if (targetOuts.size() == 0)
-						// this is a simple leaf node, but with classes specified
+						// this is a simple leaf _node, but with classes specified
 						return ATermUtils.makeSomeValues(pred, ATermUtils.makeAnd(targetClasses));
 					else
 					{
-						// not a leaf node, recurse over all outgoing edges
+						// not a leaf _node, recurse over all outgoing edges
 						ATermList outs = ATermUtils.EMPTY_LIST;
 
 						for (final QueryAtom currEdge : targetOuts)
@@ -411,7 +411,7 @@ public class QueryImpl implements Query
 		}
 	}
 
-	// TODO this should die if called on a literal node
+	// TODO this should die if called on a literal _node
 	private ATermAppl rollEdgeIn(final QueryPredicate allowed, final QueryAtom atom, final Set<ATermAppl> visited, final Collection<ATermAppl> stopList)
 	{
 		switch (atom.getPredicate())
@@ -455,7 +455,7 @@ public class QueryImpl implements Query
 				{
 					if (targetIns.isEmpty())
 					{
-						// this is a simple leaf node
+						// this is a simple leaf _node
 						if (kb.isDatatypeProperty(pred))
 							return ATermUtils.makeSomeValues(invPred, ATermUtils.TOP_LIT);
 						else
@@ -463,7 +463,7 @@ public class QueryImpl implements Query
 					}
 					else
 					{
-						// not a leaf node, recurse over all incoming edges
+						// not a leaf _node, recurse over all incoming edges
 						ATermList ins = ATermUtils.EMPTY_LIST;
 
 						for (final QueryAtom currEdge : targetIns)
@@ -477,7 +477,7 @@ public class QueryImpl implements Query
 						return ATermUtils.makeSomeValues(invPred, ATermUtils.makeAnd(targetClasses));
 					else
 					{
-						// not a leaf node, recurse over all outgoing edges
+						// not a leaf _node, recurse over all outgoing edges
 						ATermList ins = ATermUtils.EMPTY_LIST;
 
 						for (final QueryAtom currEdge : targetIns)

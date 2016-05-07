@@ -47,7 +47,7 @@ public interface IncrementalChangeTracker
 	 *
 	 * @param n the Node
 	 * @param type the type
-	 * @return boolean {@code true} if delete is not already noted for node, type pair {@code false} else
+	 * @return boolean {@code true} if delete is not already noted for _node, type pair {@code false} else
 	 */
 	public boolean addDeletedType(Node n, ATermAppl type);
 
@@ -68,10 +68,10 @@ public interface IncrementalChangeTracker
 	public boolean addNewIndividual(Individual i);
 
 	/**
-	 * Record that a node has been "unpruned" because a merge was reverted during restore
+	 * Record that a _node has been "unpruned" because a merge was reverted during restore
 	 *
 	 * @param n the Node
-	 * @return boolean {@code true} if unpruning is not already noted for node, {@code false} else
+	 * @return boolean {@code true} if unpruning is not already noted for _node, {@code false} else
 	 */
 	public boolean addUnprunedNode(Node n);
 

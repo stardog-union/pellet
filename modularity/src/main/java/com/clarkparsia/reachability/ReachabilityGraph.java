@@ -60,13 +60,13 @@ public class ReachabilityGraph<E>
 		@Override
 		public boolean inputActivated()
 		{
-			throw new IllegalStateException("NULL node cannot have inputs");
+			throw new IllegalStateException("NULL _node cannot have inputs");
 		}
 
 		@Override
 		public void addOutput(final Node output)
 		{
-			// do not add the output because null node can never be activated
+			// do not add the output because null _node can never be activated
 		}
 
 		@Override

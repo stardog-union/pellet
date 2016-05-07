@@ -1044,7 +1044,7 @@ public class CombinedQueryEngine implements QueryExec
 								execAllFastCore(oldQuery, binding, distVars, core.getUndistVars());
 								break;
 							default:
-								throw new InternalReasonerException("Unknown core strategy.");
+								throw new InternalReasonerException("Unknown core _strategy.");
 						}
 					}
 
@@ -1207,12 +1207,12 @@ public class CombinedQueryEngine implements QueryExec
 		//
 		//
 		// for (final QueryAtom atom : q.findAtoms(QueryPredicate.PropertyValue,
-		// node, null, null)) {
+		// _node, null, null)) {
 		// instances.retainAll(kb.retrieveIndividualsWithProperty(atom
 		// .getArguments().get(1)));
 		// }
 		// for (final QueryAtom atom : q.findAtoms(QueryPredicate.PropertyValue,
-		// null, null, node)) {
+		// null, null, _node)) {
 		// instances.retainAll(kb.retrieveIndividualsWithProperty(ATermUtils
 		// .makeInv(atom.getArguments().get(1))));
 		// }
@@ -1278,16 +1278,16 @@ public class CombinedQueryEngine implements QueryExec
 	}
 
 	// private void execIteratedCore(final Query q, final ResultBinding binding,
-	// final Collection<ATermAppl> distVars, CoreStrategy strategy) {
+	// final Collection<ATermAppl> distVars, CoreStrategy _strategy) {
 	// if (distVars.isEmpty()) {
 	// exec(binding);
 	// } else {
 	// final ATermAppl var = distVars.iterator().next();
 	// distVars.remove(var);
 	//
-	// boolean loadAll = (distVars.isEmpty() && !strategy
+	// boolean loadAll = (distVars.isEmpty() && !_strategy
 	// .equals(CoreStrategy.ALLFAST))
-	// || strategy.equals(CoreStrategy.OPTIMIZED);
+	// || _strategy.equals(CoreStrategy.OPTIMIZED);
 	//
 	// final Collection<ATermAppl> instances;
 	//
@@ -1320,8 +1320,8 @@ public class CombinedQueryEngine implements QueryExec
 	//
 	// }
 	//
-	// if (strategy.equals(CoreStrategy.FIRSTFAST)) {
-	// strategy = CoreStrategy.OPTIMIZED;
+	// if (_strategy.equals(CoreStrategy.FIRSTFAST)) {
+	// _strategy = CoreStrategy.OPTIMIZED;
 	// }
 	//
 	// for (final ATermAppl b : instances) {
@@ -1334,7 +1334,7 @@ public class CombinedQueryEngine implements QueryExec
 	// final Query q2 = q.apply(newBinding);
 	//
 	// if (!loadAll || QueryEngine.execBooleanABoxQuery(q2)) {
-	// execIteratedCore(q2, newBinding, distVars, strategy);
+	// execIteratedCore(q2, newBinding, distVars, _strategy);
 	// }
 	// }
 	//

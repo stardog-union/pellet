@@ -137,7 +137,7 @@ public class MaxRule extends AbstractTableauRule
 		// if( log.isLoggable( Level.FINE ) )
 		// log.fine( "Neighbors: " + n + " maxCardinality: " + k);
 
-		// if restriction was maxCardinality 0 then having any R-neighbor
+		// if restriction was maxCardinality 0 then having any R-_neighbor
 		// violates the restriction. no merge can fix this. compute the
 		// dependency and return
 		if (k == 0 && n > 0)
@@ -200,7 +200,7 @@ public class MaxRule extends AbstractTableauRule
 			}
 		}
 
-		// add the list of possible pairs to be merged in the branch list
+		// add the list of possible pairs to be merged in the _branch list
 		final MaxBranch newBranch = new MaxBranch(strategy.getABox(), strategy, x, r, k, c, mergePairs, ds);
 		strategy.addBranch(newBranch);
 
@@ -212,7 +212,7 @@ public class MaxRule extends AbstractTableauRule
 			log.fine("hasMore: " + (n > k + 1));
 
 		// if there were exactly k + 1 neighbors the previous step would
-		// eliminate one node and only n neighbors would be left. This means
+		// eliminate one _node and only n neighbors would be left. This means
 		// restriction is satisfied. If there were more than k + 1 neighbors
 		// merging one pair would not be enough and more merges are required,
 		// thus false is returned
@@ -237,16 +237,16 @@ public class MaxRule extends AbstractTableauRule
 					continue;
 				}
 
-				// 1. if x is a nominal node (of lower level), then Merge(y, x)
+				// 1. if x is a nominal _node (of lower level), then Merge(y, x)
 				if (x.getNominalLevel() < y.getNominalLevel())
 					pairs.add(new NodeMerge(y, x));
-				// 2. if y is a nominal node or an ancestor of x, then Merge(x, y)
+				// 2. if y is a nominal _node or an ancestor of x, then Merge(x, y)
 				else
 					if (y.isNominal())
 						pairs.add(new NodeMerge(x, y));
 					// 3. if y is an ancestor of x, then Merge(x, y)
 					// Note: y is an ancestor of x iff the max cardinality
-					// on node merges the "node"'s parent y with "node"'s
+					// on _node merges the "_node"'s parent y with "_node"'s
 					// child x
 					else
 						if (y.hasSuccessor(node))
@@ -279,7 +279,7 @@ public class MaxRule extends AbstractTableauRule
 			// find all distinct R-neighbors of x
 			final Set<Node> neighbors = edges.getFilteredNeighbors(x, c);
 
-			// if there is not more than one neighbor then func max rule won't be triggered
+			// if there is not more than one _neighbor then func max rule won't be triggered
 			if (neighbors.size() <= 1)
 				continue;
 
@@ -290,7 +290,7 @@ public class MaxRule extends AbstractTableauRule
 
 			// find the head and its corresponding dependency information.
 			// since head is not necessarily the first element in the
-			// neighbor list we need to first find the un-pruned node
+			// _neighbor list we need to first find the un-pruned _node
 			for (; edgeIndex < edgeCount; edgeIndex++)
 			{
 				final Edge edge = edges.edgeAt(edgeIndex);
@@ -299,8 +299,8 @@ public class MaxRule extends AbstractTableauRule
 				if (head.isPruned() || !neighbors.contains(head))
 					continue;
 
-				// this node is included in the merge list because the edge
-				// exists and the node has the qualification in its types
+				// this _node is included in the merge list because the edge
+				// exists and the _node has the qualification in its types
 				ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
 				ds = ds.union(head.getDepends(c), strategy.getABox().doExplanation());
 				ds = ds.union(r.getExplainSubOrInv(edge.getRole()), strategy.getABox().doExplanation());
@@ -308,7 +308,7 @@ public class MaxRule extends AbstractTableauRule
 			}
 
 			// now iterate through the rest of the elements in the neighbors
-			// and merge them to the head node. it is possible that we will
+			// and merge them to the head _node. it is possible that we will
 			// switch the head at some point because of merging rules such
 			// that you always merge to a nominal of higher level
 			for (edgeIndex++; edgeIndex < edgeCount; edgeIndex++)
@@ -320,13 +320,13 @@ public class MaxRule extends AbstractTableauRule
 					continue;
 
 				// it is possible that there are multiple edges to the same
-				// node, e.g. property p and its super property, so check if
+				// _node, e.g. property p and its super property, so check if
 				// we already merged this one
 				if (head == null || head.isSame(next))
 					continue;
 
-				// this node is included in the merge list because the edge
-				// exists and the node has the qualification in its types
+				// this _node is included in the merge list because the edge
+				// exists and the _node has the qualification in its types
 				ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
 				ds = ds.union(next.getDepends(c), strategy.getABox().doExplanation());
 				ds = ds.union(r.getExplainSubOrInv(edge.getRole()), strategy.getABox().doExplanation());

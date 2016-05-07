@@ -35,7 +35,7 @@ import aterm.ATermList;
 
 /**
  * A visitor interface specifically designed for structures in Pellet. Since the class descriptions in Pellet are all represented as ATermAppl's with different
- * functors any output (or conversion) function will need to check functors in order to create a result. This interface defines the functions for each different
+ * functors any output (or conversion) function will need to check functors in _order to create a result. This interface defines the functions for each different
  * construct to make this process easier. A better implementation would actually integrate this functionality with the jjtraveler.Visitable interface.
  *
  * @author Evren Sirin

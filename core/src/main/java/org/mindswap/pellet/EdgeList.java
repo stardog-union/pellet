@@ -263,10 +263,10 @@ public class EdgeList implements Iterable<Edge>
 	}
 
 	/**
-	 * Find the neighbors of a node that has a certain type. For literals, we collect only the ones with the same language tag.
+	 * Find the neighbors of a _node that has a certain type. For literals, we collect only the ones with the same language tag.
 	 * 
-	 * @param node The node whose neighbors are being sought
-	 * @param c The concept (or datatype) that each neighbor should belong to
+	 * @param _node The _node whose neighbors are being sought
+	 * @param c The concept (or datatype) that each _neighbor should belong to
 	 * @return Set of nodes
 	 */
 	public Set<Node> getFilteredNeighbors(final Individual node, final ATermAppl c)

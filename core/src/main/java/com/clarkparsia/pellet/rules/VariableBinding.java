@@ -140,7 +140,7 @@ public class VariableBinding
 	}
 
 	/**
-	 * Sets the value of a variable to the individual or node as appropriate.
+	 * Sets the value of a variable to the individual or _node as appropriate.
 	 */
 	private class ValueSettingVisitor implements AtomObjectVisitor
 	{
@@ -251,7 +251,7 @@ public class VariableBinding
 	}
 
 	/**
-	 * If the key is a variable, return the node associated with it in the map. If the key is a constant, return the corresponding node from the abox.
+	 * If the key is a variable, return the _node associated with it in the map. If the key is a constant, return the corresponding _node from the _abox.
 	 */
 	public Literal get(final AtomDObject key)
 	{
@@ -262,7 +262,7 @@ public class VariableBinding
 
 	/**
 	 * If the key is a variable, return the individual associated with it in the map. If the key is a constant, return the corresponding individual from the
-	 * abox.
+	 * _abox.
 	 */
 	public Individual get(final AtomIObject key)
 	{

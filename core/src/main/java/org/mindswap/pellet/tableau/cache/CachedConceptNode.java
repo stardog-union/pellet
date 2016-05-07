@@ -26,7 +26,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  * Title:
  * </p>
  * <p>
- * Description: A node cached as the result of satisfiability checking for a concept.
+ * Description: A _node cached as the result of satisfiability checking for a concept.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -39,34 +39,34 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class CachedConceptNode implements CachedNode
 {
-	private final ATermAppl name;
-	private final EdgeList inEdges;
-	private final EdgeList outEdges;
-	private final Map<ATermAppl, DependencySet> types;
-	private final boolean isIndependent;
+	private final ATermAppl _name;
+	private final EdgeList _inEdges;
+	private final EdgeList _outEdges;
+	private final Map<ATermAppl, DependencySet> _types;
+	private final boolean _isIndependent;
 
 	/**
 	 * @param depends
-	 * @param node
+	 * @param _node
 	 */
 	public CachedConceptNode(final ATermAppl name, Individual node)
 	{
-		this.name = name;
+		this._name = name;
 
-		// if the node is merged, get the representative node and check
-		// also if the merge depends on a branch
-		isIndependent = node.getMergeDependency(true).isIndependent();
+		// if the _node is merged, get the representative _node and check
+		// also if the merge depends on a _branch
+		_isIndependent = node.getMergeDependency(true).isIndependent();
 		node = node.getSame();
 
-		outEdges = copyEdgeList(node, true);
-		inEdges = copyEdgeList(node, false);
+		_outEdges = copyEdgeList(node, true);
+		_inEdges = copyEdgeList(node, false);
 
 		// collect all transitive property values
 		if (node.getABox().getKB().getExpressivity().hasNominal())
 			collectComplexPropertyValues(node);
 
-		types = CollectionUtils.makeIdentityMap(node.getDepends());
-		for (final Map.Entry<ATermAppl, DependencySet> e : types.entrySet())
+		_types = CollectionUtils.makeIdentityMap(node.getDepends());
+		for (final Map.Entry<ATermAppl, DependencySet> e : _types.entrySet())
 			e.setValue(e.getValue().cache());
 	}
 
@@ -108,9 +108,9 @@ public class CachedConceptNode implements CachedNode
 		subj.getABox().getObjectPropertyValues(subj.getName(), role, knowns, unknowns, false);
 
 		for (final ATermAppl val : knowns)
-			outEdges.addEdge(new CachedOutEdge(role, val, DependencySet.INDEPENDENT));
+			_outEdges.addEdge(new CachedOutEdge(role, val, DependencySet.INDEPENDENT));
 		for (final ATermAppl val : unknowns)
-			outEdges.addEdge(new CachedOutEdge(role, val, DependencySet.DUMMY));
+			_outEdges.addEdge(new CachedOutEdge(role, val, DependencySet.DUMMY));
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class CachedConceptNode implements CachedNode
 	@Override
 	public boolean isIndependent()
 	{
-		return isIndependent;
+		return _isIndependent;
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class CachedConceptNode implements CachedNode
 	@Override
 	public EdgeList getInEdges()
 	{
-		return inEdges;
+		return _inEdges;
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class CachedConceptNode implements CachedNode
 	@Override
 	public EdgeList getOutEdges()
 	{
-		return outEdges;
+		return _outEdges;
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class CachedConceptNode implements CachedNode
 	@Override
 	public Map<ATermAppl, DependencySet> getDepends()
 	{
-		return types;
+		return _types;
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class CachedConceptNode implements CachedNode
 	@Override
 	public boolean hasRNeighbor(final Role role)
 	{
-		return outEdges.hasEdge(role) || (role.isObjectRole() && inEdges.hasEdge(role.getInverse()));
+		return _outEdges.hasEdge(role) || (role.isObjectRole() && _inEdges.hasEdge(role.getInverse()));
 
 	}
 
@@ -236,12 +236,12 @@ public class CachedConceptNode implements CachedNode
 	@Override
 	public ATermAppl getName()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
 	public String toString()
 	{
-		return ATermUtils.toString(name);
+		return ATermUtils.toString(_name);
 	}
 }

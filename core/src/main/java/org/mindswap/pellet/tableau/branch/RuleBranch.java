@@ -28,25 +28,25 @@ import org.mindswap.pellet.tableau.completion.CompletionStrategy;
 
 public class RuleBranch extends Branch
 {
-	private final RuleAtomAsserter ruleAtomAsserter;
-	private final VariableBinding binding;
-	private final List<RuleAtom> atoms;
-	private final int bodyAtomCount;
-	private int[] order;
-	private DependencySet[] prevDS;
+	private final RuleAtomAsserter _ruleAtomAsserter;
+	private final VariableBinding _binding;
+	private final List<RuleAtom> _atoms;
+	private final int _bodyAtomCount;
+	private int[] _order;
+	private DependencySet[] _prevDS;
 
 	public RuleBranch(final ABox abox, final CompletionStrategy completion, final RuleAtomAsserter ruleAtomAsserter, final List<RuleAtom> atoms, final VariableBinding binding, final int bodyAtomCount, final DependencySet ds)
 	{
 		super(abox, completion, ds, atoms.size());
 
-		this.ruleAtomAsserter = ruleAtomAsserter;
-		this.atoms = atoms;
-		this.bodyAtomCount = bodyAtomCount;
-		this.binding = binding;
-		this.prevDS = new DependencySet[atoms.size()];
-		this.order = new int[atoms.size()];
-		for (int i = 0; i < order.length; i++)
-			order[i] = i;
+		this._ruleAtomAsserter = ruleAtomAsserter;
+		this._atoms = atoms;
+		this._bodyAtomCount = bodyAtomCount;
+		this._binding = binding;
+		this._prevDS = new DependencySet[atoms.size()];
+		this._order = new int[atoms.size()];
+		for (int i = 0; i < _order.length; i++)
+			_order[i] = i;
 	}
 
 	@Override
@@ -58,16 +58,16 @@ public class RuleBranch extends Branch
 	@Override
 	public RuleBranch copyTo(final ABox abox)
 	{
-		final RuleBranch b = new RuleBranch(abox, strategy, ruleAtomAsserter, atoms, binding, bodyAtomCount, getTermDepends());
+		final RuleBranch b = new RuleBranch(abox, _strategy, _ruleAtomAsserter, _atoms, _binding, _bodyAtomCount, getTermDepends());
 
 		b.setAnonCount(getAnonCount());
-		b.setNodeCount(nodeCount);
-		b.setBranch(branch);
-		b.setTryNext(tryNext);
-		b.prevDS = new DependencySet[prevDS.length];
-		System.arraycopy(prevDS, 0, b.prevDS, 0, tryNext);
-		b.order = new int[order.length];
-		System.arraycopy(order, 0, b.order, 0, order.length);
+		b.setNodeCount(_nodeCount);
+		b.setBranch(_branch);
+		b.setTryNext(_tryNext);
+		b._prevDS = new DependencySet[_prevDS.length];
+		System.arraycopy(_prevDS, 0, b._prevDS, 0, _tryNext);
+		b._order = new int[_order.length];
+		System.arraycopy(_order, 0, b._order, 0, _order.length);
 
 		return b;
 	}
@@ -76,30 +76,30 @@ public class RuleBranch extends Branch
 	public void setLastClash(final DependencySet ds)
 	{
 		super.setLastClash(ds);
-		if (tryNext >= 0)
-			prevDS[tryNext] = ds;
+		if (_tryNext >= 0)
+			_prevDS[_tryNext] = ds;
 	}
 
 	@Override
 	protected void tryBranch()
 	{
-		abox.incrementBranch();
+		_abox.incrementBranch();
 
 		// int[] stats = null;
 		// if( PelletOptions.USE_DISJUNCT_SORTING ) {
-		// stats = abox.getDisjBranchStats().get(atoms);
+		// stats = _abox.getDisjBranchStats().get(_atoms);
 		// if(stats == null) {
-		// stats = new int[tryCount];
+		// stats = new int[_tryCount];
 		// Arrays.fill( stats, 0 );
-		// abox.getDisjBranchStats().put(atoms, stats);
+		// _abox.getDisjBranchStats().put(_atoms, stats);
 		// }
-		// if(tryNext > 0) {
-		// stats[order[tryNext-1]]++;
+		// if(_tryNext > 0) {
+		// stats[_order[_tryNext-1]]++;
 		// }
 		// if(stats != null) {
-		// int minIndex = tryNext;
-		// int minValue = stats[tryNext];
-		// for(int i = tryNext + 1; i < stats.length; i++) {
+		// int minIndex = _tryNext;
+		// int minValue = stats[_tryNext];
+		// for(int i = _tryNext + 1; i < stats.length; i++) {
 		// boolean tryEarlier = ( stats[i] < minValue );
 		//
 		// if( tryEarlier ) {
@@ -107,32 +107,32 @@ public class RuleBranch extends Branch
 		// minValue = stats[i];
 		// }
 		// }
-		// if(minIndex != tryNext) {
-		// Collections.swap( atoms, minIndex, tryNext );
+		// if(minIndex != _tryNext) {
+		// Collections.swap( _atoms, minIndex, _tryNext );
 		//
-		// order[minIndex] = tryNext;
-		// order[tryNext] = minIndex;
+		// _order[minIndex] = _tryNext;
+		// _order[_tryNext] = minIndex;
 		// }
 		// }
 		// }
 
-		for (; tryNext < tryCount; tryNext++)
+		for (; _tryNext < _tryCount; _tryNext++)
 		{
-			final RuleAtom atom = atoms.get(tryNext);
+			final RuleAtom atom = _atoms.get(_tryNext);
 
 			//			if( PelletOptions.USE_SEMANTIC_BRANCHING ) {
-			//				for( int m = 0; m < tryNext; m++ )
-			//					ruleAtomAsserter
-			//							.assertAtom( atoms.get( m ), binding, prevDS[m], m >= bodyAtomCount );
+			//				for( int m = 0; m < _tryNext; m++ )
+			//					_ruleAtomAsserter
+			//							.assertAtom( _atoms.get( m ), _binding, _prevDS[m], m >= _bodyAtomCount );
 			//			}
 
 			DependencySet ds = null;
-			if (tryNext == tryCount - 1 && !PelletOptions.SATURATE_TABLEAU)
+			if (_tryNext == _tryCount - 1 && !PelletOptions.SATURATE_TABLEAU)
 			{
 				ds = getTermDepends();
 
-				for (int m = 0; m < tryNext; m++)
-					ds = ds.union(prevDS[m], abox.doExplanation());
+				for (int m = 0; m < _tryNext; m++)
+					ds = ds.union(_prevDS[m], _abox.doExplanation());
 
 				// CHW - added for incremental reasoning and rollback through
 				// deletions
@@ -144,19 +144,19 @@ public class RuleBranch extends Branch
 			else
 				// CHW - Changed for tracing purposes
 				if (PelletOptions.USE_INCREMENTAL_DELETION)
-					ds = getTermDepends().union(new DependencySet(getBranch()), abox.doExplanation());
+					ds = getTermDepends().union(new DependencySet(getBranch()), _abox.doExplanation());
 				else
 					ds = new DependencySet(getBranch());
 
 			if (log.isLoggable(Level.FINE))
-				log.fine("RULE: Branch (" + getBranch() + ") try (" + (tryNext + 1) + "/" + tryCount + ") " + atom + " " + binding + " " + atoms + " " + ds);
+				log.fine("RULE: Branch (" + getBranch() + ") try (" + (_tryNext + 1) + "/" + _tryCount + ") " + atom + " " + _binding + " " + _atoms + " " + ds);
 
-			ruleAtomAsserter.assertAtom(atom, binding, ds, tryNext < bodyAtomCount, abox, strategy);
+			_ruleAtomAsserter.assertAtom(atom, _binding, ds, _tryNext < _bodyAtomCount, _abox, _strategy);
 
 			// if there is a clash
-			if (abox.isClosed())
+			if (_abox.isClosed())
 			{
-				final DependencySet clashDepends = abox.getClash().getDepends();
+				final DependencySet clashDepends = _abox.getClash().getDepends();
 
 				if (log.isLoggable(Level.FINE))
 					log.fine("CLASH: Branch " + getBranch() + " " + Clash.unexplained(null, clashDepends) + "!");
@@ -166,37 +166,37 @@ public class RuleBranch extends Branch
 				// stats = new int[disj.length];
 				// for( int i = 0; i < disj.length; i++ )
 				// stats[i] = 0;
-				// abox.getDisjBranchStats().put( atoms, stats );
+				// _abox.getDisjBranchStats().put( _atoms, stats );
 				// }
-				// stats[order[tryNext]]++;
+				// stats[_order[_tryNext]]++;
 				// }
 
 				// do not restore if we do not have any more branches to try.
 				// after
-				// backtrack the correct branch will restore it anyway. more
+				// backtrack the correct _branch will restore it anyway. more
 				// importantly restore clears the clash info causing exceptions
-				if (tryNext < tryCount - 1 && clashDepends.contains(getBranch()))
+				if (_tryNext < _tryCount - 1 && clashDepends.contains(getBranch()))
 				{
-					final AtomIObject obj = (AtomIObject) (atom instanceof UnaryAtom ? ((UnaryAtom) atom).getArgument() : ((BinaryAtom) atom).getArgument1());
-					final Individual ind = binding.get(obj);
+					final AtomIObject obj = (AtomIObject) (atom instanceof UnaryAtom ? ((UnaryAtom<?>) atom).getArgument() : ((BinaryAtom<?, ?, ?>) atom).getArgument1());
+					final Individual ind = _binding.get(obj);
 
-					strategy.restoreLocal(ind, this);
+					_strategy.restoreLocal(ind, this);
 
-					// global restore sets the branch number to previous
+					// global restore sets the _branch number to previous
 					// value so we need to
 					// increment it again
-					abox.incrementBranch();
+					_abox.incrementBranch();
 
 					setLastClash(clashDepends);
 				}
 				else
 				{
 
-					abox.setClash(Clash.unexplained(null, clashDepends.union(ds, abox.doExplanation())));
+					_abox.setClash(Clash.unexplained(null, clashDepends.union(ds, _abox.doExplanation())));
 
 					// CHW - added for inc reasoning
 					if (PelletOptions.USE_INCREMENTAL_DELETION)
-						abox.getKB().getDependencyIndex().addCloseBranchDependency(this, abox.getClash().getDepends());
+						_abox.getKB().getDependencyIndex().addCloseBranchDependency(this, _abox.getClash().getDepends());
 
 					return;
 				}
@@ -209,7 +209,7 @@ public class RuleBranch extends Branch
 		// does not call this
 		// function, and the loop immediately returns when there are no branches
 		// left in this
-		// disjunction. If this exception is thrown it shows a bug in the code.
+		// _disjunction. If this exception is thrown it shows a bug in the code.
 		throw new InternalReasonerException("This exception should not be thrown!");
 	}
 
@@ -222,7 +222,7 @@ public class RuleBranch extends Branch
 	@Override
 	public void shiftTryNext(final int openIndex)
 	{
-
+		//
 	}
 
 }

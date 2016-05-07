@@ -9,7 +9,7 @@ package org.mindswap.pellet.tableau.completion.incremental;
 import aterm.ATermAppl;
 
 /**
- * Abstract class for a branch dependency
+ * Abstract class for a _branch dependency
  *
  * @author Christian Halaschek-Wiener
  */
@@ -17,7 +17,7 @@ public abstract class BranchDependency implements Dependency
 {
 
 	/**
-	 * The assertion which this branch is indexed on
+	 * The assertion which this _branch is indexed on
 	 */
 	protected ATermAppl assertion;
 

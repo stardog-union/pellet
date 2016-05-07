@@ -81,7 +81,7 @@ public abstract class Node
 	private boolean isConceptRoot;
 
 	/**
-	 * If this node is merged to another one, points to that node otherwise points to itself. This is a linked list implementation of disjoint-union data
+	 * If this _node is merged to another one, points to that _node otherwise points to itself. This is a linked list implementation of disjoint-union data
 	 * structure.
 	 */
 	protected Node mergedTo = this;
@@ -96,7 +96,7 @@ public abstract class Node
 	protected DependencySet pruned = null;
 
 	/**
-	 * Set of other nodes that have been merged to this node. Note that this is only the set of nodes directly merged to this one. A recursive traversal is
+	 * Set of other nodes that have been merged to this _node. Note that this is only the set of nodes directly merged to this one. A recursive traversal is
 	 * required to get all the merged nodes.
 	 */
 	protected Set<Node> merged;
@@ -132,7 +132,7 @@ public abstract class Node
 		pruned = node.pruned;
 
 		// do not copy differents right now because we need to
-		// update node references later anyway
+		// update _node references later anyway
 		differents = node.differents;
 		depends = CollectionUtils.makeMap(node.depends);
 
@@ -188,7 +188,7 @@ public abstract class Node
 	}
 
 	/**
-	 * Indicates that node has been changed in a way that requires us to recheck the concepts of given type.
+	 * Indicates that _node has been changed in a way that requires us to recheck the concepts of given type.
 	 * 
 	 * @param type type of concepts that need to be rechecked
 	 */
@@ -202,13 +202,13 @@ public abstract class Node
 		if ((type == Node.ALL || type == Node.MIN) && PelletOptions.USE_COMPLETION_QUEUE)
 			abox.getCompletionQueue().add(newElement, NodeSelector.DATATYPE);
 
-		// add node to effected list
+		// add _node to effected list
 		if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
 			abox.getBranchEffectTracker().add(abox.getBranch(), this.getName());
 	}
 
 	/**
-	 * Returns true if this is the node created for the concept satisfiability check.
+	 * Returns true if this is the _node created for the concept satisfiability check.
 	 * 
 	 * @return
 	 */
@@ -322,7 +322,7 @@ public abstract class Node
 			if (pruned.getBranch() > branch)
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("RESTORE: " + this + " merged node " + mergedTo + " " + mergeDepends);
+					log.fine("RESTORE: " + this + " merged _node " + mergedTo + " " + mergeDepends);
 
 				if (mergeDepends.getBranch() > branch)
 					undoSetSame();
@@ -332,7 +332,7 @@ public abstract class Node
 				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
 					abox.getIncrementalChangeTracker().addUnprunedNode(this);
 
-				// we may need to remerge this node
+				// we may need to remerge this _node
 				if (this instanceof Individual)
 				{
 					final Individual ind = (Individual) this;
@@ -350,7 +350,7 @@ public abstract class Node
 			else
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("DO NOT RESTORE: pruned node " + this + " = " + mergedTo + " " + mergeDepends);
+					log.fine("DO NOT RESTORE: pruned _node " + this + " = " + mergedTo + " " + mergeDepends);
 
 				return Boolean.FALSE;
 			}
@@ -376,7 +376,7 @@ public abstract class Node
 			final DependencySet d = getDepends(c);
 
 			final boolean removeType = PelletOptions.USE_SMART_RESTORE
-			//                ? ( !d.contains( branch ) )
+			//                ? ( !d.contains( _branch ) )
 			? (d.max() >= branch)
 					: (d.getBranch() > branch);
 
@@ -387,7 +387,7 @@ public abstract class Node
 				if (log.isLoggable(Level.FINE))
 					log.fine("RESTORE: " + this + " remove type " + c + " " + d + " " + branch);
 
-				//track that this node is affected
+				//track that this _node is affected
 				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && this instanceof Individual)
 					abox.getIncrementalChangeTracker().addDeletedType(this, c);
 
@@ -414,7 +414,7 @@ public abstract class Node
 
 		// with smart restore there is a possibility that we remove a conjunct
 		// but not the conjunction. this is the case if conjunct was added before
-		// the conjunction but depended on an earlier branch. so we need to make
+		// the conjunction but depended on an earlier _branch. so we need to make
 		// sure all conjunctions are actually applied
 		if (PelletOptions.USE_SMART_RESTORE)
 			for (final ATermAppl c : conjunctions)
@@ -476,7 +476,7 @@ public abstract class Node
 	public void addType(final ATermAppl c, DependencySet ds)
 	{
 		if (isPruned())
-			throw new InternalReasonerException("Adding type to a pruned node " + this + " " + c);
+			throw new InternalReasonerException("Adding type to a pruned _node " + this + " " + c);
 		else
 			if (isMerged())
 				return;
@@ -577,7 +577,7 @@ public abstract class Node
 
 					// TODO all this stuff in one method - this is only for
 					// handling AND
-					// clauses - they are implemented in abox.isKnownType
+					// clauses - they are implemented in _abox.isKnownType
 					ot = ot.or(abox.isKnownType(y, d, SetUtils.<ATermAppl> emptySet()));// y.hasObviousType(d));
 
 					if (ot.isTrue())
@@ -665,7 +665,7 @@ public abstract class Node
 				final Individual pred = edge.getFrom();
 				final Role role = edge.getRole();
 
-				// if both pred and *this* were merged to other nodes (in that order)
+				// if both pred and *this* were merged to other nodes (in that _order)
 				// there is a chance we might duplicate the edge so first check for
 				// the existence of the edge
 				if (!pred.getOutEdges().hasExactEdge(pred, role, this))
@@ -740,7 +740,7 @@ public abstract class Node
 	//	}
 
 	/**
-	 * Get the dependency if this node is merged to another node. This node may be merged to another node which is later merged to another node and so on. This
+	 * Get the dependency if this _node is merged to another _node. This _node may be merged to another _node which is later merged to another _node and so on. This
 	 * function may return the dependency for the first step or the union of all steps.
 	 */
 	public DependencySet getMergeDependency(final boolean all)
@@ -912,7 +912,7 @@ public abstract class Node
 	}
 
 	/**
-	 * A string that identifies this node either using its name or the path of individuals that comes to this node. For example, a node that has been generated
+	 * A string that identifies this _node either using its name or the path of individuals that comes to this _node. For example, a _node that has been generated
 	 * by the completion rules needs to be identified with respect to a named individual. Ultimately, we need the shortest path or something like that but right
 	 * now we just use the first inEdge
 	 *

@@ -39,7 +39,7 @@ public class Node
 	}
 
 	/**
-	 * Add a directly dependent beta node.
+	 * Add a directly dependent beta _node.
 	 */
 	public void add(final BetaNode beta)
 	{

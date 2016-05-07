@@ -132,7 +132,7 @@ public class BindingGeneratorImpl implements BindingGenerator
 	}
 
 	/**
-	 * Constructs a binding generator with the given list of helpers. The helpers must be in such an order that prerequisite variables of any helper are bound
+	 * Constructs a binding generator with the given list of helpers. The helpers must be in such an _order that prerequisite variables of any helper are bound
 	 * by a helper before it.
 	 */
 	public BindingGeneratorImpl(final ABox abox, final VariableBinding initialBinding, final Collection<BindingHelper> helpers)

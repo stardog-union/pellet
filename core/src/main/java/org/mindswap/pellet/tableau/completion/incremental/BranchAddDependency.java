@@ -10,7 +10,7 @@ import aterm.ATermAppl;
 import org.mindswap.pellet.tableau.branch.Branch;
 
 /**
- * Dependency structure for when a branch is added.
+ * Dependency structure for when a _branch is added.
  *
  * @author Christian Halaschek-Wiener
  */
@@ -18,7 +18,7 @@ public class BranchAddDependency extends BranchDependency
 {
 
 	/**
-	 * The actual branch
+	 * The actual _branch
 	 */
 	private final Branch branch;
 
@@ -26,7 +26,7 @@ public class BranchAddDependency extends BranchDependency
 	 * Constructor
 	 * 
 	 * @param index
-	 * @param branch
+	 * @param _branch
 	 */
 	public BranchAddDependency(final ATermAppl assertion, final int index, final Branch branch)
 	{
@@ -35,7 +35,7 @@ public class BranchAddDependency extends BranchDependency
 	}
 
 	/**
-	 * Get branch
+	 * Get _branch
 	 * 
 	 * @return
 	 */

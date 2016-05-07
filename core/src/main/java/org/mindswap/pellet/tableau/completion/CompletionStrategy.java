@@ -64,8 +64,8 @@ import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.Timers;
 
 /**
- * A completion strategy specifies how the tableau rules will be applied to an ABox. Depending on the expressivity of the KB, e.g. SHIN, SHON, etc., different
- * (more efficient) strategies may be used. This class is the base for all different implementations and contains strategy independent functions.
+ * A completion _strategy specifies how the tableau rules will be applied to an ABox. Depending on the expressivity of the KB, e.g. SHIN, SHON, etc., different
+ * (more efficient) strategies may be used. This class is the base for all different implementations and contains _strategy independent functions.
  *
  * @author Evren Sirin
  */
@@ -79,12 +79,12 @@ public abstract class CompletionStrategy
 	protected ABox abox;
 
 	/**
-	 * TBox associated with the abox
+	 * TBox associated with the _abox
 	 */
 	protected TBox tbox;
 
 	/**
-	 * Blocking method specific to this completion strategy
+	 * Blocking method specific to this completion _strategy
 	 */
 	protected Blocking blocking;
 
@@ -110,7 +110,7 @@ public abstract class CompletionStrategy
 	private boolean mergingAll = false;
 
 	/**
-	 * The queue of node pairs that are waiting to be merged
+	 * The queue of _node pairs that are waiting to be merged
 	 */
 	protected List<NodeMerge> mergeList;
 
@@ -433,7 +433,7 @@ public abstract class CompletionStrategy
 			}
 		}
 
-		// update dependency index for this node
+		// update dependency index for this _node
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 			abox.getKB().getDependencyIndex().addTypeDependency(node.getName(), c, ds);
 
@@ -462,7 +462,7 @@ public abstract class CompletionStrategy
 					addEdge((Individual) node, role, node, ds);
 				}
 		// else if( c.getAFun().equals( ATermUtils.VALUE ) ) {
-		// applyNominalRule( (Individual) node, c, ds);
+		// applyNominalRule( (Individual) _node, c, ds);
 		// }
 	}
 
@@ -701,13 +701,13 @@ public abstract class CompletionStrategy
 		// find all distinct R-neighbors of x
 		final Set<Node> neighbors = edges.getNeighbors(x);
 
-		// if there is not more than one neighbor then func max rule won't be triggered
+		// if there is not more than one _neighbor then func max rule won't be triggered
 		if (neighbors.size() <= 1)
 			return;// continue;
 
 		Individual head = null;
 		DependencySet headDS = null;
-		// find a nominal node to use as the head
+		// find a nominal _node to use as the head
 		for (int edgeIndex = 0; edgeIndex < edges.size(); edgeIndex++)
 		{
 			final Edge edge = edges.edgeAt(edgeIndex);
@@ -735,7 +735,7 @@ public abstract class CompletionStrategy
 				continue;
 
 			// it is possible that there are multiple edges to the same
-			// node, e.g. property p and its super property, so check if
+			// _node, e.g. property p and its super property, so check if
 			// we already merged this one
 			if (head.isSame(next))
 				continue;
@@ -775,7 +775,7 @@ public abstract class CompletionStrategy
 	}
 
 	/**
-	 * Merge all node pairs in the queue.
+	 * Merge all _node pairs in the queue.
 	 */
 	public void mergeAll()
 	{
@@ -812,7 +812,7 @@ public abstract class CompletionStrategy
 	}
 
 	/**
-	 * Merge node y into z. Node y and all its descendants will be pruned from the completion graph.
+	 * Merge _node y into z. Node y and all its descendants will be pruned from the completion graph.
 	 *
 	 * @param y Node being pruned
 	 * @param z Node that is being merged into
@@ -920,8 +920,8 @@ public abstract class CompletionStrategy
 			z.removeEdge(edge);
 
 			// add to effected list of queue
-			// if( abox.getBranch() >= 0 && PelletOptions.USE_COMPLETION_QUEUE ) {
-			// abox.getCompletionQueue().addEffected( abox.getBranch(), z.getName() );
+			// if( _abox.getBranch() >= 0 && PelletOptions.USE_COMPLETION_QUEUE ) {
+			// _abox.getCompletionQueue().addEffected( _abox.getBranch(), z.getName() );
 			// }
 			if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
 				abox.getBranchEffectTracker().add(abox.getBranch(), z.getName());
@@ -1059,21 +1059,21 @@ public abstract class CompletionStrategy
 
 	public void restore(final Branch br)
 	{
-		// Timers timers = abox.getKB().timers;
+		// Timers timers = _abox.getKB().timers;
 		// Timer timer = timers.startTimer("restore");
 		abox.setBranch(br.getBranch());
 		abox.setClash(null);
-		// Setting the anonCount to the value at the time of branch creation is incorrect
-		// when SMART_RESTORE option is turned on. If we create an anon node after branch
-		// creation but node depends on an earlier branch restore operation will not remove
-		// the node. But setting anonCount to a smaller number may mean the anonCount will
-		// be incremented to that value and creating a fresh anon node will actually reuse
-		// the not-removed node. The only advantage of setting anonCount to a smaller value
+		// Setting the _anonCount to the value at the time of _branch creation is incorrect
+		// when SMART_RESTORE option is turned on. If we create an anon _node after _branch
+		// creation but _node depends on an earlier _branch restore operation will not remove
+		// the _node. But setting _anonCount to a smaller number may mean the _anonCount will
+		// be incremented to that value and creating a fresh anon _node will actually reuse
+		// the not-removed _node. The only advantage of setting _anonCount to a smaller value
 		// is to keep the name of anon nodes smaller to make debugging easier. For this reason,
 		// the above line is not removed and under special circumstances may be uncommented
 		// to help debugging only with the intent that it will be commented again after
 		// debugging is complete
-		// abox.setAnonCount( br.getAnonCount() );
+		// _abox.setAnonCount( br.getAnonCount() );
 		abox.rulesNotApplied = true;
 		mergeList.clear();
 
@@ -1097,9 +1097,9 @@ public abstract class CompletionStrategy
 		if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
 			abox.getIncrementalChangeTracker().clear();
 
-		// for each node we either need to restore the node to the status it
-		// had at the time branch was created or remove the node completely if
-		// it was created after the branch. To optimize removing elements from
+		// for each _node we either need to restore the _node to the status it
+		// had at the time _branch was created or remove the _node completely if
+		// it was created after the _branch. To optimize removing elements from
 		// the ArrayList we compute the block to be deleted and then remove all
 		// at once to utilize the underlying System.arraycopy operation.
 
@@ -1109,22 +1109,22 @@ public abstract class CompletionStrategy
 		int deleteBlock = 0;
 		for (int i = 0; i < nodeCount; i++)
 		{
-			// get the node name
+			// get the _node name
 			final ATermAppl a = nodeList.get(i);
-			// and the corresponding node
+			// and the corresponding _node
 			final Node node = abox.getNode(a);
 
-			// node dependency tells us if the node was created after the branch
+			// _node dependency tells us if the _node was created after the _branch
 			// and if that is the case we remove it completely
-			// NOTE: for literals, node.getNodeDepends() may be null when a literal value branch is
+			// NOTE: for literals, _node.getNodeDepends() may be null when a literal value _branch is
 			// restored, in that case we can remove the literal since there is no other reference
 			// left for that literal
 			if (node.getNodeDepends() == null || node.getNodeDepends().getBranch() > br.getBranch())
 			{
-				// remove the node from the node map
+				// remove the _node from the _node map
 				abox.removeNode(a);
-				// if the node is merged to another one we should remove it from
-				// the other node's merged list
+				// if the _node is merged to another one we should remove it from
+				// the other _node's merged list
 				if (node.isMerged())
 					node.undoSetSame();
 				// increment the size of block that will be deleted
@@ -1132,7 +1132,7 @@ public abstract class CompletionStrategy
 			}
 			else
 			{
-				// this node will be restored to previous state not removed
+				// this _node will be restored to previous state not removed
 
 				// first if there are any nodes collected earlier delete them
 				if (deleteBlock > 0)
@@ -1149,7 +1149,7 @@ public abstract class CompletionStrategy
 					deleteBlock = 0;
 				}
 
-				// restore only if not tracking branch effects
+				// restore only if not tracking _branch effects
 				if (!PelletOptions.TRACK_BRANCH_EFFECTS)
 					node.restore(br.getBranch());
 			}
@@ -1161,7 +1161,7 @@ public abstract class CompletionStrategy
 
 		if (PelletOptions.TRACK_BRANCH_EFFECTS)
 		{
-			// when tracking branch effects only restore nodes explicitly stored in the effected list
+			// when tracking _branch effects only restore nodes explicitly stored in the effected list
 			final Set<ATermAppl> effected = abox.getBranchEffectTracker().removeAll(br.getBranch() + 1);
 			for (final ATermAppl a : effected)
 			{
@@ -1187,7 +1187,7 @@ public abstract class CompletionStrategy
 		abox.getBranches().add(newBranch);
 
 		if (newBranch.getBranch() != abox.getBranches().size())
-			throw new RuntimeException("Invalid branch created: " + newBranch.getBranch() + " != " + abox.getBranches().size());
+			throw new RuntimeException("Invalid _branch created: " + newBranch.getBranch() + " != " + abox.getBranches().size());
 
 		completionTimer.check();
 

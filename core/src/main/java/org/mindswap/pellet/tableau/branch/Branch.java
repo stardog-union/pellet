@@ -58,27 +58,27 @@ public abstract class Branch
 {
 	public static final Logger log = Logger.getLogger(Branch.class.getName());
 
-	protected ABox abox;
-	protected CompletionStrategy strategy;
-	protected int branch;
-	protected int tryCount;
-	protected int tryNext;
+	protected ABox _abox;
+	protected CompletionStrategy _strategy;
+	protected int _branch;
+	protected int _tryCount;
+	protected int _tryNext;
 
-	private DependencySet termDepends;
-	private DependencySet prevDS;
+	private DependencySet _termDepends;
+	private DependencySet _prevDS;
 
-	// store things that can be changed after this branch
-	protected int anonCount;
-	protected int nodeCount;
+	// store things that can be changed after this _branch
+	protected int _anonCount;
+	protected int _nodeCount;
 
 	Branch(final ABox abox, final CompletionStrategy strategy, final DependencySet ds, final int n)
 	{
-		this.abox = abox;
+		this._abox = abox;
 		this.setStrategy(strategy);
 
 		setTermDepends(ds);
 		setTryCount(n);
-		prevDS = DependencySet.EMPTY;
+		_prevDS = DependencySet.EMPTY;
 		setTryNext(0);
 
 		setBranch(abox.getBranch());
@@ -90,43 +90,43 @@ public abstract class Branch
 	{
 		if (getTryNext() >= 0)
 		{
-			prevDS = prevDS.union(ds, abox.doExplanation());
+			_prevDS = _prevDS.union(ds, _abox.doExplanation());
 			if (PelletOptions.USE_INCREMENTAL_DELETION)
 				//CHW - added for incremental deletions support THIS SHOULD BE MOVED TO SUPER
-				abox.getKB().getDependencyIndex().addCloseBranchDependency(this, ds);
+				_abox.getKB().getDependencyIndex().addCloseBranchDependency(this, ds);
 		}
 	}
 
 	public DependencySet getCombinedClash()
 	{
-		return prevDS;
+		return _prevDS;
 	}
 
 	public void setStrategy(final CompletionStrategy strategy)
 	{
-		this.strategy = strategy;
+		this._strategy = strategy;
 	}
 
 	public boolean tryNext()
 	{
 		// nothing more to try, update the clash dependency
 		if (getTryNext() == getTryCount())
-			if (!abox.isClosed())
-				abox.setClash(Clash.unexplained(getNode(), termDepends));
+			if (!_abox.isClosed())
+				_abox.setClash(Clash.unexplained(getNode(), _termDepends));
 			else
-				abox.getClash().setDepends(getCombinedClash());
+				_abox.getClash().setDepends(getCombinedClash());
 
 		// if there is no clash try next possibility
-		if (!abox.isClosed())
+		if (!_abox.isClosed())
 			tryBranch();
 
 		// there is a clash so there is no point in trying this
-		// branch again. remove this branch from clash dependency
-		if (abox.isClosed())
+		// _branch again. remove this _branch from clash dependency
+		if (_abox.isClosed())
 			if (!PelletOptions.USE_INCREMENTAL_DELETION)
-				abox.getClash().getDepends().remove(getBranch());
+				_abox.getClash().getDepends().remove(getBranch());
 
-		return !abox.isClosed();
+		return !_abox.isClosed();
 	}
 
 	public abstract Branch copyTo(ABox abox);
@@ -138,8 +138,8 @@ public abstract class Branch
 	@Override
 	public String toString()
 	{
-		//		return "Branch " + branch + " (" + tryCount + ")";
-		return "Branch on node " + getNode() + "  Branch number: " + getBranch() + " " + getTryNext() + "(" + getTryCount() + ")";
+		//		return "Branch " + _branch + " (" + _tryCount + ")";
+		return "Branch on _node " + getNode() + "  Branch number: " + getBranch() + " " + getTryNext() + "(" + getTryCount() + ")";
 	}
 
 	/**
@@ -150,96 +150,96 @@ public abstract class Branch
 	public abstract void shiftTryNext(int index);
 
 	/**
-	 * @param nodeCount the nodeCount to set
+	 * @param _nodeCount the _nodeCount to set
 	 */
 	public void setNodeCount(final int nodeCount)
 	{
-		this.nodeCount = nodeCount;
+		this._nodeCount = nodeCount;
 	}
 
 	/**
-	 * @return the nodeCount
+	 * @return the _nodeCount
 	 */
 	public int getNodeCount()
 	{
-		return nodeCount;
+		return _nodeCount;
 	}
 
 	public void setBranch(final int branch)
 	{
-		this.branch = branch;
+		this._branch = branch;
 	}
 
 	/**
-	 * @return the branch
+	 * @return the _branch
 	 */
 	public int getBranch()
 	{
-		return branch;
+		return _branch;
 	}
 
 	/**
-	 * @return the anonCount
+	 * @return the _anonCount
 	 */
 	public int getAnonCount()
 	{
-		return anonCount;
+		return _anonCount;
 	}
 
 	/**
-	 * @param tryNext the tryNext to set
+	 * @param _tryNext the _tryNext to set
 	 */
 	public void setTryNext(final int tryNext)
 	{
-		this.tryNext = tryNext;
+		this._tryNext = tryNext;
 	}
 
 	/**
-	 * @return the tryNext
+	 * @return the _tryNext
 	 */
 	public int getTryNext()
 	{
-		return tryNext;
+		return _tryNext;
 	}
 
 	/**
-	 * @param tryCount the tryCount to set
+	 * @param _tryCount the _tryCount to set
 	 */
 	public void setTryCount(final int tryCount)
 	{
-		this.tryCount = tryCount;
+		this._tryCount = tryCount;
 	}
 
 	/**
-	 * @return the tryCount
+	 * @return the _tryCount
 	 */
 	public int getTryCount()
 	{
-		return tryCount;
+		return _tryCount;
 	}
 
 	/**
-	 * @param termDepends the termDepends to set
+	 * @param _termDepends the _termDepends to set
 	 */
 	public void setTermDepends(final DependencySet termDepends)
 	{
-		this.termDepends = termDepends;
+		this._termDepends = termDepends;
 	}
 
 	/**
-	 * @return the termDepends
+	 * @return the _termDepends
 	 */
 	public DependencySet getTermDepends()
 	{
-		return termDepends;
+		return _termDepends;
 	}
 
 	/**
-	 * @param anonCount the anonCount to set
+	 * @param _anonCount the _anonCount to set
 	 */
 	public void setAnonCount(final int anonCount)
 	{
-		this.anonCount = anonCount;
+		this._anonCount = anonCount;
 	}
 
 }

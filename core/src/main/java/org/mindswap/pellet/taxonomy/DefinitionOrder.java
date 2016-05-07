@@ -12,8 +12,8 @@ import aterm.ATermAppl;
 import java.util.Iterator;
 
 /**
- * A class to compute the definition order for concepts and tell if a concept is used in cyclic definition. The definition order is computed after the TBox
- * preprocessing is applied so the definitions used for computing this order is not always same as asserted definitions. The notion of cyclic definition depends
+ * A class to compute the definition _order for concepts and tell if a concept is used in cyclic definition. The definition _order is computed after the TBox
+ * preprocessing is applied so the definitions used for computing this _order is not always same as asserted definitions. The notion of cyclic definition depends
  * on the expressivity of the ontology. If there are no inverses a definition the concepts used inside restrictions are ignored.
  *
  * @author Evren Sirin
@@ -21,7 +21,7 @@ import java.util.Iterator;
 public interface DefinitionOrder extends Iterable<ATermAppl>
 {
 	/**
-	 * Returns an iterator over all the classes in the ontology sorted based on the definition order.
+	 * Returns an iterator over all the classes in the ontology sorted based on the definition _order.
 	 */
 	@Override
 	public Iterator<ATermAppl> iterator();

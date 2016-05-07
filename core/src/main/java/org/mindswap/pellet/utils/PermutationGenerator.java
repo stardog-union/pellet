@@ -128,7 +128,7 @@ public class PermutationGenerator
 		a[k] = a[j];
 		a[j] = temp;
 
-		// Put tail end of permutation after jth position in increasing order
+		// Put tail end of permutation after jth position in increasing _order
 
 		int r = a.length - 1;
 		int s = j + 1;

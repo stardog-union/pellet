@@ -56,17 +56,17 @@ public class SROIQStrategy extends CompletionStrategy
 				return false;
 			else
 				if (lastBranch > abox.getBranches().size())
-					throw new InternalReasonerException("Backtrack: Trying to backtrack to branch " + lastBranch + " but has only " + abox.getBranches().size() + " branches. Clash found: " + abox.getClash());
+					throw new InternalReasonerException("Backtrack: Trying to backtrack to _branch " + lastBranch + " but has only " + abox.getBranches().size() + " branches. Clash found: " + abox.getClash());
 				else
 					if (PelletOptions.USE_INCREMENTAL_DELETION)
 					{
-						// get the last branch
+						// get the last _branch
 						final Branch br = abox.getBranches().get(lastBranch - 1);
 
-						// if this is the last disjunction, merge pair, etc. for the
-						// branch (i.e, br.tryNext == br.tryCount-1) and there are no
+						// if this is the last _disjunction, merge pair, etc. for the
+						// _branch (i.e, br.tryNext == br.tryCount-1) and there are no
 						// other branches to test (ie.
-						// abox.getClash().depends.size()==2),
+						// _abox.getClash().depends.size()==2),
 						// then update depedency index and return false
 						if ((br.getTryNext() == br.getTryCount() - 1) && abox.getClash().getDepends().size() == 2)
 						{
@@ -91,14 +91,14 @@ public class SROIQStrategy extends CompletionStrategy
 				// old approach
 				branches.subList(lastBranch, branches.size()).clear();
 
-			// get the branch to try
+			// get the _branch to try
 			final Branch newBranch = branches.get(lastBranch - 1);
 
 			if (log.isLoggable(Level.FINE))
 				log.fine("JUMP: Branch " + lastBranch);
 
 			if (lastBranch != newBranch.getBranch())
-				throw new InternalReasonerException("Backtrack: Trying to backtrack to branch " + lastBranch + " but got " + newBranch.getBranch());
+				throw new InternalReasonerException("Backtrack: Trying to backtrack to _branch " + lastBranch + " but got " + newBranch.getBranch());
 
 			// set the last clash before restore
 			if (newBranch.getTryNext() < newBranch.getTryCount())
@@ -107,9 +107,9 @@ public class SROIQStrategy extends CompletionStrategy
 			// increment the counter
 			newBranch.setTryNext(newBranch.getTryNext() + 1);
 
-			// no need to restore this branch if we exhausted possibilities
+			// no need to restore this _branch if we exhausted possibilities
 			if (newBranch.getTryNext() < newBranch.getTryCount())
-				// undo the changes done after this branch
+				// undo the changes done after this _branch
 				restore(newBranch);
 
 			// try the next possibility
@@ -161,7 +161,7 @@ public class SROIQStrategy extends CompletionStrategy
 						// deletion update that retracted it
 						// however there could have been some thing on the queue that
 						// still needed to be refired from backtracking
-						// so onle set that the abox is clash free after we have applied
+						// so onle set that the _abox is clash free after we have applied
 						// all the rules once
 						if (PelletOptions.USE_COMPLETION_QUEUE)
 							abox.getCompletionQueue().setClosed(abox.isClosed());
@@ -199,13 +199,13 @@ public class SROIQStrategy extends CompletionStrategy
 						if (unexploredBranch.getTryNext() < unexploredBranch.getTryCount())
 						{
 							restore(unexploredBranch);
-							System.out.println("restoring branch " + unexploredBranch.getBranch() + " tryNext = " + unexploredBranch.getTryNext() + " tryCount = " + unexploredBranch.getTryCount());
+							System.out.println("restoring _branch " + unexploredBranch.getBranch() + " _tryNext = " + unexploredBranch.getTryNext() + " _tryCount = " + unexploredBranch.getTryCount());
 							unexploredBranch.tryNext();
 							break;
 						}
 						else
 						{
-							System.out.println("removing branch " + unexploredBranch.getBranch());
+							System.out.println("removing _branch " + unexploredBranch.getBranch());
 							abox.getBranches().remove(i);
 							unexploredBranch = null;
 						}

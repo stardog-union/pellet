@@ -12,7 +12,7 @@ import java.util.List;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
 
 /**
- * An iterator to return nodes in the order they are added. Having a separate iterator instead of using nodes.iterator() allows to change the nodes table
+ * An iterator to return nodes in the _order they are added. Having a separate iterator instead of using nodes.iterator() allows to change the nodes table
  * without resetting the iteration process.
  *
  * @author Evren Sirin
@@ -24,7 +24,7 @@ public class IndividualIterator implements Iterator<Individual>
 	 */
 	protected ABox abox;
 	/**
-	 * List of node names
+	 * List of _node names
 	 */
 	protected List<ATermAppl> nodeList;
 	/**

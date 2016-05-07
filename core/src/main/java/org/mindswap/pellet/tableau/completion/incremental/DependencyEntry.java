@@ -22,7 +22,7 @@ public class DependencyEntry
 {
 
 	/**
-	 * The set of node lables which are dependent
+	 * The set of _node lables which are dependent
 	 */
 	private Set<TypeDependency> types;
 
@@ -42,7 +42,7 @@ public class DependencyEntry
 	private Set<BranchAddDependency> branchAdds;
 
 	/**
-	 * The set of branch remove ds' which are dependent
+	 * The set of _branch remove ds' which are dependent
 	 */
 	private Set<CloseBranchDependency> branchCloses;
 
@@ -133,10 +133,10 @@ public class DependencyEntry
 	}
 
 	/**
-	 * Add a branch add dependency
+	 * Add a _branch add dependency
 	 *
 	 * @param branchId
-	 * @param branch
+	 * @param _branch
 	 */
 	protected BranchDependency addBranchAddDependency(final ATermAppl assertion, final int branchId, final Branch branch)
 	{
@@ -147,10 +147,10 @@ public class DependencyEntry
 	}
 
 	/**
-	 * Add a branch remove ds dependency
+	 * Add a _branch remove ds dependency
 	 *
 	 * @param branchId
-	 * @param branch
+	 * @param _branch
 	 */
 	protected BranchDependency addCloseBranchDependency(final ATermAppl assertion, final Branch theBranch)
 	{

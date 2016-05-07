@@ -16,7 +16,7 @@ import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Comparators;
 
 /**
- * Creates a definition order based on the configuration options defined in {@link PelletOptions}.
+ * Creates a definition _order based on the configuration options defined in {@link PelletOptions}.
  *
  * @author Evren Sirin
  */

@@ -35,30 +35,30 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class GuessBranch extends IndividualBranch
 {
-	private final Role r;
+	private final Role _r;
 
-	private final int minGuess;
-	private final ATermAppl qualification;
+	private final int _minGuess;
+	private final ATermAppl _qualification;
 
 	public GuessBranch(final ABox abox, final CompletionStrategy strategy, final Individual x, final Role r, final int minGuess, final int maxGuess, final ATermAppl q, final DependencySet ds)
 	{
 		super(abox, strategy, x, ds, maxGuess - minGuess + 1);
 
-		this.r = r;
-		this.minGuess = minGuess;
-		this.qualification = q;
+		this._r = r;
+		this._minGuess = minGuess;
+		this._qualification = q;
 	}
 
 	@Override
 	public IndividualBranch copyTo(final ABox abox)
 	{
 		final Individual x = abox.getIndividual(ind.getName());
-		final IndividualBranch b = new GuessBranch(abox, null, x, r, minGuess, minGuess + getTryCount() - 1, qualification, getTermDepends());
+		final IndividualBranch b = new GuessBranch(abox, null, x, _r, _minGuess, _minGuess + getTryCount() - 1, _qualification, getTermDepends());
 		b.setAnonCount(getAnonCount());
-		b.setNodeCount(nodeCount);
-		b.setBranch(branch);
-		b.setStrategy(strategy);
-		b.setTryNext(tryNext);
+		b.setNodeCount(_nodeCount);
+		b.setBranch(_branch);
+		b.setStrategy(_strategy);
+		b.setTryNext(_tryNext);
 
 		return b;
 	}
@@ -66,56 +66,56 @@ public class GuessBranch extends IndividualBranch
 	@Override
 	protected void tryBranch()
 	{
-		abox.incrementBranch();
+		_abox.incrementBranch();
 
 		DependencySet ds = getTermDepends();
-		for (; getTryNext() < getTryCount(); tryNext++)
+		for (; getTryNext() < getTryCount(); _tryNext++)
 		{
 			// start with max possibility and decrement at each try  
-			final int n = minGuess + getTryCount() - getTryNext() - 1;
+			final int n = _minGuess + getTryCount() - getTryNext() - 1;
 
 			if (log.isLoggable(Level.FINE))
-				log.fine("GUES: (" + (getTryNext() + 1) + "/" + getTryCount() + ") at branch (" + getBranch() + ") to  " + ind + " -> " + r + " -> anon" + (n == 1 ? "" : (abox.getAnonCount() + 1) + " - anon") + (abox.getAnonCount() + n) + " " + ds);
+				log.fine("GUES: (" + (getTryNext() + 1) + "/" + getTryCount() + ") at _branch (" + getBranch() + ") to  " + ind + " -> " + _r + " -> anon" + (n == 1 ? "" : (_abox.getAnonCount() + 1) + " - anon") + (_abox.getAnonCount() + n) + " " + ds);
 
-			ds = ds.union(new DependencySet(getBranch()), abox.doExplanation());
+			ds = ds.union(new DependencySet(getBranch()), _abox.doExplanation());
 
 			// add the min cardinality restriction just to make early clash detection easier
-			strategy.addType(ind, ATermUtils.makeMin(r.getName(), n, qualification), ds);
+			_strategy.addType(ind, ATermUtils.makeMin(_r.getName(), n, _qualification), ds);
 
 			// add the max cardinality for guess
-			strategy.addType(ind, ATermUtils.makeNormalizedMax(r.getName(), n, qualification), ds);
+			_strategy.addType(ind, ATermUtils.makeNormalizedMax(_r.getName(), n, _qualification), ds);
 
 			// create n distinct nominal successors
 			final Individual[] y = new Individual[n];
 			for (int c1 = 0; c1 < n; c1++)
 			{
-				y[c1] = strategy.createFreshIndividual(null, ds);
+				y[c1] = _strategy.createFreshIndividual(null, ds);
 
-				strategy.addEdge(ind, r, y[c1], ds);
+				_strategy.addEdge(ind, _r, y[c1], ds);
 				y[c1] = y[c1].getSame();
-				strategy.addType(y[c1], qualification, ds);
+				_strategy.addType(y[c1], _qualification, ds);
 				y[c1] = y[c1].getSame();
 				for (int c2 = 0; c2 < c1; c2++)
 					y[c1].setDifferent(y[c2], ds);
 			}
 
-			final boolean earlyClash = abox.isClosed();
+			final boolean earlyClash = _abox.isClosed();
 			if (earlyClash)
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("CLASH: Branch " + getBranch() + " " + abox.getClash() + "!");
+					log.fine("CLASH: Branch " + getBranch() + " " + _abox.getClash() + "!");
 
-				final DependencySet clashDepends = abox.getClash().getDepends();
+				final DependencySet clashDepends = _abox.getClash().getDepends();
 
 				if (clashDepends.contains(getBranch()))
 				{
 					// we need a global restore here because the merge operation modified three
 					// different nodes and possibly other global variables
-					strategy.restore(this);
+					_strategy.restore(this);
 
-					// global restore sets the branch number to previous value so we need to
+					// global restore sets the _branch number to previous value so we need to
 					// increment it again
-					abox.incrementBranch();
+					_abox.incrementBranch();
 
 					setLastClash(clashDepends);
 				}
@@ -132,7 +132,7 @@ public class GuessBranch extends IndividualBranch
 		if (!PelletOptions.USE_INCREMENTAL_DELETION)
 			ds.remove(getBranch());
 
-		abox.setClash(Clash.unexplained(ind, ds));
+		_abox.setClash(Clash.unexplained(ind, ds));
 
 		return;
 	}
@@ -141,9 +141,9 @@ public class GuessBranch extends IndividualBranch
 	public String toString()
 	{
 		if (getTryNext() < getTryCount())
-			return "Branch " + getBranch() + " guess rule on " + ind + " for role  " + r;
+			return "Branch " + getBranch() + " guess rule on " + ind + " for role  " + _r;
 
-		return "Branch " + getBranch() + " guess rule on " + ind + " for role  " + r + " exhausted merge possibilities";
+		return "Branch " + getBranch() + " guess rule on " + ind + " for role  " + _r + " exhausted merge possibilities";
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class GuessBranch extends IndividualBranch
 	public void shiftTryNext(final int openIndex)
 	{
 		//decrement trynext
-		//tryNext--;
+		//_tryNext--;
 	}
 
 }

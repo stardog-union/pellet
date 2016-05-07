@@ -12,7 +12,7 @@ import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
 
 /**
  * <p>
- * Title: Query Plan that returns the atoms in the order as they appear in the query.
+ * Title: Query Plan that returns the atoms in the _order as they appear in the query.
  * </p>
  * <p>
  * Description:

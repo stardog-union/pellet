@@ -177,7 +177,7 @@ public interface Query
 	/**
 	 * Searches for given atom pattern. This also might be used for different types of rolling-up, involving various sets of allowed atom types.
 	 *
-	 * @return query atoms in the order as they appear in the query
+	 * @return query atoms in the _order as they appear in the query
 	 */
 	public List<QueryAtom> findAtoms(final QueryPredicate predicate, final ATermAppl... arguments);
 

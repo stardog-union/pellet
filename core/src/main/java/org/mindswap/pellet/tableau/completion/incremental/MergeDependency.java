@@ -9,7 +9,7 @@ package org.mindswap.pellet.tableau.completion.incremental;
 import aterm.ATermAppl;
 
 /**
- * A dependency for a node merge
+ * A dependency for a _node merge
  *
  * @author Christian Halaschek-Wiener
  */

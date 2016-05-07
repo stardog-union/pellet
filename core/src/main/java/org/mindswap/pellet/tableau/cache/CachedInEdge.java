@@ -45,6 +45,6 @@ public class CachedInEdge extends CachedEdge
 	@Override
 	public ATermAppl getFromName()
 	{
-		return neighbor;
+		return _neighbor;
 	}
 }

@@ -32,7 +32,7 @@ public class ResultSetUtils
 {
 	private static final Logger log = Logger.getLogger(ResultSetUtils.class.getName());
 
-	private static final RDFNode DUMMY_FOR_BNODE = ResourceFactory.createPlainLiteral("dummy node for bnode");
+	private static final RDFNode DUMMY_FOR_BNODE = ResourceFactory.createPlainLiteral("dummy _node for bnode");
 
 	public static boolean assertEquals(final ResultSet expectedResults, final ResultSet computedResults)
 	{

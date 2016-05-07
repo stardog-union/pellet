@@ -55,7 +55,6 @@ public class ConceptCacheLRU extends AbstractConceptCache
 	 *
 	 * @param maxSize
 	 */
-	@SuppressWarnings("serial")
 	public ConceptCacheLRU(final KnowledgeBase kb, final int maxSize)
 	{
 		super(maxSize);
@@ -64,7 +63,7 @@ public class ConceptCacheLRU extends AbstractConceptCache
 
 		primitive = new HashMap<>();
 		nonPrimitive = new LinkedHashMap<ATermAppl, CachedNode>(16, 0.75f, true)
-				{
+		{
 			/**
 			 * TODO
 			 *
@@ -77,7 +76,7 @@ public class ConceptCacheLRU extends AbstractConceptCache
 			{
 				return nonPrimitive.size() > getMaxSize();
 			}
-				};
+		};
 	}
 
 	@Override
