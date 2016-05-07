@@ -1221,7 +1221,7 @@ public class CombinedQueryEngine implements QueryExec
 		// final ATermAppl c = q.rollUpTo(var, Collections.EMPTY_SET, false);
 		//
 		// CandidateSet set = kb.getABox().getObviousInstances(c);
-		// log.fine(c + " : " + set.getKnowns().size() + " : "
+		// _log.fine(c + " : " + set.getKnowns().size() + " : "
 		// + set.getUnknowns().size());
 		//
 		// if (set.getUnknowns().isEmpty()) {
@@ -1297,8 +1297,8 @@ public class CombinedQueryEngine implements QueryExec
 	// final ATermAppl clazz = q.rollUpTo(var, Collections.EMPTY_SET,
 	// false);
 	//
-	// if (log.isLoggable( Level.FINE )) {
-	// log
+	// if (_log.isLoggable( Level.FINE )) {
+	// _log
 	// .debug("Rolling up " + var + " to " + clazz
 	// + " in " + q);
 	// }
@@ -1325,8 +1325,8 @@ public class CombinedQueryEngine implements QueryExec
 	// }
 	//
 	// for (final ATermAppl b : instances) {
-	// if (log.isLoggable( Level.FINE )) {
-	// log.fine("trying " + var + " --> " + b);
+	// if (_log.isLoggable( Level.FINE )) {
+	// _log.fine("trying " + var + " --> " + b);
 	// }
 	// final ResultBinding newBinding = binding.clone();
 	//

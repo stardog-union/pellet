@@ -47,7 +47,7 @@ public class SimpleAllValuesRule extends AllValuesRule
 		final ATermAppl p = (ATermAppl) av.getArgument(0);
 		final ATermAppl c = (ATermAppl) av.getArgument(1);
 
-		final Role s = strategy.getABox().getRole(p);
+		final Role s = _strategy.getABox().getRole(p);
 
 		if (s.isTop() && s.isObjectRole())
 		{
@@ -60,8 +60,8 @@ public class SimpleAllValuesRule extends AllValuesRule
 		{
 			final Edge edgeToY = edges.edgeAt(e);
 			final Node y = edgeToY.getNeighbor(x);
-			DependencySet finalDS = ds.union(edgeToY.getDepends(), strategy.getABox().doExplanation());
-			if (strategy.getABox().doExplanation())
+			DependencySet finalDS = ds.union(edgeToY.getDepends(), _strategy.getABox().doExplanation());
+			if (_strategy.getABox().doExplanation())
 			{
 				final Role edgeRole = edgeToY.getRole();
 				final DependencySet subDS = s.getExplainSubOrInv(edgeRole);
@@ -84,8 +84,8 @@ public class SimpleAllValuesRule extends AllValuesRule
 				{
 					final Edge edgeToY = edges.edgeAt(e);
 					final Node y = edgeToY.getNeighbor(x);
-					DependencySet finalDS = ds.union(edgeToY.getDepends(), strategy.getABox().doExplanation());
-					if (strategy.getABox().doExplanation())
+					DependencySet finalDS = ds.union(edgeToY.getDepends(), _strategy.getABox().doExplanation());
+					if (_strategy.getABox().doExplanation())
 					{
 						finalDS = finalDS.union(r.getExplainTransitive().getExplain(), true);
 						finalDS = finalDS.union(s.getExplainSubOrInv(edgeToY.getRole()), true);
@@ -112,7 +112,7 @@ public class SimpleAllValuesRule extends AllValuesRule
 			final ATermAppl p = (ATermAppl) av.getArgument(0);
 			final ATermAppl c = (ATermAppl) av.getArgument(1);
 
-			final Role s = strategy.getABox().getRole(p);
+			final Role s = _strategy.getABox().getRole(p);
 
 			if (s.isTop() && s.isObjectRole())
 			{
@@ -122,8 +122,8 @@ public class SimpleAllValuesRule extends AllValuesRule
 
 			if (pred.isSubRoleOf(s))
 			{
-				DependencySet finalDS = ds.union(subj.getDepends(av), strategy.getABox().doExplanation());
-				if (strategy.getABox().doExplanation())
+				DependencySet finalDS = ds.union(subj.getDepends(av), _strategy.getABox().doExplanation());
+				if (_strategy.getABox().doExplanation())
 					finalDS = finalDS.union(s.getExplainSubOrInv(pred).getExplain(), true);
 
 				applyAllValues(subj, s, obj, c, finalDS);
@@ -131,8 +131,8 @@ public class SimpleAllValuesRule extends AllValuesRule
 				if (s.isTransitive())
 				{
 					final ATermAppl allRC = ATermUtils.makeAllValues(s.getName(), c);
-					finalDS = ds.union(subj.getDepends(av), strategy.getABox().doExplanation());
-					if (strategy.getABox().doExplanation())
+					finalDS = ds.union(subj.getDepends(av), _strategy.getABox().doExplanation());
+					if (_strategy.getABox().doExplanation())
 						finalDS = finalDS.union(s.getExplainTransitive().getExplain(), true);
 
 					applyAllValues(subj, s, obj, allRC, finalDS);

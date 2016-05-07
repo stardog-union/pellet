@@ -64,7 +64,7 @@ public class AllValuesRule extends AbstractTableauRule
 
 			applyAllValues(x, av, avDepends);
 
-			if (x.isMerged() || strategy.getABox().isClosed())
+			if (x.isMerged() || _strategy.getABox().isClosed())
 				return;
 
 			// if there are self links through transitive properties restart
@@ -98,11 +98,11 @@ public class AllValuesRule extends AbstractTableauRule
 		if (p.getType() == ATerm.LIST)
 		{
 			roleChain = (ATermList) p;
-			s = strategy.getABox().getRole(roleChain.getFirst());
+			s = _strategy.getABox().getRole(roleChain.getFirst());
 			roleChain = roleChain.getNext();
 		}
 		else
-			s = strategy.getABox().getRole(p);
+			s = _strategy.getABox().getRole(p);
 
 		if (s.isTop() && s.isObjectRole())
 		{
@@ -115,7 +115,7 @@ public class AllValuesRule extends AbstractTableauRule
 		{
 			final Edge edgeToY = edges.edgeAt(e);
 			final Node y = edgeToY.getNeighbor(x);
-			final DependencySet finalDS = ds.union(edgeToY.getDepends(), strategy.getABox().doExplanation());
+			final DependencySet finalDS = ds.union(edgeToY.getDepends(), _strategy.getABox().doExplanation());
 
 			if (roleChain.isEmpty())
 				applyAllValues(x, s, y, c, finalDS);
@@ -124,10 +124,10 @@ public class AllValuesRule extends AbstractTableauRule
 				{
 					final ATermAppl allRC = ATermUtils.makeAllValues(roleChain, c);
 
-					strategy.addType(y, allRC, finalDS);
+					_strategy.addType(y, allRC, finalDS);
 				}
 
-			if (x.isMerged() || strategy.getABox().isClosed())
+			if (x.isMerged() || _strategy.getABox().isClosed())
 				return;
 		}
 
@@ -136,7 +136,7 @@ public class AllValuesRule extends AbstractTableauRule
 			final Set<ATermList> subRoleChains = s.getSubRoleChains();
 			for (final ATermList chain : subRoleChains)
 			{
-				final DependencySet subChainDS = ds.union(s.getExplainSub(chain), strategy.getABox().doExplanation());
+				final DependencySet subChainDS = ds.union(s.getExplainSub(chain), _strategy.getABox().doExplanation());
 				if (!applyAllValuesPropertyChain(x, chain, c, subChainDS))
 					return;
 			}
@@ -150,7 +150,7 @@ public class AllValuesRule extends AbstractTableauRule
 
 	protected boolean applyAllValuesPropertyChain(final Individual x, final ATermList chain, final ATermAppl c, final DependencySet ds)
 	{
-		final Role r = strategy.getABox().getRole(chain.getFirst());
+		final Role r = _strategy.getABox().getRole(chain.getFirst());
 
 		final EdgeList edges = x.getRNeighborEdges(r);
 		if (!edges.isEmpty())
@@ -161,11 +161,11 @@ public class AllValuesRule extends AbstractTableauRule
 			{
 				final Edge edgeToY = edges.edgeAt(e);
 				final Node y = edgeToY.getNeighbor(x);
-				final DependencySet finalDS = ds.union(edgeToY.getDepends(), strategy.getABox().doExplanation());
+				final DependencySet finalDS = ds.union(edgeToY.getDepends(), _strategy.getABox().doExplanation());
 
 				applyAllValues(x, r, y, allRC, finalDS);
 
-				if (x.isMerged() || strategy.getABox().isClosed())
+				if (x.isMerged() || _strategy.getABox().isClosed())
 					return false;
 			}
 		}
@@ -184,7 +184,7 @@ public class AllValuesRule extends AbstractTableauRule
 			if (PelletOptions.USE_COMPLETION_QUEUE && !PelletOptions.MAINTAIN_COMPLETION_QUEUE && obj.isPruned())
 				return;
 
-			strategy.addType(obj, c, ds);
+			_strategy.addType(obj, c, ds);
 		}
 	}
 
@@ -205,16 +205,16 @@ public class AllValuesRule extends AbstractTableauRule
 			if (p.getType() == ATerm.LIST)
 			{
 				roleChain = (ATermList) p;
-				s = strategy.getABox().getRole(roleChain.getFirst());
+				s = _strategy.getABox().getRole(roleChain.getFirst());
 				roleChain = roleChain.getNext();
 			}
 			else
-				s = strategy.getABox().getRole(p);
+				s = _strategy.getABox().getRole(p);
 
 			if (s.isTop() && s.isObjectRole())
 			{
 				applyAllValuesTop(av, c, ds);
-				if (strategy.getABox().isClosed())
+				if (_strategy.getABox().isClosed())
 					return;
 				continue;
 			}
@@ -222,8 +222,8 @@ public class AllValuesRule extends AbstractTableauRule
 			if (pred.isSubRoleOf(s))
 			{
 				DependencySet finalDS = subj.getDepends(av);
-				finalDS = finalDS.union(ds, strategy.getABox().doExplanation());
-				finalDS = finalDS.union(s.getExplainSubOrInv(pred), strategy.getABox().doExplanation());
+				finalDS = finalDS.union(ds, _strategy.getABox().doExplanation());
+				finalDS = finalDS.union(s.getExplainSubOrInv(pred), _strategy.getABox().doExplanation());
 				if (roleChain.isEmpty())
 					applyAllValues(subj, s, obj, c, finalDS);
 				else
@@ -231,29 +231,29 @@ public class AllValuesRule extends AbstractTableauRule
 					{
 						final ATermAppl allRC = ATermUtils.makeAllValues(roleChain, c);
 
-						strategy.addType(obj, allRC, finalDS);
+						_strategy.addType(obj, allRC, finalDS);
 					}
 
-				if (strategy.getABox().isClosed())
+				if (_strategy.getABox().isClosed())
 					return;
 			}
 
 			if (!s.isSimple())
 			{
-				final DependencySet finalDS = subj.getDepends(av).union(ds, strategy.getABox().doExplanation());
+				final DependencySet finalDS = subj.getDepends(av).union(ds, _strategy.getABox().doExplanation());
 				final Set<ATermList> subRoleChains = s.getSubRoleChains();
 				for (final ATermList chain : subRoleChains)
 				{
 					//                    if( !pred.getName().equals( chain.getFirst() ) )
-					final Role firstRole = strategy.getABox().getRole(chain.getFirst());
+					final Role firstRole = _strategy.getABox().getRole(chain.getFirst());
 					if (!pred.isSubRoleOf(firstRole))
 						continue;
 
 					final ATermAppl allRC = ATermUtils.makeAllValues(chain.getNext(), c);
 
-					applyAllValues(subj, pred, obj, allRC, finalDS.union(firstRole.getExplainSub(pred.getName()), strategy.getABox().doExplanation()).union(s.getExplainSub(chain), strategy.getABox().doExplanation()));
+					applyAllValues(subj, pred, obj, allRC, finalDS.union(firstRole.getExplainSub(pred.getName()), _strategy.getABox().doExplanation()).union(s.getExplainSub(chain), _strategy.getABox().doExplanation()));
 
-					if (subj.isMerged() || strategy.getABox().isClosed())
+					if (subj.isMerged() || _strategy.getABox().isClosed())
 						return;
 				}
 			}
@@ -277,13 +277,13 @@ public class AllValuesRule extends AbstractTableauRule
 	 */
 	void applyAllValuesTop(final ATermAppl allTopC, final ATermAppl c, final DependencySet ds)
 	{
-		for (final Node node : strategy.getABox().getNodes())
+		for (final Node node : _strategy.getABox().getNodes())
 			if (node.isIndividual() && !node.isPruned() && !node.hasType(c))
 			{
 				node.addType(c, ds);
 				node.addType(allTopC, ds);
 
-				if (strategy.getABox().isClosed())
+				if (_strategy.getABox().isClosed())
 					break;
 			}
 

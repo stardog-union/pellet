@@ -60,7 +60,7 @@ public class NominalRule extends AbstractTableauRule
 
 			applyNominalRule(y, nc, ds);
 
-			if (strategy.getABox().isClosed())
+			if (_strategy.getABox().isClosed())
 				return;
 
 			if (y.isMerged())
@@ -73,14 +73,14 @@ public class NominalRule extends AbstractTableauRule
 
 	void applyNominalRule(final Individual y, final ATermAppl nc, DependencySet ds)
 	{
-		strategy.getABox().copyOnWrite();
+		_strategy.getABox().copyOnWrite();
 
 		final ATermAppl nominal = (ATermAppl) nc.getArgument(0);
 		// first find the individual for the given nominal
-		Individual z = strategy.getABox().getIndividual(nominal);
+		Individual z = _strategy.getABox().getIndividual(nominal);
 		if (z == null)
 			if (ATermUtils.isAnonNominal(nominal))
-				z = strategy.getABox().addIndividual(nominal, ds);
+				z = _strategy.getABox().addIndividual(nominal, ds);
 			else
 				throw new InternalReasonerException("Nominal " + nominal + " not found in KB!");
 
@@ -93,7 +93,7 @@ public class NominalRule extends AbstractTableauRule
 		// by calling getSame()
 		if (z.isMerged())
 		{
-			ds = ds.union(z.getMergeDependency(true), strategy.getABox().doExplanation());
+			ds = ds.union(z.getMergeDependency(true), _strategy.getABox().doExplanation());
 
 			z = z.getSame();
 		}
@@ -103,17 +103,17 @@ public class NominalRule extends AbstractTableauRule
 
 		if (y.isDifferent(z))
 		{
-			ds = ds.union(y.getDifferenceDependency(z), strategy.getABox().doExplanation());
-			if (strategy.getABox().doExplanation())
-				strategy.getABox().setClash(Clash.nominal(y, ds, z.getName()));
+			ds = ds.union(y.getDifferenceDependency(z), _strategy.getABox().doExplanation());
+			if (_strategy.getABox().doExplanation())
+				_strategy.getABox().setClash(Clash.nominal(y, ds, z.getName()));
 			else
-				strategy.getABox().setClash(Clash.nominal(y, ds));
+				_strategy.getABox().setClash(Clash.nominal(y, ds));
 			return;
 		}
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("NOM:  " + y + " -> " + z);
 
-		strategy.mergeTo(y, z, ds);
+		_strategy.mergeTo(y, z, ds);
 	}
 }

@@ -39,7 +39,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class UnfoldingRule extends AbstractTableauRule
 {
-	public final static Logger log = Logger.getLogger(UnfoldingRule.class.getName());
+	public final static Logger _log = Logger.getLogger(UnfoldingRule.class.getName());
 
 	public UnfoldingRule(final CompletionStrategy strategy)
 	{
@@ -63,7 +63,7 @@ public class UnfoldingRule extends AbstractTableauRule
 
 			applyUnfoldingRule(node, c);
 
-			if (strategy.getABox().isClosed())
+			if (_strategy.getABox().isClosed())
 				return;
 
 			// it is possible that unfolding added new atomic 
@@ -80,7 +80,7 @@ public class UnfoldingRule extends AbstractTableauRule
 		if (!PelletOptions.MAINTAIN_COMPLETION_QUEUE && ds == null)
 			return;
 
-		final Iterator<Unfolding> unfoldingList = strategy.getTBox().unfold(c);
+		final Iterator<Unfolding> unfoldingList = _strategy.getTBox().unfold(c);
 
 		while (unfoldingList.hasNext())
 		{
@@ -92,15 +92,15 @@ public class UnfoldingRule extends AbstractTableauRule
 				continue;
 
 			final Set<ATermAppl> unfoldingDS = unfolding.getExplanation();
-			finalDS = finalDS.union(ds, strategy.getABox().doExplanation());
-			finalDS = finalDS.union(unfoldingDS, strategy.getABox().doExplanation());
+			finalDS = finalDS.union(ds, _strategy.getABox().doExplanation());
+			finalDS = finalDS.union(unfoldingDS, _strategy.getABox().doExplanation());
 
 			final ATermAppl unfoldedConcept = unfolding.getResult();
 
-			if (log.isLoggable(Level.FINE) && !node.hasType(unfoldedConcept))
-				log.fine("UNF : " + node + ", " + ATermUtils.toString(c) + " -> " + ATermUtils.toString(unfoldedConcept) + " - " + finalDS);
+			if (_log.isLoggable(Level.FINE) && !node.hasType(unfoldedConcept))
+				_log.fine("UNF : " + node + ", " + ATermUtils.toString(c) + " -> " + ATermUtils.toString(unfoldedConcept) + " - " + finalDS);
 
-			strategy.addType(node, unfoldedConcept, finalDS);
+			_strategy.addType(node, unfoldedConcept, finalDS);
 		}
 	}
 }

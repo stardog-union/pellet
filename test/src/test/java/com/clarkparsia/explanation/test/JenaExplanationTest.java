@@ -154,7 +154,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 
 		final boolean success = testExplanationWithJena(triple, actual, expectedExplanations);
 
-		assertTrue("Error in explanation, see the log file for details", success);
+		assertTrue("Error in explanation, see the _log file for details", success);
 	}
 
 	private boolean testExplanationWithJena(final Triple triple, final Graph actual, final Set<Set<OWLAxiom>> expectedExplanations) throws Exception

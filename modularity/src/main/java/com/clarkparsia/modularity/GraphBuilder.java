@@ -759,7 +759,7 @@ public class GraphBuilder
 		// classification (see deleteNonLocal() test inside
 		// SimpleCorrectnessTest)
 		//		if( _node.equals( START_NODE ) ) {
-		//			log.warn( "Non-local axiom: " + axiom );
+		//			_log.warn( "Non-local axiom: " + axiom );
 		//			addOutputs( axiom );
 		//			return;
 		//		}

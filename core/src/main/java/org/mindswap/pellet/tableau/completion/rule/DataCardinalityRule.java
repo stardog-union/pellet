@@ -69,7 +69,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 				continue;
 
 			final ATermAppl r = (ATermAppl) rTerm;
-			final Role role = strategy.getABox().getRole(r);
+			final Role role = _strategy.getABox().getRole(r);
 
 			/*
 			 * Skip any roles that are not datatype properties
@@ -88,7 +88,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 				dataranges.put(r, existing);
 			}
 			else
-				ds = ds.union(rangeDepends.get(r), strategy.getABox().doExplanation());
+				ds = ds.union(rangeDepends.get(r), _strategy.getABox().doExplanation());
 			existing.add((ATermAppl) allDesc.getArgument(1));
 			rangeDepends.put(r, ds);
 
@@ -103,7 +103,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 			 * TODO: Verify that minDesc will never have a property chain
 			 */
 			final ATermAppl r = (ATermAppl) minDesc.getArgument(0);
-			final Role role = strategy.getABox().getRole(r);
+			final Role role = _strategy.getABox().getRole(r);
 
 			/*
 			 * Skip any roles that are not datatype properties
@@ -133,7 +133,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 					 * this loop and call addAll)
 					 */
 					existing.add(dataRange);
-					ds = ds.union(role.getExplainRange(dataRange), strategy.getABox().doExplanation());
+					ds = ds.union(role.getExplainRange(dataRange), _strategy.getABox().doExplanation());
 					rangeDepends.put(r, ds);
 				}
 			}
@@ -145,7 +145,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 		for (final ATermAppl minDesc : x.getTypes(Node.MIN))
 		{
 			final ATermAppl r = (ATermAppl) minDesc.getArgument(0);
-			final Role role = strategy.getABox().getRole(r);
+			final Role role = _strategy.getABox().getRole(r);
 
 			final Set<ATermAppl> drs = new HashSet<>();
 			final Collection<ATermAppl> direct = dataranges.get(r);
@@ -158,7 +158,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 			else
 				ds = DependencySet.EMPTY;
 
-			ds = ds.union(x.getDepends(minDesc), strategy.getABox().doExplanation());
+			ds = ds.union(x.getDepends(minDesc), _strategy.getABox().doExplanation());
 
 			for (final Role superRole : role.getSuperRoles())
 			{
@@ -167,7 +167,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 				if (inherited != null)
 				{
 					drs.addAll(inherited);
-					ds = ds.union(rangeDepends.get(s), strategy.getABox().doExplanation()).union(role.getExplainSuper(s), strategy.getABox().doExplanation());
+					ds = ds.union(rangeDepends.get(s), _strategy.getABox().doExplanation()).union(role.getExplainSuper(s), _strategy.getABox().doExplanation());
 				}
 			}
 
@@ -176,9 +176,9 @@ public class DataCardinalityRule extends AbstractTableauRule
 				final int n = ((ATermInt) minDesc.getArgument(1)).getInt();
 				try
 				{
-					if (!strategy.getABox().getDatatypeReasoner().containsAtLeast(n, drs))
+					if (!_strategy.getABox().getDatatypeReasoner().containsAtLeast(n, drs))
 					{
-						strategy.getABox().setClash(Clash.minMax(x, ds));
+						_strategy.getABox().setClash(Clash.minMax(x, ds));
 						return;
 					}
 				}

@@ -65,7 +65,7 @@ public class MaxRule extends AbstractTableauRule
 
 			applyMaxRule(x, mc);
 
-			if (strategy.getABox().isClosed())
+			if (_strategy.getABox().isClosed())
 				return;
 
 			if (x.isMerged())
@@ -80,7 +80,7 @@ public class MaxRule extends AbstractTableauRule
 		// max(r, n) is in normalized form not(min(p, n + 1))
 		final ATermAppl max = (ATermAppl) mc.getArgument(0);
 
-		final Role r = strategy.getABox().getRole(max.getArgument(0));
+		final Role r = _strategy.getABox().getRole(max.getArgument(0));
 		final int n = ((ATermInt) max.getArgument(1)).getInt() - 1;
 		final ATermAppl c = (ATermAppl) max.getArgument(2);
 
@@ -92,7 +92,7 @@ public class MaxRule extends AbstractTableauRule
 		if (n == 1)
 		{
 			applyFunctionalMaxRule(x, r, c, ds);
-			if (strategy.getABox().isClosed())
+			if (_strategy.getABox().isClosed())
 				return;
 		}
 		else
@@ -103,7 +103,7 @@ public class MaxRule extends AbstractTableauRule
 			{
 				hasMore = applyMaxRule(x, r, c, n, ds);
 
-				if (strategy.getABox().isClosed())
+				if (_strategy.getABox().isClosed())
 					return;
 
 				if (x.isMerged())
@@ -111,7 +111,7 @@ public class MaxRule extends AbstractTableauRule
 
 				if (hasMore)
 					// subsequent merges depend on the previous merge
-					ds = ds.union(new DependencySet(strategy.getABox().getBranches().size()), strategy.getABox().doExplanation());
+					ds = ds.union(new DependencySet(_strategy.getABox().getBranches().size()), _strategy.getABox().doExplanation());
 			}
 		}
 	}
@@ -134,8 +134,8 @@ public class MaxRule extends AbstractTableauRule
 
 		final int n = neighbors.size();
 
-		// if( log.isLoggable( Level.FINE ) )
-		// log.fine( "Neighbors: " + n + " maxCardinality: " + k);
+		// if( _log.isLoggable( Level.FINE ) )
+		// _log.fine( "Neighbors: " + n + " maxCardinality: " + k);
 
 		// if restriction was maxCardinality 0 then having any R-_neighbor
 		// violates the restriction. no merge can fix this. compute the
@@ -151,14 +151,14 @@ public class MaxRule extends AbstractTableauRule
 				{
 					final Role edgeRole = edge.getRole();
 					final DependencySet subDS = r.getExplainSubOrInv(edgeRole);
-					ds = ds.union(subDS, strategy.getABox().doExplanation());
-					ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
-					ds = ds.union(typeDS, strategy.getABox().doExplanation());
+					ds = ds.union(subDS, _strategy.getABox().doExplanation());
+					ds = ds.union(edge.getDepends(), _strategy.getABox().doExplanation());
+					ds = ds.union(typeDS, _strategy.getABox().doExplanation());
 
 				}
 			}
 
-			strategy.getABox().setClash(Clash.maxCardinality(x, ds, r.getName(), 0));
+			_strategy.getABox().setClash(Clash.maxCardinality(x, ds, r.getName(), 0));
 			return false;
 		}
 
@@ -170,7 +170,7 @@ public class MaxRule extends AbstractTableauRule
 		// create the pairs to be merged
 		final List<NodeMerge> mergePairs = new ArrayList<>();
 		final DependencySet differenceDS = findMergeNodes(neighbors, x, mergePairs);
-		ds = ds.union(differenceDS, strategy.getABox().doExplanation());
+		ds = ds.union(differenceDS, _strategy.getABox().doExplanation());
 
 		// if no pairs were found, i.e. all were defined to be different from
 		// each other, then it means this max cardinality restriction is
@@ -183,26 +183,26 @@ public class MaxRule extends AbstractTableauRule
 			{
 				if (log.isLoggable(Level.FINE))
 					log.fine("Cannot determine the exact clash dependency for " + x);
-				strategy.getABox().setClash(Clash.maxCardinality(x, ds));
+				_strategy.getABox().setClash(Clash.maxCardinality(x, ds));
 				return false;
 			}
 			else
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("Early clash detection for max rule worked " + x + " has more than " + k + " " + r + " edges " + ds.union(dsEdges, strategy.getABox().doExplanation()) + " " + x.getRNeighborEdges(r).getNeighbors(x));
+					log.fine("Early clash detection for max rule worked " + x + " has more than " + k + " " + r + " edges " + ds.union(dsEdges, _strategy.getABox().doExplanation()) + " " + x.getRNeighborEdges(r).getNeighbors(x));
 
-				if (strategy.getABox().doExplanation())
-					strategy.getABox().setClash(Clash.maxCardinality(x, ds.union(dsEdges, strategy.getABox().doExplanation()), r.getName(), k));
+				if (_strategy.getABox().doExplanation())
+					_strategy.getABox().setClash(Clash.maxCardinality(x, ds.union(dsEdges, _strategy.getABox().doExplanation()), r.getName(), k));
 				else
-					strategy.getABox().setClash(Clash.maxCardinality(x, ds.union(dsEdges, strategy.getABox().doExplanation())));
+					_strategy.getABox().setClash(Clash.maxCardinality(x, ds.union(dsEdges, _strategy.getABox().doExplanation())));
 
 				return false;
 			}
 		}
 
 		// add the list of possible pairs to be merged in the _branch list
-		final MaxBranch newBranch = new MaxBranch(strategy.getABox(), strategy, x, r, k, c, mergePairs, ds);
-		strategy.addBranch(newBranch);
+		final MaxBranch newBranch = new MaxBranch(_strategy.getABox(), _strategy, x, r, k, c, mergePairs, ds);
+		_strategy.addBranch(newBranch);
 
 		// try a merge that does not trivially fail
 		if (newBranch.tryNext() == false)
@@ -233,7 +233,7 @@ public class MaxRule extends AbstractTableauRule
 
 				if (y.isDifferent(x))
 				{
-					ds = ds.union(y.getDifferenceDependency(x), strategy.getABox().doExplanation());
+					ds = ds.union(y.getDifferenceDependency(x), _strategy.getABox().doExplanation());
 					continue;
 				}
 
@@ -268,7 +268,7 @@ public class MaxRule extends AbstractTableauRule
 		LOOP: for (Role r : functionalSupers)
 		{
 			if (PelletOptions.USE_TRACING)
-				ds = ds.union(s.getExplainSuper(r.getName()), strategy.getABox().doExplanation()).union(r.getExplainFunctional(), strategy.getABox().doExplanation());
+				ds = ds.union(s.getExplainSuper(r.getName()), _strategy.getABox().doExplanation()).union(r.getExplainFunctional(), _strategy.getABox().doExplanation());
 
 			final EdgeList edges = x.getRNeighborEdges(r);
 
@@ -301,9 +301,9 @@ public class MaxRule extends AbstractTableauRule
 
 				// this _node is included in the merge list because the edge
 				// exists and the _node has the qualification in its types
-				ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
-				ds = ds.union(head.getDepends(c), strategy.getABox().doExplanation());
-				ds = ds.union(r.getExplainSubOrInv(edge.getRole()), strategy.getABox().doExplanation());
+				ds = ds.union(edge.getDepends(), _strategy.getABox().doExplanation());
+				ds = ds.union(head.getDepends(c), _strategy.getABox().doExplanation());
+				ds = ds.union(r.getExplainSubOrInv(edge.getRole()), _strategy.getABox().doExplanation());
 				break;
 			}
 
@@ -327,28 +327,28 @@ public class MaxRule extends AbstractTableauRule
 
 				// this _node is included in the merge list because the edge
 				// exists and the _node has the qualification in its types
-				ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
-				ds = ds.union(next.getDepends(c), strategy.getABox().doExplanation());
-				ds = ds.union(r.getExplainSubOrInv(edge.getRole()), strategy.getABox().doExplanation());
+				ds = ds.union(edge.getDepends(), _strategy.getABox().doExplanation());
+				ds = ds.union(next.getDepends(c), _strategy.getABox().doExplanation());
+				ds = ds.union(r.getExplainSubOrInv(edge.getRole()), _strategy.getABox().doExplanation());
 
 				if (next.isDifferent(head))
 				{
-					ds = ds.union(head.getDepends(c), strategy.getABox().doExplanation());
-					ds = ds.union(next.getDepends(c), strategy.getABox().doExplanation());
-					ds = ds.union(next.getDifferenceDependency(head), strategy.getABox().doExplanation());
+					ds = ds.union(head.getDepends(c), _strategy.getABox().doExplanation());
+					ds = ds.union(next.getDepends(c), _strategy.getABox().doExplanation());
+					ds = ds.union(next.getDifferenceDependency(head), _strategy.getABox().doExplanation());
 					if (r.isFunctional())
-						strategy.getABox().setClash(Clash.functionalCardinality(x, ds, r.getName()));
+						_strategy.getABox().setClash(Clash.functionalCardinality(x, ds, r.getName()));
 					else
-						strategy.getABox().setClash(Clash.maxCardinality(x, ds, r.getName(), 1));
+						_strategy.getABox().setClash(Clash.maxCardinality(x, ds, r.getName(), 1));
 
 					break;
 				}
 
 				if (x.isNominal() && head.isBlockable() && next.isBlockable() && head.hasSuccessor(x) && next.hasSuccessor(x))
 				{
-					final Individual newNominal = strategy.createFreshIndividual(null, ds);
+					final Individual newNominal = _strategy.createFreshIndividual(null, ds);
 
-					strategy.addEdge(x, r, newNominal, ds);
+					_strategy.addEdge(x, r, newNominal, ds);
 
 					continue LOOP;
 				}
@@ -364,14 +364,14 @@ public class MaxRule extends AbstractTableauRule
 				if (log.isLoggable(Level.FINE))
 					log.fine("FUNC: " + x + " for prop " + r + " merge " + next + " -> " + head + " " + ds);
 
-				strategy.mergeTo(next, head, ds);
+				_strategy.mergeTo(next, head, ds);
 
-				if (strategy.getABox().isClosed())
+				if (_strategy.getABox().isClosed())
 					return;
 
 				if (head.isPruned())
 				{
-					ds = ds.union(head.getMergeDependency(true), strategy.getABox().doExplanation());
+					ds = ds.union(head.getMergeDependency(true), _strategy.getABox().doExplanation());
 					head = head.getSame();
 				}
 			}

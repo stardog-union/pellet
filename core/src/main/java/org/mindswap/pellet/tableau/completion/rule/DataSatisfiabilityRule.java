@@ -63,7 +63,7 @@ public class DataSatisfiabilityRule extends AbstractTableauRule
 			if (!r.isDatatypeRole())
 				continue;
 
-			ds = ds.union(e.getDepends(), strategy.getABox().doExplanation());
+			ds = ds.union(e.getDepends(), _strategy.getABox().doExplanation());
 
 			final Literal l = (Literal) e.getTo();
 			pending.add(l);
@@ -104,7 +104,7 @@ public class DataSatisfiabilityRule extends AbstractTableauRule
 						nePresent = true;
 					}
 					disj.add(k);
-					ds = ds.union(l.getDifferenceDependency(n), strategy.getABox().doExplanation());
+					ds = ds.union(l.getDifferenceDependency(n), _strategy.getABox().doExplanation());
 				}
 				else
 					throw new IllegalStateException();
@@ -119,15 +119,15 @@ public class DataSatisfiabilityRule extends AbstractTableauRule
 		if (nePresent)
 			try
 			{
-				if (!strategy.getABox().getDatatypeReasoner().isSatisfiable(nodes, ne))
+				if (!_strategy.getABox().getDatatypeReasoner().isSatisfiable(nodes, ne))
 				{
 					for (final Node n : nodes)
 						for (final DependencySet typeDep : n.getDepends().values())
-							ds = ds.union(typeDep, strategy.getABox().doExplanation());
+							ds = ds.union(typeDep, _strategy.getABox().doExplanation());
 					/*
 					 * TODO: More descriptive clash
 					 */
-					strategy.getABox().setClash(Clash.unexplained(ind, ds));
+					_strategy.getABox().setClash(Clash.unexplained(ind, ds));
 				}
 			}
 			catch (final InvalidLiteralException e)
@@ -138,8 +138,8 @@ public class DataSatisfiabilityRule extends AbstractTableauRule
 					log.fine(msg);
 					for (final Node n : nodes)
 						for (final DependencySet typeDep : n.getDepends().values())
-							ds = ds.union(typeDep, strategy.getABox().doExplanation());
-					strategy.getABox().setClash(Clash.invalidLiteral(ind, ds));
+							ds = ds.union(typeDep, _strategy.getABox().doExplanation());
+					_strategy.getABox().setClash(Clash.invalidLiteral(ind, ds));
 				}
 				else
 				{

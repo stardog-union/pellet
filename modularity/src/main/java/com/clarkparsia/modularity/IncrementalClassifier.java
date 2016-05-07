@@ -596,8 +596,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//	 *            signature of this module
 	//	 */
 	//	private void updatePartialOrder(boolean add, TaxonomyNode<OWLClass> _node, PelletReasoner newR) {
-	//		if( log.isLoggable( Level.FINER ) )
-	//			log.finer( "Update _node " + _node );
+	//		if( _log.isLoggable( Level.FINER ) )
+	//			_log.finer( "Update _node " + _node );
 	//
 	//		OWLClass clazz = _node.getName();
 	//
@@ -626,8 +626,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//						// add it to the subclass index
 	//						oldSupers.add( next );
 	//
-	//						if( log.isLoggable( Level.FINER ) ) {
-	//							log.finer( "  Found new subsumption " + clazz + " subClassOf " + next );
+	//						if( _log.isLoggable( Level.FINER ) ) {
+	//							_log.finer( "  Found new subsumption " + clazz + " subClassOf " + next );
 	//						}
 	//
 	//						// update the partial _order
@@ -665,8 +665,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//					// update remove set
 	//					removeSet.add( nextOldSuper );
 	//
-	//					if( log.isLoggable( Level.FINER ) ) {
-	//						log.finer( "  Found violated subsumption " + clazz + " subClassOf "
+	//					if( _log.isLoggable( Level.FINER ) ) {
+	//						_log.finer( "  Found violated subsumption " + clazz + " subClassOf "
 	//								+ nextOldSuper );
 	//					}
 	//

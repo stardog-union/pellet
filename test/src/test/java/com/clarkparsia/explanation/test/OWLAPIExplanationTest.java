@@ -278,7 +278,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 
 			System.out.println("Error in explanation: " + buff);
 
-			org.junit.Assert.fail("Error in explanation, see the log file for details");
+			org.junit.Assert.fail("Error in explanation, see the _log file for details");
 		}
 
 	}

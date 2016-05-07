@@ -63,7 +63,7 @@ public class DisjunctionRule extends AbstractTableauRule
 		{
 			applyDisjunctionRule(node, disjunction);
 
-			if (strategy.getABox().isClosed() || node.isMerged())
+			if (_strategy.getABox().isClosed() || node.isMerged())
 				return;
 		}
 		node.applyNext[Node.OR] = size;
@@ -101,8 +101,8 @@ public class DisjunctionRule extends AbstractTableauRule
 				return;
 		}
 
-		final DisjunctionBranch newBranch = new DisjunctionBranch(strategy.getABox(), strategy, node, disjunction, node.getDepends(disjunction), disj);
-		strategy.addBranch(newBranch);
+		final DisjunctionBranch newBranch = new DisjunctionBranch(_strategy.getABox(), _strategy, node, disjunction, node.getDepends(disjunction), disj);
+		_strategy.addBranch(newBranch);
 
 		newBranch.tryNext();
 	}

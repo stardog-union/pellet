@@ -59,7 +59,7 @@ public class MinRule extends AbstractTableauRule
 
 			apply(x, mc);
 
-			if (strategy.getABox().isClosed())
+			if (_strategy.getABox().isClosed())
 				return;
 		}
 		x.applyNext[Node.MIN] = size;
@@ -69,7 +69,7 @@ public class MinRule extends AbstractTableauRule
 	{
 		// We retrieve the role associated to the current
 		// min restriction
-		final Role r = strategy.getABox().getRole(mc.getArgument(0));
+		final Role r = _strategy.getABox().getRole(mc.getArgument(0));
 		final int n = ((ATermInt) mc.getArgument(1)).getInt();
 		final ATermAppl c = (ATermAppl) mc.getArgument(2);
 
@@ -83,27 +83,27 @@ public class MinRule extends AbstractTableauRule
 			return;
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("MIN : " + x + " -> " + r + " -> anon" + (n == 1 ? "" : (strategy.getABox().getAnonCount() + 1) + " - anon") + (strategy.getABox().getAnonCount() + n) + " " + ATermUtils.toString(c) + " " + ds);
+			log.fine("MIN : " + x + " -> " + r + " -> anon" + (n == 1 ? "" : (_strategy.getABox().getAnonCount() + 1) + " - anon") + (_strategy.getABox().getAnonCount() + n) + " " + ATermUtils.toString(c) + " " + ds);
 
 		final Node[] y = new Node[n];
 		for (int c1 = 0; c1 < n; c1++)
 		{
-			strategy.checkTimer();
+			_strategy.checkTimer();
 			if (r.isDatatypeRole())
-				y[c1] = strategy.getABox().addLiteral(ds);
+				y[c1] = _strategy.getABox().addLiteral(ds);
 			else
-				y[c1] = strategy.createFreshIndividual(x, ds);
+				y[c1] = _strategy.createFreshIndividual(x, ds);
 			Node succ = y[c1];
 			DependencySet finalDS = ds;
 
-			strategy.addEdge(x, r, succ, ds);
+			_strategy.addEdge(x, r, succ, ds);
 			if (succ.isPruned())
 			{
-				finalDS = finalDS.union(succ.getMergeDependency(true), strategy.getABox().doExplanation());
+				finalDS = finalDS.union(succ.getMergeDependency(true), _strategy.getABox().doExplanation());
 				succ = succ.getMergedTo();
 			}
 
-			strategy.addType(succ, c, finalDS);
+			_strategy.addType(succ, c, finalDS);
 			for (int c2 = 0; c2 < c1; c2++)
 				succ.setDifferent(y[c2], finalDS);
 		}

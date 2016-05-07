@@ -106,8 +106,8 @@ public class DependencyIndex
 	 */
 	public void addTypeDependency(final ATermAppl ind, final ATermAppl type, final DependencySet ds)
 	{
-		//		if(log.isLoggable( Level.FINE ))
-		//			log.fine("DependencyIndex- Calling add type dependency");
+		//		if(_log.isLoggable( Level.FINE ))
+		//			_log.fine("DependencyIndex- Calling add type dependency");
 
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
@@ -118,8 +118,8 @@ public class DependencyIndex
 				if (!dependencies.containsKey(nextAtom))
 					dependencies.put(nextAtom, new DependencyEntry());
 
-				//					if(log.isLoggable( Level.FINE ))
-				//						log.fine("DependencyIndex- Adding type dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  Type["  + type + "]");
+				//					if(_log.isLoggable( Level.FINE ))
+				//						_log.fine("DependencyIndex- Adding type dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  Type["  + type + "]");
 
 				//add the dependency
 				dependencies.get(nextAtom).addTypeDependency(ind, type);
@@ -135,8 +135,8 @@ public class DependencyIndex
 	 */
 	public void addMergeDependency(final ATermAppl ind, final ATermAppl mergedTo, final DependencySet ds)
 	{
-		//		if(log.isLoggable( Level.FINE ))
-		//			log.fine("DependencyIndex- Calling add merge dependency");
+		//		if(_log.isLoggable( Level.FINE ))
+		//			_log.fine("DependencyIndex- Calling add merge dependency");
 
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
@@ -147,8 +147,8 @@ public class DependencyIndex
 				if (!dependencies.containsKey(nextAtom))
 					dependencies.put(nextAtom, new DependencyEntry());
 
-				//					if(log.isLoggable( Level.FINE ))
-				//						log.fine("DependencyIndex- Adding merge dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  mergedToInd["  + mergedTo + "]");
+				//					if(_log.isLoggable( Level.FINE ))
+				//						_log.fine("DependencyIndex- Adding merge dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  mergedToInd["  + mergedTo + "]");
 
 				//add the dependency
 				dependencies.get(nextAtom).addMergeDependency(ind, mergedTo);
@@ -163,8 +163,8 @@ public class DependencyIndex
 	 */
 	public void addEdgeDependency(final Edge edge, final DependencySet ds)
 	{
-		//		if(log.isLoggable( Level.FINE ))
-		//			log.fine("DependencyIndex- Calling add edge dependency");
+		//		if(_log.isLoggable( Level.FINE ))
+		//			_log.fine("DependencyIndex- Calling add edge dependency");
 
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
@@ -175,8 +175,8 @@ public class DependencyIndex
 				if (!dependencies.containsKey(nextAtom))
 					dependencies.put(nextAtom, new DependencyEntry());
 
-				//					if(log.isLoggable( Level.FINE ))
-				//						log.fine("  DependencyIndex- Adding edge dependency: Axiom [" +nextAtom + "]   ,  Edge [" + edge + "]");
+				//					if(_log.isLoggable( Level.FINE ))
+				//						_log.fine("  DependencyIndex- Adding edge dependency: Axiom [" +nextAtom + "]   ,  Edge [" + edge + "]");
 
 				//add the dependency
 				dependencies.get(nextAtom).addEdgeDependency(edge);

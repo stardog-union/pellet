@@ -40,15 +40,15 @@ public abstract class AbstractTableauRule implements TableauRule
 		NONE, DIRECT, INDIRECT, COMPLETE
 	}
 
-	protected CompletionStrategy strategy;
-	protected NodeSelector nodeSelector;
-	protected BlockingType blockingType;
+	protected CompletionStrategy _strategy;
+	protected NodeSelector _nodeSelector;
+	protected BlockingType _blockingType;
 
 	public AbstractTableauRule(final CompletionStrategy strategy, final NodeSelector nodeSelector, final BlockingType blockingType)
 	{
-		this.strategy = strategy;
-		this.nodeSelector = nodeSelector;
-		this.blockingType = blockingType;
+		this._strategy = strategy;
+		this._nodeSelector = nodeSelector;
+		this._blockingType = blockingType;
 	}
 
 	public boolean isDisabled()
@@ -59,12 +59,12 @@ public abstract class AbstractTableauRule implements TableauRule
 	@Override
 	public void apply(final IndividualIterator i)
 	{
-		i.reset(nodeSelector);
+		i.reset(_nodeSelector);
 		while (i.hasNext())
 		{
 			final Individual node = i.next();
 
-			if (strategy.getBlocking().isBlocked(node))
+			if (_strategy.getBlocking().isBlocked(node))
 			{
 				if (PelletOptions.USE_COMPLETION_QUEUE)
 					addQueueElement(node);
@@ -73,7 +73,7 @@ public abstract class AbstractTableauRule implements TableauRule
 			{
 				apply(node);
 
-				if (strategy.getABox().isClosed())
+				if (_strategy.getABox().isClosed())
 					return;
 			}
 		}
@@ -81,16 +81,16 @@ public abstract class AbstractTableauRule implements TableauRule
 
 	protected boolean isBlocked(final Individual node)
 	{
-		switch (blockingType)
+		switch (_blockingType)
 		{
 			case NONE:
 				return false;
 			case DIRECT:
-				return strategy.getBlocking().isDirectlyBlocked(node);
+				return _strategy.getBlocking().isDirectlyBlocked(node);
 			case INDIRECT:
-				return strategy.getBlocking().isIndirectlyBlocked(node);
+				return _strategy.getBlocking().isIndirectlyBlocked(node);
 			case COMPLETE:
-				return strategy.getBlocking().isBlocked(node);
+				return _strategy.getBlocking().isBlocked(node);
 			default:
 				throw new AssertionError();
 		}
@@ -98,6 +98,6 @@ public abstract class AbstractTableauRule implements TableauRule
 
 	protected void addQueueElement(final Node node)
 	{
-		strategy.getABox().getCompletionQueue().add(new QueueElement(node), nodeSelector);
+		_strategy.getABox().getCompletionQueue().add(new QueueElement(node), _nodeSelector);
 	}
 }

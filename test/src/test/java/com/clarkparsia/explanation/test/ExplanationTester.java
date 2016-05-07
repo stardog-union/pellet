@@ -101,7 +101,7 @@ public class ExplanationTester
 
 			log.severe("Error in explanation: " + sw);
 
-			org.junit.Assert.fail("Error in explanation, see the log file for details");
+			org.junit.Assert.fail("Error in explanation, see the _log file for details");
 		}
 	}
 }

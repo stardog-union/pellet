@@ -64,7 +64,7 @@ public class ChooseRule extends AbstractTableauRule
 	{
 		// max(r, n, c) is in normalized form not(min(p, n + 1, c))       
 		final ATermAppl max = (ATermAppl) maxCard.getArgument(0);
-		final Role r = strategy.getABox().getRole(max.getArgument(0));
+		final Role r = _strategy.getABox().getRole(max.getArgument(0));
 		final ATermAppl c = (ATermAppl) max.getArgument(2);
 
 		if (ATermUtils.isTop(c))
@@ -80,12 +80,12 @@ public class ChooseRule extends AbstractTableauRule
 
 			if (!neighbor.hasType(c) && !neighbor.hasType(ATermUtils.negate(c)))
 			{
-				final ChooseBranch newBranch = new ChooseBranch(strategy.getABox(), strategy, neighbor, c, x.getDepends(maxCard));
-				strategy.addBranch(newBranch);
+				final ChooseBranch newBranch = new ChooseBranch(_strategy.getABox(), _strategy, neighbor, c, x.getDepends(maxCard));
+				_strategy.addBranch(newBranch);
 
 				newBranch.tryNext();
 
-				if (strategy.getABox().isClosed())
+				if (_strategy.getABox().isClosed())
 					return;
 			}
 		}

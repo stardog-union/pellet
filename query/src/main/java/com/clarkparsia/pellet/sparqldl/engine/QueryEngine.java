@@ -331,8 +331,8 @@ public class QueryEngine
 			return new QueryResultImpl(query);
 
 		// if (PelletOptions.SAMPLING_RATIO > 0) {
-		// if (log.isLoggable( Level.FINE ))
-		// log.fine("Reorder\n" + query);
+		// if (_log.isLoggable( Level.FINE ))
+		// _log.fine("Reorder\n" + query);
 		//
 		// query = reorder(query);
 

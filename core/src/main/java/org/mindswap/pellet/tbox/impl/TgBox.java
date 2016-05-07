@@ -199,9 +199,9 @@ public class TgBox extends TBoxBase
 				log.finer("Absorb III");
 				continue;
 			}
-			// log.finer("Absorb IV");
+			// _log.finer("Absorb IV");
 			// if (absorbIV(set)) {
-			// log.finer("Absorb IV");
+			// _log.finer("Absorb IV");
 			// continue;
 			// }
 			log.finer("Absorb V");

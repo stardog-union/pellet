@@ -57,7 +57,7 @@ public class GuessRule extends AbstractTableauRule
 
 			applyGuessingRule(x, mc);
 
-			if (strategy.getABox().isClosed())
+			if (_strategy.getABox().isClosed())
 				return;
 
 			//			if( x.isPruned() )
@@ -70,7 +70,7 @@ public class GuessRule extends AbstractTableauRule
 		// max(r, n) is in normalized form not(min(p, n + 1))
 		final ATermAppl max = (ATermAppl) mc.getArgument(0);
 
-		final Role r = strategy.getABox().getRole(max.getArgument(0));
+		final Role r = _strategy.getABox().getRole(max.getArgument(0));
 		final int n = ((ATermInt) max.getArgument(1)).getInt() - 1;
 		final ATermAppl c = (ATermAppl) max.getArgument(2);
 
@@ -120,11 +120,11 @@ public class GuessRule extends AbstractTableauRule
 		for (int e = 0; e < edges.size(); e++)
 		{
 			final Edge edge = edges.edgeAt(e);
-			ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
+			ds = ds.union(edge.getDepends(), _strategy.getABox().doExplanation());
 		}
 
-		final GuessBranch newBranch = new GuessBranch(strategy.getABox(), strategy, x, r, guessMin, n, c, ds);
-		strategy.addBranch(newBranch);
+		final GuessBranch newBranch = new GuessBranch(_strategy.getABox(), _strategy, x, r, guessMin, n, c, ds);
+		_strategy.addBranch(newBranch);
 
 		newBranch.tryNext();
 	}

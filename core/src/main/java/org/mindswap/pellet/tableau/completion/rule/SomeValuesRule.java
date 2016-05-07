@@ -65,7 +65,7 @@ public class SomeValuesRule extends AbstractTableauRule
 
 			applySomeValuesRule(x, sv);
 
-			if (strategy.getABox().isClosed() || x.isPruned())
+			if (_strategy.getABox().isClosed() || x.isPruned())
 				return;
 		}
 		x.applyNext[Node.SOME] = size;
@@ -91,16 +91,16 @@ public class SomeValuesRule extends AbstractTableauRule
 			if (ATermUtils.isNominal(c))
 				return;
 
-			for (final Node node : strategy.getABox().getNodes())
+			for (final Node node : _strategy.getABox().getNodes())
 				if (node.isIndividual() && !node.isPruned() && node.hasType(c))
 					return;
 
-			final Individual y = strategy.createFreshIndividual(x, ds);
-			strategy.addType(y, c, ds);
+			final Individual y = _strategy.createFreshIndividual(x, ds);
+			_strategy.addType(y, c, ds);
 			return;
 		}
 
-		final Role role = strategy.getABox().getRole(s);
+		final Role role = _strategy.getABox().getRole(s);
 
 		// Is there a r-_neighbor that satisfies the someValuesFrom restriction
 		boolean neighborFound = false;
@@ -133,7 +133,7 @@ public class SomeValuesRule extends AbstractTableauRule
 
 			if (y != null && y.hasType(c))
 			{
-				neighborFound = neighborSafe || y.isLiteral() || !strategy.getBlocking().isBlocked((Individual) y);
+				neighborFound = neighborSafe || y.isLiteral() || !_strategy.getBlocking().isBlocked((Individual) y);
 				if (neighborFound)
 					break;
 			}
@@ -150,7 +150,7 @@ public class SomeValuesRule extends AbstractTableauRule
 			Literal literal = (Literal) y;
 			if (ATermUtils.isNominal(c) && !PelletOptions.USE_PSEUDO_NOMINALS)
 			{
-				strategy.getABox().copyOnWrite();
+				_strategy.getABox().copyOnWrite();
 
 				final ATermAppl input = (ATermAppl) c.getArgument(0);
 				ATermAppl canonical;
@@ -159,7 +159,7 @@ public class SomeValuesRule extends AbstractTableauRule
 				else
 					try
 				{
-						canonical = strategy.getABox().getDatatypeReasoner().getCanonicalRepresentation(input);
+						canonical = _strategy.getABox().getDatatypeReasoner().getCanonicalRepresentation(input);
 				}
 				catch (final InvalidLiteralException e)
 				{
@@ -171,41 +171,41 @@ public class SomeValuesRule extends AbstractTableauRule
 					final String msg = "Unrecognized datatype for literal encountered in nominal when attempting to apply some values rule: " + e.getMessage();
 					throw new InternalReasonerException(msg, e);
 				}
-				literal = strategy.getABox().addLiteral(canonical);
+				literal = _strategy.getABox().addLiteral(canonical);
 			}
 			else
 			{
 				if (!role.isFunctional() || literal == null)
-					literal = strategy.getABox().addLiteral(ds);
+					literal = _strategy.getABox().addLiteral(ds);
 				else
 				{
-					ds = ds.union(role.getExplainFunctional(), strategy.getABox().doExplanation());
+					ds = ds.union(role.getExplainFunctional(), _strategy.getABox().doExplanation());
 					if (edge != null)
-						ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
+						ds = ds.union(edge.getDepends(), _strategy.getABox().doExplanation());
 				}
-				strategy.addType(literal, c, ds);
+				_strategy.addType(literal, c, ds);
 			}
 
 			if (log.isLoggable(Level.FINE))
 				log.fine("SOME: " + x + " -> " + s + " -> " + literal + " : " + ATermUtils.toString(c) + " - " + ds);
 
-			strategy.addEdge(x, role, literal, ds);
+			_strategy.addEdge(x, role, literal, ds);
 		}
 		// If it is an object property
 		else
 			if (ATermUtils.isNominal(c) && !PelletOptions.USE_PSEUDO_NOMINALS)
 			{
-				strategy.getABox().copyOnWrite();
+				_strategy.getABox().copyOnWrite();
 
 				final ATermAppl value = (ATermAppl) c.getArgument(0);
-				y = strategy.getABox().getIndividual(value);
+				y = _strategy.getABox().getIndividual(value);
 
 				if (log.isLoggable(Level.FINE))
 					log.fine("VAL : " + x + " -> " + ATermUtils.toString(s) + " -> " + y + " - " + ds);
 
 				if (y == null)
 					if (ATermUtils.isAnonNominal(value))
-						y = strategy.getABox().addIndividual(value, ds);
+						y = _strategy.getABox().addIndividual(value, ds);
 					else
 						if (ATermUtils.isLiteral(value))
 							throw new InternalReasonerException("Object Property " + role + " is used with a hasValue restriction " + "where the value is a literal: " + ATermUtils.toString(value));
@@ -214,12 +214,12 @@ public class SomeValuesRule extends AbstractTableauRule
 
 				if (y.isMerged())
 				{
-					ds = ds.union(y.getMergeDependency(true), strategy.getABox().doExplanation());
+					ds = ds.union(y.getMergeDependency(true), _strategy.getABox().doExplanation());
 
 					y = y.getSame();
 				}
 
-				strategy.addEdge(x, role, y, ds);
+				_strategy.addEdge(x, role, y, ds);
 			}
 			else
 			{
@@ -228,7 +228,7 @@ public class SomeValuesRule extends AbstractTableauRule
 				final DependencySet maxCardDS = role.isFunctional() ? role.getExplainFunctional() : x.hasMax1(role);
 				if (maxCardDS != null)
 				{
-					ds = ds.union(maxCardDS, strategy.getABox().doExplanation());
+					ds = ds.union(maxCardDS, _strategy.getABox().doExplanation());
 
 					// if there is an r-_neighbor and we can have at most one r then
 					// we should reuse that _node and edge. there is no way that _neighbor
@@ -269,8 +269,8 @@ public class SomeValuesRule extends AbstractTableauRule
 									final Node otherNode = otherEdge.getNeighbor(x);
 									if (edge != null)
 									{
-										final DependencySet d = ds.union(edge.getDepends(), strategy.getABox().doExplanation()).union(otherEdge.getDepends(), strategy.getABox().doExplanation()).union(fds, strategy.getABox().doExplanation());
-										strategy.mergeTo(y, otherNode, d);
+										final DependencySet d = ds.union(edge.getDepends(), _strategy.getABox().doExplanation()).union(otherEdge.getDepends(), _strategy.getABox().doExplanation()).union(fds, _strategy.getABox().doExplanation());
+										_strategy.mergeTo(y, otherNode, d);
 									}
 								}
 								else
@@ -288,21 +288,21 @@ public class SomeValuesRule extends AbstractTableauRule
 				if (useExistingNode)
 				{
 					if (edge != null)
-						ds = ds.union(edge.getDepends(), strategy.getABox().doExplanation());
+						ds = ds.union(edge.getDepends(), _strategy.getABox().doExplanation());
 				}
 				else
-					y = strategy.createFreshIndividual(x, ds);
+					y = _strategy.createFreshIndividual(x, ds);
 
 				if (log.isLoggable(Level.FINE))
 					log.fine("SOME: " + x + " -> " + role + " -> " + y + " : " + ATermUtils.toString(c) + (useExistingNode ? "" : " (*)") + " - " + ds);
 
-				strategy.addType(y, c, ds);
+				_strategy.addType(y, c, ds);
 
 				if (!useExistingRole)
 					if (x.isBlockable() && (y != null && y.isConceptRoot()))
-						strategy.addEdge((Individual) y, role.getInverse(), x, ds);
+						_strategy.addEdge((Individual) y, role.getInverse(), x, ds);
 					else
-						strategy.addEdge(x, role, y, ds);
+						_strategy.addEdge(x, role, y, ds);
 			}
 	}
 }
