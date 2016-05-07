@@ -68,7 +68,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 
 		assert currentCycle.isEmpty() : "non-empty current cycle passed into function";
 
-		final Set<OWLEntity> myCycle = new HashSet<OWLEntity>();
+		final Set<OWLEntity> myCycle = new HashSet<>();
 
 		if (entity != null)
 		{
@@ -80,20 +80,20 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 		}
 
 		int oldSize = -1;
-		Set<OWLEntity> previousModule = new HashSet<OWLEntity>();
+		Set<OWLEntity> previousModule = new HashSet<>();
 
 		while (module.size() != oldSize)
 		{
 			oldSize = module.size();
 
-			final List<OWLEntity> newMembers = new ArrayList<OWLEntity>();
+			final List<OWLEntity> newMembers = new ArrayList<>();
 
 			// Previous updates to the module may cause additional axioms to be
 			// non-local
 			{
 				final Set<OWLEntity> addedEntities = SetUtils.difference(module, previousModule);
-				previousModule = new HashSet<OWLEntity>(module);
-				final Set<OWLAxiom> testLocal = new HashSet<OWLAxiom>();
+				previousModule = new HashSet<>(module);
+				final Set<OWLAxiom> testLocal = new HashSet<>();
 
 				for (final OWLEntity e : addedEntities)
 					for (final OWLAxiom a : getAxioms(e))
@@ -117,8 +117,8 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 				if (!modules.containsKey(member))
 				{
 
-					final Set<OWLEntity> memberMod = new HashSet<OWLEntity>();
-					final List<OWLEntity> memberCycle = new ArrayList<OWLEntity>();
+					final Set<OWLEntity> memberMod = new HashSet<>();
+					final List<OWLEntity> memberCycle = new ArrayList<>();
 					final OWLEntity root = extractModuleSignature(member, stackElements, memberCycle, memberMod);
 
 					module.addAll(memberMod);
@@ -126,18 +126,18 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 					// Option 1: No cycle was identified, extraction successful
 					if (root.equals(member))
 						assert !stackElements.contains(member) : "Recursive call did not cleanup stack";
-						else
-					{
-							myCycle.addAll(memberCycle);
-							// Option 2a: entity was the root of the cycle
-							if (myCycle.contains(root))
-								stackElements.addAll(memberCycle);
-							else
+					else
 						{
-								currentCycle.addAll(myCycle);
-								return root;
-							}
+						myCycle.addAll(memberCycle);
+						// Option 2a: entity was the root of the cycle
+						if (myCycle.contains(root))
+							stackElements.addAll(memberCycle);
+						else
+							{
+							currentCycle.addAll(myCycle);
+							return root;
 						}
+					}
 				}
 				// entity is in a cycle
 				else
@@ -173,7 +173,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 
 		assert !modules.containsKey(entity) : "po already contained entity";
 
-		final Set<OWLEntity> module = new HashSet<OWLEntity>();
+		final Set<OWLEntity> module = new HashSet<>();
 
 		if (entity != null)
 		{
@@ -187,20 +187,20 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 		}
 
 		int oldSize = -1;
-		Set<OWLEntity> previousModule = new HashSet<OWLEntity>();
+		Set<OWLEntity> previousModule = new HashSet<>();
 
 		while (module.size() != oldSize)
 		{
 			oldSize = module.size();
 
-			final List<OWLEntity> newMembers = new ArrayList<OWLEntity>();
+			final List<OWLEntity> newMembers = new ArrayList<>();
 
 			// Previous updates to the module may cause additional axioms to be
 			// non-local
 			{
 				final Set<OWLEntity> addedEntities = SetUtils.difference(module, previousModule);
-				previousModule = new HashSet<OWLEntity>(module);
-				final Set<OWLAxiom> testLocal = new HashSet<OWLAxiom>();
+				previousModule = new HashSet<>(module);
+				final Set<OWLAxiom> testLocal = new HashSet<>();
 
 				for (final OWLEntity e : addedEntities)
 					for (final OWLAxiom a : getAxioms(e))
@@ -254,7 +254,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 	@Override
 	protected void extractModuleSignatures(final Set<? extends OWLEntity> entities, final ProgressMonitor monitor)
 	{
-		final Set<OWLEntity> nonLocalModule = new HashSet<OWLEntity>();
+		final Set<OWLEntity> nonLocalModule = new HashSet<>();
 		for (final OWLAxiom axiom : getAxioms())
 			if (!isLocal(axiom, Collections.<OWLEntity> emptySet()))
 				nonLocalModule.addAll(OntologyUtils.getSignature(axiom));
@@ -272,9 +272,9 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 
 			if (!modules.containsKey(ent))
 				if (optimizeForSharedModules)
-					extractModuleSignature(ent, new HashSet<OWLEntity>(), new ArrayList<OWLEntity>(), new HashSet<OWLEntity>(nonLocalModule));
+					extractModuleSignature(ent, new HashSet<OWLEntity>(), new ArrayList<OWLEntity>(), new HashSet<>(nonLocalModule));
 				else
-					extractModuleSignature(ent, new DisjointSet<OWLEntity>(), new ArrayList<OWLEntity>(), new HashSet<OWLEntity>(nonLocalModule));
+					extractModuleSignature(ent, new DisjointSet<OWLEntity>(), new ArrayList<OWLEntity>(), new HashSet<>(nonLocalModule));
 		}
 	}
 
@@ -287,7 +287,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 		if (isChanged())
 			resetModules();
 
-		final Set<OWLEntity> module = new HashSet<OWLEntity>(signature);
+		final Set<OWLEntity> module = new HashSet<>(signature);
 		for (final OWLAxiom axiom : getAxioms())
 			if (!isLocal(axiom, Collections.<OWLEntity> emptySet()))
 				module.addAll(OntologyUtils.getSignature(axiom));

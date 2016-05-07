@@ -59,19 +59,19 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 {
 	public static final Logger log = Logger.getLogger(AbstractModuleExtractor.class.getName());
 
-	private final Set<OWLAxiom> additions = new HashSet<OWLAxiom>();
+	private final Set<OWLAxiom> additions = new HashSet<>();
 
-	private final Set<OWLClass> newClasses = new HashSet<OWLClass>();
+	private final Set<OWLClass> newClasses = new HashSet<>();
 
 	/**
 	 * Map to find entities referenced in an axiom
 	 */
-	private final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+	private final Set<OWLAxiom> axioms = new HashSet<>();
 
 	/**
 	 * Set of axioms that will be deleted
 	 */
-	private final Set<OWLAxiom> deletions = new HashSet<OWLAxiom>();
+	private final Set<OWLAxiom> deletions = new HashSet<>();
 
 	/**
 	 * The types of changes that are pending in additions and deletions
@@ -81,7 +81,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	/**
 	 * Map to find axioms that references an axiom
 	 */
-	protected MultiValueMap<OWLEntity, OWLAxiom> entityAxioms = new MultiValueMap<OWLEntity, OWLAxiom>();
+	protected MultiValueMap<OWLEntity, OWLAxiom> entityAxioms = new MultiValueMap<>();
 
 	private LocalityEvaluator localityEvaluator = null;
 
@@ -199,7 +199,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 		nonLocalAxioms = false;
 
-		modules = new MultiValueMap<OWLEntity, OWLEntity>();
+		modules = new MultiValueMap<>();
 
 		extractModuleSignatures(entityAxioms.keySet());
 
@@ -245,8 +245,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	 */
 	private Set<OWLEntity> getAffectedRoots(final OWLAxiom axiom, final Taxonomy<OWLClass> taxonomy, final boolean add)
 	{
-		final Set<OWLEntity> roots = new HashSet<OWLEntity>();
-		final Set<TaxonomyNode<OWLClass>> visited = new HashSet<TaxonomyNode<OWLClass>>();
+		final Set<OWLEntity> roots = new HashSet<>();
+		final Set<TaxonomyNode<OWLClass>> visited = new HashSet<>();
 		visited.add(taxonomy.getBottom());
 		getAffectedRoots(axiom, taxonomy.getTop(), roots, add, visited);
 
@@ -340,13 +340,13 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 	protected Set<OWLAxiom> getModuleAxioms(final Set<OWLEntity> signature)
 	{
-		final Set<OWLEntity> referenced = new HashSet<OWLEntity>();
+		final Set<OWLEntity> referenced = new HashSet<>();
 
-		final Set<OWLEntity> augmentedSig = new HashSet<OWLEntity>(signature);
+		final Set<OWLEntity> augmentedSig = new HashSet<>(signature);
 		augmentedSig.add(OWL.Thing);
-		final Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> axioms = new HashSet<>();
 
-		final Set<OWLAxiom> candidates = new HashSet<OWLAxiom>();
+		final Set<OWLAxiom> candidates = new HashSet<>();
 		for (final OWLEntity e : signature)
 			candidates.addAll(getAxioms(e));
 
@@ -377,7 +377,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		 * the signature and contain entities not in the signature. A
 		 * declaration axiom is used to keep the entity in the module.
 		 */
-		final Set<OWLEntity> notReferenced = new HashSet<OWLEntity>(signature);
+		final Set<OWLEntity> notReferenced = new HashSet<>(signature);
 		notReferenced.removeAll(referenced);
 		for (final OWLEntity e : notReferenced)
 			if (entityAxioms.get(e) != null)
@@ -484,9 +484,9 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	private void updateEffectedModules(final Set<OWLEntity> effects, final Taxonomy<OWLClass> taxonomy, final boolean add)
 	{
 		// affected root nodes in order
-		final Set<OWLEntity> affectedRoots = new HashSet<OWLEntity>();
+		final Set<OWLEntity> affectedRoots = new HashSet<>();
 		// Set of all nodes affected
-		final Set<OWLEntity> affected = new HashSet<OWLEntity>();
+		final Set<OWLEntity> affected = new HashSet<>();
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Update modules for " + (add ? "additions" : "deletions"));
@@ -547,7 +547,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 			throw new UnsupportedOperationException("Modules cannot be updated!");
 
 		// Set of all entities in the module of affected entities
-		final Set<OWLEntity> effects = new HashSet<OWLEntity>();
+		final Set<OWLEntity> effects = new HashSet<>();
 
 		// cash the signatures for axioms as they are used in the next step
 		processAdditions();
@@ -603,7 +603,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 		nonLocalAxioms = false;
 
-		modules = new MultiValueMap<OWLEntity, OWLEntity>();
+		modules = new MultiValueMap<>();
 	}
 
 	/**
@@ -613,7 +613,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	public boolean isClassificationNeeded(final Expressivity expressivity)
 	{
 		return isTBoxChanged()
-		// RBox did not change since classification
+				// RBox did not change since classification
 				|| isRBoxChanged()
 				// there are no nominals
 				|| (expressivity.hasNominal() && !PelletOptions.USE_PSEUDO_NOMINALS);

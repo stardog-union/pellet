@@ -117,15 +117,15 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  *
  * @author Evren Sirin
  */
-public class OWLAPIv3Tests extends AbstractOWLAPITests
+public class OWLAPITests extends AbstractOWLAPITests
 {
 	public static junit.framework.Test suite()
 	{
-		return new JUnit4TestAdapter(OWLAPIv3Tests.class);
+		return new JUnit4TestAdapter(OWLAPITests.class);
 	}
 
 	@Test
-	public void testOWL2() throws OWLException
+	public void testOWL2()
 	{
 		final String ns = "http://www.example.org/test#";
 
@@ -143,7 +143,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testOWL2Incremental() throws OWLException
+	public void testOWL2Incremental()
 	{
 		final String ns = "http://www.example.org/test#";
 
@@ -235,7 +235,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testUncle() throws OWLException
+	public void testUncle()
 	{
 		final String ns = "http://www.example.org/test#";
 
@@ -252,7 +252,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testSibling() throws OWLException
+	public void testSibling()
 	{
 		final String ns = "http://www.example.org/test#";
 
@@ -300,7 +300,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testPropertyChain() throws OWLException
+	public void testPropertyChain()
 	{
 		final String ns = "http://www.example.org/test#";
 
@@ -362,7 +362,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testReflexive2() throws OWLException
+	public void testReflexive2()
 	{
 		final String ns = "http://www.example.org/test#";
 		final String foaf = "http://xmlns.com/foaf/0.1/";
@@ -429,54 +429,54 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 
 		final PelletReasoner reasoner = buffering ? PelletReasonerFactory.getInstance().createReasoner(ont) : PelletReasonerFactory.getInstance().createNonBufferingReasoner(ont);
 
-				final OWLDataProperty pInt = DataProperty(ns + "pInt");
-				final OWLDataProperty pDouble = DataProperty(ns + "pDouble");
-				final OWLDataProperty pBoolean = DataProperty(ns + "pBoolean");
+		final OWLDataProperty pInt = DataProperty(ns + "pInt");
+		final OWLDataProperty pDouble = DataProperty(ns + "pDouble");
+		final OWLDataProperty pBoolean = DataProperty(ns + "pBoolean");
 
-				final OWLNamedIndividual ind = Individual(ns + indName);
+		final OWLNamedIndividual ind = Individual(ns + indName);
 
 		final OWLLiteral valDouble = EntitySearcher.getDataPropertyValues(ind, pDouble, ont).iterator().next();
 		final OWLLiteral valInt = EntitySearcher.getDataPropertyValues(ind, pInt, ont).iterator().next();
 		final OWLLiteral valBoolean = EntitySearcher.getDataPropertyValues(ind, pBoolean, ont).iterator().next();
 
-				assertTrue(reasoner.isConsistent());
+		assertTrue(reasoner.isConsistent());
 
 		removeAxioms(ont, propertyAssertion(ind, pDouble, valDouble));
-				if (buffering)
+		if (buffering)
 		{
-					assertFalse(reasoner.getDataPropertyValues(ind, pDouble).isEmpty());
-					reasoner.flush();
-				}
-				assertTrue(reasoner.getDataPropertyValues(ind, pDouble).isEmpty());
+			assertFalse(reasoner.getDataPropertyValues(ind, pDouble).isEmpty());
+			reasoner.flush();
+		}
+		assertTrue(reasoner.getDataPropertyValues(ind, pDouble).isEmpty());
 
-				removeAxioms(ont, propertyAssertion(ind, pInt, valInt));
-				if (buffering)
+		removeAxioms(ont, propertyAssertion(ind, pInt, valInt));
+		if (buffering)
 		{
-					assertFalse(reasoner.getDataPropertyValues(ind, pInt).isEmpty());
-					reasoner.flush();
-				}
-				assertTrue(reasoner.getDataPropertyValues(ind, pInt).isEmpty());
+			assertFalse(reasoner.getDataPropertyValues(ind, pInt).isEmpty());
+			reasoner.flush();
+		}
+		assertTrue(reasoner.getDataPropertyValues(ind, pInt).isEmpty());
 
-				removeAxioms(ont, propertyAssertion(ind, pBoolean, valBoolean));
-				if (buffering)
+		removeAxioms(ont, propertyAssertion(ind, pBoolean, valBoolean));
+		if (buffering)
 		{
-					assertFalse(reasoner.getDataPropertyValues(ind, pBoolean).isEmpty());
-					reasoner.flush();
-				}
-				assertTrue(reasoner.getDataPropertyValues(ind, pBoolean).isEmpty());
+			assertFalse(reasoner.getDataPropertyValues(ind, pBoolean).isEmpty());
+			reasoner.flush();
+		}
+		assertTrue(reasoner.getDataPropertyValues(ind, pBoolean).isEmpty());
 
-				// assertTrue( reasoner.getDataPropertyRelationships( ind ).isEmpty() );
+		// assertTrue( reasoner.getDataPropertyRelationships( ind ).isEmpty() );
 
 		final OWLLiteral newVal = OWL.constant(0.0D);
-				addAxioms(ont, propertyAssertion(ind, pDouble, newVal));
-				if (buffering)
-					reasoner.flush();
+		addAxioms(ont, propertyAssertion(ind, pDouble, newVal));
+		if (buffering)
+			reasoner.flush();
 
-				assertTrue(reasoner.isConsistent());
+		assertTrue(reasoner.isConsistent());
 	}
 
 	@Test
-	public void testFamily() throws OWLException
+	public void testFamily()
 	{
 		final String ns = "http://www.example.org/family#";
 
@@ -664,7 +664,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 		// kb.timers.print();
 	}
 
-	/**
+	/*
 	 * Verifies that OWL 2 entity declarations are parsed from RDF/XML and handled correctly.
 	 */
 	//	@Test
@@ -707,7 +707,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	//	}
 
 	@Test
-	public void testAnonInverse() throws OWLException
+	public void testAnonInverse()
 	{
 		final String ns = "http://www.example.org/test#";
 
@@ -745,7 +745,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testDLSafeRules() throws OWLOntologyCreationException
+	public void testDLSafeRules()
 	{
 		final String ns = "http://owldl.com/ontologies/dl-safe.owl#";
 
@@ -805,7 +805,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testDLSafeConstants() throws OWLOntologyCreationException
+	public void testDLSafeConstants()
 	{
 		final String ns = "http://owldl.com/ontologies/dl-safe-constants.owl#";
 
@@ -870,7 +870,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testInvalidTransitivity2() throws OWLOntologyCreationException
+	public void testInvalidTransitivity2()
 	{
 		final OWLOntology ont = loadOntology(base + "invalidTransitivity.owl");
 
@@ -892,7 +892,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testSameAs1() throws OWLException
+	public void testSameAs1()
 	{
 		final String ns = "urn:test:";
 
@@ -1354,7 +1354,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testTopBottomPropertyAssertion() throws OWLOntologyCreationException
+	public void testTopBottomPropertyAssertion()
 	{
 		final OWLAxiom[] axioms = { OWL.propertyAssertion(a, OWL.topObjectProperty, b), OWL.propertyAssertion(a, OWL.topDataProperty, lit), OWL.propertyAssertion(a, OWL.bottomObjectProperty, b), OWL.propertyAssertion(a, OWL.bottomDataProperty, lit) };
 
@@ -1368,7 +1368,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void testTopBottomPropertyInferences() throws OWLOntologyCreationException
+	public void testTopBottomPropertyInferences()
 	{
 		final boolean prevValue = PelletOptions.HIDE_TOP_PROPERTY_VALUES;
 		PelletOptions.HIDE_TOP_PROPERTY_VALUES = false;
@@ -1458,7 +1458,7 @@ public class OWLAPIv3Tests extends AbstractOWLAPITests
 	/**
 	 * Tests for the bug reported in #149
 	 */
-	public void test149() throws OWLOntologyCreationException
+	public void test149()
 	{
 		createReasoner(OWL.inverseProperties(p, q));
 

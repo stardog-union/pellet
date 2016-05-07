@@ -43,7 +43,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 		for (final OWLAxiom axiom : getAxioms())
 			builder.addAxiom(axiom);
 
-		final Reachability<OWLEntity> engine = new Reachability<OWLEntity>(builder.build());
+		final Reachability<OWLEntity> engine = new Reachability<>(builder.build());
 		t.stop();
 
 		if (log.isLoggable(Level.FINER))
@@ -134,7 +134,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 
 				// the module is the union of the outputModule and the entities
 				// in this node
-				module = new PairSet<OWLEntity>(outputModule, node.getEntities());
+				module = new PairSet<>(outputModule, node.getEntities());
 			}
 		}
 

@@ -172,6 +172,10 @@ public class TestUtils
 
 	/**
 	 * Selects a set of random axioms from an ontology
+	 * 
+	 * @param ontology is the repository of axioms
+	 * @param count number of axiom to return at max.
+	 * @return count random axioms or less
 	 */
 	public static Set<OWLAxiom> selectRandomAxioms(final OWLOntology ontology, final int count)
 	{
@@ -187,6 +191,8 @@ public class TestUtils
 			throw new IllegalArgumentException(K + " > " + N);
 
 		final List<T> list = (coll instanceof RandomAccess) ? (List<T>) coll : new ArrayList<>(coll);
+
+		//		return new HashSet<>(list.subList(0, K));
 
 		final Random rand = new Random();
 
@@ -306,6 +312,9 @@ public class TestUtils
 
 	private static void runComparisonUpdateTest(final OWLOntology ontology, final ModuleExtractor modExtractor, final Collection<OWLAxiom> additions, final Collection<OWLAxiom> deletions, final ReasonerComparisonMethod comparisonMethod)
 	{
+		//		System.out.println();
+		//		ontology.axioms().map(OWLAxiom::toString).sorted().forEach(System.out::println);
+
 		final PelletReasoner unified = PelletReasonerFactory.getInstance().createNonBufferingReasoner(ontology);
 		final IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(ontology, modExtractor);
 

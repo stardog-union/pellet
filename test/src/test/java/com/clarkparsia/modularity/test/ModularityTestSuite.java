@@ -29,7 +29,17 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 
 @RunWith(Suite.class)
-@SuiteClasses({ SyntacticBottomLocalityTests.class, SyntacticTopLocalityTests.class, SyntacticTopTopLocalityTests.class, AxiomBasedModularityTestSuite.class, GraphBasedModularityTestSuite.class, PersistenceModularityTest.class, PersistenceClassificationTest.class, PersistenceRealizationTest.class, PersistenceUpdatesTest.class })
+@SuiteClasses({ //
+SyntacticBottomLocalityTests.class,//
+		SyntacticTopLocalityTests.class,//
+		SyntacticTopTopLocalityTests.class,//
+		//AxiomBasedModularityTestSuite.class,//
+		//GraphBasedModularityTestSuite.class,//
+		PersistenceModularityTest.class,//
+		//PersistenceClassificationTest.class,//
+		//PersistenceRealizationTest.class,//
+		PersistenceUpdatesTest.class //
+})
 public class ModularityTestSuite
 {
 	public static junit.framework.Test suite()
