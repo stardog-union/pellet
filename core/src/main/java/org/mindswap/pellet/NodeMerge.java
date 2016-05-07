@@ -1,12 +1,12 @@
 // Portions Copyright (c) 2006 - 2008, Clark & Parsia, LLC. <http://www.clarkparsia.com>
-// Clark & Parsia, LLC parts of this source code are available under the terms of the Affero General Public License v3.
+// Clark & Parsia, LLC parts of this _source code are available under the terms of the Affero General Public License v3.
 //
 // Please see LICENSE.txt for full license terms, including the availability of proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 //
 // ---
 // Portions Copyright (c) 2003 Ron Alford, Mike Grove, Bijan Parsia, Evren Sirin
-// Alford, Grove, Parsia, Sirin parts of this source code are available under the terms of the MIT License.
+// Alford, Grove, Parsia, Sirin parts of this _source code are available under the terms of the MIT License.
 //
 // The MIT License
 //
@@ -39,9 +39,9 @@ import aterm.ATermAppl;
  */
 public class NodeMerge
 {
-	private ATermAppl source;
-	private ATermAppl target;
-	private DependencySet ds;
+	private ATermAppl _source;
+	private ATermAppl _target;
+	private DependencySet _ds;
 
 	public NodeMerge(final Node y, final Node z)
 	{
@@ -53,7 +53,7 @@ public class NodeMerge
 	{
 		this.setSource(y.getName());
 		this.setTarget(z.getName());
-		this.ds = ds;
+		this._ds = ds;
 	}
 
 	NodeMerge(final ATermAppl y, final ATermAppl z)
@@ -65,39 +65,39 @@ public class NodeMerge
 	@Override
 	public String toString()
 	{
-		return getSource() + " -> " + getTarget() + " " + ds;
+		return getSource() + " -> " + getTarget() + " " + _ds;
 	}
 
 	/**
-	 * @param source the source to set
+	 * @param _source the _source to set
 	 */
 	public void setSource(final ATermAppl source)
 	{
-		this.source = source;
+		this._source = source;
 	}
 
 	/**
-	 * @return the source
+	 * @return the _source
 	 */
 	public ATermAppl getSource()
 	{
-		return source;
+		return _source;
 	}
 
 	/**
-	 * @param target the target to set
+	 * @param _target the _target to set
 	 */
 	public void setTarget(final ATermAppl target)
 	{
-		this.target = target;
+		this._target = target;
 	}
 
 	/**
-	 * @return the target
+	 * @return the _target
 	 */
 	public ATermAppl getTarget()
 	{
-		return target;
+		return _target;
 	}
 
 	/**
@@ -105,6 +105,6 @@ public class NodeMerge
 	 */
 	public DependencySet getDepends()
 	{
-		return ds;
+		return _ds;
 	}
 }

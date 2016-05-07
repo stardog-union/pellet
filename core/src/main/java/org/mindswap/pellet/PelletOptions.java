@@ -1,4 +1,4 @@
-// Portions Copyright (c) 2006 - 2008, Clark & Parsia, LLC.
+// Portions Copyright (_c) 2006 - 2008, Clark & Parsia, LLC.
 // <http://www.clarkparsia.com>
 // Clark & Parsia, LLC parts of this source code are available under the terms
 // of the Affero General Public License v3.
@@ -8,7 +8,7 @@
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 //
 // ---
-// Portions Copyright (c) 2003 Ron Alford, Mike Grove, Bijan Parsia, Evren Sirin
+// Portions Copyright (_c) 2003 Ron Alford, Mike Grove, Bijan Parsia, Evren Sirin
 // Alford, Grove, Parsia, Sirin parts of this source code are available under
 // the terms of the MIT License.
 //
@@ -42,7 +42,6 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.completion.CompletionStrategy;
-import org.mindswap.pellet.utils.AnnotationClasses;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
@@ -69,11 +68,11 @@ public class PelletOptions
 
 		CONSOLE(ConsoleProgressMonitor.class), SWING(SwingProgressMonitor.class), NONE(SilentProgressMonitor.class);
 
-		private final Class<? extends ProgressMonitor> c;
+		private final Class<? extends ProgressMonitor> _c;
 
 		private MonitorType(final Class<? extends ProgressMonitor> c)
 		{
-			this.c = c;
+			this._c = c;
 		}
 
 		@Override
@@ -81,7 +80,7 @@ public class PelletOptions
 		{
 			try
 			{
-				return c.newInstance();
+				return _c.newInstance();
 			}
 			catch (final InstantiationException e)
 			{
@@ -258,13 +257,13 @@ public class PelletOptions
 
 		if (value != null)
 			try
-			{
+		{
 				doubleValue = Double.parseDouble(value);
-			}
-			catch (final NumberFormatException e)
-			{
-				log.severe("Ignoring invalid double value (" + value + ") for the configuration option " + property);
-			}
+		}
+		catch (final NumberFormatException e)
+		{
+			log.severe("Ignoring invalid double value (" + value + ") for the configuration option " + property);
+		}
 
 		properties.setProperty(property, String.valueOf(doubleValue));
 
@@ -279,13 +278,13 @@ public class PelletOptions
 
 		if (value != null)
 			try
-			{
+		{
 				intValue = Integer.parseInt(value);
-			}
-			catch (final NumberFormatException e)
-			{
-				log.severe("Ignoring invalid int value (" + value + ") for the configuration option " + property);
-			}
+		}
+		catch (final NumberFormatException e)
+		{
+			log.severe("Ignoring invalid int value (" + value + ") for the configuration option " + property);
+		}
 
 		properties.setProperty(property, String.valueOf(intValue));
 
@@ -326,14 +325,14 @@ public class PelletOptions
 
 	/**
 	 * This option tells Pellet to treat every individual with a distinct URI to be different from each other. This is against the semantics of OWL but is much
-	 * more efficient than adding an <code><owl:AllDifferent></code> definition with all the individuals. This option does not affect b-_nodes, they can still be
-	 * inferred to be same.
+	 * more efficient than adding an <code><owl:AllDifferent></code> definition with all the individuals. This option does not affect b-_nodes, they can still
+	 * be inferred to be same.
 	 */
 	public static boolean USE_UNIQUE_NAME_ASSUMPTION = false;
 
 	/**
-	 * Track the association betweens _nodes changed and _branch. Reduces the work done during restoration (and during some incremental reasoning changes), at the
-	 * cost of memory overhead necessary for tracking.
+	 * Track the association betweens _nodes changed and _branch. Reduces the work done during restoration (and during some incremental reasoning changes), at
+	 * the cost of memory overhead necessary for tracking.
 	 */
 	public static boolean TRACK_BRANCH_EFFECTS = false;
 
@@ -421,7 +420,7 @@ public class PelletOptions
 	public static int MAX_ANONYMOUS_CACHE = 20000;
 
 	/**
-	 * To decide if individual <code>i</code> has type class <code>c</code> check if the edges from cached model of <code>c</code> to nominal _nodes also exists
+	 * To decide if individual <code>i</code> has type class <code>_c</code> check if the edges from cached model of <code>_c</code> to nominal _nodes also exists
 	 * for the cached model of <code>i</code>.
 	 */
 	public static boolean CHECK_NOMINAL_EDGES = true;
@@ -602,8 +601,8 @@ public class PelletOptions
 
 	/**
 	 * Flag set if the completion _queue should be utilized. This optimization will introduce memory overhead but will (in some cases) dramatically reduce
-	 * reasoning time. Rather than iterating over all individuals during the completion _strategy, only those which need to have the rules fired are selected for
-	 * rule applications.
+	 * reasoning time. Rather than iterating over all individuals during the completion _strategy, only those which need to have the rules fired are selected
+	 * for rule applications.
 	 */
 	public static boolean USE_COMPLETION_QUEUE = false;
 
@@ -717,16 +716,16 @@ public class PelletOptions
 
 		if (url != null)
 			try
-			{
+		{
 				load(url);
-			}
-			catch (final FileNotFoundException e)
-			{
-				log.severe("Pellet configuration file cannot be found");
-			}
-			catch (final IOException e)
-			{
-				log.severe("I/O error while reading Pellet configuration file");
-			}
+		}
+		catch (final FileNotFoundException e)
+		{
+			log.severe("Pellet configuration file cannot be found");
+		}
+		catch (final IOException e)
+		{
+			log.severe("I/O error while reading Pellet configuration file");
+		}
 	}
 }

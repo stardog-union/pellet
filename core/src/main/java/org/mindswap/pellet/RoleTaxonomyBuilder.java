@@ -55,7 +55,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class RoleTaxonomyBuilder
 {
-	protected static Logger log = Logger.getLogger(Taxonomy.class.getName());
+	protected static Logger _log = Logger.getLogger(Taxonomy.class.getName());
 
 	public static final ATermAppl TOP_ANNOTATION_PROPERTY = ATermUtils.makeTermAppl("_TOP_ANNOTATION_PROPERTY_");
 	public static final ATermAppl BOTTOM_ANNOTATION_PROPERTY = ATermUtils.makeTermAppl("_BOTTOM_ANNOTATION_PROPERTY_");
@@ -68,18 +68,18 @@ public class RoleTaxonomyBuilder
 	protected Collection<Role> properties;
 
 	protected Taxonomy<ATermAppl> taxonomy;
-	protected RBox rbox;
-	protected Role topRole;
-	protected Role bottomRole;
-	protected PropertyType propertyType;
+	protected RBox _rbox;
+	protected Role _topRole;
+	protected Role _bottomRole;
+	protected PropertyType _propertyType;
 
 	public RoleTaxonomyBuilder(final RBox rbox, final PropertyType type)
 	{
-		this.rbox = rbox;
-		this.propertyType = type;
+		this._rbox = rbox;
+		this._propertyType = type;
 		properties = rbox.getRoles();
 
-		switch (this.propertyType)
+		switch (this._propertyType)
 		{
 			case OBJECT:
 				taxonomy = new Taxonomy<>(null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY);
@@ -94,31 +94,31 @@ public class RoleTaxonomyBuilder
 				taxonomy.getBottom().setHidden(true);
 				break;
 			default:
-				throw new AssertionError("Unknown property type: " + this.propertyType);
+				throw new AssertionError("Unknown property type: " + this._propertyType);
 		}
 
-		topRole = rbox.getRole(taxonomy.getTop().getName());
-		bottomRole = rbox.getRole(taxonomy.getBottom().getName());
+		_topRole = rbox.getRole(taxonomy.getTop().getName());
+		_bottomRole = rbox.getRole(taxonomy.getBottom().getName());
 	}
 
 	public RoleTaxonomyBuilder(final RBox rbox, final boolean objectRoles)
 	{
-		this.rbox = rbox;
+		this._rbox = rbox;
 
 		properties = rbox.getRoles();
 		taxonomy = objectRoles ? new Taxonomy<>(null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY) : new Taxonomy<>(null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY);
-		topRole = rbox.getRole(taxonomy.getTop().getName());
-		bottomRole = rbox.getRole(taxonomy.getBottom().getName());
+		_topRole = rbox.getRole(taxonomy.getTop().getName());
+		_bottomRole = rbox.getRole(taxonomy.getBottom().getName());
 	}
 
 	public Taxonomy<ATermAppl> classify()
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Properties: " + properties.size());
+		if (_log.isLoggable(Level.FINE))
+			_log.fine("Properties: " + properties.size());
 
 		for (final Role r : properties)
 		{
-			if (propertyType != r.getType())
+			if (_propertyType != r.getType())
 				continue;
 
 			classify(r);
@@ -134,16 +134,16 @@ public class RoleTaxonomyBuilder
 		if (taxonomy.contains(c.getName()))
 			return;
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Property (" + (++count) + ") " + c + "...");
+		if (_log.isLoggable(Level.FINER))
+			_log.finer("Property (" + (++count) + ") " + c + "...");
 
-		if (c.getSubRoles().contains(topRole))
+		if (c.getSubRoles().contains(_topRole))
 		{
 			taxonomy.addEquivalentNode(c.getName(), taxonomy.getTop());
 			return;
 		}
 		else
-			if (c.getSuperRoles().contains(bottomRole))
+			if (c.getSuperRoles().contains(_bottomRole))
 			{
 				taxonomy.addEquivalentNode(c.getName(), taxonomy.getBottom());
 				return;
@@ -168,8 +168,8 @@ public class RoleTaxonomyBuilder
 			// i since we already know everything about j
 			if (subsumed(sup, c, marked))
 			{
-				if (log.isLoggable(Level.FINER))
-					log.finer(ATermUtils.toString(c.getName()) + " = " + ATermUtils.toString(sup.getName()));
+				if (_log.isLoggable(Level.FINER))
+					_log.finer(ATermUtils.toString(c.getName()) + " = " + ATermUtils.toString(sup.getName()));
 
 				taxonomy.addEquivalentNode(c.getName(), sup);
 				return;
@@ -222,7 +222,7 @@ public class RoleTaxonomyBuilder
 			return cached.booleanValue();
 
 		// check subsumption
-		final boolean subsumes = subsumes(rbox.getRole(node.getName()), c);
+		final boolean subsumes = subsumes(_rbox.getRole(node.getName()), c);
 		// create an object based on result
 		final Boolean value = subsumes ? Boolean.TRUE : Boolean.FALSE;
 		// during top search only negative information is propagated down
@@ -240,7 +240,7 @@ public class RoleTaxonomyBuilder
 			return cached.booleanValue();
 
 		// check subsumption
-		final boolean subsumed = subsumes(c, rbox.getRole(node.getName()));
+		final boolean subsumed = subsumes(c, _rbox.getRole(node.getName()));
 		// create an object based on result
 		final Boolean value = subsumed ? Boolean.TRUE : Boolean.FALSE;
 		// during bottom search only negative information is propagated down

@@ -77,20 +77,20 @@ public class Role
 	@Deprecated
 	final public static int ONTOLOGY = 4;
 
-	private final ATermAppl name;
+	private final ATermAppl _name;
 
-	private PropertyType type = PropertyType.UNTYPED;
-	private Role inverse = null;
+	private PropertyType _type = PropertyType.UNTYPED;
+	private Role _inverse = null;
 
-	private Set<Role> subRoles = SetUtils.emptySet();
-	private Set<Role> superRoles = SetUtils.emptySet();
-	private Map<Role, DependencySet> disjointRoles = Collections.emptyMap();
-	private Set<ATermList> subRoleChains = SetUtils.emptySet();
+	private Set<Role> _subRoles = SetUtils.emptySet();
+	private Set<Role> _superRoles = SetUtils.emptySet();
+	private Map<Role, DependencySet> _disjointRoles = Collections.emptyMap();
+	private Set<ATermList> _subRoleChains = SetUtils.emptySet();
 
-	private Set<Role> functionalSupers = SetUtils.emptySet();
-	private Set<Role> transitiveSubRoles = SetUtils.emptySet();
+	private Set<Role> _functionalSupers = SetUtils.emptySet();
+	private Set<Role> _transitiveSubRoles = SetUtils.emptySet();
 
-	private TransitionGraph<Role> tg;
+	private TransitionGraph<Role> _tg;
 
 	public static int TRANSITIVE = 0x01;
 	public static int FUNCTIONAL = 0x02;
@@ -108,23 +108,23 @@ public class Role
 
 	public static int FORCE_SIMPLE = 0x100;
 
-	private int flags = SIMPLE;
+	private int _flags = SIMPLE;
 
 	/*
 	 * Explanation related
 	 */
-	private DependencySet explainAsymmetric = DependencySet.INDEPENDENT;
-	private DependencySet explainFunctional = DependencySet.INDEPENDENT;
-	private DependencySet explainIrreflexive = DependencySet.INDEPENDENT;
-	private DependencySet explainReflexive = DependencySet.INDEPENDENT;
-	private final DependencySet explainSymmetric = DependencySet.INDEPENDENT;
-	private DependencySet explainTransitive = DependencySet.INDEPENDENT;
-	private DependencySet explainInverseFunctional = DependencySet.INDEPENDENT;
-	private Map<ATerm, DependencySet> explainSub = new HashMap<>();
-	private final Map<ATerm, DependencySet> explainSup = new HashMap<>();
+	private DependencySet _explainAsymmetric = DependencySet.INDEPENDENT;
+	private DependencySet _explainFunctional = DependencySet.INDEPENDENT;
+	private DependencySet _explainIrreflexive = DependencySet.INDEPENDENT;
+	private DependencySet _explainReflexive = DependencySet.INDEPENDENT;
+	private final DependencySet _explainSymmetric = DependencySet.INDEPENDENT;
+	private DependencySet _explainTransitive = DependencySet.INDEPENDENT;
+	private DependencySet _explainInverseFunctional = DependencySet.INDEPENDENT;
+	private Map<ATerm, DependencySet> _explainSub = new HashMap<>();
+	private final Map<ATerm, DependencySet> _explainSup = new HashMap<>();
 
-	private Map<ATermAppl, DependencySet> domains = Collections.emptyMap();
-	private Map<ATermAppl, DependencySet> ranges = Collections.emptyMap();
+	private Map<ATermAppl, DependencySet> _domains = Collections.emptyMap();
+	private Map<ATermAppl, DependencySet> _ranges = Collections.emptyMap();
 
 	public Role(final ATermAppl name)
 	{
@@ -133,8 +133,8 @@ public class Role
 
 	public Role(final ATermAppl name, final PropertyType type)
 	{
-		this.name = name;
-		this.type = type;
+		this._name = name;
+		this._type = type;
 
 		addSubRole(this, DependencySet.INDEPENDENT);
 		addSuperRole(this, DependencySet.INDEPENDENT);
@@ -144,7 +144,7 @@ public class Role
 	public boolean equals(final Object o)
 	{
 		if (o instanceof Role)
-			return name.equals(((Role) o).getName());
+			return _name.equals(((Role) o).getName());
 
 		return false;
 	}
@@ -152,18 +152,18 @@ public class Role
 	@Override
 	public int hashCode()
 	{
-		return name.hashCode();
+		return _name.hashCode();
 	}
 
 	@Override
 	public String toString()
 	{
-		return ATermUtils.toString(name);
+		return ATermUtils.toString(_name);
 	}
 
 	public String debugString()
 	{
-		String str = "(" + type + "Role " + name;
+		String str = "(" + _type + "Role " + _name;
 		if (isTransitive())
 			str += " Transitive";
 		if (isReflexive())
@@ -182,14 +182,14 @@ public class Role
 			str += " ComplexSubRole";
 		if (isSimple())
 			str += " Simple";
-		if (type == PropertyType.OBJECT || type == PropertyType.DATATYPE)
+		if (_type == PropertyType.OBJECT || _type == PropertyType.DATATYPE)
 		{
-			str += " domain=" + domains;
-			str += " range=" + ranges;
-			str += " superPropertyOf=" + subRoles;
-			str += " subPropertyOf=" + superRoles;
-			str += " hasSubPropertyChain=" + subRoleChains;
-			str += " disjointWith=" + disjointRoles;
+			str += " domain=" + _domains;
+			str += " range=" + _ranges;
+			str += " superPropertyOf=" + _subRoles;
+			str += " subPropertyOf=" + _superRoles;
+			str += " hasSubPropertyChain=" + _subRoleChains;
+			str += " disjointWith=" + _disjointRoles;
 		}
 		str += ")";
 
@@ -220,26 +220,26 @@ public class Role
 			if (chain.getLength() == 1)
 				throw new InternalReasonerException("Adding a subproperty chain that has a single element!");
 
-		subRoleChains = SetUtils.add(chain, subRoleChains);
-		explainSub.put(chain, ds);
+		_subRoleChains = SetUtils.add(chain, _subRoleChains);
+		_explainSub.put(chain, ds);
 		setSimple(false);
 
-		if (ATermUtils.isTransitiveChain(chain, name))
+		if (ATermUtils.isTransitiveChain(chain, _name))
 			if (!isTransitive())
 				setTransitive(true, ds);
 	}
 
 	public void removeSubRoleChain(final ATermList chain)
 	{
-		subRoleChains = SetUtils.remove(chain, subRoleChains);
-		explainSub.remove(chain);
-		if (isTransitive() && ATermUtils.isTransitiveChain(chain, name))
+		_subRoleChains = SetUtils.remove(chain, _subRoleChains);
+		_explainSub.remove(chain);
+		if (isTransitive() && ATermUtils.isTransitiveChain(chain, _name))
 			setTransitive(false, null);
 	}
 
 	public void removeSubRoleChains()
 	{
-		subRoleChains = Collections.emptySet();
+		_subRoleChains = Collections.emptySet();
 
 		if (isTransitive())
 			setTransitive(false, null);
@@ -265,21 +265,21 @@ public class Role
 	 */
 	public void addSubRole(final Role r, final DependencySet ds)
 	{
-		if (PelletOptions.USE_TRACING && explainSub.get(r.getName()) == null)
-			explainSub.put(r.getName(), ds);
+		if (PelletOptions.USE_TRACING && _explainSub.get(r.getName()) == null)
+			_explainSub.put(r.getName(), ds);
 
-		subRoles = SetUtils.add(r, subRoles);
-		explainSub.put(r.getName(), ds);
+		_subRoles = SetUtils.add(r, _subRoles);
+		_explainSub.put(r.getName(), ds);
 	}
 
 	public boolean removeDomain(final ATermAppl a, final DependencySet ds)
 	{
-		final DependencySet existing = domains.get(a);
+		final DependencySet existing = _domains.get(a);
 
 		if (existing != null)
 			if (ds.getExplain().equals(existing.getExplain()))
 			{
-				domains.remove(a);
+				_domains.remove(a);
 				return true;
 			}
 
@@ -288,12 +288,12 @@ public class Role
 
 	public boolean removeRange(final ATermAppl a, final DependencySet ds)
 	{
-		final DependencySet existing = ranges.get(a);
+		final DependencySet existing = _ranges.get(a);
 
 		if (existing != null)
 			if (ds.getExplain().equals(existing.getExplain()))
 			{
-				ranges.remove(a);
+				_ranges.remove(a);
 				return true;
 			}
 
@@ -302,13 +302,13 @@ public class Role
 
 	void resetDomainRange()
 	{
-		domains = Collections.emptyMap();
-		ranges = Collections.emptyMap();
+		_domains = Collections.emptyMap();
+		_ranges = Collections.emptyMap();
 	}
 
 	public void removeSubRole(final Role r)
 	{
-		subRoles = SetUtils.remove(r, subRoles);
+		_subRoles = SetUtils.remove(r, _subRoles);
 	}
 
 	/**
@@ -318,30 +318,30 @@ public class Role
 	 */
 	public void addSuperRole(final Role r)
 	{
-		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeSubProp(name, r.getName())) : DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeSubProp(_name, r.getName())) : DependencySet.INDEPENDENT;
 		addSuperRole(r, ds);
 	}
 
 	public void addSuperRole(final Role r, final DependencySet ds)
 	{
-		superRoles = SetUtils.add(r, superRoles);
-		explainSup.put(r.getName(), ds);
+		_superRoles = SetUtils.add(r, _superRoles);
+		_explainSup.put(r.getName(), ds);
 	}
 
 	public void addDisjointRole(final Role r, final DependencySet ds)
 	{
-		if (disjointRoles.isEmpty())
-			disjointRoles = new HashMap<>();
+		if (_disjointRoles.isEmpty())
+			_disjointRoles = new HashMap<>();
 
-		disjointRoles.put(r, ds);
+		_disjointRoles.put(r, ds);
 	}
 
 	public boolean addDomain(final ATermAppl a, final DependencySet ds)
 	{
-		if (domains.isEmpty())
-			domains = CollectionUtils.makeMap();
+		if (_domains.isEmpty())
+			_domains = CollectionUtils.makeMap();
 
-		final DependencySet existing = domains.put(a, ds);
+		final DependencySet existing = _domains.put(a, ds);
 		if (existing != null && existing.getExplain().equals(ds.getExplain()))
 			return false;
 
@@ -350,10 +350,10 @@ public class Role
 
 	public boolean addRange(final ATermAppl a, final DependencySet ds)
 	{
-		if (ranges.isEmpty())
-			ranges = CollectionUtils.makeMap();
+		if (_ranges.isEmpty())
+			_ranges = CollectionUtils.makeMap();
 
-		final DependencySet existing = ranges.put(a, ds);
+		final DependencySet existing = _ranges.put(a, ds);
 		if (existing != null && existing.getExplain().equals(ds.getExplain()))
 			return false;
 
@@ -362,12 +362,12 @@ public class Role
 
 	public boolean isObjectRole()
 	{
-		return type == PropertyType.OBJECT;
+		return _type == PropertyType.OBJECT;
 	}
 
 	public boolean isDatatypeRole()
 	{
-		return type == PropertyType.DATATYPE;
+		return _type == PropertyType.DATATYPE;
 	}
 
 	@Deprecated
@@ -381,12 +381,12 @@ public class Role
 	 */
 	public boolean isAnnotationRole()
 	{
-		return type == PropertyType.ANNOTATION;
+		return _type == PropertyType.ANNOTATION;
 	}
 
 	public boolean isUntypedRole()
 	{
-		return type == PropertyType.UNTYPED;
+		return _type == PropertyType.UNTYPED;
 	}
 
 	/**
@@ -394,32 +394,32 @@ public class Role
 	 */
 	public Role getInverse()
 	{
-		return inverse;
+		return _inverse;
 	}
 
 	public boolean hasNamedInverse()
 	{
-		return inverse != null && !inverse.isAnon();
+		return _inverse != null && !_inverse.isAnon();
 	}
 
 	public boolean hasComplexSubRole()
 	{
-		return (flags & COMPLEX_SUB) != 0;
+		return (_flags & COMPLEX_SUB) != 0;
 	}
 
 	public boolean isFunctional()
 	{
-		return (flags & FUNCTIONAL) != 0;
+		return (_flags & FUNCTIONAL) != 0;
 	}
 
 	public boolean isInverseFunctional()
 	{
-		return (flags & INV_FUNCTIONAL) != 0;
+		return (_flags & INV_FUNCTIONAL) != 0;
 	}
 
 	public boolean isSymmetric()
 	{
-		return inverse != null && isEquivalent(inverse);
+		return _inverse != null && isEquivalent(_inverse);
 	}
 
 	/**
@@ -428,72 +428,72 @@ public class Role
 	@Deprecated
 	public boolean isAntisymmetric()
 	{
-		return (flags & ASYM) != 0;
+		return (_flags & ASYM) != 0;
 	}
 
 	public boolean isAsymmetric()
 	{
-		return (flags & ASYM) != 0;
+		return (_flags & ASYM) != 0;
 	}
 
 	public boolean isTransitive()
 	{
-		return (flags & TRANSITIVE) != 0;
+		return (_flags & TRANSITIVE) != 0;
 	}
 
 	public boolean isReflexive()
 	{
-		return (flags & REFLEXIVE) != 0;
+		return (_flags & REFLEXIVE) != 0;
 	}
 
 	public boolean isIrreflexive()
 	{
-		return (flags & IRREFLEXIVE) != 0;
+		return (_flags & IRREFLEXIVE) != 0;
 	}
 
 	public boolean isAnon()
 	{
-		return name.getArity() != 0;
+		return _name.getArity() != 0;
 	}
 
 	public ATermAppl getName()
 	{
-		return name;
+		return _name;
 	}
 
 	public Set<ATermAppl> getDomains()
 	{
-		return domains.keySet();
+		return _domains.keySet();
 	}
 
 	public Set<ATermAppl> getRanges()
 	{
-		return ranges.keySet();
+		return _ranges.keySet();
 	}
 
 	public Set<Role> getSubRoles()
 	{
-		return Collections.unmodifiableSet(subRoles);
+		return Collections.unmodifiableSet(_subRoles);
 	}
 
 	public Set<Role> getEquivalentProperties()
 	{
-		return SetUtils.intersection(subRoles, superRoles);
+		return SetUtils.intersection(_subRoles, _superRoles);
 	}
 
 	public boolean isEquivalent(final Role r)
 	{
-		return subRoles.contains(r) && superRoles.contains(r);
+		return _subRoles.contains(r) && _superRoles.contains(r);
 	}
 
 	public Set<Role> getProperSubRoles()
 	{
-		return SetUtils.difference(subRoles, superRoles);
+		return SetUtils.difference(_subRoles, _superRoles);
 	}
 
 	public Set<ATermList> getSubRoleChains()
 	{
-		return subRoleChains;
+		return _subRoleChains;
 	}
 
 	/**
@@ -501,17 +501,17 @@ public class Role
 	 */
 	public Set<Role> getSuperRoles()
 	{
-		return Collections.unmodifiableSet(superRoles);
+		return Collections.unmodifiableSet(_superRoles);
 	}
 
 	public Set<Role> getDisjointRoles()
 	{
-		return Collections.unmodifiableSet(disjointRoles.keySet());
+		return Collections.unmodifiableSet(_disjointRoles.keySet());
 	}
 
 	public DependencySet getExplainDisjointRole(final Role role)
 	{
-		return disjointRoles.get(role);
+		return _disjointRoles.get(role);
 	}
 
 	/**
@@ -519,27 +519,27 @@ public class Role
 	 */
 	public PropertyType getType()
 	{
-		return type;
+		return _type;
 	}
 
 	public String getTypeName()
 	{
-		return type.toString();
+		return _type.toString();
 	}
 
 	public boolean isSubRoleOf(final Role r)
 	{
-		return superRoles.contains(r);
+		return _superRoles.contains(r);
 	}
 
 	public boolean isSuperRoleOf(final Role r)
 	{
-		return subRoles.contains(r);
+		return _subRoles.contains(r);
 	}
 
 	public void setInverse(final Role term)
 	{
-		inverse = term;
+		_inverse = term;
 	}
 
 	public void setFunctional(final boolean b)
@@ -552,13 +552,13 @@ public class Role
 	{
 		if (b)
 		{
-			flags |= FUNCTIONAL;
-			explainFunctional = ds;
+			_flags |= FUNCTIONAL;
+			_explainFunctional = ds;
 		}
 		else
 		{
-			flags &= ~FUNCTIONAL;
-			explainFunctional = DependencySet.INDEPENDENT;
+			_flags &= ~FUNCTIONAL;
+			_explainFunctional = DependencySet.INDEPENDENT;
 		}
 	}
 
@@ -571,19 +571,19 @@ public class Role
 	{
 		if (b)
 		{
-			flags |= INV_FUNCTIONAL;
-			explainInverseFunctional = ds;
+			_flags |= INV_FUNCTIONAL;
+			_explainInverseFunctional = ds;
 		}
 		else
 		{
-			flags &= ~INV_FUNCTIONAL;
-			explainInverseFunctional = DependencySet.INDEPENDENT;
+			_flags &= ~INV_FUNCTIONAL;
+			_explainInverseFunctional = DependencySet.INDEPENDENT;
 		}
 	}
 
 	public void setTransitive(final boolean b)
 	{
-		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeTransitive(name)) : DependencySet.INDEPENDENT;
+		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeTransitive(_name)) : DependencySet.INDEPENDENT;
 
 		setTransitive(b, ds);
 	}
@@ -591,17 +591,17 @@ public class Role
 	public void setTransitive(final boolean b, final DependencySet ds)
 	{
 
-		final ATermList roleChain = ATermUtils.makeList(new ATerm[] { name, name });
+		final ATermList roleChain = ATermUtils.makeList(new ATerm[] { _name, _name });
 		if (b)
 		{
-			flags |= TRANSITIVE;
-			explainTransitive = ds;
+			_flags |= TRANSITIVE;
+			_explainTransitive = ds;
 			addSubRoleChain(roleChain, ds);
 		}
 		else
 		{
-			flags &= ~TRANSITIVE;
-			explainTransitive = ds;
+			_flags &= ~TRANSITIVE;
+			_explainTransitive = ds;
 			removeSubRoleChain(roleChain);
 		}
 	}
@@ -614,10 +614,10 @@ public class Role
 	public void setReflexive(final boolean b, final DependencySet ds)
 	{
 		if (b)
-			flags |= REFLEXIVE;
+			_flags |= REFLEXIVE;
 		else
-			flags &= ~REFLEXIVE;
-		explainReflexive = ds;
+			_flags &= ~REFLEXIVE;
+		_explainReflexive = ds;
 	}
 
 	public void setIrreflexive(final boolean b)
@@ -628,10 +628,10 @@ public class Role
 	public void setIrreflexive(final boolean b, final DependencySet ds)
 	{
 		if (b)
-			flags |= IRREFLEXIVE;
+			_flags |= IRREFLEXIVE;
 		else
-			flags &= ~IRREFLEXIVE;
-		explainIrreflexive = ds;
+			_flags &= ~IRREFLEXIVE;
+		_explainIrreflexive = ds;
 	}
 
 	/**
@@ -660,10 +660,10 @@ public class Role
 	public void setAsymmetric(final boolean b, final DependencySet ds)
 	{
 		if (b)
-			flags |= ANTI_SYM;
+			_flags |= ANTI_SYM;
 		else
-			flags &= ~ANTI_SYM;
-		explainAsymmetric = ds;
+			_flags &= ~ANTI_SYM;
+		_explainAsymmetric = ds;
 	}
 
 	public void setHasComplexSubRole(final boolean b)
@@ -672,12 +672,12 @@ public class Role
 			return;
 
 		if (b)
-			flags |= COMPLEX_SUB;
+			_flags |= COMPLEX_SUB;
 		else
-			flags &= ~COMPLEX_SUB;
+			_flags &= ~COMPLEX_SUB;
 
-		if (inverse != null)
-			inverse.setHasComplexSubRole(b);
+		if (_inverse != null)
+			_inverse.setHasComplexSubRole(b);
 
 		if (b)
 			setSimple(false);
@@ -685,27 +685,27 @@ public class Role
 
 	public void setType(final PropertyType type)
 	{
-		this.type = type;
+		this._type = type;
 	}
 
 	/**
-	 * @param subRoleChains
+	 * @param _subRoleChains
 	 * @param dependencies map from role names (or lists) to depedencies
 	 */
 	public void setSubRolesAndChains(final Set<Role> subRoles, final Set<ATermList> subRoleChains, final Map<ATerm, DependencySet> dependencies)
 	{
-		this.subRoles = subRoles;
-		this.subRoleChains = subRoleChains;
-		this.explainSub = dependencies;
+		this._subRoles = subRoles;
+		this._subRoleChains = subRoleChains;
+		this._explainSub = dependencies;
 	}
 
 	/**
-	 * @param superRoles The superRoles to set.
+	 * @param _superRoles The _superRoles to set.
 	 * @param dependencies A map from role names (or role lists) to dependency sets.
 	 */
 	public void setSuperRoles(final Set<Role> superRoles)
 	{
-		this.superRoles = superRoles;
+		this._superRoles = superRoles;
 	}
 
 	/**
@@ -713,7 +713,7 @@ public class Role
 	 */
 	public Set<Role> getFunctionalSupers()
 	{
-		return functionalSupers;
+		return _functionalSupers;
 	}
 
 	/**
@@ -721,16 +721,16 @@ public class Role
 	 */
 	public void addFunctionalSuper(final Role r)
 	{
-		for (final Role fs : functionalSupers)
+		for (final Role fs : _functionalSupers)
 			if (fs.isSubRoleOf(r))
 			{
-				functionalSupers = SetUtils.remove(fs, functionalSupers);
+				_functionalSupers = SetUtils.remove(fs, _functionalSupers);
 				break;
 			}
 			else
 				if (r.isSubRoleOf(fs))
 					return;
-		functionalSupers = SetUtils.add(r, functionalSupers);
+		_functionalSupers = SetUtils.add(r, _functionalSupers);
 	}
 
 	public void setForceSimple(final boolean b)
@@ -739,22 +739,22 @@ public class Role
 			return;
 
 		if (b)
-			flags |= FORCE_SIMPLE;
+			_flags |= FORCE_SIMPLE;
 		else
-			flags &= ~FORCE_SIMPLE;
+			_flags &= ~FORCE_SIMPLE;
 
-		if (inverse != null)
-			inverse.setForceSimple(b);
+		if (_inverse != null)
+			_inverse.setForceSimple(b);
 	}
 
 	public boolean isForceSimple()
 	{
-		return (flags & FORCE_SIMPLE) != 0;
+		return (_flags & FORCE_SIMPLE) != 0;
 	}
 
 	public boolean isSimple()
 	{
-		return (flags & SIMPLE) != 0;
+		return (_flags & SIMPLE) != 0;
 	}
 
 	void setSimple(final boolean b)
@@ -763,16 +763,16 @@ public class Role
 			return;
 
 		if (b)
-			flags |= SIMPLE;
+			_flags |= SIMPLE;
 		else
-			flags &= ~SIMPLE;
+			_flags &= ~SIMPLE;
 
-		if (inverse != null)
-			inverse.setSimple(b);
+		if (_inverse != null)
+			_inverse.setSimple(b);
 	}
 
 	//	public boolean isSimple() {
-	//	    return !isTransitive() && transitiveSubRoles.isEmpty();
+	//	    return !isTransitive() && _transitiveSubRoles.isEmpty();
 	//	}
 
 	/**
@@ -780,7 +780,7 @@ public class Role
 	 */
 	public Set<Role> getTransitiveSubRoles()
 	{
-		return transitiveSubRoles;
+		return _transitiveSubRoles;
 	}
 
 	/**
@@ -790,88 +790,88 @@ public class Role
 	{
 		setSimple(false);
 
-		if (transitiveSubRoles.isEmpty())
-			transitiveSubRoles = SetUtils.singleton(r);
+		if (_transitiveSubRoles.isEmpty())
+			_transitiveSubRoles = SetUtils.singleton(r);
 		else
-			if (transitiveSubRoles.size() == 1)
+			if (_transitiveSubRoles.size() == 1)
 			{
-				final Role tsr = transitiveSubRoles.iterator().next();
+				final Role tsr = _transitiveSubRoles.iterator().next();
 				if (tsr.isSubRoleOf(r))
-					transitiveSubRoles = SetUtils.singleton(r);
+					_transitiveSubRoles = SetUtils.singleton(r);
 				else
 					if (!r.isSubRoleOf(tsr))
 					{
-						transitiveSubRoles = new HashSet<>(2);
-						transitiveSubRoles.add(tsr);
-						transitiveSubRoles.add(r);
+						_transitiveSubRoles = new HashSet<>(2);
+						_transitiveSubRoles.add(tsr);
+						_transitiveSubRoles.add(r);
 					}
 			}
 			else
 			{
-				for (final Role tsr : transitiveSubRoles)
+				for (final Role tsr : _transitiveSubRoles)
 					if (tsr.isSubRoleOf(r))
 					{
-						transitiveSubRoles.remove(tsr);
-						transitiveSubRoles.add(r);
+						_transitiveSubRoles.remove(tsr);
+						_transitiveSubRoles.add(r);
 						return;
 					}
 					else
 						if (r.isSubRoleOf(tsr))
 							return;
-				transitiveSubRoles.add(r);
+				_transitiveSubRoles.add(r);
 			}
 	}
 
 	public void setFSM(final TransitionGraph<Role> tg)
 	{
-		this.tg = tg;
+		this._tg = tg;
 	}
 
 	public TransitionGraph<Role> getFSM()
 	{
-		return tg;
+		return _tg;
 	}
 
 	/* Dependency Retreival */
 
 	public DependencySet getExplainAsymmetric()
 	{
-		return explainAsymmetric;
+		return _explainAsymmetric;
 	}
 
 	public DependencySet getExplainDomain(final ATermAppl a)
 	{
-		return domains.get(a);
+		return _domains.get(a);
 	}
 
 	public DependencySet getExplainFunctional()
 	{
-		return explainFunctional;
+		return _explainFunctional;
 	}
 
 	public DependencySet getExplainInverseFunctional()
 	{
-		return explainInverseFunctional;
+		return _explainInverseFunctional;
 	}
 
 	public DependencySet getExplainIrreflexive()
 	{
-		return explainIrreflexive;
+		return _explainIrreflexive;
 	}
 
 	public DependencySet getExplainRange(final ATermAppl a)
 	{
-		return ranges.get(a);
+		return _ranges.get(a);
 	}
 
 	public DependencySet getExplainReflexive()
 	{
-		return explainReflexive;
+		return _explainReflexive;
 	}
 
 	public DependencySet getExplainSub(final ATerm r)
 	{
-		final DependencySet ds = explainSub.get(r);
+		final DependencySet ds = _explainSub.get(r);
 		if (ds == null)
 			return DependencySet.INDEPENDENT;
 		return ds;
@@ -879,15 +879,15 @@ public class Role
 
 	public DependencySet getExplainSubOrInv(final Role r)
 	{
-		final DependencySet ds = explainSub.get(r.getName());
+		final DependencySet ds = _explainSub.get(r.getName());
 		if (ds == null)
-			return inverse.getExplainSub(r.getName());
+			return _inverse.getExplainSub(r.getName());
 		return ds;
 	}
 
 	public DependencySet getExplainSuper(final ATerm r)
 	{
-		final DependencySet ds = explainSup.get(r);
+		final DependencySet ds = _explainSup.get(r);
 		if (ds == null)
 			return DependencySet.INDEPENDENT;
 		return ds;
@@ -895,26 +895,26 @@ public class Role
 
 	public DependencySet getExplainSymmetric()
 	{
-		return explainSymmetric;
+		return _explainSymmetric;
 	}
 
 	public DependencySet getExplainTransitive()
 	{
-		return explainTransitive;
+		return _explainTransitive;
 	}
 
 	public boolean isTop()
 	{
-		return name.equals(TermFactory.TOP_OBJECT_PROPERTY) || name.equals(TermFactory.TOP_DATA_PROPERTY);
+		return _name.equals(TermFactory.TOP_OBJECT_PROPERTY) || _name.equals(TermFactory.TOP_DATA_PROPERTY);
 	}
 
 	public boolean isBottom()
 	{
-		return name.equals(TermFactory.BOTTOM_OBJECT_PROPERTY) || name.equals(TermFactory.BOTTOM_DATA_PROPERTY);
+		return _name.equals(TermFactory.BOTTOM_OBJECT_PROPERTY) || _name.equals(TermFactory.BOTTOM_DATA_PROPERTY);
 	}
 
 	public boolean isBuiltin()
 	{
-		return isTop() || isBottom() || (inverse != null && (inverse.isTop() || inverse.isBottom()));
+		return isTop() || isBottom() || (_inverse != null && (_inverse.isTop() || _inverse.isBottom()));
 	}
 }

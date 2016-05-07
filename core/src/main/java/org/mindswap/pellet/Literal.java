@@ -17,7 +17,7 @@
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
 // deal in the Software without restriction, including without limitation the
-// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// rights to use, copy, modify, _merge, publish, distribute, sublicense, and/or
 // sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
@@ -55,17 +55,17 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class Literal extends Node
 {
-	private ATermAppl atermValue;
+	private ATermAppl _atermValue;
 
-	private Object value;
+	private Object _value;
 
 	// private Datatype datatype;
 
-	private boolean hasValue;
+	private boolean _hasValue;
 
-	private NodeMerge merge;
+	private NodeMerge _merge;
 
-	private boolean clashed = false;
+	private boolean _clashed = false;
 
 	public Literal(final ATermAppl name, final ATermAppl term, final ABox abox, final DependencySet ds)
 	{
@@ -74,12 +74,12 @@ public class Literal extends Node
 
 		if (term != null)
 		{
-			hasValue = !term.getArgument(ATermUtils.LIT_URI_INDEX).equals(ATermUtils.NO_DATATYPE);
-			if (hasValue)
+			_hasValue = !term.getArgument(ATermUtils.LIT_URI_INDEX).equals(ATermUtils.NO_DATATYPE);
+			if (_hasValue)
 			{
 				try
 				{
-					value = abox._dtReasoner.getValue(term);
+					_value = abox._dtReasoner.getValue(term);
 				}
 				catch (final InvalidLiteralException e)
 				{
@@ -87,7 +87,7 @@ public class Literal extends Node
 					if (PelletOptions.INVALID_LITERAL_AS_INCONSISTENCY)
 					{
 						log.fine(msg);
-						value = null;
+						_value = null;
 					}
 					else
 					{
@@ -101,23 +101,23 @@ public class Literal extends Node
 					log.severe(msg);
 					throw new InternalReasonerException(msg, e);
 				}
-				if (value == null)
+				if (_value == null)
 					_depends.put(name, ds);
 			}
 
-			atermValue = ATermUtils.makeValue(term);
+			_atermValue = ATermUtils.makeValue(term);
 		}
 		else
-			hasValue = false;
+			_hasValue = false;
 	}
 
 	public Literal(final Literal literal, final ABox abox)
 	{
 		super(literal, abox);
 
-		atermValue = literal.atermValue;
-		value = literal.value;
-		hasValue = literal.hasValue;
+		_atermValue = literal._atermValue;
+		_value = literal._value;
+		_hasValue = literal._hasValue;
 	}
 
 	@Override
@@ -147,13 +147,13 @@ public class Literal extends Node
 	@Override
 	public boolean isNominal()
 	{
-		return (value != null);
+		return (_value != null);
 	}
 
 	@Override
 	public boolean isBlockable()
 	{
-		return (value == null);
+		return (_value == null);
 	}
 
 	@Override
@@ -175,8 +175,8 @@ public class Literal extends Node
 			return true;
 
 		final Literal literal = (Literal) node;
-		if (hasValue && literal.hasValue)
-			return value.getClass().equals(literal.value.getClass()) && !value.equals(literal.value);
+		if (_hasValue && literal._hasValue)
+			return _value.getClass().equals(literal._value.getClass()) && !_value.equals(literal._value);
 
 		return false;
 	}
@@ -210,8 +210,8 @@ public class Literal extends Node
 		if (super.hasType(type))
 			return true;
 		else
-			if (hasValue)
-				if (atermValue.equals(type))
+			if (_hasValue)
+				if (_atermValue.equals(type))
 					return true;
 
 		return false;
@@ -292,33 +292,33 @@ public class Literal extends Node
 	@Override
 	public ATermAppl getTerm()
 	{
-		return hasValue ? (ATermAppl) atermValue.getArgument(0) : null;
+		return _hasValue ? (ATermAppl) _atermValue.getArgument(0) : null;
 	}
 
 	public String getLang()
 	{
-		return hasValue ? ((ATermAppl) ((ATermAppl) atermValue.getArgument(0)).getArgument(ATermUtils.LIT_LANG_INDEX)).getName() : "";
+		return _hasValue ? ((ATermAppl) ((ATermAppl) _atermValue.getArgument(0)).getArgument(ATermUtils.LIT_LANG_INDEX)).getName() : "";
 	}
 
 	public String getLexicalValue()
 	{
-		if (hasValue)
-			return value.toString();
+		if (_hasValue)
+			return _value.toString();
 
 		return null;
 	}
 
 	void reportClash(final Clash clash)
 	{
-		clashed = true;
+		_clashed = true;
 		_abox.setClash(clash);
 	}
 
 	private void checkClash()
 	{
-		clashed = false;
+		_clashed = false;
 
-		if (hasValue && value == null)
+		if (_hasValue && _value == null)
 		{
 			reportClash(Clash.invalidLiteral(this, getDepends(_name), getTerm()));
 			return;
@@ -337,10 +337,10 @@ public class Literal extends Node
 
 		try
 		{
-			if (hasValue)
+			if (_hasValue)
 			{
 
-				if (!dtReasoner.isSatisfiable(types, value))
+				if (!dtReasoner.isSatisfiable(types, _value))
 				{
 					final ArrayList<ATermAppl> primitives = new ArrayList<>();
 					for (final ATermAppl t : types)
@@ -364,7 +364,7 @@ public class Literal extends Node
 						}
 					}
 
-					reportClash(Clash.valueDatatype(this, ds, (ATermAppl) atermValue.getArgument(0), dt[0]));
+					reportClash(Clash.valueDatatype(this, ds, (ATermAppl) _atermValue.getArgument(0), dt[0]));
 				}
 			}
 			else
@@ -374,7 +374,7 @@ public class Literal extends Node
 					{
 						/*
 						 * This literal is a variable, but given _current ranges can only
-						 * take on a single value.  Merge with that value.
+						 * take on a single _value.  Merge with that _value.
 						 */
 						final Object value = dtReasoner.valueIterator(types).next();
 						final ATermAppl valueTerm = dtReasoner.getLiteral(value);
@@ -388,7 +388,7 @@ public class Literal extends Node
 						DependencySet mergeDs = DependencySet.INDEPENDENT;
 						for (final DependencySet ds : _depends.values())
 							mergeDs = mergeDs.union(ds, _abox.doExplanation());
-						merge = new NodeMerge(this, valueLiteral, mergeDs);
+						_merge = new NodeMerge(this, valueLiteral, mergeDs);
 					}
 				}
 				else
@@ -427,7 +427,7 @@ public class Literal extends Node
 
 	public Object getValue()
 	{
-		return value;
+		return _value;
 	}
 
 	@Override
@@ -441,7 +441,7 @@ public class Literal extends Node
 
 		restored |= super.restore(branch);
 
-		if (clashed)
+		if (_clashed)
 			checkClash();
 
 		return restored;
@@ -468,11 +468,11 @@ public class Literal extends Node
 
 	public NodeMerge getMergeToConstant()
 	{
-		return merge;
+		return _merge;
 	}
 
 	public void clearMergeToConstant()
 	{
-		merge = null;
+		_merge = null;
 	}
 }

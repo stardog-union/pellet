@@ -68,7 +68,7 @@ import org.mindswap.pellet.utils.iterator.MapIterator;
  */
 public class RBox
 {
-	public static Logger log = Logger.getLogger(RBox.class.getName());
+	public static Logger _log = Logger.getLogger(RBox.class.getName());
 
 	private static class ValueIterator extends MapIterator<Map.Entry<ATermAppl, Set<Set<ATermAppl>>>, ATermAppl>
 	{
@@ -87,14 +87,14 @@ public class RBox
 
 	private static class DomainRangeIterator extends FilterIterator<Map.Entry<ATermAppl, Set<Set<ATermAppl>>>>
 	{
-		final ATermAppl p;
-		final boolean isDomain;
+		final ATermAppl _p;
+		final boolean _isDomain;
 
 		public DomainRangeIterator(final Map<ATermAppl, Set<Set<ATermAppl>>> map, final Role role, final boolean isDomain)
 		{
 			super(map.entrySet().iterator());
-			this.p = role.getName();
-			this.isDomain = isDomain;
+			this._p = role.getName();
+			this._isDomain = isDomain;
 		}
 
 		@Override
@@ -102,12 +102,12 @@ public class RBox
 		{
 			final Set<Set<ATermAppl>> allExplanations = entry.getValue();
 
-			final Set<ATermAppl> explanation = Collections.singleton(isDomain ? ATermUtils.makeDomain(p, entry.getKey()) : ATermUtils.makeRange(p, entry.getKey()));
+			final Set<ATermAppl> explanation = Collections.singleton(_isDomain ? ATermUtils.makeDomain(_p, entry.getKey()) : ATermUtils.makeRange(_p, entry.getKey()));
 			return !allExplanations.contains(explanation);
 		}
 	}
 
-	private final Map<ATermAppl, Role> roles = new HashMap<>();
+	private final Map<ATermAppl, Role> _roles = new HashMap<>();
 	private final Set<Role> reflexiveRoles = new HashSet<>();
 
 	private final Map<Role, Map<ATermAppl, Set<Set<ATermAppl>>>> domainAssertions;
@@ -150,7 +150,7 @@ public class RBox
 	 */
 	public Role getRole(final ATerm r)
 	{
-		return roles.get(r);
+		return _roles.get(r);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class RBox
 	 */
 	public Role getDefinedRole(final ATerm r)
 	{
-		final Role role = roles.get(r);
+		final Role role = _roles.get(r);
 
 		if (role == null)
 			throw new RuntimeException(r + " is not defined as a property");
@@ -176,7 +176,7 @@ public class RBox
 		if (role == null)
 		{
 			role = new Role(r, PropertyType.UNTYPED);
-			roles.put(r, role);
+			_roles.put(r, role);
 		}
 
 		return role;
@@ -245,14 +245,14 @@ public class RBox
 				if (role == null)
 				{
 					role = new Role(r, PropertyType.OBJECT);
-					roles.put(r, role);
+					_roles.put(r, role);
 				}
 				else
 					role.setType(PropertyType.OBJECT);
 
 				final ATermAppl invR = ATermUtils.makeInv(r);
 				final Role invRole = new Role(invR, PropertyType.OBJECT);
-				roles.put(invR, invRole);
+				_roles.put(invR, invRole);
 
 				role.setInverse(invRole);
 				invRole.setInverse(role);
@@ -275,7 +275,7 @@ public class RBox
 		if (role == null)
 		{
 			role = new Role(r, PropertyType.DATATYPE);
-			roles.put(r, role);
+			_roles.put(r, role);
 
 			addSubRole(ATermUtils.BOTTOM_DATA_PROPERTY, role.getName(), DependencySet.INDEPENDENT);
 			addSubRole(role.getName(), ATermUtils.TOP_DATA_PROPERTY, DependencySet.INDEPENDENT);
@@ -305,7 +305,7 @@ public class RBox
 		if (role == null)
 		{
 			role = new Role(r, PropertyType.ANNOTATION);
-			roles.put(r, role);
+			_roles.put(r, role);
 		}
 		else
 			switch (role.getType())
@@ -520,15 +520,15 @@ public class RBox
 	 */
 	public boolean isRole(final ATerm r)
 	{
-		return roles.containsKey(r);
+		return _roles.containsKey(r);
 	}
 
 	public void prepare()
 	{
 
-		// first pass - compute sub roles
+		// first pass - compute sub _roles
 		final Set<Role> complexRoles = new HashSet<>();
-		for (final Role role : roles.values())
+		for (final Role role : _roles.values())
 		{
 			final Map<ATerm, DependencySet> subExplain = new HashMap<>();
 			final Set<Role> subRoles = new HashSet<>();
@@ -553,13 +553,13 @@ public class RBox
 				}
 		}
 
-		// iterate over complex roles to build DFAs - needs to be done after
+		// iterate over complex _roles to build DFAs - needs to be done after
 		// all subRoles are propagated above
 		for (final Role s : complexRoles)
 			fsmBuilder.build(s);
 
-		// second pass - set super roles and propagate disjoint roles through inverses
-		for (final Role role : roles.values())
+		// second pass - set super _roles and propagate disjoint _roles through inverses
+		for (final Role role : _roles.values())
 		{
 			final Role invR = role.getInverse();
 			if (invR != null)
@@ -597,8 +597,8 @@ public class RBox
 			}
 		}
 
-		// third pass - set transitivity and functionality and propagate disjoint roles through subs
-		for (final Role r : roles.values())
+		// third pass - set transitivity and functionality and propagate disjoint _roles through subs
+		for (final Role r : _roles.values())
 		{
 			if (r.isForceSimple())
 			{
@@ -662,8 +662,8 @@ public class RBox
 			if (r.isReflexive() && !r.isAnon())
 				reflexiveRoles.add(r);
 
-			if (log.isLoggable(Level.FINE))
-				log.fine(r.debugString());
+			if (_log.isLoggable(Level.FINE))
+				_log.fine(r.debugString());
 		}
 
 		// we will compute the taxonomy when we need it
@@ -674,10 +674,10 @@ public class RBox
 
 	public void propagateDomainRange()
 	{
-		for (final Role role : roles.values())
+		for (final Role role : _roles.values())
 			role.resetDomainRange();
 
-		for (final Role role : roles.values())
+		for (final Role role : _roles.values())
 		{
 			final Role invRole = role.getInverse();
 			if (invRole != null)
@@ -801,7 +801,7 @@ public class RBox
 		if (!PelletOptions.IGNORE_UNSUPPORTED_AXIOMS)
 			throw new UnsupportedFeatureException(msg);
 
-		log.warning(msg);
+		_log.warning(msg);
 
 		role.removeSubRoleChains();
 		role.setHasComplexSubRole(false);
@@ -826,8 +826,8 @@ public class RBox
 				final Role subR = invSubR.getInverse();
 				if (subR == null)
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine("Property " + invSubR + " was supposed to be an ObjectProperty but it is not!");
+					if (_log.isLoggable(Level.FINE))
+						_log.fine("Property " + invSubR + " was supposed to be an ObjectProperty but it is not!");
 				}
 				else
 					if (subR != r)
@@ -902,7 +902,7 @@ public class RBox
 	@Override
 	public String toString()
 	{
-		return "[RBox " + roles.values() + "]";
+		return "[RBox " + _roles.values() + "]";
 	}
 
 	/**
@@ -927,11 +927,11 @@ public class RBox
 	}
 
 	/**
-	 * @return Returns the roles.
+	 * @return Returns the _roles.
 	 */
 	public Set<ATermAppl> getRoleNames()
 	{
-		return roles.keySet();
+		return _roles.keySet();
 	}
 
 	public Set<Role> getReflexiveRoles()
@@ -946,7 +946,7 @@ public class RBox
 	 */
 	public Collection<Role> getRoles()
 	{
-		return roles.values();
+		return _roles.values();
 	}
 
 	public Taxonomy<ATermAppl> getObjectTaxonomy()

@@ -21,23 +21,23 @@ public class LiteralIterator implements Iterator<Literal>
 	/**
 	 * ABox where literals are stoired
 	 */
-	protected ABox abox;
+	protected ABox _abox;
 	/**
 	 * List of _node names
 	 */
-	protected List<ATermAppl> nodeList;
+	protected List<ATermAppl> _nodeList;
 	/**
 	 * Last returned _index
 	 */
-	protected int index;
+	protected int _index;
 	/**
 	 * Index where iterator starts (0 be default)
 	 */
-	protected int start;
+	protected int _start;
 	/**
 	 * Index where iterator stops (size of list by default)
 	 */
-	protected int stop;
+	protected int _stop;
 
 	/**
 	 * Create an iterator over all the individuals in the ABox
@@ -55,44 +55,44 @@ public class LiteralIterator implements Iterator<Literal>
 	 */
 	protected LiteralIterator(final ABox abox, final boolean findNext)
 	{
-		this.abox = abox;
-		nodeList = abox.getNodeNames();
-		start = 0;
-		stop = nodeList.size();
-		index = start;
+		this._abox = abox;
+		_nodeList = abox.getNodeNames();
+		_start = 0;
+		_stop = _nodeList.size();
+		_index = _start;
 
 		if (findNext)
 			findNext();
 	}
 
 	/**
-	 * Create a limited iterator over the individuals in the ABox that only covers the individuals whose _index in _nodeList is between start ans _stop indices.
+	 * Create a limited iterator over the individuals in the ABox that only covers the individuals whose _index in _nodeList is between _start ans _stop indices.
 	 *
 	 * @param _abox
-	 * @param start
+	 * @param _start
 	 * @param _stop
 	 */
 	public LiteralIterator(final ABox abox, final int start, final int stop)
 	{
-		this.abox = abox;
-		this.nodeList = abox.getNodeNames();
-		this.start = start;
-		this.stop = Math.max(stop, nodeList.size());
-		index = start;
+		this._abox = abox;
+		this._nodeList = abox.getNodeNames();
+		this._start = start;
+		this._stop = Math.max(stop, _nodeList.size());
+		_index = start;
 
 		findNext();
 	}
 
 	public int getIndex()
 	{
-		return index;
+		return _index;
 	}
 
 	protected void findNext()
 	{
-		for (; index < stop; index++)
+		for (; _index < _stop; _index++)
 		{
-			final Node node = abox.getNode(nodeList.get(index));
+			final Node node = _abox.getNode(_nodeList.get(_index));
 			if (!node.isPruned() && node.isLiteral())
 				break;
 		}
@@ -102,25 +102,25 @@ public class LiteralIterator implements Iterator<Literal>
 	public boolean hasNext()
 	{
 		findNext();
-		return index < stop;
+		return _index < _stop;
 	}
 
 	public void reset()
 	{
-		index = start;
+		_index = _start;
 		findNext();
 	}
 
 	public void jump(final int i)
 	{
-		index = i;
+		_index = i;
 	}
 
 	@Override
 	public Literal next()
 	{
 		findNext();
-		final Literal lit = abox.getLiteral(nodeList.get(index++));
+		final Literal lit = _abox.getLiteral(_nodeList.get(_index++));
 
 		return lit;
 	}
