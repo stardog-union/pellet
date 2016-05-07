@@ -128,5 +128,5 @@ final class ObjectProfileNode extends AbstractProfileNode
 
 	// private: ...............................................................
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

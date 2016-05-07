@@ -212,17 +212,17 @@ public class ModuleExtractorPersistence
 		final StringTokenizer tokenizer = new StringTokenizer(moduleBeginLine);
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature end of line; module " + MODULE_BEGIN_KEYWORD + " expected: " + moduleBeginLine);
+			throw new IOException("Premature _end of line; module " + MODULE_BEGIN_KEYWORD + " expected: " + moduleBeginLine);
 
 		tokenizer.nextToken(); // discard the MODULE_BEGIN_KEYWORD
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature end of line; entity type information expected: " + moduleBeginLine);
+			throw new IOException("Premature _end of line; entity type information expected: " + moduleBeginLine);
 
 		final String entityType = tokenizer.nextToken();
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature end of line; module URI expected: " + moduleBeginLine);
+			throw new IOException("Premature _end of line; module URI expected: " + moduleBeginLine);
 
 		final String iriString = tokenizer.nextToken();
 
@@ -237,12 +237,12 @@ public class ModuleExtractorPersistence
 		final StringTokenizer tokenizer = new StringTokenizer(memberLine);
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature end of line; entity type information expected: " + memberLine);
+			throw new IOException("Premature _end of line; entity type information expected: " + memberLine);
 
 		final String entityType = tokenizer.nextToken();
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature end of line; module member URI expected: " + memberLine);
+			throw new IOException("Premature _end of line; module member URI expected: " + memberLine);
 
 		final String iriString = tokenizer.nextToken();
 
@@ -281,7 +281,7 @@ public class ModuleExtractorPersistence
 		}
 
 		if (!endOfModuleReached)
-			throw new IOException("Premature end of file; module information not terminated.");
+			throw new IOException("Premature _end of file; module information not terminated.");
 
 		modules.put(module, members);
 

@@ -122,7 +122,7 @@ public class RestrictedTimelineDatatype implements RestrictedDatatype<XMLGregori
 							daySum += daysInMonth(yrPlusOne, m);
 
 						/*
-						 * Seconds in complete days of current year
+						 * Seconds in complete days of _current year
 						 */
 						toTi = toTi.add(BigInteger.valueOf(86400L * daySum));
 

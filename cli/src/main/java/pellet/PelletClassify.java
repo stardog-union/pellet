@@ -64,7 +64,7 @@ public class PelletClassify extends PelletCmdApp
 	private static final String FILE_NAME_PATTERN = "persisted-state-%s.zip";
 
 	/**
-	 * The directory where persisted state is saved (for now, this is the current directory).
+	 * The directory where persisted state is saved (for now, this is the _current directory).
 	 */
 	private final File saveDirectory = new File(".");
 
@@ -180,7 +180,7 @@ public class PelletClassify extends PelletCmdApp
 	/**
 	 * Creates incremental classifier by either creating it from scratch or by reading its state from file (if there exists such a state)
 	 *
-	 * @param ontology the ontology (the current state of it)
+	 * @param ontology the ontology (the _current state of it)
 	 * @return the incremental classifier
 	 */
 	private IncrementalClassifier createIncrementalClassifier(final OWLOntology ontology)
@@ -202,7 +202,7 @@ public class PelletClassify extends PelletCmdApp
 	}
 
 	/**
-	 * Stores the current state of the incremental classifier to a file (the file name is determined automatically based on ontology's IRI).
+	 * Stores the _current state of the incremental classifier to a file (the file name is determined automatically based on ontology's IRI).
 	 *
 	 * @param incrementalClassifier the incremental classifier to be stored
 	 * @param ontology the ontology
@@ -219,7 +219,7 @@ public class PelletClassify extends PelletCmdApp
 		}
 		catch (final IOException e)
 		{
-			logger.log(Level.WARNING, "Unable to persist the current classifier state: " + e.toString());
+			logger.log(Level.WARNING, "Unable to persist the _current classifier state: " + e.toString());
 		}
 	}
 
@@ -227,7 +227,7 @@ public class PelletClassify extends PelletCmdApp
 	 * Loads the incremental classifier from a file. If the ontology changed since the state of the classifier was persisted, the classifier will be
 	 * incrementally updated with the changes.
 	 *
-	 * @param ontology the ontology (its current state, since class
+	 * @param ontology the ontology (its _current state, since class
 	 * @param file the file from which the persisted state will be read
 	 * @return the read classifier or null, if it was not possible to read the classifier
 	 */
@@ -241,7 +241,7 @@ public class PelletClassify extends PelletCmdApp
 			final IncrementalClassifier result = IncrementalClassifierPersistence.load(inputStream, ontology);
 
 			// check whether anything changed in the ontology in the time between the incremental classifier
-			// was persisted and the current time
+			// was persisted and the _current time
 			final OntologyDiff ontologyDiff = OntologyDiff.diffAxioms(result.getAxioms(), ontology.getAxioms());
 
 			if (ontologyDiff.getDiffCount() > 0)

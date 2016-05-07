@@ -140,7 +140,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 
 		// compute reachability if we don't have a cached result
 		if (module == null)
-			// compute _nodes reachable from the current _node entities
+			// compute _nodes reachable from the _current _node entities
 			module = engine.computeReachable(node.getEntities());
 
 		if (log.isLoggable(Level.FINE))

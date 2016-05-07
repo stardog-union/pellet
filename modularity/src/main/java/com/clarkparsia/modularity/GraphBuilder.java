@@ -752,7 +752,7 @@ public class GraphBuilder
 	{
 		// the following if statement was added to be consistent
 		// with earlier implementation that only considered axioms
-		// whose signature had a common element with the current
+		// whose signature had a common element with the _current
 		// signature of the module. this behavior is not consistent
 		// with the theoretical description of the modularity
 		// algorithm and may cause incorrect results in incremental

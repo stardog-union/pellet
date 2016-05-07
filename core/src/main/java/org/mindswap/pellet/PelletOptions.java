@@ -601,15 +601,15 @@ public class PelletOptions
 	public static boolean RETURN_DEDUCTIONS_GRAPH = false;
 
 	/**
-	 * Flag set if the completion queue should be utilized. This optimization will introduce memory overhead but will (in some cases) dramatically reduce
+	 * Flag set if the completion _queue should be utilized. This optimization will introduce memory overhead but will (in some cases) dramatically reduce
 	 * reasoning time. Rather than iterating over all individuals during the completion _strategy, only those which need to have the rules fired are selected for
 	 * rule applications.
 	 */
 	public static boolean USE_COMPLETION_QUEUE = false;
 
 	/**
-	 * Flag set if the optimized basic completion queue should be used. The difference between the basic completion queue is that it maintains queues of
-	 * individuals for each rule type. In contrast the basic completion queue simply one list of individuals which all rules iterate over
+	 * Flag set if the optimized basic completion _queue should be used. The difference between the basic completion _queue is that it maintains queues of
+	 * individuals for each rule type. In contrast the basic completion _queue simply one list of individuals which all rules iterate over
 	 */
 	public static boolean USE_OPTIMIZED_BASIC_COMPLETION_QUEUE = false && USE_COMPLETION_QUEUE;
 
@@ -630,10 +630,10 @@ public class PelletOptions
 	public static boolean USE_INCREMENTAL_DELETION = false && USE_INCREMENTAL_CONSISTENCY && USE_TRACING;
 
 	/**
-	 * Flag if the completion queue should be maintained through incremental deletions. It can be the case that a removal of a syntactic assertion will require
-	 * a queue element to be removed, as it is no longer applicable. If this is set to false then a simple check before each rule is fired will be performed -
-	 * if the ds for the label is null, then the rule will not be fired. If this is set to true and tracing is on, then the queue will be maintained through
-	 * deletions. TODO: Note currently the queue maintenance is not implemented, so this should always be FALSE!
+	 * Flag if the completion _queue should be maintained through incremental deletions. It can be the case that a removal of a syntactic assertion will require
+	 * a _queue element to be removed, as it is no longer applicable. If this is set to false then a simple check before each rule is fired will be performed -
+	 * if the ds for the label is null, then the rule will not be fired. If this is set to true and tracing is on, then the _queue will be maintained through
+	 * deletions. TODO: Note currently the _queue maintenance is not implemented, so this should always be FALSE!
 	 * <p>
 	 * <b>*********** DO NOT CHANGE THE VALUE OF THIS OPTION **************</b>
 	 */

@@ -59,5 +59,5 @@ abstract class AbstractShellProfileNode extends AbstractProfileNode
 
 	// private: ...............................................................
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

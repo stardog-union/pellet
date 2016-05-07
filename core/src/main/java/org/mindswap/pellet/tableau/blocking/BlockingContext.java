@@ -14,7 +14,7 @@ import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
 
 /**
- * A class to keep track of the current individual being tested for blocking conditions. Current context stores the blocker candidate and caches the incoming
+ * A class to keep track of the _current individual being tested for blocking conditions. Current context stores the blocker candidate and caches the incoming
  * edges to the (possibly) blocked individual since multiple blocking conditions need to access that information.
  *
  * @author Evren Sirin
@@ -32,7 +32,7 @@ public class BlockingContext
 	}
 
 	/**
-	 * Sets the blocker to the parent of current blocker and checks if if the new blocker candidate is allowed to block. Root _nodes are not allowed to block.
+	 * Sets the blocker to the parent of _current blocker and checks if if the new blocker candidate is allowed to block. Root _nodes are not allowed to block.
 	 *
 	 * @return <code>true</code> if the new blocker candidate is allowed to block
 	 */
@@ -45,10 +45,10 @@ public class BlockingContext
 	}
 
 	/**
-	 * Sets the blocker to the specified child of the current blocker and returns if the new blocker candidate is allowed to block. The child is not allowed to
+	 * Sets the blocker to the specified child of the _current blocker and returns if the new blocker candidate is allowed to block. The child is not allowed to
 	 * block if it is a literal, or a root, or pruned/merged, or is blocked itself.
 	 *
-	 * @param child child of the current blocker
+	 * @param child child of the _current blocker
 	 * @return <code>true</code> if the new blocker candidate is allowed to block
 	 */
 	public boolean moveBlockerDown(final Node child)

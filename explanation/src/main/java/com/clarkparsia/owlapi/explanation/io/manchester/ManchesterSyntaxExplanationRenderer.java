@@ -46,9 +46,9 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	}
 
 	/**
-	 * Returns the current axioms being whose explanation is being rendered or <code>null</code> if no axiom has been provided.
+	 * Returns the _current axioms being whose explanation is being rendered or <code>null</code> if no axiom has been provided.
 	 *
-	 * @return the current axioms being whose explanation is being rendered or <code>null</code> if no axiom has been provided
+	 * @return the _current axioms being whose explanation is being rendered or <code>null</code> if no axiom has been provided
 	 */
 	protected OWLAxiom getCurrentAxiom()
 	{
@@ -56,9 +56,9 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	}
 
 	/**
-	 * Returns the current smart indent value.
+	 * Returns the _current smart indent value.
 	 *
-	 * @return the current smart indent value
+	 * @return the _current smart indent value
 	 */
 	public boolean isSmartIndent()
 	{
@@ -66,9 +66,9 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	}
 
 	/**
-	 * Returns the current line wrapping value.
+	 * Returns the _current line wrapping value.
 	 *
-	 * @return the current line wrapping value
+	 * @return the _current line wrapping value
 	 */
 	public boolean isWrapLines()
 	{

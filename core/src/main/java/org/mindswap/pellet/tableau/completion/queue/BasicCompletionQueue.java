@@ -33,82 +33,82 @@ import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
 
 /**
- * A basic queue for individuals that need to have completion rules applied
+ * A basic _queue for individuals that need to have completion rules applied
  */
 public class BasicCompletionQueue extends CompletionQueue
 {
 	/**
-	 * The queue - array - each entry is an arraylist for a particular rule type
+	 * The _queue - array - each entry is an arraylist for a particular rule type
 	 */
-	protected List<ATermAppl> queue;
+	protected List<ATermAppl> _queue;
 
 	/**
-	 * Set to track duplicates for new elements list for queue
+	 * Set to track duplicates for new elements list for _queue
 	 */
-	protected Set<ATermAppl> newQueue;
+	protected Set<ATermAppl> _newQueue;
 
 	//TODO: This will be refactored; however currently there are some unit tests which will not
 	//terminate due to the _order in which the completion rules are applied to individuals
-	//ont the queue. An example of this is MiscTests.testIFDP3() - in this example,
+	//ont the _queue. An example of this is MiscTests.testIFDP3() - in this example,
 	//if the LiteralRule is applied to the individual "b" first, then an infinite number
 	//of non-deterministic choices are created...talk to Evren about this.
 
 	/**
-	 * List to hold new elements for the queue
+	 * List to hold new elements for the _queue
 	 */
-	protected List<ATermAppl> newQueueList;
+	protected List<ATermAppl> _newQueueList;
 
 	/**
-	 * List of current index pointer for each queue
+	 * List of _current index pointer for each _queue
 	 */
-	protected int current;
+	protected int _current;
 
 	/**
-	 * List of current index pointer for each queue
+	 * List of _current index pointer for each _queue
 	 */
-	protected int end;
+	protected int _end;
 
 	/**
-	 * List of current index pointer for the stopping point at each queue
+	 * List of _current index pointer for the stopping point at each _queue
 	 */
-	protected int cutOff;
+	protected int _cutOff;
 
 	/**
-	 * Flag set for when the kb is restored - in this case we do not want to flush the queue immediatly
+	 * Flag set for when the kb is restored - in this case we do not want to flush the _queue immediatly
 	 */
-	protected boolean backtracked;
+	protected boolean _backtracked;
 
 	/**
-	 * Constructor - create queue
+	 * Constructor - create _queue
 	 *
 	 * @param _abox
 	 */
 	public BasicCompletionQueue(final ABox abox)
 	{
 		super(abox);
-		queue = new ArrayList<>();
-		newQueue = new HashSet<>();
-		newQueueList = new ArrayList<>();
+		_queue = new ArrayList<>();
+		_newQueue = new HashSet<>();
+		_newQueueList = new ArrayList<>();
 
-		current = 0;
-		cutOff = 0;
-		end = 0;
-		backtracked = false;
+		_current = 0;
+		_cutOff = 0;
+		_end = 0;
+		_backtracked = false;
 	}
 
 	/**
-	 * Find the next individual in a given queue
+	 * Find the next individual in a given _queue
 	 *
 	 * @param type
 	 */
 	@Override
 	protected void findNext(final int type)
 	{
-		for (; current < cutOff; current++)
+		for (; _current < _cutOff; _current++)
 		{
-			Node node = abox.getNode(queue.get(current));
+			Node node = abox.getNode(_queue.get(_current));
 
-			//because we do not maitain the queue during restore this _node could be non-existent
+			//because we do not maitain the _queue during restore this _node could be non-existent
 			if (node == null)
 				continue;
 
@@ -120,7 +120,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Test if there is another element on the queue to process
+	 * Test if there is another element on the _queue to process
 	 *
 	 * @param type
 	 * @return
@@ -129,28 +129,28 @@ public class BasicCompletionQueue extends CompletionQueue
 	public boolean hasNext()
 	{
 		findNext(-1);
-		return current < cutOff;
+		return _current < _cutOff;
 	}
 
 	/**
-	 * Reset the queue to be the current _nodes in the _abox; Also reset the type index to 0
+	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type index to 0
 	 *
 	 * @param _branch
 	 */
 	@Override
 	public void restore(final int branch)
 	{
-		queue.addAll(newQueueList);
-		newQueue.clear();
-		newQueueList.clear();
-		end = queue.size();
-		current = 0;
-		cutOff = end;
-		backtracked = true;
+		_queue.addAll(_newQueueList);
+		_newQueue.clear();
+		_newQueueList.clear();
+		_end = _queue.size();
+		_current = 0;
+		_cutOff = _end;
+		_backtracked = true;
 	}
 
 	/**
-	 * Get the next element of a queue of a given type
+	 * Get the next element of a _queue of a given type
 	 * 
 	 * @param type
 	 * @return
@@ -160,15 +160,15 @@ public class BasicCompletionQueue extends CompletionQueue
 	{
 		//get the next index
 		findNext(-1);
-		Individual ind = abox.getIndividual(queue.get(current));
+		Individual ind = abox.getIndividual(_queue.get(_current));
 		ind = ind.getSame();
-		current++;
+		_current++;
 		return ind;
 
 	}
 
 	/**
-	 * Get the next element of a queue of a given type
+	 * Get the next element of a _queue of a given type
 	 * 
 	 * @param type
 	 * @return
@@ -178,9 +178,9 @@ public class BasicCompletionQueue extends CompletionQueue
 	{
 		//get the next index
 		findNext(-1);
-		Node node = abox.getNode(queue.get(current));
+		Node node = abox.getNode(_queue.get(_current));
 		node = node.getSame();
-		current++;
+		_current++;
 		return node;
 	}
 
@@ -193,10 +193,10 @@ public class BasicCompletionQueue extends CompletionQueue
 	@Override
 	public void add(final QueueElement x)
 	{
-		if (!newQueue.contains(x.getNode()))
+		if (!_newQueue.contains(x.getNode()))
 		{
-			newQueue.add(x.getNode());
-			newQueueList.add(x.getNode());
+			_newQueue.add(x.getNode());
+			_newQueueList.add(x.getNode());
 		}
 	}
 
@@ -208,12 +208,12 @@ public class BasicCompletionQueue extends CompletionQueue
 	@Override
 	public void reset(final NodeSelector s)
 	{
-		cutOff = end;
-		current = 0;
+		_cutOff = _end;
+		_current = 0;
 	}
 
 	/**
-	 * Set _branch pointers to current pointer. This is done whenever _abox.incrementBranch is called
+	 * Set _branch pointers to _current pointer. This is done whenever _abox.incrementBranch is called
 	 * 
 	 * @param _branch
 	 */
@@ -224,7 +224,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Copy the queue
+	 * Copy the _queue
 	 *
 	 * @return
 	 */
@@ -233,21 +233,21 @@ public class BasicCompletionQueue extends CompletionQueue
 	{
 		final BasicCompletionQueue copy = new BasicCompletionQueue(this.abox);
 
-		copy.queue = new ArrayList<>(this.queue);
-		copy.newQueue = new HashSet<>(this.newQueue);
-		copy.newQueueList = new ArrayList<>(this.newQueueList);
+		copy._queue = new ArrayList<>(this._queue);
+		copy._newQueue = new HashSet<>(this._newQueue);
+		copy._newQueueList = new ArrayList<>(this._newQueueList);
 
-		copy.current = this.current;
-		copy.cutOff = this.cutOff;
-		copy.backtracked = this.backtracked;
-		copy.end = this.end;
+		copy._current = this._current;
+		copy._cutOff = this._cutOff;
+		copy._backtracked = this._backtracked;
+		copy._end = this._end;
 		copy.setAllowLiterals(this.allowLiterals());
 
 		return copy;
 	}
 
 	/**
-	 * Set the _abox for the queue
+	 * Set the _abox for the _queue
 	 * 
 	 * @param ab
 	 */
@@ -258,23 +258,23 @@ public class BasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Print method for a given queue type
+	 * Print method for a given _queue type
 	 *
 	 * @param type
 	 */
 	@Override
 	public void print(final int type)
 	{
-		System.out.println("Queue: " + queue);
+		System.out.println("Queue: " + _queue);
 	}
 
 	/**
-	 * Print method for entire queue
+	 * Print method for entire _queue
 	 */
 	@Override
 	public void print()
 	{
-		System.out.println("Queue: " + queue);
+		System.out.println("Queue: " + _queue);
 	}
 
 	/**
@@ -289,21 +289,21 @@ public class BasicCompletionQueue extends CompletionQueue
 	@Override
 	public void flushQueue()
 	{
-		if (!backtracked && !closed)
-			queue.clear();
+		if (!_backtracked && !closed)
+			_queue.clear();
 		else
 			if (closed)
 				if (!abox.isClosed())
 					closed = false;
 
-		queue.addAll(newQueueList);
+		_queue.addAll(_newQueueList);
 
-		newQueue.clear();
-		newQueueList.clear();
+		_newQueue.clear();
+		_newQueueList.clear();
 
-		end = queue.size();
+		_end = _queue.size();
 
-		backtracked = false;
+		_backtracked = false;
 	}
 
 	@Override

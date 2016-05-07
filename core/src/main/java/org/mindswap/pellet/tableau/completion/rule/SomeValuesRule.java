@@ -110,7 +110,7 @@ public class SomeValuesRule extends AbstractTableauRule
 		// (ii) x is a nominal _node and y is not blocked.
 		final boolean neighborSafe = x.isBlockable();
 		// y is going to be the _node we create, and edge its connection to the
-		// current _node
+		// _current _node
 		Node y = null;
 		Edge edge = null;
 

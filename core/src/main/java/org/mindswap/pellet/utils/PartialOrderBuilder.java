@@ -185,12 +185,12 @@ public class PartialOrderBuilder<T>
 		/*
 		 * Comment written as if maxToMin == true Each pass over the loop a _node
 		 * (called the candidate) and its children are pulled from the pending
-		 * queue. If the _node to be inserted is less than one of the children,
-		 * that child and its children are pushed on to the pending queue. If
+		 * _queue. If the _node to be inserted is less than one of the children,
+		 * that child and its children are pushed on to the pending _queue. If
 		 * the _node to be inserted is equal to one of the children, it is
 		 * inserted and processing stops. If the _node to be inserted is not less
 		 * than or equal to any of the children, the candidate _node is a parent.
-		 * The loop is iterated until the queue is empty, at which point all
+		 * The loop is iterated until the _queue is empty, at which point all
 		 * parents have been identified.
 		 */
 		while (!pending.isEmpty())

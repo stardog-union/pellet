@@ -73,7 +73,7 @@ public class WebOntTest
 	// default value is 10 seconds
 	public int timeout = 10;
 
-	// At the end of tests stats about the results are displayed
+	// At the _end of tests stats about the results are displayed
 	// There are couple of options here; short means only total
 	// number of passes are shown, long means individual results
 	// for each test is also displayed, all means a GUI window is

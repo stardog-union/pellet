@@ -66,7 +66,7 @@ public abstract class ObjectProfileVisitors
 		{
 		}
 
-	} // end of nested class
+	} // _end of nested class
 
 	/**
 	 * This visitor prints out a _node in plain text format. The output is indented according to the length of the _node's path within its profile tree.
@@ -131,7 +131,7 @@ public abstract class ObjectProfileVisitors
 		private final DecimalFormat m_format;
 		private final boolean m_shortClassNames;
 
-	} // end of nested class
+	} // _end of nested class
 
 	/*
 	 * This visitor can dump a profile tree in an XML file, which can be handy
@@ -263,7 +263,7 @@ public abstract class ObjectProfileVisitors
 					default:
 						append.append(c);
 
-				} // end of switch
+				} // _end of switch
 			}
 		}
 
@@ -274,7 +274,7 @@ public abstract class ObjectProfileVisitors
 
 		private static final String ENCODING = "UTF-8";
 
-	} // end of nested class
+	} // _end of nested class
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

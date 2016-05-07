@@ -323,7 +323,7 @@ public class DisjunctionBranch extends Branch
 			_order[i] = _order[i];
 		}
 
-		//move open label to end
+		//move open label to _end
 		_disj[_disj.length - 1] = dis;
 		_prevDS[_disj.length - 1] = null;
 		_order[_disj.length - 1] = _disj.length - 1;

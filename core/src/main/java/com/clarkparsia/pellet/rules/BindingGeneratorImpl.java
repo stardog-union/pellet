@@ -52,7 +52,7 @@ public class BindingGeneratorImpl implements BindingGenerator
 		}
 
 		/**
-		 * Return the current binding up through and including the <code>max</code> element of the pattern chain.
+		 * Return the _current binding up through and including the <code>max</code> element of the pattern chain.
 		 * 
 		 * @param max
 		 * @return

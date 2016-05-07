@@ -116,7 +116,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	/**
 	 * Do the regular classification and module extraction in two separate threads concurrently. Doing so might reduce overall processing time but increases the
-	 * memory requirements because both processes need additional memory during running which will be freed at the end of the process.
+	 * memory requirements because both processes need additional memory during running which will be freed at the _end of the process.
 	 */
 	private boolean multiThreaded = true;
 
@@ -256,7 +256,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		{
 			if (extractor.isChanged())
 				// this means that there are some changes to the modules, which do not affect
-				// the current taxonomy (i.e., that is why isClassified() returns true)
+				// the _current taxonomy (i.e., that is why isClassified() returns true)
 				// let's update the modules here
 				// TODO: maybe we should move these calls somewhere else but in general
 				// the users expect that all changes are applied after classify()
@@ -325,7 +325,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	/**
 	 * This incremental classification _strategy does the following: for all modules that are affected, collect all of their axioms and classify them all once in
-	 * Pellet. This allows the exploitation current classification optimizations
+	 * Pellet. This allows the exploitation _current classification optimizations
 	 */
 	private void incClassifyAllModStrategy()
 	{
@@ -694,7 +694,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	/**
 	 * Sets the multi-threading option. In multi-threaded mode, during the initial setup, the regular classification and module extraction are performed in two
 	 * separate threads concurrently. Doing so might reduce overall processing time but it also increases the memory requirements because both processes need
-	 * additional memory during running which will be freed at the end of the process.
+	 * additional memory during running which will be freed at the _end of the process.
 	 *
 	 * @param multiThreaded value to set the multi-threaded option
 	 */
@@ -1298,7 +1298,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	@Override
 	public boolean isEntailmentCheckingSupported(final AxiomType<?> axiomType)
 	{
-		// the current EntailmentChecker supports the same set of axioms as
+		// the _current EntailmentChecker supports the same set of axioms as
 		// the underlying reasoner (if it cannot handle any element directly,
 		// it forwards the entailment check to the underlying reasoner)
 		return this.getReasoner().isEntailmentCheckingSupported(axiomType);

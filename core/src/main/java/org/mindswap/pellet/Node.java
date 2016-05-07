@@ -194,11 +194,11 @@ public abstract class Node
 	 */
 	public void setChanged(final int type)
 	{
-		//Check if we need to updated the completion queue
+		//Check if we need to updated the completion _queue
 		//Currently we only updated the changed lists for checkDatatypeCount()
 		final QueueElement newElement = new QueueElement(this);
 
-		//update the datatype queue
+		//update the datatype _queue
 		if ((type == Node.ALL || type == Node.MIN) && PelletOptions.USE_COMPLETION_QUEUE)
 			abox.getCompletionQueue().add(newElement, NodeSelector.DATATYPE);
 
@@ -400,7 +400,7 @@ public abstract class Node
 					conjunctions.add(c);
 		}
 
-		//update the queue with things that could readd this type
+		//update the _queue with things that could readd this type
 		if (removed && PelletOptions.USE_COMPLETION_QUEUE && this instanceof Individual)
 		{
 			final Individual ind = (Individual) this;

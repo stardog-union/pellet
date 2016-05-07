@@ -296,7 +296,7 @@ public class Individual extends Node implements CachedNode
 		if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
 			abox.getBranchEffectTracker().add(abox.getBranch(), this.getName());
 
-		//create new queue element
+		//create new _queue element
 		final QueueElement qElement = new QueueElement(this, c);
 
 		final ATermAppl notC = ATermUtils.negate(c);
@@ -315,7 +315,7 @@ public class Individual extends Node implements CachedNode
 			types[ATOM].add(c);
 
 			if (PelletOptions.USE_COMPLETION_QUEUE)
-				//update completion queue
+				//update completion _queue
 				abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
 		}
 		else
@@ -333,7 +333,7 @@ public class Individual extends Node implements CachedNode
 					types[ALL].add(c);
 
 					if (PelletOptions.USE_COMPLETION_QUEUE)
-						//update completion queue
+						//update completion _queue
 						abox.getCompletionQueue().add(qElement, NodeSelector.UNIVERSAL);
 				}
 				else
@@ -345,7 +345,7 @@ public class Individual extends Node implements CachedNode
 							setChanged(MIN);
 
 							if (PelletOptions.USE_COMPLETION_QUEUE)
-								//update completion queue
+								//update completion _queue
 								abox.getCompletionQueue().add(qElement, NodeSelector.MIN_NUMBER);
 
 							// check min clash after concept is added to the type
@@ -366,7 +366,7 @@ public class Individual extends Node implements CachedNode
 								types[OR].add(c);
 
 								if (PelletOptions.USE_COMPLETION_QUEUE)
-									//update completion queue
+									//update completion _queue
 									abox.getCompletionQueue().add(qElement, NodeSelector.DISJUNCTION);
 							}
 							else
@@ -376,7 +376,7 @@ public class Individual extends Node implements CachedNode
 									types[SOME].add(c);
 
 									if (PelletOptions.USE_COMPLETION_QUEUE)
-										//update completion queue					
+										//update completion _queue					
 										abox.getCompletionQueue().add(qElement, NodeSelector.EXISTENTIAL);
 								}
 								else
@@ -389,7 +389,7 @@ public class Individual extends Node implements CachedNode
 
 											if (PelletOptions.USE_COMPLETION_QUEUE)
 											{
-												//update completion queue						
+												//update completion _queue						
 												abox.getCompletionQueue().add(qElement, NodeSelector.MAX_NUMBER);
 												abox.getCompletionQueue().add(qElement, NodeSelector.CHOOSE);
 												abox.getCompletionQueue().add(qElement, NodeSelector.GUESS);
@@ -410,7 +410,7 @@ public class Individual extends Node implements CachedNode
 											types[ATOM].add(c);
 
 											if (PelletOptions.USE_COMPLETION_QUEUE)
-												//update completion queue					
+												//update completion _queue					
 												abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
 										}
 										else
@@ -433,7 +433,7 @@ public class Individual extends Node implements CachedNode
 													types[ATOM].add(c);
 
 													if (PelletOptions.USE_COMPLETION_QUEUE)
-														//update completion queue					
+														//update completion _queue					
 														abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
 												}
 												else
@@ -446,7 +446,7 @@ public class Individual extends Node implements CachedNode
 								types[NOM].add(c);
 
 								if (PelletOptions.USE_COMPLETION_QUEUE)
-									//update completion queue				
+									//update completion _queue				
 									abox.getCompletionQueue().add(qElement, NodeSelector.NOMINAL);
 							}
 							else
@@ -1144,7 +1144,7 @@ public class Individual extends Node implements CachedNode
 				if (depends.get(c).getBranch() != DependencySet.NO_BRANCH)
 				{
 					// rather deleting the element from an ArrayList move
-					// it to the end so we can purge everything from the 
+					// it to the _end so we can purge everything from the 
 					// tail of the list (note: if we change the list impl
 					// used here to a LinkedList we can modify this bit)
 					Collections.swap(list, i--, --size);
@@ -1153,7 +1153,7 @@ public class Individual extends Node implements CachedNode
 				}
 			}
 
-			// remove everything from the end of list 
+			// remove everything from the _end of list 
 			if (size < list.size())
 				list.subList(size, list.size()).clear();
 		}
@@ -1201,7 +1201,7 @@ public class Individual extends Node implements CachedNode
 			}
 		}
 
-		//if we removed an edge the update the queue
+		//if we removed an edge the update the _queue
 		if (removed && PelletOptions.USE_COMPLETION_QUEUE)
 		{
 			abox.getCompletionQueue().add(new QueueElement(this), NodeSelector.EXISTENTIAL);

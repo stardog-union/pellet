@@ -373,7 +373,7 @@ public class Literal extends Node
 					if (!dtReasoner.containsAtLeast(2, types))
 					{
 						/*
-						 * This literal is a variable, but given current ranges can only
+						 * This literal is a variable, but given _current ranges can only
 						 * take on a single value.  Merge with that value.
 						 */
 						final Object value = dtReasoner.valueIterator(types).next();

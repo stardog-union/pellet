@@ -66,7 +66,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 
 		assert !modules.containsKey(entity) : "po already contained entity";
 
-		assert currentCycle.isEmpty() : "non-empty current cycle passed into function";
+		assert currentCycle.isEmpty() : "non-empty _current cycle passed into function";
 
 		final Set<OWLEntity> myCycle = new HashSet<>();
 
@@ -228,7 +228,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 					// sanity check
 					assert stack.contains(member) : "_node was supposed to be on the stack";
 					// all the entities in the stack up until that _node
-					// will end up having the same module
+					// will _end up having the same module
 					boolean foundMember = false;
 					for (int i = stack.size() - 1; !foundMember; i--)
 					{

@@ -45,7 +45,7 @@ import org.mindswap.pellet.utils.Timer;
  * </p>
  * <p>
  * This abstract class defines the basic functionality needed to check for blocking and leaves the actual check of blocking condition between a pair of
- * individuals to its concrete subclasses that may do different things based on the expressivity of the current kb.
+ * individuals to its concrete subclasses that may do different things based on the expressivity of the _current kb.
  * </p>
  *
  * @author Evren Sirin

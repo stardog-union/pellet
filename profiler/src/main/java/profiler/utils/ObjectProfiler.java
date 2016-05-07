@@ -35,7 +35,7 @@ public abstract class ObjectProfiler
 	// public: ................................................................
 
 	// the following constants are physical sizes (in bytes) and are JVM-dependent:
-	// [the current values are Ok for most 32-bit JVMs]
+	// [the _current values are Ok for most 32-bit JVMs]
 
 	public static final int OBJECT_SHELL_SIZE = 8; // java.lang.Object shell size in bytes
 	public static final int OBJREF_SIZE = 4;
@@ -208,7 +208,7 @@ public abstract class ObjectProfiler
 		final int m_shellSize; // class shell size
 		final Field[] m_refFields; // cached non-static fields (made accessible)
 
-	} // end of nested class
+	} // _end of nested class
 
 	private static final class ClassAccessPrivilegedAction implements PrivilegedExceptionAction
 	{
@@ -225,7 +225,7 @@ public abstract class ObjectProfiler
 
 		private Class m_cls;
 
-	} // end of nested class
+	} // _end of nested class
 
 	private static final class FieldAccessPrivilegedAction implements PrivilegedExceptionAction
 	{
@@ -244,7 +244,7 @@ public abstract class ObjectProfiler
 
 		private Field m_field;
 
-	} // end of nested class
+	} // _end of nested class
 
 	private ObjectProfiler()
 	{
@@ -258,7 +258,7 @@ public abstract class ObjectProfiler
 		// this uses depth-first traversal; the exact graph traversal algorithm
 		// does not matter for computing the total size and this method could be
 		// easily adjusted to do breadth-first instead (addLast() instead of addFirst()),
-		// however, dfs/bfs require max queue length to be the length of the longest
+		// however, dfs/bfs require max _queue length to be the length of the longest
 		// graph path/width of traversal front correspondingly, so I expect
 		// dfs to use fewer resources than bfs for most Java objects;
 
@@ -609,5 +609,5 @@ public abstract class ObjectProfiler
 	// class metadata _cache:
 	private static final Map CLASS_METADATA_CACHE = new WeakHashMap(101);
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

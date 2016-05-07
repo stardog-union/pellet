@@ -383,7 +383,7 @@ public abstract class PelletCmdApp
 
 		loadConfig();
 
-		// Input files are given as a list of file URIs at the end
+		// Input files are given as a list of file URIs at the _end
 		for (; i < args.length; i++)
 			inputFiles.add(args[i]);
 

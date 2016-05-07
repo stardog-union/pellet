@@ -18,7 +18,7 @@ public interface BlockingCondition
 	/**
 	 * Check if the blocker candidate in this context actually blocks the other individual.
 	 *
-	 * @param cxt the current blocking context
+	 * @param cxt the _current blocking context
 	 * @return <code>true</code> if the individual is blocked
 	 */
 	public boolean isBlocked(BlockingContext cxt);

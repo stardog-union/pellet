@@ -29,7 +29,7 @@ import profiler.ProfileKB.MemoryProfiling;
 import profiler.ProfileKB.Task;
 
 /**
- * Executes several performance tests on the current release, and compares the results with previous releases to see if there are statistically significant performance regressions
+ * Executes several performance tests on the _current release, and compares the results with previous releases to see if there are statistically significant performance regressions
  * @author Pedro Oliveira <pedro@clarkparsia.com>
  *
  */
@@ -87,7 +87,7 @@ public class ReleasePerformanceTest {
 				if(revNumber >= 0 && revNumber < previousReleases.size())	//If they are available, try to compare
 				{
 					Release previous = previousReleases.get(revNumber);
-					for(Entry<String, List<ReleaseStatistics>> currStats: current.getAllStatistics().entrySet())	//For all the ontologies in the current test set
+					for(Entry<String, List<ReleaseStatistics>> currStats: current.getAllStatistics().entrySet())	//For all the ontologies in the _current test set
 					{
 						List<ReleaseStatistics> previousStats = previous.getStatistics(currStats.getKey());	//If the previous release contains results about this ontology, compare. otherwise, ignore and continue
 						if(previousStats == null)
@@ -102,7 +102,7 @@ public class ReleasePerformanceTest {
 
 		try
 		{
-			ReleaseUtils.writeToFile(current, new File(RELEASE_REPOSITORY, current.getVersion()+"_"+current.getReleaseDate()).getAbsolutePath());	//Save the current results
+			ReleaseUtils.writeToFile(current, new File(RELEASE_REPOSITORY, current.getVersion()+"_"+current.getReleaseDate()).getAbsolutePath());	//Save the _current results
 		}catch(Exception e)
 		{
 			e.printStackTrace();
@@ -178,7 +178,7 @@ public class ReleasePerformanceTest {
 		pkb.setLoaderType(LOADER);
 		pkb.setTask(TASK);
 
-		//Get all the results for the current release
+		//Get all the results for the _current release
 		Map<String, List<Result<Task>>> results = new LinkedHashMap<>();
 		BufferedReader reader = new BufferedReader(new FileReader(ONTOLOGIES));		
 		String line;
@@ -334,7 +334,7 @@ public class ReleasePerformanceTest {
 
 	private boolean changeIsStatisticallySignificant(double m1, double m2, double v1, double v2, double n1, double n2)
 	{
-		if(m1 > m2 && m1 > 0.01)	//We only check for a change if the current average is bigger than the previous one
+		if(m1 > m2 && m1 > 0.01)	//We only check for a change if the _current average is bigger than the previous one
 		{
 			try {
 				//return math.tTest(m1, m2, v1, v2, n1, n2, ALPHA);	//2-sided, 2-sample t-test. returns true if they're different, i.e., it rejected the null hyphoteses that there is no difference between the means

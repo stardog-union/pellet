@@ -172,7 +172,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 		ExtendedIterator<Triple> i = GraphQueryHandler.findTriple(kb, this, subject, predicate, object);
 
 		final ATerm predicateTerm = predicate.isURI() ? ATermUtils.makeTermAppl(predicate.getURI()) : null;
-		// look at asserted triples at the end but only for annotation properties, other triples should be inferred
+		// look at asserted triples at the _end but only for annotation properties, other triples should be inferred
 		if (finder != null && (predicateTerm == null || !kb.isObjectProperty(predicateTerm) && !kb.isDatatypeProperty(predicateTerm)))
 		{
 			final TriplePattern tp = new TriplePattern(subject, predicate, object);
@@ -209,7 +209,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 	}
 
 	/**
-	 * Reloads all the triple from the underlying models regardless of updates or current state. KB will be cleared completely and recreated from scratch.
+	 * Reloads all the triple from the underlying models regardless of updates or _current state. KB will be cleared completely and recreated from scratch.
 	 */
 	public void reload()
 	{

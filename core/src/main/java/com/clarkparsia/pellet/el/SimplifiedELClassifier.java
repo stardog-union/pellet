@@ -127,11 +127,11 @@ public class SimplifiedELClassifier extends CDOptimizedTaxonomyBuilder implement
 		monitor.setProgressLength(queueSize);
 		monitor.taskStarted();
 
-		logger.fine("Processing queue");
+		logger.fine("Processing _queue");
 		t = timers.startTimer("processQueue");
 		processQueue();
 		t.stop();
-		logger.fine("Processed queue");
+		logger.fine("Processed _queue");
 
 		if (logger.isLoggable(Level.FINER))
 			print();
@@ -365,10 +365,10 @@ public class SimplifiedELClassifier extends CDOptimizedTaxonomyBuilder implement
 
 					existentials.add(p, succ);
 
-					// Add this to the queue so that successor relation some(p,q) -> p -> q will be established. Due to
+					// Add this to the _queue so that successor relation some(p,q) -> p -> q will be established. Due to
 					// sub property interactions adding successor relation here directly causes missing inferences.
 					// Note that, we are taking advantage of the fact that concept.addSuperClass(concept) call has not
-					// been executed yet which would have caused the add queue call to have no effect.
+					// been executed yet which would have caused the add _queue call to have no effect.
 					addToQueue(concept, concept);
 				}
 

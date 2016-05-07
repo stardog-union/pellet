@@ -49,5 +49,5 @@ final class ArrayIndexLink implements ILink
 	private final ILink m_container;
 	private final int m_index;
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

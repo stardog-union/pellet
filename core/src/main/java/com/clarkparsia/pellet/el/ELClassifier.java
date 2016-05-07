@@ -126,11 +126,11 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 
 		printStructures();
 
-		logger.info("Processing queue");
+		logger.info("Processing _queue");
 		t = timers.startTimer("processQueue");
 		processQueue();
 		t.stop();
-		logger.info("Processed queue");
+		logger.info("Processed _queue");
 
 		if (logger.isLoggable(Level.FINE))
 			print();
@@ -275,7 +275,7 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 	{
 		if (queue.addAll(ci, triggers))
 			if (logger.isLoggable(Level.FINE))
-				logger.fine("Add to queue: " + ci + " " + triggers);
+				logger.fine("Add to _queue: " + ci + " " + triggers);
 	}
 
 	private void addSubsumer(final ConceptInfo ci, final ConceptInfo supInfo)

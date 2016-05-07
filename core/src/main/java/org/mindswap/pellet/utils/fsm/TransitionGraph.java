@@ -290,7 +290,7 @@ public class TransitionGraph<T>
 
 	// ---------------------------------------------------
 	// modify TG so that it accepts strings accepted by
-	// either current TG or new TG
+	// either _current TG or new TG
 
 	public TransitionGraph<T> choice(final TransitionGraph<T> t)
 	{
@@ -302,7 +302,7 @@ public class TransitionGraph<T>
 		finalStates.addAll(t.finalStates);
 
 		// add an epsilon edge from new start state to
-		// current TG's and parameter TG's start state
+		// _current TG's and parameter TG's start state
 		s.addTransition(initialState);
 		s.addTransition(t.initialState);
 		initialState = s;
@@ -322,7 +322,7 @@ public class TransitionGraph<T>
 
 	// ---------------------------------------------------
 	// modify TG so that it accepts strings composed
-	// of strings accepted by current TG followed strings
+	// of strings accepted by _current TG followed strings
 	// accepted by new TG
 
 	public TransitionGraph<T> concat(final TransitionGraph<T> t)
@@ -333,12 +333,12 @@ public class TransitionGraph<T>
 		// combine all states
 		allStates.addAll(t.allStates);
 
-		// add an epsilon edge from new start state to current
+		// add an epsilon edge from new start state to _current
 		// TG's start state and make it the start state
 		s.addTransition(initialState);
 		initialState = s;
 
-		// from final states of current TG add an
+		// from final states of _current TG add an
 		// epsilon edge to start state of parameter TG
 		for (final State<T> fs : finalStates)
 			fs.addTransition(t.initialState);
@@ -367,7 +367,7 @@ public class TransitionGraph<T>
 		final State<T> s = newState(); // new start state
 		final State<T> f = newState(); // new final state
 
-		// from final states of current TG add an epsilon
+		// from final states of _current TG add an epsilon
 		// edge to old start state and new final state
 		for (final State<T> fs : finalStates)
 		{
@@ -678,7 +678,7 @@ public class TransitionGraph<T>
 
 				// for all the symbols in an alphabet
 				for (final T a : alphabet)
-					// find move(a) for the first and current state
+					// find move(a) for the first and _current state
 					// if they go to different partitions
 					if (!isEquivalentState(s.move(a), t.move(a), partitionNumbers))
 					{
@@ -690,7 +690,7 @@ public class TransitionGraph<T>
 							partitions.add(newPartition);
 						}
 
-						// remove current state from this partition						
+						// remove _current state from this partition						
 						i.remove();
 						// add it to the new partition
 						newPartition.add(t);

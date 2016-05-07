@@ -105,12 +105,12 @@ public abstract class CompletionStrategy
 	private boolean merging = false;
 
 	/**
-	 * Flat to indicate that we are merging all _nodes in the queue
+	 * Flat to indicate that we are merging all _nodes in the _queue
 	 */
 	private boolean mergingAll = false;
 
 	/**
-	 * The queue of _node pairs that are waiting to be merged
+	 * The _queue of _node pairs that are waiting to be merged
 	 */
 	protected List<NodeMerge> mergeList;
 
@@ -288,7 +288,7 @@ public abstract class CompletionStrategy
 					continue;
 				selfRule.apply(n);
 
-				// CHW-added for inc. queue must see if this is bad
+				// CHW-added for inc. _queue must see if this is bad
 				final EdgeList allEdges = n.getOutEdges();
 				for (int e = 0; e < allEdges.size(); e++)
 				{
@@ -467,7 +467,7 @@ public abstract class CompletionStrategy
 	}
 
 	/**
-	 * This method updates the queue in the event that there is an edge added between two _nodes. The individual must be added back onto the MAXLIST
+	 * This method updates the _queue in the event that there is an edge added between two _nodes. The individual must be added back onto the MAXLIST
 	 */
 	protected void updateQueueAddEdge(final Individual subj, final Role pred, final Node obj)
 	{
@@ -528,7 +528,7 @@ public abstract class CompletionStrategy
 		}
 
 		if (PelletOptions.USE_COMPLETION_QUEUE)
-			// update the queue as we are adding an edge - we must add
+			// update the _queue as we are adding an edge - we must add
 			// elements to the MAXLIST
 			updateQueueAddEdge(subj, pred, obj);
 
@@ -775,7 +775,7 @@ public abstract class CompletionStrategy
 	}
 
 	/**
-	 * Merge all _node pairs in the queue.
+	 * Merge all _node pairs in the _queue.
 	 */
 	public void mergeAll()
 	{
@@ -919,7 +919,7 @@ public abstract class CompletionStrategy
 			// possible restore operation in the future
 			z.removeEdge(edge);
 
-			// add to effected list of queue
+			// add to effected list of _queue
 			// if( _abox.getBranch() >= 0 && PelletOptions.USE_COMPLETION_QUEUE ) {
 			// _abox.getCompletionQueue().addEffected( _abox.getBranch(), z.getName() );
 			// }
@@ -1155,7 +1155,7 @@ public abstract class CompletionStrategy
 			}
 		}
 
-		// if there were _nodes to be removed at the end of the list do it now
+		// if there were _nodes to be removed at the _end of the list do it now
 		if (deleteBlock > 0)
 			nodeList.subList(nodeCount - deleteBlock, nodeCount).clear();
 

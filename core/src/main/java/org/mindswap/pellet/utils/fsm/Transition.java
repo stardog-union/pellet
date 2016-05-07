@@ -41,7 +41,7 @@ public class Transition<T>
 	}
 
 	/**
-	 * add edge for name from current state to state t on c
+	 * add edge for name from _current state to state t on c
 	 */
 	public Transition(final T name, final State<T> to)
 	{

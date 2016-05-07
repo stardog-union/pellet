@@ -80,7 +80,7 @@ public class CostBasedQueryPlanNew extends QueryPlan
 
 	/**
 	 * Recursive function that will inspect all possible orderings for a list of query atoms and returns the cost for the best ordering (min cost) found. Best
-	 * ordering is saved in the sortedAtoms field. The ordering of atoms is created recursively where each step adds one more atom to the current ordering.
+	 * ordering is saved in the sortedAtoms field. The ordering of atoms is created recursively where each step adds one more atom to the _current ordering.
 	 * Current ordering is discarded if it is found to be non-optimal and we have already found an ordering which is not non-optimal. Non-optimal heuristic
 	 * currently is defined as follows: For each atom at position i > 1 in the ordered list, there should be at least one atom at position j < i s.t. two atoms
 	 * share at least one variable. This heuristics is defined to avoid even considering cartesian products, e.g. ClassAtom(?x, A), ClassAtom(?y,B),

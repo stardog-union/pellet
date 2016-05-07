@@ -168,7 +168,7 @@ public class Compiler
 
 			bound.addAll(VariableUtils.getVars(atom));
 
-			// any builtin that can be evaluated with current bindings should be handled here
+			// any builtin that can be evaluated with _current bindings should be handled here
 			for (final Iterator<BuiltInCall> i = builtins.iterator(); i.hasNext();)
 			{
 				final BuiltInCall call = i.next();
@@ -222,7 +222,7 @@ public class Compiler
 				node.addChild(newBeta);
 			node = newBeta;
 
-			// process builtins at the end since binding builtins may change
+			// process builtins at the _end since binding builtins may change
 			int bindingCount = -1;
 			while (!builtins.isEmpty() && bindingCount != bound.size())
 			{

@@ -216,7 +216,7 @@ public class Taxonomy<T>
 		// precaution to avoid creating an invalid taxonomy is now done by
 		// calling assertValid function because the taxonomy might be invalid
 		// during the merge operation but it is guaranteed to be valid after
-		// the merge is completed. so we check for validity at the very end
+		// the merge is completed. so we check for validity at the very _end
 		// TOP_NODE.setSupers( Collections.EMPTY_LIST );
 		// BOTTOM_NODE.setSubs( Collections.EMPTY_LIST );
 	}

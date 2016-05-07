@@ -89,7 +89,7 @@ public class MaxBranch extends IndividualBranch
 	{
 		_abox.incrementBranch();
 
-		//we must re-add this individual to the max queue. This is because we may still need to keep
+		//we must re-add this individual to the max _queue. This is because we may still need to keep
 		//applying the max rule for additional merges
 		//recreate the label for the individuals
 		ATermAppl maxCon = ATermUtils.makeMax(this._r.getName(), this._n, this._qualification);
@@ -262,7 +262,7 @@ public class MaxBranch extends IndividualBranch
 		for (int i = openIndex; i < _mergePairs.size(); i++)
 			_prevDS[i] = _prevDS[i + 1];
 
-		//move open label to end
+		//move open label to _end
 		_prevDS[_mergePairs.size() - 1] = null;
 
 		//decrement trynext

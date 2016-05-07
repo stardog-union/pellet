@@ -60,13 +60,13 @@ public abstract class BlockWriter extends PrintWriter
 	public abstract void clearBlocks();
 
 	/**
-	 * Start a new block for alignment. This will mark the current location in the current line as the point to be used for alignment next time a new line is
+	 * Start a new block for alignment. This will mark the _current location in the _current line as the point to be used for alignment next time a new line is
 	 * printed. Previously defined alignment blocks will be inaccessible until this block is closed with a {@link #endBlock()} call.
 	 */
 	public abstract void startBlock();
 
 	/**
-	 * Ends the current alignment block. All subsequent lines will be aligned w.r.t. the previous block or not at all if there was no previous bloack.
+	 * Ends the _current alignment block. All subsequent lines will be aligned w.r.t. the previous block or not at all if there was no previous bloack.
 	 *
 	 * @throws IllegalStateException if there is no block previously created with a {@link #startBlock()} call.
 	 */

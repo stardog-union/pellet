@@ -42,7 +42,7 @@ public abstract class QueryPlan
 	}
 
 	/**
-	 * Returns next atom to be executed w.r. to the current binding.
+	 * Returns next atom to be executed w.r. to the _current binding.
 	 *
 	 * @param binding
 	 * @return

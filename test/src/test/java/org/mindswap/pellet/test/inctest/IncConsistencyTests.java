@@ -1622,7 +1622,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		// this test case is to verify that KB will update its internal
 		// state properly after KB changes and will recompute inferences
 		// as necessary
-		// IMPORTANT: this test case is written with the current expected
+		// IMPORTANT: this test case is written with the _current expected
 		// behavior of Pellet. it is possible that this behavior will
 		// change in the future and this test case can be modified
 		// accordingly		

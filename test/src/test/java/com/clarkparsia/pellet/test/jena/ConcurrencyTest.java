@@ -59,7 +59,7 @@ public class ConcurrencyTest
 		for (int i = 0; i < THREAD_NUMBER; i++)
 			pool.execute(new QueryRunner(ontModel, toDo));
 
-		// adding the individuals to the processing queue for the threads to process concurrently
+		// adding the individuals to the processing _queue for the threads to process concurrently
 		final Iterator<Individual> individuals = ontModel.listIndividuals();
 
 		while (individuals.hasNext())

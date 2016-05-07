@@ -982,7 +982,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				}
 
 				/*
-				 * If current values are not a solution try a new solution. If no more combinations are available, fail.
+				 * If _current values are not a solution try a new solution. If no more combinations are available, fail.
 				 */
 				if (!solutionFound)
 				{

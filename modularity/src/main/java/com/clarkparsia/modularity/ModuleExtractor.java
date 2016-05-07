@@ -126,7 +126,7 @@ public interface ModuleExtractor
 	public boolean isClassificationNeeded(Expressivity expressivity);
 
 	/**
-	 * Update the modules with the changes that have been put into the queue so far.
+	 * Update the modules with the changes that have been put into the _queue so far.
 	 *
 	 * @return The set of entities whose modules are affected by the changes
 	 * @throws UnsupportedOperationException if modules cannot be updated as reported by {@link #canUpdate()} function
@@ -142,7 +142,7 @@ public interface ModuleExtractor
 	public Set<OWLAxiom> extractModule(Set<? extends OWLEntity> signature);
 
 	/**
-	 * Save the current state of the ModuleExtractor. The output is saved to a ZipOutputStream to allow storage in multiple files in one stream.
+	 * Save the _current state of the ModuleExtractor. The output is saved to a ZipOutputStream to allow storage in multiple files in one stream.
 	 *
 	 * @param outputStream the zip output stream where the data should be stored
 	 * @throws IOException if an I/O error occurs during the saving

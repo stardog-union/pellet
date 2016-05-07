@@ -612,7 +612,7 @@ public class CombinedQueryEngine implements QueryExec
 
 				break;
 			// throw new IllegalArgumentException("The annotation atom "
-			// + current + " should be ground, but is not.");
+			// + _current + " should be ground, but is not.");
 
 			// TBOX ATOMS
 			case DirectSubClassOf:

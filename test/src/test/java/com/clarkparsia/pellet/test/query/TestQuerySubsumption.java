@@ -117,7 +117,7 @@ public class TestQuerySubsumption
 
 	/**
 	 * Example showing query equivalence. The subproperty relation between hasFather and hasParent properties would normally establish subsumption in one way
-	 * but due to cardinality restrictions defined in the ontology two queries end up being equivalent,
+	 * but due to cardinality restrictions defined in the ontology two queries _end up being equivalent,
 	 */
 	public Query[] example3()
 	{

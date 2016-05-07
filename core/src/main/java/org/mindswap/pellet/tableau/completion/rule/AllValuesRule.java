@@ -180,7 +180,7 @@ public class AllValuesRule extends AbstractTableauRule
 			if (log.isLoggable(Level.FINE))
 				log.fine("ALL : " + subj + " -> " + pred + " -> " + obj + " : " + ATermUtils.toString(c) + " - " + ds);
 
-			//because we do not maintain the queue it could be the case that this _node is pruned, so return
+			//because we do not maintain the _queue it could be the case that this _node is pruned, so return
 			if (PelletOptions.USE_COMPLETION_QUEUE && !PelletOptions.MAINTAIN_COMPLETION_QUEUE && obj.isPruned())
 				return;
 

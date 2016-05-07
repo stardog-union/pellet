@@ -237,7 +237,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 			//if the KB has cardinality restrictions, then we need to apply the guessing rule
 			if (abox.getKB().getExpressivity().hasCardinality())
-				//update the queue so the max rule will be fired
+				//update the _queue so the max rule will be fired
 				updateQueueAddEdge(subj, pred, obj);
 		}
 
@@ -248,7 +248,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 		//set appropriate _branch
 		abox.setBranch(abox.getBranches().size() + 1);
 
-		// we will also need to add stuff to the queue in the event of a
+		// we will also need to add stuff to the _queue in the event of a
 		// deletion		
 
 		//Handle removed edges

@@ -23,7 +23,7 @@ public interface IObjectProfileNode
 		 */
 		boolean accept(IObjectProfileNode node);
 
-	} // end of nested interface
+	} // _end of nested interface
 
 	/**
 	 * A generic interface for defining _node visitors. A _node visitor is applied to a profile tree _node both before and after visiting the _node's children, if
@@ -45,7 +45,7 @@ public interface IObjectProfileNode
 		 */
 		void postvisit(IObjectProfileNode node);
 
-	} // end of nested interface
+	} // _end of nested interface
 
 	/**
 	 * Returns the object associated with this _node. This is never null except for shell pseudo-_nodes.
@@ -111,7 +111,7 @@ public interface IObjectProfileNode
 	IObjectProfileNode shell();
 
 	/**
-	 * Returns the full path from the profile tree root to this _node, in that direction. The result includes the root _node as well as the current _node.
+	 * Returns the full path from the profile tree root to this _node, in that direction. The result includes the root _node as well as the _current _node.
 	 * <P>
 	 * Invariant: _node.root() == _node.path()[0] Invariant: _node.path()[_node.path().length - 1] == _node Invariant: _node.path().length == _node.pathlength()
 	 * 
@@ -124,7 +124,7 @@ public interface IObjectProfileNode
 	 * <P>
 	 * Invariant: _node.root() == _node iff '_node' is the root of its profile tree Invariant: _node.root() == _node.path()[0]
 	 * 
-	 * @return the root _node for the profile tree that the current _node is a part of [never null]
+	 * @return the root _node for the profile tree that the _current _node is a part of [never null]
 	 */
 	IObjectProfileNode root();
 
@@ -152,5 +152,5 @@ public interface IObjectProfileNode
 	 */
 	String dump();
 
-} // end of interface
+} // _end of interface
 // ----------------------------------------------------------------------------

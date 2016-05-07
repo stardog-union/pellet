@@ -37,7 +37,7 @@ public class TextBlockWriter extends BlockWriter
 	private final ArrayList<Integer> blockColumns = new ArrayList<>();
 
 	/**
-	 * The current column (number of the characters printed) for the current line
+	 * The _current column (number of the characters printed) for the _current line
 	 */
 	private int column = 0;
 
@@ -110,7 +110,7 @@ public class TextBlockWriter extends BlockWriter
 	@Override
 	public void startBlock()
 	{
-		// save the current column
+		// save the _current column
 		blockColumns.add(column);
 	}
 
@@ -121,7 +121,7 @@ public class TextBlockWriter extends BlockWriter
 	public void endBlock()
 	{
 		if (blockColumns.isEmpty())
-			throw new IllegalStateException("No block to end!");
+			throw new IllegalStateException("No block to _end!");
 
 		// remove the lastly column
 		blockColumns.remove(blockColumns.size() - 1);

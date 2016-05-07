@@ -146,7 +146,7 @@ public class SROIQStrategy extends CompletionStrategy
 
 				final IndividualIterator i = (PelletOptions.USE_COMPLETION_QUEUE) ? abox.getCompletionQueue() : abox.getIndIterator();
 
-						// flush the queue
+						// flush the _queue
 						if (PelletOptions.USE_COMPLETION_QUEUE)
 							abox.getCompletionQueue().flushQueue();
 
@@ -159,7 +159,7 @@ public class SROIQStrategy extends CompletionStrategy
 
 						// it could be the case that there was a clash and we had a
 						// deletion update that retracted it
-						// however there could have been some thing on the queue that
+						// however there could have been some thing on the _queue that
 						// still needed to be refired from backtracking
 						// so onle set that the _abox is clash free after we have applied
 						// all the rules once
@@ -183,7 +183,7 @@ public class SROIQStrategy extends CompletionStrategy
 				{
 					abox.setComplete(true);
 
-					// we need to flush the queue to add the other elements
+					// we need to flush the _queue to add the other elements
 					if (PelletOptions.USE_COMPLETION_QUEUE)
 						abox.getCompletionQueue().flushQueue();
 				}

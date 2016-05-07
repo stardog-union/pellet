@@ -639,7 +639,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		assert mnx.size() == newBranch.getBranch() : mnx.size() + " != " + newBranch.getBranch();
 
-		// create a copy of the mnx list so that changes in the current _branch will not affect it
+		// create a copy of the mnx list so that changes in the _current _branch will not affect it
 		mnx.add(new ArrayList<>(mayNeedExpanding));
 	}
 }

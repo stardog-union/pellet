@@ -341,7 +341,7 @@ public class QueryEngine
 
 	/**
 	 * If a query has disconnected components such as C(x), D(y) then it should be answered as two separate queries. The answers to each query should be
-	 * combined at the end by taking Cartesian product.(we combine results on a tuple basis as results are iterated. This way we avoid generating the full
+	 * combined at the _end by taking Cartesian product.(we combine results on a tuple basis as results are iterated. This way we avoid generating the full
 	 * Cartesian product. Splitting the query ensures the correctness of the answer, e.g. rolling-up technique becomes applicable.
 	 *
 	 * @param query Query to be split

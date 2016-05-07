@@ -160,7 +160,7 @@ public class ABox
 
 	private final Set<Clash> _assertedClashes;
 
-	// the current _branch number
+	// the _current _branch number
 	private int _branch;
 	private List<Branch> _branches;
 
@@ -260,7 +260,7 @@ public class ABox
 		else
 			_branchEffects = null;
 
-		// copy the queue - this must be done early so that the effects of
+		// copy the _queue - this must be done early so that the effects of
 		// adding the extra individual do not get removed
 		if (PelletOptions.USE_COMPLETION_QUEUE)
 		{
@@ -1547,7 +1547,7 @@ public class ABox
 		// when a type is being added to
 		// an ABox that has already been completed, the _branch
 		// of the dependency set will automatically be set to
-		// the current _branch. We need to set it to the initial
+		// the _current _branch. We need to set it to the initial
 		// _branch number to make sure that this type assertion
 		// will not be removed during backtracking
 		final int remember = _branch;
@@ -1724,7 +1724,7 @@ public class ABox
 
 				if (((Literal) node).getValue() == null && PelletOptions.USE_COMPLETION_QUEUE)
 				{
-					// added for completion queue
+					// added for completion _queue
 					final QueueElement newElement = new QueueElement(node);
 					this._completionQueue.add(newElement, NodeSelector.LITERAL);
 				}
@@ -1757,7 +1757,7 @@ public class ABox
 
 		if (lit.getValue() == null && PelletOptions.USE_COMPLETION_QUEUE)
 		{
-			// added for completion queue
+			// added for completion _queue
 			final QueueElement newElement = new QueueElement(lit);
 			this._completionQueue.add(newElement, NodeSelector.LITERAL);
 		}
@@ -2033,7 +2033,7 @@ public class ABox
 	}
 
 	/**
-	 * Return the current _branch number. Branches are created when a non-deterministic rule, e.g. _disjunction or max rule, is being applied.
+	 * Return the _current _branch number. Branches are created when a non-deterministic rule, e.g. _disjunction or max rule, is being applied.
 	 *
 	 * @return Returns the _branch.
 	 */
@@ -2393,7 +2393,7 @@ public class ABox
 
 	/**
 	 * Set whether changes to the update should be treated as syntactic updates, i.e., if the changes are made on explicit source axioms. This is used for the
-	 * completion queue for incremental consistency checking purposes.
+	 * completion _queue for incremental consistency checking purposes.
 	 *
 	 * @param boolean val The value
 	 */
@@ -2404,7 +2404,7 @@ public class ABox
 
 	/**
 	 * Set whether changes to the update should be treated as syntactic updates, i.e., if the changes are made on explicit source axioms. This is used for the
-	 * completion queue for incremental consistency checking purposes.
+	 * completion _queue for incremental consistency checking purposes.
 	 *
 	 * @param boolean val The value
 	 */

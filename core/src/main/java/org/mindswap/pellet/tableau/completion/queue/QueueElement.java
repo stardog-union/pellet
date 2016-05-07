@@ -34,7 +34,7 @@ import aterm.ATermAppl;
 import org.mindswap.pellet.Node;
 
 /**
- * Structured stored on the completion queue
+ * Structured stored on the completion _queue
  *
  * @author Christian Halaschek-Wiener
  */

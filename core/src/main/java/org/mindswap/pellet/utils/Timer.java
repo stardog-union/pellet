@@ -38,7 +38,7 @@ import org.mindswap.pellet.exceptions.TimerInterruptedException;
 /**
  * <p>
  * Class used to keep track how much time is spent for a specific operation. Timers are primarily used to display info about performance. A timer is started at
- * the beginning of a function and is stopped at the end of that function (special care needed when there are multiple return commands in a function because the
+ * the beginning of a function and is stopped at the _end of that function (special care needed when there are multiple return commands in a function because the
  * status of unstopped timers is undefined). A timer also stores how many times the timer has been started so average time spent in a function can be computed.
  * </p>
  * <p>

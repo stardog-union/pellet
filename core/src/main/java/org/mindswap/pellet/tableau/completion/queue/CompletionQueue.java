@@ -41,7 +41,7 @@ import org.mindswap.pellet.Node;
  * Title: Completion Queue
  * </p>
  * <p>
- * Description: A queue for individuals that need to have completion rules applied
+ * Description: A _queue for individuals that need to have completion rules applied
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -69,7 +69,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	protected boolean closed;
 
 	/**
-	 * Constructor - create queue
+	 * Constructor - create _queue
 	 *
 	 * @param _abox
 	 */
@@ -81,21 +81,21 @@ public abstract class CompletionQueue extends IndividualIterator
 	}
 
 	/**
-	 * Find the next individual in a given queue
+	 * Find the next individual in a given _queue
 	 * 
 	 * @param type
 	 */
 	protected abstract void findNext(int type);
 
 	/**
-	 * Reset the queue to be the current _nodes in the _abox; Also reset the type index to 0
+	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type index to 0
 	 *
 	 * @param _branch
 	 */
 	public abstract void restore(int branch);
 
 	/**
-	 * Add an element to the queue
+	 * Add an element to the _queue
 	 * 
 	 * @param x
 	 * @param type
@@ -111,7 +111,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	public abstract void add(QueueElement x);
 
 	/**
-	 * Reset the current pointer
+	 * Reset the _current pointer
 	 * 
 	 * @param type
 	 */
@@ -119,21 +119,21 @@ public abstract class CompletionQueue extends IndividualIterator
 	public abstract void reset(NodeSelector s);
 
 	/**
-	 * Set _branch pointers to current pointer. This is done whenever _abox.incrementBranch is called
+	 * Set _branch pointers to _current pointer. This is done whenever _abox.incrementBranch is called
 	 * 
 	 * @param _branch
 	 */
 	public abstract void incrementBranch(int branch);
 
 	/**
-	 * Copy the queue
+	 * Copy the _queue
 	 *
 	 * @return
 	 */
 	public abstract CompletionQueue copy();
 
 	/**
-	 * Set the _abox for the queue
+	 * Set the _abox for the _queue
 	 * 
 	 * @param ab
 	 */
@@ -143,14 +143,14 @@ public abstract class CompletionQueue extends IndividualIterator
 	}
 
 	/**
-	 * Print method for a given queue type
+	 * Print method for a given _queue type
 	 *
 	 * @param type
 	 */
 	public abstract void print(int type);
 
 	/**
-	 * Print method for entire queue
+	 * Print method for entire _queue
 	 */
 	public abstract void print();
 
@@ -173,17 +173,17 @@ public abstract class CompletionQueue extends IndividualIterator
 	}
 
 	/**
-	 * Flush the queue
+	 * Flush the _queue
 	 */
 	public abstract void flushQueue();
 
 	/**
-	 * Flush the queue
+	 * Flush the _queue
 	 */
 	protected abstract void flushQueue(NodeSelector s);
 
 	/**
-	 * Clear the queue
+	 * Clear the _queue
 	 */
 	public abstract void clearQueue(NodeSelector s);
 

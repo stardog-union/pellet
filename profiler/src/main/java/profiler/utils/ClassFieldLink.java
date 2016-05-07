@@ -33,5 +33,5 @@ final class ClassFieldLink implements ILink
 
 	private final Field m_field;
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

@@ -118,5 +118,5 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable
 	private final IObjectProfileNode m_parent;
 	private transient IObjectProfileNode[] m_path;
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

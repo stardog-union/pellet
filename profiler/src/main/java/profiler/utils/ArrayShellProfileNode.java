@@ -33,5 +33,5 @@ final class ArrayShellProfileNode extends AbstractShellProfileNode
 	private final Class m_type;
 	private final int m_length;
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

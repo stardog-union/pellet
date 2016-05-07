@@ -161,7 +161,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		{
 			if (additions.remove(axiom))
 				if (log.isLoggable(Level.FINE))
-					log.fine("Deleted axiom from add queue before processing " + axiom);
+					log.fine("Deleted axiom from add _queue before processing " + axiom);
 			return;
 		}
 

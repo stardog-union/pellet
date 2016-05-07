@@ -78,7 +78,7 @@ public class TaxonomyUtils
 	}
 
 	/**
-	 * Retrieve all instances of a class (based on the current state of the taxonomy)
+	 * Retrieve all instances of a class (based on the _current state of the taxonomy)
 	 *
 	 * @param t the taxonomy
 	 * @param c the class
@@ -103,7 +103,7 @@ public class TaxonomyUtils
 	}
 
 	/**
-	 * Retrieve direct instances of a class (based on current state of the taxonomy)
+	 * Retrieve direct instances of a class (based on _current state of the taxonomy)
 	 *
 	 * @param t the taxonomy
 	 * @param c the class
@@ -138,7 +138,7 @@ public class TaxonomyUtils
 	}
 
 	/**
-	 * Get classes of which the individual is an instance (based on the current state of the taxonomy)
+	 * Get classes of which the individual is an instance (based on the _current state of the taxonomy)
 	 *
 	 * @param t the taxonomy
 	 * @param ind the individual
@@ -167,7 +167,7 @@ public class TaxonomyUtils
 	}
 
 	/**
-	 * Determine if an individual is an instance of a class (based on the current state of the taxonomy)
+	 * Determine if an individual is an instance of a class (based on the _current state of the taxonomy)
 	 *
 	 * @param t the taxonomy
 	 * @param ind the individual

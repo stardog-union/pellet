@@ -78,7 +78,7 @@ public abstract class ObjectProfileFilters
 
 		private final int m_threshold;
 
-	} // end of nested class
+	} // _end of nested class
 
 	private static final class RankFilter implements IObjectProfileNode.INodeFilter
 	{
@@ -104,7 +104,7 @@ public abstract class ObjectProfileFilters
 
 		private final int m_threshold;
 
-	} // end of nested class
+	} // _end of nested class
 
 	private static final class SizeFractionFilter implements IObjectProfileNode.INodeFilter
 	{
@@ -124,7 +124,7 @@ public abstract class ObjectProfileFilters
 
 		private final double m_threshold;
 
-	} // end of nested class
+	} // _end of nested class
 
 	private static final class ParentSizeFractionFilter implements IObjectProfileNode.INodeFilter
 	{
@@ -148,7 +148,7 @@ public abstract class ObjectProfileFilters
 
 		private final double m_threshold;
 
-	} // end of nested class
+	} // _end of nested class
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

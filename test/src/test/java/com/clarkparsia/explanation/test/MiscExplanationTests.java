@@ -306,13 +306,13 @@ public class MiscExplanationTests
 		org.mindswap.pellet.jena.PelletReasonerFactory.THE_SPEC.setDocumentManager(new OntDocumentManager() {
 
 			@Override
-			protected void loadImport(OntModel model, String importURI, List<String> queue) {
+			protected void loadImport(OntModel model, String importURI, List<String> _queue) {
 				if (importURI.startsWith("resource://")) {
 					model.addLoadedImport( importURI );
 					loadFromResource(model, importURI.substring(11));
 				}
 				else {
-					super.loadImport(model, importURI, queue);
+					super.loadImport(model, importURI, _queue);
 				}
 			}
 

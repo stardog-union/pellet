@@ -32,5 +32,5 @@ final class ObjectShellProfileNode extends AbstractShellProfileNode
 
 	private final int m_primitiveFieldCount, m_refFieldCount;
 
-} // end of class
+} // _end of class
 // ----------------------------------------------------------------------------

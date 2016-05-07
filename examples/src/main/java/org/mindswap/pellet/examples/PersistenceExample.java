@@ -59,7 +59,7 @@ public class PersistenceExample
 		// trigger classification
 		classifier.classify();
 
-		// persist the current state of the classifier to a file
+		// persist the _current state of the classifier to a file
 		try
 		{
 			System.out.print("Saving the state of the classifier to the file ... ");
@@ -76,7 +76,7 @@ public class PersistenceExample
 		}
 		catch (final IOException e)
 		{
-			System.out.println("I/O Error occurred while saving the current state of the incremental classifier: " + e);
+			System.out.println("I/O Error occurred while saving the _current state of the incremental classifier: " + e);
 			System.exit(1);
 		}
 
@@ -120,7 +120,7 @@ public class PersistenceExample
 		}
 		catch (final IOException e)
 		{
-			System.out.println("I/O Error occurred while reading the current state of the incremental classifier: " + e);
+			System.out.println("I/O Error occurred while reading the _current state of the incremental classifier: " + e);
 			System.exit(1);
 		}
 

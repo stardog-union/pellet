@@ -16,5 +16,5 @@ interface ILink
 	 */
 	String name();
 
-} // end of interface
+} // _end of interface
 // ----------------------------------------------------------------------------

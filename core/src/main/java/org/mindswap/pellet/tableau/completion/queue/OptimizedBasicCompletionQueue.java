@@ -34,54 +34,54 @@ import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.Node;
 
 /**
- * An optimized basic queue for individuals that need to have completion rules applied
+ * An optimized basic _queue for individuals that need to have completion rules applied
  */
 public class OptimizedBasicCompletionQueue extends CompletionQueue
 {
 
 	/**
-	 * The queue - array - each entry is an arraylist for a particular rule type
+	 * The _queue - array - each entry is an arraylist for a particular rule type
 	 */
 	protected List<ATermAppl>[] queue;
 
 	/**
-	 * Set to track duplicates for new elements list for queue
+	 * Set to track duplicates for new elements list for _queue
 	 */
 	protected Set<ATermAppl>[] newQueue;
 
 	//TODO: This will be refactored; however currently there are some unit tests which will not
 	//terminate due to the _order in which the completion rules are applied to individuals
-	//ont the queue. An example of this is MiscTests.testIFDP3() - in this example,
+	//ont the _queue. An example of this is MiscTests.testIFDP3() - in this example,
 	//if the LiteralRule is applied to the individual "b" first, then an infinite number
 	//of non-deterministic choices are created...talk to Evren about this.
 
 	/**
-	 * List to hold new elements for the queue
+	 * List to hold new elements for the _queue
 	 */
 	protected List<ATermAppl>[] newQueueList;
 
 	/**
-	 * List of current index pointer for each queue
+	 * List of _current index pointer for each _queue
 	 */
 	protected int current[];
 
 	/**
-	 * List of current index pointer for each queue
+	 * List of _current index pointer for each _queue
 	 */
 	protected int end[];
 
 	/**
-	 * List of current index pointer for the stopping point at each queue
+	 * List of _current index pointer for the stopping point at each _queue
 	 */
 	protected int cutOff[];
 
 	/**
-	 * Flag set for when the kb is restored - in this case we do not want to flush the queue immediatly
+	 * Flag set for when the kb is restored - in this case we do not want to flush the _queue immediatly
 	 */
 	protected boolean backtracked;
 
 	/**
-	 * Constructor - create queue
+	 * Constructor - create _queue
 	 *
 	 * @param _abox
 	 */
@@ -113,7 +113,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Find the next individual in a given queue
+	 * Find the next individual in a given _queue
 	 *
 	 * @param type
 	 */
@@ -124,7 +124,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 		{
 			Node node = abox.getNode(queue[type].get(current[type]));
 
-			//because we do not maitain the queue during restore this _node could be non-existent
+			//because we do not maitain the _queue during restore this _node could be non-existent
 			if (node == null)
 				continue;
 
@@ -137,7 +137,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Test if there is another element on the queue to process
+	 * Test if there is another element on the _queue to process
 	 *
 	 * @param type
 	 * @return
@@ -150,7 +150,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Reset the queue to be the current _nodes in the _abox; Also reset the type index to 0
+	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type index to 0
 	 *
 	 * @param _branch
 	 */
@@ -170,7 +170,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Get the next element of a queue of a given type
+	 * Get the next element of a _queue of a given type
 	 *
 	 * @param type
 	 * @return
@@ -187,7 +187,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Get the next element of a queue of a given type
+	 * Get the next element of a _queue of a given type
 	 *
 	 * @param type
 	 * @return
@@ -239,7 +239,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Set _branch pointers to current pointer. This is done whenever _abox.incrementBranch is called
+	 * Set _branch pointers to _current pointer. This is done whenever _abox.incrementBranch is called
 	 *
 	 * @param _branch
 	 */
@@ -250,7 +250,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Copy the queue
+	 * Copy the _queue
 	 *
 	 * @return
 	 */
@@ -285,7 +285,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Set the _abox for the queue
+	 * Set the _abox for the _queue
 	 *
 	 * @param ab
 	 */
@@ -296,7 +296,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Print method for a given queue type
+	 * Print method for a given _queue type
 	 *
 	 * @param type
 	 */
@@ -309,7 +309,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Print method for entire queue
+	 * Print method for entire _queue
 	 */
 	@Override
 	public void print()

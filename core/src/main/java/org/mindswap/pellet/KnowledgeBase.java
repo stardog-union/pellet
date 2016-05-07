@@ -5086,10 +5086,10 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns current value of explainOnlyInconsistency option.
+	 * Returns _current value of explainOnlyInconsistency option.
 	 *
 	 * @see #setExplainOnlyInconsistency(boolean)
-	 * @return current value of explainOnlyInconsistency option
+	 * @return _current value of explainOnlyInconsistency option
 	 */
 	public boolean isExplainOnlyInconsistency()
 	{

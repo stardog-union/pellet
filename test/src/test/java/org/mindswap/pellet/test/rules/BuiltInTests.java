@@ -548,7 +548,7 @@ public class BuiltInTests
 
 		  fn:substring("motor car", 6) returns " car".
 
-		  Characters starting at position 6 to the end of $sourceString are selected.
+		  Characters starting at position 6 to the _end of $sourceString are selected.
 		 */
 		stringFunc(StringOperators.substring, " car", "motor car", "6");
 

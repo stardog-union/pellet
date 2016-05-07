@@ -230,7 +230,7 @@ public class TBoxExpImpl implements TBox
 
 	protected boolean absorbNominals(ATermAppl axiom, final Set<ATermAppl> explain)
 	{
-		// absorb nominals on the fly because sometimes they might end up in the
+		// absorb nominals on the fly because sometimes they might _end up in the
 		// Tu directly without going into Tg which is still less effective than
 		// absorbing
 		if (PelletOptions.USE_NOMINAL_ABSORPTION || PelletOptions.USE_PSEUDO_NOMINALS)
