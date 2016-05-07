@@ -4,7 +4,7 @@ package profiler.utils;
 /**
  * Abstract base class for all shell pseudo-_node implementations in this package. It is used primarily to lower memory consumption by shell _nodes.
  *
- * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
+ * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-_index.shtml">Vlad Roubtsov</a>, 2003
  */
 abstract class AbstractShellProfileNode extends AbstractProfileNode
 {

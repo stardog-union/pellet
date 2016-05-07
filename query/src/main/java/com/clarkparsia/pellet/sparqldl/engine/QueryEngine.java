@@ -646,7 +646,7 @@ public class QueryEngine
 				{
 					// if one triple is false then the whole query, which is the
 					// conjunction of
-					// all triples, is false. We can stop now.
+					// all triples, is false. We can _stop now.
 					allTriplesSatisfied = Bool.FALSE;
 
 					if (log.isLoggable(Level.FINER))

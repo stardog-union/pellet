@@ -27,7 +27,7 @@ public class LiteralIterator implements Iterator<Literal>
 	 */
 	protected List<ATermAppl> nodeList;
 	/**
-	 * Last returned index
+	 * Last returned _index
 	 */
 	protected int index;
 	/**
@@ -66,11 +66,11 @@ public class LiteralIterator implements Iterator<Literal>
 	}
 
 	/**
-	 * Create a limited iterator over the individuals in the ABox that only covers the individuals whose index in _nodeList is between start ans stop indices.
+	 * Create a limited iterator over the individuals in the ABox that only covers the individuals whose _index in _nodeList is between start ans _stop indices.
 	 *
 	 * @param _abox
 	 * @param start
-	 * @param stop
+	 * @param _stop
 	 */
 	public LiteralIterator(final ABox abox, final int start, final int stop)
 	{

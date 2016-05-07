@@ -246,7 +246,7 @@ public class MaxBranch extends IndividualBranch
 	/**
 	 * Added for to re-open closed branches. This is needed for incremental reasoning through deletions
 	 *
-	 * @param index The shift index
+	 * @param _index The shift _index
 	 */
 	@Override
 	public void shiftTryNext(final int openIndex)

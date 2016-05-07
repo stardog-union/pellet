@@ -217,7 +217,7 @@ public class RuleBranch extends Branch
 	 * Added for to re-open closed branches. This is needed for incremental reasoning through deletions Currently this method does nothing as we cannot support
 	 * incremental reasoning when both rules are used in the KB
 	 *
-	 * @param index The shift index
+	 * @param _index The shift _index
 	 */
 	@Override
 	public void shiftTryNext(final int openIndex)

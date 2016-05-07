@@ -14,7 +14,7 @@ import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.tableau.branch.Branch;
 
 /**
- * Structure for containing all dependencies for a given assertion. This is the object stored in the dependency index
+ * Structure for containing all dependencies for a given assertion. This is the object stored in the dependency _index
  *
  * @author Christian Halaschek-Wiener
  */

@@ -61,17 +61,17 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	protected List<ATermAppl>[] newQueueList;
 
 	/**
-	 * List of _current index pointer for each _queue
+	 * List of _current _index pointer for each _queue
 	 */
 	protected int current[];
 
 	/**
-	 * List of _current index pointer for each _queue
+	 * List of _current _index pointer for each _queue
 	 */
 	protected int end[];
 
 	/**
-	 * List of _current index pointer for the stopping point at each _queue
+	 * List of _current _index pointer for the stopping point at each _queue
 	 */
 	protected int cutOff[];
 
@@ -122,7 +122,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	{
 		for (; current[type] < cutOff[type]; current[type]++)
 		{
-			Node node = abox.getNode(queue[type].get(current[type]));
+			Node node = _abox.getNode(queue[type].get(current[type]));
 
 			//because we do not maitain the _queue during restore this _node could be non-existent
 			if (node == null)
@@ -150,7 +150,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type index to 0
+	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type _index to 0
 	 *
 	 * @param _branch
 	 */
@@ -178,9 +178,9 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	@Override
 	public Individual next()
 	{
-		//get the next index
+		//get the next _index
 		findNext(currentType);
-		Individual ind = (Individual) abox.getNode(queue[currentType].get(current[currentType]));
+		Individual ind = (Individual) _abox.getNode(queue[currentType].get(current[currentType]));
 		ind = ind.getSame();
 		current[currentType]++;
 		return ind;
@@ -195,9 +195,9 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	@Override
 	public Node nextLiteral()
 	{
-		//get the next index
+		//get the next _index
 		findNext(currentType);
-		Node node = abox.getNode(queue[currentType].get(current[currentType]));
+		Node node = _abox.getNode(queue[currentType].get(current[currentType]));
 		node = node.getSame();
 		current[currentType]++;
 		return node;
@@ -226,7 +226,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Reset the cutoff for a given type index
+	 * Reset the cutoff for a given type _index
 	 *
 	 * @param type
 	 */
@@ -257,7 +257,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	@Override
 	public OptimizedBasicCompletionQueue copy()
 	{
-		final OptimizedBasicCompletionQueue copy = new OptimizedBasicCompletionQueue(this.abox);
+		final OptimizedBasicCompletionQueue copy = new OptimizedBasicCompletionQueue(this._abox);
 
 		for (int i = 0; i < NodeSelector.numSelectors(); i++)
 		{
@@ -292,7 +292,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 	@Override
 	public void setABox(final ABox ab)
 	{
-		this.abox = ab;
+		this._abox = ab;
 	}
 
 	/**
@@ -337,7 +337,7 @@ public class OptimizedBasicCompletionQueue extends CompletionQueue
 				queue[i].clear();
 			else
 				if (closed)
-					if (!abox.isClosed())
+					if (!_abox.isClosed())
 						closed = false;
 
 			queue[i].addAll(newQueueList[i]);

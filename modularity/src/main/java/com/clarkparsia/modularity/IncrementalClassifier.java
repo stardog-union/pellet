@@ -604,7 +604,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//		// collect all of its valid super classes from the reasoner
 	//		Set<Set<OWLClass>> validSupers = newR.getAncestorClasses( clazz );
 	//
-	//		// get all of the old super classes from the subclass index
+	//		// get all of the old super classes from the subclass _index
 	//		Set<OWLClass> oldSupers = null;// superClasses.get( clazz );
 	//
 	//		// case for add
@@ -623,7 +623,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//					// check if this subsumption already exists
 	//					if( !oldSupers.contains( next ) ) {
 	//
-	//						// add it to the subclass index
+	//						// add it to the subclass _index
 	//						oldSupers.add( next );
 	//
 	//						if( _log.isLoggable( Level.FINER ) ) {
@@ -675,7 +675,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//				}
 	//			}
 	//
-	//			// update subclass index
+	//			// update subclass _index
 	//			oldSupers.removeAll( removeSet );
 	//		}
 	//	}

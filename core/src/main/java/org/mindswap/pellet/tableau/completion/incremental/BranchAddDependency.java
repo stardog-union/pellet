@@ -25,7 +25,7 @@ public class BranchAddDependency extends BranchDependency
 	/**
 	 * Constructor
 	 * 
-	 * @param index
+	 * @param _index
 	 * @param _branch
 	 */
 	public BranchAddDependency(final ATermAppl assertion, final int index, final Branch branch)

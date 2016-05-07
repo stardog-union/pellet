@@ -71,7 +71,7 @@ public interface DataRange<T>
 	/**
 	 * Return a value from an enumerable data range. <i>Necessary to support {@link LiteralValueBranch} shiftTryNext</i>
 	 *
-	 * @param i the index of the value in the data range
+	 * @param i the _index of the value in the data range
 	 * @return the value
 	 * @throws IllegalStateException if {@link #isEnumerable()} returns <code>false</code>
 	 * @deprecated Use {@link #valueIterator()}

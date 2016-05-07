@@ -21,7 +21,7 @@ import org.mindswap.pellet.tableau.branch.Branch;
 import org.mindswap.pellet.tableau.branch.DisjunctionBranch;
 
 /**
- * This is the index structure for maintaining the dependencies between structures in an ABox and the syntactic assertions which caused them to be created. This
+ * This is the _index structure for maintaining the dependencies between structures in an ABox and the syntactic assertions which caused them to be created. This
  * is used for incremental deletions.
  *
  * @author Christian Halaschek-Wiener
@@ -36,7 +36,7 @@ public class DependencyIndex
 	private final Map<ATermAppl, DependencyEntry> dependencies;
 
 	/**
-	 * Branch dependency index
+	 * Branch dependency _index
 	 */
 	private final Map<Branch, Set<BranchDependency>> branchIndex;
 
@@ -207,7 +207,7 @@ public class DependencyIndex
 				//add the dependency
 				final BranchDependency newDep = dependencies.get(nextAtom).addBranchAddDependency(nextAtom, branch.getBranch(), branch);
 
-				//add dependency to index so that backjumping can be supported (ie, we need a fast way to remove the _branch dependencies
+				//add dependency to _index so that backjumping can be supported (ie, we need a fast way to remove the _branch dependencies
 				if (!branchIndex.containsKey(branch))
 				{
 					final Set<BranchDependency> newS = new HashSet<>();
@@ -247,7 +247,7 @@ public class DependencyIndex
 				//add the dependency
 				final BranchDependency newDep = dependencies.get(nextAtom).addCloseBranchDependency(nextAtom, branch);
 
-				//add depedency to index so that backjumping can be supported (ie, we need a fast way to remove the _branch dependencies
+				//add depedency to _index so that backjumping can be supported (ie, we need a fast way to remove the _branch dependencies
 				if (!branchIndex.containsKey(branch))
 				{
 					final Set<BranchDependency> newS = new HashSet<>();
@@ -278,7 +278,7 @@ public class DependencyIndex
 	{
 		final Set<BranchDependency> deps = branchIndex.get(b);
 
-		//TODO: why is this null? is this because of duplicate entries in the index set?
+		//TODO: why is this null? is this because of duplicate entries in the _index set?
 		//This seems to creep up in WebOntTest-I5.8-Manifest004 and 5 among others...
 		if (deps == null)
 			return;
@@ -287,7 +287,7 @@ public class DependencyIndex
 		for (final BranchDependency next : deps)
 		{
 			if (log.isLoggable(Level.FINE))
-				log.fine("DependencyIndex: RESTORE causing remove of _branch index for assertion: " + next.getAssertion() + " _branch dep.: " + next);
+				log.fine("DependencyIndex: RESTORE causing remove of _branch _index for assertion: " + next.getAssertion() + " _branch dep.: " + next);
 			if (next instanceof BranchAddDependency)
 				//remove the dependency
 				dependencies.get(next.getAssertion()).getBranchAdds().remove(next);
@@ -312,7 +312,7 @@ public class DependencyIndex
 			if (dependencies.containsKey(next.getAssertion()))
 				dependencies.get(next.getAssertion()).setClash(null);
 
-		//clear the old index
+		//clear the old _index
 		clashIndex.clear();
 
 		if (clash == null)
@@ -335,7 +335,7 @@ public class DependencyIndex
 				//set the dependency
 				dependencies.get(nextAtom).setClash(newDep);
 
-				//update index
+				//update _index
 				clashIndex.add(newDep);
 			}
 	}

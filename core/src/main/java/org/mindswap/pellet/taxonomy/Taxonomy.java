@@ -907,7 +907,7 @@ public class Taxonomy<T>
 				// remove cycles involving super _node
 				removeCycles(sup, path);
 				// if the super has been removed then no need
-				// to increment the index
+				// to increment the _index
 				if (i < supers.size() && supers.get(i).equals(sup))
 					i++;
 			}

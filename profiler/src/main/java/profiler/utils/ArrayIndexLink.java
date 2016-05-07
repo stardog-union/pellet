@@ -4,7 +4,7 @@ package profiler.utils;
 /**
  * An {@link ILink} implementation for tree links created by array fields.
  *
- * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
+ * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-_index.shtml">Vlad Roubtsov</a>, 2003
  */
 final class ArrayIndexLink implements ILink
 {

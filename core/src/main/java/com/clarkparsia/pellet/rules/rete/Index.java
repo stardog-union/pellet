@@ -168,7 +168,7 @@ public class Index<S, T> implements Iterable<T>
 	}
 
 	/**
-	 * Add an object to the index.
+	 * Add an object to the _index.
 	 * 
 	 * @param key null key positions are counted as wild-cards.
 	 * @param obj
@@ -185,7 +185,7 @@ public class Index<S, T> implements Iterable<T>
 	}
 
 	/**
-	 * Remove all _nodes from the index.
+	 * Remove all _nodes from the _index.
 	 */
 	public void clear()
 	{
@@ -200,7 +200,7 @@ public class Index<S, T> implements Iterable<T>
 	}
 
 	/**
-	 * Return a join of this index to the given index, joining on the first <code>shared</code> variables.
+	 * Return a join of this _index to the given _index, joining on the first <code>shared</code> variables.
 	 */
 	public <U> Collection<Pair<T, U>> join(final Index<S, U> index, final int shared)
 	{
@@ -221,7 +221,7 @@ public class Index<S, T> implements Iterable<T>
 	}
 
 	/**
-	 * Remove the element of the index stored under the key 'key'. Return true if the element exists and was removed. Otherwise, remove false.
+	 * Remove the element of the _index stored under the key 'key'. Return true if the element exists and was removed. Otherwise, remove false.
 	 */
 	public boolean remove(final List<S> key, final T obj)
 	{
@@ -234,7 +234,7 @@ public class Index<S, T> implements Iterable<T>
 	}
 
 	/**
-	 * Return the number of objects added to the index.
+	 * Return the number of objects added to the _index.
 	 */
 	public int size()
 	{

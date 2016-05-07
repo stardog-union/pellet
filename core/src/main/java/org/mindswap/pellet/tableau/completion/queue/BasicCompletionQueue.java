@@ -59,17 +59,17 @@ public class BasicCompletionQueue extends CompletionQueue
 	protected List<ATermAppl> _newQueueList;
 
 	/**
-	 * List of _current index pointer for each _queue
+	 * List of _current _index pointer for each _queue
 	 */
 	protected int _current;
 
 	/**
-	 * List of _current index pointer for each _queue
+	 * List of _current _index pointer for each _queue
 	 */
 	protected int _end;
 
 	/**
-	 * List of _current index pointer for the stopping point at each _queue
+	 * List of _current _index pointer for the stopping point at each _queue
 	 */
 	protected int _cutOff;
 
@@ -106,7 +106,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	{
 		for (; _current < _cutOff; _current++)
 		{
-			Node node = abox.getNode(_queue.get(_current));
+			Node node = _abox.getNode(_queue.get(_current));
 
 			//because we do not maitain the _queue during restore this _node could be non-existent
 			if (node == null)
@@ -133,7 +133,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type index to 0
+	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type _index to 0
 	 *
 	 * @param _branch
 	 */
@@ -158,9 +158,9 @@ public class BasicCompletionQueue extends CompletionQueue
 	@Override
 	public Individual next()
 	{
-		//get the next index
+		//get the next _index
 		findNext(-1);
-		Individual ind = abox.getIndividual(_queue.get(_current));
+		Individual ind = _abox.getIndividual(_queue.get(_current));
 		ind = ind.getSame();
 		_current++;
 		return ind;
@@ -176,9 +176,9 @@ public class BasicCompletionQueue extends CompletionQueue
 	@Override
 	public Node nextLiteral()
 	{
-		//get the next index
+		//get the next _index
 		findNext(-1);
-		Node node = abox.getNode(_queue.get(_current));
+		Node node = _abox.getNode(_queue.get(_current));
 		node = node.getSame();
 		_current++;
 		return node;
@@ -201,7 +201,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Reset the cutoff for a given type index
+	 * Reset the cutoff for a given type _index
 	 * 
 	 * @param type
 	 */
@@ -231,7 +231,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	@Override
 	public BasicCompletionQueue copy()
 	{
-		final BasicCompletionQueue copy = new BasicCompletionQueue(this.abox);
+		final BasicCompletionQueue copy = new BasicCompletionQueue(this._abox);
 
 		copy._queue = new ArrayList<>(this._queue);
 		copy._newQueue = new HashSet<>(this._newQueue);
@@ -254,7 +254,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	@Override
 	public void setABox(final ABox ab)
 	{
-		this.abox = ab;
+		this._abox = ab;
 	}
 
 	/**
@@ -293,7 +293,7 @@ public class BasicCompletionQueue extends CompletionQueue
 			_queue.clear();
 		else
 			if (closed)
-				if (!abox.isClosed())
+				if (!_abox.isClosed())
 					closed = false;
 
 		_queue.addAll(_newQueueList);

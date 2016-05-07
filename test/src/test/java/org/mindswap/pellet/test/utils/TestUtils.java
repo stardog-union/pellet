@@ -43,7 +43,7 @@ public class TestUtils
 		do
 		{
 			count++;
-			//get index for concept
+			//get _index for concept
 			final int index = rand.nextInt(types.size());
 
 			//get the concept
@@ -67,7 +67,7 @@ public class TestUtils
 		do
 		{
 
-			//get index for concept
+			//get _index for concept
 			final int index = rand.nextInt(classes.size());
 
 			clazz = (ATermAppl) classes.get(index);
@@ -88,7 +88,7 @@ public class TestUtils
 		do
 		{
 
-			//get index for concept
+			//get _index for concept
 			final int index = rand.nextInt(roles.size());
 
 			role = (Role) roles.get(index);
@@ -107,7 +107,7 @@ public class TestUtils
 		//get all ind
 		final List inds = new ArrayList(kb.getIndividuals());
 
-		//get index for concept
+		//get _index for concept
 		final int index = rand.nextInt(inds.size());
 
 		return (ATermAppl) inds.get(index);

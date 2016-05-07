@@ -433,7 +433,7 @@ public abstract class CompletionStrategy
 			}
 		}
 
-		// update dependency index for this _node
+		// update dependency _index for this _node
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 			abox.getKB().getDependencyIndex().addTypeDependency(node.getName(), c, ds);
 
@@ -828,7 +828,7 @@ public abstract class CompletionStrategy
 			abox.getBranchEffectTracker().add(abox.getBranch(), z.getName());
 		}
 
-		// add to merge dependency to dependency index
+		// add to merge dependency to dependency _index
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 			abox.getKB().getDependencyIndex().addMergeDependency(y.getName(), z.getName(), ds);
 

@@ -145,7 +145,7 @@ public abstract class Branch
 	/**
 	 * Added for to re-open closed branches. This is needed for incremental reasoning through deletions
 	 *
-	 * @param index The shift index
+	 * @param _index The shift _index
 	 */
 	public abstract void shiftTryNext(int index);
 

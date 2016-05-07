@@ -22,39 +22,39 @@ public class IndividualIterator implements Iterator<Individual>
 	/**
 	 * ABox where the individuals are stored
 	 */
-	protected ABox abox;
+	protected ABox _abox;
 	/**
 	 * List of _node names
 	 */
-	protected List<ATermAppl> nodeList;
+	protected List<ATermAppl> _nodeList;
 	/**
-	 * Last returned index
+	 * Last returned _index
 	 */
-	protected int index;
+	protected int _index;
 
 	/**
 	 * Index where iterator stops (size of list by default)
 	 */
-	protected int stop;
+	protected int _stop;
 
 	/**
 	 * Create an iterator over all the individuals in the ABox
 	 */
 	public IndividualIterator(final ABox abox)
 	{
-		this.abox = abox;
-		nodeList = abox.getNodeNames();
-		stop = nodeList.size();
-		index = 0;
+		this._abox = abox;
+		_nodeList = abox.getNodeNames();
+		_stop = _nodeList.size();
+		_index = 0;
 
 		findNext();
 	}
 
 	protected void findNext()
 	{
-		for (; index < stop; index++)
+		for (; _index < _stop; _index++)
 		{
-			final Node node = abox.getNode(nodeList.get(index));
+			final Node node = _abox.getNode(_nodeList.get(_index));
 			if (!node.isPruned() && node.isIndividual())
 				break;
 		}
@@ -64,12 +64,12 @@ public class IndividualIterator implements Iterator<Individual>
 	public boolean hasNext()
 	{
 		findNext();
-		return index < stop;
+		return _index < _stop;
 	}
 
-	public void reset(final NodeSelector s)
+	public void reset(@SuppressWarnings("unused") final NodeSelector s)
 	{
-		index = 0;
+		_index = 0;
 		findNext();
 	}
 
@@ -77,7 +77,7 @@ public class IndividualIterator implements Iterator<Individual>
 	public Individual next()
 	{
 		findNext();
-		final Individual ind = abox.getIndividual(nodeList.get(index++));
+		final Individual ind = _abox.getIndividual(_nodeList.get(_index++));
 
 		return ind;
 	}

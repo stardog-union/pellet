@@ -5,7 +5,7 @@ package profiler.utils;
  * The main interface for exploring an object profile tree. See individual methods for details.
  * 
  * @see ObjectProfiler#profile(Object)
- * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
+ * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-_index.shtml">Vlad Roubtsov</a>, 2003
  */
 public interface IObjectProfileNode
 {
@@ -55,7 +55,7 @@ public interface IObjectProfileNode
 	Object object();
 
 	/**
-	 * Returns a human-readable name for this _node, usually derived from the class field or array index that was used to reach the {@link #object() object}
+	 * Returns a human-readable name for this _node, usually derived from the class field or array _index that was used to reach the {@link #object() object}
 	 * associated with this _node.
 	 * 
 	 * @return _node name [never null]

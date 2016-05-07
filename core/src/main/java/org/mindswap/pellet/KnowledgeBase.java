@@ -566,7 +566,7 @@ public class KnowledgeBase
 				deletedAssertions = new HashSet<>(kb.getDeletedAssertions());
 
 			if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && PelletOptions.USE_INCREMENTAL_DELETION)
-				// copy the dependency index
+				// copy the dependency _index
 				dependencyIndex = new DependencyIndex(this, kb.dependencyIndex);
 
 			// copy syntactic assertions
@@ -910,7 +910,7 @@ public class KnowledgeBase
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(typeAxiom) : DependencySet.INDEPENDENT;
 
 		// add type assertion to syntactic assertions and update dependency
-		// index
+		// _index
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 		{
 			syntacticAssertions.add(typeAxiom);
@@ -1125,7 +1125,7 @@ public class KnowledgeBase
 				// add to syntactic assertions
 				syntacticAssertions.add(propAxiom);
 
-				// add to dependency index
+				// add to dependency _index
 				dependencyIndex.addEdgeDependency(edge, edge.getDepends());
 			}
 		}
@@ -4773,7 +4773,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Set a timeout for the main timer. Used to stop an automated test after a reasonable amount of time has passed.
+	 * Set a timeout for the main timer. Used to _stop an automated test after a reasonable amount of time has passed.
 	 *
 	 * @param timeout
 	 */
@@ -5015,7 +5015,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Get the dependency index for syntactic assertions in this kb
+	 * Get the dependency _index for syntactic assertions in this kb
 	 *
 	 * @return
 	 */

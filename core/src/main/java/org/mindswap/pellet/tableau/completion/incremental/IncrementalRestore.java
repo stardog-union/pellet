@@ -300,7 +300,7 @@ public class IncrementalRestore
 				restoreDependency(next, entry);
 			}
 
-			// remove the entry in the index for this assertion
+			// remove the entry in the _index for this assertion
 			kb.getDependencyIndex().removeDependencies(next);
 		}
 
@@ -490,7 +490,7 @@ public class IncrementalRestore
 		final DependencySet ds = node.getDepends(ATermUtils.normalize(desc));
 
 		// return if null - this can happen as currently I have dupilicates in
-		// the index
+		// the _index
 		if (ds == null || desc == ATermUtils.TOP)
 			return;
 

@@ -43,11 +43,11 @@ import org.mindswap.pellet.exceptions.TimerInterruptedException;
  * </p>
  * <p>
  * When a timer is used in a recursive function it will typically be started multiple times. Timer class will only measure the time spent in the first call.
- * This is done by counting how many times a timer is started and time spent is computed only when the number of stop() calls evens out the start() calls. It is
- * the programmer's responsibility to make sure each start() is stopped by a stop() call.
+ * This is done by counting how many times a timer is started and time spent is computed only when the number of _stop() calls evens out the start() calls. It is
+ * the programmer's responsibility to make sure each start() is stopped by a _stop() call.
  * </p>
  * <p>
- * Each timer may be associated with a timeout limit. This means that time spent between start() and stop() calls should be less than the timeout specified.
+ * Each timer may be associated with a timeout limit. This means that time spent between start() and _stop() calls should be less than the timeout specified.
  * Timeouts will only be checked when check() function is called. If check() function is not called setting timeouts has no effect. It is up to the programmer
  * to decide when and how many times a timer will be checked.
  * </p>
@@ -58,7 +58,7 @@ import org.mindswap.pellet.exceptions.TimerInterruptedException;
  * associate many parents with a timer but for efficiency reasons (looping over an array each time is expensive) each timer is allowed to have only one parent.
  * </p>
  * <p>
- * {@link Timers Timers} class stores a set of timers and provides functions to start, stop and check timers.
+ * {@link Timers Timers} class stores a set of timers and provides functions to start, _stop and check timers.
  * </p>
  *
  * @see Timers
@@ -84,7 +84,7 @@ public class Timer
 	// multiple times. we only want to measure time spent in the
 	// upper most function call so we need to discard other starts
 	private long timeout; // Point at which a call to check throws an exception
-	private long lastTime; // time that has elapsed between last start()-stop() period
+	private long lastTime; // time that has elapsed between last start()-_stop() period
 	private boolean interrupted; // Tells whether this timer has been interrupted
 
 	private final Timer parent; // the parent timer
@@ -156,7 +156,7 @@ public class Timer
 		if (!isStarted())
 		{
 			if (log.isLoggable(Level.FINE))
-				log.fine(String.format("Ignoring attempt to stop a timer (\"%s\") that is not running. Timer results are incorrect for multi-threaded code.", name));
+				log.fine(String.format("Ignoring attempt to _stop a timer (\"%s\") that is not running. Timer results are incorrect for multi-threaded code.", name));
 			return -Long.MAX_VALUE;
 		}
 
@@ -188,7 +188,7 @@ public class Timer
 	}
 
 	/**
-	 * If started stop the timer and then start it again.
+	 * If started _stop the timer and then start it again.
 	 */
 	public void restart()
 	{
@@ -229,7 +229,7 @@ public class Timer
 	}
 
 	/**
-	 * Return true if timer has been started with a {@link #start()} call but not has been stopped with a {@link #stop()} call.
+	 * Return true if timer has been started with a {@link #start()} call but not has been stopped with a {@link #_stop()} call.
 	 *
 	 * @return
 	 */
@@ -302,7 +302,7 @@ public class Timer
 	}
 
 	/**
-	 * Return the total time spent between last start()-stop() period.
+	 * Return the total time spent between last start()-_stop() period.
 	 *
 	 * @return
 	 */

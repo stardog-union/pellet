@@ -1274,7 +1274,7 @@ public class DefaultGraphLoader implements GraphLoader
 			// that would only _cache class expression for _:x. However, since
 			// we did not complete process all type triples unqualified cardinality
 			// restrictions would cause issues here since they require property
-			// to be either data or object property. Therefore, we stop processing
+			// to be either data or object property. Therefore, we _stop processing
 			// this triple immediately before calling node2term function.
 			if (s.isBlank() && builtinTerm.equals(BuiltinTerm.OWL_Class))
 				return;

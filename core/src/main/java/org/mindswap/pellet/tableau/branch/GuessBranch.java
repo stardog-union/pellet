@@ -150,7 +150,7 @@ public class GuessBranch extends IndividualBranch
 	 * Added for to re-open closed branches. This is needed for incremental reasoning through deletions Currently this method does nothing as we cannot support
 	 * incremental reasoning when both nominals and inverses are used - this is the only case when the guess rule is needed.
 	 *
-	 * @param index The shift index
+	 * @param _index The shift _index
 	 */
 	@Override
 	public void shiftTryNext(final int openIndex)

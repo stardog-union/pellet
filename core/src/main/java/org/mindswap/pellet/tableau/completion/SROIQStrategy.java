@@ -67,7 +67,7 @@ public class SROIQStrategy extends CompletionStrategy
 						// _branch (i.e, br.tryNext == br.tryCount-1) and there are no
 						// other branches to test (ie.
 						// _abox.getClash().depends.size()==2),
-						// then update depedency index and return false
+						// then update depedency _index and return false
 						if ((br.getTryNext() == br.getTryCount() - 1) && abox.getClash().getDepends().size() == 2)
 						{
 							abox.getKB().getDependencyIndex().addCloseBranchDependency(br, abox.getClash().getDepends());
@@ -80,10 +80,10 @@ public class SROIQStrategy extends CompletionStrategy
 			// CHW - added for incremental deletion support
 			if (PelletOptions.USE_TRACING && PelletOptions.USE_INCREMENTAL_CONSISTENCY)
 			{
-				// we must clean up the KB dependecny index
+				// we must clean up the KB dependecny _index
 				final List<Branch> brList = branches.subList(lastBranch, branches.size());
 				for (final Branch branch : brList)
-					// remove from the dependency index
+					// remove from the dependency _index
 					abox.getKB().getDependencyIndex().removeBranchDependencies(branch);
 				brList.clear();
 			}

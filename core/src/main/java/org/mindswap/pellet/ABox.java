@@ -1830,7 +1830,7 @@ public class ABox
 		final ATermAppl sameAxiom = ATermUtils.makeSameAs(x, y);
 
 		// update syntactic assertions - currently i do not add this to the
-		// dependency index
+		// dependency _index
 		// now, as it will be added during the actual merge when the completion
 		// is performed
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
@@ -1848,7 +1848,7 @@ public class ABox
 		final ATermAppl diffAxiom = ATermUtils.makeDifferent(x, y);
 
 		// update syntactic assertions - currently i do not add this to the
-		// dependency index
+		// dependency _index
 		// now, as it will simply be used during the completion _strategy
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 			_kb.getSyntacticAssertions().add(diffAxiom);
@@ -1879,7 +1879,7 @@ public class ABox
 				final Individual ind2 = getIndividual(inner.getFirst());
 
 				// update syntactic assertions - currently i do not add this to
-				// the dependency index
+				// the dependency _index
 				// now, as it will be added during the actual merge when the
 				// completion is performed
 				if (PelletOptions.USE_INCREMENTAL_DELETION)

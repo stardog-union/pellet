@@ -103,7 +103,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		cachedNodes = new HashMap<>();
 
 		mnx = new ArrayList<>();
-		// add a null entry so Branch._branch index will match with the index in this array
+		// add a null entry so Branch._branch _index will match with the _index in this array
 		mnx.add(null);
 
 		assert abox.size() == 1 : "This _strategy can only be used with originally empty ABoxes";

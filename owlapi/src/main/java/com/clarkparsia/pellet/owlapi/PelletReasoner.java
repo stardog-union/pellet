@@ -1048,7 +1048,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	}
 
 	/**
-	 * Process all the given changes in an incremental fashion. Processing will stop if a change cannot be handled incrementally and requires a reload. The
+	 * Process all the given changes in an incremental fashion. Processing will _stop if a change cannot be handled incrementally and requires a reload. The
 	 * reload will not be done as part of processing.
 	 *
 	 * @param changes the changes to be applied to the reasoner

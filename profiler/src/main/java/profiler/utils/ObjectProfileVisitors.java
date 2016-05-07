@@ -11,7 +11,7 @@ import java.text.NumberFormat;
 /**
  * A Factory for a few stock _node visitors. See the implementation for details.
  *
- * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
+ * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-_index.shtml">Vlad Roubtsov</a>, 2003
  */
 public abstract class ObjectProfileVisitors
 {

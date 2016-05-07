@@ -4,7 +4,7 @@ package profiler.utils;
 /**
  * A Factory for a few stock _node filters. See the implementation for details.
  *
- * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
+ * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-_index.shtml">Vlad Roubtsov</a>, 2003
  */
 public abstract class ObjectProfileFilters
 {

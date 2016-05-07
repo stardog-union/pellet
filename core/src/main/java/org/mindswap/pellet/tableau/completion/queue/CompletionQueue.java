@@ -88,7 +88,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	protected abstract void findNext(int type);
 
 	/**
-	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type index to 0
+	 * Reset the _queue to be the _current _nodes in the _abox; Also reset the type _index to 0
 	 *
 	 * @param _branch
 	 */
@@ -139,7 +139,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	 */
 	public void setABox(final ABox ab)
 	{
-		this.abox = ab;
+		this._abox = ab;
 	}
 
 	/**

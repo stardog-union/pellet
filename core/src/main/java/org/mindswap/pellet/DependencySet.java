@@ -78,7 +78,7 @@ public class DependencySet
 	public static final DependencySet DUMMY = new DependencySet(1);
 
 	/**
-	 * index of branches this assertion depends on
+	 * _index of branches this assertion depends on
 	 */
 	private IntSet depends;
 

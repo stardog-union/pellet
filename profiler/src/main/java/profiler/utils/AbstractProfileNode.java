@@ -8,7 +8,7 @@ import java.util.LinkedList;
 /**
  * Abstract base class for all _node implementations in this package.
  *
- * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
+ * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-_index.shtml">Vlad Roubtsov</a>, 2003
  */
 abstract class AbstractProfileNode implements IObjectProfileNode, Comparable
 {
