@@ -26,16 +26,16 @@ public class QNameProvider
 	private static String DC = "http://purl.org/dc/elements/1.1/";
 
 	// stores a map of uri -> prefix
-	Map uriToPrefix;
-	Map prefixToUri;
+	Map<String, String> _uriToPrefix;
+	Map<String, String> _prefixToUri;
 
 	/**
 	 *
 	 */
 	public QNameProvider()
 	{
-		uriToPrefix = new Hashtable();
-		prefixToUri = new Hashtable();
+		_uriToPrefix = new Hashtable<>();
+		_prefixToUri = new Hashtable<>();
 
 		// initialize it with standard stuff
 		setMapping("owl", OWL);
@@ -147,12 +147,12 @@ public class QNameProvider
 
 	public String getPrefix(final String uri)
 	{
-		return (String) uriToPrefix.get(uri);
+		return _uriToPrefix.get(uri);
 	}
 
 	public String getURI(final String prefix)
 	{
-		return (String) prefixToUri.get(prefix);
+		return _prefixToUri.get(prefix);
 	}
 
 	public boolean setMapping(final String prefix, final String uri)
@@ -164,8 +164,8 @@ public class QNameProvider
 		if (currentUri == null)
 		{
 			// System.out.println("Setting prefix "+prefix+": "+uri);
-			prefixToUri.put(prefix, uri);
-			uriToPrefix.put(uri, prefix);
+			_prefixToUri.put(prefix, uri);
+			_uriToPrefix.put(uri, prefix);
 			return true;
 		}
 		else
@@ -175,14 +175,14 @@ public class QNameProvider
 				return false;
 	}
 
-	public Set getPrefixSet()
+	public Set<String> getPrefixSet()
 	{
-		return prefixToUri.keySet();
+		return _prefixToUri.keySet();
 	}
 
-	public Set getURISet()
+	public Set<String> getURISet()
 	{
-		return uriToPrefix.keySet();
+		return _uriToPrefix.keySet();
 	}
 
 	public String shortForm(final URI uri)
@@ -245,6 +245,6 @@ public class QNameProvider
 	@Override
 	public String toString()
 	{
-		return prefixToUri.toString();
+		return _prefixToUri.toString();
 	}
 }

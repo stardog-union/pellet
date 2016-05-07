@@ -16,43 +16,43 @@ import org.mindswap.pellet.utils.iterator.PairIterator;
  */
 public class CandidateSet<T>
 {
-	private final Set<T> knowns, unknowns;
+	private final Set<T> _knowns, _unknowns;
 
 	public CandidateSet()
 	{
-		this.knowns = new HashSet<>();
-		this.unknowns = new HashSet<>();
+		this._knowns = new HashSet<>();
+		this._unknowns = new HashSet<>();
 	}
 
 	public CandidateSet(final Set<T> knowns)
 	{
-		this.knowns = new HashSet<>(knowns);
-		this.unknowns = new HashSet<>();
+		this._knowns = new HashSet<>(knowns);
+		this._unknowns = new HashSet<>();
 	}
 
 	public CandidateSet(final Set<T> knowns, final Set<T> unknowns)
 	{
-		this.knowns = new HashSet<>(knowns);
-		this.unknowns = new HashSet<>(unknowns);
+		this._knowns = new HashSet<>(knowns);
+		this._unknowns = new HashSet<>(unknowns);
 	}
 
 	public Set<T> getKnowns()
 	{
-		return knowns;
+		return _knowns;
 	}
 
 	public Set<T> getUnknowns()
 	{
-		return unknowns;
+		return _unknowns;
 	}
 
 	public void add(final T obj, final Bool isKnown)
 	{
 		if (isKnown.isTrue())
-			knowns.add(obj);
+			_knowns.add(obj);
 		else
 			if (isKnown.isUnknown())
-				unknowns.add(obj);
+				_unknowns.add(obj);
 	}
 
 	public void update(final T obj, final Bool isCandidate)
@@ -65,36 +65,36 @@ public class CandidateSet<T>
 			if (isCandidate.isFalse())
 				remove(obj);
 			else
-				if (knowns.contains(obj))
+				if (_knowns.contains(obj))
 				{
-					knowns.remove(obj);
-					unknowns.add(obj);
+					_knowns.remove(obj);
+					_unknowns.add(obj);
 				}
 	}
 
 	public boolean remove(final Object obj)
 	{
-		return knowns.remove(obj) || unknowns.remove(obj);
+		return _knowns.remove(obj) || _unknowns.remove(obj);
 	}
 
 	public boolean contains(final Object obj)
 	{
-		return knowns.contains(obj) || unknowns.contains(obj);
+		return _knowns.contains(obj) || _unknowns.contains(obj);
 	}
 
 	public int size()
 	{
-		return knowns.size() + unknowns.size();
+		return _knowns.size() + _unknowns.size();
 	}
 
 	public Iterator<T> iterator()
 	{
-		return new PairIterator<>(knowns.iterator(), unknowns.iterator());
+		return new PairIterator<>(_knowns.iterator(), _unknowns.iterator());
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Knowns: " + knowns.size() + " Unknowns: " + unknowns.size();
+		return "Knowns: " + _knowns.size() + " Unknowns: " + _unknowns.size();
 	}
 }

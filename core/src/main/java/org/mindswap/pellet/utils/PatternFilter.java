@@ -11,30 +11,30 @@ import java.io.FileFilter;
 
 /**
  * File filter implementation that filters by pattern matching on the file name using regular expressions. Two patterns are specified. A file is accepted if its
- * name matches the first pattern and does NOT match the second pattern.
+ * name matches the first pattern and does NOT _match the second pattern.
  *
  * @author Evren Sirin
  */
 public class PatternFilter implements FileFilter
 {
-	private final String match;
-	private final String noMatch;
+	private final String _match;
+	private final String _noMatch;
 
 	public PatternFilter(final String match)
 	{
-		this.match = match;
-		this.noMatch = "";
+		this._match = match;
+		this._noMatch = "";
 	}
 
 	public PatternFilter(final String match, final String noMatch)
 	{
-		this.match = match;
-		this.noMatch = noMatch;
+		this._match = match;
+		this._noMatch = noMatch;
 	}
 
 	@Override
 	public boolean accept(final File file)
 	{
-		return file.getName().matches(match) && !file.getName().matches(noMatch);
+		return file.getName().matches(_match) && !file.getName().matches(_noMatch);
 	}
 }

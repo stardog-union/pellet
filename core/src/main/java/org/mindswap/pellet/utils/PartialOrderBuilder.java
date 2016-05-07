@@ -53,17 +53,17 @@ public class PartialOrderBuilder<T>
 		return hierarchy;
 	}
 
-	private PartialOrderComparator<T> comparator;
+	private PartialOrderComparator<T> _comparator;
 
-	private Taxonomy<T> taxonomy;
+	private Taxonomy<T> _taxonomy;
 
 	/**
-	 * Initialize the builder with given taxonomy and comparator.
+	 * Initialize the builder with given _taxonomy and _comparator.
 	 */
 	public PartialOrderBuilder(final Taxonomy<T> taxonomy, final PartialOrderComparator<T> comparator)
 	{
-		this.taxonomy = taxonomy;
-		this.comparator = comparator;
+		this._taxonomy = taxonomy;
+		this._comparator = comparator;
 	}
 
 	public void add(final T toAdd)
@@ -72,20 +72,20 @@ public class PartialOrderBuilder<T>
 	}
 
 	/**
-	 * Add a new element to the partial _order of this builder with its comparator.
+	 * Add a new element to the partial _order of this builder with its _comparator.
 	 *
 	 * @param toAdd the element to be added
 	 */
 	public void add(final T toAdd, final boolean hidden)
 	{
 
-		final Set<T> elements = taxonomy.getClasses();
+		final Set<T> elements = _taxonomy.getClasses();
 		final int nElements = elements.size();
 
 		if (nElements == 0)
 		{
 			final Set<T> empty = Collections.emptySet();
-			taxonomy.addNode(Collections.singleton(toAdd), empty, empty, /* hidden = */false);
+			_taxonomy.addNode(Collections.singleton(toAdd), empty, empty, /* hidden = */false);
 		}
 		else
 		{
@@ -96,9 +96,9 @@ public class PartialOrderBuilder<T>
 			// From max, work down to find parents
 			{
 				final Collection<T> maxElements = new ArrayList<>();
-				for (final TaxonomyNode<T> n : taxonomy.getTop().getSubs())
+				for (final TaxonomyNode<T> n : _taxonomy.getTop().getSubs())
 					maxElements.add(n.getName());
-				parents = search(taxonomy, toAdd, maxElements, comparator, PARENTS_SEARCH);
+				parents = search(_taxonomy, toAdd, maxElements, _comparator, PARENTS_SEARCH);
 
 				if (parents == null)
 					return;
@@ -113,17 +113,17 @@ public class PartialOrderBuilder<T>
 					final Set<T> visited = new HashSet<>();
 					final Queue<Set<T>> toVisit = new LinkedList<>();
 					if (parents.isEmpty())
-						for (final TaxonomyNode<T> n : taxonomy.getBottom().getSupers())
+						for (final TaxonomyNode<T> n : _taxonomy.getBottom().getSupers())
 							leaves.add(n.getName());
 					else
 						for (final T p : parents)
 						{
-							final Set<Set<T>> subs = taxonomy.getSubs(p, /* direct = */true);
+							final Set<Set<T>> subs = _taxonomy.getSubs(p, /* direct = */true);
 							if (!subs.isEmpty())
 								toVisit.addAll(subs);
 						}
 
-					final Set<Set<T>> bottoms = Collections.singleton(taxonomy.getBottom().getEquivalents());
+					final Set<Set<T>> bottoms = Collections.singleton(_taxonomy.getBottom().getEquivalents());
 
 					while (!toVisit.isEmpty())
 					{
@@ -134,7 +134,7 @@ public class PartialOrderBuilder<T>
 						if (visited.contains(rep))
 							continue;
 						visited.addAll(current);
-						final Set<Set<T>> subs = taxonomy.getSubs(rep, /* direct = */true);
+						final Set<Set<T>> subs = _taxonomy.getSubs(rep, /* direct = */true);
 						if (subs.equals(bottoms))
 							leaves.add(rep);
 						else
@@ -142,12 +142,12 @@ public class PartialOrderBuilder<T>
 					}
 				}
 
-				children = search(taxonomy, toAdd, leaves, comparator, CHILDREN_SEARCH);
+				children = search(_taxonomy, toAdd, leaves, _comparator, CHILDREN_SEARCH);
 				if (children == null)
 					return;
 			}
 
-			taxonomy.addNode(Collections.singleton(toAdd), parents, children, hidden);
+			_taxonomy.addNode(Collections.singleton(toAdd), parents, children, hidden);
 		}
 	}
 
@@ -164,12 +164,12 @@ public class PartialOrderBuilder<T>
 
 	public PartialOrderComparator<T> getComparator()
 	{
-		return comparator;
+		return _comparator;
 	}
 
 	public Taxonomy<T> getTaxonomy()
 	{
-		return taxonomy;
+		return _taxonomy;
 	}
 
 	private Collection<T> search(final Taxonomy<T> tax, final T toInsert, final Collection<T> from, final PartialOrderComparator<T> comparator, final boolean direction)
@@ -248,11 +248,11 @@ public class PartialOrderBuilder<T>
 
 	public void setComparator(final PartialOrderComparator<T> comparator)
 	{
-		this.comparator = comparator;
+		this._comparator = comparator;
 	}
 
 	public void setTaxonomy(final Taxonomy<T> taxonomy)
 	{
-		this.taxonomy = taxonomy;
+		this._taxonomy = taxonomy;
 	}
 }

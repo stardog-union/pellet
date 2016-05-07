@@ -65,9 +65,9 @@ public class RoleTaxonomyBuilder
 		UP, DOWN, NONE
 	}
 
-	protected Collection<Role> properties;
+	protected Collection<Role> _properties;
 
-	protected Taxonomy<ATermAppl> taxonomy;
+	protected Taxonomy<ATermAppl> _taxonomy;
 	protected RBox _rbox;
 	protected Role _topRole;
 	protected Role _bottomRole;
@@ -77,46 +77,46 @@ public class RoleTaxonomyBuilder
 	{
 		this._rbox = rbox;
 		this._propertyType = type;
-		properties = rbox.getRoles();
+		_properties = rbox.getRoles();
 
 		switch (this._propertyType)
 		{
 			case OBJECT:
-				taxonomy = new Taxonomy<>(null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY);
+				_taxonomy = new Taxonomy<>(null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY);
 				break;
 			case DATATYPE:
-				taxonomy = new Taxonomy<>(null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY);
+				_taxonomy = new Taxonomy<>(null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY);
 				break;
 			case ANNOTATION:
-				taxonomy = new Taxonomy<>(null, TOP_ANNOTATION_PROPERTY, BOTTOM_ANNOTATION_PROPERTY);
+				_taxonomy = new Taxonomy<>(null, TOP_ANNOTATION_PROPERTY, BOTTOM_ANNOTATION_PROPERTY);
 				//Hide the artificial roles TOP_ANNOTATION_PROPERTY and BOTTOM_ANNOTATION_PROPERTY
-				taxonomy.getTop().setHidden(true);
-				taxonomy.getBottom().setHidden(true);
+				_taxonomy.getTop().setHidden(true);
+				_taxonomy.getBottom().setHidden(true);
 				break;
 			default:
 				throw new AssertionError("Unknown property type: " + this._propertyType);
 		}
 
-		_topRole = rbox.getRole(taxonomy.getTop().getName());
-		_bottomRole = rbox.getRole(taxonomy.getBottom().getName());
+		_topRole = rbox.getRole(_taxonomy.getTop().getName());
+		_bottomRole = rbox.getRole(_taxonomy.getBottom().getName());
 	}
 
 	public RoleTaxonomyBuilder(final RBox rbox, final boolean objectRoles)
 	{
 		this._rbox = rbox;
 
-		properties = rbox.getRoles();
-		taxonomy = objectRoles ? new Taxonomy<>(null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY) : new Taxonomy<>(null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY);
-		_topRole = rbox.getRole(taxonomy.getTop().getName());
-		_bottomRole = rbox.getRole(taxonomy.getBottom().getName());
+		_properties = rbox.getRoles();
+		_taxonomy = objectRoles ? new Taxonomy<>(null, TOP_OBJECT_PROPERTY, BOTTOM_OBJECT_PROPERTY) : new Taxonomy<>(null, TOP_DATA_PROPERTY, BOTTOM_DATA_PROPERTY);
+		_topRole = rbox.getRole(_taxonomy.getTop().getName());
+		_bottomRole = rbox.getRole(_taxonomy.getBottom().getName());
 	}
 
 	public Taxonomy<ATermAppl> classify()
 	{
 		if (_log.isLoggable(Level.FINE))
-			_log.fine("Properties: " + properties.size());
+			_log.fine("Properties: " + _properties.size());
 
-		for (final Role r : properties)
+		for (final Role r : _properties)
 		{
 			if (_propertyType != r.getType())
 				continue;
@@ -124,14 +124,14 @@ public class RoleTaxonomyBuilder
 			classify(r);
 		}
 
-		return taxonomy;
+		return _taxonomy;
 	}
 
 	int count = 0;
 
 	private void classify(final Role c)
 	{
-		if (taxonomy.contains(c.getName()))
+		if (_taxonomy.contains(c.getName()))
 			return;
 
 		if (_log.isLoggable(Level.FINER))
@@ -139,25 +139,25 @@ public class RoleTaxonomyBuilder
 
 		if (c.getSubRoles().contains(_topRole))
 		{
-			taxonomy.addEquivalentNode(c.getName(), taxonomy.getTop());
+			_taxonomy.addEquivalentNode(c.getName(), _taxonomy.getTop());
 			return;
 		}
 		else
 			if (c.getSuperRoles().contains(_bottomRole))
 			{
-				taxonomy.addEquivalentNode(c.getName(), taxonomy.getBottom());
+				_taxonomy.addEquivalentNode(c.getName(), _taxonomy.getBottom());
 				return;
 			}
 
 		Map<TaxonomyNode<ATermAppl>, Boolean> marked = new HashMap<>();
-		mark(taxonomy.getTop(), marked, Boolean.TRUE, Propagate.NONE);
-		mark(taxonomy.getBottom(), marked, Boolean.FALSE, Propagate.NONE);
+		mark(_taxonomy.getTop(), marked, Boolean.TRUE, Propagate.NONE);
+		mark(_taxonomy.getBottom(), marked, Boolean.FALSE, Propagate.NONE);
 
-		final Collection<TaxonomyNode<ATermAppl>> superNodes = search(true, c, taxonomy.getTop(), new HashSet<TaxonomyNode<ATermAppl>>(), new ArrayList<TaxonomyNode<ATermAppl>>(), marked);
+		final Collection<TaxonomyNode<ATermAppl>> superNodes = search(true, c, _taxonomy.getTop(), new HashSet<TaxonomyNode<ATermAppl>>(), new ArrayList<TaxonomyNode<ATermAppl>>(), marked);
 
 		marked = new HashMap<>();
-		mark(taxonomy.getTop(), marked, Boolean.FALSE, Propagate.NONE);
-		mark(taxonomy.getBottom(), marked, Boolean.TRUE, Propagate.NONE);
+		mark(_taxonomy.getTop(), marked, Boolean.FALSE, Propagate.NONE);
+		mark(_taxonomy.getBottom(), marked, Boolean.TRUE, Propagate.NONE);
 
 		if (superNodes.size() == 1)
 		{
@@ -171,12 +171,12 @@ public class RoleTaxonomyBuilder
 				if (_log.isLoggable(Level.FINER))
 					_log.finer(ATermUtils.toString(c.getName()) + " = " + ATermUtils.toString(sup.getName()));
 
-				taxonomy.addEquivalentNode(c.getName(), sup);
+				_taxonomy.addEquivalentNode(c.getName(), sup);
 				return;
 			}
 		}
 
-		final Collection<TaxonomyNode<ATermAppl>> subNodes = search(false, c, taxonomy.getBottom(), new HashSet<TaxonomyNode<ATermAppl>>(), new ArrayList<TaxonomyNode<ATermAppl>>(), marked);
+		final Collection<TaxonomyNode<ATermAppl>> subNodes = search(false, c, _taxonomy.getBottom(), new HashSet<TaxonomyNode<ATermAppl>>(), new ArrayList<TaxonomyNode<ATermAppl>>(), marked);
 
 		final List<ATermAppl> supers = new ArrayList<>();
 		for (final TaxonomyNode<ATermAppl> n : superNodes)
@@ -186,7 +186,7 @@ public class RoleTaxonomyBuilder
 		for (final TaxonomyNode<ATermAppl> n : subNodes)
 			subs.add(n.getName());
 
-		taxonomy.addNode(Collections.singleton(c.getName()), supers, subs, /* hidden = */false);
+		_taxonomy.addNode(Collections.singleton(c.getName()), supers, subs, /* hidden = */false);
 	}
 
 	private Collection<TaxonomyNode<ATermAppl>> search(final boolean topSearch, final Role c, final TaxonomyNode<ATermAppl> x, final Set<TaxonomyNode<ATermAppl>> visited, final List<TaxonomyNode<ATermAppl>> result, final Map<TaxonomyNode<ATermAppl>, Boolean> marked)

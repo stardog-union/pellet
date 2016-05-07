@@ -66,7 +66,7 @@ public class SizeEstimate
 
 	private long classRetrievalCost;
 
-	private final KnowledgeBase kb;
+	private final KnowledgeBase _kb;
 
 	private boolean computed = false;
 
@@ -174,7 +174,7 @@ public class SizeEstimate
 
 	public SizeEstimate(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 
 		init();
 	}
@@ -186,16 +186,16 @@ public class SizeEstimate
 
 	private void init()
 	{
-		cCount = kb.getClasses().size();
-		iCount = kb.getIndividuals().size();
-		pCount = kb.getProperties().size();
+		cCount = _kb.getClasses().size();
+		iCount = _kb.getIndividuals().size();
+		pCount = _kb.getProperties().size();
 
-		opCount = kb.getObjectProperties().size();
-		dpCount = kb.getDataProperties().size();
-		fpCount = kb.getFunctionalProperties().size();
-		ifpCount = kb.getInverseFunctionalProperties().size();
-		tpCount = kb.getTransitiveProperties().size();
-		spCount = kb.getSymmetricProperties().size();
+		opCount = _kb.getObjectProperties().size();
+		dpCount = _kb.getDataProperties().size();
+		fpCount = _kb.getFunctionalProperties().size();
+		ifpCount = _kb.getInverseFunctionalProperties().size();
+		tpCount = _kb.getTransitiveProperties().size();
+		spCount = _kb.getSymmetricProperties().size();
 
 		instancesPC = new HashMap<>();
 		directInstancesPC = new HashMap<>();
@@ -253,8 +253,8 @@ public class SizeEstimate
 
 	public void computKBCosts()
 	{
-		final int classCount = kb.getClasses().size();
-		final int indCount = kb.getClasses().size();
+		final int classCount = _kb.getClasses().size();
+		final int indCount = _kb.getClasses().size();
 
 		// FIXME the following constants are chosen based on very limited
 		// empirical analysis
@@ -267,21 +267,21 @@ public class SizeEstimate
 		// of classification. the number of sat checks done during
 		// classification varies widely but due to various optimizations
 		// it is a relatively small percentage of the brute-force n^2
-		classificationCost = kb.isClassified() ? noSatCost : (classCount * classCount * oneSatCost) / 10;
+		classificationCost = _kb.isClassified() ? noSatCost : (classCount * classCount * oneSatCost) / 10;
 
 		// the same arguments for classification applies here too
-		realizationCost = kb.isRealized() ? noSatCost : classificationCost + (oneSatCost * classCount * indCount);
+		realizationCost = _kb.isRealized() ? noSatCost : classificationCost + (oneSatCost * classCount * indCount);
 
 		// instance retrieval performs sat checks on only individuals that
 		// are not ruled out by obvious (non-)instance checks thus it is
 		// again a very small percentage
-		instanceRetrievalCost = kb.isRealized() ? noSatCost : (indCount * oneSatCost) / 100;
+		instanceRetrievalCost = _kb.isRealized() ? noSatCost : (indCount * oneSatCost) / 100;
 
 		// either KB is realized and this operation is pretty much free or
 		// we perform realization and pay the cost
 		// NOTE: the behavior to realize the KB at every type retrieval query
 		// is subject to change and would require a change here too
-		classRetrievalCost = kb.isRealized() ? noSatCost : realizationCost;
+		classRetrievalCost = _kb.isRealized() ? noSatCost : realizationCost;
 	}
 
 	public void computeAll()
@@ -300,7 +300,7 @@ public class SizeEstimate
 				log.fine("      CR cost : " + classRetrievalCost + " ms.");
 			}
 
-			compute(new HashSet<>(kb.getClasses()), new HashSet<>(kb.getProperties()));
+			compute(new HashSet<>(_kb.getClasses()), new HashSet<>(_kb.getProperties()));
 			computed = true;
 		}
 	}
@@ -328,7 +328,7 @@ public class SizeEstimate
 		concepts.removeAll(instancesPC.keySet());
 		properties.removeAll(pairsPP.keySet());
 
-		final Timer timer = kb.timers.startTimer("sizeEstimate");
+		final Timer timer = _kb.timers.startTimer("sizeEstimate");
 
 		log.fine("Size estimation started");
 
@@ -339,16 +339,16 @@ public class SizeEstimate
 
 		final Taxonomy<ATermAppl> taxonomy;
 
-		if (kb.isClassified())
-			taxonomy = kb.getTaxonomy();
+		if (_kb.isClassified())
+			taxonomy = _kb.getTaxonomy();
 		else
-			taxonomy = kb.getToldTaxonomy();
+			taxonomy = _kb.getToldTaxonomy();
 
 		for (final Iterator<ATermAppl> i = concepts.iterator(); i.hasNext();)
 		{
 			final ATermAppl c = i.next();
 
-			if (!kb.isClass(c))
+			if (!_kb.isClass(c))
 				continue;
 
 			if (taxonomy.contains(c))
@@ -368,7 +368,7 @@ public class SizeEstimate
 				equivClasses.put(c, 1);
 			}
 
-			final Map<ATermAppl, Set<ATermAppl>> toldDisjoints = kb.getToldDisjoints();
+			final Map<ATermAppl, Set<ATermAppl>> toldDisjoints = _kb.getToldDisjoints();
 
 			if (toldDisjoints.containsKey(c))
 			{
@@ -381,10 +381,10 @@ public class SizeEstimate
 				complements.put(c, 1);
 			}
 
-			if (kb.isRealized() && !ATermUtils.isComplexClass(c))
+			if (_kb.isRealized() && !ATermUtils.isComplexClass(c))
 			{
-				instancesPC.put(c, kb.getInstances(c).size());
-				directInstancesPC.put(c, kb.getInstances(c, true).size());
+				instancesPC.put(c, _kb.getInstances(c).size());
+				directInstancesPC.put(c, _kb.getInstances(c, true).size());
 			}
 			else
 			{
@@ -393,13 +393,13 @@ public class SizeEstimate
 
 				if (CHECK_CONCEPT_SAT)
 				{
-					if (!kb.isSatisfiable(c))
+					if (!_kb.isSatisfiable(c))
 						i.remove();
 
-					if (!kb.isSatisfiable(ATermUtils.makeNot(c)))
+					if (!_kb.isSatisfiable(ATermUtils.makeNot(c)))
 					{
 						i.remove();
-						instancesPC.put(c, kb.getIndividuals().size());
+						instancesPC.put(c, _kb.getIndividuals().size());
 					}
 				}
 			}
@@ -414,17 +414,17 @@ public class SizeEstimate
 			pSubj.put(p, 0);
 			pObj.put(p, 0);
 
-			subProperties.put(p, kb.getSubProperties(p).size());
-			directSubProperties.put(p, kb.getSubProperties(p, true).size());
-			superProperties.put(p, kb.getSuperProperties(p).size());
-			directSuperProperties.put(p, kb.getSuperProperties(p, true).size());
-			equivProperties.put(p, kb.getEquivalentProperties(p).size() + 1);
-			inverses.put(p, kb.getInverses(p).size());
+			subProperties.put(p, _kb.getSubProperties(p).size());
+			directSubProperties.put(p, _kb.getSubProperties(p, true).size());
+			superProperties.put(p, _kb.getSuperProperties(p).size());
+			directSuperProperties.put(p, _kb.getSuperProperties(p, true).size());
+			equivProperties.put(p, _kb.getEquivalentProperties(p).size() + 1);
+			inverses.put(p, _kb.getInverses(p).size());
 		}
 
-		for (final ATermAppl ind : kb.getIndividuals())
+		for (final ATermAppl ind : _kb.getIndividuals())
 		{
-			if (!kb.isIndividual(ind))
+			if (!_kb.isIndividual(ind))
 				continue;
 
 			sames.put(ind, 1); // TODO
@@ -434,10 +434,10 @@ public class SizeEstimate
 			if (random > PelletOptions.SAMPLING_RATIO)
 				continue;
 
-			if (kb.isRealized())
+			if (_kb.isRealized())
 			{
-				classesPI.put(ind, kb.getTypes(ind).size());
-				directClassesPI.put(ind, kb.getTypes(ind, true).size());
+				classesPI.put(ind, _kb.getTypes(ind).size());
+				directClassesPI.put(ind, _kb.getTypes(ind, true).size());
 			}
 			else
 			{
@@ -448,7 +448,7 @@ public class SizeEstimate
 				{
 					// estimate for number of instances per given class
 
-					final Bool isKnownType = kb.getABox().isKnownType(ind, c);
+					final Bool isKnownType = _kb.getABox().isKnownType(ind, c);
 					if (isKnownType.isTrue() || (CHECK_CONCEPT_SAT && isKnownType.isUnknown() && (randomGen.nextFloat() < UNKNOWN_PROB)))
 					{
 
@@ -462,7 +462,7 @@ public class SizeEstimate
 
 			for (final ATermAppl p : properties)
 			{
-				Role role = kb.getRBox().getRole(p);
+				Role role = _kb.getRBox().getRole(p);
 
 				int knownSize = 0;
 
@@ -471,12 +471,12 @@ public class SizeEstimate
 					final Set<ATermAppl> knowns = new HashSet<>();
 					final Set<ATermAppl> unknowns = new HashSet<>();
 
-					kb.getABox().getObjectPropertyValues(ind, role, knowns, unknowns, true);
+					_kb.getABox().getObjectPropertyValues(ind, role, knowns, unknowns, true);
 					knownSize = knowns.size();
 				}
 				else
 				{
-					final List<ATermAppl> knowns = kb.getABox().getObviousDataPropertyValues(ind, role, null);
+					final List<ATermAppl> knowns = _kb.getABox().getObviousDataPropertyValues(ind, role, null);
 					knownSize = knowns.size();
 				}
 
@@ -495,7 +495,7 @@ public class SizeEstimate
 					final Set<ATermAppl> knowns = new HashSet<>();
 					final Set<ATermAppl> unknowns = new HashSet<>();
 
-					kb.getABox().getObjectPropertyValues(ind, role, knowns, unknowns, true);
+					_kb.getABox().getObjectPropertyValues(ind, role, knowns, unknowns, true);
 
 					if (!knowns.isEmpty())
 						pObj.put(p, pObj.get(p) + 1);
@@ -509,7 +509,7 @@ public class SizeEstimate
 			avgDirectClassesPI = average(directClassesPI.values());
 		}
 
-		if (!kb.isRealized())
+		if (!_kb.isRealized())
 		{
 			for (final ATermAppl c : concepts)
 			{
@@ -532,7 +532,7 @@ public class SizeEstimate
 			final int avgCPI = Double.valueOf(avgClassesPI).intValue();
 			final int avgDCPI = Double.valueOf(avgDirectClassesPI).intValue();
 
-			for (final ATermAppl i : kb.getIndividuals())
+			for (final ATermAppl i : _kb.getIndividuals())
 			{
 				Integer size = classesPI.get(i);
 
@@ -566,28 +566,28 @@ public class SizeEstimate
 			else
 				pairsPP.put(p, (int) (size / PelletOptions.SAMPLING_RATIO));
 
-			final Role role = kb.getRBox().getRole(p);
+			final Role role = _kb.getRBox().getRole(p);
 			final ATermAppl invP = (role.getInverse() != null) ? role.getInverse().getName() : null;
-					int subjCount = pSubj.get(p);
-					if (subjCount == 0)
-						subjCount = 1;
-					int objCount = pObj.get(p);
-					if (objCount == 0)
-						objCount = 1;
+			int subjCount = pSubj.get(p);
+			if (subjCount == 0)
+				subjCount = 1;
+			int objCount = pObj.get(p);
+			if (objCount == 0)
+				objCount = 1;
 
-					double avg = Double.valueOf((double) size / subjCount);
-					avgObjectsPP.put(p, avg);
-					// avgSubjectsPerProperty = Math
-					// .max(avgSubjectsPerProperty, subjCount);
-					avgSubjectsPerProperty += subjCount;
-					if (invP != null)
+			double avg = Double.valueOf((double) size / subjCount);
+			avgObjectsPP.put(p, avg);
+			// avgSubjectsPerProperty = Math
+			// .max(avgSubjectsPerProperty, subjCount);
+			avgSubjectsPerProperty += subjCount;
+			if (invP != null)
 			{
-						avg = Double.valueOf((double) size / objCount);
-						avgObjectsPP.put(invP, avg);
-						// avgSubjectsPerProperty = Math.max(avgSubjectsPerProperty,
-						// objCount);
-						avgSubjectsPerProperty += objCount;
-					}
+				avg = Double.valueOf((double) size / objCount);
+				avgObjectsPP.put(invP, avg);
+				// avgSubjectsPerProperty = Math.max(avgSubjectsPerProperty,
+				// objCount);
+				avgSubjectsPerProperty += objCount;
+			}
 		}
 
 		if (properties.size() > 0)
@@ -631,6 +631,7 @@ public class SizeEstimate
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void printStatistics()
 	{
 		// final StatisticsTable<ATermAppl, String> instances = new
@@ -692,7 +693,7 @@ public class SizeEstimate
 				return pairsPP.get(c);
 			else
 			{
-				if (kb.isProperty(c))
+				if (_kb.isProperty(c))
 					compute(EMPTY_SET, Collections.singleton(c));
 				else
 					compute(Collections.singleton(c), EMPTY_SET);
@@ -968,7 +969,7 @@ public class SizeEstimate
 		return inverses.get(sup);
 	}
 
-	// kb.getClasses().size();
+	// _kb.getClasses().size();
 
 	public long getCost(final KBOperation operation)
 	{
@@ -976,48 +977,48 @@ public class SizeEstimate
 		switch (operation)
 		{
 
-			// TODO
+		// TODO
 			case IS_DIRECT_TYPE:
 				cost = getCost(KBOperation.IS_TYPE);
 				break;
 
-			// if realized trivial, oth. 1 sat (more frq than hpv, but less than sc)
+				// if realized trivial, oth. 1 sat (more frq than hpv, but less than sc)
 			case IS_TYPE:
-				cost = (kb.isRealized() ? noSatCost : oneSatCost);
+				cost = (_kb.isRealized() ? noSatCost : oneSatCost);
 				break;
 
-			// rare sat (nonempty dependency set of an edge in Compl. G.)
+				// rare sat (nonempty dependency set of an edge in Compl. G.)
 			case HAS_PROPERTY_VALUE:
 				cost = noSatCost;
 				break;
 
-			// use told taxonomy - to be provided by KB - not to classify the whole
-			// KB
-			// now triv. if classified, otherwise 1 sat
+				// use told taxonomy - to be provided by KB - not to classify the whole
+				// KB
+				// now triv. if classified, otherwise 1 sat
 			case IS_SUBCLASS_OF:
 			case IS_EQUIVALENT_CLASS:
 				cost = oneSatCost;
 				break;
 
-			// 1 sat
+				// 1 sat
 			case IS_DISJOINT_WITH:
 			case IS_COMPLEMENT_OF:
 				cost = oneSatCost;
 				break;
 
-			// triv
+				// triv
 			case IS_SUBPROPERTY_OF:
 			case IS_EQUIVALENT_PROPERTY:
 				cost = noSatCost;
 				break;
 
-			// triv
+				// triv
 			case IS_OBJECT_PROPERTY:
 			case IS_DATATYPE_PROPERTY:
 				cost = noSatCost;
 				break;
 
-			// one sat. check if any
+				// one sat. check if any
 			case IS_FUNCTIONAL_PROPERTY:
 			case IS_INVERSE_FUNCTIONAL_PROPERTY:
 			case IS_TRANSITIVE_PROPERTY:
@@ -1026,7 +1027,7 @@ public class SizeEstimate
 				cost = oneSatCost;
 				break;
 
-			// triv.
+				// triv.
 			case IS_INVERSE_OF:
 				cost = noSatCost;
 				break;
@@ -1052,29 +1053,29 @@ public class SizeEstimate
 				cost = instanceRetrievalCost;
 				break;
 
-			// TODO
+				// TODO
 			case GET_DIRECT_INSTANCES:
 				cost = instanceRetrievalCost + classificationCost;
 				break;
 
-			// if realized triv, otherwise TODO
-			// binary class retrieval. Currently, realization
+				// if realized triv, otherwise TODO
+				// binary class retrieval. Currently, realization
 			case GET_TYPES:
 				cost = classRetrievalCost;
 				break;
 
-			// TODO
+				// TODO
 			case GET_DIRECT_TYPES:
 				cost = getCost(KBOperation.GET_TYPES);
 				break;
 
-			// instance retrieval for a small set of instances, meanwhile as
-			// instance retrieval.
+				// instance retrieval for a small set of instances, meanwhile as
+				// instance retrieval.
 			case GET_PROPERTY_VALUE:
 				cost = noSatCost;// (long) (0.01 * instanceRetrievalCost);
 				break;
 
-			// 1 sat (rare)
+				// 1 sat (rare)
 			case IS_SAME_AS:
 				cost = oneSatCost;
 				break;
@@ -1083,23 +1084,23 @@ public class SizeEstimate
 				cost = oneSatCost;
 				break;
 
-				// 1 sat
+			// 1 sat
 			case IS_DIFFERENT_FROM:
 				cost = oneSatCost;
 				break;
 
-			// meanwhile instance retrieval
+				// meanwhile instance retrieval
 			case GET_DIFFERENTS:
 				cost = instanceRetrievalCost;
 				break;
 
-			// trivial
+				// trivial
 			case GET_OBJECT_PROPERTIES:
 			case GET_DATATYPE_PROPERTIES:
 				cost = noSatCost;
 				break;
 
-			// currently trivial - not complete impl.
+				// currently trivial - not complete impl.
 			case GET_FUNCTIONAL_PROPERTIES:
 			case GET_INVERSE_FUNCTIONAL_PROPERTIES:
 			case GET_TRANSITIVE_PROPERTIES:
@@ -1114,20 +1115,20 @@ public class SizeEstimate
 				cost = noSatCost;
 				break;
 
-			// trivial if classified and named, otherwise classification
+				// trivial if classified and named, otherwise classification
 			case GET_SUB_OR_SUPERCLASSES:
 			case GET_DIRECT_SUB_OR_SUPERCLASSES: // TODO
 			case GET_EQUIVALENT_CLASSES:
 				cost = classificationCost;
 				break;
 
-			// classification
+				// classification
 			case GET_DISJOINT_CLASSES:
 			case GET_COMPLEMENT_CLASSES:
 				cost = classificationCost;
 				break;
 
-			// trivial
+				// trivial
 			case GET_SUB_OR_SUPERPROPERTIES:
 			case GET_DIRECT_SUB_OR_SUPERPROPERTIES: // TODO
 			case GET_EQUIVALENT_PROPERTIES:

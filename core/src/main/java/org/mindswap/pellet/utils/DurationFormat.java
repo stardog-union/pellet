@@ -42,13 +42,13 @@ public enum DurationFormat
 	 */
 	SHORT("%2$02d:%3$02d", false);
 
-	private String formatString;
-	private boolean hoursVisible;
+	private String _formatString;
+	private boolean _hoursVisible;
 
 	DurationFormat(final String formatString, final boolean hoursVisible)
 	{
-		this.formatString = formatString;
-		this.hoursVisible = hoursVisible;
+		this._formatString = formatString;
+		this._hoursVisible = hoursVisible;
 	}
 
 	/**
@@ -61,7 +61,7 @@ public enum DurationFormat
 	{
 		long hours, minutes, seconds, milliseconds;
 
-		if (hoursVisible)
+		if (_hoursVisible)
 		{
 			hours = durationInMilliseconds / 3600000;
 			durationInMilliseconds = durationInMilliseconds - (hours * 3600000);
@@ -75,6 +75,6 @@ public enum DurationFormat
 		seconds = durationInMilliseconds / 1000;
 		milliseconds = durationInMilliseconds - (seconds * 1000);
 
-		return String.format(formatString, hours, minutes, seconds, milliseconds);
+		return String.format(_formatString, hours, minutes, seconds, milliseconds);
 	}
 }

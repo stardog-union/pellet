@@ -7,6 +7,7 @@
 package org.mindswap.pellet.utils;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * A simple class to experiment with your JVM's garbage collector and memory sizes for various data types.
@@ -19,7 +20,7 @@ public class MemUtils
 
 	public static final double BYTES_PER_MB = 1048576.0;
 
-	private static final DecimalFormat MB_FORMAT = (DecimalFormat) DecimalFormat.getNumberInstance();
+	private static final DecimalFormat MB_FORMAT = (DecimalFormat) NumberFormat.getNumberInstance();
 
 	static
 	{
@@ -41,7 +42,7 @@ public class MemUtils
 		}
 	}
 
-	private static void _runGC() throws Exception
+	private static void _runGC()
 	{
 		long usedMem1 = usedMemory(), usedMem2 = Long.MAX_VALUE;
 		for (int i = 0; (usedMem1 < usedMem2) && (i < 500); ++i)

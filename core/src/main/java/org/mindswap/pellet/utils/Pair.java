@@ -27,13 +27,13 @@ public class Pair<F, S>
 	public F first;
 	public S second;
 
-	public Pair(final F first, final S second)
+	public Pair(final F first_, final S second_)
 	{
-		if (first == null || second == null)
+		if (first_ == null || second_ == null)
 			throw new NullPointerException();
 
-		this.first = first;
-		this.second = second;
+		this.first = first_;
+		this.second = second_;
 	}
 
 	public static <F, S> Pair<F, S> create(final F f, final S s)
@@ -48,7 +48,6 @@ public class Pair<F, S>
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean equals(final Object o)
 	{
 		if (o == this)
@@ -57,7 +56,7 @@ public class Pair<F, S>
 		if (!(o instanceof Pair))
 			return false;
 
-		final Pair p = (Pair) o;
+		final Pair<?, ?> p = (Pair<?, ?>) o;
 
 		return first.equals(p.first) && second.equals(p.second);
 	}

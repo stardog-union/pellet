@@ -32,9 +32,9 @@ public class NumberUtils
 	public static final Float FLOAT_ZERO = Float.valueOf(0);
 	public static final Double DOUBLE_ZERO = Double.valueOf(0);
 
-	private static final List classes = Arrays.asList(new Class[] { Byte.class, Short.class, Integer.class, Long.class, BigInteger.class, BigDecimal.class, Float.class, Double.class });
-	private static final List names = Arrays.asList(new String[] { "Byte", "Short", "Integer", "Long", "BigInteger", "BigDecimal", "Float", "Double" });
-	private static final List zeros = Arrays.asList(new Number[] { BYTE_ZERO, SHORT_ZERO, INT_ZERO, LONG_ZERO, INTEGER_ZERO, DECIMAL_ZERO, FLOAT_ZERO, DOUBLE_ZERO });
+	private static final List<Class<?>> classes = Arrays.asList(new Class[] { Byte.class, Short.class, Integer.class, Long.class, BigInteger.class, BigDecimal.class, Float.class, Double.class });
+	private static final List<String> names = Arrays.asList(new String[] { "Byte", "Short", "Integer", "Long", "BigInteger", "BigDecimal", "Float", "Double" });
+	private static final List<Number> zeros = Arrays.asList(new Number[] { BYTE_ZERO, SHORT_ZERO, INT_ZERO, LONG_ZERO, INTEGER_ZERO, DECIMAL_ZERO, FLOAT_ZERO, DOUBLE_ZERO });
 
 	public static Number parseByte(final String str) throws NumberFormatException
 	{
@@ -263,12 +263,13 @@ public class NumberUtils
 			return new BigDecimal(n.toString());
 	}
 
+	@SuppressWarnings("unchecked")
 	public static int sign(final Number n)
 	{
 		final int type = classes.indexOf(n.getClass());
-		final Number zero = (Number) zeros.get(type);
+		final Number zero = zeros.get(type);
 
-		return ((Comparable) n).compareTo(zero);
+		return ((Comparable<Number>) n).compareTo(zero);
 	}
 
 	public static int compare(final Number n1, final Number n2)

@@ -258,6 +258,7 @@ public class SetUtils
 	 * @param elements
 	 * @return
 	 */
+	@SafeVarargs
 	public static <T> Set<T> create(final T... elems)
 	{
 		final Set<T> set = new HashSet<>(elems.length);
