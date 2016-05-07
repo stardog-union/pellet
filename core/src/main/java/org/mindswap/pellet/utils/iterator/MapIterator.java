@@ -20,11 +20,11 @@ import java.util.Iterator;
  */
 public abstract class MapIterator<F, T> implements Iterator<T>
 {
-	private final Iterator<F> iterator;
+	private final Iterator<F> _iterator;
 
 	public MapIterator(final Iterator<F> iterator)
 	{
-		this.iterator = iterator;
+		this._iterator = iterator;
 	}
 
 	/**
@@ -33,7 +33,7 @@ public abstract class MapIterator<F, T> implements Iterator<T>
 	@Override
 	public boolean hasNext()
 	{
-		return iterator.hasNext();
+		return _iterator.hasNext();
 	}
 
 	/**
@@ -42,7 +42,7 @@ public abstract class MapIterator<F, T> implements Iterator<T>
 	@Override
 	public T next()
 	{
-		return map(iterator.next());
+		return map(_iterator.next());
 	}
 
 	/**
@@ -51,7 +51,7 @@ public abstract class MapIterator<F, T> implements Iterator<T>
 	@Override
 	public void remove()
 	{
-		iterator.remove();
+		_iterator.remove();
 	}
 
 	public abstract T map(F obj);

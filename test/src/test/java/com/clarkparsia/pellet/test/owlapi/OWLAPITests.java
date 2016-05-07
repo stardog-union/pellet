@@ -999,7 +999,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 		@Override
 		public boolean isCanceled()
 		{
-			final long elapsedTime = timer.getElapsed();
+			final long elapsedTime = _timer.getElapsed();
 			return elapsedTime > limit;
 		}
 	}

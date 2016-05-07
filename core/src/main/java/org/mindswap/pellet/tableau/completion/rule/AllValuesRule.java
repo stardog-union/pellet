@@ -86,7 +86,7 @@ public class AllValuesRule extends AbstractTableauRule
 	 */
 	public void applyAllValues(final Individual x, final ATermAppl av, final DependencySet ds)
 	{
-		// Timer timer = kb.timers.startTimer("applyAllValues");
+		// Timer _timer = kb.timers.startTimer("applyAllValues");
 
 		if (av.getArity() == 0)
 			throw new InternalReasonerException();
@@ -145,7 +145,7 @@ public class AllValuesRule extends AbstractTableauRule
 		if (!roleChain.isEmpty())
 			applyAllValuesPropertyChain(x, (ATermList) p, c, ds);
 
-		// timer.stop();
+		// _timer.stop();
 	}
 
 	protected boolean applyAllValuesPropertyChain(final Individual x, final ATermList chain, final ATermAppl c, final DependencySet ds)

@@ -39,7 +39,7 @@ import org.mindswap.pellet.KnowledgeBase;
 
 public class TBoxBase
 {
-	public static Logger log = Logger.getLogger(TBoxBase.class.getName());
+	public static Logger _log = Logger.getLogger(TBoxBase.class.getName());
 
 	protected KnowledgeBase kb;
 	protected TBoxExpImpl tbox;

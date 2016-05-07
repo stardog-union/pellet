@@ -27,7 +27,7 @@ import org.mindswap.pellet.utils.DurationFormat;
  */
 public class ConsoleProgressMonitor extends AbstractProgressMonitor
 {
-	private final PrintStream out;
+	private final PrintStream _out;
 
 	public ConsoleProgressMonitor()
 	{
@@ -46,7 +46,7 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor
 
 	public ConsoleProgressMonitor(final PrintStream out, final int length)
 	{
-		this.out = out;
+		this._out = out;
 
 		setProgressLength(length);
 		setProgressTitle("");
@@ -63,36 +63,36 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor
 	{
 		super.taskStarted();
 
-		out.println(progressTitle + " " + progressLength + " elements");
+		_out.println(_progressTitle + " " + _progressLength + " elements");
 	}
 
 	@Override
 	protected void updateProgress()
 	{
-		final int pc = (int) ((100.0 * progress) / progressLength);
+		final int pc = (int) ((100.0 * _progress) / _progressLength);
 
-		if (pc == progressPercent)
+		if (pc == _progressPercent)
 			return;
 
-		progressPercent = pc;
+		_progressPercent = pc;
 
 		// delete the previous line
-		out.print('\r');
+		_out.print('\r');
 
 		// print the new message
-		out.print(progressTitle);
-		out.print(": ");
-		out.print(progressMessage);
-		out.print(" ");
-		out.print(progressPercent);
-		out.print("% complete in ");
-		out.print(DurationFormat.SHORT.format(timer.getElapsed()));
+		_out.print(_progressTitle);
+		_out.print(": ");
+		_out.print(_progressMessage);
+		_out.print(" ");
+		_out.print(_progressPercent);
+		_out.print("% complete in ");
+		_out.print(DurationFormat.SHORT.format(_timer.getElapsed()));
 	}
 
 	@Deprecated
 	public String calcElapsedTime()
 	{
-		return DurationFormat.SHORT.format(timer.getElapsed());
+		return DurationFormat.SHORT.format(_timer.getElapsed());
 	}
 
 	@Override
@@ -100,11 +100,11 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor
 	{
 		super.taskFinished();
 
-		setProgress(progressLength);
+		setProgress(_progressLength);
 
-		out.println();
-		out.print(progressTitle);
-		out.print(" finished in ");
-		out.println(DurationFormat.SHORT.format(timer.getLast()));
+		_out.println();
+		_out.print(_progressTitle);
+		_out.print(" finished in ");
+		_out.println(DurationFormat.SHORT.format(_timer.getLast()));
 	}
 }

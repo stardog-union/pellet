@@ -122,8 +122,8 @@ public class TuBox extends TBoxBase
 			unfoldingMap = CollectionUtils.makeIdentityMap();
 		}
 		else
-			if (log.isLoggable(Level.FINE))
-				log.fine("Normalizing " + termsToNormalize);
+			if (_log.isLoggable(Level.FINE))
+				_log.fine("Normalizing " + termsToNormalize);
 
 		for (final ATermAppl c : termsToNormalize)
 		{

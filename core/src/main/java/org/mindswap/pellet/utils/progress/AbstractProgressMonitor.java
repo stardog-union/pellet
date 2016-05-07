@@ -26,19 +26,19 @@ import org.mindswap.pellet.utils.Timer;
  */
 public abstract class AbstractProgressMonitor implements ProgressMonitor
 {
-	protected String progressTitle = "";
+	protected String _progressTitle = "";
 
-	protected String progressMessage = "";
+	protected String _progressMessage = "";
 
-	protected int progress = 0;
+	protected int _progress = 0;
 
-	protected int progressLength = 0;
+	protected int _progressLength = 0;
 
-	protected int progressPercent = -1;
+	protected int _progressPercent = -1;
 
-	protected Timer timer = new Timer();
+	protected Timer _timer = new Timer();
 
-	protected boolean cancelled = false;
+	protected boolean _cancelled = false;
 
 	public AbstractProgressMonitor()
 	{
@@ -52,52 +52,52 @@ public abstract class AbstractProgressMonitor implements ProgressMonitor
 	@Override
 	public int getProgress()
 	{
-		return progress;
+		return _progress;
 	}
 
 	public int getProgressLength()
 	{
-		return progressLength;
+		return _progressLength;
 	}
 
 	public String getProgressMessage()
 	{
-		return progressMessage;
+		return _progressMessage;
 	}
 
 	@Override
 	public int getProgressPercent()
 	{
-		return progressPercent;
+		return _progressPercent;
 	}
 
 	public String getProgressTitle()
 	{
-		return progressTitle;
+		return _progressTitle;
 	}
 
 	@Override
 	public void incrementProgress()
 	{
-		setProgress(progress + 1);
+		setProgress(_progress + 1);
 	}
 
 	@Override
 	public boolean isCanceled()
 	{
-		return cancelled;
+		return _cancelled;
 	}
 
 	protected void resetProgress()
 	{
-		progress = 0;
-		progressPercent = -1;
+		_progress = 0;
+		_progressPercent = -1;
 	}
 
 	@Override
 	public void setProgress(final int progress)
 	{
-		this.progress = progress;
+		this._progress = progress;
 
 		updateProgress();
 	}
@@ -105,7 +105,7 @@ public abstract class AbstractProgressMonitor implements ProgressMonitor
 	@Override
 	public void setProgressLength(final int progressLength)
 	{
-		this.progressLength = progressLength;
+		this._progressLength = progressLength;
 
 		resetProgress();
 	}
@@ -113,19 +113,19 @@ public abstract class AbstractProgressMonitor implements ProgressMonitor
 	@Override
 	public void setProgressMessage(final String progressMessage)
 	{
-		this.progressMessage = progressMessage;
+		this._progressMessage = progressMessage;
 	}
 
 	@Override
 	public void setProgressTitle(final String progressTitle)
 	{
-		this.progressTitle = progressTitle;
+		this._progressTitle = progressTitle;
 	}
 
 	@Override
 	public void taskFinished()
 	{
-		timer.stop();
+		_timer.stop();
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public abstract class AbstractProgressMonitor implements ProgressMonitor
 	{
 		resetProgress();
 
-		timer.start();
+		_timer.start();
 	}
 
 	protected abstract void updateProgress();

@@ -52,24 +52,24 @@ public class AlphaNumericComparator implements Comparator<Object>
 	 */
 	public static final AlphaNumericComparator CASE_INSENSITIVE = new AlphaNumericComparator(false);
 
-	private final boolean caseSensitive;
+	private final boolean _caseSensitive;
 
 	/**
 	 * Create a case sensitive AlphaNumericComparator
 	 */
 	public AlphaNumericComparator()
 	{
-		this.caseSensitive = true;
+		this._caseSensitive = true;
 	}
 
 	/**
 	 * Create an AlphaNumericComparator
 	 * 
-	 * @param caseSensitive if true comparisons are case sensitive
+	 * @param _caseSensitive if true comparisons are case sensitive
 	 */
 	public AlphaNumericComparator(final boolean caseSensitive)
 	{
-		this.caseSensitive = caseSensitive;
+		this._caseSensitive = caseSensitive;
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class AlphaNumericComparator implements Comparator<Object>
 					if (Character.isDigit(c2))
 						return -1;
 					else
-						if (!caseSensitive)
+						if (!_caseSensitive)
 						{
 							c1 = Character.toUpperCase(c1);
 							c2 = Character.toUpperCase(c2);

@@ -26,9 +26,9 @@ public class Transition<T>
 {
 	private static Object EPSILON = null;
 
-	private final T name;
+	private final T _name;
 
-	private State<T> to;
+	private State<T> _to;
 
 	/**
 	 * /* add edge with epsilon edge
@@ -36,17 +36,17 @@ public class Transition<T>
 	@SuppressWarnings("unchecked")
 	public Transition(final State<T> t)
 	{
-		name = (T) EPSILON;
-		to = t;
+		_name = (T) EPSILON;
+		_to = t;
 	}
 
 	/**
-	 * add edge for name from _current state to state t on c
+	 * add edge for _name from _current state _to state t on c
 	 */
 	public Transition(final T name, final State<T> to)
 	{
-		this.name = name;
-		this.to = to;
+		this._name = name;
+		this._to = to;
 	}
 
 	@Override
@@ -54,8 +54,8 @@ public class Transition<T>
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((to == null) ? 0 : to.hashCode());
+		result = prime * result + ((_name == null) ? 0 : _name.hashCode());
+		result = prime * result + ((_to == null) ? 0 : _to.hashCode());
 		return result;
 	}
 
@@ -68,55 +68,54 @@ public class Transition<T>
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		@SuppressWarnings("unchecked")
-		final Transition other = (Transition) obj;
-		if (name == null)
+		final Transition<?> other = (Transition<?>) obj;
+		if (_name == null)
 		{
-			if (other.name != null)
+			if (other._name != null)
 				return false;
 		}
 		else
-			if (!name.equals(other.name))
+			if (!_name.equals(other._name))
 				return false;
-		if (to == null)
+		if (_to == null)
 		{
-			if (other.to != null)
+			if (other._to != null)
 				return false;
 		}
 		else
-			if (!to.equals(other.to))
+			if (!_to.equals(other._to))
 				return false;
 		return true;
 	}
 
 	public boolean isEpsilon()
 	{
-		return name == EPSILON;
+		return _name == EPSILON;
 	}
 
 	public State<T> getTo()
 	{
-		return to;
+		return _to;
 	}
 
 	public void setTo(final State<T> to)
 	{
-		this.to = to;
+		this._to = to;
 	}
 
 	public T getName()
 	{
-		return name;
+		return _name;
 	}
 
 	public boolean hasName(final T c)
 	{
-		return (name == EPSILON) ? c == EPSILON : (c == EPSILON) ? false : name.equals(c);
+		return (_name == EPSILON) ? c == EPSILON : (c == EPSILON) ? false : _name.equals(c);
 	}
 
 	@Override
 	public String toString()
 	{
-		return (name == EPSILON ? "epsilon" : name.toString()) + " -> " + to.getName();
+		return (_name == EPSILON ? "epsilon" : _name.toString()) + " -> " + _to.getName();
 	}
 }

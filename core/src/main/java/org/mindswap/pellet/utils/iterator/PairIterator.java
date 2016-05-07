@@ -14,19 +14,19 @@ import java.util.NoSuchElementException;
  */
 public class PairIterator<T> implements Iterator<T>
 {
-	private final Iterator<T> first;
-	private final Iterator<T> second;
+	private final Iterator<T> _first;
+	private final Iterator<T> _second;
 
 	public PairIterator(final Iterator<T> first, final Iterator<T> second)
 	{
-		this.first = first;
-		this.second = second;
+		this._first = first;
+		this._second = second;
 	}
 
 	@Override
 	public boolean hasNext()
 	{
-		return first.hasNext() || second.hasNext();
+		return _first.hasNext() || _second.hasNext();
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class PairIterator<T> implements Iterator<T>
 		if (!hasNext())
 			throw new NoSuchElementException();
 
-		return first.hasNext() ? first.next() : second.next();
+		return _first.hasNext() ? _first.next() : _second.next();
 	}
 
 	@Override

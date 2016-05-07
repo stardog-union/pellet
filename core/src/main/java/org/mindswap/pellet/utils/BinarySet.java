@@ -17,15 +17,15 @@ import java.util.NoSuchElementException;
  */
 public class BinarySet<T> extends AbstractSet<T>
 {
-	private final T first;
-	private final T second;
+	private final T _first;
+	private final T _second;
 
 	private BinarySet(final T first, final T second)
 	{
 		if (first.equals(second))
 			throw new IllegalArgumentException("Cannot create a binary set with single element: " + first);
-		this.first = first;
-		this.second = second;
+		this._first = first;
+		this._second = second;
 	}
 
 	public static <T> BinarySet<T> create(final T first, final T second)
@@ -35,18 +35,18 @@ public class BinarySet<T> extends AbstractSet<T>
 
 	public T first()
 	{
-		return first;
+		return _first;
 	}
 
 	public T second()
 	{
-		return second;
+		return _second;
 	}
 
 	@Override
 	public boolean contains(final Object o)
 	{
-		return first.equals(o) || second.equals(o);
+		return _first.equals(o) || _second.equals(o);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class BinarySet<T> extends AbstractSet<T>
 				if (!hasNext())
 					throw new NoSuchElementException();
 
-				return (i++ == 0) ? first : second;
+				return (i++ == 0) ? _first : _second;
 			}
 
 			@Override

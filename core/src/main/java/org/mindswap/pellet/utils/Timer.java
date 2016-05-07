@@ -47,15 +47,15 @@ import org.mindswap.pellet.exceptions.TimerInterruptedException;
  * the programmer's responsibility to make sure each start() is stopped by a _stop() call.
  * </p>
  * <p>
- * Each timer may be associated with a timeout limit. This means that time spent between start() and _stop() calls should be less than the timeout specified.
+ * Each timer may be associated with a _timeout limit. This means that time spent between start() and _stop() calls should be less than the _timeout specified.
  * Timeouts will only be checked when check() function is called. If check() function is not called setting timeouts has no effect. It is up to the programmer
  * to decide when and how many times a timer will be checked.
  * </p>
  * <p>
  * There may be a dependency between _timers. For example, classification, realization and entailment operations all use consistency checks. If something goes
- * wrong inside a consistency check and that operation does not finish in a reasonable time, the timeout on the parent timer may expire. To handle such cases, a
- * timer may be associated with a parent timer so every time a timer is checked for a timeout, its parent timer will also be checked. Normally, we would like to
- * associate many parents with a timer but for efficiency reasons (looping over an array each time is expensive) each timer is allowed to have only one parent.
+ * wrong inside a consistency check and that operation does not finish in a reasonable time, the _timeout on the _parent timer may expire. To handle such cases, a
+ * timer may be associated with a _parent timer so every time a timer is checked for a _timeout, its _parent timer will also be checked. Normally, we would like to
+ * associate many parents with a timer but for efficiency reasons (looping over an array each time is expensive) each timer is allowed to have only one _parent.
  * </p>
  * <p>
  * {@link Timers Timers} class stores a set of _timers and provides functions to start, _stop and check _timers.
@@ -76,21 +76,21 @@ public class Timer
 	public final static long NOT_STARTED = -1;
 	public final static long NO_TIMEOUT = 0;
 
-	private final String name; // name to identify what we are timing
+	private final String _name; // _name to identify what we are timing
 	private long totalTime; // total time that has elapsed when the timer was running
 	private long startTime; // last time timer was started
 	private long count; // number of times the timer was started and stopped
 	private long startCount; // if we are timing recursive functions timer may be started
 	// multiple times. we only want to measure time spent in the
 	// upper most function call so we need to discard other starts
-	private long timeout; // Point at which a call to check throws an exception
+	private long _timeout; // Point at which a call to check throws an exception
 	private long lastTime; // time that has elapsed between last start()-_stop() period
 	private boolean interrupted; // Tells whether this timer has been interrupted
 
-	private final Timer parent; // the parent timer
+	private final Timer _parent; // the _parent timer
 
 	/**
-	 * Create a timer with no name and no parent.
+	 * Create a timer with no _name and no _parent.
 	 */
 	public Timer()
 	{
@@ -98,9 +98,9 @@ public class Timer
 	}
 
 	/**
-	 * Create a timer with no parent.
+	 * Create a timer with no _parent.
 	 *
-	 * @param name
+	 * @param _name
 	 */
 	public Timer(final String name)
 	{
@@ -108,17 +108,17 @@ public class Timer
 	}
 
 	/**
-	 * Create a timer that has the specified parent timer.
+	 * Create a timer that has the specified _parent timer.
 	 *
-	 * @param name
-	 * @param parent
+	 * @param _name
+	 * @param _parent
 	 */
 	public Timer(final String name, final Timer parent)
 	{
-		this.name = name;
-		this.parent = parent;
+		this._name = name;
+		this._parent = parent;
 
-		timeout = NO_TIMEOUT;
+		_timeout = NO_TIMEOUT;
 		reset();
 	}
 
@@ -156,7 +156,7 @@ public class Timer
 		if (!isStarted())
 		{
 			if (log.isLoggable(Level.FINE))
-				log.fine(String.format("Ignoring attempt to _stop a timer (\"%s\") that is not running. Timer results are incorrect for multi-threaded code.", name));
+				log.fine(String.format("Ignoring attempt to _stop a timer (\"%s\") that is not running. Timer results are incorrect for multi-threaded code.", _name));
 			return -Long.MAX_VALUE;
 		}
 
@@ -198,7 +198,7 @@ public class Timer
 	}
 
 	/**
-	 * Check if the elapsed time is greater than the timeout limit and throw a TimeoutException if that is the case. Check the parent timer if there is one.
+	 * Check if the elapsed time is greater than the _timeout limit and throw a TimeoutException if that is the case. Check the _parent timer if there is one.
 	 *
 	 * @throws TimeoutException
 	 */
@@ -213,11 +213,11 @@ public class Timer
 
 		final long elapsed = getElapsed();
 
-		if (timeout != NO_TIMEOUT && elapsed > timeout)
-			throw new TimeoutException("Running time of " + name + " exceeded timeout of " + timeout);
+		if (_timeout != NO_TIMEOUT && elapsed > _timeout)
+			throw new TimeoutException("Running time of " + _name + " exceeded _timeout of " + _timeout);
 
-		if (parent != null)
-			parent.check();
+		if (_parent != null)
+			_parent.check();
 	}
 
 	/**
@@ -239,13 +239,13 @@ public class Timer
 	}
 
 	/**
-	 * Return the name of this timer.
+	 * Return the _name of this timer.
 	 *
 	 * @return
 	 */
 	public String getName()
 	{
-		return name;
+		return _name;
 	}
 
 	/**
@@ -281,13 +281,13 @@ public class Timer
 	}
 
 	/**
-	 * Return the timeout associated with this timer.
+	 * Return the _timeout associated with this timer.
 	 *
 	 * @return
 	 */
 	public long getTimeout()
 	{
-		return timeout;
+		return _timeout;
 	}
 
 	/**
@@ -312,35 +312,35 @@ public class Timer
 	}
 
 	/**
-	 * Set a timeout limit for this timer. Set the timeout to 0 to disable timeout checking
+	 * Set a _timeout limit for this timer. Set the _timeout to 0 to disable _timeout checking
 	 *
-	 * @param timeout
+	 * @param _timeout
 	 */
 	public void setTimeout(final long timeout)
 	{
 		if (timeout < 0)
-			throw new IllegalArgumentException("Cannot set the timeout to a negative value!");
+			throw new IllegalArgumentException("Cannot set the _timeout to a negative value!");
 
-		this.timeout = timeout;
+		this._timeout = timeout;
 	}
 
 	@Override
 	public String toString()
 	{
 		if (startCount > 0)
-			return "Timer " + name + " Avg: " + getAverage() + " Count: " + count + " Total: " + getTotal() + " Still running: " + startCount;
+			return "Timer " + _name + " Avg: " + getAverage() + " Count: " + count + " Total: " + getTotal() + " Still running: " + startCount;
 
-		return "Timer " + name + " Avg: " + getAverage() + " Count: " + count + " Total: " + getTotal();
+		return "Timer " + _name + " Avg: " + getAverage() + " Count: " + count + " Total: " + getTotal();
 	}
 
 	/**
-	 * Return the parent timer of this timer depends on. Parent _timers are checked hierarchically for timeouts.
+	 * Return the _parent timer of this timer depends on. Parent _timers are checked hierarchically for timeouts.
 	 *
 	 * @return Parent timer or null if there is no such timer.
 	 */
 	public Timer getParent()
 	{
-		return parent;
+		return _parent;
 	}
 
 	public String format()

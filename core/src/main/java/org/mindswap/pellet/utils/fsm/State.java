@@ -30,14 +30,14 @@ public class State<T>
 {
 	private static int next_unused_name = 0;
 
-	private int name; // number of state
+	private int _name; // number of state
 
-	private final Set<Transition<T>> transitions; // set of outgoing edges from state
+	private final Set<Transition<T>> _transitions; // set of outgoing edges from state
 
 	public State()
 	{
-		name = next_unused_name++;
-		transitions = new HashSet<>();
+		_name = next_unused_name++;
+		_transitions = new HashSet<>();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class State<T>
 			throw new ClassCastException();
 
 		final Transition<T> t = new Transition<>(symbol, s);
-		transitions.add(t);
+		_transitions.add(t);
 	}
 
 	/**
@@ -69,17 +69,17 @@ public class State<T>
 			throw new NullPointerException();
 
 		final Transition<T> t = new Transition<>(s);
-		transitions.add(t);
+		_transitions.add(t);
 	}
 
 	/**
-	 * Returns the transitions for originating from this state.
+	 * Returns the _transitions for originating from this state.
 	 * 
-	 * @return the transitions for originating from this state
+	 * @return the _transitions for originating from this state
 	 */
 	public Set<Transition<T>> getTransitions()
 	{
-		return transitions;
+		return _transitions;
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class State<T>
 	 */
 	public State<T> move(final T symbol)
 	{
-		for (final Transition<T> t : transitions)
+		for (final Transition<T> t : _transitions)
 			if (t.hasName(symbol))
 				return t.getTo();
 		return null;
@@ -97,17 +97,17 @@ public class State<T>
 
 	public int getName()
 	{
-		return name;
+		return _name;
 	}
 
 	public void setName(final int i)
 	{
-		name = i;
+		_name = i;
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.valueOf(name);
+		return String.valueOf(_name);
 	}
 }

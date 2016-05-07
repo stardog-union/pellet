@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
  * Title: SwingProgressMonitor
  * </p>
  * <p>
- * Description: Very simple implementation of the Pellet progress monitor using Swing widgets.
+ * Description: Very simple implementation of the Pellet progress _monitor using Swing widgets.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -27,7 +27,7 @@ import javax.swing.SwingUtilities;
 public class SwingProgressMonitor extends AbstractProgressMonitor
 {
 
-	private javax.swing.ProgressMonitor monitor = null;
+	private javax.swing.ProgressMonitor _monitor = null;
 
 	public SwingProgressMonitor()
 	{
@@ -42,34 +42,34 @@ public class SwingProgressMonitor extends AbstractProgressMonitor
 	@Override
 	public boolean isCanceled()
 	{
-		return monitor.isCanceled();
+		return _monitor.isCanceled();
 	}
 
 	@Override
 	protected void resetProgress()
 	{
 		super.resetProgress();
-		monitor = new javax.swing.ProgressMonitor(null, progressTitle, progressMessage, 0, progressLength);
-		monitor.setProgress(progress);
+		_monitor = new javax.swing.ProgressMonitor(null, _progressTitle, _progressMessage, 0, _progressLength);
+		_monitor.setProgress(_progress);
 	}
 
 	@Override
 	public void setProgressMessage(final String progressMessage)
 	{
 		super.setProgressMessage(progressMessage);
-		monitor.setNote(progressMessage);
+		_monitor.setNote(progressMessage);
 	}
 
 	@Override
 	public void taskFinished()
 	{
 		super.taskFinished();
-		monitor.close();
+		_monitor.close();
 	}
 
 	@Override
 	protected void updateProgress()
 	{
-		SwingUtilities.invokeLater(() -> monitor.setProgress(progress));
+		SwingUtilities.invokeLater(() -> _monitor.setProgress(_progress));
 	}
 }

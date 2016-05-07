@@ -21,33 +21,33 @@ import java.util.NoSuchElementException;
  */
 public abstract class FilterIterator<T> implements Iterator<T>
 {
-	private final Iterator<T> iterator;
+	private final Iterator<T> _iterator;
 
 	/**
-	 * Next element to be returned, or null if iterator is consumed
+	 * Next element to be returned, or null if _iterator is consumed
 	 */
-	private T next;
+	private T _next;
 
 	public FilterIterator(final Iterator<T> iterator)
 	{
-		this.iterator = iterator;
+		this._iterator = iterator;
 	}
 
 	private void findNext()
 	{
-		if (next != null)
+		if (_next != null)
 			return;
 
-		while (iterator.hasNext())
+		while (_iterator.hasNext())
 		{
-			next = iterator.next();
+			_next = _iterator.next();
 
 			// if this element is filter
-			if (!filter(next))
+			if (!filter(_next))
 				return;
 		}
 
-		next = null;
+		_next = null;
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public abstract class FilterIterator<T> implements Iterator<T>
 	{
 		findNext();
 
-		return next != null;
+		return _next != null;
 	}
 
 	@Override
@@ -64,8 +64,8 @@ public abstract class FilterIterator<T> implements Iterator<T>
 		if (!hasNext())
 			throw new NoSuchElementException();
 
-		final T result = next;
-		next = null;
+		final T result = _next;
+		_next = null;
 
 		return result;
 	}

@@ -40,7 +40,7 @@ public class TaxonomyUtils
 
 	public static boolean addSuperExplanation(final Taxonomy<ATermAppl> t, final ATermAppl sub, final ATermAppl sup, final Set<ATermAppl> explanation)
 	{
-
+		@SuppressWarnings("unchecked")
 		Map<ATermAppl, Set<Set<ATermAppl>>> map = (Map<ATermAppl, Set<Set<ATermAppl>>>) t.getDatum(sub, SUPER_EXPLANATION_KEY);
 		Set<Set<ATermAppl>> explanations;
 		if (map == null)
@@ -93,6 +93,7 @@ public class TaxonomyUtils
 		final Set<I> instances = new HashSet<>();
 		do
 		{
+			@SuppressWarnings("unchecked")
 			final Set<I> current = (Set<I>) i.next();
 			if (current != null)
 				instances.addAll(current);
@@ -111,6 +112,7 @@ public class TaxonomyUtils
 	 */
 	public static <T, I> Set<I> getDirectInstances(final Taxonomy<T> t, final T c)
 	{
+		@SuppressWarnings("unchecked")
 		final Set<I> instances = (Set<I>) t.getDatum(c, INSTANCES_KEY);
 		if (instances == null)
 		{
@@ -125,7 +127,7 @@ public class TaxonomyUtils
 
 	public static Set<Set<ATermAppl>> getSuperExplanations(final Taxonomy<ATermAppl> t, final ATermAppl sub, final ATermAppl sup)
 	{
-
+		@SuppressWarnings("unchecked")
 		final Map<ATermAppl, Set<Set<ATermAppl>>> map = (Map<ATermAppl, Set<Set<ATermAppl>>>) t.getDatum(sub, SUPER_EXPLANATION_KEY);
 		if (map == null)
 			return null;
@@ -152,6 +154,7 @@ public class TaxonomyUtils
 		while (i.hasNext())
 		{
 			final Map.Entry<Set<T>, Object> pair = i.next();
+			@SuppressWarnings("unchecked")
 			final Set<T> instances = (Set<T>) pair.getValue();
 			if (instances != null && instances.contains(ind))
 			{
@@ -182,6 +185,7 @@ public class TaxonomyUtils
 
 		do
 		{
+			@SuppressWarnings("unchecked")
 			final Set<ATermAppl> instances = (Set<ATermAppl>) i.next();
 			if (instances != null && instances.contains(ind))
 				return true;

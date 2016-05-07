@@ -14,8 +14,8 @@ import java.util.NoSuchElementException;
  */
 public abstract class NestedIterator<Outer, Inner> implements Iterator<Inner>
 {
-	private Iterator<? extends Outer> outerIterator;
-	private Iterator<? extends Inner> innerIterator;
+	private Iterator<? extends Outer> _outerIterator;
+	private Iterator<? extends Inner> _innerIterator;
 
 	public NestedIterator(final Iterable<? extends Outer> outerIterable)
 	{
@@ -24,22 +24,22 @@ public abstract class NestedIterator<Outer, Inner> implements Iterator<Inner>
 
 	public NestedIterator(final Iterator<? extends Outer> outerIterator)
 	{
-		this.outerIterator = outerIterator;
+		this._outerIterator = outerIterator;
 		findIterator();
 	}
 
 	private void findIterator()
 	{
-		while (outerIterator.hasNext())
+		while (_outerIterator.hasNext())
 		{
-			final Outer subj = outerIterator.next();
-			innerIterator = getInnerIterator(subj);
+			final Outer subj = _outerIterator.next();
+			_innerIterator = getInnerIterator(subj);
 
-			if (innerIterator.hasNext())
+			if (_innerIterator.hasNext())
 				return;
 		}
 
-		innerIterator = IteratorUtils.emptyIterator();
+		_innerIterator = IteratorUtils.emptyIterator();
 	}
 
 	public abstract Iterator<? extends Inner> getInnerIterator(Outer outer);
@@ -47,7 +47,7 @@ public abstract class NestedIterator<Outer, Inner> implements Iterator<Inner>
 	@Override
 	public boolean hasNext()
 	{
-		return innerIterator.hasNext();
+		return _innerIterator.hasNext();
 	}
 
 	@Override
@@ -56,9 +56,9 @@ public abstract class NestedIterator<Outer, Inner> implements Iterator<Inner>
 		if (!hasNext())
 			throw new NoSuchElementException();
 
-		final Inner value = innerIterator.next();
+		final Inner value = _innerIterator.next();
 
-		if (!innerIterator.hasNext())
+		if (!_innerIterator.hasNext())
 			findIterator();
 
 		return value;
@@ -67,6 +67,6 @@ public abstract class NestedIterator<Outer, Inner> implements Iterator<Inner>
 	@Override
 	public void remove()
 	{
-		innerIterator.remove();
+		_innerIterator.remove();
 	}
 }
