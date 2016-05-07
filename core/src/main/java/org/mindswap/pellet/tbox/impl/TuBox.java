@@ -76,7 +76,7 @@ public class TuBox extends TBoxBase
 		if (td == null)
 		{
 			td = new TermDefinition();
-			termhash.put(name, td);
+			_termhash.put(name, td);
 		}
 
 		added = td.addDef(axiom);
@@ -118,7 +118,7 @@ public class TuBox extends TBoxBase
 	{
 		if (termsToNormalize == null)
 		{
-			termsToNormalize = termhash.keySet();
+			termsToNormalize = _termhash.keySet();
 			unfoldingMap = CollectionUtils.makeIdentityMap();
 		}
 		else
@@ -127,7 +127,7 @@ public class TuBox extends TBoxBase
 
 		for (final ATermAppl c : termsToNormalize)
 		{
-			final TermDefinition td = termhash.get(c);
+			final TermDefinition td = _termhash.get(c);
 			td.clearDependencies();
 
 			final ATermAppl notC = ATermUtils.makeNot(c);
@@ -141,7 +141,7 @@ public class TuBox extends TBoxBase
 				for (final ATermAppl eqClassAxiom : td.getEqClassAxioms())
 				{
 					final ATermAppl unfolded = (ATermAppl) eqClassAxiom.getArgument(1);
-					final Set<ATermAppl> ds = tbox.getAxiomExplanation(eqClassAxiom);
+					final Set<ATermAppl> ds = _tbox.getAxiomExplanation(eqClassAxiom);
 
 					final ATermAppl normalized = ATermUtils.normalize(unfolded);
 					final ATermAppl normalizedNot = ATermUtils.negate(normalized);
@@ -158,7 +158,7 @@ public class TuBox extends TBoxBase
 			for (final ATermAppl subClassAxiom : td.getSubClassAxioms())
 			{
 				final ATermAppl unfolded = (ATermAppl) subClassAxiom.getArgument(1);
-				final Set<ATermAppl> ds = tbox.getAxiomExplanation(subClassAxiom);
+				final Set<ATermAppl> ds = _tbox.getAxiomExplanation(subClassAxiom);
 
 				final ATermAppl normalized = ATermUtils.normalize(unfolded);
 				unfoldC.add(Unfolding.create(normalized, ds));
@@ -174,7 +174,7 @@ public class TuBox extends TBoxBase
 		// termsToNormalize = null;
 
 		if (PelletOptions.USE_ROLE_ABSORPTION)
-			absorbRanges(tbox);
+			absorbRanges(_tbox);
 	}
 
 	private void absorbRanges(final TBoxExpImpl tbox)
@@ -194,7 +194,7 @@ public class TuBox extends TBoxBase
 				final ATerm r = unfolded.getArgument(0);
 				final ATermAppl range = (ATermAppl) unfolded.getArgument(1);
 
-				kb.addRange(r, range, explain);
+				_kb.addRange(r, range, explain);
 
 				tbox.getAbsorbedAxioms().addAll(explain);
 			}
@@ -211,7 +211,7 @@ public class TuBox extends TBoxBase
 							final ATerm r = term.getArgument(0);
 							final ATermAppl range = (ATermAppl) term.getArgument(1);
 
-							kb.addRange(r, range, explain);
+							_kb.addRange(r, range, explain);
 
 							tbox.getAbsorbedAxioms().addAll(explain);
 						}
@@ -274,7 +274,7 @@ public class TuBox extends TBoxBase
 
 		while (!queue.isEmpty())
 		{
-			kb.timers.checkTimer("preprocessing");
+			_kb.timers.checkTimer("preprocessing");
 			final ATermAppl current = queue.remove(queue.size() - 1);
 
 			if (!seen.add(current))

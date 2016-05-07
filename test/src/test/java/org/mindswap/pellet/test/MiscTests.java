@@ -240,7 +240,7 @@ public class MiscTests extends AbstractKBTests
 		kb.addClass(notD);
 
 		kb.addDisjointClass(d, notD);
-		// kb.addSubClass( c, or(e,not(d)) );
+		// _kb.addSubClass( c, or(e,not(d)) );
 
 		kb.addIndividual(x);
 		kb.addIndividual(y3);
@@ -2341,8 +2341,8 @@ public class MiscTests extends AbstractKBTests
 			lower = upper;
 		}
 
-		//		kb.realize();
-		//		kb.printClassTree();
+		//		_kb.realize();
+		//		_kb.printClassTree();
 
 		for (int i = 0; i < n; i++)
 			assertEquals(Collections.singleton(ind[i]), kb.getInstances(cls[i]));

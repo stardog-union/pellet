@@ -86,7 +86,7 @@ public class AllValuesRule extends AbstractTableauRule
 	 */
 	public void applyAllValues(final Individual x, final ATermAppl av, final DependencySet ds)
 	{
-		// Timer _timer = kb.timers.startTimer("applyAllValues");
+		// Timer _timer = _kb.timers.startTimer("applyAllValues");
 
 		if (av.getArity() == 0)
 			throw new InternalReasonerException();

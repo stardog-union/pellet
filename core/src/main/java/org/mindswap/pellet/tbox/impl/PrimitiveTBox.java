@@ -140,7 +140,7 @@ public class PrimitiveTBox
 		return false;
 	}
 
-	public boolean remove(final ATermAppl axiom)
+	public boolean remove(@SuppressWarnings("unused") final ATermAppl axiom)
 	{
 		return false;
 	}

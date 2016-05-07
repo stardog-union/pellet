@@ -42,7 +42,7 @@ import org.mindswap.pellet.utils.URIUtils;
  */
 public abstract class ATermBaseRenderer extends ATermBaseVisitor implements ATermRenderer
 {
-	PrintWriter out;
+	PrintWriter _out;
 
 	/* (non-Javadoc)
 	 * @see org.mindswap.pellet.utils.ATermRenderer#setWriter(org.mindswap.pellet.utils.OutputFormatter)
@@ -50,7 +50,7 @@ public abstract class ATermBaseRenderer extends ATermBaseVisitor implements ATer
 	@Override
 	public void setWriter(final PrintWriter out)
 	{
-		this.out = out;
+		this._out = out;
 	}
 
 	/* (non-Javadoc)
@@ -59,7 +59,7 @@ public abstract class ATermBaseRenderer extends ATermBaseVisitor implements ATer
 	@Override
 	public PrintWriter getWriter()
 	{
-		return out;
+		return _out;
 	}
 
 	/* (non-Javadoc)
@@ -68,7 +68,7 @@ public abstract class ATermBaseRenderer extends ATermBaseVisitor implements ATer
 	@Override
 	public void setWriter(final Writer out)
 	{
-		this.out = new PrintWriter(out);
+		this._out = new PrintWriter(out);
 	}
 
 	/* (non-Javadoc)
@@ -77,6 +77,6 @@ public abstract class ATermBaseRenderer extends ATermBaseVisitor implements ATer
 	@Override
 	public void visitTerm(final ATermAppl term)
 	{
-		out.print(URIUtils.getLocalName(term.getName()));
+		_out.print(URIUtils.getLocalName(term.getName()));
 	}
 }

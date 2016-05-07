@@ -46,48 +46,48 @@ public class ATermManchesterSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitAll(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" only ");
+		_out.print(" only ");
 		visit((ATermAppl) term.getArgument(1));
-		out.print(")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitAnd(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visitList((ATermList) term.getArgument(0), "and");
-		out.print(")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitCard(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" exactly " + ((ATermInt) term.getArgument(1)).getInt());
-		out.print(")");
+		_out.print(" exactly " + ((ATermInt) term.getArgument(1)).getInt());
+		_out.print(")");
 	}
 
 	@Override
 	public void visitHasValue(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" value ");
+		_out.print(" value ");
 		final ATermAppl value = (ATermAppl) ((ATermAppl) term.getArgument(1)).getArgument(0);
 		if (value.getArity() == 0)
 			visitTerm(value);
 		else
 			visitLiteral(value);
-		out.print(")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitInverse(final ATermAppl p)
 	{
-		out.print("inverse ");
+		_out.print("inverse ");
 		visit((ATermAppl) p.getArgument(0));
 	}
 
@@ -99,60 +99,60 @@ public class ATermManchesterSyntaxRenderer extends ATermBaseRenderer
 		final ATermAppl datatypeURI = (ATermAppl) term.getArgument(ATermUtils.LIT_URI_INDEX);
 
 		if (datatypeURI.equals(XSDInteger.getInstance().getName()) || datatypeURI.equals(XSDDecimal.getInstance().getName()))
-			out.print(lexicalValue.getName());
+			_out.print(lexicalValue.getName());
 		else
 			if (datatypeURI.equals(XSDFloat.getInstance().getName()))
 			{
-				out.print(lexicalValue.getName());
-				out.print("f");
+				_out.print(lexicalValue.getName());
+				_out.print("f");
 			}
 			else
 				if (!datatypeURI.equals(ATermUtils.PLAIN_LITERAL_DATATYPE))
 				{
-					out.print(lexicalValue.getName());
-					out.print("^^");
-					out.print(datatypeURI.getName());
+					_out.print(lexicalValue.getName());
+					_out.print("^^");
+					_out.print(datatypeURI.getName());
 				}
 				else
 				{
-					out.print("\"" + lexicalValue.getName() + "\"");
+					_out.print("\"" + lexicalValue.getName() + "\"");
 
 					if (!lang.equals(ATermUtils.EMPTY))
-						out.print("@" + lang);
+						_out.print("@" + lang);
 				}
 	}
 
 	@Override
 	public void visitMax(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" max " + ((ATermInt) term.getArgument(1)).getInt() + " ");
+		_out.print(" max " + ((ATermInt) term.getArgument(1)).getInt() + " ");
 		visit((ATermAppl) term.getArgument(2));
-		out.print(")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitMin(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" min " + ((ATermInt) term.getArgument(1)).getInt() + " ");
+		_out.print(" min " + ((ATermInt) term.getArgument(1)).getInt() + " ");
 		visit((ATermAppl) term.getArgument(2));
-		out.print(")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitNot(final ATermAppl term)
 	{
-		out.print("not ");
+		_out.print("not ");
 		visit((ATermAppl) term.getArgument(0));
 	}
 
 	@Override
 	public void visitOneOf(final ATermAppl term)
 	{
-		out.print("{");
+		_out.print("{");
 		ATermList list = (ATermList) term.getArgument(0);
 		while (!list.isEmpty())
 		{
@@ -160,43 +160,43 @@ public class ATermManchesterSyntaxRenderer extends ATermBaseRenderer
 			visit((ATermAppl) value.getArgument(0));
 			list = list.getNext();
 			if (!list.isEmpty())
-				out.print(" ");
+				_out.print(" ");
 		}
-		out.print("}");
+		_out.print("}");
 	}
 
 	@Override
 	public void visitOr(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visitList((ATermList) term.getArgument(0), "or");
-		out.print(")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitSelf(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" Self)");
+		_out.print(" Self)");
 	}
 
 	@Override
 	public void visitSome(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" some ");
+		_out.print(" some ");
 		visit((ATermAppl) term.getArgument(1));
-		out.print(")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitValue(final ATermAppl term)
 	{
-		out.print("(");
+		_out.print("(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(")");
+		_out.print(")");
 	}
 
 	public void visitList(ATermList list, final String op)
@@ -207,27 +207,27 @@ public class ATermManchesterSyntaxRenderer extends ATermBaseRenderer
 			visit(term);
 			list = list.getNext();
 			if (!list.isEmpty())
-				out.print(" " + op + " ");
+				_out.print(" " + op + " ");
 		}
 	}
 
 	@Override
 	public void visitRestrictedDatatype(final ATermAppl dt)
 	{
-		out.print("");
+		_out.print("");
 		visit((ATermAppl) dt.getArgument(0));
-		out.print("[");
+		_out.print("[");
 		ATermList list = (ATermList) dt.getArgument(1);
 		while (!list.isEmpty())
 		{
 			final ATermAppl facet = (ATermAppl) list.getFirst();
-			out.print(FACETS.get(facet.getArgument(0)));
-			out.print(" ");
+			_out.print(FACETS.get(facet.getArgument(0)));
+			_out.print(" ");
 			visit((ATermAppl) facet.getArgument(1));
 			list = list.getNext();
 			if (!list.isEmpty())
-				out.print(", ");
+				_out.print(", ");
 		}
-		out.print("]");
+		_out.print("]");
 	}
 }

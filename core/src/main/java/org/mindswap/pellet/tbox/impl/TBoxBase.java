@@ -41,27 +41,27 @@ public class TBoxBase
 {
 	public static Logger _log = Logger.getLogger(TBoxBase.class.getName());
 
-	protected KnowledgeBase kb;
-	protected TBoxExpImpl tbox;
+	protected KnowledgeBase _kb;
+	protected TBoxExpImpl _tbox;
 
-	protected Map<ATermAppl, TermDefinition> termhash = CollectionUtils.makeIdentityMap();
+	protected Map<ATermAppl, TermDefinition> _termhash = CollectionUtils.makeIdentityMap();
 
 	public TBoxBase(final TBoxExpImpl tbox)
 	{
-		this.tbox = tbox;
-		this.kb = tbox.getKB();
+		this._tbox = tbox;
+		this._kb = tbox.getKB();
 	}
 
 	public boolean addDef(final ATermAppl def)
 	{
 		final ATermAppl name = (ATermAppl) def.getArgument(0);
-		if (termhash.containsKey(name))
+		if (_termhash.containsKey(name))
 			getTD(name).addDef(def);
 		else
 		{
 			final TermDefinition td = new TermDefinition();
 			td.addDef(def);
-			termhash.put(name, td);
+			_termhash.put(name, td);
 		}
 
 		return true;
@@ -81,18 +81,18 @@ public class TBoxBase
 
 	public boolean contains(final ATerm name)
 	{
-		return termhash.containsKey(name);
+		return _termhash.containsKey(name);
 	}
 
 	public TermDefinition getTD(final ATerm name)
 	{
-		return termhash.get(name);
+		return _termhash.get(name);
 
 	}
 
 	public boolean isEmpty()
 	{
-		return (termhash.size() == 0);
+		return (_termhash.size() == 0);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class TBoxBase
 	 */
 	public int size()
 	{
-		return termhash.size();
+		return _termhash.size();
 	}
 
 }

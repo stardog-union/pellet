@@ -16,6 +16,7 @@ import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngine
 import com.clarkparsia.sparqlowl.parser.arq.ARQTerpParser;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
@@ -311,10 +312,10 @@ public class PelletQuery extends PelletCmdApp
 
 		verbose("Created query engine: " + qe.getClass().getName());
 
-				startTask("query execution");
-				if (query.isSelectType())
-					queryResults = ResultSetFactory.makeRewindable(qe.execSelect());
-				else
+		startTask("query execution");
+		if (query.isSelectType())
+			queryResults = ResultSetFactory.makeRewindable(qe.execSelect());
+		else
 			if (query.isConstructType())
 				constructQueryModel = qe.execConstruct();
 			else
@@ -322,7 +323,7 @@ public class PelletQuery extends PelletCmdApp
 					askQueryResult = qe.execAsk();
 				else
 					throw new UnsupportedOperationException("Unsupported query type");
-				finishTask("query execution");
+		finishTask("query execution");
 	}
 
 	private void printQueryResults()
@@ -390,7 +391,8 @@ public class PelletQuery extends PelletCmdApp
 
 		output("Query Results (" + count + " answers): ");
 
-		final TableData table = new TableData(data, resultVars);
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		final TableData table = new TableData((Collection) data, resultVars);
 		final StringWriter tableSW = new StringWriter();
 		table.print(tableSW);
 		output(tableSW.toString());

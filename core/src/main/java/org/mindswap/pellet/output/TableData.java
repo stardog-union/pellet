@@ -49,34 +49,34 @@ import java.util.List;
  */
 public class TableData
 {
-	Collection data;
+	Collection<Object> _data;
 
-	List colNames;
+	List<?> _colNames;
 
-	boolean[] rightAligned;
+	boolean[] _rightAligned;
 
-	int colWidths[] = null;
+	int _colWidths[] = null;
 
-	String colSep = " | ";
+	String _colSep = " | ";
 
-	public TableData(final Collection data, final List colNames)
+	public TableData(final Collection<Object> data, final List<?> colNames)
 	{
-		this.data = data;
-		this.colNames = colNames;
+		this._data = data;
+		this._colNames = colNames;
 
 		final int cols = colNames.size();
-		colWidths = new int[cols];
-		rightAligned = new boolean[cols];
+		_colWidths = new int[cols];
+		_rightAligned = new boolean[cols];
 	}
 
-	public TableData(final List colNames)
+	public TableData(final List<?> colNames)
 	{
-		this.data = new ArrayList();
-		this.colNames = colNames;
+		this._data = new ArrayList<>();
+		this._colNames = colNames;
 
 		final int cols = colNames.size();
-		colWidths = new int[cols];
-		rightAligned = new boolean[cols];
+		_colWidths = new int[cols];
+		_rightAligned = new boolean[cols];
 	}
 
 	public TableData(final String[] colNames)
@@ -86,32 +86,32 @@ public class TableData
 
 	public void setAlignment(final boolean[] rightAligned)
 	{
-		if (rightAligned.length != colNames.size())
-			throw new IllegalArgumentException("Alignment has " + rightAligned.length + " elements but table has " + colNames.size() + " columns");
+		if (rightAligned.length != _colNames.size())
+			throw new IllegalArgumentException("Alignment has " + rightAligned.length + " elements but table has " + _colNames.size() + " columns");
 
-		this.rightAligned = rightAligned;
+		this._rightAligned = rightAligned;
 	}
 
 	public void setrightAligned(final int colIndex, final boolean rightAligned)
 	{
-		this.rightAligned[colIndex] = rightAligned;
+		this._rightAligned[colIndex] = rightAligned;
 	}
 
 	/**
 	 * @deprecated Use {@link add(List)} instead
 	 */
 	@Deprecated
-	public void addRow(final List row)
+	public void addRow(final List<?> row)
 	{
 		add(row);
 	}
 
-	public void add(final List row)
+	public void add(final List<?> row)
 	{
-		if (row.size() != colNames.size())
-			throw new IllegalArgumentException("Row has " + row.size() + " elements but table has " + colNames.size() + " columns");
+		if (row.size() != _colNames.size())
+			throw new IllegalArgumentException("Row has " + row.size() + " elements but table has " + _colNames.size() + " columns");
 
-		data.add(row);
+		_data.add(row);
 	}
 
 	public void print(final OutputStream writer)
@@ -133,35 +133,35 @@ public class TableData
 	{
 		final PrintWriter pw = (writer instanceof PrintWriter) ? (PrintWriter) writer : new PrintWriter(writer);
 
-				computeHeaderWidths();
-				computeRowWidths();
+		computeHeaderWidths();
+		computeRowWidths();
 
-				final int lineWidth = computeLineWidth();
-				final int numCols = colNames.size();
+		final int lineWidth = computeLineWidth();
+		final int numCols = _colNames.size();
 
-				final String[] row = new String[numCols];
-				for (int col = 0; col < row.length; col++)
-					row[col] = colNames.get(col).toString();
-				printRow(pw, row);
+		final String[] row = new String[numCols];
+		for (int col = 0; col < row.length; col++)
+			row[col] = _colNames.get(col).toString();
+		printRow(pw, row);
 
-				for (int i = 0; i < lineWidth; i++)
-					pw.print('=');
-				pw.println();
+		for (int i = 0; i < lineWidth; i++)
+			pw.print('=');
+		pw.println();
 
-				for (final Iterator i = data.iterator(); i.hasNext();)
+		for (final Iterator<Object> i = _data.iterator(); i.hasNext();)
 		{
-					final Collection rowData = (Collection) i.next();
+			final Collection<?> rowData = (Collection<?>) i.next();
 
-					final Iterator j = rowData.iterator();
-					for (int col = 0; j.hasNext(); col++)
+			final Iterator<?> j = rowData.iterator();
+			for (int col = 0; j.hasNext(); col++)
 			{
-						final Object value = j.next();
-						row[col] = value == null ? "<null>" : value.toString();
-					}
-					printRow(pw, row);
-				}
+				final Object value = j.next();
+				row[col] = value == null ? "<null>" : value.toString();
+			}
+			printRow(pw, row);
+		}
 
-				pw.flush();
+		pw.flush();
 	}
 
 	private void printRow(final PrintWriter pw, final String[] row)
@@ -169,19 +169,19 @@ public class TableData
 		for (int col = 0; col < row.length; col++)
 		{
 			final String s = row[col];
-			final int pad = colWidths[col];
+			final int pad = _colWidths[col];
 			final StringBuffer sbuff = new StringBuffer(120);
 
 			if (col > 0)
-				sbuff.append(colSep);
+				sbuff.append(_colSep);
 
-			if (!rightAligned[col])
+			if (!_rightAligned[col])
 				sbuff.append(s);
 
 			for (int j = 0; j < pad - s.length(); j++)
 				sbuff.append(' ');
 
-			if (rightAligned[col])
+			if (_rightAligned[col])
 				sbuff.append(s);
 
 			pw.print(sbuff);
@@ -191,72 +191,74 @@ public class TableData
 
 	private int computeLineWidth()
 	{
-		final int numCols = colWidths.length;
+		final int numCols = _colWidths.length;
 		int lineWidth = 0;
 		for (int i = 0; i < numCols; i++)
-			lineWidth += colWidths[i];
+			lineWidth += _colWidths[i];
 
-		lineWidth += (numCols - 1) * colSep.length();
+		lineWidth += (numCols - 1) * _colSep.length();
 
 		return lineWidth;
 	}
 
 	private void computeHeaderWidths()
 	{
-		final Iterator k = colNames.iterator();
+		final Iterator<?> k = _colNames.iterator();
 		for (int col = 0; k.hasNext(); col++)
 		{
 			final Object value = k.next();
 			final String str = (value == null) ? "<null>" : value.toString();
-			colWidths[col] = str.length();
+			_colWidths[col] = str.length();
 		}
 	}
 
 	private void computeRowWidths()
 	{
-		for (final Iterator i = data.iterator(); i.hasNext();)
+		for (final Iterator<Object> i = _data.iterator(); i.hasNext();)
 		{
-			final Collection rowData = (Collection) i.next();
+			final Collection<?> rowData = (Collection<?>) i.next();
 
-			final Iterator j = rowData.iterator();
+			final Iterator<?> j = rowData.iterator();
 			for (int col = 0; j.hasNext(); col++)
 			{
 				final Object value = j.next();
 				final String str = (value == null) ? "<null>" : value.toString();
 
-				if (colWidths[col] < str.length())
-					colWidths[col] = str.length();
+				if (_colWidths[col] < str.length())
+					_colWidths[col] = str.length();
 			}
 		}
 	}
 
 	public int getRowCount()
 	{
-		return data.size();
+		return _data.size();
 	}
 
 	public int getColCount()
 	{
-		return colNames.size();
+		return _colNames.size();
 	}
 
 	public void sort(final String colName)
 	{
-		sort(colNames.indexOf(colName));
+		sort(_colNames.indexOf(colName));
 	}
 
-	public void sort(final int col)
+	@SuppressWarnings("unchecked")
+	public <T> void sort(final int col)
 	{
-		final Object a[] = data.toArray();
-		Arrays.sort(a, (l1, l2) -> ((Comparable) ((List) l1).get(col)).compareTo(((List) l2).get(col)));
-		data = Arrays.asList(a);
+		final Object a[] = _data.toArray();
+		Arrays.sort(a, (l1, l2) -> ((Comparable<T>) ((List<T>) l1).get(col)).compareTo(((List<T>) l2).get(col)));
+		_data = Arrays.asList(a);
 	}
 
-	public void sort(final int col, final Comparator c)
+	@SuppressWarnings("unchecked")
+	public <T> void sort(final int col, final Comparator<T> c)
 	{
-		final Object a[] = data.toArray();
-		Arrays.sort(a, (l1, l2) -> c.compare(((List) l1).get(col), ((List) l2).get(col)));
-		data = Arrays.asList(a);
+		final Object a[] = _data.toArray();
+		Arrays.sort(a, (l1, l2) -> c.compare(((List<T>) l1).get(col), ((List<T>) l2).get(col)));
+		_data = Arrays.asList(a);
 	}
 
 	@Override

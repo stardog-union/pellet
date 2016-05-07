@@ -54,29 +54,29 @@ public class TBoxExpImpl implements TBox
 
 	private static final Set<Set<ATermAppl>> SINGLE_EMPTY_SET = Collections.singleton(Collections.<ATermAppl> emptySet());
 
-	protected KnowledgeBase kb;
+	protected KnowledgeBase _kb;
 
-	protected Set<ATermAppl> classes = CollectionUtils.makeIdentitySet();
-	private Set<ATermAppl> allClasses;
+	protected Set<ATermAppl> _classes = CollectionUtils.makeIdentitySet();
+	private Set<ATermAppl> _allClasses;
 
 	/**
 	 * MultiValueMap where key is an axiom and the values are the explanations of the key
 	 */
-	private final Map<ATermAppl, Set<Set<ATermAppl>>> tboxAxioms = CollectionUtils.makeIdentityMap();
+	private final Map<ATermAppl, Set<Set<ATermAppl>>> _tboxAxioms = CollectionUtils.makeIdentityMap();
 	/**
 	 * MultiValueMap where key is an axiom and the values are axioms for which the key is a part of an clashExplanation
 	 */
-	private final Map<ATermAppl, Set<ATermAppl>> reverseExplain = CollectionUtils.makeIdentityMap();
+	private final Map<ATermAppl, Set<ATermAppl>> _reverseExplain = CollectionUtils.makeIdentityMap();
 
-	private final Set<ATermAppl> tboxAssertedAxioms = CollectionUtils.makeIdentitySet();
+	private final Set<ATermAppl> _tboxAssertedAxioms = CollectionUtils.makeIdentitySet();
 
 	/**
 	 * Set of axioms that have been absorbed into ABox or RBox
 	 */
-	private final Set<ATermAppl> absorbedAxioms = CollectionUtils.makeIdentitySet();
+	private final Set<ATermAppl> _absorbedAxioms = CollectionUtils.makeIdentitySet();
 
-	public TuBox Tu = null;
-	public TgBox Tg = null;
+	public TuBox _Tu = null;
+	public TgBox _Tg = null;
 
 	/*
 	 * Constructors
@@ -84,41 +84,41 @@ public class TBoxExpImpl implements TBox
 
 	public TBoxExpImpl(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 
-		Tu = new TuBox(this);
-		Tg = new TgBox(this);
+		_Tu = new TuBox(this);
+		_Tg = new TgBox(this);
 
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 	public KnowledgeBase getKB()
 	{
-		return kb;
+		return _kb;
 	}
 
 	@Override
 	public Set<ATermAppl> getAllClasses()
 	{
-		if (allClasses == null)
+		if (_allClasses == null)
 		{
-			allClasses = new HashSet<>(classes);
-			allClasses.add(ATermUtils.TOP);
-			allClasses.add(ATermUtils.BOTTOM);
+			_allClasses = new HashSet<>(_classes);
+			_allClasses.add(ATermUtils.TOP);
+			_allClasses.add(ATermUtils.BOTTOM);
 		}
-		return allClasses;
+		return _allClasses;
 	}
 
 	@Override
 	public Set<Set<ATermAppl>> getAxiomExplanations(final ATermAppl axiom)
 	{
-		return tboxAxioms.get(axiom);
+		return _tboxAxioms.get(axiom);
 	}
 
 	@Override
 	public Set<ATermAppl> getAxiomExplanation(final ATermAppl axiom)
 	{
-		final Set<Set<ATermAppl>> explains = tboxAxioms.get(axiom);
+		final Set<Set<ATermAppl>> explains = _tboxAxioms.get(axiom);
 
 		if (explains == null || explains.isEmpty())
 		{
@@ -149,14 +149,14 @@ public class TBoxExpImpl implements TBox
 
 		boolean added = false;
 		if (!PelletOptions.USE_TRACING)
-			added = tboxAxioms.put(axiom, SINGLE_EMPTY_SET) == null;
+			added = _tboxAxioms.put(axiom, SINGLE_EMPTY_SET) == null;
 		else
-			added = MultiMapUtils.add(tboxAxioms, axiom, explain);
+			added = MultiMapUtils.add(_tboxAxioms, axiom, explain);
 
 		if (added)
 			for (final ATermAppl explainAxiom : explain)
 				if (!axiom.equals(explainAxiom))
-					MultiMapUtils.add(reverseExplain, explainAxiom, axiom);
+					MultiMapUtils.add(_reverseExplain, explainAxiom, axiom);
 
 		return added;
 	}
@@ -176,15 +176,15 @@ public class TBoxExpImpl implements TBox
 	@Override
 	public boolean addAxiom(final ATermAppl axiom)
 	{
-		tboxAssertedAxioms.add(axiom);
+		_tboxAssertedAxioms.add(axiom);
 
 		List<ATermAppl> axioms = null;
 
 		final Set<ATermAppl> explain = PelletOptions.USE_TRACING ? Collections.singleton(axiom) : Collections.<ATermAppl> emptySet();
 
 		if (axiom.getAFun().equals(ATermUtils.EQCLASSFUN))
-					axioms = Collections.singletonList(axiom);
-				else
+			axioms = Collections.singletonList(axiom);
+		else
 			if (axiom.getAFun().equals(ATermUtils.SUBFUN))
 				axioms = Collections.singletonList(axiom);
 			else
@@ -218,12 +218,12 @@ public class TBoxExpImpl implements TBox
 						return false;
 					}
 
-				boolean added = false;
-				for (final ATermAppl a : axioms)
-					if (absorbNominals(a, explain))
-						added = true;
-					else
-						added |= addAxiom(a, explain, false);
+		boolean added = false;
+		for (final ATermAppl a : axioms)
+			if (absorbNominals(a, explain))
+				added = true;
+			else
+				added |= addAxiom(a, explain, false);
 
 		return added;
 	}
@@ -231,7 +231,7 @@ public class TBoxExpImpl implements TBox
 	protected boolean absorbNominals(ATermAppl axiom, final Set<ATermAppl> explain)
 	{
 		// absorb nominals on the fly because sometimes they might _end up in the
-		// Tu directly without going into Tg which is still less effective than
+		// _Tu directly without going into _Tg which is still less effective than
 		// absorbing
 		if (PelletOptions.USE_NOMINAL_ABSORPTION || PelletOptions.USE_PSEUDO_NOMINALS)
 			if (axiom.getAFun().equals(ATermUtils.EQCLASSFUN))
@@ -243,12 +243,12 @@ public class TBoxExpImpl implements TBox
 				if (ATermUtils.isOneOf(c1))
 				{
 					// absorb SubClassOf(c1,c2)
-					Tg.absorbOneOf(c1, c2, explain);
+					_Tg.absorbOneOf(c1, c2, explain);
 					// the second concept is oneOf
 					if (ATermUtils.isOneOf(c2))
 					{
 						// absorb SubClassOf(c2,c1)
-						Tg.absorbOneOf(c2, c1, explain);
+						_Tg.absorbOneOf(c2, c1, explain);
 						// axioms completely absorbed so return
 						return true;
 					}
@@ -260,7 +260,7 @@ public class TBoxExpImpl implements TBox
 				else
 					if (ATermUtils.isOneOf(c2))
 						// absorb SubClassOf(c2,c1)
-						Tg.absorbOneOf(c2, c1, explain);
+						_Tg.absorbOneOf(c2, c1, explain);
 			}
 			else
 				if (axiom.getAFun().equals(ATermUtils.SUBFUN))
@@ -270,7 +270,7 @@ public class TBoxExpImpl implements TBox
 					if (ATermUtils.isOneOf(sub))
 					{
 						final ATermAppl sup = (ATermAppl) axiom.getArgument(1);
-						Tg.absorbOneOf(sub, sup, explain);
+						_Tg.absorbOneOf(sub, sup, explain);
 						return true;
 					}
 				}
@@ -283,7 +283,7 @@ public class TBoxExpImpl implements TBox
 		final boolean added = addAxiomExplanation(axiom, explain);
 
 		if (added || forceAddition)
-			if (!Tu.addIfUnfoldable(axiom))
+			if (!_Tu.addIfUnfoldable(axiom))
 				if (axiom.getAFun().equals(ATermUtils.EQCLASSFUN))
 				{
 					// Try reversing the term if it is a 'same' construct
@@ -291,13 +291,13 @@ public class TBoxExpImpl implements TBox
 					final ATermAppl desc = (ATermAppl) axiom.getArgument(1);
 					final ATermAppl reversedAxiom = ATermUtils.makeEqClasses(desc, name);
 
-					if (!Tu.addIfUnfoldable(reversedAxiom))
-						Tg.addDef(axiom);
+					if (!_Tu.addIfUnfoldable(reversedAxiom))
+						_Tg.addDef(axiom);
 					else
 						addAxiomExplanation(reversedAxiom, explain);
 				}
 				else
-					Tg.addDef(axiom);
+					_Tg.addDef(axiom);
 
 		return added;
 	}
@@ -319,14 +319,14 @@ public class TBoxExpImpl implements TBox
 			return false;
 		}
 
-		if (absorbedAxioms.contains(dependantAxiom))
+		if (_absorbedAxioms.contains(dependantAxiom))
 		{
 			if (log.isLoggable(Level.FINE))
 				log.fine("Cannot remove axioms that have been absorbed outside TBox");
 			return false;
 		}
 
-		tboxAssertedAxioms.remove(dependantAxiom);
+		_tboxAssertedAxioms.remove(dependantAxiom);
 
 		final Set<ATermAppl> sideEffects = new HashSet<>();
 		final boolean removed = removeExplanation(dependantAxiom, explanationAxiom, sideEffects);
@@ -335,7 +335,7 @@ public class TBoxExpImpl implements TBox
 		// removal. For example see TBoxTests.removedByAbsorbReaddedOnChange
 		for (final ATermAppl readdAxiom : sideEffects)
 		{
-			final Set<Set<ATermAppl>> explanations = tboxAxioms.get(readdAxiom);
+			final Set<Set<ATermAppl>> explanations = _tboxAxioms.get(readdAxiom);
 			// if the axiom is really removed (and not just side-effected)
 			// then there wouldn't be any clashExplanation and we shouldn't readd
 			if (explanations != null)
@@ -365,9 +365,9 @@ public class TBoxExpImpl implements TBox
 			log.fine("Removing " + ATermUtils.toString(explanationAxiom));
 
 		// this axiom is being removed so it cannot support any other axiom
-		MultiMapUtils.remove(reverseExplain, explanationAxiom, dependantAxiom);
+		MultiMapUtils.remove(_reverseExplain, explanationAxiom, dependantAxiom);
 
-		final Set<Set<ATermAppl>> explains = tboxAxioms.get(dependantAxiom);
+		final Set<Set<ATermAppl>> explains = _tboxAxioms.get(dependantAxiom);
 		final Set<Set<ATermAppl>> newExplains = new HashSet<>();
 
 		if (explains != null)
@@ -384,10 +384,10 @@ public class TBoxExpImpl implements TBox
 		{
 			// there are still other axioms supporting this axiom so it won't be
 			// removed but we still need to update the explanations
-			tboxAxioms.put(dependantAxiom, newExplains);
+			_tboxAxioms.put(dependantAxiom, newExplains);
 
 			// also make sure the concept on the left hand side is normalized
-			Tu.updateDef(dependantAxiom);
+			_Tu.updateDef(dependantAxiom);
 
 			// this axiom is not removed but the operation is successful (so far)
 			success = true;
@@ -396,21 +396,21 @@ public class TBoxExpImpl implements TBox
 		{
 			// there is no other clashExplanation for this dependant axiom so
 			// we can safely remove it
-			success |= (tboxAxioms.remove(dependantAxiom) != null);
+			success |= (_tboxAxioms.remove(dependantAxiom) != null);
 
 			final AFun fun = dependantAxiom.getAFun();
 			if (fun.equals(ATermUtils.SUBFUN) || fun.equals(ATermUtils.EQCLASSFUN))
 			{
-				// remove the axiom fom Tu and Tg
-				success |= Tu.removeDef(dependantAxiom);
-				success |= Tg.removeDef(dependantAxiom);
+				// remove the axiom fom _Tu and _Tg
+				success |= _Tu.removeDef(dependantAxiom);
+				success |= _Tg.removeDef(dependantAxiom);
 			}
 		}
 
 		// find if this axiom supports any other axiom
 		// note that it is possible dependantAxiom itself is not removed but an axiom that dependantAxiom supports
 		// will be removed. this situation occurs typically when there is redundancy in the TBox.
-		final Set<ATermAppl> otherDependants = reverseExplain.remove(dependantAxiom);
+		final Set<ATermAppl> otherDependants = _reverseExplain.remove(dependantAxiom);
 		if (otherDependants != null)
 			for (final ATermAppl otherDependant : otherDependants)
 			{
@@ -428,28 +428,28 @@ public class TBoxExpImpl implements TBox
 	@Override
 	public Collection<ATermAppl> getAxioms()
 	{
-		return tboxAxioms.keySet();
+		return _tboxAxioms.keySet();
 	}
 
 	@Override
 	public Collection<ATermAppl> getAssertedAxioms()
 	{
-		return tboxAssertedAxioms;
+		return _tboxAssertedAxioms;
 	}
 
 	public Collection<ATermAppl> getAbsorbedAxioms()
 	{
-		return absorbedAxioms;
+		return _absorbedAxioms;
 	}
 
 	public boolean containsAxiom(final ATermAppl axiom)
 	{
-		return tboxAxioms.containsKey(axiom);
+		return _tboxAxioms.containsKey(axiom);
 	}
 
 	public void absorb()
 	{
-		Tg.absorb();
+		_Tg.absorb();
 	}
 
 	public void print()
@@ -469,16 +469,16 @@ public class TBoxExpImpl implements TBox
 	{
 		try
 		{
-			Tu.print(str);
-			Tg.print(str);
+			_Tu.print(str);
+			_Tg.print(str);
 			str.append("Explain: [\n");
-			for (final ATermAppl axiom : tboxAxioms.keySet())
+			for (final ATermAppl axiom : _tboxAxioms.keySet())
 			{
 				str.append(ATermUtils.toString(axiom));
 				str.append(" -> ");
 				str.append("[");
 				boolean first = true;
-				for (final Set<ATermAppl> axioms : tboxAxioms.get(axiom))
+				for (final Set<ATermAppl> axioms : _tboxAxioms.get(axiom))
 				{
 					if (first)
 						first = false;
@@ -490,11 +490,11 @@ public class TBoxExpImpl implements TBox
 				str.append("\n");
 			}
 			str.append("]\nReverseExplain: [\n");
-			for (final ATermAppl axiom : reverseExplain.keySet())
+			for (final ATermAppl axiom : _reverseExplain.keySet())
 			{
 				str.append(ATermUtils.toString(axiom));
 				str.append(" -> ");
-				str.append(ATermUtils.toString(reverseExplain.get(axiom)));
+				str.append(ATermUtils.toString(_reverseExplain.get(axiom)));
 				str.append("\n");
 			}
 			str.append("]\n");
@@ -508,10 +508,10 @@ public class TBoxExpImpl implements TBox
 	@Override
 	public boolean addClass(final ATermAppl term)
 	{
-		final boolean added = classes.add(term);
+		final boolean added = _classes.add(term);
 
 		if (added)
-			allClasses = null;
+			_allClasses = null;
 
 		return added;
 	}
@@ -519,20 +519,20 @@ public class TBoxExpImpl implements TBox
 	@Override
 	public Set<ATermAppl> getClasses()
 	{
-		return classes;
+		return _classes;
 	}
 
 	@Override
 	public Collection<ATermAppl> getAxioms(final ATermAppl term)
 	{
 		final List<ATermAppl> axioms = new ArrayList<>();
-		TermDefinition def = Tg.getTD(term);
+		TermDefinition def = _Tg.getTD(term);
 		if (def != null)
 		{
 			axioms.addAll(def.getSubClassAxioms());
 			axioms.addAll(def.getEqClassAxioms());
 		}
-		def = Tu.getTD(term);
+		def = _Tu.getTD(term);
 		if (def != null)
 		{
 			axioms.addAll(def.getSubClassAxioms());
@@ -545,24 +545,24 @@ public class TBoxExpImpl implements TBox
 	@Override
 	public void prepare()
 	{
-		Tg.absorb();
-		Tg.internalize();
-		Tu.normalize();
+		_Tg.absorb();
+		_Tg.internalize();
+		_Tu.normalize();
 	}
 
 	@Override
 	public Iterator<Unfolding> unfold(final ATermAppl c)
 	{
-		final MultiIterator<Unfolding> result = new MultiIterator<>(Tu.unfold(c).iterator());
-		if (c.equals(TOP) && !Tg.getUC().isEmpty())
-			result.append(Tg.getUC().iterator());
+		final MultiIterator<Unfolding> result = new MultiIterator<>(_Tu.unfold(c).iterator());
+		if (c.equals(TOP) && !_Tg.getUC().isEmpty())
+			result.append(_Tg.getUC().iterator());
 		return result;
 	}
 
 	@Override
 	public boolean isPrimitive(final ATermAppl c)
 	{
-		final TermDefinition td = Tu.getTD(c);
+		final TermDefinition td = _Tu.getTD(c);
 		return ATermUtils.isPrimitive(c) && (td == null || td.isPrimitive());
 	}
 }

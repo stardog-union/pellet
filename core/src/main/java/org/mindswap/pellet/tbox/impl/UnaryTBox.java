@@ -39,20 +39,20 @@ public class UnaryTBox
 {
 	public static final Logger log = Logger.getLogger(UnaryTBox.class.getName());
 
-	private Map<ATermAppl, List<Unfolding>> unfoldings = CollectionUtils.makeIdentityMap();
+	private Map<ATermAppl, List<Unfolding>> _unfoldings = CollectionUtils.makeIdentityMap();
 
 	public UnaryTBox()
 	{
-		unfoldings = CollectionUtils.makeIdentityMap();
+		_unfoldings = CollectionUtils.makeIdentityMap();
 	}
 
 	public void add(final ATermAppl sub, ATermAppl sup, final Set<ATermAppl> explanation)
 	{
-		List<Unfolding> list = unfoldings.get(sub);
+		List<Unfolding> list = _unfoldings.get(sub);
 		if (list == null)
 		{
 			list = CollectionUtils.makeList();
-			unfoldings.put(sub, list);
+			_unfoldings.put(sub, list);
 		}
 
 		sup = ATermUtils.normalize(sup);
@@ -63,7 +63,7 @@ public class UnaryTBox
 		list.add(Unfolding.create(sup, explanation));
 	}
 
-	public boolean remove(final ATermAppl axiom)
+	public boolean remove(@SuppressWarnings("unused") final ATermAppl axiom)
 	{
 		// TODO Auto-generated method stub
 		return false;
@@ -71,13 +71,13 @@ public class UnaryTBox
 
 	public Iterator<Unfolding> unfold(final ATermAppl concept)
 	{
-		final List<Unfolding> unfoldingList = unfoldings.get(concept);
+		final List<Unfolding> unfoldingList = _unfoldings.get(concept);
 		return unfoldingList == null ? IteratorUtils.<Unfolding> emptyIterator() : unfoldingList.iterator();
 	}
 
 	public void print(final Appendable out) throws IOException
 	{
-		for (final Entry<ATermAppl, List<Unfolding>> e : unfoldings.entrySet())
+		for (final Entry<ATermAppl, List<Unfolding>> e : _unfoldings.entrySet())
 		{
 			out.append(ATermUtils.toString(e.getKey()));
 			out.append(" < ");

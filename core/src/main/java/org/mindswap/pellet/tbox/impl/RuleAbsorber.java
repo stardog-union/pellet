@@ -52,7 +52,7 @@ import org.mindswap.pellet.utils.Namespaces;
  */
 public class RuleAbsorber
 {
-	public static final Logger log = TgBox.log;
+	public static final Logger log = TBoxBase._log;
 
 	public static final Map<ATermAppl, String> FACETS;
 	static
@@ -64,13 +64,13 @@ public class RuleAbsorber
 		FACETS.put(Facet.XSD.MAX_EXCLUSIVE.getName(), Namespaces.SWRLB + "lessThan");
 	}
 
-	private final KnowledgeBase kb;
-	private final TuBox Tu;
+	private final KnowledgeBase _kb;
+	private final TuBox _Tu;
 
 	public RuleAbsorber(final TBoxExpImpl tbox)
 	{
-		this.kb = tbox.getKB();
-		this.Tu = tbox.Tu;
+		this._kb = tbox.getKB();
+		this._Tu = tbox._Tu;
 	}
 
 	public boolean absorbRule(final Set<ATermAppl> set, final Set<ATermAppl> explanation)
@@ -81,7 +81,7 @@ public class RuleAbsorber
 		for (final ATermAppl term : set)
 			if (ATermUtils.isPrimitive(term))
 			{
-				final TermDefinition td = Tu.getTD(term);
+				final TermDefinition td = _Tu.getTD(term);
 				if (td == null || td.getEqClassAxioms().isEmpty())
 					primitiveClassAtoms++;
 			}
@@ -107,7 +107,7 @@ public class RuleAbsorber
 		processClass(var, ATermUtils.negate(head), headAtoms, 1);
 
 		final Rule rule = new Rule(headAtoms, bodyAtoms, explanation);
-		kb.addRule(rule);
+		_kb.addRule(rule);
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Absorbed rule: " + rule);
@@ -133,7 +133,7 @@ public class RuleAbsorber
 				if (filler.getAFun().equals(ATermUtils.VALUEFUN))
 				{
 					final ATermAppl nominal = (ATermAppl) filler.getArgument(0);
-					if (kb.isDatatypeProperty(p))
+					if (_kb.isDatatypeProperty(p))
 					{
 						final AtomDConstant arg = new AtomDConstant(nominal);
 						final RuleAtom atom = new DatavaluedPropertyAtom(p, var, arg);
@@ -149,7 +149,7 @@ public class RuleAbsorber
 				else
 				{
 					varCount++;
-					if (kb.isDatatypeProperty(p))
+					if (_kb.isDatatypeProperty(p))
 					{
 						final AtomDObject newVar = new AtomDVariable("var" + varCount);
 						final RuleAtom atom = new DatavaluedPropertyAtom(p, var, newVar);

@@ -48,14 +48,14 @@ public abstract class Unfolding
 
 	private static class Unconditional extends Unfolding
 	{
-		private final ATermAppl result;
+		private final ATermAppl _result;
 
-		private final Set<ATermAppl> explanation;
+		private final Set<ATermAppl> _explanation;
 
 		private Unconditional(final ATermAppl result, final Set<ATermAppl> explanation)
 		{
-			this.result = result;
-			this.explanation = explanation;
+			this._result = result;
+			this._explanation = explanation;
 		}
 
 		@Override
@@ -67,7 +67,7 @@ public abstract class Unfolding
 				return false;
 			final Unconditional other = (Unconditional) obj;
 
-			return getCondition().equals(other.getCondition()) && explanation.equals(other.explanation) && result.equals(other.result);
+			return getCondition().equals(other.getCondition()) && _explanation.equals(other._explanation) && _result.equals(other._result);
 		}
 
 		@Override
@@ -79,13 +79,13 @@ public abstract class Unfolding
 		@Override
 		public Set<ATermAppl> getExplanation()
 		{
-			return explanation;
+			return _explanation;
 		}
 
 		@Override
 		public ATermAppl getResult()
 		{
-			return result;
+			return _result;
 		}
 
 		@Override
@@ -94,39 +94,39 @@ public abstract class Unfolding
 			final int prime = 31;
 			int hashCode = 1;
 			hashCode = prime * hashCode + getCondition().hashCode();
-			hashCode = prime * hashCode + explanation.hashCode();
-			hashCode = prime * hashCode + result.hashCode();
+			hashCode = prime * hashCode + _explanation.hashCode();
+			hashCode = prime * hashCode + _result.hashCode();
 			return hashCode;
 		}
 
 		@Override
 		public String toString()
 		{
-			return ATermUtils.toString(result);
+			return ATermUtils.toString(_result);
 		}
 	}
 
 	private static class Conditional extends Unconditional
 	{
-		private final ATermAppl condition;
+		private final ATermAppl _condition;
 
 		private Conditional(final ATermAppl result, final ATermAppl condition, final Set<ATermAppl> explanation)
 		{
 			super(result, explanation);
 
-			this.condition = condition;
+			this._condition = condition;
 		}
 
 		@Override
 		public ATermAppl getCondition()
 		{
-			return condition;
+			return _condition;
 		}
 
 		@Override
 		public String toString()
 		{
-			return ATermUtils.toString(condition) + " ? " + ATermUtils.toString(getResult());
+			return ATermUtils.toString(_condition) + " ? " + ATermUtils.toString(getResult());
 		}
 	}
 }

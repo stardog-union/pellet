@@ -613,7 +613,7 @@ public class MiscRuleTests extends AbstractKBTests
 		kb.addIndividual(b);
 		kb.addIndividual(c);
 
-		// kb.addType( a, D );
+		// _kb.addType( a, D );
 		kb.addType(b, C);
 		kb.addType(c, C);
 

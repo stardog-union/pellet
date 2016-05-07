@@ -661,7 +661,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 		assertFalse(reasoner.isEntailed(subClassOf(PersonWithAtLeastTwoFemaleChildren, PersonWithAtLeastTwoMaleChildren)));
 		assertFalse(reasoner.isEntailed(subClassOf(PersonWithAtLeastTwoMaleChildren, PersonWithAtLeastTwoFemaleChildren)));
 
-		// kb.timers.print();
+		// _kb.timers.print();
 	}
 
 	/*
@@ -676,7 +676,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	//		PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner( ont );
 	//		assertTrue( reasoner.isConsistent() );
 	//
-	//		KnowledgeBase kb = reasoner.getKB();
+	//		KnowledgeBase _kb = reasoner.getKB();
 	//
 	//		assertTrue( reasoner.isDefined( Individual( ns + "a" ) ) );
 	//		assertEquals( 1, reasoner.getIndividuals().size() );
@@ -684,12 +684,12 @@ public class OWLAPITests extends AbstractOWLAPITests
 	//		assertTrue( reasoner.isDefined( Class( ns + "C" ) ) );
 	//		assertEquals( 1, reasoner.getClasses().size() );
 	//		// FIXME: OWLAPI should support Datatype definition checking
-	//		assertFalse( kb.isDatatype( ATermUtils.makeTermAppl( ns + "C" ) ) );
+	//		assertFalse( _kb.isDatatype( ATermUtils.makeTermAppl( ns + "C" ) ) );
 	//
 	//		assertFalse( reasoner.isDefined( Class( ns + "D" ) ) );
 	//		// FIXME: OWLAPI should support Datatype definition checking
 	//		// FIXME: OWLAPI loader does not parse Datatype declarations
-	//		//assertTrue( kb.isDatatype( ATermUtils.makeTermAppl( ns + "D" ) ) );
+	//		//assertTrue( _kb.isDatatype( ATermUtils.makeTermAppl( ns + "D" ) ) );
 	//
 	//		/* FIXME: There is no positive check here because OWLAPI does not support annotation property declaration. */
 	//		assertFalse( reasoner.isDefined( DataProperty( ns + "p" ) ) );
@@ -697,12 +697,12 @@ public class OWLAPITests extends AbstractOWLAPITests
 	//		
 	//		assertTrue( reasoner.isDefined( ObjectProperty( ns + "q" ) ) );
 	//		assertEquals( 2 + 1, reasoner.getObjectProperties().size() );
-	//		assertFalse( kb.isAnnotationProperty( ATermUtils.makeTermAppl( ns + "r" ) ) );
+	//		assertFalse( _kb.isAnnotationProperty( ATermUtils.makeTermAppl( ns + "r" ) ) );
 	//		assertFalse( reasoner.isDefined( DataProperty( ns + "q" ) ) );
 	//
 	//		assertTrue( reasoner.isDefined( DataProperty( ns + "r" ) ) );
 	//		assertEquals( 2 + 1, reasoner.getDataProperties().size() );
-	//		assertFalse( kb.isAnnotationProperty( ATermUtils.makeTermAppl( ns + "r" ) ) );
+	//		assertFalse( _kb.isAnnotationProperty( ATermUtils.makeTermAppl( ns + "r" ) ) );
 	//		assertFalse( reasoner.isDefined( ObjectProperty( ns + "r" ) ) );
 	//	}
 

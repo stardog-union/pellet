@@ -54,7 +54,7 @@ public class POTaxonomyBuilder implements TaxonomyBuilder
 		throw new UnsupportedOperationException();
 		/*
 		 * CDOptimizedTaxonomyBuilder b = new CDOptimizedTaxonomyBuilder();
-		 * b.setKB( kb ); b.classify(); return b.realize();
+		 * b.setKB( _kb ); b.classify(); return b.realize();
 		 */
 	}
 

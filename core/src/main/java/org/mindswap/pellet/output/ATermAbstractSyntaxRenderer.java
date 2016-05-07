@@ -48,9 +48,9 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitAnd(final ATermAppl term)
 	{
-		out.print("intersectionOf(");
+		_out.print("intersectionOf(");
 		visitList((ATermList) term.getArgument(0));
-		out.print(")");
+		_out.print(")");
 	}
 
 	/* (non-Javadoc)
@@ -59,9 +59,9 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitOr(final ATermAppl term)
 	{
-		out.print("unionOf(");
+		_out.print("unionOf(");
 		visitList((ATermList) term.getArgument(0));
-		out.print(")");
+		_out.print(")");
 	}
 
 	/* (non-Javadoc)
@@ -70,9 +70,9 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitNot(final ATermAppl term)
 	{
-		out.print("complementOf(");
+		_out.print("complementOf(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(")");
+		_out.print(")");
 	}
 
 	/* (non-Javadoc)
@@ -81,11 +81,11 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitSome(final ATermAppl term)
 	{
-		out.print("restriction(");
+		_out.print("restriction(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" someValuesFrom(");
+		_out.print(" someValuesFrom(");
 		visit((ATermAppl) term.getArgument(1));
-		out.print("))");
+		_out.print("))");
 	}
 
 	/* (non-Javadoc)
@@ -94,11 +94,11 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitAll(final ATermAppl term)
 	{
-		out.print("restriction(");
+		_out.print("restriction(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" allValuesFrom(");
+		_out.print(" allValuesFrom(");
 		visit((ATermAppl) term.getArgument(1));
-		out.print("))");
+		_out.print("))");
 	}
 
 	/* (non-Javadoc)
@@ -107,10 +107,10 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitMin(final ATermAppl term)
 	{
-		out.print("restriction(");
+		_out.print("restriction(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" minCardinality(" + ((ATermInt) term.getArgument(1)).getInt() + ")");
-		out.print(")");
+		_out.print(" minCardinality(" + ((ATermInt) term.getArgument(1)).getInt() + ")");
+		_out.print(")");
 	}
 
 	/* (non-Javadoc)
@@ -119,19 +119,19 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitMax(final ATermAppl term)
 	{
-		out.print("restriction(");
+		_out.print("restriction(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" maxCardinality(" + ((ATermInt) term.getArgument(1)).getInt() + ")");
-		out.print(")");
+		_out.print(" maxCardinality(" + ((ATermInt) term.getArgument(1)).getInt() + ")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitCard(final ATermAppl term)
 	{
-		out.print("restriction(");
+		_out.print("restriction(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" cardinality(" + ((ATermInt) term.getArgument(1)).getInt() + ")");
-		out.print(")");
+		_out.print(" cardinality(" + ((ATermInt) term.getArgument(1)).getInt() + ")");
+		_out.print(")");
 	}
 
 	/* (non-Javadoc)
@@ -144,15 +144,15 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 		final String lang = ((ATermAppl) lit.getArgument(1)).getName();
 		final String datatypeURI = ((ATermAppl) lit.getArgument(2)).getName();
 
-		out.print("\"" + lexicalValue + "\"");
+		_out.print("\"" + lexicalValue + "\"");
 
 		if (!lang.equals(""))
-			out.print("@" + lang);
+			_out.print("@" + lang);
 		else
 			if (!datatypeURI.equals(""))
 			{
-				out.print("^^");
-				out.print(datatypeURI);
+				_out.print("^^");
+				_out.print(datatypeURI);
 			}
 	}
 
@@ -162,7 +162,7 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitOneOf(final ATermAppl term)
 	{
-		out.print("oneOf(");
+		_out.print("oneOf(");
 		ATermList list = (ATermList) term.getArgument(0);
 		while (!list.isEmpty())
 		{
@@ -170,9 +170,9 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 			visit((ATermAppl) value.getArgument(0));
 			list = list.getNext();
 			if (!list.isEmpty())
-				out.print(" ");
+				_out.print(" ");
 		}
-		out.print(")");
+		_out.print(")");
 	}
 
 	/* (non-Javadoc)
@@ -181,15 +181,15 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitHasValue(final ATermAppl term)
 	{
-		out.print("restriction(");
+		_out.print("restriction(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" value(");
+		_out.print(" value(");
 		final ATermAppl value = (ATermAppl) ((ATermAppl) term.getArgument(1)).getArgument(0);
 		if (value.getArity() == 0)
 			visitTerm(value);
 		else
 			visitLiteral(value);
-		out.print("))");
+		_out.print("))");
 	}
 
 	/* (non-Javadoc)
@@ -198,9 +198,9 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitValue(final ATermAppl term)
 	{
-		out.print("oneOf(");
+		_out.print("oneOf(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(")");
+		_out.print(")");
 	}
 
 	/* (non-Javadoc)
@@ -215,31 +215,31 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 			visit(term);
 			list = list.getNext();
 			if (!list.isEmpty())
-				out.print(" ");
+				_out.print(" ");
 		}
 	}
 
 	@Override
 	public void visitSelf(final ATermAppl term)
 	{
-		out.print("restriction(");
+		_out.print("restriction(");
 		visit((ATermAppl) term.getArgument(0));
-		out.print(" self)");
+		_out.print(" self)");
 	}
 
 	public void visitSubClass(final ATermAppl term)
 	{
-		out.print("SubClassOf(");
+		_out.print("SubClassOf(");
 		visitList(term.getArguments());
-		out.print(")");
+		_out.print(")");
 	}
 
 	@Override
 	public void visitInverse(final ATermAppl p)
 	{
-		out.print("Inv(");
+		_out.print("Inv(");
 		visit((ATermAppl) p.getArgument(0));
-		out.print(")");
+		_out.print(")");
 	}
 
 	/**
@@ -248,22 +248,22 @@ public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 	@Override
 	public void visitRestrictedDatatype(final ATermAppl dt)
 	{
-		out.print("datatypeRestriction(");
+		_out.print("datatypeRestriction(");
 		visit((ATermAppl) dt.getArgument(0));
-		out.print(" ");
+		_out.print(" ");
 		ATermList list = (ATermList) dt.getArgument(1);
 		while (!list.isEmpty())
 		{
 			final ATermAppl facet = (ATermAppl) list.getFirst();
-			out.print("(");
+			_out.print("(");
 			visit((ATermAppl) facet.getArgument(0));
-			out.print(" ");
+			_out.print(" ");
 			visit((ATermAppl) facet.getArgument(1));
-			out.print(")");
+			_out.print(")");
 			list = list.getNext();
 			if (!list.isEmpty())
-				out.print(" ");
+				_out.print(" ");
 		}
-		out.print(" )");
+		_out.print(" )");
 	}
 }

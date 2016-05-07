@@ -102,8 +102,8 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 	{
 		//		CachedSubsumptionComparator subsumptionComparator = new CachedSubsumptionComparator( subsumers );
 		//		
-		//		POTaxonomyBuilder _builder = new POTaxonomyBuilder( kb, subsumptionComparator );
-		//		_builder.setKB( kb );
+		//		POTaxonomyBuilder _builder = new POTaxonomyBuilder( _kb, subsumptionComparator );
+		//		_builder.setKB( _kb );
 		//		
 		//		taxonomy = _builder.getTaxonomy();
 		//		
