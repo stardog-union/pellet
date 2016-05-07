@@ -16,6 +16,6 @@ public class Block1 implements BlockingCondition
 	@Override
 	public boolean isBlocked(final BlockingContext cxt)
 	{
-		return SetUtils.subset(cxt.blocked.getTypes(), cxt.blocker.getTypes());
+		return SetUtils.subset(cxt._blocked.getTypes(), cxt._blocker.getTypes());
 	}
 }

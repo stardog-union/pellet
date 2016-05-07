@@ -14,59 +14,59 @@ import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
 
 /**
- * A class to keep track of the _current individual being tested for blocking conditions. Current context stores the blocker candidate and caches the incoming
- * edges to the (possibly) blocked individual since multiple blocking conditions need to access that information.
+ * A class to keep track of the _current individual being tested for blocking conditions. Current context stores the _blocker candidate and caches the incoming
+ * edges to the (possibly) _blocked individual since multiple blocking conditions need to access that information.
  *
  * @author Evren Sirin
  */
 public class BlockingContext
 {
-	Individual blocked;
-	Individual blocker;
-	Set<Role> rolesToBlocked;
+	Individual _blocked;
+	Individual _blocker;
+	Set<Role> _rolesToBlocked;
 
 	public BlockingContext(final Individual blocked)
 	{
-		this.blocked = blocked;
-		this.blocker = blocked;
+		this._blocked = blocked;
+		this._blocker = blocked;
 	}
 
 	/**
-	 * Sets the blocker to the parent of _current blocker and checks if if the new blocker candidate is allowed to block. Root _nodes are not allowed to block.
+	 * Sets the _blocker to the parent of _current _blocker and checks if if the new _blocker candidate is allowed to block. Root _nodes are not allowed to block.
 	 *
-	 * @return <code>true</code> if the new blocker candidate is allowed to block
+	 * @return <code>true</code> if the new _blocker candidate is allowed to block
 	 */
 	public boolean moveBlockerUp()
 	{
-		this.blocker = blocker.getParent();
-		this.rolesToBlocked = null;
+		this._blocker = _blocker.getParent();
+		this._rolesToBlocked = null;
 
-		return !blocker.isRoot();
+		return !_blocker.isRoot();
 	}
 
 	/**
-	 * Sets the blocker to the specified child of the _current blocker and returns if the new blocker candidate is allowed to block. The child is not allowed to
-	 * block if it is a literal, or a root, or pruned/merged, or is blocked itself.
+	 * Sets the _blocker to the specified child of the _current _blocker and returns if the new _blocker candidate is allowed to block. The child is not allowed to
+	 * block if it is a literal, or a root, or pruned/merged, or is _blocked itself.
 	 *
-	 * @param child child of the _current blocker
-	 * @return <code>true</code> if the new blocker candidate is allowed to block
+	 * @param child child of the _current _blocker
+	 * @return <code>true</code> if the new _blocker candidate is allowed to block
 	 */
 	public boolean moveBlockerDown(final Node child)
 	{
-		if (child.isLiteral() || child.isRoot() || child.isPruned() || child.isMerged() || ((Individual) child).isBlocked() || child.equals(blocker))
+		if (child.isLiteral() || child.isRoot() || child.isPruned() || child.isMerged() || ((Individual) child).isBlocked() || child.equals(_blocker))
 			return false;
 
-		this.blocker = (Individual) child;
-		this.rolesToBlocked = null;
+		this._blocker = (Individual) child;
+		this._rolesToBlocked = null;
 
 		return true;
 	}
 
 	/**
-	 * Returns if the blocked _node is an r-successor of its parent.
+	 * Returns if the _blocked _node is an r-successor of its parent.
 	 *
 	 * @param r the property to check for r-successor relation
-	 * @return <true> if the blocked _node is an r-successor of its parent.
+	 * @return <true> if the _blocked _node is an r-successor of its parent.
 	 */
 	public boolean isRSuccessor(final Role r)
 	{
@@ -74,9 +74,9 @@ public class BlockingContext
 	}
 
 	/**
-	 * Returns if the role from the parent of blocked candidate has any inverse super properties.
+	 * Returns if the role from the parent of _blocked candidate has any inverse super properties.
 	 *
-	 * @return if the role from the parent of blocked candidate has any inverse super properties
+	 * @return if the role from the parent of _blocked candidate has any inverse super properties
 	 */
 	public boolean isInvSuccessor()
 	{
@@ -88,20 +88,20 @@ public class BlockingContext
 	}
 
 	/**
-	 * Returns the roles that points to the blocked candidate from its parent and _cache the result for future use.
+	 * Returns the roles that points to the _blocked candidate from its parent and _cache the result for future use.
 	 *
-	 * @return the roles that points to the blocked candidate from its parent
+	 * @return the roles that points to the _blocked candidate from its parent
 	 */
 	protected Set<Role> getIncomingRoles()
 	{
-		if (rolesToBlocked == null)
+		if (_rolesToBlocked == null)
 		{
-			rolesToBlocked = getIncomingRoles(blocked);
+			_rolesToBlocked = getIncomingRoles(_blocked);
 
-			assert rolesToBlocked != null;
+			assert _rolesToBlocked != null;
 		}
 
-		return rolesToBlocked;
+		return _rolesToBlocked;
 	}
 
 	/**
@@ -129,6 +129,6 @@ public class BlockingContext
 	@Override
 	public String toString()
 	{
-		return blocked + " blocked by " + blocker;
+		return _blocked + " _blocked by " + _blocker;
 	}
 }

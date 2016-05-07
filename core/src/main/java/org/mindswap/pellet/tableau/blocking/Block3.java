@@ -20,10 +20,10 @@ public class Block3 implements BlockingCondition
 	@Override
 	public boolean isBlocked(final BlockingContext cxt)
 	{
-		for (final ATermAppl normMax : cxt.blocker.getTypes(Node.MAX))
+		for (final ATermAppl normMax : cxt._blocker.getTypes(Node.MAX))
 		{
 			final ATermAppl max = (ATermAppl) normMax.getArgument(0);
-			final Role s = cxt.blocked.getABox().getRole(max.getArgument(0));
+			final Role s = cxt._blocked.getABox().getRole(max.getArgument(0));
 			final int n = ((ATermInt) max.getArgument(1)).getInt() - 1;
 			final ATermAppl c = (ATermAppl) max.getArgument(2);
 
@@ -35,10 +35,10 @@ public class Block3 implements BlockingCondition
 			if (!cxt.isRSuccessor(invS))
 				continue;
 
-			if (cxt.blocked.getParent().hasType(ATermUtils.negate(c)))
+			if (cxt._blocked.getParent().hasType(ATermUtils.negate(c)))
 				continue;
 
-			if (cxt.blocked.getParent().hasType(c) && cxt.blocker.getRSuccessors(s, c).size() < n)
+			if (cxt._blocked.getParent().hasType(c) && cxt._blocker.getRSuccessors(s, c).size() < n)
 				continue;
 
 			return false;

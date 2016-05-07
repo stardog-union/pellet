@@ -29,7 +29,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * Title: ExplanationExample
  * </p>
  * <p>
- * Description: This program shows how to use Pellet's explanation service
+ * Description: This program shows how to use Pellet's clashExplanation service
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -51,9 +51,9 @@ public class ExplanationExample
 	{
 		PelletExplanation.setup();
 
-		// The renderer is used to pretty print explanation
+		// The renderer is used to pretty print clashExplanation
 		final ManchesterSyntaxExplanationRenderer renderer = new ManchesterSyntaxExplanationRenderer();
-		// The writer used for the explanation rendered
+		// The writer used for the clashExplanation rendered
 		final PrintWriter out = new PrintWriter(System.out);
 		renderer.startRendering(out);
 
@@ -65,7 +65,7 @@ public class ExplanationExample
 		// Create the reasoner and load the ontology
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
 
-		// Create an explanation generator
+		// Create an clashExplanation generator
 		final PelletExplanation expGen = new PelletExplanation(reasoner);
 
 		// Create some concepts

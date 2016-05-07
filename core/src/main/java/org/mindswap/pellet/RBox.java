@@ -187,7 +187,7 @@ public class RBox
 	 *
 	 * @param p The property
 	 * @param a A class expression for the domain
-	 * @param explanation A set of {@link ATermAppl}s that explain the range axiom.
+	 * @param clashExplanation A set of {@link ATermAppl}s that explain the range axiom.
 	 * @return <code>true</code> if range add was successful, <code>false</code> else
 	 * @throws IllegalArgumentException if <code>p</code> is not a defined property.
 	 */

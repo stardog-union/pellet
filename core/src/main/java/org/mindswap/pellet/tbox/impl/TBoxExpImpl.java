@@ -64,7 +64,7 @@ public class TBoxExpImpl implements TBox
 	 */
 	private final Map<ATermAppl, Set<Set<ATermAppl>>> tboxAxioms = CollectionUtils.makeIdentityMap();
 	/**
-	 * MultiValueMap where key is an axiom and the values are axioms for which the key is a part of an explanation
+	 * MultiValueMap where key is an axiom and the values are axioms for which the key is a part of an clashExplanation
 	 */
 	private final Map<ATermAppl, Set<ATermAppl>> reverseExplain = CollectionUtils.makeIdentityMap();
 
@@ -122,12 +122,12 @@ public class TBoxExpImpl implements TBox
 
 		if (explains == null || explains.isEmpty())
 		{
-			log.warning("No explanation for " + axiom);
+			log.warning("No clashExplanation for " + axiom);
 			return Collections.emptySet();
 		}
 
 		// we won't be generating multiple explanations using axiom
-		// tracing so we just pick one explanation. the other option
+		// tracing so we just pick one clashExplanation. the other option
 		// would be to return the union of all explanations which
 		// would cause Pellet to return non-minimal explanations sets
 		for (final Set<ATermAppl> explain : explains)
@@ -136,7 +136,7 @@ public class TBoxExpImpl implements TBox
 	}
 
 	/**
-	 * Add a new explanation for the given axiom. If a previous explanation exists this will be stored as another explanation.
+	 * Add a new clashExplanation for the given axiom. If a previous clashExplanation exists this will be stored as another clashExplanation.
 	 *
 	 * @param axiom
 	 * @param explain
@@ -337,7 +337,7 @@ public class TBoxExpImpl implements TBox
 		{
 			final Set<Set<ATermAppl>> explanations = tboxAxioms.get(readdAxiom);
 			// if the axiom is really removed (and not just side-effected)
-			// then there wouldn't be any explanation and we shouldn't readd
+			// then there wouldn't be any clashExplanation and we shouldn't readd
 			if (explanations != null)
 			{
 				final Iterator<Set<ATermAppl>> i = explanations.iterator();
@@ -394,7 +394,7 @@ public class TBoxExpImpl implements TBox
 		}
 		else
 		{
-			// there is no other explanation for this dependant axiom so
+			// there is no other clashExplanation for this dependant axiom so
 			// we can safely remove it
 			success |= (tboxAxioms.remove(dependantAxiom) != null);
 
@@ -414,7 +414,7 @@ public class TBoxExpImpl implements TBox
 		if (otherDependants != null)
 			for (final ATermAppl otherDependant : otherDependants)
 			{
-				// remove this axiom from any explanation it contributes to
+				// remove this axiom from any clashExplanation it contributes to
 
 				if (otherDependant.equals(dependantAxiom))
 					continue;

@@ -62,16 +62,16 @@ public class PrimitiveTBox
 		return definitions.get(concept);
 	}
 
-	//	public boolean add(ATermAppl axiom, Set<ATermAppl> explanation) {
+	//	public boolean add(ATermAppl axiom, Set<ATermAppl> clashExplanation) {
 	//		boolean added = false;
 	//		
 	//		if( axiom.getAFun().equals( ATermUtils.EQCLASSFUN ) ) {
 	//			ATermAppl c1 = (ATermAppl) axiom.getArgument( 0 );
 	//			ATermAppl c2 = (ATermAppl) axiom.getArgument( 1 );
 	//		
-	//			added = addDefinition( c1, c2, explanation );
+	//			added = addDefinition( c1, c2, clashExplanation );
 	//			if( !added ) {
-	//				added = addDefinition( c2, c1, explanation );
+	//				added = addDefinition( c2, c1, clashExplanation );
 	//			}			
 	//		}
 	//		

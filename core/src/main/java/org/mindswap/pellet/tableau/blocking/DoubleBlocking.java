@@ -65,11 +65,11 @@ public class DoubleBlocking extends Blocking
 	@Override
 	public boolean isDirectlyBlockedBy(final BlockingContext cxt)
 	{
-		final Individual parentBlocked = cxt.blocked.getParent();
-		final Individual parentBlocker = cxt.blocker.getParent();
+		final Individual parentBlocked = cxt._blocked.getParent();
+		final Individual parentBlocker = cxt._blocker.getParent();
 
-		if (SetUtils.equals(cxt.blocked.getTypes(), cxt.blocker.getTypes()) && SetUtils.equals(parentBlocked.getTypes(), parentBlocker.getTypes()))
-			if (SetUtils.equals(cxt.getIncomingRoles(), BlockingContext.getIncomingRoles(cxt.blocker)))
+		if (SetUtils.equals(cxt._blocked.getTypes(), cxt._blocker.getTypes()) && SetUtils.equals(parentBlocked.getTypes(), parentBlocker.getTypes()))
+			if (SetUtils.equals(cxt.getIncomingRoles(), BlockingContext.getIncomingRoles(cxt._blocker)))
 				return true;
 
 		return false;

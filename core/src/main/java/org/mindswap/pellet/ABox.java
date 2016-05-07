@@ -566,11 +566,11 @@ public class ABox
 				final boolean needToCacheModel = cacheModel && !cached.isComplete();
 				if (log.isLoggable(Level.FINE))
 					log.fine("Cached sat for " + ATermUtils.toString(c) + " is " + satisfiable);
-				// if explanation is enabled we should actually build the
+				// if clashExplanation is enabled we should actually build the
 				// tableau again to generate the _clash. we don't _cache the
-				// explanation up front because generating explanation is costly
+				// clashExplanation up front because generating clashExplanation is costly
 				// and we only want to do it when explicitly asked note that
-				// when the concepts is satisfiable there is no explanation to
+				// when the concepts is satisfiable there is no clashExplanation to
 				// be generated so we return the result immediately
 				if (!needToCacheModel && (satisfiable || !_doExplanation))
 					return satisfiable;
@@ -1251,7 +1251,7 @@ public class ABox
 		{
 			final Clash clash = i.next();
 			final Node node = clash.getNode();
-			final ATermAppl term = clash.args != null ? (ATermAppl) clash.args[0] : null;
+			final ATermAppl term = clash._args != null ? (ATermAppl) clash._args[0] : null;
 
 			// check if _clash is resolved through deletions
 			boolean resolved = true;
@@ -2082,7 +2082,7 @@ public class ABox
 	}
 
 	/**
-	 * Checks if the explanation is turned on.
+	 * Checks if the clashExplanation is turned on.
 	 *
 	 * @return Returns the _doExplanation.
 	 */
@@ -2092,7 +2092,7 @@ public class ABox
 	}
 
 	/**
-	 * Enable/disable explanation generation
+	 * Enable/disable clashExplanation generation
 	 *
 	 * @param _doExplanation The _doExplanation to set.
 	 */
@@ -2111,7 +2111,7 @@ public class ABox
 		// Clash _lastClash = (_lastCompletion != null) ?
 		// _lastCompletion.getClash() : null;
 		if (_lastClash == null)
-			return "No inconsistency was found! There is no explanation generated.";
+			return "No inconsistency was found! There is no clashExplanation generated.";
 		else
 			return _lastClash.detailedString();
 	}
@@ -2119,7 +2119,7 @@ public class ABox
 	public Set<ATermAppl> getExplanationSet()
 	{
 		if (_lastClash == null)
-			throw new RuntimeException("No explanation was generated!");
+			throw new RuntimeException("No clashExplanation was generated!");
 
 		return _lastClash.getDepends().getExplain();
 	}

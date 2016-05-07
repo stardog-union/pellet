@@ -48,7 +48,6 @@ import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.EdgeList;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
-import org.mindswap.pellet.NodeMerge;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.tableau.blocking.BlockingFactory;
@@ -138,7 +137,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 	}
 
 	/**
-	 * There are additional rule that must be fired in the event of incremental additions and deletions in _order to guarantee completeness. These are done here.
+	 * There are additional rule that must be fired in the event of incremental additions and deletions in _order to guarantee completeness. These are done
+	 * here.
 	 */
 	@Override
 	public void initialize(final Expressivity expr)

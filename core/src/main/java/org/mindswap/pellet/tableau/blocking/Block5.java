@@ -19,10 +19,10 @@ public class Block5 implements BlockingCondition
 	@Override
 	public boolean isBlocked(final BlockingContext cxt)
 	{
-		for (final ATermAppl normMax : cxt.blocker.getTypes(Node.MAX))
+		for (final ATermAppl normMax : cxt._blocker.getTypes(Node.MAX))
 		{
 			final ATermAppl max = (ATermAppl) normMax.getArgument(0);
-			final Role t = cxt.blocked.getABox().getRole(max.getArgument(0));
+			final Role t = cxt._blocked.getABox().getRole(max.getArgument(0));
 			final ATermAppl c = (ATermAppl) max.getArgument(2);
 
 			if (t.isDatatypeRole())
@@ -33,7 +33,7 @@ public class Block5 implements BlockingCondition
 			if (!cxt.isRSuccessor(invT))
 				continue;
 
-			if (cxt.blocked.getParent().hasType(ATermUtils.negate(c)))
+			if (cxt._blocked.getParent().hasType(ATermUtils.negate(c)))
 				continue;
 
 			return false;

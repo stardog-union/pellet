@@ -107,7 +107,7 @@ public class SomeValuesRule extends AbstractTableauRule
 		// Safety condition as defined in the SHOIQ algorithm.
 		// An R-_neighbor y of a _node x is safe if
 		// (i) x is blockable or if
-		// (ii) x is a nominal _node and y is not blocked.
+		// (ii) x is a nominal _node and y is not _blocked.
 		final boolean neighborSafe = x.isBlockable();
 		// y is going to be the _node we create, and edge its connection to the
 		// _current _node

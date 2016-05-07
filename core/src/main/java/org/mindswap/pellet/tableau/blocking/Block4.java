@@ -20,11 +20,11 @@ public class Block4 implements BlockingCondition
 	@Override
 	public boolean isBlocked(final BlockingContext cxt)
 	{
-		for (final ATermAppl min : cxt.blocker.getTypes(Node.MIN))
+		for (final ATermAppl min : cxt._blocker.getTypes(Node.MIN))
 			if (!block4(cxt, min))
 				return false;
 
-		for (final ATermAppl normSome : cxt.blocker.getTypes(Node.SOME))
+		for (final ATermAppl normSome : cxt._blocker.getTypes(Node.SOME))
 		{
 			final ATermAppl some = (ATermAppl) normSome.getArgument(0);
 			if (!block4(cxt, some))
@@ -36,7 +36,7 @@ public class Block4 implements BlockingCondition
 
 	protected boolean block4(final BlockingContext cxt, final ATermAppl term)
 	{
-		final Role t = cxt.blocked.getABox().getRole(term.getArgument(0));
+		final Role t = cxt._blocked.getABox().getRole(term.getArgument(0));
 		int m = 1;
 		ATermAppl c;
 
@@ -53,10 +53,10 @@ public class Block4 implements BlockingCondition
 
 		final Role invT = t.getInverse();
 
-		if (cxt.isRSuccessor(invT) && cxt.blocked.getParent().hasType(c))
+		if (cxt.isRSuccessor(invT) && cxt._blocked.getParent().hasType(c))
 			return true;
 
-		if (cxt.blocker.getRSuccessors(t, c).size() >= m)
+		if (cxt._blocker.getRSuccessors(t, c).size() >= m)
 			return true;
 
 		return false;

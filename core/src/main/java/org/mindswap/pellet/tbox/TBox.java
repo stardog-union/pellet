@@ -116,7 +116,7 @@ public interface TBox
 	public boolean removeAxiom(ATermAppl dependantAxiom, ATermAppl explanationAxiom);
 
 	/**
-	 * Return a single explanation for the given TBox axiom.
+	 * Return a single clashExplanation for the given TBox axiom.
 	 *
 	 * @param axiom
 	 * @return

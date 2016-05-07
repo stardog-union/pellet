@@ -545,7 +545,7 @@ public class ATermUtils
 
 	final static public ATermAppl makeMin(final ATerm r, final int n, final ATerm c)
 	{
-		// comment out built-in simplification so that explanation
+		// comment out built-in simplification so that clashExplanation
 		// axioms will come out right
 		// if( n == 0 )
 		// return ATermUtils.TOP;

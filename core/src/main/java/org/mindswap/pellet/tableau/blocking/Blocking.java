@@ -40,7 +40,7 @@ import org.mindswap.pellet.utils.Timer;
 
 /**
  * <p>
- * Generic class to check if an individual in an completion graph is blocked by another individual. Blocking prevents infinite models to be created and can
+ * Generic class to check if an individual in an completion graph is _blocked by another individual. Blocking prevents infinite models to be created and can
  * improve performance by limiting the size of the completion graph built.
  * </p>
  * <p>
@@ -117,13 +117,13 @@ public abstract class Blocking
 			{
 				blocked.setBlocked(true);
 				if (log.isLoggable(Level.FINER))
-					log.finer(blocked + " blocked by " + cxt.blocker);
+					log.finer(blocked + " _blocked by " + cxt._blocker);
 				return true;
 			}
 
 		if (PelletOptions.USE_ANYWHERE_BLOCKING)
 		{
-			assert cxt.blocker.isRoot();
+			assert cxt._blocker.isRoot();
 
 			return isDirectlyBlockedByDescendant(cxt);
 		}
@@ -133,18 +133,18 @@ public abstract class Blocking
 
 	protected boolean isDirectlyBlockedByDescendant(final BlockingContext cxt)
 	{
-		if (cxt.blocked.getParent().equals(cxt.blocker))
+		if (cxt._blocked.getParent().equals(cxt._blocker))
 			return false;
 
-		if (!cxt.blocker.isRoot() && isDirectlyBlockedBy(cxt))
+		if (!cxt._blocker.isRoot() && isDirectlyBlockedBy(cxt))
 		{
-			cxt.blocked.setBlocked(true);
+			cxt._blocked.setBlocked(true);
 			if (log.isLoggable(Level.FINER))
-				log.finer(cxt.blocked + " blocked by " + cxt.blocker);
+				log.finer(cxt._blocked + " _blocked by " + cxt._blocker);
 			return true;
 		}
 
-		final Individual blocker = cxt.blocker;
+		final Individual blocker = cxt._blocker;
 		for (final Edge e : blocker.getOutEdges())
 		{
 			final Node child = e.getTo();

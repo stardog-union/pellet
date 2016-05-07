@@ -141,7 +141,7 @@ public abstract class AbstractExplanationTest
 	}
 
 	/**
-	 * Test that entities appearing in annotations only can still be used in explanation requests.
+	 * Test that entities appearing in annotations only can still be used in clashExplanation requests.
 	 */
 	@Ignore("This test is not valid anymore since annotation subjects do not carry type information")
 	@Test
@@ -154,7 +154,7 @@ public abstract class AbstractExplanationTest
 	}
 
 	/**
-	 * Test that entities appearing in annotations only can still be used in explanation requests.
+	 * Test that entities appearing in annotations only can still be used in clashExplanation requests.
 	 */
 	@Test
 	public void annotationOnlyDuringMUPSEntity() throws Exception
@@ -183,7 +183,7 @@ public abstract class AbstractExplanationTest
 	 * Test for built-in datatype
 	 */
 	/**
-	 * Test that entities appearing in declarations only can still be used in explanation requests.
+	 * Test that entities appearing in declarations only can still be used in clashExplanation requests.
 	 */
 	@Test
 	public void declarationOnlyEntity() throws Exception
@@ -195,7 +195,7 @@ public abstract class AbstractExplanationTest
 	}
 
 	/**
-	 * Test that entities appearing in declarations only can still be used in explanation requests (in uninteresting ways).
+	 * Test that entities appearing in declarations only can still be used in clashExplanation requests (in uninteresting ways).
 	 */
 	@Test
 	public void declarationOnlyIrrelevantEntity() throws Exception
@@ -230,7 +230,7 @@ public abstract class AbstractExplanationTest
 		testExplanations(OWL.disjointClasses(B, C), 0, new OWLAxiom[] { axioms[2], axioms[3] });
 
 		// explain the unsatisfiability of A and make sure cached results do not
-		// interfere with explanation
+		// interfere with clashExplanation
 		testExplanations(OWL.equivalentClasses(A, OWL.Nothing), 0, new OWLAxiom[] { axioms[0], axioms[1], axioms[2], axioms[3] });
 	}
 

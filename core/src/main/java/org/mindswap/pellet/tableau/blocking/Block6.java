@@ -19,28 +19,28 @@ public class Block6 implements BlockingCondition
 	@Override
 	public boolean isBlocked(final BlockingContext cxt)
 	{
-		for (final ATermAppl min : cxt.blocked.getParent().getTypes(Node.MIN))
+		for (final ATermAppl min : cxt._blocked.getParent().getTypes(Node.MIN))
 		{
-			final Role u = cxt.blocked.getABox().getRole(min.getArgument(0));
+			final Role u = cxt._blocked.getABox().getRole(min.getArgument(0));
 			final ATermAppl c = (ATermAppl) min.getArgument(2);
 
 			if (u.isDatatypeRole())
 				continue;
 
-			if (cxt.isRSuccessor(u) && !cxt.blocked.hasType(ATermUtils.negate(c)))
+			if (cxt.isRSuccessor(u) && !cxt._blocked.hasType(ATermUtils.negate(c)))
 				return false;
 		}
 
-		for (final ATermAppl normSome : cxt.blocked.getParent().getTypes(Node.SOME))
+		for (final ATermAppl normSome : cxt._blocked.getParent().getTypes(Node.SOME))
 		{
 			final ATermAppl some = (ATermAppl) normSome.getArgument(0);
-			final Role u = cxt.blocked.getABox().getRole(some.getArgument(0));
+			final Role u = cxt._blocked.getABox().getRole(some.getArgument(0));
 			final ATermAppl notC = (ATermAppl) some.getArgument(1);
 
 			if (u.isDatatypeRole())
 				continue;
 
-			if (cxt.isRSuccessor(u) && !cxt.blocked.hasType(notC))
+			if (cxt.isRSuccessor(u) && !cxt._blocked.hasType(notC))
 				return false;
 		}
 

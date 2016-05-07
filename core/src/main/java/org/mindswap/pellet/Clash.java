@@ -33,26 +33,26 @@ public class Clash
 {
 	public enum ClashType
 	{
-		ATOMIC("An individual belongs to a type and its complement"), MIN_MAX("An individual contains a minCardinality restriction that is greater than a maxCardinality restriction"), MAX_CARD("The maxCardinality restriction is violated"), FUNC_MAX_CARD("An individual contains a minCardinality restriction that is greater than a maxCardinality restriction"), MAX_ZERO("The maxCardinality(0) restriction is violated"), NOMINAL("An individual is sameAs and differentFrom another individual at the same time"), EMPTY_DATATYPE("Range restrictions on a literal is inconsistent"), VALUE_DATATYPE("The literal value does not satisfy the datatype restriction"), MISSING_DATATYPE("Plain literal does not satisfy the datatype restriction (literal may be missing the rdf:datatype attribute)"), INVALID_LITERAL("Invalid literal for the rdf:datatype attribute"), DISJOINT_PROPS("Two disjoint properties have the same value"), BOTTOM_PROP("An individual has a value for bottom property"), UNEXPLAINED("Cannot explain");
+		ATOMIC("An individual belongs to a _type and its complement"), MIN_MAX("An individual contains a minCardinality restriction that is greater than a maxCardinality restriction"), MAX_CARD("The maxCardinality restriction is violated"), FUNC_MAX_CARD("An individual contains a minCardinality restriction that is greater than a maxCardinality restriction"), MAX_ZERO("The maxCardinality(0) restriction is violated"), NOMINAL("An individual is sameAs and differentFrom another individual at the same time"), EMPTY_DATATYPE("Range restrictions on a literal is inconsistent"), VALUE_DATATYPE("The literal value does not satisfy the datatype restriction"), MISSING_DATATYPE("Plain literal does not satisfy the datatype restriction (literal may be missing the rdf:datatype attribute)"), INVALID_LITERAL("Invalid literal for the rdf:datatype attribute"), DISJOINT_PROPS("Two disjoint properties have the same value"), BOTTOM_PROP("An individual has a value for bottom property"), UNEXPLAINED("Cannot explain");
 
-		private String explanation;
+		private String _explanation;
 
 		private ClashType(final String explanation)
 		{
-			this.explanation = explanation;
+			this._explanation = explanation;
 		}
 
 		public String getExplanation()
 		{
-			return explanation;
+			return _explanation;
 		}
 	}
 
-	private DependencySet depends;
-	private Node node;
-	private ClashType type;
-	ATerm[] args;
-	String explanation;
+	private DependencySet _depends;
+	private Node _node;
+	private ClashType _type;
+	ATerm[] _args;
+	String clashExplanation;
 
 	// TODO Make constructor privates and only use public creator functions
 	private Clash(final Node node, final ClashType type, final DependencySet depends)
@@ -67,7 +67,7 @@ public class Clash
 		this.setDepends(depends);
 		this.setNode(node);
 		this.setType(type);
-		this.args = args;
+		this._args = args;
 	}
 
 	private Clash(final Node node, final ClashType type, final DependencySet depends, final String explanation)
@@ -75,12 +75,12 @@ public class Clash
 		this.setDepends(depends);
 		this.setNode(node);
 		this.setType(type);
-		this.explanation = explanation;
+		this.clashExplanation = explanation;
 	}
 
 	public Clash copyTo(final ABox abox)
 	{
-		return new Clash(abox.getNode(getNode().getName()), getType(), getDepends(), explanation);
+		return new Clash(abox.getNode(getNode().getName()), getType(), getDepends(), clashExplanation);
 	}
 
 	public ClashType getClashType()
@@ -202,14 +202,14 @@ public class Clash
 	{
 		String str;
 
-		if (explanation != null)
-			str = explanation;
+		if (clashExplanation != null)
+			str = clashExplanation;
 		else
 			if (getType() == ClashType.UNEXPLAINED)
-				str = "No explanation was generated.";
+				str = "No _explanation was generated.";
 			else
-				if (args == null)
-					str = "No specific explanation was generated. Generic explanation: " + getType().getExplanation();
+				if (_args == null)
+					str = "No specific _explanation was generated. Generic _explanation: " + getType().getExplanation();
 				else
 					if (getType() == ClashType.ATOMIC)
 						str = atomicExplanation();
@@ -238,7 +238,7 @@ public class Clash
 													if (getType() == ClashType.EMPTY_DATATYPE)
 														str = emptyDatatypeExplanation();
 													else
-														str = explanation;
+														str = clashExplanation;
 
 		return str;
 	}
@@ -292,51 +292,51 @@ public class Clash
 
 	public String atomicExplanation()
 	{
-		return describeNode(getNode()) + " is forced to belong to class " + args[0] + " and its complement";
+		return describeNode(getNode()) + " is forced to belong to class " + _args[0] + " and its complement";
 	}
 
 	public String bottomExplanation()
 	{
-		return describeNode(getNode()) + " has " + args[0] + " property";
+		return describeNode(getNode()) + " has " + _args[0] + " property";
 	}
 
 	public String maxCardinalityExplanation()
 	{
-		return describeNode(getNode()) + " has more than " + args[1] + " values for property " + args[0] + " violating the cardinality restriction";
+		return describeNode(getNode()) + " has more than " + _args[1] + " values for property " + _args[0] + " violating the cardinality restriction";
 	}
 
 	public String functionalCardinalityExplanation()
 	{
-		return describeNode(getNode()) + " has more than " + "one value for the functional property " + args[0];
+		return describeNode(getNode()) + " has more than " + "one value for the functional property " + _args[0];
 	}
 
 	public String missingDatatypeExplanation()
 	{
-		return "Plain literal " + ATermUtils.toString((ATermAppl) args[0]) + " does not belong to datatype " + args[1] + ". Literal value may be missing the rdf:datatype attribute.";
+		return "Plain literal " + ATermUtils.toString((ATermAppl) _args[0]) + " does not belong to datatype " + _args[1] + ". Literal value may be missing the rdf:datatype attribute.";
 	}
 
 	public String nominalExplanation()
 	{
-		return describeNode(getNode()) + " is sameAs and differentFrom " + args[0] + "  at the same time ";
+		return describeNode(getNode()) + " is sameAs and differentFrom " + _args[0] + "  at the same time ";
 	}
 
 	public String valueDatatypeExplanation()
 	{
-		return "Literal value " + ATermUtils.toString((ATermAppl) args[0]) + " does not belong to datatype " + ATermUtils.toString((ATermAppl) args[1]);
+		return "Literal value " + ATermUtils.toString((ATermAppl) _args[0]) + " does not belong to datatype " + ATermUtils.toString((ATermAppl) _args[1]);
 	}
 
 	public String emptyDatatypeExplanation()
 	{
-		if (args.length == 1)
-			return "Datatype " + ATermUtils.toString((ATermAppl) args[0]) + " is inconsistent";
+		if (_args.length == 1)
+			return "Datatype " + ATermUtils.toString((ATermAppl) _args[0]) + " is inconsistent";
 		else
 		{
 			final StringBuffer buffer = new StringBuffer("Intersection of datatypes [");
-			for (int i = 0; i < args.length; i++)
+			for (int i = 0; i < _args.length; i++)
 			{
 				if (i > 0)
 					buffer.append(", ");
-				buffer.append(ATermUtils.toString((ATermAppl) args[i]));
+				buffer.append(ATermUtils.toString((ATermAppl) _args[i]));
 			}
 			buffer.append("] is inconsistent");
 
@@ -346,7 +346,7 @@ public class Clash
 
 	public String invalidLiteralExplanation()
 	{
-		final ATermAppl literal = (ATermAppl) args[0];
+		final ATermAppl literal = (ATermAppl) _args[0];
 		final ATermAppl datatype = (ATermAppl) literal.getArgument(2);
 		return "Literal value " + ATermUtils.toString(literal) + " is not valid for the rdatatype " + ATermUtils.toString(datatype);
 	}
@@ -355,23 +355,23 @@ public class Clash
 	public String toString()
 	{
 		// TODO fix formatting
-		return "[Clash " + getNode() + " " + getType() + " " + getDepends().toString() + " " + ((args == null) ? null : Arrays.asList(args)) + "]";
+		return "[Clash " + getNode() + " " + getType() + " " + getDepends().toString() + " " + ((_args == null) ? null : Arrays.asList(_args)) + "]";
 	}
 
 	/**
-	 * @param depends the depends to set
+	 * @param _depends the _depends to set
 	 */
 	public void setDepends(final DependencySet depends)
 	{
-		this.depends = depends;
+		this._depends = depends;
 	}
 
 	/**
-	 * @return the depends
+	 * @return the _depends
 	 */
 	public DependencySet getDepends()
 	{
-		return depends;
+		return _depends;
 	}
 
 	/**
@@ -379,7 +379,7 @@ public class Clash
 	 */
 	public void setNode(final Node node)
 	{
-		this.node = node;
+		this._node = node;
 	}
 
 	/**
@@ -387,22 +387,22 @@ public class Clash
 	 */
 	public Node getNode()
 	{
-		return node;
+		return _node;
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param _type the _type to set
 	 */
 	public void setType(final ClashType type)
 	{
-		this.type = type;
+		this._type = type;
 	}
 
 	/**
-	 * @return the type
+	 * @return the _type
 	 */
 	public ClashType getType()
 	{
-		return type;
+		return _type;
 	}
 }

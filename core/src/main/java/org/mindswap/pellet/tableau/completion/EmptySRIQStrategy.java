@@ -48,7 +48,6 @@ import org.mindswap.pellet.EdgeList;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.Node;
-import org.mindswap.pellet.NodeMerge;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.tableau.blocking.BlockingFactory;
 import org.mindswap.pellet.tableau.branch.Branch;
@@ -70,22 +69,22 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	/**
 	 * List of individuals that needs to be expanded by applying tableau completion rules
 	 */
-	private LinkedList<Individual> mayNeedExpanding;
+	private LinkedList<Individual> _mayNeedExpanding;
 
 	/**
-	 * Cached mayNeedExpanding at a certain _branch that will be restored during backtracking
+	 * Cached _mayNeedExpanding at a certain _branch that will be restored during backtracking
 	 */
-	private List<List<Individual>> mnx;
+	private List<List<Individual>> _mnx;
 
 	/**
 	 * Nodes in the completion graph that re already being searched
 	 */
-	private Map<Individual, ATermAppl> cachedNodes;
+	private Map<Individual, ATermAppl> _cachedNodes;
 
 	/**
 	 * Cache safety checker to decide if a cached satisfiability result can be reused for a given _node in the completion graph
 	 */
-	private CacheSafety cacheSafety;
+	private CacheSafety _cacheSafety;
 
 	//	private static int _cache = 0;
 	//	private static int block = 0;
@@ -100,11 +99,11 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	{
 		_mergeList = new ArrayList<>();
 
-		cachedNodes = new HashMap<>();
+		_cachedNodes = new HashMap<>();
 
-		mnx = new ArrayList<>();
+		_mnx = new ArrayList<>();
 		// add a null entry so Branch._branch _index will match with the _index in this array
-		mnx.add(null);
+		_mnx.add(null);
 
 		assert _abox.size() == 1 : "This _strategy can only be used with originally empty ABoxes";
 
@@ -114,8 +113,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		applyUniversalRestrictions(root);
 		_selfRule.apply(root);
 
-		mayNeedExpanding = new LinkedList<>();
-		mayNeedExpanding.add(root);
+		_mayNeedExpanding = new LinkedList<>();
+		_mayNeedExpanding.add(root);
 
 		_abox.setBranch(1);
 		_abox.stats.treeDepth = 1;
@@ -139,7 +138,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			if (_abox.getNodes().size() > 1)
 				throw new RuntimeException("This _strategy can only be used with an ABox that has a single individual.");
 
-		cacheSafety = _abox.getCache().getSafety().canSupport(expr) ? _abox.getCache().getSafety() : CacheSafetyFactory.createCacheSafety(expr);
+		_cacheSafety = _abox.getCache().getSafety().canSupport(expr) ? _abox.getCache().getSafety() : CacheSafetyFactory.createCacheSafety(expr);
 
 		initialize(expr);
 
@@ -176,8 +175,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			else
 				if (expr.hasInverse() && parentNeedsExpanding(x))
 				{
-					mayNeedExpanding.removeAll(getDescendants(x.getParent()));
-					mayNeedExpanding.addFirst(x.getParent());
+					_mayNeedExpanding.removeAll(getDescendants(x.getParent()));
+					_mayNeedExpanding.addFirst(x.getParent());
 					continue;
 				}
 		}
@@ -191,7 +190,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				for (final Iterator<Individual> i = new IndividualIterator(_abox); i.hasNext();)
 				{
 					final Individual ind = i.next();
-					final ATermAppl c = cachedNodes.get(ind);
+					final ATermAppl c = _cachedNodes.get(ind);
 					if (c == null)
 						continue;
 
@@ -233,10 +232,10 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 	private Individual getNextIndividual()
 	{
-		if (mayNeedExpanding.isEmpty())
+		if (_mayNeedExpanding.isEmpty())
 			return null;
 
-		return mayNeedExpanding.get(0);
+		return _mayNeedExpanding.get(0);
 	}
 
 	private boolean parentNeedsExpanding(final Individual x)
@@ -264,7 +263,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				{
 					if (log.isLoggable(Level.FINE))
 						log.fine("Stop cached " + x);
-					mayNeedExpanding.remove(0);
+					_mayNeedExpanding.remove(0);
 				}
 				else
 				{
@@ -285,8 +284,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			if (blocking.isDirectlyBlocked(x))
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("Stop blocked " + x);
-				mayNeedExpanding.remove(0);
+					log.fine("Stop _blocked " + x);
+				_mayNeedExpanding.remove(0);
 				return;
 			}
 			//			else if ( SubsetBlocking.getInstance().isDirectlyBlocked( x ) ) {
@@ -307,8 +306,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			if (blocking.isDynamic() && blocking.isDirectlyBlocked(x))
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("Stop blocked " + x);
-				mayNeedExpanding.remove(0);
+					log.fine("Stop _blocked " + x);
+				_mayNeedExpanding.remove(0);
 				return;
 			}
 
@@ -336,7 +335,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		} while (x.canApply(Node.ATOM) || x.canApply(Node.OR) || x.canApply(Node.SOME) || x.canApply(Node.MIN));
 
-		mayNeedExpanding.remove(0);
+		_mayNeedExpanding.remove(0);
 
 		final EdgeList sortedSuccessors = x.getOutEdges().sort();
 		if (PelletOptions.SEARCH_TYPE == PelletOptions.DEPTH_FIRST)
@@ -344,7 +343,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			{
 				final Node succ = edge.getTo();
 				if (!succ.isLiteral() && !succ.equals(x))
-					mayNeedExpanding.add((Individual) succ);
+					_mayNeedExpanding.add((Individual) succ);
 			}
 		else
 			for (int i = sortedSuccessors.size() - 1; i >= 0; i--)
@@ -352,7 +351,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				final Edge edge = sortedSuccessors.edgeAt(i);
 				final Node succ = edge.getTo();
 				if (!succ.isLiteral() && !succ.equals(x))
-					mayNeedExpanding.add((Individual) succ);
+					_mayNeedExpanding.add((Individual) succ);
 			}
 	}
 
@@ -396,15 +395,15 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		{
 			if (log.isLoggable(Level.FINEST))
 				log.finest("??? Cache miss for " + c);
-			cachedNodes.put(x, c);
+			_cachedNodes.put(x, c);
 		}
 		else
-			if (!cacheSafety.isSafe(c, x))
+			if (!_cacheSafety.isSafe(c, x))
 			{
 				if (log.isLoggable(Level.FINER))
 					log.finer("*** Cache unsafe for " + c);
 
-				//			cacheSafety.isSafe( c, x.getInEdges().edgeAt( 0 ).getRole(), x.getParent() );
+				//			_cacheSafety.isSafe( c, x.getInEdges().edgeAt( 0 ).getRole(), x.getParent() );
 				//			System.err.println( "CACHE " + ++_cache );
 
 				sat = Bool.UNKNOWN;
@@ -533,7 +532,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			if (i >= br.getNodeCount())
 			{
 				_abox.removeNode(x);
-				final ATermAppl c = cachedNodes.remove(node);
+				final ATermAppl c = _cachedNodes.remove(node);
 				if (c != null && PelletOptions.USE_ADVANCED_CACHING)
 					if (clashPath.contains(x))
 					{
@@ -551,7 +550,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 				// FIXME should we look at the clash path or clash _node
 				if (node.equals(clashNode))
-					cachedNodes.remove(node);
+					_cachedNodes.remove(node);
 			}
 		}
 		nodeList.subList(br.getNodeCount(), nodeList.size()).clear();
@@ -617,12 +616,12 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			}
 			else
 			{
-				// create another copy of the mnx list here because we may backtrack to the same
+				// create another copy of the _mnx list here because we may backtrack to the same
 				// _branch multiple times and we want the same copy to be available every time
-				mayNeedExpanding = new LinkedList<>(mnx.get(newBranch.getBranch()));
-				mnx.subList(newBranch.getBranch() + 1, mnx.size()).clear();
+				_mayNeedExpanding = new LinkedList<>(_mnx.get(newBranch.getBranch()));
+				_mnx.subList(newBranch.getBranch() + 1, _mnx.size()).clear();
 				if (log.isLoggable(Level.FINE))
-					log.fine("MNX : " + mayNeedExpanding);
+					log.fine("MNX : " + _mayNeedExpanding);
 			}
 
 		}
@@ -637,9 +636,9 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	{
 		super.addBranch(newBranch);
 
-		assert mnx.size() == newBranch.getBranch() : mnx.size() + " != " + newBranch.getBranch();
+		assert _mnx.size() == newBranch.getBranch() : _mnx.size() + " != " + newBranch.getBranch();
 
-		// create a copy of the mnx list so that changes in the _current _branch will not affect it
-		mnx.add(new ArrayList<>(mayNeedExpanding));
+		// create a copy of the _mnx list so that changes in the _current _branch will not affect it
+		_mnx.add(new ArrayList<>(_mayNeedExpanding));
 	}
 }
