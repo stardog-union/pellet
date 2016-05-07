@@ -339,7 +339,7 @@ public abstract class Node
 
 					if (PelletOptions.USE_COMPLETION_QUEUE)
 					{
-						ind.applyNext[Node.NOM] = 0;
+						ind._applyNext[Node.NOM] = 0;
 						_abox.getCompletionQueue().add(new QueueElement(this), NodeSelector.NOMINAL);
 					}
 
@@ -404,8 +404,8 @@ public abstract class Node
 		if (removed && PelletOptions.USE_COMPLETION_QUEUE && this instanceof Individual)
 		{
 			final Individual ind = (Individual) this;
-			ind.applyNext[Node.ATOM] = 0;
-			ind.applyNext[Node.OR] = 0;
+			ind._applyNext[Node.ATOM] = 0;
+			ind._applyNext[Node.OR] = 0;
 
 			final QueueElement qe = new QueueElement(this);
 			_abox.getCompletionQueue().add(qe, NodeSelector.DISJUNCTION);
@@ -682,7 +682,7 @@ public abstract class Node
 					if (PelletOptions.USE_COMPLETION_QUEUE)
 					{
 						added = true;
-						pred.applyNext[Node.MAX] = 0;
+						pred._applyNext[Node.MAX] = 0;
 
 						final QueueElement qe = new QueueElement(pred);
 						_abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
@@ -701,7 +701,7 @@ public abstract class Node
 			if (this instanceof Individual)
 			{
 				final Individual ind = (Individual) this;
-				ind.applyNext[Node.MAX] = 0;
+				ind._applyNext[Node.MAX] = 0;
 				final QueueElement qe = new QueueElement(ind);
 				_abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
 				_abox.getCompletionQueue().add(qe, NodeSelector.GUESS);

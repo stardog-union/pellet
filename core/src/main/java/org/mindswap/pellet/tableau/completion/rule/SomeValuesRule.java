@@ -59,7 +59,7 @@ public class SomeValuesRule extends AbstractTableauRule
 
 		final List<ATermAppl> types = x.getTypes(Node.SOME);
 		final int size = types.size();
-		for (int j = x.applyNext[Node.SOME]; j < size; j++)
+		for (int j = x._applyNext[Node.SOME]; j < size; j++)
 		{
 			final ATermAppl sv = types.get(j);
 
@@ -68,7 +68,7 @@ public class SomeValuesRule extends AbstractTableauRule
 			if (_strategy.getABox().isClosed() || x.isPruned())
 				return;
 		}
-		x.applyNext[Node.SOME] = size;
+		x._applyNext[Node.SOME] = size;
 	}
 
 	protected void applySomeValuesRule(final Individual x, final ATermAppl sv)

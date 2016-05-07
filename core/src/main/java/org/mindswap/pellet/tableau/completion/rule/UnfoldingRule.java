@@ -54,7 +54,7 @@ public class UnfoldingRule extends AbstractTableauRule
 
 		final List<ATermAppl> types = node.getTypes(Node.ATOM);
 		int size = types.size();
-		for (int j = node.applyNext[Node.ATOM]; j < size; j++)
+		for (int j = node._applyNext[Node.ATOM]; j < size; j++)
 		{
 			final ATermAppl c = types.get(j);
 
@@ -70,7 +70,7 @@ public class UnfoldingRule extends AbstractTableauRule
 			// concepts that we need to further unfold
 			size = types.size();
 		}
-		node.applyNext[Node.ATOM] = size;
+		node._applyNext[Node.ATOM] = size;
 	}
 
 	protected void applyUnfoldingRule(final Individual node, final ATermAppl c)

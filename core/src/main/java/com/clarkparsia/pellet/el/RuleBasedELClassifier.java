@@ -102,17 +102,17 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 	{
 		//		CachedSubsumptionComparator subsumptionComparator = new CachedSubsumptionComparator( subsumers );
 		//		
-		//		POTaxonomyBuilder builder = new POTaxonomyBuilder( kb, subsumptionComparator );
-		//		builder.setKB( kb );
+		//		POTaxonomyBuilder _builder = new POTaxonomyBuilder( kb, subsumptionComparator );
+		//		_builder.setKB( kb );
 		//		
-		//		taxonomy = builder.getTaxonomy();
+		//		taxonomy = _builder.getTaxonomy();
 		//		
 		//		for( ATermAppl c : subsumers.keySet() ) {
 		//			if( subsumptionComparator.isSubsumedBy( c, ATermUtils.BOTTOM ) ) {
 		//				taxonomy.addEquivalentNode( c, taxonomy.getBottom() );
 		//			}
 		//			else {
-		//				builder.classify( c );
+		//				_builder.classify( c );
 		//			}
 		//		}
 

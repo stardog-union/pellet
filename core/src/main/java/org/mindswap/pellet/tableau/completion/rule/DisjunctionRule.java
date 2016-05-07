@@ -54,8 +54,8 @@ public class DisjunctionRule extends AbstractTableauRule
 		final List<ATermAppl> types = node.getTypes(Node.OR);
 
 		final int size = types.size();
-		final ATermAppl[] disjunctions = new ATermAppl[size - node.applyNext[Node.OR]];
-		types.subList(node.applyNext[Node.OR], size).toArray(disjunctions);
+		final ATermAppl[] disjunctions = new ATermAppl[size - node._applyNext[Node.OR]];
+		types.subList(node._applyNext[Node.OR], size).toArray(disjunctions);
 		if (PelletOptions.USE_DISJUNCTION_SORTING != PelletOptions.NO_SORTING)
 			sortDisjunctions(node, disjunctions);
 
@@ -66,7 +66,7 @@ public class DisjunctionRule extends AbstractTableauRule
 			if (_strategy.getABox().isClosed() || node.isMerged())
 				return;
 		}
-		node.applyNext[Node.OR] = size;
+		node._applyNext[Node.OR] = size;
 	}
 
 	private static void sortDisjunctions(final Individual node, final ATermAppl[] disjunctions)

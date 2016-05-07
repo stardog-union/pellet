@@ -71,7 +71,7 @@ public class MaxRule extends AbstractTableauRule
 			if (x.isMerged())
 				return;
 		}
-		x.applyNext[Node.MAX] = maxCardinality.size();
+		x._applyNext[Node.MAX] = maxCardinality.size();
 	}
 
 	protected void applyMaxRule(final Individual x, final ATermAppl mc)

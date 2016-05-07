@@ -52,7 +52,7 @@ public class MinRule extends AbstractTableauRule
 		// them in the list ''types''
 		final List<ATermAppl> types = x.getTypes(Node.MIN);
 		final int size = types.size();
-		for (int j = x.applyNext[Node.MIN]; j < size; j++)
+		for (int j = x._applyNext[Node.MIN]; j < size; j++)
 		{
 			// mc stores the _current type (the _current minCard restriction)
 			final ATermAppl mc = types.get(j);
@@ -62,7 +62,7 @@ public class MinRule extends AbstractTableauRule
 			if (_strategy.getABox().isClosed())
 				return;
 		}
-		x.applyNext[Node.MIN] = size;
+		x._applyNext[Node.MIN] = size;
 	}
 
 	protected void apply(final Individual x, final ATermAppl mc)

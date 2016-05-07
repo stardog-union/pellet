@@ -56,40 +56,40 @@ public class Individual extends Node implements CachedNode
 	private EdgeList outEdges;
 
 	@SuppressWarnings("unchecked")
-	private final ArrayList<ATermAppl>[] types = new ArrayList[TYPES]; // Known warning message
-	public int[] applyNext = new int[TYPES];
+	private final ArrayList<ATermAppl>[] _types = new ArrayList[TYPES]; // Known warning message
+	public int[] _applyNext = new int[TYPES];
 
-	private int nominalLevel;
+	private int _nominalLevel;
 
-	private Individual parent;
+	private Individual _parent;
 
-	private boolean modifiedAfterMerge = false;
+	private boolean _modifiedAfterMerge = false;
 
-	private short depth;
+	private short _depth;
 
-	private boolean isBlocked;
+	private boolean _isBlocked;
 
 	Individual(final ATermAppl name, final ABox abox, final Individual parent)
 	{
 		super(name, abox);
 
-		this.parent = parent;
+		this._parent = parent;
 
 		if (parent == null)
 		{
-			nominalLevel = NOMINAL;
-			depth = 0;
+			_nominalLevel = NOMINAL;
+			_depth = 0;
 		}
 		else
 		{
-			nominalLevel = BLOCKABLE;
-			depth = (short) (parent.depth + 1);
+			_nominalLevel = BLOCKABLE;
+			_depth = (short) (parent._depth + 1);
 		}
 
 		for (int i = 0; i < TYPES; i++)
 		{
-			types[i] = new ArrayList<>();
-			applyNext[i] = 0;
+			_types[i] = new ArrayList<>();
+			_applyNext[i] = 0;
 		}
 
 		outEdges = new EdgeList();
@@ -99,13 +99,13 @@ public class Individual extends Node implements CachedNode
 	{
 		super(ind, abox);
 
-		nominalLevel = ind.nominalLevel;
-		parent = ind.parent;
+		_nominalLevel = ind._nominalLevel;
+		_parent = ind._parent;
 
 		for (int i = 0; i < TYPES; i++)
 		{
-			types[i] = new ArrayList<>(ind.types[i]);
-			applyNext[i] = ind.applyNext[i];
+			_types[i] = new ArrayList<>(ind._types[i]);
+			_applyNext[i] = ind._applyNext[i];
 		}
 
 		if (isPruned())
@@ -116,17 +116,17 @@ public class Individual extends Node implements CachedNode
 
 	public boolean isBlocked()
 	{
-		return isBlocked;
+		return _isBlocked;
 	}
 
 	public void setBlocked(final boolean isBlocked)
 	{
-		this.isBlocked = isBlocked;
+		this._isBlocked = isBlocked;
 	}
 
 	public short getDepth()
 	{
-		return depth;
+		return _depth;
 	}
 
 	@Override
@@ -150,13 +150,13 @@ public class Individual extends Node implements CachedNode
 	@Override
 	public boolean isNominal()
 	{
-		return nominalLevel != BLOCKABLE;
+		return _nominalLevel != BLOCKABLE;
 	}
 
 	@Override
 	public boolean isBlockable()
 	{
-		return nominalLevel == BLOCKABLE;
+		return _nominalLevel == BLOCKABLE;
 	}
 
 	@Override
@@ -167,16 +167,16 @@ public class Individual extends Node implements CachedNode
 
 	public void setNominalLevel(final int level)
 	{
-		nominalLevel = level;
+		_nominalLevel = level;
 
-		if (nominalLevel != BLOCKABLE)
-			parent = null;
+		if (_nominalLevel != BLOCKABLE)
+			_parent = null;
 	}
 
 	@Override
 	public int getNominalLevel()
 	{
-		return nominalLevel;
+		return _nominalLevel;
 	}
 
 	@Override
@@ -193,7 +193,7 @@ public class Individual extends Node implements CachedNode
 
 	public List<ATermAppl> getTypes(final int type)
 	{
-		return types[type];
+		return _types[type];
 	}
 
 	@Override
@@ -223,10 +223,10 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Collects atomic concepts such that either that concept or its negation exist in the types list without depending on any non-deterministic _branch. First
-	 * list is filled with types and second list is filled with non-types, i.e. this individual can never be an instance of any element in the second list.
+	 * Collects atomic concepts such that either that concept or its negation exist in the _types list without depending on any non-deterministic _branch. First
+	 * list is filled with _types and second list is filled with non-_types, i.e. this individual can never be an instance of any element in the second list.
 	 *
-	 * @param types All atomic concepts found in types
+	 * @param _types All atomic concepts found in _types
 	 * @param nonTypes All atomic concepts
 	 */
 	public void getObviousTypes(final List<ATermAppl> types, final List<ATermAppl> nonTypes)
@@ -242,7 +242,7 @@ public class Individual extends Node implements CachedNode
 
 	public boolean canApply(final int type)
 	{
-		return applyNext[type] < types[type].size();
+		return _applyNext[type] < _types[type].size();
 	}
 
 	@Override
@@ -263,7 +263,7 @@ public class Individual extends Node implements CachedNode
 		}
 		else
 			if (isMerged())
-				modifiedAfterMerge = true;
+				_modifiedAfterMerge = true;
 
 		if (_depends.containsKey(c))
 		{
@@ -312,7 +312,7 @@ public class Individual extends Node implements CachedNode
 		if (ATermUtils.isPrimitive(c))
 		{
 			setChanged(ATOM);
-			types[ATOM].add(c);
+			_types[ATOM].add(c);
 
 			if (PelletOptions.USE_COMPLETION_QUEUE)
 				//update completion _queue
@@ -330,7 +330,7 @@ public class Individual extends Node implements CachedNode
 				if (c.getAFun().equals(ATermUtils.ALLFUN))
 				{
 					setChanged(ALL);
-					types[ALL].add(c);
+					_types[ALL].add(c);
 
 					if (PelletOptions.USE_COMPLETION_QUEUE)
 						//update completion _queue
@@ -341,7 +341,7 @@ public class Individual extends Node implements CachedNode
 					{
 						if (!isRedundantMin(c))
 						{
-							types[MIN].add(c);
+							_types[MIN].add(c);
 							setChanged(MIN);
 
 							if (PelletOptions.USE_COMPLETION_QUEUE)
@@ -363,7 +363,7 @@ public class Individual extends Node implements CachedNode
 							if (ATermUtils.isAnd(x))
 							{
 								setChanged(OR);
-								types[OR].add(c);
+								_types[OR].add(c);
 
 								if (PelletOptions.USE_COMPLETION_QUEUE)
 									//update completion _queue
@@ -373,7 +373,7 @@ public class Individual extends Node implements CachedNode
 								if (ATermUtils.isAllValues(x))
 								{
 									setChanged(SOME);
-									types[SOME].add(c);
+									_types[SOME].add(c);
 
 									if (PelletOptions.USE_COMPLETION_QUEUE)
 										//update completion _queue					
@@ -384,7 +384,7 @@ public class Individual extends Node implements CachedNode
 									{
 										if (!isRedundantMax(x))
 										{
-											types[MAX].add(c);
+											_types[MAX].add(c);
 											setChanged(MAX);
 
 											if (PelletOptions.USE_COMPLETION_QUEUE)
@@ -407,7 +407,7 @@ public class Individual extends Node implements CachedNode
 										if (ATermUtils.isNominal(x))
 										{
 											setChanged(ATOM);
-											types[ATOM].add(c);
+											_types[ATOM].add(c);
 
 											if (PelletOptions.USE_COMPLETION_QUEUE)
 												//update completion _queue					
@@ -430,7 +430,7 @@ public class Individual extends Node implements CachedNode
 												if (x.getArity() == 0)
 												{
 													setChanged(ATOM);
-													types[ATOM].add(c);
+													_types[ATOM].add(c);
 
 													if (PelletOptions.USE_COMPLETION_QUEUE)
 														//update completion _queue					
@@ -443,7 +443,7 @@ public class Individual extends Node implements CachedNode
 							if (c.getAFun().equals(ATermUtils.VALUEFUN))
 							{
 								setChanged(NOM);
-								types[NOM].add(c);
+								_types[NOM].add(c);
 
 								if (PelletOptions.USE_COMPLETION_QUEUE)
 									//update completion _queue				
@@ -453,7 +453,7 @@ public class Individual extends Node implements CachedNode
 								if (ATermUtils.isSelf(c))
 								{
 									setChanged(ATOM);
-									types[ATOM].add(c);
+									_types[ATOM].add(c);
 								}
 								else
 									throw new InternalReasonerException("Warning: Adding invalid class constructor - " + c);
@@ -474,7 +474,7 @@ public class Individual extends Node implements CachedNode
 			return true;
 		}
 
-		for (final ATermAppl mc : types[MAX])
+		for (final ATermAppl mc : _types[MAX])
 		{
 			// max(r, n) is in normalized form not(min(p, n + 1))
 			final ATermAppl maxCard = (ATermAppl) mc.getArgument(0);
@@ -508,7 +508,7 @@ public class Individual extends Node implements CachedNode
 		final int max = ((ATermInt) maxCard.getArgument(1)).getInt() - 1;
 		final ATermAppl maxC = (ATermAppl) maxCard.getArgument(2);
 
-		for (final ATermAppl minCard : types[MIN])
+		for (final ATermAppl minCard : _types[MIN])
 		{
 			final Role minR = _abox.getRole(minCard.getArgument(0));
 			if (minR == null)
@@ -541,7 +541,7 @@ public class Individual extends Node implements CachedNode
 		final int min = ((ATermInt) minCard.getArgument(1)).getInt();
 		final ATermAppl minQ = (ATermAppl) minCard.getArgument(2);
 
-		for (final ATermAppl prevMinCard : types[MIN])
+		for (final ATermAppl prevMinCard : _types[MIN])
 		{
 			final Role prevMinR = _abox.getRole(prevMinCard.getArgument(0));
 
@@ -566,12 +566,12 @@ public class Individual extends Node implements CachedNode
 
 		final int max = ((ATermInt) maxCard.getArgument(1)).getInt() - 1;
 
-		if (max == 1 && maxR != null && maxR.isFunctional())
+		if (max == 1 && maxR.isFunctional())
 			return true;
 
 		final ATermAppl maxQ = (ATermAppl) maxCard.getArgument(2);
 
-		for (final ATermAppl mc : types[MAX])
+		for (final ATermAppl mc : _types[MAX])
 		{
 			// max(r, n) is in normalized form not(min(p, n + 1))
 			final ATermAppl prevMaxCard = (ATermAppl) mc.getArgument(0);
@@ -592,7 +592,7 @@ public class Individual extends Node implements CachedNode
 
 	public DependencySet hasMax1(final Role r)
 	{
-		for (final ATermAppl mc : types[MAX])
+		for (final ATermAppl mc : _types[MAX])
 		{
 			// max(r, n, c) is in normalized form not(min(p, n + 1))
 			final ATermAppl maxCard = (ATermAppl) mc.getArgument(0);
@@ -601,7 +601,7 @@ public class Individual extends Node implements CachedNode
 			final ATermAppl maxQ = (ATermAppl) maxCard.getArgument(2);
 
 			// FIXME returned dependency set might be wrong
-			// if there are two types max(r,1) and max(p,1) where r subproperty of p
+			// if there are two _types max(r,1) and max(p,1) where r subproperty of p
 			// then the dependency set what we return might be wrong
 			if (max == 1 && r.isSubRoleOf(maxR) && ATermUtils.isTop(maxQ))
 				return getDepends(mc).union(r.getExplainSub(maxR.getName()), _abox.doExplanation());
@@ -613,7 +613,7 @@ public class Individual extends Node implements CachedNode
 	public int getMaxCard(final Role r)
 	{
 		int min = Integer.MAX_VALUE;
-		for (final ATermAppl mc : types[MAX])
+		for (final ATermAppl mc : _types[MAX])
 		{
 			// max(r, n) is in normalized form not(min(p, n + 1))
 			final ATermAppl maxCard = (ATermAppl) mc.getArgument(0);
@@ -633,7 +633,7 @@ public class Individual extends Node implements CachedNode
 	public int getMinCard(final Role r, final ATermAppl c)
 	{
 		int maxOfMins = 0;
-		for (final ATermAppl minCard : types[MIN])
+		for (final ATermAppl minCard : _types[MIN])
 		{
 			final Role minR = _abox.getRole(minCard.getArgument(0));
 			final int min = ((ATermInt) minCard.getArgument(1)).getInt();
@@ -654,36 +654,36 @@ public class Individual extends Node implements CachedNode
 		// it is important to continue removal here because restore function
 		// modified _depends map directly
 		if (ATermUtils.isPrimitive(c) || ATermUtils.isSelf(c))
-			types[ATOM].remove(c);
+			_types[ATOM].remove(c);
 		else
 			if (c.getAFun().equals(ATermUtils.ANDFUN))
 			{
-				//			    types[AND].remove(c);
+				//			    _types[AND].remove(c);
 			}
 			else
 				if (c.getAFun().equals(ATermUtils.ALLFUN))
-					types[ALL].remove(c);
+					_types[ALL].remove(c);
 				else
 					if (c.getAFun().equals(ATermUtils.MINFUN))
-						types[MIN].remove(c);
+						_types[MIN].remove(c);
 					else
 						if (c.getAFun().equals(ATermUtils.NOTFUN))
 						{
 							final ATermAppl x = (ATermAppl) c.getArgument(0);
 							if (ATermUtils.isAnd(x))
-								types[OR].remove(c);
+								_types[OR].remove(c);
 							else
 								if (ATermUtils.isAllValues(x))
-									types[SOME].remove(c);
+									_types[SOME].remove(c);
 								else
 									if (ATermUtils.isMin(x))
-										types[MAX].remove(c);
+										_types[MAX].remove(c);
 									else
 										if (ATermUtils.isNominal(x))
-											types[ATOM].remove(c);
+											_types[ATOM].remove(c);
 										else
 											if (x.getArity() == 0)
-												types[ATOM].remove(c);
+												_types[ATOM].remove(c);
 											else
 												if (ATermUtils.isSelf(x))
 												{
@@ -694,7 +694,7 @@ public class Individual extends Node implements CachedNode
 						}
 						else
 							if (c.getAFun().equals(ATermUtils.VALUEFUN))
-								types[NOM].remove(c);
+								_types[NOM].remove(c);
 							else
 								throw new RuntimeException("Invalid concept " + c);
 
@@ -978,9 +978,9 @@ public class Individual extends Node implements CachedNode
 	 * Check the property assertions to see if it is possible for this individual to have the value for the given datatype property. This function is meaningful
 	 * only called for individuals in a completed ABox (a pseudo model for the KB). In a completed ABox, individual will have some literal successors that may
 	 * or may not have a known value. The individual has the data property value only if it has a literal successor that has the exact given value and the edge
-	 * between the individual and the literal does not depend on any non- deterministic _branch. If the literal value is there but the edge _depends on a _branch
-	 * then we cannot exactly say if the literal value is there or not. If there is no literal successor with the given value then we can for sure say that
-	 * individual does not have the data property value (because it does not have the value in at least one model)
+	 * between the individual and the literal does not depend on any non- deterministic _branch. If the literal value is there but the edge _depends on a
+	 * _branch then we cannot exactly say if the literal value is there or not. If there is no literal successor with the given value then we can for sure say
+	 * that individual does not have the data property value (because it does not have the value in at least one model)
 	 *
 	 * @param r
 	 * @param value
@@ -1000,18 +1000,18 @@ public class Individual extends Node implements CachedNode
 			final Object literalValue = literal.getValue();
 			if (value != null && literalValue == null)
 				try
-				{
+			{
 					if (_abox._dtReasoner.isSatisfiable(literal.getTypes(), value))
 						hasValue = Bool.UNKNOWN;
 					else
 						hasValue = Bool.FALSE;
-				}
-				catch (final DatatypeReasonerException e)
-				{
-					final String msg = "Unexpected datatype reasoner exception while checking property value: " + e.getMessage();
-					log.severe(msg);
-					throw new InternalReasonerException(msg);
-				}
+			}
+			catch (final DatatypeReasonerException e)
+			{
+				final String msg = "Unexpected datatype reasoner exception while checking property value: " + e.getMessage();
+				log.severe(msg);
+				throw new InternalReasonerException(msg);
+			}
 			else
 				if (value == null || value.equals(literalValue))
 					if (ds.isIndependent())
@@ -1039,7 +1039,7 @@ public class Individual extends Node implements CachedNode
 	{
 		setChanged(ALL);
 		setChanged(MAX);
-		applyNext[MAX] = 0;
+		_applyNext[MAX] = 0;
 
 		_inEdges.addEdge(edge);
 	}
@@ -1048,7 +1048,7 @@ public class Individual extends Node implements CachedNode
 	{
 		setChanged(ALL);
 		setChanged(MAX);
-		applyNext[MAX] = 0;
+		_applyNext[MAX] = 0;
 
 		if (edge.getRole().isBottom())
 			_abox.setClash(Clash.bottomProperty(edge.getFrom(), edge.getDepends(), edge.getRole().getName()));
@@ -1089,7 +1089,7 @@ public class Individual extends Node implements CachedNode
 		_abox.setChanged(true);
 		setChanged(ALL);
 		setChanged(MAX);
-		applyNext[MAX] = 0;
+		_applyNext[MAX] = 0;
 
 		ds = ds.copy(_abox.getBranch());
 
@@ -1109,11 +1109,11 @@ public class Individual extends Node implements CachedNode
 
 	public Individual getParent()
 	{
-		return parent;
+		return _parent;
 	}
 
 	/**
-	 * Resets this _node (types, edges, sames, _differents) to contain only asserted information. This function can be seen a specialized case of restore but a
+	 * Resets this _node (_types, edges, sames, _differents) to contain only asserted information. This function can be seen a specialized case of restore but a
 	 * special function is needed both for correctness (e.g. SMART_RESTORE option should not change behavior) and performance
 	 */
 	@Override
@@ -1122,7 +1122,7 @@ public class Individual extends Node implements CachedNode
 		super.reset(onlyApplyTypes);
 
 		for (int i = 0; i < TYPES; i++)
-			applyNext[i] = 0;
+			_applyNext[i] = 0;
 
 		if (onlyApplyTypes)
 			return;
@@ -1135,7 +1135,7 @@ public class Individual extends Node implements CachedNode
 	{
 		for (int type = 0; type < TYPES; type++)
 		{
-			final ArrayList<ATermAppl> list = types[type];
+			final ArrayList<ATermAppl> list = _types[type];
 			int size = list.size();
 			for (int i = 0; i < size; i++)
 			{
@@ -1179,7 +1179,7 @@ public class Individual extends Node implements CachedNode
 		restored |= super.restore(branch);
 
 		for (int i = 0; i < TYPES; i++)
-			applyNext[i] = 0;
+			_applyNext[i] = 0;
 
 		boolean removed = false;
 
@@ -1208,7 +1208,7 @@ public class Individual extends Node implements CachedNode
 			_abox.getCompletionQueue().add(new QueueElement(this), NodeSelector.MIN_NUMBER);
 		}
 
-		if (modifiedAfterMerge && restored)
+		if (_modifiedAfterMerge && restored)
 		{
 			for (final Entry<ATermAppl, DependencySet> entry : _depends.entrySet())
 			{
@@ -1224,7 +1224,7 @@ public class Individual extends Node implements CachedNode
 					_abox.setClash(Clash.atomic(this, clashDepends, positive));
 				}
 			}
-			modifiedAfterMerge = false;
+			_modifiedAfterMerge = false;
 		}
 
 		return restored;
@@ -1241,8 +1241,8 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Prune the given _node by removing all links going to nominal _nodes and recurse through all successors. No need to remove incoming edges because either the
-	 * _node is the first one being pruned so the merge function already handled it or this is a successor _node and its successor is also being pruned
+	 * Prune the given _node by removing all links going to nominal _nodes and recurse through all successors. No need to remove incoming edges because either
+	 * the _node is the first one being pruned so the merge function already handled it or this is a successor _node and its successor is also being pruned
 	 *
 	 * @param succ
 	 * @param ds
@@ -1307,7 +1307,7 @@ public class Individual extends Node implements CachedNode
 						if (succ instanceof Individual)
 						{
 							final Individual succInd = (Individual) succ;
-							succInd.applyNext[Node.MAX] = 0;
+							succInd._applyNext[Node.MAX] = 0;
 							final QueueElement qe = new QueueElement(succInd);
 							_abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
 							_abox.getCompletionQueue().add(qe, NodeSelector.GUESS);
@@ -1320,7 +1320,7 @@ public class Individual extends Node implements CachedNode
 
 		if (added)
 		{
-			applyNext[Node.MAX] = 0;
+			_applyNext[Node.MAX] = 0;
 			final QueueElement qe = new QueueElement(this);
 			_abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
 			_abox.getCompletionQueue().add(qe, NodeSelector.GUESS);
@@ -1330,7 +1330,7 @@ public class Individual extends Node implements CachedNode
 
 	public String debugString()
 	{
-		return _name.getName() + " = " + types[ATOM] + types[ALL] + types[SOME] + types[OR] + types[MIN] + types[MAX] + types[NOM] + "; **" + outEdges + "**" + "; **" + _inEdges + "**" + " --> " + _depends + "";
+		return _name.getName() + " = " + _types[ATOM] + _types[ALL] + _types[SOME] + _types[OR] + _types[MIN] + _types[MAX] + _types[NOM] + "; **" + outEdges + "**" + "; **" + _inEdges + "**" + " --> " + _depends + "";
 	}
 
 	@Override
@@ -1338,8 +1338,8 @@ public class Individual extends Node implements CachedNode
 	{
 		super.updateNodeReferences();
 
-		if (parent != null)
-			parent = _abox.getIndividual(parent.getName());
+		if (_parent != null)
+			_parent = _abox.getIndividual(_parent.getName());
 
 		if (isPruned())
 		{

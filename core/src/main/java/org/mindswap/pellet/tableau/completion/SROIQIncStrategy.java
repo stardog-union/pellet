@@ -261,8 +261,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 			subj = subj.getSame();
 
-			subj.applyNext[Node.SOME] = 0;
-			subj.applyNext[Node.MIN] = 0;
+			subj._applyNext[Node.SOME] = 0;
+			subj._applyNext[Node.MIN] = 0;
 			QueueElement qe = new QueueElement(subj);
 			_abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
 			_abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
@@ -271,8 +271,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 			if (obj instanceof Individual)
 			{
 				final Individual objInd = (Individual) obj;
-				objInd.applyNext[Node.SOME] = 0;
-				objInd.applyNext[Node.MIN] = 0;
+				objInd._applyNext[Node.SOME] = 0;
+				objInd._applyNext[Node.MIN] = 0;
 				qe = new QueueElement(objInd);
 				_abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
 				_abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
@@ -293,9 +293,9 @@ public class SROIQIncStrategy extends SROIQStrategy
 				readdConjunctions(ind);
 
 				//it could be the case that the type can be added from unfolding, a forAll application on a self loop, or the _disjunction rule
-				ind.applyNext[Node.ATOM] = 0;
-				ind.applyNext[Node.ALL] = 0;
-				ind.applyNext[Node.OR] = 0;
+				ind._applyNext[Node.ATOM] = 0;
+				ind._applyNext[Node.ALL] = 0;
+				ind._applyNext[Node.OR] = 0;
 
 				final QueueElement qe = new QueueElement(ind);
 				_abox.getCompletionQueue().add(qe, NodeSelector.ATOM);
@@ -327,9 +327,9 @@ public class SROIQIncStrategy extends SROIQStrategy
 					if (obj instanceof Individual)
 					{
 						final Individual objInd = (Individual) obj;
-						objInd.applyNext[Node.ALL] = 0;
-						objInd.applyNext[Node.SOME] = 0;
-						objInd.applyNext[Node.MIN] = 0;
+						objInd._applyNext[Node.ALL] = 0;
+						objInd._applyNext[Node.SOME] = 0;
+						objInd._applyNext[Node.MIN] = 0;
 						final QueueElement qeObj = new QueueElement(objInd);
 						_abox.getCompletionQueue().add(qeObj, NodeSelector.EXISTENTIAL);
 						_abox.getCompletionQueue().add(qeObj, NodeSelector.MIN_NUMBER);
@@ -360,9 +360,9 @@ public class SROIQIncStrategy extends SROIQStrategy
 							addType(node, range, ds.union(pred.getExplainRange(range), _abox.doExplanation()));
 
 				//it could be the case that this label prevented the firing of the all values, some, or min rules of the _neighbor
-				subj.applyNext[Node.ALL] = 0;
-				subj.applyNext[Node.SOME] = 0;
-				subj.applyNext[Node.MIN] = 0;
+				subj._applyNext[Node.ALL] = 0;
+				subj._applyNext[Node.SOME] = 0;
+				subj._applyNext[Node.MIN] = 0;
 				final QueueElement qe = new QueueElement(subj);
 				_abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
 				_abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
@@ -388,7 +388,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 				//reset type pointers
 				for (int j = 0; j < Node.TYPES; j++)
-					ind.applyNext[j] = 0;
+					ind._applyNext[j] = 0;
 
 				//add to all queues
 				_abox.getCompletionQueue().add(new QueueElement(ind));
@@ -407,7 +407,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 					if (obj instanceof Individual)
 					{
 						final Individual objInd = (Individual) obj;
-						objInd.applyNext[Node.ALL] = 0;
+						objInd._applyNext[Node.ALL] = 0;
 						_allValuesRule.apply(objInd);
 					}
 				}
@@ -421,7 +421,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 						applyPropertyRestrictions(e);
 
 					final Individual subj = e.getFrom();
-					subj.applyNext[Node.ALL] = 0;
+					subj._applyNext[Node.ALL] = 0;
 					_allValuesRule.apply(subj);
 				}
 			}
@@ -497,7 +497,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 				final Individual ind = (Individual) node;
 				//reset type pointers
 				for (int j = 0; j < Node.TYPES; j++)
-					ind.applyNext[j] = 0;
+					ind._applyNext[j] = 0;
 
 				//add to all queues
 				_abox.getCompletionQueue().add(new QueueElement(ind));
@@ -513,7 +513,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 					if (obj instanceof Individual)
 					{
 						final Individual objInd = (Individual) obj;
-						objInd.applyNext[Node.ALL] = 0;
+						objInd._applyNext[Node.ALL] = 0;
 						_allValuesRule.apply(objInd);
 					}
 				}
@@ -524,7 +524,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 			{
 				final Edge e = node.getInEdges().edgeAt(j);
 				final Individual subj = e.getFrom();
-				subj.applyNext[Node.ALL] = 0;
+				subj._applyNext[Node.ALL] = 0;
 				_allValuesRule.apply(subj);
 			}
 		}

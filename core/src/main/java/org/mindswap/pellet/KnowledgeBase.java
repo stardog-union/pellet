@@ -118,27 +118,27 @@ public class KnowledgeBase
 	// This field is to ensure memory profiler will first process ATermFactory
 	// which makes it easier to analyze the results
 	@SuppressWarnings("unused")
-	private final ATermFactory factory = ATermUtils.getFactory();
+	private final ATermFactory _factory = ATermUtils.getFactory();
 
-	protected ABox abox;
-	protected TBox tbox;
-	protected RBox rbox;
+	protected ABox _abox;
+	protected TBox _tbox;
+	protected RBox _rbox;
 
-	private Set<ATermAppl> individuals;
+	private Set<ATermAppl> _individuals;
 
-	protected TaxonomyBuilder builder;
-	private ProgressMonitor builderProgressMonitor;
+	protected TaxonomyBuilder _builder;
+	private ProgressMonitor _builderProgressMonitor;
 
-	private boolean consistent;
+	private boolean _consistent;
 
-	private SizeEstimate estimate;
+	private SizeEstimate _estimate;
 
-	private boolean explainOnlyInconsistency = false;
+	private boolean _explainOnlyInconsistency = false;
 
-	private final Map<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> annotations;
+	private final Map<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> _annotations;
 
 	/**
-	 * The state of KB w.r.t. reasoning. The state is not valid if KB is changed, i.e. !changes.isEmpty(). These states are added in the _order CONSISTENCY <
+	 * The state of KB w.r.t. reasoning. The state is not valid if KB is changed, i.e. !_changes.isEmpty(). These states are added in the _order CONSISTENCY <
 	 * CLASSIFY < REALIZE when the corresponding functions are called. If KB is modified after classification, calling prepare might remove CONSISTENCY but
 	 * leave CLASSIFY.
 	 */
@@ -147,20 +147,20 @@ public class KnowledgeBase
 		CONSISTENCY, CLASSIFY, REALIZE
 	}
 
-	protected EnumSet<ReasoningState> state = EnumSet.noneOf(ReasoningState.class);
+	protected EnumSet<ReasoningState> _state = EnumSet.noneOf(ReasoningState.class);
 
-	private Map<ATermAppl, Set<ATermAppl>> instances;
+	private Map<ATermAppl, Set<ATermAppl>> _instances;
 
-	private ExpressivityChecker expChecker;
+	private ExpressivityChecker _expChecker;
 
 	/**
 	 * Timers used in various different parts of KB. There may be many different _timers created here depending on the level of debugging or application
 	 * requirements. However, there are three major _timers that are guaranteed to exist.
 	 * <ul>
-	 * <li><b>main</b> - This is the main timer that exists in any Timers objects. All the other _timers defined in here will have this timer as its dependant so
-	 * setting a timeout on this timer will put a limit on every operation done inside KB.</li>
+	 * <li><b>main</b> - This is the main timer that exists in any Timers objects. All the other _timers defined in here will have this timer as its dependant
+	 * so setting a timeout on this timer will put a limit on every operation done inside KB.</li>
 	 * <li><b>preprocessing</b> - This is the operation where TBox creation, absorbtion and normalization is done. It also includes computing hierarchy of
-	 * properties in RBox and merging the individuals in ABox if there are explicit sameAs assertions.</li>
+	 * properties in RBox and merging the _individuals in ABox if there are explicit sameAs assertions.</li>
 	 * <li><b>consistency</b> - This is the timer for ABox consistency check. Putting a timeout will mean that any single consistency check should be completed
 	 * in a certain amount of time.</li>
 	 * </ul>
@@ -170,48 +170,48 @@ public class KnowledgeBase
 	/**
 	 * Rules added to this KB. The key is the asserted rule,
 	 */
-	private Map<Rule, Rule> rules;
+	private Map<Rule, Rule> _rules;
 
 	// !!!!THE FOLLOWING ARE USED FOR INCREMENTAL REASONING!!!!
 	// Structure for tracking which assertions are deleted
-	private Set<ATermAppl> deletedAssertions;
+	private Set<ATermAppl> _deletedAssertions;
 
 	// Index used for _abox deletions
-	private DependencyIndex dependencyIndex;
+	private DependencyIndex _dependencyIndex;
 
 	// set of syntactic assertions
-	private Set<ATermAppl> syntacticAssertions;
+	private Set<ATermAppl> _syntacticAssertions;
 
 	public enum AssertionType
 	{
 		TYPE, OBJ_ROLE, DATA_ROLE
 	}
 
-	protected MultiValueMap<AssertionType, ATermAppl> aboxAssertions;
+	protected MultiValueMap<AssertionType, ATermAppl> _aboxAssertions;
 
 	public enum ChangeType
 	{
 		ABOX_ADD, ABOX_DEL, TBOX_ADD, TBOX_DEL, RBOX_ADD, RBOX_DEL
 	}
 
-	protected EnumSet<ChangeType> changes;
+	protected EnumSet<ChangeType> _changes;
 
-	protected boolean canUseIncConsistency;
+	protected boolean _canUseIncConsistency;
 
-	FullyDefinedClassVisitor fullyDefinedVisitor = new FullyDefinedClassVisitor();
-	DatatypeVisitor datatypeVisitor = new DatatypeVisitor();
+	FullyDefinedClassVisitor _fullyDefinedVisitor = new FullyDefinedClassVisitor();
+	DatatypeVisitor _datatypeVisitor = new DatatypeVisitor();
 
 	class DatatypeVisitor extends ATermBaseVisitor
 	{
 
-		private boolean isDatatype = false;
+		private boolean _isDatatype = false;
 
 		public boolean isDatatype(final ATermAppl term)
 		{
-			isDatatype = false;
+			_isDatatype = false;
 			visit(term);
 
-			return isDatatype;
+			return _isDatatype;
 		}
 
 		@Override
@@ -232,14 +232,14 @@ public class KnowledgeBase
 			final ATermAppl nominal = (ATermAppl) term.getArgument(0);
 
 			if (ATermUtils.isLiteral(nominal))
-				isDatatype = true;
+				_isDatatype = true;
 		}
 
 		@Override
 		public void visitTerm(final ATermAppl term)
 		{
 			if (getDatatypeReasoner().isDeclared(term))
-				isDatatype = true;
+				_isDatatype = true;
 		}
 
 		@Override
@@ -447,7 +447,7 @@ public class KnowledgeBase
 		@Override
 		public void visitTerm(final ATermAppl term)
 		{
-			fullyDefined = fullyDefined && tbox.getClasses().contains(term);
+			fullyDefined = fullyDefined && _tbox.getClasses().contains(term);
 			if (!fullyDefined)
 				return;
 		}
@@ -460,7 +460,7 @@ public class KnowledgeBase
 				fullyDefined = false;
 			else
 				if (!ATermUtils.isLiteral(nominal))
-					fullyDefined = fullyDefined && individuals.contains(nominal);
+					fullyDefined = fullyDefined && _individuals.contains(nominal);
 		}
 
 		@Override
@@ -494,18 +494,18 @@ public class KnowledgeBase
 		timers.createTimer("preprocessing");
 		timers.createTimer("consistency");
 		timers.createTimer("complete");
-		state = EnumSet.noneOf(ReasoningState.class);
+		_state = EnumSet.noneOf(ReasoningState.class);
 
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 		{
-			deletedAssertions = new HashSet<>();
-			dependencyIndex = new DependencyIndex(this);
-			syntacticAssertions = new HashSet<>();
+			_deletedAssertions = new HashSet<>();
+			_dependencyIndex = new DependencyIndex(this);
+			_syntacticAssertions = new HashSet<>();
 		}
 
-		aboxAssertions = new MultiValueMap<>();
+		_aboxAssertions = new MultiValueMap<>();
 
-		annotations = new HashMap<>();
+		_annotations = new HashMap<>();
 	}
 
 	/**
@@ -515,78 +515,78 @@ public class KnowledgeBase
 	 */
 	protected KnowledgeBase(final KnowledgeBase kb, final boolean emptyABox)
 	{
-		tbox = kb.tbox;
-		rbox = kb.rbox;
-		rules = kb.rules;
+		_tbox = kb._tbox;
+		_rbox = kb._rbox;
+		_rules = kb._rules;
 
-		aboxAssertions = new MultiValueMap<>();
+		_aboxAssertions = new MultiValueMap<>();
 
-		annotations = kb.annotations;
+		_annotations = kb._annotations;
 
-		expChecker = new ExpressivityChecker(this, kb.getExpressivity());
+		_expChecker = new ExpressivityChecker(this, kb.getExpressivity());
 
-		changes = kb.changes.clone();
+		_changes = kb._changes.clone();
 
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 		{
-			deletedAssertions = new HashSet<>();
-			dependencyIndex = new DependencyIndex(this);
-			syntacticAssertions = new HashSet<>();
+			_deletedAssertions = new HashSet<>();
+			_dependencyIndex = new DependencyIndex(this);
+			_syntacticAssertions = new HashSet<>();
 		}
 
 		if (emptyABox)
 		{
-			abox = new ABox(this);
+			_abox = new ABox(this);
 
-			individuals = new HashSet<>();
-			instances = new HashMap<>();
+			_individuals = new HashSet<>();
+			_instances = new HashMap<>();
 
-			// even though we don't copy the individuals over to the new KB
-			// we should still create individuals for the
+			// even though we don't copy the _individuals over to the new KB
+			// we should still create _individuals for the
 			for (final ATermAppl nominal : kb.getExpressivity().getNominals())
 				addIndividual(nominal);
 		}
 		else
 		{
-			abox = kb.abox.copy(this);
+			_abox = kb._abox.copy(this);
 
 			if (PelletOptions.KEEP_ABOX_ASSERTIONS)
 				for (final AssertionType assertionType : AssertionType.values())
 				{
-					final Set<ATermAppl> assertions = kb.aboxAssertions.get(assertionType);
+					final Set<ATermAppl> assertions = kb._aboxAssertions.get(assertionType);
 					if (!assertions.isEmpty())
-						aboxAssertions.put(assertionType, new HashSet<>(assertions));
+						_aboxAssertions.put(assertionType, new HashSet<>(assertions));
 				}
 
-			individuals = new HashSet<>(kb.individuals);
-			instances = new HashMap<>(kb.instances);
+			_individuals = new HashSet<>(kb._individuals);
+			_instances = new HashMap<>(kb._instances);
 
 			// copy deleted assertions
 			if (kb.getDeletedAssertions() != null)
-				deletedAssertions = new HashSet<>(kb.getDeletedAssertions());
+				_deletedAssertions = new HashSet<>(kb.getDeletedAssertions());
 
 			if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && PelletOptions.USE_INCREMENTAL_DELETION)
 				// copy the dependency _index
-				dependencyIndex = new DependencyIndex(this, kb.dependencyIndex);
+				_dependencyIndex = new DependencyIndex(this, kb._dependencyIndex);
 
 			// copy syntactic assertions
-			if (kb.syntacticAssertions != null)
-				syntacticAssertions = new HashSet<>(kb.syntacticAssertions);
+			if (kb._syntacticAssertions != null)
+				_syntacticAssertions = new HashSet<>(kb._syntacticAssertions);
 		}
 
 		if (kb.isConsistencyDone())
 		{
 			prepare();
 
-			state = EnumSet.of(ReasoningState.CONSISTENCY);
-			consistent = kb.consistent;
+			_state = EnumSet.of(ReasoningState.CONSISTENCY);
+			_consistent = kb._consistent;
 
-			abox.setComplete(true);
+			_abox.setComplete(true);
 
-			estimate = new SizeEstimate(this);
+			_estimate = new SizeEstimate(this);
 		}
 		else
-			state = EnumSet.noneOf(ReasoningState.class);
+			_state = EnumSet.noneOf(ReasoningState.class);
 
 		timers = kb.timers;
 		// _timers.createTimer("preprocessing");
@@ -603,72 +603,72 @@ public class KnowledgeBase
 		// if we can use incremental reasoning then expressivity has been
 		// updated as only the ABox was incrementally changed
 		if (canUseIncConsistency())
-			return expChecker;
+			return _expChecker;
 
 		prepare();
 
-		return expChecker;
+		return _expChecker;
 	}
 
 	public void clear()
 	{
 
-		if (abox == null)
-			abox = new ABox(this);
+		if (_abox == null)
+			_abox = new ABox(this);
 		else
 		{
-			final boolean doExplanation = abox.doExplanation();
-			final boolean keepLastCompletion = abox.isKeepLastCompletion();
-			abox = new ABox(this);
-			abox.setDoExplanation(doExplanation);
-			abox.setKeepLastCompletion(keepLastCompletion);
+			final boolean doExplanation = _abox.doExplanation();
+			final boolean keepLastCompletion = _abox.isKeepLastCompletion();
+			_abox = new ABox(this);
+			_abox.setDoExplanation(doExplanation);
+			_abox.setKeepLastCompletion(keepLastCompletion);
 		}
 
-		tbox = TBoxFactory.createTBox(this);
+		_tbox = TBoxFactory.createTBox(this);
 
-		rbox = new RBox();
+		_rbox = new RBox();
 
-		rules = new HashMap<>();
+		_rules = new HashMap<>();
 
-		expChecker = new ExpressivityChecker(this);
-		individuals = new HashSet<>();
+		_expChecker = new ExpressivityChecker(this);
+		_individuals = new HashSet<>();
 
-		aboxAssertions = new MultiValueMap<>();
+		_aboxAssertions = new MultiValueMap<>();
 
-		instances = new HashMap<>();
+		_instances = new HashMap<>();
 		// typeChecks = new HashMap();
 
-		builder = null;
+		_builder = null;
 
-		state.clear();
-		changes = EnumSet.of(ChangeType.ABOX_ADD, ChangeType.TBOX_ADD, ChangeType.RBOX_ADD);
+		_state.clear();
+		_changes = EnumSet.of(ChangeType.ABOX_ADD, ChangeType.TBOX_ADD, ChangeType.RBOX_ADD);
 	}
 
 	public void clearABox()
 	{
-		aboxAssertions.clear();;
+		_aboxAssertions.clear();
 
-		annotations.clear();
+		_annotations.clear();
 
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 		{
-			deletedAssertions = new HashSet<>();
-			dependencyIndex = new DependencyIndex(this);
-			syntacticAssertions = new HashSet<>();
+			_deletedAssertions = new HashSet<>();
+			_dependencyIndex = new DependencyIndex(this);
+			_syntacticAssertions = new HashSet<>();
 		}
 
 		final ABox newABox = new ABox(this);
-		newABox._cache = abox._cache;
-		abox = newABox;
+		newABox._cache = _abox._cache;
+		_abox = newABox;
 
-		individuals.clear();
+		_individuals.clear();
 
-		changes = EnumSet.of(ChangeType.ABOX_DEL);
+		_changes = EnumSet.of(ChangeType.ABOX_DEL);
 
 		prepare();
 
-		// even though we don't copy the individuals over to the new KB
-		// we should still create individuals for the
+		// even though we don't copy the _individuals over to the new KB
+		// we should still create _individuals for the
 		for (final ATermAppl nominal : getExpressivity().getNominals())
 			addIndividual(nominal);
 	}
@@ -686,7 +686,7 @@ public class KnowledgeBase
 	/**
 	 * Create a copy of this KB. Depending on the value of <code>emptyABox</code> either a completely new copy of ABox will be created or the new KB will have
 	 * an empty ABox. If <code>emptyABox</code> parameter is true but the original KB contains nominals in its RBox or TBox the new KB will have the definition
-	 * of those individuals (but not ) In either case, the new KB will point to the same RBox and TBox so changing one KB's RBox or TBox will affect other.
+	 * of those _individuals (but not ) In either case, the new KB will point to the same RBox and TBox so changing one KB's RBox or TBox will affect other.
 	 *
 	 * @param emptyABox If <code>true</code> ABox is not copied to the new KB
 	 * @return A copy of this KB
@@ -707,11 +707,11 @@ public class KnowledgeBase
 		if (c.equals(ATermUtils.TOP) || ATermUtils.isComplexClass(c))
 			return;
 
-		final boolean added = tbox.addClass(c);
+		final boolean added = _tbox.addClass(c);
 
 		if (added)
 		{
-			changes.add(ChangeType.TBOX_ADD);
+			_changes.add(ChangeType.TBOX_ADD);
 
 			if (log.isLoggable(Level.FINER))
 				log.finer("class " + c);
@@ -723,9 +723,9 @@ public class KnowledgeBase
 		if (sub.equals(sup))
 			return;
 
-		changes.add(ChangeType.TBOX_ADD);
+		_changes.add(ChangeType.TBOX_ADD);
 
-		tbox.addAxiom(ATermUtils.makeSub(sub, sup));
+		_tbox.addAxiom(ATermUtils.makeSub(sub, sup));
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("sub-class " + sub + " " + sup);
@@ -736,9 +736,9 @@ public class KnowledgeBase
 		if (c1.equals(c2))
 			return;
 
-		changes.add(ChangeType.TBOX_ADD);
+		_changes.add(ChangeType.TBOX_ADD);
 
-		tbox.addAxiom(ATermUtils.makeEqClasses(c1, c2));
+		_tbox.addAxiom(ATermUtils.makeEqClasses(c1, c2));
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("eq-class " + c1 + " " + c2);
@@ -785,9 +785,9 @@ public class KnowledgeBase
 
 	public void addDisjointClasses(final ATermList classes)
 	{
-		changes.add(ChangeType.TBOX_ADD);
+		_changes.add(ChangeType.TBOX_ADD);
 
-		tbox.addAxiom(ATermUtils.makeDisjoints(classes));
+		_tbox.addAxiom(ATermUtils.makeDisjoints(classes));
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("disjoints " + classes);
@@ -800,9 +800,9 @@ public class KnowledgeBase
 
 	public void addDisjointClass(final ATermAppl c1, final ATermAppl c2)
 	{
-		changes.add(ChangeType.TBOX_ADD);
+		_changes.add(ChangeType.TBOX_ADD);
 
-		tbox.addAxiom(ATermUtils.makeDisjoint(c1, c2));
+		_tbox.addAxiom(ATermUtils.makeDisjoint(c1, c2));
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("disjoint " + c1 + " " + c2);
@@ -810,13 +810,13 @@ public class KnowledgeBase
 
 	public void addComplementClass(final ATermAppl c1, final ATermAppl c2)
 	{
-		changes.add(ChangeType.TBOX_ADD);
+		_changes.add(ChangeType.TBOX_ADD);
 		final ATermAppl notC2 = ATermUtils.makeNot(c2);
 
 		if (c1.equals(notC2))
 			return;
 
-		tbox.addAxiom(ATermUtils.makeEqClasses(c1, notC2));
+		_tbox.addAxiom(ATermUtils.makeEqClasses(c1, notC2));
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("complement " + c1 + " " + c2);
@@ -838,7 +838,7 @@ public class KnowledgeBase
 
 	public Individual addIndividual(final ATermAppl i)
 	{
-		final Node node = abox.getNode(i);
+		final Node node = _abox.getNode(i);
 		if (node != null)
 		{
 			if (node instanceof Literal)
@@ -850,17 +850,17 @@ public class KnowledgeBase
 			if (ATermUtils.isLiteral(i))
 				throw new UnsupportedFeatureException("Trying to use a literal as an individual: " + ATermUtils.toString(i));
 
-		final int remember = abox.getBranch();
-		abox.setBranch(DependencySet.NO_BRANCH);
+		final int remember = _abox.getBranch();
+		_abox.setBranch(DependencySet.NO_BRANCH);
 
-		abox.setSyntacticUpdate(true);
-		final Individual ind = abox.addIndividual(i, DependencySet.INDEPENDENT);
-		individuals.add(i);
+		_abox.setSyntacticUpdate(true);
+		final Individual ind = _abox.addIndividual(i, DependencySet.INDEPENDENT);
+		_individuals.add(i);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("individual " + i);
 
-		abox.setSyntacticUpdate(false);
+		_abox.setSyntacticUpdate(false);
 
 		if (!PelletOptions.USE_PSEUDO_NOMINALS)
 		{
@@ -868,35 +868,35 @@ public class KnowledgeBase
 			// because it might not be complete. it will be added
 			// by CompletionStrategy.initialize()
 			final ATermAppl nominal = ATermUtils.makeValue(i);
-			abox.addType(i, nominal, DependencySet.INDEPENDENT);
+			_abox.addType(i, nominal, DependencySet.INDEPENDENT);
 		}
 
 		// set addition flag
-		changes.add(ChangeType.ABOX_ADD);
+		_changes.add(ChangeType.ABOX_ADD);
 
 		// if we can use inc reasoning then update incremental completion
 		// structures
 		if (canUseIncConsistency())
 		{
-			abox.setSyntacticUpdate(true);
+			_abox.setSyntacticUpdate(true);
 
 			// need to update the _branch _node count as this is _node has been
 			// added otherwise during back jumping this _node can be removed
-			for (int j = 0; j < abox.getBranches().size(); j++)
+			for (int j = 0; j < _abox.getBranches().size(); j++)
 			{
 				// get next _branch
-				final Branch branch = abox.getBranches().get(j);
+				final Branch branch = _abox.getBranches().get(j);
 				branch.setNodeCount(branch.getNodeCount() + 1);
 			}
 
-			// track updated and new individuals; this is needed for the
+			// track updated and new _individuals; this is needed for the
 			// incremental completion _strategy
-			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i));
-			abox.getIncrementalChangeTracker().addNewIndividual(abox.getIndividual(i));
-			abox.setSyntacticUpdate(false);
+			_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(i));
+			_abox.getIncrementalChangeTracker().addNewIndividual(_abox.getIndividual(i));
+			_abox.setSyntacticUpdate(false);
 		}
 
-		abox.setBranch(remember);
+		_abox.setBranch(remember);
 
 		return ind;
 	}
@@ -913,12 +913,12 @@ public class KnowledgeBase
 		// _index
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 		{
-			syntacticAssertions.add(typeAxiom);
-			dependencyIndex.addTypeDependency(i, c, ds);
+			_syntacticAssertions.add(typeAxiom);
+			_dependencyIndex.addTypeDependency(i, c, ds);
 		}
 
 		if (PelletOptions.KEEP_ABOX_ASSERTIONS)
-			aboxAssertions.add(AssertionType.TYPE, typeAxiom);
+			_aboxAssertions.add(AssertionType.TYPE, typeAxiom);
 
 		addType(i, c, ds);
 	}
@@ -926,20 +926,20 @@ public class KnowledgeBase
 	public void addType(final ATermAppl i, final ATermAppl c, final DependencySet ds)
 	{
 		// set addition flag
-		changes.add(ChangeType.ABOX_ADD);
+		_changes.add(ChangeType.ABOX_ADD);
 
 		// if use incremental reasoning then update the cached pseudo model as
 		// well
 		if (canUseIncConsistency())
 			// TODO: refactor the access to the updatedIndividuals and
 			// newIndividuals - add get method
-			// add this individuals to the affected list - used for inc.
+			// add this _individuals to the affected list - used for inc.
 			// consistency checking
-			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i));
+			_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(i));
 
-		abox.setSyntacticUpdate(true);
-		abox.addType(i, c, ds);
-		abox.setSyntacticUpdate(false);
+		_abox.setSyntacticUpdate(true);
+		_abox.addType(i, c, ds);
+		_abox.setSyntacticUpdate(false);
 
 		if (canUseIncConsistency())
 			// incrementally update the expressivity of the KB, so that we do
@@ -953,22 +953,22 @@ public class KnowledgeBase
 	public void addSame(final ATermAppl i1, final ATermAppl i2)
 	{
 		// set addition flag
-		changes.add(ChangeType.ABOX_ADD);
+		_changes.add(ChangeType.ABOX_ADD);
 
 		if (canUseIncConsistency())
 		{
 			// TODO: refactor the access to the updatedIndividuals and
 			// newIndividuals - add get method
-			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i1));
-			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i2));
+			_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(i1));
+			_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(i2));
 
 			// add to pseudomodel - note _branch is not set to zero - this is
 			// done in SHOIQIncStrategy, prior
 			// to merging _nodes
-			abox.addSame(i1, i2);
+			_abox.addSame(i1, i2);
 		}
 
-		abox.addSame(i1, i2);
+		_abox.addSame(i1, i2);
 		if (log.isLoggable(Level.FINER))
 			log.finer("same " + i1 + " " + i2);
 	}
@@ -976,7 +976,7 @@ public class KnowledgeBase
 	public void addAllDifferent(final ATermList list)
 	{
 		// set addition flag
-		changes.add(ChangeType.ABOX_ADD);
+		_changes.add(ChangeType.ABOX_ADD);
 
 		// if we can use incremental consistency checking then add to
 		// pseudomodel
@@ -991,8 +991,8 @@ public class KnowledgeBase
 				{
 					// TODO: refactor the access to the updatedIndividuals and
 					// newIndividuals - add get method
-					abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(outer.getFirst()));
-					abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(inner.getFirst()));
+					_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(outer.getFirst()));
+					_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(inner.getFirst()));
 					inner = inner.getNext();
 				}
 				outer = outer.getNext();
@@ -1001,14 +1001,14 @@ public class KnowledgeBase
 			// add to pseudomodel - note _branch must be temporarily set to 0 to
 			// ensure that asssertion
 			// will not be restored during backtracking
-			final int branch = abox.getBranch();
-			abox.setBranch(0);
+			final int branch = _abox.getBranch();
+			_abox.setBranch(0);
 			// update pseudomodel
-			abox.addAllDifferent(list);
-			abox.setBranch(branch);
+			_abox.addAllDifferent(list);
+			_abox.setBranch(branch);
 		}
 
-		abox.addAllDifferent(list);
+		_abox.addAllDifferent(list);
 		if (log.isLoggable(Level.FINER))
 			log.finer("all diff " + list);
 	}
@@ -1016,7 +1016,7 @@ public class KnowledgeBase
 	public void addDifferent(final ATermAppl i1, final ATermAppl i2)
 	{
 		// set addition flag
-		changes.add(ChangeType.ABOX_ADD);
+		_changes.add(ChangeType.ABOX_ADD);
 
 		// if we can use incremental consistency checking then add to
 		// pseudomodel
@@ -1024,19 +1024,19 @@ public class KnowledgeBase
 		{
 			// TODO: refactor the access to the updatedIndividuals and
 			// newIndividuals - add get method
-			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i1));
-			abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(i2));
+			_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(i1));
+			_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(i2));
 
 			// add to pseudomodel - note _branch must be temporarily set to 0 to
 			// ensure that asssertion
 			// will not be restored during backtracking
-			final int branch = abox.getBranch();
-			abox.setBranch(0);
-			abox.addDifferent(i1, i2);
-			abox.setBranch(branch);
+			final int branch = _abox.getBranch();
+			_abox.setBranch(0);
+			_abox.addDifferent(i1, i2);
+			_abox.setBranch(branch);
 		}
 
-		abox.addDifferent(i1, i2);
+		_abox.addDifferent(i1, i2);
 		if (log.isLoggable(Level.FINER))
 			log.finer("diff " + i1 + " " + i2);
 	}
@@ -1052,7 +1052,7 @@ public class KnowledgeBase
 
 	public boolean addPropertyValue(final ATermAppl p, final ATermAppl s, final ATermAppl o)
 	{
-		final Individual subj = abox.getIndividual(s);
+		final Individual subj = _abox.getIndividual(s);
 		final Role role = getRole(p);
 		Node obj = null;
 
@@ -1077,7 +1077,7 @@ public class KnowledgeBase
 
 		if (role.isObjectRole())
 		{
-			obj = abox.getIndividual(o);
+			obj = _abox.getIndividual(o);
 			if (obj == null)
 				if (ATermUtils.isLiteral(o))
 				{
@@ -1090,7 +1090,7 @@ public class KnowledgeBase
 					return false;
 				}
 			if (PelletOptions.KEEP_ABOX_ASSERTIONS)
-				aboxAssertions.add(AssertionType.OBJ_ROLE, propAxiom);
+				_aboxAssertions.add(AssertionType.OBJ_ROLE, propAxiom);
 		}
 		else
 			if (role.isDatatypeRole())
@@ -1100,22 +1100,22 @@ public class KnowledgeBase
 					log.warning("Ignoring non-literal value " + o + " for data property " + p);
 					return false;
 				}
-				obj = abox.addLiteral(o, ds);
+				obj = _abox.addLiteral(o, ds);
 				if (PelletOptions.KEEP_ABOX_ASSERTIONS)
-					aboxAssertions.add(AssertionType.DATA_ROLE, propAxiom);
+					_aboxAssertions.add(AssertionType.DATA_ROLE, propAxiom);
 			}
 
 		// set addition flag
-		changes.add(ChangeType.ABOX_ADD);
+		_changes.add(ChangeType.ABOX_ADD);
 
 		if (obj != null && !canUseIncConsistency())
 		{
-			Edge edge = abox.addEdge(p, s, obj.getName(), ds);
+			Edge edge = _abox.addEdge(p, s, obj.getName(), ds);
 
 			if (edge == null)
 			{
-				abox.reset();
-				edge = abox.addEdge(p, s, obj.getName(), ds);
+				_abox.reset();
+				edge = _abox.addEdge(p, s, obj.getName(), ds);
 
 				assert edge != null;
 			}
@@ -1123,10 +1123,10 @@ public class KnowledgeBase
 			if (PelletOptions.USE_INCREMENTAL_DELETION)
 			{
 				// add to syntactic assertions
-				syntacticAssertions.add(propAxiom);
+				_syntacticAssertions.add(propAxiom);
 
 				// add to dependency _index
-				dependencyIndex.addEdgeDependency(edge, edge.getDepends());
+				_dependencyIndex.addEdgeDependency(edge, edge.getDepends());
 			}
 		}
 		else
@@ -1135,21 +1135,21 @@ public class KnowledgeBase
 				// TODO: refactor the access to the updatedIndividuals and
 				// newIndividuals - add get method
 				// add this individual to the affected list
-				abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(s));
+				_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(s));
 
 				if (role.isObjectRole())
 				{
 					// if this is an object property then add the object to the
 					// affected list
-					abox.getIncrementalChangeTracker().addUpdatedIndividual(abox.getIndividual(o));
+					_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(o));
 
-					obj = abox.getIndividual(o);
+					obj = _abox.getIndividual(o);
 					if (obj.isPruned() || obj.isMerged())
 						obj = obj.getSame();
 				}
 
 				// get the subject
-				Individual subj2 = abox.getIndividual(s);
+				Individual subj2 = _abox.getIndividual(s);
 				if (subj2.isPruned() || subj2.isMerged())
 					subj2 = subj2.getSame();
 
@@ -1159,15 +1159,15 @@ public class KnowledgeBase
 				// add to pseudomodel - note _branch must be temporarily set to 0 to
 				// ensure that assertion
 				// will not be restored during backtracking
-				final int branch = abox.getBranch();
-				abox.setBranch(DependencySet.NO_BRANCH);
+				final int branch = _abox.getBranch();
+				_abox.setBranch(DependencySet.NO_BRANCH);
 				// add the edge
 				final Edge newEdge = subj2.addEdge(role, obj, ds);
-				abox.setBranch(branch);
+				_abox.setBranch(branch);
 
 				// add new edge to affected set
 				if (newEdge != null)
-					abox.getIncrementalChangeTracker().addNewEdge(newEdge);
+					_abox.getIncrementalChangeTracker().addNewEdge(newEdge);
 			}
 
 		if (log.isLoggable(Level.FINER))
@@ -1178,9 +1178,9 @@ public class KnowledgeBase
 
 	public boolean addNegatedPropertyValue(final ATermAppl p, final ATermAppl s, final ATermAppl o)
 	{
-		changes.add(ChangeType.ABOX_ADD);
+		_changes.add(ChangeType.ABOX_ADD);
 
-		final Individual subj = abox.getIndividual(s);
+		final Individual subj = _abox.getIndividual(s);
 		final Role role = getRole(p);
 
 		if (subj == null)
@@ -1201,7 +1201,7 @@ public class KnowledgeBase
 
 		if (role.isObjectRole())
 		{
-			if (abox.getIndividual(o) == null)
+			if (_abox.getIndividual(o) == null)
 				if (ATermUtils.isLiteral(o))
 				{
 					log.warning("Ignoring literal value " + o + " for object property " + p);
@@ -1215,7 +1215,7 @@ public class KnowledgeBase
 		}
 		else
 			if (role.isDatatypeRole())
-				abox.addLiteral(o, ds);
+				_abox.addLiteral(o, ds);
 
 		final ATermAppl C = ATermUtils.makeNot(ATermUtils.makeHasValue(p, o));
 
@@ -1229,8 +1229,8 @@ public class KnowledgeBase
 
 	public void addProperty(final ATermAppl p)
 	{
-		changes.add(ChangeType.RBOX_ADD);
-		rbox.addRole(p);
+		_changes.add(ChangeType.RBOX_ADD);
+		_rbox.addRole(p);
 		if (log.isLoggable(Level.FINER))
 			log.finer("prop " + p);
 	}
@@ -1245,11 +1245,11 @@ public class KnowledgeBase
 	{
 		final boolean exists = getPropertyType(p) == PropertyType.OBJECT;
 
-		final Role role = rbox.addObjectRole((ATermAppl) p);
+		final Role role = _rbox.addObjectRole((ATermAppl) p);
 
 		if (!exists)
 		{
-			changes.add(ChangeType.RBOX_ADD);
+			_changes.add(ChangeType.RBOX_ADD);
 			if (log.isLoggable(Level.FINER))
 				log.finer("object-prop " + p);
 		}
@@ -1267,11 +1267,11 @@ public class KnowledgeBase
 	{
 		final boolean exists = getPropertyType(p) == PropertyType.DATATYPE;
 
-		final Role role = rbox.addDatatypeRole((ATermAppl) p);
+		final Role role = _rbox.addDatatypeRole((ATermAppl) p);
 
 		if (!exists)
 		{
-			changes.add(ChangeType.RBOX_ADD);
+			_changes.add(ChangeType.RBOX_ADD);
 			if (log.isLoggable(Level.FINER))
 				log.finer("data-prop " + p);
 		}
@@ -1289,11 +1289,11 @@ public class KnowledgeBase
 	{
 		final boolean exists = getPropertyType(p) == PropertyType.ANNOTATION;
 
-		final Role role = rbox.addAnnotationRole((ATermAppl) p);
+		final Role role = _rbox.addAnnotationRole((ATermAppl) p);
 
 		if (!exists)
 		{
-			changes.add(ChangeType.RBOX_ADD);
+			_changes.add(ChangeType.RBOX_ADD);
 			if (log.isLoggable(Level.FINER))
 				log.finer("annotation-prop " + p);
 		}
@@ -1309,7 +1309,7 @@ public class KnowledgeBase
 		if (!isAnnotationProperty(p))
 			return false;
 
-		Map<ATermAppl, Set<ATermAppl>> pidx = annotations.get(s);
+		Map<ATermAppl, Set<ATermAppl>> pidx = _annotations.get(s);
 
 		if (pidx == null)
 			pidx = new HashMap<>();
@@ -1321,7 +1321,7 @@ public class KnowledgeBase
 
 		oidx.add(o);
 		pidx.put(p, oidx);
-		annotations.put(s, pidx);
+		_annotations.put(s, pidx);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("annotation " + s + " " + p + " " + o);
@@ -1331,7 +1331,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getAnnotations(final ATermAppl s, final ATermAppl p)
 	{
-		final Map<ATermAppl, Set<ATermAppl>> pidx = annotations.get(s);
+		final Map<ATermAppl, Set<ATermAppl>> pidx = _annotations.get(s);
 
 		if (pidx == null)
 			return Collections.emptySet();
@@ -1376,7 +1376,7 @@ public class KnowledgeBase
 	{
 		final Set<ATermAppl> ret = new HashSet<>();
 
-		for (final Map.Entry<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> e1 : annotations.entrySet())
+		for (final Map.Entry<ATermAppl, Map<ATermAppl, Set<ATermAppl>>> e1 : _annotations.entrySet())
 		{
 			final ATermAppl st = e1.getKey();
 			final Map<ATermAppl, Set<ATermAppl>> pidx = e1.getValue();
@@ -1406,8 +1406,8 @@ public class KnowledgeBase
 
 	public void addSubProperty(final ATerm sub, final ATermAppl sup)
 	{
-		changes.add(ChangeType.RBOX_ADD);
-		rbox.addSubRole(sub, sup);
+		_changes.add(ChangeType.RBOX_ADD);
+		_rbox.addSubRole(sub, sup);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("sub-prop " + sub + " " + sup);
@@ -1415,8 +1415,8 @@ public class KnowledgeBase
 
 	public void addEquivalentProperty(final ATermAppl p1, final ATermAppl p2)
 	{
-		changes.add(ChangeType.RBOX_ADD);
-		rbox.addEquivalentRole(p1, p2);
+		_changes.add(ChangeType.RBOX_ADD);
+		_rbox.addEquivalentRole(p1, p2);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("same-prop " + p1 + " " + p2);
@@ -1453,8 +1453,8 @@ public class KnowledgeBase
 
 	public void addDisjointProperty(final ATermAppl p1, final ATermAppl p2, final DependencySet ds)
 	{
-		changes.add(ChangeType.RBOX_ADD);
-		rbox.addDisjointRole(p1, p2, ds);
+		_changes.add(ChangeType.RBOX_ADD);
+		_rbox.addDisjointRole(p1, p2, ds);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("dis-prop " + p1 + " " + p2);
@@ -1468,20 +1468,20 @@ public class KnowledgeBase
 			return;
 		}
 
-		changes.add(ChangeType.RBOX_ADD);
+		_changes.add(ChangeType.RBOX_ADD);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeInvProp(p1, p2)) : DependencySet.INDEPENDENT;
 
-		rbox.addInverseRole(p1, p2, ds);
+		_rbox.addInverseRole(p1, p2, ds);
 		if (log.isLoggable(Level.FINER))
 			log.finer("inv-prop " + p1 + " " + p2);
 	}
 
 	public void addTransitiveProperty(final ATermAppl p)
 	{
-		changes.add(ChangeType.RBOX_ADD);
+		_changes.add(ChangeType.RBOX_ADD);
 
-		final Role r = rbox.getDefinedRole(p);
+		final Role r = _rbox.getDefinedRole(p);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeTransitive(p)) : DependencySet.INDEPENDENT;
 
@@ -1499,11 +1499,11 @@ public class KnowledgeBase
 			return;
 		}
 
-		changes.add(ChangeType.RBOX_ADD);
+		_changes.add(ChangeType.RBOX_ADD);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeSymmetric(p)) : DependencySet.INDEPENDENT;
 
-		rbox.addInverseRole(p, p, ds);
+		_rbox.addInverseRole(p, p, ds);
 		if (log.isLoggable(Level.FINER))
 			log.finer("sym-prop " + p);
 	}
@@ -1519,8 +1519,8 @@ public class KnowledgeBase
 
 	public void addAsymmetricProperty(final ATermAppl p)
 	{
-		changes.add(ChangeType.RBOX_ADD);
-		final Role r = rbox.getDefinedRole(p);
+		_changes.add(ChangeType.RBOX_ADD);
+		final Role r = _rbox.getDefinedRole(p);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeAsymmetric(p)) : DependencySet.INDEPENDENT;
 
@@ -1531,8 +1531,8 @@ public class KnowledgeBase
 
 	public void addReflexiveProperty(final ATermAppl p)
 	{
-		changes.add(ChangeType.RBOX_ADD);
-		final Role r = rbox.getDefinedRole(p);
+		_changes.add(ChangeType.RBOX_ADD);
+		final Role r = _rbox.getDefinedRole(p);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeReflexive(p)) : DependencySet.INDEPENDENT;
 
@@ -1543,8 +1543,8 @@ public class KnowledgeBase
 
 	public void addIrreflexiveProperty(final ATermAppl p)
 	{
-		changes.add(ChangeType.RBOX_ADD);
-		final Role r = rbox.getDefinedRole(p);
+		_changes.add(ChangeType.RBOX_ADD);
+		final Role r = _rbox.getDefinedRole(p);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeIrreflexive(p)) : DependencySet.INDEPENDENT;
 
@@ -1555,8 +1555,8 @@ public class KnowledgeBase
 
 	public void addFunctionalProperty(final ATermAppl p)
 	{
-		changes.add(ChangeType.RBOX_ADD);
-		final Role r = rbox.getDefinedRole(p);
+		_changes.add(ChangeType.RBOX_ADD);
+		final Role r = _rbox.getDefinedRole(p);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeFunctional(p)) : DependencySet.INDEPENDENT;
 
@@ -1573,8 +1573,8 @@ public class KnowledgeBase
 			return;
 		}
 
-		changes.add(ChangeType.RBOX_ADD);
-		final Role role = rbox.getDefinedRole(p);
+		_changes.add(ChangeType.RBOX_ADD);
+		final Role role = _rbox.getDefinedRole(p);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeInverseFunctional(p)) : DependencySet.INDEPENDENT;
 
@@ -1585,9 +1585,9 @@ public class KnowledgeBase
 
 	public void addDomain(final ATerm p, final ATermAppl c)
 	{
-		changes.add(ChangeType.RBOX_ADD);
+		_changes.add(ChangeType.RBOX_ADD);
 
-		rbox.addDomain(p, c);
+		_rbox.addDomain(p, c);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("domain " + p + " " + c);
@@ -1598,9 +1598,9 @@ public class KnowledgeBase
 	 */
 	public void addDomain(final ATerm p, final ATermAppl c, final Set<ATermAppl> explain)
 	{
-		changes.add(ChangeType.RBOX_ADD);
+		_changes.add(ChangeType.RBOX_ADD);
 
-		rbox.addDomain(p, c, explain);
+		_rbox.addDomain(p, c, explain);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("domain " + p + " " + c + " " + explain);
@@ -1608,9 +1608,9 @@ public class KnowledgeBase
 
 	public void addRange(final ATerm p, final ATermAppl c)
 	{
-		changes.add(ChangeType.RBOX_ADD);
+		_changes.add(ChangeType.RBOX_ADD);
 
-		rbox.addRange(p, c);
+		_rbox.addRange(p, c);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("range " + p + " " + c);
@@ -1621,9 +1621,9 @@ public class KnowledgeBase
 	 */
 	public void addRange(final ATerm p, final ATermAppl c, final Set<ATermAppl> explain)
 	{
-		changes.add(ChangeType.RBOX_ADD);
+		_changes.add(ChangeType.RBOX_ADD);
 
-		rbox.addRange(p, c, explain);
+		_rbox.addRange(p, c, explain);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("range " + p + " " + c + " " + explain);
@@ -1672,7 +1672,7 @@ public class KnowledgeBase
 		final boolean removed = getRBox().removeDomain(p, c);
 
 		if (removed)
-			changes.add(ChangeType.RBOX_DEL);
+			_changes.add(ChangeType.RBOX_DEL);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("Remove domain " + p + " " + c);
@@ -1684,22 +1684,22 @@ public class KnowledgeBase
 	{
 		if (ATermUtils.isLiteral(i2))
 			try
-			{
-				i2 = abox.getDatatypeReasoner().getCanonicalRepresentation(i2);
-			}
-			catch (final InvalidLiteralException e)
-			{
-				log.warning(format("Unable to remove property value (%s,%s,%s) due to invalid literal: %s", p, i1, i2, e.getMessage()));
-				return false;
-			}
-			catch (final UnrecognizedDatatypeException e)
-			{
-				log.warning(format("Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s", p, i1, i2, e.getMessage()));
-				return false;
-			}
+		{
+				i2 = _abox.getDatatypeReasoner().getCanonicalRepresentation(i2);
+		}
+		catch (final InvalidLiteralException e)
+		{
+			log.warning(format("Unable to remove property value (%s,%s,%s) due to invalid literal: %s", p, i1, i2, e.getMessage()));
+			return false;
+		}
+		catch (final UnrecognizedDatatypeException e)
+		{
+			log.warning(format("Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s", p, i1, i2, e.getMessage()));
+			return false;
+		}
 
-		final Individual subj = abox.getIndividual(i1);
-		final Node obj = abox.getNode(i2);
+		final Individual subj = _abox.getIndividual(i1);
+		final Node obj = _abox.getNode(i2);
 		final Role role = getRole(p);
 
 		if (subj == null)
@@ -1733,11 +1733,11 @@ public class KnowledgeBase
 			return false;
 
 		// set deletion flag
-		changes.add(ChangeType.ABOX_DEL);
+		_changes.add(ChangeType.ABOX_DEL);
 
 		if (!canUseIncConsistency())
 		{
-			abox.reset();
+			_abox.reset();
 
 			subj.removeEdge(edge);
 			obj.removeInEdge(edge);
@@ -1754,21 +1754,21 @@ public class KnowledgeBase
 			getDeletedAssertions().add(ATermUtils.makePropAtom(p, i1, i2));
 
 			// add this individual to the affected list
-			abox.getIncrementalChangeTracker().addUpdatedIndividual(subj);
+			_abox.getIncrementalChangeTracker().addUpdatedIndividual(subj);
 
 			// if this is an object property then add the object to the affected
 			// list
 			if (!role.isDatatypeRole())
-				abox.getIncrementalChangeTracker().addUpdatedIndividual((Individual) obj);
+				_abox.getIncrementalChangeTracker().addUpdatedIndividual((Individual) obj);
 		}
 
 		if (PelletOptions.KEEP_ABOX_ASSERTIONS)
 		{
 			final ATermAppl propAxiom = ATermUtils.makePropAtom(p, i1, i2);
 			if (ATermUtils.isLiteral(i2))
-				aboxAssertions.remove(AssertionType.DATA_ROLE, propAxiom);
+				_aboxAssertions.remove(AssertionType.DATA_ROLE, propAxiom);
 			else
-				aboxAssertions.remove(AssertionType.OBJ_ROLE, propAxiom);
+				_aboxAssertions.remove(AssertionType.OBJ_ROLE, propAxiom);
 		}
 
 		return true;
@@ -1800,7 +1800,7 @@ public class KnowledgeBase
 		final boolean removed = getRBox().removeRange(p, c);
 
 		if (removed)
-			changes.add(ChangeType.RBOX_DEL);
+			_changes.add(ChangeType.RBOX_DEL);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("Remove range" + p + " " + c);
@@ -1810,7 +1810,7 @@ public class KnowledgeBase
 
 	public boolean removeType(final ATermAppl ind, final ATermAppl c)
 	{
-		final Individual subj = abox.getIndividual(ind);
+		final Individual subj = _abox.getIndividual(ind);
 
 		if (subj == null)
 			if (PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
@@ -1828,7 +1828,7 @@ public class KnowledgeBase
 
 		if (!canUseIncConsistency() || !PelletOptions.USE_INCREMENTAL_DELETION)
 		{
-			abox.reset();
+			_abox.reset();
 
 			removed = subj.removeType(normC);
 		}
@@ -1842,9 +1842,9 @@ public class KnowledgeBase
 			// add axiom to deletion set
 			getDeletedAssertions().add(ATermUtils.makeTypeAtom(ind, c));
 
-			// add this individuals to the affected list - used for inc.
+			// add this _individuals to the affected list - used for inc.
 			// consistency checking
-			abox.getIncrementalChangeTracker().addUpdatedIndividual(subj);
+			_abox.getIncrementalChangeTracker().addUpdatedIndividual(subj);
 
 			// we may need to update the expressivity here, however so far it
 			// does not seem necessary!
@@ -1854,11 +1854,11 @@ public class KnowledgeBase
 		if (PelletOptions.KEEP_ABOX_ASSERTIONS)
 		{
 			final ATermAppl typeAxiom = ATermUtils.makeTypeAtom(ind, c);
-			aboxAssertions.remove(AssertionType.TYPE, typeAxiom);
+			_aboxAssertions.remove(AssertionType.TYPE, typeAxiom);
 		}
 
 		// set deletion flag
-		changes.add(ChangeType.ABOX_DEL);
+		_changes.add(ChangeType.ABOX_DEL);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("Remove Type " + ind + " " + c);
@@ -1878,7 +1878,7 @@ public class KnowledgeBase
 
 		try
 		{
-			removed = tbox.removeAxiom(axiom);
+			removed = _tbox.removeAxiom(axiom);
 		}
 		catch (final Exception e)
 		{
@@ -1886,7 +1886,7 @@ public class KnowledgeBase
 		}
 
 		if (removed)
-			changes.add(ChangeType.TBOX_DEL);
+			_changes.add(ChangeType.TBOX_DEL);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("Remove " + axiom + ": " + removed);
@@ -1899,34 +1899,34 @@ public class KnowledgeBase
 		if (!isChanged())
 			return;
 
-		final boolean explain = abox.doExplanation();
-		abox.setDoExplanation(true);
+		final boolean explain = _abox.doExplanation();
+		_abox.setDoExplanation(true);
 
 		final Timer timer = timers.startTimer("preprocessing");
 		Timer t;
 
 		// consistency need to be repeated after modifications
-		state.remove(ReasoningState.CONSISTENCY);
+		_state.remove(ReasoningState.CONSISTENCY);
 		// realization need to be repeated after modifications
-		state.remove(ReasoningState.REALIZE);
+		_state.remove(ReasoningState.REALIZE);
 
 		// classification may notbve repeated if ...
 		final boolean reuseTaxonomy =
-		// classification has been previously done
-		state.contains(ReasoningState.CLASSIFY)
-		// TBox did not change since classification
+				// classification has been previously done
+				_state.contains(ReasoningState.CLASSIFY)
+				// TBox did not change since classification
 				&& !isTBoxChanged()
 				// RBox did not change since classification
 				&& !isRBoxChanged()
 				// there are no nominals
-				&& (!expChecker.getExpressivity().hasNominal() || PelletOptions.USE_PSEUDO_NOMINALS);
+				&& (!_expChecker.getExpressivity().hasNominal() || PelletOptions.USE_PSEUDO_NOMINALS);
 
 		if (isRBoxChanged())
 		{
 			if (log.isLoggable(Level.FINER))
 				log.finer("Role hierarchy...");
-			t = timers.startTimer("rbox");
-			rbox.prepare();
+			t = timers.startTimer("_rbox");
+			_rbox.prepare();
 			t.stop();
 		}
 
@@ -1935,48 +1935,48 @@ public class KnowledgeBase
 			if (log.isLoggable(Level.FINER))
 				log.finer("Prepare TBox...");
 			t = timers.startTimer("normalize");
-			tbox.prepare();
+			_tbox.prepare();
 			t.stop();
 		}
 
 		if (isRBoxChanged())
-			rbox.propagateDomainRange();
+			_rbox.propagateDomainRange();
 
-		canUseIncConsistency = canUseIncConsistency();
+		_canUseIncConsistency = canUseIncConsistency();
 
-		if (abox.isComplete())
-			if (changes.contains(ChangeType.TBOX_DEL) || changes.contains(ChangeType.RBOX_DEL) || (!canUseIncConsistency && changes.contains(ChangeType.ABOX_DEL)))
-				abox.reset();
+		if (_abox.isComplete())
+			if (_changes.contains(ChangeType.TBOX_DEL) || _changes.contains(ChangeType.RBOX_DEL) || (!_canUseIncConsistency && _changes.contains(ChangeType.ABOX_DEL)))
+				_abox.reset();
 			else
-				if (changes.contains(ChangeType.TBOX_ADD) || changes.contains(ChangeType.RBOX_ADD))
-					abox.resetQueue();
+				if (_changes.contains(ChangeType.TBOX_ADD) || _changes.contains(ChangeType.RBOX_ADD))
+					_abox.resetQueue();
 				else
-					if (canUseIncConsistency && changes.contains(ChangeType.ABOX_DEL))
+					if (_canUseIncConsistency && _changes.contains(ChangeType.ABOX_DEL))
 						IncrementalRestore.restoreDependencies(this);
 
 		// reset flags
-		changes.clear();
+		_changes.clear();
 
-		instances.clear();
+		_instances.clear();
 
-		estimate = new SizeEstimate(this);
-		abox.setDoExplanation(explain);
+		_estimate = new SizeEstimate(this);
+		_abox.setDoExplanation(explain);
 
-		if (!canUseIncConsistency)
+		if (!_canUseIncConsistency)
 		{
 			if (log.isLoggable(Level.FINER))
 				log.finer("Expressivity...");
 
-			expChecker.prepare();
+			_expChecker.prepare();
 		}
 
-		abox.clearCaches(!reuseTaxonomy);
-		abox._cache.setMaxSize(PelletOptions.MAX_ANONYMOUS_CACHE);
+		_abox.clearCaches(!reuseTaxonomy);
+		_abox._cache.setMaxSize(PelletOptions.MAX_ANONYMOUS_CACHE);
 
 		if (!reuseTaxonomy)
 		{
-			state.remove(ReasoningState.CLASSIFY);
-			builder = null;
+			_state.remove(ReasoningState.CLASSIFY);
+			_builder = null;
 			// taxonomy = null;
 		}
 
@@ -1985,10 +1985,10 @@ public class KnowledgeBase
 		if (log.isLoggable(Level.FINE))
 		{
 			final StringBuffer info = new StringBuffer();
-			info.append("Expressivity: " + expChecker.getExpressivity() + ", ");
+			info.append("Expressivity: " + _expChecker.getExpressivity() + ", ");
 			info.append("Classes: " + getClasses().size() + " ");
 			info.append("Properties: " + getProperties().size() + " ");
-			info.append("Individuals: " + individuals.size());
+			info.append("Individuals: " + _individuals.size());
 			// info.append( " Strategy: " + chooseStrategy( _abox ) );
 			log.fine(info.toString());
 		}
@@ -2000,15 +2000,15 @@ public class KnowledgeBase
 	public void updateExpressivity(final ATermAppl i, final ATermAppl c)
 	{
 
-		// if the _tbox or rbox changed then we cannot use incremental reasoning!
+		// if the _tbox or _rbox changed then we cannot use incremental reasoning!
 		if (!isChanged() || isTBoxChanged() || isRBoxChanged())
 			return;
 
 		// update expressivity given this individual
-		expChecker.updateWithIndividual(i, c);
+		_expChecker.updateWithIndividual(i, c);
 
-		// update the size estimate as this could be a new individual
-		estimate = new SizeEstimate(this);
+		// update the size _estimate as this could be a new individual
+		_estimate = new SizeEstimate(this);
 	}
 
 	public String getInfo()
@@ -2016,12 +2016,12 @@ public class KnowledgeBase
 		prepare();
 
 		final StringBuffer buffer = new StringBuffer();
-		buffer.append("Expressivity: " + expChecker.getExpressivity() + " ");
+		buffer.append("Expressivity: " + _expChecker.getExpressivity() + " ");
 		buffer.append("Classes: " + getClasses().size() + " ");
 		buffer.append("Properties: " + getProperties().size() + " ");
-		buffer.append("Individuals: " + individuals.size() + " ");
+		buffer.append("Individuals: " + _individuals.size() + " ");
 
-		final Expressivity expressivity = expChecker.getExpressivity();
+		final Expressivity expressivity = _expChecker.getExpressivity();
 		if (expressivity.hasNominal())
 			buffer.append("Nominals: " + expressivity.getNominals().size() + " ");
 
@@ -2033,7 +2033,7 @@ public class KnowledgeBase
 	 */
 	public boolean isConsistencyDone()
 	{
-		return !isChanged() && state.contains(ReasoningState.CONSISTENCY);
+		return !isChanged() && _state.contains(ReasoningState.CONSISTENCY);
 	}
 
 	/**
@@ -2041,37 +2041,37 @@ public class KnowledgeBase
 	 */
 	public boolean isClassified()
 	{
-		return !isChanged() && state.contains(ReasoningState.CLASSIFY);
+		return !isChanged() && _state.contains(ReasoningState.CLASSIFY);
 	}
 
 	public boolean isRealized()
 	{
-		return !isChanged() && state.contains(ReasoningState.REALIZE);
+		return !isChanged() && _state.contains(ReasoningState.REALIZE);
 	}
 
 	public boolean isChanged()
 	{
-		return !changes.isEmpty();
+		return !_changes.isEmpty();
 	}
 
 	public boolean isChanged(final ChangeType change)
 	{
-		return changes.contains(change);
+		return _changes.contains(change);
 	}
 
 	public boolean isTBoxChanged()
 	{
-		return changes.contains(ChangeType.TBOX_ADD) || changes.contains(ChangeType.TBOX_DEL);
+		return _changes.contains(ChangeType.TBOX_ADD) || _changes.contains(ChangeType.TBOX_DEL);
 	}
 
 	public boolean isRBoxChanged()
 	{
-		return changes.contains(ChangeType.RBOX_ADD) || changes.contains(ChangeType.RBOX_DEL);
+		return _changes.contains(ChangeType.RBOX_ADD) || _changes.contains(ChangeType.RBOX_DEL);
 	}
 
 	public boolean isABoxChanged()
 	{
-		return changes.contains(ChangeType.ABOX_ADD) || changes.contains(ChangeType.ABOX_DEL);
+		return _changes.contains(ChangeType.ABOX_ADD) || _changes.contains(ChangeType.ABOX_DEL);
 	}
 
 	/**
@@ -2103,17 +2103,17 @@ public class KnowledgeBase
 		if (isClassified())
 			// if the kb is already classified we can get them this way
 			aUnsatClasses = includeBottom ? getAllEquivalentClasses(ATermUtils.BOTTOM) : getEquivalentClasses(ATermUtils.BOTTOM);
-		else
-		{
-			if (includeBottom)
-				aUnsatClasses.add(BOTTOM);
+			else
+			{
+				if (includeBottom)
+					aUnsatClasses.add(BOTTOM);
 
-			// if not, check for them like this, without triggering classification
-			final Set<ATermAppl> aClasses = getClasses();
-			for (final ATermAppl aClass : aClasses)
-				if (!isSatisfiable(aClass))
-					aUnsatClasses.add(aClass);
-		}
+				// if not, check for them like this, without triggering classification
+				final Set<ATermAppl> aClasses = getClasses();
+				for (final ATermAppl aClass : aClasses)
+					if (!isSatisfiable(aClass))
+						aUnsatClasses.add(aClass);
+			}
 
 		return aUnsatClasses;
 	}
@@ -2123,12 +2123,12 @@ public class KnowledgeBase
 		if (isConsistencyDone())
 			return;
 
-		abox.setInitialized(false);
+		_abox.setInitialized(false);
 
 		// prepare the KB
 		prepare();
 
-		for (final Entry<Rule, Rule> normalizedRule : rules.entrySet())
+		for (final Entry<Rule, Rule> normalizedRule : _rules.entrySet())
 			if (normalizedRule.getValue() == null)
 			{
 				final Rule rule = normalizedRule.getKey();
@@ -2138,29 +2138,29 @@ public class KnowledgeBase
 
 		final Timer timer = timers.startTimer("consistency");
 
-		final boolean doExplanation = abox.doExplanation();
+		final boolean doExplanation = _abox.doExplanation();
 
-		if (PelletOptions.USE_TRACING && !explainOnlyInconsistency)
-			abox.setDoExplanation(true);
+		if (PelletOptions.USE_TRACING && !_explainOnlyInconsistency)
+			_abox.setDoExplanation(true);
 
 		// perform the consistency check
-		consistent = canUseIncConsistency ? abox.isIncConsistent() : abox.isConsistent();
+		_consistent = _canUseIncConsistency ? _abox.isIncConsistent() : _abox.isConsistent();
 
 		// final clean up
 		if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
-			abox.getIncrementalChangeTracker().clear();
+			_abox.getIncrementalChangeTracker().clear();
 
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 			getDeletedAssertions().clear();
 
-		if (!consistent)
+		if (!_consistent)
 		{
 			// the behavior of Pellet 1.5.1 (and prior versions) was to generate
 			// explanations for inconsistent ontologies even if the
 			// doExplanation
 			// was not set. this was causing an overhead for repeated
 			// consistency
-			// tests that mostly turn out to be consistent. the new _strategy is
+			// tests that mostly turn out to be _consistent. the new _strategy is
 			// to repeat the consistency test for inconsistent ontologies by
 			// manually setting the doExplanation flag. this will generate more
 			// overhead for inconsistent ontologies but inconsistent ontologies
@@ -2170,14 +2170,14 @@ public class KnowledgeBase
 			// but only if we can generate it (i.e. tracing is turned on) and
 			// we haven't already done so (i.e. doExplanation flag was false at
 			// the beginning)
-			if (PelletOptions.USE_TRACING && explainOnlyInconsistency && !abox.doExplanation())
+			if (PelletOptions.USE_TRACING && _explainOnlyInconsistency && !_abox.doExplanation())
 			{
-				abox.setDoExplanation(true);
+				_abox.setDoExplanation(true);
 
-				abox.reset();
-				abox.isConsistent();
+				_abox.reset();
+				_abox.isConsistent();
 
-				abox.setDoExplanation(false);
+				_abox.setDoExplanation(false);
 			}
 
 			if (log.isLoggable(Level.FINE))
@@ -2187,14 +2187,14 @@ public class KnowledgeBase
 				log.fine(renderExplanationSet());
 		}
 
-		abox.setDoExplanation(doExplanation);
+		_abox.setDoExplanation(doExplanation);
 
-		state.add(ReasoningState.CONSISTENCY);
+		_state.add(ReasoningState.CONSISTENCY);
 
 		timer.stop();
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("Consistent: " + consistent + " (" + timer.getLast() + "ms)");
+			log.fine("Consistent: " + _consistent + " (" + timer.getLast() + "ms)");
 
 		assert isConsistencyDone() : "Consistency flag not set";
 	}
@@ -2220,7 +2220,7 @@ public class KnowledgeBase
 	{
 		consistency();
 
-		return consistent;
+		return _consistent;
 	}
 
 	public Taxonomy<ATermAppl> getToldTaxonomy()
@@ -2251,18 +2251,18 @@ public class KnowledgeBase
 
 		final Timer timer = timers.startTimer("classify");
 
-		builder = getTaxonomyBuilder();
+		_builder = getTaxonomyBuilder();
 
-		final boolean isClassified = builder.classify();
+		final boolean isClassified = _builder.classify();
 
 		timer.stop();
 
 		if (!isClassified)
 			return;
 
-		state.add(ReasoningState.CLASSIFY);
+		_state.add(ReasoningState.CLASSIFY);
 
-		estimate.computKBCosts();
+		_estimate.computKBCosts();
 	}
 
 	public void realize()
@@ -2278,16 +2278,16 @@ public class KnowledgeBase
 		final Timer timer = timers.startTimer("realize");
 
 		// This is false if the progress monitor is canceled
-		final boolean isRealized = builder.realize();
+		final boolean isRealized = _builder.realize();
 
 		timer.stop();
 
 		if (!isRealized)
 			return;
 
-		state.add(ReasoningState.REALIZE);
+		_state.add(ReasoningState.REALIZE);
 
-		estimate.computKBCosts();
+		_estimate.computKBCosts();
 	}
 
 	/**
@@ -2297,7 +2297,7 @@ public class KnowledgeBase
 	 */
 	public Set<ATermAppl> getClasses()
 	{
-		return Collections.unmodifiableSet(tbox.getClasses());
+		return Collections.unmodifiableSet(_tbox.getClasses());
 	}
 
 	/**
@@ -2307,7 +2307,7 @@ public class KnowledgeBase
 	 */
 	public Set<ATermAppl> getAllClasses()
 	{
-		return Collections.unmodifiableSet(tbox.getAllClasses());
+		return Collections.unmodifiableSet(_tbox.getAllClasses());
 	}
 
 	/**
@@ -2318,7 +2318,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && (role.isObjectRole() || role.isDatatypeRole() || role.isAnnotationRole()))
@@ -2335,7 +2335,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getObjectProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isObjectRole())
@@ -2347,7 +2347,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getAnnotationProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isAnnotationRole())
@@ -2359,7 +2359,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getTransitiveProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isTransitive())
@@ -2372,7 +2372,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getSymmetricProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isSymmetric())
@@ -2393,7 +2393,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getAsymmetricProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isAsymmetric())
@@ -2405,7 +2405,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getReflexiveProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isReflexive())
@@ -2417,7 +2417,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getIrreflexiveProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isIrreflexive())
@@ -2429,7 +2429,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getFunctionalProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isFunctional())
@@ -2443,7 +2443,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getInverseFunctionalProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isInverseFunctional())
@@ -2461,7 +2461,7 @@ public class KnowledgeBase
 	public Set<ATermAppl> getDataProperties()
 	{
 		final Set<ATermAppl> set = new HashSet<>();
-		for (final Role role : rbox.getRoles())
+		for (final Role role : _rbox.getRoles())
 		{
 			final ATermAppl p = role.getName();
 			if (ATermUtils.isPrimitive(p) && role.isDatatypeRole())
@@ -2471,28 +2471,28 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return the set of all individuals. Returned set is unmodifiable!
+	 * Return the set of all _individuals. Returned set is unmodifiable!
 	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getIndividuals()
 	{
-		return Collections.unmodifiableSet(individuals);
+		return Collections.unmodifiableSet(_individuals);
 	}
 
 	/**
-	 * Returns the set of key values of the annotations map
+	 * Returns the set of key values of the _annotations map
 	 *
 	 * @return
 	 */
 	public Set<ATermAppl> getAnnotationSubjects()
 	{
-		return annotations.keySet();
+		return _annotations.keySet();
 	}
 
 	public Role getProperty(final ATerm r)
 	{
-		return rbox.getRole(r);
+		return _rbox.getRole(r);
 	}
 
 	public PropertyType getPropertyType(final ATerm r)
@@ -2504,18 +2504,18 @@ public class KnowledgeBase
 	public boolean isClass(final ATerm c)
 	{
 
-		if (tbox.getClasses().contains(c) || c.equals(ATermUtils.TOP))
+		if (_tbox.getClasses().contains(c) || c.equals(ATermUtils.TOP))
 			return true;
 		else
 			if (ATermUtils.isComplexClass(c))
-				return fullyDefinedVisitor.isFullyDefined((ATermAppl) c);
+				return _fullyDefinedVisitor.isFullyDefined((ATermAppl) c);
 			else
 				return false;
 	}
 
 	public boolean isProperty(final ATerm p)
 	{
-		return rbox.isRole(p);
+		return _rbox.isRole(p);
 	}
 
 	public boolean isDatatypeProperty(final ATerm p)
@@ -2540,7 +2540,7 @@ public class KnowledgeBase
 	}
 
 	@Deprecated
-	public boolean isOntologyProperty(final ATerm p)
+	public boolean isOntologyProperty(@SuppressWarnings("unused") final ATerm p)
 	{
 		return false;
 	}
@@ -2563,7 +2563,7 @@ public class KnowledgeBase
 		if (role.isTransitive())
 		{
 			if (doExplanation())
-				abox.setExplanation(role.getExplainTransitive());
+				_abox.setExplanation(role.getExplainTransitive());
 			return true;
 		}
 		else
@@ -2576,7 +2576,7 @@ public class KnowledgeBase
 		final ATermAppl notC = ATermUtils.makeNot(c);
 		final ATermAppl test = ATermUtils.makeAnd(ATermUtils.makeSomeValues(r, ATermUtils.makeSomeValues(r, c)), ATermUtils.makeAllValues(r, notC));
 
-		return !abox.isSatisfiable(test);
+		return !_abox.isSatisfiable(test);
 	}
 
 	public boolean isSymmetricProperty(final ATermAppl p)
@@ -2600,14 +2600,14 @@ public class KnowledgeBase
 		if (role.isBottom())
 		{
 			if (doExplanation())
-				abox.setExplanation(DependencySet.INDEPENDENT);
+				_abox.setExplanation(DependencySet.INDEPENDENT);
 			return true;
 		}
 		else
 			if (role.isFunctional())
 			{
 				if (doExplanation())
-					abox.setExplanation(role.getExplainFunctional());
+					_abox.setExplanation(role.getExplainFunctional());
 				return true;
 			}
 			else
@@ -2634,7 +2634,7 @@ public class KnowledgeBase
 			if (role.isInverseFunctional() || role.isBottom())
 			{
 				if (doExplanation())
-					abox.setExplanation(role.getExplainInverseFunctional());
+					_abox.setExplanation(role.getExplainInverseFunctional());
 				return true;
 			}
 
@@ -2659,7 +2659,7 @@ public class KnowledgeBase
 			if (role.isReflexive())
 			{
 				if (doExplanation())
-					abox.setExplanation(role.getExplainReflexive());
+					_abox.setExplanation(role.getExplainReflexive());
 				return true;
 			}
 
@@ -2669,7 +2669,7 @@ public class KnowledgeBase
 		final ATermAppl notC = ATermUtils.makeNot(c);
 		final ATermAppl test = ATermUtils.makeAnd(c, ATermUtils.makeAllValues(p, notC));
 
-		return !abox.isSatisfiable(test);
+		return !_abox.isSatisfiable(test);
 	}
 
 	public boolean isIrreflexiveProperty(final ATermAppl p)
@@ -2688,14 +2688,14 @@ public class KnowledgeBase
 			if (role.isIrreflexive())
 			{
 				if (doExplanation())
-					abox.setExplanation(role.getExplainIrreflexive());
+					_abox.setExplanation(role.getExplainIrreflexive());
 				return true;
 			}
 			else
 				if (role.isAsymmetric())
 				{
 					if (doExplanation())
-						abox.setExplanation(role.getExplainAsymmetric());
+						_abox.setExplanation(role.getExplainAsymmetric());
 					return true;
 				}
 
@@ -2703,7 +2703,7 @@ public class KnowledgeBase
 
 		final ATermAppl test = ATermUtils.makeSelf(p);
 
-		return !abox.isSatisfiable(test);
+		return !_abox.isSatisfiable(test);
 	}
 
 	/**
@@ -2731,7 +2731,7 @@ public class KnowledgeBase
 			if (role.isAsymmetric())
 			{
 				if (doExplanation())
-					abox.setExplanation(role.getExplainAsymmetric());
+					_abox.setExplanation(role.getExplainAsymmetric());
 				return true;
 			}
 
@@ -2741,13 +2741,13 @@ public class KnowledgeBase
 		final ATermAppl nom = ATermUtils.makeValue(o);
 		final ATermAppl test = ATermUtils.makeAnd(nom, ATermUtils.makeSomeValues(p, ATermUtils.makeAnd(ATermUtils.makeNot(nom), ATermUtils.makeSomeValues(p, nom))));
 
-		return !abox.isSatisfiable(test);
+		return !_abox.isSatisfiable(test);
 	}
 
 	public boolean isSubPropertyOf(final ATermAppl sub, final ATermAppl sup)
 	{
-		final Role roleSub = rbox.getRole(sub);
-		final Role roleSup = rbox.getRole(sup);
+		final Role roleSub = _rbox.getRole(sub);
+		final Role roleSup = _rbox.getRole(sup);
 
 		if (roleSub == null)
 		{
@@ -2764,7 +2764,7 @@ public class KnowledgeBase
 		if (roleSub.isSubRoleOf(roleSup))
 		{
 			if (doExplanation())
-				abox.setExplanation(roleSub.getExplainSuper(sup));
+				_abox.setExplanation(roleSub.getExplainSuper(sup));
 			return true;
 		}
 
@@ -2792,13 +2792,13 @@ public class KnowledgeBase
 				else
 					throw new IllegalArgumentException();
 
-		return !abox.isSatisfiable(test);
+		return !_abox.isSatisfiable(test);
 	}
 
 	public boolean isEquivalentProperty(final ATermAppl p1, final ATermAppl p2)
 	{
-		final Role role1 = rbox.getRole(p1);
-		final Role role2 = rbox.getRole(p2);
+		final Role role1 = _rbox.getRole(p1);
+		final Role role2 = _rbox.getRole(p2);
 
 		if (role1 == null)
 		{
@@ -2815,7 +2815,7 @@ public class KnowledgeBase
 		if (role1.isSubRoleOf(role2) && role2.isSubRoleOf(role1))
 		{
 			if (doExplanation())
-				abox.setExplanation(role1.getExplainSuper(p2).union(role1.getExplainSub(p2), doExplanation()));
+				_abox.setExplanation(role1.getExplainSuper(p2).union(role1.getExplainSub(p2), doExplanation()));
 			return true;
 		}
 
@@ -2843,7 +2843,7 @@ public class KnowledgeBase
 			else
 				throw new IllegalArgumentException();
 
-		return !abox.isSatisfiable(test);
+		return !_abox.isSatisfiable(test);
 	}
 
 	public boolean isInverse(final ATermAppl r1, final ATermAppl r2)
@@ -2881,12 +2881,12 @@ public class KnowledgeBase
 
 		final ATermAppl test = ATermUtils.makeAnd(c, ATermUtils.makeOr(ATermUtils.makeSomeValues(r1, ATermUtils.makeAllValues(r2, notC)), ATermUtils.makeSomeValues(r2, ATermUtils.makeAllValues(r1, notC))));
 
-		return !abox.isSatisfiable(test);
+		return !_abox.isSatisfiable(test);
 	}
 
 	public boolean hasDomain(final ATermAppl p, final ATermAppl c)
 	{
-		final Role r = rbox.getRole(p);
+		final Role r = _rbox.getRole(p);
 		if (r == null)
 		{
 			handleUndefinedEntity(p + " is not a property!");
@@ -2916,7 +2916,7 @@ public class KnowledgeBase
 
 	public boolean isDatatype(final ATermAppl c)
 	{
-		return datatypeVisitor.isDatatype(c);
+		return _datatypeVisitor.isDatatype(c);
 	}
 
 	public boolean isSatisfiable(ATermAppl c)
@@ -2933,12 +2933,12 @@ public class KnowledgeBase
 
 		if (isClassified() && !doExplanation())
 		{
-			final Bool equivToBottom = builder.getTaxonomy().isEquivalent(ATermUtils.BOTTOM, c);
+			final Bool equivToBottom = _builder.getTaxonomy().isEquivalent(ATermUtils.BOTTOM, c);
 			if (equivToBottom.isKnown())
 				return equivToBottom.isFalse();
 		}
 
-		return abox.isSatisfiable(c);
+		return _abox.isSatisfiable(c);
 	}
 
 	/**
@@ -2960,12 +2960,12 @@ public class KnowledgeBase
 		final ATermAppl c = ATermUtils.normalize((ATermAppl) d);
 
 		final List<ATermAppl> unknowns = new ArrayList<>();
-		final Iterator<Individual> i = new IndividualIterator(abox);
+		final Iterator<Individual> i = new IndividualIterator(_abox);
 		while (i.hasNext())
 		{
 			final ATermAppl x = i.next().getName();
 
-			final Bool knownType = abox.isKnownType(x, c);
+			final Bool knownType = _abox.isKnownType(x, c);
 			if (knownType.isTrue())
 				return true;
 			else
@@ -2973,19 +2973,19 @@ public class KnowledgeBase
 					unknowns.add(x);
 		}
 
-		final boolean hasInstance = !unknowns.isEmpty() && abox.isType(unknowns, c);
+		final boolean hasInstance = !unknowns.isEmpty() && _abox.isType(unknowns, c);
 
 		return hasInstance;
 	}
 
 	/*
 	public boolean isSubTypeOf(ATermAppl d1, ATermAppl d2) {
-		if( !isDatatype( d1 ) ) {
+		if( !_isDatatype( d1 ) ) {
 			handleUndefinedEntity( d1 + " is not a known datatype" );
 			return false;
 		}
 
-		if( !isDatatype( d2 ) ) {
+		if( !_isDatatype( d2 ) ) {
 			handleUndefinedEntity( d2 + " is not a known datatype" );
 			return false;
 		}
@@ -3026,12 +3026,12 @@ public class KnowledgeBase
 
 		if (isClassified() && !doExplanation())
 		{
-			final Bool isSubNode = builder.getTaxonomy().isSubNodeOf(c1, c2);
+			final Bool isSubNode = _builder.getTaxonomy().isSubNodeOf(c1, c2);
 			if (isSubNode.isKnown())
 				return isSubNode.isTrue();
 		}
 
-		return abox.isSubClassOf(c1, c2);
+		return _abox.isSubClassOf(c1, c2);
 	}
 
 	/**
@@ -3068,10 +3068,10 @@ public class KnowledgeBase
 		{
 			Bool isEquivalent = Bool.UNKNOWN;
 			if (isClassified())
-				isEquivalent = builder.getTaxonomy().isEquivalent(c1, c2);
+				isEquivalent = _builder.getTaxonomy().isEquivalent(c1, c2);
 
 			if (isEquivalent.isUnknown())
-				isEquivalent = abox.isKnownSubClassOf(c1, c2).and(abox.isKnownSubClassOf(c2, c1));
+				isEquivalent = _abox.isKnownSubClassOf(c1, c2).and(_abox.isKnownSubClassOf(c2, c1));
 
 			if (isEquivalent.isKnown())
 				return isEquivalent.isTrue();
@@ -3127,7 +3127,7 @@ public class KnowledgeBase
 			if (role1.isBottom() || role2.isBottom())
 			{
 				if (doExplanation())
-					abox.setExplanation(DependencySet.INDEPENDENT);
+					_abox.setExplanation(DependencySet.INDEPENDENT);
 				return true;
 			}
 			else
@@ -3148,7 +3148,7 @@ public class KnowledgeBase
 		final ATermAppl nominal = ATermUtils.makeValue(anon);
 		final ATermAppl test = and(some(r1, nominal), some(r2, nominal));
 
-		return !abox.isSatisfiable(test);
+		return !_abox.isSatisfiable(test);
 	}
 
 	public boolean isComplement(final ATermAppl c1, final ATermAppl c2)
@@ -3183,7 +3183,7 @@ public class KnowledgeBase
 
 		c = ATermUtils.normalize(c);
 
-		return abox.isKnownType(x, c);
+		return _abox.isKnownType(x, c);
 	}
 
 	public boolean isType(final ATermAppl x, final ATermAppl c)
@@ -3203,10 +3203,10 @@ public class KnowledgeBase
 
 		if (isRealized() && !doExplanation())
 		{
-			if (builder == null)
+			if (_builder == null)
 				throw new NullPointerException("Builder is null");
 
-			final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+			final Taxonomy<ATermAppl> taxonomy = _builder.getTaxonomy();
 
 			if (taxonomy == null)
 				throw new NullPointerException("Taxonomy is null");
@@ -3215,7 +3215,7 @@ public class KnowledgeBase
 				return TaxonomyUtils.isType(taxonomy, x, c);
 		}
 
-		return abox.isType(x, c);
+		return _abox.isType(x, c);
 	}
 
 	public boolean isSameAs(final ATermAppl t1, final ATermAppl t2)
@@ -3239,11 +3239,11 @@ public class KnowledgeBase
 		final Set<ATermAppl> knowns = new HashSet<>();
 		final Set<ATermAppl> unknowns = new HashSet<>();
 
-		final Individual ind = abox.getIndividual(t1);
+		final Individual ind = _abox.getIndividual(t1);
 		if (ind.isMerged() && !ind.getMergeDependency(true).isIndependent())
-			abox.getSames(ind.getSame(), unknowns, unknowns);
+			_abox.getSames(ind.getSame(), unknowns, unknowns);
 		else
-			abox.getSames(ind.getSame(), knowns, unknowns);
+			_abox.getSames(ind.getSame(), knowns, unknowns);
 
 		if (knowns.contains(t2))
 		{
@@ -3254,13 +3254,13 @@ public class KnowledgeBase
 			if (!unknowns.contains(t2))
 				return false;
 
-		return abox.isSameAs(t1, t2);
+		return _abox.isSameAs(t1, t2);
 	}
 
 	public boolean isDifferentFrom(final ATermAppl t1, final ATermAppl t2)
 	{
-		final Individual ind1 = abox.getIndividual(t1);
-		final Individual ind2 = abox.getIndividual(t2);
+		final Individual ind1 = _abox.getIndividual(t1);
+		final Individual ind2 = _abox.getIndividual(t2);
 
 		if (ind1 == null)
 		{
@@ -3286,7 +3286,7 @@ public class KnowledgeBase
 	{
 		ensureConsistency();
 
-		Individual ind = abox.getIndividual(name);
+		Individual ind = _abox.getIndividual(name);
 
 		if (ind == null)
 		{
@@ -3304,9 +3304,9 @@ public class KnowledgeBase
 		final ATermAppl c = ATermUtils.makeNot(ATermUtils.makeValue(name));
 
 		final Set<ATermAppl> differents = new HashSet<>();
-		for (final ATermAppl x : individuals)
+		for (final ATermAppl x : _individuals)
 		{
-			final Bool isType = abox.isKnownType(x, c);
+			final Bool isType = _abox.isKnownType(x, c);
 			if (isIndependent && isType.isKnown())
 			{
 				if (isType.isTrue())
@@ -3346,7 +3346,7 @@ public class KnowledgeBase
 				if (!isIndividual(o))
 					return false;
 
-		return abox.hasPropertyValue(s, p, o);
+		return _abox.hasPropertyValue(s, p, o);
 	}
 
 	/**
@@ -3362,7 +3362,7 @@ public class KnowledgeBase
 	{
 		ensureConsistency();
 
-		return abox.hasObviousPropertyValue(s, p, o);
+		return _abox.hasObviousPropertyValue(s, p, o);
 	}
 
 	/**
@@ -3370,15 +3370,15 @@ public class KnowledgeBase
 	 */
 	public ABox getABox()
 	{
-		return abox;
+		return _abox;
 	}
 
 	/**
-	 * @return Returns the rbox.
+	 * @return Returns the _rbox.
 	 */
 	public RBox getRBox()
 	{
-		return rbox;
+		return _rbox;
 	}
 
 	/**
@@ -3386,7 +3386,7 @@ public class KnowledgeBase
 	 */
 	public TBox getTBox()
 	{
-		return tbox;
+		return _tbox;
 	}
 
 	/**
@@ -3394,7 +3394,7 @@ public class KnowledgeBase
 	 */
 	public DatatypeReasoner getDatatypeReasoner()
 	{
-		return abox.getDatatypeReasoner();
+		return _abox.getDatatypeReasoner();
 	}
 
 	/**
@@ -3426,10 +3426,10 @@ public class KnowledgeBase
 
 		classify();
 
-		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = _builder.getTaxonomy();
 
 		if (!taxonomy.contains(c))
-			builder.classify(c);
+			_builder.classify(c);
 
 		final Set<Set<ATermAppl>> supers = new HashSet<>();
 		for (final Set<ATermAppl> s : taxonomy.getSupers(c, direct))
@@ -3512,7 +3512,7 @@ public class KnowledgeBase
 			return Collections.emptySet();
 		}
 
-		final Role role = rbox.getRole(p);
+		final Role role = _rbox.getRole(p);
 
 		if (!role.isObjectRole() && !role.isDatatypeRole())
 			return Collections.emptySet();
@@ -3599,7 +3599,7 @@ public class KnowledgeBase
 		if (types.isEmpty() && !PelletOptions.AUTO_REALIZE)
 		{
 			classify();
-			builder.realize(ind);
+			_builder.realize(ind);
 			types = getPrimitiveTypes(ind, direct);
 		}
 
@@ -3609,7 +3609,7 @@ public class KnowledgeBase
 	private Set<Set<ATermAppl>> getPrimitiveTypes(final ATermAppl ind, final boolean direct)
 	{
 		final Set<Set<ATermAppl>> types = new HashSet<>();
-		for (final Set<ATermAppl> t : TaxonomyUtils.getTypes(builder.getTaxonomy(), ind, direct))
+		for (final Set<ATermAppl> t : TaxonomyUtils.getTypes(_builder.getTaxonomy(), ind, direct))
 		{
 			final Set<ATermAppl> eqSet = ATermUtils.primitiveOrBottom(t);
 			if (!eqSet.isEmpty())
@@ -3642,7 +3642,7 @@ public class KnowledgeBase
 
 		// there is always at least one atomic class guranteed to exist (i.e.
 		// owl:Thing)
-		return abox.getIndividual(ind).getTypes(Node.ATOM).iterator().next();
+		return _abox.getIndividual(ind).getTypes(Node.ATOM).iterator().next();
 	}
 
 	public ATermAppl getType(final ATermAppl ind, final boolean direct)
@@ -3659,9 +3659,9 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all the instances of concept c. If TOP concept is used every individual in the knowledge base will be returned
+	 * Returns all the _instances of concept c. If TOP concept is used every individual in the knowledge base will be returned
 	 *
-	 * @param c class whose instances are returned
+	 * @param c class whose _instances are returned
 	 * @return A set of ATerm objects
 	 */
 	public Set<ATermAppl> getInstances(final ATermAppl c)
@@ -3672,15 +3672,15 @@ public class KnowledgeBase
 			return Collections.emptySet();
 		}
 
-		if (instances.containsKey(c))
-			return instances.get(c);
+		if (_instances.containsKey(c))
+			return _instances.get(c);
 		else
 			if (isRealized())
 			{
-				if (builder == null)
+				if (_builder == null)
 					throw new NullPointerException("Builder is null");
 
-				final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+				final Taxonomy<ATermAppl> taxonomy = _builder.getTaxonomy();
 
 				if (taxonomy == null)
 					throw new NullPointerException("Taxonomy is null");
@@ -3689,18 +3689,18 @@ public class KnowledgeBase
 					return TaxonomyUtils.getAllInstances(taxonomy, c);
 			}
 
-		return new HashSet<>(retrieve(c, individuals));
+		return new HashSet<>(retrieve(c, _individuals));
 	}
 
 	/**
-	 * Returns the instances of class c. Depending on the second parameter the resulting list will include all or only the direct instances. An individual x is
-	 * a direct instance of c iff x is of type c and there is no subclass d of c such that x is of type d.
+	 * Returns the _instances of class c. Depending on the second parameter the resulting list will include all or only the direct _instances. An individual x
+	 * is a direct instance of c iff x is of type c and there is no subclass d of c such that x is of type d.
 	 * <p>
 	 * *** This function will first realize the whole ontology ***
 	 * </p>
 	 *
-	 * @param c class whose instances are returned
-	 * @param direct if true return only the direct instances, otherwise return all the instances
+	 * @param c class whose _instances are returned
+	 * @param direct if true return only the direct _instances, otherwise return all the _instances
 	 * @return A set of ATerm objects
 	 */
 	public Set<ATermAppl> getInstances(final ATermAppl c, final boolean direct)
@@ -3711,16 +3711,16 @@ public class KnowledgeBase
 			return Collections.emptySet();
 		}
 
-		// All instances for anonymous concepts
+		// All _instances for anonymous concepts
 		if (!direct)
 			return getInstances(c);
 
 		realize();
 
-		if (builder == null)
+		if (_builder == null)
 			throw new NullPointerException("Builder is null");
 
-		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = _builder.getTaxonomy();
 
 		if (taxonomy == null)
 			throw new NullPointerException("Taxonomy is null");
@@ -3730,9 +3730,9 @@ public class KnowledgeBase
 			return TaxonomyUtils.getDirectInstances(taxonomy, c);
 
 		if (!taxonomy.contains(c))
-			builder.classify(c);
+			_builder.classify(c);
 
-		// Direct instances for anonymous concepts
+		// Direct _instances for anonymous concepts
 		final Set<ATermAppl> ret = new HashSet<>();
 		final Set<Set<ATermAppl>> sups = getSuperClasses(c, true);
 
@@ -3792,10 +3792,10 @@ public class KnowledgeBase
 
 		classify();
 
-		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = _builder.getTaxonomy();
 
 		if (!taxonomy.contains(c))
-			builder.classify(c);
+			_builder.classify(c);
 
 		return ATermUtils.primitiveOrBottom(taxonomy.getAllEquivalents(c));
 	}
@@ -3846,10 +3846,10 @@ public class KnowledgeBase
 
 		classify();
 
-		final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+		final Taxonomy<ATermAppl> taxonomy = _builder.getTaxonomy();
 
 		if (!taxonomy.contains(c))
-			builder.classify(c);
+			_builder.classify(c);
 
 		final Set<Set<ATermAppl>> subs = new HashSet<>();
 		for (final Set<ATermAppl> s : taxonomy.getSubs(c, direct))
@@ -4028,7 +4028,7 @@ public class KnowledgeBase
 	 */
 	public ATermAppl getInverse(final ATerm name)
 	{
-		final Role prop = rbox.getRole(name);
+		final Role prop = _rbox.getRole(name);
 		if (prop == null)
 		{
 			handleUndefinedEntity(name + " is not a property!");
@@ -4051,7 +4051,7 @@ public class KnowledgeBase
 	{
 		ensureConsistency();
 
-		final Role prop = rbox.getRole(name);
+		final Role prop = _rbox.getRole(name);
 		if (prop == null)
 		{
 			handleUndefinedEntity(name + " is not a property!");
@@ -4073,7 +4073,7 @@ public class KnowledgeBase
 		ensureConsistency();
 
 		final Set<ATermAppl> set = Collections.emptySet();
-		final Role prop = rbox.getRole(name);
+		final Role prop = _rbox.getRole(name);
 		if (prop == null)
 		{
 			handleUndefinedEntity(name + " is not a property!");
@@ -4096,7 +4096,7 @@ public class KnowledgeBase
 		final Set<ATermAppl> knowns = new HashSet<>();
 		final Set<ATermAppl> unknowns = new HashSet<>();
 
-		final Individual ind = abox.getIndividual(name);
+		final Individual ind = _abox.getIndividual(name);
 		if (ind == null)
 		{
 			handleUndefinedEntity(name + " is not an individual!");
@@ -4106,21 +4106,21 @@ public class KnowledgeBase
 		if (ind.isMerged() && !ind.getMergeDependency(true).isIndependent())
 		{
 			knowns.add(name);
-			abox.getSames(ind.getSame(), unknowns, unknowns);
+			_abox.getSames(ind.getSame(), unknowns, unknowns);
 			unknowns.remove(name);
 		}
 		else
-			abox.getSames(ind.getSame(), knowns, unknowns);
+			_abox.getSames(ind.getSame(), knowns, unknowns);
 
 		for (final ATermAppl other : unknowns)
-			if (abox.isSameAs(name, other))
+			if (_abox.isSameAs(name, other))
 				knowns.add(other);
 
 		return knowns;
 	}
 
 	/**
-	 * Return all the individuals asserted to be equal to the given individual but not the the individual itself.
+	 * Return all the _individuals asserted to be equal to the given individual but not the the individual itself.
 	 *
 	 * @param name
 	 * @return
@@ -4145,8 +4145,8 @@ public class KnowledgeBase
 	{
 		ensureConsistency();
 
-		final Individual ind = abox.getIndividual(x);
-		final Role role = rbox.getRole(r);
+		final Individual ind = _abox.getIndividual(x);
+		final Role role = _rbox.getRole(r);
 
 		if (ind == null)
 		{
@@ -4164,7 +4164,7 @@ public class KnowledgeBase
 		{
 			final List<ATermAppl> literals = new ArrayList<>();
 			if (!PelletOptions.HIDE_TOP_PROPERTY_VALUES)
-				for (final Node node : abox.getNodes())
+				for (final Node node : _abox.getNodes())
 					if (node.isLiteral() && node.getTerm() != null)
 						literals.add(node.getTerm());
 			return literals;
@@ -4173,7 +4173,7 @@ public class KnowledgeBase
 			if (role.isBottom())
 				return Collections.emptyList();
 			else
-				return abox.getDataPropertyValues(x, role, datatype);
+				return _abox.getDataPropertyValues(x, role, datatype);
 	}
 
 	/**
@@ -4225,7 +4225,7 @@ public class KnowledgeBase
 	{
 		ensureConsistency();
 
-		final Role role = rbox.getRole(r);
+		final Role role = _rbox.getRole(r);
 
 		if (role == null || !role.isObjectRole())
 		{
@@ -4250,7 +4250,7 @@ public class KnowledgeBase
 		}
 		else
 			if (!role.isBottom())
-				abox.getObjectPropertyValues(x, role, knowns, unknowns, true);
+				_abox.getObjectPropertyValues(x, role, knowns, unknowns, true);
 
 		if (!unknowns.isEmpty())
 		{
@@ -4272,7 +4272,7 @@ public class KnowledgeBase
 	 */
 	public List<ATermAppl> getPropertyValues(final ATermAppl r, final ATermAppl x)
 	{
-		final Role role = rbox.getRole(r);
+		final Role role = _rbox.getRole(r);
 
 		if (role == null || role.isUntypedRole())
 		{
@@ -4305,7 +4305,7 @@ public class KnowledgeBase
 	 */
 	public List<ATermAppl> getIndividualsWithProperty(final ATermAppl r, final ATermAppl x)
 	{
-		final Role role = rbox.getRole(r);
+		final Role role = _rbox.getRole(r);
 
 		if (role == null)
 		{
@@ -4350,15 +4350,15 @@ public class KnowledgeBase
 		}
 		catch (final InvalidLiteralException e)
 		{
-			log.warning(format("Invalid literal '%s' passed as input, returning empty set of individuals: %s", litValue, e.getMessage()));
+			log.warning(format("Invalid literal '%s' passed as input, returning empty set of _individuals: %s", litValue, e.getMessage()));
 			return Collections.emptyList();
 		}
 		catch (final UnrecognizedDatatypeException e)
 		{
-			log.warning(format("Unrecognized datatype for literal '%s' passed as input, returning empty set of individuals: %s", litValue, e.getMessage()));
+			log.warning(format("Unrecognized datatype for literal '%s' passed as input, returning empty set of _individuals: %s", litValue, e.getMessage()));
 			return Collections.emptyList();
 		}
-		final Literal literal = abox.getLiteral(canonicalLit);
+		final Literal literal = _abox.getLiteral(canonicalLit);
 
 		if (literal != null)
 		{
@@ -4402,7 +4402,7 @@ public class KnowledgeBase
 			return Collections.emptyList();
 		}
 
-		final Role role = rbox.getRole(r);
+		final Role role = _rbox.getRole(r);
 
 		final ATermAppl invR = role.getInverse().getName();
 
@@ -4430,7 +4430,7 @@ public class KnowledgeBase
 
 		final Set<ATermAppl> allProps = ATermUtils.isLiteral(o) ? getDataProperties() : getObjectProperties();
 		for (final ATermAppl p : allProps)
-			if (abox.hasPropertyValue(s, p, o))
+			if (_abox.hasPropertyValue(s, p, o))
 				props.add(p);
 
 		return props;
@@ -4440,7 +4440,7 @@ public class KnowledgeBase
 	{
 		final Map<ATermAppl, List<ATermAppl>> result = new HashMap<>();
 
-		for (final ATermAppl subj : individuals)
+		for (final ATermAppl subj : _individuals)
 		{
 			final List<ATermAppl> objects = getPropertyValues(pred, subj);
 			if (!objects.isEmpty())
@@ -4451,7 +4451,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return all the individuals that belong to the given class which is not necessarily a named class.
+	 * Return all the _individuals that belong to the given class which is not necessarily a named class.
 	 *
 	 * @param d
 	 * @return
@@ -4468,19 +4468,19 @@ public class KnowledgeBase
 		final List<ATermAppl> knowns = new ArrayList<>();
 
 		// this is mostly to ensure that a model for notC is cached
-		if (!abox.isSatisfiable(notC))
+		if (!_abox.isSatisfiable(notC))
 			// if negation is unsat c itself is TOP
 			knowns.addAll(getIndividuals());
 		else
-			if (abox.isSatisfiable(c))
+			if (_abox.isSatisfiable(c))
 			{
 				Set<ATermAppl> subs = Collections.emptySet();
 				if (isClassified())
 				{
-					if (builder == null)
+					if (_builder == null)
 						throw new NullPointerException("Builder is null");
 
-					final Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
+					final Taxonomy<ATermAppl> taxonomy = _builder.getTaxonomy();
 
 					if (taxonomy == null)
 						throw new NullPointerException("Taxonomy");
@@ -4492,7 +4492,7 @@ public class KnowledgeBase
 				final List<ATermAppl> unknowns = new ArrayList<>();
 				for (final ATermAppl x : individuals)
 				{
-					final Bool isType = abox.isKnownType(x, c, subs);
+					final Bool isType = _abox.isKnownType(x, c, subs);
 					if (isType.isTrue())
 						knowns.add(x);
 					else
@@ -4504,7 +4504,7 @@ public class KnowledgeBase
 					if (PelletOptions.INSTANCE_RETRIEVAL == InstanceRetrievalMethod.TRACING_BASED && PelletOptions.USE_TRACING)
 						tracingBasedInstanceRetrieval(c, unknowns, knowns);
 					else
-						if (abox.isType(unknowns, c))
+						if (_abox.isType(unknowns, c))
 							if (PelletOptions.INSTANCE_RETRIEVAL == InstanceRetrievalMethod.BINARY)
 								binaryInstanceRetrieval(c, unknowns, knowns);
 							else
@@ -4517,19 +4517,19 @@ public class KnowledgeBase
 		final Set<ATermAppl> result = Collections.unmodifiableSet(new HashSet<>(knowns));
 
 		if (PelletOptions.CACHE_RETRIEVAL)
-			instances.put(c, result);
+			_instances.put(c, result);
 
 		return result;
 	}
 
 	/**
-	 * Retrieve individuals which possibly have a property value for the given property.
+	 * Retrieve _individuals which possibly have a property value for the given property.
 	 */
 	public List<ATermAppl> retrieveIndividualsWithProperty(final ATermAppl r)
 	{
 		ensureConsistency();
 
-		final Role role = rbox.getRole(r);
+		final Role role = _rbox.getRole(r);
 		if (role == null)
 		{
 			handleUndefinedEntity(r + " is not a known property!");
@@ -4537,8 +4537,8 @@ public class KnowledgeBase
 		}
 
 		final List<ATermAppl> result = new ArrayList<>();
-		for (final ATermAppl ind : individuals)
-			if (!abox.hasObviousPropertyValue(ind, r, null).isFalse())
+		for (final ATermAppl ind : _individuals)
+			if (!_abox.hasObviousPropertyValue(ind, r, null).isFalse())
 				result.add(ind);
 
 		return result;
@@ -4550,7 +4550,7 @@ public class KnowledgeBase
 		setDoExplanation(true);
 
 		final ATermAppl notC = ATermUtils.negate(c);
-		while (abox.isType(candidates, c))
+		while (_abox.isType(candidates, c))
 		{
 			final Set<ATermAppl> explanationSet = getExplanationSet();
 
@@ -4577,7 +4577,7 @@ public class KnowledgeBase
 	public void linearInstanceRetrieval(final ATermAppl c, final List<ATermAppl> candidates, final Collection<ATermAppl> results)
 	{
 		for (final ATermAppl ind : candidates)
-			if (abox.isType(ind, c))
+			if (_abox.isType(ind, c))
 				results.add(ind);
 	}
 
@@ -4599,14 +4599,14 @@ public class KnowledgeBase
 			final ATermAppl i = partitions[0].get(0);
 			binaryInstanceRetrieval(c, partitions[1], results);
 
-			if (abox.isType(i, c))
+			if (_abox.isType(i, c))
 				results.add(i);
 		}
 		else
-			if (!abox.isType(partitions[0], c))
+			if (!_abox.isType(partitions[0], c))
 				binaryInstanceRetrieval(c, partitions[1], results);
 			else
-				if (!abox.isType(partitions[1], c))
+				if (!_abox.isType(partitions[1], c))
 					binaryInstanceRetrieval(c, partitions[0], results);
 				else
 				{
@@ -4674,19 +4674,19 @@ public class KnowledgeBase
 	{
 		classify();
 
-		new ClassTreePrinter().print(builder.getTaxonomy());
+		new ClassTreePrinter().print(_builder.getTaxonomy());
 	}
 
 	public void printClassTree(final PrintWriter out)
 	{
 		classify();
 
-		new ClassTreePrinter().print(builder.getTaxonomy(), out);
+		new ClassTreePrinter().print(_builder.getTaxonomy(), out);
 	}
 
 	public boolean doExplanation()
 	{
-		return abox.doExplanation();
+		return _abox.doExplanation();
 	}
 
 	/**
@@ -4694,12 +4694,12 @@ public class KnowledgeBase
 	 */
 	public void setDoExplanation(final boolean doExplanation)
 	{
-		abox.setDoExplanation(doExplanation);
+		_abox.setDoExplanation(doExplanation);
 	}
 
 	public String getExplanation()
 	{
-		return abox.getExplanation();
+		return _abox.getExplanation();
 	}
 
 	/**
@@ -4723,15 +4723,15 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getExplanationSet()
 	{
-		return abox.getExplanationSet();
+		return _abox.getExplanationSet();
 	}
 
 	/**
-	 * @param rbox The rbox to set.
+	 * @param _rbox The _rbox to set.
 	 */
 	public void setRBox(final RBox rbox)
 	{
-		this.rbox = rbox;
+		this._rbox = rbox;
 	}
 
 	/**
@@ -4739,7 +4739,7 @@ public class KnowledgeBase
 	 */
 	public void setTBox(final TBox tbox)
 	{
-		this.tbox = tbox;
+		this._tbox = tbox;
 	}
 
 	CompletionStrategy chooseStrategy(final ABox abox)
@@ -4757,9 +4757,9 @@ public class KnowledgeBase
 	{
 		final boolean conceptSatisfiability = (abox.size() == 1) && new IndividualIterator(abox).next().isConceptRoot();
 
-		// We don't need to use rules _strategy if we are checking concept satisfiability unless
-		// there are nominals because then rules may affect concept satisfiability and we need
-		// to use rules _strategy
+		// We don't need to use _rules _strategy if we are checking concept satisfiability unless
+		// there are nominals because then _rules may affect concept satisfiability and we need
+		// to use _rules _strategy
 		if (getRules().size() > 0 && (expressivity.hasNominal() || !conceptSatisfiability))
 			return new ContinuousRulesStrategy(abox);
 
@@ -4788,7 +4788,7 @@ public class KnowledgeBase
 	 */
 	public Role getRole(final ATerm term)
 	{
-		return rbox.getRole(term);
+		return _rbox.getRole(term);
 	}
 
 	/**
@@ -4798,41 +4798,41 @@ public class KnowledgeBase
 	{
 		classify();
 
-		return builder.getTaxonomy();
+		return _builder.getTaxonomy();
 	}
 
 	public TaxonomyBuilder getTaxonomyBuilder()
 	{
-		if (builder == null)
+		if (_builder == null)
 		{
 			prepare();
 
-			if (expChecker.getExpressivity().isEL() && !PelletOptions.DISABLE_EL_CLASSIFIER)
-				builder = new SimplifiedELClassifier();
+			if (_expChecker.getExpressivity().isEL() && !PelletOptions.DISABLE_EL_CLASSIFIER)
+				_builder = new SimplifiedELClassifier();
 			else
-				builder = new CDOptimizedTaxonomyBuilder();
-			builder.setKB(this);
+				_builder = new CDOptimizedTaxonomyBuilder();
+			_builder.setKB(this);
 
-			if (builderProgressMonitor != null)
-				builder.setProgressMonitor(builderProgressMonitor);
+			if (_builderProgressMonitor != null)
+				_builder.setProgressMonitor(_builderProgressMonitor);
 		}
 
-		return builder;
+		return _builder;
 	}
 
 	public void setTaxonomyBuilderProgressMonitor(final ProgressMonitor progressMonitor)
 	{
-		builderProgressMonitor = progressMonitor;
+		_builderProgressMonitor = progressMonitor;
 
-		if (builder != null)
-			builder.setProgressMonitor(progressMonitor);
+		if (_builder != null)
+			_builder.setProgressMonitor(progressMonitor);
 	}
 
 	public Taxonomy<ATermAppl> getRoleTaxonomy(final boolean objectTaxonomy)
 	{
 		prepare();
 
-		return objectTaxonomy ? rbox.getObjectTaxonomy() : rbox.getDataTaxonomy();
+		return objectTaxonomy ? _rbox.getObjectTaxonomy() : _rbox.getDataTaxonomy();
 
 	}
 
@@ -4841,20 +4841,20 @@ public class KnowledgeBase
 		prepare();
 
 		if (isObjectProperty(r))
-			return rbox.getObjectTaxonomy();
+			return _rbox.getObjectTaxonomy();
 		else
 			if (isDatatypeProperty(r))
-				return rbox.getDataTaxonomy();
+				return _rbox.getDataTaxonomy();
 			else
 				if (isAnnotationProperty(r))
-					return rbox.getAnnotationTaxonomy();
+					return _rbox.getAnnotationTaxonomy();
 
 		return null;
 	}
 
 	public SizeEstimate getSizeEstimate()
 	{
-		return estimate;
+		return _estimate;
 	}
 
 	/**
@@ -4862,10 +4862,10 @@ public class KnowledgeBase
 	 */
 	public boolean addRule(final Rule rule)
 	{
-		// DL-safe rules affects the ABox so we might redo the reasoning
-		changes.add(ChangeType.ABOX_ADD);
+		// DL-safe _rules affects the ABox so we might redo the reasoning
+		_changes.add(ChangeType.ABOX_ADD);
 
-		rules.put(rule, normalize(rule));
+		_rules.put(rule, normalize(rule));
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("rule " + rule);
@@ -4941,22 +4941,22 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return all the asserted rules.
+	 * Return all the asserted _rules.
 	 */
 	public Set<Rule> getRules()
 	{
-		return rules.keySet();
+		return _rules.keySet();
 	}
 
 	/**
-	 * Return the asserted rules with their normalized form. A normalized rule is a rule where any class expression occurring in the rules is in normalized
+	 * Return the asserted _rules with their normalized form. A normalized rule is a rule where any class expression occurring in the _rules is in normalized
 	 * form.
 	 *
-	 * @return set of rules where
+	 * @return set of _rules where
 	 */
 	public Map<Rule, Rule> getNormalizedRules()
 	{
-		return rules;
+		return _rules;
 	}
 
 	/**
@@ -4967,15 +4967,15 @@ public class KnowledgeBase
 	protected boolean canUseIncConsistency()
 	{
 		// can we do incremental consistency checking
-		final Expressivity expressivity = expChecker.getExpressivity();
+		final Expressivity expressivity = _expChecker.getExpressivity();
 		if (expressivity == null)
 			return false;
 
-		final boolean canUseIncConsistency = !(expressivity.hasNominal() && expressivity.hasInverse()) && getRules().isEmpty() && !isTBoxChanged() && !isRBoxChanged() && abox.isComplete() && PelletOptions.USE_INCREMENTAL_CONSISTENCY &&
-		// support additions only; also support deletions with or with
-		// additions, however tracing must be on to support incremental
-		// deletions
-				(!changes.contains(ChangeType.ABOX_DEL) || PelletOptions.USE_INCREMENTAL_DELETION);
+		final boolean canUseIncConsistency = !(expressivity.hasNominal() && expressivity.hasInverse()) && getRules().isEmpty() && !isTBoxChanged() && !isRBoxChanged() && _abox.isComplete() && PelletOptions.USE_INCREMENTAL_CONSISTENCY &&
+				// support additions only; also support deletions with or with
+				// additions, however tracing must be on to support incremental
+				// deletions
+				(!_changes.contains(ChangeType.ABOX_DEL) || PelletOptions.USE_INCREMENTAL_DELETION);
 
 		return canUseIncConsistency;
 	}
@@ -4985,7 +4985,7 @@ public class KnowledgeBase
 		if (canUseIncConsistency())
 			return;
 
-		final Expressivity expressivity = expChecker.getExpressivity();
+		final Expressivity expressivity = _expChecker.getExpressivity();
 
 		String msg = "ABox " + (aboxDeletion ? "deletion" : "addition") + " failed because ";
 		if (expressivity == null)
@@ -5021,7 +5021,7 @@ public class KnowledgeBase
 	 */
 	public DependencyIndex getDependencyIndex()
 	{
-		return dependencyIndex;
+		return _dependencyIndex;
 	}
 
 	/**
@@ -5031,7 +5031,7 @@ public class KnowledgeBase
 	 */
 	public Set<ATermAppl> getSyntacticAssertions()
 	{
-		return syntacticAssertions;
+		return _syntacticAssertions;
 	}
 
 	protected static void handleUndefinedEntity(final String s)
@@ -5042,7 +5042,7 @@ public class KnowledgeBase
 
 	public Set<ATermAppl> getABoxAssertions(final AssertionType assertionType)
 	{
-		final Set<ATermAppl> assertions = aboxAssertions.get(assertionType);
+		final Set<ATermAppl> assertions = _aboxAssertions.get(assertionType);
 
 		if (assertions == null)
 			return Collections.emptySet();
@@ -5078,35 +5078,35 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * @return the deletedAssertions
+	 * @return the _deletedAssertions
 	 */
 	public Set<ATermAppl> getDeletedAssertions()
 	{
-		return deletedAssertions;
+		return _deletedAssertions;
 	}
 
 	/**
-	 * Returns _current value of explainOnlyInconsistency option.
+	 * Returns _current value of _explainOnlyInconsistency option.
 	 *
 	 * @see #setExplainOnlyInconsistency(boolean)
-	 * @return _current value of explainOnlyInconsistency option
+	 * @return _current value of _explainOnlyInconsistency option
 	 */
 	public boolean isExplainOnlyInconsistency()
 	{
-		return explainOnlyInconsistency;
+		return _explainOnlyInconsistency;
 	}
 
 	/**
 	 * Controls what kind of explanations can be generated using this KB. With this option enabled explanations for inconsistent ontologies will be returned.
-	 * But if the ontology is consistent, it will not be possible to retrieve explanations for inferences about instances. This option is disabled by default.
+	 * But if the ontology is _consistent, it will not be possible to retrieve explanations for inferences about _instances. This option is disabled by default.
 	 * It should be turned on if explanations are only needed for inconsistencies but not other inferences. Turning this option on improves the performance of
-	 * consistency checking for consistent ontologies.
+	 * consistency checking for _consistent ontologies.
 	 *
-	 * @param explainOnlyInconsistency new value for explainOnlyInconsistency option
+	 * @param _explainOnlyInconsistency new value for _explainOnlyInconsistency option
 	 */
 	public void setExplainOnlyInconsistency(final boolean explainOnlyInconsistency)
 	{
-		this.explainOnlyInconsistency = explainOnlyInconsistency;
+		this._explainOnlyInconsistency = explainOnlyInconsistency;
 	}
 
 }
