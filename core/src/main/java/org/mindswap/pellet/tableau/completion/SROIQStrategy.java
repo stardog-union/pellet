@@ -44,39 +44,39 @@ public class SROIQStrategy extends CompletionStrategy
 	protected boolean backtrack()
 	{
 		boolean branchFound = false;
-		abox.stats.backtracks++;
+		_abox.stats.backtracks++;
 		while (!branchFound)
 		{
-			completionTimer.check();
+			_completionTimer.check();
 
-			final int lastBranch = abox.getClash().getDepends().max();
+			final int lastBranch = _abox.getClash().getDepends().max();
 
 			// not more branches to try
 			if (lastBranch <= 0)
 				return false;
 			else
-				if (lastBranch > abox.getBranches().size())
-					throw new InternalReasonerException("Backtrack: Trying to backtrack to _branch " + lastBranch + " but has only " + abox.getBranches().size() + " branches. Clash found: " + abox.getClash());
+				if (lastBranch > _abox.getBranches().size())
+					throw new InternalReasonerException("Backtrack: Trying to backtrack to _branch " + lastBranch + " but has only " + _abox.getBranches().size() + " branches. Clash found: " + _abox.getClash());
 				else
 					if (PelletOptions.USE_INCREMENTAL_DELETION)
 					{
 						// get the last _branch
-						final Branch br = abox.getBranches().get(lastBranch - 1);
+						final Branch br = _abox.getBranches().get(lastBranch - 1);
 
 						// if this is the last _disjunction, merge pair, etc. for the
 						// _branch (i.e, br.tryNext == br.tryCount-1) and there are no
 						// other branches to test (ie.
 						// _abox.getClash().depends.size()==2),
 						// then update depedency _index and return false
-						if ((br.getTryNext() == br.getTryCount() - 1) && abox.getClash().getDepends().size() == 2)
+						if ((br.getTryNext() == br.getTryCount() - 1) && _abox.getClash().getDepends().size() == 2)
 						{
-							abox.getKB().getDependencyIndex().addCloseBranchDependency(br, abox.getClash().getDepends());
+							_abox.getKB().getDependencyIndex().addCloseBranchDependency(br, _abox.getClash().getDepends());
 							return false;
 						}
 					}
 
-			final List<Branch> branches = abox.getBranches();
-			abox.stats.backjumps += (branches.size() - lastBranch);
+			final List<Branch> branches = _abox.getBranches();
+			_abox.stats.backjumps += (branches.size() - lastBranch);
 			// CHW - added for incremental deletion support
 			if (PelletOptions.USE_TRACING && PelletOptions.USE_INCREMENTAL_CONSISTENCY)
 			{
@@ -84,7 +84,7 @@ public class SROIQStrategy extends CompletionStrategy
 				final List<Branch> brList = branches.subList(lastBranch, branches.size());
 				for (final Branch branch : brList)
 					// remove from the dependency _index
-					abox.getKB().getDependencyIndex().removeBranchDependencies(branch);
+					_abox.getKB().getDependencyIndex().removeBranchDependencies(branch);
 				brList.clear();
 			}
 			else
@@ -102,7 +102,7 @@ public class SROIQStrategy extends CompletionStrategy
 
 			// set the last clash before restore
 			if (newBranch.getTryNext() < newBranch.getTryCount())
-				newBranch.setLastClash(abox.getClash().getDepends());
+				newBranch.setLastClash(_abox.getClash().getDepends());
 
 			// increment the counter
 			newBranch.setTryNext(newBranch.getTryNext() + 1);
@@ -128,32 +128,32 @@ public class SROIQStrategy extends CompletionStrategy
 	{
 		initialize(expr);
 
-		while (!abox.isComplete())
+		while (!_abox.isComplete())
 		{
-			while (abox.isChanged() && !abox.isClosed())
+			while (_abox.isChanged() && !_abox.isClosed())
 			{
-				completionTimer.check();
+				_completionTimer.check();
 
-				abox.setChanged(false);
+				_abox.setChanged(false);
 
 				if (log.isLoggable(Level.FINE))
 				{
-					log.fine("Branch: " + abox.getBranch() + ", Depth: " + abox.stats.treeDepth + ", Size: " + abox.getNodes().size() + ", Mem: " + (Runtime.getRuntime().freeMemory() / 1000) + "kb");
-					abox.validate();
+					log.fine("Branch: " + _abox.getBranch() + ", Depth: " + _abox.stats.treeDepth + ", Size: " + _abox.getNodes().size() + ", Mem: " + (Runtime.getRuntime().freeMemory() / 1000) + "kb");
+					_abox.validate();
 					printBlocked();
-					abox.printTree();
+					_abox.printTree();
 				}
 
-				final IndividualIterator i = (PelletOptions.USE_COMPLETION_QUEUE) ? abox.getCompletionQueue() : abox.getIndIterator();
+				final IndividualIterator i = (PelletOptions.USE_COMPLETION_QUEUE) ? _abox.getCompletionQueue() : _abox.getIndIterator();
 
 						// flush the _queue
 						if (PelletOptions.USE_COMPLETION_QUEUE)
-							abox.getCompletionQueue().flushQueue();
+							_abox.getCompletionQueue().flushQueue();
 
-						for (final TableauRule tableauRule : tableauRules)
+						for (final TableauRule tableauRule : _tableauRules)
 				{
 							tableauRule.apply(i);
-							if (abox.isClosed())
+							if (_abox.isClosed())
 								break;
 						}
 
@@ -164,37 +164,37 @@ public class SROIQStrategy extends CompletionStrategy
 						// so onle set that the _abox is clash free after we have applied
 						// all the rules once
 						if (PelletOptions.USE_COMPLETION_QUEUE)
-							abox.getCompletionQueue().setClosed(abox.isClosed());
+							_abox.getCompletionQueue().setClosed(_abox.isClosed());
 			}
 
-			if (abox.isClosed())
+			if (_abox.isClosed())
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("Clash at Branch (" + abox.getBranch() + ") " + abox.getClash());
+					log.fine("Clash at Branch (" + _abox.getBranch() + ") " + _abox.getClash());
 
 				if (backtrack())
 				{
-					abox.setClash(null);
+					_abox.setClash(null);
 
 					if (PelletOptions.USE_COMPLETION_QUEUE)
-						abox.getCompletionQueue().setClosed(false);
+						_abox.getCompletionQueue().setClosed(false);
 				}
 				else
 				{
-					abox.setComplete(true);
+					_abox.setComplete(true);
 
 					// we need to flush the _queue to add the other elements
 					if (PelletOptions.USE_COMPLETION_QUEUE)
-						abox.getCompletionQueue().flushQueue();
+						_abox.getCompletionQueue().flushQueue();
 				}
 			}
 			else
 				if (PelletOptions.SATURATE_TABLEAU)
 				{
 					Branch unexploredBranch = null;
-					for (int i = abox.getBranches().size() - 1; i >= 0; i--)
+					for (int i = _abox.getBranches().size() - 1; i >= 0; i--)
 					{
-						unexploredBranch = abox.getBranches().get(i);
+						unexploredBranch = _abox.getBranches().get(i);
 						unexploredBranch.setTryNext(unexploredBranch.getTryNext() + 1);
 						if (unexploredBranch.getTryNext() < unexploredBranch.getTryCount())
 						{
@@ -206,15 +206,15 @@ public class SROIQStrategy extends CompletionStrategy
 						else
 						{
 							System.out.println("removing _branch " + unexploredBranch.getBranch());
-							abox.getBranches().remove(i);
+							_abox.getBranches().remove(i);
 							unexploredBranch = null;
 						}
 					}
 					if (unexploredBranch == null)
-						abox.setComplete(true);
+						_abox.setComplete(true);
 				}
 				else
-					abox.setComplete(true);
+					_abox.setComplete(true);
 		}
 
 	}

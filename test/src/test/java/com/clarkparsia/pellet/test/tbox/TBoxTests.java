@@ -71,7 +71,7 @@ public class TBoxTests extends AbstractKBTests
 	}
 
 	/**
-	 * Test that tbox axioms which have been "simplified away" during absorption are re-added if removal of another tbox axiom necessitates it.
+	 * Test that _tbox axioms which have been "simplified away" during absorption are re-added if removal of another _tbox axiom necessitates it.
 	 */
 	@Test
 	public void removedByAbsorbReaddedOnChange()

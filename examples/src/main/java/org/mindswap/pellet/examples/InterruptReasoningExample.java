@@ -105,7 +105,7 @@ public class InterruptReasoningExample
 	// underlying pellet graph
 	private final PelletInfGraph pellet;
 
-	// the timers associated with the Pellet KB
+	// the _timers associated with the Pellet KB
 	private final Timers timers;
 
 	public static void main(final String[] args) throws Exception
@@ -132,7 +132,7 @@ public class InterruptReasoningExample
 
 		pellet = (PelletInfGraph) model.getGraph();
 
-		// get the underlying Pellet timers
+		// get the underlying Pellet _timers
 		timers = pellet.getKB().timers;
 
 		// set the timeout for main reasoning tasks

@@ -357,7 +357,7 @@ public class DLBenchmarkTest
 		System.out.println("Usage: java DLTest [-timing] <input> <type>");
 		System.out.println("   input    A single file or a directory that contains");
 		System.out.println("            a set of test files");
-		System.out.println("   type     Type of the test, one of [sat, tbox, _abox]");
+		System.out.println("   type     Type of the test, one of [sat, _tbox, _abox]");
 	}
 
 	public final static void main(final String[] args) throws Exception
@@ -401,7 +401,7 @@ public class DLBenchmarkTest
 				test.doAllSatTests(in);
 		}
 		else
-			if (type.equals("tbox"))
+			if (type.equals("_tbox"))
 			{
 				if (singleTest)
 					test.doTBoxTest(in);

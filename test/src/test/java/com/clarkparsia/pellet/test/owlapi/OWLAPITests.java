@@ -1103,7 +1103,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 			timeout = true;
 		}
 
-		assertTrue("Timeout failed: " + timer + "\nAll timers:\n" + kb.timers, timeout);
+		assertTrue("Timeout failed: " + timer + "\nAll _timers:\n" + kb.timers, timeout);
 		assertFalse(kb.isRealized());
 	}
 

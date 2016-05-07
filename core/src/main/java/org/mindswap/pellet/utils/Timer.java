@@ -39,7 +39,7 @@ import org.mindswap.pellet.exceptions.TimerInterruptedException;
  * <p>
  * Class used to keep track how much time is spent for a specific operation. Timers are primarily used to display info about performance. A timer is started at
  * the beginning of a function and is stopped at the _end of that function (special care needed when there are multiple return commands in a function because the
- * status of unstopped timers is undefined). A timer also stores how many times the timer has been started so average time spent in a function can be computed.
+ * status of unstopped _timers is undefined). A timer also stores how many times the timer has been started so average time spent in a function can be computed.
  * </p>
  * <p>
  * When a timer is used in a recursive function it will typically be started multiple times. Timer class will only measure the time spent in the first call.
@@ -52,13 +52,13 @@ import org.mindswap.pellet.exceptions.TimerInterruptedException;
  * to decide when and how many times a timer will be checked.
  * </p>
  * <p>
- * There may be a dependency between timers. For example, classification, realization and entailment operations all use consistency checks. If something goes
+ * There may be a dependency between _timers. For example, classification, realization and entailment operations all use consistency checks. If something goes
  * wrong inside a consistency check and that operation does not finish in a reasonable time, the timeout on the parent timer may expire. To handle such cases, a
  * timer may be associated with a parent timer so every time a timer is checked for a timeout, its parent timer will also be checked. Normally, we would like to
  * associate many parents with a timer but for efficiency reasons (looping over an array each time is expensive) each timer is allowed to have only one parent.
  * </p>
  * <p>
- * {@link Timers Timers} class stores a set of timers and provides functions to start, _stop and check timers.
+ * {@link Timers Timers} class stores a set of _timers and provides functions to start, _stop and check _timers.
  * </p>
  *
  * @see Timers
@@ -260,7 +260,7 @@ public class Timer
 
 	/**
 	 * Return the total time (in milliseconds) spent while this timer was running. If the timer is running when this function is called time elapsed will be
-	 * discarded. Therefore, it is advised to use this function only with stopped timers.
+	 * discarded. Therefore, it is advised to use this function only with stopped _timers.
 	 *
 	 * @return
 	 */
@@ -292,7 +292,7 @@ public class Timer
 
 	/**
 	 * Return the total time spent (in milliseconds) divided by the number of times this timer has been ran. If the timer is still running elapsed time is
-	 * discarded. Therefore, it is advised to use this function only with stopped timers.
+	 * discarded. Therefore, it is advised to use this function only with stopped _timers.
 	 *
 	 * @return
 	 */
@@ -334,7 +334,7 @@ public class Timer
 	}
 
 	/**
-	 * Return the parent timer of this timer depends on. Parent timers are checked hierarchically for timeouts.
+	 * Return the parent timer of this timer depends on. Parent _timers are checked hierarchically for timeouts.
 	 *
 	 * @return Parent timer or null if there is no such timer.
 	 */

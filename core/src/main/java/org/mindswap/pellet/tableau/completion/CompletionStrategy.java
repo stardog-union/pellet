@@ -76,12 +76,12 @@ public abstract class CompletionStrategy
 	/**
 	 * ABox being completed
 	 */
-	protected ABox abox;
+	protected ABox _abox;
 
 	/**
 	 * TBox associated with the _abox
 	 */
-	protected TBox tbox;
+	protected TBox _tbox;
 
 	/**
 	 * Blocking method specific to this completion _strategy
@@ -91,64 +91,64 @@ public abstract class CompletionStrategy
 	/**
 	 * Timers of the associated KB
 	 */
-	protected Timers timers;
+	protected Timers _timers;
 
 	/**
 	 * Timer to be used by the complete function. KB's consistency timer depends on this one and this dependency is set in the constructor. Any concrete class
 	 * that extends CompletionStrategy should check this timer to respect the timeouts defined in the KB.
 	 */
-	protected Timer completionTimer;
+	protected Timer _completionTimer;
 
 	/**
 	 * Flag to indicate that a merge operation is going on
 	 */
-	private boolean merging = false;
+	private boolean _merging = false;
 
 	/**
-	 * Flat to indicate that we are merging all _nodes in the _queue
+	 * Flat to indicate that we are _merging all _nodes in the _queue
 	 */
-	private boolean mergingAll = false;
+	private boolean _mergingAll = false;
 
 	/**
 	 * The _queue of _node pairs that are waiting to be merged
 	 */
-	protected List<NodeMerge> mergeList;
+	protected List<NodeMerge> _mergeList;
 
-	protected TableauRule unfoldingRule = new UnfoldingRule(this);
-	protected TableauRule disjunctionRule = new DisjunctionRule(this);
-	protected AllValuesRule allValuesRule = new AllValuesRule(this);
-	protected TableauRule someValuesRule = new SomeValuesRule(this);
-	protected TableauRule chooseRule = new ChooseRule(this);
-	protected TableauRule minRule = new MinRule(this);
-	protected MaxRule maxRule = new MaxRule(this);
-	protected TableauRule selfRule = new SelfRule(this);
-	protected TableauRule nominalRule = new NominalRule(this);
-	protected TableauRule guessRule = new GuessRule(this);
-	protected TableauRule dataSatRule = new DataSatisfiabilityRule(this);
-	protected TableauRule dataCardRule = new DataCardinalityRule(this);
+	protected TableauRule _unfoldingRule = new UnfoldingRule(this);
+	protected TableauRule _disjunctionRule = new DisjunctionRule(this);
+	protected AllValuesRule _allValuesRule = new AllValuesRule(this);
+	protected TableauRule _someValuesRule = new SomeValuesRule(this);
+	protected TableauRule _chooseRule = new ChooseRule(this);
+	protected TableauRule _minRule = new MinRule(this);
+	protected MaxRule _maxRule = new MaxRule(this);
+	protected TableauRule _selfRule = new SelfRule(this);
+	protected TableauRule _nominalRule = new NominalRule(this);
+	protected TableauRule _guessRule = new GuessRule(this);
+	protected TableauRule _dataSatRule = new DataSatisfiabilityRule(this);
+	protected TableauRule _dataCardRule = new DataCardinalityRule(this);
 
-	protected List<TableauRule> tableauRules;
+	protected List<TableauRule> _tableauRules;
 
 	/**
 	 *
 	 */
 	public CompletionStrategy(final ABox abox)
 	{
-		this.abox = abox;
-		this.tbox = abox.getTBox();
-		this.timers = abox.getKB().timers;
+		this._abox = abox;
+		this._tbox = abox.getTBox();
+		this._timers = abox.getKB().timers;
 
-		completionTimer = timers.getTimer("complete");
+		_completionTimer = _timers.getTimer("complete");
 	}
 
 	public ABox getABox()
 	{
-		return abox;
+		return _abox;
 	}
 
 	public TBox getTBox()
 	{
-		return tbox;
+		return _tbox;
 	}
 
 	public Blocking getBlocking()
@@ -158,7 +158,7 @@ public abstract class CompletionStrategy
 
 	public void checkTimer()
 	{
-		completionTimer.check();
+		_completionTimer.check();
 	}
 
 	/**
@@ -168,7 +168,7 @@ public abstract class CompletionStrategy
 	 */
 	public Iterator<Individual> getInitializeIterator()
 	{
-		return new IndividualIterator(abox);
+		return new IndividualIterator(_abox);
 	}
 
 	protected void configureTableauRules(final Expressivity expr)
@@ -181,63 +181,63 @@ public abstract class CompletionStrategy
 
 		final boolean fullDatatypeReasoning = PelletOptions.USE_FULL_DATATYPE_REASONING && (expr.hasUserDefinedDatatype() || expr.hasCardinalityD() || expr.hasKeys());
 
-		tableauRules = new ArrayList<>();
+		_tableauRules = new ArrayList<>();
 
 		if ((!PelletOptions.USE_PSEUDO_NOMINALS && expr.hasNominal()) || implicitNominals())
 		{
-			tableauRules.add(nominalRule);
+			_tableauRules.add(_nominalRule);
 
 			if (expr.hasCardinalityQ())
-				tableauRules.add(guessRule);
+				_tableauRules.add(_guessRule);
 		}
 
 		if (expr.hasCardinalityQ() || expr.hasCardinalityD())
-			tableauRules.add(chooseRule);
+			_tableauRules.add(_chooseRule);
 
-		tableauRules.add(maxRule);
+		_tableauRules.add(_maxRule);
 
 		if (fullDatatypeReasoning)
-			tableauRules.add(dataCardRule);
+			_tableauRules.add(_dataCardRule);
 
-		tableauRules.add(dataSatRule);
+		_tableauRules.add(_dataSatRule);
 
-		tableauRules.add(unfoldingRule);
+		_tableauRules.add(_unfoldingRule);
 
-		tableauRules.add(disjunctionRule);
+		_tableauRules.add(_disjunctionRule);
 
-		tableauRules.add(someValuesRule);
+		_tableauRules.add(_someValuesRule);
 
-		tableauRules.add(minRule);
+		_tableauRules.add(_minRule);
 
-		// no need to add allValuesRule to the list since it is applied on-the-fly
+		// no need to add _allValuesRule to the list since it is applied on-the-fly
 		if (expr.hasComplexSubRoles())
-			allValuesRule = new AllValuesRule(this);
+			_allValuesRule = new AllValuesRule(this);
 		else
-			allValuesRule = new SimpleAllValuesRule(this);
+			_allValuesRule = new SimpleAllValuesRule(this);
 
 	}
 
 	protected void addAllRules()
 	{
-		tableauRules = new ArrayList<>();
+		_tableauRules = new ArrayList<>();
 
-		tableauRules.add(nominalRule);
-		tableauRules.add(guessRule);
-		tableauRules.add(chooseRule);
-		tableauRules.add(maxRule);
-		tableauRules.add(dataCardRule);
-		tableauRules.add(dataSatRule);
-		tableauRules.add(unfoldingRule);
-		tableauRules.add(disjunctionRule);
-		tableauRules.add(someValuesRule);
-		tableauRules.add(minRule);
+		_tableauRules.add(_nominalRule);
+		_tableauRules.add(_guessRule);
+		_tableauRules.add(_chooseRule);
+		_tableauRules.add(_maxRule);
+		_tableauRules.add(_dataCardRule);
+		_tableauRules.add(_dataSatRule);
+		_tableauRules.add(_unfoldingRule);
+		_tableauRules.add(_disjunctionRule);
+		_tableauRules.add(_someValuesRule);
+		_tableauRules.add(_minRule);
 
-		allValuesRule = new AllValuesRule(this);
+		_allValuesRule = new AllValuesRule(this);
 	}
 
 	protected boolean implicitNominals()
 	{
-		final Collection<Rule> rules = abox.getKB().getNormalizedRules().values();
+		final Collection<Rule> rules = _abox.getKB().getNormalizedRules().values();
 		for (final Rule rule : rules)
 		{
 			if (rule == null)
@@ -257,16 +257,16 @@ public abstract class CompletionStrategy
 
 	public void initialize(final Expressivity expressivity)
 	{
-		mergeList = new ArrayList<>();
+		_mergeList = new ArrayList<>();
 
 		blocking = BlockingFactory.createBlocking(expressivity);
 
 		configureTableauRules(expressivity);
 
-		for (final Branch branch : abox.getBranches())
+		for (final Branch branch : _abox.getBranches())
 			branch.setStrategy(this);
 
-		if (abox.isInitialized())
+		if (_abox.isInitialized())
 		{
 
 			final Iterator<Individual> i = getInitializeIterator();
@@ -280,13 +280,13 @@ public abstract class CompletionStrategy
 				if (n.isConceptRoot())
 					applyUniversalRestrictions(n);
 
-				allValuesRule.apply(n);
+				_allValuesRule.apply(n);
 				if (n.isMerged())
 					continue;
-				nominalRule.apply(n);
+				_nominalRule.apply(n);
 				if (n.isMerged())
 					continue;
-				selfRule.apply(n);
+				_selfRule.apply(n);
 
 				// CHW-added for inc. _queue must see if this is bad
 				final EdgeList allEdges = n.getOutEdges();
@@ -309,14 +309,14 @@ public abstract class CompletionStrategy
 		if (log.isLoggable(Level.FINE))
 			log.fine("Initialize started");
 
-		abox.setBranch(0);
+		_abox.setBranch(0);
 
-		mergeList.addAll(abox.getToBeMerged());
+		_mergeList.addAll(_abox.getToBeMerged());
 
-		if (!mergeList.isEmpty())
+		if (!_mergeList.isEmpty())
 			mergeAll();
 
-		final Role topRole = abox.getRole(TOP_OBJECT_PROPERTY);
+		final Role topRole = _abox.getRole(TOP_OBJECT_PROPERTY);
 		final Iterator<Individual> i = getInitializeIterator();
 		while (i.hasNext())
 		{
@@ -329,7 +329,7 @@ public abstract class CompletionStrategy
 			if (n.isMerged())
 				continue;
 
-			selfRule.apply(n);
+			_selfRule.apply(n);
 			if (n.isMerged())
 				continue;
 
@@ -355,19 +355,19 @@ public abstract class CompletionStrategy
 		}
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("Merging: " + mergeList);
+			log.fine("Merging: " + _mergeList);
 
-		if (!mergeList.isEmpty())
+		if (!_mergeList.isEmpty())
 			mergeAll();
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Initialize finished");
 
-		abox.setBranch(abox.getBranches().size() + 1);
-		abox.stats.treeDepth = 1;
-		abox.setChanged(true);
-		abox.setComplete(false);
-		abox.setInitialized(true);
+		_abox.setBranch(_abox.getBranches().size() + 1);
+		_abox.stats.treeDepth = 1;
+		_abox.setChanged(true);
+		_abox.setComplete(false);
+		_abox.setInitialized(true);
 	}
 
 	/**
@@ -377,7 +377,7 @@ public abstract class CompletionStrategy
 
 	public Individual createFreshIndividual(final Individual parent, final DependencySet ds)
 	{
-		final Individual ind = abox.addFreshIndividual(parent, ds);
+		final Individual ind = _abox.addFreshIndividual(parent, ds);
 
 		applyUniversalRestrictions(ind);
 
@@ -388,7 +388,7 @@ public abstract class CompletionStrategy
 	{
 		addType(node, ATermUtils.TOP, DependencySet.INDEPENDENT);
 
-		final Set<Role> reflexives = abox.getKB().getRBox().getReflexiveRoles();
+		final Set<Role> reflexives = _abox.getKB().getRBox().getReflexiveRoles();
 		for (final Role r : reflexives)
 		{
 			if (log.isLoggable(Level.FINE) && !node.hasRNeighbor(r, node))
@@ -398,7 +398,7 @@ public abstract class CompletionStrategy
 				return;
 		}
 
-		final Role topObjProp = abox.getKB().getRole(ATermUtils.TOP_OBJECT_PROPERTY);
+		final Role topObjProp = _abox.getKB().getRole(ATermUtils.TOP_OBJECT_PROPERTY);
 		for (final ATermAppl domain : topObjProp.getDomains())
 		{
 			addType(node, domain, topObjProp.getExplainDomain(domain));
@@ -416,7 +416,7 @@ public abstract class CompletionStrategy
 
 	public void addType(Node node, final ATermAppl c, final DependencySet ds)
 	{
-		if (abox.isClosed())
+		if (_abox.isClosed())
 			return;
 
 		node.addType(c, ds);
@@ -427,7 +427,7 @@ public abstract class CompletionStrategy
 			if (mtc != null)
 			{
 				l.clearMergeToConstant();
-				final Literal mergeTo = abox.getLiteral(mtc.getTarget());
+				final Literal mergeTo = _abox.getLiteral(mtc.getTarget());
 				mergeTo(l, mergeTo, mtc.getDepends());
 				node = mergeTo;
 			}
@@ -435,7 +435,7 @@ public abstract class CompletionStrategy
 
 		// update dependency _index for this _node
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
-			abox.getKB().getDependencyIndex().addTypeDependency(node.getName(), c, ds);
+			_abox.getKB().getDependencyIndex().addTypeDependency(node.getName(), c, ds);
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("ADD: " + node + " " + c + " - " + ds + " " + ds.getExplain());
@@ -451,12 +451,12 @@ public abstract class CompletionStrategy
 			}
 		else
 			if (c.getAFun().equals(ATermUtils.ALLFUN))
-				allValuesRule.applyAllValues((Individual) node, c, ds);
+				_allValuesRule.applyAllValues((Individual) node, c, ds);
 			else
 				if (c.getAFun().equals(ATermUtils.SELFFUN))
 				{
 					final ATermAppl pred = (ATermAppl) c.getArgument(0);
-					final Role role = abox.getRole(pred);
+					final Role role = _abox.getRole(pred);
 					if (log.isLoggable(Level.FINE) && !((Individual) node).hasRSuccessor(role, node))
 						log.fine("SELF: " + node + " " + role + " " + node.getDepends(c));
 					addEdge((Individual) node, role, node, ds);
@@ -479,12 +479,12 @@ public abstract class CompletionStrategy
 		{
 			final ATermAppl c = types.get(j);
 			final ATermAppl max = (ATermAppl) c.getArgument(0);
-			final Role r = abox.getRole(max.getArgument(0));
+			final Role r = _abox.getRole(max.getArgument(0));
 			if (pred.isSubRoleOf(r))
 			{
 				final QueueElement newElement = new QueueElement(subj, c);
-				abox.getCompletionQueue().add(newElement, NodeSelector.MAX_NUMBER);
-				abox.getCompletionQueue().add(newElement, NodeSelector.CHOOSE);
+				_abox.getCompletionQueue().add(newElement, NodeSelector.MAX_NUMBER);
+				_abox.getCompletionQueue().add(newElement, NodeSelector.CHOOSE);
 			}
 		}
 
@@ -498,7 +498,7 @@ public abstract class CompletionStrategy
 			{
 				final ATermAppl c = types.get(j);
 				final ATermAppl max = (ATermAppl) c.getArgument(0);
-				final Role r = abox.getRole(max.getArgument(0));
+				final Role r = _abox.getRole(max.getArgument(0));
 
 				final Role invR = pred.getInverse();
 
@@ -506,8 +506,8 @@ public abstract class CompletionStrategy
 					if (invR.isSubRoleOf(r))
 					{
 						final QueueElement newElement = new QueueElement(obj, c);
-						abox.getCompletionQueue().add(newElement, NodeSelector.MAX_NUMBER);
-						abox.getCompletionQueue().add(newElement, NodeSelector.CHOOSE);
+						_abox.getCompletionQueue().add(newElement, NodeSelector.MAX_NUMBER);
+						_abox.getCompletionQueue().add(newElement, NodeSelector.CHOOSE);
 					}
 			}
 		}
@@ -519,12 +519,12 @@ public abstract class CompletionStrategy
 
 		// add to the kb dependencies
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
-			abox.getKB().getDependencyIndex().addEdgeDependency(edge, ds);
+			_abox.getKB().getDependencyIndex().addEdgeDependency(edge, ds);
 
 		if (PelletOptions.TRACK_BRANCH_EFFECTS)
 		{
-			abox.getBranchEffectTracker().add(abox.getBranch(), subj.getName());
-			abox.getBranchEffectTracker().add(abox.getBranch(), obj.getName());
+			_abox.getBranchEffectTracker().add(_abox.getBranch(), subj.getName());
+			_abox.getBranchEffectTracker().add(_abox.getBranch(), obj.getName());
 		}
 
 		if (PelletOptions.USE_COMPLETION_QUEUE)
@@ -551,14 +551,14 @@ public abstract class CompletionStrategy
 					if (guessMin > max)
 						return edge;
 
-					final GuessBranch newBranch = new GuessBranch(abox, this, o, pred.getInverse(), guessMin, max, ATermUtils.TOP, ds);
+					final GuessBranch newBranch = new GuessBranch(_abox, this, o, pred.getInverse(), guessMin, max, ATermUtils.TOP, ds);
 					addBranch(newBranch);
 
 					// try a merge that does not trivially fail
 					if (newBranch.tryNext() == false)
 						return edge;
 
-					if (abox.isClosed())
+					if (_abox.isClosed())
 						return edge;
 
 					if (subj.isPruned())
@@ -586,13 +586,13 @@ public abstract class CompletionStrategy
 		if (subj.isPruned() || obj.isPruned())
 			return;
 		applyDisjointness(subj, pred, obj, ds);
-		allValuesRule.applyAllValues(subj, pred, obj, ds);
+		_allValuesRule.applyAllValues(subj, pred, obj, ds);
 		if (subj.isPruned() || obj.isPruned())
 			return;
 		if (pred.isObjectRole())
 		{
 			final Individual o = (Individual) obj;
-			allValuesRule.applyAllValues(o, pred.getInverse(), subj, ds);
+			_allValuesRule.applyAllValues(o, pred.getInverse(), subj, ds);
 			checkReflexivitySymmetry(subj, pred, o, ds);
 			checkReflexivitySymmetry(o, pred.getInverse(), subj, ds);
 			applyDisjointness(o, pred.getInverse(), subj, ds);
@@ -608,7 +608,7 @@ public abstract class CompletionStrategy
 		{
 			if (log.isLoggable(Level.FINE) && !subj.hasType(domain))
 				log.fine("DOM : " + obj + " <- " + pred + " <- " + subj + " : " + ATermUtils.toString(domain));
-			addType(subj, domain, ds.union(pred.getExplainDomain(domain), abox.doExplanation()));
+			addType(subj, domain, ds.union(pred.getExplainDomain(domain), _abox.doExplanation()));
 			if (subj.isPruned() || obj.isPruned())
 				return;
 		}
@@ -616,7 +616,7 @@ public abstract class CompletionStrategy
 		{
 			if (log.isLoggable(Level.FINE) && !obj.hasType(range))
 				log.fine("RAN : " + subj + " -> " + pred + " -> " + obj + " : " + ATermUtils.toString(range));
-			addType(obj, range, ds.union(pred.getExplainRange(range), abox.doExplanation()));
+			addType(obj, range, ds.union(pred.getExplainRange(range), _abox.doExplanation()));
 			if (subj.isPruned() || obj.isPruned())
 				return;
 		}
@@ -627,7 +627,7 @@ public abstract class CompletionStrategy
 		DependencySet maxCardDS = pred.isFunctional() ? pred.getExplainFunctional() : subj.hasMax1(pred);
 
 		if (maxCardDS != null)
-			maxRule.applyFunctionalMaxRule(subj, pred, ATermUtils.getTop(pred), maxCardDS);
+			_maxRule.applyFunctionalMaxRule(subj, pred, ATermUtils.getTop(pred), maxCardDS);
 
 		if (pred.isDatatypeRole() && pred.isInverseFunctional())
 			applyFunctionalMaxRule((Literal) obj, pred, DependencySet.INDEPENDENT);
@@ -640,7 +640,7 @@ public abstract class CompletionStrategy
 				maxCardDS = invR.isFunctional() ? invR.getExplainFunctional() : val.hasMax1(invR);
 
 				if (maxCardDS != null)
-					maxRule.applyFunctionalMaxRule(val, invR, ATermUtils.TOP, maxCardDS);
+					_maxRule.applyFunctionalMaxRule(val, invR, ATermUtils.TOP, maxCardDS);
 			}
 
 	}
@@ -659,9 +659,9 @@ public abstract class CompletionStrategy
 
 			if (disjoints.contains(otherEdge.getRole()))
 			{
-				ds = ds.union(otherEdge.getDepends(), abox.doExplanation());
-				ds = ds.union(pred.getExplainDisjointRole(otherEdge.getRole()), abox.doExplanation());
-				abox.setClash(Clash.disjointProps(subj, ds, pred.getName(), otherEdge.getRole().getName()));
+				ds = ds.union(otherEdge.getDepends(), _abox.doExplanation());
+				ds = ds.union(pred.getExplainDisjointRole(otherEdge.getRole()), _abox.doExplanation());
+				_abox.setClash(Clash.disjointProps(subj, ds, pred.getName(), otherEdge.getRole().getName()));
 				return;
 			}
 		}
@@ -673,20 +673,20 @@ public abstract class CompletionStrategy
 		if (pred.isAsymmetric() && obj.hasRSuccessor(pred, subj))
 		{
 			final EdgeList edges = obj.getEdgesTo(subj, pred);
-			ds = ds.union(edges.edgeAt(0).getDepends(), abox.doExplanation());
+			ds = ds.union(edges.edgeAt(0).getDepends(), _abox.doExplanation());
 			if (PelletOptions.USE_TRACING)
-				ds = ds.union(pred.getExplainAsymmetric(), abox.doExplanation());
-			abox.setClash(Clash.unexplained(subj, ds, "Antisymmetric property " + pred));
+				ds = ds.union(pred.getExplainAsymmetric(), _abox.doExplanation());
+			_abox.setClash(Clash.unexplained(subj, ds, "Antisymmetric property " + pred));
 		}
 		else
 			if (subj.equals(obj))
 				if (pred.isIrreflexive())
-					abox.setClash(Clash.unexplained(subj, ds.union(pred.getExplainIrreflexive(), abox.doExplanation()), "Irreflexive property " + pred));
+					_abox.setClash(Clash.unexplained(subj, ds.union(pred.getExplainIrreflexive(), _abox.doExplanation()), "Irreflexive property " + pred));
 				else
 				{
 					final ATerm notSelfP = ATermUtils.makeNot(ATermUtils.makeSelf(pred.getName()));
 					if (subj.hasType(notSelfP))
-						abox.setClash(Clash.unexplained(subj, ds.union(subj.getDepends(notSelfP), abox.doExplanation()), "Local irreflexive property " + pred));
+						_abox.setClash(Clash.unexplained(subj, ds.union(subj.getDepends(notSelfP), _abox.doExplanation()), "Local irreflexive property " + pred));
 				}
 	}
 
@@ -722,9 +722,9 @@ public abstract class CompletionStrategy
 
 		// if there is no nominal in the merge list we need to create one
 		if (head == null)
-			head = abox.addFreshIndividual(null, ds);
+			head = _abox.addFreshIndividual(null, ds);
 		else
-			ds = ds.union(headDS, abox.doExplanation());
+			ds = ds.union(headDS, _abox.doExplanation());
 
 		for (int i = 0; i < edges.size(); i++)
 		{
@@ -740,15 +740,15 @@ public abstract class CompletionStrategy
 			if (head.isSame(next))
 				continue;
 
-			ds = ds.union(edge.getDepends(), abox.doExplanation());
+			ds = ds.union(edge.getDepends(), _abox.doExplanation());
 
 			if (next.isDifferent(head))
 			{
-				ds = ds.union(next.getDifferenceDependency(head), abox.doExplanation());
+				ds = ds.union(next.getDifferenceDependency(head), _abox.doExplanation());
 				if (r.isFunctional())
-					abox.setClash(Clash.functionalCardinality(x, ds, r.getName()));
+					_abox.setClash(Clash.functionalCardinality(x, ds, r.getName()));
 				else
-					abox.setClash(Clash.maxCardinality(x, ds, r.getName(), 1));
+					_abox.setClash(Clash.maxCardinality(x, ds, r.getName(), 1));
 
 				break;
 			}
@@ -758,12 +758,12 @@ public abstract class CompletionStrategy
 
 			mergeTo(next, head, ds);
 
-			if (abox.isClosed())
+			if (_abox.isClosed())
 				return;
 
 			if (head.isPruned())
 			{
-				ds = ds.union(head.getMergeDependency(true), abox.doExplanation());
+				ds = ds.union(head.getMergeDependency(true), _abox.doExplanation());
 				head = head.getSame();
 			}
 		}
@@ -771,7 +771,7 @@ public abstract class CompletionStrategy
 
 	private void mergeLater(final Node y, final Node z, final DependencySet ds)
 	{
-		mergeList.add(new NodeMerge(y, z, ds));
+		_mergeList.add(new NodeMerge(y, z, ds));
 	}
 
 	/**
@@ -779,27 +779,27 @@ public abstract class CompletionStrategy
 	 */
 	public void mergeAll()
 	{
-		if (mergingAll)
+		if (_mergingAll)
 			return;
 
-		mergingAll = true;
-		while (!merging && !mergeList.isEmpty() && !abox.isClosed())
+		_mergingAll = true;
+		while (!_merging && !_mergeList.isEmpty() && !_abox.isClosed())
 		{
-			final NodeMerge merge = mergeList.remove(0);
+			final NodeMerge merge = _mergeList.remove(0);
 
-			Node y = abox.getNode(merge.getSource());
-			Node z = abox.getNode(merge.getTarget());
+			Node y = _abox.getNode(merge.getSource());
+			Node z = _abox.getNode(merge.getTarget());
 			DependencySet ds = merge.getDepends();
 
 			if (y.isMerged())
 			{
-				ds = ds.union(y.getMergeDependency(true), abox.doExplanation());
+				ds = ds.union(y.getMergeDependency(true), _abox.doExplanation());
 				y = y.getSame();
 			}
 
 			if (z.isMerged())
 			{
-				ds = ds.union(z.getMergeDependency(true), abox.doExplanation());
+				ds = ds.union(z.getMergeDependency(true), _abox.doExplanation());
 				z = z.getSame();
 			}
 
@@ -808,7 +808,7 @@ public abstract class CompletionStrategy
 
 			mergeTo(y, z, ds);
 		}
-		mergingAll = false;
+		_mergingAll = false;
 	}
 
 	/**
@@ -822,38 +822,38 @@ public abstract class CompletionStrategy
 	{
 
 		// add to effected list
-		if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+		if (_abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
 		{
-			abox.getBranchEffectTracker().add(abox.getBranch(), y.getName());
-			abox.getBranchEffectTracker().add(abox.getBranch(), z.getName());
+			_abox.getBranchEffectTracker().add(_abox.getBranch(), y.getName());
+			_abox.getBranchEffectTracker().add(_abox.getBranch(), z.getName());
 		}
 
 		// add to merge dependency to dependency _index
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
-			abox.getKB().getDependencyIndex().addMergeDependency(y.getName(), z.getName(), ds);
+			_abox.getKB().getDependencyIndex().addMergeDependency(y.getName(), z.getName(), ds);
 
 		if (y.isDifferent(z))
 		{
-			abox.setClash(Clash.nominal(y, y.getDifferenceDependency(z).union(ds, abox.doExplanation())));
+			_abox.setClash(Clash.nominal(y, y.getDifferenceDependency(z).union(ds, _abox.doExplanation())));
 			return;
 		}
 		else
 			if (!y.isSame(z))
 			{
-				abox.setChanged(true);
+				_abox.setChanged(true);
 
-				if (merging)
+				if (_merging)
 				{
 					mergeLater(y, z, ds);
 					return;
 				}
 
-				merging = true;
+				_merging = true;
 
 				if (log.isLoggable(Level.FINE))
 					log.fine("MERG: " + y + " -> " + z + " " + ds);
 
-				ds = ds.copy(abox.getBranch());
+				ds = ds.copy(_abox.getBranch());
 
 				if (y instanceof Literal && z instanceof Literal)
 					mergeLiterals((Literal) y, (Literal) z, ds);
@@ -864,7 +864,7 @@ public abstract class CompletionStrategy
 						throw new InternalReasonerException("Invalid merge operation!");
 			}
 
-		merging = false;
+		_merging = false;
 		mergeAll();
 	}
 
@@ -891,7 +891,7 @@ public abstract class CompletionStrategy
 		for (final Map.Entry<ATermAppl, DependencySet> entry : types.entrySet())
 		{
 			final ATermAppl yType = entry.getKey();
-			final DependencySet finalDS = ds.union(entry.getValue(), abox.doExplanation());
+			final DependencySet finalDS = ds.union(entry.getValue(), _abox.doExplanation());
 			addType(x, yType, finalDS);
 		}
 
@@ -903,7 +903,7 @@ public abstract class CompletionStrategy
 
 			final Individual z = edge.getFrom();
 			final Role r = edge.getRole();
-			final DependencySet finalDS = ds.union(edge.getDepends(), abox.doExplanation());
+			final DependencySet finalDS = ds.union(edge.getDepends(), _abox.doExplanation());
 
 			// if y has a self edge then x should have the same self edge
 			if (y.equals(z))
@@ -923,8 +923,8 @@ public abstract class CompletionStrategy
 			// if( _abox.getBranch() >= 0 && PelletOptions.USE_COMPLETION_QUEUE ) {
 			// _abox.getCompletionQueue().addEffected( _abox.getBranch(), z.getName() );
 			// }
-			if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-				abox.getBranchEffectTracker().add(abox.getBranch(), z.getName());
+			if (_abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+				_abox.getBranchEffectTracker().add(_abox.getBranch(), z.getName());
 
 		}
 
@@ -945,13 +945,13 @@ public abstract class CompletionStrategy
 			if (z.isNominal() && !y.equals(z))
 			{
 				final Role r = edge.getRole();
-				final DependencySet finalDS = ds.union(edge.getDepends(), abox.doExplanation());
+				final DependencySet finalDS = ds.union(edge.getDepends(), _abox.doExplanation());
 
 				addEdge(x, r, z, finalDS);
 
 				// add to effected list
-				if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-					abox.getBranchEffectTracker().add(abox.getBranch(), z.getName());
+				if (_abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+					_abox.getBranchEffectTracker().add(_abox.getBranch(), z.getName());
 
 				// do not remove edge here because prune will take care of that
 			}
@@ -981,7 +981,7 @@ public abstract class CompletionStrategy
 
 			final Individual z = edge.getFrom();
 			final Role r = edge.getRole();
-			final DependencySet finalDS = ds.union(edge.getDepends(), abox.doExplanation());
+			final DependencySet finalDS = ds.union(edge.getDepends(), _abox.doExplanation());
 
 			addEdge(z, r, x, finalDS);
 
@@ -990,8 +990,8 @@ public abstract class CompletionStrategy
 			z.removeEdge(edge);
 
 			// add to effected list
-			if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-				abox.getBranchEffectTracker().add(abox.getBranch(), z.getName());
+			if (_abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+				_abox.getBranchEffectTracker().add(_abox.getBranch(), z.getName());
 		}
 
 		x.inheritDifferents(y, ds);
@@ -1009,9 +1009,9 @@ public abstract class CompletionStrategy
 
 	public void restoreLocal(final Individual ind, final Branch br)
 	{
-		abox.stats.localRestores++;
-		abox.setClash(null);
-		abox.setBranch(br.getBranch());
+		_abox.stats.localRestores++;
+		_abox.setClash(null);
+		_abox.setBranch(br.getBranch());
 
 		final Map<Node, Boolean> visited = new HashMap<>();
 
@@ -1021,7 +1021,7 @@ public abstract class CompletionStrategy
 		{
 			final boolean restored = entry.getValue();
 			if (restored)
-				allValuesRule.apply((Individual) entry.getKey());
+				_allValuesRule.apply((Individual) entry.getKey());
 		}
 	}
 
@@ -1059,10 +1059,10 @@ public abstract class CompletionStrategy
 
 	public void restore(final Branch br)
 	{
-		// Timers timers = _abox.getKB().timers;
-		// Timer timer = timers.startTimer("restore");
-		abox.setBranch(br.getBranch());
-		abox.setClash(null);
+		// Timers _timers = _abox.getKB().timers;
+		// Timer timer = _timers.startTimer("restore");
+		_abox.setBranch(br.getBranch());
+		_abox.setClash(null);
 		// Setting the _anonCount to the value at the time of _branch creation is incorrect
 		// when SMART_RESTORE option is turned on. If we create an anon _node after _branch
 		// creation but _node depends on an earlier _branch restore operation will not remove
@@ -1074,10 +1074,10 @@ public abstract class CompletionStrategy
 		// to help debugging only with the intent that it will be commented again after
 		// debugging is complete
 		// _abox.setAnonCount( br.getAnonCount() );
-		abox._rulesNotApplied = true;
-		mergeList.clear();
+		_abox._rulesNotApplied = true;
+		_mergeList.clear();
 
-		final List<ATermAppl> nodeList = abox.getNodeNames();
+		final List<ATermAppl> nodeList = _abox.getNodeNames();
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("RESTORE: Branch " + br.getBranch());
@@ -1086,16 +1086,16 @@ public abstract class CompletionStrategy
 		{
 			// clear the all values list as they must have already fired and blocking never prevents the all values rule
 			// from firing
-			abox.getCompletionQueue().clearQueue(NodeSelector.UNIVERSAL);
+			_abox.getCompletionQueue().clearQueue(NodeSelector.UNIVERSAL);
 
 			// reset the queues
-			abox.getCompletionQueue().restore(br.getBranch());
+			_abox.getCompletionQueue().restore(br.getBranch());
 		}
 
-		// the restore may cause changes which require using the allValuesRule -
+		// the restore may cause changes which require using the _allValuesRule -
 		// incremental change tracker will track those
 		if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
-			abox.getIncrementalChangeTracker().clear();
+			_abox.getIncrementalChangeTracker().clear();
 
 		// for each _node we either need to restore the _node to the status it
 		// had at the time _branch was created or remove the _node completely if
@@ -1112,7 +1112,7 @@ public abstract class CompletionStrategy
 			// get the _node name
 			final ATermAppl a = nodeList.get(i);
 			// and the corresponding _node
-			final Node node = abox.getNode(a);
+			final Node node = _abox.getNode(a);
 
 			// _node dependency tells us if the _node was created after the _branch
 			// and if that is the case we remove it completely
@@ -1122,7 +1122,7 @@ public abstract class CompletionStrategy
 			if (node.getNodeDepends() == null || node.getNodeDepends().getBranch() > br.getBranch())
 			{
 				// remove the _node from the _node map
-				abox.removeNode(a);
+				_abox.removeNode(a);
 				// if the _node is merged to another one we should remove it from
 				// the other _node's merged list
 				if (node.isMerged())
@@ -1162,10 +1162,10 @@ public abstract class CompletionStrategy
 		if (PelletOptions.TRACK_BRANCH_EFFECTS)
 		{
 			// when tracking _branch effects only restore _nodes explicitly stored in the effected list
-			final Set<ATermAppl> effected = abox.getBranchEffectTracker().removeAll(br.getBranch() + 1);
+			final Set<ATermAppl> effected = _abox.getBranchEffectTracker().removeAll(br.getBranch() + 1);
 			for (final ATermAppl a : effected)
 			{
-				final Node n = abox.getNode(a);
+				final Node n = _abox.getNode(a);
 				if (n != null)
 					n.restore(br.getBranch());
 			}
@@ -1174,33 +1174,33 @@ public abstract class CompletionStrategy
 		restoreAllValues();
 
 		if (log.isLoggable(Level.FINE))
-			abox.printTree();
+			_abox.printTree();
 
-		if (!abox.isClosed())
-			abox.validate();
+		if (!_abox.isClosed())
+			_abox.validate();
 
 		// timer.stop();
 	}
 
 	public void addBranch(final Branch newBranch)
 	{
-		abox.getBranches().add(newBranch);
+		_abox.getBranches().add(newBranch);
 
-		if (newBranch.getBranch() != abox.getBranches().size())
-			throw new RuntimeException("Invalid _branch created: " + newBranch.getBranch() + " != " + abox.getBranches().size());
+		if (newBranch.getBranch() != _abox.getBranches().size())
+			throw new RuntimeException("Invalid _branch created: " + newBranch.getBranch() + " != " + _abox.getBranches().size());
 
-		completionTimer.check();
+		_completionTimer.check();
 
 		// CHW - added for incremental deletion support
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
-			abox.getKB().getDependencyIndex().addBranchAddDependency(newBranch);
+			_abox.getKB().getDependencyIndex().addBranchAddDependency(newBranch);
 	}
 
 	void printBlocked()
 	{
 		int blockedCount = 0;
 		final StringBuffer blockedNodes = new StringBuffer();
-		final Iterator<Individual> n = abox.getIndIterator();
+		final Iterator<Individual> n = _abox.getIndIterator();
 		while (n.hasNext())
 		{
 			final Individual node = n.next();
@@ -1226,10 +1226,10 @@ public abstract class CompletionStrategy
 
 	protected void restoreAllValues()
 	{
-		for (final Iterator<Individual> i = new IndividualIterator(abox); i.hasNext();)
+		for (final Iterator<Individual> i = new IndividualIterator(_abox); i.hasNext();)
 		{
 			final Individual ind = i.next();
-			allValuesRule.apply(ind);
+			_allValuesRule.apply(ind);
 		}
 	}
 }

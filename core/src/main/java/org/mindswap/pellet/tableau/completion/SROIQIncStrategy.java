@@ -84,7 +84,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	@Override
 	public Iterator<Individual> getInitializeIterator()
 	{
-		return abox.getIncrementalChangeTracker().updatedIndividuals();
+		return _abox.getIncrementalChangeTracker().updatedIndividuals();
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	 */
 	public Iterator<Individual> getNewIterator()
 	{
-		return abox.getIncrementalChangeTracker().newIndividuals();
+		return _abox.getIncrementalChangeTracker().newIndividuals();
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	 */
 	public Iterator<Edge> getNewEdgeIterator()
 	{
-		return abox.getIncrementalChangeTracker().newEdges();
+		return _abox.getIncrementalChangeTracker().newEdges();
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	 */
 	public Iterator<Node> getUnPrunedIterator()
 	{
-		return abox.getIncrementalChangeTracker().unprunedNodes();
+		return _abox.getIncrementalChangeTracker().unprunedNodes();
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	 */
 	public Iterator<Edge> getRemovedEdgeIterator()
 	{
-		return abox.getIncrementalChangeTracker().deletedEdges();
+		return _abox.getIncrementalChangeTracker().deletedEdges();
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	 */
 	public Iterator<Map.Entry<Node, Set<ATermAppl>>> getRemovedTypeIterator()
 	{
-		return abox.getIncrementalChangeTracker().deletedTypes();
+		return _abox.getIncrementalChangeTracker().deletedTypes();
 	}
 
 	/**
@@ -144,18 +144,18 @@ public class SROIQIncStrategy extends SROIQStrategy
 	public void initialize(final Expressivity expr)
 	{
 
-		final Timer t = abox.getKB().timers.startTimer("initialize");
+		final Timer t = _abox.getKB().timers.startTimer("initialize");
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Initialize Started");
 
-		mergeList = new ArrayList<>();
+		_mergeList = new ArrayList<>();
 
 		blocking = BlockingFactory.createBlocking(expr);
 
 		configureTableauRules(expr);
 
-		for (final Branch branch : abox.getBranches())
+		for (final Branch branch : _abox.getBranches())
 			branch.setStrategy(this);
 
 		// if this is an incremental addition we may need to merge _nodes and
@@ -165,10 +165,10 @@ public class SROIQIncStrategy extends SROIQStrategy
 		// ensure that assertion
 		// will not be restored during backtracking
 		// int _branch = _abox.getBranch();
-		abox.setBranch(0);
+		_abox.setBranch(0);
 
-		mergeList.addAll(abox.getToBeMerged());
-		if (!mergeList.isEmpty())
+		_mergeList.addAll(_abox.getToBeMerged());
+		if (!_mergeList.isEmpty())
 			mergeAll();
 
 		//Apply necessary initialization to any new individual added
@@ -182,9 +182,9 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 			applyUniversalRestrictions(n);
 
-			unfoldingRule.apply(n);
+			_unfoldingRule.apply(n);
 
-			selfRule.apply(n);
+			_selfRule.apply(n);
 		}
 
 		//handle _nodes affected by the update
@@ -193,12 +193,12 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 			Individual n = it.next();
 
-			nominalRule.apply(n);
+			_nominalRule.apply(n);
 
 			if (n.isMerged())
 				n = n.getSame();
 
-			allValuesRule.apply(n);
+			_allValuesRule.apply(n);
 		}
 
 		//process new edges
@@ -236,17 +236,17 @@ public class SROIQIncStrategy extends SROIQStrategy
 			}
 
 			//if the KB has cardinality restrictions, then we need to apply the guessing rule
-			if (abox.getKB().getExpressivity().hasCardinality())
+			if (_abox.getKB().getExpressivity().hasCardinality())
 				//update the _queue so the max rule will be fired
 				updateQueueAddEdge(subj, pred, obj);
 		}
 
 		//merge again if necessary
-		if (!mergeList.isEmpty())
+		if (!_mergeList.isEmpty())
 			mergeAll();
 
 		//set appropriate _branch
-		abox.setBranch(abox.getBranches().size() + 1);
+		_abox.setBranch(_abox.getBranches().size() + 1);
 
 		// we will also need to add stuff to the _queue in the event of a
 		// deletion		
@@ -264,8 +264,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 			subj.applyNext[Node.SOME] = 0;
 			subj.applyNext[Node.MIN] = 0;
 			QueueElement qe = new QueueElement(subj);
-			abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
-			abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
+			_abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
+			_abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
 
 			obj = obj.getSame();
 			if (obj instanceof Individual)
@@ -274,8 +274,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 				objInd.applyNext[Node.SOME] = 0;
 				objInd.applyNext[Node.MIN] = 0;
 				qe = new QueueElement(objInd);
-				abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
-				abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
+				_abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
+				_abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
 			}
 		}
 
@@ -298,11 +298,11 @@ public class SROIQIncStrategy extends SROIQStrategy
 				ind.applyNext[Node.OR] = 0;
 
 				final QueueElement qe = new QueueElement(ind);
-				abox.getCompletionQueue().add(qe, NodeSelector.ATOM);
-				abox.getCompletionQueue().add(qe, NodeSelector.DISJUNCTION);
+				_abox.getCompletionQueue().add(qe, NodeSelector.ATOM);
+				_abox.getCompletionQueue().add(qe, NodeSelector.DISJUNCTION);
 
 				//fire the all rule as the is no explicit call to it
-				allValuesRule.apply(ind);
+				_allValuesRule.apply(ind);
 
 				//get out edges and check domains, some values and min values
 				for (int j = 0; j < ind.getOutEdges().size(); j++)
@@ -319,9 +319,9 @@ public class SROIQIncStrategy extends SROIQStrategy
 					for (final ATermAppl domain : pred.getDomains())
 						if (requiredAddType(ind, domain))
 							if (!PelletOptions.USE_TRACING)
-								addType(ind, domain, ds.union(DependencySet.EMPTY, abox.doExplanation()));
+								addType(ind, domain, ds.union(DependencySet.EMPTY, _abox.doExplanation()));
 							else
-								addType(ind, domain, ds.union(pred.getExplainDomain(domain), abox.doExplanation()));
+								addType(ind, domain, ds.union(pred.getExplainDomain(domain), _abox.doExplanation()));
 
 					//it could be the case that this label prevented the firing of the all values, some, or min rules of the _neighbor
 					if (obj instanceof Individual)
@@ -331,11 +331,11 @@ public class SROIQIncStrategy extends SROIQStrategy
 						objInd.applyNext[Node.SOME] = 0;
 						objInd.applyNext[Node.MIN] = 0;
 						final QueueElement qeObj = new QueueElement(objInd);
-						abox.getCompletionQueue().add(qeObj, NodeSelector.EXISTENTIAL);
-						abox.getCompletionQueue().add(qeObj, NodeSelector.MIN_NUMBER);
+						_abox.getCompletionQueue().add(qeObj, NodeSelector.EXISTENTIAL);
+						_abox.getCompletionQueue().add(qeObj, NodeSelector.MIN_NUMBER);
 
 						//apply the all values rule
-						allValuesRule.apply(ind);
+						_allValuesRule.apply(ind);
 					}
 				}
 			}
@@ -355,19 +355,19 @@ public class SROIQIncStrategy extends SROIQStrategy
 				for (final ATermAppl range : pred.getRanges())
 					if (requiredAddType(node, range))
 						if (!PelletOptions.USE_TRACING)
-							addType(node, range, ds.union(DependencySet.EMPTY, abox.doExplanation()));
+							addType(node, range, ds.union(DependencySet.EMPTY, _abox.doExplanation()));
 						else
-							addType(node, range, ds.union(pred.getExplainRange(range), abox.doExplanation()));
+							addType(node, range, ds.union(pred.getExplainRange(range), _abox.doExplanation()));
 
 				//it could be the case that this label prevented the firing of the all values, some, or min rules of the _neighbor
 				subj.applyNext[Node.ALL] = 0;
 				subj.applyNext[Node.SOME] = 0;
 				subj.applyNext[Node.MIN] = 0;
 				final QueueElement qe = new QueueElement(subj);
-				abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
-				abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
+				_abox.getCompletionQueue().add(qe, NodeSelector.EXISTENTIAL);
+				_abox.getCompletionQueue().add(qe, NodeSelector.MIN_NUMBER);
 
-				allValuesRule.apply(subj);
+				_allValuesRule.apply(subj);
 			}
 		}
 
@@ -391,9 +391,9 @@ public class SROIQIncStrategy extends SROIQStrategy
 					ind.applyNext[j] = 0;
 
 				//add to all queues
-				abox.getCompletionQueue().add(new QueueElement(ind));
+				_abox.getCompletionQueue().add(new QueueElement(ind));
 
-				allValuesRule.apply(ind);
+				_allValuesRule.apply(ind);
 
 				//get out edges
 				for (int j = 0; j < ind.getOutEdges().size(); j++)
@@ -408,7 +408,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 					{
 						final Individual objInd = (Individual) obj;
 						objInd.applyNext[Node.ALL] = 0;
-						allValuesRule.apply(objInd);
+						_allValuesRule.apply(objInd);
 					}
 				}
 
@@ -422,14 +422,14 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 					final Individual subj = e.getFrom();
 					subj.applyNext[Node.ALL] = 0;
-					allValuesRule.apply(subj);
+					_allValuesRule.apply(subj);
 				}
 			}
 		}
 
-		abox.setChanged(true);
-		abox.setComplete(false);
-		abox.setInitialized(true);
+		_abox.setChanged(true);
+		_abox.setComplete(false);
+		_abox.setInitialized(true);
 
 		t.stop();
 
@@ -467,7 +467,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 	@Override
 	protected void restoreAllValues()
 	{
-		final IncrementalChangeTracker tracker = abox.getIncrementalChangeTracker();
+		final IncrementalChangeTracker tracker = _abox.getIncrementalChangeTracker();
 
 		for (final Iterator<Map.Entry<Node, Set<ATermAppl>>> it = tracker.deletedTypes(); it.hasNext();)
 		{
@@ -484,7 +484,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 			for (int i = 0; i < av.size(); i++)
 			{
 				final Edge e = av.edgeAt(i);
-				allValuesRule.applyAllValues(e.getFrom(), e.getRole(), e.getTo(), e.getDepends());
+				_allValuesRule.applyAllValues(e.getFrom(), e.getRole(), e.getTo(), e.getDepends());
 			}
 		}
 
@@ -500,9 +500,9 @@ public class SROIQIncStrategy extends SROIQStrategy
 					ind.applyNext[j] = 0;
 
 				//add to all queues
-				abox.getCompletionQueue().add(new QueueElement(ind));
+				_abox.getCompletionQueue().add(new QueueElement(ind));
 
-				allValuesRule.apply(ind);
+				_allValuesRule.apply(ind);
 
 				//get out edges
 				for (int j = 0; j < ind.getOutEdges().size(); j++)
@@ -514,7 +514,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 					{
 						final Individual objInd = (Individual) obj;
 						objInd.applyNext[Node.ALL] = 0;
-						allValuesRule.apply(objInd);
+						_allValuesRule.apply(objInd);
 					}
 				}
 			}
@@ -525,7 +525,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 				final Edge e = node.getInEdges().edgeAt(j);
 				final Individual subj = e.getFrom();
 				subj.applyNext[Node.ALL] = 0;
-				allValuesRule.apply(subj);
+				_allValuesRule.apply(subj);
 			}
 		}
 	}
@@ -594,7 +594,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 			final ATermAppl type = (ATermAppl) avType.getArgument(1);
 
 			//if we cannot use this edge then continue
-			if (edge != null && !edge.getRole().isSubRoleOf(abox.getRole(role)))
+			if (edge != null && !edge.getRole().isSubRoleOf(_abox.getRole(role)))
 				continue;
 
 			if (containsType(type, removedTypes))
@@ -614,7 +614,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 			for (int i = 0; i < applicableRoles.size(); i++)
 			{
 				final ATerm p = applicableRoles.get(i);
-				final Role role = abox.getRole(p);
+				final Role role = _abox.getRole(p);
 
 				edges.addEdgeList(neighbor.getRNeighborEdges(role, node));
 			}

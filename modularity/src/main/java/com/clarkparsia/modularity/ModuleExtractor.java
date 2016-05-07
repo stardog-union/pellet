@@ -105,7 +105,7 @@ public interface ModuleExtractor
 	public OWLOntology getModuleFromSignature(Set<OWLEntity> signature);
 
 	/**
-	 * Returns the timers used by this extractor to collect statistics about performance.
+	 * Returns the _timers used by this extractor to collect statistics about performance.
 	 *
 	 * @return
 	 */

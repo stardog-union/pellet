@@ -154,10 +154,10 @@ public class KnowledgeBase
 	private ExpressivityChecker expChecker;
 
 	/**
-	 * Timers used in various different parts of KB. There may be many different timers created here depending on the level of debugging or application
-	 * requirements. However, there are three major timers that are guaranteed to exist.
+	 * Timers used in various different parts of KB. There may be many different _timers created here depending on the level of debugging or application
+	 * requirements. However, there are three major _timers that are guaranteed to exist.
 	 * <ul>
-	 * <li><b>main</b> - This is the main timer that exists in any Timers objects. All the other timers defined in here will have this timer as its dependant so
+	 * <li><b>main</b> - This is the main timer that exists in any Timers objects. All the other _timers defined in here will have this timer as its dependant so
 	 * setting a timeout on this timer will put a limit on every operation done inside KB.</li>
 	 * <li><b>preprocessing</b> - This is the operation where TBox creation, absorbtion and normalization is done. It also includes computing hierarchy of
 	 * properties in RBox and merging the individuals in ABox if there are explicit sameAs assertions.</li>
@@ -589,8 +589,8 @@ public class KnowledgeBase
 			state = EnumSet.noneOf(ReasoningState.class);
 
 		timers = kb.timers;
-		// timers.createTimer("preprocessing");
-		// timers.createTimer("consistency");
+		// _timers.createTimer("preprocessing");
+		// _timers.createTimer("consistency");
 	}
 
 	public Expressivity getExpressivity()
@@ -2000,7 +2000,7 @@ public class KnowledgeBase
 	public void updateExpressivity(final ATermAppl i, final ATermAppl c)
 	{
 
-		// if the tbox or rbox changed then we cannot use incremental reasoning!
+		// if the _tbox or rbox changed then we cannot use incremental reasoning!
 		if (!isChanged() || isTBoxChanged() || isRBoxChanged())
 			return;
 
@@ -3382,7 +3382,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * @return Returns the tbox.
+	 * @return Returns the _tbox.
 	 */
 	public TBox getTBox()
 	{
@@ -4735,7 +4735,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * @param tbox The tbox to set.
+	 * @param _tbox The _tbox to set.
 	 */
 	public void setTBox(final TBox tbox)
 	{

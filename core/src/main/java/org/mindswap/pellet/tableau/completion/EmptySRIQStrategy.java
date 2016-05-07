@@ -98,7 +98,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	@Override
 	public void initialize(final Expressivity expressivity)
 	{
-		mergeList = new ArrayList<>();
+		_mergeList = new ArrayList<>();
 
 		cachedNodes = new HashMap<>();
 
@@ -106,22 +106,22 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		// add a null entry so Branch._branch _index will match with the _index in this array
 		mnx.add(null);
 
-		assert abox.size() == 1 : "This _strategy can only be used with originally empty ABoxes";
+		assert _abox.size() == 1 : "This _strategy can only be used with originally empty ABoxes";
 
 		blocking = BlockingFactory.createBlocking(expressivity);
 
-		final Individual root = abox.getIndIterator().next();
+		final Individual root = _abox.getIndIterator().next();
 		applyUniversalRestrictions(root);
-		selfRule.apply(root);
+		_selfRule.apply(root);
 
 		mayNeedExpanding = new LinkedList<>();
 		mayNeedExpanding.add(root);
 
-		abox.setBranch(1);
-		abox.stats.treeDepth = 1;
-		abox.setChanged(true);
-		abox.setComplete(false);
-		abox.setInitialized(true);
+		_abox.setBranch(1);
+		_abox.stats.treeDepth = 1;
+		_abox.setChanged(true);
+		_abox.setComplete(false);
+		_abox.setInitialized(true);
 	}
 
 	@Override
@@ -130,48 +130,48 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		if (log.isLoggable(Level.FINE))
 			log.fine("************  " + EmptySRIQStrategy.class.getName() + "  ************");
 
-		if (abox.getNodes().isEmpty())
+		if (_abox.getNodes().isEmpty())
 		{
-			abox.setComplete(true);
+			_abox.setComplete(true);
 			return;
 		}
 		else
-			if (abox.getNodes().size() > 1)
+			if (_abox.getNodes().size() > 1)
 				throw new RuntimeException("This _strategy can only be used with an ABox that has a single individual.");
 
-		cacheSafety = abox.getCache().getSafety().canSupport(expr) ? abox.getCache().getSafety() : CacheSafetyFactory.createCacheSafety(expr);
+		cacheSafety = _abox.getCache().getSafety().canSupport(expr) ? _abox.getCache().getSafety() : CacheSafetyFactory.createCacheSafety(expr);
 
 		initialize(expr);
 
-		while (!abox.isComplete() && !abox.isClosed())
+		while (!_abox.isComplete() && !_abox.isClosed())
 		{
 			final Individual x = getNextIndividual();
 
 			if (x == null)
 			{
-				abox.setComplete(true);
+				_abox.setComplete(true);
 				break;
 			}
 
 			if (log.isLoggable(Level.FINE))
 			{
 				log.fine("Starting with _node " + x);
-				abox.printTree();
+				_abox.printTree();
 
-				abox.validate();
+				_abox.validate();
 			}
 
 			expand(x);
 
-			if (abox.isClosed())
+			if (_abox.isClosed())
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("Clash at Branch (" + abox.getBranch() + ") " + abox.getClash());
+					log.fine("Clash at Branch (" + _abox.getBranch() + ") " + _abox.getClash());
 
 				if (backtrack())
-					abox.setClash(null);
+					_abox.setClash(null);
 				else
-					abox.setComplete(true);
+					_abox.setComplete(true);
 			}
 			else
 				if (expr.hasInverse() && parentNeedsExpanding(x))
@@ -183,12 +183,12 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		}
 
 		if (log.isLoggable(Level.FINE))
-			abox.printTree();
+			_abox.printTree();
 
 		if (PelletOptions.USE_ADVANCED_CACHING)
 			// if completion tree is clash free _cache all sat concepts
-			if (!abox.isClosed())
-				for (final Iterator<Individual> i = new IndividualIterator(abox); i.hasNext();)
+			if (!_abox.isClosed())
+				for (final Iterator<Individual> i = new IndividualIterator(_abox); i.hasNext();)
 				{
 					final Individual ind = i.next();
 					final ATermAppl c = cachedNodes.get(ind);
@@ -217,7 +217,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 	private void addCacheSat(final ATermAppl c)
 	{
-		if (!abox.getCache().putSat(c, true))
+		if (!_abox.getCache().putSat(c, true))
 			return;
 
 		if (log.isLoggable(Level.FINEST))
@@ -253,9 +253,9 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	{
 		checkTimer();
 
-		if (!abox.doExplanation() && PelletOptions.USE_ADVANCED_CACHING)
+		if (!_abox.doExplanation() && PelletOptions.USE_ADVANCED_CACHING)
 		{
-			final Timer t = abox.getKB().timers.startTimer("_cache");
+			final Timer t = _abox.getKB().timers.startTimer("_cache");
 			final Bool cachedSat = isCachedSat(x);
 			t.stop();
 			if (cachedSat.isKnown())
@@ -272,9 +272,9 @@ public class EmptySRIQStrategy extends CompletionStrategy
 					DependencySet ds = DependencySet.EMPTY;
 					for (final ATermAppl c : x.getTypes())
 					{
-						ds = ds.union(x.getDepends(c), abox.doExplanation());
+						ds = ds.union(x.getDepends(c), _abox.doExplanation());
 					}
-					abox.setClash(Clash.atomic(x, ds));
+					_abox.setClash(Clash.atomic(x, ds));
 				}
 				return;
 			}
@@ -293,12 +293,12 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			//				System.err.println( "BLOCK " + ++block );
 			//			}
 
-			unfoldingRule.apply(x);
-			if (abox.isClosed())
+			_unfoldingRule.apply(x);
+			if (_abox.isClosed())
 				return;
 
-			disjunctionRule.apply(x);
-			if (abox.isClosed())
+			_disjunctionRule.apply(x);
+			if (_abox.isClosed())
 				return;
 
 			if (x.canApply(Node.ATOM) || x.canApply(Node.OR))
@@ -312,12 +312,12 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				return;
 			}
 
-			someValuesRule.apply(x);
-			if (abox.isClosed())
+			_someValuesRule.apply(x);
+			if (_abox.isClosed())
 				return;
 
-			minRule.apply(x);
-			if (abox.isClosed())
+			_minRule.apply(x);
+			if (_abox.isClosed())
 				return;
 
 			// we don't have any inverse properties but we could have
@@ -326,12 +326,12 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			if (x.canApply(Node.ATOM) || x.canApply(Node.OR))
 				continue;
 
-			chooseRule.apply(x);
-			if (abox.isClosed())
+			_chooseRule.apply(x);
+			if (_abox.isClosed())
 				return;
 
-			maxRule.apply(x);
-			if (abox.isClosed())
+			_maxRule.apply(x);
+			if (_abox.isClosed())
 				return;
 
 		} while (x.canApply(Node.ATOM) || x.canApply(Node.OR) || x.canApply(Node.SOME) || x.canApply(Node.MIN));
@@ -418,7 +418,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 	private Bool isCachedSat(final ATermAppl c)
 	{
-		Bool sat = abox.getCachedSat(c);
+		Bool sat = _abox.getCachedSat(c);
 
 		// return if we have the cached result or the class is not an intersection
 		if (sat.isKnown() || !ATermUtils.isAnd(c))
@@ -433,7 +433,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		for (; !list.isEmpty(); list = list.getNext())
 		{
 			final ATermAppl d = (ATermAppl) list.getFirst();
-			final CachedNode node = abox.getCached(d);
+			final CachedNode node = _abox.getCached(d);
 
 			if (node == null || !node.isComplete())
 			{
@@ -476,10 +476,10 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			else
 				// there are two classes in the intersection, so check if the cahed models can
 				// be merged without a clash
-				sat = abox.getCache().isMergable(abox.getKB(), cached1, cached2);
+				sat = _abox.getCache().isMergable(_abox.getKB(), cached1, cached2);
 
 		if (sat.isKnown())
-			abox.getCache().putSat(c, sat.isTrue());
+			_abox.getCache().putSat(c, sat.isTrue());
 
 		return sat;
 	}
@@ -493,16 +493,16 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	@Override
 	public void restore(final Branch br)
 	{
-		final Timer timer = timers.startTimer("restore");
+		final Timer timer = _timers.startTimer("restore");
 
-		abox.stats.globalRestores++;
+		_abox.stats.globalRestores++;
 
-		final Node clashNode = abox.getClash().getNode();
+		final Node clashNode = _abox.getClash().getNode();
 		final List<ATermAppl> clashPath = clashNode.getPath();
 		clashPath.add(clashNode.getName());
 
-		abox.setBranch(br.getBranch());
-		abox.setClash(null);
+		_abox.setBranch(br.getBranch());
+		_abox.setClash(null);
 		// Setting the _anonCount to the value at the time of _branch creation is incorrect
 		// when SMART_RESTORE option is turned on. If we create an anon _node after _branch
 		// creation but _node depends on an earlier _branch restore operation will not remove
@@ -515,9 +515,9 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		// debugging is complete
 		// _abox.setAnonCount( br.getAnonCount() );
 
-		mergeList.clear();
+		_mergeList.clear();
 
-		final List<ATermAppl> nodeList = abox.getNodeNames();
+		final List<ATermAppl> nodeList = _abox.getNodeNames();
 
 		if (log.isLoggable(Level.FINE))
 		{
@@ -529,17 +529,17 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		{
 			final ATermAppl x = nodeList.get(i);
 
-			final Node node = abox.getNode(x);
+			final Node node = _abox.getNode(x);
 			if (i >= br.getNodeCount())
 			{
-				abox.removeNode(x);
+				_abox.removeNode(x);
 				final ATermAppl c = cachedNodes.remove(node);
 				if (c != null && PelletOptions.USE_ADVANCED_CACHING)
 					if (clashPath.contains(x))
 					{
 						if (log.isLoggable(Level.FINEST))
 							log.finest("+++ Cache unsat concept " + c);
-						abox.getCache().putSat(c, false);
+						_abox.getCache().putSat(c, false);
 					}
 					else
 						if (log.isLoggable(Level.FINEST))
@@ -556,14 +556,14 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		}
 		nodeList.subList(br.getNodeCount(), nodeList.size()).clear();
 
-		for (final Iterator<Individual> i = abox.getIndIterator(); i.hasNext();)
+		for (final Iterator<Individual> i = _abox.getIndIterator(); i.hasNext();)
 		{
 			final Individual ind = i.next();
-			allValuesRule.apply(ind);
+			_allValuesRule.apply(ind);
 		}
 
 		if (log.isLoggable(Level.FINE))
-			abox.printTree();
+			_abox.printTree();
 
 		timer.stop();
 	}
@@ -572,19 +572,19 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	{
 		boolean branchFound = false;
 
-		abox.stats.backtracks++;
+		_abox.stats.backtracks++;
 
 		while (!branchFound)
 		{
-			completionTimer.check();
+			_completionTimer.check();
 
-			final int lastBranch = abox.getClash().getDepends().max();
+			final int lastBranch = _abox.getClash().getDepends().max();
 
 			if (lastBranch <= 0)
 				return false;
 
-			final List<Branch> branches = abox.getBranches();
-			abox.stats.backjumps += (branches.size() - lastBranch);
+			final List<Branch> branches = _abox.getBranches();
+			_abox.stats.backjumps += (branches.size() - lastBranch);
 			Branch newBranch = null;
 			if (lastBranch <= branches.size())
 			{
@@ -597,7 +597,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 					throw new RuntimeException("Internal error in reasoner: Trying to backtrack _branch " + lastBranch + " but got " + newBranch);
 
 				if (newBranch.getTryNext() < newBranch.getTryCount())
-					newBranch.setLastClash(abox.getClash().getDepends());
+					newBranch.setLastClash(_abox.getClash().getDepends());
 
 				newBranch.setTryNext(newBranch.getTryNext() + 1);
 
@@ -611,7 +611,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 			if (!branchFound || newBranch == null)
 			{
-				abox.getClash().getDepends().remove(lastBranch);
+				_abox.getClash().getDepends().remove(lastBranch);
 				if (log.isLoggable(Level.FINE))
 					log.fine("FAIL: " + lastBranch);
 			}
@@ -627,7 +627,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		}
 
-		abox.validate();
+		_abox.validate();
 
 		return branchFound;
 	}
