@@ -1037,7 +1037,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 
 	@Test
 	// This tests ticket 147
-	// Not having timeout functionality in classification and realization makes
+	// Not having _timeout functionality in classification and realization makes
 	// it harder to interrupt these processes
 	public void testClassificationTimeout() throws Exception
 	{
@@ -1066,7 +1066,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 
 	@Test
 	// This tests ticket 147
-	// Not having timeout functionality in classification and realization makes
+	// Not having _timeout functionality in classification and realization makes
 	// it harder to interrupt these processes
 	public void testRealizationTimeout() throws Exception
 	{

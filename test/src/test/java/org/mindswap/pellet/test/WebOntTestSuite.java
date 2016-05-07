@@ -53,17 +53,17 @@ public class WebOntTestSuite
 		return parameters;
 	}
 
-	private final WebOntTestCase test;
+	private final WebOntTestCase _test;
 
 	public WebOntTestSuite(final WebOntTestCase test)
 	{
-		this.test = test;
+		this._test = test;
 	}
 
 	@Test
 	public void run() throws IOException
 	{
-		test.runTest();
+		_test.runTest();
 	}
 
 }

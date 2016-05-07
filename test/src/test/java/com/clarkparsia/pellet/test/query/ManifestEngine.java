@@ -74,7 +74,7 @@ public class ManifestEngine
 			@Override
 			public void manifestStarted(final String manifestURI)
 			{
-				log.fine("START manifest: " + manifestURI);
+				log.fine("START _manifest: " + manifestURI);
 			}
 
 			/**
@@ -92,7 +92,7 @@ public class ManifestEngine
 			@Override
 			public void manifestFinished(final String manifestURI)
 			{
-				log.fine("FINISH manifest: " + manifestURI);
+				log.fine("FINISH _manifest: " + manifestURI);
 			}
 		};
 	}
@@ -220,7 +220,7 @@ public class ManifestEngine
 
 	private void _doTest(final String manifestURI)
 	{
-		log.fine("Processing manifest : " + manifestURI + "'.");
+		log.fine("Processing _manifest : " + manifestURI + "'.");
 		singleTestExecutor.manifestStarted(manifestURI);
 		try
 		{

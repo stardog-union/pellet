@@ -13,24 +13,24 @@ import java.io.IOException;
 
 public class WebOntTestCase
 {
-	File manifest;
-	WebOntTest test;
+	File _manifest;
+	WebOntTest _test;
 
 	public WebOntTestCase(final WebOntTest test, final File manifest, @SuppressWarnings("unused") final String name)
 	{
 		//        super( "OWLTestCase-" + name );
-		this.test = test;
-		this.manifest = manifest;
+		this._test = test;
+		this._manifest = manifest;
 	}
 
 	public void runTest() throws IOException
 	{
-		assertTrue(test.doSingleTest(manifest.toURI().toURL().toString()) != WebOntTest.TEST_FAIL);
+		assertTrue(_test.doSingleTest(_manifest.toURI().toURL().toString()) != WebOntTest.TEST_FAIL);
 	}
 
 	@Override
 	public String toString()
 	{
-		return manifest.getParentFile().getName() + "/" + manifest.getName();
+		return _manifest.getParentFile().getName() + "/" + _manifest.getName();
 	}
 }
