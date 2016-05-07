@@ -140,7 +140,7 @@ public class IncConsistencyTests extends AbstractKBTests
 	}
 
 	/**
-	 * Test that _node merge state is correctly handled in reset. In trunk r1495, this is known to cause a NPE because Node.mergeDepends is incorrectly reset to
+	 * Test that _node merge state is correctly handled in reset. In trunk r1495, this is known to cause a NPE because Node._mergeDepends is incorrectly reset to
 	 * null
 	 */
 	@Test

@@ -10,12 +10,12 @@
 //
 // The MIT License
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to
+// Permission is hereby granted, free of charge, _to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), _to
 // deal in the Software without restriction, including without limitation the
-// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-// sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
+// rights _to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and _to permit persons _to whom the Software is
+// furnished _to do so, subject _to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
@@ -37,25 +37,25 @@ import aterm.ATermAppl;
  */
 public class DefaultEdge implements Edge
 {
-	private final Individual from;
-	private final Node to;
-	private final Role role;
+	private final Individual _from;
+	private final Node _to;
+	private final Role _role;
 
-	private DependencySet depends;
+	private DependencySet _depends;
 
 	public DefaultEdge(final Role name, final Individual from, final Node to)
 	{
-		this.role = name;
-		this.from = from;
-		this.to = to;
+		this._role = name;
+		this._from = from;
+		this._to = to;
 	}
 
 	public DefaultEdge(final Role name, final Individual from, final Node to, final DependencySet d)
 	{
-		this.role = name;
-		this.from = from;
-		this.to = to;
-		this.depends = d;
+		this._role = name;
+		this._from = from;
+		this._to = to;
+		this._depends = d;
 	}
 
 	/**
@@ -64,11 +64,11 @@ public class DefaultEdge implements Edge
 	@Override
 	public Node getNeighbor(final Node node)
 	{
-		if (from.equals(node))
-			return to;
+		if (_from.equals(node))
+			return _to;
 		else
-			if (to.equals(node))
-				return from;
+			if (_to.equals(node))
+				return _from;
 			else
 				return null;
 	}
@@ -76,7 +76,7 @@ public class DefaultEdge implements Edge
 	@Override
 	public String toString()
 	{
-		return "[" + from + ", " + role + ", " + to + "] - " + depends;
+		return "[" + _from + ", " + _role + ", " + _to + "] - " + _depends;
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class DefaultEdge implements Edge
 	@Override
 	public DependencySet getDepends()
 	{
-		return depends;
+		return _depends;
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class DefaultEdge implements Edge
 	@Override
 	public Individual getFrom()
 	{
-		return from;
+		return _from;
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class DefaultEdge implements Edge
 	@Override
 	public Role getRole()
 	{
-		return role;
+		return _role;
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class DefaultEdge implements Edge
 	@Override
 	public Node getTo()
 	{
-		return to;
+		return _to;
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class DefaultEdge implements Edge
 		if (!(other instanceof DefaultEdge))
 			return false;
 		final DefaultEdge that = (DefaultEdge) other;
-		return from.equals(that.from) && role.equals(that.role) && to.equals(that.to);
+		return _from.equals(that._from) && _role.equals(that._role) && _to.equals(that._to);
 	}
 
 	@Override
@@ -131,9 +131,9 @@ public class DefaultEdge implements Edge
 	{
 		int hashCode = 23;
 
-		hashCode = 31 * hashCode + role.hashCode();
-		hashCode = 31 * hashCode + from.hashCode();
-		hashCode = 31 * hashCode + to.hashCode();
+		hashCode = 31 * hashCode + _role.hashCode();
+		hashCode = 31 * hashCode + _from.hashCode();
+		hashCode = 31 * hashCode + _to.hashCode();
 
 		return hashCode;
 	}
@@ -162,6 +162,6 @@ public class DefaultEdge implements Edge
 	@Override
 	public void setDepends(final DependencySet ds)
 	{
-		depends = ds;
+		_depends = ds;
 	}
 }

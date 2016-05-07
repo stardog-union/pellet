@@ -23,13 +23,13 @@ import org.mindswap.pellet.utils.fsm.TransitionGraph;
  */
 public class FSMBuilder
 {
-	public static Logger log = Logger.getLogger(FSMBuilder.class.getName());
+	public static Logger _log = Logger.getLogger(FSMBuilder.class.getName());
 
-	private final RBox rbox;
+	private final RBox _rbox;
 
 	public FSMBuilder(final RBox rbox)
 	{
-		this.rbox = rbox;
+		this._rbox = rbox;
 	}
 
 	public boolean build(final Role s)
@@ -45,43 +45,43 @@ public class FSMBuilder
 		TransitionGraph<Role> tg = s.getFSM();
 		if (tg == null)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Building NFA for " + s);
+			if (_log.isLoggable(Level.FINE))
+				_log.fine("Building NFA for " + s);
 
 			tg = buildNondeterministicFSM(s, visited);
 
 			if (tg == null)
 			{
-				log.warning("Cycle detected in the complex subproperty chain involving " + s);
+				_log.warning("Cycle detected in the complex subproperty chain involving " + s);
 				s.setForceSimple(true);
-				rbox.ignoreTransitivity(s);
+				_rbox.ignoreTransitivity(s);
 				return null;
 			}
 
 			assert tg.isConnected();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Determinize " + s + ": " + tg.size() + "\n" + tg);
+			if (_log.isLoggable(Level.FINE))
+				_log.fine("Determinize " + s + ": " + tg.size() + "\n" + tg);
 
 			tg.determinize();
 
 			assert tg.isConnected();
 			assert tg.isDeterministic();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Minimize NFA for " + s + ": " + tg.size() + "\n" + tg);
+			if (_log.isLoggable(Level.FINE))
+				_log.fine("Minimize NFA for " + s + ": " + tg.size() + "\n" + tg);
 
 			tg.minimize();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Minimized NFA for " + s + ": " + tg.size() + "\n" + tg);
+			if (_log.isLoggable(Level.FINE))
+				_log.fine("Minimized NFA for " + s + ": " + tg.size() + "\n" + tg);
 
 			assert tg.isConnected();
 
 			tg.renumber();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Renumbered " + s + ": " + tg.size() + "\n" + tg);
+			if (_log.isLoggable(Level.FINE))
+				_log.fine("Renumbered " + s + ": " + tg.size() + "\n" + tg);
 
 			assert tg.isConnected();
 
@@ -97,8 +97,8 @@ public class FSMBuilder
 
 	private void setFSM(final Role s, final TransitionGraph<Role> tg)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("NFA for " + s + ":\n" + tg);
+		if (_log.isLoggable(Level.FINE))
+			_log.fine("NFA for " + s + ":\n" + tg);
 
 		s.setFSM(tg);
 
@@ -154,8 +154,8 @@ public class FSMBuilder
 
 	private boolean addRoleChainTransition(final TransitionGraph<Role> tg, final Role s, final ATermList chain)
 	{
-		final Role firstRole = rbox.getRole(chain.getFirst());
-		final Role lastRole = rbox.getRole(chain.getLast());
+		final Role firstRole = _rbox.getRole(chain.getFirst());
+		final Role lastRole = _rbox.getRole(chain.getLast());
 		final boolean firstRoleSame = s.isEquivalent(firstRole);
 		final boolean lastRoleSame = s.isEquivalent(lastRole);
 		final int length = chain.getLength();
@@ -181,7 +181,7 @@ public class FSMBuilder
 		State<Role> prev = initialState;
 		for (int i = 0; i < length; i++, chain = chain.getNext())
 		{
-			final Role role = rbox.getRole(chain.getFirst());
+			final Role role = _rbox.getRole(chain.getFirst());
 			final State<Role> next = i == length - 1 ? finalState : tg.newState();
 			tg.addTransition(prev, role, next);
 			prev = next;

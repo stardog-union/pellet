@@ -102,7 +102,7 @@ public class Literal extends Node
 					throw new InternalReasonerException(msg, e);
 				}
 				if (value == null)
-					depends.put(name, ds);
+					_depends.put(name, ds);
 			}
 
 			atermValue = ATermUtils.makeValue(term);
@@ -191,7 +191,7 @@ public class Literal extends Node
 				try
 				{
 					final ATermAppl input = (ATermAppl) a.getArgument(0);
-					final ATermAppl canonical = abox.getDatatypeReasoner().getCanonicalRepresentation(input);
+					final ATermAppl canonical = _abox.getDatatypeReasoner().getCanonicalRepresentation(input);
 					if (!canonical.equals(input))
 						type = ATermUtils.makeValue(canonical);
 				}
@@ -223,7 +223,7 @@ public class Literal extends Node
 		DependencySet ds = null;
 		if (isDifferent(node))
 		{
-			ds = differents.get(node);
+			ds = _differents.get(node);
 			if (ds == null)
 				ds = DependencySet.INDEPENDENT;
 		}
@@ -246,9 +246,9 @@ public class Literal extends Node
 			if (ATermUtils.isNominal(arg))
 			{
 				final ATermAppl v = (ATermAppl) arg.getArgument(0);
-				Literal other = abox.getLiteral(v);
+				Literal other = _abox.getLiteral(v);
 				if (other == null)
-					other = abox.addLiteral(v, d);
+					other = _abox.addLiteral(v, d);
 				super.setDifferent(other, d);
 				return;
 			}
@@ -271,7 +271,7 @@ public class Literal extends Node
 
 			final DependencySet depends = entry.getValue();
 
-			super.addType(c, depends.union(ds, abox.doExplanation()));
+			super.addType(c, depends.union(ds, _abox.doExplanation()));
 		}
 
 		checkClash();
@@ -311,7 +311,7 @@ public class Literal extends Node
 	void reportClash(final Clash clash)
 	{
 		clashed = true;
-		abox.setClash(clash);
+		_abox.setClash(clash);
 	}
 
 	private void checkClash()
@@ -320,20 +320,20 @@ public class Literal extends Node
 
 		if (hasValue && value == null)
 		{
-			reportClash(Clash.invalidLiteral(this, getDepends(name), getTerm()));
+			reportClash(Clash.invalidLiteral(this, getDepends(_name), getTerm()));
 			return;
 		}
 
 		if (hasType(ATermUtils.BOTTOM_LIT))
 		{
 			reportClash(Clash.emptyDatatype(this, getDepends(ATermUtils.BOTTOM_LIT)));
-			if (abox.doExplanation())
-				System.out.println("1) Literal clash dependency = " + abox.getClash());
+			if (_abox.doExplanation())
+				System.out.println("1) Literal clash dependency = " + _abox.getClash());
 			return;
 		}
 
 		final Set<ATermAppl> types = getTypes();
-		final DatatypeReasoner dtReasoner = abox.getDatatypeReasoner();
+		final DatatypeReasoner dtReasoner = _abox.getDatatypeReasoner();
 
 		try
 		{
@@ -354,8 +354,8 @@ public class Literal extends Node
 					DependencySet ds = DependencySet.EMPTY;
 					for (final ATermAppl element : dt)
 					{
-						ds = ds.union(getDepends(element), abox.doExplanation());
-						if (abox.doExplanation())
+						ds = ds.union(getDepends(element), _abox.doExplanation());
+						if (_abox.doExplanation())
 						{
 							final ATermAppl dtName = ATermUtils.isNot(element) ? (ATermAppl) element.getArgument(0) : element;
 							final ATermAppl definition = dtReasoner.getDefinition(dtName);
@@ -378,16 +378,16 @@ public class Literal extends Node
 						 */
 						final Object value = dtReasoner.valueIterator(types).next();
 						final ATermAppl valueTerm = dtReasoner.getLiteral(value);
-						Literal valueLiteral = abox.getLiteral(valueTerm);
+						Literal valueLiteral = _abox.getLiteral(valueTerm);
 						if (valueLiteral == null)
 							/*
 							 * No dependency set is used here because omitting it prevents the
 							 * constant literal from being removed during backtrack
 							 */
-							valueLiteral = abox.addLiteral(valueTerm);
+							valueLiteral = _abox.addLiteral(valueTerm);
 						DependencySet mergeDs = DependencySet.INDEPENDENT;
-						for (final DependencySet ds : depends.values())
-							mergeDs = mergeDs.union(ds, abox.doExplanation());
+						for (final DependencySet ds : _depends.values())
+							mergeDs = mergeDs.union(ds, _abox.doExplanation());
 						merge = new NodeMerge(this, valueLiteral, mergeDs);
 					}
 				}
@@ -405,8 +405,8 @@ public class Literal extends Node
 					DependencySet ds = DependencySet.EMPTY;
 					for (final ATermAppl element : dt)
 					{
-						ds = ds.union(getDepends(element), abox.doExplanation());
-						if (abox.doExplanation())
+						ds = ds.union(getDepends(element), _abox.doExplanation());
+						if (_abox.doExplanation())
 						{
 							final ATermAppl definition = dtReasoner.getDefinition(element);
 							if (definition != null)
@@ -463,7 +463,7 @@ public class Literal extends Node
 
 	public String debugString()
 	{
-		return name + " = " + getTypes().toString();
+		return _name + " = " + getTypes().toString();
 	}
 
 	public NodeMerge getMergeToConstant()

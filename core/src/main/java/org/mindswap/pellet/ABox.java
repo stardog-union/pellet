@@ -2188,8 +2188,8 @@ public class ABox
 			if (node.hasType(notA))
 			{
 				if (!node.hasType(a))
-					throw new InternalReasonerException("Invalid type found: " + node + " " + " " + a + " " + node.debugString() + " " + node.depends);
-				throw new InternalReasonerException("Clash found: " + node + " " + a + " " + node.debugString() + " " + node.depends);
+					throw new InternalReasonerException("Invalid type found: " + node + " " + " " + a + " " + node.debugString() + " " + node._depends);
+				throw new InternalReasonerException("Clash found: " + node + " " + a + " " + node.debugString() + " " + node._depends);
 			}
 		}
 	}

@@ -182,7 +182,7 @@ public class Individual extends Node implements CachedNode
 	@Override
 	public ATermAppl getTerm()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
@@ -201,15 +201,15 @@ public class Individual extends Node implements CachedNode
 	{
 		if (PelletOptions.USE_UNIQUE_NAME_ASSUMPTION)
 			if (isNamedIndividual() && node.isNamedIndividual())
-				return !name.equals(node.name);
+				return !_name.equals(node._name);
 
-		return differents.containsKey(node);
+		return _differents.containsKey(node);
 	}
 
 	@Override
 	public Set<Node> getDifferents()
 	{
-		return differents.keySet();
+		return _differents.keySet();
 	}
 
 	@Override
@@ -219,7 +219,7 @@ public class Individual extends Node implements CachedNode
 			if (isNamedIndividual() && node.isNamedIndividual())
 				return DependencySet.INDEPENDENT;
 
-		return differents.get(node);
+		return _differents.get(node);
 	}
 
 	/**
@@ -265,10 +265,10 @@ public class Individual extends Node implements CachedNode
 			if (isMerged())
 				modifiedAfterMerge = true;
 
-		if (depends.containsKey(c))
+		if (_depends.containsKey(c))
 		{
 			if (!checkForPruned && ds.isIndependent())
-				depends.put(c, ds);
+				_depends.put(c, ds);
 
 			return;
 		}
@@ -281,32 +281,32 @@ public class Individual extends Node implements CachedNode
 		// and the edge used in applyAllValues may depend on a _branch we want
 		// this type to be deleted when that edge goes away, i.e. we backtrack
 		// to a position before the max dependency of this type
-		int b = abox.getBranch();
+		int b = _abox.getBranch();
 		final int max = ds.max();
 		if (b == -1 && max != 0)
 			b = max + 1;
 
 		ds = ds.copy(b);
 
-		depends.put(c, ds);
+		_depends.put(c, ds);
 
-		abox.setChanged(true);
+		_abox.setChanged(true);
 
 		// add to effected list
-		if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-			abox.getBranchEffectTracker().add(abox.getBranch(), this.getName());
+		if (_abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+			_abox.getBranchEffectTracker().add(_abox.getBranch(), this.getName());
 
 		//create new _queue element
 		final QueueElement qElement = new QueueElement(this, c);
 
 		final ATermAppl notC = ATermUtils.negate(c);
-		DependencySet clashDepends = depends.get(notC);
+		DependencySet clashDepends = _depends.get(notC);
 		if (clashDepends != null)
 		{
 			final ATermAppl positive = ATermUtils.isNot(notC) ? c : notC;
-			clashDepends = clashDepends.union(ds, abox.doExplanation());
-			clashDepends = clashDepends.copy(abox.getBranch());
-			abox.setClash(Clash.atomic(this, clashDepends, positive));
+			clashDepends = clashDepends.union(ds, _abox.doExplanation());
+			clashDepends = clashDepends.copy(_abox.getBranch());
+			_abox.setClash(Clash.atomic(this, clashDepends, positive));
 		}
 
 		if (ATermUtils.isPrimitive(c))
@@ -316,7 +316,7 @@ public class Individual extends Node implements CachedNode
 
 			if (PelletOptions.USE_COMPLETION_QUEUE)
 				//update completion _queue
-				abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
+				_abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
 		}
 		else
 			if (c.getAFun().equals(ATermUtils.ANDFUN))
@@ -334,7 +334,7 @@ public class Individual extends Node implements CachedNode
 
 					if (PelletOptions.USE_COMPLETION_QUEUE)
 						//update completion _queue
-						abox.getCompletionQueue().add(qElement, NodeSelector.UNIVERSAL);
+						_abox.getCompletionQueue().add(qElement, NodeSelector.UNIVERSAL);
 				}
 				else
 					if (c.getAFun().equals(ATermUtils.MINFUN))
@@ -346,7 +346,7 @@ public class Individual extends Node implements CachedNode
 
 							if (PelletOptions.USE_COMPLETION_QUEUE)
 								//update completion _queue
-								abox.getCompletionQueue().add(qElement, NodeSelector.MIN_NUMBER);
+								_abox.getCompletionQueue().add(qElement, NodeSelector.MIN_NUMBER);
 
 							// check min clash after concept is added to the type
 							// list. otherwise a clash found will prevent the
@@ -367,7 +367,7 @@ public class Individual extends Node implements CachedNode
 
 								if (PelletOptions.USE_COMPLETION_QUEUE)
 									//update completion _queue
-									abox.getCompletionQueue().add(qElement, NodeSelector.DISJUNCTION);
+									_abox.getCompletionQueue().add(qElement, NodeSelector.DISJUNCTION);
 							}
 							else
 								if (ATermUtils.isAllValues(x))
@@ -377,7 +377,7 @@ public class Individual extends Node implements CachedNode
 
 									if (PelletOptions.USE_COMPLETION_QUEUE)
 										//update completion _queue					
-										abox.getCompletionQueue().add(qElement, NodeSelector.EXISTENTIAL);
+										_abox.getCompletionQueue().add(qElement, NodeSelector.EXISTENTIAL);
 								}
 								else
 									if (ATermUtils.isMin(x))
@@ -390,9 +390,9 @@ public class Individual extends Node implements CachedNode
 											if (PelletOptions.USE_COMPLETION_QUEUE)
 											{
 												//update completion _queue						
-												abox.getCompletionQueue().add(qElement, NodeSelector.MAX_NUMBER);
-												abox.getCompletionQueue().add(qElement, NodeSelector.CHOOSE);
-												abox.getCompletionQueue().add(qElement, NodeSelector.GUESS);
+												_abox.getCompletionQueue().add(qElement, NodeSelector.MAX_NUMBER);
+												_abox.getCompletionQueue().add(qElement, NodeSelector.CHOOSE);
+												_abox.getCompletionQueue().add(qElement, NodeSelector.GUESS);
 											}
 
 											// check max clash after concept is added to the type
@@ -411,19 +411,19 @@ public class Individual extends Node implements CachedNode
 
 											if (PelletOptions.USE_COMPLETION_QUEUE)
 												//update completion _queue					
-												abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
+												_abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
 										}
 										else
 											if (ATermUtils.isSelf(x))
 											{
 												final ATermAppl p = (ATermAppl) x.getArgument(0);
-												final Role role = abox.getRole(p);
+												final Role role = _abox.getRole(p);
 												// during loading role would be null
 												if (role != null)
 												{
 													final EdgeList selfEdges = outEdges.getEdges(role).getEdgesTo(this);
 													if (!selfEdges.isEmpty())
-														abox.setClash(Clash.unexplained(this, selfEdges.getDepends(abox.doExplanation())));
+														_abox.setClash(Clash.unexplained(this, selfEdges.getDepends(_abox.doExplanation())));
 												}
 											}
 											else
@@ -434,10 +434,10 @@ public class Individual extends Node implements CachedNode
 
 													if (PelletOptions.USE_COMPLETION_QUEUE)
 														//update completion _queue					
-														abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
+														_abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
 												}
 												else
-													throw new InternalReasonerException("Invalid type " + c + " for individual " + name);
+													throw new InternalReasonerException("Invalid type " + c + " for individual " + _name);
 						}
 						else
 							if (c.getAFun().equals(ATermUtils.VALUEFUN))
@@ -447,7 +447,7 @@ public class Individual extends Node implements CachedNode
 
 								if (PelletOptions.USE_COMPLETION_QUEUE)
 									//update completion _queue				
-									abox.getCompletionQueue().add(qElement, NodeSelector.NOMINAL);
+									_abox.getCompletionQueue().add(qElement, NodeSelector.NOMINAL);
 							}
 							else
 								if (ATermUtils.isSelf(c))
@@ -461,7 +461,7 @@ public class Individual extends Node implements CachedNode
 
 	public boolean checkMinClash(final ATermAppl minCard, final DependencySet minDepends)
 	{
-		final Role minR = abox.getRole(minCard.getArgument(0));
+		final Role minR = _abox.getRole(minCard.getArgument(0));
 		if (minR == null)
 			return false;
 		final int min = ((ATermInt) minCard.getArgument(1)).getInt();
@@ -469,7 +469,7 @@ public class Individual extends Node implements CachedNode
 
 		if (minR.isFunctional() && min > 1)
 		{
-			abox.setClash(Clash.minMax(this, minDepends.union(minR.getExplainFunctional(), abox.doExplanation())));
+			_abox.setClash(Clash.minMax(this, minDepends.union(minR.getExplainFunctional(), _abox.doExplanation())));
 
 			return true;
 		}
@@ -478,7 +478,7 @@ public class Individual extends Node implements CachedNode
 		{
 			// max(r, n) is in normalized form not(min(p, n + 1))
 			final ATermAppl maxCard = (ATermAppl) mc.getArgument(0);
-			final Role maxR = abox.getRole(maxCard.getArgument(0));
+			final Role maxR = _abox.getRole(maxCard.getArgument(0));
 			if (maxR == null)
 				return false;
 			final int max = ((ATermInt) maxCard.getArgument(1)).getInt() - 1;
@@ -488,9 +488,9 @@ public class Individual extends Node implements CachedNode
 			{
 				final DependencySet maxDepends = getDepends(mc);
 				final DependencySet subDepends = maxR.getExplainSub(minR.getName());
-				final DependencySet ds = minDepends.union(maxDepends, abox.doExplanation()).union(subDepends, abox.doExplanation());
+				final DependencySet ds = minDepends.union(maxDepends, _abox.doExplanation()).union(subDepends, _abox.doExplanation());
 
-				abox.setClash(Clash.minMax(this, ds));
+				_abox.setClash(Clash.minMax(this, ds));
 
 				return true;
 			}
@@ -502,7 +502,7 @@ public class Individual extends Node implements CachedNode
 	public boolean checkMaxClash(final ATermAppl normalizedMax, final DependencySet maxDepends)
 	{
 		final ATermAppl maxCard = (ATermAppl) normalizedMax.getArgument(0);
-		final Role maxR = abox.getRole(maxCard.getArgument(0));
+		final Role maxR = _abox.getRole(maxCard.getArgument(0));
 		if (maxR == null)
 			return false;
 		final int max = ((ATermInt) maxCard.getArgument(1)).getInt() - 1;
@@ -510,7 +510,7 @@ public class Individual extends Node implements CachedNode
 
 		for (final ATermAppl minCard : types[MIN])
 		{
-			final Role minR = abox.getRole(minCard.getArgument(0));
+			final Role minR = _abox.getRole(minCard.getArgument(0));
 			if (minR == null)
 				return false;
 			final int min = ((ATermInt) minCard.getArgument(1)).getInt();
@@ -520,9 +520,9 @@ public class Individual extends Node implements CachedNode
 			{
 				final DependencySet minDepends = getDepends(minCard);
 				final DependencySet subDepends = maxR.getExplainSub(minR.getName());
-				final DependencySet ds = minDepends.union(maxDepends, abox.doExplanation()).union(subDepends, abox.doExplanation());
+				final DependencySet ds = minDepends.union(maxDepends, _abox.doExplanation()).union(subDepends, _abox.doExplanation());
 
-				abox.setClash(Clash.minMax(this, ds));
+				_abox.setClash(Clash.minMax(this, ds));
 
 				return true;
 			}
@@ -533,7 +533,7 @@ public class Individual extends Node implements CachedNode
 
 	public boolean isRedundantMin(final ATermAppl minCard)
 	{
-		final Role minR = abox.getRole(minCard.getArgument(0));
+		final Role minR = _abox.getRole(minCard.getArgument(0));
 
 		if (minR == null)
 			return false;
@@ -543,7 +543,7 @@ public class Individual extends Node implements CachedNode
 
 		for (final ATermAppl prevMinCard : types[MIN])
 		{
-			final Role prevMinR = abox.getRole(prevMinCard.getArgument(0));
+			final Role prevMinR = _abox.getRole(prevMinCard.getArgument(0));
 
 			if (prevMinR == null)
 				continue;
@@ -560,7 +560,7 @@ public class Individual extends Node implements CachedNode
 
 	public boolean isRedundantMax(final ATermAppl maxCard)
 	{
-		final Role maxR = abox.getRole(maxCard.getArgument(0));
+		final Role maxR = _abox.getRole(maxCard.getArgument(0));
 		if (maxR == null)
 			return false;
 
@@ -575,7 +575,7 @@ public class Individual extends Node implements CachedNode
 		{
 			// max(r, n) is in normalized form not(min(p, n + 1))
 			final ATermAppl prevMaxCard = (ATermAppl) mc.getArgument(0);
-			final Role prevMaxR = abox.getRole(prevMaxCard.getArgument(0));
+			final Role prevMaxR = _abox.getRole(prevMaxCard.getArgument(0));
 
 			if (prevMaxR == null)
 				continue;
@@ -596,7 +596,7 @@ public class Individual extends Node implements CachedNode
 		{
 			// max(r, n, c) is in normalized form not(min(p, n + 1))
 			final ATermAppl maxCard = (ATermAppl) mc.getArgument(0);
-			final Role maxR = abox.getRole(maxCard.getArgument(0));
+			final Role maxR = _abox.getRole(maxCard.getArgument(0));
 			final int max = ((ATermInt) maxCard.getArgument(1)).getInt() - 1;
 			final ATermAppl maxQ = (ATermAppl) maxCard.getArgument(2);
 
@@ -604,7 +604,7 @@ public class Individual extends Node implements CachedNode
 			// if there are two types max(r,1) and max(p,1) where r subproperty of p
 			// then the dependency set what we return might be wrong
 			if (max == 1 && r.isSubRoleOf(maxR) && ATermUtils.isTop(maxQ))
-				return getDepends(mc).union(r.getExplainSub(maxR.getName()), abox.doExplanation());
+				return getDepends(mc).union(r.getExplainSub(maxR.getName()), _abox.doExplanation());
 		}
 
 		return null;
@@ -617,7 +617,7 @@ public class Individual extends Node implements CachedNode
 		{
 			// max(r, n) is in normalized form not(min(p, n + 1))
 			final ATermAppl maxCard = (ATermAppl) mc.getArgument(0);
-			final Role maxR = abox.getRole(maxCard.getArgument(0));
+			final Role maxR = _abox.getRole(maxCard.getArgument(0));
 			final int max = ((ATermInt) maxCard.getArgument(1)).getInt() - 1;
 
 			if (r.isSubRoleOf(maxR) && max < min)
@@ -635,7 +635,7 @@ public class Individual extends Node implements CachedNode
 		int maxOfMins = 0;
 		for (final ATermAppl minCard : types[MIN])
 		{
-			final Role minR = abox.getRole(minCard.getArgument(0));
+			final Role minR = _abox.getRole(minCard.getArgument(0));
 			final int min = ((ATermInt) minCard.getArgument(1)).getInt();
 			final ATermAppl minC = (ATermAppl) minCard.getArgument(2);
 
@@ -652,7 +652,7 @@ public class Individual extends Node implements CachedNode
 		final boolean removed = super.removeType(c);
 
 		// it is important to continue removal here because restore function
-		// modified depends map directly
+		// modified _depends map directly
 		if (ATermUtils.isPrimitive(c) || ATermUtils.isSelf(c))
 			types[ATOM].remove(c);
 		else
@@ -690,7 +690,7 @@ public class Individual extends Node implements CachedNode
 													// do nothing
 												}
 												else
-													throw new InternalReasonerException("Invalid type " + c + " for individual " + name);
+													throw new InternalReasonerException("Invalid type " + c + " for individual " + _name);
 						}
 						else
 							if (c.getAFun().equals(ATermUtils.VALUEFUN))
@@ -736,7 +736,7 @@ public class Individual extends Node implements CachedNode
 
 	final public EdgeList getRPredecessorEdges(final Role r)
 	{
-		return inEdges.getEdges(r);
+		return _inEdges.getEdges(r);
 	}
 
 	final public Set<Node> getRNeighbors(final Role r)
@@ -751,7 +751,7 @@ public class Individual extends Node implements CachedNode
 		final Role invR = r.getInverse();
 		// inverse of datatype properties is not defined
 		if (invR != null)
-			neighbors.addEdgeList(inEdges.getEdges(invR));
+			neighbors.addEdgeList(_inEdges.getEdges(invR));
 
 		return neighbors;
 	}
@@ -770,7 +770,7 @@ public class Individual extends Node implements CachedNode
 		final Role invR = r.getInverse();
 		// inverse of datatype properties is not defined
 		if (invR != null)
-			neighbors.addEdgeList(inEdges.getEdgesFrom((Individual) node, invR));
+			neighbors.addEdgeList(_inEdges.getEdgesFrom((Individual) node, invR));
 
 		return neighbors;
 	}
@@ -858,12 +858,12 @@ public class Individual extends Node implements CachedNode
 		DependencySet ds = DependencySet.EMPTY;
 		for (final Edge edge : edges)
 		{
-			ds = ds.union(r.getExplainSubOrInv(edge.getRole()), abox.doExplanation());
-			ds = ds.union(edge.getDepends(), abox.doExplanation());
+			ds = ds.union(r.getExplainSubOrInv(edge.getRole()), _abox.doExplanation());
+			ds = ds.union(edge.getDepends(), _abox.doExplanation());
 			final Node node = edge.getNeighbor(this);
 			final DependencySet typeDS = node.getDepends(c);
 			if (typeDS != null)
-				ds = ds.union(typeDS, abox.doExplanation());
+				ds = ds.union(typeDS, _abox.doExplanation());
 		}
 
 		return ds;
@@ -952,7 +952,7 @@ public class Individual extends Node implements CachedNode
 			return true;
 
 		final Role invR = r.getInverse();
-		if (invR != null && inEdges.hasEdge(invR))
+		if (invR != null && _inEdges.hasEdge(invR))
 			return true;
 
 		return false;
@@ -978,7 +978,7 @@ public class Individual extends Node implements CachedNode
 	 * Check the property assertions to see if it is possible for this individual to have the value for the given datatype property. This function is meaningful
 	 * only called for individuals in a completed ABox (a pseudo model for the KB). In a completed ABox, individual will have some literal successors that may
 	 * or may not have a known value. The individual has the data property value only if it has a literal successor that has the exact given value and the edge
-	 * between the individual and the literal does not depend on any non- deterministic _branch. If the literal value is there but the edge depends on a _branch
+	 * between the individual and the literal does not depend on any non- deterministic _branch. If the literal value is there but the edge _depends on a _branch
 	 * then we cannot exactly say if the literal value is there or not. If there is no literal successor with the given value then we can for sure say that
 	 * individual does not have the data property value (because it does not have the value in at least one model)
 	 *
@@ -1001,7 +1001,7 @@ public class Individual extends Node implements CachedNode
 			if (value != null && literalValue == null)
 				try
 				{
-					if (abox._dtReasoner.isSatisfiable(literal.getTypes(), value))
+					if (_abox._dtReasoner.isSatisfiable(literal.getTypes(), value))
 						hasValue = Bool.UNKNOWN;
 					else
 						hasValue = Bool.FALSE;
@@ -1041,7 +1041,7 @@ public class Individual extends Node implements CachedNode
 		setChanged(MAX);
 		applyNext[MAX] = 0;
 
-		inEdges.addEdge(edge);
+		_inEdges.addEdge(edge);
 	}
 
 	protected void addOutEdge(final Edge edge)
@@ -1051,7 +1051,7 @@ public class Individual extends Node implements CachedNode
 		applyNext[MAX] = 0;
 
 		if (edge.getRole().isBottom())
-			abox.setClash(Clash.bottomProperty(edge.getFrom(), edge.getDepends(), edge.getRole().getName()));
+			_abox.setClash(Clash.bottomProperty(edge.getFrom(), edge.getDepends(), edge.getRole().getName()));
 		else
 			outEdges.addEdge(edge);
 	}
@@ -1060,15 +1060,15 @@ public class Individual extends Node implements CachedNode
 	{
 
 		// add these _nodes to the effected list
-		if (abox.getBranch() > 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+		if (_abox.getBranch() > 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
 		{
-			abox.getBranchEffectTracker().add(abox.getBranch(), this.getName());
-			abox.getBranchEffectTracker().add(abox.getBranch(), x.getName());
+			_abox.getBranchEffectTracker().add(_abox.getBranch(), this.getName());
+			_abox.getBranchEffectTracker().add(_abox.getBranch(), x.getName());
 		}
 
 		if (r.isBottom())
 		{
-			abox.setClash(Clash.bottomProperty(this, ds, r.getName()));
+			_abox.setClash(Clash.bottomProperty(this, ds, r.getName()));
 			return null;
 		}
 
@@ -1086,12 +1086,12 @@ public class Individual extends Node implements CachedNode
 			if (isMerged())
 				return null;
 
-		abox.setChanged(true);
+		_abox.setChanged(true);
 		setChanged(ALL);
 		setChanged(MAX);
 		applyNext[MAX] = 0;
 
-		ds = ds.copy(abox.getBranch());
+		ds = ds.copy(_abox.getBranch());
 
 		final Edge edge = new DefaultEdge(r, this, x, ds);
 
@@ -1113,7 +1113,7 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Resets this _node (types, edges, sames, differents) to contain only asserted information. This function can be seen a specialized case of restore but a
+	 * Resets this _node (types, edges, sames, _differents) to contain only asserted information. This function can be seen a specialized case of restore but a
 	 * special function is needed both for correctness (e.g. SMART_RESTORE option should not change behavior) and performance
 	 */
 	@Override
@@ -1141,7 +1141,7 @@ public class Individual extends Node implements CachedNode
 			{
 				final ATermAppl c = list.get(i);
 
-				if (depends.get(c).getBranch() != DependencySet.NO_BRANCH)
+				if (_depends.get(c).getBranch() != DependencySet.NO_BRANCH)
 				{
 					// rather deleting the element from an ArrayList move
 					// it to the _end so we can purge everything from the 
@@ -1149,7 +1149,7 @@ public class Individual extends Node implements CachedNode
 					// used here to a LinkedList we can modify this bit)
 					Collections.swap(list, i--, --size);
 
-					depends.remove(c);
+					_depends.remove(c);
 				}
 			}
 
@@ -1158,7 +1158,7 @@ public class Individual extends Node implements CachedNode
 				list.subList(size, list.size()).clear();
 		}
 
-		final Iterator<Entry<ATermAppl, DependencySet>> i = depends.entrySet().iterator();
+		final Iterator<Entry<ATermAppl, DependencySet>> i = _depends.entrySet().iterator();
 		while (i.hasNext())
 		{
 			final Entry<ATermAppl, DependencySet> e = i.next();
@@ -1191,37 +1191,37 @@ public class Individual extends Node implements CachedNode
 			if (d.getBranch() > branch)
 			{
 				if (log.isLoggable(Level.FINE))
-					log.fine("RESTORE: " + name + " remove edge " + e + " " + d.max() + " " + branch);
+					log.fine("RESTORE: " + _name + " remove edge " + e + " " + d.max() + " " + branch);
 				i.remove();
 
 				restored = true;
 				removed = true;
 				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
-					abox.getIncrementalChangeTracker().addDeletedEdge(e);
+					_abox.getIncrementalChangeTracker().addDeletedEdge(e);
 			}
 		}
 
 		//if we removed an edge the update the _queue
 		if (removed && PelletOptions.USE_COMPLETION_QUEUE)
 		{
-			abox.getCompletionQueue().add(new QueueElement(this), NodeSelector.EXISTENTIAL);
-			abox.getCompletionQueue().add(new QueueElement(this), NodeSelector.MIN_NUMBER);
+			_abox.getCompletionQueue().add(new QueueElement(this), NodeSelector.EXISTENTIAL);
+			_abox.getCompletionQueue().add(new QueueElement(this), NodeSelector.MIN_NUMBER);
 		}
 
 		if (modifiedAfterMerge && restored)
 		{
-			for (final Entry<ATermAppl, DependencySet> entry : depends.entrySet())
+			for (final Entry<ATermAppl, DependencySet> entry : _depends.entrySet())
 			{
 				final ATermAppl c = entry.getKey();
 				final ATermAppl notC = ATermUtils.negate(c);
 
-				final DependencySet ds = depends.get(notC);
+				final DependencySet ds = _depends.get(notC);
 				if (ds != null)
 				{
 					DependencySet clashDepends = entry.getValue();
 					final ATermAppl positive = ATermUtils.isNot(notC) ? c : notC;
-					clashDepends = clashDepends.union(ds, abox.doExplanation());
-					abox.setClash(Clash.atomic(this, clashDepends, positive));
+					clashDepends = clashDepends.union(ds, _abox.doExplanation());
+					_abox.setClash(Clash.atomic(this, clashDepends, positive));
 				}
 			}
 			modifiedAfterMerge = false;
@@ -1252,8 +1252,8 @@ public class Individual extends Node implements CachedNode
 	{
 
 		// add to effected list
-		if (abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-			abox.getBranchEffectTracker().add(abox.getBranch(), this.getName());
+		if (_abox.getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
+			_abox.getBranchEffectTracker().add(_abox.getBranch(), this.getName());
 
 		pruned = ds;
 
@@ -1289,15 +1289,15 @@ public class Individual extends Node implements CachedNode
 				final Node succ = edge.getTo();
 				final Role role = edge.getRole();
 
-				if (!succ.inEdges.hasExactEdge(this, role, succ))
+				if (!succ._inEdges.hasExactEdge(this, role, succ))
 				{
 					succ.addInEdge(edge);
 
 					// update affected
 					if (PelletOptions.TRACK_BRANCH_EFFECTS)
 					{
-						abox.getBranchEffectTracker().add(d.getBranch(), succ.name);
-						abox.getBranchEffectTracker().add(d.getBranch(), name);
+						_abox.getBranchEffectTracker().add(d.getBranch(), succ._name);
+						_abox.getBranchEffectTracker().add(d.getBranch(), _name);
 					}
 
 					if (PelletOptions.USE_COMPLETION_QUEUE)
@@ -1309,9 +1309,9 @@ public class Individual extends Node implements CachedNode
 							final Individual succInd = (Individual) succ;
 							succInd.applyNext[Node.MAX] = 0;
 							final QueueElement qe = new QueueElement(succInd);
-							abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
-							abox.getCompletionQueue().add(qe, NodeSelector.GUESS);
-							abox.getCompletionQueue().add(qe, NodeSelector.CHOOSE);
+							_abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
+							_abox.getCompletionQueue().add(qe, NodeSelector.GUESS);
+							_abox.getCompletionQueue().add(qe, NodeSelector.CHOOSE);
 						}
 					}
 				}
@@ -1322,15 +1322,15 @@ public class Individual extends Node implements CachedNode
 		{
 			applyNext[Node.MAX] = 0;
 			final QueueElement qe = new QueueElement(this);
-			abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
-			abox.getCompletionQueue().add(qe, NodeSelector.GUESS);
-			abox.getCompletionQueue().add(qe, NodeSelector.CHOOSE);
+			_abox.getCompletionQueue().add(qe, NodeSelector.MAX_NUMBER);
+			_abox.getCompletionQueue().add(qe, NodeSelector.GUESS);
+			_abox.getCompletionQueue().add(qe, NodeSelector.CHOOSE);
 		}
 	}
 
 	public String debugString()
 	{
-		return name.getName() + " = " + types[ATOM] + types[ALL] + types[SOME] + types[OR] + types[MIN] + types[MAX] + types[NOM] + "; **" + outEdges + "**" + "; **" + inEdges + "**" + " --> " + depends + "";
+		return _name.getName() + " = " + types[ATOM] + types[ALL] + types[SOME] + types[OR] + types[MIN] + types[MAX] + types[NOM] + "; **" + outEdges + "**" + "; **" + _inEdges + "**" + " --> " + _depends + "";
 	}
 
 	@Override
@@ -1339,7 +1339,7 @@ public class Individual extends Node implements CachedNode
 		super.updateNodeReferences();
 
 		if (parent != null)
-			parent = abox.getIndividual(parent.getName());
+			parent = _abox.getIndividual(parent.getName());
 
 		if (isPruned())
 		{
@@ -1348,7 +1348,7 @@ public class Individual extends Node implements CachedNode
 			for (int i = 0; i < oldEdges.size(); i++)
 			{
 				final Edge edge = oldEdges.edgeAt(i);
-				final Node to = abox.getNode(edge.getTo().getName());
+				final Node to = _abox.getNode(edge.getTo().getName());
 				final Edge newEdge = new DefaultEdge(edge.getRole(), this, to, edge.getDepends());
 				outEdges.addEdge(newEdge);
 			}

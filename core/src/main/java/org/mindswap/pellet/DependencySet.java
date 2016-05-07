@@ -78,36 +78,36 @@ public class DependencySet
 	public static final DependencySet DUMMY = new DependencySet(1);
 
 	/**
-	 * _index of branches this assertion depends on
+	 * _index of branches this assertion _depends on
 	 */
-	private IntSet depends;
+	private IntSet _depends;
 
 	/**
 	 * _branch number when this assertion was added to ABox
 	 */
-	private int branch = NO_BRANCH;
+	private int _branch = NO_BRANCH;
 
-	private Set<ATermAppl> explain;
+	private Set<ATermAppl> _explain;
 
 	/**
 	 * Create an empty set
 	 */
 	private DependencySet()
 	{
-		depends = IntSetFactory.create();
+		_depends = IntSetFactory.create();
 		setExplain(SetUtils.<ATermAppl> emptySet());
 	}
 
 	/**
-	 * Create a dependency set that depends on a single _branch
+	 * Create a dependency set that _depends on a single _branch
 	 *
 	 * @param _branch Branch number
 	 */
 	public DependencySet(final int branch)
 	{
-		this.depends = IntSetFactory.create();
+		this._depends = IntSetFactory.create();
 
-		depends.add(branch);
+		_depends.add(branch);
 		setExplain(SetUtils.<ATermAppl> emptySet());
 	}
 
@@ -116,8 +116,8 @@ public class DependencySet
 	 */
 	private DependencySet(final int branch, final IntSet depends, final Set<ATermAppl> explain)
 	{
-		this.branch = branch;
-		this.depends = depends;
+		this._branch = branch;
+		this._depends = depends;
 		this.setExplain(explain);
 	}
 
@@ -126,7 +126,7 @@ public class DependencySet
 	 */
 	public DependencySet(final ATermAppl explainAtom)
 	{
-		this.depends = DependencySet.ZERO;
+		this._depends = DependencySet.ZERO;
 		this.setExplain(SetUtils.singleton(explainAtom));
 
 	}
@@ -136,7 +136,7 @@ public class DependencySet
 	 */
 	public DependencySet(final Set<ATermAppl> explain)
 	{
-		this.depends = DependencySet.ZERO;
+		this._depends = DependencySet.ZERO;
 		this.setExplain(explain);
 	}
 
@@ -147,7 +147,7 @@ public class DependencySet
 	 */
 	public DependencySet copy(final int newBranch)
 	{
-		return new DependencySet(newBranch, depends, explain);
+		return new DependencySet(newBranch, _depends, _explain);
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class DependencySet
 	 */
 	public boolean contains(final int b)
 	{
-		return depends.contains(b);
+		return _depends.contains(b);
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class DependencySet
 	 */
 	public void add(final int b)
 	{
-		depends.add(b);
+		_depends.add(b);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class DependencySet
 	 */
 	public void remove(final int b)
 	{
-		depends.remove(b);
+		_depends.remove(b);
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class DependencySet
 	 */
 	public int getBranch()
 	{
-		return branch;
+		return _branch;
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class DependencySet
 	 */
 	public int size()
 	{
-		return depends.size();
+		return _depends.size();
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class DependencySet
 	 */
 	public int max()
 	{
-		return depends.isEmpty() ? -1 : depends.max();
+		return _depends.isEmpty() ? -1 : _depends.max();
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class DependencySet
 	 */
 	public DependencySet union(final IntSet set)
 	{
-		return new DependencySet(branch, depends.union(set), explain);
+		return new DependencySet(_branch, _depends.union(set), _explain);
 	}
 
 	/**
@@ -239,19 +239,19 @@ public class DependencySet
 	 */
 	public DependencySet union(final DependencySet ds, final boolean doExplanation)
 	{
-		final IntSet newDepends = depends.union(ds.depends);
+		final IntSet newDepends = _depends.union(ds._depends);
 		Set<ATermAppl> newExplain;
 
 		if (doExplanation)
-			newExplain = SetUtils.union(explain, ds.explain);
+			newExplain = SetUtils.union(_explain, ds._explain);
 		else
 			newExplain = SetUtils.emptySet();
 
-		return new DependencySet(branch, newDepends, newExplain);
+		return new DependencySet(_branch, newDepends, newExplain);
 	}
 
 	/**
-	 * @param explain
+	 * @param _explain
 	 * @param doExplanation
 	 * @return
 	 */
@@ -260,7 +260,7 @@ public class DependencySet
 		if (!doExplanation || explain.isEmpty())
 			return this;
 
-		return new DependencySet(branch, depends.copy(), SetUtils.union(this.explain, explain));
+		return new DependencySet(_branch, _depends.copy(), SetUtils.union(this._explain, explain));
 	}
 
 	@Override
@@ -268,13 +268,13 @@ public class DependencySet
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append("[");
-		sb.append(branch);
+		sb.append(_branch);
 		sb.append("-");
-		sb.append(depends);
+		sb.append(_depends);
 		if (log.isLoggable(Level.FINE))
 		{
 			sb.append(" ");
-			sb.append(explain);
+			sb.append(_explain);
 		}
 		sb.append("]");
 		return sb.toString();
@@ -298,20 +298,20 @@ public class DependencySet
 
 	public void setDepends(final IntSet depends)
 	{
-		this.depends = depends;
+		this._depends = depends;
 	}
 
 	public IntSet getDepends()
 	{
-		return depends;
+		return _depends;
 	}
 
 	/**
-	 * @param explain the explain to set
+	 * @param _explain the _explain to set
 	 */
 	public void setExplain(final Set<ATermAppl> explain)
 	{
-		this.explain = explain;
+		this._explain = explain;
 	}
 
 	/**
@@ -321,7 +321,7 @@ public class DependencySet
 	 */
 	public Set<ATermAppl> getExplain()
 	{
-		return explain;
+		return _explain;
 	}
 
 	/**
