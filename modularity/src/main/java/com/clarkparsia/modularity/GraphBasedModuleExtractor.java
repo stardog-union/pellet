@@ -100,7 +100,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 		// we don't know what the module is
 		Set<OWLEntity> module = null;
 
-		// check if any of the nodes had a module that is not invalidated
+		// check if any of the _nodes had a module that is not invalidated
 		// this is possible because computing updated modules is an overestimate
 		// and even though we think we need to update the module of an entity
 		// we can find another entity which does not need update and which has
@@ -140,7 +140,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 
 		// compute reachability if we don't have a cached result
 		if (module == null)
-			// compute nodes reachable from the current _node entities
+			// compute _nodes reachable from the current _node entities
 			module = engine.computeReachable(node.getEntities());
 
 		if (log.isLoggable(Level.FINE))

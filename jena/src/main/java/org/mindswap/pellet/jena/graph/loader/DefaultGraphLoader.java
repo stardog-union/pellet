@@ -1271,7 +1271,7 @@ public class DefaultGraphLoader implements GraphLoader
 				return;
 
 			// If we have a triple _:x rdf:type owl:Class then this is a noop
-			// that would only cache class expression for _:x. However, since
+			// that would only _cache class expression for _:x. However, since
 			// we did not complete process all type triples unqualified cardinality
 			// restrictions would cause issues here since they require property
 			// to be either data or object property. Therefore, we stop processing

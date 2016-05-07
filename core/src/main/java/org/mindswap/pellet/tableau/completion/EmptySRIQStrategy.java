@@ -87,7 +87,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	 */
 	private CacheSafety cacheSafety;
 
-	//	private static int cache = 0;
+	//	private static int _cache = 0;
 	//	private static int block = 0;
 
 	public EmptySRIQStrategy(final ABox abox)
@@ -186,7 +186,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			abox.printTree();
 
 		if (PelletOptions.USE_ADVANCED_CACHING)
-			// if completion tree is clash free cache all sat concepts
+			// if completion tree is clash free _cache all sat concepts
 			if (!abox.isClosed())
 				for (final Iterator<Individual> i = new IndividualIterator(abox); i.hasNext();)
 				{
@@ -255,7 +255,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		if (!abox.doExplanation() && PelletOptions.USE_ADVANCED_CACHING)
 		{
-			final Timer t = abox.getKB().timers.startTimer("cache");
+			final Timer t = abox.getKB().timers.startTimer("_cache");
 			final Bool cachedSat = isCachedSat(x);
 			t.stop();
 			if (cachedSat.isKnown())
@@ -405,7 +405,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 					log.finer("*** Cache unsafe for " + c);
 
 				//			cacheSafety.isSafe( c, x.getInEdges().edgeAt( 0 ).getRole(), x.getParent() );
-				//			System.err.println( "CACHE " + ++cache );
+				//			System.err.println( "CACHE " + ++_cache );
 
 				sat = Bool.UNKNOWN;
 			}
@@ -461,7 +461,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 								cached2 = node;
 							else
 							{
-								// if there are more than two nodes we cannot do mergability check so give up
+								// if there are more than two _nodes we cannot do mergability check so give up
 								sat = Bool.UNKNOWN;
 								break;
 							}
@@ -509,7 +509,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		// the _node. But setting _anonCount to a smaller number may mean the _anonCount will
 		// be incremented to that value and creating a fresh anon _node will actually reuse
 		// the not-removed _node. The only advantage of setting _anonCount to a smaller value
-		// is to keep the name of anon nodes smaller to make debugging easier. For this reason,
+		// is to keep the name of anon _nodes smaller to make debugging easier. For this reason,
 		// the above line is not removed and under special circumstances may be uncommented
 		// to help debugging only with the intent that it will be commented again after
 		// debugging is complete
@@ -523,7 +523,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		{
 			log.fine("RESTORE: Branch " + br.getBranch());
 			if (br.getNodeCount() < nodeList.size())
-				log.fine("Remove nodes " + nodeList.subList(br.getNodeCount(), nodeList.size()));
+				log.fine("Remove _nodes " + nodeList.subList(br.getNodeCount(), nodeList.size()));
 		}
 		for (int i = 0; i < nodeList.size(); i++)
 		{
@@ -543,7 +543,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 					}
 					else
 						if (log.isLoggable(Level.FINEST))
-							log.finest("--- Do not cache concept " + c + " " + x + " " + clashNode + " " + clashPath);
+							log.finest("--- Do not _cache concept " + c + " " + x + " " + clashNode + " " + clashPath);
 			}
 			else
 			{

@@ -110,7 +110,7 @@ public class GuessBranch extends IndividualBranch
 				if (clashDepends.contains(getBranch()))
 				{
 					// we need a global restore here because the merge operation modified three
-					// different nodes and possibly other global variables
+					// different _nodes and possibly other global variables
 					_strategy.restore(this);
 
 					// global restore sets the _branch number to previous value so we need to

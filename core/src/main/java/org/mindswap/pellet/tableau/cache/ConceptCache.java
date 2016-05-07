@@ -30,14 +30,14 @@ import org.mindswap.pellet.utils.Bool;
 public interface ConceptCache extends Map<ATermAppl, CachedNode>
 {
 	/**
-	 * Get the maximum number of non-primitive concepts allowed in the cache
+	 * Get the maximum number of non-primitive concepts allowed in the _cache
 	 *
 	 * @return
 	 */
 	public int getMaxSize();
 
 	/**
-	 * Set the maximum number of non-primitive concepts allowed in the cache
+	 * Set the maximum number of non-primitive concepts allowed in the _cache
 	 *
 	 * @return
 	 */
@@ -75,7 +75,7 @@ public interface ConceptCache extends Map<ATermAppl, CachedNode>
 	public abstract Bool checkNominalEdges(KnowledgeBase kb, CachedNode node1, CachedNode node2);
 
 	/**
-	 * Returns safety checker that tells which concepts are safe to cache.
+	 * Returns safety checker that tells which concepts are safe to _cache.
 	 * 
 	 * @return safety checker
 	 */

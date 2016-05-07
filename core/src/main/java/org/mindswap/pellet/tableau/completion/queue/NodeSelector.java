@@ -11,7 +11,7 @@ package org.mindswap.pellet.tableau.completion.queue;
  * Title: NodeSelector
  * </p>
  * <p>
- * Description: Enumerated type used to select completion graph nodes
+ * Description: Enumerated type used to select completion graph _nodes
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007

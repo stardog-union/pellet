@@ -1326,7 +1326,7 @@ public class ARQParser implements QueryParser
 									else
 									{
 										if (((o = getObject(node, OWL.complementOf.asNode())) != null))
-											log.info("Blank nodes in class variable positions are not supported");
+											log.info("Blank _nodes in class variable positions are not supported");
 
 										aTerm = ATermUtils.makeBnode(node.getBlankNodeId().toString());
 									}

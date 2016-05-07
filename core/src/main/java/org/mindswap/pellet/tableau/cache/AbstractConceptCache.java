@@ -55,7 +55,7 @@ public abstract class AbstractConceptCache implements ConceptCache
 	private int _maxSize;
 
 	/**
-	 * Creates an empty cache with at most <code>_maxSize</code> elements which are neither named or negations of names.
+	 * Creates an empty _cache with at most <code>_maxSize</code> elements which are neither named or negations of names.
 	 *
 	 * @param _maxSize
 	 */

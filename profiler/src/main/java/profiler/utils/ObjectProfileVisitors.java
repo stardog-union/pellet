@@ -20,7 +20,7 @@ public abstract class ObjectProfileVisitors
 	/**
 	 * Factory method for creating the default plain text _node _node print visitor. It is up to the caller to buffer 'out'.
 	 * 
-	 * @param out writer to dump the nodes into [may not be null]
+	 * @param out writer to dump the _nodes into [may not be null]
 	 * @param indent indent increment string [null is equivalent to "  "]
 	 * @param format percentage formatter to use [null is equivalent to NumberFormat.getPercentInstance (), with a single fraction digit]
 	 * @param shortClassNames 'true' causes all class names to be dumped in compact [no package prefix] form
@@ -34,7 +34,7 @@ public abstract class ObjectProfileVisitors
 	 * Factory method for creating the XML output visitor. To create a valid XML document, start the traversal on the profile root _node. It is up to the caller
 	 * to buffer 'out'.
 	 * 
-	 * @param out stream to dump the nodes into [may not be null]
+	 * @param out stream to dump the _nodes into [may not be null]
 	 * @param indent indent increment string [null is equivalent to "  "]
 	 * @param format percentage formatter to use [null is equivalent to NumberFormat.getPercentInstance (), with a single fraction digit]
 	 * @param shortClassNames 'true' causes all class names to be dumped in compact [no package prefix] form
@@ -92,7 +92,7 @@ public abstract class ObjectProfileVisitors
 			}
 			sb.append(" -> ");
 			sb.append(node.name());
-			if (node.object() != null) // skip shell pseudo-nodes
+			if (node.object() != null) // skip shell pseudo-_nodes
 			{
 				sb.append(" : ");
 				sb.append(ObjectProfiler.typeName(node.object().getClass(), m_shortClassNames));
@@ -173,7 +173,7 @@ public abstract class ObjectProfileVisitors
 			XMLEscape(node.name(), sb);
 			sb.append('\"');
 
-			if (node.object() != null) // skip shell pseudo-nodes
+			if (node.object() != null) // skip shell pseudo-_nodes
 			{
 				sb.append(" objclass=\"");
 

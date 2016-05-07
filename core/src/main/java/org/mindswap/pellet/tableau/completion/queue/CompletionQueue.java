@@ -88,7 +88,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	protected abstract void findNext(int type);
 
 	/**
-	 * Reset the queue to be the current nodes in the _abox; Also reset the type index to 0
+	 * Reset the queue to be the current _nodes in the _abox; Also reset the type index to 0
 	 *
 	 * @param _branch
 	 */

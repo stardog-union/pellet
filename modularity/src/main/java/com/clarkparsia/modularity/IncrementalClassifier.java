@@ -549,7 +549,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		final Set<OWLClass> inTaxonomy = new HashSet<>(moduleTaxonomy.getClasses());
 		inTaxonomy.remove(OWL.Thing);
 		inTaxonomy.remove(OWL.Nothing);
-		assert affected.containsAll(inTaxonomy) : "Unaffected nodes in changed taxonomy";
+		assert affected.containsAll(inTaxonomy) : "Unaffected _nodes in changed taxonomy";
 
 		final Set<OWLClass> removed = new HashSet<>(affected);
 		removed.removeAll(moduleTaxonomy.getClasses());

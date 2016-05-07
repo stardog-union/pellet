@@ -256,7 +256,7 @@ public class Taxonomy<T>
 	public TaxonomyNode<T> addNode(final Collection<T> equivalents, final Collection<T> sups, final Collection<T> subs, final boolean hidden)
 	{
 
-		assert !equivalents.isEmpty() : "Taxonomy nodes must have at least one element";
+		assert !equivalents.isEmpty() : "Taxonomy _nodes must have at least one element";
 		assert nodes.keySet().containsAll(sups) : "At least one super element not in taxonomy";
 		assert nodes.keySet().containsAll(subs) : "At least one sub element not in taxonomy";
 
@@ -476,7 +476,7 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Iterate over nodes in taxonomy (no specific _order)returning pair of equivalence set and datum associated with {@code key} for each. Useful, e.g., to
+	 * Iterate over _nodes in taxonomy (no specific _order)returning pair of equivalence set and datum associated with {@code key} for each. Useful, e.g., to
 	 * collect equivalence sets matching some condition on the datum (as in all classes which have a particular instances)
 	 *
 	 * @param key key associated with datum returned
@@ -778,7 +778,7 @@ public class Taxonomy<T>
 	private TaxonomyNode<T> mergeNodes(final List<TaxonomyNode<T>> mergeList)
 	{
 
-		assert mergeList.size() > 1 : "Attempt to merge less than two nodes";
+		assert mergeList.size() > 1 : "Attempt to merge less than two _nodes";
 
 		if (log.isLoggable(Level.FINER))
 			log.finer("Merge " + mergeList);
@@ -875,7 +875,7 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Walk through the super nodes of the given _node and when a cycle is detected merge all the nodes in that path
+	 * Walk through the super _nodes of the given _node and when a cycle is detected merge all the _nodes in that path
 	 */
 	public void removeCycles(final TaxonomyNode<T> node)
 	{
@@ -885,7 +885,7 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Given a _node and (a possibly empty) path of sub nodes, remove cycles by merging all the nodes in the path.
+	 * Given a _node and (a possibly empty) path of sub _nodes, remove cycles by merging all the _nodes in the path.
 	 */
 	private boolean removeCycles(final TaxonomyNode<T> node, final List<TaxonomyNode<T>> path)
 	{
@@ -954,7 +954,7 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Sort the nodes in the taxonomy using topological ordering starting from top to bottom.
+	 * Sort the _nodes in the taxonomy using topological ordering starting from top to bottom.
 	 *
 	 * @param includeEquivalents If false the equivalents in a _node will be ignored and only the name of the _node will be added to the result
 	 * @return List of _node names sorted in topological ordering
@@ -965,10 +965,10 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Sort the nodes in the taxonomy using topological ordering starting from top to bottom.
+	 * Sort the _nodes in the taxonomy using topological ordering starting from top to bottom.
 	 *
 	 * @param includeEquivalents If false the equivalents in a _node will be ignored and only the name of the _node will be added to the result
-	 * @param comparator comparator to use sort the nodes at same level, <code>null</code> if no special ordering is needed
+	 * @param comparator comparator to use sort the _nodes at same level, <code>null</code> if no special ordering is needed
 	 * @return List of _node names sorted in topological ordering
 	 */
 	public List<T> topologocialSort(final boolean includeEquivalents, final Comparator<? super T> comparator)

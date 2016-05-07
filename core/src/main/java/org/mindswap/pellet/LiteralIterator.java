@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * An iterator to return nodes in the _order they are added. Having a seperate iterator instead of using nodes.iterator() allows to change the nodes table
+ * An iterator to return _nodes in the _order they are added. Having a seperate iterator instead of using _nodes.iterator() allows to change the _nodes table
  * without resetting the iteration process.
  *
  * @author Evren Sirin
@@ -66,7 +66,7 @@ public class LiteralIterator implements Iterator<Literal>
 	}
 
 	/**
-	 * Create a limited iterator over the individuals in the ABox that only covers the individuals whose index in nodeList is between start ans stop indices.
+	 * Create a limited iterator over the individuals in the ABox that only covers the individuals whose index in _nodeList is between start ans stop indices.
 	 *
 	 * @param _abox
 	 * @param start

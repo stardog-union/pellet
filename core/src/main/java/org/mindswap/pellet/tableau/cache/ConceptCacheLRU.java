@@ -21,8 +21,8 @@ import org.mindswap.pellet.utils.ATermUtils;
  * Title:
  * </p>
  * <p>
- * Description: LRU implementation of ConceptCache. Primitive concepts and their negation are always kept in the cache. The least recently used complex concept
- * will be removed from the cache if the max size is reached.
+ * Description: LRU implementation of ConceptCache. Primitive concepts and their negation are always kept in the _cache. The least recently used complex concept
+ * will be removed from the _cache if the max size is reached.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -51,7 +51,7 @@ public class ConceptCacheLRU extends AbstractConceptCache
 	}
 
 	/**
-	 * Creates an empty cache with at most <code>maxSize</code> elements which are neither named or negations of names.
+	 * Creates an empty _cache with at most <code>maxSize</code> elements which are neither named or negations of names.
 	 *
 	 * @param maxSize
 	 */

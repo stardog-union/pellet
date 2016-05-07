@@ -24,7 +24,7 @@ import org.mindswap.pellet.utils.SetUtils;
  * Title: Query Plan that recomputes the cost of the query in a greedy way.
  * </p>
  * <p>
- * Description: TODO cache costs - not to recompute them
+ * Description: TODO _cache costs - not to recompute them
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007

@@ -35,7 +35,7 @@ public abstract class ReteNode
 	}
 
 	/**
-	 * Return any directly dependent nodes.
+	 * Return any directly dependent _nodes.
 	 */
 	public Collection<BetaNode> getBetas()
 	{
@@ -43,7 +43,7 @@ public abstract class ReteNode
 	}
 
 	/**
-	 * Reset any dependent nodes
+	 * Reset any dependent _nodes
 	 */
 	public void reset()
 	{

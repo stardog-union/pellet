@@ -193,7 +193,7 @@ public class TaxonomyPersistence
 		processedEquivalentClasses.add(OWL.Thing);
 		processedEquivalentClasses.add(OWL.Nothing);
 
-		// first create all the nodes in the taxonomy based on classes in the ontology and the equivalence relationships among them
+		// first create all the _nodes in the taxonomy based on classes in the ontology and the equivalence relationships among them
 		// (only one _node in taxonomy for all the equivalent classes in the group)
 		for (final OWLClass owlClass : ontology.getClassesInSignature())
 		{
@@ -236,12 +236,12 @@ public class TaxonomyPersistence
 			processedEquivalentClasses.addAll(equivalentClasses);
 		}
 
-		// post process the top and bottom nodes
+		// post process the top and bottom _nodes
 		for (final TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes())
 			if (OWL.Nothing.equals(taxonomyNode.getName()) && taxonomyNode.getSupers().size() > 1 && taxonomyNode.getSupers().contains(taxonomy.getTop()))
 				taxonomy.getTop().removeSub(taxonomyNode);
 
-		// after all the nodes are in the taxonomy, create subclass and superclass relationships among them
+		// after all the _nodes are in the taxonomy, create subclass and superclass relationships among them
 		for (final TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes())
 		{
 			final OWLClass owlClass = taxonomyNode.getName();

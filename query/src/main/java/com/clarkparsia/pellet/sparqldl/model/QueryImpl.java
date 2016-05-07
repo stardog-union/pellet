@@ -292,7 +292,7 @@ public class QueryImpl implements Query
 		return ATermUtils.makeAnd(classParts);
 	}
 
-	// TODO optimize - cache
+	// TODO optimize - _cache
 	private ATermList getClasses(final ATermAppl a)
 	{
 		final List<ATermAppl> aterms = new ArrayList<>();

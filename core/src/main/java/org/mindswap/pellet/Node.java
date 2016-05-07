@@ -96,8 +96,8 @@ public abstract class Node
 	protected DependencySet pruned = null;
 
 	/**
-	 * Set of other nodes that have been merged to this _node. Note that this is only the set of nodes directly merged to this one. A recursive traversal is
-	 * required to get all the merged nodes.
+	 * Set of other _nodes that have been merged to this _node. Note that this is only the set of _nodes directly merged to this one. A recursive traversal is
+	 * required to get all the merged _nodes.
 	 */
 	protected Set<Node> merged;
 
@@ -665,7 +665,7 @@ public abstract class Node
 				final Individual pred = edge.getFrom();
 				final Role role = edge.getRole();
 
-				// if both pred and *this* were merged to other nodes (in that _order)
+				// if both pred and *this* were merged to other _nodes (in that _order)
 				// there is a chance we might duplicate the edge so first check for
 				// the existence of the edge
 				if (!pred.getOutEdges().hasExactEdge(pred, role, this))

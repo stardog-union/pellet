@@ -16,7 +16,7 @@ import org.mindswap.pellet.Node;
  * Title: Literal Filter
  * </p>
  * <p>
- * Description: Filters an iterator of nodes for literals.
+ * Description: Filters an iterator of _nodes for literals.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007

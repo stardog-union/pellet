@@ -11,7 +11,7 @@ public abstract class ObjectProfileFilters
 	// public: ................................................................
 
 	/**
-	 * Factory method for creating a visitor that only accepts profile nodes with sizes larger than a given threshold value.
+	 * Factory method for creating a visitor that only accepts profile _nodes with sizes larger than a given threshold value.
 	 * 
 	 * @param threshold _node size in bytes
 	 */

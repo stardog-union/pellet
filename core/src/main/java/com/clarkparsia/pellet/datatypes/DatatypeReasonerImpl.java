@@ -393,7 +393,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 
 	private DataRange<?> getDataRange(final ATermAppl a) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException
 	{
-		// TODO: Investigate the impact of keeping a results cache here
+		// TODO: Investigate the impact of keeping a results _cache here
 
 		/*
 		 * rdfs:Literal

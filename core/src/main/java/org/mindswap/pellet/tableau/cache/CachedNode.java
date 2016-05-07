@@ -20,7 +20,7 @@ import org.mindswap.pellet.Role;
  * Description: Represent the cached information for a concept or an individual. For concepts this represents the root _node of the tableau completion graph
  * built to check the satisfiability of the concept. For individuals, this is the individual itself ({@link Individual} implements this interface}. The cached
  * _node for concepts may be incomplete if the satisfiability status was cached when the satisfiability of another concept was being computed. Incomplete cached
- * nodes will not have any information regarding types or edges.
+ * _nodes will not have any information regarding types or edges.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -84,7 +84,7 @@ public interface CachedNode
 	public boolean hasRNeighbor(Role role);
 
 	/**
-	 * Returns the name of this _node. For cached concept nodes this is the name of the concept.
+	 * Returns the name of this _node. For cached concept _nodes this is the name of the concept.
 	 *
 	 * @return Name of this _node
 	 */

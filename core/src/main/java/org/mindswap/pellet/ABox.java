@@ -55,6 +55,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
@@ -106,157 +108,157 @@ public class ABox
 	// applied anon1, anon2, etc. will be generated. This prefix
 	// will also make sure that any _node whose name starts with
 	// this prefix is not a root _node
-	private int anonCount = 0;
+	private int _anonCount = 0;
 
 	public ABoxStats stats = new ABoxStats();
 
 	/**
 	 * datatype reasoner used for checking the satisfiability of datatypes
 	 */
-	protected final DatatypeReasoner dtReasoner;
+	protected final DatatypeReasoner _dtReasoner;
 
 	/**
-	 * This is a list of nodes. Each _node has a name expressed as an ATerm which is used as the key in the Hashtable. The value is the actual _node object
+	 * This is a list of _nodes. Each _node has a name expressed as an ATerm which is used as the key in the Hashtable. The value is the actual _node object
 	 */
-	protected Map<ATermAppl, Node> nodes;
+	protected Map<ATermAppl, Node> _nodes;
 
 	/**
 	 * This is a list of _node names. This list stores the individuals in the _order they are created
 	 */
-	protected List<ATermAppl> nodeList;
+	protected List<ATermAppl> _nodeList;
 
 	/**
 	 * Indicates if any of the completion rules has been applied to modify ABox
 	 */
-	private boolean changed = false;
+	private boolean _changed = false;
 
-	private boolean doExplanation;
+	private boolean _doExplanation;
 
 	// cached satisfiability results
 	// the table maps every atomic concept A (and also its negation not(A))
 	// to the root _node of its completed tree. If a concept is mapped to
 	// null value it means it is not satisfiable
-	protected ConceptCache cache;
+	protected ConceptCache _cache;
 
 	// pseudo model for this Abox. This is the ABox that results from
 	// completing to the original Abox
 	// private ABox pseudoModel;
 
-	// cache of the last completion. it may be different from the pseudo
+	// _cache of the last completion. it may be different from the pseudo
 	// model, e.g. type checking for individual adds one extra assertion
-	// last completion is stored for caching the root nodes that was
+	// last completion is stored for caching the root _nodes that was
 	// the result of
-	private ABox lastCompletion;
-	private boolean keepLastCompletion;
-	private Clash lastClash;
+	private ABox _lastCompletion;
+	private boolean _keepLastCompletion;
+	private Clash _lastClash;
 
 	// complete ABox means no more tableau rules are applicable
-	private boolean isComplete = false;
+	private boolean _isComplete = false;
 
-	// the last clash recorded
-	private Clash clash;
+	// the last _clash recorded
+	private Clash _clash;
 
-	private final Set<Clash> assertedClashes;
+	private final Set<Clash> _assertedClashes;
 
 	// the current _branch number
-	private int branch;
-	private List<Branch> branches;
+	private int _branch;
+	private List<Branch> _branches;
 
-	private List<NodeMerge> toBeMerged;
+	private List<NodeMerge> _toBeMerged;
 
-	private Map<ATermAppl, int[]> disjBranchStats;
+	private Map<ATermAppl, int[]> _disjBranchStats;
 
 	// if we are using copy on write, this is where to copy from
-	private ABox sourceABox;
+	private ABox _sourceABox;
 
 	// return true if init() function is called. This indicates parsing
 	// is completed and ABox is ready for completion
-	private boolean initialized = false;
+	private boolean _initialized = false;
 
 	// The KB to which this ABox belongs
-	private final KnowledgeBase kb;
+	private final KnowledgeBase _kb;
 
-	public boolean rulesNotApplied;
+	public boolean _rulesNotApplied;
 
-	public boolean ranRete = false;
-	public boolean useRete = false;
+	public boolean _ranRete = false;
+	public boolean _useRete = false;
 
-	private BranchEffectTracker branchEffects;
-	private CompletionQueue completionQueue;
-	private IncrementalChangeTracker incChangeTracker;
+	private BranchEffectTracker _branchEffects;
+	private CompletionQueue _completionQueue;
+	private IncrementalChangeTracker _incChangeTracker;
 
 	// flag set when incrementally updating the _abox with explicit assertions
-	private boolean syntacticUpdate = false;
+	private boolean _syntacticUpdate = false;
 
 	public ABox(final KnowledgeBase kb)
 	{
-		this.kb = kb;
-		nodes = new HashMap<>();
-		nodeList = new ArrayList<>();
-		clash = null;
-		assertedClashes = new HashSet<>();
-		doExplanation = false;
-		dtReasoner = new DatatypeReasonerImpl();
-		keepLastCompletion = false;
+		this._kb = kb;
+		_nodes = new HashMap<>();
+		_nodeList = new ArrayList<>();
+		_clash = null;
+		_assertedClashes = new HashSet<>();
+		_doExplanation = false;
+		_dtReasoner = new DatatypeReasonerImpl();
+		_keepLastCompletion = false;
 
 		setBranch(DependencySet.NO_BRANCH);
-		branches = new ArrayList<>();
+		_branches = new ArrayList<>();
 		setDisjBranchStats(new HashMap<ATermAppl, int[]>());
 
-		toBeMerged = new ArrayList<>();
-		rulesNotApplied = true;
+		_toBeMerged = new ArrayList<>();
+		_rulesNotApplied = true;
 
 		if (PelletOptions.TRACK_BRANCH_EFFECTS)
-			branchEffects = new SimpleBranchEffectTracker();
+			_branchEffects = new SimpleBranchEffectTracker();
 		else
-			branchEffects = null;
+			_branchEffects = null;
 
 		if (PelletOptions.USE_COMPLETION_QUEUE)
 		{
 			if (PelletOptions.USE_OPTIMIZED_BASIC_COMPLETION_QUEUE)
-				completionQueue = new OptimizedBasicCompletionQueue(this);
+				_completionQueue = new OptimizedBasicCompletionQueue(this);
 			else
-				completionQueue = new BasicCompletionQueue(this);
+				_completionQueue = new BasicCompletionQueue(this);
 		}
 		else
-			completionQueue = null;
+			_completionQueue = null;
 
 		if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
-			incChangeTracker = new SimpleIncrementalChangeTracker();
+			_incChangeTracker = new SimpleIncrementalChangeTracker();
 		else
-			incChangeTracker = null;
+			_incChangeTracker = null;
 	}
 
 	public ABox(final KnowledgeBase kb, final ABox abox, final ATermAppl extraIndividual, final boolean copyIndividuals)
 	{
-		this.kb = kb;
+		this._kb = kb;
 		final Timer timer = kb.timers.startTimer("cloneABox");
 
-		this.rulesNotApplied = true;
-		initialized = abox.initialized;
+		this._rulesNotApplied = true;
+		_initialized = abox._initialized;
 		setChanged(abox.isChanged());
 		setAnonCount(abox.getAnonCount());
-		cache = abox.cache;
-		clash = abox.clash;
-		dtReasoner = abox.dtReasoner;
-		doExplanation = abox.doExplanation;
+		_cache = abox._cache;
+		_clash = abox._clash;
+		_dtReasoner = abox._dtReasoner;
+		_doExplanation = abox._doExplanation;
 		setDisjBranchStats(abox.getDisjBranchStats());
 
 		final int extra = (extraIndividual == null) ? 0 : 1;
-		final int nodeCount = extra + (copyIndividuals ? abox.nodes.size() : 0);
+		final int nodeCount = extra + (copyIndividuals ? abox._nodes.size() : 0);
 
-		nodes = new HashMap<>(nodeCount);
-		nodeList = new ArrayList<>(nodeCount);
+		_nodes = new HashMap<>(nodeCount);
+		_nodeList = new ArrayList<>(nodeCount);
 
 		if (PelletOptions.TRACK_BRANCH_EFFECTS)
 		{
 			if (copyIndividuals)
-				branchEffects = abox.branchEffects.copy();
+				_branchEffects = abox._branchEffects.copy();
 			else
-				branchEffects = new SimpleBranchEffectTracker();
+				_branchEffects = new SimpleBranchEffectTracker();
 		}
 		else
-			branchEffects = null;
+			_branchEffects = null;
 
 		// copy the queue - this must be done early so that the effects of
 		// adding the extra individual do not get removed
@@ -264,17 +266,17 @@ public class ABox
 		{
 			if (copyIndividuals)
 			{
-				completionQueue = abox.completionQueue.copy();
-				completionQueue.setABox(this);
+				_completionQueue = abox._completionQueue.copy();
+				_completionQueue.setABox(this);
 			}
 			else
 				if (PelletOptions.USE_OPTIMIZED_BASIC_COMPLETION_QUEUE)
-					completionQueue = new OptimizedBasicCompletionQueue(this);
+					_completionQueue = new OptimizedBasicCompletionQueue(this);
 				else
-					completionQueue = new BasicCompletionQueue(this);
+					_completionQueue = new BasicCompletionQueue(this);
 		}
 		else
-			completionQueue = null;
+			_completionQueue = null;
 
 		if (extraIndividual != null)
 		{
@@ -282,78 +284,78 @@ public class ABox
 			n.setNominalLevel(Node.BLOCKABLE);
 			n.setConceptRoot(true);
 			n.addType(ATermUtils.TOP, DependencySet.INDEPENDENT);
-			nodes.put(extraIndividual, n);
-			nodeList.add(extraIndividual);
+			_nodes.put(extraIndividual, n);
+			_nodeList.add(extraIndividual);
 
 			if (PelletOptions.COPY_ON_WRITE)
-				sourceABox = abox;
+				_sourceABox = abox;
 		}
 
 		if (copyIndividuals)
 		{
-			toBeMerged = abox.getToBeMerged();
-			if (sourceABox == null)
+			_toBeMerged = abox.getToBeMerged();
+			if (_sourceABox == null)
 			{
 				for (int i = 0; i < nodeCount - extra; i++)
 				{
-					final ATermAppl x = abox.nodeList.get(i);
+					final ATermAppl x = abox._nodeList.get(i);
 					final Node node = abox.getNode(x);
 					final Node copy = node.copyTo(this);
 
-					nodes.put(x, copy);
-					nodeList.add(x);
+					_nodes.put(x, copy);
+					_nodeList.add(x);
 				}
 
-				for (final Node node : nodes.values())
+				for (final Node node : _nodes.values())
 					node.updateNodeReferences();
 			}
 		}
 		else
 		{
-			toBeMerged = Collections.emptyList();
-			sourceABox = null;
-			initialized = false;
+			_toBeMerged = Collections.emptyList();
+			_sourceABox = null;
+			_initialized = false;
 		}
 
-		// Copy of the incChangeTracker looks up nodes in the new ABox, so this
+		// Copy of the _incChangeTracker looks up _nodes in the new ABox, so this
 		// copy must follow _node copying
 		if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
 		{
 			if (copyIndividuals)
-				incChangeTracker = abox.incChangeTracker.copy(this);
+				_incChangeTracker = abox._incChangeTracker.copy(this);
 			else
-				incChangeTracker = new SimpleIncrementalChangeTracker();
+				_incChangeTracker = new SimpleIncrementalChangeTracker();
 		}
 		else
-			incChangeTracker = null;
+			_incChangeTracker = null;
 
-		assertedClashes = new HashSet<>();
-		for (final Clash clash : abox.assertedClashes)
-			assertedClashes.add(clash.copyTo(this));
+		_assertedClashes = new HashSet<>();
+		for (final Clash clash : abox._assertedClashes)
+			_assertedClashes.add(clash.copyTo(this));
 
 		if (extraIndividual == null || copyIndividuals)
 		{
-			setBranch(abox.branch);
-			branches = new ArrayList<>(abox.branches.size());
-			for (int i = 0, n = abox.branches.size(); i < n; i++)
+			setBranch(abox._branch);
+			_branches = new ArrayList<>(abox._branches.size());
+			for (int i = 0, n = abox._branches.size(); i < n; i++)
 			{
-				final Branch branch = abox.branches.get(i);
+				final Branch branch = abox._branches.get(i);
 				Branch copy;
 
-				if (sourceABox == null)
+				if (_sourceABox == null)
 				{
 					copy = branch.copyTo(this);
 					copy.setNodeCount(branch.getNodeCount() + extra);
 				}
 				else
 					copy = branch;
-				branches.add(copy);
+				_branches.add(copy);
 			}
 		}
 		else
 		{
 			setBranch(DependencySet.NO_BRANCH);
-			branches = new ArrayList<>();
+			_branches = new ArrayList<>();
 		}
 
 		timer.stop();
@@ -361,17 +363,17 @@ public class ABox
 	}
 
 	/**
-	 * Create a copy of this ABox with all the nodes and edges.
+	 * Create a copy of this ABox with all the _nodes and edges.
 	 *
 	 * @return
 	 */
 	public ABox copy()
 	{
-		return copy(kb);
+		return copy(_kb);
 	}
 
 	/**
-	 * Create a copy of this ABox with all the nodes and edges and the given KB.
+	 * Create a copy of this ABox with all the _nodes and edges and the given KB.
 	 */
 	public ABox copy(final KnowledgeBase kb)
 	{
@@ -389,48 +391,48 @@ public class ABox
 	 */
 	public ABox copy(final ATermAppl extraIndividual, final boolean copyIndividuals)
 	{
-		return new ABox(kb, this, extraIndividual, copyIndividuals);
+		return new ABox(_kb, this, extraIndividual, copyIndividuals);
 	}
 
 	public void copyOnWrite()
 	{
-		if (sourceABox == null)
+		if (_sourceABox == null)
 			return;
 
-		final Timer t = kb.timers.startTimer("copyOnWrite");
+		final Timer t = _kb.timers.startTimer("copyOnWrite");
 
-		final List<ATermAppl> currentNodeList = new ArrayList<>(nodeList);
+		final List<ATermAppl> currentNodeList = new ArrayList<>(_nodeList);
 		final int currentSize = currentNodeList.size();
-		final int nodeCount = sourceABox.nodes.size();
+		final int nodeCount = _sourceABox._nodes.size();
 
-		nodeList = new ArrayList<>(nodeCount + 1);
-		nodeList.add(currentNodeList.get(0));
+		_nodeList = new ArrayList<>(nodeCount + 1);
+		_nodeList.add(currentNodeList.get(0));
 
 		for (int i = 0; i < nodeCount; i++)
 		{
-			final ATermAppl x = sourceABox.nodeList.get(i);
-			final Node node = sourceABox.getNode(x);
+			final ATermAppl x = _sourceABox._nodeList.get(i);
+			final Node node = _sourceABox.getNode(x);
 			final Node copyNode = node.copyTo(this);
-			nodes.put(x, copyNode);
-			nodeList.add(x);
+			_nodes.put(x, copyNode);
+			_nodeList.add(x);
 		}
 
 		if (currentSize > 1)
-			nodeList.addAll(currentNodeList.subList(1, currentSize));
+			_nodeList.addAll(currentNodeList.subList(1, currentSize));
 
-		for (final Node node : nodes.values())
+		for (final Node node : _nodes.values())
 		{
-			if (sourceABox.nodes.containsKey(node.getName()))
+			if (_sourceABox._nodes.containsKey(node.getName()))
 				node.updateNodeReferences();
 		}
 
-		for (int i = 0, n = branches.size(); i < n; i++)
+		for (int i = 0, n = _branches.size(); i < n; i++)
 		{
-			final Branch branch = branches.get(i);
+			final Branch branch = _branches.get(i);
 			final Branch copy = branch.copyTo(this);
-			branches.set(i, copy);
+			_branches.set(i, copy);
 
-			if (i >= sourceABox.getBranches().size())
+			if (i >= _sourceABox.getBranches().size())
 				copy.setNodeCount(copy.getNodeCount() + nodeCount);
 			else
 				copy.setNodeCount(copy.getNodeCount() + 1);
@@ -438,30 +440,30 @@ public class ABox
 
 		t.stop();
 
-		sourceABox = null;
+		_sourceABox = null;
 	}
 
 	/**
 	 * Clear the pseudo model created for the ABox and concept satisfiability.
 	 *
-	 * @param clearSatCache If true clear concept satisfiability cache, if false only clear pseudo model.
+	 * @param clearSatCache If true clear concept satisfiability _cache, if false only clear pseudo model.
 	 */
 	public void clearCaches(final boolean clearSatCache)
 	{
-		lastCompletion = null;
+		_lastCompletion = null;
 
 		if (clearSatCache)
-			cache = new ConceptCacheLRU(kb);
+			_cache = new ConceptCacheLRU(_kb);
 	}
 
 	public Bool getCachedSat(final ATermAppl c)
 	{
-		return cache.getSat(c);
+		return _cache.getSat(c);
 	}
 
 	public ConceptCache getCache()
 	{
-		return cache;
+		return _cache;
 	}
 
 	public CachedNode getCached(final ATermAppl c)
@@ -469,7 +471,7 @@ public class ABox
 		if (ATermUtils.isNominal(c))
 			return getIndividual(c.getArgument(0)).getSame();
 		else
-			return cache.get(c);
+			return _cache.get(c);
 	}
 
 	private void cache(final Individual rootNode, final ATermAppl c, final boolean isConsistent)
@@ -483,7 +485,7 @@ public class ABox
 				log.fine("Equivalent to TOP: " + ATermUtils.toString(ATermUtils.negate(c)));
 			}
 
-			cache.putSat(c, false);
+			_cache.putSat(c, false);
 		}
 		else
 		{
@@ -491,7 +493,7 @@ public class ABox
 			if (log.isLoggable(Level.FINE))
 				log.fine("Cache " + rootNode.debugString());
 
-			cache.put(c, CachedNodeFactory.createNode(c, rootNode));
+			_cache.put(c, CachedNodeFactory.createNode(c, rootNode));
 
 			//			System.err.println( c + " " + rootNode.debugString() );
 		}
@@ -509,7 +511,7 @@ public class ABox
 
 	public boolean isSubClassOf(final ATermAppl c1, final ATermAppl c2)
 	{
-		if (!doExplanation)
+		if (!_doExplanation)
 		{
 			final Bool isKnownSubClass = isKnownSubClassOf(c1, c2);
 			if (isKnownSubClass.isKnown())
@@ -518,13 +520,13 @@ public class ABox
 
 		if (log.isLoggable(Level.FINE))
 		{
-			final long count = kb.timers.getTimer("subClassSat") == null ? 0 : kb.timers.getTimer("subClassSat").getCount();
+			final long count = _kb.timers.getTimer("subClassSat") == null ? 0 : _kb.timers.getTimer("subClassSat").getCount();
 			log.fine(count + ") Checking subclass [" + ATermUtils.toString(c1) + " " + ATermUtils.toString(c2) + "]");
 		}
 
 		final ATermAppl notC2 = ATermUtils.negate(c2);
 		final ATermAppl c = ATermUtils.makeAnd(c1, notC2);
-		final Timer t = kb.timers.startTimer("subClassSat");
+		final Timer t = _kb.timers.startTimer("subClassSat");
 		final boolean sub = !isSatisfiable(c, false);
 		t.stop();
 
@@ -548,7 +550,7 @@ public class ABox
 		// immediately
 		if (c.equals(ATermUtils.BOTTOM))
 		{
-			lastClash = Clash.unexplained(null, DependencySet.INDEPENDENT, "Obvious contradiction in class expression: " + ATermUtils.toString(c));
+			_lastClash = Clash.unexplained(null, DependencySet.INDEPENDENT, "Obvious contradiction in class expression: " + ATermUtils.toString(c));
 			return false;
 		}
 
@@ -565,19 +567,19 @@ public class ABox
 				if (log.isLoggable(Level.FINE))
 					log.fine("Cached sat for " + ATermUtils.toString(c) + " is " + satisfiable);
 				// if explanation is enabled we should actually build the
-				// tableau again to generate the clash. we don't cache the
+				// tableau again to generate the _clash. we don't _cache the
 				// explanation up front because generating explanation is costly
 				// and we only want to do it when explicitly asked note that
 				// when the concepts is satisfiable there is no explanation to
 				// be generated so we return the result immediately
-				if (!needToCacheModel && (satisfiable || !doExplanation))
+				if (!needToCacheModel && (satisfiable || !_doExplanation))
 					return satisfiable;
 			}
 		}
 
 		stats.satisfiabilityCount++;
 
-		final Timer t = kb.timers.startTimer("satisfiability");
+		final Timer t = _kb.timers.startTimer("satisfiability");
 		final boolean isSat = isConsistent(SetUtils.<ATermAppl> emptySet(), c, cacheModel);
 		t.stop();
 
@@ -586,13 +588,13 @@ public class ABox
 
 	public CandidateSet<ATermAppl> getObviousInstances(final ATermAppl c)
 	{
-		return getObviousInstances(c, kb.getIndividuals());
+		return getObviousInstances(c, _kb.getIndividuals());
 	}
 
 	public CandidateSet<ATermAppl> getObviousInstances(ATermAppl c, final Collection<ATermAppl> individuals)
 	{
 		c = ATermUtils.normalize(c);
-		final Set<ATermAppl> subs = (kb.isClassified() && kb.getTaxonomy().contains(c)) ? kb.getTaxonomy().getFlattenedSubs(c, false) : Collections.<ATermAppl> emptySet();
+		final Set<ATermAppl> subs = (_kb.isClassified() && _kb.getTaxonomy().contains(c)) ? _kb.getTaxonomy().getFlattenedSubs(c, false) : Collections.<ATermAppl> emptySet();
 		subs.remove(ATermUtils.BOTTOM);
 
 		final CandidateSet<ATermAppl> cs = new CandidateSet<>();
@@ -620,7 +622,7 @@ public class ABox
 
 	public CandidateSet<ATermAppl> getObviousSubjects(final ATermAppl p, final ATermAppl o)
 	{
-		final CandidateSet<ATermAppl> candidates = new CandidateSet<>(kb.getIndividuals());
+		final CandidateSet<ATermAppl> candidates = new CandidateSet<>(_kb.getIndividuals());
 		getObviousSubjects(p, o, candidates);
 
 		return candidates;
@@ -697,7 +699,7 @@ public class ABox
 
 	public Bool isKnownType(final Individual pNode, final ATermAppl concept, final Collection<ATermAppl> subs)
 	{
-		// Timer t = kb.timers.startTimer( "isKnownType" );
+		// Timer t = _kb.timers.startTimer( "isKnownType" );
 		Bool isType = isType(pNode, concept);
 		if (isType.isUnknown())
 		{
@@ -719,7 +721,7 @@ public class ABox
 
 					//					boolean justSC = true;
 
-					final Collection<ATermAppl> axioms = kb.getTBox().getAxioms(c);
+					final Collection<ATermAppl> axioms = _kb.getTBox().getAxioms(c);
 					LOOP: for (final ATermAppl axiom : axioms)
 					{
 						ATermAppl term = (ATermAppl) axiom.getArgument(1);
@@ -771,7 +773,7 @@ public class ABox
 	{
 		Bool isType = Bool.UNKNOWN;
 
-		final boolean isPrimitive = kb.getTBox().isPrimitive(c);
+		final boolean isPrimitive = _kb.getTBox().isPrimitive(c);
 
 		if (isPrimitive && !pNode.isTop() && !pNode.isBottom() && pNode.isComplete())
 		{
@@ -786,13 +788,13 @@ public class ABox
 		final ATermAppl notC = ATermUtils.negate(c);
 		final CachedNode cached = getCached(notC);
 		if (cached != null && cached.isComplete())
-			isType = cache.isMergable(kb, pNode, cached).not();
+			isType = _cache.isMergable(_kb, pNode, cached).not();
 
 		if (PelletOptions.CHECK_NOMINAL_EDGES && isType.isUnknown())
 		{
 			final CachedNode cNode = getCached(c);
 			if (cNode != null)
-				isType = cache.checkNominalEdges(kb, pNode, cNode);
+				isType = _cache.checkNominalEdges(_kb, pNode, cNode);
 		}
 
 		return isType;
@@ -820,9 +822,9 @@ public class ABox
 		if (!doExplanation())
 		{
 			Set<ATermAppl> subs;
-			if (kb.isClassified() && kb.getTaxonomy().contains(c))
+			if (_kb.isClassified() && _kb.getTaxonomy().contains(c))
 			{
-				subs = kb.getTaxonomy().getFlattenedSubs(c, false);
+				subs = _kb.getTaxonomy().getFlattenedSubs(c, false);
 				subs.remove(ATermUtils.BOTTOM);
 			}
 			else
@@ -832,7 +834,7 @@ public class ABox
 			if (type.isKnown())
 				return type.isTrue();
 		}
-		// List list = (List) kb.instances.get( c );
+		// List list = (List) _kb.instances.get( c );
 		// if( list != null )
 		// return list.contains( x );
 
@@ -841,7 +843,7 @@ public class ABox
 
 		final ATermAppl notC = ATermUtils.negate(c);
 
-		final Timer t = kb.timers.startTimer("isType");
+		final Timer t = _kb.timers.startTimer("isType");
 		final boolean isType = !isConsistent(SetUtils.singleton(x), notC, false);
 		t.stop();
 
@@ -882,7 +884,7 @@ public class ABox
 		if (prop.isDatatypeRole())
 			try
 			{
-				final Object value = (o == null) ? null : dtReasoner.getValue(o);
+				final Object value = (o == null) ? null : _dtReasoner.getValue(o);
 				return hasObviousDataPropertyValue(s, p, value);
 			}
 			catch (final UnrecognizedDatatypeException e)
@@ -976,7 +978,7 @@ public class ABox
 		ATermAppl c = null;
 		if (o == null)
 		{
-			if (kb.isDatatypeProperty(p))
+			if (_kb.isDatatypeProperty(p))
 				c = ATermUtils.makeMin(p, 1, ATermUtils.TOP_LIT);
 			else
 				c = ATermUtils.makeMin(p, 1, ATermUtils.TOP);
@@ -1022,7 +1024,7 @@ public class ABox
 					if (!literal.hasType(datatype))
 						try
 						{
-							if (!dtReasoner.isSatisfiable(Collections.singleton(datatype), literal.getValue()))
+							if (!_dtReasoner.isSatisfiable(Collections.singleton(datatype), literal.getValue()))
 								continue;
 						}
 						catch (final DatatypeReasonerException e)
@@ -1227,9 +1229,9 @@ public class ABox
 
 		if (isConsistent)
 		{
-			// put the BOTTOM concept into the cache which will
+			// put the BOTTOM concept into the _cache which will
 			// also put TOP in there
-			cache.putSat(ATermUtils.BOTTOM, false);
+			_cache.putSat(ATermUtils.BOTTOM, false);
 
 			assert isComplete() : "ABox not marked complete!";
 		}
@@ -1238,20 +1240,20 @@ public class ABox
 	}
 
 	/**
-	 * Checks if all the previous asserted clashes are resolved. If there is an unresolved clash, the clash will be set to the first such clash found (selection
-	 * is arbitrary). The clash remains unchanged if all clashes are resolved. That is, the clash might be non-null after this function even if all asserted
-	 * clashes are This function is used when incremental deletion is disabled.
+	 * Checks if all the previous asserted clashes are resolved. If there is an unresolved _clash, the _clash will be set to the first such _clash found
+	 * (selection is arbitrary). The _clash remains unchanged if all clashes are resolved. That is, the _clash might be non-null after this function even if all
+	 * asserted clashes are This function is used when incremental deletion is disabled.
 	 */
 	private boolean checkAssertedClashes()
 	{
-		final Iterator<Clash> i = assertedClashes.iterator();
+		final Iterator<Clash> i = _assertedClashes.iterator();
 		while (i.hasNext())
 		{
 			final Clash clash = i.next();
 			final Node node = clash.getNode();
 			final ATermAppl term = clash.args != null ? (ATermAppl) clash.args[0] : null;
 
-			// check if clash is resolved through deletions
+			// check if _clash is resolved through deletions
 			boolean resolved = true;
 			switch (clash.getClashType())
 			{
@@ -1266,16 +1268,16 @@ public class ABox
 					resolved = false;
 					break;
 				default:
-					log.warning("Unexpected asserted clash type: " + clash);
+					log.warning("Unexpected asserted _clash type: " + clash);
 					break;
 			}
 
 			if (resolved)
-				// discard resolved clash
+				// discard resolved _clash
 				i.remove();
 			else
 			{
-				// this clash is not resolved, no point in continuing
+				// this _clash is not resolved, no point in continuing
 				setClash(clash);
 				return false;
 			}
@@ -1291,7 +1293,7 @@ public class ABox
 	 * <code>c</code> to each of the individuals in the collection and check the consistency.
 	 * <p>
 	 * The consistency checks will be done either on a copy of the ABox or its pseudo model depending on the situation. In either case this ABox will not be
-	 * modified at all. After the consistency check lastCompletion points to the modified ABox.
+	 * modified at all. After the consistency check _lastCompletion points to the modified ABox.
 	 *
 	 * @param individuals
 	 * @param c
@@ -1299,7 +1301,7 @@ public class ABox
 	 */
 	private boolean isConsistent(Collection<ATermAppl> individuals, ATermAppl c, final boolean cacheModel)
 	{
-		final Timer t = kb.timers.startTimer("isConsistent");
+		final Timer t = _kb.timers.startTimer("isConsistent");
 
 		if (log.isLoggable(Level.FINE))
 			if (c == null)
@@ -1321,7 +1323,7 @@ public class ABox
 				log.fine("Consistency " + ATermUtils.toString(c) + " for " + individuals.size() + " individuals " + sb);
 			}
 
-		final Expressivity expr = kb.getExpressivityChecker().getExpressivityWith(c);
+		final Expressivity expr = _kb.getExpressivityChecker().getExpressivityWith(c);
 
 		// if c is null we are checking the consistency of this ABox as
 		// it is and we will not add anything extra
@@ -1363,12 +1365,12 @@ public class ABox
 		if (log.isLoggable(Level.FINE))
 			log.fine("Consistency check starts");
 
-		final CompletionStrategy strategy = kb.chooseStrategy(abox, expr);
+		final CompletionStrategy strategy = _kb.chooseStrategy(abox, expr);
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Strategy: " + strategy.getClass().getName());
 
-		final Timer completionTimer = kb.timers.getTimer("complete");
+		final Timer completionTimer = _kb.timers.getTimer("complete");
 		completionTimer.start();
 		try
 		{
@@ -1385,7 +1387,7 @@ public class ABox
 			cache(abox.getIndividual(x), c, consistent);
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("Consistent: " + consistent + " Time: " + t.getElapsed() + " Branches " + abox.branches.size() + " Tree depth: " + abox.stats.treeDepth + " Tree size: " + abox.getNodes().size() + " Restores " + abox.stats.globalRestores + " global " + abox.stats.localRestores + " local" + " Backtracks " + abox.stats.backtracks + " avg backjump " + (abox.stats.backjumps / (double) abox.stats.backtracks));
+			log.fine("Consistent: " + consistent + " Time: " + t.getElapsed() + " Branches " + abox._branches.size() + " Tree depth: " + abox.stats.treeDepth + " Tree size: " + abox.getNodes().size() + " Restores " + abox.stats.globalRestores + " global " + abox.stats.localRestores + " local" + " Backtracks " + abox.stats.backtracks + " avg backjump " + (abox.stats.backjumps / (double) abox.stats.backtracks));
 
 		if (consistent)
 		{
@@ -1394,10 +1396,10 @@ public class ABox
 		}
 		else
 		{
-			lastClash = abox.getClash();
+			_lastClash = abox.getClash();
 			if (log.isLoggable(Level.FINE))
 				log.fine("Clash: " + abox.getClash().detailedString());
-			if (doExplanation && PelletOptions.USE_TRACING)
+			if (_doExplanation && PelletOptions.USE_TRACING)
 			{
 				if (individuals.size() == 1)
 				{
@@ -1425,10 +1427,10 @@ public class ABox
 
 		stats.consistencyCount++;
 
-		if (keepLastCompletion)
-			lastCompletion = abox;
+		if (_keepLastCompletion)
+			_lastCompletion = abox;
 		else
-			lastCompletion = null;
+			_lastCompletion = null;
 
 		t.stop();
 
@@ -1442,11 +1444,11 @@ public class ABox
 	{
 		assert isComplete() : "Initial consistency check has not been performed!";
 
-		final Timer incT = kb.timers.startTimer("isIncConsistent");
-		final Timer t = kb.timers.startTimer("isConsistent");
+		final Timer incT = _kb.timers.startTimer("isIncConsistent");
+		final Timer t = _kb.timers.startTimer("isConsistent");
 
 		// throw away old information to let gc do its work
-		lastCompletion = null;
+		_lastCompletion = null;
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Consistency check starts");
@@ -1459,11 +1461,11 @@ public class ABox
 
 		// set _abox to not being complete
 		setComplete(false);
-		final Timer completionTimer = kb.timers.getTimer("complete");
+		final Timer completionTimer = _kb.timers.getTimer("complete");
 		completionTimer.start();
 		try
 		{
-			incStrategy.complete(kb.getExpressivityChecker().getExpressivity());
+			incStrategy.complete(_kb.getExpressivityChecker().getExpressivity());
 		}
 		finally
 		{
@@ -1477,19 +1479,19 @@ public class ABox
 
 		if (!consistent)
 		{
-			lastClash = getClash();
+			_lastClash = getClash();
 			if (log.isLoggable(Level.FINE))
 				log.fine(getClash().detailedString());
 		}
 
 		stats.consistencyCount++;
 
-		lastCompletion = this;
+		_lastCompletion = this;
 
 		t.stop();
 		incT.stop();
 
-		// do not clear the clash information
+		// do not clear the _clash information
 
 		// ((Log4JLogger)ABox.log).getLogger().setLevel(Level.OFF);
 		// ((Log4JLogger)DependencyIndex.log).getLogger().setLevel(Level.OFF);
@@ -1512,7 +1514,7 @@ public class ABox
 
 	public Individual getIndividual(final ATerm x)
 	{
-		final Object o = nodes.get(x);
+		final Object o = _nodes.get(x);
 		if (o instanceof Individual)
 			return (Individual) o;
 		return null;
@@ -1520,7 +1522,7 @@ public class ABox
 
 	public Literal getLiteral(final ATerm x)
 	{
-		final Object o = nodes.get(x);
+		final Object o = _nodes.get(x);
 		if (o instanceof Literal)
 			return (Literal) o;
 		return null;
@@ -1528,7 +1530,7 @@ public class ABox
 
 	public Node getNode(final ATerm x)
 	{
-		return nodes.get(x);
+		return _nodes.get(x);
 	}
 
 	public void addType(final ATermAppl x, final ATermAppl c)
@@ -1548,7 +1550,7 @@ public class ABox
 		// the current _branch. We need to set it to the initial
 		// _branch number to make sure that this type assertion
 		// will not be removed during backtracking
-		final int remember = branch;
+		final int remember = _branch;
 		setBranch(DependencySet.NO_BRANCH);
 
 		Individual node = getIndividual(x);
@@ -1556,7 +1558,7 @@ public class ABox
 
 		while (node.isMerged())
 		{
-			ds = ds.union(node.getMergeDependency(false), doExplanation);
+			ds = ds.union(node.getMergeDependency(false), _doExplanation);
 			node = (Individual) node.getMergedTo();
 			node.addType(c, ds, !node.isMerged());
 		}
@@ -1619,14 +1621,14 @@ public class ABox
 	}
 
 	/**
-	 * Remove the given _node from the _node map which maps names to nodes. Does not remove the _node from the _node list or other nodes' edge lists.
+	 * Remove the given _node from the _node map which maps names to _nodes. Does not remove the _node from the _node list or other _nodes' edge lists.
 	 *
 	 * @param x
 	 * @return
 	 */
 	public boolean removeNode(final ATermAppl x)
 	{
-		return (nodes.remove(x) != null);
+		return (_nodes.remove(x) != null);
 	}
 
 	public void removeType(final ATermAppl x, ATermAppl c)
@@ -1724,18 +1726,18 @@ public class ABox
 				{
 					// added for completion queue
 					final QueueElement newElement = new QueueElement(node);
-					this.completionQueue.add(newElement, NodeSelector.LITERAL);
+					this._completionQueue.add(newElement, NodeSelector.LITERAL);
 				}
 
 				if (getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-					branchEffects.add(getBranch(), node.getName());
+					_branchEffects.add(getBranch(), node.getName());
 
 				return (Literal) node;
 			}
 			else
 				throw new InternalReasonerException("Same term refers to both a literal and an individual: " + name);
 
-		final int remember = branch;
+		final int remember = _branch;
 		setBranch(DependencySet.NO_BRANCH);
 
 		/*
@@ -1750,18 +1752,18 @@ public class ABox
 
 		setBranch(remember);
 
-		nodes.put(name, lit);
-		nodeList.add(name);
+		_nodes.put(name, lit);
+		_nodeList.add(name);
 
 		if (lit.getValue() == null && PelletOptions.USE_COMPLETION_QUEUE)
 		{
 			// added for completion queue
 			final QueueElement newElement = new QueueElement(lit);
-			this.completionQueue.add(newElement, NodeSelector.LITERAL);
+			this._completionQueue.add(newElement, NodeSelector.LITERAL);
 		}
 
 		if (getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-			branchEffects.add(getBranch(), lit.getName());
+			_branchEffects.add(getBranch(), lit.getName());
 
 		return lit;
 	}
@@ -1772,7 +1774,7 @@ public class ABox
 
 		// update affected inds for this _branch
 		if (getBranch() >= 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-			branchEffects.add(getBranch(), ind.getName());
+			_branchEffects.add(getBranch(), ind.getName());
 
 		return ind;
 	}
@@ -1791,15 +1793,15 @@ public class ABox
 
 	private Individual addIndividual(final ATermAppl x, final Individual parent, final DependencySet ds)
 	{
-		if (nodes.containsKey(x))
+		if (_nodes.containsKey(x))
 			throw new InternalReasonerException("adding a _node twice " + x);
 
 		setChanged(true);
 
 		final Individual n = new Individual(x, this, parent);
 
-		nodes.put(x, n);
-		nodeList.add(x);
+		_nodes.put(x, n);
+		_nodeList.add(x);
 
 		if (n.getDepth() > stats.treeDepth)
 		{
@@ -1808,11 +1810,11 @@ public class ABox
 				log.finer("Depth: " + stats.treeDepth + " Size: " + size());
 		}
 
-		//this must be performed after the nodeList is updated as this call will update the completion queues
+		//this must be performed after the _nodeList is updated as this call will update the completion queues
 		n.addType(ATermUtils.TOP, ds);
 
 		if (getBranch() > 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
-			branchEffects.add(getBranch(), n.getName());
+			_branchEffects.add(getBranch(), n.getName());
 
 		return n;
 	}
@@ -1832,7 +1834,7 @@ public class ABox
 		// now, as it will be added during the actual merge when the completion
 		// is performed
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
-			kb.getSyntacticAssertions().add(sameAxiom);
+			_kb.getSyntacticAssertions().add(sameAxiom);
 
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(sameAxiom) : DependencySet.INDEPENDENT;
 		getToBeMerged().add(new NodeMerge(ind1, ind2, ds));
@@ -1849,14 +1851,14 @@ public class ABox
 		// dependency index
 		// now, as it will simply be used during the completion _strategy
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
-			kb.getSyntacticAssertions().add(diffAxiom);
+			_kb.getSyntacticAssertions().add(diffAxiom);
 
 		// ind1.setDifferent(ind2, new
 		// DependencySet(explanationTable.getCurrent()));
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(diffAxiom) : DependencySet.INDEPENDENT;
 
 		// Temporarily reset the _branch so that this assertion survives resets
-		final int remember = branch;
+		final int remember = _branch;
 		setBranch(DependencySet.NO_BRANCH);
 
 		ind1.setDifferent(ind2, ds);
@@ -1881,11 +1883,11 @@ public class ABox
 				// now, as it will be added during the actual merge when the
 				// completion is performed
 				if (PelletOptions.USE_INCREMENTAL_DELETION)
-					kb.getSyntacticAssertions().add(allDifferent);
+					_kb.getSyntacticAssertions().add(allDifferent);
 
 				final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(allDifferent) : DependencySet.INDEPENDENT;
 
-				final int remember = branch;
+				final int remember = _branch;
 				setBranch(DependencySet.NO_BRANCH);
 
 				ind1.setDifferent(ind2, ds);
@@ -1905,27 +1907,27 @@ public class ABox
 
 	final public ATermAppl createUniqueName(final boolean isNominal)
 	{
-		anonCount++;
+		_anonCount++;
 
-		final ATermAppl name = isNominal ? ATermUtils.makeAnonNominal(anonCount) : ATermUtils.makeAnon(anonCount);
+		final ATermAppl name = isNominal ? ATermUtils.makeAnonNominal(_anonCount) : ATermUtils.makeAnon(_anonCount);
 
 		return name;
 	}
 
 	final public Collection<Node> getNodes()
 	{
-		return nodes.values();
+		return _nodes.values();
 	}
 
 	final public List<ATermAppl> getNodeNames()
 	{
-		return nodeList;
+		return _nodeList;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "[size: " + nodes.size() + " freeMemory: " + (Runtime.getRuntime().freeMemory() / 1000000.0) + "mb]";
+		return "[size: " + _nodes.size() + " freeMemory: " + (Runtime.getRuntime().freeMemory() / 1000000.0) + "mb]";
 	}
 
 	/**
@@ -1933,38 +1935,38 @@ public class ABox
 	 */
 	public DatatypeReasoner getDatatypeReasoner()
 	{
-		return dtReasoner;
+		return _dtReasoner;
 	}
 
 	/**
-	 * @return Returns the isComplete.
+	 * @return Returns the _isComplete.
 	 */
 	public boolean isComplete()
 	{
-		return isComplete;
+		return _isComplete;
 	}
 
 	/**
-	 * @param isComplete The isComplete to set.
+	 * @param _isComplete The _isComplete to set.
 	 */
 	public void setComplete(final boolean isComplete)
 	{
-		this.isComplete = isComplete;
+		this._isComplete = isComplete;
 	}
 
 	/**
-	 * Returns true if Abox has a clash.
+	 * Returns true if Abox has a _clash.
 	 *
 	 * @return
 	 */
 	public boolean isClosed()
 	{
-		return !PelletOptions.SATURATE_TABLEAU && initialized && clash != null;
+		return !PelletOptions.SATURATE_TABLEAU && _initialized && _clash != null;
 	}
 
 	public Clash getClash()
 	{
-		return clash;
+		return _clash;
 	}
 
 	public void setClash(final Clash clash)
@@ -1974,36 +1976,36 @@ public class ABox
 			if (log.isLoggable(Level.FINER))
 			{
 				log.finer("CLSH: " + clash);
-				if (clash.getDepends().max() > branch && branch != -1)
-					log.severe("Invalid clash dependency " + clash + " > " + branch);
+				if (clash.getDepends().max() > _branch && _branch != -1)
+					log.severe("Invalid _clash dependency " + clash + " > " + _branch);
 			}
 
-			if (branch == DependencySet.NO_BRANCH && clash.getDepends().getBranch() == DependencySet.NO_BRANCH)
-				assertedClashes.add(clash);
+			if (_branch == DependencySet.NO_BRANCH && clash.getDepends().getBranch() == DependencySet.NO_BRANCH)
+				_assertedClashes.add(clash);
 
-			if (this.clash != null)
+			if (this._clash != null)
 			{
 				if (log.isLoggable(Level.FINER))
-					log.finer("Clash was already set \nExisting: " + this.clash + "\nNew     : " + clash);
+					log.finer("Clash was already set \nExisting: " + this._clash + "\nNew     : " + clash);
 
-				if (this.clash.getDepends().max() < clash.getDepends().max())
+				if (this._clash.getDepends().max() < clash.getDepends().max())
 					return;
 			}
 		}
 
-		this.clash = clash;
+		this._clash = clash;
 		// CHW - added for incremental deletions
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
-			kb.getDependencyIndex().setClashDependencies(this.clash);
+			_kb.getDependencyIndex().setClashDependencies(this._clash);
 
 	}
 
 	/**
-	 * @return Returns the kb.
+	 * @return Returns the _kb.
 	 */
 	public KnowledgeBase getKB()
 	{
-		return kb;
+		return _kb;
 	}
 
 	/**
@@ -2011,7 +2013,7 @@ public class ABox
 	 */
 	public Role getRole(final ATerm r)
 	{
-		return kb.getRole(r);
+		return _kb.getRole(r);
 	}
 
 	/**
@@ -2019,7 +2021,7 @@ public class ABox
 	 */
 	public RBox getRBox()
 	{
-		return kb.getRBox();
+		return _kb.getRBox();
 	}
 
 	/**
@@ -2027,7 +2029,7 @@ public class ABox
 	 */
 	public TBox getTBox()
 	{
-		return kb.getTBox();
+		return _kb.getTBox();
 	}
 
 	/**
@@ -2037,7 +2039,7 @@ public class ABox
 	 */
 	public int getBranch()
 	{
-		return branch;
+		return _branch;
 	}
 
 	/**
@@ -2047,7 +2049,7 @@ public class ABox
 	 */
 	public void setBranch(final int branch)
 	{
-		this.branch = branch;
+		this._branch = branch;
 	}
 
 	/**
@@ -2059,91 +2061,91 @@ public class ABox
 	{
 
 		if (PelletOptions.USE_COMPLETION_QUEUE)
-			completionQueue.incrementBranch(this.branch);
+			_completionQueue.incrementBranch(this._branch);
 
-		this.branch++;
+		this._branch++;
 	}
 
 	/**
 	 * Check if the ABox is ready to be completed.
 	 *
-	 * @return Returns the initialized.
+	 * @return Returns the _initialized.
 	 */
 	public boolean isInitialized()
 	{
-		return initialized;
+		return _initialized;
 	}
 
 	public void setInitialized(final boolean initialized)
 	{
-		this.initialized = initialized;
+		this._initialized = initialized;
 	}
 
 	/**
 	 * Checks if the explanation is turned on.
 	 *
-	 * @return Returns the doExplanation.
+	 * @return Returns the _doExplanation.
 	 */
 	final public boolean doExplanation()
 	{
-		return doExplanation;
+		return _doExplanation;
 	}
 
 	/**
 	 * Enable/disable explanation generation
 	 *
-	 * @param doExplanation The doExplanation to set.
+	 * @param _doExplanation The _doExplanation to set.
 	 */
 	public void setDoExplanation(final boolean doExplanation)
 	{
-		this.doExplanation = doExplanation;
+		this._doExplanation = doExplanation;
 	}
 
 	public void setExplanation(final DependencySet ds)
 	{
-		lastClash = Clash.unexplained(null, ds);
+		_lastClash = Clash.unexplained(null, ds);
 	}
 
 	public String getExplanation()
 	{
-		// Clash lastClash = (lastCompletion != null) ?
-		// lastCompletion.getClash() : null;
-		if (lastClash == null)
+		// Clash _lastClash = (_lastCompletion != null) ?
+		// _lastCompletion.getClash() : null;
+		if (_lastClash == null)
 			return "No inconsistency was found! There is no explanation generated.";
 		else
-			return lastClash.detailedString();
+			return _lastClash.detailedString();
 	}
 
 	public Set<ATermAppl> getExplanationSet()
 	{
-		if (lastClash == null)
+		if (_lastClash == null)
 			throw new RuntimeException("No explanation was generated!");
 
-		return lastClash.getDepends().getExplain();
+		return _lastClash.getDepends().getExplain();
 	}
 
 	public BranchEffectTracker getBranchEffectTracker()
 	{
-		if (branchEffects == null)
+		if (_branchEffects == null)
 			throw new NullPointerException();
 
-		return branchEffects;
+		return _branchEffects;
 	}
 
 	/**
-	 * Returns the branches.
+	 * Returns the _branches.
 	 */
 	public List<Branch> getBranches()
 	{
-		return branches;
+		return _branches;
 	}
 
 	public IncrementalChangeTracker getIncrementalChangeTracker()
 	{
-		if (incChangeTracker == null)
+		if (_incChangeTracker == null)
 			throw new NullPointerException();
 
-		return incChangeTracker;
+		return _incChangeTracker;
 	}
 
 	/**
@@ -2157,7 +2159,7 @@ public class ABox
 	}
 
 	/**
-	 * Validate all the edges in the ABox nodes. Used to find bugs in the copy and detach/attach functions.
+	 * Validate all the edges in the ABox _nodes. Used to find bugs in the copy and detach/attach functions.
 	 */
 	public void validate()
 	{
@@ -2218,8 +2220,8 @@ public class ABox
 		for (final ATermAppl c : node.getDepends().keySet())
 		{
 			final DependencySet ds = node.getDepends(c);
-			if (ds.max() > branch || (!PelletOptions.USE_SMART_RESTORE && ds.getBranch() > branch))
-				throw new InternalReasonerException("Invalid ds found: " + node + " " + c + " " + ds + " " + branch);
+			if (ds.max() > _branch || (!PelletOptions.USE_SMART_RESTORE && ds.getBranch() > _branch))
+				throw new InternalReasonerException("Invalid ds found: " + node + " " + c + " " + ds + " " + _branch);
 			// if( c.getAFun().equals( ATermUtils.VALUEFUN ) ) {
 			// if( !PelletOptions.USE_PSEUDO_NOMINALS ) {
 			// Individual z = getIndividual(c.getArgument(0));
@@ -2232,7 +2234,7 @@ public class ABox
 		for (final Node ind : node.getDifferents())
 		{
 			final DependencySet ds = node.getDifferenceDependency(ind);
-			if (ds.max() > branch || ds.getBranch() > branch)
+			if (ds.max() > _branch || ds.getBranch() > _branch)
 				throw new InternalReasonerException("Invalid ds: " + node + " != " + ind + " " + ds);
 			if (ind.getDifferenceDependency(node) == null)
 				throw new InternalReasonerException("Invalid difference: " + node + " != " + ind + " " + ds);
@@ -2242,14 +2244,14 @@ public class ABox
 		{
 			final Edge edge = edges.edgeAt(e);
 			final Node succ = edge.getTo();
-			if (nodes.get(succ.getName()) != succ)
-				throw new InternalReasonerException("Invalid edge to a non-existing _node: " + edge + " " + nodes.get(succ.getName()) + "(" + nodes.get(succ.getName()).hashCode() + ")" + succ + "(" + succ.hashCode() + ")");
+			if (_nodes.get(succ.getName()) != succ)
+				throw new InternalReasonerException("Invalid edge to a non-existing _node: " + edge + " " + _nodes.get(succ.getName()) + "(" + _nodes.get(succ.getName()).hashCode() + ")" + succ + "(" + succ.hashCode() + ")");
 			if (!succ.getInEdges().hasEdge(edge))
 				throw new InternalReasonerException("Invalid edge: " + edge);
 			if (succ.isMerged())
 				throw new InternalReasonerException("Invalid edge to a removed _node: " + edge + " " + succ.isMerged());
 			final DependencySet ds = edge.getDepends();
-			if (ds.max() > branch || ds.getBranch() > branch)
+			if (ds.max() > _branch || ds.getBranch() > _branch)
 				throw new InternalReasonerException("Invalid ds: " + edge + " " + ds);
 			final EdgeList allEdges = node.getEdgesTo(succ);
 			if (allEdges.getRoles().size() != allEdges.size())
@@ -2260,20 +2262,20 @@ public class ABox
 		{
 			final Edge edge = edges.edgeAt(e);
 			final DependencySet ds = edge.getDepends();
-			if (ds.max() > branch || ds.getBranch() > branch)
+			if (ds.max() > _branch || ds.getBranch() > _branch)
 				throw new InternalReasonerException("Invalid ds: " + edge + " " + ds);
 		}
 	}
 
 	/**
-	 * Print the ABox as a completion tree (child nodes are indented).
+	 * Print the ABox as a completion tree (child _nodes are indented).
 	 */
 	public void printTree()
 	{
 		if (!PelletOptions.PRINT_ABOX)
 			return;
 		System.err.println("PRINTING... " + DependencySet.INDEPENDENT);
-		final Iterator<Node> n = nodes.values().iterator();
+		final Iterator<Node> n = _nodes.values().iterator();
 		while (n.hasNext())
 		{
 			final Node node = n.next();
@@ -2346,32 +2348,32 @@ public class ABox
 
 	public Clash getLastClash()
 	{
-		return lastClash;
+		return _lastClash;
 	}
 
 	public ABox getLastCompletion()
 	{
-		return lastCompletion;
+		return _lastCompletion;
 	}
 
 	public boolean isKeepLastCompletion()
 	{
-		return keepLastCompletion;
+		return _keepLastCompletion;
 	}
 
 	public void setKeepLastCompletion(final boolean keepLastCompletion)
 	{
-		this.keepLastCompletion = keepLastCompletion;
+		this._keepLastCompletion = keepLastCompletion;
 	}
 
 	/**
-	 * Return the number of nodes in the ABox. This number includes both the individuals and the literals.
+	 * Return the number of _nodes in the ABox. This number includes both the individuals and the literals.
 	 *
 	 * @return
 	 */
 	public int size()
 	{
-		return nodes.size();
+		return _nodes.size();
 	}
 
 	/**
@@ -2381,12 +2383,12 @@ public class ABox
 	 */
 	public boolean isEmpty()
 	{
-		return nodes.isEmpty();
+		return _nodes.isEmpty();
 	}
 
 	public void setLastCompletion(final ABox comp)
 	{
-		lastCompletion = comp;
+		_lastCompletion = comp;
 	}
 
 	/**
@@ -2397,7 +2399,7 @@ public class ABox
 	 */
 	protected void setSyntacticUpdate(final boolean val)
 	{
-		syntacticUpdate = val;
+		_syntacticUpdate = val;
 	}
 
 	/**
@@ -2408,12 +2410,12 @@ public class ABox
 	 */
 	protected boolean isSyntacticUpdate()
 	{
-		return syntacticUpdate;
+		return _syntacticUpdate;
 	}
 
 	public CompletionQueue getCompletionQueue()
 	{
-		return completionQueue;
+		return _completionQueue;
 	}
 
 	/**
@@ -2426,15 +2428,15 @@ public class ABox
 
 		setComplete(false);
 
-		final Iterator<ATermAppl> i = nodeList.iterator();
+		final Iterator<ATermAppl> i = _nodeList.iterator();
 		while (i.hasNext())
 		{
 			final ATermAppl nodeName = i.next();
-			final Node node = nodes.get(nodeName);
+			final Node node = _nodes.get(nodeName);
 			if (!node.isRootNominal())
 			{
 				i.remove();
-				nodes.remove(nodeName);
+				_nodes.remove(nodeName);
 			}
 			else
 				node.reset(false);
@@ -2442,23 +2444,23 @@ public class ABox
 
 		setComplete(false);
 		setInitialized(false);
-		// clear the clash. we can safely clear the clash because
-		// either this was an asserted clash and already stored in the
-		// assertedClashes (and will be verified before consistency change)
-		// or this was a clash that occurred during completion and will
+		// clear the _clash. we can safely clear the _clash because
+		// either this was an asserted _clash and already stored in the
+		// _assertedClashes (and will be verified before consistency change)
+		// or this was a _clash that occurred during completion and will
 		// reoccur (if no already resolved) since we will run the tableau
 		// completion again
 		setClash(null);
 
 		setBranch(DependencySet.NO_BRANCH);
-		branches = new ArrayList<>();
-		setDisjBranchStats(new HashMap<ATermAppl, int[]>());
-		rulesNotApplied = true;
+		_branches = new Vector<>();
+		setDisjBranchStats(new ConcurrentHashMap<ATermAppl, int[]>());
+		_rulesNotApplied = true;
 	}
 
 	public void resetQueue()
 	{
-		for (final Node node : nodes.values())
+		for (final Node node : _nodes.values())
 			node.reset(true);
 	}
 
@@ -2467,7 +2469,7 @@ public class ABox
 	 */
 	public int setAnonCount(final int anonCount)
 	{
-		return this.anonCount = anonCount;
+		return this._anonCount = anonCount;
 	}
 
 	/**
@@ -2475,46 +2477,46 @@ public class ABox
 	 */
 	public int getAnonCount()
 	{
-		return anonCount;
+		return _anonCount;
 	}
 
 	/**
-	 * @param disjBranchStats the disjBranchStats to set
+	 * @param _disjBranchStats the _disjBranchStats to set
 	 */
 	public void setDisjBranchStats(final Map<ATermAppl, int[]> disjBranchStats)
 	{
-		this.disjBranchStats = disjBranchStats;
+		this._disjBranchStats = disjBranchStats;
 	}
 
 	/**
-	 * @return the disjBranchStats
+	 * @return the _disjBranchStats
 	 */
 	public Map<ATermAppl, int[]> getDisjBranchStats()
 	{
-		return disjBranchStats;
+		return _disjBranchStats;
 	}
 
 	/**
-	 * @param changed the changed to set
+	 * @param _changed the _changed to set
 	 */
 	public void setChanged(final boolean changed)
 	{
-		this.changed = changed;
+		this._changed = changed;
 	}
 
 	/**
-	 * @return the changed
+	 * @return the _changed
 	 */
 	public boolean isChanged()
 	{
-		return changed;
+		return _changed;
 	}
 
 	/**
-	 * @return the toBeMerged
+	 * @return the _toBeMerged
 	 */
 	public List<NodeMerge> getToBeMerged()
 	{
-		return toBeMerged;
+		return _toBeMerged;
 	}
 }

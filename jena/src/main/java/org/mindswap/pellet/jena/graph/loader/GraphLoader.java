@@ -67,7 +67,7 @@ public interface GraphLoader
 	public ATermAppl node2term(Node node);
 
 	/**
-	 * Do the preprocessing steps necessary to cache any information that will be used for loading.
+	 * Do the preprocessing steps necessary to _cache any information that will be used for loading.
 	 */
 	public void preprocess();
 

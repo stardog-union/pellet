@@ -79,7 +79,7 @@ public class ExistentialExplosionPattern implements OntologyLintPattern
 	@Override
 	public String getDescription()
 	{
-		return "Concepts/Individuals are involved in a large some/min/exact value restrictions tree/loop - maximum recommended number of generated nodes is " + m_MaxTreeSize;
+		return "Concepts/Individuals are involved in a large some/min/exact value restrictions tree/loop - maximum recommended number of generated _nodes is " + m_MaxTreeSize;
 	}
 
 	@Override

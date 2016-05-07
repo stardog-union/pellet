@@ -225,7 +225,7 @@ public abstract class AbstractExplanationTest
 
 		setupGenerators(Arrays.asList(axioms));
 
-		// explain disjointness of B and C first so reasoner will cache this
+		// explain disjointness of B and C first so reasoner will _cache this
 		// result
 		testExplanations(OWL.disjointClasses(B, C), 0, new OWLAxiom[] { axioms[2], axioms[3] });
 

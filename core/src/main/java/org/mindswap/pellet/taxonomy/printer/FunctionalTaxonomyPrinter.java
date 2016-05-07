@@ -24,7 +24,7 @@ import org.mindswap.pellet.utils.Comparators;
  * </p>
  * <p>
  * Description: The output of this printer is "functional" in the sense that any taxonomy has only a single printed form. I.e., the output here is intended to
- * be unchanged by reorderings of sibling nodes in the classification algorithm. It was developed as a way to compare the output of alternative classification
+ * be unchanged by reorderings of sibling _nodes in the classification algorithm. It was developed as a way to compare the output of alternative classification
  * implementations. It is based on the format found in the DL benchmark test data.
  * </p>
  * <p>

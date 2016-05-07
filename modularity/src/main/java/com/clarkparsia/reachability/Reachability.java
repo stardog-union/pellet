@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Computes reachability in a directed graph with and/or nodes.
+ * Computes reachability in a directed graph with and/or _nodes.
  *
  * @author Evren Sirin
  */

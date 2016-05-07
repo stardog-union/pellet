@@ -173,7 +173,7 @@ public class ClassTree
 	}
 
 	/**
-	 * Create a root _node for the given concepts and add child nodes for the subclasses. Return null for owl:Nothing
+	 * Create a root _node for the given concepts and add child _nodes for the subclasses. Return null for owl:Nothing
 	 * 
 	 * @param concepts
 	 * @return

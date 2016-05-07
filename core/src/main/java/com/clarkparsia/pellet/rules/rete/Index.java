@@ -185,7 +185,7 @@ public class Index<S, T> implements Iterable<T>
 	}
 
 	/**
-	 * Remove all nodes from the index.
+	 * Remove all _nodes from the index.
 	 */
 	public void clear()
 	{

@@ -26,7 +26,7 @@ import org.mindswap.pellet.utils.fsm.TransitionGraph;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
 /**
- * A cache safety implementation that checks the cached result and the context in which we try to reuse it to decide if it is safe to reuse the result.
+ * A _cache safety implementation that checks the cached result and the context in which we try to reuse it to decide if it is safe to reuse the result.
  *
  * @author Evren Sirin
  */

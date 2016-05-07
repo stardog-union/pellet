@@ -133,7 +133,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Reset the queue to be the current nodes in the _abox; Also reset the type index to 0
+	 * Reset the queue to be the current _nodes in the _abox; Also reset the type index to 0
 	 *
 	 * @param _branch
 	 */

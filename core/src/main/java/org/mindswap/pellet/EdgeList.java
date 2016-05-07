@@ -267,7 +267,7 @@ public class EdgeList implements Iterable<Edge>
 	 * 
 	 * @param _node The _node whose neighbors are being sought
 	 * @param c The concept (or datatype) that each _neighbor should belong to
-	 * @return Set of nodes
+	 * @return Set of _nodes
 	 */
 	public Set<Node> getFilteredNeighbors(final Individual node, final ATermAppl c)
 	{

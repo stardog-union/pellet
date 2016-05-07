@@ -1940,7 +1940,7 @@ public class MiscTests extends AbstractKBTests
 		// call getInstances so some caching will happen
 		assertEquals(singleton(b), kb.getInstances(notp1a, false));
 
-		// now cached nodes will be used for mergable check
+		// now cached _nodes will be used for mergable check
 		assertFalse(kb.isType(a, notp1a));
 		assertTrue(kb.isType(b, notp1a));
 
@@ -2371,7 +2371,7 @@ public class MiscTests extends AbstractKBTests
 	@Test
 	public void test532b()
 	{
-		// variation of the condition in 532 where the nodes involved in MaxBranch are merged
+		// variation of the condition in 532 where the _nodes involved in MaxBranch are merged
 		classes(C, D, E);
 		individuals(a, b, c, d, e, f);
 		objectProperties(p);

@@ -431,7 +431,7 @@ public class IncrementalRestore
 			if (DependencyIndex.log.isLoggable(Level.FINE))
 				DependencyIndex.log.fine("           Actually removing merge!");
 
-			// get nodes
+			// get _nodes
 			final Node ind = kb.getABox().getNode(merge.getInd());
 			final Node mergedToInd = kb.getABox().getNode(merge.getmergedIntoInd());
 

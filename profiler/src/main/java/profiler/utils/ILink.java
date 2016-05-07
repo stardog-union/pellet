@@ -2,7 +2,7 @@ package profiler.utils;
 
 // ----------------------------------------------------------------------------
 /**
- * Interface used internally for memory-efficient representations of names of profile tree links between profile tree nodes.
+ * Interface used internally for memory-efficient representations of names of profile tree links between profile tree _nodes.
  *
  * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-index.shtml">Vlad Roubtsov</a>, 2003
  */

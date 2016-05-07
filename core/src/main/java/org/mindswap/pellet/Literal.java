@@ -79,7 +79,7 @@ public class Literal extends Node
 			{
 				try
 				{
-					value = abox.dtReasoner.getValue(term);
+					value = abox._dtReasoner.getValue(term);
 				}
 				catch (final InvalidLiteralException e)
 				{

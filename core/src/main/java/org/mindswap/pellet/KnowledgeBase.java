@@ -658,7 +658,7 @@ public class KnowledgeBase
 		}
 
 		final ABox newABox = new ABox(this);
-		newABox.cache = abox.cache;
+		newABox._cache = abox._cache;
 		abox = newABox;
 
 		individuals.clear();
@@ -964,7 +964,7 @@ public class KnowledgeBase
 
 			// add to pseudomodel - note _branch is not set to zero - this is
 			// done in SHOIQIncStrategy, prior
-			// to merging nodes
+			// to merging _nodes
 			abox.addSame(i1, i2);
 		}
 
@@ -1971,7 +1971,7 @@ public class KnowledgeBase
 		}
 
 		abox.clearCaches(!reuseTaxonomy);
-		abox.cache.setMaxSize(PelletOptions.MAX_ANONYMOUS_CACHE);
+		abox._cache.setMaxSize(PelletOptions.MAX_ANONYMOUS_CACHE);
 
 		if (!reuseTaxonomy)
 		{

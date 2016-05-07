@@ -89,9 +89,9 @@ public class ARQParserUtilities
 	}
 
 	/**
-	 * Construct an RDF container from a <code>List</code> of nodes, preserving the ordering
+	 * Construct an RDF container from a <code>List</code> of _nodes, preserving the ordering
 	 *
-	 * @param nodes The list of <code>Node</code>s
+	 * @param _nodes The list of <code>Node</code>s
 	 * @param triples A mutable container to which the <code>Triple</code>s representing the container will be added.
 	 * @return The blank _node used as the start of the container
 	 */

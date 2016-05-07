@@ -326,13 +326,13 @@ public class PelletOptions
 
 	/**
 	 * This option tells Pellet to treat every individual with a distinct URI to be different from each other. This is against the semantics of OWL but is much
-	 * more efficient than adding an <code><owl:AllDifferent></code> definition with all the individuals. This option does not affect b-nodes, they can still be
+	 * more efficient than adding an <code><owl:AllDifferent></code> definition with all the individuals. This option does not affect b-_nodes, they can still be
 	 * inferred to be same.
 	 */
 	public static boolean USE_UNIQUE_NAME_ASSUMPTION = false;
 
 	/**
-	 * Track the association betweens nodes changed and _branch. Reduces the work done during restoration (and during some incremental reasoning changes), at the
+	 * Track the association betweens _nodes changed and _branch. Reduces the work done during restoration (and during some incremental reasoning changes), at the
 	 * cost of memory overhead necessary for tracking.
 	 */
 	public static boolean TRACK_BRANCH_EFFECTS = false;
@@ -400,7 +400,7 @@ public class PelletOptions
 	public static boolean USE_CACHING = true;
 
 	/**
-	 * Cache the pseudo models for anonymous classes. Used inside EmptySHNStrategy to prevent the expansion of completion graph nodes whose satisfiability
+	 * Cache the pseudo models for anonymous classes. Used inside EmptySHNStrategy to prevent the expansion of completion graph _nodes whose satisfiability
 	 * status is already cached.
 	 */
 	public static boolean USE_ADVANCED_CACHING = true;
@@ -414,14 +414,14 @@ public class PelletOptions
 
 	/**
 	 * The maximum number of cached pseudo models for anonymous classes. The named concepts (and their negations) are always cached regardless of this limit.
-	 * This setting is mostly relevant for SHN ontologies as {@link #USE_ADVANCED_CACHING} option. If the cache reaches the maximum number of entries for
-	 * anonymous classes the subsequent additions will be handled specially (default behavior is to remove the Least Recently Used (LRU) element from cache).
+	 * This setting is mostly relevant for SHN ontologies as {@link #USE_ADVANCED_CACHING} option. If the _cache reaches the maximum number of entries for
+	 * anonymous classes the subsequent additions will be handled specially (default behavior is to remove the Least Recently Used (LRU) element from _cache).
 	 * Setting this value too high will increase the memory requirements and setting it too low will slow down the reasoning process.
 	 */
 	public static int MAX_ANONYMOUS_CACHE = 20000;
 
 	/**
-	 * To decide if individual <code>i</code> has type class <code>c</code> check if the edges from cached model of <code>c</code> to nominal nodes also exists
+	 * To decide if individual <code>i</code> has type class <code>c</code> check if the edges from cached model of <code>c</code> to nominal _nodes also exists
 	 * for the cached model of <code>i</code>.
 	 */
 	public static boolean CHECK_NOMINAL_EDGES = true;

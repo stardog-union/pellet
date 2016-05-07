@@ -198,7 +198,7 @@ public class PelletVisitor implements OWLObjectVisitor
 	}
 
 	/**
-	 * Clear the visitor cache about simple properties. Should be called before a reload.
+	 * Clear the visitor _cache about simple properties. Should be called before a reload.
 	 */
 	public void clear()
 	{

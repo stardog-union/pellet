@@ -14,7 +14,7 @@ import org.mindswap.pellet.utils.Bool;
  * Title:
  * </p>
  * <p>
- * Description: A simple structure to cache information related to restrictions.
+ * Description: A simple structure to _cache information related to restrictions.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008

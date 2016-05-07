@@ -64,7 +64,7 @@ public class PelletGraphListener implements GraphListener
 
 	private void addABoxTriple(final Triple t)
 	{
-		// Convert the Jena nodes to ATermAppl
+		// Convert the Jena _nodes to ATermAppl
 		final ATermAppl s = JenaUtils.makeATerm(t.getSubject());
 		final ATermAppl o = JenaUtils.makeATerm(t.getObject());
 

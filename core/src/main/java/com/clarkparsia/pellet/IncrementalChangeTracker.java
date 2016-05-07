@@ -104,7 +104,7 @@ public interface IncrementalChangeTracker
 	public Iterator<Edge> deletedEdges();
 
 	/**
-	 * Iterate over all nodes with deleted types (and those types) (see {@link #addDeletedType(Node, ATermAppl)}) since the previous {@link #clear()}
+	 * Iterate over all _nodes with deleted types (and those types) (see {@link #addDeletedType(Node, ATermAppl)}) since the previous {@link #clear()}
 	 *
 	 * @return Iterator
 	 */
@@ -125,7 +125,7 @@ public interface IncrementalChangeTracker
 	public Iterator<Individual> newIndividuals();
 
 	/**
-	 * Iterate over all nodes unpruned (see {@link #addUnprunedIndividual(Individual)}) since the previous {@link #clear()}
+	 * Iterate over all _nodes unpruned (see {@link #addUnprunedIndividual(Individual)}) since the previous {@link #clear()}
 	 *
 	 * @return Iterator
 	 */

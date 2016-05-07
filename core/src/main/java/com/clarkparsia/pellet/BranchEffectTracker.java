@@ -14,7 +14,7 @@ import java.util.Set;
  * Title: Branch effect tracker
  * </p>
  * <p>
- * Description: Tracks the nodes changed by a _branch
+ * Description: Tracks the _nodes changed by a _branch
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -43,10 +43,10 @@ public interface BranchEffectTracker
 	public BranchEffectTracker copy();
 
 	/**
-	 * Retrieve nodes affected by a _branch and all subsequent branches
+	 * Retrieve _nodes affected by a _branch and all subsequent branches
 	 *
 	 * @param _branch Branch integer identifier
-	 * @return Names of all nodes affected by _branch and subsequent branches
+	 * @return Names of all _nodes affected by _branch and subsequent branches
 	 */
 	public Set<ATermAppl> getAll(int branch);
 
@@ -55,7 +55,7 @@ public interface BranchEffectTracker
 	 * if the _branch indices are changed in ABox and all other structures.
 	 *
 	 * @param _branch Branch integer identifier
-	 * @return Names of all nodes affected by _branch
+	 * @return Names of all _nodes affected by _branch
 	 */
 	public Set<ATermAppl> remove(int branch);
 
@@ -63,7 +63,7 @@ public interface BranchEffectTracker
 	 * Remove a _branch and all subsequent branches from the tracker.
 	 *
 	 * @param _branch Branch integer identifier
-	 * @return Names of all nodes affected by _branch and subsequent branches
+	 * @return Names of all _nodes affected by _branch and subsequent branches
 	 */
 	public Set<ATermAppl> removeAll(int branch);
 }

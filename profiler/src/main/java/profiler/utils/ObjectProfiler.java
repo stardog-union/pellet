@@ -191,7 +191,7 @@ public abstract class ObjectProfiler
 	// private: ...............................................................
 
 	/*
-	 * Internal class used to cache class metadata information.
+	 * Internal class used to _cache class metadata information.
 	 */
 	private static final class ClassMetadata
 	{
@@ -443,7 +443,7 @@ public abstract class ObjectProfiler
 	/*
 	 * Performs phase 2 of profile creation: totalling of _node sizes (via
 	 * non-recursive post-_order traversal of the tree created in phase 1)
-	 * and 'locking down' of profile nodes into their most compact form.
+	 * and 'locking down' of profile _nodes into their most compact form.
 	 */
 	private static void finishProfileTree(ObjectProfileNode node)
 	{
@@ -478,7 +478,7 @@ public abstract class ObjectProfiler
 	}
 
 	/*
-	 * A helper method for manipulating a class metadata cache.
+	 * A helper method for manipulating a class metadata _cache.
 	 */
 	private static ClassMetadata getClassMetadata(final Class cls, final Map /* Class->ClassMetadata */metadataMap, final ClassAccessPrivilegedAction caAction, final FieldAccessPrivilegedAction faAction)
 	{
@@ -606,7 +606,7 @@ public abstract class ObjectProfiler
 										throw new IllegalArgumentException("not primitive: " + type);
 	}
 
-	// class metadata cache:
+	// class metadata _cache:
 	private static final Map CLASS_METADATA_CACHE = new WeakHashMap(101);
 
 } // end of class

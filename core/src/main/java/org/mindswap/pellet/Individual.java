@@ -1001,7 +1001,7 @@ public class Individual extends Node implements CachedNode
 			if (value != null && literalValue == null)
 				try
 				{
-					if (abox.dtReasoner.isSatisfiable(literal.getTypes(), value))
+					if (abox._dtReasoner.isSatisfiable(literal.getTypes(), value))
 						hasValue = Bool.UNKNOWN;
 					else
 						hasValue = Bool.FALSE;
@@ -1059,7 +1059,7 @@ public class Individual extends Node implements CachedNode
 	public Edge addEdge(final Role r, final Node x, DependencySet ds)
 	{
 
-		// add these nodes to the effected list
+		// add these _nodes to the effected list
 		if (abox.getBranch() > 0 && PelletOptions.TRACK_BRANCH_EFFECTS)
 		{
 			abox.getBranchEffectTracker().add(abox.getBranch(), this.getName());
@@ -1241,7 +1241,7 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Prune the given _node by removing all links going to nominal nodes and recurse through all successors. No need to remove incoming edges because either the
+	 * Prune the given _node by removing all links going to nominal _nodes and recurse through all successors. No need to remove incoming edges because either the
 	 * _node is the first one being pruned so the merge function already handled it or this is a successor _node and its successor is also being pruned
 	 *
 	 * @param succ

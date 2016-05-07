@@ -47,7 +47,7 @@ public class Node
 	}
 
 	/**
-	 * Return any directly dependent beta nodes.
+	 * Return any directly dependent beta _nodes.
 	 */
 	public Collection<BetaNode> getBetas()
 	{

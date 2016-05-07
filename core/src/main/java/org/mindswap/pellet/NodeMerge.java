@@ -33,7 +33,7 @@ package org.mindswap.pellet;
 import aterm.ATermAppl;
 
 /**
- * Stores a pair of nodes to be merged. Order of nodes is important, always first _node is going to be merged to the second one.
+ * Stores a pair of _nodes to be merged. Order of _nodes is important, always first _node is going to be merged to the second one.
  *
  * @author Evren Sirin
  */

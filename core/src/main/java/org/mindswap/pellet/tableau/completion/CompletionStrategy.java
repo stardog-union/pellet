@@ -105,7 +105,7 @@ public abstract class CompletionStrategy
 	private boolean merging = false;
 
 	/**
-	 * Flat to indicate that we are merging all nodes in the queue
+	 * Flat to indicate that we are merging all _nodes in the queue
 	 */
 	private boolean mergingAll = false;
 
@@ -467,7 +467,7 @@ public abstract class CompletionStrategy
 	}
 
 	/**
-	 * This method updates the queue in the event that there is an edge added between two nodes. The individual must be added back onto the MAXLIST
+	 * This method updates the queue in the event that there is an edge added between two _nodes. The individual must be added back onto the MAXLIST
 	 */
 	protected void updateQueueAddEdge(final Individual subj, final Role pred, final Node obj)
 	{
@@ -1069,12 +1069,12 @@ public abstract class CompletionStrategy
 		// the _node. But setting _anonCount to a smaller number may mean the _anonCount will
 		// be incremented to that value and creating a fresh anon _node will actually reuse
 		// the not-removed _node. The only advantage of setting _anonCount to a smaller value
-		// is to keep the name of anon nodes smaller to make debugging easier. For this reason,
+		// is to keep the name of anon _nodes smaller to make debugging easier. For this reason,
 		// the above line is not removed and under special circumstances may be uncommented
 		// to help debugging only with the intent that it will be commented again after
 		// debugging is complete
 		// _abox.setAnonCount( br.getAnonCount() );
-		abox.rulesNotApplied = true;
+		abox._rulesNotApplied = true;
 		mergeList.clear();
 
 		final List<ATermAppl> nodeList = abox.getNodeNames();
@@ -1103,9 +1103,9 @@ public abstract class CompletionStrategy
 		// the ArrayList we compute the block to be deleted and then remove all
 		// at once to utilize the underlying System.arraycopy operation.
 
-		// number of nodes in the nodeList
+		// number of _nodes in the _nodeList
 		int nodeCount = nodeList.size();
-		// number of nodes
+		// number of _nodes
 		int deleteBlock = 0;
 		for (int i = 0; i < nodeCount; i++)
 		{
@@ -1134,14 +1134,14 @@ public abstract class CompletionStrategy
 			{
 				// this _node will be restored to previous state not removed
 
-				// first if there are any nodes collected earlier delete them
+				// first if there are any _nodes collected earlier delete them
 				if (deleteBlock > 0)
 				{
-					// create the sub list for nodes to be removed
+					// create the sub list for _nodes to be removed
 					final List<ATermAppl> subList = nodeList.subList(i - deleteBlock, i);
 					if (log.isLoggable(Level.FINE))
-						log.fine("Remove nodes " + subList);
-					// clear the sublist causing all elements to removed from nodeList
+						log.fine("Remove _nodes " + subList);
+					// clear the sublist causing all elements to removed from _nodeList
 					subList.clear();
 					// update counters
 					nodeCount -= deleteBlock;
@@ -1155,13 +1155,13 @@ public abstract class CompletionStrategy
 			}
 		}
 
-		// if there were nodes to be removed at the end of the list do it now
+		// if there were _nodes to be removed at the end of the list do it now
 		if (deleteBlock > 0)
 			nodeList.subList(nodeCount - deleteBlock, nodeCount).clear();
 
 		if (PelletOptions.TRACK_BRANCH_EFFECTS)
 		{
-			// when tracking _branch effects only restore nodes explicitly stored in the effected list
+			// when tracking _branch effects only restore _nodes explicitly stored in the effected list
 			final Set<ATermAppl> effected = abox.getBranchEffectTracker().removeAll(br.getBranch() + 1);
 			for (final ATermAppl a : effected)
 			{
@@ -1213,7 +1213,7 @@ public abstract class CompletionStrategy
 			}
 		}
 
-		log.fine("Blocked nodes " + blockedCount + " [" + blockedNodes + "]");
+		log.fine("Blocked _nodes " + blockedCount + " [" + blockedNodes + "]");
 	}
 
 	@Override

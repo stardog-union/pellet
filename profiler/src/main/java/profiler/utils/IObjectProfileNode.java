@@ -48,9 +48,9 @@ public interface IObjectProfileNode
 	} // end of nested interface
 
 	/**
-	 * Returns the object associated with this _node. This is never null except for shell pseudo-nodes.
+	 * Returns the object associated with this _node. This is never null except for shell pseudo-_nodes.
 	 * 
-	 * @return object instance [null only for shell nodes]
+	 * @return object instance [null only for shell _nodes]
 	 */
 	Object object();
 
@@ -91,7 +91,7 @@ public interface IObjectProfileNode
 	 * <P>
 	 * Note: the returned array also contains the {@link #shell() shell} pseudo-_node.
 	 * 
-	 * @return array of children nodes, sorted by size [never null, may be empty]
+	 * @return array of children _nodes, sorted by size [never null, may be empty]
 	 */
 	IObjectProfileNode[] children();
 
@@ -106,7 +106,7 @@ public interface IObjectProfileNode
 	 * The returned reference is also guaranteed to be present somewhere in the array returned by {@link #children()}. This data is kept in a separate _node
 	 * instance to simplify tree visiting and _node filtering.
 	 * 
-	 * @return shell pseudo-_node [null only for shell nodes]
+	 * @return shell pseudo-_node [null only for shell _nodes]
 	 */
 	IObjectProfileNode shell();
 

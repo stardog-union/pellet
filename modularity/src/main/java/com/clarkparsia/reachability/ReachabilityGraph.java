@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Graph with and/or nodes designed to compute reachability
+ * Graph with and/or _nodes designed to compute reachability
  *
  * @author Evren Sirin
  */
@@ -222,7 +222,7 @@ public class ReachabilityGraph<E>
 		}
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("Merged " + count + " nodes");
+			log.fine("Merged " + count + " _nodes");
 	}
 
 	private void removeRedundancies()
@@ -249,7 +249,7 @@ public class ReachabilityGraph<E>
 						}
 
 			if (log.isLoggable(Level.FINE))
-				log.fine("Removed " + removedNode + " nodes and " + removedEdge + " edges");
+				log.fine("Removed " + removedNode + " _nodes and " + removedEdge + " edges");
 		}
 	}
 }

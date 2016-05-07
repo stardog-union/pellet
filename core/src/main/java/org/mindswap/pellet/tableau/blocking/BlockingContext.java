@@ -32,7 +32,7 @@ public class BlockingContext
 	}
 
 	/**
-	 * Sets the blocker to the parent of current blocker and checks if if the new blocker candidate is allowed to block. Root nodes are not allowed to block.
+	 * Sets the blocker to the parent of current blocker and checks if if the new blocker candidate is allowed to block. Root _nodes are not allowed to block.
 	 *
 	 * @return <code>true</code> if the new blocker candidate is allowed to block
 	 */
@@ -88,7 +88,7 @@ public class BlockingContext
 	}
 
 	/**
-	 * Returns the roles that points to the blocked candidate from its parent and cache the result for future use.
+	 * Returns the roles that points to the blocked candidate from its parent and _cache the result for future use.
 	 *
 	 * @return the roles that points to the blocked candidate from its parent
 	 */

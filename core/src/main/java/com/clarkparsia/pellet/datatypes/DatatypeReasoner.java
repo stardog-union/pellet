@@ -123,7 +123,7 @@ public interface DatatypeReasoner
 	public boolean isSatisfiable(Collection<ATermAppl> dataranges) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException;
 
 	/**
-	 * Check the data ranges on a single literal _node are satisfiable (independent of other nodes).
+	 * Check the data ranges on a single literal _node are satisfiable (independent of other _nodes).
 	 *
 	 * @param dconjunction The data ranges on the literal _node
 	 * @param value A constant value asserted for the _node or <code>null</code> if no such value is present.
@@ -132,9 +132,9 @@ public interface DatatypeReasoner
 	public boolean isSatisfiable(Collection<ATermAppl> dataranges, Object value) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException;
 
 	/**
-	 * Check that the data ranges and inequalities asserted on a collection of literal nodes are satisfiable.
+	 * Check that the data ranges and inequalities asserted on a collection of literal _nodes are satisfiable.
 	 *
-	 * @param nodes A set representing all literals with in-edges from a single individual
+	 * @param _nodes A set representing all literals with in-edges from a single individual
 	 * @param ineqs A map representing all literal inequality constraints
 	 * @return <code>true</code> if the data ranges and inequalities are satisfiable, <code>false</code> else.
 	 */

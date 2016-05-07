@@ -27,7 +27,7 @@ public class SCC
 	}
 
 	/*
-	 * Simple structure to keep track of info for nodes.
+	 * Simple structure to keep track of info for _nodes.
 	 */
 	private static class NodeInfo
 	{

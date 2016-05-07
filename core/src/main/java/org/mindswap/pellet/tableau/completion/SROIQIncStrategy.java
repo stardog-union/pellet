@@ -158,10 +158,10 @@ public class SROIQIncStrategy extends SROIQStrategy
 		for (final Branch branch : abox.getBranches())
 			branch.setStrategy(this);
 
-		// if this is an incremental addition we may need to merge nodes and
+		// if this is an incremental addition we may need to merge _nodes and
 		// handle newly added individuals
 
-		// merge nodes - note _branch must be temporarily set to 0 to
+		// merge _nodes - note _branch must be temporarily set to 0 to
 		// ensure that assertion
 		// will not be restored during backtracking
 		// int _branch = _abox.getBranch();
@@ -187,7 +187,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 			selfRule.apply(n);
 		}
 
-		//handle nodes affected by the update
+		//handle _nodes affected by the update
 		for (final Iterator<Individual> it = getInitializeIterator(); it.hasNext();)
 		{
 
@@ -371,7 +371,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 			}
 		}
 
-		//due to unmerging nodes, edges can actually be added
+		//due to unmerging _nodes, edges can actually be added
 		i = getNewEdgeIterator();
 		while (i.hasNext())
 			applyPropertyRestrictions(i.next());

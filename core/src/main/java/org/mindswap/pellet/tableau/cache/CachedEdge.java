@@ -19,8 +19,8 @@ import org.mindswap.pellet.Role;
  * </p>
  * <p>
  * Description: Represents an edge cached for a {@link CachedNode}. A cached edge stores the information about only one _node (the _neighbor of the cached _node
- * where this edge is stored) and for that _node only the name is stored. This keeps the memory footprint of cached nodes to a minimum without causing any slow
- * downs (since cached nodes are used only in limited ways).
+ * where this edge is stored) and for that _node only the name is stored. This keeps the memory footprint of cached _nodes to a minimum without causing any slow
+ * downs (since cached _nodes are used only in limited ways).
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008

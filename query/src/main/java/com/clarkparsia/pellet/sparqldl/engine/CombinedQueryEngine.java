@@ -510,7 +510,7 @@ public class CombinedQueryEngine implements QueryExec
 				break;
 
 			case SameAs:
-				// optimize - merge nodes
+				// optimize - merge _nodes
 				final ATermAppl saI1 = arguments.get(0);
 				final ATermAppl saI2 = arguments.get(1);
 

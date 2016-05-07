@@ -189,7 +189,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	{
 		final Timer timer = timers.startTimer("extractModules");
 
-		// cache the axiom signatures
+		// _cache the axiom signatures
 		processAdditions();
 		additions.clear();
 
@@ -238,7 +238,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	protected abstract void extractModuleSignatures(Set<? extends OWLEntity> entities, ProgressMonitor monitor);
 
 	/**
-	 * Given an axiom, this function locates all root nodes in the partial _order that are affected by the update
+	 * Given an axiom, this function locates all root _nodes in the partial _order that are affected by the update
 	 *
 	 * @param axiom - the update
 	 * @param add - Flag for additions/deletions
@@ -267,13 +267,13 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	}
 
 	/**
-	 * Given an axiom, this function locates all root nodes in the partial _order that are affected by the update
+	 * Given an axiom, this function locates all root _nodes in the partial _order that are affected by the update
 	 *
 	 * @param axiom - the update
 	 * @param _node - the next _node
-	 * @param effects - the actual set of affected nodes collected
+	 * @param effects - the actual set of affected _nodes collected
 	 * @param add - Flag for additions/deletions
-	 * @param visited - nodes visited so far
+	 * @param visited - _nodes visited so far
 	 */
 	private void getAffectedRoots(final OWLAxiom axiom, final TaxonomyNode<OWLClass> node, final Set<OWLEntity> effects, final boolean add, final Set<TaxonomyNode<OWLClass>> visited)
 	{
@@ -483,9 +483,9 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	 */
 	private void updateEffectedModules(final Set<OWLEntity> effects, final Taxonomy<OWLClass> taxonomy, final boolean add)
 	{
-		// affected root nodes in _order
+		// affected root _nodes in _order
 		final Set<OWLEntity> affectedRoots = new HashSet<>();
-		// Set of all nodes affected
+		// Set of all _nodes affected
 		final Set<OWLEntity> affected = new HashSet<>();
 
 		if (log.isLoggable(Level.FINE))
@@ -494,7 +494,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		// any new classes are affected
 		affectedRoots.addAll(newClasses);
 
-		// iterate over all axioms and get find the set of root nodes
+		// iterate over all axioms and get find the set of root _nodes
 		// affected by the update
 		final Set<OWLAxiom> axioms = (add ? additions : deletions);
 		for (final OWLAxiom axiom : axioms)
@@ -522,7 +522,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		for (final OWLEntity entity : affected)
 			modules.remove(entity);
 
-		// Next update mods of all affected nodes
+		// Next update mods of all affected _nodes
 		extractModuleSignatures(affected);
 
 		for (final OWLEntity entity : affected)
@@ -593,7 +593,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 	public void resetModules()
 	{
-		// cache the axiom signatures
+		// _cache the axiom signatures
 		processAdditions();
 		additions.clear();
 

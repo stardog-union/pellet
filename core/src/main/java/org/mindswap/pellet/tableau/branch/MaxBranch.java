@@ -128,7 +128,7 @@ public class MaxBranch extends IndividualBranch
 
 			// max cardinality merge also depends on all the edges
 			// between the individual that has the cardinality and
-			// nodes that are going to be merged
+			// _nodes that are going to be merged
 			final EdgeList rNeighbors = ind.getRNeighborEdges(_r);
 			boolean yEdge = false, zEdge = false;
 			for (final Edge edge : rNeighbors)
@@ -155,7 +155,7 @@ public class MaxBranch extends IndividualBranch
 			if (!yEdge || !zEdge)
 				throw new InternalReasonerException("An error occurred related to the max cardinality restriction about " + _r);
 
-			// if the _neighbor nodes did not have the _qualification
+			// if the _neighbor _nodes did not have the _qualification
 			// in their type list they would have not been affected
 			// by the cardinality restriction. so this merges depends
 			// on their types
@@ -164,7 +164,7 @@ public class MaxBranch extends IndividualBranch
 
 			// if there were other merges based on the exact same cardinality
 			// restriction then this merge depends on them, too (we wouldn't
-			// have to merge these two nodes if the previous merge did not
+			// have to merge these two _nodes if the previous merge did not
 			// eliminate some other possibilities)
 			for (int b = _abox.getBranches().size() - 2; b >= 0; b--)
 			{
@@ -196,7 +196,7 @@ public class MaxBranch extends IndividualBranch
 				if (clashDepends.contains(getBranch()))
 				{
 					// we need a global restore here because the merge operation modified three
-					// different nodes and possibly other global variables
+					// different _nodes and possibly other global variables
 					_strategy.restore(this);
 
 					// global restore sets the _branch number to previous value so we need to

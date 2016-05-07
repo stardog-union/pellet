@@ -106,7 +106,7 @@ final class ObjectProfileNode extends AbstractProfileNode
 			int size = 0;
 			for (int i = 0; i < childCount; ++i)
 				size += m_children[i].size();
-			m_size = size; // m_size is the full _node size for all nodes
+			m_size = size; // m_size is the full _node size for all _nodes
 		}
 	}
 
