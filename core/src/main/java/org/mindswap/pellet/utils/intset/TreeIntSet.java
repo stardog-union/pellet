@@ -26,7 +26,7 @@ import java.util.TreeSet;
  *
  * @author Evren Sirin
  */
-public class TreeIntSet extends AbstractIntSet implements IntSet
+public class TreeIntSet extends AbstractIntSet
 {
 	private final TreeSet<Integer> ints;
 

@@ -74,7 +74,7 @@ public class TooManyDifferentIndividualsPattern implements OntologyLintPattern
 		for (final OWLDifferentIndividualsAxiom axiom : ontology.getAxioms(AxiomType.DIFFERENT_INDIVIDUALS))
 			totalEstimatedMemory += estimateMemoryConcumption(axiom.getIndividuals().size());
 
-		final List<Lint> allLints = new ArrayList<Lint>();
+		final List<Lint> allLints = new ArrayList<>();
 		if (totalEstimatedMemory > estimateMemoryConcumption(m_MaxAllowed))
 		{
 			final Lint lint = new Lint(this, ontology);

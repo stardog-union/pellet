@@ -108,8 +108,8 @@ public class TaxonomyPersistence
 		final OWLOntology ontology = OWL.Ontology(Collections.<OWLAxiom> emptyList(), TAXONOMY_ONTOLOGY_IRI);
 
 		// populate the ontology
-		final LinkedList<OWLOntologyChange> changes = new LinkedList<OWLOntologyChange>();
-		final HashSet<OWLClass> processedEquivalentClasses = new HashSet<OWLClass>();
+		final LinkedList<OWLOntologyChange> changes = new LinkedList<>();
+		final HashSet<OWLClass> processedEquivalentClasses = new HashSet<>();
 
 		for (final TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes())
 		{
@@ -166,7 +166,7 @@ public class TaxonomyPersistence
 	 */
 	private static Set<OWLClass> getSuperClasses(final OWLOntology ontology, final OWLClass owlClass)
 	{
-		final HashSet<OWLClass> superClasses = new HashSet<OWLClass>();
+		final HashSet<OWLClass> superClasses = new HashSet<>();
 
 		for (final OWLSubClassOfAxiom superClassAxiom : ontology.getSubClassAxiomsForSubClass(owlClass))
 		{
@@ -187,9 +187,9 @@ public class TaxonomyPersistence
 	 */
 	private static Taxonomy<OWLClass> createTaxonomy(final OWLOntology ontology)
 	{
-		final Taxonomy<OWLClass> taxonomy = new Taxonomy<OWLClass>(null, OWL.Thing, OWL.Nothing);
+		final Taxonomy<OWLClass> taxonomy = new Taxonomy<>(null, OWL.Thing, OWL.Nothing);
 
-		final HashSet<OWLClass> processedEquivalentClasses = new HashSet<OWLClass>();
+		final HashSet<OWLClass> processedEquivalentClasses = new HashSet<>();
 		processedEquivalentClasses.add(OWL.Thing);
 		processedEquivalentClasses.add(OWL.Nothing);
 
@@ -200,7 +200,7 @@ public class TaxonomyPersistence
 			if (processedEquivalentClasses.contains(owlClass))
 				continue;
 
-			final HashSet<OWLClass> equivalentClasses = new HashSet<OWLClass>();
+			final HashSet<OWLClass> equivalentClasses = new HashSet<>();
 			boolean equivalentToThing = false;
 			boolean equivalentToNothing = false;
 
@@ -264,7 +264,7 @@ public class TaxonomyPersistence
 				if (individual.isNamed() && individual instanceof OWLNamedIndividual)
 				{
 					if (individuals == null)
-						individuals = new HashSet<OWLNamedIndividual>();
+						individuals = new HashSet<>();
 
 					individuals.add((OWLNamedIndividual) individual);
 				}

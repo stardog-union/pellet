@@ -49,7 +49,7 @@ public abstract class AbstractPremisedTest<O> extends AbstractBaseTestCase<O> im
 		super( ontology, i );
 
 		premiseFormats = EnumSet.noneOf( SerializationFormat.class );
-		premiseOntologyLiteral = new EnumMap<SerializationFormat, String>(
+		premiseOntologyLiteral = new EnumMap<>(
 				SerializationFormat.class );
 
         Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher

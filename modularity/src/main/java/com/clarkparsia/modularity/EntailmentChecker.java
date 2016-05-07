@@ -471,7 +471,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	 */
 	private static <T> Set<T> flatten(final Set<Set<T>> setOfSets)
 	{
-		final Set<T> result = new HashSet<T>();
+		final Set<T> result = new HashSet<>();
 
 		for (final Set<T> set : setOfSets)
 			result.addAll(set);

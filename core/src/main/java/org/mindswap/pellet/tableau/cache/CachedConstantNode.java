@@ -30,20 +30,20 @@ import org.mindswap.pellet.Role;
  */
 public class CachedConstantNode implements CachedNode
 {
-	public static final CachedNode TOP = new CachedConstantNode(CachedNodeType.TOP);
-	public static final CachedNode BOTTOM = new CachedConstantNode(CachedNodeType.BOTTOM);
-	public static final CachedNode INCOMPLETE = new CachedConstantNode(CachedNodeType.INCOMPLETE);
-
 	private enum CachedNodeType
 	{
 		TOP, BOTTOM, INCOMPLETE
 	}
 
-	private final CachedNodeType type;
+	public static final CachedNode _TOP = new CachedConstantNode(CachedNodeType.TOP);
+	public static final CachedNode _BOTTOM = new CachedConstantNode(CachedNodeType.BOTTOM);
+	public static final CachedNode _INCOMPLETE = new CachedConstantNode(CachedNodeType.INCOMPLETE);
+
+	private final CachedNodeType _type;
 
 	private CachedConstantNode(final CachedNodeType type)
 	{
-		this.type = type;
+		this._type = type;
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class CachedConstantNode implements CachedNode
 	@Override
 	public boolean isBottom()
 	{
-		return type == CachedNodeType.BOTTOM;
+		return _type == CachedNodeType.BOTTOM;
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class CachedConstantNode implements CachedNode
 	@Override
 	public boolean isComplete()
 	{
-		return type != CachedNodeType.INCOMPLETE;
+		return _type != CachedNodeType.INCOMPLETE;
 	}
 
 	/**
@@ -124,13 +124,13 @@ public class CachedConstantNode implements CachedNode
 	@Override
 	public boolean isTop()
 	{
-		return type == CachedNodeType.TOP;
+		return _type == CachedNodeType.TOP;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Cached." + type;
+		return "Cached." + _type;
 	}
 
 	/**

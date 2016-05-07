@@ -28,7 +28,7 @@ public class EntityNode<E> extends Node
 	public void addEntities(final Set<E> entity)
 	{
 		if (entities.size() == 1)
-			entities = new HashSet<E>(entities);
+			entities = new HashSet<>(entities);
 
 		entities.addAll(entity);
 	}
@@ -36,7 +36,7 @@ public class EntityNode<E> extends Node
 	public void addEntity(final E entity)
 	{
 		if (entities.size() == 1)
-			entities = new HashSet<E>(entities);
+			entities = new HashSet<>(entities);
 
 		entities.add(entity);
 	}

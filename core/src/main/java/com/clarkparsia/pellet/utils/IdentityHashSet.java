@@ -28,6 +28,7 @@ import java.util.Set;
  *
  * @author Evren Sirin
  */
+@SuppressWarnings("unused")
 public class IdentityHashSet<T> extends AbstractSet<T> implements Set<T>, Cloneable
 {
 	private static final Object VALUE = new Object();

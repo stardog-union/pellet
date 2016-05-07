@@ -144,7 +144,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLDataPropertyDomainAxiom axiom)
 		{
-			final Set<Node> nodes = new HashSet<Node>();
+			final Set<Node> nodes = new HashSet<>();
 
 			nodes.add(graph.createEntityNode(axiom.getProperty().asOWLDataProperty()));
 			nodes.add(topEvaluator.evaluate(axiom.getDomain()));
@@ -194,7 +194,7 @@ public class GraphBuilder
 		protected void processDisjoints(final OWLAxiom axiom, final Set<OWLClassExpression> desc)
 		{
 			final OWLClassExpression descriptions[] = desc.toArray(new OWLClassExpression[0]);
-			final Set<Node> or = new HashSet<Node>();
+			final Set<Node> or = new HashSet<>();
 			for (int i = 0; i < descriptions.length - 1; i++)
 				for (int j = i; j < descriptions.length; j++)
 				{
@@ -251,11 +251,11 @@ public class GraphBuilder
 
 		protected void processEquivalent(final OWLAxiom axiom, final OWLClassExpression c1, final OWLClassExpression c2)
 		{
-			final Set<Node> nodes1 = new HashSet<Node>();
+			final Set<Node> nodes1 = new HashSet<>();
 			nodes1.add(topEvaluator.evaluate(c1));
 			nodes1.add(topEvaluator.evaluate(c2));
 
-			final Set<Node> nodes2 = new HashSet<Node>();
+			final Set<Node> nodes2 = new HashSet<>();
 			nodes2.add(bottomEvaluator.evaluate(c1));
 			nodes2.add(bottomEvaluator.evaluate(c2));
 
@@ -341,7 +341,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLSubPropertyChainOfAxiom axiom)
 		{
-			final Set<Node> nodes = new HashSet<Node>();
+			final Set<Node> nodes = new HashSet<>();
 
 			for (final OWLObjectPropertyExpression p : axiom.getPropertyChain())
 				nodes.add(graph.createEntityNode(p.getNamedProperty()));
@@ -352,7 +352,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLObjectPropertyDomainAxiom axiom)
 		{
-			final Set<Node> nodes = new HashSet<Node>();
+			final Set<Node> nodes = new HashSet<>();
 
 			nodes.add(graph.createEntityNode(axiom.getProperty().getNamedProperty()));
 			nodes.add(topEvaluator.evaluate(axiom.getDomain()));
@@ -363,7 +363,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLObjectPropertyRangeAxiom axiom)
 		{
-			final Set<Node> nodes = new HashSet<Node>();
+			final Set<Node> nodes = new HashSet<>();
 
 			nodes.add(graph.createEntityNode(axiom.getProperty().getNamedProperty()));
 			nodes.add(topEvaluator.evaluate(axiom.getRange()));
@@ -395,7 +395,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLSubClassOfAxiom axiom)
 		{
-			final Set<Node> nodes = new HashSet<Node>();
+			final Set<Node> nodes = new HashSet<>();
 
 			nodes.add(topEvaluator.evaluate(axiom.getSuperClass()));
 			nodes.add(bottomEvaluator.evaluate(axiom.getSubClass()));
@@ -510,7 +510,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLObjectIntersectionOf desc)
 		{
-			final Set<Node> inputNodes = new HashSet<Node>();
+			final Set<Node> inputNodes = new HashSet<>();
 			for (final OWLClassExpression c : desc.getOperands())
 			{
 				final Node conjNode = evaluate(c);
@@ -549,7 +549,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLObjectSomeValuesFrom desc)
 		{
-			final Set<Node> inputNodes = new HashSet<Node>();
+			final Set<Node> inputNodes = new HashSet<>();
 
 			inputNodes.add(graph.createEntityNode(desc.getProperty().getNamedProperty()));
 			inputNodes.add(evaluate(desc.getFiller()));
@@ -560,7 +560,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLObjectUnionOf desc)
 		{
-			final Set<Node> inputNodes = new HashSet<Node>();
+			final Set<Node> inputNodes = new HashSet<>();
 			for (final OWLClassExpression disj : desc.getOperands())
 			{
 				final Node disjNode = evaluate(disj);
@@ -646,7 +646,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLObjectAllValuesFrom desc)
 		{
-			final Set<Node> inputNodes = new HashSet<Node>();
+			final Set<Node> inputNodes = new HashSet<>();
 
 			inputNodes.add(graph.createEntityNode(desc.getProperty().getNamedProperty()));
 			inputNodes.add(evaluate(desc.getFiller()));
@@ -669,7 +669,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLObjectIntersectionOf desc)
 		{
-			final Set<Node> inputNodes = new HashSet<Node>();
+			final Set<Node> inputNodes = new HashSet<>();
 			for (final OWLClassExpression conj : desc.getOperands())
 			{
 				final Node conjNode = evaluate(conj);
@@ -713,7 +713,7 @@ public class GraphBuilder
 		@Override
 		public void visit(final OWLObjectUnionOf desc)
 		{
-			final Set<Node> inputNodes = new HashSet<Node>();
+			final Set<Node> inputNodes = new HashSet<>();
 			for (final OWLClassExpression disj : desc.getOperands())
 			{
 				final Node disjNode = evaluate(disj);

@@ -36,7 +36,7 @@ public class RDFLints
 
 	public RDFLints()
 	{
-		m_Report = new LinkedHashMap<String, List<String>>();
+		m_Report = new LinkedHashMap<>();
 		m_MissingStatements = CollectionUtil.makeList();
 	}
 

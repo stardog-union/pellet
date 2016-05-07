@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -29,8 +28,10 @@ import java.util.Set;
  * </p>
  *
  * @author Evren Sirin
+ * @param <K> key
+ * @param <V> value
  */
-public class MultiValueMap<K, V> extends HashMap<K, Set<V>> implements Map<K, Set<V>>
+public class MultiValueMap<K, V> extends HashMap<K, Set<V>>
 {
 	private static final long serialVersionUID = 2660982967886888197L;
 

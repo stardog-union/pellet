@@ -39,7 +39,7 @@ import aterm.ATermList;
  *
  * @author Evren Sirin
  */
-public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer implements ATermRenderer
+public class ATermAbstractSyntaxRenderer extends ATermBaseRenderer
 {
 
 	/* (non-Javadoc)

@@ -100,7 +100,7 @@ public class LintPatternLoader
 
 	private static Map<String, String> formatProperties(final Properties properties)
 	{
-		final Map<String, String> formattedProperties = new HashMap<String, String>();
+		final Map<String, String> formattedProperties = new HashMap<>();
 		for (final Entry<Object, Object> entry : properties.entrySet())
 		{
 			final Object key = entry.getKey();
@@ -114,10 +114,10 @@ public class LintPatternLoader
 
 	private static Collection<LintPattern> loadPatterns(final Map<String, String> properties)
 	{
-		final Map<String, LintPattern> patterns = new HashMap<String, LintPattern>();
+		final Map<String, LintPattern> patterns = new HashMap<>();
 
 		//Search for enabled patterns
-		final Set<String> patternNames = new HashSet<String>();
+		final Set<String> patternNames = new HashSet<>();
 		for (final Entry<String, String> entry : properties.entrySet())
 		{
 			final String key = entry.getKey();

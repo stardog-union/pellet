@@ -78,7 +78,7 @@ public class ImportedOntologyImpl implements ImportedOntology {
                 .getDataPropertyValues(i, ontology).asMap();
 
 		formats = EnumSet.noneOf( SerializationFormat.class );
-		ontologyLiteral = new EnumMap<SerializationFormat, String>( SerializationFormat.class );
+		ontologyLiteral = new EnumMap<>( SerializationFormat.class );
 		for( SerializationFormat f : SerializationFormat.values() ) {
             Collection<OWLLiteral> literals = values.get(f
                     .getInputOWLDataProperty());

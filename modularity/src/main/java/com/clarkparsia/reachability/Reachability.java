@@ -43,9 +43,9 @@ public class Reachability<E>
 
 	private void reset()
 	{
-		activatedEntities = new HashSet<E>();
-		affectedNodes = new HashSet<Node>();
-		waitingQueue = new LinkedList<Node>();
+		activatedEntities = new HashSet<>();
+		affectedNodes = new HashSet<>();
+		waitingQueue = new LinkedList<>();
 		waitingQueue.add(graph.getStartNode());
 	}
 

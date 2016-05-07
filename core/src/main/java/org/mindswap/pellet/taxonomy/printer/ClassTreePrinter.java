@@ -54,7 +54,7 @@ import org.mindswap.pellet.utils.TaxonomyUtils;
  *
  * @author Evren Sirin
  */
-public class ClassTreePrinter extends TreeTaxonomyPrinter<ATermAppl> implements TaxonomyPrinter<ATermAppl>
+public class ClassTreePrinter extends TreeTaxonomyPrinter<ATermAppl>
 {
 	private final QNameProvider qnames = new QNameProvider();
 

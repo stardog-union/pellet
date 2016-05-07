@@ -40,7 +40,7 @@ public abstract class OwlApi3xCTImpl extends AbstractPremisedTest<OWLOntology> i
 	public OwlApi3xCTImpl(OWLOntology ontology, OWLNamedIndividual i) {
 		super( ontology, i );
 
-		parsedPremise = new EnumMap<SerializationFormat, OWLOntology>( SerializationFormat.class );
+		parsedPremise = new EnumMap<>( SerializationFormat.class );
 	}
 
 	@Override

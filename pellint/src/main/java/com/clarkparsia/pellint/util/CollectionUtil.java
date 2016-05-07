@@ -34,31 +34,31 @@ public class CollectionUtil
 {
 	public static <T> List<T> makeList()
 	{
-		return new ArrayList<T>();
+		return new ArrayList<>();
 	}
 
 	public static <T> Set<T> makeSet()
 	{
-		return new HashSet<T>();
+		return new HashSet<>();
 	}
 
 	public static <K, V> Map<K, V> makeMap()
 	{
-		return new HashMap<K, V>();
+		return new HashMap<>();
 	}
 
 	public static <T> List<T> copy(final List<? extends T> a)
 	{
-		return new ArrayList<T>(a);
+		return new ArrayList<>(a);
 	}
 
 	public static <T> Set<T> copy(final Set<? extends T> a)
 	{
-		return new HashSet<T>(a);
+		return new HashSet<>(a);
 	}
 
 	public static <T> Set<T> asSet(final T... a)
 	{
-		return new HashSet<T>(Arrays.asList(a));
+		return new HashSet<>(Arrays.asList(a));
 	}
 }

@@ -63,9 +63,9 @@ public class OWLWGTestCase {
 		OWLOntology casesOntology = manager.loadOntologyFromOntologyDocument( OWLWGTestCase.class.getResourceAsStream(OWLWG_TEST_CASES_IRI) );
 		
 		try {
-    		TestCollection<OWLOntology> cases = new TestCollection<OWLOntology>( factory, casesOntology, filter );
+    		TestCollection<OWLOntology> cases = new TestCollection<>( factory, casesOntology, filter );
     		
-    		List<Object[]> testParams = new ArrayList<Object[]>( cases.size() );
+    		List<Object[]> testParams = new ArrayList<>( cases.size() );
     		for( Object test : cases.asList() ) {
     			testParams.add( new Object[] { test } );
     		}

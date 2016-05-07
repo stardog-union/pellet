@@ -22,7 +22,7 @@ package org.mindswap.pellet.utils.progress;
  *
  * @author Evren Sirin
  */
-public class SilentProgressMonitor extends AbstractProgressMonitor implements ProgressMonitor
+public class SilentProgressMonitor extends AbstractProgressMonitor
 {
 	public SilentProgressMonitor()
 	{

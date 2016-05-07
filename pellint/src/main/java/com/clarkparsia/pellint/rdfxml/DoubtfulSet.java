@@ -33,7 +33,7 @@ public class DoubtfulSet<E> extends HashSet<E>
 
 	public DoubtfulSet()
 	{
-		m_Definite = new HashSet<E>();
+		m_Definite = new HashSet<>();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class DoubtfulSet<E> extends HashSet<E>
 
 	public Set<E> getDoubtfulElements()
 	{
-		final Set<E> doubtfulSet = new HashSet<E>(this);
+		final Set<E> doubtfulSet = new HashSet<>(this);
 		doubtfulSet.removeAll(m_Definite);
 		return doubtfulSet;
 	}

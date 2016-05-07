@@ -25,7 +25,7 @@ public class ReachabilityGraph<E>
 
 	public static final Logger log = Logger.getLogger(ReachabilityGraph.class.getName());
 
-	private final Map<E, EntityNode<E>> entityNodes = new HashMap<E, EntityNode<E>>();
+	private final Map<E, EntityNode<E>> entityNodes = new HashMap<>();
 
 	private int id = 0;
 
@@ -122,7 +122,7 @@ public class ReachabilityGraph<E>
 
 		if (node == null)
 		{
-			node = new EntityNode<E>(entity);
+			node = new EntityNode<>(entity);
 			entityNodes.put(entity, node);
 		}
 

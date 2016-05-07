@@ -114,7 +114,7 @@ public class OntologyLints
 	 */
 	public Set<Lint> applyFix(final OWLOntologyManager manager) throws OWLOntologyChangeException
 	{
-		final Set<Lint> unfixable = new HashSet<Lint>();
+		final Set<Lint> unfixable = new HashSet<>();
 		for (final Entry<LintPattern, List<Lint>> entry : m_Lints.entrySet())
 			if (entry.getKey().isFixable())
 			{

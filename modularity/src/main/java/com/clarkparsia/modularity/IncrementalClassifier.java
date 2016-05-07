@@ -212,7 +212,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	static public Taxonomy<OWLClass> buildClassHierarchy(final PelletReasoner reasoner)
 	{
 
-		final Taxonomy<OWLClass> taxonomy = new Taxonomy<OWLClass>(null, OWL.Thing, OWL.Nothing);
+		final Taxonomy<OWLClass> taxonomy = new Taxonomy<>(null, OWL.Thing, OWL.Nothing);
 
 		final Set<OWLClass> things = reasoner.getEquivalentClasses(OWL.Thing).getEntities();
 		things.remove(OWL.Thing);
@@ -316,7 +316,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 		classify();
 
-		final Set<Node<OWLClass>> values = new HashSet<Node<OWLClass>>();
+		final Set<Node<OWLClass>> values = new HashSet<>();
 		for (final Set<OWLClass> val : taxonomy.getSubs((OWLClass) clsC, direct))
 			values.add(NodeFactory.getOWLClassNode(val));
 
@@ -356,7 +356,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 		final Taxonomy<OWLClass> moduleTaxonomy = buildClassHierarchy(moduleReasoner);
 
-		final Set<OWLClass> affectedCls = new HashSet<OWLClass>();
+		final Set<OWLClass> affectedCls = new HashSet<>();
 		for (final OWLEntity entity : effects)
 			if (entity instanceof OWLClass)
 				affectedCls.add((OWLClass) entity);
@@ -546,12 +546,12 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	private Taxonomy<OWLClass> updateClassHierarchy(final Taxonomy<OWLClass> taxonomy, final Taxonomy<OWLClass> moduleTaxonomy, final Set<OWLClass> affected)
 	{
 
-		final Set<OWLClass> inTaxonomy = new HashSet<OWLClass>(moduleTaxonomy.getClasses());
+		final Set<OWLClass> inTaxonomy = new HashSet<>(moduleTaxonomy.getClasses());
 		inTaxonomy.remove(OWL.Thing);
 		inTaxonomy.remove(OWL.Nothing);
 		assert affected.containsAll(inTaxonomy) : "Unaffected nodes in changed taxonomy";
 
-		final Set<OWLClass> removed = new HashSet<OWLClass>(affected);
+		final Set<OWLClass> removed = new HashSet<>(affected);
 		removed.removeAll(moduleTaxonomy.getClasses());
 
 		final List<OWLClass> sorted = taxonomy.topologocialSort( /* includeEquivalents = */false);
@@ -573,7 +573,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 			moduleTaxonomy.addSupers(cls, supers);
 		}
 
-		final List<OWLClass> nothings = new ArrayList<OWLClass>();
+		final List<OWLClass> nothings = new ArrayList<>();
 		for (final OWLClass cls : taxonomy.getEquivalents(OWL.Nothing))
 			if (!removed.contains(cls) && !moduleTaxonomy.contains(cls))
 				nothings.add(cls);
@@ -845,7 +845,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		if (!taxonomy.contains(disjointClassComparator.getComplementRepresentation()))
 		{
 			reasoner.flush();
-			final PartialOrderBuilder<OWLClass> orderBuilder = new PartialOrderBuilder<OWLClass>(taxonomy, disjointClassComparator);
+			final PartialOrderBuilder<OWLClass> orderBuilder = new PartialOrderBuilder<>(taxonomy, disjointClassComparator);
 
 			orderBuilder.add(disjointClassComparator.getComplementRepresentation(), true);
 		}
@@ -923,8 +923,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	private NodeSet<OWLNamedIndividual> getIndividualNodeSetBySameAs(final Collection<OWLNamedIndividual> individuals)
 	{
-		final Set<Node<OWLNamedIndividual>> instances = new HashSet<Node<OWLNamedIndividual>>();
-		final Set<OWLNamedIndividual> seen = new HashSet<OWLNamedIndividual>();
+		final Set<Node<OWLNamedIndividual>> instances = new HashSet<>();
+		final Set<OWLNamedIndividual> seen = new HashSet<>();
 		for (final OWLNamedIndividual ind : individuals)
 			if (!seen.contains(ind))
 			{
@@ -938,7 +938,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	private NodeSet<OWLNamedIndividual> getIndividualNodeSetByName(final Collection<OWLNamedIndividual> individuals)
 	{
-		final Set<Node<OWLNamedIndividual>> instances = new HashSet<Node<OWLNamedIndividual>>();
+		final Set<Node<OWLNamedIndividual>> instances = new HashSet<>();
 
 		for (final OWLNamedIndividual ind : individuals)
 			for (final OWLNamedIndividual equiv : reasoner.getSameIndividuals(ind))
@@ -1122,7 +1122,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 		classify();
 
-		final Set<Node<OWLClass>> values = new HashSet<Node<OWLClass>>();
+		final Set<Node<OWLClass>> values = new HashSet<>();
 		for (final Set<OWLClass> val : taxonomy.getSupers((OWLClass) ce, direct))
 			values.add(NodeFactory.getOWLClassNode(val));
 
@@ -1333,7 +1333,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 		final Set<ATermAppl> allIndividuals = reasoner.getKB().getIndividuals();
 
-		final Set<OWLClass> visitedClasses = new HashSet<OWLClass>();
+		final Set<OWLClass> visitedClasses = new HashSet<>();
 
 		if (!allIndividuals.isEmpty())
 			realizeByConcept(ATermUtils.TOP, allIndividuals, reasoner.getManager().getOWLDataFactory(), visitedClasses);
@@ -1354,8 +1354,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		if (visitedClasses.contains(owlClass))
 			return TaxonomyUtils.getAllInstances(taxonomy, owlClass);
 
-		final Set<ATermAppl> instances = new HashSet<ATermAppl>(reasoner.getKB().retrieve(c, individuals));
-		final Set<ATermAppl> mostSpecificInstances = new HashSet<ATermAppl>(instances);
+		final Set<ATermAppl> instances = new HashSet<>(reasoner.getKB().retrieve(c, individuals));
+		final Set<ATermAppl> mostSpecificInstances = new HashSet<>(instances);
 
 		if (!instances.isEmpty())
 		{
@@ -1387,7 +1387,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	private Set<OWLNamedIndividual> toOWLNamedIndividuals(final Set<ATermAppl> terms, final OWLDataFactory factory)
 	{
-		final HashSet<OWLNamedIndividual> result = new HashSet<OWLNamedIndividual>();
+		final HashSet<OWLNamedIndividual> result = new HashSet<>();
 
 		for (final ATermAppl ind : terms)
 		{

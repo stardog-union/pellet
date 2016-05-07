@@ -46,7 +46,7 @@ public class FilterConditionParser {
 	public static FilterCondition parse(String filterString) {
 
 		FilterCondition filter;
-		LinkedList<FilterCondition> filterStack = new LinkedList<FilterCondition>();
+		LinkedList<FilterCondition> filterStack = new LinkedList<>();
 		String[] splits = filterString.split( "\\s" );
 		for( int i = 0; i < splits.length; i++ ) {
 			if( splits[i].equalsIgnoreCase( "and" ) ) {

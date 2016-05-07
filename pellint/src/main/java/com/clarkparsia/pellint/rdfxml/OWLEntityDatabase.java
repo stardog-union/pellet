@@ -43,18 +43,18 @@ public class OWLEntityDatabase
 {
 	public final static Logger log = Logger.getLogger(OWLEntityDatabase.class.getName());
 
-	private final DoubtfulSet<RDFNode> m_Ontologies = new DoubtfulSet<RDFNode>();
-	private final DoubtfulSet<RDFNode> m_Classes = new DoubtfulSet<RDFNode>();
-	private final DoubtfulSet<RDFNode> m_Datatypes = new DoubtfulSet<RDFNode>();
-	private final DoubtfulSet<RDFNode> m_Individuals = new DoubtfulSet<RDFNode>();
+	private final DoubtfulSet<RDFNode> m_Ontologies = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> m_Classes = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> m_Datatypes = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> m_Individuals = new DoubtfulSet<>();
 
 	private final Set<RDFNode> m_AllRoles = CollectionUtil.makeSet();
-	private final DoubtfulSet<RDFNode> m_AnnotationRoles = new DoubtfulSet<RDFNode>();
-	private final DoubtfulSet<RDFNode> m_OntologyRoles = new DoubtfulSet<RDFNode>();
-	private final DoubtfulSet<RDFNode> m_ObjectRoles = new DoubtfulSet<RDFNode>();
-	private final DoubtfulSet<RDFNode> m_DatatypeRoles = new DoubtfulSet<RDFNode>();
+	private final DoubtfulSet<RDFNode> m_AnnotationRoles = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> m_OntologyRoles = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> m_ObjectRoles = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> m_DatatypeRoles = new DoubtfulSet<>();
 
-	private final DoubtfulSet<RDFNode> m_SWRLVariables = new DoubtfulSet<RDFNode>();
+	private final DoubtfulSet<RDFNode> m_SWRLVariables = new DoubtfulSet<>();
 
 	private final Set<RDFNode> m_RDFClasses = CollectionUtil.makeSet();
 	// TODO: why is this Resource and everything else is RDFNode?  classes should be typed as Resource as well & Individuals, etc.

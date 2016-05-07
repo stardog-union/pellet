@@ -79,7 +79,7 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
         Map<OWLObjectPropertyExpression, Collection<OWLIndividual>> opValues = EntitySearcher
                 .getObjectPropertyValues(i, ontology).asMap();
 
-		imports = new HashMap<IRI, ImportedOntology>();
+		imports = new HashMap<>();
         Collection<OWLIndividual> importedOntologies = opValues
                 .get(IMPORTED_ONTOLOGY
 				.getOWLObjectProperty() );

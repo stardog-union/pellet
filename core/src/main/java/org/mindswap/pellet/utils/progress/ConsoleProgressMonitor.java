@@ -25,7 +25,7 @@ import org.mindswap.pellet.utils.DurationFormat;
  *
  * @author Evren Sirin
  */
-public class ConsoleProgressMonitor extends AbstractProgressMonitor implements ProgressMonitor
+public class ConsoleProgressMonitor extends AbstractProgressMonitor
 {
 	private final PrintStream out;
 

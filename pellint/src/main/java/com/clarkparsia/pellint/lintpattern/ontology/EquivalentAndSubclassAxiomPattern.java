@@ -70,13 +70,13 @@ public class EquivalentAndSubclassAxiomPattern implements OntologyLintPattern
 	@Override
 	public List<Lint> match(final OWLOntology ontology)
 	{
-		final List<Lint> allLints = new ArrayList<Lint>();
+		final List<Lint> allLints = new ArrayList<>();
 		for (final OWLClass owlClass : ontology.getClassesInSignature())
 		{
 			final Set<OWLEquivalentClassesAxiom> equivalents = ontology.getEquivalentClassesAxioms(owlClass);
 			final Set<OWLSubClassOfAxiom> subclasses = ontology.getSubClassAxiomsForSubClass(owlClass);
 
-			final Set<OWLEquivalentClassesAxiom> badEquivalents = new HashSet<OWLEquivalentClassesAxiom>();
+			final Set<OWLEquivalentClassesAxiom> badEquivalents = new HashSet<>();
 			for (final OWLEquivalentClassesAxiom equivalent : equivalents)
 				for (final OWLClassExpression desc : equivalent.getClassExpressions())
 					if (OWLUtil.isComplex(desc))
@@ -105,10 +105,10 @@ public class EquivalentAndSubclassAxiomPattern implements OntologyLintPattern
 
 	private static Set<OWLClassAxiom> fixEquivalentAxioms(final OWLClass classToFix, final Set<OWLEquivalentClassesAxiom> axioms)
 	{
-		final Set<OWLClassAxiom> fixes = new HashSet<OWLClassAxiom>();
+		final Set<OWLClassAxiom> fixes = new HashSet<>();
 		for (final OWLEquivalentClassesAxiom axiom : axioms)
 		{
-			final Set<OWLClassExpression> descs = new HashSet<OWLClassExpression>(axiom.getClassExpressions());
+			final Set<OWLClassExpression> descs = new HashSet<>(axiom.getClassExpressions());
 			descs.remove(classToFix);
 
 			if (descs.size() == 1)

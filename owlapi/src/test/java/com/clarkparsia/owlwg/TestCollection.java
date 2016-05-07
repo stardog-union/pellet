@@ -59,7 +59,7 @@ public class TestCollection<O> implements Iterable<TestCase<O>> {
 		if( filter == null )
 			throw new NullPointerException();
 
-		cases = new HashMap<OWLIndividual, TestCase<O>>();
+		cases = new HashMap<>();
 		Set<OWLClassAssertionAxiom> axioms;
 
 		axioms = o.getClassAssertionAxioms( POSITIVE_ENTAILMENT_TEST.getOWLClass() );
@@ -110,7 +110,7 @@ public class TestCollection<O> implements Iterable<TestCase<O>> {
 	}
 
 	public LinkedList<TestCase<O>> asList() {
-		return new LinkedList<TestCase<O>>( getTests() );
+		return new LinkedList<>( getTests() );
 	}
 
 	private Collection<TestCase<O>> getTests() {

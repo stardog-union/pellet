@@ -25,7 +25,7 @@ import java.util.Iterator;
  *
  * @author Evren Sirin
  */
-public class HashIntSet extends AbstractIntSet implements IntSet
+public class HashIntSet extends AbstractIntSet
 {
 	private final HashSet<Integer> ints;
 

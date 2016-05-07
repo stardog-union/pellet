@@ -22,8 +22,8 @@ public abstract class Node
 
 	public Node()
 	{
-		this.outputs = new HashSet<Node>();
-		this.inputs = new HashSet<Node>();
+		this.outputs = new HashSet<>();
+		this.inputs = new HashSet<>();
 	}
 
 	public void addOutput(final Node output)

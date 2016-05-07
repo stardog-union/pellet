@@ -33,7 +33,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  *
  * @author Ron Alford
  */
-public class ConceptCacheLRU extends AbstractConceptCache implements ConceptCache
+public class ConceptCacheLRU extends AbstractConceptCache
 {
 	private Map<ATermAppl, CachedNode> primitive;
 	private LinkedHashMap<ATermAppl, CachedNode> nonPrimitive;
@@ -64,7 +64,7 @@ public class ConceptCacheLRU extends AbstractConceptCache implements ConceptCach
 
 		primitive = new HashMap<>();
 		nonPrimitive = new LinkedHashMap<ATermAppl, CachedNode>(16, 0.75f, true)
-		{
+				{
 			/**
 			 * TODO
 			 *
@@ -77,7 +77,7 @@ public class ConceptCacheLRU extends AbstractConceptCache implements ConceptCach
 			{
 				return nonPrimitive.size() > getMaxSize();
 			}
-		};
+				};
 	}
 
 	@Override

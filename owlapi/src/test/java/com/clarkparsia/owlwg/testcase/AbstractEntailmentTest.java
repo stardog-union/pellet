@@ -50,7 +50,7 @@ public abstract class AbstractEntailmentTest<O> extends AbstractPremisedTest<O> 
 		super( ontology, i );
 
 		conclusionFormats = EnumSet.noneOf( SerializationFormat.class );
-		conclusionOntologyLiteral = new EnumMap<SerializationFormat, String>(
+		conclusionOntologyLiteral = new EnumMap<>(
 				SerializationFormat.class );
 
         Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher

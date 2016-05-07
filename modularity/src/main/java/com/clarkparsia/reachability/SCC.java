@@ -68,8 +68,8 @@ public class SCC
 
 		public List<Set<EntityNode<E>>> computeSCC(final ReachabilityGraph<E> graph)
 		{
-			stronglyConnectedComponents = new ArrayList<Set<EntityNode<E>>>();
-			nodeInfos = new HashMap<Node, NodeInfo>();
+			stronglyConnectedComponents = new ArrayList<>();
+			nodeInfos = new HashMap<>();
 
 			final Collection<EntityNode<E>> nodes = graph.getEntityNodes();
 			for (final Node node : nodes)
@@ -87,7 +87,7 @@ public class SCC
 		{
 			index = 0;
 
-			stack = new ArrayList<NodeInfo>();
+			stack = new ArrayList<>();
 
 			final NodeInfo nodeInfo = new NodeInfo(node);
 			visit(nodeInfo);
@@ -124,7 +124,7 @@ public class SCC
 
 			if (nodeInfo.lowlink == nodeInfo.index)
 			{
-				final Set<EntityNode<E>> connectedComponent = new HashSet<EntityNode<E>>();
+				final Set<EntityNode<E>> connectedComponent = new HashSet<>();
 
 				int i = stack.size() - 1;
 				NodeInfo info = null;

@@ -41,7 +41,7 @@ public class TestRunResultAdapter {
 		private List<OWLAxiom>	axioms;
 
 		public List<OWLAxiom> process(TestRunResult result) {
-			axioms = new ArrayList<OWLAxiom>();
+			axioms = new ArrayList<>();
 			result.accept( this );
 			return axioms;
 		}
@@ -98,7 +98,7 @@ public class TestRunResultAdapter {
             throw new NullPointerException();
         }
 
-		List<OWLAxiom> axioms = new ArrayList<OWLAxiom>();
+		List<OWLAxiom> axioms = new ArrayList<>();
 
 		currentIndividual = i;
 		axioms.add( dataFactory.getOWLClassAssertionAxiom( TEST_RUN.getOWLClass(),

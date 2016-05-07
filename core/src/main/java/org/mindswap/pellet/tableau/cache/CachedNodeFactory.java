@@ -29,17 +29,17 @@ public class CachedNodeFactory
 {
 	public static CachedNode createTopNode()
 	{
-		return CachedConstantNode.TOP;
+		return CachedConstantNode._TOP;
 	}
 
 	public static CachedNode createBottomNode()
 	{
-		return CachedConstantNode.BOTTOM;
+		return CachedConstantNode._BOTTOM;
 	}
 
 	public static CachedNode createSatisfiableNode()
 	{
-		return CachedConstantNode.INCOMPLETE;
+		return CachedConstantNode._INCOMPLETE;
 	}
 
 	public static CachedNode createNode(final ATermAppl name, final Individual node)

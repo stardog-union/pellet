@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.taxonomy.CDOptimizedTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.POTaxonomyBuilder;
-import org.mindswap.pellet.taxonomy.TaxonomyBuilder;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.MultiValueMap;
 import org.mindswap.pellet.utils.PartialOrderComparator;
@@ -45,7 +44,7 @@ import org.mindswap.pellet.utils.Timers;
  *
  * @author Evren Sirin
  */
-public class ELClassifier extends CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
+public class ELClassifier extends CDOptimizedTaxonomyBuilder
 {
 	public static final Logger logger = Logger.getLogger(ELClassifier.class.getName());
 

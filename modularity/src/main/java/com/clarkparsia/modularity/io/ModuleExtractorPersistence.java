@@ -267,7 +267,7 @@ public class ModuleExtractorPersistence
 		final OWLEntity module = readModuleInformation(line.trim());
 
 		boolean endOfModuleReached = false;
-		final Set<OWLEntity> members = new HashSet<OWLEntity>();
+		final Set<OWLEntity> members = new HashSet<>();
 
 		while ((line = lnr.readLine()) != null)
 		{
@@ -297,7 +297,7 @@ public class ModuleExtractorPersistence
 	 */
 	public static MultiValueMap<OWLEntity, OWLEntity> loadModules(final InputStream is) throws IOException
 	{
-		final MultiValueMap<OWLEntity, OWLEntity> modules = new MultiValueMap<OWLEntity, OWLEntity>();
+		final MultiValueMap<OWLEntity, OWLEntity> modules = new MultiValueMap<>();
 		final LineNumberReader lnr = new LineNumberReader(new InputStreamReader(is));
 
 		while (readModule(lnr, modules))

@@ -39,12 +39,12 @@ public class OntologyDiff
 	/**
 	 * The list of axioms that were added in the second ontology (with respect to the first ontology).
 	 */
-	private final List<OWLAxiom> additions = new ArrayList<OWLAxiom>();
+	private final List<OWLAxiom> additions = new ArrayList<>();
 
 	/**
 	 * The list of axioms that were removed in the second ontology (with respect to the first ontology).
 	 */
-	private final List<OWLAxiom> deletions = new ArrayList<OWLAxiom>();
+	private final List<OWLAxiom> deletions = new ArrayList<>();
 
 	/**
 	 * Private constructor to ensure that the objects of this class can only be created via the appropriate static methods.
@@ -200,7 +200,7 @@ public class OntologyDiff
 	 */
 	public Collection<OWLOntologyChange> getChanges(final OWLOntology initialOnt)
 	{
-		final List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
+		final List<OWLOntologyChange> changes = new ArrayList<>();
 
 		for (final OWLAxiom axiom : additions)
 			changes.add(new AddAxiom(initialOnt, axiom));
@@ -237,7 +237,7 @@ public class OntologyDiff
 	 */
 	public Collection<OWLOntologyChange> getChanges(final Collection<OWLOntology> ontologies)
 	{
-		final List<OWLOntologyChange> changes = new ArrayList<OWLOntologyChange>();
+		final List<OWLOntologyChange> changes = new ArrayList<>();
 
 		for (final OWLAxiom axiom : additions)
 		{

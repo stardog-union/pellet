@@ -38,6 +38,7 @@ import org.mindswap.pellet.utils.Timers;
  *
  * @author Evren Sirin
  */
+@SuppressWarnings("unused")
 public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 {
 	public static final Logger logger = Logger.getLogger(RuleBasedELClassifier.class.getName());

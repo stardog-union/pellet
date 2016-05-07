@@ -33,7 +33,6 @@ import org.apache.jena.reasoner.rulesys.Rule;
 import org.apache.jena.reasoner.rulesys.builtins.NotEqual;
 import org.apache.jena.sparql.graph.GraphFactory;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import org.mindswap.pellet.taxonomy.TaxonomyBuilder;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.MultiValueMap;
 
@@ -53,7 +52,7 @@ import org.mindswap.pellet.utils.MultiValueMap;
  *
  * @author Harris Lin
  */
-public class JenaBasedELClassifier extends RuleBasedELClassifier implements TaxonomyBuilder
+public class JenaBasedELClassifier extends RuleBasedELClassifier
 {
 	private static final String PREDICATE_PREFIX = "tag:clarkparsia.com,2008:pellet:el:predicate:";
 	private static final Node PRED_SUB = NodeFactory.createURI(PREDICATE_PREFIX + "subclassOf");
