@@ -20,7 +20,7 @@ public class BranchAddDependency extends BranchDependency
 	/**
 	 * The actual _branch
 	 */
-	private final Branch branch;
+	private final Branch _branch;
 
 	/**
 	 * Constructor
@@ -28,10 +28,10 @@ public class BranchAddDependency extends BranchDependency
 	 * @param _index
 	 * @param _branch
 	 */
-	public BranchAddDependency(final ATermAppl assertion, final int index, final Branch branch)
+	public BranchAddDependency(final ATermAppl assertion, @SuppressWarnings("unused") final int index, final Branch branch)
 	{
 		super(assertion);
-		this.branch = branch;
+		this._branch = branch;
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class BranchAddDependency extends BranchDependency
 	 */
 	public Branch getBranch()
 	{
-		return branch;
+		return _branch;
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class BranchAddDependency extends BranchDependency
 	@Override
 	public String toString()
 	{
-		return "Branch  - [" + branch + "]";
+		return "Branch  - [" + _branch + "]";
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class BranchAddDependency extends BranchDependency
 	public boolean equals(final Object other)
 	{
 		if (other instanceof BranchAddDependency)
-			return (this.branch.getBranch() == ((BranchAddDependency) other).branch.getBranch()) && this.assertion.equals(((BranchAddDependency) other).assertion);
+			return (this._branch.getBranch() == ((BranchAddDependency) other)._branch.getBranch()) && this._assertion.equals(((BranchAddDependency) other)._assertion);
 		else
 			return false;
 	}
@@ -71,7 +71,7 @@ public class BranchAddDependency extends BranchDependency
 	@Override
 	public int hashCode()
 	{
-		return this.branch.getBranch() + this.assertion.hashCode();
+		return this._branch.getBranch() + this._assertion.hashCode();
 	}
 
 }

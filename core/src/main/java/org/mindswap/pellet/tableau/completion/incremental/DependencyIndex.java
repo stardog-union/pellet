@@ -7,10 +7,11 @@
 package org.mindswap.pellet.tableau.completion.incremental;
 
 import aterm.ATermAppl;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mindswap.pellet.Clash;
@@ -21,8 +22,8 @@ import org.mindswap.pellet.tableau.branch.Branch;
 import org.mindswap.pellet.tableau.branch.DisjunctionBranch;
 
 /**
- * This is the _index structure for maintaining the dependencies between structures in an ABox and the syntactic assertions which caused them to be created. This
- * is used for incremental deletions.
+ * This is the _index structure for maintaining the dependencies between structures in an ABox and the syntactic assertions which caused them to be created.
+ * This is used for incremental deletions.
  *
  * @author Christian Halaschek-Wiener
  */
@@ -33,32 +34,29 @@ public class DependencyIndex
 	/**
 	 * Map from assertions (ATermAppl) to Dependency entries
 	 */
-	private final Map<ATermAppl, DependencyEntry> dependencies;
+	private final Map<ATermAppl, DependencyEntry> dependencies = new ConcurrentHashMap<>();
 
 	/**
 	 * Branch dependency _index
 	 */
-	private final Map<Branch, Set<BranchDependency>> branchIndex;
+	private final Map<Branch, Set<BranchDependency>> branchIndex = new ConcurrentHashMap<>();
 
 	/**
 	 * Clash dependency - used for cleanup
 	 */
-	private final Set<ClashDependency> clashIndex;
+	private final Set<ClashDependency> clashIndex = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
 	/**
 	 * KB object
 	 */
-	private final KnowledgeBase kb;
+	private final KnowledgeBase _kb;
 
 	/**
 	 * Default constructor
 	 */
 	public DependencyIndex(final KnowledgeBase kb)
 	{
-		dependencies = new HashMap<>();
-		branchIndex = new HashMap<>();
-		clashIndex = new HashSet<>();
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 	/**
@@ -112,7 +110,7 @@ public class DependencyIndex
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
 			//check if this assertion exists
-			if (kb.getSyntacticAssertions().contains(nextAtom))
+			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
 				if (!dependencies.containsKey(nextAtom))
@@ -141,7 +139,7 @@ public class DependencyIndex
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
 			//check if this assertion exists
-			if (kb.getSyntacticAssertions().contains(nextAtom))
+			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
 				if (!dependencies.containsKey(nextAtom))
@@ -169,7 +167,7 @@ public class DependencyIndex
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
 			//check if this assertion exists
-			if (kb.getSyntacticAssertions().contains(nextAtom))
+			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
 				if (!dependencies.containsKey(nextAtom))
@@ -195,7 +193,7 @@ public class DependencyIndex
 		//loop over ds
 		for (final ATermAppl nextAtom : branch.getTermDepends().getExplain())
 			//check if this assertion exists
-			if (kb.getSyntacticAssertions().contains(nextAtom))
+			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
 				if (!dependencies.containsKey(nextAtom))
@@ -231,7 +229,7 @@ public class DependencyIndex
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
 			//check if this assertion exists
-			if (kb.getSyntacticAssertions().contains(nextAtom))
+			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
 				if (!dependencies.containsKey(nextAtom))
@@ -321,7 +319,7 @@ public class DependencyIndex
 		//loop over ds
 		for (final ATermAppl nextAtom : clash.getDepends().getExplain())
 			//check if this assertion exists
-			if (kb.getSyntacticAssertions().contains(nextAtom))
+			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
 				if (!dependencies.containsKey(nextAtom))

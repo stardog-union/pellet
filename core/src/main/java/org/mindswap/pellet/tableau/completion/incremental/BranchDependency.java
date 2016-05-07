@@ -17,18 +17,18 @@ public abstract class BranchDependency implements Dependency
 {
 
 	/**
-	 * The assertion which this _branch is indexed on
+	 * The _assertion which this _branch is indexed on
 	 */
-	protected ATermAppl assertion;
+	protected ATermAppl _assertion;
 
 	/**
 	 * Constructor
 	 *
-	 * @param assertion
+	 * @param _assertion
 	 */
 	public BranchDependency(final ATermAppl assertion)
 	{
-		this.assertion = assertion;
+		this._assertion = assertion;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public abstract class BranchDependency implements Dependency
 	 */
 	public ATermAppl getAssertion()
 	{
-		return assertion;
+		return _assertion;
 	}
 
 }

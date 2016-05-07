@@ -51,11 +51,11 @@ public class IncrementalRestore
 		restore.restoreDependencies();
 	}
 
-	private final KnowledgeBase kb;
+	private final KnowledgeBase _kb;
 
 	private IncrementalRestore(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class IncrementalRestore
 			if (DependencyIndex.log.isLoggable(Level.FINE))
 				DependencyIndex.log.fine("           Actually removing _branch!");
 
-			final Collection<ATermAppl> allEffects = PelletOptions.TRACK_BRANCH_EFFECTS ? kb.getABox().getBranchEffectTracker().getAll(branch.getBranch().getBranch()) : kb.getABox().getNodeNames();
+			final Collection<ATermAppl> allEffects = PelletOptions.TRACK_BRANCH_EFFECTS ? _kb.getABox().getBranchEffectTracker().getAll(branch.getBranch().getBranch()) : _kb.getABox().getNodeNames();
 
 			final List<IntSet> updatedList = new ArrayList<>();
 
@@ -89,146 +89,146 @@ public class IncrementalRestore
 			{
 
 				// get the actual _node
-						final Node node = kb.getABox().getNode(a);
+				final Node node = _kb.getABox().getNode(a);
 
 				// update type dependencies
-						final Map<ATermAppl, DependencySet> types = node.getDepends();
+				final Map<ATermAppl, DependencySet> types = node.getDepends();
 
 				for (final Entry<ATermAppl, DependencySet> entry : types.entrySet())
 				{
-							// get ds for type
-							DependencySet tDS = entry.getValue();
+					// get ds for type
+					DependencySet tDS = entry.getValue();
 
 					// DependencySet.copy() does not create a new bitset object,
-							// so we need to track which bitsets have been
-							// updated, so we do not process the same bitset multiple
-							// times
-							boolean exit = false;
-							for (int i = 0; i < updatedList.size(); i++)
-								if (updatedList.get(i) == tDS.getDepends())
-									exit = true;
+					// so we need to track which bitsets have been
+					// updated, so we do not process the same bitset multiple
+					// times
+					boolean exit = false;
+					for (int i = 0; i < updatedList.size(); i++)
+						if (updatedList.get(i) == tDS.getDepends())
+							exit = true;
 
 					if (exit)
-								continue;
+						continue;
 
 					updatedList.add(tDS.getDepends());
 
 					// update _branch if necessary
-							if (tDS.getBranch() > branch.getBranch().getBranch())
-								tDS = tDS.copy(tDS.getBranch() - 1);
+					if (tDS.getBranch() > branch.getBranch().getBranch())
+						tDS = tDS.copy(tDS.getBranch() - 1);
 
-					for (int i = branch.getBranch().getBranch(); i <= kb.getABox().getBranches().size(); i++)
-								// update dependency set
-								if (tDS.contains(i))
+					for (int i = branch.getBranch().getBranch(); i <= _kb.getABox().getBranches().size(); i++)
+						// update dependency set
+						if (tDS.contains(i))
 						{
-									tDS.remove(i);
-									tDS.add(i - 1);
-								}
+							tDS.remove(i);
+							tDS.add(i - 1);
+						}
 
 					entry.setValue(tDS);
-						}
+				}
 
 				// update edge depdencies
-						final EdgeList edges = node.getInEdges();
-						for (final Edge edge : edges)
+				final EdgeList edges = node.getInEdges();
+				for (final Edge edge : edges)
 				{
-							DependencySet tDS = edge.getDepends();
+					DependencySet tDS = edge.getDepends();
 
 					// DependencySet.copy() does not create a new bitset object,
-							// so we need to track which bitsets have been
-							// updated, so we do not process the same bitset multiple
-							// times
-							boolean exit = false;
-							for (int i = 0; i < updatedList.size(); i++)
-								if (updatedList.get(i) == tDS.getDepends())
-									exit = true;
+					// so we need to track which bitsets have been
+					// updated, so we do not process the same bitset multiple
+					// times
+					boolean exit = false;
+					for (int i = 0; i < updatedList.size(); i++)
+						if (updatedList.get(i) == tDS.getDepends())
+							exit = true;
 
 					if (exit)
-								continue;
+						continue;
 
 					updatedList.add(tDS.getDepends());
 
 					// update _branch if necessary
-							if (tDS.getBranch() > branch.getBranch().getBranch())
-								tDS = tDS.copy(edge.getDepends().getBranch() - 1);
+					if (tDS.getBranch() > branch.getBranch().getBranch())
+						tDS = tDS.copy(edge.getDepends().getBranch() - 1);
 
-					for (int i = branch.getBranch().getBranch(); i <= kb.getABox().getBranches().size(); i++)
-								// update dependency set
-								if (tDS.contains(i))
+					for (int i = branch.getBranch().getBranch(); i <= _kb.getABox().getBranches().size(); i++)
+						// update dependency set
+						if (tDS.contains(i))
 						{
-									tDS.remove(i);
-									tDS.add(i - 1);
-								}
-
-					edge.setDepends(tDS);
+							tDS.remove(i);
+							tDS.add(i - 1);
 						}
 
+					edge.setDepends(tDS);
+				}
+
 				// //TODO:The following code update outedges as well - after
-						// testing is seems that this is un-necessary
-						// if(_node instanceof Individual){
-						// Individual ind = (Individual)_node;
-						//
-						// //update edge depdencies
-						// //update type dependencies
-						// edges = ind.getInEdges();
-						// for(Iterator eIt = edges.iterator(); eIt.hasNext();){
-						// //get next type
-						// Edge edge = (Edge)eIt.next();
-						//
-						// //update _branch if necessary
-						// if(edge.getDepends().branch > _branch.getBranch().branch)
-						// edge.getDepends().branch--;
-						//
-						// for(int i = _branch.getBranch().branch; i <=
-						// kb.getABox().getBranches().size(); i++){
-						// //update dependency set
-						// if(edge.getDepends().contains(i)){
-						// edge.getDepends().remove(i);
-						// edge.getDepends().add(i-1);
-						// }
-						// }
-						// }
-						// }
-					}
+				// testing is seems that this is un-necessary
+				// if(_node instanceof Individual){
+				// Individual ind = (Individual)_node;
+				//
+				// //update edge depdencies
+				// //update type dependencies
+				// edges = ind.getInEdges();
+				// for(Iterator eIt = edges.iterator(); eIt.hasNext();){
+				// //get next type
+				// Edge edge = (Edge)eIt.next();
+				//
+				// //update _branch if necessary
+				// if(edge.getDepends().branch > _branch.getBranch().branch)
+				// edge.getDepends().branch--;
+				//
+				// for(int i = _branch.getBranch().branch; i <=
+				// _kb.getABox().getBranches().size(); i++){
+				// //update dependency set
+				// if(edge.getDepends().contains(i)){
+				// edge.getDepends().remove(i);
+				// edge.getDepends().add(i-1);
+				// }
+				// }
+				// }
+				// }
+			}
 
 			if (PelletOptions.TRACK_BRANCH_EFFECTS)
-						kb.getABox().getBranchEffectTracker().remove(branch.getBranch().getBranch() + 1);
+				_kb.getABox().getBranchEffectTracker().remove(branch.getBranch().getBranch() + 1);
 
-			// !!!!!!!!!!!!!!!! Next update kb.getABox() branches !!!!!!!!!!!!!!
-					// remove the _branch from branches
-					final List<Branch> branches = kb.getABox().getBranches();
+			// !!!!!!!!!!!!!!!! Next update _kb.getABox() branches !!!!!!!!!!!!!!
+			// remove the _branch from branches
+			final List<Branch> branches = _kb.getABox().getBranches();
 
 			// decrease _branch id for each _branch after the _branch we're
-					// removing
-					// also need to change the dependency set for each label
-					for (int i = branch.getBranch().getBranch(); i < branches.size(); i++)
+			// removing
+			// also need to change the dependency set for each label
+			for (int i = branch.getBranch().getBranch(); i < branches.size(); i++)
 			{
-						// cast for ease
-						final Branch br = branches.get(i);
+				// cast for ease
+				final Branch br = branches.get(i);
 
 				DependencySet tDS = br.getTermDepends();
 
 				// update the term depends in the _branch
-						if (tDS.getBranch() > branch.getBranch().getBranch())
-							tDS = tDS.copy(tDS.getBranch() - 1);
+				if (tDS.getBranch() > branch.getBranch().getBranch())
+					tDS = tDS.copy(tDS.getBranch() - 1);
 
-				for (int j = branch.getBranch().getBranch(); j < kb.getABox().getBranches().size(); j++)
-							if (tDS.contains(j))
+				for (int j = branch.getBranch().getBranch(); j < _kb.getABox().getBranches().size(); j++)
+					if (tDS.contains(j))
 					{
-								tDS.remove(j);
-								tDS.add(j - 1);
-							}
-
-				// also need to decrement the _branch number
-						br.setBranch(br.getBranch() - 1);
-						br.setTermDepends(tDS);
+						tDS.remove(j);
+						tDS.add(j - 1);
 					}
 
+				// also need to decrement the _branch number
+				br.setBranch(br.getBranch() - 1);
+				br.setTermDepends(tDS);
+			}
+
 			// remove the actual _branch
-					branches.remove(branch.getBranch());
+			branches.remove(branch.getBranch());
 
 			// set the _branch counter
-					kb.getABox().setBranch(kb.getABox().getBranch() - 1);
+			_kb.getABox().setBranch(_kb.getABox().getBranch() - 1);
 		}
 	}
 
@@ -253,7 +253,7 @@ public class IncrementalRestore
 			if (DependencyIndex.log.isLoggable(Level.FINE))
 				DependencyIndex.log.fine("           Actually removing clash!");
 
-			kb.getABox().setClash(null);
+			_kb.getABox().setClash(null);
 		}
 	}
 
@@ -263,7 +263,7 @@ public class IncrementalRestore
 	 * @param assertion
 	 * @param _branch
 	 */
-	private void restoreCloseBranch(final ATermAppl assertion, final CloseBranchDependency branch)
+	private void restoreCloseBranch(@SuppressWarnings("unused") final ATermAppl assertion, final CloseBranchDependency branch)
 	{
 		// only proceed if _tryNext is larger than 1!
 		if (branch.getTheBranch().getTryNext() > -1)
@@ -277,7 +277,7 @@ public class IncrementalRestore
 	}
 
 	/**
-	 * Method to remove all stuctures dependent on an kb.getABox() assertion from the kb.getABox(). This is used for incremental reasoning under kb.getABox()
+	 * Method to remove all stuctures dependent on an _kb.getABox() assertion from the _kb.getABox(). This is used for incremental reasoning under _kb.getABox()
 	 * deletions.
 	 *
 	 * @param ATermAppl assertion The deleted assertion
@@ -286,10 +286,10 @@ public class IncrementalRestore
 	{
 
 		// iterate over all removed assertions
-		for (final ATermAppl next : kb.getDeletedAssertions())
+		for (final ATermAppl next : _kb.getDeletedAssertions())
 		{
 			// get the dependency entry
-			final DependencyEntry entry = kb.getDependencyIndex().getDependencies(next);
+			final DependencyEntry entry = _kb.getDependencyIndex().getDependencies(next);
 
 			if (entry != null)
 			{
@@ -301,7 +301,7 @@ public class IncrementalRestore
 			}
 
 			// remove the entry in the _index for this assertion
-			kb.getDependencyIndex().removeDependencies(next);
+			_kb.getDependencyIndex().removeDependencies(next);
 		}
 
 	}
@@ -363,9 +363,9 @@ public class IncrementalRestore
 			return;
 
 		// get the object
-		final Individual subj = kb.getABox().getIndividual(theEdge.getFrom().getName());
-		final Node obj = kb.getABox().getNode(theEdge.getTo().getName());
-		final Role role = kb.getRole(theEdge.getRole().getName());
+		final Individual subj = _kb.getABox().getIndividual(theEdge.getFrom().getName());
+		final Node obj = _kb.getABox().getNode(theEdge.getTo().getName());
+		final Role role = _kb.getRole(theEdge.getRole().getName());
 
 		// loop over all edges for the subject
 		final EdgeList edges = subj.getEdgesTo(obj, role);
@@ -383,7 +383,7 @@ public class IncrementalRestore
 				// remove if the dependency set is empty
 				if (ds.getExplain().isEmpty())
 				{
-					final IncrementalChangeTracker tracker = kb.getABox().getIncrementalChangeTracker();
+					final IncrementalChangeTracker tracker = _kb.getABox().getIncrementalChangeTracker();
 					// need to check if the
 
 					subj.removeEdge(edge);
@@ -420,7 +420,7 @@ public class IncrementalRestore
 			DependencyIndex.log.fine("    Removing merge? " + merge.getInd() + " merged to " + merge.getmergedIntoInd());
 
 		// get merge dependency
-		final DependencySet ds = kb.getABox().getNode(merge.getInd()).getMergeDependency(false);
+		final DependencySet ds = _kb.getABox().getNode(merge.getInd()).getMergeDependency(false);
 
 		// remove the dependency
 		ds.removeExplain(assertion);
@@ -432,8 +432,8 @@ public class IncrementalRestore
 				DependencyIndex.log.fine("           Actually removing merge!");
 
 			// get _nodes
-			final Node ind = kb.getABox().getNode(merge.getInd());
-			final Node mergedToInd = kb.getABox().getNode(merge.getmergedIntoInd());
+			final Node ind = _kb.getABox().getNode(merge.getInd());
+			final Node mergedToInd = _kb.getABox().getNode(merge.getmergedIntoInd());
 
 			// check that they are actually the same - else throw error
 			if (!ind.isSame(mergedToInd))
@@ -454,7 +454,7 @@ public class IncrementalRestore
 			// they will be added when the edge is removed from the _node which
 			// this individual was merged to
 			// add to updated
-			final IncrementalChangeTracker tracker = kb.getABox().getIncrementalChangeTracker();
+			final IncrementalChangeTracker tracker = _kb.getABox().getIncrementalChangeTracker();
 
 			// because this _node was pruned, we must guarantee that all of
 			// its lables have been fired
@@ -477,7 +477,7 @@ public class IncrementalRestore
 	private void restoreType(final ATermAppl assertion, final TypeDependency type)
 	{
 
-		final Node node = kb.getABox().getNode(type.getInd());
+		final Node node = _kb.getABox().getNode(type.getInd());
 		final ATermAppl desc = type.getType();
 
 		if (DependencyIndex.log.isLoggable(Level.FINE))
@@ -500,9 +500,9 @@ public class IncrementalRestore
 		// remove if the explanation set is empty
 		if (ds.getExplain().isEmpty())
 		{
-			final IncrementalChangeTracker tracker = kb.getABox().getIncrementalChangeTracker();
+			final IncrementalChangeTracker tracker = _kb.getABox().getIncrementalChangeTracker();
 
-			kb.getABox().removeType(node.getName(), desc);
+			_kb.getABox().removeType(node.getName(), desc);
 
 			// update the set of removed types
 			tracker.addDeletedType(node, type.getType());

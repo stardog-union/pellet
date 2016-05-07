@@ -10,7 +10,7 @@ import aterm.ATermAppl;
 import org.mindswap.pellet.Clash;
 
 /**
- * A clash dependency.
+ * A _clash dependency.
  *
  * @author Christian Halaschek-Wiener
  */
@@ -18,25 +18,25 @@ public class ClashDependency implements Dependency
 {
 
 	/**
-	 * The assertion
+	 * The _assertion
 	 */
-	private final ATermAppl assertion;
+	private final ATermAppl _assertion;
 
 	/**
-	 * The clash
+	 * The _clash
 	 */
-	private final Clash clash;
+	private final Clash _clash;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param assertion
-	 * @param clash
+	 * @param _assertion
+	 * @param _clash
 	 */
 	public ClashDependency(final ATermAppl assertion, final Clash clash)
 	{
-		this.assertion = assertion;
-		this.clash = clash;
+		this._assertion = assertion;
+		this._clash = clash;
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class ClashDependency implements Dependency
 	@Override
 	public String toString()
 	{
-		return "Clash [" + assertion + "]  - [" + clash + "]";
+		return "Clash [" + _assertion + "]  - [" + _clash + "]";
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ClashDependency implements Dependency
 	public boolean equals(final Object other)
 	{
 		if (other instanceof ClashDependency)
-			return this.assertion.equals(((ClashDependency) other).assertion) && this.clash.getNode().equals(((ClashDependency) other).clash.getNode()) && this.clash.getType() == ((ClashDependency) other).clash.getType() && this.clash.getDepends().equals(((ClashDependency) other).clash.getDepends());
+			return this._assertion.equals(((ClashDependency) other)._assertion) && this._clash.getNode().equals(((ClashDependency) other)._clash.getNode()) && this._clash.getType() == ((ClashDependency) other)._clash.getType() && this._clash.getDepends().equals(((ClashDependency) other)._clash.getDepends());
 		else
 			return false;
 	}
@@ -66,27 +66,27 @@ public class ClashDependency implements Dependency
 	@Override
 	public int hashCode()
 	{
-		return this.clash.getType().hashCode() + this.clash.getDepends().hashCode() + this.clash.getNode().hashCode() + this.assertion.hashCode();
+		return this._clash.getType().hashCode() + this._clash.getDepends().hashCode() + this._clash.getNode().hashCode() + this._assertion.hashCode();
 	}
 
 	/**
-	 * Get the assertion
+	 * Get the _assertion
 	 * 
 	 * @return
 	 */
 	protected ATermAppl getAssertion()
 	{
-		return assertion;
+		return _assertion;
 	}
 
 	/**
-	 * Get the clash
+	 * Get the _clash
 	 *
 	 * @return
 	 */
 	public Clash getClash()
 	{
-		return clash;
+		return _clash;
 	}
 
 }

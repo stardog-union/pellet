@@ -33,15 +33,15 @@ import org.mindswap.pellet.tableau.branch.Branch;
 public class CloseBranchDependency extends BranchDependency
 {
 
-	private final int tryNext;
+	private final int _tryNext;
 
-	private final Branch theBranch;
+	private final Branch _theBranch;
 
 	public CloseBranchDependency(final ATermAppl assertion, final int tryNext, final Branch theBranch)
 	{
 		super(assertion);
-		this.tryNext = tryNext;
-		this.theBranch = theBranch;
+		this._tryNext = tryNext;
+		this._theBranch = theBranch;
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class CloseBranchDependency extends BranchDependency
 	 */
 	public ATermAppl getInd()
 	{
-		return theBranch.getNode().getName();
+		return _theBranch.getNode().getName();
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class CloseBranchDependency extends BranchDependency
 	@Override
 	public String toString()
 	{
-		return "Branch [" + theBranch.getNode().getName() + "]  -  [" + theBranch.getBranch() + "]";
+		return "Branch [" + _theBranch.getNode().getName() + "]  -  [" + _theBranch.getBranch() + "]";
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class CloseBranchDependency extends BranchDependency
 	public boolean equals(final Object other)
 	{
 		if (other instanceof CloseBranchDependency)
-			return this.getInd().equals(((CloseBranchDependency) other).getInd()) && this.getBranch() == ((CloseBranchDependency) other).getBranch() && this.tryNext == ((CloseBranchDependency) other).tryNext;
+			return this.getInd().equals(((CloseBranchDependency) other).getInd()) && this.getBranch() == ((CloseBranchDependency) other).getBranch() && this._tryNext == ((CloseBranchDependency) other)._tryNext;
 		else
 			return false;
 	}
@@ -79,22 +79,22 @@ public class CloseBranchDependency extends BranchDependency
 	@Override
 	public int hashCode()
 	{
-		return this.getInd().hashCode() + this.getBranch() + this.tryNext;
+		return this.getInd().hashCode() + this.getBranch() + this._tryNext;
 	}
 
 	public int getBranch()
 	{
-		return theBranch.getBranch();
+		return _theBranch.getBranch();
 	}
 
 	public int getTryNext()
 	{
-		return tryNext;
+		return _tryNext;
 	}
 
 	public Branch getTheBranch()
 	{
-		return theBranch;
+		return _theBranch;
 	}
 
 }

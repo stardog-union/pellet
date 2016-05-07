@@ -13,4 +13,5 @@ package org.mindswap.pellet.tableau.completion.incremental;
  */
 public interface Dependency
 {
+	//
 }

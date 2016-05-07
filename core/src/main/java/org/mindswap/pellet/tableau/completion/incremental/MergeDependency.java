@@ -17,25 +17,25 @@ public class MergeDependency implements Dependency
 {
 
 	/**
-	 * The individual that ind is merged to
+	 * The individual that _ind is merged to
 	 */
-	private final ATermAppl mergedIntoInd;
+	private final ATermAppl _mergedIntoInd;
 
 	/**
-	 * The individual that is merged into mergedIntoInd
+	 * The individual that is merged into _mergedIntoInd
 	 */
-	private final ATermAppl ind;
+	private final ATermAppl _ind;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param ind
-	 * @param mergedIntoInd
+	 * @param _ind
+	 * @param _mergedIntoInd
 	 */
 	public MergeDependency(final ATermAppl ind, final ATermAppl mergedIntoInd)
 	{
-		this.mergedIntoInd = mergedIntoInd;
-		this.ind = ind;
+		this._mergedIntoInd = mergedIntoInd;
+		this._ind = ind;
 	}
 
 	/**
@@ -45,17 +45,17 @@ public class MergeDependency implements Dependency
 	 */
 	public ATermAppl getInd()
 	{
-		return ind;
+		return _ind;
 	}
 
 	/**
-	 * Get the individual that has ind merged into it
+	 * Get the individual that has _ind merged into it
 	 *
 	 * @return
 	 */
 	public ATermAppl getmergedIntoInd()
 	{
-		return mergedIntoInd;
+		return _mergedIntoInd;
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class MergeDependency implements Dependency
 	@Override
 	public String toString()
 	{
-		return "Merge [" + ind + "]  into [" + mergedIntoInd + "]";
+		return "Merge [" + _ind + "]  into [" + _mergedIntoInd + "]";
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class MergeDependency implements Dependency
 	public boolean equals(final Object other)
 	{
 		if (other instanceof MergeDependency)
-			return this.ind.equals(((MergeDependency) other).ind) && this.mergedIntoInd.equals(((MergeDependency) other).mergedIntoInd);
+			return this._ind.equals(((MergeDependency) other)._ind) && this._mergedIntoInd.equals(((MergeDependency) other)._mergedIntoInd);
 		else
 			return false;
 	}
@@ -85,7 +85,7 @@ public class MergeDependency implements Dependency
 	@Override
 	public int hashCode()
 	{
-		return this.ind.hashCode() + this.mergedIntoInd.hashCode();
+		return this._ind.hashCode() + this._mergedIntoInd.hashCode();
 	}
 
 }

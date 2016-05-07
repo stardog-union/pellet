@@ -49,7 +49,7 @@ public class DependencyEntry
 	/**
 	 * Clash dependency
 	 */
-	private ClashDependency clash;
+	private ClashDependency _clash;
 
 	/**
 	 * Default constructor
@@ -61,7 +61,7 @@ public class DependencyEntry
 		merges = new HashSet<>();
 		branchAdds = new HashSet<>();
 		branchCloses = new HashSet<>();
-		clash = null;
+		_clash = null;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class DependencyEntry
 		newEntry.branchCloses = new HashSet<>(this.branchCloses);
 
 		//TODO:may need to perform a deep copy here
-		newEntry.clash = this.clash;
+		newEntry._clash = this._clash;
 
 		return newEntry;
 	}
@@ -232,22 +232,22 @@ public class DependencyEntry
 	}
 
 	/**
-	 * Get clash dependency
+	 * Get _clash dependency
 	 * 
 	 * @return
 	 */
 	public ClashDependency getClash()
 	{
-		return clash;
+		return _clash;
 	}
 
 	/**
-	 * Set clash dependency
+	 * Set _clash dependency
 	 * 
-	 * @param clash
+	 * @param _clash
 	 */
 	protected void setClash(final ClashDependency clash)
 	{
-		this.clash = clash;
+		this._clash = clash;
 	}
 }
