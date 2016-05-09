@@ -9,9 +9,9 @@
 #
 # run ./pellet.sh for the usage
 
-if [ ! -d "cli/target/appassembler/bin" ]; then
+if [ ! -d "cli/target/pelletcli/bin" ]; then
 mvn -quiet clean install -DskipTests
 fi
 
-chmod u+x cli/target/appassembler/bin/*
-cli/target/appassembler/bin/pellet $@
+chmod u+x cli/target/pelletcli/bin/*
+cli/target/pelletcli/bin/pellet $@
