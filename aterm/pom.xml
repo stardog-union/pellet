@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.clarkparsia.pellet</groupId>
+        <artifactId>pellet-parent</artifactId>
+        <version>2.5.1-galigator-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.katk.aterms</groupId>
+    <artifactId>aterm</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0</version>
+    <name>Openllet :: Abstracts functions</name>
+    <description>Openllet management of abstracts functions</description>
+    <url>https://github.com/Galigator/pellet</url>
+
+    <licenses>
+        <license>
+            <name>BSD license</name>
+            <url>https://github.com/ansell/aterms/blob/master/aterm-java/COPYING</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>CWI</name>
+        <url>http://www.cwi.nl/sen1</url>
+    </organization>
+
+    <profiles>
+
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- We need the GPG Plugin to self-sign the jar files. 
+                        A valid signature for the jar files is a requirement for deploying to Maven 
+                        Central. -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+    <build>
+        <sourceDirectory>src/</sourceDirectory>
+        <testSourceDirectory>test/</testSourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>test/</directory>
+            </testResource>
+        </testResources>
+        <plugins>
+            <!-- We need to explicitly include the Source Plugin to deploy 
+                the sources. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+
+                <!-- In the Compiler Plugin we specify the encoding and the 
+                    compiler version. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.0</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <!-- We need to configure the Source Plugin for deploying 
+                    the sources. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.1.2</version>
+                    <executions>
+                        <!-- Attach sources. -->
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>attach-test-sources</id>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- We need to configure the Jar Plugin for deploying the 
+                    test classes. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- The Surefire Plugin is for error reporting. -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.12.4</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <!-- Specify the encoding of the source files. -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
+
+

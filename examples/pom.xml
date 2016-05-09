@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>com.clarkparsia.pellet</groupId>
 		<artifactId>pellet-parent</artifactId>
-		<version>2.5.0-galigator</version>
+		<version>2.5.1-galigator-SNAPSHOT</version>
 	</parent>
 	<artifactId>pellet-examples</artifactId>
-	<name>Pellet :: Examples</name>
-	<description>Examples of Pellet Usage</description>
+	<name>Openllet :: Examples</name>
+	<description>Examples of Openllet Usage</description>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

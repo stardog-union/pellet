@@ -7,14 +7,14 @@
 	<parent>
 		<groupId>com.clarkparsia.pellet</groupId>
 		<artifactId>pellet-parent</artifactId>
-		<version>2.5.0-galigator</version>
+		<version>2.5.1-galigator-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>pellet-distribution</artifactId>
 	<packaging>pom</packaging>
 
-	<name>Pellet :: Distribution</name>
-	<description>Distribution module for Pellet</description>
+	<name>Openllet :: Distribution</name>
+	<description>Distribution module for Openllet</description>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -64,7 +64,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>pellet-${project.version}</finalName>
+							<finalName>openllet-${project.version}</finalName>
 							<descriptors>
 								<!-- descriptor>src/main/assembly/onejar.xml</descriptor -->
 								<descriptor>src/main/assembly/dist.xml</descriptor>

@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>com.clarkparsia.pellet</groupId>
 		<artifactId>pellet-parent</artifactId>
-		<version>2.5.0-galigator</version>
+		<version>2.5.1-galigator-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>pellet-test</artifactId>
-	<name>Pellet :: Tests</name>
+	<name>Openllet :: Tests</name>
 
 	<dependencies>
 		<dependency>

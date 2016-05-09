@@ -1,0 +1,347 @@
+Wed Aug 27 14:06 CEST 2008 <lankamp@cwi.nl>
+  * Added placeholder pattern for blobs (since it was missing).
+
+Fri May 30 14:15 CEST 2008 <lankamp@cwi.nl>
+  * Implemented the importTerm method.
+
+Tue May 06 10:50 CEST 2008 <lankamp@cwi.nl>
+  * Fixed a problem related to the tail-sharing of ATermLists which have annotations.
+
+Thu Mar 27 09:00 CEST 2008 <lankamp@cwi.nl>
+  * Removed dependency with a sun library class.
+
+Wed Feb 13 13:44 CEST 2008 <lankamp@cwi.nl>
+  * Changed the way function symbols are serialized. This reduces the time it takes to write an ATerm in ASCII format by over 25%.
+
+Tue Jan 22 15:35 CEST 2008 <lankamp@cwi.nl>
+  * Fixed an overflow problem in the SAF I/O reader.
+
+Mon Jan 14 13:23 CEST 2008 <lankamp@cwi.nl>
+  * Fixed an off-by-one in the pre-condition check in aterm.pure.ATermListImpl#elementAt(int).
+
+Tue Jan 08 9:42 CEST 2008 <lankamp@cwi.nl>
+  * Added an autodetection mechanism to the aterm.pure.PureFactory#readFile(String) method.
+  * Fixed a stream leak bug.
+
+Thu Dec 06 9:55 CEST 2007 <lankamp@cwi.nl>
+  * Added missing JavaDoc to the BinaryWriter and BinaryReader.
+
+Mon Dec 03 11:39 CEST 2007 <lankamp@cwi.nl>
+  * Added functions for reading and writing SAF from / to a string.
+    (Well a byte array actually. It is not possible to store the binary data in a Java string,
+    since that will cause it to be encoded in UTF-16, which basically messes everything up).
+
+Tue Aug 14 13:07 CEST 2007 <lankamp@cwi.nl>
+  * Fixed a bug in SAF I/O related to the serialization of Blobs. Writing large blobs in chunks failed.
+
+Mon Aug 13 14:49 CEST 2007 <lankamp@cwi.nl>
+  * Removed synchronization from the 'parseFromReader' method in the PureFactory.
+    This method doesn't require synchronization.
+
+Tue Jul 10 10:28 CEST 2007 <lankamp@cwi.nl>
+  * Fixed an incompatibility with Java's UTF-8 strings in the SAF binary writer.
+
+Mon May 14 10:43 CEST 2007 <lankamp@cwi.nl>
+  * Ported SAF I/O optimizations in the C version to Java.
+  * Added SAF file I/O.
+  * Updated documentation.
+
+2007-05-06  Pem  <pem@piano.local>
+  * changed license to BSD
+
+2007-01-12 <moreau,reilles@loria.fr>
+  * added the ATermLong type
+  * added a test for ATermLong
+  * added the constant LONG=8
+
+Thu Dec 14 15:25:00 CEST 2006 <lankamp@cwi.nl>
+  * Fixed a bug in the BinaryWriter that caused problems with negative integers.
+  * Added a test for the BinaryWriter that checks if negative integers are serialized correctly.
+
+Fri Nov 17 13:40:00 CEST 2006 <lankamp@cwi.nl>
+  * Added a streamable binary format.
+  * Added documentation for the streamable binary format.
+
+Mon May 14 10:43 CEST <lankamp@cwi.nl>
+  * Ported SAF I/O optimizations in the C version to Java.
+  * Updated documentation.
+
+2007-01-12 <moreau,reilles@loria.fr>
+  * added the ATermLong type
+  * added a test for ATermLong
+  * added the constant LONG=8
+
+Thu Dec 14 15:25:00 CEST 2006 <lankamp@cwi.nl>
+  * Fixed a bug in the BinaryWriter that caused problems with negative integers.
+  * Added a test for the BinaryWriter that checks if negative integers are serialized correctly.
+
+Fri Nov 17 13:40:00 CEST 2006 <lankamp@cwi.nl>
+  * Added a streamable binary format.
+  * Added documentation for the streamable binary format.
+
+Tue Jul 25 20:32:30 CEST 2006 <martin.bravenboer@gmail.com>
+  * aterm-java.pc.in: The VERSION part of the file name of a jar
+    cannot be variable: it is read by configure by substition takes
+    place, so it needs to be literal.
+
+    This might actually have worked in old autoconfs, since the
+    @VERSION@ might be substited by its value in the
+    Makefile (yuk). However, in recent autoconf's the value is
+    'correctly' quoted, so we end up with a filename
+    foo-@VERSION@.jar.
+
+    Maybe it's a better idea not to use version in the file names of
+    jars.
+
+Tue Jul 25 09:16:05 CEST 2006 <{kooiker,jurgenv}@cwi.nl,martin.bravenboer@gmail.com>
+ * **: adapted package to use the standard meta-build-env.
+ * *.jar: removed jar file from version control
+
+2006-06-29    <storm@cwi.nl>
+  * build.xml: enabled source in generated documentation.
+
+2006-06-28    <storm@cwi.nl>
+  * doc: latex generation is now followed by pdf generation.
+  * doc, build.xml: added Javadoc documentation generation to build.xml and 
+	disabled html generation by doxygen.
+
+Tue Jun 27 12:08:20 CEST 2006 <jurgenv@cwi.nl>
+ * doc: Added doc directory which uses doxygen, in MAINTAINER_MODE,
+   to generate a website. 
+ * doc/Doxyfile: turned on every available option of doxygen.
+ * ChangeLog: restored truncated part of ChangeLog
+ * doc/DoxyFile: enabled java output optimization
+ 
+Wed May  3 13:50:13 CEST 2006 <jurgenv@cwi.nl>
+ * Bumped to 1.6.3
+
+Fri Mar 10 15:48:13 CET 2006 <kooiker@cwi.nl>
+ * aterm-1.6.jar:
+   - Add to cvs so users can build the package without
+     --enable-maintainer-mode
+
+Tue Sep 13 10:11:40 CEST 2005 <pem>
+ * we have a better solution: find a fix-point hashcode such that
+ * empty.hashcode = empty.getAnnotations().hashCode
+ * this magic value can be found using findEmptyHashCode()
+
+  Tue Sep 13 10:11:40 CEST 2005 <pem>
+ * fix a problem related to the emptyList
+ * we now have: empty == empty.setAnnotations(empty.getAnnotations())
+ * but, note that empty.getAnnotations() is not the real empty list (otherwise there would be a loop!)
+ * therefore, empty.getAnnotations() != empty.getAnnotations().setAnnotations(empty.getAnnotations().getAnnotations())
+ 
+Fri Sep  9 16:09:40 CEST 2005 <{jong,jurgenv@cwi.nl}>
+ * new implementation of Visitor
+ * Fwd has been replaced by ATermFwd and ATermFwdVoid
+ * This allows to define non-void visitors. The counter part is that old code that is using Fwd has to be rewritten to use ATermFwdVoid
+
+Fri Jun  3 16:09:40 CEST 2005 <{jong,jurgenv@cwi.nl}>
+ * test/Test1.java: Added some more parsing tests
+
+Wed May 25 16:06:13 CEST 2005 <kooiker@cwi.nl>
+ * aterm/pure/*java,test/*.java:
+   - Solved Eclipse warnings: unnecessary else and throws
+
+2004-12-17  pem
+ * improved isEmpty() implementation
+ * maintain annotations when tranforming an ATerm
+
+2004-08-06  Antoine Reilles  <tonio@bonzai>
+ * aterm/pure/SingletonFactory.java: if you need a singleton PureFactory...
+
+2004-04-08  pem  <pem@polly.loria.fr>
+ * aterm/pure/PureFactory.java: make the parseId function compatible 
+   with the C version of the ATerm library
+
+Tue Feb 10 15:27:49 CET 2004 <m336@cwi.nl>
+ * upgrade auto* to: autoconf 2.59, automake 1.7.9, libtool 1.5.2
+
+2004/01/30 <jurgenv@cwi.nl>
+ * Bumped to 1.6
+ * Compliant with automake-1.6
+
+2003/09/26 <jurgenv@cwi.nl>
+ * Release 1.5
+
+Wed Aug 27 14:20:42 CEST 2003 <{jong,kooiker}@cwi.nl>
+ * version bump to 1.5beta
+ * make empty list notion private to PureFactory
+ * remove any static references to 'empty'
+ * throw away aterm-java-*.pkg in CLEAN_FILES, not *.pkg, as this includes
+   the repository-managed source file for generating .pkg files!
+
+2003/08/14 <jurgenv@cwi.nl>
+ * Made all constructors of ATerm implementations protected.
+ * Made init and initHashCode methods also protected.
+ 
+2003/08/13 <jurgenv@cwi.nl>
+ * Removed getStaticFactory methods and static references to factories to make
+   use of multiple factories possible again. 
+ * Added local references to factory and constructors to initialize the
+   factory. The factory is not initialized in the init method to prevent
+   unnecessary copying of the factory reference.
+
+2003/08/12 <{pem@loria.fr>
+ * Added the getEmpty() function which returns the empty element of a list
+ * getEmpty and insert are used in ATermListImpl (instead of getPureFactory())
+   This makes generic function usable with apigen 
+ 
+2003/08/12 <{jong,kooiker}@cwi.nl>
+ * aterm/Visitor.java: scrapped folding
+
+2003/08/07 <jurgenv@cwi.nl>
+ * Removed old commented out code
+ * All classed use PureFactory.getEmpty() instead of PureFactory.empty now to
+   improve reusability of ATermListImpl
+ * Visibility of empty is still 'protected' for backward compatibility
+ * Made internal class ATermWriter a toplevel class
+   
+2003/08/07 <jurgenv@cwi.nl>
+ * Made aterm.pure.ATermListImpl public such that it can be inherited from.
+ * Changed visibitity of init functions of ATermListImpl in order to be able to
+   use them in classes that extend ATermListImpl.
+ * Bumped to 1.4
+
+2003/08/01 <jurgenv@cwi.nl>
+ * Set dependency on version 1.4.2 of JJTraveler
+ * Set version to 1.3.2
+
+2003/07/17 <jurgenv@cwi.nl>
+ * Set dependency on version 1.4.1 of JJTraveler
+ * Release 1.3.1
+
+2003/07/02 <jurgenv@cwi.nl>
+ * Release 1.3
+
+2003/06/26 <jurgenv@cwi.nl>
+ * Added package definition file
+
+2003-05-15 <jurgenv@cwi.nl>
+ * Changed getId() to getUniqueIdentifier() (also for setId)
+ * Bumped to 1.3beta
+
+2003-05-15 <Julien.Guyon@loria.fr>
+ * Add identifiable interface (with getId) to ATerm
+ * AtermImpl implements SharedObjectWithId
+ * Now each ATerm has a unique identifier
+
+2003-04-23 julien Guyon <julien.guyon@loria.fr>
+ * Release 1.2
+
+2003-03-30 <jurgenv@cwi.nl>
+ * Used backquotes to delay calling *-config scripts to after
+   configure phase. Otherwise autobundle can't configure all packages
+   before building them.
+ * Changed --with-jjtraveler to --with-JJTraveler because autobundle
+   demands that.
+
+2003-03-18 <jurgenv@cwi.nl>
+ * Use shared-objects-config script to obtain last version of 
+   shared-objects
+ * aterm-java-config script now prints the classpath needed to
+   USE aterm-java, including the shared-objects and JJTraveler jar files.
+ * Added normal dependency on JJTraveler package
+
+Mon Mar 17 10:13:11 CET 2003 <jong@cwi.nl>
+ * Major hack to fix unexpected dependency on jjtraveler:
+   As long as jjtraveler.jar is in aterm-java, it needs to
+   be installed as well, or other packages break: ToolBus
+   needs aterm-java (and by transitivity apparently it needs
+   jjtraveler as well) to build tifstojava
+ 
+2003-03-14 <jurgenv@cwi.nl>
+ * Bumped to 1.2beta
+ * Removed specialized visitor package from aterm implementation
+ * Made aterm implementation depend on and use the JJTraveler package
+ * TODO: make real dependency on jjtraveler package instead of jar inclusion
+ 
+Tue Feb 25 16:16:51 CET 2003 <jong@cwi.nl>
+ * Removed unused fields,variables and methods as reported by Eclipse
+
+2003-01-22    <jurgenv@cwi.nl>
+  * Release 1.1 under LGPL
+
+2002-12-21    <pem@bach>
+  * aterm/pure/ATermListImpl.java: fix a bug in reverse()
+
+2002-12-09   <jurgenv@cwi.nl>
+  * Bumped to 1.1beta
+  * Changed code according to new SharedObject interface
+  
+2002-11-20    <vinju@loria.fr>
+  * Bugfix in list matching code.
+  
+2002-11-19    <{moreau,vinju}@loria.fr>
+  * fixed a bug: make("[<term>,<list>]",1,[]) should return "[1]" 
+    instead of "[1,[]]"
+  * working towards: Release 1.0
+
+2002-11-06  Pierre-Etienne Moreau  <pem@escher.loria.fr>
+
+  * aterm/pure/ATermApplImpl.java:
+    - small modifitions in the hashing function
+    - make(AFun,ATerm[],ATermList) is now a protected function 
+    
+2002-11-04    <pem@bach>
+  * aterm/pure/PureFactory.java: 
+    - initialize ATermImpl and create prototypes	
+  * aterm/pure/ATermImpl.java: 
+    - make factory a protected static slot	
+    - add static initialize and getStaticFactory functions
+  * aterm/pure/ATermApplImpl.java: 
+    - introduce make(...) functions
+    - make hashFunction a protected function
+  * aterm/pure/AFunImpl.java: 
+    - initHashCode added
+    - hashFunction added	
+    
+
+2002-10-31  <pem@escher.loria.fr>
+  * aterm/pure/ATermIntImpl.java: 
+    - initHashCode added
+    - hashFunction added	
+  * aterm/pure/ATermListImpl.java: 
+    - initHashCode added
+    - hashFunction added	
+  * aterm/pure/ATermApplImpl.java: 
+    - initHashCode added
+    - init makes a copy of the array
+    - hashFunction added
+    - serialize added
+  * aterm/pure/PureFactory.java: use a new hashing mechanism
+    - hashCode is computed in each ATerm implementation
+    - no array allocation is needed to compute the hashCode
+
+2002-10-29    <vinju@loria.fr>
+  * Added (ugly) config script in order to detect the location of this 
+    package easily in the meta package.
+  * Configure.in automatically detects location of shared-objects.jar in
+    order to get distcheck correct.
+  * Added test subdirectory to SUBDIRS
+  * Made tests that were in the test directory all active
+  * Fiddled with order of directories in SUBDIRS in order to get
+    distcheck correct.
+
+2002-10-20    <pem@bach>
+  * aterm/pure/ATermListImpl.java: 
+    - fix a bug in match:	
+      makelist().match(<list>) should return the empty ATermList	
+  * aterm/ATermFactory.java: 
+  * aterm/pure/PureFactory.java: 
+    - makeAppl(AFun fun, ATermList args) has been renamed into
+      makeApplList(AFun fun, ATermList args) to avoid ambiguities
+      The semantic should not depend on the static type
+      Aterm     l1 = makeList(...)	 
+      AtermList l2 = makeList(...), with l1==l2	 
+      makeAppl(fun,l1) should be equal to makeAppl(fun,l2)	
+	
+2002-10-19    <pem@bach>
+  * aterm/pure/PureFactory.java: 
+    - modify hashAppl for reducing hashing-collisions 
+    - introduce hashApplNoCopy for avoiding copy of arrays
+    - introduce static arrays for reducing allocations
+
+2002-10-?? <{jong,olivierp}@cwi.nl>
+    - Made separate package for java ATerm library
+    - Refactored design to use shared-object-factory

@@ -4,10 +4,10 @@
 	<parent>
 		<groupId>com.clarkparsia.pellet</groupId>
 		<artifactId>pellet-parent</artifactId>
-		<version>2.5.0-galigator</version>
+		<version>2.5.1-galigator-SNAPSHOT</version>
 	</parent>
 	<artifactId>pellet-protege</artifactId>
-	<name>Pellet :: Protege</name>
+	<name>Openllet :: Protege</name>
 	<properties>
 		<protege.version>4.3.0</protege.version>
 	</properties>

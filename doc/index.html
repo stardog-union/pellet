@@ -2,83 +2,76 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Pellet README</title>
+<title>Openllet README</title>
 </head>
 <body>
-<h1>Pellet OWL Reasoner</h1>
+<h1>Openllet OWL-2 Reasoner</h1>
 
 <h2>Contents</h2>
 
 <ol>
   <li><a href="#intro">Introduction</a></li>
   <li><a href="#install">Installation</a></li>
-  <li><a href="#running">Running Pellet (Command Line Version)</a></li>
-  <li><a href="#using">Using Pellet in Applications</a></li>	  
-  <li><a href="#building">Building Pellet</a></li>  
+  <li><a href="#running">Running Openllet (Command Line Version)</a></li>
+  <li><a href="#using">Using Openllet in Applications</a></li>	  
+  <li><a href="#building">Building Openllet</a></li>  
   <li><a href="#mail">Mailing list</a></li> 
 </ol>
 
 <a name="intro"/><h3>Introduction</h3>
 
-<p>Pellet is an open-source Java based OWL DL reasoner. It can be used in 
-conjunction with either <a href="http://jena.sourceforge.net">Jena</a> or
-<a href="http://owlapi.sourceforge.net/">OWL API</a> libraries. Pellet 
+<p>Openllet is an open-source Java based OWL DL reasoner. It can be used in 
+conjunction with either <a href="git://git.apache.org/jena.git">Jena</a> or
+<a href="https://github.com/owlcs/owlapi">OWL API</a> libraries. Openllet 
 provides functionalities to check the consistency of ontologies, classify the 
 taxonomy, check entailments, give explanations, and answer SPARQL-DL queries. </p>
 
 <a name="install"/><h3>Installation</h3>
-<p>Pellet requires a JVM compatible with Sun's Java version 1.5 or above.
-You can download Sun's JVM or SDK at <a href="http://java.sun.com">
-http://java.sun.com</a>. If you have Java installed on your machine just unzip 
-the Pellet distribution file to start using it. </p>
+<p>Openllet requires a JVM compatible with Oracle's Java version 1.8 or above.
+You can download Oracle's JVM or SDK at <a href="https://www.java.com/">
+https://www.java.com/</a>. If you have Java installed on your machine just unzip 
+the Openllet distribution file to start using it. </p>
 
-<a name="running"/><h3>Running Pellet (Command Line Version)</h3>
-<p>Pellet comes with a simple command line interface to demonstrate some of its 
+<a name="running"/><h3>Running Openllet (Command Line Version)</h3>
+<p>Openllet comes with a simple command line interface to demonstrate some of its 
 capabilities. This program provides options to check the consistency of an ontology, find unsatisfiable concepts, 
 display the class hierarchy (with instances if desired), answer a SPARQL-DL query.</p>
 <p>To run the command line version simply execute the following command</p>
-<pre>pellet.sh help</pre>
+<pre>openllet.sh help</pre>
 <p>Running this command will print the options available.</p>
 
-<a name="using"/><h3>Using Pellet in Applications</h3>
+<a name="using"/><h3>Using Openllet in Applications</h3>
 
-<p>You can access Pellet from Java applications using one of two different APIs 
+<p>You can access Openllet from Java applications using one of two different APIs 
 designed to 
-support <a href="http://jena.sourceforge.net">Jena</a> and
-<a href="http://owlapi.sourceforge.net/">OWL API</a> libraries. The functionality 
+support <a href="https://jena.apache.org/">Jena</a> and
+<a href="https://github.com/owlcs/owlapi">OWL API</a> libraries. The functionality 
 in both packages is almost equivalent. See the javadocs 
 for the details of interfaces and check out the <a href="../examples/src/org/mindswap/pellet/examples">examples directory</a> 
-for sample code. You can find the answers to some Frequently Asked Questions in <a href="http://pellet.owldl.com/faq">Pellet FAQ</a>.</p>
+for sample code. You can find the answers to some Frequently Asked Questions in <a href="http://pellet.owldl.com/faq">Openllet FAQ</a>.</p>
 
-<p>If you are interested in a GUI, you can use
-<a href="http://www.mindswap.org/2004/SWOOP/">SWOOP</a> which uses Pellet for 
-reasoning.</p>
-
-<a name="building"/><h3>Building Pellet</h3>
+<a name="building"/><h3>Building Openllet</h3>
 <h4>Starting from a Distribution</h4>
-<p>If you are starting from a distribution, Pellet comes pre-built, with
+<p>If you are starting from a distribution, Openllet comes pre-built, with
 all the required libraries included in the zip file.</p>
-<h4>Starting from Subversion</h4>
-<p>To use the Pellet build system, you need Apache Ant, version 1.5 or above. You can download
-a copy of Ant at <a href="http://ant.apache.org/">http://ant.apache.org/</a>.</p>
+<h4>Starting from git</h4>
+<p>To use the Openllet build system, you need Apache Maven, version 3.3.3 or above. You can download
+a copy of Maven at <a href="https://maven.apache.org/">http://ant.apache.org/</a>.</p>
 <h4>Compilation</h4>
-<p>Running 'ant' in the trunk directory should be enough. The resulting 
-files are placed in the directory dist/. Running 'ant zip' 
-will build a source and binary distribution in the file 
-dist/pellet-{date}.zip.</p>
+<p>Running 'mvn clean install' in the trunk directory should be enough. The resulting 
+files are placed in the directory dist/. </p>
 
 <h4>Building your own distribution</h4>
-<p>The ant target 'zip' will build the file dist/pellet-{date}.zip.
-The ant target 'release' will build the file dist/pellet-{version}.zip.
-You can change the version string by editing the build.xml file.  The 
-distribution file will include the source code, the Pellet jar file,
+<p>The file will build as dist/pellet-{date}.zip.
+You can change the version string by editing the pom.xml file.  The 
+distribution file will include the source code, the Openllet jar file,
 and all supporting jar files found in the lib/ directory.</p>
 
 <a name="mail"/><h3>Mailing list</h3>
 
-<p>There is a mailing list for questions and feedback: pellet-users@lists.owldl.com.
-You can subscribe to the list and see the archives here: 
-<a href="http://lists.owldl.com/mailman/listinfo/pellet-users">http://lists.owldl.com/mailman/listinfo/pellet-users</a>.</p>
+<p>You can discuse the future of this opensource project here : <a href="https://gitter.im/Galigator/pelletEvolution">https://gitter.im/Galigator/pelletEvolution</a>
+or via github inner system.
+</p>
 
 </body>
 </html>

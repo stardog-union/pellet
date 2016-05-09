@@ -10,10 +10,10 @@
 
   <groupId>com.clarkparsia.pellet</groupId>
   <artifactId>pellet-parent</artifactId>
-  <version>2.5.0-galigator</version>
+  <version>2.5.1-galigator-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Pellet :: Parent POM</name>
-  <description>The Clark and Parsia Pellet OWL Reasoner</description>
+  <name>Openllet :: Parent POM</name>
+  <description>Openllet is the future of Clark and Parsia Pellet OWL Reasoner</description>
   <url>https://github.com/Galigator/pellet</url>
   <licenses>
     <license>
@@ -24,6 +24,7 @@
   </licenses>
 
   <modules>
+    <module>aterm</module>
     <module>core</module>
     <module>jena</module>
     <module>query</module>
@@ -70,9 +71,9 @@
         <version>${owlapi.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.github.ansell.aterms</groupId>
-        <artifactId>aterm-java</artifactId>
-        <version>1.8.2-p1</version>
+        <groupId>org.katk.aterms</groupId>
+        <artifactId>aterm</artifactId>
+        <version>1.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.jgrapht</groupId>

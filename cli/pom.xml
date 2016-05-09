@@ -4,10 +4,10 @@
 	<parent>
 		<groupId>com.clarkparsia.pellet</groupId>
 		<artifactId>pellet-parent</artifactId>
-		<version>2.5.0-galigator</version>
+		<version>2.5.1-galigator-SNAPSHOT</version>
 	</parent>
 	<artifactId>pellet-cli</artifactId>
-	<name>Pellet :: CLI</name>
+	<name>Openllet :: CLI</name>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>

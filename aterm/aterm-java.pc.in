@@ -1,0 +1,13 @@
+prefix=@prefix@
+Maintainers=moreau@loria.fr,jurgenv@cwi.nl,lankamp@cwi.nl
+
+Name: aterm-java
+Description: Java version of the ATerm library
+Version: 1.8.2
+Requires: shared-objects,JJTraveler
+JarFile=aterm-java.jar
+Jars=${prefix}/share/${JarFile}
+LocalJars=jars/junit.jar
+#uninstalled UninstalledJars=@abs_top_srcdir@/${JarFile}
+Packages=aterm,aterm.pure,aterm.pure.binary,aterm.test
+TestClass=
