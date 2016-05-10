@@ -38,7 +38,7 @@ public class RealizationTest
 
 		System.err.println(x.listOntClasses(false).toList());
 
-		// add some individual assertion, this will trigger realization for the
+		// add some _individual assertion, this will trigger realization for the
 		// entire ABox but not classification because there're no nominals in
 		// the ontology
 		ontModel.add(ontModel.createLiteralStatement(ontModel.createResource(PREFIX + "y"), ontModel.getProperty(PREFIX + "p"), 5));

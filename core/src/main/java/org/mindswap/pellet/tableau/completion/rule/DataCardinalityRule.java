@@ -56,7 +56,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 		final Map<ATermAppl, DependencySet> rangeDepends = new HashMap<>();
 
 		/*
-		 * Gather all data properties that appear in universal restrictions on this _node.
+		 * Gather all _data properties that appear in universal restrictions on this _node.
 		 */
 		for (final ATermAppl allDesc : x.getTypes(Node.ALL))
 		{
@@ -78,7 +78,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 				continue;
 
 			/*
-			 * Collect the data range and its dependency set
+			 * Collect the _data range and its dependency set
 			 */
 			Collection<ATermAppl> existing = dataranges.get(r);
 			DependencySet ds = x.getDepends(allDesc);
@@ -95,7 +95,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 		}
 
 		/*
-		 * Get the ranges of any data properties that have min cardinality restrictions
+		 * Get the ranges of any _data properties that have min cardinality restrictions
 		 */
 		for (final ATermAppl minDesc : x.getTypes(Node.MIN))
 		{
@@ -140,7 +140,7 @@ public class DataCardinalityRule extends AbstractTableauRule
 		}
 
 		/*
-		 * For each of the min cardinality restrictions, verify that the data range is large enough
+		 * For each of the min cardinality restrictions, verify that the _data range is large enough
 		 */
 		for (final ATermAppl minDesc : x.getTypes(Node.MIN))
 		{

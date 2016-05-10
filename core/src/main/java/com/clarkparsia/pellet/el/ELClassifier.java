@@ -95,13 +95,13 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 	{
 		super.reset();
 
-		hasComplexRoles = kb.getExpressivity().hasTransitivity() || kb.getExpressivity().hasComplexSubRoles();
+		hasComplexRoles = _kb.getExpressivity().hasTransitivity() || _kb.getExpressivity().hasComplexSubRoles();
 
 		queue = new MultiValueMap<>();
 		concepts = CollectionUtils.makeMap();
 
-		roleChains = new RoleChainCache(kb);
-		roleRestrictions = new RoleRestrictionCache(kb.getRBox());
+		roleChains = new RoleChainCache(_kb);
+		roleRestrictions = new RoleRestrictionCache(_kb.getRBox());
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 	{
 		reset();
 
-		kb.prepare();
+		_kb.prepare();
 
 		Timer t = timers.startTimer("createConcepts");
 		logger.info("Creating structures");
@@ -120,9 +120,9 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 		logger.info("Created structures");
 		t.stop();
 
-		monitor.setProgressTitle("Classifiying");
-		monitor.setProgressLength(queue.size());
-		monitor.taskStarted();
+		_monitor.setProgressTitle("Classifiying");
+		_monitor.setProgressLength(queue.size());
+		_monitor.taskStarted();
 
 		printStructures();
 
@@ -138,21 +138,22 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 		logger.info("Building hierarchy");
 		t = timers.startTimer("buildHierarchy");
 
-		taxonomy = new ELTaxonomyBuilder().build(concepts);
+		_taxonomy = new ELTaxonomyBuilder().build(concepts);
 		//		buildTaxonomyWithPO();
 
 		t.stop();
 		logger.info("Builded hierarchy");
 
-		monitor.taskFinished();
+		_monitor.taskFinished();
 
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	private void buildTaxonomyWithPO()
 	{
-		final POTaxonomyBuilder builder = new POTaxonomyBuilder(kb, subsumptionComparator);
-		taxonomy = builder.getTaxonomy();
+		final POTaxonomyBuilder builder = new POTaxonomyBuilder(_kb, subsumptionComparator);
+		_taxonomy = builder.getTaxonomy();
 
 		for (final ConceptInfo ci : concepts.values())
 			classify(ci);
@@ -166,7 +167,7 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 
 		if (ci.getSuperClasses().contains(BOTTOM))
 		{
-			taxonomy.addEquivalentNode(c, taxonomy.getBottom());
+			_taxonomy.addEquivalentNode(c, _taxonomy.getBottom());
 			return;
 		}
 
@@ -185,7 +186,7 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 					classify(subsumer);
 		}
 
-		taxonomy.addEquivalents(c, equivalents);
+		_taxonomy.addEquivalents(c, equivalents);
 	}
 
 	private void addExistential(final ConceptInfo ci, final ATermAppl prop, final ConceptInfo qi)
@@ -195,7 +196,7 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 
 		addExistentialP(ci, prop, qi);
 
-		final Set<Set<ATermAppl>> supEqs = kb.getSuperProperties(prop);
+		final Set<Set<ATermAppl>> supEqs = _kb.getSuperProperties(prop);
 		for (final Set<ATermAppl> supEq : supEqs)
 			for (final ATermAppl sup : supEq)
 				addExistentialP(ci, sup, qi);
@@ -418,7 +419,7 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 		//EquivalentClass -> SubClasses
 		//Disjoint Classes -> SubClass
 		//Normalize ATerm lists to sets
-		final Collection<ATermAppl> assertedAxioms = kb.getTBox().getAssertedAxioms();
+		final Collection<ATermAppl> assertedAxioms = _kb.getTBox().getAssertedAxioms();
 		for (final ATermAppl assertedAxiom : assertedAxioms)
 			toELSubClassAxioms(assertedAxiom);
 
@@ -431,7 +432,7 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 		}
 
 		//Convert Reflexive Roles to axioms
-		for (final Role role : kb.getRBox().getRoles())
+		for (final Role role : _kb.getRBox().getRoles())
 			if (role.isReflexive())
 			{
 				final ATermAppl range = roleRestrictions.getRange(role.getName());
@@ -452,7 +453,7 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 		concepts.put(ATermUtils.BOTTOM, BOTTOM);
 		BOTTOM.addSuperClass(BOTTOM);
 
-		for (final ATermAppl c : kb.getClasses())
+		for (final ATermAppl c : _kb.getClasses())
 			createConcept(c);
 
 		normalizeAxioms();
@@ -494,8 +495,8 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 		while (!queue.isEmpty())
 		{
 			final int processed = startingSize - queue.size();
-			if (monitor.getProgress() < processed)
-				monitor.setProgress(processed);
+			if (_monitor.getProgress() < processed)
+				_monitor.setProgress(processed);
 
 			final MultiValueMap<ConceptInfo, Trigger> localQueue = queue;
 			queue = new MultiValueMap<>();

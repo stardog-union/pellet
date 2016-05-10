@@ -43,14 +43,14 @@ import aterm.ATermList;
 public interface ATermVisitor
 {
 	/**
-	 * Visit a generic term which may be a class expression, individual or a literal.
+	 * Visit a generic term which may be a class expression, _individual or a literal.
 	 * 
 	 * @param term
 	 */
 	public void visit(ATermAppl term);
 
 	/**
-	 * Visit a primitive term (with no arguments) that stands for a URI. This URI may belong to a class, a property, an individual or a datatype.
+	 * Visit a primitive term (with no arguments) that stands for a URI. This URI may belong to a class, a property, an _individual or a datatype.
 	 * 
 	 * @param term
 	 */
@@ -114,14 +114,14 @@ public interface ATermVisitor
 	public void visitMax(ATermAppl term);
 
 	/**
-	 * Visit the hasValue restriction term. This term is in the form some(property,value(individual)) or some(property,value(literal))
+	 * Visit the hasValue restriction term. This term is in the form some(property,value(_individual)) or some(property,value(literal))
 	 * 
 	 * @param term
 	 */
 	public void visitHasValue(ATermAppl term);
 
 	/**
-	 * Visit the nominal term. This term is in the form some(property,value(individual))
+	 * Visit the nominal term. This term is in the form some(property,value(_individual))
 	 * 
 	 * @param term
 	 */

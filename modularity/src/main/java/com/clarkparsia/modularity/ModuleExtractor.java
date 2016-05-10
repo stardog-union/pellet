@@ -144,17 +144,17 @@ public interface ModuleExtractor
 	/**
 	 * Save the _current state of the ModuleExtractor. The output is saved to a ZipOutputStream to allow storage in multiple files in one stream.
 	 *
-	 * @param outputStream the zip output stream where the data should be stored
+	 * @param outputStream the zip output stream where the _data should be stored
 	 * @throws IOException if an I/O error occurs during the saving
 	 * @throws IllegalStateException if there are outstanding changes that have not yet been applied to the modules (e.g., via updateModules())
 	 */
 	public void save(ZipOutputStream outputStream) throws IOException, IllegalStateException;
 
 	/**
-	 * Restores the previously saved state of the ModuleExtractor from a stream. The input is read from a ZipInputStream because the data may potentially span
+	 * Restores the previously saved state of the ModuleExtractor from a stream. The input is read from a ZipInputStream because the _data may potentially span
 	 * multiple files. The method assumes that the zip file entries saved by the save() method are the immediately next ones in the stream.
 	 * 
-	 * @param inputStream the zip input stream from which the data should be read
+	 * @param inputStream the zip input stream from which the _data should be read
 	 * @throws IOException if an I/O error occurs during the read
 	 * @throws IllegalArgumentException if the next zip file entry in the stream was not saved by a compatible ModuleExtractor
 	 */

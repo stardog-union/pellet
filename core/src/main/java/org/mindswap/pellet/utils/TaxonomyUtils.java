@@ -21,7 +21,7 @@ import org.mindswap.pellet.taxonomy.TaxonomyNode;
  * Title: TaxonomyUtils
  * </p>
  * <p>
- * Description: Utilities for manipulating taxonomy data structure
+ * Description: Utilities for manipulating taxonomy _data structure
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -140,10 +140,10 @@ public class TaxonomyUtils
 	}
 
 	/**
-	 * Get classes of which the individual is an instance (based on the _current state of the taxonomy)
+	 * Get classes of which the _individual is an instance (based on the _current state of the taxonomy)
 	 *
 	 * @param t the taxonomy
-	 * @param ind the individual
+	 * @param ind the _individual
 	 * @param directOnly {@code true} if only most specific classes are desired, {@code false} if all classes are desired
 	 * @return a set of sets of classes where each inner set is a collection of equivalent classes
 	 */
@@ -170,10 +170,10 @@ public class TaxonomyUtils
 	}
 
 	/**
-	 * Determine if an individual is an instance of a class (based on the _current state of the taxonomy)
+	 * Determine if an _individual is an instance of a class (based on the _current state of the taxonomy)
 	 *
 	 * @param t the taxonomy
-	 * @param ind the individual
+	 * @param ind the _individual
 	 * @param c the class
 	 * @return a boolean {@code true} if {@code instanceOf(ind,c)}, {@code false} else
 	 */

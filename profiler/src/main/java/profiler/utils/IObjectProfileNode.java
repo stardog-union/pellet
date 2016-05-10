@@ -2,7 +2,7 @@ package profiler.utils;
 
 // ----------------------------------------------------------------------------
 /**
- * The main interface for exploring an object profile tree. See individual methods for details.
+ * The main interface for exploring an object profile tree. See _individual methods for details.
  * 
  * @see ObjectProfiler#profile(Object)
  * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-_index.shtml">Vlad Roubtsov</a>, 2003
@@ -96,14 +96,14 @@ public interface IObjectProfileNode
 	IObjectProfileNode[] children();
 
 	/**
-	 * Returns the shell pseudo-_node for this _node. This represents all instance data fields that are "inlined" in the class definition represented by this _node
-	 * (including all superclasses all the way to java.lang.Object). This includes primitive data fields, object references representing non-primitive fields,
+	 * Returns the shell pseudo-_node for this _node. This represents all instance _data fields that are "inlined" in the class definition represented by this _node
+	 * (including all superclasses all the way to java.lang.Object). This includes primitive _data fields, object references representing non-primitive fields,
 	 * and (for arrays) the array length field and storage required for the array slots.
 	 * <P>
 	 * Another way to describe this is that _node.shell().size() is the minimum size an instance of _node.object().getClass() can be (when all non-primitive
 	 * instance fields are set to 'null').
 	 * <P>
-	 * The returned reference is also guaranteed to be present somewhere in the array returned by {@link #children()}. This data is kept in a separate _node
+	 * The returned reference is also guaranteed to be present somewhere in the array returned by {@link #children()}. This _data is kept in a separate _node
 	 * instance to simplify tree visiting and _node filtering.
 	 * 
 	 * @return shell pseudo-_node [null only for shell _nodes]

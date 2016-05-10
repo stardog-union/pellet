@@ -310,7 +310,7 @@ public class ProfileQuery
 		System.out.println("PelletQuery");
 		System.out.println("");
 		System.out.println("Profile the query answering time on a set of datasets. For each");
-		System.out.println("daaset, data is loaded once and then all queries are");
+		System.out.println("daaset, _data is loaded once and then all queries are");
 		System.out.println("executed consecutively.");
 		System.out.println("");
 		System.out.println("usage: java ProfileQuery OPTIONS ");

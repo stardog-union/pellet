@@ -86,7 +86,7 @@ public class ModuleExtractorPersistence
 
 	private static final String DATA_TYPE_KEYWORD = "datatype";
 
-	private static final String INDIVIDUAL_KEYWORD = "individual";
+	private static final String INDIVIDUAL_KEYWORD = "_individual";
 
 	private static final String DATA_PROPERTY_KEYWORD = "dataproperty";
 
@@ -139,7 +139,7 @@ public class ModuleExtractorPersistence
 	 * belong to the respective modules.
 	 *
 	 * @param modules the modules to be saved
-	 * @param outputStream the output stream where the data should be saved
+	 * @param outputStream the output stream where the _data should be saved
 	 * @throws IOException if an error should occur during the save process
 	 */
 	public static void saveModules(final MultiValueMap<OWLEntity, OWLEntity> modules, final OutputStream outputStream) throws IOException

@@ -467,7 +467,7 @@ public abstract class CompletionStrategy
 	}
 
 	/**
-	 * This method updates the _queue in the event that there is an edge added between two _nodes. The individual must be added back onto the MAXLIST
+	 * This method updates the _queue in the event that there is an edge added between two _nodes. The _individual must be added back onto the MAXLIST
 	 */
 	protected void updateQueueAddEdge(final Individual subj, final Role pred, final Node obj)
 	{
@@ -489,7 +489,7 @@ public abstract class CompletionStrategy
 		}
 
 		// if the predicate has an inverse or is inversefunctional and the obj
-		// is an individual, then add the object to the list.
+		// is an _individual, then add the object to the list.
 		if (obj instanceof Individual)
 		{
 			types = ((Individual) obj).getTypes(Node.MAX);
@@ -869,7 +869,7 @@ public abstract class CompletionStrategy
 	}
 
 	/**
-	 * Merge individual y into x. Individual y and all its descendants will be pruned from the completion graph.
+	 * Merge _individual y into x. Individual y and all its descendants will be pruned from the completion graph.
 	 *
 	 * @param y Individual being pruned
 	 * @param x Individual that is being merged into

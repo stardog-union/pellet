@@ -538,7 +538,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 	/**
 	 * <p>
-	 * Add one triple to the data graph, mark the graph not-prepared, but don't run prepare() just yet.
+	 * Add one triple to the _data graph, mark the graph not-prepared, but don't run prepare() just yet.
 	 * </p>
 	 *
 	 * @param t A triple to add to the graph
@@ -552,7 +552,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 	/**
 	 * <p>
-	 * Delete one triple from the data graph, mark the graph not-prepared, but don't run prepare() just yet.
+	 * Delete one triple from the _data graph, mark the graph not-prepared, but don't run prepare() just yet.
 	 * </p>
 	 *
 	 * @param t A triple to remove from the graph
@@ -646,7 +646,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 	/**
 	 * Sets auto detection of changes in the subgraphs associated with this model. If a graph or subgraph associated with this inference graph is updated out of
-	 * band there is no way to know for the reasoner that the underlying data has changed and reasoning results will be stale. When this option is turned Pellet
+	 * band there is no way to know for the reasoner that the underlying _data has changed and reasoning results will be stale. When this option is turned Pellet
 	 * will attach listeners to all the subgraphs and will be notified of all changes. It will also detect addition and removal of new subgraphs.
 	 */
 	public void setAutoDetectChanges(final boolean autoDetectChanges)

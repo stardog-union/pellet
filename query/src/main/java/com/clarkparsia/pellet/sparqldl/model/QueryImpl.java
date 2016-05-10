@@ -270,7 +270,7 @@ public class QueryImpl implements Query
 	public ATermAppl rollUpTo(final ATermAppl var, final Collection<ATermAppl> stopList, final boolean stopOnConstants)
 	{
 		if (getDistVarsForType(VarType.LITERAL).contains(var) && !getDistVarsForType(VarType.INDIVIDUAL).contains(var) && !individualsAndLiterals.contains(var))
-			throw new InternalReasonerException("Trying to roll up to the variable '" + var + "' which is not distinguished and individual.");
+			throw new InternalReasonerException("Trying to roll up to the variable '" + var + "' which is not distinguished and _individual.");
 
 		ATermList classParts = ATermUtils.EMPTY_LIST;
 

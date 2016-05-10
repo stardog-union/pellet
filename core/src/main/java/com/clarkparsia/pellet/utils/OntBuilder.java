@@ -125,19 +125,19 @@ public class OntBuilder
 
 		private void visitRestr(final ATermAppl p, final ATermAppl q)
 		{
-			if (originalKB.isObjectProperty(p))
+			if (_originalKB.isObjectProperty(p))
 			{
-				kb.addObjectProperty(p);
+				_kb.addObjectProperty(p);
 				visit(q);
 			}
 			else
-				kb.addDatatypeProperty(p);
+				_kb.addDatatypeProperty(p);
 		}
 
 		@Override
 		public void visitSelf(final ATermAppl term)
 		{
-			kb.addObjectProperty(term.getArgument(0));
+			_kb.addObjectProperty(term.getArgument(0));
 		}
 
 		@Override
@@ -149,7 +149,7 @@ public class OntBuilder
 		@Override
 		public void visitTerm(final ATermAppl term)
 		{
-			kb.addClass(term);
+			_kb.addClass(term);
 		}
 
 		@Override
@@ -157,7 +157,7 @@ public class OntBuilder
 		{
 			final ATermAppl nominal = (ATermAppl) term.getArgument(0);
 			if (!ATermUtils.isLiteral(nominal))
-				kb.addIndividual(nominal);
+				_kb.addIndividual(nominal);
 		}
 
 		@Override
@@ -165,7 +165,7 @@ public class OntBuilder
 		{
 			final ATermAppl p = (ATermAppl) term.getArgument(0);
 			if (ATermUtils.isPrimitive(p))
-				kb.addObjectProperty(p);
+				_kb.addObjectProperty(p);
 			else
 				visitInverse(p);
 		}
@@ -178,14 +178,14 @@ public class OntBuilder
 
 	}
 
-	private KnowledgeBase kb;
-	private final KnowledgeBase originalKB;
+	private KnowledgeBase _kb;
+	private final KnowledgeBase _originalKB;
 
-	private final DefinitionVisitor defVisitor = new DefinitionVisitor();
+	private final DefinitionVisitor _defVisitor = new DefinitionVisitor();
 
 	public OntBuilder(final KnowledgeBase originalKB)
 	{
-		this.originalKB = originalKB;
+		this._originalKB = originalKB;
 	}
 
 	public void add(ATermAppl axiom)
@@ -198,7 +198,7 @@ public class OntBuilder
 
 			defineClass(c1);
 			defineClass(c2);
-			kb.addEquivalentClass(c1, c2);
+			_kb.addEquivalentClass(c1, c2);
 		}
 		else
 			if (afun.equals(ATermUtils.SUBFUN))
@@ -208,7 +208,7 @@ public class OntBuilder
 
 				defineClass(c1);
 				defineClass(c2);
-				kb.addSubClass(c1, c2);
+				_kb.addSubClass(c1, c2);
 			}
 			else
 				if (afun.equals(ATermUtils.DISJOINTSFUN))
@@ -217,7 +217,7 @@ public class OntBuilder
 
 					for (ATermList l = concepts; !l.isEmpty(); l = l.getNext())
 						defineClass((ATermAppl) l.getFirst());
-					kb.addDisjointClasses(concepts);
+					_kb.addDisjointClasses(concepts);
 				}
 				else
 					if (afun.equals(ATermUtils.DISJOINTFUN))
@@ -227,7 +227,7 @@ public class OntBuilder
 
 						defineClass(c1);
 						defineClass(c2);
-						kb.addDisjointClass(c1, c2);
+						_kb.addDisjointClass(c1, c2);
 					}
 					else
 						if (afun.equals(ATermUtils.DISJOINTPROPSFUN))
@@ -236,7 +236,7 @@ public class OntBuilder
 
 							for (ATermList l = props; !l.isEmpty(); l = l.getNext())
 								defineProperty(l.getFirst());
-							kb.addDisjointProperties(props);
+							_kb.addDisjointProperties(props);
 						}
 						else
 							if (afun.equals(ATermUtils.DISJOINTPROPFUN))
@@ -246,7 +246,7 @@ public class OntBuilder
 
 								defineProperty(p1);
 								defineProperty(p2);
-								kb.addDisjointProperty(p1, p2);
+								_kb.addDisjointProperty(p1, p2);
 							}
 							else
 								if (afun.equals(ATermUtils.SUBPROPFUN))
@@ -256,7 +256,7 @@ public class OntBuilder
 
 									defineProperty(p1);
 									defineProperty(p2);
-									kb.addSubProperty(p1, p2);
+									_kb.addSubProperty(p1, p2);
 								}
 								else
 									if (afun.equals(ATermUtils.EQPROPFUN))
@@ -266,7 +266,7 @@ public class OntBuilder
 
 										defineProperty(p1);
 										defineProperty(p2);
-										kb.addEquivalentProperty(p1, p2);
+										_kb.addEquivalentProperty(p1, p2);
 									}
 									else
 										if (afun.equals(ATermUtils.DOMAINFUN))
@@ -276,7 +276,7 @@ public class OntBuilder
 
 											defineProperty(p);
 											defineClass(c);
-											kb.addDomain(p, c);
+											_kb.addDomain(p, c);
 										}
 										else
 											if (afun.equals(ATermUtils.RANGEFUN))
@@ -286,7 +286,7 @@ public class OntBuilder
 
 												defineProperty(p);
 												defineClass(c);
-												kb.addRange(p, c);
+												_kb.addRange(p, c);
 											}
 											else
 												if (afun.equals(ATermUtils.INVPROPFUN))
@@ -294,17 +294,17 @@ public class OntBuilder
 													final ATermAppl p1 = (ATermAppl) axiom.getArgument(0);
 													final ATermAppl p2 = (ATermAppl) axiom.getArgument(1);
 
-													kb.addObjectProperty(p1);
-													kb.addObjectProperty(p2);
-													kb.addInverseProperty(p1, p2);
+													_kb.addObjectProperty(p1);
+													_kb.addObjectProperty(p2);
+													_kb.addInverseProperty(p1, p2);
 												}
 												else
 													if (afun.equals(ATermUtils.TRANSITIVEFUN))
 													{
 														final ATermAppl p = (ATermAppl) axiom.getArgument(0);
 
-														kb.addObjectProperty(p);
-														kb.addTransitiveProperty(p);
+														_kb.addObjectProperty(p);
+														_kb.addTransitiveProperty(p);
 													}
 													else
 														if (afun.equals(ATermUtils.FUNCTIONALFUN))
@@ -312,47 +312,47 @@ public class OntBuilder
 															final ATermAppl p = (ATermAppl) axiom.getArgument(0);
 
 															defineProperty(p);
-															kb.addFunctionalProperty(p);
+															_kb.addFunctionalProperty(p);
 														}
 														else
 															if (afun.equals(ATermUtils.INVFUNCTIONALFUN))
 															{
 																final ATermAppl p = (ATermAppl) axiom.getArgument(0);
 
-																kb.addObjectProperty(p);
-																kb.addInverseFunctionalProperty(p);
+																_kb.addObjectProperty(p);
+																_kb.addInverseFunctionalProperty(p);
 															}
 															else
 																if (afun.equals(ATermUtils.SYMMETRICFUN))
 																{
 																	final ATermAppl p = (ATermAppl) axiom.getArgument(0);
 
-																	kb.addObjectProperty(p);
-																	kb.addSymmetricProperty(p);
+																	_kb.addObjectProperty(p);
+																	_kb.addSymmetricProperty(p);
 																}
 																else
 																	if (afun.equals(ATermUtils.ASYMMETRICFUN))
 																	{
 																		final ATermAppl p = (ATermAppl) axiom.getArgument(0);
 
-																		kb.addObjectProperty(p);
-																		kb.addAsymmetricProperty(p);
+																		_kb.addObjectProperty(p);
+																		_kb.addAsymmetricProperty(p);
 																	}
 																	else
 																		if (afun.equals(ATermUtils.REFLEXIVEFUN))
 																		{
 																			final ATermAppl p = (ATermAppl) axiom.getArgument(0);
 
-																			kb.addObjectProperty(p);
-																			kb.addReflexiveProperty(p);
+																			_kb.addObjectProperty(p);
+																			_kb.addReflexiveProperty(p);
 																		}
 																		else
 																			if (afun.equals(ATermUtils.IRREFLEXIVEFUN))
 																			{
 																				final ATermAppl p = (ATermAppl) axiom.getArgument(0);
 
-																				kb.addObjectProperty(p);
-																				kb.addIrreflexiveProperty(p);
+																				_kb.addObjectProperty(p);
+																				_kb.addIrreflexiveProperty(p);
 																			}
 																			else
 																				if (afun.equals(ATermUtils.TYPEFUN))
@@ -360,9 +360,9 @@ public class OntBuilder
 																					final ATermAppl ind = (ATermAppl) axiom.getArgument(0);
 																					final ATermAppl cls = (ATermAppl) axiom.getArgument(1);
 
-																					kb.addIndividual(ind);
+																					_kb.addIndividual(ind);
 																					defineClass(cls);
-																					kb.addType(ind, cls);
+																					_kb.addType(ind, cls);
 																				}
 																				else
 																					if (afun.equals(ATermUtils.PROPFUN))
@@ -371,15 +371,15 @@ public class OntBuilder
 																						final ATermAppl s = (ATermAppl) axiom.getArgument(1);
 																						final ATermAppl o = (ATermAppl) axiom.getArgument(2);
 
-																						kb.addIndividual(s);
+																						_kb.addIndividual(s);
 																						if (ATermUtils.isLiteral(o))
-																							kb.addDatatypeProperty(p);
+																							_kb.addDatatypeProperty(p);
 																						else
 																						{
-																							kb.addObjectProperty(p);
-																							kb.addIndividual(o);
+																							_kb.addObjectProperty(p);
+																							_kb.addIndividual(o);
 																						}
-																						kb.addPropertyValue(p, s, o);
+																						_kb.addPropertyValue(p, s, o);
 																					}
 																					else
 																						if (afun.equals(ATermUtils.NOTFUN) && ((ATermAppl) axiom.getArgument(0)).getAFun().equals(ATermUtils.PROPFUN))
@@ -390,15 +390,15 @@ public class OntBuilder
 																							final ATermAppl s = (ATermAppl) axiom.getArgument(1);
 																							final ATermAppl o = (ATermAppl) axiom.getArgument(2);
 
-																							kb.addIndividual(s);
+																							_kb.addIndividual(s);
 																							if (ATermUtils.isLiteral(o))
-																								kb.addDatatypeProperty(p);
+																								_kb.addDatatypeProperty(p);
 																							else
 																							{
-																								kb.addObjectProperty(p);
-																								kb.addIndividual(o);
+																								_kb.addObjectProperty(p);
+																								_kb.addIndividual(o);
 																							}
-																							kb.addNegatedPropertyValue(p, s, o);
+																							_kb.addNegatedPropertyValue(p, s, o);
 																						}
 																						else
 																							if (afun.equals(ATermUtils.SAMEASFUN))
@@ -406,9 +406,9 @@ public class OntBuilder
 																								final ATermAppl ind1 = (ATermAppl) axiom.getArgument(0);
 																								final ATermAppl ind2 = (ATermAppl) axiom.getArgument(1);
 
-																								kb.addIndividual(ind1);
-																								kb.addIndividual(ind2);
-																								kb.addSame(ind1, ind2);
+																								_kb.addIndividual(ind1);
+																								_kb.addIndividual(ind2);
+																								_kb.addSame(ind1, ind2);
 																							}
 																							else
 																								if (afun.equals(ATermUtils.DIFFERENTFUN))
@@ -416,9 +416,9 @@ public class OntBuilder
 																									final ATermAppl ind1 = (ATermAppl) axiom.getArgument(0);
 																									final ATermAppl ind2 = (ATermAppl) axiom.getArgument(1);
 
-																									kb.addIndividual(ind1);
-																									kb.addIndividual(ind2);
-																									kb.addDifferent(ind1, ind2);
+																									_kb.addIndividual(ind1);
+																									_kb.addIndividual(ind2);
+																									_kb.addDifferent(ind1, ind2);
 																								}
 																								else
 																									if (afun.equals(ATermUtils.ALLDIFFERENTFUN))
@@ -426,8 +426,8 @@ public class OntBuilder
 																										final ATermList inds = (ATermList) axiom.getArgument(0);
 
 																										for (ATermList l = inds; !l.isEmpty(); l = l.getNext())
-																											kb.addIndividual((ATermAppl) l.getFirst());
-																										kb.addAllDifferent(inds);
+																											_kb.addIndividual((ATermAppl) l.getFirst());
+																										_kb.addAllDifferent(inds);
 																									}
 																									else
 																										if (afun.equals(ATermUtils.RULEFUN))
@@ -448,7 +448,7 @@ public class OntBuilder
 																											{
 																												final ATermAppl name = (ATermAppl) axiom.getArgument(0);
 																												final Rule rule = new Rule(name, consequent, antecedent);
-																												kb.addRule(rule);
+																												_kb.addRule(rule);
 																											}
 																										}
 																										else
@@ -479,16 +479,16 @@ public class OntBuilder
 
 				defineProperty(p);
 
-				if (originalKB.isObjectProperty(p))
+				if (_originalKB.isObjectProperty(p))
 				{
-					kb.addObjectProperty(p);
+					_kb.addObjectProperty(p);
 					final AtomIObject io2 = convertAtomIObject(i2);
 					atom = new IndividualPropertyAtom(p, io1, io2);
 				}
 				else
-					if (originalKB.isDatatypeProperty(p))
+					if (_originalKB.isDatatypeProperty(p))
 					{
-						kb.addDatatypeProperty(p);
+						_kb.addDatatypeProperty(p);
 						final AtomDObject do2 = convertAtomDObject(i2);
 						atom = new DatavaluedPropertyAtom(p, io1, do2);
 					}
@@ -540,7 +540,7 @@ public class OntBuilder
 		if (ATermUtils.isVar(t))
 			return new AtomIVariable(((ATermAppl) t.getArgument(0)).getName());
 		else
-			if (originalKB.isIndividual(t))
+			if (_originalKB.isIndividual(t))
 				return new AtomIConstant(t);
 			else
 				if (ATermUtils.isAnon(t))
@@ -567,12 +567,12 @@ public class OntBuilder
 		for (final ATermAppl axiom : axioms)
 			add(axiom);
 
-		return kb;
+		return _kb;
 	}
 
 	private void defineClass(final ATermAppl cls)
 	{
-		defVisitor.visit(cls);
+		_defVisitor.visit(cls);
 	}
 
 	private void defineProperty(final ATerm p)
@@ -585,16 +585,16 @@ public class OntBuilder
 			}
 		else
 			if (ATermUtils.isInv((ATermAppl) p))
-				kb.addObjectProperty(((ATermAppl) p).getArgument(0));
+				_kb.addObjectProperty(((ATermAppl) p).getArgument(0));
 			else
-				if (originalKB.isDatatypeProperty(p))
-					kb.addDatatypeProperty(p);
+				if (_originalKB.isDatatypeProperty(p))
+					_kb.addDatatypeProperty(p);
 				else
-					kb.addObjectProperty(p);
+					_kb.addObjectProperty(p);
 	}
 
 	public void reset()
 	{
-		kb = new KnowledgeBase();
+		_kb = new KnowledgeBase();
 	}
 }

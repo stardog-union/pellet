@@ -691,7 +691,7 @@ public class DefaultGraphLoader implements GraphLoader
 
 		if (restrictions.isEmpty())
 		{
-			addUnsupportedFeature("A data range is defined without XSD facet restrictions " + s);
+			addUnsupportedFeature("A _data range is defined without XSD facet restrictions " + s);
 			return ATermUtils.BOTTOM_LIT;
 		}
 		else
@@ -730,7 +730,7 @@ public class DefaultGraphLoader implements GraphLoader
 
 		if (restrictions.isEmpty())
 		{
-			addUnsupportedFeature("A data range is defined without XSD facet restrictions " + s);
+			addUnsupportedFeature("A _data range is defined without XSD facet restrictions " + s);
 			return ATermUtils.BOTTOM_LIT;
 		}
 		else
@@ -768,7 +768,7 @@ public class DefaultGraphLoader implements GraphLoader
 			final ATermAppl name = node2term(node);
 			if (!ATermUtils.isPrimitive(name))
 			{
-				addUnsupportedFeature("Cannot create rule data variable out of " + node);
+				addUnsupportedFeature("Cannot create rule _data variable out of " + node);
 				return null;
 			}
 			return new AtomDVariable(name.toString());
@@ -788,7 +788,7 @@ public class DefaultGraphLoader implements GraphLoader
 				return new AtomIConstant(node2term(node));
 			else
 			{
-				addUnsupportedFeature("Cannot create rule individual object for _node " + node);
+				addUnsupportedFeature("Cannot create rule _individual object for _node " + node);
 				return null;
 			}
 		}
@@ -1049,7 +1049,7 @@ public class DefaultGraphLoader implements GraphLoader
 			}
 			else
 			{
-				addUnsupportedFeature("Invalid negated property target individual " + stmt);
+				addUnsupportedFeature("Invalid negated property target _individual " + stmt);
 				return false;
 			}
 		}
@@ -1274,7 +1274,7 @@ public class DefaultGraphLoader implements GraphLoader
 			// that would only _cache class expression for _:x. However, since
 			// we did not complete process all type triples unqualified cardinality
 			// restrictions would cause issues here since they require property
-			// to be either data or object property. Therefore, we _stop processing
+			// to be either _data or object property. Therefore, we _stop processing
 			// this triple immediately before calling node2term function.
 			if (s.isBlank() && builtinTerm.equals(BuiltinTerm.OWL_Class))
 				return;

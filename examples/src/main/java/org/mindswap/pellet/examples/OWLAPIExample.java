@@ -53,10 +53,10 @@ public class OWLAPIExample
 		final NodeSet<OWLNamedIndividual> individuals = reasoner.getInstances(Person, false);
 		for (final Node<OWLNamedIndividual> sameInd : individuals)
 		{
-			// sameInd contains information about the individual (and all other individuals that were inferred to be the same)
+			// sameInd contains information about the _individual (and all other individuals that were inferred to be the same)
 			final OWLNamedIndividual ind = sameInd.getRepresentativeElement();
 
-			// get the info about this specific individual
+			// get the info about this specific _individual
 			final Set<OWLLiteral> names = reasoner.getDataPropertyValues(ind, foafName);
 			final NodeSet<OWLClass> types = reasoner.getTypes(ind, true);
 			final NodeSet<OWLNamedIndividual> homepages = reasoner.getObjectPropertyValues(ind, workHomepage);
@@ -65,7 +65,7 @@ public class OWLAPIExample
 			final String name = names.iterator().next().getLiteral();
 			System.out.println("Name: " + name);
 
-			// at least one direct type is guaranteed to exist for each individual 
+			// at least one direct type is guaranteed to exist for each _individual 
 			final OWLClass type = types.iterator().next().getRepresentativeElement();
 			System.out.println("Type:" + type);
 

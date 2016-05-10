@@ -34,21 +34,21 @@ import org.mindswap.pellet.Individual;
 public class ObjectVariableBindingHelper implements BindingHelper
 {
 
-	private final ABox abox;
-	private Individual currentIndividual;
-	private Iterator<Individual> individualIterator;
-	private final AtomIVariable var;
+	private final ABox _abox;
+	private Individual _currentIndividual;
+	private Iterator<Individual> _individualIterator;
+	private final AtomIVariable _var;
 
 	public ObjectVariableBindingHelper(final ABox abox, final AtomIVariable var)
 	{
-		this.abox = abox;
-		this.var = var;
+		this._abox = abox;
+		this._var = var;
 	}
 
 	@Override
 	public Collection<AtomIVariable> getBindableVars(final Collection<AtomVariable> bound)
 	{
-		return Collections.singleton(var);
+		return Collections.singleton(_var);
 	}
 
 	@Override
@@ -60,19 +60,19 @@ public class ObjectVariableBindingHelper implements BindingHelper
 	@Override
 	public void rebind(final VariableBinding newBinding)
 	{
-		if (newBinding.containsKey(var))
-			individualIterator = Collections.singleton(newBinding.get(var)).iterator();
+		if (newBinding.containsKey(_var))
+			_individualIterator = Collections.singleton(newBinding.get(_var)).iterator();
 		else
-			individualIterator = new AllNamedIndividualsIterator(abox);
+			_individualIterator = new AllNamedIndividualsIterator(_abox);
 	}
 
 	@Override
 	public boolean selectNextBinding()
 	{
-		if ((individualIterator == null) || !individualIterator.hasNext())
+		if ((_individualIterator == null) || !_individualIterator.hasNext())
 			return false;
 
-		currentIndividual = individualIterator.next();
+		_currentIndividual = _individualIterator.next();
 
 		return true;
 	}
@@ -80,13 +80,13 @@ public class ObjectVariableBindingHelper implements BindingHelper
 	@Override
 	public void setCurrentBinding(final VariableBinding currentBinding)
 	{
-		currentBinding.set(var, currentIndividual);
+		currentBinding.set(_var, _currentIndividual);
 	}
 
 	@Override
 	public String toString()
 	{
-		return "individuals(" + var + ")";
+		return "individuals(" + _var + ")";
 	}
 
 }

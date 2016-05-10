@@ -82,7 +82,7 @@ public class DisjunctionRule extends AbstractTableauRule
 	}
 
 	/**
-	 * Apply the _disjunction rule to an specific label for an individual
+	 * Apply the _disjunction rule to an specific label for an _individual
 	 *
 	 * @param _node
 	 * @param _disjunction

@@ -141,7 +141,7 @@ public class InterruptReasoningExample
 		timers.createTimer("realize").setTimeout(Timeouts.REALIZE);
 	}
 
-	// read the data into a Jena model
+	// read the _data into a Jena model
 	public void parse()
 	{
 		System.out.print("Parsing the ontology...");
@@ -152,7 +152,7 @@ public class InterruptReasoningExample
 		System.out.println();
 	}
 
-	// check the consistency of data. this function will throw a TimeoutException
+	// check the consistency of _data. this function will throw a TimeoutException
 	// we don't catch the exception here because there is no point in continuing
 	// if the initial consistency check is not finished. Pellet will not be able
 	// to perform any reasoning steps if it dannot check the consistency.

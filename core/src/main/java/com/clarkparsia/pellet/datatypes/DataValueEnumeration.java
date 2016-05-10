@@ -12,7 +12,7 @@ import java.util.Set;
  * Title: Data value enumeration
  * </p>
  * <p>
- * Description: Enumeration of data values (i.e., an OWL 2 DataOneOf)
+ * Description: Enumeration of _data values (i.e., an OWL 2 DataOneOf)
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009

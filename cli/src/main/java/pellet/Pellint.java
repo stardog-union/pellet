@@ -181,7 +181,7 @@ public class Pellint extends PelletCmdApp
 		option = new PelletCmdOption("exclude-valid-punning");
 		option.setIsMandatory(false);
 		option.setDefaultValue(false);
-		option.setDescription("Excludes valid punnings to be reported by lint. OWL 2 allows resources\n" + "to have certain multiple types (known as punning), e.g. a resource can\n" + "be both a class and an individual. However, certain punnings are not\n" + "allowed under any condition, e.g. a resource cannot be both a datatype\n" + "property and an object property. All punnings are reported by default\n" + "but if this option is used punnings valid for OWL 2 will be excluded\n" + "from the report.");
+		option.setDescription("Excludes valid punnings to be reported by lint. OWL 2 allows resources\n" + "to have certain multiple types (known as punning), e.g. a resource can\n" + "be both a class and an _individual. However, certain punnings are not\n" + "allowed under any condition, e.g. a resource cannot be both a datatype\n" + "property and an object property. All punnings are reported by default\n" + "but if this option is used punnings valid for OWL 2 will be excluded\n" + "from the report.");
 		option.setArg(NONE);
 		options.add(option);
 

@@ -309,7 +309,7 @@ public class OntologyUtils
 	}
 
 	/**
-	 * Finds an entity (class, individual, object or data property) in the given set of ontologies that has the given local name or URI.
+	 * Finds an entity (class, _individual, object or _data property) in the given set of ontologies that has the given local name or URI.
 	 *
 	 * @see #findEntity(String, OWLOntology)
 	 * @param name URI or local name for an entity
@@ -326,9 +326,9 @@ public class OntologyUtils
 	}
 
 	/**
-	 * Finds an entity (class, individual, object or data property) in the given ontology that has the given local name or URI. If the given name is not an
+	 * Finds an entity (class, _individual, object or _data property) in the given ontology that has the given local name or URI. If the given name is not an
 	 * absolute URI we use the logical URI of the ontology as the namespace and search for an entity with that URI. If the URI is punned in the ontology , e.g.
-	 * used both as a class and as an individual, any one of the punned entities may be returned.
+	 * used both as a class and as an _individual, any one of the punned entities may be returned.
 	 *
 	 * @param name URI or local name for an entity
 	 * @param ontology ontology we are searching

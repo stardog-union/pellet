@@ -34,47 +34,47 @@ import org.mindswap.pellet.utils.MultiValueMap;
  */
 public class GenericTaxonomyBuilder
 {
-	private Taxonomy<ATermAppl> taxonomy;
+	private Taxonomy<ATermAppl> _taxonomy;
 
-	private MultiValueMap<ATermAppl, ATermAppl> subsumers;
+	private MultiValueMap<ATermAppl, ATermAppl> _subsumers;
 
 	public Taxonomy<ATermAppl> build(final MultiValueMap<ATermAppl, ATermAppl> subsumers)
 	{
-		this.subsumers = subsumers;
-		taxonomy = new Taxonomy<>(null, ATermUtils.TOP, ATermUtils.BOTTOM);
+		this._subsumers = subsumers;
+		_taxonomy = new Taxonomy<>(null, ATermUtils.TOP, ATermUtils.BOTTOM);
 
 		for (final ATermAppl subsumer : subsumers.get(ATermUtils.TOP))
 			if (ATermUtils.isPrimitive(subsumer))
-				taxonomy.addEquivalentNode(subsumer, taxonomy.getTop());
+				_taxonomy.addEquivalentNode(subsumer, _taxonomy.getTop());
 
 		for (final Entry<ATermAppl, Set<ATermAppl>> entry : subsumers.entrySet())
 		{
 			final ATermAppl c = entry.getKey();
 			if (ATermUtils.isPrimitive(c))
 				if (entry.getValue().contains(ATermUtils.BOTTOM))
-					taxonomy.addEquivalentNode(c, taxonomy.getBottom());
+					_taxonomy.addEquivalentNode(c, _taxonomy.getBottom());
 				else
 					add(c);
 		}
 
-		return taxonomy;
+		return _taxonomy;
 	}
 
 	private TaxonomyNode<ATermAppl> add(final ATermAppl c)
 	{
-		TaxonomyNode<ATermAppl> node = taxonomy.getNode(c);
+		TaxonomyNode<ATermAppl> node = _taxonomy.getNode(c);
 
 		if (node == null)
 		{
 			final Set<ATermAppl> equivalents = CollectionUtils.makeSet();
 			final Set<TaxonomyNode<ATermAppl>> subsumerNodes = CollectionUtils.makeSet();
 
-			for (final ATermAppl subsumer : subsumers.get(c))
+			for (final ATermAppl subsumer : _subsumers.get(c))
 			{
 				if (c.equals(subsumer) || !ATermUtils.isPrimitive(subsumer))
 					continue;
 
-				if (subsumers.get(subsumer).contains(c))
+				if (_subsumers.get(subsumer).contains(c))
 					equivalents.add(subsumer);
 				else
 				{
@@ -86,7 +86,7 @@ public class GenericTaxonomyBuilder
 			node = add(c, subsumerNodes);
 
 			for (final ATermAppl eq : equivalents)
-				taxonomy.addEquivalentNode(eq, node);
+				_taxonomy.addEquivalentNode(eq, node);
 		}
 
 		return node;
@@ -104,9 +104,9 @@ public class GenericTaxonomyBuilder
 		for (final TaxonomyNode<ATermAppl> parent : parents)
 		{
 			supers.add(parent.getName());
-			parent.removeSub(taxonomy.getBottom());
+			parent.removeSub(_taxonomy.getBottom());
 		}
 
-		return taxonomy.addNode(Collections.singleton(c), supers, subs, false);
+		return _taxonomy.addNode(Collections.singleton(c), supers, subs, false);
 	}
 }

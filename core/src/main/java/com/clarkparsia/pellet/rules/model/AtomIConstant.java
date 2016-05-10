@@ -14,7 +14,7 @@ import org.mindswap.pellet.utils.URIUtils;
  * Title: Atom Instance Constant
  * </p>
  * <p>
- * Description: Represents a named individual
+ * Description: Represents a named _individual
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007

@@ -61,26 +61,26 @@ public class Taxonomy<T>
 	private class DatumEquivalentsPairIterator<U> implements Iterator<Map.Entry<Set<U>, Object>>
 	{
 
-		private final Iterator<TaxonomyNode<U>> i;
-		private final Object key;
+		private final Iterator<TaxonomyNode<U>> _i;
+		private final Object _key;
 
 		public DatumEquivalentsPairIterator(final Taxonomy<U> t, final Object key)
 		{
-			this.key = key;
-			i = t.getNodes().iterator();
+			this._key = key;
+			_i = t.getNodes().iterator();
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return i.hasNext();
+			return _i.hasNext();
 		}
 
 		@Override
 		public Entry<Set<U>, Object> next()
 		{
-			final TaxonomyNode<U> current = i.next();
-			return new SimpleImmutableEntry<>(Collections.unmodifiableSet(current.getEquivalents()), current.getDatum(key));
+			final TaxonomyNode<U> current = _i.next();
+			return new SimpleImmutableEntry<>(Collections.unmodifiableSet(current.getEquivalents()), current.getDatum(_key));
 		}
 
 		@Override
@@ -93,39 +93,39 @@ public class Taxonomy<T>
 	private class DepthFirstDatumOnlyIterator<U> implements Iterator<Object>
 	{
 
-		private final Object key;
-		private final List<TaxonomyNode<U>> pending;
-		private final Set<TaxonomyNode<U>> visited;
+		private final Object _key;
+		private final List<TaxonomyNode<U>> _pending;
+		private final Set<TaxonomyNode<U>> _visited;
 
 		public DepthFirstDatumOnlyIterator(final Taxonomy<U> t, final U u, final Object key)
 		{
-			this.key = key;
-			visited = new HashSet<>();
-			pending = new ArrayList<>();
+			this._key = key;
+			_visited = new HashSet<>();
+			_pending = new ArrayList<>();
 			final TaxonomyNode<U> node = t.getNode(u);
 			if (node != null)
-				pending.add(node);
+				_pending.add(node);
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return !pending.isEmpty();
+			return !_pending.isEmpty();
 		}
 
 		@Override
 		public Object next()
 		{
-			if (pending.isEmpty())
+			if (_pending.isEmpty())
 				throw new NoSuchElementException();
 
-			final TaxonomyNode<U> current = pending.remove(pending.size() - 1);
-			visited.add(current);
+			final TaxonomyNode<U> current = _pending.remove(_pending.size() - 1);
+			_visited.add(current);
 			for (final TaxonomyNode<U> sub : current.getSubs())
-				if (!visited.contains(sub))
-					pending.add(sub);
+				if (!_visited.contains(sub))
+					_pending.add(sub);
 
-			return current.getDatum(key);
+			return current.getDatum(_key);
 		}
 
 		@Override
@@ -138,26 +138,26 @@ public class Taxonomy<T>
 	private class SimpleImmutableEntry<K, V> implements Map.Entry<K, V>
 	{
 
-		private final K key;
-		private final V value;
+		private final K _key;
+		private final V _value;
 
 		public SimpleImmutableEntry(final K key, final V value)
 		{
 			super();
-			this.key = key;
-			this.value = value;
+			this._key = key;
+			this._value = value;
 		}
 
 		@Override
 		public K getKey()
 		{
-			return key;
+			return _key;
 		}
 
 		@Override
 		public V getValue()
 		{
-			return value;
+			return _value;
 		}
 
 		@Override
@@ -175,11 +175,11 @@ public class Taxonomy<T>
 
 	public static final boolean TOP_DOWN = true;
 
-	protected TaxonomyNode<T> bottomNode;
-	protected Map<T, TaxonomyNode<T>> nodes;
-	protected TaxonomyNode<T> topNode;
+	protected TaxonomyNode<T> _bottomNode;
+	protected Map<T, TaxonomyNode<T>> _nodes;
+	protected TaxonomyNode<T> _topNode;
 
-	protected short depth = 0;
+	protected short _depth = 0;
 	protected int totalBranching = 0;
 
 	public Taxonomy()
@@ -189,26 +189,26 @@ public class Taxonomy<T>
 
 	public Taxonomy(final Collection<T> elements, final T top, final T bottom)
 	{
-		nodes = CollectionUtils.makeMap();
+		_nodes = CollectionUtils.makeMap();
 
 		if (top == null)
-			topNode = new TaxonomyNode<>((T) null, /* hidden = */true);
+			_topNode = new TaxonomyNode<>((T) null, /* hidden = */true);
 		else
 		{
-			topNode = new TaxonomyNode<>(top, /* hidden = */false);
-			nodes.put(top, topNode);
+			_topNode = new TaxonomyNode<>(top, /* hidden = */false);
+			_nodes.put(top, _topNode);
 		}
 
 		if (bottom == null)
-			bottomNode = new TaxonomyNode<>((T) null, /* hidden = */true);
+			_bottomNode = new TaxonomyNode<>((T) null, /* hidden = */true);
 		else
 		{
-			bottomNode = new TaxonomyNode<>(bottom, /* hidden = */false);
-			nodes.put(bottom, bottomNode);
+			_bottomNode = new TaxonomyNode<>(bottom, /* hidden = */false);
+			_nodes.put(bottom, _bottomNode);
 		}
 
 		if (elements == null || elements.isEmpty())
-			topNode.addSub(bottomNode);
+			_topNode.addSub(_bottomNode);
 		else
 			for (final T t : elements)
 				addNode(t, /* hidden = */false);
@@ -224,7 +224,7 @@ public class Taxonomy<T>
 	public void addEquivalentNode(final T t, final TaxonomyNode<T> node)
 	{
 		node.addEquivalent(t);
-		nodes.put(t, node);
+		_nodes.put(t, node);
 	}
 
 	/**
@@ -233,14 +233,14 @@ public class Taxonomy<T>
 	public void addEquivalents(final T t, final Collection<T> eqs)
 	{
 
-		assert nodes.keySet().contains(t) : "Element " + t.toString() + " not in taxonomy";
+		assert _nodes.keySet().contains(t) : "Element " + t.toString() + " not in taxonomy";
 
-		final TaxonomyNode<T> node = nodes.get(t);
+		final TaxonomyNode<T> node = _nodes.get(t);
 		for (final T eq : eqs)
 		{
-			assert !nodes.keySet().contains(eq) : "Element " + eq.toString() + " alread in taxonomy";
+			assert !_nodes.keySet().contains(eq) : "Element " + eq.toString() + " alread in taxonomy";
 			node.addEquivalent(eq);
-			nodes.put(eq, node);
+			_nodes.put(eq, node);
 		}
 	}
 
@@ -257,12 +257,12 @@ public class Taxonomy<T>
 	{
 
 		assert !equivalents.isEmpty() : "Taxonomy _nodes must have at least one element";
-		assert nodes.keySet().containsAll(sups) : "At least one super element not in taxonomy";
-		assert nodes.keySet().containsAll(subs) : "At least one sub element not in taxonomy";
+		assert _nodes.keySet().containsAll(sups) : "At least one super element not in taxonomy";
+		assert _nodes.keySet().containsAll(subs) : "At least one sub element not in taxonomy";
 
 		final TaxonomyNode<T> node = new TaxonomyNode<>(equivalents, hidden);
 		for (final T t : equivalents)
-			nodes.put(t, node);
+			_nodes.put(t, node);
 
 		short depth = 1;
 
@@ -274,14 +274,14 @@ public class Taxonomy<T>
 			 */
 			if (sups.isEmpty())
 			{
-				if (topNode.isHidden())
+				if (_topNode.isHidden())
 				{
-					topNode.addSub(node);
-					if (topNode.getSubs().size() == 2)
-						topNode.removeSub(bottomNode);
+					_topNode.addSub(node);
+					if (_topNode.getSubs().size() == 2)
+						_topNode.removeSub(_bottomNode);
 				}
 				else
-					node.addSupers(Collections.singleton(topNode));
+					node.addSupers(Collections.singleton(_topNode));
 
 				totalBranching += 1;
 			}
@@ -290,14 +290,14 @@ public class Taxonomy<T>
 				final Set<TaxonomyNode<T>> supNodes = new HashSet<>();
 				for (final T sup : sups)
 				{
-					final TaxonomyNode<T> supNode = nodes.get(sup);
-					if (supNode.depth >= depth)
-						depth = (short) (supNode.depth + 1);
+					final TaxonomyNode<T> supNode = _nodes.get(sup);
+					if (supNode._depth >= depth)
+						depth = (short) (supNode._depth + 1);
 					supNodes.add(supNode);
 				}
-				node.depth = depth;
-				if (depth > this.depth)
-					this.depth = depth;
+				node._depth = depth;
+				if (depth > this._depth)
+					this._depth = depth;
 				node.addSupers(supNodes);
 
 				totalBranching += supNodes.size();
@@ -309,13 +309,13 @@ public class Taxonomy<T>
 			Set<TaxonomyNode<T>> subNodes;
 			if (subs.isEmpty())
 			{
-				if (bottomNode.isHidden())
+				if (_bottomNode.isHidden())
 				{
-					bottomNode.addSupers(Collections.singleton(node));
-					bottomNode.getSupers().removeAll(node.getSupers());
+					_bottomNode.addSupers(Collections.singleton(node));
+					_bottomNode.getSupers().removeAll(node.getSupers());
 				}
 				else
-					node.addSub(bottomNode);
+					node.addSub(_bottomNode);
 
 				totalBranching += 1;
 			}
@@ -323,7 +323,7 @@ public class Taxonomy<T>
 			{
 				subNodes = new HashSet<>();
 				for (final T sub : subs)
-					subNodes.add(nodes.get(sub));
+					subNodes.add(_nodes.get(sub));
 				node.addSubs(subNodes);
 
 				totalBranching += subNodes.size();
@@ -338,9 +338,9 @@ public class Taxonomy<T>
 	public TaxonomyNode<T> addNode(final T t, final boolean hidden)
 	{
 		final TaxonomyNode<T> node = new TaxonomyNode<>(t, hidden);
-		topNode.addSub(node);
-		node.addSub(bottomNode);
-		nodes.put(t, node);
+		_topNode.addSub(node);
+		node.addSub(_bottomNode);
+		_nodes.put(t, node);
 		return node;
 	}
 
@@ -350,20 +350,20 @@ public class Taxonomy<T>
 	public void addSuper(final Collection<T> subs, final T sup)
 	{
 
-		assert nodes.keySet().containsAll(subs) : "At least one sub element not in taxonomy";
-		assert nodes.keySet().contains(sup) : "Super element " + sup.toString() + " not in taxonomy";
+		assert _nodes.keySet().containsAll(subs) : "At least one sub element not in taxonomy";
+		assert _nodes.keySet().contains(sup) : "Super element " + sup.toString() + " not in taxonomy";
 
 		final Set<TaxonomyNode<T>> subNodes = new HashSet<>();
 		for (final T sub : subs)
-			subNodes.add(nodes.get(sub));
-		final TaxonomyNode<T> supNode = nodes.get(sup);
+			subNodes.add(_nodes.get(sub));
+		final TaxonomyNode<T> supNode = _nodes.get(sup);
 
 		for (final TaxonomyNode<T> subNode : subNodes)
-			if (subNode.getSupers().size() == 1 && subNode.getSupers().contains(topNode))
-				topNode.removeSub(subNode);
+			if (subNode.getSupers().size() == 1 && subNode.getSupers().contains(_topNode))
+				_topNode.removeSub(subNode);
 
-		if (supNode.getSubs().size() == 1 && supNode.getSubs().contains(bottomNode))
-			supNode.removeSub(bottomNode);
+		if (supNode.getSubs().size() == 1 && supNode.getSubs().contains(_bottomNode))
+			supNode.removeSub(_bottomNode);
 
 		supNode.addSubs(subNodes);
 
@@ -375,19 +375,19 @@ public class Taxonomy<T>
 	public void addSuper(final T sub, final T sup)
 	{
 
-		assert nodes.keySet().contains(sub) : "Sub element " + sub.toString() + " not in taxonomy";
-		assert nodes.keySet().contains(sup) : "Super element " + sup.toString() + " not in taxonomy";
+		assert _nodes.keySet().contains(sub) : "Sub element " + sub.toString() + " not in taxonomy";
+		assert _nodes.keySet().contains(sup) : "Super element " + sup.toString() + " not in taxonomy";
 
-		final TaxonomyNode<T> subNode = nodes.get(sub);
-		final TaxonomyNode<T> supNode = nodes.get(sup);
+		final TaxonomyNode<T> subNode = _nodes.get(sub);
+		final TaxonomyNode<T> supNode = _nodes.get(sup);
 		if (subNode.equals(supNode))
 			throw new InternalReasonerException("Equivalent elements cannot have sub/super relationship");
 
-		if (subNode.getSupers().size() == 1 && subNode.getSupers().iterator().next() == topNode)
-			topNode.removeSub(subNode);
+		if (subNode.getSupers().size() == 1 && subNode.getSupers().iterator().next() == _topNode)
+			_topNode.removeSub(subNode);
 
-		if (supNode.getSubs().size() == 1 && supNode.getSubs().iterator().next() == bottomNode)
-			supNode.removeSub(bottomNode);
+		if (supNode.getSubs().size() == 1 && supNode.getSubs().iterator().next() == _bottomNode)
+			supNode.removeSub(_bottomNode);
 
 		supNode.addSub(subNode);
 	}
@@ -398,28 +398,28 @@ public class Taxonomy<T>
 	public void addSupers(final T sub, final Collection<T> sups)
 	{
 
-		assert nodes.keySet().contains(sub) : "Sub element " + sub.toString() + " not in taxonomy";
-		assert nodes.keySet().containsAll(sups) : "At least one super element not in taxonomy";
+		assert _nodes.keySet().contains(sub) : "Sub element " + sub.toString() + " not in taxonomy";
+		assert _nodes.keySet().containsAll(sups) : "At least one super element not in taxonomy";
 
-		final TaxonomyNode<T> subNode = nodes.get(sub);
+		final TaxonomyNode<T> subNode = _nodes.get(sub);
 		final Set<TaxonomyNode<T>> supNodes = new HashSet<>();
 		for (final T sup : sups)
-			supNodes.add(nodes.get(sup));
+			supNodes.add(_nodes.get(sup));
 
-		if (subNode.getSupers().size() == 1 && subNode.getSupers().contains(topNode))
-			topNode.removeSub(subNode);
+		if (subNode.getSupers().size() == 1 && subNode.getSupers().contains(_topNode))
+			_topNode.removeSub(subNode);
 
 		for (final TaxonomyNode<T> supNode : supNodes)
-			if (supNode.getSubs().size() == 1 && supNode.getSubs().contains(bottomNode))
-				supNode.removeSub(bottomNode);
+			if (supNode.getSubs().size() == 1 && supNode.getSubs().contains(_bottomNode))
+				supNode.removeSub(_bottomNode);
 
 		subNode.addSupers(supNodes);
 	}
 
 	public void assertValid()
 	{
-		assert topNode.getSupers().isEmpty() : "Top _node in the taxonomy has parents";
-		assert bottomNode.getSubs().isEmpty() : "Bottom _node in the taxonomy has children";
+		assert _topNode.getSupers().isEmpty() : "Top _node in the taxonomy has parents";
+		assert _bottomNode.getSubs().isEmpty() : "Bottom _node in the taxonomy has children";
 	}
 
 	/**
@@ -472,14 +472,14 @@ public class Taxonomy<T>
 
 	public boolean contains(final T t)
 	{
-		return nodes.containsKey(t);
+		return _nodes.containsKey(t);
 	}
 
 	/**
-	 * Iterate over _nodes in taxonomy (no specific _order)returning pair of equivalence set and datum associated with {@code key} for each. Useful, e.g., to
+	 * Iterate over _nodes in taxonomy (no specific _order)returning pair of equivalence set and datum associated with {@code _key} for each. Useful, e.g., to
 	 * collect equivalence sets matching some condition on the datum (as in all classes which have a particular instances)
 	 *
-	 * @param key key associated with datum returned
+	 * @param _key _key associated with datum returned
 	 * @return iterator over equivalence set, datum pairs
 	 */
 	public Iterator<Map.Entry<Set<T>, Object>> datumEquivalentsPair(final Object key)
@@ -488,11 +488,11 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Iterate down taxonomy in a depth first traversal, beginning with class {@code c}, returning only datum associated with {@code key} for each. Useful,
+	 * Iterate down taxonomy in a _depth first traversal, beginning with class {@code c}, returning only datum associated with {@code _key} for each. Useful,
 	 * e.g., to collect datum values in a transitive closure (as in all instances of a class).
 	 *
 	 * @param t starting location in taxonomy
-	 * @param key key associated with datum returned
+	 * @param _key _key associated with datum returned
 	 * @return datum iterator
 	 */
 	public Iterator<Object> depthFirstDatumOnly(final T t, final Object key)
@@ -508,7 +508,7 @@ public class Taxonomy<T>
 	 */
 	public Set<T> getAllEquivalents(final T t)
 	{
-		final TaxonomyNode<T> node = nodes.get(t);
+		final TaxonomyNode<T> node = _nodes.get(t);
 
 		if (node == null)
 			return new HashSet<>();
@@ -520,24 +520,24 @@ public class Taxonomy<T>
 
 	public TaxonomyNode<T> getBottom()
 	{
-		return bottomNode;
+		return _bottomNode;
 	}
 
 	public Set<T> getClasses()
 	{
-		return nodes.keySet();
+		return _nodes.keySet();
 	}
 
 	/**
-	 * Get datum on taxonomy elements associated with {@code key}
+	 * Get datum on taxonomy elements associated with {@code _key}
 	 *
 	 * @param t identifies the taxonomy element
-	 * @param key identifies the specific datum
-	 * @return the datum (or {@code null} if none is associated with {@code key})
+	 * @param _key identifies the specific datum
+	 * @return the datum (or {@code null} if none is associated with {@code _key})
 	 */
 	public Object getDatum(final T t, final Object key)
 	{
-		final TaxonomyNode<T> node = nodes.get(t);
+		final TaxonomyNode<T> node = _nodes.get(t);
 		return (node == null) ? null : node.getDatum(key);
 	}
 
@@ -556,7 +556,7 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * As in {@link #getSubs(Object, boolean)} except the return value is the union of nested sets
+	 * As in {@link #getSubs(Object, boolean)} except the return _value is the union of nested sets
 	 */
 	public Set<T> getFlattenedSubs(final T t, final boolean direct)
 	{
@@ -568,7 +568,7 @@ public class Taxonomy<T>
 	 */
 	private Set<T> getFlattenedSubSupers(final T t, final boolean direct, final boolean subOrSuper)
 	{
-		TaxonomyNode<T> node = nodes.get(t);
+		TaxonomyNode<T> node = _nodes.get(t);
 
 		final Set<T> result = new HashSet<>();
 
@@ -593,7 +593,7 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * As in {@link #getSupers(Object, boolean)} except the return value is the union of nested sets
+	 * As in {@link #getSupers(Object, boolean)} except the return _value is the union of nested sets
 	 */
 	public Set<T> getFlattenedSupers(final T t, final boolean direct)
 	{
@@ -602,12 +602,12 @@ public class Taxonomy<T>
 
 	public TaxonomyNode<T> getNode(final T t)
 	{
-		return nodes.get(t);
+		return _nodes.get(t);
 	}
 
 	public Collection<TaxonomyNode<T>> getNodes()
 	{
-		return nodes.values();
+		return _nodes.values();
 	}
 
 	/**
@@ -648,7 +648,7 @@ public class Taxonomy<T>
 	 */
 	private Set<Set<T>> getSubSupers(final T t, final boolean direct, final boolean subOrSuper)
 	{
-		TaxonomyNode<T> node = nodes.get(t);
+		TaxonomyNode<T> node = _nodes.get(t);
 
 		if (node == null)
 			return Collections.emptySet();
@@ -711,7 +711,7 @@ public class Taxonomy<T>
 
 	public TaxonomyNode<T> getTop()
 	{
-		return topNode;
+		return _topNode;
 	}
 
 	/**
@@ -723,8 +723,8 @@ public class Taxonomy<T>
 	 */
 	public Bool isEquivalent(final T x, final T y)
 	{
-		final TaxonomyNode<T> nodeX = nodes.get(x);
-		final TaxonomyNode<T> nodeY = nodes.get(y);
+		final TaxonomyNode<T> nodeX = _nodes.get(x);
+		final TaxonomyNode<T> nodeY = _nodes.get(y);
 
 		if (nodeX == null || nodeY == null)
 			return Bool.UNKNOWN;
@@ -744,8 +744,8 @@ public class Taxonomy<T>
 	 */
 	public Bool isSubNodeOf(final T x, final T y)
 	{
-		final TaxonomyNode<T> nodeX = nodes.get(x);
-		final TaxonomyNode<T> nodeY = nodes.get(y);
+		final TaxonomyNode<T> nodeX = _nodes.get(x);
+		final TaxonomyNode<T> nodeY = _nodes.get(y);
 
 		if (nodeX == null || nodeY == null)
 			return Bool.UNKNOWN;
@@ -784,11 +784,11 @@ public class Taxonomy<T>
 			log.finer("Merge " + mergeList);
 
 		TaxonomyNode<T> node = null;
-		if (mergeList.contains(topNode))
-			node = topNode;
+		if (mergeList.contains(_topNode))
+			node = _topNode;
 		else
-			if (mergeList.contains(bottomNode))
-				node = bottomNode;
+			if (mergeList.contains(_bottomNode))
+				node = _bottomNode;
 			else
 				node = mergeList.get(0);
 
@@ -804,18 +804,18 @@ public class Taxonomy<T>
 				merged.add(other);
 
 			for (final TaxonomyNode<T> sub : other.getSubs())
-				if ((sub != bottomNode) && !mergeList.contains(sub))
+				if ((sub != _bottomNode) && !mergeList.contains(sub))
 				{
-					if ((node.getSubs().size() == 1) && (node.getSubs().iterator().next() == bottomNode))
-						node.removeSub(bottomNode);
+					if ((node.getSubs().size() == 1) && (node.getSubs().iterator().next() == _bottomNode))
+						node.removeSub(_bottomNode);
 					node.addSub(sub);
 				}
 
 			for (final TaxonomyNode<T> sup : other.getSupers())
-				if ((sup != topNode) && !mergeList.contains(sup))
+				if ((sup != _topNode) && !mergeList.contains(sup))
 				{
-					if ((node.getSupers().size() == 1) && (node.getSupers().iterator().next() == topNode))
-						topNode.removeSub(node);
+					if ((node.getSupers().size() == 1) && (node.getSupers().iterator().next() == _topNode))
+						_topNode.removeSub(node);
 					sup.addSub(node);
 				}
 
@@ -828,26 +828,26 @@ public class Taxonomy<T>
 
 		node.clearData();
 
-		if (node != topNode && node.getSupers().isEmpty())
-			topNode.addSub(node);
+		if (node != _topNode && node.getSupers().isEmpty())
+			_topNode.addSub(node);
 
-		if (node != bottomNode && node.getSubs().isEmpty())
-			node.addSub(bottomNode);
+		if (node != _bottomNode && node.getSubs().isEmpty())
+			node.addSub(_bottomNode);
 
 		return node;
 	}
 
 	/**
-	 * Set a datum value associated with {@code key} on a taxonomy element
+	 * Set a datum _value associated with {@code _key} on a taxonomy element
 	 *
 	 * @param t identifies the taxonomy element
-	 * @param key identifies the datum
-	 * @param value the datum
-	 * @return previous value of datum or {@code null} if not set
+	 * @param _key identifies the datum
+	 * @param _value the datum
+	 * @return previous _value of datum or {@code null} if not set
 	 */
 	public Object putDatum(final T t, final Object key, final Object value)
 	{
-		final TaxonomyNode<T> node = nodes.get(t);
+		final TaxonomyNode<T> node = _nodes.get(t);
 		if (node == null)
 			throw new RuntimeException(t + " is an unknown class!");
 
@@ -859,9 +859,9 @@ public class Taxonomy<T>
 	 */
 	public void remove(final T t)
 	{
-		assert nodes.containsKey(t) : "Element not contained in taxonomy";
+		assert _nodes.containsKey(t) : "Element not contained in taxonomy";
 
-		final TaxonomyNode<T> node = nodes.remove(t);
+		final TaxonomyNode<T> node = _nodes.remove(t);
 		if (node.getEquivalents().size() == 1)
 		{
 			final Collection<TaxonomyNode<T>> subs = node.getSubs();
@@ -879,7 +879,7 @@ public class Taxonomy<T>
 	 */
 	public void removeCycles(final TaxonomyNode<T> node)
 	{
-		if (!nodes.get(node.getName()).equals(node))
+		if (!_nodes.get(node.getName()).equals(node))
 			throw new InternalReasonerException("This _node does not exist in the taxonomy: " + node.getName());
 		removeCycles(node, new ArrayList<TaxonomyNode<T>>());
 	}
@@ -930,23 +930,23 @@ public class Taxonomy<T>
 	public void resetSupers(final T t, final Collection<T> supers)
 	{
 
-		assert nodes.keySet().contains(t) : "Element " + t.toString() + " not in taxonomy";
-		assert nodes.keySet().containsAll(supers) : "Supers not all contained in taxonomy";
+		assert _nodes.keySet().contains(t) : "Element " + t.toString() + " not in taxonomy";
+		assert _nodes.keySet().containsAll(supers) : "Supers not all contained in taxonomy";
 
-		final TaxonomyNode<T> node = nodes.get(t);
+		final TaxonomyNode<T> node = _nodes.get(t);
 
 		final List<TaxonomyNode<T>> initial = new ArrayList<>(node.getSupers());
 		for (final TaxonomyNode<T> n : initial)
 			n.removeSub(node);
 
 		if (supers.isEmpty())
-			topNode.addSub(node);
+			_topNode.addSub(node);
 		else
 		{
 			final Set<TaxonomyNode<T>> added = new HashSet<>();
 			for (final T sup : supers)
 			{
-				final TaxonomyNode<T> n = nodes.get(sup);
+				final TaxonomyNode<T> n = _nodes.get(sup);
 				if (added.add(n))
 					n.addSub(node);
 			}
@@ -980,7 +980,7 @@ public class Taxonomy<T>
 
 				log.fine("Topological sort...");
 
-				for (final TaxonomyNode<T> node : nodes.values())
+				for (final TaxonomyNode<T> node : _nodes.values())
 		{
 					if (node.isHidden())
 						continue;
@@ -1005,7 +1005,7 @@ public class Taxonomy<T>
 
 					final int deg = degrees.get(node);
 					if (deg != 0)
-						throw new InternalReasonerException("Cycle detected in the taxonomy " + node + " " + deg + " " + nodesSorted.size() + " " + nodes.size());
+						throw new InternalReasonerException("Cycle detected in the taxonomy " + node + " " + deg + " " + nodesSorted.size() + " " + _nodes.size());
 
 					nodesPending.remove(node.getName());
 					nodesLeft.remove(node);

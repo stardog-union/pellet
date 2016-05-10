@@ -9,17 +9,17 @@
 package org.mindswap.pellet.tableau.blocking;
 
 /**
- * A simple interface to check if the _blocker candidate in this context actually blocks the other individual.
+ * A simple interface to check if the _blocker candidate in this context actually blocks the other _individual.
  *
  * @author Evren Sirin
  */
 public interface BlockingCondition
 {
 	/**
-	 * Check if the _blocker candidate in this context actually blocks the other individual.
+	 * Check if the _blocker candidate in this context actually blocks the other _individual.
 	 *
 	 * @param cxt the _current blocking context
-	 * @return <code>true</code> if the individual is _blocked
+	 * @return <code>true</code> if the _individual is _blocked
 	 */
 	public boolean isBlocked(BlockingContext cxt);
 }

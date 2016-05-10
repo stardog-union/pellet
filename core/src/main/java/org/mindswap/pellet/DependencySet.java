@@ -57,7 +57,7 @@ public class DependencySet
 	public static final DependencySet EMPTY;
 
 	/**
-	 * Used for assertions that are true by nature, i.e. an individual always has type owl:Thing
+	 * Used for assertions that are true by nature, i.e. an _individual always has type owl:Thing
 	 */
 	public static final DependencySet INDEPENDENT;
 

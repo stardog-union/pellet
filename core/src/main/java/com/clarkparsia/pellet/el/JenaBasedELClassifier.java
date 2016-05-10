@@ -108,7 +108,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 	protected MultiValueMap<ATermAppl, ATermAppl> getSubsumptions(final Graph graph)
 	{
 		final MultiValueMap<ATermAppl, ATermAppl> subsumers = new MultiValueMap<>();
-		final ExtendedIterator it = graph.find(Node.ANY, PRED_SUB, Node.ANY);
+		final ExtendedIterator<?> it = graph.find(Node.ANY, PRED_SUB, Node.ANY);
 		while (it.hasNext())
 		{
 			final Triple tri = (Triple) it.next();

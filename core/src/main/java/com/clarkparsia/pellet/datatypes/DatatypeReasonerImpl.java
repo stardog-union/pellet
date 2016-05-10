@@ -436,7 +436,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		{
 
 			/*
-			 * Start with the full data range for the datatype
+			 * Start with the full _data range for the datatype
 			 */
 			final ATermAppl dtTerm = (ATermAppl) a.getArgument(0);
 			final DataRange<?> dt = getDataRange(dtTerm);
@@ -542,7 +542,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		final Map<Datatype<?>, Set<RestrictedDatatype<?>>> byPrimitive = new HashMap<>();
 
 		/*
-		 * Organize the input data ranges into restrictions partitioned by data and a merged value enumeration.
+		 * Organize the input _data ranges into restrictions partitioned by _data and a merged value enumeration.
 		 */
 		for (final DataRange<?> dr : ranges)
 			if (dr instanceof RestrictedDatatype)
@@ -568,7 +568,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				}
 
 		/*
-		 * Merge data ranges that have the same primitive datatype
+		 * Merge _data ranges that have the same primitive datatype
 		 */
 		final Set<RestrictedDatatype<?>> disjointRanges = new HashSet<>();
 		for (final Set<RestrictedDatatype<?>> s : byPrimitive.values())
@@ -728,7 +728,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		}
 
 		/*
-		 * 2. Get normalized form of data ranges
+		 * 2. Get normalized form of _data ranges
 		 */
 		final DataRange<?>[] normalized = new DataRange[n];
 		for (int i = 0; i < n; i++)
@@ -820,7 +820,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		}
 
 		if (log.isLoggable(Level.FINEST))
-			log.finest(format("After variable data range normalization %d variables and %d constants", vars.size(), consts.size()));
+			log.finest(format("After variable _data range normalization %d variables and %d constants", vars.size(), consts.size()));
 
 		/*
 		 * Constant checks (alg lines 23 - 30)
@@ -873,13 +873,13 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 		}
 
 		if (log.isLoggable(Level.FINEST))
-			log.finest(format("After size check on variable data ranges %d variables", vars.size()));
+			log.finest(format("After size check on variable _data ranges %d variables", vars.size()));
 
 		if (vars.isEmpty())
 			return true;
 
 		/*
-		 * Assertion: at this point, all remaining variables are from finite and enumerable data ranges.
+		 * Assertion: at this point, all remaining variables are from finite and enumerable _data ranges.
 		 */
 
 		/*
@@ -1144,7 +1144,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				return TRIVIALLY_SATISFIABLE;
 
 			/*
-			 * Verify that all positive restrictions are on the same primitive type. If not, the data range is empty
+			 * Verify that all positive restrictions are on the same primitive type. If not, the _data range is empty
 			 * because the primitives are disjoint.
 			 */
 			Datatype<?> rootDt = null;

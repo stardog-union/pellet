@@ -89,7 +89,7 @@ public class MaxBranch extends IndividualBranch
 	{
 		_abox.incrementBranch();
 
-		//we must re-add this individual to the max _queue. This is because we may still need to keep
+		//we must re-add this _individual to the max _queue. This is because we may still need to keep
 		//applying the max rule for additional merges
 		//recreate the label for the individuals
 		ATermAppl maxCon = ATermUtils.makeMax(this._r.getName(), this._n, this._qualification);
@@ -127,7 +127,7 @@ public class MaxBranch extends IndividualBranch
 			ds = ds.union(new DependencySet(getBranch()), _abox.doExplanation());
 
 			// max cardinality merge also depends on all the edges
-			// between the individual that has the cardinality and
+			// between the _individual that has the cardinality and
 			// _nodes that are going to be merged
 			final EdgeList rNeighbors = ind.getRNeighborEdges(_r);
 			boolean yEdge = false, zEdge = false;

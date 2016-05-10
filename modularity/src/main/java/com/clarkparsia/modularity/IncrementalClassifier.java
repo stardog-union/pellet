@@ -707,7 +707,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	 * A class that has access to all the internal parts of the IncrementalClassifier that has to be persisted when saving the state to the stream. This class
 	 * enables the separation between the I/O code and the reasoning code. This class should not be used any other parts of code than the I/O code. This class
 	 * is a variation of Memento design pattern (as it encapsulates the state) with the important difference that actually no state is being copied; instead,
-	 * this class only contains the references to the data structures to be saved. (The I/O code is thought as actually performing the copy, and therefore
+	 * this class only contains the references to the _data structures to be saved. (The I/O code is thought as actually performing the copy, and therefore
 	 * completing the Memento pattern.)
 	 * <p>
 	 * Copyright: Copyright (c) 2009

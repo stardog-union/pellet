@@ -171,7 +171,7 @@ public class SROIQIncStrategy extends SROIQStrategy
 		if (!_mergeList.isEmpty())
 			mergeAll();
 
-		//Apply necessary initialization to any new individual added
+		//Apply necessary initialization to any new _individual added
 		//Currently, this is a replication of the code
 		for (final Iterator<Individual> newIt = getNewIterator(); newIt.hasNext();)
 		{

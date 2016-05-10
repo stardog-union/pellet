@@ -17,7 +17,7 @@ import org.mindswap.pellet.ABox;
  * Title: Binding Generator Implementation
  * </p>
  * <p>
- * Description: Takes a list of binding helpers
+ * Description: Takes a list of _binding _helpers
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -32,66 +32,66 @@ import org.mindswap.pellet.ABox;
 public class BindingGeneratorImpl implements BindingGenerator
 {
 
-	private final Collection<BindingHelper> helpers;
-	private VariableBinding initialBinding;
+	private final Collection<BindingHelper> _helpers;
+	private VariableBinding _initialBinding;
 
 	private class BindingIterator implements Iterator<VariableBinding>
 	{
 
-		private VariableBinding binding;
-		private BindingHelper[] helperChain;
+		private VariableBinding _binding;
+		private BindingHelper[] _helperChain;
 
 		public BindingIterator()
 		{
-			helperChain = new BindingHelper[helpers.size()];
-			helperChain = helpers.toArray(helperChain);
+			_helperChain = new BindingHelper[_helpers.size()];
+			_helperChain = _helpers.toArray(_helperChain);
 
-			if (helperChain.length > 0)
-				helperChain[0].rebind(initialBinding);
+			if (_helperChain.length > 0)
+				_helperChain[0].rebind(_initialBinding);
 
 		}
 
 		/**
-		 * Return the _current binding up through and including the <code>max</code> element of the pattern chain.
+		 * Return the _current _binding up through and including the <code>max</code> element of the pattern chain.
 		 * 
 		 * @param max
 		 * @return
 		 */
 		private VariableBinding getBinding(final int max)
 		{
-			final VariableBinding newBinding = new VariableBinding(initialBinding);
+			final VariableBinding newBinding = new VariableBinding(_initialBinding);
 			for (int i = 0; i <= max; i++)
-				helperChain[i].setCurrentBinding(newBinding);
+				_helperChain[i].setCurrentBinding(newBinding);
 			return newBinding;
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			if (binding != null)
+			if (_binding != null)
 				return true;
 
-			// Search loop to find new binding.
+			// Search loop to find new _binding.
 			VariableBinding newBinding = null;
-			int position = helperChain.length - 1;
+			int position = _helperChain.length - 1;
 			while (position >= 0)
-				if (helperChain[position].selectNextBinding())
+				if (_helperChain[position].selectNextBinding())
 				{
 					if (newBinding == null)
 						newBinding = getBinding(position);
 					else
-						helperChain[position].setCurrentBinding(newBinding);
-					if (position < helperChain.length - 1)
+						_helperChain[position].setCurrentBinding(newBinding);
+					if (position < _helperChain.length - 1)
 					{
 						// Not at last helper, need to move forward.
-						helperChain[position + 1].rebind(newBinding);
+						_helperChain[position + 1].rebind(newBinding);
 						position++;
 					}
 					else
 					{
-						// Found new binding at last helper in the chain.
+						// Found new _binding at last helper in the chain.
 						// We can exit now.
-						binding = newBinding;
+						_binding = newBinding;
 						return true;
 					}
 				}
@@ -110,8 +110,8 @@ public class BindingGeneratorImpl implements BindingGenerator
 		{
 			if (!hasNext())
 				throw new NoSuchElementException();
-			final VariableBinding result = binding;
-			binding = null;
+			final VariableBinding result = _binding;
+			_binding = null;
 			return result;
 		}
 
@@ -128,17 +128,17 @@ public class BindingGeneratorImpl implements BindingGenerator
 	 */
 	public BindingGeneratorImpl()
 	{
-		helpers = Collections.emptySet();
+		_helpers = Collections.emptySet();
 	}
 
 	/**
-	 * Constructs a binding generator with the given list of helpers. The helpers must be in such an _order that prerequisite variables of any helper are bound
-	 * by a helper before it.
+	 * Constructs a _binding generator with the given list of _helpers. The _helpers must be in such an _order that prerequisite variables of any helper are
+	 * bound by a helper before it.
 	 */
-	public BindingGeneratorImpl(final ABox abox, final VariableBinding initialBinding, final Collection<BindingHelper> helpers)
+	public BindingGeneratorImpl(@SuppressWarnings("unused") final ABox abox, final VariableBinding initialBinding, final Collection<BindingHelper> helpers)
 	{
-		this.helpers = helpers;
-		this.initialBinding = initialBinding;
+		this._helpers = helpers;
+		this._initialBinding = initialBinding;
 	}
 
 	@Override

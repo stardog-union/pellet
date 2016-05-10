@@ -29,7 +29,7 @@ import org.mindswap.pellet.jena.vocabulary.OWL2;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
 /**
- * Extract a Jena model that contains the information Pellet inferred. Models can be generated about classes, properties or individuals. Note that individual
+ * Extract a Jena model that contains the information Pellet inferred. Models can be generated about classes, properties or individuals. Note that _individual
  * models do not contain any information about property assertions, it just contains type assertions about individuals.
  *
  * @author Evren Sirin
@@ -63,7 +63,7 @@ public class ModelExtractor
 		COMPLEMENT_CLASS,
 
 		/**
-		 * for individuals, data property value statements
+		 * for individuals, _data property value statements
 		 */
 		DATA_PROPERTY_VALUE,
 
@@ -163,7 +163,7 @@ public class ModelExtractor
 		public static final EnumSet<StatementType> ALL_STATEMENTS_INCLUDING_JENA;
 
 		/**
-		 * All property values (both object and data)
+		 * All property values (both object and _data)
 		 */
 		public static final EnumSet<StatementType> PROPERTY_VALUE;
 

@@ -24,5 +24,5 @@ package com.clarkparsia.pellet.rules;
  */
 public interface BindingGenerator extends Iterable<VariableBinding>
 {
-
+	//
 }

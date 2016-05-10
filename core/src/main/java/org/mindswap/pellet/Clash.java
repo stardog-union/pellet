@@ -33,7 +33,7 @@ public class Clash
 {
 	public enum ClashType
 	{
-		ATOMIC("An individual belongs to a _type and its complement"), MIN_MAX("An individual contains a minCardinality restriction that is greater than a maxCardinality restriction"), MAX_CARD("The maxCardinality restriction is violated"), FUNC_MAX_CARD("An individual contains a minCardinality restriction that is greater than a maxCardinality restriction"), MAX_ZERO("The maxCardinality(0) restriction is violated"), NOMINAL("An individual is sameAs and differentFrom another individual at the same time"), EMPTY_DATATYPE("Range restrictions on a literal is inconsistent"), VALUE_DATATYPE("The literal value does not satisfy the datatype restriction"), MISSING_DATATYPE("Plain literal does not satisfy the datatype restriction (literal may be missing the rdf:datatype attribute)"), INVALID_LITERAL("Invalid literal for the rdf:datatype attribute"), DISJOINT_PROPS("Two disjoint properties have the same value"), BOTTOM_PROP("An individual has a value for bottom property"), UNEXPLAINED("Cannot explain");
+		ATOMIC("An _individual belongs to a _type and its complement"), MIN_MAX("An _individual contains a minCardinality restriction that is greater than a maxCardinality restriction"), MAX_CARD("The maxCardinality restriction is violated"), FUNC_MAX_CARD("An _individual contains a minCardinality restriction that is greater than a maxCardinality restriction"), MAX_ZERO("The maxCardinality(0) restriction is violated"), NOMINAL("An _individual is sameAs and differentFrom another _individual at the same time"), EMPTY_DATATYPE("Range restrictions on a literal is inconsistent"), VALUE_DATATYPE("The literal value does not satisfy the datatype restriction"), MISSING_DATATYPE("Plain literal does not satisfy the datatype restriction (literal may be missing the rdf:datatype attribute)"), INVALID_LITERAL("Invalid literal for the rdf:datatype attribute"), DISJOINT_PROPS("Two disjoint properties have the same value"), BOTTOM_PROP("An _individual has a value for bottom property"), UNEXPLAINED("Cannot explain");
 
 		private String _explanation;
 
@@ -255,7 +255,7 @@ public class Clash
 			{
 				final List<ATermAppl> path = node.getPath();
 				if (path.isEmpty())
-					str.append("There is an anonymous individual which");
+					str.append("There is an anonymous _individual which");
 				else
 				{
 					final ATermAppl first = path.get(0);
@@ -270,7 +270,7 @@ public class Clash
 					else
 					{
 						nodeID = "X";
-						str.append("There is an anonymous individual X, identified by this path (" + i.next() + " ");
+						str.append("There is an anonymous _individual X, identified by this path (" + i.next() + " ");
 					}
 
 					while (i.hasNext())

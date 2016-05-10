@@ -1007,7 +1007,7 @@ public class PelletVisitor implements OWLObjectVisitor
 		}
 
 		if (restrictions.isEmpty())
-			log.warning("A data range is defined without facet restrictions " + node);
+			log.warning("A _data range is defined without facet restrictions " + node);
 		else
 			term = ATermUtils.makeRestrictedDatatype(baseDatatype, restrictions.toArray(new ATermAppl[restrictions.size()]));
 	}

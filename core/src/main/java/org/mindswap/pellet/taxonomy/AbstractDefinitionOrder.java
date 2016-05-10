@@ -24,27 +24,27 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public abstract class AbstractDefinitionOrder implements DefinitionOrder
 {
-	protected KnowledgeBase kb;
-	protected Comparator<ATerm> comparator;
+	protected KnowledgeBase _kb;
+	protected Comparator<ATerm> _comparator;
 
-	private Set<ATermAppl> cyclicConcepts;
-	private List<ATermAppl> definitionOrder;
+	private Set<ATermAppl> _cyclicConcepts;
+	private List<ATermAppl> _definitionOrder;
 
 	public AbstractDefinitionOrder(final KnowledgeBase kb, final Comparator<ATerm> comparator)
 	{
-		this.kb = kb;
-		this.comparator = comparator;
+		this._kb = kb;
+		this._comparator = comparator;
 
-		cyclicConcepts = CollectionUtils.makeIdentitySet();
-		definitionOrder = new ArrayList<>(kb.getClasses().size() + 2);
+		_cyclicConcepts = CollectionUtils.makeIdentitySet();
+		_definitionOrder = new ArrayList<>(kb.getClasses().size() + 2);
 
 		initialize();
 
 		processDefinitions();
 
-		cyclicConcepts = computeCycles();
+		_cyclicConcepts = computeCycles();
 
-		definitionOrder = computeDefinitionOrder();
+		_definitionOrder = computeDefinitionOrder();
 	}
 
 	protected abstract void initialize();
@@ -55,9 +55,9 @@ public abstract class AbstractDefinitionOrder implements DefinitionOrder
 
 	protected void processDefinitions()
 	{
-		final boolean hasInverses = kb.getExpressivity().hasInverse();
-		final TBox tbox = kb.getTBox();
-		for (final ATermAppl c : kb.getClasses())
+		final boolean hasInverses = _kb.getExpressivity().hasInverse();
+		final TBox tbox = _kb.getTBox();
+		for (final ATermAppl c : _kb.getClasses())
 		{
 			final Iterator<Unfolding> unfoldingList = tbox.unfold(c);
 			while (unfoldingList.hasNext())
@@ -66,7 +66,7 @@ public abstract class AbstractDefinitionOrder implements DefinitionOrder
 				final Set<ATermAppl> usedByC = ATermUtils.findPrimitives(unf.getResult(), !hasInverses, true);
 				for (final ATermAppl used : usedByC)
 				{
-					if (!kb.getClasses().contains(used))
+					if (!_kb.getClasses().contains(used))
 						continue;
 
 					addUses(c, used);
@@ -83,7 +83,7 @@ public abstract class AbstractDefinitionOrder implements DefinitionOrder
 	@Override
 	public boolean isCyclic(final ATermAppl concept)
 	{
-		return cyclicConcepts.contains(concept);
+		return _cyclicConcepts.contains(concept);
 	}
 
 	/**
@@ -92,6 +92,6 @@ public abstract class AbstractDefinitionOrder implements DefinitionOrder
 	@Override
 	public Iterator<ATermAppl> iterator()
 	{
-		return definitionOrder.iterator();
+		return _definitionOrder.iterator();
 	}
 }

@@ -558,7 +558,7 @@ public class PelletExplain extends PelletCmdApp
 					throw new PelletCmdException("Undefined entity: " + names[0]);
 				else
 					if (!name1.isOWLNamedIndividual())
-						throw new PelletCmdException("Not a defined individual: " + names[0]);
+						throw new PelletCmdException("Not a defined _individual: " + names[0]);
 				if (name2 == null)
 					throw new PelletCmdException("Undefined entity: " + names[1]);
 				else
@@ -585,7 +585,7 @@ public class PelletExplain extends PelletCmdApp
 					throw new PelletCmdException("Undefined entity: " + names[0]);
 				else
 					if (!name1.isOWLNamedIndividual())
-						throw new PelletCmdException("Not an individual: " + names[0]);
+						throw new PelletCmdException("Not an _individual: " + names[0]);
 				if (name2 == null)
 					throw new PelletCmdException("Undefined entity: " + names[1]);
 				else
@@ -598,7 +598,7 @@ public class PelletExplain extends PelletCmdApp
 						throw new PelletCmdException("Undefined entity: " + names[2]);
 					else
 						if (!(name3 instanceof OWLIndividual))
-							throw new PelletCmdException("Not a defined individual: " + names[2]);
+							throw new PelletCmdException("Not a defined _individual: " + names[2]);
 				}
 				else
 				{

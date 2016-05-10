@@ -6,9 +6,9 @@
 
 package com.clarkparsia.pellet.rules.rete;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Logger;
 
 /**
@@ -16,11 +16,12 @@ import java.util.logging.Logger;
  */
 public abstract class ReteNode
 {
-	public final static Logger log = Logger.getLogger(ReteNode.class.getName());
+	public final static Logger _log = Logger.getLogger(ReteNode.class.getName());
 
-	private final List<BetaNode> children = new ArrayList<>();
+	private final List<BetaNode> _children = new Vector<>();
 
-	private boolean marked = false;
+	@SuppressWarnings("unused")
+	private boolean _marked = false;
 
 	public ReteNode()
 	{
@@ -31,7 +32,7 @@ public abstract class ReteNode
 	 */
 	public void addChild(final BetaNode beta)
 	{
-		children.add(beta);
+		_children.add(beta);
 	}
 
 	/**
@@ -39,7 +40,7 @@ public abstract class ReteNode
 	 */
 	public Collection<BetaNode> getBetas()
 	{
-		return children;
+		return _children;
 	}
 
 	/**
@@ -47,14 +48,14 @@ public abstract class ReteNode
 	 */
 	public void reset()
 	{
-		for (final BetaNode child : children)
+		for (final BetaNode child : _children)
 			child.reset();
 	}
 
 	public void restore(final int branch)
 	{
-		//		if (!marked) {
-		for (final BetaNode child : children)
+		//		if (!_marked) {
+		for (final BetaNode child : _children)
 			child.restore(branch);
 	}
 
@@ -70,8 +71,8 @@ public abstract class ReteNode
 
 	private void setMark(final boolean value)
 	{
-		marked = value;
-		for (final ReteNode child : children)
+		_marked = value;
+		for (final ReteNode child : _children)
 			child.setMark(value);
 	}
 

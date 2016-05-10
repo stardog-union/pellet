@@ -324,7 +324,7 @@ public class PelletOptions
 	public static boolean SATURATE_TABLEAU = false;
 
 	/**
-	 * This option tells Pellet to treat every individual with a distinct URI to be different from each other. This is against the semantics of OWL but is much
+	 * This option tells Pellet to treat every _individual with a distinct URI to be different from each other. This is against the semantics of OWL but is much
 	 * more efficient than adding an <code><owl:AllDifferent></code> definition with all the individuals. This option does not affect b-_nodes, they can still
 	 * be inferred to be same.
 	 */
@@ -339,7 +339,7 @@ public class PelletOptions
 	/**
 	 * According to SPARQL semantics all variables are distinguished by definition and bnodes in the query are non-distinguished variables. This option
 	 * overrides the default behavior and treats bnodes as distinguished variables, too. This means bnodes in the SPARQL query will only be matched to named
-	 * individuals or existing bnodes in the dataset but not to inferred individuals (e.g. an individual whose existence is inferred due to an
+	 * individuals or existing bnodes in the dataset but not to inferred individuals (e.g. an _individual whose existence is inferred due to an
 	 * <code>owl:someValuesFrom</code> restriction)
 	 */
 	public static boolean TREAT_ALL_VARS_DISTINGUISHED = true;
@@ -420,13 +420,13 @@ public class PelletOptions
 	public static int MAX_ANONYMOUS_CACHE = 20000;
 
 	/**
-	 * To decide if individual <code>i</code> has type class <code>_c</code> check if the edges from cached model of <code>_c</code> to nominal _nodes also exists
+	 * To decide if _individual <code>i</code> has type class <code>_c</code> check if the edges from cached model of <code>_c</code> to nominal _nodes also exists
 	 * for the cached model of <code>i</code>.
 	 */
 	public static boolean CHECK_NOMINAL_EDGES = true;
 
 	/**
-	 * Treat nominals (classes defined by enumeration) as named atomic concepts rather than individual names. Turning this option improves the performance but
+	 * Treat nominals (classes defined by enumeration) as named atomic concepts rather than _individual names. Turning this option improves the performance but
 	 * soundness and completeness cannot be established.
 	 */
 	public static boolean USE_PSEUDO_NOMINALS = false;
@@ -473,21 +473,21 @@ public class PelletOptions
 
 	/**
 	 * Control the behavior if a function such as kb.getInstances(), kb.getTypes(), kb.getPropertyValues() is called with a parameter that is an undefined
-	 * class, property or individual. If this option is set to false then an exception is thrown each time this occurs, if true set the corresponding function
+	 * class, property or _individual. If this option is set to false then an exception is thrown each time this occurs, if true set the corresponding function
 	 * returns a false value (or an empty set where appropriate).
 	 */
 	public static boolean SILENT_UNDEFINED_ENTITY_HANDLING = true;
 
 	/**
-	 * Control the realization _strategy where we loop over individuals or concepts. When this flag is set we loop over each individual and find the most
-	 * specific type for that individual by traversing the class hierarchy. If this flag is not set we traverse the class hierarchy and for each concept find
-	 * the instances. Then any individual that is also an instance of a subclass is removed. Both techniques have advantages and disadvantages. Best performance
+	 * Control the realization _strategy where we loop over individuals or concepts. When this flag is set we loop over each _individual and find the most
+	 * specific type for that _individual by traversing the class hierarchy. If this flag is not set we traverse the class hierarchy and for each concept find
+	 * the instances. Then any _individual that is also an instance of a subclass is removed. Both techniques have advantages and disadvantages. Best performance
 	 * depends on the ontology characteristics.
 	 */
 	public static boolean REALIZE_INDIVIDUAL_AT_A_TIME = false;
 
 	/**
-	 * When this options is set, all the individuals in the KB are realized automatically when the types for one individual is retrieved. This might be quite
+	 * When this options is set, all the individuals in the KB are realized automatically when the types for one _individual is retrieved. This might be quite
 	 * costly when there are a large number of individuals and might be wasted computation if the KB is changed frequently.
 	 */
 	public static boolean AUTO_REALIZE = true;
@@ -653,7 +653,7 @@ public class PelletOptions
 	public static boolean USE_ANNOTATION_SUPPORT = false;
 
 	/**
-	 * Do not include owl:topObjectProperty and owl:topDataProperty values when retrieving the property values for an individual. Even tough such values are
+	 * Do not include owl:topObjectProperty and owl:topDataProperty values when retrieving the property values for an _individual. Even tough such values are
 	 * trivially inferred according to OWL 2 semantics, including these values in results increase result size drastically. This option will not affect boolean
 	 * queries (asking whether a towl:topObjectProperty b is entailed will still return true) or property queries (sub and super property queries will include
 	 * top properties).

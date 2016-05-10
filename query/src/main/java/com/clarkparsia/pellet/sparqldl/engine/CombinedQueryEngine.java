@@ -90,7 +90,7 @@ public class CombinedQueryEngine implements QueryExec
 
 		this.kb = query.getKB();
 		if (kb == null)
-			throw new RuntimeException("No input data set is given for query!");
+			throw new RuntimeException("No input _data set is given for query!");
 
 		this.result = new QueryResultImpl(query);
 
@@ -355,7 +355,7 @@ public class CombinedQueryEngine implements QueryExec
 					else
 						if (!ATermUtils.isVar(tI))
 						{
-							// classCandidates = flatten(TaxonomyUtils.getTypes(kb
+							// classCandidates = flatten(TaxonomyUtils.getTypes(_kb
 							// .getTaxonomy(), tI, direct)); // TODO
 							classCandidates = flatten(kb.getTypes(tI, direct)); // TODO
 							instanceCandidates = Collections.singleton(tI);
@@ -1027,8 +1027,8 @@ public class CombinedQueryEngine implements QueryExec
 						// TODO
 						// if (distVars.size() == 2
 						// && core.getUndistVars().size() == 1
-						// && !kb.getExpressivity().hasNominal()
-						// && !kb.getExpressivity().hasTransitivity()) {
+						// && !_kb.getExpressivity().hasNominal()
+						// && !_kb.getExpressivity().hasTransitivity()) {
 						// // TODO 1. undist. var. in distinguished manner
 						// // TODO 2. identify both DV's
 						// }
@@ -1199,39 +1199,39 @@ public class CombinedQueryEngine implements QueryExec
 
 	private Map<ATermAppl, Boolean> fastPrune(final Query q, final ATermAppl var)
 	{
-		// final Collection<ATermAppl> instances = new HashSet<ATermAppl>(kb
+		// final Collection<ATermAppl> instances = new HashSet<ATermAppl>(_kb
 		// .getIndividuals());
 		//
-		// final KnowledgeBase kb = q.getKB();
+		// final KnowledgeBase _kb = q.getKB();
 		//
 		//
 		//
 		// for (final QueryAtom atom : q.findAtoms(QueryPredicate.PropertyValue,
 		// _node, null, null)) {
-		// instances.retainAll(kb.retrieveIndividualsWithProperty(atom
+		// instances.retainAll(_kb.retrieveIndividualsWithProperty(atom
 		// .getArguments().get(1)));
 		// }
 		// for (final QueryAtom atom : q.findAtoms(QueryPredicate.PropertyValue,
 		// null, null, _node)) {
-		// instances.retainAll(kb.retrieveIndividualsWithProperty(ATermUtils
+		// instances.retainAll(_kb.retrieveIndividualsWithProperty(ATermUtils
 		// .makeInv(atom.getArguments().get(1))));
 		// }
 		// return instances;
 
 		// final ATermAppl c = q.rollUpTo(var, Collections.EMPTY_SET, false);
 		//
-		// CandidateSet set = kb.getABox().getObviousInstances(c);
+		// CandidateSet set = _kb.getABox().getObviousInstances(c);
 		// _log.fine(c + " : " + set.getKnowns().size() + " : "
 		// + set.getUnknowns().size());
 		//
 		// if (set.getUnknowns().isEmpty()) {
 		// return set.getKnowns();
 		// } else {
-		// return kb.getInstances(q
+		// return _kb.getInstances(q
 		// .rollUpTo(var, Collections.EMPTY_SET, false));
 		// }
 
-		// return kb.getIndividuals();
+		// return _kb.getIndividuals();
 
 		final ATermAppl c = q.rollUpTo(var, Collections.<ATermAppl> emptySet(), STOP_ROLLING_ON_CONSTANTS);
 		if (log.isLoggable(Level.FINER))
@@ -1291,7 +1291,7 @@ public class CombinedQueryEngine implements QueryExec
 	//
 	// final Collection<ATermAppl> instances;
 	//
-	// final KnowledgeBase kb = q.getKB();
+	// final KnowledgeBase _kb = q.getKB();
 	//
 	// if (loadAll) {
 	// final ATermAppl clazz = q.rollUpTo(var, Collections.EMPTY_SET,
@@ -1303,17 +1303,17 @@ public class CombinedQueryEngine implements QueryExec
 	// + " in " + q);
 	// }
 	//
-	// instances = kb.getInstances(clazz);
+	// instances = _kb.getInstances(clazz);
 	// } else {
-	// instances = new HashSet<ATermAppl>(kb.getIndividuals());
+	// instances = new HashSet<ATermAppl>(_kb.getIndividuals());
 	// for (final QueryAtom atom : q.findAtoms(
 	// QueryPredicate.PropertyValue, var, null, null)) {
-	// instances.retainAll(kb.retrieveIndividualsWithProperty(atom
+	// instances.retainAll(_kb.retrieveIndividualsWithProperty(atom
 	// .getArguments().get(1)));
 	// }
 	// for (final QueryAtom atom : q.findAtoms(
 	// QueryPredicate.PropertyValue, null, null, var)) {
-	// instances.retainAll(kb
+	// instances.retainAll(_kb
 	// .retrieveIndividualsWithProperty(ATermUtils
 	// .makeInv(atom.getArguments().get(1))));
 	// }

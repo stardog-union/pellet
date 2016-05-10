@@ -17,8 +17,8 @@ import org.mindswap.pellet.Role;
  * Title:
  * </p>
  * <p>
- * Description: Represent the cached information for a concept or an individual. For concepts this represents the root _node of the tableau completion graph
- * built to check the satisfiability of the concept. For individuals, this is the individual itself ({@link Individual} implements this interface}. The cached
+ * Description: Represent the cached information for a concept or an _individual. For concepts this represents the root _node of the tableau completion graph
+ * built to check the satisfiability of the concept. For individuals, this is the _individual itself ({@link Individual} implements this interface}. The cached
  * _node for concepts may be incomplete if the satisfiability status was cached when the satisfiability of another concept was being computed. Incomplete cached
  * _nodes will not have any information regarding types or edges.
  * </p>
@@ -91,9 +91,9 @@ public interface CachedNode
 	public ATermAppl getName();
 
 	/**
-	 * Returns if this _node represent a named individual (not an anonymous individual or a concept _node)
+	 * Returns if this _node represent a named _individual (not an anonymous _individual or a concept _node)
 	 *
-	 * @return If this _node represent a named individual
+	 * @return If this _node represent a named _individual
 	 */
 	public boolean isNamedIndividual();
 

@@ -29,18 +29,18 @@ import org.mindswap.pellet.utils.MultiValueMap;
  */
 public class CachedSubsumptionComparator extends SubsumptionComparator
 {
-	private final MultiValueMap<ATermAppl, ATermAppl> subsumers;
+	private final MultiValueMap<ATermAppl, ATermAppl> _subsumers;
 
 	public CachedSubsumptionComparator(final MultiValueMap<ATermAppl, ATermAppl> subsumers)
 	{
 		super(null);
-		this.subsumers = subsumers;
+		this._subsumers = subsumers;
 	}
 
 	@Override
 	public boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 	{
-		return a == ATermUtils.BOTTOM || b == ATermUtils.TOP || a.equals(b) || subsumers.contains(a, b);
+		return a == ATermUtils.BOTTOM || b == ATermUtils.TOP || a.equals(b) || _subsumers.contains(a, b);
 	}
 
 }

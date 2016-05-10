@@ -87,7 +87,7 @@ public class FunctionBuiltIn implements BuiltIn
 			value = null;
 			Literal resultLit = null;
 
-			// Can't bind the first arg if it doesn't exist!
+			// Can't bind the first _arg if it doesn't exist!
 			if (atom.getAllArguments().size() == 0)
 				return;
 

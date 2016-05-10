@@ -31,6 +31,7 @@ import org.mindswap.pellet.KnowledgeBase;
 /**
  * @author Evren Sirin
  */
+@SuppressWarnings("deprecation")
 public class JGraphBasedDefinitionOrder extends AbstractDefinitionOrder
 {
 	private Map<ATermAppl, Set<ATermAppl>> equivalents;
@@ -44,12 +45,12 @@ public class JGraphBasedDefinitionOrder extends AbstractDefinitionOrder
 
 	private Set<ATermAppl> createSet()
 	{
-		return comparator != null ? new TreeSet<>(comparator) : CollectionUtils.<ATermAppl> makeIdentitySet();
+		return _comparator != null ? new TreeSet<>(_comparator) : CollectionUtils.<ATermAppl> makeIdentitySet();
 	}
 
 	private Queue<ATermAppl> createQueue()
 	{
-		return comparator != null ? new PriorityQueue<>(10, comparator) : new LinkedList<>();
+		return _comparator != null ? new PriorityQueue<>(10, _comparator) : new LinkedList<>();
 	}
 
 	private boolean addEquivalent(final ATermAppl key, final ATermAppl value)
@@ -90,7 +91,7 @@ public class JGraphBasedDefinitionOrder extends AbstractDefinitionOrder
 		graph = new DefaultDirectedGraph<>(DefaultEdge.class);
 
 		graph.addVertex(TOP);
-		for (final ATermAppl c : kb.getClasses())
+		for (final ATermAppl c : _kb.getClasses())
 			graph.addVertex(c);
 	}
 
@@ -111,6 +112,7 @@ public class JGraphBasedDefinitionOrder extends AbstractDefinitionOrder
 
 		cyclicConcepts.addAll(getEquivalents(TOP));
 
+		// TODO : see if deprecated code should be remove or not.
 		final StrongConnectivityInspector<ATermAppl, DefaultEdge> scInspector = new StrongConnectivityInspector<>(graph);
 		final List<Set<ATermAppl>> sccList = scInspector.stronglyConnectedSets();
 		for (final Set<ATermAppl> scc : sccList)

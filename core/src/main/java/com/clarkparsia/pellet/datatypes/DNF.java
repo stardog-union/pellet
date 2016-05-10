@@ -21,7 +21,7 @@ import org.mindswap.pellet.utils.iterator.MultiListIterator;
  * Title: Disjunction Normal Form
  * </p>
  * <p>
- * Description: Static implementation to translate ATermAppl descriptions of complex data ranges to _disjunction normal form
+ * Description: Static implementation to translate ATermAppl descriptions of complex _data ranges to _disjunction normal form
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009

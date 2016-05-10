@@ -21,7 +21,8 @@ import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 /**
  * Bnodes used in a SPARQL query are treated as variables but different from ordinary SPARQL variables they are not required to be bound to existing
- * individuals. This means a bnode in the query can be matched with an individual whose existence is inferred from a someValues or a minCardinality restriction.
+ * individuals. This means a bnode in the query can be matched with an _individual whose existence is inferred from a someValues or a minCardinality
+ * restriction.
  *
  * @author Evren Sirin
  */
@@ -76,7 +77,7 @@ public class BnodeQueryExample
 		// The reason is this: In the second query we are using a variable that needs to be 
 		// bound to a specific wine instance. The reasoner knows that there is a wine (due
 		// to the cardinality restriction in the ontology) but does not know the URI for  
-		// that individual. Therefore, query fails because no binding can be found. 
+		// that _individual. Therefore, query fails because no binding can be found. 
 		//
 		// Note that this behavior is similar to what you get with "must-bind", "don't-bind" 
 		// variables in OWL-QL. In this case, variables in the query are "must-bind" variables 
@@ -85,7 +86,7 @@ public class BnodeQueryExample
 
 		// When the standard QueryEngine of Jena is used we don't get the results even 
 		// for the first query. The reason is Jena QueryEngine evaluates the query one triple 
-		// at a time and thus fails when the wine individual is not found. PelletQueryEngine
+		// at a time and thus fails when the wine _individual is not found. PelletQueryEngine
 		// evaluates the query as a whole and succeeds. (If the above feature, creating bnodes
 		// automatically, is added to Pellet then you would get the same results here) 
 		printQueryResults("Running first query with standard Jena QueryEngine...", QueryExecutionFactory.create(query1, model), query1);

@@ -72,7 +72,7 @@ public class IndividualsExample
 		{
 			final Individual ind = (Individual) i.next();
 
-			// get the info about this specific individual
+			// get the info about this specific _individual
 			final String name = ((Literal) ind.getPropertyValue(foafName)).getString();
 			final Resource type = ind.getRDFType();
 			final Resource homepage = (Resource) ind.getPropertyValue(workHomepage);
@@ -111,7 +111,7 @@ public class IndividualsExample
 		final Set<OWLNamedIndividual> individuals = reasoner.getInstances(Person, false).getFlattened();
 		for (final OWLNamedIndividual ind : individuals)
 		{
-			// get the info about this specific individual
+			// get the info about this specific _individual
 			final Set<OWLLiteral> names = reasoner.getDataPropertyValues(ind, foafName);
 			final NodeSet<OWLClass> types = reasoner.getTypes(ind, true);
 			final NodeSet<OWLNamedIndividual> homepages = reasoner.getObjectPropertyValues(ind, workHomepage);
@@ -120,7 +120,7 @@ public class IndividualsExample
 			final String name = names.iterator().next().getLiteral();
 			System.out.println("Name: " + name);
 
-			// at least one direct type is guaranteed to exist for each individual 
+			// at least one direct type is guaranteed to exist for each _individual 
 			final OWLClass type = types.iterator().next().getRepresentativeElement();
 			System.out.println("Type:" + type);
 

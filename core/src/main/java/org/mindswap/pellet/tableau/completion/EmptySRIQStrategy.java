@@ -59,7 +59,7 @@ import org.mindswap.pellet.utils.Bool;
 import org.mindswap.pellet.utils.Timer;
 
 /**
- * Completion _strategy for a SRIQ KB that does not have individuals in the ABox. When ABox is empty completion always starts with a single root individual that
+ * Completion _strategy for a SRIQ KB that does not have individuals in the ABox. When ABox is empty completion always starts with a single root _individual that
  * represents the concept whose satisfiability is being searched.
  *
  * @author Evren Sirin
@@ -136,7 +136,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		}
 		else
 			if (_abox.getNodes().size() > 1)
-				throw new RuntimeException("This _strategy can only be used with an ABox that has a single individual.");
+				throw new RuntimeException("This _strategy can only be used with an ABox that has a single _individual.");
 
 		_cacheSafety = _abox.getCache().getSafety().canSupport(expr) ? _abox.getCache().getSafety() : CacheSafetyFactory.createCacheSafety(expr);
 

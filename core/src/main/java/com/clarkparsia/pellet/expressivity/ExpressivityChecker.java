@@ -76,7 +76,7 @@ public class ExpressivityChecker
 	}
 
 	/**
-	 * Added for incremental reasoning. Given an aterm corresponding to an individual and concept, the expressivity is updated accordingly.
+	 * Added for incremental reasoning. Given an aterm corresponding to an _individual and concept, the expressivity is updated accordingly.
 	 */
 	public void updateWithIndividual(final ATermAppl i, final ATermAppl concept)
 	{

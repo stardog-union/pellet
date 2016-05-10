@@ -68,8 +68,8 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 			// The following test requires properly handling undefined datatypes
 			"open-eq-05",
 
-			// The following tests require [object/data]property punning in the
-			// data
+			// The following tests require [object/_data]property punning in the
+			// _data
 			"open-eq-07", "open-eq-08", "open-eq-09", "open-eq-10", "open-eq-11", "open-eq-12",
 
 			// Pellet returns extra type owl:thing in the results

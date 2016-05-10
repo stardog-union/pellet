@@ -1438,7 +1438,7 @@ public class JenaTests
 		spec.setReasoner(PelletReasonerFactory.theInstance().create());
 		model = ModelFactory.createOntologyModel(spec, model);
 
-		// This is the ABox data used in this example:
+		// This is the ABox _data used in this example:
 		//
 		// hasParent hasParent hasRelative
 		// a -----------> b -----------> c -------------> f
@@ -2296,7 +2296,7 @@ public class JenaTests
 			inferences.add(op, RDFS.subPropertyOf, OWL2.topObjectProperty);
 			inferences.add(OWL2.bottomObjectProperty, RDFS.subPropertyOf, op);
 		}
-		// All data properties are a sub property of topDataProperty
+		// All _data properties are a sub property of topDataProperty
 		for (final Property dp : new Property[] { q, subQ, subSubQ, OWL2.topDataProperty, OWL2.bottomDataProperty })
 		{
 			inferences.add(dp, RDFS.subPropertyOf, OWL2.topDataProperty);

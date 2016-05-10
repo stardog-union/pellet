@@ -21,17 +21,18 @@ public abstract class Token
 
 	public abstract boolean dependsOn(int branch);
 
+	@SuppressWarnings("unused")
 	private static class ListToken extends Token
 	{
-		private final ListToken next;
-		private final WME wme;
-		private final int index;
+		private final ListToken _next;
+		private final WME _wme;
+		private final int _index;
 
 		public ListToken(final WME wme, final ListToken tok)
 		{
-			this.wme = wme;
-			this.next = tok;
-			this.index = (tok == null) ? 0 : tok.index + 1;
+			this._wme = wme;
+			this._next = tok;
+			this._index = (tok == null) ? 0 : tok._index + 1;
 		}
 
 		/**
@@ -40,11 +41,11 @@ public abstract class Token
 		@Override
 		public WME get(final int index)
 		{
-			for (ListToken t = this; t != null; t = t.next)
-				if (t.index == index)
-					return t.wme;
+			for (ListToken t = this; t != null; t = t._next)
+				if (t._index == index)
+					return t._wme;
 
-			throw new IndexOutOfBoundsException(index + " > " + this.index);
+			throw new IndexOutOfBoundsException(index + " > " + this._index);
 		}
 
 		/**
@@ -55,8 +56,8 @@ public abstract class Token
 		{
 			DependencySet ds = DependencySet.INDEPENDENT;
 
-			for (ListToken t = this; t != null; t = t.next)
-				ds = ds.union(t.wme.getDepends(), doExplanation);
+			for (ListToken t = this; t != null; t = t._next)
+				ds = ds.union(t._wme.getDepends(), doExplanation);
 
 			return ds;
 		}
@@ -67,8 +68,8 @@ public abstract class Token
 		@Override
 		public boolean dependsOn(final int branch)
 		{
-			for (ListToken t = this; t != null; t = t.next)
-				if (t.wme.dependsOn(branch))
+			for (ListToken t = this; t != null; t = t._next)
+				if (t._wme.dependsOn(branch))
 					return true;
 			return false;
 		}
@@ -78,9 +79,9 @@ public abstract class Token
 		{
 			final StringBuilder sb = new StringBuilder();
 			sb.append('[');
-			for (ListToken t = this; t != null; t = t.next)
+			for (ListToken t = this; t != null; t = t._next)
 			{
-				sb.append(t.wme.toString());
+				sb.append(t._wme.toString());
 				sb.append(',');
 			}
 			sb.setCharAt(sb.length() - 1, ']');
@@ -145,7 +146,7 @@ public abstract class Token
 
 	public static Token create(final WME wme, final Token token)
 	{
-		//	    return new ListToken(wme, (ListToken) token);
+		//	    return new ListToken(_wme, (ListToken) token);
 		return new ArrayToken(wme, (ArrayToken) token);
 	}
 

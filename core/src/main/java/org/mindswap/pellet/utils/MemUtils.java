@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 /**
- * A simple class to experiment with your JVM's garbage collector and memory sizes for various data types.
+ * A simple class to experiment with your JVM's garbage collector and memory sizes for various _data types.
  *
  * @author <a href="mailto:vlad@trilogy.com">Vladimir Roubtsov</a>
  */

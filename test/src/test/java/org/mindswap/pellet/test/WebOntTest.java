@@ -75,7 +75,7 @@ public class WebOntTest
 
 	// At the _end of tests _stats about the results are displayed
 	// There are couple of options here; short means only total
-	// number of passes are shown, long means individual results
+	// number of passes are shown, long means _individual results
 	// for each test is also displayed, all means a GUI window is
 	// popped up to show these _stats
 	public final static int NO_STATS = 0;
@@ -122,7 +122,7 @@ public class WebOntTest
 
 	int[][][][] _stats = new int[LEVELS.size()][STATUS.size()][TYPES.size()][RESULTS.size()];
 
-	// a table showing the test results for each individual test case
+	// a table showing the test results for each _individual test case
 	Vector<Vector<Object>> results = new Vector<>();
 
 	// maximum number of test cases to process
@@ -218,7 +218,7 @@ public class WebOntTest
 						if (!manifestFile.startsWith("http://"))
 							manifestFile = "http://www.w3.org/2002/03owlt/" + manifestFile;
 					}
-			// else if(arg.equals("-_base")) {
+			// else if(_arg.equals("-_base")) {
 			// setBase( args[++i] );
 			// }
 					else

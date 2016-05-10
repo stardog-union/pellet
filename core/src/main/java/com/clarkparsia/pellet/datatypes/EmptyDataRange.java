@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  * Title: Empty Data Range
  * </p>
  * <p>
- * Description: Re-usable empty data range implementation. Cannot be static so that parameterization is handled correctly.
+ * Description: Re-usable empty _data range implementation. Cannot be static so that parameterization is handled correctly.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009

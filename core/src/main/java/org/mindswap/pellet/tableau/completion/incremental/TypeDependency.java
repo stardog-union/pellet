@@ -22,7 +22,7 @@ public class TypeDependency implements Dependency
 	private final ATermAppl _type;
 
 	/**
-	 * The individual
+	 * The _individual
 	 */
 	private final ATermAppl _ind;
 
@@ -39,7 +39,7 @@ public class TypeDependency implements Dependency
 	}
 
 	/**
-	 * Get the individual
+	 * Get the _individual
 	 *
 	 * @return
 	 */

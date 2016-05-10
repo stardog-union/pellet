@@ -47,14 +47,14 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class RuleAtomAsserter implements RuleAtomVisitor
 {
-	private ABox abox;
-	private CompletionStrategy strategy;
+	private ABox _abox;
+	private CompletionStrategy _strategy;
 
-	private VariableBinding binding;
-	private DependencySet ds;
-	private boolean negated;
+	private VariableBinding _binding;
+	private DependencySet _ds;
+	private boolean _negated;
 
-	private boolean asserted;
+	private boolean _asserted;
 
 	public RuleAtomAsserter()
 	{
@@ -62,38 +62,38 @@ public class RuleAtomAsserter implements RuleAtomVisitor
 
 	public boolean assertAtom(final RuleAtom atom, final VariableBinding binding, final DependencySet ds, final boolean negated, final ABox abox, final CompletionStrategy strategy)
 	{
-		asserted = true;
+		_asserted = true;
 
-		this.binding = binding;
-		this.ds = ds;
-		this.negated = negated;
-		this.strategy = strategy;
-		this.abox = abox;
+		this._binding = binding;
+		this._ds = ds;
+		this._negated = negated;
+		this._strategy = strategy;
+		this._abox = abox;
 
 		atom.accept(this);
 
-		return asserted;
+		return _asserted;
 	}
 
 	@Override
 	public void visit(final BuiltInAtom atom)
 	{
-		asserted = false;
+		_asserted = false;
 	}
 
 	@Override
 	public void visit(final ClassAtom atom)
 	{
 		final ATermAppl cls = atom.getPredicate();
-		final ATermAppl ind = binding.get(atom.getArgument()).getName();
+		final ATermAppl ind = _binding.get(atom.getArgument()).getName();
 
 		addType(ind, cls);
 	}
 
 	private void addType(final ATermAppl ind, ATermAppl cls)
 	{
-		DependencySet nodeDS = ds;
-		Individual node = abox.getIndividual(ind);
+		DependencySet nodeDS = _ds;
+		Individual node = _abox.getIndividual(ind);
 
 		if (node.isMerged())
 		{
@@ -101,16 +101,16 @@ public class RuleAtomAsserter implements RuleAtomVisitor
 			node = node.getSame();
 		}
 
-		if (negated)
+		if (_negated)
 			cls = ATermUtils.negate(cls);
 
-		strategy.addType(node, cls, nodeDS);
+		_strategy.addType(node, cls, nodeDS);
 	}
 
 	private void addEdge(final ATermAppl p, final ATermAppl s, final ATermAppl o)
 	{
-		DependencySet edgeDS = ds;
-		Individual node1 = abox.getIndividual(s);
+		DependencySet edgeDS = _ds;
+		Individual node1 = _abox.getIndividual(s);
 
 		if (node1.isMerged())
 		{
@@ -118,35 +118,35 @@ public class RuleAtomAsserter implements RuleAtomVisitor
 			node1 = node1.getSame();
 		}
 
-		if (negated)
+		if (_negated)
 		{
 			final ATermAppl cls = all(p, not(value(o)));
-			strategy.addType(node1, cls, ds);
+			_strategy.addType(node1, cls, _ds);
 		}
 		else
 		{
-			Node node2 = abox.getNode(o);
+			Node node2 = _abox.getNode(o);
 			if (node2.isMerged())
 			{
 				edgeDS = node2.getMergeDependency(true);
 				node2 = node2.getSame();
 			}
-			strategy.addEdge(node1, abox.getRole(p), node2, edgeDS);
+			_strategy.addEdge(node1, _abox.getRole(p), node2, edgeDS);
 		}
 	}
 
 	@Override
 	public void visit(final DataRangeAtom atom)
 	{
-		asserted = false;
+		_asserted = false;
 	}
 
 	@Override
 	public void visit(final DatavaluedPropertyAtom atom)
 	{
 		final ATermAppl p = atom.getPredicate();
-		final ATermAppl s = binding.get(atom.getArgument1()).getName();
-		final ATermAppl o = binding.get(atom.getArgument2()).getName();
+		final ATermAppl s = _binding.get(atom.getArgument1()).getName();
+		final ATermAppl o = _binding.get(atom.getArgument2()).getName();
 
 		addEdge(p, s, o);
 	}
@@ -154,8 +154,8 @@ public class RuleAtomAsserter implements RuleAtomVisitor
 	@Override
 	public void visit(final DifferentIndividualsAtom atom)
 	{
-		final ATermAppl ind1 = binding.get(atom.getArgument1()).getName();
-		final ATermAppl ind2 = binding.get(atom.getArgument2()).getName();
+		final ATermAppl ind1 = _binding.get(atom.getArgument1()).getName();
+		final ATermAppl ind2 = _binding.get(atom.getArgument2()).getName();
 		final ATermAppl cls = not(value(ind2));
 
 		addType(ind1, cls);
@@ -165,8 +165,8 @@ public class RuleAtomAsserter implements RuleAtomVisitor
 	public void visit(final IndividualPropertyAtom atom)
 	{
 		final ATermAppl p = atom.getPredicate();
-		final ATermAppl s = binding.get(atom.getArgument1()).getName();
-		final ATermAppl o = binding.get(atom.getArgument2()).getName();
+		final ATermAppl s = _binding.get(atom.getArgument1()).getName();
+		final ATermAppl o = _binding.get(atom.getArgument2()).getName();
 
 		addEdge(p, s, o);
 	}
@@ -174,8 +174,8 @@ public class RuleAtomAsserter implements RuleAtomVisitor
 	@Override
 	public void visit(final SameIndividualAtom atom)
 	{
-		final ATermAppl ind1 = binding.get(atom.getArgument1()).getName();
-		final ATermAppl ind2 = binding.get(atom.getArgument2()).getName();
+		final ATermAppl ind1 = _binding.get(atom.getArgument1()).getName();
+		final ATermAppl ind2 = _binding.get(atom.getArgument2()).getName();
 		final ATermAppl cls = value(ind2);
 
 		addType(ind1, cls);

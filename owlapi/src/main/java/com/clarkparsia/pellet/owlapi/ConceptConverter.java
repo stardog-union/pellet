@@ -75,7 +75,7 @@ public class ConceptConverter extends ATermBaseVisitor
 				return factory.getOWLNamedIndividual(iri);
 		}
 		else
-			throw new InternalReasonerException("Cannot convert individual: " + term);
+			throw new InternalReasonerException("Cannot convert _individual: " + term);
 	}
 
 	public OWLObject convert(final ATermAppl term)

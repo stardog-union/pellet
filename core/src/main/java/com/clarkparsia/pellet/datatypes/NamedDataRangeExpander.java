@@ -13,7 +13,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  * Title: Named Data Range Expander
  * </p>
  * <p>
- * Description: Substitutes one {@link ATermAppl} for another in a data range description, based on input map. Used to implement OWL 2 datatype definitions.
+ * Description: Substitutes one {@link ATermAppl} for another in a _data range description, based on input map. Used to implement OWL 2 datatype definitions.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009

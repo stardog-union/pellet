@@ -842,13 +842,13 @@ public class KnowledgeBase
 		if (node != null)
 		{
 			if (node instanceof Literal)
-				throw new UnsupportedFeatureException("Trying to use a literal as an individual: " + ATermUtils.toString(i));
+				throw new UnsupportedFeatureException("Trying to use a literal as an _individual: " + ATermUtils.toString(i));
 
 			return (Individual) node;
 		}
 		else
 			if (ATermUtils.isLiteral(i))
-				throw new UnsupportedFeatureException("Trying to use a literal as an individual: " + ATermUtils.toString(i));
+				throw new UnsupportedFeatureException("Trying to use a literal as an _individual: " + ATermUtils.toString(i));
 
 		final int remember = _abox.getBranch();
 		_abox.setBranch(DependencySet.NO_BRANCH);
@@ -858,7 +858,7 @@ public class KnowledgeBase
 		_individuals.add(i);
 
 		if (log.isLoggable(Level.FINER))
-			log.finer("individual " + i);
+			log.finer("_individual " + i);
 
 		_abox.setSyntacticUpdate(false);
 
@@ -1058,7 +1058,7 @@ public class KnowledgeBase
 
 		if (subj == null)
 		{
-			log.warning(s + " is not a known individual!");
+			log.warning(s + " is not a known _individual!");
 			return false;
 		}
 
@@ -1086,7 +1086,7 @@ public class KnowledgeBase
 				}
 				else
 				{
-					log.warning(o + " is not a known individual!");
+					log.warning(o + " is not a known _individual!");
 					return false;
 				}
 			if (PelletOptions.KEEP_ABOX_ASSERTIONS)
@@ -1097,7 +1097,7 @@ public class KnowledgeBase
 			{
 				if (!ATermUtils.isLiteral(o))
 				{
-					log.warning("Ignoring non-literal value " + o + " for data property " + p);
+					log.warning("Ignoring non-literal value " + o + " for _data property " + p);
 					return false;
 				}
 				obj = _abox.addLiteral(o, ds);
@@ -1134,7 +1134,7 @@ public class KnowledgeBase
 			{
 				// TODO: refactor the access to the updatedIndividuals and
 				// newIndividuals - add get method
-				// add this individual to the affected list
+				// add this _individual to the affected list
 				_abox.getIncrementalChangeTracker().addUpdatedIndividual(_abox.getIndividual(s));
 
 				if (role.isObjectRole())
@@ -1185,7 +1185,7 @@ public class KnowledgeBase
 
 		if (subj == null)
 		{
-			log.warning(s + " is not a known individual!");
+			log.warning(s + " is not a known _individual!");
 			return false;
 		}
 
@@ -1209,7 +1209,7 @@ public class KnowledgeBase
 				}
 				else
 				{
-					log.warning(o + " is not a known individual!");
+					log.warning(o + " is not a known _individual!");
 					return false;
 				}
 		}
@@ -1273,7 +1273,7 @@ public class KnowledgeBase
 		{
 			_changes.add(ChangeType.RBOX_ADD);
 			if (log.isLoggable(Level.FINER))
-				log.finer("data-prop " + p);
+				log.finer("_data-prop " + p);
 		}
 
 		return role != null;
@@ -1635,10 +1635,10 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Adds a new datatype defined to be equivalent to the given data range expression.
+	 * Adds a new datatype defined to be equivalent to the given _data range expression.
 	 *
 	 * @param name name of the datatype
-	 * @param datarange a data range expression
+	 * @param datarange a _data range expression
 	 * @return
 	 */
 	public boolean addDatatypeDefinition(final ATermAppl name, final ATermAppl datarange)
@@ -1704,13 +1704,13 @@ public class KnowledgeBase
 
 		if (subj == null)
 			if (PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
-				throw new UnsupportedFeatureException(i1 + " is not an individual!");
+				throw new UnsupportedFeatureException(i1 + " is not an _individual!");
 			else
 				return false;
 
 		if (obj == null)
 		{
-			handleUndefinedEntity(i2 + " is not an individual!");
+			handleUndefinedEntity(i2 + " is not an _individual!");
 			return false;
 		}
 
@@ -1753,7 +1753,7 @@ public class KnowledgeBase
 			// add to deleted assertions
 			getDeletedAssertions().add(ATermUtils.makePropAtom(p, i1, i2));
 
-			// add this individual to the affected list
+			// add this _individual to the affected list
 			_abox.getIncrementalChangeTracker().addUpdatedIndividual(subj);
 
 			// if this is an object property then add the object to the affected
@@ -1793,7 +1793,7 @@ public class KnowledgeBase
 		}
 		if (!isClass(c) && !isDatatype(c))
 		{
-			handleUndefinedEntity(c + " is not a valid class expression or data range");
+			handleUndefinedEntity(c + " is not a valid class expression or _data range");
 			return false;
 		}
 
@@ -1816,7 +1816,7 @@ public class KnowledgeBase
 			if (PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING)
 				return false;
 			else
-				throw new UnsupportedFeatureException(ind + " is not an individual!");
+				throw new UnsupportedFeatureException(ind + " is not an _individual!");
 
 		final ATermAppl normC = ATermUtils.normalize(c);
 		final DependencySet ds = subj.getDepends(normC);
@@ -2004,10 +2004,10 @@ public class KnowledgeBase
 		if (!isChanged() || isTBoxChanged() || isRBoxChanged())
 			return;
 
-		// update expressivity given this individual
+		// update expressivity given this _individual
 		_expChecker.updateWithIndividual(i, c);
 
-		// update the size _estimate as this could be a new individual
+		// update the size _estimate as this could be a new _individual
 		_estimate = new SizeEstimate(this);
 	}
 
@@ -2942,7 +2942,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns true if there is at least one named individual that belongs to the given class
+	 * Returns true if there is at least one named _individual that belongs to the given class
 	 *
 	 * @param c
 	 * @return
@@ -3172,7 +3172,7 @@ public class KnowledgeBase
 
 		if (!isIndividual(x))
 		{
-			handleUndefinedEntity(x + " is not an individual!");
+			handleUndefinedEntity(x + " is not an _individual!");
 			return Bool.FALSE;
 		}
 		if (!isClass(c))
@@ -3192,7 +3192,7 @@ public class KnowledgeBase
 
 		if (!isIndividual(x))
 		{
-			handleUndefinedEntity(x + " is not an individual!");
+			handleUndefinedEntity(x + " is not an _individual!");
 			return false;
 		}
 		if (!isClass(c))
@@ -3224,12 +3224,12 @@ public class KnowledgeBase
 
 		if (!isIndividual(t1))
 		{
-			handleUndefinedEntity(t1 + " is not an individual!");
+			handleUndefinedEntity(t1 + " is not an _individual!");
 			return false;
 		}
 		if (!isIndividual(t2))
 		{
-			handleUndefinedEntity(t2 + " is not an individual!");
+			handleUndefinedEntity(t2 + " is not an _individual!");
 			return false;
 		}
 
@@ -3264,13 +3264,13 @@ public class KnowledgeBase
 
 		if (ind1 == null)
 		{
-			handleUndefinedEntity(t1 + " is not an individual!");
+			handleUndefinedEntity(t1 + " is not an _individual!");
 			return false;
 		}
 
 		if (ind2 == null)
 		{
-			handleUndefinedEntity(t2 + " is not an individual!");
+			handleUndefinedEntity(t2 + " is not an _individual!");
 			return false;
 		}
 
@@ -3290,7 +3290,7 @@ public class KnowledgeBase
 
 		if (ind == null)
 		{
-			handleUndefinedEntity(name + " is not an individual!");
+			handleUndefinedEntity(name + " is not an _individual!");
 			return Collections.emptySet();
 		}
 
@@ -3326,7 +3326,7 @@ public class KnowledgeBase
 
 		if (!isIndividual(s))
 		{
-			handleUndefinedEntity(s + " is not an individual!");
+			handleUndefinedEntity(s + " is not an _individual!");
 			return false;
 		}
 
@@ -3577,9 +3577,9 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns the (named) classes individual belongs to. Depending on the second parameter the result will include either all types or only the direct types.
+	 * Returns the (named) classes _individual belongs to. Depending on the second parameter the result will include either all types or only the direct types.
 	 *
-	 * @param ind An individual name
+	 * @param ind An _individual name
 	 * @param direct If true return only the direct types, otherwise return all types
 	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
@@ -3587,7 +3587,7 @@ public class KnowledgeBase
 	{
 		if (!isIndividual(ind))
 		{
-			handleUndefinedEntity(ind + " is not an individual!");
+			handleUndefinedEntity(ind + " is not an _individual!");
 			return Collections.emptySet();
 		}
 
@@ -3619,12 +3619,12 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Get all the (named) classes individual belongs to.
+	 * Get all the (named) classes _individual belongs to.
 	 * <p>
 	 * *** This function will first realize the whole ontology ***
 	 * </p>
 	 *
-	 * @param ind An individual name
+	 * @param ind An _individual name
 	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
 	public Set<Set<ATermAppl>> getTypes(final ATermAppl ind)
@@ -3636,7 +3636,7 @@ public class KnowledgeBase
 	{
 		if (!isIndividual(ind))
 		{
-			handleUndefinedEntity(ind + " is not an individual!");
+			handleUndefinedEntity(ind + " is not an _individual!");
 			return null;
 		}
 
@@ -3649,7 +3649,7 @@ public class KnowledgeBase
 	{
 		if (!isIndividual(ind))
 		{
-			handleUndefinedEntity(ind + " is not an individual!");
+			handleUndefinedEntity(ind + " is not an _individual!");
 			return null;
 		}
 
@@ -3659,7 +3659,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns all the _instances of concept c. If TOP concept is used every individual in the knowledge base will be returned
+	 * Returns all the _instances of concept c. If TOP concept is used every _individual in the knowledge base will be returned
 	 *
 	 * @param c class whose _instances are returned
 	 * @return A set of ATerm objects
@@ -3693,7 +3693,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns the _instances of class c. Depending on the second parameter the resulting list will include all or only the direct _instances. An individual x
+	 * Returns the _instances of class c. Depending on the second parameter the resulting list will include all or only the direct _instances. An _individual x
 	 * is a direct instance of c iff x is of type c and there is no subclass d of c such that x is of type d.
 	 * <p>
 	 * *** This function will first realize the whole ontology ***
@@ -4084,7 +4084,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return all the indviduals asserted to be equal to the given individual inluding the individual itself.
+	 * Return all the indviduals asserted to be equal to the given _individual inluding the _individual itself.
 	 *
 	 * @param name
 	 * @return
@@ -4099,7 +4099,7 @@ public class KnowledgeBase
 		final Individual ind = _abox.getIndividual(name);
 		if (ind == null)
 		{
-			handleUndefinedEntity(name + " is not an individual!");
+			handleUndefinedEntity(name + " is not an _individual!");
 			return Collections.emptySet();
 		}
 
@@ -4120,7 +4120,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Return all the _individuals asserted to be equal to the given individual but not the the individual itself.
+	 * Return all the _individuals asserted to be equal to the given _individual but not the the _individual itself.
 	 *
 	 * @param name
 	 * @return
@@ -4150,13 +4150,13 @@ public class KnowledgeBase
 
 		if (ind == null)
 		{
-			handleUndefinedEntity(x + " is not an individual!");
+			handleUndefinedEntity(x + " is not an _individual!");
 			return Collections.emptyList();
 		}
 
 		if (role == null || !role.isDatatypeRole())
 		{
-			handleUndefinedEntity(r + " is not a known data property!");
+			handleUndefinedEntity(r + " is not a known _data property!");
 			return Collections.emptyList();
 		}
 
@@ -4235,7 +4235,7 @@ public class KnowledgeBase
 
 		if (!isIndividual(x))
 		{
-			handleUndefinedEntity(x + " is not a known individual!");
+			handleUndefinedEntity(x + " is not a known _individual!");
 			return Collections.emptyList();
 		}
 
@@ -4299,7 +4299,7 @@ public class KnowledgeBase
 	 * List all subjects with a given property and property value.
 	 *
 	 * @param r
-	 * @param x If property is an object property an ATermAppl object that is the URI of the individual, if the property is a data property an ATerm object that
+	 * @param x If property is an object property an ATermAppl object that is the URI of the _individual, if the property is a _data property an ATerm object that
 	 *        contains the literal value (See {#link #getIndividualsWithDataProperty(ATermAppl, ATermAppl)} for details)
 	 * @return List of ATermAppl objects.
 	 */
@@ -4326,7 +4326,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * List all subjects with the given literal value for the specified data property.
+	 * List all subjects with the given literal value for the specified _data property.
 	 *
 	 * @param r An ATerm object that contains the literal value in the form literal(lexicalValue, langIdentifier, datatypeURI). Should be created with
 	 *        ATermUtils.makeXXXLiteral() functions.
@@ -4389,7 +4389,7 @@ public class KnowledgeBase
 	 * List all subjects with the given value for the specified object property.
 	 *
 	 * @param r
-	 * @param o An ATerm object that is the URI of an individual
+	 * @param o An ATerm object that is the URI of an _individual
 	 * @return List of ATermAppl objects.
 	 */
 	public List<ATermAppl> getIndividualsWithObjectProperty(final ATermAppl r, final ATermAppl o)
@@ -4398,7 +4398,7 @@ public class KnowledgeBase
 
 		if (!isIndividual(o))
 		{
-			handleUndefinedEntity(o + " is not an individual!");
+			handleUndefinedEntity(o + " is not an _individual!");
 			return Collections.emptyList();
 		}
 
@@ -4416,13 +4416,13 @@ public class KnowledgeBase
 	{
 		if (!isIndividual(s))
 		{
-			handleUndefinedEntity(s + " is not an individual!");
+			handleUndefinedEntity(s + " is not an _individual!");
 			return Collections.emptyList();
 		}
 
 		if (!isIndividual(o) && !ATermUtils.isLiteral(o))
 		{
-			handleUndefinedEntity(o + " is not an individual!");
+			handleUndefinedEntity(o + " is not an _individual!");
 			return Collections.emptyList();
 		}
 

@@ -42,7 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Create a table data structure that has a list of column names and list of data rows. The only function of this class is to print the data in a table format.
+ * Create a table _data structure that has a list of column names and list of _data rows. The only function of this class is to print the _data in a table format.
  * Data can be given at once by the constructor or can be added incrementally with the addRow function.
  *
  * @author Evren Sirin

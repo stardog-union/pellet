@@ -66,28 +66,28 @@ public class BindingGeneratorStrategyImpl implements BindingGeneratorStrategy
 		@Override
 		public void visit(final DataRangeAtom atom)
 		{
-			helpers.add(new DataRangeBindingHelper(abox, atom));
+			helpers.add(new DataRangeBindingHelper(_abox, atom));
 		}
 
 		@Override
 		public void visit(final DatavaluedPropertyAtom atom)
 		{
-			helpers.add(new DatavaluePropertyBindingHelper(abox, atom));
+			helpers.add(new DatavaluePropertyBindingHelper(_abox, atom));
 		}
 
 	}
 
-	private final ABox abox;
+	private final ABox _abox;
 
 	public BindingGeneratorStrategyImpl(final ABox abox)
 	{
-		this.abox = abox;
+		this._abox = abox;
 	}
 
 	@Override
 	public BindingGenerator createGenerator(final Rule rule)
 	{
-		return createGenerator(rule, new VariableBinding(abox));
+		return createGenerator(rule, new VariableBinding(_abox));
 	}
 
 	@Override
@@ -115,15 +115,15 @@ public class BindingGeneratorStrategyImpl implements BindingGeneratorStrategy
 		}
 
 		//		if ( !selectiveVariables.containsAll( dataVariables ) ) {
-		//			ABox.log.warning( "IGNORING RULE "+rule+": Cannot generate bindings for all data variables." );
+		//			ABox.log.warning( "IGNORING RULE "+rule+": Cannot generate bindings for all _data variables." );
 		//			return new BindingGeneratorImpl();
 		//		}
 
 		for (final AtomIVariable var : instanceVariables)
 			if (!selectiveVariables.contains(var))
-				helpers.add(new ObjectVariableBindingHelper(abox, var));
+				helpers.add(new ObjectVariableBindingHelper(_abox, var));
 
-		helpers.addAll(new TrivialSatisfactionHelpers(abox).getHelpers(rule));
+		helpers.addAll(new TrivialSatisfactionHelpers(_abox).getHelpers(rule));
 
 		if (!ensureOrdering(helpers, initialBinding))
 		{
@@ -132,13 +132,13 @@ public class BindingGeneratorStrategyImpl implements BindingGeneratorStrategy
 		}
 		optimize(helpers);
 
-		return new BindingGeneratorImpl(abox, initialBinding, helpers);
+		return new BindingGeneratorImpl(_abox, initialBinding, helpers);
 	}
 
 	/**
 	 * Reorder list so that each binding helper's prerequisites are satisfied by the helpers before it. If no such ordering exists, return false.
 	 */
-	private boolean ensureOrdering(final List<BindingHelper> helpers, final VariableBinding initialBinding)
+	private boolean ensureOrdering(final List<BindingHelper> helpers, @SuppressWarnings("unused") final VariableBinding initialBinding)
 	{
 		final List<BindingHelper> unsatList = new ArrayList<>();
 		final Set<AtomVariable> bound = new HashSet<>();

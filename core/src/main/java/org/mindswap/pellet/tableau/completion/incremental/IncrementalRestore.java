@@ -452,7 +452,7 @@ public class IncrementalRestore
 			// Note that ind.unprune may add edges, however we do not need to
 			// add them to the updated individuals as
 			// they will be added when the edge is removed from the _node which
-			// this individual was merged to
+			// this _individual was merged to
 			// add to updated
 			final IncrementalChangeTracker tracker = _kb.getABox().getIncrementalChangeTracker();
 

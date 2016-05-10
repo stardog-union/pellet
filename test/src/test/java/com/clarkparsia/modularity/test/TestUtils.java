@@ -258,7 +258,7 @@ public class TestUtils
 		final Stream<OWLClass> expectedTypes = expected.getTypes(individual, true).entities();
 		final Stream<OWLClass> actualTypes = actual.getTypes(individual, true).entities();
 
-		assertStreamEquals("Types different for individual: " + individual, expectedTypes, actualTypes);
+		assertStreamEquals("Types different for _individual: " + individual, expectedTypes, actualTypes);
 	}
 
 	public static void runDisjointnessTest(final OWLOntology ontology, final ModuleExtractor modExtractor)

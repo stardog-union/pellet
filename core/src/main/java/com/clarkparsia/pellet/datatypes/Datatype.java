@@ -23,7 +23,7 @@ public interface Datatype<T>
 {
 
 	/**
-	 * Get the canonical data range for a datatype
+	 * Get the canonical _data range for a datatype
 	 *
 	 * @return a {@link DataRange} representation of the datatype value space
 	 */
@@ -62,7 +62,7 @@ public interface Datatype<T>
 	public Datatype<?> getPrimitiveDatatype();
 
 	/**
-	 * Get the Java object representation of a data value
+	 * Get the Java object representation of a _data value
 	 *
 	 * @param literal the literal
 	 * @return the Java object representation of the lexical form

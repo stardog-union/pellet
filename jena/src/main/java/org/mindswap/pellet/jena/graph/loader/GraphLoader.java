@@ -109,9 +109,9 @@ public interface GraphLoader
 	/**
 	 * This option forces the loader to process type triples before processing other triples. Not preprocessing the type triples improves loading time 5% to 10%
 	 * but might cause problems too. For example, without preprocessing the type triples a triple (s p "o") might be loaded as a datatype assertion (thinking s
-	 * is an individual and p is a datatype property) whereas (s rdf:type owl:Class) and (p rdf:type owl:AnnotiationProperty) triples have not yet been
+	 * is an _individual and p is a datatype property) whereas (s rdf:type owl:Class) and (p rdf:type owl:AnnotiationProperty) triples have not yet been
 	 * processed. These problems depend on the _order triples are processed and highly unpredictable. Loading the schema first with preprocessing and loading the
-	 * instance data without preprocessing would be a viable option if schema and instance data are in separate files.
+	 * instance _data without preprocessing would be a viable option if schema and instance _data are in separate files.
 	 */
 	public void setPreprocessTypeTriples(boolean preprocessTypeTriples);
 

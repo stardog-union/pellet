@@ -224,7 +224,7 @@ public class Individual extends Node implements CachedNode
 
 	/**
 	 * Collects atomic concepts such that either that concept or its negation exist in the _types list without depending on any non-deterministic _branch. First
-	 * list is filled with _types and second list is filled with non-_types, i.e. this individual can never be an instance of any element in the second list.
+	 * list is filled with _types and second list is filled with non-_types, i.e. this _individual can never be an instance of any element in the second list.
 	 *
 	 * @param _types All atomic concepts found in _types
 	 * @param nonTypes All atomic concepts
@@ -437,7 +437,7 @@ public class Individual extends Node implements CachedNode
 														_abox.getCompletionQueue().add(qElement, NodeSelector.ATOM);
 												}
 												else
-													throw new InternalReasonerException("Invalid type " + c + " for individual " + _name);
+													throw new InternalReasonerException("Invalid type " + c + " for _individual " + _name);
 						}
 						else
 							if (c.getAFun().equals(ATermUtils.VALUEFUN))
@@ -690,7 +690,7 @@ public class Individual extends Node implements CachedNode
 													// do nothing
 												}
 												else
-													throw new InternalReasonerException("Invalid type " + c + " for individual " + _name);
+													throw new InternalReasonerException("Invalid type " + c + " for _individual " + _name);
 						}
 						else
 							if (c.getAFun().equals(ATermUtils.VALUEFUN))
@@ -786,7 +786,7 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Checks if this individual has at least n distinct r-neighbors that has a specific type.
+	 * Checks if this _individual has at least n distinct r-neighbors that has a specific type.
 	 *
 	 * @param r Role we use to find neighbors
 	 * @param n Number of neighbors
@@ -875,7 +875,7 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Returns true if this individual has at least n distinct r-neighbors. If only nominal neighbors are wanted then blockable ones will simply be ignored
+	 * Returns true if this _individual has at least n distinct r-neighbors. If only nominal neighbors are wanted then blockable ones will simply be ignored
 	 * (note that this should only happen if r is an object property)
 	 *
 	 * @param r
@@ -975,16 +975,16 @@ public class Individual extends Node implements CachedNode
 	}
 
 	/**
-	 * Check the property assertions to see if it is possible for this individual to have the value for the given datatype property. This function is meaningful
-	 * only called for individuals in a completed ABox (a pseudo model for the KB). In a completed ABox, individual will have some literal successors that may
-	 * or may not have a known value. The individual has the data property value only if it has a literal successor that has the exact given value and the edge
-	 * between the individual and the literal does not depend on any non- deterministic _branch. If the literal value is there but the edge _depends on a
+	 * Check the property assertions to see if it is possible for this _individual to have the value for the given datatype property. This function is meaningful
+	 * only called for individuals in a completed ABox (a pseudo model for the KB). In a completed ABox, _individual will have some literal successors that may
+	 * or may not have a known value. The _individual has the _data property value only if it has a literal successor that has the exact given value and the edge
+	 * between the _individual and the literal does not depend on any non- deterministic _branch. If the literal value is there but the edge _depends on a
 	 * _branch then we cannot exactly say if the literal value is there or not. If there is no literal successor with the given value then we can for sure say
-	 * that individual does not have the data property value (because it does not have the value in at least one model)
+	 * that _individual does not have the _data property value (because it does not have the value in at least one model)
 	 *
 	 * @param r
 	 * @param value
-	 * @return Bool.TRUE if the individual definetely has the property value, Bool.FALSE if the individual definetely does NOT have the property value and
+	 * @return Bool.TRUE if the _individual definetely has the property value, Bool.FALSE if the _individual definetely does NOT have the property value and
 	 *         Bool.UNKNOWN if it cannot be determined for sure, i.e. consistency check is required
 	 */
 	public Bool hasDataPropertyValue(final Role r, final Object value)

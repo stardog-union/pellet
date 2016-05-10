@@ -76,7 +76,7 @@ public class NominalRule extends AbstractTableauRule
 		_strategy.getABox().copyOnWrite();
 
 		final ATermAppl nominal = (ATermAppl) nc.getArgument(0);
-		// first find the individual for the given nominal
+		// first find the _individual for the given nominal
 		Individual z = _strategy.getABox().getIndividual(nominal);
 		if (z == null)
 			if (ATermUtils.isAnonNominal(nominal))
@@ -87,7 +87,7 @@ public class NominalRule extends AbstractTableauRule
 		// Get the value of mergedTo because of the following possibility:
 		// Suppose there are three individuals like this
 		// [x,{}],[y,{value(x)}],[z,{value(y)}]
-		// After we merge x to y, the individual x is now represented by
+		// After we merge x to y, the _individual x is now represented by
 		// the _node y. It is too hard to update all the references of
 		// value(x) so here we find the actual representative _node
 		// by calling getSame()

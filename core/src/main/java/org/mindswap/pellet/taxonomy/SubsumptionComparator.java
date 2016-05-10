@@ -30,16 +30,16 @@ import org.mindswap.pellet.utils.PartialOrderRelation;
 public class SubsumptionComparator implements PartialOrderComparator<ATermAppl>
 {
 
-	protected KnowledgeBase kb;
+	protected KnowledgeBase _kb;
 
 	public SubsumptionComparator(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 	protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 	{
-		return kb.isSubClassOf(a, b);
+		return _kb.isSubClassOf(a, b);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class SubsumptionComparator implements PartialOrderComparator<ATermAppl>
 
 	public void setKB(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 }

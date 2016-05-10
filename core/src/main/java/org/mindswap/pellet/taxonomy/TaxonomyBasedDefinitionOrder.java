@@ -21,7 +21,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class TaxonomyBasedDefinitionOrder extends AbstractDefinitionOrder
 {
-	private Taxonomy<ATermAppl> definitionOrderTaxonomy;
+	private Taxonomy<ATermAppl> _definitionOrderTaxonomy;
 
 	public TaxonomyBasedDefinitionOrder(final KnowledgeBase kb, final Comparator<ATerm> comparator)
 	{
@@ -31,26 +31,26 @@ public class TaxonomyBasedDefinitionOrder extends AbstractDefinitionOrder
 	@Override
 	protected void initialize()
 	{
-		definitionOrderTaxonomy = new Taxonomy<>(kb.getClasses(), ATermUtils.TOP, ATermUtils.BOTTOM);
+		_definitionOrderTaxonomy = new Taxonomy<>(_kb.getClasses(), ATermUtils.TOP, ATermUtils.BOTTOM);
 	}
 
 	@Override
 	protected void addUses(final ATermAppl c, final ATermAppl d)
 	{
-		if (definitionOrderTaxonomy.isEquivalent(c, d).isTrue())
+		if (_definitionOrderTaxonomy.isEquivalent(c, d).isTrue())
 			return;
 
-		final TaxonomyNode<ATermAppl> cNode = definitionOrderTaxonomy.getNode(c);
-		final TaxonomyNode<ATermAppl> dNode = definitionOrderTaxonomy.getNode(d);
+		final TaxonomyNode<ATermAppl> cNode = _definitionOrderTaxonomy.getNode(c);
+		final TaxonomyNode<ATermAppl> dNode = _definitionOrderTaxonomy.getNode(d);
 		if (cNode == null)
 			throw new InternalReasonerException(c + " is not in the definition _order");
 		else
-			if (cNode.equals(definitionOrderTaxonomy.getTop()))
-				definitionOrderTaxonomy.merge(cNode, dNode);
+			if (cNode.equals(_definitionOrderTaxonomy.getTop()))
+				_definitionOrderTaxonomy.merge(cNode, dNode);
 			else
 			{
-				definitionOrderTaxonomy.addSuper(c, d);
-				definitionOrderTaxonomy.removeCycles(cNode);
+				_definitionOrderTaxonomy.addSuper(c, d);
+				_definitionOrderTaxonomy.removeCycles(cNode);
 			}
 	}
 
@@ -58,7 +58,7 @@ public class TaxonomyBasedDefinitionOrder extends AbstractDefinitionOrder
 	protected Set<ATermAppl> computeCycles()
 	{
 		final Set<ATermAppl> cyclicConcepts = CollectionUtils.makeIdentitySet();
-		for (final TaxonomyNode<ATermAppl> node : definitionOrderTaxonomy.getNodes())
+		for (final TaxonomyNode<ATermAppl> node : _definitionOrderTaxonomy.getNodes())
 		{
 			final Set<ATermAppl> names = node.getEquivalents();
 			if (names.size() > 1)
@@ -71,8 +71,8 @@ public class TaxonomyBasedDefinitionOrder extends AbstractDefinitionOrder
 	@Override
 	protected List<ATermAppl> computeDefinitionOrder()
 	{
-		definitionOrderTaxonomy.assertValid();
+		_definitionOrderTaxonomy.assertValid();
 
-		return definitionOrderTaxonomy.topologocialSort(true, comparator);
+		return _definitionOrderTaxonomy.topologocialSort(true, _comparator);
 	}
 }

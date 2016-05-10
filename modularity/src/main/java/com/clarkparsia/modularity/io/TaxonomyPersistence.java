@@ -182,7 +182,7 @@ public class TaxonomyPersistence
 	/**
 	 * Creates a taxonomy from the ontology.
 	 * 
-	 * @param ontology the ontology containing the data which is the source for the taxonomy
+	 * @param ontology the ontology containing the _data which is the source for the taxonomy
 	 * @return the created taxonomy
 	 */
 	private static Taxonomy<OWLClass> createTaxonomy(final OWLOntology ontology)
@@ -252,7 +252,7 @@ public class TaxonomyPersistence
 			taxonomy.addSupers(owlClass, getSuperClasses(ontology, owlClass));
 		}
 
-		// read the instance data (if available)
+		// read the instance _data (if available)
 		for (final TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes())
 		{
 			Set<OWLNamedIndividual> individuals = null;

@@ -1,4 +1,4 @@
-// Copyright (c) 2006 - 2008, Clark & Parsia, LLC. <http://www.clarkparsia.com>
+// Copyright (_c) 2006 - 2008, Clark & Parsia, LLC. <http://www.clarkparsia.com>
 // This source code is available under the terms of the Affero General Public
 // License v3.
 //
@@ -44,7 +44,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  * Description:
  * </p>
  * <p>
- * Copyright: Copyright (c) 2007
+ * Copyright: Copyright (_c) 2007
  * </p>
  * <p>
  * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
@@ -71,23 +71,23 @@ public class TrivialSatisfactionHelpers
 
 	private abstract class BinaryBindingTester<R extends AtomObject, S extends AtomObject> implements BindingTester
 	{
-		R arg1;
-		S arg2;
+		R _arg1;
+		S _arg2;
 
 		public BinaryBindingTester(final R arg1, final S arg2)
 		{
-			this.arg1 = arg1;
-			this.arg2 = arg2;
+			this._arg1 = arg1;
+			this._arg2 = arg2;
 		}
 
 		public R getArg1()
 		{
-			return arg1;
+			return _arg1;
 		}
 
 		public S getArg2()
 		{
-			return arg2;
+			return _arg2;
 		}
 	}
 
@@ -105,71 +105,71 @@ public class TrivialSatisfactionHelpers
 	private class BodyAtomVisitor implements RuleAtomVisitor
 	{
 
-		private BindingTester tester = null;
+		private BindingTester _tester = null;
 
 		public BindingTester getTester()
 		{
-			return tester;
+			return _tester;
 		}
 
 		@Override
 		public void visit(final BuiltInAtom atom)
 		{
-			tester = null;
+			_tester = null;
 		}
 
 		@Override
 		public void visit(final ClassAtom atom)
 		{
-			tester = new TestClass(ATermUtils.normalize(ATermUtils.negate(atom.getPredicate())), atom.getArgument());
+			_tester = new TestClass(ATermUtils.normalize(ATermUtils.negate(atom.getPredicate())), atom.getArgument());
 		}
 
 		@Override
 		public void visit(final DataRangeAtom atom)
 		{
-			tester = null;
+			_tester = null;
 		}
 
 		@Override
 		public void visit(final DatavaluedPropertyAtom atom)
 		{
-			tester = null;
+			_tester = null;
 		}
 
 		@Override
 		public void visit(final DifferentIndividualsAtom atom)
 		{
-			tester = new TestSame(atom.getArgument1(), atom.getArgument2());
+			_tester = new TestSame(atom.getArgument1(), atom.getArgument2());
 		}
 
 		@Override
 		public void visit(final IndividualPropertyAtom atom)
 		{
-			tester = null;
+			_tester = null;
 		}
 
 		@Override
 		public void visit(final SameIndividualAtom atom)
 		{
-			tester = new TestDifferent(atom.getArgument1(), atom.getArgument2());
+			_tester = new TestDifferent(atom.getArgument1(), atom.getArgument2());
 		}
 
 	}
 
 	/**
-	 * Takes a filter and a list of vars to implement Binding helper.
+	 * Takes a filter and a list of _vars to implement Binding helper.
 	 */
 	private static class FilterHelper implements BindingHelper
 	{
 
-		private boolean result = false;
-		private final BindingTester tester;
-		private final Collection<? extends AtomVariable> vars;
+		private boolean _result = false;
+		private final BindingTester _tester;
+		private final Collection<? extends AtomVariable> _vars;
 
 		public FilterHelper(final BindingTester tester, final Collection<? extends AtomVariable> vars)
 		{
-			this.tester = tester;
-			this.vars = vars;
+			this._tester = tester;
+			this._vars = vars;
 		}
 
 		@Override
@@ -181,20 +181,20 @@ public class TrivialSatisfactionHelpers
 		@Override
 		public Collection<? extends AtomVariable> getPrerequisiteVars(final Collection<AtomVariable> bound)
 		{
-			return vars;
+			return _vars;
 		}
 
 		@Override
 		public void rebind(final VariableBinding newBinding)
 		{
-			result = (tester.check(newBinding) == null);
+			_result = (_tester.check(newBinding) == null);
 		}
 
 		@Override
 		public boolean selectNextBinding()
 		{
-			final boolean result = this.result;
-			this.result = false;
+			final boolean result = this._result;
+			this._result = false;
 			return result;
 		}
 
@@ -207,7 +207,7 @@ public class TrivialSatisfactionHelpers
 		@Override
 		public String toString()
 		{
-			return "Filter(" + tester + ")";
+			return "Filter(" + _tester + ")";
 		}
 
 	}
@@ -218,53 +218,53 @@ public class TrivialSatisfactionHelpers
 	private class HeadAtomVisitor implements RuleAtomVisitor
 	{
 
-		private BindingTester tester = null;
+		private BindingTester _tester = null;
 
 		public BindingTester getTester()
 		{
-			return tester;
+			return _tester;
 		}
 
 		@Override
 		public void visit(final BuiltInAtom atom)
 		{
-			tester = ALWAYS_TRUE;
+			_tester = ALWAYS_TRUE;
 		}
 
 		@Override
 		public void visit(final ClassAtom atom)
 		{
-			tester = new TestClass(ATermUtils.normalize(atom.getPredicate()), atom.getArgument());
+			_tester = new TestClass(ATermUtils.normalize(atom.getPredicate()), atom.getArgument());
 		}
 
 		@Override
 		public void visit(final DataRangeAtom atom)
 		{
-			tester = ALWAYS_TRUE;
+			_tester = ALWAYS_TRUE;
 		}
 
 		@Override
 		public void visit(final DatavaluedPropertyAtom atom)
 		{
-			tester = new TestDataProperty(atom.getPredicate(), atom.getArgument1(), atom.getArgument2());
+			_tester = new TestDataProperty(atom.getPredicate(), atom.getArgument1(), atom.getArgument2());
 		}
 
 		@Override
 		public void visit(final DifferentIndividualsAtom atom)
 		{
-			tester = new TestDifferent(atom.getArgument1(), atom.getArgument2());
+			_tester = new TestDifferent(atom.getArgument1(), atom.getArgument2());
 		}
 
 		@Override
 		public void visit(final IndividualPropertyAtom atom)
 		{
-			tester = new TestIndividualProperty(atom.getPredicate(), atom.getArgument1(), atom.getArgument2());
+			_tester = new TestIndividualProperty(atom.getPredicate(), atom.getArgument1(), atom.getArgument2());
 		}
 
 		@Override
 		public void visit(final SameIndividualAtom atom)
 		{
-			tester = new TestSame(atom.getArgument1(), atom.getArgument2());
+			_tester = new TestSame(atom.getArgument1(), atom.getArgument2());
 		}
 
 	}
@@ -274,25 +274,25 @@ public class TrivialSatisfactionHelpers
 	 */
 	private class TestClass extends UnaryBindingTester<AtomIObject>
 	{
-		private final ATermAppl c;
+		private final ATermAppl _c;
 
 		public TestClass(final ATermAppl c, final AtomIObject arg)
 		{
 			super(arg);
-			this.c = c;
+			this._c = c;
 		}
 
 		@Override
 		public DependencySet check(final VariableBinding binding)
 		{
 			final Individual ind = binding.get(getArg());
-			return ind.getDepends(c);
+			return ind.getDepends(_c);
 		}
 
 		@Override
 		public String toString()
 		{
-			return "notClass(" + getArg() + ":" + c + ")";
+			return "notClass(" + getArg() + ":" + _c + ")";
 		}
 
 	}
@@ -330,7 +330,7 @@ public class TrivialSatisfactionHelpers
 		@Override
 		public DependencySet check(final VariableBinding binding)
 		{
-			return binding.get(arg1).getDifferenceDependency(binding.get(arg2));
+			return binding.get(_arg1).getDifferenceDependency(binding.get(_arg2));
 		}
 
 		@Override
@@ -370,7 +370,7 @@ public class TrivialSatisfactionHelpers
 		public TestProperty(final ATermAppl p, final AtomIObject arg1, final S arg2)
 		{
 			super(arg1, arg2);
-			r = abox.getRole(p);
+			r = _abox.getRole(p);
 			if (r == null)
 				throw new InternalReasonerException("Cannot retreive role!: " + p);
 		}
@@ -404,8 +404,8 @@ public class TrivialSatisfactionHelpers
 		@Override
 		public DependencySet check(final VariableBinding binding)
 		{
-			final Individual ind1 = binding.get(arg1);
-			final Individual ind2 = binding.get(arg2);
+			final Individual ind1 = binding.get(_arg1);
+			final Individual ind2 = binding.get(_arg2);
 			if (ind1.isSame(ind2))
 			{
 				// we might be returning a super set of the actual dependency
@@ -425,24 +425,24 @@ public class TrivialSatisfactionHelpers
 
 	private abstract class UnaryBindingTester<R extends AtomObject> implements BindingTester
 	{
-		R arg;
+		R _arg;
 
 		public UnaryBindingTester(final R arg)
 		{
-			this.arg = arg;
+			this._arg = arg;
 		}
 
 		public R getArg()
 		{
-			return arg;
+			return _arg;
 		}
 	}
 
-	private final ABox abox;
+	private final ABox _abox;
 
 	public TrivialSatisfactionHelpers(final ABox abox)
 	{
-		this.abox = abox;
+		this._abox = abox;
 	}
 
 	public Collection<BindingHelper> getHelpers(final Rule rule)

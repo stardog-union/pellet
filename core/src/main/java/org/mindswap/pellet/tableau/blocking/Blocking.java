@@ -40,7 +40,7 @@ import org.mindswap.pellet.utils.Timer;
 
 /**
  * <p>
- * Generic class to check if an individual in an completion graph is _blocked by another individual. Blocking prevents infinite models to be created and can
+ * Generic class to check if an _individual in an completion graph is _blocked by another _individual. Blocking prevents infinite models to be created and can
  * improve performance by limiting the size of the completion graph built.
  * </p>
  * <p>

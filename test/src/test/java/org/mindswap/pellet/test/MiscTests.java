@@ -97,7 +97,7 @@ public class MiscTests extends AbstractKBTests
 	}
 
 	/**
-	 * Test that an individual added to a complete ABox isn't discarded if backtracking occurs in that ABox
+	 * Test that an _individual added to a complete ABox isn't discarded if backtracking occurs in that ABox
 	 */
 	@Test
 	public void backtrackPreservesAssertedIndividuals()
@@ -125,7 +125,7 @@ public class MiscTests extends AbstractKBTests
 		assertTrue(kb.isConsistent());
 
 		/*
-		 * Add the individual to the now completed ABox
+		 * Add the _individual to the now completed ABox
 		 */
 		kb.addIndividual(term("y"));
 

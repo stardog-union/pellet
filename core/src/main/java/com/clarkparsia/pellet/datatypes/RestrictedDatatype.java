@@ -55,7 +55,7 @@ public interface RestrictedDatatype<T> extends DataRange<T>
 	public RestrictedDatatype<T> intersect(RestrictedDatatype<?> other, boolean negated);
 
 	/**
-	 * Exclude specific elements from the data range. Used when a restricted data range is in a conjunction with a negative enumeration. Elements in
+	 * Exclude specific elements from the _data range. Used when a restricted _data range is in a conjunction with a negative enumeration. Elements in
 	 * <code>values</code> that are not contained in the restriction are ignored.
 	 *
 	 * @param values The values to exclude

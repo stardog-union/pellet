@@ -37,11 +37,11 @@ public class RDFXMLTaxonomyPrinter implements TaxonomyPrinter<ATermAppl>
 
 	protected boolean onlyDirectSubclass;
 
-	private Taxonomy<ATermAppl> taxonomy;
+	private Taxonomy<ATermAppl> _taxonomy;
 
-	private PrintWriter out;
+	private PrintWriter _out;
 
-	private Set<ATermAppl> visited;
+	private Set<ATermAppl> _visited;
 
 	public RDFXMLTaxonomyPrinter()
 	{
@@ -57,8 +57,8 @@ public class RDFXMLTaxonomyPrinter implements TaxonomyPrinter<ATermAppl>
 	@Override
 	public void print(final Taxonomy<ATermAppl> taxonomy, final PrintWriter out)
 	{
-		this.taxonomy = taxonomy;
-		this.out = out;
+		this._taxonomy = taxonomy;
+		this._out = out;
 
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		out.println();
@@ -76,26 +76,26 @@ public class RDFXMLTaxonomyPrinter implements TaxonomyPrinter<ATermAppl>
 
 	protected void printTree()
 	{
-		visited = new HashSet<>();
-		visited.add(ATermUtils.BOTTOM);
+		_visited = new HashSet<>();
+		_visited.add(ATermUtils.BOTTOM);
 
 		printTree(ATermUtils.TOP);
 
 		printTree(ATermUtils.BOTTOM);
 
-		for (final ATermAppl c : taxonomy.getClasses())
+		for (final ATermAppl c : _taxonomy.getClasses())
 			printTree(c);
 	}
 
 	protected void printTree(final ATermAppl c)
 	{
-		if (visited.contains(c))
+		if (_visited.contains(c))
 			return;
 
-		final Set<ATermAppl> eqClasses = ATermUtils.primitiveOrBottom(taxonomy.getEquivalents(c));
+		final Set<ATermAppl> eqClasses = ATermUtils.primitiveOrBottom(_taxonomy.getEquivalents(c));
 
-		visited.add(c);
-		visited.addAll(eqClasses);
+		_visited.add(c);
+		_visited.addAll(eqClasses);
 
 		printConceptDefinition(c, false);
 		for (final ATermAppl eq : eqClasses)
@@ -103,7 +103,7 @@ public class RDFXMLTaxonomyPrinter implements TaxonomyPrinter<ATermAppl>
 
 		if (!c.equals(ATermUtils.BOTTOM))
 		{
-			final Set<Set<ATermAppl>> supers = taxonomy.getSupers(c, onlyDirectSubclass);
+			final Set<Set<ATermAppl>> supers = _taxonomy.getSupers(c, onlyDirectSubclass);
 			for (final Set<ATermAppl> equivalenceSet : supers)
 			{
 
@@ -113,48 +113,48 @@ public class RDFXMLTaxonomyPrinter implements TaxonomyPrinter<ATermAppl>
 			}
 		}
 
-		out.println("</owl:Class>");
+		_out.println("</owl:Class>");
 
 		for (final ATermAppl eqClass : eqClasses)
 		{
-			out.println();
+			_out.println();
 			printConceptDefinition(eqClass, true);
 		}
 
-		out.println();
+		_out.println();
 
-		final Set<ATermAppl> instances = TaxonomyUtils.getDirectInstances(taxonomy, c);
+		final Set<ATermAppl> instances = TaxonomyUtils.getDirectInstances(_taxonomy, c);
 		for (final ATermAppl instance : instances)
 		{
 			if (ATermUtils.isBnode(instance))
 				return;
 
-			out.print("<rdf:Description rdf:about=\"");
-			out.print(instance.getName());
-			out.println("\">");
+			_out.print("<rdf:Description rdf:about=\"");
+			_out.print(instance.getName());
+			_out.println("\">");
 			printTriple(RDF_TYPE, c);
-			out.println("</rdf:Description>");
+			_out.println("</rdf:Description>");
 
-			out.println();
+			_out.println();
 		}
 	}
 
 	protected void printTriple(final String predicate, final ATermAppl c2)
 	{
-		out.print("   <" + predicate);
-		out.print(" rdf:resource=\"");
+		_out.print("   <" + predicate);
+		_out.print(" rdf:resource=\"");
 		printConcept(c2);
-		out.println("\"/> ");
+		_out.println("\"/> ");
 	}
 
 	protected void printConceptDefinition(final ATermAppl c, final boolean close)
 	{
-		out.print("<owl:Class rdf:about=\"");
+		_out.print("<owl:Class rdf:about=\"");
 		printConcept(c);
 		if (close)
-			out.println("\"/> ");
+			_out.println("\"/> ");
 		else
-			out.println("\"> ");
+			_out.println("\"> ");
 	}
 
 	protected void printConcept(final ATermAppl c)
@@ -168,6 +168,6 @@ public class RDFXMLTaxonomyPrinter implements TaxonomyPrinter<ATermAppl>
 			else
 				uri = c.getName();
 
-		out.print(uri);
+		_out.print(uri);
 	}
 }

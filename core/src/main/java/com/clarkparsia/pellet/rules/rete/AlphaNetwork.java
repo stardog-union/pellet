@@ -21,10 +21,11 @@ import com.clarkparsia.pellet.rules.model.RuleAtom;
 import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
@@ -50,37 +51,37 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 {
 	//	private final Map<ATermAppl, List<AlphaTypeNode>> typeNodes = new HashMap<Object, List<AlphaNode>>();
 
-	private final Map<Object, List<AlphaNode>> map = new HashMap<>();
-	private final List<AlphaNode> alphaNodes = new ArrayList<>();
-	private final AlphaNodeCreator creator = new AlphaNodeCreator();
-	private final ABox abox;
+	private final Map<Object, List<AlphaNode>> _map = new ConcurrentHashMap<>();
+	private final List<AlphaNode> _alphaNodes = new Vector<>();
+	private final AlphaNodeCreator _creator = new AlphaNodeCreator();
+	private final ABox _abox;
 
 	public AlphaNetwork(final ABox abox)
 	{
-		this.abox = abox;
+		this._abox = abox;
 	}
 
 	@Override
 	public Iterator<AlphaNode> iterator()
 	{
-		return alphaNodes.iterator();
+		return _alphaNodes.iterator();
 	}
 
 	public AlphaNode addNode(final RuleAtom atom)
 	{
 		final Object pred = atom.getPredicate();
-		List<AlphaNode> nodes = map.get(pred);
+		List<AlphaNode> nodes = _map.get(pred);
 		if (nodes == null)
 		{
 			nodes = new ArrayList<>();
-			map.put(pred, nodes);
+			_map.put(pred, nodes);
 		}
 		else
 			for (final AlphaNode node : nodes)
 				if (node.matches(atom))
 					return node;
 
-		final AlphaNode node = creator.create(atom);
+		final AlphaNode node = _creator.create(atom);
 		if (node != null)
 			if (node instanceof AlphaEdgeNode)
 			{
@@ -92,7 +93,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 			else
 				nodes.add(node);
 
-		alphaNodes.add(node);
+		_alphaNodes.add(node);
 
 		return node;
 	}
@@ -108,11 +109,11 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 	{
 		if (!r.isAnon())
 		{
-			List<AlphaNode> subNodes = map.get(r.getName());
+			List<AlphaNode> subNodes = _map.get(r.getName());
 			if (subNodes == null)
 			{
 				subNodes = new ArrayList<>();
-				map.put(r.getName(), subNodes);
+				_map.put(r.getName(), subNodes);
 			}
 			subNodes.add(node);
 		}
@@ -121,7 +122,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 	public void activateAll()
 	{
 		//		interpreter.addFact( EMPTY_FACT );
-		for (final Iterator<Individual> i = abox.getIndIterator(); i.hasNext();)
+		for (final Iterator<Individual> i = _abox.getIndIterator(); i.hasNext();)
 		{
 			final Individual ind = i.next();
 			activateIndividual(ind);
@@ -155,7 +156,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 
 	public void activateType(final Individual ind, final ATermAppl type, final DependencySet ds)
 	{
-		final List<AlphaNode> alphas = map.get(type);
+		final List<AlphaNode> alphas = _map.get(type);
 		if (alphas != null)
 			for (final AlphaNode alpha : alphas)
 				((AlphaTypeNode) alpha).activate(ind, type, ds);
@@ -166,7 +167,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 		Role r = edge.getRole();
 		if (r.isAnon())
 			r = r.getInverse();
-		final List<AlphaNode> alphas = map.get(r.getName());
+		final List<AlphaNode> alphas = _map.get(r.getName());
 		if (alphas != null)
 			for (final AlphaNode alpha : alphas)
 				((AlphaEdgeNode) alpha).activate(edge);
@@ -184,7 +185,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 	//			if (r.isAnon()) {
 	//				continue;
 	//			}
-	//			List<AlphaNode> alphas = map.get(r.getName());
+	//			List<AlphaNode> alphas = _map.get(r.getName());
 	//			if (alphas != null) {
 	//				if (inverse) {
 	//					edge = new DefaultEdge(role,(Individual)edge.getTo(),  edge.getFrom(), edge.getDepends());
@@ -198,7 +199,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 
 	public void activateDifferents(final Individual ind)
 	{
-		final List<AlphaNode> alphas = map.get("DIFFERENT");
+		final List<AlphaNode> alphas = _map.get("DIFFERENT");
 		if (alphas != null)
 			for (final Node n : ind.getDifferents())
 			{
@@ -210,7 +211,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 
 	public void activateDifferent(final Individual ind, final Individual diff, final DependencySet ds)
 	{
-		final List<AlphaNode> alphas = map.get("DIFFERENT");
+		final List<AlphaNode> alphas = _map.get("DIFFERENT");
 		if (alphas != null)
 			for (final AlphaNode alpha : alphas)
 				((AlphaDiffFromNode) alpha).activate(ind, diff, ds);
@@ -218,15 +219,15 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 
 	public void setDoExplanation(final boolean doExplanation)
 	{
-		for (final AlphaNode alphaNode : alphaNodes)
+		for (final AlphaNode alphaNode : _alphaNodes)
 			alphaNode.setDoExplanation(doExplanation);
 	}
 
 	public void print()
 	{
-		for (final AlphaNode node : alphaNodes)
+		for (final AlphaNode node : _alphaNodes)
 			node.unmark();
-		for (final AlphaNode node : alphaNodes)
+		for (final AlphaNode node : _alphaNodes)
 			node.print("");
 	}
 
@@ -257,24 +258,24 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 			final AtomObject s = atom.getArgument1();
 			final AtomObject o = atom.getArgument2();
 
-			final Role role = abox.getRole(atom.getPredicate());
+			final Role role = _abox.getRole(atom.getPredicate());
 			if (s instanceof AtomVariable && o instanceof AtomVariable)
 			{
 				if (s.equals(o))
-					result = new AlphaReflexiveEdgeNode(abox, role);
+					result = new AlphaReflexiveEdgeNode(_abox, role);
 				else
-					result = new AlphaEdgeNode(abox, role);
+					result = new AlphaEdgeNode(_abox, role);
 			}
 			else
 				if (s instanceof AtomConstant)
 				{
 					if (o instanceof AtomConstant)
-						result = new AlphaNoVarEdgeNode(abox, role, ((AtomConstant) s).getValue(), ((AtomConstant) o).getValue());
+						result = new AlphaNoVarEdgeNode(_abox, role, ((AtomConstant) s).getValue(), ((AtomConstant) o).getValue());
 					else
-						result = new AlphaFixedSubjectEdgeNode(abox, role, ((AtomConstant) s).getValue());
+						result = new AlphaFixedSubjectEdgeNode(_abox, role, ((AtomConstant) s).getValue());
 				}
 				else
-					result = new AlphaFixedObjectEdgeNode(abox, role, ((AtomConstant) o).getValue());
+					result = new AlphaFixedObjectEdgeNode(_abox, role, ((AtomConstant) o).getValue());
 		}
 
 		@Override
@@ -293,7 +294,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 		@Override
 		public void visit(final DifferentIndividualsAtom atom)
 		{
-			result = new AlphaDiffFromNode(abox);
+			result = new AlphaDiffFromNode(_abox);
 		}
 
 		@Override
@@ -314,7 +315,7 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 		{
 			final AtomObject arg = atom.getArgument();
 			final ATermAppl name = (arg instanceof AtomConstant) ? ((AtomConstant) arg).getValue() : null;
-			result = new AlphaTypeNode(abox, atom.getPredicate(), name);
+			result = new AlphaTypeNode(_abox, atom.getPredicate(), name);
 		}
 
 		@Override

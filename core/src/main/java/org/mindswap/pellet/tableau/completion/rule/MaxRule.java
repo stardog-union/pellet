@@ -50,7 +50,7 @@ public class MaxRule extends AbstractTableauRule
 	}
 
 	/**
-	 * Apply max rule to the individual.
+	 * Apply max rule to the _individual.
 	 */
 	@Override
 	public void apply(final Individual x)

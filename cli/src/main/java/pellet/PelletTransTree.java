@@ -219,7 +219,7 @@ public class PelletTransTree extends PelletCmdApp
 		{
 			final ATermAppl someB = ATermUtils.makeSomeValues(p, b);
 
-			return kb.isSubClassOf(a, someB);
+			return _kb.isSubClassOf(a, someB);
 		}
 	}
 
@@ -237,7 +237,7 @@ public class PelletTransTree extends PelletCmdApp
 		@Override
 		protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 		{
-			return kb.hasPropertyValue(a, p, b);
+			return _kb.hasPropertyValue(a, p, b);
 		}
 	}
 }

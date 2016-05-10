@@ -49,8 +49,8 @@ public abstract class AlphaNode extends ReteNode
 
 	protected void activate(final WME wme)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Activate alpha " + wme);
+		if (_log.isLoggable(Level.FINE))
+			_log.fine("Activate alpha " + wme);
 		for (final BetaNode beta : getBetas())
 			beta.activate(wme);
 	}

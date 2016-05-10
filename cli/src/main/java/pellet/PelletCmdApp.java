@@ -128,7 +128,7 @@ public abstract class PelletCmdApp
 
 		for (final PelletCmdOption option : mandatory)
 		{
-			ret.append("-" + option.getShortOption() + " arg ");
+			ret.append("-" + option.getShortOption() + " _arg ");
 		}
 
 		return ret.toString();
@@ -314,7 +314,7 @@ public abstract class PelletCmdApp
 	{
 		final HashSet<String> seenOptions = new HashSet<>();
 
-		// skip first arg which is the name of the subcommand
+		// skip first _arg which is the name of the subcommand
 		int i = 1;
 		for (; i < args.length; i++)
 		{

@@ -50,7 +50,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	//TODO: This will be refactored; however currently there are some unit tests which will not
 	//terminate due to the _order in which the completion rules are applied to individuals
 	//ont the _queue. An example of this is MiscTests.testIFDP3() - in this example,
-	//if the LiteralRule is applied to the individual "b" first, then an infinite number
+	//if the LiteralRule is applied to the _individual "b" first, then an infinite number
 	//of non-deterministic choices are created...talk to Evren about this.
 
 	/**
@@ -97,7 +97,7 @@ public class BasicCompletionQueue extends CompletionQueue
 	}
 
 	/**
-	 * Find the next individual in a given _queue
+	 * Find the next _individual in a given _queue
 	 *
 	 * @param type
 	 */

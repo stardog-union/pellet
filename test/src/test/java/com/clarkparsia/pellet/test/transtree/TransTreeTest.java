@@ -54,9 +54,9 @@ public class TransTreeTest
 		//builder = new POTaxonomyBuilder( kb, new PartIndividualsComparator( kb, p ) );
 
 		// Note: this is not an optimal solution
-		//for( ATermAppl individual : kb.getIndividuals() )
-		//	if (!ATermUtils.isBnode( individual ))
-		//		builder.classify( individual );
+		//for( ATermAppl _individual : kb.getIndividuals() )
+		//	if (!ATermUtils.isBnode( _individual ))
+		//		builder.classify( _individual );
 
 		//Taxonomy<ATermAppl> taxonomy = builder.getTaxonomy();
 		//ClassTreePrinter printer = new ClassTreePrinter();
@@ -86,7 +86,7 @@ public class TransTreeTest
 		{
 			final ATermAppl someB = ATermUtils.makeSomeValues(p, b);
 
-			return kb.isSubClassOf(a, someB);
+			return _kb.isSubClassOf(a, someB);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class TransTreeTest
 		@Override
 		protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 		{
-			return kb.hasPropertyValue(a, p, b);
+			return _kb.hasPropertyValue(a, p, b);
 		}
 	}
 

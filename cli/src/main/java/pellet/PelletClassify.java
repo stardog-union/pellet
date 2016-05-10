@@ -58,7 +58,7 @@ public class PelletClassify extends PelletCmdApp
 	private static final int ENCODING_RADIX = 36;
 
 	/**
-	 * The pattern for the names of the files containing the persisted data of the incremental classifier. The parameter in the pattern should be replaced with
+	 * The pattern for the names of the files containing the persisted _data of the incremental classifier. The parameter in the pattern should be replaced with
 	 * the MD5 of the root ontology IRI (to prevent mixing up files that belong to different ontologies).
 	 */
 	private static final String FILE_NAME_PATTERN = "persisted-state-%s.zip";
@@ -140,7 +140,7 @@ public class PelletClassify extends PelletCmdApp
 	}
 
 	/**
-	 * Performs classification using the incremental classifier (and persisted data)
+	 * Performs classification using the incremental classifier (and persisted _data)
 	 */
 	private void runIncrementalClassify()
 	{

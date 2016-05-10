@@ -32,11 +32,11 @@ package org.mindswap.pellet.taxonomy;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Evren Sirin
@@ -44,29 +44,29 @@ import java.util.Set;
 public class TaxonomyNode<T>
 {
 
-	private final Map<Object, Object> dataMap = new HashMap<>();
+	private final Map<Object, Object> _dataMap = new ConcurrentHashMap<>();
 
-	private Set<T> equivalents;
+	private Set<T> _equivalents;
 
-	private boolean hidden;
+	private boolean _hidden;
 
-	protected Boolean mark;
-	private T name;
+	protected Boolean _mark;
+	private T _name;
 
-	protected short depth = 0;
+	protected short _depth = 0;
 
-	private Set<TaxonomyNode<T>> subs = new HashSet<>(2);
-	private Set<TaxonomyNode<T>> supers = new HashSet<>();
+	private Set<TaxonomyNode<T>> _subs = new HashSet<>(2);
+	private Set<TaxonomyNode<T>> _supers = new HashSet<>();
 
 	public TaxonomyNode(final T name, final boolean hidden)
 	{
-		this.name = name;
-		this.hidden = hidden;
+		this._name = name;
+		this._hidden = hidden;
 
 		if (name == null)
-			equivalents = Collections.emptySet();
+			_equivalents = Collections.emptySet();
 		else
-			equivalents = Collections.singleton(name);
+			_equivalents = Collections.singleton(name);
 	}
 
 	public TaxonomyNode(final Collection<T> equivalents, final boolean hidden)
@@ -74,34 +74,34 @@ public class TaxonomyNode<T>
 
 		if (equivalents == null || equivalents.isEmpty())
 		{
-			this.name = null;
-			this.equivalents = Collections.emptySet();
+			this._name = null;
+			this._equivalents = Collections.emptySet();
 		}
 		else
 		{
-			this.name = equivalents.iterator().next();
-			this.equivalents = new HashSet<>(equivalents);
+			this._name = equivalents.iterator().next();
+			this._equivalents = new HashSet<>(equivalents);
 		}
 
-		this.hidden = hidden;
+		this._hidden = hidden;
 	}
 
 	public void addEquivalent(final T t)
 	{
-		if (equivalents.size() < 2)
-			equivalents = new HashSet<>(equivalents);
+		if (_equivalents.size() < 2)
+			_equivalents = new HashSet<>(_equivalents);
 
-		equivalents.add(t);
+		_equivalents.add(t);
 	}
 
 	public void addSub(final TaxonomyNode<T> other)
 	{
-		if (this.equals(other) || subs.contains(other))
+		if (this.equals(other) || _subs.contains(other))
 			return;
 
-		subs.add(other);
-		if (!hidden)
-			other.supers.add(this);
+		_subs.add(other);
+		if (!_hidden)
+			other._supers.add(this);
 	}
 
 	public void addSubs(final Collection<TaxonomyNode<T>> others)
@@ -112,82 +112,82 @@ public class TaxonomyNode<T>
 
 	public void addSupers(final Collection<TaxonomyNode<T>> others)
 	{
-		supers.addAll(others);
-		if (!hidden)
+		_supers.addAll(others);
+		if (!_hidden)
 			for (final TaxonomyNode<T> other : others)
-				other.subs.add(this);
+				other._subs.add(this);
 	}
 
 	public void clearData()
 	{
-		dataMap.clear();
+		_dataMap.clear();
 	}
 
 	public boolean contains(final T t)
 	{
-		return equivalents.contains(t);
+		return _equivalents.contains(t);
 	}
 
 	public void disconnect()
 	{
-		for (final Iterator<TaxonomyNode<T>> j = subs.iterator(); j.hasNext();)
+		for (final Iterator<TaxonomyNode<T>> j = _subs.iterator(); j.hasNext();)
 		{
 			final TaxonomyNode<T> sub = j.next();
 			j.remove();
-			sub.supers.remove(this);
+			sub._supers.remove(this);
 		}
 
-		for (final Iterator<TaxonomyNode<T>> j = supers.iterator(); j.hasNext();)
+		for (final Iterator<TaxonomyNode<T>> j = _supers.iterator(); j.hasNext();)
 		{
 			final TaxonomyNode<T> sup = j.next();
 			j.remove();
-			sup.subs.remove(this);
+			sup._subs.remove(this);
 		}
 	}
 
 	public Object getDatum(final Object key)
 	{
-		return dataMap.get(key);
+		return _dataMap.get(key);
 	}
 
 	public Set<T> getEquivalents()
 	{
-		return equivalents;
+		return _equivalents;
 	}
 
 	public T getName()
 	{
-		return name;
+		return _name;
 	}
 
 	public Collection<TaxonomyNode<T>> getSubs()
 	{
-		return subs;
+		return _subs;
 	}
 
 	public Collection<TaxonomyNode<T>> getSupers()
 	{
-		return supers;
+		return _supers;
 	}
 
 	public boolean isBottom()
 	{
-		return subs.isEmpty();
+		return _subs.isEmpty();
 	}
 
 	public boolean isHidden()
 	{
-		return hidden;
+		return _hidden;
 	}
 
 	public boolean isLeaf()
 	{
-		return subs.size() == 1 && subs.iterator().next().isBottom();
+		return _subs.size() == 1 && _subs.iterator().next().isBottom();
 	}
 
 	public boolean isTop()
 	{
-		return supers.isEmpty();
+		return _supers.isEmpty();
 	}
 
 	public void print()
@@ -197,11 +197,11 @@ public class TaxonomyNode<T>
 
 	public void print(String indent)
 	{
-		if (subs.isEmpty())
+		if (_subs.isEmpty())
 			return;
 
 		System.out.print(indent);
-		final Iterator<T> i = equivalents.iterator();
+		final Iterator<T> i = _equivalents.iterator();
 		while (i.hasNext())
 		{
 			System.out.print(i.next());
@@ -211,62 +211,62 @@ public class TaxonomyNode<T>
 		System.out.println();
 
 		indent += "  ";
-		for (final TaxonomyNode<T> sub : subs)
+		for (final TaxonomyNode<T> sub : _subs)
 			sub.print(indent);
 	}
 
 	public Object putDatum(final Object key, final Object value)
 	{
-		return dataMap.put(key, value);
+		return _dataMap.put(key, value);
 	}
 
 	public Object removeDatum(final Object key)
 	{
-		return dataMap.remove(key);
+		return _dataMap.remove(key);
 	}
 
 	public void removeMultiplePaths()
 	{
-		if (!hidden)
-			for (final TaxonomyNode<T> sup : supers)
-				for (final TaxonomyNode<T> sub : subs)
+		if (!_hidden)
+			for (final TaxonomyNode<T> sup : _supers)
+				for (final TaxonomyNode<T> sub : _subs)
 					sup.removeSub(sub);
 	}
 
 	public void removeEquivalent(final T t)
 	{
-		equivalents.remove(t);
+		_equivalents.remove(t);
 
-		if (name != null && name.equals(t))
-			name = equivalents.iterator().next();
+		if (_name != null && _name.equals(t))
+			_name = _equivalents.iterator().next();
 	}
 
 	public void removeSub(final TaxonomyNode<T> other)
 	{
-		subs.remove(other);
-		other.supers.remove(this);
+		_subs.remove(other);
+		other._supers.remove(this);
 	}
 
 	public void setHidden(final boolean hidden)
 	{
-		this.hidden = hidden;
+		this._hidden = hidden;
 	}
 
 	@Deprecated
 	public void setSubs(final Set<TaxonomyNode<T>> subs)
 	{
-		this.subs = subs;
+		this._subs = subs;
 	}
 
 	@Deprecated
 	public void setSupers(final Set<TaxonomyNode<T>> supers)
 	{
-		this.supers = supers;
+		this._supers = supers;
 	}
 
 	@Override
 	public String toString()
 	{
-		return name.toString();// + " = " + equivalents;
+		return _name.toString();// + " = " + _equivalents;
 	}
 }

@@ -114,7 +114,7 @@ public interface Query
 	public List<ATermAppl> getResultVars();
 
 	/**
-	 * Return all the distinguished variables. These are variables that will be bound to individuals (or data values) existing in the KB.
+	 * Return all the distinguished variables. These are variables that will be bound to individuals (or _data values) existing in the KB.
 	 *
 	 * @return Set of variables
 	 */

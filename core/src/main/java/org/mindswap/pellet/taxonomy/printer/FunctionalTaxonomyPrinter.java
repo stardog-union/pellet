@@ -23,9 +23,9 @@ import org.mindswap.pellet.utils.Comparators;
  * Title: Functional Taxonomy Printer
  * </p>
  * <p>
- * Description: The output of this printer is "functional" in the sense that any taxonomy has only a single printed form. I.e., the output here is intended to
+ * Description: The output of this printer is "functional" in the sense that any _taxonomy has only a single _printed form. I.e., the output here is intended to
  * be unchanged by reorderings of sibling _nodes in the classification algorithm. It was developed as a way to compare the output of alternative classification
- * implementations. It is based on the format found in the DL benchmark test data.
+ * implementations. It is based on the format found in the DL benchmark test _data.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -39,13 +39,13 @@ import org.mindswap.pellet.utils.Comparators;
 public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 {
 
-	private Taxonomy<T> taxonomy;
+	private Taxonomy<T> _taxonomy;
 
-	private PrintWriter out;
+	private PrintWriter _out;
 
-	private Set<T> bottomEquivalents;
+	private Set<T> _bottomEquivalents;
 
-	private Set<T> printed;
+	private Set<T> _printed;
 
 	public FunctionalTaxonomyPrinter()
 	{
@@ -61,17 +61,17 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 	public void print(final Taxonomy<T> taxonomy, final PrintWriter out)
 	{
 
-		this.taxonomy = taxonomy;
-		this.out = out;
+		this._taxonomy = taxonomy;
+		this._out = out;
 
 		/*
 		 * Note the bottom class (and equivalents) b/c it should only be output
 		 * as a subclass if it is the *only* subclass.
 		 */
-		bottomEquivalents = new TreeSet<>(Comparators.stringComparator);
-		bottomEquivalents.addAll(taxonomy.getBottom().getEquivalents());
+		_bottomEquivalents = new TreeSet<>(Comparators.stringComparator);
+		_bottomEquivalents.addAll(taxonomy.getBottom().getEquivalents());
 
-		printed = new HashSet<>();
+		_printed = new HashSet<>();
 
 		out.println();
 
@@ -81,10 +81,10 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 		final Set<Set<T>> topGroup = Collections.singleton(sortedTop);
 		printGroup(topGroup);
 
-		this.taxonomy = null;
-		this.out = null;
-		this.bottomEquivalents = null;
-		this.printed = null;
+		this._taxonomy = null;
+		this._out = null;
+		this._bottomEquivalents = null;
+		this._printed = null;
 
 		out.println();
 		out.flush();
@@ -100,20 +100,20 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 
 			final T firstC = eqC.iterator().next();
 
-			// Use supers to determine if this has been printed before, if so
+			// Use supers to determine if this has been _printed before, if so
 			// skip it
-			final Set<Set<T>> supEqs = taxonomy.getSupers(firstC, true);
-			if ((supEqs.size() > 1) && printed.contains(firstC))
+			final Set<Set<T>> supEqs = _taxonomy.getSupers(firstC, true);
+			if ((supEqs.size() > 1) && _printed.contains(firstC))
 				continue;
 			else
-				printed.add(firstC);
+				_printed.add(firstC);
 
-			out.print("(");
+			_out.print("(");
 
 			// Print equivalent class group passed in (assume sorted)
 			printEqClass(eqC);
 
-			out.print(" ");
+			_out.print(" ");
 
 			// Print any direct superclasses
 			final Set<Set<T>> sortedSupEqs = new TreeSet<>(Comparators.stringComparator);
@@ -125,11 +125,11 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 			}
 			printEqClassGroups(sortedSupEqs);
 
-			out.print(" ");
+			_out.print(" ");
 
 			// Print any direct subclasses
 			final Set<Set<T>> sortedSubEqs = new TreeSet<>(Comparators.stringComparator);
-			final Set<Set<T>> subEqs = taxonomy.getSubs(firstC, true);
+			final Set<Set<T>> subEqs = _taxonomy.getSubs(firstC, true);
 			for (final Set<T> set : subEqs)
 			{
 				final Set<T> group = new TreeSet<>(Comparators.stringComparator);
@@ -139,7 +139,7 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 			printEqClassGroups(sortedSubEqs);
 			nextGroup.addAll(sortedSubEqs);
 
-			out.println(")");
+			_out.println(")");
 		}
 
 		switch (nextGroup.size())
@@ -150,7 +150,7 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 				printGroup(nextGroup);
 				break;
 			default:
-				nextGroup.remove(bottomEquivalents);
+				nextGroup.remove(_bottomEquivalents);
 				printGroup(nextGroup);
 				break;
 		}
@@ -164,7 +164,7 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 		switch (size)
 		{
 			case 0:
-				out.print("NIL");
+				_out.print("NIL");
 				break;
 
 			case 1:
@@ -173,7 +173,7 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 				break;
 
 			default:
-				out.print("(");
+				_out.print("(");
 				boolean first = true;
 				for (final Iterator<T> i = concept.iterator(); i.hasNext();)
 				{
@@ -181,10 +181,10 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 					if (first)
 						first = false;
 					else
-						out.print(" ");
+						_out.print(" ");
 					printURI(c);
 				}
-				out.print(")");
+				_out.print(")");
 				break;
 		}
 	}
@@ -197,18 +197,18 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 		switch (size)
 		{
 			case 0:
-				out.print("NIL");
+				_out.print("NIL");
 				break;
 
 			case 1:
 				eqC = concepts.iterator().next();
-				out.print("(");
+				_out.print("(");
 				printEqClass(eqC);
-				out.print(")");
+				_out.print(")");
 				break;
 
 			default:
-				out.print("(");
+				_out.print("(");
 				boolean first = true;
 				for (final Iterator<? extends Collection<T>> i = concepts.iterator(); i.hasNext();)
 				{
@@ -216,10 +216,10 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 					if (first)
 						first = false;
 					else
-						out.print(" ");
+						_out.print(" ");
 					printEqClass(eqC);
 				}
-				out.print(")");
+				_out.print(")");
 				break;
 		}
 	}
@@ -233,6 +233,6 @@ public class FunctionalTaxonomyPrinter<T> implements TaxonomyPrinter<T>
 			if (c.equals(ATermUtils.BOTTOM))
 				uri = "http://www.w3.org/2002/07/owl#Nothing";
 
-		out.print(uri);
+		_out.print(uri);
 	}
 }

@@ -15,7 +15,7 @@ import java.util.WeakHashMap;
 
 // ----------------------------------------------------------------------------
 /**
- * This non-instantiable class presents an API for object sizing and profiling as described in the article. See individual methods for details.
+ * This non-instantiable class presents an API for object sizing and profiling as described in the article. See _individual methods for details.
  * <P>
  * This implementation is J2SE 1.4+ only. You would need to code your own identity hashmap to port this to earlier Java versions.
  * <P>
@@ -61,7 +61,7 @@ public abstract class ObjectProfiler
 	public static final boolean SHORT_COMMON_TYPE_NAMES = true;
 
 	/**
-	 * Estimates the full size of the object graph rooted at 'obj'. Duplicate data instances are correctly accounted for. The implementation is not recursive.
+	 * Estimates the full size of the object graph rooted at 'obj'. Duplicate _data instances are correctly accounted for. The implementation is not recursive.
 	 * <P>
 	 * Invariant: sizeof(obj) == profile(obj).size() if 'obj' is not null
 	 * 
@@ -93,7 +93,7 @@ public abstract class ObjectProfiler
 
 	/**
 	 * Estimates the full size of the object graph rooted at 'obj' by pre-populating the "visited" set with the object graph rooted at 'base'. The net effect is
-	 * to compute the size of 'obj' by summing over all instance data contained in 'obj' but not in 'base'.
+	 * to compute the size of 'obj' by summing over all instance _data contained in 'obj' but not in 'base'.
 	 * 
 	 * @param base graph boundary [may not be null]
 	 * @param obj input object instance to be measured
@@ -113,7 +113,7 @@ public abstract class ObjectProfiler
 	}
 
 	/**
-	 * Creates a spanning tree representation for instance data contained in 'obj'. The tree is produced using bread-first traversal over the full object graph
+	 * Creates a spanning tree representation for instance _data contained in 'obj'. The tree is produced using bread-first traversal over the full object graph
 	 * implied by non-null instance and array references originating in 'obj'.
 	 * 
 	 * @see IObjectProfileNode
@@ -255,7 +255,7 @@ public abstract class ObjectProfiler
 	 */
 	private static int computeSizeof(Object obj, final IdentityHashMap visited, final Map /* Class->ClassMetadata */metadataMap)
 	{
-		// this uses depth-first traversal; the exact graph traversal algorithm
+		// this uses _depth-first traversal; the exact graph traversal algorithm
 		// does not matter for computing the total size and this method could be
 		// easily adjusted to do breadth-first instead (addLast() instead of addFirst()),
 		// however, dfs/bfs require max _queue length to be the length of the longest

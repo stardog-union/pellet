@@ -245,13 +245,13 @@ public class DLBenchmarkTest
 		//		final boolean result = file.endsWith("_n.alc");
 		//
 		//		for(; count < 21; count ++) {			
-		//			kb = initKB(SAT_LIMIT);
+		//			_kb = initKB(SAT_LIMIT);
 		//			
 		//
 		//			ATermAppl c = parseExpr(in);
 		//
 		//			long time = System.currentTimeMillis();
-		//			boolean sat = kb.isSatisfiable(c);	
+		//			boolean sat = _kb.isSatisfiable(c);	
 		//			time = System.currentTimeMillis() - time;
 		//			
 		//			if(sat != result)

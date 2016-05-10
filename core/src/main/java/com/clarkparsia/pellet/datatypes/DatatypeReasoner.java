@@ -30,10 +30,10 @@ public interface DatatypeReasoner
 {
 
 	/**
-	 * Check that the intersection of a collection of data ranges contains a minimum number of elements.
+	 * Check that the intersection of a collection of _data ranges contains a minimum number of elements.
 	 *
 	 * @param n the minimum number of elements
-	 * @param ranges the data ranges to intersect
+	 * @param ranges the _data ranges to intersect
 	 * @return <code>true</code> if the intersection of <code>ranges</code> contains at least <code>n</code> elements, <code>false</code> else
 	 */
 	public boolean containsAtLeast(int n, Collection<ATermAppl> ranges) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException;
@@ -74,7 +74,7 @@ public interface DatatypeReasoner
 	public ATermAppl getLiteral(Object value);
 
 	/**
-	 * Get the Java object representation of the data value. E.g., if the literal passed in represents "1"^^xsd:byte, then the object returned is a
+	 * Get the Java object representation of the _data value. E.g., if the literal passed in represents "1"^^xsd:byte, then the object returned is a
 	 * <code>java.lang.Byte</code>.
 	 *
 	 * @param literal
@@ -85,7 +85,7 @@ public interface DatatypeReasoner
 	public Object getValue(ATermAppl literal) throws InvalidLiteralException, UnrecognizedDatatypeException;
 
 	/**
-	 * Check if a specific datatype or named data range has been declared. Declaratations can happen by
+	 * Check if a specific datatype or named _data range has been declared. Declaratations can happen by
 	 * <ul>
 	 * <li>The datatype being built-in (e.g., <code>xsd:integer</code>)</li>
 	 * <li>A call to {@link #declare(ATermAppl)}, which typically precedes a call to {@link #define(ATermAppl, ATermAppl)}</li>
@@ -98,10 +98,10 @@ public interface DatatypeReasoner
 	public boolean isDeclared(ATermAppl name);
 
 	/**
-	 * Check if a specific datatype or named data range can be supported by the datatype reasoner. I.e., it is either built-in or was the <code>name</code>
+	 * Check if a specific datatype or named _data range can be supported by the datatype reasoner. I.e., it is either built-in or was the <code>name</code>
 	 * parameter of a call {@link #define(ATermAppl, ATermAppl)}
 	 *
-	 * @param name the name (normally URI) of the datatype or named data range
+	 * @param name the name (normally URI) of the datatype or named _data range
 	 * @return <code>true</code> if <code>name</code> is supported, <code>false</code> else
 	 */
 	public boolean isDefined(ATermAppl name);
@@ -117,31 +117,31 @@ public interface DatatypeReasoner
 	/**
 	 * Shorthand for {@link #isSatisfiable(Collection, Object)} where <code>value == null</code>.
 	 *
-	 * @param dataranges The data ranges on the literal _node
-	 * @return <code>true</code> if the conjunction of the data ranges is satisfiable, <code>false</code> else.
+	 * @param dataranges The _data ranges on the literal _node
+	 * @return <code>true</code> if the conjunction of the _data ranges is satisfiable, <code>false</code> else.
 	 */
 	public boolean isSatisfiable(Collection<ATermAppl> dataranges) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException;
 
 	/**
-	 * Check the data ranges on a single literal _node are satisfiable (independent of other _nodes).
+	 * Check the _data ranges on a single literal _node are satisfiable (independent of other _nodes).
 	 *
-	 * @param dconjunction The data ranges on the literal _node
+	 * @param dconjunction The _data ranges on the literal _node
 	 * @param value A constant value asserted for the _node or <code>null</code> if no such value is present.
-	 * @return <code>true</code> if the conjunction of the data ranges is satisfiable, <code>false</code> else.
+	 * @return <code>true</code> if the conjunction of the _data ranges is satisfiable, <code>false</code> else.
 	 */
 	public boolean isSatisfiable(Collection<ATermAppl> dataranges, Object value) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException;
 
 	/**
-	 * Check that the data ranges and inequalities asserted on a collection of literal _nodes are satisfiable.
+	 * Check that the _data ranges and inequalities asserted on a collection of literal _nodes are satisfiable.
 	 *
-	 * @param _nodes A set representing all literals with in-edges from a single individual
+	 * @param _nodes A set representing all literals with in-edges from a single _individual
 	 * @param ineqs A map representing all literal inequality constraints
-	 * @return <code>true</code> if the data ranges and inequalities are satisfiable, <code>false</code> else.
+	 * @return <code>true</code> if the _data ranges and inequalities are satisfiable, <code>false</code> else.
 	 */
 	public boolean isSatisfiable(Set<Literal> nodes, Map<Literal, Set<Literal>> ineqs) throws InvalidConstrainingFacetException, InvalidLiteralException, UnrecognizedDatatypeException;
 
 	/**
-	 * Return a collection of all known data ranges.
+	 * Return a collection of all known _data ranges.
 	 */
 	public Collection<ATermAppl> listDataRanges();
 
@@ -151,7 +151,7 @@ public interface DatatypeReasoner
 	 */
 
 	/**
-	 * Name a data range (see OWL 2 <code>DatatypeDefinition</code>)
+	 * Name a _data range (see OWL 2 <code>DatatypeDefinition</code>)
 	 *
 	 * @param name a URI used to refer to the datatype
 	 * @param datarange the datarange
@@ -170,7 +170,7 @@ public interface DatatypeReasoner
 	/**
 	 * Get an iterator for the values of a finite datarange
 	 *
-	 * @param dataranges the data ranges
+	 * @param dataranges the _data ranges
 	 * @return an {@link Iterator}
 	 * @throws InvalidConstrainingFacetException if <code>dataranges</code> contains a datatype restriction in which the constraining facet is not valid
 	 * @throws InvalidLiteralException if <code>dataranges</code> references a literal value that is invalid

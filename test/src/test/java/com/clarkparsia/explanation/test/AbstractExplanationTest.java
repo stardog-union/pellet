@@ -52,7 +52,7 @@ import org.semanticweb.owlapi.vocab.SWRLBuiltInsVocabulary;
  */
 public abstract class AbstractExplanationTest
 {
-	static final String BASEPATH = "file:data/";
+	static final String BASEPATH = "file:_data/";
 	static final OWLOntologyManager manager = OWL.manager;
 	static final URI ontologyURI = URI.create("http://www.example.org/test#");
 

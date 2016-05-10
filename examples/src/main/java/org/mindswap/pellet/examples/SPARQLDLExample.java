@@ -38,14 +38,14 @@ public class SPARQLDLExample
 {
 
 	// The ontology loaded as dataset
-	private static final String ontology = "data/university0-0.owl";
+	private static final String ontology = "_data/university0-0.owl";
 	private static final String[] queries = new String[] {
 			// One of the original LUBM queries
-		"data/lubm-query4.sparql",
+		"_data/lubm-query4.sparql",
 		// A SPARQL-DL query
-		"data/lubm-sparql-dl.sparql",
+		"_data/lubm-sparql-dl.sparql",
 		// A SPARQL-DL with the SPARQL-DL extensions vocabulary
-	"data/lubm-sparql-dl-extvoc.sparql" };
+	"_data/lubm-sparql-dl-extvoc.sparql" };
 
 	public void run()
 	{
@@ -55,7 +55,7 @@ public class SPARQLDLExample
 			// (note, the Pellet reasoner is required)
 			final OntModel m = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-			// Then read the data from the file into the ontology model
+			// Then read the _data from the file into the ontology model
 			m.read(ontology);
 
 			// Now read the query file into a query object

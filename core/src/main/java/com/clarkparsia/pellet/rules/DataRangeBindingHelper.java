@@ -36,22 +36,22 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
 public class DataRangeBindingHelper implements BindingHelper
 {
 
-	private static final Logger log;
+	private static final Logger _log;
 
 	static
 	{
-		log = Logger.getLogger(DataRangeBindingHelper.class.getCanonicalName());
+		_log = Logger.getLogger(DataRangeBindingHelper.class.getCanonicalName());
 	}
 
-	private final DatatypeReasoner dtReasoner;
-	private final DataRangeAtom atom;
-	private boolean hasNext;
+	private final DatatypeReasoner _dtReasoner;
+	private final DataRangeAtom _atom;
+	private boolean _hasNext;
 
 	public DataRangeBindingHelper(final ABox abox, final DataRangeAtom atom)
 	{
-		this.dtReasoner = abox.getDatatypeReasoner();
-		this.atom = atom;
-		hasNext = false;
+		this._dtReasoner = abox.getDatatypeReasoner();
+		this._atom = atom;
+		_hasNext = false;
 	}
 
 	@Override
@@ -63,25 +63,25 @@ public class DataRangeBindingHelper implements BindingHelper
 	@Override
 	public Collection<AtomVariable> getPrerequisiteVars(final Collection<AtomVariable> bound)
 	{
-		return VariableUtils.getVars(atom);
+		return VariableUtils.getVars(_atom);
 	}
 
 	@Override
 	public void rebind(final VariableBinding newBinding)
 	{
-		final Literal dValue = newBinding.get(atom.getArgument());
+		final Literal dValue = newBinding.get(_atom.getArgument());
 
 		if (dValue == null)
-			throw new InternalReasonerException("DataRangeBindingHelper cannot generate bindings for " + atom);
+			throw new InternalReasonerException("DataRangeBindingHelper cannot generate bindings for " + _atom);
 
 		try
 		{
-			hasNext = dtReasoner.isSatisfiable(Collections.singleton(atom.getPredicate()), dValue.getValue());
+			_hasNext = _dtReasoner.isSatisfiable(Collections.singleton(_atom.getPredicate()), dValue.getValue());
 		}
 		catch (final DatatypeReasonerException e)
 		{
 			final String msg = "Unexpected datatype reasoner exception: " + e.getMessage();
-			log.severe(msg);
+			_log.severe(msg);
 			throw new InternalReasonerException(e);
 		}
 	}
@@ -89,9 +89,9 @@ public class DataRangeBindingHelper implements BindingHelper
 	@Override
 	public boolean selectNextBinding()
 	{
-		if (hasNext)
+		if (_hasNext)
 		{
-			hasNext = false;
+			_hasNext = false;
 			return true;
 		}
 		return false;
@@ -106,7 +106,7 @@ public class DataRangeBindingHelper implements BindingHelper
 	@Override
 	public String toString()
 	{
-		return atom.toString();
+		return _atom.toString();
 	}
 
 }

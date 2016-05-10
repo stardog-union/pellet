@@ -15,23 +15,23 @@ public abstract class NodeProvider
 
 	public static class ConstantNodeProvider extends NodeProvider
 	{
-		private final Node node;
+		private final Node _node;
 
 		public ConstantNodeProvider(final Node node)
 		{
-			this.node = node;
+			this._node = node;
 		}
 
 		@Override
 		public Node getNode(final WME wme, final Token token)
 		{
-			return node;
+			return _node;
 		}
 
 		@Override
 		public int hashCode()
 		{
-			return node.getName().hashCode();
+			return _node.getName().hashCode();
 		}
 
 		@Override
@@ -42,31 +42,31 @@ public abstract class NodeProvider
 			if (!(obj instanceof ConstantNodeProvider))
 				return false;
 			final ConstantNodeProvider other = (ConstantNodeProvider) obj;
-			return node.getName().equals(other.node.getName());
+			return _node.getName().equals(other._node.getName());
 		}
 
 		@Override
 		public String toString()
 		{
-			return ATermUtils.toString(node.getName());
+			return ATermUtils.toString(_node.getName());
 		}
 	}
 
 	public static class TokenNodeProvider extends NodeProvider
 	{
-		private final int indexWME;
-		private final int indexArg;
+		private final int _indexWME;
+		private final int _indexArg;
 
 		public TokenNodeProvider(final int indexWME, final int indexArg)
 		{
-			this.indexWME = indexWME;
-			this.indexArg = indexArg;
+			this._indexWME = indexWME;
+			this._indexArg = indexArg;
 		}
 
 		@Override
 		public Node getNode(final WME wme, final Token token)
 		{
-			return token.get(indexWME).getArg(indexArg);
+			return token.get(_indexWME).getArg(_indexArg);
 		}
 
 		@Override
@@ -74,8 +74,8 @@ public abstract class NodeProvider
 		{
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + indexArg;
-			result = prime * result + indexWME;
+			result = prime * result + _indexArg;
+			result = prime * result + _indexWME;
 			return result;
 		}
 
@@ -87,40 +87,40 @@ public abstract class NodeProvider
 			if (!(obj instanceof TokenNodeProvider))
 				return false;
 			final TokenNodeProvider other = (TokenNodeProvider) obj;
-			return (indexArg != other.indexArg) && (indexWME != other.indexWME);
+			return (_indexArg != other._indexArg) && (_indexWME != other._indexWME);
 		}
 
 		@Override
 		public String toString()
 		{
-			return "token[" + indexWME + "]." + indexArg;
+			return "token[" + _indexWME + "]." + _indexArg;
 		}
 	}
 
 	public static class WMENodeProvider extends NodeProvider
 	{
-		private final int indexArg;
+		private final int _indexArg;
 
 		public WMENodeProvider(final int indexArg)
 		{
-			this.indexArg = indexArg;
+			this._indexArg = indexArg;
 		}
 
 		@Override
 		public Node getNode(final WME wme, final Token token)
 		{
-			return wme.getArg(indexArg);
+			return wme.getArg(_indexArg);
 		}
 
 		public int getIndexArg()
 		{
-			return indexArg;
+			return _indexArg;
 		}
 
 		@Override
 		public int hashCode()
 		{
-			return indexArg;
+			return _indexArg;
 		}
 
 		@Override
@@ -131,13 +131,13 @@ public abstract class NodeProvider
 			if (!(obj instanceof WMENodeProvider))
 				return false;
 			final WMENodeProvider other = (WMENodeProvider) obj;
-			return indexArg == other.indexArg;
+			return _indexArg == other._indexArg;
 		}
 
 		@Override
 		public String toString()
 		{
-			return "wme." + indexArg;
+			return "wme." + _indexArg;
 		}
 	}
 }

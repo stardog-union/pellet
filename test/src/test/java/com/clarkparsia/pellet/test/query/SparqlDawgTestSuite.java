@@ -107,8 +107,8 @@ public class SparqlDawgTestSuite
 
 		//		String dawgTests = PelletTestSuite.base
 		//				+ "sparql-dawg-tests/data-r2/_manifest-evaluation.ttl";
-		final String sparqldlTests = PelletTestSuite.base + "sparqldl-tests/_manifest.ttl";
-		final String sparqlSameAsTests = PelletTestSuite.base + "query/sameAs/_manifest.ttl";
+		final String sparqldlTests = PelletTestSuite.base + "sparqldl-tests/manifest.ttl";
+		final String sparqlSameAsTests = PelletTestSuite.base + "query/sameAs/manifest.ttl";
 		final Properties noUndistVars = new Properties();
 		noUndistVars.setProperty("IGNORE_UNSUPPORTED_AXIOMS", "false");
 		noUndistVars.setProperty("TREAT_ALL_VARS_DISTINGUISHED", "true");

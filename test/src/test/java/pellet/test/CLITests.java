@@ -210,7 +210,14 @@ public class CLITests
 			{
 				return new PelletInfo();
 			}
-		}, fileIRI("test/data/modularity/koala.owl"), fileIRI("test/data/modularity/galen.owl"), fileIRI("test/data/modularity/miniTambis.owl"), fileIRI("test/data/modularity/SUMO.owl"), fileIRI("test/data/modularity/SWEET.owl"), fileIRI("test/data/modularity/wine.owl"));
+		},//
+				fileIRI("test/data/modularity/koala.owl"),//
+				fileIRI("test/data/modularity/galen.owl"),//
+				fileIRI("test/data/modularity/miniTambis.owl"),//
+				fileIRI("test/data/modularity/SUMO.owl"),//
+				fileIRI("test/data/modularity/SWEET.owl"),//
+				fileIRI("test/data/modularity/wine.owl")//
+				);
 	}
 
 	@Test

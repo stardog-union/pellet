@@ -31,42 +31,43 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
  */
 public class Tuple<T>
 {
-	private final DependencySet ds;
-	private final List<T> elements;
+	private final DependencySet _ds;
+	private final List<T> _elements;
 
+	@SafeVarargs
 	public Tuple(final DependencySet ds, final T... elementArgs)
 	{
 		if (ds == null)
 			throw new InternalReasonerException("Null dependencyset argument to rete tuple");
-		this.ds = ds;
-		this.elements = Collections.unmodifiableList(Arrays.asList(elementArgs));
+		this._ds = ds;
+		this._elements = Collections.unmodifiableList(Arrays.asList(elementArgs));
 	}
 
 	public Tuple(final DependencySet ds, final List<T> elements)
 	{
-		this.ds = ds;
-		this.elements = Collections.unmodifiableList(new ArrayList<>(elements));
+		this._ds = ds;
+		this._elements = Collections.unmodifiableList(new ArrayList<>(elements));
 	}
 
 	public DependencySet getDependencySet()
 	{
-		return ds;
+		return _ds;
 	}
 
 	public List<T> getElements()
 	{
-		return elements;
+		return _elements;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return elements.hashCode();
+		return _elements.hashCode();
 	}
 
 	@Override
 	public String toString()
 	{
-		return elements.toString();
+		return _elements.toString();
 	}
 }

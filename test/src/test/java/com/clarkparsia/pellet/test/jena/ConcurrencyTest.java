@@ -132,7 +132,7 @@ public class ConcurrencyTest
 
 				for (final Individual ind : batch)
 				{
-					// querying for all object property values for each individual
+					// querying for all object property values for each _individual
 					Iterator<? extends Property> propertyIter = model_.listObjectProperties();
 
 					while (propertyIter.hasNext())
@@ -142,7 +142,7 @@ public class ConcurrencyTest
 						printIterator(ind.listPropertyValues(property), Thread.currentThread().getName() + ": " + ind.getLocalName() + " -- " + property.getLocalName() + " --> ");
 					}
 
-					// querying for all data property values for each individual
+					// querying for all _data property values for each _individual
 					propertyIter = model_.listDatatypeProperties();
 
 					while (propertyIter.hasNext())
@@ -160,13 +160,13 @@ public class ConcurrencyTest
 			if (iterator.hasNext())
 				while (iterator.hasNext())
 					try
-			{
+					{
 						System.err.println(threadId + ": " + iterator.next());
-			}
-			catch (final ConversionException e)
-			{
-				// swallow, this is due to the lack of OWL 2 support
-			}
+					}
+					catch (final ConversionException e)
+					{
+						// swallow, this is due to the lack of OWL 2 support
+					}
 		}
 
 	}

@@ -14,8 +14,8 @@ import org.mindswap.pellet.Node;
 import org.mindswap.pellet.Role;
 
 /**
- * A class to keep track of the _current individual being tested for blocking conditions. Current context stores the _blocker candidate and caches the incoming
- * edges to the (possibly) _blocked individual since multiple blocking conditions need to access that information.
+ * A class to keep track of the _current _individual being tested for blocking conditions. Current context stores the _blocker candidate and caches the incoming
+ * edges to the (possibly) _blocked _individual since multiple blocking conditions need to access that information.
  *
  * @author Evren Sirin
  */
@@ -105,10 +105,10 @@ public class BlockingContext
 	}
 
 	/**
-	 * Returns the roles that points to the given individual from its parent.
+	 * Returns the roles that points to the given _individual from its parent.
 	 *
-	 * @param ind individual to check
-	 * @return the roles that points to the given individual from its parent
+	 * @param ind _individual to check
+	 * @return the roles that points to the given _individual from its parent
 	 */
 	protected static Set<Role> getIncomingRoles(final Individual ind)
 	{

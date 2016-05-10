@@ -81,7 +81,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 
 		if (edge != null && !_abox.isClosed() && subj.isRootNominal() && obj.isRootNominal())
 			if (interpreter != null)
-				interpreter.alphaNet.activateEdge(edge);
+				interpreter._alphaNet.activateEdge(edge);
 
 		return edge;
 	}
@@ -94,7 +94,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 		if (!merging && !_abox.isClosed() && node.isRootNominal() && interpreter != null && node.isIndividual())
 		{
 			final Individual ind = (Individual) node;
-			interpreter.alphaNet.activateType(ind, c, ds);
+			interpreter._alphaNet.activateType(ind, c, ds);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 		if (super.mergeIndividuals(y, x, ds))
 		{
 			if (interpreter != null)
-				interpreter.alphaNet.activateDifferents(y);
+				interpreter._alphaNet.activateDifferents(y);
 			return true;
 		}
 		return false;
@@ -116,7 +116,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 		if (super.setDifferent(y, z, ds))
 		{
 			if (interpreter != null && !merging && !_abox.isClosed() && y.isRootNominal() && y.isIndividual() && z.isRootNominal() && z.isIndividual())
-				interpreter.alphaNet.activateDifferent((Individual) y, (Individual) z, ds);
+				interpreter._alphaNet.activateDifferent((Individual) y, (Individual) z, ds);
 
 			return true;
 		}
@@ -243,7 +243,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 					_abox.validate();
 					// printBlocked();
 					_abox.printTree();
-					interpreter.alphaNet.print();
+					interpreter._alphaNet.print();
 				}
 
 				final IndividualIterator i = _abox.getIndIterator();
@@ -397,6 +397,7 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 
 	private void restoreRules(final Branch branch)
 	{
+		@SuppressWarnings("unused")
 		int total = 0;
 		for (final Iterator<Map.Entry<Pair<Rule, VariableBinding>, Integer>> ruleAppIter = rulesApplied.entrySet().iterator(); ruleAppIter.hasNext();)
 		{

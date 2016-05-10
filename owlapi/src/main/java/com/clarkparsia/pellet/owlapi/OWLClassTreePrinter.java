@@ -31,10 +31,10 @@ public class OWLClassTreePrinter extends TreeTaxonomyPrinter<OWLClass> implement
 	{
 		super.printNode(set);
 
-		final Set<OWLNamedIndividual> instances = getDirectInstances(taxonomy, set.iterator().next());
+		final Set<OWLNamedIndividual> instances = getDirectInstances(_taxonomy, set.iterator().next());
 		if (instances.size() > 0)
 		{
-			out.print(" - (");
+			_out.print(" - (");
 			boolean printed = false;
 			final Iterator<OWLNamedIndividual> ins = instances.iterator();
 			for (int k = 0; ins.hasNext(); k++)
@@ -42,12 +42,12 @@ public class OWLClassTreePrinter extends TreeTaxonomyPrinter<OWLClass> implement
 				final OWLNamedIndividual x = ins.next();
 
 				if (printed)
-					out.print(", ");
+					_out.print(", ");
 				else
 					printed = true;
-				printURI(out, x);
+				printURI(_out, x);
 			}
-			out.print(")");
+			_out.print(")");
 		}
 	}
 

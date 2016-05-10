@@ -110,9 +110,9 @@ public class PelletExtractInferences extends PelletCmdApp
 
 		if (SetUtils.intersects(selector, ModelExtractor.StatementType.ALL_INDIVIDUAL_STATEMENTS))
 		{
-			startTask("Extracting individual statements");
+			startTask("Extracting _individual statements");
 			extractor.extractIndividualModel(extracted);
-			finishTask("Extracting individual statements");
+			finishTask("Extracting _individual statements");
 		}
 
 		output(extracted);

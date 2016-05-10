@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * DisjointSet data structure. Uses path compression and union by rank.
+ * DisjointSet _data structure. Uses path compression and union by rank.
  *
  * @author Evren Sirin
  */

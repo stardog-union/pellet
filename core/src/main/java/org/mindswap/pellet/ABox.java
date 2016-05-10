@@ -145,7 +145,7 @@ public class ABox
 	// private ABox pseudoModel;
 
 	// _cache of the last completion. it may be different from the pseudo
-	// model, e.g. type checking for individual adds one extra assertion
+	// model, e.g. type checking for _individual adds one extra assertion
 	// last completion is stored for caching the root _nodes that was
 	// the result of
 	private ABox _lastCompletion;
@@ -261,7 +261,7 @@ public class ABox
 			_branchEffects = null;
 
 		// copy the _queue - this must be done early so that the effects of
-		// adding the extra individual do not get removed
+		// adding the extra _individual do not get removed
 		if (PelletOptions.USE_COMPLETION_QUEUE)
 		{
 			if (copyIndividuals)
@@ -381,12 +381,12 @@ public class ABox
 	}
 
 	/**
-	 * Create a copy of this ABox with one more additional individual. This is <b>NOT</b> equivalent to create a copy and then add the individual. The _order of
+	 * Create a copy of this ABox with one more additional _individual. This is <b>NOT</b> equivalent to create a copy and then add the _individual. The _order of
 	 * individuals in the ABox is important to figure out which individuals exist in the original ontology and which ones are created by the tableau algorithm.
-	 * This function creates a new ABox such that the individual is supposed to exist in the original ontology. This is very important when satisfiability of a
+	 * This function creates a new ABox such that the _individual is supposed to exist in the original ontology. This is very important when satisfiability of a
 	 * concept starts with a pesudo model rather than the initial ABox.
 	 *
-	 * @param extraIndividual Extra individual to be added to the copy ABox
+	 * @param extraIndividual Extra _individual to be added to the copy ABox
 	 * @return
 	 */
 	public ABox copy(final ATermAppl extraIndividual, final boolean copyIndividuals)
@@ -752,7 +752,7 @@ public class ABox
 
 					// TODO following short-cut might be implemented correctly
 					// the main problem here is that concept might be in the
-					// types of the individual with a dependency. In this case,
+					// types of the _individual with a dependency. In this case,
 					// Node.hasObviousType returns unknown and changing it to
 					// false here is wrong.
 					//					 if( justSC && ATermUtils.isPrimitive( c ) ) {
@@ -808,7 +808,7 @@ public class ABox
 	}
 
 	/**
-	 * Returns true if individual x belongs to type c. This is a logical consequence of the KB if in all possible models x belongs to C. This is checked by
+	 * Returns true if _individual x belongs to type c. This is a logical consequence of the KB if in all possible models x belongs to C. This is checked by
 	 * trying to construct a model where x belongs to not(c).
 	 *
 	 * @param x
@@ -839,7 +839,7 @@ public class ABox
 		// return list.contains( x );
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("Checking type " + ATermUtils.toString(c) + " for individual " + ATermUtils.toString(x));
+			log.fine("Checking type " + ATermUtils.toString(c) + " for _individual " + ATermUtils.toString(x));
 
 		final ATermAppl notC = ATermUtils.negate(c);
 
@@ -848,7 +848,7 @@ public class ABox
 		t.stop();
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("Type " + isType + " " + ATermUtils.toString(c) + " for individual " + ATermUtils.toString(x));
+			log.fine("Type " + isType + " " + ATermUtils.toString(c) + " for _individual " + ATermUtils.toString(x));
 
 		return isType;
 	}
@@ -1289,7 +1289,7 @@ public class ABox
 	/**
 	 * Check the consistency of this ABox possibly after adding some type assertions. If <code>c</code> is null then nothing is added to ABox (pure consistency
 	 * test) and the individuals should be an empty collection. If <code>c</code> is not null but <code>individuals</code> is empty, this is a satisfiability
-	 * check for concept <code>c</code> so a new individual will be added with type <code>c</code>. If individuals is not empty, this means we will add type
+	 * check for concept <code>c</code> so a new _individual will be added with type <code>c</code>. If individuals is not empty, this means we will add type
 	 * <code>c</code> to each of the individuals in the collection and check the consistency.
 	 * <p>
 	 * The consistency checks will be done either on a copy of the ABox or its pseudo model depending on the situation. In either case this ABox will not be
@@ -1735,7 +1735,7 @@ public class ABox
 				return (Literal) node;
 			}
 			else
-				throw new InternalReasonerException("Same term refers to both a literal and an individual: " + name);
+				throw new InternalReasonerException("Same term refers to both a literal and an _individual: " + name);
 
 		final int remember = _branch;
 		setBranch(DependencySet.NO_BRANCH);
@@ -1744,7 +1744,7 @@ public class ABox
 		 * TODO Investigate the effects of storing asserted value
 		 * The input version of the literal is not discarded, only the canonical
 		 * versions are stored in the literal. This may cause problems in cases
-		 * where the same value space object is presented in the data in multiple
+		 * where the same value space object is presented in the _data in multiple
 		 * forms.
 		 */
 		final Literal lit = new Literal(name, dataValue, this, ds);

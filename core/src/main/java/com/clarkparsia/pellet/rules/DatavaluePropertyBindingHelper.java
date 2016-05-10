@@ -21,7 +21,7 @@ import org.mindswap.pellet.Role;
  * Title: Datavalue Property Binding Helper
  * </p>
  * <p>
- * Description: Generates bindings based off the given pattern. The predicate must be a datatype property. TODO: Rename to DatavaluedPropertyBindingHelper
+ * Description: Generates bindings based off the given _pattern. The predicate must be a datatype property. TODO: Rename to DatavaluedPropertyBindingHelper
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -34,30 +34,30 @@ import org.mindswap.pellet.Role;
  */
 public class DatavaluePropertyBindingHelper implements BindingHelper
 {
-	private final ABox abox;
+	private final ABox _abox;
 	private VariableBinding binding;
 	private Literal object;
 	private Iterator<Literal> objectIterator;
-	private final DatavaluedPropertyAtom pattern;
+	private final DatavaluedPropertyAtom _pattern;
 	private Role role;
 	private Individual subject;
 	private Iterator<Individual> subjectIterator;
 
 	public DatavaluePropertyBindingHelper(final ABox abox, final DatavaluedPropertyAtom pattern)
 	{
-		this.abox = abox;
-		this.pattern = pattern;
+		this._abox = abox;
+		this._pattern = pattern;
 	}
 
 	@Override
 	public Collection<AtomVariable> getBindableVars(final Collection<AtomVariable> bound)
 	{
-		return VariableUtils.getVars(pattern);
+		return VariableUtils.getVars(_pattern);
 	}
 
 	private Literal getObject()
 	{
-		return binding.get(pattern.getArgument2());
+		return binding.get(_pattern.getArgument2());
 	}
 
 	@Override
@@ -69,13 +69,13 @@ public class DatavaluePropertyBindingHelper implements BindingHelper
 	private Role getRole()
 	{
 		if (role == null)
-			role = abox.getRole(pattern.getPredicate());
+			role = _abox.getRole(_pattern.getPredicate());
 		return role;
 	}
 
 	private Individual getSubject()
 	{
-		return binding.get(pattern.getArgument1());
+		return binding.get(_pattern.getArgument1());
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class DatavaluePropertyBindingHelper implements BindingHelper
 	 */
 	private boolean isObjectSet()
 	{
-		return binding.get(pattern.getArgument2()) != null;
+		return binding.get(_pattern.getArgument2()) != null;
 	}
 
 	/**
@@ -101,14 +101,14 @@ public class DatavaluePropertyBindingHelper implements BindingHelper
 		if (getSubject() != null)
 			subjectIterator = Collections.singleton(getSubject()).iterator();
 		else
-			subjectIterator = new AllNamedIndividualsIterator(abox);
+			subjectIterator = new AllNamedIndividualsIterator(_abox);
 
 	}
 
 	/**
 	 * Selects the next binding.
 	 *
-	 * @return True if a binding was available for this pattern given the initial binding. False otherwise. Will return if the binding is not set.
+	 * @return True if a binding was available for this _pattern given the initial binding. False otherwise. Will return if the binding is not set.
 	 */
 	@Override
 	public boolean selectNextBinding()
@@ -131,7 +131,7 @@ public class DatavaluePropertyBindingHelper implements BindingHelper
 
 			if (isObjectSet())
 			{
-				// Object of pattern is already set; just test the pattern
+				// Object of _pattern is already set; just test the _pattern
 				final boolean result = subject.getRNeighbors(getRole()).contains(getObject());
 				if (result)
 					return true;
@@ -150,21 +150,21 @@ public class DatavaluePropertyBindingHelper implements BindingHelper
 	}
 
 	/**
-	 * Set the variables this pattern uses in the given map.
+	 * Set the variables this _pattern uses in the given map.
 	 * 
 	 * @param currentBinding
 	 */
 	@Override
 	public void setCurrentBinding(final VariableBinding currentBinding)
 	{
-		currentBinding.set(pattern.getArgument1(), subject);
-		currentBinding.set(pattern.getArgument2(), object);
+		currentBinding.set(_pattern.getArgument1(), subject);
+		currentBinding.set(_pattern.getArgument2(), object);
 	}
 
 	@Override
 	public String toString()
 	{
-		return "edges(" + pattern + ")";
+		return "edges(" + _pattern + ")";
 	}
 
 }

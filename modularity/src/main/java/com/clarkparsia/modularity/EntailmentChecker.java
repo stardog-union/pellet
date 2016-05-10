@@ -188,7 +188,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 				classes[i] = iter.next().asOWLClass();
 
 			if (possiblyDisjoint(classes))
-				// no data detected that would disqualify the axiom -- it has to be checked by the
+				// no _data detected that would disqualify the axiom -- it has to be checked by the
 				// underlying reasoner
 				isEntailed = reasoner.getReasoner().isEntailed(axiom);
 			else

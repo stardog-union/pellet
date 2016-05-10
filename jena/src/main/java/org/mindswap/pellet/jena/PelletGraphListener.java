@@ -71,7 +71,7 @@ public class PelletGraphListener implements GraphListener
 		// check if this is a type assertion
 		if (t.getPredicate().equals(RDF.type.asNode()))
 		{
-			// check if this is a new individual
+			// check if this is a new _individual
 			if (!kb.getIndividuals().contains(s))
 				kb.addIndividual(s);
 
@@ -80,11 +80,11 @@ public class PelletGraphListener implements GraphListener
 		}
 		else
 		{
-			// check if the subject is a new individual
+			// check if the subject is a new _individual
 			if (!kb.getIndividuals().contains(s))
 				kb.addIndividual(s);
 
-			// check if the object is a new individual
+			// check if the object is a new _individual
 			if (!t.getObject().isLiteral() && !kb.getIndividuals().contains(o))
 				kb.addIndividual(o);
 
@@ -149,7 +149,7 @@ public class PelletGraphListener implements GraphListener
 				kb.removeType(s, o);
 		}
 		else
-			// check if the subject is a new individual
+			// check if the subject is a new _individual
 			if (kb.isIndividual(s) && (kb.isIndividual(o) || ATermUtils.isLiteral(o)))
 			{
 				final ATermAppl p = JenaUtils.makeATerm(t.getPredicate());
@@ -223,7 +223,7 @@ public class PelletGraphListener implements GraphListener
 				return false;
 
 			// Note: we do not check if the subject already exists,
-			// as it could be a newly added individual
+			// as it could be a newly added _individual
 
 		}
 		else

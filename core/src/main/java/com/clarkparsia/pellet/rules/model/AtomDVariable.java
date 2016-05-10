@@ -11,7 +11,7 @@ package com.clarkparsia.pellet.rules.model;
  * Title: Atom Data Variable
  * </p>
  * <p>
- * Description: A variable that ranges over all data values
+ * Description: A variable that ranges over all _data values
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007

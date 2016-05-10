@@ -16,7 +16,7 @@ import org.mindswap.pellet.Node;
  * Title: Literal Filter
  * </p>
  * <p>
- * Description: Filters an iterator of _nodes for literals.
+ * Description: Filters an _iterator of _nodes for literals.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -30,24 +30,24 @@ import org.mindswap.pellet.Node;
 public class LiteralFilter implements Iterator<Literal>
 {
 
-	private final Iterator<Node> iterator;
-	private Literal next;
+	private final Iterator<Node> _iterator;
+	private Literal _next;
 
 	public LiteralFilter(final Iterator<Node> iterator)
 	{
-		this.iterator = iterator;
+		this._iterator = iterator;
 	}
 
 	@Override
 	public boolean hasNext()
 	{
-		while ((next == null) && iterator.hasNext())
+		while ((_next == null) && _iterator.hasNext())
 		{
-			final Node node = iterator.next();
+			final Node node = _iterator.next();
 			if (node.isLiteral() && node.isRootNominal())
-				next = (Literal) node;
+				_next = (Literal) node;
 		}
-		return next != null;
+		return _next != null;
 	}
 
 	@Override
@@ -56,8 +56,8 @@ public class LiteralFilter implements Iterator<Literal>
 		if (!hasNext())
 			throw new NoSuchElementException();
 
-		final Literal result = next;
-		next = null;
+		final Literal result = _next;
+		_next = null;
 
 		return result;
 	}
@@ -65,7 +65,7 @@ public class LiteralFilter implements Iterator<Literal>
 	@Override
 	public void remove()
 	{
-		iterator.remove();
+		_iterator.remove();
 	}
 
 }

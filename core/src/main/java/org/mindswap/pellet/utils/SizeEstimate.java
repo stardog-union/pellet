@@ -642,8 +642,8 @@ public class SizeEstimate
 		// System.out.println(instances.toString());
 
 		System.out.println("Avg classes per instance:" + avgClassesPI);
-		System.out.println("Avg sames per individual:" + avgSamesPerInstance());
-		System.out.println("Avg differents per individual:" + avgDifferentsPerInstance());
+		System.out.println("Avg sames per _individual:" + avgSamesPerInstance());
+		System.out.println("Avg differents per _individual:" + avgDifferentsPerInstance());
 
 		final StatisticsTable<ATermAppl, String> classes = new StatisticsTable<>();
 

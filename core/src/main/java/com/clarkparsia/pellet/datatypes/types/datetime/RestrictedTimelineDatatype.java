@@ -572,7 +572,7 @@ public class RestrictedTimelineDatatype implements RestrictedDatatype<XMLGregori
 				}
 
 			/*
-			 * Return a data range based on the intersections
+			 * Return a _data range based on the intersections
 			 */
 
 			if (revisedWz.equals(this.wzIntervals) && revisedNz.equals(this.nzIntervals))

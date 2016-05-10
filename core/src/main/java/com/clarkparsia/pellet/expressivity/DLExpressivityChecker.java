@@ -182,6 +182,7 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		@Override
 		public void visitTerm(final ATermAppl term)
 		{
+			//
 		}
 
 		void visitRole(final ATermAppl p)

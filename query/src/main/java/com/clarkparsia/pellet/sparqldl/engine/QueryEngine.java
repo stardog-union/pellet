@@ -199,7 +199,7 @@ public class QueryEngine
 		if (!ATermUtils.isVar(t) && !kb.isIndividual(t))
 		{
 			if (log.isLoggable(Level.WARNING))
-				log.warning("Undefined individual used in query: " + t);
+				log.warning("Undefined _individual used in query: " + t);
 			return false;
 		}
 

@@ -81,7 +81,7 @@ public abstract class CompletionQueue extends IndividualIterator
 	}
 
 	/**
-	 * Find the next individual in a given _queue
+	 * Find the next _individual in a given _queue
 	 * 
 	 * @param type
 	 */

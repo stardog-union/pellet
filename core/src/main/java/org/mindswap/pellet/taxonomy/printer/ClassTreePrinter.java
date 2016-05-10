@@ -56,7 +56,7 @@ import org.mindswap.pellet.utils.TaxonomyUtils;
  */
 public class ClassTreePrinter extends TreeTaxonomyPrinter<ATermAppl>
 {
-	private final QNameProvider qnames = new QNameProvider();
+	private final QNameProvider _qnames = new QNameProvider();
 
 	public ClassTreePrinter()
 	{
@@ -67,14 +67,14 @@ public class ClassTreePrinter extends TreeTaxonomyPrinter<ATermAppl>
 	{
 		super.printNode(set);
 
-		final Set<ATermAppl> instances = TaxonomyUtils.getDirectInstances(taxonomy, set.iterator().next());
+		final Set<ATermAppl> instances = TaxonomyUtils.getDirectInstances(_taxonomy, set.iterator().next());
 		if (instances.size() > 0)
 		{
-			out.print(" - (");
+			_out.print(" - (");
 			boolean printed = false;
 			int anonCount = 0;
 			final Iterator<ATermAppl> ins = instances.iterator();
-			for (int k = 0; ins.hasNext(); k++)
+			while (ins.hasNext())
 			{
 				final ATermAppl x = ins.next();
 
@@ -83,21 +83,21 @@ public class ClassTreePrinter extends TreeTaxonomyPrinter<ATermAppl>
 				else
 				{
 					if (printed)
-						out.print(", ");
+						_out.print(", ");
 					else
 						printed = true;
-					printURI(out, x);
+					printURI(_out, x);
 				}
 			}
 			if (anonCount > 0)
 			{
 				if (printed)
-					out.print(", ");
-				out.print(anonCount + " Anonymous Individual");
+					_out.print(", ");
+				_out.print(anonCount + " Anonymous Individual");
 				if (anonCount > 1)
-					out.print("s");
+					_out.print("s");
 			}
-			out.print(")");
+			_out.print(")");
 		}
 	}
 
@@ -113,7 +113,7 @@ public class ClassTreePrinter extends TreeTaxonomyPrinter<ATermAppl>
 				str = "owl:Nothing";
 			else
 				if (ATermUtils.isPrimitive(c))
-					str = qnames.shortForm(c.getName());
+					str = _qnames.shortForm(c.getName());
 				else
 					str = c.toString();
 

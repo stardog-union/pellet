@@ -7,7 +7,7 @@ import java.util.Iterator;
  * Title: Negated Data Range
  * </p>
  * <p>
- * Description: A negated data range. By definition, this is infinite.
+ * Description: A negated _data range. By definition, this is infinite.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009

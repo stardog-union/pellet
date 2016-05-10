@@ -24,7 +24,7 @@ import java.io.OutputStream;
  * </p>
  * A wrapper around the underlying stream that prevents the underlying stream from being closed (if passed to other methods that are not very nice and close
  * your stream). The initial motivation for this wrapper was ZipOutputStream where you write into multiple separate entries; some methods (which are not aware
- * that they write to a ZipOutputStream) when they finish writing their data they close the stream, which terminates the whole process of producing the zip
+ * that they write to a ZipOutputStream) when they finish writing their _data they close the stream, which terminates the whole process of producing the zip
  * file.
  *
  * @author Blazej Bulka

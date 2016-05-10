@@ -81,7 +81,7 @@ public abstract class Node
 	private boolean _isConceptRoot;
 
 	/**
-	 * If this _node is merged to another one, points to that _node otherwise points to itself. This is a linked list implementation of disjoint-union data
+	 * If this _node is merged to another one, points to that _node otherwise points to itself. This is a linked list implementation of disjoint-union _data
 	 * structure.
 	 */
 	protected Node mergedTo = this;
@@ -913,7 +913,7 @@ public abstract class Node
 
 	/**
 	 * A string that identifies this _node either using its _name or the path of individuals that comes to this _node. For example, a _node that has been generated
-	 * by the completion rules needs to be identified with respect to a named individual. Ultimately, we need the shortest path or something like that but right
+	 * by the completion rules needs to be identified with respect to a named _individual. Ultimately, we need the shortest path or something like that but right
 	 * now we just use the first inEdge
 	 *
 	 * @return

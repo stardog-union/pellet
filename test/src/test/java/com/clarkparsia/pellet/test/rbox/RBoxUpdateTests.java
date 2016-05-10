@@ -70,7 +70,7 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 	}
 
 	/**
-	 * A data property domain axiom should be removable without causing a full KB reload
+	 * A _data property domain axiom should be removable without causing a full KB reload
 	 */
 	@Test
 	public void removeDataPropertyDomainAxiom()
@@ -81,14 +81,14 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
 
 		final boolean changeApplied = processRemove(domain(dp, C));
-		assertTrue("Unable to remove data property domain axiom", changeApplied);
+		assertTrue("Unable to remove _data property domain axiom", changeApplied);
 
 		assertTrue(reasoner.isConsistent());
 		assertFalse(reasoner.isEntailed(classAssertion(a, C)));
 	}
 
 	/**
-	 * A data property domain axiom should be removable without causing a full KB reload even if it is a class expression
+	 * A _data property domain axiom should be removable without causing a full KB reload even if it is a class expression
 	 */
 	@Test
 	public void removeDataPropertyDomainAxiomExpression()
@@ -99,14 +99,14 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 		assertTrue(reasoner.isEntailed(classAssertion(a, or(C, D))));
 
 		final boolean changeApplied = processRemove(domain(dp, or(C, D)));
-		assertTrue("Unable to remove data property domain axiom", changeApplied);
+		assertTrue("Unable to remove _data property domain axiom", changeApplied);
 
 		assertTrue(reasoner.isConsistent());
 		assertFalse(reasoner.isEntailed(classAssertion(a, or(C, D))));
 	}
 
 	/**
-	 * A data property range axiom should be removable without causing a full KB reload
+	 * A _data property range axiom should be removable without causing a full KB reload
 	 */
 	@Test
 	public void removeDataPropertyRangeAxiom()
@@ -117,7 +117,7 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 		assertFalse(reasoner.isConsistent());
 
 		final boolean changeApplied = processRemove(range(dp, XSD.INTEGER));
-		assertTrue("Unable to remove data property range axiom", changeApplied);
+		assertTrue("Unable to remove _data property range axiom", changeApplied);
 
 		assertTrue(reasoner.isConsistent());
 	}

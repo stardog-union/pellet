@@ -50,8 +50,8 @@ public class BetaMemoryNode extends BetaNode
 	@Override
 	public void activate(final WME wme)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Activate beta " + wme);
+		if (_log.isLoggable(Level.FINE))
+			_log.fine("Activate beta " + wme);
 
 		final Iterator<Token> wmeTokens = memory.getTokens(wme);
 
@@ -66,8 +66,8 @@ public class BetaMemoryNode extends BetaNode
 	@Override
 	public void activate(final Token token)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Activate beta " + token);
+		if (_log.isLoggable(Level.FINE))
+			_log.fine("Activate beta " + token);
 
 		memory.add(token);
 

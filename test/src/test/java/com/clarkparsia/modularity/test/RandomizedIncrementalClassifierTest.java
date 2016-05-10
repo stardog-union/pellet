@@ -43,7 +43,7 @@ public abstract class RandomizedIncrementalClassifierTest extends AbstractModula
 			_path = "src/test/resources/" + path;
 
 			if (!new File(_path).exists())//
-				throw new RuntimeException("Path to data files is not correct: " + path);
+				throw new RuntimeException("Path to _data files is not correct: " + path);
 		}
 	}
 

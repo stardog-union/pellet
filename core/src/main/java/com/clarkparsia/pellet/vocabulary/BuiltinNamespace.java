@@ -27,30 +27,35 @@ import java.util.Map;
  */
 public enum BuiltinNamespace
 {
-	OWL("http://www.w3.org/2002/07/owl#"), RDF("http://www.w3.org/1999/02/22-rdf-syntax-ns#"), RDFS("http://www.w3.org/2000/01/rdf-schema#"), XSD("http://www.w3.org/2001/XMLSchema#"), SWRL("http://www.w3.org/2003/11/swrl#"), SWRLB("http://www.w3.org/2003/11/swrlb#");
+	OWL("http://www.w3.org/2002/07/owl#"), //
+	RDF("http://www.w3.org/1999/02/22-rdf-syntax-ns#"), //
+	RDFS("http://www.w3.org/2000/01/rdf-schema#"), //
+	XSD("http://www.w3.org/2001/XMLSchema#"), //
+	SWRL("http://www.w3.org/2003/11/swrl#"), //
+	SWRLB("http://www.w3.org/2003/11/swrlb#");
 
-	private String uri;
+	private String _uri;
 
 	BuiltinNamespace(final String uri)
 	{
-		this.uri = uri;
+		this._uri = uri;
 	}
 
 	public String getURI()
 	{
-		return uri;
+		return _uri;
 	}
 
-	public static final Map<String, BuiltinNamespace> uriMap;
+	public static final Map<String, BuiltinNamespace> _uriMap;
 	static
 	{
-		uriMap = new HashMap<>();
+		_uriMap = new HashMap<>();
 		for (final BuiltinNamespace ns : BuiltinNamespace.values())
-			uriMap.put(ns.getURI(), ns);
+			_uriMap.put(ns.getURI(), ns);
 	}
 
 	public static BuiltinNamespace find(final String uri)
 	{
-		return uriMap.get(uri);
+		return _uriMap.get(uri);
 	}
 }

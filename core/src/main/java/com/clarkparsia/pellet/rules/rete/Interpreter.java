@@ -26,13 +26,13 @@ import java.util.Collections;
  */
 public class Interpreter
 {
-	public AlphaNetwork alphaNet;
+	public AlphaNetwork _alphaNet;
 
 	public Interpreter(final AlphaNetwork alphaNet)
 	{
 		super();
 
-		this.alphaNet = alphaNet;
+		this._alphaNet = alphaNet;
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class Interpreter
 	 */
 	public void reset()
 	{
-		for (final AlphaNode alpha : alphaNet)
+		for (final AlphaNode alpha : _alphaNet)
 			alpha.reset();
 	}
 
@@ -51,16 +51,16 @@ public class Interpreter
 	 */
 	public void restore(final int branch)
 	{
-		for (final AlphaNode alpha : alphaNet)
+		for (final AlphaNode alpha : _alphaNet)
 			alpha.unmark();
 
-		for (final AlphaNode alpha : alphaNet)
+		for (final AlphaNode alpha : _alphaNet)
 			alpha.restore(branch);
 	}
 
 	public void run()
 	{
-		alphaNet.activateAll();
+		_alphaNet.activateAll();
 	}
 
 	/**

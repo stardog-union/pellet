@@ -59,7 +59,7 @@ public class VariableBinding
 	}
 
 	/**
-	 * Collects data values of a objects it visits
+	 * Collects _data values of a objects it visits
 	 */
 	private class DataValueCollector extends DefaultAtomObjectVisitor
 	{
@@ -77,11 +77,11 @@ public class VariableBinding
 			final ATermAppl literal = constant.getValue();
 			try
 			{
-				canonical = abox.getKB().getDatatypeReasoner().getCanonicalRepresentation(literal);
+				canonical = _abox.getKB().getDatatypeReasoner().getCanonicalRepresentation(literal);
 			}
 			catch (final InvalidLiteralException e)
 			{
-				final String msg = format("Invalid literal (%s) in SWRL data constant: %s", literal, e.getMessage());
+				final String msg = format("Invalid literal (%s) in SWRL _data constant: %s", literal, e.getMessage());
 				if (PelletOptions.INVALID_LITERAL_AS_INCONSISTENCY)
 					canonical = literal;
 				else
@@ -92,27 +92,27 @@ public class VariableBinding
 			}
 			catch (final UnrecognizedDatatypeException e)
 			{
-				final String msg = format("Unrecognized datatype in literal appearing (%s) in SWRL data constant: %s", literal, e.getMessage());
+				final String msg = format("Unrecognized datatype in literal appearing (%s) in SWRL _data constant: %s", literal, e.getMessage());
 				log.severe(msg);
 				throw new InternalReasonerException(msg, e);
 			}
 
-			abox.copyOnWrite();
-			value = abox.getLiteral(canonical);
+			_abox.copyOnWrite();
+			value = _abox.getLiteral(canonical);
 			if (value == null)
-				value = abox.addLiteral(canonical);
+				value = _abox.addLiteral(canonical);
 		}
 
 		@Override
 		public void visit(final AtomDVariable variable)
 		{
-			value = dataVars.get(variable);
+			value = _dataVars.get(variable);
 		}
 
 	}
 
 	/**
-	 * Collects individual values of a objects it visits
+	 * Collects _individual values of a objects it visits
 	 */
 	private class IndividualValueCollector extends DefaultAtomObjectVisitor
 	{
@@ -127,82 +127,82 @@ public class VariableBinding
 		@Override
 		public void visit(final AtomIConstant constant)
 		{
-			abox.copyOnWrite();
-			value = abox.getIndividual(constant.getValue());
+			_abox.copyOnWrite();
+			value = _abox.getIndividual(constant.getValue());
 		}
 
 		@Override
 		public void visit(final AtomIVariable variable)
 		{
-			value = instanceVars.get(variable);
+			value = _instanceVars.get(variable);
 		}
 
 	}
 
 	/**
-	 * Sets the value of a variable to the individual or _node as appropriate.
+	 * Sets the value of a variable to the _individual or _node as appropriate.
 	 */
 	private class ValueSettingVisitor implements AtomObjectVisitor
 	{
 
-		Literal data;
-		Individual individual;
+		Literal _data;
+		Individual _individual;
 
 		public ValueSettingVisitor(final Individual individual, final Literal data)
 		{
-			this.data = data;
-			this.individual = individual;
+			this._data = data;
+			this._individual = individual;
 		}
 
 		public Literal getData()
 		{
-			return data;
+			return _data;
 		}
 
 		public Individual getIndividual()
 		{
-			return individual;
+			return _individual;
 		}
 
 		@Override
 		public void visit(final AtomDConstant constant)
 		{
-			data = null;
+			_data = null;
 		}
 
 		@Override
 		public void visit(final AtomDVariable var)
 		{
-			if (data != null)
-				data = dataVars.put(var, data);
+			if (_data != null)
+				_data = _dataVars.put(var, _data);
 		}
 
 		@Override
 		public void visit(final AtomIConstant constant)
 		{
-			individual = null;
+			_individual = null;
 		}
 
 		@Override
 		public void visit(final AtomIVariable var)
 		{
-			if (individual != null)
-				individual = instanceVars.put(var, individual);
+			if (_individual != null)
+				_individual = _instanceVars.put(var, _individual);
 		}
 
 	}
 
-	private final ABox abox;
+	private final ABox _abox;
 
-	private final Map<AtomDVariable, Literal> dataVars;
+	private final Map<AtomDVariable, Literal> _dataVars;
 
-	private final Map<AtomIVariable, Individual> instanceVars;
+	private final Map<AtomIVariable, Individual> _instanceVars;
 
 	public VariableBinding(final ABox abox)
 	{
-		this.abox = abox;
-		dataVars = new HashMap<>();
-		instanceVars = new HashMap<>();
+		this._abox = abox;
+		_dataVars = new HashMap<>();
+		_instanceVars = new HashMap<>();
 	}
 
 	/**
@@ -210,31 +210,31 @@ public class VariableBinding
 	 */
 	public VariableBinding(final VariableBinding binding)
 	{
-		abox = binding.abox;
-		dataVars = new HashMap<>(binding.dataVars);
-		instanceVars = new HashMap<>(binding.instanceVars);
+		_abox = binding._abox;
+		_dataVars = new HashMap<>(binding._dataVars);
+		_instanceVars = new HashMap<>(binding._instanceVars);
 	}
 
 	public boolean containsKey(final AtomDVariable key)
 	{
-		return dataVars.containsKey(key);
+		return _dataVars.containsKey(key);
 	}
 
 	public boolean containsKey(final AtomIVariable key)
 	{
-		return instanceVars.containsKey(key);
+		return _instanceVars.containsKey(key);
 	}
 
 	public Set<Map.Entry<AtomDVariable, Literal>> dataEntrySet()
 	{
-		return dataVars.entrySet();
+		return _dataVars.entrySet();
 	}
 
 	public Set<Map.Entry<? extends AtomVariable, ? extends Node>> entrySet()
 	{
 		final Set<Map.Entry<? extends AtomVariable, ? extends Node>> entries = new HashSet<>();
-		entries.addAll(dataVars.entrySet());
-		entries.addAll(instanceVars.entrySet());
+		entries.addAll(_dataVars.entrySet());
+		entries.addAll(_instanceVars.entrySet());
 		return entries;
 	}
 
@@ -244,7 +244,7 @@ public class VariableBinding
 		if (other instanceof VariableBinding)
 		{
 			final VariableBinding otherBinding = (VariableBinding) other;
-			if (dataVars.equals(otherBinding.dataVars) && instanceVars.equals(otherBinding.instanceVars))
+			if (_dataVars.equals(otherBinding._dataVars) && _instanceVars.equals(otherBinding._instanceVars))
 				return true;
 		}
 		return false;
@@ -261,7 +261,7 @@ public class VariableBinding
 	}
 
 	/**
-	 * If the key is a variable, return the individual associated with it in the map. If the key is a constant, return the corresponding individual from the
+	 * If the key is a variable, return the _individual associated with it in the map. If the key is a constant, return the corresponding _individual from the
 	 * _abox.
 	 */
 	public Individual get(final AtomIObject key)
@@ -273,17 +273,17 @@ public class VariableBinding
 
 	public ABox getABox()
 	{
-		return abox;
+		return _abox;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return dataVars.hashCode() + instanceVars.hashCode();
+		return _dataVars.hashCode() + _instanceVars.hashCode();
 	}
 
 	/**
-	 * If the key is a data variable, set the value. Otherwise, ignore it.
+	 * If the key is a _data variable, set the value. Otherwise, ignore it.
 	 */
 	public Literal set(final AtomDObject key, final Literal value)
 	{
@@ -322,9 +322,9 @@ public class VariableBinding
 	public String toString()
 	{
 		final StringBuffer buffer = new StringBuffer("{");
-		buffer.append(instanceVars);
+		buffer.append(_instanceVars);
 		buffer.append(", ");
-		buffer.append(dataVars);
+		buffer.append(_dataVars);
 		buffer.append("}");
 		return buffer.toString();
 	}

@@ -90,7 +90,7 @@ public class MiscTests
 	}
 
 	@Test
-	public void universalTest() throws FileNotFoundException
+	public void universalTest()
 	{
 		model.read(this.getClass().getClassLoader().getResourceAsStream("test/data/misc/universal-property.owl"), null);
 		final ObjectProperty universal = model.getObjectProperty("http://www.inmindcomputing.com/example/universal.owl#universalProperty");

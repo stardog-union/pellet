@@ -11,34 +11,34 @@ import org.mindswap.pellet.DependencySet;
 
 public class PartialBinding
 {
-	private final Rule rule;
-	private final VariableBinding binding;
-	private final DependencySet ds;
+	private final Rule _rule;
+	private final VariableBinding _binding;
+	private final DependencySet _ds;
 
 	public PartialBinding(final Rule rule, final VariableBinding binding, final DependencySet ds)
 	{
-		this.rule = rule;
-		this.binding = binding;
-		this.ds = ds;
+		this._rule = rule;
+		this._binding = binding;
+		this._ds = ds;
 	}
 
 	Rule getRule()
 	{
-		return rule;
+		return _rule;
 	}
 
 	VariableBinding getBinding()
 	{
-		return binding;
+		return _binding;
 	}
 
 	DependencySet getDependencySet()
 	{
-		return ds;
+		return _ds;
 	}
 
 	int getBranch()
 	{
-		return ds.max();
+		return _ds.max();
 	}
 }

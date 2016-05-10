@@ -132,7 +132,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		final OntClass E = model.createClass(ns + "E");
 		D.addDisjointWith(E);
 
-		// add individual
+		// add _individual
 		final Individual i4 = model.createIndividual(ns + "i4", D);
 
 		final PelletInfGraph graph = (PelletInfGraph) model.getGraph();
@@ -182,7 +182,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		// check consistency
 		model.prepare();
 
-		// add individual
+		// add _individual
 		final Individual i4 = model.createIndividual(ns + "i4", D);
 
 		final PelletInfGraph graph = (PelletInfGraph) model.getGraph();
@@ -420,7 +420,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		// load everything and check consistency
 		assertTrue(model.validate().isValid());
 
-		// add a type relation for an existing individual
+		// add a type relation for an existing _individual
 		a.addRDFType(cls);
 
 		// verify instance relation
@@ -430,7 +430,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		// graph
 		assertIteratorValues(cls.listInstances(true), new Resource[] { a });
 
-		// add a new instance relation to a new individual
+		// add a new instance relation to a new _individual
 		final Individual b = model.createIndividual(ns + "b", cls);
 
 		// verify inference
@@ -469,7 +469,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		inferences.add(a, p, b);
 		assertPropertyValues(model, p, inferences);
 
-		// add a new property assertion using a new individual
+		// add a new property assertion using a new _individual
 		final Individual c = model.createIndividual(ns + "c", OWL.Thing);
 		model.add(a, q, c);
 
@@ -513,7 +513,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		inferences.add(a, p, s2);
 		assertPropertyValues(model, p, inferences);
 
-		// delete one data property assertion
+		// delete one _data property assertion
 		model.remove(a, q, s2);
 
 		// verify inference using super property

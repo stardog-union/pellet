@@ -43,7 +43,7 @@ public class MiscSPARQLDLTest
 
 			final OntModel m = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-			// Then read the data from the file into the ontology model
+			// Then read the _data from the file into the ontology model
 			m.read(ontologyStream, "http://test.com/");
 
 			m.prepare();

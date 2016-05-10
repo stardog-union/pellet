@@ -59,7 +59,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 			// be handled
 
 			// The following tests require [object/data]property punning in the
-			// data
+			// _data
 			"open-eq-07", "open-eq-08", "open-eq-09", "open-eq-10", "open-eq-11", "open-eq-12",
 
 			// not an approved test (and in clear conflict with

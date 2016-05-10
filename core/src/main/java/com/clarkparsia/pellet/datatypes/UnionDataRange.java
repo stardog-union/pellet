@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * <p>
- * Title: Union data range
+ * Title: Union _data range
  * </p>
  * <p>
  * Description: A _disjunction of {@link DataRange} objects
@@ -102,7 +102,7 @@ public class UnionDataRange<T> implements DataRange<T>
 
 		/*
 		 * This implementation avoids allocating the value iterators for the
-		 * data ranges until (and only if) they are needed. This is a
+		 * _data ranges until (and only if) they are needed. This is a
 		 * micro-optimization relative to using
 		 * org.mindswap.pellet.utils.iterator.MultiIterator
 		 */

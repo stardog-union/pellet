@@ -263,7 +263,7 @@ public class OWL
 	 * Convenience method that obtains a constant typed as an integer.
 	 *
 	 * @param value The value of the constant
-	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose data type is xsd:boolean.
+	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose _data type is xsd:boolean.
 	 */
 	public static OWLLiteral constant(final boolean value)
 	{
@@ -274,7 +274,7 @@ public class OWL
 	 * Convenience method that obtains a constant typed as an integer.
 	 *
 	 * @param value The value of the constant
-	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose data type is xsd:double.
+	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose _data type is xsd:double.
 	 */
 	public static OWLLiteral constant(final double value)
 	{
@@ -285,7 +285,7 @@ public class OWL
 	 * Convenience method that obtains a constant typed as an integer.
 	 *
 	 * @param value The value of the constant
-	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose data type is xsd:float.
+	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose _data type is xsd:float.
 	 */
 	public static OWLLiteral constant(final float value)
 	{
@@ -296,7 +296,7 @@ public class OWL
 	 * Convenience method that obtains a constant typed as an integer.
 	 *
 	 * @param value The value of the constant
-	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose data type is xsd:integer.
+	 * @return An <code>OWLLiteral</code> whose literal is the lexical value of the integer, and whose _data type is xsd:integer.
 	 */
 	public static OWLLiteral constant(final int value)
 	{

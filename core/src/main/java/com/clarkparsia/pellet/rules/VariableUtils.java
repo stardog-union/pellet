@@ -65,7 +65,7 @@ public class VariableUtils
 	}
 
 	/**
-	 * Collects all data variables that it visits
+	 * Collects all _data variables that it visits
 	 */
 	private static class VisitingDCollector extends DefaultAtomObjectVisitor
 	{

@@ -43,7 +43,7 @@ public interface IncrementalChangeTracker
 	public boolean addDeletedEdge(Edge e);
 
 	/**
-	 * Record that a type was deleted from an individual
+	 * Record that a type was deleted from an _individual
 	 *
 	 * @param n the Node
 	 * @param type the type
@@ -60,10 +60,10 @@ public interface IncrementalChangeTracker
 	public boolean addNewEdge(Edge e);
 
 	/**
-	 * Record that a new individual has been added to the ABox
+	 * Record that a new _individual has been added to the ABox
 	 *
 	 * @param i the Individual
-	 * @return boolean {@code true} if addition is not already noted for individual, {@code false} else
+	 * @return boolean {@code true} if addition is not already noted for _individual, {@code false} else
 	 */
 	public boolean addNewIndividual(Individual i);
 
@@ -76,10 +76,10 @@ public interface IncrementalChangeTracker
 	public boolean addUnprunedNode(Node n);
 
 	/**
-	 * Record that an individual has been updated
+	 * Record that an _individual has been updated
 	 *
 	 * @param i the Individual
-	 * @return boolean {@code true} if addition is not already noted for individual, {@code false} else
+	 * @return boolean {@code true} if addition is not already noted for _individual, {@code false} else
 	 */
 	public boolean addUpdatedIndividual(Individual i);
 

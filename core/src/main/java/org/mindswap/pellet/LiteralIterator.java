@@ -48,7 +48,7 @@ public class LiteralIterator implements Iterator<Literal>
 	}
 
 	/**
-	 * Create an iterator over all the individuals in the ABox but do not automatically find the first individual if findNext parameter is false
+	 * Create an iterator over all the individuals in the ABox but do not automatically find the first _individual if findNext parameter is false
 	 *
 	 * @param _abox
 	 * @param findNext

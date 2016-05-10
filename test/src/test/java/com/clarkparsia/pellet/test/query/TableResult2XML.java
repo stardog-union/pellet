@@ -106,7 +106,7 @@ public class TableResult2XML
 
 				final Model m = ModelFactory.createDefaultModel();
 
-				// next lines contain data
+				// next lines contain _data
 				while ((line = r.readLine()) != null)
 				{
 					int i = 0;

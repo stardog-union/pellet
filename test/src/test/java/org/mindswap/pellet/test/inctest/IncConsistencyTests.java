@@ -596,8 +596,8 @@ public class IncConsistencyTests extends AbstractKBTests
 
 			System.out.println("Branches: " + kb.getABox().getBranches());
 		}
-		// assertTrue(kb.getABox().getIndividual(robert).hasRNeighbor(kb.getRBox().getRole(owns)));
-		// assertTrue(kb.getABox().getIndividual(victor).hasRNeighbor(kb.getRBox().getRole(owns)));
+		// assertTrue(_kb.getABox().getIndividual(robert).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		// assertTrue(_kb.getABox().getIndividual(victor).hasRNeighbor(_kb.getRBox().getRole(owns)));
 
 		kb.addType(victor, not(man));
 		assertTrue(kb.isConsistent());
@@ -609,8 +609,8 @@ public class IncConsistencyTests extends AbstractKBTests
 
 			System.out.println("Branches: " + kb.getABox().getBranches());
 		}
-		// assertTrue(kb.getABox().getIndividual(robert).hasRNeighbor(kb.getRBox().getRole(owns)));
-		// assertFalse(kb.getABox().getIndividual(victor).hasRNeighbor(kb.getRBox().getRole(owns)));
+		// assertTrue(_kb.getABox().getIndividual(robert).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		// assertFalse(_kb.getABox().getIndividual(victor).hasRNeighbor(_kb.getRBox().getRole(owns)));
 
 		kb.removeType(victor, not(man));
 		assertTrue(kb.isConsistent());
@@ -1461,7 +1461,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		kb.addType(a, C);
 
-		// kb will be in classified state
+		// _kb will be in classified state
 		kb.classify();
 
 		assertTrue(kb.isType(a, D));
@@ -1477,7 +1477,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		assertTrue(kb.isType(b, D));
 		assertFalse(kb.isType(c, D));
 
-		// modify kb
+		// modify _kb
 		kb.addType(c, C);
 		// call prepare first
 		kb.prepare();

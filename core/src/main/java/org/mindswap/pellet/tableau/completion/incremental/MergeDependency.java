@@ -17,12 +17,12 @@ public class MergeDependency implements Dependency
 {
 
 	/**
-	 * The individual that _ind is merged to
+	 * The _individual that _ind is merged to
 	 */
 	private final ATermAppl _mergedIntoInd;
 
 	/**
-	 * The individual that is merged into _mergedIntoInd
+	 * The _individual that is merged into _mergedIntoInd
 	 */
 	private final ATermAppl _ind;
 
@@ -39,7 +39,7 @@ public class MergeDependency implements Dependency
 	}
 
 	/**
-	 * Get the individual that is merged into the other
+	 * Get the _individual that is merged into the other
 	 *
 	 * @return
 	 */
@@ -49,7 +49,7 @@ public class MergeDependency implements Dependency
 	}
 
 	/**
-	 * Get the individual that has _ind merged into it
+	 * Get the _individual that has _ind merged into it
 	 *
 	 * @return
 	 */

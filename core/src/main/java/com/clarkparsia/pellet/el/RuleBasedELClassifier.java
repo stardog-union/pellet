@@ -69,10 +69,10 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 	{
 		reset();
 
-		monitor.setProgressTitle("Classifiying");
-		monitor.setProgressLength(classes.size());
-		monitor.taskStarted();
-		monitor.setProgress(0);
+		_monitor.setProgressTitle("Classifiying");
+		_monitor.setProgressLength(_classes.size());
+		_monitor.taskStarted();
+		_monitor.setProgress(0);
 
 		logger.info("Creating structures");
 
@@ -82,9 +82,9 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 
 		logger.info("Running rules");
 
-		final MultiValueMap<ATermAppl, ATermAppl> subsumers = run(kb.getAllClasses());
+		final MultiValueMap<ATermAppl, ATermAppl> subsumers = run(_kb.getAllClasses());
 
-		monitor.setProgress(classes.size());
+		_monitor.setProgress(_classes.size());
 
 		logger.info("Building hierarchy");
 
@@ -92,8 +92,8 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 		buildTaxonomy(subsumers);
 		t.stop();
 
-		monitor.setProgress(classes.size());
-		monitor.taskFinished();
+		_monitor.setProgress(_classes.size());
+		_monitor.taskFinished();
 
 		return true;
 	}
@@ -116,7 +116,7 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 		//			}
 		//		}
 
-		taxonomy = new GenericTaxonomyBuilder().build(subsumers);
+		_taxonomy = new GenericTaxonomyBuilder().build(subsumers);
 	}
 
 	private void toELSubClassAxioms(final ATermAppl axiom)
@@ -153,21 +153,21 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 		//EquivalentClass -> SubClasses
 		//Disjoint Classes -> SubClass
 		//Normalize ATerm lists to sets
-		final Collection<ATermAppl> assertedAxioms = kb.getTBox().getAssertedAxioms();
+		final Collection<ATermAppl> assertedAxioms = _kb.getTBox().getAssertedAxioms();
 		for (final ATermAppl assertedAxiom : assertedAxioms)
 			toELSubClassAxioms(assertedAxiom);
 
 		//Role Hierarchies
-		for (final Role r : kb.getRBox().getRoles())
+		for (final Role r : _kb.getRBox().getRoles())
 		{
 			final ATermAppl role = r.getName();
-			for (final Set<ATermAppl> supers : kb.getSuperProperties(role))
+			for (final Set<ATermAppl> supers : _kb.getSuperProperties(role))
 				for (final ATermAppl sup : supers)
 					addRoleHierarchyRule(role, sup);
 		}
 
 		//Role Chains
-		for (final Role supRole : kb.getRBox().getRoles())
+		for (final Role supRole : _kb.getRBox().getRoles())
 			for (final ATermList chainList : supRole.getSubRoleChains())
 			{
 				final ATerm[] chain = ATermUtils.toArray(chainList);
@@ -175,7 +175,7 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 			}
 
 		//Role Domain Restrictions
-		final RoleRestrictionCache roleRestrictions = new RoleRestrictionCache(kb.getRBox());
+		final RoleRestrictionCache roleRestrictions = new RoleRestrictionCache(_kb.getRBox());
 		for (final Entry<ATermAppl, ATermAppl> entry : roleRestrictions.getDomains().entrySet())
 			addRoleDomainRule(entry.getKey(), entry.getValue());
 
@@ -184,7 +184,7 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 			addRoleRangeRule(entry.getKey(), entry.getValue());
 
 		//Reflexive Roles
-		for (final Role role : kb.getRBox().getRoles())
+		for (final Role role : _kb.getRBox().getRoles())
 			if (role.isReflexive())
 			{
 				final ATermAppl range = roleRestrictions.getRange(role.getName());

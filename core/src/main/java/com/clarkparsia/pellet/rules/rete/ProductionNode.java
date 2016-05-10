@@ -32,13 +32,13 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public abstract class ProductionNode extends BetaNode
 {
-	protected ContinuousRulesStrategy strategy;
+	protected ContinuousRulesStrategy _strategy;
 	protected Set<ATermAppl> explain;
 	protected DependencySet ds;
 
 	public ProductionNode(final ContinuousRulesStrategy strategy, final Set<ATermAppl> explain)
 	{
-		this.strategy = strategy;
+		this._strategy = strategy;
 		this.explain = explain;
 	}
 
@@ -50,7 +50,7 @@ public abstract class ProductionNode extends BetaNode
 
 	protected void resetDependencySet(final Token token)
 	{
-		final boolean doExplanation = strategy.getABox().doExplanation();
+		final boolean doExplanation = _strategy.getABox().doExplanation();
 		ds = token.getDepends(doExplanation);
 		if (doExplanation)
 			ds = ds.union(explain, doExplanation);
@@ -61,7 +61,7 @@ public abstract class ProductionNode extends BetaNode
 		Node node = provider.getNode(null, token);
 		if (node.isMerged())
 		{
-			final boolean doExplanation = strategy.getABox().doExplanation();
+			final boolean doExplanation = _strategy.getABox().doExplanation();
 			ds = ds.union(node.getMergeDependency(true), doExplanation);
 			node = node.getSame();
 		}
@@ -87,7 +87,7 @@ public abstract class ProductionNode extends BetaNode
 		public void activate(final Token token)
 		{
 			resetDependencySet(token);
-			strategy.getABox().setClash(Clash.unexplained(null, ds));
+			_strategy.getABox().setClash(Clash.unexplained(null, ds));
 		}
 
 		@Override
@@ -116,7 +116,7 @@ public abstract class ProductionNode extends BetaNode
 			resetDependencySet(token);
 			final Node s = getNode(subject, token);
 			if (!s.hasType(type))
-				strategy.addType(s, type, ds);
+				_strategy.addType(s, type, ds);
 		}
 
 		@Override
@@ -156,9 +156,9 @@ public abstract class ProductionNode extends BetaNode
 			resetDependencySet(token);
 			final Node s = getNode(subject, token);
 			final Node o = getNode(object, token);
-			final Object edge = strategy.addEdge((Individual) s, role, o, ds);
-			if (log.isLoggable(Level.FINE))
-				log.fine("Produce edge " + token + " -> " + edge);
+			final Object edge = _strategy.addEdge((Individual) s, role, o, ds);
+			if (_log.isLoggable(Level.FINE))
+				_log.fine("Produce edge " + token + " -> " + edge);
 		}
 
 		@Override
@@ -181,7 +181,7 @@ public abstract class ProductionNode extends BetaNode
 			resetDependencySet(token);
 			final Node s = getNode(subject, token);
 			final Node o = getNode(object, token);
-			strategy.mergeTo(s, o, ds);
+			_strategy.mergeTo(s, o, ds);
 		}
 
 		@Override
@@ -204,7 +204,7 @@ public abstract class ProductionNode extends BetaNode
 			resetDependencySet(token);
 			final Node s = getNode(subject, token);
 			final Node o = getNode(object, token);
-			strategy.setDifferent(s, o, ds);
+			_strategy.setDifferent(s, o, ds);
 		}
 
 		@Override
@@ -230,7 +230,7 @@ public abstract class ProductionNode extends BetaNode
 		public void activate(final Token token)
 		{
 			resetDependencySet(token);
-			final VariableBinding binding = new VariableBinding(strategy.getABox());
+			final VariableBinding binding = new VariableBinding(_strategy.getABox());
 			for (final Entry<AtomVariable, NodeProvider> entry : args.entrySet())
 			{
 				final AtomObject arg = entry.getKey();
@@ -240,9 +240,9 @@ public abstract class ProductionNode extends BetaNode
 				else
 					binding.set((AtomDVariable) arg, (Literal) node);
 			}
-			if (log.isLoggable(Level.FINE))
-				log.fine("Produce binding " + rule + " -> " + binding);
-			strategy.addPartialBinding(new PartialBinding(rule, binding, ds));
+			if (_log.isLoggable(Level.FINE))
+				_log.fine("Produce binding " + rule + " -> " + binding);
+			_strategy.addPartialBinding(new PartialBinding(rule, binding, ds));
 		}
 
 		@Override
