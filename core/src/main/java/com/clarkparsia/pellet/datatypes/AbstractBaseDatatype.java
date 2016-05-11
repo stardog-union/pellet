@@ -22,8 +22,8 @@ import org.mindswap.pellet.utils.ATermUtils;
 public abstract class AbstractBaseDatatype<T> implements Datatype<T>
 {
 
-	private final int hashCode;
-	private final ATermAppl name;
+	private final int _hashCode;
+	private final ATermAppl _name;
 
 	protected AbstractBaseDatatype(final ATermAppl name)
 	{
@@ -32,8 +32,8 @@ public abstract class AbstractBaseDatatype<T> implements Datatype<T>
 		if (name.getArity() != 0)
 			throw new IllegalArgumentException();
 
-		this.name = name;
-		this.hashCode = name.hashCode();
+		this._name = name;
+		this._hashCode = name.hashCode();
 	}
 
 	@Override
@@ -72,13 +72,13 @@ public abstract class AbstractBaseDatatype<T> implements Datatype<T>
 	@Override
 	public ATermAppl getName()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return hashCode;
+		return _hashCode;
 	}
 
 }

@@ -21,14 +21,11 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDNCName extends AbstractBaseDatatype<ATermAppl>
 {
 
-	private static final XSDNCName instance;
-	private static final RDFPlainLiteral RDF_PLAIN_LITERAL;
+	private static final XSDNCName instance = new XSDNCName();
+	private static final RDFPlainLiteral RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
 
 	static
 	{
-		RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
-
-		instance = new XSDNCName();
 		RestrictedTextDatatype.addPermittedDatatype(instance.getName());
 	}
 

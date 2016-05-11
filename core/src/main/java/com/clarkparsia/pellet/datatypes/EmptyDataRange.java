@@ -22,11 +22,11 @@ import java.util.NoSuchElementException;
 public class EmptyDataRange<T> implements DataRange<T>
 {
 
-	final private Iterator<T> iterator;
+	final private Iterator<T> _iterator;
 
 	public EmptyDataRange()
 	{
-		this.iterator = new EmptyIterator<>();
+		this._iterator = new EmptyIterator<>();
 	}
 
 	@Override
@@ -41,6 +41,7 @@ public class EmptyDataRange<T> implements DataRange<T>
 		return n <= 0;
 	}
 
+	@Deprecated
 	@Override
 	public T getValue(final int i)
 	{
@@ -65,6 +66,7 @@ public class EmptyDataRange<T> implements DataRange<T>
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public int size()
 	{
@@ -74,7 +76,7 @@ public class EmptyDataRange<T> implements DataRange<T>
 	@Override
 	public Iterator<T> valueIterator()
 	{
-		return iterator;
+		return _iterator;
 	}
 
 }

@@ -33,7 +33,7 @@ public class IEEEDoubleType implements FloatingPointType<Double>
 
 	private IEEEDoubleType()
 	{
-		;
+		//
 	}
 
 	@Override

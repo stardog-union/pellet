@@ -8,7 +8,7 @@ import java.util.Collection;
  * Title: Empty Iterator
  * </p>
  * <p>
- * Description: Re-usable empty restricted datatype implementation. Cannot be static so that parameterization is handled correctly.
+ * Description: Re-usable empty restricted _datatype implementation. Cannot be static so that parameterization is handled correctly.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -22,12 +22,12 @@ import java.util.Collection;
 public class EmptyRestrictedDatatype<T> extends EmptyDataRange<T> implements RestrictedDatatype<T>
 {
 
-	final private Datatype<? extends T> datatype;
+	final private Datatype<? extends T> _datatype;
 
 	public EmptyRestrictedDatatype(final Datatype<? extends T> datatype)
 	{
 		super();
-		this.datatype = datatype;
+		this._datatype = datatype;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class EmptyRestrictedDatatype<T> extends EmptyDataRange<T> implements Res
 		return this;
 	}
 
-	public void getConstrainingFacetValues(final ATermAppl[] facets, final Object[] values)
+	public void getConstrainingFacetValues(@SuppressWarnings("unused") final ATermAppl[] facets, @SuppressWarnings("unused") final Object[] values)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -50,10 +50,10 @@ public class EmptyRestrictedDatatype<T> extends EmptyDataRange<T> implements Res
 	@Override
 	public Datatype<? extends T> getDatatype()
 	{
-		return datatype;
+		return _datatype;
 	}
 
-	public boolean inFacetSpace(final ATermAppl facet, final Object value)
+	public boolean inFacetSpace(@SuppressWarnings("unused") final ATermAppl facet, @SuppressWarnings("unused") final Object value)
 	{
 		throw new UnsupportedOperationException();
 	}

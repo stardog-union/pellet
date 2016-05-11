@@ -30,24 +30,13 @@ import java.util.logging.Logger;
  */
 public class ContinuousRealInterval
 {
+	private static final Logger log = Logger.getLogger(ContinuousRealInterval.class.getCanonicalName());
 
-	private static final Logger log;
-
-	private static ContinuousRealInterval unconstrained;
-
-	static
-	{
-		log = Logger.getLogger(ContinuousRealInterval.class.getCanonicalName());
-	}
-
-	static
-	{
-		unconstrained = new ContinuousRealInterval(null, null, true, true);
-	}
+	private static ContinuousRealInterval _unconstrained = new ContinuousRealInterval(null, null, true, true);
 
 	public static ContinuousRealInterval allReals()
 	{
-		return unconstrained;
+		return _unconstrained;
 	}
 
 	private static IntervalRelations compare(final ContinuousRealInterval a, final ContinuousRealInterval b)
@@ -205,34 +194,34 @@ public class ContinuousRealInterval
 		return uu;
 	}
 
-	private final boolean inclusiveLower;
-	private final boolean inclusiveUpper;
-	private final Number lower;
-	private final boolean point;
-	private final Number upper;
+	private final boolean _inclusiveLower;
+	private final boolean _inclusiveUpper;
+	private final Number _lower;
+	private final boolean _point;
+	private final Number _upper;
 
 	/**
-	 * Create a point interval. This is equivalent to {@link #OWLRealInterval(Number, Number, boolean, boolean)} with arguments
-	 * <code>point,point,true,true</code>
+	 * Create a _point interval. This is equivalent to {@link #OWLRealInterval(Number, Number, boolean, boolean)} with arguments
+	 * <code>_point,_point,true,true</code>
 	 *
-	 * @param point Value of point interval
+	 * @param _point Value of _point interval
 	 */
 	public ContinuousRealInterval(final Number point)
 	{
-		this.lower = point;
-		this.upper = point;
-		this.point = true;
-		this.inclusiveLower = true;
-		this.inclusiveUpper = true;
+		this._lower = point;
+		this._upper = point;
+		this._point = true;
+		this._inclusiveLower = true;
+		this._inclusiveUpper = true;
 	}
 
 	/**
 	 * Create an interval. <code>null</code> should be used to indicate unbound (i.e., infinite intervals).
 	 *
-	 * @param lower Interval lower bound
-	 * @param upper Interval upper bound
-	 * @param inclusiveLower <code>true</code> if lower bound is inclusive, <code>false</code> for exclusive. Ignored if <code>lower == null</code>.
-	 * @param inclusiveUpper <code>true</code> if upper bound is inclusive, <code>false</code> for exclusive. Ignored if <code>upper == null</code>.
+	 * @param _lower Interval _lower bound
+	 * @param _upper Interval _upper bound
+	 * @param _inclusiveLower <code>true</code> if _lower bound is inclusive, <code>false</code> for exclusive. Ignored if <code>_lower == null</code>.
+	 * @param _inclusiveUpper <code>true</code> if _upper bound is inclusive, <code>false</code> for exclusive. Ignored if <code>_upper == null</code>.
 	 */
 	public ContinuousRealInterval(final Number lower, final Number upper, final boolean inclusiveLower, final boolean inclusiveUpper)
 	{
@@ -241,7 +230,7 @@ public class ContinuousRealInterval
 			final int cmp = OWLRealUtils.compare(lower, upper);
 			if (cmp > 0)
 			{
-				final String msg = format("Lower bound of interval (%s) should not be greater than upper bound of interval (%s)", lower, upper);
+				final String msg = format("Lower bound of interval (%s) should not be greater than _upper bound of interval (%s)", lower, upper);
 				log.severe(msg);
 				throw new IllegalArgumentException(msg);
 			}
@@ -255,22 +244,22 @@ public class ContinuousRealInterval
 					}
 		}
 
-		this.lower = lower;
-		this.upper = upper;
-		this.inclusiveLower = (lower == null) ? false : inclusiveLower;
-		this.inclusiveUpper = (upper == null) ? false : inclusiveUpper;
+		this._lower = lower;
+		this._upper = upper;
+		this._inclusiveLower = (lower == null) ? false : inclusiveLower;
+		this._inclusiveUpper = (upper == null) ? false : inclusiveUpper;
 
-		this.point = (lower != null && upper != null && lower.equals(upper));
+		this._point = (lower != null && upper != null && lower.equals(upper));
 	}
 
 	public boolean boundLower()
 	{
-		return (lower != null);
+		return (_lower != null);
 	}
 
 	public boolean boundUpper()
 	{
-		return (upper != null);
+		return (_upper != null);
 	}
 
 	public boolean canUnionWith(final ContinuousRealInterval other)
@@ -318,43 +307,43 @@ public class ContinuousRealInterval
 		if (getClass() != obj.getClass())
 			return false;
 		final ContinuousRealInterval other = (ContinuousRealInterval) obj;
-		if (inclusiveLower != other.inclusiveLower)
+		if (_inclusiveLower != other._inclusiveLower)
 			return false;
-		if (inclusiveUpper != other.inclusiveUpper)
+		if (_inclusiveUpper != other._inclusiveUpper)
 			return false;
-		if (lower == null)
+		if (_lower == null)
 		{
-			if (other.lower != null)
+			if (other._lower != null)
 				return false;
 		}
 		else
-			if (other.lower == null)
+			if (other._lower == null)
 				return false;
 			else
-				if (OWLRealUtils.compare(lower, other.lower) != 0)
+				if (OWLRealUtils.compare(_lower, other._lower) != 0)
 					return false;
-		if (upper == null)
+		if (_upper == null)
 		{
-			if (other.upper != null)
+			if (other._upper != null)
 				return false;
 		}
 		else
-			if (other.upper == null)
+			if (other._upper == null)
 				return false;
 			else
-				if (OWLRealUtils.compare(upper, other.upper) != 0)
+				if (OWLRealUtils.compare(_upper, other._upper) != 0)
 					return false;
 		return true;
 	}
 
 	public Number getLower()
 	{
-		return lower;
+		return _lower;
 	}
 
 	public Number getUpper()
 	{
-		return upper;
+		return _upper;
 	}
 
 	/**
@@ -378,21 +367,21 @@ public class ContinuousRealInterval
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (inclusiveLower ? 1231 : 1237);
-		result = prime * result + (inclusiveUpper ? 1231 : 1237);
-		result = prime * result + ((lower == null) ? 0 : lower.hashCode());
-		result = prime * result + ((upper == null) ? 0 : upper.hashCode());
+		result = prime * result + (_inclusiveLower ? 1231 : 1237);
+		result = prime * result + (_inclusiveUpper ? 1231 : 1237);
+		result = prime * result + ((_lower == null) ? 0 : _lower.hashCode());
+		result = prime * result + ((_upper == null) ? 0 : _upper.hashCode());
 		return result;
 	}
 
 	public boolean inclusiveLower()
 	{
-		return inclusiveLower;
+		return _inclusiveLower;
 	}
 
 	public boolean inclusiveUpper()
 	{
-		return inclusiveUpper;
+		return _inclusiveUpper;
 	}
 
 	public ContinuousRealInterval intersection(final ContinuousRealInterval that)
@@ -474,7 +463,7 @@ public class ContinuousRealInterval
 
 	public boolean isPoint()
 	{
-		return point;
+		return _point;
 	}
 
 	/**
@@ -552,7 +541,7 @@ public class ContinuousRealInterval
 
 	public Number size()
 	{
-		if (!point)
+		if (!_point)
 			throw new IllegalStateException();
 		else
 			return 1;

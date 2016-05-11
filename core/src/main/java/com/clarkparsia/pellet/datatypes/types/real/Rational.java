@@ -31,17 +31,8 @@ import javax.xml.bind.DatatypeConverter;
  */
 public class Rational extends Number implements Comparable<Rational>
 {
-
-	private static final long serialVersionUID;
-	private static final Pattern lexicalPattern;
-
-	static
-	{
-		serialVersionUID = 1L;
-
-		final String regex = "\\s*([+-])?\\s*(\\d+)\\s*/\\s*(\\d+)\\s*";
-		lexicalPattern = Pattern.compile(regex);
-	}
+	private static final long serialVersionUID = 1L;
+	private static final Pattern _lexicalPattern = Pattern.compile("\\s*([+-])?\\s*(\\d+)\\s*/\\s*(\\d+)\\s*");
 
 	public static int compare(final Rational a, final Rational b)
 	{
@@ -83,7 +74,7 @@ public class Rational extends Number implements Comparable<Rational>
 		if (s == null)
 			throw new NullPointerException();
 
-		final Matcher m = lexicalPattern.matcher(s);
+		final Matcher m = _lexicalPattern.matcher(s);
 		if (!m.matches())
 			throw new NumberFormatException(s);
 
@@ -120,18 +111,18 @@ public class Rational extends Number implements Comparable<Rational>
 			return new Rational(canonicalNum, canonicalDenom);
 	}
 
-	private final Number denominator;
+	private final Number _denominator;
 	private final boolean exact;
-	private final Number numerator;
+	private final Number _numerator;
 	private final Number quotient;
 
 	@Override
 	public String toString()
 	{
 		final StringBuffer buf = new StringBuffer();
-		buf.append(DatatypeConverter.printInteger(OWLRealUtils.bigInteger(numerator)));
+		buf.append(DatatypeConverter.printInteger(OWLRealUtils.bigInteger(_numerator)));
 		buf.append(" / ");
-		buf.append(DatatypeConverter.printInteger(OWLRealUtils.bigInteger(denominator)));
+		buf.append(DatatypeConverter.printInteger(OWLRealUtils.bigInteger(_denominator)));
 		return buf.toString();
 	}
 
@@ -140,17 +131,17 @@ public class Rational extends Number implements Comparable<Rational>
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((denominator == null) ? 0 : denominator.hashCode());
-		result = prime * result + ((numerator == null) ? 0 : numerator.hashCode());
+		result = prime * result + ((_denominator == null) ? 0 : _denominator.hashCode());
+		result = prime * result + ((_numerator == null) ? 0 : _numerator.hashCode());
 		return result;
 	}
 
 	/**
 	 * Compares this <code>Rational</code> with the specified <code>Object</code> for equality. Unlike compareTo, this method considers two
-	 * <code>Rational</code> objects equal only if they are equal in numerator and denominator.
+	 * <code>Rational</code> objects equal only if they are equal in _numerator and _denominator.
 	 *
 	 * @param obj <code>Object</code> to which this <code>Rational</code> is to be compared
-	 * @return <code>true> if and only if the specified <code>Object</code> is a <code>Rational</code> whose numerator and denominator are equal to this
+	 * @return <code>true> if and only if the specified <code>Object</code> is a <code>Rational</code> whose _numerator and _denominator are equal to this
 	 *         <code>Rational</code>'s.
 	 */
 	@Override
@@ -163,21 +154,21 @@ public class Rational extends Number implements Comparable<Rational>
 		if (getClass() != obj.getClass())
 			return false;
 		final Rational other = (Rational) obj;
-		if (denominator == null)
+		if (_denominator == null)
 		{
-			if (other.denominator != null)
+			if (other._denominator != null)
 				return false;
 		}
 		else
-			if (!denominator.equals(other.denominator))
+			if (!_denominator.equals(other._denominator))
 				return false;
-		if (numerator == null)
+		if (_numerator == null)
 		{
-			if (other.numerator != null)
+			if (other._numerator != null)
 				return false;
 		}
 		else
-			if (!numerator.equals(other.numerator))
+			if (!_numerator.equals(other._numerator))
 				return false;
 		return true;
 	}
@@ -185,10 +176,10 @@ public class Rational extends Number implements Comparable<Rational>
 	/**
 	 * Construct a rational number from
 	 *
-	 * @param numerator An integer value
-	 * @param denominator A positive integer value
+	 * @param _numerator An integer value
+	 * @param _denominator A positive integer value
 	 * @throws IllegalArgumentException if this condition does not hold for the input parameters
-	 *         <code>OWLRealUtils.acceptable(numerator) && OWLRealUtils.isInteger(numerator) && OWLRealUtils.acceptable(denominator) && OWLRealUtils.isInteger(denominator) && denominator > 0</code>
+	 *         <code>OWLRealUtils.acceptable(_numerator) && OWLRealUtils.isInteger(_numerator) && OWLRealUtils.acceptable(_denominator) && OWLRealUtils.isInteger(_denominator) && _denominator > 0</code>
 	 */
 	public Rational(final Number numerator, final Number denominator)
 	{
@@ -204,8 +195,8 @@ public class Rational extends Number implements Comparable<Rational>
 		if (!OWLRealUtils.isInteger(denominator))
 			throw new IllegalArgumentException();
 
-		this.numerator = numerator;
-		this.denominator = denominator;
+		this._numerator = numerator;
+		this._denominator = denominator;
 
 		final BigDecimal n = OWLRealUtils.bigDecimal(numerator);
 		final BigDecimal d = OWLRealUtils.bigDecimal(denominator);
@@ -249,12 +240,12 @@ public class Rational extends Number implements Comparable<Rational>
 
 	public Number getDenominator()
 	{
-		return denominator;
+		return _denominator;
 	}
 
 	public Number getNumerator()
 	{
-		return numerator;
+		return _numerator;
 	}
 
 	public Number getQuotient()
@@ -281,7 +272,7 @@ public class Rational extends Number implements Comparable<Rational>
 
 	public int signum()
 	{
-		return OWLRealUtils.signum(numerator);
+		return OWLRealUtils.signum(_numerator);
 	}
 
 }

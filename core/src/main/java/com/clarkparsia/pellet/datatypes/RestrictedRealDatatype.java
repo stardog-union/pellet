@@ -35,40 +35,35 @@ import java.util.logging.Logger;
 public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 {
 
-	private final static Logger log;
-
-	static
-	{
-		log = Logger.getLogger(RestrictedRealDatatype.class.getCanonicalName());
-	}
+	private final static Logger log = Logger.getLogger(RestrictedRealDatatype.class.getCanonicalName());
 
 	/*
-	 * TODO: Evaluate storing intervals in a tree to improve the efficiency of
+	 * TODO: Evaluate storing _intervals in a tree to improve the efficiency of
 	 * #contains calls
 	 */
 
-	private final Datatype<? extends Number> datatype;
-	private final RestrictedDatatype<Number> empty;
-	private final boolean enumerable;
-	private final boolean finite;
-	private final List<OWLRealInterval> intervals;
+	private final Datatype<? extends Number> _datatype;
+	private final RestrictedDatatype<Number> _empty;
+	private final boolean _enumerable;
+	private final boolean _finite;
+	private final List<OWLRealInterval> _intervals;
 
 	public RestrictedRealDatatype(final Datatype<? extends Number> datatype, final OWLRealInterval interval)
 	{
-		this.datatype = datatype;
-		this.empty = new EmptyRestrictedDatatype<>(datatype);
-		this.intervals = Collections.singletonList(interval);
-		this.finite = interval.isFinite();
-		this.enumerable = interval.isPoint() || interval.getType().equals(OWLRealInterval.LineType.INTEGER_ONLY);
+		this._datatype = datatype;
+		this._empty = new EmptyRestrictedDatatype<>(datatype);
+		this._intervals = Collections.singletonList(interval);
+		this._finite = interval.isFinite();
+		this._enumerable = interval.isPoint() || interval.getType().equals(OWLRealInterval.LineType.INTEGER_ONLY);
 	}
 
 	private RestrictedRealDatatype(final RestrictedRealDatatype other, final List<OWLRealInterval> intervals)
 	{
-		this.datatype = other.datatype;
-		this.empty = other.empty;
-		this.intervals = Collections.unmodifiableList(intervals);
-		if (other.finite)
-			this.finite = true;
+		this._datatype = other._datatype;
+		this._empty = other._empty;
+		this._intervals = Collections.unmodifiableList(intervals);
+		if (other._finite)
+			this._finite = true;
 		else
 		{
 			boolean allFinite = true;
@@ -78,10 +73,10 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 					allFinite = false;
 					break;
 				}
-			this.finite = allFinite;
+			this._finite = allFinite;
 		}
-		if (other.enumerable)
-			this.enumerable = true;
+		if (other._enumerable)
+			this._enumerable = true;
 		else
 		{
 			boolean allEnumerable = true;
@@ -91,7 +86,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 					allEnumerable = false;
 					break;
 				}
-			this.enumerable = allEnumerable;
+			this._enumerable = allEnumerable;
 		}
 	}
 
@@ -109,7 +104,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 		final Facet f = Facet.Registry.get(facet);
 		if (f == null)
 		{
-			final String msg = format("Attempt to constrain datatype (%s) with unsupported constraining facet ('%s' , '%s')", getDatatype(), facet, value);
+			final String msg = format("Attempt to constrain _datatype (%s) with unsupported constraining facet ('%s' , '%s')", getDatatype(), facet, value);
 			log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
@@ -126,7 +121,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 		}
 		if (n == null)
 		{
-			final String msg = format("Attempt to constrain datatype (%s) using constraining facet ('%s') with an unsupported value ('%s')", getDatatype(), f, value);
+			final String msg = format("Attempt to constrain _datatype (%s) using constraining facet ('%s') with an unsupported value ('%s')", getDatatype(), f, value);
 			log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
@@ -172,7 +167,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 		final List<OWLRealInterval> revisedIntervals = new ArrayList<>();
 		boolean changes = false;
 
-		for (final OWLRealInterval i : intervals)
+		for (final OWLRealInterval i : _intervals)
 		{
 			final OWLRealInterval j = i.intersection(restriction);
 			if (j != null)
@@ -188,7 +183,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 		if (changes)
 		{
 			if (revisedIntervals.isEmpty())
-				return empty;
+				return _empty;
 			else
 				return new RestrictedRealDatatype(this, revisedIntervals);
 		}
@@ -206,11 +201,11 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 			{
 				/*
 				 * TODO: This could be made more efficient by looking at how
-				 * each contained check fails (e.g., if intervals is sorted by
+				 * each contained check fails (e.g., if _intervals is sorted by
 				 * boundaries and n is not contained, but less than upper, there
 				 * is no need to look further).
 				 */
-				for (final OWLRealInterval i : intervals)
+				for (final OWLRealInterval i : _intervals)
 					if (i.contains(n))
 						return true;
 				return false;
@@ -225,11 +220,11 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 	@Override
 	public boolean containsAtLeast(final int n)
 	{
-		if (!finite || n <= 0)
+		if (!_finite || n <= 0)
 			return true;
 
 		Number sum = 0;
-		for (final OWLRealInterval i : intervals)
+		for (final OWLRealInterval i : _intervals)
 		{
 			sum = OWLRealUtils.integerSum(sum, i.size());
 			if (OWLRealUtils.compare(n, sum) <= 0)
@@ -243,7 +238,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 	public RestrictedDatatype<Number> exclude(final Collection<?> values)
 	{
 		boolean changes = false;
-		final List<OWLRealInterval> revisedIntervals = new ArrayList<>(intervals);
+		final List<OWLRealInterval> revisedIntervals = new ArrayList<>(_intervals);
 
 		for (final Object o : values)
 			if (o instanceof Number)
@@ -274,7 +269,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 		if (changes)
 		{
 			if (revisedIntervals.isEmpty())
-				return empty;
+				return _empty;
 			else
 				return new RestrictedRealDatatype(this, revisedIntervals);
 		}
@@ -285,13 +280,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 	@Override
 	public Datatype<? extends Number> getDatatype()
 	{
-		return datatype;
-	}
-
-	@Override
-	public Number getValue(final int i)
-	{
-		throw new UnsupportedOperationException();
+		return _datatype;
 	}
 
 	@Override
@@ -308,7 +297,7 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 			if (negated)
 			{
 				intersectWith = new ArrayList<>(Arrays.asList(OWLRealInterval.allReals()));
-				for (final OWLRealInterval i : otherRRD.intervals)
+				for (final OWLRealInterval i : otherRRD._intervals)
 				{
 					final List<OWLRealInterval> tmp = new ArrayList<>();
 					for (final OWLRealInterval j : intersectWith)
@@ -317,9 +306,9 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 				}
 			}
 			else
-				intersectWith = otherRRD.intervals;
+				intersectWith = otherRRD._intervals;
 
-			for (final OWLRealInterval i : this.intervals)
+			for (final OWLRealInterval i : this._intervals)
 				for (final OWLRealInterval j : intersectWith)
 				{
 					final OWLRealInterval k = i.intersection(j);
@@ -327,11 +316,11 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 						revisedIntervals.add(k);
 				}
 
-			if (revisedIntervals.equals(this.intervals))
+			if (revisedIntervals.equals(this._intervals))
 				return this;
 			else
 				if (revisedIntervals.isEmpty())
-					return empty;
+					return _empty;
 				else
 					return new RestrictedRealDatatype(this, revisedIntervals);
 
@@ -349,23 +338,24 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 	@Override
 	public boolean isEnumerable()
 	{
-		return enumerable;
+		return _enumerable;
 	}
 
 	@Override
 	public boolean isFinite()
 	{
-		return finite;
+		return _finite;
 	}
 
+	@Deprecated
 	@Override
 	public int size()
 	{
-		if (!finite)
+		if (!_finite)
 			throw new IllegalStateException();
 
 		Number sum = 0;
-		for (final OWLRealInterval i : intervals)
+		for (final OWLRealInterval i : _intervals)
 		{
 			sum = OWLRealUtils.integerSum(sum, i.size());
 			if (OWLRealUtils.compare(Integer.MAX_VALUE, sum) <= 0)
@@ -381,9 +371,9 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 		{
 			final RestrictedRealDatatype otherRRD = (RestrictedRealDatatype) other;
 
-			final List<OWLRealInterval> revisedIntervals = new ArrayList<>(this.intervals);
+			final List<OWLRealInterval> revisedIntervals = new ArrayList<>(this._intervals);
 			final EnumSet<IntervalRelations> connected = EnumSet.complementOf(EnumSet.of(IntervalRelations.PRECEDED_BY, IntervalRelations.PRECEDES));
-			for (final OWLRealInterval i : otherRRD.intervals)
+			for (final OWLRealInterval i : otherRRD._intervals)
 			{
 				final List<OWLRealInterval> unionWith = new ArrayList<>();
 				for (final Iterator<OWLRealInterval> jt = revisedIntervals.iterator(); jt.hasNext();)
@@ -416,18 +406,18 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 	@Override
 	public Iterator<Number> valueIterator()
 	{
-		if (!enumerable)
+		if (!_enumerable)
 			throw new IllegalStateException();
 
 		/*
 		 * This implementation avoids allocating the value iterators for the
-		 * intervals until (and only if) they are needed. This is a
+		 * _intervals until (and only if) they are needed. This is a
 		 * micro-optimization relative to using
 		 * org.mindswap.pellet.utils.iterator.MultiIterator
 		 */
 		return new Iterator<Number>()
-		{
-			final Iterator<OWLRealInterval> iit = intervals.iterator();
+				{
+			final Iterator<OWLRealInterval> iit = _intervals.iterator();
 			Iterator<Number> nit = null;
 
 			@Override
@@ -457,13 +447,13 @@ public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 			{
 				throw new UnsupportedOperationException();
 			}
-		};
+				};
 	}
 
 	@Override
 	public String toString()
 	{
-		return format("{%s,%s}", datatype, intervals);
+		return format("{%s,%s}", _datatype, _intervals);
 	}
 
 }

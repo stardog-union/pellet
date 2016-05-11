@@ -24,12 +24,7 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDInteger extends AbstractDerivedIntegerType
 {
 
-	private static final XSDInteger instance;
-
-	static
-	{
-		instance = new XSDInteger();
-	}
+	private static final XSDInteger instance = new XSDInteger();
 
 	public static XSDInteger getInstance()
 	{

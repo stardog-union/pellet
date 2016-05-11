@@ -33,7 +33,7 @@ public class IEEEFloatType implements FloatingPointType<Float>
 
 	private IEEEFloatType()
 	{
-		;
+		//
 	}
 
 	@Override

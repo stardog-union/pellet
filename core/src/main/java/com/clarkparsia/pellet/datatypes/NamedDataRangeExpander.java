@@ -13,7 +13,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  * Title: Named Data Range Expander
  * </p>
  * <p>
- * Description: Substitutes one {@link ATermAppl} for another in a _data range description, based on input map. Used to implement OWL 2 datatype definitions.
+ * Description: Substitutes one {@link ATermAppl} for another in a _data range description, based on input _map. Used to implement OWL 2 datatype definitions.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -27,9 +27,9 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class NamedDataRangeExpander extends ATermBaseVisitor
 {
 
-	private Map<ATermAppl, ATermAppl> map;
-	private ATermAppl ret;
-	private boolean change;
+	private Map<ATermAppl, ATermAppl> _map;
+	private ATermAppl _ret;
+	private boolean _change;
 
 	/*
 	 * TODO: Handle nesting and cycles in definitions
@@ -39,7 +39,7 @@ public class NamedDataRangeExpander extends ATermBaseVisitor
 		if (map.isEmpty())
 			return input;
 
-		this.map = map;
+		this._map = map;
 		try
 		{
 			this.visit(input);
@@ -48,7 +48,7 @@ public class NamedDataRangeExpander extends ATermBaseVisitor
 		{
 			throw new IllegalArgumentException(e);
 		}
-		return ret;
+		return _ret;
 	}
 
 	@Override
@@ -66,19 +66,19 @@ public class NamedDataRangeExpander extends ATermBaseVisitor
 		{
 			final ATermAppl a = (ATermAppl) l.getFirst();
 			this.visit(a);
-			args.add(ret);
-			if (change)
+			args.add(_ret);
+			if (_change)
 				listChange = true;
 		}
 		if (listChange)
 		{
-			change = true;
-			ret = ATermUtils.makeAnd(ATermUtils.makeList(args));
+			_change = true;
+			_ret = ATermUtils.makeAnd(ATermUtils.makeList(args));
 		}
 		else
 		{
-			change = false;
-			ret = term;
+			_change = false;
+			_ret = term;
 		}
 	}
 
@@ -123,17 +123,17 @@ public class NamedDataRangeExpander extends ATermBaseVisitor
 	{
 		final ATermAppl a = (ATermAppl) term.getArgument(0);
 		this.visit(a);
-		if (change)
-			ret = ATermUtils.makeNot(ret);
+		if (_change)
+			_ret = ATermUtils.makeNot(_ret);
 		else
-			ret = term;
+			_ret = term;
 	}
 
 	@Override
 	public void visitOneOf(final ATermAppl term)
 	{
-		ret = term;
-		change = false;
+		_ret = term;
+		_change = false;
 	}
 
 	@Override
@@ -145,27 +145,27 @@ public class NamedDataRangeExpander extends ATermBaseVisitor
 		{
 			final ATermAppl a = (ATermAppl) l.getFirst();
 			this.visit(a);
-			args.add(ret);
-			if (change)
+			args.add(_ret);
+			if (_change)
 				listChange = true;
 		}
 		if (listChange)
 		{
-			change = true;
-			ret = ATermUtils.makeOr(ATermUtils.makeList(args));
+			_change = true;
+			_ret = ATermUtils.makeOr(ATermUtils.makeList(args));
 		}
 		else
 		{
-			change = false;
-			ret = term;
+			_change = false;
+			_ret = term;
 		}
 	}
 
 	@Override
 	public void visitRestrictedDatatype(final ATermAppl dt)
 	{
-		ret = dt;
-		change = false;
+		_ret = dt;
+		_change = false;
 	}
 
 	@Override
@@ -183,23 +183,23 @@ public class NamedDataRangeExpander extends ATermBaseVisitor
 	@Override
 	public void visitTerm(final ATermAppl term)
 	{
-		final ATermAppl a = map.get(term);
+		final ATermAppl a = _map.get(term);
 		if (a == null)
 		{
-			ret = term;
-			change = false;
+			_ret = term;
+			_change = false;
 		}
 		else
 		{
-			ret = a;
-			change = true;
+			_ret = a;
+			_change = true;
 		}
 	}
 
 	@Override
 	public void visitValue(final ATermAppl term)
 	{
-		ret = term;
-		change = false;
+		_ret = term;
+		_change = false;
 	}
 }

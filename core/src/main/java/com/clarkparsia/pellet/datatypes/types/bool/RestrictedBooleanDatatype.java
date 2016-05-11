@@ -29,22 +29,22 @@ import java.util.Iterator;
 public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 {
 
-	private final Datatype<Boolean> dt;
-	private final boolean permitFalse;
-	private final boolean permitTrue;
+	private final Datatype<Boolean> _dt;
+	private final boolean _permitFalse;
+	private final boolean _permitTrue;
 
 	public RestrictedBooleanDatatype(final Datatype<Boolean> dt)
 	{
-		this.dt = dt;
-		permitTrue = true;
-		permitFalse = true;
+		this._dt = dt;
+		_permitTrue = true;
+		_permitFalse = true;
 	}
 
 	private RestrictedBooleanDatatype(final RestrictedBooleanDatatype other, final boolean permitTrue, final boolean permitFalse)
 	{
-		this.dt = other.dt;
-		this.permitFalse = permitFalse;
-		this.permitTrue = permitTrue;
+		this._dt = other._dt;
+		this._permitFalse = permitFalse;
+		this._permitTrue = permitTrue;
 	}
 
 	@Override
@@ -60,9 +60,9 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 		{
 			final Boolean b = (Boolean) value;
 			if (b.booleanValue())
-				return permitTrue;
+				return _permitTrue;
 			else
-				return permitFalse;
+				return _permitFalse;
 		}
 		return false;
 	}
@@ -73,17 +73,17 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 		if (n <= 0)
 			return true;
 		if (n == 1)
-			return permitTrue || permitFalse;
+			return _permitTrue || _permitFalse;
 		if (n == 2)
-			return permitTrue && permitFalse;
+			return _permitTrue && _permitFalse;
 		return false;
 	}
 
 	@Override
 	public RestrictedDatatype<Boolean> exclude(final Collection<?> values)
 	{
-		boolean permitTrue = this.permitTrue;
-		boolean permitFalse = this.permitFalse;
+		boolean permitTrue = this._permitTrue;
+		boolean permitFalse = this._permitFalse;
 		for (final Object o : values)
 			if (o instanceof Boolean)
 			{
@@ -93,7 +93,7 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 				else
 					permitFalse = false;
 			}
-		if ((permitTrue == this.permitTrue) && (permitFalse == this.permitFalse))
+		if ((permitTrue == this._permitTrue) && (permitFalse == this._permitFalse))
 			return this;
 		else
 			return new RestrictedBooleanDatatype(this, permitTrue, permitFalse);
@@ -102,13 +102,7 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 	@Override
 	public Datatype<? extends Boolean> getDatatype()
 	{
-		return dt;
-	}
-
-	@Override
-	public Boolean getValue(final int i)
-	{
-		throw new UnsupportedOperationException();
+		return _dt;
 	}
 
 	@Override
@@ -117,12 +111,12 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 		if (other instanceof RestrictedBooleanDatatype)
 		{
 			final RestrictedBooleanDatatype otherRBD = (RestrictedBooleanDatatype) other;
-			final boolean permitTrue = this.permitTrue && otherRBD.permitTrue;
-			final boolean permitFalse = this.permitFalse && otherRBD.permitFalse;
+			final boolean permitTrue = this._permitTrue && otherRBD._permitTrue;
+			final boolean permitFalse = this._permitFalse && otherRBD._permitFalse;
 
-			if ((permitTrue == this.permitTrue) && (permitFalse == this.permitFalse))
+			if ((permitTrue == this._permitTrue) && (permitFalse == this._permitFalse))
 				return this;
-			if ((permitTrue == otherRBD.permitTrue) && (permitFalse == otherRBD.permitFalse))
+			if ((permitTrue == otherRBD._permitTrue) && (permitFalse == otherRBD._permitFalse))
 				return otherRBD;
 			return new RestrictedBooleanDatatype(this, permitTrue, permitFalse);
 		}
@@ -133,7 +127,7 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 	@Override
 	public boolean isEmpty()
 	{
-		return !permitTrue && !permitFalse;
+		return !_permitTrue && !_permitFalse;
 	}
 
 	@Override
@@ -148,10 +142,11 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public int size()
 	{
-		return (permitTrue ? 1 : 0) + (permitFalse ? 1 : 0);
+		return (_permitTrue ? 1 : 0) + (_permitFalse ? 1 : 0);
 	}
 
 	@Override
@@ -160,12 +155,12 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 		if (other instanceof RestrictedBooleanDatatype)
 		{
 			final RestrictedBooleanDatatype otherRBD = (RestrictedBooleanDatatype) other;
-			final boolean permitTrue = this.permitTrue || otherRBD.permitTrue;
-			final boolean permitFalse = this.permitFalse || otherRBD.permitFalse;
+			final boolean permitTrue = this._permitTrue || otherRBD._permitTrue;
+			final boolean permitFalse = this._permitFalse || otherRBD._permitFalse;
 
-			if ((permitTrue == this.permitTrue) && (permitFalse == this.permitFalse))
+			if ((permitTrue == this._permitTrue) && (permitFalse == this._permitFalse))
 				return this;
-			if ((permitTrue == otherRBD.permitTrue) && (permitFalse == otherRBD.permitFalse))
+			if ((permitTrue == otherRBD._permitTrue) && (permitFalse == otherRBD._permitFalse))
 				return otherRBD;
 			return new RestrictedBooleanDatatype(this, permitTrue, permitFalse);
 		}
@@ -176,13 +171,13 @@ public class RestrictedBooleanDatatype implements RestrictedDatatype<Boolean>
 	@Override
 	public Iterator<Boolean> valueIterator()
 	{
-		if (permitTrue)
-			if (permitFalse)
+		if (_permitTrue)
+			if (_permitFalse)
 				return Arrays.asList(Boolean.TRUE, Boolean.FALSE).iterator();
 			else
 				return Arrays.asList(Boolean.TRUE).iterator();
 		else
-			if (permitFalse)
+			if (_permitFalse)
 				return Arrays.asList(Boolean.FALSE).iterator();
 			else
 				return new EmptyIterator<>();

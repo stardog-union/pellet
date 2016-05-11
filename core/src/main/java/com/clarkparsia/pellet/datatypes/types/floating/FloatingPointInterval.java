@@ -26,7 +26,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 		return new FloatingPointInterval<>(type, type.getNegativeInfinity(), type.getPositiveInfinity());
 	}
 
-	private final FloatingPointType<T> type;
+	private final FloatingPointType<T> _type;
 
 	public FloatingPointInterval(final FloatingPointType<T> type, final T point)
 	{
@@ -38,7 +38,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 		if (type.isNaN(point))
 			throw new IllegalArgumentException();
 
-		this.type = type;
+		this._type = type;
 
 		if (!valid(point))
 			throw new IllegalArgumentException();
@@ -56,7 +56,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 		if (type.isNaN(upper))
 			throw new IllegalArgumentException();
 
-		this.type = type;
+		this._type = type;
 
 		if (!valid(lower))
 			throw new IllegalArgumentException();
@@ -64,7 +64,6 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 			throw new IllegalArgumentException();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected FloatingPointInterval<T> cast(final DiscreteInterval<T, FloatingPointInterval<T>> i)
 	{
@@ -88,7 +87,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 	@Override
 	public boolean contains(final T n)
 	{
-		if (type.isNaN(n))
+		if (_type.isNaN(n))
 			return false;
 
 		return super.contains(n);
@@ -97,13 +96,13 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 	@Override
 	protected FloatingPointInterval<T> create(final T lower, final T upper)
 	{
-		return new FloatingPointInterval<>(type, lower, upper);
+		return new FloatingPointInterval<>(_type, lower, upper);
 	}
 
 	@Override
 	protected T decrement(final T t)
 	{
-		return type.decrement(t);
+		return _type.decrement(t);
 	}
 
 	@Override
@@ -133,7 +132,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 	@Override
 	public FloatingPointInterval<T> greater(final T n)
 	{
-		if (type.isNaN(n))
+		if (_type.isNaN(n))
 			throw new IllegalArgumentException();
 		return super.greater(n);
 	}
@@ -141,13 +140,13 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 	@Override
 	protected T increment(final T t)
 	{
-		return type.increment(t);
+		return _type.increment(t);
 	}
 
 	@Override
 	public FloatingPointInterval<T> less(final T n)
 	{
-		if (type.isNaN(n))
+		if (_type.isNaN(n))
 			throw new IllegalArgumentException();
 		return super.less(n);
 	}
@@ -155,17 +154,17 @@ public class FloatingPointInterval<T extends Number & Comparable<T>> extends Dis
 	@Override
 	public Number size()
 	{
-		return type.intervalSize(getLower(), getUpper());
+		return _type.intervalSize(getLower(), getUpper());
 	}
 
 	@Override
 	protected boolean valid(final T t)
 	{
 		/*
-		 * The type == null check here is necessary because this method is
-		 * called by the super's constructor before the type field is
+		 * The _type == null check here is necessary because this method is
+		 * called by the super's constructor before the _type field is
 		 * initialized
 		 */
-		return t != null && (type == null || type.isInstance(t));
+		return t != null && (_type == null || _type.isInstance(t));
 	}
 }

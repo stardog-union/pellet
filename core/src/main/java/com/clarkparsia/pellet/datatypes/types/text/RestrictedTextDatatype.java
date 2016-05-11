@@ -51,15 +51,7 @@ public class RestrictedTextDatatype implements RestrictedDatatype<ATermAppl>
 
 	protected static final String NORMALIZED_STRING = "([^\\r\\n\\t])*";
 
-	private static final Set<ATermAppl> permittedDts;
-
-	private final Set<Object> excludedValues;
-	private final Set<Pattern> patterns;
-
-	static
-	{
-		permittedDts = new HashSet<>(Arrays.asList(ATermUtils.EMPTY));
-	}
+	private static final Set<ATermAppl> permittedDts = new HashSet<>(Arrays.asList(ATermUtils.EMPTY));
 
 	/*
 	 * TODO: This is awkward.
@@ -69,8 +61,10 @@ public class RestrictedTextDatatype implements RestrictedDatatype<ATermAppl>
 		return permittedDts.add(dt);
 	}
 
-	private final boolean allowLang;
-	private final Datatype<ATermAppl> dt;
+	private final Set<Object> _excludedValues;
+	private final Set<Pattern> _patterns;
+	private final boolean _allowLang;
+	private final Datatype<ATermAppl> _dt;
 
 	public RestrictedTextDatatype(final Datatype<ATermAppl> dt, final boolean allowLang)
 	{
@@ -84,10 +78,10 @@ public class RestrictedTextDatatype implements RestrictedDatatype<ATermAppl>
 
 	private RestrictedTextDatatype(final Datatype<ATermAppl> dt, final Set<Pattern> patterns, final boolean allowLang, final Set<Object> excludedValues)
 	{
-		this.dt = dt;
-		this.allowLang = allowLang;
-		this.excludedValues = excludedValues;
-		this.patterns = patterns;
+		this._dt = dt;
+		this._allowLang = allowLang;
+		this._excludedValues = excludedValues;
+		this._patterns = patterns;
 	}
 
 	@Override
@@ -104,18 +98,18 @@ public class RestrictedTextDatatype implements RestrictedDatatype<ATermAppl>
 		{
 			final ATermAppl a = (ATermAppl) value;
 
-			if (excludedValues.contains(a))
+			if (_excludedValues.contains(a))
 				return false;
 
 			if (ATermUtils.isLiteral(a) && permittedDts.contains(a.getArgument(ATermUtils.LIT_URI_INDEX)))
 			{
-				if (!allowLang && !ATermUtils.EMPTY.equals(a.getArgument(ATermUtils.LIT_LANG_INDEX)))
+				if (!_allowLang && !ATermUtils.EMPTY.equals(a.getArgument(ATermUtils.LIT_LANG_INDEX)))
 					return false;
 
-				if (!patterns.isEmpty())
+				if (!_patterns.isEmpty())
 				{
 					final String litValue = ((ATermAppl) a.getArgument(ATermUtils.LIT_VAL_INDEX)).getName();
-					for (final Pattern pattern : patterns)
+					for (final Pattern pattern : _patterns)
 						if (!pattern.matcher(litValue).matches())
 							return false;
 				}
@@ -136,20 +130,14 @@ public class RestrictedTextDatatype implements RestrictedDatatype<ATermAppl>
 	public RestrictedDatatype<ATermAppl> exclude(final Collection<?> values)
 	{
 		final Set<Object> newExcludedValues = new HashSet<>(values);
-		newExcludedValues.addAll(excludedValues);
-		return new RestrictedTextDatatype(dt, patterns, allowLang, newExcludedValues);
+		newExcludedValues.addAll(_excludedValues);
+		return new RestrictedTextDatatype(_dt, _patterns, _allowLang, newExcludedValues);
 	}
 
 	@Override
 	public Datatype<? extends ATermAppl> getDatatype()
 	{
-		return dt;
-	}
-
-	@Override
-	public ATermAppl getValue(final int i)
-	{
-		throw new UnsupportedOperationException();
+		return _dt;
 	}
 
 	protected <T> List<T> concatLists(final List<T> l1, final List<T> l2)
@@ -173,7 +161,7 @@ public class RestrictedTextDatatype implements RestrictedDatatype<ATermAppl>
 		{
 			final RestrictedTextDatatype that = (RestrictedTextDatatype) other;
 
-			return new RestrictedTextDatatype(dt, SetUtils.union(this.patterns, that.patterns), this.allowLang && that.allowLang, SetUtils.union(this.excludedValues, that.excludedValues));
+			return new RestrictedTextDatatype(_dt, SetUtils.union(this._patterns, that._patterns), this._allowLang && that._allowLang, SetUtils.union(this._excludedValues, that._excludedValues));
 		}
 		else
 			throw new IllegalArgumentException();
@@ -198,20 +186,14 @@ public class RestrictedTextDatatype implements RestrictedDatatype<ATermAppl>
 	}
 
 	@Override
-	public int size()
-	{
-		throw new IllegalStateException();
-	}
-
-	@Override
 	public RestrictedDatatype<ATermAppl> union(final RestrictedDatatype<?> other)
 	{
 		if (other instanceof RestrictedTextDatatype)
 		{
-			if (!patterns.isEmpty() || !((RestrictedTextDatatype) other).patterns.isEmpty())
+			if (!_patterns.isEmpty() || !((RestrictedTextDatatype) other)._patterns.isEmpty())
 				throw new UnsupportedOperationException();
 
-			if (this.allowLang)
+			if (this._allowLang)
 				return this;
 
 			return (RestrictedTextDatatype) other;

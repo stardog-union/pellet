@@ -24,15 +24,8 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDUnsignedShort extends AbstractDerivedIntegerType
 {
 
-	private static final XSDUnsignedShort instance;
-	private static final int MAX_VALUE;
-
-	static
-	{
-		MAX_VALUE = 65535;
-
-		instance = new XSDUnsignedShort();
-	}
+	private static final XSDUnsignedShort instance = new XSDUnsignedShort();
+	private static final int MAX_VALUE = 65535;
 
 	public static XSDUnsignedShort getInstance()
 	{

@@ -24,12 +24,7 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDShort extends AbstractDerivedIntegerType
 {
 
-	private static final XSDShort instance;
-
-	static
-	{
-		instance = new XSDShort();
-	}
+	private static final XSDShort instance = new XSDShort();
 
 	public static XSDShort getInstance()
 	{

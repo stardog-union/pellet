@@ -27,12 +27,7 @@ import org.mindswap.pellet.utils.Namespaces;
 public class OWLReal extends AbstractBaseDatatype<Number>
 {
 
-	private static final OWLReal instance;
-
-	static
-	{
-		instance = new OWLReal();
-	}
+	private static final OWLReal instance = new OWLReal();
 
 	public static OWLReal getInstance()
 	{
@@ -69,13 +64,13 @@ public class OWLReal extends AbstractBaseDatatype<Number>
 		else
 			if (value instanceof Number)
 				try
-				{
+		{
 					return XSDDecimal.getInstance().getLiteral(value);
-				}
-				catch (final IllegalArgumentException e)
-				{
-					throw new IllegalArgumentException();
-				}
+		}
+		catch (final IllegalArgumentException e)
+		{
+			throw new IllegalArgumentException();
+		}
 			else
 				throw new IllegalArgumentException();
 	}

@@ -33,15 +33,8 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDDecimal extends AbstractBaseDatatype<Number>
 {
 
-	private static final XSDDecimal instance;
-	private static final Logger log;
-
-	static
-	{
-		log = Logger.getLogger(XSDDecimal.class.getCanonicalName());
-
-		instance = new XSDDecimal();
-	}
+	private static final XSDDecimal instance = new XSDDecimal();
+	private static final Logger log = Logger.getLogger(XSDDecimal.class.getCanonicalName());
 
 	public static XSDDecimal getInstance()
 	{

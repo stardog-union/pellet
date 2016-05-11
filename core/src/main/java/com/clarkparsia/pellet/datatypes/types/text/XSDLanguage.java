@@ -21,14 +21,11 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDLanguage extends AbstractBaseDatatype<ATermAppl>
 {
 
-	private static final XSDLanguage instance;
-	private static final RDFPlainLiteral RDF_PLAIN_LITERAL;
+	private static final XSDLanguage instance = new XSDLanguage();
+	private static final RDFPlainLiteral RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
 
 	static
 	{
-		RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
-
-		instance = new XSDLanguage();
 		RestrictedTextDatatype.addPermittedDatatype(instance.getName());
 	}
 

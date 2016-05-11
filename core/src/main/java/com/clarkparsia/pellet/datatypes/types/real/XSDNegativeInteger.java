@@ -25,12 +25,7 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDNegativeInteger extends AbstractDerivedIntegerType
 {
 
-	private static final XSDNegativeInteger instance;
-
-	static
-	{
-		instance = new XSDNegativeInteger();
-	}
+	private static final XSDNegativeInteger instance = new XSDNegativeInteger();
 
 	public static XSDNegativeInteger getInstance()
 	{

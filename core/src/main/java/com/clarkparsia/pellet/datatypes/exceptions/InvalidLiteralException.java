@@ -25,14 +25,14 @@ public class InvalidLiteralException extends DatatypeReasonerException
 
 	private static final long serialVersionUID = 1L;
 
-	private final ATermAppl dt;
-	private final String value;
+	private final ATermAppl _dt;
+	private final String _value;
 
 	public InvalidLiteralException(final ATermAppl dt, final String value)
 	{
 		super(format("'%s' is not in the lexical space of datatype %s", value, dt.getName()));
-		this.dt = dt;
-		this.value = value;
+		this._dt = dt;
+		this._value = value;
 	}
 
 	public InvalidLiteralException(final ATermAppl dt, final String value, final Throwable cause)
@@ -43,11 +43,11 @@ public class InvalidLiteralException extends DatatypeReasonerException
 
 	public ATermAppl getDatatype()
 	{
-		return dt;
+		return _dt;
 	}
 
 	public String getValue()
 	{
-		return value;
+		return _value;
 	}
 }

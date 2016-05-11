@@ -32,50 +32,50 @@ public class OWLRealUtils
 
 	private static enum Type
 	{
-		BIG_DECIMAL(5, BigDecimal.class, false), BIG_INTEGER(4, BigInteger.class, true), BYTE(0, Byte.class, true), INTEGER(2, Integer.class, true), LONG(3, Long.class, true), RATIONAL(6, Rational.class, false), SHORT(1, Short.class, true);
+		BIG_DECIMAL(5, BigDecimal.class, false), //
+		BIG_INTEGER(4, BigInteger.class, true), //
+		BYTE(0, Byte.class, true), //
+		INTEGER(2, Integer.class, true), //
+		LONG(3, Long.class, true), //
+		RATIONAL(6, Rational.class, false), //
+		SHORT(1, Short.class, true);
 
-		private static Map<Class<?>, Type> map;
+		private static Map<Class<?>, Type> _map = new HashMap<>();
 		static
 		{
-			map = new HashMap<>();
 			for (final Type t : values())
-				map.put(t.cls, t);
+				_map.put(t._cls, t);
 		}
 
 		public static Type compareType(final Type a, final Type b)
 		{
-			return (a.index > b.index) ? a : b;
+			return (a._index > b._index) ? a : b;
 		}
 
 		public static Type get(final Class<? extends Number> cls)
 		{
-			return map.get(cls);
+			return _map.get(cls);
 		}
 
-		private final Class<? extends Number> cls;
-		private final int index;
+		private final Class<? extends Number> _cls;
+		private final int _index;
 
-		private final boolean integerOnly;
+		private final boolean _integerOnly;
 
 		private Type(final int index, final Class<? extends Number> cls, final boolean integerOnly)
 		{
-			this.index = index;
-			this.cls = cls;
-			this.integerOnly = integerOnly;
+			this._index = index;
+			this._cls = cls;
+			this._integerOnly = integerOnly;
 		}
 
 		public boolean isIntegerOnly()
 		{
-			return integerOnly;
+			return _integerOnly;
 		}
 	}
 
-	private static Logger log;
-
-	static
-	{
-		log = Logger.getLogger(OWLRealUtils.class.getCanonicalName());
-	}
+	private static Logger _log = Logger.getLogger(OWLRealUtils.class.getCanonicalName());
 
 	public static boolean acceptable(final Class<? extends Number> c)
 	{
@@ -88,7 +88,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to bigDecimal method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 		final BigDecimal d = (BigDecimal) convertFromTo(n, t, Type.BIG_DECIMAL);
@@ -101,7 +101,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to bigInteger method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -124,21 +124,21 @@ public class OWLRealUtils
 			throw new IllegalArgumentException();
 
 		if (ta == tb)
-			return ((Comparable) a).compareTo(b);
+			return ((Comparable<Number>) a).compareTo(b);
 
 		final int sa = signum(a);
 		final int sb = signum(b);
 		if (sa == sb)
 		{
 
-			Comparable compA;
+			Comparable<Number> compA;
 			Number compB;
 			final Type target = Type.compareType(ta, tb);
 
 			if (ta == target)
-				compA = (Comparable) a;
+				compA = (Comparable<Number>) a;
 			else
-				compA = (Comparable) convertFromTo(a, ta, target);
+				compA = (Comparable<Number>) convertFromTo(a, ta, target);
 
 			if (tb == target)
 				compB = b;
@@ -244,6 +244,7 @@ public class OWLRealUtils
 						return n;
 					default:
 				}
+				//$FALL-THROUGH$
 			case RATIONAL:
 				switch (in)
 				{
@@ -263,6 +264,7 @@ public class OWLRealUtils
 						return n;
 					default:
 				}
+				//$FALL-THROUGH$
 			default:
 				throw new IllegalArgumentException();
 		}
@@ -274,7 +276,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to integerIncrement method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -315,7 +317,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to integerIncrement method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -355,7 +357,7 @@ public class OWLRealUtils
 		if (ta == null || tb == null)
 		{
 			final String msg = format("Unexpected number type %s,%s passed to integerDifference method.", a.getClass().getCanonicalName(), b.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -371,7 +373,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to integerIncrement method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -411,7 +413,7 @@ public class OWLRealUtils
 		if (ta == null || tb == null)
 		{
 			final String msg = format("Unexpected number type %s,%s passed to integerSum method.", a.getClass().getCanonicalName(), b.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -427,7 +429,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to isInteger method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -452,7 +454,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to isInteger method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -483,7 +485,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to isInteger method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -505,7 +507,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to print method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -536,7 +538,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to roundDown method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -568,7 +570,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to roundDown method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -596,7 +598,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to roundDown method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -672,7 +674,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to signum method.", n.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -706,14 +708,14 @@ public class OWLRealUtils
 		if (ta == null || tb == null)
 		{
 			final String msg = format("Unexpected number type %s,%s passed to integerSum method.", a.getClass().getCanonicalName(), b.getClass().getCanonicalName());
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
 		if (EnumSet.of(ta, tb).contains(Type.RATIONAL))
 		{
 			final String msg = format("Addition for rational numbers is not supported");
-			log.warning(msg);
+			_log.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 

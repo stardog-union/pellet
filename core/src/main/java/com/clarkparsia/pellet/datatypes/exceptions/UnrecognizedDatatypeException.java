@@ -23,22 +23,22 @@ public class UnrecognizedDatatypeException extends DatatypeReasonerException
 
 	private static final long serialVersionUID = 1L;
 
-	private final ATermAppl dt;
+	private final ATermAppl _dt;
 
 	public UnrecognizedDatatypeException(final ATermAppl dt)
 	{
 		super("Unrecognized datatype " + dt.getName());
-		this.dt = dt;
+		this._dt = dt;
 	}
 
 	public UnrecognizedDatatypeException(final ATermAppl dt, final String msg)
 	{
 		super(msg);
-		this.dt = dt;
+		this._dt = dt;
 	}
 
 	public ATermAppl getDatatype()
 	{
-		return dt;
+		return _dt;
 	}
 }

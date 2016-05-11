@@ -24,12 +24,7 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDByte extends AbstractDerivedIntegerType
 {
 
-	private static final XSDByte instance;
-
-	static
-	{
-		instance = new XSDByte();
-	}
+	private static final XSDByte instance = new XSDByte();
 
 	public static XSDByte getInstance()
 	{

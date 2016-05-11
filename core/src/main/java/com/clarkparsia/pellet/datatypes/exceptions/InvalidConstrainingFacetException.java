@@ -25,12 +25,12 @@ public class InvalidConstrainingFacetException extends DatatypeReasonerException
 
 	private static final long serialVersionUID = 2L;
 
-	private final ATermAppl facet;
-	private final Object value;
+	private final ATermAppl _facet;
+	private final Object _value;
 
 	public InvalidConstrainingFacetException(final ATermAppl facet, final Object value)
 	{
-		this(format("Invalid constraining facet ('%s','%s')", facet.getName(), value), facet, value);
+		this(format("Invalid constraining _facet ('%s','%s')", facet.getName(), value), facet, value);
 	}
 
 	public InvalidConstrainingFacetException(final ATermAppl facet, final Object value, final Throwable cause)
@@ -42,8 +42,8 @@ public class InvalidConstrainingFacetException extends DatatypeReasonerException
 	public InvalidConstrainingFacetException(final String msg, final ATermAppl facet, final Object value)
 	{
 		super(msg);
-		this.facet = facet;
-		this.value = value;
+		this._facet = facet;
+		this._value = value;
 	}
 
 	public InvalidConstrainingFacetException(final String msg, final ATermAppl facet, final Object value, final Throwable cause)
@@ -54,11 +54,11 @@ public class InvalidConstrainingFacetException extends DatatypeReasonerException
 
 	public ATermAppl getFacet()
 	{
-		return facet;
+		return _facet;
 	}
 
 	public Object getValue()
 	{
-		return value;
+		return _value;
 	}
 }

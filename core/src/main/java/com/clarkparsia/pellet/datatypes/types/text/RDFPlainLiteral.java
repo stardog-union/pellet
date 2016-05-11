@@ -27,11 +27,10 @@ import org.mindswap.pellet.utils.Namespaces;
 public class RDFPlainLiteral extends AbstractBaseDatatype<ATermAppl>
 {
 
-	private static final RDFPlainLiteral instance;
+	private static final RDFPlainLiteral instance = new RDFPlainLiteral();
 
 	static
 	{
-		instance = new RDFPlainLiteral();
 		RestrictedTextDatatype.addPermittedDatatype(instance.getName());
 	}
 

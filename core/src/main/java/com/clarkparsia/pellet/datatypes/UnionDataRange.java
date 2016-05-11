@@ -26,50 +26,45 @@ import java.util.Set;
 public class UnionDataRange<T> implements DataRange<T>
 {
 
-	private final ArrayList<RestrictedDatatype<? extends T>> ranges;
-	private final Set<? extends T> values;
+	private final ArrayList<RestrictedDatatype<? extends T>> _ranges;
+	private final Set<? extends T> _values;
 
 	public UnionDataRange(final Collection<RestrictedDatatype<? extends T>> ranges, final Collection<? extends T> values)
 	{
-		this.ranges = new ArrayList<>(ranges);
-		this.values = new HashSet<T>(values);
+		this._ranges = new ArrayList<>(ranges);
+		this._values = new HashSet<T>(values);
 	}
 
 	@Override
 	public boolean contains(final Object value)
 	{
-		if (values.contains(value))
+		if (_values.contains(value))
 			return true;
 
-		for (final RestrictedDatatype<? extends T> rd : ranges)
+		for (final RestrictedDatatype<? extends T> rd : _ranges)
 			if (rd.contains(value))
 				return true;
 
 		return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean containsAtLeast(int n)
 	{
-		n -= values.size();
+		n -= _values.size();
 		if (n <= 0)
 			return true;
 
-		for (final RestrictedDatatype<?> rd : ranges)
+		for (final RestrictedDatatype<?> rd : _ranges)
 		{
 			if (rd.containsAtLeast(n))
 				return true;
 
-			n -= rd.size();
+			n -= rd.size(); // FIXME This may crash.
 		}
 
 		return n <= 0;
-	}
-
-	@Override
-	public T getValue(final int i)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -91,25 +86,19 @@ public class UnionDataRange<T> implements DataRange<T>
 	}
 
 	@Override
-	public int size()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public Iterator<T> valueIterator()
 	{
 
 		/*
 		 * This implementation avoids allocating the value iterators for the
-		 * _data ranges until (and only if) they are needed. This is a
+		 * _data _ranges until (and only if) they are needed. This is a
 		 * micro-optimization relative to using
 		 * org.mindswap.pellet.utils.iterator.MultiIterator
 		 */
 		return new Iterator<T>()
 		{
-			final Iterator<? extends T> enumIt = values.iterator();
-			final Iterator<RestrictedDatatype<? extends T>> rangeIt = ranges.iterator();
+			final Iterator<? extends T> enumIt = _values.iterator();
+			final Iterator<RestrictedDatatype<? extends T>> rangeIt = _ranges.iterator();
 			Iterator<? extends T> valueIt = null;
 
 			@Override

@@ -21,29 +21,23 @@ import java.util.Iterator;
 public class NegatedDataRange<T> implements DataRange<T>
 {
 
-	private final DataRange<? extends T> datarange;
+	private final DataRange<? extends T> _datarange;
 
 	public NegatedDataRange(final DataRange<? extends T> datarange)
 	{
-		this.datarange = datarange;
+		this._datarange = datarange;
 	}
 
 	@Override
 	public boolean contains(final Object value)
 	{
-		return !datarange.contains(value);
+		return !_datarange.contains(value);
 	}
 
 	@Override
 	public boolean containsAtLeast(final int n)
 	{
 		return true;
-	}
-
-	@Override
-	public T getValue(final int i)
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -65,12 +59,6 @@ public class NegatedDataRange<T> implements DataRange<T>
 	}
 
 	@Override
-	public int size()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public Iterator<T> valueIterator()
 	{
 		throw new UnsupportedOperationException();
@@ -78,6 +66,6 @@ public class NegatedDataRange<T> implements DataRange<T>
 
 	public DataRange<? extends T> getDataRange()
 	{
-		return datarange;
+		return _datarange;
 	}
 }

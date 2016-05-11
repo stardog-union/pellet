@@ -66,7 +66,10 @@ public interface DataRange<T>
 	 * @deprecated Use {@link #containsAtLeast(int)}
 	 */
 	@Deprecated
-	public int size();
+	default public int size()
+	{
+		throw new IllegalStateException();
+	}
 
 	/**
 	 * Return a value from an enumerable _data range. <i>Necessary to support {@link LiteralValueBranch} shiftTryNext</i>
@@ -77,7 +80,10 @@ public interface DataRange<T>
 	 * @deprecated Use {@link #valueIterator()}
 	 */
 	@Deprecated
-	public T getValue(int i);
+	default public T getValue(@SuppressWarnings("unused") final int i)
+	{
+		throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * Get a (possibly infinite) iterator over values in the _data range.

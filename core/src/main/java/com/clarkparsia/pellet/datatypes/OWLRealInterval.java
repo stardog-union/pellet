@@ -38,35 +38,35 @@ public class OWLRealInterval
 	public static class IntegerIterator implements Iterator<Number>
 	{
 
-		private final boolean increment;
-		private final Number last;
-		private Number next;
+		private final boolean _increment;
+		private final Number _last;
+		private Number _next;
 
 		public IntegerIterator(final Number first, final Number last, final boolean increment)
 		{
-			this.last = last;
-			this.increment = increment;
-			this.next = first;
+			this._last = last;
+			this._increment = increment;
+			this._next = first;
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return next != null;
+			return _next != null;
 		}
 
 		@Override
 		public Number next()
 		{
-			if (next == null)
+			if (_next == null)
 				throw new NoSuchElementException();
 
-			final Number n = next;
+			final Number n = _next;
 
-			if ((last != null) && (OWLRealUtils.compare(next, last) == 0))
-				next = null;
+			if ((_last != null) && (OWLRealUtils.compare(_next, _last) == 0))
+				_next = null;
 			else
-				next = increment ? OWLRealUtils.integerIncrement(next) : OWLRealUtils.integerDecrement(next);
+				_next = _increment ? OWLRealUtils.integerIncrement(_next) : OWLRealUtils.integerDecrement(_next);
 
 				return n;
 		}
@@ -290,39 +290,39 @@ public class OWLRealInterval
 		return uu;
 	}
 
-	private final boolean finite;
-	private final boolean inclusiveLower;
-	private final boolean inclusiveUpper;
-	private final Number lower;
-	private final boolean point;
-	private final LineType type;
+	private final boolean _finite;
+	private final boolean _inclusiveLower;
+	private final boolean _inclusiveUpper;
+	private final Number _lower;
+	private final boolean _point;
+	private final LineType _type;
 
-	private final Number upper;
+	private final Number _upper;
 
 	/**
-	 * Create a point interval. This is equivalent to {@link #OWLRealInterval(Number, Number, boolean, boolean)} with arguments
-	 * <code>point,point,true,true</code>
+	 * Create a _point interval. This is equivalent to {@link #OWLRealInterval(Number, Number, boolean, boolean)} with arguments
+	 * <code>_point,_point,true,true</code>
 	 *
-	 * @param point Value of point interval
+	 * @param _point Value of _point interval
 	 */
 	public OWLRealInterval(final Number point)
 	{
-		this.lower = point;
-		this.upper = point;
-		this.point = true;
-		this.inclusiveLower = true;
-		this.inclusiveUpper = true;
-		this.type = LineType.CONTINUOUS;
-		this.finite = true;
+		this._lower = point;
+		this._upper = point;
+		this._point = true;
+		this._inclusiveLower = true;
+		this._inclusiveUpper = true;
+		this._type = LineType.CONTINUOUS;
+		this._finite = true;
 	}
 
 	/**
 	 * Create an interval. <code>null</code> should be used to indicate unbound (i.e., infinite intervals).
 	 *
-	 * @param lower Interval lower bound
-	 * @param upper Interval upper bound
-	 * @param inclusiveLower <code>true</code> if lower bound is inclusive, <code>false</code> for exclusive. Ignored if <code>lower == null</code>.
-	 * @param inclusiveUpper <code>true</code> if upper bound is inclusive, <code>false</code> for exclusive. Ignored if <code>upper == null</code>.
+	 * @param _lower Interval _lower bound
+	 * @param _upper Interval _upper bound
+	 * @param _inclusiveLower <code>true</code> if _lower bound is inclusive, <code>false</code> for exclusive. Ignored if <code>_lower == null</code>.
+	 * @param _inclusiveUpper <code>true</code> if _upper bound is inclusive, <code>false</code> for exclusive. Ignored if <code>_upper == null</code>.
 	 */
 	public OWLRealInterval(final Number lower, final Number upper, final boolean inclusiveLower, final boolean inclusiveUpper, LineType type)
 	{
@@ -331,7 +331,7 @@ public class OWLRealInterval
 			final int cmp = OWLRealUtils.compare(lower, upper);
 			if (cmp > 0)
 			{
-				final String msg = format("Lower bound of interval (%s) should not be greater than upper bound of interval (%s)", lower, upper);
+				final String msg = format("Lower bound of interval (%s) should not be greater than _upper bound of interval (%s)", lower, upper);
 				log.severe(msg);
 				throw new IllegalArgumentException(msg);
 			}
@@ -348,51 +348,51 @@ public class OWLRealInterval
 				}
 		}
 
-		this.type = type;
+		this._type = type;
 		if (LineType.INTEGER_ONLY.equals(type))
 		{
 			if (lower == null)
 			{
-				this.lower = null;
-				this.inclusiveLower = false;
+				this._lower = null;
+				this._inclusiveLower = false;
 			}
 			else
 			{
 				if (inclusiveLower)
 				{
 					if (isInteger(lower))
-						this.lower = lower;
+						this._lower = lower;
 					else
-						this.lower = roundDown(lower);
+						this._lower = roundDown(lower);
 				}
 				else
 					if (isInteger(lower))
-						this.lower = integerIncrement(lower);
+						this._lower = integerIncrement(lower);
 					else
-						this.lower = roundDown(lower);
-				this.inclusiveLower = true;
+						this._lower = roundDown(lower);
+				this._inclusiveLower = true;
 			}
 
 			if (upper == null)
 			{
-				this.upper = null;
-				this.inclusiveUpper = false;
+				this._upper = null;
+				this._inclusiveUpper = false;
 			}
 			else
 			{
 				if (inclusiveUpper)
 				{
 					if (isInteger(upper))
-						this.upper = upper;
+						this._upper = upper;
 					else
-						this.upper = roundDown(upper);
+						this._upper = roundDown(upper);
 				}
 				else
 					if (isInteger(upper))
-						this.upper = integerDecrement(upper);
+						this._upper = integerDecrement(upper);
 					else
-						this.upper = roundDown(upper);
-				this.inclusiveUpper = true;
+						this._upper = roundDown(upper);
+				this._inclusiveUpper = true;
 			}
 
 		}
@@ -401,63 +401,63 @@ public class OWLRealInterval
 			{
 				if (lower == null)
 				{
-					this.lower = null;
-					this.inclusiveLower = false;
+					this._lower = null;
+					this._inclusiveLower = false;
 				}
 				else
 				{
-					this.lower = lower;
+					this._lower = lower;
 					if (inclusiveLower)
 					{
 						if (isInteger(lower))
-							this.inclusiveLower = false;
+							this._inclusiveLower = false;
 						else
-							this.inclusiveLower = true;
+							this._inclusiveLower = true;
 					}
 					else
-						this.inclusiveLower = false;
+						this._inclusiveLower = false;
 				}
 
 				if (upper == null)
 				{
-					this.upper = null;
-					this.inclusiveUpper = false;
+					this._upper = null;
+					this._inclusiveUpper = false;
 				}
 				else
 				{
-					this.upper = upper;
+					this._upper = upper;
 					if (inclusiveUpper)
 					{
 						if (isInteger(upper))
-							this.inclusiveUpper = false;
+							this._inclusiveUpper = false;
 						else
-							this.inclusiveUpper = true;
+							this._inclusiveUpper = true;
 					}
 					else
-						this.inclusiveUpper = false;
+						this._inclusiveUpper = false;
 				}
 			}
 			else
 			{
-				this.lower = lower;
-				this.upper = upper;
-				this.inclusiveLower = (lower == null) ? false : inclusiveLower;
-				this.inclusiveUpper = (upper == null) ? false : inclusiveUpper;
+				this._lower = lower;
+				this._upper = upper;
+				this._inclusiveLower = (lower == null) ? false : inclusiveLower;
+				this._inclusiveUpper = (upper == null) ? false : inclusiveUpper;
 			}
 
-		this.point = (lower != null && upper != null && lower.equals(upper));
+		this._point = (lower != null && upper != null && lower.equals(upper));
 
-		this.finite = this.point || ((LineType.INTEGER_ONLY.equals(type) && (lower != null) && (upper != null)));
+		this._finite = this._point || ((LineType.INTEGER_ONLY.equals(type) && (lower != null) && (upper != null)));
 	}
 
 	public boolean boundLower()
 	{
-		return (lower != null);
+		return (_lower != null);
 	}
 
 	public boolean boundUpper()
 	{
-		return (upper != null);
+		return (_upper != null);
 	}
 
 	public IntervalRelations compare(final OWLRealInterval other)
@@ -468,13 +468,13 @@ public class OWLRealInterval
 	public boolean contains(final Number n)
 	{
 
-		if (type.equals(LineType.INTEGER_ONLY))
+		if (_type.equals(LineType.INTEGER_ONLY))
 		{
 			if (!isInteger(n))
 				return false;
 		}
 		else
-			if (type.equals(LineType.INTEGER_EXCLUDED))
+			if (_type.equals(LineType.INTEGER_EXCLUDED))
 				if (isInteger(n))
 					return false;
 
@@ -510,50 +510,50 @@ public class OWLRealInterval
 		if (getClass() != obj.getClass())
 			return false;
 		final OWLRealInterval other = (OWLRealInterval) obj;
-		if (inclusiveLower != other.inclusiveLower)
+		if (_inclusiveLower != other._inclusiveLower)
 			return false;
-		if (inclusiveUpper != other.inclusiveUpper)
+		if (_inclusiveUpper != other._inclusiveUpper)
 			return false;
-		if (lower == null)
+		if (_lower == null)
 		{
-			if (other.lower != null)
+			if (other._lower != null)
 				return false;
 		}
 		else
-			if (OWLRealUtils.compare(lower, other.lower) != 0)
+			if (OWLRealUtils.compare(_lower, other._lower) != 0)
 				return false;
-		if (type == null)
+		if (_type == null)
 		{
-			if (other.type != null)
+			if (other._type != null)
 				return false;
 		}
 		else
-			if (!type.equals(other.type))
+			if (!_type.equals(other._type))
 				return false;
-		if (upper == null)
+		if (_upper == null)
 		{
-			if (other.upper != null)
+			if (other._upper != null)
 				return false;
 		}
 		else
-			if (OWLRealUtils.compare(upper, other.upper) != 0)
+			if (OWLRealUtils.compare(_upper, other._upper) != 0)
 				return false;
 		return true;
 	}
 
 	public Number getLower()
 	{
-		return lower;
+		return _lower;
 	}
 
 	public LineType getType()
 	{
-		return type;
+		return _type;
 	}
 
 	public Number getUpper()
 	{
-		return upper;
+		return _upper;
 	}
 
 	/**
@@ -577,22 +577,22 @@ public class OWLRealInterval
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (inclusiveLower ? 1231 : 1237);
-		result = prime * result + (inclusiveUpper ? 1231 : 1237);
-		result = prime * result + ((lower == null) ? 0 : lower.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((upper == null) ? 0 : upper.hashCode());
+		result = prime * result + (_inclusiveLower ? 1231 : 1237);
+		result = prime * result + (_inclusiveUpper ? 1231 : 1237);
+		result = prime * result + ((_lower == null) ? 0 : _lower.hashCode());
+		result = prime * result + ((_type == null) ? 0 : _type.hashCode());
+		result = prime * result + ((_upper == null) ? 0 : _upper.hashCode());
 		return result;
 	}
 
 	public boolean inclusiveLower()
 	{
-		return inclusiveLower;
+		return _inclusiveLower;
 	}
 
 	public boolean inclusiveUpper()
 	{
-		return inclusiveUpper;
+		return _inclusiveUpper;
 	}
 
 	public OWLRealInterval intersection(final OWLRealInterval that)
@@ -600,7 +600,7 @@ public class OWLRealInterval
 		Number lower, upper;
 		boolean inclusiveUpper, inclusiveLower;
 
-		final LineType intersectionType = this.type.intersect(that.type);
+		final LineType intersectionType = this._type.intersect(that._type);
 		if (intersectionType == null)
 			return null;
 
@@ -610,7 +610,7 @@ public class OWLRealInterval
 			case CONTAINS:
 			case STARTED_BY:
 
-				if (intersectionType.equals(that.type))
+				if (intersectionType.equals(that._type))
 					return that;
 
 				lower = that.getLower();
@@ -620,9 +620,9 @@ public class OWLRealInterval
 				break;
 
 			case EQUALS:
-				if (intersectionType.equals(this.type))
+				if (intersectionType.equals(this._type))
 					return this;
-				if (intersectionType.equals(this.type))
+				if (intersectionType.equals(this._type))
 					return that;
 
 				lower = this.getLower();
@@ -634,7 +634,7 @@ public class OWLRealInterval
 			case DURING:
 			case STARTS:
 
-				if (intersectionType.equals(this.type))
+				if (intersectionType.equals(this._type))
 					return this;
 
 				lower = this.getLower();
@@ -731,7 +731,7 @@ public class OWLRealInterval
 		}
 		/*
 		 * If intersection is integer excluded verify that it is not an integer
-		 * point
+		 * _point
 		 */
 		else
 			if (LineType.INTEGER_EXCLUDED.equals(intersectionType))
@@ -743,12 +743,12 @@ public class OWLRealInterval
 
 	public boolean isFinite()
 	{
-		return finite;
+		return _finite;
 	}
 
 	public boolean isPoint()
 	{
-		return point;
+		return _point;
 	}
 
 	/**
@@ -869,19 +869,19 @@ public class OWLRealInterval
 
 	public Number size()
 	{
-		if (!finite)
+		if (!_finite)
 			throw new IllegalStateException();
 		else
-			if (point)
+			if (_point)
 				return 1;
 			else
-				return integerIncrement(integerDifference(upper, lower));
+				return integerIncrement(integerDifference(_upper, _lower));
 	}
 
 	@Override
 	public String toString()
 	{
-		return format("%s%s,%s%s%s", inclusiveLower() ? "[" : "(", boundLower() ? getLower() : "-Inf", boundUpper() ? getUpper() : "+Inf", inclusiveUpper() ? "]" : ")", type.equals(LineType.CONTINUOUS) ? "" : type.equals(LineType.INTEGER_ONLY) ? "{int}" : "{noint}");
+		return format("%s%s,%s%s%s", inclusiveLower() ? "[" : "(", boundLower() ? getLower() : "-Inf", boundUpper() ? getUpper() : "+Inf", inclusiveUpper() ? "]" : ")", _type.equals(LineType.CONTINUOUS) ? "" : _type.equals(LineType.INTEGER_ONLY) ? "{int}" : "{noint}");
 	}
 
 	public List<OWLRealInterval> union(final OWLRealInterval other)

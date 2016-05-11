@@ -29,8 +29,8 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	public class ValueIterator implements Iterator<T>
 	{
-		private final T last;
-		private T next;
+		private final T _last;
+		private T _next;
 
 		public ValueIterator(final T lower, final T upper)
 		{
@@ -39,24 +39,24 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 			if (upper == null)
 				throw new NullPointerException();
 
-			this.next = lower;
-			this.last = upper;
+			this._next = lower;
+			this._last = upper;
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return next != null;
+			return _next != null;
 		}
 
 		@Override
 		public T next()
 		{
-			final T ret = next;
-			if (next.equals(last))
-				next = null;
+			final T ret = _next;
+			if (_next.equals(_last))
+				_next = null;
 			else
-				next = type.increment(next);
+				_next = _type.increment(_next);
 			return ret;
 		}
 
@@ -68,21 +68,16 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	}
 
-	private static final Logger log;
-
-	static
-	{
-		log = Logger.getLogger(FloatingPointInterval.class.getCanonicalName());
-	}
+	private static final Logger _log = Logger.getLogger(FloatingPointInterval.class.getCanonicalName());
 
 	public static <U extends Number & Comparable<U>> FloatingPointInterval<U> unconstrained(final FloatingPointType<U> type)
 	{
 		return new FloatingPointInterval<>(type, type.getNegativeInfinity(), type.getPositiveInfinity());
 	}
 
-	private final T lower;
-	private final FloatingPointType<T> type;
-	private final T upper;
+	private final T _lower;
+	private final FloatingPointType<T> _type;
+	private final T _upper;
 
 	/**
 	 * Create a point interval. This is equivalent to {@link #IEEEFloatInterval(Float, Float)} with arguments <code>point,point,true,true</code>
@@ -99,16 +94,16 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 		if (type.isNaN(point))
 			throw new IllegalArgumentException();
 
-		this.type = type;
-		this.lower = point;
-		this.upper = point;
+		this._type = type;
+		this._lower = point;
+		this._upper = point;
 	}
 
 	/**
 	 * Create an interval.
 	 *
-	 * @param lower Interval lower bound
-	 * @param upper Interval upper bound
+	 * @param _lower Interval _lower bound
+	 * @param _upper Interval _upper bound
 	 */
 	public FloatingPointInterval(final FloatingPointType<T> type, final T lower, final T upper)
 	{
@@ -127,27 +122,27 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 		final int cmp = lower.compareTo(upper);
 		if (cmp > 0)
 		{
-			final String msg = format("Lower bound of interval (%s) should not be greater than upper bound of interval (%s)", lower, upper);
-			log.severe(msg);
+			final String msg = format("Lower bound of interval (%s) should not be greater than _upper bound of interval (%s)", lower, upper);
+			_log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
-		this.type = type;
-		this.lower = lower;
-		this.upper = upper;
+		this._type = type;
+		this._lower = lower;
+		this._upper = upper;
 	}
 
 	public boolean canUnionWith(final FloatingPointInterval<T> other)
 	{
-		final int ll = this.lower.compareTo(other.lower);
-		final int uu = this.upper.compareTo(other.upper);
+		final int ll = this._lower.compareTo(other._lower);
+		final int uu = this._upper.compareTo(other._upper);
 		if (ll <= 0)
 		{
 			if (uu < 0)
 			{
-				if (this.upper.compareTo(other.lower) < 0)
+				if (this._upper.compareTo(other._lower) < 0)
 				{
-					if (type.increment(this.upper).equals(other.lower))
+					if (_type.increment(this._upper).equals(other._lower))
 						return true;
 					else
 						return false;
@@ -161,9 +156,9 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 		else
 			if (uu > 0)
 			{
-				if (this.lower.compareTo(other.upper) > 0)
+				if (this._lower.compareTo(other._upper) > 0)
 				{
-					if (type.increment(other.upper).equals(this.lower))
+					if (_type.increment(other._upper).equals(this._lower))
 						return true;
 					else
 						return false;
@@ -177,7 +172,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	public boolean contains(final T n)
 	{
-		if (type.isNaN(n))
+		if (_type.isNaN(n))
 			return false;
 
 		final int lcmp = getLower().compareTo(n);
@@ -195,7 +190,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	private FloatingPointInterval<T> create(final T lower, final T upper)
 	{
-		return new FloatingPointInterval<>(type, lower, upper);
+		return new FloatingPointInterval<>(_type, lower, upper);
 	}
 
 	@Override
@@ -208,9 +203,9 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 		if (getClass() != obj.getClass())
 			return false;
 		final FloatingPointInterval<?> other = (FloatingPointInterval<?>) obj;
-		if (!lower.equals(other.lower))
+		if (!_lower.equals(other._lower))
 			return false;
-		if (!upper.equals(other.upper))
+		if (!_upper.equals(other._upper))
 			return false;
 
 		return true;
@@ -218,12 +213,12 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	public T getLower()
 	{
-		return lower;
+		return _lower;
 	}
 
 	public T getUpper()
 	{
-		return upper;
+		return _upper;
 	}
 
 	/**
@@ -237,7 +232,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 		if (n == null)
 			throw new NullPointerException();
 
-		if (type.isNaN(n))
+		if (_type.isNaN(n))
 			throw new IllegalArgumentException();
 
 		if (getLower().compareTo(n) >= 0)
@@ -246,7 +241,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 			if (getUpper().compareTo(n) <= 0)
 				return null;
 			else
-				return create(type.increment(n), getUpper());
+				return create(_type.increment(n), getUpper());
 	}
 
 	@Override
@@ -254,25 +249,25 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result + ((lower == null) ? 0 : lower.hashCode());
-		result = prime * result + ((upper == null) ? 0 : upper.hashCode());
+		result = prime * result + ((_type == null) ? 0 : _type.hashCode());
+		result = prime * result + ((_lower == null) ? 0 : _lower.hashCode());
+		result = prime * result + ((_upper == null) ? 0 : _upper.hashCode());
 		return result;
 	}
 
 	public FloatingPointInterval<T> intersection(final FloatingPointInterval<T> that)
 	{
 
-		final int ll = this.lower.compareTo(that.lower);
-		final int uu = this.upper.compareTo(that.upper);
+		final int ll = this._lower.compareTo(that._lower);
+		final int uu = this._upper.compareTo(that._upper);
 		if (ll <= 0)
 		{
 			if (uu < 0)
 			{
-				if (this.upper.compareTo(that.lower) < 0)
+				if (this._upper.compareTo(that._lower) < 0)
 					return null;
 				else
-					return create(that.lower, this.upper);
+					return create(that._lower, this._upper);
 			}
 			else
 				return that;
@@ -280,10 +275,10 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 		else
 			if (uu > 0)
 			{
-				if (this.lower.compareTo(that.upper) > 0)
+				if (this._lower.compareTo(that._upper) > 0)
 					return null;
 				else
-					return create(this.lower, that.upper);
+					return create(this._lower, that._upper);
 			}
 			else
 				return this;
@@ -300,7 +295,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 		if (n == null)
 			throw new NullPointerException();
 
-		if (type.isNaN(n))
+		if (_type.isNaN(n))
 			throw new IllegalArgumentException();
 
 		if (getUpper().compareTo(n) <= 0)
@@ -309,7 +304,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 			if (getLower().compareTo(n) >= 0)
 				return null;
 			else
-				return create(getLower(), type.decrement(n));
+				return create(getLower(), _type.decrement(n));
 	}
 
 	public List<FloatingPointInterval<T>> remove(final FloatingPointInterval<T> other)
@@ -317,10 +312,10 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 		FloatingPointInterval<T> before, after;
 
-		final int ll = this.lower.compareTo(other.lower);
-		final int lu = this.lower.compareTo(other.upper);
-		final int ul = this.upper.compareTo(other.lower);
-		final int uu = this.upper.compareTo(other.upper);
+		final int ll = this._lower.compareTo(other._lower);
+		final int lu = this._lower.compareTo(other._upper);
+		final int ul = this._upper.compareTo(other._lower);
+		final int uu = this._upper.compareTo(other._upper);
 
 		if (ll < 0)
 		{
@@ -332,21 +327,21 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 			else
 			{
 				{
-					final T f = type.decrement(other.lower);
-					if (f.equals(type.getNegativeInfinity()))
+					final T f = _type.decrement(other._lower);
+					if (f.equals(_type.getNegativeInfinity()))
 						before = null;
 					else
-						before = create(this.lower, f);
+						before = create(this._lower, f);
 				}
 				if (uu <= 0)
 					after = null;
 				else
 				{
-					final T f = type.increment(other.upper);
-					if (f.equals(type.getPositiveInfinity()))
+					final T f = _type.increment(other._upper);
+					if (f.equals(_type.getPositiveInfinity()))
 						after = null;
 					else
-						after = create(type.increment(other.upper), this.upper);
+						after = create(_type.increment(other._upper), this._upper);
 				}
 			}
 		}
@@ -365,9 +360,9 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 				else
 				{
 					before = null;
-					final T f = type.increment(other.upper);
-					if (f.equals(type.getPositiveInfinity()))
-						after = create(type.increment(other.upper), this.upper);
+					final T f = _type.increment(other._upper);
+					if (f.equals(_type.getPositiveInfinity()))
+						after = create(_type.increment(other._upper), this._upper);
 					else
 						after = null;
 				}
@@ -386,17 +381,17 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	public Number size()
 	{
-		return type.intervalSize(lower, upper);
+		return _type.intervalSize(_lower, _upper);
 	}
 
 	public List<FloatingPointInterval<T>> union(final FloatingPointInterval<T> other)
 	{
 		FloatingPointInterval<T> first, second;
 
-		final int ll = this.lower.compareTo(other.lower);
-		final int lu = this.lower.compareTo(other.upper);
-		final int ul = this.upper.compareTo(other.lower);
-		final int uu = this.upper.compareTo(other.upper);
+		final int ll = this._lower.compareTo(other._lower);
+		final int lu = this._lower.compareTo(other._upper);
+		final int ul = this._upper.compareTo(other._lower);
+		final int uu = this._upper.compareTo(other._upper);
 
 		if (ll < 0)
 		{
@@ -409,7 +404,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 			{
 				second = null;
 				if (uu < 0)
-					first = create(this.lower, other.upper);
+					first = create(this._lower, other._upper);
 				else
 					first = this;
 			}
@@ -426,7 +421,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 				if (uu <= 0)
 					first = other;
 				else
-					first = create(other.lower, this.upper);
+					first = create(other._lower, this._upper);
 			}
 
 		if (first == null)
@@ -443,6 +438,6 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	public Iterator<T> valueIterator()
 	{
-		return new ValueIterator(lower, upper);
+		return new ValueIterator(_lower, _upper);
 	}
 }

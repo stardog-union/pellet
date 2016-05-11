@@ -29,8 +29,8 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class RestrictedURIDatatype implements RestrictedDatatype<ATermAppl>
 {
-	private final Datatype<ATermAppl> dt;
-	private final Set<Object> excludedValues;
+	private final Datatype<ATermAppl> _dt;
+	private final Set<Object> _excludedValues;
 
 	public RestrictedURIDatatype(final Datatype<ATermAppl> dt)
 	{
@@ -39,8 +39,8 @@ public class RestrictedURIDatatype implements RestrictedDatatype<ATermAppl>
 
 	private RestrictedURIDatatype(final Datatype<ATermAppl> dt, final Set<Object> excludedValues)
 	{
-		this.dt = dt;
-		this.excludedValues = excludedValues;
+		this._dt = dt;
+		this._excludedValues = excludedValues;
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class RestrictedURIDatatype implements RestrictedDatatype<ATermAppl>
 		{
 			final ATermAppl a = (ATermAppl) value;
 
-			if (excludedValues.contains(a))
+			if (_excludedValues.contains(a))
 				return false;
 
 			if (ATermUtils.isLiteral(a) && XSDAnyURI.NAME.equals(a.getArgument(ATermUtils.LIT_URI_INDEX)))
@@ -76,20 +76,14 @@ public class RestrictedURIDatatype implements RestrictedDatatype<ATermAppl>
 	public RestrictedDatatype<ATermAppl> exclude(final Collection<?> values)
 	{
 		final Set<Object> newExcludedValues = new HashSet<>(values);
-		newExcludedValues.addAll(excludedValues);
-		return new RestrictedURIDatatype(dt, newExcludedValues);
+		newExcludedValues.addAll(_excludedValues);
+		return new RestrictedURIDatatype(_dt, newExcludedValues);
 	}
 
 	@Override
 	public Datatype<? extends ATermAppl> getDatatype()
 	{
-		return dt;
-	}
-
-	@Override
-	public ATermAppl getValue(final int i)
-	{
-		throw new UnsupportedOperationException();
+		return _dt;
 	}
 
 	@Override
@@ -117,12 +111,6 @@ public class RestrictedURIDatatype implements RestrictedDatatype<ATermAppl>
 	public boolean isFinite()
 	{
 		return false;
-	}
-
-	@Override
-	public int size()
-	{
-		throw new IllegalStateException();
 	}
 
 	@Override

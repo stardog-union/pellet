@@ -13,12 +13,12 @@ import org.mindswap.pellet.utils.ATermUtils;
 public abstract class AbstractTimelineDatatype extends AbstractBaseDatatype<XMLGregorianCalendar>
 {
 
-	private final QName schemaType;
+	private final QName _schemaType;
 
 	public AbstractTimelineDatatype(final ATermAppl name, final QName schemaType)
 	{
 		super(name);
-		this.schemaType = schemaType;
+		this._schemaType = schemaType;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public abstract class AbstractTimelineDatatype extends AbstractBaseDatatype<XMLG
 		if (value instanceof XMLGregorianCalendar)
 		{
 			final XMLGregorianCalendar c = (XMLGregorianCalendar) value;
-			if (!schemaType.equals(c.getXMLSchemaType()))
+			if (!_schemaType.equals(c.getXMLSchemaType()))
 				throw new IllegalArgumentException();
 			return ATermUtils.makeTypedLiteral(c.toXMLFormat(), getName());
 		}
@@ -59,7 +59,7 @@ public abstract class AbstractTimelineDatatype extends AbstractBaseDatatype<XMLG
 		try
 		{
 			final XMLGregorianCalendar c = getDatatypeFactory().newXMLGregorianCalendar(lexicalForm);
-			if (!schemaType.equals(c.getXMLSchemaType()))
+			if (!_schemaType.equals(c.getXMLSchemaType()))
 				throw new InvalidLiteralException(getName(), lexicalForm);
 
 			return c;

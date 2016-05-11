@@ -12,7 +12,7 @@ import java.util.Set;
  * Title: Data value enumeration
  * </p>
  * <p>
- * Description: Enumeration of _data values (i.e., an OWL 2 DataOneOf)
+ * Description: Enumeration of _data _values (i.e., an OWL 2 DataOneOf)
  * </p>
  * <p>
  * Copyright: Copyright (c) 2009
@@ -26,8 +26,8 @@ import java.util.Set;
 public class DataValueEnumeration<T> implements DataRange<T>
 {
 
-	private final Set<T> values;
-	private final int size;
+	private final Set<T> _values;
+	private final int _size;
 
 	public DataValueEnumeration(final Collection<? extends T> values)
 	{
@@ -36,32 +36,33 @@ public class DataValueEnumeration<T> implements DataRange<T>
 		if (values.isEmpty())
 			throw new IllegalArgumentException();
 
-		this.values = Collections.unmodifiableSet(new LinkedHashSet<T>(values));
-		this.size = this.values.size();
+		this._values = Collections.unmodifiableSet(new LinkedHashSet<T>(values));
+		this._size = this._values.size();
 	}
 
 	@Override
 	public boolean contains(final Object value)
 	{
-		return values.contains(value);
+		return _values.contains(value);
 	}
 
 	@Override
 	public boolean containsAtLeast(final int n)
 	{
-		return size >= n;
+		return _size >= n;
 	}
 
+	@Deprecated
 	@Override
 	public T getValue(final int i)
 	{
 		/*
 		 * Inefficient, but no one should be using this method!
 		 */
-		if (i >= size)
+		if (i >= _size)
 			throw new NoSuchElementException();
 
-		final Iterator<T> it = values.iterator();
+		final Iterator<T> it = _values.iterator();
 		for (int j = 0; j < i; j++)
 			it.next();
 
@@ -86,21 +87,22 @@ public class DataValueEnumeration<T> implements DataRange<T>
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public int size()
 	{
-		return size;
+		return _size;
 	}
 
 	@Override
 	public Iterator<T> valueIterator()
 	{
-		return values.iterator();
+		return _values.iterator();
 	}
 
 	@Override
 	public String toString()
 	{
-		return String.format("OneOf%s", values);
+		return String.format("OneOf%s", _values);
 	}
 }

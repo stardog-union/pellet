@@ -25,15 +25,8 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDUnsignedLong extends AbstractDerivedIntegerType
 {
 
-	private static final XSDUnsignedLong instance;
-	private static final BigInteger MAX_VALUE;
-
-	static
-	{
-		MAX_VALUE = new BigInteger("18446744073709551615");
-
-		instance = new XSDUnsignedLong();
-	}
+	private static final XSDUnsignedLong instance = new XSDUnsignedLong();
+	private static final BigInteger MAX_VALUE = new BigInteger("18446744073709551615");
 
 	public static XSDUnsignedLong getInstance()
 	{

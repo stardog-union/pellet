@@ -5,17 +5,11 @@ import com.clarkparsia.pellet.datatypes.OWLRealUtils;
 
 public class IntegerInterval extends DiscreteInterval<Number, IntegerInterval>
 {
-
-	private static final IntegerInterval unconstrained;
-
-	static
-	{
-		unconstrained = new IntegerInterval(null, null);
-	}
+	private static final IntegerInterval _unconstrained = new IntegerInterval(null, null);
 
 	public static IntegerInterval allIntegers()
 	{
-		return unconstrained;
+		return _unconstrained;
 	}
 
 	public IntegerInterval(final Number point)

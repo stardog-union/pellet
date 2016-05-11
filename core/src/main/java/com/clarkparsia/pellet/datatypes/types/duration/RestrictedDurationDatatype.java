@@ -26,11 +26,11 @@ import javax.xml.datatype.Duration;
  */
 public class RestrictedDurationDatatype implements RestrictedDatatype<Duration>
 {
-	private final Datatype<Duration> dt;
+	private final Datatype<Duration> _dt;
 
 	public RestrictedDurationDatatype(final Datatype<Duration> dt)
 	{
-		this.dt = dt;
+		this._dt = dt;
 	}
 
 	@Override
@@ -64,13 +64,7 @@ public class RestrictedDurationDatatype implements RestrictedDatatype<Duration>
 	@Override
 	public Datatype<? extends Duration> getDatatype()
 	{
-		return dt;
-	}
-
-	@Override
-	public Duration getValue(final int i)
-	{
-		throw new UnsupportedOperationException();
+		return _dt;
 	}
 
 	@Override
@@ -98,12 +92,6 @@ public class RestrictedDurationDatatype implements RestrictedDatatype<Duration>
 	public boolean isFinite()
 	{
 		return false;
-	}
-
-	@Override
-	public int size()
-	{
-		throw new IllegalStateException();
 	}
 
 	@Override

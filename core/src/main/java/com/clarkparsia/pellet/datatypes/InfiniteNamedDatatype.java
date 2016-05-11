@@ -38,9 +38,9 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 	}
 
 	/**
-	 * Get an instance with a specific name.
+	 * Get an instance with a specific _name.
 	 *
-	 * @param dtName the name of the datatype
+	 * @param dtName the _name of the datatype
 	 * @return an instance
 	 */
 	public static InfiniteNamedDatatype get(final ATermAppl dtName)
@@ -56,8 +56,8 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 		return dt;
 	}
 
-	private final ATermAppl name;
-	private final RestrictedDatatype<ATermAppl> range;
+	private final ATermAppl _name;
+	private final RestrictedDatatype<ATermAppl> _range;
 
 	private InfiniteNamedDatatype(final ATermAppl name)
 	{
@@ -66,8 +66,8 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 		if (name.getArity() != 0)
 			throw new IllegalArgumentException();
 
-		this.name = name;
-		range = new RestrictedDatatype<ATermAppl>()
+		this._name = name;
+		_range = new RestrictedDatatype<ATermAppl>()
 		{
 
 			@Override
@@ -85,7 +85,7 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 					if (ATermUtils.isLiteral(a))
 					{
 						final ATermAppl dt = (ATermAppl) a.getArgument(ATermUtils.LIT_URI_INDEX);
-						return InfiniteNamedDatatype.this.name.equals(dt);
+						return InfiniteNamedDatatype.this._name.equals(dt);
 					}
 				}
 				return false;
@@ -111,12 +111,6 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 			public Datatype<? extends ATermAppl> getDatatype()
 			{
 				return InfiniteNamedDatatype.this;
-			}
-
-			@Override
-			public ATermAppl getValue(final int i)
-			{
-				throw new UnsupportedOperationException();
 			}
 
 			@Override
@@ -146,12 +140,6 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 			}
 
 			@Override
-			public int size()
-			{
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
 			public RestrictedDatatype<ATermAppl> union(final RestrictedDatatype<?> other)
 			{
 				if (other == this)
@@ -170,7 +158,7 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 	@Override
 	public RestrictedDatatype<ATermAppl> asDataRange()
 	{
-		return range;
+		return _range;
 	}
 
 	@Override
@@ -183,13 +171,13 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 		if (getClass() != obj.getClass())
 			return false;
 		final InfiniteNamedDatatype other = (InfiniteNamedDatatype) obj;
-		if (name == null)
+		if (_name == null)
 		{
-			if (other.name != null)
+			if (other._name != null)
 				return false;
 		}
 		else
-			if (!name.equals(other.name))
+			if (!_name.equals(other._name))
 				return false;
 		return true;
 	}
@@ -199,7 +187,7 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 	{
 		if (!ATermUtils.isLiteral(input))
 			throw new IllegalArgumentException();
-		if (!name.equals(input.getArgument(ATermUtils.LIT_URI_INDEX)))
+		if (!_name.equals(input.getArgument(ATermUtils.LIT_URI_INDEX)))
 			throw new IllegalArgumentException();
 
 		return input;
@@ -212,7 +200,7 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 		{
 			final ATermAppl a = (ATermAppl) value;
 			if (ATermUtils.isLiteral(a))
-				if (name.equals(a.getArgument(ATermUtils.LIT_URI_INDEX)))
+				if (_name.equals(a.getArgument(ATermUtils.LIT_URI_INDEX)))
 					return a;
 		}
 		throw new IllegalArgumentException();
@@ -221,7 +209,7 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 	@Override
 	public ATermAppl getName()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
@@ -235,7 +223,7 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 	{
 		if (!ATermUtils.isLiteral(literal))
 			throw new IllegalArgumentException();
-		if (!name.equals(literal.getArgument(ATermUtils.LIT_URI_INDEX)))
+		if (!_name.equals(literal.getArgument(ATermUtils.LIT_URI_INDEX)))
 			throw new IllegalArgumentException();
 
 		return literal;
@@ -246,7 +234,7 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((_name == null) ? 0 : _name.hashCode());
 		return result;
 	}
 
@@ -259,7 +247,7 @@ public class InfiniteNamedDatatype implements Datatype<ATermAppl>
 	@Override
 	public String toString()
 	{
-		return name.getName();
+		return _name.getName();
 	}
 
 }

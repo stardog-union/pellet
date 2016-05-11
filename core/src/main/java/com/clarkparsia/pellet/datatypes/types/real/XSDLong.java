@@ -24,12 +24,7 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDLong extends AbstractDerivedIntegerType
 {
 
-	private static final XSDLong instance;
-
-	static
-	{
-		instance = new XSDLong();
-	}
+	private static final XSDLong instance = new XSDLong();
 
 	public static XSDLong getInstance()
 	{

@@ -21,14 +21,11 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDNormalizedString extends AbstractBaseDatatype<ATermAppl>
 {
 
-	private static final XSDNormalizedString instance;
-	private static final RDFPlainLiteral RDF_PLAIN_LITERAL;
+	private static final XSDNormalizedString instance = new XSDNormalizedString();
+	private static final RDFPlainLiteral RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
 
 	static
 	{
-		RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
-
-		instance = new XSDNormalizedString();
 		RestrictedTextDatatype.addPermittedDatatype(instance.getName());
 	}
 

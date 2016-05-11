@@ -21,14 +21,11 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDNMToken extends AbstractBaseDatatype<ATermAppl>
 {
 
-	private static final XSDNMToken instance;
-	private static final RDFPlainLiteral RDF_PLAIN_LITERAL;
+	private static final XSDNMToken instance = new XSDNMToken();
+	private static final RDFPlainLiteral RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
 
 	static
 	{
-		RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
-
-		instance = new XSDNMToken();
 		RestrictedTextDatatype.addPermittedDatatype(instance.getName());
 	}
 

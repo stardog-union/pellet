@@ -11,17 +11,17 @@ public class InvalidDatatypeRestrictionException extends DatatypeReasonerExcepti
 
 	private static final long serialVersionUID = 3L;
 
-	private final ATermAppl datatype;
+	private final ATermAppl _datatype;
 
 	public InvalidDatatypeRestrictionException(final ATermAppl datatype)
 	{
-		super("Invalid datatype restriction on " + ATermUtils.toString(datatype));
+		super("Invalid _datatype restriction on " + ATermUtils.toString(datatype));
 
-		this.datatype = datatype;
+		this._datatype = datatype;
 	}
 
 	public ATermAppl getDatatypeRestriction()
 	{
-		return datatype;
+		return _datatype;
 	}
 }

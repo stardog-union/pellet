@@ -26,13 +26,8 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public abstract class AbstractDerivedIntegerType extends AbstractBaseDatatype<Number>
 {
-
-	private static final XSDDecimal XSD_DECIMAL;
-	static
-	{
-		XSD_DECIMAL = XSDDecimal.getInstance();
-	}
-	private final RestrictedDatatype<Number> dataRange;
+	private static final XSDDecimal XSD_DECIMAL = XSDDecimal.getInstance();
+	private final RestrictedDatatype<Number> _dataRange;
 
 	public AbstractDerivedIntegerType(final ATermAppl name, final Number lower, final Number upper)
 	{
@@ -46,13 +41,13 @@ public abstract class AbstractDerivedIntegerType extends AbstractBaseDatatype<Nu
 			throw new IllegalArgumentException();
 
 		final IntegerInterval i = new IntegerInterval(lower == null ? null : OWLRealUtils.getCanonicalObject(lower), upper == null ? null : OWLRealUtils.getCanonicalObject(upper));
-		dataRange = new RestrictedRealDatatype(this, i, null, null);
+		_dataRange = new RestrictedRealDatatype(this, i, null, null);
 	}
 
 	@Override
 	public RestrictedDatatype<Number> asDataRange()
 	{
-		return dataRange;
+		return _dataRange;
 	}
 
 	/**

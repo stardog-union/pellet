@@ -47,32 +47,32 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 	}
 
 	/*
-	 * TODO: Evaluate storing intervals in a tree to improve the efficiency of
+	 * TODO: Evaluate storing _intervals in a tree to improve the efficiency of
 	 * #contains calls
 	 */
 
-	private final boolean containsNaN;
-	private final Datatype<? extends T> datatype;
-	private final RestrictedDatatype<T> empty;
-	private final List<FloatingPointInterval<T>> intervals;
-	private final FloatingPointType<T> type;
+	private final boolean _containsNaN;
+	private final Datatype<? extends T> _datatype;
+	private final RestrictedDatatype<T> _empty;
+	private final List<FloatingPointInterval<T>> _intervals;
+	private final FloatingPointType<T> _type;
 
 	public RestrictedFloatingPointDatatype(final Datatype<? extends T> datatype, final FloatingPointType<T> type)
 	{
-		this.datatype = datatype;
-		this.type = type;
-		this.empty = new EmptyRestrictedDatatype<>(datatype);
-		this.intervals = Collections.singletonList(FloatingPointInterval.unconstrained(type));
-		this.containsNaN = true;
+		this._datatype = datatype;
+		this._type = type;
+		this._empty = new EmptyRestrictedDatatype<>(datatype);
+		this._intervals = Collections.singletonList(FloatingPointInterval.unconstrained(type));
+		this._containsNaN = true;
 	}
 
 	private RestrictedFloatingPointDatatype(final RestrictedFloatingPointDatatype<T> other, final List<FloatingPointInterval<T>> intervals, final boolean containsNaN)
 	{
-		this.datatype = other.datatype;
-		this.type = other.type;
-		this.empty = other.empty;
-		this.intervals = Collections.unmodifiableList(intervals);
-		this.containsNaN = containsNaN;
+		this._datatype = other._datatype;
+		this._type = other._type;
+		this._empty = other._empty;
+		this._intervals = Collections.unmodifiableList(intervals);
+		this._containsNaN = containsNaN;
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 	{
 
 		/*
-		 * FIXME throw correct exception type here
+		 * FIXME throw correct exception _type here
 		 */
 
 		/*
@@ -89,7 +89,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		final Facet f = Facet.Registry.get(facet);
 		if (f == null)
 		{
-			final String msg = format("Attempt to constrain datatype (%s) with unsupported constraining facet ('%s' , '%s')", getDatatype(), facet, value);
+			final String msg = format("Attempt to constrain _datatype (%s) with unsupported constraining facet ('%s' , '%s')", getDatatype(), facet, value);
 			log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
@@ -98,11 +98,11 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		 * Check the value
 		 */
 		T n;
-		if (type.isInstance(value))
-			n = type.cast(value);
+		if (_type.isInstance(value))
+			n = _type.cast(value);
 		else
 		{
-			final String msg = format("Attempt to constrain datatype (%s) using constraining facet ('%s') with an unsupported value ('%s')", getDatatype(), f, value);
+			final String msg = format("Attempt to constrain _datatype (%s) using constraining facet ('%s') with an unsupported value ('%s')", getDatatype(), f, value);
 			log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
@@ -111,37 +111,37 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		if (EnumSet.of(XSD.MAX_EXCLUSIVE, XSD.MAX_INCLUSIVE, XSD.MIN_EXCLUSIVE, XSD.MIN_INCLUSIVE).contains(f))
 		{
 
-			if (type.isNaN(n))
-				return empty;
+			if (_type.isNaN(n))
+				return _empty;
 
 			if (XSD.MAX_EXCLUSIVE.equals(f))
 			{
-				lower = type.getNegativeInfinity();
-				if (n.equals(type.getNegativeInfinity()))
-					return empty;
+				lower = _type.getNegativeInfinity();
+				if (n.equals(_type.getNegativeInfinity()))
+					return _empty;
 				else
-					upper = type.decrement(n);
+					upper = _type.decrement(n);
 			}
 			else
 				if (XSD.MAX_INCLUSIVE.equals(f))
 				{
-					lower = type.getNegativeInfinity();
+					lower = _type.getNegativeInfinity();
 					upper = n;
 				}
 				else
 					if (XSD.MIN_EXCLUSIVE.equals(f))
 					{
-						if (n.equals(type.getPositiveInfinity()))
-							return empty;
+						if (n.equals(_type.getPositiveInfinity()))
+							return _empty;
 						else
-							lower = type.increment(n);
-						upper = type.getPositiveInfinity();
+							lower = _type.increment(n);
+						upper = _type.getPositiveInfinity();
 					}
 					else
 						if (XSD.MIN_INCLUSIVE.equals(f))
 						{
 							lower = n;
-							upper = type.getPositiveInfinity();
+							upper = _type.getPositiveInfinity();
 						}
 						else
 							throw new IllegalStateException();
@@ -149,7 +149,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		else
 			throw new IllegalStateException();
 
-		final FloatingPointInterval<T> restriction = new FloatingPointInterval<>(type, lower, upper);
+		final FloatingPointInterval<T> restriction = new FloatingPointInterval<>(_type, lower, upper);
 
 		final List<FloatingPointInterval<T>> revisedIntervals = new ArrayList<>();
 
@@ -158,9 +158,9 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		 * values, so if any facet is applied it is excluded from the value
 		 * space.
 		 */
-		boolean changes = containsNaN;
+		boolean changes = _containsNaN;
 
-		for (final FloatingPointInterval<T> i : intervals)
+		for (final FloatingPointInterval<T> i : _intervals)
 		{
 			final FloatingPointInterval<T> j = i.intersection(restriction);
 			if (j != null)
@@ -176,7 +176,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		if (changes)
 		{
 			if (revisedIntervals.isEmpty())
-				return empty;
+				return _empty;
 			else
 				return new RestrictedFloatingPointDatatype<>(this, revisedIntervals, false);
 		}
@@ -187,14 +187,14 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 	@Override
 	public boolean contains(final Object value)
 	{
-		if (type.isInstance(value))
+		if (_type.isInstance(value))
 		{
-			final T n = type.cast(value);
-			if (type.isNaN(n))
-				return containsNaN;
+			final T n = _type.cast(value);
+			if (_type.isNaN(n))
+				return _containsNaN;
 			else
 			{
-				for (final FloatingPointInterval<T> i : intervals)
+				for (final FloatingPointInterval<T> i : _intervals)
 					if (i.contains(n))
 						return true;
 				return false;
@@ -210,8 +210,8 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		if (n <= 0)
 			return true;
 
-		Number sum = containsNaN ? 1 : 0;
-		for (final FloatingPointInterval<T> i : intervals)
+		Number sum = _containsNaN ? 1 : 0;
+		for (final FloatingPointInterval<T> i : _intervals)
 		{
 			sum = OWLRealUtils.integerSum(sum, i.size());
 			if (OWLRealUtils.compare(sum, n) >= 0)
@@ -225,12 +225,12 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 	public RestrictedDatatype<T> exclude(final Collection<?> values)
 	{
 		boolean changes = false;
-		final List<FloatingPointInterval<T>> revisedIntervals = new ArrayList<>(intervals);
+		final List<FloatingPointInterval<T>> revisedIntervals = new ArrayList<>(_intervals);
 
 		for (final Object o : values)
-			if (type.isInstance(o))
+			if (_type.isInstance(o))
 			{
-				final T n = type.cast(o);
+				final T n = _type.cast(o);
 				for (final Iterator<FloatingPointInterval<T>> it = revisedIntervals.iterator(); it.hasNext();)
 				{
 					final FloatingPointInterval<T> i = it.next();
@@ -256,9 +256,9 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		if (changes)
 		{
 			if (revisedIntervals.isEmpty())
-				return empty;
+				return _empty;
 			else
-				return new RestrictedFloatingPointDatatype<>(this, revisedIntervals, containsNaN);
+				return new RestrictedFloatingPointDatatype<>(this, revisedIntervals, _containsNaN);
 		}
 		else
 			return this;
@@ -267,13 +267,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 	@Override
 	public Datatype<? extends T> getDatatype()
 	{
-		return datatype;
-	}
-
-	@Override
-	public T getValue(final int i)
-	{
-		throw new UnsupportedOperationException();
+		return _datatype;
 	}
 
 	@Override
@@ -282,9 +276,9 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 
 		if (other instanceof RestrictedFloatingPointDatatype<?>)
 		{
-			if (!type.equals(((RestrictedFloatingPointDatatype<?>) other).type))
+			if (!_type.equals(((RestrictedFloatingPointDatatype<?>) other)._type))
 				throw new IllegalArgumentException();
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			final RestrictedFloatingPointDatatype<T> otherRRD = (RestrictedFloatingPointDatatype) other;
 
 			boolean changes = false;
@@ -293,8 +287,8 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 			List<FloatingPointInterval<T>> intersectWith;
 			if (negated)
 			{
-				intersectWith = Collections.singletonList(FloatingPointInterval.unconstrained(type));
-				for (final FloatingPointInterval<T> i : otherRRD.intervals)
+				intersectWith = Collections.singletonList(FloatingPointInterval.unconstrained(_type));
+				for (final FloatingPointInterval<T> i : otherRRD._intervals)
 				{
 					final List<FloatingPointInterval<T>> tmp = new ArrayList<>();
 					for (final FloatingPointInterval<T> j : intersectWith)
@@ -303,12 +297,12 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 				}
 			}
 			else
-				intersectWith = otherRRD.intervals;
+				intersectWith = otherRRD._intervals;
 
 			if (intersectWith.isEmpty())
 				changes = true;
 			else
-				for (final FloatingPointInterval<T> i : this.intervals)
+				for (final FloatingPointInterval<T> i : this._intervals)
 					for (final FloatingPointInterval<T> j : intersectWith)
 					{
 						final FloatingPointInterval<T> k = i.intersection(j);
@@ -318,9 +312,9 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 					}
 
 			boolean toContainNaN;
-			if (this.containsNaN)
+			if (this._containsNaN)
 			{
-				if (otherRRD.containsNaN)
+				if (otherRRD._containsNaN)
 				{
 					if (negated)
 					{
@@ -345,7 +339,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 			if (changes)
 			{
 				if (revisedIntervals.isEmpty())
-					return empty;
+					return _empty;
 				else
 					return new RestrictedFloatingPointDatatype<>(this, revisedIntervals, toContainNaN);
 			}
@@ -375,11 +369,12 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public int size()
 	{
-		long sum = containsNaN ? 1 : 0;
-		for (final FloatingPointInterval<T> i : intervals)
+		long sum = _containsNaN ? 1 : 0;
+		for (final FloatingPointInterval<T> i : _intervals)
 		{
 			sum += i.size().longValue();
 			if (sum >= Integer.MAX_VALUE)
@@ -391,7 +386,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 	@Override
 	public String toString()
 	{
-		return format("{%s,%s}", datatype, intervals);
+		return format("{%s,%s}", _datatype, _intervals);
 	}
 
 	@Override
@@ -399,13 +394,13 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 	{
 		if (other instanceof RestrictedFloatingPointDatatype<?>)
 		{
-			if (!type.equals(((RestrictedFloatingPointDatatype<?>) other).type))
+			if (!_type.equals(((RestrictedFloatingPointDatatype<?>) other)._type))
 				throw new IllegalArgumentException();
-			@SuppressWarnings("unchecked")
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			final RestrictedFloatingPointDatatype<T> otherRRD = (RestrictedFloatingPointDatatype) other;
 
-			final List<FloatingPointInterval<T>> revisedIntervals = new ArrayList<>(this.intervals);
-			for (final FloatingPointInterval<T> i : otherRRD.intervals)
+			final List<FloatingPointInterval<T>> revisedIntervals = new ArrayList<>(this._intervals);
+			for (final FloatingPointInterval<T> i : otherRRD._intervals)
 			{
 				final List<FloatingPointInterval<T>> unionWith = new ArrayList<>();
 				for (final Iterator<FloatingPointInterval<T>> jt = revisedIntervals.iterator(); jt.hasNext();)
@@ -427,7 +422,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 					revisedIntervals.addAll(tmp);
 				}
 			}
-			final boolean toContainNaN = this.containsNaN || otherRRD.containsNaN;
+			final boolean toContainNaN = this._containsNaN || otherRRD._containsNaN;
 
 			return new RestrictedFloatingPointDatatype<>(this, revisedIntervals, toContainNaN);
 		}
@@ -440,13 +435,13 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 	{
 		/*
 		 * This implementation avoids allocating the value iterators for the
-		 * intervals until (and only if) they are needed. This is a
+		 * _intervals until (and only if) they are needed. This is a
 		 * micro-optimization relative to using
 		 * org.mindswap.pellet.utils.iterator.MultiIterator
 		 */
 		return new Iterator<T>()
-		{
-			final Iterator<FloatingPointInterval<T>> iit = intervals.iterator();
+				{
+			final Iterator<FloatingPointInterval<T>> iit = _intervals.iterator();
 			Iterator<T> nit = null;
 
 			@Override
@@ -455,7 +450,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 
 				/*
 				 * TODO: This implementation will never return NaN but should if
-				 * containsNaN is true
+				 * _containsNaN is true
 				 */
 
 				while (nit == null || !nit.hasNext())
@@ -481,7 +476,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 			{
 				throw new UnsupportedOperationException();
 			}
-		};
+				};
 	}
 
 }

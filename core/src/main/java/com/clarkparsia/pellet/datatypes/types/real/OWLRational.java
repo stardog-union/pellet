@@ -28,31 +28,26 @@ import org.mindswap.pellet.utils.Namespaces;
 public class OWLRational extends AbstractBaseDatatype<Number>
 {
 
-	private static final OWLRational instance;
-
-	static
-	{
-		instance = new OWLRational();
-	}
+	private static final OWLRational instance = new OWLRational();
 
 	public static OWLRational getInstance()
 	{
 		return instance;
 	}
 
-	private final RestrictedRealDatatype dataRange;
+	private final RestrictedRealDatatype _dataRange;
 
 	private OWLRational()
 	{
 		super(ATermUtils.makeTermAppl(Namespaces.OWL + "rational"));
 
-		dataRange = new RestrictedRealDatatype(this, IntegerInterval.allIntegers(), ContinuousRealInterval.allReals(), ContinuousRealInterval.allReals());
+		_dataRange = new RestrictedRealDatatype(this, IntegerInterval.allIntegers(), ContinuousRealInterval.allReals(), ContinuousRealInterval.allReals());
 	}
 
 	@Override
 	public RestrictedDatatype<Number> asDataRange()
 	{
-		return dataRange;
+		return _dataRange;
 	}
 
 	@Override

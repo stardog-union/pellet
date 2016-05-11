@@ -27,14 +27,11 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDString extends AbstractBaseDatatype<ATermAppl>
 {
 
-	private static final XSDString instance;
-	private static final RDFPlainLiteral RDF_PLAIN_LITERAL;
+	private static final XSDString instance = new XSDString();
+	private static final RDFPlainLiteral RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
 
 	static
 	{
-		RDF_PLAIN_LITERAL = RDFPlainLiteral.getInstance();
-
-		instance = new XSDString();
 		RestrictedTextDatatype.addPermittedDatatype(instance.getName());
 	}
 

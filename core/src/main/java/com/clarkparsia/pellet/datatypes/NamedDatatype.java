@@ -22,8 +22,8 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 class NamedDatatype<T> implements Datatype<T>
 {
-	private final ATermAppl name;
-	private final RestrictedDatatype<T> range;
+	private final ATermAppl _name;
+	private final RestrictedDatatype<T> _range;
 
 	NamedDatatype(final ATermAppl name, final RestrictedDatatype<T> range)
 	{
@@ -32,14 +32,14 @@ class NamedDatatype<T> implements Datatype<T>
 		if (name.getArity() != 0)
 			throw new IllegalArgumentException();
 
-		this.name = name;
-		this.range = range;
+		this._name = name;
+		this._range = range;
 	}
 
 	@Override
 	public RestrictedDatatype<T> asDataRange()
 	{
-		return range;
+		return _range;
 	}
 
 	@Override
@@ -51,14 +51,14 @@ class NamedDatatype<T> implements Datatype<T>
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final NamedDatatype other = (NamedDatatype) obj;
-		if (name == null)
+		final NamedDatatype<?> other = (NamedDatatype<?>) obj;
+		if (_name == null)
 		{
-			if (other.name != null)
+			if (other._name != null)
 				return false;
 		}
 		else
-			if (!name.equals(other.name))
+			if (!_name.equals(other._name))
 				return false;
 		return true;
 	}
@@ -66,7 +66,7 @@ class NamedDatatype<T> implements Datatype<T>
 	@Override
 	public ATermAppl getCanonicalRepresentation(final ATermAppl input) throws InvalidLiteralException
 	{
-		return range.getDatatype().getCanonicalRepresentation(input);
+		return _range.getDatatype().getCanonicalRepresentation(input);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ class NamedDatatype<T> implements Datatype<T>
 		{
 			final ATermAppl a = (ATermAppl) value;
 			if (ATermUtils.isLiteral(a))
-				if (name.equals(a.getArgument(ATermUtils.LIT_URI_INDEX)))
+				if (_name.equals(a.getArgument(ATermUtils.LIT_URI_INDEX)))
 					return a;
 		}
 		throw new IllegalArgumentException();
@@ -85,22 +85,22 @@ class NamedDatatype<T> implements Datatype<T>
 	@Override
 	public ATermAppl getName()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
 	public Datatype<?> getPrimitiveDatatype()
 	{
-		return range.getDatatype().getPrimitiveDatatype();
+		return _range.getDatatype().getPrimitiveDatatype();
 	}
 
 	@Override
 	public T getValue(final ATermAppl literal) throws InvalidLiteralException
 	{
-		final T value = range.getDatatype().getValue(literal);
+		final T value = _range.getDatatype().getValue(literal);
 
-		if (!range.contains(value))
-			throw new InvalidLiteralException(name, literal.getArgument(ATermUtils.LIT_VAL_INDEX).toString());
+		if (!_range.contains(value))
+			throw new InvalidLiteralException(_name, literal.getArgument(ATermUtils.LIT_VAL_INDEX).toString());
 
 		return value;
 	}
@@ -110,7 +110,7 @@ class NamedDatatype<T> implements Datatype<T>
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((_name == null) ? 0 : _name.hashCode());
 		return result;
 	}
 
@@ -123,7 +123,7 @@ class NamedDatatype<T> implements Datatype<T>
 	@Override
 	public String toString()
 	{
-		return name.getName();
+		return _name.getName();
 	}
 
 }
