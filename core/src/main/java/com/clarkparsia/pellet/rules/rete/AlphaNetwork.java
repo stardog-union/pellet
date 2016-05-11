@@ -174,21 +174,21 @@ public class AlphaNetwork implements Iterable<AlphaNode>
 	}
 
 	//	private void activateEdge(Edge edge, boolean inverse) {
-	//		Role role = edge.getRole();
+	//		Role _role = edge.getRole();
 	//		if (inverse) {
-	//			role = role.getInverse();
-	//			if (role == null) {
+	//			_role = _role.getInverse();
+	//			if (_role == null) {
 	//				return;
 	//			}
 	//		}
-	//		for (Role r : role.getSuperRoles()) {
+	//		for (Role r : _role.getSuperRoles()) {
 	//			if (r.isAnon()) {
 	//				continue;
 	//			}
 	//			List<AlphaNode> alphas = _map.get(r.getName());
 	//			if (alphas != null) {
 	//				if (inverse) {
-	//					edge = new DefaultEdge(role,(Individual)edge.getTo(),  edge.getFrom(), edge.getDepends());
+	//					edge = new DefaultEdge(_role,(Individual)edge.getTo(),  edge.getFrom(), edge.getDepends());
 	//				}
 	//				for (AlphaNode alpha : alphas) {
 	//					((AlphaEdgeNode) alpha).activate(edge);

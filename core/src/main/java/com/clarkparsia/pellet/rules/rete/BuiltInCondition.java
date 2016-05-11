@@ -14,17 +14,17 @@ import org.mindswap.pellet.utils.ATermUtils;
 
 public class BuiltInCondition implements FilterCondition
 {
-	private final ABox abox;
-	private final String name;
-	private final BuiltIn builtin;
-	private final NodeProvider[] args;
+	private final ABox _abox;
+	private final String _name;
+	private final BuiltIn _builtin;
+	private final NodeProvider[] _args;
 
 	public BuiltInCondition(final ABox abox, final String name, final BuiltIn builtin, final NodeProvider[] args)
 	{
-		this.abox = abox;
-		this.name = name;
-		this.builtin = builtin;
-		this.args = args;
+		this._abox = abox;
+		this._name = name;
+		this._builtin = builtin;
+		this._args = args;
 		for (final NodeProvider arg : args)
 			if (arg == null)
 				throw new NullPointerException();
@@ -33,10 +33,10 @@ public class BuiltInCondition implements FilterCondition
 	@Override
 	public boolean test(final WME wme, final Token token)
 	{
-		final Literal[] literals = new Literal[args.length];
+		final Literal[] literals = new Literal[_args.length];
 		for (int i = 0; i < literals.length; i++)
-			literals[i] = (Literal) args[i].getNode(wme, token);
-		return builtin.apply(abox, literals);
+			literals[i] = (Literal) _args[i].getNode(wme, token);
+		return _builtin.apply(_abox, literals);
 	}
 
 	@Override
@@ -44,8 +44,8 @@ public class BuiltInCondition implements FilterCondition
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(args);
-		result = prime * result + builtin.hashCode();
+		result = prime * result + Arrays.hashCode(_args);
+		result = prime * result + _builtin.hashCode();
 		return result;
 	}
 
@@ -57,12 +57,12 @@ public class BuiltInCondition implements FilterCondition
 		if (!(obj instanceof BuiltInCondition))
 			return false;
 		final BuiltInCondition other = (BuiltInCondition) obj;
-		return builtin.equals(other.builtin) && Arrays.equals(args, other.args);
+		return _builtin.equals(other._builtin) && Arrays.equals(_args, other._args);
 	}
 
 	@Override
 	public String toString()
 	{
-		return ATermUtils.toString(ATermUtils.makeTermAppl(name)) + Arrays.toString(args);
+		return ATermUtils.toString(ATermUtils.makeTermAppl(_name)) + Arrays.toString(_args);
 	}
 }

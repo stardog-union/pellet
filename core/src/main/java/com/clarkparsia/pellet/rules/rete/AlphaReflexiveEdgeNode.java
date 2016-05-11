@@ -46,7 +46,7 @@ public class AlphaReflexiveEdgeNode extends AlphaEdgeNode
 	@Override
 	public Iterator<WME> getMatches(final int argIndex, final Node arg)
 	{
-		final EdgeList edges = ((Individual) arg).getRNeighborEdges(role, arg);
+		final EdgeList edges = ((Individual) arg).getRNeighborEdges(_role, arg);
 
 		return toWMEs(edges, EdgeDirection.FORWARD);
 	}
@@ -54,25 +54,25 @@ public class AlphaReflexiveEdgeNode extends AlphaEdgeNode
 	@Override
 	public Iterator<WME> getMatches()
 	{
-		return new NestedIterator<Individual, WME>(abox.getIndIterator())
-		{
+		return new NestedIterator<Individual, WME>(_abox.getIndIterator())
+				{
 			@Override
 			public Iterator<WME> getInnerIterator(final Individual ind)
 			{
 				return toWMEs(ind.getEdgesTo(ind), EdgeDirection.FORWARD);
 			}
-		};
+				};
 	}
 
 	@Override
 	public boolean matches(final RuleAtom atom)
 	{
-		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) && atom.getPredicate().equals(role.getName()) && ((BinaryAtom) atom).getArgument1() instanceof AtomVariable && ((BinaryAtom) atom).getArgument2().equals(((BinaryAtom) atom).getArgument1());
+		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) && atom.getPredicate().equals(_role.getName()) && ((BinaryAtom<?, ?, ?>) atom).getArgument1() instanceof AtomVariable && ((BinaryAtom<?, ?, ?>) atom).getArgument2().equals(((BinaryAtom<?, ?, ?>) atom).getArgument1());
 	}
 
 	@Override
 	public String toString()
 	{
-		return ATermUtils.toString(role.getName()) + "(0, 0)";
+		return ATermUtils.toString(_role.getName()) + "(0, 0)";
 	}
 }

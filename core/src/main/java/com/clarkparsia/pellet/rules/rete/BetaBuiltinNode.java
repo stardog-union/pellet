@@ -17,17 +17,17 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class BetaBuiltinNode extends BetaNode
 {
-	private final ABox abox;
-	private final String name;
-	private final BuiltIn builtin;
-	private final NodeProvider[] args;
+	private final ABox _abox;
+	private final String _name;
+	private final BuiltIn _builtin;
+	private final NodeProvider[] _args;
 
 	public BetaBuiltinNode(final ABox abox, final String name, final BuiltIn builtin, final NodeProvider[] args)
 	{
-		this.abox = abox;
-		this.name = name;
-		this.builtin = builtin;
-		this.args = args;
+		this._abox = abox;
+		this._name = name;
+		this._builtin = builtin;
+		this._args = args;
 	}
 
 	@Override
@@ -39,10 +39,10 @@ public class BetaBuiltinNode extends BetaNode
 	@Override
 	public void activate(final Token token)
 	{
-		final Literal[] literals = new Literal[args.length];
+		final Literal[] literals = new Literal[_args.length];
 		for (int i = 0; i < literals.length; i++)
-			literals[i] = args[i] == null ? null : (Literal) args[i].getNode(null, token);
-		if (builtin.apply(abox, literals))
+			literals[i] = _args[i] == null ? null : (Literal) _args[i].getNode(null, token);
+		if (_builtin.apply(_abox, literals))
 			activateChildren(WME.createBuiltin(literals, DependencySet.INDEPENDENT), token);
 	}
 
@@ -59,6 +59,6 @@ public class BetaBuiltinNode extends BetaNode
 	@Override
 	public String toString()
 	{
-		return "Builtin " + ATermUtils.toString(ATermUtils.makeTermAppl(name)) + Arrays.toString(args);
+		return "Builtin " + ATermUtils.toString(ATermUtils.makeTermAppl(_name)) + Arrays.toString(_args);
 	}
 }

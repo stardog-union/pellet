@@ -12,16 +12,16 @@ import java.util.logging.Level;
  */
 public class BetaTopNode extends BetaNode
 {
-	private final AlphaNode alpha;
+	private final AlphaNode _alpha;
 
 	public BetaTopNode(final AlphaNode alpha)
 	{
-		this.alpha = alpha;
+		this._alpha = alpha;
 	}
 
 	public AlphaNode getAlphaNode()
 	{
-		return alpha;
+		return _alpha;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class BetaTopNode extends BetaNode
 	public void print(String indent)
 	{
 		System.out.print(indent);
-		System.out.println(alpha);
+		System.out.println(_alpha);
 		indent += "  ";
 		System.out.print(indent);
 		System.out.println(this);

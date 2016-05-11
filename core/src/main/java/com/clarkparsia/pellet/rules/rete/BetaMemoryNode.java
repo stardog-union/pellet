@@ -14,19 +14,19 @@ import java.util.logging.Level;
  */
 public class BetaMemoryNode extends BetaNode
 {
-	private final BetaMemoryIndex memory;
+	private final BetaMemoryIndex _memory;
 
-	private final AlphaNode alpha;
+	private final AlphaNode _alpha;
 
-	private final List<FilterCondition> conditions;
+	private final List<FilterCondition> _conditions;
 
 	public BetaMemoryNode(final AlphaNode alpha, final List<FilterCondition> conditions)
 	{
 		if (conditions == null)
 			throw new NullPointerException();
-		this.alpha = alpha;
-		this.conditions = conditions;
-		this.memory = createIndex(conditions);
+		this._alpha = alpha;
+		this._conditions = conditions;
+		this._memory = createIndex(conditions);
 	}
 
 	private static BetaMemoryIndex createIndex(final List<FilterCondition> conditions)
@@ -39,12 +39,12 @@ public class BetaMemoryNode extends BetaNode
 
 	public AlphaNode getAlphaNode()
 	{
-		return alpha;
+		return _alpha;
 	}
 
 	public List<FilterCondition> getConditions()
 	{
-		return conditions;
+		return _conditions;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class BetaMemoryNode extends BetaNode
 		if (_log.isLoggable(Level.FINE))
 			_log.fine("Activate beta " + wme);
 
-		final Iterator<Token> wmeTokens = memory.getTokens(wme);
+		final Iterator<Token> wmeTokens = _memory.getTokens(wme);
 
 		while (wmeTokens.hasNext())
 		{
@@ -69,22 +69,22 @@ public class BetaMemoryNode extends BetaNode
 		if (_log.isLoggable(Level.FINE))
 			_log.fine("Activate beta " + token);
 
-		memory.add(token);
+		_memory.add(token);
 
-		final Iterator<WME> matches = memory.getWMEs(token, alpha);
+		final Iterator<WME> matches = _memory.getWMEs(token, _alpha);
 		while (matches.hasNext())
 		{
 			final WME wme = matches.next();
-			if (testConditions(wme, token, memory.isJoined() ? 1 : 0))
+			if (testConditions(wme, token, _memory.isJoined() ? 1 : 0))
 				activateChildren(wme, token);
 		}
 	}
 
 	private boolean testConditions(final WME wme, final Token token, final int start)
 	{
-		for (int i = start, n = conditions.size(); i < n; i++)
+		for (int i = start, n = _conditions.size(); i < n; i++)
 		{
-			final FilterCondition condition = conditions.get(i);
+			final FilterCondition condition = _conditions.get(i);
 			if (!condition.test(wme, token))
 				return false;
 		}
@@ -96,26 +96,26 @@ public class BetaMemoryNode extends BetaNode
 	{
 		super.reset();
 
-		memory.clear();
+		_memory.clear();
 	}
 
 	@Override
 	public void restore(final int branch)
 	{
 		super.restore(branch);
-		memory.restore(branch);
+		_memory.restore(branch);
 	}
 
 	@Override
 	public void print(String indent)
 	{
 		System.out.print(indent);
-		System.out.println(alpha);
+		System.out.println(_alpha);
 		indent += "  ";
 		System.out.print(indent);
 		System.out.print(this);
 		System.out.print(" ");
-		System.out.println(memory);
+		System.out.println(_memory);
 		for (final BetaNode node : getBetas())
 			node.print(indent);
 	}
@@ -123,6 +123,6 @@ public class BetaMemoryNode extends BetaNode
 	@Override
 	public String toString()
 	{
-		return isTop() ? "Top" : "Beta" + conditions;
+		return isTop() ? "Top" : "Beta" + _conditions;
 	}
 }

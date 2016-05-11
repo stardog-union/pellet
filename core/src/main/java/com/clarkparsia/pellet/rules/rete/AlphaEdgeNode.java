@@ -31,34 +31,34 @@ import org.mindswap.pellet.utils.iterator.NestedIterator;
  */
 public class AlphaEdgeNode extends AlphaNode
 {
-	protected final Role role;
+	protected final Role _role;
 
 	public AlphaEdgeNode(final ABox abox, final Role role)
 	{
 		super(abox);
-		this.role = role;
+		this._role = role;
 	}
 
 	public Role getRole()
 	{
-		return role;
+		return _role;
 	}
 
 	protected EdgeDirection edgeMatches(final Edge edge)
 	{
 		final Role edgeRole = edge.getRole();
-		final boolean isFwd = edgeRole.isSubRoleOf(role);
-		final boolean isBwd = (role.getInverse() != null && edgeRole.isSubRoleOf(role.getInverse()));
+		final boolean isFwd = edgeRole.isSubRoleOf(_role);
+		final boolean isBwd = (_role.getInverse() != null && edgeRole.isSubRoleOf(_role.getInverse()));
 		return isFwd ? isBwd ? EdgeDirection.BOTH : EdgeDirection.FORWARD : isBwd ? EdgeDirection.BACKWARD : null;
 	}
 
 	protected WME createEdge(final Edge edge, final EdgeDirection dir)
 	{
-		if (doExplanation)
+		if (_doExplanation)
 		{
-			final DependencySet ds = (dir == EdgeDirection.FORWARD) ? role.getExplainSub(edge.getRole().getName()) : role.getInverse().getExplainSub(edge.getRole().getName());
+			final DependencySet ds = (dir == EdgeDirection.FORWARD) ? _role.getExplainSub(edge.getRole().getName()) : _role.getInverse().getExplainSub(edge.getRole().getName());
 			if (!ds.getExplain().isEmpty())
-				return WME.createEdge(new DefaultEdge(edge.getRole(), edge.getFrom(), edge.getTo(), edge.getDepends().union(ds, doExplanation)), dir);
+				return WME.createEdge(new DefaultEdge(edge.getRole(), edge.getFrom(), edge.getTo(), edge.getDepends().union(ds, _doExplanation)), dir);
 		}
 
 		return WME.createEdge(edge, dir);
@@ -84,31 +84,31 @@ public class AlphaEdgeNode extends AlphaNode
 	@SuppressWarnings("rawtypes")
 	public boolean matches(final RuleAtom atom)
 	{
-		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) && atom.getPredicate().equals(role.getName()) && ((BinaryAtom) atom).getArgument1() instanceof AtomVariable && ((BinaryAtom) atom).getArgument2() instanceof AtomVariable;
+		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) && atom.getPredicate().equals(_role.getName()) && ((BinaryAtom) atom).getArgument1() instanceof AtomVariable && ((BinaryAtom) atom).getArgument2() instanceof AtomVariable;
 	}
 
 	@Override
 	public Iterator<WME> getMatches(final int argIndex, final Node arg)
 	{
-		return (argIndex == 0) ? getMatches((Individual) arg, role, null) : getMatches(null, role, arg);
+		return (argIndex == 0) ? getMatches((Individual) arg, _role, null) : getMatches(null, _role, arg);
 	}
 
-	protected Iterator<WME> getMatches(final Individual s, final Role r, final Node o)
+	protected Iterator<WME> getMatches(final Individual s, @SuppressWarnings("unused") final Role r, final Node o)
 	{
 		Iterator<WME> i1 = IteratorUtils.emptyIterator();
 		Iterator<WME> i2 = IteratorUtils.emptyIterator();
 
-		final Role invRole = role.getInverse();
+		final Role invRole = _role.getInverse();
 		if (s != null)
 		{
-			i1 = toWMEs(getEdges(s.getOutEdges(), role, o), EdgeDirection.FORWARD);
+			i1 = toWMEs(getEdges(s.getOutEdges(), _role, o), EdgeDirection.FORWARD);
 			if (invRole != null)
 				i2 = toWMEs(getEdges(s.getInEdges(), invRole, o), EdgeDirection.BACKWARD);
 		}
 		else
 		{
 			assert s == null;
-			i1 = toWMEs(getEdges(o.getInEdges(), role, null), EdgeDirection.FORWARD);
+			i1 = toWMEs(getEdges(o.getInEdges(), _role, null), EdgeDirection.FORWARD);
 			if (invRole != null)
 				i2 = toWMEs(getEdges(((Individual) o).getOutEdges(), invRole, null), EdgeDirection.BACKWARD);
 		}
@@ -124,14 +124,14 @@ public class AlphaEdgeNode extends AlphaNode
 	@Override
 	public Iterator<WME> getMatches()
 	{
-		return new NestedIterator<Individual, WME>(abox.getIndIterator())
-		{
+		return new NestedIterator<Individual, WME>(_abox.getIndIterator())
+				{
 			@Override
 			public Iterator<WME> getInnerIterator(final Individual ind)
 			{
-				return toWMEs(ind.getOutEdges().getEdges(role), EdgeDirection.FORWARD);
+				return toWMEs(ind.getOutEdges().getEdges(_role), EdgeDirection.FORWARD);
 			}
-		};
+				};
 	}
 
 	protected Iterator<WME> toWMEs(final EdgeList edges, final EdgeDirection dir)
@@ -158,7 +158,7 @@ public class AlphaEdgeNode extends AlphaNode
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + role.getName().hashCode();
+		result = prime * result + _role.getName().hashCode();
 		return result;
 	}
 
@@ -172,12 +172,12 @@ public class AlphaEdgeNode extends AlphaNode
 		final AlphaEdgeNode other = (AlphaEdgeNode) obj;
 		if (getClass() != other.getClass())
 			return false;
-		return role.equals(other.role);
+		return _role.equals(other._role);
 	}
 
 	@Override
 	public String toString()
 	{
-		return ATermUtils.toString(role.getName()) + "(0, 1)";
+		return ATermUtils.toString(_role.getName()) + "(0, 1)";
 	}
 }

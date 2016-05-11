@@ -6,7 +6,7 @@ public class RetePrinter
 	{
 		for (final AlphaNode node : network)
 		{
-
+			System.out.println(node);
 		}
 	}
 }

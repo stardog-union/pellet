@@ -27,22 +27,22 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class AlphaNoVarEdgeNode extends AlphaFixedEdgeNode
 {
-	private final ATermAppl objectName;
-	private Node objectNode;
+	private final ATermAppl _objectName;
+	private Node _objectNode;
 
 	public AlphaNoVarEdgeNode(final ABox abox, final Role role, final ATermAppl subjectName, final ATermAppl objectName)
 	{
 		super(abox, role, subjectName);
 
-		this.objectName = objectName;
+		this._objectName = objectName;
 	}
 
 	protected Node initObjectNode()
 	{
-		if (objectNode == null)
-			objectNode = initNode(objectName);
-		assert objectNode != null;
-		return objectNode;
+		if (_objectNode == null)
+			_objectNode = initNode(_objectName);
+		assert _objectNode != null;
+		return _objectNode;
 	}
 
 	@Override
@@ -70,19 +70,19 @@ public class AlphaNoVarEdgeNode extends AlphaFixedEdgeNode
 	{
 		final Individual subject = initNode();
 		final Node object = initObjectNode();
-		final EdgeList edges = subject.getEdgesTo(object, role);
+		final EdgeList edges = subject.getEdgesTo(object, _role);
 		return toWMEs(edges, EdgeDirection.FORWARD);
 	}
 
 	@Override
 	public boolean matches(final RuleAtom atom)
 	{
-		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) && atom.getPredicate().equals(role.getName()) && ((BinaryAtom) atom).getArgument1() instanceof AtomIConstant && ((AtomIConstant) ((BinaryAtom) atom).getArgument1()).getValue().equals(name) && ((BinaryAtom) atom).getArgument2() instanceof AtomConstant && ((AtomConstant) ((BinaryAtom) atom).getArgument2()).getValue().equals(objectName);
+		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) && atom.getPredicate().equals(_role.getName()) && ((BinaryAtom<?, ?, ?>) atom).getArgument1() instanceof AtomIConstant && ((AtomIConstant) ((BinaryAtom<?, ?, ?>) atom).getArgument1()).getValue().equals(name) && ((BinaryAtom<?, ?, ?>) atom).getArgument2() instanceof AtomConstant && ((AtomConstant) ((BinaryAtom<?, ?, ?>) atom).getArgument2()).getValue().equals(_objectName);
 	}
 
 	@Override
 	public String toString()
 	{
-		return ATermUtils.toString(role.getName()) + "(" + ATermUtils.toString(name) + ", " + ATermUtils.toString(objectName) + ")";
+		return ATermUtils.toString(_role.getName()) + "(" + ATermUtils.toString(name) + ", " + ATermUtils.toString(_objectName) + ")";
 	}
 }

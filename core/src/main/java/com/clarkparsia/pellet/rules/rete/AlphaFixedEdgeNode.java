@@ -53,6 +53,6 @@ public class AlphaFixedEdgeNode extends AlphaEdgeNode
 		final AlphaFixedEdgeNode other = (AlphaFixedEdgeNode) obj;
 		if (getClass() != other.getClass())
 			return false;
-		return role.equals(other.role);
+		return _role.equals(other._role);
 	}
 }

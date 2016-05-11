@@ -51,26 +51,26 @@ public class AlphaFixedSubjectEdgeNode extends AlphaFixedEdgeNode
 			throw new UnsupportedOperationException();
 
 		final Individual subject = initNode();
-		return getMatches(subject, role, arg);
+		return getMatches(subject, _role, arg);
 	}
 
 	@Override
 	public Iterator<WME> getMatches()
 	{
 		final Individual subject = initNode();
-		return toWMEs(subject.getOutEdges().getEdges(role), EdgeDirection.FORWARD);
+		return toWMEs(subject.getOutEdges().getEdges(_role), EdgeDirection.FORWARD);
 	}
 
 	@Override
 	@SuppressWarnings("rawtypes")
 	public boolean matches(final RuleAtom atom)
 	{
-		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) && atom.getPredicate().equals(role.getName()) && ((BinaryAtom) atom).getArgument1() instanceof AtomIConstant && ((AtomIConstant) ((BinaryAtom) atom).getArgument1()).getValue().equals(name) && ((BinaryAtom) atom).getArgument2() instanceof AtomVariable;
+		return ((atom instanceof IndividualPropertyAtom) || (atom instanceof DatavaluedPropertyAtom)) && atom.getPredicate().equals(_role.getName()) && ((BinaryAtom) atom).getArgument1() instanceof AtomIConstant && ((AtomIConstant) ((BinaryAtom) atom).getArgument1()).getValue().equals(name) && ((BinaryAtom) atom).getArgument2() instanceof AtomVariable;
 	}
 
 	@Override
 	public String toString()
 	{
-		return ATermUtils.toString(role.getName()) + "(" + ATermUtils.toString(name) + ", 1)";
+		return ATermUtils.toString(_role.getName()) + "(" + ATermUtils.toString(name) + ", 1)";
 	}
 }

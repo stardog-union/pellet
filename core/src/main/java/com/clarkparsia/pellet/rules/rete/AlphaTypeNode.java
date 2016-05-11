@@ -25,9 +25,9 @@ import org.mindswap.pellet.utils.iterator.NestedIterator;
  */
 public class AlphaTypeNode extends AlphaNode
 {
-	private final ATermAppl predicate;
-	private final ATermAppl name;
-	private Individual node;
+	private final ATermAppl _predicate;
+	private final ATermAppl _name;
+	private Individual _node;
 
 	public AlphaTypeNode(final ABox abox, final ATermAppl predicate)
 	{
@@ -37,22 +37,22 @@ public class AlphaTypeNode extends AlphaNode
 	public AlphaTypeNode(final ABox abox, final ATermAppl predicate, final ATermAppl name)
 	{
 		super(abox);
-		this.predicate = predicate;
-		this.name = name;
+		this._predicate = predicate;
+		this._name = name;
 	}
 
 	protected Individual initNode()
 	{
-		if (node == null)
-			node = (Individual) initNode(name);
-		assert node != null;
-		return node;
+		if (_node == null)
+			_node = (Individual) initNode(_name);
+		assert _node != null;
+		return _node;
 	}
 
 	public boolean activate(final Individual ind, final ATermAppl type, final DependencySet ds)
 	{
-		assert predicate.equals(type);
-		if (name != null)
+		assert _predicate.equals(type);
+		if (_name != null)
 		{
 			final Individual node = initNode();
 			if (!ind.isSame(node))
@@ -66,30 +66,30 @@ public class AlphaTypeNode extends AlphaNode
 	@Override
 	public Iterator<WME> getMatches(final int argIndex, final Node arg)
 	{
-		if (name != null || argIndex != 0)
+		if (_name != null || argIndex != 0)
 			throw new IndexOutOfBoundsException();
 
 		if (!(arg instanceof Individual))
 			throw new IllegalArgumentException();
 
-		final DependencySet depends = arg.getDepends(predicate);
+		final DependencySet depends = arg.getDepends(_predicate);
 
-		return (depends == null) ? IteratorUtils.<WME> emptyIterator() : IteratorUtils.<WME> singletonIterator(WME.createType((Individual) arg, predicate, depends));
+		return (depends == null) ? IteratorUtils.<WME> emptyIterator() : IteratorUtils.<WME> singletonIterator(WME.createType((Individual) arg, _predicate, depends));
 
 	}
 
 	@Override
 	public Iterator<WME> getMatches()
 	{
-		final Iterator<Individual> inds = (name == null) ? abox.getIndIterator() : IteratorUtils.singletonIterator(initNode());
+		final Iterator<Individual> inds = (_name == null) ? _abox.getIndIterator() : IteratorUtils.singletonIterator(initNode());
 		return new NestedIterator<Individual, WME>(inds)
 		{
 			@Override
 			public Iterator<WME> getInnerIterator(final Individual ind)
 			{
-				final DependencySet depends = ind.getDepends(predicate);
+				final DependencySet depends = ind.getDepends(_predicate);
 
-				return (depends == null) ? IteratorUtils.<WME> emptyIterator() : IteratorUtils.<WME> singletonIterator(WME.createType(ind, predicate, depends));
+				return (depends == null) ? IteratorUtils.<WME> emptyIterator() : IteratorUtils.<WME> singletonIterator(WME.createType(ind, _predicate, depends));
 			}
 		};
 	}
@@ -97,13 +97,13 @@ public class AlphaTypeNode extends AlphaNode
 	@Override
 	public boolean matches(final RuleAtom atom)
 	{
-		return (atom instanceof ClassAtom) && atom.getPredicate().equals(predicate) && argMatches((ClassAtom) atom);
+		return (atom instanceof ClassAtom) && atom.getPredicate().equals(_predicate) && argMatches((ClassAtom) atom);
 	}
 
 	private boolean argMatches(final ClassAtom atom)
 	{
 		final AtomObject arg = atom.getArgument();
-		return name == null ? arg instanceof AtomVariable : (arg instanceof AtomIConstant && ((AtomIConstant) arg).getValue().equals(name));
+		return _name == null ? arg instanceof AtomVariable : (arg instanceof AtomIConstant && ((AtomIConstant) arg).getValue().equals(_name));
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class AlphaTypeNode extends AlphaNode
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + predicate.hashCode();
+		result = prime * result + _predicate.hashCode();
 		return result;
 	}
 
@@ -123,12 +123,12 @@ public class AlphaTypeNode extends AlphaNode
 		if (!(obj instanceof AlphaTypeNode))
 			return false;
 		final AlphaTypeNode other = (AlphaTypeNode) obj;
-		return predicate.equals(other.predicate) && (name == null ? other.name == null : name.equals(other.name));
+		return _predicate.equals(other._predicate) && (_name == null ? other._name == null : _name.equals(other._name));
 	}
 
 	@Override
 	public String toString()
 	{
-		return ATermUtils.toString(predicate) + "(" + (name == null ? "0" : name) + ")";
+		return ATermUtils.toString(_predicate) + "(" + (_name == null ? "0" : _name) + ")";
 	}
 }

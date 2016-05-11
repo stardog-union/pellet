@@ -37,56 +37,56 @@ public abstract class WME
 
 	private abstract static class AbstractWME extends WME
 	{
-		protected final Individual subject;
-		private final DependencySet depends;
+		protected final Individual _subject;
+		private final DependencySet _depends;
 
 		public AbstractWME(final Individual subject, final DependencySet depends)
 		{
-			this.subject = subject;
-			this.depends = depends;
+			this._subject = subject;
+			this._depends = depends;
 		}
 
 		@Override
 		public DependencySet getDepends()
 		{
-			return depends;
+			return _depends;
 		}
 	}
 
 	private abstract static class BinaryWME extends AbstractWME
 	{
-		private final Individual object;
+		private final Individual _object;
 
 		public BinaryWME(final Individual subject, final Individual object, final DependencySet depends)
 		{
 			super(subject, depends);
 
-			this.object = object;
+			this._object = object;
 		}
 
 		@Override
 		public Node getArg(final int index)
 		{
 			assert index == 0 || index == 1;
-			return (index == 0) ? subject : object;
+			return (index == 0) ? _subject : _object;
 		}
 
 		@Override
 		public String toString()
 		{
-			return getKind() + "(" + subject + ", " + object + ")";
+			return getKind() + "(" + _subject + ", " + _object + ")";
 		}
 	}
 
 	public static class TypeWME extends AbstractWME
 	{
-		private final ATermAppl type;
+		private final ATermAppl _type;
 
 		public TypeWME(final Individual subject, final ATermAppl type, final DependencySet depends)
 		{
 			super(subject, depends);
 
-			this.type = type;
+			this._type = type;
 		}
 
 		@Override
@@ -99,13 +99,13 @@ public abstract class WME
 		public Node getArg(final int index)
 		{
 			assert index == 0;
-			return subject;
+			return _subject;
 		}
 
 		@Override
 		public String toString()
 		{
-			return ATermUtils.toString(type) + "(" + subject + ")";
+			return ATermUtils.toString(_type) + "(" + _subject + ")";
 		}
 	}
 
@@ -139,15 +139,15 @@ public abstract class WME
 
 	public static class EdgeWME extends WME
 	{
-		private final Edge edge;
-		private final EdgeDirection dir;
+		private final Edge _edge;
+		private final EdgeDirection _dir;
 
 		public EdgeWME(final Edge edge, final EdgeDirection dir)
 		{
 			if (dir == null || dir == EdgeDirection.BOTH)
 				throw new IllegalArgumentException();
-			this.edge = edge;
-			this.dir = dir;
+			this._edge = edge;
+			this._dir = dir;
 		}
 
 		@Override
@@ -160,32 +160,32 @@ public abstract class WME
 		public Node getArg(final int index)
 		{
 			assert index == 0 || index == 1;
-			return (index == (dir == EdgeDirection.FORWARD ? 0 : 1)) ? edge.getFrom() : edge.getTo();
+			return (index == (_dir == EdgeDirection.FORWARD ? 0 : 1)) ? _edge.getFrom() : _edge.getTo();
 		}
 
 		@Override
 		public DependencySet getDepends()
 		{
-			return edge.getDepends();
+			return _edge.getDepends();
 		}
 
 		@Override
 		public String toString()
 		{
-			final boolean isFwd = (dir == EdgeDirection.FORWARD);
-			return String.format("%s%s-%s-%s%s %s", edge.getFrom(), isFwd ? "" : "<", edge.getRole(), isFwd ? ">" : "", edge.getTo(), edge.getDepends());
+			final boolean isFwd = (_dir == EdgeDirection.FORWARD);
+			return String.format("%s%s-%s-%s%s %s", _edge.getFrom(), isFwd ? "" : "<", _edge.getRole(), isFwd ? ">" : "", _edge.getTo(), _edge.getDepends());
 		}
 	}
 
 	public static class BuiltinWME extends WME
 	{
-		private final Literal[] literals;
-		private final DependencySet depends;
+		private final Literal[] _literals;
+		private final DependencySet _depends;
 
 		public BuiltinWME(final Literal[] literals, final DependencySet depends)
 		{
-			this.literals = literals;
-			this.depends = depends;
+			this._literals = literals;
+			this._depends = depends;
 		}
 
 		@Override
@@ -197,19 +197,19 @@ public abstract class WME
 		@Override
 		public Node getArg(final int index)
 		{
-			return literals[index];
+			return _literals[index];
 		}
 
 		@Override
 		public DependencySet getDepends()
 		{
-			return depends;
+			return _depends;
 		}
 
 		@Override
 		public String toString()
 		{
-			return getKind() + Arrays.toString(literals);
+			return getKind() + Arrays.toString(_literals);
 		}
 	}
 

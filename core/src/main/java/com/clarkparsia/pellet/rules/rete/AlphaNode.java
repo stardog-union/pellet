@@ -21,13 +21,13 @@ public abstract class AlphaNode extends ReteNode
 {
 	protected static final Iterator<WME> NO_MATCH = Collections.<WME> emptyList().iterator();
 
-	protected boolean doExplanation;
+	protected boolean _doExplanation;
 
-	protected final ABox abox;
+	protected final ABox _abox;
 
 	public AlphaNode(final ABox abox)
 	{
-		this.abox = abox;
+		this._abox = abox;
 	}
 
 	public abstract Iterator<WME> getMatches(int argIndex, Node arg);
@@ -39,11 +39,11 @@ public abstract class AlphaNode extends ReteNode
 	protected Node initNode(final ATermAppl name)
 	{
 		if (ATermUtils.isLiteral(name))
-			return abox.addLiteral(name);
+			return _abox.addLiteral(name);
 		else
 		{
-			abox.copyOnWrite();
-			return abox.getIndividual(name);
+			_abox.copyOnWrite();
+			return _abox.getIndividual(name);
 		}
 	}
 
@@ -57,7 +57,7 @@ public abstract class AlphaNode extends ReteNode
 
 	public void setDoExplanation(final boolean doExplanation)
 	{
-		this.doExplanation = doExplanation;
+		this._doExplanation = doExplanation;
 	}
 
 	@Override

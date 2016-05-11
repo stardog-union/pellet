@@ -127,15 +127,16 @@ public abstract class BetaMemoryIndex
 
 	}
 
+	@SuppressWarnings("unused")
 	private static class JoinUnindexed extends BetaMemoryIndex
 	{
-		private final List<Token> memory = new ArrayList<>();
+		private final List<Token> _memory = new ArrayList<>();
 
-		private final JoinCondition joinCondition;
+		private final JoinCondition _joinCondition;
 
 		private JoinUnindexed(final JoinCondition joinCondition)
 		{
-			this.joinCondition = joinCondition;
+			this._joinCondition = joinCondition;
 		}
 
 		@Override
@@ -147,26 +148,26 @@ public abstract class BetaMemoryIndex
 		@Override
 		public void add(final Token token)
 		{
-			memory.add(token);
+			_memory.add(token);
 		}
 
 		@Override
 		public Iterator<Token> getTokens(final WME wme)
 		{
-			return new ListIterator<>(memory);
+			return new ListIterator<>(_memory);
 		}
 
 		@Override
 		public Iterator<WME> getWMEs(final Token token, final AlphaNode alpha)
 		{
-			final Node tokenArg = joinCondition.getToken().getNode(null, token);
-			return alpha.getMatches(joinCondition.getWME().getIndexArg(), tokenArg);
+			final Node tokenArg = _joinCondition.getToken().getNode(null, token);
+			return alpha.getMatches(_joinCondition.getWME().getIndexArg(), tokenArg);
 		}
 
 		@Override
 		public void restore(final int branch)
 		{
-			for (final Iterator<Token> i = memory.iterator(); i.hasNext();)
+			for (final Iterator<Token> i = _memory.iterator(); i.hasNext();)
 			{
 				final Token token = i.next();
 				if (token.dependsOn(branch))
@@ -177,26 +178,26 @@ public abstract class BetaMemoryIndex
 		@Override
 		public void clear()
 		{
-			memory.clear();
+			_memory.clear();
 		}
 
 		@Override
 		public String toString()
 		{
-			return memory.toString();
+			return _memory.toString();
 		}
 
 	}
 
 	private static class JoinIndexed extends BetaMemoryIndex
 	{
-		private final Map<Node, List<Token>> index = new HashMap<>();
+		private final Map<Node, List<Token>> _index = new HashMap<>();
 
-		private final JoinCondition joinCondition;
+		private final JoinCondition _joinCondition;
 
 		private JoinIndexed(final JoinCondition joinCondition)
 		{
-			this.joinCondition = joinCondition;
+			this._joinCondition = joinCondition;
 		}
 
 		@Override
@@ -208,13 +209,13 @@ public abstract class BetaMemoryIndex
 		@Override
 		public void add(final Token token)
 		{
-			final Node tokenArg = joinCondition.getToken().getNode(null, token);
+			final Node tokenArg = _joinCondition.getToken().getNode(null, token);
 
-			List<Token> tokens = index.get(tokenArg);
+			List<Token> tokens = _index.get(tokenArg);
 			if (tokens == null)
 			{
 				tokens = new ArrayList<>();
-				index.put(tokenArg, tokens);
+				_index.put(tokenArg, tokens);
 			}
 			tokens.add(token);
 		}
@@ -222,9 +223,9 @@ public abstract class BetaMemoryIndex
 		@Override
 		public Iterator<Token> getTokens(final WME wme)
 		{
-			final Node wmeArg = joinCondition.getWME().getNode(wme, null);
+			final Node wmeArg = _joinCondition.getWME().getNode(wme, null);
 
-			final List<Token> tokens = index.get(wmeArg);
+			final List<Token> tokens = _index.get(wmeArg);
 
 			return tokens == null ? IteratorUtils.<Token> emptyIterator() : new ListIterator<>(tokens);
 		}
@@ -232,14 +233,14 @@ public abstract class BetaMemoryIndex
 		@Override
 		public Iterator<WME> getWMEs(final Token token, final AlphaNode alpha)
 		{
-			final Node tokenArg = joinCondition.getToken().getNode(null, token);
-			return alpha.getMatches(joinCondition.getWME().getIndexArg(), tokenArg);
+			final Node tokenArg = _joinCondition.getToken().getNode(null, token);
+			return alpha.getMatches(_joinCondition.getWME().getIndexArg(), tokenArg);
 		}
 
 		@Override
 		public void restore(final int branch)
 		{
-			for (final Iterator<List<Token>> i = index.values().iterator(); i.hasNext();)
+			for (final Iterator<List<Token>> i = _index.values().iterator(); i.hasNext();)
 			{
 				final List<Token> tokens = i.next();
 				for (final Iterator<Token> j = tokens.iterator(); j.hasNext();)
@@ -256,38 +257,38 @@ public abstract class BetaMemoryIndex
 		@Override
 		public void clear()
 		{
-			index.clear();
+			_index.clear();
 		}
 
 		@Override
 		public String toString()
 		{
-			return index.values().toString();
+			return _index.values().toString();
 		}
 	}
 
 	private static class ListIterator<T> implements Iterator<T>
 	{
-		private final List<T> list;
-		private final int size;
-		private int index = 0;
+		private final List<T> _list;
+		private final int _size;
+		private int _index = 0;
 
 		private ListIterator(final List<T> list)
 		{
-			this.list = list;
-			this.size = list.size();
+			this._list = list;
+			this._size = list.size();
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return index < size;
+			return _index < _size;
 		}
 
 		@Override
 		public T next()
 		{
-			return list.get(index++);
+			return _list.get(_index++);
 		}
 
 		@Override

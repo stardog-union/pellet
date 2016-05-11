@@ -58,7 +58,7 @@ public class AlphaDiffFromNode extends AlphaNode
 	@Override
 	public Iterator<WME> getMatches()
 	{
-		return new NestedIterator<Individual, WME>(abox.getIndIterator())
+		return new NestedIterator<Individual, WME>(_abox.getIndIterator())
 		{
 			@Override
 			public Iterator<WME> getInnerIterator(final Individual ind)
