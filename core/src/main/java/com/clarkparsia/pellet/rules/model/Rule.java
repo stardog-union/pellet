@@ -33,12 +33,12 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class Rule
 {
 
-	private final ATermAppl name;
+	private final ATermAppl _name;
 
-	private final Collection<? extends RuleAtom> body;
-	private final Collection<? extends RuleAtom> head;
+	private final Collection<? extends RuleAtom> _body;// FIXME : use an ordered collection here.
+	private final Collection<? extends RuleAtom> _head;
 
-	private Set<ATermAppl> explanation;
+	private Set<ATermAppl> _explanation;
 
 	public Rule(final Collection<? extends RuleAtom> head, final Collection<? extends RuleAtom> body)
 	{
@@ -57,17 +57,17 @@ public class Rule
 
 	public Rule(final ATermAppl name, final Collection<? extends RuleAtom> head, final Collection<? extends RuleAtom> body, final Set<ATermAppl> explanation)
 	{
-		this.name = name;
-		this.body = body;
-		this.head = head;
-		this.explanation = explanation;
+		this._name = name;
+		this._body = body;
+		this._head = head;
+		this._explanation = explanation;
 	}
 
 	public Set<ATermAppl> getExplanation(final RulesToATermTranslator translator)
 	{
-		if (explanation == null)
-			explanation = singleton(translator.translate(this));
-		return explanation;
+		if (_explanation == null)
+			_explanation = singleton(translator.translate(this));
+		return _explanation;
 	}
 
 	@Override
@@ -84,17 +84,17 @@ public class Rule
 
 	public Collection<? extends RuleAtom> getBody()
 	{
-		return body;
+		return _body;
 	}
 
 	public Collection<? extends RuleAtom> getHead()
 	{
-		return head;
+		return _head;
 	}
 
 	public ATermAppl getName()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
@@ -108,9 +108,9 @@ public class Rule
 	{
 		final StringBuilder sb = new StringBuilder();
 		sb.append("Rule(");
-		if (name != null)
+		if (_name != null)
 		{
-			sb.append(ATermUtils.toString(name));
+			sb.append(ATermUtils.toString(_name));
 			sb.append(" ");
 		}
 		sb.append(getBody());

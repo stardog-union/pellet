@@ -28,11 +28,11 @@ import java.util.List;
 public abstract class RuleAtomImpl<P> implements RuleAtom
 {
 
-	P predicate;
+	P _predicate;
 
 	public RuleAtomImpl(final P predicate)
 	{
-		this.predicate = predicate;
+		this._predicate = predicate;
 	}
 
 	@Override
@@ -55,12 +55,12 @@ public abstract class RuleAtomImpl<P> implements RuleAtom
 	@Override
 	public P getPredicate()
 	{
-		return predicate;
+		return _predicate;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return predicate.hashCode() + getAllArguments().hashCode();
+		return _predicate.hashCode() + getAllArguments().hashCode();
 	}
 }

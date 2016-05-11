@@ -33,15 +33,15 @@ public class NumericPromotion
 	{
 		BIGDECIMAL(5), BIGINTEGER(4), BYTE(0), DOUBLE(7), FLOAT(6), INTEGER(2), LONG(3), SHORT(1);
 
-		private final int rank;
+		private final int _rank;
 
 		Type(final int rank)
 		{
-			this.rank = rank;
+			this._rank = rank;
 		}
 
 		/**
-		 * Return true if given type is not null and has a rank strictly greater than this.
+		 * Return true if given _type is not null and has a _rank strictly greater than this.
 		 * 
 		 * @param t
 		 * @return
@@ -50,40 +50,40 @@ public class NumericPromotion
 		{
 			if (t == null)
 				return false;
-			return rank < t.rank;
+			return _rank < t._rank;
 		}
 	}
 
-	private BigInteger[] bigIntArgs;
-	private BigDecimal[] decimalArgs;
-	private Double[] doubleArgs;
-	private Float[] floatArgs;
+	private BigInteger[] _bigIntArgs;
+	private BigDecimal[] _decimalArgs;
+	private Double[] _doubleArgs;
+	private Float[] _floatArgs;
 
-	private Type type;
+	private Type _type;
 
 	public void accept(final NumericVisitor visitor)
 	{
-		switch (type)
+		switch (_type)
 		{
 			case BIGDECIMAL:
-				visitor.visit(decimalArgs);
+				visitor.visit(_decimalArgs);
 				break;
 			case BIGINTEGER:
-				visitor.visit(bigIntArgs);
+				visitor.visit(_bigIntArgs);
 				break;
 			case DOUBLE:
-				visitor.visit(doubleArgs);
+				visitor.visit(_doubleArgs);
 				break;
 			case FLOAT:
-				visitor.visit(floatArgs);
+				visitor.visit(_floatArgs);
 				break;
 			default:
-				throw new InternalReasonerException("Cannot visit type " + type);
+				throw new InternalReasonerException("Cannot visit _type " + _type);
 		}
 	}
 
 	/**
-	 * Return the highest type seen in an array of Numbers.
+	 * Return the highest _type seen in an array of Numbers.
 	 */
 	private Type findHighestType(final Number[] nums)
 	{
@@ -100,7 +100,7 @@ public class NumericPromotion
 	}
 
 	/**
-	 * Return the type of the given number. Throw an InternalReasonerException if the number is not an expected type.
+	 * Return the _type of the given number. Throw an InternalReasonerException if the number is not an expected _type.
 	 */
 	private Type findType(final Number num)
 	{
@@ -128,32 +128,32 @@ public class NumericPromotion
 									if (num instanceof Double)
 										return Type.DOUBLE;
 									else
-										throw new InternalReasonerException("Unexpected numeric type '" + num.getClass() + "': " + num);
+										throw new InternalReasonerException("Unexpected numeric _type '" + num.getClass() + "': " + num);
 	}
 
 	/**
-	 * Creates the array of the given type, and nulls the arrays for the rest of the types.
+	 * Creates the array of the given _type, and nulls the arrays for the rest of the types.
 	 */
 	private void prepArray(final Type type, final int length)
 	{
 
-		bigIntArgs = null;
-		decimalArgs = null;
-		doubleArgs = null;
-		floatArgs = null;
+		_bigIntArgs = null;
+		_decimalArgs = null;
+		_doubleArgs = null;
+		_floatArgs = null;
 		switch (type)
 		{
 			case BIGDECIMAL:
-				decimalArgs = new BigDecimal[length];
+				_decimalArgs = new BigDecimal[length];
 				break;
 			case BIGINTEGER:
-				bigIntArgs = new BigInteger[length];
+				_bigIntArgs = new BigInteger[length];
 				break;
 			case DOUBLE:
-				doubleArgs = new Double[length];
+				_doubleArgs = new Double[length];
 				break;
 			case FLOAT:
-				floatArgs = new Float[length];
+				_floatArgs = new Float[length];
 				break;
 			default:
 				throw new InternalReasonerException("Faulty switch: Don't know how to handle '" + type + "'.");
@@ -166,8 +166,8 @@ public class NumericPromotion
 	}
 
 	/**
-	 * Takes a Number, its position, and its desired (higher) type. Converts the number to that type, and assigns it to the given position in the array
-	 * associated with that type.
+	 * Takes a Number, its position, and its desired (higher) _type. Converts the number to that _type, and assigns it to the given position in the array
+	 * associated with that _type.
 	 */
 	private void promote(final Number arg, final int position, final Type type2)
 	{
@@ -176,21 +176,21 @@ public class NumericPromotion
 		final Type type1 = findType(arg);
 
 		if (type2 == Type.DOUBLE)
-			doubleArgs[position] = arg.doubleValue();
+			_doubleArgs[position] = arg.doubleValue();
 		else
 			if (type2 == Type.FLOAT)
-				floatArgs[position] = arg.floatValue();
+				_floatArgs[position] = arg.floatValue();
 			else
 				if (type2 == Type.BIGDECIMAL)
 				{
 					if (type1 == Type.BIGDECIMAL)
-						decimalArgs[position] = (BigDecimal) arg;
+						_decimalArgs[position] = (BigDecimal) arg;
 					else
 						if (type1 == Type.BIGINTEGER)
-							decimalArgs[position] = new BigDecimal((BigInteger) arg, 0, MathContext.DECIMAL128);
+							_decimalArgs[position] = new BigDecimal((BigInteger) arg, 0, MathContext.DECIMAL128);
 						else
 							if (type1.isLessThan(Type.BIGINTEGER))
-								decimalArgs[position] = new BigDecimal(arg.longValue(), MathContext.DECIMAL128);
+								_decimalArgs[position] = new BigDecimal(arg.longValue(), MathContext.DECIMAL128);
 							else
 								throw new InternalReasonerException("Do not know how to convert " + type1 + " to BigDecimal.");
 				}
@@ -198,21 +198,21 @@ public class NumericPromotion
 					if (type2 == Type.BIGINTEGER)
 					{
 						if (type1 == Type.BIGINTEGER)
-							bigIntArgs[position] = (BigInteger) arg;
+							_bigIntArgs[position] = (BigInteger) arg;
 						else
 							if (type1.isLessThan(Type.BIGINTEGER))
-								bigIntArgs[position] = new BigDecimal(arg.longValue(), MathContext.DECIMAL128).toBigInteger();
+								_bigIntArgs[position] = new BigDecimal(arg.longValue(), MathContext.DECIMAL128).toBigInteger();
 							else
 								throw new InternalReasonerException("Do not know how to convert " + type1 + " to BigInteger.");
 					}
 					else
-						throw new InternalReasonerException("Do not know how to promote numbers to type " + type2);
+						throw new InternalReasonerException("Do not know how to promote numbers to _type " + type2);
 	}
 
 	/**
-	 * Takes an array of numeric values and converts all of them into the same type, with 'minType' defining the minimum common type.
+	 * Takes an array of numeric values and converts all of them into the same _type, with 'minType' defining the minimum common _type.
 	 * 
-	 * @return The common type everything was converted to.
+	 * @return The common _type everything was converted to.
 	 */
 	private void promote(final Type minType, final Number... nums)
 	{
@@ -224,7 +224,7 @@ public class NumericPromotion
 		for (int i = 0; i < nums.length; i++)
 			promote(nums[i], i, largest);
 
-		type = largest;
+		_type = largest;
 	}
 
 }

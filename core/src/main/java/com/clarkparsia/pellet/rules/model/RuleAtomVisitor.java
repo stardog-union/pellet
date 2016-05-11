@@ -25,17 +25,31 @@ package com.clarkparsia.pellet.rules.model;
 public interface RuleAtomVisitor
 {
 
-	public void visit(BuiltInAtom atom);
+	default public void visit(@SuppressWarnings("unused") final BuiltInAtom atom)
+	{//
+	}
 
-	public void visit(ClassAtom atom);
+	default public void visit(@SuppressWarnings("unused") final ClassAtom atom)
+	{//
+	}
 
-	public void visit(DataRangeAtom atom);
+	default public void visit(@SuppressWarnings("unused") final DataRangeAtom atom)
+	{//
+	}
 
-	public void visit(DatavaluedPropertyAtom atom);
+	default public void visit(@SuppressWarnings("unused") final DatavaluedPropertyAtom atom)
+	{//
+	}
 
-	public void visit(DifferentIndividualsAtom atom);
+	default public void visit(@SuppressWarnings("unused") final DifferentIndividualsAtom atom)
+	{//
+	}
 
-	public void visit(IndividualPropertyAtom atom);
+	default public void visit(@SuppressWarnings("unused") final IndividualPropertyAtom atom)
+	{//
+	}
 
-	public void visit(SameIndividualAtom atom);
+	default public void visit(@SuppressWarnings("unused") final SameIndividualAtom atom)
+	{//
+	}
 }

@@ -39,21 +39,16 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class ComparisonTesters
 {
 
-	private static Logger log;
-
-	static
-	{
-		log = Logger.getLogger(ComparisonTesters.class.getCanonicalName());
-	}
+	private static Logger _log = Logger.getLogger(ComparisonTesters.class.getCanonicalName());
 
 	private static class EqualityTester extends BinaryTester
 	{
 
-		private final boolean flip;
+		private final boolean _flip;
 
 		private EqualityTester(final boolean flip)
 		{
-			this.flip = flip;
+			this._flip = flip;
 		}
 
 		@Override
@@ -74,12 +69,12 @@ public class ComparisonTesters
 				promoter.accept(visitor);
 
 				if (visitor.getComparison() == 0)
-					return true ^ flip;
-				return false ^ flip;
+					return true ^ _flip;
+				return false ^ _flip;
 			}
 
 			if (a.getValue() != null && b.getValue() != null)
-				return (aval.getClass().equals(bval.getClass()) && aval.equals(bval)) ^ flip;
+				return (aval.getClass().equals(bval.getClass()) && aval.equals(bval)) ^ _flip;
 			return false;
 		}
 	}
@@ -87,21 +82,21 @@ public class ComparisonTesters
 	private static class OrderingTester extends BinaryTester
 	{
 
-		private final boolean lt, inclusive;
+		private final boolean _lt, _inclusive;
 
 		private OrderingTester(final boolean flip, final boolean inclusive)
 		{
-			this.lt = flip;
-			this.inclusive = inclusive;
+			this._lt = flip;
+			this._inclusive = inclusive;
 		}
 
 		private boolean comparesWell(final int comparison)
 		{
-			if (lt && comparison < 0)
+			if (_lt && comparison < 0)
 				return true;
-			if (!lt && comparison > 0)
+			if (!_lt && comparison > 0)
 				return true;
-			if (inclusive && comparison == 0)
+			if (_inclusive && comparison == 0)
 				return true;
 
 			return false;
@@ -159,7 +154,7 @@ public class ComparisonTesters
 				 */
 				if (dtr.isSatisfiable(Arrays.asList(type1, type2)))
 				{
-					final Facet f = lt ? inclusive ? Facet.XSD.MIN_INCLUSIVE : Facet.XSD.MIN_EXCLUSIVE : inclusive ? Facet.XSD.MAX_INCLUSIVE : Facet.XSD.MAX_EXCLUSIVE;
+					final Facet f = _lt ? _inclusive ? Facet.XSD.MIN_INCLUSIVE : Facet.XSD.MIN_EXCLUSIVE : _inclusive ? Facet.XSD.MAX_INCLUSIVE : Facet.XSD.MAX_EXCLUSIVE;
 					final ATermAppl canon1 = dtr.getCanonicalRepresentation(term1);
 					final ATermAppl baseType = (ATermAppl) canon1.getArgument(ATermUtils.LIT_URI_INDEX);
 					final ATermAppl dr = ATermUtils.makeRestrictedDatatype(baseType, new ATermAppl[] { ATermUtils.makeFacetRestriction(f.getName(), canon1) });
@@ -174,7 +169,7 @@ public class ComparisonTesters
 			catch (final DatatypeReasonerException e)
 			{
 				final String msg = format("Unexpected datatype reasoner exception comparaing two literals ('%s','%s'). Treating as incomparable.", term1, l2.getTerm());
-				log.log(Level.WARNING, msg, e);
+				_log.log(Level.WARNING, msg, e);
 				return false;
 			}
 		}

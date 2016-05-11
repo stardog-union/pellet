@@ -185,13 +185,14 @@ public class DateTimeOperators
 		{
 			FULL(0, 5), YEARMONTH(0, 2), DAYTIME(2, 5);
 
-			private int start;
-			private int end;
+			private int _start;
+			@SuppressWarnings("unused")
+			private int _end;
 
 			DURATIONTYPE(final int start, final int end)
 			{
-				this.start = start;
-				this.end = end;
+				this._start = start;
+				this._end = end;
 			}
 
 		}
@@ -231,7 +232,7 @@ public class DateTimeOperators
 		@Override
 		public String apply(final String... args)
 		{
-			if (args.length > SEP.length + granularity.start)
+			if (args.length > SEP.length + granularity._start)
 				return null;
 
 			StringBuffer result;
@@ -244,7 +245,7 @@ public class DateTimeOperators
 			}
 
 			boolean seenTime = false;
-			int i = granularity.start;
+			int i = granularity._start;
 			for (final String arg : args)
 			{
 				if (arg.length() > 0)

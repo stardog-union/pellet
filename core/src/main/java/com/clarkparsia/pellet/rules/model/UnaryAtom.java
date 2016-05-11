@@ -30,12 +30,12 @@ import org.mindswap.pellet.utils.ATermUtils;
 public abstract class UnaryAtom<A extends AtomObject> extends RuleAtomImpl<ATermAppl>
 {
 
-	private final A argument;
+	private final A _argument;
 
 	public UnaryAtom(final ATermAppl predicate, final A argument)
 	{
 		super(predicate);
-		this.argument = argument;
+		this._argument = argument;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public abstract class UnaryAtom<A extends AtomObject> extends RuleAtomImpl<ATerm
 
 	public A getArgument()
 	{
-		return argument;
+		return _argument;
 	}
 
 	@Override

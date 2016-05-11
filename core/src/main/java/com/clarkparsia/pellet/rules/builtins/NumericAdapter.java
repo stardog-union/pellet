@@ -29,11 +29,11 @@ import org.mindswap.pellet.Literal;
 public class NumericAdapter implements Function
 {
 
-	private final NumericFunction function;
+	private final NumericFunction _function;
 
 	public NumericAdapter(final NumericFunction function)
 	{
-		this.function = function;
+		this._function = function;
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class NumericAdapter implements Function
 		{
 			if (!(expected.getValue() instanceof Number))
 			{
-				ABox.log.info("Testing non-numeric against the result of a numeric function '" + function + "': " + expected);
+				ABox.log.info("Testing non-numeric against the result of a numeric _function '" + _function + "': " + expected);
 				return null;
 			}
 			expectedNum = (Number) expected.getValue();
@@ -59,13 +59,13 @@ public class NumericAdapter implements Function
 				numArgs[i] = (Number) args[i].getValue();
 			else
 			{
-				ABox.log.info("Non numeric arguments to numeric function '" + function + "': " + args[i]);
+				ABox.log.info("Non numeric arguments to numeric _function '" + _function + "': " + args[i]);
 				return null;
 			}
 
 		final NumericPromotion promoter = new NumericPromotion();
 		promoter.promote(numArgs);
-		final FunctionApplicationVisitor visitor = new FunctionApplicationVisitor(function, expectedNum);
+		final FunctionApplicationVisitor visitor = new FunctionApplicationVisitor(_function, expectedNum);
 		promoter.accept(visitor);
 
 		result = visitor.getResult();

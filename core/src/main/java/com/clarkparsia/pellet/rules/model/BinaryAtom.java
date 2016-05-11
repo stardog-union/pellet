@@ -28,14 +28,14 @@ import java.util.List;
 public abstract class BinaryAtom<P, A extends AtomObject, B extends AtomObject> extends RuleAtomImpl<P>
 {
 
-	private final A argument1;
-	private final B argument2;
+	private final A _argument1;
+	private final B _argument2;
 
 	public BinaryAtom(final P predicate, final A argument1, final B argument2)
 	{
 		super(predicate);
-		this.argument1 = argument1;
-		this.argument2 = argument2;
+		this._argument1 = argument1;
+		this._argument2 = argument2;
 	}
 
 	@Override
@@ -49,11 +49,11 @@ public abstract class BinaryAtom<P, A extends AtomObject, B extends AtomObject> 
 
 	public A getArgument1()
 	{
-		return argument1;
+		return _argument1;
 	}
 
 	public B getArgument2()
 	{
-		return argument2;
+		return _argument2;
 	}
 }

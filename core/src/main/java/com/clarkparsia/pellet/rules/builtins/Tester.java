@@ -26,7 +26,5 @@ import org.mindswap.pellet.Literal;
  */
 public interface Tester
 {
-
 	public boolean test(Literal[] args);
-
 }

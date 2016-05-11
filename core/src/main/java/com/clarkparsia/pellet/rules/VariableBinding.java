@@ -19,7 +19,6 @@ import com.clarkparsia.pellet.rules.model.AtomIObject;
 import com.clarkparsia.pellet.rules.model.AtomIVariable;
 import com.clarkparsia.pellet.rules.model.AtomObjectVisitor;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
-import com.clarkparsia.pellet.rules.model.DefaultAtomObjectVisitor;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -61,7 +60,7 @@ public class VariableBinding
 	/**
 	 * Collects _data values of a objects it visits
 	 */
-	private class DataValueCollector extends DefaultAtomObjectVisitor
+	private class DataValueCollector implements AtomObjectVisitor
 	{
 		Literal value = null;
 
@@ -114,7 +113,7 @@ public class VariableBinding
 	/**
 	 * Collects _individual values of a objects it visits
 	 */
-	private class IndividualValueCollector extends DefaultAtomObjectVisitor
+	private class IndividualValueCollector implements AtomObjectVisitor
 	{
 
 		Individual value = null;

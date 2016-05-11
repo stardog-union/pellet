@@ -32,8 +32,8 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class StringFunctionAdapter implements Function
 {
 
-	String datatypeURI;
-	StringToStringFunction function;
+	String _datatypeURI;
+	StringToStringFunction _function;
 
 	public StringFunctionAdapter(final StringToStringFunction function)
 	{
@@ -42,8 +42,8 @@ public class StringFunctionAdapter implements Function
 
 	public StringFunctionAdapter(final StringToStringFunction function, final String datatypeURI)
 	{
-		this.datatypeURI = datatypeURI;
-		this.function = function;
+		this._datatypeURI = datatypeURI;
+		this._function = function;
 	}
 
 	@Override
@@ -54,15 +54,15 @@ public class StringFunctionAdapter implements Function
 		for (int i = 0; i < litArgs.length; i++)
 			args[i] = ATermUtils.getLiteralValue(litArgs[i].getTerm());
 
-		final String result = function.apply(args);
+		final String result = _function.apply(args);
 		if (result == null)
 			return null;
 
 		ATermAppl resultTerm;
-		if (datatypeURI == null)
+		if (_datatypeURI == null)
 			resultTerm = ATermUtils.makePlainLiteral(result);
 		else
-			resultTerm = ATermUtils.makeTypedLiteral(result, datatypeURI);
+			resultTerm = ATermUtils.makeTypedLiteral(result, _datatypeURI);
 
 		final Literal resultLit = abox.addLiteral(resultTerm);
 

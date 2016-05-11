@@ -28,8 +28,8 @@ import java.math.BigInteger;
 public class FunctionApplicationVisitor implements NumericVisitor
 {
 
-	NumericFunction function;
-	Number result;
+	NumericFunction _function;
+	Number _result;
 
 	public FunctionApplicationVisitor(final NumericFunction function)
 	{
@@ -42,8 +42,8 @@ public class FunctionApplicationVisitor implements NumericVisitor
 	 */
 	public FunctionApplicationVisitor(final NumericFunction function, final Number expected)
 	{
-		this.function = function;
-		this.result = expected;
+		this._function = function;
+		this._result = expected;
 	}
 
 	/**
@@ -52,25 +52,25 @@ public class FunctionApplicationVisitor implements NumericVisitor
 	 */
 	public Number getResult()
 	{
-		return result;
+		return _result;
 	}
 
 	private void testAndSetResult(final Number theResult)
 	{
-		if (result == null)
-			result = theResult;
+		if (_result == null)
+			_result = theResult;
 		else
 		{
 
 			final NumericComparisonVisitor visitor = new NumericComparisonVisitor();
 			final NumericPromotion promoter = new NumericPromotion();
-			promoter.promote(result, theResult);
+			promoter.promote(_result, theResult);
 			promoter.accept(visitor);
 
 			if (visitor.getComparison() == 0)
-				result = theResult;
+				_result = theResult;
 			else
-				result = null;
+				_result = null;
 
 		}
 	}
@@ -78,25 +78,25 @@ public class FunctionApplicationVisitor implements NumericVisitor
 	@Override
 	public void visit(final BigDecimal[] args)
 	{
-		testAndSetResult(function.apply(args));
+		testAndSetResult(_function.apply(args));
 	}
 
 	@Override
 	public void visit(final BigInteger[] args)
 	{
-		testAndSetResult(function.apply(args));
+		testAndSetResult(_function.apply(args));
 	}
 
 	@Override
 	public void visit(final Double[] args)
 	{
-		testAndSetResult(function.apply(args));
+		testAndSetResult(_function.apply(args));
 	}
 
 	@Override
 	public void visit(final Float[] args)
 	{
-		testAndSetResult(function.apply(args));
+		testAndSetResult(_function.apply(args));
 	}
 
 }

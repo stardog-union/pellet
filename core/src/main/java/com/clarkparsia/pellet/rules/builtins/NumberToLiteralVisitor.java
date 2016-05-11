@@ -33,12 +33,12 @@ import org.mindswap.pellet.utils.Namespaces;
 public class NumberToLiteralVisitor implements NumericVisitor
 {
 
-	private final ABox abox;
-	private Literal result;
+	private final ABox _abox;
+	private Literal _result;
 
 	public NumberToLiteralVisitor(final ABox abox)
 	{
-		this.abox = abox;
+		this._abox = abox;
 	}
 
 	private void argCheck(final Number[] args)
@@ -49,12 +49,12 @@ public class NumberToLiteralVisitor implements NumericVisitor
 
 	public Literal getLiteral()
 	{
-		return result;
+		return _result;
 	}
 
 	private void setLiteral(final Number arg, final String typeURI)
 	{
-		result = abox.addLiteral(ATermUtils.makeTypedLiteral(arg.toString(), typeURI));
+		_result = _abox.addLiteral(ATermUtils.makeTypedLiteral(arg.toString(), typeURI));
 	}
 
 	@Override

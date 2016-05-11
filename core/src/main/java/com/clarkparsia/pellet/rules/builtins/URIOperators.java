@@ -73,11 +73,6 @@ public class URIOperators
 				throw new InternalReasonerException("Base URI reference is not a valid URI");
 			}
 
-			if (relativeURI == null)
-				throw new InternalReasonerException("Error in resolving relative URI");
-			if (baseURI == null)
-				throw new InternalReasonerException("Error in resolving base URI");
-
 			try
 			{
 				final URI ret = new URI(baseURI.toASCIIString() + relativeURI.toASCIIString());

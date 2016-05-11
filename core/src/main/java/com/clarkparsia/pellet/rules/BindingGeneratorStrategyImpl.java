@@ -14,9 +14,9 @@ import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
 import com.clarkparsia.pellet.rules.model.DataRangeAtom;
 import com.clarkparsia.pellet.rules.model.DatavaluedPropertyAtom;
-import com.clarkparsia.pellet.rules.model.DefaultRuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
+import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -46,7 +46,7 @@ import org.mindswap.pellet.ABox;
 public class BindingGeneratorStrategyImpl implements BindingGeneratorStrategy
 {
 
-	private class BodyAtomsToSelectiveHelpersVisitor extends DefaultRuleAtomVisitor
+	private class BodyAtomsToSelectiveHelpersVisitor implements RuleAtomVisitor
 	{
 
 		private final List<BindingHelper> helpers = new ArrayList<>();

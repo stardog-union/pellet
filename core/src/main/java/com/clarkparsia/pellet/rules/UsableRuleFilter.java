@@ -14,9 +14,9 @@ import com.clarkparsia.pellet.rules.builtins.NoSuchBuiltIn;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
 import com.clarkparsia.pellet.rules.model.BuiltInAtom;
 import com.clarkparsia.pellet.rules.model.DataRangeAtom;
-import com.clarkparsia.pellet.rules.model.DefaultRuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.Rule;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
+import com.clarkparsia.pellet.rules.model.RuleAtomVisitor;
 import com.clarkparsia.pellet.rules.model.SameIndividualAtom;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +41,7 @@ import java.util.Set;
 public class UsableRuleFilter
 {
 
-	private static class UsableFilter extends DefaultRuleAtomVisitor
+	private static class UsableFilter implements RuleAtomVisitor
 	{
 		protected String notUsableMessage;
 

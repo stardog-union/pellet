@@ -9,8 +9,8 @@ package com.clarkparsia.pellet.rules;
 import com.clarkparsia.pellet.rules.model.AtomDVariable;
 import com.clarkparsia.pellet.rules.model.AtomIVariable;
 import com.clarkparsia.pellet.rules.model.AtomObject;
+import com.clarkparsia.pellet.rules.model.AtomObjectVisitor;
 import com.clarkparsia.pellet.rules.model.AtomVariable;
-import com.clarkparsia.pellet.rules.model.DefaultAtomObjectVisitor;
 import com.clarkparsia.pellet.rules.model.RuleAtom;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,7 +37,7 @@ public class VariableUtils
 	/**
 	 * Collects all variables that it visits
 	 */
-	private static class VisitingCollector extends DefaultAtomObjectVisitor
+	private static class VisitingCollector implements AtomObjectVisitor
 	{
 		private final Collection<AtomVariable> variables;
 
@@ -67,7 +67,7 @@ public class VariableUtils
 	/**
 	 * Collects all _data variables that it visits
 	 */
-	private static class VisitingDCollector extends DefaultAtomObjectVisitor
+	private static class VisitingDCollector implements AtomObjectVisitor
 	{
 		private final Collection<AtomDVariable> variables;
 
@@ -91,7 +91,7 @@ public class VariableUtils
 	/**
 	 * Collects all instance variables that it visits
 	 */
-	private static class VisitingICollector extends DefaultAtomObjectVisitor
+	private static class VisitingICollector implements AtomObjectVisitor
 	{
 		private final Collection<AtomIVariable> variables;
 

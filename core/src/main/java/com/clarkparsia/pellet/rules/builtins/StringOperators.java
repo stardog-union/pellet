@@ -312,46 +312,46 @@ public class StringOperators
 		private static class TokenizeBindingHelper implements BindingHelper
 		{
 
-			private final BuiltInAtom atom;
-			private AtomDObject head;
-			private String match;
-			private Iterator<String> tokens;
+			private final BuiltInAtom _atom;
+			private AtomDObject _head;
+			private String _match;
+			private Iterator<String> _tokens;
 
 			public TokenizeBindingHelper(final BuiltInAtom atom)
 			{
-				this.atom = atom;
-				head = null;
-				match = null;
-				tokens = null;
+				this._atom = atom;
+				_head = null;
+				_match = null;
+				_tokens = null;
 			}
 
 			//@Override
 			@Override
 			public Collection<? extends AtomVariable> getBindableVars(final Collection<AtomVariable> bound)
 			{
-				head = null;
-				for (final AtomDObject obj : atom.getAllArguments())
-					if (head == null)
+				_head = null;
+				for (final AtomDObject obj : _atom.getAllArguments())
+					if (_head == null)
 					{
-						head = obj;
+						_head = obj;
 						// Can only bind first argument to tokenize
-						if (!VariableUtils.isVariable(head))
+						if (!VariableUtils.isVariable(_head))
 							return Collections.emptySet();
 					}
 					else
 						// Cannot bind a variable that occurs in multiple places.
-						if (head.equals(obj))
+						if (_head.equals(obj))
 							return Collections.emptySet();
-				if (head == null)
+				if (_head == null)
 					return Collections.emptySet();
-				return Collections.singleton((AtomVariable) head);
+				return Collections.singleton((AtomVariable) _head);
 			}
 
 			//@Override
 			@Override
 			public Collection<? extends AtomVariable> getPrerequisiteVars(final Collection<AtomVariable> bound)
 			{
-				final Collection<AtomVariable> vars = VariableUtils.getVars(atom);
+				final Collection<AtomVariable> vars = VariableUtils.getVars(_atom);
 				vars.removeAll(getBindableVars(bound));
 				return vars;
 			}
@@ -360,29 +360,29 @@ public class StringOperators
 			@Override
 			public void rebind(final VariableBinding newBinding)
 			{
-				if (atom.getAllArguments().size() < 3)
+				if (_atom.getAllArguments().size() < 3)
 				{
-					tokens = null;
+					_tokens = null;
 					return;
 				}
 
-				final Literal matchLit = newBinding.get(atom.getAllArguments().get(0));
+				final Literal matchLit = newBinding.get(_atom.getAllArguments().get(0));
 				if (matchLit != null)
-					match = ATermUtils.getLiteralValue(matchLit.getTerm());
+					_match = ATermUtils.getLiteralValue(matchLit.getTerm());
 
-				final String splittingString = ATermUtils.getLiteralValue(newBinding.get(atom.getAllArguments().get(1)).getTerm());
+				final String splittingString = ATermUtils.getLiteralValue(newBinding.get(_atom.getAllArguments().get(1)).getTerm());
 
-				final String splittingPattern = ATermUtils.getLiteralValue(newBinding.get(atom.getAllArguments().get(2)).getTerm());
+				final String splittingPattern = ATermUtils.getLiteralValue(newBinding.get(_atom.getAllArguments().get(2)).getTerm());
 
 				final String[] splits = splittingString.split(splittingPattern);
-				tokens = Arrays.asList(splits).iterator();
-				if (match != null)
-					while (tokens.hasNext())
+				_tokens = Arrays.asList(splits).iterator();
+				if (_match != null)
+					while (_tokens.hasNext())
 					{
-						final String token = tokens.next();
-						if (token.equals(match))
+						final String token = _tokens.next();
+						if (token.equals(_match))
 						{
-							tokens = Collections.singleton(token).iterator();
+							_tokens = Collections.singleton(token).iterator();
 							break;
 						}
 					}
@@ -393,9 +393,9 @@ public class StringOperators
 			@Override
 			public boolean selectNextBinding()
 			{
-				if (tokens != null && tokens.hasNext())
+				if (_tokens != null && _tokens.hasNext())
 				{
-					match = tokens.next();
+					_match = _tokens.next();
 					return true;
 				}
 				return false;
@@ -405,11 +405,11 @@ public class StringOperators
 			@Override
 			public void setCurrentBinding(final VariableBinding currentBinding)
 			{
-				if (VariableUtils.isVariable(head))
+				if (VariableUtils.isVariable(_head))
 				{
-					final ATermAppl resultTerm = ATermUtils.makePlainLiteral(match);
+					final ATermAppl resultTerm = ATermUtils.makePlainLiteral(_match);
 					final Literal resultLit = currentBinding.getABox().addLiteral(resultTerm);
-					currentBinding.set(head, resultLit);
+					currentBinding.set(_head, resultLit);
 				}
 			}
 

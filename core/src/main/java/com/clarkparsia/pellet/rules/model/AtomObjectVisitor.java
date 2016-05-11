@@ -25,12 +25,20 @@ package com.clarkparsia.pellet.rules.model;
 public interface AtomObjectVisitor
 {
 
-	public void visit(AtomDConstant constant);
+	default public void visit(@SuppressWarnings("unused") final AtomDConstant constant)
+	{//
+	}
 
-	public void visit(AtomDVariable variable);
+	default public void visit(@SuppressWarnings("unused") final AtomDVariable variable)
+	{//
+	}
 
-	public void visit(AtomIConstant constant);
+	default public void visit(@SuppressWarnings("unused") final AtomIConstant constant)
+	{//
+	}
 
-	public void visit(AtomIVariable variable);
+	default public void visit(@SuppressWarnings("unused") final AtomIVariable variable)
+	{//
+	}
 
 }

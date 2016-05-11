@@ -27,11 +27,11 @@ import aterm.ATermAppl;
 public abstract class AtomConstant implements AtomObject
 {
 
-	private final ATermAppl value;
+	private final ATermAppl _value;
 
 	public AtomConstant(final ATermAppl value)
 	{
-		this.value = value;
+		this._value = value;
 	}
 
 	@Override
@@ -41,22 +41,22 @@ public abstract class AtomConstant implements AtomObject
 			return true;
 		if (!(other instanceof AtomConstant))
 			return false;
-		final Object otherValue = ((AtomConstant) other).value;
-		return value == otherValue || (value != null && value.equals(otherValue));
+		final Object otherValue = ((AtomConstant) other)._value;
+		return _value == otherValue || (_value != null && _value.equals(otherValue));
 	}
 
 	/**
-	 * Returns the aterm value this constant was initialized with.
+	 * Returns the aterm _value this constant was initialized with.
 	 */
 	public ATermAppl getValue()
 	{
-		return value;
+		return _value;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return value.hashCode();
+		return _value.hashCode();
 	}
 
 }

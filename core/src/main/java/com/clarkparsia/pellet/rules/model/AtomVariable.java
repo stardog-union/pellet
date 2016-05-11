@@ -28,11 +28,11 @@ import org.mindswap.pellet.utils.URIUtils;
 public abstract class AtomVariable implements AtomObject
 {
 
-	private final String name;
+	private final String _name;
 
 	public AtomVariable(final String name)
 	{
-		this.name = name;
+		this._name = name;
 	}
 
 	public int compareTo(final ATermAppl arg0)
@@ -55,18 +55,18 @@ public abstract class AtomVariable implements AtomObject
 
 	public String getName()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return name.hashCode();
+		return _name.hashCode();
 	}
 
 	@Override
 	public String toString()
 	{
-		return "?" + URIUtils.getLocalName(name);
+		return "?" + URIUtils.getLocalName(_name);
 	}
 }

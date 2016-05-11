@@ -24,5 +24,5 @@ package com.clarkparsia.pellet.rules.model;
  */
 public interface AtomIObject extends AtomObject
 {
-
+	//
 }

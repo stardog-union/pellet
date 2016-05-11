@@ -40,25 +40,25 @@ public class FunctionBuiltIn implements BuiltIn
 	private class FunctionHelper implements BindingHelper
 	{
 
-		private final BuiltInAtom atom;
-		private AtomDObject head;
-		private Literal value;
-		private boolean used;
+		private final BuiltInAtom _atom;
+		private AtomDObject _head;
+		private Literal _value;
+		private boolean _used;
 
 		public FunctionHelper(final BuiltInAtom atom)
 		{
-			this.atom = atom;
+			this._atom = atom;
 		}
 
 		@Override
 		public Collection<? extends AtomVariable> getBindableVars(final Collection<AtomVariable> bound)
 		{
 			AtomDObject head = null;
-			for (final AtomDObject obj : atom.getAllArguments())
+			for (final AtomDObject obj : _atom.getAllArguments())
 				if (head == null)
 				{
 					head = obj;
-					// Can only bind first argument to a function
+					// Can only bind first argument to a _function
 					if (!VariableUtils.isVariable(head))
 						return Collections.emptySet();
 				}
@@ -74,7 +74,7 @@ public class FunctionBuiltIn implements BuiltIn
 		@Override
 		public Collection<? extends AtomVariable> getPrerequisiteVars(final Collection<AtomVariable> bound)
 		{
-			final Collection<AtomVariable> vars = VariableUtils.getVars(atom);
+			final Collection<AtomVariable> vars = VariableUtils.getVars(_atom);
 			vars.removeAll(getBindableVars(bound));
 			return vars;
 		}
@@ -82,22 +82,22 @@ public class FunctionBuiltIn implements BuiltIn
 		@Override
 		public void rebind(final VariableBinding newBinding)
 		{
-			used = false;
-			head = null;
-			value = null;
+			_used = false;
+			_head = null;
+			_value = null;
 			Literal resultLit = null;
 
 			// Can't bind the first _arg if it doesn't exist!
-			if (atom.getAllArguments().size() == 0)
+			if (_atom.getAllArguments().size() == 0)
 				return;
 
-			// The arguments to a numeric function number one less than the arguments
-			// to the SWRL atom.  The first argument to the atom is either set
-			// or tested against the result of the function.
-			final Literal[] arguments = new Literal[atom.getAllArguments().size() - 1];
+			// The arguments to a numeric _function number one less than the arguments
+			// to the SWRL _atom.  The first argument to the _atom is either set
+			// or tested against the result of the _function.
+			final Literal[] arguments = new Literal[_atom.getAllArguments().size() - 1];
 
 			int i = 0;
-			for (final AtomDObject obj : atom.getAllArguments())
+			for (final AtomDObject obj : _atom.getAllArguments())
 			{
 				final Literal lit = newBinding.get(obj);
 
@@ -106,7 +106,7 @@ public class FunctionBuiltIn implements BuiltIn
 					if (lit != null)
 						resultLit = lit;
 
-					head = obj;
+					_head = obj;
 					i++;
 					continue;
 				}
@@ -115,16 +115,16 @@ public class FunctionBuiltIn implements BuiltIn
 				i++;
 			}
 
-			value = function.apply(newBinding.getABox(), resultLit, arguments);
+			_value = _function.apply(newBinding.getABox(), resultLit, arguments);
 
 		}
 
 		@Override
 		public boolean selectNextBinding()
 		{
-			if (value != null && used == false)
+			if (_value != null && _used == false)
 			{
-				used = true;
+				_used = true;
 				return true;
 			}
 			return false;
@@ -133,16 +133,16 @@ public class FunctionBuiltIn implements BuiltIn
 		@Override
 		public void setCurrentBinding(final VariableBinding currentBinding)
 		{
-			currentBinding.set(head, value);
+			currentBinding.set(_head, _value);
 		}
 
 	}
 
-	private final Function function;
+	private final Function _function;
 
 	public FunctionBuiltIn(final Function function)
 	{
-		this.function = function;
+		this._function = function;
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public class FunctionBuiltIn implements BuiltIn
 	@Override
 	public boolean apply(final ABox abox, final Literal[] args)
 	{
-		final Literal result = function.apply(abox, args[0], Arrays.copyOfRange(args, 1, args.length));
+		final Literal result = _function.apply(abox, args[0], Arrays.copyOfRange(args, 1, args.length));
 		args[0] = result;
 		return result != null;
 	}

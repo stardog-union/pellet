@@ -31,7 +31,7 @@ import org.mindswap.pellet.utils.URIUtils;
 public class BuiltInAtom extends RuleAtomImpl<String>
 {
 
-	private final List<AtomDObject> arguments;
+	private final List<AtomDObject> _arguments;
 
 	public BuiltInAtom(final String predicate, final AtomDObject... arguments)
 	{
@@ -41,7 +41,7 @@ public class BuiltInAtom extends RuleAtomImpl<String>
 	public BuiltInAtom(final String predicate, final List<AtomDObject> arguments)
 	{
 		super(predicate);
-		this.arguments = arguments;
+		this._arguments = arguments;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class BuiltInAtom extends RuleAtomImpl<String>
 	@Override
 	public List<AtomDObject> getAllArguments()
 	{
-		return Collections.unmodifiableList(arguments);
+		return Collections.unmodifiableList(_arguments);
 	}
 
 	@Override

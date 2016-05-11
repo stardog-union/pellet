@@ -39,13 +39,13 @@ public class TesterBuiltIn implements BuiltIn
 	private class TestHelper implements BindingHelper
 	{
 
-		private final BuiltInAtom atom;
-		private boolean result;
+		private final BuiltInAtom _atom;
+		private boolean _result;
 
 		public TestHelper(final BuiltInAtom atom)
 		{
-			this.atom = atom;
-			result = false;
+			this._atom = atom;
+			_result = false;
 		}
 
 		@Override
@@ -57,25 +57,25 @@ public class TesterBuiltIn implements BuiltIn
 		@Override
 		public Collection<? extends AtomVariable> getPrerequisiteVars(final Collection<AtomVariable> bound)
 		{
-			return VariableUtils.getVars(atom);
+			return VariableUtils.getVars(_atom);
 		}
 
 		@Override
 		public void rebind(final VariableBinding newBinding)
 		{
-			final Literal[] arguments = new Literal[atom.getAllArguments().size()];
+			final Literal[] arguments = new Literal[_atom.getAllArguments().size()];
 			int i = 0;
-			for (final AtomDObject obj : atom.getAllArguments())
+			for (final AtomDObject obj : _atom.getAllArguments())
 				arguments[i++] = newBinding.get(obj);
-			result = test.test(arguments);
+			_result = _test.test(arguments);
 		}
 
 		@Override
 		public boolean selectNextBinding()
 		{
-			if (result)
+			if (_result)
 			{
-				result = false;
+				_result = false;
 				return true;
 			}
 			return false;
@@ -89,11 +89,11 @@ public class TesterBuiltIn implements BuiltIn
 
 	}
 
-	private final Tester test;
+	private final Tester _test;
 
 	public TesterBuiltIn(final Tester test)
 	{
-		this.test = test;
+		this._test = test;
 	}
 
 	@Override
@@ -105,6 +105,6 @@ public class TesterBuiltIn implements BuiltIn
 	@Override
 	public boolean apply(final ABox abox, final Literal[] args)
 	{
-		return test.test(args);
+		return _test.test(args);
 	}
 }
