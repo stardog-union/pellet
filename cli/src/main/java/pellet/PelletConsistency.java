@@ -36,7 +36,7 @@ public class PelletConsistency extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet consistency " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet consistency " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override

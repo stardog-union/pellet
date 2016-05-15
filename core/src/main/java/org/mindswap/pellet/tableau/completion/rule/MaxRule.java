@@ -244,14 +244,14 @@ public class MaxRule extends AbstractTableauRule
 				else
 					if (y.isNominal())
 						pairs.add(new NodeMerge(x, y));
-					// 3. if y is an ancestor of x, then Merge(x, y)
-					// Note: y is an ancestor of x iff the max cardinality
-					// on _node merges the "_node"'s parent y with "_node"'s
-					// child x
+				// 3. if y is an ancestor of x, then Merge(x, y)
+				// Note: y is an ancestor of x iff the max cardinality
+				// on _node merges the "node"'s parent y with "node"'s
+				// child x
 					else
 						if (y.hasSuccessor(node))
 							pairs.add(new NodeMerge(x, y));
-						// 4. else Merge(y, x)
+				// 4. else Merge(y, x)
 						else
 							pairs.add(new NodeMerge(y, x));
 			}
@@ -265,7 +265,7 @@ public class MaxRule extends AbstractTableauRule
 		Set<Role> functionalSupers = s.getFunctionalSupers();
 		if (functionalSupers.isEmpty())
 			functionalSupers = SetUtils.singleton(s);
-		LOOP: for (Role r : functionalSupers)
+		LOOP: for (final Role r : functionalSupers)
 		{
 			if (PelletOptions.USE_TRACING)
 				ds = ds.union(s.getExplainSuper(r.getName()), _strategy.getABox().doExplanation()).union(r.getExplainFunctional(), _strategy.getABox().doExplanation());

@@ -5,9 +5,10 @@ import static com.clarkparsia.owlwg.Constants.RESULTS_ONTOLOGY_PHYSICAL_IRI;
 import static com.clarkparsia.owlwg.Constants.TEST_ONTOLOGY_PHYSICAL_IRI;
 import static org.junit.Assert.fail;
 
+import com.clarkparsia.owlwg.owlapi.testcase.impl.OwlApiTestCaseFactory;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,10 +22,8 @@ import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.FreshEntitiesException;
-
 import com.clarkparsia.owlwg.TestCollection;
 import com.clarkparsia.owlwg.cli.FilterConditionParser;
-import com.clarkparsia.owlwg.owlapi3.testcase.impl.OwlApi3TestCaseFactory;
 import com.clarkparsia.owlwg.runner.pellet.PelletOA3TestRunner;
 import com.clarkparsia.owlwg.testcase.TestCase;
 import com.clarkparsia.owlwg.testcase.filter.FilterCondition;
@@ -47,7 +46,7 @@ public class OWLWGTestCase {
 	@Parameters
     public static List<Object[]> data() throws OWLOntologyCreationException, OWLOntologyChangeException {
     	final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-    	OwlApi3TestCaseFactory factory = new OwlApi3TestCaseFactory();
+    	OwlApiTestCaseFactory factory = new OwlApiTestCaseFactory();
     	
     	FilterCondition filter = FilterConditionParser.parse( "approved proposed extracredit or direct dl and" );
     	

@@ -53,7 +53,7 @@ public class PelletExtractInferences extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet extract " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet extract " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override
@@ -151,7 +151,7 @@ public class PelletExtractInferences extends PelletCmdApp
 
 	private void mapStatementTypes()
 	{
-		final String statements = options.getOption("statements").getValueAsString();
+		final String statements = _options.getOption("statements").getValueAsString();
 
 		final String[] list = statements.split(" ");
 

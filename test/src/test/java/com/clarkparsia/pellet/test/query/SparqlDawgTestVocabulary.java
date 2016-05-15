@@ -69,7 +69,7 @@ public class SparqlDawgTestVocabulary
 	// general properties
 	public static final Property query = ResourceFactory.createProperty(queryVocabulary + "query");
 
-	public static final Property data = ResourceFactory.createProperty(queryVocabulary + "_data");
+	public static final Property data = ResourceFactory.createProperty(queryVocabulary + "data");
 	public static final Property graphData = ResourceFactory.createProperty(queryVocabulary + "graphData");
 
 	public static final Resource queryForm = ResourceFactory.createProperty(manifestVocabulary + "queryForm");

@@ -858,7 +858,7 @@ public class KnowledgeBase
 		_individuals.add(i);
 
 		if (log.isLoggable(Level.FINER))
-			log.finer("_individual " + i);
+			log.finer("individual " + i);
 
 		_abox.setSyntacticUpdate(false);
 
@@ -1273,7 +1273,7 @@ public class KnowledgeBase
 		{
 			_changes.add(ChangeType.RBOX_ADD);
 			if (log.isLoggable(Level.FINER))
-				log.finer("_data-prop " + p);
+				log.finer("data-prop " + p);
 		}
 
 		return role != null;
@@ -1684,19 +1684,19 @@ public class KnowledgeBase
 	{
 		if (ATermUtils.isLiteral(i2))
 			try
-		{
+			{
 				i2 = _abox.getDatatypeReasoner().getCanonicalRepresentation(i2);
-		}
-		catch (final InvalidLiteralException e)
-		{
-			log.warning(format("Unable to remove property value (%s,%s,%s) due to invalid literal: %s", p, i1, i2, e.getMessage()));
-			return false;
-		}
-		catch (final UnrecognizedDatatypeException e)
-		{
-			log.warning(format("Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s", p, i1, i2, e.getMessage()));
-			return false;
-		}
+			}
+			catch (final InvalidLiteralException e)
+			{
+				log.warning(format("Unable to remove property value (%s,%s,%s) due to invalid literal: %s", p, i1, i2, e.getMessage()));
+				return false;
+			}
+			catch (final UnrecognizedDatatypeException e)
+			{
+				log.warning(format("Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s", p, i1, i2, e.getMessage()));
+				return false;
+			}
 
 		final Individual subj = _abox.getIndividual(i1);
 		final Node obj = _abox.getNode(i2);
@@ -1912,9 +1912,9 @@ public class KnowledgeBase
 
 		// classification may notbve repeated if ...
 		final boolean reuseTaxonomy =
-				// classification has been previously done
-				_state.contains(ReasoningState.CLASSIFY)
-				// TBox did not change since classification
+		// classification has been previously done
+		_state.contains(ReasoningState.CLASSIFY)
+		// TBox did not change since classification
 				&& !isTBoxChanged()
 				// RBox did not change since classification
 				&& !isRBoxChanged()
@@ -1925,7 +1925,7 @@ public class KnowledgeBase
 		{
 			if (log.isLoggable(Level.FINER))
 				log.finer("Role hierarchy...");
-			t = timers.startTimer("_rbox");
+			t = timers.startTimer("rbox");
 			_rbox.prepare();
 			t.stop();
 		}
@@ -2103,17 +2103,17 @@ public class KnowledgeBase
 		if (isClassified())
 			// if the kb is already classified we can get them this way
 			aUnsatClasses = includeBottom ? getAllEquivalentClasses(ATermUtils.BOTTOM) : getEquivalentClasses(ATermUtils.BOTTOM);
-			else
-			{
-				if (includeBottom)
-					aUnsatClasses.add(BOTTOM);
+		else
+		{
+			if (includeBottom)
+				aUnsatClasses.add(BOTTOM);
 
-				// if not, check for them like this, without triggering classification
-				final Set<ATermAppl> aClasses = getClasses();
-				for (final ATermAppl aClass : aClasses)
-					if (!isSatisfiable(aClass))
-						aUnsatClasses.add(aClass);
-			}
+			// if not, check for them like this, without triggering classification
+			final Set<ATermAppl> aClasses = getClasses();
+			for (final ATermAppl aClass : aClasses)
+				if (!isSatisfiable(aClass))
+					aUnsatClasses.add(aClass);
+		}
 
 		return aUnsatClasses;
 	}
@@ -4299,8 +4299,8 @@ public class KnowledgeBase
 	 * List all subjects with a given property and property value.
 	 *
 	 * @param r
-	 * @param x If property is an object property an ATermAppl object that is the URI of the _individual, if the property is a _data property an ATerm object that
-	 *        contains the literal value (See {#link #getIndividualsWithDataProperty(ATermAppl, ATermAppl)} for details)
+	 * @param x If property is an object property an ATermAppl object that is the URI of the _individual, if the property is a _data property an ATerm object
+	 *        that contains the literal value (See {#link #getIndividualsWithDataProperty(ATermAppl, ATermAppl)} for details)
 	 * @return List of ATermAppl objects.
 	 */
 	public List<ATermAppl> getIndividualsWithProperty(final ATermAppl r, final ATermAppl x)
@@ -4972,9 +4972,9 @@ public class KnowledgeBase
 			return false;
 
 		final boolean canUseIncConsistency = !(expressivity.hasNominal() && expressivity.hasInverse()) && getRules().isEmpty() && !isTBoxChanged() && !isRBoxChanged() && _abox.isComplete() && PelletOptions.USE_INCREMENTAL_CONSISTENCY &&
-				// support additions only; also support deletions with or with
-				// additions, however tracing must be on to support incremental
-				// deletions
+		// support additions only; also support deletions with or with
+		// additions, however tracing must be on to support incremental
+		// deletions
 				(!_changes.contains(ChangeType.ABOX_DEL) || PelletOptions.USE_INCREMENTAL_DELETION);
 
 		return canUseIncConsistency;

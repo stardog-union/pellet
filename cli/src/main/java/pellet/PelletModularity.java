@@ -53,7 +53,7 @@ public class PelletModularity extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet modularity " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet modularity " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override
@@ -100,13 +100,13 @@ public class PelletModularity extends PelletCmdApp
 
 	private void loadOntology()
 	{
-		loader = (OWLAPILoader) getLoader("OWLAPIv3");
+		loader = (OWLAPILoader) getLoader("OWLAPI");
 		getKB();
 	}
 
 	private void loadEntityNames()
 	{
-		final String signature = options.getOption("signature").getValueAsString();
+		final String signature = _options.getOption("signature").getValueAsString();
 
 		if (signature == null)
 			throw new PelletCmdException("No signature provided");
@@ -119,7 +119,7 @@ public class PelletModularity extends PelletCmdApp
 
 	private void loadModuleType()
 	{
-		final String type = options.getOption("type").getValueAsString();
+		final String type = _options.getOption("type").getValueAsString();
 
 		if (type.equalsIgnoreCase("lower"))
 			moduleType = ModuleType.TOP;

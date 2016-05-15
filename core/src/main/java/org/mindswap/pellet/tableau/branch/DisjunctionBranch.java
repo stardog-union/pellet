@@ -340,8 +340,8 @@ public class DisjunctionBranch extends Branch
 		for (int i = 0; i < _disj.length; i++)
 		{
 			System.out.println("Disj[" + i + "] " + _disj[i]);
-			System.out.println("_prevDS[" + i + "] " + _prevDS[i]);
-			System.out.println("_order[" + i + "] " + _order[i]);
+			System.out.println("prevDS[" + i + "] " + _prevDS[i]);
+			System.out.println("order[" + i + "] " + _order[i]);
 		}
 
 		//decrement trynext

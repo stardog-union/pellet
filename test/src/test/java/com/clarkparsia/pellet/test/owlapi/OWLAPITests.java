@@ -688,7 +688,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	//
 	//		assertFalse( reasoner.isDefined( Class( ns + "D" ) ) );
 	//		// FIXME: OWLAPI should support Datatype definition checking
-	//		// FIXME: OWLAPI loader does not parse Datatype declarations
+	//		// FIXME: OWLAPI _loader does not parse Datatype declarations
 	//		//assertTrue( _kb.isDatatype( ATermUtils.makeTermAppl( ns + "D" ) ) );
 	//
 	//		/* FIXME: There is no positive check here because OWLAPI does not support annotation property declaration. */

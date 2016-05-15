@@ -9,16 +9,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.MissingImportHandlingStrategy;
-import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationValue;
-import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -32,17 +29,16 @@ import org.semanticweb.owlapi.profiles.OWL2QLProfile;
 import org.semanticweb.owlapi.profiles.OWL2RLProfile;
 import org.semanticweb.owlapi.profiles.OWLProfile;
 import org.semanticweb.owlapi.util.DLExpressivityChecker;
-import org.semanticweb.owlapi.util.NonMappingOntologyIRIMapper;
 import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
 
 public class PelletInfo extends PelletCmdApp
 {
-	private final List<OWLProfile> profiles = Arrays.asList(new OWL2ELProfile(), new OWL2QLProfile(), new OWL2RLProfile(), new OWL2DLProfile(), new OWL2Profile());
+	private final List<OWLProfile> _profiles = Arrays.asList(new OWL2ELProfile(), new OWL2QLProfile(), new OWL2RLProfile(), new OWL2DLProfile(), new OWL2Profile());
 
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet info " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet info " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override
@@ -56,7 +52,7 @@ public class PelletInfo extends PelletCmdApp
 	{
 		final PelletCmdOptions options = new PelletCmdOptions();
 
-		//Don't call getGlobalOptions(), since we override the behaviour of verbose
+		//Don't call getGlobalOptions(), since we override the behaviour of _verbose
 		final PelletCmdOption helpOption = new PelletCmdOption("help");
 		helpOption.setShortOption("h");
 		helpOption.setDescription("Print this message");
@@ -67,7 +63,7 @@ public class PelletInfo extends PelletCmdApp
 
 		final PelletCmdOption verboseOption = new PelletCmdOption("verbose");
 		verboseOption.setShortOption("v");
-		verboseOption.setDescription("More verbose output");
+		verboseOption.setDescription("More _verbose output");
 		verboseOption.setDefaultValue(false);
 		verboseOption.setIsMandatory(false);
 		verboseOption.setArg(NONE);
@@ -105,16 +101,15 @@ public class PelletInfo extends PelletCmdApp
 
 			final LimitedMapIRIMapper iriMapper = new LimitedMapIRIMapper();
 			final OWLOntology baseOntology = manager.createOntology();
-			manager.clearIRIMappers();
+			manager.getIRIMappers().clear();
 
-			if (options.getOption("ignore-imports").getValueAsBoolean())
+			if (_options.getOption("ignore-imports").getValueAsBoolean())
 			{
-				manager.addIRIMapper(iriMapper);
+				manager.getIRIMappers().add(iriMapper);
 				manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
 			}
 			else
 			{
-				manager.addIRIMapper(new NonMappingOntologyIRIMapper());
 				manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
 			}
 
@@ -126,7 +121,7 @@ public class PelletInfo extends PelletCmdApp
 
 			manager.removeOntology(baseOntology);
 
-			if (options.getOption("merge").getValueAsBoolean())
+			if (_options.getOption("merge").getValueAsBoolean())
 				manager = mergeOntologiesInNewManager(manager);
 
 			printStats(manager);
@@ -151,7 +146,7 @@ public class PelletInfo extends PelletCmdApp
 		}
 		catch (final Exception e)
 		{
-			if (verbose)
+			if (_verbose)
 				System.err.println(e.getLocalizedMessage());
 		}
 	}
@@ -166,7 +161,7 @@ public class PelletInfo extends PelletCmdApp
 		}
 		catch (final Exception e)
 		{
-			if (verbose)
+			if (_verbose)
 				System.err.println(e.getLocalizedMessage());
 		}
 	}
@@ -177,50 +172,40 @@ public class PelletInfo extends PelletCmdApp
 		final OWLOntology merged = newManager.createOntology();
 		final List<OWLOntologyChange> changes = new ArrayList<>();
 
-		for (final OWLOntology ontology : manager.getOntologies())
-			for (final OWLAxiom ax : ontology.getAxioms())
-				changes.add(new AddAxiom(merged, ax));
+		manager.ontologies().forEach(ontology -> ontology.axioms().forEach(ax -> changes.add(new AddAxiom(merged, ax))));
 		newManager.applyChanges(changes);
 		return newManager;
 	}
 
 	private void printStats(final OWLOntologyManager manager)
 	{
-		for (final OWLOntology ontology : manager.getOntologies())
+		manager.ontologies().forEach(ontology ->
 		{
 			final String ontologyLocation = manager.getOntologyDocumentIRI(ontology) != null ? manager.getOntologyDocumentIRI(ontology).toString() : "ontology";
 			final String ontologyBaseURI = ontology.getOntologyID().getOntologyIRI().isPresent() ? ontology.getOntologyID().getOntologyIRI().get().toQuotedString() : "";
-							output("Information about " + ontologyLocation + " (" + ontologyBaseURI + ")");
-							if (verbose)
-								printOntologyHeader(ontology);
-							final DLExpressivityChecker expressivityChecker = new DLExpressivityChecker(Collections.singleton(ontology));
-							output("OWL Profile = " + getProfile(ontology));
-							output("DL Expressivity = " + expressivityChecker.getDescriptionLogicName());
-							output("Axioms = " + ontology.getAxiomCount());
-							output("Logical Axioms = " + ontology.getLogicalAxiomCount());
-							output("GCI Axioms = " + ontology.getGeneralClassAxioms().size());
-							output("Individuals = " + ontology.getIndividualsInSignature().size());
-							output("Classes = " + ontology.getClassesInSignature().size());
-							output("Object Properties = " + ontology.getObjectPropertiesInSignature().size());
-							output("Data Properties = " + ontology.getDataPropertiesInSignature().size());
-			output("Annotation Properties = " + ontology.getAnnotationPropertiesInSignature().size());
-
-							final Set<OWLImportsDeclaration> imports = ontology.getImportsDeclarations();
-							if (imports.size() > 0)
-							{
-								output("Direct Imports:");
-								int count = 1;
-								for (final OWLImportsDeclaration imp : imports)
-									output(count + ": " + imp.getIRI().toString());
-								count++;
-							}
-							output("");
-		}
+			output("Information about " + ontologyLocation + " (" + ontologyBaseURI + ")");
+			if (_verbose)
+				printOntologyHeader(ontology);
+			final DLExpressivityChecker expressivityChecker = new DLExpressivityChecker(Collections.singleton(ontology));
+			output("OWL Profile = " + getProfile(ontology));
+			output("DL Expressivity = " + expressivityChecker.getDescriptionLogicName());
+			output("Axioms = " + ontology.getAxiomCount());
+			output("Logical Axioms = " + ontology.getLogicalAxiomCount());
+			output("GCI Axioms = " + ontology.classesInSignature().count());
+			output("Individuals = " + ontology.individualsInSignature().count());
+			output("Classes = " + ontology.classesInSignature().count());
+			output("Object Properties = " + ontology.objectPropertiesInSignature().count());
+			output("Data Properties = " + ontology.dataPropertiesInSignature().count());
+			output("Annotation Properties = " + ontology.annotationPropertiesInSignature().count());
+			output("Direct Imports:");
+			ontology.importsDeclarations().sorted().forEach(imp -> output(imp.getIRI().toString()));
+			output("");
+		});
 	}
 
 	private String getProfile(final OWLOntology ontology)
 	{
-		for (final OWLProfile profile : profiles)
+		for (final OWLProfile profile : _profiles)
 			if (profile.checkOntology(ontology).isInProfile())
 				return profile.getName();
 		return "Unknown Profile";
@@ -228,7 +213,7 @@ public class PelletInfo extends PelletCmdApp
 
 	private void printOntologyHeader(final OWLOntology ontology)
 	{
-		for (final OWLAnnotation annotation : ontology.getAnnotations())
+		ontology.annotations().forEach(annotation ->
 		{
 			final IRI property = annotation.getProperty().getIRI();
 			final OWLAnnotationValue value = annotation.getValue();
@@ -244,7 +229,7 @@ public class PelletInfo extends PelletCmdApp
 					else
 						if (property.equals(OWLRDFVocabulary.OWL_INCOMPATIBLE_WITH.getIRI()))
 							verbose("Incompatible With = " + getString(value));
-		}
+		});
 	}
 
 	private String getString(final OWLAnnotationValue value)

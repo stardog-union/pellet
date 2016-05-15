@@ -1,7 +1,8 @@
-package com.clarkparsia.owlwg.owlapi3.testcase.impl;
+package com.clarkparsia.owlwg.owlapi.testcase.impl;
 
-import com.clarkparsia.owlwg.testcase.AbstractEntailmentTest;
+import com.clarkparsia.owlwg.testcase.AbstractPremisedTest;
 import com.clarkparsia.owlwg.testcase.OntologyParseException;
+import com.clarkparsia.owlwg.testcase.PremisedTest;
 import com.clarkparsia.owlwg.testcase.SerializationFormat;
 import java.util.EnumMap;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -14,10 +15,10 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * <p>
- * Title: OWLAPIv3 Entailment Test Case Base Class
+ * Title: OWLAPI xConsistency Test Case Base Class
  * </p>
  * <p>
- * Description: Extended for positive and negative entailment cases
+ * Description: Extended for consistency and inconsistency cases
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
@@ -28,46 +29,23 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public abstract class OwlApi3ETImpl extends AbstractEntailmentTest<OWLOntology> implements OwlApi3Case
+public abstract class OwlApixCTImpl extends AbstractPremisedTest<OWLOntology> implements PremisedTest<OWLOntology>, OwlApiCase
 {
 
-	private final EnumMap<SerializationFormat, OWLOntology> parsedConclusion;
 	private final EnumMap<SerializationFormat, OWLOntology> parsedPremise;
 
-	public OwlApi3ETImpl(OWLOntology ontology, OWLNamedIndividual i, boolean positive)
+	public OwlApixCTImpl(OWLOntology ontology, OWLNamedIndividual i)
 	{
-		super(ontology, i, positive);
+		super(ontology, i);
 
 		parsedPremise = new EnumMap<>(SerializationFormat.class);
-		parsedConclusion = new EnumMap<>(SerializationFormat.class);
 	}
 
 	@Override
-	public OWLOntology parseConclusionOntology(SerializationFormat format) throws OntologyParseException
+	public void dispose()
 	{
-		try
-		{
-			final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-			manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
-			manager.clearIRIMappers();
-
-			ImportsHelper.loadImports(manager, this, format);
-			OWLOntology o = parsedConclusion.get(format);
-			if (o == null)
-			{
-				final String l = getConclusionOntology(format);
-				if (l == null) { return null; }
-
-				final StringDocumentSource source = new StringDocumentSource(l);
-				o = OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument(source);
-				parsedConclusion.put(format, o);
-			}
-			return o;
-		}
-		catch (final OWLOntologyCreationException e)
-		{
-			throw new OntologyParseException(e);
-		}
+		parsedPremise.clear();
+		super.dispose();
 	}
 
 	@Override

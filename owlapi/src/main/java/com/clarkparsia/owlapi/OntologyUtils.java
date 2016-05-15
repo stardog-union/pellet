@@ -175,7 +175,7 @@ public class OntologyUtils
 	 */
 	public static void printOntology(final OWLOntology ont)
 	{
-		printAxioms(ont.getAxioms());
+		ont.axioms().map(OWLAxiom::toString).sorted().forEach(System.out::println);
 	}
 
 	public static void removeAxioms(final OWLOntology ontology, final Collection<? extends OWLAxiom> axioms)

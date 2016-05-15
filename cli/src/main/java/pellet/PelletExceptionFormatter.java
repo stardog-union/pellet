@@ -7,7 +7,7 @@ import java.io.StringWriter;
 public class PelletExceptionFormatter
 {
 
-	private boolean verbose = false;
+	private boolean _verbose = false;
 
 	public PelletExceptionFormatter()
 	{
@@ -24,7 +24,7 @@ public class PelletExceptionFormatter
 		while (cause.getCause() != null)
 			cause = cause.getCause();
 
-		if (!verbose)
+		if (!_verbose)
 		{
 			if (cause instanceof FileNotFoundException)
 				return format((FileNotFoundException) cause);
@@ -72,7 +72,7 @@ public class PelletExceptionFormatter
 
 	public void setVerbose(final boolean verbose)
 	{
-		this.verbose = verbose;
+		this._verbose = verbose;
 	}
 
 }

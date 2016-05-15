@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
@@ -45,7 +46,6 @@ import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLProperty;
@@ -73,28 +73,28 @@ import org.semanticweb.owlapi.util.mansyntax.ManchesterOWLSyntaxParser;
  */
 public class PelletExplain extends PelletCmdApp
 {
-	private SatisfiabilityConverter converter;
+	private SatisfiabilityConverter _converter;
 	/**
 	 * inferences for which there was an error while generating the explanation
 	 */
-	private int errorExpCount = 0;
-	private OWLAPILoader loader;
-	private int maxExplanations = 1;
-	private boolean useBlackBox = false;
-	private ProgressMonitor monitor;
+	private int _errorExpCount = 0;
+	private OWLAPILoader _owlApiLoader;
+	private int _maxExplanations = 1;
+	private boolean _useBlackBox = false;
+	private ProgressMonitor _monitor;
 	/**
-	 * inferences whose explanation contains more than on axiom
+	 * inferences whose explanation contains more than on _axiom
 	 */
-	private int multiAxiomExpCount = 0;
+	private int _multiAxiomExpCount = 0;
 	/**
 	 * inferences with multiple explanations
 	 */
-	private int multipleExpCount = 0;
+	private int _multipleExpCount = 0;
 
-	private PelletReasoner reasoner;
-	private OWLEntity name1;
-	private OWLEntity name2;
-	private OWLObject name3;
+	private PelletReasoner _reasoner;
+	private OWLEntity _name1;
+	private OWLEntity _name2;
+	private OWLObject _name3;
 
 	public PelletExplain()
 	{
@@ -110,7 +110,7 @@ public class PelletExplain extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet explain " + getMandatoryOptions() + "[options] <file URI>...\n\n" + "The options --unsat, --all-unsat, --inconsistent, --subclass, \n" + "--hierarchy, and --instance are mutually exclusive. By default \n " + "--inconsistent option is assumed. In the following descriptions \n" + "C, D, and i can be URIs or local names.";
+		return "pellet explain " + getMandatoryOptions() + "[_options] <file URI>...\n\n" + "The _options --unsat, --all-unsat, --inconsistent, --subclass, \n" + "--hierarchy, and --instance are mutually exclusive. By default \n " + "--inconsistent option is assumed. In the following descriptions \n" + "C, D, and i can be URIs or local names.";
 	}
 
 	@Override
@@ -198,15 +198,15 @@ public class PelletExplain extends PelletCmdApp
 	{
 		super.parseArgs(args);
 
-		maxExplanations = options.getOption("max").getValueAsNonNegativeInteger();
+		_maxExplanations = _options.getOption("max").getValueAsNonNegativeInteger();
 
-		loader = (OWLAPILoader) getLoader("OWLAPIv3");
+		_owlApiLoader = (OWLAPILoader) getLoader("OWLAPI");
 
 		getKB();
 
-		converter = new SatisfiabilityConverter(loader.getManager().getOWLDataFactory());
+		_converter = new SatisfiabilityConverter(_owlApiLoader.getManager().getOWLDataFactory());
 
-		reasoner = loader.getReasoner();
+		_reasoner = _owlApiLoader.getReasoner();
 
 		loadMethod();
 
@@ -219,16 +219,16 @@ public class PelletExplain extends PelletCmdApp
 		try
 		{
 
-			if (name1 == null)
+			if (_name1 == null)
 			{
 				// Option --hierarchy
 				verbose("Explain all the subclass relations in the ontology");
 				explainClassHierarchy();
 			}
 			else
-				if (name2 == null)
+				if (_name2 == null)
 				{
-					if (((OWLClassExpression) name1).isOWLNothing())
+					if (((OWLClassExpression) _name1).isOWLNothing())
 					{
 						// Option --all-unsat
 						verbose("Explain all the unsatisfiable classes");
@@ -237,33 +237,33 @@ public class PelletExplain extends PelletCmdApp
 					else
 					{
 						// Option --inconsistent && --unsat C
-						verbose("Explain unsatisfiability of " + name1);
-						explainUnsatisfiableClass((OWLClass) name1);
+						verbose("Explain unsatisfiability of " + _name1);
+						explainUnsatisfiableClass((OWLClass) _name1);
 					}
 				}
 				else
-					if (name3 != null)
+					if (_name3 != null)
 					{
 						// Option --property-value s,p,o
-						verbose("Explain property assertion " + name1 + " and " + name2 + " and " + name3);
+						verbose("Explain property assertion " + _name1 + " and " + _name2 + " and " + _name3);
 
-						explainPropertyValue((OWLIndividual) name1, (OWLProperty) name2, name3);
+						explainPropertyValue((OWLIndividual) _name1, (OWLProperty) _name2, _name3);
 					}
 					else
-						if (name1.isOWLClass() && name2.isOWLClass())
+						if (_name1.isOWLClass() && _name2.isOWLClass())
 						{
 							// Option --subclass C,D
-							verbose("Explain subclass relation between " + name1 + " and " + name2);
+							verbose("Explain subclass relation between " + _name1 + " and " + _name2);
 
-							explainSubClass((OWLClass) name1, (OWLClass) name2);
+							explainSubClass((OWLClass) _name1, (OWLClass) _name2);
 						}
 						else
-							if (name1.isOWLNamedIndividual() && name2.isOWLClass())
+							if (_name1.isOWLNamedIndividual() && _name2.isOWLClass())
 							{
 								// Option --instance i,C
-								verbose("Explain instance relation between " + name1 + " and " + name2);
+								verbose("Explain instance relation between " + _name1 + " and " + _name2);
 
-								explainInstance((OWLIndividual) name1, (OWLClass) name2);
+								explainInstance((OWLIndividual) _name1, (OWLClass) _name2);
 							}
 
 			printStatistics();
@@ -274,16 +274,16 @@ public class PelletExplain extends PelletCmdApp
 		}
 	}
 
-	private void explainAxiom(final OWLAxiom axiom) throws OWLException
+	private void explainAxiom(final OWLAxiom axiom)
 	{
 
 		final MultipleExplanationGenerator expGen = new HSTExplanationGenerator(getSingleExplanationGenerator());
 		final RendererExplanationProgressMonitor rendererMonitor = new RendererExplanationProgressMonitor(axiom);
 		expGen.setProgressMonitor(rendererMonitor);
 
-		final OWLClassExpression unsatClass = converter.convert(axiom);
-		final Timer timer = timers.startTimer("explain");
-		final Set<Set<OWLAxiom>> explanations = expGen.getExplanations(unsatClass, maxExplanations);
+		final OWLClassExpression unsatClass = _converter.convert(axiom);
+		final Timer timer = _timers.startTimer("explain");
+		final Set<Set<OWLAxiom>> explanations = expGen.getExplanations(unsatClass, _maxExplanations);
 		timer.stop();
 
 		if (explanations.isEmpty())
@@ -296,48 +296,48 @@ public class PelletExplain extends PelletCmdApp
 
 		final int expSize = explanations.size();
 		if (expSize == 0)
-			errorExpCount++;
+			_errorExpCount++;
 		else
 			if (expSize == 1)
 			{
 				if (explanations.iterator().next().size() > 1)
-					multiAxiomExpCount++;
+					_multiAxiomExpCount++;
 				// else
 				// return;
 			}
 			else
-				multipleExpCount++;
+				_multipleExpCount++;
 	}
 
 	public void explainClassHierarchy() throws OWLException
 	{
 		final Set<OWLClass> visited = new HashSet<>();
 
-		reasoner.flush();
+		_reasoner.flush();
 
 		startTask("Classification");
-		reasoner.getKB().classify();
+		_reasoner.getKB().classify();
 		finishTask("Classification");
 
 		startTask("Realization");
-		reasoner.getKB().realize();
+		_reasoner.getKB().realize();
 		finishTask("Realization");
 
-		monitor = new ConsoleProgressMonitor();
-		monitor.setProgressTitle("Explaining");
-		monitor.setProgressLength(reasoner.getRootOntology().getClassesInSignature().size());
-		monitor.taskStarted();
+		_monitor = new ConsoleProgressMonitor();
+		_monitor.setProgressTitle("Explaining");
+		_monitor.setProgressLength((int) _reasoner.getRootOntology().classesInSignature().count());
+		_monitor.taskStarted();
 
-		final Node<OWLClass> bottoms = reasoner.getEquivalentClasses(OWL.Nothing);
+		final Node<OWLClass> bottoms = _reasoner.getEquivalentClasses(OWL.Nothing);
 		explainClassHierarchy(OWL.Nothing, bottoms, visited);
 
-		final Node<OWLClass> tops = reasoner.getEquivalentClasses(OWL.Thing);
+		final Node<OWLClass> tops = _reasoner.getEquivalentClasses(OWL.Thing);
 		explainClassHierarchy(OWL.Thing, tops, visited);
 
-		monitor.taskFinished();
+		_monitor.taskFinished();
 	}
 
-	public void explainEquivalentClass(final OWLClass c1, final OWLClass c2) throws OWLException
+	public void explainEquivalentClass(final OWLClass c1, final OWLClass c2)
 	{
 		if (c1.equals(c2))
 			return;
@@ -347,7 +347,7 @@ public class PelletExplain extends PelletCmdApp
 		explainAxiom(axiom);
 	}
 
-	public void explainInstance(final OWLIndividual ind, final OWLClass c) throws OWLException
+	public void explainInstance(final OWLIndividual ind, final OWLClass c)
 	{
 		if (c.isOWLThing())
 			return;
@@ -361,8 +361,7 @@ public class PelletExplain extends PelletCmdApp
 	// because of a bug in some Sun's implementation of javac
 	// http://bugs.sun.com/view_bug.do?bug_id=6548436
 	// Since lack of generic type generates a warning, we suppress it
-	@SuppressWarnings("unchecked")
-	public void explainPropertyValue(final OWLIndividual s, final OWLProperty p, final OWLObject o) throws OWLException
+	public void explainPropertyValue(final OWLIndividual s, final OWLProperty p, final OWLObject o)
 	{
 		if (p.isOWLObjectProperty())
 			explainAxiom(OWL.propertyAssertion(s, (OWLObjectProperty) p, (OWLIndividual) o));
@@ -370,7 +369,7 @@ public class PelletExplain extends PelletCmdApp
 			explainAxiom(OWL.propertyAssertion(s, (OWLDataProperty) p, (OWLLiteral) o));
 	}
 
-	public void explainSubClass(final OWLClass sub, final OWLClass sup) throws OWLException
+	public void explainSubClass(final OWLClass sub, final OWLClass sup)
 	{
 		if (sub.equals(sup))
 			return;
@@ -385,9 +384,9 @@ public class PelletExplain extends PelletCmdApp
 		explainAxiom(axiom);
 	}
 
-	public void explainUnsatisfiableClasses() throws OWLException
+	public void explainUnsatisfiableClasses()
 	{
-		for (final OWLClass cls : reasoner.getEquivalentClasses(OWL.Nothing))
+		for (final OWLClass cls : _reasoner.getEquivalentClasses(OWL.Nothing))
 		{
 			if (cls.isOWLNothing())
 				continue;
@@ -396,7 +395,7 @@ public class PelletExplain extends PelletCmdApp
 		}
 	}
 
-	public void explainUnsatisfiableClass(final OWLClass cls) throws OWLException
+	public void explainUnsatisfiableClass(final OWLClass cls)
 	{
 		explainSubClass(cls, OWL.Nothing);
 	}
@@ -407,19 +406,18 @@ public class PelletExplain extends PelletCmdApp
 			return;
 
 		visited.add(cls);
-		visited.addAll(eqClasses.getEntities());
+		visited.addAll(eqClasses.entities().collect(Collectors.toList()));
 
 		for (final OWLClass eqClass : eqClasses)
 		{
-			monitor.incrementProgress();
+			_monitor.incrementProgress();
 
 			explainEquivalentClass(cls, eqClass);
 		}
 
-		for (final OWLNamedIndividual ind : reasoner.getInstances(cls, true).getFlattened())
-			explainInstance(ind, cls);
+		_reasoner.getInstances(cls, true).entities().forEach(ind -> explainInstance(ind, cls));
 
-		final NodeSet<OWLClass> subClasses = reasoner.getSubClasses(cls, true);
+		final NodeSet<OWLClass> subClasses = _reasoner.getSubClasses(cls, true);
 		final Map<OWLClass, Node<OWLClass>> subClassEqs = new HashMap<>();
 		for (final Node<OWLClass> equivalenceSet : subClasses)
 		{
@@ -437,34 +435,34 @@ public class PelletExplain extends PelletCmdApp
 
 	private TransactionAwareSingleExpGen getSingleExplanationGenerator()
 	{
-		if (useBlackBox)
+		if (_useBlackBox)
 		{
-			if (options.getOption("inconsistent") != null)
+			if (_options.getOption("inconsistent") != null)
 			{
-				if (!options.getOption("inconsistent").getValueAsBoolean())
-					return new BlackBoxExplanation(reasoner.getRootOntology(), PelletReasonerFactory.getInstance(), reasoner);
+				if (!_options.getOption("inconsistent").getValueAsBoolean())
+					return new BlackBoxExplanation(_reasoner.getRootOntology(), PelletReasonerFactory.getInstance(), _reasoner);
 				else
 				{
 					output("WARNING: black method cannot be used to explain inconsistency. Switching to glass.");
-					return new GlassBoxExplanation(reasoner);
+					return new GlassBoxExplanation(_reasoner);
 				}
 			}
 			else
-				return new BlackBoxExplanation(reasoner.getRootOntology(), PelletReasonerFactory.getInstance(), reasoner);
+				return new BlackBoxExplanation(_reasoner.getRootOntology(), PelletReasonerFactory.getInstance(), _reasoner);
 		}
 		else
-			return new GlassBoxExplanation(reasoner);
+			return new GlassBoxExplanation(_reasoner);
 	}
 
 	private void loadMethod()
 	{
-		final String method = options.getOption("method").getValueAsString();
+		final String method = _options.getOption("method").getValueAsString();
 
 		if (method.equalsIgnoreCase("black"))
-			useBlackBox = true;
+			_useBlackBox = true;
 		else
 			if (method.equalsIgnoreCase("glass"))
-				useBlackBox = false;
+				_useBlackBox = false;
 			else
 				throw new PelletCmdException("Unrecognized method: " + method);
 	}
@@ -473,50 +471,50 @@ public class PelletExplain extends PelletCmdApp
 	{
 		PelletCmdOption option;
 
-		name1 = name2 = null;
-		name3 = null;
+		_name1 = _name2 = null;
+		_name3 = null;
 
-		if ((option = options.getOption("hierarchy")) != null)
+		if ((option = _options.getOption("hierarchy")) != null)
 			if (option.getValueAsBoolean())
 				return;
 
-		if ((option = options.getOption("all-unsat")) != null)
+		if ((option = _options.getOption("all-unsat")) != null)
 			if (option.getValueAsBoolean())
 			{
-				name1 = OWL.Nothing;
+				_name1 = OWL.Nothing;
 				return;
 			}
 
-		if ((option = options.getOption("inconsistent")) != null)
+		if ((option = _options.getOption("inconsistent")) != null)
 			if (option.getValueAsBoolean())
 			{
-				if (useBlackBox)
+				if (_useBlackBox)
 					throw new PelletCmdException("Black box method cannot be used to explain ontology inconsistency");
-				name1 = OWL.Thing;
+				_name1 = OWL.Thing;
 				return;
 			}
 
-		if ((option = options.getOption("unsat")) != null)
+		if ((option = _options.getOption("unsat")) != null)
 		{
 			final String unsatisfiable = option.getValueAsString();
 			if (unsatisfiable != null)
 			{
-				name1 = OntologyUtils.findEntity(unsatisfiable, loader.getAllOntologies());
+				_name1 = OntologyUtils.findEntity(unsatisfiable, _owlApiLoader.getAllOntologies());
 
-				if (name1 == null)
+				if (_name1 == null)
 					throw new PelletCmdException("Undefined entity: " + unsatisfiable);
 				else
-					if (!name1.isOWLClass())
+					if (!_name1.isOWLClass())
 						throw new PelletCmdException("Not a defined class: " + unsatisfiable);
 					else
-						if (name1.isTopEntity() && useBlackBox)
+						if (_name1.isTopEntity() && _useBlackBox)
 							throw new PelletCmdException("Black box method cannot be used to explain unsatisfiability of owl:Thing");
 
 				return;
 			}
 		}
 
-		if ((option = options.getOption("subclass")) != null)
+		if ((option = _options.getOption("subclass")) != null)
 		{
 			final String subclass = option.getValueAsString();
 			if (subclass != null)
@@ -525,24 +523,24 @@ public class PelletExplain extends PelletCmdApp
 				if (names.length != 2)
 					throw new PelletCmdException("Invalid format for subclass option: " + subclass);
 
-				name1 = OntologyUtils.findEntity(names[0], loader.getAllOntologies());
-				name2 = OntologyUtils.findEntity(names[1], loader.getAllOntologies());
+				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.getAllOntologies());
+				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.getAllOntologies());
 
-				if (name1 == null)
+				if (_name1 == null)
 					throw new PelletCmdException("Undefined entity: " + names[0]);
 				else
-					if (!name1.isOWLClass())
+					if (!_name1.isOWLClass())
 						throw new PelletCmdException("Not a defined class: " + names[0]);
-				if (name2 == null)
+				if (_name2 == null)
 					throw new PelletCmdException("Undefined entity: " + names[1]);
 				else
-					if (!name2.isOWLClass())
+					if (!_name2.isOWLClass())
 						throw new PelletCmdException("Not a defined class: " + names[1]);
 				return;
 			}
 		}
 
-		if ((option = options.getOption("instance")) != null)
+		if ((option = _options.getOption("instance")) != null)
 		{
 			final String instance = option.getValueAsString();
 			if (instance != null)
@@ -551,25 +549,25 @@ public class PelletExplain extends PelletCmdApp
 				if (names.length != 2)
 					throw new PelletCmdException("Invalid format for instance option: " + instance);
 
-				name1 = OntologyUtils.findEntity(names[0], loader.getAllOntologies());
-				name2 = OntologyUtils.findEntity(names[1], loader.getAllOntologies());
+				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.getAllOntologies());
+				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.getAllOntologies());
 
-				if (name1 == null)
+				if (_name1 == null)
 					throw new PelletCmdException("Undefined entity: " + names[0]);
 				else
-					if (!name1.isOWLNamedIndividual())
+					if (!_name1.isOWLNamedIndividual())
 						throw new PelletCmdException("Not a defined _individual: " + names[0]);
-				if (name2 == null)
+				if (_name2 == null)
 					throw new PelletCmdException("Undefined entity: " + names[1]);
 				else
-					if (!name2.isOWLClass())
+					if (!_name2.isOWLClass())
 						throw new PelletCmdException("Not a defined class: " + names[1]);
 
 				return;
 			}
 		}
 
-		if ((option = options.getOption("property-value")) != null)
+		if ((option = _options.getOption("property-value")) != null)
 		{
 			final String optionValue = option.getValueAsString();
 			if (optionValue != null)
@@ -578,26 +576,26 @@ public class PelletExplain extends PelletCmdApp
 				if (names.length != 3)
 					throw new PelletCmdException("Invalid format for property-value option: " + optionValue);
 
-				name1 = OntologyUtils.findEntity(names[0], loader.getAllOntologies());
-				name2 = OntologyUtils.findEntity(names[1], loader.getAllOntologies());
+				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.getAllOntologies());
+				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.getAllOntologies());
 
-				if (name1 == null)
+				if (_name1 == null)
 					throw new PelletCmdException("Undefined entity: " + names[0]);
 				else
-					if (!name1.isOWLNamedIndividual())
+					if (!_name1.isOWLNamedIndividual())
 						throw new PelletCmdException("Not an _individual: " + names[0]);
-				if (name2 == null)
+				if (_name2 == null)
 					throw new PelletCmdException("Undefined entity: " + names[1]);
 				else
-					if (!name2.isOWLObjectProperty() && !name2.isOWLDataProperty())
+					if (!_name2.isOWLObjectProperty() && !_name2.isOWLDataProperty())
 						throw new PelletCmdException("Not a defined property: " + names[1]);
-				if (name2.isOWLObjectProperty())
+				if (_name2.isOWLObjectProperty())
 				{
-					name3 = OntologyUtils.findEntity(names[2], loader.getAllOntologies());
-					if (name3 == null)
+					_name3 = OntologyUtils.findEntity(names[2], _owlApiLoader.getAllOntologies());
+					if (_name3 == null)
 						throw new PelletCmdException("Undefined entity: " + names[2]);
 					else
-						if (!(name3 instanceof OWLIndividual))
+						if (!(_name3 instanceof OWLIndividual))
 							throw new PelletCmdException("Not a defined _individual: " + names[2]);
 				}
 				else
@@ -606,7 +604,7 @@ public class PelletExplain extends PelletCmdApp
 					parser.setStringToParse(names[2]);
 					try
 					{
-						name3 = parser.parseLiteral(null);
+						_name3 = parser.parseLiteral(null);
 					}
 					catch (final ParserException e)
 					{
@@ -619,26 +617,26 @@ public class PelletExplain extends PelletCmdApp
 		}
 
 		// Per default we explain why the ontology is inconsistent
-		name1 = OWL.Thing;
-		if (useBlackBox)
+		_name1 = OWL.Thing;
+		if (_useBlackBox)
 			throw new PelletCmdException("Black box method cannot be used to explain ontology inconsistency");
 
 		return;
 	}
 
-	private void printStatistics() throws OWLException
+	private void printStatistics()
 	{
-		if (!verbose)
+		if (!_verbose)
 			return;
 
-		final Timer timer = timers.getTimer("explain");
+		final Timer timer = _timers.getTimer("explain");
 		if (timer != null)
 		{
 			verbose("Subclass relations   : " + timer.getCount());
-			verbose("Multiple explanations: " + multipleExpCount);
+			verbose("Multiple explanations: " + _multipleExpCount);
 			verbose("Single explanation     ");
-			verbose(" with multiple axioms: " + multiAxiomExpCount);
-			verbose("Error explaining     : " + errorExpCount);
+			verbose(" with multiple axioms: " + _multiAxiomExpCount);
+			verbose("Error explaining     : " + _errorExpCount);
 			verbose("Average time         : " + timer.getAverage() + "ms");
 		}
 	}
@@ -646,20 +644,20 @@ public class PelletExplain extends PelletCmdApp
 	private class RendererExplanationProgressMonitor implements ExplanationProgressMonitor
 	{
 
-		private final ExplanationRenderer rend = new ManchesterSyntaxExplanationRenderer();
-		private final OWLAxiom axiom;
-		private final Set<Set<OWLAxiom>> setExplanations;
-		private final PrintWriter pw;
+		private final ExplanationRenderer _rend = new ManchesterSyntaxExplanationRenderer();
+		private final OWLAxiom _axiom;
+		private final Set<Set<OWLAxiom>> _setExplanations;
+		private final PrintWriter _pw;
 
 		private RendererExplanationProgressMonitor(final OWLAxiom axiom)
 		{
-			this.axiom = axiom;
-			pw = new PrintWriter(System.out);
+			this._axiom = axiom;
+			_pw = new PrintWriter(System.out);
 
-			setExplanations = new HashSet<>();
+			_setExplanations = new HashSet<>();
 			try
 			{
-				rend.startRendering(pw);
+				_rend.startRendering(_pw);
 			}
 			catch (final OWLException e)
 			{
@@ -675,13 +673,13 @@ public class PelletExplain extends PelletCmdApp
 		public void foundExplanation(final Set<OWLAxiom> axioms)
 		{
 
-			if (!setExplanations.contains(axioms))
+			if (!_setExplanations.contains(axioms))
 			{
-				setExplanations.add(axioms);
-				pw.flush();
+				_setExplanations.add(axioms);
+				_pw.flush();
 				try
 				{
-					rend.render(axiom, Collections.singleton(axioms));
+					_rend.render(_axiom, Collections.singleton(axioms));
 				}
 				catch (final IOException e)
 				{
@@ -705,7 +703,7 @@ public class PelletExplain extends PelletCmdApp
 		{
 			try
 			{
-				rend.endRendering();
+				_rend.endRendering();
 			}
 			catch (final OWLException e)
 			{
@@ -721,8 +719,8 @@ public class PelletExplain extends PelletCmdApp
 		{
 			try
 			{
-				rend.render(axiom, Collections.<Set<OWLAxiom>> emptySet());
-				rend.endRendering();
+				_rend.render(_axiom, Collections.<Set<OWLAxiom>> emptySet());
+				_rend.endRendering();
 			}
 			catch (final OWLException e)
 			{

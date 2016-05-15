@@ -94,7 +94,7 @@ public class PelletQuery extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet query " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet query " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override
@@ -157,11 +157,11 @@ public class PelletQuery extends PelletCmdApp
 	{
 		super.parseArgs(args);
 
-		setQueryFile(options.getOption("query-file").getValueAsString());
-		setOutputFormat(options.getOption("output-format").getValueAsString());
-		setQueryFormat(options.getOption("query-format").getValueAsString());
-		setQueryEngine(options.getOption("query-engine").getValueAsString());
-		PelletOptions.TREAT_ALL_VARS_DISTINGUISHED = !options.getOption("bnode").getValueAsBoolean();
+		setQueryFile(_options.getOption("query-file").getValueAsString());
+		setOutputFormat(_options.getOption("output-format").getValueAsString());
+		setQueryFormat(_options.getOption("query-format").getValueAsString());
+		setQueryEngine(_options.getOption("query-engine").getValueAsString());
+		PelletOptions.TREAT_ALL_VARS_DISTINGUISHED = !_options.getOption("bnode").getValueAsBoolean();
 	}
 
 	@Override
@@ -308,22 +308,23 @@ public class PelletQuery extends PelletCmdApp
 	private void execQuery()
 	{
 		final Dataset dataset = DatasetFactory.create(loader.getModel());
-		final QueryExecution qe = (queryEngine == null) ? SparqlDLExecutionFactory.create(query, dataset) : SparqlDLExecutionFactory.create(query, dataset, null, queryEngine);
+		try (QueryExecution qe = (queryEngine == null) ? SparqlDLExecutionFactory.create(query, dataset) : SparqlDLExecutionFactory.create(query, dataset, null, queryEngine))
+		{
+			verbose("Created query engine: " + qe.getClass().getName());
 
-		verbose("Created query engine: " + qe.getClass().getName());
-
-		startTask("query execution");
-		if (query.isSelectType())
-			queryResults = ResultSetFactory.makeRewindable(qe.execSelect());
-		else
-			if (query.isConstructType())
-				constructQueryModel = qe.execConstruct();
+			startTask("query execution");
+			if (query.isSelectType())
+				queryResults = ResultSetFactory.makeRewindable(qe.execSelect());
 			else
-				if (query.isAskType())
-					askQueryResult = qe.execAsk();
+				if (query.isConstructType())
+					constructQueryModel = qe.execConstruct();
 				else
-					throw new UnsupportedOperationException("Unsupported query type");
-		finishTask("query execution");
+					if (query.isAskType())
+						askQueryResult = qe.execAsk();
+					else
+						throw new UnsupportedOperationException("Unsupported query type");
+			finishTask("query execution");
+		}
 	}
 
 	private void printQueryResults()
@@ -405,7 +406,7 @@ public class PelletQuery extends PelletCmdApp
 
 	private void printJSONQueryResults()
 	{
-		if (verbose)
+		if (_verbose)
 		{
 			System.out.println("/* ");
 			System.out.println(queryString.replace("*/", "* /"));

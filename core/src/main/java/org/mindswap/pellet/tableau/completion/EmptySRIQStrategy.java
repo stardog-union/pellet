@@ -59,8 +59,8 @@ import org.mindswap.pellet.utils.Bool;
 import org.mindswap.pellet.utils.Timer;
 
 /**
- * Completion _strategy for a SRIQ KB that does not have individuals in the ABox. When ABox is empty completion always starts with a single root _individual that
- * represents the concept whose satisfiability is being searched.
+ * Completion _strategy for a SRIQ KB that does not have individuals in the ABox. When ABox is empty completion always starts with a single root _individual
+ * that represents the concept whose satisfiability is being searched.
  *
  * @author Evren Sirin
  */
@@ -254,7 +254,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		if (!_abox.doExplanation() && PelletOptions.USE_ADVANCED_CACHING)
 		{
-			final Timer t = _abox.getKB().timers.startTimer("_cache");
+			final Timer t = _abox.getKB().timers.startTimer("cache");
 			final Bool cachedSat = isCachedSat(x);
 			t.stop();
 			if (cachedSat.isKnown())

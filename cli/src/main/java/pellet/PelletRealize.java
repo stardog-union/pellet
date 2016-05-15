@@ -40,7 +40,7 @@ public class PelletRealize extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet realize " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet realize " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override

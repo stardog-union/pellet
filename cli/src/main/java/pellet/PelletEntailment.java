@@ -18,6 +18,7 @@ import com.clarkparsia.pellet.owlapi.OWLAPILoader;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import java.io.PrintWriter;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -60,7 +61,7 @@ public class PelletEntailment extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet entail " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet entail " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override
@@ -93,10 +94,10 @@ public class PelletEntailment extends PelletCmdApp
 	@Override
 	public void run()
 	{
-		entailmentFile = options.getOption("entailment-file").getValueAsString();
-		findAll = options.getOption("all").getValueAsBoolean();
+		entailmentFile = _options.getOption("entailment-file").getValueAsString();
+		findAll = _options.getOption("all").getValueAsBoolean();
 
-		final OWLAPILoader loader = (OWLAPILoader) getLoader("OWLAPIv3");
+		final OWLAPILoader loader = (OWLAPILoader) getLoader("OWLAPI");
 
 		getKB();
 
@@ -116,7 +117,7 @@ public class PelletEntailment extends PelletCmdApp
 		}
 
 		final EntailmentChecker checker = new EntailmentChecker(reasoner);
-		final Set<OWLLogicalAxiom> axioms = entailmentOntology.getLogicalAxioms();
+		final Set<OWLLogicalAxiom> axioms = entailmentOntology.logicalAxioms().collect(Collectors.toSet());
 
 		verbose("Check entailments for (" + axioms.size() + ") axioms");
 		startTask("Checking");

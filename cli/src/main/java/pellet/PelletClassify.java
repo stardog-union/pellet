@@ -25,13 +25,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.taxonomy.printer.ClassTreePrinter;
 import org.mindswap.pellet.taxonomy.printer.TaxonomyPrinter;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
 
 /**
  * <p>
@@ -80,7 +80,7 @@ public class PelletClassify extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet classify " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet classify " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class PelletClassify extends PelletCmdApp
 
 		final PelletCmdOption option = new PelletCmdOption("persist");
 		option.setShortOption("p");
-		option.setDescription("Enable persistence of classification results. The classifier will save its internal state in a file, and will reuse it the next time this ontology is loaded, therefore saving classification time. This option can only be used with OWLAPIv3 loader.");
+		option.setDescription("Enable persistence of classification results. The classifier will save its internal state in a file, and will reuse it the next time this ontology is loaded, therefore saving classification time. This option can only be used with OWLAPI _loader.");
 		option.setIsMandatory(false);
 		option.setArg(NONE);
 		options.add(option);
@@ -111,7 +111,7 @@ public class PelletClassify extends PelletCmdApp
 	@Override
 	public void run()
 	{
-		if (options.getOption("persist").getValueAsBoolean())
+		if (_options.getOption("persist").getValueAsBoolean())
 			runIncrementalClassify();
 		else
 			runClassicClassify();
@@ -144,12 +144,12 @@ public class PelletClassify extends PelletCmdApp
 	 */
 	private void runIncrementalClassify()
 	{
-		final String loaderName = options.getOption("loader").getValueAsString();
+		final String loaderName = _options.getOption("loader").getValueAsString();
 
-		if (!"OWLAPIv3".equals(loaderName))
-			logger.log(Level.WARNING, "Ignoring -l " + loaderName + " option. When using --persist the only allowed loader is OWLAPIv3");
+		if (!"OWLAPI".equals(loaderName))
+			logger.log(Level.WARNING, "Ignoring -l " + loaderName + " option. When using --persist the only allowed _loader is OWLAPI");
 
-		final OWLAPILoader loader = (OWLAPILoader) getLoader("OWLAPIv3");
+		final OWLAPILoader loader = (OWLAPILoader) getLoader("OWLAPI");
 
 		loader.parse(getInputFiles());
 		final OWLOntology ontology = loader.getOntology();
@@ -242,7 +242,7 @@ public class PelletClassify extends PelletCmdApp
 
 			// check whether anything changed in the ontology in the time between the incremental classifier
 			// was persisted and the _current time
-			final OntologyDiff ontologyDiff = OntologyDiff.diffAxioms(result.getAxioms(), ontology.getAxioms());
+			final OntologyDiff ontologyDiff = OntologyDiff.diffAxioms(result.getAxioms(), ontology.axioms().collect(Collectors.toSet()));
 
 			if (ontologyDiff.getDiffCount() > 0)
 			{

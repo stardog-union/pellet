@@ -86,7 +86,7 @@ public class ModuleExtractorPersistence
 
 	private static final String DATA_TYPE_KEYWORD = "datatype";
 
-	private static final String INDIVIDUAL_KEYWORD = "_individual";
+	private static final String INDIVIDUAL_KEYWORD = "individual";
 
 	private static final String DATA_PROPERTY_KEYWORD = "dataproperty";
 

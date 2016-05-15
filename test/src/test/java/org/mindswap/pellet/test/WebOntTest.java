@@ -74,7 +74,7 @@ public class WebOntTest
 	public int _timeout = 10;
 
 	// At the _end of tests _stats about the results are displayed
-	// There are couple of options here; short means only total
+	// There are couple of _options here; short means only total
 	// number of passes are shown, long means _individual results
 	// for each test is also displayed, all means a GUI window is
 	// popped up to show these _stats

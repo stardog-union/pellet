@@ -38,14 +38,14 @@ public class SPARQLDLExample
 {
 
 	// The ontology loaded as dataset
-	private static final String ontology = "_data/university0-0.owl";
+	private static final String ontology = "data/university0-0.owl";
 	private static final String[] queries = new String[] {
-			// One of the original LUBM queries
-		"_data/lubm-query4.sparql",
-		// A SPARQL-DL query
-		"_data/lubm-sparql-dl.sparql",
-		// A SPARQL-DL with the SPARQL-DL extensions vocabulary
-	"_data/lubm-sparql-dl-extvoc.sparql" };
+		// One of the original LUBM queries
+			"data/lubm-query4.sparql",
+			// A SPARQL-DL query
+			"data/lubm-sparql-dl.sparql",
+			// A SPARQL-DL with the SPARQL-DL extensions vocabulary
+			"data/lubm-sparql-dl-extvoc.sparql" };
 
 	public void run()
 	{

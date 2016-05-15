@@ -753,6 +753,7 @@ public class OWL
 		return factory.getOWLObjectHasSelf(p);
 	}
 
+	@SafeVarargs
 	private static <T> Set<T> set(final T... elements)
 	{
 		final Set<T> set = new HashSet<>();

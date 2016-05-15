@@ -45,7 +45,7 @@ public class PelletUnsatisfiable extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		return "pellet unsatisfiable " + getMandatoryOptions() + "[options] <file URI>...";
+		return "pellet unsatisfiable " + getMandatoryOptions() + "[_options] <file URI>...";
 	}
 
 	@Override

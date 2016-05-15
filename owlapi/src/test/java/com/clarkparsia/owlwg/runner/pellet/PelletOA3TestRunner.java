@@ -1,71 +1,83 @@
 package com.clarkparsia.owlwg.runner.pellet;
 
+import com.clarkparsia.owlwg.owlapi.runner.impl.OwlApiAbstractRunner;
+
+import com.clarkparsia.owlwg.testrun.TestRunResult;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
-
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
-import com.clarkparsia.owlwg.owlapi3.runner.impl.OwlApi3AbstractRunner;
-import com.clarkparsia.owlwg.testrun.TestRunResult;
 
 /**
  * <p>
- * Title: Pellet OWLAPIv3 Test Runner
+ * Title: Pellet OWLAPI Test Runner
  * </p>
  * <p>
- * Description: Pellet 2.0 based test case runner using alpha OWLAPIv3 support.
+ * Description: Pellet 2.0 based test case runner using alpha OWLAPI support.
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a
- * href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public class PelletOA3TestRunner extends OwlApi3AbstractRunner {
+public class PelletOA3TestRunner extends OwlApiAbstractRunner
+{
 
-	private static final PelletReasonerFactory	reasonerFactory;
+	private static final PelletReasonerFactory reasonerFactory;
 
-	private static final IRI					iri;
+	private static final IRI iri;
 
-	static {
-		iri = IRI.create( "http://clarkparsia.com/pellet" );
+	static
+	{
+		iri = IRI.create("http://clarkparsia.com/pellet");
 		reasonerFactory = new PelletReasonerFactory();
 	}
 
-	public String getName() {
+	@Override
+	public String getName()
+	{
 		return "Pellet";
 	}
 
-	public IRI getIRI() {
+	@Override
+	public IRI getIRI()
+	{
 		return iri;
 	}
 
 	@Override
-	protected boolean isConsistent(OWLOntology o) {
-		PelletReasoner reasoner = reasonerFactory.createReasoner( o );
-		reasoner.getKB().setTimeout( timeout );
+	protected boolean isConsistent(OWLOntology o)
+	{
+		final PelletReasoner reasoner = reasonerFactory.createReasoner(o);
+		reasoner.getKB().setTimeout(timeout);
 		return reasoner.isConsistent();
 	}
 
 	@Override
-	protected boolean isEntailed(OWLOntology premise, OWLOntology conclusion) {
-		PelletReasoner reasoner = reasonerFactory.createReasoner( premise );
-		reasoner.getKB().setTimeout( timeout );
-		return reasoner.isEntailed( conclusion.getLogicalAxioms() );
+	protected boolean isEntailed(OWLOntology premise, OWLOntology conclusion)
+	{
+		final PelletReasoner reasoner = reasonerFactory.createReasoner(premise);
+		reasoner.getKB().setTimeout(timeout);
+		return reasoner.isEntailed(conclusion.getLogicalAxioms());
 	}
 
-	protected TestRunResult run(TestAsRunnable runnable) {
+	@Override
+	protected TestRunResult run(TestAsRunnable runnable)
+	{
 		runnable.run();
 
-		try {
+		try
+		{
 			return runnable.getResult();
-		} catch( Throwable th ) {
+		}
+		catch (final Throwable th)
+		{
 			System.gc();
-			return runnable.getErrorResult( th );
+			return runnable.getErrorResult(th);
 		}
 
 	}

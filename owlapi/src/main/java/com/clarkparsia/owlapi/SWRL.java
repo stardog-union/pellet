@@ -199,24 +199,24 @@ public class SWRL
 		return OWL.factory.getSWRLRule(antecendent, consequent);
 	}
 
-	public static SWRLRule rule(final IRI uri, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
+	public static SWRLRule rule(@SuppressWarnings("unused") final IRI uri, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
 		return OWL.factory.getSWRLRule(antecendent, consequent);
 	}
 
-	public static SWRLRule rule(final IRI uri, final boolean anonymous, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
+	public static SWRLRule rule(@SuppressWarnings("unused") final IRI uri, final boolean anonymous, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
 		if (anonymous)
 			return OWL.factory.getSWRLRule(antecendent, consequent);
 		return OWL.factory.getSWRLRule(antecendent, consequent);
 	}
 
-	public static SWRLRule rule(final String uri, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
+	public static SWRLRule rule(@SuppressWarnings("unused") final String uri, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
 		return OWL.factory.getSWRLRule(antecendent, consequent);
 	}
 
-	public static SWRLRule rule(final String uri, final boolean anonymous, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
+	public static SWRLRule rule(@SuppressWarnings("unused") final String uri, final boolean anonymous, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
 		if (anonymous)
 			return OWL.factory.getSWRLRule(antecendent, consequent);

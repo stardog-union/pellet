@@ -39,12 +39,13 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.apache.jena.rdf.model.Statement;
 import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StreamDocumentTarget;
+import org.semanticweb.owlapi.io.XMLUtils;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
@@ -97,7 +98,7 @@ public class Pellint extends PelletCmdApp
 	{
 		super.parseArgs(args);
 
-		final String only = options.getOption("only").getValueAsString();
+		final String only = _options.getOption("only").getValueAsString();
 		if (only == null)
 		{
 			setDoRDF(true);
@@ -118,14 +119,14 @@ public class Pellint extends PelletCmdApp
 				else
 					throw new PelletCmdException("Invalid argument to lint --only: " + only);
 
-		setDoRootOnly(options.getOption("root-only").getValueAsBoolean());
+		setDoRootOnly(_options.getOption("root-only").getValueAsBoolean());
 
 		if (getInputFiles().length > 1)
 			throw new PelletCmdException("lint doesn't handle multiple input files");
 
 		setInputOntologyPath(getInputFiles()[0]);
 
-		setOutputOntologyPath(options.getOption("fix").getValueAsString());
+		setOutputOntologyPath(_options.getOption("fix").getValueAsString());
 	}
 
 	@Override
@@ -137,16 +138,16 @@ public class Pellint extends PelletCmdApp
 	@Override
 	public String getAppCmd()
 	{
-		final String s1 = "pellet lint [options] <file URI> ...\n";
+		final String s1 = "pellet lint [_options] <file URI> ...\n";
 		final String s2 = "Note: pellet lint <file URI> without arguments prints the lint report to STDOUT.";
 		final String lb = System.getProperty("line.separator");
 		final String s = s1 + lb + lb + s2;
 		return s;
 	}
 
-	<T extends Serializable> void f(final Map<T, T> arg)
+	<T extends Serializable> void f(@SuppressWarnings("unused") final Map<T, T> arg)
 	{
-
+		//
 	}
 
 	@Override
@@ -216,13 +217,15 @@ public class Pellint extends PelletCmdApp
 	public static OntologyLints lint(final List<AxiomLintPattern> axiomLintPatterns, final List<OntologyLintPattern> ontologyLintPatterns, final OWLOntology ontology)
 	{
 		final OntologyLints ontologyLints = new OntologyLints(ontology);
-		for (final OWLAxiom axiom : ontology.getAxioms())
+		ontology.axioms().forEach(axiom ->
+		{
 			for (final AxiomLintPattern pattern : axiomLintPatterns)
 			{
 				final Lint lint = pattern.match(ontology, axiom);
 				if (lint != null)
 					ontologyLints.addLint(pattern, lint);
 			}
+		});
 
 		for (final OntologyLintPattern pattern : ontologyLintPatterns)
 		{
@@ -250,8 +253,8 @@ public class Pellint extends PelletCmdApp
 			if (uri0 == null || uri1 == null)
 				return 0;
 
-			final String fragment0 = uri0.getFragment();
-			final String fragment1 = uri1.getFragment();
+			final String fragment0 = XMLUtils.getNCNameSuffix(uri0);
+			final String fragment1 = XMLUtils.getNCNameSuffix(uri1);
 			if (fragment0 == null || fragment1 == null)
 				return 0;
 
@@ -301,7 +304,7 @@ public class Pellint extends PelletCmdApp
 		}
 	}
 
-	private void runLintForRDFXML() throws MalformedURLException, IOException
+	private void runLintForRDFXML() throws IOException
 	{
 		final RDFModelReader reader = new RDFModelReader();
 		RDFModel rootModel = null;
@@ -315,7 +318,7 @@ public class Pellint extends PelletCmdApp
 		}
 		final OWLSyntaxChecker checker = new OWLSyntaxChecker();
 
-		checker.setExcludeValidPunnings(options.getOption("exclude-valid-punning").getValueAsBoolean());
+		checker.setExcludeValidPunnings(_options.getOption("exclude-valid-punning").getValueAsBoolean());
 
 		final RDFLints lints = checker.validate(rootModel);
 
@@ -360,7 +363,7 @@ public class Pellint extends PelletCmdApp
 
 		if (!m_DoRootOnly)
 		{
-			final Set<OWLOntology> importClosures = CollectionUtil.copy(manager.getImportsClosure(rootOntology));
+			final Set<OWLOntology> importClosures = manager.importsClosure(rootOntology).collect(Collectors.toSet());
 			importClosures.remove(rootOntology);
 
 			if (importClosures.isEmpty())
@@ -486,17 +489,17 @@ public class Pellint extends PelletCmdApp
 
 		if (configURL != null)
 			try
-			{
+		{
 				properties.load(configURL.openStream());
-			}
-			catch (final FileNotFoundException e)
-			{
-				LOGGER.severe("Pellint configuration file cannot be found");
-			}
-			catch (final IOException e)
-			{
-				LOGGER.severe("I/O error while reading Pellet configuration file");
-			}
+		}
+		catch (final FileNotFoundException e)
+		{
+			LOGGER.severe("Pellint configuration file cannot be found");
+		}
+		catch (final IOException e)
+		{
+			LOGGER.severe("I/O error while reading Pellet configuration file");
+		}
 
 		return properties;
 	}

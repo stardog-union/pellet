@@ -1,4 +1,4 @@
-package com.clarkparsia.owlwg.owlapi3.runner.impl;
+package com.clarkparsia.owlwg.owlapi.runner.impl;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -24,12 +24,12 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public class OwlApi3ReasonerTestRunner extends OwlApi3AbstractRunner {
+public class OwlApiReasonerTestRunner extends OwlApiAbstractRunner {
 
 	private final OWLReasonerFactory	reasonerFactory;
 	private final IRI					iri;
 
-	public OwlApi3ReasonerTestRunner(OWLReasonerFactory reasonerFactory, IRI runnerUri) {
+	public OwlApiReasonerTestRunner(OWLReasonerFactory reasonerFactory, IRI runnerUri) {
 		this.reasonerFactory = reasonerFactory;
 		this.iri = runnerUri;
 	}

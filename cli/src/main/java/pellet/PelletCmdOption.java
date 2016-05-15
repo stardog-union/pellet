@@ -13,7 +13,7 @@ package pellet;
  * Title: PelletCmdOption
  * </p>
  * <p>
- * Description: Represents a pellet command line option, i.e. the option name, the long option name and the option value given on command line
+ * Description: Represents a pellet command line option, i.e. the option name, the long option name and the option _value given on command line
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -27,91 +27,91 @@ package pellet;
 public class PelletCmdOption
 {
 
-	private final String longOption;
-	private String shortOption;
-	private String type;
-	private String description;
-	private boolean isMandatory;
-	private Object value;
-	private Object defaultValue;
-	private boolean exists;
-	private PelletCmdOptionArg arg = PelletCmdOptionArg.NONE;
+	private final String _longOption;
+	private String _shortOption;
+	private String _type;
+	private String _description;
+	private boolean _isMandatory;
+	private Object _value;
+	private Object _defaultValue;
+	private boolean _exists;
+	private PelletCmdOptionArg _arg = PelletCmdOptionArg.NONE;
 
 	public PelletCmdOption(final String longOption)
 	{
 		if (longOption == null)
 			throw new PelletCmdException("A long option must be defined for a command line option");
 
-		this.longOption = removeHyphen(longOption);
-		this.defaultValue = null;
+		this._longOption = removeHyphen(longOption);
+		this._defaultValue = null;
 	}
 
 	public String getShortOption()
 	{
-		return shortOption;
+		return _shortOption;
 	}
 
 	public String getLongOption()
 	{
-		return longOption;
+		return _longOption;
 	}
 
 	public void setShortOption(final String shortOption)
 	{
-		this.shortOption = removeHyphen(shortOption);
+		this._shortOption = removeHyphen(shortOption);
 	}
 
 	public String getType()
 	{
-		return type;
+		return _type;
 	}
 
 	public void setType(final String type)
 	{
-		this.type = type;
+		this._type = type;
 	}
 
 	public void setDescription(final String description)
 	{
-		this.description = description;
+		this._description = description;
 	}
 
 	public String getDescription()
 	{
-		return description;
+		return _description;
 	}
 
 	public void setDefaultValue(final Object defaultValue)
 	{
-		this.defaultValue = defaultValue;
+		this._defaultValue = defaultValue;
 	}
 
 	public Object getDefaultValue()
 	{
-		return defaultValue;
+		return _defaultValue;
 	}
 
 	public Object getValue()
 	{
-		return value;
+		return _value;
 	}
 
 	public String getValueAsString()
 	{
-		if (value != null)
-			return value.toString();
+		if (_value != null)
+			return _value.toString();
 
-		if (defaultValue != null)
-			return defaultValue.toString();
+		if (_defaultValue != null)
+			return _defaultValue.toString();
 
 		return null;
 	}
 
 	/**
-	 * Returns the option value as an integer and verifies that the value is a positive integer (>= 1).
+	 * Returns the option _value as an integer and verifies that the _value is a positive integer (>= 1).
 	 *
-	 * @return an integer value
-	 * @throws PelletCmdException If the option value does not exist or is a not a valid positive integer value (>= 1)
+	 * @return an integer _value
+	 * @throws PelletCmdException If the option _value does not exist or is a not a valid positive integer _value (>= 1)
 	 */
 	public int getValueAsPositiveInteger() throws PelletCmdException
 	{
@@ -119,10 +119,10 @@ public class PelletCmdOption
 	}
 
 	/**
-	 * Returns the option value as an integer and verifies that the value is a non-negative integer (>= 0).
+	 * Returns the option _value as an integer and verifies that the _value is a non-negative integer (>= 0).
 	 *
-	 * @return an integer value
-	 * @throws PelletCmdException If the option value does not exist or is a not a valid non-negative integer value (>= 0)
+	 * @return an integer _value
+	 * @throws PelletCmdException If the option _value does not exist or is a not a valid non-negative integer _value (>= 0)
 	 */
 	public int getValueAsNonNegativeInteger() throws PelletCmdException
 	{
@@ -130,10 +130,10 @@ public class PelletCmdOption
 	}
 
 	/**
-	 * Returns the option value as an integer
+	 * Returns the option _value as an integer
 	 *
-	 * @return an integer value
-	 * @throws PelletCmdException If the option value does not exist or is a not a valid integer value
+	 * @return an integer _value
+	 * @throws PelletCmdException If the option _value does not exist or is a not a valid integer _value
 	 */
 	public int getValueAsInteger() throws PelletCmdException
 	{
@@ -141,40 +141,40 @@ public class PelletCmdOption
 	}
 
 	/**
-	 * Returns the option value as an integer and verifies that it is in the given range.
+	 * Returns the option _value as an integer and verifies that it is in the given range.
 	 *
-	 * @param minAllowed Minimum allowed value for the integer (inclusive)
-	 * @param maxAllowed Maximum allowed value for the integer (inclusive)
-	 * @return an integer value in the specified range
-	 * @throws PelletCmdException If the option value does not exist, is a not a valid integer value, or not in the specified range
+	 * @param minAllowed Minimum allowed _value for the integer (inclusive)
+	 * @param maxAllowed Maximum allowed _value for the integer (inclusive)
+	 * @return an integer _value in the specified range
+	 * @throws PelletCmdException If the option _value does not exist, is a not a valid integer _value, or not in the specified range
 	 */
 	public int getValueAsInteger(final int minAllowed, final int maxAllowed) throws PelletCmdException
 	{
 		final String value = getValueAsString();
 
 		if (value == null)
-			throw new PelletCmdException(String.format("The value for option <%s> does not exist%n", longOption));
+			throw new PelletCmdException(String.format("The _value for option <%s> does not exist%n", _longOption));
 
 		try
 		{
 			final int intValue = Integer.parseInt(value);
 			if (intValue < minAllowed)
-				throw new PelletCmdException(String.format("The value for option <%s> should be greater than or equal to %d but was: %d%n", longOption, minAllowed, intValue));
+				throw new PelletCmdException(String.format("The _value for option <%s> should be greater than or equal to %d but was: %d%n", _longOption, minAllowed, intValue));
 
 			if (intValue > maxAllowed)
-				throw new PelletCmdException(String.format("The value for option <%s> should be less than or equal to %d but was: %d%n", longOption, maxAllowed, intValue));
+				throw new PelletCmdException(String.format("The _value for option <%s> should be less than or equal to %d but was: %d%n", _longOption, maxAllowed, intValue));
 			return intValue;
 		}
 		catch (final NumberFormatException e)
 		{
-			throw new PelletCmdException(String.format("The value for option <%s> is not a valid integer: %s%n", longOption, value));
+			throw new PelletCmdException(String.format("The _value for option <%s> is not a valid integer: %s%n", _longOption, value));
 		}
 	}
 
 	/**
-	 * Returns the string value as a boolean. If no value exists returns <code>false</code> by default.
+	 * Returns the string _value as a boolean. If no _value _exists returns <code>false</code> by default.
 	 *
-	 * @return returns the string value as a boolean
+	 * @return returns the string _value as a boolean
 	 */
 	public boolean getValueAsBoolean()
 	{
@@ -185,22 +185,22 @@ public class PelletCmdOption
 
 	public void setValue(final String value)
 	{
-		this.value = value;
+		this._value = value;
 	}
 
 	public void setValue(final Boolean value)
 	{
-		this.value = value;
+		this._value = value;
 	}
 
 	public void setIsMandatory(final boolean isMandatory)
 	{
-		this.isMandatory = isMandatory;
+		this._isMandatory = isMandatory;
 	}
 
 	public boolean isMandatory()
 	{
-		return isMandatory;
+		return _isMandatory;
 	}
 
 	@Override
@@ -211,7 +211,7 @@ public class PelletCmdOption
 
 		final PelletCmdOption other = (PelletCmdOption) o;
 
-		if (((shortOption == null && other.getShortOption() == null) || (shortOption != null && shortOption.equals(other.getShortOption()))) && longOption.equals(other.getLongOption()) && ((type == null && other.getType() == null) || (type != null && type.equals(other.getType()))) && ((description == null && other.getDescription() == null) || (description != null && description.equals(other.getDescription()))) && isMandatory == other.isMandatory() && ((value == null && other.getValue() == null) || (value != null && value.equals(other.getValue()))) && ((defaultValue == null && other.getDefaultValue() == null) || (defaultValue != null && defaultValue.equals(other.getDefaultValue()))))
+		if (((_shortOption == null && other.getShortOption() == null) || (_shortOption != null && _shortOption.equals(other.getShortOption()))) && _longOption.equals(other.getLongOption()) && ((_type == null && other.getType() == null) || (_type != null && _type.equals(other.getType()))) && ((_description == null && other.getDescription() == null) || (_description != null && _description.equals(other.getDescription()))) && _isMandatory == other.isMandatory() && ((_value == null && other.getValue() == null) || (_value != null && _value.equals(other.getValue()))) && ((_defaultValue == null && other.getDefaultValue() == null) || (_defaultValue != null && _defaultValue.equals(other.getDefaultValue()))))
 			return true;
 
 		return false;
@@ -221,17 +221,17 @@ public class PelletCmdOption
 	public int hashCode()
 	{
 		int code = 0;
-		if (shortOption != null)
-			code += shortOption.hashCode();
-		if (longOption != null)
-			code += longOption.hashCode();
+		if (_shortOption != null)
+			code += _shortOption.hashCode();
+		if (_longOption != null)
+			code += _longOption.hashCode();
 		return code;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "[ " + longOption + ", " + shortOption + ", " + type + ", " + description + ", " + isMandatory + ", " + value + ", " + defaultValue + " ]";
+		return "[ " + _longOption + ", " + _shortOption + ", " + _type + ", " + _description + ", " + _isMandatory + ", " + _value + ", " + _defaultValue + " ]";
 	}
 
 	private String removeHyphen(final String option)
@@ -245,28 +245,28 @@ public class PelletCmdOption
 
 	public void setArg(final PelletCmdOptionArg arg)
 	{
-		this.arg = arg;
+		this._arg = arg;
 	}
 
 	public PelletCmdOptionArg getArg()
 	{
-		return arg;
+		return _arg;
 	}
 
 	/**
-	 * Returns if the option exists in the command-line arguments. If the argument for this option is mandatory then this implies {@link #getValue()} will
-	 * return a non-null value. If the argument for this option is optional then {@link #getValue()} may still return null.
+	 * Returns if the option _exists in the command-line arguments. If the argument for this option is mandatory then this implies {@link #getValue()} will
+	 * return a non-null _value. If the argument for this option is optional then {@link #getValue()} may still return null.
 	 * 
-	 * @return if the option exists in the command-line argument
+	 * @return if the option _exists in the command-line argument
 	 */
 	public boolean exists()
 	{
-		return exists || value != null;
+		return _exists || _value != null;
 	}
 
 	public void setExists(final boolean exists)
 	{
-		this.exists = exists;
+		this._exists = exists;
 	}
 
 }

@@ -58,23 +58,23 @@ public abstract class PelletCmdApp
 	private final static String LINE_BREAK = System.getProperty("line.separator");
 	private final static RDFReaderF READER_FACTORY = ModelFactory.createDefaultModel();
 
-	protected String appId;
-	protected String appCmd;
-	protected String help;
-	protected PelletCmdOptions options;
-	private final List<String> inputFiles;
-	protected KBLoader loader;
-	protected boolean verbose;
-	protected Timers timers;
-	protected List<String> tasks;
+	protected String _appId;
+	protected String _appCmd;
+	protected String _help;
+	protected PelletCmdOptions _options;
+	private final List<String> _inputFiles;
+	protected KBLoader _loader;
+	protected boolean _verbose;
+	protected Timers _timers;
+	protected List<String> _tasks;
 
 	public PelletCmdApp()
 	{
-		this.options = getOptions();
-		this.appId = getAppId();
-		this.appCmd = getAppCmd();
-		this.inputFiles = new ArrayList<>();
-		this.timers = new Timers();
+		this._options = getOptions();
+		this._appId = getAppId();
+		this._appCmd = getAppCmd();
+		this._inputFiles = new ArrayList<>();
+		this._timers = new Timers();
 
 		buildHelp();
 	}
@@ -86,7 +86,7 @@ public abstract class PelletCmdApp
 
 	protected void verbose(final String msg)
 	{
-		if (verbose)
+		if (_verbose)
 			System.err.println(msg);
 	}
 
@@ -110,10 +110,10 @@ public abstract class PelletCmdApp
 
 	public void finish()
 	{
-		if (verbose)
+		if (_verbose)
 		{
 			final StringWriter sw = new StringWriter();
-			timers.print(sw, true, null);
+			_timers.print(sw, true, null);
 
 			verbose("");
 			verbose("Timer summary:");
@@ -124,7 +124,7 @@ public abstract class PelletCmdApp
 	protected String getMandatoryOptions()
 	{
 		final StringBuffer ret = new StringBuffer();
-		final Set<PelletCmdOption> mandatory = options.getMandatoryOptions();
+		final Set<PelletCmdOption> mandatory = _options.getMandatoryOptions();
 
 		for (final PelletCmdOption option : mandatory)
 		{
@@ -150,9 +150,9 @@ public abstract class PelletCmdApp
 	{
 		final PelletCmdOption option = new PelletCmdOption("loader");
 		option.setShortOption("l");
-		option.setDescription("Use Jena, OWLAPI, OWLAPIv3 or KRSS to load the ontology");
-		option.setType("Jena | OWLAPI | OWLAPIv3 | KRSS");
-		option.setDefaultValue("OWLAPIv3");
+		option.setDescription("Use Jena, OWLAPI, OWLAPI or KRSS to load the ontology");
+		option.setType("Jena | OWLAPI | KRSS");
+		option.setDefaultValue("OWLAPI");
 		option.setIsMandatory(false);
 		option.setArg(REQUIRED);
 
@@ -194,7 +194,7 @@ public abstract class PelletCmdApp
 	{
 		final PelletCmdOption option = new PelletCmdOption("input-format");
 		option.setDefaultValue(null);
-		option.setDescription("Format of the input file (valid only for the " + "Jena loader). Default behaviour is to guess " + "the input format based on the file extension.");
+		option.setDescription("Format of the input file (valid only for the " + "Jena _loader). Default behaviour is to guess " + "the input format based on the file extension.");
 		option.setType("RDF/XML | Turtle | N-Triples");
 		option.setIsMandatory(false);
 		option.setArg(REQUIRED);
@@ -221,7 +221,7 @@ public abstract class PelletCmdApp
 			final KnowledgeBase kb = loader.createKB(inputFiles);
 			finishTask("loading");
 
-			if (verbose)
+			if (_verbose)
 			{
 				final StringBuilder sb = new StringBuilder();
 				sb.append("Classes = " + kb.getAllClasses().size() + ", ");
@@ -242,10 +242,10 @@ public abstract class PelletCmdApp
 
 	protected KBLoader getLoader()
 	{
-		if (loader != null)
-			return loader;
+		if (_loader != null)
+			return _loader;
 
-		final String loaderName = options.getOption("loader").getValueAsString();
+		final String loaderName = _options.getOption("loader").getValueAsString();
 
 		return getLoader(loaderName);
 	}
@@ -253,20 +253,20 @@ public abstract class PelletCmdApp
 	protected KBLoader getLoader(final String loaderName)
 	{
 		if (loaderName.equalsIgnoreCase("Jena"))
-			loader = new JenaLoader();
+			_loader = new JenaLoader();
 		else
-			if (loaderName.equalsIgnoreCase("OWLAPIv3") || loaderName.equalsIgnoreCase("OWLAPI"))
-				loader = new OWLAPILoader();
+			if (loaderName.equalsIgnoreCase("OWLAPI"))
+				_loader = new OWLAPILoader();
 			else
 				if (loaderName.equalsIgnoreCase("KRSS"))
-					loader = new KRSSLoader();
+					_loader = new KRSSLoader();
 				else
-					throw new PelletCmdException("Unknown loader: " + loaderName);
+					throw new PelletCmdException("Unknown _loader: " + loaderName);
 
-		loader.setIgnoreImports(options.getOption("ignore-imports").getValueAsBoolean());
-		final PelletCmdOption option = options.getOption("input-format");
+		_loader.setIgnoreImports(_options.getOption("ignore-imports").getValueAsBoolean());
+		final PelletCmdOption option = _options.getOption("input-format");
 		if (option != null && option.getValueAsString() != null)
-			if (loader instanceof JenaLoader)
+			if (_loader instanceof JenaLoader)
 			{
 				final String inputFormat = option.getValueAsString().toUpperCase();
 
@@ -276,7 +276,7 @@ public abstract class PelletCmdApp
 					{
 						READER_FACTORY.getReader(inputFormat.toUpperCase());
 
-						((JenaLoader) loader).setInputFormat(inputFormat);
+						((JenaLoader) _loader).setInputFormat(inputFormat);
 					}
 				}
 				catch (final NoReaderForLangException e)
@@ -289,25 +289,25 @@ public abstract class PelletCmdApp
 				// silently ignore
 			}
 
-		return loader;
+		return _loader;
 	}
 
 	protected String[] getInputFiles()
 	{
-		return inputFiles.toArray(new String[] {});
+		return _inputFiles.toArray(new String[] {});
 	}
 
 	private void buildHelp()
 	{
 		final StringBuffer u = new StringBuffer();
 
-		final HelpTable table = new HelpTable(options);
+		final HelpTable table = new HelpTable(_options);
 
-		u.append(appId + LINE_BREAK + LINE_BREAK);
-		u.append("Usage: " + appCmd + LINE_BREAK + LINE_BREAK);
+		u.append(_appId + LINE_BREAK + LINE_BREAK);
+		u.append("Usage: " + _appCmd + LINE_BREAK + LINE_BREAK);
 		u.append(table.print() + LINE_BREAK);
 
-		help = u.toString();
+		_help = u.toString();
 	}
 
 	public void parseArgs(final String[] args)
@@ -331,10 +331,10 @@ public abstract class PelletCmdApp
 					arg = arg.substring(1);
 			}
 			else
-				// no more options to parse
+				// no more _options to parse
 				break;
 
-			final PelletCmdOption option = options.getOption(arg);
+			final PelletCmdOption option = _options.getOption(arg);
 
 			if (option == null)
 				throw new PelletCmdException("Unrecognized option: " + arg);
@@ -375,8 +375,8 @@ public abstract class PelletCmdApp
 			}
 		}
 
-		// Check if all mandatory options are set
-		for (final PelletCmdOption option : options.getOptions())
+		// Check if all mandatory _options are set
+		for (final PelletCmdOption option : _options.getOptions())
 			if (option.isMandatory())
 				if (option.getValue() == null)
 					throw new PelletCmdException("Option <" + option.getLongOption() + "> is mandatory");
@@ -385,62 +385,61 @@ public abstract class PelletCmdApp
 
 		// Input files are given as a list of file URIs at the _end
 		for (; i < args.length; i++)
-			inputFiles.add(args[i]);
+			_inputFiles.add(args[i]);
 
-		if (options.getOption("verbose").getValueAsBoolean())
-			verbose = true;
+		if (_options.getOption("verbose").getValueAsBoolean())
+			_verbose = true;
 
 		if (requiresInputFiles())
 		{
-			if (inputFiles.isEmpty())
+			if (_inputFiles.isEmpty())
 				throw new PelletCmdException("No input file given");
 		}
 		else
-			if (!inputFiles.isEmpty())
-				throw new PelletCmdException("Unexpected argument(s): " + inputFiles);
+			if (!_inputFiles.isEmpty())
+				throw new PelletCmdException("Unexpected argument(s): " + _inputFiles);
 	}
 
 	private void loadConfig()
 	{
-		final String configFile = options.getOption("config").getValueAsString();
+		final String configFile = _options.getOption("config").getValueAsString();
 
 		if (configFile != null)
 			try
-			{
+		{
 				final URL url = new URL("file:" + configFile);
 
 				PelletOptions.load(url);
-			}
-			catch (final MalformedURLException e)
-			{
-				throw new PelletCmdException("Invalid URL given for the config file: " + configFile);
-			}
-			catch (final FileNotFoundException e)
-			{
-				throw new PelletCmdException("The specified configuration file cannot be found: " + configFile);
-			}
-			catch (final IOException e)
-			{
-				throw new PelletCmdException("I/O error while reading the configuration file: " + e.toString());
-			}
+		}
+		catch (final MalformedURLException e)
+		{
+			throw new PelletCmdException("Invalid URL given for the config file: " + configFile);
+		}
+		catch (final FileNotFoundException e)
+		{
+			throw new PelletCmdException("The specified configuration file cannot be found: " + configFile);
+		}
+		catch (final IOException e)
+		{
+			throw new PelletCmdException("I/O error while reading the configuration file: " + e.toString());
+		}
 	}
 
 	public void help()
 	{
-		output(help);
+		output(_help);
 		System.exit(0);
 	}
 
 	private static class HelpTable
 	{
-		private final String LINE_BREAK = System.getProperty("line.separator");
-		private final PelletCmdOptions options;
-		private final int maxLineWidth = 80;
-		private final int indent = 5;
+		private final PelletCmdOptions _helpOptions;
+		private final int _maxLineWidth = 80;
+		private final int _indent = 5;
 
 		public HelpTable(final PelletCmdOptions options)
 		{
-			this.options = options;
+			this._helpOptions = options;
 		}
 
 		public String print()
@@ -452,11 +451,11 @@ public abstract class PelletCmdApp
 			int i = 0;
 			boolean last = false;
 
-			for (final PelletCmdOption option : options.getOptions())
+			for (final PelletCmdOption option : _helpOptions.getOptions())
 			{
 				i++;
 
-				if (i == options.getOptions().size())
+				if (i == _helpOptions.getOptions().size())
 					last = true;
 
 				final String longOption = option.getLongOption();
@@ -522,7 +521,7 @@ public abstract class PelletCmdApp
 
 		private String secondLine(final String description, final String defaultValue)
 		{
-			final int colStart = indent;
+			final int colStart = _indent;
 			int colLength = colStart;
 
 			final StringBuffer ret = new StringBuffer();
@@ -547,7 +546,7 @@ public abstract class PelletCmdApp
 
 				colLength = colLength + token.length() + 1;
 
-				if (colLength > maxLineWidth)
+				if (colLength > _maxLineWidth)
 				{
 					ret.append(LINE_BREAK + fill(colStart));
 					colLength = colStart + token.length() + 1;
@@ -563,12 +562,12 @@ public abstract class PelletCmdApp
 	protected void startTask(final String task)
 	{
 		verbose("Start " + task);
-		timers.startTimer(task);
+		_timers.startTimer(task);
 	}
 
 	protected void finishTask(final String task)
 	{
-		final Timer timer = timers.getTimer(task);
+		final Timer timer = _timers.getTimer(task);
 		timer.stop();
 		verbose("Finished " + task + " in " + timer.format());
 	}

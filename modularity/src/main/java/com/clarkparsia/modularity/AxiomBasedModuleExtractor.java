@@ -126,18 +126,18 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 					// Option 1: No cycle was identified, extraction successful
 					if (root.equals(member))
 						assert !stackElements.contains(member) : "Recursive call did not cleanup stack";
-					else
-						{
-						myCycle.addAll(memberCycle);
-						// Option 2a: entity was the root of the cycle
-						if (myCycle.contains(root))
-							stackElements.addAll(memberCycle);
 						else
-							{
-							currentCycle.addAll(myCycle);
-							return root;
+					{
+							myCycle.addAll(memberCycle);
+							// Option 2a: entity was the root of the cycle
+							if (myCycle.contains(root))
+								stackElements.addAll(memberCycle);
+							else
+						{
+								currentCycle.addAll(myCycle);
+								return root;
+							}
 						}
-					}
 				}
 				// entity is in a cycle
 				else
@@ -226,7 +226,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 				if (stackElements.contains(member))
 				{
 					// sanity check
-					assert stack.contains(member) : "_node was supposed to be on the stack";
+					assert stack.contains(member) : "node was supposed to be on the stack";
 					// all the entities in the stack up until that _node
 					// will _end up having the same module
 					boolean foundMember = false;
