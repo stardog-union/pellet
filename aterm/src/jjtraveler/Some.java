@@ -11,40 +11,41 @@ package jjtraveler;
  * @date December 2002.
  */
 
-public class Some implements Visitor
+public class Some<T extends Visitable> implements Visitor<T>
 {
 	/*
 	 * caching a VisitFailure for efficiency (preventing generation of a
 	 * stacktrace)
 	 */
-	private static VisitFailure failure = new VisitFailure();
+	private static VisitFailure _failure = new VisitFailure();
 
-	public Visitor v;
+	public Visitor<T> _v;
 
-	public Some(final Visitor v)
+	public Some(final Visitor<T> v)
 	{
-		this.v = v;
+		this._v = v;
 	}
 
 	@Override
-	public Visitable visit(final Visitable any) throws VisitFailure
+	public T visit(final T any) throws VisitFailure
 	{
 		final int childCount = any.getChildCount();
-		Visitable result = any;
+		T result = any;
 		int successCount = 0;
 		for (int i = 0; i < childCount; i++)
 			try
 			{
-				result = result.setChildAt(i, v.visit(any.getChildAt(i)));
+				result = result.setChildAt(i, _v.visit(any.getChildAt(i)));
 				successCount++;
 			}
 			catch (final VisitFailure f)
 			{
+				f.printStackTrace();
 			}
 		if (successCount == 0)
 		{
-			failure.setMessage("Some: None of the " + childCount + " arguments of " + any + " succeeded.");
-			throw failure;
+			_failure.setMessage("Some: None of the " + childCount + " arguments of " + any + " succeeded.");
+			throw _failure;
 		}
 		return result;
 	}

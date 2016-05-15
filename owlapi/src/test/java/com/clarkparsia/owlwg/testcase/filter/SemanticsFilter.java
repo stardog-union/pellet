@@ -8,7 +8,7 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Semantics Filter Condition
  * </p>
  * <p>
- * Description: Filter condition to match tests for which a particular semantics
+ * Description: Filter _condition to match tests for which a particular semantics
  * is applicable.
  * </p>
  * <p>

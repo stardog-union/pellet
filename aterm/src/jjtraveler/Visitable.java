@@ -18,13 +18,13 @@ public interface Visitable
 	 * at 0. Thus, to get the last child of a visitable with n
 	 * children, use getChild(n-1).
 	 */
-	public abstract Visitable getChildAt(int i);
+	public abstract <T extends Visitable> T getChildAt(int i);
 
 	/**
 	 * Replaces the ith child of any visitable, and returns this
 	 * visitable. Counting starts at 0. Thus, to set the last child of
 	 * a visitable with n children, use setChild(n-1).
 	 */
-	public abstract Visitable setChildAt(int i, Visitable child);
+	public abstract <T extends Visitable> T setChildAt(int i, Visitable child);
 
 }

@@ -178,7 +178,7 @@ public class Rational extends Number implements Comparable<Rational>
 	 *
 	 * @param _numerator An integer value
 	 * @param _denominator A positive integer value
-	 * @throws IllegalArgumentException if this condition does not hold for the input parameters
+	 * @throws IllegalArgumentException if this _condition does not hold for the input parameters
 	 *         <code>OWLRealUtils.acceptable(_numerator) && OWLRealUtils.isInteger(_numerator) && OWLRealUtils.acceptable(_denominator) && OWLRealUtils.isInteger(_denominator) && _denominator > 0</code>
 	 */
 	public Rational(final Number numerator, final Number denominator)

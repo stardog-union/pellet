@@ -9,12 +9,12 @@ package jjtraveler;
  *
  * @author Arie van Deursen, CWI
  */
-public class NestingDepth implements Visitor, Cloneable
+public class NestingDepth<T extends Visitable> implements Visitor<T>, Cloneable
 {
 
-	Visitor nestingRecognizer;
+	Visitor<T> nestingRecognizer;
 
-	Visitor goOnWhileSuccess = new Identity();
+	Visitor<T> goOnWhileSuccess = new Identity<>();
 
 	int nestingLevel = 0;
 
@@ -24,7 +24,7 @@ public class NestingDepth implements Visitor, Cloneable
 	 * Create a nesting counter given the recognizer argument. The recognizer
 	 * fails at all nodes, except for the ones recognized, at which it succeeds.
 	 */
-	public NestingDepth(final Visitor nestingRecognizer, final Visitor goOn)
+	public NestingDepth(final Visitor<T> nestingRecognizer, final Visitor<T> goOn)
 	{
 		this.nestingRecognizer = nestingRecognizer;
 		goOnWhileSuccess = goOn;
@@ -33,7 +33,7 @@ public class NestingDepth implements Visitor, Cloneable
 	/**
 	 * Create a nesting counter given the recognizer argument.
 	 */
-	public NestingDepth(final Visitor nestingRecognizer)
+	public NestingDepth(final Visitor<T> nestingRecognizer)
 	{
 		this.nestingRecognizer = nestingRecognizer;
 	}
@@ -41,10 +41,11 @@ public class NestingDepth implements Visitor, Cloneable
 	/**
 	 * Restart a visitor after having recognized a relevant construct.
 	 */
-	private NestingDepth restart()
+	private NestingDepth<T> restart()
 	{
-		final NestingDepth nextDepth = (NestingDepth) clone();
-		nextDepth.maxNestingDepth = max(maxNestingDepth, nestingLevel + 1);
+		@SuppressWarnings("unchecked")
+		final NestingDepth<T> nextDepth = (NestingDepth<T>) clone();
+		nextDepth.maxNestingDepth = Math.max(maxNestingDepth, nestingLevel + 1);
 		nextDepth.nestingLevel++;
 		return nextDepth;
 	}
@@ -52,15 +53,15 @@ public class NestingDepth implements Visitor, Cloneable
 	@Override
 	public Object clone()
 	{
-		final NestingDepth theClone = new NestingDepth(nestingRecognizer, goOnWhileSuccess);
+		final NestingDepth<T> theClone = new NestingDepth<>(nestingRecognizer, goOnWhileSuccess);
 		theClone.nestingLevel = nestingLevel;
 		theClone.maxNestingDepth = maxNestingDepth;
 		return theClone;
 	}
 
-	private NestingDepth apply(final Visitable x)
+	private NestingDepth<T> apply(final T x)
 	{
-		(new GuaranteeSuccess(new All(this))).visit(x);
+		(new GuaranteeSuccess<>(new All<>(this))).visit(x);
 		return this;
 	}
 
@@ -76,7 +77,7 @@ public class NestingDepth implements Visitor, Cloneable
 	 * Apply the nesting depth counter to a given visitable.
 	 */
 	@Override
-	public Visitable visit(final Visitable x)
+	public T visit(final T x)
 	{
 		if (countingShouldContinue(x))
 			if (isNestingConstruct(x))
@@ -86,7 +87,7 @@ public class NestingDepth implements Visitor, Cloneable
 		return x;
 	}
 
-	protected boolean countingShouldContinue(final Visitable x)
+	protected boolean countingShouldContinue(final T x)
 	{
 		boolean goOn = false;
 		try
@@ -101,7 +102,7 @@ public class NestingDepth implements Visitor, Cloneable
 		return goOn;
 	}
 
-	protected boolean isNestingConstruct(final Visitable x)
+	protected boolean isNestingConstruct(final T x)
 	{
 		boolean isNesting = false;
 		try
@@ -114,19 +115,5 @@ public class NestingDepth implements Visitor, Cloneable
 			isNesting = false;
 		}
 		return isNesting;
-	}
-
-	/**
-	 * Status printing that can be used for debugging purposes. private String
-	 * status() { return " maxNestingDepth = " + maxNestingDepth + "; " +
-	 * "nestingLevel = " + nestingLevel; }
-	 */
-
-	/**
-	 * Where is this one in the Java API?
-	 */
-	private int max(final int i1, final int i2)
-	{
-		return (i1 > i2 ? i1 : i2);
 	}
 }

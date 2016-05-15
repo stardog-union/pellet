@@ -20,7 +20,7 @@ public class OWLDatatypeTest
 
 	/**
 	 * Test for ticket 438. (Lint reported user-defined datatypes as "untyped classes" because they used owl:equivalentClass to connect a named datatype with an
-	 * anonymous datatype; in the implementation of lint at that time, it was expected (incorrectly) that both arguments to equivalentClasses are types).
+	 * anonymous datatype; in the implementation of lint at that time, it was _expected (incorrectly) that both arguments to equivalentClasses are types).
 	 */
 	@Test
 	public void testDatatypeEquivalentClass()

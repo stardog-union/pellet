@@ -166,7 +166,7 @@ public class ARQParser implements QueryParser
 		final Element pattern = sparql.getQueryPattern();
 
 		if (!(pattern instanceof ElementGroup))
-			throw new UnsupportedQueryException("ElementGroup was expected, but found '" + pattern.getClass() + "'.");
+			throw new UnsupportedQueryException("ElementGroup was _expected, but found '" + pattern.getClass() + "'.");
 
 		final ElementGroup elementGroup = (ElementGroup) pattern;
 

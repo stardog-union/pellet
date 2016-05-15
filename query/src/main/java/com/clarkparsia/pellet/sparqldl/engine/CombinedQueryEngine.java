@@ -1392,7 +1392,7 @@ public class CombinedQueryEngine implements QueryExec
 
 	private boolean isDownMonotonic(final ATermAppl scLHS)
 	{
-		// TODO more refined condition to allow optimization for other atoms as
+		// TODO more refined _condition to allow optimization for other atoms as
 		// well - Type and
 		// PropertyValue as well.
 

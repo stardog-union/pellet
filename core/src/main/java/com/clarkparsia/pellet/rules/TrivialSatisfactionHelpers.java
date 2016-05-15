@@ -94,7 +94,7 @@ public class TrivialSatisfactionHelpers
 	private interface BindingTester
 	{
 		/**
-		 * Returns true if binding supports testing condition
+		 * Returns true if binding supports testing _condition
 		 */
 		public DependencySet check(VariableBinding binding);
 	}

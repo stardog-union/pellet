@@ -11,7 +11,7 @@ interface ILink
 	// public: ................................................................
 
 	/**
-	 * Returns the string that will be used for a {@link IObjectProfileNode#name()} implementation. It is expected that the implementation will generate the
+	 * Returns the string that will be used for a {@link IObjectProfileNode#name()} implementation. It is _expected that the implementation will generate the
 	 * return on every call to this method and not keep in memory.
 	 */
 	String name();

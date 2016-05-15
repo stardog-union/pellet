@@ -11,14 +11,14 @@ package jjtraveler;
  * @version $Id$
  */
 
-public class SuccessCounter implements Visitor
+public class SuccessCounter<T extends Visitable> implements Visitor<T>
 {
 
 	int success = 0;
 	int failure = 0;
-	Visitor action;
+	Visitor<T> action;
 
-	public SuccessCounter(final Visitor v)
+	public SuccessCounter(final Visitor<T> v)
 	{
 		action = v;
 	}
@@ -34,7 +34,7 @@ public class SuccessCounter implements Visitor
 	}
 
 	@Override
-	public Visitable visit(final Visitable x)
+	public T visit(final T x)
 	{
 		try
 		{

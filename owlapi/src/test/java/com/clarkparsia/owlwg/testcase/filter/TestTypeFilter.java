@@ -11,7 +11,7 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Test Type Filter Condition
  * </p>
  * <p>
- * Description: Filter condition to match tests with a particular type (e.g.,
+ * Description: Filter _condition to match tests with a particular type (e.g.,
  * consistency, negative entailment).
  * </p>
  * <p>

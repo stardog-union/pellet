@@ -670,7 +670,7 @@ public class DefaultGraphLoader implements GraphLoader
 	{
 		if (!definition.isURI())
 		{
-			addUnsupportedFeature("Invalid datatype definition, expected URI but found " + s);
+			addUnsupportedFeature("Invalid datatype definition, _expected URI but found " + s);
 			return ATermUtils.BOTTOM_LIT;
 		}
 
@@ -702,7 +702,7 @@ public class DefaultGraphLoader implements GraphLoader
 	{
 		if (!definition.isURI())
 		{
-			addUnsupportedFeature("Invalid datatype definition, expected URI but found " + s);
+			addUnsupportedFeature("Invalid datatype definition, _expected URI but found " + s);
 			return ATermUtils.BOTTOM_LIT;
 		}
 

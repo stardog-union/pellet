@@ -6,7 +6,7 @@ import java.util.Collection;
  * A visitor combinator for collecting items.
  */
 
-public interface Collector extends Visitor
+public interface Collector<T extends Visitable> extends Visitor<T>
 {
-	public Collection getCollection();
+	public Collection<T> getCollection();
 }

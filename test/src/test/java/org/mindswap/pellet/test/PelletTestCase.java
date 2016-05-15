@@ -59,7 +59,7 @@ public final class PelletTestCase
 			found = obj.equals(val);
 		}
 
-		assertTrue("Failed to find expected iterator value: " + val, found);
+		assertTrue("Failed to find _expected iterator value: " + val, found);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -89,13 +89,13 @@ public final class PelletTestCase
 			assertTrue("Found unexpected iterator value: " + n, gotit);
 		}
 
-		// check that all expected values were found
+		// check that all _expected values were found
 		final List<T> unfound = new ArrayList<>();
 		for (int i = 0; i < expected.length; i++)
 			if (!found[i])
 				unfound.add(expected[i]);
 
-		assertTrue("Failed to find expected iterator values: " + unfound, unfound.isEmpty());
+		assertTrue("Failed to find _expected iterator values: " + unfound, unfound.isEmpty());
 	}
 
 	public static Set<Statement> createStatements(final Resource subject, final Property predicate, final RDFNode... objects)

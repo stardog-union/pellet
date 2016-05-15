@@ -14,8 +14,8 @@ public class CollectTest extends VisitorTestCase
 
 	public void testCollectTopDown()
 	{
-		final Collection<?> c = new Vector<>();
-		(Collect.topdown(new Identity(), c)).visit(n0);
+		final Collection<Node> c = new Vector<>();
+		(Collect.topdown(new Identity<>(), c)).visit(n0);
 		final Collection<Node> expected = new Vector<>();
 		expected.add(n0);
 		expected.add(n1);
@@ -27,8 +27,8 @@ public class CollectTest extends VisitorTestCase
 
 	public void testCollectAll()
 	{
-		final Collection<?> c = new Vector<>();
-		(Collect.all(new Identity(), c)).visit(n0);
+		final Collection<Node> c = new Vector<>();
+		(Collect.all(new Identity<>(), c)).visit(n0);
 		final Collection<Node> expected = new Vector<>();
 		expected.add(n1);
 		expected.add(n2);

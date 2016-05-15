@@ -4,7 +4,6 @@ package jjtraveler;
  * A class to represent a visting event: the fact that a visitable
  * node is visited by a particular visitor.
  */
-
 public class Event
 {
 

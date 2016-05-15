@@ -42,12 +42,12 @@ public interface SparqlDawgTester
 	public boolean isParsable();
 
 	/**
-	 * Checks whether the query is correctly evaluated with respect to given graph (dataURI), named graphs (namedDataURIs) and expected results (result URI)
+	 * Checks whether the query is correctly evaluated with respect to given graph (dataURI), named graphs (namedDataURIs) and _expected results (result URI)
 	 *
 	 * @param dataURI URI of the graph to be the query executed against
 	 * @param namedDataURIs URIs of the named graphs
 	 * @param resultURI URI of the results
-	 * @return true if the expected and actual results match
+	 * @return true if the _expected and actual results match
 	 */
 	public boolean isCorrectlyEvaluated();
 

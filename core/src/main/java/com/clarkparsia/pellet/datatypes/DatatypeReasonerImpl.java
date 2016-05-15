@@ -215,7 +215,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 			{
 				if (!ATermUtils.isLiteral(literal))
 				{
-					final String msg = "Method expected an ATermAppl literal as an argument";
+					final String msg = "Method _expected an ATermAppl literal as an argument";
 					_log.severe(msg);
 					throw new IllegalArgumentException(msg);
 				}
@@ -757,7 +757,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 					final DataRange<?> dr = normalized[i];
 
 					/*
-					 * First half of condition 9 - 11 block
+					 * First half of _condition 9 - 11 block
 					 */
 					if (TRIVIALLY_SATISFIABLE == dr)
 					{
@@ -773,7 +773,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 						return false;
 
 					/*
-					 * Second half of condition 9 - 11 block
+					 * Second half of _condition 9 - 11 block
 					 */
 					if (dr.containsAtLeast(inequalityCount(ne, i) + 1))
 					{

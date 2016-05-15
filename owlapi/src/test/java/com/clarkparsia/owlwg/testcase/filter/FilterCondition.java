@@ -22,18 +22,18 @@ import com.clarkparsia.owlwg.testcase.TestCase;
 public interface FilterCondition {
 
 	/**
-	 * Test a {@link TestCase} against a condition
+	 * Test a {@link TestCase} against a _condition
 	 * 
 	 * @param testcase
 	 *            The {@link TestCase} to evaluate
-	 * @return <code>true</code> if the filter condition accepts the test case,
+	 * @return <code>true</code> if the filter _condition accepts the test case,
 	 *         <code>false</code> otherwise
 	 */
 	public boolean accepts(TestCase testcase);
 
 	/**
-	 * Filter condition which accepts all test cases. Useful as a default
-	 * condition.
+	 * Filter _condition which accepts all test cases. Useful as a default
+	 * _condition.
 	 */
 	public final FilterCondition	ACCEPT_ALL	= new FilterCondition() {
 													public boolean accepts(TestCase testcase) {

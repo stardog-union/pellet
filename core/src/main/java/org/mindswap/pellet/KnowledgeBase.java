@@ -2863,7 +2863,7 @@ public class KnowledgeBase
 			return false;
 		}
 
-		// the following condition is wrong due to nominals, see OWL test
+		// the following _condition is wrong due to nominals, see OWL test
 		// cases SymmetricProperty-002
 		// if( !role1.hasNamedInverse() )
 		// return false;

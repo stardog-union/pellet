@@ -6,27 +6,27 @@ package jjtraveler;
  * Visitor combinator with one visitor argument that applies this visitor in pre-order fashion to all nodes, until it fails. Thus, traversal is cut off below the nodes where failure occurs.
  */
 
-public class TopDownWhile extends Choice
+public class TopDownWhile<T extends Visitable> extends Choice<T>
 {
 
 	/* Create a visitor that applies its argument v in topdown
 	 * fashion until it fails. Thus, traversal is cut off below
 	 * the nodes where v fails.
 	 */
-	public TopDownWhile(final Visitor v)
+	public TopDownWhile(final Visitor<T> v)
 	{
-		super(null, new Identity());
-		first = new Sequence(v, new All(this));
+		super(null, new Identity<>());
+		setFirst(new Sequence<>(v, new All<>(this)));
 	}
 
 	/* Create a visitor that applies its argument v in topdown
 	 * fashion until it fails, and subsequently applies its argument
 	 * vFinally at the nodes where failure occurs.
 	 */
-	public TopDownWhile(final Visitor v, final Visitor vFinally)
+	public TopDownWhile(final Visitor<T> v, final Visitor<T> vFinally)
 	{
 		super(null, vFinally);
-		first = new Sequence(v, new All(this));
+		setFirst(new Sequence<>(v, new All<>(this)));
 	}
 
 }

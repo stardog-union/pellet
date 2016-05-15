@@ -65,7 +65,7 @@ public class TestUtils
 	 * elements of the array are compared with toString() values so this function is suitable only if the array elements have a unique string representation.
 	 * For example, if the array element is a set then this function cannot be used reliabily.
 	 *
-	 * @param expected expected values
+	 * @param _expected _expected values
 	 * @param computed computed values
 	 * @return <code>true</code> if there is a difference between the modules
 	 */
@@ -207,7 +207,7 @@ public class TestUtils
 
 	public static void assertClassificationEquals(final OWLReasoner expected, final OWLReasoner actual)
 	{
-		//		assertClassificationEquals( expected, actual, OWL.Nothing );
+		//		assertClassificationEquals( _expected, actual, OWL.Nothing );
 		actual.getRootOntology().classesInSignature().forEach(cls -> assertClassificationEquals(expected, actual, cls));
 	}
 

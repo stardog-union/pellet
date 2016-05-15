@@ -8,13 +8,11 @@ package jjtraveler;
  * See also <a href="IdentityTest.java">IdentityTest</a>.
  */
 
-public class Identity implements Visitor
+public class Identity<T extends Visitable> implements Visitor<T>
 {
-
 	@Override
-	public Visitable visit(final Visitable x)
+	public T visit(final T x)
 	{
 		return x;
 	}
-
 }

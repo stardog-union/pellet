@@ -6,23 +6,23 @@ package jjtraveler;
  * argument.
  */
 
-public class SucceedAtNodes implements jjtraveler.Visitor
+public class SucceedAtNodes<T extends Visitable> implements Visitor<T>
 {
-	Visitor success;
+	Visitor<T> _success;
 
-	public SucceedAtNodes(final Visitable n1, final Visitable n2)
+	public SucceedAtNodes(final T n1, final T n2)
 	{
-		success = new Not(new FailAtNodes(n1, n2));
+		_success = new Not<>(new FailAtNodes<>(n1, n2));
 	}
 
-	public SucceedAtNodes(final Visitable n)
+	public SucceedAtNodes(final T n)
 	{
-		success = new Not(new FailAtNodes(n));
+		_success = new Not<>(new FailAtNodes<>(n));
 	}
 
 	@Override
-	public Visitable visit(final Visitable x) throws VisitFailure
+	public T visit(final T x) throws VisitFailure
 	{
-		return success.visit(x);
+		return _success.visit(x);
 	}
 }

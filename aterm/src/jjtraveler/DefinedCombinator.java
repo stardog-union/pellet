@@ -9,19 +9,19 @@ package jjtraveler;
  * @version $Id$
  */
 
-public abstract class DefinedCombinator implements Visitor
+public abstract class DefinedCombinator<T extends Visitable> implements Visitor<T>
 {
 
 	/**
 	 * The definition can be provided by setting the
 	 * rhs instance variable.
 	 */
-	protected Visitor rhs;
+	protected Visitor<T> rhs;
 
 	/**
 	 * Provide the definition for this combinator.
 	 */
-	protected void setDefinition(final Visitor definition)
+	protected void setDefinition(final Visitor<T> definition)
 	{
 		rhs = definition;
 	}
@@ -31,7 +31,7 @@ public abstract class DefinedCombinator implements Visitor
 	 * following the abstract method design pattern,
 	 * this method can be refined in subclasses if necessary.
 	 */
-	protected Visitor getDefinition()
+	protected Visitor<T> getDefinition()
 	{
 		return rhs;
 	}
@@ -41,7 +41,7 @@ public abstract class DefinedCombinator implements Visitor
 	 * their definition.
 	 */
 	@Override
-	public Visitable visit(final Visitable x) throws VisitFailure
+	public T visit(final T x) throws VisitFailure
 	{
 		return getDefinition().visit(x);
 	}

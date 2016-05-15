@@ -23,7 +23,7 @@ import com.clarkparsia.owlwg.testcase.filter.UnsatisfiedSyntaxConstraintFilter;
  * Title: Filter Condition Parser
  * </p>
  * <p>
- * Description: Create a filter condition from a string
+ * Description: Create a filter _condition from a string
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
@@ -106,7 +106,7 @@ public class FilterConditionParser {
 				filterStack.add( new UnsatisfiedSyntaxConstraintFilter( SyntaxConstraint.RL ) );
 			}
 			else {
-				final String msg = format( "Unexpected filter condition argument: \"%s\"",
+				final String msg = format( "Unexpected filter _condition argument: \"%s\"",
 						splits[i] );
 				log.severe( msg );
 				throw new IllegalArgumentException( msg );
@@ -114,13 +114,13 @@ public class FilterConditionParser {
 		}
 		if( filterStack.isEmpty() ) {
 			final String msg = format(
-					"Missing valid filter condition. Filter option argument: \"%s\"", filterString );
+					"Missing valid filter _condition. Filter option argument: \"%s\"", filterString );
 			log.severe( msg );
 			throw new IllegalArgumentException( msg );
 		}
 		if( filterStack.size() > 1 ) {
 			final String msg = format(
-					"Filter conditions do not parse to a single condition. Final parse stack: \"%s\"",
+					"Filter conditions do not parse to a single _condition. Final parse stack: \"%s\"",
 					filterStack );
 			log.severe( msg );
 			throw new IllegalArgumentException( msg );
@@ -128,7 +128,7 @@ public class FilterConditionParser {
 
 		filter = filterStack.iterator().next();
 		if( log.isLoggable( Level.FINE ) )
-			log.fine( format( "Filter condition: \"%s\"", filter ) );
+			log.fine( format( "Filter _condition: \"%s\"", filter ) );
 		return filter;
 	}
 

@@ -5,43 +5,53 @@ package jjtraveler;
  * <p>
  * <code>Choice(v1,v2) = v2</code> if v1 fails
  * <p>
- * Visitor combinator with two visitor arguments, that tries to apply the first visitor and if it fails tries the other (left-biased choice).
+ * Visitor combinator with two visitor arguments, that tries to apply the _first visitor and if it fails tries the other (left-biased choice).
  * <p>
  * Note that any side-effects of v1 are not undone when it fails.
  */
 
-public class Choice implements Visitor
+public class Choice<T extends Visitable> implements Visitor<T>
 {
+	private Visitor<T> _first;
+	private Visitor<T> _then;
 
-	Visitor first;
-	Visitor then;
-
-	public Choice(final Visitor first, final Visitor then)
+	public Visitor<T> getFirst()
 	{
-		this.first = first;
-		this.then = then;
+		return _first;
+	}
+
+	protected void setFirst(final Visitor<T> first)
+	{
+		_first = first;
+	}
+
+	public Visitor<T> getThen()
+	{
+		return _then;
+	}
+
+	protected void setThen(final Visitor<T> then)
+	{
+		_then = then;
+	}
+
+	public Choice(final Visitor<T> first, final Visitor<T> then)
+	{
+		_first = first;
+		_then = then;
 	}
 
 	@Override
-	public Visitable visit(final Visitable visitable) throws VisitFailure
+	public T visit(final T visitable) throws VisitFailure
 	{
 		try
 		{
-			return first.visit(visitable);
+			return _first.visit(visitable);
 		}
 		catch (final VisitFailure f)
 		{
-			return then.visit(visitable);
+			return _then.visit(visitable);
 		}
 	}
 
-	protected void setFirst(final Visitor first)
-	{
-		this.first = first;
-	}
-
-	protected void setThen(final Visitor then)
-	{
-		this.then = then;
-	}
 }

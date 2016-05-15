@@ -100,7 +100,7 @@ public class NumericPromotion
 	}
 
 	/**
-	 * Return the _type of the given number. Throw an InternalReasonerException if the number is not an expected _type.
+	 * Return the _type of the given number. Throw an InternalReasonerException if the number is not an _expected _type.
 	 */
 	private Type findType(final Number num)
 	{

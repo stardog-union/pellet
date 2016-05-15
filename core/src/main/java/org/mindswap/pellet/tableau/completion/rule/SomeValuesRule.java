@@ -104,7 +104,7 @@ public class SomeValuesRule extends AbstractTableauRule
 
 		// Is there a r-_neighbor that satisfies the someValuesFrom restriction
 		boolean neighborFound = false;
-		// Safety condition as defined in the SHOIQ algorithm.
+		// Safety _condition as defined in the SHOIQ algorithm.
 		// An R-_neighbor y of a _node x is safe if
 		// (i) x is blockable or if
 		// (ii) x is a nominal _node and y is not _blocked.

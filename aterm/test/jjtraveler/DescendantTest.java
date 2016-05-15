@@ -3,8 +3,8 @@ package jjtraveler;
 import jjtraveler.util.VisitorTestCase;
 
 /**
- * Testing the Descendant(condition, action)
- * considers condition failure, and condition success
+ * Testing the Descendant(_condition, action)
+ * considers _condition failure, and _condition success
  * at different nesting depths.
  *
  * @author Arie van Deursen; Jul 8, 2003

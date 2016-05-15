@@ -7,8 +7,8 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Negation Filter Condition
  * </p>
  * <p>
- * Description: Filter condition that acts as a negation of another filter
- * condition
+ * Description: Filter _condition that acts as a negation of another filter
+ * _condition
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009

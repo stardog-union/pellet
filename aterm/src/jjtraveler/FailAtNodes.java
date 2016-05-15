@@ -10,37 +10,37 @@ import java.util.Set;
  * argument.
  */
 
-public class FailAtNodes implements jjtraveler.Visitor
+public class FailAtNodes<T extends Visitable> implements Visitor<T>
 {
 	/*
 	 * caching a VisitFailure for efficiency (preventing generation of a
 	 * stacktrace)
 	 */
-	private static VisitFailure failure = new VisitFailure();
+	private static VisitFailure _failure = new VisitFailure();
 
-	Set visitables = new HashSet();
+	private final Set<T> _visitables = new HashSet<>();
 
-	public FailAtNodes(final Collection visitables)
+	public FailAtNodes(final Collection<T> visitables)
 	{
-		this.visitables.addAll(visitables);
+		_visitables.addAll(visitables);
 	}
 
-	public FailAtNodes(final Visitable n)
+	public FailAtNodes(final T n)
 	{
-		visitables.add(n);
+		_visitables.add(n);
 	}
 
-	public FailAtNodes(final Visitable n1, final Visitable n2)
+	public FailAtNodes(final T n1, final T n2)
 	{
-		visitables.add(n1);
-		visitables.add(n2);
+		_visitables.add(n1);
+		_visitables.add(n2);
 	}
 
 	@Override
-	public Visitable visit(final Visitable x) throws VisitFailure
+	public T visit(final T x) throws VisitFailure
 	{
-		if (visitables.contains(x))
-			throw failure;
+		if (_visitables.contains(x))
+			throw _failure;
 		return x;
 	}
 }

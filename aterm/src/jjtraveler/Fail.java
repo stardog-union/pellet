@@ -8,20 +8,21 @@ package jjtraveler;
  * Test case documentation: <a href="FailTest.java">FailTest</a>
  */
 
-public class Fail implements Visitor
+public class Fail<T extends Visitable> implements Visitor<T>
 {
 	/* Constructing exceptions is very expensive because a
 	 * stacktrace is generated. We store a static
 	 * reference to a reusable exception here, making the
 	 * stacktrace unusable, but at least it is fast!
 	 */
-	static private VisitFailure failure = new VisitFailure();
+	static private VisitFailure _failure = new VisitFailure();
 
 	/**
 	 * Construct Fail combinator with empty failure message.
 	 */
 	public Fail()
 	{
+		//
 	}
 
 	/**
@@ -30,12 +31,12 @@ public class Fail implements Visitor
 	 */
 	public Fail(final String message)
 	{
-		failure.setMessage(message);
+		_failure.setMessage(message);
 	}
 
 	@Override
-	public Visitable visit(final Visitable any) throws VisitFailure
+	public T visit(final T any) throws VisitFailure
 	{
-		throw failure;
+		throw _failure;
 	}
 }

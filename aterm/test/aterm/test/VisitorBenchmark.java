@@ -32,63 +32,71 @@ import aterm.AFun;
 import aterm.ATerm;
 import aterm.ATermFactory;
 
-public class VisitorBenchmark {
-    static int id = 0;
+public class VisitorBenchmark
+{
+	static int id = 0;
 
-    static ATermFactory factory = new aterm.pure.PureFactory();
+	static ATermFactory factory = new aterm.pure.PureFactory();
 
-    static AFun fun;
+	static AFun fun;
 
-    public final static void main(String[] args) {
-        try {
-            int depth = 5;
-            int fanout = 5;
+	public final static void main(String[] args)
+	{
+		try
+		{
+			final int depth = 5;
+			final int fanout = 5;
 
-            long beforeBuild = System.currentTimeMillis();
-            fun = factory.makeAFun("f", fanout, false);
-            ATerm term = buildTerm(depth, fanout);
-            long beforeVisit = System.currentTimeMillis();
-            NodeCounter nodeCounter = new NodeCounter();
-            jjtraveler.Visitor topDownNodeCounter = new jjtraveler.TopDown(
-                    nodeCounter);
-            try {
-                topDownNodeCounter.visit(term);
-                long end = System.currentTimeMillis();
-                System.out.println("Term of depth " + depth + " with fanout "
-                        + fanout + " (" + nodeCounter.getCount() + " nodes)"
-                        + ": build=" + (beforeVisit - beforeBuild) + ", visit="
-                        + (end - beforeVisit));
-                // System.out.println("term = " + term);
-            } catch (jjtraveler.VisitFailure e) {
-                System.err.println("WARING: VisitFailure: " + e.getMessage());
-            }
-        } catch (NumberFormatException e) {
-            System.err.println("usage: java VisitorBenchmark <depth> <fanout>");
-        }
-    }
+			final long beforeBuild = System.currentTimeMillis();
+			fun = factory.makeAFun("f", fanout, false);
+			final ATerm term = buildTerm(depth, fanout);
+			final long beforeVisit = System.currentTimeMillis();
+			final NodeCounter nodeCounter = new NodeCounter();
+			final jjtraveler.Visitor topDownNodeCounter = new jjtraveler.TopDown(nodeCounter);
+			try
+			{
+				topDownNodeCounter.visit(term);
+				final long end = System.currentTimeMillis();
+				System.out.println("Term of depth " + depth + " with fanout " + fanout + " (" + nodeCounter.getCount() + " nodes)" + ": build=" + (beforeVisit - beforeBuild) + ", visit=" + (end - beforeVisit));
+				// System.out.println("term = " + term);
+			}
+			catch (final jjtraveler.VisitFailure e)
+			{
+				System.err.println("WARING: VisitFailure: " + e.getMessage());
+			}
+		}
+		catch (final NumberFormatException e)
+		{
+			System.err.println("usage: java VisitorBenchmark <depth> <fanout>");
+		}
+	}
 
-    private static ATerm buildTerm(int depth, int fanout) {
-        if (depth == 1) {
-            return factory.makeInt(id++);
-        }
-        ATerm[] args = new ATerm[fanout];
-        ATerm arg = buildTerm(depth - 1, fanout);
-        for (int i = 0; i < fanout; i++) {
-            args[i] = arg;
-        }
-        return factory.makeAppl(fun, args);
-    }
+	private static ATerm buildTerm(int depth, int fanout)
+	{
+		if (depth == 1) { return factory.makeInt(id++); }
+		final ATerm[] args = new ATerm[fanout];
+		final ATerm arg = buildTerm(depth - 1, fanout);
+		for (int i = 0; i < fanout; i++)
+		{
+			args[i] = arg;
+		}
+		return factory.makeAppl(fun, args);
+	}
 }
 
-class NodeCounter implements jjtraveler.Visitor {
-    private int count;
+class NodeCounter implements jjtraveler.Visitor
+{
+	private int count;
 
-    public jjtraveler.Visitable visit(jjtraveler.Visitable visitable) {
-        count++;
-        return visitable;
-    }
+	@Override
+	public jjtraveler.Visitable visit(jjtraveler.Visitable visitable)
+	{
+		count++;
+		return visitable;
+	}
 
-    public int getCount() {
-        return count;
-    }
+	public int getCount()
+	{
+		return count;
+	}
 }

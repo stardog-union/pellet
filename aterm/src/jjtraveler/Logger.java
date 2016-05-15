@@ -4,32 +4,31 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * Logs events and allows their trace to be inspected.
+ * Logs events and allows their _trace to be inspected.
  */
-
 public class Logger
 {
 
-	Vector trace = new Vector();
+	private final Vector<Event> _trace = new Vector<>();
 
 	public Logger()
 	{
 	}
 
 	/**
-	 * Create a new Logger which has as initialt trace a single visit of a
+	 * Create a new Logger which has as initialt _trace a single visit of a
 	 * particular node.
 	 */
-	public Logger(final Visitor v, final Visitable n)
+	public Logger(final Visitor<?> v, final Visitable n)
 	{
 		log(new Event(v, n));
 	}
 
 	/**
-	 * Create a new Logger, which has as initial trace a sequence of visiting
+	 * Create a new Logger, which has as initial _trace a sequence of visiting
 	 * events where the visitor <code>v</code> visits each of the <code>nodes</code>
 	 */
-	public Logger(final Visitor v, final Visitable[] nodes)
+	public Logger(final Visitor<?> v, final Visitable[] nodes)
 	{
 		for (int i = 0; i < nodes.length; i++)
 			log(new Event(v, nodes[i]));
@@ -40,18 +39,18 @@ public class Logger
 	 */
 	public void log(final Event e)
 	{
-		trace.add(e);
+		_trace.add(e);
 	}
 
 	/**
-	 * Produces a string representation of the trace of events that have been
+	 * Produces a string representation of the _trace of events that have been
 	 * logged so far.
 	 */
 	@Override
 	public String toString()
 	{
 		String result = "";
-		for (final Enumeration e = trace.elements(); e.hasMoreElements();)
+		for (final Enumeration<Event> e = _trace.elements(); e.hasMoreElements();)
 			result += e.nextElement().toString() + "\n";
 		return result;
 	}
@@ -78,12 +77,12 @@ public class Logger
 
 	/**
 	 * Compute the elapsed time (in milliseconds) between the first and last
-	 * event on the logger's trace.
+	 * event on the logger's _trace.
 	 */
 	public long getElapsedTime()
 	{
-		final long startTime = ((Event) trace.firstElement()).getTimeStamp();
-		final long endTime = ((Event) trace.lastElement()).getTimeStamp();
+		final long startTime = _trace.firstElement().getTimeStamp();
+		final long endTime = _trace.lastElement().getTimeStamp();
 		return endTime - startTime;
 	}
 

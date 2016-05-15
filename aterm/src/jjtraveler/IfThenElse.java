@@ -1,31 +1,31 @@
 package jjtraveler;
 
-public class IfThenElse implements Visitor
+public class IfThenElse<T extends Visitable> implements Visitor<T>
 {
 
-	Visitor condition;
-	Visitor trueCase;
-	Visitor falseCase;
+	Visitor<T> condition;
+	Visitor<T> trueCase;
+	Visitor<T> falseCase;
 
-	public IfThenElse(final Visitor c, final Visitor t, final Visitor f)
+	public IfThenElse(final Visitor<T> c, final Visitor<T> t, final Visitor<T> f)
 	{
 		condition = c;
 		trueCase = t;
 		falseCase = f;
 	}
 
-	public IfThenElse(final Visitor c, final Visitor t)
+	public IfThenElse(final Visitor<T> c, final Visitor<T> t)
 	{
 		condition = c;
 		trueCase = t;
-		falseCase = new Identity();
+		falseCase = new Identity<>();
 	}
 
 	@Override
-	public Visitable visit(final Visitable x) throws VisitFailure
+	public T visit(final T x) throws VisitFailure
 	{
 		boolean success;
-		Visitable result;
+		T result;
 		try
 		{
 			condition.visit(x);

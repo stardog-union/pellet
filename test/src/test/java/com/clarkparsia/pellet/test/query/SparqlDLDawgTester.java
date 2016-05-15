@@ -278,31 +278,31 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 				// final ResultSetRewindable rMinusE = ResultSetFactory
 				// .makeRewindable(ResultSetFactory.copyResults(real));
 				// final ResultSetRewindable eMinusR = ResultSetFactory
-				// .makeRewindable(ResultSetFactory.copyResults(expected));
+				// .makeRewindable(ResultSetFactory.copyResults(_expected));
 
 				// real.reset();
 				// final Model realModel = ResultSetFormatter.toModel(real);
-				// expected.reset();
+				// _expected.reset();
 				// final Model expectedModel = ResultSetFormatter
-				// .toModel(expected);
+				// .toModel(_expected);
 
 				try
 				{
 					real.reset();
 					ResultSetFormatter.out(new FileOutputStream("real"), real);
 
-					ResultSetFormatter.out(new FileOutputStream("real-expected"), new DifferenceResultSet(real, expected));
-					ResultSetFormatter.out(new FileOutputStream("expected-real"), new DifferenceResultSet(expected, real));
+					ResultSetFormatter.out(new FileOutputStream("real-_expected"), new DifferenceResultSet(real, expected));
+					ResultSetFormatter.out(new FileOutputStream("_expected-real"), new DifferenceResultSet(expected, real));
 
 					// final Set<ResultBinding> rMinusE = SetUtils.difference(
 					// new HashSet<ResultBinding>(realList),
 					// new HashSet<ResultBinding>(expectedList));
 					//
-					// final FileWriter fwre = new FileWriter("real-expected");
+					// final FileWriter fwre = new FileWriter("real-_expected");
 					// writeResults(resultVars,
 					// (Collection<ResultBinding>) rMinusE, fwre);
 					//
-					// final FileWriter fwer = new FileWriter("expected-real");
+					// final FileWriter fwer = new FileWriter("_expected-real");
 					// final Set<ResultBinding> eMinusR = SetUtils.difference(
 					// new HashSet<ResultBinding>(expectedList),
 					// new HashSet<ResultBinding>(realList));

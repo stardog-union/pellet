@@ -71,7 +71,7 @@ public class SetUtils
 	/**
 	 * Adds the given object to the set but saves memory space by allocating only the required amount for small sets. The idea is to use the specialized empty
 	 * set and singleton set implementations (which are immutable) for the sets of size 0 and 1. If the set is empty a new singleton set is created, if set has
-	 * one element we create a new set with two elements, otherwise we simply add the element to the given set.This technique is most useful if the expected set
+	 * one element we create a new set with two elements, otherwise we simply add the element to the given set.This technique is most useful if the _expected set
 	 * size is 0 or 1.
 	 * 
 	 * @param o

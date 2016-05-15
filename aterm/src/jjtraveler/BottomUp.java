@@ -6,9 +6,8 @@ package jjtraveler;
  * Visitor combinator with one visitor argument that applies this visitor exactly once to the current visitable and each of its descendants, following the bottomup (post-order) traversal strategy.
  */
 
-public class BottomUp extends Sequence
+public class BottomUp<T extends Visitable> extends Sequence<T>
 {
-
 	/*
 	 * Since it is not allowed to reference `this' before the
 	 * super type constructor has been called, we can not
@@ -16,10 +15,9 @@ public class BottomUp extends Sequence
 	 * Instead, we set the first argument first to `null', and
 	 * set it to its proper value afterwards.
 	 */
-	public BottomUp(final Visitor v)
+	public BottomUp(final Visitor<T> v)
 	{
 		super(null, v);
-		first = new All(this);
+		first = new All<>(this);
 	}
-
 }

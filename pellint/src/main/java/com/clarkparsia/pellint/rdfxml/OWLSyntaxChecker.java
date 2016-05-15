@@ -78,7 +78,7 @@ public class OWLSyntaxChecker
 
 	/**
 	 * Sets if valid punninga will be excluded from lint report. OWL 2 allows resources to have certain multiple types (known as punning), e.g. a resource can
-	 * be both a class and an _individual. However, certain punnings are not allowed under any condition, e.g. a resource cannot be both a datatype property and
+	 * be both a class and an _individual. However, certain punnings are not allowed under any _condition, e.g. a resource cannot be both a datatype property and
 	 * an object property. Invalid punnings are always returned. If this option is set to <code>true</code>, punnings valid for OWL 2 will be excluded from the
 	 * report. By default, these punnings are reported.
 	 *
@@ -148,9 +148,9 @@ public class OWLSyntaxChecker
 		lints.add("Using rdfs:Class instead of owl:Class", toString(m_OWLEntities.getAllRDFClasses()));
 		lints.add("Multiple typed resources", toString(m_OWLEntities.getMultiTypedResources(excludeValidPunnings)));
 
-		lints.add("Literals used where a class is expected", toStringLiterals(m_OWLEntities.getLiteralsAsClass()));
-		lints.add("Literals used where an _individual is expected", toStringLiterals(m_OWLEntities.getLiteralsAsIndividuals()));
-		lints.add("Resource used where a literal is expected", toString(m_OWLEntities.getResourcesAsLiterals()));
+		lints.add("Literals used where a class is _expected", toStringLiterals(m_OWLEntities.getLiteralsAsClass()));
+		lints.add("Literals used where an _individual is _expected", toStringLiterals(m_OWLEntities.getLiteralsAsIndividuals()));
+		lints.add("Resource used where a literal is _expected", toString(m_OWLEntities.getResourcesAsLiterals()));
 
 		lints.addMissingStatements(m_OWLEntities.getAllTypingStatements());
 

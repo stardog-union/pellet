@@ -357,7 +357,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 			/*
 			 * An axiom is in the module of the signature if the augmented
 			 * signature contains all the entities referenced in the axiom.
-			 * However, there are cases this necessary condition is not
+			 * However, there are cases this necessary _condition is not
 			 * sufficient. For example, an axiom may be a tautology, e.g.
 			 * PropertyDomain(p owl:Thing), and if this axiom is included the
 			 * module would not be minimal anymore. The locality check we

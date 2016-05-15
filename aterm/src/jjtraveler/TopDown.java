@@ -6,7 +6,7 @@ package jjtraveler;
  * Visitor combinator with one visitor argument that applies this visitor exactly once to the current visitable and each of its descendants, following the topdown (pre-order) traversal strategy.
  */
 
-public class TopDown extends Sequence
+public class TopDown<T extends Visitable> extends Sequence<T>
 {
 
 	/*
@@ -16,16 +16,16 @@ public class TopDown extends Sequence
 	 * Instead, we set the second argument first to `null', and
 	 * set it to its proper value afterwards.
 	 */
-	public TopDown(final Visitor v)
+	public TopDown(final Visitor<T> v)
 	{
 		super(v, null);
-		then = new All(this);
+		then = new All<>(this);
 	}
 
 	// Factory method
-	public TopDown make(final Visitor v)
+	public TopDown<T> make(final Visitor<T> v)
 	{
-		return new TopDown(v);
+		return new TopDown<>(v);
 	}
 
 }

@@ -10,27 +10,27 @@ package jjtraveler;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class BreadthFirst
+public class BreadthFirst<T extends Visitable> implements Visitor<T>
 {
+	LinkedList<T> pending;
+	Visitor<T> v;
 
-	public BreadthFirst(final Visitor v)
+	public BreadthFirst(final Visitor<T> v)
 	{
-		pending = new LinkedList();
+		pending = new LinkedList<>();
 		this.v = v;
 	}
 
-	public BreadthFirst(final Visitor v, final Collection c)
+	public BreadthFirst(final Visitor<T> v, final Collection<T> c)
 	{
-		pending = new LinkedList(c);
+		pending = new LinkedList<>(c);
 		this.v = v;
 	}
 
-	LinkedList pending;
-	Visitor v;
-
-	public Visitable visit(final Visitable x) throws VisitFailure
+	@Override
+	public T visit(final T x) throws VisitFailure
 	{
-		final Visitable result = v.visit(x);
+		final T result = v.visit(x);
 		final int childCount = result.getChildCount();
 
 		for (int i = 0; i < childCount; i++)
@@ -38,7 +38,7 @@ public class BreadthFirst
 
 		if (pending.size() != 0)
 		{
-			Visitable next = (Visitable) pending.removeFirst();
+			T next = pending.removeFirst();
 			next = visit(next);
 		}
 

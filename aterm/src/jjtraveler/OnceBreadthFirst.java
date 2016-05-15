@@ -13,20 +13,20 @@ import java.util.LinkedList;
 public class OnceBreadthFirst
 {
 
-	public OnceBreadthFirst(final Visitor v)
+	public OnceBreadthFirst(final Visitor<Visitable> v)
 	{
-		pending = new LinkedList();
+		pending = new LinkedList<>();
 		this.v = v;
 	}
 
-	public OnceBreadthFirst(final Visitor v, final Collection c)
+	public OnceBreadthFirst(final Visitor<Visitable> v, final Collection<Visitable> c)
 	{
-		pending = new LinkedList(c);
+		pending = new LinkedList<>(c);
 		this.v = v;
 	}
 
-	LinkedList pending;
-	Visitor v;
+	LinkedList<Visitable> pending;
+	Visitor<Visitable> v;
 
 	public Visitable visit(final Visitable x) throws VisitFailure
 	{
@@ -36,13 +36,14 @@ public class OnceBreadthFirst
 		}
 		catch (final VisitFailure vf)
 		{
+			vf.printStackTrace();
 		}
 		final int childCount = x.getChildCount();
 		for (int i = 0; i < childCount; i++)
 			pending.addLast(x.getChildAt(i));
 		if (pending.size() != 0)
 		{
-			Visitable next = (Visitable) pending.removeFirst();
+			Visitable next = pending.removeFirst();
 			next = visit(next);
 		}
 		return x;

@@ -5,7 +5,7 @@ import jjtraveler.util.VisitorTestCase;
 /**
  * Test cases for TopDownUntil,
  * illustrating its effect with a
- * failing condition.
+ * failing _condition.
  *
  *
  * @author Arie van Deursen; Jun 30, 2003

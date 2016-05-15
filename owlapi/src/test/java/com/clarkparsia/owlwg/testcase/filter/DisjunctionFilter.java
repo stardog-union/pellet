@@ -10,7 +10,7 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Disjunction Filter Condition
  * </p>
  * <p>
- * Description: Filter condition that acts as a _disjunction of other filter
+ * Description: Filter _condition that acts as a _disjunction of other filter
  * conditions
  * </p>
  * <p>

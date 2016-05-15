@@ -61,10 +61,10 @@ public abstract class SimpleModularityTest extends AbstractModularityTest
 	}
 
 	/**
-	 * Tests if the computed module of the given entity is same as the expected module.
+	 * Tests if the computed module of the given entity is same as the _expected module.
 	 * 
 	 * @param entity for which the module is being tested
-	 * @param expectedModule expected elements in the module
+	 * @param expectedModule _expected elements in the module
 	 */
 	private void testModule(final OWLEntity entity, final OWLEntity... expectedModule)
 	{

@@ -212,17 +212,17 @@ public class ModuleExtractorPersistence
 		final StringTokenizer tokenizer = new StringTokenizer(moduleBeginLine);
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature _end of line; module " + MODULE_BEGIN_KEYWORD + " expected: " + moduleBeginLine);
+			throw new IOException("Premature _end of line; module " + MODULE_BEGIN_KEYWORD + " _expected: " + moduleBeginLine);
 
 		tokenizer.nextToken(); // discard the MODULE_BEGIN_KEYWORD
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature _end of line; entity type information expected: " + moduleBeginLine);
+			throw new IOException("Premature _end of line; entity type information _expected: " + moduleBeginLine);
 
 		final String entityType = tokenizer.nextToken();
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature _end of line; module URI expected: " + moduleBeginLine);
+			throw new IOException("Premature _end of line; module URI _expected: " + moduleBeginLine);
 
 		final String iriString = tokenizer.nextToken();
 
@@ -237,12 +237,12 @@ public class ModuleExtractorPersistence
 		final StringTokenizer tokenizer = new StringTokenizer(memberLine);
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature _end of line; entity type information expected: " + memberLine);
+			throw new IOException("Premature _end of line; entity type information _expected: " + memberLine);
 
 		final String entityType = tokenizer.nextToken();
 
 		if (!tokenizer.hasMoreElements())
-			throw new IOException("Premature _end of line; module member URI expected: " + memberLine);
+			throw new IOException("Premature _end of line; module member URI _expected: " + memberLine);
 
 		final String iriString = tokenizer.nextToken();
 
@@ -262,7 +262,7 @@ public class ModuleExtractorPersistence
 			return false;
 
 		if (!line.startsWith(MODULE_BEGIN_KEYWORD))
-			throw new IOException("Invalid information in the module file (line " + lnr.getLineNumber() + "). " + MODULE_BEGIN_KEYWORD + " expected.");
+			throw new IOException("Invalid information in the module file (line " + lnr.getLineNumber() + "). " + MODULE_BEGIN_KEYWORD + " _expected.");
 
 		final OWLEntity module = readModuleInformation(line.trim());
 

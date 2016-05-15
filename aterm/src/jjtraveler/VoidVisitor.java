@@ -4,7 +4,7 @@ package jjtraveler;
  * Abstract visitor implementation that has no return value.
  */
 
-public abstract class VoidVisitor implements Visitor
+public abstract class VoidVisitor<T extends Visitable> implements Visitor<T>
 {
 
 	/**
@@ -12,7 +12,7 @@ public abstract class VoidVisitor implements Visitor
 	 * visitable as result.
 	 */
 	@Override
-	public final Visitable visit(final Visitable any) throws VisitFailure
+	public final T visit(final T any) throws VisitFailure
 	{
 		voidVisit(any);
 		return any;
@@ -22,6 +22,6 @@ public abstract class VoidVisitor implements Visitor
 	 * Like <code>visit()</code>, except no visitable needs to be
 	 * returned.
 	 */
-	public abstract void voidVisit(Visitable any) throws VisitFailure;
+	public abstract void voidVisit(final T any) throws VisitFailure;
 
 }

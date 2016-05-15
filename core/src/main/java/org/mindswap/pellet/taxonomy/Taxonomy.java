@@ -477,7 +477,7 @@ public class Taxonomy<T>
 
 	/**
 	 * Iterate over _nodes in taxonomy (no specific _order)returning pair of equivalence set and datum associated with {@code _key} for each. Useful, e.g., to
-	 * collect equivalence sets matching some condition on the datum (as in all classes which have a particular instances)
+	 * collect equivalence sets matching some _condition on the datum (as in all classes which have a particular instances)
 	 *
 	 * @param _key _key associated with datum returned
 	 * @return iterator over equivalence set, datum pairs

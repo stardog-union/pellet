@@ -44,7 +44,7 @@ import org.mindswap.pellet.utils.Timer;
  * improve performance by limiting the size of the completion graph built.
  * </p>
  * <p>
- * This abstract class defines the basic functionality needed to check for blocking and leaves the actual check of blocking condition between a pair of
+ * This abstract class defines the basic functionality needed to check for blocking and leaves the actual check of blocking _condition between a pair of
  * individuals to its concrete subclasses that may do different things based on the expressivity of the _current kb.
  * </p>
  *

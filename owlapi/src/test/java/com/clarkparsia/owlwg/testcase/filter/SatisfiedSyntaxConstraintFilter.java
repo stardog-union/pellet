@@ -8,7 +8,7 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Satisfied Syntax Constraint Filter Condition
  * </p>
  * <p>
- * Description: Filter condition to match tests for which a particular syntax
+ * Description: Filter _condition to match tests for which a particular syntax
  * constraint is satisfied.
  * </p>
  * <p>

@@ -5,22 +5,21 @@ package jjtraveler;
  * argument visitor is invoked.
  */
 
-public class LogVisitor implements Visitor
+public class LogVisitor<T extends Visitable> implements Visitor<T>
 {
-	protected Visitor visitor;
+	protected Visitor<T> visitor;
 	protected Logger logger;
 
-	public LogVisitor(final Visitor v, final Logger l)
+	public LogVisitor(final Visitor<T> v, final Logger l)
 	{
 		visitor = v;
 		logger = l;
 	}
 
 	@Override
-	public Visitable visit(final Visitable visitable) throws VisitFailure
+	public T visit(final T visitable) throws VisitFailure
 	{
 		logger.log(new Event(visitor, visitable));
 		return visitor.visit(visitable);
 	}
-
 }

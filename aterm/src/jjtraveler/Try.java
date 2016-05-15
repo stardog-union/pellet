@@ -6,12 +6,10 @@ package jjtraveler;
  * Visitor combinator with one visitor argument that tries to apply this visitor to the current visitable. If v fails, Try(v) still succeeds.
  */
 
-public class Try extends Choice
+public class Try<T extends Visitable> extends Choice<T>
 {
-
-	public Try(final Visitor v)
+	public Try(final Visitor<T> v)
 	{
-		super(v, new Identity());
+		super(v, new Identity<>());
 	}
-
 }

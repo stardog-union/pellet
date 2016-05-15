@@ -3,13 +3,13 @@ package jjtraveler.util;
 import jjtraveler.Visitable;
 import jjtraveler.VoidVisitor;
 
-public class ToStringVisitor extends VoidVisitor
+public class ToStringVisitor<T extends Visitable> extends VoidVisitor<T>
 {
 	protected String string = "[WARNING] ToStringVisitor has not been invoked";
 
 	public static String doToString(Visitable visitable)
 	{
-		ToStringVisitor v = new ToStringVisitor();
+		final ToStringVisitor<Visitable> v = new ToStringVisitor<>();
 		return v.visitableToString(visitable);
 	}
 
@@ -19,6 +19,7 @@ public class ToStringVisitor extends VoidVisitor
 		return getString();
 	}
 
+	@Override
 	public void voidVisit(Visitable visitable)
 	{
 		string = visitable.toString();

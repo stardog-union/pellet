@@ -6,9 +6,8 @@ package jjtraveler;
  * Visitor combinator with one visitor argument that applies this visitor exactly once to the current visitable or one of its descendants, following the topdown (pre-order) traversal strategy.
  */
 
-public class OnceTopDown extends Choice
+public class OnceTopDown<T extends Visitable> extends Choice<T>
 {
-
 	/*
 	 * Since it is not allowed to reference `this' before the
 	 * super type constructor has been called, we can not
@@ -16,10 +15,9 @@ public class OnceTopDown extends Choice
 	 * Instead, we set the second argument first to `null', and
 	 * set it to its proper value afterwards.
 	 */
-	public OnceTopDown(final Visitor v)
+	public OnceTopDown(final Visitor<T> v)
 	{
 		super(v, null);
-		then = new One(this);
+		setThen(new One<>(this));
 	}
-
 }

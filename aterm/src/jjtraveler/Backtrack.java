@@ -8,23 +8,21 @@ package jjtraveler;
    properly.
  */
 
-public class Backtrack implements Visitor
+public class Backtrack<T extends Visitable> implements Visitor<T>
 {
+	StateVisitor<T> _v;
 
-	StateVisitor v;
-
-	public Backtrack(final StateVisitor v)
+	public Backtrack(final StateVisitor<T> v)
 	{
-		this.v = v;
+		this._v = v;
 	}
 
 	@Override
-	public Visitable visit(final Visitable x) throws VisitFailure
+	public T visit(final T x) throws VisitFailure
 	{
-		final Object state = v.getState();
-		final Visitable result = v.visit(x);
-		v.setState(state);
+		final Object state = _v.getState();
+		final T result = _v.visit(x);
+		_v.setState(state);
 		return result;
 	}
-
 }

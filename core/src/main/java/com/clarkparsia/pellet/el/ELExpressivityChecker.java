@@ -148,7 +148,7 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 
 			// InverseFunctionalProperty declaration may mean that a named
 			// property has an anonymous inverse property which is functional
-			// The following condition checks this case
+			// The following _condition checks this case
 			if (r.isAnon() && r.isFunctional())
 				return false;
 			if (r.isFunctional())

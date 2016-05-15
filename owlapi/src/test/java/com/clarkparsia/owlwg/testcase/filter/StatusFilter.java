@@ -8,7 +8,7 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Status Filter Condition
  * </p>
  * <p>
- * Description: Filter condition to match tests with a particular status (or no
+ * Description: Filter _condition to match tests with a particular status (or no
  * status).
  * </p>
  * <p>

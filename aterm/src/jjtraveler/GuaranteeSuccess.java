@@ -10,16 +10,16 @@ package jjtraveler;
  * RuntimeException.
  */
 
-public class GuaranteeSuccess implements Visitor
+public class GuaranteeSuccess<T extends Visitable> implements Visitor<T>
 {
-	Visitor v;
+	Visitor<T> _v;
 
 	/**
 	 * Indicate that the argument visitor is guaranteed to succeed.
 	 */
-	public GuaranteeSuccess(final Visitor v)
+	public GuaranteeSuccess(final Visitor<T> v)
 	{
-		this.v = v;
+		this._v = v;
 	}
 
 	/* Visit the current visitable with the argument visitor v,
@@ -27,11 +27,11 @@ public class GuaranteeSuccess implements Visitor
 	 * RuntimeException.
 	 */
 	@Override
-	public Visitable visit(final Visitable visitable)
+	public T visit(final T visitable)
 	{
 		try
 		{
-			return v.visit(visitable);
+			return _v.visit(visitable);
 		}
 		catch (final VisitFailure f)
 		{

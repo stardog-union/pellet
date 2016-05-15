@@ -2371,7 +2371,7 @@ public class MiscTests extends AbstractKBTests
 	@Test
 	public void test532b()
 	{
-		// variation of the condition in 532 where the _nodes involved in MaxBranch are merged
+		// variation of the _condition in 532 where the _nodes involved in MaxBranch are merged
 		classes(C, D, E);
 		individuals(a, b, c, d, e, f);
 		objectProperties(p);

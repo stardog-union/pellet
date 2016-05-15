@@ -97,12 +97,12 @@ public class TestBinaryFormat{
 		int expectedResultLength = expectedResult.length;
 		int resultLength = result.length;
 		if(expectedResultLength != resultLength){
-			log("The number of written bytes didn't match the number of expected bytes. Was: "+resultLength+", expected: "+expectedResultLength);
+			log("The number of written bytes didn't match the number of _expected bytes. Was: "+resultLength+", _expected: "+expectedResultLength);
 			return;
 		}
 		for(int i = 0; i < resultLength; i++){
 			if(result[i] != expectedResult[i]){
-				log("Written data didn't match the expected data. Index: "+i+", was "+result[i]+", expected "+expectedResult[i]);
+				log("Written data didn't match the _expected data. Index: "+i+", was "+result[i]+", _expected "+expectedResult[i]);
 				return;
 			}
 		}
@@ -153,8 +153,8 @@ public class TestBinaryFormat{
 		ATerm result = binaryReader.getRoot();
 		
 		if(result != expectedResult){
-			log("The result didn't match the expected result.");
-			/*log("Was: "+result+", expected: "+expectedResult);*/
+			log("The result didn't match the _expected result.");
+			/*log("Was: "+result+", _expected: "+expectedResult);*/
 			return;
 		}
 		

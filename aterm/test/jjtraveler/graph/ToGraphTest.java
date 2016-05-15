@@ -21,7 +21,7 @@ public class ToGraphTest extends VisitorTestCase
 	public void testASTToGraph() throws jjtraveler.VisitFailure
 	{
 		final EdgesGraph g = new EdgesGraph();
-		final Visitor v = new ASTToGraph(g);
+		final Visitor<Node> v = new ASTToGraph(g);
 		v.visit(n0);
 		final EdgesGraph expected = new EdgesGraph();
 		expected.addEdge(n0, n1);
@@ -34,7 +34,7 @@ public class ToGraphTest extends VisitorTestCase
 	public void testToGraphIdentity() throws jjtraveler.VisitFailure
 	{
 		final EdgesGraph g = new EdgesGraph();
-		final Visitor v = new ToGraph(g, new Identity());
+		final Visitor<Node> v = new ToGraph(g, new Identity());
 		v.visit(n0);
 		final EdgesGraph expected = new EdgesGraph();
 		expected.addEdge(n1, n11);
@@ -47,7 +47,7 @@ public class ToGraphTest extends VisitorTestCase
 	public void testToGraphFail() throws jjtraveler.VisitFailure
 	{
 		final EdgesGraph g = new EdgesGraph();
-		final Visitor v = new ToGraph(g, new Fail());
+		final Visitor<Node> v = new ToGraph(g, new Fail());
 		v.visit(n0);
 		final EdgesGraph expected = new EdgesGraph();
 		assertEquals(expected, g);
@@ -56,8 +56,8 @@ public class ToGraphTest extends VisitorTestCase
 	public void testToGraphNoInternals() throws jjtraveler.VisitFailure
 	{
 		final EdgesGraph g = new EdgesGraph();
-		final Visitor select = new FailAtNodes(n1, n2);
-		final Visitor v = new ToGraph(g, select);
+		final Visitor<Node> select = new FailAtNodes<Node>(n1, n2);
+		final Visitor<Node> v = new ToGraph(g, select);
 		v.visit(n0);
 		final EdgesGraph expected = new EdgesGraph();
 		expected.addEdge(n0, n11);
@@ -68,8 +68,8 @@ public class ToGraphTest extends VisitorTestCase
 	public void testToGraphNoRoot() throws jjtraveler.VisitFailure
 	{
 		final EdgesGraph g = new EdgesGraph();
-		final Visitor select = new FailAtNodes(n0, n0);
-		final Visitor v = new ToGraph(g, logVisitor(select));
+		final Visitor<Node> select = new FailAtNodes<Node>(n0, n0);
+		final Visitor<Node> v = new ToGraph(g, logVisitor(select));
 		v.visit(n0);
 		final Logger expectedLogger = new Logger();
 		expectedLogger.log(new Event(select, n0));
@@ -93,8 +93,8 @@ public class ToGraphTest extends VisitorTestCase
 		leaves.add(n11);
 		leaves.add(n12);
 		leaves.add(n2);
-		final Visitor select = new FailAtNodes(leaves);
-		final Visitor v = new ToGraph(g, logVisitor(select));
+		final Visitor<Node> select = new FailAtNodes<>(leaves);
+		final Visitor<Node> v = new ToGraph(g, logVisitor(select));
 		v.visit(n0);
 		final Logger expectedLogger = new Logger();
 		expectedLogger.log(new Event(select, n0));
@@ -112,7 +112,7 @@ public class ToGraphTest extends VisitorTestCase
 	public void testMkEdgeFromParent() throws VisitFailure
 	{
 		final EdgesGraph g = new EdgesGraph();
-		final Visitor v = new MkEdgeFromParent(n0, g);
+		final Visitor<Node> v = new MkEdgeFromParent(n0, g);
 		v.visit(n1);
 		final EdgesGraph expectedGraph = new EdgesGraph();
 		expectedGraph.addEdge(n0, n1);
@@ -122,7 +122,7 @@ public class ToGraphTest extends VisitorTestCase
 	public void testMkEdgesToKids() throws VisitFailure
 	{
 		final EdgesGraph g = new EdgesGraph();
-		final Visitor v = new MkEdgesToKids(g);
+		final Visitor<Node> v = new MkEdgesToKids(g);
 		v.visit(n0);
 		final EdgesGraph expectedGraph = new EdgesGraph();
 		expectedGraph.addEdge(n0, n1);
@@ -133,7 +133,7 @@ public class ToGraphTest extends VisitorTestCase
 	public void testMkEdgesToKidsSelective() throws VisitFailure
 	{
 		final EdgesGraph g = new EdgesGraph();
-		final Visitor v = new MkEdgesToKids(g, new FailAtNodes(n1, n2));
+		final Visitor<Node> v = new MkEdgesToKids(g, new FailAtNodes<Node>(n1, n2));
 		v.visit(n0);
 		final EdgesGraph expectedGraph = new EdgesGraph();
 		expectedGraph.addEdge(n0, n11);

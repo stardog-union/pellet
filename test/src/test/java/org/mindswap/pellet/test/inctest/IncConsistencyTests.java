@@ -721,7 +721,7 @@ public class IncConsistencyTests extends AbstractKBTests
 			System.out.println("Branches: " + kb.getABox().getBranches());
 		}
 
-		// FIXME the following condition is obviously incorrect
+		// FIXME the following _condition is obviously incorrect
 		// there is no reason for robert to own anything since robert
 		// can be woman which has no axiom involving owns
 		assertTrue(kb.getABox().getIndividual(robert).hasRNeighbor(kb.getRBox().getRole(owns)));
@@ -1622,7 +1622,7 @@ public class IncConsistencyTests extends AbstractKBTests
 		// this test case is to verify that KB will update its internal
 		// state properly after KB changes and will recompute inferences
 		// as necessary
-		// IMPORTANT: this test case is written with the _current expected
+		// IMPORTANT: this test case is written with the _current _expected
 		// behavior of Pellet. it is possible that this behavior will
 		// change in the future and this test case can be modified
 		// accordingly		

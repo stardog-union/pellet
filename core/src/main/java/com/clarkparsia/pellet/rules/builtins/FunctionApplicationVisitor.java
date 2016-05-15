@@ -37,7 +37,7 @@ public class FunctionApplicationVisitor implements NumericVisitor
 	}
 
 	/**
-	 * Takes a function and an optionally null expected value to compare against the function result. If the expected value is not null, the result and value
+	 * Takes a function and an optionally null _expected value to compare against the function result. If the _expected value is not null, the result and value
 	 * will be promoted to the same type and checked for equality.
 	 */
 	public FunctionApplicationVisitor(final NumericFunction function, final Number expected)
@@ -47,8 +47,8 @@ public class FunctionApplicationVisitor implements NumericVisitor
 	}
 
 	/**
-	 * Returns the result of the function application. If the application was a failure, the result will be null. If the expected value was non-null and matched
-	 * the result once both were promoted, the result will be the expected value (unpromoted).
+	 * Returns the result of the function application. If the application was a failure, the result will be null. If the _expected value was non-null and matched
+	 * the result once both were promoted, the result will be the _expected value (unpromoted).
 	 */
 	public Number getResult()
 	{

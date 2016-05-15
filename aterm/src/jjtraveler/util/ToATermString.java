@@ -3,13 +3,13 @@ package jjtraveler.util;
 import jjtraveler.Visitable;
 import jjtraveler.VoidVisitor;
 
-public class ToATermString extends VoidVisitor
+public class ToATermString<T extends Visitable> extends VoidVisitor<T>
 {
 	private String string = "[WARNING] ToATermString visitor has not been invoked";
 
 	public static String doToString(Visitable visitable)
 	{
-		ToATermString v = new ToATermString();
+		final ToATermString<Visitable> v = new ToATermString<>();
 		return v.visitableToString(visitable);
 	}
 
@@ -19,9 +19,10 @@ public class ToATermString extends VoidVisitor
 		return getString();
 	}
 
+	@Override
 	public void voidVisit(Visitable visitable)
 	{
-		int childCount = visitable.getChildCount();
+		final int childCount = visitable.getChildCount();
 		String result = makeAFun(visitable);
 		if (childCount != 0)
 		{
@@ -47,7 +48,7 @@ public class ToATermString extends VoidVisitor
 	public static String makeAFun(Visitable visitable)
 	{
 		String result = visitable.getClass().getName();
-		int dotPos = result.lastIndexOf('.');
+		final int dotPos = result.lastIndexOf('.');
 		if (dotPos != -1)
 		{
 			result = result.substring(dotPos + 1);

@@ -377,7 +377,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 					str.append('.');
 					reader.read();
 					if (!Character.isDigit(reader.getLastChar()))
-						throw new ParseError("digit expected");
+						throw new ParseError("digit _expected");
 					do
 					{
 						str.append((char) reader.getLastChar());
@@ -393,7 +393,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 						reader.read();
 					}
 					if (!Character.isDigit(reader.getLastChar()))
-						throw new ParseError("digit expected!");
+						throw new ParseError("digit _expected!");
 					do
 					{
 						str.append((char) reader.getLastChar());
@@ -560,7 +560,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 				else
 				{
 					result = parseATerms(reader);
-					if (reader.getLastChar() != ']') { throw new ParseError("expected ']' but got '" + (char) reader.getLastChar() + "'"); }
+					if (reader.getLastChar() != ']') { throw new ParseError("_expected ']' but got '" + (char) reader.getLastChar() + "'"); }
 					c = reader.readSkippingWS();
 				}
 
@@ -570,7 +570,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 				c = reader.readSkippingWS();
 				final ATerm ph = parseFromReader(reader);
 
-				if (reader.getLastChar() != '>') { throw new ParseError("expected '>' but got '" + (char) reader.getLastChar() + "'"); }
+				if (reader.getLastChar() != '>') { throw new ParseError("_expected '>' but got '" + (char) reader.getLastChar() + "'"); }
 
 				c = reader.readSkippingWS();
 
@@ -594,7 +594,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 					{
 						final ATerm[] list = parseATermsArray(reader);
 
-						if (reader.getLastChar() != ')') { throw new ParseError("expected ')' but got '" + reader.getLastChar() + "'"); }
+						if (reader.getLastChar() != ')') { throw new ParseError("_expected ')' but got '" + reader.getLastChar() + "'"); }
 						result = makeAppl(makeAFun(funname, list.length, true), list);
 					}
 					c = reader.readSkippingWS();
@@ -617,7 +617,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 				{
 					final ATerm[] list = parseATermsArray(reader);
 
-					if (reader.getLastChar() != ')') { throw new ParseError("expected ')' but got '" + (char) reader.getLastChar() + "'"); }
+					if (reader.getLastChar() != ')') { throw new ParseError("_expected ')' but got '" + (char) reader.getLastChar() + "'"); }
 					result = makeAppl(makeAFun("", list.length, false), list);
 				}
 				c = reader.readSkippingWS();
@@ -657,7 +657,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 						{
 							final ATerm[] list = parseATermsArray(reader);
 
-							if (reader.getLastChar() != ')') { throw new ParseError("expected ')' but got '" + (char) reader.getLastChar() + "'"); }
+							if (reader.getLastChar() != ')') { throw new ParseError("_expected ')' but got '" + (char) reader.getLastChar() + "'"); }
 							result = makeAppl(makeAFun(funname, list.length, false), list);
 						}
 						c = reader.readSkippingWS();
@@ -684,7 +684,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 			else
 			{
 				annos = parseATerms(reader);
-				if (reader.getLastChar() != '}') { throw new ParseError("'}' expected '" + (char) reader.getLastChar() + "'"); }
+				if (reader.getLastChar() != '}') { throw new ParseError("'}' _expected '" + (char) reader.getLastChar() + "'"); }
 				reader.readSkippingWS();
 			}
 			result = result.setAnnotations(annos);

@@ -10,7 +10,7 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Conjunction Filter Condition
  * </p>
  * <p>
- * Description: Filter condition that acts as a conjunction of other filter
+ * Description: Filter _condition that acts as a conjunction of other filter
  * conditions
  * </p>
  * <p>

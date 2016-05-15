@@ -28,19 +28,16 @@
 
 package aterm.test;
 
-import java.io.FileInputStream;
+import aterm.ATerm;
+import aterm.ATermFactory;
+import aterm.pure.PureFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import aterm.ATerm;
-import aterm.ATermFactory;
-import aterm.pure.PureFactory;
 
 /**
  * Exercise the various readers. Supply the test/ directory as the
@@ -50,67 +47,81 @@ import aterm.pure.PureFactory;
  * @author Karl Trygve Kalleberg
  *
  */
-public class TestReaders {
-  ATermFactory factory;
-  String srcdir;
-  ATerm baseline;
+public class TestReaders
+{
+	private ATermFactory _factory;
+	@SuppressWarnings("unused")
+	private String _srcdir;
+	private ATerm _baseline;
 
-  public final static void main(String[] args) throws IOException {
-	  TestReaders pureSuite = newTestReaders(new PureFactory(), args[0]);
-	  pureSuite.testAll();
-  }
+	public final static void main(String[] args) throws IOException
+	{
+		final TestReaders pureSuite = newTestReaders(new PureFactory(), args[0]);
+		pureSuite.testAll();
+	}
 
-  @Before
-  public void setUp() {
-      this.factory = new PureFactory();
-  }
-  
-  public static TestReaders newTestReaders(ATermFactory factory, String srcdir) {
-      TestReaders t = new TestReaders();
-    t.factory = factory;
-    t.srcdir = srcdir;
-    return t;
-  }
+	@Before
+	public void setUp()
+	{
+		this._factory = new PureFactory();
+	}
 
-  void test_assert(boolean condition) {
-    if (!condition) {
-      throw new RuntimeException("assertion failed.");
-    }
-  }
+	public static TestReaders newTestReaders(ATermFactory factory, String srcdir)
+	{
+		final TestReaders t = new TestReaders();
+		t._factory = factory;
+		t._srcdir = srcdir;
+		return t;
+	}
 
-  
-  public void testReadText() throws FileNotFoundException, IOException {
-      InputStream stream = this.getClass().getResourceAsStream("/test.trm");
-      Assert.assertNotNull("Test resource not found", stream);
-	  ATerm t = factory.readFromTextFile(stream);
-	  baseline = t;
-  }
-  
-  public void testReadBAF() throws FileNotFoundException, IOException {
-      InputStream stream = this.getClass().getResourceAsStream("/test.baf");
-      Assert.assertNotNull("Test resource not found", stream);
-	  ATerm t = factory.readFromBinaryFile(stream);
-	  Assert.assertEquals(baseline, t);
-  }
-  
-  public void testReadSAF() {
-	  // test SAF reader
-  }
-  
-  public void testReadTAF() throws FileNotFoundException, IOException {
-      InputStream stream = this.getClass().getResourceAsStream("/test.taf");
-      Assert.assertNotNull("Test resource not found", stream);
-	  ATerm t = factory.readFromSharedTextFile(stream);
-	  Assert.assertEquals(baseline, t);
-  }
-  
-  @Ignore
-  @Test
-  public void testAll() throws IOException {
-	  testReadText();
-	  testReadBAF();
-	  testReadSAF();
-	  testReadTAF();
-  }
+	void test_assert(boolean condition)
+	{
+		if (!condition) { throw new RuntimeException("assertion failed."); }
+	}
+
+	public void testReadText() throws FileNotFoundException, IOException
+	{
+		try (final InputStream stream = this.getClass().getResourceAsStream("/test.trm"))
+		{
+			Assert.assertNotNull("Test resource not found", stream);
+			final ATerm t = _factory.readFromTextFile(stream);
+			_baseline = t;
+		}
+	}
+
+	public void testReadBAF() throws FileNotFoundException, IOException
+	{
+		try (final InputStream stream = this.getClass().getResourceAsStream("/test.baf"))
+		{
+			Assert.assertNotNull("Test resource not found", stream);
+			final ATerm t = _factory.readFromBinaryFile(stream);
+			Assert.assertEquals(_baseline, t);
+		}
+	}
+
+	public void testReadSAF()
+	{
+		// test SAF reader
+	}
+
+	public void testReadTAF() throws FileNotFoundException, IOException
+	{
+		try (InputStream stream = this.getClass().getResourceAsStream("/test.taf"))
+		{
+			Assert.assertNotNull("Test resource not found", stream);
+			final ATerm t = _factory.readFromSharedTextFile(stream);
+			Assert.assertEquals(_baseline, t);
+		}
+	}
+
+	@Ignore
+	@Test
+	public void testAll() throws IOException
+	{
+		testReadText();
+		testReadBAF();
+		testReadSAF();
+		testReadTAF();
+	}
 
 }

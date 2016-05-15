@@ -362,7 +362,7 @@ public class OWLEntityDatabase
 
 	/**
 	 * Returns resources that have multiple types. OWL 2 allows resources to have certain multiple types (known as punning), e.g. a resource can be both a class
-	 * and an _individual. However, certain punnings are not allowed under any condition, e.g. a resource cannot be both a datatype property and an object
+	 * and an _individual. However, certain punnings are not allowed under any _condition, e.g. a resource cannot be both a datatype property and an object
 	 * property. Invalid punnings are always returned. Punnings valid for OWL 2 will be excluded based on the given parameter value.
 	 *
 	 * @param excludeValidPunning If <code>true</code> OWL 2 valid punnings will not be inluded in the result

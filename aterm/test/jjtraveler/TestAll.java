@@ -3,6 +3,11 @@ package jjtraveler;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import jjtraveler.AllSpinesBottomUpTest;
+import jjtraveler.IfThenElseTest;
+import jjtraveler.OnceTopDownTest;
+import jjtraveler.SomeTest;
+import jjtraveler.LoggerTest;
 
 public class TestAll extends TestCase
 {

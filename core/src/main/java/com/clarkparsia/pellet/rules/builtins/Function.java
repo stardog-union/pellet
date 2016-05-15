@@ -29,8 +29,8 @@ public interface Function
 {
 
 	/**
-	 * Apply the function against a set of arguments. Test the expected argument against the result. Return null if the arguments were invalid. If 'expected'
-	 * was not null and matched the result, return 'expected'. If 'expected' was not null and did not match, return null; Otherwise, return the result.
+	 * Apply the function against a set of arguments. Test the _expected argument against the result. Return null if the arguments were invalid. If '_expected'
+	 * was not null and matched the result, return '_expected'. If '_expected' was not null and did not match, return null; Otherwise, return the result.
 	 */
 	public Literal apply(ABox abox, Literal expected, Literal... args);
 

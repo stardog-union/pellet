@@ -6,31 +6,31 @@ package jjtraveler;
  * Basic visitor combinator with two visitor arguments, that applies these visitors one after the other (sequential composition).
  */
 
-public class Sequence implements Visitor
+public class Sequence<T extends Visitable> implements Visitor<T>
 {
 
-	public Visitor first;
-	public Visitor then;
+	public Visitor<T> first;
+	public Visitor<T> then;
 
-	public Sequence(final Visitor first, final Visitor then)
+	public Sequence(final Visitor<T> first, final Visitor<T> then)
 	{
 		this.first = first;
 		this.then = then;
 	}
 
-	public Sequence(final Visitor v1, final Visitor v2, final Visitor v3)
+	public Sequence(final Visitor<T> v1, final Visitor<T> v2, final Visitor<T> v3)
 	{
 		first = v1;
-		then = new Sequence(v2, v3);
+		then = new Sequence<>(v2, v3);
 	}
 
 	@Override
-	public Visitable visit(final Visitable any) throws VisitFailure
+	public T visit(final T any) throws VisitFailure
 	{
 		return then.visit(first.visit(any));
 	}
 
-	protected void setArgumentAt(final int i, final Visitor v)
+	protected void setArgumentAt(final int i, final Visitor<T> v)
 	{
 		switch (i)
 		{

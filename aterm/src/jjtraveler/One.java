@@ -8,7 +8,7 @@ package jjtraveler;
  * Note that side-effects of failing visits to children are not undone.
  */
 
-public class One implements Visitor
+public class One<T extends Visitable> implements Visitor<T>
 {
 	/*
 	 * caching a VisitFailure for efficiency (preventing generation of a
@@ -16,24 +16,25 @@ public class One implements Visitor
 	 */
 	private static VisitFailure failure = new VisitFailure();
 
-	public Visitor v;
+	public Visitor<T> _v;
 
-	public One(final Visitor v)
+	public One(final Visitor<T> v)
 	{
-		this.v = v;
+		this._v = v;
 	}
 
 	@Override
-	public Visitable visit(final Visitable any) throws VisitFailure
+	public T visit(final T any) throws VisitFailure
 	{
 		final int childCount = any.getChildCount();
 		for (int i = 0; i < childCount; i++)
 			try
 			{
-				return any.setChildAt(i, v.visit(any.getChildAt(i)));
+				return any.setChildAt(i, _v.visit(any.getChildAt(i)));
 			}
 			catch (final VisitFailure f)
 			{
+				f.printStackTrace();
 			}
 		throw failure;
 	}
