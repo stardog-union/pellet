@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.Role;
@@ -46,7 +47,7 @@ import org.mindswap.pellet.taxonomy.Taxonomy;
  */
 public class SizeEstimate
 {
-	protected static final Logger log = Logger.getLogger(SizeEstimate.class.getName());
+	protected static final Logger log = Log.getLogger(SizeEstimate.class);
 
 	private static final Set<ATermAppl> EMPTY_SET = SetUtils.emptySet();
 

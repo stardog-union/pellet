@@ -13,11 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 public class StatisticsTable<ROW, COL>
 {
 
-	private static final Logger log = Logger.getLogger(StatisticsTable.class.getName());
+	private static final Logger log = Log.getLogger(StatisticsTable.class);
 
 	private final Map<COL, Map<ROW, Number>> statistics = new HashMap<>();
 

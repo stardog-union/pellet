@@ -1,8 +1,8 @@
 // Copyright (c) 2006 - 2008, Clark & Parsia, LLC. <http://www.clarkparsia.com>
-// This source code is available under the terms of the Affero General Public
+// This source code is available under the _terms of the Affero General Public
 // License v3.
 //
-// Please see LICENSE.txt for full license terms, including the availability of
+// Please see LICENSE.txt for full license _terms, including the availability of
 // proprietary exceptions.
 // Questions, comments, or requests for clarification: licensing@clarkparsia.com
 
@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.QueryFactory;
@@ -85,21 +86,21 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class ARQParser implements QueryParser
 {
-	public static Logger log = Logger.getLogger(ARQParser.class.getName());
+	public static Logger log = Log.getLogger(ARQParser.class);
 
-	private Set<Triple> triples;
+	private Set<Triple> _triples;
 
-	private Map<Node, ATerm> terms;
+	private Map<Node, ATerm> _terms;
 
-	private KnowledgeBase kb;
+	private KnowledgeBase _kb;
 
-	private QuerySolution initialBinding;
+	private QuerySolution _initialBinding;
 
 	/*
 	 * If this variable is true then queries with variable SPO statements are
 	 * not handled by the SPARQL-DL engine but fall back to ARQ
 	 */
-	private boolean handleVariableSPO = true;
+	private boolean _handleVariableSPO = true;
 
 	public ARQParser()
 	{
@@ -108,7 +109,7 @@ public class ARQParser implements QueryParser
 
 	public ARQParser(final boolean handleVariableSPO)
 	{
-		this.handleVariableSPO = handleVariableSPO;
+		this._handleVariableSPO = handleVariableSPO;
 	}
 
 	/**
@@ -158,7 +159,7 @@ public class ARQParser implements QueryParser
 	@Override
 	public Query parse(final org.apache.jena.query.Query sparql, final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 
 		if (sparql.isDescribeType())
 			throw new UnsupportedQueryException("DESCRIBE queries cannot be answered with PelletQueryEngine");
@@ -198,14 +199,14 @@ public class ARQParser implements QueryParser
 
 	private void initBuiltinTerms()
 	{
-		terms = new HashMap<>();
+		_terms = new HashMap<>();
 
-		terms.put(OWL.Thing.asNode(), TOP);
-		terms.put(OWL.Nothing.asNode(), BOTTOM);
-		terms.put(OWL2.topObjectProperty.asNode(), TOP_OBJECT_PROPERTY);
-		terms.put(OWL2.topDataProperty.asNode(), TOP_DATA_PROPERTY);
-		terms.put(OWL2.bottomObjectProperty.asNode(), BOTTOM_OBJECT_PROPERTY);
-		terms.put(OWL2.bottomDataProperty.asNode(), BOTTOM_DATA_PROPERTY);
+		_terms.put(OWL.Thing.asNode(), TOP);
+		_terms.put(OWL.Nothing.asNode(), BOTTOM);
+		_terms.put(OWL2.topObjectProperty.asNode(), TOP_OBJECT_PROPERTY);
+		_terms.put(OWL2.topDataProperty.asNode(), TOP_DATA_PROPERTY);
+		_terms.put(OWL2.bottomObjectProperty.asNode(), BOTTOM_OBJECT_PROPERTY);
+		_terms.put(OWL2.bottomDataProperty.asNode(), BOTTOM_DATA_PROPERTY);
 	}
 
 	public Query parse(final BasicPattern basicPattern, final Collection<?> resultVars, final KnowledgeBase kb, final boolean isDistinct) throws UnsupportedQueryException
@@ -215,7 +216,7 @@ public class ARQParser implements QueryParser
 
 	public Query parse(final List<Triple> basicPattern, final Collection<?> resultVars, final KnowledgeBase kb, final boolean isDistinct) throws UnsupportedQueryException
 	{
-		this.kb = kb;
+		this._kb = kb;
 
 		// This set contains predicates that are distinguished variables. The
 		// elements are accumulated for PropertyValueAtom and removed if used in
@@ -237,7 +238,7 @@ public class ARQParser implements QueryParser
 
 		// Make sure to resolve the query parameterization first, i.e.
 		// substitute the variables with initial bindings, if applicable
-		triples = new LinkedHashSet<>(resolveParameterization(basicPattern));
+		_triples = new LinkedHashSet<>(resolveParameterization(basicPattern));
 
 		final Query query = new QueryImpl(kb, isDistinct);
 
@@ -248,9 +249,9 @@ public class ARQParser implements QueryParser
 			query.addResultVar(ATermUtils.makeVar(var));
 		}
 
-		for (final Triple t : new ArrayList<>(triples))
+		for (final Triple t : new ArrayList<>(_triples))
 		{
-			if (!triples.contains(t))
+			if (!_triples.contains(t))
 				continue;
 
 			final Node subj = t.getSubject();
@@ -267,20 +268,20 @@ public class ARQParser implements QueryParser
 
 		final Set<ATermAppl> possibleLiteralVars = new HashSet<>();
 
-		//throw exception if triples is empty
-		if (triples.isEmpty())
+		//throw exception if _triples is empty
+		if (_triples.isEmpty())
 			throw new UnsupportedQueryException("Empty BGT");
 
-		for (final Triple t : triples)
+		for (final Triple t : _triples)
 		{
 
 			final Node subj = t.getSubject();
 			final Node pred = t.getPredicate();
 			final Node obj = t.getObject();
 
-			final ATermAppl s = (ATermAppl) terms.get(subj);
-			final ATermAppl p = (ATermAppl) terms.get(pred);
-			final ATermAppl o = (ATermAppl) terms.get(obj);
+			final ATermAppl s = (ATermAppl) _terms.get(subj);
+			final ATermAppl p = (ATermAppl) _terms.get(pred);
+			final ATermAppl o = (ATermAppl) _terms.get(obj);
 
 			if (pred.equals(RDF.Nodes.type))
 			{
@@ -292,7 +293,7 @@ public class ARQParser implements QueryParser
 					{
 						ensureDistinguished(subj);
 						query.addDistVar(s, VarType.CLASS);
-						if (handleVariableSPO)
+						if (_handleVariableSPO)
 						{
 							variablePredicates.remove(s);
 							variableSubjects.add(s);
@@ -309,7 +310,7 @@ public class ARQParser implements QueryParser
 						{
 							ensureDistinguished(subj);
 							query.addDistVar(s, VarType.CLASS);
-							if (handleVariableSPO)
+							if (_handleVariableSPO)
 							{
 								variablePredicates.remove(s);
 								variableSubjects.add(s);
@@ -326,7 +327,7 @@ public class ARQParser implements QueryParser
 							{
 								ensureDistinguished(subj);
 								query.addDistVar(s, VarType.PROPERTY);
-								if (handleVariableSPO)
+								if (_handleVariableSPO)
 								{
 									variablePredicates.remove(s);
 									variableSubjects.add(s);
@@ -345,7 +346,7 @@ public class ARQParser implements QueryParser
 								{
 									ensureDistinguished(subj);
 									query.addDistVar(s, VarType.PROPERTY);
-									if (handleVariableSPO)
+									if (_handleVariableSPO)
 									{
 										variablePredicates.remove(s);
 										variableSubjects.add(s);
@@ -363,7 +364,7 @@ public class ARQParser implements QueryParser
 									{
 										ensureDistinguished(subj);
 										query.addDistVar(s, VarType.PROPERTY);
-										if (handleVariableSPO)
+										if (_handleVariableSPO)
 										{
 											variablePredicates.remove(s);
 											variableSubjects.add(s);
@@ -382,7 +383,7 @@ public class ARQParser implements QueryParser
 										{
 											ensureDistinguished(subj);
 											query.addDistVar(s, VarType.PROPERTY);
-											if (handleVariableSPO)
+											if (_handleVariableSPO)
 											{
 												variablePredicates.remove(s);
 												variableSubjects.add(s);
@@ -401,7 +402,7 @@ public class ARQParser implements QueryParser
 											{
 												ensureDistinguished(subj);
 												query.addDistVar(s, VarType.PROPERTY);
-												if (handleVariableSPO)
+												if (_handleVariableSPO)
 												{
 													variablePredicates.remove(s);
 													variableSubjects.add(s);
@@ -420,7 +421,7 @@ public class ARQParser implements QueryParser
 												{
 													ensureDistinguished(subj);
 													query.addDistVar(s, VarType.PROPERTY);
-													if (handleVariableSPO)
+													if (_handleVariableSPO)
 													{
 														variablePredicates.remove(s);
 														variableSubjects.add(s);
@@ -439,7 +440,7 @@ public class ARQParser implements QueryParser
 													{
 														ensureDistinguished(subj);
 														query.addDistVar(s, VarType.PROPERTY);
-														if (handleVariableSPO)
+														if (_handleVariableSPO)
 														{
 															variablePredicates.remove(s);
 															variableSubjects.add(s);
@@ -458,7 +459,7 @@ public class ARQParser implements QueryParser
 														{
 															ensureDistinguished(subj);
 															query.addDistVar(s, VarType.PROPERTY);
-															if (handleVariableSPO)
+															if (_handleVariableSPO)
 															{
 																variablePredicates.remove(s);
 																variableSubjects.add(s);
@@ -477,7 +478,7 @@ public class ARQParser implements QueryParser
 															{
 																ensureDistinguished(subj);
 																query.addDistVar(s, VarType.PROPERTY);
-																if (handleVariableSPO)
+																if (_handleVariableSPO)
 																{
 																	variablePredicates.remove(s);
 																	variableSubjects.add(s);
@@ -496,7 +497,7 @@ public class ARQParser implements QueryParser
 																{
 																	ensureDistinguished(subj);
 																	query.addDistVar(s, VarType.PROPERTY);
-																	if (handleVariableSPO)
+																	if (_handleVariableSPO)
 																	{
 																		variablePredicates.remove(s);
 																		variableSubjects.add(s);
@@ -679,7 +680,7 @@ public class ARQParser implements QueryParser
 													{
 														ensureDistinguished(subj);
 														query.addDistVar(s, VarType.PROPERTY);
-														if (handleVariableSPO)
+														if (_handleVariableSPO)
 														{
 															variablePredicates.remove(s);
 															variableSubjects.add(s);
@@ -689,7 +690,7 @@ public class ARQParser implements QueryParser
 													{
 														ensureDistinguished(obj);
 														query.addDistVar(o, VarType.PROPERTY);
-														if (handleVariableSPO)
+														if (_handleVariableSPO)
 														{
 															variablePredicates.remove(o);
 															variableSubjects.add(o);
@@ -710,7 +711,7 @@ public class ARQParser implements QueryParser
 														{
 															ensureDistinguished(subj);
 															query.addDistVar(s, VarType.PROPERTY);
-															if (handleVariableSPO)
+															if (_handleVariableSPO)
 															{
 																variablePredicates.remove(s);
 																variableSubjects.add(s);
@@ -720,7 +721,7 @@ public class ARQParser implements QueryParser
 														{
 															ensureDistinguished(obj);
 															query.addDistVar(o, VarType.PROPERTY);
-															if (handleVariableSPO)
+															if (_handleVariableSPO)
 															{
 																variablePredicates.remove(o);
 																variableSubjects.add(o);
@@ -740,7 +741,7 @@ public class ARQParser implements QueryParser
 															{
 																ensureDistinguished(subj);
 																query.addDistVar(s, VarType.PROPERTY);
-																if (handleVariableSPO)
+																if (_handleVariableSPO)
 																{
 																	variablePredicates.remove(s);
 																	variableSubjects.add(s);
@@ -750,7 +751,7 @@ public class ARQParser implements QueryParser
 															{
 																ensureDistinguished(obj);
 																query.addDistVar(o, VarType.PROPERTY);
-																if (handleVariableSPO)
+																if (_handleVariableSPO)
 																{
 																	variablePredicates.remove(o);
 																	variableSubjects.add(o);
@@ -770,7 +771,7 @@ public class ARQParser implements QueryParser
 																{
 																	ensureDistinguished(subj);
 																	query.addDistVar(s, VarType.PROPERTY);
-																	if (handleVariableSPO)
+																	if (_handleVariableSPO)
 																	{
 																		variablePredicates.remove(s);
 																		variableSubjects.add(s);
@@ -780,7 +781,7 @@ public class ARQParser implements QueryParser
 																{
 																	ensureDistinguished(obj);
 																	query.addDistVar(o, VarType.PROPERTY);
-																	if (handleVariableSPO)
+																	if (_handleVariableSPO)
 																	{
 																		variablePredicates.remove(o);
 																		variableSubjects.add(o);
@@ -800,7 +801,7 @@ public class ARQParser implements QueryParser
 																	{
 																		ensureDistinguished(subj);
 																		query.addDistVar(s, VarType.PROPERTY);
-																		if (handleVariableSPO)
+																		if (_handleVariableSPO)
 																		{
 																			variablePredicates.remove(s);
 																			variableSubjects.add(s);
@@ -810,7 +811,7 @@ public class ARQParser implements QueryParser
 																	{
 																		ensureDistinguished(obj);
 																		query.addDistVar(o, VarType.PROPERTY);
-																		if (handleVariableSPO)
+																		if (_handleVariableSPO)
 																		{
 																			variablePredicates.remove(o);
 																			variableSubjects.add(o);
@@ -828,7 +829,7 @@ public class ARQParser implements QueryParser
 																		{
 																			ensureDistinguished(subj);
 																			query.addDistVar(s, VarType.PROPERTY);
-																			if (handleVariableSPO)
+																			if (_handleVariableSPO)
 																			{
 																				variablePredicates.remove(s);
 																				variableSubjects.add(s);
@@ -851,7 +852,7 @@ public class ARQParser implements QueryParser
 																			{
 																				ensureDistinguished(subj);
 																				query.addDistVar(s, VarType.PROPERTY);
-																				if (handleVariableSPO)
+																				if (_handleVariableSPO)
 																				{
 																					variablePredicates.remove(s);
 																					variableSubjects.add(s);
@@ -876,7 +877,7 @@ public class ARQParser implements QueryParser
 																				{
 																					ensureDistinguished(subj);
 																					query.addDistVar(s, VarType.PROPERTY);
-																					if (handleVariableSPO)
+																					if (_handleVariableSPO)
 																					{
 																						variablePredicates.remove(s);
 																						variableSubjects.add(s);
@@ -886,7 +887,7 @@ public class ARQParser implements QueryParser
 																				{
 																					ensureDistinguished(obj);
 																					query.addDistVar(o, VarType.PROPERTY);
-																					if (handleVariableSPO)
+																					if (_handleVariableSPO)
 																					{
 																						variablePredicates.remove(o);
 																						variableSubjects.add(o);
@@ -919,7 +920,7 @@ public class ARQParser implements QueryParser
 																						{
 																							ensureDistinguished(subj);
 																							query.addDistVar(s, VarType.PROPERTY);
-																							if (handleVariableSPO)
+																							if (_handleVariableSPO)
 																							{
 																								variablePredicates.remove(s);
 																								variableSubjects.add(s);
@@ -929,7 +930,7 @@ public class ARQParser implements QueryParser
 																						{
 																							ensureDistinguished(obj);
 																							query.addDistVar(o, VarType.PROPERTY);
-																							if (handleVariableSPO)
+																							if (_handleVariableSPO)
 																							{
 																								variablePredicates.remove(o);
 																								variableSubjects.add(o);
@@ -982,7 +983,7 @@ public class ARQParser implements QueryParser
 			query.addDistVar(v, VarType.INDIVIDUAL);
 		}
 
-		if (!handleVariableSPO)
+		if (!_handleVariableSPO)
 			return query;
 
 		if (variablePredicates.isEmpty())
@@ -994,7 +995,7 @@ public class ARQParser implements QueryParser
 
 	public void setInitialBinding(final QuerySolution initialBinding)
 	{
-		this.initialBinding = initialBinding;
+		this._initialBinding = initialBinding;
 	}
 
 	private void ensureDistinguished(final Node pred)
@@ -1014,7 +1015,7 @@ public class ARQParser implements QueryParser
 		if (ATermUtils.isVar(pred))
 			return;
 
-		final Role r = kb.getRole(pred);
+		final Role r = _kb.getRole(pred);
 		if (r == null)
 			throw new UnsupportedQueryException("Unknown role: " + pred);
 
@@ -1029,7 +1030,7 @@ public class ARQParser implements QueryParser
 
 	private Node getObject(final Node subj, final Node pred)
 	{
-		for (final Iterator<Triple> i = triples.iterator(); i.hasNext();)
+		for (final Iterator<Triple> i = _triples.iterator(); i.hasNext();)
 		{
 			final Triple t = i.next();
 			if (subj.equals(t.getSubject()) && pred.equals(t.getPredicate()))
@@ -1044,7 +1045,7 @@ public class ARQParser implements QueryParser
 
 	private boolean hasObject(final Node subj, final Node pred)
 	{
-		for (final Triple t : triples)
+		for (final Triple t : _triples)
 		{
 			if (subj.equals(t.getSubject()) && pred.equals(t.getPredicate()))
 				return true;
@@ -1055,7 +1056,7 @@ public class ARQParser implements QueryParser
 
 	private boolean hasObject(final Node subj, final Node pred, final Node obj)
 	{
-		for (final Iterator<Triple> i = triples.iterator(); i.hasNext();)
+		for (final Iterator<Triple> i = _triples.iterator(); i.hasNext();)
 		{
 			final Triple t = i.next();
 			if (subj.equals(t.getSubject()) && pred.equals(t.getPredicate()))
@@ -1075,8 +1076,8 @@ public class ARQParser implements QueryParser
 		if (node.equals(RDF.nil.asNode()))
 			return ATermUtils.EMPTY_LIST;
 		else
-			if (terms.containsKey(node))
-				return (ATermList) terms.get(node);
+			if (_terms.containsKey(node))
+				return (ATermList) _terms.get(node);
 
 		hasObject(node, RDF.type.asNode(), RDF.List.asNode());
 
@@ -1088,7 +1089,7 @@ public class ARQParser implements QueryParser
 
 		final ATermList list = ATermUtils.makeList(node2term(first), createList(rest));
 
-		terms.put(node, list);
+		_terms.put(node, list);
 
 		return list;
 	}
@@ -1106,7 +1107,7 @@ public class ARQParser implements QueryParser
 			return aTerm;
 
 		final ATermAppl pt = node2term(p);
-		if (!kb.isProperty(pt))
+		if (!_kb.isProperty(pt))
 			throw new UnsupportedQueryException("Property " + pt + " is not present in KB.");
 
 		// TODO warning message: multiple owl:onProperty
@@ -1120,7 +1121,7 @@ public class ARQParser implements QueryParser
 				else
 				{
 					final ATermAppl ind = ATermUtils.makeTermAppl(o.getURI());
-					if (!kb.isIndividual(ind))
+					if (!_kb.isIndividual(ind))
 						throw new UnsupportedQueryException("Individual " + ind + " is not present in KB.");
 
 					final ATermAppl nom = ATermUtils.makeTermAppl(o.getURI() + "_nom");
@@ -1203,7 +1204,7 @@ public class ARQParser implements QueryParser
 				if (qualification.isVariable())
 					throw new UnsupportedQueryException("Variables not allowed in cardinality qualification");
 
-				if (!kb.isObjectProperty(pt))
+				if (!_kb.isObjectProperty(pt))
 					return null;
 				c = node2term(qualification);
 			}
@@ -1213,13 +1214,13 @@ public class ARQParser implements QueryParser
 					if (qualification.isVariable())
 						throw new UnsupportedQueryException("Variables not allowed in cardinality qualification");
 
-					if (!kb.isDatatypeProperty(pt))
+					if (!_kb.isDatatypeProperty(pt))
 						return null;
 					c = node2term(qualification);
 				}
 				else
 				{
-					final PropertyType propType = kb.getPropertyType(pt);
+					final PropertyType propType = _kb.getPropertyType(pt);
 					if (propType == PropertyType.OBJECT)
 						c = ATermUtils.TOP;
 					else
@@ -1249,14 +1250,14 @@ public class ARQParser implements QueryParser
 
 	private ATermAppl node2term(final Node node)
 	{
-		if (!terms.containsKey(node))
+		if (!_terms.containsKey(node))
 			cache(node);
-		return (ATermAppl) terms.get(node);
+		return (ATermAppl) _terms.get(node);
 	}
 
 	private void cache(final Node node)
 	{
-		if (terms.containsKey(node) || BuiltinTerm.isBuiltin(node))
+		if (_terms.containsKey(node) || BuiltinTerm.isBuiltin(node))
 			return;
 
 		ATerm aTerm = null;
@@ -1267,7 +1268,7 @@ public class ARQParser implements QueryParser
 			if (hasObject(node, OWL.onProperty.asNode()))
 			{
 				aTerm = createRestriction(node);
-				terms.put(node, aTerm);
+				_terms.put(node, aTerm);
 			}
 			else
 				if (node.isBlank() || node.isVariable())
@@ -1338,7 +1339,7 @@ public class ARQParser implements QueryParser
 					aTerm = ATermUtils.makeTermAppl(uri);
 				}
 
-		terms.put(node, aTerm);
+		_terms.put(node, aTerm);
 	}
 
 	/*
@@ -1350,11 +1351,11 @@ public class ARQParser implements QueryParser
 	private List<Triple> resolveParameterization(final List<?> triples)
 	{
 		if (triples == null)
-			throw new NullPointerException("The set of triples cannot be null");
+			throw new NullPointerException("The set of _triples cannot be null");
 
 		// Ensure that the initial binding is not a null pointer
-		if (initialBinding == null)
-			initialBinding = new QuerySolutionMap();
+		if (_initialBinding == null)
+			_initialBinding = new QuerySolutionMap();
 
 		final List<Triple> ret = new ArrayList<>();
 
@@ -1377,13 +1378,13 @@ public class ARQParser implements QueryParser
 	{
 		if (node == null)
 			throw new NullPointerException("Node is null");
-		if (initialBinding == null)
+		if (_initialBinding == null)
 			throw new NullPointerException("Initial binding is null");
 
 		if (node.isConcrete())
 			return node;
 
-		final RDFNode binding = initialBinding.get(node.getName());
+		final RDFNode binding = _initialBinding.get(node.getName());
 
 		if (binding == null)
 			return node;

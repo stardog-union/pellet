@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
@@ -42,7 +43,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  * </p>
  * <p>
  * Description: An implementation of ARQ query stage for PelletInfGraph. The {@link BasicPattern} is converted into a native Pellet SPARQL-DL query and answered
- * by the Pellet query engine. The conversion to Pellet query might fail if the pattern is not a SPARQL-DL query in which case the default ARQ handler is used.
+ * by the Pellet query engine. The conversion to Pellet query might fail if the _pattern is not a SPARQL-DL query in which case the default ARQ handler is used.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -55,12 +56,12 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 class SparqlDLStage
 {
-	public final static Logger log = Logger.getLogger(SparqlDLStage.class.getName());
+	public final static Logger log = Log.getLogger(SparqlDLStage.class);
 
-	private final ARQParser parser;
+	private final ARQParser _parser;
 
-	private final BasicPattern pattern;
-	private Collection<String> vars;
+	private final BasicPattern _pattern;
+	private Collection<String> _vars;
 
 	public SparqlDLStage(final BasicPattern pattern)
 	{
@@ -69,25 +70,25 @@ class SparqlDLStage
 
 	public SparqlDLStage(final BasicPattern pattern, final boolean handleVariableSPO)
 	{
-		this.pattern = pattern;
-		this.parser = new ARQParser(handleVariableSPO);
+		this._pattern = pattern;
+		this._parser = new ARQParser(handleVariableSPO);
 
 		initVars();
 	}
 
 	private void initVars()
 	{
-		vars = new LinkedHashSet<>();
-		for (int i = 0; i < pattern.size(); i++)
+		_vars = new LinkedHashSet<>();
+		for (int i = 0; i < _pattern.size(); i++)
 		{
-			final Triple t = pattern.get(i);
+			final Triple t = _pattern.get(i);
 
 			if (ARQParser.isDistinguishedVariable(t.getSubject()))
-				vars.add(t.getSubject().getName());
+				_vars.add(t.getSubject().getName());
 			if (t.getPredicate().isVariable())
-				vars.add(t.getPredicate().getName());
+				_vars.add(t.getPredicate().getName());
 			if (ARQParser.isDistinguishedVariable(t.getObject()))
-				vars.add(t.getObject().getName());
+				_vars.add(t.getObject().getName());
 		}
 	}
 
@@ -106,14 +107,14 @@ class SparqlDLStage
 		if (query != null)
 			return new PelletQueryIterator(pellet, query, input, execCxt);
 		else
-			return new StageGeneratorGeneric().execute(pattern, input, execCxt);
+			return new StageGeneratorGeneric().execute(_pattern, input, execCxt);
 	}
 
 	private Query parsePattern(final PelletInfGraph pellet)
 	{
 		try
 		{
-			return parser.parse(pattern, vars, pellet.getKB(), false);
+			return _parser.parse(_pattern, _vars, pellet.getKB(), false);
 		}
 		catch (final UnsupportedQueryException e)
 		{

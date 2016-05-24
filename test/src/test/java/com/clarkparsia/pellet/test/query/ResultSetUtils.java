@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFactory;
@@ -30,7 +31,7 @@ import org.junit.Assert;
  */
 public class ResultSetUtils
 {
-	private static final Logger log = Logger.getLogger(ResultSetUtils.class.getName());
+	private static final Logger log = Log.getLogger(ResultSetUtils.class);
 
 	private static final RDFNode DUMMY_FOR_BNODE = ResourceFactory.createPlainLiteral("dummy _node for bnode");
 

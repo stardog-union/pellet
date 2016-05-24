@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KRSSLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.TimeoutException;
@@ -53,7 +54,7 @@ import org.mindswap.pellet.utils.Timer;
  */
 public class DLBenchmarkTest
 {
-	public static Logger log = Logger.getLogger(DLBenchmarkTest.class.getName());
+	public static Logger log = Log.getLogger(DLBenchmarkTest.class);
 
 	public static boolean PRINT_TIME = false;
 	public static boolean PRINT_TREE = false;
@@ -66,18 +67,18 @@ public class DLBenchmarkTest
 	public static boolean FAST = false;
 	public static boolean FORCE_UPPERCASE = true;
 
-	private final KRSSLoader loader;
-	private KnowledgeBase kb;
+	private final KRSSLoader _loader;
+	private KnowledgeBase _kb;
 
 	public DLBenchmarkTest()
 	{
-		loader = new KRSSLoader();
-		loader.setForceUppercase(FORCE_UPPERCASE);
+		_loader = new KRSSLoader();
+		_loader.setForceUppercase(FORCE_UPPERCASE);
 	}
 
 	public KnowledgeBase getKB()
 	{
-		return kb;
+		return _kb;
 	}
 
 	public KnowledgeBase initKB(final long timeout)
@@ -104,13 +105,13 @@ public class DLBenchmarkTest
 		{
 			System.out.print((i + 1) + ") ");
 
-			final List data = new ArrayList();
+			final List<Comparable> data = new ArrayList<Comparable>();
 			data.add(files[i]);
 			try
 			{
 				doTBoxTest(files[i].toString());
-				data.add(Integer.valueOf(kb.getClasses().size()));
-				data.add(kb.timers.getTimer("test").getTotal() + "");
+				data.add(Integer.valueOf(_kb.getClasses().size()));
+				data.add(_kb.timers.getTimer("test").getTotal() + "");
 			}
 			catch (final TimeoutException e)
 			{
@@ -154,46 +155,46 @@ public class DLBenchmarkTest
 		if (log.isLoggable(Level.INFO))
 			System.out.print(displayName + " ");
 
-		loader.clear();
-		loader.getKB().timers.resetAll();
-		kb = loader.createKB(file + ext);
-		kb.setTimeout(TBOX_LIMIT * 1000);
+		_loader.clear();
+		_loader.getKB().timers.resetAll();
+		_kb = _loader.createKB(file + ext);
+		_kb.setTimeout(TBOX_LIMIT * 1000);
 
-		final Timer t = kb.timers.startTimer("test");
+		final Timer t = _kb.timers.startTimer("test");
 
 		if (log.isLoggable(Level.INFO))
 			System.out.print("preparing...");
 
-		kb.prepare();
+		_kb.prepare();
 
 		if (log.isLoggable(Level.INFO))
 			System.out.print("classifying...");
 
-		kb.classify();
+		_kb.classify();
 
 		t.stop();
 
 		if (PRINT_TREE)
-			kb.printClassTree();
+			_kb.printClassTree();
 
 		if (log.isLoggable(Level.INFO))
 			System.out.print("verifying...");
 
-		loader.verifyTBox(file + ".tree", kb);
+		_loader.verifyTBox(file + ".tree", _kb);
 
 		if (log.isLoggable(Level.INFO))
 			System.out.print("done");
 
 		if (log.isLoggable(Level.INFO))
 		{
-			System.out.print(" Prepare " + kb.timers.getTimer("preprocessing").getTotal());
-			System.out.print(" Classify " + kb.timers.getTimer("classify").getTotal());
+			System.out.print(" Prepare " + _kb.timers.getTimer("preprocessing").getTotal());
+			System.out.print(" Classify " + _kb.timers.getTimer("classify").getTotal());
 
 			System.out.println(" " + t.getTotal());
 		}
 
 		if (PRINT_TIME)
-			kb.timers.print();
+			_kb.timers.print();
 
 		return true;
 	}
@@ -276,36 +277,36 @@ public class DLBenchmarkTest
 		final String displayName = (index == -1) ? file : file.substring(index + 1);
 		System.out.print(displayName + " ");
 
-		kb = loader.createKB(file + ext);
-		kb.timers.resetAll();
-		kb.setTimeout(ABOX_LIMIT * 1000);
+		_kb = _loader.createKB(file + ext);
+		_kb.timers.resetAll();
+		_kb.setTimeout(ABOX_LIMIT * 1000);
 
-		final Timer t = kb.timers.startTimer("test");
+		final Timer t = _kb.timers.startTimer("test");
 
 		System.out.print("preparing...");
 
-		kb.prepare();
+		_kb.prepare();
 
 		if (!FAST)
 		{
 			System.out.print("classifying...");
-			kb.realize();
+			_kb.realize();
 		}
 
 		t.stop();
 
 		System.out.print("verifying...");
-		loader.verifyABox(file + ".query", kb);
+		_loader.verifyABox(file + ".query", _kb);
 
 		System.out.print("done");
 
-		System.out.print(" Prepare " + kb.timers.getTimer("preprocessing").getTotal());
-		System.out.print(" Classify " + kb.timers.getTimer("classify").getTotal());
+		System.out.print(" Prepare " + _kb.timers.getTimer("preprocessing").getTotal());
+		System.out.print(" Classify " + _kb.timers.getTimer("classify").getTotal());
 
 		System.out.println(" " + t.getTotal());
 
 		if (PRINT_TIME)
-			kb.timers.print();
+			_kb.timers.print();
 
 		return true;
 	}

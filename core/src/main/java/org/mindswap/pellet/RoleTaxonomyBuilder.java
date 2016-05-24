@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.ATermUtils;
@@ -55,7 +56,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class RoleTaxonomyBuilder
 {
-	protected static Logger _log = Logger.getLogger(Taxonomy.class.getName());
+	protected static Logger _log = Log.getLogger(Taxonomy.class);
 
 	public static final ATermAppl TOP_ANNOTATION_PROPERTY = ATermUtils.makeTermAppl("_TOP_ANNOTATION_PROPERTY_");
 	public static final ATermAppl BOTTOM_ANNOTATION_PROPERTY = ATermUtils.makeTermAppl("_BOTTOM_ANNOTATION_PROPERTY_");

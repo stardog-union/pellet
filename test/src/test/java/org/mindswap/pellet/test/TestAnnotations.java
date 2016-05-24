@@ -264,7 +264,7 @@ public class TestAnnotations
 	@Test
 	public void getAnnotations4()
 	{
-		// Test kb.getAnnotationProperties()
+		// Test _kb.getAnnotationProperties()
 		final KnowledgeBase kb = new KnowledgeBase();
 
 		final ATermAppl s = ATermUtils.makeTermAppl("s");
@@ -286,7 +286,7 @@ public class TestAnnotations
 	@Test
 	public void getAnnotations5()
 	{
-		// Test kb.getProperties()
+		// Test _kb.getProperties()
 		final KnowledgeBase kb = new KnowledgeBase();
 
 		final ATermAppl s = ATermUtils.makeTermAppl("s");

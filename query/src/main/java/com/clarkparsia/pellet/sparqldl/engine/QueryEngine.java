@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.KnowledgeBase;
@@ -70,7 +71,7 @@ import org.mindswap.pellet.utils.SetUtils;
  */
 public class QueryEngine
 {
-	public static Logger log = Logger.getLogger(QueryEngine.class.getName());
+	public static Logger log = Log.getLogger(QueryEngine.class);
 
 	public static CoreStrategy STRATEGY = CoreStrategy.ALLFAST;
 

@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -108,22 +109,11 @@ public class OWLRealInterval
 		}
 	}
 
-	private static final Logger log;
+	private static final Logger log = Log.getLogger(OWLRealInterval.class.getCanonicalName());
 
-	private static OWLRealInterval unconstrainedInteger;
+	private static OWLRealInterval unconstrainedInteger = new OWLRealInterval(null, null, true, true, LineType.INTEGER_ONLY);
 
-	private static OWLRealInterval unconstrainedReal;
-
-	static
-	{
-		log = Logger.getLogger(OWLRealInterval.class.getCanonicalName());
-	}
-
-	static
-	{
-		unconstrainedReal = new OWLRealInterval(null, null, true, true, LineType.CONTINUOUS);
-		unconstrainedInteger = new OWLRealInterval(null, null, true, true, LineType.INTEGER_ONLY);
-	}
+	private static OWLRealInterval unconstrainedReal = new OWLRealInterval(null, null, true, true, LineType.CONTINUOUS);
 
 	public static OWLRealInterval allIntegers()
 	{

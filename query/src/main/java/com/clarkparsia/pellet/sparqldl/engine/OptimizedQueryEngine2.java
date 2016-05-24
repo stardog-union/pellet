@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 
@@ -41,11 +42,11 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 {
-	public static final Logger log = Logger.getLogger(QueryEngine.class.getName());
+	public static final Logger log = Log.getLogger(QueryEngine.class);
 
-	private QueryResult results;
+	private QueryResult _results;
 
-	private KnowledgeBase kb;
+	private KnowledgeBase _kb;
 
 	/**
 	 * {@inheritDoc}
@@ -60,7 +61,7 @@ public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 	{
 		if (q.getDistVars().isEmpty())
 		{
-			results.add(binding);
+			_results.add(binding);
 			return;
 		}
 
@@ -78,15 +79,15 @@ public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 
 		if (first)
 		{
-			instances = new HashSet<>(kb.getIndividuals());
+			instances = new HashSet<>(_kb.getIndividuals());
 			for (final QueryAtom atom : q.findAtoms(QueryPredicate.PropertyValue, var, null, null))
-				instances.retainAll(kb.retrieveIndividualsWithProperty(atom.getArguments().get(1)));
+				instances.retainAll(_kb.retrieveIndividualsWithProperty(atom.getArguments().get(1)));
 
 			for (final QueryAtom atom : q.findAtoms(QueryPredicate.PropertyValue, null, null, var))
-				instances.retainAll(kb.retrieveIndividualsWithProperty(ATermUtils.makeInv(atom.getArguments().get(1))));
+				instances.retainAll(_kb.retrieveIndividualsWithProperty(ATermUtils.makeInv(atom.getArguments().get(1))));
 		}
 		else
-			instances = kb.getInstances(clazz);
+			instances = _kb.getInstances(clazz);
 
 		for (final ATermAppl b : instances)
 		{
@@ -103,22 +104,22 @@ public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 	@Override
 	public QueryResult execABoxQuery(final Query q)
 	{
-		results = new QueryResultImpl(q);
+		_results = new QueryResultImpl(q);
 
-		this.kb = q.getKB();
+		this._kb = q.getKB();
 
-		final long satCount = kb.getABox().stats.satisfiabilityCount;
-		final long consCount = kb.getABox().stats.consistencyCount;
+		final long satCount = _kb.getABox().stats.satisfiabilityCount;
+		final long consCount = _kb.getABox().stats.consistencyCount;
 
 		exec(q, new ResultBindingImpl(), true);
 
 		if (log.isLoggable(Level.FINE))
 		{
-			log.fine("Total satisfiability operations: " + (kb.getABox().stats.satisfiabilityCount - satCount));
-			log.fine("Total consistency operations: " + (kb.getABox().stats.consistencyCount - consCount));
-			log.fine("Results of ABox query : " + results);
+			log.fine("Total satisfiability operations: " + (_kb.getABox().stats.satisfiabilityCount - satCount));
+			log.fine("Total consistency operations: " + (_kb.getABox().stats.consistencyCount - consCount));
+			log.fine("Results of ABox query : " + _results);
 		}
 
-		return results;
+		return _results;
 	}
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.Model;
@@ -61,7 +62,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 @RunWith(Parameterized.class)
 public class JenaExplanationTest extends AbstractExplanationTest
 {
-	private static final Logger log = Logger.getLogger(JenaExplanationTest.class.getName());
+	private static final Logger log = Log.getLogger(JenaExplanationTest.class);
 
 	@Parameters
 	public static Collection<Object[]> getParameters()
@@ -72,7 +73,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 		return parameters;
 	}
 
-	private PelletInfGraph pellet;
+	private PelletInfGraph _openllet;
 
 	public JenaExplanationTest(final boolean classify)
 	{
@@ -111,14 +112,14 @@ public class JenaExplanationTest extends AbstractExplanationTest
 		final Graph data = convertOntology(ontology, false);
 
 		final Reasoner reasoner = PelletReasonerFactory.theInstance().create();
-		pellet = (PelletInfGraph) reasoner.bind(data);
+		_openllet = (PelletInfGraph) reasoner.bind(data);
 
-		final KnowledgeBase kb = pellet.getKB();
+		final KnowledgeBase kb = _openllet.getKB();
 
 		if (classify)
 		{
 			kb.setDoExplanation(true);
-			pellet.prepare();
+			_openllet.prepare();
 			kb.setDoExplanation(false);
 
 			kb.realize();
@@ -148,7 +149,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 			triple = graph.find(Triple.ANY).next();
 		}
 
-		final Graph actual = triple == null ? pellet.explainInconsistency().getGraph() : pellet.explain(triple);
+		final Graph actual = triple == null ? _openllet.explainInconsistency().getGraph() : _openllet.explain(triple);
 
 		assertNotNull("Triple " + triple + "cannot be explained", actual);
 

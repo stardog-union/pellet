@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -41,7 +42,7 @@ import org.mindswap.pellet.jena.vocabulary.SWRL;
  */
 public class OWLEntityDatabase
 {
-	public final static Logger log = Logger.getLogger(OWLEntityDatabase.class.getName());
+	public final static Logger log = Log.getLogger(OWLEntityDatabase.class);
 
 	private final DoubtfulSet<RDFNode> m_Ontologies = new DoubtfulSet<>();
 	private final DoubtfulSet<RDFNode> m_Classes = new DoubtfulSet<>();

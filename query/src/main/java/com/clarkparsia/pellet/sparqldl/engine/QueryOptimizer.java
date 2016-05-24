@@ -9,6 +9,7 @@ package com.clarkparsia.pellet.sparqldl.engine;
 import com.clarkparsia.pellet.sparqldl.model.Query;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.PelletOptions;
 
 /**
@@ -30,7 +31,7 @@ import org.mindswap.pellet.PelletOptions;
 public class QueryOptimizer
 {
 
-	private static final Logger LOG = Logger.getLogger(QueryOptimizer.class.getName());
+	private static final Logger LOG = Log.getLogger(QueryOptimizer.class);
 
 	public QueryPlan getExecutionPlan(final Query query)
 	{

@@ -194,7 +194,7 @@ public class CacheSafetyTests extends AbstractKBTests
 		objectProperties(r, f, invF, invR);
 
 		kb.addSubClass(TOP, max(f, 1, TOP));
-		// kb.addSubClass( TOP, max( inv( f ), 1, TOP ) );
+		// _kb.addSubClass( TOP, max( inv( f ), 1, TOP ) );
 		kb.addInverseProperty(f, invF);
 
 		kb.addTransitiveProperty(r);

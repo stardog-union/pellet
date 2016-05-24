@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -75,7 +76,7 @@ public class OWLRealUtils
 		}
 	}
 
-	private static Logger _log = Logger.getLogger(OWLRealUtils.class.getCanonicalName());
+	private static Logger _log = Log.getLogger(OWLRealUtils.class);
 
 	public static boolean acceptable(final Class<? extends Number> c)
 	{

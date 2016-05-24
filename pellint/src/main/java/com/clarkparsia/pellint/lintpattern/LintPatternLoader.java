@@ -33,6 +33,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -52,7 +53,7 @@ import java.util.logging.Logger;
  */
 public class LintPatternLoader
 {
-	private static final Logger LOGGER = Logger.getLogger(LintPatternLoader.class.getName());
+	private static final Logger LOGGER = Log.getLogger(LintPatternLoader.class);
 
 	public static final List<AxiomLintPattern> DEFAULT_AXIOM_LINT_PATTERNS = Arrays.asList(new EquivalentToAllValuePattern(), new EquivalentToMaxCardinalityPattern(), new EquivalentToComplementPattern(), new EquivalentToTopPattern(), new GCIPattern(), new LargeCardinalityPattern(), new LargeDisjunctionPattern());
 

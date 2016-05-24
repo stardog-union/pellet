@@ -21,6 +21,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.PelletRuntimeException;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
@@ -95,7 +96,7 @@ import org.semanticweb.owlapi.util.Version;
  */
 public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeListener
 {
-	public static final Logger log = Logger.getLogger(IncrementalClassifier.class.getName());
+	public static final Logger log = Log.getLogger(IncrementalClassifier.class);
 
 	/**
 	 * Modularity results
@@ -324,8 +325,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	}
 
 	/**
-	 * This incremental classification _strategy does the following: for all modules that are affected, collect all of their axioms and classify them all once in
-	 * Pellet. This allows the exploitation _current classification optimizations
+	 * This incremental classification _strategy does the following: for all modules that are affected, collect all of their axioms and classify them all once
+	 * in Pellet. This allows the exploitation _current classification optimizations
 	 */
 	private void incClassifyAllModStrategy()
 	{

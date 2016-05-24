@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.NodeFactory;
@@ -46,7 +47,7 @@ import org.mindswap.pellet.utils.iterator.NestedIterator;
 
 public class GraphQueryHandler
 {
-	public final static Logger log = Logger.getLogger(GraphQueryHandler.class.getName());
+	public final static Logger log = Log.getLogger(GraphQueryHandler.class);
 
 	protected static final Node VAR = Node.ANY;
 	protected static final Node CONST = NodeFactory.createURI("CONST");
@@ -233,8 +234,8 @@ public class GraphQueryHandler
 				}
 				else
 					if (!pellet.isSkipBuiltinPredicates())
-					for (final Node pred : BUILTIN_PREDICATES)
-						result = result.andThen(findTriple(kb, pellet, s, pred, o));
+						for (final Node pred : BUILTIN_PREDICATES)
+							result = result.andThen(findTriple(kb, pellet, s, pred, o));
 				return result;
 			}
 		});
@@ -393,8 +394,8 @@ public class GraphQueryHandler
 					types.add(OWL.Class.asNode());
 				else
 					if (kb.isDatatype(term))
-					types.add(RDFS.Datatype.asNode());
-				else
+						types.add(RDFS.Datatype.asNode());
+					else
 						if (kb.isObjectProperty(term))
 						{
 							final Role role = kb.getRole(term);

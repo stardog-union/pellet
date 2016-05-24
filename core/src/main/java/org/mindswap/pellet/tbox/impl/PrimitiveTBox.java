@@ -20,6 +20,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
@@ -41,25 +42,25 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
  */
 public class PrimitiveTBox
 {
-	public static final Logger log = Logger.getLogger(PrimitiveTBox.class.getName());
+	public static final Logger log = Log.getLogger(PrimitiveTBox.class);
 
-	private final Map<ATermAppl, Unfolding> definitions;
-	private final Map<ATermAppl, Set<ATermAppl>> dependencies;
+	private final Map<ATermAppl, Unfolding> _definitions;
+	private final Map<ATermAppl, Set<ATermAppl>> _dependencies;
 
 	public PrimitiveTBox()
 	{
-		definitions = CollectionUtils.makeIdentityMap();
-		dependencies = CollectionUtils.makeIdentityMap();
+		_definitions = CollectionUtils.makeIdentityMap();
+		_dependencies = CollectionUtils.makeIdentityMap();
 	}
 
 	public boolean contains(final ATermAppl concept)
 	{
-		return definitions.containsKey(concept);
+		return _definitions.containsKey(concept);
 	}
 
 	public Unfolding getDefinition(final ATermAppl concept)
 	{
-		return definitions.get(concept);
+		return _definitions.get(concept);
 	}
 
 	//	public boolean add(ATermAppl axiom, Set<ATermAppl> clashExplanation) {
@@ -95,7 +96,7 @@ public class PrimitiveTBox
 
 		addDefinition(concept, definition, explanation);
 		addDefinition(not(concept), not(definition), explanation);
-		dependencies.put(concept, deps);
+		_dependencies.put(concept, deps);
 
 		return true;
 	}
@@ -107,7 +108,7 @@ public class PrimitiveTBox
 		if (log.isLoggable(Level.FINE))
 			log.fine("Def: " + ATermUtils.toString(concept) + " = " + ATermUtils.toString(definition));
 
-		definitions.put(concept, Unfolding.create(definition, explanation));
+		_definitions.put(concept, Unfolding.create(definition, explanation));
 
 	}
 
@@ -126,7 +127,7 @@ public class PrimitiveTBox
 			if (current.equals(target))
 				return true;
 
-			final Set<ATermAppl> deps = dependencies.get(current);
+			final Set<ATermAppl> deps = _dependencies.get(current);
 			if (deps != null)
 			{
 				// Shortcut
@@ -147,14 +148,14 @@ public class PrimitiveTBox
 
 	public Iterator<Unfolding> unfold(final ATermAppl concept)
 	{
-		final Unfolding unfolding = definitions.get(concept);
+		final Unfolding unfolding = _definitions.get(concept);
 
 		return unfolding == null ? IteratorUtils.<Unfolding> emptyIterator() : IteratorUtils.singletonIterator(unfolding);
 	}
 
 	public void print(final Appendable out) throws IOException
 	{
-		for (final Entry<ATermAppl, Unfolding> e : definitions.entrySet())
+		for (final Entry<ATermAppl, Unfolding> e : _definitions.entrySet())
 		{
 			out.append(ATermUtils.toString(e.getKey()));
 			out.append(" = ");

@@ -13,6 +13,7 @@ import com.clarkparsia.pellet.rules.model.DataRangeAtom;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
@@ -36,12 +37,7 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
 public class DataRangeBindingHelper implements BindingHelper
 {
 
-	private static final Logger _log;
-
-	static
-	{
-		_log = Logger.getLogger(DataRangeBindingHelper.class.getCanonicalName());
-	}
+	private static final Logger _log = Log.getLogger(DataRangeBindingHelper.class);
 
 	private final DatatypeReasoner _dtReasoner;
 	private final DataRangeAtom _atom;

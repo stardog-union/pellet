@@ -44,13 +44,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.ATermUtils;
 
 public class TgBox extends TBoxBase
 {
-	public static final Logger log = Logger.getLogger(TgBox.class.getName());
+	public static final Logger log = Log.getLogger(TgBox.class);
 
 	private Set<ATermAppl> _explanation;
 
@@ -371,23 +372,23 @@ public class TgBox extends TBoxBase
 			else
 				canAbsorb = term.getArity() == 0 && set.size() > 1;
 
-			if (canAbsorb)
-				{
-				set.remove(term);
+				if (canAbsorb)
+			{
+					set.remove(term);
 
-				final ATermList setlist = ATermUtils.makeList(set);
-				ATermAppl conjunct = ATermUtils.makeAnd(setlist);
-				conjunct = ATermUtils.makeNot(conjunct);
-				final ATermAppl sub = ATermUtils.makeSub(term, ATermUtils.nnf(conjunct));
-				_tbox._Tu.addDef(sub);
+					final ATermList setlist = ATermUtils.makeList(set);
+					ATermAppl conjunct = ATermUtils.makeAnd(setlist);
+					conjunct = ATermUtils.makeNot(conjunct);
+					final ATermAppl sub = ATermUtils.makeSub(term, ATermUtils.nnf(conjunct));
+					_tbox._Tu.addDef(sub);
 
-				if (_log.isLoggable(Level.FINE))
-					_log.fine("Absorb named: " + ATermUtils.toString(sub));
+					if (_log.isLoggable(Level.FINE))
+						_log.fine("Absorb named: " + ATermUtils.toString(sub));
 
-					_tbox.addAxiomExplanation(sub, _explanation);
+				_tbox.addAxiomExplanation(sub, _explanation);
 
-				return true;
-			}
+					return true;
+				}
 		}
 
 		return false;

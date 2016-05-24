@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.taxonomy.CDOptimizedTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.TaxonomyBuilder;
@@ -41,7 +42,7 @@ import org.mindswap.pellet.utils.Timers;
 @SuppressWarnings("unused")
 public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 {
-	public static final Logger logger = Logger.getLogger(RuleBasedELClassifier.class.getName());
+	public static final Logger logger = Log.getLogger(RuleBasedELClassifier.class);
 
 	protected Timers timers = new Timers();
 

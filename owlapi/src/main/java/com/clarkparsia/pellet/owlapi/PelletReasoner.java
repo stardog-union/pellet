@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.exceptions.PelletRuntimeException;
@@ -70,7 +71,7 @@ import org.semanticweb.owlapi.util.Version;
 public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 {
 
-	public static final Logger _log = Logger.getLogger(PelletReasoner.class.getName());
+	public static final Logger _log = Log.getLogger(PelletReasoner.class);
 
 	private static final Set<InferenceType> PRECOMPUTABLE_INFERENCES = EnumSet.of(InferenceType.CLASS_HIERARCHY, InferenceType.CLASS_ASSERTIONS, InferenceType.OBJECT_PROPERTY_HIERARCHY, InferenceType.DATA_PROPERTY_HIERARCHY);
 

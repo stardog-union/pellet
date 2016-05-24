@@ -11,6 +11,7 @@ import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 
@@ -34,7 +35,7 @@ public class XSDDecimal extends AbstractBaseDatatype<Number>
 {
 
 	private static final XSDDecimal instance = new XSDDecimal();
-	private static final Logger log = Logger.getLogger(XSDDecimal.class.getCanonicalName());
+	private static final Logger log = Log.getLogger(XSDDecimal.class);
 
 	public static XSDDecimal getInstance()
 	{

@@ -57,6 +57,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.ATermUtils;
@@ -79,7 +80,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class DatatypeReasonerImpl implements DatatypeReasoner
 {
-	private static final Logger _log = Logger.getLogger(DatatypeReasonerImpl.class.getCanonicalName());
+	private static final Logger _log = Log.getLogger(DatatypeReasonerImpl.class);
 	private static final Map<ATermAppl, Datatype<?>> _coreDatatypes = new HashMap<>();
 
 	static

@@ -27,6 +27,7 @@ import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
+import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 
 /**
@@ -55,7 +56,7 @@ public class RestrictedTimelineDatatype implements RestrictedDatatype<XMLGregori
 	 */
 
 	private static final DatatypeFactory dtFactory;
-	private static final Logger log = Logger.getLogger(RestrictedTimelineDatatype.class.getCanonicalName());
+	private static final Logger log = Log.getLogger(RestrictedTimelineDatatype.class);
 	private static final BigInteger SEC_PER_DAY = BigInteger.valueOf(86400);
 	private static final BigInteger SEC_PER_YEAR = BigInteger.valueOf(31536000);
 	private static final int TZ_SHIFT = 14 * 60 * 60;

@@ -6,6 +6,7 @@ import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 
@@ -28,15 +29,8 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDFloat implements Datatype<Float>
 {
 
-	private static final XSDFloat instance;
-	private static final Logger log;
-
-	static
-	{
-		log = Logger.getLogger(XSDFloat.class.getCanonicalName());
-
-		instance = new XSDFloat();
-	}
+	private static final XSDFloat instance = new XSDFloat();
+	private static final Logger log = Log.getLogger(XSDFloat.class);
 
 	public static XSDFloat getInstance()
 	{

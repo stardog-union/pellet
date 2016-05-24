@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.atlas.lib.NotImplemented;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Triple;
@@ -64,7 +65,7 @@ import org.mindswap.pellet.jena.PelletInfGraph;
  */
 class SparqlDLExecution implements QueryExecution
 {
-	public static Logger log = Logger.getLogger(SparqlDLExecution.class.getName());
+	public static Logger log = Log.getLogger(SparqlDLExecution.class);
 
 	private static enum QueryType
 	{

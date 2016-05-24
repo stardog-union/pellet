@@ -51,10 +51,10 @@ public class TransTreeTest
 		POTaxonomyBuilder builder = null;
 
 		// Parts for individuals
-		//builder = new POTaxonomyBuilder( kb, new PartIndividualsComparator( kb, p ) );
+		//builder = new POTaxonomyBuilder( _kb, new PartIndividualsComparator( _kb, p ) );
 
 		// Note: this is not an optimal solution
-		//for( ATermAppl _individual : kb.getIndividuals() )
+		//for( ATermAppl _individual : _kb.getIndividuals() )
 		//	if (!ATermUtils.isBnode( _individual ))
 		//		builder.classify( _individual );
 

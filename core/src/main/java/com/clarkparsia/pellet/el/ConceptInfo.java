@@ -11,6 +11,7 @@ import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.MultiValueMap;
 
@@ -32,7 +33,7 @@ import org.mindswap.pellet.utils.MultiValueMap;
  */
 class ConceptInfo
 {
-	public final static Logger logger = Logger.getLogger(ConceptInfo.class.getName());
+	public final static Logger logger = Log.getLogger(ConceptInfo.class);
 
 	private final ATermAppl concept;
 	private final Set<Trigger> triggers;
@@ -49,7 +50,7 @@ class ConceptInfo
 		superClasses = CollectionUtils.makeSet();
 
 		successors = storeSuccessors ? new MultiValueMap<>() : null;
-				predecessors = new MultiValueMap<>();
+		predecessors = new MultiValueMap<>();
 
 		triggers = noTriggers ? null : new HashSet<>();
 	}

@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 
@@ -38,38 +39,38 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
  */
 public class ExplanationTester
 {
-	private static final Logger log = Logger.getLogger(ExplanationTester.class.getName());
+	private static final Logger log = Log.getLogger(ExplanationTester.class);
 
-	private final SatisfiabilityConverter converter;
-	private final ConciseExplanationRenderer renderer;
-	private final ExplanationGenerator expGen;
+	private final SatisfiabilityConverter _converter;
+	private final ConciseExplanationRenderer _renderer;
+	private final ExplanationGenerator _expGen;
 
-	private int axiomCount = 0;
+	private int _axiomCount = 0;
 
 	public ExplanationTester(final ExplanationGenerator expGen)
 	{
-		this.expGen = expGen;
+		this._expGen = expGen;
 
-		converter = new SatisfiabilityConverter(OntologyUtils.getOWLOntologyManager().getOWLDataFactory());
-		renderer = new ConciseExplanationRenderer();
+		_converter = new SatisfiabilityConverter(OntologyUtils.getOWLOntologyManager().getOWLDataFactory());
+		_renderer = new ConciseExplanationRenderer();
 	}
 
-	public void testExplanations(final OWLAxiom axiom, final int max, final Set<Set<OWLAxiom>> expectedExplanations) throws Exception
+	public void testExplanations(final OWLAxiom axiom, final int max, final Set<Set<OWLAxiom>> expectedExplanations)
 	{
-		final OWLClassExpression unsatClass = converter.convert(axiom);
+		final OWLClassExpression unsatClass = _converter.convert(axiom);
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("Axiom " + (++axiomCount) + ": " + axiom + " Expecting " + expectedExplanations.size() + " explanations");
+			log.fine("Axiom " + (++_axiomCount) + ": " + axiom + " Expecting " + expectedExplanations.size() + " explanations");
 
-		final Set<Set<OWLAxiom>> generatedExplanations = expGen.getExplanations(unsatClass, max);
+		final Set<Set<OWLAxiom>> generatedExplanations = _expGen.getExplanations(unsatClass, max);
 		final Set<Set<OWLAxiom>> notFoundExplanations = new HashSet<>(expectedExplanations);
 
 		if (log.isLoggable(Level.FINER))
 		{
 			final StringWriter sw = new StringWriter();
-			renderer.startRendering(sw);
-			renderer.render(axiom, expectedExplanations);
-			renderer.endRendering();
+			_renderer.startRendering(sw);
+			_renderer.render(axiom, expectedExplanations);
+			_renderer.endRendering();
 			log.finer("Expected:\n" + sw);
 		}
 

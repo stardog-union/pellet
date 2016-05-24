@@ -13,6 +13,7 @@ import java.io.StringWriter;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.VersionInfo;
 
 /**
@@ -34,7 +35,7 @@ import org.mindswap.pellet.utils.VersionInfo;
  */
 public class Pellet
 {
-	public static final Logger logger = Logger.getLogger(Pellet.class.getName());
+	public static final Logger logger = Log.getLogger(Pellet.class);
 	public static final PelletExceptionFormatter exceptionFormatter = new PelletExceptionFormatter();
 
 	private static final Map<String, PelletCmdApp> COMMANDS = new TreeMap<>();

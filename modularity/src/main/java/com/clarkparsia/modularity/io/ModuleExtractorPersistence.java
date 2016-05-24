@@ -22,6 +22,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.MultiValueMap;
 import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -50,7 +52,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class ModuleExtractorPersistence
 {
 
-	public static final Logger log = Logger.getLogger(ModuleExtractorPersistence.class.getName());
+	public static final Logger log = Log.getLogger(ModuleExtractorPersistence.class);
 
 	/**
 	 * Saves the axioms from the ModuleExtractor in the form of an ontology containing these axioms.
@@ -142,7 +144,7 @@ public class ModuleExtractorPersistence
 	 * @param outputStream the output stream where the _data should be saved
 	 * @throws IOException if an error should occur during the save process
 	 */
-	public static void saveModules(final MultiValueMap<OWLEntity, OWLEntity> modules, final OutputStream outputStream) throws IOException
+	public static void saveModules(final MultiValueMap<OWLEntity, OWLEntity> modules, final OutputStream outputStream)
 	{
 		final PrintWriter pw = new PrintWriter(outputStream);
 
@@ -182,9 +184,15 @@ public class ModuleExtractorPersistence
 	 * @return the collection of axioms read from the ontology
 	 * @throws IOException if an error should occur during the read operation
 	 */
+	@Deprecated
 	public static Collection<OWLAxiom> loadAxioms(final InputStream inputStream) throws IOException
 	{
 		return loadAxiomOntology(inputStream).getAxioms();
+	}
+
+	public static Stream<OWLAxiom> load_axioms(final InputStream inputStream) throws IOException
+	{
+		return loadAxiomOntology(inputStream).axioms();
 	}
 
 	private static OWLEntity createEntity(final String type, final String entityIRI)

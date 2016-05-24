@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
@@ -39,7 +40,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class UnfoldingRule extends AbstractTableauRule
 {
-	public final static Logger _log = Logger.getLogger(UnfoldingRule.class.getName());
+	public final static Logger _log = Log.getLogger(UnfoldingRule.class);
 
 	public UnfoldingRule(final CompletionStrategy strategy)
 	{

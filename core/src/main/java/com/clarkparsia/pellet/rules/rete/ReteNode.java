@@ -10,13 +10,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * @author Evren Sirin
  */
 public abstract class ReteNode
 {
-	public final static Logger _log = Logger.getLogger(ReteNode.class.getName());
+	public final static Logger _log = Log.getLogger(ReteNode.class);
 
 	private final List<BetaNode> _children = new Vector<>();
 

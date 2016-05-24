@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -50,23 +51,23 @@ import org.mindswap.pellet.utils.VersionInfo;
 
 public class ManifestEngine
 {
-	private static final Logger log = Logger.getLogger(ManifestEngine.class.getName());
+	private static final Logger _log = Log.getLogger(ManifestEngine.class);
 
 	// MANIFESTS
-	private final String manifest;
+	private final String _manifest;
 
 	// SINGLE TEST EXECUTOR
-	private ManifestEngineProcessor singleTestExecutor;
+	private ManifestEngineProcessor _singleTestExecutor;
 
 	// RESULTS
-	private final List<SingleTestResult> results = new ArrayList<>();
+	private final List<SingleTestResult> _results = new ArrayList<>();
 
-	private boolean writeResults = false;
+	private boolean _writeResults = false;
 
 	public ManifestEngine(final SparqlDawgTester tester, final String manifest)
 	{
-		this.manifest = manifest;
-		this.singleTestExecutor = new ManifestEngineProcessor()
+		this._manifest = manifest;
+		this._singleTestExecutor = new ManifestEngineProcessor()
 		{
 			/**
 			 * {@inheritDoc}
@@ -74,7 +75,7 @@ public class ManifestEngine
 			@Override
 			public void manifestStarted(final String manifestURI)
 			{
-				log.fine("START _manifest: " + manifestURI);
+				_log.fine("START _manifest: " + manifestURI);
 			}
 
 			/**
@@ -83,7 +84,7 @@ public class ManifestEngine
 			@Override
 			public void test(final Resource test)
 			{
-				results.add(doSingleTest(tester, test));
+				_results.add(doSingleTest(tester, test));
 			}
 
 			/**
@@ -92,19 +93,19 @@ public class ManifestEngine
 			@Override
 			public void manifestFinished(final String manifestURI)
 			{
-				log.fine("FINISH _manifest: " + manifestURI);
+				_log.fine("FINISH _manifest: " + manifestURI);
 			}
 		};
 	}
 
 	public void setProcessor(final ManifestEngineProcessor processor)
 	{
-		this.singleTestExecutor = processor;
+		this._singleTestExecutor = processor;
 	}
 
 	public ManifestEngineProcessor setProcessor()
 	{
-		return singleTestExecutor;
+		return _singleTestExecutor;
 	}
 
 	public void run()
@@ -118,7 +119,7 @@ public class ManifestEngine
 
 	private void writeEarlResults()
 	{
-		if (!writeResults)
+		if (!_writeResults)
 			return;
 
 		final Model model = ModelFactory.createDefaultModel();
@@ -141,7 +142,7 @@ public class ManifestEngine
 		model.add(release, EarlResultVocabulary.revision, VersionInfo.getInstance().getVersionString());
 		model.add(project, EarlResultVocabulary.release, release);
 
-		for (final SingleTestResult result : results)
+		for (final SingleTestResult result : _results)
 		{
 			final Resource assertion = model.createResource(EARL.Assertion);
 			model.add(assertion, EARL.assertedBy, organization);
@@ -177,24 +178,24 @@ public class ManifestEngine
 		}
 		catch (final IOException e)
 		{
-			log.log(Level.SEVERE, e.getMessage(), e);
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
 	private void doTests()
 	{
-		results.clear();
+		_results.clear();
 
 		try
 		{
-			final String base = new URI(manifest).getPath();
+			final String base = new URI(_manifest).getPath();
 			FileManager.get().addLocator(new LocatorFile(base));
 		}
 		catch (final URISyntaxException e)
 		{
 			e.printStackTrace();
 		}
-		_doTest(manifest);
+		_doTest(_manifest);
 
 		printStatistics();
 	}
@@ -209,19 +210,19 @@ public class ManifestEngine
 		Arrays.fill(a, '=');
 		final String separator = new String(a);
 
-		log.fine(separator);
-		log.fine(String.format(format, "name", "result", "time [ms]"));
-		log.fine(separator);
+		_log.fine(separator);
+		_log.fine(String.format(format, "name", "result", "time [ms]"));
+		_log.fine(separator);
 
-		for (final SingleTestResult test : results)
-			log.log(Level.FINE, String.format(format, test.getUri().getFragment(), test.getResult(), test.getTime()));
-		log.fine(separator);
+		for (final SingleTestResult test : _results)
+			_log.log(Level.FINE, String.format(format, test.getUri().getFragment(), test.getResult(), test.getTime()));
+		_log.fine(separator);
 	}
 
 	private void _doTest(final String manifestURI)
 	{
-		log.fine("Processing _manifest : " + manifestURI + "'.");
-		singleTestExecutor.manifestStarted(manifestURI);
+		_log.fine("Processing _manifest : " + manifestURI + "'.");
+		_singleTestExecutor.manifestStarted(manifestURI);
 		try
 		{
 			final Model model = ModelFactory.createDefaultModel();
@@ -256,15 +257,15 @@ public class ManifestEngine
 					final List<Resource> set = parseList(singleTests.getResource());
 
 					for (final Resource singleTest : set)
-						singleTestExecutor.test(singleTest);
+						_singleTestExecutor.test(singleTest);
 				}
 
-				singleTestExecutor.manifestFinished(manifestURI);
+				_singleTestExecutor.manifestFinished(manifestURI);
 			}
 		}
 		catch (final Exception e)
 		{
-			log.log(Level.SEVERE, e.getMessage(), e);
+			_log.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -279,18 +280,18 @@ public class ManifestEngine
 		else
 			testApprovalStatus = SparqlDawgTestVocabulary.NotClassified;
 
-		log.fine("Test : " + singleTest);
-		log.fine("Type : " + testType.getLocalName() + " ");
-		log.finer("Name : " + singleTest.getProperty(SparqlDawgTestVocabulary.name).getString());
-		log.finer("Appr.: " + testApprovalStatus.getLocalName());
-		log.finer("Tester: " + tester.getClass().getName());
+		_log.fine("Test : " + singleTest);
+		_log.fine("Type : " + testType.getLocalName() + " ");
+		_log.finer("Name : " + singleTest.getProperty(SparqlDawgTestVocabulary.name).getString());
+		_log.finer("Appr.: " + testApprovalStatus.getLocalName());
+		_log.finer("Tester: " + tester.getClass().getName());
 
 		final SingleTestResult result = doTestCase(tester, singleTest, testType);
 
-		log.finer("");
-		log.fine("Result: " + result.getResult());
-		log.fine("Time Elapsed: " + result.getTime());
-		log.fine("--------------------------------------------------------------------");
+		_log.finer("");
+		_log.fine("Result: " + result.getResult());
+		_log.fine("Time Elapsed: " + result.getTime());
+		_log.fine("--------------------------------------------------------------------");
 
 		return result;
 	}
@@ -325,9 +326,9 @@ public class ManifestEngine
 			else
 			{
 				if (parsable)
-					log.log(Level.SEVERE, "Fail: The input should be parsable, but parsing fails.");
+					_log.log(Level.SEVERE, "Fail: The input should be parsable, but parsing fails.");
 				else
-					log.log(Level.SEVERE, "Fail: The input should not be parsable, but parsing is succesful.");
+					_log.log(Level.SEVERE, "Fail: The input should not be parsable, but parsing is succesful.");
 				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, time);
 			}
 		}
@@ -392,18 +393,18 @@ public class ManifestEngine
 					return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.PASS, time);
 				else
 				{
-					log.severe("Fail: Evaluation of the query is not correct.");
+					_log.severe("Fail: Evaluation of the query is not correct.");
 					return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, time);
 				}
 			}
 			catch (final UnsupportedFeatureException e)
 			{
-				log.log(Level.SEVERE, e.getMessage(), e);
+				_log.log(Level.SEVERE, e.getMessage(), e);
 				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.SKIP, System.currentTimeMillis() - startPoint);
 			}
 			catch (final Exception e)
 			{
-				log.log(Level.SEVERE, e.getMessage(), e);
+				_log.log(Level.SEVERE, e.getMessage(), e);
 				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, System.currentTimeMillis() - startPoint);
 			}
 
@@ -428,11 +429,11 @@ public class ManifestEngine
 
 	public boolean isWriteResults()
 	{
-		return writeResults;
+		return _writeResults;
 	}
 
 	public void setWriteResults(final boolean writeResults)
 	{
-		this.writeResults = writeResults;
+		this._writeResults = writeResults;
 	}
 }

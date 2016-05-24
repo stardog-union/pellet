@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -28,7 +29,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
 public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 {
 
-	public static final Logger log = Logger.getLogger(GraphBasedModuleExtractor.class.getName());
+	public static final Logger log = Log.getLogger(GraphBasedModuleExtractor.class);
 
 	public GraphBasedModuleExtractor()
 	{

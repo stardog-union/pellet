@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFReaderF;
@@ -54,7 +55,7 @@ import org.mindswap.pellet.utils.Timers;
  */
 public abstract class PelletCmdApp
 {
-	public static final Logger logger = Logger.getLogger(PelletCmdApp.class.getName());
+	public static final Logger logger = Log.getLogger(PelletCmdApp.class);
 	private final static String LINE_BREAK = System.getProperty("line.separator");
 	private final static RDFReaderF READER_FACTORY = ModelFactory.createDefaultModel();
 

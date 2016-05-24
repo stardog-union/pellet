@@ -435,7 +435,7 @@ public class TracingTests extends AbstractKBTests
 		kb.addIndividual(victor);
 		kb.addType(victor, notPerson);
 
-		// kb.addPropertyValue(relative, robert, victor);
+		// _kb.addPropertyValue(relative, robert, victor);
 
 		assertFalse(kb.isConsistent());
 		final Set<ATermAppl> explanation = kb.getExplanationSet();
@@ -544,7 +544,7 @@ public class TracingTests extends AbstractKBTests
 		kb.addIndividual(robert);
 		kb.addIndividual(mary);
 		kb.addIndividual(victor);
-		// kb.addAllDifferent(different);
+		// _kb.addAllDifferent(different);
 
 		// ATermAppl oneSibling = ATermUtils.makeMax(sibling, 1,
 		// ATermUtils.TOP);

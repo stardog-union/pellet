@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -86,7 +87,7 @@ import org.semanticweb.owlapi.model.SWRLRule;
  */
 public class EntailmentChecker implements OWLAxiomVisitor
 {
-	public static Logger log = Logger.getLogger(EntailmentChecker.class.getName());
+	public static Logger log = Log.getLogger(EntailmentChecker.class);
 
 	public static final Set<AxiomType<?>> UNSUPPORTED_ENTAILMENT = Collections.unmodifiableSet(new HashSet<>(Arrays.<AxiomType<?>> asList(AxiomType.DISJOINT_UNION, AxiomType.DATATYPE_DEFINITION, AxiomType.HAS_KEY, AxiomType.SUB_PROPERTY_CHAIN_OF, AxiomType.SWRL_RULE)));
 

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 
@@ -30,14 +31,8 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDInteger implements Datatype<Number>
 {
 
-	private static final XSDInteger instance;
-	private static final Logger log;
-	static
-	{
-		log = Logger.getLogger(XSDInteger.class.getCanonicalName());
-
-		instance = new XSDInteger();
-	}
+	private static final XSDInteger instance = new XSDInteger();
+	private static final Logger log = Log.getLogger(XSDInteger.class);
 
 	public static XSDInteger getInstance()
 	{

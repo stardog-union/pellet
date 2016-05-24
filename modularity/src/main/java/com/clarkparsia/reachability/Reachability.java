@@ -12,6 +12,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * Computes reachability in a directed graph with and/or _nodes.
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
 public class Reachability<E>
 {
 
-	public static final Logger log = Logger.getLogger(Reachability.class.getName());
+	public static final Logger log = Log.getLogger(Reachability.class);
 
 	private final ReachabilityGraph<E> graph;
 

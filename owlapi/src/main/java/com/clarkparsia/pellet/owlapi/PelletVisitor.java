@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.Role;
@@ -162,7 +163,7 @@ import org.semanticweb.owlapi.model.SWRLVariable;
  */
 public class PelletVisitor implements OWLObjectVisitor
 {
-	public static Logger _log = Logger.getLogger(PelletVisitor.class.getName());
+	public static Logger _log = Log.getLogger(PelletVisitor.class);
 
 	private final KnowledgeBase _kb;
 

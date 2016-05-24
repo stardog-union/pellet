@@ -18,6 +18,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.taxonomy.CDOptimizedTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.POTaxonomyBuilder;
@@ -46,7 +47,7 @@ import org.mindswap.pellet.utils.Timers;
  */
 public class ELClassifier extends CDOptimizedTaxonomyBuilder
 {
-	public static final Logger logger = Logger.getLogger(ELClassifier.class.getName());
+	public static final Logger logger = Log.getLogger(ELClassifier.class);
 
 	public final Timers timers = new Timers();
 

@@ -57,6 +57,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
@@ -77,7 +78,7 @@ import org.mindswap.pellet.utils.iterator.MultiListIterator;
  */
 public class TBoxImpl implements TBox
 {
-	public static final Logger _log = Logger.getLogger(TBoxImpl.class.getName());
+	public static final Logger _log = Log.getLogger(TBoxImpl.class);
 
 	protected static final Map<ATermAppl, String> FACETS;
 	static

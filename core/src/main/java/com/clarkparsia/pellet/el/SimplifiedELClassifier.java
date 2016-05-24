@@ -22,6 +22,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.taxonomy.CDOptimizedTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.Taxonomy;
@@ -50,7 +51,7 @@ import org.mindswap.pellet.utils.Timers;
 @SuppressWarnings("unused")
 public class SimplifiedELClassifier extends CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 {
-	public static final Logger _logger = Logger.getLogger(SimplifiedELClassifier.class.getName());
+	public static final Logger _logger = Log.getLogger(SimplifiedELClassifier.class);
 
 	private static class QueueElement
 	{

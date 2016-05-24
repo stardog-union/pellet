@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.utils.Pair;
 import org.mindswap.pellet.utils.SetUtils;
@@ -66,7 +67,7 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 		PelletOptions.USE_TRACING = true;
 	}
 
-	public static final Logger log = Logger.getLogger(GlassBoxExplanation.class.getName());
+	public static final Logger log = Log.getLogger(GlassBoxExplanation.class);
 
 	/**
 	 * Alternative reasoner. We use a second reasoner because we do not want to lose the state in the original reasoner.
@@ -260,7 +261,7 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 	{
 		pellet.getKB().setDoExplanation(doExplanation);
 		final boolean sat = unsatClass.isOWLThing() ? pellet.isConsistent() : pellet.isSatisfiable(unsatClass);
-				pellet.getKB().setDoExplanation(false);
+		pellet.getKB().setDoExplanation(false);
 
 		return sat;
 	}

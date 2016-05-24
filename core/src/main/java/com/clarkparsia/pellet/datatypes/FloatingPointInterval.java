@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -68,7 +69,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	}
 
-	private static final Logger _log = Logger.getLogger(FloatingPointInterval.class.getCanonicalName());
+	private static final Logger _log = Log.getLogger(FloatingPointInterval.class);
 
 	public static <U extends Number & Comparable<U>> FloatingPointInterval<U> unconstrained(final FloatingPointType<U> type)
 	{

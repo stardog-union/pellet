@@ -16,12 +16,13 @@ import java.util.List;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.SetUtils;
 
 /**
  * <p>
- * Title: Query Plan that recomputes the cost of the query in a greedy way.
+ * Title: Query Plan that recomputes the _cost of the query in a greedy way.
  * </p>
  * <p>
  * Description: TODO _cache costs - not to recompute them
@@ -38,15 +39,15 @@ import org.mindswap.pellet.utils.SetUtils;
 public class IncrementalQueryPlan extends QueryPlan
 {
 
-	private static final Logger log = Logger.getLogger(IncrementalQueryPlan.class.getName());
+	private static final Logger log = Log.getLogger(IncrementalQueryPlan.class);
 
-	public final Stack<Integer> explored;
+	public final Stack<Integer> _explored;
 
-	private final List<QueryAtom> atoms;
+	private final List<QueryAtom> _atoms;
 
-	private final int size;
+	private final int _size;
 
-	private final QueryCost cost;
+	private final QueryCost _cost;
 
 	public IncrementalQueryPlan(final Query query)
 	{
@@ -54,13 +55,13 @@ public class IncrementalQueryPlan extends QueryPlan
 
 		QuerySizeEstimator.computeSizeEstimate(query);
 
-		explored = new Stack<>();
+		_explored = new Stack<>();
 
-		atoms = query.getAtoms();
+		_atoms = query.getAtoms();
 
-		size = atoms.size();
+		_size = _atoms.size();
 
-		cost = new QueryCost(query.getKB());
+		_cost = new QueryCost(query.getKB());
 
 		reset();
 	}
@@ -72,19 +73,19 @@ public class IncrementalQueryPlan extends QueryPlan
 		QueryAtom bestAtom = null;
 		double bestCost = Double.POSITIVE_INFINITY;
 
-		LOOP: for (int i = 0; i < size; i++)
-			if (!explored.contains(i))
+		LOOP: for (int i = 0; i < _size; i++)
+			if (!_explored.contains(i))
 			{
-				final QueryAtom atom = atoms.get(i);
+				final QueryAtom atom = _atoms.get(i);
 				final QueryAtom atom2 = atom.apply(binding);
 
 				if (atom2.getPredicate().equals(QueryPredicate.NotKnown) && !atom2.isGround())
-					for (int j = 0; j < atoms.size(); j++)
+					for (int j = 0; j < _atoms.size(); j++)
 					{
-						if (i == j || explored.contains(j))
+						if (i == j || _explored.contains(j))
 							continue;
 
-						final QueryAtom nextAtom = atoms.get(j);
+						final QueryAtom nextAtom = _atoms.get(j);
 						if (SetUtils.intersects(nextAtom.getArguments(), atom2.getArguments()))
 						{
 							if (log.isLoggable(Level.FINE))
@@ -93,10 +94,10 @@ public class IncrementalQueryPlan extends QueryPlan
 						}
 					}
 
-				final double atomCost = cost.estimate(atom2);
+				final double atomCost = _cost.estimate(atom2);
 
 				if (log.isLoggable(Level.FINER))
-					log.finer("Atom=" + atom + ", cost=" + cost + ", best cost=" + bestCost);
+					log.finer("Atom=" + atom + ", _cost=" + _cost + ", best _cost=" + bestCost);
 				if (atomCost <= bestCost)
 				{
 					bestCost = atomCost;
@@ -106,14 +107,14 @@ public class IncrementalQueryPlan extends QueryPlan
 			}
 
 		if (best == -1)
-			throw new InternalReasonerException("Cannot find a valid atom in " + atoms + " where explored=" + explored);
+			throw new InternalReasonerException("Cannot find a valid atom in " + _atoms + " where _explored=" + _explored);
 
-		explored.add(best);
+		_explored.add(best);
 
 		if (log.isLoggable(Level.FINER))
 		{
 			final StringBuffer indent = new StringBuffer();
-			for (int j = 0; j < explored.size(); j++)
+			for (int j = 0; j < _explored.size(); j++)
 				indent.append(" ");
 			final String treePrint = indent.toString() + bestAtom + " : " + bestCost;
 
@@ -126,18 +127,18 @@ public class IncrementalQueryPlan extends QueryPlan
 	@Override
 	public boolean hasNext()
 	{
-		return explored.size() < size;
+		return _explored.size() < _size;
 	}
 
 	@Override
 	public void back()
 	{
-		explored.pop();
+		_explored.pop();
 	}
 
 	@Override
 	public void reset()
 	{
-		explored.clear();
+		_explored.clear();
 	}
 }

@@ -32,6 +32,7 @@ package org.mindswap.pellet.tableau.completion.queue;
 
 import aterm.ATermAppl;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.Node;
@@ -55,7 +56,7 @@ import org.mindswap.pellet.Node;
 public abstract class CompletionQueue extends IndividualIterator
 {
 
-	public final static Logger log = Logger.getLogger(CompletionQueue.class.getName());
+	public final static Logger log = Log.getLogger(CompletionQueue.class);
 
 	/**
 	 * Pointer to the _abox

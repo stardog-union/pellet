@@ -9,7 +9,7 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-
+import net.katk.tools.Log;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -21,65 +21,57 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  * Title: Abstract Entailment Test Case
  * </p>
  * <p>
- * Description: Common base implementation shared by positive and negative
- * entailment tests
+ * Description: Common base implementation shared by positive and negative entailment tests
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a
- * href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public abstract class AbstractEntailmentTest<O> extends AbstractPremisedTest<O> implements
-		EntailmentTest<O> {
+public abstract class AbstractEntailmentTest<O> extends AbstractPremisedTest<O> implements EntailmentTest<O>
+{
+	private static final Logger log = Log.getLogger(AbstractEntailmentTest.class);
 
-	private static final Logger							log;
+	private final EnumSet<SerializationFormat> conclusionFormats;
+	private final EnumMap<SerializationFormat, String> conclusionOntologyLiteral;
 
-	static {
-		log = Logger.getLogger( AbstractEntailmentTest.class.getCanonicalName() );
-	}
+	public AbstractEntailmentTest(final OWLOntology ontology, final OWLNamedIndividual i, final boolean positive)
+	{
+		super(ontology, i);
 
-	private final EnumSet<SerializationFormat>			conclusionFormats;
-	private final EnumMap<SerializationFormat, String>	conclusionOntologyLiteral;
+		conclusionFormats = EnumSet.noneOf(SerializationFormat.class);
+		conclusionOntologyLiteral = new EnumMap<>(SerializationFormat.class);
 
-	public AbstractEntailmentTest(OWLOntology ontology, OWLNamedIndividual i, boolean positive) {
-		super( ontology, i );
+		final Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher.getDataPropertyValues(i, ontology).asMap();
 
-		conclusionFormats = EnumSet.noneOf( SerializationFormat.class );
-		conclusionOntologyLiteral = new EnumMap<>(
-				SerializationFormat.class );
-
-        Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher
-                .getDataPropertyValues(i, ontology).asMap();
-
-		for( SerializationFormat f : SerializationFormat.values() ) {
-            Collection<OWLLiteral> conclusions = values.get(positive
-				? f.getConclusionOWLDataProperty()
-				: f.getNonConclusionOWLDataProperty() );
-			if( conclusions != null ) {
-				if( conclusions.size() > 1 ) {
-					log
-							.warning( format(
-									"Multiple conclusion ontologies found for testcase (%s) with serialization format (%s).  Choosing arbitrarily.",
-									getIdentifier(), f ) );
+		for (final SerializationFormat f : SerializationFormat.values())
+		{
+			final Collection<OWLLiteral> conclusions = values.get(positive ? f.getConclusionOWLDataProperty() : f.getNonConclusionOWLDataProperty());
+			if (conclusions != null)
+			{
+				if (conclusions.size() > 1)
+				{
+					log.warning(format("Multiple conclusion ontologies found for testcase (%s) with serialization format (%s).  Choosing arbitrarily.", getIdentifier(), f));
 				}
-				conclusionOntologyLiteral.put( f, conclusions.iterator().next().getLiteral() );
-				conclusionFormats.add( f );
+				conclusionOntologyLiteral.put(f, conclusions.iterator().next().getLiteral());
+				conclusionFormats.add(f);
 			}
 		}
 	}
 
 	@Override
-    public Set<SerializationFormat> getConclusionFormats() {
-		return Collections.unmodifiableSet( conclusionFormats );
+	public Set<SerializationFormat> getConclusionFormats()
+	{
+		return Collections.unmodifiableSet(conclusionFormats);
 	}
 
 	@Override
-    public String getConclusionOntology(SerializationFormat format) {
-		return conclusionOntologyLiteral.get( format );
+	public String getConclusionOntology(SerializationFormat format)
+	{
+		return conclusionOntologyLiteral.get(format);
 	}
 }

@@ -31,6 +31,7 @@
 package org.mindswap.pellet.jena;
 
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.graph.Capabilities;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.rdf.model.InfModel;
@@ -50,15 +51,15 @@ import org.mindswap.pellet.jena.graph.loader.DefaultGraphLoader;
  */
 public class PelletReasoner implements Reasoner
 {
-	protected static Logger log = Logger.getLogger(PelletReasoner.class.getName());
+	protected static Logger log = Log.getLogger(PelletReasoner.class);
 
-	private final Model reasonerCapabilities;
+	private final Model _reasonerCapabilities;
 
-	private final Capabilities graphCapabilities;
+	private final Capabilities _graphCapabilities;
 
-	private final Graph schema;
+	private final Graph _schema;
 
-	private boolean fixedSchema;
+	private boolean _fixedSchema;
 
 	public PelletReasoner()
 	{
@@ -77,31 +78,31 @@ public class PelletReasoner implements Reasoner
 
 	protected PelletReasoner(final Graph schema, final Model reasonerCapabilities)
 	{
-		this.schema = schema;
-		this.reasonerCapabilities = reasonerCapabilities;
+		this._schema = schema;
+		this._reasonerCapabilities = reasonerCapabilities;
 
-		graphCapabilities = new InfFindSafeCapabilities();
+		_graphCapabilities = new InfFindSafeCapabilities();
 	}
 
 	public Graph getSchema()
 	{
-		return schema;
+		return _schema;
 	}
 
 	public boolean isFixedSchema()
 	{
-		return fixedSchema;
+		return _fixedSchema;
 	}
 
 	public void setFixedSchema(final boolean fixedSchema)
 	{
-		this.fixedSchema = fixedSchema;
+		this._fixedSchema = fixedSchema;
 	}
 
 	@Override
 	public Reasoner bindSchema(final Graph graph) throws ReasonerException
 	{
-		return new PelletReasoner(graph, reasonerCapabilities);
+		return new PelletReasoner(graph, _reasonerCapabilities);
 	}
 
 	@Override
@@ -112,14 +113,14 @@ public class PelletReasoner implements Reasoner
 
 	public Reasoner bindFixedSchema(final Graph graph) throws ReasonerException
 	{
-		final PelletReasoner reasoner = new PelletReasoner(graph, reasonerCapabilities);
+		final PelletReasoner reasoner = new PelletReasoner(graph, _reasonerCapabilities);
 		reasoner.setFixedSchema(true);
 		return reasoner;
 	}
 
 	public Reasoner bindFixedSchema(final Model model) throws ReasonerException
 	{
-		final PelletReasoner reasoner = new PelletReasoner(model.getGraph(), reasonerCapabilities);
+		final PelletReasoner reasoner = new PelletReasoner(model.getGraph(), _reasonerCapabilities);
 		reasoner.setFixedSchema(true);
 		return reasoner;
 	}
@@ -145,28 +146,31 @@ public class PelletReasoner implements Reasoner
 	@Override
 	public void setDerivationLogging(final boolean enable)
 	{
+		// non sens
 	}
 
 	@Override
 	public void setParameter(final Property arg0, final Object arg1)
 	{
+		// non sens
 	}
 
 	@Override
 	public Model getReasonerCapabilities()
 	{
-		return reasonerCapabilities;
+		return _reasonerCapabilities;
 	}
 
 	@Override
 	public Capabilities getGraphCapabilities()
 	{
-		return graphCapabilities;
+		return _graphCapabilities;
 	}
 
 	@Override
 	public void addDescription(final Model arg0, final Resource arg1)
 	{
+		// non sens
 	}
 
 	@Override

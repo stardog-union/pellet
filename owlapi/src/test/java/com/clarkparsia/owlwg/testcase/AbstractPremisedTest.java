@@ -9,7 +9,7 @@ import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
-
+import net.katk.tools.Log;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -21,70 +21,66 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  * Title: Abstract Premised Test Case
  * </p>
  * <p>
- * Description: Common base implementation shared by consistency, positive
- * entailment, and negative entailment tests.
+ * Description: Common base implementation shared by consistency, positive entailment, and negative entailment tests.
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a
- * href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public abstract class AbstractPremisedTest<O> extends AbstractBaseTestCase<O> implements
-		PremisedTest<O> {
+public abstract class AbstractPremisedTest<O> extends AbstractBaseTestCase<O> implements PremisedTest<O>
+{
 
-	private static final Logger							log;
-	static {
-		log = Logger.getLogger( AbstractPremisedTest.class.getCanonicalName() );
-	}
+	private static final Logger log = Log.getLogger(AbstractPremisedTest.class);
 
-	private final EnumSet<SerializationFormat>			premiseFormats;
-	private final EnumMap<SerializationFormat, String>	premiseOntologyLiteral;
+	private final EnumSet<SerializationFormat> premiseFormats;
+	private final EnumMap<SerializationFormat, String> premiseOntologyLiteral;
 
-	public AbstractPremisedTest(OWLOntology ontology, OWLNamedIndividual i) {
-		super( ontology, i );
+	public AbstractPremisedTest(OWLOntology ontology, OWLNamedIndividual i)
+	{
+		super(ontology, i);
 
-		premiseFormats = EnumSet.noneOf( SerializationFormat.class );
-		premiseOntologyLiteral = new EnumMap<>(
-				SerializationFormat.class );
+		premiseFormats = EnumSet.noneOf(SerializationFormat.class);
+		premiseOntologyLiteral = new EnumMap<>(SerializationFormat.class);
 
-        Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher
-                .getDataPropertyValues(i, ontology).asMap();
+		final Map<OWLDataPropertyExpression, Collection<OWLLiteral>> values = EntitySearcher.getDataPropertyValues(i, ontology).asMap();
 
-		for( SerializationFormat f : SerializationFormat.values() ) {
-            Collection<OWLLiteral> premises = values.get(f
-                    .getPremiseOWLDataProperty());
-			if( premises != null ) {
-				if( premises.size() > 1 ) {
-					log
-							.warning( format(
-									"Multiple premise ontologies found for testcase (%s) with serialization format (%s).  Choosing arbitrarily.",
-									getIdentifier(), f ) );
+		for (final SerializationFormat f : SerializationFormat.values())
+		{
+			final Collection<OWLLiteral> premises = values.get(f.getPremiseOWLDataProperty());
+			if (premises != null)
+			{
+				if (premises.size() > 1)
+				{
+					log.warning(format("Multiple premise ontologies found for testcase (%s) with serialization format (%s).  Choosing arbitrarily.", getIdentifier(), f));
 				}
-				premiseOntologyLiteral.put( f, premises.iterator().next().getLiteral() );
-				premiseFormats.add( f );
+				premiseOntologyLiteral.put(f, premises.iterator().next().getLiteral());
+				premiseFormats.add(f);
 			}
 		}
 	}
 
 	@Override
-    public void dispose() {
+	public void dispose()
+	{
 		premiseFormats.clear();
 		premiseOntologyLiteral.clear();
 		super.dispose();
 	}
-	
+
 	@Override
-    public Set<SerializationFormat> getPremiseFormats() {
-		return Collections.unmodifiableSet( premiseFormats );
+	public Set<SerializationFormat> getPremiseFormats()
+	{
+		return Collections.unmodifiableSet(premiseFormats);
 	}
 
 	@Override
-    public String getPremiseOntology(SerializationFormat format) {
-		return premiseOntologyLiteral.get( format );
+	public String getPremiseOntology(SerializationFormat format)
+	{
+		return premiseOntologyLiteral.get(format);
 	}
 }

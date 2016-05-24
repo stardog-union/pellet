@@ -48,6 +48,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.WindowConstants;
+import net.katk.tools.Log;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -65,7 +66,7 @@ import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
 
 public class WebOntTest
 {
-	public static Logger _log = Logger.getLogger(WebOntTest.class.getName());
+	public static Logger _log = Log.getLogger(WebOntTest.class);
 
 	// each test case should be handled in _timeout seconds
 	// or otherwise is assumed to fail that test case
@@ -98,8 +99,8 @@ public class WebOntTest
 	public boolean _avoidFailTests = false;
 	/**
 	 * Pellet is known to fail the following test cases either because they are not in OWL DL or they are extremely hard, e.g. more than 100 GCI's, or a very
-	 * large number restriction. Such cases are not very realistic and it is not considered to be a problem to fail those test cases. But if Pellet fails on
-	 * one of the other test cases then it indicates a problem.
+	 * large number restriction. Such cases are not very realistic and it is not considered to be a problem to fail those test cases. But if Pellet fails on one
+	 * of the other test cases then it indicates a problem.
 	 */
 	final static List<Resource> AVOID = Arrays.asList(new Resource[] { ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Class/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/DatatypeProperty/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest661#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest662#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest663#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest664#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest903#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest905#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest906#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest907#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest908#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest909#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest910#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/disjointWith/Manifest010#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentClass/Manifest008#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentProperty/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest004#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.1/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.24/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest007#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest014#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest015#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest004#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest007#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest012#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest017#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest202#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest205#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest302#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Ontology/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/sameAs/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Thing/Manifest005#test") });
 
@@ -129,7 +130,7 @@ public class WebOntTest
 	int MAX_TEST_COUNT = Integer.MAX_VALUE;
 
 	WebOntTester[] _testers = {
-			/** new JenaWebOntTester(), new OWLAPIWebOntTester() */
+	/** new JenaWebOntTester(), new OWLAPIWebOntTester() */
 	};
 
 	public final static void main(final String[] args)
@@ -218,22 +219,22 @@ public class WebOntTest
 						if (!manifestFile.startsWith("http://"))
 							manifestFile = "http://www.w3.org/2002/03owlt/" + manifestFile;
 					}
-			// else if(_arg.equals("-_base")) {
-			// setBase( args[++i] );
-			// }
+					// else if(_arg.equals("-_base")) {
+					// setBase( args[++i] );
+					// }
 					else
 						if (arg.equals("-validate"))
 							PelletOptions.VALIDATE_ABOX = true;
 						else
 							if (arg.equals("-n"))
 								try
-								{
+			{
 									MAX_TEST_COUNT = Integer.parseInt(args[++i]);
-								}
-								catch (final Exception e)
-								{
-									System.err.println(e);
-								}
+			}
+			catch (final Exception e)
+			{
+				System.err.println(e);
+			}
 							else
 								if (arg.startsWith("-_stats"))
 								{
@@ -673,8 +674,9 @@ public class WebOntTest
 	/**
 	 * Given a filename converts it to file path on local machine if use_cache option is set. This is used when testing is done without network connection
 	 */
-	String getFileName(String fileName)
+	String getFileName(final String fileNameParam)
 	{
+		String fileName = fileNameParam;
 		if (_newBase != null)
 			fileName = fileName.replaceFirst(_base, _newBase);
 
@@ -682,7 +684,6 @@ public class WebOntTest
 			fileName += ".rdf";
 
 		return fileName;
-
 	}
 
 	int doConsistencyTest(final Resource testCase, final boolean isConsistent)

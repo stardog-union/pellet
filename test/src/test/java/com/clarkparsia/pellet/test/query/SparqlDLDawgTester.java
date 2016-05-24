@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
@@ -62,30 +63,30 @@ import org.mindswap.pellet.utils.Timer;
 public class SparqlDLDawgTester implements SparqlDawgTester
 {
 
-	private static final Logger log = Logger.getLogger(SparqlDLDawgTester.class.getName());
+	private static final Logger log = Log.getLogger(SparqlDLDawgTester.class);
 
-	private String queryURI = "";
+	private String _queryURI = "";
 
-	private Set<String> graphURIs = new HashSet<>();
+	private Set<String> _graphURIs = new HashSet<>();
 
-	private Set<String> namedGraphURIs = new HashSet<>();
+	private Set<String> _namedGraphURIs = new HashSet<>();
 
-	private OntModel model = null;
+	private OntModel _model = null;
 
-	private Query query = null;
+	private Query _query = null;
 
-	private String resultURI = null;
+	private String _resultURI = null;
 
-	private final boolean allOrderings;
+	private final boolean _allOrderings;
 
-	private final boolean writeResults = true;
+	private final boolean _writeResults = true;
 
-	private boolean noCheck;
+	private boolean _noCheck;
 
 	public SparqlDLDawgTester(final boolean allOrderings, final boolean noCheck)
 	{
-		this.allOrderings = allOrderings;
-		this.noCheck = noCheck;
+		this._allOrderings = allOrderings;
+		this._noCheck = noCheck;
 	}
 
 	/**
@@ -94,20 +95,20 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 	@Override
 	public void setDatasetURIs(final Set<String> graphURIs, final Set<String> namedGraphURIs)
 	{
-		if (this.graphURIs.equals(graphURIs) && this.namedGraphURIs.equals(namedGraphURIs))
+		if (this._graphURIs.equals(graphURIs) && this._namedGraphURIs.equals(namedGraphURIs))
 			return;
 
-		this.graphURIs = graphURIs;
-		this.namedGraphURIs = namedGraphURIs;
+		this._graphURIs = graphURIs;
+		this._namedGraphURIs = namedGraphURIs;
 
-		model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		_model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
 		for (final String dataURI : graphURIs)
-			model.read(dataURI, null, JenaIOUtils.fileType(dataURI).jenaName());
+			_model.read(dataURI, null, JenaIOUtils.fileType(dataURI).jenaName());
 
-		model.prepare();
+		_model.prepare();
 
-		//		((PelletInfGraph) model.getGraph()).classify();
+		//		((PelletInfGraph) _model.getGraph()).classify();
 	}
 
 	/**
@@ -116,13 +117,13 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 	@Override
 	public void setQueryURI(final String queryURI)
 	{
-		if (this.queryURI.equals(queryURI))
+		if (this._queryURI.equals(queryURI))
 			return;
 
-		this.queryURI = queryURI;
+		this._queryURI = queryURI;
 		final org.apache.jena.query.Query query = QueryFactory.read(queryURI);
 
-		this.query = QueryEngine.getParser().parse(query.toString(Syntax.syntaxSPARQL), ((PelletInfGraph) model.getGraph()).getKB());
+		this._query = QueryEngine.getParser().parse(query.toString(Syntax.syntaxSPARQL), ((PelletInfGraph) _model.getGraph()).getKB());
 
 	}
 
@@ -132,9 +133,9 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 	@Override
 	public void setResult(final String resultURI)
 	{
-		this.resultURI = resultURI;
+		this._resultURI = resultURI;
 		if (resultURI == null)
-			noCheck = true;
+			_noCheck = true;
 	}
 
 	/**
@@ -145,7 +146,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 	{
 		try
 		{
-			QueryEngine.getParser().parse(new FileInputStream(queryURI.substring(5)), new KnowledgeBase());
+			QueryEngine.getParser().parse(new FileInputStream(_queryURI.substring(5)), new KnowledgeBase());
 
 			return true;
 		}
@@ -166,35 +167,35 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 		{
 			boolean ok = true;
 
-			if (query.getDistVars().isEmpty())
+			if (_query.getDistVars().isEmpty())
 			{
 				Boolean expected = null;
-				if (!noCheck)
+				if (!_noCheck)
 				{
-					expected = JenaIOUtils.parseAskResult(resultURI);
+					expected = JenaIOUtils.parseAskResult(_resultURI);
 
 					if (log.isLoggable(Level.INFO))
 						log.info("Expected=" + expected);
 				}
 
-				if (allOrderings)
+				if (_allOrderings)
 				{
-					final PermutationGenerator g = new PermutationGenerator(query.getAtoms().size());
+					final PermutationGenerator g = new PermutationGenerator(_query.getAtoms().size());
 
 					while (g.hasMore())
-						ok &= runSingleAskTest(query.reorder(g.getNext()), expected);
+						ok &= runSingleAskTest(_query.reorder(g.getNext()), expected);
 				}
 				else
-					ok = runSingleAskTest(query, expected);
+					ok = runSingleAskTest(_query, expected);
 
 				return ok;
 			}
 			else
 			{
 				ResultSetRewindable expected = null;
-				if (!noCheck)
+				if (!_noCheck)
 				{
-					expected = ResultSetFactory.makeRewindable(JenaIOUtils.parseResultSet(resultURI));
+					expected = ResultSetFactory.makeRewindable(JenaIOUtils.parseResultSet(_resultURI));
 
 					final List<?> expectedList = ResultSetFormatter.toList(expected);
 					if (expected.size() > 10)
@@ -207,15 +208,15 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 							log.info("Expected=" + expectedList);
 				}
 
-				if (allOrderings)
+				if (_allOrderings)
 				{
-					final PermutationGenerator g = new PermutationGenerator(query.getAtoms().size());
+					final PermutationGenerator g = new PermutationGenerator(_query.getAtoms().size());
 
 					while (g.hasMore())
-						ok &= runSingleSelectTest(query.reorder(g.getNext()), expected);
+						ok &= runSingleSelectTest(_query.reorder(g.getNext()), expected);
 				}
 				else
-					ok = runSingleSelectTest(query, expected);
+					ok = runSingleSelectTest(_query, expected);
 
 				return ok;
 			}
@@ -229,7 +230,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 
 	private QueryResult runSingleTest(final Query query)
 	{
-		final Timer t = new Timer("Single query execution");
+		final Timer t = new Timer("Single _query execution");
 
 		t.start();
 		final QueryResult bindings = QueryEngine.exec(query);
@@ -246,12 +247,12 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 
 		boolean ok = true;
 
-		if (!noCheck)
+		if (!_noCheck)
 		{
 			final Boolean real = !bindings.isEmpty();
 
 			log.log(Level.INFO, "real=" + real + ", exp=" + expected);
-			ok = (real == null && expected == null) || (real != null && real.equals(expected));
+			ok = real.equals(expected);
 		}
 
 		return ok;
@@ -263,7 +264,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 
 		boolean ok = true;
 
-		if (!noCheck)
+		if (!_noCheck)
 		{
 			final ResultSetRewindable real = realResultsHandler(bindings);
 
@@ -271,7 +272,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 			expected.reset();
 			ok &= ResultSetUtils.assertEquals(real, expected);
 
-			if (writeResults)
+			if (_writeResults)
 			{
 				real.reset();
 				expected.reset();
@@ -299,7 +300,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 					// new HashSet<ResultBinding>(expectedList));
 					//
 					// final FileWriter fwre = new FileWriter("real-_expected");
-					// writeResults(resultVars,
+					// _writeResults(resultVars,
 					// (Collection<ResultBinding>) rMinusE, fwre);
 					//
 					// final FileWriter fwer = new FileWriter("_expected-real");
@@ -307,7 +308,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 					// new HashSet<ResultBinding>(expectedList),
 					// new HashSet<ResultBinding>(realList));
 					//
-					// writeResults(resultVars,
+					// _writeResults(resultVars,
 					// (Collection<ResultBinding>) eMinusR, fwer);
 
 				}
@@ -336,7 +337,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 
 	private final ResultSetRewindable realResultsHandler(final QueryResult bindings)
 	{
-		final ResultSetRewindable real = ResultSetFactory.makeRewindable(new SparqlDLResultSet(bindings, model.getRawModel()));
+		final ResultSetRewindable real = ResultSetFactory.makeRewindable(new SparqlDLResultSet(bindings, _model.getRawModel()));
 
 		final List<?> realList = ResultSetFormatter.toList(real);
 		if (realList.size() > 10)
@@ -370,7 +371,6 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 
 		private int index;
 
-		@SuppressWarnings("unchecked")
 		public DifferenceResultSet(final ResultSet rs1, final ResultSet rs2)
 		{
 			vars = rs1.getResultVars();

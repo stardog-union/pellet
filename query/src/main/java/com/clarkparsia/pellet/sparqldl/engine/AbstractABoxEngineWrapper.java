@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 
@@ -45,7 +46,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public abstract class AbstractABoxEngineWrapper implements QueryExec
 {
-	public static final Logger log = Logger.getLogger(QueryEngine.class.getName());
+	public static final Logger log = Log.getLogger(QueryEngine.class);
 
 	public static final QueryExec distCombinedQueryExec = new CombinedQueryEngine();
 
@@ -87,7 +88,7 @@ public abstract class AbstractABoxEngineWrapper implements QueryExec
 			return result;
 
 		if (log.isLoggable(Level.FINE))
-			log.fine("Partial binding after schema query : " + result);
+			log.fine("Partial _binding after schema query : " + result);
 
 		if (aboxQuery.getAtoms().size() > 0)
 		{
@@ -134,7 +135,6 @@ public abstract class AbstractABoxEngineWrapper implements QueryExec
 					aboxQuery.add(atom);
 					break;
 				default:
-					;
 			}
 
 		final List<QueryAtom> atoms = new ArrayList<>(query.getAtoms());
@@ -258,25 +258,25 @@ class BindingIterator implements Iterator<ResultBinding>
 
 class LiteralIterator implements Iterator<ResultBinding>
 {
-	private final int[] indices;
+	private final int[] _indices;
 
-	private final ResultBinding binding;
+	private final ResultBinding _binding;
 
-	private final Set<ATermAppl> litVars;
+	private final Set<ATermAppl> _litVars;
 
-	private final List<List<ATermAppl>> litVarBindings = new ArrayList<>();
+	private final List<List<ATermAppl>> _litVarBindings = new ArrayList<>();
 
-	private boolean more = true;
+	private boolean _more = true;
 
 	public LiteralIterator(final Query q, final ResultBinding binding)
 	{
 		final KnowledgeBase kb = q.getKB();
-		this.binding = binding;
-		this.litVars = q.getDistVarsForType(VarType.LITERAL);
+		this._binding = binding;
+		this._litVars = q.getDistVarsForType(VarType.LITERAL);
 
-		indices = new int[litVars.size()];
+		_indices = new int[_litVars.size()];
 		int index = 0;
-		for (final ATermAppl litVar : litVars)
+		for (final ATermAppl litVar : _litVars)
 		{
 			// final Datatype dtype = ;// q.getDatatype(litVar); TODO after
 			// recognizing Datatypes and adjusting Query model supply the
@@ -294,7 +294,7 @@ class LiteralIterator implements Iterator<ResultBinding>
 				if (ATermUtils.isVar(subject))
 					subject = binding.getValue(subject);
 
-				litVarBindings.add(index, new ArrayList<ATermAppl>());
+				_litVarBindings.add(index, new ArrayList<ATermAppl>());
 
 				final List<ATermAppl> act = kb.getDataPropertyValues(predicate, subject); // dtype);
 
@@ -308,22 +308,22 @@ class LiteralIterator implements Iterator<ResultBinding>
 			}
 
 			if (foundLiterals.size() > 0)
-				litVarBindings.get(index++).addAll(foundLiterals);
+				_litVarBindings.get(index++).addAll(foundLiterals);
 			else
-				more = false;
+				_more = false;
 		}
 	}
 
 	private boolean incIndex(final int index)
 	{
-		if (indices[index] + 1 < litVarBindings.get(index).size())
-			indices[index]++;
+		if (_indices[index] + 1 < _litVarBindings.get(index).size())
+			_indices[index]++;
 		else
-			if (index == indices.length - 1)
+			if (index == _indices.length - 1)
 				return false;
 			else
 			{
-				indices[index] = 0;
+				_indices[index] = 0;
 				return incIndex(index + 1);
 			}
 
@@ -345,7 +345,7 @@ class LiteralIterator implements Iterator<ResultBinding>
 	@Override
 	public boolean hasNext()
 	{
-		return more;
+		return _more;
 	}
 
 	/**
@@ -354,19 +354,19 @@ class LiteralIterator implements Iterator<ResultBinding>
 	@Override
 	public ResultBinding next()
 	{
-		if (!more)
+		if (!_more)
 			return null;
 
-		final ResultBinding next = binding.duplicate();
+		final ResultBinding next = _binding.duplicate();
 
 		int index = 0;
-		for (final ATermAppl o1 : litVars)
+		for (final ATermAppl o1 : _litVars)
 		{
-			final ATermAppl o2 = litVarBindings.get(index).get(indices[index++]);
+			final ATermAppl o2 = _litVarBindings.get(index).get(_indices[index++]);
 			next.setValue(o1, o2);
 		}
 
-		more = incIndex(0);
+		_more = incIndex(0);
 
 		return next;
 	}

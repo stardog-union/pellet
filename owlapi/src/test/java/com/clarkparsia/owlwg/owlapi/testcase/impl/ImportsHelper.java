@@ -4,6 +4,7 @@ import static java.lang.String.format;
 
 import com.clarkparsia.owlwg.testcase.SerializationFormat;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -27,13 +28,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  */
 public class ImportsHelper
 {
-
-	private final static Logger log;
-
-	static
-	{
-		log = Logger.getLogger(ImportsHelper.class.getCanonicalName());
-	}
+	private final static Logger log = Log.getLogger(ImportsHelper.class);
 
 	public static void loadImports(final OWLOntologyManager manager, final OwlApiCase t, final SerializationFormat format) throws OWLOntologyCreationException
 	{

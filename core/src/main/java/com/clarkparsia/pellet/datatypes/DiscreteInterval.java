@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -67,7 +68,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 				_next = null;
 			else
 				_next = _increment ? increment(_next) : decrement(_next);
-			return ret;
+				return ret;
 		}
 
 		@Override
@@ -82,17 +83,12 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 	 * These constants are setup so that reference to the NullSemantics enum
 	 * does not need qualification within this class.
 	 */
-	protected final static NullSemantics GREATEST, LEAST, NA;
-	private static final Logger log;
+	protected final static NullSemantics// 
+			GREATEST = NullSemantics.GREATEST,//
+			LEAST = NullSemantics.LEAST,//
+			NA = NullSemantics.NA;
 
-	static
-	{
-		log = Logger.getLogger(DiscreteInterval.class.getCanonicalName());
-
-		GREATEST = NullSemantics.GREATEST;
-		LEAST = NullSemantics.LEAST;
-		NA = NullSemantics.NA;
-	}
+	private static final Logger log = Log.getLogger(DiscreteInterval.class);
 
 	private final T _lower;
 	private final T _upper;

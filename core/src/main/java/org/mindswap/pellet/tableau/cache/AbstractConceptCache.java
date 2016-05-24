@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.EdgeList;
@@ -50,7 +51,7 @@ import org.mindswap.pellet.utils.fsm.TransitionGraph;
  */
 public abstract class AbstractConceptCache implements ConceptCache
 {
-	public final static Logger log = Logger.getLogger(AbstractConceptCache.class.getName());
+	public final static Logger log = Log.getLogger(AbstractConceptCache.class);
 
 	private int _maxSize;
 
@@ -570,38 +571,38 @@ public abstract class AbstractConceptCache implements ConceptCache
 	 * @param val
 	 * @return
 	 */
-	 private boolean isRootNominal(final KnowledgeBase kb, final ATermAppl val)
-	 {
-		 final Individual ind = kb.getABox().getIndividual(val);
+	private boolean isRootNominal(final KnowledgeBase kb, final ATermAppl val)
+	{
+		final Individual ind = kb.getABox().getIndividual(val);
 
-		 return ind != null && ind.isRootNominal();
-	 }
+		return ind != null && ind.isRootNominal();
+	}
 
-	 /**
-	  * {@inheritDoc}
-	  */
-	 private Set<ATermAppl> getRNeighbors(final CachedNode node, Role role)
-	 {
-		 final Set<ATermAppl> neighbors = new HashSet<>();
+	/**
+	 * {@inheritDoc}
+	 */
+	private Set<ATermAppl> getRNeighbors(final CachedNode node, Role role)
+	{
+		final Set<ATermAppl> neighbors = new HashSet<>();
 
-		 for (final Edge edge : node.getOutEdges())
-		 {
-			 final Role r = edge.getRole();
-			 if (r.isSubRoleOf(role))
-				 neighbors.add(edge.getToName());
-		 }
+		for (final Edge edge : node.getOutEdges())
+		{
+			final Role r = edge.getRole();
+			if (r.isSubRoleOf(role))
+				neighbors.add(edge.getToName());
+		}
 
-		 if (role.isObjectRole())
-		 {
-			 role = role.getInverse();
-			 for (final Edge edge : node.getInEdges())
-			 {
-				 final Role r = edge.getRole();
-				 if (r.isSubRoleOf(role))
-					 neighbors.add(edge.getFromName());
-			 }
-		 }
+		if (role.isObjectRole())
+		{
+			role = role.getInverse();
+			for (final Edge edge : node.getInEdges())
+			{
+				final Role r = edge.getRole();
+				if (r.isSubRoleOf(role))
+					neighbors.add(edge.getFromName());
+			}
+		}
 
-		 return neighbors;
-	 }
+		return neighbors;
+	}
 }

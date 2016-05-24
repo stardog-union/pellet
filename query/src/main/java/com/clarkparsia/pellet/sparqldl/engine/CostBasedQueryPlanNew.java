@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.UnsupportedQueryException;
 import org.mindswap.pellet.utils.ATermUtils;
 
@@ -40,15 +41,15 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class CostBasedQueryPlanNew extends QueryPlan
 {
-	private static final Logger log = Logger.getLogger(CostBasedQueryPlanNew.class.getName());
+	private static final Logger log = Log.getLogger(CostBasedQueryPlanNew.class);
 
-	private List<QueryAtom> sortedAtoms;
+	private List<QueryAtom> _sortedAtoms;
 
-	private int index;
+	private int _index;
 
-	private int size;
+	private int _size;
 
-	private QueryCost cost;
+	private QueryCost _cost;
 
 	public CostBasedQueryPlanNew(final Query query)
 	{
@@ -56,31 +57,31 @@ public class CostBasedQueryPlanNew extends QueryPlan
 
 		QuerySizeEstimator.computeSizeEstimate(query);
 
-		index = 0;
-		size = query.getAtoms().size();
-		cost = new QueryCost(query.getKB());
-		sortedAtoms = null;
+		_index = 0;
+		_size = query.getAtoms().size();
+		_cost = new QueryCost(query.getKB());
+		_sortedAtoms = null;
 
-		if (size == 0)
+		if (_size == 0)
 			return;
 		else
-			if (size == 1)
-				sortedAtoms = query.getAtoms();
+			if (_size == 1)
+				_sortedAtoms = query.getAtoms();
 			else
 			{
-				final double minCost = chooseOrdering(new ArrayList<>(query.getAtoms()), new ArrayList<QueryAtom>(size), new HashSet<ATermAppl>(), false, Double.POSITIVE_INFINITY);
+				final double minCost = chooseOrdering(new ArrayList<>(query.getAtoms()), new ArrayList<QueryAtom>(_size), new HashSet<ATermAppl>(), false, Double.POSITIVE_INFINITY);
 
-				if (sortedAtoms == null)
+				if (_sortedAtoms == null)
 					throw new UnsupportedQueryException("No safe ordering for query: " + query);
 
 				if (log.isLoggable(Level.FINE))
-					log.log(Level.FINE, "WINNER : Cost=" + minCost + " ,atoms=" + sortedAtoms);
+					log.log(Level.FINE, "WINNER : Cost=" + minCost + " ,atoms=" + _sortedAtoms);
 			}
 	}
 
 	/**
-	 * Recursive function that will inspect all possible orderings for a list of query atoms and returns the cost for the best ordering (min cost) found. Best
-	 * ordering is saved in the sortedAtoms field. The ordering of atoms is created recursively where each step adds one more atom to the _current ordering.
+	 * Recursive function that will inspect all possible orderings for a list of query atoms and returns the _cost for the best ordering (min _cost) found. Best
+	 * ordering is saved in the _sortedAtoms field. The ordering of atoms is created recursively where each step adds one more atom to the _current ordering.
 	 * Current ordering is discarded if it is found to be non-optimal and we have already found an ordering which is not non-optimal. Non-optimal heuristic
 	 * currently is defined as follows: For each atom at position i > 1 in the ordered list, there should be at least one atom at position j < i s.t. two atoms
 	 * share at least one variable. This heuristics is defined to avoid even considering cartesian products, e.g. ClassAtom(?x, A), ClassAtom(?y,B),
@@ -90,8 +91,8 @@ public class CostBasedQueryPlanNew extends QueryPlan
 	 * @param orderedAtoms Atoms that have been ordered so far
 	 * @param boundVars Variables that have referenced by the atoms in the ordered list
 	 * @param notOptimal Current ordered list is found to be non-optimal
-	 * @param minCost Minimum cost found so far
-	 * @return Minimum cost found from an ordering that has the given ordered list as the prefix
+	 * @param minCost Minimum _cost found so far
+	 * @return Minimum _cost found from an ordering that has the given ordered list as the prefix
 	 */
 	private double chooseOrdering(final List<QueryAtom> atoms, final List<QueryAtom> orderedAtoms, final Set<ATermAppl> boundVars, final boolean notOptimal, double minCost)
 	{
@@ -99,16 +100,16 @@ public class CostBasedQueryPlanNew extends QueryPlan
 		{
 			if (notOptimal)
 			{
-				if (sortedAtoms == null)
-					sortedAtoms = new ArrayList<>(orderedAtoms);
+				if (_sortedAtoms == null)
+					_sortedAtoms = new ArrayList<>(orderedAtoms);
 			}
 			else
 			{
-				final double queryCost = cost.estimate(orderedAtoms);
+				final double queryCost = _cost.estimate(orderedAtoms);
 				log.fine("Cost " + queryCost + " for " + orderedAtoms);
 				if (queryCost < minCost)
 				{
-					sortedAtoms = new ArrayList<>(orderedAtoms);
+					_sortedAtoms = new ArrayList<>(orderedAtoms);
 					minCost = queryCost;
 				}
 			}
@@ -166,7 +167,7 @@ public class CostBasedQueryPlanNew extends QueryPlan
 							boundCount++;
 
 				if (boundCount == 0 && newBoundVars.size() > unboundCount)
-					if (sortedAtoms != null)
+					if (_sortedAtoms != null)
 					{
 						if (log.isLoggable(Level.FINE))
 							log.fine("Stop at not optimal ordering");
@@ -199,24 +200,24 @@ public class CostBasedQueryPlanNew extends QueryPlan
 	@Override
 	public QueryAtom next(final ResultBinding binding)
 	{
-		return sortedAtoms.get(index++).apply(binding);
+		return _sortedAtoms.get(_index++).apply(binding);
 	}
 
 	@Override
 	public boolean hasNext()
 	{
-		return index < size;
+		return _index < _size;
 	}
 
 	@Override
 	public void back()
 	{
-		index--;
+		_index--;
 	}
 
 	@Override
 	public void reset()
 	{
-		index = 0;
+		_index = 0;
 	}
 }

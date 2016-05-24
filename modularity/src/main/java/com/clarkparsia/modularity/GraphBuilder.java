@@ -6,6 +6,8 @@
 
 package com.clarkparsia.modularity;
 
+import net.katk.tools.Log;
+
 import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.OntologyUtils;
 import com.clarkparsia.reachability.Node;
@@ -86,7 +88,7 @@ import org.semanticweb.owlapi.model.SWRLRule;
 public class GraphBuilder
 {
 
-	public static final Logger log = Logger.getLogger(GraphBuilder.class.getName());
+	public static final Logger log = Log.getLogger(GraphBuilder.class);
 
 	private class AxiomVisitor implements OWLAxiomVisitor
 	{

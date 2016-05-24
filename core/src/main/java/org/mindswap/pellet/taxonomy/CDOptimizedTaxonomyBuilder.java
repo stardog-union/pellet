@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
@@ -57,7 +58,7 @@ import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
  */
 public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 {
-	protected static Logger log = Logger.getLogger(Taxonomy.class.getName());
+	protected static Logger log = Log.getLogger(Taxonomy.class);
 
 	private static enum Propogate
 	{

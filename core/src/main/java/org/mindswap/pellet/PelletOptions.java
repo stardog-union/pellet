@@ -40,6 +40,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.completion.CompletionStrategy;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
@@ -56,7 +57,7 @@ import org.mindswap.pellet.utils.progress.SwingProgressMonitor;
  */
 public class PelletOptions
 {
-	public final static Logger log = Logger.getLogger(PelletOptions.class.getName());
+	public final static Logger log = Log.getLogger(PelletOptions.class);
 
 	private interface EnumFactory<T>
 	{
@@ -257,13 +258,13 @@ public class PelletOptions
 
 		if (value != null)
 			try
-		{
+			{
 				doubleValue = Double.parseDouble(value);
-		}
-		catch (final NumberFormatException e)
-		{
-			log.severe("Ignoring invalid double value (" + value + ") for the configuration option " + property);
-		}
+			}
+			catch (final NumberFormatException e)
+			{
+				log.severe("Ignoring invalid double value (" + value + ") for the configuration option " + property);
+			}
 
 		properties.setProperty(property, String.valueOf(doubleValue));
 
@@ -278,13 +279,13 @@ public class PelletOptions
 
 		if (value != null)
 			try
-		{
+			{
 				intValue = Integer.parseInt(value);
-		}
-		catch (final NumberFormatException e)
-		{
-			log.severe("Ignoring invalid int value (" + value + ") for the configuration option " + property);
-		}
+			}
+			catch (final NumberFormatException e)
+			{
+				log.severe("Ignoring invalid int value (" + value + ") for the configuration option " + property);
+			}
 
 		properties.setProperty(property, String.valueOf(intValue));
 
@@ -420,8 +421,8 @@ public class PelletOptions
 	public static int MAX_ANONYMOUS_CACHE = 20000;
 
 	/**
-	 * To decide if _individual <code>i</code> has type class <code>_c</code> check if the edges from cached model of <code>_c</code> to nominal _nodes also exists
-	 * for the cached model of <code>i</code>.
+	 * To decide if _individual <code>i</code> has type class <code>_c</code> check if the edges from cached model of <code>_c</code> to nominal _nodes also
+	 * exists for the cached model of <code>i</code>.
 	 */
 	public static boolean CHECK_NOMINAL_EDGES = true;
 
@@ -481,8 +482,8 @@ public class PelletOptions
 	/**
 	 * Control the realization _strategy where we loop over individuals or concepts. When this flag is set we loop over each _individual and find the most
 	 * specific type for that _individual by traversing the class hierarchy. If this flag is not set we traverse the class hierarchy and for each concept find
-	 * the instances. Then any _individual that is also an instance of a subclass is removed. Both techniques have advantages and disadvantages. Best performance
-	 * depends on the ontology characteristics.
+	 * the instances. Then any _individual that is also an instance of a subclass is removed. Both techniques have advantages and disadvantages. Best
+	 * performance depends on the ontology characteristics.
 	 */
 	public static boolean REALIZE_INDIVIDUAL_AT_A_TIME = false;
 
@@ -716,16 +717,16 @@ public class PelletOptions
 
 		if (url != null)
 			try
-		{
+			{
 				load(url);
-		}
-		catch (final FileNotFoundException e)
-		{
-			log.severe("Pellet configuration file cannot be found");
-		}
-		catch (final IOException e)
-		{
-			log.severe("I/O error while reading Pellet configuration file");
-		}
+			}
+			catch (final FileNotFoundException e)
+			{
+				log.severe("Pellet configuration file cannot be found");
+			}
+			catch (final IOException e)
+			{
+				log.severe("I/O error while reading Pellet configuration file");
+			}
 	}
 }

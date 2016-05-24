@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Literal;
@@ -49,13 +50,7 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
  */
 public class VariableBinding
 {
-
-	private static final Logger log;
-
-	static
-	{
-		log = Logger.getLogger(VariableBinding.class.getCanonicalName());
-	}
+	private static final Logger log = Log.getLogger(VariableBinding.class);
 
 	/**
 	 * Collects _data values of a objects it visits

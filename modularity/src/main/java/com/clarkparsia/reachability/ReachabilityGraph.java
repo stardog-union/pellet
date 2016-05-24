@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * Graph with and/or _nodes designed to compute reachability
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
 public class ReachabilityGraph<E>
 {
 
-	public static final Logger log = Logger.getLogger(ReachabilityGraph.class.getName());
+	public static final Logger log = Log.getLogger(ReachabilityGraph.class);
 
 	private final Map<E, EntityNode<E>> entityNodes = new HashMap<>();
 

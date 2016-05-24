@@ -54,6 +54,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.SetUtils;
 
@@ -64,7 +65,7 @@ import org.mindswap.pellet.utils.SetUtils;
  */
 public class KRSSLoader extends KBLoader
 {
-	public final static Logger _log = Logger.getLogger(KRSSLoader.class.getName());
+	public final static Logger _log = Log.getLogger(KRSSLoader.class);
 
 	private final static ATermAppl XSD_INTEGER = XSDInteger.getInstance().getName();
 

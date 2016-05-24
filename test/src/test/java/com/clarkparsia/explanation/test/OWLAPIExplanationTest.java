@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import net.katk.tools.Log;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -62,14 +63,14 @@ import org.semanticweb.owlapi.model.SWRLRule;
 @RunWith(Parameterized.class)
 public class OWLAPIExplanationTest extends AbstractExplanationTest
 {
-	private static final Logger log = Logger.getLogger(JenaExplanationTest.class.getName());
+	private static final Logger log = Log.getLogger(JenaExplanationTest.class);
 
-	private PelletReasoner reasoner;
-	private final boolean useGlassBox;
+	private PelletReasoner _reasoner;
+	private final boolean _useGlassBox;
 
-	private SatisfiabilityConverter converter;
-	private ConciseExplanationRenderer renderer;
-	private HSTExplanationGenerator expGen;
+	private SatisfiabilityConverter _converter;
+	private ConciseExplanationRenderer _renderer;
+	private HSTExplanationGenerator _expGen;
 
 	private int axiomCount = 0;
 
@@ -88,7 +89,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 	{
 		super(classify);
 
-		this.useGlassBox = useGlassBox;
+		this._useGlassBox = useGlassBox;
 	}
 
 	@BeforeClass
@@ -103,18 +104,18 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 	{
 		super.after();
 
-		if (expGen != null)
-			if (useGlassBox)
+		if (_expGen != null)
+			if (_useGlassBox)
 			{
-				final GlassBoxExplanation gbe = (GlassBoxExplanation) expGen.getSingleExplanationGenerator();
+				final GlassBoxExplanation gbe = (GlassBoxExplanation) _expGen.getSingleExplanationGenerator();
 				gbe.dispose();
-				reasoner.dispose();
+				_reasoner.dispose();
 			}
 			else
 			{
-				final BlackBoxExplanation bbe = (BlackBoxExplanation) expGen.getSingleExplanationGenerator();
+				final BlackBoxExplanation bbe = (BlackBoxExplanation) _expGen.getSingleExplanationGenerator();
 				bbe.dispose();
-				reasoner.getManager().removeOntologyChangeListener(bbe.getDefinitionTracker());
+				_reasoner.getManager().removeOntologyChangeListener(bbe.getDefinitionTracker());
 			}
 	}
 
@@ -124,17 +125,17 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 		// USE_TRACING should be turned on for glass box explanation which is done by
 		// ExplanationTestSuite that calls this class. We don't set this value here to
 		// avoid repeating the clean up code that sets it bakc to the old value
-		assertTrue(!useGlassBox || PelletOptions.USE_TRACING);
+		assertTrue(!_useGlassBox || PelletOptions.USE_TRACING);
 
-		converter = new SatisfiabilityConverter(OWL.factory);
-		renderer = new ConciseExplanationRenderer();
+		_converter = new SatisfiabilityConverter(OWL.factory);
+		_renderer = new ConciseExplanationRenderer();
 
 		final OWLOntology ontology = OWL.Ontology(ontologyAxioms);
 
 		final PelletReasonerFactory reasonerFactory = PelletReasonerFactory.getInstance();
-		reasoner = reasonerFactory.createReasoner(ontology);
+		_reasoner = reasonerFactory.createReasoner(ontology);
 
-		final TransactionAwareSingleExpGen singleExpGen = useGlassBox ? new GlassBoxExplanation(reasoner) : new BlackBoxExplanation(ontology, reasonerFactory, reasoner)
+		final TransactionAwareSingleExpGen singleExpGen = _useGlassBox ? new GlassBoxExplanation(_reasoner) : new BlackBoxExplanation(ontology, reasonerFactory, _reasoner)
 		{
 			@Override
 			protected boolean isFirstExplanation()
@@ -143,9 +144,9 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 			}
 		};
 
-		expGen = new HSTExplanationGenerator(singleExpGen);
+		_expGen = new HSTExplanationGenerator(singleExpGen);
 
-		final KnowledgeBase kb = reasoner.getKB();
+		final KnowledgeBase kb = _reasoner.getKB();
 
 		if (classify)
 		{
@@ -160,7 +161,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 	@Override
 	public void testInconsistencyExplanations(final int max, final OWLAxiom[]... explanations) throws Exception
 	{
-		assumeTrue(useGlassBox);
+		assumeTrue(_useGlassBox);
 
 		super.testInconsistencyExplanations(max, explanations);
 	}
@@ -233,19 +234,19 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 	@Override
 	public void testExplanations(final OWLAxiom axiom, final int max, final Set<Set<OWLAxiom>> expectedExplanationsUnordered) throws Exception
 	{
-		final OWLClassExpression unsatClass = converter.convert(axiom);
+		final OWLClassExpression unsatClass = _converter.convert(axiom);
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Axiom " + (++axiomCount) + ": " + axiom + " Expecting " + expectedExplanationsUnordered.size() + " explanations");
 
-		final Set<Set<OWLAxiom>> generatedExplanationsUnordered = expGen.getExplanations(unsatClass, max);
+		final Set<Set<OWLAxiom>> generatedExplanationsUnordered = _expGen.getExplanations(unsatClass, max);
 
 		if (log.isLoggable(Level.FINER))
 		{
 			final StringWriter sw = new StringWriter();
-			renderer.startRendering(sw);
-			renderer.render(axiom, expectedExplanationsUnordered);
-			renderer.endRendering();
+			_renderer.startRendering(sw);
+			_renderer.render(axiom, expectedExplanationsUnordered);
+			_renderer.endRendering();
 			log.finer("Expected:\n" + sw);
 		}
 

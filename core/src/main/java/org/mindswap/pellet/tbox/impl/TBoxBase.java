@@ -35,11 +35,12 @@ import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Map;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 
 public class TBoxBase
 {
-	public static Logger _log = Logger.getLogger(TBoxBase.class.getName());
+	public static Logger _log = Log.getLogger(TBoxBase.class);
 
 	protected KnowledgeBase _kb;
 	protected TBoxExpImpl _tbox;

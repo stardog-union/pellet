@@ -6,6 +6,7 @@ import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 
@@ -28,15 +29,8 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDDouble implements Datatype<Double>
 {
 
-	private static final XSDDouble instance;
-	private static final Logger log;
-
-	static
-	{
-		log = Logger.getLogger(XSDDouble.class.getCanonicalName());
-
-		instance = new XSDDouble();
-	}
+	private static final XSDDouble instance = new XSDDouble();
+	private static final Logger log = Log.getLogger(XSDDouble.class);
 
 	public static XSDDouble getInstance()
 	{

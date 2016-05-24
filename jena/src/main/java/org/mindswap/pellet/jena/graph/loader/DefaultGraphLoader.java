@@ -69,6 +69,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.graph.Factory;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
@@ -116,7 +117,7 @@ import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
 public class DefaultGraphLoader implements GraphLoader
 {
 
-	public static final Logger log = Logger.getLogger(DefaultGraphLoader.class.getName());
+	public static final Logger log = Log.getLogger(DefaultGraphLoader.class);
 
 	protected static final Node[] TBOX_TYPES;
 	protected static final Node[] TBOX_PREDICATES;
@@ -145,11 +146,11 @@ public class DefaultGraphLoader implements GraphLoader
 
 	private static final Graph EMPTY_GRAPH = Factory.createGraphMem();
 
-	public static QNameProvider qnames = new QNameProvider();
+	public static QNameProvider _qnames = new QNameProvider();
 
-	protected KnowledgeBase kb;
+	protected KnowledgeBase _kb;
 
-	protected Graph graph;
+	protected Graph _graph;
 
 	protected Map<Node, ATermAppl> terms;
 
@@ -194,7 +195,7 @@ public class DefaultGraphLoader implements GraphLoader
 	@Override
 	public void setGraph(final Graph graph)
 	{
-		this.graph = graph;
+		this._graph = graph;
 	}
 
 	/**
@@ -203,7 +204,7 @@ public class DefaultGraphLoader implements GraphLoader
 	@Override
 	public Graph getGraph()
 	{
-		return graph;
+		return _graph;
 	}
 
 	/**
@@ -218,7 +219,7 @@ public class DefaultGraphLoader implements GraphLoader
 	protected void addSimpleProperty(final ATermAppl p, final SimpleProperty why)
 	{
 		simpleProperties.put(p, why);
-		final Role role = kb.getRBox().getRole(p);
+		final Role role = _kb.getRBox().getRole(p);
 		role.setForceSimple(true);
 	}
 
@@ -259,7 +260,7 @@ public class DefaultGraphLoader implements GraphLoader
 
 	private Node getObject(final Node subj, final Node pred)
 	{
-		final ClosableIterator<Triple> i = graph.find(subj, pred, null);
+		final ClosableIterator<Triple> i = _graph.find(subj, pred, null);
 
 		if (i.hasNext())
 		{
@@ -273,7 +274,7 @@ public class DefaultGraphLoader implements GraphLoader
 
 	private boolean hasObject(final Node subj, final Node pred, final Node obj)
 	{
-		return graph.contains(subj, pred, obj);
+		return _graph.contains(subj, pred, obj);
 	}
 
 	private class RDFListIterator implements Iterator<Node>
@@ -368,7 +369,7 @@ public class DefaultGraphLoader implements GraphLoader
 		Node qualification = null;
 		Bool isObjectRestriction = Bool.UNKNOWN;
 
-		final ClosableIterator<Triple> i = graph.find(node, null, null);
+		final ClosableIterator<Triple> i = _graph.find(node, null, null);
 		while (i.hasNext())
 		{
 			monitor.incrementProgress();
@@ -444,7 +445,7 @@ public class DefaultGraphLoader implements GraphLoader
 			Object value = null;
 			try
 			{
-				value = kb.getDatatypeReasoner().getValue(node2term(filler));
+				value = _kb.getDatatypeReasoner().getValue(node2term(filler));
 			}
 			catch (final Exception e)
 			{
@@ -480,10 +481,10 @@ public class DefaultGraphLoader implements GraphLoader
 				{
 					final ATermAppl ot = node2term(filler);
 
-					if (kb.isClass(ot))
+					if (_kb.isClass(ot))
 						defineObjectProperty(pt);
 					else
-						if (kb.isDatatype(ot))
+						if (_kb.isDatatype(ot))
 							defineDatatypeProperty(pt);
 
 					aTerm = ATermUtils.makeAllValues(pt, ot);
@@ -493,10 +494,10 @@ public class DefaultGraphLoader implements GraphLoader
 					{
 						final ATermAppl ot = node2term(filler);
 
-						if (kb.isClass(ot))
+						if (_kb.isClass(ot))
 							defineObjectProperty(pt);
 						else
-							if (kb.isDatatype(ot))
+							if (_kb.isDatatype(ot))
 								defineDatatypeProperty(pt);
 
 						aTerm = ATermUtils.makeSomeValues(pt, ot);
@@ -519,7 +520,7 @@ public class DefaultGraphLoader implements GraphLoader
 									}
 									else
 									{
-										final PropertyType propType = kb.getPropertyType(pt);
+										final PropertyType propType = _kb.getPropertyType(pt);
 										if (propType == PropertyType.OBJECT)
 											c = ATermUtils.TOP;
 										else
@@ -652,7 +653,7 @@ public class DefaultGraphLoader implements GraphLoader
 	{
 		for (final BuiltinTerm expressionPredicate : BuiltinTerm.EXPRESSION_PREDICATES)
 		{
-			final ClosableIterator<Triple> i = graph.find(node, expressionPredicate.getNode(), null);
+			final ClosableIterator<Triple> i = _graph.find(node, expressionPredicate.getNode(), null);
 			if (i.hasNext())
 			{
 				monitor.incrementProgress();
@@ -757,7 +758,7 @@ public class DefaultGraphLoader implements GraphLoader
 
 		final ATermAppl name = JenaUtils.makeATerm(node);
 		final Rule rule = new Rule(name, head, body);
-		kb.addRule(rule);
+		_kb.addRule(rule);
 	}
 
 	private AtomDObject createRuleDObject(final Node node)
@@ -1065,7 +1066,7 @@ public class DefaultGraphLoader implements GraphLoader
 			}
 		}
 
-		if (!kb.addNegatedPropertyValue(pt, st, ot))
+		if (!_kb.addNegatedPropertyValue(pt, st, ot))
 		{
 			addUnsupportedFeature("Skipping invalid negated property value " + stmt);
 			return false;
@@ -1078,7 +1079,7 @@ public class DefaultGraphLoader implements GraphLoader
 	{
 		if (ATermUtils.isPrimitive(c))
 		{
-			kb.addClass(c);
+			_kb.addClass(c);
 			return true;
 		}
 		else
@@ -1089,11 +1090,11 @@ public class DefaultGraphLoader implements GraphLoader
 	{
 		if (ATermUtils.isPrimitive(dt))
 		{
-			kb.addDatatype(dt);
+			_kb.addDatatype(dt);
 			return true;
 		}
 		else
-			return kb.isDatatype(dt);
+			return _kb.isDatatype(dt);
 	}
 
 	/**
@@ -1106,8 +1107,8 @@ public class DefaultGraphLoader implements GraphLoader
 	 */
 	private boolean defineProperties(final ATermAppl p1, final ATermAppl p2)
 	{
-		final PropertyType type1 = kb.getPropertyType(p1);
-		final PropertyType type2 = kb.getPropertyType(p2);
+		final PropertyType type1 = _kb.getPropertyType(p1);
+		final PropertyType type2 = _kb.getPropertyType(p2);
 		if (type1 != type2)
 		{
 			if (type1 == PropertyType.UNTYPED)
@@ -1148,7 +1149,7 @@ public class DefaultGraphLoader implements GraphLoader
 		if (!ATermUtils.isPrimitive(c) && !ATermUtils.isInv(c))
 			return false;
 
-		return kb.addObjectProperty(c);
+		return _kb.addObjectProperty(c);
 	}
 
 	protected boolean defineDatatypeProperty(final ATermAppl c)
@@ -1156,7 +1157,7 @@ public class DefaultGraphLoader implements GraphLoader
 		if (!ATermUtils.isPrimitive(c))
 			return false;
 
-		return kb.addDatatypeProperty(c);
+		return _kb.addDatatypeProperty(c);
 	}
 
 	private boolean defineAnnotationProperty(final ATermAppl c)
@@ -1164,40 +1165,40 @@ public class DefaultGraphLoader implements GraphLoader
 		if (!ATermUtils.isPrimitive(c))
 			return false;
 
-		return kb.addAnnotationProperty(c);
+		return _kb.addAnnotationProperty(c);
 	}
 
 	protected boolean defineProperty(final ATermAppl c)
 	{
 		if (ATermUtils.isInv(c))
 		{
-			kb.addObjectProperty(c.getArgument(0));
+			_kb.addObjectProperty(c.getArgument(0));
 			return true;
 		}
 		else
 			if (!ATermUtils.isPrimitive(c))
 				return false;
 
-		kb.addProperty(c);
+		_kb.addProperty(c);
 		return true;
 	}
 
 	protected boolean defineIndividual(final ATermAppl c)
 	{
-		kb.addIndividual(c);
+		_kb.addIndividual(c);
 		return true;
 	}
 
 	@SuppressWarnings("unused")
 	private PropertyType guessPropertyType(final ATermAppl p, final Node prop)
 	{
-		final PropertyType roleType = kb.getPropertyType(p);
+		final PropertyType roleType = _kb.getPropertyType(p);
 		if (roleType != PropertyType.UNTYPED)
 			return roleType;
 
 		defineProperty(p);
 
-		final Iterator<?> i = graph.find(prop, RDF.type.asNode(), null);
+		final Iterator<?> i = _graph.find(prop, RDF.type.asNode(), null);
 		while (i.hasNext())
 		{
 			final Triple stmt = (Triple) i.next();
@@ -1243,7 +1244,7 @@ public class DefaultGraphLoader implements GraphLoader
 	 */
 	protected void processTypes(final Node type)
 	{
-		final ClosableIterator<Triple> i = graph.find(null, RDF.type.asNode(), type);
+		final ClosableIterator<Triple> i = _graph.find(null, RDF.type.asNode(), type);
 		while (i.hasNext())
 		{
 			final Triple stmt = i.next();
@@ -1334,80 +1335,80 @@ public class DefaultGraphLoader implements GraphLoader
 
 			case OWL_Nothing:
 				defineIndividual(st);
-				kb.addType(st, ATermUtils.BOTTOM);
+				_kb.addType(st, ATermUtils.BOTTOM);
 				break;
 
 			case OWL_ObjectProperty:
 				if (s.isURI() && !defineObjectProperty(st))
-					addUnsupportedFeature("Property " + st + " is defined both as an ObjectProperty and a " + kb.getPropertyType(st) + "Property");
+					addUnsupportedFeature("Property " + st + " is defined both as an ObjectProperty and a " + _kb.getPropertyType(st) + "Property");
 				break;
 
 			case OWL_DatatypeProperty:
 				if (!defineDatatypeProperty(st))
-					addUnsupportedFeature("Property " + st + " is defined both as a DatatypeProperty and a " + kb.getPropertyType(st) + "Property");
+					addUnsupportedFeature("Property " + st + " is defined both as a DatatypeProperty and a " + _kb.getPropertyType(st) + "Property");
 				break;
 
 			case OWL_FunctionalProperty:
 				defineProperty(st);
-				kb.addFunctionalProperty(st);
+				_kb.addFunctionalProperty(st);
 				addSimpleProperty(st, CARDINALITY);
 				break;
 
 			case OWL_InverseFunctionalProperty:
 				if (defineProperty(st))
 				{
-					kb.addInverseFunctionalProperty(st);
+					_kb.addInverseFunctionalProperty(st);
 					addSimpleProperty(st, CARDINALITY);
 				}
 				else
-					addUnsupportedFeature("Ignoring InverseFunctionalProperty axiom for " + st + " (" + kb.getPropertyType(st) + "Property)");
+					addUnsupportedFeature("Ignoring InverseFunctionalProperty axiom for " + st + " (" + _kb.getPropertyType(st) + "Property)");
 				break;
 
 			case OWL_TransitiveProperty:
 				if (defineObjectProperty(st))
-					kb.addTransitiveProperty(st);
+					_kb.addTransitiveProperty(st);
 				else
-					addUnsupportedFeature("Ignoring TransitiveProperty axiom for " + st + " (" + kb.getPropertyType(st) + "Property)");
+					addUnsupportedFeature("Ignoring TransitiveProperty axiom for " + st + " (" + _kb.getPropertyType(st) + "Property)");
 
 				break;
 
 			case OWL_SymmetricProperty:
 				if (defineObjectProperty(st))
-					kb.addSymmetricProperty(st);
+					_kb.addSymmetricProperty(st);
 				else
-					addUnsupportedFeature("Ignoring SymmetricProperty axiom for " + st + " (" + kb.getPropertyType(st) + "Property)");
+					addUnsupportedFeature("Ignoring SymmetricProperty axiom for " + st + " (" + _kb.getPropertyType(st) + "Property)");
 				break;
 
 			case OWL_AnnotationProperty:
 				if (!defineAnnotationProperty(st))
-					addUnsupportedFeature("Property " + st + " is defined both as an AnnotationProperty and a " + kb.getPropertyType(st) + "Property");
+					addUnsupportedFeature("Property " + st + " is defined both as an AnnotationProperty and a " + _kb.getPropertyType(st) + "Property");
 				break;
 
 			case OWL2_ReflexiveProperty:
 				if (defineObjectProperty(st))
-					kb.addReflexiveProperty(st);
+					_kb.addReflexiveProperty(st);
 				else
-					addUnsupportedFeature("Ignoring ReflexiveProperty axiom for " + st + " (" + kb.getPropertyType(st) + "Property)");
+					addUnsupportedFeature("Ignoring ReflexiveProperty axiom for " + st + " (" + _kb.getPropertyType(st) + "Property)");
 				break;
 
 			case OWL2_IrreflexiveProperty:
 				if (defineObjectProperty(st))
 				{
-					kb.addIrreflexiveProperty(st);
+					_kb.addIrreflexiveProperty(st);
 					addSimpleProperty(st, IRREFLEXIVE);
 				}
 				else
-					addUnsupportedFeature("Ignoring IrreflexiveProperty axiom for " + st + " (" + kb.getPropertyType(st) + "Property)");
+					addUnsupportedFeature("Ignoring IrreflexiveProperty axiom for " + st + " (" + _kb.getPropertyType(st) + "Property)");
 				break;
 
 			case OWL2_AsymmetricProperty:
 				if (defineObjectProperty(st))
 				{
-					kb.addAsymmetricProperty(st);
+					_kb.addAsymmetricProperty(st);
 					addSimpleProperty(st, ANTI_SYM);
 				}
 				else
-					addUnsupportedFeature("Ignoring AntisymmetricProperty axiom for " + st + " (" + kb.getPropertyType(st) + "Property)");
+					addUnsupportedFeature("Ignoring AntisymmetricProperty axiom for " + st + " (" + _kb.getPropertyType(st) + "Property)");
 				break;
 
 			case OWL2_NegativePropertyAssertion:
@@ -1431,7 +1432,7 @@ public class DefaultGraphLoader implements GraphLoader
 	}
 
 	/**
-	 * Process all the triples in the raw graph. If {@link PelletOptions#PREPROCESS_TYPE_TRIPLES} option is <code>true</code> all <code>rdf:type</code> will be
+	 * Process all the triples in the raw _graph. If {@link PelletOptions#PREPROCESS_TYPE_TRIPLES} option is <code>true</code> all <code>rdf:type</code> will be
 	 * ignored since they have already been processed with {@link #processTypes()} function.
 	 */
 	protected void processTriples()
@@ -1451,7 +1452,7 @@ public class DefaultGraphLoader implements GraphLoader
 	 */
 	protected void processTriples(final Node predicate)
 	{
-		final ClosableIterator<Triple> i = graph.find(null, predicate, null);
+		final ClosableIterator<Triple> i = _graph.find(null, predicate, null);
 		while (i.hasNext())
 		{
 			final Triple triple = i.next();
@@ -1494,7 +1495,7 @@ public class DefaultGraphLoader implements GraphLoader
 
 							final ATermAppl st = node2term(s);
 							defineIndividual(st);
-							kb.addType(st, ot);
+							_kb.addType(st, ot);
 						}
 					}
 				}
@@ -1514,17 +1515,17 @@ public class DefaultGraphLoader implements GraphLoader
 		if (builtinTerm == null)
 		{
 			final ATermAppl pt = node2term(p);
-			final Role role = kb.getProperty(pt);
+			final Role role = _kb.getProperty(pt);
 			final PropertyType type = (role == null) ? PropertyType.UNTYPED : role.getType();
 
 			if (type == PropertyType.ANNOTATION)
 			{
 				// Skip ontology annotations
-				if (graph.contains(s, RDF.type.asNode(), OWL.Ontology.asNode()))
+				if (_graph.contains(s, RDF.type.asNode(), OWL.Ontology.asNode()))
 					return;
 
 				if (defineAnnotationProperty(pt))
-					kb.addAnnotation(st, pt, ot);
+					_kb.addAnnotation(st, pt, ot);
 
 				return;
 			}
@@ -1555,7 +1556,7 @@ public class DefaultGraphLoader implements GraphLoader
 						if (!datatypeURI.equals(""))
 							defineDatatype(ATermUtils.makeTermAppl(datatypeURI));
 
-						kb.addPropertyValue(pt, st, ot);
+						_kb.addPropertyValue(pt, st, ot);
 					}
 					else
 						if (type == PropertyType.UNTYPED)
@@ -1576,7 +1577,7 @@ public class DefaultGraphLoader implements GraphLoader
 						if (!defineIndividual(ot))
 							addUnsupportedFeature("Ignoring class expression used in object position: " + triple);
 						else
-							kb.addPropertyValue(pt, st, ot);
+							_kb.addPropertyValue(pt, st, ot);
 			return;
 		}
 
@@ -1590,7 +1591,7 @@ public class DefaultGraphLoader implements GraphLoader
 					if (!defineClass(ot))
 						addUnsupportedFeature("Ignoring subClassOf axiom because the object is not a class " + st + " rdfs:subClassOf " + ot);
 					else
-						kb.addSubClass(st, ot);
+						_kb.addSubClass(st, ot);
 				break;
 
 			case RDFS_subPropertyOf:
@@ -1628,45 +1629,45 @@ public class DefaultGraphLoader implements GraphLoader
 						subProp = st;
 
 				if (subProp != null)
-					kb.addSubProperty(subProp, ot);
+					_kb.addSubProperty(subProp, ot);
 				else
-					addUnsupportedFeature("Ignoring subproperty axiom between " + st + " (" + kb.getPropertyType(st) + "Property) and " + ot + " (" + kb.getPropertyType(ot) + "Property)");
+					addUnsupportedFeature("Ignoring subproperty axiom between " + st + " (" + _kb.getPropertyType(st) + "Property) and " + ot + " (" + _kb.getPropertyType(ot) + "Property)");
 
 				break;
 
 			case RDFS_domain:
-				if (kb.isAnnotationProperty(st))
+				if (_kb.isAnnotationProperty(st))
 					addUnsupportedFeature("Ignoring domain axiom for AnnotationProperty " + st);
 				else
 				{
 					defineProperty(st);
 					defineClass(ot);
-					kb.addDomain(st, ot);
+					_kb.addDomain(st, ot);
 				}
 				break;
 
 			case RDFS_range:
-				if (kb.isAnnotationProperty(st))
+				if (_kb.isAnnotationProperty(st))
 				{
 					addUnsupportedFeature("Ignoring range axiom for AnnotationProperty " + st);
 					break;
 				}
 
-				if (kb.isDatatype(ot))
+				if (_kb.isDatatype(ot))
 					defineDatatypeProperty(st);
 				else
-					if (kb.isClass(ot))
+					if (_kb.isClass(ot))
 						defineObjectProperty(st);
 					else
 						defineProperty(st);
 
-				if (kb.isDatatypeProperty(st))
+				if (_kb.isDatatypeProperty(st))
 					defineDatatype(ot);
 				else
-					if (kb.isObjectProperty(st))
+					if (_kb.isObjectProperty(st))
 						defineClass(ot);
 
-				kb.addRange(st, ot);
+				_kb.addRange(st, ot);
 
 				break;
 
@@ -1676,7 +1677,7 @@ public class DefaultGraphLoader implements GraphLoader
 				defineClass(st);
 				final ATermAppl conjunction = ATermUtils.makeAnd(list);
 
-				kb.addEquivalentClass(st, conjunction);
+				_kb.addEquivalentClass(st, conjunction);
 				break;
 
 			case OWL_unionOf:
@@ -1684,18 +1685,18 @@ public class DefaultGraphLoader implements GraphLoader
 
 				defineClass(st);
 				ATermAppl disjunction = ATermUtils.makeOr(list);
-				kb.addEquivalentClass(st, disjunction);
+				_kb.addEquivalentClass(st, disjunction);
 
 				break;
 
 			case OWL2_disjointUnionOf:
 				list = createList(o);
 
-				kb.addDisjointClasses(list);
+				_kb.addDisjointClasses(list);
 
 				defineClass(st);
 				disjunction = ATermUtils.makeOr(list);
-				kb.addEquivalentClass(st, disjunction);
+				_kb.addEquivalentClass(st, disjunction);
 
 				break;
 
@@ -1706,16 +1707,16 @@ public class DefaultGraphLoader implements GraphLoader
 					if (!defineClass(ot))
 						addUnsupportedFeature("Ignoring complementOf axiom because the object is not a class " + st + " owl:complementOf " + ot);
 					else
-						kb.addComplementClass(st, ot);
+						_kb.addComplementClass(st, ot);
 				break;
 
 			case OWL_equivalentClass:
-				if (kb.isDatatype(ot) || anonDatatypes.contains(o))
+				if (_kb.isDatatype(ot) || anonDatatypes.contains(o))
 				{
 					if (!defineDatatype(st))
 						addUnsupportedFeature("Ignoring equivalentClass axiom because the subject is not a datatype " + st + " owl:equivalentClass " + ot);
 					else
-						kb.addDatatypeDefinition(st, ot);
+						_kb.addDatatypeDefinition(st, ot);
 				}
 				else
 					if (!defineClass(st))
@@ -1724,7 +1725,7 @@ public class DefaultGraphLoader implements GraphLoader
 						if (!defineClass(ot))
 							addUnsupportedFeature("Ignoring equivalentClass axiom because the object is not a class " + st + " owl:equivalentClass " + ot);
 						else
-							kb.addEquivalentClass(st, ot);
+							_kb.addEquivalentClass(st, ot);
 
 				break;
 
@@ -1735,19 +1736,19 @@ public class DefaultGraphLoader implements GraphLoader
 					if (!defineClass(ot))
 						addUnsupportedFeature("Ignoring disjointWith axiom because the object is not a class " + st + " owl:disjointWith " + ot);
 					else
-						kb.addDisjointClass(st, ot);
+						_kb.addDisjointClass(st, ot);
 				break;
 
 			case OWL2_propertyDisjointWith:
 				if (defineProperties(st, ot))
 				{
-					kb.addDisjointProperty(st, ot);
+					_kb.addDisjointProperty(st, ot);
 
 					addSimpleProperty(st, DISJOINT);
 					addSimpleProperty(ot, DISJOINT);
 				}
 				else
-					addUnsupportedFeature("Ignoring disjoint property axiom between " + st + " (" + kb.getPropertyType(st) + "Property) and " + ot + " (" + kb.getPropertyType(ot) + "Property)");
+					addUnsupportedFeature("Ignoring disjoint property axiom between " + st + " (" + _kb.getPropertyType(st) + "Property) and " + ot + " (" + _kb.getPropertyType(ot) + "Property)");
 				break;
 
 			case OWL2_propertyChainAxiom:
@@ -1782,37 +1783,37 @@ public class DefaultGraphLoader implements GraphLoader
 					subProp = null;
 
 				if (subProp != null && superProp != null)
-					kb.addSubProperty(subProp, superProp);
+					_kb.addSubProperty(subProp, superProp);
 				else
-					addUnsupportedFeature("Ignoring property chain axiom between " + st + " (" + kb.getPropertyType(st) + "Property) and " + ot);
+					addUnsupportedFeature("Ignoring property chain axiom between " + st + " (" + _kb.getPropertyType(st) + "Property) and " + ot);
 				break;
 
 			case OWL_equivalentProperty:
 				if (defineProperties(st, ot))
-					kb.addEquivalentProperty(st, ot);
+					_kb.addEquivalentProperty(st, ot);
 				else
-					addUnsupportedFeature("Ignoring equivalent property axiom between " + st + " (" + kb.getPropertyType(st) + "Property) and " + ot + " (" + kb.getPropertyType(ot) + "Property)");
+					addUnsupportedFeature("Ignoring equivalent property axiom between " + st + " (" + _kb.getPropertyType(st) + "Property) and " + ot + " (" + _kb.getPropertyType(ot) + "Property)");
 
 				break;
 
 			case OWL_inverseOf:
 				if (defineObjectProperty(st) && defineObjectProperty(ot))
-					kb.addInverseProperty(st, ot);
+					_kb.addInverseProperty(st, ot);
 				else
-					addUnsupportedFeature("Ignoring inverseOf axiom between " + st + " (" + kb.getPropertyType(st) + "Property) and " + ot + " (" + kb.getPropertyType(ot) + "Property)");
+					addUnsupportedFeature("Ignoring inverseOf axiom between " + st + " (" + _kb.getPropertyType(st) + "Property) and " + ot + " (" + _kb.getPropertyType(ot) + "Property)");
 
 				break;
 
 			case OWL_sameAs:
 				if (defineIndividual(st) && defineIndividual(ot))
-					kb.addSame(st, ot);
+					_kb.addSame(st, ot);
 				else
 					addUnsupportedFeature("Ignoring sameAs axiom between " + st + " and " + ot);
 				break;
 
 			case OWL_differentFrom:
 				if (defineIndividual(st) && defineIndividual(ot))
-					kb.addDifferent(st, ot);
+					_kb.addDifferent(st, ot);
 				else
 					addUnsupportedFeature("Ignoring differentFrom axiom between " + st + " and " + ot);
 				break;
@@ -1825,7 +1826,7 @@ public class DefaultGraphLoader implements GraphLoader
 					defineIndividual(c);
 				}
 
-				kb.addAllDifferent(list);
+				_kb.addAllDifferent(list);
 				break;
 
 			case OWL_members:
@@ -1867,13 +1868,13 @@ public class DefaultGraphLoader implements GraphLoader
 						switch (entityType)
 						{
 							case OWL_AllDifferent:
-								kb.addAllDifferent(list);
+								_kb.addAllDifferent(list);
 								break;
 							case OWL2_AllDisjointClasses:
-								kb.addDisjointClasses(list);
+								_kb.addDisjointClasses(list);
 								break;
 							case OWL2_AllDisjointProperties:
-								kb.addDisjointProperties(list);
+								_kb.addDisjointProperties(list);
 								break;
 						}
 					}
@@ -1882,7 +1883,7 @@ public class DefaultGraphLoader implements GraphLoader
 			case OWL_oneOf:
 				ATermList resultList = ATermUtils.EMPTY_LIST;
 
-				if (kb.isDatatype(st))
+				if (_kb.isDatatype(st))
 					return;
 
 				// assert the subject is a class
@@ -1905,7 +1906,7 @@ public class DefaultGraphLoader implements GraphLoader
 
 							defineClass(nominal);
 							defineIndividual(c);
-							kb.addType(c, nominal);
+							_kb.addType(c, nominal);
 						}
 						else
 						{
@@ -1916,7 +1917,7 @@ public class DefaultGraphLoader implements GraphLoader
 					}
 					disjunction = ATermUtils.makeOr(resultList);
 				}
-				kb.addEquivalentClass(st, disjunction);
+				_kb.addEquivalentClass(st, disjunction);
 				break;
 
 			case OWL2_hasKey:
@@ -1935,7 +1936,7 @@ public class DefaultGraphLoader implements GraphLoader
 					properties.add(f);
 				}
 
-				kb.addKey(st, properties);
+				_kb.addKey(st, properties);
 				break;
 
 			case OWL2_topDataProperty:
@@ -1943,7 +1944,7 @@ public class DefaultGraphLoader implements GraphLoader
 			case OWL2_topObjectProperty:
 			case OWL2_bottomObjectProperty:
 				defineIndividual(st);
-				kb.addPropertyValue(node2term(p), st, ot);
+				_kb.addPropertyValue(node2term(p), st, ot);
 				break;
 
 			default:
@@ -1956,7 +1957,7 @@ public class DefaultGraphLoader implements GraphLoader
 	{
 		log.fine("processUntypedResource");
 
-		for (final Role r : kb.getRBox().getRoles().toArray(new Role[0]))
+		for (final Role r : _kb.getRBox().getRoles().toArray(new Role[0]))
 		{
 			final SimpleProperty why = simpleProperties.get(r.getName());
 			if (why != null)
@@ -2010,12 +2011,12 @@ public class DefaultGraphLoader implements GraphLoader
 					if (rangeToDatatype)
 					{
 						for (final ATermAppl range : ranges)
-							if ((range.getAFun().getArity() == 0) && (!kb.isDatatype(range)))
+							if ((range.getAFun().getArity() == 0) && (!_kb.isDatatype(range)))
 								defineDatatype(range);
 					}
 					else
 						for (final ATermAppl range : ranges)
-							if ((range.getAFun().getArity() == 0) && (!kb.isClass(range)))
+							if ((range.getAFun().getArity() == 0) && (!_kb.isClass(range)))
 								defineClass(range);
 			}
 		}
@@ -2024,7 +2025,7 @@ public class DefaultGraphLoader implements GraphLoader
 	@Override
 	public void setKB(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 	private void defineBuiltinProperties()
@@ -2046,23 +2047,23 @@ public class DefaultGraphLoader implements GraphLoader
 	@Override
 	public void load(final Iterable<Graph> graphs) throws UnsupportedFeatureException
 	{
-		final Timer timer = kb.timers.startTimer("load");
+		final Timer timer = _kb.timers.startTimer("load");
 
 		monitor.setProgressTitle("Loading");
 		monitor.taskStarted();
 
-		graph = EMPTY_GRAPH;
+		_graph = EMPTY_GRAPH;
 		preprocess();
 
 		for (final Graph g : graphs)
 		{
-			graph = g;
+			_graph = g;
 			processTypes();
 		}
 
 		for (final Graph g : graphs)
 		{
-			graph = g;
+			_graph = g;
 			processTriples();
 		}
 

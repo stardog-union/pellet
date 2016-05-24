@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.DisjointSet;
 import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
@@ -42,7 +43,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
  */
 public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 {
-	public static final Logger log = Logger.getLogger(AxiomBasedModuleExtractor.class.getName());
+	public static final Logger log = Log.getLogger(AxiomBasedModuleExtractor.class);
 
 	private boolean optimizeForSharedModules = true;
 

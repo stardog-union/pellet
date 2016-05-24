@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
 import org.mindswap.pellet.Edge;
@@ -22,29 +23,29 @@ import org.mindswap.pellet.tableau.branch.Branch;
 import org.mindswap.pellet.tableau.branch.DisjunctionBranch;
 
 /**
- * This is the _index structure for maintaining the dependencies between structures in an ABox and the syntactic assertions which caused them to be created.
+ * This is the _index structure for maintaining the _dependencies between structures in an ABox and the syntactic assertions which caused them to be created.
  * This is used for incremental deletions.
  *
  * @author Christian Halaschek-Wiener
  */
 public class DependencyIndex
 {
-	public final static Logger log = Logger.getLogger(DependencyIndex.class.getName());
+	public final static Logger log = Log.getLogger(DependencyIndex.class);
 
 	/**
 	 * Map from assertions (ATermAppl) to Dependency entries
 	 */
-	private final Map<ATermAppl, DependencyEntry> dependencies = new ConcurrentHashMap<>();
+	private final Map<ATermAppl, DependencyEntry> _dependencies = new ConcurrentHashMap<>();
 
 	/**
 	 * Branch dependency _index
 	 */
-	private final Map<Branch, Set<BranchDependency>> branchIndex = new ConcurrentHashMap<>();
+	private final Map<Branch, Set<BranchDependency>> _branchIndex = new ConcurrentHashMap<>();
 
 	/**
 	 * Clash dependency - used for cleanup
 	 */
-	private final Set<ClashDependency> clashIndex = Collections.newSetFromMap(new ConcurrentHashMap<>());
+	private final Set<ClashDependency> _clashIndex = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
 	/**
 	 * KB object
@@ -66,14 +67,14 @@ public class DependencyIndex
 	{
 		this(kb);
 
-		//iterate over old dependencies and copy
+		//iterate over old _dependencies and copy
 		for (final ATermAppl next : oldIndex.getDependencies().keySet())
 		{
 			//duplication entry
 			final DependencyEntry entry = oldIndex.getDependencies(next).copy();
 
 			//add
-			dependencies.put(next, entry);
+			_dependencies.put(next, entry);
 		}
 
 	}
@@ -84,7 +85,7 @@ public class DependencyIndex
 	 */
 	public DependencyEntry getDependencies(final ATermAppl assertion)
 	{
-		return dependencies.get(assertion);
+		return _dependencies.get(assertion);
 	}
 
 	/**
@@ -92,7 +93,7 @@ public class DependencyIndex
 	 */
 	protected Map<ATermAppl, DependencyEntry> getDependencies()
 	{
-		return dependencies;
+		return _dependencies;
 	}
 
 	/**
@@ -113,14 +114,14 @@ public class DependencyIndex
 			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
-				if (!dependencies.containsKey(nextAtom))
-					dependencies.put(nextAtom, new DependencyEntry());
+				if (!_dependencies.containsKey(nextAtom))
+					_dependencies.put(nextAtom, new DependencyEntry());
 
 				//					if(_log.isLoggable( Level.FINE ))
 				//						_log.fine("DependencyIndex- Adding type dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  Type["  + type + "]");
 
 				//add the dependency
-				dependencies.get(nextAtom).addTypeDependency(ind, type);
+				_dependencies.get(nextAtom).addTypeDependency(ind, type);
 			}
 	}
 
@@ -142,14 +143,14 @@ public class DependencyIndex
 			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
-				if (!dependencies.containsKey(nextAtom))
-					dependencies.put(nextAtom, new DependencyEntry());
+				if (!_dependencies.containsKey(nextAtom))
+					_dependencies.put(nextAtom, new DependencyEntry());
 
 				//					if(_log.isLoggable( Level.FINE ))
 				//						_log.fine("DependencyIndex- Adding merge dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  mergedToInd["  + mergedTo + "]");
 
 				//add the dependency
-				dependencies.get(nextAtom).addMergeDependency(ind, mergedTo);
+				_dependencies.get(nextAtom).addMergeDependency(ind, mergedTo);
 			}
 	}
 
@@ -170,14 +171,14 @@ public class DependencyIndex
 			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
-				if (!dependencies.containsKey(nextAtom))
-					dependencies.put(nextAtom, new DependencyEntry());
+				if (!_dependencies.containsKey(nextAtom))
+					_dependencies.put(nextAtom, new DependencyEntry());
 
 				//					if(_log.isLoggable( Level.FINE ))
 				//						_log.fine("  DependencyIndex- Adding edge dependency: Axiom [" +nextAtom + "]   ,  Edge [" + edge + "]");
 
 				//add the dependency
-				dependencies.get(nextAtom).addEdgeDependency(edge);
+				_dependencies.get(nextAtom).addEdgeDependency(edge);
 			}
 	}
 
@@ -196,24 +197,24 @@ public class DependencyIndex
 			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
-				if (!dependencies.containsKey(nextAtom))
-					dependencies.put(nextAtom, new DependencyEntry());
+				if (!_dependencies.containsKey(nextAtom))
+					_dependencies.put(nextAtom, new DependencyEntry());
 
 				if (log.isLoggable(Level.FINE))
 					log.fine("DependencyIndex- Adding _branch add dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]");
 
 				//add the dependency
-				final BranchDependency newDep = dependencies.get(nextAtom).addBranchAddDependency(nextAtom, branch.getBranch(), branch);
+				final BranchDependency newDep = _dependencies.get(nextAtom).addBranchAddDependency(nextAtom, branch.getBranch(), branch);
 
-				//add dependency to _index so that backjumping can be supported (ie, we need a fast way to remove the _branch dependencies
-				if (!branchIndex.containsKey(branch))
+				//add dependency to _index so that backjumping can be supported (ie, we need a fast way to remove the _branch _dependencies
+				if (!_branchIndex.containsKey(branch))
 				{
 					final Set<BranchDependency> newS = new HashSet<>();
 					newS.add(newDep);
-					branchIndex.put(branch, newS);
+					_branchIndex.put(branch, newS);
 				}
 				else
-					branchIndex.get(branch).add(newDep);
+					_branchIndex.get(branch).add(newDep);
 			}
 	}
 
@@ -232,8 +233,8 @@ public class DependencyIndex
 			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
-				if (!dependencies.containsKey(nextAtom))
-					dependencies.put(nextAtom, new DependencyEntry());
+				if (!_dependencies.containsKey(nextAtom))
+					_dependencies.put(nextAtom, new DependencyEntry());
 
 				ATermAppl label = null;
 				if (branch instanceof DisjunctionBranch)
@@ -243,38 +244,38 @@ public class DependencyIndex
 					log.fine("DependencyIndex- Adding _branch remove ds dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]   on label [" + label + "]  ,    _tryNext [" + branch.getTryNext() + "]");
 
 				//add the dependency
-				final BranchDependency newDep = dependencies.get(nextAtom).addCloseBranchDependency(nextAtom, branch);
+				final BranchDependency newDep = _dependencies.get(nextAtom).addCloseBranchDependency(nextAtom, branch);
 
-				//add depedency to _index so that backjumping can be supported (ie, we need a fast way to remove the _branch dependencies
-				if (!branchIndex.containsKey(branch))
+				//add depedency to _index so that backjumping can be supported (ie, we need a fast way to remove the _branch _dependencies
+				if (!_branchIndex.containsKey(branch))
 				{
 					final Set<BranchDependency> newS = new HashSet<>();
 					newS.add(newDep);
-					branchIndex.put(branch, newS);
+					_branchIndex.put(branch, newS);
 				}
 				else
-					branchIndex.get(branch).add(newDep);
+					_branchIndex.get(branch).add(newDep);
 			}
 	}
 
 	/**
-	 * Remove the dependencies for a given assertion
+	 * Remove the _dependencies for a given assertion
 	 * 
 	 * @param assertion
 	 */
 	public void removeDependencies(final ATermAppl assertion)
 	{
-		dependencies.remove(assertion);
+		_dependencies.remove(assertion);
 	}
 
 	/**
-	 * Remove _branch dependencies - this is needed due to backjumping!
+	 * Remove _branch _dependencies - this is needed due to backjumping!
 	 * 
 	 * @param b
 	 */
 	public void removeBranchDependencies(final Branch b)
 	{
-		final Set<BranchDependency> deps = branchIndex.get(b);
+		final Set<BranchDependency> deps = _branchIndex.get(b);
 
 		//TODO: why is this null? is this because of duplicate entries in the _index set?
 		//This seems to creep up in WebOntTest-I5.8-Manifest004 and 5 among others...
@@ -288,30 +289,30 @@ public class DependencyIndex
 				log.fine("DependencyIndex: RESTORE causing remove of _branch _index for assertion: " + next.getAssertion() + " _branch dep.: " + next);
 			if (next instanceof BranchAddDependency)
 				//remove the dependency
-				dependencies.get(next.getAssertion()).getBranchAdds().remove(next);
+				_dependencies.get(next.getAssertion()).getBranchAdds().remove(next);
 			else
 			{
 				//remove the dependency
-				//((DependencyEntry)dependencies.get(next.getAssertion())).getBranchRemoveDSs().remove(next);
+				//((DependencyEntry)_dependencies.get(next.getAssertion())).getBranchRemoveDSs().remove(next);
 			}
 
 		}
 	}
 
 	/**
-	 * Set clash dependencies
+	 * Set clash _dependencies
 	 */
 	public void setClashDependencies(final Clash clash)
 	{
 
 		//first remove old entry using clashindex
-		for (final ClashDependency next : clashIndex)
+		for (final ClashDependency next : _clashIndex)
 			//remove the dependency
-			if (dependencies.containsKey(next.getAssertion()))
-				dependencies.get(next.getAssertion()).setClash(null);
+			if (_dependencies.containsKey(next.getAssertion()))
+				_dependencies.get(next.getAssertion()).setClash(null);
 
 		//clear the old _index
-		clashIndex.clear();
+		_clashIndex.clear();
 
 		if (clash == null)
 			return;
@@ -322,8 +323,8 @@ public class DependencyIndex
 			if (_kb.getSyntacticAssertions().contains(nextAtom))
 			{
 				//if this entry does not exist then create it
-				if (!dependencies.containsKey(nextAtom))
-					dependencies.put(nextAtom, new DependencyEntry());
+				if (!_dependencies.containsKey(nextAtom))
+					_dependencies.put(nextAtom, new DependencyEntry());
 
 				if (log.isLoggable(Level.FINE))
 					log.fine("  DependencyIndex- Adding clash dependency: Axiom [" + nextAtom + "]   ,  Clash [" + clash + "]");
@@ -331,10 +332,10 @@ public class DependencyIndex
 				final ClashDependency newDep = new ClashDependency(nextAtom, clash);
 
 				//set the dependency
-				dependencies.get(nextAtom).setClash(newDep);
+				_dependencies.get(nextAtom).setClash(newDep);
 
 				//update _index
-				clashIndex.add(newDep);
+				_clashIndex.add(newDep);
 			}
 	}
 }

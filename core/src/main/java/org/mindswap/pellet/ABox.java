@@ -59,6 +59,7 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.branch.Branch;
 import org.mindswap.pellet.tableau.cache.CachedNode;
@@ -101,7 +102,7 @@ import org.mindswap.pellet.utils.iterator.MultiListIterator;
  */
 public class ABox
 {
-	public final static Logger log = Logger.getLogger(ABox.class.getName());
+	public final static Logger log = Log.getLogger(ABox.class);
 
 	// following two variables are used to generate names
 	// for newly generated individuals. so during rules are
@@ -381,10 +382,10 @@ public class ABox
 	}
 
 	/**
-	 * Create a copy of this ABox with one more additional _individual. This is <b>NOT</b> equivalent to create a copy and then add the _individual. The _order of
-	 * individuals in the ABox is important to figure out which individuals exist in the original ontology and which ones are created by the tableau algorithm.
-	 * This function creates a new ABox such that the _individual is supposed to exist in the original ontology. This is very important when satisfiability of a
-	 * concept starts with a pesudo model rather than the initial ABox.
+	 * Create a copy of this ABox with one more additional _individual. This is <b>NOT</b> equivalent to create a copy and then add the _individual. The _order
+	 * of individuals in the ABox is important to figure out which individuals exist in the original ontology and which ones are created by the tableau
+	 * algorithm. This function creates a new ABox such that the _individual is supposed to exist in the original ontology. This is very important when
+	 * satisfiability of a concept starts with a pesudo model rather than the initial ABox.
 	 *
 	 * @param extraIndividual Extra _individual to be added to the copy ABox
 	 * @return

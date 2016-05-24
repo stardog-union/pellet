@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
@@ -37,7 +38,7 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
  */
 public class UnaryTBox
 {
-	public static final Logger log = Logger.getLogger(UnaryTBox.class.getName());
+	public static final Logger log = Log.getLogger(UnaryTBox.class);
 
 	private Map<ATermAppl, List<Unfolding>> _unfoldings = CollectionUtils.makeIdentityMap();
 

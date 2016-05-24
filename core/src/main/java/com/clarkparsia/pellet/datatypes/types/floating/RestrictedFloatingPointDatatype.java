@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -39,12 +40,7 @@ import java.util.logging.Logger;
 public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> implements RestrictedDatatype<T>
 {
 
-	private final static Logger log;
-
-	static
-	{
-		log = Logger.getLogger(RestrictedFloatingPointDatatype.class.getCanonicalName());
-	}
+	private final static Logger log = Log.getLogger(RestrictedFloatingPointDatatype.class);
 
 	/*
 	 * TODO: Evaluate storing _intervals in a tree to improve the efficiency of

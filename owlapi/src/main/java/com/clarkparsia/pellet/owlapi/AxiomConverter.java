@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.ATermUtils;
@@ -55,7 +56,7 @@ import org.semanticweb.owlapi.model.SWRLIArgument;
  */
 public class AxiomConverter
 {
-	public static Logger _log = Logger.getLogger(AxiomConverter.class.getName());
+	public static Logger _log = Log.getLogger(AxiomConverter.class);
 
 	private final ConceptConverter _conceptConverter;
 	private final OWLDataFactory _factory;

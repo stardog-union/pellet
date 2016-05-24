@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
@@ -71,7 +72,7 @@ import org.mindswap.pellet.utils.Timers;
  */
 public abstract class CompletionStrategy
 {
-	public final static Logger log = Logger.getLogger(CompletionStrategy.class.getName());
+	public final static Logger log = Log.getLogger(CompletionStrategy.class);
 
 	/**
 	 * ABox being completed

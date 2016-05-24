@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.tableau.completion.incremental.DependencyIndex;
 import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.intset.IntSet;
@@ -47,7 +48,7 @@ import org.mindswap.pellet.utils.intset.IntSetFactory;
  */
 public class DependencySet
 {
-	public static final Logger log;
+	public static final Logger log = Log.getLogger(DependencySet.class);
 
 	public static final int NO_BRANCH;
 
@@ -64,7 +65,6 @@ public class DependencySet
 	public static final IntSet ZERO;
 	static
 	{
-		log = Logger.getLogger(DependencySet.class.getName());
 		NO_BRANCH = -1;
 		ZERO = IntSetFactory.create();
 		ZERO.add(0);

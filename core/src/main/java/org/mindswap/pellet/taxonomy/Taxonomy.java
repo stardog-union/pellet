@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.Bool;
 
@@ -167,7 +168,7 @@ public class Taxonomy<T>
 		}
 	}
 
-	public static final Logger log = Logger.getLogger(Taxonomy.class.getName());
+	public static final Logger log = Log.getLogger(Taxonomy.class);
 
 	private static final boolean SUB = true;
 
@@ -975,63 +976,63 @@ public class Taxonomy<T>
 	{
 		final Map<TaxonomyNode<T>, Integer> degrees = new HashMap<>();
 		final Map<T, TaxonomyNode<T>> nodesPending = comparator == null ? new HashMap<>() : new TreeMap<>(comparator);
-				final Set<TaxonomyNode<T>> nodesLeft = new HashSet<>();
-				final List<T> nodesSorted = new ArrayList<>();
+		final Set<TaxonomyNode<T>> nodesLeft = new HashSet<>();
+		final List<T> nodesSorted = new ArrayList<>();
 
-				log.fine("Topological sort...");
+		log.fine("Topological sort...");
 
-				for (final TaxonomyNode<T> node : _nodes.values())
+		for (final TaxonomyNode<T> node : _nodes.values())
 		{
-					if (node.isHidden())
-						continue;
+			if (node.isHidden())
+				continue;
 
 			nodesLeft.add(node);
-					final int degree = node.getSupers().size();
-					if (degree == 0)
+			final int degree = node.getSupers().size();
+			if (degree == 0)
 			{
-						nodesPending.put(node.getName(), node);
-						degrees.put(node, 0);
-					}
-					else
-						degrees.put(node, Integer.valueOf(degree));
-				}
+				nodesPending.put(node.getName(), node);
+				degrees.put(node, 0);
+			}
+			else
+				degrees.put(node, Integer.valueOf(degree));
+		}
 
-				for (int i = 0, size = nodesLeft.size(); i < size; i++)
+		for (int i = 0, size = nodesLeft.size(); i < size; i++)
 		{
-					if (nodesPending.isEmpty())
-						throw new InternalReasonerException("Cycle detected in the taxonomy!");
+			if (nodesPending.isEmpty())
+				throw new InternalReasonerException("Cycle detected in the taxonomy!");
 
-					final TaxonomyNode<T> node = nodesPending.values().iterator().next();
+			final TaxonomyNode<T> node = nodesPending.values().iterator().next();
 
-					final int deg = degrees.get(node);
-					if (deg != 0)
-						throw new InternalReasonerException("Cycle detected in the taxonomy " + node + " " + deg + " " + nodesSorted.size() + " " + _nodes.size());
+			final int deg = degrees.get(node);
+			if (deg != 0)
+				throw new InternalReasonerException("Cycle detected in the taxonomy " + node + " " + deg + " " + nodesSorted.size() + " " + _nodes.size());
 
-					nodesPending.remove(node.getName());
-					nodesLeft.remove(node);
-					if (includeEquivalents)
-						nodesSorted.addAll(node.getEquivalents());
-					else
-						nodesSorted.add(node.getName());
+			nodesPending.remove(node.getName());
+			nodesLeft.remove(node);
+			if (includeEquivalents)
+				nodesSorted.addAll(node.getEquivalents());
+			else
+				nodesSorted.add(node.getName());
 
-					for (final TaxonomyNode<T> sub : node.getSubs())
+			for (final TaxonomyNode<T> sub : node.getSubs())
 			{
-						final int degree = degrees.get(sub);
-						if (degree == 1)
+				final int degree = degrees.get(sub);
+				if (degree == 1)
 				{
-							nodesPending.put(sub.getName(), sub);
-							degrees.put(sub, 0);
-						}
-						else
-							degrees.put(sub, degree - 1);
-					}
+					nodesPending.put(sub.getName(), sub);
+					degrees.put(sub, 0);
 				}
+				else
+					degrees.put(sub, degree - 1);
+			}
+		}
 
-				if (!nodesLeft.isEmpty())
-					throw new InternalReasonerException("Failed to sort elements: " + nodesLeft);
+		if (!nodesLeft.isEmpty())
+			throw new InternalReasonerException("Failed to sort elements: " + nodesLeft);
 
-				log.fine("done");
+		log.fine("done");
 
-				return nodesSorted;
+		return nodesSorted;
 	}
 }

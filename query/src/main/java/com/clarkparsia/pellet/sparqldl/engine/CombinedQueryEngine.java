@@ -38,6 +38,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
@@ -67,11 +68,11 @@ import org.mindswap.pellet.utils.Timer;
  */
 public class CombinedQueryEngine implements QueryExec
 {
-	public static final Logger log = Logger.getLogger(CombinedQueryEngine.class.getName());
+	public static final Logger log = Log.getLogger(CombinedQueryEngine.class);
 
 	public static final QueryOptimizer optimizer = new QueryOptimizer();
 
-	private KnowledgeBase kb;
+	private KnowledgeBase _kb;
 
 	protected QueryPlan plan;
 
@@ -79,20 +80,20 @@ public class CombinedQueryEngine implements QueryExec
 
 	protected Query query;
 
-	private QueryResult result;
+	private QueryResult _result;
 
-	private Set<ATermAppl> downMonotonic;
+	private Set<ATermAppl> _downMonotonic;
 
 	private void prepare(final Query query)
 	{
 		if (log.isLoggable(Level.FINE))
 			log.fine("Preparing plan ...");
 
-		this.kb = query.getKB();
-		if (kb == null)
+		this._kb = query.getKB();
+		if (_kb == null)
 			throw new RuntimeException("No input _data set is given for query!");
 
-		this.result = new QueryResultImpl(query);
+		this._result = new QueryResultImpl(query);
 
 		this.oldQuery = query;
 		this.query = setupCores(query);
@@ -106,23 +107,23 @@ public class CombinedQueryEngine implements QueryExec
 		// warm up the reasoner by computing the satisfiability of classes
 		// used in the query so that cached models can be used for instance
 		// checking - TODO also non-named classes
-		if ((PelletOptions.USE_CACHING) && !kb.isClassified())
+		if ((PelletOptions.USE_CACHING) && !_kb.isClassified())
 			for (final QueryAtom a : oldQuery.getAtoms())
 				for (final ATermAppl arg : a.getArguments())
-					if (kb.isClass(arg))
+					if (_kb.isClass(arg))
 					{
-						kb.isSatisfiable(arg);
-						kb.isSatisfiable(ATermUtils.makeNot(arg));
+						_kb.isSatisfiable(arg);
+						_kb.isSatisfiable(ATermUtils.makeNot(arg));
 					}
 
 		if (PelletOptions.OPTIMIZE_DOWN_MONOTONIC)
 		{
 			// TODO use down monotonic variables for implementation of
 			// DirectType atom
-			downMonotonic = new HashSet<>();
+			_downMonotonic = new HashSet<>();
 			setupDownMonotonicVariables(this.query);
 			if (log.isLoggable(Level.FINE))
-				log.fine("Variables to be optimized : " + downMonotonic);
+				log.fine("Variables to be optimized : " + _downMonotonic);
 		}
 	}
 
@@ -187,7 +188,7 @@ public class CombinedQueryEngine implements QueryExec
 				if (a instanceof QueryAtom)
 					atoms.add((QueryAtom) a);
 
-			final CoreNewImpl c = (CoreNewImpl) QueryAtomFactory.Core(atoms, query.getUndistVars(), kb);
+			final CoreNewImpl c = (CoreNewImpl) QueryAtomFactory.Core(atoms, query.getUndistVars(), _kb);
 
 			transformedQuery.add(c);
 
@@ -215,7 +216,7 @@ public class CombinedQueryEngine implements QueryExec
 				case Type:
 					arg = atom.getArguments().get(1);
 					if (ATermUtils.isVar(arg))
-						downMonotonic.add(arg);
+						_downMonotonic.add(arg);
 					break;
 				default:
 					arg = null;
@@ -240,8 +241,7 @@ public class CombinedQueryEngine implements QueryExec
 	@Override
 	public QueryResult exec(final Query query)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Executing query " + query);
+		log.fine(() -> "Executing query " + query);
 
 		final Timer timer = new Timer("CombinedQueryEngine");
 		timer.start();
@@ -250,10 +250,9 @@ public class CombinedQueryEngine implements QueryExec
 		exec(new ResultBindingImpl());
 		timer.stop();
 
-		if (log.isLoggable(Level.FINE))
-			log.log(Level.FINE, "#B=" + branches + ", time=" + timer.getLast() + " ms.");
+		log.fine(() -> "#B=" + branches + ", time=" + timer.getLast() + " ms.");
 
-		return result;
+		return _result;
 	}
 
 	private long branches;
@@ -265,18 +264,18 @@ public class CombinedQueryEngine implements QueryExec
 
 		if (!plan.hasNext())
 		{
-			// TODO if result vars are not same as dist vars.
-			if (!binding.isEmpty() || result.isEmpty())
+			// TODO if _result vars are not same as dist vars.
+			if (!binding.isEmpty() || _result.isEmpty())
 			{
 				if (log.isLoggable(Level.FINE))
 					log.fine("Found binding: " + binding);
 
 				//				Filter filter = query.getFilter();
 
-				if (!result.getResultVars().containsAll(binding.getAllVariables()))
+				if (!_result.getResultVars().containsAll(binding.getAllVariables()))
 				{
 					final ResultBinding newBinding = new ResultBindingImpl();
-					for (final ATermAppl var : result.getResultVars())
+					for (final ATermAppl var : _result.getResultVars())
 					{
 						final ATermAppl value = binding.getValue(var);
 
@@ -285,7 +284,7 @@ public class CombinedQueryEngine implements QueryExec
 					binding = newBinding;
 				}
 
-				result.add(binding);
+				_result.add(binding);
 			}
 
 			if (log.isLoggable(Level.FINER))
@@ -300,7 +299,7 @@ public class CombinedQueryEngine implements QueryExec
 
 		if (current.isGround() && !current.getPredicate().equals(QueryPredicate.UndistVarCore))
 		{
-			if (QueryEngine.checkGround(current, kb))
+			if (QueryEngine.checkGround(current, _kb))
 				exec(binding);
 		}
 		else
@@ -324,16 +323,16 @@ public class CombinedQueryEngine implements QueryExec
 
 			case DirectType:
 				direct = true;
-			case Type: // TODO implementation of downMonotonic vars
+			case Type: // TODO implementation of _downMonotonic vars
 				final ATermAppl tI = arguments.get(0);
 				final ATermAppl tC = arguments.get(1);
 
 				Set<ATermAppl> instanceCandidates = null;
 				if (tI.equals(tC))
 				{
-					instanceCandidates = kb.getIndividuals().size() < kb.getClasses().size() ? kb.getIndividuals() : kb.getClasses();
+					instanceCandidates = _kb.getIndividuals().size() < _kb.getClasses().size() ? _kb.getIndividuals() : _kb.getClasses();
 					for (final ATermAppl ic : instanceCandidates)
-						if (direct ? kb.getInstances(ic, direct).contains(ic) : kb.isType(ic, ic))
+						if (direct ? _kb.getInstances(ic, direct).contains(ic) : _kb.isType(ic, ic))
 						{
 							final ResultBinding candidateBinding = binding.duplicate();
 
@@ -350,25 +349,25 @@ public class CombinedQueryEngine implements QueryExec
 					if (!ATermUtils.isVar(tC))
 					{
 						classCandidates = Collections.singleton(tC);
-						instanceCandidates = kb.getInstances(tC, direct);
+						instanceCandidates = _kb.getInstances(tC, direct);
 					}
 					else
 						if (!ATermUtils.isVar(tI))
 						{
 							// classCandidates = flatten(TaxonomyUtils.getTypes(_kb
 							// .getTaxonomy(), tI, direct)); // TODO
-							classCandidates = flatten(kb.getTypes(tI, direct)); // TODO
+							classCandidates = flatten(_kb.getTypes(tI, direct)); // TODO
 							instanceCandidates = Collections.singleton(tI);
 						}
 						else
-							classCandidates = kb.getAllClasses();
+							classCandidates = _kb.getAllClasses();
 
 					// explore all possible bindings
 					final boolean loadInstances = (instanceCandidates == null);
 					for (final ATermAppl cls : classCandidates)
 					{
 						if (loadInstances)
-							instanceCandidates = kb.getInstances(cls, direct);
+							instanceCandidates = _kb.getInstances(cls, direct);
 						if (instanceCandidates != null)
 							for (final ATermAppl inst : instanceCandidates)
 								runNext(binding, arguments, inst, cls);
@@ -376,7 +375,7 @@ public class CombinedQueryEngine implements QueryExec
 				}
 				break;
 
-			case PropertyValue: // TODO implementation of downMonotonic vars
+			case PropertyValue: // TODO implementation of _downMonotonic vars
 				final ATermAppl pvI = arguments.get(0);
 				final ATermAppl pvP = arguments.get(1);
 				final ATermAppl pvIL = arguments.get(2);
@@ -395,13 +394,13 @@ public class CombinedQueryEngine implements QueryExec
 					if (!ATermUtils.isVar(pvI))
 					{
 						subjectCandidates = Collections.singleton(pvI);
-						objectCandidates = kb.getPropertyValues(pvP, pvI);
+						objectCandidates = _kb.getPropertyValues(pvP, pvI);
 					}
 					else
 						if (!ATermUtils.isVar(pvIL))
 						{
 							objectCandidates = Collections.singleton(pvIL);
-							subjectCandidates = kb.getIndividualsWithProperty(pvP, pvIL);
+							subjectCandidates = _kb.getIndividualsWithProperty(pvP, pvIL);
 						}
 					loadProperty = false;
 				}
@@ -414,10 +413,10 @@ public class CombinedQueryEngine implements QueryExec
 						objectCandidates = Collections.singleton(pvIL);
 					else
 						if (!plan.getQuery().getDistVarsForType(VarType.LITERAL).contains(pvIL))
-							propertyCandidates = kb.getObjectProperties();
+							propertyCandidates = _kb.getObjectProperties();
 
 					if (propertyCandidates == null)
-						propertyCandidates = kb.getProperties();
+						propertyCandidates = _kb.getProperties();
 					loadProperty = true;
 				}
 
@@ -434,37 +433,37 @@ public class CombinedQueryEngine implements QueryExec
 						{
 							if (pvI.equals(pvP))
 							{
-								if (!kb.hasPropertyValue(property, property, property))
+								if (!_kb.hasPropertyValue(property, property, property))
 									continue;
 								runNext(binding, arguments, property, property, property);
 							}
 							else
-								for (final ATermAppl i : kb.getIndividuals())
+								for (final ATermAppl i : _kb.getIndividuals())
 								{
-									if (!kb.hasPropertyValue(i, property, i))
+									if (!_kb.hasPropertyValue(i, property, i))
 										continue;
 									runNext(binding, arguments, i, property, i);
 								}
 						}
 						else
 							if (pvI.equals(pvP))
-								for (final ATermAppl i : kb.getIndividuals())
+								for (final ATermAppl i : _kb.getIndividuals())
 								{
-									if (!kb.hasPropertyValue(property, property, i))
+									if (!_kb.hasPropertyValue(property, property, i))
 										continue;
 									runNext(binding, arguments, property, property, i);
 								}
 							else
 								if (pvIL.equals(pvP))
-									for (final ATermAppl i : kb.getIndividuals())
+									for (final ATermAppl i : _kb.getIndividuals())
 									{
-										if (!kb.hasPropertyValue(i, property, property))
+										if (!_kb.hasPropertyValue(i, property, property))
 											continue;
 										runNext(binding, arguments, i, property, property);
 									}
 								else
-									for (final ATermAppl subject : kb.getIndividuals())
-										for (final ATermAppl object : kb.getPropertyValues(property, subject))
+									for (final ATermAppl subject : _kb.getIndividuals())
+										for (final ATermAppl object : _kb.getPropertyValues(property, subject))
 											runNext(binding, arguments, subject, property, object);
 					}
 					else
@@ -472,13 +471,13 @@ public class CombinedQueryEngine implements QueryExec
 						{
 							// subject is known.
 							if (pvP.equals(pvIL))
-								if (subjectCandidates != null && !kb.hasPropertyValue(subjectCandidates.iterator().next(), property, property))
+								if (subjectCandidates != null && !_kb.hasPropertyValue(subjectCandidates.iterator().next(), property, property))
 									// terminate
 									subjectCandidates = Collections.emptySet();
 
 							if (subjectCandidates != null)
 								for (final ATermAppl subject : subjectCandidates)
-									for (final ATermAppl object : kb.getPropertyValues(property, subject))
+									for (final ATermAppl object : _kb.getPropertyValues(property, subject))
 										runNext(binding, arguments, subject, property, object);
 						}
 						else
@@ -489,19 +488,19 @@ public class CombinedQueryEngine implements QueryExec
 									if (loadSubjects)
 										if (pvI.equals(pvP))
 										{
-											if (kb.hasPropertyValue(property, property, object))
+											if (_kb.hasPropertyValue(property, property, object))
 												subjectCandidates = Collections.singleton(property);
 											else
 												// terminate
 												subjectCandidates = Collections.emptySet();
 										}
 										else
-											subjectCandidates = new HashSet<>(kb.getIndividualsWithProperty(property, object));
+											subjectCandidates = new HashSet<>(_kb.getIndividualsWithProperty(property, object));
 
 									if (subjectCandidates != null)
 										for (final ATermAppl subject : subjectCandidates)
 										{
-											if (loadProperty && !kb.hasPropertyValue(subject, property, object))
+											if (loadProperty && !_kb.hasPropertyValue(subject, property, object))
 												continue;
 
 											runNext(binding, arguments, subject, property, object);
@@ -522,7 +521,7 @@ public class CombinedQueryEngine implements QueryExec
 					if (saI1.equals(saI2))
 						dependents = Collections.singleton(known);
 					else
-						dependents = kb.getAllSames(known);
+						dependents = _kb.getAllSames(known);
 
 					for (final ATermAppl dependent : dependents)
 						runSymetricCheck(current, saI1, known, saI2, dependent, binding);
@@ -536,7 +535,7 @@ public class CombinedQueryEngine implements QueryExec
 
 				if (!dfI1.equals(dfI2))
 					for (final ATermAppl known : getSymmetricCandidates(VarType.INDIVIDUAL, dfI1, dfI2))
-						for (final ATermAppl dependent : kb.getDifferents(known))
+						for (final ATermAppl dependent : _kb.getDifferents(known))
 							runSymetricCheck(current, dfI1, known, dfI2, dependent, binding);
 				else
 					if (log.isLoggable(Level.FINER))
@@ -588,13 +587,13 @@ public class CombinedQueryEngine implements QueryExec
 
 				//if aI is a variable, get all the annotation subjects
 				if (ATermUtils.isVar(aI))
-					subjectCandidates = kb.getAnnotationSubjects();
+					subjectCandidates = _kb.getAnnotationSubjects();
 				else
 					subjectCandidates = Collections.singleton(aI);
 
 				//if aP is a variable, get all the annotation properties
 				if (ATermUtils.isVar(aP))
-					propertyCandidates = kb.getAnnotationProperties();
+					propertyCandidates = _kb.getAnnotationProperties();
 				else
 					propertyCandidates = Collections.singleton(aP);
 
@@ -602,19 +601,19 @@ public class CombinedQueryEngine implements QueryExec
 				if (ATermUtils.isVar(aIL))
 					for (final ATermAppl subject : subjectCandidates)
 						for (final ATermAppl property : propertyCandidates)
-							for (final ATermAppl object : kb.getAnnotations(subject, property))
+							for (final ATermAppl object : _kb.getAnnotations(subject, property))
 								runNext(binding, arguments, subject, property, object);
 				else
 					for (final ATermAppl subject : subjectCandidates)
 						for (final ATermAppl property : propertyCandidates)
-							if (kb.isAnnotation(subject, property, aIL))
+							if (_kb.isAnnotation(subject, property, aIL))
 								runNext(binding, arguments, subject, property, aIL);
 
 				break;
-			// throw new IllegalArgumentException("The annotation atom "
-			// + _current + " should be ground, but is not.");
+				// throw new IllegalArgumentException("The annotation atom "
+				// + _current + " should be ground, but is not.");
 
-			// TBOX ATOMS
+				// TBOX ATOMS
 			case DirectSubClassOf:
 				direct = true;
 			case StrictSubClassOf:
@@ -624,8 +623,8 @@ public class CombinedQueryEngine implements QueryExec
 				final ATermAppl scRHS = arguments.get(1);
 
 				if (scLHS.equals(scRHS))
-					// TODO optimization for downMonotonic variables
-					for (final ATermAppl ic : kb.getClasses())
+					// TODO optimization for _downMonotonic variables
+					for (final ATermAppl ic : _kb.getClasses())
 						runNext(binding, arguments, ic, ic);
 				else
 				{
@@ -633,7 +632,7 @@ public class CombinedQueryEngine implements QueryExec
 					final boolean rhsDM = isDownMonotonic(scRHS);
 
 					if (lhsDM || rhsDM)
-						downMonotonic(kb.getTaxonomy(), kb.getClasses(), lhsDM, scLHS, scRHS, binding, direct, strict);
+						downMonotonic(_kb.getTaxonomy(), _kb.getClasses(), lhsDM, scLHS, scRHS, binding, direct, strict);
 					else
 					{
 						final Set<ATermAppl> lhsCandidates;
@@ -642,12 +641,12 @@ public class CombinedQueryEngine implements QueryExec
 						if (!ATermUtils.isVar(scLHS))
 						{
 							lhsCandidates = Collections.singleton(scLHS);
-							rhsCandidates = flatten(kb.getSuperClasses(scLHS, direct));
+							rhsCandidates = flatten(_kb.getSuperClasses(scLHS, direct));
 
-							rhsCandidates.addAll(kb.getEquivalentClasses(scLHS));
+							rhsCandidates.addAll(_kb.getEquivalentClasses(scLHS));
 
 							if (strict)
-								rhsCandidates.removeAll(kb.getEquivalentClasses(scLHS));
+								rhsCandidates.removeAll(_kb.getEquivalentClasses(scLHS));
 							else
 								if (!ATermUtils.isComplexClass(scLHS))
 									rhsCandidates.add(scLHS);
@@ -657,28 +656,28 @@ public class CombinedQueryEngine implements QueryExec
 							{
 								rhsCandidates = Collections.singleton(scRHS);
 								if (scRHS.equals(ATermUtils.TOP))
-									lhsCandidates = new HashSet<>(kb.getAllClasses());
+									lhsCandidates = new HashSet<>(_kb.getAllClasses());
 								else
 								{
-									lhsCandidates = flatten(kb.getSubClasses(scRHS, direct));
+									lhsCandidates = flatten(_kb.getSubClasses(scRHS, direct));
 
-									lhsCandidates.addAll(kb.getAllEquivalentClasses(scRHS));
+									lhsCandidates.addAll(_kb.getAllEquivalentClasses(scRHS));
 								}
 
 								if (strict)
-									lhsCandidates.removeAll(kb.getAllEquivalentClasses(scRHS));
+									lhsCandidates.removeAll(_kb.getAllEquivalentClasses(scRHS));
 							}
 							else
-								lhsCandidates = kb.getClasses();
+								lhsCandidates = _kb.getClasses();
 
 						final boolean reload = (rhsCandidates == null);
 						for (final ATermAppl subject : lhsCandidates)
 						{
 							if (reload)
 							{
-								rhsCandidates = flatten(kb.getSuperClasses(subject, direct));
+								rhsCandidates = flatten(_kb.getSuperClasses(subject, direct));
 								if (strict)
-									rhsCandidates.removeAll(kb.getEquivalentClasses(subject));
+									rhsCandidates.removeAll(_kb.getEquivalentClasses(subject));
 								else
 									if (!ATermUtils.isComplexClass(subject))
 										rhsCandidates.add(subject);
@@ -691,7 +690,7 @@ public class CombinedQueryEngine implements QueryExec
 				}
 				break;
 
-			case EquivalentClass: // TODO implementation of downMonotonic vars
+			case EquivalentClass: // TODO implementation of _downMonotonic vars
 				final ATermAppl eqcLHS = arguments.get(0);
 				final ATermAppl eqcRHS = arguments.get(1);
 
@@ -708,15 +707,15 @@ public class CombinedQueryEngine implements QueryExec
 					if (eqcLHS.equals(eqcRHS))
 						dependents = Collections.singleton(known);
 					else
-						dependents = kb.getEquivalentClasses(known);
+						dependents = _kb.getEquivalentClasses(known);
 
 					for (final ATermAppl dependent : dependents)
 					{
-						final int size = result.size();
+						final int size = _result.size();
 
 						runSymetricCheck(current, eqcLHS, known, eqcRHS, dependent, binding);
 
-						if (result.size() == size)
+						if (_result.size() == size)
 							// no binding found, so that there is no need to
 							// explore other equivalent classes - they fail
 							// as
@@ -726,34 +725,34 @@ public class CombinedQueryEngine implements QueryExec
 				}
 				break;
 
-			case DisjointWith: // TODO implementation of downMonotonic vars
+			case DisjointWith: // TODO implementation of _downMonotonic vars
 				final ATermAppl dwLHS = arguments.get(0);
 				final ATermAppl dwRHS = arguments.get(1);
 
 				if (!dwLHS.equals(dwRHS))
 					// TODO optimizeTBox
 					for (final ATermAppl known : getSymmetricCandidates(VarType.CLASS, dwLHS, dwRHS))
-						for (final Set<ATermAppl> dependents : kb.getDisjointClasses(known))
+						for (final Set<ATermAppl> dependents : _kb.getDisjointClasses(known))
 							for (final ATermAppl dependent : dependents)
 								runSymetricCheck(current, dwLHS, known, dwRHS, dependent, binding);
 				else
 					log.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
 				break;
 
-			case ComplementOf: // TODO implementation of downMonotonic vars
+			case ComplementOf: // TODO implementation of _downMonotonic vars
 				final ATermAppl coLHS = arguments.get(0);
 				final ATermAppl coRHS = arguments.get(1);
 
 				if (!coLHS.equals(coRHS))
 					// TODO optimizeTBox
 					for (final ATermAppl known : getSymmetricCandidates(VarType.CLASS, coLHS, coRHS))
-						for (final ATermAppl dependent : kb.getComplements(known))
+						for (final ATermAppl dependent : _kb.getComplements(known))
 							runSymetricCheck(current, coLHS, known, coRHS, dependent, binding);
 				else
 					log.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
 				break;
 
-			// RBOX ATOMS
+				// RBOX ATOMS
 			case DirectSubPropertyOf:
 				direct = true;
 			case StrictSubPropertyOf:
@@ -763,8 +762,8 @@ public class CombinedQueryEngine implements QueryExec
 				final ATermAppl spRHS = arguments.get(1);
 
 				if (spLHS.equals(spRHS))
-					// TODO optimization for downMonotonic variables
-					for (final ATermAppl ic : kb.getProperties())
+					// TODO optimization for _downMonotonic variables
+					for (final ATermAppl ic : _kb.getProperties())
 						runNext(binding, arguments, ic, ic);
 				else
 				{
@@ -772,7 +771,7 @@ public class CombinedQueryEngine implements QueryExec
 					final boolean rhsDM = isDownMonotonic(spRHS);
 
 					if (lhsDM || rhsDM)
-						downMonotonic(kb.getRoleTaxonomy(true), kb.getProperties(), lhsDM, spLHS, spRHS, binding, direct, strict);
+						downMonotonic(_kb.getRoleTaxonomy(true), _kb.getProperties(), lhsDM, spLHS, spRHS, binding, direct, strict);
 					else
 					{
 						final Set<ATermAppl> spLhsCandidates;
@@ -781,9 +780,9 @@ public class CombinedQueryEngine implements QueryExec
 						if (!ATermUtils.isVar(spLHS))
 						{
 							spLhsCandidates = Collections.singleton(spLHS);
-							spRhsCandidates = flatten(kb.getSuperProperties(spLHS, direct));
+							spRhsCandidates = flatten(_kb.getSuperProperties(spLHS, direct));
 							if (strict)
-								spRhsCandidates.removeAll(kb.getEquivalentProperties(spLHS));
+								spRhsCandidates.removeAll(_kb.getEquivalentProperties(spLHS));
 							else
 								spRhsCandidates.add(spLHS);
 						}
@@ -791,22 +790,22 @@ public class CombinedQueryEngine implements QueryExec
 							if (!ATermUtils.isVar(spRHS))
 							{
 								spRhsCandidates = Collections.singleton(spRHS);
-								spLhsCandidates = flatten(kb.getSubProperties(spRHS, direct));
+								spLhsCandidates = flatten(_kb.getSubProperties(spRHS, direct));
 								if (strict)
-									spLhsCandidates.removeAll(kb.getEquivalentProperties(spRHS));
+									spLhsCandidates.removeAll(_kb.getEquivalentProperties(spRHS));
 								else
 									spLhsCandidates.add(spRHS);
 							}
 							else
-								spLhsCandidates = kb.getProperties();
+								spLhsCandidates = _kb.getProperties();
 						final boolean reload = (spRhsCandidates == null);
 						for (final ATermAppl subject : spLhsCandidates)
 						{
 							if (reload)
 							{
-								spRhsCandidates = flatten(kb.getSuperProperties(subject, direct));
+								spRhsCandidates = flatten(_kb.getSuperProperties(subject, direct));
 								if (strict)
-									spRhsCandidates.removeAll(kb.getEquivalentProperties(subject));
+									spRhsCandidates.removeAll(_kb.getEquivalentProperties(subject));
 								else
 									spRhsCandidates.add(subject);
 							}
@@ -819,7 +818,7 @@ public class CombinedQueryEngine implements QueryExec
 				}
 				break;
 
-			case EquivalentProperty: // TODO implementation of downMonotonic
+			case EquivalentProperty: // TODO implementation of _downMonotonic
 				// vars
 				final ATermAppl eqpLHS = arguments.get(0);
 				final ATermAppl eqpRHS = arguments.get(1);
@@ -836,13 +835,13 @@ public class CombinedQueryEngine implements QueryExec
 					if (eqpLHS.equals(eqpRHS))
 						dependents = Collections.singleton(known);
 					else
-						dependents = kb.getEquivalentProperties(known);
+						dependents = _kb.getEquivalentProperties(known);
 
 					for (final ATermAppl dependent : dependents)
 					{
-						final int size = result.size();
+						final int size = _result.size();
 						runSymetricCheck(current, eqpLHS, known, eqpRHS, dependent, binding);
-						if (result.size() == size)
+						if (_result.size() == size)
 							// no binding found, so that there is no need to
 							// explore other equivalent classes - they fail
 							// as
@@ -863,17 +862,17 @@ public class CombinedQueryEngine implements QueryExec
 				if (!ATermUtils.isVar(domLHS))
 					domLhsCandidates = Collections.singleton(domLHS);
 				else
-					domLhsCandidates = kb.getProperties();
+					domLhsCandidates = _kb.getProperties();
 
 				if (!ATermUtils.isVar(domRHS))
 					domRhsCandidates = Collections.singleton(domRHS);
 				else
-					domRhsCandidates = kb.getAllClasses();
+					domRhsCandidates = _kb.getAllClasses();
 
 				for (final ATermAppl prop : domLhsCandidates)
 					for (final ATermAppl cls : domRhsCandidates)
 						//System.out.println("Checking dom(" + prop + ", " + cls + ")");
-						if ((kb.isDatatypeProperty(prop) || kb.isObjectProperty(prop)) && kb.hasDomain(prop, cls))
+						if ((_kb.isDatatypeProperty(prop) || _kb.isObjectProperty(prop)) && _kb.hasDomain(prop, cls))
 							runNext(binding, arguments, prop, cls);
 
 				break;
@@ -889,13 +888,13 @@ public class CombinedQueryEngine implements QueryExec
 				if (!ATermUtils.isVar(rangeLHS))
 					rangeLhsCandidates = Collections.singleton(rangeLHS);
 				else
-					rangeLhsCandidates = kb.getProperties();
+					rangeLhsCandidates = _kb.getProperties();
 
 				if (!ATermUtils.isVar(rangeRHS))
 				{
 
 					//System.out.println( "Bound range: " + rangeRHS );
-					if (kb.isDatatype(rangeRHS))
+					if (_kb.isDatatype(rangeRHS))
 					{
 						rangeRhsClassCandidates = Collections.emptySet();
 						rangeRhsDTypeCandidates = Collections.singleton(rangeRHS);
@@ -909,77 +908,77 @@ public class CombinedQueryEngine implements QueryExec
 				}
 				else
 				{
-					rangeRhsClassCandidates = kb.getAllClasses();
+					rangeRhsClassCandidates = _kb.getAllClasses();
 					// TODO : change the datatype reasoner to keep track of associated aterms.
 					rangeRhsDTypeCandidates = new HashSet<>();
-					for (final ATermAppl dtype : kb.getDatatypeReasoner().listDataRanges())
+					for (final ATermAppl dtype : _kb.getDatatypeReasoner().listDataRanges())
 						rangeRhsDTypeCandidates.add(dtype);
 				}
 
 				for (final ATermAppl prop : rangeLhsCandidates)
-					if (kb.isObjectProperty(prop))
+					if (_kb.isObjectProperty(prop))
 					{
 						for (final ATermAppl cls : rangeRhsClassCandidates)
 							//System.out.println("Checking range(" + prop + ", " + cls + ")");
-							if (kb.hasRange(prop, cls))
+							if (_kb.hasRange(prop, cls))
 								runNext(binding, arguments, prop, cls);
 					}
 					else
-						if (kb.isDatatypeProperty(prop))
+						if (_kb.isDatatypeProperty(prop))
 							for (final ATermAppl dtype : rangeRhsDTypeCandidates)
 								//System.out.println("Checking range(" + prop + ", " + dtype + ")");
-								if (kb.hasRange(prop, dtype))
+								if (_kb.hasRange(prop, dtype))
 									runNext(binding, arguments, prop, dtype);
 
 				break;
 
-			case InverseOf: // TODO implementation of downMonotonic vars
+			case InverseOf: // TODO implementation of _downMonotonic vars
 				final ATermAppl ioLHS = arguments.get(0);
 				final ATermAppl ioRHS = arguments.get(1);
 
 				if (ioLHS.equals(ioRHS))
-					runAllPropertyChecks(current, arguments.get(0), kb.getSymmetricProperties(), binding);
+					runAllPropertyChecks(current, arguments.get(0), _kb.getSymmetricProperties(), binding);
 				else
 					for (final ATermAppl known : getSymmetricCandidates(VarType.PROPERTY, ioLHS, ioRHS))
 						// meanwhile workaround
-						for (final ATermAppl dependent : kb.getInverses(known))
+						for (final ATermAppl dependent : _kb.getInverses(known))
 							runSymetricCheck(current, ioLHS, known, ioRHS, dependent, binding);
 				break;
 
 			case Symmetric:
-				runAllPropertyChecks(current, arguments.get(0), kb.getSymmetricProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getSymmetricProperties(), binding);
 				break;
 
 			case Asymmetric:
-				runAllPropertyChecks(current, arguments.get(0), kb.getAsymmetricProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getAsymmetricProperties(), binding);
 				break;
 
 			case Reflexive:
-				runAllPropertyChecks(current, arguments.get(0), kb.getReflexiveProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getReflexiveProperties(), binding);
 				break;
 
 			case Irreflexive:
-				runAllPropertyChecks(current, arguments.get(0), kb.getIrreflexiveProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getIrreflexiveProperties(), binding);
 				break;
 
 			case ObjectProperty:
-				runAllPropertyChecks(current, arguments.get(0), kb.getObjectProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getObjectProperties(), binding);
 				break;
 
 			case DatatypeProperty:
-				runAllPropertyChecks(current, arguments.get(0), kb.getDataProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getDataProperties(), binding);
 				break;
 
 			case Functional:
-				runAllPropertyChecks(current, arguments.get(0), kb.getFunctionalProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getFunctionalProperties(), binding);
 				break;
 
 			case InverseFunctional:
-				runAllPropertyChecks(current, arguments.get(0), kb.getInverseFunctionalProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getInverseFunctionalProperties(), binding);
 				break;
 
 			case Transitive:
-				runAllPropertyChecks(current, arguments.get(0), kb.getTransitiveProperties(), binding);
+				runAllPropertyChecks(current, arguments.get(0), _kb.getTransitiveProperties(), binding);
 				break;
 
 			case UndistVarCore:
@@ -994,7 +993,7 @@ public class CombinedQueryEngine implements QueryExec
 					if (constants.isEmpty())
 					{
 						if (QueryEngine.execBooleanABoxQuery(core.getQuery()))
-							result.add(binding);
+							_result.add(binding);
 						// throw new RuntimeException(
 						// "The query contains neither dist vars, nor constants,
 						// yet evaluated by the CombinedQueryEngine !!! ");
@@ -1004,7 +1003,7 @@ public class CombinedQueryEngine implements QueryExec
 						final ATermAppl c = constants.iterator().next();
 						final ATermAppl clazz = core.getQuery().rollUpTo(c, Collections.<ATermAppl> emptySet(), STOP_ROLLING_ON_CONSTANTS);
 
-						if (kb.isType(c, clazz))
+						if (_kb.isType(c, clazz))
 							exec(binding);
 					}
 				}
@@ -1013,7 +1012,7 @@ public class CombinedQueryEngine implements QueryExec
 					{
 						final ATermAppl var = distVars.iterator().next();
 						final ATermAppl c = core.getQuery().rollUpTo(var, Collections.<ATermAppl> emptySet(), STOP_ROLLING_ON_CONSTANTS);
-						final Collection<ATermAppl> instances = kb.getInstances(c);
+						final Collection<ATermAppl> instances = _kb.getInstances(c);
 
 						for (final ATermAppl a : instances)
 						{
@@ -1058,16 +1057,16 @@ public class CombinedQueryEngine implements QueryExec
 
 				if (ATermUtils.isVar(p))
 					throw new UnsupportedQueryException("NegativePropertyValue atom with a variable property not supported");
-				if (ATermUtils.isVar(o) && kb.isDatatypeProperty(p))
+				if (ATermUtils.isVar(o) && _kb.isDatatypeProperty(p))
 					throw new UnsupportedQueryException("NegativePropertyValue atom with a datatype property and variable object not supported");
 
 				if (ATermUtils.isVar(s))
 				{
-					final Set<ATermAppl> oValues = ATermUtils.isVar(o) ? kb.getIndividuals() : Collections.singleton(o);
+					final Set<ATermAppl> oValues = ATermUtils.isVar(o) ? _kb.getIndividuals() : Collections.singleton(o);
 
 					for (final ATermAppl oValue : oValues)
 					{
-						final Set<ATermAppl> sValues = kb.getInstances(not(hasValue(p, oValue)));
+						final Set<ATermAppl> sValues = _kb.getInstances(not(hasValue(p, oValue)));
 						for (final ATermAppl sValue : sValues)
 							runNext(binding, arguments, sValue, p, oValue);
 					}
@@ -1075,12 +1074,12 @@ public class CombinedQueryEngine implements QueryExec
 				else
 					if (ATermUtils.isVar(o))
 					{
-						final Set<ATermAppl> oValues = kb.getInstances(not(hasValue(inv(p), o)));
+						final Set<ATermAppl> oValues = _kb.getInstances(not(hasValue(inv(p), o)));
 						for (final ATermAppl oValue : oValues)
 							runNext(binding, arguments, s, p, oValue);
 					}
 					else
-						if (kb.isType(s, hasValue(p, o)))
+						if (_kb.isType(s, hasValue(p, o)))
 							exec(binding);
 
 				break;
@@ -1088,7 +1087,7 @@ public class CombinedQueryEngine implements QueryExec
 
 			case NotKnown:
 			{
-				final Query newQuery = new QueryImpl(kb, true);
+				final Query newQuery = new QueryImpl(_kb, true);
 				for (final QueryAtom atom : ((NotKnownQueryAtom) current).getAtoms())
 					newQuery.add(atom.apply(binding));
 
@@ -1109,7 +1108,7 @@ public class CombinedQueryEngine implements QueryExec
 			{
 				for (final List<QueryAtom> atoms : ((UnionQueryAtom) current).getUnion())
 				{
-					final Query newQuery = new QueryImpl(kb, true);
+					final Query newQuery = new QueryImpl(_kb, true);
 					for (final QueryAtom atom : atoms)
 						newQuery.add(atom.apply(binding));
 					for (final ATermAppl var : newQuery.getUndistVars())
@@ -1140,7 +1139,7 @@ public class CombinedQueryEngine implements QueryExec
 				if (!dwLHSp.equals(dwRHSp))
 					// TODO optimizeTBox
 					for (final ATermAppl known : getSymmetricCandidates(VarType.PROPERTY, dwLHSp, dwRHSp))
-						for (final Set<ATermAppl> dependents : kb.getDisjointProperties(known))
+						for (final Set<ATermAppl> dependents : _kb.getDisjointProperties(known))
 							for (final ATermAppl dependent : dependents)
 								runSymetricCheck(current, dwLHSp, known, dwRHSp, dependent, binding);
 				else
@@ -1237,7 +1236,7 @@ public class CombinedQueryEngine implements QueryExec
 		if (log.isLoggable(Level.FINER))
 			log.finer(var + " rolled to " + c);
 
-		final CandidateSet<ATermAppl> set = kb.getABox().getObviousInstances(c);
+		final CandidateSet<ATermAppl> set = _kb.getABox().getObviousInstances(c);
 
 		final Map<ATermAppl, Boolean> map = new HashMap<>();
 
@@ -1358,10 +1357,10 @@ public class CombinedQueryEngine implements QueryExec
 
 			if (ATermUtils.isComplexClass(top))
 			{
-				candidates = kb.getEquivalentClasses(top);
+				candidates = _kb.getEquivalentClasses(top);
 
 				if (!strict && candidates.isEmpty())
-					candidates = flatten(kb.getSubClasses(top, true));
+					candidates = flatten(_kb.getSubClasses(top, true));
 			}
 			else
 				candidates = Collections.singleton(top);
@@ -1396,7 +1395,7 @@ public class CombinedQueryEngine implements QueryExec
 		// well - Type and
 		// PropertyValue as well.
 
-		return PelletOptions.OPTIMIZE_DOWN_MONOTONIC && downMonotonic.contains(scLHS);
+		return PelletOptions.OPTIMIZE_DOWN_MONOTONIC && _downMonotonic.contains(scLHS);
 	}
 
 	private void runNext(final ResultBinding binding, final List<ATermAppl> arguments, final ATermAppl... values)
@@ -1424,13 +1423,13 @@ public class CombinedQueryEngine implements QueryExec
 				switch (forType)
 				{
 					case CLASS:
-						candidates = kb.getClasses();
+						candidates = _kb.getClasses();
 						break;
 					case PROPERTY:
-						candidates = kb.getProperties();
+						candidates = _kb.getProperties();
 						break;
 					case INDIVIDUAL:
-						candidates = kb.getIndividuals();
+						candidates = _kb.getIndividuals();
 						break;
 					default:
 						throw new RuntimeException("Uknown variable type : " + forType);
@@ -1441,7 +1440,7 @@ public class CombinedQueryEngine implements QueryExec
 
 	private void runRecursively(final Taxonomy<ATermAppl> t, final ATermAppl downMonotonic, final ATermAppl rootCandidate, final ResultBinding binding, final Set<ATermAppl> toDo, final boolean direct, final boolean strict)
 	{
-		final int size = result.size();
+		final int size = _result.size();
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("Trying : " + rootCandidate + ", done=" + toDo);
@@ -1452,7 +1451,7 @@ public class CombinedQueryEngine implements QueryExec
 			runNext(binding, Collections.singletonList(downMonotonic), rootCandidate);
 		}
 
-		if (strict || result.size() > size)
+		if (strict || _result.size() > size)
 		{
 			// final Set<ATermAppl> subs = t.getSFlattenedSubs(rootCandidate,
 			// direct);
@@ -1495,13 +1494,13 @@ public class CombinedQueryEngine implements QueryExec
 	private void runAllPropertyChecks(@SuppressWarnings("unused") final QueryAtom current, final ATermAppl var, final Set<ATermAppl> candidates, final ResultBinding binding)
 	{
 		if (isDownMonotonic(var))
-			for (final TaxonomyNode<ATermAppl> topNode : kb.getRoleTaxonomy(true).getTop().getSubs())
+			for (final TaxonomyNode<ATermAppl> topNode : _kb.getRoleTaxonomy(true).getTop().getSubs())
 			{
 
 				final ATermAppl top = topNode.getName();
 
 				if (candidates.contains(top))
-					runRecursively(kb.getRoleTaxonomy(true), var, topNode.getName(), binding, new HashSet<>(candidates), false, false);
+					runRecursively(_kb.getRoleTaxonomy(true), var, topNode.getName(), binding, new HashSet<>(candidates), false, false);
 			}
 		else
 			for (final ATermAppl candidate : candidates)

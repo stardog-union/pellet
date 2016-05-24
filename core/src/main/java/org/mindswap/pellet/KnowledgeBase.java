@@ -80,6 +80,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.PelletOptions.InstanceRetrievalMethod;
 import org.mindswap.pellet.exceptions.InconsistentOntologyException;
 import org.mindswap.pellet.exceptions.UndefinedEntityException;
@@ -113,7 +114,7 @@ import org.mindswap.pellet.utils.progress.ProgressMonitor;
  */
 public class KnowledgeBase
 {
-	public final static Logger log = Logger.getLogger(KnowledgeBase.class.getName());
+	public final static Logger log = Log.getLogger(KnowledgeBase.class);
 
 	// This field is to ensure memory profiler will first process ATermFactory
 	// which makes it easier to analyze the results

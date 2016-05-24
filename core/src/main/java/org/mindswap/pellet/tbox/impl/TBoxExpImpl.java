@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.tbox.TBox;
@@ -50,7 +51,7 @@ import org.mindswap.pellet.utils.iterator.MultiIterator;
  */
 public class TBoxExpImpl implements TBox
 {
-	public static Logger log = Logger.getLogger(TBox.class.getName());
+	public static Logger log = Log.getLogger(TBox.class);
 
 	private static final Set<Set<ATermAppl>> SINGLE_EMPTY_SET = Collections.singleton(Collections.<ATermAppl> emptySet());
 

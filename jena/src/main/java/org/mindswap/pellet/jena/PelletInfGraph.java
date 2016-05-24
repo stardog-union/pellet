@@ -38,6 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.graph.Factory;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Node;
@@ -50,7 +51,6 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.reasoner.BaseInfGraph;
 import org.apache.jena.reasoner.Finder;
-import org.apache.jena.reasoner.InfGraph;
 import org.apache.jena.reasoner.StandardValidityReport;
 import org.apache.jena.reasoner.TriplePattern;
 import org.apache.jena.reasoner.ValidityReport;
@@ -73,23 +73,23 @@ import org.mindswap.pellet.utils.ATermUtils;
  *
  * @author Evren Sirin
  */
-public class PelletInfGraph extends BaseInfGraph implements InfGraph
+public class PelletInfGraph extends BaseInfGraph
 {
-	public final static Logger log = Logger.getLogger(PelletInfGraph.class.getName());
+	public final static Logger log = Log.getLogger(PelletInfGraph.class);
 
 	private static final Triple INCONCISTENCY_TRIPLE = Triple.create(OWL.Thing.asNode(), RDFS.subClassOf.asNode(), OWL.Nothing.asNode());
 
-	private GraphLoader loader;
-	protected KnowledgeBase kb;
-	private final ModelExtractor extractor;
+	private GraphLoader _loader;
+	protected KnowledgeBase _kb;
+	private final ModelExtractor _extractor;
 
-	private PelletGraphListener graphListener;
+	private PelletGraphListener _graphListener;
 
-	private Graph deductionsGraph;
+	private Graph _deductionsGraph;
 
-	private boolean autoDetectChanges;
+	private boolean _autoDetectChanges;
 
-	private boolean skipBuiltinPredicates;
+	private boolean _skipBuiltinPredicates;
 
 	public PelletInfGraph(final KnowledgeBase kb, final PelletReasoner pellet, final GraphLoader loader)
 	{
@@ -105,13 +105,13 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 	{
 		super(graph, pellet);
 
-		this.kb = kb;
-		this.loader = loader;
+		this._kb = kb;
+		this._loader = loader;
 
-		extractor = new ModelExtractor(kb);
-		extractor.setSelector(StatementType.ALL_PROPERTY_STATEMENTS);
+		_extractor = new ModelExtractor(kb);
+		_extractor.setSelector(StatementType.ALL_PROPERTY_STATEMENTS);
 
-		graphListener = new PelletGraphListener(graph, kb, autoDetectChanges);
+		_graphListener = new PelletGraphListener(graph, kb, _autoDetectChanges);
 
 		loader.setKB(kb);
 
@@ -126,24 +126,24 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 	public GraphLoader attachTemporaryGraph(final Graph tempGraph)
 	{
-		final GraphLoader savedLoader = loader;
+		final GraphLoader savedLoader = _loader;
 
 		final SimpleUnion unionGraph = (SimpleUnion) savedLoader.getGraph();
 		unionGraph.addGraph(tempGraph);
 
-		loader = new DefaultGraphLoader();
-		loader.setGraph(unionGraph);
-		loader.setKB(kb);
-		loader.preprocess();
+		_loader = new DefaultGraphLoader();
+		_loader.setGraph(unionGraph);
+		_loader.setKB(_kb);
+		_loader.preprocess();
 
 		return savedLoader;
 	}
 
 	public void detachTemporaryGraph(final Graph tempGraph, final GraphLoader savedLoader)
 	{
-		final SimpleUnion unionGraph = (SimpleUnion) loader.getGraph();
+		final SimpleUnion unionGraph = (SimpleUnion) _loader.getGraph();
 		unionGraph.removeGraph(tempGraph);
-		loader = savedLoader;
+		_loader = savedLoader;
 	}
 
 	@Override
@@ -169,11 +169,11 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 		final Node predicate = pattern.getPredicate();
 		final Node object = pattern.getObject();
 
-		ExtendedIterator<Triple> i = GraphQueryHandler.findTriple(kb, this, subject, predicate, object);
+		ExtendedIterator<Triple> i = GraphQueryHandler.findTriple(_kb, this, subject, predicate, object);
 
 		final ATerm predicateTerm = predicate.isURI() ? ATermUtils.makeTermAppl(predicate.getURI()) : null;
 		// look at asserted triples at the _end but only for annotation properties, other triples should be inferred
-		if (finder != null && (predicateTerm == null || !kb.isObjectProperty(predicateTerm) && !kb.isDatatypeProperty(predicateTerm)))
+		if (finder != null && (predicateTerm == null || !_kb.isObjectProperty(predicateTerm) && !_kb.isDatatypeProperty(predicateTerm)))
 		{
 			final TriplePattern tp = new TriplePattern(subject, predicate, object);
 			i = i.andThen(finder.find(tp));
@@ -192,7 +192,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 	@Override
 	public boolean isPrepared()
 	{
-		return super.isPrepared() && (!autoDetectChanges || !graphListener.isChanged());
+		return super.isPrepared() && (!_autoDetectChanges || !_graphListener.isChanged());
 	}
 
 	private void load()
@@ -200,7 +200,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 		if (log.isLoggable(Level.FINE))
 			log.fine("Loading triples");
 
-		final Set<Graph> changedGraphs = graphListener.getChangedGraphs();
+		final Set<Graph> changedGraphs = _graphListener.getChangedGraphs();
 
 		if (changedGraphs == null)
 			reload();
@@ -218,9 +218,9 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 		clear();
 
-		Set<Graph> graphs = graphListener.getLeafGraphs();
+		Set<Graph> graphs = _graphListener.getLeafGraphs();
 
-		if (loader.isLoadTBox())
+		if (_loader.isLoadTBox())
 		{
 			final Graph schema = getSchemaGraph();
 			if (schema != null)
@@ -235,13 +235,13 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 	private void load(final Iterable<Graph> graphs)
 	{
-		loader.load(graphs);
+		_loader.load(graphs);
 
-		loader.setGraph(new SimpleUnion(graphListener.getLeafGraphs()));
+		_loader.setGraph(new SimpleUnion(_graphListener.getLeafGraphs()));
 
-		graphListener.reset();
+		_graphListener.reset();
 
-		deductionsGraph = null;
+		_deductionsGraph = null;
 	}
 
 	@Override
@@ -260,10 +260,10 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 		load();
 
-		kb.prepare();
+		_kb.prepare();
 
 		if (doConsistencyCheck)
-			kb.isConsistent();
+			_kb.isConsistent();
 
 		if (log.isLoggable(Level.FINE))
 			log.fine("done.");
@@ -275,31 +275,31 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 	{
 		prepare();
 
-		return kb.isConsistent();
+		return _kb.isConsistent();
 	}
 
 	public boolean isClassified()
 	{
-		return super.isPrepared() && kb.isClassified();
+		return super.isPrepared() && _kb.isClassified();
 	}
 
 	public boolean isRealized()
 	{
-		return super.isPrepared() && kb.isRealized();
+		return super.isPrepared() && _kb.isRealized();
 	}
 
 	public void classify()
 	{
 		prepare();
 
-		kb.classify();
+		_kb.classify();
 	}
 
 	public void realize()
 	{
 		prepare();
 
-		kb.realize();
+		_kb.realize();
 	}
 
 	@Override
@@ -311,23 +311,23 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 		classify();
 
-		if (deductionsGraph == null)
+		if (_deductionsGraph == null)
 		{
 			if (log.isLoggable(Level.FINE))
 				log.fine("Realizing PelletInfGraph...");
-			kb.realize();
+			_kb.realize();
 
 			if (log.isLoggable(Level.FINE))
 				log.fine("Extract model...");
 
-			final Model extractedModel = extractor.extractModel();
-			deductionsGraph = extractedModel.getGraph();
+			final Model extractedModel = _extractor.extractModel();
+			_deductionsGraph = extractedModel.getGraph();
 
 			if (log.isLoggable(Level.FINE))
 				log.fine("done.");
 		}
 
-		return deductionsGraph;
+		return _deductionsGraph;
 	}
 
 	@Override
@@ -401,7 +401,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 
 		if (checkEntailment(this, pattern, true))
 		{
-			final Set<ATermAppl> explanation = kb.getExplanationSet();
+			final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 			if (log.isLoggable(Level.FINER))
 				log.finer("Explanation " + formatAxioms(explanation));
@@ -411,7 +411,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 			if (log.isLoggable(Level.FINER))
 				log.finer("Pruned " + formatAxioms(prunedExplanation));
 
-			final AxiomConverter converter = new AxiomConverter(kb, explanationGraph);
+			final AxiomConverter converter = new AxiomConverter(_kb, explanationGraph);
 			for (final ATermAppl axiom : prunedExplanation)
 				converter.convert(axiom);
 		}
@@ -426,7 +426,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 	{
 		final Set<ATermAppl> prunedExplanation = new HashSet<>(explanation);
 
-		final OntBuilder builder = new OntBuilder(kb);
+		final OntBuilder builder = new OntBuilder(_kb);
 		KnowledgeBase copyKB;
 		PelletInfGraph copyGraph;
 
@@ -488,7 +488,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 		final Node predicate = pattern.getPredicate();
 		final Node object = pattern.getObject();
 
-		return GraphQueryHandler.containsTriple(kb, loader, subject, predicate, object);
+		return GraphQueryHandler.containsTriple(_kb, _loader, subject, predicate, object);
 	}
 
 	private boolean isSyntaxTriple(final Triple t)
@@ -523,7 +523,7 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 	 */
 	public KnowledgeBase getKB()
 	{
-		return kb;
+		return _kb;
 	}
 
 	/**
@@ -578,14 +578,14 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 		prepare();
 		final StandardValidityReport report = new StandardValidityReport();
 
-		kb.setDoExplanation(true);
-		final boolean consistent = kb.isConsistent();
-		kb.setDoExplanation(false);
+		_kb.setDoExplanation(true);
+		final boolean consistent = _kb.isConsistent();
+		_kb.setDoExplanation(false);
 
 		if (!consistent)
-			report.add(true, "KB is inconsistent!", kb.getExplanation());
+			report.add(true, "KB is inconsistent!", _kb.getExplanation());
 		else
-			for (final ATermAppl c : kb.getUnsatisfiableClasses())
+			for (final ATermAppl c : _kb.getUnsatisfiableClasses())
 			{
 				final String name = JenaUtils.makeGraphNode(c).toString();
 				report.add(false, "Unsatisfiable class", name);
@@ -597,11 +597,11 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 	@Override
 	public void clear()
 	{
-		if (loader.isLoadTBox())
-			kb.clear();
+		if (_loader.isLoadTBox())
+			_kb.clear();
 		else
-			kb.clearABox();
-		loader.clear();
+			_kb.clearABox();
+		_loader.clear();
 	}
 
 	@Override
@@ -620,49 +620,49 @@ public class PelletInfGraph extends BaseInfGraph implements InfGraph
 		else
 			closed = true;
 
-		if (deductionsGraph != null)
+		if (_deductionsGraph != null)
 		{
-			deductionsGraph.close();
-			deductionsGraph = null;
+			_deductionsGraph.close();
+			_deductionsGraph = null;
 		}
 		clear();
-		graphListener.dispose();
-		graphListener = null;
-		kb = null;
+		_graphListener.dispose();
+		_graphListener = null;
+		_kb = null;
 	}
 
 	/**
-	 * @return the loader
+	 * @return the _loader
 	 */
 	public GraphLoader getLoader()
 	{
-		return loader;
+		return _loader;
 	}
 
 	public boolean isAutoDetectChanges()
 	{
-		return autoDetectChanges;
+		return _autoDetectChanges;
 	}
 
 	/**
 	 * Sets auto detection of changes in the subgraphs associated with this model. If a graph or subgraph associated with this inference graph is updated out of
-	 * band there is no way to know for the reasoner that the underlying _data has changed and reasoning results will be stale. When this option is turned Pellet
-	 * will attach listeners to all the subgraphs and will be notified of all changes. It will also detect addition and removal of new subgraphs.
+	 * band there is no way to know for the reasoner that the underlying _data has changed and reasoning results will be stale. When this option is turned
+	 * Pellet will attach listeners to all the subgraphs and will be notified of all changes. It will also detect addition and removal of new subgraphs.
 	 */
 	public void setAutoDetectChanges(final boolean autoDetectChanges)
 	{
-		this.autoDetectChanges = autoDetectChanges;
+		this._autoDetectChanges = autoDetectChanges;
 
-		graphListener.setEnabled(autoDetectChanges);
+		_graphListener.setEnabled(autoDetectChanges);
 	}
 
 	public boolean isSkipBuiltinPredicates()
 	{
-		return skipBuiltinPredicates;
+		return _skipBuiltinPredicates;
 	}
 
 	public void setSkipBuiltinPredicates(final boolean skipBuiltinPredicates)
 	{
-		this.skipBuiltinPredicates = skipBuiltinPredicates;
+		this._skipBuiltinPredicates = skipBuiltinPredicates;
 	}
 }

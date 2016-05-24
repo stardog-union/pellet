@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
 import org.apache.jena.query.Query;
@@ -51,7 +52,7 @@ import org.mindswap.pellet.utils.URIUtils;
 public class ARQSparqlDawgTester implements SparqlDawgTester
 {
 
-	private static final Logger log = Logger.getLogger(ARQSparqlDawgTester.class.getName());
+	private static final Logger log = Log.getLogger(ARQSparqlDawgTester.class);
 
 	private final List<String> avoidList = Arrays.asList(new String[] {
 			// FIXME with some effort some
@@ -78,7 +79,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 			// "1"^^xsd:int does not match different lexical forms
 			"eq-1", "eq-2" });
 
-	private String queryURI = "";
+	private String _queryURI = "";
 
 	protected Set<String> graphURIs = new HashSet<>();
 
@@ -86,7 +87,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 
 	protected Query query = null;
 
-	private String resultURI = null;
+	private String _resultURI = null;
 
 	public ARQSparqlDawgTester()
 	{
@@ -126,17 +127,17 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 	@Override
 	public void setQueryURI(final String queryURI)
 	{
-		if (this.queryURI.equals(queryURI))
+		if (this._queryURI.equals(queryURI))
 			return;
 
-		this.queryURI = queryURI;
+		this._queryURI = queryURI;
 		query = QueryFactory.read(queryURI);
 	}
 
 	@Override
 	public void setResult(final String resultURI)
 	{
-		this.resultURI = resultURI;
+		this._resultURI = resultURI;
 	}
 
 	/**
@@ -147,7 +148,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 	{
 		try
 		{
-			query = QueryFactory.read(queryURI);
+			query = QueryFactory.read(_queryURI);
 			return true;
 		}
 		catch (final Exception e)
@@ -168,7 +169,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 			beforeExecution();
 			final QueryExecution exec = createQueryExecution();
 
-			if (resultURI == null)
+			if (_resultURI == null)
 			{
 				log.log(Level.WARNING, "No result set associated with this test, assumuing success!");
 				return true;
@@ -176,7 +177,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 
 			if (query.isSelectType())
 			{
-				final ResultSetRewindable expected = ResultSetFactory.makeRewindable(JenaIOUtils.parseResultSet(resultURI));
+				final ResultSetRewindable expected = ResultSetFactory.makeRewindable(JenaIOUtils.parseResultSet(_resultURI));
 				final ResultSetRewindable real = ResultSetFactory.makeRewindable(exec.execSelect());
 
 				final boolean correct = ResultSetUtils.assertEquals(expected, real);
@@ -194,7 +195,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 				if (query.isAskType())
 				{
 					final boolean askReal = exec.execAsk();
-					final boolean askExpected = JenaIOUtils.parseAskResult(resultURI);
+					final boolean askExpected = JenaIOUtils.parseAskResult(_resultURI);
 
 					log.fine("Expected=" + askExpected);
 					log.fine("Real=" + askReal);
@@ -205,7 +206,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 					if (query.isConstructType())
 					{
 						final Model real = exec.execConstruct();
-						final Model expected = FileManager.get().loadModel(resultURI);
+						final Model expected = FileManager.get().loadModel(_resultURI);
 
 						log.fine("Expected=" + real);
 						log.fine("Real=" + expected);
@@ -216,7 +217,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 						if (query.isDescribeType())
 						{
 							final Model real = exec.execDescribe();
-							final Model expected = FileManager.get().loadModel(resultURI);
+							final Model expected = FileManager.get().loadModel(_resultURI);
 
 							log.fine("Expected=" + real);
 							log.fine("Real=" + expected);

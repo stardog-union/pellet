@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.TaxonomyUtils;
@@ -60,7 +61,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 public class TaxonomyPersistence
 {
 
-	public static final Logger log = Logger.getLogger(TaxonomyPersistence.class.getName());
+	public static final Logger log = Log.getLogger(TaxonomyPersistence.class);
 
 	/**
 	 * The URI of the ontology created to represent the Taxonomy
@@ -103,7 +104,7 @@ public class TaxonomyPersistence
 	 * @throws OWLOntologyCreationException if OWLAPI reports an exception during the creation of the ontology
 	 * @throws OWLOntologyChangeException if OWLAPI report an exception during the population of the ontology
 	 */
-	private static OWLOntology createTaxonomyOntology(final Taxonomy<OWLClass> taxonomy) throws OWLOntologyCreationException, OWLOntologyChangeException
+	private static OWLOntology createTaxonomyOntology(final Taxonomy<OWLClass> taxonomy) throws OWLOntologyChangeException
 	{
 		final OWLOntology ontology = OWL.Ontology(Collections.<OWLAxiom> emptyList(), TAXONOMY_ONTOLOGY_IRI);
 

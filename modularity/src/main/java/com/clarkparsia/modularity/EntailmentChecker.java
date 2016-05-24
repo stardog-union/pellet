@@ -7,11 +7,12 @@
 package com.clarkparsia.modularity;
 
 import com.clarkparsia.owlapi.OWL;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
+import net.katk.tools.Log;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.utils.TaxonomyUtils;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
@@ -74,14 +75,14 @@ import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
  */
 public class EntailmentChecker implements OWLAxiomVisitor
 {
-	public static Logger log = Logger.getLogger(EntailmentChecker.class.getName());
+	public static Logger log = Log.getLogger(EntailmentChecker.class);
 
-	private final IncrementalClassifier reasoner;
-	private Boolean isEntailed;
+	private final IncrementalClassifier _reasoner;
+	private Boolean _isEntailed;
 
 	public EntailmentChecker(final IncrementalClassifier reasoner)
 	{
-		this.reasoner = reasoner;
+		this._reasoner = reasoner;
 	}
 
 	public boolean isEntailed(final Set<? extends OWLAxiom> axioms)
@@ -95,14 +96,14 @@ public class EntailmentChecker implements OWLAxiomVisitor
 
 	public boolean isEntailed(final OWLAxiom axiom)
 	{
-		isEntailed = null;
+		_isEntailed = null;
 
 		axiom.accept(this);
 
-		if (isEntailed == null)
+		if (_isEntailed == null)
 			throw new UnsupportedEntailmentTypeException(axiom);
 
-		return isEntailed;
+		return _isEntailed;
 	}
 
 	@Override
@@ -111,30 +112,30 @@ public class EntailmentChecker implements OWLAxiomVisitor
 		final OWLClassExpression subClass = axiom.getSubClass();
 		final OWLClassExpression superClass = axiom.getSuperClass();
 
-		if (!reasoner.isClassified() || subClass.isAnonymous() || superClass.isAnonymous())
-			isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		if (!_reasoner.isClassified() || subClass.isAnonymous() || superClass.isAnonymous())
+			_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 		else
-			isEntailed = reasoner.getTaxonomy().isSubNodeOf((OWLClass) subClass, (OWLClass) superClass).isTrue();
+			_isEntailed = _reasoner.getTaxonomy().isSubNodeOf((OWLClass) subClass, (OWLClass) superClass).isTrue();
 	}
 
 	@Override
 	public void visit(final OWLEquivalentClassesAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 
-		final Iterator<OWLClassExpression> i = axiom.getClassExpressions().iterator();
+		final Iterator<OWLClassExpression> i = axiom.classExpressions().iterator();
 		if (i.hasNext())
 		{
 			final OWLClassExpression first = i.next();
 
-			while (i.hasNext() && isEntailed)
+			while (i.hasNext() && _isEntailed)
 			{
 				final OWLClassExpression next = i.next();
 
-				if (!reasoner.isClassified() || first.isAnonymous() || next.isAnonymous())
-					isEntailed = reasoner.getReasoner().isEntailed(OWL.equivalentClasses(first, next));
+				if (!_reasoner.isClassified() || first.isAnonymous() || next.isAnonymous())
+					_isEntailed = _reasoner.getReasoner().isEntailed(OWL.equivalentClasses(first, next));
 				else
-					isEntailed = reasoner.getTaxonomy().isEquivalent((OWLClass) first, (OWLClass) next).isTrue();
+					_isEntailed = _reasoner.getTaxonomy().isEquivalent((OWLClass) first, (OWLClass) next).isTrue();
 			}
 		}
 	}
@@ -142,15 +143,15 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLSameIndividualAxiom axiom)
 	{
-		if (reasoner.isRealized())
+		if (_reasoner.isRealized())
 		{
 			// the code uses the assumption that if any of the individuals listed have differing direct types
 			// then they cannot be the same; however, if they have the same types, they still have to
-			// be checked by the underlying reasoner
+			// be checked by the underlying _reasoner
 			boolean sameTypes = true;
-			final Taxonomy<OWLClass> taxonomy = reasoner.getTaxonomy();
+			final Taxonomy<OWLClass> taxonomy = _reasoner.getTaxonomy();
 
-			final Iterator<OWLIndividual> i = axiom.getIndividuals().iterator();
+			final Iterator<OWLIndividual> i = axiom.individuals().iterator();
 
 			if (i.hasNext())
 			{
@@ -166,36 +167,31 @@ public class EntailmentChecker implements OWLAxiomVisitor
 				}
 
 				if (sameTypes)
-					isEntailed = reasoner.getReasoner().isEntailed(axiom);
+					_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 				else
-					isEntailed = false;
+					_isEntailed = false;
 			}
 		}
 		else
-			isEntailed = reasoner.getReasoner().isEntailed(axiom);
+			_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDisjointClassesAxiom axiom)
 	{
-		if (reasoner.isClassified() && !containsAnonymousClasses(axiom.getClassExpressions()))
+		if (_reasoner.isClassified() && !containsAnonymousClasses(axiom.classExpressions()))
 		{
-
-			final OWLClass[] classes = new OWLClass[axiom.getClassExpressions().size()];
-			final Iterator<OWLClassExpression> iter = axiom.getClassExpressions().iterator();
-
-			for (int i = 0; i < classes.length; i++)
-				classes[i] = iter.next().asOWLClass();
+			final OWLClass[] classes = axiom.classExpressions().map(OWLClassExpression::asOWLClass).toArray(OWLClass[]::new);
 
 			if (possiblyDisjoint(classes))
 				// no _data detected that would disqualify the axiom -- it has to be checked by the
-				// underlying reasoner
-				isEntailed = reasoner.getReasoner().isEntailed(axiom);
+				// underlying _reasoner
+				_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 			else
-				isEntailed = false;
+				_isEntailed = false;
 		}
 		else
-			isEntailed = reasoner.getReasoner().isEntailed(axiom);
+			_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	/**
@@ -226,7 +222,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	 */
 	private boolean possiblyDisjoint(final OWLClass first, final OWLClass next)
 	{
-		final Taxonomy<OWLClass> taxonomy = reasoner.getTaxonomy();
+		final Taxonomy<OWLClass> taxonomy = _reasoner.getTaxonomy();
 
 		if (taxonomy.getAllEquivalents(first).contains(next))
 			return false;
@@ -247,202 +243,198 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	 * @param classExpressions the list of class expressions to be checked
 	 * @return true if the collection contains at least one anonymous class
 	 */
-	private boolean containsAnonymousClasses(final Collection<OWLClassExpression> classExpressions)
+	private boolean containsAnonymousClasses(final Stream<OWLClassExpression> classExpressions)
 	{
-		for (final OWLClassExpression classExpression : classExpressions)
-			if (classExpression.isAnonymous())
-				return true;
-
-		return false;
+		return classExpressions.filter(OWLClassExpression::isAnonymous).findAny().isPresent();
 	}
 
 	@Override
 	public void visit(final OWLClassAssertionAxiom axiom)
 	{
-		if (reasoner.isRealized() && !axiom.getClassExpression().isAnonymous())
-			isEntailed = contains(TaxonomyUtils.getTypes(reasoner.getTaxonomy(), axiom.getIndividual(), false), axiom.getClassExpression().asOWLClass());
+		if (_reasoner.isRealized() && !axiom.getClassExpression().isAnonymous())
+			_isEntailed = contains(TaxonomyUtils.getTypes(_reasoner.getTaxonomy(), axiom.getIndividual(), false), axiom.getClassExpression().asOWLClass());
 		else
-			isEntailed = reasoner.getReasoner().isEntailed(axiom);
+			_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDeclarationAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLNegativeObjectPropertyAssertionAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLAsymmetricObjectPropertyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLReflexiveObjectPropertyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDataPropertyDomainAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLObjectPropertyDomainAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLEquivalentObjectPropertiesAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLNegativeDataPropertyAssertionAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDifferentIndividualsAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDisjointDataPropertiesAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDisjointObjectPropertiesAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLObjectPropertyRangeAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLObjectPropertyAssertionAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLFunctionalObjectPropertyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLSubObjectPropertyOfAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDisjointUnionAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLSymmetricObjectPropertyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDataPropertyRangeAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLFunctionalDataPropertyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLEquivalentDataPropertiesAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDataPropertyAssertionAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLTransitiveObjectPropertyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLIrreflexiveObjectPropertyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLSubDataPropertyOfAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLInverseFunctionalObjectPropertyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLSubPropertyChainOfAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLInverseObjectPropertiesAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLHasKeyAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final OWLDatatypeDefinitionAxiom axiom)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(axiom);
+		_isEntailed = _reasoner.getReasoner().isEntailed(axiom);
 	}
 
 	@Override
 	public void visit(final SWRLRule rule)
 	{
-		isEntailed = reasoner.getReasoner().isEntailed(rule);
+		_isEntailed = _reasoner.getReasoner().isEntailed(rule);
 	}
 
 	/**

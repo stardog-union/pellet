@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.Pair;
 import org.mindswap.pellet.utils.fsm.State;
 import org.mindswap.pellet.utils.fsm.Transition;
@@ -23,7 +24,7 @@ import org.mindswap.pellet.utils.fsm.TransitionGraph;
  */
 public class FSMBuilder
 {
-	public static Logger _log = Logger.getLogger(FSMBuilder.class.getName());
+	public static Logger _log = Log.getLogger(FSMBuilder.class);
 
 	private final RBox _rbox;
 

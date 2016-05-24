@@ -31,6 +31,7 @@
 package org.mindswap.pellet.tableau.branch;
 
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Clash;
 import org.mindswap.pellet.DependencySet;
@@ -56,7 +57,7 @@ import org.mindswap.pellet.tableau.completion.CompletionStrategy;
  */
 public abstract class Branch
 {
-	public static final Logger log = Logger.getLogger(Branch.class.getName());
+	public static final Logger log = Log.getLogger(Branch.class);
 
 	protected ABox _abox;
 	protected CompletionStrategy _strategy;

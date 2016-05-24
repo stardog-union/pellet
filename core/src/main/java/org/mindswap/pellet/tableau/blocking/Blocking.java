@@ -32,6 +32,7 @@ package org.mindswap.pellet.tableau.blocking;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;
@@ -52,7 +53,7 @@ import org.mindswap.pellet.utils.Timer;
  */
 public abstract class Blocking
 {
-	public final static Logger log = Logger.getLogger(Blocking.class.getName());
+	public final static Logger log = Log.getLogger(Blocking.class);
 
 	protected static final BlockingCondition block1 = new Block1();
 	protected static final BlockingCondition block2 = new Block2();

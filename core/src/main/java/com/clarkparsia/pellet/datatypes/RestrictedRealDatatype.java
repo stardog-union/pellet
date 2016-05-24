@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -35,7 +36,7 @@ import java.util.logging.Logger;
 public class RestrictedRealDatatype implements RestrictedDatatype<Number>
 {
 
-	private final static Logger log = Logger.getLogger(RestrictedRealDatatype.class.getCanonicalName());
+	private final static Logger log = Log.getLogger(RestrictedRealDatatype.class);
 
 	/*
 	 * TODO: Evaluate storing _intervals in a tree to improve the efficiency of

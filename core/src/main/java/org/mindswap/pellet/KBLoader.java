@@ -10,6 +10,7 @@ package org.mindswap.pellet;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.FileUtils;
 
 /**
@@ -30,7 +31,7 @@ import org.mindswap.pellet.utils.FileUtils;
  */
 public abstract class KBLoader
 {
-	public static final Logger log = Logger.getLogger(KBLoader.class.getName());
+	public static final Logger log = Log.getLogger(KBLoader.class);
 
 	protected String inputFormat;
 

@@ -40,6 +40,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import net.katk.tools.Log;
 import org.apache.jena.rdf.model.Statement;
 import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -81,7 +82,7 @@ public class Pellint extends PelletCmdApp
 	private static final String CONFIGURATION_PROPERTY_NAME = "pellint.configuration";
 	private static final String DEFAULT_CONFIGURATION_FILE_NAME = "pellint.properties";
 	private static final IRI MERGED_ONTOLOGY_URI = IRI.create("tag:clarkparsia.com,2008:pellint:merged");
-	private static final Logger LOGGER = Logger.getLogger(Pellint.class.getName());
+	private static final Logger LOGGER = Log.getLogger(Pellint.class);
 
 	private boolean m_DoRDF = true;
 	private boolean m_DoOWL = true;

@@ -7,6 +7,7 @@
 package org.mindswap.pellet.tableau.completion.rule;
 
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.Node;
@@ -33,7 +34,7 @@ import org.mindswap.pellet.tableau.completion.queue.QueueElement;
  */
 public abstract class AbstractTableauRule implements TableauRule
 {
-	public final static Logger log = Logger.getLogger(AbstractTableauRule.class.getName());
+	public final static Logger log = Log.getLogger(AbstractTableauRule.class);
 
 	protected enum BlockingType
 	{

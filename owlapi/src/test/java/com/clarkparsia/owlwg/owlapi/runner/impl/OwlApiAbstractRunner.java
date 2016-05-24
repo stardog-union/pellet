@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
@@ -50,12 +51,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 {
 
-	private static final SerializationFormat[] formatList;
-
-	static
-	{
-		formatList = new SerializationFormat[] { SerializationFormat.RDFXML, SerializationFormat.FUNCTIONAL, SerializationFormat.OWLXML };
-	}
+	private static final SerializationFormat[] formatList = new SerializationFormat[] { SerializationFormat.RDFXML, SerializationFormat.FUNCTIONAL, SerializationFormat.OWLXML };
 
 	protected abstract class AbstractTestAsRunnable<T extends TestCase<OWLOntology>> implements TestAsRunnable
 	{
@@ -288,12 +284,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		}
 	}
 
-	protected static final Logger log;
-
-	static
-	{
-		log = Logger.getLogger(OwlApiAbstractRunner.class.getCanonicalName());
-	}
+	protected static final Logger log = Log.getLogger(OwlApiAbstractRunner.class);
 
 	private final Runner _runner;
 	protected long _timeout;

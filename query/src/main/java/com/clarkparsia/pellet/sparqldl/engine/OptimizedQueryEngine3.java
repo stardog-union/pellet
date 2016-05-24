@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 
 /**
@@ -44,7 +45,7 @@ import org.mindswap.pellet.KnowledgeBase;
  */
 public class OptimizedQueryEngine3 extends AbstractABoxEngineWrapper
 {
-	public static final Logger log = Logger.getLogger(QueryEngine.class.getName());
+	public static final Logger log = Log.getLogger(QueryEngine.class);
 
 	@Override
 	public boolean supports(final Query q)

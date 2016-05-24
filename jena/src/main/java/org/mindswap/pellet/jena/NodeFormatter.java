@@ -55,7 +55,7 @@ public class NodeFormatter
 		renderer.setWriter(formatter);
 
 		qnames = JenaUtils.makeQNameProvider(model);
-		//        formatter.setQNames(qnames);
+		//        formatter.setQNames(_qnames);
 
 		if (model instanceof InfModel)
 		{

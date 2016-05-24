@@ -11,6 +11,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -30,7 +31,7 @@ import java.util.logging.Logger;
  */
 public class ContinuousRealInterval
 {
-	private static final Logger log = Logger.getLogger(ContinuousRealInterval.class.getCanonicalName());
+	private static final Logger log = Log.getLogger(ContinuousRealInterval.class);
 
 	private static ContinuousRealInterval _unconstrained = new ContinuousRealInterval(null, null, true, true);
 
