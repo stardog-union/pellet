@@ -1,7 +1,6 @@
 package com.clarkparsia.owlwg.runner.pellet;
 
 import com.clarkparsia.owlwg.owlapi.runner.impl.OwlApiAbstractRunner;
-
 import com.clarkparsia.owlwg.testrun.TestRunResult;
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
@@ -27,14 +26,14 @@ import org.semanticweb.owlapi.model.OWLOntology;
 public class PelletOA3TestRunner extends OwlApiAbstractRunner
 {
 
-	private static final PelletReasonerFactory reasonerFactory;
+	private static final PelletReasonerFactory _reasonerFactory;
 
-	private static final IRI iri;
+	private static final IRI _iri;
 
 	static
 	{
-		iri = IRI.create("http://clarkparsia.com/pellet");
-		reasonerFactory = new PelletReasonerFactory();
+		_iri = IRI.create("http://clarkparsia.com/pellet");
+		_reasonerFactory = new PelletReasonerFactory();
 	}
 
 	@Override
@@ -46,27 +45,27 @@ public class PelletOA3TestRunner extends OwlApiAbstractRunner
 	@Override
 	public IRI getIRI()
 	{
-		return iri;
+		return _iri;
 	}
 
 	@Override
-	protected boolean isConsistent(OWLOntology o)
+	protected boolean isConsistent(final OWLOntology o)
 	{
-		final PelletReasoner reasoner = reasonerFactory.createReasoner(o);
-		reasoner.getKB().setTimeout(timeout);
+		final PelletReasoner reasoner = _reasonerFactory.createReasoner(o);
+		reasoner.getKB().setTimeout(_timeout);
 		return reasoner.isConsistent();
 	}
 
 	@Override
-	protected boolean isEntailed(OWLOntology premise, OWLOntology conclusion)
+	protected boolean isEntailed(final OWLOntology premise, final OWLOntology conclusion)
 	{
-		final PelletReasoner reasoner = reasonerFactory.createReasoner(premise);
-		reasoner.getKB().setTimeout(timeout);
-		return reasoner.isEntailed(conclusion.getLogicalAxioms());
+		final PelletReasoner reasoner = _reasonerFactory.createReasoner(premise);
+		reasoner.getKB().setTimeout(_timeout);
+		return reasoner.isEntailed(conclusion.logicalAxioms());
 	}
 
 	@Override
-	protected TestRunResult run(TestAsRunnable runnable)
+	protected TestRunResult run(final TestAsRunnable runnable)
 	{
 		runnable.run();
 

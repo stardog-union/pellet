@@ -21,4 +21,5 @@ import org.semanticweb.owlapi.model.OWLOntology;
  */
 public interface OwlApiCase extends TestCase<OWLOntology>
 {
+	//
 }

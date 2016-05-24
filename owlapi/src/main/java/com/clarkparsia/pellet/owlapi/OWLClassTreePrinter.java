@@ -2,10 +2,8 @@ package com.clarkparsia.pellet.owlapi;
 
 import java.io.PrintWriter;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Set;
 import org.mindswap.pellet.taxonomy.Taxonomy;
-import org.mindswap.pellet.taxonomy.printer.TaxonomyPrinter;
 import org.mindswap.pellet.taxonomy.printer.TreeTaxonomyPrinter;
 import org.mindswap.pellet.utils.QNameProvider;
 import org.mindswap.pellet.utils.TaxonomyUtils;
@@ -18,7 +16,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
  *
  * @author Blazej Bulka <blazej@clarkparsia.com>
  */
-public class OWLClassTreePrinter extends TreeTaxonomyPrinter<OWLClass> implements TaxonomyPrinter<OWLClass>
+public class OWLClassTreePrinter extends TreeTaxonomyPrinter<OWLClass>
 {
 	private final QNameProvider qnames = new QNameProvider();
 
@@ -36,11 +34,8 @@ public class OWLClassTreePrinter extends TreeTaxonomyPrinter<OWLClass> implement
 		{
 			_out.print(" - (");
 			boolean printed = false;
-			final Iterator<OWLNamedIndividual> ins = instances.iterator();
-			for (int k = 0; ins.hasNext(); k++)
+			for (final OWLNamedIndividual x : instances)
 			{
-				final OWLNamedIndividual x = ins.next();
-
 				if (printed)
 					_out.print(", ");
 				else

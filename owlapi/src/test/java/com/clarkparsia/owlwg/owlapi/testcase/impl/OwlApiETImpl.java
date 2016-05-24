@@ -49,7 +49,7 @@ public abstract class OwlApiETImpl extends AbstractEntailmentTest<OWLOntology> i
 		{
 			final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 			manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
-			manager.clearIRIMappers();
+			manager.getIRIMappers().clear();
 
 			ImportsHelper.loadImports(manager, this, format);
 			OWLOntology o = parsedConclusion.get(format);
@@ -77,7 +77,7 @@ public abstract class OwlApiETImpl extends AbstractEntailmentTest<OWLOntology> i
 		{
 			final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 			manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
-			manager.clearIRIMappers();
+			manager.getIRIMappers().clear();
 
 			ImportsHelper.loadImports(manager, this, format);
 			OWLOntology o = parsedPremise.get(format);

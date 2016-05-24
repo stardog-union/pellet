@@ -43,25 +43,25 @@ import com.clarkparsia.owlwg.testcase.TestVocabulary.Individual;
  */
 public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 
-	private final String						identifier;
+	private final String						_identifier;
 
-	private final Map<IRI, ImportedOntology>	imports;
+	private final Map<IRI, ImportedOntology>	_imports;
 
-	private final EnumSet<SyntaxConstraint>		notsatisfied;
+	private final EnumSet<SyntaxConstraint>		_notsatisfied;
 
-	private final EnumSet<Semantics>			notsemantics;
+	private final EnumSet<Semantics>			_notsemantics;
 
-	private final EnumSet<SyntaxConstraint>		satisfied;
+	private final EnumSet<SyntaxConstraint>		_satisfied;
 
-	private final EnumSet<Semantics>			semantics;
+	private final EnumSet<Semantics>			_semantics;
 
-	private final Status						status;
+	private final Status						_status;
 
-	private final IRI							iri;
+	private final IRI							_iri;
 
 	public AbstractBaseTestCase(OWLOntology ontology, OWLNamedIndividual i) {
 
-		iri = i.getIRI();
+		_iri = i.getIRI();
 
         Map<OWLDataPropertyExpression, Collection<OWLLiteral>> dpValues = EntitySearcher
                 .getDataPropertyValues(i, ontology).asMap();
@@ -74,39 +74,39 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
             throw new IllegalArgumentException();
         }
 
-		identifier = identifiers.iterator().next().getLiteral();
+		_identifier = identifiers.iterator().next().getLiteral();
 
         Map<OWLObjectPropertyExpression, Collection<OWLIndividual>> opValues = EntitySearcher
                 .getObjectPropertyValues(i, ontology).asMap();
 
-		imports = new HashMap<>();
+		_imports = new HashMap<>();
         Collection<OWLIndividual> importedOntologies = opValues
                 .get(IMPORTED_ONTOLOGY
 				.getOWLObjectProperty() );
 		if( importedOntologies != null ) {
 			for( OWLIndividual ind : importedOntologies ) {
 				ImportedOntology io = new ImportedOntologyImpl( ontology, ind.asOWLNamedIndividual() );
-				imports.put( io.getIRI(), io );
+				_imports.put( io.getIRI(), io );
 			}
 		}
 
         Collection<OWLIndividual> statuses = opValues.get(STATUS
                 .getOWLObjectProperty());
 		if( statuses == null || statuses.isEmpty() ) {
-            status = null;
+            _status = null;
         } else if( statuses.size() > 1 ) {
             throw new IllegalArgumentException();
         } else {
 			OWLNamedIndividual s = statuses.iterator().next().asOWLNamedIndividual();
-			status = Status.get( s );
-			if( status == null ) {
+			_status = Status.get( s );
+			if( _status == null ) {
                 throw new NullPointerException( format(
-						"Unexpected status ( %s ) for test case %s", s.getIRI().toURI().toASCIIString(), i
+						"Unexpected _status ( %s ) for test case %s", s.getIRI().toURI().toASCIIString(), i
 								.getIRI() ) );
             }
 		}
 
-		satisfied = EnumSet.noneOf( SyntaxConstraint.class );
+		_satisfied = EnumSet.noneOf( SyntaxConstraint.class );
         Collection<OWLIndividual> profiles = opValues.get(PROFILE
                 .getOWLObjectProperty());
 		if( profiles != null ) {
@@ -117,7 +117,7 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 							"Unexpected profile ( %s ) for test case %s", p.asOWLNamedIndividual().getIRI()
 									.toURI().toASCIIString(), i.getIRI() ) );
                 }
-				satisfied.add( c );
+				_satisfied.add( c );
 			}
 		}
 
@@ -129,7 +129,7 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
                     continue;
                 }
 				if( Individual.DL.getOWLIndividual().equals( s ) ) {
-                    satisfied.add( SyntaxConstraint.DL );
+                    _satisfied.add( SyntaxConstraint.DL );
                 } else {
                     throw new IllegalArgumentException( format(
 							"Unexpected species ( %s ) for test case %s", s.asOWLNamedIndividual().getIRI()
@@ -138,7 +138,7 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 			}
 		}
 
-		semantics = EnumSet.noneOf( Semantics.class );
+		_semantics = EnumSet.noneOf( Semantics.class );
         Collection<OWLIndividual> sems = opValues.get(SEMANTICS
                 .getOWLObjectProperty());
 		if( sems != null ) {
@@ -146,17 +146,17 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 				Semantics s = Semantics.get( sem );
 				if( s == null ) {
                     throw new NullPointerException( format(
-							"Unexpected semantics ( %s ) for test case %s ", sem.asOWLNamedIndividual().getIRI()
+							"Unexpected _semantics ( %s ) for test case %s ", sem.asOWLNamedIndividual().getIRI()
 									.toURI().toASCIIString(), i.getIRI() ) );
                 }
-				semantics.add( s );
+				_semantics.add( s );
 			}
 		}
 
         Map<OWLObjectPropertyExpression, Collection<OWLIndividual>> nopValues = EntitySearcher
                 .getNegativeObjectPropertyValues(i, ontology).asMap();
 
-		notsatisfied = EnumSet.noneOf( SyntaxConstraint.class );
+		_notsatisfied = EnumSet.noneOf( SyntaxConstraint.class );
 
         Collection<OWLIndividual> notprofiles = nopValues.get(PROFILE
                 .getOWLObjectProperty());
@@ -168,7 +168,7 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 							"Unexpected profile ( %s ) for test case %s", p.asOWLNamedIndividual().getIRI()
 									.toURI().toASCIIString(), i.getIRI() ) );
                 }
-				notsatisfied.add( c );
+				_notsatisfied.add( c );
 			}
 		}
 
@@ -177,7 +177,7 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 		if( notspecies != null ) {
 			for( OWLIndividual s : notspecies ) {
 				if( Individual.DL.getOWLIndividual().equals( s ) ) {
-                    notsatisfied.add( SyntaxConstraint.DL );
+                    _notsatisfied.add( SyntaxConstraint.DL );
                 } else {
                     throw new IllegalArgumentException( format(
 							"Unexpected species ( %s ) for test case %s", s.asOWLNamedIndividual().getIRI()
@@ -186,7 +186,7 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 			}
 		}
 
-		notsemantics = EnumSet.noneOf( Semantics.class );
+		_notsemantics = EnumSet.noneOf( Semantics.class );
         Collection<OWLIndividual> notsems = nopValues.get(SEMANTICS
                 .getOWLObjectProperty());
 		if( notsems != null ) {
@@ -194,34 +194,34 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 				Semantics s = Semantics.get( sem );
 				if( s == null ) {
                     throw new NullPointerException( format(
-							"Unexpected semantics ( %s ) for test case %s", sem.asOWLNamedIndividual().getIRI()
+							"Unexpected _semantics ( %s ) for test case %s", sem.asOWLNamedIndividual().getIRI()
 									.toURI().toASCIIString(), i.getIRI() ) );
                 }
-				notsemantics.add( s );
+				_notsemantics.add( s );
 			}
 		}
 	}
 
 	@Override
     public void dispose() {
-		imports.clear();
-		notsatisfied.clear();
-		semantics.clear();
+		_imports.clear();
+		_notsatisfied.clear();
+		_semantics.clear();
 	}
 	
 	@Override
     public Set<Semantics> getApplicableSemantics() {
-		return unmodifiableSet( semantics );
+		return unmodifiableSet( _semantics );
 	}
 
 	@Override
     public String getIdentifier() {
-		return identifier;
+		return _identifier;
 	}
 
 	@Override
     public String getImportedOntology(IRI iri, SerializationFormat format) {
-		ImportedOntology io = imports.get( iri );
+		ImportedOntology io = _imports.get( iri );
 		if( io == null ) {
             return null;
         } else {
@@ -231,12 +231,12 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 
 	@Override
     public Set<IRI> getImportedOntologies() {
-		return unmodifiableSet( imports.keySet() );
+		return unmodifiableSet( _imports.keySet() );
 	}
 
 	@Override
     public Set<SerializationFormat> getImportedOntologyFormats(IRI iri) {
-		ImportedOntology io = imports.get( iri );
+		ImportedOntology io = _imports.get( iri );
 		if( io == null ) {
             return EnumSet.noneOf( SerializationFormat.class );
         } else {
@@ -246,26 +246,26 @@ public abstract class AbstractBaseTestCase<O> implements TestCase<O> {
 
 	@Override
     public Set<Semantics> getNotApplicableSemantics() {
-		return unmodifiableSet( notsemantics );
+		return unmodifiableSet( _notsemantics );
 	}
 
 	@Override
     public Set<SyntaxConstraint> getSatisfiedConstraints() {
-		return unmodifiableSet( satisfied );
+		return unmodifiableSet( _satisfied );
 	}
 
 	@Override
     public Status getStatus() {
-		return status;
+		return _status;
 	}
 
 	@Override
     public Set<SyntaxConstraint> getUnsatisfiedConstraints() {
-		return unmodifiableSet( notsatisfied );
+		return unmodifiableSet( _notsatisfied );
 	}
 
 	@Override
     public IRI getIRI() {
-		return iri;
+		return _iri;
 	}
 }

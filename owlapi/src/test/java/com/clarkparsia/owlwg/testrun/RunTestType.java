@@ -32,13 +32,13 @@ public enum RunTestType {
 	NEGATIVE_ENTAILMENT(NEGATIVE_ENTAILMENT_RUN), POSITIVE_ENTAILMENT(POSITIVE_ENTAILMENT_RUN),
 	SYNTAX_CONSTRAINT(SYNTAX_CONSTRAINT_RUN), SYNTAX_TRANSLATION(SYNTAX_TRANSLATION_RUN);
 
-	private final OWLClass	c;
+	private final OWLClass	_c;
 
 	private RunTestType(ResultVocabulary.Class c) {
-		this.c = c.getOWLClass();
+		this._c = c.getOWLClass();
 	}
 
 	public OWLClass getOWLClass() {
-		return c;
+		return _c;
 	}
 }

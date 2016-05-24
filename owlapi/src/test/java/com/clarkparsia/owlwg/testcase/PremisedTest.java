@@ -13,17 +13,17 @@ import java.util.Set;
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a
- * href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public interface PremisedTest<O> extends TestCase<O> {
+public interface PremisedTest<O> extends TestCase<O>
+{
 
 	public Set<SerializationFormat> getPremiseFormats();
 
-	public String getPremiseOntology(SerializationFormat format);
+	public String getPremiseOntology(final SerializationFormat format);
 
-	public O parsePremiseOntology(SerializationFormat format) throws OntologyParseException;
+	public O parsePremiseOntology(final SerializationFormat format) throws OntologyParseException;
 }

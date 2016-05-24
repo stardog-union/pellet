@@ -10,6 +10,7 @@ package com.clarkparsia.pellet.owlapi;
 
 import aterm.ATermAppl;
 import aterm.ATermList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.mindswap.pellet.KnowledgeBase;
@@ -49,15 +50,15 @@ import org.semanticweb.owlapi.vocab.OWLFacet;
  */
 public class ConceptConverter extends ATermBaseVisitor
 {
-	private final KnowledgeBase kb;
-	private final OWLDataFactory factory;
-	private OWLObject obj;
-	private Set set;
+	private final KnowledgeBase _kb;
+	private final OWLDataFactory _factory;
+	private OWLObject _obj;
+	private Set<OWLObject> _set;
 
 	public ConceptConverter(final KnowledgeBase kb, final OWLDataFactory factory)
 	{
-		this.kb = kb;
-		this.factory = factory;
+		_kb = kb;
+		_factory = factory;
 	}
 
 	public OWLIndividual convertIndividual(final ATermAppl term)
@@ -67,12 +68,12 @@ public class ConceptConverter extends ATermBaseVisitor
 		if (!ATermUtils.isBnode(term))
 			iri = IRI.create(term.getName());
 
-		if (kb.isIndividual(term))
+		if (_kb.isIndividual(term))
 		{
 			if (ATermUtils.isBnode(term))
-				return factory.getOWLAnonymousIndividual(((ATermAppl) term.getArgument(0)).getName());
+				return _factory.getOWLAnonymousIndividual(((ATermAppl) term.getArgument(0)).getName());
 			else
-				return factory.getOWLNamedIndividual(iri);
+				return _factory.getOWLNamedIndividual(iri);
 		}
 		else
 			throw new InternalReasonerException("Cannot convert _individual: " + term);
@@ -80,22 +81,22 @@ public class ConceptConverter extends ATermBaseVisitor
 
 	public OWLObject convert(final ATermAppl term)
 	{
-		obj = null;
+		_obj = null;
 
 		visit(term);
 
-		return obj;
+		return _obj;
 	}
 
 	public OWLObject getResult()
 	{
-		return obj;
+		return _obj;
 	}
 
 	@Override
 	public void visitTerm(final ATermAppl term)
 	{
-		obj = null;
+		_obj = null;
 
 		IRI iri = null;
 
@@ -103,50 +104,59 @@ public class ConceptConverter extends ATermBaseVisitor
 			iri = IRI.create(term.getName());
 
 		if (term.equals(OWL_THING))
-			obj = factory.getOWLThing();
+			_obj = _factory.getOWLThing();
 		else
 			if (term.equals(OWL_NOTHING))
-				obj = factory.getOWLNothing();
+				_obj = _factory.getOWLNothing();
 			else
-				if (kb.isClass(term))
-					obj = factory.getOWLClass(iri);
+				if (_kb.isClass(term))
+					_obj = _factory.getOWLClass(iri);
 				else
-					if (kb.isObjectProperty(term))
+					if (_kb.isObjectProperty(term))
 					{
 						if (ATermUtils.TOP_OBJECT_PROPERTY.equals(term))
-							obj = factory.getOWLTopDataProperty();
+							_obj = _factory.getOWLTopDataProperty();
 						else
 							if (ATermUtils.BOTTOM_DATA_PROPERTY.equals(term))
-								obj = factory.getOWLBottomObjectProperty();
+								_obj = _factory.getOWLBottomObjectProperty();
 							else
-								obj = factory.getOWLObjectProperty(iri);
+								_obj = _factory.getOWLObjectProperty(iri);
 					}
 					else
-						if (kb.isDatatypeProperty(term))
+						if (_kb.isDatatypeProperty(term))
 						{
 							if (ATermUtils.TOP_DATA_PROPERTY.equals(term))
-								obj = factory.getOWLTopDataProperty();
+								_obj = _factory.getOWLTopDataProperty();
 							else
 								if (ATermUtils.BOTTOM_DATA_PROPERTY.equals(term))
-									obj = factory.getOWLBottomDataProperty();
+									_obj = _factory.getOWLBottomDataProperty();
 								else
-									obj = factory.getOWLDataProperty(iri);
+									_obj = _factory.getOWLDataProperty(iri);
 
 						}
 						else
-							if (kb.isIndividual(term))
+							if (_kb.isIndividual(term))
 							{
 								if (ATermUtils.isBnode(term))
-									obj = factory.getOWLAnonymousIndividual(((ATermAppl) term.getArgument(0)).getName());
+									_obj = _factory.getOWLAnonymousIndividual(((ATermAppl) term.getArgument(0)).getName());
 								else
-									obj = factory.getOWLNamedIndividual(iri);
+									_obj = _factory.getOWLNamedIndividual(iri);
 							}
 							else
-								if (kb.isDatatype(term))
-									obj = factory.getOWLDatatype(iri);
+								if (_kb.isDatatype(term))
+									_obj = _factory.getOWLDatatype(iri);
 
-		if (obj == null)
+		if (_obj == null)
 			throw new InternalReasonerException("Ontology does not contain: " + term);
+	}
+
+	private <Type, Tmp> Set<Type> dynamicCastTheSet(final Collection<Tmp> set, final Class<Type> c)
+	{
+		final Set<Type> exprs = new HashSet<>();
+		for (final Tmp o : set)
+			if (c.isInstance(o))
+				exprs.add(c.cast(o));
+		return exprs;
 	}
 
 	@Override
@@ -154,11 +164,11 @@ public class ConceptConverter extends ATermBaseVisitor
 	{
 		visitList((ATermList) term.getArgument(0));
 
-		if (obj instanceof OWLClassExpression)
-			obj = factory.getOWLObjectIntersectionOf(set);
+		if (_obj instanceof OWLClassExpression)
+			_obj = _factory.getOWLObjectIntersectionOf(dynamicCastTheSet(_set, OWLClassExpression.class));
 		else
-			if (obj instanceof OWLDataRange)
-				obj = factory.getOWLDataIntersectionOf(set);
+			if (_obj instanceof OWLDataRange)
+				_obj = _factory.getOWLDataIntersectionOf(dynamicCastTheSet(_set, OWLDataRange.class));
 
 	}
 
@@ -167,11 +177,11 @@ public class ConceptConverter extends ATermBaseVisitor
 	{
 		visitList((ATermList) term.getArgument(0));
 
-		if (obj instanceof OWLClassExpression)
-			obj = factory.getOWLObjectUnionOf(set);
+		if (_obj instanceof OWLClassExpression)
+			_obj = _factory.getOWLObjectUnionOf(dynamicCastTheSet(_set, OWLClassExpression.class));
 		else
-			if (obj instanceof OWLDataRange)
-				obj = factory.getOWLDataUnionOf(set);
+			if (_obj instanceof OWLDataRange)
+				_obj = _factory.getOWLDataUnionOf(dynamicCastTheSet(_set, OWLDataRange.class));
 	}
 
 	@Override
@@ -179,11 +189,11 @@ public class ConceptConverter extends ATermBaseVisitor
 	{
 		visit((ATermAppl) term.getArgument(0));
 
-		if (obj instanceof OWLClassExpression)
-			obj = factory.getOWLObjectComplementOf((OWLClassExpression) obj);
+		if (_obj instanceof OWLClassExpression)
+			_obj = _factory.getOWLObjectComplementOf((OWLClassExpression) _obj);
 		else
-			if (obj instanceof OWLDataRange)
-				obj = factory.getOWLDataComplementOf((OWLDataRange) obj);
+			if (_obj instanceof OWLDataRange)
+				_obj = _factory.getOWLDataComplementOf((OWLDataRange) _obj);
 	}
 
 	// In the following method(s) we intentionally do not use OWLPropertyExpression<?,?>
@@ -194,21 +204,21 @@ public class ConceptConverter extends ATermBaseVisitor
 	public void visitSome(final ATermAppl term)
 	{
 		visit((ATermAppl) term.getArgument(0));
-		final OWLPropertyExpression prop = (OWLPropertyExpression) obj;
+		final OWLPropertyExpression prop = (OWLPropertyExpression) _obj;
 
 		visit((ATermAppl) term.getArgument(1));
 
 		if (prop instanceof OWLObjectPropertyExpression)
 		{
-			final OWLClassExpression desc = (OWLClassExpression) obj;
+			final OWLClassExpression desc = (OWLClassExpression) _obj;
 
-			obj = factory.getOWLObjectSomeValuesFrom((OWLObjectPropertyExpression) prop, desc);
+			_obj = _factory.getOWLObjectSomeValuesFrom((OWLObjectPropertyExpression) prop, desc);
 		}
 		else
 		{
-			final OWLDataRange datatype = (OWLDataRange) obj;
+			final OWLDataRange datatype = (OWLDataRange) _obj;
 
-			obj = factory.getOWLDataSomeValuesFrom((OWLDataProperty) prop, datatype);
+			_obj = _factory.getOWLDataSomeValuesFrom((OWLDataProperty) prop, datatype);
 		}
 	}
 
@@ -216,21 +226,21 @@ public class ConceptConverter extends ATermBaseVisitor
 	public void visitAll(final ATermAppl term)
 	{
 		visit((ATermAppl) term.getArgument(0));
-		final OWLPropertyExpression prop = (OWLPropertyExpression) obj;
+		final OWLPropertyExpression prop = (OWLPropertyExpression) _obj;
 
 		visit((ATermAppl) term.getArgument(1));
 
 		if (prop instanceof OWLObjectPropertyExpression)
 		{
-			final OWLClassExpression desc = (OWLClassExpression) obj;
+			final OWLClassExpression desc = (OWLClassExpression) _obj;
 
-			obj = factory.getOWLObjectAllValuesFrom((OWLObjectPropertyExpression) prop, desc);
+			_obj = _factory.getOWLObjectAllValuesFrom((OWLObjectPropertyExpression) prop, desc);
 		}
 		else
 		{
-			final OWLDataRange datatype = (OWLDataRange) obj;
+			final OWLDataRange datatype = (OWLDataRange) _obj;
 
-			obj = factory.getOWLDataAllValuesFrom((OWLDataProperty) prop, datatype);
+			_obj = _factory.getOWLDataAllValuesFrom((OWLDataProperty) prop, datatype);
 		}
 
 	}
@@ -239,19 +249,19 @@ public class ConceptConverter extends ATermBaseVisitor
 	public void visitMin(final ATermAppl term)
 	{
 		visit((ATermAppl) term.getArgument(0));
-		final OWLPropertyExpression prop = (OWLPropertyExpression) obj;
+		final OWLPropertyExpression prop = (OWLPropertyExpression) _obj;
 
 		final int cardinality = Integer.parseInt(term.getArgument(1).toString());
 
 		if (prop instanceof OWLObjectPropertyExpression)
 		{
 			final OWLClassExpression c = (OWLClassExpression) convert((ATermAppl) term.getArgument(2));
-			obj = factory.getOWLObjectMinCardinality(cardinality, (OWLObjectPropertyExpression) prop, c);
+			_obj = _factory.getOWLObjectMinCardinality(cardinality, (OWLObjectPropertyExpression) prop, c);
 		}
 		else
 		{
 			final OWLDataRange d = (OWLDataRange) convert((ATermAppl) term.getArgument(2));
-			obj = factory.getOWLDataMinCardinality(cardinality, (OWLDataProperty) prop, d);
+			_obj = _factory.getOWLDataMinCardinality(cardinality, (OWLDataProperty) prop, d);
 		}
 	}
 
@@ -259,19 +269,19 @@ public class ConceptConverter extends ATermBaseVisitor
 	public void visitCard(final ATermAppl term)
 	{
 		visit((ATermAppl) term.getArgument(0));
-		final OWLPropertyExpression prop = (OWLPropertyExpression) obj;
+		final OWLPropertyExpression prop = (OWLPropertyExpression) _obj;
 
 		final int cardinality = Integer.parseInt(term.getArgument(1).toString());
 
 		if (prop instanceof OWLObjectPropertyExpression)
 		{
 			final OWLClassExpression c = (OWLClassExpression) convert((ATermAppl) term.getArgument(2));
-			obj = factory.getOWLObjectExactCardinality(cardinality, (OWLObjectPropertyExpression) prop, c);
+			_obj = _factory.getOWLObjectExactCardinality(cardinality, (OWLObjectPropertyExpression) prop, c);
 		}
 		else
 		{
 			final OWLDataRange d = (OWLDataRange) convert((ATermAppl) term.getArgument(2));
-			obj = factory.getOWLDataExactCardinality(cardinality, (OWLDataProperty) prop, d);
+			_obj = _factory.getOWLDataExactCardinality(cardinality, (OWLDataProperty) prop, d);
 		}
 	}
 
@@ -279,19 +289,19 @@ public class ConceptConverter extends ATermBaseVisitor
 	public void visitMax(final ATermAppl term)
 	{
 		visit((ATermAppl) term.getArgument(0));
-		final OWLPropertyExpression prop = (OWLPropertyExpression) obj;
+		final OWLPropertyExpression prop = (OWLPropertyExpression) _obj;
 
 		final int cardinality = Integer.parseInt(term.getArgument(1).toString());
 
 		if (prop instanceof OWLObjectPropertyExpression)
 		{
 			final OWLClassExpression c = (OWLClassExpression) convert((ATermAppl) term.getArgument(2));
-			obj = factory.getOWLObjectMaxCardinality(cardinality, (OWLObjectPropertyExpression) prop, c);
+			_obj = _factory.getOWLObjectMaxCardinality(cardinality, (OWLObjectPropertyExpression) prop, c);
 		}
 		else
 		{
 			final OWLDataRange d = (OWLDataRange) convert((ATermAppl) term.getArgument(2));
-			obj = factory.getOWLDataMaxCardinality(cardinality, (OWLDataProperty) prop, d);
+			_obj = _factory.getOWLDataMaxCardinality(cardinality, (OWLDataProperty) prop, d);
 		}
 	}
 
@@ -299,23 +309,23 @@ public class ConceptConverter extends ATermBaseVisitor
 	public void visitHasValue(final ATermAppl term)
 	{
 		visit((ATermAppl) term.getArgument(0));
-		final OWLPropertyExpression prop = (OWLPropertyExpression) obj;
+		final OWLPropertyExpression prop = (OWLPropertyExpression) _obj;
 
 		if (prop instanceof OWLObjectProperty)
 		{
 
 			final OWLIndividual ind = convertIndividual((ATermAppl) ((ATermAppl) term.getArgument(1)).getArgument(0));
 
-			obj = factory.getOWLObjectHasValue((OWLObjectPropertyExpression) prop, ind);
+			_obj = _factory.getOWLObjectHasValue((OWLObjectPropertyExpression) prop, ind);
 		}
 		else
 		{
 
 			visit((ATermAppl) ((ATermAppl) term.getArgument(1)).getArgument(0));
 
-			final OWLLiteral dataVal = (OWLLiteral) obj;
+			final OWLLiteral dataVal = (OWLLiteral) _obj;
 
-			obj = factory.getOWLDataHasValue((OWLDataProperty) prop, dataVal);
+			_obj = _factory.getOWLDataHasValue((OWLDataProperty) prop, dataVal);
 		}
 	}
 
@@ -326,19 +336,19 @@ public class ConceptConverter extends ATermBaseVisitor
 		if (ATermUtils.isLiteral(nominal))
 		{
 			visitLiteral(nominal);
-			obj = factory.getOWLDataOneOf((OWLLiteral) obj);
+			_obj = _factory.getOWLDataOneOf((OWLLiteral) _obj);
 		}
 		else
-			obj = factory.getOWLObjectOneOf(convertIndividual(nominal));
+			_obj = _factory.getOWLObjectOneOf(convertIndividual(nominal));
 	}
 
 	@Override
 	public void visitSelf(final ATermAppl term)
 	{
 		visit((ATermAppl) term.getArgument(0));
-		final OWLObjectPropertyExpression prop = (OWLObjectPropertyExpression) obj;
+		final OWLObjectPropertyExpression prop = (OWLObjectPropertyExpression) _obj;
 
-		obj = factory.getOWLObjectHasSelf(prop);
+		_obj = _factory.getOWLObjectHasSelf(prop);
 
 	}
 
@@ -357,10 +367,10 @@ public class ConceptConverter extends ATermBaseVisitor
 				if (!ATermUtils.isLiteral((ATermAppl) first.getArgument(0)))
 					throw new InternalReasonerException("Conversion error, expecting literal but found: " + first);
 				visitLiteral((ATermAppl) first.getArgument(0));
-				set.add((OWLLiteral) obj);
+				set.add((OWLLiteral) _obj);
 			}
 
-			obj = factory.getOWLDataOneOf(set);
+			_obj = _factory.getOWLDataOneOf(set);
 		}
 		else
 		{
@@ -373,7 +383,7 @@ public class ConceptConverter extends ATermBaseVisitor
 				set.add(ind);
 			}
 
-			obj = factory.getOWLObjectOneOf(set);
+			_obj = _factory.getOWLObjectOneOf(set);
 		}
 	}
 
@@ -389,33 +399,34 @@ public class ConceptConverter extends ATermBaseVisitor
 		if (dtype.equals(ATermUtils.PLAIN_LITERAL_DATATYPE))
 		{
 			if (lang.equals(ATermUtils.EMPTY))
-				obj = factory.getOWLLiteral(lexValue);
+				_obj = _factory.getOWLLiteral(lexValue);
 			else
-				obj = factory.getOWLLiteral(lexValue, lang.toString());
+				_obj = _factory.getOWLLiteral(lexValue, lang.toString());
 		}
 		else
 		{
 			final IRI dtypeIRI = IRI.create(dtype.toString());
-			final OWLDatatype datatype = factory.getOWLDatatype(dtypeIRI);
-			obj = factory.getOWLLiteral(lexValue, datatype);
+			final OWLDatatype datatype = _factory.getOWLDatatype(dtypeIRI);
+			_obj = _factory.getOWLLiteral(lexValue, datatype);
 		}
 	}
 
 	@Override
-	public void visitList(ATermList list)
+	public void visitList(final ATermList listParam)
 	{
-		set = null;
-		final Set elements = new HashSet();
+		ATermList list = listParam;
+		_set = null;
+		final Set<OWLObject> elements = new HashSet<>();
 		while (!list.isEmpty())
 		{
 			final ATermAppl term = (ATermAppl) list.getFirst();
 			visit(term);
-			if (obj == null)
+			if (_obj == null)
 				return;
-			elements.add(obj);
+			elements.add(_obj);
 			list = list.getNext();
 		}
-		set = elements;
+		_set = elements;
 	}
 
 	/**
@@ -425,13 +436,13 @@ public class ConceptConverter extends ATermBaseVisitor
 	public void visitInverse(final ATermAppl p)
 	{
 		final OWLObjectProperty prop = (OWLObjectProperty) convert((ATermAppl) p.getArgument(0));
-		obj = factory.getOWLObjectInverseOf(prop);
+		_obj = _factory.getOWLObjectInverseOf(prop);
 	}
 
 	@Override
 	public void visitRestrictedDatatype(final ATermAppl dt)
 	{
-		final OWLDatatype baseDatatype = factory.getOWLDatatype(IRI.create(((ATermAppl) dt.getArgument(0)).getName()));
+		final OWLDatatype baseDatatype = _factory.getOWLDatatype(IRI.create(((ATermAppl) dt.getArgument(0)).getName()));
 
 		final Set<OWLFacetRestriction> restrictions = new HashSet<>();
 		for (ATermList list = (ATermList) dt.getArgument(1); !list.isEmpty(); list = list.getNext())
@@ -440,8 +451,8 @@ public class ConceptConverter extends ATermBaseVisitor
 			final String facetName = ((ATermAppl) facet.getArgument(0)).getName();
 			final ATermAppl facetValue = (ATermAppl) facet.getArgument(1);
 			visitLiteral(facetValue);
-			restrictions.add(factory.getOWLFacetRestriction(OWLFacet.getFacet(IRI.create(facetName)), (OWLLiteral) obj));
+			restrictions.add(_factory.getOWLFacetRestriction(OWLFacet.getFacet(IRI.create(facetName)), (OWLLiteral) _obj));
 		}
-		obj = factory.getOWLDatatypeRestriction(baseDatatype, restrictions);
+		_obj = _factory.getOWLDatatypeRestriction(baseDatatype, restrictions);
 	}
 }

@@ -9,7 +9,6 @@ import static com.clarkparsia.owlwg.testrun.RunTestType.NEGATIVE_ENTAILMENT;
 import static com.clarkparsia.owlwg.testrun.RunTestType.POSITIVE_ENTAILMENT;
 
 import com.clarkparsia.owlwg.owlapi.testcase.impl.OwlApiCase;
-
 import com.clarkparsia.owlwg.runner.TestRunner;
 import com.clarkparsia.owlwg.testcase.ConsistencyTest;
 import com.clarkparsia.owlwg.testcase.EntailmentTest;
@@ -36,8 +35,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * Title: OWLAPI Abstract Test Runner
  * </p>
  * <p>
- * Description: Base test runner implementation intended to encapsulate non-interesting bits of the test runner and make reuse and runner implementation easier.
- * Handles test type-specific behavior and timeout enforcement.
+ * Description: Base test _runner implementation intended to encapsulate non-interesting bits of the test _runner and make reuse and _runner implementation
+ * easier. Handles test type-specific behavior and _timeout enforcement.
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
@@ -61,45 +60,45 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 	protected abstract class AbstractTestAsRunnable<T extends TestCase<OWLOntology>> implements TestAsRunnable
 	{
 
-		protected TestRunResult result;
-		protected final T testcase;
-		protected Throwable throwable;
-		protected final RunTestType type;
+		protected TestRunResult _result;
+		protected final T _testcase;
+		protected Throwable _throwable;
+		protected final RunTestType _type;
 
 		public AbstractTestAsRunnable(T testcase, RunTestType type)
 		{
-			this.testcase = testcase;
+			this._testcase = testcase;
 
 			if (!EnumSet.of(CONSISTENCY, INCONSISTENCY, NEGATIVE_ENTAILMENT, POSITIVE_ENTAILMENT).contains(type))
 				throw new IllegalArgumentException();
 
-			this.type = type;
-			result = null;
-			throwable = null;
+			this._type = type;
+			_result = null;
+			_throwable = null;
 		}
 
 		@Override
 		public TestRunResult getErrorResult(Throwable th)
 		{
 			th.printStackTrace();
-			return new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, th.getMessage(), th);
+			return new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, th.getMessage(), th);
 		}
 
 		@Override
 		public TestRunResult getResult() throws Throwable
 		{
-			if (throwable != null)
-				throw throwable;
-			if (result == null)
+			if (_throwable != null)
+				throw _throwable;
+			if (_result == null)
 				throw new IllegalStateException();
 
-			return result;
+			return _result;
 		}
 
 		@Override
 		public TestRunResult getTimeoutResult()
 		{
-			return new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, String.format("Timeout: %s ms", timeout));
+			return new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, String.format("Timeout: %s ms", _timeout));
 		}
 	}
 
@@ -172,7 +171,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			SerializationFormat fmt = null;
 			for (final SerializationFormat f : formatList)
 			{
-				if (testcase.getPremiseFormats().contains(f))
+				if (_testcase.getPremiseFormats().contains(f))
 				{
 					fmt = f;
 					break;
@@ -180,7 +179,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			}
 			if (fmt == null)
 			{
-				result = new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for premise ontology.");
+				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for premise ontology.");
 				return;
 			}
 
@@ -188,13 +187,13 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			try
 			{
 				final long parseStart = System.currentTimeMillis();
-				o = testcase.parsePremiseOntology(fmt);
+				o = _testcase.parsePremiseOntology(fmt);
 				final long parseEnd = System.currentTimeMillis();
-				System.err.println(testcase.getIdentifier() + " parse time " + ((parseEnd - parseStart) / 1000));
+				System.err.println(_testcase.getIdentifier() + " parse time " + ((parseEnd - parseStart) / 1000));
 			}
 			catch (final OntologyParseException e)
 			{
-				result = new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, "Exception parsing premise ontology: " + e.getLocalizedMessage(), e);
+				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "Exception parsing premise ontology: " + e.getLocalizedMessage(), e);
 				return;
 			}
 
@@ -202,14 +201,14 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			{
 				final boolean consistent = isConsistent(o);
 				if (consistent)
-					result = new ReasoningRun(testcase, CONSISTENCY.equals(type) ? PASSING : FAILING, type, OwlApiAbstractRunner.this);
+					_result = new ReasoningRun(_testcase, CONSISTENCY.equals(_type) ? PASSING : FAILING, _type, OwlApiAbstractRunner.this);
 				else
-					result = new ReasoningRun(testcase, INCONSISTENCY.equals(type) ? PASSING : FAILING, type, OwlApiAbstractRunner.this);
+					_result = new ReasoningRun(_testcase, INCONSISTENCY.equals(_type) ? PASSING : FAILING, _type, OwlApiAbstractRunner.this);
 			}
 			catch (final Throwable th)
 			{
 				th.printStackTrace();
-				result = new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, "Caught throwable: " + th.getLocalizedMessage(), th);
+				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "Caught throwable: " + th.getLocalizedMessage(), th);
 			}
 		}
 
@@ -232,7 +231,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			SerializationFormat pFmt = null, cFmt = null;
 			for (final SerializationFormat f : formatList)
 			{
-				if (testcase.getPremiseFormats().contains(f))
+				if (_testcase.getPremiseFormats().contains(f))
 				{
 					pFmt = f;
 					break;
@@ -240,12 +239,12 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			}
 			if (pFmt == null)
 			{
-				result = new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for premise ontology.");
+				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for premise ontology.");
 				return;
 			}
 			for (final SerializationFormat f : formatList)
 			{
-				if (testcase.getConclusionFormats().contains(f))
+				if (_testcase.getConclusionFormats().contains(f))
 				{
 					cFmt = f;
 					break;
@@ -253,7 +252,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			}
 			if (cFmt == null)
 			{
-				result = new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for conclusion ontology.");
+				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for conclusion ontology.");
 				return;
 			}
 
@@ -261,14 +260,14 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			try
 			{
 				final long parseStart = System.currentTimeMillis();
-				premise = testcase.parsePremiseOntology(pFmt);
-				conclusion = testcase.parseConclusionOntology(cFmt);
+				premise = _testcase.parsePremiseOntology(pFmt);
+				conclusion = _testcase.parseConclusionOntology(cFmt);
 				final long parseEnd = System.currentTimeMillis();
-				System.err.println(testcase.getIdentifier() + " parse time " + ((parseEnd - parseStart) / 1000));
+				System.err.println(_testcase.getIdentifier() + " parse time " + ((parseEnd - parseStart) / 1000));
 			}
 			catch (final OntologyParseException e)
 			{
-				result = new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, "Exception parsing input ontology: " + e.getLocalizedMessage(), e);
+				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "Exception parsing input ontology: " + e.getLocalizedMessage(), e);
 				return;
 			}
 
@@ -276,15 +275,15 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			{
 				final boolean entailed = isEntailed(premise, conclusion);
 				if (entailed)
-					result = new ReasoningRun(testcase, POSITIVE_ENTAILMENT.equals(type) ? PASSING : FAILING, type, OwlApiAbstractRunner.this);
+					_result = new ReasoningRun(_testcase, POSITIVE_ENTAILMENT.equals(_type) ? PASSING : FAILING, _type, OwlApiAbstractRunner.this);
 				else
-					result = new ReasoningRun(testcase, NEGATIVE_ENTAILMENT.equals(type) ? PASSING : FAILING, type, OwlApiAbstractRunner.this);
+					_result = new ReasoningRun(_testcase, NEGATIVE_ENTAILMENT.equals(_type) ? PASSING : FAILING, _type, OwlApiAbstractRunner.this);
 			}
 			catch (final Throwable th)
 			{
 				System.gc();
 				th.printStackTrace();
-				result = new ReasoningRun(testcase, INCOMPLETE, type, OwlApiAbstractRunner.this, "Caught throwable: " + th.getLocalizedMessage(), th);
+				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "Caught throwable: " + th.getLocalizedMessage(), th);
 			}
 		}
 	}
@@ -296,30 +295,26 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		log = Logger.getLogger(OwlApiAbstractRunner.class.getCanonicalName());
 	}
 
-	private final Runner runner;
-	protected long timeout;
+	private final Runner _runner;
+	protected long _timeout;
 
 	public OwlApiAbstractRunner()
 	{
-		runner = new Runner();
-	}
-
-	@Override
-	public void dispose()
-	{
+		_runner = new Runner();
 	}
 
 	protected abstract boolean isConsistent(OWLOntology o);
 
 	protected abstract boolean isEntailed(OWLOntology premise, OWLOntology conclusion);
 
+	@SuppressWarnings("deprecation")
 	protected TestRunResult run(TestAsRunnable runnable)
 	{
 		final Thread t = new Thread(runnable);
 		t.start();
 		try
 		{
-			t.join(timeout);
+			t.join(_timeout);
 		}
 		catch (final InterruptedException e)
 		{
@@ -334,7 +329,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			}
 			catch (final OutOfMemoryError oome)
 			{
-				log.warning("Out of memory allocating timeout response. Retrying.");
+				log.warning("Out of memory allocating _timeout response. Retrying.");
 				System.gc();
 				return runnable.getTimeoutResult();
 			}
@@ -355,9 +350,9 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 	@Override
 	public Collection<TestRunResult> run(TestCase<OWLOntology> testcase, long timeout)
 	{
-		this.timeout = timeout;
+		this._timeout = timeout;
 		if (testcase instanceof OwlApiCase)
-			return runner.getResults((OwlApiCase) testcase);
+			return _runner.getResults((OwlApiCase) testcase);
 		else
 			throw new IllegalArgumentException();
 	}

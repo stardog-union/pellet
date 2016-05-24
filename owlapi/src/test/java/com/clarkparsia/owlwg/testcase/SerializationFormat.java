@@ -53,39 +53,39 @@ public enum SerializationFormat {
 	 */
 	RDFXML(Individual.RDFXML, RDFXML_INPUT_ONTOLOGY, RDFXML_PREMISE_ONTOLOGY, RDFXML_CONCLUSION_ONTOLOGY, RDFXML_NONCONCLUSION_ONTOLOGY);
 
-	private final TestVocabulary.DatatypeProperty	conclusion;
-	private final TestVocabulary.DatatypeProperty	input;
-	private final TestVocabulary.Individual			i;
-	private final TestVocabulary.DatatypeProperty	nonconclusion;
-	private final TestVocabulary.DatatypeProperty	premise;
+	private final TestVocabulary.DatatypeProperty	_conclusion;
+	private final TestVocabulary.DatatypeProperty	_input;
+	private final TestVocabulary.Individual			_i;
+	private final TestVocabulary.DatatypeProperty	_nonconclusion;
+	private final TestVocabulary.DatatypeProperty	_premise;
 
 	private SerializationFormat(TestVocabulary.Individual i, TestVocabulary.DatatypeProperty input,
 			TestVocabulary.DatatypeProperty premise, TestVocabulary.DatatypeProperty conclusion,
 			TestVocabulary.DatatypeProperty nonconclusion) {
-		this.i = i;
-		this.input = input;
-		this.premise = premise;
-		this.conclusion = conclusion;
-		this.nonconclusion = nonconclusion;
+		this._i = i;
+		this._input = input;
+		this._premise = premise;
+		this._conclusion = conclusion;
+		this._nonconclusion = nonconclusion;
 	}
 
 	public OWLDataProperty getConclusionOWLDataProperty() {
-		return conclusion.getOWLDataProperty();
+		return _conclusion.getOWLDataProperty();
 	}
 
 	public OWLDataProperty getNonConclusionOWLDataProperty() {
-		return nonconclusion.getOWLDataProperty();
+		return _nonconclusion.getOWLDataProperty();
 	}
 
 	public OWLIndividual getOWLIndividual() {
-		return i.getOWLIndividual();
+		return _i.getOWLIndividual();
 	}
 
 	public OWLDataProperty getPremiseOWLDataProperty() {
-		return premise.getOWLDataProperty();
+		return _premise.getOWLDataProperty();
 	}
 
 	public OWLDataProperty getInputOWLDataProperty() {
-		return input.getOWLDataProperty();
+		return _input.getOWLDataProperty();
 	}
 }

@@ -14,12 +14,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
@@ -49,7 +50,7 @@ import org.semanticweb.owlapi.model.parameters.Imports;
  */
 public class OntologyUtils
 {
-	private static OWLOntologyManager manager = OWL.manager;
+	private static OWLOntologyManager _manager = OWL.manager;
 
 	public static void addAxioms(final OWLOntology ontology, final Collection<? extends OWLAxiom> axioms)
 	{
@@ -73,20 +74,25 @@ public class OntologyUtils
 	/**
 	 * Given an axiom, return its signature.
 	 */
+	@Deprecated
 	public static Set<OWLEntity> getSignature(final OWLAxiom axiom)
 	{
 		return axiom.getSignature();
 	}
 
+	public static Stream<OWLEntity> signature(final OWLAxiom axiom)
+	{
+		return axiom.signature();
+	}
+
 	public static OWLOntologyManager getOWLOntologyManager()
 	{
-		return manager;
+		return _manager;
 	}
 
 	public static void clearOWLOntologyManager()
 	{
-		for (final OWLOntology ont : manager.getOntologies())
-			manager.removeOntology(ont);
+		_manager.ontologies().forEach(_manager::removeOntology);
 	}
 
 	/**
@@ -99,7 +105,7 @@ public class OntologyUtils
 	{
 		try
 		{
-			return manager.loadOntology(IRI.create(uri));
+			return _manager.loadOntology(IRI.create(uri));
 		}
 		catch (final OWLOntologyCreationException e)
 		{
@@ -117,7 +123,7 @@ public class OntologyUtils
 	{
 		try
 		{
-			return manager.loadOntologyFromOntologyDocument(inputStream);
+			return _manager.loadOntologyFromOntologyDocument(inputStream);
 		}
 		catch (final OWLOntologyCreationException e)
 		{
@@ -138,7 +144,7 @@ public class OntologyUtils
 		final OWLOntology ont = loadOntology(uri);
 
 		if (!withAnnotations)
-			removeAllAnnotations(ont, manager);
+			removeAllAnnotations(ont, _manager);
 
 		return ont;
 	}
@@ -156,7 +162,7 @@ public class OntologyUtils
 		final OWLOntology ont = loadOntology(inputStream);
 
 		if (!withAnnotations)
-			removeAllAnnotations(ont, manager);
+			removeAllAnnotations(ont, _manager);
 
 		return ont;
 	}
@@ -190,7 +196,7 @@ public class OntologyUtils
 
 	public static void save(final OWLOntology ont, final String path) throws OWLOntologyStorageException
 	{
-		manager.saveOntology(ont, IRI.create(new File(path).toURI()));
+		_manager.saveOntology(ont, IRI.create(new File(path).toURI()));
 	}
 
 	/**
@@ -208,7 +214,7 @@ public class OntologyUtils
 			final OWLOntologyChange change = add ? new AddAxiom(ontology, axiom) : new RemoveAxiom(ontology, axiom);
 			changes.add(change);
 		}
-		manager.applyChanges(changes);
+		_manager.applyChanges(changes);
 	}
 
 	/**
@@ -221,7 +227,7 @@ public class OntologyUtils
 	 */
 	public static boolean containsUnreferencedEntity(final OWLOntology ontology, final OWLClassExpression desc)
 	{
-		for (final OWLEntity entity : desc.getSignature())
+		for (final OWLEntity entity : desc.signature().collect(Collectors.toList()))
 			if (!ontology.containsEntityInSignature(entity))
 			{
 				if (entity instanceof OWLClass && (((OWLClass) entity).isOWLThing() || ((OWLClass) entity).isOWLNothing()))
@@ -236,7 +242,7 @@ public class OntologyUtils
 	 *
 	 * @param axiom axiom being removed
 	 * @param ontologies ontologies from which axiom is being removed
-	 * @param manager manager to apply the actual change
+	 * @param _manager _manager to apply the actual change
 	 * @return set of ontologies that have been affected
 	 */
 	public static Set<OWLOntology> removeAxiom(final OWLAxiom axiom, final Set<OWLOntology> ontologies, final OWLOntologyManager manager)
@@ -244,7 +250,7 @@ public class OntologyUtils
 		final Set<OWLOntology> modifiedOnts = new HashSet<>();
 
 		for (final OWLOntology ont : ontologies)
-			if (ont.getAxioms().contains(axiom))
+			if (ont.containsAxiom(axiom))
 			{
 				modifiedOnts.add(ont);
 
@@ -259,7 +265,7 @@ public class OntologyUtils
 	 *
 	 * @param axiom
 	 * @param ontologies
-	 * @param manager
+	 * @param _manager
 	 */
 	public static void addAxiom(final OWLAxiom axiom, final Set<OWLOntology> ontologies, final OWLOntologyManager manager)
 	{
@@ -279,28 +285,14 @@ public class OntologyUtils
 	{
 		try
 		{
-			final Set<OWLEntity> referencedEntities = new HashSet<>();
-			referencedEntities.addAll(ontology.getClassesInSignature());
-			referencedEntities.addAll(ontology.getObjectPropertiesInSignature());
-			referencedEntities.addAll(ontology.getDataPropertiesInSignature());
-			referencedEntities.addAll(ontology.getIndividualsInSignature());
+			final Stream<OWLEntity> referencedEntities = Stream.concat(//
+					Stream.concat(ontology.classesInSignature(), ontology.objectPropertiesInSignature()),//
+					Stream.concat(ontology.dataPropertiesInSignature(), ontology.individualsInSignature())//
+					);
 
-			List<OWLOntologyChange> changes = new ArrayList<>();
-			for (final OWLAxiom axiom : ontology.getAxioms())
-				if (!axiom.isLogicalAxiom())
-					changes.add(new RemoveAxiom(ontology, axiom));
+			manager.applyChanges(ontology.axioms().filter(axiom -> !axiom.isLogicalAxiom()).map(axiom -> new RemoveAxiom(ontology, axiom)).collect(Collectors.toList()));
+			manager.applyChanges(referencedEntities.filter(entity -> !ontology.containsEntityInSignature(entity)).map(entity -> new AddAxiom(ontology, manager.getOWLDataFactory().getOWLDeclarationAxiom(entity))).collect(Collectors.toList()));
 
-			manager.applyChanges(changes);
-
-			changes = new ArrayList<>();
-			for (final OWLEntity entity : referencedEntities)
-				if (!ontology.containsEntityInSignature(entity))
-				{
-					final OWLDeclarationAxiom declaration = manager.getOWLDataFactory().getOWLDeclarationAxiom(entity);
-					changes.add(new AddAxiom(ontology, declaration));
-				}
-
-			manager.applyChanges(changes);
 		}
 		catch (final OWLOntologyChangeException e)
 		{

@@ -6,8 +6,9 @@
 
 package com.clarkparsia.pellet.owlapi;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
+
 import aterm.ATermAppl;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -51,6 +52,7 @@ import org.semanticweb.owlapi.model.OWLInverseObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
@@ -88,33 +90,33 @@ public class EntailmentChecker implements OWLAxiomVisitor
 
 	public static final Set<AxiomType<?>> UNSUPPORTED_ENTAILMENT = Collections.unmodifiableSet(new HashSet<>(Arrays.<AxiomType<?>> asList(AxiomType.DISJOINT_UNION, AxiomType.DATATYPE_DEFINITION, AxiomType.HAS_KEY, AxiomType.SUB_PROPERTY_CHAIN_OF, AxiomType.SWRL_RULE)));
 
-	private final PelletReasoner reasoner;
-	private final KnowledgeBase kb;
-	private boolean isDeferred = false;
-	private boolean isEntailed = false;
-	private final EntailmentQueryVisitor queryVisitor;
+	private final PelletReasoner _reasoner;
+	private final KnowledgeBase _kb;
+	private boolean _isDeferred = false;
+	private boolean _isEntailed = false;
+	private final EntailmentQueryVisitor _queryVisitor;
 
 	public EntailmentChecker(final PelletReasoner reasoner)
 	{
-		this.reasoner = reasoner;
-		kb = reasoner.getKB();
-		queryVisitor = new EntailmentQueryVisitor(reasoner);
+		this._reasoner = reasoner;
+		_kb = reasoner.getKB();
+		_queryVisitor = new EntailmentQueryVisitor(reasoner);
 	}
 
 	private void deferAxiom(final OWLIndividualAxiom axiom)
 	{
-		isDeferred = true;
-		axiom.accept(queryVisitor);
+		_isDeferred = true;
+		axiom.accept(_queryVisitor);
 	}
 
 	private boolean isEntailed(final OWLAxiom axiom)
 	{
-		isDeferred = false;
-		isEntailed = false;
+		_isDeferred = false;
+		_isEntailed = false;
 
 		axiom.accept(this);
 
-		return isDeferred || isEntailed;
+		return _isDeferred || _isEntailed;
 	}
 
 	public boolean isEntailed(final Set<? extends OWLAxiom> axioms)
@@ -124,7 +126,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			log.warning("Empty ontologies are entailed by any premise document!");
 		else
 		{
-			queryVisitor.reset();
+			_queryVisitor.reset();
 
 			for (final OWLAxiom axiom : axioms)
 				if (!isEntailed(axiom))
@@ -134,7 +136,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 					return false;
 				}
 
-			return queryVisitor.isEntailed();
+			return _queryVisitor.isEntailed();
 
 		}
 
@@ -151,7 +153,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 		{
 			final Set<OWLAxiom> deferredAxioms = new HashSet<>();
 
-			queryVisitor.reset();
+			_queryVisitor.reset();
 
 			for (final OWLAxiom axiom : axioms)
 				if (!isEntailed(axiom))
@@ -165,10 +167,10 @@ public class EntailmentChecker implements OWLAxiomVisitor
 						break;
 				}
 				else
-					if (isDeferred)
+					if (_isDeferred)
 						deferredAxioms.add(axiom);
 
-			if ((findAll || nonEntailments.isEmpty()) && !queryVisitor.isEntailed())
+			if ((findAll || nonEntailments.isEmpty()) && !_queryVisitor.isEntailed())
 				nonEntailments.addAll(deferredAxioms);
 		}
 
@@ -178,7 +180,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLSubClassOfAxiom axiom)
 	{
-		isEntailed = kb.isSubClassOf(reasoner.term(axiom.getSubClass()), reasoner.term(axiom.getSuperClass()));
+		_isEntailed = _kb.isSubClassOf(_reasoner.term(axiom.getSubClass()), _reasoner.term(axiom.getSuperClass()));
 	}
 
 	@Override
@@ -192,40 +194,36 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			return;
 		}
 
-		final OWLDataFactory factory = reasoner.getManager().getOWLDataFactory();
+		final OWLDataFactory factory = _reasoner.getManager().getOWLDataFactory();
 		final OWLClassExpression hasValue = factory.getOWLObjectHasValue(axiom.getProperty(), o);
 		final OWLClassExpression doesNotHaveValue = factory.getOWLObjectComplementOf(hasValue);
-		isEntailed = kb.isType(reasoner.term(s), reasoner.term(doesNotHaveValue));
+		_isEntailed = _kb.isType(_reasoner.term(s), _reasoner.term(doesNotHaveValue));
 	}
 
 	@Override
 	public void visit(final OWLAsymmetricObjectPropertyAxiom axiom)
 	{
-		isEntailed = kb.isAsymmetricProperty(reasoner.term(axiom.getProperty()));
+		_isEntailed = _kb.isAsymmetricProperty(_reasoner.term(axiom.getProperty()));
 	}
 
 	@Override
 	public void visit(final OWLReflexiveObjectPropertyAxiom axiom)
 	{
-		isEntailed = kb.isReflexiveProperty(reasoner.term(axiom.getProperty()));
+		_isEntailed = _kb.isReflexiveProperty(_reasoner.term(axiom.getProperty()));
 	}
 
 	@Override
 	public void visit(final OWLDisjointClassesAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 
-		final int n = axiom.getClassExpressions().size();
-		final ATermAppl[] terms = new ATermAppl[n];
-		final Iterator<OWLClassExpression> expIter = axiom.getClassExpressions().iterator();
-		for (int i = 0; i < n; i++)
-			terms[i] = reasoner.term(expIter.next());
-
+		final ATermAppl[] terms = axiom.classExpressions().map(_reasoner::term).toArray(ATermAppl[]::new);
+		final int n = terms.length;
 		for (int i = 0; i < n - 1; i++)
 			for (int j = i + 1; j < n; j++)
-				if (!kb.isDisjoint(terms[i], terms[j]))
+				if (!_kb.isDisjoint(terms[i], terms[j]))
 				{
-					isEntailed = false;
+					_isEntailed = false;
 					return;
 				}
 	}
@@ -233,30 +231,30 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLDataPropertyDomainAxiom axiom)
 	{
-		isEntailed = kb.hasDomain(reasoner.term(axiom.getProperty()), reasoner.term(axiom.getDomain()));
+		_isEntailed = _kb.hasDomain(_reasoner.term(axiom.getProperty()), _reasoner.term(axiom.getDomain()));
 	}
 
 	@Override
 	public void visit(final OWLObjectPropertyDomainAxiom axiom)
 	{
-		isEntailed = kb.hasDomain(reasoner.term(axiom.getProperty()), reasoner.term(axiom.getDomain()));
+		_isEntailed = _kb.hasDomain(_reasoner.term(axiom.getProperty()), _reasoner.term(axiom.getDomain()));
 	}
 
 	@Override
 	public void visit(final OWLEquivalentObjectPropertiesAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 
-		final Iterator<OWLObjectPropertyExpression> i = axiom.getProperties().iterator();
+		final Iterator<OWLObjectPropertyExpression> i = axiom.properties().iterator();
 		if (i.hasNext())
 		{
 			final OWLObjectPropertyExpression head = i.next();
 
-			while (i.hasNext() && isEntailed)
+			while (i.hasNext() && _isEntailed)
 			{
 				final OWLObjectPropertyExpression next = i.next();
 
-				isEntailed = kb.isEquivalentProperty(reasoner.term(head), reasoner.term(next));
+				_isEntailed = _kb.isEquivalentProperty(_reasoner.term(head), _reasoner.term(next));
 			}
 		}
 	}
@@ -270,77 +268,73 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			deferAxiom(axiom);
 			return;
 		}
-		final OWLDataFactory factory = reasoner.getManager().getOWLDataFactory();
+		final OWLDataFactory factory = _reasoner.getManager().getOWLDataFactory();
 		final OWLClassExpression hasValue = factory.getOWLDataHasValue(axiom.getProperty(), axiom.getObject());
 		final OWLClassExpression doesNotHaveValue = factory.getOWLObjectComplementOf(hasValue);
-		isEntailed = kb.isType(reasoner.term(s), reasoner.term(doesNotHaveValue));
+		_isEntailed = _kb.isType(_reasoner.term(s), _reasoner.term(doesNotHaveValue));
 	}
 
 	@Override
 	public void visit(final OWLDifferentIndividualsAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 
-		for (final OWLIndividual ind : axiom.getIndividuals())
+		for (final OWLIndividual ind : asList(axiom.individuals()))
 			if (ind.isAnonymous())
 			{
 				deferAxiom(axiom);
 				return;
 			}
 
-		final ArrayList<OWLIndividual> list = new ArrayList<>(axiom.getIndividuals());
-		for (int i = 0; i < list.size() - 1; i++)
-		{
-			final OWLIndividual head = list.get(i);
-			for (int j = i + 1; j < list.size(); j++)
-			{
-				final OWLIndividual next = list.get(j);
+		final OWLIndividual[] list = axiom.individuals().toArray(OWLIndividual[]::new);
 
-				if (!kb.isDifferentFrom(reasoner.term(head), reasoner.term(next)))
+		for (int i = 0; i < list.length - 1; i++)
+		{
+			final OWLIndividual head = list[i];
+			for (int j = i + 1; j < list.length; j++)
+			{
+				final OWLIndividual next = list[j];
+
+				if (!_kb.isDifferentFrom(_reasoner.term(head), _reasoner.term(next)))
 				{
-					isEntailed = false;
+					_isEntailed = false;
 					return;
 				}
 			}
 		}
 	}
 
+	private void visitProperties(OWLObject[] properties)
+	{
+		_isEntailed = true;
+
+		final int n = properties.length;
+
+		for (int i = 0; i < n - 1; i++)
+			for (int j = i + 1; j < n; j++)
+				if (!_kb.isDisjointProperty(_reasoner.term(properties[i]), _reasoner.term(properties[j])))
+				{
+					_isEntailed = false;
+					return;
+				}
+	}
+
 	@Override
 	public void visit(final OWLDisjointDataPropertiesAxiom axiom)
 	{
-		isEntailed = true;
-
-		final int n = axiom.getProperties().size();
-		final OWLDataProperty[] properties = axiom.getProperties().toArray(new OWLDataProperty[n]);
-		for (int i = 0; i < n - 1; i++)
-			for (int j = i + 1; j < n; j++)
-				if (!kb.isDisjointProperty(reasoner.term(properties[i]), reasoner.term(properties[j])))
-				{
-					isEntailed = false;
-					return;
-				}
+		visitProperties(axiom.properties().toArray(OWLDataProperty[]::new));
 	}
 
 	@Override
 	public void visit(final OWLDisjointObjectPropertiesAxiom axiom)
 	{
-		isEntailed = true;
-
-		final int n = axiom.getProperties().size();
-		final OWLObjectPropertyExpression[] properties = axiom.getProperties().toArray(new OWLObjectPropertyExpression[n]);
-		for (int i = 0; i < n - 1; i++)
-			for (int j = i + 1; j < n; j++)
-				if (!kb.isDisjointProperty(reasoner.term(properties[i]), reasoner.term(properties[j])))
-				{
-					isEntailed = false;
-					return;
-				}
+		visitProperties(axiom.properties().toArray(OWLObjectPropertyExpression[]::new));
 	}
 
 	@Override
 	public void visit(final OWLObjectPropertyRangeAxiom axiom)
 	{
-		isEntailed = kb.hasRange(reasoner.term(axiom.getProperty()), reasoner.term(axiom.getRange()));
+		_isEntailed = _kb.hasRange(_reasoner.term(axiom.getProperty()), _reasoner.term(axiom.getRange()));
 	}
 
 	@Override
@@ -355,19 +349,19 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			return;
 		}
 
-		isEntailed = kb.hasPropertyValue(reasoner.term(s), reasoner.term(axiom.getProperty()), reasoner.term(o));
+		_isEntailed = _kb.hasPropertyValue(_reasoner.term(s), _reasoner.term(axiom.getProperty()), _reasoner.term(o));
 	}
 
 	@Override
 	public void visit(final OWLFunctionalObjectPropertyAxiom axiom)
 	{
-		isEntailed = kb.isFunctionalProperty(reasoner.term(axiom.getProperty()));
+		_isEntailed = _kb.isFunctionalProperty(_reasoner.term(axiom.getProperty()));
 	}
 
 	@Override
 	public void visit(final OWLSubObjectPropertyOfAxiom axiom)
 	{
-		isEntailed = kb.isSubPropertyOf(reasoner.term(axiom.getSubProperty()), reasoner.term(axiom.getSuperProperty()));
+		_isEntailed = _kb.isSubPropertyOf(_reasoner.term(axiom.getSubProperty()), _reasoner.term(axiom.getSuperProperty()));
 	}
 
 	@Override
@@ -391,7 +385,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLDeclarationAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 		if (log.isLoggable(Level.FINE))
 			log.fine("Ignoring declaration " + axiom);
 	}
@@ -399,36 +393,36 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLSymmetricObjectPropertyAxiom axiom)
 	{
-		isEntailed = kb.isSymmetricProperty(reasoner.term(axiom.getProperty()));
+		_isEntailed = _kb.isSymmetricProperty(_reasoner.term(axiom.getProperty()));
 	}
 
 	@Override
 	public void visit(final OWLDataPropertyRangeAxiom axiom)
 	{
-		isEntailed = kb.hasRange(reasoner.term(axiom.getProperty()), reasoner.term(axiom.getRange()));
+		_isEntailed = _kb.hasRange(_reasoner.term(axiom.getProperty()), _reasoner.term(axiom.getRange()));
 	}
 
 	@Override
 	public void visit(final OWLFunctionalDataPropertyAxiom axiom)
 	{
-		isEntailed = kb.isFunctionalProperty(reasoner.term(axiom.getProperty()));
+		_isEntailed = _kb.isFunctionalProperty(_reasoner.term(axiom.getProperty()));
 	}
 
 	@Override
 	public void visit(final OWLEquivalentDataPropertiesAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 
-		final Iterator<OWLDataPropertyExpression> i = axiom.getProperties().iterator();
+		final Iterator<OWLDataPropertyExpression> i = axiom.properties().iterator();
 		if (i.hasNext())
 		{
 			final OWLDataProperty first = (OWLDataProperty) i.next();
 
-			while (i.hasNext() && isEntailed)
+			while (i.hasNext() && _isEntailed)
 			{
 				final OWLDataProperty next = (OWLDataProperty) i.next();
 
-				isEntailed = kb.isEquivalentProperty(reasoner.term(first), reasoner.term(next));
+				_isEntailed = _kb.isEquivalentProperty(_reasoner.term(first), _reasoner.term(next));
 			}
 		}
 	}
@@ -444,25 +438,25 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			deferAxiom(axiom);
 			return;
 		}
-		isEntailed = kb.isType(reasoner.term(ind), reasoner.term(c));
+		_isEntailed = _kb.isType(_reasoner.term(ind), _reasoner.term(c));
 
 	}
 
 	@Override
 	public void visit(final OWLEquivalentClassesAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 
-		final Iterator<OWLClassExpression> i = axiom.getClassExpressions().iterator();
+		final Iterator<OWLClassExpression> i = axiom.classExpressions().iterator();
 		if (i.hasNext())
 		{
 			final OWLClassExpression first = i.next();
 
-			while (i.hasNext() && isEntailed)
+			while (i.hasNext() && _isEntailed)
 			{
 				final OWLClassExpression next = i.next();
 
-				isEntailed = kb.isEquivalentClass(reasoner.term(first), reasoner.term(next));
+				_isEntailed = _kb.isEquivalentClass(_reasoner.term(first), _reasoner.term(next));
 			}
 		}
 	}
@@ -477,31 +471,31 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			return;
 		}
 
-		isEntailed = kb.hasPropertyValue(reasoner.term(s), reasoner.term(axiom.getProperty()), reasoner.term(axiom.getObject()));
+		_isEntailed = _kb.hasPropertyValue(_reasoner.term(s), _reasoner.term(axiom.getProperty()), _reasoner.term(axiom.getObject()));
 	}
 
 	@Override
 	public void visit(final OWLTransitiveObjectPropertyAxiom axiom)
 	{
-		isEntailed = kb.isTransitiveProperty(reasoner.term(axiom.getProperty()));
+		_isEntailed = _kb.isTransitiveProperty(_reasoner.term(axiom.getProperty()));
 	}
 
 	@Override
 	public void visit(final OWLIrreflexiveObjectPropertyAxiom axiom)
 	{
-		isEntailed = kb.isIrreflexiveProperty(reasoner.term(axiom.getProperty()));
+		_isEntailed = _kb.isIrreflexiveProperty(_reasoner.term(axiom.getProperty()));
 	}
 
 	@Override
 	public void visit(final OWLSubDataPropertyOfAxiom axiom)
 	{
-		isEntailed = kb.isSubPropertyOf(reasoner.term(axiom.getSubProperty()), reasoner.term(axiom.getSuperProperty()));
+		_isEntailed = _kb.isSubPropertyOf(_reasoner.term(axiom.getSubProperty()), _reasoner.term(axiom.getSuperProperty()));
 	}
 
 	@Override
 	public void visit(final OWLInverseFunctionalObjectPropertyAxiom axiom)
 	{
-		isEntailed = kb.isInverseFunctionalProperty(reasoner.term(axiom.getProperty()));
+		_isEntailed = _kb.isInverseFunctionalProperty(_reasoner.term(axiom.getProperty()));
 	}
 
 	@Override
@@ -517,16 +511,16 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	public void visit(final OWLSameIndividualAxiom axiom)
 	{
 
-		for (final OWLIndividual ind : axiom.getIndividuals())
+		for (final OWLIndividual ind : asList(axiom.individuals()))
 			if (ind.isAnonymous())
 			{
 				deferAxiom(axiom);
 				return;
 			}
 
-		isEntailed = true;
+		_isEntailed = true;
 
-		final Iterator<OWLIndividual> i = axiom.getIndividuals().iterator();
+		final Iterator<OWLIndividual> i = axiom.individuals().iterator();
 		if (i.hasNext())
 		{
 			final OWLIndividual first = i.next();
@@ -535,9 +529,9 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			{
 				final OWLIndividual next = i.next();
 
-				if (!kb.isSameAs(reasoner.term(first), reasoner.term(next)))
+				if (!_kb.isSameAs(_reasoner.term(first), _reasoner.term(next)))
 				{
-					isEntailed = false;
+					_isEntailed = false;
 					return;
 				}
 			}
@@ -556,7 +550,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLInverseObjectPropertiesAxiom axiom)
 	{
-		isEntailed = kb.isInverse(reasoner.term(axiom.getFirstProperty()), reasoner.term(axiom.getSecondProperty()));
+		_isEntailed = _kb.isInverse(_reasoner.term(axiom.getFirstProperty()), _reasoner.term(axiom.getSecondProperty()));
 	}
 
 	@Override
@@ -571,7 +565,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLAnnotationAssertionAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 		if (log.isLoggable(Level.FINE))
 			log.fine("Ignoring annotation assertion axiom " + axiom);
 	}
@@ -579,7 +573,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLAnnotationPropertyDomainAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 		if (log.isLoggable(Level.FINE))
 			log.fine("Ignoring annotation property domain " + axiom);
 	}
@@ -587,7 +581,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLAnnotationPropertyRangeAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 		if (log.isLoggable(Level.FINE))
 			log.fine("Ignoring annotation property range " + axiom);
 	}
@@ -595,7 +589,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	@Override
 	public void visit(final OWLSubAnnotationPropertyOfAxiom axiom)
 	{
-		isEntailed = true;
+		_isEntailed = true;
 		if (log.isLoggable(Level.FINE))
 			log.fine("Ignoring sub annotation property axiom " + axiom);
 	}

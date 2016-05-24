@@ -8,51 +8,51 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Status Filter Condition
  * </p>
  * <p>
- * Description: Filter _condition to match tests with a particular status (or no
- * status).
+ * Description: Filter _condition to match tests with a particular _status (or no _status).
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a
- * href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public class StatusFilter implements FilterCondition {
+public class StatusFilter implements FilterCondition
+{
 
-	public final static StatusFilter	APPROVED, EXTRACREDIT, NOSTATUS, PROPOSED, REJECTED;
+	public final static StatusFilter APPROVED, EXTRACREDIT, NOSTATUS, PROPOSED, REJECTED;
 
-	static {
-		APPROVED = new StatusFilter( Status.APPROVED );
-		EXTRACREDIT = new StatusFilter( Status.EXTRACREDIT );
-		NOSTATUS = new StatusFilter( null );
-		PROPOSED = new StatusFilter( Status.PROPOSED );
-		REJECTED = new StatusFilter( Status.REJECTED );
+	static
+	{
+		APPROVED = new StatusFilter(Status.APPROVED);
+		EXTRACREDIT = new StatusFilter(Status.EXTRACREDIT);
+		NOSTATUS = new StatusFilter(null);
+		PROPOSED = new StatusFilter(Status.PROPOSED);
+		REJECTED = new StatusFilter(Status.REJECTED);
 	}
 
-	final private Status				status;
+	final private Status _status;
 
 	/**
-	 * @param status
-	 *            {@link Status} for test case or <code>null</code> if filter
-	 *            should match cases that have no status
+	 * @param _status {@link Status} for test case or <code>null</code> if filter should match cases that have no _status
 	 */
-	public StatusFilter(Status status) {
-		this.status = status;
-	}
-
-	public boolean accepts(TestCase testcase) {
-		return testcase.getStatus() == status;
+	public StatusFilter(Status status)
+	{
+		this._status = status;
 	}
 
 	@Override
-	public String toString() {
-		return (status == null)
-			? "NO-STATUS"
-			: status.toString();
+	public boolean accepts(TestCase<?> testcase)
+	{
+		return testcase.getStatus() == _status;
+	}
+
+	@Override
+	public String toString()
+	{
+		return (_status == null) ? "NO-STATUS" : _status.toString();
 	}
 
 }

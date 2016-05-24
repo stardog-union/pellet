@@ -2,7 +2,6 @@ package com.clarkparsia.owlwg.owlapi.runner.impl;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 
@@ -11,46 +10,54 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
  * Title: OWLAPI v3 Reasoner Test Runner
  * </p>
  * <p>
- * Description: Wrapper to use any reasoner implementing the OWLAPI OWLReasoner
- * interface to run reasoning test cases.
+ * Description: Wrapper to use any reasoner implementing the OWLAPI OWLReasoner interface to run reasoning test cases.
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a
- * href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public class OwlApiReasonerTestRunner extends OwlApiAbstractRunner {
+public class OwlApiReasonerTestRunner extends OwlApiAbstractRunner
+{
 
-	private final OWLReasonerFactory	reasonerFactory;
-	private final IRI					iri;
+	private final OWLReasonerFactory _reasonerFactory;
+	private final IRI _iri;
 
-	public OwlApiReasonerTestRunner(OWLReasonerFactory reasonerFactory, IRI runnerUri) {
-		this.reasonerFactory = reasonerFactory;
-		this.iri = runnerUri;
+	public OwlApiReasonerTestRunner(OWLReasonerFactory reasonerFactory, IRI runnerUri)
+	{
+		this._reasonerFactory = reasonerFactory;
+		this._iri = runnerUri;
 	}
 
-	public String getName() {
-		return reasonerFactory.getReasonerName();
+	@Override
+	public String getName()
+	{
+		return _reasonerFactory.getReasonerName();
 	}
 
-	public IRI getIRI() {
-		return iri;
+	@Override
+	public IRI getIRI()
+	{
+		return _iri;
 	}
 
-	protected boolean isConsistent(OWLOntology o) {
-		OWLReasoner reasoner = reasonerFactory.createReasoner( o );
+	@Override
+	protected boolean isConsistent(OWLOntology o)
+	{
+		final OWLReasoner reasoner = _reasonerFactory.createReasoner(o);
 		return reasoner.isConsistent();
 	}
 
-	protected boolean isEntailed(OWLOntology premise, OWLOntology conclusion) {
-		OWLReasoner reasoner = reasonerFactory.createReasoner( premise );
+	@Override
+	protected boolean isEntailed(OWLOntology premise, OWLOntology conclusion)
+	{
+		final OWLReasoner reasoner = _reasonerFactory.createReasoner(premise);
 
-		return reasoner.isEntailed( conclusion.getLogicalAxioms() );
+		return reasoner.isEntailed(conclusion.logicalAxioms());
 	}
 
 }

@@ -16,6 +16,7 @@ import static com.clarkparsia.owlwg.testrun.RunTestType.INCONSISTENCY;
 import static com.clarkparsia.owlwg.testrun.RunTestType.NEGATIVE_ENTAILMENT;
 import static com.clarkparsia.owlwg.testrun.RunTestType.POSITIVE_ENTAILMENT;
 import static java.lang.String.format;
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import com.clarkparsia.owlwg.runner.ReadOnlyTestRunner;
 import com.clarkparsia.owlwg.runner.TestRunner;
@@ -59,20 +60,20 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 public class TestRunResultParser
 {
 
-	private static final Logger log;
+	private static final Logger _log;
 
-	private static final Map<IRI, TestRunner<?>> runners;
+	private static final Map<IRI, TestRunner<?>> _runners;
 
 	static
 	{
-		log = Logger.getLogger(TestRunResultParser.class.getCanonicalName());
-		runners = new HashMap<>();
+		_log = Logger.getLogger(TestRunResultParser.class.getCanonicalName());
+		_runners = new HashMap<>();
 	}
 
 	private static TestRunner<?> getRunner(OWLNamedIndividual i, OWLOntology o)
 	{
 		final IRI iri = i.getIRI();
-		TestRunner<?> runner = runners.get(iri);
+		TestRunner<?> runner = _runners.get(iri);
 		if (runner == null)
 		{
 			String name;
@@ -86,8 +87,8 @@ public class TestRunResultParser
 				name = s.iterator().next().getValue().toString();
 			}
 
-			runner = new ReadOnlyTestRunner(iri, name);
-			runners.put(iri, runner);
+			runner = new ReadOnlyTestRunner<>(iri, name);
+			_runners.put(iri, runner);
 		}
 		return runner;
 	}
@@ -97,7 +98,7 @@ public class TestRunResultParser
 
 		final List<TestRunResult> results = new ArrayList<>();
 
-		for (final OWLClassAssertionAxiom axiom : o.getClassAssertionAxioms(TEST_RUN.getOWLClass()))
+		for (final OWLClassAssertionAxiom axiom : asList(o.classAssertionAxioms(TEST_RUN.getOWLClass())))
 		{
 			final OWLNamedIndividual i = axiom.getIndividual().asOWLNamedIndividual();
 			final Map<OWLObjectPropertyExpression, Collection<OWLIndividual>> oValues = EntitySearcher.getObjectPropertyValues(i, o).asMap();
@@ -105,7 +106,7 @@ public class TestRunResultParser
 			final Collection<OWLIndividual> testObjects = oValues.get(TEST.getOWLObjectProperty());
 			if (testObjects.size() != 1)
 			{
-				log.warning(format("Skipping result, missing or more than one test assertion (\"%s\",%s)", i.getIRI(), testObjects));
+				_log.warning(format("Skipping result, missing or more than one test assertion (\"%s\",%s)", i.getIRI(), testObjects));
 				continue;
 			}
 			final Map<OWLDataPropertyExpression, Collection<OWLLiteral>> testDValues = EntitySearcher.getDataPropertyValues(testObjects.iterator().next(), o).asMap();
@@ -124,7 +125,7 @@ public class TestRunResultParser
 
 			if (testCase == null)
 			{
-				log.warning(format("Skipping result, no matching test case found (\"%s\",%s)", i.getIRI(), ids));
+				_log.warning(format("Skipping result, no matching test case found (\"%s\",%s)", i.getIRI(), ids));
 				continue;
 			}
 
@@ -132,7 +133,7 @@ public class TestRunResultParser
 			TestRunner<?> runner = null;
 			if (runnerIris.size() != 1)
 			{
-				log.warning(format("Skipping result, missing or more than one test runner assertion (\"%s\",%s)", i.getIRI(), runnerIris));
+				_log.warning(format("Skipping result, missing or more than one test runner assertion (\"%s\",%s)", i.getIRI(), runnerIris));
 				continue;
 			}
 			runner = getRunner(runnerIris.iterator().next().asOWLNamedIndividual(), o);
@@ -150,11 +151,10 @@ public class TestRunResultParser
 			}
 			if (resultType == null)
 			{
-				log.warning(format("Skipping result, missing result type (\"%s\")", i.getIRI()));
+				_log.warning(format("Skipping result, missing result type (\"%s\")", i.getIRI()));
 				continue;
 			}
 
-			@SuppressWarnings("unchecked")
 			final Collection<OWLAnnotation> detailsAnnotations = EntitySearcher.getAnnotations(i, o, o.getOWLOntologyManager().getOWLDataFactory().getOWLAnnotationProperty(DETAILS.getAnnotationPropertyIRI())).collect(Collectors.toList());
 			String details = null;
 			final int ndetails = detailsAnnotations.size();
@@ -162,7 +162,7 @@ public class TestRunResultParser
 			{
 				if (ndetails > 1)
 				{
-					log.info(format("Result contains multiple details annotations, ignoring all but first (\"%s\")", i.getIRI()));
+					_log.info(format("Result contains multiple details annotations, ignoring all but first (\"%s\")", i.getIRI()));
 				}
 				details = detailsAnnotations.iterator().next().getValue().toString();
 			}
@@ -179,7 +179,7 @@ public class TestRunResultParser
 					SyntaxConstraint constraint = null;
 					if (constraints.size() != 1)
 					{
-						log.warning(format("Skipping result, missing or more than one syntax constraint assertion (\"%s\",%s)", i.getIRI(), constraints));
+						_log.warning(format("Skipping result, missing or more than one syntax constraint assertion (\"%s\",%s)", i.getIRI(), constraints));
 						continue;
 					}
 					final OWLNamedIndividual ind = constraints.iterator().next().asOWLNamedIndividual();
@@ -193,7 +193,7 @@ public class TestRunResultParser
 					}
 					if (constraint == null)
 					{
-						log.warning(format("Skipping result, unknown syntax constraint assertion (\"%s\",%s)", i.getIRI(), ind));
+						_log.warning(format("Skipping result, unknown syntax constraint assertion (\"%s\",%s)", i.getIRI(), ind));
 						continue;
 					}
 					result = details == null ? new SyntaxConstraintRun(testCase, resultType, constraint, runner) : new SyntaxConstraintRun(testCase, resultType, constraint, runner, details);

@@ -8,7 +8,10 @@
 
 package com.clarkparsia.pellet.owlapi;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
+
 import java.util.Set;
+import java.util.stream.Stream;
 import org.mindswap.pellet.KBLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.PelletOptions;
@@ -23,7 +26,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.util.NonMappingOntologyIRIMapper;
 
 /**
  * <p>
@@ -43,15 +45,15 @@ import org.semanticweb.owlapi.util.NonMappingOntologyIRIMapper;
  */
 public class OWLAPILoader extends KBLoader
 {
-	private final OWLOntologyManager manager;
+	private final OWLOntologyManager _manager;
 
-	private PelletReasoner pellet;
+	private PelletReasoner _pellet;
 
 	private final LimitedMapIRIMapper iriMapper;
 
-	private OWLOntology baseOntology;
+	private OWLOntology _baseOntology;
 
-	private boolean ignoreImports;
+	private boolean _ignoreImports;
 
 	/**
 	 * A workaround for OWLAPI bug that does not let us import a loaded ontology so that we can minimize the warnings printed when
@@ -62,10 +64,10 @@ public class OWLAPILoader extends KBLoader
 	public OWLAPILoader()
 	{
 		iriMapper = new LimitedMapIRIMapper();
-		manager = OWLManager.createOWLOntologyManager();
+		_manager = OWLManager.createOWLOntologyManager();
 
-		manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
-		manager.addMissingImportListener(new MissingImportListener()
+		_manager.setOntologyLoaderConfiguration(_manager.getOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
+		_manager.addMissingImportListener(new MissingImportListener()
 		{
 			/**
 			 * TODO
@@ -77,7 +79,7 @@ public class OWLAPILoader extends KBLoader
 			@Override
 			public void importMissing(final MissingImportEvent event)
 			{
-				if (!ignoreImports)
+				if (!_ignoreImports)
 				{
 					final IRI importURI = event.getImportedOntologyURI();
 					System.err.println("WARNING: Cannot import " + importURI);
@@ -95,22 +97,28 @@ public class OWLAPILoader extends KBLoader
 	@Override
 	public KnowledgeBase getKB()
 	{
-		return pellet.getKB();
+		return _pellet.getKB();
 	}
 
 	public OWLOntologyManager getManager()
 	{
-		return manager;
+		return _manager;
 	}
 
 	public OWLOntology getOntology()
 	{
-		return baseOntology;
+		return _baseOntology;
 	}
 
+	@Deprecated
 	public Set<OWLOntology> getAllOntologies()
 	{
-		return manager.getOntologies();
+		return asSet(_manager.ontologies());
+	}
+
+	public Stream<OWLOntology> allOntologies()
+	{
+		return _manager.ontologies();
 	}
 
 	/**
@@ -120,7 +128,7 @@ public class OWLAPILoader extends KBLoader
 	 */
 	public PelletReasoner getReasoner()
 	{
-		return pellet;
+		return _pellet;
 	}
 
 	/**
@@ -129,8 +137,8 @@ public class OWLAPILoader extends KBLoader
 	@Override
 	public void load()
 	{
-		pellet = new PelletReasonerFactory().createReasoner(baseOntology);
-		pellet.getKB().setTaxonomyBuilderProgressMonitor(PelletOptions.USE_CLASSIFICATION_MONITOR.create());
+		_pellet = new PelletReasonerFactory().createReasoner(_baseOntology);
+		_pellet.getKB().setTaxonomyBuilderProgressMonitor(PelletOptions.USE_CLASSIFICATION_MONITOR.create());
 	}
 
 	/**
@@ -158,14 +166,14 @@ public class OWLAPILoader extends KBLoader
 
 			if (loadSingleFile)
 				// we are loading a single file so we can load it directly
-				baseOntology = manager.loadOntologyFromOntologyDocument(fileIRI);
+				_baseOntology = _manager.loadOntologyFromOntologyDocument(fileIRI);
 			else
 			{
 				// loading multiple files so each input file should be added as
 				// an import to the base ontology we created
-				final OWLOntology importOnt = manager.loadOntologyFromOntologyDocument(fileIRI);
-				final OWLImportsDeclaration declaration = manager.getOWLDataFactory().getOWLImportsDeclaration(importOnt.getOntologyID().getOntologyIRI().get());
-				manager.applyChange(new AddImport(baseOntology, declaration));
+				final OWLOntology importOnt = _manager.loadOntologyFromOntologyDocument(fileIRI);
+				final OWLImportsDeclaration declaration = _manager.getOWLDataFactory().getOWLImportsDeclaration(importOnt.getOntologyID().getOntologyIRI().get());
+				_manager.applyChange(new AddImport(_baseOntology, declaration));
 			}
 		}
 		catch (final IllegalArgumentException e)
@@ -188,17 +196,10 @@ public class OWLAPILoader extends KBLoader
 	@Override
 	public void setIgnoreImports(final boolean ignoreImports)
 	{
-		this.ignoreImports = ignoreImports;
+		_ignoreImports = ignoreImports;
+		_manager.getIRIMappers().clear();
 		if (ignoreImports)
-		{
-			manager.clearIRIMappers();
-			manager.addIRIMapper(iriMapper);
-		}
-		else
-		{
-			manager.clearIRIMappers();
-			manager.addIRIMapper(new NonMappingOntologyIRIMapper());
-		}
+			_manager.getIRIMappers().add(iriMapper);
 	}
 
 	/**
@@ -209,12 +210,11 @@ public class OWLAPILoader extends KBLoader
 	{
 
 		iriMapper.clear();
-		for (final OWLOntology ont : manager.getOntologies())
-			manager.removeOntology(ont);
+		_manager.ontologies().forEach(_manager::removeOntology);
 
 		try
 		{
-			baseOntology = manager.createOntology();
+			_baseOntology = _manager.createOntology();
 		}
 		catch (final OWLOntologyCreationException e)
 		{

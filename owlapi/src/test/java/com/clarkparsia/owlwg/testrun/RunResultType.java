@@ -27,13 +27,13 @@ public enum RunResultType {
 
 	FAILING(FAILING_RUN), INCOMPLETE(INCOMPLETE_RUN), PASSING(PASSING_RUN);
 
-	private final OWLClass	c;
+	private final OWLClass	_c;
 
 	private RunResultType(ResultVocabulary.Class c) {
-		this.c = c.getOWLClass();
+		this._c = c.getOWLClass();
 	}
 
 	public OWLClass getOWLClass() {
-		return c;
+		return _c;
 	}
 }

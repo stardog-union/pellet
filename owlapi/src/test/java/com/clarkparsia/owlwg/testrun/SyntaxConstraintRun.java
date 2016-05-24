@@ -15,39 +15,42 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a
- * href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public class SyntaxConstraintRun extends AbstractRun {
+public class SyntaxConstraintRun extends AbstractRun
+{
 
-	final private SyntaxConstraint	constraint;
+	final private SyntaxConstraint _constraint;
 
-	public SyntaxConstraintRun(TestCase testcase, RunResultType type, SyntaxConstraint constraint,
-			TestRunner runner) {
-		this( testcase, type, constraint, runner, null, null );
+	public SyntaxConstraintRun(TestCase<?> testcase, RunResultType type, SyntaxConstraint constraint, TestRunner<?> runner)
+	{
+		this(testcase, type, constraint, runner, null, null);
 	}
-	
-	public SyntaxConstraintRun(TestCase testcase, RunResultType type, SyntaxConstraint constraint,
-			TestRunner runner, String details ) {
-		this( testcase, type, constraint, runner, details, null );
+
+	public SyntaxConstraintRun(TestCase<?> testcase, RunResultType type, SyntaxConstraint constraint, TestRunner<?> runner, String details)
+	{
+		this(testcase, type, constraint, runner, details, null);
 	}
-	
-	public SyntaxConstraintRun(TestCase testcase, RunResultType type, SyntaxConstraint constraint,
-			TestRunner runner, String details, Throwable cause ) {
-		super( testcase, type, RunTestType.SYNTAX_CONSTRAINT, runner, details, cause );
-		if( constraint == null )
+
+	public SyntaxConstraintRun(TestCase<?> testcase, RunResultType type, SyntaxConstraint constraint, TestRunner<?> runner, String details, Throwable cause)
+	{
+		super(testcase, type, RunTestType.SYNTAX_CONSTRAINT, runner, details, cause);
+		if (constraint == null)
 			throw new NullPointerException();
-		this.constraint = constraint;
+		this._constraint = constraint;
 	}
 
-	public void accept(TestRunResultVisitor visitor) {
-		visitor.visit( this );
+	@Override
+	public void accept(TestRunResultVisitor visitor)
+	{
+		visitor.visit(this);
 	}
 
-	public SyntaxConstraint getConstraint() {
-		return constraint;
+	public SyntaxConstraint getConstraint()
+	{
+		return _constraint;
 	}
 }

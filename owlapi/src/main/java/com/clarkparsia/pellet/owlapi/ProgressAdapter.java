@@ -6,40 +6,40 @@ import org.semanticweb.owlapi.reasoner.ReasonerProgressMonitor;
 public class ProgressAdapter implements ProgressMonitor
 {
 
-	private final ReasonerProgressMonitor monitor;
-	private int length;
-	private int progress;
-	private String title;
+	private final ReasonerProgressMonitor _monitor;
+	private int _length;
+	private int _progress;
+	private String _title;
 
 	public ProgressAdapter(final ReasonerProgressMonitor monitor)
 	{
-		this.monitor = monitor;
-		progress = 0;
-		length = -1;
-		title = "<untitled>";
+		this._monitor = monitor;
+		_progress = 0;
+		_length = -1;
+		_title = "<untitled>";
 	}
 
 	@Override
 	public int getProgress()
 	{
-		return progress;
+		return _progress;
 	}
 
 	@Override
 	public int getProgressPercent()
 	{
 
-		return length > 0 ? (progress * 100) / length : 0;
+		return _length > 0 ? (_progress * 100) / _length : 0;
 	}
 
 	@Override
 	public void incrementProgress()
 	{
-		progress++;
-		if (length > 0)
-			monitor.reasonerTaskProgressChanged(progress, length);
+		_progress++;
+		if (_length > 0)
+			_monitor.reasonerTaskProgressChanged(_progress, _length);
 		else
-			monitor.reasonerTaskBusy();
+			_monitor.reasonerTaskBusy();
 	}
 
 	@Override
@@ -51,45 +51,45 @@ public class ProgressAdapter implements ProgressMonitor
 	@Override
 	public void setProgress(final int value)
 	{
-		progress = value;
-		if (length > 0)
-			monitor.reasonerTaskProgressChanged(progress, length);
+		_progress = value;
+		if (_length > 0)
+			_monitor.reasonerTaskProgressChanged(_progress, _length);
 		else
-			monitor.reasonerTaskBusy();
+			_monitor.reasonerTaskBusy();
 	}
 
 	@Override
 	public void setProgressLength(final int length)
 	{
-		this.length = length;
+		this._length = length;
 		if (length > 0)
-			monitor.reasonerTaskProgressChanged(progress, length);
+			_monitor.reasonerTaskProgressChanged(_progress, length);
 		else
-			monitor.reasonerTaskBusy();
+			_monitor.reasonerTaskBusy();
 	}
 
 	@Override
 	public void setProgressMessage(final String message)
 	{
-		//monitor.setMessage( message );
+		//_monitor.setMessage( message );
 	}
 
 	@Override
 	public void setProgressTitle(final String title)
 	{
-		this.title = title;
+		this._title = title;
 	}
 
 	@Override
 	public void taskFinished()
 	{
-		monitor.reasonerTaskStopped();
+		_monitor.reasonerTaskStopped();
 	}
 
 	@Override
 	public void taskStarted()
 	{
-		monitor.reasonerTaskStarted(title);
+		_monitor.reasonerTaskStarted(_title);
 	}
 
 }

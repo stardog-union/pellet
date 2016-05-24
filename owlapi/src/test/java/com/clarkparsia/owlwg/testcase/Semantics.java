@@ -42,13 +42,13 @@ public enum Semantics {
 		return null;
 	}
 
-	private final TestVocabulary.Individual	i;
+	private final TestVocabulary.Individual	_i;
 
 	private Semantics(TestVocabulary.Individual i) {
-		this.i = i;
+		this._i = i;
 	}
 
 	public OWLIndividual getOWLIndividual() {
-		return i.getOWLIndividual();
+		return _i.getOWLIndividual();
 	}
 }

@@ -1,5 +1,7 @@
 package com.clarkparsia.pellet.owlapi;
 
+import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
+
 import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
 import com.clarkparsia.pellet.sparqldl.model.Query;
@@ -25,126 +27,126 @@ import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 public class EntailmentQueryVisitor implements OWLAxiomVisitor
 {
 
-	private final IndividualTermConverter indConv;
+	private final IndividualTermConverter _indConv;
 
-	private final PelletReasoner reasoner;
+	private final PelletReasoner _reasoner;
 
-	private Query query;
+	private Query _query;
 
 	private class IndividualTermConverter implements OWLIndividualVisitor
 	{
 
-		private ATermAppl term;
+		private ATermAppl _term;
 
 		public ATermAppl getTerm(final OWLIndividual individual)
 		{
-			term = null;
+			_term = null;
 			individual.accept(this);
-			return term;
+			return _term;
 		}
 
 		//@Override
 		@Override
 		public void visit(final OWLNamedIndividual individual)
 		{
-			term = reasoner.term(individual);
+			_term = _reasoner.term(individual);
 		}
 
 		//@Override
 		@Override
 		public void visit(final OWLAnonymousIndividual individual)
 		{
-			term = ATermUtils.makeVar(individual.toStringID());
+			_term = ATermUtils.makeVar(individual.toStringID());
 		}
 
 	}
 
 	public EntailmentQueryVisitor(final PelletReasoner reasoner)
 	{
-		this.reasoner = reasoner;
-		this.indConv = new IndividualTermConverter();
+		this._reasoner = reasoner;
+		this._indConv = new IndividualTermConverter();
 		reset();
 	}
 
 	public boolean isEntailed()
 	{
-		final QueryResult results = QueryEngine.exec(query);
+		final QueryResult results = QueryEngine.exec(_query);
 		return !results.isEmpty();
 
 	}
 
 	public void reset()
 	{
-		query = new QueryImpl(reasoner.getKB(), false);
+		_query = new QueryImpl(_reasoner.getKB(), false);
 	}
 
 	@Override
 	public void visit(final OWLClassAssertionAxiom axiom)
 	{
-		final ATermAppl ind = indConv.getTerm(axiom.getIndividual());
-		final ATermAppl cls = reasoner.term(axiom.getClassExpression());
-		query.add(QueryAtomFactory.TypeAtom(ind, cls));
+		final ATermAppl ind = _indConv.getTerm(axiom.getIndividual());
+		final ATermAppl cls = _reasoner.term(axiom.getClassExpression());
+		_query.add(QueryAtomFactory.TypeAtom(ind, cls));
 	}
 
 	@Override
 	public void visit(final OWLDataPropertyAssertionAxiom axiom)
 	{
-		final ATermAppl subj = indConv.getTerm(axiom.getSubject());
-		final ATermAppl pred = reasoner.term(axiom.getProperty());
-		final ATermAppl obj = reasoner.term(axiom.getObject());
-		query.add(QueryAtomFactory.PropertyValueAtom(subj, pred, obj));
+		final ATermAppl subj = _indConv.getTerm(axiom.getSubject());
+		final ATermAppl pred = _reasoner.term(axiom.getProperty());
+		final ATermAppl obj = _reasoner.term(axiom.getObject());
+		_query.add(QueryAtomFactory.PropertyValueAtom(subj, pred, obj));
 	}
 
 	@Override
 	public void visit(final OWLDifferentIndividualsAxiom axiom)
 	{
 		final List<ATermAppl> differents = new ArrayList<>();
-		for (final OWLIndividual ind : axiom.getIndividuals())
+		axiom.individuals().forEach(ind ->
 		{
-			final ATermAppl term = indConv.getTerm(ind);
+			final ATermAppl term = _indConv.getTerm(ind);
 			for (final ATermAppl dterm : differents)
-				query.add(QueryAtomFactory.DifferentFromAtom(term, dterm));
-		}
+				_query.add(QueryAtomFactory.DifferentFromAtom(term, dterm));
+		});
 	}
 
 	@Override
 	public void visit(final OWLNegativeDataPropertyAssertionAxiom axiom)
 	{
-		final ATermAppl subj = indConv.getTerm(axiom.getSubject());
-		final ATermAppl pred = reasoner.term(axiom.getProperty());
-		final ATermAppl obj = reasoner.term(axiom.getObject());
-		query.add(QueryAtomFactory.NegativePropertyValueAtom(subj, pred, obj));
+		final ATermAppl subj = _indConv.getTerm(axiom.getSubject());
+		final ATermAppl pred = _reasoner.term(axiom.getProperty());
+		final ATermAppl obj = _reasoner.term(axiom.getObject());
+		_query.add(QueryAtomFactory.NegativePropertyValueAtom(subj, pred, obj));
 	}
 
 	@Override
 	public void visit(final OWLNegativeObjectPropertyAssertionAxiom axiom)
 	{
-		final ATermAppl subj = indConv.getTerm(axiom.getSubject());
-		final ATermAppl pred = reasoner.term(axiom.getProperty());
-		final ATermAppl obj = indConv.getTerm(axiom.getObject());
-		query.add(QueryAtomFactory.NegativePropertyValueAtom(subj, pred, obj));
+		final ATermAppl subj = _indConv.getTerm(axiom.getSubject());
+		final ATermAppl pred = _reasoner.term(axiom.getProperty());
+		final ATermAppl obj = _indConv.getTerm(axiom.getObject());
+		_query.add(QueryAtomFactory.NegativePropertyValueAtom(subj, pred, obj));
 	}
 
 	@Override
 	public void visit(final OWLObjectPropertyAssertionAxiom axiom)
 	{
-		final ATermAppl subj = indConv.getTerm(axiom.getSubject());
-		final ATermAppl pred = reasoner.term(axiom.getProperty());
-		final ATermAppl obj = indConv.getTerm(axiom.getObject());
-		query.add(QueryAtomFactory.PropertyValueAtom(subj, pred, obj));
+		final ATermAppl subj = _indConv.getTerm(axiom.getSubject());
+		final ATermAppl pred = _reasoner.term(axiom.getProperty());
+		final ATermAppl obj = _indConv.getTerm(axiom.getObject());
+		_query.add(QueryAtomFactory.PropertyValueAtom(subj, pred, obj));
 	}
 
 	@Override
 	public void visit(final OWLSameIndividualAxiom axiom)
 	{
 		ATermAppl head = null;
-		for (final OWLIndividual ind : axiom.getIndividuals())
+		for (final OWLIndividual ind : asList(axiom.individuals()))
 		{
-			final ATermAppl term = indConv.getTerm(ind);
+			final ATermAppl term = _indConv.getTerm(ind);
 			if (head == null)
 				head = term;
 			else
-				query.add(QueryAtomFactory.SameAsAtom(head, term));
+				_query.add(QueryAtomFactory.SameAsAtom(head, term));
 		}
 	}
 }

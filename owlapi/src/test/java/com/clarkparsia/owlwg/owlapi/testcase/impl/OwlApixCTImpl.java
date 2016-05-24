@@ -2,7 +2,6 @@ package com.clarkparsia.owlwg.owlapi.testcase.impl;
 
 import com.clarkparsia.owlwg.testcase.AbstractPremisedTest;
 import com.clarkparsia.owlwg.testcase.OntologyParseException;
-import com.clarkparsia.owlwg.testcase.PremisedTest;
 import com.clarkparsia.owlwg.testcase.SerializationFormat;
 import java.util.EnumMap;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -29,7 +28,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public abstract class OwlApixCTImpl extends AbstractPremisedTest<OWLOntology> implements PremisedTest<OWLOntology>, OwlApiCase
+public abstract class OwlApixCTImpl extends AbstractPremisedTest<OWLOntology> implements OwlApiCase
 {
 
 	private final EnumMap<SerializationFormat, OWLOntology> parsedPremise;
@@ -55,7 +54,7 @@ public abstract class OwlApixCTImpl extends AbstractPremisedTest<OWLOntology> im
 		{
 			final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 			manager.setOntologyLoaderConfiguration(manager.getOntologyLoaderConfiguration().setMissingImportHandlingStrategy(MissingImportHandlingStrategy.SILENT));
-			manager.clearIRIMappers();
+			manager.getIRIMappers().clear();
 
 			ImportsHelper.loadImports(manager, this, format);
 			OWLOntology o = parsedPremise.get(format);

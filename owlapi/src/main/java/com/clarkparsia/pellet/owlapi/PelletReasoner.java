@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.exceptions.PelletRuntimeException;
@@ -17,7 +18,6 @@ import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.VersionInfo;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;
-import org.semanticweb.owlapi.model.AddOntologyAnnotation;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
@@ -41,8 +41,6 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLRuntimeException;
 import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.model.RemoveImport;
-import org.semanticweb.owlapi.model.RemoveOntologyAnnotation;
-import org.semanticweb.owlapi.model.SetOntologyID;
 import org.semanticweb.owlapi.reasoner.AxiomNotInProfileException;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.ClassExpressionNotInProfileException;
@@ -72,7 +70,7 @@ import org.semanticweb.owlapi.util.Version;
 public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 {
 
-	public static final Logger log = Logger.getLogger(PelletReasoner.class.getName());
+	public static final Logger _log = Logger.getLogger(PelletReasoner.class.getName());
 
 	private static final Set<InferenceType> PRECOMPUTABLE_INFERENCES = EnumSet.of(InferenceType.CLASS_HIERARCHY, InferenceType.CLASS_ASSERTIONS, InferenceType.OBJECT_PROPERTY_HIERARCHY, InferenceType.DATA_PROPERTY_HIERARCHY);
 
@@ -100,7 +98,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		}
 		catch (final NumberFormatException e)
 		{
-			log.log(Level.FINE, "Invalid number in version identifier: " + numbers[index], e);
+			_log.log(Level.FINE, "Invalid number in version identifier: " + numbers[index], e);
 		}
 
 		return 0;
@@ -131,24 +129,24 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 
 		public void reset()
 		{
-			visitor.reset();
+			_visitor.reset();
 			reloadRequired = false;
 		}
 
 		@Override
 		public void visit(final AddAxiom change)
 		{
-			visitor.setAddAxiom(true);
-			change.getAxiom().accept(visitor);
-			reloadRequired = visitor.isReloadRequired();
+			_visitor.setAddAxiom(true);
+			change.getAxiom().accept(_visitor);
+			reloadRequired = _visitor.isReloadRequired();
 		}
 
 		@Override
 		public void visit(final RemoveAxiom change)
 		{
-			visitor.setAddAxiom(false);
-			change.getAxiom().accept(visitor);
-			reloadRequired = visitor.isReloadRequired();
+			_visitor.setAddAxiom(false);
+			change.getAxiom().accept(_visitor);
+			reloadRequired = _visitor.isReloadRequired();
 		}
 
 		@Override
@@ -158,29 +156,10 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		}
 
 		@Override
-		public void visit(final AddOntologyAnnotation change)
-		{
-
-		}
-
-		@Override
 		public void visit(final RemoveImport change)
 		{
 			reloadRequired = true;
 		}
-
-		@Override
-		public void visit(final RemoveOntologyAnnotation change)
-		{
-
-		}
-
-		@Override
-		public void visit(final SetOntologyID change)
-		{
-
-		}
-
 	}
 
 	private class ClassMapper extends EntityMapper<OWLClass>
@@ -189,12 +168,12 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		public OWLClass map(final ATermAppl term)
 		{
 			if (term.equals(ATermUtils.TOP))
-				return factory.getOWLThing();
+				return _factory.getOWLThing();
 			else
 				if (term.equals(ATermUtils.BOTTOM))
-					return factory.getOWLNothing();
+					return _factory.getOWLNothing();
 				else
-					return factory.getOWLClass(iri(term));
+					return _factory.getOWLClass(iri(term));
 		}
 	}
 
@@ -204,10 +183,10 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		public OWLDataProperty map(final ATermAppl term)
 		{
 			if (ATermUtils.TOP_DATA_PROPERTY.equals(term))
-				return factory.getOWLTopDataProperty();
+				return _factory.getOWLTopDataProperty();
 			if (ATermUtils.BOTTOM_DATA_PROPERTY.equals(term))
-				return factory.getOWLBottomDataProperty();
-			return factory.getOWLDataProperty(iri(term));
+				return _factory.getOWLBottomDataProperty();
+			return _factory.getOWLDataProperty(iri(term));
 		}
 	}
 
@@ -216,7 +195,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		@Override
 		public OWLDatatype map(final ATermAppl term)
 		{
-			return factory.getOWLDatatype(iri(term));
+			return _factory.getOWLDatatype(iri(term));
 		}
 	}
 
@@ -249,14 +228,14 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 			if (dtype.equals(ATermUtils.PLAIN_LITERAL_DATATYPE))
 			{
 				if (lang.equals(ATermUtils.EMPTY))
-					return factory.getOWLLiteral(lexValue);
+					return _factory.getOWLLiteral(lexValue);
 				else
-					return factory.getOWLLiteral(lexValue, lang.toString());
+					return _factory.getOWLLiteral(lexValue, lang.toString());
 			}
 			else
 			{
 				final OWLDatatype datatype = DT_MAPPER.map(dtype);
-				return factory.getOWLLiteral(lexValue, datatype);
+				return _factory.getOWLLiteral(lexValue, datatype);
 			}
 		}
 	}
@@ -269,7 +248,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 			if (ATermUtils.isBnode(term))
 				return null;
 			else
-				return factory.getOWLNamedIndividual(iri(term));
+				return _factory.getOWLNamedIndividual(iri(term));
 		}
 	}
 
@@ -279,12 +258,12 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		public OWLObjectPropertyExpression map(final ATermAppl term)
 		{
 			if (ATermUtils.TOP_OBJECT_PROPERTY.equals(term))
-				return factory.getOWLTopObjectProperty();
+				return _factory.getOWLTopObjectProperty();
 			if (ATermUtils.BOTTOM_OBJECT_PROPERTY.equals(term))
-				return factory.getOWLBottomObjectProperty();
+				return _factory.getOWLBottomObjectProperty();
 			if (ATermUtils.isInv(term))
 				return OP_MAPPER.map(term).getInverseProperty();
-			return factory.getOWLObjectProperty(iri(term));
+			return _factory.getOWLObjectProperty(iri(term));
 		}
 	}
 
@@ -296,27 +275,27 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		return IRI.create(term.getName());
 	}
 
-	private final OWLDataFactory factory;
-	private KnowledgeBase kb;
-	private final OWLOntologyManager manager;
-	private final ReasonerProgressMonitor monitor;
+	private final OWLDataFactory _factory;
+	private KnowledgeBase _kb;
+	private final OWLOntologyManager _manager;
+	private final ReasonerProgressMonitor _monitor;
 	/**
-	 * Main ontology for reasoner
+	 * Main _ontology for reasoner
 	 */
-	private final OWLOntology ontology;
+	private final OWLOntology _ontology;
 	/**
-	 * Imports closure for ontology
+	 * Imports closure for _ontology
 	 */
-	private Set<OWLOntology> importsClosure;
-	private boolean shouldRefresh;
-	private final PelletVisitor visitor;
+	private Set<OWLOntology> _importsClosure;
+	private boolean _shouldRefresh;
+	private final PelletVisitor _visitor;
 
-	private final BufferingMode bufferingMode;
-	private final List<OWLOntologyChange> pendingChanges;
+	private final BufferingMode _bufferingMode;
+	private final List<OWLOntologyChange> _pendingChanges;
 
-	private final IndividualNodeSetPolicy individualNodeSetPolicy;
+	private final IndividualNodeSetPolicy _individualNodeSetPolicy;
 
-	private final ChangeVisitor changeVisitor = new ChangeVisitor();
+	private final ChangeVisitor _changeVisitor = new ChangeVisitor();
 
 	private final EntityMapper<OWLNamedIndividual> IND_MAPPER = new NamedIndividualMapper();
 
@@ -336,36 +315,36 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	}
 
 	/**
-	 * Create a reasoner for the given ontology and configuration.
+	 * Create a reasoner for the given _ontology and configuration.
 	 *
-	 * @param ontology
+	 * @param _ontology
 	 */
 	public PelletReasoner(final OWLOntology ontology, final OWLReasonerConfiguration config, final BufferingMode bufferingMode) throws IllegalConfigurationException
 	{
 
-		individualNodeSetPolicy = config.getIndividualNodeSetPolicy();
+		_individualNodeSetPolicy = config.getIndividualNodeSetPolicy();
 
 		if (!getFreshEntityPolicy().equals(config.getFreshEntityPolicy()))
 			throw new IllegalConfigurationException("PelletOptions.SILENT_UNDEFINED_ENTITY_HANDLING conflicts with reasoner configuration", config);
 
-		this.ontology = ontology;
-		monitor = config.getProgressMonitor();
+		_ontology = ontology;
+		_monitor = config.getProgressMonitor();
 
-		kb = new KnowledgeBase();
-		kb.setTaxonomyBuilderProgressMonitor(new ProgressAdapter(monitor));
+		_kb = new KnowledgeBase();
+		_kb.setTaxonomyBuilderProgressMonitor(new ProgressAdapter(_monitor));
 		if (config.getTimeOut() > 0)
-			kb.timers.mainTimer.setTimeout(config.getTimeOut());
+			_kb.timers.mainTimer.setTimeout(config.getTimeOut());
 
-		this.manager = ontology.getOWLOntologyManager();
-		this.factory = manager.getOWLDataFactory();
-		this.visitor = new PelletVisitor(kb);
+		this._manager = ontology.getOWLOntologyManager();
+		this._factory = _manager.getOWLDataFactory();
+		this._visitor = new PelletVisitor(_kb);
 
-		this.bufferingMode = bufferingMode;
+		this._bufferingMode = bufferingMode;
 
-		manager.addOntologyChangeListener(this);
+		_manager.addOntologyChangeListener(this);
 
-		this.shouldRefresh = true;
-		this.pendingChanges = new ArrayList<>();
+		this._shouldRefresh = true;
+		this._pendingChanges = new ArrayList<>();
 
 		refresh();
 	}
@@ -394,8 +373,8 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public void dispose()
 	{
-		kb = null;
-		manager.removeOntologyChangeListener(this);
+		_kb = null;
+		_manager.removeOntologyChangeListener(this);
 	}
 
 	/**
@@ -404,8 +383,8 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public void flush()
 	{
-		processChanges(pendingChanges);
-		pendingChanges.clear();
+		processChanges(_pendingChanges);
+		_pendingChanges.clear();
 		refreshCheck();
 	}
 
@@ -419,14 +398,14 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	public Node<OWLDataProperty> getBottomDataPropertyNode()
 	{
 		refreshCheck();
-		return toDataPropertyNode(kb.getAllEquivalentProperties(ATermUtils.BOTTOM_DATA_PROPERTY));
+		return toDataPropertyNode(_kb.getAllEquivalentProperties(ATermUtils.BOTTOM_DATA_PROPERTY));
 	}
 
 	@Override
 	public Node<OWLObjectPropertyExpression> getBottomObjectPropertyNode()
 	{
 		refreshCheck();
-		return toObjectPropertyNode(kb.getAllEquivalentProperties(ATermUtils.BOTTOM_OBJECT_PROPERTY));
+		return toObjectPropertyNode(_kb.getAllEquivalentProperties(ATermUtils.BOTTOM_OBJECT_PROPERTY));
 	}
 
 	/**
@@ -435,7 +414,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public BufferingMode getBufferingMode()
 	{
-		return bufferingMode;
+		return _bufferingMode;
 	}
 
 	@Override
@@ -447,11 +426,11 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		{
 			final ATermAppl some = ATermUtils.makeSomeValues(term(pe), ATermUtils.TOP_LIT);
 
-			final Set<ATermAppl> equivalents = kb.getEquivalentClasses(some);
+			final Set<ATermAppl> equivalents = _kb.getEquivalentClasses(some);
 			if (direct && !equivalents.isEmpty())
 				return toClassNodeSet(Collections.singleton(equivalents));
 
-			final Set<Set<ATermAppl>> result = kb.getSuperClasses(some, direct);
+			final Set<Set<ATermAppl>> result = _kb.getSuperClasses(some, direct);
 			if (!equivalents.isEmpty())
 				result.add(equivalents);
 
@@ -469,7 +448,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return toLiteralSet(kb.getDataPropertyValues(term(pe), term(ind)));
+			return toLiteralSet(_kb.getDataPropertyValues(term(pe), term(ind)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -482,7 +461,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return toLiteralSet(kb.getPropertyValues(term(pe), term(ind)));
+			return toLiteralSet(_kb.getPropertyValues(term(pe), term(ind)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -496,7 +475,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return getIndividualNodeSet(kb.getDifferents(term(ind)));
+			return getIndividualNodeSet(_kb.getDifferents(term(ind)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -511,7 +490,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			final Set<Set<ATermAppl>> disjoints = kb.getDisjointClasses(term(ce));
+			final Set<Set<ATermAppl>> disjoints = _kb.getDisjointClasses(term(ce));
 			return toClassNodeSet(disjoints);
 		}
 		catch (final PelletRuntimeException e)
@@ -527,7 +506,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		try
 		{
 			final Set<Node<OWLDataProperty>> values = new HashSet<>();
-			for (final Set<ATermAppl> val : kb.getDisjointProperties(term(pe)))
+			for (final Set<ATermAppl> val : _kb.getDisjointProperties(term(pe)))
 				values.add(toDataPropertyNode(val));
 
 			return new OWLDataPropertyNodeSet(values);
@@ -545,7 +524,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		try
 		{
 			final Set<Node<OWLObjectPropertyExpression>> values = new HashSet<>();
-			for (final Set<ATermAppl> val : kb.getDisjointProperties(term(pe)))
+			for (final Set<ATermAppl> val : _kb.getDisjointProperties(term(pe)))
 				values.add(toObjectPropertyNode(val));
 
 			return new OWLObjectPropertyNodeSet(values);
@@ -562,7 +541,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return toClassNode(kb.getAllEquivalentClasses(term(ce)));
+			return toClassNode(_kb.getAllEquivalentClasses(term(ce)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -576,7 +555,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return toDataPropertyNode(kb.getAllEquivalentProperties(term(pe)));
+			return toDataPropertyNode(_kb.getAllEquivalentProperties(term(pe)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -590,7 +569,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return toObjectPropertyNode(kb.getAllEquivalentProperties(term(pe)));
+			return toObjectPropertyNode(_kb.getAllEquivalentProperties(term(pe)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -601,7 +580,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public IndividualNodeSetPolicy getIndividualNodeSetPolicy()
 	{
-		return individualNodeSetPolicy;
+		return _individualNodeSetPolicy;
 	}
 
 	private NodeSet<OWLNamedIndividual> getIndividualNodeSetBySameAs(final Collection<ATermAppl> individuals)
@@ -611,7 +590,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		for (final ATermAppl ind : individuals)
 			if (!seen.contains(ind))
 			{
-				final Set<ATermAppl> equiv = kb.getAllSames(ind);
+				final Set<ATermAppl> equiv = _kb.getAllSames(ind);
 				instances.add(toIndividualNode(equiv));
 				seen.addAll(equiv);
 			}
@@ -624,7 +603,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		final Set<Node<OWLNamedIndividual>> instances = new HashSet<>();
 
 		for (final ATermAppl ind : individuals)
-			for (final ATermAppl equiv : kb.getAllSames(ind))
+			for (final ATermAppl equiv : _kb.getAllSames(ind))
 				instances.add(toIndividualNode(equiv));
 
 		return new OWLNamedIndividualNodeSet(instances);
@@ -632,13 +611,13 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 
 	private NodeSet<OWLNamedIndividual> getIndividualNodeSet(final Collection<ATermAppl> individuals)
 	{
-		if (IndividualNodeSetPolicy.BY_NAME.equals(individualNodeSetPolicy))
+		if (IndividualNodeSetPolicy.BY_NAME.equals(_individualNodeSetPolicy))
 			return getIndividualNodeSetByName(individuals);
 		else
-			if (IndividualNodeSetPolicy.BY_SAME_AS.equals(individualNodeSetPolicy))
+			if (IndividualNodeSetPolicy.BY_SAME_AS.equals(_individualNodeSetPolicy))
 				return getIndividualNodeSetBySameAs(individuals);
 			else
-				throw new AssertionError("Unsupported IndividualNodeSetPolicy : " + individualNodeSetPolicy);
+				throw new AssertionError("Unsupported IndividualNodeSetPolicy : " + _individualNodeSetPolicy);
 	}
 
 	@Override
@@ -647,7 +626,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return getIndividualNodeSet(kb.getInstances(term(ce), direct));
+			return getIndividualNodeSet(_kb.getInstances(term(ce), direct));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -661,7 +640,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return toObjectPropertyNode(kb.getInverses(term(pe)));
+			return toObjectPropertyNode(_kb.getInverses(term(pe)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -676,12 +655,12 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	 */
 	public KnowledgeBase getKB()
 	{
-		return kb;
+		return _kb;
 	}
 
 	public OWLOntologyManager getManager()
 	{
-		return manager;
+		return _manager;
 	}
 
 	@Override
@@ -692,11 +671,11 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		{
 			final ATermAppl some = ATermUtils.makeSomeValues(term(pe), ATermUtils.TOP);
 
-			final Set<ATermAppl> equivalents = kb.getEquivalentClasses(some);
+			final Set<ATermAppl> equivalents = _kb.getEquivalentClasses(some);
 			if (direct && !equivalents.isEmpty())
 				return toClassNodeSet(Collections.singleton(equivalents));
 
-			final Set<Set<ATermAppl>> result = kb.getSuperClasses(some, direct);
+			final Set<Set<ATermAppl>> result = _kb.getSuperClasses(some, direct);
 			if (!equivalents.isEmpty())
 				result.add(equivalents);
 
@@ -716,11 +695,11 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		{
 			final ATermAppl some = ATermUtils.makeSomeValues(ATermUtils.makeInv(term(pe)), ATermUtils.TOP);
 
-			final Set<ATermAppl> equivalents = kb.getEquivalentClasses(some);
+			final Set<ATermAppl> equivalents = _kb.getEquivalentClasses(some);
 			if (direct && !equivalents.isEmpty())
 				return toClassNodeSet(Collections.singleton(equivalents));
 
-			final Set<Set<ATermAppl>> result = kb.getSuperClasses(some, direct);
+			final Set<Set<ATermAppl>> result = _kb.getSuperClasses(some, direct);
 			if (!equivalents.isEmpty())
 				result.add(equivalents);
 
@@ -738,7 +717,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return getIndividualNodeSet(kb.getObjectPropertyValues(term(pe), term(ind)));
+			return getIndividualNodeSet(_kb.getObjectPropertyValues(term(pe), term(ind)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -761,7 +740,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public List<OWLOntologyChange> getPendingChanges()
 	{
-		return pendingChanges;
+		return _pendingChanges;
 	}
 
 	@Override
@@ -782,7 +761,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public OWLOntology getRootOntology()
 	{
-		return ontology;
+		return _ontology;
 	}
 
 	@Override
@@ -791,7 +770,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return toIndividualNode(kb.getAllSames(term(ind)));
+			return toIndividualNode(_kb.getAllSames(term(ind)));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -805,7 +784,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			final Set<Set<ATermAppl>> result = kb.getSubClasses(term(ce), direct);
+			final Set<Set<ATermAppl>> result = _kb.getSubClasses(term(ce), direct);
 			return toClassNodeSet(result);
 		}
 		catch (final PelletRuntimeException e)
@@ -821,7 +800,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		try
 		{
 			final Set<Node<OWLDataProperty>> values = new HashSet<>();
-			for (final Set<ATermAppl> val : kb.getSubProperties(term(pe), direct))
+			for (final Set<ATermAppl> val : _kb.getSubProperties(term(pe), direct))
 				values.add(toDataPropertyNode(val));
 			return new OWLDataPropertyNodeSet(values);
 		}
@@ -838,7 +817,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		try
 		{
 			final Set<Node<OWLObjectPropertyExpression>> values = new HashSet<>();
-			for (final Set<ATermAppl> val : kb.getSubProperties(term(pe), direct))
+			for (final Set<ATermAppl> val : _kb.getSubProperties(term(pe), direct))
 				values.add(toObjectPropertyNode(val));
 			return new OWLObjectPropertyNodeSet(values);
 		}
@@ -854,7 +833,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			final Set<Set<ATermAppl>> result = kb.getSuperClasses(term(ce), direct);
+			final Set<Set<ATermAppl>> result = _kb.getSuperClasses(term(ce), direct);
 			return toClassNodeSet(result);
 		}
 		catch (final PelletRuntimeException e)
@@ -870,7 +849,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		try
 		{
 			final Set<Node<OWLDataProperty>> values = new HashSet<>();
-			for (final Set<ATermAppl> val : kb.getSuperProperties(term(pe), direct))
+			for (final Set<ATermAppl> val : _kb.getSuperProperties(term(pe), direct))
 				values.add(toDataPropertyNode(val));
 			return new OWLDataPropertyNodeSet(values);
 		}
@@ -887,7 +866,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		try
 		{
 			final Set<Node<OWLObjectPropertyExpression>> values = new HashSet<>();
-			for (final Set<ATermAppl> val : kb.getSuperProperties(term(pe), direct))
+			for (final Set<ATermAppl> val : _kb.getSuperProperties(term(pe), direct))
 				values.add(toObjectPropertyNode(val));
 			return new OWLObjectPropertyNodeSet(values);
 		}
@@ -900,28 +879,28 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public long getTimeOut()
 	{
-		return kb.timers.mainTimer.getTimeout();
+		return _kb.timers.mainTimer.getTimeout();
 	}
 
 	@Override
 	public Node<OWLClass> getTopClassNode()
 	{
 		refreshCheck();
-		return toClassNode(kb.getAllEquivalentClasses(ATermUtils.TOP));
+		return toClassNode(_kb.getAllEquivalentClasses(ATermUtils.TOP));
 	}
 
 	@Override
 	public Node<OWLDataProperty> getTopDataPropertyNode()
 	{
 		refreshCheck();
-		return toDataPropertyNode(kb.getAllEquivalentProperties(ATermUtils.TOP_DATA_PROPERTY));
+		return toDataPropertyNode(_kb.getAllEquivalentProperties(ATermUtils.TOP_DATA_PROPERTY));
 	}
 
 	@Override
 	public Node<OWLObjectPropertyExpression> getTopObjectPropertyNode()
 	{
 		refreshCheck();
-		return toObjectPropertyNode(kb.getAllEquivalentProperties(ATermUtils.TOP_OBJECT_PROPERTY));
+		return toObjectPropertyNode(_kb.getAllEquivalentProperties(ATermUtils.TOP_OBJECT_PROPERTY));
 	}
 
 	@Override
@@ -930,7 +909,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			final Set<Set<ATermAppl>> result = kb.getTypes(term(ind), direct);
+			final Set<Set<ATermAppl>> result = _kb.getTypes(term(ind), direct);
 			return toClassNodeSet(result);
 		}
 		catch (final PelletRuntimeException e)
@@ -951,7 +930,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return toClassNode(kb.getAllUnsatisfiableClasses());
+			return toClassNode(_kb.getAllUnsatisfiableClasses());
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -962,7 +941,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public void interrupt()
 	{
-		kb.timers.interrupt();
+		_kb.timers.interrupt();
 	}
 
 	@Override
@@ -971,7 +950,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return kb.isConsistent();
+			return _kb.isConsistent();
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -1020,7 +999,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		refreshCheck();
 		try
 		{
-			return kb.isSatisfiable(term(classExpression));
+			return _kb.isSatisfiable(term(classExpression));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -1034,16 +1013,16 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	@Override
 	public void ontologiesChanged(final List<? extends OWLOntologyChange> changes)// throws OWLException
 	{
-		switch (bufferingMode)
+		switch (_bufferingMode)
 		{
 			case BUFFERING:
-				pendingChanges.addAll(changes);
+				_pendingChanges.addAll(changes);
 				break;
 			case NON_BUFFERING:
 				processChanges(changes);
 				break;
 			default:
-				throw new AssertionError("Unexpected buffering mode: " + bufferingMode);
+				throw new AssertionError("Unexpected buffering mode: " + _bufferingMode);
 		}
 	}
 
@@ -1053,33 +1032,33 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	 *
 	 * @param changes the changes to be applied to the reasoner
 	 * @return <code>true</code> if all changes have been processed successfully, <code>false</code> otherwise (indicates reasoner will reload the whole
-	 *         ontology next time it needs to do reasoning)
+	 *         _ontology next time it needs to do reasoning)
 	 */
 	public boolean processChanges(final List<? extends OWLOntologyChange> changes)
 	{
-		if (shouldRefresh)
+		if (_shouldRefresh)
 			return false;
 
 		for (final OWLOntologyChange change : new ArrayList<>(changes)) // avoid ConcurrentModificationException that is too mush common.
 		{
 
-			if (log.isLoggable(Level.FINER))
-				log.fine("Changed: " + change + " in " + change.getOntology());
+			if (_log.isLoggable(Level.FINER))
+				_log.fine("Changed: " + change + " in " + change.getOntology());
 
-			if (!importsClosure.contains(change.getOntology()))
+			if (!_importsClosure.contains(change.getOntology()))
 				continue;
 
-			if (!changeVisitor.process(change))
+			if (!_changeVisitor.process(change))
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Reload required by ontology change " + change);
+				if (_log.isLoggable(Level.FINE))
+					_log.fine("Reload required by _ontology change " + change);
 
-				shouldRefresh = true;
+				_shouldRefresh = true;
 				break;
 			}
 		}
 
-		return !shouldRefresh;
+		return !_shouldRefresh;
 	}
 
 	/**
@@ -1088,8 +1067,8 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	public void prepareReasoner() throws ReasonerInterruptedException, TimeOutException
 	{
 		refreshCheck();
-		if (kb.isConsistent())
-			kb.realize();
+		if (_kb.isConsistent())
+			_kb.realize();
 	}
 
 	/**
@@ -1097,17 +1076,17 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	 */
 	public void refresh()
 	{
-		visitor.clear();
-		kb.clear();
+		_visitor.clear();
+		_kb.clear();
 
-		importsClosure = ontology.getImportsClosure();
+		_importsClosure = _ontology.importsClosure().collect(Collectors.toSet());
 
-		visitor.setAddAxiom(true);
-		for (final OWLOntology ont : importsClosure)
-			ont.accept(visitor);
-		visitor.verify();
+		_visitor.setAddAxiom(true);
+		for (final OWLOntology ont : _importsClosure)
+			ont.accept(_visitor);
+		_visitor.verify();
 
-		shouldRefresh = false;
+		_shouldRefresh = false;
 	}
 
 	/**
@@ -1116,10 +1095,10 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	 */
 	private void refreshCheck()
 	{
-		if (kb == null)
+		if (_kb == null)
 			throw new OWLRuntimeException("Trying to use a disposed reasoner");
 
-		if (shouldRefresh)
+		if (_shouldRefresh)
 			refresh();
 	}
 
@@ -1127,11 +1106,11 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 	{
 		refreshCheck();
 
-		visitor.reset();
-		visitor.setAddAxiom(false);
-		d.accept(visitor);
+		_visitor.reset();
+		_visitor.setAddAxiom(false);
+		d.accept(_visitor);
 
-		final ATermAppl a = visitor.result();
+		final ATermAppl a = _visitor.result();
 
 		if (a == null)
 			throw new InternalReasonerException("Cannot create ATerm from description " + d);
@@ -1195,13 +1174,13 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		switch (inferenceType)
 		{
 			case CLASS_HIERARCHY:
-				return kb.isClassified();
+				return _kb.isClassified();
 			case CLASS_ASSERTIONS:
-				return kb.isRealized();
+				return _kb.isRealized();
 			case OBJECT_PROPERTY_HIERARCHY:
-				return kb.getRBox().isObjectTaxonomyPrepared();
+				return _kb.getRBox().isObjectTaxonomyPrepared();
 			case DATA_PROPERTY_HIERARCHY:
-				return kb.getRBox().isDataTaxonomyPrepared();
+				return _kb.getRBox().isDataTaxonomyPrepared();
 			default:
 				return false;
 		}
@@ -1217,13 +1196,17 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 			switch (inferenceType)
 			{
 				case CLASS_HIERARCHY:
-					kb.classify();
+					_kb.classify();
+					//$FALL-THROUGH$
 				case CLASS_ASSERTIONS:
-					kb.realize();
+					_kb.realize();
+					//$FALL-THROUGH$
 				case OBJECT_PROPERTY_HIERARCHY:
-					kb.getRBox().getObjectTaxonomy();
+					_kb.getRBox().getObjectTaxonomy();
+					//$FALL-THROUGH$
 				case DATA_PROPERTY_HIERARCHY:
-					kb.getRBox().getDataTaxonomy();
+					_kb.getRBox().getDataTaxonomy();
+					//$FALL-THROUGH$
 				default:
 					break;
 			}

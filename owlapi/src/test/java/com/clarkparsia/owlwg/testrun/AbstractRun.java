@@ -8,69 +8,80 @@ import com.clarkparsia.owlwg.testcase.TestCase;
  * Title: Abstract Run
  * </p>
  * <p>
- * Description: Base implementation used by other {@link TestRunResult}
- * implementations
+ * Description: Base implementation used by other {@link TestRunResult} implementations
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a
- * href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
-public abstract class AbstractRun implements TestRunResult {
+public abstract class AbstractRun implements TestRunResult
+{
 
-	private final Throwable		cause;
-	private final String		details;
-	private final RunResultType	resultType;
-	private final TestRunner	runner;
-	private final TestCase		testcase;
-	private final RunTestType	testType;
+	private final Throwable _cause;
+	private final String _details;
+	private final RunResultType _resultType;
+	private final TestRunner<?> _runner;
+	private final TestCase<?> _testcase;
+	private final RunTestType _testType;
 
-	public AbstractRun(TestCase testcase, RunResultType resultType, RunTestType testType,
-			TestRunner runner, String details, Throwable cause ) {
-		if( testcase == null )
+	public AbstractRun(TestCase<?> testcase, RunResultType resultType, RunTestType testType, TestRunner<?> runner, String details, Throwable cause)
+	{
+		if (testcase == null)
 			throw new NullPointerException();
-		if( resultType == null )
+		if (resultType == null)
 			throw new NullPointerException();
-		if( testType == null )
+		if (testType == null)
 			throw new NullPointerException();
-		if( runner == null )
+		if (runner == null)
 			throw new NullPointerException();
 
-		this.testcase = testcase;
-		this.resultType = resultType;
-		this.testType = testType;
-		this.runner = runner;
-		this.details = details;
-		this.cause = cause;
+		this._testcase = testcase;
+		this._resultType = resultType;
+		this._testType = testType;
+		this._runner = runner;
+		this._details = details;
+		this._cause = cause;
 	}
 
-	public Throwable getCause() {
-		return cause;
-	}
-	
-	public String getDetails() {
-		return details;
+	@Override
+	public Throwable getCause()
+	{
+		return _cause;
 	}
 
-	public RunResultType getResultType() {
-		return resultType;
+	@Override
+	public String getDetails()
+	{
+		return _details;
 	}
 
-	public TestCase getTestCase() {
-		return testcase;
+	@Override
+	public RunResultType getResultType()
+	{
+		return _resultType;
 	}
 
-	public TestRunner getTestRunner() {
-		return runner;
+	@Override
+	public TestCase<?> getTestCase()
+	{
+		return _testcase;
 	}
 
-	public RunTestType getTestType() {
-		return testType;
+	@Override
+	public TestRunner<?> getTestRunner()
+	{
+		return _runner;
+	}
+
+	@Override
+	public RunTestType getTestType()
+	{
+		return _testType;
 	}
 
 }

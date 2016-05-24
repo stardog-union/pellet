@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.Timer;
@@ -48,7 +49,6 @@ import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.AddOntologyAnnotation;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
@@ -77,43 +77,43 @@ import org.semanticweb.owlapi.model.SetOntologyID;
  */
 public class PelletLoader
 {
-	public static Logger log = Logger.getLogger(PelletLoader.class.getName());
+	public static Logger _log = Logger.getLogger(PelletLoader.class.getName());
 
-	private KnowledgeBase kb;
+	private KnowledgeBase _kb;
 
 	// private Set<URI> loadedFiles;
 
-	private OWLOntologyManager manager;
+	private OWLOntologyManager _manager;
 
-	private final Set<OWLOntology> ontologies;
+	private final Set<OWLOntology> _ontologies;
 
 	/**
 	 * Flag to check if imports will be automatically loaded/unloaded
 	 */
-	private boolean processImports;
+	private boolean _processImports;
 
 	/**
 	 * Ontologies that are loaded due to imports but they have not been included in an explicit load statement by the user
 	 */
-	private final Set<OWLOntology> notImported;
+	private final Set<OWLOntology> _notImported;
 
 	/**
 	 * This is the reverse mapping of imports. The key is an ontology and the value is a set of ontology that imports the ontology used as the key
 	 */
-	private final Map<OWLOntology, Set<OWLOntology>> importDependencies;
+	private final Map<OWLOntology, Set<OWLOntology>> _importDependencies;
 
-	private final PelletVisitor visitor;
+	private final PelletVisitor _visitor;
 
-	private final ChangeVisitor changeVisitor = new ChangeVisitor();
+	private final ChangeVisitor _changeVisitor = new ChangeVisitor();
 
 	private class ChangeVisitor implements OWLOntologyChangeVisitor
 	{
 
-		private boolean reloadRequired;
+		private boolean _reloadRequired;
 
 		public boolean isReloadRequired()
 		{
-			return reloadRequired;
+			return _reloadRequired;
 		}
 
 		/**
@@ -131,30 +131,30 @@ public class PelletLoader
 
 		public void reset()
 		{
-			visitor.reset();
-			reloadRequired = false;
+			_visitor.reset();
+			_reloadRequired = false;
 		}
 
 		@Override
 		public void visit(final AddAxiom change)
 		{
-			visitor.setAddAxiom(true);
-			change.getAxiom().accept(visitor);
-			reloadRequired = visitor.isReloadRequired();
+			_visitor.setAddAxiom(true);
+			change.getAxiom().accept(_visitor);
+			_reloadRequired = _visitor.isReloadRequired();
 		}
 
 		@Override
 		public void visit(final RemoveAxiom change)
 		{
-			visitor.setAddAxiom(false);
-			change.getAxiom().accept(visitor);
-			reloadRequired = visitor.isReloadRequired();
+			_visitor.setAddAxiom(false);
+			change.getAxiom().accept(_visitor);
+			_reloadRequired = _visitor.isReloadRequired();
 		}
 
 		@Override
 		public void visit(final AddImport change)
 		{
-			reloadRequired = getProcessImports();
+			_reloadRequired = getProcessImports();
 		}
 
 		@Override
@@ -166,7 +166,7 @@ public class PelletLoader
 		@Override
 		public void visit(final RemoveImport change)
 		{
-			reloadRequired = getProcessImports();
+			_reloadRequired = getProcessImports();
 		}
 
 		@Override
@@ -185,15 +185,15 @@ public class PelletLoader
 
 	public PelletLoader(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 
-		visitor = new PelletVisitor(kb);
+		_visitor = new PelletVisitor(kb);
 
-		processImports = true;
+		_processImports = true;
 
-		ontologies = new HashSet<>();
-		notImported = new HashSet<>();
-		importDependencies = new HashMap<>();
+		_ontologies = new HashSet<>();
+		_notImported = new HashSet<>();
+		_importDependencies = new HashMap<>();
 	}
 
 	/**
@@ -216,21 +216,21 @@ public class PelletLoader
 
 	public boolean getProcessImports()
 	{
-		return processImports;
+		return _processImports;
 	}
 
 	public void setProcessImports(final boolean processImports)
 	{
-		this.processImports = processImports;
+		this._processImports = processImports;
 	}
 
 	public void clear()
 	{
-		visitor.clear();
-		kb.clear();
-		ontologies.clear();
-		notImported.clear();
-		importDependencies.clear();
+		_visitor.clear();
+		_kb.clear();
+		_ontologies.clear();
+		_notImported.clear();
+		_importDependencies.clear();
 
 		// loadedFiles = new HashSet();
 		// loadedFiles.add( Namespaces.OWL );
@@ -240,21 +240,21 @@ public class PelletLoader
 
 	public KnowledgeBase getKB()
 	{
-		return kb;
+		return _kb;
 	}
 
 	public void setKB(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 	public ATermAppl term(final OWLObject d)
 	{
-		visitor.reset();
-		visitor.setAddAxiom(false);
-		d.accept(visitor);
+		_visitor.reset();
+		_visitor.setAddAxiom(false);
+		d.accept(_visitor);
 
-		final ATermAppl a = visitor.result();
+		final ATermAppl a = _visitor.result();
 
 		if (a == null)
 			throw new InternalReasonerException("Cannot create ATerm from description " + d);
@@ -264,67 +264,66 @@ public class PelletLoader
 
 	public void reload()
 	{
-		log.fine("Reloading the ontologies");
+		_log.fine("Reloading the _ontologies");
 
-		// copy the loaded ontologies
-		final Set<OWLOntology> notImportedOnts = new HashSet<>(notImported);
+		// copy the loaded _ontologies
+		final Set<OWLOntology> notImportedOnts = new HashSet<>(_notImported);
 
 		// clear everything
 		clear();
 
-		// load ontologies again
+		// load _ontologies again
 		load(notImportedOnts);
 	}
 
 	public void load(final Set<OWLOntology> ontologies)
 	{
-		final Timer timer = kb.timers.startTimer("load");
+		final Timer timer = _kb.timers.startTimer("load");
 
-		int axiomCount = 0;
 		final Collection<OWLOntology> toBeLoaded = new LinkedHashSet<>();
 		for (final OWLOntology ontology : ontologies)
-			axiomCount += load(ontology, false, toBeLoaded);
+			load(ontology, false, toBeLoaded);
 
-		visitor.reset();
-		visitor.setAddAxiom(true);
+		_visitor.reset();
+		_visitor.setAddAxiom(true);
 
 		for (final OWLOntology ontology : toBeLoaded)
-			ontology.accept(visitor);
+			ontology.accept(_visitor);
 
-		visitor.verify();
+		_visitor.verify();
 
 		timer.stop();
 	}
 
 	private int load(final OWLOntology ontology, final boolean imported, final Collection<OWLOntology> toBeLoaded)
 	{
-		// if not imported add it to notImported set
+		// if not imported add it to _notImported set
 		if (!imported)
-			notImported.add(ontology);
+			_notImported.add(ontology);
 
-		// add to the loaded ontologies
-		final boolean added = ontologies.add(ontology);
+		// add to the loaded _ontologies
+		final boolean added = _ontologies.add(ontology);
 
 		// if it was already there, nothing more to do
 		if (!added)
 			return 0;
 
-		int axiomCount = ontology.getAxioms().size();
+		int axiomCount = ontology.getAxiomCount();
 		toBeLoaded.add(ontology);
 
-		// if processing imports load the imported ontologies
-		if (processImports)
-			for (final OWLOntology importedOnt : ontology.getImports())
+		// if processing imports load the imported _ontologies
+		if (_processImports)
+			for (final OWLOntology importedOnt : ontology.imports().collect(Collectors.toList()))
 			{
 				// load the importedOnt
 				axiomCount += load(importedOnt, true, toBeLoaded);
 
 				// update the import dependencies
-				Set<OWLOntology> importees = importDependencies.get(importedOnt);
+				Set<OWLOntology> importees = _importDependencies.get(importedOnt);
 				if (importees == null)
 				{
 					importees = new HashSet<>();
-					importDependencies.put(importedOnt, importees);
+					_importDependencies.put(importedOnt, importees);
 				}
 				importees.add(ontology);
 			}
@@ -334,7 +333,7 @@ public class PelletLoader
 
 	public Set<OWLAxiom> getUnsupportedAxioms()
 	{
-		return visitor.getUnsupportedAxioms();
+		return _visitor.getUnsupportedAxioms();
 	}
 
 	public void unload(final Set<OWLOntology> ontologies)
@@ -346,23 +345,23 @@ public class PelletLoader
 	private void unload(final OWLOntology ontology)
 	{
 		// remove the ontology from the set
-		final boolean removed = ontologies.remove(ontology);
+		final boolean removed = _ontologies.remove(ontology);
 
 		// if it is not there silently return
 		if (!removed)
 			return;
 
-		// remove it from notImported set, too
-		notImported.remove(ontology);
+		// remove it from _notImported set, too
+		_notImported.remove(ontology);
 
 		// if we are processing imports we might need to unload the
-		// imported ontologies
-		if (processImports)
+		// imported _ontologies
+		if (_processImports)
 			// go over the imports
-			for (final OWLOntology importOnt : ontology.getImports())
+			for (final OWLOntology importOnt : ontology.imports().collect(Collectors.toList()))
 			{
 				// see if the importedOnt is imported by any other ontology
-				final Set<OWLOntology> importees = importDependencies.get(importOnt);
+				final Set<OWLOntology> importees = _importDependencies.get(importOnt);
 				if (importees != null)
 				{
 					// remove the unloaded ontology from the dependencies
@@ -371,10 +370,10 @@ public class PelletLoader
 					if (importees.isEmpty())
 					{
 						// remove the empty set from dependencies
-						importDependencies.remove(importOnt);
+						_importDependencies.remove(importOnt);
 						// only unload if this ontology was not loaded by the
 						// user explicitly
-						if (!notImported.contains(importOnt))
+						if (!_notImported.contains(importOnt))
 							unload(importOnt);
 					}
 				}
@@ -382,21 +381,21 @@ public class PelletLoader
 	}
 
 	/**
-	 * @return Returns the loaded ontologies.
+	 * @return Returns the loaded _ontologies.
 	 */
 	public Set<OWLOntology> getOntologies()
 	{
-		return Collections.unmodifiableSet(ontologies);
+		return Collections.unmodifiableSet(_ontologies);
 	}
 
 	public OWLOntologyManager getManager()
 	{
-		return manager;
+		return _manager;
 	}
 
 	public void setManager(final OWLOntologyManager manager)
 	{
-		this.manager = manager;
+		this._manager = manager;
 	}
 
 	/**
@@ -411,13 +410,13 @@ public class PelletLoader
 
 		for (final OWLOntologyChange change : changes)
 		{
-			if (!ontologies.contains(change.getOntology()))
+			if (!_ontologies.contains(change.getOntology()))
 				continue;
 
-			if (!changeVisitor.process(change))
+			if (!_changeVisitor.process(change))
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Reload required by ontology change " + change);
+				if (_log.isLoggable(Level.FINE))
+					_log.fine("Reload required by ontology change " + change);
 
 				return false;
 			}
