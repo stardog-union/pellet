@@ -9,10 +9,11 @@ import java.util.Vector;
 public class Logger
 {
 
-	private final Vector<Event> _trace = new Vector<>();
+	private final Vector<Event<?>> _trace = new Vector<>();
 
 	public Logger()
 	{
+		//
 	}
 
 	/**
@@ -21,7 +22,7 @@ public class Logger
 	 */
 	public Logger(final Visitor<?> v, final Visitable n)
 	{
-		log(new Event(v, n));
+		log(new Event<>(v, n));
 	}
 
 	/**
@@ -31,13 +32,13 @@ public class Logger
 	public Logger(final Visitor<?> v, final Visitable[] nodes)
 	{
 		for (int i = 0; i < nodes.length; i++)
-			log(new Event(v, nodes[i]));
+			log(new Event<>(v, nodes[i]));
 	}
 
 	/**
 	 * Log a single event.
 	 */
-	public void log(final Event e)
+	public void log(final Event<?> e)
 	{
 		_trace.add(e);
 	}
@@ -50,7 +51,7 @@ public class Logger
 	public String toString()
 	{
 		String result = "";
-		for (final Enumeration<Event> e = _trace.elements(); e.hasMoreElements();)
+		for (final Enumeration<Event<?>> e = _trace.elements(); e.hasMoreElements();)
 			result += e.nextElement().toString() + "\n";
 		return result;
 	}

@@ -42,7 +42,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 {
-	public static final Logger log = Log.getLogger(QueryEngine.class);
+	public static final Logger _logger = Log.getLogger(QueryEngine.class);
 
 	private QueryResult _results;
 
@@ -72,8 +72,8 @@ public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 		final Collection<ATermAppl> empty = Collections.emptySet();
 		final ATermAppl clazz = q.rollUpTo(var, empty, false);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Rolling up " + var + " to " + clazz);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Rolling up " + var + " to " + clazz);
 
 		final Collection<ATermAppl> instances;
 
@@ -91,8 +91,8 @@ public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 
 		for (final ATermAppl b : instances)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("trying " + var + " --> " + b);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("trying " + var + " --> " + b);
 			final ResultBinding newBinding = binding.duplicate();
 
 			newBinding.setValue(var, b);
@@ -113,11 +113,11 @@ public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 
 		exec(q, new ResultBindingImpl(), true);
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
-			log.fine("Total satisfiability operations: " + (_kb.getABox().stats.satisfiabilityCount - satCount));
-			log.fine("Total consistency operations: " + (_kb.getABox().stats.consistencyCount - consCount));
-			log.fine("Results of ABox query : " + _results);
+			_logger.fine("Total satisfiability operations: " + (_kb.getABox().stats.satisfiabilityCount - satCount));
+			_logger.fine("Total consistency operations: " + (_kb.getABox().stats.consistencyCount - consCount));
+			_logger.fine("Results of ABox query : " + _results);
 		}
 
 		return _results;

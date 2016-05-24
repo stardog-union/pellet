@@ -71,7 +71,7 @@ import org.mindswap.pellet.utils.SetUtils;
  */
 public class QueryEngine
 {
-	public static Logger log = Log.getLogger(QueryEngine.class);
+	public static Logger _logger = Log.getLogger(QueryEngine.class);
 
 	public static CoreStrategy STRATEGY = CoreStrategy.ALLFAST;
 
@@ -110,22 +110,22 @@ public class QueryEngine
 		query.getKB().ensureConsistency();
 
 		// PREPROCESSING
-		if (log.isLoggable(Level.FINE))
-			log.fine("Preprocessing:\n" + query);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Preprocessing:\n" + query);
 		final Query preprocessed = preprocess(query);
 
 		// SIMPLIFICATION
 		if (PelletOptions.SIMPLIFY_QUERY)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Simplifying:\n" + preprocessed);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Simplifying:\n" + preprocessed);
 
 			simplify(preprocessed);
 		}
 
 		// SPLITTING
-		if (log.isLoggable(Level.FINE))
-			log.fine("Splitting:\n" + preprocessed);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Splitting:\n" + preprocessed);
 
 		final List<Query> queries = split(preprocessed);
 
@@ -151,8 +151,8 @@ public class QueryEngine
 	{
 		if (!ATermUtils.isVar(t) && !kb.isObjectProperty(t))
 		{
-			if (log.isLoggable(Level.WARNING))
-				log.warning("Undefined object property used in query: " + t);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("Undefined object property used in query: " + t);
 			return false;
 		}
 
@@ -163,8 +163,8 @@ public class QueryEngine
 	{
 		if (!ATermUtils.isVar(t) && !kb.isDatatypeProperty(t))
 		{
-			if (log.isLoggable(Level.WARNING))
-				log.warning("Undefined datatype property used in query: " + t);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("Undefined datatype property used in query: " + t);
 			return false;
 		}
 
@@ -175,8 +175,8 @@ public class QueryEngine
 	{
 		if (!ATermUtils.isVar(t) && !kb.isAnnotationProperty(t))
 		{
-			if (log.isLoggable(Level.WARNING))
-				log.warning("Undefined annotation property used in query: " + t);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("Undefined annotation property used in query: " + t);
 			return false;
 		}
 
@@ -187,8 +187,8 @@ public class QueryEngine
 	{
 		if (!ATermUtils.isVar(t) && !kb.isObjectProperty(t) && !kb.isDatatypeProperty(t) && !kb.isAnnotationProperty(t))
 		{
-			if (log.isLoggable(Level.WARNING))
-				log.warning("Not an object/data/annotation property: " + t);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("Not an object/data/annotation property: " + t);
 			return false;
 		}
 
@@ -199,8 +199,8 @@ public class QueryEngine
 	{
 		if (!ATermUtils.isVar(t) && !kb.isIndividual(t))
 		{
-			if (log.isLoggable(Level.WARNING))
-				log.warning("Undefined _individual used in query: " + t);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("Undefined _individual used in query: " + t);
 			return false;
 		}
 
@@ -211,8 +211,8 @@ public class QueryEngine
 	{
 		if (!ATermUtils.isVar(t) && !kb.isClass(t))
 		{
-			if (log.isLoggable(Level.WARNING))
-				log.warning("Undefined class used in query: " + t);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("Undefined class used in query: " + t);
 			return false;
 		}
 
@@ -223,8 +223,8 @@ public class QueryEngine
 	{
 		if (!ATermUtils.isVar(t) && !kb.isDatatype(t))
 		{
-			if (log.isLoggable(Level.WARNING))
-				log.warning("Undefined datatype used in query: " + t);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("Undefined datatype used in query: " + t);
 			return false;
 		}
 
@@ -332,8 +332,8 @@ public class QueryEngine
 			return new QueryResultImpl(query);
 
 		// if (PelletOptions.SAMPLING_RATIO > 0) {
-		// if (_log.isLoggable( Level.FINE ))
-		// _log.fine("Reorder\n" + query);
+		// if (_logger.isLoggable( Level.FINE ))
+		// _logger.fine("Reorder\n" + query);
 		//
 		// query = reorder(query);
 
@@ -427,7 +427,7 @@ public class QueryEngine
 		}
 		catch (final RuntimeException e)
 		{
-			log.log(Level.WARNING, "Query split failed, continuing with query execution.", e);
+			_logger.log(Level.WARNING, "Query split failed, continuing with query execution.", e);
 			return Collections.singletonList(query);
 		}
 	}
@@ -650,8 +650,8 @@ public class QueryEngine
 					// all triples, is false. We can _stop now.
 					allTriplesSatisfied = Bool.FALSE;
 
-					if (log.isLoggable(Level.FINER))
-						log.finer("Failed atom: " + atom);
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer("Failed atom: " + atom);
 
 					break;
 				}
@@ -667,8 +667,8 @@ public class QueryEngine
 				final ATermAppl testInd = query.getConstants().iterator().next();
 				final ATermAppl testClass = query.rollUpTo(testInd, Collections.<ATermAppl> emptySet(), false);
 
-				if (log.isLoggable(Level.FINER))
-					log.finer("Boolean query: " + testInd + " -> " + testClass);
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("Boolean query: " + testInd + " -> " + testClass);
 
 				querySatisfied = kb.isType(testInd, testClass);
 			}
@@ -794,7 +794,7 @@ public class QueryEngine
 				catch (final DatatypeReasonerException e)
 				{
 					final String msg = format("Unexpected datatype reasoner exception while checking if literal (%s) is in datarange (%s): %s ", l, d, e.getMessage());
-					log.severe(msg);
+					_logger.severe(msg);
 					throw new InternalReasonerException(msg, e);
 				}
 

@@ -88,7 +88,7 @@ import org.semanticweb.owlapi.model.SWRLRule;
 public class GraphBuilder
 {
 
-	public static final Logger log = Log.getLogger(GraphBuilder.class);
+	public static final Logger _logger = Log.getLogger(GraphBuilder.class);
 
 	private class AxiomVisitor implements OWLAxiomVisitor
 	{
@@ -761,7 +761,7 @@ public class GraphBuilder
 		// classification (see deleteNonLocal() test inside
 		// SimpleCorrectnessTest)
 		//		if( _node.equals( START_NODE ) ) {
-		//			_log.warn( "Non-local axiom: " + axiom );
+		//			_logger.warn( "Non-local axiom: " + axiom );
 		//			addOutputs( axiom );
 		//			return;
 		//		}

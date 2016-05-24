@@ -87,7 +87,7 @@ import org.semanticweb.owlapi.model.SWRLRule;
  */
 public class EntailmentChecker implements OWLAxiomVisitor
 {
-	public static Logger log = Log.getLogger(EntailmentChecker.class);
+	public static Logger _logger = Log.getLogger(EntailmentChecker.class);
 
 	public static final Set<AxiomType<?>> UNSUPPORTED_ENTAILMENT = Collections.unmodifiableSet(new HashSet<>(Arrays.<AxiomType<?>> asList(AxiomType.DISJOINT_UNION, AxiomType.DATATYPE_DEFINITION, AxiomType.HAS_KEY, AxiomType.SUB_PROPERTY_CHAIN_OF, AxiomType.SWRL_RULE)));
 
@@ -124,7 +124,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	{
 
 		if (axioms.isEmpty())
-			log.warning("Empty ontologies are entailed by any premise document!");
+			_logger.warning("Empty ontologies are entailed by any premise document!");
 		else
 		{
 			_queryVisitor.reset();
@@ -132,8 +132,8 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			for (final OWLAxiom axiom : axioms)
 				if (!isEntailed(axiom))
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine("Axiom not entailed: (" + axiom + ")");
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Axiom not entailed: (" + axiom + ")");
 					return false;
 				}
 
@@ -149,7 +149,7 @@ public class EntailmentChecker implements OWLAxiomVisitor
 		final Set<OWLAxiom> nonEntailments = new HashSet<>();
 
 		if (axioms.isEmpty())
-			log.warning("Empty ontologies are entailed by any premise document!");
+			_logger.warning("Empty ontologies are entailed by any premise document!");
 		else
 		{
 			final Set<OWLAxiom> deferredAxioms = new HashSet<>();
@@ -159,8 +159,8 @@ public class EntailmentChecker implements OWLAxiomVisitor
 			for (final OWLAxiom axiom : axioms)
 				if (!isEntailed(axiom))
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine("Axiom not entailed: (" + axiom + ")");
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Axiom not entailed: (" + axiom + ")");
 
 					nonEntailments.add(axiom);
 
@@ -387,8 +387,8 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	public void visit(final OWLDeclarationAxiom axiom)
 	{
 		_isEntailed = true;
-		if (log.isLoggable(Level.FINE))
-			log.fine("Ignoring declaration " + axiom);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Ignoring declaration " + axiom);
 	}
 
 	@Override
@@ -567,31 +567,31 @@ public class EntailmentChecker implements OWLAxiomVisitor
 	public void visit(final OWLAnnotationAssertionAxiom axiom)
 	{
 		_isEntailed = true;
-		if (log.isLoggable(Level.FINE))
-			log.fine("Ignoring annotation assertion axiom " + axiom);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Ignoring annotation assertion axiom " + axiom);
 	}
 
 	@Override
 	public void visit(final OWLAnnotationPropertyDomainAxiom axiom)
 	{
 		_isEntailed = true;
-		if (log.isLoggable(Level.FINE))
-			log.fine("Ignoring annotation property domain " + axiom);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Ignoring annotation property domain " + axiom);
 	}
 
 	@Override
 	public void visit(final OWLAnnotationPropertyRangeAxiom axiom)
 	{
 		_isEntailed = true;
-		if (log.isLoggable(Level.FINE))
-			log.fine("Ignoring annotation property range " + axiom);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Ignoring annotation property range " + axiom);
 	}
 
 	@Override
 	public void visit(final OWLSubAnnotationPropertyOfAxiom axiom)
 	{
 		_isEntailed = true;
-		if (log.isLoggable(Level.FINE))
-			log.fine("Ignoring sub annotation property axiom " + axiom);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Ignoring sub annotation property axiom " + axiom);
 	}
 }

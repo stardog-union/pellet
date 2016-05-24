@@ -28,7 +28,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  */
 public class ImportsHelper
 {
-	private final static Logger log = Log.getLogger(ImportsHelper.class);
+	private final static Logger _logger = Log.getLogger(ImportsHelper.class);
 
 	public static void loadImports(final OWLOntologyManager manager, final OwlApiCase t, final SerializationFormat format) throws OWLOntologyCreationException
 	{
@@ -41,7 +41,7 @@ public class ImportsHelper
 				if (str == null)
 				{
 					final String msg = format("Imported ontology (%s) not provided in " + format + " syntax for testcase (%s)", iri, t.getIdentifier());
-					log.warning(msg);
+					_logger.warning(msg);
 					throw new OWLOntologyCreationException(msg);
 				}
 				else
@@ -53,7 +53,7 @@ public class ImportsHelper
 					}
 					catch (final OWLOntologyCreationException e)
 					{
-						log.warning(format("Failed to parse imported ontology for testcase (%s)", t.getIdentifier()));
+						_logger.warning(format("Failed to parse imported ontology for testcase (%s)", t.getIdentifier()));
 						throw e;
 					}
 				}

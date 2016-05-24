@@ -1,7 +1,7 @@
 package net.katk.tools;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.slf4j.Marker;
@@ -9,42 +9,61 @@ import org.slf4j.Marker;
 /**
  * Define logger and configure _log level.
  */
-public class Log
+public class Log implements Logging
 {
-	public static volatile Level _defaultLevel = Level.INFO;
+	public static Logger _parent = Logger.getLogger(Log.class.getName());
 
-	private static List<Logger> _loggers = new Vector<>();
+	static
+	{
+		_parent.setLevel(Level.INFO);
+	}
+
+	@Override
+	public Logger getLogger()
+	{
+		return _parent;
+	}
+
+	public static volatile Level _defaultLevel = Level.INFO;
+	public static volatile boolean _setDefaultParent = false;
+
+	private static Map<String, Logger> _loggers = new ConcurrentHashMap<>();
+
+	/**
+	 * Clear any reference on logger and on referring classes.
+	 */
+	public void reset()
+	{
+		_loggers.clear();
+	}
+
+	private static Logger config(final Logger logger, final Level level)
+	{
+		if (_setDefaultParent)
+			logger.setParent(_parent);
+		_loggers.put(logger.getName(), logger);
+		logger.setLevel(level);
+		return logger;
+	}
 
 	public static Logger getLogger(final String name)
 	{
-		final Logger logger = Logger.getLogger(name);
-		_loggers.add(logger);
-		logger.setLevel(_defaultLevel);
-		return logger;
+		return config(Logger.getLogger(name), _defaultLevel);
 	}
 
 	public static Logger getLogger(final Class<?> type)
 	{
-		final Logger logger = Logger.getLogger(type.getSimpleName());
-		_loggers.add(logger);
-		logger.setLevel(_defaultLevel);
-		return logger;
+		return config(Logger.getLogger(type.getSimpleName()), _defaultLevel);
 	}
 
 	public static Logger getLogger(final String name, final Level specificLevel)
 	{
-		final Logger logger = Logger.getLogger(name);
-		_loggers.add(logger);
-		logger.setLevel(specificLevel);
-		return logger;
+		return config(Logger.getLogger(name), specificLevel);
 	}
 
 	public static Logger getLogger(final Class<?> type, final Level specificLevel)
 	{
-		final Logger logger = Logger.getLogger(type.getSimpleName());
-		_loggers.add(logger);
-		logger.setLevel(specificLevel);
-		return logger;
+		return config(Logger.getLogger(type.getSimpleName()), specificLevel);
 	}
 
 	public static void setLevel(final Logger logger, final Level level)
@@ -52,17 +71,20 @@ public class Log
 		logger.setLevel(level);
 	}
 
+	/**
+	 * Change the level of logging only on the logger that match the giver filter (contains)
+	 * 
+	 * @param level of logging that will be set.
+	 * @param filter that must be contains in the logger name.
+	 */
 	public static void setLevel(final Level level, final String filter)
 	{
-		for (final Logger logger : _loggers)
-			if (logger.getName().contains(filter))
-				logger.setLevel(level);
+		_loggers.values().parallelStream().filter(l -> l.getName().contains(filter)).forEach(l -> l.setLevel(level));
 	}
 
 	public static void setLevel(final Level level)
 	{
-		for (final Logger logger : _loggers)
-			logger.setLevel(level);
+		_loggers.values().parallelStream().forEach(l -> l.setLevel(level));
 	}
 
 	public static void setLevel(final Level level, final Class<?> type)
@@ -457,4 +479,5 @@ public class Log
 			}
 		};
 	}
+
 }

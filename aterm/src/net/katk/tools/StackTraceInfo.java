@@ -1,7 +1,6 @@
 package net.katk.tools;
 
 import java.lang.reflect.Method;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -57,7 +56,7 @@ public class StackTraceInfo
 		}
 		catch (final NoSuchMethodException e)
 		{
-			_logger.log(Level.SEVERE, "getCurrentMethodName() will not be available.", e);
+			Log.error(_logger, "getCurrentMethodName() will not be available.", e);
 		}
 	}
 
@@ -76,7 +75,7 @@ public class StackTraceInfo
 		}
 		catch (final Exception e) // 3 exceptions. 
 		{
-			_logger.log(Level.SEVERE, "", e);
+			Log.error(_logger, e);
 			return "";
 		}
 	}

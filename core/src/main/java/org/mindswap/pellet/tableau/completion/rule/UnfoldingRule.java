@@ -40,7 +40,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class UnfoldingRule extends AbstractTableauRule
 {
-	public final static Logger _log = Log.getLogger(UnfoldingRule.class);
+	public final static Logger _logger = Log.getLogger(UnfoldingRule.class);
 
 	public UnfoldingRule(final CompletionStrategy strategy)
 	{
@@ -98,8 +98,8 @@ public class UnfoldingRule extends AbstractTableauRule
 
 			final ATermAppl unfoldedConcept = unfolding.getResult();
 
-			if (_log.isLoggable(Level.FINE) && !node.hasType(unfoldedConcept))
-				_log.fine("UNF : " + node + ", " + ATermUtils.toString(c) + " -> " + ATermUtils.toString(unfoldedConcept) + " - " + finalDS);
+			if (_logger.isLoggable(Level.FINE) && !node.hasType(unfoldedConcept))
+				_logger.fine("UNF : " + node + ", " + ATermUtils.toString(c) + " -> " + ATermUtils.toString(unfoldedConcept) + " - " + finalDS);
 
 			_strategy.addType(node, unfoldedConcept, finalDS);
 		}

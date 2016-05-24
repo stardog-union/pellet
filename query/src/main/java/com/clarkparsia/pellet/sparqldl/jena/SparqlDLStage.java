@@ -56,7 +56,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 class SparqlDLStage
 {
-	public final static Logger log = Log.getLogger(SparqlDLStage.class);
+	public final static Logger _logger = Log.getLogger(SparqlDLStage.class);
 
 	private final ARQParser _parser;
 
@@ -118,8 +118,8 @@ class SparqlDLStage
 		}
 		catch (final UnsupportedQueryException e)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.log(Level.FINE, "Falling back to Jena stage", e);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.log(Level.FINE, "Falling back to Jena stage", e);
 
 			return null;
 		}

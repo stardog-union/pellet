@@ -56,7 +56,7 @@ public class RestrictedTimelineDatatype implements RestrictedDatatype<XMLGregori
 	 */
 
 	private static final DatatypeFactory dtFactory;
-	private static final Logger log = Log.getLogger(RestrictedTimelineDatatype.class);
+	private static final Logger _logger = Log.getLogger(RestrictedTimelineDatatype.class);
 	private static final BigInteger SEC_PER_DAY = BigInteger.valueOf(86400);
 	private static final BigInteger SEC_PER_YEAR = BigInteger.valueOf(31536000);
 	private static final int TZ_SHIFT = 14 * 60 * 60;
@@ -70,7 +70,7 @@ public class RestrictedTimelineDatatype implements RestrictedDatatype<XMLGregori
 		catch (final DatatypeConfigurationException e)
 		{
 			final String msg = "Failure initializing restricted timeline datatype support.";
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new InternalReasonerException(msg, e);
 		}
 	}
@@ -269,7 +269,7 @@ public class RestrictedTimelineDatatype implements RestrictedDatatype<XMLGregori
 		if (f == null)
 		{
 			final String msg = format("Attempt to constrain datatype (%s) with unsupported constraining facet ('%s' , '%s')", getDatatype(), facet, value);
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new InvalidConstrainingFacetException(msg, facet, value);
 		}
 
@@ -282,7 +282,7 @@ public class RestrictedTimelineDatatype implements RestrictedDatatype<XMLGregori
 		if (c == null || !isValidValue(c))
 		{
 			final String msg = format("Attempt to constrain datatype (%s) using constraining facet ('%s') with an unsupported value ('%s')", getDatatype(), f, value);
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new InvalidConstrainingFacetException(msg, facet, value);
 		}
 
@@ -475,7 +475,7 @@ public class RestrictedTimelineDatatype implements RestrictedDatatype<XMLGregori
 					 * TODO: Exclusion of tz'd individuals requires storing the
 					 * individuals since the tz is used for identity
 					 */
-					log.warning("Exclusion of time zoned constants is not supported");
+					_logger.warning("Exclusion of time zoned constants is not supported");
 			}
 
 		if (changes)

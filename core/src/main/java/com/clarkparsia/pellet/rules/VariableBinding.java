@@ -50,7 +50,7 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
  */
 public class VariableBinding
 {
-	private static final Logger log = Log.getLogger(VariableBinding.class);
+	private static final Logger _logger = Log.getLogger(VariableBinding.class);
 
 	/**
 	 * Collects _data values of a objects it visits
@@ -80,14 +80,14 @@ public class VariableBinding
 					canonical = literal;
 				else
 				{
-					log.severe(msg);
+					_logger.severe(msg);
 					throw new InternalReasonerException(msg, e);
 				}
 			}
 			catch (final UnrecognizedDatatypeException e)
 			{
 				final String msg = format("Unrecognized datatype in literal appearing (%s) in SWRL _data constant: %s", literal, e.getMessage());
-				log.severe(msg);
+				_logger.severe(msg);
 				throw new InternalReasonerException(msg, e);
 			}
 

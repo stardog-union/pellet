@@ -40,7 +40,7 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class ComparisonTesters
 {
 
-	private static Logger _log = Log.getLogger(ComparisonTesters.class);
+	private static Logger _logger = Log.getLogger(ComparisonTesters.class);
 
 	private static class EqualityTester extends BinaryTester
 	{
@@ -170,7 +170,7 @@ public class ComparisonTesters
 			catch (final DatatypeReasonerException e)
 			{
 				final String msg = format("Unexpected datatype reasoner exception comparaing two literals ('%s','%s'). Treating as incomparable.", term1, l2.getTerm());
-				_log.log(Level.WARNING, msg, e);
+				_logger.log(Level.WARNING, msg, e);
 				return false;
 			}
 		}

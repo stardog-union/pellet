@@ -59,7 +59,7 @@ import org.mindswap.pellet.utils.SetUtils;
  */
 public abstract class Node
 {
-	public final static Logger log = Log.getLogger(Node.class);
+	public final static Logger _logger = Log.getLogger(Node.class);
 
 	public final static int BLOCKABLE = Integer.MAX_VALUE;
 	public final static int NOMINAL = 0;
@@ -322,8 +322,8 @@ public abstract class Node
 		if (pruned != null)
 			if (pruned.getBranch() > branch)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("RESTORE: " + this + " merged _node " + mergedTo + " " + _mergeDepends);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("RESTORE: " + this + " merged _node " + mergedTo + " " + _mergeDepends);
 
 				if (_mergeDepends.getBranch() > branch)
 					undoSetSame();
@@ -350,8 +350,8 @@ public abstract class Node
 			}
 			else
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("DO NOT RESTORE: pruned _node " + this + " = " + mergedTo + " " + _mergeDepends);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("DO NOT RESTORE: pruned _node " + this + " = " + mergedTo + " " + _mergeDepends);
 
 				return Boolean.FALSE;
 			}
@@ -385,8 +385,8 @@ public abstract class Node
 			{
 				removed = true;
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("RESTORE: " + this + " remove type " + c + " " + d + " " + branch);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("RESTORE: " + this + " remove type " + c + " " + d + " " + branch);
 
 				//track that this _node is affected
 				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && this instanceof Individual)
@@ -437,8 +437,8 @@ public abstract class Node
 
 			if (d.getBranch() > branch)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("RESTORE: " + _name + " delete difference " + node);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("RESTORE: " + _name + " delete difference " + node);
 				i.remove();
 				restored = true;
 			}
@@ -452,8 +452,8 @@ public abstract class Node
 
 			if (d.getBranch() > branch)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("RESTORE: " + _name + " delete reverse edge " + e);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("RESTORE: " + _name + " delete reverse edge " + e);
 
 				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY)
 					_abox.getIncrementalChangeTracker().addDeletedEdge(e);
@@ -692,8 +692,8 @@ public abstract class Node
 						_abox.getCompletionQueue().add(qe, NodeSelector.UNIVERSAL);
 					}
 
-					if (log.isLoggable(Level.FINE))
-						log.fine("RESTORE: " + _name + " ADD reverse edge " + edge);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("RESTORE: " + _name + " ADD reverse edge " + edge);
 				}
 			}
 		}

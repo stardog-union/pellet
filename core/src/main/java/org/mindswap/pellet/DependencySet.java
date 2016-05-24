@@ -48,7 +48,7 @@ import org.mindswap.pellet.utils.intset.IntSetFactory;
  */
 public class DependencySet
 {
-	public static final Logger log = Log.getLogger(DependencySet.class);
+	public static final Logger _logger = Log.getLogger(DependencySet.class);
 
 	public static final int NO_BRANCH;
 
@@ -271,7 +271,7 @@ public class DependencySet
 		sb.append(_branch);
 		sb.append("-");
 		sb.append(_depends);
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
 			sb.append(" ");
 			sb.append(_explain);
@@ -290,8 +290,8 @@ public class DependencySet
 		if (getExplain().contains(assertion))
 		{
 			setExplain(new HashSet<ATermAppl>());
-			if (DependencyIndex.log.isLoggable(Level.FINE))
-				DependencyIndex.log.fine("             Explain: removed ");
+			if (DependencyIndex._logger.isLoggable(Level.FINE))
+				DependencyIndex._logger.fine("             Explain: removed ");
 		}
 
 	}

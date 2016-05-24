@@ -47,7 +47,7 @@ public class NumericAdapter implements Function
 		{
 			if (!(expected.getValue() instanceof Number))
 			{
-				ABox.log.info("Testing non-numeric against the result of a numeric _function '" + _function + "': " + expected);
+				ABox._logger.info("Testing non-numeric against the result of a numeric _function '" + _function + "': " + expected);
 				return null;
 			}
 			expectedNum = (Number) expected.getValue();
@@ -59,7 +59,7 @@ public class NumericAdapter implements Function
 				numArgs[i] = (Number) args[i].getValue();
 			else
 			{
-				ABox.log.info("Non numeric arguments to numeric _function '" + _function + "': " + args[i]);
+				ABox._logger.info("Non numeric arguments to numeric _function '" + _function + "': " + args[i]);
 				return null;
 			}
 

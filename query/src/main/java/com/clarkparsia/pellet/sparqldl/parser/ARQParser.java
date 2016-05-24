@@ -86,7 +86,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class ARQParser implements QueryParser
 {
-	public static Logger log = Log.getLogger(ARQParser.class);
+	public static Logger _logger = Log.getLogger(ARQParser.class);
 
 	private Set<Triple> _triples;
 
@@ -125,7 +125,7 @@ public class ARQParser implements QueryParser
 		catch (final IOException e)
 		{
 			final String message = "Error creating a reader from the input stream.";
-			log.severe(message);
+			_logger.severe(message);
 			throw new RuntimeException(message);
 		}
 	}
@@ -530,8 +530,8 @@ public class ARQParser implements QueryParser
 																	}
 																	else
 																		if (!kb.isClass(o))
-																			if (log.isLoggable(Level.FINE))
-																				log.fine("Class " + o + " used in the query is not defined in the KB.");
+																			if (_logger.isLoggable(Level.FINE))
+																				_logger.fine("Class " + o + " used in the query is not defined in the KB.");
 
 																	if (isDistinguishedVariable(subj))
 																		query.addDistVar(s, VarType.INDIVIDUAL);
@@ -1242,7 +1242,7 @@ public class ARQParser implements QueryParser
 		}
 		catch (final Exception ex)
 		{
-			log.log(Level.WARNING, "Invalid cardinality", ex);
+			_logger.log(Level.WARNING, "Invalid cardinality", ex);
 		}
 
 		return null;
@@ -1327,7 +1327,7 @@ public class ARQParser implements QueryParser
 									else
 									{
 										if (((o = getObject(node, OWL.complementOf.asNode())) != null))
-											log.info("Blank _nodes in class variable positions are not supported");
+											_logger.info("Blank _nodes in class variable positions are not supported");
 
 										aTerm = ATermUtils.makeBnode(node.getBlankNodeId().toString());
 									}

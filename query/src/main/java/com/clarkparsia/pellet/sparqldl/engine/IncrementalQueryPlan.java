@@ -39,7 +39,7 @@ import org.mindswap.pellet.utils.SetUtils;
 public class IncrementalQueryPlan extends QueryPlan
 {
 
-	private static final Logger log = Log.getLogger(IncrementalQueryPlan.class);
+	private static final Logger _logger = Log.getLogger(IncrementalQueryPlan.class);
 
 	public final Stack<Integer> _explored;
 
@@ -88,16 +88,16 @@ public class IncrementalQueryPlan extends QueryPlan
 						final QueryAtom nextAtom = _atoms.get(j);
 						if (SetUtils.intersects(nextAtom.getArguments(), atom2.getArguments()))
 						{
-							if (log.isLoggable(Level.FINE))
-								log.fine("Unbound vars for not");
+							if (_logger.isLoggable(Level.FINE))
+								_logger.fine("Unbound vars for not");
 							continue LOOP;
 						}
 					}
 
 				final double atomCost = _cost.estimate(atom2);
 
-				if (log.isLoggable(Level.FINER))
-					log.finer("Atom=" + atom + ", _cost=" + _cost + ", best _cost=" + bestCost);
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("Atom=" + atom + ", _cost=" + _cost + ", best _cost=" + bestCost);
 				if (atomCost <= bestCost)
 				{
 					bestCost = atomCost;
@@ -111,14 +111,14 @@ public class IncrementalQueryPlan extends QueryPlan
 
 		_explored.add(best);
 
-		if (log.isLoggable(Level.FINER))
+		if (_logger.isLoggable(Level.FINER))
 		{
 			final StringBuffer indent = new StringBuffer();
 			for (int j = 0; j < _explored.size(); j++)
 				indent.append(" ");
 			final String treePrint = indent.toString() + bestAtom + " : " + bestCost;
 
-			log.finer(treePrint);
+			_logger.finer(treePrint);
 		}
 
 		return bestAtom;

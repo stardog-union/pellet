@@ -63,7 +63,7 @@ import org.semanticweb.owlapi.model.SWRLRule;
 @RunWith(Parameterized.class)
 public class OWLAPIExplanationTest extends AbstractExplanationTest
 {
-	private static final Logger log = Log.getLogger(JenaExplanationTest.class);
+	private static final Logger _logger = Log.getLogger(JenaExplanationTest.class);
 
 	private PelletReasoner _reasoner;
 	private final boolean _useGlassBox;
@@ -236,18 +236,18 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 	{
 		final OWLClassExpression unsatClass = _converter.convert(axiom);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Axiom " + (++axiomCount) + ": " + axiom + " Expecting " + expectedExplanationsUnordered.size() + " explanations");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Axiom " + (++axiomCount) + ": " + axiom + " Expecting " + expectedExplanationsUnordered.size() + " explanations");
 
 		final Set<Set<OWLAxiom>> generatedExplanationsUnordered = _expGen.getExplanations(unsatClass, max);
 
-		if (log.isLoggable(Level.FINER))
+		if (_logger.isLoggable(Level.FINER))
 		{
 			final StringWriter sw = new StringWriter();
 			_renderer.startRendering(sw);
 			_renderer.render(axiom, expectedExplanationsUnordered);
 			_renderer.endRendering();
-			log.finer("Expected:\n" + sw);
+			_logger.finer("Expected:\n" + sw);
 		}
 
 		assertNotNull("Axiom " + axiom + " not entailed", generatedExplanationsUnordered);
@@ -279,7 +279,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 
 			System.out.println("Error in explanation: " + buff);
 
-			org.junit.Assert.fail("Error in explanation, see the _log file for details");
+			org.junit.Assert.fail("Error in explanation, see the _logger file for details");
 		}
 
 	}

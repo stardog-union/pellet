@@ -40,7 +40,7 @@ import net.katk.tools.Log;
 public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> implements RestrictedDatatype<T>
 {
 
-	private final static Logger log = Log.getLogger(RestrictedFloatingPointDatatype.class);
+	private final static Logger _logger = Log.getLogger(RestrictedFloatingPointDatatype.class);
 
 	/*
 	 * TODO: Evaluate storing _intervals in a tree to improve the efficiency of
@@ -86,7 +86,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		if (f == null)
 		{
 			final String msg = format("Attempt to constrain _datatype (%s) with unsupported constraining facet ('%s' , '%s')", getDatatype(), facet, value);
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -99,7 +99,7 @@ public class RestrictedFloatingPointDatatype<T extends Number & Comparable<T>> i
 		else
 		{
 			final String msg = format("Attempt to constrain _datatype (%s) using constraining facet ('%s') with an unsupported value ('%s')", getDatatype(), f, value);
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
 

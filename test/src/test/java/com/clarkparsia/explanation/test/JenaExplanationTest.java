@@ -62,7 +62,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 @RunWith(Parameterized.class)
 public class JenaExplanationTest extends AbstractExplanationTest
 {
-	private static final Logger log = Log.getLogger(JenaExplanationTest.class);
+	private static final Logger _logger = Log.getLogger(JenaExplanationTest.class);
 
 	@Parameters
 	public static Collection<Object[]> getParameters()
@@ -155,7 +155,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 
 		final boolean success = testExplanationWithJena(triple, actual, expectedExplanations);
 
-		assertTrue("Error in explanation, see the _log file for details", success);
+		assertTrue("Error in explanation, see the _logger file for details", success);
 	}
 
 	private boolean testExplanationWithJena(final Triple triple, final Graph actual, final Set<Set<OWLAxiom>> expectedExplanations) throws Exception
@@ -191,7 +191,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 			m.setNsPrefix("swrl", Namespaces.SWRL);
 			m.write(sw, "TTL");
 
-			log.severe("Error in explanation: " + sw);
+			_logger.severe("Error in explanation: " + sw);
 		}
 
 		return success;
@@ -231,7 +231,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 		}
 
 		if (!success)
-			log.severe("Error in explanation: " + sb);
+			_logger.severe("Error in explanation: " + sb);
 
 		return success;
 	}

@@ -126,8 +126,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 	@Override
 	public void complete(final Expressivity expr)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("************  " + EmptySRIQStrategy.class.getName() + "  ************");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("************  " + EmptySRIQStrategy.class.getName() + "  ************");
 
 		if (_abox.getNodes().isEmpty())
 		{
@@ -152,9 +152,9 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				break;
 			}
 
-			if (log.isLoggable(Level.FINE))
+			if (_logger.isLoggable(Level.FINE))
 			{
-				log.fine("Starting with _node " + x);
+				_logger.fine("Starting with _node " + x);
 				_abox.printTree();
 
 				_abox.validate();
@@ -164,8 +164,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 			if (_abox.isClosed())
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Clash at Branch (" + _abox.getBranch() + ") " + _abox.getClash());
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Clash at Branch (" + _abox.getBranch() + ") " + _abox.getClash());
 
 				if (backtrack())
 					_abox.setClash(null);
@@ -181,7 +181,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				}
 		}
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 			_abox.printTree();
 
 		if (PelletOptions.USE_ADVANCED_CACHING)
@@ -219,8 +219,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		if (!_abox.getCache().putSat(c, true))
 			return;
 
-		if (log.isLoggable(Level.FINEST))
-			log.finest("+++ Cache sat concept " + c);
+		if (_logger.isLoggable(Level.FINEST))
+			_logger.finest("+++ Cache sat concept " + c);
 
 		if (ATermUtils.isAnd(c))
 		{
@@ -261,8 +261,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			{
 				if (cachedSat.isTrue())
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine("Stop cached " + x);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Stop cached " + x);
 					_mayNeedExpanding.remove(0);
 				}
 				else
@@ -283,8 +283,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 		{
 			if (blocking.isDirectlyBlocked(x))
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Stop _blocked " + x);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Stop _blocked " + x);
 				_mayNeedExpanding.remove(0);
 				return;
 			}
@@ -305,8 +305,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 			if (blocking.isDynamic() && blocking.isDirectlyBlocked(x))
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Stop _blocked " + x);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Stop _blocked " + x);
 				_mayNeedExpanding.remove(0);
 				return;
 			}
@@ -393,15 +393,15 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		if (sat.isUnknown())
 		{
-			if (log.isLoggable(Level.FINEST))
-				log.finest("??? Cache miss for " + c);
+			if (_logger.isLoggable(Level.FINEST))
+				_logger.finest("??? Cache miss for " + c);
 			_cachedNodes.put(x, c);
 		}
 		else
 			if (!_cacheSafety.isSafe(c, x))
 			{
-				if (log.isLoggable(Level.FINER))
-					log.finer("*** Cache unsafe for " + c);
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("*** Cache unsafe for " + c);
 
 				//			_cacheSafety.isSafe( c, x.getInEdges().edgeAt( 0 ).getRole(), x.getParent() );
 				//			System.err.println( "CACHE " + ++_cache );
@@ -409,8 +409,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				sat = Bool.UNKNOWN;
 			}
 			else
-				if (log.isLoggable(Level.FINER))
-					log.finer("*** Cache hit for " + c + " sat = " + sat);
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("*** Cache hit for " + c + " sat = " + sat);
 
 		return sat;
 	}
@@ -518,11 +518,11 @@ public class EmptySRIQStrategy extends CompletionStrategy
 
 		final List<ATermAppl> nodeList = _abox.getNodeNames();
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
-			log.fine("RESTORE: Branch " + br.getBranch());
+			_logger.fine("RESTORE: Branch " + br.getBranch());
 			if (br.getNodeCount() < nodeList.size())
-				log.fine("Remove _nodes " + nodeList.subList(br.getNodeCount(), nodeList.size()));
+				_logger.fine("Remove _nodes " + nodeList.subList(br.getNodeCount(), nodeList.size()));
 		}
 		for (int i = 0; i < nodeList.size(); i++)
 		{
@@ -536,13 +536,13 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				if (c != null && PelletOptions.USE_ADVANCED_CACHING)
 					if (clashPath.contains(x))
 					{
-						if (log.isLoggable(Level.FINEST))
-							log.finest("+++ Cache unsat concept " + c);
+						if (_logger.isLoggable(Level.FINEST))
+							_logger.finest("+++ Cache unsat concept " + c);
 						_abox.getCache().putSat(c, false);
 					}
 					else
-						if (log.isLoggable(Level.FINEST))
-							log.finest("--- Do not _cache concept " + c + " " + x + " " + clashNode + " " + clashPath);
+						if (_logger.isLoggable(Level.FINEST))
+							_logger.finest("--- Do not _cache concept " + c + " " + x + " " + clashNode + " " + clashPath);
 			}
 			else
 			{
@@ -561,7 +561,7 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			_allValuesRule.apply(ind);
 		}
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 			_abox.printTree();
 
 		timer.stop();
@@ -590,8 +590,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				branches.subList(lastBranch, branches.size()).clear();
 				newBranch = branches.get(lastBranch - 1);
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("JUMP: " + lastBranch);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("JUMP: " + lastBranch);
 				if (newBranch == null || lastBranch != newBranch.getBranch())
 					throw new RuntimeException("Internal error in reasoner: Trying to backtrack _branch " + lastBranch + " but got " + newBranch);
 
@@ -611,8 +611,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 			if (!branchFound || newBranch == null)
 			{
 				_abox.getClash().getDepends().remove(lastBranch);
-				if (log.isLoggable(Level.FINE))
-					log.fine("FAIL: " + lastBranch);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("FAIL: " + lastBranch);
 			}
 			else
 			{
@@ -620,8 +620,8 @@ public class EmptySRIQStrategy extends CompletionStrategy
 				// _branch multiple times and we want the same copy to be available every time
 				_mayNeedExpanding = new LinkedList<>(_mnx.get(newBranch.getBranch()));
 				_mnx.subList(newBranch.getBranch() + 1, _mnx.size()).clear();
-				if (log.isLoggable(Level.FINE))
-					log.fine("MNX : " + _mayNeedExpanding);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("MNX : " + _mayNeedExpanding);
 			}
 
 		}

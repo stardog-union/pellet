@@ -69,7 +69,7 @@ public class OWLRealInterval
 			else
 				_next = _increment ? OWLRealUtils.integerIncrement(_next) : OWLRealUtils.integerDecrement(_next);
 
-				return n;
+			return n;
 		}
 
 		@Override
@@ -109,20 +109,20 @@ public class OWLRealInterval
 		}
 	}
 
-	private static final Logger log = Log.getLogger(OWLRealInterval.class.getCanonicalName());
+	private static final Logger _logger = Log.getLogger(OWLRealInterval.class);
 
-	private static OWLRealInterval unconstrainedInteger = new OWLRealInterval(null, null, true, true, LineType.INTEGER_ONLY);
+	private static OWLRealInterval _unconstrainedInteger = new OWLRealInterval(null, null, true, true, LineType.INTEGER_ONLY);
 
-	private static OWLRealInterval unconstrainedReal = new OWLRealInterval(null, null, true, true, LineType.CONTINUOUS);
+	private static OWLRealInterval _unconstrainedReal = new OWLRealInterval(null, null, true, true, LineType.CONTINUOUS);
 
 	public static OWLRealInterval allIntegers()
 	{
-		return unconstrainedInteger;
+		return _unconstrainedInteger;
 	}
 
 	public static OWLRealInterval allReals()
 	{
-		return unconstrainedReal;
+		return _unconstrainedReal;
 	}
 
 	private static IntervalRelations compare(final OWLRealInterval a, final OWLRealInterval b)
@@ -322,7 +322,7 @@ public class OWLRealInterval
 			if (cmp > 0)
 			{
 				final String msg = format("Lower bound of interval (%s) should not be greater than _upper bound of interval (%s)", lower, upper);
-				log.severe(msg);
+				_logger.severe(msg);
 				throw new IllegalArgumentException(msg);
 			}
 			else
@@ -331,7 +331,7 @@ public class OWLRealInterval
 					if ((!inclusiveLower || !inclusiveUpper))
 					{
 						final String msg = "Point intervals must be inclusive";
-						log.severe(msg);
+						_logger.severe(msg);
 						throw new IllegalArgumentException(msg);
 					}
 					type = LineType.CONTINUOUS;

@@ -61,7 +61,7 @@ import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 public class TaxonomyPersistence
 {
 
-	public static final Logger log = Log.getLogger(TaxonomyPersistence.class);
+	public static final Logger _logger = Log.getLogger(TaxonomyPersistence.class);
 
 	/**
 	 * The URI of the ontology created to represent the Taxonomy
@@ -90,7 +90,7 @@ public class TaxonomyPersistence
 		}
 		catch (final OWLException e)
 		{
-			log.log(Level.SEVERE, "An error occured while creating an ontology for taxonomy", e);
+			_logger.log(Level.SEVERE, "An error occured while creating an ontology for taxonomy", e);
 			throw new IOException("An error occured while creating an ontology for taxonomy");
 		}
 	}
@@ -300,7 +300,7 @@ public class TaxonomyPersistence
 		}
 		catch (final OWLOntologyCreationException e)
 		{
-			log.log(Level.SEVERE, "Unable to create the ontology", e);
+			_logger.log(Level.SEVERE, "Unable to create the ontology", e);
 			throw new IOException("Unable to create the ontology");
 		}
 	}

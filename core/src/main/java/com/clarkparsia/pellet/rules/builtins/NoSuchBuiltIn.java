@@ -80,7 +80,7 @@ public class NoSuchBuiltIn implements BuiltIn
 	@Override
 	public BindingHelper createHelper(final BuiltInAtom atom)
 	{
-		ABox.log.warning("Returning an empty binding helper for unimplemented built-in " + atom);
+		ABox._logger.warning("Returning an empty binding helper for unimplemented built-in " + atom);
 		return empty;
 	}
 

@@ -68,7 +68,7 @@ import org.mindswap.pellet.utils.Timer;
  */
 public class CombinedQueryEngine implements QueryExec
 {
-	public static final Logger log = Log.getLogger(CombinedQueryEngine.class);
+	public static final Logger _logger = Log.getLogger(CombinedQueryEngine.class);
 
 	public static final QueryOptimizer optimizer = new QueryOptimizer();
 
@@ -86,8 +86,8 @@ public class CombinedQueryEngine implements QueryExec
 
 	private void prepare(final Query query)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Preparing plan ...");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Preparing plan ...");
 
 		this._kb = query.getKB();
 		if (_kb == null)
@@ -98,8 +98,8 @@ public class CombinedQueryEngine implements QueryExec
 		this.oldQuery = query;
 		this.query = setupCores(query);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("After setting-up cores : " + this.query);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("After setting-up cores : " + this.query);
 
 		this.plan = optimizer.getExecutionPlan(this.query);
 		this.plan.reset();
@@ -122,8 +122,8 @@ public class CombinedQueryEngine implements QueryExec
 			// DirectType atom
 			_downMonotonic = new HashSet<>();
 			setupDownMonotonicVariables(this.query);
-			if (log.isLoggable(Level.FINE))
-				log.fine("Variables to be optimized : " + _downMonotonic);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Variables to be optimized : " + _downMonotonic);
 		}
 	}
 
@@ -192,8 +192,8 @@ public class CombinedQueryEngine implements QueryExec
 
 			transformedQuery.add(c);
 
-			if (log.isLoggable(Level.FINE))
-				log.fine(c.getUndistVars() + " : " + c.getDistVars() + " : " + c.getQuery().getAtoms());
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine(c.getUndistVars() + " : " + c.getDistVars() + " : " + c.getQuery().getAtoms());
 		}
 
 		for (final QueryAtom atom : toRemove)
@@ -241,7 +241,7 @@ public class CombinedQueryEngine implements QueryExec
 	@Override
 	public QueryResult exec(final Query query)
 	{
-		log.fine(() -> "Executing query " + query);
+		_logger.fine(() -> "Executing query " + query);
 
 		final Timer timer = new Timer("CombinedQueryEngine");
 		timer.start();
@@ -250,7 +250,7 @@ public class CombinedQueryEngine implements QueryExec
 		exec(new ResultBindingImpl());
 		timer.stop();
 
-		log.fine(() -> "#B=" + branches + ", time=" + timer.getLast() + " ms.");
+		_logger.fine(() -> "#B=" + branches + ", time=" + timer.getLast() + " ms.");
 
 		return _result;
 	}
@@ -259,7 +259,7 @@ public class CombinedQueryEngine implements QueryExec
 
 	private void exec(ResultBinding binding)
 	{
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 			branches++;
 
 		if (!plan.hasNext())
@@ -267,8 +267,8 @@ public class CombinedQueryEngine implements QueryExec
 			// TODO if _result vars are not same as dist vars.
 			if (!binding.isEmpty() || _result.isEmpty())
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Found binding: " + binding);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Found binding: " + binding);
 
 				//				Filter filter = query.getFilter();
 
@@ -287,15 +287,15 @@ public class CombinedQueryEngine implements QueryExec
 				_result.add(binding);
 			}
 
-			if (log.isLoggable(Level.FINER))
-				log.finer("Returning ... binding=" + binding);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Returning ... binding=" + binding);
 			return;
 		}
 
 		final QueryAtom current = plan.next(binding);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Evaluating " + current);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Evaluating " + current);
 
 		if (current.isGround() && !current.getPredicate().equals(QueryPredicate.UndistVarCore))
 		{
@@ -305,8 +305,8 @@ public class CombinedQueryEngine implements QueryExec
 		else
 			exec(current, binding);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Returning ... " + binding);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Returning ... " + binding);
 
 		plan.back();
 	}
@@ -538,8 +538,8 @@ public class CombinedQueryEngine implements QueryExec
 						for (final ATermAppl dependent : _kb.getDifferents(known))
 							runSymetricCheck(current, dfI1, known, dfI2, dependent, binding);
 				else
-					if (log.isLoggable(Level.FINER))
-						log.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
 				// TODO What about undist vars ?
 				// Query : PropertyValue(?x,p,_:x), Type(_:x, C),
 				// DifferentFrom( _:x, x) .
@@ -736,7 +736,7 @@ public class CombinedQueryEngine implements QueryExec
 							for (final ATermAppl dependent : dependents)
 								runSymetricCheck(current, dwLHS, known, dwRHS, dependent, binding);
 				else
-					log.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
+					_logger.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
 				break;
 
 			case ComplementOf: // TODO implementation of _downMonotonic vars
@@ -749,7 +749,7 @@ public class CombinedQueryEngine implements QueryExec
 						for (final ATermAppl dependent : _kb.getComplements(known))
 							runSymetricCheck(current, coLHS, known, coRHS, dependent, binding);
 				else
-					log.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
+					_logger.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
 				break;
 
 				// RBOX ATOMS
@@ -1143,7 +1143,7 @@ public class CombinedQueryEngine implements QueryExec
 							for (final ATermAppl dependent : dependents)
 								runSymetricCheck(current, dwLHSp, known, dwRHSp, dependent, binding);
 				else
-					log.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
+					_logger.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
 				break;
 			default:
 				throw new UnsupportedQueryException("Unknown atom type '" + current.getPredicate() + "'.");
@@ -1163,15 +1163,15 @@ public class CombinedQueryEngine implements QueryExec
 		{
 			final ATermAppl rolledUpClass = q.rollUpTo(currVar, Collections.<ATermAppl> emptySet(), STOP_ROLLING_ON_CONSTANTS);
 
-			if (log.isLoggable(Level.FINER))
-				log.finer(currVar + " rolled to " + rolledUpClass);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer(currVar + " rolled to " + rolledUpClass);
 
 			final Set<ATermAppl> inst = kb.getInstances(rolledUpClass);
 			varBindings.put(currVar, inst);
 		}
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Var bindings: " + varBindings);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Var bindings: " + varBindings);
 
 		final Set<ATermAppl> literalVars = q.getDistVarsForType(VarType.LITERAL);
 		final Set<ATermAppl> individualVars = q.getDistVarsForType(VarType.INDIVIDUAL);
@@ -1220,7 +1220,7 @@ public class CombinedQueryEngine implements QueryExec
 		// final ATermAppl c = q.rollUpTo(var, Collections.EMPTY_SET, false);
 		//
 		// CandidateSet set = _kb.getABox().getObviousInstances(c);
-		// _log.fine(c + " : " + set.getKnowns().size() + " : "
+		// _logger.fine(c + " : " + set.getKnowns().size() + " : "
 		// + set.getUnknowns().size());
 		//
 		// if (set.getUnknowns().isEmpty()) {
@@ -1233,8 +1233,8 @@ public class CombinedQueryEngine implements QueryExec
 		// return _kb.getIndividuals();
 
 		final ATermAppl c = q.rollUpTo(var, Collections.<ATermAppl> emptySet(), STOP_ROLLING_ON_CONSTANTS);
-		if (log.isLoggable(Level.FINER))
-			log.finer(var + " rolled to " + c);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer(var + " rolled to " + c);
 
 		final CandidateSet<ATermAppl> set = _kb.getABox().getObviousInstances(c);
 
@@ -1296,8 +1296,8 @@ public class CombinedQueryEngine implements QueryExec
 	// final ATermAppl clazz = q.rollUpTo(var, Collections.EMPTY_SET,
 	// false);
 	//
-	// if (_log.isLoggable( Level.FINE )) {
-	// _log
+	// if (_logger.isLoggable( Level.FINE )) {
+	// _logger
 	// .debug("Rolling up " + var + " to " + clazz
 	// + " in " + q);
 	// }
@@ -1324,8 +1324,8 @@ public class CombinedQueryEngine implements QueryExec
 	// }
 	//
 	// for (final ATermAppl b : instances) {
-	// if (_log.isLoggable( Level.FINE )) {
-	// _log.fine("trying " + var + " --> " + b);
+	// if (_logger.isLoggable( Level.FINE )) {
+	// _logger.fine("trying " + var + " --> " + b);
 	// }
 	// final ResultBinding newBinding = binding.clone();
 	//
@@ -1442,8 +1442,8 @@ public class CombinedQueryEngine implements QueryExec
 	{
 		final int size = _result.size();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Trying : " + rootCandidate + ", done=" + toDo);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Trying : " + rootCandidate + ", done=" + toDo);
 
 		if (!strict)
 		{
@@ -1466,8 +1466,8 @@ public class CombinedQueryEngine implements QueryExec
 		}
 		else
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Skipping subs of " + rootCandidate);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Skipping subs of " + rootCandidate);
 			// toDo.removeAll(t.getFlattenedSubs(rootCandidate, false));
 			toDo.removeAll(flatten(t.getSubs(rootCandidate, false)));
 		}

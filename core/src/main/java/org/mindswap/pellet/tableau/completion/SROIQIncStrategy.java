@@ -146,8 +146,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 		final Timer t = _abox.getKB().timers.startTimer("initialize");
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Initialize Started");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Initialize Started");
 
 		_mergeList = new ArrayList<>();
 
@@ -433,8 +433,8 @@ public class SROIQIncStrategy extends SROIQStrategy
 
 		t.stop();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Initialize Ended");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Initialize Ended");
 	}
 
 	/**

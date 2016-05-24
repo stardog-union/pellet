@@ -1,8 +1,9 @@
 package jjtraveler.reflective;
 
-import jjtraveler.Visitable;
 import jjtraveler.LogVisitor;
 import jjtraveler.Logger;
+import jjtraveler.Visitable;
+import jjtraveler.Visitor;
 
 /**
  * Wrap a LogVisitor around a visitor.
@@ -10,9 +11,8 @@ import jjtraveler.Logger;
  * Test case documentation: <a href="WrapLogTest.java">WrapLogTest</a>
  */
 
-public class WrapLog extends VisitorVisitor
+public class WrapLog<T extends Visitable> extends VisitorVisitor<T>
 {
-
 	Logger logger;
 
 	/**
@@ -24,44 +24,58 @@ public class WrapLog extends VisitorVisitor
 		this.logger = logger;
 	}
 
-	public VisitableVisitor visitVisitor(VisitableVisitor v)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public VisitableLogVisitor visitVisitor(T v)
 	{
 		return new VisitableLogVisitor(v, logger);
 	}
 
-	class VisitableLogVisitor extends LogVisitor implements VisitableVisitor
+	class VisitableLogVisitor<Tx extends Visitable> extends LogVisitor<Tx> implements VisitableVisitor<Tx>
 	{
+		@Override
 		public int getChildCount()
 		{
 			return 1;
 		}
 
-		public Visitable getChildAt(int i)
+		@SuppressWarnings({ "unchecked" })
+		@Override
+		public Tx getChildAt(int i)
 		{
 			switch (i)
 			{
 				case 0:
-					return (VisitableVisitor) visitor;
+					return (Tx) visitor; // Becasue Visitor is also a Visiatable here.
 				default:
 					throw new IndexOutOfBoundsException();
 			}
 		}
 
-		public Visitable setChildAt(int i, Visitable child)
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		@Override
+		public Tx setChildAt(final int i, final Visitable child)
 		{
 			switch (i)
 			{
 				case 0:
 					visitor = (VisitableVisitor) child;
-					return this;
+					return (Tx) this; // Because I am a Visitable.
 				default:
 					throw new IndexOutOfBoundsException();
 			}
 		}
 
-		public VisitableLogVisitor(VisitableVisitor visitor, Logger logger)
+		@SuppressWarnings("unchecked")
+		public VisitableLogVisitor(final VisitableVisitor<T> visitor, final Logger logger)
 		{
-			super(visitor, logger);
+			super((Visitor<Tx>) visitor, logger);
+		}
+
+		@SuppressWarnings("unchecked")
+		public VisitableLogVisitor(final T visitable, final Logger logger)
+		{
+			super((Visitor<Tx>) visitable, logger);
 		}
 	}
 }

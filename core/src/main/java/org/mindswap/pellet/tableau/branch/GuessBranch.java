@@ -74,8 +74,8 @@ public class GuessBranch extends IndividualBranch
 			// start with max possibility and decrement at each try  
 			final int n = _minGuess + getTryCount() - getTryNext() - 1;
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("GUES: (" + (getTryNext() + 1) + "/" + getTryCount() + ") at _branch (" + getBranch() + ") to  " + ind + " -> " + _r + " -> anon" + (n == 1 ? "" : (_abox.getAnonCount() + 1) + " - anon") + (_abox.getAnonCount() + n) + " " + ds);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("GUES: (" + (getTryNext() + 1) + "/" + getTryCount() + ") at _branch (" + getBranch() + ") to  " + ind + " -> " + _r + " -> anon" + (n == 1 ? "" : (_abox.getAnonCount() + 1) + " - anon") + (_abox.getAnonCount() + n) + " " + ds);
 
 			ds = ds.union(new DependencySet(getBranch()), _abox.doExplanation());
 
@@ -102,8 +102,8 @@ public class GuessBranch extends IndividualBranch
 			final boolean earlyClash = _abox.isClosed();
 			if (earlyClash)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("CLASH: Branch " + getBranch() + " " + _abox.getClash() + "!");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("CLASH: Branch " + getBranch() + " " + _abox.getClash() + "!");
 
 				final DependencySet clashDepends = _abox.getClash().getDepends();
 

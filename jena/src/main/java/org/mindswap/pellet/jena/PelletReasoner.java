@@ -51,7 +51,7 @@ import org.mindswap.pellet.jena.graph.loader.DefaultGraphLoader;
  */
 public class PelletReasoner implements Reasoner
 {
-	protected static Logger log = Log.getLogger(PelletReasoner.class);
+	protected static Logger _logger = Log.getLogger(PelletReasoner.class);
 
 	private final Model _reasonerCapabilities;
 
@@ -128,13 +128,13 @@ public class PelletReasoner implements Reasoner
 	@Override
 	public PelletInfGraph bind(final Graph graph) throws ReasonerException
 	{
-		log.fine("In bind!");
+		_logger.fine("In bind!");
 		return new PelletInfGraph(graph, this, new DefaultGraphLoader());
 	}
 
 	public InfModel bind(final Model model) throws ReasonerException
 	{
-		log.fine("In bind!");
+		_logger.fine("In bind!");
 		return ModelFactory.createInfModel(bind(model.getGraph()));
 	}
 

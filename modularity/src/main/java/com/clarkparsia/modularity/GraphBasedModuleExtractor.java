@@ -29,7 +29,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
 public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 {
 
-	public static final Logger log = Log.getLogger(GraphBasedModuleExtractor.class);
+	public static final Logger _logger = Log.getLogger(GraphBasedModuleExtractor.class);
 
 	public GraphBasedModuleExtractor()
 	{
@@ -47,8 +47,8 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 		final Reachability<OWLEntity> engine = new Reachability<>(builder.build());
 		t.stop();
 
-		if (log.isLoggable(Level.FINER))
-			log.finer(format("Built graph in %d ms", t.getLast()));
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer(format("Built graph in %d ms", t.getLast()));
 
 		//		DisplayGraph.display( entities, engine.getGraph(), null );
 
@@ -60,23 +60,23 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 				continue;
 			}
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Compute module for " + ent);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Compute module for " + ent);
 
 			Set<OWLEntity> module = modules.get(ent);
 
 			if (module != null)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Existing module size " + module.size());
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Existing module size " + module.size());
 
 				continue;
 			}
 
 			final EntityNode<OWLEntity> node = engine.getGraph().getNode(ent);
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Node " + node);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Node " + node);
 
 			if (node == null)
 			{
@@ -95,8 +95,8 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 
 	private Set<OWLEntity> extractModule(final Reachability<OWLEntity> engine, final EntityNode<OWLEntity> node, final Set<? extends OWLEntity> entities, final ProgressMonitor monitor)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Extract module for " + node);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Extract module for " + node);
 
 		// we don't know what the module is
 		Set<OWLEntity> module = null;
@@ -111,8 +111,8 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 			module = modules.get(n);
 			if (module != null)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Existing module size " + module.size());
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Existing module size " + module.size());
 				break;
 			}
 		}
@@ -130,8 +130,8 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 				// recursively extract the module for output _node
 				final Set<OWLEntity> outputModule = extractModule(engine, (EntityNode) output, entities, monitor);
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("Cached module size " + outputModule.size());
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Cached module size " + outputModule.size());
 
 				// the module is the union of the outputModule and the entities
 				// in this _node
@@ -144,8 +144,8 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 			// compute _nodes reachable from the _current _node entities
 			module = engine.computeReachable(node.getEntities());
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Setting the module for " + node.getEntities());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Setting the module for " + node.getEntities());
 
 		for (final OWLEntity n : node.getEntities())
 		{
@@ -156,7 +156,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 			if (prevModule != null)
 			{
 				if (!prevModule.equals(module))
-					log.warning(format("Possible discrepancy for the module of %s ( Previous %s , Current %s )", n, prevModule, module));
+					_logger.warning(format("Possible discrepancy for the module of %s ( Previous %s , Current %s )", n, prevModule, module));
 			}
 			else
 				// update the monitor only for entities in the initial set

@@ -33,8 +33,8 @@ public class BetaTopNode extends BetaNode
 	@Override
 	public void activate(final WME wme)
 	{
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Activate beta " + wme);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Activate beta " + wme);
 
 		activateChildren(wme, null);
 	}

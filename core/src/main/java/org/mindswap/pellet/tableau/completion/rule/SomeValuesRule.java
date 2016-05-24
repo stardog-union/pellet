@@ -186,8 +186,8 @@ public class SomeValuesRule extends AbstractTableauRule
 				_strategy.addType(literal, c, ds);
 			}
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("SOME: " + x + " -> " + s + " -> " + literal + " : " + ATermUtils.toString(c) + " - " + ds);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("SOME: " + x + " -> " + s + " -> " + literal + " : " + ATermUtils.toString(c) + " - " + ds);
 
 			_strategy.addEdge(x, role, literal, ds);
 		}
@@ -200,8 +200,8 @@ public class SomeValuesRule extends AbstractTableauRule
 				final ATermAppl value = (ATermAppl) c.getArgument(0);
 				y = _strategy.getABox().getIndividual(value);
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("VAL : " + x + " -> " + ATermUtils.toString(s) + " -> " + y + " - " + ds);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("VAL : " + x + " -> " + ATermUtils.toString(s) + " -> " + y + " - " + ds);
 
 				if (y == null)
 					if (ATermUtils.isAnonNominal(value))
@@ -293,8 +293,8 @@ public class SomeValuesRule extends AbstractTableauRule
 				else
 					y = _strategy.createFreshIndividual(x, ds);
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("SOME: " + x + " -> " + role + " -> " + y + " : " + ATermUtils.toString(c) + (useExistingNode ? "" : " (*)") + " - " + ds);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("SOME: " + x + " -> " + role + " -> " + y + " : " + ATermUtils.toString(c) + (useExistingNode ? "" : " (*)") + " - " + ds);
 
 				_strategy.addType(y, c, ds);
 

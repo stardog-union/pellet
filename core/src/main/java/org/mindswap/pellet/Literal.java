@@ -86,19 +86,19 @@ public class Literal extends Node
 					final String msg = format("Attempt to create literal from invalid literal (%s): %s", term, e.getMessage());
 					if (PelletOptions.INVALID_LITERAL_AS_INCONSISTENCY)
 					{
-						log.fine(msg);
+						_logger.fine(msg);
 						_value = null;
 					}
 					else
 					{
-						log.severe(msg);
+						_logger.severe(msg);
 						throw new InternalReasonerException(msg, e);
 					}
 				}
 				catch (final UnrecognizedDatatypeException e)
 				{
 					final String msg = format("Attempt to create literal from with unrecognized datatype (%s): %s", term, e.getMessage());
-					log.severe(msg);
+					_logger.severe(msg);
 					throw new InternalReasonerException(msg, e);
 				}
 				if (_value == null)
@@ -197,12 +197,12 @@ public class Literal extends Node
 				}
 				catch (final InvalidLiteralException e)
 				{
-					log.warning(format("hasType called with nominal using invalid literal ('%s'), returning false", e.getMessage()));
+					_logger.warning(format("hasType called with nominal using invalid literal ('%s'), returning false", e.getMessage()));
 					return false;
 				}
 				catch (final UnrecognizedDatatypeException e)
 				{
-					log.warning(format("hasType called with nominal using literal with unrecognized datatype ('%s'), returning false", e.getMessage()));
+					_logger.warning(format("hasType called with nominal using literal with unrecognized datatype ('%s'), returning false", e.getMessage()));
 					return false;
 				}
 		}
@@ -420,7 +420,7 @@ public class Literal extends Node
 		catch (final DatatypeReasonerException e)
 		{
 			final String msg = "Unexcepted datatype reasoner exception: " + e.getMessage();
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new InternalReasonerException(msg, e);
 		}
 	}

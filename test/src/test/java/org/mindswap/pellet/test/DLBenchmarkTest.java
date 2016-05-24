@@ -54,7 +54,7 @@ import org.mindswap.pellet.utils.Timer;
  */
 public class DLBenchmarkTest
 {
-	public static Logger log = Log.getLogger(DLBenchmarkTest.class);
+	public static Logger _logger = Log.getLogger(DLBenchmarkTest.class);
 
 	public static boolean PRINT_TIME = false;
 	public static boolean PRINT_TREE = false;
@@ -152,7 +152,7 @@ public class DLBenchmarkTest
 		index = file.lastIndexOf(File.separator);
 		final String displayName = (index == -1) ? file : file.substring(index + 1);
 
-		if (log.isLoggable(Level.INFO))
+		if (_logger.isLoggable(Level.INFO))
 			System.out.print(displayName + " ");
 
 		_loader.clear();
@@ -162,12 +162,12 @@ public class DLBenchmarkTest
 
 		final Timer t = _kb.timers.startTimer("test");
 
-		if (log.isLoggable(Level.INFO))
+		if (_logger.isLoggable(Level.INFO))
 			System.out.print("preparing...");
 
 		_kb.prepare();
 
-		if (log.isLoggable(Level.INFO))
+		if (_logger.isLoggable(Level.INFO))
 			System.out.print("classifying...");
 
 		_kb.classify();
@@ -177,15 +177,15 @@ public class DLBenchmarkTest
 		if (PRINT_TREE)
 			_kb.printClassTree();
 
-		if (log.isLoggable(Level.INFO))
+		if (_logger.isLoggable(Level.INFO))
 			System.out.print("verifying...");
 
 		_loader.verifyTBox(file + ".tree", _kb);
 
-		if (log.isLoggable(Level.INFO))
+		if (_logger.isLoggable(Level.INFO))
 			System.out.print("done");
 
-		if (log.isLoggable(Level.INFO))
+		if (_logger.isLoggable(Level.INFO))
 		{
 			System.out.print(" Prepare " + _kb.timers.getTimer("preprocessing").getTotal());
 			System.out.print(" Classify " + _kb.timers.getTimer("classify").getTotal());

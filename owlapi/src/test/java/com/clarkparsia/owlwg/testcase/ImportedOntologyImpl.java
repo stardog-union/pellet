@@ -39,7 +39,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  */
 public class ImportedOntologyImpl implements ImportedOntology
 {
-	private static final Logger log = Log.getLogger(ImportedOntologyImpl.class);
+	private static final Logger _logger = Log.getLogger(ImportedOntologyImpl.class);
 
 	private final EnumSet<SerializationFormat> formats;
 	private final EnumMap<SerializationFormat, String> ontologyLiteral;
@@ -53,14 +53,14 @@ public class ImportedOntologyImpl implements ImportedOntology
 		if (iris == null)
 		{
 			final String msg = format("Value for property %s missing for imported ontology %s", IMPORTED_ONTOLOGY_IRI.getOWLObjectProperty().getIRI(), i.getIRI());
-			log.warning(msg);
+			_logger.warning(msg);
 			throw new NullPointerException(msg);
 		}
 		else
 			if (iris.size() != 1)
 			{
 				final String msg = format("Property %s should have a single value for imported ontology %s, but has %d", IMPORTED_ONTOLOGY_IRI.getOWLObjectProperty().getIRI(), i.getIRI(), iris.size());
-				log.warning(msg);
+				_logger.warning(msg);
 				throw new IllegalArgumentException();
 			}
 			else
@@ -79,7 +79,7 @@ public class ImportedOntologyImpl implements ImportedOntology
 			{
 				if (literals.size() > 1)
 				{
-					log.warning(format("Multiple ontologies found for imported ontology (%s) with serialization format (%s).  Choosing arbitrarily.", i.getIRI(), f));
+					_logger.warning(format("Multiple ontologies found for imported ontology (%s) with serialization format (%s).  Choosing arbitrarily.", i.getIRI(), f));
 				}
 				ontologyLiteral.put(f, literals.iterator().next().getLiteral());
 				formats.add(f);

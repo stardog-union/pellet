@@ -31,7 +31,7 @@ import org.mindswap.pellet.PelletOptions;
 public class QueryOptimizer
 {
 
-	private static final Logger LOG = Log.getLogger(QueryOptimizer.class);
+	private static final Logger _logger = Log.getLogger(QueryOptimizer.class);
 
 	public QueryPlan getExecutionPlan(final Query query)
 	{
@@ -40,14 +40,14 @@ public class QueryOptimizer
 
 		if (query.getAtoms().size() > PelletOptions.STATIC_REORDERING_LIMIT)
 		{
-			if (LOG.isLoggable(Level.FINE))
-				LOG.fine("Using incremental query plan.");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Using incremental query plan.");
 			return new IncrementalQueryPlan(query);
 		}
 		else
 		{
-			if (LOG.isLoggable(Level.FINE))
-				LOG.fine("Using full query plan.");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Using full query plan.");
 			return new CostBasedQueryPlanNew(query);
 		}
 

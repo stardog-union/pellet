@@ -18,14 +18,14 @@ import net.katk.tools.Log;
 public class StatisticsTable<ROW, COL>
 {
 
-	private static final Logger log = Log.getLogger(StatisticsTable.class);
+	private static final Logger _logger = Log.getLogger(StatisticsTable.class);
 
 	private final Map<COL, Map<ROW, Number>> statistics = new HashMap<>();
 
-	private final List<COL> cols = new ArrayList<>();
-	private final List<ROW> rows = new ArrayList<>();
+	private final List<COL> _cols = new ArrayList<>();
+	private final List<ROW> _rows = new ArrayList<>();
 
-	private int firstColumnSize = 10;
+	private int _firstColumnSize = 10;
 
 	public void add(final ROW row, final COL col, final Number stat)
 	{
@@ -35,19 +35,19 @@ public class StatisticsTable<ROW, COL>
 		{
 			getCol = new HashMap<>();
 			statistics.put(col, getCol);
-			cols.add(col);
+			_cols.add(col);
 		}
 
 		final Number getStat = getCol.get(row);
 
 		if (getStat != null)
-			log.warning("Overwriting [" + row + " : " + col + "].");
+			_logger.warning("Overwriting [" + row + " : " + col + "].");
 		else
-			if (!rows.contains(row))
+			if (!_rows.contains(row))
 			{
-				if (firstColumnSize < row.toString().length())
-					firstColumnSize = row.toString().length();
-				rows.add(row);
+				if (_firstColumnSize < row.toString().length())
+					_firstColumnSize = row.toString().length();
+				_rows.add(row);
 			}
 
 		getCol.put(row, stat);
@@ -65,11 +65,11 @@ public class StatisticsTable<ROW, COL>
 		String s = "";
 		final List<Integer> colSizes = new ArrayList<>();
 
-		for (final COL col : cols)
+		for (final COL col : _cols)
 			colSizes.add(col.toString().length() + 2);
 
 		// format of first column
-		final String firstCol = "| %1$-" + (firstColumnSize + 2) + "s ";
+		final String firstCol = "| %1$-" + (_firstColumnSize + 2) + "s ";
 
 		// format of one line
 		final StringBuffer lineFormat = new StringBuffer();
@@ -80,19 +80,19 @@ public class StatisticsTable<ROW, COL>
 		lineFormat.append("|\n");
 
 		// separator
-		final char[] a = new char[String.format(lineFormat.toString(), cols.toArray()).length() + String.format(firstCol, "").length()];
+		final char[] a = new char[String.format(lineFormat.toString(), _cols.toArray()).length() + String.format(firstCol, "").length()];
 
 		Arrays.fill(a, '=');
 		final String separator = new String(a);
 
 		s += separator + "\n";
-		s += String.format(firstCol, "") + String.format(lineFormat.toString(), cols.toArray());
+		s += String.format(firstCol, "") + String.format(lineFormat.toString(), _cols.toArray());
 		s += separator + "\n";
 
-		for (final ROW row : rows)
+		for (final ROW row : _rows)
 		{
 			final List<Number> rowData = new ArrayList<>();
-			for (final COL col : cols)
+			for (final COL col : _cols)
 			{
 				final Map<ROW, Number> map = statistics.get(col);
 				final Number stat = map.get(row);

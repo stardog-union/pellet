@@ -75,7 +75,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class PelletInfGraph extends BaseInfGraph
 {
-	public final static Logger log = Log.getLogger(PelletInfGraph.class);
+	public final static Logger _logger = Log.getLogger(PelletInfGraph.class);
 
 	private static final Triple INCONCISTENCY_TRIPLE = Triple.create(OWL.Thing.asNode(), RDFS.subClassOf.asNode(), OWL.Nothing.asNode());
 
@@ -197,8 +197,8 @@ public class PelletInfGraph extends BaseInfGraph
 
 	private void load()
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Loading triples");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Loading triples");
 
 		final Set<Graph> changedGraphs = _graphListener.getChangedGraphs();
 
@@ -213,8 +213,8 @@ public class PelletInfGraph extends BaseInfGraph
 	 */
 	public void reload()
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Clearing the KB and reloading");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Clearing the KB and reloading");
 
 		clear();
 
@@ -255,8 +255,8 @@ public class PelletInfGraph extends BaseInfGraph
 		if (isPrepared())
 			return;
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Preparing PelletInfGraph...");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Preparing PelletInfGraph...");
 
 		load();
 
@@ -265,8 +265,8 @@ public class PelletInfGraph extends BaseInfGraph
 		if (doConsistencyCheck)
 			_kb.isConsistent();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("done.");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("done.");
 
 		super.prepare();
 	}
@@ -313,18 +313,18 @@ public class PelletInfGraph extends BaseInfGraph
 
 		if (_deductionsGraph == null)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Realizing PelletInfGraph...");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Realizing PelletInfGraph...");
 			_kb.realize();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Extract model...");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Extract model...");
 
 			final Model extractedModel = _extractor.extractModel();
 			_deductionsGraph = extractedModel.getGraph();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("done.");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("done.");
 		}
 
 		return _deductionsGraph;
@@ -379,15 +379,15 @@ public class PelletInfGraph extends BaseInfGraph
 		{
 			if (!pattern.isConcrete())
 			{
-				if (log.isLoggable(Level.WARNING))
-					log.warning("Triple patterns with variables cannot be epxlained: " + pattern);
+				if (_logger.isLoggable(Level.WARNING))
+					_logger.warning("Triple patterns with variables cannot be epxlained: " + pattern);
 				return null;
 			}
 
 			if (isSyntaxTriple(pattern))
 			{
-				if (log.isLoggable(Level.WARNING))
-					log.warning("Syntax triples cannot be explained: " + pattern);
+				if (_logger.isLoggable(Level.WARNING))
+					_logger.warning("Syntax triples cannot be explained: " + pattern);
 				return null;
 			}
 		}
@@ -396,28 +396,28 @@ public class PelletInfGraph extends BaseInfGraph
 
 		final Graph explanationGraph = Factory.createDefaultGraph();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Explain " + pattern);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Explain " + pattern);
 
 		if (checkEntailment(this, pattern, true))
 		{
 			final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
-			if (log.isLoggable(Level.FINER))
-				log.finer("Explanation " + formatAxioms(explanation));
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Explanation " + formatAxioms(explanation));
 
 			final Set<ATermAppl> prunedExplanation = pruneExplanation(pattern, explanation);
 
-			if (log.isLoggable(Level.FINER))
-				log.finer("Pruned " + formatAxioms(prunedExplanation));
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Pruned " + formatAxioms(prunedExplanation));
 
 			final AxiomConverter converter = new AxiomConverter(_kb, explanationGraph);
 			for (final ATermAppl axiom : prunedExplanation)
 				converter.convert(axiom);
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Explanation " + explanationGraph);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Explanation " + explanationGraph);
 
 		return explanationGraph;
 	}
@@ -441,8 +441,8 @@ public class PelletInfGraph extends BaseInfGraph
 			if (!checkEntailment(copyGraph, pattern, false))
 				prunedExplanation.add(axiom);
 			else
-				if (log.isLoggable(Level.FINER))
-					log.finer("Prune from explanation " + ATermUtils.toString(axiom));
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("Prune from explanation " + ATermUtils.toString(axiom));
 		}
 
 		return prunedExplanation;

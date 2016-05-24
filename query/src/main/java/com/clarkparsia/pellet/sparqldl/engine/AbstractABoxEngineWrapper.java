@@ -46,7 +46,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public abstract class AbstractABoxEngineWrapper implements QueryExec
 {
-	public static final Logger log = Log.getLogger(QueryEngine.class);
+	public static final Logger _logger = Log.getLogger(QueryEngine.class);
 
 	public static final QueryExec distCombinedQueryExec = new CombinedQueryEngine();
 
@@ -60,8 +60,8 @@ public abstract class AbstractABoxEngineWrapper implements QueryExec
 	@Override
 	public QueryResult exec(final Query query)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Executing query " + query.getAtoms());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Executing query " + query.getAtoms());
 
 		partitionQuery(query);
 
@@ -78,8 +78,8 @@ public abstract class AbstractABoxEngineWrapper implements QueryExec
 		}
 		else
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Executing TBox query: " + schemaQuery);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Executing TBox query: " + schemaQuery);
 			result = distCombinedQueryExec.exec(schemaQuery);
 
 			shouldHaveBinding = org.mindswap.pellet.utils.SetUtils.intersects(query.getDistVarsForType(VarType.CLASS), query.getResultVars()) || org.mindswap.pellet.utils.SetUtils.intersects(query.getDistVarsForType(VarType.PROPERTY), query.getResultVars());
@@ -87,8 +87,8 @@ public abstract class AbstractABoxEngineWrapper implements QueryExec
 		if (shouldHaveBinding && result.isEmpty())
 			return result;
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Partial _binding after schema query : " + result);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Partial _binding after schema query : " + result);
 
 		if (aboxQuery.getAtoms().size() > 0)
 		{
@@ -97,8 +97,8 @@ public abstract class AbstractABoxEngineWrapper implements QueryExec
 			{
 				final Query query2 = aboxQuery.apply(binding);
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("Executing ABox query: " + query2);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Executing ABox query: " + query2);
 				final QueryResult aboxResult = execABoxQuery(query2);
 
 				for (final ResultBinding newBinding : aboxResult)
@@ -113,8 +113,8 @@ public abstract class AbstractABoxEngineWrapper implements QueryExec
 		else
 		{
 			newResult = result;
-			if (log.isLoggable(Level.FINER))
-				log.finer("ABox query empty ... returning.");
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("ABox query empty ... returning.");
 		}
 		return newResult;
 	}

@@ -599,7 +599,7 @@ public class OWLSyntaxChecker
 												m_OWLEntities.assumeClass(node);
 										else
 										{
-											// TODO: _log this
+											// TODO: _logger this
 										}
 									}
 									else
@@ -625,7 +625,7 @@ public class OWLSyntaxChecker
 															m_OWLEntities.addIndividual(node);
 													else
 													{
-														// TODO: _log this
+														// TODO: _logger this
 													}
 												}
 											}
@@ -704,7 +704,7 @@ public class OWLSyntaxChecker
 																						m_OWLEntities.assumeObjectRole(node);
 																				else
 																				{
-																					// TODO: _log this
+																					// TODO: _logger this
 																				}
 																			}
 																			else
@@ -732,7 +732,7 @@ public class OWLSyntaxChecker
 																								processWithRestrictionNode(o);
 																							else
 																							{
-																								// TODO: _log this? or would this be a parse error.  probably not.  this is probably a lint?
+																								// TODO: _logger this? or would this be a parse error.  probably not.  this is probably a lint?
 																							}
 																					}
 																					else
@@ -842,7 +842,7 @@ public class OWLSyntaxChecker
 																																m_OWLEntities.addIndividual(node);
 																														else
 																														{
-																															// TODO: _log this
+																															// TODO: _logger this
 																														}
 																													}
 																													else

@@ -39,7 +39,7 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
  */
 public class BinaryTBox
 {
-	public static final Logger log = Log.getLogger(UnaryTBox.class);
+	public static final Logger _logger = Log.getLogger(UnaryTBox.class);
 
 	private final Map<BinarySet<ATermAppl>, Unfolding> _unfoldings;
 	private final Map<ATermAppl, List<Unfolding>> _conditionalUnfoldings;
@@ -52,8 +52,8 @@ public class BinaryTBox
 
 	public void add(final BinarySet<ATermAppl> set, ATermAppl result, final Set<ATermAppl> explanation)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Add sub: (" + ATermUtils.toString(set.first()) + ", " + ATermUtils.toString(set.second()) + ") < " + ATermUtils.toString(result));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Add sub: (" + ATermUtils.toString(set.first()) + ", " + ATermUtils.toString(set.second()) + ") < " + ATermUtils.toString(result));
 
 		result = ATermUtils.normalize(result);
 

@@ -56,7 +56,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class RoleTaxonomyBuilder
 {
-	protected static Logger _log = Log.getLogger(Taxonomy.class);
+	protected static Logger _logger = Log.getLogger(Taxonomy.class);
 
 	public static final ATermAppl TOP_ANNOTATION_PROPERTY = ATermUtils.makeTermAppl("_TOP_ANNOTATION_PROPERTY_");
 	public static final ATermAppl BOTTOM_ANNOTATION_PROPERTY = ATermUtils.makeTermAppl("_BOTTOM_ANNOTATION_PROPERTY_");
@@ -114,8 +114,8 @@ public class RoleTaxonomyBuilder
 
 	public Taxonomy<ATermAppl> classify()
 	{
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Properties: " + _properties.size());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Properties: " + _properties.size());
 
 		for (final Role r : _properties)
 		{
@@ -135,8 +135,8 @@ public class RoleTaxonomyBuilder
 		if (_taxonomy.contains(c.getName()))
 			return;
 
-		if (_log.isLoggable(Level.FINER))
-			_log.finer("Property (" + (++count) + ") " + c + "...");
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Property (" + (++count) + ") " + c + "...");
 
 		if (c.getSubRoles().contains(_topRole))
 		{
@@ -169,8 +169,8 @@ public class RoleTaxonomyBuilder
 			// i since we already know everything about j
 			if (subsumed(sup, c, marked))
 			{
-				if (_log.isLoggable(Level.FINER))
-					_log.finer(ATermUtils.toString(c.getName()) + " = " + ATermUtils.toString(sup.getName()));
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer(ATermUtils.toString(c.getName()) + " = " + ATermUtils.toString(sup.getName()));
 
 				_taxonomy.addEquivalentNode(c.getName(), sup);
 				return;

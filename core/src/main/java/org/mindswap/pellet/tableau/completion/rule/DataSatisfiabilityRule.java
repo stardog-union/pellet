@@ -135,7 +135,7 @@ public class DataSatisfiabilityRule extends AbstractTableauRule
 				final String msg = "Invalid literal encountered during satisfiability check: " + e.getMessage();
 				if (PelletOptions.INVALID_LITERAL_AS_INCONSISTENCY)
 				{
-					log.fine(msg);
+					_logger.fine(msg);
 					for (final Node n : nodes)
 						for (final DependencySet typeDep : n.getDepends().values())
 							ds = ds.union(typeDep, _strategy.getABox().doExplanation());
@@ -143,14 +143,14 @@ public class DataSatisfiabilityRule extends AbstractTableauRule
 				}
 				else
 				{
-					log.severe(msg);
+					_logger.severe(msg);
 					throw new InternalReasonerException(msg, e);
 				}
 			}
 			catch (final DatatypeReasonerException e)
 			{
 				final String msg = "Unexpected datatype reasoner exception: " + e.getMessage();
-				log.severe(msg);
+				_logger.severe(msg);
 				throw new InternalReasonerException(msg, e);
 			}
 	}

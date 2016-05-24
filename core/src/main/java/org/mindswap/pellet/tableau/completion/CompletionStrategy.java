@@ -72,7 +72,7 @@ import org.mindswap.pellet.utils.Timers;
  */
 public abstract class CompletionStrategy
 {
-	public final static Logger log = Log.getLogger(CompletionStrategy.class);
+	public final static Logger _logger = Log.getLogger(CompletionStrategy.class);
 
 	/**
 	 * ABox being completed
@@ -307,8 +307,8 @@ public abstract class CompletionStrategy
 			return;
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Initialize started");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Initialize started");
 
 		_abox.setBranch(0);
 
@@ -355,14 +355,14 @@ public abstract class CompletionStrategy
 			applyPropertyRestrictions(n, topRole, n, DependencySet.INDEPENDENT);
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Merging: " + _mergeList);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Merging: " + _mergeList);
 
 		if (!_mergeList.isEmpty())
 			mergeAll();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Initialize finished");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Initialize finished");
 
 		_abox.setBranch(_abox.getBranches().size() + 1);
 		_abox.stats.treeDepth = 1;
@@ -392,8 +392,8 @@ public abstract class CompletionStrategy
 		final Set<Role> reflexives = _abox.getKB().getRBox().getReflexiveRoles();
 		for (final Role r : reflexives)
 		{
-			if (log.isLoggable(Level.FINE) && !node.hasRNeighbor(r, node))
-				log.fine("REF : " + node + " " + r);
+			if (_logger.isLoggable(Level.FINE) && !node.hasRNeighbor(r, node))
+				_logger.fine("REF : " + node + " " + r);
 			addEdge(node, r, node, r.getExplainReflexive());
 			if (node.isMerged())
 				return;
@@ -438,8 +438,8 @@ public abstract class CompletionStrategy
 		if (PelletOptions.USE_INCREMENTAL_DELETION)
 			_abox.getKB().getDependencyIndex().addTypeDependency(node.getName(), c, ds);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("ADD: " + node + " " + c + " - " + ds + " " + ds.getExplain());
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("ADD: " + node + " " + c + " - " + ds + " " + ds.getExplain());
 
 		if (c.getAFun().equals(ATermUtils.ANDFUN))
 			for (ATermList cs = (ATermList) c.getArgument(0); !cs.isEmpty(); cs = cs.getNext())
@@ -458,8 +458,8 @@ public abstract class CompletionStrategy
 				{
 					final ATermAppl pred = (ATermAppl) c.getArgument(0);
 					final Role role = _abox.getRole(pred);
-					if (log.isLoggable(Level.FINE) && !((Individual) node).hasRSuccessor(role, node))
-						log.fine("SELF: " + node + " " + role + " " + node.getDepends(c));
+					if (_logger.isLoggable(Level.FINE) && !((Individual) node).hasRSuccessor(role, node))
+						_logger.fine("SELF: " + node + " " + role + " " + node.getDepends(c));
 					addEdge((Individual) node, role, node, ds);
 				}
 		// else if( c.getAFun().equals( ATermUtils.VALUE ) ) {
@@ -607,16 +607,16 @@ public abstract class CompletionStrategy
 
 		for (final ATermAppl domain : domains)
 		{
-			if (log.isLoggable(Level.FINE) && !subj.hasType(domain))
-				log.fine("DOM : " + obj + " <- " + pred + " <- " + subj + " : " + ATermUtils.toString(domain));
+			if (_logger.isLoggable(Level.FINE) && !subj.hasType(domain))
+				_logger.fine("DOM : " + obj + " <- " + pred + " <- " + subj + " : " + ATermUtils.toString(domain));
 			addType(subj, domain, ds.union(pred.getExplainDomain(domain), _abox.doExplanation()));
 			if (subj.isPruned() || obj.isPruned())
 				return;
 		}
 		for (final ATermAppl range : ranges)
 		{
-			if (log.isLoggable(Level.FINE) && !obj.hasType(range))
-				log.fine("RAN : " + subj + " -> " + pred + " -> " + obj + " : " + ATermUtils.toString(range));
+			if (_logger.isLoggable(Level.FINE) && !obj.hasType(range))
+				_logger.fine("RAN : " + subj + " -> " + pred + " -> " + obj + " : " + ATermUtils.toString(range));
 			addType(obj, range, ds.union(pred.getExplainRange(range), _abox.doExplanation()));
 			if (subj.isPruned() || obj.isPruned())
 				return;
@@ -754,8 +754,8 @@ public abstract class CompletionStrategy
 				break;
 			}
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("FUNC: " + x + " for prop " + r + " merge " + next + " -> " + head + " " + ds);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("FUNC: " + x + " for prop " + r + " merge " + next + " -> " + head + " " + ds);
 
 			mergeTo(next, head, ds);
 
@@ -851,8 +851,8 @@ public abstract class CompletionStrategy
 
 				_merging = true;
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("MERG: " + y + " -> " + z + " " + ds);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("MERG: " + y + " -> " + z + " " + ds);
 
 				ds = ds.copy(_abox.getBranch());
 
@@ -1080,8 +1080,8 @@ public abstract class CompletionStrategy
 
 		final List<ATermAppl> nodeList = _abox.getNodeNames();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("RESTORE: Branch " + br.getBranch());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("RESTORE: Branch " + br.getBranch());
 
 		if (PelletOptions.USE_COMPLETION_QUEUE)
 		{
@@ -1140,8 +1140,8 @@ public abstract class CompletionStrategy
 				{
 					// create the sub list for _nodes to be removed
 					final List<ATermAppl> subList = nodeList.subList(i - deleteBlock, i);
-					if (log.isLoggable(Level.FINE))
-						log.fine("Remove _nodes " + subList);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Remove _nodes " + subList);
 					// clear the sublist causing all elements to removed from _nodeList
 					subList.clear();
 					// update counters
@@ -1174,7 +1174,7 @@ public abstract class CompletionStrategy
 
 		restoreAllValues();
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 			_abox.printTree();
 
 		if (!_abox.isClosed())
@@ -1214,7 +1214,7 @@ public abstract class CompletionStrategy
 			}
 		}
 
-		log.fine("Blocked _nodes " + blockedCount + " [" + blockedNodes + "]");
+		_logger.fine("Blocked _nodes " + blockedCount + " [" + blockedNodes + "]");
 	}
 
 	@Override

@@ -24,7 +24,7 @@ import net.katk.tools.Log;
 public class ReachabilityGraph<E>
 {
 
-	public static final Logger log = Log.getLogger(ReachabilityGraph.class);
+	public static final Logger _logger = Log.getLogger(ReachabilityGraph.class);
 
 	private final Map<E, EntityNode<E>> entityNodes = new HashMap<>();
 
@@ -196,8 +196,8 @@ public class ReachabilityGraph<E>
 			if (component.size() == 1)
 				continue;
 
-			if (log.isLoggable(Level.FINER))
-				log.finer("Merging " + component);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Merging " + component);
 
 			final Iterator<EntityNode<E>> i = component.iterator();
 			final EntityNode<E> rep = i.next();
@@ -222,8 +222,8 @@ public class ReachabilityGraph<E>
 			}
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Merged " + count + " _nodes");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Merged " + count + " _nodes");
 	}
 
 	private void removeRedundancies()
@@ -249,8 +249,8 @@ public class ReachabilityGraph<E>
 							removedEdge++;
 						}
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Removed " + removedNode + " _nodes and " + removedEdge + " edges");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Removed " + removedNode + " _nodes and " + removedEdge + " edges");
 		}
 	}
 }

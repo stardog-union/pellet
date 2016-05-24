@@ -53,7 +53,7 @@ import net.katk.tools.Log;
  */
 public class LintPatternLoader
 {
-	private static final Logger LOGGER = Log.getLogger(LintPatternLoader.class);
+	private static final Logger _logger = Log.getLogger(LintPatternLoader.class);
 
 	public static final List<AxiomLintPattern> DEFAULT_AXIOM_LINT_PATTERNS = Arrays.asList(new EquivalentToAllValuePattern(), new EquivalentToMaxCardinalityPattern(), new EquivalentToComplementPattern(), new EquivalentToTopPattern(), new GCIPattern(), new LargeCardinalityPattern(), new LargeDisjunctionPattern());
 
@@ -135,7 +135,7 @@ public class LintPatternLoader
 				if ("on".equalsIgnoreCase(value) || "off".equalsIgnoreCase(value))
 				{
 					patternNames.add(key);
-					LOGGER.severe("Cannot find and construct pattern " + key);
+					_logger.severe("Cannot find and construct pattern " + key);
 				}
 		}
 
@@ -150,7 +150,7 @@ public class LintPatternLoader
 			final int lastDot = key.lastIndexOf('.');
 			if (lastDot < 0 || lastDot > key.length())
 			{
-				LOGGER.severe("Cannot find field name " + key);
+				_logger.severe("Cannot find field name " + key);
 				continue;
 			}
 
@@ -158,7 +158,7 @@ public class LintPatternLoader
 			final String fieldName = key.substring(lastDot + 1);
 			if (!patternNames.contains(className))
 			{
-				LOGGER.severe("Cannot find pattern " + className + " to set its parameter " + fieldName);
+				_logger.severe("Cannot find pattern " + className + " to set its parameter " + fieldName);
 				continue;
 			}
 
@@ -183,7 +183,7 @@ public class LintPatternLoader
 		{
 			// No error logging here because properties file have entries for
 			// the configuration patterns
-			// LOGGER.severe( e );
+			// _logger.severe( e );
 		}
 
 		return null;
@@ -205,28 +205,28 @@ public class LintPatternLoader
 			}
 			catch (final NumberFormatException e)
 			{
-				LOGGER.log(Level.FINE, value + " is not an integer", e);
+				_logger.log(Level.FINE, value + " is not an integer", e);
 			}
 			catch (final IllegalArgumentException e)
 			{
-				LOGGER.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
+				_logger.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
 			}
 			catch (final IllegalAccessException e)
 			{
-				LOGGER.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
+				_logger.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
 			}
 			catch (final InvocationTargetException e)
 			{
-				LOGGER.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
+				_logger.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
 			}
 		}
 		catch (final SecurityException e)
 		{
-			LOGGER.log(Level.FINE, "Error accessing method " + setter + "(int) on lint pattern " + className, e);
+			_logger.log(Level.FINE, "Error accessing method " + setter + "(int) on lint pattern " + className, e);
 		}
 		catch (final NoSuchMethodException e)
 		{
-			LOGGER.log(Level.FINE, "Method " + setter + "(int) not found on lint pattern " + className, e);
+			_logger.log(Level.FINE, "Method " + setter + "(int) not found on lint pattern " + className, e);
 		}
 
 		try
@@ -239,26 +239,26 @@ public class LintPatternLoader
 			}
 			catch (final IllegalArgumentException e)
 			{
-				LOGGER.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
+				_logger.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
 			}
 			catch (final IllegalAccessException e)
 			{
-				LOGGER.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
+				_logger.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
 			}
 			catch (final InvocationTargetException e)
 			{
-				LOGGER.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
+				_logger.log(Level.FINE, "Error invoking method " + method + " with parameter " + value, e);
 			}
 		}
 		catch (final SecurityException e)
 		{
-			LOGGER.log(Level.FINE, "Error accessing method " + setter + "(String) on lint pattern " + className, e);
+			_logger.log(Level.FINE, "Error accessing method " + setter + "(String) on lint pattern " + className, e);
 		}
 		catch (final NoSuchMethodException e)
 		{
-			LOGGER.log(Level.FINE, "Method " + setter + "(String) not found on lint pattern " + className, e);
+			_logger.log(Level.FINE, "Method " + setter + "(String) not found on lint pattern " + className, e);
 		}
 
-		LOGGER.severe("Cannot set paramater " + fieldName + "=" + value + " for lint pattern " + className);
+		_logger.severe("Cannot set paramater " + fieldName + "=" + value + " for lint pattern " + className);
 	}
 }

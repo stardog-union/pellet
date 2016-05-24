@@ -114,7 +114,7 @@ import org.mindswap.pellet.utils.progress.ProgressMonitor;
  */
 public class KnowledgeBase
 {
-	public final static Logger log = Log.getLogger(KnowledgeBase.class);
+	public final static Logger _logger = Log.getLogger(KnowledgeBase.class);
 
 	// This field is to ensure memory profiler will first process ATermFactory
 	// which makes it easier to analyze the results
@@ -714,8 +714,8 @@ public class KnowledgeBase
 		{
 			_changes.add(ChangeType.TBOX_ADD);
 
-			if (log.isLoggable(Level.FINER))
-				log.finer("class " + c);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("class " + c);
 		}
 	}
 
@@ -728,8 +728,8 @@ public class KnowledgeBase
 
 		_tbox.addAxiom(ATermUtils.makeSub(sub, sup));
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("sub-class " + sub + " " + sup);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("sub-class " + sub + " " + sup);
 	}
 
 	public void addEquivalentClass(final ATermAppl c1, final ATermAppl c2)
@@ -741,8 +741,8 @@ public class KnowledgeBase
 
 		_tbox.addAxiom(ATermUtils.makeEqClasses(c1, c2));
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("eq-class " + c1 + " " + c2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("eq-class " + c1 + " " + c2);
 	}
 
 	public void addKey(final ATermAppl c, final Set<ATermAppl> properties)
@@ -790,8 +790,8 @@ public class KnowledgeBase
 
 		_tbox.addAxiom(ATermUtils.makeDisjoints(classes));
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("disjoints " + classes);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("disjoints " + classes);
 	}
 
 	public void addDisjointClasses(final List<ATermAppl> classes)
@@ -805,8 +805,8 @@ public class KnowledgeBase
 
 		_tbox.addAxiom(ATermUtils.makeDisjoint(c1, c2));
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("disjoint " + c1 + " " + c2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("disjoint " + c1 + " " + c2);
 	}
 
 	public void addComplementClass(final ATermAppl c1, final ATermAppl c2)
@@ -819,8 +819,8 @@ public class KnowledgeBase
 
 		_tbox.addAxiom(ATermUtils.makeEqClasses(c1, notC2));
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("complement " + c1 + " " + c2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("complement " + c1 + " " + c2);
 	}
 
 	/**
@@ -858,8 +858,8 @@ public class KnowledgeBase
 		final Individual ind = _abox.addIndividual(i, DependencySet.INDEPENDENT);
 		_individuals.add(i);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("individual " + i);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("individual " + i);
 
 		_abox.setSyntacticUpdate(false);
 
@@ -947,8 +947,8 @@ public class KnowledgeBase
 			// not have to reperform if from scratch!
 			updateExpressivity(i, c);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("type " + i + " " + c);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("type " + i + " " + c);
 	}
 
 	public void addSame(final ATermAppl i1, final ATermAppl i2)
@@ -970,8 +970,8 @@ public class KnowledgeBase
 		}
 
 		_abox.addSame(i1, i2);
-		if (log.isLoggable(Level.FINER))
-			log.finer("same " + i1 + " " + i2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("same " + i1 + " " + i2);
 	}
 
 	public void addAllDifferent(final ATermList list)
@@ -1010,8 +1010,8 @@ public class KnowledgeBase
 		}
 
 		_abox.addAllDifferent(list);
-		if (log.isLoggable(Level.FINER))
-			log.finer("all diff " + list);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("all diff " + list);
 	}
 
 	public void addDifferent(final ATermAppl i1, final ATermAppl i2)
@@ -1038,8 +1038,8 @@ public class KnowledgeBase
 		}
 
 		_abox.addDifferent(i1, i2);
-		if (log.isLoggable(Level.FINER))
-			log.finer("diff " + i1 + " " + i2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("diff " + i1 + " " + i2);
 	}
 
 	/**
@@ -1059,13 +1059,13 @@ public class KnowledgeBase
 
 		if (subj == null)
 		{
-			log.warning(s + " is not a known _individual!");
+			_logger.warning(s + " is not a known _individual!");
 			return false;
 		}
 
 		if (role == null)
 		{
-			log.warning(p + " is not a known property!");
+			_logger.warning(p + " is not a known property!");
 			return false;
 		}
 
@@ -1082,12 +1082,12 @@ public class KnowledgeBase
 			if (obj == null)
 				if (ATermUtils.isLiteral(o))
 				{
-					log.warning("Ignoring literal value " + o + " for object property " + p);
+					_logger.warning("Ignoring literal value " + o + " for object property " + p);
 					return false;
 				}
 				else
 				{
-					log.warning(o + " is not a known _individual!");
+					_logger.warning(o + " is not a known _individual!");
 					return false;
 				}
 			if (PelletOptions.KEEP_ABOX_ASSERTIONS)
@@ -1098,7 +1098,7 @@ public class KnowledgeBase
 			{
 				if (!ATermUtils.isLiteral(o))
 				{
-					log.warning("Ignoring non-literal value " + o + " for _data property " + p);
+					_logger.warning("Ignoring non-literal value " + o + " for _data property " + p);
 					return false;
 				}
 				obj = _abox.addLiteral(o, ds);
@@ -1171,8 +1171,8 @@ public class KnowledgeBase
 					_abox.getIncrementalChangeTracker().addNewEdge(newEdge);
 			}
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("prop-value " + s + " " + p + " " + o);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("prop-value " + s + " " + p + " " + o);
 
 		return true;
 	}
@@ -1186,13 +1186,13 @@ public class KnowledgeBase
 
 		if (subj == null)
 		{
-			log.warning(s + " is not a known _individual!");
+			_logger.warning(s + " is not a known _individual!");
 			return false;
 		}
 
 		if (role == null)
 		{
-			log.warning(p + " is not a known property!");
+			_logger.warning(p + " is not a known property!");
 			return false;
 		}
 
@@ -1205,12 +1205,12 @@ public class KnowledgeBase
 			if (_abox.getIndividual(o) == null)
 				if (ATermUtils.isLiteral(o))
 				{
-					log.warning("Ignoring literal value " + o + " for object property " + p);
+					_logger.warning("Ignoring literal value " + o + " for object property " + p);
 					return false;
 				}
 				else
 				{
-					log.warning(o + " is not a known _individual!");
+					_logger.warning(o + " is not a known _individual!");
 					return false;
 				}
 		}
@@ -1222,8 +1222,8 @@ public class KnowledgeBase
 
 		addType(s, C, ds);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("not-prop-value " + s + " " + p + " " + o);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("not-prop-value " + s + " " + p + " " + o);
 
 		return true;
 	}
@@ -1232,8 +1232,8 @@ public class KnowledgeBase
 	{
 		_changes.add(ChangeType.RBOX_ADD);
 		_rbox.addRole(p);
-		if (log.isLoggable(Level.FINER))
-			log.finer("prop " + p);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("prop " + p);
 	}
 
 	/**
@@ -1251,8 +1251,8 @@ public class KnowledgeBase
 		if (!exists)
 		{
 			_changes.add(ChangeType.RBOX_ADD);
-			if (log.isLoggable(Level.FINER))
-				log.finer("object-prop " + p);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("object-prop " + p);
 		}
 
 		return role != null;
@@ -1273,8 +1273,8 @@ public class KnowledgeBase
 		if (!exists)
 		{
 			_changes.add(ChangeType.RBOX_ADD);
-			if (log.isLoggable(Level.FINER))
-				log.finer("data-prop " + p);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("data-prop " + p);
 		}
 
 		return role != null;
@@ -1295,8 +1295,8 @@ public class KnowledgeBase
 		if (!exists)
 		{
 			_changes.add(ChangeType.RBOX_ADD);
-			if (log.isLoggable(Level.FINER))
-				log.finer("annotation-prop " + p);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("annotation-prop " + p);
 		}
 
 		return role != null;
@@ -1324,8 +1324,8 @@ public class KnowledgeBase
 		pidx.put(p, oidx);
 		_annotations.put(s, pidx);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("annotation " + s + " " + p + " " + o);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("annotation " + s + " " + p + " " + o);
 
 		return true;
 	}
@@ -1410,8 +1410,8 @@ public class KnowledgeBase
 		_changes.add(ChangeType.RBOX_ADD);
 		_rbox.addSubRole(sub, sup);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("sub-prop " + sub + " " + sup);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("sub-prop " + sub + " " + sup);
 	}
 
 	public void addEquivalentProperty(final ATermAppl p1, final ATermAppl p2)
@@ -1419,8 +1419,8 @@ public class KnowledgeBase
 		_changes.add(ChangeType.RBOX_ADD);
 		_rbox.addEquivalentRole(p1, p2);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("same-prop " + p1 + " " + p2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("same-prop " + p1 + " " + p2);
 	}
 
 	public void addDisjointProperties(final ATermList properties)
@@ -1436,8 +1436,8 @@ public class KnowledgeBase
 				addDisjointProperty(p1, p2, ds);
 			}
 		}
-		if (log.isLoggable(Level.FINER))
-			log.finer("disjoints " + properties);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("disjoints " + properties);
 	}
 
 	public void addDisjointProperties(final List<ATermAppl> properties)
@@ -1457,15 +1457,15 @@ public class KnowledgeBase
 		_changes.add(ChangeType.RBOX_ADD);
 		_rbox.addDisjointRole(p1, p2, ds);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("dis-prop " + p1 + " " + p2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("dis-prop " + p1 + " " + p2);
 	}
 
 	public void addInverseProperty(final ATermAppl p1, final ATermAppl p2)
 	{
 		if (PelletOptions.IGNORE_INVERSES)
 		{
-			log.warning("Ignoring inverseOf(" + p1 + " " + p2 + ") axiom due to the IGNORE_INVERSES option");
+			_logger.warning("Ignoring inverseOf(" + p1 + " " + p2 + ") axiom due to the IGNORE_INVERSES option");
 			return;
 		}
 
@@ -1474,8 +1474,8 @@ public class KnowledgeBase
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeInvProp(p1, p2)) : DependencySet.INDEPENDENT;
 
 		_rbox.addInverseRole(p1, p2, ds);
-		if (log.isLoggable(Level.FINER))
-			log.finer("inv-prop " + p1 + " " + p2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("inv-prop " + p1 + " " + p2);
 	}
 
 	public void addTransitiveProperty(final ATermAppl p)
@@ -1488,15 +1488,15 @@ public class KnowledgeBase
 
 		// r.setTransitive(true);
 		r.addSubRoleChain(ATermUtils.makeList(new ATerm[] { p, p }), ds);
-		if (log.isLoggable(Level.FINER))
-			log.finer("trans-prop " + p);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("trans-prop " + p);
 	}
 
 	public void addSymmetricProperty(final ATermAppl p)
 	{
 		if (PelletOptions.IGNORE_INVERSES)
 		{
-			log.warning("Ignoring SymmetricProperty(" + p + ") axiom due to the IGNORE_INVERSES option");
+			_logger.warning("Ignoring SymmetricProperty(" + p + ") axiom due to the IGNORE_INVERSES option");
 			return;
 		}
 
@@ -1505,8 +1505,8 @@ public class KnowledgeBase
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeSymmetric(p)) : DependencySet.INDEPENDENT;
 
 		_rbox.addInverseRole(p, p, ds);
-		if (log.isLoggable(Level.FINER))
-			log.finer("sym-prop " + p);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("sym-prop " + p);
 	}
 
 	/**
@@ -1526,8 +1526,8 @@ public class KnowledgeBase
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeAsymmetric(p)) : DependencySet.INDEPENDENT;
 
 		r.setAsymmetric(true, ds);
-		if (log.isLoggable(Level.FINER))
-			log.finer("anti-sym-prop " + p);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("anti-sym-prop " + p);
 	}
 
 	public void addReflexiveProperty(final ATermAppl p)
@@ -1538,8 +1538,8 @@ public class KnowledgeBase
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeReflexive(p)) : DependencySet.INDEPENDENT;
 
 		r.setReflexive(true, ds);
-		if (log.isLoggable(Level.FINER))
-			log.finer("reflexive-prop " + p);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("reflexive-prop " + p);
 	}
 
 	public void addIrreflexiveProperty(final ATermAppl p)
@@ -1550,8 +1550,8 @@ public class KnowledgeBase
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeIrreflexive(p)) : DependencySet.INDEPENDENT;
 
 		r.setIrreflexive(true, ds);
-		if (log.isLoggable(Level.FINER))
-			log.finer("irreflexive-prop " + p);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("irreflexive-prop " + p);
 	}
 
 	public void addFunctionalProperty(final ATermAppl p)
@@ -1562,15 +1562,15 @@ public class KnowledgeBase
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeFunctional(p)) : DependencySet.INDEPENDENT;
 
 		r.setFunctional(true, ds);
-		if (log.isLoggable(Level.FINER))
-			log.finer("func-prop " + p);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("func-prop " + p);
 	}
 
 	public void addInverseFunctionalProperty(final ATerm p)
 	{
 		if (PelletOptions.IGNORE_INVERSES)
 		{
-			log.warning("Ignoring InverseFunctionalProperty(" + p + ") axiom due to the IGNORE_INVERSES option");
+			_logger.warning("Ignoring InverseFunctionalProperty(" + p + ") axiom due to the IGNORE_INVERSES option");
 			return;
 		}
 
@@ -1580,8 +1580,8 @@ public class KnowledgeBase
 		final DependencySet ds = PelletOptions.USE_TRACING ? new DependencySet(ATermUtils.makeInverseFunctional(p)) : DependencySet.INDEPENDENT;
 
 		role.setInverseFunctional(true, ds);
-		if (log.isLoggable(Level.FINER))
-			log.finer("inv-func-prop " + p);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("inv-func-prop " + p);
 	}
 
 	public void addDomain(final ATerm p, final ATermAppl c)
@@ -1590,8 +1590,8 @@ public class KnowledgeBase
 
 		_rbox.addDomain(p, c);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("domain " + p + " " + c);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("domain " + p + " " + c);
 	}
 
 	/**
@@ -1603,8 +1603,8 @@ public class KnowledgeBase
 
 		_rbox.addDomain(p, c, explain);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("domain " + p + " " + c + " " + explain);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("domain " + p + " " + c + " " + explain);
 	}
 
 	public void addRange(final ATerm p, final ATermAppl c)
@@ -1613,8 +1613,8 @@ public class KnowledgeBase
 
 		_rbox.addRange(p, c);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("range " + p + " " + c);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("range " + p + " " + c);
 	}
 
 	/**
@@ -1626,8 +1626,8 @@ public class KnowledgeBase
 
 		_rbox.addRange(p, c, explain);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("range " + p + " " + c + " " + explain);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("range " + p + " " + c + " " + explain);
 	}
 
 	public void addDatatype(final ATermAppl p)
@@ -1675,8 +1675,8 @@ public class KnowledgeBase
 		if (removed)
 			_changes.add(ChangeType.RBOX_DEL);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Remove domain " + p + " " + c);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Remove domain " + p + " " + c);
 
 		return removed;
 	}
@@ -1690,12 +1690,12 @@ public class KnowledgeBase
 			}
 			catch (final InvalidLiteralException e)
 			{
-				log.warning(format("Unable to remove property value (%s,%s,%s) due to invalid literal: %s", p, i1, i2, e.getMessage()));
+				_logger.warning(format("Unable to remove property value (%s,%s,%s) due to invalid literal: %s", p, i1, i2, e.getMessage()));
 				return false;
 			}
 			catch (final UnrecognizedDatatypeException e)
 			{
-				log.warning(format("Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s", p, i1, i2, e.getMessage()));
+				_logger.warning(format("Unable to remove property value (%s,%s,%s) due to unrecognized datatype for literal: %s", p, i1, i2, e.getMessage()));
 				return false;
 			}
 
@@ -1721,8 +1721,8 @@ public class KnowledgeBase
 			return false;
 		}
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Remove ObjectPropertyValue " + i1 + " " + p + " " + i2);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Remove ObjectPropertyValue " + i1 + " " + p + " " + i2);
 
 		// make sure edge exists in assertions
 		Edge edge = subj.getOutEdges().getExactEdge(subj, role, obj);
@@ -1803,8 +1803,8 @@ public class KnowledgeBase
 		if (removed)
 			_changes.add(ChangeType.RBOX_DEL);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Remove range" + p + " " + c);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Remove range" + p + " " + c);
 
 		return removed;
 	}
@@ -1861,8 +1861,8 @@ public class KnowledgeBase
 		// set deletion flag
 		_changes.add(ChangeType.ABOX_DEL);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Remove Type " + ind + " " + c);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Remove Type " + ind + " " + c);
 
 		return removed;
 	}
@@ -1883,14 +1883,14 @@ public class KnowledgeBase
 		}
 		catch (final Exception e)
 		{
-			log.log(Level.SEVERE, "Removal failed for axiom " + axiom, e);
+			_logger.log(Level.SEVERE, "Removal failed for axiom " + axiom, e);
 		}
 
 		if (removed)
 			_changes.add(ChangeType.TBOX_DEL);
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Remove " + axiom + ": " + removed);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Remove " + axiom + ": " + removed);
 
 		return removed;
 	}
@@ -1924,8 +1924,8 @@ public class KnowledgeBase
 
 		if (isRBoxChanged())
 		{
-			if (log.isLoggable(Level.FINER))
-				log.finer("Role hierarchy...");
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Role hierarchy...");
 			t = timers.startTimer("rbox");
 			_rbox.prepare();
 			t.stop();
@@ -1933,8 +1933,8 @@ public class KnowledgeBase
 
 		if (isTBoxChanged())
 		{
-			if (log.isLoggable(Level.FINER))
-				log.finer("Prepare TBox...");
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Prepare TBox...");
 			t = timers.startTimer("normalize");
 			_tbox.prepare();
 			t.stop();
@@ -1965,8 +1965,8 @@ public class KnowledgeBase
 
 		if (!_canUseIncConsistency)
 		{
-			if (log.isLoggable(Level.FINER))
-				log.finer("Expressivity...");
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Expressivity...");
 
 			_expChecker.prepare();
 		}
@@ -1983,7 +1983,7 @@ public class KnowledgeBase
 
 		timer.stop();
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
 			final StringBuffer info = new StringBuffer();
 			info.append("Expressivity: " + _expChecker.getExpressivity() + ", ");
@@ -1991,7 +1991,7 @@ public class KnowledgeBase
 			info.append("Properties: " + getProperties().size() + " ");
 			info.append("Individuals: " + _individuals.size());
 			// info.append( " Strategy: " + chooseStrategy( _abox ) );
-			log.fine(info.toString());
+			_logger.fine(info.toString());
 		}
 	}
 
@@ -2134,7 +2134,7 @@ public class KnowledgeBase
 			{
 				final Rule rule = normalizedRule.getKey();
 				final String msg = UsableRuleFilter.explainNotUsable(rule);
-				log.warning("Ignoring rule " + rule + ": " + msg);
+				_logger.warning("Ignoring rule " + rule + ": " + msg);
 			}
 
 		final Timer timer = timers.startTimer("consistency");
@@ -2181,11 +2181,11 @@ public class KnowledgeBase
 				_abox.setDoExplanation(false);
 			}
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Inconsistent ontology. Reason: " + getExplanation());
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Inconsistent ontology. Reason: " + getExplanation());
 
-			if (PelletOptions.USE_TRACING && log.isLoggable(Level.FINE))
-				log.fine(renderExplanationSet());
+			if (PelletOptions.USE_TRACING && _logger.isLoggable(Level.FINE))
+				_logger.fine(renderExplanationSet());
 		}
 
 		_abox.setDoExplanation(doExplanation);
@@ -2194,8 +2194,8 @@ public class KnowledgeBase
 
 		timer.stop();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Consistent: " + _consistent + " (" + timer.getLast() + "ms)");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Consistent: " + _consistent + " (" + timer.getLast() + "ms)");
 
 		assert isConsistencyDone() : "Consistency flag not set";
 	}
@@ -2247,8 +2247,8 @@ public class KnowledgeBase
 		if (isClassified())
 			return;
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Classifying...");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Classifying...");
 
 		final Timer timer = timers.startTimer("classify");
 
@@ -4351,12 +4351,12 @@ public class KnowledgeBase
 		}
 		catch (final InvalidLiteralException e)
 		{
-			log.warning(format("Invalid literal '%s' passed as input, returning empty set of _individuals: %s", litValue, e.getMessage()));
+			_logger.warning(format("Invalid literal '%s' passed as input, returning empty set of _individuals: %s", litValue, e.getMessage()));
 			return Collections.emptyList();
 		}
 		catch (final UnrecognizedDatatypeException e)
 		{
-			log.warning(format("Unrecognized datatype for literal '%s' passed as input, returning empty set of _individuals: %s", litValue, e.getMessage()));
+			_logger.warning(format("Unrecognized datatype for literal '%s' passed as input, returning empty set of _individuals: %s", litValue, e.getMessage()));
 			return Collections.emptyList();
 		}
 		final Literal literal = _abox.getLiteral(canonicalLit);
@@ -4562,8 +4562,8 @@ public class KnowledgeBase
 					final int index = candidates.indexOf(ind);
 					if (index >= 0)
 					{
-						if (log.isLoggable(Level.FINER))
-							log.finer("Filter instance " + axiom + " while retrieving " + c);
+						if (_logger.isLoggable(Level.FINER))
+							_logger.finer("Filter instance " + axiom + " while retrieving " + c);
 						Collections.swap(candidates, index, 0);
 						results.add(ind);
 						candidates = candidates.subList(1, candidates.size());
@@ -4709,8 +4709,8 @@ public class KnowledgeBase
 	@Deprecated
 	public void setDoDependencyAxioms(final boolean doDepAxioms)
 	{
-		if (log.isLoggable(Level.FINER))
-			log.finer("Setting DoDependencyAxioms = " + doDepAxioms);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Setting DoDependencyAxioms = " + doDepAxioms);
 	}
 
 	/**
@@ -4868,8 +4868,8 @@ public class KnowledgeBase
 
 		_rules.put(rule, normalize(rule));
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("rule " + rule);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("rule " + rule);
 
 		return true;
 	}

@@ -22,7 +22,7 @@ import net.katk.tools.Log;
 public class Reachability<E>
 {
 
-	public static final Logger log = Log.getLogger(Reachability.class);
+	public static final Logger _logger = Log.getLogger(Reachability.class);
 
 	private final ReachabilityGraph<E> graph;
 
@@ -61,8 +61,8 @@ public class Reachability<E>
 
 		node.inputActivated();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Activated: " + node);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Activated: " + node);
 	}
 
 	public boolean contains(final E entity)
@@ -93,8 +93,8 @@ public class Reachability<E>
 			{
 				if (outputNode.isActive())
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine("Already activated: " + outputNode);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Already activated: " + outputNode);
 					continue;
 				}
 
@@ -102,8 +102,8 @@ public class Reachability<E>
 
 				if (outputNode.inputActivated())
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine("Activated: " + outputNode);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Activated: " + outputNode);
 
 					waitingQueue.add(outputNode);
 					if (outputNode instanceof EntityNode)

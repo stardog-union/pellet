@@ -35,7 +35,7 @@ import net.katk.tools.Log;
  */
 public class FilterConditionParser
 {
-	private static final Logger log = Log.getLogger(FilterConditionParser.class);
+	private static final Logger _logger = Log.getLogger(FilterConditionParser.class);
 
 	public static FilterCondition parse(String filterString)
 	{
@@ -137,26 +137,26 @@ public class FilterConditionParser
 																			else
 																			{
 																				final String msg = format("Unexpected filter _condition argument: \"%s\"", splits[i]);
-																				log.severe(msg);
+																				_logger.severe(msg);
 																				throw new IllegalArgumentException(msg);
 																			}
 		}
 		if (filterStack.isEmpty())
 		{
 			final String msg = format("Missing valid filter _condition. Filter option argument: \"%s\"", filterString);
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
 		if (filterStack.size() > 1)
 		{
 			final String msg = format("Filter conditions do not parse to a single _condition. Final parse stack: \"%s\"", filterStack);
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
 		filter = filterStack.iterator().next();
-		if (log.isLoggable(Level.FINE))
-			log.fine(format("Filter _condition: \"%s\"", filter));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine(format("Filter _condition: \"%s\"", filter));
 		return filter;
 	}
 

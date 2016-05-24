@@ -42,9 +42,9 @@ import org.mindswap.pellet.utils.Timers;
 @SuppressWarnings("unused")
 public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 {
-	public static final Logger logger = Log.getLogger(RuleBasedELClassifier.class);
+	public static final Logger _logger = Log.getLogger(RuleBasedELClassifier.class);
 
-	protected Timers timers = new Timers();
+	protected Timers _timers = new Timers();
 
 	public RuleBasedELClassifier()
 	{
@@ -75,21 +75,21 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 		_monitor.taskStarted();
 		_monitor.setProgress(0);
 
-		logger.info("Creating structures");
+		_logger.info("Creating structures");
 
-		Timer t = timers.startTimer("createConcepts");
+		Timer t = _timers.startTimer("createConcepts");
 		processAxioms();
 		t.stop();
 
-		logger.info("Running rules");
+		_logger.info("Running rules");
 
 		final MultiValueMap<ATermAppl, ATermAppl> subsumers = run(_kb.getAllClasses());
 
 		_monitor.setProgress(_classes.size());
 
-		logger.info("Building hierarchy");
+		_logger.info("Building hierarchy");
 
-		t = timers.startTimer("buildHierarchy");
+		t = _timers.startTimer("buildHierarchy");
 		buildTaxonomy(subsumers);
 		t.stop();
 

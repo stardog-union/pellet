@@ -30,7 +30,7 @@ public class XSDFloat implements Datatype<Float>
 {
 
 	private static final XSDFloat instance = new XSDFloat();
-	private static final Logger log = Log.getLogger(XSDFloat.class);
+	private static final Logger _logger = Log.getLogger(XSDFloat.class);
 
 	public static XSDFloat getInstance()
 	{
@@ -94,7 +94,7 @@ public class XSDFloat implements Datatype<Float>
 		}
 		catch (final NumberFormatException e)
 		{
-			log.severe(format("Number format exception (%s) cause while parsing float %s", e.getMessage(), lexicalForm));
+			_logger.severe(format("Number format exception (%s) cause while parsing float %s", e.getMessage(), lexicalForm));
 			throw new InvalidLiteralException(name, lexicalForm);
 		}
 	}

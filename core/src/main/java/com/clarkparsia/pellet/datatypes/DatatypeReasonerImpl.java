@@ -80,7 +80,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class DatatypeReasonerImpl implements DatatypeReasoner
 {
-	private static final Logger _log = Log.getLogger(DatatypeReasonerImpl.class);
+	private static final Logger _logger = Log.getLogger(DatatypeReasonerImpl.class);
 	private static final Map<ATermAppl, Datatype<?>> _coreDatatypes = new HashMap<>();
 
 	static
@@ -217,7 +217,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				if (!ATermUtils.isLiteral(literal))
 				{
 					final String msg = "Method _expected an ATermAppl literal as an argument";
-					_log.severe(msg);
+					_logger.severe(msg);
 					throw new IllegalArgumentException(msg);
 				}
 
@@ -225,7 +225,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				if (ATermUtils.EMPTY.equals(dtName))
 				{
 					final String msg = "Untyped literals not supported by this datatype reasoner";
-					_log.severe(msg);
+					_logger.severe(msg);
 					throw new IllegalArgumentException(msg);
 				}
 
@@ -258,11 +258,11 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 										negativeRestrictions.add((RestrictedDatatype<? extends T>) ndr);
 									else
 										if (dr != TRIVIALLY_SATISFIABLE)
-											_log.warning("Unknown datatype: " + dr);
+											_logger.warning("Unknown datatype: " + dr);
 							}
 							else
 								if (dr != TRIVIALLY_SATISFIABLE)
-									_log.warning("Unknown datatype: " + dr);
+									_logger.warning("Unknown datatype: " + dr);
 			}
 
 			private static boolean removeInequalities(final Set<Integer>[] nes, final int xIndex)
@@ -476,7 +476,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 				}
 
 				final String msg = format("Unrecognized input term (%s) for datarange conversion", a);
-				_log.severe(msg);
+				_logger.severe(msg);
 				throw new IllegalArgumentException(msg);
 			}
 
@@ -582,7 +582,7 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 							return dt.getLiteral(value);
 
 				final String msg = "Value is not in the value space of any recognized datatypes: " + value.toString();
-				_log.severe(msg);
+				_logger.severe(msg);
 				throw new IllegalArgumentException(msg);
 			}
 
@@ -797,8 +797,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 					}
 				}
 
-				if (_log.isLoggable(Level.FINEST))
-					_log.finest(format("After variable _data range normalization %d variables and %d constants", vars.size(), consts.size()));
+				if (_logger.isLoggable(Level.FINEST))
+					_logger.finest(format("After variable _data range normalization %d variables and %d constants", vars.size(), consts.size()));
 
 				/*
 				 * Constant checks (alg lines 23 - 30)
@@ -850,8 +850,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 					}
 				}
 
-				if (_log.isLoggable(Level.FINEST))
-					_log.finest(format("After size check on variable _data ranges %d variables", vars.size()));
+				if (_logger.isLoggable(Level.FINEST))
+					_logger.finest(format("After size check on variable _data ranges %d variables", vars.size()));
 
 				if (vars.isEmpty())
 					return true;
@@ -894,8 +894,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 					partitions.add(p);
 				}
 
-				if (_log.isLoggable(Level.FINEST))
-					_log.finest(format("Enumerating to find solutions for %d partitions", partitions.size()));
+				if (_logger.isLoggable(Level.FINEST))
+					_logger.finest(format("Enumerating to find solutions for %d partitions", partitions.size()));
 
 				/*
 				 * Enumerate until a solution is found
@@ -1017,8 +1017,8 @@ public class DatatypeReasonerImpl implements DatatypeReasoner
 
 				}
 
-				if (_log.isLoggable(Level.FINEST))
-					_log.finest(format("Checking satisfiability for %d variables and %d constants", vars.size(), consts.size()));
+				if (_logger.isLoggable(Level.FINEST))
+					_logger.finest(format("Checking satisfiability for %d variables and %d constants", vars.size(), consts.size()));
 
 				/*
 				 * 1. Get to DNF. After this step <code>dnfMap</code> associates literals with a collection of D-conjunctions,

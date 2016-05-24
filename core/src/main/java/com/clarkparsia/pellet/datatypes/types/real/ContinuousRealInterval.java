@@ -31,7 +31,7 @@ import net.katk.tools.Log;
  */
 public class ContinuousRealInterval
 {
-	private static final Logger log = Log.getLogger(ContinuousRealInterval.class);
+	private static final Logger _logger = Log.getLogger(ContinuousRealInterval.class);
 
 	private static ContinuousRealInterval _unconstrained = new ContinuousRealInterval(null, null, true, true);
 
@@ -232,7 +232,7 @@ public class ContinuousRealInterval
 			if (cmp > 0)
 			{
 				final String msg = format("Lower bound of interval (%s) should not be greater than _upper bound of interval (%s)", lower, upper);
-				log.severe(msg);
+				_logger.severe(msg);
 				throw new IllegalArgumentException(msg);
 			}
 			else
@@ -240,7 +240,7 @@ public class ContinuousRealInterval
 					if ((!inclusiveLower || !inclusiveUpper))
 					{
 						final String msg = "Point intervals must be inclusive";
-						log.severe(msg);
+						_logger.severe(msg);
 						throw new IllegalArgumentException(msg);
 					}
 		}

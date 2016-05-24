@@ -1,20 +1,27 @@
 package jjtraveler.reflective;
 
 import jjtraveler.VisitFailure;
+import jjtraveler.Visitable;
 import jjtraveler.Visitor;
 
-public class VisitorFwd extends VisitorVisitor
+public class VisitorFwd<T extends Visitable> extends VisitorVisitor<T>
 {
 
-	Visitor visitor;
+	Visitor<T> visitor;
 
-	public VisitorFwd(Visitor visitor)
+	public VisitorFwd(Visitor<T> visitor)
 	{
 		this.visitor = visitor;
 	}
 
-	public VisitableVisitor visitVisitor(VisitableVisitor x) throws VisitFailure
+	@SuppressWarnings("unchecked")
+	@Override
+	public VisitableVisitor<T> visitVisitor(T x) throws VisitFailure
 	{
-		return (VisitableVisitor) visitor.visit(x);
+		final T result = visitor.visit(x);
+		if (result instanceof VisitableVisitor)
+			return (VisitableVisitor<T>) result;
+		else
+			throw new VisitFailure();
 	}
 }

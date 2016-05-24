@@ -78,7 +78,7 @@ import org.mindswap.pellet.utils.iterator.MultiListIterator;
  */
 public class TBoxImpl implements TBox
 {
-	public static final Logger _log = Log.getLogger(TBoxImpl.class);
+	public static final Logger _logger = Log.getLogger(TBoxImpl.class);
 
 	protected static final Map<ATermAppl, String> FACETS;
 	static
@@ -153,7 +153,7 @@ public class TBoxImpl implements TBox
 
 		if (explains == null || explains.isEmpty())
 		{
-			_log.warning("No clashExplanation for " + axiom);
+			_logger.warning("No clashExplanation for " + axiom);
 			return Collections.emptySet();
 		}
 
@@ -175,8 +175,8 @@ public class TBoxImpl implements TBox
 	 */
 	protected boolean addAxiomExplanation(final ATermAppl axiom, final Set<ATermAppl> explain)
 	{
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Add Axiom: " + ATermUtils.toString(axiom) + " Explanation: " + explain);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Add Axiom: " + ATermUtils.toString(axiom) + " Explanation: " + explain);
 
 		boolean added = false;
 		if (!PelletOptions.USE_TRACING)
@@ -246,7 +246,7 @@ public class TBoxImpl implements TBox
 					}
 					else
 					{
-						_log.warning("Not a valid TBox axiom: " + axiom);
+						_logger.warning("Not a valid TBox axiom: " + axiom);
 						return false;
 					}
 
@@ -294,8 +294,8 @@ public class TBoxImpl implements TBox
 
 	private void absorbSubClass(final ATermAppl sub, final ATermAppl sup, final Set<ATermAppl> explanation)
 	{
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Absorb: subClassOf(" + ATermUtils.toString(sub) + ", " + ATermUtils.toString(sup) + ")");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Absorb: subClassOf(" + ATermUtils.toString(sub) + ", " + ATermUtils.toString(sup) + ")");
 
 		final Set<ATermAppl> terms = CollectionUtils.makeSet();
 		terms.add(nnf(sub));
@@ -420,8 +420,8 @@ public class TBoxImpl implements TBox
 		{
 			if (PelletOptions.USE_PSEUDO_NOMINALS)
 			{
-				if (_log.isLoggable(Level.WARNING))
-					_log.warning("Ignoring axiom involving nominals: " + explain);
+				if (_logger.isLoggable(Level.WARNING))
+					_logger.warning("Ignoring axiom involving nominals: " + explain);
 				return;
 			}
 
@@ -433,8 +433,8 @@ public class TBoxImpl implements TBox
 				final ATermAppl nominal = list.next();
 				final ATermAppl ind = (ATermAppl) nominal.getArgument(0);
 
-				if (_log.isLoggable(Level.FINE))
-					_log.fine("Absorb nominals: " + ATermUtils.toString(c) + " " + ind);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Absorb nominals: " + ATermUtils.toString(c) + " " + ind);
 
 				_kb.addIndividual(ind);
 				_kb.addType(ind, c, ds);
@@ -468,8 +468,8 @@ public class TBoxImpl implements TBox
 					final ATermAppl invP = _kb.getProperty(p).getInverse().getName();
 					final ATermAppl allInvPC = ATermUtils.makeAllValues(invP, c);
 
-					if (_log.isLoggable(Level.FINER))
-						_log.finer("Absorb into " + ATermUtils.toString(ind) + " with inverse of " + ATermUtils.toString(p) + " for " + ATermUtils.toString(c));
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer("Absorb into " + ATermUtils.toString(ind) + " with inverse of " + ATermUtils.toString(p) + " for " + ATermUtils.toString(c));
 
 					_absorbedAxioms.addAll(explanation);
 
@@ -522,8 +522,8 @@ public class TBoxImpl implements TBox
 			final Rule rule = new Rule(headAtoms, bodyAtoms);
 			_kb.addRule(rule);
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Add rule: " + rule);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Add rule: " + rule);
 
 			return true;
 		}
@@ -836,8 +836,8 @@ public class TBoxImpl implements TBox
 				final ATermAppl disjunction = disjunction(terms);
 				_kb.addDomain(p, disjunction, explanation);
 
-				if (_log.isLoggable(Level.FINE))
-					_log.fine("Add dom: " + ATermUtils.toString(p) + " " + ATermUtils.toString(disjunction));
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Add dom: " + ATermUtils.toString(p) + " " + ATermUtils.toString(disjunction));
 
 				_absorbedAxioms.addAll(explanation);
 				return true;
@@ -877,15 +877,15 @@ public class TBoxImpl implements TBox
 
 		if (!PelletOptions.USE_TRACING)
 		{
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Cannot remove axioms when PelletOptions.USE_TRACING is false");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Cannot remove axioms when PelletOptions.USE_TRACING is false");
 			return false;
 		}
 
 		if (_absorbedAxioms.contains(dependantAxiom))
 		{
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Cannot remove axioms that have been absorbed outside TBox");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Cannot remove axioms that have been absorbed outside TBox");
 			return false;
 		}
 
@@ -919,13 +919,13 @@ public class TBoxImpl implements TBox
 
 		if (!PelletOptions.USE_TRACING)
 		{
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Cannot remove axioms when PelletOptions.USE_TRACING is false");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Cannot remove axioms when PelletOptions.USE_TRACING is false");
 			return false;
 		}
 
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Removing " + explanationAxiom);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Removing " + explanationAxiom);
 
 		// this axiom is being removed so it cannot support any other axiom
 		MultiMapUtils.remove(_reverseExplain, explanationAxiom, dependantAxiom);

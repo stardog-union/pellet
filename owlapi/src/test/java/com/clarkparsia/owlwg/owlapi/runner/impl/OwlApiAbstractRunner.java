@@ -284,7 +284,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		}
 	}
 
-	protected static final Logger log = Log.getLogger(OwlApiAbstractRunner.class);
+	protected static final Logger _logger = Log.getLogger(OwlApiAbstractRunner.class);
 
 	private final Runner _runner;
 	protected long _timeout;
@@ -320,7 +320,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			}
 			catch (final OutOfMemoryError oome)
 			{
-				log.warning("Out of memory allocating _timeout response. Retrying.");
+				_logger.warning("Out of memory allocating _timeout response. Retrying.");
 				System.gc();
 				return runnable.getTimeoutResult();
 			}

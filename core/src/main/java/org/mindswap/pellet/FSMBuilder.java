@@ -24,7 +24,7 @@ import org.mindswap.pellet.utils.fsm.TransitionGraph;
  */
 public class FSMBuilder
 {
-	public static Logger _log = Log.getLogger(FSMBuilder.class);
+	public static Logger _logger = Log.getLogger(FSMBuilder.class);
 
 	private final RBox _rbox;
 
@@ -46,14 +46,14 @@ public class FSMBuilder
 		TransitionGraph<Role> tg = s.getFSM();
 		if (tg == null)
 		{
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Building NFA for " + s);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Building NFA for " + s);
 
 			tg = buildNondeterministicFSM(s, visited);
 
 			if (tg == null)
 			{
-				_log.warning("Cycle detected in the complex subproperty chain involving " + s);
+				_logger.warning("Cycle detected in the complex subproperty chain involving " + s);
 				s.setForceSimple(true);
 				_rbox.ignoreTransitivity(s);
 				return null;
@@ -61,28 +61,28 @@ public class FSMBuilder
 
 			assert tg.isConnected();
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Determinize " + s + ": " + tg.size() + "\n" + tg);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Determinize " + s + ": " + tg.size() + "\n" + tg);
 
 			tg.determinize();
 
 			assert tg.isConnected();
 			assert tg.isDeterministic();
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Minimize NFA for " + s + ": " + tg.size() + "\n" + tg);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Minimize NFA for " + s + ": " + tg.size() + "\n" + tg);
 
 			tg.minimize();
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Minimized NFA for " + s + ": " + tg.size() + "\n" + tg);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Minimized NFA for " + s + ": " + tg.size() + "\n" + tg);
 
 			assert tg.isConnected();
 
 			tg.renumber();
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Renumbered " + s + ": " + tg.size() + "\n" + tg);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Renumbered " + s + ": " + tg.size() + "\n" + tg);
 
 			assert tg.isConnected();
 
@@ -98,8 +98,8 @@ public class FSMBuilder
 
 	private void setFSM(final Role s, final TransitionGraph<Role> tg)
 	{
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("NFA for " + s + ":\n" + tg);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("NFA for " + s + ":\n" + tg);
 
 		s.setFSM(tg);
 

@@ -8,15 +8,17 @@ import jjtraveler.Visitor;
  * A visitor for visiting VisitableVisitors
  */
 
-public abstract class VisitorVisitor implements Visitor
+public abstract class VisitorVisitor<T extends Visitable> implements Visitor<T>
 {
 
-	public Visitable visit(Visitable any) throws VisitFailure
+	@SuppressWarnings("unchecked")
+	@Override
+	public T visit(T any) throws VisitFailure
 	{
-		if (any instanceof VisitableVisitor) { return visitVisitor((VisitableVisitor) any); }
+		if (any instanceof VisitableVisitor) { return (T) visitVisitor(any); }
 		throw new VisitFailure();
 	}
 
-	public abstract VisitableVisitor visitVisitor(VisitableVisitor any) throws VisitFailure;
+	public abstract VisitableVisitor<T> visitVisitor(T any) throws VisitFailure;
 
 }

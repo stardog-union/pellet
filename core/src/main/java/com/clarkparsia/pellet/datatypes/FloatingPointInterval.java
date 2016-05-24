@@ -69,7 +69,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 
 	}
 
-	private static final Logger _log = Log.getLogger(FloatingPointInterval.class);
+	private static final Logger _logger = Log.getLogger(FloatingPointInterval.class);
 
 	public static <U extends Number & Comparable<U>> FloatingPointInterval<U> unconstrained(final FloatingPointType<U> type)
 	{
@@ -124,7 +124,7 @@ public class FloatingPointInterval<T extends Number & Comparable<T>>
 		if (cmp > 0)
 		{
 			final String msg = format("Lower bound of interval (%s) should not be greater than _upper bound of interval (%s)", lower, upper);
-			_log.severe(msg);
+			_logger.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
 

@@ -38,7 +38,7 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
  */
 public class UnaryTBox
 {
-	public static final Logger log = Log.getLogger(UnaryTBox.class);
+	public static final Logger _logger = Log.getLogger(UnaryTBox.class);
 
 	private Map<ATermAppl, List<Unfolding>> _unfoldings = CollectionUtils.makeIdentityMap();
 
@@ -58,8 +58,8 @@ public class UnaryTBox
 
 		sup = ATermUtils.normalize(sup);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Add sub: " + ATermUtils.toString(sub) + " < " + ATermUtils.toString(sup));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Add sub: " + ATermUtils.toString(sub) + " < " + ATermUtils.toString(sup));
 
 		list.add(Unfolding.create(sup, explanation));
 	}

@@ -3,22 +3,26 @@ package jjtraveler.reflective;
 import jjtraveler.Fail;
 import jjtraveler.Visitable;
 
-public class VisitableFail extends Fail implements VisitableVisitor
+public class VisitableFail<T extends Visitable> extends Fail<T> implements VisitableVisitor<T>
 {
 
+	@Override
 	public int getChildCount()
 	{
 		return 0;
 	}
 
-	public Visitable getChildAt(int i)
+	@SuppressWarnings("unchecked")
+	@Override
+	public T getChildAt(int i)
 	{
 		throw new IndexOutOfBoundsException();
 	}
 
-	public Visitable setChildAt(int i, Visitable child)
+	@SuppressWarnings("unchecked")
+	@Override
+	public T setChildAt(int i, Visitable child)
 	{
 		throw new IndexOutOfBoundsException();
 	}
-
 }

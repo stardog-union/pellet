@@ -47,7 +47,7 @@ import org.mindswap.pellet.utils.iterator.NestedIterator;
 
 public class GraphQueryHandler
 {
-	public final static Logger log = Log.getLogger(GraphQueryHandler.class);
+	public final static Logger _logger = Log.getLogger(GraphQueryHandler.class);
 
 	protected static final Node VAR = Node.ANY;
 	protected static final Node CONST = NodeFactory.createURI("CONST");
@@ -108,13 +108,13 @@ public class GraphQueryHandler
 	{
 		final Triple pattern = Triple.create(s, p, o);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Registering handler for pattern: " + pattern);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Registering handler for pattern: " + pattern);
 
 		final Object prev = QUERY_HANDLERS.put(pattern, handler);
 		if (prev != null)
-			if (log.isLoggable(Level.SEVERE))
-				log.severe("Existing handler found for pattern: " + pattern);
+			if (_logger.isLoggable(Level.SEVERE))
+				_logger.severe("Existing handler found for pattern: " + pattern);
 	}
 
 	private static void registerQueryHandlers()
@@ -1560,8 +1560,8 @@ public class GraphQueryHandler
 		final TripleQueryHandler qh = QUERY_HANDLERS.get(Triple.create(s, p, o));
 
 		if (qh == null)
-			if (log.isLoggable(Level.WARNING))
-				log.warning("No query handler found for " + subj + " " + pred + " " + obj);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("No query handler found for " + subj + " " + pred + " " + obj);
 
 		return qh == null ? NullIterator.<Triple> instance() : qh.find(kb, pellet, subj, pred, obj);
 	}
@@ -1578,8 +1578,8 @@ public class GraphQueryHandler
 		final TripleQueryHandler qh = QUERY_HANDLERS.get(Triple.create(s, p, o));
 
 		if (qh == null)
-			if (log.isLoggable(Level.WARNING))
-				log.warning("No query handler found for " + subj + " " + pred + " " + obj);
+			if (_logger.isLoggable(Level.WARNING))
+				_logger.warning("No query handler found for " + subj + " " + pred + " " + obj);
 
 		return (qh != null) && qh.contains(kb, loader, subj, pred, obj);
 	}

@@ -58,7 +58,7 @@ import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
  */
 public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 {
-	protected static Logger log = Log.getLogger(Taxonomy.class);
+	protected static Logger _logger = Log.getLogger(Taxonomy.class);
 
 	private static enum Propogate
 	{
@@ -172,10 +172,10 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			return true;
 		}
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
 			_kb.timers.createTimer("classifySub");
-			log.fine("Classes: " + classCount + " Individuals: " + _kb.getIndividuals().size());
+			_logger.fine("Classes: " + classCount + " Individuals: " + _kb.getIndividuals().size());
 		}
 
 		if (!prepared)
@@ -185,8 +185,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			t.stop();
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Starting classification...");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Starting classification...");
 
 		Iterator<ATermAppl> phase1, phase2;
 
@@ -200,9 +200,9 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 				else
 					phase2List.add(c);
 
-			if (log.isLoggable(Level.FINE))
+			if (_logger.isLoggable(Level.FINE))
 			{
-				log.fine("Using CD classification with phase1: " + phase1List.size() + " phase2: " + phase2List.size());
+				_logger.fine("Using CD classification with phase1: " + phase1List.size() + " phase2: " + phase2List.size());
 				logList(Level.FINER, "Phase 1", phase1List);
 				logList(Level.FINER, "Phase 2", phase2List);
 			}
@@ -215,8 +215,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			phase1 = IteratorUtils.emptyIterator();
 			phase2 = _definitionOrder.iterator();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("CD classification disabled");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("CD classification disabled");
 		}
 
 		boolean completed = true;
@@ -226,20 +226,20 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 
 		_monitor.taskFinished();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Satisfiability Count: " + (_kb.getABox().stats.satisfiabilityCount - (2 * _kb.getClasses().size())));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Satisfiability Count: " + (_kb.getABox().stats.satisfiabilityCount - (2 * _kb.getClasses().size())));
 
 		// Reset the definition _order, so the sorted copy can be gc'd
 		_definitionOrder = null;
 
 		_taxonomy.assertValid();
 
-		if (log.isLoggable(Level.FINER))
+		if (_logger.isLoggable(Level.FINER))
 		{
-			log.finer("Tax size : " + _taxonomy.getNodes().size());
-			log.finer("Tax _depth: " + _taxonomy._depth);
-			log.finer("Branching: " + ((double) _taxonomy.totalBranching) / _taxonomy.getNodes().size());
-			log.finer("Leaf size: " + _taxonomy.getBottom().getSupers().size());
+			_logger.finer("Tax size : " + _taxonomy.getNodes().size());
+			_logger.finer("Tax _depth: " + _taxonomy._depth);
+			_logger.finer("Branching: " + ((double) _taxonomy.totalBranching) / _taxonomy.getNodes().size());
+			_logger.finer("Leaf size: " + _taxonomy.getBottom().getSupers().size());
 		}
 
 		return completed;
@@ -247,13 +247,13 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 
 	private void logList(final Level level, final String header, final List<ATermAppl> list)
 	{
-		if (!log.isLoggable(Level.FINER))
+		if (!_logger.isLoggable(Level.FINER))
 			return;
-		log.log(level, header);
+		_logger.log(level, header);
 		int i = 0;
 		for (final ATermAppl c : list)
 		{
-			log.log(level, i + ") " + c);
+			_logger.log(level, i + ") " + c);
 			i++;
 		}
 	}
@@ -267,8 +267,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 
 			final ATermAppl c = phase.next();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Classify (" + _taxonomy.getNodes().size() + ") " + format(c) + "...");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Classify (" + _taxonomy.getNodes().size() + ") " + format(c) + "...");
 
 			classify(c, requireTopSearch);
 			_monitor.incrementProgress();
@@ -362,8 +362,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 
 			for (final ATermAppl d : lca)
 			{
-				if (log.isLoggable(Level.FINER))
-					log.finer("Union subsumption " + format(c) + " " + format(d));
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("Union subsumption " + format(c) + " " + format(d));
 
 				addToldSubsumer(c, d);
 			}
@@ -468,7 +468,7 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			_conceptFlags.put(c, isCDDesc(unfoldingList) ? ConceptFlag.COMPLETELY_DEFINED : ConceptFlag.PRIMITIVE);
 		}
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
 			final int[] counts = new int[ConceptFlag.values().length];
 			Arrays.fill(counts, 0);
@@ -476,9 +476,9 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			for (final ATermAppl c : _classes)
 				counts[_conceptFlags.get(c).ordinal()]++;
 
-			log.fine("Concept flags:");
+			_logger.fine("Concept flags:");
 			for (final ConceptFlag flag : ConceptFlag.values())
-				log.fine("\t" + flag + " = " + counts[flag.ordinal()]);
+				_logger.fine("\t" + flag + " = " + counts[flag.ordinal()]);
 		}
 	}
 
@@ -563,15 +563,15 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 
 				if (!equivalent)
 				{
-					if (log.isLoggable(Level.FINER))
-						log.finer("Preclassify (1) " + format(c) + " " + format(d));
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer("Preclassify (1) " + format(c) + " " + format(d));
 
 					addToldSubsumer(c, d, explanation);
 				}
 				else
 				{
-					if (log.isLoggable(Level.FINER))
-						log.finer("Preclassify (2) " + format(c) + " " + format(d));
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer("Preclassify (2) " + format(c) + " " + format(d));
 
 					addToldEquivalent(c, d);
 				}
@@ -596,8 +596,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 							{
 								if (equivalent)
 								{
-									if (log.isLoggable(Level.FINER))
-										log.finer("Preclassify (3) " + format(c) + " " + format(e));
+									if (_logger.isLoggable(Level.FINER))
+										_logger.finer("Preclassify (3) " + format(c) + " " + format(e));
 
 									addToldSubsumer(e, c);
 								}
@@ -612,8 +612,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 					else
 						if (d.equals(ATermUtils.BOTTOM))
 						{
-							if (log.isLoggable(Level.FINER))
-								log.finer("Preclassify (4) " + format(c) + " BOTTOM");
+							if (_logger.isLoggable(Level.FINER))
+								_logger.finer("Preclassify (4) " + format(c) + " BOTTOM");
 							addToldEquivalent(c, ATermUtils.BOTTOM);
 						}
 						else
@@ -623,8 +623,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 								final ATermAppl negation = (ATermAppl) d.getArgument(0);
 								if (ATermUtils.isPrimitive(negation))
 								{
-									if (log.isLoggable(Level.FINER))
-										log.finer("Preclassify (5) " + format(c) + " not " + format(negation));
+									if (_logger.isLoggable(Level.FINER))
+										_logger.finer("Preclassify (5) " + format(c) + " not " + format(negation));
 
 									addToldDisjoint(c, negation);
 									addToldDisjoint(negation, c);
@@ -705,8 +705,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 				return;
 		}
 		else
-			if (log.isLoggable(Level.FINE) && _markedNodes.size() > 2)
-				log.warning("Told subsumer " + c + " is not classified yet");
+			if (_logger.isLoggable(Level.FINE) && _markedNodes.size() > 2)
+				_logger.warning("Told subsumer " + c + " is not classified yet");
 
 		if (_toldTaxonomy.contains(c))
 			// TODO just getting direct supers and letting recursion handle rest
@@ -767,23 +767,23 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 
 	private TaxonomyNode<ATermAppl> checkSatisfiability(final ATermAppl c)
 	{
-		if (log.isLoggable(Level.FINER))
-			log.finer("Satisfiable ");
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Satisfiable ");
 
 		Timer t = _kb.timers.startTimer("classifySat");
 		boolean isSatisfiable = _kb.getABox().isSatisfiable(c, true);
 		t.stop();
 
-		if (log.isLoggable(Level.FINER))
-			log.finer((isSatisfiable ? "true" : "*****FALSE*****") + " (" + t.getLast() + "ms)");
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer((isSatisfiable ? "true" : "*****FALSE*****") + " (" + t.getLast() + "ms)");
 
 		if (!isSatisfiable)
 			_taxonomy.addEquivalentNode(c, _taxonomy.getBottom());
 
 		if (PelletOptions.USE_CACHING)
 		{
-			if (log.isLoggable(Level.FINER))
-				log.finer("...negation ");
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("...negation ");
 
 			t = _kb.timers.startTimer("classifySatNot");
 			final ATermAppl notC = ATermUtils.makeNot(c);
@@ -793,8 +793,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			if (!isSatisfiable)
 				_taxonomy.addEquivalentNode(c, _taxonomy.getTop());
 
-			if (log.isLoggable(Level.FINER))
-				log.finer(isSatisfiable + " (" + t.getLast() + "ms)");
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer(isSatisfiable + " (" + t.getLast() + "ms)");
 		}
 
 		return _taxonomy.getNode(c);
@@ -873,8 +873,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 				t.stop();
 				if (isEq)
 				{
-					if (log.isLoggable(Level.FINER))
-						log.finer(format(c) + " = " + format(sup));
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer(format(c) + " = " + format(sup));
 
 					_taxonomy.addEquivalentNode(c, supNode);
 					return supNode;
@@ -911,8 +911,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			}
 		}
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Subsumption Count: " + _kb.getABox().stats.satisfiabilityCount);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Subsumption Count: " + _kb.getABox().stats.satisfiabilityCount);
 
 		return node;
 	}
@@ -934,7 +934,7 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 		for (final TaxonomyNode<ATermAppl> sup : supers)
 			mark(sup, Boolean.FALSE, Propogate.NONE);
 
-		log.finer("Bottom search...");
+		_logger.finer("Bottom search...");
 
 		final List<TaxonomyNode<ATermAppl>> subs = new ArrayList<>();
 		final Set<TaxonomyNode<ATermAppl>> visited = new HashSet<>();
@@ -966,7 +966,7 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 		markToldSubsumers(c);
 		markToldDisjoints(Collections.singleton(c), true);
 
-		log.finer("Top search...");
+		_logger.finer("Top search...");
 
 		search(true, c, _taxonomy.getTop(), new HashSet<TaxonomyNode<ATermAppl>>(), supers);
 
@@ -997,9 +997,9 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 				final TaxonomyNode<ATermAppl> parent = _taxonomy.getNode(def.getName());
 				if (parent == null)
 				{
-					log.warning("Possible tautological definition, assuming " + format(def.getName()) + " is equivalent to " + format(ATermUtils.TOP));
-					if (log.isLoggable(Level.FINE))
-						log.fine("Told subsumer of " + format(c) + "  is not classified: " + format(def.getName()));
+					_logger.warning("Possible tautological definition, assuming " + format(def.getName()) + " is equivalent to " + format(ATermUtils.TOP));
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Told subsumer of " + format(c) + "  is not classified: " + format(def.getName()));
 				}
 				else
 					supers.add(parent);
@@ -1014,9 +1014,9 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 				final TaxonomyNode<ATermAppl> candidate = _taxonomy.getNode(def.getName());
 				if (candidate == null)
 				{
-					log.warning("Possible tautological definition, assuming " + format(def.getName()) + " is equivalent to " + format(ATermUtils.TOP));
-					if (log.isLoggable(Level.FINE))
-						log.fine("Told subsumer of " + format(c) + "  is not classified: " + format(def.getName()));
+					_logger.warning("Possible tautological definition, assuming " + format(def.getName()) + " is equivalent to " + format(ATermUtils.TOP));
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Told subsumer of " + format(c) + "  is not classified: " + format(def.getName()));
 				}
 				else
 					for (final TaxonomyNode<ATermAppl> ancestor : candidate.getSupers())
@@ -1030,8 +1030,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 				if (candidate._mark == null)
 				{
 					supers.add(candidate);
-					if (log.isLoggable(Level.FINER))
-						log.finer("...completely defined by " + candidate.getName().getName());
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer("...completely defined by " + candidate.getName().getName());
 				}
 			}
 		}
@@ -1163,20 +1163,20 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 	private boolean subsumes(final ATermAppl sup, final ATermAppl sub)
 	{
 		long time = 0, count = 0;
-		if (log.isLoggable(Level.FINER))
+		if (_logger.isLoggable(Level.FINER))
 		{
 			time = System.currentTimeMillis();
 			count = _kb.getABox().stats.satisfiabilityCount;
-			log.finer("Subsumption testing for [" + format(sub) + "," + format(sup) + "]...");
+			_logger.finer("Subsumption testing for [" + format(sub) + "," + format(sup) + "]...");
 		}
 
 		final boolean result = _kb.getABox().isSubClassOf(sub, sup);
 
-		if (log.isLoggable(Level.FINER))
+		if (_logger.isLoggable(Level.FINER))
 		{
 			final String sign = (_kb.getABox().stats.satisfiabilityCount > count) ? "+" : "-";
 			time = System.currentTimeMillis() - time;
-			log.finer(" done (" + (result ? "+" : "-") + ") (" + sign + time + "ms)");
+			_logger.finer(" done (" + (result ? "+" : "-") + ") (" + sign + time + "ms)");
 		}
 
 		return result;
@@ -1218,8 +1218,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			if (_monitor.isCanceled())
 				return false;
 
-			if (log.isLoggable(Level.FINER))
-				log.finer(count + ") Realizing " + format(x.getName()) + " ");
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer(count + ") Realizing " + format(x.getName()) + " ");
 
 			realize(x);
 		}
@@ -1281,11 +1281,11 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 		else
 		{
 			long time = 0, count = 0;
-			if (log.isLoggable(Level.FINER))
+			if (_logger.isLoggable(Level.FINER))
 			{
 				time = System.currentTimeMillis();
 				count = _kb.getABox().stats.consistencyCount;
-				log.finer("Type checking for [" + format(n) + ", " + format(c) + "]...");
+				_logger.finer("Type checking for [" + format(n) + ", " + format(c) + "]...");
 			}
 
 			final Timer t = _kb.timers.startTimer("classifyType");
@@ -1293,11 +1293,11 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 			t.stop();
 			marked.put(c, isType ? Boolean.TRUE : Boolean.FALSE);
 
-			if (log.isLoggable(Level.FINER))
+			if (_logger.isLoggable(Level.FINER))
 			{
 				final String sign = (_kb.getABox().stats.consistencyCount > count) ? "+" : "-";
 				time = System.currentTimeMillis() - time;
-				log.finer("done (" + (isType ? "+" : "-") + ") (" + sign + time + "ms)");
+				_logger.finer("done (" + (isType ? "+" : "-") + ") (" + sign + time + "ms)");
 			}
 		}
 
@@ -1372,8 +1372,8 @@ public class CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 		_monitor.incrementProgress();
 		mark(node, Boolean.TRUE, Propogate.NONE);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Realizing concept " + c);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Realizing concept " + c);
 
 		final Set<ATermAppl> instances = new HashSet<>(_kb.retrieve(c, individuals));
 		final Set<ATermAppl> mostSpecificInstances = new HashSet<>(instances);

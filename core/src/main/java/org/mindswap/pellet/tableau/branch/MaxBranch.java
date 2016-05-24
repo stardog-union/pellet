@@ -121,8 +121,8 @@ public class MaxBranch extends IndividualBranch
 			final Node y = _abox.getNode(nm.getSource()).getSame();
 			final Node z = _abox.getNode(nm.getTarget()).getSame();
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("MAX : (" + (getTryNext() + 1) + "/" + _mergePairs.size() + ") at _branch (" + getBranch() + ") to  " + ind + " for prop " + _r + " _qualification " + _qualification + " merge " + y + " -> " + z + " " + ds);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("MAX : (" + (getTryNext() + 1) + "/" + _mergePairs.size() + ") at _branch (" + getBranch() + ") to  " + ind + " for prop " + _r + " _qualification " + _qualification + " merge " + y + " -> " + z + " " + ds);
 
 			ds = ds.union(new DependencySet(getBranch()), _abox.doExplanation());
 
@@ -188,8 +188,8 @@ public class MaxBranch extends IndividualBranch
 			final boolean earlyClash = _abox.isClosed();
 			if (earlyClash)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("CLASH: Branch " + getBranch() + " " + _abox.getClash() + "!");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("CLASH: Branch " + getBranch() + " " + _abox.getClash() + "!");
 
 				final DependencySet clashDepends = _abox.getClash().getDepends();
 

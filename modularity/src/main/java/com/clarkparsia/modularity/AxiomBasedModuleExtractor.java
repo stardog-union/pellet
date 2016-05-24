@@ -43,9 +43,9 @@ import org.semanticweb.owlapi.model.OWLEntity;
  */
 public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 {
-	public static final Logger log = Log.getLogger(AxiomBasedModuleExtractor.class);
+	public static final Logger _logger = Log.getLogger(AxiomBasedModuleExtractor.class);
 
-	private boolean optimizeForSharedModules = true;
+	private boolean _optimizeForSharedModules = true;
 
 	public AxiomBasedModuleExtractor()
 	{
@@ -268,11 +268,11 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 			if (!(ent instanceof OWLClass))
 				continue;
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Class: " + ent);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Class: " + ent);
 
 			if (!modules.containsKey(ent))
-				if (optimizeForSharedModules)
+				if (_optimizeForSharedModules)
 					extractModuleSignature(ent, new HashSet<OWLEntity>(), new ArrayList<OWLEntity>(), new HashSet<>(nonLocalModule));
 				else
 					extractModuleSignature(ent, new DisjointSet<OWLEntity>(), new ArrayList<OWLEntity>(), new HashSet<>(nonLocalModule));
@@ -294,7 +294,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 				module.addAll(OntologyUtils.getSignature(axiom));
 
 		if (!entityAxioms.isEmpty())
-			if (optimizeForSharedModules)
+			if (_optimizeForSharedModules)
 				extractModuleSignature(null, new HashSet<OWLEntity>(), new ArrayList<OWLEntity>(), module);
 			else
 				extractModuleSignature(null, new DisjointSet<OWLEntity>(), new ArrayList<OWLEntity>(), module);
@@ -307,7 +307,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 	 */
 	public boolean isOptimizeForSharedModules()
 	{
-		return optimizeForSharedModules;
+		return _optimizeForSharedModules;
 	}
 
 	/**
@@ -318,7 +318,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 	 */
 	public void setOptimizeForSharedModules(final boolean optimizeForSharedModules)
 	{
-		this.optimizeForSharedModules = optimizeForSharedModules;
+		this._optimizeForSharedModules = optimizeForSharedModules;
 	}
 
 }

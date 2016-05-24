@@ -45,7 +45,7 @@ import org.mindswap.pellet.KnowledgeBase;
  */
 public class OptimizedQueryEngine3 extends AbstractABoxEngineWrapper
 {
-	public static final Logger log = Log.getLogger(QueryEngine.class);
+	public static final Logger _logger = Log.getLogger(QueryEngine.class);
 
 	@Override
 	public boolean supports(final Query q)
@@ -75,13 +75,13 @@ public class OptimizedQueryEngine3 extends AbstractABoxEngineWrapper
 			{
 				final ATermAppl rolledUpClass = q.rollUpTo(currVar, Collections.EMPTY_SET, false);
 
-				if (log.isLoggable(Level.FINER))
-					log.finer("Rolled up class " + rolledUpClass);
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("Rolled up class " + rolledUpClass);
 				varBindings.put(currVar, kb.getInstances(rolledUpClass));
 			}
 
-			if (log.isLoggable(Level.FINER))
-				log.finer("Var bindings: " + varBindings);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Var bindings: " + varBindings);
 
 			final List<ATermAppl> varList = new ArrayList<>(varBindings.keySet()); // TODO
 
@@ -117,12 +117,12 @@ public class OptimizedQueryEngine3 extends AbstractABoxEngineWrapper
 						if (queryTrue)
 						{
 							newBindings.add(bindingCandidate);
-							if (log.isLoggable(Level.FINER))
-								log.finer("Accepted binding: " + bindingCandidate);
+							if (_logger.isLoggable(Level.FINER))
+								_logger.finer("Accepted binding: " + bindingCandidate);
 						}
 						else
-							if (log.isLoggable(Level.FINER))
-								log.finer("Rejected binding: " + bindingCandidate);
+							if (_logger.isLoggable(Level.FINER))
+								_logger.finer("Rejected binding: " + bindingCandidate);
 					}
 
 				previous = newBindings;
@@ -139,11 +139,11 @@ public class OptimizedQueryEngine3 extends AbstractABoxEngineWrapper
 			else
 				for (final ResultBinding b : previous)
 					results.add(b);
-			if (log.isLoggable(Level.FINE))
+			if (_logger.isLoggable(Level.FINE))
 			{
-				log.fine("Results: " + results);
-				log.fine("Total satisfiability operations: " + (kb.getABox().stats.satisfiabilityCount - satCount));
-				log.fine("Total consistency operations: " + (kb.getABox().stats.consistencyCount - consCount));
+				_logger.fine("Results: " + results);
+				_logger.fine("Total satisfiability operations: " + (kb.getABox().stats.satisfiabilityCount - satCount));
+				_logger.fine("Total consistency operations: " + (kb.getABox().stats.consistencyCount - consCount));
 			}
 		}
 		return results;

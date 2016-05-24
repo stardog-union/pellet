@@ -65,7 +65,7 @@ import org.mindswap.pellet.utils.SetUtils;
  */
 public class KRSSLoader extends KBLoader
 {
-	public final static Logger _log = Log.getLogger(KRSSLoader.class);
+	public final static Logger _logger = Log.getLogger(KRSSLoader.class);
 
 	private final static ATermAppl XSD_INTEGER = XSDInteger.getInstance().getName();
 
@@ -515,8 +515,8 @@ public class KRSSLoader extends KBLoader
 				if (dataProp)
 				{
 					_kb.addDatatypeProperty(r);
-					if (_log.isLoggable(Level.FINE))
-						_log.fine("DEFINE-DATATYPE-ROLE " + r);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("DEFINE-DATATYPE-ROLE " + r);
 				}
 				else
 				{
@@ -524,12 +524,12 @@ public class KRSSLoader extends KBLoader
 					if (functional)
 					{
 						_kb.addFunctionalProperty(r);
-						if (_log.isLoggable(Level.FINE))
-							_log.fine("DEFINE-PRIMITIVE-ATTRIBUTE " + r);
+						if (_logger.isLoggable(Level.FINE))
+							_logger.fine("DEFINE-PRIMITIVE-ATTRIBUTE " + r);
 					}
 					else
-						if (_log.isLoggable(Level.FINE))
-							_log.fine("DEFINE-PRIMITIVE-ROLE " + r);
+						if (_logger.isLoggable(Level.FINE))
+							_logger.fine("DEFINE-PRIMITIVE-ROLE " + r);
 				}
 
 				while (!peekNext(')'))
@@ -550,8 +550,8 @@ public class KRSSLoader extends KBLoader
 									{
 										_kb.addObjectProperty(s);
 										_kb.addSubProperty(r, s);
-										if (_log.isLoggable(Level.FINE))
-											_log.fine("PARENT-ROLE " + r + " " + s);
+										if (_logger.isLoggable(Level.FINE))
+											_logger.fine("PARENT-ROLE " + r + " " + s);
 									}
 								}
 								skipNext(')');
@@ -563,8 +563,8 @@ public class KRSSLoader extends KBLoader
 								{
 									_kb.addObjectProperty(s);
 									_kb.addSubProperty(r, s);
-									if (_log.isLoggable(Level.FINE))
-										_log.fine("PARENT-ROLE " + r + " " + s);
+									if (_logger.isLoggable(Level.FINE))
+										_logger.fine("PARENT-ROLE " + r + " " + s);
 								}
 							}
 						}
@@ -573,16 +573,16 @@ public class KRSSLoader extends KBLoader
 							{
 								ATermUtils.assertTrue(nextString().equalsIgnoreCase("T"));
 								_kb.addFunctionalProperty(r);
-								if (_log.isLoggable(Level.FINE))
-									_log.fine("FUNCTIONAL-ROLE " + r);
+								if (_logger.isLoggable(Level.FINE))
+									_logger.fine("FUNCTIONAL-ROLE " + r);
 							}
 							else
 								if (cmd.equalsIgnoreCase("transitive"))
 								{
 									ATermUtils.assertTrue(nextString().equalsIgnoreCase("T"));
 									_kb.addTransitiveProperty(r);
-									if (_log.isLoggable(Level.FINE))
-										_log.fine("TRANSITIVE-ROLE " + r);
+									if (_logger.isLoggable(Level.FINE))
+										_logger.fine("TRANSITIVE-ROLE " + r);
 								}
 								else
 									if (cmd.equalsIgnoreCase("range"))
@@ -590,8 +590,8 @@ public class KRSSLoader extends KBLoader
 										final ATermAppl range = parseExpr();
 										_kb.addClass(range);
 										_kb.addRange(r, range);
-										if (_log.isLoggable(Level.FINE))
-											_log.fine("RANGE " + r + " " + range);
+										if (_logger.isLoggable(Level.FINE))
+											_logger.fine("RANGE " + r + " " + range);
 									}
 									else
 										if (cmd.equalsIgnoreCase("domain"))
@@ -599,16 +599,16 @@ public class KRSSLoader extends KBLoader
 											final ATermAppl domain = parseExpr();
 											_kb.addClass(domain);
 											_kb.addDomain(r, domain);
-											if (_log.isLoggable(Level.FINE))
-												_log.fine("DOMAIN " + r + " " + domain);
+											if (_logger.isLoggable(Level.FINE))
+												_logger.fine("DOMAIN " + r + " " + domain);
 										}
 										else
 											if (cmd.equalsIgnoreCase("inverse"))
 											{
 												final ATermAppl inv = nextTerm();
 												_kb.addInverseProperty(r, inv);
-												if (_log.isLoggable(Level.FINE))
-													_log.fine("INVERSE " + r + " " + inv);
+												if (_logger.isLoggable(Level.FINE))
+													_logger.fine("INVERSE " + r + " " + inv);
 											}
 											else
 												throw new RuntimeException("Parsing error: Unrecognized keyword _in role definition " + cmd);
@@ -625,8 +625,8 @@ public class KRSSLoader extends KBLoader
 
 								_kb.addDomain(r, domain);
 								_kb.addRange(r, range);
-								if (_log.isLoggable(Level.FINE))
-									_log.fine("DOMAIN-RANGE " + r + " " + domain + " " + range);
+								if (_logger.isLoggable(Level.FINE))
+									_logger.fine("DOMAIN-RANGE " + r + " " + domain + " " + range);
 							}
 							else
 								throw new RuntimeException("Parsing error: Unrecognized keyword _in role definition");
@@ -646,7 +646,7 @@ public class KRSSLoader extends KBLoader
 							else
 								_kb.addEquivalentProperty(r, s);
 
-							_log.fine("PARENT-ROLE " + r + " " + s);
+							_logger.fine("PARENT-ROLE " + r + " " + s);
 						}
 			}
 			else
@@ -667,8 +667,8 @@ public class KRSSLoader extends KBLoader
 						}
 					}
 
-					if (_log.isLoggable(Level.FINE))
-						_log.fine("DEFINE-PRIMITIVE-CONCEPT " + c + " " + (expr == null ? "" : expr.toString()));
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("DEFINE-PRIMITIVE-CONCEPT " + c + " " + (expr == null ? "" : expr.toString()));
 				}
 				else
 					if (str.equalsIgnoreCase("DEFINE-DISJOINT-PRIMITIVE-CONCEPT"))
@@ -687,8 +687,8 @@ public class KRSSLoader extends KBLoader
 							for (final ATermAppl d : prevDefinitions)
 							{
 								_kb.addDisjointClass(c, d);
-								if (_log.isLoggable(Level.FINE))
-									_log.fine("DEFINE-PRIMITIVE-DISJOINT " + c + " " + d);
+								if (_logger.isLoggable(Level.FINE))
+									_logger.fine("DEFINE-PRIMITIVE-DISJOINT " + c + " " + d);
 							}
 							prevDefinitions.add(c);
 						}
@@ -697,8 +697,8 @@ public class KRSSLoader extends KBLoader
 						final ATermAppl expr = parseExpr();
 						_kb.addSubClass(c, expr);
 
-						if (_log.isLoggable(Level.FINE))
-							_log.fine("DEFINE-PRIMITIVE-CONCEPT " + c + " " + expr);
+						if (_logger.isLoggable(Level.FINE))
+							_logger.fine("DEFINE-PRIMITIVE-CONCEPT " + c + " " + expr);
 					}
 					else
 						if (str.equalsIgnoreCase("DEFINE-CONCEPT") || str.equalsIgnoreCase("DEFCONCEPT") || str.equalsIgnoreCase("EQUAL_C"))
@@ -709,8 +709,8 @@ public class KRSSLoader extends KBLoader
 							final ATermAppl expr = parseExpr();
 							_kb.addEquivalentClass(c, expr);
 
-							if (_log.isLoggable(Level.FINE))
-								_log.fine("DEFINE-CONCEPT " + c + " " + expr);
+							if (_logger.isLoggable(Level.FINE))
+								_logger.fine("DEFINE-CONCEPT " + c + " " + expr);
 						}
 						else
 							if (str.equalsIgnoreCase("IMPLIES") || str.equalsIgnoreCase("IMPLIES_C"))
@@ -721,8 +721,8 @@ public class KRSSLoader extends KBLoader
 								_kb.addClass(c2);
 								_kb.addSubClass(c1, c2);
 
-								if (_log.isLoggable(Level.FINE))
-									_log.fine("IMPLIES " + c1 + " " + c2);
+								if (_logger.isLoggable(Level.FINE))
+									_logger.fine("IMPLIES " + c1 + " " + c2);
 							}
 							else
 								if (str.equalsIgnoreCase("IMPLIES_R"))
@@ -733,8 +733,8 @@ public class KRSSLoader extends KBLoader
 									_kb.addProperty(p2);
 									_kb.addSubProperty(p1, p2);
 
-									if (_log.isLoggable(Level.FINE))
-										_log.fine("IMPLIES_R " + p1 + " " + p2);
+									if (_logger.isLoggable(Level.FINE))
+										_logger.fine("IMPLIES_R " + p1 + " " + p2);
 								}
 								else
 									if (str.equalsIgnoreCase("EQUAL_R"))
@@ -745,8 +745,8 @@ public class KRSSLoader extends KBLoader
 										_kb.addObjectProperty(p2);
 										_kb.addEquivalentProperty(p1, p2);
 
-										if (_log.isLoggable(Level.FINE))
-											_log.fine("EQUAL_R " + p1 + " " + p2);
+										if (_logger.isLoggable(Level.FINE))
+											_logger.fine("EQUAL_R " + p1 + " " + p2);
 									}
 									else
 										if (str.equalsIgnoreCase("DOMAIN"))
@@ -757,8 +757,8 @@ public class KRSSLoader extends KBLoader
 											_kb.addClass(c);
 											_kb.addDomain(p, c);
 
-											if (_log.isLoggable(Level.FINE))
-												_log.fine("DOMAIN " + p + " " + c);
+											if (_logger.isLoggable(Level.FINE))
+												_logger.fine("DOMAIN " + p + " " + c);
 										}
 										else
 											if (str.equalsIgnoreCase("RANGE"))
@@ -769,8 +769,8 @@ public class KRSSLoader extends KBLoader
 												_kb.addClass(c);
 												_kb.addRange(p, c);
 
-												if (_log.isLoggable(Level.FINE))
-													_log.fine("RANGE " + p + " " + c);
+												if (_logger.isLoggable(Level.FINE))
+													_logger.fine("RANGE " + p + " " + c);
 											}
 											else
 												if (str.equalsIgnoreCase("FUNCTIONAL"))
@@ -779,8 +779,8 @@ public class KRSSLoader extends KBLoader
 													_kb.addProperty(p);
 													_kb.addFunctionalProperty(p);
 
-													if (_log.isLoggable(Level.FINE))
-														_log.fine("FUNCTIONAL " + p);
+													if (_logger.isLoggable(Level.FINE))
+														_logger.fine("FUNCTIONAL " + p);
 												}
 												else
 													if (str.equalsIgnoreCase("TRANSITIVE"))
@@ -789,8 +789,8 @@ public class KRSSLoader extends KBLoader
 														_kb.addObjectProperty(p);
 														_kb.addTransitiveProperty(p);
 
-														if (_log.isLoggable(Level.FINE))
-															_log.fine("TRANSITIVE " + p);
+														if (_logger.isLoggable(Level.FINE))
+															_logger.fine("TRANSITIVE " + p);
 													}
 													else
 														if (str.equalsIgnoreCase("DISJOINT"))
@@ -804,8 +804,8 @@ public class KRSSLoader extends KBLoader
 																	final ATermAppl c2 = list[j];
 																	_kb.addClass(c2);
 																	_kb.addDisjointClass(c1, c2);
-																	if (_log.isLoggable(Level.FINE))
-																		_log.fine("DISJOINT " + c1 + " " + c2);
+																	if (_logger.isLoggable(Level.FINE))
+																		_logger.fine("DISJOINT " + c1 + " " + c2);
 																}
 															}
 														}
@@ -815,8 +815,8 @@ public class KRSSLoader extends KBLoader
 																final ATermAppl x = nextTerm();
 
 																_kb.addIndividual(x);
-																if (_log.isLoggable(Level.FINE))
-																	_log.fine("DEFINDIVIDUAL " + x);
+																if (_logger.isLoggable(Level.FINE))
+																	_logger.fine("DEFINDIVIDUAL " + x);
 															}
 															else
 																if (str.equalsIgnoreCase("INSTANCE"))
@@ -826,8 +826,8 @@ public class KRSSLoader extends KBLoader
 
 																	_kb.addIndividual(x);
 																	_kb.addType(x, c);
-																	if (_log.isLoggable(Level.FINE))
-																		_log.fine("INSTANCE " + x + " " + c);
+																	if (_logger.isLoggable(Level.FINE))
+																		_logger.fine("INSTANCE " + x + " " + c);
 																}
 																else
 																	if (str.equalsIgnoreCase("RELATED"))
@@ -840,8 +840,8 @@ public class KRSSLoader extends KBLoader
 																		_kb.addIndividual(y);
 																		_kb.addPropertyValue(r, x, y);
 
-																		if (_log.isLoggable(Level.FINE))
-																			_log.fine("RELATED " + x + " - " + r + " -> " + y);
+																		if (_logger.isLoggable(Level.FINE))
+																			_logger.fine("RELATED " + x + " - " + r + " -> " + y);
 																	}
 																	else
 																		if (str.equalsIgnoreCase("DIFFERENT"))
@@ -853,8 +853,8 @@ public class KRSSLoader extends KBLoader
 																			_kb.addIndividual(y);
 																			_kb.addDifferent(x, y);
 
-																			if (_log.isLoggable(Level.FINE))
-																				_log.fine("DIFFERENT " + x + " " + y);
+																			if (_logger.isLoggable(Level.FINE))
+																				_logger.fine("DIFFERENT " + x + " " + y);
 																		}
 																		else
 																			if (str.equalsIgnoreCase("DATATYPE-ROLE-FILLER"))
@@ -867,8 +867,8 @@ public class KRSSLoader extends KBLoader
 																				_kb.addIndividual(y);
 																				_kb.addPropertyValue(r, x, y);
 
-																				if (_log.isLoggable(Level.FINE))
-																					_log.fine("DATATYPE-ROLE-FILLER " + x + " - " + r + " -> " + y);
+																				if (_logger.isLoggable(Level.FINE))
+																					_logger.fine("DATATYPE-ROLE-FILLER " + x + " - " + r + " -> " + y);
 																			}
 																			else
 																				throw new RuntimeException("Parsing error: Unknown command " + str);
@@ -912,7 +912,7 @@ public class KRSSLoader extends KBLoader
 
 					if (!eqs.contains(t))
 					{
-						_log.severe(t + " is not equivalent to " + c);
+						_logger.severe(t + " is not equivalent to " + c);
 						failed = true;
 					}
 				}
@@ -923,8 +923,8 @@ public class KRSSLoader extends KBLoader
 			final Set<ATermAppl> supers = SetUtils.union(kb.getSuperClasses(c, true));
 			final Set<ATermAppl> subs = SetUtils.union(kb.getSubClasses(c, true));
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("Verify (" + verifiedCount + ") " + c + " " + supers + " " + subs);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Verify (" + verifiedCount + ") " + c + " " + supers + " " + subs);
 
 			if (peekNext('('))
 			{
@@ -935,7 +935,7 @@ public class KRSSLoader extends KBLoader
 
 					if (!supers.contains(t))
 					{
-						_log.severe(t + " is not a superclass of " + c + " ");
+						_logger.severe(t + " is not a superclass of " + c + " ");
 						failed = true;
 					}
 				}
@@ -957,7 +957,7 @@ public class KRSSLoader extends KBLoader
 						temp.retainAll(sames);
 						if (temp.size() == 0)
 						{
-							_log.severe(t + " is not a subclass of " + c);
+							_logger.severe(t + " is not a subclass of " + c);
 							failed = true;
 						}
 					}
@@ -995,8 +995,8 @@ public class KRSSLoader extends KBLoader
 			final ATermAppl ind = nextTerm();
 			final ATermAppl c = parseExpr();
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine("INDIVIDUAL-INSTANCE? " + ind + " " + c);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("INDIVIDUAL-INSTANCE? " + ind + " " + c);
 
 			skipNext(')');
 
@@ -1017,8 +1017,8 @@ public class KRSSLoader extends KBLoader
 			else
 				isType = true;
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine(" -> " + isType);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine(" -> " + isType);
 
 			if (kb.isType(ind, c) != isType)
 				throw new RuntimeException("Individual " + ind + " is " + (isType ? "not" : "") + " an instance of " + c);

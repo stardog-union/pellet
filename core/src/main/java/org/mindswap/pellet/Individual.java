@@ -273,8 +273,8 @@ public class Individual extends Node implements CachedNode
 			return;
 		}
 
-		//        if( ABox.log.isLoggable( Level.FINE ) ) 
-		//            ABox.log.fine( "TYPE: " + this + " " + c );        
+		//        if( ABox._logger.isLoggable( Level.FINE ) ) 
+		//            ABox._logger.fine( "TYPE: " + this + " " + c );        
 
 		// if we are checking entailment using a precompleted ABox, _abox.branch
 		// is set to -1. however, since applyAllValues is done automatically
@@ -1009,7 +1009,7 @@ public class Individual extends Node implements CachedNode
 			catch (final DatatypeReasonerException e)
 			{
 				final String msg = "Unexpected datatype reasoner exception while checking property value: " + e.getMessage();
-				log.severe(msg);
+				_logger.severe(msg);
 				throw new InternalReasonerException(msg);
 			}
 			else
@@ -1075,8 +1075,8 @@ public class Individual extends Node implements CachedNode
 		if (hasRSuccessor(r, x) || r.isTop())
 		{
 			// TODO we might miss some of explanation axioms
-			if (log.isLoggable(Level.FINE))
-				log.fine("EDGE: " + this + " -> " + r + " -> " + x + ": " + ds + " " + getRNeighborEdges(r).getEdgesTo(x));
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("EDGE: " + this + " -> " + r + " -> " + x + ": " + ds + " " + getRNeighborEdges(r).getEdgesTo(x));
 			return null;
 		}
 
@@ -1190,8 +1190,8 @@ public class Individual extends Node implements CachedNode
 
 			if (d.getBranch() > branch)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("RESTORE: " + _name + " remove edge " + e + " " + d.max() + " " + branch);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("RESTORE: " + _name + " remove edge " + e + " " + d.max() + " " + branch);
 				i.remove();
 
 				restored = true;

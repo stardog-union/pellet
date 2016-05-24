@@ -42,7 +42,7 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
  */
 public class PrimitiveTBox
 {
-	public static final Logger log = Log.getLogger(PrimitiveTBox.class);
+	public static final Logger _logger = Log.getLogger(PrimitiveTBox.class);
 
 	private final Map<ATermAppl, Unfolding> _definitions;
 	private final Map<ATermAppl, Set<ATermAppl>> _dependencies;
@@ -105,8 +105,8 @@ public class PrimitiveTBox
 	{
 		definition = ATermUtils.normalize(definition);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Def: " + ATermUtils.toString(concept) + " = " + ATermUtils.toString(definition));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Def: " + ATermUtils.toString(concept) + " = " + ATermUtils.toString(definition));
 
 		_definitions.put(concept, Unfolding.create(definition, explanation));
 

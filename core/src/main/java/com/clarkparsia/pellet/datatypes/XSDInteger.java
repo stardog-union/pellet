@@ -32,7 +32,7 @@ public class XSDInteger implements Datatype<Number>
 {
 
 	private static final XSDInteger instance = new XSDInteger();
-	private static final Logger log = Log.getLogger(XSDInteger.class);
+	private static final Logger _logger = Log.getLogger(XSDInteger.class);
 
 	public static XSDInteger getInstance()
 	{
@@ -86,7 +86,7 @@ public class XSDInteger implements Datatype<Number>
 		}
 		catch (final NumberFormatException e)
 		{
-			log.severe(format("Number format exception (%s) cause while parsing integer %s", e.getMessage(), lexicalForm));
+			_logger.severe(format("Number format exception (%s) cause while parsing integer %s", e.getMessage(), lexicalForm));
 			throw new InvalidLiteralException(name, lexicalForm);
 		}
 		return XSDDecimal.getInstance().getCanonicalRepresentation(ATermUtils.makeTypedLiteral(lexicalForm, XSDDecimal.getInstance().getName()));

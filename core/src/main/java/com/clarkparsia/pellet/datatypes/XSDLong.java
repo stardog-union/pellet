@@ -30,7 +30,7 @@ public class XSDLong implements Datatype<Number>
 {
 
 	private static final XSDLong instance = new XSDLong();
-	private static final Logger log = Log.getLogger(XSDLong.class);
+	private static final Logger _logger = Log.getLogger(XSDLong.class);
 
 	public static XSDLong getInstance()
 	{
@@ -84,7 +84,7 @@ public class XSDLong implements Datatype<Number>
 		}
 		catch (final NumberFormatException e)
 		{
-			log.severe(format("Number format exception (%s) cause while parsing long %s", e.getMessage(), lexicalForm));
+			_logger.severe(format("Number format exception (%s) cause while parsing long %s", e.getMessage(), lexicalForm));
 			throw new InvalidLiteralException(name, lexicalForm);
 		}
 		return XSDDecimal.getInstance().getCanonicalRepresentation(ATermUtils.makeTypedLiteral(lexicalForm, XSDDecimal.getInstance().getName()));

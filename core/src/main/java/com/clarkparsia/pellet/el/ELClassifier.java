@@ -47,9 +47,9 @@ import org.mindswap.pellet.utils.Timers;
  */
 public class ELClassifier extends CDOptimizedTaxonomyBuilder
 {
-	public static final Logger logger = Log.getLogger(ELClassifier.class);
+	public static final Logger _logger = Log.getLogger(ELClassifier.class);
 
-	public final Timers timers = new Timers();
+	public final Timers _timers = new Timers();
 
 	public ConceptInfo TOP;
 	public ConceptInfo BOTTOM;
@@ -115,10 +115,10 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 
 		_kb.prepare();
 
-		Timer t = timers.startTimer("createConcepts");
-		logger.info("Creating structures");
+		Timer t = _timers.startTimer("createConcepts");
+		_logger.info("Creating structures");
 		createConcepts();
-		logger.info("Created structures");
+		_logger.info("Created structures");
 		t.stop();
 
 		_monitor.setProgressTitle("Classifiying");
@@ -127,23 +127,23 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 
 		printStructures();
 
-		logger.info("Processing _queue");
-		t = timers.startTimer("processQueue");
+		_logger.info("Processing _queue");
+		t = _timers.startTimer("processQueue");
 		processQueue();
 		t.stop();
-		logger.info("Processed _queue");
+		_logger.info("Processed _queue");
 
-		if (logger.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 			print();
 
-		logger.info("Building hierarchy");
-		t = timers.startTimer("buildHierarchy");
+		_logger.info("Building hierarchy");
+		t = _timers.startTimer("buildHierarchy");
 
 		_taxonomy = new ELTaxonomyBuilder().build(concepts);
 		//		buildTaxonomyWithPO();
 
 		t.stop();
-		logger.info("Builded hierarchy");
+		_logger.info("Builded hierarchy");
 
 		_monitor.taskFinished();
 
@@ -276,8 +276,8 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 	private void addToQueue(final ConceptInfo ci, final Set<Trigger> triggers)
 	{
 		if (queue.addAll(ci, triggers))
-			if (logger.isLoggable(Level.FINE))
-				logger.fine("Add to _queue: " + ci + " " + triggers);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Add to _queue: " + ci + " " + triggers);
 	}
 
 	private void addSubsumer(final ConceptInfo ci, final ConceptInfo supInfo)
@@ -298,8 +298,8 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 		addToQueue(ci, supInfo.getTriggers());
 
 		final ATermAppl c = supInfo.getConcept();
-		if (logger.isLoggable(Level.FINE))
-			logger.fine("Adding subsumers to " + ci + " " + c + " " + ci.getSuperClasses());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Adding subsumers to " + ci + " " + c + " " + ci.getSuperClasses());
 
 		if (ATermUtils.isAnd(c))
 		{
@@ -485,9 +485,9 @@ public class ELClassifier extends CDOptimizedTaxonomyBuilder
 
 	public void printStructures()
 	{
-		if (logger.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 			for (final ConceptInfo ci : concepts.values())
-				logger.fine(ci + "\t" + ci.getTriggers() + "\t" + ci.getSuperClasses());
+				_logger.fine(ci + "\t" + ci.getTriggers() + "\t" + ci.getSuperClasses());
 	}
 
 	private void processQueue()

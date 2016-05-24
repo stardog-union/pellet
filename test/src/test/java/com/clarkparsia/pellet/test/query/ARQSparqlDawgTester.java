@@ -52,7 +52,7 @@ import org.mindswap.pellet.utils.URIUtils;
 public class ARQSparqlDawgTester implements SparqlDawgTester
 {
 
-	private static final Logger log = Log.getLogger(ARQSparqlDawgTester.class);
+	private static final Logger _logger = Log.getLogger(ARQSparqlDawgTester.class);
 
 	private final List<String> avoidList = Arrays.asList(new String[] {
 			// FIXME with some effort some
@@ -153,7 +153,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 		}
 		catch (final Exception e)
 		{
-			log.log(Level.INFO, e.getMessage(), e);
+			_logger.log(Level.INFO, e.getMessage(), e);
 			return false;
 		}
 	}
@@ -171,7 +171,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 
 			if (_resultURI == null)
 			{
-				log.log(Level.WARNING, "No result set associated with this test, assumuing success!");
+				_logger.log(Level.WARNING, "No result set associated with this test, assumuing success!");
 				return true;
 			}
 
@@ -197,8 +197,8 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 					final boolean askReal = exec.execAsk();
 					final boolean askExpected = JenaIOUtils.parseAskResult(_resultURI);
 
-					log.fine("Expected=" + askExpected);
-					log.fine("Real=" + askReal);
+					_logger.fine("Expected=" + askExpected);
+					_logger.fine("Real=" + askReal);
 
 					return askReal == askExpected;
 				}
@@ -208,8 +208,8 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 						final Model real = exec.execConstruct();
 						final Model expected = FileManager.get().loadModel(_resultURI);
 
-						log.fine("Expected=" + real);
-						log.fine("Real=" + expected);
+						_logger.fine("Expected=" + real);
+						_logger.fine("Real=" + expected);
 
 						return real.isIsomorphicWith(expected);
 					}
@@ -219,8 +219,8 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 							final Model real = exec.execDescribe();
 							final Model expected = FileManager.get().loadModel(_resultURI);
 
-							log.fine("Expected=" + real);
-							log.fine("Real=" + expected);
+							_logger.fine("Expected=" + real);
+							_logger.fine("Real=" + expected);
 
 							return real.isIsomorphicWith(expected);
 						}
@@ -229,7 +229,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 		}
 		catch (final IOException e)
 		{
-			log.log(Level.SEVERE, e.getMessage(), e);
+			_logger.log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 		finally
@@ -240,7 +240,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 
 	private void logResults(final String name, final ResultSetRewindable results)
 	{
-		if (log.isLoggable(Level.WARNING))
+		if (_logger.isLoggable(Level.WARNING))
 		{
 			results.reset();
 			final StringBuilder sb = new StringBuilder(name + " (" + results.size() + ")=");
@@ -251,14 +251,14 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 				sb.append(result);
 			}
 
-			log.warning(sb.toString());
+			_logger.warning(sb.toString());
 		}
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
 			final ByteArrayOutputStream out = new ByteArrayOutputStream();
 			ResultSetFormatter.out(out, results);
-			log.fine(out.toString());
+			_logger.fine(out.toString());
 		}
 	}
 

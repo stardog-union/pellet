@@ -111,8 +111,8 @@ public class NominalRule extends AbstractTableauRule
 			return;
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("NOM:  " + y + " -> " + z);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("NOM:  " + y + " -> " + z);
 
 		_strategy.mergeTo(y, z, ds);
 	}

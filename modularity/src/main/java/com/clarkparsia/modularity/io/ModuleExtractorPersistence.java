@@ -52,7 +52,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class ModuleExtractorPersistence
 {
 
-	public static final Logger log = Log.getLogger(ModuleExtractorPersistence.class);
+	public static final Logger _logger = Log.getLogger(ModuleExtractorPersistence.class);
 
 	/**
 	 * Saves the axioms from the ModuleExtractor in the form of an ontology containing these axioms.
@@ -75,7 +75,7 @@ public class ModuleExtractorPersistence
 		}
 		catch (final OWLException e)
 		{
-			log.log(Level.SEVERE, "A problem occurred during creation or saving the ontology with axioms for the ModuleExtractor", e);
+			_logger.log(Level.SEVERE, "A problem occurred during creation or saving the ontology with axioms for the ModuleExtractor", e);
 			throw new IOException("A problem occurred during creation or saving the ontology with axioms for the ModuleExtractor");
 		}
 	}
@@ -172,7 +172,7 @@ public class ModuleExtractorPersistence
 		}
 		catch (final OWLOntologyCreationException e)
 		{
-			log.log(Level.SEVERE, "Unable to create an ontology", e);
+			_logger.log(Level.SEVERE, "Unable to create an ontology", e);
 			throw new IOException("Unable to create an ontology");
 		}
 	}

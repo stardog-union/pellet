@@ -52,7 +52,7 @@ import org.mindswap.pellet.utils.Namespaces;
  */
 public class RuleAbsorber
 {
-	public static final Logger log = TBoxBase._log;
+	public static final Logger log = TBoxBase._logger;
 
 	public static final Map<ATermAppl, String> FACETS;
 	static

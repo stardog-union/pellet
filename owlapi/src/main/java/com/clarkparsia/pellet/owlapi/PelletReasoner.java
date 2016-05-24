@@ -71,7 +71,7 @@ import org.semanticweb.owlapi.util.Version;
 public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 {
 
-	public static final Logger _log = Log.getLogger(PelletReasoner.class);
+	public static final Logger _logger = Log.getLogger(PelletReasoner.class);
 
 	private static final Set<InferenceType> PRECOMPUTABLE_INFERENCES = EnumSet.of(InferenceType.CLASS_HIERARCHY, InferenceType.CLASS_ASSERTIONS, InferenceType.OBJECT_PROPERTY_HIERARCHY, InferenceType.DATA_PROPERTY_HIERARCHY);
 
@@ -99,7 +99,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		}
 		catch (final NumberFormatException e)
 		{
-			_log.log(Level.FINE, "Invalid number in version identifier: " + numbers[index], e);
+			_logger.log(Level.FINE, "Invalid number in version identifier: " + numbers[index], e);
 		}
 
 		return 0;
@@ -1043,16 +1043,16 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		for (final OWLOntologyChange change : new ArrayList<>(changes)) // avoid ConcurrentModificationException that is too mush common.
 		{
 
-			if (_log.isLoggable(Level.FINER))
-				_log.fine("Changed: " + change + " in " + change.getOntology());
+			if (_logger.isLoggable(Level.FINER))
+				_logger.fine("Changed: " + change + " in " + change.getOntology());
 
 			if (!_importsClosure.contains(change.getOntology()))
 				continue;
 
 			if (!_changeVisitor.process(change))
 			{
-				if (_log.isLoggable(Level.FINE))
-					_log.fine("Reload required by _ontology change " + change);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Reload required by _ontology change " + change);
 
 				_shouldRefresh = true;
 				break;

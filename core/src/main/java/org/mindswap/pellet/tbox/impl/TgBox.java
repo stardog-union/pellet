@@ -51,7 +51,12 @@ import org.mindswap.pellet.utils.ATermUtils;
 
 public class TgBox extends TBoxBase
 {
-	public static final Logger log = Log.getLogger(TgBox.class);
+	public static final Logger _subLogger = Log.getLogger(TgBox.class);
+
+	static
+	{
+		_subLogger.setParent(_logger);
+	}
 
 	private Set<ATermAppl> _explanation;
 
@@ -117,10 +122,10 @@ public class TgBox extends TBoxBase
 
 	public void absorb()
 	{
-		_log.fine("Absorption started");
+		_subLogger.fine("Absorption started");
 
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Tg.size was " + _termhash.size() + " _Tu.size was " + _tbox._Tu.size());
+		if (_subLogger.isLoggable(Level.FINE))
+			_subLogger.fine("Tg.size was " + _termhash.size() + " _Tu.size was " + _tbox._Tu.size());
 
 		final Collection<TermDefinition> terms = _termhash.values();
 
@@ -148,16 +153,16 @@ public class TgBox extends TBoxBase
 			}
 		}
 
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Tg.size is " + _termhash.size() + " _Tu.size is " + _tbox._Tu.size());
+		if (_subLogger.isLoggable(Level.FINE))
+			_subLogger.fine("Tg.size is " + _termhash.size() + " _Tu.size is " + _tbox._Tu.size());
 
-		_log.fine("Absorption finished");
+		_subLogger.fine("Absorption finished");
 	}
 
 	private void absorbSubClass(final ATermAppl sub, final ATermAppl sup, final Set<ATermAppl> axiomExplanation)
 	{
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Absorb: subClassOf(" + ATermUtils.toString(sub) + ", " + ATermUtils.toString(sup) + ")");
+		if (_subLogger.isLoggable(Level.FINE))
+			_subLogger.fine("Absorb: subClassOf(" + ATermUtils.toString(sub) + ", " + ATermUtils.toString(sup) + ")");
 
 		final HashSet<ATermAppl> set = new HashSet<>();
 
@@ -178,54 +183,54 @@ public class TgBox extends TBoxBase
 	private boolean absorbTerm(final Set<ATermAppl> set)
 	{
 		final RuleAbsorber ruleAbsorber = new RuleAbsorber(_tbox);
-		if (_log.isLoggable(Level.FINER))
-			_log.finer("Absorbing term " + set);
+		if (_subLogger.isLoggable(Level.FINER))
+			_subLogger.finer("Absorbing term " + set);
 		while (true)
 		{
-			_log.finer("Absorb rule");
+			_subLogger.finer("Absorb rule");
 			if (PelletOptions.USE_RULE_ABSORPTION && ruleAbsorber.absorbRule(set, _explanation))
 				return true;
-			_log.finer("Absorb nominal");
+			_subLogger.finer("Absorb nominal");
 			if (!PelletOptions.USE_PSEUDO_NOMINALS && (PelletOptions.USE_NOMINAL_ABSORPTION || PelletOptions.USE_HASVALUE_ABSORPTION) && absorbNominal(set))
 				return true;
-			_log.finer("Absorb II");
+			_subLogger.finer("Absorb II");
 			if (absorbII(set))
 			{
-				_log.finer("Absorbed");
+				_subLogger.finer("Absorbed");
 				return true;
 			}
-			_log.finer("Absorb III");
+			_subLogger.finer("Absorb III");
 			if (absorbIII(set))
 			{
-				_log.finer("Absorb III");
+				_subLogger.finer("Absorb III");
 				continue;
 			}
-			// _log.finer("Absorb IV");
+			// _subLogger.finer("Absorb IV");
 			// if (absorbIV(set)) {
-			// _log.finer("Absorb IV");
+			// _subLogger.finer("Absorb IV");
 			// continue;
 			// }
-			_log.finer("Absorb V");
+			_subLogger.finer("Absorb V");
 			if (absorbV(set))
 			{
-				_log.finer("Absorb V");
+				_subLogger.finer("Absorb V");
 				continue;
 			}
-			_log.finer("Absorb VI");
+			_subLogger.finer("Absorb VI");
 			if (absorbVI(set))
 			{
-				_log.finer("Recursed on OR");
+				_subLogger.finer("Recursed on OR");
 				return true;
 			}
-			_log.finer("Absorb role");
+			_subLogger.finer("Absorb role");
 			if (PelletOptions.USE_ROLE_ABSORPTION && absorbRole(set))
 			{
-				_log.finer("Absorbed w/ Role");
+				_subLogger.finer("Absorbed w/ Role");
 				return true;
 			}
-			_log.finer("Absorb VII");
+			_subLogger.finer("Absorb VII");
 			absorbVII(set);
-			_log.finer("Finished absorbTerm");
+			_subLogger.finer("Finished absorbTerm");
 			return false;
 		}
 	}
@@ -267,8 +272,8 @@ public class TgBox extends TBoxBase
 					final ATermAppl invP = _kb.getProperty(p).getInverse().getName();
 					final ATermAppl allInvPC = ATermUtils.makeAllValues(invP, c);
 
-					if (_log.isLoggable(Level.FINER))
-						_log.finer("Absorb into " + ind + " with inverse of " + p + " for " + c);
+					if (_subLogger.isLoggable(Level.FINER))
+						_subLogger.finer("Absorb into " + ind + " with inverse of " + p + " for " + c);
 
 					_tbox.getAbsorbedAxioms().addAll(_explanation);
 
@@ -291,13 +296,13 @@ public class TgBox extends TBoxBase
 	{
 		if (PelletOptions.USE_PSEUDO_NOMINALS)
 		{
-			if (_log.isLoggable(Level.WARNING))
-				_log.warning("Ignoring axiom involving nominals: " + explain);
+			if (_subLogger.isLoggable(Level.WARNING))
+				_subLogger.warning("Ignoring axiom involving nominals: " + explain);
 			return;
 		}
 
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("Absorb nominals: " + ATermUtils.toString(c) + " " + list);
+		if (_subLogger.isLoggable(Level.FINE))
+			_subLogger.fine("Absorb nominals: " + ATermUtils.toString(c) + " " + list);
 
 		_tbox.getAbsorbedAxioms().addAll(explain);
 
@@ -327,8 +332,8 @@ public class TgBox extends TBoxBase
 				final ATermAppl domain = ATermUtils.makeNot(ATermUtils.makeAnd(ATermUtils.makeList(set)));
 				_kb.addDomain(r, domain, _explanation);
 
-				if (_log.isLoggable(Level.FINE))
-					_log.fine("Absorb domain: " + ATermUtils.toString(r) + " " + ATermUtils.toString(domain));
+				if (_subLogger.isLoggable(Level.FINE))
+					_subLogger.fine("Absorb domain: " + ATermUtils.toString(r) + " " + ATermUtils.toString(domain));
 
 				_tbox.getAbsorbedAxioms().addAll(_explanation);
 				return true;
@@ -350,8 +355,8 @@ public class TgBox extends TBoxBase
 						i.remove();
 						final ATermAppl domain = ATermUtils.makeNot(ATermUtils.makeAnd(ATermUtils.makeList(set)));
 						_kb.addDomain(r, domain, _explanation);
-						if (_log.isLoggable(Level.FINE))
-							_log.fine("Absorb domain: " + ATermUtils.toString(r) + " " + ATermUtils.toString(domain));
+						if (_subLogger.isLoggable(Level.FINE))
+							_subLogger.fine("Absorb domain: " + ATermUtils.toString(r) + " " + ATermUtils.toString(domain));
 						_tbox.getAbsorbedAxioms().addAll(_explanation);
 						return true;
 					}
@@ -372,23 +377,23 @@ public class TgBox extends TBoxBase
 			else
 				canAbsorb = term.getArity() == 0 && set.size() > 1;
 
-				if (canAbsorb)
-			{
-					set.remove(term);
+			if (canAbsorb)
+				{
+				set.remove(term);
 
-					final ATermList setlist = ATermUtils.makeList(set);
-					ATermAppl conjunct = ATermUtils.makeAnd(setlist);
-					conjunct = ATermUtils.makeNot(conjunct);
-					final ATermAppl sub = ATermUtils.makeSub(term, ATermUtils.nnf(conjunct));
-					_tbox._Tu.addDef(sub);
+				final ATermList setlist = ATermUtils.makeList(set);
+				ATermAppl conjunct = ATermUtils.makeAnd(setlist);
+				conjunct = ATermUtils.makeNot(conjunct);
+				final ATermAppl sub = ATermUtils.makeSub(term, ATermUtils.nnf(conjunct));
+				_tbox._Tu.addDef(sub);
 
-					if (_log.isLoggable(Level.FINE))
-						_log.fine("Absorb named: " + ATermUtils.toString(sub));
+				if (_subLogger.isLoggable(Level.FINE))
+					_subLogger.fine("Absorb named: " + ATermUtils.toString(sub));
 
-				_tbox.addAxiomExplanation(sub, _explanation);
+					_tbox.addAxiomExplanation(sub, _explanation);
 
-					return true;
-				}
+				return true;
+			}
 		}
 
 		return false;
@@ -492,8 +497,8 @@ public class TgBox extends TBoxBase
 
 		final ATermAppl subClassAxiom = ATermUtils.makeSub(sub, sup);
 
-		if (_log.isLoggable(Level.FINE))
-			_log.fine("GCI: " + subClassAxiom + "\nexplanation: " + _explanation);
+		if (_subLogger.isLoggable(Level.FINE))
+			_subLogger.fine("GCI: " + subClassAxiom + "\nexplanation: " + _explanation);
 
 		addDef(subClassAxiom);
 

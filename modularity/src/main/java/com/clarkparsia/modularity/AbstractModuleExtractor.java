@@ -58,7 +58,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
  */
 public abstract class AbstractModuleExtractor implements ModuleExtractor
 {
-	public static final Logger log = Log.getLogger(AbstractModuleExtractor.class);
+	public static final Logger _logger = Log.getLogger(AbstractModuleExtractor.class);
 
 	private final Set<OWLAxiom> _additions = new HashSet<>();
 
@@ -113,8 +113,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		if (_axioms.contains(axiom))
 			return;
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Adding " + axiom);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Adding " + axiom);
 
 		_deletions.remove(axiom);
 		_additions.add(axiom);
@@ -148,7 +148,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		if (canUpdate())
 			if (!isLocal(axiom, Collections.<OWLEntity> emptySet()))
 			{
-				log.warning("*** Non-local axiom: " + axiom);
+				_logger.warning("*** Non-local axiom: " + axiom);
 				_nonLocalAxioms = true;
 			}
 	}
@@ -161,13 +161,13 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		if (!_axioms.contains(axiom))
 		{
 			if (_additions.remove(axiom))
-				if (log.isLoggable(Level.FINE))
-					log.fine("Deleted axiom from add _queue before processing " + axiom);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Deleted axiom from add _queue before processing " + axiom);
 			return;
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Deleting " + axiom);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Deleting " + axiom);
 
 		_additions.remove(axiom);
 		_deletions.add(axiom);
@@ -217,8 +217,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	 */
 	private void extractModuleSignatures(final Set<? extends OWLEntity> entities)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Extracting module for each of " + entities);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Extracting module for each of " + entities);
 
 		if (entities.isEmpty())
 			return;
@@ -232,8 +232,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 		monitor.taskFinished();
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Modules: " + modules);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Modules: " + modules);
 	}
 
 	protected abstract void extractModuleSignatures(Set<? extends OWLEntity> entities, ProgressMonitor monitor);
@@ -295,8 +295,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		// check if the entity has been removed due to a deletion
 		if (signature == null)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Removed entity " + entity);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Removed entity " + entity);
 		}
 		else
 			if (add)
@@ -473,8 +473,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 				if (!entityAxioms.containsKey(entity))
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine("Remove " + entity + " which is not mentioned anymore");
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Remove " + entity + " which is not mentioned anymore");
 					modules.remove(entity);
 				}
 			}
@@ -495,8 +495,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		// Set of all _nodes affected
 		final Set<OWLEntity> affected = new HashSet<>();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Update modules for " + (add ? "_additions" : "_deletions"));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Update modules for " + (add ? "_additions" : "_deletions"));
 
 		// any new classes are affected
 		affectedRoots.addAll(_newClasses);
@@ -508,8 +508,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 			// find affected roots - recursive function
 			affectedRoots.addAll(getAffectedRoots(axiom, taxonomy, add));
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Affected roots " + affectedRoots);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Affected roots " + affectedRoots);
 
 		// given root, get all affected objects
 		for (final OWLEntity nextRoot : affectedRoots)
@@ -523,8 +523,8 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 					affected.addAll(taxonomy.getFlattenedSubs((OWLClass) nextRoot, false));
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Affected entities " + affected);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Affected entities " + affected);
 
 		for (final OWLEntity entity : affected)
 			modules.remove(entity);
@@ -538,7 +538,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 			if (module == null)
 			{
 				final String msg = "No module for " + entity;
-				log.log(Level.SEVERE, msg, new RuntimeException(msg));
+				_logger.log(Level.SEVERE, msg, new RuntimeException(msg));
 			}
 
 			effects.addAll(module);

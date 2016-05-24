@@ -47,7 +47,7 @@ import org.mindswap.pellet.taxonomy.Taxonomy;
  */
 public class SizeEstimate
 {
-	protected static final Logger log = Log.getLogger(SizeEstimate.class);
+	protected static final Logger _logger = Log.getLogger(SizeEstimate.class);
 
 	private static final Set<ATermAppl> EMPTY_SET = SetUtils.emptySet();
 
@@ -291,14 +291,14 @@ public class SizeEstimate
 		{
 			computKBCosts();
 
-			if (log.isLoggable(Level.FINE))
+			if (_logger.isLoggable(Level.FINE))
 			{
-				log.fine("   NoSat cost : " + noSatCost + " ms.");
-				log.fine("  OneSat cost : " + oneSatCost + " ms.");
-				log.fine("Classify cost : " + classificationCost + " ms.");
-				log.fine(" Realize cost : " + realizationCost + " ms.");
-				log.fine("      IR cost : " + instanceRetrievalCost + " ms.");
-				log.fine("      CR cost : " + classRetrievalCost + " ms.");
+				_logger.fine("   NoSat cost : " + noSatCost + " ms.");
+				_logger.fine("  OneSat cost : " + oneSatCost + " ms.");
+				_logger.fine("Classify cost : " + classificationCost + " ms.");
+				_logger.fine(" Realize cost : " + realizationCost + " ms.");
+				_logger.fine("      IR cost : " + instanceRetrievalCost + " ms.");
+				_logger.fine("      CR cost : " + classRetrievalCost + " ms.");
 			}
 
 			compute(new HashSet<>(_kb.getClasses()), new HashSet<>(_kb.getProperties()));
@@ -331,7 +331,7 @@ public class SizeEstimate
 
 		final Timer timer = _kb.timers.startTimer("sizeEstimate");
 
-		log.fine("Size estimation started");
+		_logger.fine("Size estimation started");
 
 		final Random randomGen = new Random();
 
@@ -405,8 +405,8 @@ public class SizeEstimate
 				}
 			}
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Initialize " + c + " = " + size(c));
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Initialize " + c + " = " + size(c));
 		}
 
 		for (final ATermAppl p : properties)
@@ -483,8 +483,8 @@ public class SizeEstimate
 
 				if (knownSize > 0)
 				{
-					if (log.isLoggable(Level.FINER))
-						log.finer("Update " + p + " by " + knownSize);
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer("Update " + p + " by " + knownSize);
 					pairsPP.put(p, size(p) + knownSize);
 					pSubj.put(p, pSubj.get(p) + 1);
 				}
@@ -625,10 +625,10 @@ public class SizeEstimate
 
 		// printStatistics();
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
 			final NumberFormat nf = new DecimalFormat("0.00");
-			log.fine("Size estimation finished in " + nf.format(timer.getLast() / 1000.0) + " sec");
+			_logger.fine("Size estimation finished in " + nf.format(timer.getLast() / 1000.0) + " sec");
 		}
 	}
 
@@ -851,8 +851,8 @@ public class SizeEstimate
 		if (!map.containsKey(sup))
 		{
 			compute(Collections.singleton(sup), EMPTY_SET);
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return map.get(sup);
 		//
@@ -867,8 +867,8 @@ public class SizeEstimate
 		if (!map.containsKey(sup))
 		{
 			compute(EMPTY_SET, Collections.singleton(sup));
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return map.get(sup);
 	}
@@ -880,8 +880,8 @@ public class SizeEstimate
 		if (!map.containsKey(sup))
 		{
 			compute(Collections.singleton(sup), EMPTY_SET);
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return map.get(sup);
 	}
@@ -893,8 +893,8 @@ public class SizeEstimate
 		if (!map.containsKey(sup))
 		{
 			compute(EMPTY_SET, Collections.singleton(sup));
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return map.get(sup);
 	}
@@ -904,8 +904,8 @@ public class SizeEstimate
 		if (!equivClasses.containsKey(sup))
 		{
 			compute(Collections.singleton(sup), EMPTY_SET);
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return equivClasses.get(sup);
 	}
@@ -915,8 +915,8 @@ public class SizeEstimate
 		if (!equivProperties.containsKey(sup))
 		{
 			compute(EMPTY_SET, Collections.singleton(sup));
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return equivProperties.get(sup);
 	}
@@ -942,8 +942,8 @@ public class SizeEstimate
 		if (!disjoints.containsKey(sup))
 		{
 			compute(Collections.singleton(sup), EMPTY_SET);
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return disjoints.get(sup);
 	}
@@ -953,8 +953,8 @@ public class SizeEstimate
 		if (!complements.containsKey(sup))
 		{
 			compute(Collections.singleton(sup), EMPTY_SET);
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return complements.get(sup);
 	}
@@ -964,8 +964,8 @@ public class SizeEstimate
 		if (!inverses.containsKey(sup))
 		{
 			compute(EMPTY_SET, Collections.singleton(sup));
-			if (log.isLoggable(Level.FINE))
-				log.fine("Computing additionally " + sup);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Computing additionally " + sup);
 		}
 		return inverses.get(sup);
 	}

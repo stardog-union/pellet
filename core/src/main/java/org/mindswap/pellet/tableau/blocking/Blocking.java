@@ -53,7 +53,7 @@ import org.mindswap.pellet.utils.Timer;
  */
 public abstract class Blocking
 {
-	public final static Logger log = Log.getLogger(Blocking.class);
+	public final static Logger _logger = Log.getLogger(Blocking.class);
 
 	protected static final BlockingCondition block1 = new Block1();
 	protected static final BlockingCondition block2 = new Block2();
@@ -117,8 +117,8 @@ public abstract class Blocking
 			if (isDirectlyBlockedBy(cxt))
 			{
 				blocked.setBlocked(true);
-				if (log.isLoggable(Level.FINER))
-					log.finer(blocked + " _blocked by " + cxt._blocker);
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer(blocked + " _blocked by " + cxt._blocker);
 				return true;
 			}
 
@@ -140,8 +140,8 @@ public abstract class Blocking
 		if (!cxt._blocker.isRoot() && isDirectlyBlockedBy(cxt))
 		{
 			cxt._blocked.setBlocked(true);
-			if (log.isLoggable(Level.FINER))
-				log.finer(cxt._blocked + " _blocked by " + cxt._blocker);
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer(cxt._blocked + " _blocked by " + cxt._blocker);
 			return true;
 		}
 

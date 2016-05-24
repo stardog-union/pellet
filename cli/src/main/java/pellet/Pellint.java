@@ -38,9 +38,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import net.katk.tools.Log;
 import org.apache.jena.rdf.model.Statement;
 import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -78,11 +76,9 @@ import org.semanticweb.owlapi.util.OWLOntologyMerger;
  */
 public class Pellint extends PelletCmdApp
 {
-
 	private static final String CONFIGURATION_PROPERTY_NAME = "pellint.configuration";
 	private static final String DEFAULT_CONFIGURATION_FILE_NAME = "pellint.properties";
 	private static final IRI MERGED_ONTOLOGY_URI = IRI.create("tag:clarkparsia.com,2008:pellint:merged");
-	private static final Logger LOGGER = Log.getLogger(Pellint.class);
 
 	private boolean m_DoRDF = true;
 	private boolean m_DoOWL = true;
@@ -424,14 +420,14 @@ public class Pellint extends PelletCmdApp
 
 	private void logLoadedPatterns(final List<AxiomLintPattern> axiomLintPatterns, final List<OntologyLintPattern> ontologyLintPatterns)
 	{
-		if (!LOGGER.isLoggable(Level.FINE))
+		if (!getLogger().isLoggable(Level.FINE))
 			return;
 
 		final List<LintPattern> allPatterns = CollectionUtil.<LintPattern> copy(axiomLintPatterns);
 		allPatterns.addAll(ontologyLintPatterns);
 		Collections.sort(allPatterns, (p0, p1) -> p0.getName().compareTo(p1.getName()));
 
-		LOGGER.fine("Loaded lint patterns:");
+		getLogger().fine("Loaded lint patterns:");
 		for (final LintPattern pattern : allPatterns)
 		{
 			final StringBuilder builder = new StringBuilder();
@@ -441,7 +437,7 @@ public class Pellint extends PelletCmdApp
 			else
 				builder.append("          ");
 			builder.append(pattern.getName());
-			LOGGER.fine(builder.toString());
+			getLogger().fine(builder.toString());
 		}
 	}
 
@@ -467,7 +463,7 @@ public class Pellint extends PelletCmdApp
 			configURL = Pellint.class.getClassLoader().getResource(DEFAULT_CONFIGURATION_FILE_NAME);
 
 			if (configURL == null)
-				LOGGER.severe("Cannot find Pellint configuration file " + DEFAULT_CONFIGURATION_FILE_NAME);
+				_logger.severe("Cannot find Pellint configuration file " + DEFAULT_CONFIGURATION_FILE_NAME);
 		}
 		else
 		{
@@ -485,22 +481,22 @@ public class Pellint extends PelletCmdApp
 			}
 
 			if (configURL == null)
-				LOGGER.severe("Cannot find Pellint configuration file " + configFile);
+				_logger.severe("Cannot find Pellint configuration file " + configFile);
 		}
 
 		if (configURL != null)
 			try
-		{
+			{
 				properties.load(configURL.openStream());
-		}
-		catch (final FileNotFoundException e)
-		{
-			LOGGER.severe("Pellint configuration file cannot be found");
-		}
-		catch (final IOException e)
-		{
-			LOGGER.severe("I/O error while reading Pellet configuration file");
-		}
+			}
+			catch (final FileNotFoundException e)
+			{
+				_logger.severe("Pellint configuration file cannot be found");
+			}
+			catch (final IOException e)
+			{
+				_logger.severe("I/O error while reading Pellet configuration file");
+			}
 
 		return properties;
 	}

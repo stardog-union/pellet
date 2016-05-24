@@ -3,43 +3,48 @@ package jjtraveler.reflective;
 import jjtraveler.Sequence;
 import jjtraveler.Visitable;
 
-public class VisitableSequence extends Sequence implements VisitableVisitor
+public class VisitableSequence<T extends Visitable> extends Sequence<T> implements VisitableVisitor<T>
 {
 
+	@Override
 	public int getChildCount()
 	{
 		return 2;
 	}
 
-	public Visitable getChildAt(int i)
+	@SuppressWarnings("unchecked")
+	@Override
+	public T getChildAt(int i)
 	{
 		switch (i)
 		{
 			case 0:
-				return (VisitableVisitor) first;
+				return (T) first;
 			case 1:
-				return (VisitableVisitor) then;
+				return (T) then;
 			default:
 				throw new IndexOutOfBoundsException();
 		}
 	}
 
-	public Visitable setChildAt(int i, Visitable child)
+	@SuppressWarnings("unchecked")
+	@Override
+	public T setChildAt(int i, Visitable child)
 	{
 		switch (i)
 		{
 			case 0:
-				first = (VisitableVisitor) child;
-				return this;
+				first = (VisitableVisitor<T>) child;
+				return (T) this; // because VisitableSequence is Visitable.
 			case 1:
-				then = (VisitableVisitor) child;
-				return this;
+				then = (VisitableVisitor<T>) child;
+				return (T) this; // because VisitableSequence is Visitable.
 			default:
 				throw new IndexOutOfBoundsException();
 		}
 	}
 
-	public VisitableSequence(VisitableVisitor first, VisitableVisitor then)
+	public VisitableSequence(VisitableVisitor<T> first, VisitableVisitor<T> then)
 	{
 		super(first, then);
 	}

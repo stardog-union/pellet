@@ -162,11 +162,11 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 				{
 					total++;
 
-					if (log.isLoggable(Level.FINE))
+					if (_logger.isLoggable(Level.FINE))
 					{
-						log.fine("Rule: " + rule);
-						log.fine("Binding: " + binding);
-						log.fine("total:" + total);
+						_logger.fine("Rule: " + rule);
+						_logger.fine("Binding: " + binding);
+						_logger.fine("total:" + total);
 					}
 
 					final int branch = createDisjunctionsFromBinding(binding, rule, ruleBinding.getDependencySet());
@@ -237,9 +237,9 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 
 				_abox.setChanged(false);
 
-				if (log.isLoggable(Level.FINE))
+				if (_logger.isLoggable(Level.FINE))
 				{
-					log.fine("Branch: " + _abox.getBranch() + ", Depth: " + _abox.stats.treeDepth + ", Size: " + _abox.getNodes().size() + ", Mem: " + (Runtime.getRuntime().freeMemory() / 1000) + "kb");
+					_logger.fine("Branch: " + _abox.getBranch() + ", Depth: " + _abox.stats.treeDepth + ", Size: " + _abox.getNodes().size() + ", Mem: " + (Runtime.getRuntime().freeMemory() / 1000) + "kb");
 					_abox.validate();
 					// printBlocked();
 					_abox.printTree();
@@ -271,8 +271,8 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 
 			if (_abox.isClosed())
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Clash at Branch (" + _abox.getBranch() + ") " + _abox.getClash());
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Clash at Branch (" + _abox.getBranch() + ") " + _abox.getClash());
 
 				if (backtrack())
 					_abox.setClash(null);
@@ -327,8 +327,8 @@ public class ContinuousRulesStrategy extends SROIQStrategy
 		{
 			if (rule.getHead().isEmpty())
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Empty head for rule " + rule);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Empty head for rule " + rule);
 				_abox.setClash(Clash.unexplained(null, ds));
 			}
 			else

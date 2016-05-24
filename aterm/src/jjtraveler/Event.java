@@ -4,14 +4,14 @@ package jjtraveler;
  * A class to represent a visting event: the fact that a visitable
  * node is visited by a particular visitor.
  */
-public class Event
+public class Event<T extends Visitable>
 {
 
-	Visitor visitor;
+	Visitor<T> visitor;
 	Visitable node;
 	long timeStamp;
 
-	public Event(final Visitor v, final Visitable n)
+	public Event(final Visitor<T> v, final Visitable n)
 	{
 		visitor = v;
 		node = n;
@@ -27,11 +27,13 @@ public class Event
 	@Override
 	public boolean equals(final Object o)
 	{
+		if (this == o)
+			return true;
+
 		boolean result = false;
 		if (o instanceof Event)
 		{
-			final Event e = (Event) o;
-			result = toString() == e.toString();
+			result = toString() == o.toString();
 		}
 		return result;
 	}

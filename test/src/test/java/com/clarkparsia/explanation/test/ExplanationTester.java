@@ -39,7 +39,7 @@ import org.semanticweb.owlapi.model.OWLClassExpression;
  */
 public class ExplanationTester
 {
-	private static final Logger log = Log.getLogger(ExplanationTester.class);
+	private static final Logger _logger = Log.getLogger(ExplanationTester.class);
 
 	private final SatisfiabilityConverter _converter;
 	private final ConciseExplanationRenderer _renderer;
@@ -59,19 +59,19 @@ public class ExplanationTester
 	{
 		final OWLClassExpression unsatClass = _converter.convert(axiom);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Axiom " + (++_axiomCount) + ": " + axiom + " Expecting " + expectedExplanations.size() + " explanations");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Axiom " + (++_axiomCount) + ": " + axiom + " Expecting " + expectedExplanations.size() + " explanations");
 
 		final Set<Set<OWLAxiom>> generatedExplanations = _expGen.getExplanations(unsatClass, max);
 		final Set<Set<OWLAxiom>> notFoundExplanations = new HashSet<>(expectedExplanations);
 
-		if (log.isLoggable(Level.FINER))
+		if (_logger.isLoggable(Level.FINER))
 		{
 			final StringWriter sw = new StringWriter();
 			_renderer.startRendering(sw);
 			_renderer.render(axiom, expectedExplanations);
 			_renderer.endRendering();
-			log.finer("Expected:\n" + sw);
+			_logger.finer("Expected:\n" + sw);
 		}
 
 		assertNotNull("Axiom " + axiom + " not entailed", generatedExplanations);
@@ -100,9 +100,9 @@ public class ExplanationTester
 			}
 			renderer.endRendering();
 
-			log.severe("Error in explanation: " + sw);
+			_logger.severe("Error in explanation: " + sw);
 
-			org.junit.Assert.fail("Error in explanation, see the _log file for details");
+			org.junit.Assert.fail("Error in explanation, see the _logger file for details");
 		}
 	}
 }

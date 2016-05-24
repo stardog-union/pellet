@@ -34,7 +34,7 @@ import org.mindswap.pellet.tableau.completion.queue.QueueElement;
  */
 public abstract class AbstractTableauRule implements TableauRule
 {
-	public final static Logger log = Log.getLogger(AbstractTableauRule.class);
+	public final static Logger _logger = Log.getLogger(AbstractTableauRule.class);
 
 	protected enum BlockingType
 	{

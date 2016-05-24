@@ -76,7 +76,7 @@ public class OWLRealUtils
 		}
 	}
 
-	private static Logger _log = Log.getLogger(OWLRealUtils.class);
+	private static Logger _logger = Log.getLogger(OWLRealUtils.class);
 
 	public static boolean acceptable(final Class<? extends Number> c)
 	{
@@ -89,7 +89,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to bigDecimal method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 		final BigDecimal d = (BigDecimal) convertFromTo(n, t, Type.BIG_DECIMAL);
@@ -102,7 +102,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to bigInteger method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -277,7 +277,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to integerIncrement method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -318,7 +318,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to integerIncrement method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -358,7 +358,7 @@ public class OWLRealUtils
 		if (ta == null || tb == null)
 		{
 			final String msg = format("Unexpected number type %s,%s passed to integerDifference method.", a.getClass().getCanonicalName(), b.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -374,7 +374,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to integerIncrement method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -414,7 +414,7 @@ public class OWLRealUtils
 		if (ta == null || tb == null)
 		{
 			final String msg = format("Unexpected number type %s,%s passed to integerSum method.", a.getClass().getCanonicalName(), b.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -430,7 +430,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to isInteger method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -455,7 +455,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to isInteger method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -486,7 +486,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to isInteger method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -508,7 +508,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to print method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -539,7 +539,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to roundDown method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -571,7 +571,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to roundDown method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -599,7 +599,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to roundDown method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -675,7 +675,7 @@ public class OWLRealUtils
 		if (t == null)
 		{
 			final String msg = format("Unexpected number type %s passed to signum method.", n.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
@@ -709,14 +709,14 @@ public class OWLRealUtils
 		if (ta == null || tb == null)
 		{
 			final String msg = format("Unexpected number type %s,%s passed to integerSum method.", a.getClass().getCanonicalName(), b.getClass().getCanonicalName());
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 
 		if (EnumSet.of(ta, tb).contains(Type.RATIONAL))
 		{
 			final String msg = format("Addition for rational numbers is not supported");
-			_log.warning(msg);
+			_logger.warning(msg);
 			throw new IllegalArgumentException(msg);
 		}
 

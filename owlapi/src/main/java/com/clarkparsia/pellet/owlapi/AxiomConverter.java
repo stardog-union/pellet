@@ -56,7 +56,7 @@ import org.semanticweb.owlapi.model.SWRLIArgument;
  */
 public class AxiomConverter
 {
-	public static Logger _log = Log.getLogger(AxiomConverter.class);
+	public static Logger _logger = Log.getLogger(AxiomConverter.class);
 
 	private final ConceptConverter _conceptConverter;
 	private final OWLDataFactory _factory;
@@ -467,7 +467,7 @@ public class AxiomConverter
 																											}
 
 		if (axiom == null)
-			_log.warning("Cannot convert to OWLAPI: " + term);
+			_logger.warning("Cannot convert to OWLAPI: " + term);
 
 		return axiom;
 	}
@@ -552,7 +552,7 @@ public class AxiomConverter
 						}
 
 		if (atom == null)
-			_log.warning("Cannot convert to SWRLAtom: " + term);
+			_logger.warning("Cannot convert to SWRLAtom: " + term);
 
 		return atom;
 	}

@@ -25,6 +25,6 @@ public interface Visitable
 	 * visitable. Counting starts at 0. Thus, to set the last child of
 	 * a visitable with n children, use setChild(n-1).
 	 */
-	public abstract <T extends Visitable> T setChildAt(int i, Visitable child);
+	public abstract <T extends Visitable> T setChildAt(int i, T child);
 
 }

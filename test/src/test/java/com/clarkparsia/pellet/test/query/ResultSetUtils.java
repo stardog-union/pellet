@@ -31,7 +31,7 @@ import org.junit.Assert;
  */
 public class ResultSetUtils
 {
-	private static final Logger log = Log.getLogger(ResultSetUtils.class);
+	private static final Logger _logger = Log.getLogger(ResultSetUtils.class);
 
 	private static final RDFNode DUMMY_FOR_BNODE = ResourceFactory.createPlainLiteral("dummy _node for bnode");
 
@@ -96,13 +96,13 @@ public class ResultSetUtils
 
 	public static void logResults(final String name, final ResultSetRewindable results)
 	{
-		if (log.isLoggable(Level.WARNING))
+		if (_logger.isLoggable(Level.WARNING))
 		{
-			log.warning(name + " (" + results.size() + ")");
+			_logger.warning(name + " (" + results.size() + ")");
 			results.reset();
 			final ByteArrayOutputStream out = new ByteArrayOutputStream();
 			ResultSetFormatter.output(out, results, ResultsFormat.FMT_RDF_TTL);
-			log.warning("\n" + out.toString());
+			_logger.warning("\n" + out.toString());
 		}
 	}
 }

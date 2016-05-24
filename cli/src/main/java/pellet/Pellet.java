@@ -35,7 +35,7 @@ import org.mindswap.pellet.utils.VersionInfo;
  */
 public class Pellet
 {
-	public static final Logger logger = Log.getLogger(Pellet.class);
+	public static final Logger _logger = Log.getLogger(Pellet.class);
 	public static final PelletExceptionFormatter exceptionFormatter = new PelletExceptionFormatter();
 
 	private static final Map<String, PelletCmdApp> COMMANDS = new TreeMap<>();
@@ -68,8 +68,8 @@ public class Pellet
 
 			final StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
-			logger.fine(sw.toString());
-			logger.throwing(null, null, e);
+			_logger.fine(sw.toString());
+			_logger.throwing(null, null, e);
 			System.exit(1);
 		}
 	}

@@ -66,7 +66,7 @@ import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
 
 public class WebOntTest
 {
-	public static Logger _log = Log.getLogger(WebOntTest.class);
+	public static Logger _logger = Log.getLogger(WebOntTest.class);
 
 	// each test case should be handled in _timeout seconds
 	// or otherwise is assumed to fail that test case
@@ -494,7 +494,7 @@ public class WebOntTest
 					if (testType.equals(OWLTestVocabulary.OWLforOWLTest))
 						return TEST_SKIP;
 
-		_log.fine("Name  : " + testCase);
+		_logger.fine("Name  : " + testCase);
 
 		//		long time = System.currentTimeMillis();
 
@@ -694,23 +694,23 @@ public class WebOntTest
 		{
 			inputFile = getFileName(inputFile);
 
-			_log.fine("Input : " + inputFile);
+			_logger.fine("Input : " + inputFile);
 		}
 
 		for (final WebOntTester tester : _testers)
 		{
-			_log.fine("Tester: " + tester.getClass().getName());
+			_logger.fine("Tester: " + tester.getClass().getName());
 
 			tester.setInputOntology(inputFile);
 
 			if (tester.isConsistent() != isConsistent)
 			{
-				_log.severe("Fail  : Consistency error");
+				_logger.severe("Fail  : Consistency error");
 				return TEST_FAIL;
 			}
 		}
 
-		_log.fine("Result: PASS");
+		_logger.fine("Result: PASS");
 
 		return TEST_PASS;
 	}
@@ -724,21 +724,21 @@ public class WebOntTest
 		{
 			inputFile = getFileName(inputFile);
 
-			_log.fine("Input : " + inputFile);
+			_logger.fine("Input : " + inputFile);
 		}
 		conclusionsFile = getFileName(conclusionsFile);
-		_log.fine("Conc. : " + conclusionsFile);
+		_logger.fine("Conc. : " + conclusionsFile);
 
 		for (final WebOntTester tester2 : _testers)
 		{
 			final WebOntTester tester = tester2;
 
-			_log.fine("Tester: " + tester.getClass().getName());
+			_logger.fine("Tester: " + tester.getClass().getName());
 			tester.setInputOntology(inputFile);
 
 			if (!tester.isConsistent())
 			{
-				_log.severe("Fail  : Premises file is not consistent!");
+				_logger.severe("Fail  : Premises file is not consistent!");
 				return TEST_FAIL;
 			}
 
@@ -759,7 +759,7 @@ public class WebOntTest
 			}
 		}
 
-		_log.fine("Result: PASS");
+		_logger.fine("Result: PASS");
 
 		return TEST_PASS;
 	}

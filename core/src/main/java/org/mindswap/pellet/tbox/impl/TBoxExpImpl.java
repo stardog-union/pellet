@@ -51,7 +51,7 @@ import org.mindswap.pellet.utils.iterator.MultiIterator;
  */
 public class TBoxExpImpl implements TBox
 {
-	public static Logger log = Log.getLogger(TBox.class);
+	public static Logger _logger = Log.getLogger(TBox.class);
 
 	private static final Set<Set<ATermAppl>> SINGLE_EMPTY_SET = Collections.singleton(Collections.<ATermAppl> emptySet());
 
@@ -123,7 +123,7 @@ public class TBoxExpImpl implements TBox
 
 		if (explains == null || explains.isEmpty())
 		{
-			log.warning("No clashExplanation for " + axiom);
+			_logger.warning("No clashExplanation for " + axiom);
 			return Collections.emptySet();
 		}
 
@@ -145,8 +145,8 @@ public class TBoxExpImpl implements TBox
 	 */
 	protected boolean addAxiomExplanation(final ATermAppl axiom, final Set<ATermAppl> explain)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Axiom: " + ATermUtils.toString(axiom) + " Explanation: " + explain);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Axiom: " + ATermUtils.toString(axiom) + " Explanation: " + explain);
 
 		boolean added = false;
 		if (!PelletOptions.USE_TRACING)
@@ -215,7 +215,7 @@ public class TBoxExpImpl implements TBox
 					}
 					else
 					{
-						log.warning("Not a valid TBox axiom: " + axiom);
+						_logger.warning("Not a valid TBox axiom: " + axiom);
 						return false;
 					}
 
@@ -315,15 +315,15 @@ public class TBoxExpImpl implements TBox
 
 		if (!PelletOptions.USE_TRACING)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Cannot remove axioms when PelletOptions.USE_TRACING is false");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Cannot remove axioms when PelletOptions.USE_TRACING is false");
 			return false;
 		}
 
 		if (_absorbedAxioms.contains(dependantAxiom))
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Cannot remove axioms that have been absorbed outside TBox");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Cannot remove axioms that have been absorbed outside TBox");
 			return false;
 		}
 
@@ -357,13 +357,13 @@ public class TBoxExpImpl implements TBox
 
 		if (!PelletOptions.USE_TRACING)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("Cannot remove axioms when PelletOptions.USE_TRACING is false");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Cannot remove axioms when PelletOptions.USE_TRACING is false");
 			return false;
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Removing " + ATermUtils.toString(explanationAxiom));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Removing " + ATermUtils.toString(explanationAxiom));
 
 		// this axiom is being removed so it cannot support any other axiom
 		MultiMapUtils.remove(_reverseExplain, explanationAxiom, dependantAxiom);

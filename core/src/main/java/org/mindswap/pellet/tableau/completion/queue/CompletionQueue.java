@@ -56,7 +56,7 @@ import org.mindswap.pellet.Node;
 public abstract class CompletionQueue extends IndividualIterator
 {
 
-	public final static Logger log = Log.getLogger(CompletionQueue.class);
+	public final static Logger _logger = Log.getLogger(CompletionQueue.class);
 
 	/**
 	 * Pointer to the _abox

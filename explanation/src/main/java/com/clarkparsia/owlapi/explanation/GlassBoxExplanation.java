@@ -67,16 +67,16 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 		PelletOptions.USE_TRACING = true;
 	}
 
-	public static final Logger log = Log.getLogger(GlassBoxExplanation.class);
+	public static final Logger _logger = Log.getLogger(GlassBoxExplanation.class);
 
 	/**
 	 * Alternative reasoner. We use a second reasoner because we do not want to lose the state in the original reasoner.
 	 */
-	private PelletReasoner altReasoner = null;
+	private PelletReasoner _altReasoner = null;
 
-	private boolean altReasonerEnabled = false;
+	private boolean _altReasonerEnabled = false;
 
-	private final AxiomConverter axiomConverter;
+	private final AxiomConverter _axiomConverter;
 
 	public GlassBoxExplanation(final OWLOntology ontology, final PelletReasonerFactory factory)
 	{
@@ -92,19 +92,19 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 	{
 		super(reasoner.getRootOntology(), factory, reasoner);
 
-		axiomConverter = new AxiomConverter(reasoner);
+		_axiomConverter = new AxiomConverter(reasoner);
 	}
 
 	private void setAltReasonerEnabled(final boolean enabled)
 	{
 		if (enabled)
-			if (altReasoner == null)
+			if (_altReasoner == null)
 			{
-				log.fine("Create alt reasoner");
-				altReasoner = getReasonerFactory().createNonBufferingReasoner(getOntology());
+				_logger.fine("Create alt reasoner");
+				_altReasoner = getReasonerFactory().createNonBufferingReasoner(getOntology());
 			}
 
-		altReasonerEnabled = enabled;
+		_altReasonerEnabled = enabled;
 	}
 
 	private OWLClass getNegation(final OWLClassExpression desc)
@@ -170,8 +170,8 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 			if (exps != null)
 			{
 				final Set<OWLAxiom> result = convertExplanation(exps.iterator().next());
-				if (log.isLoggable(Level.FINE))
-					log.fine("Cached explanation: " + result);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Cached explanation: " + result);
 				return result;
 			}
 		}
@@ -186,12 +186,12 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 
 		final boolean firstExplanation = isFirstExplanation();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Explain: " + unsatClass + " " + "First: " + firstExplanation);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Explain: " + unsatClass + " " + "First: " + firstExplanation);
 
 		if (firstExplanation)
 		{
-			altReasoner = null;
+			_altReasoner = null;
 
 			result = getCachedExplanation(unsatClass);
 
@@ -208,7 +208,7 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 			}
 			catch (final RuntimeException e)
 			{
-				log.log(Level.SEVERE, "Unexpected error while trying to get explanation set from Pellet", e);
+				_logger.log(Level.SEVERE, "Unexpected error while trying to get explanation set from Pellet", e);
 				throw new OWLRuntimeException(e);
 			}
 			finally
@@ -232,8 +232,8 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 		if (!sat)
 			sat = isSatisfiable(pellet, unsatClass, true);
 		else
-			if (log.isLoggable(Level.FINE))
-				log.fine("Undefined entity in " + unsatClass);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Undefined entity in " + unsatClass);
 
 		if (sat)
 			return Collections.emptySet();
@@ -241,16 +241,16 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 		{
 			final Set<OWLAxiom> explanation = convertExplanation(pellet.getKB().getExplanationSet());
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Explanation " + explanation);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Explanation " + explanation);
 
 			final Set<OWLAxiom> prunedExplanation = pruneExplanation(unsatClass, explanation, true);
 
 			final int prunedAxiomCount = explanation.size() - prunedExplanation.size();
-			if (log.isLoggable(Level.FINE) && prunedAxiomCount > 0)
+			if (_logger.isLoggable(Level.FINE) && prunedAxiomCount > 0)
 			{
-				log.fine("Pruned " + prunedAxiomCount + " axioms from the explanation: " + SetUtils.difference(explanation, prunedExplanation));
-				log.fine("New explanation " + prunedExplanation);
+				_logger.fine("Pruned " + prunedAxiomCount + " axioms from the explanation: " + SetUtils.difference(explanation, prunedExplanation));
+				_logger.fine("New explanation " + prunedExplanation);
 			}
 
 			return prunedExplanation;
@@ -275,7 +275,7 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 
 		for (final ATermAppl term : explanation)
 		{
-			final OWLAxiom axiom = axiomConverter.convert(term);
+			final OWLAxiom axiom = _axiomConverter.convert(term);
 			if (axiom == null)
 				throw new OWLRuntimeException("Cannot convert: " + term);
 			result.add(axiom);
@@ -317,18 +317,18 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 			PelletReasoner reasoner = getReasonerFactory().createNonBufferingReasoner(debuggingOntology);
 
 			if (!defTracker.isDefined(unsatClass))
-				log.warning("Some of the entities in " + unsatClass + " are not defined in the explanation " + explanation);
+				_logger.warning("Some of the entities in " + unsatClass + " are not defined in the explanation " + explanation);
 
 			if (isSatisfiable(reasoner, unsatClass, true))
-				log.warning("Explanation incomplete: Concept " + unsatClass + " is satisfiable in the explanation " + explanation);
+				_logger.warning("Explanation incomplete: Concept " + unsatClass + " is satisfiable in the explanation " + explanation);
 
 			// simply remove axioms one at a time. If the unsatClass turns
 			// satisfiable then we know that axiom cannot be a part of minimal
 			// explanation
 			for (final OWLAxiom axiom : explanation)
 			{
-				if (log.isLoggable(Level.FINER))
-					log.finer("Try pruning " + axiom);
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("Try pruning " + axiom);
 
 				if (!incremental)
 					reasoner.dispose();
@@ -345,8 +345,8 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 					// does not affect satisfiability so remove from the results
 					prunedExplanation.remove(axiom);
 
-					if (log.isLoggable(Level.FINER))
-						log.finer("Pruned " + axiom);
+					if (_logger.isLoggable(Level.FINER))
+						_logger.finer("Pruned " + axiom);
 				}
 				else
 					// affects satisfiability so add back to the ontology
@@ -371,7 +371,7 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 	@Override
 	public PelletReasoner getReasoner()
 	{
-		return altReasonerEnabled ? altReasoner : (PelletReasoner) super.getReasoner();
+		return _altReasonerEnabled ? _altReasoner : (PelletReasoner) super.getReasoner();
 	}
 
 	@Override
@@ -384,8 +384,8 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 	public void dispose()
 	{
 		getOntologyManager().removeOntologyChangeListener(getDefinitionTracker());
-		if (altReasoner != null)
-			altReasoner.dispose();
+		if (_altReasoner != null)
+			_altReasoner.dispose();
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class XSDDouble implements Datatype<Double>
 {
 
 	private static final XSDDouble instance = new XSDDouble();
-	private static final Logger log = Log.getLogger(XSDDouble.class);
+	private static final Logger _logger = Log.getLogger(XSDDouble.class);
 
 	public static XSDDouble getInstance()
 	{
@@ -94,7 +94,7 @@ public class XSDDouble implements Datatype<Double>
 		}
 		catch (final NumberFormatException e)
 		{
-			log.severe(format("Number format exception (%s) cause while parsing double %s", e.getMessage(), lexicalForm));
+			_logger.severe(format("Number format exception (%s) cause while parsing double %s", e.getMessage(), lexicalForm));
 			throw new InvalidLiteralException(name, lexicalForm);
 		}
 	}

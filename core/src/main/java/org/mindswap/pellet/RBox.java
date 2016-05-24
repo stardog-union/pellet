@@ -69,7 +69,7 @@ import org.mindswap.pellet.utils.iterator.MapIterator;
  */
 public class RBox
 {
-	public static Logger _log = Log.getLogger(RBox.class);
+	public static Logger _logger = Log.getLogger(RBox.class);
 
 	private static class ValueIterator extends MapIterator<Map.Entry<ATermAppl, Set<Set<ATermAppl>>>, ATermAppl>
 	{
@@ -663,8 +663,8 @@ public class RBox
 			if (r.isReflexive() && !r.isAnon())
 				reflexiveRoles.add(r);
 
-			if (_log.isLoggable(Level.FINE))
-				_log.fine(r.debugString());
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine(r.debugString());
 		}
 
 		// we will compute the taxonomy when we need it
@@ -802,7 +802,7 @@ public class RBox
 		if (!PelletOptions.IGNORE_UNSUPPORTED_AXIOMS)
 			throw new UnsupportedFeatureException(msg);
 
-		_log.warning(msg);
+		_logger.warning(msg);
 
 		role.removeSubRoleChains();
 		role.setHasComplexSubRole(false);
@@ -827,8 +827,8 @@ public class RBox
 				final Role subR = invSubR.getInverse();
 				if (subR == null)
 				{
-					if (_log.isLoggable(Level.FINE))
-						_log.fine("Property " + invSubR + " was supposed to be an ObjectProperty but it is not!");
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine("Property " + invSubR + " was supposed to be an ObjectProperty but it is not!");
 				}
 				else
 					if (subR != r)

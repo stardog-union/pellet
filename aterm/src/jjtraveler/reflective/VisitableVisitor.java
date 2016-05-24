@@ -8,8 +8,7 @@ import jjtraveler.Visitor;
  * to implement the VisitableVisitor interface. The visitor's arguments
  * should play the role of children.
  */
-
-public interface VisitableVisitor extends Visitable, Visitor
+public interface VisitableVisitor<T extends Visitable> extends Visitable, Visitor<T>
 {
-
+	//
 }

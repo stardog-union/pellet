@@ -33,7 +33,7 @@ import org.mindswap.pellet.utils.MultiValueMap;
  */
 class ConceptInfo
 {
-	public final static Logger logger = Log.getLogger(ConceptInfo.class);
+	public final static Logger _logger = Log.getLogger(ConceptInfo.class);
 
 	private final ATermAppl concept;
 	private final Set<Trigger> triggers;

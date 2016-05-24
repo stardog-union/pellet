@@ -148,8 +148,8 @@ public class RuleBranch extends Branch
 				else
 					ds = new DependencySet(getBranch());
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("RULE: Branch (" + getBranch() + ") try (" + (_tryNext + 1) + "/" + _tryCount + ") " + atom + " " + _binding + " " + _atoms + " " + ds);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("RULE: Branch (" + getBranch() + ") try (" + (_tryNext + 1) + "/" + _tryCount + ") " + atom + " " + _binding + " " + _atoms + " " + ds);
 
 			_ruleAtomAsserter.assertAtom(atom, _binding, ds, _tryNext < _bodyAtomCount, _abox, _strategy);
 
@@ -158,8 +158,8 @@ public class RuleBranch extends Branch
 			{
 				final DependencySet clashDepends = _abox.getClash().getDepends();
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("CLASH: Branch " + getBranch() + " " + Clash.unexplained(null, clashDepends) + "!");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("CLASH: Branch " + getBranch() + " " + Clash.unexplained(null, clashDepends) + "!");
 
 				// if( PelletOptions.USE_DISJUNCT_SORTING ) {
 				// if( stats == null ) {

@@ -127,7 +127,7 @@ public class StringOperators
 			}
 			catch (final PatternSyntaxException e)
 			{
-				ABox.log.info("Bad regex from builtin rule: " + l2);
+				ABox._logger.info("Bad regex from builtin rule: " + l2);
 			}
 			return result;
 		}

@@ -94,8 +94,8 @@ public class SROIQStrategy extends CompletionStrategy
 			// get the _branch to try
 			final Branch newBranch = branches.get(lastBranch - 1);
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("JUMP: Branch " + lastBranch);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("JUMP: Branch " + lastBranch);
 
 			if (lastBranch != newBranch.getBranch())
 				throw new InternalReasonerException("Backtrack: Trying to backtrack to _branch " + lastBranch + " but got " + newBranch.getBranch());
@@ -116,8 +116,8 @@ public class SROIQStrategy extends CompletionStrategy
 			branchFound = newBranch.tryNext();
 
 			if (!branchFound)
-				if (log.isLoggable(Level.FINE))
-					log.fine("FAIL: Branch " + lastBranch);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("FAIL: Branch " + lastBranch);
 		}
 
 		return branchFound;
@@ -136,9 +136,9 @@ public class SROIQStrategy extends CompletionStrategy
 
 				_abox.setChanged(false);
 
-				if (log.isLoggable(Level.FINE))
+				if (_logger.isLoggable(Level.FINE))
 				{
-					log.fine("Branch: " + _abox.getBranch() + ", Depth: " + _abox.stats.treeDepth + ", Size: " + _abox.getNodes().size() + ", Mem: " + (Runtime.getRuntime().freeMemory() / 1000) + "kb");
+					_logger.fine("Branch: " + _abox.getBranch() + ", Depth: " + _abox.stats.treeDepth + ", Size: " + _abox.getNodes().size() + ", Mem: " + (Runtime.getRuntime().freeMemory() / 1000) + "kb");
 					_abox.validate();
 					printBlocked();
 					_abox.printTree();
@@ -169,8 +169,8 @@ public class SROIQStrategy extends CompletionStrategy
 
 			if (_abox.isClosed())
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Clash at Branch (" + _abox.getBranch() + ") " + _abox.getClash());
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Clash at Branch (" + _abox.getBranch() + ") " + _abox.getClash());
 
 				if (backtrack())
 				{

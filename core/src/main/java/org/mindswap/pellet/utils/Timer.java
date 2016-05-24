@@ -68,7 +68,7 @@ import org.mindswap.pellet.exceptions.TimerInterruptedException;
  */
 public class Timer
 {
-	private final static Logger log = Log.getLogger(Timer.class);
+	private final static Logger _logger = Log.getLogger(Timer.class);
 
 	public final static long NOT_STARTED = -1;
 	public final static long NO_TIMEOUT = 0;
@@ -152,7 +152,7 @@ public class Timer
 	{
 		if (!isStarted())
 		{
-			log.fine(() -> String.format("Ignoring attempt to _stop a timer (\"%s\") that is not running. Timer results are incorrect for multi-threaded code.", _name));
+			_logger.fine(() -> String.format("Ignoring attempt to _stop a timer (\"%s\") that is not running. Timer results are incorrect for multi-threaded code.", _name));
 			return -Long.MAX_VALUE;
 		}
 

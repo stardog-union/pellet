@@ -34,7 +34,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  */
 public abstract class AbstractEntailmentTest<O> extends AbstractPremisedTest<O> implements EntailmentTest<O>
 {
-	private static final Logger log = Log.getLogger(AbstractEntailmentTest.class);
+	private static final Logger _logger = Log.getLogger(AbstractEntailmentTest.class);
 
 	private final EnumSet<SerializationFormat> conclusionFormats;
 	private final EnumMap<SerializationFormat, String> conclusionOntologyLiteral;
@@ -55,7 +55,7 @@ public abstract class AbstractEntailmentTest<O> extends AbstractPremisedTest<O> 
 			{
 				if (conclusions.size() > 1)
 				{
-					log.warning(format("Multiple conclusion ontologies found for testcase (%s) with serialization format (%s).  Choosing arbitrarily.", getIdentifier(), f));
+					_logger.warning(format("Multiple conclusion ontologies found for testcase (%s) with serialization format (%s).  Choosing arbitrarily.", getIdentifier(), f));
 				}
 				conclusionOntologyLiteral.put(f, conclusions.iterator().next().getLiteral());
 				conclusionFormats.add(f);

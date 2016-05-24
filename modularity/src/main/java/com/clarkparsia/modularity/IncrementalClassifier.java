@@ -96,7 +96,7 @@ import org.semanticweb.owlapi.util.Version;
  */
 public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeListener
 {
-	public static final Logger log = Log.getLogger(IncrementalClassifier.class);
+	public static final Logger _logger = Log.getLogger(IncrementalClassifier.class);
 
 	/**
 	 * Modularity results
@@ -333,14 +333,14 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		// Get the entities whose modules are affected
 		final Set<OWLEntity> effects = extractor.applyChanges(taxonomy);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Module entities " + effects);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Module entities " + effects);
 
 		// create ontology for all the axioms of all effected modules
 		final OWLOntology owlModule = extractor.getModuleFromSignature(effects);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Module axioms " + owlModule.getLogicalAxioms());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Module axioms " + owlModule.getLogicalAxioms());
 
 		// load the extracted module to a new reasoner
 		final PelletReasoner moduleReasoner = PelletReasonerFactory.getInstance().createReasoner(owlModule);
@@ -348,9 +348,9 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		// classify the module
 		moduleReasoner.getKB().classify();
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
-			log.fine("Classified module:");
+			_logger.fine("Classified module:");
 
 			new ClassTreePrinter().print(moduleReasoner.getKB().getTaxonomy(), new PrintWriter(System.err));
 		}
@@ -363,9 +363,9 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 				affectedCls.add((OWLClass) entity);
 		taxonomy = updateClassHierarchy(taxonomy, moduleTaxonomy, affectedCls);
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
-			log.fine("Updated taxonomy:");
+			_logger.fine("Updated taxonomy:");
 			new TreeTaxonomyPrinter<OWLClass>().print(taxonomy, new PrintWriter(System.err));
 			//			new FunctionalTaxonomyPrinter().print( taxonomy, new OutputFormatter( System.err, false ) );
 		}
@@ -375,8 +375,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	private void incrementalClassify()
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Incremental classification starting");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Incremental classification starting");
 
 		final Timer timer = timers.startTimer("incrementalClassify");
 
@@ -384,8 +384,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 		timer.stop();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Incremental classification done");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Incremental classification done");
 	}
 
 	public boolean isClassified()
@@ -466,8 +466,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 	private void regularClassify()
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Regular classification starting");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Regular classification starting");
 
 		final Thread classification = new Thread("classification")
 		{
@@ -480,9 +480,9 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 				reasoner.getKB().classify();
 				timer.stop();
 
-				if (log.isLoggable(Level.FINE))
+				if (_logger.isLoggable(Level.FINE))
 				{
-					log.fine("Regular taxonomy:");
+					_logger.fine("Regular taxonomy:");
 
 					new TreeTaxonomyPrinter<ATermAppl>().print(reasoner.getKB().getTaxonomy(), new PrintWriter(System.err));
 				}
@@ -491,9 +491,9 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 				taxonomy = buildClassHierarchy(reasoner);
 				timer.stop();
 
-				if (log.isLoggable(Level.FINE))
+				if (_logger.isLoggable(Level.FINE))
 				{
-					log.fine("Copied taxonomy:");
+					_logger.fine("Copied taxonomy:");
 
 					new TreeTaxonomyPrinter<OWLClass>().print(taxonomy, new PrintWriter(System.err));
 				}
@@ -535,8 +535,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 			throw new RuntimeException(e);
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Regular classification done");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Regular classification done");
 	}
 
 	/**
@@ -597,8 +597,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//	 *            signature of this module
 	//	 */
 	//	private void updatePartialOrder(boolean add, TaxonomyNode<OWLClass> _node, PelletReasoner newR) {
-	//		if( _log.isLoggable( Level.FINER ) )
-	//			_log.finer( "Update _node " + _node );
+	//		if( _logger.isLoggable( Level.FINER ) )
+	//			_logger.finer( "Update _node " + _node );
 	//
 	//		OWLClass clazz = _node.getName();
 	//
@@ -627,8 +627,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//						// add it to the subclass _index
 	//						oldSupers.add( next );
 	//
-	//						if( _log.isLoggable( Level.FINER ) ) {
-	//							_log.finer( "  Found new subsumption " + clazz + " subClassOf " + next );
+	//						if( _logger.isLoggable( Level.FINER ) ) {
+	//							_logger.finer( "  Found new subsumption " + clazz + " subClassOf " + next );
 	//						}
 	//
 	//						// update the partial _order
@@ -666,8 +666,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	//					// update remove set
 	//					removeSet.add( nextOldSuper );
 	//
-	//					if( _log.isLoggable( Level.FINER ) ) {
-	//						_log.finer( "  Found violated subsumption " + clazz + " subClassOf "
+	//					if( _logger.isLoggable( Level.FINER ) ) {
+	//						_logger.finer( "  Found violated subsumption " + clazz + " subClassOf "
 	//								+ nextOldSuper );
 	//					}
 	//
@@ -1347,8 +1347,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 		if (c.equals(ATermUtils.BOTTOM))
 			return SetUtils.emptySet();
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Realizing concept " + c);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Realizing concept " + c);
 
 		final OWLClass owlClass = termToOWLClass(c, factory);
 
@@ -1364,7 +1364,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 			if (node == null)
 			{
-				log.warning(" no _node for " + c);
+				_logger.warning(" no _node for " + c);
 				return instances;
 			}
 

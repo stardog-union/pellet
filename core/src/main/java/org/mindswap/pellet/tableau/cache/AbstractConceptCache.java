@@ -51,7 +51,7 @@ import org.mindswap.pellet.utils.fsm.TransitionGraph;
  */
 public abstract class AbstractConceptCache implements ConceptCache
 {
-	public final static Logger log = Log.getLogger(AbstractConceptCache.class);
+	public final static Logger _logger = Log.getLogger(AbstractConceptCache.class);
 
 	private int _maxSize;
 
@@ -154,14 +154,14 @@ public abstract class AbstractConceptCache implements ConceptCache
 				final boolean allIndependent = isIndependent && ds1.isIndependent() && ds2.isIndependent();
 				if (allIndependent)
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine(roots[root] + " has " + c + " " + roots[otherRoot] + " has negation " + ds1.max() + " " + ds2.max());
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine(roots[root] + " has " + c + " " + roots[otherRoot] + " has negation " + ds1.max() + " " + ds2.max());
 					return Bool.FALSE;
 				}
 				else
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine(roots[root] + " has " + c + " " + roots[otherRoot] + " has negation " + ds1.max() + " " + ds2.max());
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine(roots[root] + " has " + c + " " + roots[otherRoot] + " has negation " + ds1.max() + " " + ds2.max());
 					result = Bool.UNKNOWN;
 				}
 			}
@@ -235,8 +235,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 			final Bool clash = checkDisjointPropertyClash(root1, root2);
 			if (clash != null)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Cannot determine if two named individuals can be merged or not: " + roots[0] + "  + roots[1]");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Cannot determine if two named individuals can be merged or not: " + roots[0] + "  + roots[1]");
 				return Bool.UNKNOWN;
 			}
 		}
@@ -273,8 +273,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 		{
 			if (otherRoot.hasRNeighbor(role))
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine(root + " has " + av + " " + otherRoot + " has " + role + " _neighbor");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine(root + " has " + av + " " + otherRoot + " has " + role + " _neighbor");
 
 				return Bool.UNKNOWN;
 			}
@@ -285,8 +285,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 			for (final Transition<Role> t : tg.getInitialState().getTransitions())
 				if (otherRoot.hasRNeighbor(t.getName()))
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine(root + " has " + av + " " + otherRoot + " has " + t.getName() + " _neighbor");
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine(root + " has " + av + " " + otherRoot + " has " + t.getName() + " _neighbor");
 
 					return Bool.UNKNOWN;
 				}
@@ -307,8 +307,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 
 		if (n1 + n2 > max)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine(root + " has " + mc + " " + otherRoot + " has R-_neighbor");
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine(root + " has " + mc + " " + otherRoot + " has R-_neighbor");
 			return Bool.UNKNOWN;
 		}
 
@@ -322,8 +322,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 		for (final Edge e : otherRoot.getOutEdges())
 			if (e.getRole().isSubRoleOf(r) && e.getToName().equals(otherRoot.getName()))
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine(root + " has not(" + self + ") " + otherRoot + " has self edge");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine(root + " has not(" + self + ") " + otherRoot + " has self edge");
 				final boolean allIndependent = root.isIndependent() && otherRoot.isIndependent() && e.getDepends().isIndependent();
 				return allIndependent ? Bool.FALSE : Bool.UNKNOWN;
 			}
@@ -351,8 +351,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 
 				if (otherRoot.hasRNeighbor(supRole))
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine(root + " and " + otherRoot + " has " + supRole);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine(root + " and " + otherRoot + " has " + supRole);
 					return Bool.UNKNOWN;
 				}
 			}
@@ -375,8 +375,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 
 				if (otherRoot.hasRNeighbor(supRole))
 				{
-					if (log.isLoggable(Level.FINE))
-						log.fine(root + " and " + otherRoot + " has " + supRole);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine(root + " and " + otherRoot + " has " + supRole);
 					return Bool.UNKNOWN;
 				}
 			}
@@ -402,8 +402,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 				for (final Edge otherEdge : otherEdges)
 				{
 					final DependencySet ds = edge.getTo().getDifferenceDependency(otherEdge.getNeighbor(otherRoot));
-					if (log.isLoggable(Level.FINE))
-						log.fine(root + " and " + otherRoot + " has " + supRole + " " + edge + " " + otherEdge);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine(root + " and " + otherRoot + " has " + supRole + " " + edge + " " + otherEdge);
 					if (ds != null && ds.isIndependent())
 						return Bool.FALSE;
 					result = Bool.UNKNOWN;
@@ -425,8 +425,8 @@ public abstract class AbstractConceptCache implements ConceptCache
 				for (final Edge otherEdge : otherEdges)
 				{
 					final DependencySet ds = edge.getTo().getDifferenceDependency(otherEdge.getNeighbor(otherRoot));
-					if (log.isLoggable(Level.FINE))
-						log.fine(root + " and " + otherRoot + " has " + supRole + " " + edge + " " + otherEdge);
+					if (_logger.isLoggable(Level.FINE))
+						_logger.fine(root + " and " + otherRoot + " has " + supRole + " " + edge + " " + otherEdge);
 					if (ds != null && ds.isIndependent())
 						return Bool.FALSE;
 					result = Bool.UNKNOWN;

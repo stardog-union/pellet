@@ -115,7 +115,7 @@ public class BindingGeneratorStrategyImpl implements BindingGeneratorStrategy
 		}
 
 		//		if ( !selectiveVariables.containsAll( dataVariables ) ) {
-		//			ABox.log.warning( "IGNORING RULE "+rule+": Cannot generate bindings for all _data variables." );
+		//			ABox._logger.warning( "IGNORING RULE "+rule+": Cannot generate bindings for all _data variables." );
 		//			return new BindingGeneratorImpl();
 		//		}
 
@@ -127,7 +127,7 @@ public class BindingGeneratorStrategyImpl implements BindingGeneratorStrategy
 
 		if (!ensureOrdering(helpers, initialBinding))
 		{
-			ABox.log.warning("IGNORING RULE " + rule + ": Could not generate safe ordering for body constraints.");
+			ABox._logger.warning("IGNORING RULE " + rule + ": Could not generate safe ordering for body constraints.");
 			return new BindingGeneratorImpl();
 		}
 		optimize(helpers);

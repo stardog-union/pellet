@@ -37,7 +37,7 @@ import org.mindswap.pellet.exceptions.InternalReasonerException;
 public class DataRangeBindingHelper implements BindingHelper
 {
 
-	private static final Logger _log = Log.getLogger(DataRangeBindingHelper.class);
+	private static final Logger _logger = Log.getLogger(DataRangeBindingHelper.class);
 
 	private final DatatypeReasoner _dtReasoner;
 	private final DataRangeAtom _atom;
@@ -77,7 +77,7 @@ public class DataRangeBindingHelper implements BindingHelper
 		catch (final DatatypeReasonerException e)
 		{
 			final String msg = "Unexpected datatype reasoner exception: " + e.getMessage();
-			_log.severe(msg);
+			_logger.severe(msg);
 			throw new InternalReasonerException(e);
 		}
 	}

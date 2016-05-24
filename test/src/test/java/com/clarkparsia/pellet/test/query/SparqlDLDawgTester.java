@@ -63,7 +63,7 @@ import org.mindswap.pellet.utils.Timer;
 public class SparqlDLDawgTester implements SparqlDawgTester
 {
 
-	private static final Logger log = Log.getLogger(SparqlDLDawgTester.class);
+	private static final Logger _logger = Log.getLogger(SparqlDLDawgTester.class);
 
 	private String _queryURI = "";
 
@@ -152,7 +152,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 		}
 		catch (final Exception e)
 		{
-			log.log(Level.INFO, e.getMessage(), e);
+			_logger.log(Level.INFO, e.getMessage(), e);
 			return false;
 		}
 	}
@@ -174,8 +174,8 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 				{
 					expected = JenaIOUtils.parseAskResult(_resultURI);
 
-					if (log.isLoggable(Level.INFO))
-						log.info("Expected=" + expected);
+					if (_logger.isLoggable(Level.INFO))
+						_logger.info("Expected=" + expected);
 				}
 
 				if (_allOrderings)
@@ -200,12 +200,12 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 					final List<?> expectedList = ResultSetFormatter.toList(expected);
 					if (expected.size() > 10)
 					{
-						if (log.isLoggable(Level.INFO))
-							log.log(Level.INFO, "Expected=" + expectedList.subList(0, 9) + " ... " + expectedList.size());
+						if (_logger.isLoggable(Level.INFO))
+							_logger.log(Level.INFO, "Expected=" + expectedList.subList(0, 9) + " ... " + expectedList.size());
 					}
 					else
-						if (log.isLoggable(Level.INFO))
-							log.info("Expected=" + expectedList);
+						if (_logger.isLoggable(Level.INFO))
+							_logger.info("Expected=" + expectedList);
 				}
 
 				if (_allOrderings)
@@ -223,7 +223,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 		}
 		catch (final IOException e)
 		{
-			log.log(Level.SEVERE, e.getMessage(), e);
+			_logger.log(Level.SEVERE, e.getMessage(), e);
 			return false;
 		}
 	}
@@ -234,9 +234,9 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 
 		t.start();
 		final QueryResult bindings = QueryEngine.exec(query);
-		log.info("Execution time=" + t.getElapsed());
+		_logger.info("Execution time=" + t.getElapsed());
 		t.stop();
-		log.info("Result size = " + bindings.size());
+		_logger.info("Result size = " + bindings.size());
 
 		return bindings;
 	}
@@ -251,7 +251,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 		{
 			final Boolean real = !bindings.isEmpty();
 
-			log.log(Level.INFO, "real=" + real + ", exp=" + expected);
+			_logger.log(Level.INFO, "real=" + real + ", exp=" + expected);
 			ok = real.equals(expected);
 		}
 
@@ -314,7 +314,7 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 				}
 				catch (final FileNotFoundException e)
 				{
-					log.log(Level.SEVERE, e.getMessage(), e);
+					_logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		}
@@ -342,12 +342,12 @@ public class SparqlDLDawgTester implements SparqlDawgTester
 		final List<?> realList = ResultSetFormatter.toList(real);
 		if (realList.size() > 10)
 		{
-			if (log.isLoggable(Level.INFO))
-				log.log(Level.INFO, "Real=" + realList.subList(0, 9) + " ... " + realList.size());
+			if (_logger.isLoggable(Level.INFO))
+				_logger.log(Level.INFO, "Real=" + realList.subList(0, 9) + " ... " + realList.size());
 		}
 		else
-			if (log.isLoggable(Level.INFO))
-				log.info("Real=" + realList);
+			if (_logger.isLoggable(Level.INFO))
+				_logger.info("Real=" + realList);
 		real.reset();
 
 		return real;

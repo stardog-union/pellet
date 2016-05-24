@@ -66,8 +66,8 @@ public class IncrementalRestore
 	 */
 	private void restoreBranchAdd(final ATermAppl assertion, final BranchAddDependency branch)
 	{
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("    Removing _branch add? " + branch.getBranch());
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("    Removing _branch add? " + branch.getBranch());
 
 		// get merge dependency
 		final DependencySet ds = branch.getBranch().getTermDepends();
@@ -78,8 +78,8 @@ public class IncrementalRestore
 		// undo merge if empty
 		if (ds.getExplain().isEmpty())
 		{
-			if (DependencyIndex.log.isLoggable(Level.FINE))
-				DependencyIndex.log.fine("           Actually removing _branch!");
+			if (DependencyIndex._logger.isLoggable(Level.FINE))
+				DependencyIndex._logger.fine("           Actually removing _branch!");
 
 			final Collection<ATermAppl> allEffects = PelletOptions.TRACK_BRANCH_EFFECTS ? _kb.getABox().getBranchEffectTracker().getAll(branch.getBranch().getBranch()) : _kb.getABox().getNodeNames();
 
@@ -241,8 +241,8 @@ public class IncrementalRestore
 	private void restoreClash(final ATermAppl assertion, final ClashDependency clash)
 	{
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("    Restoring clash dependency clash: " + clash.getClash());
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("    Restoring clash dependency clash: " + clash.getClash());
 
 		// remove the dependency
 		clash.getClash().getDepends().removeExplain(assertion);
@@ -250,8 +250,8 @@ public class IncrementalRestore
 		// undo clash if empty and is independent
 		if (clash.getClash().getDepends().getExplain().isEmpty() && clash.getClash().getDepends().isIndependent())
 		{
-			if (DependencyIndex.log.isLoggable(Level.FINE))
-				DependencyIndex.log.fine("           Actually removing clash!");
+			if (DependencyIndex._logger.isLoggable(Level.FINE))
+				DependencyIndex._logger.fine("           Actually removing clash!");
 
 			_kb.getABox().setClash(null);
 		}
@@ -268,8 +268,8 @@ public class IncrementalRestore
 		// only proceed if _tryNext is larger than 1!
 		if (branch.getTheBranch().getTryNext() > -1)
 		{
-			if (DependencyIndex.log.isLoggable(Level.FINE))
-				DependencyIndex.log.fine("    Undoing _branch remove - _branch " + branch.getBranch() + "  -  " + branch.getInd() + "   _tryNext: " + branch.getTryNext());
+			if (DependencyIndex._logger.isLoggable(Level.FINE))
+				DependencyIndex._logger.fine("    Undoing _branch remove - _branch " + branch.getBranch() + "  -  " + branch.getInd() + "   _tryNext: " + branch.getTryNext());
 
 			// shift try next for _branch
 			branch.getTheBranch().shiftTryNext(branch.getTryNext());
@@ -293,8 +293,8 @@ public class IncrementalRestore
 
 			if (entry != null)
 			{
-				if (DependencyIndex.log.isLoggable(Level.FINE))
-					DependencyIndex.log.fine("Restoring dependencies for " + next);
+				if (DependencyIndex._logger.isLoggable(Level.FINE))
+					DependencyIndex._logger.fine("Restoring dependencies for " + next);
 
 				// restore the entry
 				restoreDependency(next, entry);
@@ -315,33 +315,33 @@ public class IncrementalRestore
 	private void restoreDependency(final ATermAppl assertion, final DependencyEntry entry)
 	{
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("  Restoring Edge Dependencies:");
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("  Restoring Edge Dependencies:");
 		for (final Edge next : entry.getEdges())
 			restoreEdge(assertion, next);
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("  Restoring Type Dependencies:");
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("  Restoring Type Dependencies:");
 		for (final TypeDependency next : entry.getTypes())
 			restoreType(assertion, next);
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("  Restoring Merge Dependencies: " + entry.getMerges());
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("  Restoring Merge Dependencies: " + entry.getMerges());
 		for (final MergeDependency next : entry.getMerges())
 			restoreMerge(assertion, next);
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("  Restoring Branch Add Dependencies: " + entry.getBranchAdds());
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("  Restoring Branch Add Dependencies: " + entry.getBranchAdds());
 		for (final BranchAddDependency next : entry.getBranchAdds())
 			restoreBranchAdd(assertion, next);
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("  Restoring Branch Remove DS Dependencies: " + entry.getBranchAdds());
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("  Restoring Branch Remove DS Dependencies: " + entry.getBranchAdds());
 		for (final CloseBranchDependency next : entry.getCloseBranches())
 			restoreCloseBranch(assertion, next);
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("  Restoring clash dependency: " + entry.getClash());
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("  Restoring clash dependency: " + entry.getClash());
 		if (entry.getClash() != null)
 			restoreClash(assertion, entry.getClash());
 
@@ -355,8 +355,8 @@ public class IncrementalRestore
 	 */
 	private void restoreEdge(final ATermAppl assertion, final Edge theEdge)
 	{
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("    Removing edge? " + theEdge);
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("    Removing edge? " + theEdge);
 
 		// the edge could have previously been removed so return
 		if (theEdge == null)
@@ -399,8 +399,8 @@ public class IncrementalRestore
 					if (obj instanceof Individual)
 						tracker.addUpdatedIndividual((Individual) obj);
 
-					if (DependencyIndex.log.isLoggable(Level.FINE))
-						DependencyIndex.log.fine("           Actually removed edge!");
+					if (DependencyIndex._logger.isLoggable(Level.FINE))
+						DependencyIndex._logger.fine("           Actually removed edge!");
 				}
 				break;
 			}
@@ -416,8 +416,8 @@ public class IncrementalRestore
 	private void restoreMerge(final ATermAppl assertion, final MergeDependency merge)
 	{
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
-			DependencyIndex.log.fine("    Removing merge? " + merge.getInd() + " merged to " + merge.getmergedIntoInd());
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
+			DependencyIndex._logger.fine("    Removing merge? " + merge.getInd() + " merged to " + merge.getmergedIntoInd());
 
 		// get merge dependency
 		final DependencySet ds = _kb.getABox().getNode(merge.getInd()).getMergeDependency(false);
@@ -428,8 +428,8 @@ public class IncrementalRestore
 		// undo merge if empty
 		if (ds.getExplain().isEmpty())
 		{
-			if (DependencyIndex.log.isLoggable(Level.FINE))
-				DependencyIndex.log.fine("           Actually removing merge!");
+			if (DependencyIndex._logger.isLoggable(Level.FINE))
+				DependencyIndex._logger.fine("           Actually removing merge!");
 
 			// get _nodes
 			final Node ind = _kb.getABox().getNode(merge.getInd());
@@ -480,11 +480,11 @@ public class IncrementalRestore
 		final Node node = _kb.getABox().getNode(type.getInd());
 		final ATermAppl desc = type.getType();
 
-		if (DependencyIndex.log.isLoggable(Level.FINE))
+		if (DependencyIndex._logger.isLoggable(Level.FINE))
 			if (node instanceof Individual)
-				DependencyIndex.log.fine("    Removing type? " + desc + " from " + ((Individual) node).debugString());
+				DependencyIndex._logger.fine("    Removing type? " + desc + " from " + ((Individual) node).debugString());
 			else
-				DependencyIndex.log.fine("    Removing type? " + desc + " from " + node);
+				DependencyIndex._logger.fine("    Removing type? " + desc + " from " + node);
 
 		// get the dependency set - Note: we must normalize the concept
 		final DependencySet ds = node.getDepends(ATermUtils.normalize(desc));
@@ -522,8 +522,8 @@ public class IncrementalRestore
 						tracker.addUpdatedIndividual((Individual) e.getTo());
 			}
 
-			if (DependencyIndex.log.isLoggable(Level.FINE))
-				DependencyIndex.log.fine("           Actually removed type!");
+			if (DependencyIndex._logger.isLoggable(Level.FINE))
+				DependencyIndex._logger.fine("           Actually removed type!");
 		}
 	}
 

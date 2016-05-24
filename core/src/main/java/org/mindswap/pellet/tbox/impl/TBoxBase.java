@@ -36,11 +36,12 @@ import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Map;
 import java.util.logging.Logger;
 import net.katk.tools.Log;
+import net.katk.tools.Logging;
 import org.mindswap.pellet.KnowledgeBase;
 
-public class TBoxBase
+public class TBoxBase implements Logging
 {
-	public static Logger _log = Log.getLogger(TBoxBase.class);
+	public static Logger _logger = Log.getLogger(TBoxBase.class);
 
 	protected KnowledgeBase _kb;
 	protected TBoxExpImpl _tbox;
@@ -51,6 +52,12 @@ public class TBoxBase
 	{
 		this._tbox = tbox;
 		this._kb = tbox.getKB();
+	}
+
+	@Override
+	public Logger getLogger()
+	{
+		return _logger;
 	}
 
 	public boolean addDef(final ATermAppl def)

@@ -42,7 +42,7 @@ import org.mindswap.pellet.jena.vocabulary.SWRL;
  */
 public class OWLEntityDatabase
 {
-	public final static Logger log = Log.getLogger(OWLEntityDatabase.class);
+	public final static Logger _logger = Log.getLogger(OWLEntityDatabase.class);
 
 	private final DoubtfulSet<RDFNode> m_Ontologies = new DoubtfulSet<>();
 	private final DoubtfulSet<RDFNode> m_Classes = new DoubtfulSet<>();

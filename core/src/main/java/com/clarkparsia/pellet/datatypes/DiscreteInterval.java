@@ -88,7 +88,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 			LEAST = NullSemantics.LEAST,//
 			NA = NullSemantics.NA;
 
-	private static final Logger log = Log.getLogger(DiscreteInterval.class);
+	private static final Logger _logger = Log.getLogger(DiscreteInterval.class);
 
 	private final T _lower;
 	private final T _upper;
@@ -124,7 +124,7 @@ public abstract class DiscreteInterval<T extends Number, U extends DiscreteInter
 		if (cmp > 0)
 		{
 			final String msg = format("Lower bound of interval (%s) should not be greater than _upper bound of interval (%s)", lower, upper);
-			log.severe(msg);
+			_logger.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
 

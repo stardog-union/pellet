@@ -65,7 +65,7 @@ import org.mindswap.pellet.jena.PelletInfGraph;
  */
 class SparqlDLExecution implements QueryExecution
 {
-	public static Logger log = Log.getLogger(SparqlDLExecution.class);
+	public static Logger _logger = Log.getLogger(SparqlDLExecution.class);
 
 	private static enum QueryType
 	{
@@ -260,13 +260,13 @@ class SparqlDLExecution implements QueryExecution
 		}
 		catch (final UnsupportedQueryException e)
 		{
-			log.log(purePelletQueryExec ? Level.INFO : Level.FINE, "This is not a SPARQL-DL query: " + e.getMessage());
+			_logger.log(purePelletQueryExec ? Level.INFO : Level.FINE, "This is not a SPARQL-DL query: " + e.getMessage());
 
 			if (purePelletQueryExec)
 				throw e;
 			else
 			{
-				log.fine("Falling back to Jena query engine");
+				_logger.fine("Falling back to Jena query engine");
 				return null;
 			}
 		}
@@ -284,7 +284,7 @@ class SparqlDLExecution implements QueryExecution
 	@Override
 	public void close()
 	{
-		log.fine("Closing PelletQueryExecution '" + hashCode() + "'.");
+		_logger.fine("Closing PelletQueryExecution '" + hashCode() + "'.");
 	}
 
 	@Override

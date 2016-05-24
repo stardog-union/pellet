@@ -57,8 +57,8 @@ public class SelfRule extends AbstractTableauRule
 			{
 				final ATermAppl pred = (ATermAppl) c.getArgument(0);
 				final Role role = _strategy.getABox().getRole(pred);
-				if (log.isLoggable(Level.FINE) && !node.hasRSuccessor(role, node))
-					log.fine("SELF: " + node + " " + role + " " + node.getDepends(c));
+				if (_logger.isLoggable(Level.FINE) && !node.hasRSuccessor(role, node))
+					_logger.fine("SELF: " + node + " " + role + " " + node.getDepends(c));
 				_strategy.addEdge(node, role, node, node.getDepends(c));
 
 				if (_strategy.getABox().isClosed())

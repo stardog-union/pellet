@@ -19,7 +19,7 @@ public class LogVisitor<T extends Visitable> implements Visitor<T>
 	@Override
 	public T visit(final T visitable) throws VisitFailure
 	{
-		logger.log(new Event(visitor, visitable));
+		logger.log(new Event<>(visitor, visitable));
 		return visitor.visit(visitable);
 	}
 }

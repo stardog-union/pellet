@@ -488,8 +488,8 @@ public class SimplifiedELClassifier extends CDOptimizedTaxonomyBuilder implement
 	public void print()
 	{
 		for (final ATermAppl c : _concepts.keySet())
-			log.finer(c + " " + _concepts.get(c).getSuperClasses());
-		log.finer("");
+			_logger.finer(c + " " + _concepts.get(c).getSuperClasses());
+		_logger.finer("");
 		_roleChains.print();
 	}
 

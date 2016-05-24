@@ -57,7 +57,7 @@ import org.mindswap.pellet.utils.progress.SwingProgressMonitor;
  */
 public class PelletOptions
 {
-	public final static Logger log = Log.getLogger(PelletOptions.class);
+	public final static Logger _logger = Log.getLogger(PelletOptions.class);
 
 	private interface EnumFactory<T>
 	{
@@ -220,7 +220,7 @@ public class PelletOptions
 
 	public static void load(final URL configFile) throws FileNotFoundException, IOException
 	{
-		log.fine("Reading Pellet configuration file " + configFile);
+		_logger.fine("Reading Pellet configuration file " + configFile);
 
 		final Properties properties = new Properties();
 		properties.load(configFile.openStream());
@@ -242,7 +242,7 @@ public class PelletOptions
 				if (value.equalsIgnoreCase("false"))
 					returnValue = false;
 				else
-					log.severe("Ignoring invalid value (" + value + ") for the configuration option " + property);
+					_logger.severe("Ignoring invalid value (" + value + ") for the configuration option " + property);
 		}
 
 		properties.setProperty(property, String.valueOf(returnValue));
@@ -263,7 +263,7 @@ public class PelletOptions
 			}
 			catch (final NumberFormatException e)
 			{
-				log.severe("Ignoring invalid double value (" + value + ") for the configuration option " + property);
+				_logger.severe("Ignoring invalid double value (" + value + ") for the configuration option " + property);
 			}
 
 		properties.setProperty(property, String.valueOf(doubleValue));
@@ -284,7 +284,7 @@ public class PelletOptions
 			}
 			catch (final NumberFormatException e)
 			{
-				log.severe("Ignoring invalid int value (" + value + ") for the configuration option " + property);
+				_logger.severe("Ignoring invalid int value (" + value + ") for the configuration option " + property);
 			}
 
 		properties.setProperty(property, String.valueOf(intValue));
@@ -307,7 +307,7 @@ public class PelletOptions
 			}
 			catch (final IllegalArgumentException e)
 			{
-				log.severe("Ignoring invalid value (" + value + ") for the configuration option " + property);
+				_logger.severe("Ignoring invalid value (" + value + ") for the configuration option " + property);
 			}
 		}
 
@@ -712,7 +712,7 @@ public class PelletOptions
 			}
 
 			if (url == null)
-				log.severe("Cannot file Pellet configuration file " + configFile);
+				_logger.severe("Cannot file Pellet configuration file " + configFile);
 		}
 
 		if (url != null)
@@ -722,11 +722,11 @@ public class PelletOptions
 			}
 			catch (final FileNotFoundException e)
 			{
-				log.severe("Pellet configuration file cannot be found");
+				_logger.severe("Pellet configuration file cannot be found");
 			}
 			catch (final IOException e)
 			{
-				log.severe("I/O error while reading Pellet configuration file");
+				_logger.severe("I/O error while reading Pellet configuration file");
 			}
 	}
 }

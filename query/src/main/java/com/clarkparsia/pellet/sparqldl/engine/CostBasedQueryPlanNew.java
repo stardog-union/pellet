@@ -41,7 +41,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class CostBasedQueryPlanNew extends QueryPlan
 {
-	private static final Logger log = Log.getLogger(CostBasedQueryPlanNew.class);
+	private static final Logger _logger = Log.getLogger(CostBasedQueryPlanNew.class);
 
 	private List<QueryAtom> _sortedAtoms;
 
@@ -74,8 +74,8 @@ public class CostBasedQueryPlanNew extends QueryPlan
 				if (_sortedAtoms == null)
 					throw new UnsupportedQueryException("No safe ordering for query: " + query);
 
-				if (log.isLoggable(Level.FINE))
-					log.log(Level.FINE, "WINNER : Cost=" + minCost + " ,atoms=" + _sortedAtoms);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.log(Level.FINE, "WINNER : Cost=" + minCost + " ,atoms=" + _sortedAtoms);
 			}
 	}
 
@@ -106,7 +106,7 @@ public class CostBasedQueryPlanNew extends QueryPlan
 			else
 			{
 				final double queryCost = _cost.estimate(orderedAtoms);
-				log.fine("Cost " + queryCost + " for " + orderedAtoms);
+				_logger.fine("Cost " + queryCost + " for " + orderedAtoms);
 				if (queryCost < minCost)
 				{
 					_sortedAtoms = new ArrayList<>(orderedAtoms);
@@ -157,8 +157,8 @@ public class CostBasedQueryPlanNew extends QueryPlan
 
 									if (nextAtom.getArguments().contains(a))
 									{
-										if (log.isLoggable(Level.FINE))
-											log.fine("Unbound vars for not");
+										if (_logger.isLoggable(Level.FINE))
+											_logger.fine("Unbound vars for not");
 										continue LOOP;
 									}
 								}
@@ -169,15 +169,15 @@ public class CostBasedQueryPlanNew extends QueryPlan
 				if (boundCount == 0 && newBoundVars.size() > unboundCount)
 					if (_sortedAtoms != null)
 					{
-						if (log.isLoggable(Level.FINE))
-							log.fine("Stop at not optimal ordering");
+						if (_logger.isLoggable(Level.FINE))
+							_logger.fine("Stop at not optimal ordering");
 						continue;
 					}
 					else
 					{
-						if (log.isLoggable(Level.FINE))
+						if (_logger.isLoggable(Level.FINE))
 
-							log.fine("Continue not optimal ordering, no solution yet.");
+							_logger.fine("Continue not optimal ordering, no solution yet.");
 						newNonOptimal = true;
 					}
 			}
@@ -185,8 +185,8 @@ public class CostBasedQueryPlanNew extends QueryPlan
 			atoms.remove(atom);
 			orderedAtoms.add(atom);
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Atom[" + i + "/" + atoms.size() + "] " + atom + " from " + atoms + " to " + orderedAtoms);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Atom[" + i + "/" + atoms.size() + "] " + atom + " from " + atoms + " to " + orderedAtoms);
 
 			minCost = chooseOrdering(atoms, orderedAtoms, newBoundVars, newNonOptimal, minCost);
 

@@ -134,8 +134,8 @@ public class MaxRule extends AbstractTableauRule
 
 		final int n = neighbors.size();
 
-		// if( _log.isLoggable( Level.FINE ) )
-		// _log.fine( "Neighbors: " + n + " maxCardinality: " + k);
+		// if( _logger.isLoggable( Level.FINE ) )
+		// _logger.fine( "Neighbors: " + n + " maxCardinality: " + k);
 
 		// if restriction was maxCardinality 0 then having any R-_neighbor
 		// violates the restriction. no merge can fix this. compute the
@@ -181,15 +181,15 @@ public class MaxRule extends AbstractTableauRule
 			final DependencySet dsEdges = x.hasDistinctRNeighborsForMax(r, k + 1, c);
 			if (dsEdges == null)
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Cannot determine the exact clash dependency for " + x);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Cannot determine the exact clash dependency for " + x);
 				_strategy.getABox().setClash(Clash.maxCardinality(x, ds));
 				return false;
 			}
 			else
 			{
-				if (log.isLoggable(Level.FINE))
-					log.fine("Early clash detection for max rule worked " + x + " has more than " + k + " " + r + " edges " + ds.union(dsEdges, _strategy.getABox().doExplanation()) + " " + x.getRNeighborEdges(r).getNeighbors(x));
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Early clash detection for max rule worked " + x + " has more than " + k + " " + r + " edges " + ds.union(dsEdges, _strategy.getABox().doExplanation()) + " " + x.getRNeighborEdges(r).getNeighbors(x));
 
 				if (_strategy.getABox().doExplanation())
 					_strategy.getABox().setClash(Clash.maxCardinality(x, ds.union(dsEdges, _strategy.getABox().doExplanation()), r.getName(), k));
@@ -208,8 +208,8 @@ public class MaxRule extends AbstractTableauRule
 		if (newBranch.tryNext() == false)
 			return false;
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("hasMore: " + (n > k + 1));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("hasMore: " + (n > k + 1));
 
 		// if there were exactly k + 1 neighbors the previous step would
 		// eliminate one _node and only n neighbors would be left. This means
@@ -361,8 +361,8 @@ public class MaxRule extends AbstractTableauRule
 						next = temp;
 					}
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("FUNC: " + x + " for prop " + r + " merge " + next + " -> " + head + " " + ds);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("FUNC: " + x + " for prop " + r + " merge " + next + " -> " + head + " " + ds);
 
 				_strategy.mergeTo(next, head, ds);
 

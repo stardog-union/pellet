@@ -102,7 +102,7 @@ import org.mindswap.pellet.utils.iterator.MultiListIterator;
  */
 public class ABox
 {
-	public final static Logger log = Log.getLogger(ABox.class);
+	public final static Logger _logger = Log.getLogger(ABox.class);
 
 	// following two variables are used to generate names
 	// for newly generated individuals. so during rules are
@@ -480,10 +480,10 @@ public class ABox
 
 		if (!isConsistent)
 		{
-			if (log.isLoggable(Level.FINE))
+			if (_logger.isLoggable(Level.FINE))
 			{
-				log.fine("Unsatisfiable: " + ATermUtils.toString(c));
-				log.fine("Equivalent to TOP: " + ATermUtils.toString(ATermUtils.negate(c)));
+				_logger.fine("Unsatisfiable: " + ATermUtils.toString(c));
+				_logger.fine("Equivalent to TOP: " + ATermUtils.toString(ATermUtils.negate(c)));
 			}
 
 			_cache.putSat(c, false);
@@ -491,8 +491,8 @@ public class ABox
 		else
 		{
 
-			if (log.isLoggable(Level.FINE))
-				log.fine("Cache " + rootNode.debugString());
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Cache " + rootNode.debugString());
 
 			_cache.put(c, CachedNodeFactory.createNode(c, rootNode));
 
@@ -519,10 +519,10 @@ public class ABox
 				return isKnownSubClass.isTrue();
 		}
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 		{
 			final long count = _kb.timers.getTimer("subClassSat") == null ? 0 : _kb.timers.getTimer("subClassSat").getCount();
-			log.fine(count + ") Checking subclass [" + ATermUtils.toString(c1) + " " + ATermUtils.toString(c2) + "]");
+			_logger.fine(count + ") Checking subclass [" + ATermUtils.toString(c1) + " " + ATermUtils.toString(c2) + "]");
 		}
 
 		final ATermAppl notC2 = ATermUtils.negate(c2);
@@ -531,8 +531,8 @@ public class ABox
 		final boolean sub = !isSatisfiable(c, false);
 		t.stop();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine(" Result: " + sub + " (" + t.getLast() + "ms)");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine(" Result: " + sub + " (" + t.getLast() + "ms)");
 
 		return sub;
 	}
@@ -555,8 +555,8 @@ public class ABox
 			return false;
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Satisfiability for " + ATermUtils.toString(c));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Satisfiability for " + ATermUtils.toString(c));
 
 		if (cacheModel)
 		{
@@ -565,8 +565,8 @@ public class ABox
 			{
 				final boolean satisfiable = !cached.isBottom();
 				final boolean needToCacheModel = cacheModel && !cached.isComplete();
-				if (log.isLoggable(Level.FINE))
-					log.fine("Cached sat for " + ATermUtils.toString(c) + " is " + satisfiable);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Cached sat for " + ATermUtils.toString(c) + " is " + satisfiable);
 				// if clashExplanation is enabled we should actually build the
 				// tableau again to generate the _clash. we don't _cache the
 				// clashExplanation up front because generating clashExplanation is costly
@@ -839,8 +839,8 @@ public class ABox
 		// if( list != null )
 		// return list.contains( x );
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Checking type " + ATermUtils.toString(c) + " for _individual " + ATermUtils.toString(x));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Checking type " + ATermUtils.toString(c) + " for _individual " + ATermUtils.toString(x));
 
 		final ATermAppl notC = ATermUtils.negate(c);
 
@@ -848,8 +848,8 @@ public class ABox
 		final boolean isType = !isConsistent(SetUtils.singleton(x), notC, false);
 		t.stop();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Type " + isType + " " + ATermUtils.toString(c) + " for _individual " + ATermUtils.toString(x));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Type " + isType + " " + ATermUtils.toString(c) + " for _individual " + ATermUtils.toString(x));
 
 		return isType;
 	}
@@ -865,15 +865,15 @@ public class ABox
 	{
 		c = ATermUtils.normalize(c);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Checking type " + ATermUtils.toString(c) + " for individuals " + inds.size());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Checking type " + ATermUtils.toString(c) + " for individuals " + inds.size());
 
 		final ATermAppl notC = ATermUtils.negate(c);
 
 		final boolean isType = !isConsistent(inds, notC, false);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Type " + isType + " " + ATermUtils.toString(c) + " for individuals " + inds.size());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Type " + isType + " " + ATermUtils.toString(c) + " for individuals " + inds.size());
 
 		return isType;
 	}
@@ -890,12 +890,12 @@ public class ABox
 			}
 			catch (final UnrecognizedDatatypeException e)
 			{
-				log.warning(format("Returning false for property value check (%s,%s,%s) due to datatype problem with input literal: %s", s, p, o, e.getMessage()));
+				_logger.warning(format("Returning false for property value check (%s,%s,%s) due to datatype problem with input literal: %s", s, p, o, e.getMessage()));
 				return Bool.FALSE;
 			}
 			catch (final InvalidLiteralException e)
 			{
-				log.warning(format("Returning false for property value check (%s,%s,%s) due to problem with input literal: %s", s, p, o, e.getMessage()));
+				_logger.warning(format("Returning false for property value check (%s,%s,%s) due to problem with input literal: %s", s, p, o, e.getMessage()));
 				return Bool.FALSE;
 			}
 		else
@@ -1031,7 +1031,7 @@ public class ABox
 						catch (final DatatypeReasonerException e)
 						{
 							final String msg = format("Unexpected datatype reasoner exception while fetching property values (%s,%s,%s): %s", s, role, datatype, e.getMessage());
-							log.severe(msg);
+							_logger.severe(msg);
 							throw new InternalReasonerException(msg);
 						}
 
@@ -1157,7 +1157,7 @@ public class ABox
 
 		if (tg.isFinal(st) && subj.isRootNominal())
 		{
-			log.fine("add " + subj);
+			_logger.fine("add " + subj);
 			if (isIndependent)
 			{
 				if (getSames)
@@ -1172,7 +1172,7 @@ public class ABox
 					unknowns.add(subj.getName());
 		}
 
-		log.fine(subj.toString());
+		_logger.fine(subj.toString());
 
 		for (final Transition<Role> t : st.getTransitions())
 		{
@@ -1269,7 +1269,7 @@ public class ABox
 					resolved = false;
 					break;
 				default:
-					log.warning("Unexpected asserted _clash type: " + clash);
+					_logger.warning("Unexpected asserted _clash type: " + clash);
 					break;
 			}
 
@@ -1304,9 +1304,9 @@ public class ABox
 	{
 		final Timer t = _kb.timers.startTimer("isConsistent");
 
-		if (log.isLoggable(Level.FINE))
+		if (_logger.isLoggable(Level.FINE))
 			if (c == null)
-				log.fine("ABox consistency for " + individuals.size() + " individuals");
+				_logger.fine("ABox consistency for " + individuals.size() + " individuals");
 			else
 			{
 				final StringBuilder sb = new StringBuilder();
@@ -1321,7 +1321,7 @@ public class ABox
 				if (it.hasNext())
 					sb.append(", ...");
 				sb.append("]");
-				log.fine("Consistency " + ATermUtils.toString(c) + " for " + individuals.size() + " individuals " + sb);
+				_logger.fine("Consistency " + ATermUtils.toString(c) + " for " + individuals.size() + " individuals " + sb);
 			}
 
 		final Expressivity expr = _kb.getExpressivityChecker().getExpressivityWith(c);
@@ -1363,13 +1363,13 @@ public class ABox
 			abox.setSyntacticUpdate(false);
 		}
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Consistency check starts");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Consistency check starts");
 
 		final CompletionStrategy strategy = _kb.chooseStrategy(abox, expr);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Strategy: " + strategy.getClass().getName());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Strategy: " + strategy.getClass().getName());
 
 		final Timer completionTimer = _kb.timers.getTimer("complete");
 		completionTimer.start();
@@ -1387,8 +1387,8 @@ public class ABox
 		if (x != null && c != null && cacheModel)
 			cache(abox.getIndividual(x), c, consistent);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Consistent: " + consistent + " Time: " + t.getElapsed() + " Branches " + abox._branches.size() + " Tree depth: " + abox.stats.treeDepth + " Tree size: " + abox.getNodes().size() + " Restores " + abox.stats.globalRestores + " global " + abox.stats.localRestores + " local" + " Backtracks " + abox.stats.backtracks + " avg backjump " + (abox.stats.backjumps / (double) abox.stats.backtracks));
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Consistent: " + consistent + " Time: " + t.getElapsed() + " Branches " + abox._branches.size() + " Tree depth: " + abox.stats.treeDepth + " Tree size: " + abox.getNodes().size() + " Restores " + abox.stats.globalRestores + " global " + abox.stats.localRestores + " local" + " Backtracks " + abox.stats.backtracks + " avg backjump " + (abox.stats.backjumps / (double) abox.stats.backtracks));
 
 		if (consistent)
 		{
@@ -1398,8 +1398,8 @@ public class ABox
 		else
 		{
 			_lastClash = abox.getClash();
-			if (log.isLoggable(Level.FINE))
-				log.fine("Clash: " + abox.getClash().detailedString());
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("Clash: " + abox.getClash().detailedString());
 			if (_doExplanation && PelletOptions.USE_TRACING)
 			{
 				if (individuals.size() == 1)
@@ -1410,10 +1410,10 @@ public class ABox
 					final Set<ATermAppl> explanationSet = getExplanationSet();
 					final boolean removed = explanationSet.remove(tempAxiom);
 					if (!removed)
-						if (log.isLoggable(Level.FINE))
-							log.fine("Explanation set is missing an axiom.\n\tAxiom: " + tempAxiom + "\n\tExplantionSet: " + explanationSet);
+						if (_logger.isLoggable(Level.FINE))
+							_logger.fine("Explanation set is missing an axiom.\n\tAxiom: " + tempAxiom + "\n\tExplantionSet: " + explanationSet);
 				}
-				if (log.isLoggable(Level.FINE))
+				if (_logger.isLoggable(Level.FINE))
 				{
 					final StringBuilder sb = new StringBuilder();
 					for (final ATermAppl axiom : getExplanationSet())
@@ -1421,7 +1421,7 @@ public class ABox
 						sb.append("\n\t");
 						sb.append(ATermUtils.toString(axiom));
 					}
-					log.fine("Explanation: " + sb);
+					_logger.fine("Explanation: " + sb);
 				}
 			}
 		}
@@ -1451,14 +1451,14 @@ public class ABox
 		// throw away old information to let gc do its work
 		_lastCompletion = null;
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Consistency check starts");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Consistency check starts");
 
 		// currently there is only one incremental consistency _strategy
 		final CompletionStrategy incStrategy = new SROIQIncStrategy(this);
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Strategy: " + incStrategy.getClass().getName());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Strategy: " + incStrategy.getClass().getName());
 
 		// set _abox to not being complete
 		setComplete(false);
@@ -1475,14 +1475,14 @@ public class ABox
 
 		final boolean consistent = !isClosed();
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("Consistent: " + consistent + " Tree depth: " + stats.treeDepth + " Tree size: " + getNodes().size());
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Consistent: " + consistent + " Tree depth: " + stats.treeDepth + " Tree size: " + getNodes().size());
 
 		if (!consistent)
 		{
 			_lastClash = getClash();
-			if (log.isLoggable(Level.FINE))
-				log.fine(getClash().detailedString());
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine(getClash().detailedString());
 		}
 
 		stats.consistencyCount++;
@@ -1494,8 +1494,8 @@ public class ABox
 
 		// do not clear the _clash information
 
-		// ((Log4JLogger)ABox.log).getLogger().setLevel(Level.OFF);
-		// ((Log4JLogger)DependencyIndex.log).getLogger().setLevel(Level.OFF);
+		// ((Log4JLogger)ABox._logger).getLogger().setLevel(Level.OFF);
+		// ((Log4JLogger)DependencyIndex._logger).getLogger().setLevel(Level.OFF);
 
 		return consistent;
 	}
@@ -1702,19 +1702,19 @@ public class ABox
 				final String msg = format("Attempt to create an invalid literal (%s): %s", dataValue, e.getMessage());
 				if (PelletOptions.INVALID_LITERAL_AS_INCONSISTENCY)
 				{
-					log.fine(msg);
+					_logger.fine(msg);
 					name = dataValue;
 				}
 				else
 				{
-					log.severe(msg);
+					_logger.severe(msg);
 					throw new InternalReasonerException(msg, e);
 				}
 			}
 			catch (final UnrecognizedDatatypeException e)
 			{
 				final String msg = format("Attempt to create a literal with an unrecognized datatype (%s): %s", dataValue, e.getMessage());
-				log.severe(msg);
+				_logger.severe(msg);
 				throw new InternalReasonerException(msg, e);
 			}
 
@@ -1807,8 +1807,8 @@ public class ABox
 		if (n.getDepth() > stats.treeDepth)
 		{
 			stats.treeDepth = n.getDepth();
-			if (log.isLoggable(Level.FINER))
-				log.finer("Depth: " + stats.treeDepth + " Size: " + size());
+			if (_logger.isLoggable(Level.FINER))
+				_logger.finer("Depth: " + stats.treeDepth + " Size: " + size());
 		}
 
 		//this must be performed after the _nodeList is updated as this call will update the completion queues
@@ -1974,11 +1974,11 @@ public class ABox
 	{
 		if (clash != null)
 		{
-			if (log.isLoggable(Level.FINER))
+			if (_logger.isLoggable(Level.FINER))
 			{
-				log.finer("CLSH: " + clash);
+				_logger.finer("CLSH: " + clash);
 				if (clash.getDepends().max() > _branch && _branch != -1)
-					log.severe("Invalid _clash dependency " + clash + " > " + _branch);
+					_logger.severe("Invalid _clash dependency " + clash + " > " + _branch);
 			}
 
 			if (_branch == DependencySet.NO_BRANCH && clash.getDepends().getBranch() == DependencySet.NO_BRANCH)
@@ -1986,8 +1986,8 @@ public class ABox
 
 			if (this._clash != null)
 			{
-				if (log.isLoggable(Level.FINER))
-					log.finer("Clash was already set \nExisting: " + this._clash + "\nNew     : " + clash);
+				if (_logger.isLoggable(Level.FINER))
+					_logger.finer("Clash was already set \nExisting: " + this._clash + "\nNew     : " + clash);
 
 				if (this._clash.getDepends().max() < clash.getDepends().max())
 					return;

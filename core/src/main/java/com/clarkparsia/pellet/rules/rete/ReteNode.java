@@ -17,7 +17,7 @@ import net.katk.tools.Log;
  */
 public abstract class ReteNode
 {
-	public final static Logger _log = Log.getLogger(ReteNode.class);
+	public final static Logger _logger = Log.getLogger(ReteNode.class);
 
 	private final List<BetaNode> _children = new Vector<>();
 

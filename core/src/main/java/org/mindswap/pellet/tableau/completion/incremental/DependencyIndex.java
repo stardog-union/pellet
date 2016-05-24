@@ -30,7 +30,7 @@ import org.mindswap.pellet.tableau.branch.DisjunctionBranch;
  */
 public class DependencyIndex
 {
-	public final static Logger log = Log.getLogger(DependencyIndex.class);
+	public final static Logger _logger = Log.getLogger(DependencyIndex.class);
 
 	/**
 	 * Map from assertions (ATermAppl) to Dependency entries
@@ -105,8 +105,8 @@ public class DependencyIndex
 	 */
 	public void addTypeDependency(final ATermAppl ind, final ATermAppl type, final DependencySet ds)
 	{
-		//		if(_log.isLoggable( Level.FINE ))
-		//			_log.fine("DependencyIndex- Calling add type dependency");
+		//		if(_logger.isLoggable( Level.FINE ))
+		//			_logger.fine("DependencyIndex- Calling add type dependency");
 
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
@@ -117,8 +117,8 @@ public class DependencyIndex
 				if (!_dependencies.containsKey(nextAtom))
 					_dependencies.put(nextAtom, new DependencyEntry());
 
-				//					if(_log.isLoggable( Level.FINE ))
-				//						_log.fine("DependencyIndex- Adding type dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  Type["  + type + "]");
+				//					if(_logger.isLoggable( Level.FINE ))
+				//						_logger.fine("DependencyIndex- Adding type dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  Type["  + type + "]");
 
 				//add the dependency
 				_dependencies.get(nextAtom).addTypeDependency(ind, type);
@@ -134,8 +134,8 @@ public class DependencyIndex
 	 */
 	public void addMergeDependency(final ATermAppl ind, final ATermAppl mergedTo, final DependencySet ds)
 	{
-		//		if(_log.isLoggable( Level.FINE ))
-		//			_log.fine("DependencyIndex- Calling add merge dependency");
+		//		if(_logger.isLoggable( Level.FINE ))
+		//			_logger.fine("DependencyIndex- Calling add merge dependency");
 
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
@@ -146,8 +146,8 @@ public class DependencyIndex
 				if (!_dependencies.containsKey(nextAtom))
 					_dependencies.put(nextAtom, new DependencyEntry());
 
-				//					if(_log.isLoggable( Level.FINE ))
-				//						_log.fine("DependencyIndex- Adding merge dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  mergedToInd["  + mergedTo + "]");
+				//					if(_logger.isLoggable( Level.FINE ))
+				//						_logger.fine("DependencyIndex- Adding merge dependency: Axiom [" +nextAtom + "]   ,  Ind [" + ind + "]   ,  mergedToInd["  + mergedTo + "]");
 
 				//add the dependency
 				_dependencies.get(nextAtom).addMergeDependency(ind, mergedTo);
@@ -162,8 +162,8 @@ public class DependencyIndex
 	 */
 	public void addEdgeDependency(final Edge edge, final DependencySet ds)
 	{
-		//		if(_log.isLoggable( Level.FINE ))
-		//			_log.fine("DependencyIndex- Calling add edge dependency");
+		//		if(_logger.isLoggable( Level.FINE ))
+		//			_logger.fine("DependencyIndex- Calling add edge dependency");
 
 		//loop over ds
 		for (final ATermAppl nextAtom : ds.getExplain())
@@ -174,8 +174,8 @@ public class DependencyIndex
 				if (!_dependencies.containsKey(nextAtom))
 					_dependencies.put(nextAtom, new DependencyEntry());
 
-				//					if(_log.isLoggable( Level.FINE ))
-				//						_log.fine("  DependencyIndex- Adding edge dependency: Axiom [" +nextAtom + "]   ,  Edge [" + edge + "]");
+				//					if(_logger.isLoggable( Level.FINE ))
+				//						_logger.fine("  DependencyIndex- Adding edge dependency: Axiom [" +nextAtom + "]   ,  Edge [" + edge + "]");
 
 				//add the dependency
 				_dependencies.get(nextAtom).addEdgeDependency(edge);
@@ -200,8 +200,8 @@ public class DependencyIndex
 				if (!_dependencies.containsKey(nextAtom))
 					_dependencies.put(nextAtom, new DependencyEntry());
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("DependencyIndex- Adding _branch add dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("DependencyIndex- Adding _branch add dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]");
 
 				//add the dependency
 				final BranchDependency newDep = _dependencies.get(nextAtom).addBranchAddDependency(nextAtom, branch.getBranch(), branch);
@@ -240,8 +240,8 @@ public class DependencyIndex
 				if (branch instanceof DisjunctionBranch)
 					label = ((DisjunctionBranch) branch).getDisjunct(branch.getTryNext());
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("DependencyIndex- Adding _branch remove ds dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]   on label [" + label + "]  ,    _tryNext [" + branch.getTryNext() + "]");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("DependencyIndex- Adding _branch remove ds dependency for assertion: " + nextAtom + " -  Branch id [" + branch.getBranch() + "]   ,  Branch [" + branch + "]   on label [" + label + "]  ,    _tryNext [" + branch.getTryNext() + "]");
 
 				//add the dependency
 				final BranchDependency newDep = _dependencies.get(nextAtom).addCloseBranchDependency(nextAtom, branch);
@@ -285,8 +285,8 @@ public class DependencyIndex
 		//loop over depencies and remove them
 		for (final BranchDependency next : deps)
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("DependencyIndex: RESTORE causing remove of _branch _index for assertion: " + next.getAssertion() + " _branch dep.: " + next);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("DependencyIndex: RESTORE causing remove of _branch _index for assertion: " + next.getAssertion() + " _branch dep.: " + next);
 			if (next instanceof BranchAddDependency)
 				//remove the dependency
 				_dependencies.get(next.getAssertion()).getBranchAdds().remove(next);
@@ -326,8 +326,8 @@ public class DependencyIndex
 				if (!_dependencies.containsKey(nextAtom))
 					_dependencies.put(nextAtom, new DependencyEntry());
 
-				if (log.isLoggable(Level.FINE))
-					log.fine("  DependencyIndex- Adding clash dependency: Axiom [" + nextAtom + "]   ,  Clash [" + clash + "]");
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("  DependencyIndex- Adding clash dependency: Axiom [" + nextAtom + "]   ,  Clash [" + clash + "]");
 
 				final ClashDependency newDep = new ClashDependency(nextAtom, clash);
 

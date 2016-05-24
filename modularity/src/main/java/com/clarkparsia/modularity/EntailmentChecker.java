@@ -75,7 +75,7 @@ import org.semanticweb.owlapi.reasoner.UnsupportedEntailmentTypeException;
  */
 public class EntailmentChecker implements OWLAxiomVisitor
 {
-	public static Logger log = Log.getLogger(EntailmentChecker.class);
+	public static Logger _logger = Log.getLogger(EntailmentChecker.class);
 
 	private final IncrementalClassifier _reasoner;
 	private Boolean _isEntailed;

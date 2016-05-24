@@ -147,7 +147,7 @@ public class PelletClassify extends PelletCmdApp
 		final String loaderName = _options.getOption("loader").getValueAsString();
 
 		if (!"OWLAPI".equals(loaderName))
-			logger.log(Level.WARNING, "Ignoring -l " + loaderName + " option. When using --persist the only allowed _loader is OWLAPI");
+			_logger.log(Level.WARNING, "Ignoring -l " + loaderName + " option. When using --persist the only allowed _loader is OWLAPI");
 
 		final OWLAPILoader loader = (OWLAPILoader) getLoader("OWLAPI");
 
@@ -219,7 +219,7 @@ public class PelletClassify extends PelletCmdApp
 		}
 		catch (final IOException e)
 		{
-			logger.log(Level.WARNING, "Unable to persist the _current classifier state: " + e.toString());
+			_logger.log(Level.WARNING, "Unable to persist the _current classifier state: " + e.toString());
 		}
 	}
 
@@ -256,7 +256,7 @@ public class PelletClassify extends PelletCmdApp
 		}
 		catch (final IOException e)
 		{
-			logger.log(Level.WARNING, "Unable to read the persisted information from a file. Pellet will perform full classification: " + e);
+			_logger.log(Level.WARNING, "Unable to read the persisted information from a file. Pellet will perform full classification: " + e);
 
 			return null;
 		}

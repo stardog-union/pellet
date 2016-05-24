@@ -163,7 +163,7 @@ import org.semanticweb.owlapi.model.SWRLVariable;
  */
 public class PelletVisitor implements OWLObjectVisitor
 {
-	public static Logger _log = Log.getLogger(PelletVisitor.class);
+	public static Logger _logger = Log.getLogger(PelletVisitor.class);
 
 	private final KnowledgeBase _kb;
 
@@ -213,7 +213,7 @@ public class PelletVisitor implements OWLObjectVisitor
 			throw new UnsupportedFeatureException("Axiom: " + axiom);
 
 		if (_unsupportedAxioms.add(axiom))
-			_log.warning("Ignoring unsupported axiom: " + axiom);
+			_logger.warning("Ignoring unsupported axiom: " + axiom);
 	}
 
 	public Set<OWLAxiom> getUnsupportedAxioms()
@@ -837,7 +837,7 @@ public class PelletVisitor implements OWLObjectVisitor
 
 		ont.axioms().forEach(axiom ->
 		{
-			_log.fine(() -> "Load " + axiom);
+			_logger.fine(() -> "Load " + axiom);
 			axiom.accept(PelletVisitor.this);
 		});
 	}
@@ -994,14 +994,14 @@ public class PelletVisitor implements OWLObjectVisitor
 				restrictions.add(_term);
 			else
 			{
-				_log.warning("Unrecognized facet " + restr.getFacet());
+				_logger.warning("Unrecognized facet " + restr.getFacet());
 
 				return;
 			}
 		}
 
 		if (restrictions.isEmpty())
-			_log.warning("A _data range is defined without facet restrictions " + node);
+			_logger.warning("A _data range is defined without facet restrictions " + node);
 		else
 			_term = ATermUtils.makeRestrictedDatatype(baseDatatype, restrictions.toArray(new ATermAppl[restrictions.size()]));
 	}

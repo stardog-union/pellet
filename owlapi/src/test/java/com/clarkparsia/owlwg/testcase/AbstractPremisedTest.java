@@ -35,7 +35,7 @@ import org.semanticweb.owlapi.search.EntitySearcher;
 public abstract class AbstractPremisedTest<O> extends AbstractBaseTestCase<O> implements PremisedTest<O>
 {
 
-	private static final Logger log = Log.getLogger(AbstractPremisedTest.class);
+	private static final Logger _logger = Log.getLogger(AbstractPremisedTest.class);
 
 	private final EnumSet<SerializationFormat> premiseFormats;
 	private final EnumMap<SerializationFormat, String> premiseOntologyLiteral;
@@ -56,7 +56,7 @@ public abstract class AbstractPremisedTest<O> extends AbstractBaseTestCase<O> im
 			{
 				if (premises.size() > 1)
 				{
-					log.warning(format("Multiple premise ontologies found for testcase (%s) with serialization format (%s).  Choosing arbitrarily.", getIdentifier(), f));
+					_logger.warning(format("Multiple premise ontologies found for testcase (%s) with serialization format (%s).  Choosing arbitrarily.", getIdentifier(), f));
 				}
 				premiseOntologyLiteral.put(f, premises.iterator().next().getLiteral());
 				premiseFormats.add(f);

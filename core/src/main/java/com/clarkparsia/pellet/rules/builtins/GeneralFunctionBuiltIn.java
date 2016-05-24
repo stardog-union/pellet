@@ -104,7 +104,7 @@ public class GeneralFunctionBuiltIn implements BuiltIn
 						// Oops, we overwrote an argument.
 						if (newBinding.get(arg) != null)
 							throw new InternalReasonerException("General Function implementation overwrote one of its arguments!");
-						ABox.log.info("Function results in multiple simultaneous values for variable");
+						ABox._logger.info("Function results in multiple simultaneous values for variable");
 						return;
 					}
 					if (current == null)

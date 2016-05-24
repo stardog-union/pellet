@@ -202,8 +202,8 @@ public class DisjunctionBranch extends Branch
 					ds.setExplain(explain);
 				}
 
-			if (log.isLoggable(Level.FINE))
-				log.fine(getDebugMsg());
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine(getDebugMsg());
 
 			final ATermAppl notD = ATermUtils.negate(d);
 			DependencySet clashDepends = PelletOptions.SATURATE_TABLEAU ? null : node.getDepends(notD);
@@ -221,10 +221,10 @@ public class DisjunctionBranch extends Branch
 			// if there is a clash
 			if (clashDepends != null)
 			{
-				if (log.isLoggable(Level.FINE))
+				if (_logger.isLoggable(Level.FINE))
 				{
 					final Clash clash = _abox.isClosed() ? _abox.getClash() : Clash.atomic(node, clashDepends, d);
-					log.fine("CLASH: Branch " + getBranch() + " " + clash + "!" + " " + clashDepends.getExplain());
+					_logger.fine("CLASH: Branch " + getBranch() + " " + clash + "!" + " " + clashDepends.getExplain());
 				}
 
 				if (PelletOptions.USE_DISJUNCT_SORTING)

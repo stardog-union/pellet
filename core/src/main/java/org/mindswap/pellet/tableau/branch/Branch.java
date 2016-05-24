@@ -57,7 +57,7 @@ import org.mindswap.pellet.tableau.completion.CompletionStrategy;
  */
 public abstract class Branch
 {
-	public static final Logger log = Log.getLogger(Branch.class);
+	public static final Logger _logger = Log.getLogger(Branch.class);
 
 	protected ABox _abox;
 	protected CompletionStrategy _strategy;

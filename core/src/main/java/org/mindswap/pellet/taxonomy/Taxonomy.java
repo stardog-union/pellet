@@ -168,7 +168,7 @@ public class Taxonomy<T>
 		}
 	}
 
-	public static final Logger log = Log.getLogger(Taxonomy.class);
+	public static final Logger _logger = Log.getLogger(Taxonomy.class);
 
 	private static final boolean SUB = true;
 
@@ -781,8 +781,8 @@ public class Taxonomy<T>
 
 		assert mergeList.size() > 1 : "Attempt to merge less than two _nodes";
 
-		if (log.isLoggable(Level.FINER))
-			log.finer("Merge " + mergeList);
+		if (_logger.isLoggable(Level.FINER))
+			_logger.finer("Merge " + mergeList);
 
 		TaxonomyNode<T> node = null;
 		if (mergeList.contains(_topNode))
@@ -979,7 +979,7 @@ public class Taxonomy<T>
 		final Set<TaxonomyNode<T>> nodesLeft = new HashSet<>();
 		final List<T> nodesSorted = new ArrayList<>();
 
-		log.fine("Topological sort...");
+		_logger.fine("Topological sort...");
 
 		for (final TaxonomyNode<T> node : _nodes.values())
 		{
@@ -1031,7 +1031,7 @@ public class Taxonomy<T>
 		if (!nodesLeft.isEmpty())
 			throw new InternalReasonerException("Failed to sort elements: " + nodesLeft);
 
-		log.fine("done");
+		_logger.fine("done");
 
 		return nodesSorted;
 	}

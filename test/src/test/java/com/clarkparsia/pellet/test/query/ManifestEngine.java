@@ -51,7 +51,7 @@ import org.mindswap.pellet.utils.VersionInfo;
 
 public class ManifestEngine
 {
-	private static final Logger _log = Log.getLogger(ManifestEngine.class);
+	private static final Logger _logger = Log.getLogger(ManifestEngine.class);
 
 	// MANIFESTS
 	private final String _manifest;
@@ -75,7 +75,7 @@ public class ManifestEngine
 			@Override
 			public void manifestStarted(final String manifestURI)
 			{
-				_log.fine("START _manifest: " + manifestURI);
+				_logger.fine("START _manifest: " + manifestURI);
 			}
 
 			/**
@@ -93,7 +93,7 @@ public class ManifestEngine
 			@Override
 			public void manifestFinished(final String manifestURI)
 			{
-				_log.fine("FINISH _manifest: " + manifestURI);
+				_logger.fine("FINISH _manifest: " + manifestURI);
 			}
 		};
 	}
@@ -178,7 +178,7 @@ public class ManifestEngine
 		}
 		catch (final IOException e)
 		{
-			_log.log(Level.SEVERE, e.getMessage(), e);
+			_logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -210,18 +210,18 @@ public class ManifestEngine
 		Arrays.fill(a, '=');
 		final String separator = new String(a);
 
-		_log.fine(separator);
-		_log.fine(String.format(format, "name", "result", "time [ms]"));
-		_log.fine(separator);
+		_logger.fine(separator);
+		_logger.fine(String.format(format, "name", "result", "time [ms]"));
+		_logger.fine(separator);
 
 		for (final SingleTestResult test : _results)
-			_log.log(Level.FINE, String.format(format, test.getUri().getFragment(), test.getResult(), test.getTime()));
-		_log.fine(separator);
+			_logger.log(Level.FINE, String.format(format, test.getUri().getFragment(), test.getResult(), test.getTime()));
+		_logger.fine(separator);
 	}
 
 	private void _doTest(final String manifestURI)
 	{
-		_log.fine("Processing _manifest : " + manifestURI + "'.");
+		_logger.fine("Processing _manifest : " + manifestURI + "'.");
 		_singleTestExecutor.manifestStarted(manifestURI);
 		try
 		{
@@ -265,7 +265,7 @@ public class ManifestEngine
 		}
 		catch (final Exception e)
 		{
-			_log.log(Level.SEVERE, e.getMessage(), e);
+			_logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -280,18 +280,18 @@ public class ManifestEngine
 		else
 			testApprovalStatus = SparqlDawgTestVocabulary.NotClassified;
 
-		_log.fine("Test : " + singleTest);
-		_log.fine("Type : " + testType.getLocalName() + " ");
-		_log.finer("Name : " + singleTest.getProperty(SparqlDawgTestVocabulary.name).getString());
-		_log.finer("Appr.: " + testApprovalStatus.getLocalName());
-		_log.finer("Tester: " + tester.getClass().getName());
+		_logger.fine("Test : " + singleTest);
+		_logger.fine("Type : " + testType.getLocalName() + " ");
+		_logger.finer("Name : " + singleTest.getProperty(SparqlDawgTestVocabulary.name).getString());
+		_logger.finer("Appr.: " + testApprovalStatus.getLocalName());
+		_logger.finer("Tester: " + tester.getClass().getName());
 
 		final SingleTestResult result = doTestCase(tester, singleTest, testType);
 
-		_log.finer("");
-		_log.fine("Result: " + result.getResult());
-		_log.fine("Time Elapsed: " + result.getTime());
-		_log.fine("--------------------------------------------------------------------");
+		_logger.finer("");
+		_logger.fine("Result: " + result.getResult());
+		_logger.fine("Time Elapsed: " + result.getTime());
+		_logger.fine("--------------------------------------------------------------------");
 
 		return result;
 	}
@@ -326,9 +326,9 @@ public class ManifestEngine
 			else
 			{
 				if (parsable)
-					_log.log(Level.SEVERE, "Fail: The input should be parsable, but parsing fails.");
+					_logger.log(Level.SEVERE, "Fail: The input should be parsable, but parsing fails.");
 				else
-					_log.log(Level.SEVERE, "Fail: The input should not be parsable, but parsing is succesful.");
+					_logger.log(Level.SEVERE, "Fail: The input should not be parsable, but parsing is succesful.");
 				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, time);
 			}
 		}
@@ -393,18 +393,18 @@ public class ManifestEngine
 					return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.PASS, time);
 				else
 				{
-					_log.severe("Fail: Evaluation of the query is not correct.");
+					_logger.severe("Fail: Evaluation of the query is not correct.");
 					return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, time);
 				}
 			}
 			catch (final UnsupportedFeatureException e)
 			{
-				_log.log(Level.SEVERE, e.getMessage(), e);
+				_logger.log(Level.SEVERE, e.getMessage(), e);
 				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.SKIP, System.currentTimeMillis() - startPoint);
 			}
 			catch (final Exception e)
 			{
-				_log.log(Level.SEVERE, e.getMessage(), e);
+				_logger.log(Level.SEVERE, e.getMessage(), e);
 				return new SingleTestResult(URI.create(testCase.getURI()), ResultEnum.FAIL, System.currentTimeMillis() - startPoint);
 			}
 

@@ -117,7 +117,7 @@ import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
 public class DefaultGraphLoader implements GraphLoader
 {
 
-	public static final Logger log = Log.getLogger(DefaultGraphLoader.class);
+	public static final Logger _logger = Log.getLogger(DefaultGraphLoader.class);
 
 	protected static final Node[] TBOX_TYPES;
 	protected static final Node[] TBOX_PREDICATES;
@@ -229,7 +229,7 @@ public class DefaultGraphLoader implements GraphLoader
 			throw new UnsupportedFeatureException(msg);
 
 		if (unsupportedFeatures.add(msg))
-			log.warning("Unsupported axiom: " + msg);
+			_logger.warning("Unsupported axiom: " + msg);
 	}
 
 	/**
@@ -449,7 +449,7 @@ public class DefaultGraphLoader implements GraphLoader
 			}
 			catch (final Exception e)
 			{
-				log.log(Level.FINE, "Invalid hasSelf value: " + filler, e);
+				_logger.log(Level.FINE, "Invalid hasSelf value: " + filler, e);
 			}
 
 			if (Boolean.TRUE.equals(value))
@@ -548,7 +548,7 @@ public class DefaultGraphLoader implements GraphLoader
 		catch (final Exception ex)
 		{
 			addUnsupportedFeature("Invalid value for the owl:" + restrictionType.getLocalName() + " restriction: " + filler);
-			log.log(Level.WARNING, "Invalid cardinality", ex);
+			_logger.log(Level.WARNING, "Invalid cardinality", ex);
 		}
 						else
 							addUnsupportedFeature("Ignoring invalid restriction on " + p);
@@ -1228,7 +1228,7 @@ public class DefaultGraphLoader implements GraphLoader
 	{
 		if (preprocessTypeTriples)
 		{
-			log.fine("processTypes");
+			_logger.fine("processTypes");
 			if (isLoadABox())
 				processTypes(Node.ANY);
 			else
@@ -1437,7 +1437,7 @@ public class DefaultGraphLoader implements GraphLoader
 	 */
 	protected void processTriples()
 	{
-		log.fine("processTriples");
+		_logger.fine("processTriples");
 		if (isLoadABox())
 			processTriples(Node.ANY);
 		else
@@ -1955,7 +1955,7 @@ public class DefaultGraphLoader implements GraphLoader
 
 	protected void processUntypedResources()
 	{
-		log.fine("processUntypedResource");
+		_logger.fine("processUntypedResource");
 
 		for (final Role r : _kb.getRBox().getRoles().toArray(new Role[0]))
 		{

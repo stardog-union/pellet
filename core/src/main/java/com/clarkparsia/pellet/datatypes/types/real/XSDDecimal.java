@@ -34,12 +34,12 @@ import org.mindswap.pellet.utils.Namespaces;
 public class XSDDecimal extends AbstractBaseDatatype<Number>
 {
 
-	private static final XSDDecimal instance = new XSDDecimal();
-	private static final Logger log = Log.getLogger(XSDDecimal.class);
+	private static final XSDDecimal _instance = new XSDDecimal();
+	private static final Logger _logger = Log.getLogger(XSDDecimal.class);
 
 	public static XSDDecimal getInstance()
 	{
-		return instance;
+		return _instance;
 	}
 
 	private final RestrictedRealDatatype dataRange;
@@ -78,7 +78,7 @@ public class XSDDecimal extends AbstractBaseDatatype<Number>
 		}
 		catch (final NumberFormatException e)
 		{
-			log.severe(format("Number format exception (%s) cause while parsing decimal %s", e.getMessage(), lexicalForm));
+			_logger.severe(format("Number format exception (%s) cause while parsing decimal %s", e.getMessage(), lexicalForm));
 			throw new InvalidLiteralException(getName(), lexicalForm);
 		}
 	}

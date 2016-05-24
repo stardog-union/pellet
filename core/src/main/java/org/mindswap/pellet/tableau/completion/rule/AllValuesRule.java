@@ -177,8 +177,8 @@ public class AllValuesRule extends AbstractTableauRule
 	{
 		if (!obj.hasType(c))
 		{
-			if (log.isLoggable(Level.FINE))
-				log.fine("ALL : " + subj + " -> " + pred + " -> " + obj + " : " + ATermUtils.toString(c) + " - " + ds);
+			if (_logger.isLoggable(Level.FINE))
+				_logger.fine("ALL : " + subj + " -> " + pred + " -> " + obj + " : " + ATermUtils.toString(c) + " - " + ds);
 
 			//because we do not maintain the _queue it could be the case that this _node is pruned, so return
 			if (PelletOptions.USE_COMPLETION_QUEUE && !PelletOptions.MAINTAIN_COMPLETION_QUEUE && obj.isPruned())

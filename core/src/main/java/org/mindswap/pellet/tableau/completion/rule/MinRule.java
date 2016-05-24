@@ -82,8 +82,8 @@ public class MinRule extends AbstractTableauRule
 		if (!PelletOptions.MAINTAIN_COMPLETION_QUEUE && ds == null)
 			return;
 
-		if (log.isLoggable(Level.FINE))
-			log.fine("MIN : " + x + " -> " + r + " -> anon" + (n == 1 ? "" : (_strategy.getABox().getAnonCount() + 1) + " - anon") + (_strategy.getABox().getAnonCount() + n) + " " + ATermUtils.toString(c) + " " + ds);
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("MIN : " + x + " -> " + r + " -> anon" + (n == 1 ? "" : (_strategy.getABox().getAnonCount() + 1) + " - anon") + (_strategy.getABox().getAnonCount() + n) + " " + ATermUtils.toString(c) + " " + ds);
 
 		final Node[] y = new Node[n];
 		for (int c1 = 0; c1 < n; c1++)

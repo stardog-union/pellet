@@ -31,7 +31,7 @@ import org.mindswap.pellet.utils.FileUtils;
  */
 public abstract class KBLoader
 {
-	public static final Logger log = Log.getLogger(KBLoader.class);
+	public static final Logger _logger = Log.getLogger(KBLoader.class);
 
 	protected String inputFormat;
 
@@ -81,15 +81,15 @@ public abstract class KBLoader
 	 */
 	public void parse(final String... fileNames)
 	{
-		if (log.isLoggable(Level.FINE))
-			log.fine("Parsing (" + fileNames.length + ") files");
+		if (_logger.isLoggable(Level.FINE))
+			_logger.fine("Parsing (" + fileNames.length + ") files");
 		for (final String fileName : fileNames)
 		{
 			final String fileURI = FileUtils.getFileURI(fileName);
 			parseFile(fileURI);
 		}
-		if (log.isLoggable(Level.INFO))
-			log.fine("Parsing done.");
+		if (_logger.isLoggable(Level.INFO))
+			_logger.fine("Parsing done.");
 	}
 
 	/**

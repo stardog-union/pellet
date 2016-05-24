@@ -78,7 +78,7 @@ import org.semanticweb.owlapi.model.SetOntologyID;
  */
 public class PelletLoader
 {
-	public static Logger _log = Log.getLogger(PelletLoader.class);
+	public static Logger _logger = Log.getLogger(PelletLoader.class);
 
 	private KnowledgeBase _kb;
 
@@ -265,7 +265,7 @@ public class PelletLoader
 
 	public void reload()
 	{
-		_log.fine("Reloading the _ontologies");
+		_logger.fine("Reloading the _ontologies");
 
 		// copy the loaded _ontologies
 		final Set<OWLOntology> notImportedOnts = new HashSet<>(_notImported);
@@ -416,8 +416,8 @@ public class PelletLoader
 
 			if (!_changeVisitor.process(change))
 			{
-				if (_log.isLoggable(Level.FINE))
-					_log.fine("Reload required by ontology change " + change);
+				if (_logger.isLoggable(Level.FINE))
+					_logger.fine("Reload required by ontology change " + change);
 
 				return false;
 			}

@@ -31,7 +31,7 @@ public class XSDDecimal implements Datatype<Number>
 {
 
 	private static final XSDDecimal instance = new XSDDecimal();
-	private static final Logger log = Log.getLogger(XSDDecimal.class);
+	private static final Logger _logger = Log.getLogger(XSDDecimal.class);
 
 	public static XSDDecimal getInstance()
 	{
@@ -95,7 +95,7 @@ public class XSDDecimal implements Datatype<Number>
 		}
 		catch (final NumberFormatException e)
 		{
-			log.severe(format("Number format exception (%s) cause while parsing decimal %s", e.getMessage(), lexicalForm));
+			_logger.severe(format("Number format exception (%s) cause while parsing decimal %s", e.getMessage(), lexicalForm));
 			throw new InvalidLiteralException(name, lexicalForm);
 		}
 	}
