@@ -8,11 +8,15 @@
 
 package com.clarkparsia.owlapi;
 
+import com.intrinsec.owlapi.facet.FacetFactoryOWL;
+import com.intrinsec.owlapi.facet.FacetManagerOWL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.utils.Namespaces;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -107,8 +111,10 @@ import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
  *
  * @author Evren Sirin
  */
-public class OWL
+public class OWL implements FacetManagerOWL, FacetFactoryOWL
 {
+	private static final Logger _logger = Log.getLogger(OWL.class);
+
 	public static final OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 
 	public static final OWLDataFactory factory = manager.getOWLDataFactory();
@@ -125,8 +131,21 @@ public class OWL
 
 	public static final OWLDataProperty bottomDataProperty = DataProperty(Namespaces.OWL + "bottomDataProperty");
 
+	@Override
+	public OWLDataFactory getFactory()
+	{
+		return factory;
+	}
+
+	@Override
+	public OWLOntologyManager getManager()
+	{
+		return manager;
+	}
+
 	public static OWLOntology Ontology(final Collection<? extends OWLAxiom> axioms)
 	{
+		_logger.info("Using an test method.");
 		final IRI uri = IRI.create("http://www.example.org/ontology" + UUID.randomUUID());
 
 		return Ontology(axioms, uri);
@@ -168,7 +187,7 @@ public class OWL
 	}
 
 	/**
-	 * @deprecated Use {@link #all(OWLObjectPropertyExpression, OWLClassExpression)} instead
+	 * @deprecated 2.5.1 Use {@link #all(OWLObjectPropertyExpression, OWLClassExpression)} instead
 	 */
 	@Deprecated
 	public static OWLObjectAllValuesFrom allValuesFrom(final OWLObjectPropertyExpression property, final OWLClassExpression description)
@@ -251,7 +270,7 @@ public class OWL
 	}
 
 	/**
-	 * @deprecated Use {@link #not(OWLClassExpression)} instead
+	 * @deprecated 2.5.1 Use {@link #not(OWLClassExpression)} instead
 	 */
 	@Deprecated
 	public static OWLObjectComplementOf complementOf(final OWLClassExpression description)
@@ -821,4 +840,5 @@ public class OWL
 	{
 		return factory.getOWLObjectHasValue(property, value);
 	}
+
 }

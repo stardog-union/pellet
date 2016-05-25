@@ -9,6 +9,7 @@ package com.clarkparsia.pellet.owlapi;
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asList;
 
 import aterm.ATermAppl;
+import com.intrinsec.owlapi.facet.FacetReasonerOWL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -85,17 +86,24 @@ import org.semanticweb.owlapi.model.SWRLRule;
  *
  * @author Evren Sirin
  */
-public class EntailmentChecker implements OWLAxiomVisitor
+public class EntailmentChecker implements OWLAxiomVisitor, FacetReasonerOWL
 {
 	public static Logger _logger = Log.getLogger(EntailmentChecker.class);
 
 	public static final Set<AxiomType<?>> UNSUPPORTED_ENTAILMENT = Collections.unmodifiableSet(new HashSet<>(Arrays.<AxiomType<?>> asList(AxiomType.DISJOINT_UNION, AxiomType.DATATYPE_DEFINITION, AxiomType.HAS_KEY, AxiomType.SUB_PROPERTY_CHAIN_OF, AxiomType.SWRL_RULE)));
 
-	private final PelletReasoner _reasoner;
 	private final KnowledgeBase _kb;
 	private boolean _isDeferred = false;
 	private boolean _isEntailed = false;
 	private final EntailmentQueryVisitor _queryVisitor;
+
+	private final PelletReasoner _reasoner;
+
+	@Override
+	public PelletReasoner getReasoner()
+	{
+		return _reasoner;
+	}
 
 	public EntailmentChecker(final PelletReasoner reasoner)
 	{
@@ -594,4 +602,5 @@ public class EntailmentChecker implements OWLAxiomVisitor
 		if (_logger.isLoggable(Level.FINE))
 			_logger.fine("Ignoring sub annotation property axiom " + axiom);
 	}
+
 }

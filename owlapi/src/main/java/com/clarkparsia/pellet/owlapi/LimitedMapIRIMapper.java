@@ -1,7 +1,7 @@
 package com.clarkparsia.pellet.owlapi;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 
@@ -23,19 +23,8 @@ import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
  */
 public class LimitedMapIRIMapper implements OWLOntologyIRIMapper
 {
-
-	/**
-	 * TODO
-	 *
-	 * @since
-	 */
 	private static final long serialVersionUID = 6168686462330770641L;
-	private final Map<IRI, IRI> allowed;
-
-	public LimitedMapIRIMapper()
-	{
-		allowed = new HashMap<>();
-	}
+	private final Map<IRI, IRI> _allowed = new ConcurrentHashMap<>();
 
 	public void addAllowedIRI(final IRI ontologyIRI)
 	{
@@ -44,18 +33,18 @@ public class LimitedMapIRIMapper implements OWLOntologyIRIMapper
 
 	public void addAllowedIRI(final IRI fromIRI, final IRI toIRI)
 	{
-		allowed.put(fromIRI, toIRI);
+		_allowed.put(fromIRI, toIRI);
 	}
 
 	public void clear()
 	{
-		allowed.clear();
+		_allowed.clear();
 	}
 
 	@Override
 	public IRI getDocumentIRI(final IRI ontologyIRI)
 	{
-		return allowed.get(ontologyIRI);
+		return _allowed.get(ontologyIRI);
 	}
 
 }

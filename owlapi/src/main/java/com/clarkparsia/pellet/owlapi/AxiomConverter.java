@@ -10,6 +10,7 @@ package com.clarkparsia.pellet.owlapi;
 
 import aterm.ATermAppl;
 import aterm.ATermList;
+import com.intrinsec.owlapi.facet.FacetFactoryOWL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -54,13 +55,20 @@ import org.semanticweb.owlapi.model.SWRLIArgument;
  *
  * @author Evren Sirin
  */
-public class AxiomConverter
+public class AxiomConverter implements FacetFactoryOWL
 {
 	public static Logger _logger = Log.getLogger(AxiomConverter.class);
 
 	private final ConceptConverter _conceptConverter;
-	private final OWLDataFactory _factory;
 	private final KnowledgeBase _kb;
+
+	private final OWLDataFactory _factory;
+
+	@Override
+	public OWLDataFactory getFactory()
+	{
+		return _factory;
+	}
 
 	public AxiomConverter(final PelletReasoner reasoner)
 	{

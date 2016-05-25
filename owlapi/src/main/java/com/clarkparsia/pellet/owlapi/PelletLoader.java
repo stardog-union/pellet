@@ -31,6 +31,7 @@
 package com.clarkparsia.pellet.owlapi;
 
 import aterm.ATermAppl;
+import com.intrinsec.owlapi.facet.FacetManagerOWL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,7 +40,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import net.katk.tools.Log;
@@ -76,7 +76,7 @@ import org.semanticweb.owlapi.model.SetOntologyID;
  *
  * @author Evren Sirin
  */
-public class PelletLoader
+public class PelletLoader implements FacetManagerOWL
 {
 	public static Logger _logger = Log.getLogger(PelletLoader.class);
 
@@ -85,6 +85,17 @@ public class PelletLoader
 	// private Set<URI> loadedFiles;
 
 	private OWLOntologyManager _manager;
+
+	@Override
+	public OWLOntologyManager getManager()
+	{
+		return _manager;
+	}
+
+	public void setManager(final OWLOntologyManager manager)
+	{
+		_manager = manager;
+	}
 
 	private final Set<OWLOntology> _ontologies;
 
@@ -109,7 +120,6 @@ public class PelletLoader
 
 	private class ChangeVisitor implements OWLOntologyChangeVisitor
 	{
-
 		private boolean _reloadRequired;
 
 		public boolean isReloadRequired()
@@ -389,16 +399,6 @@ public class PelletLoader
 		return Collections.unmodifiableSet(_ontologies);
 	}
 
-	public OWLOntologyManager getManager()
-	{
-		return _manager;
-	}
-
-	public void setManager(final OWLOntologyManager manager)
-	{
-		this._manager = manager;
-	}
-
 	/**
 	 * Apply the given changes to the Pellet KB.
 	 *
@@ -416,8 +416,7 @@ public class PelletLoader
 
 			if (!_changeVisitor.process(change))
 			{
-				if (_logger.isLoggable(Level.FINE))
-					_logger.fine("Reload required by ontology change " + change);
+				_logger.fine(() -> "Reload required by ontology change " + change);
 
 				return false;
 			}

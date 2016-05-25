@@ -187,8 +187,8 @@ public class PelletVisitor implements OWLObjectVisitor
 	 * constants will be used to identify why a certain property should be
 	 * treated as simple
 	 */
-	private MultiValueMap<OWLObjectProperty, OWLObjectPropertyAxiom> compositePropertyAxioms;
-	private Set<OWLObjectProperty> simpleProperties;
+	private MultiValueMap<OWLObjectProperty, OWLObjectPropertyAxiom> _compositePropertyAxioms;
+	private Set<OWLObjectProperty> _simpleProperties;
 
 	public PelletVisitor(final KnowledgeBase kb)
 	{
@@ -203,8 +203,8 @@ public class PelletVisitor implements OWLObjectVisitor
 	public void clear()
 	{
 		_unsupportedAxioms = new HashSet<>();
-		compositePropertyAxioms = new MultiValueMap<>();
-		simpleProperties = new HashSet<>();
+		_compositePropertyAxioms = new MultiValueMap<>();
+		_simpleProperties = new HashSet<>();
 	}
 
 	private void addUnsupportedAxiom(final OWLAxiom axiom)
@@ -236,7 +236,7 @@ public class PelletVisitor implements OWLObjectVisitor
 			return;
 
 		final OWLObjectProperty prop = getNamedProperty(ope);
-		simpleProperties.add(prop);
+		_simpleProperties.add(prop);
 
 		prop.accept(this);
 		final Role role = _kb.getRBox().getRole(_term);
@@ -245,11 +245,11 @@ public class PelletVisitor implements OWLObjectVisitor
 
 	void verify()
 	{
-		for (final Map.Entry<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> entry : compositePropertyAxioms.entrySet())
+		for (final Map.Entry<OWLObjectProperty, Set<OWLObjectPropertyAxiom>> entry : _compositePropertyAxioms.entrySet())
 		{
 			final OWLObjectProperty nonSimpleProperty = entry.getKey();
 
-			if (!simpleProperties.contains(nonSimpleProperty))
+			if (!_simpleProperties.contains(nonSimpleProperty))
 				continue;
 
 			final Set<OWLObjectPropertyAxiom> axioms = entry.getValue();
@@ -916,7 +916,7 @@ public class PelletVisitor implements OWLObjectVisitor
 			return;
 		}
 
-		compositePropertyAxioms.add(getNamedProperty(axiom.getSuperProperty()), axiom);
+		_compositePropertyAxioms.add(getNamedProperty(axiom.getSuperProperty()), axiom);
 
 		axiom.getSuperProperty().accept(this);
 		final ATermAppl prop = result();
@@ -1295,7 +1295,7 @@ public class PelletVisitor implements OWLObjectVisitor
 			return;
 		}
 
-		compositePropertyAxioms.add(getNamedProperty(axiom.getProperty()), axiom);
+		_compositePropertyAxioms.add(getNamedProperty(axiom.getProperty()), axiom);
 
 		axiom.getProperty().accept(this);
 		final ATermAppl p = _term;

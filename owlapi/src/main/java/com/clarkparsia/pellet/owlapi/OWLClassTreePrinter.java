@@ -1,5 +1,6 @@
 package com.clarkparsia.pellet.owlapi;
 
+import com.intrinsec.owlapi.OWLException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Set;
@@ -79,7 +80,7 @@ public class OWLClassTreePrinter extends TreeTaxonomyPrinter<OWLClass>
 			if (t.contains(c))
 				return Collections.emptySet();
 
-			throw new RuntimeException(c + " is an unknown class!");
+			throw new OWLException(c + " is an unknown class!");
 		}
 
 		return Collections.unmodifiableSet(instances);

@@ -1,6 +1,9 @@
 package com.clarkparsia.pellet.owlapi;
 
 import aterm.ATermAppl;
+import com.intrinsec.owlapi.facet.FacetFactoryOWL;
+import com.intrinsec.owlapi.facet.FacetManagerOWL;
+import com.intrinsec.owlapi.facet.FacetOntologyOWL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -68,7 +71,7 @@ import org.semanticweb.owlapi.reasoner.impl.OWLNamedIndividualNodeSet;
 import org.semanticweb.owlapi.reasoner.impl.OWLObjectPropertyNodeSet;
 import org.semanticweb.owlapi.util.Version;
 
-public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
+public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener, FacetManagerOWL, FacetOntologyOWL, FacetFactoryOWL
 {
 
 	public static final Logger _logger = Log.getLogger(PelletReasoner.class);
@@ -276,14 +279,47 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		return IRI.create(term.getName());
 	}
 
-	private final OWLDataFactory _factory;
-	private KnowledgeBase _kb;
 	private final OWLOntologyManager _manager;
-	private final ReasonerProgressMonitor _monitor;
+
+	@Override
+	public OWLOntologyManager getManager()
+	{
+		return _manager;
+	}
+
+	private final OWLDataFactory _factory;
+
+	@Override
+	public OWLDataFactory getFactory()
+	{
+		return _factory;
+	}
+
 	/**
 	 * Main _ontology for reasoner
 	 */
 	private final OWLOntology _ontology;
+
+	@Override
+	public OWLOntology getOntology()
+	{
+		return _ontology;
+	}
+
+	private KnowledgeBase _kb;
+
+	/**
+	 * Return the underlying Pellet knowledge base.
+	 *
+	 * @return the underlying Pellet knowledge base
+	 */
+	public KnowledgeBase getKB()
+	{
+		return _kb;
+	}
+
+	private final ReasonerProgressMonitor _monitor;
+
 	/**
 	 * Imports closure for _ontology
 	 */
@@ -336,16 +372,16 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		if (config.getTimeOut() > 0)
 			_kb.timers.mainTimer.setTimeout(config.getTimeOut());
 
-		this._manager = ontology.getOWLOntologyManager();
-		this._factory = _manager.getOWLDataFactory();
-		this._visitor = new PelletVisitor(_kb);
+		_manager = ontology.getOWLOntologyManager();
+		_factory = _manager.getOWLDataFactory();
+		_visitor = new PelletVisitor(_kb);
 
-		this._bufferingMode = bufferingMode;
+		_bufferingMode = bufferingMode;
 
 		_manager.addOntologyChangeListener(this);
 
-		this._shouldRefresh = true;
-		this._pendingChanges = new ArrayList<>();
+		_shouldRefresh = true;
+		_pendingChanges = new ArrayList<>();
 
 		refresh();
 	}
@@ -647,21 +683,6 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 		{
 			throw convert(e);
 		}
-	}
-
-	/**
-	 * Return the underlying Pellet knowledge base.
-	 *
-	 * @return the underlying Pellet knowledge base
-	 */
-	public KnowledgeBase getKB()
-	{
-		return _kb;
-	}
-
-	public OWLOntologyManager getManager()
-	{
-		return _manager;
 	}
 
 	@Override
@@ -1212,4 +1233,5 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener
 					break;
 			}
 	}
+
 }

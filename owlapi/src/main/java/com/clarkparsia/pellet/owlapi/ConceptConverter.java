@@ -10,6 +10,7 @@ package com.clarkparsia.pellet.owlapi;
 
 import aterm.ATermAppl;
 import aterm.ATermList;
+import com.intrinsec.owlapi.facet.FacetFactoryOWL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,12 +49,19 @@ import org.semanticweb.owlapi.vocab.OWLFacet;
  *
  * @author Evren Sirin
  */
-public class ConceptConverter extends ATermBaseVisitor
+public class ConceptConverter extends ATermBaseVisitor implements FacetFactoryOWL
 {
 	private final KnowledgeBase _kb;
-	private final OWLDataFactory _factory;
 	private OWLObject _obj;
 	private Set<OWLObject> _set;
+
+	private final OWLDataFactory _factory;
+
+	@Override
+	public OWLDataFactory getFactory()
+	{
+		return _factory;
+	}
 
 	public ConceptConverter(final KnowledgeBase kb, final OWLDataFactory factory)
 	{

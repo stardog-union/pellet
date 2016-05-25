@@ -8,6 +8,7 @@ import com.clarkparsia.pellet.sparqldl.model.Query;
 import com.clarkparsia.pellet.sparqldl.model.QueryAtomFactory;
 import com.clarkparsia.pellet.sparqldl.model.QueryImpl;
 import com.clarkparsia.pellet.sparqldl.model.QueryResult;
+import com.intrinsec.owlapi.facet.FacetReasonerOWL;
 import java.util.ArrayList;
 import java.util.List;
 import org.mindswap.pellet.utils.ATermUtils;
@@ -24,12 +25,18 @@ import org.semanticweb.owlapi.model.OWLNegativeObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLSameIndividualAxiom;
 
-public class EntailmentQueryVisitor implements OWLAxiomVisitor
+public class EntailmentQueryVisitor implements OWLAxiomVisitor, FacetReasonerOWL
 {
 
 	private final IndividualTermConverter _indConv;
 
 	private final PelletReasoner _reasoner;
+
+	@Override
+	public PelletReasoner getReasoner()
+	{
+		return _reasoner;
+	}
 
 	private Query _query;
 
@@ -149,4 +156,5 @@ public class EntailmentQueryVisitor implements OWLAxiomVisitor
 				_query.add(QueryAtomFactory.SameAsAtom(head, term));
 		}
 	}
+
 }

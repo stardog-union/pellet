@@ -10,6 +10,9 @@ package com.clarkparsia.pellet.owlapi;
 
 import static org.semanticweb.owlapi.util.OWLAPIStreamUtils.asSet;
 
+import com.intrinsec.owlapi.facet.FacetManagerOWL;
+import com.intrinsec.owlapi.facet.FacetOntologyOWL;
+import com.intrinsec.owlapi.facet.FacetReasonerOWL;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.mindswap.pellet.KBLoader;
@@ -43,15 +46,38 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  *
  * @author Evren Sirin
  */
-public class OWLAPILoader extends KBLoader
+public class OWLAPILoader extends KBLoader implements FacetReasonerOWL, FacetManagerOWL, FacetOntologyOWL
 {
 	private final OWLOntologyManager _manager;
 
+	@Override
+	public OWLOntologyManager getManager()
+	{
+		return _manager;
+	}
+
 	private PelletReasoner _pellet;
+
+	/**
+	 * Returns the reasoner created by this loader. A <code>null</code> value is returned until {@link #load()} function is called (explicitly or implicitly).
+	 *
+	 * @return the reasoner created by this loader
+	 */
+	@Override
+	public PelletReasoner getReasoner()
+	{
+		return _pellet;
+	}
 
 	private final LimitedMapIRIMapper iriMapper;
 
 	private OWLOntology _baseOntology;
+
+	@Override
+	public OWLOntology getOntology()
+	{
+		return _baseOntology;
+	}
 
 	private boolean _ignoreImports;
 
@@ -60,6 +86,15 @@ public class OWLAPILoader extends KBLoader
 	 * OWLOntologyManager.makeLoadImportRequest is called
 	 */
 	private boolean loadSingleFile;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public KnowledgeBase getKB()
+	{
+		return _pellet.getKB();
+	}
 
 	public OWLAPILoader()
 	{
@@ -92,24 +127,8 @@ public class OWLAPILoader extends KBLoader
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @Deprecated 2.5.1 use the stream version
 	 */
-	@Override
-	public KnowledgeBase getKB()
-	{
-		return _pellet.getKB();
-	}
-
-	public OWLOntologyManager getManager()
-	{
-		return _manager;
-	}
-
-	public OWLOntology getOntology()
-	{
-		return _baseOntology;
-	}
-
 	@Deprecated
 	public Set<OWLOntology> getAllOntologies()
 	{
@@ -119,16 +138,6 @@ public class OWLAPILoader extends KBLoader
 	public Stream<OWLOntology> allOntologies()
 	{
 		return _manager.ontologies();
-	}
-
-	/**
-	 * Returns the reasoner created by this loader. A <code>null</code> value is returned until {@link #load()} function is called (explicitly or implicitly).
-	 *
-	 * @return the reasoner created by this loader
-	 */
-	public PelletReasoner getReasoner()
-	{
-		return _pellet;
 	}
 
 	/**

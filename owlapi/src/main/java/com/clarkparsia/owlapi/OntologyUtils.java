@@ -73,6 +73,8 @@ public class OntologyUtils
 
 	/**
 	 * Given an axiom, return its signature.
+	 * 
+	 * @deprecated 2.5.1 use the stream version
 	 */
 	@Deprecated
 	public static Set<OWLEntity> getSignature(final OWLAxiom axiom)
@@ -169,7 +171,10 @@ public class OntologyUtils
 
 	/**
 	 * Prints a set of axioms to console
+	 * 
+	 * @Deprecated 2.5.1 because we don't want a System.out in the lib
 	 */
+	@Deprecated
 	public static void printAxioms(final Collection<? extends OWLAxiom> axioms)
 	{
 		for (final OWLAxiom axiom : axioms)
@@ -178,7 +183,10 @@ public class OntologyUtils
 
 	/**
 	 * Prints an ontology to console
+	 * 
+	 * @Deprecated 2.5.1 because we don't want a System.out in the lib
 	 */
+	@Deprecated
 	public static void printOntology(final OWLOntology ont)
 	{
 		ont.axioms().map(OWLAxiom::toString).sorted().forEach(System.out::println);
