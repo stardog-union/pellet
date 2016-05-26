@@ -33,32 +33,31 @@ import aterm.ATerm;
 import aterm.ATermAppl;
 import aterm.ATermList;
 import aterm.ATermPlaceholder;
-import aterm.Visitable;
 import aterm.Visitor;
 import java.util.List;
-import jjtraveler.VisitFailure;
 import shared.HashFunctions;
 import shared.SharedObject;
 
 public class ATermPlaceholderImpl extends ATermImpl implements ATermPlaceholder
 {
-	private ATerm type;
+	private ATerm _type;
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param factory x
 	 */
-	protected ATermPlaceholderImpl(PureFactory factory)
+	@Deprecated
+	protected ATermPlaceholderImpl(final PureFactory factory)
 	{
 		super(factory);
 	}
 
-	protected ATermPlaceholderImpl(PureFactory factory, ATermList annos, ATerm type)
+	protected ATermPlaceholderImpl(final PureFactory factory, final ATermList annos, final ATerm type)
 	{
 		super(factory, annos);
 
-		this.type = type;
+		_type = type;
 
 		setHashCode(HashFunctions.doobs(new Object[] { annos, type }));
 	}
@@ -74,12 +73,13 @@ public class ATermPlaceholderImpl extends ATermImpl implements ATermPlaceholder
 	 * 
 	 * @param hashCode x
 	 * @param annos x
-	 * @param type x
+	 * @param _type x
 	 */
-	protected void init(int hashCode, ATermList annos, ATerm type)
+	@Deprecated
+	protected void init(final int hashCode, final ATermList annos, final ATerm type)
 	{
 		super.init(hashCode, annos);
-		this.type = type;
+		_type = type;
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class ATermPlaceholderImpl extends ATermImpl implements ATermPlaceholder
 	}
 
 	@Override
-	public boolean equivalent(SharedObject obj)
+	public boolean equivalent(final SharedObject obj)
 	{
 		if (obj instanceof ATermPlaceholder)
 		{
@@ -97,14 +97,14 @@ public class ATermPlaceholderImpl extends ATermImpl implements ATermPlaceholder
 			if (peer.getType() != getType())
 				return false;
 
-			return (peer.getPlaceholder() == type && peer.getAnnotations().equals(getAnnotations()));
+			return (peer.getPlaceholder() == _type && peer.getAnnotations().equals(getAnnotations()));
 		}
 
 		return false;
 	}
 
 	@Override
-	public boolean match(ATerm pattern, List<Object> list)
+	public boolean match(final ATerm pattern, final List<Object> list)
 	{
 		if (pattern.getType() == ATerm.PLACEHOLDER)
 		{
@@ -125,94 +125,83 @@ public class ATermPlaceholderImpl extends ATermImpl implements ATermPlaceholder
 	}
 
 	@Override
-	public ATerm make(List<Object> args)
+	public ATerm make(final List<Object> args)
 	{
-		ATermAppl appl;
-		AFun fun;
-		String name;
+		final ATermAppl appl = (ATermAppl) _type;
+		final AFun fun = appl.getAFun();
+		final String name = fun.getName();
 
-		appl = (ATermAppl) type;
-		fun = appl.getAFun();
-		name = fun.getName();
 		if (!fun.isQuoted())
 		{
 			if (fun.getArity() == 0)
 			{
-				if (name.equals("term"))
+				switch (name)
 				{
-					final ATerm t = (ATerm) args.get(0);
-					args.remove(0);
-
-					return t;
-				}
-				else
-					if (name.equals("list"))
+					case "term":
+					{
+						final ATerm t = (ATerm) args.get(0);
+						args.remove(0);
+						return t;
+					}
+					case "list":
 					{
 						final ATermList l = (ATermList) args.get(0);
 						args.remove(0);
-
 						return l;
 					}
-					else
-						if (name.equals("bool"))
-						{
-							final Boolean b = (Boolean) args.get(0);
-							args.remove(0);
-
-							return factory.makeAppl(factory.makeAFun(b.toString(), 0, false));
-						}
-						else
-							if (name.equals("int"))
-							{
-								final Integer i = (Integer) args.get(0);
-								args.remove(0);
-
-								return factory.makeInt(i.intValue());
-							}
-							else
-								if (name.equals("real"))
-								{
-									final Double d = (Double) args.get(0);
-									args.remove(0);
-
-									return factory.makeReal(d.doubleValue());
-								}
-								else
-									if (name.equals("blob"))
-									{
-										final byte[] data = (byte[]) args.get(0);
-										args.remove(0);
-
-										return factory.makeBlob(data);
-									}
-									else
-										if (name.equals("placeholder"))
-										{
-											final ATerm t = (ATerm) args.get(0);
-											args.remove(0);
-											return factory.makePlaceholder(t);
-										}
-										else
-											if (name.equals("str"))
-											{
-												final String str = (String) args.get(0);
-												args.remove(0);
-												return factory.makeAppl(factory.makeAFun(str, 0, true));
-											}
-											else
-												if (name.equals("id"))
-												{
-													final String str = (String) args.get(0);
-													args.remove(0);
-													return factory.makeAppl(factory.makeAFun(str, 0, false));
-												}
-												else
-													if (name.equals("fun"))
-													{
-														final String str = (String) args.get(0);
-														args.remove(0);
-														return factory.makeAppl(factory.makeAFun(str, 0, false));
-													}
+					case "bool":
+					{
+						final Boolean b = (Boolean) args.get(0);
+						args.remove(0);
+						return _factory.makeAppl(_factory.makeAFun(b.toString(), 0, false));
+					}
+					case "int":
+					{
+						final Integer i = (Integer) args.get(0);
+						args.remove(0);
+						return _factory.makeInt(i.intValue());
+					}
+					case "real":
+					{
+						final Double d = (Double) args.get(0);
+						args.remove(0);
+						return _factory.makeReal(d.doubleValue());
+					}
+					case "blob":
+					{
+						final byte[] data = (byte[]) args.get(0);
+						args.remove(0);
+						return _factory.makeBlob(data);
+					}
+					case "placeholder":
+					{
+						final ATerm t = (ATerm) args.get(0);
+						args.remove(0);
+						return _factory.makePlaceholder(t);
+					}
+					case "str":
+					{
+						final String str = (String) args.get(0);
+						args.remove(0);
+						return _factory.makeAppl(_factory.makeAFun(str, 0, true));
+					}
+					case "id":
+					{
+						final String str = (String) args.get(0);
+						args.remove(0);
+						return _factory.makeAppl(_factory.makeAFun(str, 0, false));
+					}
+					case "fun":
+					{
+						final String str = (String) args.get(0);
+						args.remove(0);
+						return _factory.makeAppl(_factory.makeAFun(str, 0, false));
+					}
+					default:
+					{
+						throw new RuntimeException("Unknow ATerm function name : " + name);
+					}
+				}
 			}
 			if (name.equals("appl"))
 			{
@@ -220,8 +209,8 @@ public class ATermPlaceholderImpl extends ATermImpl implements ATermPlaceholder
 				final String newname = (String) args.get(0);
 				args.remove(0);
 				final ATermList newargs = (ATermList) oldargs.make(args);
-				final AFun newfun = factory.makeAFun(newname, newargs.getLength(), false);
-				return factory.makeApplList(newfun, newargs);
+				final AFun newfun = _factory.makeAFun(newname, newargs.getLength(), false);
+				return _factory.makeApplList(newfun, newargs);
 			}
 		}
 		throw new RuntimeException("illegal pattern: " + this);
@@ -230,22 +219,22 @@ public class ATermPlaceholderImpl extends ATermImpl implements ATermPlaceholder
 	@Override
 	public ATerm getPlaceholder()
 	{
-		return type;
+		return _type;
 	}
 
-	public ATerm setPlaceholder(ATerm newtype)
+	public ATerm setPlaceholder(final ATerm newtype)
 	{
 		return getPureFactory().makePlaceholder(newtype, getAnnotations());
 	}
 
 	@Override
-	public ATerm setAnnotations(ATermList annos)
+	public ATerm setAnnotations(final ATermList annos)
 	{
-		return getPureFactory().makePlaceholder(type, annos);
+		return getPureFactory().makePlaceholder(_type, annos);
 	}
 
 	@Override
-	public Visitable accept(Visitor v) throws VisitFailure
+	public ATerm accept(final Visitor<ATerm> v)
 	{
 		return v.visitPlaceholder(this);
 	}
@@ -257,13 +246,13 @@ public class ATermPlaceholderImpl extends ATermImpl implements ATermPlaceholder
 	}
 
 	@Override
-	public ATerm getSubTerm(int index)
+	public ATerm getSubTerm(final int index)
 	{
-		return type;
+		return _type;
 	}
 
 	@Override
-	public ATerm setSubTerm(int index, ATerm t)
+	public ATerm setSubTerm(final int index, final ATerm t)
 	{
 		if (index == 1) { return setPlaceholder(t); }
 		throw new RuntimeException("no " + index + "-th child!");

@@ -53,19 +53,19 @@ public class Test1
 	@Before
 	public void setUp() throws Exception
 	{
-		this.factory = new PureFactory();
+		factory = new PureFactory();
 	}
 
 	public Test1()
 	{
 	}
 
-	void assertTrue(boolean condition)
+	void assertTrue(final boolean condition)
 	{
 		if (!condition) { throw new AssertionError("assertion failed."); }
 	}
 
-	private static void test(boolean cond, String id)
+	private static void test(final boolean cond, final String id)
 	{
 		if (cond)
 		{
@@ -220,7 +220,7 @@ public class Test1
 		{
 			/*
 			FileOutputStream output = new FileOutputStream("testFileParser.txt");
-			String s = factory.parse("f(a,g(b))").toString();
+			String s = _factory.parse("f(a,g(b))").toString();
 			output.write(s);
 			output.close();
 			 */
@@ -258,11 +258,11 @@ public class Test1
 		T[4] = factory.parse("[1,2,3,4,5,6]");
 		Ts[4] = (ATermList) T[4];
 
-		//    T[5] = factory.parse("[1 , 2 , 3 , 4,5,6,7]");
+		//    T[5] = _factory.parse("[1 , 2 , 3 , 4,5,6,7]");
 		T[5] = factory.parse("[1,2,3,4,5,6,7]");
 		Ts[5] = (ATermList) T[5];
 
-		//T[6] = factory.parse("f(abc{[label,val]})");
+		//T[6] = _factory.parse("f(abc{[label,val]})");
 
 		// test length
 		test(Ts[0].getLength() == 10, "length-1");
@@ -356,10 +356,10 @@ public class Test1
 		//System.out.println("result = " + result);
 		test(result != null && result.get(0).equals("a"), "match-2d");
 
-		//result = factory.parse("f(<abc>)").match("f(<placeholder>)");
+		//result = _factory.parse("f(<abc>)").match("f(<placeholder>)");
 		//System.out.println("result = " + result);
 		//test(result != null &&
-		// result.get(0).equals(factory.parse("<abc>")), "match-2e");
+		// result.get(0).equals(_factory.parse("<abc>")), "match-2e");
 
 		result = T[0].match("f(1,<int>,3)");
 		test(result != null && result.size() == 1 && result.get(0).equals(new Integer(2)), "match-3");
@@ -371,7 +371,7 @@ public class Test1
 		test(result != null && result.get(0).equals(factory.parse("a")), "match-4b");
 		test(result != null && result.get(1).equals(factory.parse("\"abc\"")), "match-4c");
 		test(result != null && result.get(2).equals(new Double(2.3)), "match-4d");
-		//test(result.get(3).equals(factory.parse("<abc>")), "match-4e"); 
+		//test(result.get(3).equals(_factory.parse("<abc>")), "match-4e"); 
 
 		result = T[1].match("[<list>]");
 		test(result != null && result.size() == 1 && result.get(0).equals(T[1]), "match-6a");
@@ -476,7 +476,7 @@ public class Test1
 		result = factory.make("f(1,g(<term>),c,h(<int>))", list);
 		System.out.println("\tresult = " + result);
 
-		//Ts[8] = factory.parse();
+		//Ts[8] = _factory.parse();
 		list.clear();
 		list.add(factory.parse("1"));
 		list.add(factory.parse("[]"));
@@ -487,36 +487,36 @@ public class Test1
 
 		/*
 		list.add(new Integer(1));
-		test(factory.make("<int>", list).equals(T[0]), "make-1");
+		test(_factory.make("<int>", list).equals(T[0]), "make-1");
 
 		list.clear(); list.add(T[3]);
-		test(factory.make("<term>", list).equals(T[3]), "make-2");
+		test(_factory.make("<term>", list).equals(T[3]), "make-2");
 
 		list.clear(); list.add( "b");
-		test(factory.make("<appl>", list).equals(T[4]), "make-3");
+		test(_factory.make("<appl>", list).equals(T[4]), "make-3");
 
 		list.clear(); list.add(new Double(3.14));
-		test(factory.make("<real>", list).equals(
-		factory.makeReal(3.14)), "make-4");
+		test(_factory.make("<real>", list).equals(
+		_factory.makeReal(3.14)), "make-4");
 
-		list.clear(); list.add(factory.makeAppl(
-		factory.makeAFun("real",0,false)));
-		test(factory.make("<placeholder>", list).equals(
-		factory.parse("<real>")), "make-5");
+		list.clear(); list.add(_factory.makeAppl(
+		_factory.makeAFun("real",0,false)));
+		test(_factory.make("<placeholder>", list).equals(
+		_factory.parse("<real>")), "make-5");
 
 		list.clear(); list.add(T[7]);
-		test(factory.make("[<list>]", list).equals(T[7]), "make-6");
+		test(_factory.make("[<list>]", list).equals(T[7]), "make-6");
 
 		list.clear();
 		list.add(T[3]);
 		list.add("b");
-		list.add(factory.makeList(T[5], factory.makeList()));
-		test(factory.make("f(<term>,<appl>,<list>)", list).equals(T[6]), "make-7");
+		list.add(_factory.makeList(T[5], _factory.makeList()));
+		test(_factory.make("f(<term>,<appl>,<list>)", list).equals(T[6]), "make-7");
 
 		list.clear();
 		list.add("f");
 		list.add(new Integer(2));
-		test(factory.make("<appl(1,<int>,3)>", list).equals(T[8]), "make-8");
+		test(_factory.make("<appl(1,<int>,3)>", list).equals(T[8]), "make-8");
 		 */
 
 		System.out.println("pass: testPatternMake");
@@ -598,7 +598,7 @@ public class Test1
 		System.out.println(factory.toString());
 	}
 
-	public void testPrimes(int n)
+	public void testPrimes(final int n)
 	{
 		final TestPrimes t = TestPrimes.newTestPrimes(factory);
 		final long start = System.currentTimeMillis();

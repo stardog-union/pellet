@@ -33,41 +33,35 @@ import aterm.ATerm;
 import aterm.ATermAppl;
 import aterm.ATermList;
 import aterm.ATermPlaceholder;
-import aterm.Visitable;
 import aterm.Visitor;
 import java.util.ArrayList;
 import java.util.List;
-import jjtraveler.VisitFailure;
 import shared.SharedObject;
 
 public class ATermListImpl extends ATermImpl implements ATermList
 {
-	private ATerm first;
+	private ATerm _first;
 
-	private ATermList next;
+	private ATermList _next;
 
-	private int length;
+	private int _length;
 
-	protected ATermListImpl(PureFactory factory)
+	protected ATermListImpl(final PureFactory factory)
 	{
 		super(factory);
 	}
 
-	protected ATermListImpl(PureFactory factory, ATermList annos, ATerm first, ATermList next)
+	protected ATermListImpl(final PureFactory factory, final ATermList annos, final ATerm first, final ATermList next)
 	{
 		super(factory, annos);
 
-		this.first = first;
-		this.next = next;
+		_first = first;
+		_next = next;
 
 		if (first == null && next == null)
-		{
-			this.length = 0;
-		}
+			_length = 0;
 		else
-		{
-			this.length = 1 + next.getLength();
-		}
+			_length = 1 + next.getLength();
 
 		setHashCode(hashFunction());
 	}
@@ -86,18 +80,18 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	 * @param first x
 	 * @param next x
 	 */
-	protected void init(int hashCode, ATermList annos, ATerm first, ATermList next)
+	protected void init(final int hashCode, final ATermList annos, final ATerm first, final ATermList next)
 	{
 		super.init(hashCode, annos);
-		this.first = first;
-		this.next = next;
+		_first = first;
+		_next = next;
 		if (first == null && next == null)
 		{
-			this.length = 0;
+			_length = 0;
 		}
 		else
 		{
-			this.length = 1 + next.getLength();
+			_length = 1 + next.getLength();
 		}
 	}
 
@@ -105,23 +99,23 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param annos x
-	 * @param first x
-	 * @param next x
+	 * @param _first x
+	 * @param _next x
 	 */
-	protected void initHashCode(ATermList annos, ATerm first, ATermList next)
+	protected void initHashCode(final ATermList annos, final ATerm first, final ATermList next)
 	{
-		this.first = first;
-		this.next = next;
-		this.internSetAnnotations(annos);
-		this.setHashCode(this.hashFunction());
+		_first = first;
+		_next = next;
+		internSetAnnotations(annos);
+		setHashCode(hashFunction());
 		// super.init(hashCode, annos);
 		if (first == null && next == null)
 		{
-			this.length = 0;
+			_length = 0;
 		}
 		else
 		{
-			this.length = 1 + next.getLength();
+			_length = 1 + next.getLength();
 		}
 	}
 
@@ -132,7 +126,7 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public boolean equivalent(SharedObject obj)
+	public boolean equivalent(final SharedObject obj)
 	{
 		if (obj instanceof ATermList)
 		{
@@ -140,26 +134,26 @@ public class ATermListImpl extends ATermImpl implements ATermList
 			if (peer.getType() != getType())
 				return false;
 
-			return (peer.getFirst() == first && peer.getNext() == next && peer.getAnnotations().equals(getAnnotations()));
+			return (peer.getFirst() == _first && peer.getNext() == _next && peer.getAnnotations().equals(getAnnotations()));
 		}
 
 		return false;
 	}
 
 	@Override
-	public ATermList insert(ATerm el)
+	public ATermList insert(final ATerm el)
 	{
-		final ATermList tail = (!this.hasAnnotations()) ? this : ((ATermList) this.removeAnnotations());
+		final ATermList tail = (!hasAnnotations()) ? this : ((ATermList) removeAnnotations());
 
 		return getPureFactory().makeList(el, tail);
 	}
 
-	protected ATermList make(ATerm head, ATermList tail)
+	protected ATermList make(final ATerm head, final ATermList tail)
 	{
 		return make(head, tail, getPureFactory().makeList());
 	}
 
-	protected ATermList make(ATerm head, ATermList tail, ATermList annos)
+	protected ATermList make(final ATerm head, final ATermList tail, final ATermList annos)
 	{
 		return getPureFactory().makeList(head, tail, annos);
 	}
@@ -171,19 +165,19 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public ATerm setAnnotations(ATermList annos)
+	public ATerm setAnnotations(final ATermList annos)
 	{
-		return make(first, next, annos);
+		return make(_first, _next, annos);
 	}
 
 	@Override
-	protected boolean match(ATerm pattern, List<Object> list)
+	protected boolean match(final ATerm pattern, final List<Object> list)
 	{
 		if (pattern.getType() == LIST)
 		{
 			final ATermList l = (ATermList) pattern;
 
-			if (l.isEmpty()) { return this.isEmpty(); }
+			if (l.isEmpty()) { return isEmpty(); }
 
 			if (l.getFirst().getType() == PLACEHOLDER)
 			{
@@ -201,12 +195,12 @@ public class ATermListImpl extends ATermImpl implements ATermList
 
 			if (!isEmpty())
 			{
-				List<Object> submatches = first.match(l.getFirst());
+				List<Object> submatches = _first.match(l.getFirst());
 				if (submatches == null) { return false; }
 
 				list.addAll(submatches);
 
-				submatches = next.match(l.getNext());
+				submatches = _next.match(l.getNext());
 
 				if (submatches == null) { return false; }
 
@@ -220,13 +214,13 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public ATerm make(List<Object> args)
+	public ATerm make(final List<Object> args)
 	{
-		if (first == null) { return this; }
+		if (_first == null) { return this; }
 
-		final ATerm head = first.make(args);
-		final ATermList tail = (ATermList) next.make(args);
-		if (isListPlaceHolder(first))
+		final ATerm head = _first.make(args);
+		final ATermList tail = (ATermList) _next.make(args);
+		if (isListPlaceHolder(_first))
 		{
 			/*
 			 * this is to solve the make([<list>],[]) problem the result should
@@ -238,7 +232,7 @@ public class ATermListImpl extends ATermImpl implements ATermList
 
 	}
 
-	private boolean isListPlaceHolder(ATerm pattern)
+	private static boolean isListPlaceHolder(final ATerm pattern)
 	{
 		if (pattern.getType() == ATerm.PLACEHOLDER)
 		{
@@ -256,25 +250,25 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	@Override
 	public boolean isEmpty()
 	{
-		return (first == null && next == null);
+		return (_first == null && _next == null);
 	}
 
 	@Override
 	public int getLength()
 	{
-		return length;
+		return _length;
 	}
 
 	@Override
 	public ATerm getFirst()
 	{
-		return first;
+		return _first;
 	}
 
 	@Override
 	public ATermList getNext()
 	{
-		return next;
+		return _next;
 	}
 
 	@Override
@@ -292,17 +286,17 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public int indexOf(ATerm el, int start)
+	public int indexOf(final ATerm el, int start)
 	{
 		int i;
 		ATermList cur;
 
 		if (start < 0)
 		{
-			start += length + 1;
+			start += _length + 1;
 		}
 
-		if (start > length) { throw new IllegalArgumentException("start (" + start + ") > length of list (" + length + ")"); }
+		if (start > _length) { throw new IllegalArgumentException("start (" + start + ") > _length of list (" + _length + ")"); }
 
 		cur = this;
 		for (i = 0; i < start; i++)
@@ -320,47 +314,47 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public int lastIndexOf(ATerm el, int start)
+	public int lastIndexOf(final ATerm el, int start)
 	{
 		int result;
 
 		if (start < 0)
 		{
-			start += length + 1;
+			start += _length + 1;
 		}
 
-		if (start > length) { throw new IllegalArgumentException("start (" + start + ") > length of list (" + length + ")"); }
+		if (start > _length) { throw new IllegalArgumentException("start (" + start + ") > _length of list (" + _length + ")"); }
 
 		if (start > 0)
 		{
-			result = next.lastIndexOf(el, start - 1);
+			result = _next.lastIndexOf(el, start - 1);
 			if (result >= 0) { return result + 1; }
 		}
 
-		if (first == el) { return 0; }
+		if (_first == el) { return 0; }
 		return -1;
 	}
 
 	@Override
-	public ATermList concat(ATermList rhs)
+	public ATermList concat(final ATermList rhs)
 	{
 		if (isEmpty()) { return rhs; }
 
-		if (next.isEmpty()) { return rhs.insert(first); }
+		if (_next.isEmpty()) { return rhs.insert(_first); }
 
-		return next.concat(rhs).insert(first);
+		return _next.concat(rhs).insert(_first);
 	}
 
 	@Override
-	public ATermList append(ATerm el)
+	public ATermList append(final ATerm el)
 	{
-		return this.concat(getEmpty().insert(el));
+		return concat(getEmpty().insert(el));
 	}
 
 	@Override
-	public ATerm elementAt(int index)
+	public ATerm elementAt(final int index)
 	{
-		if (0 > index || index >= length) { throw new IllegalArgumentException("illegal list index: " + index); }
+		if (0 > index || index >= _length) { throw new IllegalArgumentException("illegal list index: " + index); }
 
 		ATermList cur = this;
 		for (int i = 0; i < index; i++)
@@ -372,47 +366,47 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public ATermList remove(ATerm el)
+	public ATermList remove(final ATerm el)
 	{
-		if (first == el) { return next; }
+		if (_first == el) { return _next; }
 
-		final ATermList result = next.remove(el);
+		final ATermList result = _next.remove(el);
 
-		if (result == next) { return this; }
+		if (result == _next) { return this; }
 
-		return result.insert(first);
+		return result.insert(_first);
 	}
 
 	@Override
-	public ATermList removeElementAt(int index)
+	public ATermList removeElementAt(final int index)
 	{
-		if (0 > index || index > length) { throw new IllegalArgumentException("illegal list index: " + index); }
+		if (0 > index || index > _length) { throw new IllegalArgumentException("illegal list index: " + index); }
 
-		if (index == 0) { return next; }
+		if (index == 0) { return _next; }
 
-		return next.removeElementAt(index - 1).insert(first);
+		return _next.removeElementAt(index - 1).insert(_first);
 	}
 
 	@Override
-	public ATermList removeAll(ATerm el)
+	public ATermList removeAll(final ATerm el)
 	{
-		if (first == el) { return next.removeAll(el); }
+		if (_first == el) { return _next.removeAll(el); }
 
-		final ATermList result = next.removeAll(el);
+		final ATermList result = _next.removeAll(el);
 
-		if (result == next) { return this; }
+		if (result == _next) { return this; }
 
-		return result.insert(first);
+		return result.insert(_first);
 	}
 
 	@Override
-	public ATermList insertAt(ATerm el, int i)
+	public ATermList insertAt(final ATerm el, final int i)
 	{
-		if (0 > i || i > length) { throw new IllegalArgumentException("illegal list index: " + i); }
+		if (0 > i || i > _length) { throw new IllegalArgumentException("illegal list index: " + i); }
 
 		if (i == 0) { return insert(el); }
 
-		return next.insertAt(el, i - 1).insert(first);
+		return _next.insertAt(el, i - 1).insert(_first);
 	}
 
 	@Override
@@ -421,7 +415,7 @@ public class ATermListImpl extends ATermImpl implements ATermList
 		if (isEmpty()) { return this; }
 
 		ATermList cur = this;
-		final List<ATerm> elems = new ArrayList<ATerm>();
+		final List<ATerm> elems = new ArrayList<>();
 
 		while (true)
 		{
@@ -440,7 +434,7 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public ATermList getSlice(int start, int end)
+	public ATermList getSlice(final int start, final int end)
 	{
 		int i;
 		final int size = end - start;
@@ -451,7 +445,7 @@ public class ATermListImpl extends ATermImpl implements ATermList
 			list = list.getNext();
 		}
 
-		final List<ATerm> buffer = new ArrayList<ATerm>(size);
+		final List<ATerm> buffer = new ArrayList<>(size);
 		for (i = 0; i < size; i++)
 		{
 			buffer.add(list.getFirst());
@@ -468,13 +462,13 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public ATermList replace(ATerm el, int i)
+	public ATermList replace(final ATerm el, final int i)
 	{
 		int lcv;
 
-		if (0 > i || i > length) { throw new IllegalArgumentException("illegal list index: " + i); }
+		if (0 > i || i > _length) { throw new IllegalArgumentException("illegal list index: " + i); }
 
-		final List<ATerm> buffer = new ArrayList<ATerm>(i);
+		final List<ATerm> buffer = new ArrayList<>(i);
 		ATermList cur = this;
 
 		for (lcv = 0; lcv < i; lcv++)
@@ -502,7 +496,7 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	public ATermList reverse()
 	{
 		ATermList cur = this;
-		ATermList reverse = this.getEmpty();
+		ATermList reverse = getEmpty();
 		while (!cur.isEmpty())
 		{
 			reverse = reverse.insert(cur.getFirst());
@@ -512,19 +506,19 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	}
 
 	@Override
-	public ATerm dictGet(ATerm key)
+	public ATerm dictGet(final ATerm key)
 	{
 		if (isEmpty()) { return null; }
 
-		final ATermList pair = (ATermList) first;
+		final ATermList pair = (ATermList) _first;
 
 		if (key.equals(pair.getFirst())) { return pair.getNext().getFirst(); }
 
-		return next.dictGet(key);
+		return _next.dictGet(key);
 	}
 
 	@Override
-	public ATermList dictPut(ATerm key, ATerm value)
+	public ATermList dictPut(final ATerm key, final ATerm value)
 	{
 		if (isEmpty())
 		{
@@ -532,31 +526,31 @@ public class ATermListImpl extends ATermImpl implements ATermList
 			return getEmpty().insert(pair);
 		}
 
-		ATermList pair = (ATermList) first;
+		ATermList pair = (ATermList) _first;
 		if (key.equals(pair.getFirst()))
 		{
 			pair = getEmpty().insert(value).insert(pair);
-			return next.insert(pair);
+			return _next.insert(pair);
 
 		}
 
-		return (ATermList) next.dictPut(key, value).insert(first).setAnnotations(getAnnotations());
+		return (ATermList) _next.dictPut(key, value).insert(_first).setAnnotations(getAnnotations());
 	}
 
 	@Override
-	public ATermList dictRemove(ATerm key)
+	public ATermList dictRemove(final ATerm key)
 	{
 		if (isEmpty()) { return this; }
 
-		final ATermList pair = (ATermList) first;
+		final ATermList pair = (ATermList) _first;
 
-		if (key.equals(pair.getFirst())) { return next; }
+		if (key.equals(pair.getFirst())) { return _next; }
 
-		return (ATermList) next.dictRemove(key).insert(first).setAnnotations(getAnnotations());
+		return (ATermList) _next.dictRemove(key).insert(_first).setAnnotations(getAnnotations());
 	}
 
 	@Override
-	public Visitable accept(Visitor v) throws VisitFailure
+	public ATerm accept(final Visitor<ATerm> v)
 	{
 		return v.visitList(this);
 	}
@@ -564,17 +558,17 @@ public class ATermListImpl extends ATermImpl implements ATermList
 	@Override
 	public int getNrSubTerms()
 	{
-		return length;
+		return _length;
 	}
 
 	@Override
-	public ATerm getSubTerm(int index)
+	public ATerm getSubTerm(final int index)
 	{
 		return elementAt(index);
 	}
 
 	@Override
-	public ATerm setSubTerm(int index, ATerm t)
+	public ATerm setSubTerm(final int index, final ATerm t)
 	{
 		return replace(t, index);
 	}
@@ -645,10 +639,10 @@ public class ATermListImpl extends ATermImpl implements ATermList
 
 		/*------------------------------------- handle the last 11 bytes */
 		a += (getAnnotations().hashCode() << 16);
-		if (next != null && first != null)
+		if (_next != null && _first != null)
 		{
-			a += (next.hashCode() << 8);
-			a += (first.hashCode());
+			a += (_next.hashCode() << 8);
+			a += (_first.hashCode());
 		}
 
 		a -= b;

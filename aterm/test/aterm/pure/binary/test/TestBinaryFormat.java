@@ -28,13 +28,11 @@
 
 package aterm.pure.binary.test;
 
-import java.nio.ByteBuffer;
+import aterm.VisitFailure;
 
+import java.nio.ByteBuffer;
 import org.junit.Before;
 import org.junit.Test;
-
-import jjtraveler.VisitFailure;
-
 import aterm.ATerm;
 import aterm.pure.PureFactory;
 import aterm.pure.binary.BinaryReader;

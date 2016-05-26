@@ -46,14 +46,14 @@ public abstract class ATermVisitableImpl implements Visitable
 	}
 
 	@Override
-	public jjtraveler.Visitable getChildAt(int index)
+	public ATerm getChildAt(final int index)
 	{
 		return getSubTerm(index);
 	}
 
 	@Override
-	public jjtraveler.Visitable setChildAt(int index, jjtraveler.Visitable v)
+	public ATerm setChildAt(final int index, final ATerm v)
 	{
-		return setSubTerm(index, (ATerm) v);
+		return setSubTerm(index, v);
 	}
 }

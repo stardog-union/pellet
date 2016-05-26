@@ -38,13 +38,13 @@ import aterm.ATermList;
 import aterm.ATermLong;
 import aterm.ATermPlaceholder;
 import aterm.ATermReal;
+import aterm.VisitFailure;
 import aterm.stream.BufferedOutputStreamWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-import jjtraveler.VisitFailure;
 
 class ATermWriter extends ATermFwdVoid
 {
@@ -91,7 +91,7 @@ class ATermWriter extends ATermFwdVoid
 		position += txt.length();
 	}
 
-	public void voidVisitChild(ATerm child) throws VisitFailure
+	public void voidVisitChild(ATerm child)
 	{
 		if (table != null)
 		{
@@ -138,7 +138,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitAppl(ATermAppl appl) throws VisitFailure
+	public void voidVisitAppl(ATermAppl appl)
 	{
 		final AFun fun = appl.getAFun();
 		int nameLength;
@@ -170,7 +170,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitList(ATermList list) throws VisitFailure
+	public void voidVisitList(ATermList list)
 	{
 		while (!list.isEmpty())
 		{
@@ -185,7 +185,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitPlaceholder(ATermPlaceholder ph) throws VisitFailure
+	public void voidVisitPlaceholder(ATermPlaceholder ph)
 	{
 		stream.write('<');
 		position++;
@@ -228,7 +228,7 @@ class ATermWriter extends ATermFwdVoid
 
 	public void initializeSharing()
 	{
-		table = new HashMap<ATerm, Integer>();
+		table = new HashMap<>();
 	}
 
 }

@@ -34,32 +34,30 @@ import aterm.ATermAppl;
 import aterm.ATermBlob;
 import aterm.ATermList;
 import aterm.ATermPlaceholder;
-import aterm.Visitable;
 import aterm.Visitor;
 import java.util.List;
-import jjtraveler.VisitFailure;
 import shared.HashFunctions;
 import shared.SharedObject;
 
 public class ATermBlobImpl extends ATermImpl implements ATermBlob
 {
-	private byte[] data;
+	private byte[] _data;
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param factory x
 	 */
-	protected ATermBlobImpl(PureFactory factory)
+	protected ATermBlobImpl(final PureFactory factory)
 	{
 		super(factory);
 	}
 
-	protected ATermBlobImpl(PureFactory factory, ATermList annos, byte[] data)
+	protected ATermBlobImpl(final PureFactory factory, final ATermList annos, final byte[] data)
 	{
 		super(factory, annos);
 
-		this.data = data;
+		_data = data;
 
 		setHashCode(HashFunctions.doobs(new Object[] { annos, data }));
 	}
@@ -75,12 +73,12 @@ public class ATermBlobImpl extends ATermImpl implements ATermBlob
 	 * 
 	 * @param hashCode x
 	 * @param annos x
-	 * @param data x
+	 * @param _data x
 	 */
-	protected void init(int hashCode, ATermList annos, byte[] data)
+	protected void init(final int hashCode, final ATermList annos, final byte[] data)
 	{
 		super.init(hashCode, annos);
-		this.data = data;
+		_data = data;
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class ATermBlobImpl extends ATermImpl implements ATermBlob
 	}
 
 	@Override
-	public boolean equivalent(SharedObject obj)
+	public boolean equivalent(final SharedObject obj)
 	{
 		if (obj instanceof ATermBlob)
 		{
@@ -98,16 +96,17 @@ public class ATermBlobImpl extends ATermImpl implements ATermBlob
 			if (peer.getType() != getType())
 				return false;
 
-			return (peer.getBlobData() == data && peer.getAnnotations().equals(getAnnotations()));
+			return (peer.getBlobData() == _data && peer.getAnnotations().equals(getAnnotations()));
 		}
 
 		return false;
 	}
 
 	@Override
-	protected boolean match(ATerm pattern, List<Object> list)
+	protected boolean match(final ATerm pattern, final List<Object> list)
 	{
-		if (equals(pattern)) { return true; }
+		if (equals(pattern))
+			return true;
 
 		if (pattern.getType() == ATerm.PLACEHOLDER)
 		{
@@ -118,7 +117,7 @@ public class ATermBlobImpl extends ATermImpl implements ATermBlob
 				final AFun afun = appl.getAFun();
 				if (afun.getName().equals("blob") && afun.getArity() == 0 && !afun.isQuoted())
 				{
-					list.add(data);
+					list.add(_data);
 					return true;
 				}
 			}
@@ -130,23 +129,23 @@ public class ATermBlobImpl extends ATermImpl implements ATermBlob
 	@Override
 	public byte[] getBlobData()
 	{
-		return data;
+		return _data;
 	}
 
 	@Override
 	public int getBlobSize()
 	{
-		return data.length;
+		return _data.length;
 	}
 
 	@Override
-	public ATerm setAnnotations(ATermList annos)
+	public ATerm setAnnotations(final ATermList annos)
 	{
-		return getPureFactory().makeBlob(data, annos);
+		return getPureFactory().makeBlob(_data, annos);
 	}
 
 	@Override
-	public Visitable accept(Visitor v) throws VisitFailure
+	public ATerm accept(final Visitor<ATerm> v)
 	{
 		return v.visitBlob(this);
 	}

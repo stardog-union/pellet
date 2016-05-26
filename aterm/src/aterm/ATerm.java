@@ -121,7 +121,7 @@ public interface ATerm extends Visitable, Identifiable
 	 *
 	 * @see #match(ATerm)
 	 */
-	public List<Object> match(String pattern);
+	public List<Object> match(final String pattern);
 
 	/**
 	 * Matches this term against a term pattern. A list containing
@@ -134,7 +134,7 @@ public interface ATerm extends Visitable, Identifiable
 	 *         if the match succeeds, or null if the match fails.
 	 *
 	 */
-	public List<Object> match(ATerm pattern);
+	public List<Object> match(final ATerm pattern);
 
 	public boolean hasAnnotations();
 
@@ -149,7 +149,7 @@ public interface ATerm extends Visitable, Identifiable
 	 *
 	 * @see #setAnnotation
 	 */
-	public ATerm getAnnotation(ATerm label);
+	public ATerm getAnnotation(final ATerm label);
 
 	/**
 	 * Sets annotation of this term with given label. If no annotation
@@ -164,7 +164,7 @@ public interface ATerm extends Visitable, Identifiable
 	 *
 	 * @see #getAnnotation
 	 */
-	public ATerm setAnnotation(ATerm label, ATerm anno);
+	public ATerm setAnnotation(final ATerm label, final ATerm anno);
 
 	/**
 	 * Removes a specific annotation from this term.
@@ -176,7 +176,7 @@ public interface ATerm extends Visitable, Identifiable
 	 *
 	 * @see #setAnnotation
 	 */
-	public ATerm removeAnnotation(ATerm label);
+	public ATerm removeAnnotation(final ATerm label);
 
 	/**
 	 * Gets all annotations of this term.
@@ -197,7 +197,7 @@ public interface ATerm extends Visitable, Identifiable
 	 *
 	 * @see #getAnnotations
 	 */
-	public ATerm setAnnotations(ATermList annos);
+	public ATerm setAnnotations(final ATermList annos);
 
 	/**
 	 * Removes all annotations of this term.
@@ -224,7 +224,7 @@ public interface ATerm extends Visitable, Identifiable
 	 * @see #equals(Object)
 	 *
 	 */
-	public boolean isEqual(ATerm term);
+	public boolean isEqual(final ATerm term);
 
 	/**
 	 * Checks equality of this term against any java object.
@@ -238,7 +238,7 @@ public interface ATerm extends Visitable, Identifiable
 	 * @see #isEqual
 	 */
 	@Override
-	public boolean equals(Object obj);
+	public boolean equals(final Object obj);
 
 	/**
 	 * Write a term to a text file/stream.
@@ -246,7 +246,7 @@ public interface ATerm extends Visitable, Identifiable
 	 * @param stream the stream to write to
 	 * @throws IOException ex
 	 */
-	public void writeToTextFile(OutputStream stream) throws IOException;
+	public void writeToTextFile(final OutputStream stream) throws IOException;
 
 	/**
 	 * Write a term to a shared text file/stream.
@@ -256,7 +256,7 @@ public interface ATerm extends Visitable, Identifiable
 	 * @param stream the stream to write this term to
 	 * @throws IOException ex
 	 */
-	public void writeToSharedTextFile(OutputStream stream) throws IOException;
+	public void writeToSharedTextFile(final OutputStream stream) throws IOException;
 
 	/**
 	 * Create a new term based on this term as a pattern and a list of arguments.
@@ -265,7 +265,7 @@ public interface ATerm extends Visitable, Identifiable
 	 *
 	 * @return the constructed aterm
 	 */
-	public ATerm make(List<Object> args);
+	public ATerm make(final List<Object> args);
 
 	/**
 	 * Retrieves the factory responsible for creating this ATerm.

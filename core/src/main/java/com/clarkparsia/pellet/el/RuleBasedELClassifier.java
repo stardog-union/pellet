@@ -49,6 +49,7 @@ public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder i
 
 	public RuleBasedELClassifier()
 	{
+		_logger.fine("new RuleBasedELClassifier");
 	}
 
 	protected abstract void addSubclassRule(ATermAppl sub, ATermAppl sup);

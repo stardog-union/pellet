@@ -34,31 +34,30 @@ import aterm.ATermAppl;
 import aterm.ATermInt;
 import aterm.ATermList;
 import aterm.ATermPlaceholder;
-import aterm.Visitable;
 import aterm.Visitor;
 import java.util.List;
-import jjtraveler.VisitFailure;
 import shared.SharedObject;
 
 public class ATermIntImpl extends ATermImpl implements ATermInt
 {
-	private int value;
+	private int _value;
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param factory x
 	 */
-	protected ATermIntImpl(PureFactory factory)
+	@Deprecated
+	protected ATermIntImpl(final PureFactory factory)
 	{
 		super(factory);
 	}
 
-	protected ATermIntImpl(PureFactory factory, ATermList annos, int value)
+	protected ATermIntImpl(final PureFactory factory, final ATermList annos, final int value)
 	{
 		super(factory, annos);
 
-		this.value = value;
+		_value = value;
 
 		setHashCode(hashFunction());
 	}
@@ -74,25 +73,25 @@ public class ATermIntImpl extends ATermImpl implements ATermInt
 	 * 
 	 * @param hashCode x
 	 * @param annos x
-	 * @param value x
+	 * @param _value x
 	 */
-	protected void init(int hashCode, ATermList annos, int value)
+	protected void init(final int hashCode, final ATermList annos, final int value)
 	{
 		super.init(hashCode, annos);
-		this.value = value;
+		_value = value;
 	}
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param annos x
-	 * @param value x
+	 * @param _value x
 	 */
-	protected void initHashCode(ATermList annos, int value)
+	protected void initHashCode(final ATermList annos, final int value)
 	{
-		this.value = value;
-		this.internSetAnnotations(annos);
-		this.setHashCode(this.hashFunction());
+		_value = value;
+		internSetAnnotations(annos);
+		setHashCode(hashFunction());
 		//super.init(hashCode, annos);
 	}
 
@@ -103,7 +102,7 @@ public class ATermIntImpl extends ATermImpl implements ATermInt
 	}
 
 	@Override
-	public boolean equivalent(SharedObject obj)
+	public boolean equivalent(final SharedObject obj)
 	{
 		if (obj instanceof ATermInt)
 		{
@@ -111,16 +110,16 @@ public class ATermIntImpl extends ATermImpl implements ATermInt
 			if (peer.getType() != getType())
 				return false;
 
-			return (peer.getInt() == value && peer.getAnnotations().equals(getAnnotations()));
+			return (peer.getInt() == _value && peer.getAnnotations().equals(getAnnotations()));
 		}
 
 		return false;
 	}
 
 	@Override
-	protected boolean match(ATerm pattern, List<Object> list)
+	protected boolean match(final ATerm pattern, final List<Object> list)
 	{
-		if (this.equals(pattern)) { return true; }
+		if (equals(pattern)) { return true; }
 
 		if (pattern.getType() == ATerm.PLACEHOLDER)
 		{
@@ -131,7 +130,7 @@ public class ATermIntImpl extends ATermImpl implements ATermInt
 				final AFun afun = appl.getAFun();
 				if (afun.getName().equals("int") && afun.getArity() == 0 && !afun.isQuoted())
 				{
-					list.add(new Integer(value));
+					list.add(new Integer(_value));
 					return true;
 				}
 			}
@@ -143,17 +142,17 @@ public class ATermIntImpl extends ATermImpl implements ATermInt
 	@Override
 	public int getInt()
 	{
-		return value;
+		return _value;
 	}
 
 	@Override
-	public ATerm setAnnotations(ATermList annos)
+	public ATerm setAnnotations(final ATermList annos)
 	{
-		return getPureFactory().makeInt(value, annos);
+		return getPureFactory().makeInt(_value, annos);
 	}
 
 	@Override
-	public Visitable accept(Visitor v) throws VisitFailure
+	public ATerm accept(final Visitor<ATerm> v)
 	{
 		return v.visitInt(this);
 	}
@@ -161,13 +160,13 @@ public class ATermIntImpl extends ATermImpl implements ATermInt
 	private int hashFunction()
 	{
 		/* Set up the internal state */
-		int a = 0x9e3779b9; /* the golden ratio; an arbitrary value */
-		int b = 0x9e3779b9; /* the golden ratio; an arbitrary value */
-		int c = 2; /* the previous hash value */
+		int a = 0x9e3779b9; /* the golden ratio; an arbitrary _value */
+		int b = 0x9e3779b9; /* the golden ratio; an arbitrary _value */
+		int c = 2; /* the previous hash _value */
 
 		/*------------------------------------- handle the last 11 bytes */
 		a += (getAnnotations().hashCode() << 8);
-		a += (value);
+		a += (_value);
 
 		a -= b;
 		a -= c;

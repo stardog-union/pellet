@@ -59,12 +59,9 @@ import shared.SharedObjectFactory;
 
 public class PureFactory extends SharedObjectFactory implements ATermFactory
 {
-
-	private static int DEFAULT_TERM_TABLE_SIZE = 16; // means 2^16 entries
-
 	private final ATermList empty;
 
-	static boolean isBase64(int c)
+	static boolean isBase64(final int c)
 	{
 		return Character.isLetterOrDigit(c) || c == '+' || c == '/';
 	}
@@ -86,12 +83,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 
 	public PureFactory()
 	{
-		this(DEFAULT_TERM_TABLE_SIZE);
-	}
-
-	public PureFactory(int termTableSize)
-	{
-		super(termTableSize);
+		super();
 
 		final ATermListImpl protoList = new ATermListImpl(this);
 
@@ -108,19 +100,19 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATermInt makeInt(int val)
+	public ATermInt makeInt(final int val)
 	{
 		return makeInt(val, empty);
 	}
 
 	@Override
-	public ATermLong makeLong(long val)
+	public ATermLong makeLong(final long val)
 	{
 		return makeLong(val, empty);
 	}
 
 	@Override
-	public ATermReal makeReal(double val)
+	public ATermReal makeReal(final double val)
 	{
 		return makeReal(val, empty);
 	}
@@ -132,61 +124,61 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATermList makeList(ATerm singleton)
+	public ATermList makeList(final ATerm singleton)
 	{
 		return makeList(singleton, empty, empty);
 	}
 
 	@Override
-	public ATermList makeList(ATerm first, ATermList next)
+	public ATermList makeList(final ATerm first, final ATermList next)
 	{
 		return makeList(first, next, empty);
 	}
 
 	@Override
-	public ATermPlaceholder makePlaceholder(ATerm type)
+	public ATermPlaceholder makePlaceholder(final ATerm type)
 	{
 		return makePlaceholder(type, empty);
 	}
 
 	@Override
-	public ATermBlob makeBlob(byte[] data)
+	public ATermBlob makeBlob(final byte[] data)
 	{
 		return makeBlob(data, empty);
 	}
 
 	@Override
-	public AFun makeAFun(String name, int arity, boolean isQuoted)
+	public AFun makeAFun(final String name, final int arity, final boolean isQuoted)
 	{
 		return (AFun) build(new AFunImpl(this, name, arity, isQuoted));
 	}
 
-	public ATermInt makeInt(int value, ATermList annos)
+	public ATermInt makeInt(final int value, final ATermList annos)
 	{
 		return (ATermInt) build(new ATermIntImpl(this, annos, value));
 	}
 
-	public ATermLong makeLong(long value, ATermList annos)
+	public ATermLong makeLong(final long value, final ATermList annos)
 	{
 		return (ATermLong) build(new ATermLongImpl(this, annos, value));
 	}
 
-	public ATermReal makeReal(double value, ATermList annos)
+	public ATermReal makeReal(final double value, final ATermList annos)
 	{
 		return (ATermReal) build(new ATermRealImpl(this, annos, value));
 	}
 
-	public ATermPlaceholder makePlaceholder(ATerm type, ATermList annos)
+	public ATermPlaceholder makePlaceholder(final ATerm type, final ATermList annos)
 	{
 		return (ATermPlaceholder) build(new ATermPlaceholderImpl(this, annos, type));
 	}
 
-	public ATermBlob makeBlob(byte[] data, ATermList annos)
+	public ATermBlob makeBlob(final byte[] data, final ATermList annos)
 	{
 		return (ATermBlob) build(new ATermBlobImpl(this, annos, data));
 	}
 
-	public ATermList makeList(ATerm first, ATermList next, ATermList annos)
+	public ATermList makeList(final ATerm first, final ATermList next, final ATermList annos)
 	{
 		return (ATermList) build(new ATermListImpl(this, annos, first, next));
 	}
@@ -194,23 +186,23 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	private static ATerm[] array0 = new ATerm[0];
 
 	@Override
-	public ATermAppl makeAppl(AFun fun, ATerm[] args)
+	public ATermAppl makeAppl(final AFun fun, final ATerm[] args)
 	{
 		return makeAppl(fun, args, empty);
 	}
 
-	public ATermAppl makeAppl(AFun fun, ATerm[] args, ATermList annos)
+	public ATermAppl makeAppl(final AFun fun, final ATerm[] args, final ATermList annos)
 	{
 		return (ATermAppl) build(new ATermApplImpl(this, annos, fun, args));
 	}
 
 	@Override
-	public ATermAppl makeApplList(AFun fun, ATermList list)
+	public ATermAppl makeApplList(final AFun fun, final ATermList list)
 	{
 		return makeApplList(fun, list, empty);
 	}
 
-	public ATermAppl makeApplList(AFun fun, ATermList list, ATermList annos)
+	public ATermAppl makeApplList(final AFun fun, ATermList list, final ATermList annos)
 	{
 		ATerm[] arg_array;
 
@@ -226,54 +218,54 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATermAppl makeAppl(AFun fun)
+	public ATermAppl makeAppl(final AFun fun)
 	{
 		return makeAppl(fun, array0);
 	}
 
 	@Override
-	public ATermAppl makeAppl(AFun fun, ATerm arg)
+	public ATermAppl makeAppl(final AFun fun, final ATerm arg)
 	{
 		final ATerm[] argarray1 = new ATerm[] { arg };
 		return makeAppl(fun, argarray1);
 	}
 
 	@Override
-	public ATermAppl makeAppl(AFun fun, ATerm arg1, ATerm arg2)
+	public ATermAppl makeAppl(final AFun fun, final ATerm arg1, final ATerm arg2)
 	{
 		final ATerm[] argarray2 = new ATerm[] { arg1, arg2 };
 		return makeAppl(fun, argarray2);
 	}
 
 	@Override
-	public ATermAppl makeAppl(AFun fun, ATerm arg1, ATerm arg2, ATerm arg3)
+	public ATermAppl makeAppl(final AFun fun, final ATerm arg1, final ATerm arg2, final ATerm arg3)
 	{
 		final ATerm[] argarray3 = new ATerm[] { arg1, arg2, arg3 };
 		return makeAppl(fun, argarray3);
 	}
 
 	@Override
-	public ATermAppl makeAppl(AFun fun, ATerm arg1, ATerm arg2, ATerm arg3, ATerm arg4)
+	public ATermAppl makeAppl(final AFun fun, final ATerm arg1, final ATerm arg2, final ATerm arg3, final ATerm arg4)
 	{
 		final ATerm[] argarray4 = new ATerm[] { arg1, arg2, arg3, arg4 };
 		return makeAppl(fun, argarray4);
 	}
 
 	@Override
-	public ATermAppl makeAppl(AFun fun, ATerm arg1, ATerm arg2, ATerm arg3, ATerm arg4, ATerm arg5)
+	public ATermAppl makeAppl(final AFun fun, final ATerm arg1, final ATerm arg2, final ATerm arg3, final ATerm arg4, final ATerm arg5)
 	{
 		final ATerm[] argarray5 = new ATerm[] { arg1, arg2, arg3, arg4, arg5 };
 		return makeAppl(fun, argarray5);
 	}
 
 	@Override
-	public ATermAppl makeAppl(AFun fun, ATerm arg1, ATerm arg2, ATerm arg3, ATerm arg4, ATerm arg5, ATerm arg6)
+	public ATermAppl makeAppl(final AFun fun, final ATerm arg1, final ATerm arg2, final ATerm arg3, final ATerm arg4, final ATerm arg5, final ATerm arg6)
 	{
 		final ATerm[] args = { arg1, arg2, arg3, arg4, arg5, arg6 };
 		return makeAppl(fun, args);
 	}
 
-	public ATermAppl makeAppl(AFun fun, ATerm arg1, ATerm arg2, ATerm arg3, ATerm arg4, ATerm arg5, ATerm arg6, ATerm arg7)
+	public ATermAppl makeAppl(final AFun fun, final ATerm arg1, final ATerm arg2, final ATerm arg3, final ATerm arg4, final ATerm arg5, final ATerm arg6, final ATerm arg7)
 	{
 		final ATerm[] args = { arg1, arg2, arg3, arg4, arg5, arg6, arg7 };
 		return makeAppl(fun, args);
@@ -284,7 +276,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 		return empty;
 	}
 
-	private ATerm parseAbbrev(ATermReader reader) throws IOException
+	private static ATerm parseAbbrev(final ATermReader reader) throws IOException
 	{
 		ATerm result;
 		int abbrev;
@@ -332,7 +324,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 		return result;
 	}
 
-	private ATerm parseNumber(ATermReader reader) throws IOException
+	private ATerm parseNumber(final ATermReader reader) throws IOException
 	{
 		final StringBuilder str = new StringBuilder();
 		ATerm result;
@@ -413,7 +405,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 		return result;
 	}
 
-	private String parseId(ATermReader reader) throws IOException
+	private static String parseId(final ATermReader reader) throws IOException
 	{
 		int c = reader.getLastChar();
 		final StringBuilder buf = new StringBuilder(32);
@@ -428,7 +420,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@SuppressWarnings("static-method")
-	private String parseString(ATermReader reader) throws IOException
+	private String parseString(final ATermReader reader) throws IOException
 	{
 		boolean escaped;
 		final StringBuilder str = new StringBuilder();
@@ -498,7 +490,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 		return str.toString();
 	}
 
-	private ATermList parseATerms(ATermReader reader) throws IOException
+	private ATermList parseATerms(final ATermReader reader) throws IOException
 	{
 		final ATerm[] terms = parseATermsArray(reader);
 		ATermList result = empty;
@@ -510,7 +502,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 		return result;
 	}
 
-	private ATerm[] parseATermsArray(ATermReader reader) throws IOException
+	private ATerm[] parseATermsArray(final ATermReader reader) throws IOException
 	{
 		final List<ATerm> list = new ArrayList<>();
 
@@ -533,7 +525,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 		return array;
 	}
 
-	private ATerm parseFromReader(ATermReader reader) throws IOException
+	private ATerm parseFromReader(final ATermReader reader) throws IOException
 	{
 		ATerm result;
 		int c, start, end;
@@ -711,7 +703,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm parse(String trm)
+	public ATerm parse(final String trm)
 	{
 		try
 		{
@@ -727,19 +719,19 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm make(String trm)
+	public ATerm make(final String trm)
 	{
 		return parse(trm);
 	}
 
 	@Override
-	public ATerm make(String pattern, List<Object> args)
+	public ATerm make(final String pattern, final List<Object> args)
 	{
 		return make(parse(pattern), args);
 	}
 
 	@Override
-	public ATerm make(String pattern, Object arg1)
+	public ATerm make(final String pattern, final Object arg1)
 	{
 		final List<Object> args = new LinkedList<>();
 		args.add(arg1);
@@ -747,7 +739,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm make(String pattern, Object arg1, Object arg2)
+	public ATerm make(final String pattern, final Object arg1, final Object arg2)
 	{
 		final List<Object> args = new LinkedList<>();
 		args.add(arg1);
@@ -756,7 +748,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm make(String pattern, Object arg1, Object arg2, Object arg3)
+	public ATerm make(final String pattern, final Object arg1, final Object arg2, final Object arg3)
 	{
 		final List<Object> args = new LinkedList<>();
 		args.add(arg1);
@@ -766,7 +758,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm make(String pattern, Object arg1, Object arg2, Object arg3, Object arg4)
+	public ATerm make(final String pattern, final Object arg1, final Object arg2, final Object arg3, final Object arg4)
 	{
 		final List<Object> args = new LinkedList<>();
 		args.add(arg1);
@@ -777,7 +769,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm make(String pattern, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5)
+	public ATerm make(final String pattern, final Object arg1, final Object arg2, final Object arg3, final Object arg4, final Object arg5)
 	{
 		final List<Object> args = new LinkedList<>();
 		args.add(arg1);
@@ -789,7 +781,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm make(String pattern, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6)
+	public ATerm make(final String pattern, final Object arg1, final Object arg2, final Object arg3, final Object arg4, final Object arg5, final Object arg6)
 	{
 		final List<Object> args = new LinkedList<>();
 		args.add(arg1);
@@ -802,7 +794,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm make(String pattern, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5, Object arg6, Object arg7)
+	public ATerm make(final String pattern, final Object arg1, final Object arg2, final Object arg3, final Object arg4, final Object arg5, final Object arg6, final Object arg7)
 	{
 		final List<Object> args = new LinkedList<>();
 		args.add(arg1);
@@ -816,34 +808,56 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm make(ATerm pattern, List<Object> args)
+	public ATerm make(final ATerm pattern, final List<Object> args)
 	{
 		return pattern.make(args);
 	}
 
-	ATerm parsePattern(String pattern) throws ParseError
+	ATerm parsePattern(final String pattern) throws ParseError
 	{
 		return parse(pattern);
 	}
 
-	protected boolean isDeepEqual(ATermImpl t1, ATerm t2)
+	protected boolean isDeepEqual(final ATerm t1, final ATerm t2)
 	{
-		throw new UnsupportedOperationException("not yet implemented!");
+		if (t1.getType() != t2.getType())
+			return false;
+
+		ATermList l1 = t1.getAnnotations();
+		ATermList l2 = t2.getAnnotations();
+
+		if (l1.getLength() != l2.getLength())
+			return false;
+
+		while (!l1.isEmpty())
+		{
+			final ATerm a1 = l1.getFirst();
+			final ATerm a2 = l2.getFirst();
+
+			l1 = l1.getNext();
+			l2 = l2.getNext();
+
+			if (!isDeepEqual(a1, a2))
+				return false;
+		}
+
+		// Need an implemention of Comparable<XTerm> for each type of ATerm.
+		throw new UnsupportedOperationException("Not yet implemented! " + t1 + ", " + t2);
 	}
 
-	private ATerm readFromSharedTextFile(ATermReader reader) throws IOException
+	private ATerm readFromSharedTextFile(final ATermReader reader) throws IOException
 	{
 		reader.initializeSharing();
 		return parseFromReader(reader);
 	}
 
-	private ATerm readFromTextFile(ATermReader reader) throws IOException
+	private ATerm readFromTextFile(final ATermReader reader) throws IOException
 	{
 		return parseFromReader(reader);
 	}
 
 	@Override
-	public ATerm readFromTextFile(InputStream stream) throws IOException
+	public ATerm readFromTextFile(final InputStream stream) throws IOException
 	{
 		final ATermReader reader = new ATermReader(new BufferedReader(new InputStreamReader(stream)));
 		reader.readSkippingWS();
@@ -852,7 +866,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm readFromSharedTextFile(InputStream stream) throws IOException
+	public ATerm readFromSharedTextFile(final InputStream stream) throws IOException
 	{
 		final ATermReader reader = new ATermReader(new BufferedReader(new InputStreamReader(stream)));
 		reader.readSkippingWS();
@@ -865,18 +879,18 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm readFromBinaryFile(InputStream stream) throws IOException
+	public ATerm readFromBinaryFile(final InputStream stream) throws IOException
 	{
 		return readFromBinaryFile(stream, false);
 	}
 
-	private ATerm readFromBinaryFile(InputStream stream, boolean headerRead) throws ParseError, IOException
+	private ATerm readFromBinaryFile(final InputStream stream, final boolean headerRead) throws ParseError, IOException
 	{
 		final BAFReader r = new BAFReader(this, stream);
 		return r.readFromBinaryFile(headerRead);
 	}
 
-	private ATerm readSAFFromOldStyleStream(InputStream stream) throws IOException
+	private ATerm readSAFFromOldStyleStream(final InputStream stream) throws IOException
 	{
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		final byte[] buffer = new byte[4096];
@@ -889,7 +903,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 	}
 
 	@Override
-	public ATerm readFromFile(InputStream stream) throws IOException
+	public ATerm readFromFile(final InputStream stream) throws IOException
 	{
 		int firstToken;
 		do
@@ -901,51 +915,65 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 
 		final char typeByte = (char) firstToken;
 
-		if (typeByte == '!')
+		switch (typeByte)
 		{
-			final ATermReader reader = new ATermReader(new BufferedReader(new InputStreamReader(stream)));
-			reader.readSkippingWS();
-			return readFromSharedTextFile(reader);
-		}
-		else
-			if (typeByte == '?')
+			case '!':
+			{
+				final ATermReader reader = new ATermReader(new BufferedReader(new InputStreamReader(stream)));
+				reader.readSkippingWS();
+				return readFromSharedTextFile(reader);
+			}
+			case '?':
 			{
 				return readSAFFromOldStyleStream(stream);
 			}
-			else
-				if (Character.isLetterOrDigit(typeByte) || typeByte == '_' || typeByte == '[' || typeByte == '-')
-				{
-					final ATermReader reader = new ATermReader(new BufferedReader(new InputStreamReader(stream)));
-					reader.last_char = typeByte; // Reinsert the type into the stream (since in this case it wasn't a type byte).
-					return readFromTextFile(reader);
-				}
+			case '[':
+			case '_':
+			case '-':
+				return readShiftFromFile(stream, typeByte);
+			default:
+			{
+				if (Character.isLetterOrDigit(typeByte))
+					return readShiftFromFile(stream, typeByte);
 				else
 					if (firstToken == 0)
 					{
-						final BufferedInputStream bis = new BufferedInputStream(stream);
-						if (BAFReader.isBinaryATerm(bis)) { return readFromBinaryFile(bis, true); }
+						try (final BufferedInputStream bis = new BufferedInputStream(stream))
+						{
+							if (BAFReader.isBinaryATerm(bis))
+								return readFromBinaryFile(bis, true);
+						}
 					}
-		throw new RuntimeException("Unsupported file type");
+			}
+		}
+
+		throw new RuntimeException("Unsupported file type : " + typeByte);
+	}
+
+	private ATerm readShiftFromFile(final InputStream stream, final char typeByte) throws IOException
+	{
+		try (BufferedReader buffer = new BufferedReader(new InputStreamReader(stream)))
+		{
+			final ATermReader reader = new ATermReader(buffer);
+			reader.last_char = typeByte; // Reinsert the type into the stream (since in this case it wasn't a type byte).
+			return readFromTextFile(reader);
+		}
 	}
 
 	@Override
-	public ATerm readFromFile(String filename) throws IOException
+	public ATerm readFromFile(final String filename) throws IOException
 	{
-		ATerm result;
-
-		try (FileInputStream fis = new FileInputStream(filename))
+		try (final FileInputStream fis = new FileInputStream(filename))
 		{
-			result = readFromFile(fis);
+			return readFromFile(fis);
 		}
-
-		return result;
 	}
 
 	/**
 	 * @see ATermFactory#importTerm(ATerm)
 	 */
 	@Override
-	public ATerm importTerm(ATerm term)
+	public ATerm importTerm(final ATerm term)
 	{
 		final SharedObject object = (SharedObject) term;
 		if (contains(object))
@@ -1038,12 +1066,12 @@ class ATermReader
 	private int limit;
 	private int bufferPos;
 
-	public ATermReader(Reader reader)
+	public ATermReader(final Reader reader)
 	{
 		this(reader, INITIAL_BUFFER_SIZE);
 	}
 
-	public ATermReader(Reader reader, int bufferSize)
+	public ATermReader(final Reader reader, final int bufferSize)
 	{
 		this.reader = reader;
 		last_char = -1;
@@ -1063,7 +1091,7 @@ class ATermReader
 		nr_terms = 0;
 	}
 
-	public void storeNextTerm(ATerm t, int size)
+	public void storeNextTerm(final ATerm t, final int size)
 	{
 		if (table == null) { return; }
 
@@ -1079,7 +1107,7 @@ class ATermReader
 		table[nr_terms++] = t;
 	}
 
-	public ATerm getTerm(int index)
+	public ATerm getTerm(final int index)
 	{
 		if (index < 0 || index >= nr_terms) { throw new RuntimeException("illegal index"); }
 		return table[index];

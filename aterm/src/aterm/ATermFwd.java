@@ -28,77 +28,30 @@
 
 package aterm;
 
-import jjtraveler.VisitFailure;
-
-public class ATermFwd implements aterm.Visitor
+public class ATermFwd implements Visitor<ATerm>
 {
 
-	jjtraveler.Visitor any;
+	Visitor<ATerm> any;
 
-	public ATermFwd(final jjtraveler.Visitor any)
+	public ATermFwd(final Visitor<ATerm> any)
 	{
 		this.any = any;
 	}
 
 	@Override
-	public jjtraveler.Visitable visit(final jjtraveler.Visitable v) throws VisitFailure
+	public ATerm visit(final ATerm v)
 	{
-		if (v instanceof Visitable)
-			return ((Visitable) v).accept(this);
-
-		throw new VisitFailure();
+		return v.accept(this);
 	}
 
 	@Override
-	public Visitable visitATerm(final ATerm arg) throws VisitFailure
+	public ATerm visitATerm(final ATerm arg)
 	{
-		return (aterm.Visitable) any.visit(arg);
+		return any.visit(arg);
 	}
 
 	@Override
-	public Visitable visitInt(final ATermInt arg) throws VisitFailure
-	{
-		return visitATerm(arg);
-	}
-
-	@Override
-	public Visitable visitLong(final ATermLong arg) throws VisitFailure
-	{
-		return visitATerm(arg);
-	}
-
-	@Override
-	public Visitable visitReal(final ATermReal arg) throws VisitFailure
-	{
-		return visitATerm(arg);
-	}
-
-	@Override
-	public Visitable visitAppl(final ATermAppl arg) throws VisitFailure
-	{
-		return visitATerm(arg);
-	}
-
-	@Override
-	public Visitable visitList(final ATermList arg) throws VisitFailure
-	{
-		return visitATerm(arg);
-	}
-
-	@Override
-	public Visitable visitPlaceholder(final ATermPlaceholder arg) throws VisitFailure
-	{
-		return visitATerm(arg);
-	}
-
-	@Override
-	public Visitable visitBlob(final ATermBlob arg) throws VisitFailure
-	{
-		return visitATerm(arg);
-	}
-
-	@Override
-	public Visitable visitAFun(final AFun fun)
+	public ATerm visitAFun(final AFun fun)
 	{
 		return fun;
 	}

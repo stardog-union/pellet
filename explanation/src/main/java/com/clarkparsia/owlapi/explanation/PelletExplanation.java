@@ -59,7 +59,7 @@ public class PelletExplanation
 
 	private PelletExplanation(final PelletReasoner reasoner, final boolean useGlassBox)
 	{
-		// Get the factory object
+		// Get the _factory object
 		factory = reasoner.getManager().getOWLDataFactory();
 
 		// Create a single explanation generator

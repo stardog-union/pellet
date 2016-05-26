@@ -10,7 +10,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the University of California, Berkeley nor the
+ *     * Neither the _name of the University of California, Berkeley nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -34,34 +34,33 @@ import aterm.ATermList;
 import aterm.Visitor;
 import aterm.stream.BufferedOutputStreamWriter;
 import java.io.IOException;
-import jjtraveler.VisitFailure;
 import shared.SharedObject;
 
 public class AFunImpl extends ATermImpl implements AFun
 {
-	private String name;
+	private String _name;
 
-	private int arity;
+	private int _arity;
 
-	private boolean isQuoted;
+	private boolean _isQuoted;
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
-	 * @param factory x
+	 * @param _factory x
 	 */
-	protected AFunImpl(PureFactory factory)
+	protected AFunImpl(final PureFactory factory)
 	{
 		super(factory);
 	}
 
-	protected AFunImpl(PureFactory factory, String name, int arity, boolean isQuoted)
+	protected AFunImpl(final PureFactory factory, final String name, final int arity, final boolean isQuoted)
 	{
 		super(factory, null);
 
-		this.name = name.intern();
-		this.arity = arity;
-		this.isQuoted = isQuoted;
+		this._name = name.intern();
+		this._arity = arity;
+		this._isQuoted = isQuoted;
 
 		setHashCode(hashFunction());
 	}
@@ -70,32 +69,32 @@ public class AFunImpl extends ATermImpl implements AFun
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param hashCode x
-	 * @param name x
-	 * @param arity x
-	 * @param isQuoted x
+	 * @param _name x
+	 * @param _arity x
+	 * @param _isQuoted x
 	 */
-	protected void init(int hashCode, String name, int arity, boolean isQuoted)
+	protected void init(final int hashCode, final String name, final int arity, final boolean isQuoted)
 	{
 		super.init(hashCode, null);
 
-		this.name = name.intern();
-		this.arity = arity;
-		this.isQuoted = isQuoted;
+		this._name = name.intern();
+		this._arity = arity;
+		this._isQuoted = isQuoted;
 	}
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
-	 * @param name x
-	 * @param arity x
-	 * @param isQuoted x
+	 * @param _name x
+	 * @param _arity x
+	 * @param _isQuoted x
 	 */
-	protected void initHashCode(String name, int arity, boolean isQuoted)
+	protected void initHashCode(final String name, final int arity, final boolean isQuoted)
 	{
-		this.name = name.intern();
-		this.arity = arity;
-		this.isQuoted = isQuoted;
-		this.setHashCode(this.hashFunction());
+		this._name = name.intern();
+		this._arity = arity;
+		this._isQuoted = isQuoted;
+		setHashCode(hashFunction());
 	}
 
 	@Override
@@ -105,12 +104,12 @@ public class AFunImpl extends ATermImpl implements AFun
 	}
 
 	@Override
-	public boolean equivalent(SharedObject obj)
+	public boolean equivalent(final SharedObject obj)
 	{
 		if (obj instanceof AFun)
 		{
 			final AFun peer = (AFun) obj;
-			return peer.getName().equals(name) && peer.getArity() == arity && peer.isQuoted() == isQuoted;
+			return peer.getName().equals(_name) && peer.getArity() == _arity && peer.isQuoted() == _isQuoted;
 		}
 		return false;
 	}
@@ -124,23 +123,23 @@ public class AFunImpl extends ATermImpl implements AFun
 	@Override
 	public String getName()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
 	public int getArity()
 	{
-		return arity;
+		return _arity;
 	}
 
 	@Override
 	public boolean isQuoted()
 	{
-		return isQuoted;
+		return _isQuoted;
 	}
 
 	@Override
-	public ATerm getAnnotation(ATerm key)
+	public ATerm getAnnotation(final ATerm key)
 	{
 		throw new UnsupportedOperationException();
 	}
@@ -152,26 +151,26 @@ public class AFunImpl extends ATermImpl implements AFun
 	}
 
 	@Override
-	public ATerm setAnnotations(ATermList annos)
+	public ATerm setAnnotations(final ATermList annos)
 	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public int serialize(BufferedOutputStreamWriter writer) throws IOException
+	public int serialize(final BufferedOutputStreamWriter writer) throws IOException
 	{
 		int bytesWritten = 0;
-		if (isQuoted)
+		if (_isQuoted)
 		{
 			writer.write('"');
 			bytesWritten++;
 		}
 
-		final int numberOfCharacters = name.length();
+		final int numberOfCharacters = _name.length();
 		bytesWritten += numberOfCharacters;
 		for (int i = 0; i < numberOfCharacters; i++)
 		{
-			char c = name.charAt(i);
+			char c = _name.charAt(i);
 			switch (c)
 			{
 				case '\n':
@@ -266,7 +265,7 @@ public class AFunImpl extends ATermImpl implements AFun
 			}
 		}
 
-		if (isQuoted)
+		if (_isQuoted)
 		{
 			writer.write('"');
 			bytesWritten++;
@@ -278,16 +277,16 @@ public class AFunImpl extends ATermImpl implements AFun
 	@Override
 	public String toString()
 	{
-		final StringBuilder result = new StringBuilder(name.length());
+		final StringBuilder result = new StringBuilder(_name.length());
 
-		if (isQuoted)
+		if (_isQuoted)
 		{
 			result.append('"');
 		}
 
-		for (int i = 0; i < name.length(); i++)
+		for (int i = 0; i < _name.length(); i++)
 		{
-			char c = name.charAt(i);
+			char c = _name.charAt(i);
 			switch (c)
 			{
 				case '\n':
@@ -372,7 +371,7 @@ public class AFunImpl extends ATermImpl implements AFun
 			}
 		}
 
-		if (isQuoted)
+		if (_isQuoted)
 		{
 			result.append('"');
 		}
@@ -381,7 +380,7 @@ public class AFunImpl extends ATermImpl implements AFun
 	}
 
 	@Override
-	public aterm.Visitable accept(Visitor v) throws VisitFailure
+	public ATerm accept(final Visitor<ATerm> v)
 	{
 		return v.visitAFun(this);
 	}
@@ -393,35 +392,35 @@ public class AFunImpl extends ATermImpl implements AFun
 		/* Set up the internal state */
 		a = b = 0x9e3779b9; /* the golden ratio; an arbitrary value */
 		/*------------------------------------- handle the last 11 bytes */
-		final int len = name.length();
+		final int len = _name.length();
 		if (len >= 12) { return hashFunction2(); }
-		c = (isQuoted) ? 7 * arity + 1 : arity + 1;
+		c = (_isQuoted) ? 7 * _arity + 1 : _arity + 1;
 		c += len;
 		switch (len)
 		{
 			case 11:
-				c += (name.charAt(10) << 24);
+				c += (_name.charAt(10) << 24);
 			case 10:
-				c += (name.charAt(9) << 16);
+				c += (_name.charAt(9) << 16);
 			case 9:
-				c += (name.charAt(8) << 8);
+				c += (_name.charAt(8) << 8);
 				/* the first byte of c is reserved for the length */
 			case 8:
-				b += (name.charAt(7) << 24);
+				b += (_name.charAt(7) << 24);
 			case 7:
-				b += (name.charAt(6) << 16);
+				b += (_name.charAt(6) << 16);
 			case 6:
-				b += (name.charAt(5) << 8);
+				b += (_name.charAt(5) << 8);
 			case 5:
-				b += name.charAt(4);
+				b += _name.charAt(4);
 			case 4:
-				a += (name.charAt(3) << 24);
+				a += (_name.charAt(3) << 24);
 			case 3:
-				a += (name.charAt(2) << 16);
+				a += (_name.charAt(2) << 16);
 			case 2:
-				a += (name.charAt(1) << 8);
+				a += (_name.charAt(1) << 8);
 			case 1:
-				a += name.charAt(0);
+				a += _name.charAt(0);
 				/* case 0: nothing left to add */
 		}
 		// mix(a,b,c);
@@ -461,16 +460,16 @@ public class AFunImpl extends ATermImpl implements AFun
 	private int hashFunction2()
 	{
 		int offset = 0;
-		final int count = name.length();
+		final int count = _name.length();
 		final char[] source = new char[count];
 
 		offset = 0;
-		name.getChars(0, count, source, 0);
+		_name.getChars(0, count, source, 0);
 		int a, b, c;
 		/* Set up the internal state */
 		int len = count;
 		a = b = 0x9e3779b9; /* the golden ratio; an arbitrary value */
-		c = (isQuoted) ? 7 * (arity + 1) : arity + 1; // to avoid collison
+		c = (_isQuoted) ? 7 * (_arity + 1) : _arity + 1; // to avoid collison
 		/*------------------------------------- handle the last 11 bytes */
 		int k = offset;
 
@@ -569,7 +568,7 @@ public class AFunImpl extends ATermImpl implements AFun
 		c -= b;
 		c ^= (b >> 15);
 
-		//System.out.println("static doobs_hashFunctionAFun = " + c + ": " + name);
+		//System.out.println("static doobs_hashFunctionAFun = " + c + ": " + _name);
 		return c;
 	}
 

@@ -34,107 +34,107 @@ import aterm.ATermAppl;
 import aterm.ATermFactory;
 import aterm.ATermList;
 import aterm.ATermPlaceholder;
+import aterm.VisitFailure;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
-import jjtraveler.VisitFailure;
 import shared.SharedObjectWithID;
 
 public abstract class ATermImpl extends ATermVisitableImpl implements ATerm, SharedObjectWithID
 {
-	private ATermList annotations;
+	private ATermList _annotations;
 
-	protected PureFactory factory;
+	protected PureFactory _factory;
 
-	private int hashCode;
+	private int _hashCode;
 
-	private int uniqueId;
+	private int _uniqueId;
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param factory x
 	 */
-	protected ATermImpl(PureFactory factory)
+	protected ATermImpl(final PureFactory factory)
 	{
 		super();
-		this.factory = factory;
+		_factory = factory;
 	}
 
-	protected ATermImpl(PureFactory factory, ATermList annos)
+	protected ATermImpl(final PureFactory factory, final ATermList annos)
 	{
 		super();
 
-		this.factory = factory;
-		this.annotations = annos;
+		_factory = factory;
+		_annotations = annos;
 	}
 
 	@Override
 	public final int hashCode()
 	{
-		return this.hashCode;
+		return _hashCode;
 	}
 
-	protected void setHashCode(int hashcode)
+	protected void setHashCode(final int hashcode)
 	{
-		this.hashCode = hashcode;
+		_hashCode = hashcode;
 	}
 
-	protected void internSetAnnotations(ATermList annos)
+	protected void internSetAnnotations(final ATermList annos)
 	{
-		this.annotations = annos;
+		_annotations = annos;
 	}
 
 	/**
 	 * depricated Just here for backwards compatibility.
 	 * 
-	 * @param hashCode x
+	 * @param _hashCode x
 	 * @param annos x
 	 */
-	protected void init(int hashCode, ATermList annos)
+	protected void init(final int hashCode, final ATermList annos)
 	{
-		this.hashCode = hashCode;
-		this.annotations = annos;
+		_hashCode = hashCode;
+		_annotations = annos;
 	}
 
 	@Override
 	public ATermFactory getFactory()
 	{
-		return factory;
+		return _factory;
 	}
 
 	protected PureFactory getPureFactory()
 	{
-		return factory;
+		return _factory;
 	}
 
 	@Override
 	public boolean hasAnnotations()
 	{
-		return (annotations != null && !annotations.isEmpty());
+		return (_annotations != null && !_annotations.isEmpty());
 	}
 
 	@Override
-	public ATerm setAnnotation(ATerm label, ATerm anno)
+	public ATerm setAnnotation(final ATerm label, final ATerm anno)
 	{
-		final ATermList new_annos = annotations.dictPut(label, anno);
+		final ATermList new_annos = _annotations.dictPut(label, anno);
 		final ATerm result = setAnnotations(new_annos);
 
 		return result;
 	}
 
 	@Override
-	public ATerm removeAnnotation(ATerm label)
+	public ATerm removeAnnotation(final ATerm label)
 	{
-		return setAnnotations(annotations.dictRemove(label));
+		return setAnnotations(_annotations.dictRemove(label));
 	}
 
 	@Override
-	public ATerm getAnnotation(ATerm label)
+	public ATerm getAnnotation(final ATerm label)
 	{
-		return annotations.dictGet(label);
+		return _annotations.dictGet(label);
 	}
 
 	@Override
@@ -146,38 +146,40 @@ public abstract class ATermImpl extends ATermVisitableImpl implements ATerm, Sha
 	@Override
 	public ATermList getAnnotations()
 	{
-		return annotations;
+		return _annotations;
 	}
 
 	@Override
-	public List<Object> match(String pattern)
+	public List<Object> match(final String pattern)
 	{
-		return match(factory.parsePattern(pattern));
+		return match(_factory.parsePattern(pattern));
 	}
 
 	@Override
-	public List<Object> match(ATerm pattern)
+	public List<Object> match(final ATerm pattern)
 	{
-		final List<Object> list = new LinkedList<Object>();
-		if (match(pattern, list)) { return list; }
+		final List<Object> list = new LinkedList<>();
+		if (match(pattern, list))
+			return list;
 		return null;
 	}
 
 	@Override
-	public boolean isEqual(ATerm term)
+	public boolean isEqual(final ATerm term)
 	{
-		if (term instanceof ATermImpl) { return this == term; }
+		if (term instanceof ATermImpl)
+			return this == term;
 
-		return factory.isDeepEqual(this, term);
+		return _factory.isDeepEqual(this, term);
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	public boolean equals(final Object obj)
 	{
 		return (this == obj);
 	}
 
-	boolean match(ATerm pattern, List<Object> list)
+	boolean match(final ATerm pattern, final List<Object> list)
 	{
 		if (pattern.getType() == PLACEHOLDER)
 		{
@@ -198,12 +200,12 @@ public abstract class ATermImpl extends ATermVisitableImpl implements ATerm, Sha
 	}
 
 	@Override
-	public ATerm make(List<Object> list)
+	public ATerm make(final List<Object> list)
 	{
 		return this;
 	}
 
-	public void writeToTextFile(ATermWriter writer) throws IOException
+	public void writeToTextFile(final ATermWriter writer) throws IOException
 	{
 		try
 		{
@@ -217,7 +219,7 @@ public abstract class ATermImpl extends ATermVisitableImpl implements ATerm, Sha
 	}
 
 	@Override
-	public void writeToSharedTextFile(OutputStream stream) throws IOException
+	public void writeToSharedTextFile(final OutputStream stream) throws IOException
 	{
 		final ATermWriter writer = new ATermWriter(stream);
 		writer.initializeSharing();
@@ -226,10 +228,9 @@ public abstract class ATermImpl extends ATermVisitableImpl implements ATerm, Sha
 	}
 
 	@Override
-	public void writeToTextFile(OutputStream stream) throws IOException
+	public void writeToTextFile(final OutputStream stream) throws IOException
 	{
-		final ATermWriter writer = new ATermWriter(stream);
-		writeToTextFile(writer);
+		writeToTextFile(new ATermWriter(stream));
 	}
 
 	@Override
@@ -256,13 +257,13 @@ public abstract class ATermImpl extends ATermVisitableImpl implements ATerm, Sha
 	}
 
 	@Override
-	public ATerm getSubTerm(int index)
+	public ATerm getSubTerm(final int index)
 	{
 		throw new RuntimeException("no children!");
 	}
 
 	@Override
-	public ATerm setSubTerm(int index, ATerm t)
+	public ATerm setSubTerm(final int index, final ATerm t)
 	{
 		throw new RuntimeException("no children!");
 	}
@@ -270,13 +271,13 @@ public abstract class ATermImpl extends ATermVisitableImpl implements ATerm, Sha
 	@Override
 	public int getUniqueIdentifier()
 	{
-		return uniqueId;
+		return _uniqueId;
 	}
 
 	@Override
-	public void setUniqueIdentifier(int uniqueId)
+	public void setUniqueIdentifier(final int uniqueId)
 	{
-		this.uniqueId = uniqueId;
+		_uniqueId = uniqueId;
 	}
 
 }

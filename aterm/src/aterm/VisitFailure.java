@@ -1,4 +1,4 @@
-package jjtraveler;
+package aterm;
 
 /**
  * The VisitFailure exception is used to model success and failure of visitor
@@ -6,33 +6,33 @@ package jjtraveler;
  * and catch constructs are used to recover from failed visits.
  */
 
-public class VisitFailure extends Exception
+public class VisitFailure extends RuntimeException
 {
 	private static final long serialVersionUID = -1190261403667634678L;
 
-	private String message;
+	private String _message;
 
 	public VisitFailure()
 	{
 		super();
-		message = "";
+		_message = "";
 	}
 
 	public VisitFailure(final String msg)
 	{
 		super();
-		message = msg;
+		_message = msg;
 	}
 
 	public void setMessage(final String message)
 	{
-		this.message = message;
+		this._message = message;
 	}
 
 	@Override
 	public String toString()
 	{
-		return message;
+		return _message;
 	}
 
 }

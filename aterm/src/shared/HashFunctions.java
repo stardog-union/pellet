@@ -36,9 +36,9 @@ public class HashFunctions
 	{
 		// [arg1,...,argn,symbol]
 		int hash = 0;
-		for (int i = 0; i < o.length; i++)
+		for (final Object element : o)
 		{
-			hash += o[i].hashCode();
+			hash += element.hashCode();
 			hash += (hash << 10);
 			hash ^= (hash >> 6);
 		}
@@ -64,11 +64,12 @@ public class HashFunctions
 	{
 		// [arg1,...,argn,symbol]
 		int hash = 0;
-		for (int i = 0; i < o.length; i++)
-			hash = (hash << 1) ^ (hash >> 1) ^ o[i].hashCode();
+		for (final Object element : o)
+			hash = (hash << 1) ^ (hash >> 1) ^ element.hashCode();
 		return hash;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	static public int doobs(final Object[] o)
 	{
 		//System.out.println("static doobs_hashFuntion");
@@ -127,25 +128,35 @@ public class HashFunctions
 		/* all the case statements fall through */{
 			case 11:
 				c += (o[k + 10].hashCode() << 24);
+				//$FALL-THROUGH$
 			case 10:
 				c += (o[k + 9].hashCode() << 16);
+				//$FALL-THROUGH$
 			case 9:
 				c += (o[k + 8].hashCode() << 8);
 				/* the first byte of c is reserved for the length */
+				//$FALL-THROUGH$
 			case 8:
 				b += (o[k + 7].hashCode() << 24);
+				//$FALL-THROUGH$
 			case 7:
 				b += (o[k + 6].hashCode() << 16);
+				//$FALL-THROUGH$
 			case 6:
 				b += (o[k + 5].hashCode() << 8);
+				//$FALL-THROUGH$
 			case 5:
 				b += o[k + 4].hashCode();
+				//$FALL-THROUGH$
 			case 4:
 				a += (o[k + 3].hashCode() << 24);
+				//$FALL-THROUGH$
 			case 3:
 				a += (o[k + 2].hashCode() << 16);
+				//$FALL-THROUGH$
 			case 2:
 				a += (o[k + 1].hashCode() << 8);
+				//$FALL-THROUGH$
 			case 1:
 				a += o[k + 0].hashCode();
 				/* case 0: nothing left to add */
@@ -157,6 +168,7 @@ public class HashFunctions
 		return c;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	static public int doobs(final String s, int c)
 	{
 		// o[] = [name,Integer(arity), Boolean(isQuoted)]
@@ -221,25 +233,35 @@ public class HashFunctions
 		{
 			case 11:
 				c += (source[k + 10] << 24);
+				//$FALL-THROUGH$
 			case 10:
 				c += (source[k + 9] << 16);
+				//$FALL-THROUGH$
 			case 9:
 				c += (source[k + 8] << 8);
 				/* the first byte of c is reserved for the length */
+				//$FALL-THROUGH$
 			case 8:
 				b += (source[k + 7] << 24);
+				//$FALL-THROUGH$
 			case 7:
 				b += (source[k + 6] << 16);
+				//$FALL-THROUGH$
 			case 6:
 				b += (source[k + 5] << 8);
+				//$FALL-THROUGH$
 			case 5:
 				b += source[k + 4];
+				//$FALL-THROUGH$
 			case 4:
 				a += (source[k + 3] << 24);
+				//$FALL-THROUGH$
 			case 3:
 				a += (source[k + 2] << 16);
+				//$FALL-THROUGH$
 			case 2:
 				a += (source[k + 1] << 8);
+				//$FALL-THROUGH$
 			case 1:
 				a += source[k + 0];
 				/* case 0: nothing left to add */
@@ -283,6 +305,7 @@ public class HashFunctions
 		return c;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	public static int stringHashFunction(final String name, final int arity)
 	{
 		int a, b, c;
@@ -298,25 +321,35 @@ public class HashFunctions
 		{
 			case 11:
 				c += (name.charAt(10) << 24);
+				//$FALL-THROUGH$
 			case 10:
 				c += (name.charAt(9) << 16);
+				//$FALL-THROUGH$
 			case 9:
 				c += (name.charAt(8) << 8);
 				/* the first byte of c is reserved for the length */
+				//$FALL-THROUGH$
 			case 8:
 				b += (name.charAt(7) << 24);
+				//$FALL-THROUGH$
 			case 7:
 				b += (name.charAt(6) << 16);
+				//$FALL-THROUGH$
 			case 6:
 				b += (name.charAt(5) << 8);
+				//$FALL-THROUGH$
 			case 5:
 				b += name.charAt(4);
+				//$FALL-THROUGH$
 			case 4:
 				a += (name.charAt(3) << 24);
+				//$FALL-THROUGH$
 			case 3:
 				a += (name.charAt(2) << 16);
+				//$FALL-THROUGH$
 			case 2:
 				a += (name.charAt(1) << 8);
+				//$FALL-THROUGH$
 			case 1:
 				a += name.charAt(0);
 				/* case 0: nothing left to add */
@@ -354,6 +387,7 @@ public class HashFunctions
 		return c;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	private static int stringHashFunctionLong(final String name, final int arity)
 	{
 		int offset = 0;
@@ -413,25 +447,35 @@ public class HashFunctions
 		{
 			case 11:
 				c += (source[k + 10] << 24);
+				//$FALL-THROUGH$
 			case 10:
 				c += (source[k + 9] << 16);
+				//$FALL-THROUGH$
 			case 9:
 				c += (source[k + 8] << 8);
 				/* the first byte of c is reserved for the length */
+				//$FALL-THROUGH$
 			case 8:
 				b += (source[k + 7] << 24);
+				//$FALL-THROUGH$
 			case 7:
 				b += (source[k + 6] << 16);
+				//$FALL-THROUGH$
 			case 6:
 				b += (source[k + 5] << 8);
+				//$FALL-THROUGH$
 			case 5:
 				b += source[k + 4];
+				//$FALL-THROUGH$
 			case 4:
 				a += (source[k + 3] << 24);
+				//$FALL-THROUGH$
 			case 3:
 				a += (source[k + 2] << 16);
+				//$FALL-THROUGH$
 			case 2:
 				a += (source[k + 1] << 8);
+				//$FALL-THROUGH$
 			case 1:
 				a += source[k + 0];
 				/* case 0: nothing left to add */

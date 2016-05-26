@@ -38,6 +38,8 @@ import java.lang.ref.WeakReference;
  */
 public class SharedObjectFactory
 {
+	@SuppressWarnings("unused")
+	private static int DEFAULT_TERM_TABLE_SIZE = 16; // means 2^16 entries
 	private final static int DEFAULT_NR_OF_SEGMENTS_BITSIZE = 5;
 
 	private final Segment[] segments;
@@ -52,18 +54,6 @@ public class SharedObjectFactory
 		segments = new Segment[1 << DEFAULT_NR_OF_SEGMENTS_BITSIZE];
 		for (int i = segments.length - 1; i >= 0; i--)
 			segments[i] = new Segment(i);
-	}
-
-	/**
-	 * Constructor. This is only here for backwards compatibility. The user shouldn't specify the
-	 * logsize, we'll resize the table ourselfs when needed.
-	 *
-	 * @param initialLogSize
-	 *            This is the argument that will be ignored.
-	 */
-	public SharedObjectFactory(final int initialLogSize)
-	{
-		this();
 	}
 
 	/**
@@ -153,8 +143,8 @@ public class SharedObjectFactory
 		private int threshold;
 		private int load;
 
-		private volatile boolean flaggedForCleanup;
-		private volatile WeakReference<GarbageCollectionDetector> garbageCollectionDetector;
+		volatile boolean flaggedForCleanup;
+		volatile WeakReference<GarbageCollectionDetector> garbageCollectionDetector;
 		private int cleanupScaler;
 		private int cleanupThreshold;
 
@@ -187,7 +177,7 @@ public class SharedObjectFactory
 			load = 0;
 
 			flaggedForCleanup = false;
-			garbageCollectionDetector = new WeakReference<GarbageCollectionDetector>(new GarbageCollectionDetector(this)); // Allocate a (unreachable) GC detector.
+			garbageCollectionDetector = new WeakReference<>(new GarbageCollectionDetector(this)); // Allocate a (unreachable) GC detector.
 			cleanupScaler = 50; // Init as 50% average cleanup percentage, to make sure the cleanup can and will be executed the first time.
 			cleanupThreshold = cleanupScaler;
 
@@ -201,7 +191,7 @@ public class SharedObjectFactory
 		/**
 		 * Removes entries, who's value have been garbage collected, from this segment.
 		 */
-		private void cleanup()
+		void cleanup()
 		{
 			final Entry[] table = entries;
 			int newLoad = load;
@@ -365,7 +355,7 @@ public class SharedObjectFactory
 						else
 							cleanupThreshold <<= 1;
 
-						garbageCollectionDetector = new WeakReference<GarbageCollectionDetector>(new GarbageCollectionDetector(this)); // Allocate a new (unreachable) GC detector.
+						garbageCollectionDetector = new WeakReference<>(new GarbageCollectionDetector(this)); // Allocate a new (unreachable) GC detector.
 					}
 				}
 		}

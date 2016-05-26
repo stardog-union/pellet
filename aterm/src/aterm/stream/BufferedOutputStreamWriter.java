@@ -36,7 +36,7 @@ import java.io.Writer;
  * This is an unsynchronized buffered outputstream writer. By using this you can
  * bypass most of the (unnecessary) synchronization and method calls that occur
  * in its standard library equivalent. Data will be written into the underlaying
- * stream using the system's default character encoding.
+ * _stream using the system's default character encoding.
  * 
  * @author Arnold Lankamp
  */
@@ -44,21 +44,21 @@ public class BufferedOutputStreamWriter extends Writer
 {
 	private final static int DEFAULTBUFFERSIZE = 8192;
 
-	private final OutputStream stream;
+	private final OutputStream _stream;
 
-	private byte[] buffer = null;
-	private int bufferPos = 0;
-	private int limit = 0;
+	private byte[] _buffer = null;
+	private int _bufferPos = 0;
+	private int _limit = 0;
 
-	private boolean failures = false;
+	private boolean _failures = false;
 
 	/**
 	 * Contructor.
 	 * 
-	 * @param stream
-	 *            The stream to write too.
+	 * @param _stream
+	 *            The _stream to write too.
 	 */
-	public BufferedOutputStreamWriter(OutputStream stream)
+	public BufferedOutputStreamWriter(final OutputStream stream)
 	{
 		this(stream, DEFAULTBUFFERSIZE);
 	}
@@ -66,19 +66,17 @@ public class BufferedOutputStreamWriter extends Writer
 	/**
 	 * Constructor.
 	 * 
-	 * @param stream
-	 *            The stream to write too.
+	 * @param _stream
+	 *            The _stream to write too.
 	 * @param bufferSize
-	 *            The size of the interal buffer.
+	 *            The size of the interal _buffer.
 	 */
-	public BufferedOutputStreamWriter(OutputStream stream, int bufferSize)
+	public BufferedOutputStreamWriter(final OutputStream stream, final int bufferSize)
 	{
 		super();
-
-		this.stream = stream;
-
-		buffer = new byte[bufferSize];
-		limit = buffer.length;
+		_stream = stream;
+		_buffer = new byte[bufferSize];
+		_limit = _buffer.length;
 	}
 
 	/**
@@ -87,11 +85,11 @@ public class BufferedOutputStreamWriter extends Writer
 	 * @param c
 	 *            The character to write.
 	 */
-	public void write(char c)
+	public void write(final char c)
 	{
-		buffer[bufferPos++] = (byte) c;
+		_buffer[_bufferPos++] = (byte) c;
 
-		if (bufferPos == limit)
+		if (_bufferPos == _limit)
 			flush();
 	}
 
@@ -101,7 +99,7 @@ public class BufferedOutputStreamWriter extends Writer
 	 * @see Writer#write(char[], int, int)
 	 */
 	@Override
-	public void write(char[] cbuf, int offset, int length)
+	public void write(final char[] cbuf, final int offset, final int length)
 	{
 		write(new String(cbuf, offset, length));
 	}
@@ -112,7 +110,7 @@ public class BufferedOutputStreamWriter extends Writer
 	 * @see Writer#write(java.lang.String)
 	 */
 	@Override
-	public void write(String s)
+	public void write(final String s)
 	{
 		final byte[] bytes = s.getBytes();
 
@@ -121,14 +119,14 @@ public class BufferedOutputStreamWriter extends Writer
 		while (bytesLeft > 0)
 		{
 			int bytesToWrite = bytesLeft;
-			final int freeSpace = limit - bufferPos;
+			final int freeSpace = _limit - _bufferPos;
 			if (freeSpace < bytesToWrite)
 				bytesToWrite = freeSpace;
 
-			System.arraycopy(bytes, startPos, buffer, bufferPos, bytesToWrite);
-			bufferPos += bytesToWrite;
+			System.arraycopy(bytes, startPos, _buffer, _bufferPos, bytesToWrite);
+			_bufferPos += bytesToWrite;
 
-			if (bufferPos == limit)
+			if (_bufferPos == _limit)
 				flush();
 
 			bytesLeft -= bytesToWrite;
@@ -146,18 +144,18 @@ public class BufferedOutputStreamWriter extends Writer
 	{
 		try
 		{
-			stream.write(buffer, 0, bufferPos);
-			bufferPos = 0;
-			stream.flush();
+			_stream.write(_buffer, 0, _bufferPos);
+			_bufferPos = 0;
+			_stream.flush();
 		}
 		catch (final IOException ioex)
 		{
-			failures = true;
+			_failures = true;
 		}
 	}
 
 	/**
-	 * Closes this writer and its underlaying stream.
+	 * Closes this writer and its underlaying _stream.
 	 */
 	@Override
 	public void close()
@@ -165,11 +163,11 @@ public class BufferedOutputStreamWriter extends Writer
 		try
 		{
 			flush();
-			stream.close();
+			_stream.close();
 		}
 		catch (final IOException ioex)
 		{
-			failures = true;
+			_failures = true;
 		}
 	}
 
@@ -180,6 +178,6 @@ public class BufferedOutputStreamWriter extends Writer
 	 */
 	public boolean hasFailed()
 	{
-		return failures;
+		return _failures;
 	}
 }

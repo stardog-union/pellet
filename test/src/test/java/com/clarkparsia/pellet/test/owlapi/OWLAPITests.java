@@ -753,7 +753,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
-		// OWLObjectProperty father = factory.getOWLObjectProperty( URI.create(
+		// OWLObjectProperty father = _factory.getOWLObjectProperty( URI.create(
 		// ns + "father" ) );
 		final OWLObjectProperty hates = ObjectProperty(ns + "hates");
 		final OWLObjectProperty sibling = ObjectProperty(ns + "sibling");

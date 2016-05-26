@@ -28,9 +28,7 @@
 
 package aterm;
 
-import jjtraveler.VisitFailure;
-
-public class ATermFwdVoid implements Visitor
+public class ATermFwdVoid implements Visitor<ATerm>
 {
 
 	public ATermFwdVoid()
@@ -39,113 +37,111 @@ public class ATermFwdVoid implements Visitor
 	}
 
 	@Override
-	public jjtraveler.Visitable visit(final jjtraveler.Visitable v) throws jjtraveler.VisitFailure
+	public ATerm visit(final ATerm v)
 	{
-		if (v instanceof Visitable)
-			return ((Visitable) v).accept(this);
-		throw new jjtraveler.VisitFailure();
+		return v.accept(this);
 	}
 
 	@Override
-	public Visitable visitATerm(final ATerm arg) throws VisitFailure
+	public ATerm visitATerm(final ATerm arg)
 	{
 		voidVisitATerm(arg);
 		return arg;
 	}
 
 	@Override
-	public Visitable visitInt(final ATermInt arg) throws VisitFailure
+	public ATerm visitInt(final ATermInt arg)
 	{
 		voidVisitInt(arg);
 		return arg;
 	}
 
 	@Override
-	public Visitable visitLong(final ATermLong arg) throws VisitFailure
+	public ATerm visitLong(final ATermLong arg)
 	{
 		voidVisitLong(arg);
 		return arg;
 	}
 
 	@Override
-	public Visitable visitReal(final ATermReal arg) throws VisitFailure
+	public ATerm visitReal(final ATermReal arg)
 	{
 		voidVisitReal(arg);
 		return arg;
 	}
 
 	@Override
-	public Visitable visitAppl(final ATermAppl arg) throws VisitFailure
+	public ATerm visitAppl(final ATermAppl arg)
 	{
 		voidVisitAppl(arg);
 		return arg;
 	}
 
 	@Override
-	public Visitable visitList(final ATermList arg) throws VisitFailure
+	public ATerm visitList(final ATermList arg)
 	{
 		voidVisitList(arg);
 		return arg;
 	}
 
 	@Override
-	public Visitable visitPlaceholder(final ATermPlaceholder arg) throws VisitFailure
+	public ATerm visitPlaceholder(final ATermPlaceholder arg)
 	{
 		voidVisitPlaceholder(arg);
 		return arg;
 	}
 
 	@Override
-	public Visitable visitBlob(final ATermBlob arg) throws VisitFailure
+	public ATerm visitBlob(final ATermBlob arg)
 	{
 		voidVisitBlob(arg);
 		return arg;
 	}
 
 	@Override
-	public Visitable visitAFun(final AFun fun) throws VisitFailure
+	public ATerm visitAFun(final AFun fun)
 	{
 		return fun;
 	}
 
 	// methods to re-implement for void visitation
 
-	public void voidVisitATerm(final ATerm arg) throws VisitFailure
+	public void voidVisitATerm(@SuppressWarnings("unused") final ATerm arg)
 	{
 		// Left empty intentionally.
 	}
 
-	public void voidVisitInt(final ATermInt arg) throws VisitFailure
+	public void voidVisitInt(final ATermInt arg)
 	{
 		voidVisitATerm(arg);
 	}
 
-	public void voidVisitLong(final ATermLong arg) throws VisitFailure
+	public void voidVisitLong(final ATermLong arg)
 	{
 		voidVisitATerm(arg);
 	}
 
-	public void voidVisitReal(final ATermReal arg) throws VisitFailure
+	public void voidVisitReal(final ATermReal arg)
 	{
 		voidVisitATerm(arg);
 	}
 
-	public void voidVisitAppl(final ATermAppl arg) throws VisitFailure
+	public void voidVisitAppl(final ATermAppl arg)
 	{
 		voidVisitATerm(arg);
 	}
 
-	public void voidVisitList(final ATermList arg) throws VisitFailure
+	public void voidVisitList(final ATermList arg)
 	{
 		voidVisitATerm(arg);
 	}
 
-	public void voidVisitPlaceholder(final ATermPlaceholder arg) throws VisitFailure
+	public void voidVisitPlaceholder(final ATermPlaceholder arg)
 	{
 		voidVisitATerm(arg);
 	}
 
-	public void voidVisitBlob(final ATermBlob arg) throws VisitFailure
+	public void voidVisitBlob(final ATermBlob arg)
 	{
 		voidVisitATerm(arg);
 	}

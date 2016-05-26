@@ -33,34 +33,32 @@ import aterm.ATerm;
 import aterm.ATermAppl;
 import aterm.ATermList;
 import aterm.ATermPlaceholder;
-import aterm.Visitable;
 import aterm.Visitor;
 import java.util.List;
-import jjtraveler.VisitFailure;
 import shared.SharedObject;
 
 public class ATermApplImpl extends ATermImpl implements ATermAppl
 {
-	private AFun fun;
+	private AFun _fun;
 
-	private ATerm[] args;
+	private ATerm[] _args;
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param factory x
 	 */
-	protected ATermApplImpl(PureFactory factory)
+	protected ATermApplImpl(final PureFactory factory)
 	{
 		super(factory);
 	}
 
-	protected ATermApplImpl(PureFactory factory, ATermList annos, AFun fun, ATerm[] i_args)
+	protected ATermApplImpl(final PureFactory factory, final ATermList annos, final AFun fun, final ATerm[] i_args)
 	{
 		super(factory, annos);
 
-		this.fun = fun;
-		this.args = i_args;
+		_fun = fun;
+		_args = i_args;
 
 		setHashCode(hashFunction());
 	}
@@ -76,31 +74,31 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 	 * 
 	 * @param hashCode x
 	 * @param annos x
-	 * @param fun x
+	 * @param _fun x
 	 * @param i_args x
 	 */
-	protected void init(int hashCode, ATermList annos, AFun fun, ATerm[] i_args)
+	protected void init(final int hashCode, final ATermList annos, final AFun fun, final ATerm[] i_args)
 	{
 		super.init(hashCode, annos);
-		this.fun = fun;
-		this.args = new ATerm[i_args.length];
+		_fun = fun;
+		_args = new ATerm[i_args.length];
 
-		System.arraycopy(i_args, 0, args, 0, args.length);
+		System.arraycopy(i_args, 0, _args, 0, _args.length);
 	}
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param annos x
-	 * @param fun x
+	 * @param _fun x
 	 * @param i_args x
 	 */
-	protected void initHashCode(ATermList annos, AFun fun, ATerm[] i_args)
+	protected void initHashCode(final ATermList annos, final AFun fun, final ATerm[] i_args)
 	{
-		this.fun = fun;
-		this.args = i_args;
-		this.internSetAnnotations(annos);
-		this.setHashCode(this.hashFunction());
+		_fun = fun;
+		_args = i_args;
+		internSetAnnotations(annos);
+		setHashCode(hashFunction());
 	}
 
 	@Override
@@ -109,18 +107,18 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 		return this;
 	}
 
-	protected ATermAppl make(AFun fun, ATerm[] i_args, ATermList annos)
+	protected ATermAppl make(final AFun fun, final ATerm[] i_args, final ATermList annos)
 	{
 		return getPureFactory().makeAppl(fun, i_args, annos);
 	}
 
-	protected ATermAppl make(AFun fun, ATerm[] i_args)
+	protected ATermAppl make(final AFun fun, final ATerm[] i_args)
 	{
 		return make(fun, i_args, getPureFactory().makeList());
 	}
 
 	@Override
-	public boolean equivalent(SharedObject obj)
+	public boolean equivalent(final SharedObject obj)
 	{
 		if (obj instanceof ATermAppl)
 		{
@@ -128,11 +126,11 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 			if (peer.getType() != getType())
 				return false;
 
-			if (peer.getAFun().equals(fun))
+			if (peer.getAFun().equals(_fun))
 			{
-				for (int i = 0; i < args.length; i++)
+				for (int i = 0; i < _args.length; i++)
 				{
-					if (!peer.getArgument(i).equals(args[i])) { return false; }
+					if (!peer.getArgument(i).equals(_args[i])) { return false; }
 				}
 				return peer.getAnnotations().equals(getAnnotations());
 			}
@@ -141,12 +139,12 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 	}
 
 	@Override
-	protected boolean match(ATerm pattern, List<Object> list)
+	protected boolean match(final ATerm pattern, final List<Object> list)
 	{
 		if (pattern.getType() == APPL)
 		{
 			final ATermAppl appl = (ATermAppl) pattern;
-			if (fun.equals(appl.getAFun())) { return matchArguments(appl.getArgumentArray(), list); }
+			if (_fun.equals(appl.getAFun())) { return matchArguments(appl.getArgumentArray(), list); }
 			return false;
 		}
 
@@ -159,33 +157,33 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 				final AFun afun = appl.getAFun();
 				if (afun.getName().equals("appl") && !afun.isQuoted())
 				{
-					list.add(fun.getName());
+					list.add(_fun.getName());
 					return matchArguments(appl.getArgumentArray(), list);
 				}
 				else
 					if (afun.getName().equals("str") && !afun.isQuoted())
 					{
-						if (fun.isQuoted())
+						if (_fun.isQuoted())
 						{
-							list.add(fun.getName());
+							list.add(_fun.getName());
 							return matchArguments(appl.getArgumentArray(), list);
 						}
 					}
 					else
 						if (afun.getName().equals("fun") && !afun.isQuoted())
 						{
-							if (!fun.isQuoted())
+							if (!_fun.isQuoted())
 							{
-								list.add(fun.getName());
+								list.add(_fun.getName());
 								return matchArguments(appl.getArgumentArray(), list);
 							}
 						}
 						else
 							if (afun.getName().equals("id") && !afun.isQuoted())
 							{
-								if (!fun.isQuoted())
+								if (!_fun.isQuoted())
 								{
-									list.add(fun.getName());
+									list.add(_fun.getName());
 									return matchArguments(appl.getArgumentArray(), list);
 								}
 							}
@@ -195,13 +193,14 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 		return super.match(pattern, list);
 	}
 
-	boolean matchArguments(ATerm[] pattern_args, List<Object> list)
+	boolean matchArguments(final ATerm[] pattern_args, final List<Object> list)
 	{
-		for (int i = 0; i < args.length; i++)
+		for (int i = 0; i < _args.length; i++)
 		{
-			if (i >= pattern_args.length) { return false; }
+			if (i >= pattern_args.length)
+				return false;
 
-			final ATerm arg = args[i];
+			final ATerm arg = _args[i];
 			final ATerm pattern_arg = pattern_args[i];
 
 			if (pattern_arg.getType() == PLACEHOLDER)
@@ -213,10 +212,8 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 					if (appl.getName().equals("list") && appl.getArguments().isEmpty())
 					{
 						ATermList result = getPureFactory().getEmpty();
-						for (int j = args.length - 1; j >= i; j--)
-						{
-							result = result.insert(args[j]);
-						}
+						for (int j = _args.length - 1; j >= i; j--)
+							result = result.insert(_args[j]);
 						list.add(result);
 						return true;
 					}
@@ -224,23 +221,24 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 			}
 
 			final List<Object> submatches = arg.match(pattern_arg);
-			if (submatches == null) { return false; }
+			if (submatches == null)
+				return false;
 			list.addAll(submatches);
 		}
 
-		return args.length == pattern_args.length;
+		return _args.length == pattern_args.length;
 	}
 
 	@Override
 	public ATerm[] getArgumentArray()
 	{
-		return args;
+		return _args;
 	}
 
 	@Override
 	public AFun getAFun()
 	{
-		return fun;
+		return _fun;
 	}
 
 	@Override
@@ -248,54 +246,54 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 	{
 		ATermList result = getPureFactory().getEmpty();
 
-		for (int i = args.length - 1; i >= 0; i--)
+		for (int i = _args.length - 1; i >= 0; i--)
 		{
-			result = result.insert(args[i]);
+			result = result.insert(_args[i]);
 		}
 
 		return result;
 	}
 
 	@Override
-	public ATerm getArgument(int index)
+	public ATerm getArgument(final int index)
 	{
-		return args[index];
+		return _args[index];
 	}
 
 	@Override
-	public ATermAppl setArgument(ATerm newarg, int index)
+	public ATermAppl setArgument(final ATerm newarg, final int index)
 	{
-		final ATerm[] newargs = args.clone();
+		final ATerm[] newargs = _args.clone();
 		newargs[index] = newarg;
 
-		return make(fun, newargs, getAnnotations());
+		return make(_fun, newargs, getAnnotations());
 	}
 
 	@Override
 	public boolean isQuoted()
 	{
-		return fun.isQuoted();
+		return _fun.isQuoted();
 	}
 
 	@Override
 	public String getName()
 	{
-		return fun.getName();
+		return _fun.getName();
 	}
 
 	@Override
 	public int getArity()
 	{
-		return args.length;
+		return _args.length;
 	}
 
 	@Override
-	public ATerm make(List<Object> arguments)
+	public ATerm make(final List<Object> arguments)
 	{
-		final ATerm[] newargs = new ATerm[this.args.length];
-		for (int i = 0; i < args.length; i++)
+		final ATerm[] newargs = new ATerm[_args.length];
+		for (int i = 0; i < _args.length; i++)
 		{
-			newargs[i] = args[i].make(arguments);
+			newargs[i] = _args[i].make(arguments);
 		}
 
 		final PureFactory pf = getPureFactory();
@@ -310,17 +308,17 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 		}
 		final ATermList newAnnos = tempAnnos.reverse();
 
-		return getPureFactory().makeAppl(fun, newargs, newAnnos);
+		return getPureFactory().makeAppl(_fun, newargs, newAnnos);
 	}
 
 	@Override
-	public ATerm setAnnotations(ATermList annos)
+	public ATerm setAnnotations(final ATermList annos)
 	{
-		return getPureFactory().makeAppl(fun, args, annos);
+		return getPureFactory().makeAppl(_fun, _args, annos);
 	}
 
 	@Override
-	public Visitable accept(Visitor v) throws VisitFailure
+	public ATerm accept(final Visitor<ATerm> v)
 	{
 		return v.visitAppl(this);
 	}
@@ -328,17 +326,17 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 	@Override
 	public int getNrSubTerms()
 	{
-		return args.length;
+		return _args.length;
 	}
 
 	@Override
-	public ATerm getSubTerm(int index)
+	public ATerm getSubTerm(final int index)
 	{
-		return args[index];
+		return _args[index];
 	}
 
 	@Override
-	public ATerm setSubTerm(int index, ATerm t)
+	public ATerm setSubTerm(final int index, final ATerm t)
 	{
 		return setArgument(t, index);
 	}
@@ -435,7 +433,7 @@ public class ATermApplImpl extends ATermImpl implements ATermAppl
 	}
 
 	@SuppressWarnings({ "incomplete-switch", "fallthrough" })
-	static private int staticDoobs_hashFuntion(Object[] o)
+	static private int staticDoobs_hashFuntion(final Object[] o)
 	{
 		// System.out.println("static doobs_hashFuntion");
 

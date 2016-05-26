@@ -28,26 +28,52 @@
 
 package aterm;
 
-import jjtraveler.VisitFailure;
-
-public interface Visitor extends jjtraveler.Visitor
+/**
+ * Any visitor class should implement the Visitor interface.
+ */
+public interface Visitor<T extends ATerm>
 {
+	/**
+	 * Pay a visit to any visitable object.
+	 */
+	public T visit(final T any);
 
-	public aterm.Visitable visitATerm(ATerm arg) throws VisitFailure;
+	public T visitATerm(ATerm arg);
 
-	public aterm.Visitable visitInt(ATermInt arg) throws VisitFailure;
+	default T visitInt(final ATermInt arg)
+	{
+		return visitATerm(arg);
+	}
 
-	public aterm.Visitable visitLong(ATermLong arg) throws VisitFailure;
+	default T visitLong(final ATermLong arg)
+	{
+		return visitATerm(arg);
+	}
 
-	public aterm.Visitable visitReal(ATermReal arg) throws VisitFailure;
+	default T visitReal(final ATermReal arg)
+	{
+		return visitATerm(arg);
+	}
 
-	public aterm.Visitable visitAppl(ATermAppl arg) throws VisitFailure;
+	default T visitAppl(final ATermAppl arg)
+	{
+		return visitATerm(arg);
+	}
 
-	public aterm.Visitable visitList(ATermList arg) throws VisitFailure;
+	default T visitList(final ATermList arg)
+	{
+		return visitATerm(arg);
+	}
 
-	public aterm.Visitable visitPlaceholder(ATermPlaceholder arg) throws VisitFailure;
+	default T visitPlaceholder(final ATermPlaceholder arg)
+	{
+		return visitATerm(arg);
+	}
 
-	public aterm.Visitable visitBlob(ATermBlob arg) throws VisitFailure;
+	default T visitBlob(final ATermBlob arg)
+	{
+		return visitATerm(arg);
+	}
 
-	public aterm.Visitable visitAFun(AFun fun) throws VisitFailure;
+	public T visitAFun(final AFun fun);
 }

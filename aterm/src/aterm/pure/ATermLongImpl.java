@@ -34,31 +34,30 @@ import aterm.ATermAppl;
 import aterm.ATermList;
 import aterm.ATermLong;
 import aterm.ATermPlaceholder;
-import aterm.Visitable;
 import aterm.Visitor;
 import java.util.List;
-import jjtraveler.VisitFailure;
 import shared.SharedObject;
 
 public class ATermLongImpl extends ATermImpl implements ATermLong
 {
-	private long value;
+	private long _value;
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param factory x
 	 */
-	protected ATermLongImpl(PureFactory factory)
+	@Deprecated
+	protected ATermLongImpl(final PureFactory factory)
 	{
 		super(factory);
 	}
 
-	protected ATermLongImpl(PureFactory factory, ATermList annos, long value)
+	protected ATermLongImpl(final PureFactory factory, final ATermList annos, final long value)
 	{
 		super(factory, annos);
 
-		this.value = value;
+		_value = value;
 
 		setHashCode(hashFunction());
 	}
@@ -74,25 +73,25 @@ public class ATermLongImpl extends ATermImpl implements ATermLong
 	 * 
 	 * @param hashCode x
 	 * @param annos x
-	 * @param value x
+	 * @param _value x
 	 */
-	protected void init(int hashCode, ATermList annos, long value)
+	protected void init(final int hashCode, final ATermList annos, final long value)
 	{
 		super.init(hashCode, annos);
-		this.value = value;
+		_value = value;
 	}
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param annos x
-	 * @param value x
+	 * @param _value x
 	 */
-	protected void initHashCode(ATermList annos, long value)
+	protected void initHashCode(final ATermList annos, final long value)
 	{
-		this.value = value;
-		this.internSetAnnotations(annos);
-		this.setHashCode(this.hashFunction());
+		_value = value;
+		internSetAnnotations(annos);
+		setHashCode(hashFunction());
 	}
 
 	@Override
@@ -102,7 +101,7 @@ public class ATermLongImpl extends ATermImpl implements ATermLong
 	}
 
 	@Override
-	public boolean equivalent(SharedObject obj)
+	public boolean equivalent(final SharedObject obj)
 	{
 		if (obj instanceof ATermLong)
 		{
@@ -110,14 +109,14 @@ public class ATermLongImpl extends ATermImpl implements ATermLong
 			if (peer.getType() != getType())
 				return false;
 
-			return (peer.getLong() == value && peer.getAnnotations().equals(getAnnotations()));
+			return (peer.getLong() == _value && peer.getAnnotations().equals(getAnnotations()));
 		}
 
 		return false;
 	}
 
 	@Override
-	protected boolean match(ATerm pattern, List<Object> list)
+	protected boolean match(final ATerm pattern, final List<Object> list)
 	{
 		if (equals(pattern)) { return true; }
 
@@ -130,7 +129,7 @@ public class ATermLongImpl extends ATermImpl implements ATermLong
 				final AFun afun = appl.getAFun();
 				if (afun.getName().equals("long") && afun.getArity() == 0 && !afun.isQuoted())
 				{
-					list.add(new Long(value));
+					list.add(new Long(_value));
 					return true;
 				}
 			}
@@ -142,17 +141,17 @@ public class ATermLongImpl extends ATermImpl implements ATermLong
 	@Override
 	public long getLong()
 	{
-		return value;
+		return _value;
 	}
 
 	@Override
-	public ATerm setAnnotations(ATermList annos)
+	public ATerm setAnnotations(final ATermList annos)
 	{
-		return getPureFactory().makeLong(value, annos);
+		return getPureFactory().makeLong(_value, annos);
 	}
 
 	@Override
-	public Visitable accept(Visitor v) throws VisitFailure
+	public ATerm accept(final Visitor<ATerm> v)
 	{
 		return v.visitLong(this);
 	}
@@ -160,13 +159,13 @@ public class ATermLongImpl extends ATermImpl implements ATermLong
 	private int hashFunction()
 	{
 		/* Set up the internal state */
-		int a = 0x9e3779b9; /* the golden ratio; an arbitrary value */
-		int b = 0x9e3779b9; /* the golden ratio; an arbitrary value */
-		int c = 2; /* the previous hash value */
+		int a = 0x9e3779b9; /* the golden ratio; an arbitrary _value */
+		int b = 0x9e3779b9; /* the golden ratio; an arbitrary _value */
+		int c = 2; /* the previous hash _value */
 
 		/*------------------------------------- handle the last 11 bytes */
 		a += (getAnnotations().hashCode() << 8);
-		a += (value);
+		a += (_value);
 
 		a -= b;
 		a -= c;

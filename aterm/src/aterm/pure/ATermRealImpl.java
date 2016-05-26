@@ -34,32 +34,30 @@ import aterm.ATermAppl;
 import aterm.ATermList;
 import aterm.ATermPlaceholder;
 import aterm.ATermReal;
-import aterm.Visitable;
 import aterm.Visitor;
 import java.util.List;
-import jjtraveler.VisitFailure;
 import shared.HashFunctions;
 import shared.SharedObject;
 
 public class ATermRealImpl extends ATermImpl implements ATermReal
 {
-	private double value;
+	private double _value;
 
 	/**
 	 * depricated Use the new constructor instead.
 	 * 
 	 * @param factory x
 	 */
-	protected ATermRealImpl(PureFactory factory)
+	protected ATermRealImpl(final PureFactory factory)
 	{
 		super(factory);
 	}
 
-	protected ATermRealImpl(PureFactory factory, ATermList annos, double value)
+	protected ATermRealImpl(final PureFactory factory, final ATermList annos, final double value)
 	{
 		super(factory, annos);
 
-		this.value = value;
+		_value = value;
 
 		setHashCode(HashFunctions.doobs(new Object[] { annos, new Double(value) }));
 	}
@@ -75,12 +73,12 @@ public class ATermRealImpl extends ATermImpl implements ATermReal
 	 * 
 	 * @param hashCode x
 	 * @param annos x
-	 * @param value x
+	 * @param _value x
 	 */
-	protected void init(int hashCode, ATermList annos, double value)
+	protected void init(final int hashCode, final ATermList annos, final double value)
 	{
 		super.init(hashCode, annos);
-		this.value = value;
+		_value = value;
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class ATermRealImpl extends ATermImpl implements ATermReal
 	}
 
 	@Override
-	public boolean equivalent(SharedObject obj)
+	public boolean equivalent(final SharedObject obj)
 	{
 		if (obj instanceof ATermReal)
 		{
@@ -98,14 +96,14 @@ public class ATermRealImpl extends ATermImpl implements ATermReal
 			if (peer.getType() != getType())
 				return false;
 
-			return (peer.getReal() == value && peer.getAnnotations().equals(getAnnotations()));
+			return (peer.getReal() == _value && peer.getAnnotations().equals(getAnnotations()));
 		}
 
 		return false;
 	}
 
 	@Override
-	protected boolean match(ATerm pattern, List<Object> list)
+	protected boolean match(final ATerm pattern, final List<Object> list)
 	{
 		if (equals(pattern)) { return true; }
 
@@ -118,7 +116,7 @@ public class ATermRealImpl extends ATermImpl implements ATermReal
 				final AFun afun = appl.getAFun();
 				if (afun.getName().equals("real") && afun.getArity() == 0 && !afun.isQuoted())
 				{
-					list.add(new Double(value));
+					list.add(new Double(_value));
 					return true;
 				}
 			}
@@ -130,17 +128,17 @@ public class ATermRealImpl extends ATermImpl implements ATermReal
 	@Override
 	public double getReal()
 	{
-		return value;
+		return _value;
 	}
 
 	@Override
-	public ATerm setAnnotations(ATermList annos)
+	public ATerm setAnnotations(final ATermList annos)
 	{
-		return getPureFactory().makeReal(value, annos);
+		return getPureFactory().makeReal(_value, annos);
 	}
 
 	@Override
-	public Visitable accept(Visitor v) throws VisitFailure
+	public ATerm accept(final Visitor<ATerm> v)
 	{
 		return v.visitReal(this);
 	}

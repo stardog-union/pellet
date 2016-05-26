@@ -28,7 +28,26 @@
 
 package aterm;
 
-public interface Visitable extends jjtraveler.Visitable
+public interface Visitable
 {
-	public aterm.Visitable accept(aterm.Visitor visitor) throws jjtraveler.VisitFailure;
+	/**
+	 * Returns the number of children of any visitable.
+	 */
+	public int getChildCount();
+
+	/**
+	 * Returns the ith child of any visitable. Counting starts
+	 * at 0. Thus, to get the last child of a visitable with n
+	 * children, use getChild(n-1).
+	 */
+	public ATerm getChildAt(final int i);
+
+	/**
+	 * Replaces the ith child of any visitable, and returns this
+	 * visitable. Counting starts at 0. Thus, to set the last child of
+	 * a visitable with n children, use setChild(n-1).
+	 */
+	public ATerm setChildAt(final int i, final ATerm child);
+
+	public ATerm accept(final Visitor<ATerm> visitor);
 }
