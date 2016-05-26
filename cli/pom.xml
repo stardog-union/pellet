@@ -2,31 +2,31 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.clarkparsia.pellet</groupId>
-		<artifactId>pellet-parent</artifactId>
-		<version>2.5.1-galigator-SNAPSHOT</version>
+		<groupId>com.github.galigator.openllet</groupId>
+		<artifactId>openllet-parent</artifactId>
+		<version>2.5.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>pellet-cli</artifactId>
+	<artifactId>openllet-cli</artifactId>
 	<name>Openllet :: CLI</name>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-owlapi</artifactId>
+			<artifactId>openllet-owlapi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-pellint</artifactId>
+			<artifactId>openllet-pellint</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-modularity</artifactId>
+			<artifactId>openllet-modularity</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-explanation</artifactId>
+			<artifactId>openllet-explanation</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

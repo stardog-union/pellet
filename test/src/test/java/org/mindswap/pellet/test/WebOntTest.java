@@ -102,7 +102,52 @@ public class WebOntTest
 	 * large number restriction. Such cases are not very realistic and it is not considered to be a problem to fail those test cases. But if Pellet fails on one
 	 * of the other test cases then it indicates a problem.
 	 */
-	final static List<Resource> AVOID = Arrays.asList(new Resource[] { ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Class/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/DatatypeProperty/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest661#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest662#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest663#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest664#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest903#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest905#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest906#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest907#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest908#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest909#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest910#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/disjointWith/Manifest010#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentClass/Manifest008#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentProperty/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest004#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.1/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.24/Manifest002#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest007#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest014#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest015#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest004#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest007#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest012#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest017#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest202#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest205#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest302#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Ontology/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest005#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest006#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/sameAs/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest001#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest003#test"), ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Thing/Manifest005#test") });
+	final static List<Resource> AVOID = Arrays.asList(new Resource[] { 
+	ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest001#test"),//
+	ResourceFactory.createResource("http://www.w3.org/2002/03owlt/AnnotationProperty/Manifest002#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Class/Manifest005#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/DatatypeProperty/Manifest001#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest661#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest662#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest663#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest664#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest903#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest905#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest906#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest907#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest908#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest909#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/description-logic/Manifest910#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/disjointWith/Manifest010#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentClass/Manifest008#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/equivalentProperty/Manifest005#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest002#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest003#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/extra-credit/Manifest004#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest003#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I4.6/Manifest005#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.1/Manifest001#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.24/Manifest002#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest006#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.26/Manifest007#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest014#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.3/Manifest015#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest003#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest004#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest006#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.5/Manifest007#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest012#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/I5.8/Manifest017#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest202#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest205#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/miscellaneous/Manifest302#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Ontology/Manifest003#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest005#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Restriction/Manifest006#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/sameAs/Manifest001#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest001#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/someValuesFrom/Manifest003#test"),//
+	 ResourceFactory.createResource("http://www.w3.org/2002/03owlt/Thing/Manifest005#test") });
 
 	int syntacticTestCount = 0;
 	int syntacticTestPass = 0;
@@ -274,8 +319,8 @@ public class WebOntTest
 
 			// Create system description
 			final Resource system = ResourceFactory.createResource();
-			outputModel.add(system, RDFS.label, "Pellet");
-			outputModel.add(system, RDFS.comment, "This was generated by the Pellet reasoner which can be found at http://pellet.owldl.com/");
+			outputModel.add(system, RDFS.label, "Openllet");
+			outputModel.add(system, RDFS.comment, "This was generated by the Openllet reasoner which can be found at http://pellet.owldl.com/");
 
 			model.read(manifestFile, "");
 

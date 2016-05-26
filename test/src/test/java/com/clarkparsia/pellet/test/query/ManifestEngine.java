@@ -43,7 +43,7 @@ import org.mindswap.pellet.utils.VersionInfo;
  * Copyright: Copyright (c) 2007
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * Company: Clark & Parsia, LLC.
  * </p>
  *
  * @author Petr Kremen
@@ -130,12 +130,12 @@ public class ManifestEngine
 
 		// assertor
 		final Resource organization = model.createResource(FOAF.Organization);
-		model.add(organization, FOAF.name, "Clark & Parsia, LLC");
-		model.add(organization, FOAF.homepage, "http://www.clarkparsia.com/");
+		model.add(organization, FOAF.name, "No organization");
+		model.add(organization, FOAF.homepage, "https://github.com/Galigator/openllet");
 
 		// project
-		final Resource project = model.createResource("http://pellet.owldl.com/", EarlResultVocabulary.Project);
-		model.add(project, EarlResultVocabulary.doapName, "Pellet");
+		final Resource project = model.createResource("https://github.com/Galigator/openllet", EarlResultVocabulary.Project);
+		model.add(project, EarlResultVocabulary.doapName, "Openllet");
 
 		final Resource release = model.createResource(EarlResultVocabulary.Version);
 

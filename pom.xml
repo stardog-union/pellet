@@ -1,20 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-<!-- Deprecated
-  <parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>7</version>
-  </parent>
--->
-  <groupId>com.clarkparsia.pellet</groupId>
-  <artifactId>pellet-parent</artifactId>
-  <version>2.5.1-galigator-SNAPSHOT</version>
+  <groupId>com.github.galigator.openllet</groupId>
+  <artifactId>openllet-parent</artifactId>
+  <version>2.5.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Openllet :: Parent POM</name>
-  <description>Openllet is the future of Clark and Parsia Pellet OWL Reasoner</description>
-  <url>https://github.com/Galigator/pellet</url>
+  <description>Openllet is open-source future of Pellet OWL Reasoner</description>
+  <url>https://github.com/Galigator/openllet</url>
   <licenses>
     <license>
       <name>GNU Affero General Public License 3.0</name>

@@ -9,16 +9,16 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * <p>
- * Title: Pellet OWLAPI Test Runner
+ * Title: Openllet OWLAPI Test Runner
  * </p>
  * <p>
- * Description: Pellet 2.0 based test case runner using alpha OWLAPI support.
+ * Description: Openllet 2.0 based test case runner using alpha OWLAPI support.
  * </p>
  * <p>
  * Copyright: Copyright &copy; 2009
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
+ * Company: Clark & Parsia, LLC.
  * </p>
  * 
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
@@ -39,7 +39,7 @@ public class PelletOA3TestRunner extends OwlApiAbstractRunner
 	@Override
 	public String getName()
 	{
-		return "Pellet";
+		return "Openllet";
 	}
 
 	@Override

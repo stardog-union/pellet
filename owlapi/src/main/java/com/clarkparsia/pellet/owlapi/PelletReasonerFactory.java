@@ -25,7 +25,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
  * Copyright: Copyright (c) 2007
  * </p>
  * <p>
- * Company: Clark & Parsia, LLC. <http://www.clarkparsia.com>
+ * Company: Clark & Parsia, LLC.
  * </p>
  *
  * @author Evren Sirin
@@ -50,7 +50,7 @@ public class PelletReasonerFactory implements OWLReasonerFactory
 	@Override
 	public String getReasonerName()
 	{
-		return "Pellet";
+		return "Openllet";
 	}
 
 	@Override

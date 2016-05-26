@@ -2,16 +2,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.clarkparsia.pellet</groupId>
-		<artifactId>pellet-parent</artifactId>
-		<version>2.5.1-galigator-SNAPSHOT</version>
+		<groupId>com.github.galigator.openllet</groupId>
+		<artifactId>openllet-parent</artifactId>
+		<version>2.5.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>pellet-query</artifactId>
+        
+	<artifactId>openllet-query</artifactId>
 	<name>Openllet :: Query</name>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-core</artifactId>
+			<artifactId>openllet-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -20,7 +21,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-jena</artifactId>
+			<artifactId>openllet-jena</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

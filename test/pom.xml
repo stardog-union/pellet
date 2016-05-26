@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.clarkparsia.pellet</groupId>
-		<artifactId>pellet-parent</artifactId>
-		<version>2.5.1-galigator-SNAPSHOT</version>
+		<groupId>com.github.galigator.openllet</groupId>
+		<artifactId>openllet-parent</artifactId>
+		<version>2.5.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>pellet-test</artifactId>
+	<artifactId>openllet-test</artifactId>
 	<name>Openllet :: Tests</name>
 
 	<dependencies>
@@ -19,43 +19,43 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-pellint</artifactId>
+			<artifactId>openllet-pellint</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-jena</artifactId>
+			<artifactId>openllet-jena</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-owlapi</artifactId>
+			<artifactId>openllet-owlapi</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-modularity</artifactId>
+			<artifactId>openllet-modularity</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-query</artifactId>
+			<artifactId>openllet-query</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-explanation</artifactId>
+			<artifactId>openllet-explanation</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>pellet-cli</artifactId>
+			<artifactId>openllet-cli</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
