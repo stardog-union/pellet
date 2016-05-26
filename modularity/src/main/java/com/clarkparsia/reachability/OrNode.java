@@ -12,25 +12,25 @@ package com.clarkparsia.reachability;
 public class OrNode extends Node
 {
 
-	private final int id;
+	private final int _id;
 
-	private boolean active = false;
+	private boolean _active = false;
 
 	public OrNode(final int id)
 	{
-		this.id = id;
+		this._id = id;
 	}
 
 	@Override
 	public boolean inputActivated()
 	{
-		return active ? false : (active = true);
+		return _active ? false : (_active = true);
 	}
 
 	@Override
 	public boolean isActive()
 	{
-		return active;
+		return _active;
 	}
 
 	@Override
@@ -49,12 +49,12 @@ public class OrNode extends Node
 	@Override
 	public void reset()
 	{
-		active = false;
+		_active = false;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Or(" + id + ")[" + (active ? "1" : "0") + "]";
+		return "Or(" + _id + ")[" + (_active ? "1" : "0") + "]";
 	}
 }

@@ -35,13 +35,13 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class ConceptConverter extends ATermBaseVisitor
 {
-	private final Graph graph;
-	private Node subj;
-	private Node obj;
+	private final Graph _graph;
+	private Node _subj;
+	private Node _obj;
 
 	public ConceptConverter(final Graph g)
 	{
-		graph = g;
+		_graph = g;
 	}
 
 	public Node convert(final ATerm term)
@@ -51,35 +51,35 @@ public class ConceptConverter extends ATermBaseVisitor
 
 	public Node convert(final ATerm term, final Node s)
 	{
-		final Node prevSubj = subj;
-		subj = s;
-		obj = null;
+		final Node prevSubj = _subj;
+		_subj = s;
+		_obj = null;
 
 		if (term instanceof ATermAppl)
 			visit((ATermAppl) term);
 		else
 			if (term instanceof ATermInt)
-				obj = NodeFactory.createLiteral(term.toString(), null, XSDDatatype.XSDnonNegativeInteger);
+				_obj = NodeFactory.createLiteral(term.toString(), null, XSDDatatype.XSDnonNegativeInteger);
 			else
 				if (term instanceof ATermList)
 					visitList((ATermList) term);
 				else
 					throw new IllegalArgumentException(term.toString());
 
-		subj = prevSubj;
+		_subj = prevSubj;
 
-		return obj;
+		return _obj;
 	}
 
 	public Node getResult()
 	{
-		return obj;
+		return _obj;
 	}
 
 	@Override
 	public void visitTerm(final ATermAppl term)
 	{
-		obj = JenaUtils.makeGraphNode(term);
+		_obj = JenaUtils.makeGraphNode(term);
 	}
 
 	private void createClassExpression(final Property p)
@@ -94,13 +94,13 @@ public class ConceptConverter extends ATermBaseVisitor
 
 	private void createExpression(final Property p)
 	{
-		if (subj != null)
-			TripleAdder.add(graph, subj, p, obj);
+		if (_subj != null)
+			TripleAdder.add(_graph, _subj, p, _obj);
 		else
 		{
-			final Node c = NodeFactory.createAnon();
-			TripleAdder.add(graph, c, p, obj);
-			obj = c;
+			final Node c = NodeFactory.createBlankNode();
+			TripleAdder.add(_graph, c, p, _obj);
+			_obj = c;
 		}
 	}
 
@@ -134,25 +134,25 @@ public class ConceptConverter extends ATermBaseVisitor
 
 		final Node qual = convert(term.getArgument(2));
 		if (!ATermUtils.isTop((ATermAppl) term.getArgument(2)))
-			TripleAdder.add(graph, restr, OWL2.onClass, qual);
+			TripleAdder.add(_graph, restr, OWL2.onClass, qual);
 
-		obj = restr;
+		_obj = restr;
 
 		return restr;
 	}
 
 	private Node createRestriction(final ATermAppl term, final Property restrType)
 	{
-		final Node restr = NodeFactory.createAnon();
+		final Node restr = NodeFactory.createBlankNode();
 
 		final Node prop = convert(term.getArgument(0));
 		final Node val = convert(term.getArgument(1));
 
-		TripleAdder.add(graph, restr, RDF.type, OWL.Restriction);
-		TripleAdder.add(graph, restr, OWL.onProperty, prop);
-		TripleAdder.add(graph, restr, restrType, val);
+		TripleAdder.add(_graph, restr, RDF.type, OWL.Restriction);
+		TripleAdder.add(_graph, restr, OWL.onProperty, prop);
+		TripleAdder.add(_graph, restr, restrType, val);
 
-		obj = restr;
+		_obj = restr;
 
 		return restr;
 	}
@@ -202,15 +202,15 @@ public class ConceptConverter extends ATermBaseVisitor
 	@Override
 	public void visitSelf(final ATermAppl term)
 	{
-		final Node restr = NodeFactory.createAnon();
+		final Node restr = NodeFactory.createBlankNode();
 
 		final Node prop = convert(term.getArgument(0));
 
-		TripleAdder.add(graph, restr, RDF.type, OWL.Restriction);
-		TripleAdder.add(graph, restr, OWL.onProperty, prop);
-		TripleAdder.add(graph, restr, OWL2.hasSelf, JenaUtils.XSD_BOOLEAN_TRUE);
+		TripleAdder.add(_graph, restr, RDF.type, OWL.Restriction);
+		TripleAdder.add(_graph, restr, OWL.onProperty, prop);
+		TripleAdder.add(_graph, restr, OWL2.hasSelf, JenaUtils.XSD_BOOLEAN_TRUE);
 
-		obj = restr;
+		_obj = restr;
 	}
 
 	@Override
@@ -228,47 +228,47 @@ public class ConceptConverter extends ATermBaseVisitor
 	@Override
 	public void visitLiteral(final ATermAppl term)
 	{
-		obj = JenaUtils.makeGraphNode(term);
+		_obj = JenaUtils.makeGraphNode(term);
 	}
 
 	@Override
 	public void visitList(final ATermList list)
 	{
 		if (list.isEmpty())
-			obj = RDF.nil.asNode();
+			_obj = RDF.nil.asNode();
 		else
 		{
-			final Node rdfList = NodeFactory.createAnon();
+			final Node rdfList = NodeFactory.createBlankNode();
 
 			final Node first = convert(list.getFirst());
-			TripleAdder.add(graph, rdfList, RDF.first, first);
+			TripleAdder.add(_graph, rdfList, RDF.first, first);
 
 			visitList(list.getNext());
-			TripleAdder.add(graph, rdfList, RDF.rest, obj);
+			TripleAdder.add(_graph, rdfList, RDF.rest, _obj);
 
-			obj = rdfList;
+			_obj = rdfList;
 		}
 	}
 
 	@Override
 	public void visitInverse(final ATermAppl term)
 	{
-		final Node node = NodeFactory.createAnon();
+		final Node node = NodeFactory.createBlankNode();
 
 		final Node prop = convert(term.getArgument(0));
 
-		TripleAdder.add(graph, node, OWL.inverseOf, prop);
+		TripleAdder.add(_graph, node, OWL.inverseOf, prop);
 
-		obj = node;
+		_obj = node;
 	}
 
 	@Override
 	public void visitRestrictedDatatype(final ATermAppl dt)
 	{
-		final Node def = NodeFactory.createAnon();
+		final Node def = NodeFactory.createBlankNode();
 
-		TripleAdder.add(graph, def, RDF.type, RDFS.Datatype);
-		TripleAdder.add(graph, def, OWL2.onDatatype, JenaUtils.makeGraphNode((ATermAppl) dt.getArgument(0)));
+		TripleAdder.add(_graph, def, RDF.type, RDFS.Datatype);
+		TripleAdder.add(_graph, def, OWL2.onDatatype, JenaUtils.makeGraphNode((ATermAppl) dt.getArgument(0)));
 
 		Node list = null;
 		ATermList restrictions = (ATermList) dt.getArgument(1);
@@ -276,19 +276,19 @@ public class ConceptConverter extends ATermBaseVisitor
 		{
 			final ATermAppl facet = (ATermAppl) restrictions.getFirst();
 
-			final Node facetNode = NodeFactory.createAnon();
-			TripleAdder.add(graph, facetNode, JenaUtils.makeGraphNode((ATermAppl) facet.getArgument(0)), JenaUtils.makeGraphNode((ATermAppl) facet.getArgument(1)));
+			final Node facetNode = NodeFactory.createBlankNode();
+			TripleAdder.add(_graph, facetNode, JenaUtils.makeGraphNode((ATermAppl) facet.getArgument(0)), JenaUtils.makeGraphNode((ATermAppl) facet.getArgument(1)));
 
-			final Node newList = NodeFactory.createAnon();
-			TripleAdder.add(graph, newList, RDF.first, facetNode);
+			final Node newList = NodeFactory.createBlankNode();
+			TripleAdder.add(_graph, newList, RDF.first, facetNode);
 			if (list != null)
-				TripleAdder.add(graph, list, RDF.rest, newList);
+				TripleAdder.add(_graph, list, RDF.rest, newList);
 			else
-				TripleAdder.add(graph, def, OWL2.withRestrictions, newList);
+				TripleAdder.add(_graph, def, OWL2.withRestrictions, newList);
 			list = newList;
 		}
-		TripleAdder.add(graph, list, RDF.rest, RDF.nil);
+		TripleAdder.add(_graph, list, RDF.rest, RDF.nil);
 
-		obj = def;
+		_obj = def;
 	}
 }

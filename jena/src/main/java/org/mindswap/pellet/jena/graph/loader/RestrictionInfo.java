@@ -27,64 +27,64 @@ import org.mindswap.pellet.utils.Bool;
  */
 public class RestrictionInfo
 {
-	private Node type;
-	private Node predicate;
-	private Node filler;
-	private Node detail;
-	private Bool isObjectRestriction = Bool.UNKNOWN;
+	private Node _type;
+	private Node _predicate;
+	private Node _filler;
+	private Node _detail;
+	private Bool _isObjectRestriction = Bool.UNKNOWN;
 
 	public RestrictionInfo(final Node predicate)
 	{
-		this.predicate = predicate;
+		this._predicate = predicate;
 	}
 
 	public Node getType()
 	{
-		return type;
+		return _type;
 	}
 
 	public void setType(final Node type)
 	{
-		this.type = type;
+		this._type = type;
 	}
 
 	public Node getPredicate()
 	{
-		return predicate;
+		return _predicate;
 	}
 
 	public void setPredicate(final Node predicate)
 	{
-		this.predicate = predicate;
+		this._predicate = predicate;
 	}
 
 	public Node getFiller()
 	{
-		return filler;
+		return _filler;
 	}
 
 	public void setFiller(final Node filler)
 	{
-		this.filler = filler;
+		this._filler = filler;
 	}
 
 	public Node getDetail()
 	{
-		return detail;
+		return _detail;
 	}
 
 	public void setDetail(final Node detail)
 	{
-		this.detail = detail;
+		this._detail = detail;
 	}
 
 	public Bool isObjectRestriction()
 	{
-		return isObjectRestriction;
+		return _isObjectRestriction;
 	}
 
 	public void setObjectRestriction(final boolean isObjectRestriction)
 	{
-		this.isObjectRestriction = Bool.create(isObjectRestriction);
+		this._isObjectRestriction = Bool.create(isObjectRestriction);
 	}
 }

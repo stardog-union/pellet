@@ -128,10 +128,10 @@ public enum BuiltinTerm
 		return builtin != null && builtin.isSyntax();
 	}
 
-	private Node node;
-	private boolean isABox;
-	private boolean isPredicate;
-	private boolean isSyntax;
+	private Node _node;
+	private boolean _isABox;
+	private boolean _isPredicate;
+	private boolean _isSyntax;
 
 	BuiltinTerm(final Resource resource)
 	{
@@ -145,34 +145,34 @@ public enum BuiltinTerm
 
 	BuiltinTerm(final Resource resource, final boolean isSyntax, final boolean isABox)
 	{
-		this.node = resource.asNode();
-		this.isSyntax = isSyntax;
-		this.isPredicate = resource instanceof Property;
-		this.isABox = isABox;
+		this._node = resource.asNode();
+		this._isSyntax = isSyntax;
+		this._isPredicate = resource instanceof Property;
+		this._isABox = isABox;
 	}
 
 	public boolean isABox()
 	{
-		return isABox;
+		return _isABox;
 	}
 
 	public boolean isSyntax()
 	{
-		return isSyntax;
+		return _isSyntax;
 	}
 
 	public boolean isPredicate()
 	{
-		return isPredicate;
+		return _isPredicate;
 	}
 
 	public Node getNode()
 	{
-		return node;
+		return _node;
 	}
 
 	public String getURI()
 	{
-		return node.getURI();
+		return _node.getURI();
 	}
 }

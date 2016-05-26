@@ -17,14 +17,14 @@ import java.util.Set;
  *
  * @author Evren Sirin
  */
-public class PairSet<T> extends AbstractSet<T> implements Set<T>
+public class PairSet<T> extends AbstractSet<T>
 {
 
-	private final Set<T> firstSet;
+	private final Set<T> _firstSet;
 
-	private final Set<T> secondSet;
+	private final Set<T> _secondSet;
 
-	private final int size;
+	private final int _size;
 
 	/**
 	 * Iterate through first and second set filtering any duplicates that might be in both sets. We always iterate through the large set first because every
@@ -34,7 +34,7 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T>
 	{
 
 		/**
-		 * The first set we iterate over (not necessarily same as firstSet)
+		 * The first set we iterate over (not necessarily same as _firstSet)
 		 */
 		private Set<T> firstIteratedSet;
 
@@ -56,17 +56,17 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T>
 		public PairIterator()
 		{
 			// iterate over the large set first
-			if (firstSet.size() < secondSet.size())
+			if (_firstSet.size() < _secondSet.size())
 			{
-				firstIteratedSet = firstSet;
-				firstIterator = firstSet.iterator();
-				secondIterator = secondSet.iterator();
+				firstIteratedSet = _firstSet;
+				firstIterator = _firstSet.iterator();
+				secondIterator = _secondSet.iterator();
 			}
 			else
 			{
-				firstIteratedSet = secondSet;
-				firstIterator = secondSet.iterator();
-				secondIterator = firstSet.iterator();
+				firstIteratedSet = _secondSet;
+				firstIterator = _secondSet.iterator();
+				secondIterator = _firstSet.iterator();
 			}
 
 			// find the next element to return
@@ -123,24 +123,24 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T>
 
 	public PairSet(final Set<T> first, final Set<T> second)
 	{
-		firstSet = first;
-		secondSet = second;
+		_firstSet = first;
+		_secondSet = second;
 
-		size = computeUnionSize();
+		_size = computeUnionSize();
 	}
 
 	private int computeUnionSize()
 	{
-		int size = firstSet.size() + secondSet.size();
-		if (firstSet.size() < secondSet.size())
+		int size = _firstSet.size() + _secondSet.size();
+		if (_firstSet.size() < _secondSet.size())
 		{
-			for (final T e : firstSet)
-				if (secondSet.contains(e))
+			for (final T e : _firstSet)
+				if (_secondSet.contains(e))
 					size--;
 		}
 		else
-			for (final T e : secondSet)
-				if (firstSet.contains(e))
+			for (final T e : _secondSet)
+				if (_firstSet.contains(e))
 					size--;
 
 		return size;
@@ -155,7 +155,7 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T>
 	@Override
 	public boolean contains(final Object o)
 	{
-		return firstSet.contains(o) || secondSet.contains(o);
+		return _firstSet.contains(o) || _secondSet.contains(o);
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class PairSet<T> extends AbstractSet<T> implements Set<T>
 	@Override
 	public int size()
 	{
-		return size;
+		return _size;
 	}
 
 }

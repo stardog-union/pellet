@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import net.katk.tools.Log;
 
 /**
- * Computes reachability in a directed graph with and/or _nodes.
+ * Computes reachability in a directed _graph with and/or _nodes.
  *
  * @author Evren Sirin
  */
@@ -24,30 +24,30 @@ public class Reachability<E>
 
 	public static final Logger _logger = Log.getLogger(Reachability.class);
 
-	private final ReachabilityGraph<E> graph;
+	private final ReachabilityGraph<E> _graph;
 
-	private Set<E> activatedEntities;
+	private Set<E> _activatedEntities;
 
-	private Set<Node> affectedNodes;
+	private Set<Node> _affectedNodes;
 
-	private Queue<Node> waitingQueue;
+	private Queue<Node> _waitingQueue;
 
 	public Reachability(final ReachabilityGraph<E> graph)
 	{
-		this.graph = graph;
+		this._graph = graph;
 	}
 
 	public ReachabilityGraph<E> getGraph()
 	{
-		return graph;
+		return _graph;
 	}
 
 	private void reset()
 	{
-		activatedEntities = new HashSet<>();
-		affectedNodes = new HashSet<>();
-		waitingQueue = new LinkedList<>();
-		waitingQueue.add(graph.getStartNode());
+		_activatedEntities = new HashSet<>();
+		_affectedNodes = new HashSet<>();
+		_waitingQueue = new LinkedList<>();
+		_waitingQueue.add(_graph.getStartNode());
 	}
 
 	private void activateNode(final EntityNode<E> node)
@@ -55,9 +55,9 @@ public class Reachability<E>
 		if (node.isActive())
 			throw new IllegalStateException();
 
-		affectedNodes.add(node);
-		activatedEntities.addAll(node.getEntities());
-		waitingQueue.add(node);
+		_affectedNodes.add(node);
+		_activatedEntities.addAll(node.getEntities());
+		_waitingQueue.add(node);
 
 		node.inputActivated();
 
@@ -67,7 +67,7 @@ public class Reachability<E>
 
 	public boolean contains(final E entity)
 	{
-		return graph.getNode(entity) != null;
+		return _graph.getNode(entity) != null;
 	}
 
 	public Set<E> computeReachable(final Iterable<E> initialEntities)
@@ -76,16 +76,16 @@ public class Reachability<E>
 
 		for (final E initialEntity : initialEntities)
 		{
-			final EntityNode<E> initialNode = graph.getNode(initialEntity);
+			final EntityNode<E> initialNode = _graph.getNode(initialEntity);
 			if (initialNode == null)
 				throw new IllegalArgumentException("Unknown entity: " + initialEntity);
 			if (!initialNode.isActive())
 				activateNode(initialNode);
 		}
 
-		while (!waitingQueue.isEmpty())
+		while (!_waitingQueue.isEmpty())
 		{
-			final Node node = waitingQueue.poll();
+			final Node node = _waitingQueue.poll();
 
 			assert node.isActive();
 
@@ -98,24 +98,24 @@ public class Reachability<E>
 					continue;
 				}
 
-				affectedNodes.add(outputNode);
+				_affectedNodes.add(outputNode);
 
 				if (outputNode.inputActivated())
 				{
 					if (_logger.isLoggable(Level.FINE))
 						_logger.fine("Activated: " + outputNode);
 
-					waitingQueue.add(outputNode);
+					_waitingQueue.add(outputNode);
 					if (outputNode instanceof EntityNode)
-						activatedEntities.addAll(entityNode(outputNode).getEntities());
+						_activatedEntities.addAll(entityNode(outputNode).getEntities());
 				}
 			}
 		}
 
-		for (final Node node : affectedNodes)
+		for (final Node node : _affectedNodes)
 			node.reset();
 
-		return activatedEntities;
+		return _activatedEntities;
 	}
 
 	@SuppressWarnings("unchecked")

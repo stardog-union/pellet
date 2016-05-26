@@ -13,15 +13,15 @@ public class AndNode extends Node
 {
 
 	//	private final int	activationLimit;
-	private int activatedInputs;
+	private int _activatedInputs;
 
-	private final int id;
+	private final int _id;
 
 	public AndNode(final int id)
 	{
-		this.id = id;
+		this._id = id;
 		//		this.activationLimit = activationLimit;
-		this.activatedInputs = 0;
+		this._activatedInputs = 0;
 
 		//		if( activationLimit < 2 )
 		//			throw new IllegalArgumentException();
@@ -30,16 +30,16 @@ public class AndNode extends Node
 	@Override
 	public boolean inputActivated()
 	{
-		//		if( activatedInputs >= activationLimit )
+		//		if( _activatedInputs >= activationLimit )
 		//			throw new IllegalStateException();
 
-		return (++activatedInputs == inputs.size());
+		return (++_activatedInputs == inputs.size());
 	}
 
 	@Override
 	public boolean isActive()
 	{
-		return (activatedInputs == inputs.size());
+		return (_activatedInputs == inputs.size());
 	}
 
 	@Override
@@ -51,12 +51,12 @@ public class AndNode extends Node
 	@Override
 	public void reset()
 	{
-		activatedInputs = 0;
+		_activatedInputs = 0;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "And(" + id + ")[" + activatedInputs + "," + inputs.size() + "]";
+		return "And(" + _id + ")[" + _activatedInputs + "," + inputs.size() + "]";
 	}
 }

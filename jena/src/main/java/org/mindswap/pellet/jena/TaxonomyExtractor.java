@@ -22,33 +22,33 @@ import org.mindswap.pellet.taxonomy.TaxonomyNode;
 import org.mindswap.pellet.utils.TaxonomyUtils;
 
 /**
- * Extracts a Jena Model from a Taxonomy (i.e., creates a Model that contains only the classes in the taxonomy and the subclass relationships among them).
+ * Extracts a Jena Model from a Taxonomy (i.e., creates a Model that contains only the classes in the _taxonomy and the subclass relationships among them).
  *
  * @author Blazej Bulka
  */
 public class TaxonomyExtractor
 {
-	private final Taxonomy<ATermAppl> taxonomy;
-	private Model model;
-	private boolean includeIndividuals;
+	private final Taxonomy<ATermAppl> _taxonomy;
+	private Model _model;
+	private boolean _includeIndividuals;
 
 	public TaxonomyExtractor(final Taxonomy<ATermAppl> taxonomy)
 	{
-		this.taxonomy = taxonomy;
-		this.includeIndividuals = false;
+		this._taxonomy = taxonomy;
+		this._includeIndividuals = false;
 	}
 
 	public void setIncludeIndividuals(final boolean includeIndividuals)
 	{
-		this.includeIndividuals = includeIndividuals;
+		this._includeIndividuals = includeIndividuals;
 	}
 
 	public Model extractModel()
 	{
-		if (model == null)
-			model = createExtractedModel();
+		if (_model == null)
+			_model = createExtractedModel();
 
-		return model;
+		return _model;
 	}
 
 	private Model createExtractedModel()
@@ -57,7 +57,7 @@ public class TaxonomyExtractor
 
 		final HashSet<ATermAppl> processedEquivalentClasses = new HashSet<>();
 
-		for (final TaxonomyNode<ATermAppl> taxonomyNode : taxonomy.getNodes())
+		for (final TaxonomyNode<ATermAppl> taxonomyNode : _taxonomy.getNodes())
 		{
 			if (processedEquivalentClasses.contains(taxonomyNode.getName()))
 				continue;
@@ -76,7 +76,7 @@ public class TaxonomyExtractor
 						if (!equivalentClass.equals(aClass))
 							model.add(equivalentClassAssertion(model, aClass, equivalentClass));
 
-				if (includeIndividuals)
+				if (_includeIndividuals)
 				{
 					final Collection<ATermAppl> individuals = (Collection<ATermAppl>) taxonomyNode.getDatum(TaxonomyUtils.INSTANCES_KEY);
 

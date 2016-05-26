@@ -35,28 +35,28 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
 public class PelletGraphListener implements GraphListener
 {
 	// KB object - used for incremental ABox changes
-	private final KnowledgeBase kb;
+	private final KnowledgeBase _kb;
 
-	private final Graph rootGraph;
+	private final Graph _rootGraph;
 
-	private Set<Graph> leafGraphs;
+	private Set<Graph> _leafGraphs;
 
-	private final Set<Graph> changedGraphs;
+	private final Set<Graph> _changedGraphs;
 
-	private boolean statementDeleted;
+	private boolean _statementDeleted;
 
-	private boolean enabled;
+	private boolean _enabled;
 
 	public PelletGraphListener(final Graph rootGraph, final KnowledgeBase kb, final boolean enabled)
 	{
-		this.rootGraph = rootGraph;
-		this.kb = kb;
-		this.enabled = enabled;
+		this._rootGraph = rootGraph;
+		this._kb = kb;
+		this._enabled = enabled;
 
-		leafGraphs = CollectionUtils.makeSet();
-		changedGraphs = CollectionUtils.makeSet();
+		_leafGraphs = CollectionUtils.makeSet();
+		_changedGraphs = CollectionUtils.makeSet();
 
-		statementDeleted = false;
+		_statementDeleted = false;
 
 		if (enabled)
 			collectLeafGraphs(rootGraph, Collections.<Graph> emptySet());
@@ -72,25 +72,25 @@ public class PelletGraphListener implements GraphListener
 		if (t.getPredicate().equals(RDF.type.asNode()))
 		{
 			// check if this is a new _individual
-			if (!kb.getIndividuals().contains(s))
-				kb.addIndividual(s);
+			if (!_kb.getIndividuals().contains(s))
+				_kb.addIndividual(s);
 
 			// add the type
-			kb.addType(s, o);
+			_kb.addType(s, o);
 		}
 		else
 		{
 			// check if the subject is a new _individual
-			if (!kb.getIndividuals().contains(s))
-				kb.addIndividual(s);
+			if (!_kb.getIndividuals().contains(s))
+				_kb.addIndividual(s);
 
 			// check if the object is a new _individual
-			if (!t.getObject().isLiteral() && !kb.getIndividuals().contains(o))
-				kb.addIndividual(o);
+			if (!t.getObject().isLiteral() && !_kb.getIndividuals().contains(o))
+				_kb.addIndividual(o);
 
 			final ATermAppl p = JenaUtils.makeATerm(t.getPredicate());
 			// add the property value
-			kb.addPropertyValue(p, s, o);
+			_kb.addPropertyValue(p, s, o);
 		}
 	}
 
@@ -101,7 +101,7 @@ public class PelletGraphListener implements GraphListener
 	 */
 	private boolean canUpdateIncrementally(final Graph g)
 	{
-		return PelletOptions.PROCESS_JENA_UPDATES_INCREMENTALLY && !statementDeleted && !changedGraphs.contains(g);
+		return PelletOptions.PROCESS_JENA_UPDATES_INCREMENTALLY && !_statementDeleted && !_changedGraphs.contains(g);
 	}
 
 	private void collectLeafGraphs(final Graph graph, final Set<Graph> prevLeaves)
@@ -129,9 +129,9 @@ public class PelletGraphListener implements GraphListener
 				if (graph instanceof InfGraph)
 					collectLeafGraphs(((InfGraph) graph).getRawGraph(), prevLeaves);
 				else
-					if (leafGraphs.add(graph) && !prevLeaves.contains(graph))
+					if (_leafGraphs.add(graph) && !prevLeaves.contains(graph))
 					{
-						changedGraphs.add(graph);
+						_changedGraphs.add(graph);
 
 						graph.getEventManager().register(this);
 					}
@@ -145,50 +145,50 @@ public class PelletGraphListener implements GraphListener
 		// check if this is a type assertion
 		if (t.getPredicate().equals(RDF.type.asNode()))
 		{
-			if (kb.isIndividual(s))
-				kb.removeType(s, o);
+			if (_kb.isIndividual(s))
+				_kb.removeType(s, o);
 		}
 		else
 			// check if the subject is a new _individual
-			if (kb.isIndividual(s) && (kb.isIndividual(o) || ATermUtils.isLiteral(o)))
+			if (_kb.isIndividual(s) && (_kb.isIndividual(o) || ATermUtils.isLiteral(o)))
 			{
 				final ATermAppl p = JenaUtils.makeATerm(t.getPredicate());
 				// add the property value
-				kb.removePropertyValue(p, s, o);
+				_kb.removePropertyValue(p, s, o);
 			}
 	}
 
 	public void dispose()
 	{
-		for (final Graph graph : leafGraphs)
+		for (final Graph graph : _leafGraphs)
 			graph.getEventManager().unregister(this);
 
-		leafGraphs.clear();
-		changedGraphs.clear();
+		_leafGraphs.clear();
+		_changedGraphs.clear();
 
-		statementDeleted = false;
+		_statementDeleted = false;
 	}
 
 	public Set<Graph> getChangedGraphs()
 	{
-		final Set<Graph> prevLeaves = leafGraphs;
+		final Set<Graph> prevLeaves = _leafGraphs;
 
-		leafGraphs = CollectionUtils.makeSet();
+		_leafGraphs = CollectionUtils.makeSet();
 
-		collectLeafGraphs(rootGraph, prevLeaves);
+		collectLeafGraphs(_rootGraph, prevLeaves);
 
 		for (final Graph prevLeaf : prevLeaves)
-			if (!leafGraphs.contains(prevLeaf))
+			if (!_leafGraphs.contains(prevLeaf))
 			{
-				statementDeleted = true;
+				_statementDeleted = true;
 
 				prevLeaf.getEventManager().unregister(this);
 			}
 
-		if (statementDeleted)
+		if (_statementDeleted)
 			return null;
 
-		return changedGraphs;
+		return _changedGraphs;
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class PelletGraphListener implements GraphListener
 	 */
 	public Set<Graph> getLeafGraphs()
 	{
-		return leafGraphs;
+		return _leafGraphs;
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class PelletGraphListener implements GraphListener
 
 			// check that the object is an atomic concept that exists in the KB
 			final ATermAppl object = JenaUtils.makeATerm(o);
-			if (!kb.isClass(object))
+			if (!_kb.isClass(object))
 				return false;
 
 			// Note: we do not check if the subject already exists,
@@ -232,7 +232,7 @@ public class PelletGraphListener implements GraphListener
 			final ATermAppl prop = JenaUtils.makeATerm(p);
 
 			// check if the role is this is a defined role
-			if (!kb.isProperty(prop))
+			if (!_kb.isProperty(prop))
 				return false;
 
 			// Note: we do not check if the subject and object already exists,
@@ -245,12 +245,12 @@ public class PelletGraphListener implements GraphListener
 
 	public boolean isChanged()
 	{
-		if (statementDeleted || !changedGraphs.isEmpty())
+		if (_statementDeleted || !_changedGraphs.isEmpty())
 			return true;
 
 		getChangedGraphs();
 
-		return statementDeleted || !changedGraphs.isEmpty();
+		return _statementDeleted || !_changedGraphs.isEmpty();
 	}
 
 	@Override
@@ -283,7 +283,7 @@ public class PelletGraphListener implements GraphListener
 			}
 
 		if (!canUpdateIncrementally)
-			changedGraphs.add(g);
+			_changedGraphs.add(g);
 	}
 
 	@Override
@@ -298,7 +298,7 @@ public class PelletGraphListener implements GraphListener
 		if (canUpdateIncrementally(g) && isABoxChange(t))
 			addABoxTriple(t);
 		else
-			changedGraphs.add(g);
+			_changedGraphs.add(g);
 	}
 
 	@Override
@@ -332,8 +332,8 @@ public class PelletGraphListener implements GraphListener
 
 		if (!canUpdateIncrementally)
 		{
-			statementDeleted = true;
-			changedGraphs.add(g);
+			_statementDeleted = true;
+			_changedGraphs.add(g);
 		}
 	}
 
@@ -350,40 +350,40 @@ public class PelletGraphListener implements GraphListener
 			deleteABoxTriple(t);
 		else
 		{
-			statementDeleted = true;
-			changedGraphs.add(g);
+			_statementDeleted = true;
+			_changedGraphs.add(g);
 		}
 	}
 
 	@Override
 	public void notifyEvent(final Graph source, final Object value)
 	{
-		statementDeleted = true;
+		_statementDeleted = true;
 	}
 
 	public void reset()
 	{
-		changedGraphs.clear();
-		// leafGraphs.clear();
-		statementDeleted = false;
+		_changedGraphs.clear();
+		// _leafGraphs.clear();
+		_statementDeleted = false;
 	}
 
 	public void setEnabled(final boolean enabled)
 	{
-		if (this.enabled == enabled)
+		if (this._enabled == enabled)
 			return;
 
-		this.enabled = enabled;
+		this._enabled = enabled;
 
-		leafGraphs.clear();
-		changedGraphs.clear();
+		_leafGraphs.clear();
+		_changedGraphs.clear();
 
-		statementDeleted = false;
+		_statementDeleted = false;
 
 		if (enabled)
-			collectLeafGraphs(rootGraph, Collections.<Graph> emptySet());
+			collectLeafGraphs(_rootGraph, Collections.<Graph> emptySet());
 		else
-			for (final Graph graph : leafGraphs)
+			for (final Graph graph : _leafGraphs)
 				graph.getEventManager().unregister(this);
 	}
 }

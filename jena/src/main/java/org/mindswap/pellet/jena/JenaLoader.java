@@ -34,9 +34,9 @@ public class JenaLoader extends KBLoader
 {
 	private static final FileManager manager = FileManager.get();
 
-	private OntModel model;
+	private OntModel _model;
 
-	private PelletInfGraph pellet;
+	private PelletInfGraph _pellet;
 
 	public JenaLoader()
 	{
@@ -45,7 +45,7 @@ public class JenaLoader extends KBLoader
 
 	public PelletInfGraph getGraph()
 	{
-		return pellet;
+		return _pellet;
 	}
 
 	/**
@@ -54,12 +54,12 @@ public class JenaLoader extends KBLoader
 	@Override
 	public KnowledgeBase getKB()
 	{
-		return pellet.getKB();
+		return _pellet.getKB();
 	}
 
 	public OntModel getModel()
 	{
-		return model;
+		return _model;
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class JenaLoader extends KBLoader
 	@Override
 	public void load()
 	{
-		pellet.prepare(false);
+		_pellet.prepare(false);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class JenaLoader extends KBLoader
 	@Override
 	protected void parseFile(final String file)
 	{
-		manager.readModel(model, file, inputFormat);
+		manager.readModel(_model, file, _inputFormat);
 	}
 
 	/**
@@ -86,20 +86,20 @@ public class JenaLoader extends KBLoader
 	@Override
 	public void clear()
 	{
-		if (model != null)
-			model.close();
-		model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		pellet = (PelletInfGraph) model.getGraph();
+		if (_model != null)
+			_model.close();
+		_model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		_pellet = (PelletInfGraph) _model.getGraph();
 	}
 
 	/**
 	 * Used for the Jena loader
 	 *
-	 * @param inputFormat
+	 * @param _inputFormat
 	 */
 	public void setInputFormat(final String inputFormat)
 	{
-		this.inputFormat = inputFormat.toUpperCase();
+		this._inputFormat = inputFormat.toUpperCase();
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class JenaLoader extends KBLoader
 	@Override
 	public void setIgnoreImports(final boolean ignoreImports)
 	{
-		model.getDocumentManager().setProcessImports(!ignoreImports);
+		_model.getDocumentManager().setProcessImports(!ignoreImports);
 	}
 
 }

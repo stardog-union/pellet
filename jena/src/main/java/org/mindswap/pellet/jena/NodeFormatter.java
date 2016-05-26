@@ -269,6 +269,7 @@ public class NodeFormatter
 							}
 							else
 							{
+								// default nothing
 							}
 
 		return aTerm;

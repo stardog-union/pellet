@@ -191,7 +191,7 @@ public class ModelExtractor
 	}
 
 	/**
-	 * A filter that does not accept anything.
+	 * A _filter that does not accept anything.
 	 */
 	public static final Filter<Triple> FILTER_NONE = new Filter<Triple>()
 	{
@@ -205,17 +205,17 @@ public class ModelExtractor
 	/**
 	 * Associated KB
 	 */
-	private KnowledgeBase kb;
+	private KnowledgeBase _kb;
 
 	/**
 	 * Filter that will be used to drop inferences
 	 */
-	private Filter<Triple> filter = FILTER_NONE;
+	private Filter<Triple> _filter = FILTER_NONE;
 
 	/**
-	 * Controls the selected statements for methods where no selector is passed (initial setup intended to be backwards compatible)
+	 * Controls the selected statements for methods where no _selector is passed (initial setup intended to be backwards compatible)
 	 */
-	private EnumSet<StatementType> selector = StatementType.DEFAULT_STATEMENTS;
+	private EnumSet<StatementType> _selector = StatementType.DEFAULT_STATEMENTS;
 
 	/**
 	 * Initialize an empty extractor
@@ -251,7 +251,7 @@ public class ModelExtractor
 	}
 
 	/**
-	 * Creates and adds the triple to the given list if the triple passes the filter.
+	 * Creates and adds the triple to the given list if the triple passes the _filter.
 	 *
 	 * @param triples List to be added
 	 * @param s subject of the triple
@@ -261,7 +261,7 @@ public class ModelExtractor
 	private void addTriple(final List<Triple> triples, final Node s, final Node p, final Node o)
 	{
 		final Triple triple = Triple.create(s, p, o);
-		if (!filter.accept(triple))
+		if (!_filter.accept(triple))
 			triples.add(triple);
 	}
 
@@ -272,19 +272,19 @@ public class ModelExtractor
 
 	public Model extractClassModel(final Model model)
 	{
-		final boolean allSubs = selector.contains(StatementType.ALL_SUBCLASS);
-		final boolean jenaDirectSubs = selector.contains(StatementType.JENA_DIRECT_SUBCLASS);
-		final boolean subs = allSubs || jenaDirectSubs || selector.contains(StatementType.DIRECT_SUBCLASS);
-		final boolean equivs = selector.contains(StatementType.EQUIVALENT_CLASS);
-		final boolean disjs = selector.contains(StatementType.DISJOINT_CLASS);
-		final boolean comps = selector.contains(StatementType.COMPLEMENT_CLASS);
+		final boolean allSubs = _selector.contains(StatementType.ALL_SUBCLASS);
+		final boolean jenaDirectSubs = _selector.contains(StatementType.JENA_DIRECT_SUBCLASS);
+		final boolean subs = allSubs || jenaDirectSubs || _selector.contains(StatementType.DIRECT_SUBCLASS);
+		final boolean equivs = _selector.contains(StatementType.EQUIVALENT_CLASS);
+		final boolean disjs = _selector.contains(StatementType.DISJOINT_CLASS);
+		final boolean comps = _selector.contains(StatementType.COMPLEMENT_CLASS);
 
 		if (subs || equivs || disjs || comps)
-			kb.classify();
+			_kb.classify();
 
 		final List<Triple> triples = new ArrayList<>();
 
-		final Set<ATermAppl> classes = kb.getAllClasses();
+		final Set<ATermAppl> classes = _kb.getAllClasses();
 
 		for (final ATermAppl c : classes)
 		{
@@ -303,7 +303,7 @@ public class ModelExtractor
 
 				if (allSubs)
 				{
-					final Set<ATermAppl> eqs = kb.getAllEquivalentClasses(c);
+					final Set<ATermAppl> eqs = _kb.getAllEquivalentClasses(c);
 					for (final ATermAppl eq : eqs)
 					{
 						final Node o = makeGraphNode(eq);
@@ -311,7 +311,7 @@ public class ModelExtractor
 					}
 				}
 
-				final Set<Set<ATermAppl>> supers = allSubs ? kb.getSuperClasses(c, false) : kb.getSuperClasses(c, true);
+				final Set<Set<ATermAppl>> supers = allSubs ? _kb.getSuperClasses(c, false) : _kb.getSuperClasses(c, true);
 
 						Iterator<ATermAppl> i = IteratorUtils.flatten(supers.iterator());
 				while (i.hasNext())
@@ -325,7 +325,7 @@ public class ModelExtractor
 
 							p = ReasonerVocabulary.directSubClassOf.asNode();
 
-							final Set<Set<ATermAppl>> direct = allSubs ? kb.getSuperClasses(c, true) : supers;
+							final Set<Set<ATermAppl>> direct = allSubs ? _kb.getSuperClasses(c, true) : supers;
 
 									i = IteratorUtils.flatten(direct.iterator());
 					while (i.hasNext())
@@ -341,7 +341,7 @@ public class ModelExtractor
 
 				p = OWL.equivalentClass.asNode();
 
-				final Set<ATermAppl> eqs = kb.getAllEquivalentClasses(c);
+				final Set<ATermAppl> eqs = _kb.getAllEquivalentClasses(c);
 				for (final ATermAppl a : eqs)
 				{
 					final Node o = makeGraphNode(a);
@@ -351,7 +351,7 @@ public class ModelExtractor
 
 			if (disjs)
 			{
-				final Set<Set<ATermAppl>> disj = kb.getDisjointClasses(c);
+				final Set<Set<ATermAppl>> disj = _kb.getDisjointClasses(c);
 
 				if (!disj.isEmpty())
 				{
@@ -369,7 +369,7 @@ public class ModelExtractor
 
 			if (comps)
 			{
-				final Set<ATermAppl> comp = kb.getComplements(c);
+				final Set<ATermAppl> comp = _kb.getComplements(c);
 
 				if (!comp.isEmpty())
 				{
@@ -401,23 +401,23 @@ public class ModelExtractor
 	{
 
 		/*
-		 * Initialize booleans that reflect the selector parameter - this avoids
+		 * Initialize booleans that reflect the _selector parameter - this avoids
 		 * doing set contains evaluations for each pass of the loop.
 		 */
-		final boolean allClasses = selector.contains(StatementType.ALL_INSTANCE);
-		final boolean jenaDirectClasses = selector.contains(StatementType.JENA_DIRECT_INSTANCE);
-		final boolean classes = allClasses || jenaDirectClasses || selector.contains(StatementType.DIRECT_INSTANCE);
-		final boolean sames = selector.contains(StatementType.SAME_AS);
-		final boolean diffs = selector.contains(StatementType.DIFFERENT_FROM);
-		final boolean objValues = selector.contains(StatementType.OBJECT_PROPERTY_VALUE);
-		final boolean dataValues = selector.contains(StatementType.DATA_PROPERTY_VALUE);
+		final boolean allClasses = _selector.contains(StatementType.ALL_INSTANCE);
+		final boolean jenaDirectClasses = _selector.contains(StatementType.JENA_DIRECT_INSTANCE);
+		final boolean classes = allClasses || jenaDirectClasses || _selector.contains(StatementType.DIRECT_INSTANCE);
+		final boolean sames = _selector.contains(StatementType.SAME_AS);
+		final boolean diffs = _selector.contains(StatementType.DIFFERENT_FROM);
+		final boolean objValues = _selector.contains(StatementType.OBJECT_PROPERTY_VALUE);
+		final boolean dataValues = _selector.contains(StatementType.DATA_PROPERTY_VALUE);
 
 		if (classes)
-			kb.realize();
+			_kb.realize();
 
 		final List<Triple> triples = new ArrayList<>();
 
-		for (final ATermAppl ind : kb.getIndividuals())
+		for (final ATermAppl ind : _kb.getIndividuals())
 		{
 
 			triples.clear();
@@ -431,7 +431,7 @@ public class ModelExtractor
 
 				p = RDF.type.asNode();
 
-				final Set<Set<ATermAppl>> types = kb.getTypes(ind, !allClasses);
+				final Set<Set<ATermAppl>> types = _kb.getTypes(ind, !allClasses);
 
 				Iterator<ATermAppl> i = IteratorUtils.flatten(types.iterator());
 				while (i.hasNext())
@@ -445,7 +445,7 @@ public class ModelExtractor
 
 					p = ReasonerVocabulary.directRDFType.asNode();
 
-					final Set<Set<ATermAppl>> directTypes = allClasses ? kb.getTypes(ind, true) : types;
+					final Set<Set<ATermAppl>> directTypes = allClasses ? _kb.getTypes(ind, true) : types;
 
 							i = IteratorUtils.flatten(directTypes.iterator());
 					while (i.hasNext())
@@ -460,19 +460,19 @@ public class ModelExtractor
 			{
 				p = OWL.sameAs.asNode();
 				addTriple(triples, s, p, s);
-				for (final ATermAppl a : kb.getSames(ind))
+				for (final ATermAppl a : _kb.getSames(ind))
 					addTriple(triples, s, p, makeGraphNode(a));
 			}
 
 			if (diffs)
 			{
 				p = OWL.differentFrom.asNode();
-				for (final ATermAppl a : kb.getDifferents(ind))
+				for (final ATermAppl a : _kb.getDifferents(ind))
 					addTriple(triples, s, p, makeGraphNode(a));
 			}
 
 			if (dataValues || objValues)
-				for (final Role role : kb.getRBox().getRoles())
+				for (final Role role : _kb.getRBox().getRoles())
 				{
 
 					if (role.isAnon())
@@ -483,7 +483,7 @@ public class ModelExtractor
 					if (role.isDatatypeRole())
 					{
 						if (dataValues)
-							values = kb.getDataPropertyValues(name, ind);
+							values = _kb.getDataPropertyValues(name, ind);
 						else
 							continue;
 					}
@@ -491,7 +491,7 @@ public class ModelExtractor
 						if (role.isObjectRole())
 						{
 							if (objValues)
-								values = kb.getObjectPropertyValues(name, ind);
+								values = _kb.getObjectPropertyValues(name, ind);
 							else
 								continue;
 						}
@@ -536,18 +536,18 @@ public class ModelExtractor
 	public Model extractPropertyModel(final Model model)
 	{
 
-		final boolean allSubs = selector.contains(StatementType.ALL_SUBPROPERTY);
-		final boolean jenaDirectSubs = selector.contains(StatementType.JENA_DIRECT_SUBPROPERTY);
-		final boolean subs = allSubs || jenaDirectSubs || selector.contains(StatementType.DIRECT_SUBPROPERTY);
-		final boolean equivs = selector.contains(StatementType.EQUIVALENT_PROPERTY);
-		final boolean invs = selector.contains(StatementType.INVERSE_PROPERTY);
-		final boolean disjs = selector.contains(StatementType.DISJOINT_PROPERTY);
+		final boolean allSubs = _selector.contains(StatementType.ALL_SUBPROPERTY);
+		final boolean jenaDirectSubs = _selector.contains(StatementType.JENA_DIRECT_SUBPROPERTY);
+		final boolean subs = allSubs || jenaDirectSubs || _selector.contains(StatementType.DIRECT_SUBPROPERTY);
+		final boolean equivs = _selector.contains(StatementType.EQUIVALENT_PROPERTY);
+		final boolean invs = _selector.contains(StatementType.INVERSE_PROPERTY);
+		final boolean disjs = _selector.contains(StatementType.DISJOINT_PROPERTY);
 
-		kb.prepare();
+		_kb.prepare();
 
 		final List<Triple> triples = new ArrayList<>();
 
-		for (final Role role : kb.getRBox().getRoles())
+		for (final Role role : _kb.getRBox().getRoles())
 		{
 
 			triples.clear();
@@ -582,7 +582,7 @@ public class ModelExtractor
 			if (equivs)
 			{
 				p = OWL.equivalentProperty.asNode();
-				for (final ATermAppl eq : kb.getAllEquivalentProperties(name))
+				for (final ATermAppl eq : _kb.getAllEquivalentProperties(name))
 				{
 					final Node o = makeGraphNode(eq);
 					addTriple(triples, s, p, o);
@@ -593,7 +593,7 @@ public class ModelExtractor
 
 			if (invs)
 			{
-				final Set<ATermAppl> inverses = kb.getInverses(name);
+				final Set<ATermAppl> inverses = _kb.getInverses(name);
 				if (!inverses.isEmpty())
 				{
 					p = OWL.inverseOf.asNode();
@@ -604,7 +604,7 @@ public class ModelExtractor
 
 			if (disjs)
 			{
-				final Set<Set<ATermAppl>> disjoints = kb.getDisjointProperties(name);
+				final Set<Set<ATermAppl>> disjoints = _kb.getDisjointProperties(name);
 				if (!disjoints.isEmpty())
 				{
 					p = OWL2.propertyDisjointWith.asNode();
@@ -624,7 +624,7 @@ public class ModelExtractor
 
 				if (allSubs)
 				{
-					final Set<ATermAppl> eqs = kb.getAllEquivalentProperties(name);
+					final Set<ATermAppl> eqs = _kb.getAllEquivalentProperties(name);
 					for (final ATermAppl eq : eqs)
 					{
 						final Node o = makeGraphNode(eq);
@@ -632,7 +632,7 @@ public class ModelExtractor
 					}
 				}
 
-				final Set<Set<ATermAppl>> supers = kb.getSuperProperties(name, !allSubs);
+				final Set<Set<ATermAppl>> supers = _kb.getSuperProperties(name, !allSubs);
 
 				if (!supers.isEmpty())
 				{
@@ -647,7 +647,7 @@ public class ModelExtractor
 					{
 						p = ReasonerVocabulary.directSubPropertyOf.asNode();
 
-						final Set<Set<ATermAppl>> direct = allSubs ? kb.getSuperProperties(name, true) : supers;
+						final Set<Set<ATermAppl>> direct = allSubs ? _kb.getSuperProperties(name, true) : supers;
 								i = IteratorUtils.flatten(direct.iterator());
 						while (i.hasNext())
 						{
@@ -670,19 +670,19 @@ public class ModelExtractor
 	}
 
 	/**
-	 * Get the selector
+	 * Get the _selector
 	 */
 	public EnumSet<StatementType> getSelector()
 	{
-		return selector;
+		return _selector;
 	}
 
 	/**
-	 * Sets the selector
+	 * Sets the _selector
 	 */
 	public void setSelector(final EnumSet<StatementType> selector)
 	{
-		this.selector = selector;
+		this._selector = selector;
 	}
 
 	/**
@@ -690,7 +690,7 @@ public class ModelExtractor
 	 */
 	public KnowledgeBase getKB()
 	{
-		return kb;
+		return _kb;
 	}
 
 	/**
@@ -698,30 +698,30 @@ public class ModelExtractor
 	 */
 	public void setKB(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 	/**
-	 * Get the filter used to filter out any unwanted inferences from the result.
+	 * Get the _filter used to _filter out any unwanted inferences from the result.
 	 *
 	 * @return
 	 */
 	public Filter<Triple> getFilter()
 	{
-		return filter;
+		return _filter;
 	}
 
 	/**
-	 * Sets the filter that will filter out any unwanted inferences from the result. The filter should process {@link Triple} objects and return
+	 * Sets the _filter that will _filter out any unwanted inferences from the result. The _filter should process {@link Triple} objects and return
 	 * <code>true</code> for any triple that should not be included in the result. Use {@link #FILTER_NONE} to disable filtering.
 	 *
-	 * @param filter
+	 * @param _filter
 	 */
 	public void setFilter(final Filter<Triple> filter)
 	{
 		if (filter == null)
 			throw new NullPointerException("Filter cannot be null");
 
-		this.filter = filter;
+		this._filter = filter;
 	}
 }

@@ -26,11 +26,11 @@ public class ReachabilityGraph<E>
 
 	public static final Logger _logger = Log.getLogger(ReachabilityGraph.class);
 
-	private final Map<E, EntityNode<E>> entityNodes = new HashMap<>();
+	private final Map<E, EntityNode<E>> _entityNodes = new HashMap<>();
 
-	private int id = 0;
+	private int _id = 0;
 
-	private final Node startNode = new Node()
+	private final Node _startNode = new Node()
 	{
 		@Override
 		public boolean inputActivated()
@@ -110,7 +110,7 @@ public class ReachabilityGraph<E>
 			if (size == 1)
 				return inputs.iterator().next();
 
-		final AndNode andNode = new AndNode(id++);
+		final AndNode andNode = new AndNode(_id++);
 		for (final Node input : inputs)
 			input.addOutput(andNode);
 
@@ -119,12 +119,12 @@ public class ReachabilityGraph<E>
 
 	public EntityNode createEntityNode(final E entity)
 	{
-		EntityNode<E> node = entityNodes.get(entity);
+		EntityNode<E> node = _entityNodes.get(entity);
 
 		if (node == null)
 		{
 			node = new EntityNode<>(entity);
-			entityNodes.put(entity, node);
+			_entityNodes.put(entity, node);
 		}
 
 		return node;
@@ -148,7 +148,7 @@ public class ReachabilityGraph<E>
 			if (size == 1)
 				return inputs.iterator().next();
 
-		final OrNode orNode = new OrNode(id++);
+		final OrNode orNode = new OrNode(_id++);
 		for (final Node input : inputs)
 			input.addOutput(orNode);
 
@@ -157,17 +157,17 @@ public class ReachabilityGraph<E>
 
 	public Set<E> getEntities()
 	{
-		return entityNodes.keySet();
+		return _entityNodes.keySet();
 	}
 
 	public Collection<EntityNode<E>> getEntityNodes()
 	{
-		return entityNodes.values();
+		return _entityNodes.values();
 	}
 
 	public EntityNode<E> getNode(final E entity)
 	{
-		return entityNodes.get(entity);
+		return _entityNodes.get(entity);
 	}
 
 	public Node getNullNode()
@@ -177,7 +177,7 @@ public class ReachabilityGraph<E>
 
 	public Node getStartNode()
 	{
-		return startNode;
+		return _startNode;
 	}
 
 	public void simplify()
@@ -209,7 +209,7 @@ public class ReachabilityGraph<E>
 				for (final E entity : node.getEntities())
 				{
 					rep.addEntity(entity);
-					entityNodes.put(entity, rep);
+					_entityNodes.put(entity, rep);
 				}
 
 				for (final Node input : node.getInputs())
@@ -235,7 +235,7 @@ public class ReachabilityGraph<E>
 		{
 			removedNode = 0;
 			removedEdge = 0;
-			for (final Node node : entityNodes.values())
+			for (final Node node : _entityNodes.values())
 				for (final Node out : node.getOutputs().toArray(new Node[0]))
 					if (out.isRedundant())
 					{

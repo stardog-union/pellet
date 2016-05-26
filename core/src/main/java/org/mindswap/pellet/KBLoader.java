@@ -33,7 +33,7 @@ public abstract class KBLoader
 {
 	public static final Logger _logger = Log.getLogger(KBLoader.class);
 
-	protected String inputFormat;
+	protected String _inputFormat;
 
 	public KBLoader()
 	{
