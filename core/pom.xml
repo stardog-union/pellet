@@ -16,10 +16,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.katk.aterms</groupId>
-			<artifactId>aterm</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.jgrapht</groupId>
 			<artifactId>jgrapht-ext</artifactId>
 		</dependency>

@@ -51,6 +51,7 @@ import org.mindswap.pellet.utils.Timers;
 @SuppressWarnings("unused")
 public class SimplifiedELClassifier extends CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 {
+	@SuppressWarnings("hiding")
 	public static final Logger _logger = Log.getLogger(SimplifiedELClassifier.class);
 
 	private static class QueueElement

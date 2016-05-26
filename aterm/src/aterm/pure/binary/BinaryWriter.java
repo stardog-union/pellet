@@ -106,9 +106,9 @@ public class BinaryWriter extends ATermFwdVoid
 	{
 		super();
 
-		sharedTerms = new HashMap<ATerm, Integer>();
+		sharedTerms = new HashMap<>();
 		currentKey = 0;
-		applSignatures = new HashMap<AFun, Integer>();
+		applSignatures = new HashMap<>();
 		sigKey = 0;
 
 		stack = new ATermMapping[STACKSIZE];
@@ -595,7 +595,7 @@ public class BinaryWriter extends ATermFwdVoid
 	 */
 	public static byte[] writeTermToSAFString(ATerm aTerm) throws VisitFailure
 	{
-		final List<ByteBuffer> buffers = new ArrayList<ByteBuffer>();
+		final List<ByteBuffer> buffers = new ArrayList<>();
 		int totalBytesWritten = 0;
 
 		final BinaryWriter binaryWriter = new BinaryWriter(aTerm);

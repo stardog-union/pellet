@@ -65,6 +65,7 @@ import org.mindswap.pellet.utils.SetUtils;
  */
 public class KRSSLoader extends KBLoader
 {
+	@SuppressWarnings("hiding")
 	public final static Logger _logger = Log.getLogger(KRSSLoader.class);
 
 	private final static ATermAppl XSD_INTEGER = XSDInteger.getInstance().getName();

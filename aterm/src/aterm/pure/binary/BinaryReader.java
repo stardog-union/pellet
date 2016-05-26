@@ -109,7 +109,7 @@ public class BinaryReader
 		this.factory = factory;
 
 		sharedTerms = new ATerm[INITIALSHAREDTERMSARRAYSIZE];
-		applSignatures = new ArrayList<AFun>();
+		applSignatures = new ArrayList<>();
 		sharedTermIndex = 0;
 
 		stack = new ATermConstruct[STACKSIZE];

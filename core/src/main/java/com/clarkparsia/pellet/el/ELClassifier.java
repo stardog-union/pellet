@@ -47,6 +47,7 @@ import org.mindswap.pellet.utils.Timers;
  */
 public class ELClassifier extends CDOptimizedTaxonomyBuilder
 {
+	@SuppressWarnings("hiding")
 	public static final Logger _logger = Log.getLogger(ELClassifier.class);
 
 	public final Timers _timers = new Timers();

@@ -42,6 +42,7 @@ import org.mindswap.pellet.utils.Timers;
 @SuppressWarnings("unused")
 public abstract class RuleBasedELClassifier extends CDOptimizedTaxonomyBuilder implements TaxonomyBuilder
 {
+	@SuppressWarnings("hiding")
 	public static final Logger _logger = Log.getLogger(RuleBasedELClassifier.class);
 
 	protected Timers _timers = new Timers();

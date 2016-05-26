@@ -40,6 +40,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class UnfoldingRule extends AbstractTableauRule
 {
+	@SuppressWarnings("hiding")
 	public final static Logger _logger = Log.getLogger(UnfoldingRule.class);
 
 	public UnfoldingRule(final CompletionStrategy strategy)
