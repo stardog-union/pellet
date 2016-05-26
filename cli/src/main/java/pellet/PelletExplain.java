@@ -499,7 +499,7 @@ public class PelletExplain extends PelletCmdApp
 			final String unsatisfiable = option.getValueAsString();
 			if (unsatisfiable != null)
 			{
-				_name1 = OntologyUtils.findEntity(unsatisfiable, _owlApiLoader.getAllOntologies());
+				_name1 = OntologyUtils.findEntity(unsatisfiable, _owlApiLoader.allOntologies());
 
 				if (_name1 == null)
 					throw new PelletCmdException("Undefined entity: " + unsatisfiable);
@@ -523,8 +523,8 @@ public class PelletExplain extends PelletCmdApp
 				if (names.length != 2)
 					throw new PelletCmdException("Invalid format for subclass option: " + subclass);
 
-				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.getAllOntologies());
-				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.getAllOntologies());
+				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.allOntologies());
+				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.allOntologies());
 
 				if (_name1 == null)
 					throw new PelletCmdException("Undefined entity: " + names[0]);
@@ -549,8 +549,8 @@ public class PelletExplain extends PelletCmdApp
 				if (names.length != 2)
 					throw new PelletCmdException("Invalid format for instance option: " + instance);
 
-				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.getAllOntologies());
-				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.getAllOntologies());
+				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.allOntologies());
+				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.allOntologies());
 
 				if (_name1 == null)
 					throw new PelletCmdException("Undefined entity: " + names[0]);
@@ -576,8 +576,8 @@ public class PelletExplain extends PelletCmdApp
 				if (names.length != 3)
 					throw new PelletCmdException("Invalid format for property-value option: " + optionValue);
 
-				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.getAllOntologies());
-				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.getAllOntologies());
+				_name1 = OntologyUtils.findEntity(names[0], _owlApiLoader.allOntologies());
+				_name2 = OntologyUtils.findEntity(names[1], _owlApiLoader.allOntologies());
 
 				if (_name1 == null)
 					throw new PelletCmdException("Undefined entity: " + names[0]);
@@ -591,7 +591,7 @@ public class PelletExplain extends PelletCmdApp
 						throw new PelletCmdException("Not a defined property: " + names[1]);
 				if (_name2.isOWLObjectProperty())
 				{
-					_name3 = OntologyUtils.findEntity(names[2], _owlApiLoader.getAllOntologies());
+					_name3 = OntologyUtils.findEntity(names[2], _owlApiLoader.allOntologies());
 					if (_name3 == null)
 						throw new PelletCmdException("Undefined entity: " + names[2]);
 					else

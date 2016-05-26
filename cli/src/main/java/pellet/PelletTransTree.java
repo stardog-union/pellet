@@ -108,7 +108,7 @@ public class PelletTransTree extends PelletCmdApp
 		final OWLAPILoader loader = new OWLAPILoader();
 		final KnowledgeBase kb = loader.createKB(getInputFiles());
 
-		final OWLEntity entity = OntologyUtils.findEntity(_propertyName, loader.getAllOntologies());
+		final OWLEntity entity = OntologyUtils.findEntity(_propertyName, loader.allOntologies());
 
 		if (entity == null)
 			throw new PelletCmdException("Property not found: " + _propertyName);
@@ -116,7 +116,7 @@ public class PelletTransTree extends PelletCmdApp
 		if (!(entity instanceof OWLObjectProperty))
 			throw new PelletCmdException("Not an object property: " + _propertyName);
 
-		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.getAllOntologies().stream()))
+		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.allOntologies()))
 			throw new PelletCmdException("Not a transitive property: " + _propertyName);
 
 		final ATermAppl p = ATermUtils.makeTermAppl(entity.getIRI().toString());
@@ -127,7 +127,7 @@ public class PelletTransTree extends PelletCmdApp
 		if (_options.getOption("filter").exists())
 		{
 			final String filterName = _options.getOption("filter").getValueAsString();
-			final OWLEntity filterClass = OntologyUtils.findEntity(filterName, loader.getAllOntologies());
+			final OWLEntity filterClass = OntologyUtils.findEntity(filterName, loader.allOntologies());
 			if (filterClass == null)
 				throw new PelletCmdException("Filter class not found: " + filterName);
 			if (!(filterClass instanceof OWLClass))

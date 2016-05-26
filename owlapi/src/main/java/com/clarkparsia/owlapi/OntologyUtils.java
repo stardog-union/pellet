@@ -316,6 +316,15 @@ public class OntologyUtils
 	 * @param ontologies ontologies we are searching
 	 * @return an entity referenced in the given ontology that has the given URI or local name
 	 */
+	public static OWLEntity findEntity(final String name, final Stream<OWLOntology> ontologies)
+	{
+		return ontologies//
+				.map(ontology -> findEntity(name, ontology))//
+				.filter(entity -> entity != null)//
+				.findAny().orElse(null);
+	}
+
+	@Deprecated
 	public static OWLEntity findEntity(final String name, final Set<OWLOntology> ontologies)
 	{
 		OWLEntity entity = null;

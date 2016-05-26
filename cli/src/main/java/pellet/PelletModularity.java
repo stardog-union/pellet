@@ -141,7 +141,7 @@ public class PelletModularity extends PelletCmdApp
 		final Set<OWLEntity> entities = new HashSet<>();
 		for (final String entityName : entityNames)
 		{
-			final OWLEntity entity = OntologyUtils.findEntity(entityName, loader.getAllOntologies());
+			final OWLEntity entity = OntologyUtils.findEntity(entityName, loader.allOntologies());
 
 			if (entity == null)
 				throw new PelletCmdException("Entity not found in ontology: " + entityName);
