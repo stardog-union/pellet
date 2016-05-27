@@ -11,6 +11,8 @@ package com.clarkparsia.modularity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -63,18 +65,8 @@ public class OntologyDiff
 	public static OntologyDiff diffOntologies(final OWLOntology initialOnt, final OWLOntology finalOnt)
 	{
 		final OntologyDiff result = new OntologyDiff();
-
-		// FIXME iterate through all axiom not just logical ones
-		// we are ignoring annotations because OWLAPI has problems
-		// serializing them
-		for (final OWLAxiom axiom : initialOnt.getLogicalAxioms())
-			if (!finalOnt.containsAxiom(axiom))
-				result.deletions.add(axiom);
-
-		for (final OWLAxiom axiom : finalOnt.getLogicalAxioms())
-			if (!initialOnt.containsAxiom(axiom))
-				result.additions.add(axiom);
-
+		initialOnt.axioms().filter(axiom -> !finalOnt.containsAxiom(axiom)).forEach(result.deletions::add);
+		finalOnt.axioms().filter(axiom -> !initialOnt.containsAxiom(axiom)).forEach(result.additions::add);
 		return result;
 	}
 
@@ -90,9 +82,7 @@ public class OntologyDiff
 		final OntologyDiff result = new OntologyDiff();
 
 		for (final OWLOntology ontology : initialOntologies)
-			for (final OWLAxiom axiom : ontology.getAxioms())
-				if (!finalAxioms.contains(axiom))
-					result.deletions.add(axiom);
+			ontology.axioms().filter(axiom -> !finalAxioms.contains(axiom)).forEach(result.deletions::add);
 
 		for (final OWLAxiom axiom : finalAxioms)
 			if (!containsAxiom(axiom, initialOntologies))
@@ -103,30 +93,33 @@ public class OntologyDiff
 
 	/**
 	 * Computes the difference between a set of axioms and an ontology.
-	 * 
+	 *
 	 * @param initialAxioms the initial set of axioms (the equivalent of the first ontology)
 	 * @param finalOntologies the final set of ontologies
 	 * @return the difference in axioms
 	 */
-	public static OntologyDiff diffAxiomsWithOntologies(final Collection<OWLAxiom> initialAxioms, final Collection<OWLOntology> finalOntologies)
+	public static OntologyDiff diffAxiomsWithOntologies(final Stream<OWLAxiom> initialAxioms, final Collection<OWLOntology> finalOntologies)
 	{
 		final OntologyDiff result = new OntologyDiff();
 
-		for (final OWLAxiom axiom : initialAxioms)
-			if (!containsAxiom(axiom, finalOntologies))
-				result.deletions.add(axiom);
+		final List<OWLAxiom> axioms = initialAxioms.collect(Collectors.toList());
+
+		axioms.stream().filter(axiom -> !containsAxiom(axiom, finalOntologies)).forEach(result.deletions::add);
 
 		for (final OWLOntology ontology : finalOntologies)
-			for (final OWLAxiom axiom : ontology.getAxioms())
-				if (!initialAxioms.contains(axiom))
-					result.additions.add(axiom);
+			ontology.axioms().filter(axiom -> !axioms.contains(axiom)).forEach(result.additions::add);
 
 		return result;
 	}
 
+	public static OntologyDiff diffAxiomsWithOntologies(final Collection<OWLAxiom> initialAxioms, final Collection<OWLOntology> finalOntologies)
+	{
+		return diffAxiomsWithOntologies(initialAxioms.stream(), finalOntologies);
+	}
+
 	/**
 	 * Checks whether a collection of ontologies contains a specific axiom
-	 * 
+	 *
 	 * @param axiom the axiom whose presence should be checked
 	 * @param ontologies the collection of ontologies amongst which the presence of the axiom should be checked
 	 * @return true if there is at least one ontology in the collection that contains this axiom, false otherwise
@@ -142,7 +135,7 @@ public class OntologyDiff
 
 	/**
 	 * Computes the difference between two sets of axioms.
-	 * 
+	 *
 	 * @param initialAxioms the first (initial) set of axioms
 	 * @param finalAxioms the second (final) set of axioms
 	 * @return the difference between the sets of axioms

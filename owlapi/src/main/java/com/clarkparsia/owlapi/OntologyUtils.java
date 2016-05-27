@@ -8,7 +8,6 @@ package com.clarkparsia.owlapi;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -53,6 +52,11 @@ public class OntologyUtils
 	private static OWLOntologyManager _manager = OWL.manager;
 
 	public static void addAxioms(final OWLOntology ontology, final Collection<? extends OWLAxiom> axioms)
+	{
+		addAxioms(ontology, axioms.stream());
+	}
+
+	public static void addAxioms(final OWLOntology ontology, final Stream<? extends OWLAxiom> axioms)
 	{
 		updateOntology(ontology, axioms, true);
 	}
@@ -214,15 +218,18 @@ public class OntologyUtils
 	 * @param axioms the axiom to add/remove
 	 * @param add true - add; false - delete
 	 */
+	public static void updateOntology(final OWLOntology ontology, final Stream<? extends OWLAxiom> axioms, final boolean add)
+	{
+		final List<OWLOntologyChange> changes = axioms//
+				.map(axiom -> add ? new AddAxiom(ontology, axiom) : new RemoveAxiom(ontology, axiom))//
+				.collect(Collectors.toList());
+
+		_manager.applyChanges(changes);
+	}
+
 	public static void updateOntology(final OWLOntology ontology, final Collection<? extends OWLAxiom> axioms, final boolean add)
 	{
-		final List<OWLOntologyChange> changes = new ArrayList<>();
-		for (final OWLAxiom axiom : axioms)
-		{
-			final OWLOntologyChange change = add ? new AddAxiom(ontology, axiom) : new RemoveAxiom(ontology, axiom);
-			changes.add(change);
-		}
-		_manager.applyChanges(changes);
+		updateOntology(ontology, axioms.stream(), add);
 	}
 
 	/**

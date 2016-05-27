@@ -146,6 +146,11 @@ public class OWL implements FacetManagerOWL, FacetFactoryOWL
 
 	public static OWLOntology Ontology(final Collection<? extends OWLAxiom> axioms)
 	{
+		return Ontology(axioms.stream());
+	}
+
+	public static OWLOntology Ontology(final Stream<? extends OWLAxiom> axioms)
+	{
 		_logger.info("Using an test method.");
 		final IRI uri = IRI.create("http://www.example.org/ontology" + UUID.randomUUID());
 
@@ -153,6 +158,11 @@ public class OWL implements FacetManagerOWL, FacetFactoryOWL
 	}
 
 	public static OWLOntology Ontology(final Collection<? extends OWLAxiom> axioms, final IRI iri)
+	{
+		return Ontology(axioms.stream(), iri);
+	}
+
+	public static OWLOntology Ontology(final Stream<? extends OWLAxiom> axioms, final IRI iri)
 	{
 		OWLOntology ontology;
 		try
