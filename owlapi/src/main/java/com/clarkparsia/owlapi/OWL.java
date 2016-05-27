@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.mindswap.pellet.utils.Namespaces;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -201,6 +202,11 @@ public class OWL implements FacetManagerOWL, FacetFactoryOWL
 	}
 
 	public static OWLObjectIntersectionOf and(final Set<? extends OWLClassExpression> descriptions)
+	{
+		return factory.getOWLObjectIntersectionOf(descriptions);
+	}
+
+	public static OWLObjectIntersectionOf and(final Stream<? extends OWLClassExpression> descriptions)
 	{
 		return factory.getOWLObjectIntersectionOf(descriptions);
 	}
@@ -413,6 +419,11 @@ public class OWL implements FacetManagerOWL, FacetFactoryOWL
 	}
 
 	public static OWLEquivalentClassesAxiom equivalentClasses(final Set<? extends OWLClassExpression> descriptions)
+	{
+		return factory.getOWLEquivalentClassesAxiom(descriptions);
+	}
+
+	public static OWLEquivalentClassesAxiom equivalentClasses(final Stream<? extends OWLClassExpression> descriptions)
 	{
 		return factory.getOWLEquivalentClassesAxiom(descriptions);
 	}
@@ -692,6 +703,11 @@ public class OWL implements FacetManagerOWL, FacetFactoryOWL
 		return factory.getOWLObjectOneOf(individuals);
 	}
 
+	public static OWLObjectOneOf objectOneOf(final Stream<OWLIndividual> individuals)
+	{
+		return factory.getOWLObjectOneOf(individuals);
+	}
+
 	public static OWLDataAllValuesFrom only(final OWLDataPropertyExpression property, final OWLDataRange datatype)
 	{
 		return factory.getOWLDataAllValuesFrom(property, datatype);
@@ -712,12 +728,22 @@ public class OWL implements FacetManagerOWL, FacetFactoryOWL
 		return factory.getOWLObjectUnionOf(descriptions);
 	}
 
+	public static OWLObjectUnionOf or(final Stream<? extends OWLClassExpression> descriptions)
+	{
+		return factory.getOWLObjectUnionOf(descriptions);
+	}
+
 	public static OWLDataUnionOf dataOr(final OWLDataRange... descriptions)
 	{
 		return factory.getOWLDataUnionOf(set(descriptions));
 	}
 
 	public static OWLDataUnionOf dataOr(final Set<? extends OWLDataRange> descriptions)
+	{
+		return factory.getOWLDataUnionOf(descriptions);
+	}
+
+	public static OWLDataUnionOf dataOr(final Stream<? extends OWLDataRange> descriptions)
 	{
 		return factory.getOWLDataUnionOf(descriptions);
 	}

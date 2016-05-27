@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import net.katk.tools.Log;
 import org.mindswap.pellet.utils.DisjointSet;
 import org.mindswap.pellet.utils.SetUtils;
@@ -43,6 +44,7 @@ import org.semanticweb.owlapi.model.OWLEntity;
  */
 public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 {
+	@SuppressWarnings("hiding")
 	public static final Logger _logger = Log.getLogger(AxiomBasedModuleExtractor.class);
 
 	private boolean _optimizeForSharedModules = true;
@@ -97,12 +99,9 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 				final Set<OWLAxiom> testLocal = new HashSet<>();
 
 				for (final OWLEntity e : addedEntities)
-					for (final OWLAxiom a : getAxioms(e))
-						if (testLocal.add(a) && !isLocal(a, module))
-							for (final OWLEntity ent : getSignature(a))
-								if (module.add(ent))
-									newMembers.add(ent);
-
+					axioms(e)//
+					.filter(a -> testLocal.add(a) && !isLocal(a, module))//
+					.forEach(a -> signature(a).filter(module::add).forEach(newMembers::add));
 			}
 
 			// Recursive calls may modify the module, iterating over a static
@@ -204,12 +203,9 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 				final Set<OWLAxiom> testLocal = new HashSet<>();
 
 				for (final OWLEntity e : addedEntities)
-					for (final OWLAxiom a : getAxioms(e))
-						if (testLocal.add(a) && !isLocal(a, module))
-							for (final OWLEntity ent : getSignature(a))
-								if (module.add(ent))
-									newMembers.add(ent);
-
+					axioms(e)//
+					.filter(a -> testLocal.add(a) && !isLocal(a, module))//
+					.forEach(a -> signature(a).filter(module::add).forEach(newMembers::add));
 			}
 
 			// Recursive calls may modify the module, iterating over a static
@@ -256,9 +252,9 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 	protected void extractModuleSignatures(final Set<? extends OWLEntity> entities, final ProgressMonitor monitor)
 	{
 		final Set<OWLEntity> nonLocalModule = new HashSet<>();
-		for (final OWLAxiom axiom : getAxioms())
-			if (!isLocal(axiom, Collections.<OWLEntity> emptySet()))
-				nonLocalModule.addAll(OntologyUtils.getSignature(axiom));
+		axioms()//
+		.filter(axiom -> !isLocal(axiom, Collections.<OWLEntity> emptySet())) //
+		.forEach(axiom -> nonLocalModule.addAll(OntologyUtils.signature(axiom).collect(Collectors.toList())));
 
 		// iterate over classes passed in, and extract all their modules
 		for (final OWLEntity ent : entities)
@@ -289,9 +285,9 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 			resetModules();
 
 		final Set<OWLEntity> module = new HashSet<>(signature);
-		for (final OWLAxiom axiom : getAxioms())
-			if (!isLocal(axiom, Collections.<OWLEntity> emptySet()))
-				module.addAll(OntologyUtils.getSignature(axiom));
+		axioms()//
+		.filter(axiom -> !isLocal(axiom, Collections.<OWLEntity> emptySet())) //
+		.forEach(axiom -> module.addAll(OntologyUtils.signature(axiom).collect(Collectors.toList())));
 
 		if (!entityAxioms.isEmpty())
 			if (_optimizeForSharedModules)
@@ -318,7 +314,7 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 	 */
 	public void setOptimizeForSharedModules(final boolean optimizeForSharedModules)
 	{
-		this._optimizeForSharedModules = optimizeForSharedModules;
+		_optimizeForSharedModules = optimizeForSharedModules;
 	}
 
 }

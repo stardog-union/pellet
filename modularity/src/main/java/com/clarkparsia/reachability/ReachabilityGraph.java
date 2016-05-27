@@ -23,7 +23,6 @@ import net.katk.tools.Log;
  */
 public class ReachabilityGraph<E>
 {
-
 	public static final Logger _logger = Log.getLogger(ReachabilityGraph.class);
 
 	private final Map<E, EntityNode<E>> _entityNodes = new HashMap<>();
@@ -47,6 +46,7 @@ public class ReachabilityGraph<E>
 		@Override
 		public void reset()
 		{
+			// Nothing to do.
 		}
 
 		@Override
@@ -61,13 +61,13 @@ public class ReachabilityGraph<E>
 		@Override
 		public boolean inputActivated()
 		{
-			throw new IllegalStateException("NULL _node cannot have inputs");
+			throw new IllegalStateException("NULL node cannot have inputs");
 		}
 
 		@Override
 		public void addOutput(final Node output)
 		{
-			// do not add the output because null _node can never be activated
+			// do not add the output because null node can never be activated
 		}
 
 		@Override
@@ -79,6 +79,7 @@ public class ReachabilityGraph<E>
 		@Override
 		public void reset()
 		{
+			// Nothing to do.
 		}
 
 		@Override
@@ -117,7 +118,7 @@ public class ReachabilityGraph<E>
 		return andNode;
 	}
 
-	public EntityNode createEntityNode(final E entity)
+	public EntityNode<E> createEntityNode(final E entity)
 	{
 		EntityNode<E> node = _entityNodes.get(entity);
 
@@ -223,7 +224,7 @@ public class ReachabilityGraph<E>
 		}
 
 		if (_logger.isLoggable(Level.FINE))
-			_logger.fine("Merged " + count + " _nodes");
+			_logger.fine("Merged " + count + " nodes");
 	}
 
 	private void removeRedundancies()
@@ -250,7 +251,7 @@ public class ReachabilityGraph<E>
 						}
 
 			if (_logger.isLoggable(Level.FINE))
-				_logger.fine("Removed " + removedNode + " _nodes and " + removedEdge + " edges");
+				_logger.fine("Removed " + removedNode + " nodes and " + removedEdge + " edges");
 		}
 	}
 }

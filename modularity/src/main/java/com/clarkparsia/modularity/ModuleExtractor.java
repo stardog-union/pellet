@@ -9,6 +9,7 @@ package com.clarkparsia.modularity;
 import com.clarkparsia.pellet.expressivity.Expressivity;
 import java.io.IOException;
 import java.util.Set;
+import java.util.stream.Stream;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 import org.mindswap.pellet.taxonomy.Taxonomy;
@@ -17,7 +18,6 @@ import org.mindswap.pellet.utils.Timers;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
@@ -41,12 +41,15 @@ public interface ModuleExtractor
 	/**
 	 * Adds an axiom to the extractor.
 	 */
-	public void addAxiom(OWLAxiom axiom);
+	public void addAxiom(final OWLAxiom axiom);
 
 	/**
 	 * Adds all the axioms to the extractor.
 	 */
-	public void addAxioms(Iterable<OWLAxiom> axioms);
+	public void addAxioms(final Stream<OWLAxiom> axioms);
+
+	@Deprecated
+	public void addAxioms(final Iterable<OWLAxiom> axioms);
 
 	/**
 	 * Returns if the extracted modules can be updated. Returns false if the initial module extraction has not been performed yet.
@@ -60,7 +63,7 @@ public interface ModuleExtractor
 	 *
 	 * @param axiom
 	 */
-	public void deleteAxiom(OWLAxiom axiom);
+	public void deleteAxiom(final OWLAxiom axiom);
 
 	/**
 	 * Extract modules for all classes from scratch
@@ -76,6 +79,9 @@ public interface ModuleExtractor
 	 *
 	 * @return an unmodifiable set of axioms
 	 */
+	public Stream<OWLAxiom> axioms();
+
+	@Deprecated
 	public Set<OWLAxiom> getAxioms();
 
 	/**
@@ -84,7 +90,10 @@ public interface ModuleExtractor
 	 * @param entity
 	 * @return
 	 */
-	public Set<OWLAxiom> getAxioms(OWLEntity entity);
+	public Stream<OWLAxiom> axioms(final OWLEntity entity);
+
+	@Deprecated
+	public Set<OWLAxiom> getAxioms(final OWLEntity entity);
 
 	/**
 	 * Returns all the entities referenced in loaded axioms.
@@ -93,7 +102,7 @@ public interface ModuleExtractor
 	 */
 	public Set<OWLEntity> getEntities();
 
-	public OWLOntology getModule(OWLEntity entity);
+	public OWLOntology getModule(final OWLEntity entity);
 
 	/**
 	 * Returns a new ontology that contains the axioms that are in the module for given set of entities
@@ -102,7 +111,7 @@ public interface ModuleExtractor
 	 * @return
 	 * @throws OWLException
 	 */
-	public OWLOntology getModuleFromSignature(Set<OWLEntity> signature);
+	public OWLOntology getModuleFromSignature(final Set<OWLEntity> signature);
 
 	/**
 	 * Returns the _timers used by this extractor to collect statistics about performance.
@@ -123,7 +132,7 @@ public interface ModuleExtractor
 	 *
 	 * @return true if classification is needed, false otherwise
 	 */
-	public boolean isClassificationNeeded(Expressivity expressivity);
+	public boolean isClassificationNeeded(final Expressivity expressivity);
 
 	/**
 	 * Update the modules with the changes that have been put into the _queue so far.
@@ -131,7 +140,7 @@ public interface ModuleExtractor
 	 * @return The set of entities whose modules are affected by the changes
 	 * @throws UnsupportedOperationException if modules cannot be updated as reported by {@link #canUpdate()} function
 	 */
-	public Set<OWLEntity> applyChanges(Taxonomy<OWLClass> taxonomy) throws UnsupportedOperationException;
+	public Set<OWLEntity> applyChanges(final Taxonomy<OWLClass> taxonomy) throws UnsupportedOperationException;
 
 	/**
 	 * Extract the module for a given set of entities.
@@ -139,7 +148,7 @@ public interface ModuleExtractor
 	 * @param signature set of entities
 	 * @return module for the given signature
 	 */
-	public Set<OWLAxiom> extractModule(Set<? extends OWLEntity> signature);
+	public Set<OWLAxiom> extractModule(final Set<? extends OWLEntity> signature);
 
 	/**
 	 * Save the _current state of the ModuleExtractor. The output is saved to a ZipOutputStream to allow storage in multiple files in one stream.
@@ -148,15 +157,15 @@ public interface ModuleExtractor
 	 * @throws IOException if an I/O error occurs during the saving
 	 * @throws IllegalStateException if there are outstanding changes that have not yet been applied to the modules (e.g., via updateModules())
 	 */
-	public void save(ZipOutputStream outputStream) throws IOException, IllegalStateException;
+	public void save(final ZipOutputStream outputStream) throws IOException, IllegalStateException;
 
 	/**
 	 * Restores the previously saved state of the ModuleExtractor from a stream. The input is read from a ZipInputStream because the _data may potentially span
 	 * multiple files. The method assumes that the zip file entries saved by the save() method are the immediately next ones in the stream.
-	 * 
+	 *
 	 * @param inputStream the zip input stream from which the _data should be read
 	 * @throws IOException if an I/O error occurs during the read
 	 * @throws IllegalArgumentException if the next zip file entry in the stream was not saved by a compatible ModuleExtractor
 	 */
-	public void load(ZipInputStream inputStream) throws IOException, IllegalArgumentException;
+	public void load(final ZipInputStream inputStream) throws IOException, IllegalArgumentException;
 }
