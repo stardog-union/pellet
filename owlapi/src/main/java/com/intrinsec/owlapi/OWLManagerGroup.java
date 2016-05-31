@@ -31,6 +31,12 @@ public class OWLManagerGroup implements AutoCloseable
 		setOntologiesDirectory(ontologiesDirectory);
 	}
 
+	public OWLManagerGroup(final Optional<OWLOntologyManager> volatileManager, final Optional<OWLOntologyManager> storageManager)
+	{
+		volatileManager.ifPresent(m -> _volatileManager = m);
+		storageManager.ifPresent(m -> _storageManager = m);
+	}
+
 	public volatile Optional<File> _ontologiesDirectory = Optional.empty();
 
 	public boolean setOntologiesDirectory(final File directory)

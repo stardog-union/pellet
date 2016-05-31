@@ -155,6 +155,11 @@ public class OntologyDiff
 		return result;
 	}
 
+	public static OntologyDiff diffAxioms(final Stream<OWLAxiom> initialAxioms, final Collection<OWLAxiom> finalAxioms)
+	{
+		return diffAxioms(initialAxioms.collect(Collectors.toList()), finalAxioms);
+	}
+
 	/**
 	 * Checks whether the two compared ontologies were the same (i.e., there are no differences).
 	 *

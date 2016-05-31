@@ -18,6 +18,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import net.katk.tools.Log;
+import net.katk.tools.Logging;
 import org.mindswap.pellet.utils.Namespaces;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -112,7 +113,7 @@ import org.semanticweb.owlapi.vocab.OWLRDFVocabulary;
  *
  * @author Evren Sirin
  */
-public class OWL implements FacetManagerOWL, FacetFactoryOWL
+public class OWL implements FacetManagerOWL, FacetFactoryOWL, Logging
 {
 	private static final Logger _logger = Log.getLogger(OWL.class);
 
@@ -131,6 +132,16 @@ public class OWL implements FacetManagerOWL, FacetFactoryOWL
 	public static final OWLDataProperty topDataProperty = DataProperty(Namespaces.OWL + "topDataProperty");
 
 	public static final OWLDataProperty bottomDataProperty = DataProperty(Namespaces.OWL + "bottomDataProperty");
+
+	public static final OWLLiteral TRUE = factory.getOWLLiteral(true);
+
+	public static final OWLLiteral FALSE = factory.getOWLLiteral(false);
+
+	@Override
+	public Logger getLogger()
+	{
+		return _logger;
+	}
 
 	@Override
 	public OWLDataFactory getFactory()

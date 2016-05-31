@@ -242,7 +242,7 @@ public class PelletClassify extends PelletCmdApp
 
 			// check whether anything changed in the ontology in the time between the incremental classifier
 			// was persisted and the _current time
-			final OntologyDiff ontologyDiff = OntologyDiff.diffAxioms(result.getAxioms(), ontology.axioms().collect(Collectors.toSet()));
+			final OntologyDiff ontologyDiff = OntologyDiff.diffAxioms(result.axioms(), ontology.axioms().collect(Collectors.toSet()));
 
 			if (ontologyDiff.getDiffCount() > 0)
 			{

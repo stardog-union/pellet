@@ -11,6 +11,7 @@ package com.clarkparsia.modularity;
 import com.clarkparsia.owlapi.modularity.locality.LocalityClass;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.mindswap.pellet.utils.iterator.NestedIterator;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -37,7 +38,7 @@ public class ModularityUtils
 	 */
 	public static Set<OWLAxiom> extractModule(final OWLOntology ontology, final Set<OWLEntity> signature, final ModuleType moduleType)
 	{
-		return extractModule(ontology.getImportsClosure(), signature, moduleType);
+		return extractModule(ontology.importsClosure().collect(Collectors.toSet()), signature, moduleType);
 	}
 
 	/**
@@ -77,7 +78,7 @@ public class ModularityUtils
 			@Override
 			public Iterator<? extends OWLAxiom> getInnerIterator(final OWLOntology ont)
 			{
-				return ont.getAxioms().iterator();
+				return ont.axioms().iterator();
 			}
 		};
 	}

@@ -1,6 +1,8 @@
 package com.intrinsec.owlapi;
 
+import com.clarkparsia.owlapi.OWL;
 import java.io.File;
+import java.util.Optional;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyID;
 
@@ -23,7 +25,7 @@ public class OWLUtils
 		return (!iri.startsWith("{")) ? iri : iri.replaceAll("[\\{\\}]", "");
 	}
 
-	static private OWLManagerGroup _owlManagerGroup = new OWLManagerGroup();
+	static private OWLManagerGroup _owlManagerGroup = new OWLManagerGroup(Optional.of(OWL.manager), Optional.empty());
 
 	static public OWLManagerGroup getOwlManagerGroup()
 	{
