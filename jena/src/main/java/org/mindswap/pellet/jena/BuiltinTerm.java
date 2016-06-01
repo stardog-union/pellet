@@ -61,7 +61,9 @@ public enum BuiltinTerm
 	OWL2_disjointUnionOf(OWL2.disjointUnionOf), OWL2_propertyDisjointWith(OWL2.propertyDisjointWith),
 
 	/** @deprecated Not in OWL 2 spec, only in earlier drafts */
-	OWL2_propertyChain(OWL2.propertyChain, true), OWL2_propertyChainAxiom(OWL2.propertyChainAxiom),
+	@Deprecated
+	OWL2_propertyChain(OWL2.propertyChain, true), //
+	OWL2_propertyChainAxiom(OWL2.propertyChainAxiom),
 
 	OWL2_Axiom(OWL2.Axiom, true), OWL2_Annotation(OWL2.Annotation, true), OWL2_annotatedSource(OWL2.annotatedSource, true), OWL2_annotatedProperty(OWL2.annotatedProperty, true), OWL2_annotatedTarget(OWL2.annotatedTarget, true), OWL2_object(OWL2.object, true), OWL2_predicate(OWL2.predicate, true), OWL2_subject(OWL2.subject, true),
 
@@ -86,6 +88,7 @@ public enum BuiltinTerm
 	RDF_List(RDF.List, true), RDF_Statement(RDF.Statement, true), OWL_Restriction(OWL.Restriction, true), OWL_Ontology(OWL.Ontology, true),
 
 	/** @deprecated Not in OWL 2 spec, in OWL 1.1. Use {@link #OWL2_hasSelf} */
+	@Deprecated
 	OWL2_SelfRestriction(OWL2.SelfRestriction, true);
 
 	private static final Map<Node, BuiltinTerm> nodeMap;
