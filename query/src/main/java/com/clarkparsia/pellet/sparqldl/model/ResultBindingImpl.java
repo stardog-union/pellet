@@ -30,7 +30,7 @@ import java.util.Set;
 public class ResultBindingImpl implements ResultBinding
 {
 
-	private final Map<ATermAppl, ATermAppl> bindings = new HashMap<>();
+	private final Map<ATermAppl, ATermAppl> _bindings = new HashMap<>();
 
 	public ResultBindingImpl()
 	{
@@ -38,7 +38,7 @@ public class ResultBindingImpl implements ResultBinding
 
 	private ResultBindingImpl(final Map<ATermAppl, ATermAppl> bindings)
 	{
-		this.bindings.putAll(bindings);
+		this._bindings.putAll(bindings);
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class ResultBindingImpl implements ResultBinding
 	@Override
 	public void setValue(final ATermAppl var, final ATermAppl binding)
 	{
-		bindings.put(var, binding);
+		_bindings.put(var, binding);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class ResultBindingImpl implements ResultBinding
 	public void setValues(final ResultBinding binding)
 	{
 		if (binding instanceof ResultBindingImpl)
-			bindings.putAll(((ResultBindingImpl) binding).bindings);
+			_bindings.putAll(((ResultBindingImpl) binding)._bindings);
 		else
 			for (final ATermAppl var : binding.getAllVariables())
 				setValue(var, binding.getValue(var));
@@ -69,7 +69,7 @@ public class ResultBindingImpl implements ResultBinding
 	@Override
 	public ATermAppl getValue(final ATermAppl var)
 	{
-		return bindings.get(var);
+		return _bindings.get(var);
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class ResultBindingImpl implements ResultBinding
 	@Override
 	public boolean isBound(final ATermAppl var)
 	{
-		return bindings.containsKey(var);
+		return _bindings.containsKey(var);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class ResultBindingImpl implements ResultBinding
 	@Override
 	public Set<ATermAppl> getAllVariables()
 	{
-		return bindings.keySet();
+		return _bindings.keySet();
 	}
 
 	/**
@@ -96,13 +96,13 @@ public class ResultBindingImpl implements ResultBinding
 	@Override
 	public ResultBinding duplicate()
 	{
-		return new ResultBindingImpl(this.bindings);
+		return new ResultBindingImpl(this._bindings);
 	}
 
 	@Override
 	public String toString()
 	{
-		return bindings.toString();
+		return _bindings.toString();
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class ResultBindingImpl implements ResultBinding
 	@Override
 	public boolean isEmpty()
 	{
-		return bindings.isEmpty();
+		return _bindings.isEmpty();
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class ResultBindingImpl implements ResultBinding
 	{
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((bindings == null) ? 0 : bindings.hashCode());
+		result = PRIME * result + ((_bindings == null) ? 0 : _bindings.hashCode());
 		return result;
 	}
 
@@ -133,13 +133,13 @@ public class ResultBindingImpl implements ResultBinding
 		if (getClass() != obj.getClass())
 			return false;
 		final ResultBindingImpl other = (ResultBindingImpl) obj;
-		if (bindings == null)
+		if (_bindings == null)
 		{
-			if (other.bindings != null)
+			if (other._bindings != null)
 				return false;
 		}
 		else
-			if (!bindings.equals(other.bindings))
+			if (!_bindings.equals(other._bindings))
 				return false;
 		return true;
 	}

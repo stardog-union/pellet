@@ -34,7 +34,7 @@ class SparqlDLStageGenerator implements StageGenerator
 	 * If this variable is true then queries with variable SPO statements are
 	 * not handled by the SPARQL-DL engine but fall back to ARQ
 	 */
-	private boolean handleVariableSPO = true;
+	private boolean _handleVariableSPO = true;
 
 	public SparqlDLStageGenerator()
 	{
@@ -43,12 +43,12 @@ class SparqlDLStageGenerator implements StageGenerator
 
 	public SparqlDLStageGenerator(final boolean handleVariableSPO)
 	{
-		this.handleVariableSPO = handleVariableSPO;
+		_handleVariableSPO = handleVariableSPO;
 	}
 
 	@Override
 	public QueryIterator execute(final BasicPattern pattern, final QueryIterator input, final ExecutionContext execCxt)
 	{
-		return (new SparqlDLStage(pattern, handleVariableSPO)).build(input, execCxt);
+		return (new SparqlDLStage(pattern, _handleVariableSPO)).build(input, execCxt);
 	}
 }

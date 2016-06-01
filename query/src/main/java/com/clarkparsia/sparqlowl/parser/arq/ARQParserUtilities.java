@@ -40,7 +40,6 @@ import org.apache.jena.vocabulary.XSD;
  */
 public class ARQParserUtilities
 {
-
 	/**
 	 * Set containing all OWL 2 datatypes
 	 */
@@ -102,7 +101,7 @@ public class ARQParserUtilities
 		{
 			final Node oldList = list;
 			final Node first = nodes.get(i);
-			list = NodeFactory.createAnon();
+			list = NodeFactory.createBlankNode();
 			triples.add(new Triple(list, RDF.Nodes.first, first));
 			triples.add(new Triple(list, RDF.Nodes.rest, oldList));
 		}

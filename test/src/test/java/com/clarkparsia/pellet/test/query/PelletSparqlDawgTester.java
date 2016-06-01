@@ -46,7 +46,7 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 {
 	public static boolean CLASSIFY_KB_IN_ADVANCE = false;
 
-	private final List<String> avoidList = Arrays.asList(new String[] {
+	private final List<String> _avoidList = Arrays.asList(new String[] {
 			// FIXME
 			// with some
 			// effort
@@ -166,7 +166,7 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 	@Override
 	public boolean isApplicable(final String uri)
 	{
-		return !avoidList.contains(URIUtils.getLocalName(uri));
+		return !_avoidList.contains(URIUtils.getLocalName(uri));
 	}
 
 	@Override

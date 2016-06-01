@@ -70,15 +70,15 @@ public class CombinedQueryEngine implements QueryExec
 {
 	public static final Logger _logger = Log.getLogger(CombinedQueryEngine.class);
 
-	public static final QueryOptimizer optimizer = new QueryOptimizer();
+	public static final QueryOptimizer _optimizer = new QueryOptimizer();
 
 	private KnowledgeBase _kb;
 
-	protected QueryPlan plan;
+	protected QueryPlan _plan;
 
-	protected Query oldQuery;
+	protected Query _oldQuery;
 
-	protected Query query;
+	protected Query _query;
 
 	private QueryResult _result;
 
@@ -95,20 +95,20 @@ public class CombinedQueryEngine implements QueryExec
 
 		this._result = new QueryResultImpl(query);
 
-		this.oldQuery = query;
-		this.query = setupCores(query);
+		this._oldQuery = query;
+		this._query = setupCores(query);
 
 		if (_logger.isLoggable(Level.FINE))
-			_logger.fine("After setting-up cores : " + this.query);
+			_logger.fine("After setting-up cores : " + this._query);
 
-		this.plan = optimizer.getExecutionPlan(this.query);
-		this.plan.reset();
+		this._plan = _optimizer.getExecutionPlan(this._query);
+		this._plan.reset();
 
 		// warm up the reasoner by computing the satisfiability of classes
 		// used in the query so that cached models can be used for instance
 		// checking - TODO also non-named classes
 		if ((PelletOptions.USE_CACHING) && !_kb.isClassified())
-			for (final QueryAtom a : oldQuery.getAtoms())
+			for (final QueryAtom a : _oldQuery.getAtoms())
 				for (final ATermAppl arg : a.getArguments())
 					if (_kb.isClass(arg))
 					{
@@ -121,7 +121,7 @@ public class CombinedQueryEngine implements QueryExec
 			// TODO use down monotonic variables for implementation of
 			// DirectType atom
 			_downMonotonic = new HashSet<>();
-			setupDownMonotonicVariables(this.query);
+			setupDownMonotonicVariables(this._query);
 			if (_logger.isLoggable(Level.FINE))
 				_logger.fine("Variables to be optimized : " + _downMonotonic);
 		}
@@ -257,12 +257,14 @@ public class CombinedQueryEngine implements QueryExec
 
 	private long branches;
 
-	private void exec(ResultBinding binding)
+	private void exec(final ResultBinding bindingParam)
 	{
+		ResultBinding binding = bindingParam;
+
 		if (_logger.isLoggable(Level.FINE))
 			branches++;
 
-		if (!plan.hasNext())
+		if (!_plan.hasNext())
 		{
 			// TODO if _result vars are not same as dist vars.
 			if (!binding.isEmpty() || _result.isEmpty())
@@ -292,7 +294,7 @@ public class CombinedQueryEngine implements QueryExec
 			return;
 		}
 
-		final QueryAtom current = plan.next(binding);
+		final QueryAtom current = _plan.next(binding);
 
 		if (_logger.isLoggable(Level.FINER))
 			_logger.finer("Evaluating " + current);
@@ -308,7 +310,7 @@ public class CombinedQueryEngine implements QueryExec
 		if (_logger.isLoggable(Level.FINER))
 			_logger.finer("Returning ... " + binding);
 
-		plan.back();
+		_plan.back();
 	}
 
 	private void exec(final QueryAtom current, final ResultBinding binding)
@@ -323,6 +325,7 @@ public class CombinedQueryEngine implements QueryExec
 
 			case DirectType:
 				direct = true;
+				//$FALL-THROUGH$
 			case Type: // TODO implementation of _downMonotonic vars
 				final ATermAppl tI = arguments.get(0);
 				final ATermAppl tC = arguments.get(1);
@@ -412,7 +415,7 @@ public class CombinedQueryEngine implements QueryExec
 					if (!ATermUtils.isVar(pvIL))
 						objectCandidates = Collections.singleton(pvIL);
 					else
-						if (!plan.getQuery().getDistVarsForType(VarType.LITERAL).contains(pvIL))
+						if (!_plan.getQuery().getDistVarsForType(VarType.LITERAL).contains(pvIL))
 							propertyCandidates = _kb.getObjectProperties();
 
 					if (propertyCandidates == null)
@@ -610,14 +613,16 @@ public class CombinedQueryEngine implements QueryExec
 								runNext(binding, arguments, subject, property, aIL);
 
 				break;
-				// throw new IllegalArgumentException("The annotation atom "
-				// + _current + " should be ground, but is not.");
+			// throw new IllegalArgumentException("The annotation atom "
+			// + _current + " should be ground, but is not.");
 
-				// TBOX ATOMS
+			// TBOX ATOMS
 			case DirectSubClassOf:
 				direct = true;
+				//$FALL-THROUGH$
 			case StrictSubClassOf:
 				strict = true;
+				//$FALL-THROUGH$
 			case SubClassOf:
 				final ATermAppl scLHS = arguments.get(0);
 				final ATermAppl scRHS = arguments.get(1);
@@ -752,11 +757,13 @@ public class CombinedQueryEngine implements QueryExec
 					_logger.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
 				break;
 
-				// RBOX ATOMS
+			// RBOX ATOMS
 			case DirectSubPropertyOf:
 				direct = true;
+				//$FALL-THROUGH$
 			case StrictSubPropertyOf:
 				strict = true;
+				//$FALL-THROUGH$
 			case SubPropertyOf:
 				final ATermAppl spLHS = arguments.get(0);
 				final ATermAppl spRHS = arguments.get(1);
@@ -1037,10 +1044,10 @@ public class CombinedQueryEngine implements QueryExec
 						switch (s)
 						{
 							case SIMPLE:
-								execSimpleCore(oldQuery, binding, distVars);
+								execSimpleCore(_oldQuery, binding, distVars);
 								break;
 							case ALLFAST:
-								execAllFastCore(oldQuery, binding, distVars, core.getUndistVars());
+								execAllFastCore(_oldQuery, binding, distVars, core.getUndistVars());
 								break;
 							default:
 								throw new InternalReasonerException("Unknown core _strategy.");

@@ -29,40 +29,40 @@ import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
 public class NoReorderingQueryPlan extends QueryPlan
 {
 
-	private int index;
+	private int _index;
 
-	private final int size;
+	private final int _size;
 
 	public NoReorderingQueryPlan(final Query query)
 	{
 		super(query);
 
-		index = 0;
+		_index = 0;
 
-		size = query.getAtoms().size();
+		_size = query.getAtoms().size();
 	}
 
 	@Override
 	public QueryAtom next(final ResultBinding binding)
 	{
-		return query.getAtoms().get(index++).apply(binding);
+		return _query.getAtoms().get(_index++).apply(binding);
 	}
 
 	@Override
 	public boolean hasNext()
 	{
-		return index < size;
+		return _index < _size;
 	}
 
 	@Override
 	public void back()
 	{
-		index--;
+		_index--;
 	}
 
 	@Override
 	public void reset()
 	{
-		index = 0;
+		_index = 0;
 	}
 }

@@ -32,9 +32,9 @@ import java.util.List;
  */
 public class UnionQueryAtom implements QueryAtom
 {
-	private final List<List<QueryAtom>> union;
-	private boolean isGround;
-	private final List<ATermAppl> args;
+	private final List<List<QueryAtom>> _union;
+	private boolean _isGround;
+	private final List<ATermAppl> _args;
 
 	public UnionQueryAtom(final List<QueryAtom> atoms1, final List<QueryAtom> atoms2)
 	{
@@ -46,16 +46,16 @@ public class UnionQueryAtom implements QueryAtom
 		if (union.isEmpty())
 			throw new IllegalArgumentException("Empty collection of atoms not allowed in NotKnown atom");
 
-		this.union = Collections.unmodifiableList(union);
+		this._union = Collections.unmodifiableList(union);
 
-		isGround = true;
-		args = new ArrayList<>();
+		_isGround = true;
+		_args = new ArrayList<>();
 		for (final List<QueryAtom> atoms : union)
 			for (final QueryAtom atom : atoms)
 			{
-				args.addAll(atom.getArguments());
-				if (isGround && !atom.isGround())
-					isGround = false;
+				_args.addAll(atom.getArguments());
+				if (_isGround && !atom.isGround())
+					_isGround = false;
 			}
 	}
 
@@ -63,7 +63,7 @@ public class UnionQueryAtom implements QueryAtom
 	public QueryAtom apply(final ResultBinding binding)
 	{
 		final List<List<QueryAtom>> newUnion = new ArrayList<>();
-		for (final List<QueryAtom> atoms : union)
+		for (final List<QueryAtom> atoms : _union)
 		{
 			final List<QueryAtom> newAtoms = new ArrayList<>();
 			for (final QueryAtom atom : atoms)
@@ -80,7 +80,7 @@ public class UnionQueryAtom implements QueryAtom
 		if (!(obj instanceof UnionQueryAtom))
 			return false;
 
-		return union.equals(((UnionQueryAtom) obj).union);
+		return _union.equals(((UnionQueryAtom) obj)._union);
 	}
 
 	/**
@@ -89,12 +89,12 @@ public class UnionQueryAtom implements QueryAtom
 	@Override
 	public List<ATermAppl> getArguments()
 	{
-		return args;
+		return _args;
 	}
 
 	public List<List<QueryAtom>> getUnion()
 	{
-		return union;
+		return _union;
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class UnionQueryAtom implements QueryAtom
 	@Override
 	public int hashCode()
 	{
-		return 31 * union.hashCode();
+		return 31 * _union.hashCode();
 	}
 
 	/**
@@ -118,12 +118,12 @@ public class UnionQueryAtom implements QueryAtom
 	@Override
 	public boolean isGround()
 	{
-		return isGround;
+		return _isGround;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Union" + union;
+		return "Union" + _union;
 	}
 }

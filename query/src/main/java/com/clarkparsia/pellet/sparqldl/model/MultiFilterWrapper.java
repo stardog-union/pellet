@@ -30,32 +30,32 @@ public class MultiFilterWrapper implements Filter
 		AND, OR;
 	}
 
-	private final FilterType type;
-	private final Filter[] filters;
+	private final FilterType _type;
+	private final Filter[] _filters;
 
 	private MultiFilterWrapper(final FilterType m, final Filter... filters)
 	{
-		this.type = m;
-		this.filters = filters;
+		this._type = m;
+		this._filters = filters;
 	}
 
 	@Override
 	public boolean accept(final ResultBinding binding)
 	{
-		switch (type)
+		switch (_type)
 		{
 			case AND:
-				for (final Filter f : filters)
+				for (final Filter f : _filters)
 					if (!f.accept(binding))
 						return false;
 				return true;
 			case OR:
-				for (final Filter f : filters)
+				for (final Filter f : _filters)
 					if (f.accept(binding))
 						return true;
 				return false;
 			default:
-				throw new RuntimeException("Filter type not supported : " + type);
+				throw new RuntimeException("Filter _type not supported : " + _type);
 		}
 	}
 

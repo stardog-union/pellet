@@ -32,20 +32,20 @@ import java.util.NoSuchElementException;
 public class MultiQueryResults implements QueryResult
 {
 
-	private final List<ATermAppl> resultVars;
+	private final List<ATermAppl> _resultVars;
 
-	private final List<QueryResult> queryResults;
+	private final List<QueryResult> _queryResults;
 
-	private int size;
+	private int _size;
 
 	public MultiQueryResults(final List<ATermAppl> resultVars, final List<QueryResult> queryResults)
 	{
-		this.resultVars = resultVars;
-		this.queryResults = queryResults;
+		this._resultVars = resultVars;
+		this._queryResults = queryResults;
 
-		size = 1;
+		_size = 1;
 		for (final QueryResult result : queryResults)
-			size *= result.size();
+			_size *= result.size();
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class MultiQueryResults implements QueryResult
 	@Override
 	public List<ATermAppl> getResultVars()
 	{
-		return resultVars;
+		return _resultVars;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class MultiQueryResults implements QueryResult
 	@Override
 	public boolean isDistinct()
 	{
-		for (final QueryResult result : queryResults)
+		for (final QueryResult result : _queryResults)
 			if (!result.isDistinct())
 				return false;
 
@@ -85,7 +85,7 @@ public class MultiQueryResults implements QueryResult
 	@Override
 	public boolean isEmpty()
 	{
-		return size == 0;
+		return _size == 0;
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class MultiQueryResults implements QueryResult
 
 			private boolean init()
 			{
-				for (final QueryResult result : queryResults)
+				for (final QueryResult result : _queryResults)
 				{
 					final Iterator<ResultBinding> iterator = result.iterator();
 
@@ -138,7 +138,7 @@ public class MultiQueryResults implements QueryResult
 						}
 						else
 						{
-							iterator = queryResults.get(index).iterator();
+							iterator = _queryResults.get(index).iterator();
 							i.set(iterator);
 							bindings.set(index, iterator.next());
 						}
@@ -180,6 +180,6 @@ public class MultiQueryResults implements QueryResult
 	@Override
 	public int size()
 	{
-		return size;
+		return _size;
 	}
 }

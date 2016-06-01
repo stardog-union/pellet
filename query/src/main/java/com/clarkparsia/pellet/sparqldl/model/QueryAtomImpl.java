@@ -33,11 +33,11 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class QueryAtomImpl implements QueryAtom
 {
 
-	protected final QueryPredicate predicate;
+	protected final QueryPredicate _predicate;
 
-	protected final List<ATermAppl> arguments;
+	protected final List<ATermAppl> _arguments;
 
-	protected boolean ground;
+	protected boolean _ground;
 
 	public QueryAtomImpl(final QueryPredicate predicate, final ATermAppl... arguments)
 	{
@@ -49,15 +49,15 @@ public class QueryAtomImpl implements QueryAtom
 		if (predicate == null)
 			throw new RuntimeException("Predicate cannot be null.");
 
-		this.predicate = predicate;
-		this.arguments = arguments;
+		this._predicate = predicate;
+		this._arguments = arguments;
 		// this.vars = new HashSet<ATermAppl>();
 		//
-		ground = true;
+		_ground = true;
 		for (final ATermAppl a : arguments)
 			if (ATermUtils.isVar(a))
 			{
-				ground = false;
+				_ground = false;
 				// vars.add(a);
 				break;
 			}
@@ -69,7 +69,7 @@ public class QueryAtomImpl implements QueryAtom
 	@Override
 	public QueryPredicate getPredicate()
 	{
-		return predicate;
+		return _predicate;
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class QueryAtomImpl implements QueryAtom
 	@Override
 	public List<ATermAppl> getArguments()
 	{
-		return arguments;
+		return _arguments;
 	}
 
 	// /**
@@ -94,7 +94,7 @@ public class QueryAtomImpl implements QueryAtom
 	@Override
 	public boolean isGround()
 	{
-		return ground;
+		return _ground;
 	}
 
 	/**
@@ -108,19 +108,19 @@ public class QueryAtomImpl implements QueryAtom
 
 		final List<ATermAppl> newArguments = new ArrayList<>();
 
-		for (final ATermAppl a : arguments)
+		for (final ATermAppl a : _arguments)
 			if (binding.isBound(a))
 				newArguments.add(binding.getValue(a));
 			else
 				newArguments.add(a);
 
-		return newArguments.isEmpty() ? this : new QueryAtomImpl(predicate, newArguments);
+		return newArguments.isEmpty() ? this : new QueryAtomImpl(_predicate, newArguments);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return 31 * predicate.hashCode() + arguments.hashCode();
+		return 31 * _predicate.hashCode() + _arguments.hashCode();
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class QueryAtomImpl implements QueryAtom
 			return false;
 		final QueryAtomImpl other = (QueryAtomImpl) obj;
 
-		return predicate.equals(other.predicate) && arguments.equals(other.arguments);
+		return _predicate.equals(other._predicate) && _arguments.equals(other._arguments);
 	}
 
 	@Override
@@ -142,15 +142,15 @@ public class QueryAtomImpl implements QueryAtom
 	{
 		final StringBuffer sb = new StringBuffer();
 
-		for (int i = 0; i < arguments.size(); i++)
+		for (int i = 0; i < _arguments.size(); i++)
 		{
-			final ATermAppl a = arguments.get(i);
+			final ATermAppl a = _arguments.get(i);
 			if (i > 0)
 				sb.append(", ");
 
 			sb.append(ATermUtils.toString(a));
 		}
 
-		return predicate + "(" + sb.toString() + ")";
+		return _predicate + "(" + sb.toString() + ")";
 	}
 }

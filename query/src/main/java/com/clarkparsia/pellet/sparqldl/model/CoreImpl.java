@@ -33,30 +33,30 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class CoreImpl extends QueryAtomImpl implements Core
 {
 
-	private List<ATermAppl> distVars = null;
-	private List<ATermAppl> consts = null;
+	private List<ATermAppl> _distVars = null;
+	private List<ATermAppl> _consts = null;
 
-	private Collection<ATermAppl> undistVars = null;
+	private Collection<ATermAppl> _undistVars = null;
 
-	private final Collection<QueryAtom> atoms;
+	private final Collection<QueryAtom> _atoms;
 
 	public CoreImpl(final List<ATermAppl> arguments, final Collection<ATermAppl> uv, final Collection<QueryAtom> atoms)
 	{
 		super(QueryPredicate.UndistVarCore, arguments);
 
-		this.atoms = atoms;
-		this.undistVars = uv;
+		this._atoms = atoms;
+		this._undistVars = uv;
 	}
 
 	private void setup()
 	{
-		distVars = new ArrayList<>();
-		consts = new ArrayList<>();
-		for (final ATermAppl a : arguments)
+		_distVars = new ArrayList<>();
+		_consts = new ArrayList<>();
+		for (final ATermAppl a : _arguments)
 			if (ATermUtils.isVar(a))
-				distVars.add(a);
+				_distVars.add(a);
 			else
-				consts.add(a);
+				_consts.add(a);
 	}
 
 	/*
@@ -66,10 +66,10 @@ public class CoreImpl extends QueryAtomImpl implements Core
 	@Override
 	public Collection<ATermAppl> getConstants()
 	{
-		if (consts == null)
+		if (_consts == null)
 			setup();
 
-		return consts;
+		return _consts;
 	}
 
 	/*
@@ -79,10 +79,10 @@ public class CoreImpl extends QueryAtomImpl implements Core
 	@Override
 	public Collection<ATermAppl> getDistVars()
 	{
-		if (distVars == null)
+		if (_distVars == null)
 			setup();
 
-		return distVars;
+		return _distVars;
 	}
 
 	/*
@@ -92,10 +92,10 @@ public class CoreImpl extends QueryAtomImpl implements Core
 	@Override
 	public Collection<ATermAppl> getUndistVars()
 	{
-		if (undistVars == null)
+		if (_undistVars == null)
 			setup();
 
-		return undistVars;
+		return _undistVars;
 	}
 
 	/*
@@ -112,7 +112,7 @@ public class CoreImpl extends QueryAtomImpl implements Core
 
 		final List<ATermAppl> newArguments = new ArrayList<>();
 
-		for (final ATermAppl a : arguments)
+		for (final ATermAppl a : _arguments)
 			if (binding.isBound(a))
 				newArguments.add(binding.getValue(a));
 			else
@@ -120,16 +120,16 @@ public class CoreImpl extends QueryAtomImpl implements Core
 
 		final List<QueryAtom> newAtoms = new ArrayList<>();
 
-		for (final QueryAtom a : atoms)
+		for (final QueryAtom a : _atoms)
 			newAtoms.add(a.apply(binding));
 
-		return new CoreImpl(newArguments, undistVars, newAtoms);
+		return new CoreImpl(newArguments, _undistVars, newAtoms);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return arguments.hashCode();
+		return _arguments.hashCode();
 	}
 
 	@Override
@@ -143,6 +143,6 @@ public class CoreImpl extends QueryAtomImpl implements Core
 			return false;
 		final CoreImpl other = (CoreImpl) obj;
 
-		return arguments.equals(other.arguments);
+		return _arguments.equals(other._arguments);
 	}
 }

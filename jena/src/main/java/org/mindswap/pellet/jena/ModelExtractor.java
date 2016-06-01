@@ -14,11 +14,11 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.util.iterator.Filter;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
@@ -193,14 +193,7 @@ public class ModelExtractor
 	/**
 	 * A _filter that does not accept anything.
 	 */
-	public static final Filter<Triple> FILTER_NONE = new Filter<Triple>()
-	{
-		@Override
-		public boolean accept(final Triple o)
-		{
-			return false;
-		}
-	};
+	public static final Predicate<Triple> FILTER_NONE = t -> false;
 
 	/**
 	 * Associated KB
@@ -210,7 +203,7 @@ public class ModelExtractor
 	/**
 	 * Filter that will be used to drop inferences
 	 */
-	private Filter<Triple> _filter = FILTER_NONE;
+	private Predicate<Triple> _filter = FILTER_NONE;
 
 	/**
 	 * Controls the selected statements for methods where no _selector is passed (initial setup intended to be backwards compatible)
@@ -261,7 +254,7 @@ public class ModelExtractor
 	private void addTriple(final List<Triple> triples, final Node s, final Node p, final Node o)
 	{
 		final Triple triple = Triple.create(s, p, o);
-		if (!_filter.accept(triple))
+		if (!_filter.test(triple))
 			triples.add(triple);
 	}
 
@@ -313,27 +306,27 @@ public class ModelExtractor
 
 				final Set<Set<ATermAppl>> supers = allSubs ? _kb.getSuperClasses(c, false) : _kb.getSuperClasses(c, true);
 
-						Iterator<ATermAppl> i = IteratorUtils.flatten(supers.iterator());
+				Iterator<ATermAppl> i = IteratorUtils.flatten(supers.iterator());
 				while (i.hasNext())
 				{
-							final Node o = makeGraphNode(i.next());
-							addTriple(triples, s, p, o);
-						}
+					final Node o = makeGraphNode(i.next());
+					addTriple(triples, s, p, o);
+				}
 
-						if (jenaDirectSubs)
+				if (jenaDirectSubs)
 				{
 
-							p = ReasonerVocabulary.directSubClassOf.asNode();
+					p = ReasonerVocabulary.directSubClassOf.asNode();
 
-							final Set<Set<ATermAppl>> direct = allSubs ? _kb.getSuperClasses(c, true) : supers;
+					final Set<Set<ATermAppl>> direct = allSubs ? _kb.getSuperClasses(c, true) : supers;
 
-									i = IteratorUtils.flatten(direct.iterator());
+					i = IteratorUtils.flatten(direct.iterator());
 					while (i.hasNext())
 					{
-										final Node o = makeGraphNode(i.next());
-										addTriple(triples, s, p, o);
-									}
-						}
+						final Node o = makeGraphNode(i.next());
+						addTriple(triples, s, p, o);
+					}
+				}
 			}
 
 			if (equivs)
@@ -447,12 +440,12 @@ public class ModelExtractor
 
 					final Set<Set<ATermAppl>> directTypes = allClasses ? _kb.getTypes(ind, true) : types;
 
-							i = IteratorUtils.flatten(directTypes.iterator());
+					i = IteratorUtils.flatten(directTypes.iterator());
 					while (i.hasNext())
 					{
-								final Node o = makeGraphNode(i.next());
-								addTriple(triples, s, p, o);
-							}
+						final Node o = makeGraphNode(i.next());
+						addTriple(triples, s, p, o);
+					}
 				}
 			}
 
@@ -648,12 +641,12 @@ public class ModelExtractor
 						p = ReasonerVocabulary.directSubPropertyOf.asNode();
 
 						final Set<Set<ATermAppl>> direct = allSubs ? _kb.getSuperProperties(name, true) : supers;
-								i = IteratorUtils.flatten(direct.iterator());
+						i = IteratorUtils.flatten(direct.iterator());
 						while (i.hasNext())
 						{
-									final Node o = makeGraphNode(i.next());
-									addTriple(triples, s, p, o);
-								}
+							final Node o = makeGraphNode(i.next());
+							addTriple(triples, s, p, o);
+						}
 					}
 				}
 			}
@@ -706,7 +699,7 @@ public class ModelExtractor
 	 *
 	 * @return
 	 */
-	public Filter<Triple> getFilter()
+	public Predicate<Triple> getFilter()
 	{
 		return _filter;
 	}
@@ -717,7 +710,7 @@ public class ModelExtractor
 	 *
 	 * @param _filter
 	 */
-	public void setFilter(final Filter<Triple> filter)
+	public void setFilter(final Predicate<Triple> filter)
 	{
 		if (filter == null)
 			throw new NullPointerException("Filter cannot be null");

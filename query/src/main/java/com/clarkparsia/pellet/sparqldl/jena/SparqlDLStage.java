@@ -42,8 +42,9 @@ import org.mindswap.pellet.utils.ATermUtils;
  * Title:
  * </p>
  * <p>
- * Description: An implementation of ARQ query stage for PelletInfGraph. The {@link BasicPattern} is converted into a native Pellet SPARQL-DL query and answered
- * by the Pellet query engine. The conversion to Pellet query might fail if the _pattern is not a SPARQL-DL query in which case the default ARQ handler is used.
+ * Description: An implementation of ARQ _query stage for PelletInfGraph. The {@link BasicPattern} is converted into a native Pellet SPARQL-DL _query and
+ * answered by the Pellet _query engine. The conversion to Pellet _query might fail if the _pattern is not a SPARQL-DL _query in which case the default ARQ
+ * handler is used.
  * </p>
  * <p>
  * Copyright: Copyright (c) 2007
@@ -127,8 +128,8 @@ class SparqlDLStage
 
 	private static class PelletQueryIterator extends QueryIterRepeatApply
 	{
-		private final PelletInfGraph pellet;
-		private final Query query;
+		private final PelletInfGraph _pellet;
+		private final Query _query;
 
 		/**
 		 * @param input
@@ -138,14 +139,14 @@ class SparqlDLStage
 		{
 			super(input, execCxt);
 
-			this.pellet = pellet;
-			this.query = query;
+			_pellet = pellet;
+			_query = query;
 		}
 
 		private ResultBinding convertBinding(final Binding binding)
 		{
 			final ResultBinding pelletBinding = new ResultBindingImpl();
-			final GraphLoader loader = pellet.getLoader();
+			final GraphLoader loader = _pellet.getLoader();
 			for (final Iterator<?> vars = binding.vars(); vars.hasNext();)
 			{
 				final Var var = (Var) vars.next();
@@ -167,7 +168,7 @@ class SparqlDLStage
 		@Override
 		protected QueryIterator nextStage(final Binding binding)
 		{
-			final Query newQuery = query.apply(convertBinding(binding));
+			final Query newQuery = _query.apply(convertBinding(binding));
 
 			final QueryResult results = QueryEngine.exec(newQuery);
 

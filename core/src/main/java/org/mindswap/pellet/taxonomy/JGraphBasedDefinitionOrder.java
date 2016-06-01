@@ -23,7 +23,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 import org.jgrapht.DirectedGraph;
-import org.jgrapht.alg.StrongConnectivityInspector;
+import org.jgrapht.alg.KosarajuStrongConnectivityInspector;
+import org.jgrapht.alg.interfaces.StrongConnectivityAlgorithm;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.mindswap.pellet.KnowledgeBase;
@@ -31,7 +32,6 @@ import org.mindswap.pellet.KnowledgeBase;
 /**
  * @author Evren Sirin
  */
-@SuppressWarnings("deprecation")
 public class JGraphBasedDefinitionOrder extends AbstractDefinitionOrder
 {
 	private Map<ATermAppl, Set<ATermAppl>> equivalents;
@@ -113,7 +113,7 @@ public class JGraphBasedDefinitionOrder extends AbstractDefinitionOrder
 		cyclicConcepts.addAll(getEquivalents(TOP));
 
 		// TODO : see if deprecated code should be remove or not.
-		final StrongConnectivityInspector<ATermAppl, DefaultEdge> scInspector = new StrongConnectivityInspector<>(graph);
+		final StrongConnectivityAlgorithm<ATermAppl, DefaultEdge> scInspector = new KosarajuStrongConnectivityInspector<>(graph);
 		final List<Set<ATermAppl>> sccList = scInspector.stronglyConnectedSets();
 		for (final Set<ATermAppl> scc : sccList)
 		{

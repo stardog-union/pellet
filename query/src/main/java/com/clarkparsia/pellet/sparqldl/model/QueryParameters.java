@@ -35,52 +35,53 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class QueryParameters
 {
 
-	private final Map<ATermAppl, ATermAppl> parameters;
+	private final Map<ATermAppl, ATermAppl> _parameters;
 
 	public QueryParameters()
 	{
-		parameters = new HashMap<>();
+		_parameters = new HashMap<>();
 	}
 
-	public QueryParameters(QuerySolution initialBinding)
+	public QueryParameters(QuerySolution initialBindingParam)
 	{
 		this();
+		QuerySolution initialBinding = initialBindingParam;
 
 		if (initialBinding == null)
 			initialBinding = new QuerySolutionMap();
 
-		for (final Iterator iter = initialBinding.varNames(); iter.hasNext();)
+		for (final Iterator<String> iter = initialBinding.varNames(); iter.hasNext();)
 		{
-			final String varName = (String) iter.next();
+			final String varName = iter.next();
 			final ATermAppl key = ATermUtils.makeVar(varName);
 			final ATermAppl value = JenaUtils.makeATerm(initialBinding.get(varName));
-			parameters.put(key, value);
+			_parameters.put(key, value);
 		}
 	}
 
 	public void add(final ATermAppl key, final ATermAppl value)
 	{
-		parameters.put(key, value);
+		_parameters.put(key, value);
 	}
 
 	public Set<Map.Entry<ATermAppl, ATermAppl>> entrySet()
 	{
-		return parameters.entrySet();
+		return _parameters.entrySet();
 	}
 
 	public boolean cointains(final ATermAppl key)
 	{
-		return parameters.containsKey(key);
+		return _parameters.containsKey(key);
 	}
 
 	public ATermAppl get(final ATermAppl key)
 	{
-		return parameters.get(key);
+		return _parameters.get(key);
 	}
 
 	@Override
 	public String toString()
 	{
-		return parameters.toString();
+		return _parameters.toString();
 	}
 }

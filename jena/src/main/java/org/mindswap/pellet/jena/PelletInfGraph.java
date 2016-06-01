@@ -180,7 +180,7 @@ public class PelletInfGraph extends BaseInfGraph
 		}
 
 		// make sure we don't have duplicates
-		return i.filterKeep(new UniqueFilter());
+		return i.filterKeep(new UniqueFilter<Triple>());
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class PelletInfGraph extends BaseInfGraph
 	}
 
 	@Override
-	public boolean isPrepared()
+	public synchronized boolean isPrepared()
 	{
 		return super.isPrepared() && (!_autoDetectChanges || !_graphListener.isChanged());
 	}
@@ -245,7 +245,7 @@ public class PelletInfGraph extends BaseInfGraph
 	}
 
 	@Override
-	public void prepare()
+	public synchronized void prepare()
 	{
 		prepare(true);
 	}
@@ -544,7 +544,7 @@ public class PelletInfGraph extends BaseInfGraph
 	 * @param t A triple to add to the graph
 	 */
 	@Override
-	public void performAdd(final Triple t)
+	public synchronized void performAdd(final Triple t)
 	{
 		fdata.getGraph().add(t);
 		setPreparedState(false);

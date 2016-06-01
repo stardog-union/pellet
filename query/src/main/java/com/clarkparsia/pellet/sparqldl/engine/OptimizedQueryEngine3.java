@@ -45,6 +45,7 @@ import org.mindswap.pellet.KnowledgeBase;
  */
 public class OptimizedQueryEngine3 extends AbstractABoxEngineWrapper
 {
+	@SuppressWarnings("hiding")
 	public static final Logger _logger = Log.getLogger(QueryEngine.class);
 
 	@Override
@@ -73,7 +74,7 @@ public class OptimizedQueryEngine3 extends AbstractABoxEngineWrapper
 
 			for (final ATermAppl currVar : q.getDistVarsForType(VarType.INDIVIDUAL))
 			{
-				final ATermAppl rolledUpClass = q.rollUpTo(currVar, Collections.EMPTY_SET, false);
+				final ATermAppl rolledUpClass = q.rollUpTo(currVar, Collections.emptySet(), false);
 
 				if (_logger.isLoggable(Level.FINER))
 					_logger.finer("Rolled up class " + rolledUpClass);

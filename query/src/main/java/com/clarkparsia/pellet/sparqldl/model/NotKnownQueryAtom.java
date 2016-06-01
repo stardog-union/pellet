@@ -31,9 +31,9 @@ import java.util.List;
  */
 public class NotKnownQueryAtom implements QueryAtom
 {
-	private final List<QueryAtom> atoms;
-	private boolean isGround;
-	private final List<ATermAppl> args;
+	private final List<QueryAtom> _atoms;
+	private boolean _isGround;
+	private final List<ATermAppl> _args;
 
 	public NotKnownQueryAtom(final QueryAtom atom)
 	{
@@ -42,15 +42,15 @@ public class NotKnownQueryAtom implements QueryAtom
 
 	public NotKnownQueryAtom(final List<QueryAtom> atoms)
 	{
-		this.atoms = Collections.unmodifiableList(atoms);
+		this._atoms = Collections.unmodifiableList(atoms);
 
-		isGround = true;
-		args = new ArrayList<>();
+		_isGround = true;
+		_args = new ArrayList<>();
 		for (final QueryAtom atom : atoms)
 		{
-			args.addAll(atom.getArguments());
-			if (isGround && !atom.isGround())
-				isGround = false;
+			_args.addAll(atom.getArguments());
+			if (_isGround && !atom.isGround())
+				_isGround = false;
 		}
 	}
 
@@ -58,12 +58,12 @@ public class NotKnownQueryAtom implements QueryAtom
 	public QueryAtom apply(final ResultBinding binding)
 	{
 		List<QueryAtom> newAtoms;
-		if (atoms.size() == 1)
-			newAtoms = Collections.singletonList(atoms.get(0).apply(binding));
+		if (_atoms.size() == 1)
+			newAtoms = Collections.singletonList(_atoms.get(0).apply(binding));
 		else
 		{
 			newAtoms = new ArrayList<>();
-			for (final QueryAtom atom : atoms)
+			for (final QueryAtom atom : _atoms)
 				newAtoms.add(atom.apply(binding));
 		}
 
@@ -76,7 +76,7 @@ public class NotKnownQueryAtom implements QueryAtom
 		if (!(obj instanceof NotKnownQueryAtom))
 			return false;
 
-		return atoms.equals(((NotKnownQueryAtom) obj).atoms);
+		return _atoms.equals(((NotKnownQueryAtom) obj)._atoms);
 	}
 
 	/**
@@ -85,12 +85,12 @@ public class NotKnownQueryAtom implements QueryAtom
 	@Override
 	public List<ATermAppl> getArguments()
 	{
-		return args;
+		return _args;
 	}
 
 	public List<QueryAtom> getAtoms()
 	{
-		return atoms;
+		return _atoms;
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class NotKnownQueryAtom implements QueryAtom
 	@Override
 	public int hashCode()
 	{
-		return 17 * atoms.hashCode();
+		return 17 * _atoms.hashCode();
 	}
 
 	/**
@@ -114,12 +114,12 @@ public class NotKnownQueryAtom implements QueryAtom
 	@Override
 	public boolean isGround()
 	{
-		return isGround;
+		return _isGround;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "NotKnown" + atoms;
+		return "NotKnown" + _atoms;
 	}
 }

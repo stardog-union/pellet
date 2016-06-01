@@ -44,21 +44,21 @@ import org.mindswap.pellet.jena.JenaUtils;
  */
 public class SparqlDLResultSet implements ResultSetRewindable
 {
-	private final Model model;
+	private final Model _model;
 
-	private final List<ATermAppl> resultVars;
+	private final List<ATermAppl> _resultVars;
 
-	private final List<String> resultVarsString;
+	private final List<String> _resultVarsString;
 
-	private final QueryResult queryResult;
+	private final QueryResult _queryResult;
 
-	private int index;
+	private int _index;
 
-	private Iterator<ResultBinding> bindings;
+	private Iterator<ResultBinding> _bindings;
 
-	private final Binding parent;
+	private final Binding _parent;
 
-	private QueryParameters parameters;
+	private QueryParameters _parameters;
 
 	public SparqlDLResultSet(final QueryResult answers, final Model model)
 	{
@@ -77,25 +77,25 @@ public class SparqlDLResultSet implements ResultSetRewindable
 
 	public SparqlDLResultSet(final QueryResult answers, final Model model, final Binding parent, final QueryParameters parameters)
 	{
-		this.parent = parent;
-		this.queryResult = answers;
-		this.model = model;
-		this.parameters = parameters;
-		this.index = 0;
-		this.bindings = answers.iterator();
+		_parent = parent;
+		_queryResult = answers;
+		_model = model;
+		_parameters = parameters;
+		_index = 0;
+		_bindings = answers.iterator();
 
-		resultVars = new ArrayList<>();
-		resultVarsString = new ArrayList<>();
+		_resultVars = new ArrayList<>();
+		_resultVarsString = new ArrayList<>();
 
-		for (final ATermAppl var : queryResult.getResultVars())
+		for (final ATermAppl var : _queryResult.getResultVars())
 		{
-			resultVars.add(var);
-			resultVarsString.add(getVarName(var));
+			_resultVars.add(var);
+			_resultVarsString.add(getVarName(var));
 		}
 
-		// Ensure initial bindings is not a null pointer
+		// Ensure initial _bindings is not a null pointer
 		if (parameters == null)
-			this.parameters = new QueryParameters();
+			_parameters = new QueryParameters();
 	}
 
 	protected String getVarName(final ATermAppl term)
@@ -110,7 +110,7 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	 */
 	public QueryResult getQueryResult()
 	{
-		return queryResult;
+		return _queryResult;
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	@Override
 	public boolean hasNext()
 	{
-		return bindings.hasNext();
+		return _bindings.hasNext();
 	}
 
 	/**
@@ -128,12 +128,12 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	@Override
 	public Binding nextBinding()
 	{
-		index++;
-		final ResultBinding binding = bindings.next();
+		_index++;
+		final ResultBinding binding = _bindings.next();
 
-		final BindingMap result = parent == null ? new BindingHashMap() : new BindingHashMap(parent);
+		final BindingMap result = _parent == null ? new BindingHashMap() : new BindingHashMap(_parent);
 
-		for (final ATermAppl var : resultVars)
+		for (final ATermAppl var : _resultVars)
 			if (binding.isBound(var))
 			{
 				final String varName = getVarName(var);
@@ -147,8 +147,8 @@ public class SparqlDLResultSet implements ResultSetRewindable
 				result.add(Var.alloc(varName), node);
 			}
 
-		if (resultVars.size() == 0)
-			for (final Entry<ATermAppl, ATermAppl> entry : parameters.entrySet())
+		if (_resultVars.size() == 0)
+			for (final Entry<ATermAppl, ATermAppl> entry : _parameters.entrySet())
 			{
 				final ATermAppl term = entry.getKey();
 
@@ -168,7 +168,7 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	@Override
 	public QuerySolution nextSolution()
 	{
-		return new org.apache.jena.sparql.core.ResultBinding(model, nextBinding());
+		return new org.apache.jena.sparql.core.ResultBinding(_model, nextBinding());
 	}
 
 	/**
@@ -185,7 +185,7 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	 */
 	public boolean isDistinct()
 	{
-		return queryResult.isDistinct();
+		return _queryResult.isDistinct();
 	}
 
 	/**
@@ -202,7 +202,7 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	@Override
 	public int getRowNumber()
 	{
-		return index;
+		return _index;
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	@Override
 	public List<String> getResultVars()
 	{
-		return Collections.unmodifiableList(resultVarsString);
+		return Collections.unmodifiableList(_resultVarsString);
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	@Override
 	public String toString()
 	{
-		return queryResult.toString();
+		return _queryResult.toString();
 	}
 
 	/**
@@ -235,8 +235,8 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	@Override
 	public void reset()
 	{
-		index = 0;
-		bindings = queryResult.iterator();
+		_index = 0;
+		_bindings = _queryResult.iterator();
 	}
 
 	/**
@@ -245,12 +245,12 @@ public class SparqlDLResultSet implements ResultSetRewindable
 	@Override
 	public int size()
 	{
-		return queryResult.size();
+		return _queryResult.size();
 	}
 
 	@Override
 	public Model getResourceModel()
 	{
-		return model;
+		return _model;
 	}
 }

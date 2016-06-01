@@ -23,7 +23,6 @@ import org.apache.jena.query.Syntax;
 import org.apache.jena.sparql.lang.SPARQLParser;
 import org.apache.jena.sparql.lang.SPARQLParserFactory;
 import org.apache.jena.sparql.lang.SPARQLParserRegistry;
-import org.xml.sax.helpers.ParserFactory;
 
 /**
  * <p>

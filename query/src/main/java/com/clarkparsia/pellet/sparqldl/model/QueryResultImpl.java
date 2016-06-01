@@ -35,23 +35,23 @@ import java.util.Set;
 public class QueryResultImpl implements QueryResult
 {
 
-	private Collection<ResultBinding> bindings;
+	private Collection<ResultBinding> _bindings;
 
-	private final List<ATermAppl> resultVars;
+	private final List<ATermAppl> _resultVars;
 
-	private final Query query;
-	private final QueryParameters parameters;
+	private final Query _query;
+	private final QueryParameters _parameters;
 
 	public QueryResultImpl(final Query query)
 	{
-		this.query = query;
-		this.parameters = query.getQueryParameters();
-		this.resultVars = new ArrayList<>(query.getResultVars());
+		this._query = query;
+		this._parameters = query.getQueryParameters();
+		this._resultVars = new ArrayList<>(query.getResultVars());
 
 		if (query.isDistinct())
-			bindings = new HashSet<>();
+			_bindings = new HashSet<>();
 		else
-			bindings = new ArrayList<>();
+			_bindings = new ArrayList<>();
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class QueryResultImpl implements QueryResult
 	@Override
 	public void add(final ResultBinding binding)
 	{
-		bindings.add(process(binding));
+		_bindings.add(process(binding));
 	}
 
 	@Override
@@ -73,21 +73,21 @@ public class QueryResultImpl implements QueryResult
 		if (getClass() != obj.getClass())
 			return false;
 		final QueryResultImpl other = (QueryResultImpl) obj;
-		if (bindings == null)
+		if (_bindings == null)
 		{
-			if (other.bindings != null)
+			if (other._bindings != null)
 				return false;
 		}
 		else
-			if (!bindings.equals(other.bindings))
+			if (!_bindings.equals(other._bindings))
 				return false;
-		if (resultVars == null)
+		if (_resultVars == null)
 		{
-			if (other.resultVars != null)
+			if (other._resultVars != null)
 				return false;
 		}
 		else
-			if (!resultVars.equals(other.resultVars))
+			if (!_resultVars.equals(other._resultVars))
 				return false;
 		return true;
 	}
@@ -98,7 +98,7 @@ public class QueryResultImpl implements QueryResult
 	@Override
 	public List<ATermAppl> getResultVars()
 	{
-		return Collections.unmodifiableList(resultVars);
+		return Collections.unmodifiableList(_resultVars);
 	}
 
 	@Override
@@ -106,15 +106,15 @@ public class QueryResultImpl implements QueryResult
 	{
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((bindings == null) ? 0 : bindings.hashCode());
-		result = PRIME * result + ((resultVars == null) ? 0 : resultVars.hashCode());
+		result = PRIME * result + ((_bindings == null) ? 0 : _bindings.hashCode());
+		result = PRIME * result + ((_resultVars == null) ? 0 : _resultVars.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean isDistinct()
 	{
-		return (bindings instanceof Set);
+		return (_bindings instanceof Set);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class QueryResultImpl implements QueryResult
 	@Override
 	public Iterator<ResultBinding> iterator()
 	{
-		return bindings.iterator();
+		return _bindings.iterator();
 	}
 
 	/**
@@ -141,30 +141,30 @@ public class QueryResultImpl implements QueryResult
 	@Override
 	public int size()
 	{
-		return bindings.size();
+		return _bindings.size();
 	}
 
 	@Override
 	public String toString()
 	{
-		return bindings.toString();
+		return _bindings.toString();
 	}
 
 	private ResultBinding process(final ResultBinding binding)
 	{
-		if (parameters == null)
+		if (_parameters == null)
 			return binding;
 
-		final int numOfVars = query.getResultVars().size();
+		final int numOfVars = _query.getResultVars().size();
 
-		// Add the query parameters to the binding if the variable is in the
-		// query projection
-		for (final Entry<ATermAppl, ATermAppl> entry : parameters.entrySet())
+		// Add the _query _parameters to the binding if the variable is in the
+		// _query projection
+		for (final Entry<ATermAppl, ATermAppl> entry : _parameters.entrySet())
 		{
 			final ATermAppl var = entry.getKey();
 			final ATermAppl value = entry.getValue();
 
-			if (numOfVars == 0 || query.getResultVars().contains(var))
+			if (numOfVars == 0 || _query.getResultVars().contains(var))
 				binding.setValue(var, value);
 		}
 

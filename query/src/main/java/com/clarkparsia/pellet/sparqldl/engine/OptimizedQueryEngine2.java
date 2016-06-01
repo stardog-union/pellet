@@ -42,6 +42,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class OptimizedQueryEngine2 extends AbstractABoxEngineWrapper
 {
+	@SuppressWarnings("hiding")
 	public static final Logger _logger = Log.getLogger(QueryEngine.class);
 
 	private QueryResult _results;

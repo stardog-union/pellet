@@ -139,7 +139,8 @@ public class SparqlDLExecutionFactory
 
 	/**
 	 * Creates a QueryExecution with the given {@link QueryEngineType}. If the query engine cannot handle the given query a QueryException may be thrown during
-	 * query execution. Users are recommended to use {@link #create(Query, Dataset, QuerySolution)}
+	 * query execution. Users are recommended to use {@link #create(Query, Dataset, QuerySolution)} User must use a " try () {} " to manage the AutoClosable
+	 * QueryExecution.
 	 *
 	 * @param query the query
 	 * @param dataset the target of the query
@@ -148,6 +149,7 @@ public class SparqlDLExecutionFactory
 	 * @param handleVariableSPO If this variable is true then queries with variable SPO statements are not handled by the SPARQL-DL engine but fall back to ARQ
 	 * @return a <code>QueryExecution</code> that will answer the query with the given dataset
 	 */
+	@SuppressWarnings("resource")
 	public static QueryExecution create(final Query query, final Dataset dataset, final QuerySolution initialBinding, final QueryEngineType queryEngineType, final boolean handleVariableSPO) throws QueryException
 	{
 		// the engine we will return

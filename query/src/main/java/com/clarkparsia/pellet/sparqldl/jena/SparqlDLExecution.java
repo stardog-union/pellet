@@ -1,5 +1,5 @@
 // Copyright (c) 2006 - 2008, Clark & Parsia, LLC. <http://www.clarkparsia.com>
-// This source code is available under the terms of the Affero General Public
+// This _source code is available under the terms of the Affero General Public
 // License v3.
 //
 // Please see LICENSE.txt for full license terms, including the availability of
@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import net.katk.tools.Log;
 import org.apache.jena.atlas.lib.NotImplemented;
 import org.apache.jena.graph.Graph;
+import org.apache.jena.graph.Node;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.query.Dataset;
 import org.apache.jena.query.DatasetFactory;
@@ -72,15 +73,15 @@ class SparqlDLExecution implements QueryExecution
 		ASK, CONSTRUCT, DESCRIBE, SELECT
 	}
 
-	private final Query query;
+	private final Query _query;
 
-	private final Dataset source;
+	private final Dataset _source;
 
-	private QuerySolution initialBinding;
+	private QuerySolution _initialBinding;
 
-	private boolean purePelletQueryExec = false;
+	private boolean _purePelletQueryExec = false;
 
-	private boolean handleVariableSPO = true;
+	private boolean _handleVariableSPO = true;
 
 	public SparqlDLExecution(final String query, final Model source)
 	{
@@ -99,9 +100,9 @@ class SparqlDLExecution implements QueryExecution
 
 	public SparqlDLExecution(final Query query, final Dataset source, final boolean handleVariableSPO)
 	{
-		this.query = query;
-		this.source = source;
-		this.handleVariableSPO = handleVariableSPO;
+		this._query = query;
+		this._source = source;
+		this._handleVariableSPO = handleVariableSPO;
 
 		final Graph graph = source.getDefaultModel().getGraph();
 		if (!(graph instanceof PelletInfGraph))
@@ -145,7 +146,6 @@ class SparqlDLExecution implements QueryExecution
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public Model execConstruct(final Model model)
 	{
@@ -154,26 +154,26 @@ class SparqlDLExecution implements QueryExecution
 		final ResultSet results = exec();
 
 		if (results == null)
-			QueryExecutionFactory.create(query, source, initialBinding).execConstruct(model);
+			QueryExecutionFactory.create(_query, _source, _initialBinding).execConstruct(model);
 		else
 		{
-			model.setNsPrefixes(source.getDefaultModel());
-			model.setNsPrefixes(query.getPrefixMapping());
+			model.setNsPrefixes(_source.getDefaultModel());
+			model.setNsPrefixes(_query.getPrefixMapping());
 
-			final Set set = new HashSet();
+			final Set<Triple> set = new HashSet<>();
 
-			final Template template = query.getConstructTemplate();
+			final Template template = _query.getConstructTemplate();
 
 			while (results.hasNext())
 			{
-				final Map bNodeMap = new HashMap();
+				final Map<Node, Node> bNodeMap = new HashMap<>();
 				final Binding binding = results.nextBinding();
 				template.subst(set, bNodeMap, binding);
 			}
 
-			for (final Iterator iter = set.iterator(); iter.hasNext();)
+			for (final Iterator<Triple> iter = set.iterator(); iter.hasNext();)
 			{
-				final Triple t = (Triple) iter.next();
+				final Triple t = iter.next();
 				final Statement stmt = ModelUtils.tripleToStatement(model, t);
 				if (stmt != null)
 					model.add(stmt);
@@ -195,7 +195,7 @@ class SparqlDLExecution implements QueryExecution
 
 		final ResultSet results = exec();
 
-		return (results != null) ? results.hasNext() : QueryExecutionFactory.create(query, source, initialBinding).execAsk();
+		return (results != null) ? results.hasNext() : QueryExecutionFactory.create(_query, _source, _initialBinding).execAsk();
 	}
 
 	/**
@@ -208,51 +208,51 @@ class SparqlDLExecution implements QueryExecution
 
 		final ResultSet results = exec();
 
-		return (results != null) ? results : QueryExecutionFactory.create(query, source, initialBinding).execSelect();
+		return (results != null) ? results : QueryExecutionFactory.create(_query, _source, _initialBinding).execSelect();
 
 	}
 
 	/**
-	 * Returns the results of the given query using Pellet SPARQL-DL query engine or <code>null</code> if the query is not a valid SPARQL-DL query.
+	 * Returns the results of the given _query using Pellet SPARQL-DL _query engine or <code>null</code> if the _query is not a valid SPARQL-DL _query.
 	 *
-	 * @return the query results or <code>null</code> for unsupported queried
+	 * @return the _query results or <code>null</code> for unsupported queried
 	 */
 	private ResultSet exec()
 	{
 		try
 		{
-			if (source.listNames().hasNext())
+			if (_source.listNames().hasNext())
 				throw new UnsupportedQueryException("Named graphs is not supported by Pellet");
 
-			final PelletInfGraph pelletInfGraph = (PelletInfGraph) source.getDefaultModel().getGraph();
+			final PelletInfGraph pelletInfGraph = (PelletInfGraph) _source.getDefaultModel().getGraph();
 			final KnowledgeBase kb = pelletInfGraph.getKB();
 
 			pelletInfGraph.prepare();
 
-			final QueryParameters queryParameters = new QueryParameters(initialBinding);
+			final QueryParameters queryParameters = new QueryParameters(_initialBinding);
 
-			final ARQParser parser = new ARQParser(handleVariableSPO);
-			// The parser uses the query parameterization to resolve parameters
-			// (i.e. variables) in the query
-			parser.setInitialBinding(initialBinding);
+			final ARQParser parser = new ARQParser(_handleVariableSPO);
+			// The parser uses the _query parameterization to resolve parameters
+			// (i.e. variables) in the _query
+			parser.setInitialBinding(_initialBinding);
 
-			final com.clarkparsia.pellet.sparqldl.model.Query q = parser.parse(query, kb);
-			// The query uses the query parameterization to resolve bindings
-			// (i.e. for instance if the parameter variable is in query
+			final com.clarkparsia.pellet.sparqldl.model.Query q = parser.parse(_query, kb);
+			// The _query uses the _query parameterization to resolve bindings
+			// (i.e. for instance if the parameter variable is in _query
 			// projection, we need to add the initial binding to the resulting
 			// bindings manually)
 			q.setQueryParameters(queryParameters);
 
-			ResultSet results = new SparqlDLResultSet(com.clarkparsia.pellet.sparqldl.engine.QueryEngine.exec(q), source.getDefaultModel(), queryParameters);
+			ResultSet results = new SparqlDLResultSet(com.clarkparsia.pellet.sparqldl.engine.QueryEngine.exec(q), _source.getDefaultModel(), queryParameters);
 
-			final List<SortCondition> sortConditions = query.getOrderBy();
+			final List<SortCondition> sortConditions = _query.getOrderBy();
 			if (sortConditions != null && !sortConditions.isEmpty())
 				results = new SortedResultSet(results, sortConditions);
 
-			if (query.hasOffset() || query.hasLimit())
+			if (_query.hasOffset() || _query.hasLimit())
 			{
-				final long offset = query.hasOffset() ? query.getOffset() : 0;
-				final long limit = query.hasLimit() ? query.getLimit() : Long.MAX_VALUE;
+				final long offset = _query.hasOffset() ? _query.getOffset() : 0;
+				final long limit = _query.hasLimit() ? _query.getLimit() : Long.MAX_VALUE;
 				results = new SlicedResultSet(results, offset, limit);
 			}
 
@@ -260,13 +260,13 @@ class SparqlDLExecution implements QueryExecution
 		}
 		catch (final UnsupportedQueryException e)
 		{
-			_logger.log(purePelletQueryExec ? Level.INFO : Level.FINE, "This is not a SPARQL-DL query: " + e.getMessage());
+			_logger.log(_purePelletQueryExec ? Level.INFO : Level.FINE, "This is not a SPARQL-DL _query: " + e.getMessage());
 
-			if (purePelletQueryExec)
+			if (_purePelletQueryExec)
 				throw e;
 			else
 			{
-				_logger.fine("Falling back to Jena query engine");
+				_logger.fine("Falling back to Jena _query engine");
 				return null;
 			}
 		}
@@ -290,7 +290,7 @@ class SparqlDLExecution implements QueryExecution
 	@Override
 	public void setInitialBinding(final QuerySolution startSolution)
 	{
-		initialBinding = startSolution;
+		_initialBinding = startSolution;
 	}
 
 	@Override
@@ -306,14 +306,14 @@ class SparqlDLExecution implements QueryExecution
 	public Dataset getDataset()
 	{
 		throw new UnsupportedOperationException("Not supported yet!");
-		// return source;
+		// return _source;
 	}
 
 	private void ensureQueryType(final QueryType expectedType) throws QueryExecException
 	{
-		final QueryType actualType = getQueryType(query);
+		final QueryType actualType = getQueryType(_query);
 		if (actualType != expectedType)
-			throw new QueryExecException("Attempt to execute a " + actualType + " query as a " + expectedType + " query");
+			throw new QueryExecException("Attempt to execute a " + actualType + " _query as a " + expectedType + " _query");
 	}
 
 	private static QueryType getQueryType(final Query query)
@@ -331,12 +331,12 @@ class SparqlDLExecution implements QueryExecution
 
 	public boolean isPurePelletQueryExec()
 	{
-		return purePelletQueryExec;
+		return _purePelletQueryExec;
 	}
 
 	public void setPurePelletQueryExec(final boolean purePelletQueryExec)
 	{
-		this.purePelletQueryExec = purePelletQueryExec;
+		this._purePelletQueryExec = purePelletQueryExec;
 	}
 
 	/**
@@ -381,7 +381,7 @@ class SparqlDLExecution implements QueryExecution
 	@Override
 	public Query getQuery()
 	{
-		return query;
+		return _query;
 	}
 
 	/**

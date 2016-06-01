@@ -29,16 +29,16 @@ import com.clarkparsia.pellet.sparqldl.model.ResultBinding;
 public abstract class QueryPlan
 {
 
-	protected Query query;
+	protected Query _query;
 
 	public QueryPlan(final Query query)
 	{
-		this.query = query;
+		this._query = query;
 	}
 
 	public Query getQuery()
 	{
-		return query;
+		return _query;
 	}
 
 	/**

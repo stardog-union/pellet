@@ -25,7 +25,6 @@ import org.apache.jena.graph.NodeFactory;
 import org.apache.jena.graph.Triple;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.iterator.ExtendedIterator;
-import org.apache.jena.util.iterator.Map1;
 import org.apache.jena.util.iterator.NullIterator;
 import org.apache.jena.util.iterator.SingletonIterator;
 import org.apache.jena.util.iterator.WrappedIterator;
@@ -429,22 +428,7 @@ public class GraphQueryHandler
 								if (kb.isAnnotationProperty(term))
 									types.add(OWL.AnnotationProperty.asNode());
 
-				final Map1<Node, Triple> map = new Map1<Node, Triple>()
-				{
-					@Override
-					public Triple apply(final Node node)
-					{
-						return map1(node);
-					}
-
-					@Override
-					public Triple map1(final Node o)
-					{
-						return Triple.create(s, p, o);
-					}
-				};
-
-				return WrappedIterator.create(types.iterator()).mapWith(map);
+				return WrappedIterator.create(types.iterator()).mapWith(node -> Triple.create(s, p, node));
 			}
 		});
 

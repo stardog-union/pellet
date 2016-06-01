@@ -36,19 +36,19 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class CoreNewImpl implements Core
 {
 
-	private final QueryAtom atom;
+	private final QueryAtom _atom;
 
-	private final Query query;
+	private final Query _query;
 
 	public CoreNewImpl(final Collection<QueryAtom> atoms, final Collection<ATermAppl> uv, final KnowledgeBase kb)
 	{
-		query = new QueryImpl(kb, false);
+		_query = new QueryImpl(kb, false);
 
 		final List<ATermAppl> signature = new ArrayList<>();
 
 		for (final QueryAtom atom : atoms)
 		{
-			query.add(atom);
+			_query.add(atom);
 
 			// this is nasty - remodeling will be fine
 			switch (atom.getPredicate())
@@ -59,27 +59,27 @@ public class CoreNewImpl implements Core
 					addI(atom.getArguments().get(2), signature, uv);
 					if (ATermUtils.isVar(a1))
 						if (!uv.contains(a1))
-							query.addDistVar(a1, VarType.PROPERTY);
+							_query.addDistVar(a1, VarType.PROPERTY);
 					break;
 				case Type:
 					final ATermAppl aa1 = atom.getArguments().get(1);
 					addI(atom.getArguments().get(0), signature, uv);
 					if (ATermUtils.isVar(aa1))
 						if (!uv.contains(aa1))
-							query.addDistVar(aa1, VarType.CLASS);
+							_query.addDistVar(aa1, VarType.CLASS);
 					break;
 				default:
 					throw new IllegalArgumentException("Atom type " + atom.getPredicate() + " is not supported in a core.");
 			}
 		}
 
-		atom = new QueryAtomImpl(QueryPredicate.UndistVarCore, signature);
+		_atom = new QueryAtomImpl(QueryPredicate.UndistVarCore, signature);
 	}
 
 	private CoreNewImpl(final Query query, final QueryAtom atom)
 	{
-		this.atom = atom;
-		this.query = query;
+		this._atom = atom;
+		this._query = query;
 	}
 
 	private void addI(final ATermAppl aa0, final List<ATermAppl> signature, final Collection<ATermAppl> uv)
@@ -88,7 +88,7 @@ public class CoreNewImpl implements Core
 		{
 			if (!uv.contains(aa0))
 			{
-				query.addDistVar(aa0, VarType.INDIVIDUAL);
+				_query.addDistVar(aa0, VarType.INDIVIDUAL);
 				signature.add(aa0);
 			}
 		}
@@ -102,13 +102,13 @@ public class CoreNewImpl implements Core
 	@Override
 	public CoreNewImpl apply(final ResultBinding binding)
 	{
-		return new CoreNewImpl(query.apply(binding), atom.apply(binding));
+		return new CoreNewImpl(_query.apply(binding), _atom.apply(binding));
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return atom.hashCode() + 7 * query.hashCode();
+		return _atom.hashCode() + 7 * _query.hashCode();
 	}
 
 	@Override
@@ -122,53 +122,53 @@ public class CoreNewImpl implements Core
 			return false;
 		final CoreNewImpl other = (CoreNewImpl) obj;
 
-		return atom.equals(other.atom) && query.equals(other.query);
+		return _atom.equals(other._atom) && _query.equals(other._query);
 	}
 
 	@Override
 	public Set<ATermAppl> getConstants()
 	{
-		return query.getConstants();
+		return _query.getConstants();
 	}
 
 	@Override
 	public Set<ATermAppl> getDistVars()
 	{
-		return query.getDistVars();
+		return _query.getDistVars();
 	}
 
 	@Override
 	public Set<ATermAppl> getUndistVars()
 	{
-		return query.getUndistVars();
+		return _query.getUndistVars();
 	}
 
 	@Override
 	public List<ATermAppl> getArguments()
 	{
-		return atom.getArguments();
+		return _atom.getArguments();
 	}
 
 	@Override
 	public QueryPredicate getPredicate()
 	{
-		return atom.getPredicate();
+		return _atom.getPredicate();
 	}
 
 	public Query getQuery()
 	{
-		return query;
+		return _query;
 	}
 
 	@Override
 	public boolean isGround()
 	{
-		return atom.isGround();
+		return _atom.isGround();
 	}
 
 	@Override
 	public String toString()
 	{
-		return atom.toString();
+		return _atom.toString();
 	}
 }

@@ -30,15 +30,15 @@ import org.apache.jena.sparql.engine.binding.Binding;
  */
 public class SlicedResultSet implements ResultSet
 {
-	private final ResultSet results;
-	private int row;
-	private final long limit;
+	private final ResultSet _results;
+	private int _row;
+	private final long _limit;
 
 	public SlicedResultSet(final ResultSet results, final long offset, final long limit)
 	{
-		this.results = results;
-		this.row = 0;
-		this.limit = limit;
+		this._results = results;
+		this._row = 0;
+		this._limit = limit;
 
 		for (int i = 0; i < offset && results.hasNext(); i++)
 			results.next();
@@ -50,7 +50,7 @@ public class SlicedResultSet implements ResultSet
 	@Override
 	 public boolean hasNext()
 	{
-		return row < limit && results.hasNext();
+		return _row < _limit && _results.hasNext();
 	}
 
 	 /**
@@ -59,9 +59,9 @@ public class SlicedResultSet implements ResultSet
 	 @Override
 	 public Binding nextBinding()
 	{
-		 row++;
+		 _row++;
 
-		return results.nextBinding();
+		return _results.nextBinding();
 	}
 
 	 /**
@@ -70,9 +70,9 @@ public class SlicedResultSet implements ResultSet
 	@Override
 	 public QuerySolution nextSolution()
 	{
-		row++;
+		_row++;
 
-		return results.nextSolution();
+		return _results.nextSolution();
 	}
 
 	 /**
@@ -90,7 +90,7 @@ public class SlicedResultSet implements ResultSet
 	 @Override
 	 public List<String> getResultVars()
 	{
-		 return results.getResultVars();
+		 return _results.getResultVars();
 	 }
 
 	 /**
@@ -99,7 +99,7 @@ public class SlicedResultSet implements ResultSet
 	@Override
 	 public int getRowNumber()
 	{
-		return row;
+		return _row;
 	}
 
 	 /**
@@ -108,13 +108,13 @@ public class SlicedResultSet implements ResultSet
 	@Override
 	 public void remove() throws UnsupportedOperationException
 	{
-		results.remove();
+		_results.remove();
 	}
 
 	 @Override
 	public String toString()
 	{
-		return results.toString();
+		return _results.toString();
 	}
 
 	@Override

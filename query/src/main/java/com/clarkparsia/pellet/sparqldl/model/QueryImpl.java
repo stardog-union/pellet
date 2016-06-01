@@ -44,52 +44,52 @@ public class QueryImpl implements Query
 	private static final ATermAppl DEFAULT_NAME = TermFactory.term("query");
 
 	// COMMON PART
-	private ATermAppl name = DEFAULT_NAME;
+	private ATermAppl _name = DEFAULT_NAME;
 
-	private final List<QueryAtom> allAtoms;
+	private final List<QueryAtom> _allAtoms;
 
-	private KnowledgeBase kb;
+	private KnowledgeBase _kb;
 
-	private List<ATermAppl> resultVars;
+	private List<ATermAppl> _resultVars;
 
-	private Set<ATermAppl> allVars;
+	private Set<ATermAppl> _allVars;
 
-	private Set<ATermAppl> individualsAndLiterals;
+	private Set<ATermAppl> _individualsAndLiterals;
 
-	private boolean ground;
+	private boolean _ground;
 
-	private final boolean distinct;
+	private final boolean _distinct;
 
-	private Filter filter;
+	private Filter _filter;
 
-	private QueryParameters parameters;
+	private QueryParameters _parameters;
 
 	// VARIABLES
-	private EnumMap<VarType, Set<ATermAppl>> distVars;
+	private EnumMap<VarType, Set<ATermAppl>> _distVars;
 
 	public QueryImpl(final KnowledgeBase kb, final boolean distinct)
 	{
-		this.kb = kb;
+		this._kb = kb;
 
-		this.ground = true;
-		this.allAtoms = new ArrayList<>();
-		this.resultVars = new ArrayList<>();
-		this.allVars = new HashSet<>();
-		this.individualsAndLiterals = new HashSet<>();
-		this.distVars = new EnumMap<>(VarType.class);
+		this._ground = true;
+		this._allAtoms = new ArrayList<>();
+		this._resultVars = new ArrayList<>();
+		this._allVars = new HashSet<>();
+		this._individualsAndLiterals = new HashSet<>();
+		this._distVars = new EnumMap<>(VarType.class);
 
 		for (final VarType type : VarType.values())
-			distVars.put(type, new HashSet<ATermAppl>());
+			_distVars.put(type, new HashSet<ATermAppl>());
 
-		this.distinct = distinct;
+		this._distinct = distinct;
 	}
 
 	public QueryImpl(final Query query)
 	{
 		this(query.getKB(), query.isDistinct());
 
-		this.name = query.getName();
-		this.parameters = query.getQueryParameters();
+		this._name = query.getName();
+		this._parameters = query.getQueryParameters();
 	}
 
 	/**
@@ -98,22 +98,22 @@ public class QueryImpl implements Query
 	@Override
 	public void add(final QueryAtom atom)
 	{
-		if (allAtoms.contains(atom))
+		if (_allAtoms.contains(atom))
 			return;
-		allAtoms.add(atom);
+		_allAtoms.add(atom);
 
 		for (final ATermAppl a : atom.getArguments())
 			if (ATermUtils.isVar(a))
 			{
-				if (!allVars.contains(a))
-					allVars.add(a);
+				if (!_allVars.contains(a))
+					_allVars.add(a);
 			}
 			else
-				if (ATermUtils.isLiteral(a) || kb.isIndividual(a))
-					if (!individualsAndLiterals.contains(a))
-						individualsAndLiterals.add(a);
+				if (ATermUtils.isLiteral(a) || _kb.isIndividual(a))
+					if (!_individualsAndLiterals.contains(a))
+						_individualsAndLiterals.add(a);
 
-		ground = ground && atom.isGround();
+		_ground = _ground && atom.isGround();
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class QueryImpl implements Query
 	@Override
 	public Set<ATermAppl> getDistVarsForType(final VarType type)
 	{
-		return distVars.get(type);
+		return _distVars.get(type);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class QueryImpl implements Query
 	@Override
 	public void addDistVar(final ATermAppl a, final VarType type)
 	{
-		final Set<ATermAppl> set = distVars.get(type);
+		final Set<ATermAppl> set = _distVars.get(type);
 
 		if (!set.contains(a))
 			set.add(a);
@@ -143,7 +143,7 @@ public class QueryImpl implements Query
 	@Override
 	public void addResultVar(final ATermAppl a)
 	{
-		resultVars.add(a);
+		_resultVars.add(a);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class QueryImpl implements Query
 	@Override
 	public List<QueryAtom> getAtoms()
 	{
-		return Collections.unmodifiableList(allAtoms);
+		return Collections.unmodifiableList(_allAtoms);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class QueryImpl implements Query
 	@Override
 	public Set<ATermAppl> getConstants()
 	{
-		return Collections.unmodifiableSet(individualsAndLiterals);
+		return Collections.unmodifiableSet(_individualsAndLiterals);
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class QueryImpl implements Query
 		final Set<ATermAppl> result = new HashSet<>();
 
 		for (final VarType t : VarType.values())
-			result.addAll(distVars.get(t));
+			result.addAll(_distVars.get(t));
 
 		return result;
 	}
@@ -184,7 +184,7 @@ public class QueryImpl implements Query
 	@Override
 	public Set<ATermAppl> getUndistVars()
 	{
-		final Set<ATermAppl> result = new HashSet<>(allVars);
+		final Set<ATermAppl> result = new HashSet<>(_allVars);
 
 		result.removeAll(getDistVars());
 
@@ -197,7 +197,7 @@ public class QueryImpl implements Query
 	@Override
 	public List<ATermAppl> getResultVars()
 	{
-		return Collections.unmodifiableList(resultVars);
+		return Collections.unmodifiableList(_resultVars);
 	}
 
 	/**
@@ -206,7 +206,7 @@ public class QueryImpl implements Query
 	@Override
 	public Set<ATermAppl> getVars()
 	{
-		return Collections.unmodifiableSet(allVars);
+		return Collections.unmodifiableSet(_allVars);
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class QueryImpl implements Query
 	@Override
 	public boolean isGround()
 	{
-		return ground;
+		return _ground;
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class QueryImpl implements Query
 	@Override
 	public KnowledgeBase getKB()
 	{
-		return kb;
+		return _kb;
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class QueryImpl implements Query
 	@Override
 	public void setKB(final KnowledgeBase kb)
 	{
-		this.kb = kb;
+		this._kb = kb;
 	}
 
 	/**
@@ -249,8 +249,8 @@ public class QueryImpl implements Query
 
 		final QueryImpl query = new QueryImpl(this);
 
-		query.resultVars.addAll(this.resultVars);
-		query.resultVars.removeAll(binding.getAllVariables());
+		query._resultVars.addAll(this._resultVars);
+		query._resultVars.removeAll(binding.getAllVariables());
 
 		for (final VarType type : VarType.values())
 			for (final ATermAppl atom : getDistVarsForType(type))
@@ -269,7 +269,7 @@ public class QueryImpl implements Query
 	@Override
 	public ATermAppl rollUpTo(final ATermAppl var, final Collection<ATermAppl> stopList, final boolean stopOnConstants)
 	{
-		if (getDistVarsForType(VarType.LITERAL).contains(var) && !getDistVarsForType(VarType.INDIVIDUAL).contains(var) && !individualsAndLiterals.contains(var))
+		if (getDistVarsForType(VarType.LITERAL).contains(var) && !getDistVarsForType(VarType.INDIVIDUAL).contains(var) && !_individualsAndLiterals.contains(var))
 			throw new InternalReasonerException("Trying to roll up to the variable '" + var + "' which is not distinguished and _individual.");
 
 		ATermList classParts = ATermUtils.EMPTY_LIST;
@@ -334,7 +334,7 @@ public class QueryImpl implements Query
 					final ATermList temp = getClasses(obj);
 					if (temp.getLength() == 0)
 					{
-						if (kb.isDatatypeProperty(pred))
+						if (_kb.isDatatypeProperty(pred))
 							// return ATermUtils.makeSoMin(pred, 1,
 							// ATermUtils.TOP_LIT);
 							return ATermUtils.makeSomeValues(pred, ATermUtils.TOP_LIT);
@@ -372,7 +372,7 @@ public class QueryImpl implements Query
 					if (targetOuts.size() == 0)
 					{
 						// this is a simple leaf _node
-						if (kb.isDatatypeProperty(pred))
+						if (_kb.isDatatypeProperty(pred))
 							return ATermUtils.makeSomeValues(pred, ATermUtils.TOP_LIT);
 						else
 							return ATermUtils.makeSomeValues(pred, ATermUtils.TOP);
@@ -420,7 +420,7 @@ public class QueryImpl implements Query
 				final ATermAppl subj = atom.getArguments().get(0);
 				final ATermAppl pred = atom.getArguments().get(1);
 				final ATermAppl obj = atom.getArguments().get(2);
-				final ATermAppl invPred = kb.getRBox().getRole(pred).getInverse().getName();
+				final ATermAppl invPred = _kb.getRBox().getRole(pred).getInverse().getName();
 
 				if (ATermUtils.isVar(pred))
 					throw new InternalReasonerException("Variables as predicates are not supported yet");
@@ -434,7 +434,7 @@ public class QueryImpl implements Query
 					final ATermList temp = getClasses(subj);
 					if (temp.getLength() == 0)
 					{
-						if (kb.isDatatypeProperty(invPred))
+						if (_kb.isDatatypeProperty(invPred))
 							return ATermUtils.makeSomeValues(invPred, ATermUtils.TOP_LIT);
 						else
 							return ATermUtils.makeSomeValues(invPred, ATermUtils.TOP);
@@ -456,7 +456,7 @@ public class QueryImpl implements Query
 					if (targetIns.isEmpty())
 					{
 						// this is a simple leaf _node
-						if (kb.isDatatypeProperty(pred))
+						if (_kb.isDatatypeProperty(pred))
 							return ATermUtils.makeSomeValues(invPred, ATermUtils.TOP_LIT);
 						else
 							return ATermUtils.makeSomeValues(invPred, ATermUtils.TOP);
@@ -498,7 +498,7 @@ public class QueryImpl implements Query
 	private List<QueryAtom> _findAtoms(final Collection<ATermAppl> stopList, final QueryPredicate predicate, final ATermAppl... args)
 	{
 		final List<QueryAtom> list = new ArrayList<>();
-		for (final QueryAtom atom : allAtoms)
+		for (final QueryAtom atom : _allAtoms)
 			if (predicate.equals(atom.getPredicate()))
 			{
 				int i = 0;
@@ -534,19 +534,19 @@ public class QueryImpl implements Query
 	@Override
 	public Query reorder(final int[] ordering)
 	{
-		if (ordering.length != allAtoms.size())
+		if (ordering.length != _allAtoms.size())
 			throw new InternalReasonerException("Ordering permutation must be of the same size as the query : " + ordering.length);
 		final QueryImpl newQuery = new QueryImpl(this);
 
 		// shallow copies for faster processing
 		for (final int element : ordering)
-			newQuery.allAtoms.add(allAtoms.get(element));
+			newQuery._allAtoms.add(_allAtoms.get(element));
 
-		newQuery.allVars = allVars;
-		newQuery.distVars = distVars;
-		newQuery.individualsAndLiterals = individualsAndLiterals;
-		newQuery.resultVars = resultVars;
-		newQuery.ground = ground;
+		newQuery._allVars = _allVars;
+		newQuery._distVars = _distVars;
+		newQuery._individualsAndLiterals = _individualsAndLiterals;
+		newQuery._resultVars = _resultVars;
+		newQuery._ground = _ground;
 
 		return newQuery;
 	}
@@ -557,33 +557,33 @@ public class QueryImpl implements Query
 	@Override
 	public void remove(final QueryAtom atom)
 	{
-		if (!allAtoms.contains(atom))
+		if (!_allAtoms.contains(atom))
 			return;
 
-		allAtoms.remove(atom);
+		_allAtoms.remove(atom);
 
 		final Set<ATermAppl> rest = new HashSet<>();
 
 		boolean ground = true;
 
-		for (final QueryAtom atom2 : allAtoms)
+		for (final QueryAtom atom2 : _allAtoms)
 		{
 			ground &= atom2.isGround();
 			rest.addAll(atom2.getArguments());
 		}
 
-		this.ground = ground;
+		this._ground = ground;
 
 		final Set<ATermAppl> toRemove = new HashSet<>(atom.getArguments());
 		toRemove.removeAll(rest);
 
 		for (final ATermAppl a : toRemove)
 		{
-			allVars.remove(a);
-			for (final Entry<VarType, Set<ATermAppl>> entry : distVars.entrySet())
+			_allVars.remove(a);
+			for (final Entry<VarType, Set<ATermAppl>> entry : _distVars.entrySet())
 				entry.getValue().remove(a);
-			resultVars.remove(a);
-			individualsAndLiterals.remove(a);
+			_resultVars.remove(a);
+			_individualsAndLiterals.remove(a);
 		}
 	}
 
@@ -598,24 +598,24 @@ public class QueryImpl implements Query
 		final String indent = multiLine ? "     " : " ";
 		final StringBuffer sb = new StringBuffer();
 
-		sb.append(ATermUtils.toString(name) + "(");
-		for (int i = 0; i < resultVars.size(); i++)
+		sb.append(ATermUtils.toString(_name) + "(");
+		for (int i = 0; i < _resultVars.size(); i++)
 		{
-			final ATermAppl var = resultVars.get(i);
+			final ATermAppl var = _resultVars.get(i);
 			if (i > 0)
 				sb.append(", ");
 			sb.append(ATermUtils.toString(var));
 		}
 		sb.append(")");
 
-		if (allAtoms.size() > 0)
+		if (_allAtoms.size() > 0)
 		{
 			sb.append(" :-");
 			if (multiLine)
 				sb.append("\n");
-			for (int i = 0; i < allAtoms.size(); i++)
+			for (int i = 0; i < _allAtoms.size(); i++)
 			{
-				final QueryAtom a = allAtoms.get(i);
+				final QueryAtom a = _allAtoms.get(i);
 				if (i > 0)
 				{
 					sb.append(",");
@@ -640,7 +640,7 @@ public class QueryImpl implements Query
 	@Override
 	public boolean isDistinct()
 	{
-		return distinct;
+		return _distinct;
 	}
 
 	/**
@@ -649,7 +649,7 @@ public class QueryImpl implements Query
 	@Override
 	public Filter getFilter()
 	{
-		return filter;
+		return _filter;
 	}
 
 	/**
@@ -658,30 +658,30 @@ public class QueryImpl implements Query
 	@Override
 	public void setFilter(final Filter filter)
 	{
-		this.filter = filter;
+		this._filter = filter;
 	}
 
 	@Override
 	public void setQueryParameters(final QueryParameters parameters)
 	{
-		this.parameters = parameters;
+		this._parameters = parameters;
 	}
 
 	@Override
 	public QueryParameters getQueryParameters()
 	{
-		return parameters;
+		return _parameters;
 	}
 
 	@Override
 	public ATermAppl getName()
 	{
-		return name;
+		return _name;
 	}
 
 	@Override
 	public void setName(final ATermAppl name)
 	{
-		this.name = name;
+		this._name = name;
 	}
 }
