@@ -11,11 +11,16 @@ import org.slf4j.Marker;
  */
 public class Log implements Logging
 {
-	public static Logger _parent = Logger.getLogger(Log.class.getName());
+	public static final Logger _parent = Logger.getLogger(Log.class.getName());
+	public static volatile Level _defaultLevel = Level.INFO;
+	public static volatile boolean _setDefaultParent = false;
 
 	static
 	{
-		_parent.setLevel(Level.INFO);
+		final String property = System.getProperty("java.util.logging.SimpleFormatter.format");
+		if (null == property)
+			System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tF %1$tT %4$s %2$s %5$s%6$s%n");
+		_parent.setLevel(_defaultLevel);
 	}
 
 	@Override
@@ -23,9 +28,6 @@ public class Log implements Logging
 	{
 		return _parent;
 	}
-
-	public static volatile Level _defaultLevel = Level.INFO;
-	public static volatile boolean _setDefaultParent = false;
 
 	private static Map<String, Logger> _loggers = new ConcurrentHashMap<>();
 
@@ -64,6 +66,26 @@ public class Log implements Logging
 	public static Logger getLogger(final Class<?> type, final Level specificLevel)
 	{
 		return config(Logger.getLogger(type.getSimpleName()), specificLevel);
+	}
+
+	public static org.slf4j.Logger logger(final String name)
+	{
+		return toSlf4j(config(Logger.getLogger(name), _defaultLevel));
+	}
+
+	public static org.slf4j.Logger logger(final Class<?> type)
+	{
+		return toSlf4j(config(Logger.getLogger(type.getSimpleName()), _defaultLevel));
+	}
+
+	public static org.slf4j.Logger logger(final String name, final Level specificLevel)
+	{
+		return toSlf4j(config(Logger.getLogger(name), specificLevel));
+	}
+
+	public static org.slf4j.Logger logger(final Class<?> type, final Level specificLevel)
+	{
+		return toSlf4j(config(Logger.getLogger(type.getSimpleName()), specificLevel));
 	}
 
 	public static void setLevel(final Logger logger, final Level level)
