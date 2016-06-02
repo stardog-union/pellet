@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -127,8 +128,10 @@ public class PersistenceExample
 		// Now query both of the classifiers for subclasses of "Pain" class. Both of the classifiers will incrementally update their state, and should print
 		// the same information
 
-		System.out.println("[Original classifier] Subclasses of " + pain + ": " + classifier.getSubClasses(pain, true).getFlattened() + "\n");
-		System.out.println("[Restored classifier] Subclasses of " + pain + ": " + ((restoredClassifier != null) ? restoredClassifier.getSubClasses(pain, true).getFlattened() : "") + "\n");
+		System.out.println("[Original classifier] Subclasses of " + pain + ": " + // 
+				classifier.getSubClasses(pain, true).entities().map(OWLClass::toString).collect(Collectors.joining(",")) + "\n");
+		System.out.println("[Restored classifier] Subclasses of " + pain + ": " + // 
+				((restoredClassifier != null) ? restoredClassifier.getSubClasses(pain, true).entities().map(OWLClass::toString).collect(Collectors.joining(",")) : "") + "\n");
 
 		// clean up by removing the file containing the persisted state
 		final File fileToDelete = new File(persistenceFile);

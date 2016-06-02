@@ -12,6 +12,7 @@ import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
@@ -26,7 +27,7 @@ public class RulesExample
 {
 	public static void main(final String[] args)
 	{
-		final String ont = "http://owldl.com/ontologies/dl-safe.owl";
+		final String ont = "data/dl-safe.owl";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
 		model.read(ont);
@@ -44,7 +45,7 @@ public class RulesExample
 		model.prepare();
 
 		// Cain has sibling Abel due to SiblingRule
-		printPropertyValues(Cain, sibling);
+		printPropertyValues(Cain, sibling); // FIXME : java.lang.NullPointerException
 		// Abel has sibling Cain due to SiblingRule and rule works symmetric
 		printPropertyValues(Abel, sibling);
 		// Remus is not inferred to have a sibling because his father is not
@@ -61,10 +62,14 @@ public class RulesExample
 		printInstances(Child);
 	}
 
+	// FIXME massivelly bugged functions.
+	@SuppressWarnings("unchecked")
 	public static void printPropertyValues(final Individual ind, final Property prop)
 	{
 		System.out.print(ind.getLocalName() + " has " + prop.getLocalName() + "(s): ");
-		printIterator(ind.listPropertyValues(prop));
+		final ExtendedIterator<RDFNode> rsc = ind.listPropertyValues(prop);
+		final ExtendedIterator<? extends Resource> rsc2 = (ExtendedIterator) rsc; // FIXME : there is a type error here : the modernized strong typing show it.  
+		printIterator(rsc2);
 	}
 
 	public static void printInstances(final OntClass cls)
@@ -73,14 +78,14 @@ public class RulesExample
 		printIterator(cls.listInstances());
 	}
 
-	public static void printIterator(final ExtendedIterator i)
+	public static void printIterator(final ExtendedIterator<? extends Resource> i)
 	{
 		if (!i.hasNext())
 			System.out.print("none");
 		else
 			while (i.hasNext())
 			{
-				final Resource val = (Resource) i.next();
+				final Resource val = i.next();
 				System.out.print(val.getLocalName());
 				if (i.hasNext())
 					System.out.print(", ");

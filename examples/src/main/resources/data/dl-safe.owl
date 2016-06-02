@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY dl-safe "http://owldl.com/ontologies/dl-safe.owl#">
+  <!ENTITY swrl  "http://www.w3.org/2003/11/swrl#" >
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#">
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#">
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
+  <!ENTITY ruleml  "http://www.w3.org/2003/11/ruleml#" >
+]>
+
+<rdf:RDF xml:base="&dl-safe;" xmlns:dl-safe="&dl-safe;"
+	xmlns:owl="&owl;" xmlns:rdf="&rdf;" xmlns:rdfs="&rdfs;"
+	xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+	xmlns:ruleml="http://www.w3.org/2003/11/ruleml#">
+
+	<!-- Ontology Information -->
+	<owl:Ontology rdf:about="" rdfs:label="DL-Safe rules example">
+		<rdfs:comment>
+			A slightly modified version of the example from Table 3 in
+			the paper:
+
+			B. Motik, U. Sattler, R. Studer. Query Answering for OWL-DL
+			with Rules. Proc. of the 3rd International Semantic Web
+			Conference (ISWC 2004), Hiroshima, Japan, November, 2004,
+			pp. 549-563
+		</rdfs:comment>
+	</owl:Ontology>
+
+	<!-- Classes -->
+
+	<owl:Class rdf:about="#BadChild" />
+
+	<owl:Class rdf:about="#Child" />
+
+	<owl:Class rdf:about="#GoodChild" />
+
+	<owl:Class rdf:about="#Grandchild" />
+
+	<owl:Class rdf:about="#Person">
+		<rdfs:subClassOf>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#father" />
+				<owl:someValuesFrom rdf:resource="#Person" />
+			</owl:Restriction>
+		</rdfs:subClassOf>
+	</owl:Class>
+
+	<owl:Restriction>
+		<owl:onProperty rdf:resource="#father" />
+		<owl:someValuesFrom>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#father" />
+				<owl:someValuesFrom rdf:resource="#Person" />
+			</owl:Restriction>
+		</owl:someValuesFrom>
+		<rdfs:subClassOf rdf:resource="#Grandchild" />
+	</owl:Restriction>
+
+	<!-- Object Properties -->
+	<owl:ObjectProperty rdf:about="#child" />
+
+	<owl:ObjectProperty rdf:about="#father">
+		<rdfs:subPropertyOf rdf:resource="#parent" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#hates" />
+
+	<owl:ObjectProperty rdf:about="#parent">
+		<owl:inverseOf rdf:resource="#child" />
+	</owl:ObjectProperty>
+
+	<owl:ObjectProperty rdf:about="#sibling" />
+
+	<!-- Instances -->
+
+	<dl-safe:Person rdf:about="#Abel" />
+	
+	<dl-safe:Person rdf:about="#Adam">
+		<dl-safe:child rdf:resource="#Abel" />
+	</dl-safe:Person>
+	
+	<dl-safe:Person rdf:about="#Cain">
+		<dl-safe:parent rdf:resource="#Adam" />
+		<dl-safe:hates rdf:resource="#Abel" />
+	</dl-safe:Person>
+
+	<owl:Thing rdf:about="#Oedipus">
+		<rdf:type>
+			<owl:Class>
+				<owl:unionOf rdf:parseType="Collection">
+					<owl:Class rdf:about="#BadChild" />
+					<owl:Class rdf:about="#GoodChild" />
+				</owl:unionOf>
+			</owl:Class>
+		</rdf:type>
+	</owl:Thing>
+
+	<owl:Thing rdf:about="#Remus" />
+
+	<dl-safe:Person rdf:about="#Romulus">
+		<rdf:type>
+			<owl:Restriction>
+				<owl:onProperty rdf:resource="#father" />
+				<owl:someValuesFrom>
+					<owl:Restriction>
+						<owl:onProperty rdf:resource="#child" />
+						<owl:hasValue rdf:resource="#Remus" />
+					</owl:Restriction>
+				</owl:someValuesFrom>
+			</owl:Restriction>
+		</rdf:type>
+		<dl-safe:hates rdf:resource="#Remus" />
+	</dl-safe:Person>
+
+	<owl:AllDifferent>
+		<owl:distinctMembers rdf:parseType="Collection">
+			<owl:Thing rdf:about="#Abel" />
+			<owl:Thing rdf:about="#Adam" />
+			<owl:Thing rdf:about="#Cain" />
+			<owl:Thing rdf:about="#Oedipus" />
+			<owl:Thing rdf:about="#Remus" />
+			<owl:Thing rdf:about="#Romulus" />
+		</owl:distinctMembers>
+	</owl:AllDifferent>
+
+	<!-- Rules   -->
+
+	<swrl:Variable rdf:about="#x" />
+	<swrl:Variable rdf:about="#y" />
+	<swrl:Variable rdf:about="#z" />
+
+	<swrl:Imp rdf:about="#SiblingRule">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#sibling" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:IndividualPropertyAtom>
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#parent" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#y" />
+			</swrl:IndividualPropertyAtom>
+
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#parent" />
+				<swrl:argument1 rdf:resource="#z" />
+				<swrl:argument2 rdf:resource="#y" />
+			</swrl:IndividualPropertyAtom>
+
+			<swrl:DifferentIndividualsAtom>
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#z" />
+			</swrl:DifferentIndividualsAtom>
+		</swrl:body>
+	</swrl:Imp>
+
+	<swrl:Imp rdf:about="#BadChildRule">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#BadChild" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Grandchild" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#sibling" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#y" />
+			</swrl:IndividualPropertyAtom>
+			<swrl:IndividualPropertyAtom>
+				<swrl:propertyPredicate rdf:resource="#hates" />
+				<swrl:argument1 rdf:resource="#x" />
+				<swrl:argument2 rdf:resource="#y" />
+			</swrl:IndividualPropertyAtom>
+		</swrl:body>
+	</swrl:Imp>
+
+	<swrl:Imp rdf:about="#ChildRule1">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Child" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#GoodChild" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+		</swrl:body>
+	</swrl:Imp>
+
+	<swrl:Imp rdf:about="#ChildRule2">
+		<swrl:head rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#Child" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+		</swrl:head>
+
+		<swrl:body rdf:parseType="Collection">
+			<swrl:ClassAtom>
+				<swrl:classPredicate rdf:resource="#BadChild" />
+				<swrl:argument1 rdf:resource="#x" />
+			</swrl:ClassAtom>
+		</swrl:body>
+	</swrl:Imp>
+
+</rdf:RDF>

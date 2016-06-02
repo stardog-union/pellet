@@ -28,7 +28,7 @@ import org.mindswap.pellet.jena.PelletReasonerFactory;
  */
 public class BnodeQueryExample
 {
-	public static void main(final String[] args) throws Exception
+	public static void main(final String[] args)
 	{
 		PelletOptions.TREAT_ALL_VARS_DISTINGUISHED = false;
 		final String ns = "http://www.w3.org/TR/2003/PR-owl-guide-20031209/food#";
@@ -92,7 +92,7 @@ public class BnodeQueryExample
 		printQueryResults("Running first query with standard Jena QueryEngine...", QueryExecutionFactory.create(query1, model), query1);
 	}
 
-	public static void printQueryResults(final String header, final QueryExecution qe, final Query query) throws Exception
+	public static void printQueryResults(final String header, final QueryExecution qe, final Query query)
 	{
 		System.out.println(header);
 

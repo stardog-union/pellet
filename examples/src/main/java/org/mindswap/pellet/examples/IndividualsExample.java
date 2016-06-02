@@ -108,8 +108,7 @@ public class IndividualsExample
 		final OWLDataProperty foafName = factory.getOWLDataProperty(IRI.create("http://xmlns.com/foaf/0.1/name"));
 
 		// get all instances of Person class
-		final Set<OWLNamedIndividual> individuals = reasoner.getInstances(Person, false).getFlattened();
-		for (final OWLNamedIndividual ind : individuals)
+		for (final OWLNamedIndividual ind : reasoner.getInstances(Person, false).entities().toArray(OWLNamedIndividual[]::new))
 		{
 			// get the info about this specific _individual
 			final Set<OWLLiteral> names = reasoner.getDataPropertyValues(ind, foafName);

@@ -10,6 +10,7 @@ package org.mindswap.pellet.examples;
 
 import com.clarkparsia.modularity.IncrementalClassifier;
 import com.clarkparsia.owlapi.OWL;
+import java.util.stream.Collectors;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.Timers;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -67,7 +68,7 @@ public class IncrementalClassifierExample
 		t.stop();
 
 		System.out.println("\nClassification time: " + t.getTotal() + "ms");
-		System.out.println("Subclasses of " + pain + ": " + classifier.getSubClasses(pain, true).getFlattened() + "\n");
+		System.out.println("Subclasses of " + pain + ": " + classifier.getSubClasses(pain, true).entities().map(OWLClass::toString).collect(Collectors.joining(",")) + "\n");
 
 		// Now create a new OWL axiom, subClassOf(Headache, Pain)
 		final OWLAxiom axiom = OWL.subClassOf(headache, pain);
@@ -83,7 +84,7 @@ public class IncrementalClassifierExample
 		t.stop();
 
 		System.out.println("\nClassification time: " + t.getTotal() + "ms");
-		System.out.println("Subclasses of " + pain + ": " + classifier.getSubClasses(pain, true).getFlattened() + "\n");
+		System.out.println("Subclasses of " + pain + ": " + classifier.getSubClasses(pain, true).entities().map(OWLClass::toString).collect(Collectors.joining(",")) + "\n");
 
 		// Remove the axiom from the ontology, which creates a change event
 		OWL.manager.applyChange(new RemoveAxiom(ontology, axiom));
@@ -95,7 +96,7 @@ public class IncrementalClassifierExample
 		timers.stopTimer("Third classification");
 
 		System.out.println("\nClassification time: " + t.getTotal() + "ms");
-		System.out.println("Subclasses of " + pain + ": " + classifier.getSubClasses(pain, true).getFlattened() + "\n");
+		System.out.println("Subclasses of " + pain + ": " + classifier.getSubClasses(pain, true).entities().map(OWLClass::toString).collect(Collectors.joining(",")) + "\n");
 
 		// Finally, print the timing. As you can see, the second classification
 		// takes significantly less time, which is the characteristic of the

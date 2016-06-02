@@ -30,31 +30,26 @@ import org.mindswap.pellet.jena.PelletReasonerFactory;
  */
 public class ClassTree
 {
-	OntModel model;
+	private final OntModel _model;
 
-	Set<OntResource> unsatConcepts;
+	private Set<OntResource> _unsatConcepts;
 
-	// render the classes using the prefixes from the model
-	TreeCellRenderer treeCellRenderer = new DefaultTreeCellRenderer()
+	// render the classes using the prefixes from the _model
+	private final TreeCellRenderer _treeCellRenderer = new DefaultTreeCellRenderer()
 	{
-		/**
-		 * TODO
-		 *
-		 * @since
-		 */
 		private static final long serialVersionUID = 5769333442039176739L;
 
 		@Override
 		@SuppressWarnings("unchecked")
-		public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocus)
+		public Component getTreeCellRendererComponent(final JTree tree, final Object value, final boolean sel, final boolean expanded, final boolean leaf, final int row, final boolean hasFocusParam)
 		{
 
-			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocusParam);
 
 			final DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
 
 			// each _node represents a set of classes
-			final Set<OntResource> set = (Set) node.getUserObject();
+			final Set<OntResource> set = (Set<OntResource>) node.getUserObject();
 			final StringBuffer label = new StringBuffer();
 
 			// a set may contain one or more elements
@@ -64,20 +59,20 @@ public class ClassTree
 
 			// get the first one and add it to the label
 			final OntResource first = i.next();
-			label.append(model.shortForm(first.getURI()));
+			label.append(_model.shortForm(first.getURI()));
 			// add the rest (if they exist)
 			while (i.hasNext())
 			{
 				final OntResource c = i.next();
 
 				label.append(" = ");
-				label.append(model.shortForm(c.getURI()));
+				label.append(_model.shortForm(c.getURI()));
 			}
 			if (set.size() > 1)
 				label.append("]");
 
 			// show unsatisfiable concepts red
-			if (unsatConcepts.contains(first))
+			if (_unsatConcepts.contains(first))
 				setForeground(Color.RED);
 
 			setText(label.toString());
@@ -88,29 +83,28 @@ public class ClassTree
 
 	};
 
-	@SuppressWarnings("unused")
 	public ClassTree(final String ontology)
 	{
 		// create a reasoner
-		model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		_model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		// create a model for the ontology
+		// create a _model for the ontology
 		System.out.print("Reading...");
-		model.read(ontology);
+		_model.read(ontology);
 		System.out.println("done");
 
-		// load the model to the reasoner
+		// load the _model to the reasoner
 		System.out.print("Preparing...");
-		model.prepare();
+		_model.prepare();
 		System.out.println("done");
 
 		// compute the classification tree
 		System.out.print("Classifying...");
-		((PelletInfGraph) model.getGraph()).getKB().classify();
+		((PelletInfGraph) _model.getGraph()).getKB().classify();
 		System.out.println("done");
 	}
 
-	public Set<OntResource> collect(final Iterator i)
+	public Set<OntResource> collect(final Iterator<?> i)
 	{
 		final Set<OntResource> set = new HashSet<>();
 		while (i.hasNext())
@@ -128,17 +122,17 @@ public class ClassTree
 	public JTree getJTree()
 	{
 		// Use OntClass for convenience
-		final OntClass owlThing = model.getOntClass(OWL.Thing.getURI());
-		final OntClass owlNothing = model.getOntClass(OWL.Nothing.getURI());
+		final OntClass owlThing = _model.getOntClass(OWL.Thing.getURI());
+		final OntClass owlNothing = _model.getOntClass(OWL.Nothing.getURI());
 
 		// Find all unsatisfiable concepts, i.e classes equivalent
 		// to owl:Nothing
-		unsatConcepts = collect(owlNothing.listEquivalentClasses());
+		_unsatConcepts = collect(owlNothing.listEquivalentClasses());
 
 		// create a tree starting with owl:Thing _node as the root
 		final DefaultMutableTreeNode thing = createTree(owlThing);
 
-		final Iterator<OntResource> i = unsatConcepts.iterator();
+		final Iterator<OntResource> i = _unsatConcepts.iterator();
 		if (i.hasNext())
 		{
 			// We want to display every unsatisfiable concept as a
@@ -163,7 +157,7 @@ public class ClassTree
 
 		// create the tree
 		final JTree classTree = new JTree(new DefaultTreeModel(thing));
-		classTree.setCellRenderer(treeCellRenderer);
+		classTree.setCellRenderer(_treeCellRenderer);
 
 		// expand everything
 		for (int r = 0; r < classTree.getRowCount(); r++)
@@ -180,15 +174,15 @@ public class ClassTree
 	 */
 	DefaultMutableTreeNode createTree(final OntClass cls)
 	{
-		if (unsatConcepts.contains(cls))
+		if (_unsatConcepts.contains(cls))
 			return null;
 
 		final DefaultMutableTreeNode root = createNode(cls);
 
-		final Set processedSubs = new HashSet();
+		final Set<?> processedSubs = new HashSet<>();
 
 		// get only direct subclasses
-		final Iterator subs = cls.listSubClasses(true);
+		final Iterator<?> subs = cls.listSubClasses(true);
 		while (subs.hasNext())
 		{
 			final OntClass sub = (OntClass) subs.next();
@@ -204,12 +198,17 @@ public class ClassTree
 			if (node != null)
 			{
 				root.add(node);
-
-				processedSubs.addAll((Set) node.getUserObject());
+				add(processedSubs, node.getUserObject());
 			}
 		}
 
 		return root;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void add(final Set<?> processedSubs, Object set)
+	{
+		processedSubs.addAll((Set) set);
 	}
 
 	/**

@@ -52,7 +52,10 @@ public class ModularityExample
 		final OWLOntology ontology = manager.loadOntology(IRI.create(file));
 
 		// Get some figures about the ontology and print them
-		System.out.println("The ontology contains " + ontology.getLogicalAxiomCount() + " axioms, " + ontology.getClassesInSignature().size() + " classes, and " + ontology.getObjectPropertiesInSignature().size() + " properties");
+		System.out.println("The ontology contains " + ontology.getLogicalAxiomCount() + //
+				" axioms, " + ontology.classesInSignature().count() + //
+				" classes, and " + ontology.objectPropertiesInSignature().count() + //
+				" properties");
 
 		// Create the signature of the module with are interested to extract
 		final Set<OWLEntity> signature = new HashSet<>();
@@ -86,7 +89,10 @@ public class ModularityExample
 		final OWLOntology moduleOnt = manager.createOntology(moduleAxioms);
 
 		// Get some figures about the extracted module and print them
-		System.out.println("The module contains " + moduleOnt.getLogicalAxiomCount() + " axioms, " + moduleOnt.getClassesInSignature().size() + " classes, and " + moduleOnt.getObjectPropertiesInSignature().size() + " properties");
+		System.out.println("The module contains " + moduleOnt.getLogicalAxiomCount() + //
+				" axioms, " + moduleOnt.classesInSignature().count() + //
+				" classes, and " + moduleOnt.objectPropertiesInSignature().count() + //
+				" properties");
 	}
 
 	public static void main(final String[] args) throws Exception

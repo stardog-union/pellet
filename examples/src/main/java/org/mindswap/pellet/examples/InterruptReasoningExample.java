@@ -242,7 +242,7 @@ public class InterruptReasoningExample
 		try
 		{
 			// run a simple query using Jena interface
-			final ExtendedIterator results = model.listIndividuals(cls);
+			final ExtendedIterator<?> results = model.listIndividuals(cls);
 
 			// print if the query succeeded
 			final int size = results.toList().size();

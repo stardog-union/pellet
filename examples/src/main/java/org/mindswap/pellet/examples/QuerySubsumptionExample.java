@@ -37,7 +37,7 @@ public class QuerySubsumptionExample
 	KnowledgeBase kb;
 	QueryParser parser;
 
-	public static void main(final String[] args) throws Exception
+	public static void main(final String[] args)
 	{
 		new QuerySubsumptionExample().run();
 	}
