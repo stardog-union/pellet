@@ -121,6 +121,6 @@ public class Reachability<E>
 	@SuppressWarnings("unchecked")
 	private EntityNode<E> entityNode(final Node node)
 	{
-		return (EntityNode) node;
+		return (EntityNode<E>) node;
 	}
 }

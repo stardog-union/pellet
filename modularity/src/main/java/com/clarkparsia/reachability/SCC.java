@@ -134,7 +134,7 @@ public class SCC
 					info.onStack = false;
 					// do not include OrNodes in the component
 					if (info.node instanceof EntityNode)
-						connectedComponent.add((EntityNode) info.node);
+						connectedComponent.add((EntityNode<E>) info.node);
 					i--;
 				}
 

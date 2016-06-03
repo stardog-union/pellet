@@ -812,9 +812,9 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	 * @param binary keyword used for binary case
 	 * @param nary keyword used for n-ary case
 	 */
-	protected void writeNaryAxiom(final Stream<? extends OWLObject> objs, final Keyword binary, final Keyword nary)
+	protected <T extends OWLObject> void writeNaryAxiom(final Stream<T> objs, final Keyword binary, final Keyword nary)
 	{
-		final List<? extends OWLObject> args = objs.sorted().collect(Collectors.toList());
+		final List<T> args = objs.sorted().collect(Collectors.toList());
 
 		if (args.size() == 2)
 			writeKeywordInfix(binary, args.get(0), args.get(1));
