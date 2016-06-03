@@ -126,10 +126,10 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 
 		final OWLObjectIntersectionOf conj = (OWLObjectIntersectionOf) desc;
 
-		if (conj.getOperands().size() != 2)
+		if (conj.operands().count() != 2)
 			return null;
 
-		final Iterator<OWLClassExpression> conjuncts = conj.getOperands().iterator();
+		final Iterator<OWLClassExpression> conjuncts = conj.operands().iterator();
 		final OWLClassExpression c1 = conjuncts.next();
 		final OWLClassExpression c2 = conjuncts.next();
 

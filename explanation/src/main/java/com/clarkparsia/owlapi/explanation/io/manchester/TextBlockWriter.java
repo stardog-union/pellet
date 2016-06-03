@@ -34,19 +34,19 @@ public class TextBlockWriter extends BlockWriter
 	/**
 	 * Number of spaces that need to be printed for each block
 	 */
-	private final ArrayList<Integer> blockColumns = new ArrayList<>();
+	private final ArrayList<Integer> _blockColumns = new ArrayList<>();
 
 	/**
-	 * The _current column (number of the characters printed) for the _current line
+	 * The _current _column (number of the characters printed) for the _current line
 	 */
-	private int column = 0;
+	private int _column = 0;
 
 	/**
 	 * @param out
 	 */
-	public TextBlockWriter(final Writer out)
+	public TextBlockWriter(final Writer outWriter)
 	{
-		super(out, " ");
+		super(outWriter, " ");
 	}
 
 	/**
@@ -55,18 +55,18 @@ public class TextBlockWriter extends BlockWriter
 	@Override
 	protected void startNewLine()
 	{
-		if (newLine)
+		if (_newLine)
 		{
-			newLine = false;
+			_newLine = false;
 
-			if (!blockColumns.isEmpty())
+			if (!_blockColumns.isEmpty())
 			{
-				final int blockStart = blockColumns.get(blockColumns.size() - 1);
+				final int blockStart = _blockColumns.get(_blockColumns.size() - 1);
 				indent(blockStart);
-				column = blockStart;
+				_column = blockStart;
 			}
 			else
-				column = 0;
+				_column = 0;
 		}
 	}
 
@@ -75,7 +75,7 @@ public class TextBlockWriter extends BlockWriter
 	{
 		super.println();
 
-		column = 0;
+		_column = 0;
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class TextBlockWriter extends BlockWriter
 	public void indent(final int count)
 	{
 		for (int i = 0; i < count; i++)
-			print(pad);
+			print(_pad);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class TextBlockWriter extends BlockWriter
 	@Override
 	public void clearBlocks()
 	{
-		blockColumns.clear();
+		_blockColumns.clear();
 	}
 
 	/**
@@ -110,8 +110,8 @@ public class TextBlockWriter extends BlockWriter
 	@Override
 	public void startBlock()
 	{
-		// save the _current column
-		blockColumns.add(column);
+		// save the _current _column
+		_blockColumns.add(_column);
 	}
 
 	/**
@@ -120,11 +120,11 @@ public class TextBlockWriter extends BlockWriter
 	@Override
 	public void endBlock()
 	{
-		if (blockColumns.isEmpty())
+		if (_blockColumns.isEmpty())
 			throw new IllegalStateException("No block to _end!");
 
-		// remove the lastly column
-		blockColumns.remove(blockColumns.size() - 1);
+		// remove the lastly _column
+		_blockColumns.remove(_blockColumns.size() - 1);
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class TextBlockWriter extends BlockWriter
 	{
 		super.write(buf, off, len);
 
-		column += len;
+		_column += len;
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class TextBlockWriter extends BlockWriter
 	{
 		super.write(c);
 
-		column += 1;
+		_column += 1;
 	}
 
 	/**
@@ -157,6 +157,6 @@ public class TextBlockWriter extends BlockWriter
 	{
 		super.write(s, off, len);
 
-		column += len;
+		_column += len;
 	}
 }

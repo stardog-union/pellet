@@ -20,20 +20,21 @@ import org.semanticweb.owlapi.model.OWLException;
  */
 public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 {
-	protected ManchesterSyntaxObjectRenderer renderer;
+	protected ManchesterSyntaxObjectRenderer _renderer;
 
-	protected BlockWriter writer;
+	protected BlockWriter _writer;
 
-	protected OWLAxiom currentAxiom;
+	protected OWLAxiom _currentAxiom;
 
-	private boolean wrapLines = true;
+	private boolean _wrapLines = true;
 
-	private boolean smartIndent = true;
+	private boolean _smartIndent = true;
 
-	private int index;
+	private int _index;
 
 	public ManchesterSyntaxExplanationRenderer()
 	{
+		//
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	@Override
 	public void endRendering()
 	{
-		writer.flush();
+		_writer.flush();
 	}
 
 	/**
@@ -52,7 +53,7 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	 */
 	protected OWLAxiom getCurrentAxiom()
 	{
-		return currentAxiom;
+		return _currentAxiom;
 	}
 
 	/**
@@ -62,7 +63,7 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	 */
 	public boolean isSmartIndent()
 	{
-		return smartIndent;
+		return _smartIndent;
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	 */
 	public boolean isWrapLines()
 	{
-		return wrapLines;
+		return _wrapLines;
 	}
 
 	/**
@@ -97,71 +98,71 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	{
 		setCurrentAxiom(axiom);
 
-		if (index == 1)
+		if (_index == 1)
 		{
 			if (axiom != null)
 			{
-				writer.print("Axiom: ");
-				axiom.accept(renderer);
-				writer.println();
-				writer.println();
+				_writer.print("Axiom: ");
+				axiom.accept(_renderer);
+				_writer.println();
+				_writer.println();
 			}
 			if (explanations.isEmpty())
 			{
-				writer.println("Explanation: AXIOM IS NOT ENTAILED!");
+				_writer.println("Explanation: AXIOM IS NOT ENTAILED!");
 				return;
 			}
-			writer.println("Explanation(s): ");
+			_writer.println("Explanation(s): ");
 		}
 
-		final String header = index++ + ")";
-		writer.print(header);
+		final String header = _index++ + ")";
+		_writer.print(header);
 		renderSingleExplanation(explanations.iterator().next());
-		writer.println();
+		_writer.println();
 	}
 
 	protected void renderSingleExplanation(final Set<OWLAxiom> explanation)
 	{
-		writer.printSpace();
-		writer.printSpace();
-		writer.printSpace();
+		_writer.printSpace();
+		_writer.printSpace();
+		_writer.printSpace();
 
-		writer.startBlock();
+		_writer.startBlock();
 
 		for (final OWLAxiom a : explanation)
 		{
-			a.accept(renderer);
-			writer.println();
+			a.accept(_renderer);
+			_writer.println();
 		}
 
-		writer.endBlock();
-		writer.println();
+		_writer.endBlock();
+		_writer.println();
 	}
 
 	protected void setCurrentAxiom(final OWLAxiom currentAxiom)
 	{
-		this.currentAxiom = currentAxiom;
+		this._currentAxiom = currentAxiom;
 	}
 
 	/**
 	 * Sets the smart indent option which will align the elements of intersections and unions in columns when line wrapping is turned on.
 	 *
-	 * @param smartIndent the smart indent value
+	 * @param _smartIndent the smart indent value
 	 * @see #setWrapLines(boolean)
 	 */
 	public void setSmartIndent(final boolean smartIndent)
 	{
-		this.smartIndent = smartIndent;
+		this._smartIndent = smartIndent;
 	}
 
 	/**
 	 * Sets the line wrapping option which will print the elements of intersections and unions into multiple lines.
 	 *
-	 * @param wrapLines the line wrapping value
+	 * @param _wrapLines the line wrapping value
 	 */
 	public void setWrapLines(final boolean wrapLines)
 	{
-		this.wrapLines = wrapLines;
+		this._wrapLines = wrapLines;
 	}
 
 	/**
@@ -170,10 +171,10 @@ public class ManchesterSyntaxExplanationRenderer implements ExplanationRenderer
 	@Override
 	public void startRendering(final Writer w)
 	{
-		writer = new TextBlockWriter(w);
-		renderer = new ManchesterSyntaxObjectRenderer(this.writer);
-		renderer.setWrapLines(isWrapLines());
-		renderer.setSmartIndent(isSmartIndent());
-		index = 1;
+		_writer = new TextBlockWriter(w);
+		_renderer = new ManchesterSyntaxObjectRenderer(this._writer);
+		_renderer.setWrapLines(isWrapLines());
+		_renderer.setSmartIndent(isSmartIndent());
+		_index = 1;
 	}
 }

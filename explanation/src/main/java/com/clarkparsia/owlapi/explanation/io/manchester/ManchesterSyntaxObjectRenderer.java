@@ -8,7 +8,11 @@ package com.clarkparsia.owlapi.explanation.io.manchester;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.semanticweb.owlapi.io.XMLUtils;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
@@ -105,37 +109,37 @@ import org.semanticweb.owlapi.vocab.XSDVocabulary;
 
 public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 {
-	private boolean wrapLines = true;
-	private boolean smartIndent = true;
+	private boolean _wrapLines = true;
+	private boolean _smartIndent = true;
 
-	protected BlockWriter writer;
+	protected BlockWriter _writer;
 
 	/**
-	 * @param writer
+	 * @param _writer
 	 */
 	public ManchesterSyntaxObjectRenderer(final BlockWriter writer)
 	{
-		this.writer = writer;
+		this._writer = writer;
 	}
 
 	public boolean isSmartIndent()
 	{
-		return smartIndent;
+		return _smartIndent;
 	}
 
 	public boolean isWrapLines()
 	{
-		return wrapLines;
+		return _wrapLines;
 	}
 
 	public void setSmartIndent(final boolean smartIndent)
 	{
-		this.smartIndent = smartIndent;
+		this._smartIndent = smartIndent;
 	}
 
 	public void setWrapLines(final boolean wrapLines)
 	{
-		this.wrapLines = wrapLines;
+		this._wrapLines = wrapLines;
 	}
 
 	/**
@@ -146,7 +150,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	 */
 	protected String shortForm(final IRI theIRI)
 	{
-		final String fragment = theIRI.getFragment();
+		final String fragment = XMLUtils.getNCNameSuffix(theIRI);
 		if (fragment != null)
 			return fragment;
 		final String str = theIRI.toString();
@@ -219,7 +223,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLDataOneOf theDescription)
 	{
-		writeEnumeration(theDescription.getValues());
+		writeEnumeration(theDescription.values());
 	}
 
 	@Override
@@ -264,8 +268,10 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 
 		write(theRestriction.getDatatype());
 		write("[");
+
 		boolean first = true;
-		for (final OWLFacetRestriction restriction : theRestriction.getFacetRestrictions())
+		final Iterable<OWLFacetRestriction> it = theRestriction.facetRestrictions()::iterator;
+		for (final OWLFacetRestriction restriction : it)
 		{
 			if (first)
 				first = false;
@@ -301,7 +307,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLDataHasValue theDescription)
 	{
-		writeRestriction(theDescription.getProperty(), Keyword.VALUE, theDescription.getValue());
+		writeRestriction(theDescription.getProperty(), Keyword.VALUE, theDescription.getFiller());
 	}
 
 	@Override
@@ -313,25 +319,25 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLDifferentIndividualsAxiom theAxiom)
 	{
-		writeNaryAxiom(theAxiom.getIndividuals(), Keyword.DIFFERENT_INDIVIDUAL, Keyword.DIFFERENT_INDIVIDUALS);
+		writeNaryAxiom(theAxiom.individuals(), Keyword.DIFFERENT_INDIVIDUAL, Keyword.DIFFERENT_INDIVIDUALS);
 	}
 
 	@Override
 	public void visit(final OWLDisjointClassesAxiom theAxiom)
 	{
-		writeNaryAxiom(theAxiom.getClassExpressions(), Keyword.DISJOINT_CLASS, Keyword.DISJOINT_CLASSES);
+		writeNaryAxiom(theAxiom.classExpressions(), Keyword.DISJOINT_CLASS, Keyword.DISJOINT_CLASSES);
 	}
 
 	@Override
 	public void visit(final OWLDisjointDataPropertiesAxiom theAxiom)
 	{
-		writeNaryAxiom(theAxiom.getProperties(), Keyword.DISJOINT_PROPERTY, Keyword.DISJOINT_PROPERTIES);
+		writeNaryAxiom(theAxiom.properties(), Keyword.DISJOINT_PROPERTY, Keyword.DISJOINT_PROPERTIES);
 	}
 
 	@Override
 	public void visit(final OWLDisjointObjectPropertiesAxiom theAxiom)
 	{
-		writeNaryAxiom(theAxiom.getProperties(), Keyword.DISJOINT_PROPERTY, Keyword.DISJOINT_PROPERTIES);
+		writeNaryAxiom(theAxiom.properties(), Keyword.DISJOINT_PROPERTY, Keyword.DISJOINT_PROPERTIES);
 	}
 
 	@Override
@@ -341,25 +347,25 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 		writeSpace();
 		write(Keyword.DISJOINT_UNION);
 		writeSpace();
-		writeNaryKeyword(Keyword.OR, theAxiom.getClassExpressions());
+		writeNaryKeyword(Keyword.OR, theAxiom.classExpressions());
 	}
 
 	@Override
 	public void visit(final OWLEquivalentClassesAxiom theAxiom)
 	{
-		writeNaryAxiom(theAxiom.getClassExpressions(), Keyword.EQUIVALENT_TO, Keyword.EQUIVALENT_CLASSES);
+		writeNaryAxiom(theAxiom.classExpressions(), Keyword.EQUIVALENT_TO, Keyword.EQUIVALENT_CLASSES);
 	}
 
 	@Override
 	public void visit(final OWLEquivalentDataPropertiesAxiom theAxiom)
 	{
-		writeNaryAxiom(theAxiom.getProperties(), Keyword.EQUIVALENT_TO, Keyword.EQUIVALENT_PROPERTIES);
+		writeNaryAxiom(theAxiom.properties(), Keyword.EQUIVALENT_TO, Keyword.EQUIVALENT_PROPERTIES);
 	}
 
 	@Override
 	public void visit(final OWLEquivalentObjectPropertiesAxiom theAxiom)
 	{
-		writeNaryAxiom(theAxiom.getProperties(), Keyword.EQUIVALENT_TO, Keyword.EQUIVALENT_PROPERTIES);
+		writeNaryAxiom(theAxiom.properties(), Keyword.EQUIVALENT_TO, Keyword.EQUIVALENT_PROPERTIES);
 	}
 
 	@Override
@@ -453,7 +459,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLObjectIntersectionOf theDescription)
 	{
-		writeNaryKeyword(Keyword.AND, theDescription.getOperands());
+		writeNaryKeyword(Keyword.AND, theDescription.operands());
 	}
 
 	@Override
@@ -471,7 +477,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLObjectOneOf theDescription)
 	{
-		writeEnumeration(theDescription.getIndividuals());
+		writeEnumeration(theDescription.individuals());
 	}
 
 	@Override
@@ -539,13 +545,13 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLObjectUnionOf theDescription)
 	{
-		writeNaryKeyword(Keyword.OR, theDescription.getOperands());
+		writeNaryKeyword(Keyword.OR, theDescription.operands());
 	}
 
 	@Override
 	public void visit(final OWLObjectHasValue theDescription)
 	{
-		writeRestriction(theDescription.getProperty(), Keyword.VALUE, theDescription.getValue());
+		writeRestriction(theDescription.getProperty(), Keyword.VALUE, theDescription.getFiller());
 	}
 
 	@Override
@@ -563,7 +569,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLSameIndividualAxiom theAxiom)
 	{
-		writeNaryAxiom(theAxiom.getIndividuals(), Keyword.SAME_INDIVIDUAL, Keyword.SAME_INDIVIDUALS);
+		writeNaryAxiom(theAxiom.individuals(), Keyword.SAME_INDIVIDUAL, Keyword.SAME_INDIVIDUALS);
 	}
 
 	@Override
@@ -718,27 +724,31 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 		//			write( rule.getIRI() );
 		//			writeSpace();
 		//		}
-
-		boolean first = true;
-		for (final SWRLAtom at : rule.getBody())
 		{
-			if (first)
-				first = false;
-			else
-				write(", ");
-			write(at);
+			boolean first = true;
+			final Iterable<SWRLAtom> it = rule.body()::iterator;
+			for (final SWRLAtom at : it)
+			{
+				if (first)
+					first = false;
+				else
+					write(", ");
+				write(at);
 
+			}
 		}
 		write(" -> ");
-
-		first = true;
-		for (final SWRLAtom at : rule.getHead())
 		{
-			if (first)
-				first = false;
-			else
-				write(", ");
-			write(at);
+			boolean first = true;
+			final Iterable<SWRLAtom> it = rule.head()::iterator;
+			for (final SWRLAtom at : it)
+			{
+				if (first)
+					first = false;
+				else
+					write(", ");
+				write(at);
+			}
 		}
 
 		write(")");
@@ -755,22 +765,19 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 		write(")");
 	}
 
-	protected void writeNaryKeyword(final Keyword theKeyword, Set<? extends OWLObject> theObjects)
+	protected void writeNaryKeyword(final Keyword theKeyword, Stream<? extends OWLObject> theObjects)
 	{
-
-		theObjects = DescriptionSorter.toSortedSet(theObjects);
-
-		final Iterator<? extends OWLObject> aIter = theObjects.iterator();
+		final Iterator<? extends OWLObject> aIter = theObjects.sorted().iterator();
 
 		// write( "(" );
 
-		if (smartIndent)
-			writer.startBlock();
+		if (_smartIndent)
+			_writer.startBlock();
 
 		write(aIter.next());
 		while (aIter.hasNext())
 		{
-			if (wrapLines)
+			if (_wrapLines)
 				writeNewLine();
 			else
 				writeSpace();
@@ -784,8 +791,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 			write(aIter.next());
 		}
 
-		if (smartIndent)
-			writer.endBlock();
+		if (_smartIndent)
+			_writer.endBlock();
 
 		// write( ")" );
 	}
@@ -801,26 +808,28 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	/**
 	 * Render an n-ary axiom with special handling for the binary case.
 	 *
-	 * @param set objects to be rendered
+	 * @param objs objects to be rendered
 	 * @param binary keyword used for binary case
 	 * @param nary keyword used for n-ary case
 	 */
-	protected void writeNaryAxiom(final Set<? extends OWLObject> set, final Keyword binary, final Keyword nary)
+	protected void writeNaryAxiom(final Stream<? extends OWLObject> objs, final Keyword binary, final Keyword nary)
 	{
-		final Set<? extends OWLObject> sortedSet = DescriptionSorter.toSortedSet(set);
-		final Iterator<? extends OWLObject> aIter = sortedSet.iterator();
+		final List<? extends OWLObject> args = objs.sorted().collect(Collectors.toList());
 
-		if (set.size() == 2)
-			writeKeywordInfix(binary, aIter.next(), aIter.next());
+		if (args.size() == 2)
+			writeKeywordInfix(binary, args.get(0), args.get(1));
 		else
 		{
 			write(nary);
 			write("(");
-
-			writeNaryKeyword(null, set);
-
+			writeNaryKeyword(null, args.stream());
 			write(")");
 		}
+	}
+
+	protected void writeNaryAxiom(final Set<? extends OWLObject> set, final Keyword binary, final Keyword nary)
+	{
+		writeNaryAxiom(set.stream(), binary, nary);
 	}
 
 	protected void writeQuantifiedRestriction(final OWLQuantifiedRestriction<?> theRestriction, final Keyword theKeyword)
@@ -884,17 +893,23 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 
 	protected void writeEnumeration(final Set<? extends OWLObject> objects)
 	{
+		writeEnumeration(objects.stream());
+	}
+
+	protected void writeEnumeration(final Stream<? extends OWLObject> objects)
+	{
 		write(Keyword.OPEN_BRACE);
 		writeCollection(objects, ",", true);
 		write(Keyword.CLOSE_BRACE);
 	}
 
-	protected void writeCollection(Collection<? extends OWLObject> objects, final String separator, final boolean sort)
+	protected <T extends OWLObject> void writeCollection(final Stream<T> objects, final String separator, final boolean sort)
 	{
-		if (sort)
-			objects = DescriptionSorter.toSortedSet(objects);
+		final Stream<T> sobjs = sort ? objects.sorted() : objects;
+
 		boolean first = true;
-		for (final OWLObject ind : objects)
+		final Iterable<T> it = sobjs::iterator;
+		for (final T ind : it)
 		{
 			if (first)
 				first = false;
@@ -905,6 +920,11 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 			}
 			write(ind);
 		}
+	}
+
+	protected void writeCollection(Collection<? extends OWLObject> objects, final String separator, final boolean sort)
+	{
+		writeCollection(objects.stream(), separator, sort);
 	}
 
 	protected void write(final OWLObject object)
@@ -919,7 +939,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 
 	protected void write(final String s)
 	{
-		writer.print(s);
+		_writer.print(s);
 	}
 
 	protected void write(final IRI iri)
@@ -929,7 +949,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 
 	protected void writeNewLine()
 	{
-		writer.println();
+		_writer.println();
 	}
 
 	protected void writeSpace()
@@ -946,12 +966,8 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 		write(theAxiom.getClassExpression());
 		writeSpace();
 		write(Keyword.HAS_KEY);
-		if (!theAxiom.getObjectPropertyExpressions().isEmpty())
-		{
-			writeCollection(theAxiom.getObjectPropertyExpressions(), "", true);
-			writeSpace();
-		}
-		writeCollection(theAxiom.getDataPropertyExpressions(), "", true);
+		writeCollection(theAxiom.objectPropertyExpressions(), "", true);
+		writeSpace();
 	}
 
 	/**
@@ -1009,7 +1025,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLDataIntersectionOf node)
 	{
-		writeNaryKeyword(Keyword.AND, node.getOperands());
+		writeNaryKeyword(Keyword.AND, node.operands());
 	}
 
 	/**
@@ -1018,7 +1034,7 @@ public class ManchesterSyntaxObjectRenderer implements OWLObjectVisitor
 	@Override
 	public void visit(final OWLDataUnionOf node)
 	{
-		writeNaryKeyword(Keyword.OR, node.getOperands());
+		writeNaryKeyword(Keyword.OR, node.operands());
 	}
 
 	/**

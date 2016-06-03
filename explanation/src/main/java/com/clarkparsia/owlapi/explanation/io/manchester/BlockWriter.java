@@ -36,17 +36,17 @@ import java.io.Writer;
  */
 public abstract class BlockWriter extends PrintWriter
 {
-	protected String pad = null;
-	protected boolean newLine = true;
+	protected String _pad = null;
+	protected boolean _newLine = true;
 
 	/**
 	 * @param out
 	 */
-	public BlockWriter(final Writer out, final String pad)
+	public BlockWriter(final Writer outWriter, final String pad)
 	{
-		super(out);
+		super(outWriter);
 
-		this.pad = pad;
+		this._pad = pad;
 	}
 
 	/**
@@ -83,7 +83,7 @@ public abstract class BlockWriter extends PrintWriter
 
 		// set the flag to indicate we will need the alignment preprocessing
 		// next time something is printed
-		newLine = true;
+		_newLine = true;
 	}
 
 	/**

@@ -35,31 +35,31 @@ import org.semanticweb.owlapi.rdf.rdfxml.renderer.RDFXMLRenderer;
  */
 public class RDFXMLExplanationRenderer implements ExplanationRenderer
 {
-	private Set<OWLAxiom> axioms;
+	private Set<OWLAxiom> _axioms;
 
-	private Writer writer;
+	private Writer _writer;
 
 	@Override
 	public void startRendering(final Writer writer)
 	{
-		this.writer = writer;
-		axioms = new HashSet<>();
+		this._writer = writer;
+		_axioms = new HashSet<>();
 	}
 
 	@Override
 	public void render(final OWLAxiom axiom, final Set<Set<OWLAxiom>> explanations)
 	{
-		axioms.add(axiom);
+		_axioms.add(axiom);
 
 		for (final Set<OWLAxiom> explanation : explanations)
-			axioms.addAll(explanation);
+			_axioms.addAll(explanation);
 	}
 
 	@Override
 	public void endRendering() throws IOException
 	{
-		final OWLOntology ontology = OWL.Ontology(axioms);
-		final RDFXMLRenderer renderer = new RDFXMLRenderer(ontology, new PrintWriter(writer));
+		final OWLOntology ontology = OWL.Ontology(_axioms);
+		final RDFXMLRenderer renderer = new RDFXMLRenderer(ontology, new PrintWriter(_writer));
 		renderer.render();
 	}
 }

@@ -14,12 +14,6 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>
@@ -60,5 +54,4 @@ public class DescriptionSorter
 		sorted.addAll(set);
 		return sorted;
 	}
-
 }
