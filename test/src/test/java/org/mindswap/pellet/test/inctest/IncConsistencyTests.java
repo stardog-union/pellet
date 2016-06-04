@@ -118,25 +118,25 @@ public class IncConsistencyTests extends AbstractKBTests
 	public void differentAfterReset()
 	{
 
-		kb.addIndividual(robert);
-		kb.addIndividual(chris);
-		kb.addDifferent(robert, chris);
-		kb.addDatatypeProperty(ssn);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(chris);
+		_kb.addDifferent(robert, chris);
+		_kb.addDatatypeProperty(ssn);
 
 		final ATermAppl literal = ATermUtils.makePlainLiteral("xxx");
-		kb.addPropertyValue(ssn, chris, literal);
+		_kb.addPropertyValue(ssn, chris, literal);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isDifferentFrom(robert, chris));
-		assertTrue(kb.isDifferentFrom(chris, robert));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isDifferentFrom(robert, chris));
+		assertTrue(_kb.isDifferentFrom(chris, robert));
 
 		// ABox property removal should cause ABox reset.
-		assertTrue(kb.removePropertyValue(ssn, chris, literal));
-		assertTrue(kb.isChanged(ChangeType.ABOX_DEL));
+		assertTrue(_kb.removePropertyValue(ssn, chris, literal));
+		assertTrue(_kb.isChanged(ChangeType.ABOX_DEL));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isDifferentFrom(robert, chris));
-		assertTrue(kb.isDifferentFrom(chris, robert));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isDifferentFrom(robert, chris));
+		assertTrue(_kb.isDifferentFrom(chris, robert));
 	}
 
 	/**
@@ -147,27 +147,27 @@ public class IncConsistencyTests extends AbstractKBTests
 	public void mergeDependsAfterReset()
 	{
 
-		kb.addIndividual(robert);
-		kb.addIndividual(chris);
-		kb.addSame(robert, chris);
-		kb.addDatatypeProperty(ssn);
-		kb.addDatatypeProperty(mbox);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(chris);
+		_kb.addSame(robert, chris);
+		_kb.addDatatypeProperty(ssn);
+		_kb.addDatatypeProperty(mbox);
 
 		final ATermAppl literal = ATermUtils.makePlainLiteral("xxx");
-		kb.addPropertyValue(ssn, chris, literal);
-		kb.addPropertyValue(mbox, chris, literal);
+		_kb.addPropertyValue(ssn, chris, literal);
+		_kb.addPropertyValue(mbox, chris, literal);
 
-		assertTrue(kb.isConsistent());
-		assertEquals(Bool.TRUE, kb.hasKnownPropertyValue(chris, ssn, literal));
-		assertEquals(Bool.TRUE, kb.hasKnownPropertyValue(robert, ssn, literal));
+		assertTrue(_kb.isConsistent());
+		assertEquals(Bool.TRUE, _kb.hasKnownPropertyValue(chris, ssn, literal));
+		assertEquals(Bool.TRUE, _kb.hasKnownPropertyValue(robert, ssn, literal));
 
 		// ABox property removal should cause ABox reset.
-		assertTrue(kb.removePropertyValue(mbox, chris, literal));
-		assertTrue(kb.isChanged(ChangeType.ABOX_DEL));
+		assertTrue(_kb.removePropertyValue(mbox, chris, literal));
+		assertTrue(_kb.isChanged(ChangeType.ABOX_DEL));
 
-		assertTrue(kb.isConsistent());
-		assertEquals(Bool.TRUE, kb.hasKnownPropertyValue(chris, ssn, literal));
-		assertEquals(Bool.TRUE, kb.hasKnownPropertyValue(robert, ssn, literal));
+		assertTrue(_kb.isConsistent());
+		assertEquals(Bool.TRUE, _kb.hasKnownPropertyValue(chris, ssn, literal));
+		assertEquals(Bool.TRUE, _kb.hasKnownPropertyValue(robert, ssn, literal));
 	}
 
 	@Before
@@ -188,7 +188,7 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		super.initializeKB();
 
-		kb.setDoExplanation(PelletOptions.USE_TRACING);
+		_kb.setDoExplanation(PelletOptions.USE_TRACING);
 	}
 
 	@After
@@ -208,66 +208,66 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(animalOwner);
-		kb.addClass(animal);
-		kb.addClass(dog);
-		kb.addClass(cat);
-		kb.addDisjointClass(dog, cat);
+		_kb.addClass(person);
+		_kb.addClass(animalOwner);
+		_kb.addClass(animal);
+		_kb.addClass(dog);
+		_kb.addClass(cat);
+		_kb.addDisjointClass(dog, cat);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addDomain(sibling, person);
-		kb.addDatatypeProperty(ssn);
-		kb.addObjectProperty(mbox);
-		kb.addObjectProperty(ownsAnimal);
-		kb.addDomain(ownsAnimal, person);
-		kb.addRange(ownsAnimal, animal);
+		_kb.addObjectProperty(sibling);
+		_kb.addDomain(sibling, person);
+		_kb.addDatatypeProperty(ssn);
+		_kb.addObjectProperty(mbox);
+		_kb.addObjectProperty(ownsAnimal);
+		_kb.addDomain(ownsAnimal, person);
+		_kb.addRange(ownsAnimal, animal);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(victor);
-		kb.addIndividual(mary);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(victor);
+		_kb.addIndividual(mary);
 		final ATermAppl ssn1 = literal("012345678");
-		kb.addPropertyValue(ssn, robert, ssn1);
+		_kb.addPropertyValue(ssn, robert, ssn1);
 
 		// add specific test case axioms/assertions
 		final ATermAppl catOrDog = or(dog, cat);
-		kb.addSubClass(animal, catOrDog);
+		_kb.addSubClass(animal, catOrDog);
 		final ATermAppl ownsSomeAnimal = some(ownsAnimal, animal);
-		kb.addClass(ownsSomeAnimal);
-		kb.addSubClass(animalOwner, ownsSomeAnimal);
+		_kb.addClass(ownsSomeAnimal);
+		_kb.addSubClass(animalOwner, ownsSomeAnimal);
 		final ATermAppl ownsNoCats = all(ownsAnimal, notCat);
 		final ATermAppl ownsNoDogs = all(ownsAnimal, notDog);
 
-		kb.addType(robert, ownsSomeAnimal);
-		kb.addType(mary, ownsSomeAnimal);
+		_kb.addType(robert, ownsSomeAnimal);
+		_kb.addType(mary, ownsSomeAnimal);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		kb.addType(mary, ownsNoDogs);
-		assertTrue(kb.isConsistent());
+		_kb.addType(mary, ownsNoDogs);
+		assertTrue(_kb.isConsistent());
 
-		kb.addType(robert, ownsNoDogs);
-		assertTrue(kb.isConsistent());
+		_kb.addType(robert, ownsNoDogs);
+		assertTrue(_kb.isConsistent());
 
-		kb.addType(robert, ownsNoCats);
-		assertFalse(kb.isConsistent());
+		_kb.addType(robert, ownsNoCats);
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(robert, ownsNoDogs);
-		assertTrue(kb.isConsistent());
+		_kb.removeType(robert, ownsNoDogs);
+		assertTrue(_kb.isConsistent());
 
-		kb.addType(mary, ownsNoCats);
-		assertFalse(kb.isConsistent());
+		_kb.addType(mary, ownsNoCats);
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(mary, ownsNoDogs);
-		assertTrue(kb.isConsistent());
+		_kb.removeType(mary, ownsNoDogs);
+		assertTrue(_kb.isConsistent());
 
-		kb.removeType(mary, ownsNoCats);
-		assertTrue(kb.isConsistent());
+		_kb.removeType(mary, ownsNoCats);
+		assertTrue(_kb.isConsistent());
 
-		kb.addType(mary, ownsNoDogs);
-		assertTrue(kb.isConsistent());
+		_kb.addType(mary, ownsNoDogs);
+		assertTrue(_kb.isConsistent());
 	}
 
 	@Test
@@ -275,61 +275,61 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(dog);
-		kb.addClass(cat);
-		kb.addClass(man);
-		kb.addClass(woman);
+		_kb.addClass(person);
+		_kb.addClass(dog);
+		_kb.addClass(cat);
+		_kb.addClass(man);
+		_kb.addClass(woman);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addObjectProperty(owns);
-		kb.addObjectProperty(ownedBy);
-		kb.addInverseProperty(owns, ownedBy);
-		kb.addObjectProperty(knows);
+		_kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(owns);
+		_kb.addObjectProperty(ownedBy);
+		_kb.addInverseProperty(owns, ownedBy);
+		_kb.addObjectProperty(knows);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
 
 		// add specific test case axioms/assertions
 		final ATermAppl ownsDog = some(owns, dog);
-		kb.addClass(ownsDog);
+		_kb.addClass(ownsDog);
 
-		kb.addSubClass(man, ownsDog);
+		_kb.addSubClass(man, ownsDog);
 
 		final ATermAppl owersAreDogs = all(ownedBy, dog);
-		kb.addClass(owersAreDogs);
+		_kb.addClass(owersAreDogs);
 
-		kb.addSubClass(dog, owersAreDogs);
+		_kb.addSubClass(dog, owersAreDogs);
 
 		final ATermAppl manOrDog = or(man, dog);
-		kb.addClass(manOrDog);
+		_kb.addClass(manOrDog);
 
-		kb.addType(robert, manOrDog);
-		kb.addType(robert, not(dog));
-		assertFalse(kb.isConsistent());
+		_kb.addType(robert, manOrDog);
+		_kb.addType(robert, not(dog));
+		assertFalse(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		kb.removeType(robert, not(dog));
-		assertTrue(kb.isConsistent());
+		_kb.removeType(robert, not(dog));
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		assertTrue(kb.getABox().getIndividual(robert).hasType(dog));
+		assertTrue(_kb.getABox().getIndividual(robert).hasType(dog));
 
 	}
 
@@ -339,62 +339,62 @@ public class IncConsistencyTests extends AbstractKBTests
 		// TODO
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(dog);
-		kb.addClass(cat);
-		kb.addClass(man);
-		kb.addClass(woman);
+		_kb.addClass(person);
+		_kb.addClass(dog);
+		_kb.addClass(cat);
+		_kb.addClass(man);
+		_kb.addClass(woman);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(sibling);
 
-		kb.addObjectProperty(owns);
-		kb.addObjectProperty(ownedBy);
-		kb.addInverseProperty(owns, ownedBy);
-		kb.addObjectProperty(knows);
+		_kb.addObjectProperty(owns);
+		_kb.addObjectProperty(ownedBy);
+		_kb.addInverseProperty(owns, ownedBy);
+		_kb.addObjectProperty(knows);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
-		kb.addIndividual(chris);
-		kb.addIndividual(victor);
-		kb.addIndividual(john);
-		kb.addIndividual(bill);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(chris);
+		_kb.addIndividual(victor);
+		_kb.addIndividual(john);
+		_kb.addIndividual(bill);
 
-		kb.addPropertyValue(sibling, bill, mary);
-		kb.addPropertyValue(sibling, bill, chris);
-		kb.addPropertyValue(sibling, bill, victor);
+		_kb.addPropertyValue(sibling, bill, mary);
+		_kb.addPropertyValue(sibling, bill, chris);
+		_kb.addPropertyValue(sibling, bill, victor);
 
-		kb.addPropertyValue(sibling, robert, mary);
-		kb.addPropertyValue(sibling, robert, chris);
-		kb.addPropertyValue(sibling, robert, victor);
-		kb.addPropertyValue(sibling, robert, john);
+		_kb.addPropertyValue(sibling, robert, mary);
+		_kb.addPropertyValue(sibling, robert, chris);
+		_kb.addPropertyValue(sibling, robert, victor);
+		_kb.addPropertyValue(sibling, robert, john);
 
 		// add specific test case axioms/assertions
 
 		final ATermAppl twoSiblings = max(sibling, 2, person);
 		final ATermAppl twoSiblingsOrDog = or(twoSiblings, dog);
 
-		kb.addType(robert, twoSiblingsOrDog);
-		kb.addType(bill, twoSiblingsOrDog);
-		assertTrue(kb.isConsistent());
+		_kb.addType(robert, twoSiblingsOrDog);
+		_kb.addType(bill, twoSiblingsOrDog);
+		assertTrue(_kb.isConsistent());
 
 		// we want to create clash in the merges caused by the
 		// max cardinality so we add different
 		final ATermAppl[] inds = { mary, chris, victor, john };
 		for (int i = 0; i < inds.length - 1; i++)
 			for (int j = i + 1; j < inds.length; j++)
-				if (kb.getABox().getIndividual(inds[i]).isSame(kb.getABox().getIndividual(inds[j])))
-					kb.addDifferent(inds[i], inds[j]);
-		assertTrue(kb.isConsistent());
+				if (_kb.getABox().getIndividual(inds[i]).isSame(_kb.getABox().getIndividual(inds[j])))
+					_kb.addDifferent(inds[i], inds[j]);
+		assertTrue(_kb.isConsistent());
 
-		kb.addType(bill, not(dog));
+		_kb.addType(bill, not(dog));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		kb.removeType(bill, not(dog));
+		_kb.removeType(bill, not(dog));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 	}
 
 	@Test
@@ -403,31 +403,31 @@ public class IncConsistencyTests extends AbstractKBTests
 		// TODO
 
 		// basic classes
-		kb.addClass(person);
+		_kb.addClass(person);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(sibling);
 
 		// basic _abox
-		kb.addIndividual(mary);
-		kb.addIndividual(chris);
-		kb.addIndividual(victor);
-		kb.addIndividual(john);
-		kb.addIndividual(bill);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(chris);
+		_kb.addIndividual(victor);
+		_kb.addIndividual(john);
+		_kb.addIndividual(bill);
 
-		kb.addPropertyValue(sibling, bill, mary);
-		kb.addPropertyValue(sibling, bill, john);
-		kb.addPropertyValue(sibling, chris, victor);
+		_kb.addPropertyValue(sibling, bill, mary);
+		_kb.addPropertyValue(sibling, bill, john);
+		_kb.addPropertyValue(sibling, chris, victor);
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.hasPropertyValue(bill, sibling, victor));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.hasPropertyValue(bill, sibling, victor));
 
-		kb.addSame(chris, bill);
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.hasPropertyValue(bill, sibling, victor));
+		_kb.addSame(chris, bill);
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.hasPropertyValue(bill, sibling, victor));
 
-		kb.addDifferent(bill, chris);
-		assertFalse(kb.isConsistent());
+		_kb.addDifferent(bill, chris);
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
@@ -437,30 +437,30 @@ public class IncConsistencyTests extends AbstractKBTests
 		objectProperties(sibling, owns);
 		individuals(mary, chris, victor, john, bill);
 
-		kb.addPropertyValue(sibling, bill, mary);
-		kb.addPropertyValue(sibling, bill, john);
+		_kb.addPropertyValue(sibling, bill, mary);
+		_kb.addPropertyValue(sibling, bill, john);
 
-		kb.addSubClass(man, some(owns, dog));
+		_kb.addSubClass(man, some(owns, dog));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.getABox().getNode(mary).isSame(kb.getABox().getNode(john)));
+		assertFalse(_kb.getABox().getNode(mary).isSame(_kb.getABox().getNode(john)));
 
-		kb.addType(bill, max(sibling, 1, TOP));
-		kb.addType(mary, or(man, dog));
-		kb.addType(chris, or(man, dog));
+		_kb.addType(bill, max(sibling, 1, TOP));
+		_kb.addType(mary, or(man, dog));
+		_kb.addType(chris, or(man, dog));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.getABox().getNode(mary).isSame(kb.getABox().getNode(john)));
+		assertTrue(_kb.getABox().getNode(mary).isSame(_kb.getABox().getNode(john)));
 
-		kb.removeType(bill, max(sibling, 1, TOP));
+		_kb.removeType(bill, max(sibling, 1, TOP));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.getABox().getNode(mary).isSame(kb.getABox().getNode(john)));
-		assertFalse(kb.getABox().getNode(john).hasType(man) || kb.getABox().getNode(john).hasType(dog));
-		assertTrue(kb.getABox().getNode(mary).hasType(man) || kb.getABox().getNode(mary).hasType(dog));
+		assertFalse(_kb.getABox().getNode(mary).isSame(_kb.getABox().getNode(john)));
+		assertFalse(_kb.getABox().getNode(john).hasType(man) || _kb.getABox().getNode(john).hasType(dog));
+		assertTrue(_kb.getABox().getNode(mary).hasType(man) || _kb.getABox().getNode(mary).hasType(dog));
 	}
 
 	@Test
@@ -469,83 +469,83 @@ public class IncConsistencyTests extends AbstractKBTests
 		// TODO
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(man);
-		kb.addClass(woman);
-		kb.addClass(dog);
+		_kb.addClass(person);
+		_kb.addClass(man);
+		_kb.addClass(woman);
+		_kb.addClass(dog);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addObjectProperty(owns);
+		_kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(owns);
 
 		final ATermAppl max = max(sibling, 1, TOP);
-		kb.addClass(max);
+		_kb.addClass(max);
 
 		// basic _abox
-		kb.addIndividual(mary);
-		kb.addIndividual(chris);
-		kb.addIndividual(victor);
-		kb.addIndividual(john);
-		kb.addIndividual(bill);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(chris);
+		_kb.addIndividual(victor);
+		_kb.addIndividual(john);
+		_kb.addIndividual(bill);
 
-		kb.addDisjointClass(man, woman);
+		_kb.addDisjointClass(man, woman);
 
-		kb.addPropertyValue(sibling, bill, mary);
-		kb.addPropertyValue(sibling, bill, john);
+		_kb.addPropertyValue(sibling, bill, mary);
+		_kb.addPropertyValue(sibling, bill, john);
 
 		// add specific test case axioms/assertions
 		final ATermAppl ownsDog = some(owns, dog);
-		kb.addClass(ownsDog);
+		_kb.addClass(ownsDog);
 
-		kb.addSubClass(man, ownsDog);
+		_kb.addSubClass(man, ownsDog);
 
 		final ATermAppl manOrDog = or(man, dog);
-		kb.addClass(manOrDog);
-		kb.addType(mary, manOrDog);
-		kb.addType(chris, manOrDog);
+		_kb.addClass(manOrDog);
+		_kb.addType(mary, manOrDog);
+		_kb.addType(chris, manOrDog);
 
-		kb.addType(mary, woman);
+		_kb.addType(mary, woman);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
-		assertFalse(kb.getABox().getNode(mary).isSame(kb.getABox().getNode(john)));
-		assertTrue(kb.getABox().getNode(mary).hasType(dog));
-		assertFalse(kb.getABox().getNode(john).hasType(dog));
+		assertFalse(_kb.getABox().getNode(mary).isSame(_kb.getABox().getNode(john)));
+		assertTrue(_kb.getABox().getNode(mary).hasType(dog));
+		assertFalse(_kb.getABox().getNode(john).hasType(dog));
 
-		kb.addType(bill, max);
+		_kb.addType(bill, max);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
-		assertTrue(kb.getABox().getNode(mary).isSame(kb.getABox().getNode(john)));
-		assertTrue(kb.getABox().getNode(john).getSame().hasType(dog));
+		assertTrue(_kb.getABox().getNode(mary).isSame(_kb.getABox().getNode(john)));
+		assertTrue(_kb.getABox().getNode(john).getSame().hasType(dog));
 
-		kb.removeType(bill, max);
-		assertTrue(kb.isConsistent());
+		_kb.removeType(bill, max);
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
-		assertFalse(kb.getABox().getNode(mary).isSame(kb.getABox().getNode(john)));
-		assertFalse(kb.getABox().getNode(john).hasType(dog));
-		assertTrue(kb.getABox().getNode(mary).hasType(dog));
+		assertFalse(_kb.getABox().getNode(mary).isSame(_kb.getABox().getNode(john)));
+		assertFalse(_kb.getABox().getNode(john).hasType(dog));
+		assertTrue(_kb.getABox().getNode(mary).hasType(dog));
 	}
 
 	@Test
@@ -553,113 +553,113 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(dog);
-		kb.addClass(cat);
-		kb.addClass(man);
-		kb.addClass(woman);
+		_kb.addClass(person);
+		_kb.addClass(dog);
+		_kb.addClass(cat);
+		_kb.addClass(man);
+		_kb.addClass(woman);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addObjectProperty(owns);
-		kb.addObjectProperty(ownedBy);
-		kb.addInverseProperty(owns, ownedBy);
-		kb.addObjectProperty(knows);
+		_kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(owns);
+		_kb.addObjectProperty(ownedBy);
+		_kb.addInverseProperty(owns, ownedBy);
+		_kb.addObjectProperty(knows);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(victor);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(victor);
 
 		// add specific test case axioms/assertions
 		final ATermAppl ownsDog = some(owns, dog);
-		kb.addClass(ownsDog);
-		kb.addSubClass(man, ownsDog);
+		_kb.addClass(ownsDog);
+		_kb.addSubClass(man, ownsDog);
 
 		final ATermAppl allCat = all(owns, cat);
-		kb.addClass(allCat);
+		_kb.addClass(allCat);
 
 		final ATermAppl catAndMan = and(allCat, man);
-		kb.addClass(catAndMan);
+		_kb.addClass(catAndMan);
 
 		final ATermAppl manOrWoman = or(man, woman);
-		kb.addClass(manOrWoman);
+		_kb.addClass(manOrWoman);
 
-		kb.addType(robert, manOrWoman);
-		kb.addType(victor, manOrWoman);
+		_kb.addType(robert, manOrWoman);
+		_kb.addType(victor, manOrWoman);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 		// assertTrue(_kb.getABox().getIndividual(robert).hasRNeighbor(_kb.getRBox().getRole(owns)));
 		// assertTrue(_kb.getABox().getIndividual(victor).hasRNeighbor(_kb.getRBox().getRole(owns)));
 
-		kb.addType(victor, not(man));
-		assertTrue(kb.isConsistent());
+		_kb.addType(victor, not(man));
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 		// assertTrue(_kb.getABox().getIndividual(robert).hasRNeighbor(_kb.getRBox().getRole(owns)));
 		// assertFalse(_kb.getABox().getIndividual(victor).hasRNeighbor(_kb.getRBox().getRole(owns)));
 
-		kb.removeType(victor, not(man));
-		assertTrue(kb.isConsistent());
+		_kb.removeType(victor, not(man));
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
-		assertFalse(kb.getABox().getIndividual(victor).hasType(not(man)));
+		assertFalse(_kb.getABox().getIndividual(victor).hasType(not(man)));
 
-		kb.addType(robert, not(man));
-		assertTrue(kb.isConsistent());
+		_kb.addType(robert, not(man));
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
-		assertTrue(kb.getABox().getIndividual(robert).hasType(not(man)));
+		assertTrue(_kb.getABox().getIndividual(robert).hasType(not(man)));
 
-		kb.removeType(robert, not(man));
-		assertTrue(kb.isConsistent());
+		_kb.removeType(robert, not(man));
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
-		assertFalse(kb.getABox().getIndividual(robert).hasType(not(man)));
+		assertFalse(_kb.getABox().getIndividual(robert).hasType(not(man)));
 
-		kb.addType(robert, not(woman));
-		assertTrue(kb.isConsistent());
+		_kb.addType(robert, not(woman));
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		assertTrue(kb.getABox().getIndividual(robert).hasRNeighbor(kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(robert).hasRNeighbor(_kb.getRBox().getRole(owns)));
 
 	}
 
@@ -669,98 +669,98 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(dog);
-		kb.addClass(cat);
-		kb.addClass(man);
-		kb.addClass(woman);
+		_kb.addClass(person);
+		_kb.addClass(dog);
+		_kb.addClass(cat);
+		_kb.addClass(man);
+		_kb.addClass(woman);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addObjectProperty(owns);
-		kb.addObjectProperty(ownedBy);
-		kb.addInverseProperty(owns, ownedBy);
-		kb.addObjectProperty(knows);
+		_kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(owns);
+		_kb.addObjectProperty(ownedBy);
+		_kb.addInverseProperty(owns, ownedBy);
+		_kb.addObjectProperty(knows);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(victor);
-		kb.addIndividual(mary);
-		kb.addIndividual(chris);
-		kb.addIndividual(john);
-		kb.addIndividual(bill);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(victor);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(chris);
+		_kb.addIndividual(john);
+		_kb.addIndividual(bill);
 
 		// add specific test case axioms/assertions
 		final ATermAppl ownsDog = some(owns, dog);
-		kb.addClass(ownsDog);
-		kb.addSubClass(man, ownsDog);
+		_kb.addClass(ownsDog);
+		_kb.addSubClass(man, ownsDog);
 
 		final ATermAppl allCat = all(owns, cat);
-		kb.addClass(allCat);
+		_kb.addClass(allCat);
 
 		final ATermAppl catAndMan = and(allCat, man);
-		kb.addClass(catAndMan);
+		_kb.addClass(catAndMan);
 
 		final ATermAppl manOrWoman = or(man, woman);
-		kb.addClass(manOrWoman);
+		_kb.addClass(manOrWoman);
 
-		kb.addType(robert, manOrWoman);
-		kb.addType(victor, manOrWoman);
-		kb.addType(mary, manOrWoman);
-		kb.addType(chris, manOrWoman);
-		kb.addType(john, manOrWoman);
-		kb.addType(bill, manOrWoman);
+		_kb.addType(robert, manOrWoman);
+		_kb.addType(victor, manOrWoman);
+		_kb.addType(mary, manOrWoman);
+		_kb.addType(chris, manOrWoman);
+		_kb.addType(john, manOrWoman);
+		_kb.addType(bill, manOrWoman);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
 		// FIXME the following _condition is obviously incorrect
 		// there is no reason for robert to own anything since robert
 		// can be woman which has no axiom involving owns
-		assertTrue(kb.getABox().getIndividual(robert).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertTrue(kb.getABox().getIndividual(victor).hasRNeighbor(kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(robert).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(victor).hasRNeighbor(_kb.getRBox().getRole(owns)));
 
-		kb.removeType(victor, manOrWoman);
-		assertTrue(kb.isConsistent());
+		_kb.removeType(victor, manOrWoman);
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
-		assertFalse(kb.getABox().getIndividual(victor).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertTrue(kb.getABox().getIndividual(robert).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertTrue(kb.getABox().getIndividual(mary).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertTrue(kb.getABox().getIndividual(chris).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertTrue(kb.getABox().getIndividual(john).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertTrue(kb.getABox().getIndividual(bill).hasRNeighbor(kb.getRBox().getRole(owns)));
+		assertFalse(_kb.getABox().getIndividual(victor).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(robert).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(mary).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(chris).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(john).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(bill).hasRNeighbor(_kb.getRBox().getRole(owns)));
 
-		assertTrue(kb.getABox().getBranches().size() == 5);
+		assertTrue(_kb.getABox().getBranches().size() == 5);
 
-		kb.addType(chris, not(man));
-		assertTrue(kb.isConsistent());
+		_kb.addType(chris, not(man));
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
-		assertFalse(kb.getABox().getIndividual(chris).getTypes().contains(man));
-		assertFalse(kb.getABox().getIndividual(chris).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertFalse(kb.getABox().getIndividual(victor).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertTrue(kb.getABox().getIndividual(robert).hasRNeighbor(kb.getRBox().getRole(owns)));
-		assertTrue(kb.getABox().getIndividual(mary).hasRNeighbor(kb.getRBox().getRole(owns)));
+		assertFalse(_kb.getABox().getIndividual(chris).getTypes().contains(man));
+		assertFalse(_kb.getABox().getIndividual(chris).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertFalse(_kb.getABox().getIndividual(victor).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(robert).hasRNeighbor(_kb.getRBox().getRole(owns)));
+		assertTrue(_kb.getABox().getIndividual(mary).hasRNeighbor(_kb.getRBox().getRole(owns)));
 	}
 
 	@Test
@@ -768,44 +768,44 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
+		_kb.addClass(person);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addObjectProperty(relative);
+		_kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(relative);
 
-		kb.addRange(relative, person);
+		_kb.addRange(relative, person);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(victor);
-		kb.addIndividual(mary);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(victor);
+		_kb.addIndividual(mary);
 
-		kb.addPropertyValue(relative, robert, mary);
-		kb.addPropertyValue(sibling, robert, victor);
+		_kb.addPropertyValue(relative, robert, mary);
+		_kb.addPropertyValue(sibling, robert, victor);
 
 		// add specific test case axioms/assertions
 		final ATermAppl siblingPerson = all(sibling, person);
-		kb.addClass(siblingPerson);
+		_kb.addClass(siblingPerson);
 
-		kb.addType(victor, person);
-		kb.addType(mary, person);
-		kb.addType(robert, siblingPerson);
+		_kb.addType(victor, person);
+		_kb.addType(mary, person);
+		_kb.addType(robert, siblingPerson);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.getABox().getIndividual(victor).hasType(person));
-		assertTrue(kb.getABox().getIndividual(mary).hasType(person));
+		assertTrue(_kb.getABox().getIndividual(victor).hasType(person));
+		assertTrue(_kb.getABox().getIndividual(mary).hasType(person));
 
-		kb.removeType(victor, person);
-		assertTrue(kb.isConsistent());
+		_kb.removeType(victor, person);
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.getABox().getIndividual(victor).hasType(person));
+		assertTrue(_kb.getABox().getIndividual(victor).hasType(person));
 
-		kb.removeType(mary, person);
-		assertTrue(kb.isConsistent());
+		_kb.removeType(mary, person);
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.getABox().getIndividual(mary).hasType(person));
+		assertTrue(_kb.getABox().getIndividual(mary).hasType(person));
 	}
 
 	@Test
@@ -813,44 +813,44 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(notPerson);
+		_kb.addClass(person);
+		_kb.addClass(notPerson);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
 
-		kb.addType(robert, person);
-		assertTrue(kb.isConsistent());
+		_kb.addType(robert, person);
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		kb.addType(robert, notPerson);
-		assertFalse(kb.isConsistent());
+		_kb.addType(robert, notPerson);
+		assertFalse(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		kb.removeType(robert, notPerson);
-		assertTrue(kb.isConsistent());
+		_kb.removeType(robert, notPerson);
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
 	}
@@ -860,78 +860,78 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(not(person));
-		kb.addDisjointClass(person, not(person));
+		_kb.addClass(person);
+		_kb.addClass(not(person));
+		_kb.addDisjointClass(person, not(person));
 
 		// basic properties
-		kb.addObjectProperty(knows);
-		kb.addObjectProperty(ownedBy);
-		kb.addObjectProperty(owns);
-		kb.addInverseProperty(ownedBy, owns);
+		_kb.addObjectProperty(knows);
+		_kb.addObjectProperty(ownedBy);
+		_kb.addObjectProperty(owns);
+		_kb.addInverseProperty(ownedBy, owns);
 
 		// add specific test case axioms/assertions
 		final ATermAppl allSPerson = all(knows, not(person));
-		kb.addClass(allSPerson);
+		_kb.addClass(allSPerson);
 		final ATermAppl allRInvallSPerson = all(ownedBy, allSPerson);
-		kb.addClass(allRInvallSPerson);
+		_kb.addClass(allRInvallSPerson);
 		final ATermAppl allRInvallRInvallSPerson = all(ownedBy, allRInvallSPerson);
-		kb.addClass(allRInvallRInvallSPerson);
+		_kb.addClass(allRInvallRInvallSPerson);
 		final ATermAppl allRInvallRInvallRInvallSPerson = all(ownedBy, allRInvallRInvallSPerson);
-		kb.addClass(allRInvallRInvallRInvallSPerson);
+		_kb.addClass(allRInvallRInvallRInvallSPerson);
 
 		final ATermAppl allRallRInvallRInvallSPerson = all(owns, allRInvallRInvallRInvallSPerson);
-		kb.addClass(allRallRInvallRInvallSPerson);
+		_kb.addClass(allRallRInvallRInvallSPerson);
 
 		final ATermAppl allRallRallRInvallRInvallSPerson = all(owns, allRallRInvallRInvallSPerson);
-		kb.addClass(allRallRallRInvallRInvallSPerson);
+		_kb.addClass(allRallRallRInvallRInvallSPerson);
 		final ATermAppl allRallRallRallRInvallRInvallSPerson = all(owns, allRallRallRInvallRInvallSPerson);
-		kb.addClass(allRallRallRallRInvallRInvallSPerson);
+		_kb.addClass(allRallRallRallRInvallRInvallSPerson);
 		final ATermAppl allSallRallRallRallRInvallRInvallSPerson = all(knows, allRallRallRallRInvallRInvallSPerson);
-		kb.addClass(allSallRallRallRallRInvallRInvallSPerson);
+		_kb.addClass(allSallRallRallRallRInvallRInvallSPerson);
 		ATermAppl neg = not(allSallRallRallRallRInvallRInvallSPerson);
 		neg = normalize(neg);
-		kb.addClass(neg);
-		kb.addClass(man);
-		kb.addEquivalentClass(man, neg);
+		_kb.addClass(neg);
+		_kb.addClass(man);
+		_kb.addEquivalentClass(man, neg);
 
-		kb.addClass(woman);
+		_kb.addClass(woman);
 		final ATermAppl someWoman = some(owns, woman);
-		kb.addClass(someWoman);
-		kb.addSubClass(woman, someWoman);
+		_kb.addClass(someWoman);
+		_kb.addSubClass(woman, someWoman);
 
 		// add _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
-		kb.addIndividual(john);
-		kb.addType(mary, woman);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(john);
+		_kb.addType(mary, woman);
 
-		kb.addPropertyValue(knows, robert, mary);
-		kb.addPropertyValue(knows, mary, john);
+		_kb.addPropertyValue(knows, robert, mary);
+		_kb.addPropertyValue(knows, mary, john);
 
-		kb.prepare();
+		_kb.prepare();
 
-		kb.isConsistent();
+		_kb.isConsistent();
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		kb.addType(john, person);
-		kb.addType(robert, not(man));
+		_kb.addType(john, person);
+		_kb.addType(robert, not(man));
 
 		// consistency check
-		final boolean cons = kb.isConsistent();
+		final boolean cons = _kb.isConsistent();
 
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
 		// check affected
@@ -950,63 +950,63 @@ public class IncConsistencyTests extends AbstractKBTests
 		final ATermAppl D = term("D");
 		final ATermAppl E = term("E");
 
-		kb.addObjectProperty(p);
+		_kb.addObjectProperty(p);
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addClass(E);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addClass(E);
 
 		// basic _abox
-		kb.addIndividual(a);
+		_kb.addIndividual(a);
 
 		// add specific test case axioms/assertions
-		kb.addSubClass(C, some(p, E));
-		kb.addType(a, or(C, D));
+		_kb.addSubClass(C, some(p, E));
+		_kb.addType(a, or(C, D));
 
 		// or(C, D)
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(a, C));
-		assertFalse(kb.isType(a, D));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(a, C));
+		assertFalse(_kb.isType(a, D));
 
 		// or(C, D), not(C)
-		kb.addType(a, not(C));
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(a, C));
-		assertTrue(kb.isType(a, D));
+		_kb.addType(a, not(C));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(a, C));
+		assertTrue(_kb.isType(a, D));
 
 		// or(C, D)
-		kb.removeType(a, not(C));
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(a, C));
-		assertFalse(kb.isType(a, D));
+		_kb.removeType(a, not(C));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(a, C));
+		assertFalse(_kb.isType(a, D));
 
 		// or(C, D), not(D)
-		kb.addType(a, not(D));
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isType(a, C));
-		assertFalse(kb.isType(a, D));
+		_kb.addType(a, not(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isType(a, C));
+		assertFalse(_kb.isType(a, D));
 
 		// or(C, D), not(D), not(C)
-		kb.addType(a, not(C));
-		assertFalse(kb.isConsistent());
+		_kb.addType(a, not(C));
+		assertFalse(_kb.isConsistent());
 
 		// or(C, D), not(C)
-		kb.removeType(a, not(D));
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(a, C));
-		assertTrue(kb.isType(a, D));
+		_kb.removeType(a, not(D));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(a, C));
+		assertTrue(_kb.isType(a, D));
 
 		// or(C, D)
-		kb.removeType(a, not(C));
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(a, C));
-		assertFalse(kb.isType(a, D));
+		_kb.removeType(a, not(C));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(a, C));
+		assertFalse(_kb.isType(a, D));
 
 		// or(C,D), not(D)
-		kb.addType(a, not(D));
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isType(a, C));
-		assertFalse(kb.isType(a, D));
+		_kb.addType(a, not(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isType(a, C));
+		assertFalse(_kb.isType(a, D));
 	}
 
 	@Test
@@ -1014,72 +1014,72 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(dog);
-		kb.addClass(cat);
-		kb.addClass(man);
-		kb.addClass(woman);
+		_kb.addClass(person);
+		_kb.addClass(dog);
+		_kb.addClass(cat);
+		_kb.addClass(man);
+		_kb.addClass(woman);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addObjectProperty(owns);
-		kb.addObjectProperty(ownedBy);
-		kb.addInverseProperty(owns, ownedBy);
-		kb.addObjectProperty(knows);
+		_kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(owns);
+		_kb.addObjectProperty(ownedBy);
+		_kb.addInverseProperty(owns, ownedBy);
+		_kb.addObjectProperty(knows);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
-		kb.addIndividual(victor);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(victor);
 
 		// add specific test case axioms/assertions
 		final ATermAppl ownsDog = some(owns, dog);
-		kb.addClass(ownsDog);
+		_kb.addClass(ownsDog);
 
-		kb.addSubClass(man, ownsDog);
+		_kb.addSubClass(man, ownsDog);
 
 		final ATermAppl owersAreDogs = all(ownedBy, dog);
-		kb.addClass(owersAreDogs);
+		_kb.addClass(owersAreDogs);
 
 		final ATermAppl owersAreCats = all(ownedBy, cat);
-		kb.addClass(owersAreCats);
+		_kb.addClass(owersAreCats);
 
-		kb.addSubClass(dog, owersAreDogs);
+		_kb.addSubClass(dog, owersAreDogs);
 
-		kb.addClass(negate(dog));
+		_kb.addClass(negate(dog));
 
 		final ATermAppl manOrDog = or(negate(dog), woman);
-		kb.addClass(manOrDog);
+		_kb.addClass(manOrDog);
 
-		kb.addType(victor, manOrDog);
-		kb.addType(robert, owersAreCats);
+		_kb.addType(victor, manOrDog);
+		_kb.addType(robert, owersAreCats);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		kb.addType(victor, man);
+		_kb.addType(victor, man);
 
-		kb.addPropertyValue(ownedBy, robert, mary);
+		_kb.addPropertyValue(ownedBy, robert, mary);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		assertTrue(kb.getABox().getIndividual(mary).hasType(cat));
+		assertTrue(_kb.getABox().getIndividual(mary).hasType(cat));
 
 	}
 
@@ -1088,23 +1088,23 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(dog);
-		kb.addClass(cat);
-		kb.addClass(man);
-		kb.addClass(woman);
+		_kb.addClass(person);
+		_kb.addClass(dog);
+		_kb.addClass(cat);
+		_kb.addClass(man);
+		_kb.addClass(woman);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addObjectProperty(owns);
-		kb.addObjectProperty(ownedBy);
-		kb.addInverseProperty(owns, ownedBy);
-		kb.addObjectProperty(knows);
+		_kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(owns);
+		_kb.addObjectProperty(ownedBy);
+		_kb.addInverseProperty(owns, ownedBy);
+		_kb.addObjectProperty(knows);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
-		kb.addIndividual(victor);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(victor);
 
 		// add specific test case axioms/assertions
 		final ATermAppl ownsDog = some(owns, dog);
@@ -1115,25 +1115,25 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		final ATermAppl bigDisj = or(manOrDogAndWoman, catOrDogAndWoman);
 
-		kb.addType(victor, ownsDog);
-		kb.addPropertyValue(owns, victor, robert);
-		kb.addType(robert, dog);
+		_kb.addType(victor, ownsDog);
+		_kb.addPropertyValue(owns, victor, robert);
+		_kb.addType(robert, dog);
 
-		kb.addType(mary, bigDisj);
+		_kb.addType(mary, bigDisj);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		kb.removePropertyValue(owns, victor, robert);
+		_kb.removePropertyValue(owns, victor, robert);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.getABox().getIndividual(victor).getRNeighborEdges(kb.getRBox().getRole(owns)).size() > 0);
+		assertTrue(_kb.getABox().getIndividual(victor).getRNeighborEdges(_kb.getRBox().getRole(owns)).size() > 0);
 
-		kb.addType(mary, not(cat));
+		_kb.addType(mary, not(cat));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.getABox().getIndividual(victor).getRNeighborEdges(kb.getRBox().getRole(owns)).size() > 0);
+		assertTrue(_kb.getABox().getIndividual(victor).getRNeighborEdges(_kb.getRBox().getRole(owns)).size() > 0);
 	}
 
 	@Test
@@ -1141,88 +1141,88 @@ public class IncConsistencyTests extends AbstractKBTests
 	{
 
 		// basic classes
-		kb.addClass(person);
-		kb.addClass(dog);
-		kb.addClass(cat);
-		kb.addClass(man);
-		kb.addClass(woman);
+		_kb.addClass(person);
+		_kb.addClass(dog);
+		_kb.addClass(cat);
+		_kb.addClass(man);
+		_kb.addClass(woman);
 
 		// basic properties
-		kb.addObjectProperty(sibling);
-		kb.addObjectProperty(owns);
-		kb.addObjectProperty(ownedBy);
-		kb.addInverseProperty(owns, ownedBy);
-		kb.addObjectProperty(knows);
+		_kb.addObjectProperty(sibling);
+		_kb.addObjectProperty(owns);
+		_kb.addObjectProperty(ownedBy);
+		_kb.addInverseProperty(owns, ownedBy);
+		_kb.addObjectProperty(knows);
 
 		// basic _abox
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
-		kb.addIndividual(victor);
-		kb.addIndividual(chris);
-		kb.addIndividual(bill);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(victor);
+		_kb.addIndividual(chris);
+		_kb.addIndividual(bill);
 
 		// add specific test case axioms/assertions
 		final ATermAppl ownsDog = some(owns, dog);
-		kb.addClass(ownsDog);
+		_kb.addClass(ownsDog);
 
-		kb.addSubClass(man, ownsDog);
+		_kb.addSubClass(man, ownsDog);
 
 		final ATermAppl owersAreDogs = all(ownedBy, dog);
-		kb.addClass(owersAreDogs);
+		_kb.addClass(owersAreDogs);
 
 		final ATermAppl owersAreCats = all(ownedBy, cat);
-		kb.addClass(owersAreCats);
+		_kb.addClass(owersAreCats);
 		final ATermAppl owersownersAreCats = all(ownedBy, owersAreCats);
-		kb.addClass(owersownersAreCats);
+		_kb.addClass(owersownersAreCats);
 
-		kb.addSubClass(dog, owersAreDogs);
+		_kb.addSubClass(dog, owersAreDogs);
 
-		kb.addClass(negate(dog));
+		_kb.addClass(negate(dog));
 
 		final ATermAppl manOrDog = or(negate(dog), woman);
-		kb.addClass(manOrDog);
+		_kb.addClass(manOrDog);
 
-		kb.addType(victor, manOrDog);
+		_kb.addType(victor, manOrDog);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		kb.addType(robert, owersownersAreCats);
-		kb.addPropertyValue(ownedBy, robert, mary);
-		kb.addPropertyValue(ownedBy, mary, chris);
+		_kb.addType(robert, owersownersAreCats);
+		_kb.addPropertyValue(ownedBy, robert, mary);
+		_kb.addPropertyValue(ownedBy, mary, chris);
 
-		assertTrue(kb.isConsistent());
-
-		// print the _abox
-		if (PRINT_ABOX)
-		{
-
-			kb.getABox().printTree();
-
-			System.out.println("Branches: " + kb.getABox().getBranches());
-		}
-
-		assertTrue(kb.getABox().getIndividual(chris).hasType(cat));
-
-		kb.addType(victor, man);
+		assertTrue(_kb.isConsistent());
 
 		// print the _abox
 		if (PRINT_ABOX)
 		{
 
-			kb.getABox().printTree();
+			_kb.getABox().printTree();
 
-			System.out.println("Branches: " + kb.getABox().getBranches());
+			System.out.println("Branches: " + _kb.getABox().getBranches());
 		}
 
-		assertTrue(kb.getABox().getIndividual(chris).hasType(cat));
+		assertTrue(_kb.getABox().getIndividual(chris).hasType(cat));
+
+		_kb.addType(victor, man);
+
+		// print the _abox
+		if (PRINT_ABOX)
+		{
+
+			_kb.getABox().printTree();
+
+			System.out.println("Branches: " + _kb.getABox().getBranches());
+		}
+
+		assertTrue(_kb.getABox().getIndividual(chris).hasType(cat));
 	}
 
 	@Test
@@ -1262,35 +1262,35 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		final ATermAppl p = term("p");
 
-		kb.addClass(C);
+		_kb.addClass(C);
 
-		kb.addObjectProperty(p);
+		_kb.addObjectProperty(p);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
 
-		kb.addType(a, all(p, C));
-		kb.addType(b, C);
+		_kb.addType(a, all(p, C));
+		_kb.addType(b, C);
 
-		kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(p, a, b);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isType(b, C));
-		assertTrue(kb.hasPropertyValue(a, p, b));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isType(b, C));
+		assertTrue(_kb.hasPropertyValue(a, p, b));
 
-		kb.removeType(b, C);
+		_kb.removeType(b, C);
 
 		// nothing changed because all values restriction
 		// adds the type back to b
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isType(b, C));
-		assertTrue(kb.hasPropertyValue(a, p, b));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isType(b, C));
+		assertTrue(_kb.hasPropertyValue(a, p, b));
 
-		kb.removePropertyValue(p, a, b);
+		_kb.removePropertyValue(p, a, b);
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(b, C));
-		assertFalse(kb.hasPropertyValue(a, p, b));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(b, C));
+		assertFalse(_kb.hasPropertyValue(a, p, b));
 	}
 
 	@Test
@@ -1304,43 +1304,43 @@ public class IncConsistencyTests extends AbstractKBTests
 
 		final ATermAppl p = term("p");
 
-		kb.addClass(C);
+		_kb.addClass(C);
 
-		kb.addObjectProperty(p);
-		kb.addFunctionalProperty(p);
+		_kb.addObjectProperty(p);
+		_kb.addFunctionalProperty(p);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addIndividual(c);
 
-		kb.addType(c, C);
+		_kb.addType(c, C);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(p, a, c);
+		_kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(p, a, c);
 
-		assertTrue(kb.isType(b, C));
-		assertTrue(kb.isType(c, C));
-		assertTrue(kb.hasPropertyValue(a, p, b));
-		assertTrue(kb.hasPropertyValue(a, p, c));
-		assertTrue(kb.isSameAs(b, c));
+		assertTrue(_kb.isType(b, C));
+		assertTrue(_kb.isType(c, C));
+		assertTrue(_kb.hasPropertyValue(a, p, b));
+		assertTrue(_kb.hasPropertyValue(a, p, c));
+		assertTrue(_kb.isSameAs(b, c));
 
 		// this is a no-op because type is asserted at C
 		// functionality still forces b sameAs c
-		kb.removeType(b, C);
+		_kb.removeType(b, C);
 
-		assertTrue(kb.isType(b, C));
-		assertTrue(kb.isType(c, C));
-		assertTrue(kb.hasPropertyValue(a, p, b));
-		assertTrue(kb.hasPropertyValue(a, p, c));
-		assertTrue(kb.isSameAs(b, c));
+		assertTrue(_kb.isType(b, C));
+		assertTrue(_kb.isType(c, C));
+		assertTrue(_kb.hasPropertyValue(a, p, b));
+		assertTrue(_kb.hasPropertyValue(a, p, c));
+		assertTrue(_kb.isSameAs(b, c));
 
-		kb.removePropertyValue(p, a, b);
+		_kb.removePropertyValue(p, a, b);
 
-		assertFalse(kb.isType(b, C));
-		assertTrue(kb.isType(c, C));
-		assertFalse(kb.hasPropertyValue(a, p, b));
-		assertTrue(kb.hasPropertyValue(a, p, c));
-		assertFalse(kb.isSameAs(b, c));
+		assertFalse(_kb.isType(b, C));
+		assertTrue(_kb.isType(c, C));
+		assertFalse(_kb.hasPropertyValue(a, p, b));
+		assertTrue(_kb.hasPropertyValue(a, p, c));
+		assertFalse(_kb.isSameAs(b, c));
 	}
 
 	@Test
@@ -1351,35 +1351,35 @@ public class IncConsistencyTests extends AbstractKBTests
 		final ATermAppl D = term("D");
 		final ATermAppl E = term("E");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addClass(E);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addClass(E);
 
-		kb.addIndividual(a);
-		kb.addType(a, C);
-		kb.addType(a, D);
-		kb.addType(a, E);
+		_kb.addIndividual(a);
+		_kb.addType(a, C);
+		_kb.addType(a, D);
+		_kb.addType(a, E);
 
 		// C, D, E
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		kb.addType(a, not(C));
+		_kb.addType(a, not(C));
 
 		// C, D, E, not(C)
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(a, E);
+		_kb.removeType(a, E);
 
 		// C, D, not(C)
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(a, C);
+		_kb.removeType(a, C);
 
 		// D, not(C)
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(a, C));
-		assertTrue(kb.isType(a, D));
-		assertFalse(kb.isType(a, E));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(a, C));
+		assertTrue(_kb.isType(a, D));
+		assertFalse(_kb.isType(a, E));
 	}
 
 	@Test
@@ -1395,42 +1395,42 @@ public class IncConsistencyTests extends AbstractKBTests
 		final ATermAppl D = term("D");
 		final ATermAppl E = term("E");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addClass(E);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addClass(E);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addType(a, C);
-		kb.addType(b, D);
-		kb.addType(b, E);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addType(a, C);
+		_kb.addType(b, D);
+		_kb.addType(b, E);
 
 		// C(a), D(b), E(b)
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		kb.addType(a, not(C));
-		kb.addType(b, not(D));
+		_kb.addType(a, not(C));
+		_kb.addType(b, not(D));
 
 		// C(a), D(b), E(b), -C(a), -D(b)
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(b, E);
+		_kb.removeType(b, E);
 
 		// C(a), D(b), -C(a), -D(b)
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(b, D);
+		_kb.removeType(b, D);
 
 		// C(a), D(b), -C(a)
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(a, C);
+		_kb.removeType(a, C);
 
 		// -C(a), -D(b)
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(a, C));
-		assertFalse(kb.isType(b, D));
-		assertFalse(kb.isType(b, E));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(a, C));
+		assertFalse(_kb.isType(b, D));
+		assertFalse(_kb.isType(b, E));
 	}
 
 	@Test
@@ -1503,57 +1503,57 @@ public class IncConsistencyTests extends AbstractKBTests
 		final ATermAppl E = term("E");
 		final ATermAppl F = term("F");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addClass(E);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addClass(E);
 
-		kb.addIndividual(a);
-		kb.addType(a, C);
-		kb.addType(a, D);
-		kb.addType(a, E);
+		_kb.addIndividual(a);
+		_kb.addType(a, C);
+		_kb.addType(a, D);
+		_kb.addType(a, E);
 
 		// C(a), D(a), E(a)
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		kb.addSubClass(C, not(D));
-		kb.addSubClass(C, F);
+		_kb.addSubClass(C, not(D));
+		_kb.addSubClass(C, F);
 
 		// C(a), D(a), E(a); C [= -D, C [= F
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(a, E);
+		_kb.removeType(a, E);
 
 		// C(a), D(a); C [= -D, C [= F
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.addType(a, E);
+		_kb.addType(a, E);
 
 		// C(a), D(a), E(a); C [= -D, C [= F
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeType(a, C);
+		_kb.removeType(a, C);
 
 		// D(a), E(a); C [= -D, C[= F
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isType(a, D));
-		assertTrue(kb.isType(a, not(C)));
-		assertFalse(kb.isType(a, C));
-		assertTrue(kb.isType(a, E));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isType(a, D));
+		assertTrue(_kb.isType(a, not(C)));
+		assertFalse(_kb.isType(a, C));
+		assertTrue(_kb.isType(a, E));
 
-		kb.addType(a, C);
+		_kb.addType(a, C);
 
 		// C(a), D(a), E(a); C [= -D, C [= F
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeAxiom(ATermUtils.makeSub(C, F));
+		_kb.removeAxiom(ATermUtils.makeSub(C, F));
 
 		// C(a), D(a), E(a); C [= -D
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		kb.removeAxiom(ATermUtils.makeSub(C, not(D)));
+		_kb.removeAxiom(ATermUtils.makeSub(C, not(D)));
 
 		// C(a), D(a), E(a);
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		PelletOptions.USE_TRACING = ut;
 	}

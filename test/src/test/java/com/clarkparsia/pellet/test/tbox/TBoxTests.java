@@ -62,7 +62,7 @@ public class TBoxTests extends AbstractKBTests
 	public void initializeKB()
 	{
 		super.initializeKB();
-		tbox = kb.getTBox();
+		tbox = _kb.getTBox();
 	}
 
 	private void prepareTBox()
@@ -81,15 +81,15 @@ public class TBoxTests extends AbstractKBTests
 		PelletOptions.USE_TRACING = true;
 		try
 		{
-			classes(A, B, C, D);
+			classes(_A, _B, _C, _D);
 
-			final ATermAppl axiom1 = makeEqClasses(A, makeOr(C, D));
+			final ATermAppl axiom1 = makeEqClasses(_A, makeOr(_C, _D));
 			assertTrue(tbox.addAxiom(axiom1));
 
-			final ATermAppl axiom2 = makeSub(A, B);
+			final ATermAppl axiom2 = makeSub(_A, _B);
 			assertTrue(tbox.addAxiom(axiom2));
 
-			final Unfolding unfoldForAxiom2 = Unfolding.create(B, Collections.singleton(axiom2));
+			final Unfolding unfoldForAxiom2 = Unfolding.create(_B, Collections.singleton(axiom2));
 
 			prepareTBox();
 
@@ -100,7 +100,7 @@ public class TBoxTests extends AbstractKBTests
 			 * TBox implementation is broken, it may mean the implementation has
 			 * changed in a way that makes this test not useful.
 			 */
-			assertFalse(IteratorUtils.toSet(tbox.unfold(A)).contains(unfoldForAxiom2));
+			assertFalse(IteratorUtils.toSet(tbox.unfold(_A)).contains(unfoldForAxiom2));
 
 			tbox.removeAxiom(axiom1);
 			prepareTBox();
@@ -109,7 +109,7 @@ public class TBoxTests extends AbstractKBTests
 			 * After the equivalence is removed, any simplification (e.g., the
 			 * one above) must be corrected.
 			 */
-			assertTrue(IteratorUtils.toSet(tbox.unfold(A)).contains(unfoldForAxiom2));
+			assertTrue(IteratorUtils.toSet(tbox.unfold(_A)).contains(unfoldForAxiom2));
 		}
 		finally
 		{
@@ -120,9 +120,9 @@ public class TBoxTests extends AbstractKBTests
 	@Test
 	public void assertedAxioms()
 	{
-		classes(A, B, C, D);
+		classes(_A, _B, _C, _D);
 
-		final ATermAppl axiom = makeSub(makeAnd(A, B), makeNot(B));
+		final ATermAppl axiom = makeSub(makeAnd(_A, _B), makeNot(_B));
 		tbox.addAxiom(axiom);
 
 		prepareTBox();
@@ -159,9 +159,9 @@ public class TBoxTests extends AbstractKBTests
 		PelletOptions.USE_TRACING = true;
 		try
 		{
-			classes(A, B, C, D);
+			classes(_A, _B, _C, _D);
 
-			final ATermAppl axiom = makeSub(makeAnd(A, B), makeNot(B));
+			final ATermAppl axiom = makeSub(makeAnd(_A, _B), makeNot(_B));
 			tbox.addAxiom(axiom);
 
 			prepareTBox();

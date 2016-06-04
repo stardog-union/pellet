@@ -36,124 +36,124 @@ public class CacheSafetyTests extends AbstractKBTests
 	@Test
 	public void somePallInvP()
 	{
-		classes(C, D);
-		objectProperties(p);
+		classes(_C, _D);
+		objectProperties(_p);
 
-		kb.addSubClass(D, some(p, C));
-		kb.addSubClass(C, all(inv(p), not(D)));
+		_kb.addSubClass(_D, some(_p, _C));
+		_kb.addSubClass(_C, all(inv(_p), not(_D)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void someSubPallInvP()
 	{
-		classes(C, D);
-		objectProperties(p, q);
+		classes(_C, _D);
+		objectProperties(_p, _q);
 
-		kb.addSubProperty(q, p);
+		_kb.addSubProperty(_q, _p);
 
-		kb.addSubClass(D, some(q, C));
-		kb.addSubClass(C, all(inv(p), not(D)));
+		_kb.addSubClass(_D, some(_q, _C));
+		_kb.addSubClass(_C, all(inv(_p), not(_D)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void somePallInvPwithReflexivity()
 	{
-		classes(C, D);
-		objectProperties(p, r);
+		classes(_C, _D);
+		objectProperties(_p, _r);
 
-		kb.addReflexiveProperty(r);
+		_kb.addReflexiveProperty(_r);
 
-		kb.addSubClass(D, some(p, C));
-		kb.addSubClass(C, all(inv(p), not(D)));
+		_kb.addSubClass(_D, some(_p, _C));
+		_kb.addSubClass(_C, all(inv(_p), not(_D)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void somePallInvPSubClass()
 	{
-		classes(B, C, D, E);
-		objectProperties(p);
+		classes(_B, _C, _D, _E);
+		objectProperties(_p);
 
-		kb.addSubClass(D, E);
-		kb.addEquivalentClass(E, some(p, C));
-		kb.addSubClass(C, B);
-		kb.addSubClass(B, all(inv(p), not(D)));
+		_kb.addSubClass(_D, _E);
+		_kb.addEquivalentClass(_E, some(_p, _C));
+		_kb.addSubClass(_C, _B);
+		_kb.addSubClass(_B, all(inv(_p), not(_D)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void somePallInvSubP()
 	{
-		classes(C, D);
-		objectProperties(p, q);
+		classes(_C, _D);
+		objectProperties(_p, _q);
 
-		kb.addSubProperty(p, q);
+		_kb.addSubProperty(_p, _q);
 
-		kb.addSubClass(D, some(p, C));
-		kb.addSubClass(C, all(inv(q), not(D)));
+		_kb.addSubClass(_D, some(_p, _C));
+		_kb.addSubClass(_C, all(inv(_q), not(_D)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void someFunctionalP()
 	{
-		classes(C, D);
-		objectProperties(p);
+		classes(_C, _D);
+		objectProperties(_p);
 
-		kb.addFunctionalProperty(p);
-		kb.addSubClass(D, some(inv(p), C));
-		kb.addSubClass(C, some(p, not(D)));
+		_kb.addFunctionalProperty(_p);
+		_kb.addSubClass(_D, some(inv(_p), _C));
+		_kb.addSubClass(_C, some(_p, not(_D)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void functionalInv()
 	{
-		classes(C, D);
-		objectProperties(f);
+		classes(_C, _D);
+		objectProperties(_f);
 
-		kb.addFunctionalProperty(f);
+		_kb.addFunctionalProperty(_f);
 
-		kb.addSubClass(D, some(inv(f), C));
-		kb.addSubClass(C, some(f, not(D)));
+		_kb.addSubClass(_D, some(inv(_f), _C));
+		_kb.addSubClass(_C, some(_f, not(_D)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void max1Inv()
 	{
-		classes(C, D);
-		objectProperties(f);
+		classes(_C, _D);
+		objectProperties(_f);
 
-		kb.addSubClass(D, some(inv(f), C));
-		kb.addSubClass(C, and(some(f, not(D)), max(f, 1, TOP)));
+		_kb.addSubClass(_D, some(inv(_f), _C));
+		_kb.addSubClass(_C, and(some(_f, not(_D)), max(_f, 1, TOP)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
@@ -162,26 +162,26 @@ public class CacheSafetyTests extends AbstractKBTests
 		final ATermAppl invF = term("invF");
 		final ATermAppl invR = term("invR");
 
-		classes(C, D);
-		objectProperties(r, f, invF, invR);
+		classes(_C, _D);
+		objectProperties(_r, _f, invF, invR);
 
-		kb.addFunctionalProperty(f);
-		kb.addInverseFunctionalProperty(f);
-		kb.addInverseProperty(f, invF);
+		_kb.addFunctionalProperty(_f);
+		_kb.addInverseFunctionalProperty(_f);
+		_kb.addInverseProperty(_f, invF);
 
-		kb.addTransitiveProperty(r);
-		kb.addInverseProperty(r, invR);
+		_kb.addTransitiveProperty(_r);
+		_kb.addInverseProperty(_r, invR);
 
-		kb.addSubProperty(f, r);
+		_kb.addSubProperty(_f, _r);
 
-		kb.addEquivalentClass(D, and(C, some(f, not(C))));
+		_kb.addEquivalentClass(_D, and(_C, some(_f, not(_C))));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertTrue(kb.isSatisfiable(not(C)));
-		assertTrue(kb.isSatisfiable(D));
-		assertTrue(kb.isSatisfiable(not(D)));
-		assertFalse(kb.isSatisfiable(and(not(C), some(invF, D), all(invR, some(invF, D)))));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertTrue(_kb.isSatisfiable(not(_C)));
+		assertTrue(_kb.isSatisfiable(_D));
+		assertTrue(_kb.isSatisfiable(not(_D)));
+		assertFalse(_kb.isSatisfiable(and(not(_C), some(invF, _D), all(invR, some(invF, _D)))));
 	}
 
 	@Test
@@ -190,192 +190,192 @@ public class CacheSafetyTests extends AbstractKBTests
 		final ATermAppl invF = term("invF");
 		final ATermAppl invR = term("invR");
 
-		classes(C, D);
-		objectProperties(r, f, invF, invR);
+		classes(_C, _D);
+		objectProperties(_r, _f, invF, invR);
 
-		kb.addSubClass(TOP, max(f, 1, TOP));
+		_kb.addSubClass(TOP, max(_f, 1, TOP));
 		// _kb.addSubClass( TOP, max( inv( f ), 1, TOP ) );
-		kb.addInverseProperty(f, invF);
+		_kb.addInverseProperty(_f, invF);
 
-		kb.addTransitiveProperty(r);
-		kb.addInverseProperty(r, invR);
+		_kb.addTransitiveProperty(_r);
+		_kb.addInverseProperty(_r, invR);
 
-		kb.addSubProperty(f, r);
+		_kb.addSubProperty(_f, _r);
 
-		kb.addEquivalentClass(D, and(C, some(f, not(C))));
+		_kb.addEquivalentClass(_D, and(_C, some(_f, not(_C))));
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isSatisfiable(and(not(C), some(invF, D), all(invR, some(invF, D)))));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isSatisfiable(and(not(_C), some(invF, _D), all(invR, some(invF, _D)))));
 	}
 
 	@Test
 	public void maxCardinalitySub()
 	{
-		classes(C, D);
-		objectProperties(p, r, f);
+		classes(_C, _D);
+		objectProperties(_p, _r, _f);
 
-		kb.addSubClass(TOP, max(f, 1, TOP));
-		kb.addSubProperty(p, f);
-		kb.addSubProperty(r, f);
+		_kb.addSubClass(TOP, max(_f, 1, TOP));
+		_kb.addSubProperty(_p, _f);
+		_kb.addSubProperty(_r, _f);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertTrue(kb.isSatisfiable(all(inv(r), not(C))));
-		assertFalse(kb.isSatisfiable(and(C, some(r, TOP), some(p, all(inv(r), not(C))))));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertTrue(_kb.isSatisfiable(all(inv(_r), not(_C))));
+		assertFalse(_kb.isSatisfiable(and(_C, some(_r, TOP), some(_p, all(inv(_r), not(_C))))));
 	}
 
 	@Test
 	public void functionalSubTrans()
 	{
-		classes(A);
-		objectProperties(r, f);
+		classes(_A);
+		objectProperties(_r, _f);
 
-		kb.addFunctionalProperty(f);
-		kb.addTransitiveProperty(r);
-		kb.addSubProperty(f, r);
+		_kb.addFunctionalProperty(_f);
+		_kb.addTransitiveProperty(_r);
+		_kb.addSubProperty(_f, _r);
 
-		kb.addEquivalentClass(D, and(C, some(f, not(C))));
+		_kb.addEquivalentClass(_D, and(_C, some(_f, not(_C))));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(and(not(A), some(inv(f), A), all(inv(r), some(inv(f), A)))));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(and(not(_A), some(inv(_f), _A), all(inv(_r), some(inv(_f), _A)))));
 	}
 
 	@Test
 	public void maxCardinalitySubTrans()
 	{
-		classes(A);
-		objectProperties(r, f);
+		classes(_A);
+		objectProperties(_r, _f);
 
-		kb.addSubClass(TOP, max(f, 1, TOP));
-		kb.addTransitiveProperty(r);
-		kb.addSubProperty(f, r);
+		_kb.addSubClass(TOP, max(_f, 1, TOP));
+		_kb.addTransitiveProperty(_r);
+		_kb.addSubProperty(_f, _r);
 
-		kb.addEquivalentClass(D, and(C, some(f, not(C))));
+		_kb.addEquivalentClass(_D, and(_C, some(_f, not(_C))));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(and(not(A), some(inv(f), A), all(inv(r), some(inv(f), A)))));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(and(not(_A), some(inv(_f), _A), all(inv(_r), some(inv(_f), _A)))));
 	}
 
 	@Test
 	public void somePQallInvR()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(p, q), r);
-		kb.addSubClass(D, some(p, some(q, C)));
-		kb.addSubClass(C, all(inv(r), not(D)));
+		_kb.addSubProperty(list(_p, _q), _r);
+		_kb.addSubClass(_D, some(_p, some(_q, _C)));
+		_kb.addSubClass(_C, all(inv(_r), not(_D)));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertFalse(kb.isSatisfiable(D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void somePQallAnonInvR1()
 	{
-		classes(C);
-		objectProperties(p, q, r);
+		classes(_C);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(p, q), r);
+		_kb.addSubProperty(list(_p, _q), _r);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertTrue(kb.isSatisfiable(all(inv(r), not(C))));
-		assertFalse(kb.isSatisfiable(and(C, some(p, some(q, all(inv(r), not(C)))))));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertTrue(_kb.isSatisfiable(all(inv(_r), not(_C))));
+		assertFalse(_kb.isSatisfiable(and(_C, some(_p, some(_q, all(inv(_r), not(_C)))))));
 	}
 
 	@Test
 	public void somePQallAnonInvR2()
 	{
-		classes(C);
-		objectProperties(p, q, r);
+		classes(_C);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(p, q), r);
+		_kb.addSubProperty(list(_p, _q), _r);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertTrue(kb.isSatisfiable(some(q, all(inv(r), not(C)))));
-		assertFalse(kb.isSatisfiable(and(C, some(p, some(q, all(inv(r), not(C)))))));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertTrue(_kb.isSatisfiable(some(_q, all(inv(_r), not(_C)))));
+		assertFalse(_kb.isSatisfiable(and(_C, some(_p, some(_q, all(inv(_r), not(_C)))))));
 	}
 
 	@Test
 	public void nestedPropertyChains()
 	{
-		classes(C);
+		classes(_C);
 
-		objectProperties(p, q, r, f);
+		objectProperties(_p, _q, _r, _f);
 
-		kb.addSubProperty(list(p, q), r);
-		kb.addSubProperty(list(r, q), f);
+		_kb.addSubProperty(list(_p, _q), _r);
+		_kb.addSubProperty(list(_r, _q), _f);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertTrue(kb.isSatisfiable(all(inv(f), not(C))));
-		assertFalse(kb.isSatisfiable(and(C, some(p, some(q, some(q, all(inv(f), not(C))))))));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertTrue(_kb.isSatisfiable(all(inv(_f), not(_C))));
+		assertFalse(_kb.isSatisfiable(and(_C, some(_p, some(_q, some(_q, all(inv(_f), not(_C))))))));
 	}
 
 	@Test
 	public void cachedIntersectionUnsat()
 	{
-		classes(B, C, D);
-		objectProperties(p);
+		classes(_B, _C, _D);
+		objectProperties(_p);
 
-		kb.addDisjointClass(C, D);
-		kb.addSubClass(B, some(p, some(inv(p), and(C, D))));
+		_kb.addDisjointClass(_C, _D);
+		_kb.addSubClass(_B, some(_p, some(inv(_p), and(_C, _D))));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSatisfiable(C));
-		assertTrue(kb.isSatisfiable(D));
-		assertFalse(kb.isSatisfiable(B));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSatisfiable(_C));
+		assertTrue(_kb.isSatisfiable(_D));
+		assertFalse(_kb.isSatisfiable(_B));
 	}
 
 	@Test
 	public void cachedIntersectionWithTop1()
 	{
-		classes(B, C, D);
-		objectProperties(p);
+		classes(_B, _C, _D);
+		objectProperties(_p);
 
-		kb.addEquivalentClass(C, TOP);
-		kb.addSubClass(B, some(p, and(C, D)));
+		_kb.addEquivalentClass(_C, TOP);
+		_kb.addSubClass(_B, some(_p, and(_C, _D)));
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isSatisfiable(not(C)));
-		assertTrue(kb.isSatisfiable(D));
-		assertTrue(kb.isSatisfiable(B));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isSatisfiable(not(_C)));
+		assertTrue(_kb.isSatisfiable(_D));
+		assertTrue(_kb.isSatisfiable(_B));
 	}
 
 	@Test
 	public void cachedIntersectionWithTop2()
 	{
-		classes(B, C, D);
-		objectProperties(p);
+		classes(_B, _C, _D);
+		objectProperties(_p);
 
-		kb.addEquivalentClass(C, TOP);
-		kb.addEquivalentClass(D, TOP);
-		kb.addSubClass(B, some(p, and(C, D)));
+		_kb.addEquivalentClass(_C, TOP);
+		_kb.addEquivalentClass(_D, TOP);
+		_kb.addSubClass(_B, some(_p, and(_C, _D)));
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isSatisfiable(not(C)));
-		assertFalse(kb.isSatisfiable(not(D)));
-		assertTrue(kb.isSatisfiable(B));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isSatisfiable(not(_C)));
+		assertFalse(_kb.isSatisfiable(not(_D)));
+		assertTrue(_kb.isSatisfiable(_B));
 	}
 
 	@Test
 	public void cachedIntersectionWithTop3()
 	{
-		classes(B, C, D, E);
-		objectProperties(p);
+		classes(_B, _C, _D, _E);
+		objectProperties(_p);
 
-		kb.addEquivalentClass(C, TOP);
-		kb.addEquivalentClass(D, TOP);
-		kb.addSubClass(B, some(p, and(C, D, E)));
+		_kb.addEquivalentClass(_C, TOP);
+		_kb.addEquivalentClass(_D, TOP);
+		_kb.addSubClass(_B, some(_p, and(_C, _D, _E)));
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isSatisfiable(not(C)));
-		assertFalse(kb.isSatisfiable(not(D)));
-		assertTrue(kb.isSatisfiable(B));
-		assertTrue(kb.isSatisfiable(E));
-		assertTrue(kb.isSatisfiable(B));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isSatisfiable(not(_C)));
+		assertFalse(_kb.isSatisfiable(not(_D)));
+		assertTrue(_kb.isSatisfiable(_B));
+		assertTrue(_kb.isSatisfiable(_E));
+		assertTrue(_kb.isSatisfiable(_B));
 	}
 }

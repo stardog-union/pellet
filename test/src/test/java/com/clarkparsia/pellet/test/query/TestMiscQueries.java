@@ -28,156 +28,156 @@ public class TestMiscQueries extends AbstractQueryTest
 	@Test
 	public void domainQuery1()
 	{
-		classes(C, D);
-		objectProperties(p, q);
-		dataProperties(r);
+		classes(_C, _D);
+		objectProperties(_p, _q);
+		dataProperties(_r);
 
-		kb.addSubProperty(q, p);
-		kb.addDomain(p, C);
+		_kb.addSubProperty(_q, _p);
+		_kb.addDomain(_p, _C);
 
 		final ATermAppl pv = var("pv");
 		final ATermAppl cv = var("cv");
 
 		final Query query = query(select(pv, cv), where(DomainAtom(pv, cv)));
 
-		testQuery(query, new ATermAppl[][] { { p, TOP }, { q, TOP }, { r, TOP }, { TOP_OBJECT_PROPERTY, TOP }, { TOP_DATA_PROPERTY, TOP }, { BOTTOM_OBJECT_PROPERTY, TOP }, { BOTTOM_DATA_PROPERTY, TOP }, { BOTTOM_DATA_PROPERTY, BOTTOM }, { BOTTOM_OBJECT_PROPERTY, BOTTOM }, { p, C }, { q, C }, { BOTTOM_DATA_PROPERTY, C }, { BOTTOM_OBJECT_PROPERTY, C }, { BOTTOM_DATA_PROPERTY, D }, { BOTTOM_OBJECT_PROPERTY, D } });
+		testQuery(query, new ATermAppl[][] { { _p, TOP }, { _q, TOP }, { _r, TOP }, { TOP_OBJECT_PROPERTY, TOP }, { TOP_DATA_PROPERTY, TOP }, { BOTTOM_OBJECT_PROPERTY, TOP }, { BOTTOM_DATA_PROPERTY, TOP }, { BOTTOM_DATA_PROPERTY, BOTTOM }, { BOTTOM_OBJECT_PROPERTY, BOTTOM }, { _p, _C }, { _q, _C }, { BOTTOM_DATA_PROPERTY, _C }, { BOTTOM_OBJECT_PROPERTY, _C }, { BOTTOM_DATA_PROPERTY, _D }, { BOTTOM_OBJECT_PROPERTY, _D } });
 
 	}
 
 	@Test
 	public void domainQuery2()
 	{
-		classes(C, D);
-		objectProperties(p, q);
-		dataProperties(r);
+		classes(_C, _D);
+		objectProperties(_p, _q);
+		dataProperties(_r);
 
-		kb.addSubProperty(q, p);
-		kb.addDomain(p, C);
+		_kb.addSubProperty(_q, _p);
+		_kb.addDomain(_p, _C);
 
 		final ATermAppl cv = var("cv");
 
-		final Query query = query(select(cv), where(DomainAtom(q, cv)));
+		final Query query = query(select(cv), where(DomainAtom(_q, cv)));
 
-		testQuery(query, new ATermAppl[][] { { TOP }, { C } });
+		testQuery(query, new ATermAppl[][] { { TOP }, { _C } });
 
 	}
 
 	@Test
 	public void domainQuery3()
 	{
-		classes(C, D);
-		objectProperties(p, q);
-		dataProperties(r);
+		classes(_C, _D);
+		objectProperties(_p, _q);
+		dataProperties(_r);
 
-		kb.addSubProperty(q, p);
-		kb.addDomain(p, C);
+		_kb.addSubProperty(_q, _p);
+		_kb.addDomain(_p, _C);
 
 		final ATermAppl pv = var("pv");
 
-		final Query query = query(select(pv), where(DomainAtom(pv, C)));
+		final Query query = query(select(pv), where(DomainAtom(pv, _C)));
 
-		testQuery(query, new ATermAppl[][] { { p }, { q }, { BOTTOM_OBJECT_PROPERTY }, { BOTTOM_DATA_PROPERTY } });
+		testQuery(query, new ATermAppl[][] { { _p }, { _q }, { BOTTOM_OBJECT_PROPERTY }, { BOTTOM_DATA_PROPERTY } });
 
 	}
 
 	@Test
 	public void rangeQuery1()
 	{
-		classes(C, D);
-		objectProperties(p, q);
-		dataProperties(r);
+		classes(_C, _D);
+		objectProperties(_p, _q);
+		dataProperties(_r);
 
-		kb.addSubProperty(q, p);
-		kb.addRange(p, C);
+		_kb.addSubProperty(_q, _p);
+		_kb.addRange(_p, _C);
 
 		final ATermAppl pv = var("pv");
 		final ATermAppl cv = var("cv");
 
 		final Query query = query(select(pv, cv), where(RangeAtom(pv, cv), ObjectPropertyAtom(pv)));
 
-		testQuery(query, new ATermAppl[][] { { p, TOP }, { q, TOP }, { TOP_OBJECT_PROPERTY, TOP }, { BOTTOM_OBJECT_PROPERTY, TOP }, { BOTTOM_OBJECT_PROPERTY, BOTTOM }, { p, C }, { q, C }, { BOTTOM_OBJECT_PROPERTY, C }, { BOTTOM_OBJECT_PROPERTY, D } });
+		testQuery(query, new ATermAppl[][] { { _p, TOP }, { _q, TOP }, { TOP_OBJECT_PROPERTY, TOP }, { BOTTOM_OBJECT_PROPERTY, TOP }, { BOTTOM_OBJECT_PROPERTY, BOTTOM }, { _p, _C }, { _q, _C }, { BOTTOM_OBJECT_PROPERTY, _C }, { BOTTOM_OBJECT_PROPERTY, _D } });
 
 	}
 
 	@Test
 	public void rangeQuery2()
 	{
-		classes(C, D);
-		objectProperties(p, q);
-		dataProperties(r);
+		classes(_C, _D);
+		objectProperties(_p, _q);
+		dataProperties(_r);
 
-		kb.addSubProperty(q, p);
-		kb.addRange(p, C);
+		_kb.addSubProperty(_q, _p);
+		_kb.addRange(_p, _C);
 
 		final ATermAppl cv = var("cv");
 
-		final Query query = query(select(cv), where(RangeAtom(q, cv)));
+		final Query query = query(select(cv), where(RangeAtom(_q, cv)));
 
-		testQuery(query, new ATermAppl[][] { { TOP }, { C } });
+		testQuery(query, new ATermAppl[][] { { TOP }, { _C } });
 
 	}
 
 	@Test
 	public void datatypeQuery()
 	{
-		dataProperties(p);
-		individuals(a, b, c);
+		dataProperties(_p);
+		individuals(_a, _b, _c);
 
-		kb.addPropertyValue(p, a, literal(3));
-		kb.addPropertyValue(p, b, literal(300));
-		kb.addPropertyValue(p, b, literal("3"));
+		_kb.addPropertyValue(_p, _a, literal(3));
+		_kb.addPropertyValue(_p, _b, literal(300));
+		_kb.addPropertyValue(_p, _b, literal("3"));
 
-		final Query query1 = query(select(x), where(PropertyValueAtom(x, p, y), DatatypeAtom(y, Datatypes.INTEGER)));
+		final Query query1 = query(select(x), where(PropertyValueAtom(x, _p, y), DatatypeAtom(y, Datatypes.INTEGER)));
 
-		testQuery(query1, new ATermAppl[][] { { a }, { b } });
+		testQuery(query1, new ATermAppl[][] { { _a }, { _b } });
 
-		final Query query2 = query(select(x), where(PropertyValueAtom(x, p, y), DatatypeAtom(y, Datatypes.BYTE)));
+		final Query query2 = query(select(x), where(PropertyValueAtom(x, _p, y), DatatypeAtom(y, Datatypes.BYTE)));
 
-		testQuery(query2, new ATermAppl[][] { { a } });
+		testQuery(query2, new ATermAppl[][] { { _a } });
 
 	}
 
 	@Test
 	public void classQuery()
 	{
-		classes(A, B, C);
+		classes(_A, _B, _C);
 
-		final Query query1 = new ARQParser().parse("PREFIX rdf: <" + Namespaces.RDF + "> " + "PREFIX owl: <" + Namespaces.OWL + "> " + "SELECT ?c WHERE { ?c rdf:type owl:Class }", kb);
+		final Query query1 = new ARQParser().parse("PREFIX rdf: <" + Namespaces.RDF + "> " + "PREFIX owl: <" + Namespaces.OWL + "> " + "SELECT ?c WHERE { ?c rdf:type owl:Class }", _kb);
 
-		testQuery(query1, new ATermAppl[][] { { A }, { B }, { C }, { TOP }, { BOTTOM } });
+		testQuery(query1, new ATermAppl[][] { { _A }, { _B }, { _C }, { TOP }, { BOTTOM } });
 	}
 
 	@Test
 	public void inverseQuery()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addInverseProperty(q, p);
-		kb.addSymmetricProperty(r);
+		_kb.addInverseProperty(_q, _p);
+		_kb.addSymmetricProperty(_r);
 
 		final ATermAppl v = var("v");
 
-		final Query query = query(select(v), where(InverseOfAtom(q, v)));
+		final Query query = query(select(v), where(InverseOfAtom(_q, v)));
 
-		testQuery(query, new ATermAppl[][] { { p } });
+		testQuery(query, new ATermAppl[][] { { _p } });
 
 	}
 
 	@Test
 	public void symmetricQuery()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addInverseProperty(q, p);
-		kb.addSymmetricProperty(r);
+		_kb.addInverseProperty(_q, _p);
+		_kb.addSymmetricProperty(_r);
 
 		final ATermAppl v = var("v");
 
 		final Query query = query(select(v), where(InverseOfAtom(v, v)));
 
-		testQuery(query, new ATermAppl[][] { { r }, { TOP_OBJECT_PROPERTY }, { BOTTOM_OBJECT_PROPERTY } });
+		testQuery(query, new ATermAppl[][] { { _r }, { TOP_OBJECT_PROPERTY }, { BOTTOM_OBJECT_PROPERTY } });
 
 	}
 }

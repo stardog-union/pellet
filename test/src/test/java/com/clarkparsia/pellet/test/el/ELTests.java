@@ -78,13 +78,13 @@ public class ELTests extends AbstractKBTests
 
 	public Taxonomy<ATermAppl> getHierarchy()
 	{
-		assertTrue("Expressivity is not EL", kb.getExpressivity().isEL());
+		assertTrue("Expressivity is not EL", _kb.getExpressivity().isEL());
 
 		TaxonomyBuilder builder = null;
 		try
 		{
 			builder = builderClass.newInstance();
-			builder.setKB(kb);
+			builder.setKB(_kb);
 		}
 		catch (final Exception e)
 		{
@@ -102,490 +102,490 @@ public class ELTests extends AbstractKBTests
 	@Test
 	public void testEL1()
 	{
-		classes(A, B, C, D, E);
-		objectProperties(p);
+		classes(_A, _B, _C, _D, _E);
+		objectProperties(_p);
 
-		kb.addSubClass(A, and(B, some(p, C)));
-		kb.addSubClass(some(p, ATermUtils.TOP), D);
-		kb.addSubClass(and(B, D), E);
+		_kb.addSubClass(_A, and(_B, some(_p, _C)));
+		_kb.addSubClass(some(_p, ATermUtils.TOP), _D);
+		_kb.addSubClass(and(_B, _D), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A), hierarchy.getSubs(B, true));
+		assertEquals(singletonSets(_A), hierarchy.getSubs(_B, true));
 	}
 
 	@Test
 	public void testEL2()
 	{
-		classes(A, C, D, E);
-		objectProperties(p);
+		classes(_A, _C, _D, _E);
+		objectProperties(_p);
 
-		kb.addSubClass(A, some(p, C));
-		kb.addSubClass(C, D);
-		kb.addSubClass(some(p, D), E);
+		_kb.addSubClass(_A, some(_p, _C));
+		_kb.addSubClass(_C, _D);
+		_kb.addSubClass(some(_p, _D), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(D), hierarchy.getSupers(C, true));
-		assertEquals(singletonSets(E), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_D), hierarchy.getSupers(_C, true));
+		assertEquals(singletonSets(_E), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testEL3a()
 	{
-		classes(A, C, D, E, F);
-		objectProperties(p);
+		classes(_A, _C, _D, _E, _F);
+		objectProperties(_p);
 
-		kb.addSubClass(A, some(p, C));
-		kb.addSubClass(C, D);
-		kb.addSubClass(C, E);
-		kb.addSubClass(some(p, and(D, E)), F);
+		_kb.addSubClass(_A, some(_p, _C));
+		_kb.addSubClass(_C, _D);
+		_kb.addSubClass(_C, _E);
+		_kb.addSubClass(some(_p, and(_D, _E)), _F);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(D, E), hierarchy.getSupers(C, true));
-		assertEquals(singletonSets(F), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_D, _E), hierarchy.getSupers(_C, true));
+		assertEquals(singletonSets(_F), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testEL3b()
 	{
-		classes(A, C, D, E, F, G);
-		objectProperties(p);
+		classes(_A, _C, _D, _E, _F, _G);
+		objectProperties(_p);
 
-		kb.addSubClass(A, some(p, C));
-		kb.addSubClass(C, D);
-		kb.addSubClass(C, E);
-		kb.addSubClass(some(p, G), F);
-		kb.addEquivalentClass(G, and(D, E));
+		_kb.addSubClass(_A, some(_p, _C));
+		_kb.addSubClass(_C, _D);
+		_kb.addSubClass(_C, _E);
+		_kb.addSubClass(some(_p, _G), _F);
+		_kb.addEquivalentClass(_G, and(_D, _E));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(D, E), hierarchy.getSupers(G, true));
-		assertEquals(singletonSets(F), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_D, _E), hierarchy.getSupers(_G, true));
+		assertEquals(singletonSets(_F), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testEL3c()
 	{
-		classes(A, C, D, E);
-		objectProperties(p);
+		classes(_A, _C, _D, _E);
+		objectProperties(_p);
 
-		kb.addSubClass(A, some(p, and(C, D)));
-		kb.addSubClass(some(p, C), E);
+		_kb.addSubClass(_A, some(_p, and(_C, _D)));
+		_kb.addSubClass(some(_p, _C), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(E), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_E), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testEL4()
 	{
-		classes(A, B, C, D, E);
+		classes(_A, _B, _C, _D, _E);
 
-		kb.addSubClass(A, and(B, C, D));
-		kb.addSubClass(and(C, D), E);
+		_kb.addSubClass(_A, and(_B, _C, _D));
+		_kb.addSubClass(and(_C, _D), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A), hierarchy.getSubs(B, true));
+		assertEquals(singletonSets(_A), hierarchy.getSubs(_B, true));
 	}
 
 	@Test
 	public void testEL5a()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p);
 
-		kb.addSubClass(and(A, some(p, and(some(p, B), C))), D);
-		kb.addSubClass(E, A);
-		kb.addSubClass(E, F);
-		kb.addSubClass(F, some(p, G));
-		kb.addSubClass(G, C);
-		kb.addSubClass(G, some(p, B));
+		_kb.addSubClass(and(_A, some(_p, and(some(_p, _B), _C))), _D);
+		_kb.addSubClass(_E, _A);
+		_kb.addSubClass(_E, _F);
+		_kb.addSubClass(_F, some(_p, _G));
+		_kb.addSubClass(_G, _C);
+		_kb.addSubClass(_G, some(_p, _B));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A, D, F), hierarchy.getSupers(E, true));
+		assertEquals(singletonSets(_A, _D, _F), hierarchy.getSupers(_E, true));
 	}
 
 	@Test
 	public void testEL5b()
 	{
-		classes(A, B, C, D, E, F, G, X[1], X[2], X[3]);
-		objectProperties(p);
+		classes(_A, _B, _C, _D, _E, _F, _G, X[1], X[2], X[3]);
+		objectProperties(_p);
 
-		kb.addSubClass(and(A, X[1]), D);
-		kb.addEquivalentClass(X[1], some(p, X[2]));
-		kb.addEquivalentClass(X[2], and(X[3], C));
-		kb.addEquivalentClass(X[3], some(p, B));
-		kb.addSubClass(E, A);
-		kb.addSubClass(E, F);
-		kb.addSubClass(F, some(p, G));
-		kb.addSubClass(G, C);
-		kb.addSubClass(G, some(p, B));
+		_kb.addSubClass(and(_A, X[1]), _D);
+		_kb.addEquivalentClass(X[1], some(_p, X[2]));
+		_kb.addEquivalentClass(X[2], and(X[3], _C));
+		_kb.addEquivalentClass(X[3], some(_p, _B));
+		_kb.addSubClass(_E, _A);
+		_kb.addSubClass(_E, _F);
+		_kb.addSubClass(_F, some(_p, _G));
+		_kb.addSubClass(_G, _C);
+		_kb.addSubClass(_G, some(_p, _B));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A, D, F), hierarchy.getSupers(E, true));
+		assertEquals(singletonSets(_A, _D, _F), hierarchy.getSupers(_E, true));
 	}
 
 	@Test
 	public void testEL6()
 	{
-		classes(A, B, C, D, E, G);
-		objectProperties(p);
+		classes(_A, _B, _C, _D, _E, _G);
+		objectProperties(_p);
 
-		kb.addSubClass(and(A, some(p, and(B, C))), D);
-		kb.addSubClass(E, A);
-		kb.addSubClass(E, some(p, G));
-		kb.addSubClass(G, B);
-		kb.addSubClass(G, C);
+		_kb.addSubClass(and(_A, some(_p, and(_B, _C))), _D);
+		_kb.addSubClass(_E, _A);
+		_kb.addSubClass(_E, some(_p, _G));
+		_kb.addSubClass(_G, _B);
+		_kb.addSubClass(_G, _C);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A, D), hierarchy.getSupers(E, true));
+		assertEquals(singletonSets(_A, _D), hierarchy.getSupers(_E, true));
 	}
 
 	@Test
 	public void testEL7()
 	{
-		classes(A, B, C, D, E);
+		classes(_A, _B, _C, _D, _E);
 
-		kb.addSubClass(A, B);
-		kb.addSubClass(and(A, B), and(C, D, ATermUtils.TOP));
-		kb.addSubClass(and(A, C), E);
-		kb.addSubClass(and(A, D, ATermUtils.TOP), E);
+		_kb.addSubClass(_A, _B);
+		_kb.addSubClass(and(_A, _B), and(_C, _D, ATermUtils.TOP));
+		_kb.addSubClass(and(_A, _C), _E);
+		_kb.addSubClass(and(_A, _D, ATermUtils.TOP), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(B, C, D, E), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_B, _C, _D, _E), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testEL8()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p);
 
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(B, C);
-		kb.addSubClass(C, D);
-		kb.addSubClass(some(p, and(D, ATermUtils.TOP)), E);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(_B, _C);
+		_kb.addSubClass(_C, _D);
+		_kb.addSubClass(some(_p, and(_D, ATermUtils.TOP)), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(E), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_E), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testELNormalization1()
 	{
-		classes(A, B, C, D);
-		objectProperties(p);
+		classes(_A, _B, _C, _D);
+		objectProperties(_p);
 
-		kb.addSubClass(A, some(p, and(B, C)));
-		kb.addSubClass(some(p, and(C, B)), D);
+		_kb.addSubClass(_A, some(_p, and(_B, _C)));
+		_kb.addSubClass(some(_p, and(_C, _B)), _D);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(D), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_D), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testELNormalization2()
 	{
-		classes(A, B, C, D, E);
+		classes(_A, _B, _C, _D, _E);
 
-		kb.addSubClass(A, and(B, and(C, D)));
-		kb.addSubClass(and(C, and(B, D)), E);
+		_kb.addSubClass(_A, and(_B, and(_C, _D)));
+		_kb.addSubClass(and(_C, and(_B, _D)), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(B, C, D, E), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_B, _C, _D, _E), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testELNormalization3()
 	{
-		classes(A, B, C, D, E, F, G);
+		classes(_A, _B, _C, _D, _E, _F, _G);
 
-		kb.addSubClass(A, and(B, and(C, D, and(E, F))));
-		kb.addSubClass(and(and(C, F), and(B, D, E)), G);
+		_kb.addSubClass(_A, and(_B, and(_C, _D, and(_E, _F))));
+		_kb.addSubClass(and(and(_C, _F), and(_B, _D, _E)), _G);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(B, C, D, E, F, G), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_B, _C, _D, _E, _F, _G), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testBottom1()
 	{
-		classes(A, B, C, D);
+		classes(_A, _B, _C, _D);
 
-		kb.addSubClass(A, ATermUtils.BOTTOM);
-		kb.addSubClass(C, and(A, B));
-		kb.addSubClass(ATermUtils.BOTTOM, D);
+		_kb.addSubClass(_A, ATermUtils.BOTTOM);
+		_kb.addSubClass(_C, and(_A, _B));
+		_kb.addSubClass(ATermUtils.BOTTOM, _D);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A, C), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A, _C), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testBottom2()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(some(p, B), C);
-		kb.addSubClass(C, ATermUtils.BOTTOM);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(some(_p, _B), _C);
+		_kb.addSubClass(_C, ATermUtils.BOTTOM);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A, C), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A, _C), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testTop1()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubClass(ATermUtils.TOP, A);
-		kb.addSubClass(C, some(p, B));
-		kb.addSubClass(some(p, A), D);
+		_kb.addSubClass(ATermUtils.TOP, _A);
+		_kb.addSubClass(_C, some(_p, _B));
+		_kb.addSubClass(some(_p, _A), _D);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(D), hierarchy.getSupers(C, true));
+		assertEquals(singletonSets(_D), hierarchy.getSupers(_C, true));
 	}
 
 	@Test
 	public void testBottomWithSome1()
 	{
-		classes(A, B);
-		objectProperties(p);
+		classes(_A, _B);
+		objectProperties(_p);
 
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(B, ATermUtils.BOTTOM);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(_B, ATermUtils.BOTTOM);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A, B), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A, _B), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testBottomWithSome2()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubClass(B, some(p, A));
-		kb.addSubClass(A, ATermUtils.BOTTOM);
-		kb.addSubClass(C, some(q, B));
+		_kb.addSubClass(_B, some(_p, _A));
+		_kb.addSubClass(_A, ATermUtils.BOTTOM);
+		_kb.addSubClass(_C, some(_q, _B));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A, B, C), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A, _B, _C), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testDisjoint()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubClass(and(A, B), ATermUtils.BOTTOM);
-		kb.addSubClass(A, B);
-		kb.addDisjointClass(C, D);
-		kb.addEquivalentClass(C, D);
+		_kb.addSubClass(and(_A, _B), ATermUtils.BOTTOM);
+		_kb.addSubClass(_A, _B);
+		_kb.addDisjointClass(_C, _D);
+		_kb.addEquivalentClass(_C, _D);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A, C, D), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A, _C, _D), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testDisjointWithSome1()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(p, q);
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(A, D);
-		kb.addSubClass(some(p, B), some(p, C));
-		kb.addDisjointClass(some(q, C), D);
+		_kb.addSubProperty(_p, _q);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(_A, _D);
+		_kb.addSubClass(some(_p, _B), some(_p, _C));
+		_kb.addDisjointClass(some(_q, _C), _D);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testDisjointWithSome2()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubClass(A, some(p, and(B, C)));
-		kb.addDisjointClass(B, C);
+		_kb.addSubClass(_A, some(_p, and(_B, _C)));
+		_kb.addDisjointClass(_B, _C);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testRoles1a()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(p, q);
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(some(q, B), C);
+		_kb.addSubProperty(_p, _q);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(some(_q, _B), _C);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(C), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_C), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testRoles1b()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(p, q);
-		kb.addSubClass(A, and(D, some(p, B)));
-		kb.addSubClass(and(D, some(q, B)), C);
+		_kb.addSubProperty(_p, _q);
+		_kb.addSubClass(_A, and(_D, some(_p, _B)));
+		_kb.addSubClass(and(_D, some(_q, _B)), _C);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(C, D), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_C, _D), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testRoles2a()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(list(p, p), p);
-		kb.addSubProperty(q, p);
-		kb.addSubClass(A, some(q, some(p, B)));
-		kb.addSubClass(some(p, B), C);
+		_kb.addSubProperty(list(_p, _p), _p);
+		_kb.addSubProperty(_q, _p);
+		_kb.addSubClass(_A, some(_q, some(_p, _B)));
+		_kb.addSubClass(some(_p, _B), _C);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(C), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_C), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testRoles2b()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(list(p, q), p);
-		kb.addSubProperty(r, q);
-		kb.addSubClass(A, and(F, some(p, B)));
-		kb.addSubClass(B, and(G, some(r, C)));
-		kb.addSubClass(C, some(q, D));
-		kb.addSubClass(some(p, D), E);
+		_kb.addSubProperty(list(_p, _q), _p);
+		_kb.addSubProperty(_r, _q);
+		_kb.addSubClass(_A, and(_F, some(_p, _B)));
+		_kb.addSubClass(_B, and(_G, some(_r, _C)));
+		_kb.addSubClass(_C, some(_q, _D));
+		_kb.addSubClass(some(_p, _D), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(E, F), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_E, _F), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testRoles2c()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(list(p, q), p);
-		kb.addSubProperty(list(p, q), r);
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(B, some(q, C));
-		kb.addSubClass(C, some(q, D));
-		kb.addSubClass(some(r, D), E);
+		_kb.addSubProperty(list(_p, _q), _p);
+		_kb.addSubProperty(list(_p, _q), _r);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(_B, some(_q, _C));
+		_kb.addSubClass(_C, some(_q, _D));
+		_kb.addSubClass(some(_r, _D), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(E), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_E), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testRoles3a()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(list(p, q, r), p);
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(B, some(q, C));
-		kb.addSubClass(C, some(r, D));
-		kb.addSubClass(some(p, D), E);
+		_kb.addSubProperty(list(_p, _q, _r), _p);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(_B, some(_q, _C));
+		_kb.addSubClass(_C, some(_r, _D));
+		_kb.addSubClass(some(_p, _D), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(E), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_E), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testRoles3b()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(list(p, q, r), p);
-		kb.addSubProperty(list(p, q, s), s);
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(B, some(q, C));
-		kb.addSubClass(C, some(r, D));
-		kb.addSubClass(D, some(q, E));
-		kb.addSubClass(E, some(s, F));
-		kb.addSubClass(some(s, F), G);
+		_kb.addSubProperty(list(_p, _q, _r), _p);
+		_kb.addSubProperty(list(_p, _q, _s), _s);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(_B, some(_q, _C));
+		_kb.addSubClass(_C, some(_r, _D));
+		_kb.addSubClass(_D, some(_q, _E));
+		_kb.addSubClass(_E, some(_s, _F));
+		_kb.addSubClass(some(_s, _F), _G);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(G), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(_G), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testRoles4()
 	{
-		classes(A, B, C, D, E, F, G, X[0], X[1]);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G, X[0], X[1]);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubProperty(list(q, r), s);
-		kb.addSubProperty(list(p, q, r, s), p);
-		kb.addSubProperty(list(p, s), p);
-		kb.addSubClass(X[0], X[1]);
-		kb.addSubClass(A, and(X[0], some(p, B)));
-		kb.addSubClass(B, and(X[1], some(q, C)));
-		kb.addSubClass(C, and(X[2], some(r, D)));
-		kb.addSubClass(D, and(X[1], some(s, E)));
-		kb.addSubClass(and(X[0], some(p, E)), F);
+		_kb.addSubProperty(list(_q, _r), _s);
+		_kb.addSubProperty(list(_p, _q, _r, _s), _p);
+		_kb.addSubProperty(list(_p, _s), _p);
+		_kb.addSubClass(X[0], X[1]);
+		_kb.addSubClass(_A, and(X[0], some(_p, _B)));
+		_kb.addSubClass(_B, and(X[1], some(_q, _C)));
+		_kb.addSubClass(_C, and(X[2], some(_r, _D)));
+		_kb.addSubClass(_D, and(X[1], some(_s, _E)));
+		_kb.addSubClass(and(X[0], some(_p, _E)), _F);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(X[0], F), hierarchy.getSupers(A, true));
+		assertEquals(singletonSets(X[0], _F), hierarchy.getSupers(_A, true));
 	}
 
 	@Test
 	public void testHeart()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb = new KnowledgeBase();
+		_kb = new KnowledgeBase();
 		final ATermAppl endocardium = term("Endocardium");
 		final ATermAppl tissue = term("Tissue");
 		final ATermAppl heartWall = term("HeartWall");
@@ -603,33 +603,33 @@ public class ELTests extends AbstractKBTests
 		final ATermAppl hasLoc = term("has-loc");
 		final ATermAppl actsOn = term("acts-on");
 
-		kb.addClass(endocardium);
-		kb.addClass(tissue);
-		kb.addClass(heartWall);
-		kb.addClass(heartValve);
-		kb.addClass(bodyWall);
-		kb.addClass(bodyValve);
-		kb.addClass(heart);
-		kb.addClass(endocarditis);
-		kb.addClass(inflammation);
-		kb.addClass(disease);
-		kb.addClass(heartDisease);
-		kb.addClass(criticalDisease);
-		kb.addObjectProperty(contIn);
-		kb.addObjectProperty(partOf);
-		kb.addObjectProperty(hasLoc);
-		kb.addObjectProperty(actsOn);
+		_kb.addClass(endocardium);
+		_kb.addClass(tissue);
+		_kb.addClass(heartWall);
+		_kb.addClass(heartValve);
+		_kb.addClass(bodyWall);
+		_kb.addClass(bodyValve);
+		_kb.addClass(heart);
+		_kb.addClass(endocarditis);
+		_kb.addClass(inflammation);
+		_kb.addClass(disease);
+		_kb.addClass(heartDisease);
+		_kb.addClass(criticalDisease);
+		_kb.addObjectProperty(contIn);
+		_kb.addObjectProperty(partOf);
+		_kb.addObjectProperty(hasLoc);
+		_kb.addObjectProperty(actsOn);
 
-		kb.addSubClass(endocardium, and(tissue, some(contIn, heartWall), some(contIn, heartValve)));
-		kb.addSubClass(heartWall, and(bodyWall, some(partOf, heart)));
-		kb.addSubClass(heartValve, and(bodyValve, some(partOf, heart)));
-		kb.addSubClass(endocarditis, and(inflammation, some(hasLoc, endocardium)));
-		kb.addSubClass(inflammation, and(disease, some(actsOn, tissue)));
-		kb.addSubClass(and(heartDisease, some(hasLoc, heartValve)), criticalDisease);
-		kb.addEquivalentClass(heartDisease, and(disease, some(hasLoc, heart)));
-		kb.addSubProperty(list(partOf, partOf), partOf);
-		kb.addSubProperty(partOf, contIn);
-		kb.addSubProperty(list(hasLoc, contIn), hasLoc);
+		_kb.addSubClass(endocardium, and(tissue, some(contIn, heartWall), some(contIn, heartValve)));
+		_kb.addSubClass(heartWall, and(bodyWall, some(partOf, heart)));
+		_kb.addSubClass(heartValve, and(bodyValve, some(partOf, heart)));
+		_kb.addSubClass(endocarditis, and(inflammation, some(hasLoc, endocardium)));
+		_kb.addSubClass(inflammation, and(disease, some(actsOn, tissue)));
+		_kb.addSubClass(and(heartDisease, some(hasLoc, heartValve)), criticalDisease);
+		_kb.addEquivalentClass(heartDisease, and(disease, some(hasLoc, heart)));
+		_kb.addSubProperty(list(partOf, partOf), partOf);
+		_kb.addSubProperty(partOf, contIn);
+		_kb.addSubProperty(list(hasLoc, contIn), hasLoc);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
@@ -639,268 +639,268 @@ public class ELTests extends AbstractKBTests
 	@Test
 	public void testDomain1()
 	{
-		classes(A, B);
-		objectProperties(p);
+		classes(_A, _B);
+		objectProperties(_p);
 
-		kb.addDomain(p, A);
-		kb.addSubClass(B, some(p, ATermUtils.TOP));
+		_kb.addDomain(_p, _A);
+		_kb.addSubClass(_B, some(_p, ATermUtils.TOP));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A), hierarchy.getSupers(B, true));
+		assertEquals(singletonSets(_A), hierarchy.getSupers(_B, true));
 	}
 
 	@Test
 	public void testDomain2()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addDomain(p, and(A, B));
-		kb.addDomain(p, C);
-		kb.addSubClass(B, some(p, ATermUtils.TOP));
+		_kb.addDomain(_p, and(_A, _B));
+		_kb.addDomain(_p, _C);
+		_kb.addSubClass(_B, some(_p, ATermUtils.TOP));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A, C), hierarchy.getSupers(B, true));
+		assertEquals(singletonSets(_A, _C), hierarchy.getSupers(_B, true));
 	}
 
 	@Test
 	public void testDomainAbsorption()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addDomain(p, A);
-		kb.addSubClass(and(some(p, B), some(p, ATermUtils.TOP)), C);
-		kb.addSubClass(E, some(p, D));
+		_kb.addDomain(_p, _A);
+		_kb.addSubClass(and(some(_p, _B), some(_p, ATermUtils.TOP)), _C);
+		_kb.addSubClass(_E, some(_p, _D));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A), hierarchy.getSupers(E, true));
+		assertEquals(singletonSets(_A), hierarchy.getSupers(_E, true));
 	}
 
 	@Test
 	public void testDomainBottom()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addDomain(p, ATermUtils.BOTTOM);
-		kb.addSubClass(A, some(p, B));
+		_kb.addDomain(_p, ATermUtils.BOTTOM);
+		_kb.addSubClass(_A, some(_p, _B));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testReflexiveRole()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addReflexiveProperty(p);
-		kb.addRange(p, A);
-		kb.addRange(p, and(B, C));
+		_kb.addReflexiveProperty(_p);
+		_kb.addRange(_p, _A);
+		_kb.addRange(_p, and(_B, _C));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A, B, C), hierarchy.getEquivalents(ATermUtils.TOP));
+		assertEquals(SetUtils.create(_A, _B, _C), hierarchy.getEquivalents(ATermUtils.TOP));
 	}
 
 	@Test
 	public void testRange1()
 	{
-		classes(A, B, C, D);
-		objectProperties(p);
+		classes(_A, _B, _C, _D);
+		objectProperties(_p);
 
-		kb.addRange(p, A);
-		kb.addSubClass(B, some(p, C));
-		kb.addSubClass(some(p, A), D);
+		_kb.addRange(_p, _A);
+		_kb.addSubClass(_B, some(_p, _C));
+		_kb.addSubClass(some(_p, _A), _D);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(D), hierarchy.getSupers(B, true));
+		assertEquals(singletonSets(_D), hierarchy.getSupers(_B, true));
 	}
 
 	@Test
 	public void testRange2()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, and(A, B));
-		kb.addSubClass(C, some(p, D));
-		kb.addSubClass(some(p, and(A, B)), E);
+		_kb.addRange(_p, and(_A, _B));
+		_kb.addSubClass(_C, some(_p, _D));
+		_kb.addSubClass(some(_p, and(_A, _B)), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(E), hierarchy.getSupers(C, true));
+		assertEquals(singletonSets(_E), hierarchy.getSupers(_C, true));
 	}
 
 	@Test
 	public void testRange3()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, and(A, B));
-		kb.addSubClass(C, some(p, D));
-		kb.addSubClass(some(p, A), E);
+		_kb.addRange(_p, and(_A, _B));
+		_kb.addSubClass(_C, some(_p, _D));
+		_kb.addSubClass(some(_p, _A), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(E), hierarchy.getSupers(C, true));
+		assertEquals(singletonSets(_E), hierarchy.getSupers(_C, true));
 	}
 
 	@Test
 	public void testRange5()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, A);
-		kb.addSubClass(B, and(A, some(p, C)));
-		kb.addSubClass(C, A);
-		kb.addEquivalentClass(D, some(p, C));
+		_kb.addRange(_p, _A);
+		_kb.addSubClass(_B, and(_A, some(_p, _C)));
+		_kb.addSubClass(_C, _A);
+		_kb.addEquivalentClass(_D, some(_p, _C));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(B, C), hierarchy.getSubs(A, true));
+		assertEquals(singletonSets(_B, _C), hierarchy.getSubs(_A, true));
 	}
 
 	@Test
 	public void testDomainNormalization1()
 	{
-		classes(A, B, C, D, E, F, G, X[1]);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G, X[1]);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addDomain(p, some(q, C));
-		kb.addDomain(p, and(B, C));
-		kb.addSubClass(D, some(p, X[1]));
-		kb.addSubClass(some(q, C), E);
+		_kb.addDomain(_p, some(_q, _C));
+		_kb.addDomain(_p, and(_B, _C));
+		_kb.addSubClass(_D, some(_p, X[1]));
+		_kb.addSubClass(some(_q, _C), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(B, C, E), hierarchy.getSupers(D, true));
+		assertEquals(singletonSets(_B, _C, _E), hierarchy.getSupers(_D, true));
 	}
 
 	@Test
 	public void testRangeNormalization1()
 	{
-		classes(A, B, C, D, E, F, G, X[1]);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G, X[1]);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, A);
-		kb.addRange(p, and(B, C));
-		kb.addSubClass(D, some(p, X[1]));
-		kb.addSubClass(some(p, and(and(A, B), C)), E);
+		_kb.addRange(_p, _A);
+		_kb.addRange(_p, and(_B, _C));
+		_kb.addSubClass(_D, some(_p, X[1]));
+		_kb.addSubClass(some(_p, and(and(_A, _B), _C)), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(E), hierarchy.getSupers(D, true));
+		assertEquals(singletonSets(_E), hierarchy.getSupers(_D, true));
 	}
 
 	@Test
 	public void testRangeNormalization2()
 	{
-		classes(A, B, C, D, E, F, G, X[0]);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G, X[0]);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, some(q, A));
-		kb.addSubClass(B, some(p, X[0]));
-		kb.addSubClass(some(p, some(q, A)), C);
+		_kb.addRange(_p, some(_q, _A));
+		_kb.addSubClass(_B, some(_p, X[0]));
+		_kb.addSubClass(some(_p, some(_q, _A)), _C);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(C), hierarchy.getSupers(B, true));
+		assertEquals(singletonSets(_C), hierarchy.getSupers(_B, true));
 	}
 
 	@Test
 	public void testDomainAndRange()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, A);
-		kb.addDomain(q, B);
-		kb.addSubClass(C, some(p, ATermUtils.TOP));
-		kb.addSubClass(some(p, A), some(q, ATermUtils.TOP));
+		_kb.addRange(_p, _A);
+		_kb.addDomain(_q, _B);
+		_kb.addSubClass(_C, some(_p, ATermUtils.TOP));
+		_kb.addSubClass(some(_p, _A), some(_q, ATermUtils.TOP));
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(B), hierarchy.getSupers(C, true));
+		assertEquals(singletonSets(_B), hierarchy.getSupers(_C, true));
 	}
 
 	@Test
 	public void testRange4()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, C);
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(and(B, C), D);
-		kb.addSubClass(some(p, D), E);
+		_kb.addRange(_p, _C);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(and(_B, _C), _D);
+		_kb.addSubClass(some(_p, _D), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A), hierarchy.getSubs(E, true));
+		assertEquals(singletonSets(_A), hierarchy.getSubs(_E, true));
 	}
 
 	@Test
 	public void testSomeConjunction()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubClass(A, some(p, and(B, C, D)));
-		kb.addSubClass(some(p, and(B, C)), E);
+		_kb.addSubClass(_A, some(_p, and(_B, _C, _D)));
+		_kb.addSubClass(some(_p, and(_B, _C)), _E);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A), hierarchy.getSubs(E, true));
+		assertEquals(singletonSets(_A), hierarchy.getSubs(_E, true));
 	}
 
 	@Test
 	public void testDisjointRange()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, C);
-		kb.addSubClass(A, some(p, B));
-		kb.addDisjointClass(B, C);
+		_kb.addRange(_p, _C);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addDisjointClass(_B, _C);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testDisjointRangeSuper()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addRange(p, C);
-		kb.addSubClass(A, some(p, B));
-		kb.addSubClass(B, D);
-		kb.addDisjointClass(D, C);
-		kb.addSubClass(A, E);
-		kb.addSubClass(B, F);
+		_kb.addRange(_p, _C);
+		_kb.addSubClass(_A, some(_p, _B));
+		_kb.addSubClass(_B, _D);
+		_kb.addDisjointClass(_D, _C);
+		_kb.addSubClass(_A, _E);
+		_kb.addSubClass(_B, _F);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(SetUtils.create(A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
+		assertEquals(SetUtils.create(_A), hierarchy.getEquivalents(ATermUtils.BOTTOM));
 	}
 
 	@Test
 	public void testTicket424()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
 		final KBLoader loader = new JenaLoader();
 
@@ -929,34 +929,34 @@ public class ELTests extends AbstractKBTests
 	@Test
 	public void testTicket465()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addSubClass(B, A);
-		kb.addSubClass(C, B);
-		kb.addSubClass(F, C);
-		kb.addSubClass(F, some(p, and(some(r, G), E)));
-		kb.addEquivalentClass(D, and(some(q, E), A));
-		kb.addSubProperty(p, q);
+		_kb.addSubClass(_B, _A);
+		_kb.addSubClass(_C, _B);
+		_kb.addSubClass(_F, _C);
+		_kb.addSubClass(_F, some(_p, and(some(_r, _G), _E)));
+		_kb.addEquivalentClass(_D, and(some(_q, _E), _A));
+		_kb.addSubProperty(_p, _q);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(F), hierarchy.getSubs(D, true));
+		assertEquals(singletonSets(_F), hierarchy.getSubs(_D, true));
 	}
 
 	@Test
 	public void testNestedSubProperty()
 	{
-		classes(A, B, C);
-		objectProperties(p, q, r);
+		classes(_A, _B, _C);
+		objectProperties(_p, _q, _r);
 
-		kb.addEquivalentClass(A, some(p, some(q, C)));
-		kb.addEquivalentClass(B, some(p, some(r, C)));
-		kb.addSubProperty(q, r);
+		_kb.addEquivalentClass(_A, some(_p, some(_q, _C)));
+		_kb.addEquivalentClass(_B, some(_p, some(_r, _C)));
+		_kb.addSubProperty(_q, _r);
 
 		final Taxonomy<ATermAppl> hierarchy = getHierarchy();
 
-		assertEquals(singletonSets(A), hierarchy.getSubs(B, true));
+		assertEquals(singletonSets(_A), hierarchy.getSubs(_B, true));
 	}
 
 	/**
@@ -965,8 +965,8 @@ public class ELTests extends AbstractKBTests
 	@Test
 	public void testELClassifierEnabled()
 	{
-		classes(A, B, C, D, E, F, G);
-		objectProperties(p, q, r, s);
+		classes(_A, _B, _C, _D, _E, _F, _G);
+		objectProperties(_p, _q, _r, _s);
 
 		final boolean savedValue = PelletOptions.DISABLE_EL_CLASSIFIER;
 
@@ -1037,27 +1037,27 @@ public class ELTests extends AbstractKBTests
 	@Test
 	public void testELExpressivityAnonymousInverseRestriction()
 	{
-		classes(C, D);
-		objectProperties(p);
+		classes(_C, _D);
+		objectProperties(_p);
 
-		kb.addSubClass(C, some(inv(p), D));
+		_kb.addSubClass(_C, some(inv(_p), _D));
 
-		assertFalse(kb.getExpressivity().isEL());
+		assertFalse(_kb.getExpressivity().isEL());
 
-		assertFalse(SimplifiedELClassifier.class.equals(kb.getTaxonomyBuilder().getClass()));
+		assertFalse(SimplifiedELClassifier.class.equals(_kb.getTaxonomyBuilder().getClass()));
 	}
 
 	@Test
 	public void testELExpressivityAnonymousInverseChain()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(p, inv(q)), r);
-		kb.addSubClass(C, some(p, D));
+		_kb.addSubProperty(list(_p, inv(_q)), _r);
+		_kb.addSubClass(_C, some(_p, _D));
 
-		assertFalse(kb.getExpressivity().isEL());
+		assertFalse(_kb.getExpressivity().isEL());
 
-		assertFalse(SimplifiedELClassifier.class.equals(kb.getTaxonomyBuilder().getClass()));
+		assertFalse(SimplifiedELClassifier.class.equals(_kb.getTaxonomyBuilder().getClass()));
 	}
 }

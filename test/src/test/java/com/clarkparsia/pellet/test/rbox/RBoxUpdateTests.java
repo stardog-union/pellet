@@ -19,7 +19,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.clarkparsia.owlapi.XSD;
-import com.clarkparsia.pellet.owlapi.PelletLoader;
 import com.clarkparsia.pellet.test.owlapi.AbstractOWLAPITests;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import java.util.Properties;
@@ -75,16 +74,16 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 	@Test
 	public void removeDataPropertyDomainAxiom()
 	{
-		createReasoner(declaration(dp), declaration(C), domain(dp, C), propertyAssertion(a, dp, lit));
+		createReasoner(declaration(_dp), declaration(_C), domain(_dp, _C), propertyAssertion(_a, _dp, _lit));
 
-		assertTrue(reasoner.isConsistent());
-		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
+		assertTrue(_reasoner.isConsistent());
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _C)));
 
-		final boolean changeApplied = processRemove(domain(dp, C));
+		final boolean changeApplied = processRemove(domain(_dp, _C));
 		assertTrue("Unable to remove _data property domain axiom", changeApplied);
 
-		assertTrue(reasoner.isConsistent());
-		assertFalse(reasoner.isEntailed(classAssertion(a, C)));
+		assertTrue(_reasoner.isConsistent());
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, _C)));
 	}
 
 	/**
@@ -93,16 +92,16 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 	@Test
 	public void removeDataPropertyDomainAxiomExpression()
 	{
-		createReasoner(declaration(dp), declaration(C), declaration(D), domain(dp, or(C, D)), propertyAssertion(a, dp, lit));
+		createReasoner(declaration(_dp), declaration(_C), declaration(_D), domain(_dp, or(_C, _D)), propertyAssertion(_a, _dp, _lit));
 
-		assertTrue(reasoner.isConsistent());
-		assertTrue(reasoner.isEntailed(classAssertion(a, or(C, D))));
+		assertTrue(_reasoner.isConsistent());
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, or(_C, _D))));
 
-		final boolean changeApplied = processRemove(domain(dp, or(C, D)));
+		final boolean changeApplied = processRemove(domain(_dp, or(_C, _D)));
 		assertTrue("Unable to remove _data property domain axiom", changeApplied);
 
-		assertTrue(reasoner.isConsistent());
-		assertFalse(reasoner.isEntailed(classAssertion(a, or(C, D))));
+		assertTrue(_reasoner.isConsistent());
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, or(_C, _D))));
 	}
 
 	/**
@@ -112,14 +111,14 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 	public void removeDataPropertyRangeAxiom()
 	{
 
-		createReasoner(declaration(dp), declaration(C), range(dp, XSD.INTEGER), propertyAssertion(a, dp, constant("foo")));
+		createReasoner(declaration(_dp), declaration(_C), range(_dp, XSD.INTEGER), propertyAssertion(_a, _dp, constant("foo")));
 
-		assertFalse(reasoner.isConsistent());
+		assertFalse(_reasoner.isConsistent());
 
-		final boolean changeApplied = processRemove(range(dp, XSD.INTEGER));
+		final boolean changeApplied = processRemove(range(_dp, XSD.INTEGER));
 		assertTrue("Unable to remove _data property range axiom", changeApplied);
 
-		assertTrue(reasoner.isConsistent());
+		assertTrue(_reasoner.isConsistent());
 	}
 
 	/**
@@ -128,16 +127,16 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 	@Test
 	public void removeObjectPropertyDomainAxiom()
 	{
-		createReasoner(declaration(p), declaration(C), domain(p, C), propertyAssertion(a, p, b));
+		createReasoner(declaration(_p), declaration(_C), domain(_p, _C), propertyAssertion(_a, _p, _b));
 
-		assertTrue(reasoner.isConsistent());
-		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
+		assertTrue(_reasoner.isConsistent());
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _C)));
 
-		final boolean changeApplied = processRemove(domain(p, C));
+		final boolean changeApplied = processRemove(domain(_p, _C));
 		assertTrue("Unable to remove object property domain axiom", changeApplied);
 
-		assertTrue(reasoner.isConsistent());
-		assertFalse(reasoner.isEntailed(classAssertion(a, C)));
+		assertTrue(_reasoner.isConsistent());
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, _C)));
 	}
 
 	/**
@@ -146,16 +145,16 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 	@Test
 	public void removeObjectPropertyDomainAxiomExpression()
 	{
-		createReasoner(declaration(p), declaration(C), declaration(D), domain(p, or(C, D)), propertyAssertion(a, p, b));
+		createReasoner(declaration(_p), declaration(_C), declaration(_D), domain(_p, or(_C, _D)), propertyAssertion(_a, _p, _b));
 
-		assertTrue(reasoner.isConsistent());
-		assertTrue(reasoner.isEntailed(classAssertion(a, or(C, D))));
+		assertTrue(_reasoner.isConsistent());
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, or(_C, _D))));
 
-		final boolean changeApplied = processRemove(domain(p, or(C, D)));
+		final boolean changeApplied = processRemove(domain(_p, or(_C, _D)));
 		assertTrue("Unable to remove object property domain axiom", changeApplied);
 
-		assertTrue(reasoner.isConsistent());
-		assertFalse(reasoner.isEntailed(classAssertion(a, or(C, D))));
+		assertTrue(_reasoner.isConsistent());
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, or(_C, _D))));
 	}
 
 	/**
@@ -164,16 +163,16 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 	@Test
 	public void removeObjectPropertyRangeAxiom()
 	{
-		createReasoner(declaration(p), declaration(C), range(p, C), propertyAssertion(a, p, b));
+		createReasoner(declaration(_p), declaration(_C), range(_p, _C), propertyAssertion(_a, _p, _b));
 
-		assertTrue(reasoner.isConsistent());
-		assertTrue(reasoner.isEntailed(classAssertion(b, C)));
+		assertTrue(_reasoner.isConsistent());
+		assertTrue(_reasoner.isEntailed(classAssertion(_b, _C)));
 
-		final boolean changeApplied = processRemove(range(p, C));
+		final boolean changeApplied = processRemove(range(_p, _C));
 		assertTrue("Unable to remove object property range axiom", changeApplied);
 
-		assertTrue(reasoner.isConsistent());
-		assertFalse(reasoner.isEntailed(classAssertion(b, C)));
+		assertTrue(_reasoner.isConsistent());
+		assertFalse(_reasoner.isEntailed(classAssertion(_b, _C)));
 	}
 
 	/**
@@ -182,33 +181,33 @@ public class RBoxUpdateTests extends AbstractOWLAPITests
 	@Test
 	public void removeObjectPropertyRangeAxiomExpression()
 	{
-		createReasoner(declaration(p), declaration(C), declaration(D), range(p, or(C, D)), propertyAssertion(a, p, b));
+		createReasoner(declaration(_p), declaration(_C), declaration(_D), range(_p, or(_C, _D)), propertyAssertion(_a, _p, _b));
 
-		assertTrue(reasoner.isConsistent());
-		assertTrue(reasoner.isEntailed(classAssertion(b, or(C, D))));
+		assertTrue(_reasoner.isConsistent());
+		assertTrue(_reasoner.isEntailed(classAssertion(_b, or(_C, _D))));
 
-		final boolean changeApplied = processRemove(range(p, or(C, D)));
+		final boolean changeApplied = processRemove(range(_p, or(_C, _D)));
 		assertTrue("Unable to remove object property range axiom", changeApplied);
 
-		assertTrue(reasoner.isConsistent());
-		assertFalse(reasoner.isEntailed(classAssertion(b, or(C, D))));
+		assertTrue(_reasoner.isConsistent());
+		assertFalse(_reasoner.isEntailed(classAssertion(_b, or(_C, _D))));
 	}
 
 	@Test
 	public void removeAndAddObjectPropertyDomainAxiom()
 	{
-		createReasoner(declaration(p), declaration(C), domain(p, C), propertyAssertion(a, p, b));
+		createReasoner(declaration(_p), declaration(_C), domain(_p, _C), propertyAssertion(_a, _p, _b));
 
-		assertTrue(reasoner.isConsistent());
-		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
+		assertTrue(_reasoner.isConsistent());
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _C)));
 
-		final boolean removeApplied = processRemove(domain(p, C));
+		final boolean removeApplied = processRemove(domain(_p, _C));
 		assertTrue("Unable to remove object property domain axiom", removeApplied);
 
-		final boolean addApplied = processAdd(domain(p, C));
+		final boolean addApplied = processAdd(domain(_p, _C));
 		assertTrue("Unable to add object property domain axiom", addApplied);
 
-		assertTrue(reasoner.isConsistent());
-		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
+		assertTrue(_reasoner.isConsistent());
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _C)));
 	}
 }

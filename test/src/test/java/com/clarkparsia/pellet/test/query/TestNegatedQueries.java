@@ -40,58 +40,58 @@ public class TestNegatedQueries extends AbstractQueryTest
 	@Test
 	public void test1()
 	{
-		classes(A, B);
-		individuals(a, b);
+		classes(_A, _B);
+		individuals(_a, _b);
 
-		kb.addType(a, A);
-		kb.addType(b, A);
-		kb.addType(b, B);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _A);
+		_kb.addType(_b, _B);
 
-		final Query q = query(select(x), where(TypeAtom(x, A), NotKnownAtom(TypeAtom(x, B))));
+		final Query q = query(select(x), where(TypeAtom(x, _A), NotKnownAtom(TypeAtom(x, _B))));
 
-		testQuery(q, new ATermAppl[][] { { a } });
+		testQuery(q, new ATermAppl[][] { { _a } });
 	}
 
 	@Test
 	public void test2()
 	{
-		classes(A, B);
-		individuals(a, b);
+		classes(_A, _B);
+		individuals(_a, _b);
 
-		kb.addType(a, A);
-		kb.addType(b, A);
-		kb.addType(b, B);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _A);
+		_kb.addType(_b, _B);
 
-		final Query q = query(select(x), where(TypeAtom(x, A), NotKnownAtom(TypeAtom(x, not(B)))));
+		final Query q = query(select(x), where(TypeAtom(x, _A), NotKnownAtom(TypeAtom(x, not(_B)))));
 
-		testQuery(q, new ATermAppl[][] { { a }, { b } });
+		testQuery(q, new ATermAppl[][] { { _a }, { _b } });
 	}
 
 	@Test
 	public void test3()
 	{
-		classes(A, B);
-		objectProperties(p);
-		individuals(a, b, c);
+		classes(_A, _B);
+		objectProperties(_p);
+		individuals(_a, _b, _c);
 
-		kb.addType(a, A);
-		kb.addType(b, B);
-		kb.addType(c, B);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _B);
+		_kb.addType(_c, _B);
 
-		kb.addPropertyValue(p, a, c);
+		_kb.addPropertyValue(_p, _a, _c);
 
-		final Query q = query(select(x, y), where(TypeAtom(x, A), NotKnownAtom(PropertyValueAtom(x, p, y)), TypeAtom(y, B)));
+		final Query q = query(select(x, y), where(TypeAtom(x, _A), NotKnownAtom(PropertyValueAtom(x, _p, y)), TypeAtom(y, _B)));
 
-		testQuery(q, new ATermAppl[][] { { a, b } });
+		testQuery(q, new ATermAppl[][] { { _a, _b } });
 	}
 
 	@Test
 	public void test4()
 	{
-		classes(A, B);
-		individuals(a, b);
+		classes(_A, _B);
+		individuals(_a, _b);
 
-		final Query q = ask(NotKnownAtom(TypeAtom(x, B)));
+		final Query q = ask(NotKnownAtom(TypeAtom(x, _B)));
 
 		testQuery(q, true);
 	}
@@ -99,12 +99,12 @@ public class TestNegatedQueries extends AbstractQueryTest
 	@Test
 	public void test5()
 	{
-		classes(A, B);
-		individuals(a, b);
+		classes(_A, _B);
+		individuals(_a, _b);
 
-		kb.addType(b, B);
+		_kb.addType(_b, _B);
 
-		final Query q = ask(NotKnownAtom(TypeAtom(x, B)));
+		final Query q = ask(NotKnownAtom(TypeAtom(x, _B)));
 
 		testQuery(q, false);
 	}
@@ -112,63 +112,63 @@ public class TestNegatedQueries extends AbstractQueryTest
 	@Test
 	public void test6()
 	{
-		classes(A, B);
-		individuals(a, b, c);
+		classes(_A, _B);
+		individuals(_a, _b, _c);
 
-		kb.addType(b, B);
+		_kb.addType(_b, _B);
 
-		final Query q = query(select(x), where(TypeAtom(x, TermFactory.TOP), NotKnownAtom(TypeAtom(x, B))));
+		final Query q = query(select(x), where(TypeAtom(x, TermFactory.TOP), NotKnownAtom(TypeAtom(x, _B))));
 
-		testQuery(q, new ATermAppl[][] { { a }, { c } });
+		testQuery(q, new ATermAppl[][] { { _a }, { _c } });
 	}
 
 	@Test
 	public void test7()
 	{
-		classes(A, B);
-		individuals(a, b);
+		classes(_A, _B);
+		individuals(_a, _b);
 
-		kb.addType(a, A);
-		kb.addType(b, A);
-		kb.addType(b, B);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _A);
+		_kb.addType(_b, _B);
 
-		final Query q = query(select(x), where(TypeAtom(x, A), NotKnownAtom(TypeAtom(x, B))));
+		final Query q = query(select(x), where(TypeAtom(x, _A), NotKnownAtom(TypeAtom(x, _B))));
 
-		testQuery(q, new ATermAppl[][] { { a } });
+		testQuery(q, new ATermAppl[][] { { _a } });
 	}
 
 	@Test
 	public void test8()
 	{
-		classes(A, B);
-		individuals(a, b, c);
+		classes(_A, _B);
+		individuals(_a, _b, _c);
 
-		kb.addType(a, A);
+		_kb.addType(_a, _A);
 
-		final Query q1 = query(select(x), where(TypeAtom(x, TOP), NotKnownAtom(TypeAtom(x, A)), NotKnownAtom(TypeAtom(x, B))));
+		final Query q1 = query(select(x), where(TypeAtom(x, TOP), NotKnownAtom(TypeAtom(x, _A)), NotKnownAtom(TypeAtom(x, _B))));
 
-		testQuery(q1, new ATermAppl[][] { { b }, { c } });
+		testQuery(q1, new ATermAppl[][] { { _b }, { _c } });
 
-		final Query q2 = query(select(x), where(TypeAtom(x, TOP), NotKnownAtom(TypeAtom(x, A), TypeAtom(x, B))));
+		final Query q2 = query(select(x), where(TypeAtom(x, TOP), NotKnownAtom(TypeAtom(x, _A), TypeAtom(x, _B))));
 
-		testQuery(q2, new ATermAppl[][] { { a }, { b }, { c } });
+		testQuery(q2, new ATermAppl[][] { { _a }, { _b }, { _c } });
 	}
 
 	@Test
 	public void test9()
 	{
-		classes(A, B);
-		objectProperties(p, q);
-		individuals(a, b, c);
+		classes(_A, _B);
+		objectProperties(_p, _q);
+		individuals(_a, _b, _c);
 
-		kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(_p, _a, _b);
 
-		final Query q1 = query(select(x), where(TypeAtom(x, TOP), NotKnownAtom(PropertyValueAtom(x, p, y)), NotKnownAtom(PropertyValueAtom(x, q, z))));
+		final Query q1 = query(select(x), where(TypeAtom(x, TOP), NotKnownAtom(PropertyValueAtom(x, _p, y)), NotKnownAtom(PropertyValueAtom(x, _q, z))));
 
-		testQuery(q1, new ATermAppl[][] { { b }, { c } });
+		testQuery(q1, new ATermAppl[][] { { _b }, { _c } });
 
-		final Query q2 = query(select(x), where(TypeAtom(x, TOP), NotKnownAtom(PropertyValueAtom(x, p, y), PropertyValueAtom(x, q, z))));
+		final Query q2 = query(select(x), where(TypeAtom(x, TOP), NotKnownAtom(PropertyValueAtom(x, _p, y), PropertyValueAtom(x, _q, z))));
 
-		testQuery(q2, new ATermAppl[][] { { a }, { b }, { c } });
+		testQuery(q2, new ATermAppl[][] { { _a }, { _b }, { _c } });
 	}
 }

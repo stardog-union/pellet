@@ -52,60 +52,59 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  */
 public abstract class AbstractOWLAPITests
 {
-	public static String base = "file:" + PelletTestSuite.base + "misc/";
+	public static String _base = "file:" + PelletTestSuite.base + "misc/";
 
-	protected static final OWLClass A = Class("A");
-	protected static final OWLClass B = Class("B");
-	protected static final OWLClass C = Class("C");
-	protected static final OWLClass D = Class("D");
-	protected static final OWLClass E = Class("E");
-	protected static final OWLClass F = Class("F");
-	protected static final OWLObjectProperty p = ObjectProperty("p");
-	protected static final OWLObjectProperty q = ObjectProperty("q");
-	protected static final OWLObjectProperty r = ObjectProperty("r");
-	protected static final OWLDataProperty dp = DataProperty("dp");
-	protected static final OWLDataProperty dq = DataProperty("dq");
-	protected static final OWLDataProperty dr = DataProperty("dr");
-	protected static final OWLNamedIndividual a = Individual("a");
-	protected static final OWLNamedIndividual b = Individual("b");
-	protected static final OWLNamedIndividual c = Individual("c");
-	protected static final OWLAnonymousIndividual anon = AnonymousIndividual();
-	protected static final OWLLiteral lit = constant("lit");
+	protected static final OWLClass _A = Class("A");
+	protected static final OWLClass _B = Class("B");
+	protected static final OWLClass _C = Class("C");
+	protected static final OWLClass _D = Class("D");
+	protected static final OWLClass _E = Class("E");
+	protected static final OWLClass _F = Class("F");
+	protected static final OWLObjectProperty _p = ObjectProperty("p");
+	protected static final OWLObjectProperty _q = ObjectProperty("q");
+	protected static final OWLObjectProperty _r = ObjectProperty("r");
+	protected static final OWLDataProperty _dp = DataProperty("dp");
+	protected static final OWLDataProperty _dq = DataProperty("dq");
+	protected static final OWLDataProperty _dr = DataProperty("dr");
+	protected static final OWLNamedIndividual _a = Individual("a");
+	protected static final OWLNamedIndividual _b = Individual("b");
+	protected static final OWLNamedIndividual _c = Individual("c");
+	protected static final OWLAnonymousIndividual _anon = AnonymousIndividual();
+	protected static final OWLLiteral _lit = constant("lit");
 
-	protected OWLOntology ontology;
-	protected PelletReasoner reasoner;
+	protected OWLOntology _ontology;
+	protected PelletReasoner _reasoner;
 
 	public void createReasoner(final OWLAxiom... axioms)
 	{
-		ontology = OWL.Ontology(axioms);
-		reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
+		_ontology = OWL.Ontology(axioms);
+		_reasoner = PelletReasonerFactory.getInstance().createReasoner(_ontology);
 	}
 
 	@Before
 	@After
 	public void resetOntologyManager()
 	{
-		ontology = null;
-		if (reasoner != null)
-			reasoner.dispose();
+		_ontology = null;
+		if (_reasoner != null)
+			_reasoner.dispose();
 
-		for (final OWLOntology o : OWL.manager.getOntologies())
-			OWL.manager.removeOntology(o);
+		OWL.manager.ontologies().forEach(OWL.manager::removeOntology);
 	}
 
 	protected boolean processAdd(final OWLAxiom axiom)
 	{
-		return processChange(new AddAxiom(ontology, axiom));
+		return processChange(new AddAxiom(_ontology, axiom));
 	}
 
 	protected boolean processRemove(final OWLAxiom axiom)
 	{
-		return processChange(new RemoveAxiom(ontology, axiom));
+		return processChange(new RemoveAxiom(_ontology, axiom));
 	}
 
 	protected boolean processChange(final OWLOntologyChange change)
 	{
-		return reasoner.processChanges(Collections.singletonList(change));
+		return _reasoner.processChanges(Collections.singletonList(change));
 	}
 
 }

@@ -49,9 +49,9 @@ import org.mindswap.pellet.jena.PelletReasonerFactory;
 public class TestGroundBooleanQueryComponents
 {
 
-	private static String sourceDir = "test/data/";
-	private static String sourceURL = sourceDir + "misc/food.owl";
-	private static String queryPrefix = sourceDir + "/query/ground-boolean-query-components-";
+	private static String _sourceDir = "test/data/";
+	private static String _sourceURL = _sourceDir + "misc/food.owl";
+	private static String _queryPrefix = _sourceDir + "/query/ground-boolean-query-components-";
 
 	@Parameters
 	public static List<Object[]> getParameters()
@@ -61,7 +61,7 @@ public class TestGroundBooleanQueryComponents
 		for (final QueryEngineType queryEngineType : QueryEngineType.values())
 			for (int q = 1; q <= 4; q++)
 			{
-				final String queryFile = queryPrefix + q + ".rq";
+				final String queryFile = _queryPrefix + q + ".rq";
 				final boolean result = q < 3;
 				params.add(new Object[] { queryEngineType, queryFile, result });
 			}
@@ -69,36 +69,36 @@ public class TestGroundBooleanQueryComponents
 		return params;
 	}
 
-	private final QueryEngineType queryEngineType;
-	private final String queryURL;
-	private final boolean expectedResult;
+	private final QueryEngineType _queryEngineType;
+	private final String _queryURL;
+	private final boolean _expectedResult;
 
-	private static OntModel model;
+	private static OntModel _model;
 
 	@BeforeClass
 	public static void setUp()
 	{
-		sourceURL = "file:" + sourceURL;
-		model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(sourceURL);
+		_sourceURL = "file:" + _sourceURL;
+		_model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		_model.read(_sourceURL);
 
-		model.prepare();
+		_model.prepare();
 	}
 
 	public TestGroundBooleanQueryComponents(final QueryEngineType queryEngineType, final String queryURL, final boolean expectedResult)
 	{
-		this.queryEngineType = queryEngineType;
-		this.queryURL = queryURL;
-		this.expectedResult = expectedResult;
+		this._queryEngineType = queryEngineType;
+		this._queryURL = queryURL;
+		this._expectedResult = expectedResult;
 	}
 
 	@Test
 	public void test()
 	{
-		final Query query = QueryFactory.read(queryURL);
-		final Dataset dataset = DatasetFactory.create(model);
+		final Query query = QueryFactory.read(_queryURL);
+		final Dataset dataset = DatasetFactory.create(_model);
 
-		final QueryExecution qe = SparqlDLExecutionFactory.create(query, dataset, null, queryEngineType);
-		assertEquals("Failed query engine: " + queryEngineType + " query: " + queryURL, expectedResult, qe.execAsk());
+		final QueryExecution qe = SparqlDLExecutionFactory.create(query, dataset, null, _queryEngineType);
+		assertEquals("Failed query engine: " + _queryEngineType + " query: " + _queryURL, _expectedResult, qe.execAsk());
 	}
 }

@@ -7,7 +7,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.clarkparsia.pellet.datatypes.OWLRealUtils;
 import com.clarkparsia.pellet.datatypes.types.real.Rational;
 import java.math.BigDecimal;
 import org.junit.Test;

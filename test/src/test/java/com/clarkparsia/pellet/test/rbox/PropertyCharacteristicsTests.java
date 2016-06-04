@@ -45,55 +45,55 @@ public class PropertyCharacteristicsTests extends AbstractKBTests
 	public void reflexivePropertyCausingMerge1()
 	{
 		// test #433
-		classes(A, B);
-		individuals(a, b);
-		objectProperties(p);
+		classes(_A, _B);
+		individuals(_a, _b);
+		objectProperties(_p);
 
-		kb.addReflexiveProperty(p);
-		kb.addSymmetricProperty(p);
-		kb.addFunctionalProperty(p);
+		_kb.addReflexiveProperty(_p);
+		_kb.addSymmetricProperty(_p);
+		_kb.addFunctionalProperty(_p);
 
-		kb.addSubClass(A, B);
+		_kb.addSubClass(_A, _B);
 
-		kb.addType(a, A);
-		kb.addType(b, A);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _A);
 
-		kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(_p, _a, _b);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSameAs(a, b));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSameAs(_a, _b));
 	}
 
 	@Test
 	public void reflexivePropertyCausingMerge2()
 	{
 		// test #433
-		classes(A);
-		individuals(a, b);
-		objectProperties(p);
+		classes(_A);
+		individuals(_a, _b);
+		objectProperties(_p);
 
-		kb.addReflexiveProperty(p);
-		kb.addSymmetricProperty(p);
-		kb.addFunctionalProperty(p);
+		_kb.addReflexiveProperty(_p);
+		_kb.addSymmetricProperty(_p);
+		_kb.addFunctionalProperty(_p);
 
-		kb.addDomain(TOP_OBJECT_PROPERTY, A);
+		_kb.addDomain(TOP_OBJECT_PROPERTY, _A);
 
-		kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(_p, _a, _b);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSameAs(a, b));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSameAs(_a, _b));
 	}
 
 	@Test
 	public void irreflexiveSH()
 	{
 		// test #433
-		objectProperties(p);
+		objectProperties(_p);
 
-		kb.addIrreflexiveProperty(inv(p));
+		_kb.addIrreflexiveProperty(inv(_p));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isIrreflexiveProperty(p));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isIrreflexiveProperty(_p));
 	}
 
 	@Test
@@ -102,127 +102,127 @@ public class PropertyCharacteristicsTests extends AbstractKBTests
 	 */
 	public void test376()
 	{
-		annotationProperties(p);
+		annotationProperties(_p);
 
-		assertFalse(kb.isFunctionalProperty(p));
+		assertFalse(_kb.isFunctionalProperty(_p));
 	}
 
 	@Test
 	public void testReflexiveDisjoint()
 	{
-		classes(C);
-		objectProperties(p, q);
+		classes(_C);
+		objectProperties(_p, _q);
 
-		kb.addReflexiveProperty(p);
-		kb.addDomain(q, C);
-		kb.addRange(q, not(C));
+		_kb.addReflexiveProperty(_p);
+		_kb.addDomain(_q, _C);
+		_kb.addRange(_q, not(_C));
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isDisjointProperty(p, q));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isDisjointProperty(_p, _q));
 	}
 
 	@Test
 	public void testAsymmetricEquivalent()
 	{
-		objectProperties(q, r);
+		objectProperties(_q, _r);
 
-		kb.addAsymmetricProperty(q);
-		kb.addEquivalentProperty(q, r);
+		_kb.addAsymmetricProperty(_q);
+		_kb.addEquivalentProperty(_q, _r);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isAsymmetricProperty(q));
-		assertTrue(kb.isAsymmetricProperty(r));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isAsymmetricProperty(_q));
+		assertTrue(_kb.isAsymmetricProperty(_r));
 	}
 
 	@Test
 	public void testAsymmetricInverseDisjoint()
 	{
-		objectProperties(p, q, r);
+		objectProperties(_p, _q, _r);
 
-		kb.addInverseProperty(p, q);
-		kb.addAsymmetricProperty(q);
-		kb.addEquivalentProperty(q, r);
+		_kb.addInverseProperty(_p, _q);
+		_kb.addAsymmetricProperty(_q);
+		_kb.addEquivalentProperty(_q, _r);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isDisjointProperty(p, q));
-		assertTrue(kb.isDisjointProperty(p, r));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isDisjointProperty(_p, _q));
+		assertTrue(_kb.isDisjointProperty(_p, _r));
 	}
 
 	@Test
 	public void testReflexiveSubPropertyExplicit()
 	{
-		objectProperties(p, q);
+		objectProperties(_p, _q);
 
-		kb.addReflexiveProperty(p);
-		kb.addSubProperty(p, q);
+		_kb.addReflexiveProperty(_p);
+		_kb.addSubProperty(_p, _q);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isReflexiveProperty(p));
-		assertTrue(kb.isReflexiveProperty(q));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isReflexiveProperty(_p));
+		assertTrue(_kb.isReflexiveProperty(_q));
 	}
 
 	@Test
 	public void testReflexiveSubPropertyImplicit()
 	{
-		classes(C);
-		objectProperties(p, q);
+		classes(_C);
+		objectProperties(_p, _q);
 
-		kb.addSubClass(TOP, self(p));
-		kb.addSubProperty(p, q);
+		_kb.addSubClass(TOP, self(_p));
+		_kb.addSubProperty(_p, _q);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isReflexiveProperty(p));
-		assertTrue(kb.isReflexiveProperty(q));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isReflexiveProperty(_p));
+		assertTrue(_kb.isReflexiveProperty(_q));
 	}
 
 	@Test
 	public void testIrreflexive()
 	{
-		objectProperties(p, q);
+		objectProperties(_p, _q);
 
-		kb.addIrreflexiveProperty(p);
+		_kb.addIrreflexiveProperty(_p);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isIrreflexiveProperty(p));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isIrreflexiveProperty(_p));
 	}
 
 	@Test
 	public void testIrreflexiveAsymetric()
 	{
-		objectProperties(p, q);
+		objectProperties(_p, _q);
 
-		kb.addAsymmetricProperty(p);
+		_kb.addAsymmetricProperty(_p);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isIrreflexiveProperty(p));
-		assertFalse(kb.isReflexiveProperty(p));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isIrreflexiveProperty(_p));
+		assertFalse(_kb.isReflexiveProperty(_p));
 	}
 
 	@Test
 	public void testNotIrreflexive()
 	{
-		objectProperties(p, q);
+		objectProperties(_p, _q);
 
-		kb.addIrreflexiveProperty(p);
-		kb.addSubProperty(p, q);
+		_kb.addIrreflexiveProperty(_p);
+		_kb.addSubProperty(_p, _q);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isIrreflexiveProperty(p));
-		assertFalse(kb.isIrreflexiveProperty(q));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isIrreflexiveProperty(_p));
+		assertFalse(_kb.isIrreflexiveProperty(_q));
 	}
 
 	@Test
 	public void irreflexivePropertyCausingDifferentFrom()
 	{
 		// test #433
-		individuals(a, b);
-		objectProperties(p);
+		individuals(_a, _b);
+		objectProperties(_p);
 
-		kb.addIrreflexiveProperty(p);
+		_kb.addIrreflexiveProperty(_p);
 
-		kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(_p, _a, _b);
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isDifferentFrom(a, b));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isDifferentFrom(_a, _b));
 	}
 }

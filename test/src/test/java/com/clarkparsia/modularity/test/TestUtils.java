@@ -119,12 +119,22 @@ public class TestUtils
 		}
 	}
 
-	static void assertStreamEquals(final String message, final Stream<?> s1, final Stream<?> s2)
+	public static void assertStreamEquals(final String message, final Stream<?> s1, final Stream<?> s2)
 	{
 		final Iterator<?> iter1 = s1.iterator(), iter2 = s2.iterator();
 		while (iter1.hasNext() && iter2.hasNext())
 			assertEquals(message, iter1.next(), iter2.next());
 		assert !iter1.hasNext() && !iter2.hasNext();
+	}
+
+	public static void assertStreamEquals(final Stream<?> s1, final Stream<?> s2)
+	{
+		assertStreamEquals("", s1, s2);
+	}
+
+	public static void assertStreamAsSetEquals(final Stream<?> s1, final Stream<?> s2)
+	{
+		assertStreamEquals("", s1.sorted(), s2.sorted());
 	}
 
 	public static List<OWLOntologyChange> createChanges(final OWLOntology ontology, final Collection<? extends OWLAxiom> axioms, final boolean add)

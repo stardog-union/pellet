@@ -91,14 +91,14 @@ public class MiscRuleTests extends AbstractKBTests
 	{
 		final ATermAppl d1 = literal("1", Datatypes.INT), d2 = literal("2", Datatypes.INT), d12 = literal("3", Datatypes.INTEGER), i = term("i"), p = term("p"), q = term("q"), r = term("r");
 
-		kb.addDatatypeProperty(p);
-		kb.addDatatypeProperty(q);
-		kb.addDatatypeProperty(r);
+		_kb.addDatatypeProperty(p);
+		_kb.addDatatypeProperty(q);
+		_kb.addDatatypeProperty(r);
 
-		kb.addIndividual(i);
+		_kb.addIndividual(i);
 
-		kb.addSubClass(TOP, hasValue(p, d1));
-		kb.addSubClass(TOP, hasValue(q, d2));
+		_kb.addSubClass(TOP, hasValue(p, d1));
+		_kb.addSubClass(TOP, hasValue(q, d2));
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomDVariable z1 = new AtomDVariable("z1");
@@ -113,10 +113,10 @@ public class MiscRuleTests extends AbstractKBTests
 		final List<RuleAtom> head = new ArrayList<>();
 		head.add(new DatavaluedPropertyAtom(r, x, z3));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		kb.realize();
-		assertTrue(kb.hasPropertyValue(i, r, d12));
+		_kb.realize();
+		assertTrue(_kb.hasPropertyValue(i, r, d12));
 
 	}
 
@@ -128,28 +128,28 @@ public class MiscRuleTests extends AbstractKBTests
 
 		final ATermAppl bDate = term("bDate"), bYear = term("bYear"), bMonth = term("bMonth"), bDay = term("bDay"), bTZ = term("bTZ");
 
-		kb.addDatatypeProperty(bDate);
-		kb.addDatatypeProperty(bYear);
-		kb.addDatatypeProperty(bMonth);
-		kb.addDatatypeProperty(bDay);
-		kb.addDatatypeProperty(bTZ);
+		_kb.addDatatypeProperty(bDate);
+		_kb.addDatatypeProperty(bYear);
+		_kb.addDatatypeProperty(bMonth);
+		_kb.addDatatypeProperty(bDay);
+		_kb.addDatatypeProperty(bTZ);
 
-		kb.addIndividual(amy);
-		kb.addPropertyValue(bDate, amy, literal("2001-01-11", Datatypes.DATE));
+		_kb.addIndividual(amy);
+		_kb.addPropertyValue(bDate, amy, literal("2001-01-11", Datatypes.DATE));
 
-		kb.addIndividual(basil);
-		kb.addPropertyValue(bDate, basil, literal("2002-02-12Z", Datatypes.DATE));
+		_kb.addIndividual(basil);
+		_kb.addPropertyValue(bDate, basil, literal("2002-02-12Z", Datatypes.DATE));
 
-		kb.addIndividual(clara);
-		kb.addPropertyValue(bYear, clara, literal("2003", Datatypes.INTEGER));
-		kb.addPropertyValue(bMonth, clara, literal("3", Datatypes.INTEGER));
-		kb.addPropertyValue(bDay, clara, literal("13", Datatypes.INTEGER));
+		_kb.addIndividual(clara);
+		_kb.addPropertyValue(bYear, clara, literal("2003", Datatypes.INTEGER));
+		_kb.addPropertyValue(bMonth, clara, literal("3", Datatypes.INTEGER));
+		_kb.addPropertyValue(bDay, clara, literal("13", Datatypes.INTEGER));
 
-		kb.addIndividual(desmond);
-		kb.addPropertyValue(bYear, desmond, literal("2004", Datatypes.INTEGER));
-		kb.addPropertyValue(bMonth, desmond, literal("4", Datatypes.INTEGER));
-		kb.addPropertyValue(bDay, desmond, literal("14", Datatypes.INTEGER));
-		kb.addPropertyValue(bTZ, desmond, literal("+01:01"));
+		_kb.addIndividual(desmond);
+		_kb.addPropertyValue(bYear, desmond, literal("2004", Datatypes.INTEGER));
+		_kb.addPropertyValue(bMonth, desmond, literal("4", Datatypes.INTEGER));
+		_kb.addPropertyValue(bDay, desmond, literal("14", Datatypes.INTEGER));
+		_kb.addPropertyValue(bTZ, desmond, literal("+01:01"));
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomDVariable xDate = new AtomDVariable("xDate"), xYear = new AtomDVariable("xYear"), xMonth = new AtomDVariable("xMonth"), xDay = new AtomDVariable("xDay"), xTZ = new AtomDVariable("xTZ");
@@ -163,31 +163,31 @@ public class MiscRuleTests extends AbstractKBTests
 		final RuleAtom bTZAtom = new DatavaluedPropertyAtom(bTZ, x, xTZ);
 
 		final Rule fromDate = new Rule(Arrays.asList(new RuleAtom[] { bYearAtom, bMonthAtom, bDayAtom }), Arrays.asList(new RuleAtom[] { dateBuiltIn, bDateAtom }));
-		kb.addRule(fromDate);
+		_kb.addRule(fromDate);
 
 		final Rule fromDateTZ = new Rule(Arrays.asList(new RuleAtom[] { bYearAtom, bMonthAtom, bDayAtom, bTZAtom }), Arrays.asList(new RuleAtom[] { dateBuiltInTZ, bDateAtom }));
-		kb.addRule(fromDateTZ);
+		_kb.addRule(fromDateTZ);
 
 		final Rule toDate = new Rule(Arrays.asList(new RuleAtom[] { bDateAtom }), Arrays.asList(new RuleAtom[] { dateBuiltIn, bYearAtom, bMonthAtom, bDayAtom }));
-		kb.addRule(toDate);
+		_kb.addRule(toDate);
 
 		final Rule toDateTZ = new Rule(Arrays.asList(new RuleAtom[] { bDateAtom }), Arrays.asList(new RuleAtom[] { dateBuiltInTZ, bYearAtom, bMonthAtom, bDayAtom, bTZAtom }));
-		kb.addRule(toDateTZ);
+		_kb.addRule(toDateTZ);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.hasPropertyValue(amy, bYear, literal("2001", Datatypes.INTEGER)));
-		assertTrue(kb.hasPropertyValue(amy, bMonth, literal("1", Datatypes.INTEGER)));
-		assertTrue(kb.hasPropertyValue(amy, bDay, literal("11", Datatypes.INTEGER)));
+		assertTrue(_kb.hasPropertyValue(amy, bYear, literal("2001", Datatypes.INTEGER)));
+		assertTrue(_kb.hasPropertyValue(amy, bMonth, literal("1", Datatypes.INTEGER)));
+		assertTrue(_kb.hasPropertyValue(amy, bDay, literal("11", Datatypes.INTEGER)));
 
-		assertTrue(kb.hasPropertyValue(basil, bYear, literal("2002", Datatypes.INTEGER)));
-		assertTrue(kb.hasPropertyValue(basil, bMonth, literal("2", Datatypes.INTEGER)));
-		assertTrue(kb.hasPropertyValue(basil, bDay, literal("12", Datatypes.INTEGER)));
-		assertTrue(kb.hasPropertyValue(basil, bTZ, literal("Z")));
+		assertTrue(_kb.hasPropertyValue(basil, bYear, literal("2002", Datatypes.INTEGER)));
+		assertTrue(_kb.hasPropertyValue(basil, bMonth, literal("2", Datatypes.INTEGER)));
+		assertTrue(_kb.hasPropertyValue(basil, bDay, literal("12", Datatypes.INTEGER)));
+		assertTrue(_kb.hasPropertyValue(basil, bTZ, literal("Z")));
 
-		assertTrue(kb.hasPropertyValue(clara, bDate, literal("2003-03-13", Datatypes.DATE)));
+		assertTrue(_kb.hasPropertyValue(clara, bDate, literal("2003-03-13", Datatypes.DATE)));
 
-		assertTrue(kb.hasPropertyValue(desmond, bDate, literal("2004-04-14+01:01", Datatypes.DATE)));
+		assertTrue(_kb.hasPropertyValue(desmond, bDate, literal("2004-04-14+01:01", Datatypes.DATE)));
 
 	}
 
@@ -197,15 +197,15 @@ public class MiscRuleTests extends AbstractKBTests
 
 		final ATermAppl d1 = literal("1", Datatypes.INT), d2 = literal("1.5", Datatypes.FLOAT), dif11 = literal("0", Datatypes.INTEGER), dif12 = literal("-0.5", Datatypes.FLOAT), dif21 = literal("0.5", Datatypes.FLOAT), dif22 = literal("0", Datatypes.FLOAT), prod11 = literal("1", Datatypes.INTEGER), prod12 = literal("1.5", Datatypes.FLOAT), prod22 = literal("2.25", Datatypes.FLOAT), quot11 = literal("1", Datatypes.DECIMAL), quot12 = literal(Float.toString((float) (1.0 / 1.5)), Datatypes.FLOAT), quot21 = literal("1.5", Datatypes.FLOAT), quot22 = literal("1", Datatypes.FLOAT), sum11 = literal("2", Datatypes.INTEGER), sum12 = literal("2.5", Datatypes.FLOAT), sum22 = literal("3.0", Datatypes.FLOAT), i = term("i"), p = term("p"), sum = term("sum"), product = term("product"), difference = term("difference"), quotient = term("quotient");
 
-		kb.addDatatypeProperty(p);
-		kb.addDatatypeProperty(sum);
-		kb.addDatatypeProperty(difference);
-		kb.addDatatypeProperty(product);
-		kb.addDatatypeProperty(quotient);
+		_kb.addDatatypeProperty(p);
+		_kb.addDatatypeProperty(sum);
+		_kb.addDatatypeProperty(difference);
+		_kb.addDatatypeProperty(product);
+		_kb.addDatatypeProperty(quotient);
 
-		kb.addIndividual(i);
-		kb.addPropertyValue(p, i, d1);
-		kb.addPropertyValue(p, i, d2);
+		_kb.addIndividual(i);
+		_kb.addPropertyValue(p, i, d1);
+		_kb.addPropertyValue(p, i, d2);
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomDVariable z1 = new AtomDVariable("z1");
@@ -230,23 +230,23 @@ public class MiscRuleTests extends AbstractKBTests
 		head.add(new DatavaluedPropertyAtom(quotient, x, z6));
 
 		final Rule rule = new Rule(head, body);
-		kb.addRule(rule);
+		_kb.addRule(rule);
 
-		kb.realize();
-		assertTrue(kb.hasPropertyValue(i, sum, sum11));
-		assertTrue(kb.hasPropertyValue(i, sum, sum12));
-		assertTrue(kb.hasPropertyValue(i, sum, sum22));
-		assertTrue(kb.hasPropertyValue(i, difference, dif11));
-		assertTrue(kb.hasPropertyValue(i, difference, dif12));
-		assertTrue(kb.hasPropertyValue(i, difference, dif21));
-		assertTrue(kb.hasPropertyValue(i, difference, dif22));
-		assertTrue(kb.hasPropertyValue(i, product, prod11));
-		assertTrue(kb.hasPropertyValue(i, product, prod12));
-		assertTrue(kb.hasPropertyValue(i, product, prod22));
-		assertTrue(kb.hasPropertyValue(i, quotient, quot11));
-		assertTrue(kb.hasPropertyValue(i, quotient, quot12));
-		assertTrue(kb.hasPropertyValue(i, quotient, quot21));
-		assertTrue(kb.hasPropertyValue(i, quotient, quot22));
+		_kb.realize();
+		assertTrue(_kb.hasPropertyValue(i, sum, sum11));
+		assertTrue(_kb.hasPropertyValue(i, sum, sum12));
+		assertTrue(_kb.hasPropertyValue(i, sum, sum22));
+		assertTrue(_kb.hasPropertyValue(i, difference, dif11));
+		assertTrue(_kb.hasPropertyValue(i, difference, dif12));
+		assertTrue(_kb.hasPropertyValue(i, difference, dif21));
+		assertTrue(_kb.hasPropertyValue(i, difference, dif22));
+		assertTrue(_kb.hasPropertyValue(i, product, prod11));
+		assertTrue(_kb.hasPropertyValue(i, product, prod12));
+		assertTrue(_kb.hasPropertyValue(i, product, prod22));
+		assertTrue(_kb.hasPropertyValue(i, quotient, quot11));
+		assertTrue(_kb.hasPropertyValue(i, quotient, quot12));
+		assertTrue(_kb.hasPropertyValue(i, quotient, quot21));
+		assertTrue(_kb.hasPropertyValue(i, quotient, quot22));
 
 	}
 
@@ -290,16 +290,16 @@ public class MiscRuleTests extends AbstractKBTests
 
 		final ATermAppl d = literal("d"), i = term("i"), j = term("j"), k = term("k"), p = term("p"), r = term("r");
 
-		kb.addDatatypeProperty(p);
-		kb.addObjectProperty(r);
+		_kb.addDatatypeProperty(p);
+		_kb.addObjectProperty(r);
 
-		kb.addIndividual(i);
-		kb.addIndividual(j);
-		kb.addIndividual(k);
+		_kb.addIndividual(i);
+		_kb.addIndividual(j);
+		_kb.addIndividual(k);
 
-		kb.addPropertyValue(p, i, d);
-		kb.addPropertyValue(r, i, j);
-		kb.addPropertyValue(r, j, k);
+		_kb.addPropertyValue(p, i, d);
+		_kb.addPropertyValue(r, i, j);
+		_kb.addPropertyValue(r, j, k);
 
 		final AtomIVariable x = new AtomIVariable("x"), y = new AtomIVariable("y");
 		final AtomDVariable z = new AtomDVariable("z");
@@ -308,11 +308,11 @@ public class MiscRuleTests extends AbstractKBTests
 		final RuleAtom body2 = new DatavaluedPropertyAtom(p, x, z), head = new DatavaluedPropertyAtom(p, y, z);
 
 		final Rule rule = new Rule(Collections.singleton(head), Arrays.asList(new RuleAtom[] { body1, body2 }));
-		kb.addRule(rule);
+		_kb.addRule(rule);
 
-		kb.realize();
-		assertTrue(kb.hasPropertyValue(j, p, d));
-		assertTrue(kb.hasPropertyValue(k, p, d));
+		_kb.realize();
+		assertTrue(_kb.hasPropertyValue(j, p, d));
+		assertTrue(_kb.hasPropertyValue(k, p, d));
 	}
 
 	/**
@@ -324,17 +324,17 @@ public class MiscRuleTests extends AbstractKBTests
 
 		final ATermAppl d = literal("d"), i = term("i"), j = term("j"), k = term("k"), p = term("p"), r = term("r");
 
-		kb.addDatatypeProperty(p);
-		kb.addObjectProperty(r);
+		_kb.addDatatypeProperty(p);
+		_kb.addObjectProperty(r);
 
-		kb.addIndividual(i);
-		kb.addIndividual(j);
-		kb.addIndividual(k);
+		_kb.addIndividual(i);
+		_kb.addIndividual(j);
+		_kb.addIndividual(k);
 
-		kb.addSubClass(TOP, oneOf(i, j, k));
-		kb.addSubClass(TOP, min(r, 3, TOP));
+		_kb.addSubClass(TOP, oneOf(i, j, k));
+		_kb.addSubClass(TOP, min(r, 3, TOP));
 
-		kb.addPropertyValue(p, i, d);
+		_kb.addPropertyValue(p, i, d);
 
 		final AtomIVariable x = new AtomIVariable("x"), y = new AtomIVariable("y");
 		final AtomDVariable z = new AtomDVariable("z");
@@ -344,11 +344,11 @@ public class MiscRuleTests extends AbstractKBTests
 		final RuleAtom head = new DatavaluedPropertyAtom(p, y, z);
 
 		final Rule rule = new Rule(Collections.singleton(head), Arrays.asList(body1, body2));
-		kb.addRule(rule);
+		_kb.addRule(rule);
 
-		kb.realize();
-		assertTrue(kb.hasPropertyValue(j, p, d));
-		assertTrue(kb.hasPropertyValue(k, p, d));
+		_kb.realize();
+		assertTrue(_kb.hasPropertyValue(j, p, d));
+		assertTrue(_kb.hasPropertyValue(k, p, d));
 	}
 
 	@SuppressWarnings("unused")
@@ -357,14 +357,14 @@ public class MiscRuleTests extends AbstractKBTests
 	{
 		final ATermAppl d = literal("foo"), i = term("i"), j = term("j"), k = term("k"), p = term("p"), r = term("r");
 
-		kb.addIndividual(i);
-		kb.addIndividual(j);
-		kb.addIndividual(k);
-		kb.addDatatypeProperty(p);
-		kb.addObjectProperty(r);
-		kb.addSubClass(TOP, min(r, 3, TOP));
-		kb.addSubClass(TOP, or(value(i), value(j), value(k)));
-		kb.addPropertyValue(p, i, d);
+		_kb.addIndividual(i);
+		_kb.addIndividual(j);
+		_kb.addIndividual(k);
+		_kb.addDatatypeProperty(p);
+		_kb.addObjectProperty(r);
+		_kb.addSubClass(TOP, min(r, 3, TOP));
+		_kb.addSubClass(TOP, or(value(i), value(j), value(k)));
+		_kb.addPropertyValue(p, i, d);
 
 		final AtomIVariable x = new AtomIVariable("x"), y = new AtomIVariable("y");
 		final AtomDVariable z = new AtomDVariable("z");
@@ -374,15 +374,15 @@ public class MiscRuleTests extends AbstractKBTests
 		final RuleAtom body2 = new IndividualPropertyAtom(r, x, y);
 
 		final Rule rule = new Rule(Collections.singleton(head), Arrays.asList(body1, body2));
-		kb.addRule(rule);
+		_kb.addRule(rule);
 
-		kb.ensureConsistency();
+		_kb.ensureConsistency();
 
-		assertTrue(kb.hasPropertyValue(j, r, i));
-		assertTrue(kb.hasPropertyValue(k, r, i));
+		assertTrue(_kb.hasPropertyValue(j, r, i));
+		assertTrue(_kb.hasPropertyValue(k, r, i));
 
-		assertTrue(kb.hasPropertyValue(j, p, d));
-		assertTrue(kb.hasPropertyValue(k, p, d));
+		assertTrue(_kb.hasPropertyValue(j, p, d));
+		assertTrue(_kb.hasPropertyValue(k, p, d));
 
 	}
 
@@ -391,15 +391,15 @@ public class MiscRuleTests extends AbstractKBTests
 	{
 		final ATermAppl c = term("C"), d = term("D"), i = term("i");
 
-		kb.addClass(c);
-		kb.addClass(d);
-		kb.addIndividual(i);
-		kb.addType(i, c);
+		_kb.addClass(c);
+		_kb.addClass(d);
+		_kb.addIndividual(i);
+		_kb.addType(i, c);
 
-		kb.addRule(new Rule(Arrays.asList(new RuleAtom[] { new ClassAtom(d, new AtomIConstant(i)) }), Arrays.asList(new RuleAtom[] { new ClassAtom(c, new AtomIConstant(i)) })));
+		_kb.addRule(new Rule(Arrays.asList(new RuleAtom[] { new ClassAtom(d, new AtomIConstant(i)) }), Arrays.asList(new RuleAtom[] { new ClassAtom(c, new AtomIConstant(i)) })));
 
-		kb.realize();
-		assertTrue(kb.getTypes(i).contains(Collections.singleton(d)));
+		_kb.realize();
+		assertTrue(_kb.getTypes(i).contains(Collections.singleton(d)));
 
 	}
 
@@ -413,17 +413,17 @@ public class MiscRuleTests extends AbstractKBTests
 		final AtomIObject x = new AtomIVariable("x");
 		final AtomIObject y = new AtomIVariable("y");
 
-		kb.addIndividual(i);
-		kb.addIndividual(j);
-		kb.addObjectProperty(r);
-		kb.addSubClass(TOP, min(r, 1, TOP));
-		kb.addSubClass(TOP, oneOf(i, j));
+		_kb.addIndividual(i);
+		_kb.addIndividual(j);
+		_kb.addObjectProperty(r);
+		_kb.addSubClass(TOP, min(r, 1, TOP));
+		_kb.addSubClass(TOP, oneOf(i, j));
 
-		kb.addRule(new Rule(Collections.singletonList(new DifferentIndividualsAtom(x, y)), Collections.singletonList(new IndividualPropertyAtom(r, x, y))));
+		_kb.addRule(new Rule(Collections.singletonList(new DifferentIndividualsAtom(x, y)), Collections.singletonList(new IndividualPropertyAtom(r, x, y))));
 
-		kb.realize();
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isDifferentFrom(i, j));
+		_kb.realize();
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isDifferentFrom(i, j));
 	}
 
 	public void testLuigiFamilyJena() throws Exception
@@ -468,28 +468,28 @@ public class MiscRuleTests extends AbstractKBTests
 
 		final ATermAppl c11 = term("c11"), c12 = term("c12"), p1a = term("p1a"), p2a = term("p2a");
 
-		kb.addClass(male);
-		kb.addObjectProperty(hasParent);
-		kb.addObjectProperty(hasSibling);
-		kb.addObjectProperty(hasUncle);
+		_kb.addClass(male);
+		_kb.addObjectProperty(hasParent);
+		_kb.addObjectProperty(hasSibling);
+		_kb.addObjectProperty(hasUncle);
 
-		kb.addIndividual(c11);
-		kb.addIndividual(c12);
-		kb.addIndividual(p1a);
-		kb.addIndividual(p2a);
+		_kb.addIndividual(c11);
+		_kb.addIndividual(c12);
+		_kb.addIndividual(p1a);
+		_kb.addIndividual(p2a);
 
-		kb.addPropertyValue(hasParent, c11, p1a);
-		kb.addPropertyValue(hasSibling, c11, c12);
-		kb.addPropertyValue(hasParent, c12, p1a);
-		kb.addPropertyValue(hasSibling, c12, c11);
-		kb.addPropertyValue(hasSibling, p1a, p2a);
-		kb.addType(p2a, male);
+		_kb.addPropertyValue(hasParent, c11, p1a);
+		_kb.addPropertyValue(hasSibling, c11, c12);
+		_kb.addPropertyValue(hasParent, c12, p1a);
+		_kb.addPropertyValue(hasSibling, c12, c11);
+		_kb.addPropertyValue(hasSibling, p1a, p2a);
+		_kb.addType(p2a, male);
 
 		final AtomIVariable x = new AtomIVariable("x"), y = new AtomIVariable("y"), z = new AtomIVariable("z");
 
-		kb.addRule(new Rule(Arrays.asList(new RuleAtom[] { new IndividualPropertyAtom(hasUncle, y, z) }), Arrays.asList(new RuleAtom[] { new IndividualPropertyAtom(hasParent, y, x), new ClassAtom(male, z), new IndividualPropertyAtom(hasSibling, x, z), })));
+		_kb.addRule(new Rule(Arrays.asList(new RuleAtom[] { new IndividualPropertyAtom(hasUncle, y, z) }), Arrays.asList(new RuleAtom[] { new IndividualPropertyAtom(hasParent, y, x), new ClassAtom(male, z), new IndividualPropertyAtom(hasSibling, x, z), })));
 
-		assertIteratorValues(kb.getObjectPropertyValues(hasUncle, c11).iterator(), new Object[] { p2a, });
+		assertIteratorValues(_kb.getObjectPropertyValues(hasUncle, c11).iterator(), new Object[] { p2a, });
 	}
 
 	public void testVariableUtils1()
@@ -531,37 +531,37 @@ public class MiscRuleTests extends AbstractKBTests
 		G = term("G");
 		H = term("H");
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
-		kb.addIndividual(x);
-		kb.addIndividual(y);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addIndividual(c);
+		_kb.addIndividual(x);
+		_kb.addIndividual(y);
 
-		kb.addObjectProperty(p);
-		kb.addObjectProperty(q);
+		_kb.addObjectProperty(p);
+		_kb.addObjectProperty(q);
 
-		kb.addClass(A);
-		kb.addClass(B);
-		kb.addClass(C);
-		kb.addClass(G);
-		kb.addClass(H);
+		_kb.addClass(A);
+		_kb.addClass(B);
+		_kb.addClass(C);
+		_kb.addClass(G);
+		_kb.addClass(H);
 
-		kb.addType(a, A);
-		kb.addType(b, B);
-		kb.addType(c, C);
-		kb.addType(x, or(G, all(q, not(H))));
-		kb.addType(x, max(p, 2, TOP));
-		kb.addType(y, H);
-		kb.addPropertyValue(p, x, a);
-		kb.addPropertyValue(p, x, b);
-		kb.addPropertyValue(p, x, c);
+		_kb.addType(a, A);
+		_kb.addType(b, B);
+		_kb.addType(c, C);
+		_kb.addType(x, or(G, all(q, not(H))));
+		_kb.addType(x, max(p, 2, TOP));
+		_kb.addType(y, H);
+		_kb.addPropertyValue(p, x, a);
+		_kb.addPropertyValue(p, x, b);
+		_kb.addPropertyValue(p, x, c);
 
 		{
 			final AtomIVariable v = new AtomIVariable("v");
 			final RuleAtom body = new ClassAtom(some(p, or(and(A, B), or(and(A, C), and(B, C)))), v);
 			final RuleAtom head = new IndividualPropertyAtom(q, v, new AtomIConstant(y));
 			final Rule rule = new Rule(Collections.singleton(head), Collections.singleton(body));
-			kb.addRule(rule);
+			_kb.addRule(rule);
 		}
 
 		{
@@ -569,15 +569,15 @@ public class MiscRuleTests extends AbstractKBTests
 			final RuleAtom body = new ClassAtom(G, v);
 			final RuleAtom head = new IndividualPropertyAtom(p, v, new AtomIConstant(y));
 			final Rule rule = new Rule(Collections.singleton(head), Collections.singleton(body));
-			kb.addRule(rule);
+			_kb.addRule(rule);
 		}
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 		System.err.println("***************************");
-		System.err.println(kb.getPropertyValues(p, x));
-		assertIteratorValues(kb.getPropertyValues(p, x).iterator(), new ATermAppl[] { a, b, c, y });
-		assertEquals(Collections.singletonList(y), kb.getPropertyValues(q, x));
-		assertFalse(kb.hasPropertyValue(x, q, c));
+		System.err.println(_kb.getPropertyValues(p, x));
+		assertIteratorValues(_kb.getPropertyValues(p, x).iterator(), new ATermAppl[] { a, b, c, y });
+		assertEquals(Collections.singletonList(y), _kb.getPropertyValues(q, x));
+		assertFalse(_kb.hasPropertyValue(x, q, c));
 	}
 
 	@Test
@@ -605,29 +605,29 @@ public class MiscRuleTests extends AbstractKBTests
 
 		final ATermAppl p = term("p");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addClass(E);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addClass(E);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addIndividual(c);
 
 		// _kb.addType( a, D );
-		kb.addType(b, C);
-		kb.addType(c, C);
+		_kb.addType(b, C);
+		_kb.addType(c, C);
 
-		kb.addEquivalentClass(D, min(p, 2, E));
-		kb.addEquivalentClass(E, some(p, C));
+		_kb.addEquivalentClass(D, min(p, 2, E));
+		_kb.addEquivalentClass(E, some(p, C));
 
-		kb.addObjectProperty(p);
+		_kb.addObjectProperty(p);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(p, a, c);
-		kb.addPropertyValue(p, b, b);
-		kb.addPropertyValue(p, c, c);
+		_kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(p, a, c);
+		_kb.addPropertyValue(p, b, b);
+		_kb.addPropertyValue(p, c, c);
 
-		kb.addDifferent(b, c);
+		_kb.addDifferent(b, c);
 
 		{
 			final AtomIVariable x = new AtomIVariable("x");
@@ -636,14 +636,14 @@ public class MiscRuleTests extends AbstractKBTests
 			final List<RuleAtom> head = new ArrayList<>();
 			head.add(new ClassAtom(C, x));
 			final Rule rule = new Rule(head, body);
-			kb.addRule(rule);
+			_kb.addRule(rule);
 		}
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, D));
-		assertTrue(kb.isType(b, E));
-		assertTrue(kb.isType(c, E));
+		assertTrue(_kb.isType(a, D));
+		assertTrue(_kb.isType(b, E));
+		assertTrue(_kb.isType(c, E));
 	}
 
 	@Test
@@ -659,13 +659,13 @@ public class MiscRuleTests extends AbstractKBTests
 		final ATermAppl a = term("a");
 		final ATermAppl b = term("b");
 
-		kb.addClass(C);
-		kb.addClass(D);
+		_kb.addClass(C);
+		_kb.addClass(D);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
 
-		kb.addType(b, C);
+		_kb.addType(b, C);
 
 		{
 			final AtomIVariable x = new AtomIVariable("x");
@@ -674,22 +674,22 @@ public class MiscRuleTests extends AbstractKBTests
 			final List<RuleAtom> head = new ArrayList<>();
 			head.add(new ClassAtom(D, x));
 			final Rule rule = new Rule(head, body);
-			kb.addRule(rule);
+			_kb.addRule(rule);
 		}
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// a is not inferred to be D since it is not C. as a result of
 		// the initial consistency check not(C) is added to a
-		assertFalse(kb.isType(a, D));
+		assertFalse(_kb.isType(a, D));
 		// asking a != b adds a = b to a copy of the ABox and checks for
 		// consistency. adding a = b causes a clash since b is a D. as a
 		// result of that clash D(x) should be added to the copy. the bug
 		// described in #302 causes this t be added to the original KB
-		assertFalse(kb.isDifferentFrom(a, b));
+		assertFalse(_kb.isDifferentFrom(a, b));
 		// when we ask this query again if D(a) is added to the original
 		// KB we will incorrectly conclude the instance relation holds
-		assertFalse(kb.isType(a, D));
+		assertFalse(_kb.isType(a, D));
 
 	}
 
@@ -701,18 +701,18 @@ public class MiscRuleTests extends AbstractKBTests
 		final ATermAppl C = term("C");
 		final AtomIVariable x = new AtomIVariable("x");
 
-		kb.addClass(C);
-		kb.addIndividual(i);
-		kb.addType(i, C);
+		_kb.addClass(C);
+		_kb.addIndividual(i);
+		_kb.addType(i, C);
 
 		final List<RuleAtom> body = new ArrayList<>();
 		final List<RuleAtom> head = new ArrayList<>();
 
 		body.add(new ClassAtom(C, x));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
@@ -724,20 +724,20 @@ public class MiscRuleTests extends AbstractKBTests
 		final ATermAppl D = term("D");
 		final AtomIVariable x = new AtomIVariable("x");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addSubClass(C, D);
-		kb.addIndividual(i);
-		kb.addType(i, C);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addSubClass(C, D);
+		_kb.addIndividual(i);
+		_kb.addType(i, C);
 
 		final List<RuleAtom> body = new ArrayList<>();
 		final List<RuleAtom> head = new ArrayList<>();
 
 		body.add(new ClassAtom(C, x));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
@@ -749,20 +749,20 @@ public class MiscRuleTests extends AbstractKBTests
 		final ATermAppl D = term("D");
 		final AtomIVariable x = new AtomIVariable("x");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addSubClass(C, D);
-		kb.addIndividual(i);
-		kb.addType(i, D);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addSubClass(C, D);
+		_kb.addIndividual(i);
+		_kb.addType(i, D);
 
 		final List<RuleAtom> body = new ArrayList<>();
 		final List<RuleAtom> head = new ArrayList<>();
 
 		body.add(new ClassAtom(D, x));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
@@ -775,18 +775,18 @@ public class MiscRuleTests extends AbstractKBTests
 		final AtomIVariable v = new AtomIVariable("v");
 		final AtomDConstant c = new AtomDConstant(l);
 
-		kb.addIndividual(i);
-		kb.addDatatypeProperty(R);
-		kb.addPropertyValue(R, i, l);
+		_kb.addIndividual(i);
+		_kb.addDatatypeProperty(R);
+		_kb.addPropertyValue(R, i, l);
 
 		final List<RuleAtom> body = new ArrayList<>();
 		final List<RuleAtom> head = new ArrayList<>();
 
 		body.add(new DatavaluedPropertyAtom(R, v, c));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
@@ -799,20 +799,20 @@ public class MiscRuleTests extends AbstractKBTests
 		final ATermAppl CuD = or(C, D);
 		final AtomIVariable x = new AtomIVariable("x");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addClass(CuD);
-		kb.addIndividual(i);
-		kb.addType(i, C);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addClass(CuD);
+		_kb.addIndividual(i);
+		_kb.addType(i, C);
 
 		final List<RuleAtom> body = new ArrayList<>();
 		final List<RuleAtom> head = new ArrayList<>();
 
 		body.add(new ClassAtom(CuD, x));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
@@ -828,15 +828,15 @@ public class MiscRuleTests extends AbstractKBTests
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomIVariable y = new AtomIVariable("y");
 
-		kb.addObjectProperty(p);
-		kb.addObjectProperty(q);
-		kb.addTransitiveProperty(p);
+		_kb.addObjectProperty(p);
+		_kb.addObjectProperty(q);
+		_kb.addTransitiveProperty(p);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(p, b, c);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addIndividual(c);
+		_kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(p, b, c);
 
 		final List<RuleAtom> body = new ArrayList<>();
 		final List<RuleAtom> head = new ArrayList<>();
@@ -844,21 +844,21 @@ public class MiscRuleTests extends AbstractKBTests
 		body.add(new IndividualPropertyAtom(p, x, y));
 		head.add(new IndividualPropertyAtom(q, x, y));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		assertTrue(kb.hasPropertyValue(a, p, b));
-		assertTrue(kb.hasPropertyValue(a, p, c));
-		assertTrue(kb.hasPropertyValue(b, p, c));
+		assertTrue(_kb.hasPropertyValue(a, p, b));
+		assertTrue(_kb.hasPropertyValue(a, p, c));
+		assertTrue(_kb.hasPropertyValue(b, p, c));
 
-		assertTrue(kb.hasPropertyValue(a, q, b));
-		assertTrue(kb.hasPropertyValue(a, q, c));
-		assertTrue(kb.hasPropertyValue(b, q, c));
+		assertTrue(_kb.hasPropertyValue(a, q, b));
+		assertTrue(_kb.hasPropertyValue(a, q, c));
+		assertTrue(_kb.hasPropertyValue(b, q, c));
 
-		Map<ATermAppl, List<ATermAppl>> results = kb.getPropertyValues(p);
+		Map<ATermAppl, List<ATermAppl>> results = _kb.getPropertyValues(p);
 		assertIteratorValues(results.get(b).iterator(), new ATermAppl[] { c });
 		assertIteratorValues(results.get(a).iterator(), new ATermAppl[] { b, c });
 
-		results = kb.getPropertyValues(q);
+		results = _kb.getPropertyValues(q);
 		assertIteratorValues(results.get(b).iterator(), new ATermAppl[] { c });
 		assertIteratorValues(results.get(a).iterator(), new ATermAppl[] { b, c });
 	}
@@ -876,13 +876,13 @@ public class MiscRuleTests extends AbstractKBTests
 		final ATermAppl a = term("a");
 		final ATermAppl b = term("b");
 
-		kb.addClass(C);
-		kb.addObjectProperty(p);
+		_kb.addClass(C);
+		_kb.addObjectProperty(p);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
 
-		kb.addEquivalentClass(C, some(p, TOP));
+		_kb.addEquivalentClass(C, some(p, TOP));
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomIVariable y = new AtomIVariable("y");
@@ -891,13 +891,13 @@ public class MiscRuleTests extends AbstractKBTests
 		final List<RuleAtom> head = new ArrayList<>();
 		head.add(new IndividualPropertyAtom(p, x, y));
 		final Rule rule = new Rule(head, body);
-		kb.addRule(rule);
+		_kb.addRule(rule);
 
-		assertEquals(singleton(rule), kb.getRules());
-		assertNull(kb.getNormalizedRules().get(rule));
+		assertEquals(singleton(rule), _kb.getRules());
+		assertNull(_kb.getNormalizedRules().get(rule));
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(a, C));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(a, C));
 	}
 
 	@Test
@@ -912,29 +912,29 @@ public class MiscRuleTests extends AbstractKBTests
 		final ATermAppl b = term("b");
 		final ATermAppl c = term("c");
 
-		kb.addClass(A);
+		_kb.addClass(A);
 
-		kb.addObjectProperty(p);
+		_kb.addObjectProperty(p);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addIndividual(c);
 
-		kb.addPropertyValue(p, a, a);
-		kb.addPropertyValue(p, b, a);
-		kb.addPropertyValue(p, b, c);
+		_kb.addPropertyValue(p, a, a);
+		_kb.addPropertyValue(p, b, a);
+		_kb.addPropertyValue(p, b, c);
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final List<RuleAtom> body = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(p, x, x));
 		final List<RuleAtom> head = Arrays.<RuleAtom> asList(new ClassAtom(A, x));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, A));
-		assertFalse(kb.isType(b, A));
-		assertFalse(kb.isType(c, A));
+		assertTrue(_kb.isType(a, A));
+		assertFalse(_kb.isType(b, A));
+		assertFalse(_kb.isType(c, A));
 	}
 
 	@Test
@@ -949,29 +949,29 @@ public class MiscRuleTests extends AbstractKBTests
 		final ATermAppl b = term("b");
 		final ATermAppl c = term("c");
 
-		kb.addClass(A);
+		_kb.addClass(A);
 
-		kb.addObjectProperty(p);
+		_kb.addObjectProperty(p);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addIndividual(c);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(p, b, c);
-		kb.addPropertyValue(p, c, c);
+		_kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(p, b, c);
+		_kb.addPropertyValue(p, c, c);
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final List<RuleAtom> body = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(p, x, new AtomIConstant(c)));
 		final List<RuleAtom> head = Arrays.<RuleAtom> asList(new ClassAtom(A, x));
 
-		kb.addRule(new Rule(head, body));
+		_kb.addRule(new Rule(head, body));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.isType(a, A));
-		assertTrue(kb.isType(b, A));
-		assertTrue(kb.isType(c, A));
+		assertFalse(_kb.isType(a, A));
+		assertTrue(_kb.isType(b, A));
+		assertTrue(_kb.isType(c, A));
 	}
 
 	@Test
@@ -1043,73 +1043,73 @@ public class MiscRuleTests extends AbstractKBTests
 	@Test
 	public void testNoVarPropertyAtom()
 	{
-		classes(A);
-		dataProperties(p, q);
-		individuals(a, b);
+		classes(_A);
+		dataProperties(_p, _q);
+		individuals(_a, _b);
 
-		kb.addType(a, A);
-		kb.addPropertyValue(p, b, TermFactory.literal(true));
+		_kb.addType(_a, _A);
+		_kb.addPropertyValue(_p, _b, TermFactory.literal(true));
 
 		final ATermAppl t = TermFactory.literal("t");
 		final ATermAppl f = TermFactory.literal("f");
 
 		final AtomIVariable x = new AtomIVariable("x");
 
-		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new DatavaluedPropertyAtom(p, new AtomIConstant(b), new AtomDConstant(TermFactory.literal(true))));
-		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(t)));
-		kb.addRule(new Rule(head, body));
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(_A, x), new DatavaluedPropertyAtom(_p, new AtomIConstant(_b), new AtomDConstant(TermFactory.literal(true))));
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_q, x, new AtomDConstant(t)));
+		_kb.addRule(new Rule(head, body));
 
-		body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new DatavaluedPropertyAtom(p, new AtomIConstant(b), new AtomDConstant(TermFactory.literal(false))));
-		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(f)));
-		kb.addRule(new Rule(head, body));
+		body = Arrays.<RuleAtom> asList(new ClassAtom(_A, x), new DatavaluedPropertyAtom(_p, new AtomIConstant(_b), new AtomDConstant(TermFactory.literal(false))));
+		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_q, x, new AtomDConstant(f)));
+		_kb.addRule(new Rule(head, body));
 
-		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
-		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
+		assertIteratorValues(_kb.getDataPropertyValues(_q, _a).iterator(), t);
+		assertIteratorValues(_kb.getDataPropertyValues(_q, _b).iterator());
 	}
 
 	@Test
 	public void testNoVarTypeAtom()
 	{
-		classes(A, B, C);
-		dataProperties(q);
-		individuals(a, b);
+		classes(_A, _B, _C);
+		dataProperties(_q);
+		individuals(_a, _b);
 
-		kb.addType(a, A);
-		kb.addType(b, B);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _B);
 
 		final ATermAppl t = TermFactory.literal("t");
 		final ATermAppl f = TermFactory.literal("f");
 
 		final AtomIVariable x = new AtomIVariable("x");
 
-		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new ClassAtom(B, new AtomIConstant(b)));
-		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(t)));
-		kb.addRule(new Rule(head, body));
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(_A, x), new ClassAtom(_B, new AtomIConstant(_b)));
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_q, x, new AtomDConstant(t)));
+		_kb.addRule(new Rule(head, body));
 
-		body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new ClassAtom(A, new AtomIConstant(b)));
-		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(f)));
-		kb.addRule(new Rule(head, body));
+		body = Arrays.<RuleAtom> asList(new ClassAtom(_A, x), new ClassAtom(_A, new AtomIConstant(_b)));
+		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_q, x, new AtomDConstant(f)));
+		_kb.addRule(new Rule(head, body));
 
-		body = Arrays.<RuleAtom> asList(new ClassAtom(B, x));
-		head = Arrays.<RuleAtom> asList(new ClassAtom(C, x));
-		kb.addRule(new Rule(head, body));
+		body = Arrays.<RuleAtom> asList(new ClassAtom(_B, x));
+		head = Arrays.<RuleAtom> asList(new ClassAtom(_C, x));
+		_kb.addRule(new Rule(head, body));
 
-		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
-		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
-		assertIteratorValues(kb.getInstances(C).iterator(), b);
+		assertIteratorValues(_kb.getDataPropertyValues(_q, _a).iterator(), t);
+		assertIteratorValues(_kb.getDataPropertyValues(_q, _b).iterator());
+		assertIteratorValues(_kb.getInstances(_C).iterator(), _b);
 	}
 
 	@Test
 	public void testNoSharedVar()
 	{
-		classes(A);
-		dataProperties(p, q);
-		objectProperties(r);
-		individuals(a, b, c);
+		classes(_A);
+		dataProperties(_p, _q);
+		objectProperties(_r);
+		individuals(_a, _b, _c);
 
-		kb.addType(a, A);
-		kb.addPropertyValue(p, b, TermFactory.literal(true));
-		kb.addPropertyValue(r, b, c);
+		_kb.addType(_a, _A);
+		_kb.addPropertyValue(_p, _b, TermFactory.literal(true));
+		_kb.addPropertyValue(_r, _b, _c);
 
 		final ATermAppl t = TermFactory.literal("t");
 		final ATermAppl f = TermFactory.literal("f");
@@ -1117,31 +1117,31 @@ public class MiscRuleTests extends AbstractKBTests
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomDVariable y = new AtomDVariable("y");
 
-		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new DatavaluedPropertyAtom(p, new AtomIConstant(b), y), new BuiltInAtom(SWRLB + "equal", y, new AtomDConstant(TermFactory.literal(true))));
-		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(t)));
-		kb.addRule(new Rule(head, body));
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(_A, x), new DatavaluedPropertyAtom(_p, new AtomIConstant(_b), y), new BuiltInAtom(SWRLB + "equal", y, new AtomDConstant(TermFactory.literal(true))));
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_q, x, new AtomDConstant(t)));
+		_kb.addRule(new Rule(head, body));
 
-		body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new DatavaluedPropertyAtom(p, new AtomIConstant(b), y), new BuiltInAtom(SWRLB + "equal", y, new AtomDConstant(TermFactory.literal(false))));
-		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(f)));
-		kb.addRule(new Rule(head, body));
+		body = Arrays.<RuleAtom> asList(new ClassAtom(_A, x), new DatavaluedPropertyAtom(_p, new AtomIConstant(_b), y), new BuiltInAtom(SWRLB + "equal", y, new AtomDConstant(TermFactory.literal(false))));
+		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_q, x, new AtomDConstant(f)));
+		_kb.addRule(new Rule(head, body));
 
-		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
-		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
+		assertIteratorValues(_kb.getDataPropertyValues(_q, _a).iterator(), t);
+		assertIteratorValues(_kb.getDataPropertyValues(_q, _b).iterator());
 	}
 
 	@Test
 	public void testNoSharedVarFixedObject()
 	{
-		classes(A);
-		dataProperties(p, q);
-		objectProperties(r, s);
-		individuals(a, b, c, d);
+		classes(_A);
+		dataProperties(_p, _q);
+		objectProperties(_r, _s);
+		individuals(_a, _b, _c, _d);
 
-		kb.addType(a, A);
-		kb.addPropertyValue(r, c, b);
-		kb.addPropertyValue(p, c, TermFactory.literal(true));
-		kb.addPropertyValue(s, d, b);
-		kb.addPropertyValue(p, d, TermFactory.literal(false));
+		_kb.addType(_a, _A);
+		_kb.addPropertyValue(_r, _c, _b);
+		_kb.addPropertyValue(_p, _c, TermFactory.literal(true));
+		_kb.addPropertyValue(_s, _d, _b);
+		_kb.addPropertyValue(_p, _d, TermFactory.literal(false));
 
 		final ATermAppl t = TermFactory.literal("t");
 		final ATermAppl f = TermFactory.literal("f");
@@ -1149,64 +1149,64 @@ public class MiscRuleTests extends AbstractKBTests
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomIVariable y = new AtomIVariable("y");
 
-		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new IndividualPropertyAtom(r, y, new AtomIConstant(b)), new DatavaluedPropertyAtom(p, y, new AtomDConstant(TermFactory.literal(true))));
-		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(t)));
-		kb.addRule(new Rule(head, body));
+		List<RuleAtom> body = Arrays.<RuleAtom> asList(new ClassAtom(_A, x), new IndividualPropertyAtom(_r, y, new AtomIConstant(_b)), new DatavaluedPropertyAtom(_p, y, new AtomDConstant(TermFactory.literal(true))));
+		List<RuleAtom> head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_q, x, new AtomDConstant(t)));
+		_kb.addRule(new Rule(head, body));
 
-		body = Arrays.<RuleAtom> asList(new ClassAtom(A, x), new IndividualPropertyAtom(r, y, new AtomIConstant(b)), new DatavaluedPropertyAtom(p, y, new AtomDConstant(TermFactory.literal(false))));
-		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(q, x, new AtomDConstant(f)));
-		kb.addRule(new Rule(head, body));
+		body = Arrays.<RuleAtom> asList(new ClassAtom(_A, x), new IndividualPropertyAtom(_r, y, new AtomIConstant(_b)), new DatavaluedPropertyAtom(_p, y, new AtomDConstant(TermFactory.literal(false))));
+		head = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_q, x, new AtomDConstant(f)));
+		_kb.addRule(new Rule(head, body));
 
-		assertIteratorValues(kb.getDataPropertyValues(q, a).iterator(), t);
-		assertIteratorValues(kb.getDataPropertyValues(q, b).iterator());
+		assertIteratorValues(_kb.getDataPropertyValues(_q, _a).iterator(), t);
+		assertIteratorValues(_kb.getDataPropertyValues(_q, _b).iterator());
 	}
 
 	@Test
 	public void testBindingBuiltins()
 	{
-		classes(A);
-		dataProperties(p, q);
-		individuals(a, b, c, d);
+		classes(_A);
+		dataProperties(_p, _q);
+		individuals(_a, _b, _c, _d);
 
-		kb.addPropertyValue(p, a, TermFactory.literal(1));
-		kb.addPropertyValue(p, b, TermFactory.literal(5));
-		kb.addPropertyValue(p, c, TermFactory.literal(10));
-		kb.addPropertyValue(p, d, TermFactory.literal(15));
+		_kb.addPropertyValue(_p, _a, TermFactory.literal(1));
+		_kb.addPropertyValue(_p, _b, TermFactory.literal(5));
+		_kb.addPropertyValue(_p, _c, TermFactory.literal(10));
+		_kb.addPropertyValue(_p, _d, TermFactory.literal(15));
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomDVariable y = new AtomDVariable("y");
 		final AtomDVariable z = new AtomDVariable("z");
 
-		final List<RuleAtom> body = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(p, x, y), new BuiltInAtom(SWRLB + "pow", z, y, new AtomDConstant(TermFactory.literal(2))), new BuiltInAtom(SWRLB + "lessThan", z, new AtomDConstant(TermFactory.literal(100))));
-		final List<RuleAtom> head = Arrays.<RuleAtom> asList(new ClassAtom(A, x));
-		kb.addRule(new Rule(head, body));
+		final List<RuleAtom> body = Arrays.<RuleAtom> asList(new DatavaluedPropertyAtom(_p, x, y), new BuiltInAtom(SWRLB + "pow", z, y, new AtomDConstant(TermFactory.literal(2))), new BuiltInAtom(SWRLB + "lessThan", z, new AtomDConstant(TermFactory.literal(100))));
+		final List<RuleAtom> head = Arrays.<RuleAtom> asList(new ClassAtom(_A, x));
+		_kb.addRule(new Rule(head, body));
 
-		assertIteratorValues(kb.getInstances(A).iterator(), a, b);
+		assertIteratorValues(_kb.getInstances(_A).iterator(), _a, _b);
 	}
 
 	@Test
 	public void testTriangle()
 	{
-		objectProperties(p, q);
-		individuals(a, b, c, d, e);
+		objectProperties(_p, _q);
+		individuals(_a, _b, _c, _d, _e);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(p, b, c);
-		kb.addPropertyValue(p, a, c);
-		kb.addPropertyValue(p, b, e);
-		kb.addPropertyValue(p, c, e);
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addPropertyValue(_p, _b, _c);
+		_kb.addPropertyValue(_p, _a, _c);
+		_kb.addPropertyValue(_p, _b, _e);
+		_kb.addPropertyValue(_p, _c, _e);
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomIVariable y = new AtomIVariable("y");
 		final AtomIVariable z = new AtomIVariable("z");
 
-		final List<RuleAtom> body = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(p, x, y), new IndividualPropertyAtom(p, y, z), new IndividualPropertyAtom(p, x, z));
-		final List<RuleAtom> head = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(q, x, z));
-		kb.addRule(new Rule(head, body));
+		final List<RuleAtom> body = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(_p, x, y), new IndividualPropertyAtom(_p, y, z), new IndividualPropertyAtom(_p, x, z));
+		final List<RuleAtom> head = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(_q, x, z));
+		_kb.addRule(new Rule(head, body));
 
-		assertIteratorValues(kb.getObjectPropertyValues(q, a).iterator(), c);
-		assertIteratorValues(kb.getObjectPropertyValues(q, b).iterator(), e);
-		assertIteratorValues(kb.getObjectPropertyValues(q, c).iterator());
-		assertIteratorValues(kb.getObjectPropertyValues(q, d).iterator());
+		assertIteratorValues(_kb.getObjectPropertyValues(_q, _a).iterator(), _c);
+		assertIteratorValues(_kb.getObjectPropertyValues(_q, _b).iterator(), _e);
+		assertIteratorValues(_kb.getObjectPropertyValues(_q, _c).iterator());
+		assertIteratorValues(_kb.getObjectPropertyValues(_q, _d).iterator());
 	}
 }

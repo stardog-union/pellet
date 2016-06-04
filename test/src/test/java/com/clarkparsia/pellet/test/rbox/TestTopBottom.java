@@ -502,6 +502,7 @@ public class TestTopBottom
 
 	}
 
+	@SafeVarargs
 	public static <T> Set<Set<T>> singletonSets(final T... es)
 	{
 		final Set<Set<T>> set = new HashSet<>();

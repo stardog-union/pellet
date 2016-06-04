@@ -38,139 +38,139 @@ public class BlockingTests extends AbstractKBTests
 	@Test
 	public void transitivityInverse()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addTransitiveProperty(r);
-		kb.addSubProperty(r, q);
-		kb.addSubClass(D, all(q, C));
+		_kb.addTransitiveProperty(_r);
+		_kb.addSubProperty(_r, _q);
+		_kb.addSubClass(_D, all(_q, _C));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.isSatisfiable(some(p, and(D, some(p, and(some(inv(r), D), some(r, not(C))))))));
+		assertFalse(_kb.isSatisfiable(some(_p, and(_D, some(_p, and(some(inv(_r), _D), some(_r, not(_C))))))));
 	}
 
 	@Test
 	public void propertyChain()
 	{
-		classes(C, D);
-		objectProperties(p, q, r, s);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r, _s);
 
-		kb.addDisjointClass(C, D);
-		kb.addSubProperty(list(p, inv(q), r, s), s);
-		kb.addSubClass(D, all(s, C));
-		kb.addSubClass(D, some(p, some(inv(q), some(r, some(s, D)))));
+		_kb.addDisjointClass(_C, _D);
+		_kb.addSubProperty(list(_p, inv(_q), _r, _s), _s);
+		_kb.addSubClass(_D, all(_s, _C));
+		_kb.addSubClass(_D, some(_p, some(inv(_q), some(_r, some(_s, _D)))));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.isSatisfiable(D));
+		assertFalse(_kb.isSatisfiable(_D));
 	}
 
 	@Test
 	public void propertyChainInverse()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(r, p), q);
-		kb.addSubClass(D, all(q, C));
+		_kb.addSubProperty(list(_r, _p), _q);
+		_kb.addSubClass(_D, all(_q, _C));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.isSatisfiable(some(p, and(D, some(p, and(some(inv(r), D), some(p, not(C))))))));
+		assertFalse(_kb.isSatisfiable(some(_p, and(_D, some(_p, and(some(inv(_r), _D), some(_p, not(_C))))))));
 	}
 
 	@Test
 	public void propertyChainInverseCardinality()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
 		// functionality has no effect, it is used to force
 		// double blocking instead of equality blocking
-		kb.addFunctionalProperty(p);
-		kb.addSubProperty(list(r, p), q);
-		kb.addSubClass(D, all(q, C));
+		_kb.addFunctionalProperty(_p);
+		_kb.addSubProperty(list(_r, _p), _q);
+		_kb.addSubClass(_D, all(_q, _C));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.isSatisfiable(some(p, and(D, some(p, and(some(inv(r), D), some(p, not(C))))))));
+		assertFalse(_kb.isSatisfiable(some(_p, and(_D, some(_p, and(some(inv(_r), _D), some(_p, not(_C))))))));
 	}
 
 	@Test
 	public void doubleBlockingExample()
 	{
-		classes(C, D);
-		objectProperties(f, r);
+		classes(_C, _D);
+		objectProperties(_f, _r);
 
-		kb.addTransitiveProperty(r);
-		kb.addSubProperty(f, r);
-		kb.addEquivalentClass(D, and(C, some(f, not(C))));
-		kb.addSubClass(TOP, max(f, 1, TOP));
+		_kb.addTransitiveProperty(_r);
+		_kb.addSubProperty(_f, _r);
+		_kb.addEquivalentClass(_D, and(_C, some(_f, not(_C))));
+		_kb.addSubClass(TOP, max(_f, 1, TOP));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.isSatisfiable(and(not(C), some(inv(f), D), all(inv(r), some(inv(f), D)))));
+		assertFalse(_kb.isSatisfiable(and(not(_C), some(inv(_f), _D), all(inv(_r), some(inv(_f), _D)))));
 	}
 
 	@Test
 	public void complexInconsistent()
 	{
-		kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-inconsistent.owl");
+		_kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-inconsistent.owl");
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
 	public void complexAllUnsat()
 	{
-		kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-consistent-but-all-unsat.owl");
+		_kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-consistent-but-all-unsat.owl");
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertEquals(kb.getClasses(), kb.getUnsatisfiableClasses());
+		assertEquals(_kb.getClasses(), _kb.getUnsatisfiableClasses());
 	}
 
 	@Test
 	public void complexAllInfSat()
 	{
-		kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-consistent-and-all-inf-sat.owl");
+		_kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-consistent-and-all-inf-sat.owl");
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.getUnsatisfiableClasses().isEmpty());
+		assertTrue(_kb.getUnsatisfiableClasses().isEmpty());
 	}
 
 	@Test
 	public void deadlockBlock()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubClass(D, BOTTOM);
+		_kb.addSubClass(_D, BOTTOM);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.isSatisfiable(and(some(p, some(p, D)), some(p, D))));
+		assertFalse(_kb.isSatisfiable(and(some(_p, some(_p, _D)), some(_p, _D))));
 	}
 
 	@Test
 	public void yoyo()
 	{
-		classes(A);
-		objectProperties(r);
-		individuals(a, b);
+		classes(_A);
+		objectProperties(_r);
+		individuals(_a, _b);
 
-		kb.addFunctionalProperty(r);
-		kb.addSubClass(A, all(r, some(r, TOP)));
-		kb.addType(a, A);
-		kb.addType(a, some(r, TOP));
-		kb.addPropertyValue(r, a, a);
-		kb.addPropertyValue(r, a, b);
+		_kb.addFunctionalProperty(_r);
+		_kb.addSubClass(_A, all(_r, some(_r, TOP)));
+		_kb.addType(_a, _A);
+		_kb.addType(_a, some(_r, TOP));
+		_kb.addPropertyValue(_r, _a, _a);
+		_kb.addPropertyValue(_r, _a, _b);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isSatisfiable(A));
+		assertTrue(_kb.isSatisfiable(_A));
 	}
 
 }

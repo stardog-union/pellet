@@ -75,7 +75,7 @@ public class MiscExplanationTests
 	}
 
 	@Test
-	public void testOWLAPI() throws Exception
+	public void testOWLAPI()
 	{
 		final OWLClass A = OWL.Class("A");
 		final OWLClass B = OWL.Class("B");
@@ -176,7 +176,7 @@ public class MiscExplanationTests
 	}
 
 	@Test
-	public void testPunningOneOf() throws Exception
+	public void testPunningOneOf()
 	{
 		final OWLClass A = OWL.Class("A");
 		final OWLIndividual a = OWL.Individual("A");
@@ -193,7 +193,7 @@ public class MiscExplanationTests
 	}
 
 	@Test
-	public void testPunningSingletonOneOf() throws Exception
+	public void testPunningSingletonOneOf()
 	{
 		final OWLClass A = OWL.Class("A");
 		final OWLIndividual a = OWL.Individual("A");
@@ -209,7 +209,7 @@ public class MiscExplanationTests
 	}
 
 	@Test
-	public void testJena() throws Exception
+	public void testJena()
 	{
 		final Resource A = ResourceFactory.createResource("A");
 		final Resource B = ResourceFactory.createResource("B");
@@ -259,7 +259,6 @@ public class MiscExplanationTests
 
 		final Set<OWLAxiom> f = SetUtils.create(axioms[0], axioms[1], axioms[2], axioms[3]);
 		final Set<OWLAxiom> s = SetUtils.create(axioms[0], axioms[1], axioms[2], axioms[4]);
-		@SuppressWarnings("unchecked")
 		final Set<Set<OWLAxiom>> expected = SetUtils.create(f, s);
 
 		assertEquals(expected, actual);
@@ -269,7 +268,7 @@ public class MiscExplanationTests
 	 * Test for ticket #478
 	 */
 	@Test
-	public void testJenaUpdates() throws Exception
+	public void testJenaUpdates()
 	{
 		final Resource A = ResourceFactory.createResource("A");
 		final Resource B = ResourceFactory.createResource("B");
@@ -345,10 +344,11 @@ public class MiscExplanationTests
 		//ResultSetFormatter.out( rs );
 	}*/
 
+	@SuppressWarnings("unused")
 	private void loadFromResource(final OntModel model, final String resource)
 	{
 
-		try (InputStream stream = this.getClass().getClassLoader().getResourceAsStream(resource))
+		try (final InputStream stream = this.getClass().getClassLoader().getResourceAsStream(resource))
 		{
 			model.read(stream, null);
 		}

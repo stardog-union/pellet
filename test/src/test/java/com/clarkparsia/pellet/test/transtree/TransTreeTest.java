@@ -35,7 +35,7 @@ public class TransTreeTest
 		final OWLAPILoader loader = new OWLAPILoader();
 		final KnowledgeBase kb = loader.createKB(new String[] { ontologyURI });
 
-		final OWLEntity entity = OntologyUtils.findEntity(propertyURI, loader.getAllOntologies());
+		final OWLEntity entity = OntologyUtils.findEntity(propertyURI, loader.allOntologies());
 
 		if (entity == null)
 			throw new IllegalArgumentException("Property not found: " + propertyURI);
@@ -43,7 +43,7 @@ public class TransTreeTest
 		if (!(entity instanceof OWLObjectProperty))
 			throw new IllegalArgumentException("Not an object property: " + propertyURI);
 
-		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.getAllOntologies().stream()))
+		if (!EntitySearcher.isTransitive((OWLObjectProperty) entity, loader.allOntologies()))
 			throw new IllegalArgumentException("Not a transitive property: " + propertyURI);
 
 		final ATermAppl p = ATermUtils.makeTermAppl(entity.getIRI().toString());
@@ -73,38 +73,39 @@ public class TransTreeTest
 	private static class PartClassesComparator extends SubsumptionComparator
 	{
 
-		private final ATermAppl p;
+		private final ATermAppl _p;
 
 		public PartClassesComparator(final KnowledgeBase kb, final ATermAppl p)
 		{
 			super(kb);
-			this.p = p;
+			this._p = p;
 		}
 
 		@Override
 		protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 		{
-			final ATermAppl someB = ATermUtils.makeSomeValues(p, b);
+			final ATermAppl someB = ATermUtils.makeSomeValues(_p, b);
 
 			return _kb.isSubClassOf(a, someB);
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static class PartIndividualsComparator extends SubsumptionComparator
 	{
 
-		private final ATermAppl p;
+		private final ATermAppl _p;
 
 		public PartIndividualsComparator(final KnowledgeBase kb, final ATermAppl p)
 		{
 			super(kb);
-			this.p = p;
+			this._p = p;
 		}
 
 		@Override
 		protected boolean isSubsumedBy(final ATermAppl a, final ATermAppl b)
 		{
-			return _kb.hasPropertyValue(a, p, b);
+			return _kb.hasPropertyValue(a, _p, b);
 		}
 	}
 

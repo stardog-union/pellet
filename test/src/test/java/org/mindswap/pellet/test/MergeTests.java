@@ -39,415 +39,415 @@ public class MergeTests extends AbstractKBTests
 	@Test
 	public void instanceCheckForMergedNode()
 	{
-		classes(D, E);
-		individuals(a, b, c, d, e);
+		classes(_D, _E);
+		individuals(_a, _b, _c, _d, _e);
 
-		kb.addType(a, oneOf(b, c));
+		_kb.addType(_a, oneOf(_b, _c));
 
-		kb.addSubClass(E, not(D));
+		_kb.addSubClass(_E, not(_D));
 
-		kb.addType(a, D);
+		_kb.addType(_a, _D);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		final ATermAppl mergedTo = kb.getABox().getIndividual(a).getMergedTo().getName();
-		kb.addType(mergedTo, oneOf(d, e));
+		final ATermAppl mergedTo = _kb.getABox().getIndividual(_a).getMergedTo().getName();
+		_kb.addType(mergedTo, oneOf(_d, _e));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, not(E)));
+		assertTrue(_kb.isType(_a, not(_E)));
 	}
 
 	@Test
 	public void addTypeToMergedNode()
 	{
-		classes(A, D);
-		individuals(a, b, c);
+		classes(_A, _D);
+		individuals(_a, _b, _c);
 
 		// a is either b or c
-		kb.addType(a, oneOf(b, c));
-		kb.addType(a, A);
-		kb.addType(b, B);
-		kb.addType(c, C);
+		_kb.addType(_a, oneOf(_b, _c));
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _B);
+		_kb.addType(_c, _C);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, A));
+		assertTrue(_kb.isType(_a, _A));
 		// we don't know which equality holds
-		assertFalse(kb.isType(a, B));
-		assertFalse(kb.isType(a, C));
-		assertFalse(kb.isType(a, D));
+		assertFalse(_kb.isType(_a, _B));
+		assertFalse(_kb.isType(_a, _C));
+		assertFalse(_kb.isType(_a, _D));
 
-		kb.addType(a, D);
+		_kb.addType(_a, _D);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, A));
+		assertTrue(_kb.isType(_a, _A));
 		// we still don't know which equality holds
-		assertFalse(kb.isType(a, B));
-		assertFalse(kb.isType(a, C));
+		assertFalse(_kb.isType(_a, _B));
+		assertFalse(_kb.isType(_a, _C));
 		// additional type causes a new inference
-		assertTrue(kb.isType(a, D));
+		assertTrue(_kb.isType(_a, _D));
 	}
 
 	@Test
 	public void removeTypeFromMergedNode()
 	{
-		classes(A, D);
-		individuals(a, b, c);
+		classes(_A, _D);
+		individuals(_a, _b, _c);
 
 		// a is either b or c
-		kb.addType(a, oneOf(b, c));
-		kb.addType(a, A);
-		kb.addType(b, B);
-		kb.addType(c, C);
-		kb.addType(a, D);
+		_kb.addType(_a, oneOf(_b, _c));
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _B);
+		_kb.addType(_c, _C);
+		_kb.addType(_a, _D);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, A));
-		assertFalse(kb.isType(a, B));
-		assertFalse(kb.isType(a, C));
-		assertTrue(kb.isType(a, D));
+		assertTrue(_kb.isType(_a, _A));
+		assertFalse(_kb.isType(_a, _B));
+		assertFalse(_kb.isType(_a, _C));
+		assertTrue(_kb.isType(_a, _D));
 
-		final boolean removed = kb.removeType(a, D);
+		final boolean removed = _kb.removeType(_a, _D);
 
 		assertTrue(removed);
-		assertFalse(kb.isConsistencyDone());
+		assertFalse(_kb.isConsistencyDone());
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, A));
-		assertFalse(kb.isType(a, B));
-		assertFalse(kb.isType(a, C));
-		assertFalse(kb.isType(a, D));
+		assertTrue(_kb.isType(_a, _A));
+		assertFalse(_kb.isType(_a, _B));
+		assertFalse(_kb.isType(_a, _C));
+		assertFalse(_kb.isType(_a, _D));
 	}
 
 	@Test
 	public void cannotRemoveInferredType()
 	{
-		classes(A, D);
-		individuals(a, b, c, d);
+		classes(_A, _D);
+		individuals(_a, _b, _c, _d);
 
-		kb.addType(a, oneOf(b, c));
-		kb.addType(a, A);
-		kb.addType(b, B);
-		kb.addType(c, C);
-		kb.addType(d, D);
-		kb.addSame(a, d);
+		_kb.addType(_a, oneOf(_b, _c));
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _B);
+		_kb.addType(_c, _C);
+		_kb.addType(_d, _D);
+		_kb.addSame(_a, _d);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, A));
-		assertFalse(kb.isType(a, B));
-		assertFalse(kb.isType(a, C));
-		assertTrue(kb.isType(d, D));
-		assertTrue(kb.isType(a, D));
+		assertTrue(_kb.isType(_a, _A));
+		assertFalse(_kb.isType(_a, _B));
+		assertFalse(_kb.isType(_a, _C));
+		assertTrue(_kb.isType(_d, _D));
+		assertTrue(_kb.isType(_a, _D));
 
-		final boolean removed = kb.removeType(a, D);
+		final boolean removed = _kb.removeType(_a, _D);
 
 		assertTrue(!removed);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, A));
-		assertFalse(kb.isType(a, B));
-		assertFalse(kb.isType(a, C));
-		assertTrue(kb.isType(d, D));
-		assertTrue(kb.isType(a, D));
+		assertTrue(_kb.isType(_a, _A));
+		assertFalse(_kb.isType(_a, _B));
+		assertFalse(_kb.isType(_a, _C));
+		assertTrue(_kb.isType(_d, _D));
+		assertTrue(_kb.isType(_a, _D));
 	}
 
 	@Test
 	public void addClashingTypeToMergedNode()
 	{
-		classes(A, B, C, D);
-		individuals(a, b, c);
+		classes(_A, _B, _C, _D);
+		individuals(_a, _b, _c);
 
 		// a is either b or c
-		kb.addType(a, oneOf(b, c));
-		kb.addType(a, A);
-		kb.addType(b, B);
-		kb.addType(c, C);
+		_kb.addType(_a, oneOf(_b, _c));
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _B);
+		_kb.addType(_c, _C);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// we don't know which equality holds
-		assertTrue(kb.isType(a, A));
-		assertFalse(kb.isType(a, B));
-		assertFalse(kb.isType(a, C));
+		assertTrue(_kb.isType(_a, _A));
+		assertFalse(_kb.isType(_a, _B));
+		assertFalse(_kb.isType(_a, _C));
 
 		// get which merge was chosen
-		final ATermAppl mergedTo = kb.getABox().getIndividual(a).getMergedTo().getName();
+		final ATermAppl mergedTo = _kb.getABox().getIndividual(_a).getMergedTo().getName();
 
 		// add something to undo the merge
-		if (mergedTo.equals(b))
-			kb.addType(a, not(B));
+		if (mergedTo.equals(_b))
+			_kb.addType(_a, not(_B));
 		else
-			kb.addType(a, not(C));
+			_kb.addType(_a, not(_C));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, A));
+		assertTrue(_kb.isType(_a, _A));
 		// there is now a single possibility for the merge
-		if (mergedTo.equals(b))
-			assertTrue(kb.isType(a, C));
+		if (mergedTo.equals(_b))
+			assertTrue(_kb.isType(_a, _C));
 		else
-			assertTrue(kb.isType(a, B));
+			assertTrue(_kb.isType(_a, _B));
 	}
 
 	@Test
 	public void addEdgeToMergedSubject()
 	{
-		objectProperties(p);
-		individuals(a, b, c, d);
+		objectProperties(_p);
+		individuals(_a, _b, _c, _d);
 
 		// a is either b or c
-		kb.addType(a, oneOf(b, c));
+		_kb.addType(_a, oneOf(_b, _c));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// no edges to d
-		assertFalse(kb.hasPropertyValue(a, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
 
-		kb.addPropertyValue(p, a, d);
+		_kb.addPropertyValue(_p, _a, _d);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// there is an edge from a to d
-		assertTrue(kb.hasPropertyValue(a, p, d));
+		assertTrue(_kb.hasPropertyValue(_a, _p, _d));
 		// still no edges from b or c to d
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
 	}
 
 	@Test
 	public void addEdgeToMergedObject()
 	{
-		objectProperties(p);
-		individuals(a, b, c, d);
+		objectProperties(_p);
+		individuals(_a, _b, _c, _d);
 
 		// a is either b or c
-		kb.addType(a, oneOf(b, c));
+		_kb.addType(_a, oneOf(_b, _c));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// no edges from d
-		assertFalse(kb.hasPropertyValue(d, p, a));
-		assertFalse(kb.hasPropertyValue(d, p, b));
-		assertFalse(kb.hasPropertyValue(d, p, c));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _a));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _b));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _c));
 
-		kb.addPropertyValue(p, d, a);
+		_kb.addPropertyValue(_p, _d, _a);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// there is an edge from d to a
-		assertTrue(kb.hasPropertyValue(d, p, a));
+		assertTrue(_kb.hasPropertyValue(_d, _p, _a));
 		// still no edges to b or c from d
-		assertFalse(kb.hasPropertyValue(d, p, b));
-		assertFalse(kb.hasPropertyValue(d, p, c));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _b));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _c));
 	}
 
 	@Test
 	public void addEdgeToMergedSubjectObject()
 	{
-		objectProperties(p);
-		individuals(a, b, c, d, e, f);
+		objectProperties(_p);
+		individuals(_a, _b, _c, _d, _e, _f);
 
 		// a is either b or c
-		kb.addType(a, oneOf(b, c));
+		_kb.addType(_a, oneOf(_b, _c));
 		// d is either e or f
-		kb.addType(d, oneOf(e, f));
+		_kb.addType(_d, oneOf(_e, _f));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// no edges to d
-		assertFalse(kb.hasPropertyValue(a, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
-		assertFalse(kb.hasPropertyValue(a, p, e));
-		assertFalse(kb.hasPropertyValue(b, p, e));
-		assertFalse(kb.hasPropertyValue(c, p, e));
-		assertFalse(kb.hasPropertyValue(a, p, f));
-		assertFalse(kb.hasPropertyValue(b, p, f));
-		assertFalse(kb.hasPropertyValue(c, p, f));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _f));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _f));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _f));
 
-		kb.addPropertyValue(p, a, d);
+		_kb.addPropertyValue(_p, _a, _d);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// there is only an edge from a to d
-		assertTrue(kb.hasPropertyValue(a, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
-		assertFalse(kb.hasPropertyValue(a, p, e));
-		assertFalse(kb.hasPropertyValue(b, p, e));
-		assertFalse(kb.hasPropertyValue(c, p, e));
-		assertFalse(kb.hasPropertyValue(a, p, f));
-		assertFalse(kb.hasPropertyValue(b, p, f));
-		assertFalse(kb.hasPropertyValue(c, p, f));
+		assertTrue(_kb.hasPropertyValue(_a, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _f));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _f));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _f));
 	}
 
 	@Test
 	public void addEdgeToMergedSubjectWithExistingEdge()
 	{
-		objectProperties(p);
-		individuals(a, b, c, d, e);
+		objectProperties(_p);
+		individuals(_a, _b, _c, _d, _e);
 
 		// a is either b or c
-		kb.addType(a, oneOf(b, c));
+		_kb.addType(_a, oneOf(_b, _c));
 
-		kb.addType(b, some(p, oneOf(d, e)));
-		kb.addType(c, some(p, oneOf(d, e)));
+		_kb.addType(_b, some(_p, oneOf(_d, _e)));
+		_kb.addType(_c, some(_p, oneOf(_d, _e)));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// no edges to d
-		assertFalse(kb.hasPropertyValue(a, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
-		assertFalse(kb.hasPropertyValue(a, p, e));
-		assertFalse(kb.hasPropertyValue(b, p, e));
-		assertFalse(kb.hasPropertyValue(c, p, e));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _e));
 
-		final ATermAppl aMergedTo = kb.getABox().getIndividual(a).getMergedTo().getName();
-		final ATermAppl aMergedToSucc = kb.getABox().getIndividual(aMergedTo).getOutEdges().edgeAt(0).getToName();
-		final ATermAppl aMergedToNotSucc = aMergedToSucc.equals(d) ? e : d;
+		final ATermAppl aMergedTo = _kb.getABox().getIndividual(_a).getMergedTo().getName();
+		final ATermAppl aMergedToSucc = _kb.getABox().getIndividual(aMergedTo).getOutEdges().edgeAt(0).getToName();
+		final ATermAppl aMergedToNotSucc = aMergedToSucc.equals(_d) ? _e : _d;
 
-		kb.addPropertyValue(p, a, aMergedToSucc);
+		_kb.addPropertyValue(_p, _a, aMergedToSucc);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// there is only an edge from a to aMergedToSucc
-		assertTrue(kb.hasPropertyValue(a, p, aMergedToSucc));
-		assertFalse(kb.hasPropertyValue(a, p, aMergedToNotSucc));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, e));
-		assertFalse(kb.hasPropertyValue(c, p, e));
+		assertTrue(_kb.hasPropertyValue(_a, _p, aMergedToSucc));
+		assertFalse(_kb.hasPropertyValue(_a, _p, aMergedToNotSucc));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _e));
 	}
 
 	@Test
 	public void removeEdgeFromMergedObject()
 	{
-		objectProperties(p);
-		individuals(a, b, c, d);
+		objectProperties(_p);
+		individuals(_a, _b, _c, _d);
 
-		kb.addType(a, oneOf(b, c));
-		kb.addPropertyValue(p, d, a);
+		_kb.addType(_a, oneOf(_b, _c));
+		_kb.addPropertyValue(_p, _d, _a);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.hasPropertyValue(d, p, a));
-		assertFalse(kb.hasPropertyValue(d, p, b));
-		assertFalse(kb.hasPropertyValue(d, p, c));
+		assertTrue(_kb.hasPropertyValue(_d, _p, _a));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _b));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _c));
 
-		kb.removePropertyValue(p, d, a);
+		_kb.removePropertyValue(_p, _d, _a);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.hasPropertyValue(d, p, a));
-		assertFalse(kb.hasPropertyValue(d, p, b));
-		assertFalse(kb.hasPropertyValue(d, p, c));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _a));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _b));
+		assertFalse(_kb.hasPropertyValue(_d, _p, _c));
 	}
 
 	@Test
 	public void removeEdgeFromMergedSubject()
 	{
-		objectProperties(p);
-		individuals(a, b, c, d);
+		objectProperties(_p);
+		individuals(_a, _b, _c, _d);
 
-		kb.addType(a, oneOf(b, c));
+		_kb.addType(_a, oneOf(_b, _c));
 
-		assertTrue(kb.isConsistent());
-		kb.addPropertyValue(p, a, d);
+		assertTrue(_kb.isConsistent());
+		_kb.addPropertyValue(_p, _a, _d);
 
-		assertTrue(kb.hasPropertyValue(a, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
+		assertTrue(_kb.hasPropertyValue(_a, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
 
-		kb.removePropertyValue(p, a, d);
+		_kb.removePropertyValue(_p, _a, _d);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.hasPropertyValue(a, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
 	}
 
 	@Test
 	public void removeEdgeFromMergedSubjectObject()
 	{
-		objectProperties(p);
-		individuals(a, b, c, d, e, f);
+		objectProperties(_p);
+		individuals(_a, _b, _c, _d, _e, _f);
 
-		kb.addType(a, oneOf(b, c));
-		kb.addType(d, oneOf(e, f));
-		kb.addPropertyValue(p, a, d);
+		_kb.addType(_a, oneOf(_b, _c));
+		_kb.addType(_d, oneOf(_e, _f));
+		_kb.addPropertyValue(_p, _a, _d);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.hasPropertyValue(a, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
-		assertFalse(kb.hasPropertyValue(a, p, e));
-		assertFalse(kb.hasPropertyValue(b, p, e));
-		assertFalse(kb.hasPropertyValue(c, p, e));
-		assertFalse(kb.hasPropertyValue(a, p, f));
-		assertFalse(kb.hasPropertyValue(b, p, f));
-		assertFalse(kb.hasPropertyValue(c, p, f));
+		assertTrue(_kb.hasPropertyValue(_a, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _f));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _f));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _f));
 
-		kb.removePropertyValue(p, a, d);
+		_kb.removePropertyValue(_p, _a, _d);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertFalse(kb.hasPropertyValue(a, p, d));
-		assertFalse(kb.hasPropertyValue(b, p, d));
-		assertFalse(kb.hasPropertyValue(c, p, d));
-		assertFalse(kb.hasPropertyValue(a, p, e));
-		assertFalse(kb.hasPropertyValue(b, p, e));
-		assertFalse(kb.hasPropertyValue(c, p, e));
-		assertFalse(kb.hasPropertyValue(a, p, f));
-		assertFalse(kb.hasPropertyValue(b, p, f));
-		assertFalse(kb.hasPropertyValue(c, p, f));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _d));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _e));
+		assertFalse(_kb.hasPropertyValue(_a, _p, _f));
+		assertFalse(_kb.hasPropertyValue(_b, _p, _f));
+		assertFalse(_kb.hasPropertyValue(_c, _p, _f));
 	}
 
 	@Test
 	public void mergeManyIndividuals()
 	{
-		individuals(a);
-		objectProperties(p);
+		individuals(_a);
+		objectProperties(_p);
 
 		final int N = 5000;
 
 		final ATermAppl[] b = new ATermAppl[N];
 		final ATermAppl[] c = new ATermAppl[N];
 
-		kb.addObjectProperty(p);
-		kb.addFunctionalProperty(p);
+		_kb.addObjectProperty(_p);
+		_kb.addFunctionalProperty(_p);
 
-		kb.addIndividual(a);
+		_kb.addIndividual(_a);
 
 		for (int i = 0; i < N; i++)
 		{
 			b[i] = term("b" + i);
-			kb.addIndividual(b[i]);
+			_kb.addIndividual(b[i]);
 			c[i] = term("c" + i);
-			kb.addIndividual(c[i]);
+			_kb.addIndividual(c[i]);
 
 			if (i == 0)
 			{
-				kb.addPropertyValue(p, a, b[i]);
-				kb.addPropertyValue(p, a, c[i]);
+				_kb.addPropertyValue(_p, _a, b[i]);
+				_kb.addPropertyValue(_p, _a, c[i]);
 			}
 			else
 			{
-				kb.addPropertyValue(p, b[i - 1], b[i]);
-				kb.addPropertyValue(p, c[i - 1], c[i]);
+				_kb.addPropertyValue(_p, b[i - 1], b[i]);
+				_kb.addPropertyValue(_p, c[i - 1], c[i]);
 			}
 		}
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 	}
 }

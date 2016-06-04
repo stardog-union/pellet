@@ -42,55 +42,55 @@ public class SimpleClassificationTests extends AbstractKBTests
 	@Test
 	public void cdClassificationWithInverses()
 	{
-		classes(C, D, E);
-		objectProperties(p);
+		classes(_C, _D, _E);
+		objectProperties(_p);
 
-		kb.addSubClass(C, some(p, D));
-		kb.addSubClass(D, all(inv(p), E));
+		_kb.addSubClass(_C, some(_p, _D));
+		_kb.addSubClass(_D, all(inv(_p), _E));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSubClassOf(C, E));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSubClassOf(_C, _E));
 
-		kb.classify();
+		_kb.classify();
 
-		assertTrue(kb.isSubClassOf(C, E));
+		assertTrue(_kb.isSubClassOf(_C, _E));
 	}
 
 	@Test
 	public void cdClassificationWithCyclicInverses()
 	{
-		classes(C, D, E);
-		objectProperties(p, q);
+		classes(_C, _D, _E);
+		objectProperties(_p, _q);
 
-		kb.addSubClass(E, some(p, C));
-		kb.addSubClass(C, all(inv(p), D));
-		kb.addSubClass(D, some(q, E));
+		_kb.addSubClass(_E, some(_p, _C));
+		_kb.addSubClass(_C, all(inv(_p), _D));
+		_kb.addSubClass(_D, some(_q, _E));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSubClassOf(E, D));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSubClassOf(_E, _D));
 
-		kb.classify();
+		_kb.classify();
 
-		assertTrue(kb.isSubClassOf(E, D));
+		assertTrue(_kb.isSubClassOf(_E, _D));
 	}
 
 	@Test
 	public void cdClassificationWithPropChain()
 	{
-		classes(C, D, E);
-		objectProperties(p, q, r);
+		classes(_C, _D, _E);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(p, q), r);
-		kb.addSubClass(C, some(p, some(q, D)));
-		kb.addSubClass(D, all(inv(r), E));
+		_kb.addSubProperty(list(_p, _q), _r);
+		_kb.addSubClass(_C, some(_p, some(_q, _D)));
+		_kb.addSubClass(_D, all(inv(_r), _E));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isSubClassOf(C, E));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isSubClassOf(_C, _E));
 
-		kb.classify();
+		_kb.classify();
 
-		kb.printClassTree();
+		_kb.printClassTree();
 
-		assertTrue(kb.isSubClassOf(C, E));
+		assertTrue(_kb.isSubClassOf(_C, _E));
 	}
 }

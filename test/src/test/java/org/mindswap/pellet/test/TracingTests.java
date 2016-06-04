@@ -74,7 +74,7 @@ public class TracingTests extends AbstractKBTests
 
 		old_USE_TRACING = PelletOptions.USE_TRACING;
 		PelletOptions.USE_TRACING = true;
-		kb.setDoExplanation(true);
+		_kb.setDoExplanation(true);
 	}
 
 	@Override
@@ -88,9 +88,9 @@ public class TracingTests extends AbstractKBTests
 
 	public void explainInconsistency(final ATermAppl... expected)
 	{
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> actual = kb.getExplanationSet();
+		final Set<ATermAppl> actual = _kb.getExplanationSet();
 
 		assertEquals(SetUtils.create(expected), actual);
 	}
@@ -99,7 +99,7 @@ public class TracingTests extends AbstractKBTests
 	{
 		assertTrue(entailment);
 
-		final Set<ATermAppl> actual = kb.getExplanationSet();
+		final Set<ATermAppl> actual = _kb.getExplanationSet();
 
 		assertEquals(SetUtils.create(expected), actual);
 	}
@@ -107,23 +107,23 @@ public class TracingTests extends AbstractKBTests
 	@Test
 	public void testAsymmetric()
 	{
-		objectProperties(p);
-		individuals(a, b);
+		objectProperties(_p);
+		individuals(_a, _b);
 
-		kb.addAsymmetricProperty(p);
+		_kb.addAsymmetricProperty(_p);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(p, b, a);
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addPropertyValue(_p, _b, _a);
 
-		explainInconsistency(ATermUtils.makeAsymmetric(p), ATermUtils.makePropAtom(p, a, b), ATermUtils.makePropAtom(p, b, a));
+		explainInconsistency(ATermUtils.makeAsymmetric(_p), ATermUtils.makePropAtom(_p, _a, _b), ATermUtils.makePropAtom(_p, _b, _a));
 	}
 
 	@Test
 	public void testBottomSatisfiable()
 	{
-		kb.addClass(human);
+		_kb.addClass(human);
 
-		explainEntailment(!kb.isSatisfiable(ATermUtils.makeAnd(ATermUtils.makeNot(human), ATermUtils.BOTTOM)));
+		explainEntailment(!_kb.isSatisfiable(ATermUtils.makeAnd(ATermUtils.makeNot(human), ATermUtils.BOTTOM)));
 	}
 
 	@Test
@@ -142,33 +142,33 @@ public class TracingTests extends AbstractKBTests
 		final ATermAppl P1 = term("P1");
 		final ATermAppl C2 = term("C2");
 
-		kb.addClass(Course);
-		kb.addClass(Person);
-		kb.addClass(Man);
-		kb.addClass(Woman);
-		kb.addDisjointClass(Man, Woman);
+		_kb.addClass(Course);
+		_kb.addClass(Person);
+		_kb.addClass(Man);
+		_kb.addClass(Woman);
+		_kb.addDisjointClass(Man, Woman);
 
-		kb.addObjectProperty(isTaughtBy);
-		kb.addFunctionalProperty(isTaughtBy);
+		_kb.addObjectProperty(isTaughtBy);
+		_kb.addFunctionalProperty(isTaughtBy);
 
-		kb.addIndividual(C1);
-		kb.addIndividual(P1);
-		kb.addIndividual(M1);
-		kb.addIndividual(M1);
-		kb.addIndividual(W1);
-		kb.addIndividual(C2);
+		_kb.addIndividual(C1);
+		_kb.addIndividual(P1);
+		_kb.addIndividual(M1);
+		_kb.addIndividual(M1);
+		_kb.addIndividual(W1);
+		_kb.addIndividual(C2);
 
-		kb.addType(C1, Course);
-		kb.addPropertyValue(isTaughtBy, C1, M1);
-		kb.addPropertyValue(isTaughtBy, C1, P1);
+		_kb.addType(C1, Course);
+		_kb.addPropertyValue(isTaughtBy, C1, M1);
+		_kb.addPropertyValue(isTaughtBy, C1, P1);
 
-		kb.addType(C2, Course);
-		kb.addPropertyValue(isTaughtBy, C2, W1);
-		kb.addPropertyValue(isTaughtBy, C2, P1);
+		_kb.addType(C2, Course);
+		_kb.addPropertyValue(isTaughtBy, C2, W1);
+		_kb.addPropertyValue(isTaughtBy, C2, P1);
 
-		kb.addType(M1, Man);
-		kb.addType(W1, Woman);
-		kb.addType(P1, Person);
+		_kb.addType(M1, Man);
+		_kb.addType(W1, Woman);
+		_kb.addType(P1, Person);
 
 		explainInconsistency(ATermUtils.makeTypeAtom(M1, Man), ATermUtils.makePropAtom(isTaughtBy, C1, M1), ATermUtils.makePropAtom(isTaughtBy, C1, P1), ATermUtils.makeTypeAtom(W1, Woman), ATermUtils.makePropAtom(isTaughtBy, C2, W1), ATermUtils.makePropAtom(isTaughtBy, C2, P1), ATermUtils.makeFunctional(isTaughtBy), ATermUtils.makeDisjoint(Man, Woman));
 	}
@@ -179,14 +179,14 @@ public class TracingTests extends AbstractKBTests
 	@Test
 	public void testDatatypeStatement()
 	{
-		kb.addDatatypeProperty(ssn);
-		kb.addIndividual(robert);
+		_kb.addDatatypeProperty(ssn);
+		_kb.addIndividual(robert);
 
 		final ATermAppl ssn1 = ATermUtils.makeTypedLiteral("bob", XSD.nonNegativeInteger.toString());
-		kb.addPropertyValue(ssn, robert, ssn1);
-		assertFalse(kb.isConsistent());
+		_kb.addPropertyValue(ssn, robert, ssn1);
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertTrue(explanation.contains(ATermUtils.makePropAtom(ssn, robert, ssn1)));
 	}
@@ -194,88 +194,88 @@ public class TracingTests extends AbstractKBTests
 	@Test
 	public void testDisjunction()
 	{
-		classes(A, B);
-		objectProperties(p);
-		individuals(a, b);
+		classes(_A, _B);
+		objectProperties(_p);
+		individuals(_a, _b);
 
-		kb.addType(a, A);
-		kb.addPropertyValue(p, a, b);
-		kb.addType(a, or(not(A), all(p, B)));
+		_kb.addType(_a, _A);
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addType(_a, or(not(_A), all(_p, _B)));
 
-		explainEntailment(kb.isType(b, B), ATermUtils.makeTypeAtom(a, A), ATermUtils.makePropAtom(p, a, b), ATermUtils.makeTypeAtom(a, or(not(A), all(p, B))));
+		explainEntailment(_kb.isType(_b, _B), ATermUtils.makeTypeAtom(_a, _A), ATermUtils.makePropAtom(_p, _a, _b), ATermUtils.makeTypeAtom(_a, or(not(_A), all(_p, _B))));
 	}
 
 	@Test
 	public void testDomain()
 	{
-		classes(A, B);
-		objectProperties(p);
-		individuals(a, b);
+		classes(_A, _B);
+		objectProperties(_p);
+		individuals(_a, _b);
 
-		kb.addDomain(p, A);
-		kb.addType(a, not(A));
-		kb.addPropertyValue(p, a, b);
+		_kb.addDomain(_p, _A);
+		_kb.addType(_a, not(_A));
+		_kb.addPropertyValue(_p, _a, _b);
 
-		explainInconsistency(ATermUtils.makeDomain(p, A), ATermUtils.makeTypeAtom(a, not(A)), ATermUtils.makePropAtom(p, a, b));
+		explainInconsistency(ATermUtils.makeDomain(_p, _A), ATermUtils.makeTypeAtom(_a, not(_A)), ATermUtils.makePropAtom(_p, _a, _b));
 	}
 
 	@Test
 	public void testDomainRangeInverse()
 	{
-		classes(A);
-		objectProperties(p);
-		individuals(a, b);
+		classes(_A);
+		objectProperties(_p);
+		individuals(_a, _b);
 
-		kb.addDomain(p, A);
-		kb.addRange(p, not(A));
-		kb.addInverseProperty(p, p);
-		kb.addPropertyValue(p, a, b);
+		_kb.addDomain(_p, _A);
+		_kb.addRange(_p, not(_A));
+		_kb.addInverseProperty(_p, _p);
+		_kb.addPropertyValue(_p, _a, _b);
 
-		explainInconsistency(ATermUtils.makeDomain(p, A), ATermUtils.makeRange(p, not(A)), ATermUtils.makeInvProp(p, p), ATermUtils.makePropAtom(p, a, b));
+		explainInconsistency(ATermUtils.makeDomain(_p, _A), ATermUtils.makeRange(_p, not(_A)), ATermUtils.makeInvProp(_p, _p), ATermUtils.makePropAtom(_p, _a, _b));
 	}
 
 	@Test
 	public void testDomainRangeSymmetric()
 	{
-		classes(A);
-		objectProperties(p);
-		individuals(a, b);
+		classes(_A);
+		objectProperties(_p);
+		individuals(_a, _b);
 
-		kb.addDomain(p, A);
-		kb.addRange(p, not(A));
-		kb.addSymmetricProperty(p);
-		kb.addPropertyValue(p, a, b);
+		_kb.addDomain(_p, _A);
+		_kb.addRange(_p, not(_A));
+		_kb.addSymmetricProperty(_p);
+		_kb.addPropertyValue(_p, _a, _b);
 
-		explainInconsistency(ATermUtils.makeDomain(p, A), ATermUtils.makeRange(p, not(A)), ATermUtils.makeSymmetric(p), ATermUtils.makePropAtom(p, a, b));
+		explainInconsistency(ATermUtils.makeDomain(_p, _A), ATermUtils.makeRange(_p, not(_A)), ATermUtils.makeSymmetric(_p), ATermUtils.makePropAtom(_p, _a, _b));
 	}
 
 	@Test
 	public void testEquivalentClass()
 	{
-		classes(A, B);
+		classes(_A, _B);
 
-		kb.addSubClass(A, B);
-		kb.addSubClass(B, A);
+		_kb.addSubClass(_A, _B);
+		_kb.addSubClass(_B, _A);
 
-		explainEntailment(kb.isEquivalentClass(A, B), ATermUtils.makeSub(A, B), ATermUtils.makeSub(B, A));
+		explainEntailment(_kb.isEquivalentClass(_A, _B), ATermUtils.makeSub(_A, _B), ATermUtils.makeSub(_B, _A));
 	}
 
 	@Test
 	public void testFunctionalDataProp2()
 	{
-		kb.addDatatypeProperty(ssn);
-		kb.addFunctionalProperty(ssn);
-		kb.addIndividual(robert);
+		_kb.addDatatypeProperty(ssn);
+		_kb.addFunctionalProperty(ssn);
+		_kb.addIndividual(robert);
 
 		final ATermAppl ssn1 = ATermUtils.makePlainLiteral("012345678");
 		final ATermAppl ssn2 = ATermUtils.makePlainLiteral("123456789");
 
-		kb.addPropertyValue(ssn, robert, ssn1);
-		kb.addPropertyValue(ssn, robert, ssn2);
+		_kb.addPropertyValue(ssn, robert, ssn1);
+		_kb.addPropertyValue(ssn, robert, ssn2);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makePropAtom(ssn, robert, ssn1), ATermUtils.makePropAtom(ssn, robert, ssn2), ATermUtils.makeFunctional(ssn), });
 		assertTrue(explanation.size() == 3);
@@ -290,22 +290,22 @@ public class TracingTests extends AbstractKBTests
 		final ATermAppl a = term("a");
 		final ATermAppl b = literal("012345678", Datatypes.INTEGER);
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addDatatypeProperty(p);
-		kb.addIndividual(a);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addDatatypeProperty(p);
+		_kb.addIndividual(a);
 
-		kb.addEquivalentClass(C, all(p, D));
+		_kb.addEquivalentClass(C, all(p, D));
 
-		kb.addFunctionalProperty(p);
+		_kb.addFunctionalProperty(p);
 
-		kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(p, a, b);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, C));
+		assertTrue(_kb.isType(a, C));
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeEqClasses(C, all(p, D)), ATermUtils.makeFunctional(p), ATermUtils.makePropAtom(p, a, b) });
 	}
@@ -319,24 +319,24 @@ public class TracingTests extends AbstractKBTests
 		final ATermAppl a = term("a");
 		final ATermAppl b = term("b");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addObjectProperty(p);
-		kb.addIndividual(a);
-		kb.addIndividual(b);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addObjectProperty(p);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
 
-		kb.addEquivalentClass(C, all(p, D));
+		_kb.addEquivalentClass(C, all(p, D));
 
-		kb.addFunctionalProperty(p);
+		_kb.addFunctionalProperty(p);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addType(b, D);
+		_kb.addPropertyValue(p, a, b);
+		_kb.addType(b, D);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(a, C));
+		assertTrue(_kb.isType(a, C));
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeEqClasses(C, all(p, D)), ATermUtils.makeFunctional(p), ATermUtils.makePropAtom(p, a, b), ATermUtils.makeTypeAtom(b, D) });
 	}
@@ -346,19 +346,19 @@ public class TracingTests extends AbstractKBTests
 	{
 		final ATermList different = ATermUtils.makeList(robert).insert(mary);
 		System.out.println("Different: " + different);
-		kb.addObjectProperty(mbox);
-		kb.addInverseFunctionalProperty(mbox);
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
-		kb.addIndividual(email);
-		kb.addAllDifferent(different);
+		_kb.addObjectProperty(mbox);
+		_kb.addInverseFunctionalProperty(mbox);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(email);
+		_kb.addAllDifferent(different);
 
-		kb.addPropertyValue(mbox, robert, email);
-		kb.addPropertyValue(mbox, mary, email);
+		_kb.addPropertyValue(mbox, robert, email);
+		_kb.addPropertyValue(mbox, mary, email);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 		// System.out.println(explanation);
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makePropAtom(mbox, robert, email), ATermUtils.makePropAtom(mbox, mary, email), ATermUtils.makeInverseFunctional(mbox), ATermUtils.makeAllDifferent(different), });
 	}
@@ -366,37 +366,37 @@ public class TracingTests extends AbstractKBTests
 	@Test
 	public void testIrreflexive()
 	{
-		kb.addObjectProperty(mbox);
-		kb.addIrreflexiveProperty(mbox);
-		kb.addIndividual(robert);
-		kb.addPropertyValue(mbox, robert, robert);
+		_kb.addObjectProperty(mbox);
+		_kb.addIrreflexiveProperty(mbox);
+		_kb.addIndividual(robert);
+		_kb.addPropertyValue(mbox, robert, robert);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeIrreflexive(mbox), ATermUtils.makePropAtom(mbox, robert, robert), });
 	}
 
 	@Test
 	public void testMaxOneDataProp()
 	{
-		kb.addClass(person);
-		kb.addDatatypeProperty(ssn);
+		_kb.addClass(person);
+		_kb.addDatatypeProperty(ssn);
 		final ATermAppl max1ssn = ATermUtils.makeMax(ssn, 1, ATermUtils.TOP_LIT);
-		kb.addSubClass(person, max1ssn);
-		kb.addSubClass(person, ATermUtils.makeMin(ssn, 1, ATermUtils.TOP_LIT));
-		kb.addIndividual(robert);
-		kb.addType(robert, person);
+		_kb.addSubClass(person, max1ssn);
+		_kb.addSubClass(person, ATermUtils.makeMin(ssn, 1, ATermUtils.TOP_LIT));
+		_kb.addIndividual(robert);
+		_kb.addType(robert, person);
 
 		final ATermAppl ssn1 = ATermUtils.makePlainLiteral("012345678");
 		final ATermAppl ssn2 = ATermUtils.makePlainLiteral("123456789");
 
-		kb.addPropertyValue(ssn, robert, ssn1);
-		kb.addPropertyValue(ssn, robert, ssn2);
+		_kb.addPropertyValue(ssn, robert, ssn1);
+		_kb.addPropertyValue(ssn, robert, ssn2);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makePropAtom(ssn, robert, ssn1), ATermUtils.makePropAtom(ssn, robert, ssn2), ATermUtils.makeSub(person, max1ssn), ATermUtils.makeTypeAtom(robert, person), });
 	}
@@ -406,17 +406,17 @@ public class TracingTests extends AbstractKBTests
 	{
 		final ATermAppl notPerson = ATermUtils.makeNot(person);
 
-		kb.addClass(person);
-		kb.addObjectProperty(sibling);
-		kb.addRange(sibling, person);
-		kb.addIndividual(robert);
-		kb.addIndividual(victor);
-		kb.addType(victor, notPerson);
-		kb.addPropertyValue(sibling, robert, victor);
+		_kb.addClass(person);
+		_kb.addObjectProperty(sibling);
+		_kb.addRange(sibling, person);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(victor);
+		_kb.addType(victor, notPerson);
+		_kb.addPropertyValue(sibling, robert, victor);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeRange(sibling, person), ATermUtils.makeTypeAtom(victor, notPerson), ATermUtils.makePropAtom(sibling, robert, victor), });
 	}
@@ -426,19 +426,19 @@ public class TracingTests extends AbstractKBTests
 	{
 		final ATermAppl notPerson = ATermUtils.makeNot(person);
 		final ATermAppl bobsType = ATermUtils.makeAllValues(relative, notPerson);
-		kb.addClass(person);
-		kb.addObjectProperty(relative);
-		kb.addReflexiveProperty(relative);
-		kb.addIndividual(robert);
-		kb.addType(robert, person);
-		kb.addType(robert, bobsType);
-		kb.addIndividual(victor);
-		kb.addType(victor, notPerson);
+		_kb.addClass(person);
+		_kb.addObjectProperty(relative);
+		_kb.addReflexiveProperty(relative);
+		_kb.addIndividual(robert);
+		_kb.addType(robert, person);
+		_kb.addType(robert, bobsType);
+		_kb.addIndividual(victor);
+		_kb.addType(victor, notPerson);
 
 		// _kb.addPropertyValue(relative, robert, victor);
 
-		assertFalse(kb.isConsistent());
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		assertFalse(_kb.isConsistent());
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeReflexive(relative), ATermUtils.makeTypeAtom(robert, person), ATermUtils.makeTypeAtom(robert, bobsType),
 			// ATermUtils.makePropAtom(relative, robert, victor),
 		});
@@ -448,19 +448,19 @@ public class TracingTests extends AbstractKBTests
 	@Test
 	public void testSameAllDifferent()
 	{
-		kb.addIndividual(robert);
-		kb.addIndividual(bob);
-		kb.addIndividual(mary);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(bob);
+		_kb.addIndividual(mary);
 
 		ATermList list = ATermUtils.makeList(robert);
 		list = ATermUtils.makeList(bob, list);
 		list = ATermUtils.makeList(mary, list);
-		kb.addAllDifferent(list);
-		kb.addSame(robert, bob);
+		_kb.addAllDifferent(list);
+		_kb.addSame(robert, bob);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 		assertTrue(explanation.contains(ATermUtils.makeSameAs(robert, bob)));
 		assertTrue(explanation.contains(ATermUtils.makeAllDifferent(list)));
 		assertTrue(explanation.size() == 2);
@@ -470,13 +470,13 @@ public class TracingTests extends AbstractKBTests
 	@Test
 	public void testSameDifferent()
 	{
-		kb.addIndividual(robert);
-		kb.addIndividual(bob);
-		kb.addSame(robert, bob);
-		kb.addDifferent(robert, bob);
-		assertFalse(kb.isConsistent());
+		_kb.addIndividual(robert);
+		_kb.addIndividual(bob);
+		_kb.addSame(robert, bob);
+		_kb.addDifferent(robert, bob);
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 		assertTrue(explanation.contains(ATermUtils.makeSameAs(robert, bob)));
 		assertTrue(explanation.contains(ATermUtils.makeDifferent(robert, bob)));
 		assertTrue(explanation.size() == 2);
@@ -487,17 +487,17 @@ public class TracingTests extends AbstractKBTests
 	public void testSubProp1()
 	{
 		final ATermAppl noRelatives = ATermUtils.makeMax(relative, 0, ATermUtils.TOP);
-		kb.addIndividual(mary);
-		kb.addIndividual(bob);
-		kb.addObjectProperty(relative);
-		kb.addObjectProperty(sibling);
-		kb.addSubProperty(sibling, relative);
-		kb.addType(bob, noRelatives);
-		kb.addPropertyValue(sibling, bob, mary);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(bob);
+		_kb.addObjectProperty(relative);
+		_kb.addObjectProperty(sibling);
+		_kb.addSubProperty(sibling, relative);
+		_kb.addType(bob, noRelatives);
+		_kb.addPropertyValue(sibling, bob, mary);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSubProp(sibling, relative), ATermUtils.makePropAtom(sibling, bob, mary), ATermUtils.makeTypeAtom(bob, noRelatives), });
 
 	}
@@ -506,18 +506,18 @@ public class TracingTests extends AbstractKBTests
 	public void testSubProp2()
 	{
 		final ATermAppl nonHumanRelatives = ATermUtils.makeAllValues(relative, ATermUtils.makeNot(person));
-		kb.addIndividual(mary);
-		kb.addIndividual(bob);
-		kb.addObjectProperty(relative);
-		kb.addObjectProperty(sibling);
-		kb.addSubProperty(sibling, relative);
-		kb.addType(bob, nonHumanRelatives);
-		kb.addType(mary, person);
-		kb.addPropertyValue(sibling, bob, mary);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(bob);
+		_kb.addObjectProperty(relative);
+		_kb.addObjectProperty(sibling);
+		_kb.addSubProperty(sibling, relative);
+		_kb.addType(bob, nonHumanRelatives);
+		_kb.addType(mary, person);
+		_kb.addPropertyValue(sibling, bob, mary);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSubProp(sibling, relative), ATermUtils.makePropAtom(sibling, bob, mary), ATermUtils.makeTypeAtom(bob, nonHumanRelatives), ATermUtils.makeTypeAtom(mary, person), });
 
 	}
@@ -525,37 +525,37 @@ public class TracingTests extends AbstractKBTests
 	@Test
 	public void testTopBottom()
 	{
-		kb = new KnowledgeBase();
-		kb.addSubClass(ATermUtils.TOP, ATermUtils.BOTTOM);
+		_kb = new KnowledgeBase();
+		_kb.addSubClass(ATermUtils.TOP, ATermUtils.BOTTOM);
 
-		assertFalse(kb.isConsistent());
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		assertFalse(_kb.isConsistent());
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSub(ATermUtils.TOP, ATermUtils.BOTTOM), });
 	}
 
 	@Test
 	public void testTransitive()
 	{
-		kb.addObjectProperty(sibling);
-		kb.addTransitiveProperty(sibling);
+		_kb.addObjectProperty(sibling);
+		_kb.addTransitiveProperty(sibling);
 
 		// ATermList different = ATermUtils.makeList(new ATermAppl[] { mary,
 		// robert, victor} );
-		kb.addIndividual(robert);
-		kb.addIndividual(mary);
-		kb.addIndividual(victor);
+		_kb.addIndividual(robert);
+		_kb.addIndividual(mary);
+		_kb.addIndividual(victor);
 		// _kb.addAllDifferent(different);
 
 		// ATermAppl oneSibling = ATermUtils.makeMax(sibling, 1,
 		// ATermUtils.TOP);
 		final ATermAppl notVictorsSibling = ATermUtils.makeNot(ATermUtils.makeHasValue(sibling, victor));
-		kb.addType(robert, notVictorsSibling);
+		_kb.addType(robert, notVictorsSibling);
 
-		kb.addPropertyValue(sibling, robert, mary);
-		kb.addPropertyValue(sibling, mary, victor);
+		_kb.addPropertyValue(sibling, robert, mary);
+		_kb.addPropertyValue(sibling, mary, victor);
 
-		assertFalse(kb.isConsistent());
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		assertFalse(_kb.isConsistent());
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] {
 			// ATermUtils.makeAllDifferent(different),
@@ -611,22 +611,22 @@ public class TracingTests extends AbstractKBTests
 		final ATermAppl a = term("a");
 		final ATermAppl b = term("b");
 
-		kb.addClass(C);
-		kb.addObjectProperty(p);
-		kb.addObjectProperty(invP);
-		kb.addIndividual(a);
-		kb.addIndividual(b);
+		_kb.addClass(C);
+		_kb.addObjectProperty(p);
+		_kb.addObjectProperty(invP);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
 
-		kb.addSubClass(C, max(invP, 0, TOP));
+		_kb.addSubClass(C, max(invP, 0, TOP));
 
-		kb.addInverseProperty(p, invP);
+		_kb.addInverseProperty(p, invP);
 
-		kb.addPropertyValue(p, b, a);
-		kb.addType(a, C);
+		_kb.addPropertyValue(p, b, a);
+		_kb.addType(a, C);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSub(C, max(invP, 0, TOP)), ATermUtils.makeInvProp(p, invP), ATermUtils.makePropAtom(p, b, a), ATermUtils.makeTypeAtom(a, C) });
 	}
@@ -642,25 +642,25 @@ public class TracingTests extends AbstractKBTests
 		final ATermAppl c = term("c");
 		final ATermList inds = makeList(new ATerm[] { a, b, c });
 
-		kb.addClass(C);
-		kb.addObjectProperty(p);
-		kb.addObjectProperty(invP);
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
+		_kb.addClass(C);
+		_kb.addObjectProperty(p);
+		_kb.addObjectProperty(invP);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addIndividual(c);
 
-		kb.addSubClass(C, max(invP, 1, TOP));
+		_kb.addSubClass(C, max(invP, 1, TOP));
 
-		kb.addInverseProperty(p, invP);
+		_kb.addInverseProperty(p, invP);
 
-		kb.addPropertyValue(p, b, a);
-		kb.addPropertyValue(p, c, a);
-		kb.addType(a, C);
-		kb.addAllDifferent(inds);
+		_kb.addPropertyValue(p, b, a);
+		_kb.addPropertyValue(p, c, a);
+		_kb.addType(a, C);
+		_kb.addAllDifferent(inds);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSub(C, max(invP, 1, TOP)), ATermUtils.makeInvProp(p, invP), ATermUtils.makeAllDifferent(inds), ATermUtils.makePropAtom(p, b, a), ATermUtils.makePropAtom(p, c, a), ATermUtils.makeTypeAtom(a, C) });
 	}
@@ -677,27 +677,27 @@ public class TracingTests extends AbstractKBTests
 		final ATermAppl d = term("d");
 		final ATermList inds = makeList(new ATerm[] { a, b, c, d });
 
-		kb.addClass(C);
-		kb.addObjectProperty(p);
-		kb.addObjectProperty(invP);
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
-		kb.addIndividual(d);
+		_kb.addClass(C);
+		_kb.addObjectProperty(p);
+		_kb.addObjectProperty(invP);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
+		_kb.addIndividual(c);
+		_kb.addIndividual(d);
 
-		kb.addSubClass(C, max(invP, 2, TOP));
+		_kb.addSubClass(C, max(invP, 2, TOP));
 
-		kb.addInverseProperty(p, invP);
+		_kb.addInverseProperty(p, invP);
 
-		kb.addPropertyValue(p, b, a);
-		kb.addPropertyValue(p, c, a);
-		kb.addPropertyValue(p, d, a);
-		kb.addType(a, C);
-		kb.addAllDifferent(inds);
+		_kb.addPropertyValue(p, b, a);
+		_kb.addPropertyValue(p, c, a);
+		_kb.addPropertyValue(p, d, a);
+		_kb.addType(a, C);
+		_kb.addAllDifferent(inds);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSub(C, max(invP, 2, TOP)), ATermUtils.makeInvProp(p, invP), ATermUtils.makeAllDifferent(inds), ATermUtils.makePropAtom(p, b, a), ATermUtils.makePropAtom(p, c, a), ATermUtils.makePropAtom(p, d, a), ATermUtils.makeTypeAtom(a, C) });
 	}
@@ -712,25 +712,25 @@ public class TracingTests extends AbstractKBTests
 		final ATermAppl a = term("a");
 		final ATermAppl b = term("b");
 
-		kb.addClass(C);
-		kb.addClass(D);
-		kb.addObjectProperty(p);
-		kb.addObjectProperty(invP);
-		kb.addIndividual(a);
-		kb.addIndividual(b);
+		_kb.addClass(C);
+		_kb.addClass(D);
+		_kb.addObjectProperty(p);
+		_kb.addObjectProperty(invP);
+		_kb.addIndividual(a);
+		_kb.addIndividual(b);
 
-		kb.addSubClass(C, all(invP, D));
+		_kb.addSubClass(C, all(invP, D));
 
-		kb.addInverseProperty(p, invP);
+		_kb.addInverseProperty(p, invP);
 
-		kb.addPropertyValue(p, b, a);
-		kb.addType(a, C);
+		_kb.addPropertyValue(p, b, a);
+		_kb.addType(a, C);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
-		assertTrue(kb.isType(b, D));
+		assertTrue(_kb.isType(b, D));
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
 		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSub(C, all(invP, D)), ATermUtils.makeInvProp(p, invP), ATermUtils.makePropAtom(p, b, a), ATermUtils.makeTypeAtom(a, C) });
 	}
@@ -738,87 +738,87 @@ public class TracingTests extends AbstractKBTests
 	@Test
 	public void testInverseAllValues2()
 	{
-		classes(C, D);
-		objectProperties(p, q);
-		individuals(a, b, c);
+		classes(_C, _D);
+		objectProperties(_p, _q);
+		individuals(_a, _b, _c);
 
-		kb.addSubClass(C, all(q, D));
+		_kb.addSubClass(_C, all(_q, _D));
 
-		kb.addTransitiveProperty(p);
-		kb.addInverseProperty(p, q);
+		_kb.addTransitiveProperty(_p);
+		_kb.addInverseProperty(_p, _q);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(p, b, c);
-		kb.addType(c, C);
-		kb.addType(a, not(D));
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addPropertyValue(_p, _b, _c);
+		_kb.addType(_c, _C);
+		_kb.addType(_a, not(_D));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
-		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSub(C, all(q, D)), ATermUtils.makeTransitive(p), ATermUtils.makeInvProp(p, q), ATermUtils.makePropAtom(p, a, b), ATermUtils.makePropAtom(p, b, c), ATermUtils.makeTypeAtom(a, not(D)), ATermUtils.makeTypeAtom(c, C) });
+		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeSub(_C, all(_q, _D)), ATermUtils.makeTransitive(_p), ATermUtils.makeInvProp(_p, _q), ATermUtils.makePropAtom(_p, _a, _b), ATermUtils.makePropAtom(_p, _b, _c), ATermUtils.makeTypeAtom(_a, not(_D)), ATermUtils.makeTypeAtom(_c, _C) });
 	}
 
 	@Test
 	public void testRestrictedDatatypeRange()
 	{
-		classes(C, D);
-		dataProperties(p);
-		individuals(a, b, c);
+		classes(_C, _D);
+		dataProperties(_p);
+		individuals(_a, _b, _c);
 
-		kb.addRange(p, restrict(Datatypes.INTEGER, minInclusive(literal(10))));
-		kb.addPropertyValue(p, a, literal(5));
-		assertFalse(kb.isConsistent());
+		_kb.addRange(_p, restrict(Datatypes.INTEGER, minInclusive(literal(10))));
+		_kb.addPropertyValue(_p, _a, literal(5));
+		assertFalse(_kb.isConsistent());
 
-		final Set<ATermAppl> explanation = kb.getExplanationSet();
+		final Set<ATermAppl> explanation = _kb.getExplanationSet();
 
-		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeRange(p, restrict(Datatypes.INTEGER, minInclusive(literal(10)))), ATermUtils.makePropAtom(p, a, literal(5)) });
+		assertIteratorValues(explanation.iterator(), new Object[] { ATermUtils.makeRange(_p, restrict(Datatypes.INTEGER, minInclusive(literal(10)))), ATermUtils.makePropAtom(_p, _a, literal(5)) });
 	}
 
 	@Test
 	public void testDatatypeDefinitionInconsistency()
 	{
-		classes(C);
-		dataProperties(p);
-		individuals(a, b, c);
+		classes(_C);
+		dataProperties(_p);
+		individuals(_a, _b, _c);
 
-		kb.addRange(p, D);
-		kb.addDatatypeDefinition(D, restrict(Datatypes.INTEGER, minInclusive(literal(10))));
-		kb.addPropertyValue(p, a, literal(5));
+		_kb.addRange(_p, _D);
+		_kb.addDatatypeDefinition(_D, restrict(Datatypes.INTEGER, minInclusive(literal(10))));
+		_kb.addPropertyValue(_p, _a, literal(5));
 
-		explainInconsistency(ATermUtils.makeRange(p, D), ATermUtils.makeDatatypeDefinition(D, restrict(Datatypes.INTEGER, minInclusive(literal(10)))), ATermUtils.makePropAtom(p, a, literal(5)));
+		explainInconsistency(ATermUtils.makeRange(_p, _D), ATermUtils.makeDatatypeDefinition(_D, restrict(Datatypes.INTEGER, minInclusive(literal(10)))), ATermUtils.makePropAtom(_p, _a, literal(5)));
 	}
 
 	@Test
 	public void testDatatypeDefinition()
 	{
-		classes(A);
-		dataProperties(p);
-		individuals(a);
+		classes(_A);
+		dataProperties(_p);
+		individuals(_a);
 
-		kb.addDatatypeDefinition(D, restrict(Datatypes.INTEGER, minInclusive(literal(10))));
-		kb.addPropertyValue(p, a, literal(15));
-		kb.addEquivalentClass(A, some(p, D));
+		_kb.addDatatypeDefinition(_D, restrict(Datatypes.INTEGER, minInclusive(literal(10))));
+		_kb.addPropertyValue(_p, _a, literal(15));
+		_kb.addEquivalentClass(_A, some(_p, _D));
 
-		explainEntailment(kb.isType(a, A), ATermUtils.makeEqClasses(A, some(p, D)), ATermUtils.makeDatatypeDefinition(D, restrict(Datatypes.INTEGER, minInclusive(literal(10)))), ATermUtils.makePropAtom(p, a, literal(15)));
+		explainEntailment(_kb.isType(_a, _A), ATermUtils.makeEqClasses(_A, some(_p, _D)), ATermUtils.makeDatatypeDefinition(_D, restrict(Datatypes.INTEGER, minInclusive(literal(10)))), ATermUtils.makePropAtom(_p, _a, literal(15)));
 	}
 
 	@Test
 	public void testDatatypeEnumeration()
 	{
-		classes(A);
-		objectProperties(q);
-		dataProperties(p);
-		individuals(a, b);
+		classes(_A);
+		objectProperties(_q);
+		dataProperties(_p);
+		individuals(_a, _b);
 
-		kb.addDatatypeDefinition(D, oneOf(literal(1), literal(2)));
-		kb.addPropertyValue(p, a, literal(1));
-		kb.addPropertyValue(p, b, literal(2));
-		kb.addPropertyValue(p, b, literal(3));
-		kb.addPropertyValue(q, a, b);
-		kb.addEquivalentClass(A, and(some(p, D), some(q, some(p, not(D)))));
+		_kb.addDatatypeDefinition(_D, oneOf(literal(1), literal(2)));
+		_kb.addPropertyValue(_p, _a, literal(1));
+		_kb.addPropertyValue(_p, _b, literal(2));
+		_kb.addPropertyValue(_p, _b, literal(3));
+		_kb.addPropertyValue(_q, _a, _b);
+		_kb.addEquivalentClass(_A, and(some(_p, _D), some(_q, some(_p, not(_D)))));
 
-		explainEntailment(kb.isType(a, A), ATermUtils.makeEqClasses(A, and(some(p, D), some(q, some(p, not(D))))), ATermUtils.makeDatatypeDefinition(D, oneOf(literal(1), literal(2))), ATermUtils.makePropAtom(p, a, literal(1)), ATermUtils.makePropAtom(p, b, literal(3)), ATermUtils.makePropAtom(q, a, b));
+		explainEntailment(_kb.isType(_a, _A), ATermUtils.makeEqClasses(_A, and(some(_p, _D), some(_q, some(_p, not(_D))))), ATermUtils.makeDatatypeDefinition(_D, oneOf(literal(1), literal(2))), ATermUtils.makePropAtom(_p, _a, literal(1)), ATermUtils.makePropAtom(_p, _b, literal(3)), ATermUtils.makePropAtom(_q, _a, _b));
 	}
 
 	@Test
@@ -826,27 +826,27 @@ public class TracingTests extends AbstractKBTests
 	{
 		// Tests #446
 
-		classes(A);
-		objectProperties(p, q, r, f);
-		dataProperties(p);
-		individuals(a, b, c);
+		classes(_A);
+		objectProperties(_p, _q, _r, _f);
+		dataProperties(_p);
+		individuals(_a, _b, _c);
 
 		final AtomIVariable x = new AtomIVariable("x");
 		final AtomIVariable y = new AtomIVariable("y");
 		final AtomIVariable z = new AtomIVariable("z");
 
-		kb.addSymmetricProperty(p);
-		kb.addInverseProperty(q, r);
+		_kb.addSymmetricProperty(_p);
+		_kb.addInverseProperty(_q, _r);
 
-		kb.addPropertyValue(p, c, a);
-		kb.addPropertyValue(f, a, b);
+		_kb.addPropertyValue(_p, _c, _a);
+		_kb.addPropertyValue(_f, _a, _b);
 
-		final List<RuleAtom> body = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(f, x, y), new IndividualPropertyAtom(p, x, z));
-		final List<RuleAtom> head = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(r, z, y));
+		final List<RuleAtom> body = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(_f, x, y), new IndividualPropertyAtom(_p, x, z));
+		final List<RuleAtom> head = Arrays.<RuleAtom> asList(new IndividualPropertyAtom(_r, z, y));
 		final Rule rule = new Rule(head, body);
-		kb.addRule(rule);
+		_kb.addRule(rule);
 
-		explainEntailment(kb.hasPropertyValue(b, q, c), ATermUtils.makePropAtom(p, c, a), ATermUtils.makePropAtom(f, a, b), ATermUtils.makeSymmetric(p), ATermUtils.makeInvProp(q, r), new RulesToATermTranslator().translate(rule));
+		explainEntailment(_kb.hasPropertyValue(_b, _q, _c), ATermUtils.makePropAtom(_p, _c, _a), ATermUtils.makePropAtom(_f, _a, _b), ATermUtils.makeSymmetric(_p), ATermUtils.makeInvProp(_q, _r), new RulesToATermTranslator().translate(rule));
 
 	}
 
@@ -855,15 +855,15 @@ public class TracingTests extends AbstractKBTests
 	{
 		// Tests #367
 
-		objectProperties(p, q, r);
-		individuals(a, b, c);
+		objectProperties(_p, _q, _r);
+		individuals(_a, _b, _c);
 
-		kb.addSubProperty(list(p, q), r);
+		_kb.addSubProperty(list(_p, _q), _r);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(q, b, c);
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addPropertyValue(_q, _b, _c);
 
-		explainEntailment(kb.hasPropertyValue(a, r, c), ATermUtils.makePropAtom(p, a, b), ATermUtils.makePropAtom(q, b, c), ATermUtils.makeSubProp(list(p, q), r));
+		explainEntailment(_kb.hasPropertyValue(_a, _r, _c), ATermUtils.makePropAtom(_p, _a, _b), ATermUtils.makePropAtom(_q, _b, _c), ATermUtils.makeSubProp(list(_p, _q), _r));
 	}
 
 	@Test
@@ -871,15 +871,15 @@ public class TracingTests extends AbstractKBTests
 	{
 		// Tests #367
 
-		classes(A, B, C);
-		objectProperties(p, q, r);
+		classes(_A, _B, _C);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(p, q), r);
+		_kb.addSubProperty(list(_p, _q), _r);
 
-		kb.addSubClass(A, some(p, some(q, B)));
-		kb.addSubClass(some(r, B), C);
+		_kb.addSubClass(_A, some(_p, some(_q, _B)));
+		_kb.addSubClass(some(_r, _B), _C);
 
-		explainEntailment(kb.isSubClassOf(A, C), ATermUtils.makeSub(A, some(p, some(q, B))), ATermUtils.makeSub(some(r, B), C), ATermUtils.makeSubProp(list(p, q), r));
+		explainEntailment(_kb.isSubClassOf(_A, _C), ATermUtils.makeSub(_A, some(_p, some(_q, _B))), ATermUtils.makeSub(some(_r, _B), _C), ATermUtils.makeSubProp(list(_p, _q), _r));
 	}
 
 	@Ignore("Fails due to #294")
@@ -888,45 +888,45 @@ public class TracingTests extends AbstractKBTests
 	{
 		// Tests #367, #294
 
-		classes(A, B, C);
-		objectProperties(p, q, r, f);
+		classes(_A, _B, _C);
+		objectProperties(_p, _q, _r, _f);
 
-		kb.addSubProperty(list(p, q), p);
-		kb.addSubProperty(list(p, r), f);
-		kb.addSubProperty(r, q);
+		_kb.addSubProperty(list(_p, _q), _p);
+		_kb.addSubProperty(list(_p, _r), _f);
+		_kb.addSubProperty(_r, _q);
 
-		kb.addSubClass(A, some(p, some(r, some(r, B))));
-		kb.addSubClass(some(f, B), C);
+		_kb.addSubClass(_A, some(_p, some(_r, some(_r, _B))));
+		_kb.addSubClass(some(_f, _B), _C);
 
-		explainEntailment(kb.isSubClassOf(A, C), ATermUtils.makeSub(A, some(p, some(q, B))), ATermUtils.makeSub(some(r, B), C), ATermUtils.makeSubProp(list(p, q), r), ATermUtils.makeSubProp(list(r, p), f));
+		explainEntailment(_kb.isSubClassOf(_A, _C), ATermUtils.makeSub(_A, some(_p, some(_q, _B))), ATermUtils.makeSub(some(_r, _B), _C), ATermUtils.makeSubProp(list(_p, _q), _r), ATermUtils.makeSubProp(list(_r, _p), _f));
 	}
 
 	@Test
 	public void testDomainExpression()
 	{
-		classes(A, B);
-		objectProperties(p);
-		individuals(a, b);
+		classes(_A, _B);
+		objectProperties(_p);
+		individuals(_a, _b);
 
-		kb.addDomain(p, or(A, B));
-		kb.addType(a, not(or(A, B)));
-		kb.addPropertyValue(p, a, b);
+		_kb.addDomain(_p, or(_A, _B));
+		_kb.addType(_a, not(or(_A, _B)));
+		_kb.addPropertyValue(_p, _a, _b);
 
-		explainInconsistency(ATermUtils.makeDomain(p, or(A, B)), ATermUtils.makeTypeAtom(a, not(or(A, B))), ATermUtils.makePropAtom(p, a, b));
+		explainInconsistency(ATermUtils.makeDomain(_p, or(_A, _B)), ATermUtils.makeTypeAtom(_a, not(or(_A, _B))), ATermUtils.makePropAtom(_p, _a, _b));
 	}
 
 	@Test
 	public void testRangeExpression()
 	{
-		classes(A, B);
-		objectProperties(p);
-		individuals(a, b);
+		classes(_A, _B);
+		objectProperties(_p);
+		individuals(_a, _b);
 
-		kb.addRange(p, or(A, B));
-		kb.addType(b, not(or(A, B)));
-		kb.addPropertyValue(p, a, b);
+		_kb.addRange(_p, or(_A, _B));
+		_kb.addType(_b, not(or(_A, _B)));
+		_kb.addPropertyValue(_p, _a, _b);
 
-		explainInconsistency(ATermUtils.makeRange(p, or(A, B)), ATermUtils.makeTypeAtom(b, not(or(A, B))), ATermUtils.makePropAtom(p, a, b));
+		explainInconsistency(ATermUtils.makeRange(_p, or(_A, _B)), ATermUtils.makeTypeAtom(_b, not(or(_A, _B))), ATermUtils.makePropAtom(_p, _a, _b));
 	}
 
 	@Test
@@ -934,15 +934,15 @@ public class TracingTests extends AbstractKBTests
 	{
 		// test for ticket #551
 
-		individuals(a);
-		dataProperties(p, q);
+		individuals(_a);
+		dataProperties(_p, _q);
 
-		kb.addFunctionalProperty(q);
-		kb.addSubProperty(p, q);
+		_kb.addFunctionalProperty(_q);
+		_kb.addSubProperty(_p, _q);
 
-		kb.addPropertyValue(p, a, literal(1));
-		kb.addPropertyValue(q, a, literal(2));
+		_kb.addPropertyValue(_p, _a, literal(1));
+		_kb.addPropertyValue(_q, _a, literal(2));
 
-		explainInconsistency(ATermUtils.makeFunctional(q), ATermUtils.makeSubProp(p, q), ATermUtils.makePropAtom(p, a, literal(1)), ATermUtils.makePropAtom(q, a, literal(2)));
+		explainInconsistency(ATermUtils.makeFunctional(_q), ATermUtils.makeSubProp(_p, _q), ATermUtils.makePropAtom(_p, _a, literal(1)), ATermUtils.makePropAtom(_q, _a, literal(2)));
 	}
 }

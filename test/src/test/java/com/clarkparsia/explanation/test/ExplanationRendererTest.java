@@ -40,11 +40,11 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
  */
 public class ExplanationRendererTest
 {
-	private static final OWLClass A = OWL.Class("A");
-	private static final OWLClass B = OWL.Class("B");
-	private static final OWLObjectProperty p = OWL.ObjectProperty("p");
-	private static final OWLObjectProperty q = OWL.ObjectProperty("q");
-	private static final OWLIndividual a = OWL.Individual("a");
+	private static final OWLClass _A = OWL.Class("A");
+	private static final OWLClass _B = OWL.Class("B");
+	private static final OWLObjectProperty _p = OWL.ObjectProperty("p");
+	private static final OWLObjectProperty _q = OWL.ObjectProperty("q");
+	private static final OWLIndividual _a = OWL.Individual("a");
 
 	protected void assertRendering(final String expected, final OWLObject obj)
 	{
@@ -59,44 +59,44 @@ public class ExplanationRendererTest
 	@Test
 	public void classAssertion()
 	{
-		assertRendering("a type A", OWL.classAssertion(a, A));
+		assertRendering("a type A", OWL.classAssertion(_a, _A));
 	}
 
 	@Test
 	public void subClassOf()
 	{
-		assertRendering("A subClassOf B", OWL.subClassOf(A, B));
+		assertRendering("A subClassOf B", OWL.subClassOf(_A, _B));
 	}
 
 	@Test
 	public void subPropertyOf()
 	{
-		final OWLObjectPropertyExpression[] a = { p, q };
-		assertRendering("p o q subPropertyOf p", OWL.subPropertyOf(a, p));
+		final OWLObjectPropertyExpression[] a = { _p, _q };
+		assertRendering("p o q subPropertyOf p", OWL.subPropertyOf(a, _p));
 	}
 
 	@Test
 	public void qualifiedExactCardinality()
 	{
-		assertRendering("p exactly 1 A", OWL.exactly(p, 1, A));
+		assertRendering("p exactly 1 A", OWL.exactly(_p, 1, _A));
 	}
 
 	@Test
 	public void exactCardinality()
 	{
-		assertRendering("p exactly 1", OWL.exactly(p, 1));
+		assertRendering("p exactly 1", OWL.exactly(_p, 1));
 	}
 
 	@Test
 	public void someValuesFrom()
 	{
-		assertRendering("p some A", OWL.some(p, A));
+		assertRendering("p some A", OWL.some(_p, _A));
 	}
 
 	@Test
 	public void allValuesFrom()
 	{
-		assertRendering("p only A", OWL.all(p, A));
+		assertRendering("p only A", OWL.all(_p, _A));
 	}
 
 	@Test

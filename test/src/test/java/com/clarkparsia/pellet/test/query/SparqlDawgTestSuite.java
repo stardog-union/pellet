@@ -9,7 +9,6 @@
 package com.clarkparsia.pellet.test.query;
 
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory.QueryEngineType;
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +41,7 @@ import org.mindswap.pellet.test.PelletTestSuite;
 @RunWith(Parameterized.class)
 public class SparqlDawgTestSuite
 {
+	@SuppressWarnings("unused")
 	private static String getName(final String manifestName)
 	{
 		String name = manifestName;
@@ -68,6 +68,7 @@ public class SparqlDawgTestSuite
 			@Override
 			public void manifestStarted(final String manifestName)
 			{
+				// Nothing to do
 			}
 
 			@Override
@@ -85,6 +86,7 @@ public class SparqlDawgTestSuite
 			@Override
 			public void manifestFinished(final String manifestName)
 			{
+				// Nothing to do
 			}
 		});
 
@@ -137,17 +139,17 @@ public class SparqlDawgTestSuite
 		return parameters;
 	}
 
-	private final SparqlDawgTestCase test;
+	private final SparqlDawgTestCase _test;
 
 	public SparqlDawgTestSuite(final SparqlDawgTestCase test)
 	{
-		this.test = test;
+		this._test = test;
 	}
 
 	@Test
-	public void run() throws IOException
+	public void run()
 	{
-		test.runTest();
+		_test.runTest();
 	}
 
 }

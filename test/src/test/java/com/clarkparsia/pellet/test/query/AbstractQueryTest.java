@@ -6,8 +6,8 @@
 
 package com.clarkparsia.pellet.test.query;
 
-import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import aterm.ATermAppl;
 import com.clarkparsia.pellet.sparqldl.engine.QueryEngine;
@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.utils.ATermUtils;
 
@@ -65,7 +65,7 @@ public abstract class AbstractQueryTest extends AbstractKBTests
 
 	protected Query query(final ATermAppl[] vars, final QueryAtom[] atoms)
 	{
-		final Query q = new QueryImpl(kb, true);
+		final Query q = new QueryImpl(_kb, true);
 		for (final ATermAppl var : vars)
 			q.addResultVar(var);
 

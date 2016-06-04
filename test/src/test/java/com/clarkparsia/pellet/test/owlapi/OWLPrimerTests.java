@@ -60,8 +60,8 @@ public class OWLPrimerTests extends AbstractOWLAPITests
 	{
 		super.resetOntologyManager();
 
-		ontology = OntologyUtils.loadOntology("file:" + PelletTestSuite.base + "modularity/OWL2Primer.owl");
-		reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
+		_ontology = OntologyUtils.loadOntology("file:" + PelletTestSuite.base + "modularity/OWL2Primer.owl");
+		_reasoner = PelletReasonerFactory.getInstance().createReasoner(_ontology);
 	}
 
 	protected <T> Set<T> node(final T... inds)
@@ -86,17 +86,17 @@ public class OWLPrimerTests extends AbstractOWLAPITests
 	@Test
 	public void testJackDifferents()
 	{
-		assertEquals(reasoner.getDifferentIndividuals(John), node(Jack), node(Bill), node(Mary, MaryBrown));
+		assertEquals(_reasoner.getDifferentIndividuals(John), node(Jack), node(Bill), node(Mary, MaryBrown));
 	}
 
 	@Test
 	public void testHasParentDisjoints()
 	{
-		assertTrue(reasoner.isEntailed(OWL.disjointProperties(hasParent, hasSpouse)));
-		assertTrue(reasoner.isEntailed(OWL.disjointProperties(hasParent, hasWife)));
-		assertTrue(reasoner.isEntailed(OWL.disjointProperties(hasParent, child)));
-		assertTrue(reasoner.isEntailed(OWL.disjointProperties(hasParent, hasChild)));
-		assertTrue(reasoner.isEntailed(OWL.disjointProperties(hasParent, OWL.bottomObjectProperty)));
-		assertEquals(reasoner.getDisjointObjectProperties(hasParent), nodeOP(hasSpouse), nodeOP(OWL.bottomObjectProperty), nodeOP(hasWife), nodeOP(hasChild, child));
+		assertTrue(_reasoner.isEntailed(OWL.disjointProperties(hasParent, hasSpouse)));
+		assertTrue(_reasoner.isEntailed(OWL.disjointProperties(hasParent, hasWife)));
+		assertTrue(_reasoner.isEntailed(OWL.disjointProperties(hasParent, child)));
+		assertTrue(_reasoner.isEntailed(OWL.disjointProperties(hasParent, hasChild)));
+		assertTrue(_reasoner.isEntailed(OWL.disjointProperties(hasParent, OWL.bottomObjectProperty)));
+		assertEquals(_reasoner.getDisjointObjectProperties(hasParent), nodeOP(hasSpouse), nodeOP(OWL.bottomObjectProperty), nodeOP(hasWife), nodeOP(hasChild, child));
 	}
 }

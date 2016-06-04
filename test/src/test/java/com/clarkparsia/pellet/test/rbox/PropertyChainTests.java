@@ -57,7 +57,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class PropertyChainTests extends AbstractKBTests
 {
-	public static String base = "file:" + PelletTestSuite.base + "misc/";
+	public static String _base = "file:" + PelletTestSuite.base + "misc/";
 
 	public static junit.framework.Test suite()
 	{
@@ -72,20 +72,20 @@ public class PropertyChainTests extends AbstractKBTests
 		final ATermAppl hasSibling = term("hasSibling");
 		final ATermAppl hasChild = term("hasChild");
 
-		individuals(a, b, c);
+		individuals(_a, _b, _c);
 		objectProperties(hasMother, hasParent, hasSibling, hasChild);
 
-		kb.addSubProperty(hasMother, hasParent);
-		kb.addInverseProperty(hasChild, hasParent);
-		kb.addSubProperty(list(hasParent, hasChild), hasSibling);
+		_kb.addSubProperty(hasMother, hasParent);
+		_kb.addInverseProperty(hasChild, hasParent);
+		_kb.addSubProperty(list(hasParent, hasChild), hasSibling);
 
-		kb.addPropertyValue(hasMother, a, c);
-		kb.addPropertyValue(hasMother, b, c);
+		_kb.addPropertyValue(hasMother, _a, _c);
+		_kb.addPropertyValue(hasMother, _b, _c);
 
-		assertTrue(kb.hasPropertyValue(a, hasSibling, b));
-		assertTrue(kb.hasPropertyValue(b, hasSibling, a));
-		assertIteratorValues(kb.getPropertyValues(hasSibling, a).iterator(), new ATermAppl[] { a, b });
-		assertIteratorValues(kb.getPropertyValues(hasSibling, b).iterator(), new ATermAppl[] { a, b });
+		assertTrue(_kb.hasPropertyValue(_a, hasSibling, _b));
+		assertTrue(_kb.hasPropertyValue(_b, hasSibling, _a));
+		assertIteratorValues(_kb.getPropertyValues(hasSibling, _a).iterator(), new ATermAppl[] { _a, _b });
+		assertIteratorValues(_kb.getPropertyValues(hasSibling, _b).iterator(), new ATermAppl[] { _a, _b });
 	}
 
 	@Test
@@ -95,80 +95,80 @@ public class PropertyChainTests extends AbstractKBTests
 		final ATermAppl hasParent = term("hasParent");
 		final ATermAppl hasSibling = term("hasSibling");
 
-		individuals(a, b, c);
+		individuals(_a, _b, _c);
 		objectProperties(hasMother, hasParent, hasSibling);
 
-		kb.addSubProperty(hasMother, hasParent);
-		kb.addSubProperty(list(hasParent, inv(hasParent)), hasSibling);
+		_kb.addSubProperty(hasMother, hasParent);
+		_kb.addSubProperty(list(hasParent, inv(hasParent)), hasSibling);
 
-		kb.addIndividual(a);
-		kb.addIndividual(b);
-		kb.addIndividual(c);
-		kb.addPropertyValue(hasMother, a, c);
-		kb.addPropertyValue(hasMother, b, c);
+		_kb.addIndividual(_a);
+		_kb.addIndividual(_b);
+		_kb.addIndividual(_c);
+		_kb.addPropertyValue(hasMother, _a, _c);
+		_kb.addPropertyValue(hasMother, _b, _c);
 
-		assertTrue(kb.hasPropertyValue(a, hasSibling, b));
-		assertTrue(kb.hasPropertyValue(b, hasSibling, a));
-		assertIteratorValues(kb.getPropertyValues(hasSibling, a).iterator(), new ATermAppl[] { a, b });
-		assertIteratorValues(kb.getPropertyValues(hasSibling, b).iterator(), new ATermAppl[] { a, b });
+		assertTrue(_kb.hasPropertyValue(_a, hasSibling, _b));
+		assertTrue(_kb.hasPropertyValue(_b, hasSibling, _a));
+		assertIteratorValues(_kb.getPropertyValues(hasSibling, _a).iterator(), new ATermAppl[] { _a, _b });
+		assertIteratorValues(_kb.getPropertyValues(hasSibling, _b).iterator(), new ATermAppl[] { _a, _b });
 	}
 
 	@Test
 	public void testRoleAbsorptionWithPropertyChain()
 	{
-		classes(A, B, C, D);
-		objectProperties(p, q, r);
+		classes(_A, _B, _C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(p, q), r);
+		_kb.addSubProperty(list(_p, _q), _r);
 
-		kb.addSubClass(C, B);
-		kb.addEquivalentClass(C, some(r, D));
+		_kb.addSubClass(_C, _B);
+		_kb.addEquivalentClass(_C, some(_r, _D));
 
-		kb.addSubClass(A, some(p, some(q, D)));
+		_kb.addSubClass(_A, some(_p, some(_q, _D)));
 
-		assertTrue(kb.isSubClassOf(A, C));
+		assertTrue(_kb.isSubClassOf(_A, _C));
 
-		kb.classify();
+		_kb.classify();
 
-		assertTrue(kb.isSubClassOf(A, C));
+		assertTrue(_kb.isSubClassOf(_A, _C));
 	}
 
 	@Ignore("See ticket #294")
 	@Test
-	public void testNestedPropertyChains() throws Exception
+	public void testNestedPropertyChains()
 	{
-		individuals(a, b, c, d);
-		objectProperties(p, q, r, s, f);
+		individuals(_a, _b, _c, _d);
+		objectProperties(_p, _q, _r, _s, _f);
 
-		kb.addTransitiveProperty(r);
-		kb.addTransitiveProperty(s);
+		_kb.addTransitiveProperty(_r);
+		_kb.addTransitiveProperty(_s);
 
-		kb.addSubProperty(list(p, q), r);
-		kb.addSubProperty(list(r, s), f);
+		_kb.addSubProperty(list(_p, _q), _r);
+		_kb.addSubProperty(list(_r, _s), _f);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(q, b, c);
-		kb.addPropertyValue(s, c, d);
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addPropertyValue(_q, _b, _c);
+		_kb.addPropertyValue(_s, _c, _d);
 
-		assertTrue(kb.hasPropertyValue(a, f, d));
+		assertTrue(_kb.hasPropertyValue(_a, _f, _d));
 
-		assertTrue(kb.isType(a, hasValue(f, d)));
+		assertTrue(_kb.isType(_a, hasValue(_f, _d)));
 	}
 
 	@Ignore("See ticket #294")
 	@Test
-	public void testTransitivePropertyChain() throws Exception
+	public void testTransitivePropertyChain()
 	{
-		classes(C, D);
-		objectProperties(p, q, r);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r);
 
-		kb.addSubProperty(list(p, q), r);
-		kb.addTransitiveProperty(p);
+		_kb.addSubProperty(list(_p, _q), _r);
+		_kb.addTransitiveProperty(_p);
 
-		kb.addSubClass(C, some(p, some(q, some(p, some(q, D)))));
-		kb.addSubClass(C, all(r, not(D)));
+		_kb.addSubClass(_C, some(_p, some(_q, some(_p, some(_q, _D)))));
+		_kb.addSubClass(_C, all(_r, not(_D)));
 
-		assertFalse(kb.isSatisfiable(C));
+		assertFalse(_kb.isSatisfiable(_C));
 	}
 
 	@Test
@@ -345,7 +345,7 @@ public class PropertyChainTests extends AbstractKBTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + filename);
+		model.read(_base + filename);
 
 		final OntClass C = model.getOntClass(ns + "C");
 		final OntClass S0 = model.getOntClass(ns + "S0");
@@ -402,7 +402,7 @@ public class PropertyChainTests extends AbstractKBTests
 	public void testPropertyChainInvalid()
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "propertyChainInvalid.owl");
+		model.read(_base + "propertyChainInvalid.owl");
 
 		model.prepare();
 
@@ -423,7 +423,7 @@ public class PropertyChainTests extends AbstractKBTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "propertyChainInverses.owl");
+		model.read(_base + "propertyChainInverses.owl");
 
 		final ObjectProperty p = model.getObjectProperty(ns + "p");
 		final ObjectProperty q = model.getObjectProperty(ns + "q");
@@ -454,7 +454,7 @@ public class PropertyChainTests extends AbstractKBTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "propertyChainValid.owl");
+		model.read(_base + "propertyChainValid.owl");
 
 		final ObjectProperty r = model.getObjectProperty(ns + "r");
 
@@ -563,23 +563,23 @@ public class PropertyChainTests extends AbstractKBTests
 	@Test
 	public void updateAfterConsistency()
 	{
-		classes(C, D);
-		objectProperties(p, q, r, s);
-		individuals(a, b, c, d);
+		classes(_C, _D);
+		objectProperties(_p, _q, _r, _s);
+		individuals(_a, _b, _c, _d);
 
-		kb.addSubProperty(list(p, q, r), s);
+		_kb.addSubProperty(list(_p, _q, _r), _s);
 
-		kb.addSubClass(C, all(s, D));
+		_kb.addSubClass(_C, all(_s, _D));
 
-		kb.addType(a, C);
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(q, b, c);
+		_kb.addType(_a, _C);
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addPropertyValue(_q, _b, _c);
 
-		assertTrue(kb.isConsistent());
-		assertFalse(kb.isType(d, D));
+		assertTrue(_kb.isConsistent());
+		assertFalse(_kb.isType(_d, _D));
 
-		kb.addPropertyValue(r, c, d);
+		_kb.addPropertyValue(_r, _c, _d);
 
-		assertTrue(kb.isType(d, D));
+		assertTrue(_kb.isType(_d, _D));
 	}
 }

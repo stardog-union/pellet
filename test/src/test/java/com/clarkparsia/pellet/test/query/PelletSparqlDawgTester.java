@@ -110,22 +110,22 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 
 			"var-1", "var-2", "open-eq-04", "nested-opt-1", "nested-opt-2", "opt-filter-1", "opt-filter-2", "filter-scope-1", "dawg-optional-complex-2", "dawg-optional-filter-001", "dawg-optional-filter-002", "dawg-optional-filter-003", "dawg-optional-filter-005-simplified", "dawg-graph-01", "dawg-graph-03", "dawg-graph-05", "dawg-graph-06", "dawg-graph-07", "dawg-graph-08", "dawg-graph-11", "dawg-dataset-01", "dawg-dataset-03", "dawg-dataset-05", "dawg-dataset-06", "dawg-dataset-07", "dawg-dataset-08", "dawg-dataset-11", "dawg-dataset-12", "dawg-dataset-12b", "no-distinct-1", "distinct-1", "dawg-sort-4", "dawg-sort-5", "dawg-sort-7", "dawg-sort-9", "dawg-sort-10", "limit-1", "limit-2", "limit-4", "offset-1", "offset-2", "offset-4", "slice-1", "slice-2", "slice-4", "slice-5" });
 
-	protected QueryEngineType queryEngineType;
+	protected QueryEngineType _queryEngineType;
 
-	protected boolean handleVariableSPO = true;
+	protected boolean _handleVariableSPO = true;
 
 	public PelletSparqlDawgTester(final QueryEngineType queryEngineType, final boolean handleVariableSPO)
 	{
-		this.queryEngineType = queryEngineType;
-		this.handleVariableSPO = handleVariableSPO;
+		this._queryEngineType = queryEngineType;
+		this._handleVariableSPO = handleVariableSPO;
 	}
 
 	@Override
 	protected Dataset createDataset()
 	{
-		final boolean useQueryGraphs = !query.getGraphURIs().isEmpty() || !query.getNamedGraphURIs().isEmpty();
+		final boolean useQueryGraphs = !_query.getGraphURIs().isEmpty() || !_query.getNamedGraphURIs().isEmpty();
 
-		final Collection<String> graphURIs = useQueryGraphs ? query.getGraphURIs() : this.graphURIs;
+		final Collection<String> graphURIs = useQueryGraphs ? _query.getGraphURIs() : this._graphURIs;
 				// this handler will intercept all import resolution failures and will
 				// try to load imports from resources (helps run these tests with maven)
 				OntDocumentManager.getInstance().setReadFailureHandler(new ResourceImportLoader());
@@ -142,7 +142,7 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 
 				final Dataset dataset = DatasetFactory.create(model);
 
-				final Collection<String> namedGraphURIs = useQueryGraphs ? query.getNamedGraphURIs() : this.namedGraphURIs;
+				final Collection<String> namedGraphURIs = useQueryGraphs ? _query.getNamedGraphURIs() : this._namedGraphURIs;
 
 						for (final String graphURI : namedGraphURIs)
 		{
@@ -157,7 +157,7 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 	@Override
 	protected QueryExecution createQueryExecution()
 	{
-		return SparqlDLExecutionFactory.create(query, createDataset(), null, queryEngineType, handleVariableSPO);
+		return SparqlDLExecutionFactory.create(_query, createDataset(), null, _queryEngineType, _handleVariableSPO);
 	}
 
 	/**
@@ -172,6 +172,6 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 	@Override
 	public String getName()
 	{
-		return queryEngineType.toString();
+		return _queryEngineType.toString();
 	}
 }

@@ -11,7 +11,6 @@ import com.clarkparsia.pellet.datatypes.Datatypes;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidConstrainingFacetException;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import com.clarkparsia.pellet.datatypes.exceptions.UnrecognizedDatatypeException;
-import com.clarkparsia.pellet.datatypes.types.text.RestrictedTextDatatype;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.Test;

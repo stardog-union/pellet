@@ -27,32 +27,32 @@ import java.net.URI;
 public class SingleTestResult
 {
 
-	private final URI uri;
+	private final URI _uri;
 
-	private final ResultEnum result;
+	private final ResultEnum _result;
 
-	private final long time;
+	private final long _time;
 
 	public SingleTestResult(final URI uri, final ResultEnum result, final long time)
 	{
 		super();
-		this.uri = uri;
-		this.result = result;
-		this.time = time;
+		this._uri = uri;
+		this._result = result;
+		this._time = time;
 	}
 
 	public URI getUri()
 	{
-		return uri;
+		return _uri;
 	}
 
 	public ResultEnum getResult()
 	{
-		return result;
+		return _result;
 	}
 
 	public long getTime()
 	{
-		return time;
+		return _time;
 	}
 }

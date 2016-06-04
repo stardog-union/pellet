@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.graph.Triple;
@@ -105,7 +107,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 	}
 
 	@Override
-	public void setupGenerators(final Collection<OWLAxiom> ontologyAxioms) throws Exception
+	public void setupGenerators(final Stream<OWLAxiom> ontologyAxioms) throws Exception
 	{
 		final OWLOntology ontology = com.clarkparsia.owlapi.OWL.Ontology(ontologyAxioms);
 
@@ -116,7 +118,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 
 		final KnowledgeBase kb = _openllet.getKB();
 
-		if (classify)
+		if (_classify)
 		{
 			kb.setDoExplanation(true);
 			_openllet.prepare();
@@ -124,6 +126,13 @@ public class JenaExplanationTest extends AbstractExplanationTest
 
 			kb.realize();
 		}
+	}
+
+	@Deprecated
+	@Override
+	public void setupGenerators(final Collection<OWLAxiom> ontologyAxioms) throws Exception
+	{
+		setupGenerators(ontologyAxioms.stream());
 	}
 
 	@Override
@@ -209,7 +218,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 		ModelFactory.createModelForGraph(actual).write(System.out, "TTL");
 		ModelFactory.createModelForGraph(actual).write(sw, "RDF/XML");
 		final OWLOntology ont = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(sw.toString()));
-		final Set<? extends OWLAxiom> actualExplanation = ont.getLogicalAxioms();
+		final Set<? extends OWLAxiom> actualExplanation = ont.logicalAxioms().collect(Collectors.toSet());
 
 		System.out.println(actualExplanation);
 

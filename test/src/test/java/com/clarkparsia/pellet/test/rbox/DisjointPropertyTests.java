@@ -23,7 +23,7 @@ import org.mindswap.pellet.test.PelletTestSuite;
 
 public class DisjointPropertyTests extends AbstractKBTests
 {
-	public static String base = "file:" + PelletTestSuite.base + "misc/";
+	public static String _base = "file:" + PelletTestSuite.base + "misc/";
 
 	public static junit.framework.Test suite()
 	{
@@ -33,127 +33,127 @@ public class DisjointPropertyTests extends AbstractKBTests
 	@Test
 	public void simpleInconcistency()
 	{
-		individuals(a, b, c);
-		objectProperties(p, q);
+		individuals(_a, _b, _c);
+		objectProperties(_p, _q);
 
-		kb.addDisjointProperty(p, q);
+		_kb.addDisjointProperty(_p, _q);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(q, a, b);
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addPropertyValue(_q, _a, _b);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
 	public void subPropertyInconcistency()
 	{
-		individuals(a, b, c);
-		objectProperties(p, q);
+		individuals(_a, _b, _c);
+		objectProperties(_p, _q);
 
-		kb.addDisjointProperty(p, q);
+		_kb.addDisjointProperty(_p, _q);
 
 		final ATermAppl subP = term("subP");
 
-		kb.addObjectProperty(subP);
-		kb.addSubProperty(subP, p);
+		_kb.addObjectProperty(subP);
+		_kb.addSubProperty(subP, _p);
 
-		kb.addPropertyValue(subP, a, b);
-		kb.addPropertyValue(q, a, b);
+		_kb.addPropertyValue(subP, _a, _b);
+		_kb.addPropertyValue(_q, _a, _b);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
 	public void superPropertyConcistency()
 	{
-		individuals(a, b, c);
-		objectProperties(p, q);
+		individuals(_a, _b, _c);
+		objectProperties(_p, _q);
 
-		kb.addDisjointProperty(p, q);
+		_kb.addDisjointProperty(_p, _q);
 
 		final ATermAppl supP = term("supP");
 
-		kb.addObjectProperty(supP);
-		kb.addSubProperty(p, supP);
+		_kb.addObjectProperty(supP);
+		_kb.addSubProperty(_p, supP);
 
-		kb.addPropertyValue(supP, a, b);
-		kb.addPropertyValue(q, b, b);
+		_kb.addPropertyValue(supP, _a, _b);
+		_kb.addPropertyValue(_q, _b, _b);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 	}
 
 	@Test
 	public void invPropertyInconcistency()
 	{
-		individuals(a, b, c);
-		objectProperties(p, q);
+		individuals(_a, _b, _c);
+		objectProperties(_p, _q);
 
-		kb.addDisjointProperty(p, q);
+		_kb.addDisjointProperty(_p, _q);
 
 		final ATermAppl invP = term("invP");
 
-		kb.addObjectProperty(invP);
-		kb.addInverseProperty(invP, p);
+		_kb.addObjectProperty(invP);
+		_kb.addInverseProperty(invP, _p);
 
-		kb.addPropertyValue(invP, b, a);
-		kb.addPropertyValue(q, a, b);
+		_kb.addPropertyValue(invP, _b, _a);
+		_kb.addPropertyValue(_q, _a, _b);
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
 	public void differentFromSubjects()
 	{
-		individuals(a, b, c);
-		objectProperties(p, q);
+		individuals(_a, _b, _c);
+		objectProperties(_p, _q);
 
-		kb.addDisjointProperty(p, q);
+		_kb.addDisjointProperty(_p, _q);
 
-		kb.addPropertyValue(p, a, c);
-		kb.addPropertyValue(q, b, c);
+		_kb.addPropertyValue(_p, _a, _c);
+		_kb.addPropertyValue(_q, _b, _c);
 
-		assertTrue(kb.isDifferentFrom(a, b));
+		assertTrue(_kb.isDifferentFrom(_a, _b));
 	}
 
 	@Test
 	public void differentFromObjects()
 	{
-		individuals(a, b, c);
-		objectProperties(p, q);
+		individuals(_a, _b, _c);
+		objectProperties(_p, _q);
 
-		kb.addDisjointProperty(p, q);
+		_kb.addDisjointProperty(_p, _q);
 
-		kb.addPropertyValue(p, a, b);
-		kb.addPropertyValue(q, a, c);
+		_kb.addPropertyValue(_p, _a, _b);
+		_kb.addPropertyValue(_q, _a, _c);
 
-		assertTrue(kb.isDifferentFrom(b, c));
+		assertTrue(_kb.isDifferentFrom(_b, _c));
 	}
 
 	@Test
 	public void test547a()
 	{
-		objectProperties(p, q, r);
+		objectProperties(_p, _q, _r);
 
-		kb.addDisjointProperty(p, q);
-		kb.addSubClass(some(p, TOP), some(q, TOP));
+		_kb.addDisjointProperty(_p, _q);
+		_kb.addSubClass(some(_p, TOP), some(_q, TOP));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isDisjointProperty(p, q));
-		assertFalse(kb.isDisjointProperty(p, r));
-		assertFalse(kb.isDisjointProperty(q, r));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isDisjointProperty(_p, _q));
+		assertFalse(_kb.isDisjointProperty(_p, _r));
+		assertFalse(_kb.isDisjointProperty(_q, _r));
 	}
 
 	@Test
 	public void test547b()
 	{
-		dataProperties(p, q, r);
+		dataProperties(_p, _q, _r);
 
-		kb.addDisjointProperty(p, q);
-		kb.addSubClass(some(p, TOP_LIT), some(q, TOP_LIT));
+		_kb.addDisjointProperty(_p, _q);
+		_kb.addSubClass(some(_p, TOP_LIT), some(_q, TOP_LIT));
 
-		assertTrue(kb.isConsistent());
-		assertTrue(kb.isDisjointProperty(p, q));
-		assertFalse(kb.isDisjointProperty(p, r));
-		assertFalse(kb.isDisjointProperty(q, r));
+		assertTrue(_kb.isConsistent());
+		assertTrue(_kb.isDisjointProperty(_p, _q));
+		assertFalse(_kb.isDisjointProperty(_p, _r));
+		assertFalse(_kb.isDisjointProperty(_q, _r));
 	}
 }

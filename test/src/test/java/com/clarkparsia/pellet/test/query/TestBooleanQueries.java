@@ -54,7 +54,7 @@ public class TestBooleanQueries extends AbstractKBTests
 
 	private Query query(final QueryAtom... atoms)
 	{
-		final Query q = new QueryImpl(kb, true);
+		final Query q = new QueryImpl(_kb, true);
 		for (final QueryAtom atom : atoms)
 			q.add(atom);
 		return q;
@@ -73,21 +73,21 @@ public class TestBooleanQueries extends AbstractKBTests
 	@Test
 	public void testBooleanQueries()
 	{
-		classes(A, B);
-		objectProperties(p);
-		individuals(a, b);
+		classes(_A, _B);
+		objectProperties(_p);
+		individuals(_a, _b);
 
-		kb.addType(a, A);
-		kb.addType(b, B);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _B);
 
-		kb.addPropertyValue(p, a, b);
+		_kb.addPropertyValue(_p, _a, _b);
 
-		final Query q1 = query(TypeAtom(x, A));
-		final Query q2 = query(TypeAtom(x, B));
-		final Query q3 = query(PropertyValueAtom(x, p, y), TypeAtom(y, B));
-		final Query q4 = query(TypeAtom(x, A), PropertyValueAtom(x, p, y), TypeAtom(y, B));
-		final Query q5 = query(TypeAtom(x, C));
-		final Query q6 = query(TypeAtom(x, A), TypeAtom(x, C));
+		final Query q1 = query(TypeAtom(x, _A));
+		final Query q2 = query(TypeAtom(x, _B));
+		final Query q3 = query(PropertyValueAtom(x, _p, y), TypeAtom(y, _B));
+		final Query q4 = query(TypeAtom(x, _A), PropertyValueAtom(x, _p, y), TypeAtom(y, _B));
+		final Query q5 = query(TypeAtom(x, _C));
+		final Query q6 = query(TypeAtom(x, _A), TypeAtom(x, _C));
 
 		testABoxQuery(true, q1);
 		testABoxQuery(true, q2);
@@ -96,7 +96,7 @@ public class TestBooleanQueries extends AbstractKBTests
 		testABoxQuery(false, q5);
 		testABoxQuery(false, q6);
 
-		kb.removePropertyValue(p, a, b);
+		_kb.removePropertyValue(_p, _a, _b);
 
 		testABoxQuery(true, q1);
 		testABoxQuery(true, q2);
@@ -105,7 +105,7 @@ public class TestBooleanQueries extends AbstractKBTests
 		testABoxQuery(false, q5);
 		testABoxQuery(false, q6);
 
-		kb.addSubClass(TOP, C);
+		_kb.addSubClass(TOP, _C);
 
 		testABoxQuery(true, q1);
 		testABoxQuery(true, q2);
@@ -118,15 +118,15 @@ public class TestBooleanQueries extends AbstractKBTests
 	@Test
 	public void testMixedQuery()
 	{
-		classes(A, B, C);
-		individuals(a);
+		classes(_A, _B, _C);
+		individuals(_a);
 
-		kb.addSubClass(A, C);
-		kb.addSubClass(B, C);
+		_kb.addSubClass(_A, _C);
+		_kb.addSubClass(_B, _C);
 
-		kb.addType(a, A);
+		_kb.addType(_a, _A);
 
-		final Query q1 = query(SubClassOfAtom(x, C), TypeAtom(y, x));
+		final Query q1 = query(SubClassOfAtom(x, _C), TypeAtom(y, x));
 		q1.addDistVar(x, VarType.CLASS);
 		q1.addResultVar(x);
 
@@ -139,28 +139,28 @@ public class TestBooleanQueries extends AbstractKBTests
 			results.add(result.getValue(x));
 		}
 
-		assertIteratorValues(results.iterator(), new ATermAppl[] { A, C });
+		assertIteratorValues(results.iterator(), new ATermAppl[] { _A, _C });
 	}
 
 	@Test
 	public void testNegatedBooleanQueries1()
 	{
-		classes(A, B);
-		individuals(a);
+		classes(_A, _B);
+		individuals(_a);
 
-		kb.addType(a, A);
+		_kb.addType(_a, _A);
 
-		final Query q1 = query(NotKnownAtom(TypeAtom(a, A)));
-		final Query q2 = query(NotKnownAtom(TypeAtom(a, B)));
-		final Query q3 = query(NotKnownAtom(TypeAtom(a, not(A))));
-		final Query q4 = query(NotKnownAtom(TypeAtom(a, not(B))));
+		final Query q1 = query(NotKnownAtom(TypeAtom(_a, _A)));
+		final Query q2 = query(NotKnownAtom(TypeAtom(_a, _B)));
+		final Query q3 = query(NotKnownAtom(TypeAtom(_a, not(_A))));
+		final Query q4 = query(NotKnownAtom(TypeAtom(_a, not(_B))));
 
 		testQuery(false, q1);
 		testQuery(true, q2);
 		testQuery(true, q3);
 		testQuery(true, q4);
 
-		kb.addDisjointClass(A, B);
+		_kb.addDisjointClass(_A, _B);
 
 		testQuery(false, q1);
 		testQuery(true, q2);

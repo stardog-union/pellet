@@ -116,23 +116,23 @@ public class TestParameterizedQuery
 		return params;
 	}
 
-	private final QueryEngineType queryEngine;
-	private final Query query;
-	private final QuerySolution initialBinding;
-	private final QuerySolution expected;
+	private final QueryEngineType _queryEngine;
+	private final Query _query;
+	private final QuerySolution _initialBinding;
+	private final QuerySolution _expected;
 
 	public TestParameterizedQuery(final QueryEngineType queryEngine, final Query query, final QuerySolutionMap initialBinding, final QuerySolutionMap expectedResults)
 	{
-		this.queryEngine = queryEngine;
-		this.query = query;
-		this.initialBinding = initialBinding;
-		this.expected = expectedResults;
+		this._queryEngine = queryEngine;
+		this._query = query;
+		this._initialBinding = initialBinding;
+		this._expected = expectedResults;
 	}
 
 	@Test
 	public void test()
 	{
-		final QueryExecution qe = SparqlDLExecutionFactory.create(query, dataset, initialBinding, queryEngine);
+		final QueryExecution qe = SparqlDLExecutionFactory.create(_query, dataset, _initialBinding, _queryEngine);
 		final ResultSet rs = qe.execSelect();
 
 		if (!rs.hasNext())
@@ -143,7 +143,7 @@ public class TestParameterizedQuery
 		for (final Object name : rs.getResultVars())
 		{
 			final String var = name.toString();
-			assertEquals("Different result for " + var, expected.get(var), computed.get(var));
+			assertEquals("Different result for " + var, _expected.get(var), computed.get(var));
 		}
 
 		assertFalse("Extra results found", rs.hasNext());

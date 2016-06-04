@@ -38,6 +38,7 @@
     <slf4j.version>1.7.10</slf4j.version>
     <owlapi.version>5.0.2</owlapi.version>
     <jena.version>3.0.1</jena.version>
+    <commons-io.version>2.4</commons-io.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
@@ -107,6 +108,11 @@
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
         <version>${slf4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons-io.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

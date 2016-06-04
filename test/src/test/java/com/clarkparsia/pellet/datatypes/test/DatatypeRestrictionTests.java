@@ -31,108 +31,108 @@ public class DatatypeRestrictionTests extends AbstractKBTests
 	@Test
 	public void simpleRestriction()
 	{
-		classes(C);
-		dataProperties(p);
-		individuals(a, b);
+		classes(_C);
+		dataProperties(_p);
+		individuals(_a, _b);
 
-		kb.addDatatypeDefinition(D, restrict(INTEGER, minInclusive(literal(1))));
-		kb.addEquivalentClass(C, some(p, D));
-		kb.addPropertyValue(p, a, literal(2));
-		kb.addPropertyValue(p, b, literal(3));
+		_kb.addDatatypeDefinition(_D, restrict(INTEGER, minInclusive(literal(1))));
+		_kb.addEquivalentClass(_C, some(_p, _D));
+		_kb.addPropertyValue(_p, _a, literal(2));
+		_kb.addPropertyValue(_p, _b, literal(3));
 
-		assertTrue(kb.isType(a, C));
-		assertTrue(kb.isType(b, C));
+		assertTrue(_kb.isType(_a, _C));
+		assertTrue(_kb.isType(_b, _C));
 	}
 
 	@Test
 	public void nestedRestriction()
 	{
-		classes(C);
-		dataProperties(p);
-		individuals(a, b);
+		classes(_C);
+		dataProperties(_p);
+		individuals(_a, _b);
 
-		kb.addDatatypeDefinition(E, restrict(INTEGER, maxInclusive(literal(2))));
-		kb.addDatatypeDefinition(D, restrict(E, minInclusive(literal(1))));
-		kb.addEquivalentClass(C, some(p, D));
-		kb.addPropertyValue(p, a, literal(2));
-		kb.addPropertyValue(p, b, literal(3));
+		_kb.addDatatypeDefinition(_E, restrict(INTEGER, maxInclusive(literal(2))));
+		_kb.addDatatypeDefinition(_D, restrict(_E, minInclusive(literal(1))));
+		_kb.addEquivalentClass(_C, some(_p, _D));
+		_kb.addPropertyValue(_p, _a, literal(2));
+		_kb.addPropertyValue(_p, _b, literal(3));
 
-		assertTrue(kb.isType(a, C));
-		assertFalse(kb.isType(b, C));
+		assertTrue(_kb.isType(_a, _C));
+		assertFalse(_kb.isType(_b, _C));
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void invalidRestriction()
 	{
-		classes(C);
-		dataProperties(p);
-		individuals(a, b);
+		classes(_C);
+		dataProperties(_p);
+		individuals(_a, _b);
 
-		kb.addDatatypeDefinition(E, oneOf(literal(1), literal(2), literal(3)));
-		kb.addDatatypeDefinition(D, restrict(E, minInclusive(literal(1))));
-		kb.addEquivalentClass(C, some(p, D));
-		kb.addPropertyValue(p, a, literal(2));
-		kb.addPropertyValue(p, b, literal(3));
+		_kb.addDatatypeDefinition(_E, oneOf(literal(1), literal(2), literal(3)));
+		_kb.addDatatypeDefinition(_D, restrict(_E, minInclusive(literal(1))));
+		_kb.addEquivalentClass(_C, some(_p, _D));
+		_kb.addPropertyValue(_p, _a, literal(2));
+		_kb.addPropertyValue(_p, _b, literal(3));
 
-		assertTrue(kb.isType(a, C));
-		assertFalse(kb.isType(b, C));
+		assertTrue(_kb.isType(_a, _C));
+		assertFalse(_kb.isType(_b, _C));
 	}
 
 	@Test
 	public void invalidLiteralBuiltInDatatype()
 	{
-		dataProperties(p);
-		individuals(a);
+		dataProperties(_p);
+		individuals(_a);
 
-		kb.addRange(p, INTEGER);
-		kb.addPropertyValue(p, a, literal("-1", POSITIVE_INTEGER));
+		_kb.addRange(_p, INTEGER);
+		_kb.addPropertyValue(_p, _a, literal("-1", POSITIVE_INTEGER));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
 	public void invalidLiteralRestrictedDatatype()
 	{
-		dataProperties(p);
-		individuals(a);
+		dataProperties(_p);
+		individuals(_a);
 
 		final ATermAppl uri = term("http//example.com/datatype");
 
-		kb.addRange(p, INTEGER);
-		kb.addDatatypeDefinition(uri, restrict(INTEGER, minExclusive(literal(0))));
-		kb.addPropertyValue(p, a, literal("-1", uri));
+		_kb.addRange(_p, INTEGER);
+		_kb.addDatatypeDefinition(uri, restrict(INTEGER, minExclusive(literal(0))));
+		_kb.addPropertyValue(_p, _a, literal("-1", uri));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
 	public void validLiteralRestrictedDatatype()
 	{
-		dataProperties(p);
-		individuals(a);
+		dataProperties(_p);
+		individuals(_a);
 
 		final ATermAppl uri = term("http//example.com/datatype");
 
-		kb.addRange(p, INTEGER);
-		kb.addDatatypeDefinition(uri, restrict(INTEGER, minExclusive(literal(0))));
-		kb.addPropertyValue(p, a, literal("1", uri));
+		_kb.addRange(_p, INTEGER);
+		_kb.addDatatypeDefinition(uri, restrict(INTEGER, minExclusive(literal(0))));
+		_kb.addPropertyValue(_p, _a, literal("1", uri));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 	}
 
 	@Test
 	public void validLiteralStringRestriction1()
 	{
-		dataProperties(p);
-		individuals(a);
+		dataProperties(_p);
+		individuals(_a);
 
 		final ATermAppl uri = term("http//example.com/datatype");
 
-		kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
-		kb.addRange(p, uri);
-		kb.addPropertyValue(p, a, literal("a"));
+		_kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
+		_kb.addRange(_p, uri);
+		_kb.addPropertyValue(_p, _a, literal("a"));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 	}
 
 	@Test
@@ -140,31 +140,31 @@ public class DatatypeRestrictionTests extends AbstractKBTests
 	{
 		assumeTrue(PelletOptions.INVALID_LITERAL_AS_INCONSISTENCY);
 
-		dataProperties(p);
-		individuals(a);
+		dataProperties(_p);
+		individuals(_a);
 
 		final ATermAppl uri = term("http//example.com/datatype");
 
-		kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
-		kb.addRange(p, uri);
-		kb.addPropertyValue(p, a, literal("a", uri));
+		_kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
+		_kb.addRange(_p, uri);
+		_kb.addPropertyValue(_p, _a, literal("a", uri));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 
 	@Test
 	public void validLiteralStringRestriction2()
 	{
-		dataProperties(p);
-		individuals(a, b, c);
+		dataProperties(_p);
+		individuals(_a, _b, _c);
 
 		final ATermAppl uri = term("http//example.com/datatype");
 
-		kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
-		kb.addRange(p, uri);
-		kb.addPropertyValue(p, a, literal("c"));
-		kb.addAllDifferent(list(a, b, c));
+		_kb.addDatatypeDefinition(uri, oneOf(literal("a"), literal("b")));
+		_kb.addRange(_p, uri);
+		_kb.addPropertyValue(_p, _a, literal("c"));
+		_kb.addAllDifferent(list(_a, _b, _c));
 
-		assertFalse(kb.isConsistent());
+		assertFalse(_kb.isConsistent());
 	}
 }

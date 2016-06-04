@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -120,7 +121,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 	}
 
 	@Override
-	public void setupGenerators(final Collection<OWLAxiom> ontologyAxioms) throws Exception
+	public void setupGenerators(final Stream<OWLAxiom> ontologyAxioms) throws Exception
 	{
 		// USE_TRACING should be turned on for glass box explanation which is done by
 		// ExplanationTestSuite that calls this class. We don't set this value here to
@@ -148,7 +149,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 
 		final KnowledgeBase kb = _reasoner.getKB();
 
-		if (classify)
+		if (_classify)
 		{
 			kb.setDoExplanation(true);
 			kb.ensureConsistency();
@@ -156,6 +157,13 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 
 			kb.realize();
 		}
+	}
+
+	@Deprecated
+	@Override
+	public void setupGenerators(final Collection<OWLAxiom> ontologyAxioms) throws Exception
+	{
+		setupGenerators(ontologyAxioms.stream());
 	}
 
 	@Override

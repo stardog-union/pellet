@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 import com.clarkparsia.owlapi.OWL;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
-import org.semanticweb.owlapi.model.OWLException;
 
 /**
  * <p>
@@ -41,57 +40,57 @@ public class ABoxUpdateTests extends AbstractOWLAPITests
 	}
 
 	@Test
-	public void removeType() throws OWLException
+	public void removeType()
 	{
-		createReasoner(OWL.classAssertion(a, C), OWL.classAssertion(a, D));
+		createReasoner(OWL.classAssertion(_a, _C), OWL.classAssertion(_a, _D));
 
-		assertTrue(reasoner.isConsistent());
+		assertTrue(_reasoner.isConsistent());
 
-		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
-		assertTrue(reasoner.isEntailed(classAssertion(a, D)));
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _C)));
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _D)));
 
-		final boolean changeApplied = processRemove(OWL.classAssertion(a, D));
+		final boolean changeApplied = processRemove(OWL.classAssertion(_a, _D));
 		assertTrue(changeApplied);
 
-		assertTrue(reasoner.isEntailed(classAssertion(a, C)));
-		assertFalse(reasoner.isEntailed(classAssertion(a, D)));
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _C)));
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, _D)));
 	}
 
 	@Test
-	public void removeTypeFromMergedNode() throws OWLException
+	public void removeTypeFromMergedNode()
 	{
-		createReasoner(OWL.classAssertion(a, OWL.oneOf(b, c)), OWL.classAssertion(a, A), OWL.classAssertion(b, B), OWL.classAssertion(c, C), OWL.classAssertion(a, D));
+		createReasoner(OWL.classAssertion(_a, OWL.oneOf(_b, _c)), OWL.classAssertion(_a, _A), OWL.classAssertion(_b, _B), OWL.classAssertion(_c, _C), OWL.classAssertion(_a, _D));
 
-		assertTrue(reasoner.isConsistent());
+		assertTrue(_reasoner.isConsistent());
 
-		assertTrue(reasoner.isEntailed(classAssertion(a, A)));
-		assertFalse(reasoner.isEntailed(classAssertion(a, B)));
-		assertFalse(reasoner.isEntailed(classAssertion(a, C)));
-		assertTrue(reasoner.isEntailed(classAssertion(a, D)));
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _A)));
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, _B)));
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, _C)));
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _D)));
 
-		final boolean changeApplied = processRemove(OWL.classAssertion(a, D));
+		final boolean changeApplied = processRemove(OWL.classAssertion(_a, _D));
 		assertTrue(changeApplied);
 
-		assertTrue(reasoner.isEntailed(classAssertion(a, A)));
-		assertFalse(reasoner.isEntailed(classAssertion(a, B)));
-		assertFalse(reasoner.isEntailed(classAssertion(a, C)));
-		assertFalse(reasoner.isEntailed(classAssertion(a, D)));
+		assertTrue(_reasoner.isEntailed(classAssertion(_a, _A)));
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, _B)));
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, _C)));
+		assertFalse(_reasoner.isEntailed(classAssertion(_a, _D)));
 	}
 
 	@Test
-	public void removePropertyValue() throws OWLException
+	public void removePropertyValue()
 	{
-		createReasoner(OWL.propertyAssertion(a, p, b), OWL.propertyAssertion(a, p, c));
+		createReasoner(OWL.propertyAssertion(_a, _p, _b), OWL.propertyAssertion(_a, _p, _c));
 
-		assertTrue(reasoner.isConsistent());
+		assertTrue(_reasoner.isConsistent());
 
-		assertTrue(reasoner.isEntailed(OWL.propertyAssertion(a, p, b)));
-		assertTrue(reasoner.isEntailed(OWL.propertyAssertion(a, p, c)));
+		assertTrue(_reasoner.isEntailed(OWL.propertyAssertion(_a, _p, _b)));
+		assertTrue(_reasoner.isEntailed(OWL.propertyAssertion(_a, _p, _c)));
 
-		final boolean changeApplied = processRemove(OWL.propertyAssertion(a, p, c));
+		final boolean changeApplied = processRemove(OWL.propertyAssertion(_a, _p, _c));
 		assertTrue(changeApplied);
 
-		assertTrue(reasoner.isEntailed(OWL.propertyAssertion(a, p, b)));
-		assertFalse(reasoner.isEntailed(OWL.propertyAssertion(a, p, c)));
+		assertTrue(_reasoner.isEntailed(OWL.propertyAssertion(_a, _p, _b)));
+		assertFalse(_reasoner.isEntailed(OWL.propertyAssertion(_a, _p, _c)));
 	}
 }

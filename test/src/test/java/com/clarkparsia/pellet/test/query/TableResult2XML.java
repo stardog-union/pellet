@@ -84,47 +84,48 @@ public class TableResult2XML
 
 			try
 			{
-				final FileInputStream f = new FileInputStream(arg);
-				final BufferedReader r = new BufferedReader(new InputStreamReader(f));
 
-				// first line are the result variables
-				String line;
-				StringTokenizer t;
-
-				if (varNames == null)
+				try (final BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(arg))))
 				{
-					line = r.readLine();
-					if (line != null)
+
+					// first line are the result variables
+					String line;
+					StringTokenizer t;
+					if (varNames == null)
 					{
+						line = r.readLine();
+						if (line != null)
+						{
+							t = new StringTokenizer(line, " \t");
+							while (t.hasMoreTokens())
+								vars.add(t.nextToken());
+						}
+					}
+					else
+						vars.addAll(varNames);
+
+					final Model m = ModelFactory.createDefaultModel();
+
+					// next lines contain _data
+					while ((line = r.readLine()) != null)
+					{
+						int i = 0;
 						t = new StringTokenizer(line, " \t");
+
+						final QuerySolutionMap s = new QuerySolutionMap();
+
 						while (t.hasMoreTokens())
-							vars.add(t.nextToken());
+						{
+							final String token = t.nextToken();
+
+							if (token.startsWith("http://") || token.startsWith("file:///"))
+								s.add(vars.get(i++), JenaUtils.makeRDFNode(ATermUtils.makeTermAppl(token), m));
+							else
+								s.add(vars.get(i++), JenaUtils.makeRDFNode(ATermUtils.makePlainLiteral(token), m));
+						}
+
+						solutions.add(s);
 					}
-				}
-				else
-					vars.addAll(varNames);
-
-				final Model m = ModelFactory.createDefaultModel();
-
-				// next lines contain _data
-				while ((line = r.readLine()) != null)
-				{
-					int i = 0;
-					t = new StringTokenizer(line, " \t");
-
-					final QuerySolutionMap s = new QuerySolutionMap();
-
-					while (t.hasMoreTokens())
-					{
-						final String token = t.nextToken();
-
-						if (token.startsWith("http://") || token.startsWith("file:///"))
-							s.add(vars.get(i++), JenaUtils.makeRDFNode(ATermUtils.makeTermAppl(token), m));
-						else
-							s.add(vars.get(i++), JenaUtils.makeRDFNode(ATermUtils.makePlainLiteral(token), m));
-					}
-
-					solutions.add(s);
 				}
 
 				ResultSetFormatter.outputAsXML(new FileOutputStream(arg + ".srx"), new ResultSet()

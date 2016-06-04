@@ -54,7 +54,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 
 	private static final Logger _logger = Log.getLogger(ARQSparqlDawgTester.class);
 
-	private final List<String> avoidList = Arrays.asList(new String[] {
+	private final List<String> _avoidList = Arrays.asList(new String[] {
 			// FIXME with some effort some
 			// of the following queries can
 			// be handled
@@ -81,11 +81,11 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 
 	private String _queryURI = "";
 
-	protected Set<String> graphURIs = new HashSet<>();
+	protected Set<String> _graphURIs = new HashSet<>();
 
-	protected Set<String> namedGraphURIs = new HashSet<>();
+	protected Set<String> _namedGraphURIs = new HashSet<>();
 
-	protected Query query = null;
+	protected Query _query = null;
 
 	private String _resultURI = null;
 
@@ -105,23 +105,23 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 
 	protected Dataset createDataset()
 	{
-		if (query.getGraphURIs().isEmpty() && query.getNamedGraphURIs().isEmpty())
-			return DatasetFactory.create(new ArrayList<>(graphURIs), new ArrayList<>(namedGraphURIs));
+		if (_query.getGraphURIs().isEmpty() && _query.getNamedGraphURIs().isEmpty())
+			return DatasetFactory.create(new ArrayList<>(_graphURIs), new ArrayList<>(_namedGraphURIs));
 		else
-			return DatasetFactory.create(query.getGraphURIs(), query.getNamedGraphURIs());
+			return DatasetFactory.create(_query.getGraphURIs(), _query.getNamedGraphURIs());
 
 	}
 
 	protected QueryExecution createQueryExecution()
 	{
-		return QueryExecutionFactory.create(query, createDataset());
+		return QueryExecutionFactory.create(_query, createDataset());
 	}
 
 	@Override
 	public void setDatasetURIs(final Set<String> graphURIs, final Set<String> namedGraphURIs)
 	{
-		this.graphURIs = graphURIs;
-		this.namedGraphURIs = namedGraphURIs;
+		this._graphURIs = graphURIs;
+		this._namedGraphURIs = namedGraphURIs;
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 			return;
 
 		this._queryURI = queryURI;
-		query = QueryFactory.read(queryURI);
+		_query = QueryFactory.read(queryURI);
 	}
 
 	@Override
@@ -148,7 +148,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 	{
 		try
 		{
-			query = QueryFactory.read(_queryURI);
+			_query = QueryFactory.read(_queryURI);
 			return true;
 		}
 		catch (final Exception e)
@@ -175,7 +175,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 				return true;
 			}
 
-			if (query.isSelectType())
+			if (_query.isSelectType())
 			{
 				final ResultSetRewindable expected = ResultSetFactory.makeRewindable(JenaIOUtils.parseResultSet(_resultURI));
 				final ResultSetRewindable real = ResultSetFactory.makeRewindable(exec.execSelect());
@@ -192,7 +192,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 
 			}
 			else
-				if (query.isAskType())
+				if (_query.isAskType())
 				{
 					final boolean askReal = exec.execAsk();
 					final boolean askExpected = JenaIOUtils.parseAskResult(_resultURI);
@@ -203,7 +203,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 					return askReal == askExpected;
 				}
 				else
-					if (query.isConstructType())
+					if (_query.isConstructType())
 					{
 						final Model real = exec.execConstruct();
 						final Model expected = FileManager.get().loadModel(_resultURI);
@@ -214,7 +214,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 						return real.isIsomorphicWith(expected);
 					}
 					else
-						if (query.isDescribeType())
+						if (_query.isDescribeType())
 						{
 							final Model real = exec.execDescribe();
 							final Model expected = FileManager.get().loadModel(_resultURI);
@@ -268,7 +268,7 @@ public class ARQSparqlDawgTester implements SparqlDawgTester
 	@Override
 	public boolean isApplicable(final String testURI)
 	{
-		return !avoidList.contains(URIUtils.getLocalName(testURI));
+		return !_avoidList.contains(URIUtils.getLocalName(testURI));
 	}
 
 	@Override

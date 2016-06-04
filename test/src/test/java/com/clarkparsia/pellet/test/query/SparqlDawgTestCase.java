@@ -8,7 +8,6 @@ package com.clarkparsia.pellet.test.query;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Properties;
 import org.apache.jena.rdf.model.Resource;
@@ -33,31 +32,31 @@ import org.mindswap.pellet.PelletOptions;
 public class SparqlDawgTestCase
 {
 
-	private final Properties pelletOptions;
+	private final Properties _pelletOptions;
 
-	private final Resource resource;
+	private final Resource _resource;
 
-	private final ManifestEngine test;
+	private final ManifestEngine _test;
 
-	private final SparqlDawgTester tester;
+	private final SparqlDawgTester _tester;
 
 	public SparqlDawgTestCase(final SparqlDawgTester tester, final ManifestEngine test, final Resource resource, final Properties pelletOptions)
 	{
-		this.tester = tester;
-		this.test = test;
-		this.resource = resource;
-		this.pelletOptions = pelletOptions;
+		this._tester = tester;
+		this._test = test;
+		this._resource = resource;
+		this._pelletOptions = pelletOptions;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void runTest() throws IOException
+	public void runTest()
 	{
-		final Properties oldOptions = PelletOptions.setOptions(pelletOptions);
+		final Properties oldOptions = PelletOptions.setOptions(_pelletOptions);
 		try
 		{
-			assertTrue(EnumSet.of(ResultEnum.PASS, ResultEnum.SKIP).contains(test.doSingleTest(tester, resource).getResult()));
+			assertTrue(EnumSet.of(ResultEnum.PASS, ResultEnum.SKIP).contains(_test.doSingleTest(_tester, _resource).getResult()));
 		}
 		finally
 		{

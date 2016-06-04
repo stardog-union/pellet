@@ -33,31 +33,31 @@ public class UpdateTests extends AbstractKBTests
 	@Test
 	public void addPropertyValueAfterConsistency()
 	{
-		objectProperties(p);
-		individuals(a, c, d);
+		objectProperties(_p);
+		individuals(_a, _c, _d);
 
 		// either p(a, c) or p(a, d) holds
-		kb.addType(a, or(hasValue(p, c), hasValue(p, d)));
+		_kb.addType(_a, or(hasValue(_p, _c), hasValue(_p, _d)));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// check which non-deterministic choice was made
-		final ATermAppl succ = kb.getABox().getIndividual(a).getOutEdges().edgeAt(0).getToName();
-		final ATermAppl nonSucc = succ.equals(c) ? d : c;
+		final ATermAppl succ = _kb.getABox().getIndividual(_a).getOutEdges().edgeAt(0).getToName();
+		final ATermAppl nonSucc = succ.equals(_c) ? _d : _c;
 
 		// no entailment can be made yet
-		assertFalse(kb.hasPropertyValue(a, p, nonSucc));
-		assertFalse(kb.hasPropertyValue(a, p, succ));
+		assertFalse(_kb.hasPropertyValue(_a, _p, nonSucc));
+		assertFalse(_kb.hasPropertyValue(_a, _p, succ));
 
 		// assert the property value in non-deterministic choice
-		kb.addPropertyValue(p, a, succ);
+		_kb.addPropertyValue(_p, _a, succ);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// this entailment still does not hold
-		assertFalse(kb.hasPropertyValue(a, p, nonSucc));
+		assertFalse(_kb.hasPropertyValue(_a, _p, nonSucc));
 		// this entailment should now hold
-		assertTrue(kb.hasPropertyValue(a, p, succ));
+		assertTrue(_kb.hasPropertyValue(_a, _p, succ));
 	}
 
 	/**
@@ -66,30 +66,30 @@ public class UpdateTests extends AbstractKBTests
 	@Test
 	public void addTypeValueWithNonDeterministic()
 	{
-		classes(C, D);
-		individuals(a);
+		classes(_C, _D);
+		individuals(_a);
 
 		// either C(a) or D(a) holds
-		kb.addType(a, or(C, D));
+		_kb.addType(_a, or(_C, _D));
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// check which non-deterministic choice was made
-		final ATermAppl type = kb.getABox().getIndividual(a).hasType(C) ? C : D;
-		final ATermAppl nonType = type.equals(C) ? D : C;
+		final ATermAppl type = _kb.getABox().getIndividual(_a).hasType(_C) ? _C : _D;
+		final ATermAppl nonType = type.equals(_C) ? _D : _C;
 
 		// no entailment can be made yet
-		assertFalse(kb.isType(a, nonType));
-		assertFalse(kb.isType(a, type));
+		assertFalse(_kb.isType(_a, nonType));
+		assertFalse(_kb.isType(_a, type));
 
 		// assert the type in non-deterministic choice
-		kb.addType(a, type);
+		_kb.addType(_a, type);
 
-		assertTrue(kb.isConsistent());
+		assertTrue(_kb.isConsistent());
 
 		// this entailment still does not hold
-		assertFalse(kb.isType(a, nonType));
+		assertFalse(_kb.isType(_a, nonType));
 		// this entailment should now hold
-		assertTrue(kb.isType(a, type));
+		assertTrue(_kb.isType(_a, type));
 	}
 }

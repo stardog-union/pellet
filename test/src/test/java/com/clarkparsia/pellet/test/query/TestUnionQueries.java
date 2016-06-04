@@ -38,48 +38,48 @@ public class TestUnionQueries extends AbstractQueryTest
 	@Test
 	public void test1()
 	{
-		classes(A, B);
-		individuals(a, b, c);
+		classes(_A, _B);
+		individuals(_a, _b, _c);
 
-		kb.addType(a, A);
-		kb.addType(b, B);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _B);
 
-		final Query q = query(select(x), where(UnionAtom(Arrays.asList(Arrays.asList(TypeAtom(x, A)), Arrays.asList(TypeAtom(x, B))))));
+		final Query q = query(select(x), where(UnionAtom(Arrays.asList(Arrays.asList(TypeAtom(x, _A)), Arrays.asList(TypeAtom(x, _B))))));
 
-		testQuery(q, new ATermAppl[][] { { a }, { b } });
+		testQuery(q, new ATermAppl[][] { { _a }, { _b } });
 	}
 
 	@Test
 	public void test2()
 	{
-		classes(A, B, C);
-		objectProperties(p);
-		individuals(a, b, c);
+		classes(_A, _B, _C);
+		objectProperties(_p);
+		individuals(_a, _b, _c);
 
-		kb.addType(a, A);
-		kb.addType(a, C);
-		kb.addType(b, A);
-		kb.addType(b, B);
+		_kb.addType(_a, _A);
+		_kb.addType(_a, _C);
+		_kb.addType(_b, _A);
+		_kb.addType(_b, _B);
 
-		final Query q = query(select(x), where(TypeAtom(x, A), UnionAtom(Arrays.asList(Arrays.asList(TypeAtom(x, B)), Arrays.asList(TypeAtom(x, C))))));
+		final Query q = query(select(x), where(TypeAtom(x, _A), UnionAtom(Arrays.asList(Arrays.asList(TypeAtom(x, _B)), Arrays.asList(TypeAtom(x, _C))))));
 
-		testQuery(q, new ATermAppl[][] { { a }, { b } });
+		testQuery(q, new ATermAppl[][] { { _a }, { _b } });
 	}
 
 	@Test
 	public void test3()
 	{
-		classes(A, B);
-		objectProperties(p, q);
-		individuals(a, b, c);
+		classes(_A, _B);
+		objectProperties(_p, _q);
+		individuals(_a, _b, _c);
 
-		kb.addType(a, A);
-		kb.addType(b, A);
-		kb.addPropertyValue(p, a, c);
-		kb.addPropertyValue(p, b, c);
+		_kb.addType(_a, _A);
+		_kb.addType(_b, _A);
+		_kb.addPropertyValue(_p, _a, _c);
+		_kb.addPropertyValue(_p, _b, _c);
 
-		final Query q1 = query(select(x, y), where(TypeAtom(x, A), UnionAtom(Arrays.asList(Arrays.asList(PropertyValueAtom(x, p, y)), Arrays.asList(PropertyValueAtom(x, q, y))))));
+		final Query q1 = query(select(x, y), where(TypeAtom(x, _A), UnionAtom(Arrays.asList(Arrays.asList(PropertyValueAtom(x, _p, y)), Arrays.asList(PropertyValueAtom(x, _q, y))))));
 
-		testQuery(q1, new ATermAppl[][] { { a, c }, { b, c } });
+		testQuery(q1, new ATermAppl[][] { { _a, _c }, { _b, _c } });
 	}
 }
