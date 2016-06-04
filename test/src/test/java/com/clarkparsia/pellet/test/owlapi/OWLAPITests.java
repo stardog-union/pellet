@@ -63,7 +63,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Ignore;
@@ -75,7 +74,6 @@ import org.mindswap.pellet.exceptions.TimeoutException;
 import org.mindswap.pellet.test.MiscTests;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.mindswap.pellet.utils.ATermUtils;
-import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.Timer;
 import org.mindswap.pellet.utils.progress.ConsoleProgressMonitor;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;
@@ -223,7 +221,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 		assertTrue(reasoner.isEntailed(propertyAssertion(ind1, p, ind1)));
 		assertTrue(reasoner.isEntailed(classAssertion(ind1, test2)));
 		assertTrue(reasoner.isEntailed(classAssertion(ind1, test3)));
-		assertIteratorValues(reasoner.getTypes(ind1, false).getFlattened().iterator(), new Object[] { OWL.Thing, C, test2, test3 });
+		assertIteratorValues(reasoner.getTypes(ind1, false).entities().iterator(), new Object[] { OWL.Thing, C, test2, test3 });
 
 		assertTrue(reasoner.isEntailed(subClassOf(Teenager, OlderThan10)));
 		assertTrue(reasoner.isEntailed(subClassOf(Teenager, YoungerThan20)));
@@ -272,19 +270,14 @@ public class OWLAPITests extends AbstractOWLAPITests
 		assertPropertyValues(reasoner, Bob, hasSister, Jane);
 	}
 
-	public static void assertInstances(final PelletReasoner reasoner, final OWLClass subj, final boolean direct, final OWLNamedIndividual... values)
+	public static void assertInstances(final PelletReasoner reasoner, final OWLClass subj, final boolean direct, final OWLNamedIndividual... expected)
 	{
-
-		final Set<OWLNamedIndividual> expected = new HashSet<>(Arrays.asList(values));
-
-		assertEquals(expected, reasoner.getInstances(subj, direct).entities().collect(Collectors.toSet()));
+		assertStreamAsSetEquals(Arrays.asList(expected).stream(), reasoner.getInstances(subj, direct).entities());
 	}
 
-	public static void assertPropertyValues(final PelletReasoner reasoner, final OWLNamedIndividual subj, final OWLObjectProperty pred, final OWLIndividual... values)
+	public static void assertPropertyValues(final PelletReasoner reasoner, final OWLNamedIndividual subj, final OWLObjectProperty pred, final OWLIndividual... expected)
 	{
-		final Set<OWLIndividual> expected = new HashSet<>(Arrays.asList(values));
-
-		assertEquals(expected, reasoner.getObjectPropertyValues(subj, pred).entities().collect(Collectors.toSet()));
+		assertStreamAsSetEquals(Arrays.asList(expected).stream(), reasoner.getObjectPropertyValues(subj, pred).entities());
 	}
 
 	public static void assertPropertyValues(final PelletReasoner reasoner, final OWLNamedIndividual subj, final OWLDataProperty pred, final OWLLiteral values)
@@ -294,11 +287,9 @@ public class OWLAPITests extends AbstractOWLAPITests
 		assertEquals(expected, reasoner.getDataPropertyValues(subj, pred));
 	}
 
-	public static void assertTypes(final PelletReasoner reasoner, final OWLNamedIndividual subj, final boolean direct, final OWLClass... values)
+	public static void assertTypes(final PelletReasoner reasoner, final OWLNamedIndividual subj, final boolean direct, final OWLClass... expected)
 	{
-		final Set<OWLClass> expected = new HashSet<>(Arrays.asList(values));
-
-		assertEquals(expected, reasoner.getTypes(subj, direct).getFlattened());
+		assertStreamAsSetEquals(Arrays.asList(expected).stream(), reasoner.getTypes(subj, direct).entities());
 	}
 
 	@Test
@@ -359,8 +350,8 @@ public class OWLAPITests extends AbstractOWLAPITests
 		assertTrue(reasoner.isConsistent());
 
 		assertTrue(reasoner.isEntailed(subClassOf(sub, sup)));
-		assertTrue(reasoner.getSubClasses(sup, false).getFlattened().contains(sub));
-		assertTrue(reasoner.getSuperClasses(sub, false).getFlattened().contains(sup));
+		assertTrue(reasoner.getSubClasses(sup, false).entities().filter(x -> x.equals(sub)).findAny().isPresent());
+		assertTrue(reasoner.getSuperClasses(sub, false).entities().filter(x -> x.equals(sup)).findAny().isPresent());
 	}
 
 	@Test
@@ -721,7 +712,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
-		assertEquals(Collections.singleton(C), reasoner.getSubClasses(desc, true).getFlattened());
+		assertStreamAsSetEquals(Stream.of(C), reasoner.getSubClasses(desc, true).entities());
 
 		assertTrue(reasoner.isEntailed(inverseFunctional(ObjectProperty(ns + "functionalP"))));
 
@@ -802,7 +793,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 			assertTrue(reasoner.isEntailed(classAssertion(Oedipus, Child)));
 		}
 
-		assertIteratorValues(reasoner.getTypes(Cain, true).getFlattened().iterator(), new Object[] { BadChild, Child, Person });
+		assertIteratorValues(reasoner.getTypes(Cain, true).entities().iterator(), new Object[] { BadChild, Child, Person });
 	}
 
 	@Test
@@ -827,11 +818,11 @@ public class OWLAPITests extends AbstractOWLAPITests
 			if (test != 0)
 				reasoner.prepareReasoner();
 
-			assertIteratorValues(reasoner.getInstances(DreamTeamMember, false).getFlattened().iterator(), new Object[] { Alice, Bob, Charlie });
+			assertIteratorValues(reasoner.getInstances(DreamTeamMember, false).entities().iterator(), new Object[] { Alice, Bob, Charlie });
 
-			assertIteratorValues(reasoner.getInstances(DreamTeamMember1, false).getFlattened().iterator(), new Object[] { Alice, Bob, Charlie });
+			assertIteratorValues(reasoner.getInstances(DreamTeamMember1, false).entities().iterator(), new Object[] { Alice, Bob, Charlie });
 
-			assertIteratorValues(reasoner.getInstances(DreamTeamMember2, false).getFlattened().iterator(), new Object[] { Alice, Bob, Charlie });
+			assertIteratorValues(reasoner.getInstances(DreamTeamMember2, false).entities().iterator(), new Object[] { Alice, Bob, Charlie });
 		}
 	}
 
@@ -922,9 +913,9 @@ public class OWLAPITests extends AbstractOWLAPITests
 
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
-		assertEquals(SetUtils.create(a), reasoner.getSameIndividuals(a).getEntities());
-		assertEquals(SetUtils.create(b, c), reasoner.getSameIndividuals(b).getEntities());
-		assertEquals(SetUtils.create(b, c), reasoner.getSameIndividuals(c).getEntities());
+		assertStreamAsSetEquals(Stream.of(a), reasoner.getSameIndividuals(a).entities());
+		assertStreamAsSetEquals(Stream.of(b, c), reasoner.getSameIndividuals(b).entities());
+		assertStreamAsSetEquals(Stream.of(b, c), reasoner.getSameIndividuals(c).entities());
 
 		assertPropertyValues(reasoner, a, p, b, c);
 
@@ -964,15 +955,15 @@ public class OWLAPITests extends AbstractOWLAPITests
 
 		assertTrue(!reasoner.isEntailed(sameAs(i1, i2)));
 		assertTrue(!reasoner.isEntailed(sameAs(i1, i3)));
-		assertEquals(SetUtils.create(i1), reasoner.getSameIndividuals(i1).getEntities());
+		assertStreamAsSetEquals(Stream.of(i1), reasoner.getSameIndividuals(i1).entities());
 
 		assertTrue(!reasoner.isEntailed(sameAs(i2, i1)));
 		assertTrue(!reasoner.isEntailed(sameAs(i2, i3)));
-		assertEquals(SetUtils.create(i2), reasoner.getSameIndividuals(i2).getEntities());
+		assertStreamAsSetEquals(Stream.of(i2), reasoner.getSameIndividuals(i2).entities());
 
 		assertTrue(!reasoner.isEntailed(sameAs(i3, i1)));
 		assertTrue(!reasoner.isEntailed(sameAs(i3, i2)));
-		assertEquals(SetUtils.create(i3), reasoner.getSameIndividuals(i3).getEntities());
+		assertStreamAsSetEquals(Stream.of(i3), reasoner.getSameIndividuals(i3).entities());
 
 	}
 
