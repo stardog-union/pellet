@@ -27,11 +27,11 @@ import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 public class Result<Task>
 {
 	// task that has been performed
-	private Task task;
+	private Task _task;
 	// size of KB in memory after task
-	private DescriptiveStatistics memory;
+	private DescriptiveStatistics _memory;
 	// time taken to complete the task
-	private DescriptiveStatistics time;
+	private DescriptiveStatistics _time;
 
 	public Result(final Task task, final double time)
 	{
@@ -40,57 +40,57 @@ public class Result<Task>
 
 	public Result(final Task task, final double memory, final double time)
 	{
-		this.task = task;
-		this.memory = new DescriptiveStatistics();
-		this.memory.addValue(memory);
-		this.time = new DescriptiveStatistics();
-		this.time.addValue(time);
+		this._task = task;
+		this._memory = new DescriptiveStatistics();
+		this._memory.addValue(memory);
+		this._time = new DescriptiveStatistics();
+		this._time.addValue(time);
 	}
 
 	public void addIteration(final double memory, final double time)
 	{
-		this.memory.addValue(memory);
-		this.time.addValue(time);
+		this._memory.addValue(memory);
+		this._time.addValue(time);
 	}
 
 	public void addIteration(final Result<Task> other)
 	{
-		if (!task.equals(other.task))
-			throw new IllegalArgumentException(task + " != " + other.task);
+		if (!_task.equals(other._task))
+			throw new IllegalArgumentException(_task + " != " + other._task);
 
 		for (final double mem : other.getMemory().getValues())
-			memory.addValue(mem);
+			_memory.addValue(mem);
 		for (final double t : other.getTime().getValues())
-			time.addValue(t);
+			_time.addValue(t);
 	}
 
 	public int getIterations()
 	{
-		return (int) memory.getN();
+		return (int) _memory.getN();
 	}
 
 	public double getAvgMemory()
 	{
-		return memory.getMean();
+		return _memory.getMean();
 	}
 
 	public Task getTask()
 	{
-		return task;
+		return _task;
 	}
 
 	public double getAvgTime()
 	{
-		return time.getMean();
+		return _time.getMean();
 	}
 
 	public DescriptiveStatistics getTime()
 	{
-		return time;
+		return _time;
 	}
 
 	public DescriptiveStatistics getMemory()
 	{
-		return memory;
+		return _memory;
 	}
 }

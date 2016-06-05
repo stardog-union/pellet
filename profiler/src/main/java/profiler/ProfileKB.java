@@ -61,20 +61,20 @@ public class ProfileKB
 	{
 		Parse(false), Load(false), Consistency(true), Classify(false), Realize(true);
 
-		private boolean requiresInstances;
+		private boolean _requiresInstances;
 
 		Task(final boolean requiresInstances)
 		{
-			this.requiresInstances = requiresInstances;
+			this._requiresInstances = requiresInstances;
 		}
 
 		boolean requiresInstances()
 		{
-			return requiresInstances;
+			return _requiresInstances;
 		}
 	}
 
-	public static void main(final String[] args) throws Exception
+	public static void main(final String[] args)
 	{
 		new ProfileKB().run(args);
 	}
@@ -98,13 +98,13 @@ public class ProfileKB
 
 	private int iterations = 1;
 
-	private MemoryProfiling memoryProfiling = MemoryProfiling.APPROX;
+	private MemoryProfiling _memoryProfiling = MemoryProfiling.APPROX;
 
-	private Task task = Task.Consistency;
+	private Task _task = Task.Consistency;
 
-	private LoaderType loaderType = LoaderType.JENA;
+	private LoaderType _loaderType = LoaderType.JENA;
 
-	private boolean imports = true;
+	private boolean _imports = true;
 
 	private final PrintWriter out = new PrintWriter(System.out);
 
@@ -114,17 +114,17 @@ public class ProfileKB
 
 	public void setMemoryProfiling(final MemoryProfiling memoryProfiling)
 	{
-		this.memoryProfiling = memoryProfiling;
+		this._memoryProfiling = memoryProfiling;
 	}
 
 	public void setTask(final Task task)
 	{
-		this.task = task;
+		this._task = task;
 	}
 
 	public void setLoaderType(final LoaderType loaderType)
 	{
-		this.loaderType = loaderType;
+		this._loaderType = loaderType;
 	}
 
 	public List<String> parseArgs(final String[] args) throws Exception
@@ -151,13 +151,17 @@ public class ProfileKB
 				switch (c)
 				{
 					case 'h':
+					{
+						System.out.println("exist");
 						System.exit(0);
+					}
 
+					//$FALL-THROUGH$
 					case 'l':
 						final String interfaceName = g.getOptarg().toUpperCase();
 						try
 						{
-							loaderType = LoaderType.valueOf(interfaceName);
+							_loaderType = LoaderType.valueOf(interfaceName);
 						}
 						catch (final IllegalArgumentException e)
 						{
@@ -169,7 +173,7 @@ public class ProfileKB
 						final String taskName = g.getOptarg();
 						try
 						{
-							task = Task.valueOf(taskName);
+							_task = Task.valueOf(taskName);
 						}
 						catch (final IllegalArgumentException e)
 						{
@@ -185,7 +189,7 @@ public class ProfileKB
 						final String s = g.getOptarg();
 						try
 						{
-							memoryProfiling = MemoryProfiling.valueOf(s.toUpperCase());
+							_memoryProfiling = MemoryProfiling.valueOf(s.toUpperCase());
 						}
 						catch (final IllegalArgumentException e)
 						{
@@ -208,12 +212,13 @@ public class ProfileKB
 						break;
 
 					case 'i':
-						imports = Boolean.parseBoolean(g.getOptarg());
+						_imports = Boolean.parseBoolean(g.getOptarg());
 						break;
 
 					case '?':
 						error("The option '" + (char) g.getOptopt() + "' is not valid");
 
+						//$FALL-THROUGH$
 					default:
 						error("Unrecognized option: " + (char) c);
 				}
@@ -306,13 +311,13 @@ public class ProfileKB
 		long mem = 0;
 
 		Object obj = loader;
-		switch (memoryProfiling)
+		switch (_memoryProfiling)
 		{
 			case NONE:
 				break;
 			case KB_SIZE:
 				obj = kb;
-				// Fall through
+				//$FALL-THROUGH$
 			case ALL_SIZE:
 				System.out.println(header);
 				mem = ObjectProfiler.sizeof(obj, ATermUtils.getFactory());
@@ -320,7 +325,7 @@ public class ProfileKB
 				break;
 			case KB_VERBOSE:
 				obj = kb;
-				// Fall through
+				//$FALL-THROUGH$
 			case ALL_VERBOSE:
 				System.out.println(header);
 				final IObjectProfileNode profile = ObjectProfiler.profile(obj);
@@ -351,15 +356,15 @@ public class ProfileKB
 
 	public Collection<Result<Task>> profile(final String... files)
 	{
-		final KBLoader loader = (loaderType == LoaderType.JENA) ? new JenaLoader() : new OWLAPILoader();
+		final KBLoader loader = (_loaderType == LoaderType.JENA) ? new JenaLoader() : new OWLAPILoader();
 
-		loader.setIgnoreImports(!imports);
+		loader.setIgnoreImports(!_imports);
 
 		final KnowledgeBase kb = loader.getKB();
 
 		final List<Result<Task>> results = new ArrayList<>();
 
-		for (int i = 0; i <= task.ordinal(); i++)
+		for (int i = 0; i <= _task.ordinal(); i++)
 		{
 			final Task task = Task.values()[i];
 
@@ -398,14 +403,6 @@ public class ProfileKB
 			results.add(new Result<>(task, mem, time));
 		}
 		kb.timers.print();
-		try
-		{
-			//System.in.read();
-		}
-		catch (final Exception e)
-		{
-
-		}
 
 		loader.clear();
 
@@ -418,7 +415,7 @@ public class ProfileKB
 		{
 			final List<String> datasets = parseArgs(args);
 
-			final int colCount = memoryProfiling == MemoryProfiling.NONE ? 1 : 2;
+			final int colCount = _memoryProfiling == MemoryProfiling.NONE ? 1 : 2;
 			final int colWidth = 8;
 			final ResultList<Task> results = new ResultList<>(colCount, colWidth);
 			for (int i = 0; i < iterations; i++)

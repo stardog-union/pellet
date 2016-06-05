@@ -10,7 +10,7 @@ import java.util.LinkedList;
  *
  * @author (C) <a href="http://www.javaworld.com/columns/jw-qna-_index.shtml">Vlad Roubtsov</a>, 2003
  */
-abstract class AbstractProfileNode implements IObjectProfileNode, Comparable
+abstract class AbstractProfileNode implements IObjectProfileNode, Comparable<AbstractProfileNode>
 {
 	// public: ................................................................
 
@@ -19,13 +19,13 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable
 	@Override
 	public final int size()
 	{
-		return m_size;
+		return _size;
 	}
 
 	@Override
 	public final IObjectProfileNode parent()
 	{
-		return m_parent;
+		return _parent;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable
 			return path;
 		else
 		{
-			final LinkedList /* IObjectProfileNode */_path = new LinkedList();
+			final LinkedList<IObjectProfileNode> _path = new LinkedList<>();
 			for (IObjectProfileNode node = this; node != null; node = node.parent())
 				_path.addFirst(node);
 
@@ -52,7 +52,12 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable
 	public final IObjectProfileNode root()
 	{
 		IObjectProfileNode node = this;
-		for (IObjectProfileNode parent = parent(); parent != null; node = parent, parent = parent.parent());
+		IObjectProfileNode parent = parent();
+		while (parent != null)
+		{
+			node = parent;
+			parent = parent.parent();
+		}
 
 		return node;
 	}
@@ -89,9 +94,9 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable
 	// Comparable:
 
 	@Override
-		public final int compareTo(final Object obj)
+	public final int compareTo(final AbstractProfileNode obj)
 	{
-		return ((AbstractProfileNode) obj).m_size - m_size;
+		return obj._size - this._size;
 	}
 
 	@Override
@@ -106,16 +111,16 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable
 
 	AbstractProfileNode(final IObjectProfileNode parent)
 	{
-		m_parent = parent;
+		_parent = parent;
 	}
 
-	int m_size;
+	int _size;
 
 	static final IObjectProfileNode[] EMPTY_OBJECTPROFILENODE_ARRAY = new IObjectProfileNode[0];
 
 	// private: ...............................................................
 
-	private final IObjectProfileNode m_parent;
+	private final IObjectProfileNode _parent;
 	private transient IObjectProfileNode[] m_path;
 
 } // _end of class

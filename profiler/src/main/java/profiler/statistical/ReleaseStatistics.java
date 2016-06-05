@@ -14,15 +14,15 @@ import profiler.Result;
 public class ReleaseStatistics
 {
 
-	private final Task task;
-	private final Map<String, Double> memStats;
-	private final Map<String, Double> timeStats;
+	private final Task _task;
+	private final Map<String, Double> _memStats;
+	private final Map<String, Double> _timeStats;
 
 	public ReleaseStatistics(final Task task)
 	{
-		this.task = task;
-		memStats = new LinkedHashMap<>();
-		timeStats = new LinkedHashMap<>();
+		this._task = task;
+		_memStats = new LinkedHashMap<>();
+		_timeStats = new LinkedHashMap<>();
 	}
 
 	public ReleaseStatistics(final Result<Task> task)
@@ -42,37 +42,37 @@ public class ReleaseStatistics
 
 	public Task getTask()
 	{
-		return task;
+		return _task;
 	}
 
 	public double getMemStat(final String name)
 	{
-		return memStats.get(name);
+		return _memStats.get(name);
 	}
 
 	public double getTimeStat(final String name)
 	{
-		return timeStats.get(name);
+		return _timeStats.get(name);
 	}
 
 	public Map<String, Double> getMemStats()
 	{
-		return memStats;
+		return _memStats;
 	}
 
 	public Map<String, Double> getTimeStats()
 	{
-		return timeStats;
+		return _timeStats;
 	}
 
 	public void addMemStat(final String name, final double value)
 	{
-		memStats.put(name, value);
+		_memStats.put(name, value);
 	}
 
 	public void addTimeStat(final String name, final double value)
 	{
-		timeStats.put(name, value);
+		_timeStats.put(name, value);
 	}
 
 }

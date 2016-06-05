@@ -36,18 +36,18 @@ import org.mindswap.pellet.utils.VersionInfo;
  */
 public class ProfileQuery
 {
-	private boolean detailedTime = false;
-	private boolean printQueryResults = false;
-	private boolean classify = false;
-	private boolean realize = false;
-	private boolean printQuery = false;
-	private boolean sizeEstimateAll = false;
-	private int maxIteration = 1;
-	private final Timers timers = new Timers();
-	private final JenaLoader loader = new JenaLoader();
-	private OntModel model = null;
+	private boolean _detailedTime = false;
+	private boolean _printQueryResults = false;
+	private boolean _classify = false;
+	private boolean _realize = false;
+	private boolean _printQuery = false;
+	private boolean _sizeEstimateAll = false;
+	private int _maxIteration = 1;
+	private final Timers _timers = new Timers();
+	private final JenaLoader _loader = new JenaLoader();
+	private OntModel _model = null;
 
-	private final ResultList<String> results = new ResultList<>(1, 8);
+	private final ResultList<String> _results = new ResultList<>(1, 8);
 
 	public ProfileQuery()
 	{
@@ -55,72 +55,72 @@ public class ProfileQuery
 
 	public boolean isPrintQuery()
 	{
-		return printQuery;
+		return _printQuery;
 	}
 
 	public void setPrintQuery(final boolean printQuery)
 	{
-		this.printQuery = printQuery;
+		this._printQuery = printQuery;
 	}
 
 	public boolean isClassify()
 	{
-		return classify;
+		return _classify;
 	}
 
 	public void setClassify(final boolean classify)
 	{
-		this.classify = classify;
+		this._classify = classify;
 	}
 
 	public boolean isRealize()
 	{
-		return realize;
+		return _realize;
 	}
 
 	public void setRealize(final boolean realize)
 	{
-		this.realize = realize;
+		this._realize = realize;
 	}
 
 	public boolean isPrintQueryResults()
 	{
-		return printQueryResults;
+		return _printQueryResults;
 	}
 
 	public void setPrintQueryResults(final boolean quiet)
 	{
-		this.printQueryResults = quiet;
+		this._printQueryResults = quiet;
 	}
 
 	public boolean isDetailedTime()
 	{
-		return detailedTime;
+		return _detailedTime;
 	}
 
 	public void setDetailedTime(final boolean detailedTime)
 	{
-		this.detailedTime = detailedTime;
+		this._detailedTime = detailedTime;
 	}
 
 	public boolean isSizeEstimateAll()
 	{
-		return sizeEstimateAll;
+		return _sizeEstimateAll;
 	}
 
 	public void setSizeEstimateAll(final boolean sizeEstimateAll)
 	{
-		this.sizeEstimateAll = sizeEstimateAll;
+		this._sizeEstimateAll = sizeEstimateAll;
 	}
 
 	public int getMaxIteration()
 	{
-		return maxIteration;
+		return _maxIteration;
 	}
 
 	public void setMaxIteration(final int maxIteration)
 	{
-		this.maxIteration = maxIteration;
+		this._maxIteration = maxIteration;
 	}
 
 	public void profile(final String[] dataset, final String queryset) throws Exception
@@ -133,8 +133,8 @@ public class ProfileQuery
 
 		final KnowledgeBase kb = loadData(dataset);
 
-		final double parseTime = timers.getTimerTotal("parse") / 1000.0;
-		final double consTime = timers.getTimerTotal("consistency") / 1000.0;
+		final double parseTime = _timers.getTimerTotal("parse") / 1000.0;
+		final double consTime = _timers.getTimerTotal("consistency") / 1000.0;
 
 		double classifyTime = 0;
 		double realizeTime = 0;
@@ -142,7 +142,7 @@ public class ProfileQuery
 
 		if (isSizeEstimateAll())
 		{
-			t = timers.startTimer("sizeEstimateAll");
+			t = _timers.startTimer("sizeEstimateAll");
 			kb.getSizeEstimate().computeAll();
 			t.stop();
 
@@ -153,26 +153,26 @@ public class ProfileQuery
 
 		if (isClassify())
 		{
-			classifyTime = timers.getTimerTotal("classify") / 1000.0;
+			classifyTime = _timers.getTimerTotal("classify") / 1000.0;
 			System.out.println("Classify         : " + classifyTime);
 		}
 
 		if (isRealize())
 		{
-			realizeTime = timers.getTimerTotal("realize") / 1000.0;
+			realizeTime = _timers.getTimerTotal("realize") / 1000.0;
 			System.out.println("Realize         : " + realizeTime);
 		}
 
 		if (isSizeEstimateAll())
 		{
-			sizeEstimateTime = timers.getTimerTotal("sizeEstimateAll") / 1000.0;
+			sizeEstimateTime = _timers.getTimerTotal("sizeEstimateAll") / 1000.0;
 			System.out.println("Size Estimate   : " + sizeEstimateTime);
 		}
 
 		final double totalSetupTime = consTime + sizeEstimateTime + classifyTime + realizeTime;
 		System.out.println("Total Setup      : " + totalSetupTime);
 
-		for (int i = 0; i < maxIteration; i++)
+		for (int i = 0; i < _maxIteration; i++)
 		{
 			System.out.println("\n\n\nITERATION: " + (i + 1) + "\n\n\n");
 
@@ -195,12 +195,12 @@ public class ProfileQuery
 				if (queries.size() > 1)
 					System.out.println("Query: " + queryName);
 
-				if (printQuery)
+				if (_printQuery)
 					System.out.println(query);
 
-				t = timers.startTimer("query");
+				t = _timers.startTimer("query");
 
-				final QueryExecution queryExec = SparqlDLExecutionFactory.create(query, model);
+				final QueryExecution queryExec = SparqlDLExecutionFactory.create(query, _model);
 
 				final ResultSet queryResults = queryExec.execSelect();
 
@@ -213,8 +213,8 @@ public class ProfileQuery
 
 				final double queryTime = t.getLast() / 1000.0;
 
-				if (printQueryResults)
-					ResultSetFormatter.out(resultMem, model);
+				if (_printQueryResults)
+					ResultSetFormatter.out(resultMem, _model);
 
 				System.out.println("Query time: " + queryTime);
 				System.out.println("Number of results: " + count);
@@ -223,14 +223,14 @@ public class ProfileQuery
 				currResult.add(new Result<>(queryName, queryTime));
 			}
 
-			results.addResult(dataName, currResult);
+			_results.addResult(dataName, currResult);
 
 			System.out.println("\n\n\nRESULT " + (i + 1) + ":");
 			System.out.println("Version: " + VersionInfo.getInstance().getVersionString());
-			results.print();
+			_results.print();
 		}
 
-		if (detailedTime)
+		if (_detailedTime)
 		{
 			System.out.println();
 			System.out.println("Detailed timing about reasoner internals:");
@@ -240,42 +240,42 @@ public class ProfileQuery
 
 	public KnowledgeBase loadData(final String[] dataset)
 	{
-		Timer t = timers.startTimer("parse");
+		Timer t = _timers.startTimer("parse");
 
-		loader.parse(dataset);
-		model = loader.getModel();
+		_loader.parse(dataset);
+		_model = _loader.getModel();
 
 		System.out.println();
-		System.out.println("Triples        : " + model.getBaseModel().size());
+		System.out.println("Triples        : " + _model.getBaseModel().size());
 
 		t.stop();
 
-		final KnowledgeBase kb = loader.getKB();
+		final KnowledgeBase kb = _loader.getKB();
 
-		t = timers.startTimer("load");
-		model.prepare();
+		t = _timers.startTimer("load");
+		_model.prepare();
 		t.stop();
 
 		ProfileUtils.printCounts(kb);
 
-		t = timers.startTimer("consistency");
+		t = _timers.startTimer("consistency");
 		kb.isConsistent();
 		t.stop();
 
 		ProfileUtils.printCounts(kb.getABox());
 
-		if (classify)
+		if (_classify)
 		{
-			t = timers.startTimer("classify");
+			t = _timers.startTimer("classify");
 
 			kb.classify();
 
 			t.stop();
 		}
 
-		if (realize)
+		if (_realize)
 		{
-			t = timers.startTimer("realize");
+			t = _timers.startTimer("realize");
 
 			kb.realize();
 
@@ -345,7 +345,7 @@ public class ProfileQuery
 					case 'h':
 						usage();
 						System.exit(0);
-
+						//$FALL-THROUGH$
 					case 'q':
 						setPrintQuery(true);
 						break;
@@ -378,6 +378,7 @@ public class ProfileQuery
 					case '?':
 						ProfileUtils.error("The option '" + (char) g.getOptopt() + "' is not valid");
 
+						//$FALL-THROUGH$
 					default:
 						ProfileUtils.error("Unrecognized option: " + (char) c);
 				}
@@ -398,18 +399,20 @@ public class ProfileQuery
 
 			final int nextArg = profiler.parseArgs(args);
 
-			final BufferedReader in = new BufferedReader(new FileReader(args[nextArg]));
-			String line = null;
-
-			while ((line = in.readLine()) != null && line.length() > 0)
+			try (final BufferedReader in = new BufferedReader(new FileReader(args[nextArg])))
 			{
-				final String[] dataset = line.split(" ");
-				final String queries = in.readLine();
+				String line = null;
 
-				profiler.profile(dataset, queries);
+				while ((line = in.readLine()) != null && line.length() > 0)
+				{
+					final String[] dataset = line.split(" ");
+					final String queries = in.readLine();
+
+					profiler.profile(dataset, queries);
+				}
+
+				MemUtils.runGC(); // XXX this should not be here.
 			}
-
-			MemUtils.runGC();
 		}
 		catch (final Throwable t)
 		{

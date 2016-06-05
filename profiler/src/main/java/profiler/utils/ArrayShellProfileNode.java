@@ -8,30 +8,20 @@ package profiler.utils;
  */
 final class ArrayShellProfileNode extends AbstractShellProfileNode
 {
-	// public: ................................................................
+	private final Class<?> _type;
+	private final int _length;
 
 	@Override
 	public String name()
 	{
-		return "<shell: " + ObjectProfiler.typeName(m_type, ObjectProfiler.SHORT_TYPE_NAMES) + ", length=" + m_length + ">";
+		return "<shell: " + ObjectProfiler.typeName(_type, ObjectProfiler.SHORT_TYPE_NAMES) + ", length=" + _length + ">";
 	}
 
-	// protected: .............................................................
-
-	// package: ...............................................................
-
-	ArrayShellProfileNode(final IObjectProfileNode parent, final Class type, final int length)
+	ArrayShellProfileNode(final IObjectProfileNode parent, final Class<?> type, final int length)
 	{
 		super(parent);
 
-		m_type = type;
-		m_length = length;
+		_type = type;
+		_length = length;
 	}
-
-	// private: ...............................................................
-
-	private final Class m_type;
-	private final int m_length;
-
-} // _end of class
-// ----------------------------------------------------------------------------
+}

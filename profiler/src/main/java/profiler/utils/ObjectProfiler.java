@@ -73,7 +73,7 @@ public abstract class ObjectProfiler
 		if (obj == null)
 			return 0;
 
-		final IdentityHashMap visited = new IdentityHashMap();
+		final IdentityHashMap<Object, Object> visited = new IdentityHashMap<>();
 
 		return computeSizeof(obj, visited, CLASS_METADATA_CACHE);
 	}
@@ -83,7 +83,7 @@ public abstract class ObjectProfiler
 		if (obj == null)
 			return 0;
 
-		final IdentityHashMap visited = new IdentityHashMap();
+		final IdentityHashMap<Object, Object> visited = new IdentityHashMap<>();
 
 		for (final Object o : avoid)
 			visited.put(o, o);
@@ -106,7 +106,7 @@ public abstract class ObjectProfiler
 		if (base == null)
 			throw new IllegalArgumentException("null input: base");
 
-		final IdentityHashMap visited = new IdentityHashMap();
+		final IdentityHashMap<Object, Object> visited = new IdentityHashMap<>();
 
 		computeSizeof(base, visited, CLASS_METADATA_CACHE);
 		return visited.containsKey(obj) ? 0 : computeSizeof(obj, visited, CLASS_METADATA_CACHE);
@@ -125,7 +125,7 @@ public abstract class ObjectProfiler
 		if (obj == null)
 			throw new IllegalArgumentException("null input: obj");
 
-		final IdentityHashMap visited = new IdentityHashMap();
+		final IdentityHashMap<Object, ObjectProfileNode> visited = new IdentityHashMap<>();
 
 		final ObjectProfileNode root = createProfileTree(obj, visited, CLASS_METADATA_CACHE);
 		finishProfileTree(root);
@@ -154,8 +154,9 @@ public abstract class ObjectProfiler
 		return typeName(field.getDeclaringClass(), shortClassNames).concat("#").concat(field.getName());
 	}
 
-	public static String typeName(Class cls, final boolean shortClassNames)
+	public static String typeName(Class<?> clsParam, final boolean shortClassNames)
 	{
+		Class<?> cls = clsParam;
 		int dims = 0;
 		for (; cls.isArray(); ++dims)
 			cls = cls.getComponentType();
@@ -210,7 +211,7 @@ public abstract class ObjectProfiler
 
 	} // _end of nested class
 
-	private static final class ClassAccessPrivilegedAction implements PrivilegedExceptionAction
+	private static final class ClassAccessPrivilegedAction implements PrivilegedExceptionAction<Object>
 	{
 		@Override
 		public Object run() throws Exception
@@ -218,16 +219,16 @@ public abstract class ObjectProfiler
 			return m_cls.getDeclaredFields();
 		}
 
-		void setContext(final Class cls)
+		void setContext(final Class<?> cls)
 		{
 			m_cls = cls;
 		}
 
-		private Class m_cls;
+		private Class<?> m_cls;
 
 	} // _end of nested class
 
-	private static final class FieldAccessPrivilegedAction implements PrivilegedExceptionAction
+	private static final class FieldAccessPrivilegedAction implements PrivilegedExceptionAction<Object>
 	{
 		@Override
 		public Object run() throws Exception
@@ -253,8 +254,9 @@ public abstract class ObjectProfiler
 	/*
 	 * The main worker method for sizeof() and sizedelta().
 	 */
-	private static int computeSizeof(Object obj, final IdentityHashMap visited, final Map /* Class->ClassMetadata */metadataMap)
+	private static int computeSizeof(Object objParam, final IdentityHashMap<Object, Object> visited, final Map /* Class->ClassMetadata */<Class<?>, ClassMetadata> metadataMap)
 	{
+		Object obj = objParam;
 		// this uses _depth-first traversal; the exact graph traversal algorithm
 		// does not matter for computing the total size and this method could be
 		// easily adjusted to do breadth-first instead (addLast() instead of addFirst()),
@@ -265,7 +267,7 @@ public abstract class ObjectProfiler
 		if (obj == null)
 			return 0;
 
-		final LinkedList queue = new LinkedList();
+		final LinkedList<Object> queue = new LinkedList<>();
 
 		visited.put(obj, obj);
 		queue.add(obj);
@@ -278,12 +280,12 @@ public abstract class ObjectProfiler
 		while (!queue.isEmpty())
 		{
 			obj = queue.removeFirst();
-			final Class objClass = obj.getClass();
+			final Class<?> objClass = obj.getClass();
 
 			if (objClass.isArray())
 			{
 				final int arrayLength = Array.getLength(obj);
-				final Class componentType = objClass.getComponentType();
+				final Class<?> componentType = objClass.getComponentType();
 
 				result += sizeofArrayShell(arrayLength, componentType);
 
@@ -301,7 +303,7 @@ public abstract class ObjectProfiler
 					}
 			}
 			else
-			// the object is of a non-array type
+				// the object is of a non-array type
 			{
 				final ClassMetadata metadata = getClassMetadata(objClass, metadataMap, caAction, faAction);
 				final Field[] fields = metadata.m_refFields;
@@ -311,7 +313,7 @@ public abstract class ObjectProfiler
 				// traverse all non-null ref fields:
 
 				for (final Field field : fields)
-					{
+				{
 					final Object ref;
 					try
 					// to get the field value: 
@@ -339,11 +341,13 @@ public abstract class ObjectProfiler
 	 * Performs phase 1 of profile creation: bread-first traversal and _node
 	 * creation.
 	 */
-	private static ObjectProfileNode createProfileTree(Object obj, final IdentityHashMap visited, final Map /* Class->ClassMetadata */metadataMap)
+	private static ObjectProfileNode createProfileTree(Object objParam, final IdentityHashMap<Object, ObjectProfileNode> visited, final Map /* Class->ClassMetadata */<Class<?>, ClassMetadata> metadataMap)
 	{
+		Object obj = objParam;
+
 		final ObjectProfileNode root = new ObjectProfileNode(null, obj, null);
 
-		final LinkedList queue = new LinkedList();
+		final LinkedList<ObjectProfileNode> queue = new LinkedList<>();
 
 		queue.addFirst(root);
 		visited.put(obj, root);
@@ -353,19 +357,19 @@ public abstract class ObjectProfiler
 
 		while (!queue.isEmpty())
 		{
-			final ObjectProfileNode node = (ObjectProfileNode) queue.removeFirst();
+			final ObjectProfileNode node = queue.removeFirst();
 
 			obj = node.m_obj;
-			final Class objClass = obj.getClass();
+			final Class<?> objClass = obj.getClass();
 
 			if (objClass.isArray())
 			{
 				final int arrayLength = Array.getLength(obj);
-				final Class componentType = objClass.getComponentType();
+				final Class<?> componentType = objClass.getComponentType();
 
 				// add shell pseudo-_node:
 				final AbstractShellProfileNode shell = new ArrayShellProfileNode(node, objClass, arrayLength);
-				shell.m_size = sizeofArrayShell(arrayLength, componentType);
+				shell._size = sizeofArrayShell(arrayLength, componentType);
 
 				node.m_shell = shell;
 				node.addFieldRef(shell);
@@ -378,7 +382,7 @@ public abstract class ObjectProfiler
 
 						if (ref != null)
 						{
-							ObjectProfileNode child = (ObjectProfileNode) visited.get(ref);
+							ObjectProfileNode child = visited.get(ref);
 							if (child != null)
 								++child.m_refcount;
 							else
@@ -393,14 +397,14 @@ public abstract class ObjectProfiler
 					}
 			}
 			else
-			// the object is of a non-array type
+				// the object is of a non-array type
 			{
 				final ClassMetadata metadata = getClassMetadata(objClass, metadataMap, caAction, faAction);
 				final Field[] fields = metadata.m_refFields;
 
 				// add shell pseudo-_node:
 				final AbstractShellProfileNode shell = new ObjectShellProfileNode(node, metadata.m_primitiveFieldCount, metadata.m_refFields.length);
-				shell.m_size = metadata.m_shellSize;
+				shell._size = metadata.m_shellSize;
 
 				node.m_shell = shell;
 				node.addFieldRef(shell);
@@ -421,7 +425,7 @@ public abstract class ObjectProfiler
 
 					if (ref != null)
 					{
-						ObjectProfileNode child = (ObjectProfileNode) visited.get(ref);
+						ObjectProfileNode child = visited.get(ref);
 						if (child != null)
 							++child.m_refcount;
 						else
@@ -445,9 +449,10 @@ public abstract class ObjectProfiler
 	 * non-recursive post-_order traversal of the tree created in phase 1)
 	 * and 'locking down' of profile _nodes into their most compact form.
 	 */
-	private static void finishProfileTree(ObjectProfileNode node)
+	private static void finishProfileTree(ObjectProfileNode nodeParam)
 	{
-		final LinkedList queue = new LinkedList();
+		ObjectProfileNode node = nodeParam;
+		final LinkedList<IObjectProfileNode> queue = new LinkedList<>();
 		IObjectProfileNode lastFinished = null;
 
 		while (node != null)
@@ -455,7 +460,7 @@ public abstract class ObjectProfiler
 			// note that an unfinished non-shell _node has its child count
 			// in m_size and m_children[0] is its shell _node:
 
-			if ((node.m_size == 1) || (lastFinished == node.m_children[1]))
+			if ((node._size == 1) || (lastFinished == node.m_children[1]))
 			{
 				node.finish();
 				lastFinished = node;
@@ -463,7 +468,7 @@ public abstract class ObjectProfiler
 			else
 			{
 				queue.addFirst(node);
-				for (int i = 1; i < node.m_size; ++i)
+				for (int i = 1; i < node._size; ++i)
 				{
 					final IObjectProfileNode child = node.m_children[i];
 					queue.addFirst(child);
@@ -480,7 +485,7 @@ public abstract class ObjectProfiler
 	/*
 	 * A helper method for manipulating a class metadata _cache.
 	 */
-	private static ClassMetadata getClassMetadata(final Class cls, final Map /* Class->ClassMetadata */metadataMap, final ClassAccessPrivilegedAction caAction, final FieldAccessPrivilegedAction faAction)
+	private static ClassMetadata getClassMetadata(final Class<?> cls, final Map /* Class->ClassMetadata */<Class<?>, ClassMetadata> metadataMap, final ClassAccessPrivilegedAction caAction, final FieldAccessPrivilegedAction faAction)
 	{
 		if (cls == null)
 			return null;
@@ -488,14 +493,14 @@ public abstract class ObjectProfiler
 		ClassMetadata result;
 		synchronized (metadataMap)
 		{
-			result = (ClassMetadata) metadataMap.get(cls);
+			result = metadataMap.get(cls);
 		}
 		if (result != null)
 			return result;
 
 		int primitiveFieldCount = 0;
 		int shellSize = OBJECT_SHELL_SIZE; // java.lang.Object shell
-		final List /* Field */refFields = new LinkedList();
+		final List /* Field */<Field> refFields = new LinkedList<>();
 
 		final Field[] declaredFields;
 		try
@@ -514,7 +519,7 @@ public abstract class ObjectProfiler
 			if ((Modifier.STATIC & field.getModifiers()) != 0)
 				continue;
 
-			final Class fieldType = field.getType();
+			final Class<?> fieldType = field.getType();
 			if (fieldType.isPrimitive())
 			{
 				// memory alignment ignored:
@@ -526,14 +531,14 @@ public abstract class ObjectProfiler
 				// prepare for graph traversal later:
 				if (!field.isAccessible())
 					try
-					{
+				{
 						faAction.setContext(field);
 						AccessController.doPrivileged(faAction);
-					}
-					catch (final PrivilegedActionException pae)
-					{
-						throw new RuntimeException("could not make field " + field + " accessible: " + pae.getException());
-					}
+				}
+				catch (final PrivilegedActionException pae)
+				{
+					throw new RuntimeException("could not make field " + field + " accessible: " + pae.getException());
+				}
 
 				// memory alignment ignored:
 				shellSize += OBJREF_SIZE;
@@ -565,7 +570,7 @@ public abstract class ObjectProfiler
 	/*
 	 * Computes the "shallow" size of an array instance.
 	 */
-	private static int sizeofArrayShell(final int length, final Class componentType)
+	private static int sizeofArrayShell(final int length, final Class<?> componentType)
 	{
 		// this ignores memory alignment issues by design:
 
@@ -577,7 +582,7 @@ public abstract class ObjectProfiler
 	/*
 	 * Returns the JVM-specific size of a primitive type.
 	 */
-	private static int sizeofPrimitiveType(final Class type)
+	private static int sizeofPrimitiveType(final Class<?> type)
 	{
 		if (type == int.class)
 			return INT_FIELD_SIZE;
@@ -607,7 +612,7 @@ public abstract class ObjectProfiler
 	}
 
 	// class metadata _cache:
-	private static final Map CLASS_METADATA_CACHE = new WeakHashMap(101);
+	private static final Map<Class<?>, ClassMetadata> CLASS_METADATA_CACHE = new WeakHashMap<>(101);
 
 } // _end of class
 // ----------------------------------------------------------------------------

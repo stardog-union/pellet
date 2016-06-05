@@ -44,12 +44,13 @@ public class ProfileUtils
 	 * Turns the given file path into a more user-friendly format. Strips the file extension and makes sure the formatted string does not exceed the given
 	 * length limit.
 	 *
-	 * @param fileName file name to be formatted
+	 * @param fileNameParam file name to be formatted
 	 * @param length max length of the formatted string
 	 * @return formatted name
 	 */
-	public static String formatFileName(String fileName, final int length)
+	public static String formatFileName(String fileNameParam, final int length)
 	{
+		String fileName = fileNameParam;
 		final int lastSlash = fileName.lastIndexOf('/') + 1;
 		final int lastDot = fileName.lastIndexOf('.');
 
@@ -66,7 +67,7 @@ public class ProfileUtils
 
 	public static double mb(final long bytes)
 	{
-		return bytes / 1048576.0;
+		return bytes / (1024. * 1024.);
 	}
 
 	public static void printCounts(final ABox abox)

@@ -74,13 +74,13 @@ final class ObjectProfileNode extends AbstractProfileNode
 
 		IObjectProfileNode[] children = m_children;
 		final int childrenLength = children.length;
-		if (m_size >= childrenLength)
+		if (_size >= childrenLength)
 		{
 			final IObjectProfileNode[] newchildren = new IObjectProfileNode[Math.max(1, childrenLength << 1)];
 			System.arraycopy(children, 0, newchildren, 0, childrenLength);
 			m_children = children = newchildren;
 		}
-		children[m_size++] = node;
+		children[_size++] = node;
 	}
 
 	/*
@@ -90,7 +90,7 @@ final class ObjectProfileNode extends AbstractProfileNode
 	 */
 	void finish()
 	{
-		final int childCount = m_size; // m_size is the child count for a non-shell _node
+		final int childCount = _size; // m_size is the child count for a non-shell _node
 		if (childCount > 0)
 		{
 			if (childCount < m_children.length)
@@ -106,7 +106,7 @@ final class ObjectProfileNode extends AbstractProfileNode
 			int size = 0;
 			for (int i = 0; i < childCount; ++i)
 				size += m_children[i].size();
-			m_size = size; // m_size is the full _node size for all _nodes
+			_size = size; // m_size is the full _node size for all _nodes
 		}
 	}
 

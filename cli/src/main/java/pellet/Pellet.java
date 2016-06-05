@@ -90,7 +90,7 @@ public class Pellet
 	private void run(final String[] args)
 	{
 		if (args.length == 0)
-			throw new PelletCmdException("Type 'pellet _help' for usage.");
+			throw new PelletCmdException("Type 'pellet help' for usage.");
 
 		final String arg = args[0];
 
@@ -123,7 +123,7 @@ public class Pellet
 
 		buf.append("Usage: pellet <subcommand> [_options] <file URI>...\n");
 		buf.append("Pellet command-line client, version " + version + "." + "\n");
-		buf.append("Type 'pellet _help <subcommand>' for _help on a specific subcommand.\n");
+		buf.append("Type 'pellet help <subcommand>' for help on a specific subcommand.\n");
 		buf.append("\n");
 		buf.append("Available subcommands:\n");
 

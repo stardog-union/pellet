@@ -29,24 +29,25 @@ import java.util.Map;
  */
 public class ResultList<T>
 {
-	private final int colCount;
+	private final int _colCount;
 
-	private int colWidth = 8;
+	private int _colWidth = 8;
 
-	private final Map<String, Collection<Result<T>>> results = new LinkedHashMap<>();
+	private final Map<String, Collection<Result<T>>> _results = new LinkedHashMap<>();
 
 	public ResultList(final int colCount, final int colWidth)
 	{
-		this.colCount = colCount;
-		this.colWidth = colWidth;
+		this._colCount = colCount;
+		this._colWidth = colWidth;
 	}
 
-	public void addResult(String name, final Collection<Result<T>> currResults)
+	public void addResult(final String nameParam, final Collection<Result<T>> currResults)
 	{
-		name = ProfileUtils.formatFileName(name, 2 * colWidth);
-		final Collection<Result<T>> prevResults = results.get(name);
+		String name = nameParam;
+		name = ProfileUtils.formatFileName(name, 2 * _colWidth);
+		final Collection<Result<T>> prevResults = _results.get(name);
 		if (prevResults == null)
-			results.put(name, currResults);
+			_results.put(name, currResults);
 		else
 		{
 			final Iterator<Result<T>> prev = prevResults.iterator();
@@ -59,9 +60,9 @@ public class ResultList<T>
 
 	public void print()
 	{
-		printHeader(results.values().iterator().next());
+		printHeader(_results.values().iterator().next());
 
-		for (final Map.Entry<String, Collection<Result<T>>> entry : results.entrySet())
+		for (final Map.Entry<String, Collection<Result<T>>> entry : _results.entrySet())
 		{
 			final String name = entry.getKey();
 			final Collection<Result<T>> result = entry.getValue();
@@ -74,12 +75,12 @@ public class ResultList<T>
 
 	private void printDataset(final String name, final Collection<Result<T>> results)
 	{
-		System.out.format("%-" + 2 * colWidth + "s|", name);
+		System.out.format("%-" + 2 * _colWidth + "s|", name);
 		for (final Result<T> result : results)
 		{
-			System.out.format("%" + colWidth + ".2f |", result.getAvgTime());
-			if (colCount > 1)
-				System.out.format("%" + colWidth + ".2f |", result.getAvgMemory());
+			System.out.format("%" + _colWidth + ".2f |", result.getAvgTime());
+			if (_colCount > 1)
+				System.out.format("%" + _colWidth + ".2f |", result.getAvgMemory());
 		}
 
 		System.out.println();
@@ -89,9 +90,9 @@ public class ResultList<T>
 	{
 		System.out.println();
 		System.out.println();
-		System.out.format("%-" + (2 * colWidth) + "s|", " ");
+		System.out.format("%-" + (2 * _colWidth) + "s|", " ");
 
-		final int headerWidth = (colCount * colWidth);
+		final int headerWidth = (_colCount * _colWidth);
 
 		for (final Result<T> result : results)
 		{
@@ -99,17 +100,17 @@ public class ResultList<T>
 			if (colHeader.length() > headerWidth)
 				colHeader = colHeader.substring(0, headerWidth - 1) + '.';
 			System.out.format(" %-" + headerWidth + "s", colHeader);
-			for (int i = 0; i < 2 * (colCount - 1); i++)
+			for (int i = 0; i < 2 * (_colCount - 1); i++)
 				System.out.print(" ");
 			System.out.print("|");
 		}
 		System.out.println();
-		System.out.format("%-" + (2 * colWidth) + "s|", " ");
+		System.out.format("%-" + (2 * _colWidth) + "s|", " ");
 		for (int i = 0; i < results.size(); i++)
 		{
-			System.out.format(" %-" + colWidth + "s|", "Time");
-			if (colCount > 1)
-				System.out.format(" %-" + colWidth + "s|", "Mem");
+			System.out.format(" %-" + _colWidth + "s|", "Time");
+			if (_colCount > 1)
+				System.out.format(" %-" + _colWidth + "s|", "Mem");
 		}
 		System.out.println();
 	}

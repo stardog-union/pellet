@@ -13,16 +13,15 @@ import org.mindswap.pellet.utils.VersionInfo;
 public class Release
 {
 
-	private final String version;
-	private final Long releaseDate;
+	private final String _version;
+	private final Long _releaseDate;
 
-	private final Map<String, List<ReleaseStatistics>> statistics;
+	private final Map<String, List<ReleaseStatistics>> _statistics = new LinkedHashMap<>();
 
 	public Release(final String version, final Long releaseDate)
 	{
-		this.version = version;
-		this.releaseDate = releaseDate;
-		statistics = new LinkedHashMap<>();
+		_version = version;
+		_releaseDate = releaseDate;
 	}
 
 	public Release()
@@ -32,32 +31,32 @@ public class Release
 
 	public String getVersion()
 	{
-		return version;
+		return _version;
 	}
 
 	public Long getReleaseDate()
 	{
-		return releaseDate;
+		return _releaseDate;
 	}
 
 	public List<ReleaseStatistics> getStatistics(final String ontology)
 	{
-		return statistics.get(ontology);
+		return _statistics.get(ontology);
 	}
 
 	public void addStatistics(final String ontology, final List<ReleaseStatistics> statistics)
 	{
-		this.statistics.put(ontology, statistics);
+		this._statistics.put(ontology, statistics);
 	}
 
 	public Map<String, List<ReleaseStatistics>> getAllStatistics()
 	{
-		return statistics;
+		return _statistics;
 	}
 
 	@Override
 	public String toString()
 	{
-		return version;
+		return _version;
 	}
 }

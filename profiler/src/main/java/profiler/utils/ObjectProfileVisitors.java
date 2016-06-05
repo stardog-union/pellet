@@ -59,11 +59,13 @@ public abstract class ObjectProfileVisitors
 		@Override
 		public void previsit(final IObjectProfileNode node)
 		{
+			// Nothing to do
 		}
 
 		@Override
 		public void postvisit(final IObjectProfileNode node)
 		{
+			// Nothing to do
 		}
 
 	} // _end of nested class
