@@ -25,15 +25,14 @@ abstract class SubjectObjectVarHandler extends TripleQueryHandler
 	public abstract Iterator<ATermAppl> getObjects(KnowledgeBase kb, ATermAppl subj);
 
 	@Override
-	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 	{
 		return WrappedIterator.create(new NestedIterator<ATermAppl, Triple>(getSubjects(kb))
 		{
 			@Override
 			public Iterator<Triple> getInnerIterator(final ATermAppl subj)
 			{
-				final Node s = JenaUtils.makeGraphNode(subj);
-				return objectFiller(s, p, getObjects(kb, subj));
+				return objectFiller(JenaUtils.makeGraphNode(subj), p, getObjects(kb, subj));
 			}
 		});
 	}

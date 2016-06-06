@@ -27,10 +27,10 @@ abstract class SingleVarQueryHandler extends TripleQueryHandler
 	}
 
 	@Override
-	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, final Node obj)
+	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node subj, final Node pred, final Node obj)
 	{
 		final Node n = subj.isConcrete() ? obj : subj;
-		final Set<ATermAppl> results = getResults(kb, pellet.getLoader().node2term(n));
+		final Set<ATermAppl> results = getResults(kb, openllet.getLoader().node2term(n));
 		return subj.isConcrete() ? objectFiller(subj, pred, results) : subjectFiller(results, pred, obj);
 	}
 }

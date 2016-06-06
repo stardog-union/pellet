@@ -51,21 +51,29 @@ public class GraphQueryHandler
 	protected static final Node VAR = Node.ANY;
 	protected static final Node CONST = NodeFactory.createURI("CONST");
 
+	@SuppressWarnings("unused")
 	private static final Node[] EMPTY = new Node[0];
 
-	private static final Node[] BUILTIN_PREDICATES = new Node[] { RDF.type.asNode(), OWL.sameAs.asNode(), OWL.differentFrom.asNode(),
+	private static final Node[] BUILTIN_PREDICATES = new Node[] {//
+		RDF.type.asNode(), OWL.sameAs.asNode(), OWL.differentFrom.asNode(),//
+			RDFS.subClassOf.asNode(), OWL.equivalentClass.asNode(), OWL.complementOf.asNode(), OWL.disjointWith.asNode(),//
+			RDFS.subPropertyOf.asNode(), OWL.equivalentProperty.asNode(), OWL.inverseOf.asNode(), OWL2.propertyDisjointWith.asNode(),//
+			RDFS.domain.asNode(), RDFS.range.asNode() // 
+	};
 
-	RDFS.subClassOf.asNode(), OWL.equivalentClass.asNode(), OWL.complementOf.asNode(), OWL.disjointWith.asNode(),
+	private static final Node[] BUILTIN_QUERY_PREDICATES = new Node[] {//
+	ReasonerVocabulary.directRDFType.asNode(), //
+			ReasonerVocabulary.directSubClassOf.asNode(),// 
+			ReasonerVocabulary.directSubPropertyOf.asNode() // 
+	};
 
-	RDFS.subPropertyOf.asNode(), OWL.equivalentProperty.asNode(), OWL.inverseOf.asNode(), OWL2.propertyDisjointWith.asNode(),
-
-	RDFS.domain.asNode(), RDFS.range.asNode() };
-
-	private static final Node[] BUILTIN_QUERY_PREDICATES = new Node[] { ReasonerVocabulary.directRDFType.asNode(), ReasonerVocabulary.directSubClassOf.asNode(), ReasonerVocabulary.directSubPropertyOf.asNode() };
-
-	private static final Node[] BUILTIN_TYPES = new Node[] { OWL.Class.asNode(),
-
-	OWL.AnnotationProperty.asNode(), OWL.ObjectProperty.asNode(), OWL.DatatypeProperty.asNode(), OWL.FunctionalProperty.asNode(), OWL.InverseFunctionalProperty.asNode(), OWL.TransitiveProperty.asNode(), OWL.SymmetricProperty.asNode(), OWL2.AsymmetricProperty.asNode(), OWL2.ReflexiveProperty.asNode(), OWL2.IrreflexiveProperty.asNode() };
+	private static final Node[] BUILTIN_TYPES = new Node[] { OWL.Class.asNode(),//
+		OWL.AnnotationProperty.asNode(), OWL.ObjectProperty.asNode(),//
+		OWL.DatatypeProperty.asNode(), OWL.FunctionalProperty.asNode(),//
+		OWL.InverseFunctionalProperty.asNode(), OWL.TransitiveProperty.asNode(),//
+		OWL.SymmetricProperty.asNode(), OWL2.AsymmetricProperty.asNode(),//
+		OWL2.ReflexiveProperty.asNode(), OWL2.IrreflexiveProperty.asNode() //
+	};
 
 	private static final Node[] BUILTIN_QUERY_TYPES = new Node[] { RDFS.Class.asNode(), RDF.Property.asNode() };
 
@@ -127,7 +135,7 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
 				final ModelExtractor me = new ModelExtractor(kb);
 				me.setSelector(StatementType.ALL_STATEMENTS);
@@ -147,20 +155,20 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
 				ExtendedIterator<Triple> builtinPredicates = NullIterator.instance();
-				if (!o.isLiteral() && !pellet.isSkipBuiltinPredicates())
+				if (!o.isLiteral() && !openllet.isSkipBuiltinPredicates())
 					for (final Node pred : BUILTIN_PREDICATES)
-						builtinPredicates = builtinPredicates.andThen(findTriple(kb, pellet, s, pred, o));
+						builtinPredicates = builtinPredicates.andThen(findTriple(kb, openllet, s, pred, o));
 
 				final ExtendedIterator<Triple> propertyAssertions = WrappedIterator.create(new NestedIterator<ATermAppl, Triple>(kb.getProperties())
 				{
 					@Override
 					public Iterator<Triple> getInnerIterator(final ATermAppl prop)
 					{
-						final Node p = JenaUtils.makeGraphNode(prop);
-						return findTriple(kb, pellet, s, p, o);
+						final Node graphNode = JenaUtils.makeGraphNode(prop);
+						return findTriple(kb, openllet, s, graphNode, o);
 					}
 				});
 
@@ -178,20 +186,20 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
 				ExtendedIterator<Triple> builtinPredicates = NullIterator.instance();
-				if (!pellet.isSkipBuiltinPredicates())
+				if (!openllet.isSkipBuiltinPredicates())
 					for (final Node pred : BUILTIN_PREDICATES)
-						builtinPredicates = builtinPredicates.andThen(findTriple(kb, pellet, s, pred, o));
+						builtinPredicates = builtinPredicates.andThen(findTriple(kb, openllet, s, pred, o));
 
 				final ExtendedIterator<Triple> propertyAssertions = WrappedIterator.create(new NestedIterator<ATermAppl, Triple>(kb.getProperties())
 				{
 					@Override
 					public Iterator<Triple> getInnerIterator(final ATermAppl prop)
 					{
-						final Node p = JenaUtils.makeGraphNode(prop);
-						return findTriple(kb, pellet, s, p, o);
+						final Node graphNode = JenaUtils.makeGraphNode(prop);
+						return findTriple(kb, openllet, s, graphNode, o);
 					}
 				});
 
@@ -209,17 +217,17 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
 				ExtendedIterator<Triple> result = NullIterator.instance();
-				final ATermAppl subj = pellet.getLoader().node2term(s);
-				final ATermAppl obj = pellet.getLoader().node2term(o);
+				final ATermAppl subj = openllet.getLoader().node2term(s);
+				final ATermAppl obj = openllet.getLoader().node2term(o);
 				if (kb.isIndividual(subj) || kb.isIndividual(obj))
 				{
 
 					if (kb.isIndividual(subj))
 					{
-						final List<ATermAppl> properties = kb.getProperties(pellet.getLoader().node2term(s), pellet.getLoader().node2term(o));
+						final List<ATermAppl> properties = kb.getProperties(openllet.getLoader().node2term(s), openllet.getLoader().node2term(o));
 						result = propertyFiller(s, properties, o);
 
 						if (kb.isIndividual(obj))
@@ -232,9 +240,9 @@ public class GraphQueryHandler
 					}
 				}
 				else
-					if (!pellet.isSkipBuiltinPredicates())
+					if (!openllet.isSkipBuiltinPredicates())
 						for (final Node pred : BUILTIN_PREDICATES)
-							result = result.andThen(findTriple(kb, pellet, s, pred, o));
+							result = result.andThen(findTriple(kb, openllet, s, pred, o));
 				return result;
 			}
 		});
@@ -256,16 +264,16 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				final ATermAppl prop = pellet.getLoader().node2term(p);
+				final ATermAppl prop = openllet.getLoader().node2term(p);
 				return WrappedIterator.create(new NestedIterator<ATermAppl, Triple>(kb.getIndividuals())
 				{
 					@Override
 					public Iterator<Triple> getInnerIterator(final ATermAppl subj)
 					{
-						final Node s = JenaUtils.makeGraphNode(subj);
-						return objectFiller(s, p, kb.getPropertyValues(prop, subj));
+						final Node graphNode = JenaUtils.makeGraphNode(subj);
+						return objectFiller(graphNode, p, kb.getPropertyValues(prop, subj));
 					}
 				});
 			}
@@ -283,10 +291,10 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				final ATermAppl prop = pellet.getLoader().node2term(p);
-				final ATermAppl val = pellet.getLoader().node2term(o);
+				final ATermAppl prop = openllet.getLoader().node2term(p);
+				final ATermAppl val = openllet.getLoader().node2term(o);
 				return subjectFiller(kb.getIndividualsWithProperty(prop, val), p, o);
 			}
 		});
@@ -302,10 +310,10 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				final ATermAppl ind = pellet.getLoader().node2term(s);
-				final ATermAppl prop = pellet.getLoader().node2term(p);
+				final ATermAppl ind = openllet.getLoader().node2term(s);
+				final ATermAppl prop = openllet.getLoader().node2term(p);
 				return objectFiller(s, p, kb.getPropertyValues(prop, ind));
 			}
 		});
@@ -331,14 +339,14 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, final Node obj)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node subj, final Node pred, final Node obj)
 			{
 				final ExtendedIterator<Triple> builtinTypes = WrappedIterator.create(new NestedIterator<Node, Triple>(Arrays.asList(BUILTIN_TYPES))
 				{
 					@Override
 					public Iterator<Triple> getInnerIterator(final Node builtinType)
 					{
-						return findTriple(kb, pellet, subj, pred, builtinType);
+						return findTriple(kb, openllet, subj, pred, builtinType);
 					}
 				});
 
@@ -364,9 +372,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectFiller(kb.getInstances(pellet.getLoader().node2term(o)), p, o);
+				return subjectFiller(kb.getInstances(openllet.getLoader().node2term(o)), p, o);
 			}
 		});
 
@@ -380,9 +388,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				final ATermAppl term = pellet.getLoader().node2term(s);
+				final ATermAppl term = openllet.getLoader().node2term(s);
 
 				if (kb.isIndividual(term))
 					return objectSetFiller(s, p, kb.getTypes(term));
@@ -481,9 +489,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, final Node obj)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node subj, final Node pred, final Node obj)
 			{
-				return objectSetFiller(subj, pred, kb.getTypes(pellet.getLoader().node2term(subj), true));
+				return objectSetFiller(subj, pred, kb.getTypes(openllet.getLoader().node2term(subj), true));
 			}
 		});
 
@@ -760,9 +768,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectSetFiller(kb.getSubClasses(pellet.getLoader().node2term(o)), p, o);
+				return subjectSetFiller(kb.getSubClasses(openllet.getLoader().node2term(o)), p, o);
 			}
 		});
 
@@ -775,9 +783,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return objectSetFiller(s, p, kb.getSuperClasses(pellet.getLoader().node2term(s)));
+				return objectSetFiller(s, p, kb.getSuperClasses(openllet.getLoader().node2term(s)));
 			}
 		});
 
@@ -820,9 +828,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectSetFiller(kb.getSubClasses(pellet.getLoader().node2term(o), true), p, o);
+				return subjectSetFiller(kb.getSubClasses(openllet.getLoader().node2term(o), true), p, o);
 			}
 		});
 
@@ -835,9 +843,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return objectSetFiller(s, p, kb.getSuperClasses(pellet.getLoader().node2term(s), true));
+				return objectSetFiller(s, p, kb.getSuperClasses(openllet.getLoader().node2term(s), true));
 			}
 		});
 
@@ -880,9 +888,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectFiller(kb.getAllEquivalentClasses(pellet.getLoader().node2term(o)), p, o);
+				return subjectFiller(kb.getAllEquivalentClasses(openllet.getLoader().node2term(o)), p, o);
 			}
 		});
 
@@ -895,9 +903,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return objectFiller(s, p, kb.getAllEquivalentClasses(pellet.getLoader().node2term(s)));
+				return objectFiller(s, p, kb.getAllEquivalentClasses(openllet.getLoader().node2term(s)));
 			}
 		});
 
@@ -940,9 +948,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectSetFiller(kb.getDisjointClasses(pellet.getLoader().node2term(o)), p, o);
+				return subjectSetFiller(kb.getDisjointClasses(openllet.getLoader().node2term(o)), p, o);
 			}
 		});
 
@@ -955,9 +963,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return objectSetFiller(s, p, kb.getDisjointClasses(pellet.getLoader().node2term(s)));
+				return objectSetFiller(s, p, kb.getDisjointClasses(openllet.getLoader().node2term(s)));
 			}
 		});
 
@@ -1048,9 +1056,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectSetFiller(kb.getAllSubProperties(pellet.getLoader().node2term(o)), p, o);
+				return subjectSetFiller(kb.getAllSubProperties(openllet.getLoader().node2term(o)), p, o);
 			}
 		});
 
@@ -1063,9 +1071,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return objectSetFiller(s, p, kb.getAllSuperProperties(pellet.getLoader().node2term(s)));
+				return objectSetFiller(s, p, kb.getAllSuperProperties(openllet.getLoader().node2term(s)));
 			}
 		});
 
@@ -1108,9 +1116,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectSetFiller(kb.getSubProperties(pellet.getLoader().node2term(o), true), p, o);
+				return subjectSetFiller(kb.getSubProperties(openllet.getLoader().node2term(o), true), p, o);
 			}
 		});
 
@@ -1123,9 +1131,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return objectSetFiller(s, p, kb.getSuperProperties(pellet.getLoader().node2term(s), true));
+				return objectSetFiller(s, p, kb.getSuperProperties(openllet.getLoader().node2term(s), true));
 			}
 		});
 
@@ -1168,10 +1176,10 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
 				final List<ATermAppl> props = new ArrayList<>();
-				final ATermAppl domain = pellet.getLoader().node2term(o);
+				final ATermAppl domain = openllet.getLoader().node2term(o);
 				for (final ATermAppl prop : kb.getProperties())
 					if (kb.getDomains(prop).contains(domain))
 						props.add(prop);
@@ -1227,10 +1235,10 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
 				final List<ATermAppl> props = new ArrayList<>();
-				final ATermAppl range = pellet.getLoader().node2term(o);
+				final ATermAppl range = openllet.getLoader().node2term(o);
 				for (final ATermAppl prop : kb.getProperties())
 					if (kb.getRanges(prop).contains(range))
 						props.add(prop);
@@ -1286,9 +1294,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectFiller(kb.getAllEquivalentProperties(pellet.getLoader().node2term(o)), p, o);
+				return subjectFiller(kb.getAllEquivalentProperties(openllet.getLoader().node2term(o)), p, o);
 			}
 		});
 
@@ -1301,9 +1309,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return objectFiller(s, p, kb.getAllEquivalentProperties(pellet.getLoader().node2term(s)));
+				return objectFiller(s, p, kb.getAllEquivalentProperties(openllet.getLoader().node2term(s)));
 			}
 		});
 
@@ -1394,9 +1402,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return subjectSetFiller(kb.getDisjointProperties(pellet.getLoader().node2term(o)), p, o);
+				return subjectSetFiller(kb.getDisjointProperties(openllet.getLoader().node2term(o)), p, o);
 			}
 		});
 
@@ -1409,9 +1417,9 @@ public class GraphQueryHandler
 			}
 
 			@Override
-			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node s, final Node p, final Node o)
+			public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node s, final Node p, final Node o)
 			{
-				return objectSetFiller(s, p, kb.getDisjointProperties(pellet.getLoader().node2term(s)));
+				return objectSetFiller(s, p, kb.getDisjointProperties(openllet.getLoader().node2term(s)));
 			}
 		});
 
@@ -1532,8 +1540,10 @@ public class GraphQueryHandler
 		return node == VAR || node.isVariable() ? VAR : isBuiltin(node) ? node : CONST;
 	}
 
-	public static ExtendedIterator<Triple> findTriple(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, Node pred, final Node obj)
+	public static ExtendedIterator<Triple> findTriple(final KnowledgeBase kb, final PelletInfGraph openllet, final Node subj, Node predParam, final Node obj)
 	{
+		Node pred = predParam;
+
 		final Node s = normalize(subj);
 		Node p = normalize(pred);
 		final Node o = normalize(obj);
@@ -1547,11 +1557,13 @@ public class GraphQueryHandler
 			if (_logger.isLoggable(Level.WARNING))
 				_logger.warning("No query handler found for " + subj + " " + pred + " " + obj);
 
-		return qh == null ? NullIterator.<Triple> instance() : qh.find(kb, pellet, subj, pred, obj);
+		return qh == null ? NullIterator.<Triple> instance() : qh.find(kb, openllet, subj, pred, obj);
 	}
 
-	public static boolean containsTriple(final KnowledgeBase kb, final GraphLoader loader, final Node subj, Node pred, final Node obj)
+	public static boolean containsTriple(final KnowledgeBase kb, final GraphLoader loader, final Node subj, Node predParam, final Node obj)
 	{
+		Node pred = predParam;
+
 		final Node s = normalize(subj);
 		Node p = normalize(pred);
 		final Node o = normalize(obj);

@@ -26,8 +26,8 @@ abstract class ObjectVarHandler extends TripleQueryHandler
 	}
 
 	@Override
-	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, final Node obj)
+	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node subj, final Node pred, final Node obj)
 	{
-		return objectFiller(subj, pred, getObjects(kb, pellet.getLoader().node2term(subj)));
+		return objectFiller(subj, pred, getObjects(kb, openllet.getLoader().node2term(subj)));
 	}
 }

@@ -17,8 +17,8 @@ import org.mindswap.pellet.jena.PelletInfGraph;
 abstract class BooleanQueryHandler extends TripleQueryHandler
 {
 	@Override
-	public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, final Node obj)
+	public ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node subj, final Node pred, final Node obj)
 	{
-		return contains(kb, pellet.getLoader(), subj, pred, obj) ? new SingletonIterator<>(Triple.create(subj, pred, obj)) : NullIterator.<Triple> instance();
+		return contains(kb, openllet.getLoader(), subj, pred, obj) ? new SingletonIterator<>(Triple.create(subj, pred, obj)) : NullIterator.<Triple> instance();
 	}
 }

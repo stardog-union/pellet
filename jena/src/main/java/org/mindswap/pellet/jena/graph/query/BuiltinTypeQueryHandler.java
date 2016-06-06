@@ -26,7 +26,7 @@ abstract class BuiltinTypeQueryHandler extends TripleQueryHandler
 	}
 
 	@Override
-	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph pellet, final Node subj, final Node pred, final Node obj)
+	public final ExtendedIterator<Triple> find(final KnowledgeBase kb, final PelletInfGraph openllet, final Node subj, final Node pred, final Node obj)
 	{
 		return subjectFiller(getResults(kb), pred, obj);
 	}

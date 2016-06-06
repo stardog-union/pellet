@@ -56,7 +56,7 @@ public interface GraphLoader
 	 *
 	 * @throws UnsupportedFeatureException
 	 */
-	public void load(Iterable<Graph> graphs) throws UnsupportedFeatureException;
+	public void load(final Iterable<Graph> graphs) throws UnsupportedFeatureException;
 
 	/**
 	 * Translate the given graph _node into an ATerm object.
@@ -64,7 +64,7 @@ public interface GraphLoader
 	 * @param _node
 	 * @return
 	 */
-	public ATermAppl node2term(Node node);
+	public ATermAppl node2term(final Node node);
 
 	/**
 	 * Do the preprocessing steps necessary to _cache any information that will be used for loading.
@@ -76,7 +76,7 @@ public interface GraphLoader
 	 *
 	 * @param graph
 	 */
-	public void setGraph(Graph graph);
+	public void setGraph(final Graph graph);
 
 	/**
 	 * Returns if the loader will load the Abox triples.
@@ -92,11 +92,11 @@ public interface GraphLoader
 	 *
 	 * @param loadABox
 	 */
-	public void setLoadABox(boolean loadABox);
+	public void setLoadABox(final boolean loadABox);
 
 	public boolean isLoadTBox();
 
-	public void setLoadTBox(boolean loadTBox);
+	public void setLoadTBox(final boolean loadTBox);
 
 	/**
 	 * Returns if the loader will preprocess rdf:type triples.
@@ -110,17 +110,17 @@ public interface GraphLoader
 	 * This option forces the loader to process type triples before processing other triples. Not preprocessing the type triples improves loading time 5% to 10%
 	 * but might cause problems too. For example, without preprocessing the type triples a triple (s p "o") might be loaded as a datatype assertion (thinking s
 	 * is an _individual and p is a datatype property) whereas (s rdf:type owl:Class) and (p rdf:type owl:AnnotiationProperty) triples have not yet been
-	 * processed. These problems depend on the _order triples are processed and highly unpredictable. Loading the schema first with preprocessing and loading the
-	 * instance _data without preprocessing would be a viable option if schema and instance _data are in separate files.
+	 * processed. These problems depend on the _order triples are processed and highly unpredictable. Loading the schema first with preprocessing and loading
+	 * the instance _data without preprocessing would be a viable option if schema and instance _data are in separate files.
 	 */
-	public void setPreprocessTypeTriples(boolean preprocessTypeTriples);
+	public void setPreprocessTypeTriples(final boolean preprocessTypeTriples);
 
 	/**
 	 * Set the progress monitor that will show the load progress.
 	 *
 	 * @param monitor
 	 */
-	public void setProgressMonitor(ProgressMonitor monitor);
+	public void setProgressMonitor(final ProgressMonitor monitor);
 
-	public void setKB(KnowledgeBase kb);
+	public void setKB(final KnowledgeBase kb);
 }

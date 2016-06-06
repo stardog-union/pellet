@@ -25,18 +25,22 @@ package org.mindswap.pellet.jena.graph.loader;
  */
 public enum SimpleProperty
 {
-	SELF("self restriction"), CARDINALITY("cardinality restriction"), IRREFLEXIVE("irreflexivity axiom"), ANTI_SYM("antisymmetry axiom"), DISJOINT("disjointness axioms");
+	SELF("self restriction"), //
+	CARDINALITY("cardinality restriction"), //
+	IRREFLEXIVE("irreflexivity axiom"), //
+	ANTI_SYM("antisymmetry axiom"), //
+	DISJOINT("disjointness axioms");
 
-	private String description;
+	private String _description;
 
 	SimpleProperty(final String desc)
 	{
-		description = desc;
+		_description = desc;
 	}
 
 	@Override
 	public String toString()
 	{
-		return description;
+		return _description;
 	}
 }

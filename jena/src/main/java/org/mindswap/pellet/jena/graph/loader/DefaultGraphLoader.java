@@ -100,12 +100,6 @@ import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>
@@ -361,6 +355,8 @@ public class DefaultGraphLoader implements GraphLoader
 		return getObject(node, OWL.onProperty.asNode()) != null;
 	}
 
+	@SuppressWarnings("deprecation")
+	// OWL2.SelfRestriction is deprecated but we have control over it.
 	protected ATermAppl createRestriction(final Node node) throws UnsupportedFeatureException
 	{
 		Node restrictionType = null;
@@ -505,7 +501,7 @@ public class DefaultGraphLoader implements GraphLoader
 					else
 						if (restrictionType.equals(OWL.minCardinality.asNode()) || restrictionType.equals(OWL.maxCardinality.asNode()) || restrictionType.equals(OWL.cardinality.asNode()) || restrictionType.equals(OWL2.minQualifiedCardinality.asNode()) || restrictionType.equals(OWL2.maxQualifiedCardinality.asNode()) || restrictionType.equals(OWL2.qualifiedCardinality.asNode()))
 							try
-							{
+		{
 								ATermAppl c = null;
 								if (isObjectRestriction.isTrue())
 								{
@@ -544,12 +540,12 @@ public class DefaultGraphLoader implements GraphLoader
 										aTerm = ATermUtils.makeCard(pt, cardinality, c);
 
 								addSimpleProperty(pt, CARDINALITY);
-							}
-							catch (final Exception ex)
-							{
-								addUnsupportedFeature("Invalid value for the owl:" + restrictionType.getLocalName() + " restriction: " + filler);
-								_logger.log(Level.WARNING, "Invalid cardinality", ex);
-							}
+		}
+		catch (final Exception ex)
+		{
+			addUnsupportedFeature("Invalid value for the owl:" + restrictionType.getLocalName() + " restriction: " + filler);
+			_logger.log(Level.WARNING, "Invalid cardinality", ex);
+		}
 						else
 							addUnsupportedFeature("Ignoring invalid restriction on " + p);
 
@@ -559,6 +555,8 @@ public class DefaultGraphLoader implements GraphLoader
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("deprecation")
+	// OWL2.SelfRestriction is deprecated but we have control over it.
 	@Override
 	public ATermAppl node2term(final Node node)
 	{
@@ -795,8 +793,10 @@ public class DefaultGraphLoader implements GraphLoader
 		}
 	}
 
-	private List<RuleAtom> parseAtomList(Node atomList)
+	private List<RuleAtom> parseAtomList(Node atomListParam)
 	{
+		Node atomList = atomListParam;
+
 		Node obj = null;
 		final List<RuleAtom> atoms = new ArrayList<>();
 
@@ -985,8 +985,9 @@ public class DefaultGraphLoader implements GraphLoader
 		return atoms;
 	}
 
-	private List<AtomDObject> parseArgumentList(Node argumentList)
+	private List<AtomDObject> parseArgumentList(Node argumentListParam)
 	{
+		Node argumentList = argumentListParam;
 		final List<AtomDObject> arguments = new ArrayList<>();
 
 		while (argumentList != null && !argumentList.equals(RDF.nil.asNode()))
@@ -1468,6 +1469,8 @@ public class DefaultGraphLoader implements GraphLoader
 	 *
 	 * @param triple Triple to be processed.
 	 */
+	@SuppressWarnings("deprecation")
+	// OWL2.SelfRestriction is deprecated but we have control over it.
 	protected void processTriple(final Triple triple)
 	{
 		final Node p = triple.getPredicate();
@@ -1862,6 +1865,8 @@ public class DefaultGraphLoader implements GraphLoader
 								case OWL2_AllDisjointProperties:
 									defineProperty(c);
 									break;
+								default:
+									_logger.severe("Unsupported entity type " + entityType);
 							}
 						}
 
@@ -1876,6 +1881,8 @@ public class DefaultGraphLoader implements GraphLoader
 							case OWL2_AllDisjointProperties:
 								_kb.addDisjointProperties(list);
 								break;
+							default:
+								_logger.severe("Unsupported entity type " + entityType);
 						}
 					}
 				break;
@@ -1924,7 +1931,7 @@ public class DefaultGraphLoader implements GraphLoader
 				if (o.equals(RDF.nil.asNode()))
 					return;
 
-				final Set<ATermAppl> properties = new HashSet<ATermAppl>();
+				final Set<ATermAppl> properties = new HashSet<>();
 				// assert the subject is a class
 				defineClass(st);
 				list = createList(o);

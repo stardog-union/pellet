@@ -23,14 +23,9 @@ import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 
 public abstract class TripleQueryHandler
 {
-	public TripleQueryHandler()
-	{
-		//
-	}
-
 	public abstract boolean contains(KnowledgeBase kb, GraphLoader loader, Node subj, Node pred, Node obj);
 
-	public abstract ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph pellet, Node subj, Node pred, Node obj);
+	public abstract ExtendedIterator<Triple> find(KnowledgeBase kb, PelletInfGraph openllet, Node subj, Node pred, Node obj);
 
 	protected ExtendedIterator<Triple> objectFiller(final Node s, final Node p, final Collection<ATermAppl> objects)
 	{
