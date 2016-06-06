@@ -73,16 +73,16 @@ public class ParserTestParentQueries
 		return parameters;
 	}
 
-	private static KnowledgeBase kb;
-	private static ARQParser parser;
+	private static KnowledgeBase _kb;
+	private static ARQParser _parser;
 
-	private final String sparqlFile;
-	private final String sparqlOWLFile;
+	private final String _sparqlFile;
+	private final String _sparqlOWLFile;
 
 	public ParserTestParentQueries(final String sparqlFile, final String sparqlOWLFile)
 	{
-		this.sparqlFile = sparqlFile;
-		this.sparqlOWLFile = sparqlOWLFile;
+		_sparqlFile = sparqlFile;
+		_sparqlOWLFile = sparqlOWLFile;
 	}
 
 	@BeforeClass
@@ -91,8 +91,8 @@ public class ParserTestParentQueries
 		ARQTerpParser.registerFactory();
 
 		final JenaLoader loader = new JenaLoader();
-		kb = loader.createKB(base + "parent.ttl");
-		parser = new ARQParser();
+		_kb = loader.createKB(base + "parent.ttl");
+		_parser = new ARQParser();
 	}
 
 	@AfterClass
@@ -100,18 +100,18 @@ public class ParserTestParentQueries
 	{
 		ARQTerpParser.unregisterFactory();
 
-		kb = null;
-		parser = null;
+		_kb = null;
+		_parser = null;
 	}
 
 	@Test
 	public void compareQuery() throws FileNotFoundException, IOException
 	{
-		final Query sparql = QueryFactory.create(FileUtils.readFile(base + sparqlFile), Syntax.syntaxSPARQL);
-		final com.clarkparsia.pellet.sparqldl.model.Query expected = parser.parse(sparql, kb);
+		final Query sparql = QueryFactory.create(FileUtils.readFile(base + _sparqlFile), Syntax.syntaxSPARQL);
+		final com.clarkparsia.pellet.sparqldl.model.Query expected = _parser.parse(sparql, _kb);
 
-		final Query sparqlOWL = QueryFactory.create(FileUtils.readFile(base + sparqlOWLFile), TerpSyntax.getInstance());
-		final com.clarkparsia.pellet.sparqldl.model.Query actual = parser.parse(sparqlOWL, kb);
+		final Query sparqlOWL = QueryFactory.create(FileUtils.readFile(base + _sparqlOWLFile), TerpSyntax.getInstance());
+		final com.clarkparsia.pellet.sparqldl.model.Query actual = _parser.parse(sparqlOWL, _kb);
 
 		assertEquals(expected.getAtoms(), actual.getAtoms());
 	}

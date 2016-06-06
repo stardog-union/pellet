@@ -16,43 +16,42 @@ import org.semanticweb.owlapi.model.OWLEntity;
  */
 public class GraphSimplifyTests
 {
-	private ReachabilityGraph graph;
-
-	private OWLEntity[] entities;
-	private EntityNode[] nodes;
+	private ReachabilityGraph<OWLEntity> _graph;
+	private OWLEntity[] _entities;
+	private EntityNode[] _nodes;
 
 	private void addEdge(final int in, final int out)
 	{
-		nodes[in].addOutput(nodes[out]);
+		_nodes[in].addOutput(_nodes[out]);
 	}
 
 	private void createGraph(final int n)
 	{
-		graph = new ReachabilityGraph();
+		_graph = new ReachabilityGraph<>();
 
-		entities = new OWLEntity[n];
-		nodes = new EntityNode[n];
+		_entities = new OWLEntity[n];
+		_nodes = new EntityNode[n];
 		for (int i = 0; i < n; i++)
 		{
-			entities[i] = OWL.Class("entity" + i);
-			nodes[i] = graph.createEntityNode(entities[i]);
+			_entities[i] = OWL.Class("entity" + i);
+			_nodes[i] = _graph.createEntityNode(_entities[i]);
 		}
 	}
 
 	private void simplify()
 	{
-		graph.simplify();
+		_graph.simplify();
 
-		for (int i = 0; i < nodes.length; i++)
-			nodes[i] = graph.getNode(entities[i]);
+		for (int i = 0; i < _nodes.length; i++)
+			_nodes[i] = _graph.getNode(_entities[i]);
 	}
 
 	private void testOutputs(final int n, final int... outputs)
 	{
-		final Set<Node> computed = nodes[n].getOutputs();
+		final Set<Node> computed = _nodes[n].getOutputs();
 		final Set<Node> expected = new HashSet<>();
 		for (final int i : outputs)
-			expected.add(nodes[i]);
+			expected.add(_nodes[i]);
 
 		assertEquals(expected, computed);
 	}

@@ -73,18 +73,18 @@ public class ParserTest
 				parameters.add(new Object[] { prefix + ".ttl", prefix + i + ".rq", prefix + i + ".terp" });
 	}
 
-	private static ARQParser parser;
+	private static ARQParser _parser;
 
-	private final String kbFile;
-	private KnowledgeBase kb;
-	private final String sparqlFile;
-	private final String sparqlOWLFile;
+	private final String _kbFile;
+	private KnowledgeBase _kb;
+	private final String _sparqlFile;
+	private final String _sparqlOWLFile;
 
 	public ParserTest(final String kbFile, final String sparqlFile, final String sparqlOWLFile)
 	{
-		this.kbFile = kbFile;
-		this.sparqlFile = sparqlFile;
-		this.sparqlOWLFile = sparqlOWLFile;
+		this._kbFile = kbFile;
+		this._sparqlFile = sparqlFile;
+		this._sparqlOWLFile = sparqlOWLFile;
 	}
 
 	@BeforeClass
@@ -102,25 +102,25 @@ public class ParserTest
 	@Before
 	public void before()
 	{
-		kb = new JenaLoader().createKB(base + kbFile);
-		parser = new ARQParser();
+		_kb = new JenaLoader().createKB(base + _kbFile);
+		_parser = new ARQParser();
 	}
 
 	@After
 	public void after()
 	{
-		kb = null;
-		parser = null;
+		_kb = null;
+		_parser = null;
 	}
 
 	@Test
 	public void compareQuery() throws FileNotFoundException, IOException
 	{
-		final Query sparql = QueryFactory.create(FileUtils.readFile(base + sparqlFile), Syntax.syntaxSPARQL);
-		final com.clarkparsia.pellet.sparqldl.model.Query expected = parser.parse(sparql, kb);
+		final Query sparql = QueryFactory.create(FileUtils.readFile(base + _sparqlFile), Syntax.syntaxSPARQL);
+		final com.clarkparsia.pellet.sparqldl.model.Query expected = _parser.parse(sparql, _kb);
 
-		final Query sparqlOWL = QueryFactory.create(FileUtils.readFile(base + sparqlOWLFile), TerpSyntax.getInstance());
-		final com.clarkparsia.pellet.sparqldl.model.Query actual = parser.parse(sparqlOWL, kb);
+		final Query sparqlOWL = QueryFactory.create(FileUtils.readFile(base + _sparqlOWLFile), TerpSyntax.getInstance());
+		final com.clarkparsia.pellet.sparqldl.model.Query actual = _parser.parse(sparqlOWL, _kb);
 
 		assertEquals(expected.getAtoms(), actual.getAtoms());
 	}

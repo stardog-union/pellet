@@ -41,29 +41,29 @@ public abstract class AbstractModularityTest
 {
 	//	protected static final OWLOntologyManager	manager		= OWL.manager;
 
-	protected OWLOntology ontology;
-	protected ModuleExtractor modExtractor;
+	protected OWLOntology _ontology;
+	protected ModuleExtractor _modExtractor;
 
-	protected OWLClass A = Class("A");
-	protected OWLClass B = Class("B");
-	protected OWLClass C = Class("C");
-	protected OWLClass D = Class("D");
-	protected OWLClass E = Class("E");
-	protected OWLClass F = Class("F");
-	protected OWLClass G = Class("G");
-	protected OWLClass H = Class("H");
+	protected OWLClass _A = Class("A");
+	protected OWLClass _B = Class("B");
+	protected OWLClass _C = Class("C");
+	protected OWLClass _D = Class("D");
+	protected OWLClass _E = Class("E");
+	protected OWLClass _F = Class("F");
+	protected OWLClass _G = Class("G");
+	protected OWLClass _H = Class("H");
 
-	protected OWLNamedIndividual a = Individual("a");
-	protected OWLNamedIndividual b = Individual("b");
-	protected OWLNamedIndividual c = Individual("c");
-	protected OWLNamedIndividual d = Individual("d");
-	protected OWLNamedIndividual e = Individual("e");
-	protected OWLNamedIndividual f = Individual("f");
-	protected OWLNamedIndividual g = Individual("g");
-	protected OWLNamedIndividual h = Individual("h");
+	protected OWLNamedIndividual _a = Individual("a");
+	protected OWLNamedIndividual _b = Individual("b");
+	protected OWLNamedIndividual _c = Individual("c");
+	protected OWLNamedIndividual _d = Individual("d");
+	protected OWLNamedIndividual _e = Individual("e");
+	protected OWLNamedIndividual _f = Individual("f");
+	protected OWLNamedIndividual _g = Individual("g");
+	protected OWLNamedIndividual _h = Individual("h");
 
-	protected OWLObjectProperty p = ObjectProperty("p");
-	protected OWLObjectProperty q = ObjectProperty("q");
+	protected OWLObjectProperty _p = ObjectProperty("p");
+	protected OWLObjectProperty _q = ObjectProperty("q");
 
 	public AbstractModularityTest()
 	{
@@ -73,20 +73,20 @@ public abstract class AbstractModularityTest
 
 	protected void createOntology(final OWLAxiom... axioms)
 	{
-		ontology = OWL.Ontology(axioms);
+		_ontology = OWL.Ontology(axioms);
 	}
 
 	@Before
 	public void before()
 	{
 		// create an empty module extractor
-		modExtractor = createModuleExtractor();
+		_modExtractor = createModuleExtractor();
 	}
 
 	@After
 	public void after()
 	{
-		modExtractor = null;
+		_modExtractor = null;
 		OntologyUtils.clearOWLOntologyManager();
 	}
 }

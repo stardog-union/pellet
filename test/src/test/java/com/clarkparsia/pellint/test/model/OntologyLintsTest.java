@@ -36,8 +36,8 @@ public class OntologyLintsTest extends PellintTestCase
 	@Test
 	public void testSize()
 	{
-		final OntologyLints ontologyLints = new OntologyLints(m_Ontology);
-		assertSame(m_Ontology, ontologyLints.getOntology());
+		final OntologyLints ontologyLints = new OntologyLints(_ontology);
+		assertSame(_ontology, ontologyLints.getOntology());
 		assertTrue(ontologyLints.isEmpty());
 		assertEquals(0, ontologyLints.size());
 
@@ -57,7 +57,7 @@ public class OntologyLintsTest extends PellintTestCase
 	@Test
 	public void testApplyFix()
 	{
-		final OntologyLints ontologyLints = new OntologyLints(m_Ontology);
+		final OntologyLints ontologyLints = new OntologyLints(_ontology);
 
 		final MockLint unfixableLint = new MockLint();
 		final MockLintPattern unfixablePattern = new MockLintPattern(false);
@@ -66,6 +66,6 @@ public class OntologyLintsTest extends PellintTestCase
 		final List<Lint> lints = Arrays.<Lint> asList(new MockLint(), new MockLint(), new MockLint());
 		ontologyLints.addLints(fixablePattern, lints);
 
-		assertEquals(Collections.singleton(unfixableLint), ontologyLints.applyFix(m_Manager));
+		assertEquals(Collections.singleton(unfixableLint), ontologyLints.applyFix(_manager));
 	}
 }

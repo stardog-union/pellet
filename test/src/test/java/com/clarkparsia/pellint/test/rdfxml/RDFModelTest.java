@@ -42,71 +42,71 @@ import org.junit.Test;
  */
 public class RDFModelTest
 {
-	private RDFModel m_Model;
-	private RDFNode[] m_BNodes;
-	private Resource[] m_Names;
-	private Property[] m_Predicates;
-	private Literal[] m_Literals;
-	private Statement[] m_Statements;
-	private String[] m_Comments;
-	private Map<String, String> m_Namespaces;
+	private RDFModel _model;
+	private RDFNode[] _bNodes;
+	private Resource[] _names;
+	private Property[] _predicates;
+	private Literal[] _literals;
+	private Statement[] _statements;
+	private String[] _comments;
+	private Map<String, String> _namespaces;
 
 	@Before
-	public void setUp() throws Exception
+	public void setUp()
 	{
 		final Model model = ModelFactory.createDefaultModel();
 
-		m_Model = new RDFModel();
+		_model = new RDFModel();
 
-		m_BNodes = new RDFNode[5];
-		for (int i = 0; i < m_BNodes.length; i++)
-			m_BNodes[i] = model.createResource(AnonId.create());
+		_bNodes = new RDFNode[5];
+		for (int i = 0; i < _bNodes.length; i++)
+			_bNodes[i] = model.createResource(AnonId.create());
 
-		m_Names = new Resource[5];
-		for (int i = 0; i < m_Names.length; i++)
-			m_Names[i] = model.createResource("tag:clarkparsia.com,2008:pellint:test:name#" + i);
+		_names = new Resource[5];
+		for (int i = 0; i < _names.length; i++)
+			_names[i] = model.createResource("tag:clarkparsia.com,2008:pellint:test:name#" + i);
 
-		m_Predicates = new Property[5];
-		for (int i = 0; i < m_Predicates.length; i++)
-			m_Predicates[i] = model.createProperty("tag:clarkparsia.com,2008:pellint:test:pred#" + i);
+		_predicates = new Property[5];
+		for (int i = 0; i < _predicates.length; i++)
+			_predicates[i] = model.createProperty("tag:clarkparsia.com,2008:pellint:test:pred#" + i);
 
-		m_Literals = new Literal[5];
-		for (int i = 0; i < m_Literals.length; i++)
-			m_Literals[i] = ResourceFactory.createPlainLiteral("lit" + i);
+		_literals = new Literal[5];
+		for (int i = 0; i < _literals.length; i++)
+			_literals[i] = ResourceFactory.createPlainLiteral("lit" + i);
 
-		m_Statements = new Statement[] { model.createStatement(m_Names[0], m_Predicates[0], m_BNodes[0]), model.createStatement(m_Names[0], m_Predicates[0], m_Names[1]), model.createStatement(m_Names[0], m_Predicates[0], m_Literals[0]), model.createStatement(m_Names[1], m_Predicates[1], m_Names[0]), model.createStatement(m_Names[1], m_Predicates[1], m_BNodes[1]), model.createStatement(m_Names[2], m_Predicates[2], m_Names[3]), model.createStatement(m_Names[2], m_Predicates[3], m_Names[0]) };
-		for (final Statement m_Statement : m_Statements)
-			m_Model.addStatement(m_Statement);
+		_statements = new Statement[] { model.createStatement(_names[0], _predicates[0], _bNodes[0]), model.createStatement(_names[0], _predicates[0], _names[1]), model.createStatement(_names[0], _predicates[0], _literals[0]), model.createStatement(_names[1], _predicates[1], _names[0]), model.createStatement(_names[1], _predicates[1], _bNodes[1]), model.createStatement(_names[2], _predicates[2], _names[3]), model.createStatement(_names[2], _predicates[3], _names[0]) };
+		for (final Statement m_Statement : _statements)
+			_model.addStatement(m_Statement);
 
-		m_Comments = new String[] { "comment1" };
-		for (final String m_Comment : m_Comments)
-			m_Model.addComment(m_Comment);
+		_comments = new String[] { "comment1" };
+		for (final String m_Comment : _comments)
+			_model.addComment(m_Comment);
 
-		m_Namespaces = CollectionUtil.makeMap();
-		m_Namespaces.put("ns1", "tag:clarkparsia.com,2008");
-		for (final Entry<String, String> entry : m_Namespaces.entrySet())
-			m_Model.addNamespace(entry.getKey(), entry.getValue());
+		_namespaces = CollectionUtil.makeMap();
+		_namespaces.put("ns1", "tag:clarkparsia.com,2008");
+		for (final Entry<String, String> entry : _namespaces.entrySet())
+			_model.addNamespace(entry.getKey(), entry.getValue());
 	}
 
 	@Test
 	public void testComments()
 	{
-		assertEquals(Arrays.asList(m_Comments), m_Model.getComments());
+		assertEquals(Arrays.asList(_comments), _model.getComments());
 	}
 
 	@Test
 	public void testNamespaces()
 	{
-		assertEquals(m_Namespaces, m_Model.getNamespaces());
+		assertEquals(_namespaces, _model.getNamespaces());
 	}
 
 	@Test
 	public void testContains()
 	{
 		final Resource newBNode = ResourceFactory.createResource(AnonId.create().getLabelString());
-		assertFalse(m_Model.containsStatement(newBNode, m_Predicates[0], newBNode));
-		for (final Statement m_Statement : m_Statements)
-			assertTrue(m_Model.containsStatement(m_Statement.getSubject(), m_Statement.getPredicate(), m_Statement.getObject()));
+		assertFalse(_model.containsStatement(newBNode, _predicates[0], newBNode));
+		for (final Statement m_Statement : _statements)
+			assertTrue(_model.containsStatement(m_Statement.getSubject(), m_Statement.getPredicate(), m_Statement.getObject()));
 	}
 
 	@Test
@@ -114,21 +114,21 @@ public class RDFModelTest
 	{
 		Collection<Statement> statements = null;
 
-		statements = m_Model.getStatementsByObject(m_BNodes[2]);
+		statements = _model.getStatementsByObject(_bNodes[2]);
 		assertTrue(statements.isEmpty());
 
-		statements = m_Model.getStatementsByObject(m_BNodes[0]);
+		statements = _model.getStatementsByObject(_bNodes[0]);
 		assertEquals(1, statements.size());
-		assertTrue(statements.contains(m_Statements[0]));
+		assertTrue(statements.contains(_statements[0]));
 
-		statements = m_Model.getStatementsByObject(m_Literals[0]);
+		statements = _model.getStatementsByObject(_literals[0]);
 		assertEquals(1, statements.size());
-		assertTrue(statements.contains(m_Statements[2]));
+		assertTrue(statements.contains(_statements[2]));
 
-		statements = m_Model.getStatementsByObject(m_Names[0]);
+		statements = _model.getStatementsByObject(_names[0]);
 		assertEquals(2, statements.size());
-		assertTrue(statements.contains(m_Statements[3]));
-		assertTrue(statements.contains(m_Statements[6]));
+		assertTrue(statements.contains(_statements[3]));
+		assertTrue(statements.contains(_statements[6]));
 	}
 
 	@Test
@@ -136,18 +136,18 @@ public class RDFModelTest
 	{
 		Collection<Statement> statements = null;
 
-		statements = m_Model.getStatementsByPredicate(m_Predicates[4]);
+		statements = _model.getStatementsByPredicate(_predicates[4]);
 		assertTrue(statements.isEmpty());
 
-		statements = m_Model.getStatementsByPredicate(m_Predicates[0]);
+		statements = _model.getStatementsByPredicate(_predicates[0]);
 		assertEquals(3, statements.size());
-		assertTrue(statements.contains(m_Statements[0]));
-		assertTrue(statements.contains(m_Statements[1]));
-		assertTrue(statements.contains(m_Statements[2]));
+		assertTrue(statements.contains(_statements[0]));
+		assertTrue(statements.contains(_statements[1]));
+		assertTrue(statements.contains(_statements[2]));
 
-		statements = m_Model.getStatementsByPredicate(m_Predicates[3]);
+		statements = _model.getStatementsByPredicate(_predicates[3]);
 		assertEquals(1, statements.size());
-		assertTrue(statements.contains(m_Statements[6]));
+		assertTrue(statements.contains(_statements[6]));
 	}
 
 	@Test
@@ -155,32 +155,32 @@ public class RDFModelTest
 	{
 		Collection<RDFNode> values = null;
 
-		values = m_Model.getValues(m_Names[3], m_Predicates[3]);
+		values = _model.getValues(_names[3], _predicates[3]);
 		assertTrue(values.isEmpty());
 
-		values = m_Model.getValues(m_Names[2], m_Predicates[4]);
+		values = _model.getValues(_names[2], _predicates[4]);
 		assertTrue(values.isEmpty());
 
-		values = m_Model.getValues(m_Names[0], m_Predicates[0]);
+		values = _model.getValues(_names[0], _predicates[0]);
 		assertEquals(3, values.size());
-		assertTrue(values.contains(m_BNodes[0]));
-		assertTrue(values.contains(m_Names[1]));
-		assertTrue(values.contains(m_Literals[0]));
+		assertTrue(values.contains(_bNodes[0]));
+		assertTrue(values.contains(_names[1]));
+		assertTrue(values.contains(_literals[0]));
 	}
 
 	@Test
 	public void testGetUniqueObject()
 	{
-		assertNull(m_Model.getUniqueObject(m_Names[3], m_Predicates[3]));
-		assertEquals(m_Names[3], m_Model.getUniqueObject(m_Names[2], m_Predicates[2]));
+		assertNull(_model.getUniqueObject(_names[3], _predicates[3]));
+		assertEquals(_names[3], _model.getUniqueObject(_names[2], _predicates[2]));
 	}
 
 	@Test
 	public void testAddModel()
 	{
 		final RDFModel newModel = new RDFModel();
-		newModel.add(m_Model);
-		m_Model = newModel;
+		newModel.add(_model);
+		_model = newModel;
 
 		testComments();
 		testNamespaces();
@@ -196,12 +196,12 @@ public class RDFModelTest
 	{
 		final Model model = ModelFactory.createDefaultModel();
 		final Resource newBNode = ResourceFactory.createResource(AnonId.create().getLabelString());
-		final int oldSize = m_Model.getStatements().size();
+		final int oldSize = _model.getStatements().size();
 
-		final List<Statement> statements = Arrays.asList(model.createStatement((Resource) m_BNodes[0], m_Predicates[0], m_BNodes[1]), model.createStatement(newBNode, m_Predicates[0], m_BNodes[0]), model.createStatement((Resource) m_BNodes[0], m_Predicates[0], newBNode));
-		m_Model.addAllStatementsWithExistingBNodesOnly(statements);
+		final List<Statement> statements = Arrays.asList(model.createStatement((Resource) _bNodes[0], _predicates[0], _bNodes[1]), model.createStatement(newBNode, _predicates[0], _bNodes[0]), model.createStatement((Resource) _bNodes[0], _predicates[0], newBNode));
+		_model.addAllStatementsWithExistingBNodesOnly(statements);
 
-		assertEquals(oldSize + 3, m_Model.getStatements().size());
+		assertEquals(oldSize + 3, _model.getStatements().size());
 		// assertEquals( newBNode, m_Model.getUniqueObject(
 		// (Resource)m_BNodes[0], m_Predicates[0] ) );
 		// assertNull( m_Model.getUniqueObject( newBNode, m_Predicates[0] ) );

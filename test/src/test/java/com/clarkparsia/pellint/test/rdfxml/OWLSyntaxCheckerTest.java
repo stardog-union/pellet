@@ -44,35 +44,35 @@ public class OWLSyntaxCheckerTest
 {
 	private static final String NS = "tag:clarkparsia.com,2010:pellint:test#";
 
-	private static final Resource C = ResourceFactory.createResource(NS + "C");
+	private static final Resource _C = ResourceFactory.createResource(NS + "C");
 
-	private static final Property p = ResourceFactory.createProperty(NS + "P");
+	private static final Property _p = ResourceFactory.createProperty(NS + "P");
 
-	private static final Resource a = ResourceFactory.createResource(NS + "a");
-	private static final Resource b = ResourceFactory.createResource(NS + "b");
+	private static final Resource _a = ResourceFactory.createResource(NS + "a");
+	private static final Resource _b = ResourceFactory.createResource(NS + "b");
 
-	private static final Resource anon = ResourceFactory.createResource();
+	private static final Resource _anon = ResourceFactory.createResource();
 
-	private static final Literal lit = ResourceFactory.createPlainLiteral("lit");
+	private static final Literal _lit = ResourceFactory.createPlainLiteral("lit");
 
-	private RDFModel rdfModel;
-	private OWLSyntaxChecker checker;
+	private RDFModel _rdfModel;
+	private OWLSyntaxChecker _checker;
 
 	@Before
 	public void before()
 	{
-		rdfModel = new RDFModel();
-		checker = new OWLSyntaxChecker();
+		_rdfModel = new RDFModel();
+		_checker = new OWLSyntaxChecker();
 	}
 
 	protected void addStatement(final Resource s, final Property p, final RDFNode o)
 	{
-		rdfModel.addStatement(ResourceFactory.createStatement(s, p, o));
+		_rdfModel.addStatement(ResourceFactory.createStatement(s, p, o));
 	}
 
 	protected RDFLints validate()
 	{
-		final RDFLints lints = checker.validate(rdfModel);
+		final RDFLints lints = _checker.validate(_rdfModel);
 
 		// System.out.println(lints);
 
@@ -92,8 +92,8 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testLiteralSubClassOf()
 	{
-		addStatement(C, RDF.type, OWL.Class);
-		addStatement(C, RDFS.subClassOf, lit);
+		addStatement(_C, RDF.type, OWL.Class);
+		addStatement(_C, RDFS.subClassOf, _lit);
 
 		assertInvalid();
 	}
@@ -101,8 +101,8 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testLiteralSubPropertyOf()
 	{
-		addStatement(p, RDF.type, OWL.ObjectProperty);
-		addStatement(p, RDFS.subPropertyOf, lit);
+		addStatement(_p, RDF.type, OWL.ObjectProperty);
+		addStatement(_p, RDFS.subPropertyOf, _lit);
 
 		assertInvalid();
 	}
@@ -110,8 +110,8 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testLiteralEquivalentClass()
 	{
-		addStatement(C, RDF.type, OWL.Class);
-		addStatement(C, OWL.equivalentClass, lit);
+		addStatement(_C, RDF.type, OWL.Class);
+		addStatement(_C, OWL.equivalentClass, _lit);
 
 		assertInvalid();
 	}
@@ -124,8 +124,8 @@ public class OWLSyntaxCheckerTest
 	{
 		final Resource plainLiteral = ResourceFactory.createResource(RDF.getURI() + "PlainLiteral");
 
-		addStatement(p, RDF.type, OWL.DatatypeProperty);
-		addStatement(p, RDFS.range, plainLiteral);
+		addStatement(_p, RDF.type, OWL.DatatypeProperty);
+		addStatement(_p, RDFS.range, plainLiteral);
 
 		assertValid();
 	}
@@ -136,9 +136,9 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testUntypedObject()
 	{
-		addStatement(p, RDF.type, OWL.ObjectProperty);
-		addStatement(a, RDF.type, OWL.Thing);
-		addStatement(a, p, b);
+		addStatement(_p, RDF.type, OWL.ObjectProperty);
+		addStatement(_a, RDF.type, OWL.Thing);
+		addStatement(_a, _p, _b);
 
 		assertInvalid();
 	}
@@ -146,9 +146,9 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testUntypedSubject()
 	{
-		addStatement(p, RDF.type, OWL.ObjectProperty);
-		addStatement(b, RDF.type, OWL.Thing);
-		addStatement(a, p, b);
+		addStatement(_p, RDF.type, OWL.ObjectProperty);
+		addStatement(_b, RDF.type, OWL.Thing);
+		addStatement(_a, _p, _b);
 
 		assertInvalid();
 	}
@@ -156,8 +156,8 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testUntypedSubjectWithLiteralObject()
 	{
-		addStatement(p, RDF.type, OWL.DatatypeProperty);
-		addStatement(a, p, lit);
+		addStatement(_p, RDF.type, OWL.DatatypeProperty);
+		addStatement(_a, _p, _lit);
 
 		assertInvalid();
 	}
@@ -165,9 +165,9 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testLiteralWithObjectProperty()
 	{
-		addStatement(p, RDF.type, OWL.ObjectProperty);
-		addStatement(a, RDF.type, OWL.Thing);
-		addStatement(a, p, lit);
+		addStatement(_p, RDF.type, OWL.ObjectProperty);
+		addStatement(_a, RDF.type, OWL.Thing);
+		addStatement(_a, _p, _lit);
 
 		assertInvalid();
 	}
@@ -175,10 +175,10 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testIndividualsWithDataProperty()
 	{
-		addStatement(p, RDF.type, OWL.DatatypeProperty);
-		addStatement(a, RDF.type, OWL.Thing);
-		addStatement(b, RDF.type, OWL.Thing);
-		addStatement(a, p, b);
+		addStatement(_p, RDF.type, OWL.DatatypeProperty);
+		addStatement(_a, RDF.type, OWL.Thing);
+		addStatement(_b, RDF.type, OWL.Thing);
+		addStatement(_a, _p, _b);
 
 		assertInvalid();
 	}
@@ -186,10 +186,10 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testBnodeWithDataProperty()
 	{
-		addStatement(p, RDF.type, OWL.DatatypeProperty);
-		addStatement(a, RDF.type, OWL.Thing);
-		addStatement(anon, RDF.type, OWL.Thing);
-		addStatement(a, p, anon);
+		addStatement(_p, RDF.type, OWL.DatatypeProperty);
+		addStatement(_a, RDF.type, OWL.Thing);
+		addStatement(_anon, RDF.type, OWL.Thing);
+		addStatement(_a, _p, _anon);
 
 		assertInvalid();
 	}
@@ -197,45 +197,45 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testClassIndividualPunning()
 	{
-		addStatement(a, RDF.type, OWL.Class);
-		addStatement(a, RDF.type, OWL.Thing);
+		addStatement(_a, RDF.type, OWL.Class);
+		addStatement(_a, RDF.type, OWL.Thing);
 
 		assertInvalid();
-		checker.setExcludeValidPunnings(true);
+		_checker.setExcludeValidPunnings(true);
 		assertValid();
 	}
 
 	@Test
 	public void testClassPropertyPunning()
 	{
-		addStatement(a, RDF.type, OWL.Class);
-		addStatement(a, RDF.type, OWL.ObjectProperty);
+		addStatement(_a, RDF.type, OWL.Class);
+		addStatement(_a, RDF.type, OWL.ObjectProperty);
 
 		assertInvalid();
-		checker.setExcludeValidPunnings(true);
+		_checker.setExcludeValidPunnings(true);
 		assertValid();
 	}
 
 	@Test
 	public void testClassDatatypePunning()
 	{
-		addStatement(a, RDF.type, OWL.Class);
-		addStatement(a, RDF.type, RDFS.Datatype);
+		addStatement(_a, RDF.type, OWL.Class);
+		addStatement(_a, RDF.type, RDFS.Datatype);
 
 		assertInvalid();
-		checker.setExcludeValidPunnings(true);
+		_checker.setExcludeValidPunnings(true);
 		assertInvalid();
 	}
 
 	@Test
 	public void testObjectDataPropertyPunning()
 	{
-		addStatement(p, RDF.type, OWL.ObjectProperty);
-		addStatement(p, RDF.type, OWL.DatatypeProperty);
+		addStatement(_p, RDF.type, OWL.ObjectProperty);
+		addStatement(_p, RDF.type, OWL.DatatypeProperty);
 
 		assertInvalid();
 
-		checker.setExcludeValidPunnings(true);
+		_checker.setExcludeValidPunnings(true);
 
 		assertInvalid();
 	}
@@ -243,22 +243,22 @@ public class OWLSyntaxCheckerTest
 	@Test
 	public void testObjectAnnotationPropertyPunning()
 	{
-		addStatement(p, RDF.type, OWL.ObjectProperty);
-		addStatement(p, RDF.type, OWL.AnnotationProperty);
+		addStatement(_p, RDF.type, OWL.ObjectProperty);
+		addStatement(_p, RDF.type, OWL.AnnotationProperty);
 
 		assertInvalid();
-		checker.setExcludeValidPunnings(true);
+		_checker.setExcludeValidPunnings(true);
 		assertInvalid();
 	}
 
 	@Test
 	public void testDataAnnotationPropertyPunning()
 	{
-		addStatement(p, RDF.type, OWL.DatatypeProperty);
-		addStatement(p, RDF.type, OWL.AnnotationProperty);
+		addStatement(_p, RDF.type, OWL.DatatypeProperty);
+		addStatement(_p, RDF.type, OWL.AnnotationProperty);
 
 		assertInvalid();
-		checker.setExcludeValidPunnings(true);
+		_checker.setExcludeValidPunnings(true);
 		assertInvalid();
 	}
 }

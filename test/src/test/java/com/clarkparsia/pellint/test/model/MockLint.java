@@ -22,7 +22,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  */
 public class MockLint extends Lint
 {
-	public boolean applyFixCalled = false;
+	public boolean _applyFixCalled = false;
 
 	public MockLint()
 	{
@@ -32,7 +32,7 @@ public class MockLint extends Lint
 	@Override
 	public boolean applyFix(final OWLOntologyManager manager) throws OWLOntologyChangeException
 	{
-		applyFixCalled = true;
+		_applyFixCalled = true;
 		return true;
 	}
 

@@ -36,41 +36,41 @@ public class PellintTestCase
 {
 	protected static final double DOUBLE_DELTA = 0.000001;
 
-	protected OWLOntologyManager m_Manager;
-	protected OWLOntology m_Ontology;
-	protected OWLClass[] m_Cls;
-	protected OWLObjectProperty[] m_Pro;
-	protected OWLIndividual[] m_Ind;
+	protected OWLOntologyManager _manager;
+	protected OWLOntology _ontology;
+	protected OWLClass[] _cls;
+	protected OWLObjectProperty[] _pro;
+	protected OWLIndividual[] _ind;
 
-	protected OWLClassExpression m_P0AllC0;
-	protected OWLClassExpression m_P0SomeC1;
+	protected OWLClassExpression _P0AllC0;
+	protected OWLClassExpression _P0SomeC1;
 
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
-		m_Manager = OWLManager.createOWLOntologyManager();
+		_manager = OWLManager.createOWLOntologyManager();
 		final IRI ontologyURI = IRI.create("tag:clarkparsia.com,2008:pellint:test");
-		m_Ontology = m_Manager.createOntology(ontologyURI);
+		_ontology = _manager.createOntology(ontologyURI);
 
-		m_Cls = new OWLClass[5];
-		for (int i = 0; i < m_Cls.length; i++)
-			m_Cls[i] = OWL.Class(ontologyURI + "#C" + i);
+		_cls = new OWLClass[5];
+		for (int i = 0; i < _cls.length; i++)
+			_cls[i] = OWL.Class(ontologyURI + "#C" + i);
 
-		m_Pro = new OWLObjectProperty[5];
-		for (int i = 0; i < m_Pro.length; i++)
-			m_Pro[i] = OWL.ObjectProperty(ontologyURI + "#R" + i);
+		_pro = new OWLObjectProperty[5];
+		for (int i = 0; i < _pro.length; i++)
+			_pro[i] = OWL.ObjectProperty(ontologyURI + "#R" + i);
 
-		m_Ind = new OWLIndividual[5];
-		for (int i = 0; i < m_Ind.length; i++)
-			m_Ind[i] = OWL.Individual(ontologyURI + "#I" + i);
+		_ind = new OWLIndividual[5];
+		for (int i = 0; i < _ind.length; i++)
+			_ind[i] = OWL.Individual(ontologyURI + "#I" + i);
 
-		m_P0AllC0 = OWL.all(m_Pro[0], m_Cls[0]);
-		m_P0SomeC1 = OWL.some(m_Pro[0], m_Cls[1]);
+		_P0AllC0 = OWL.all(_pro[0], _cls[0]);
+		_P0SomeC1 = OWL.some(_pro[0], _cls[1]);
 	}
 
 	@SuppressWarnings("unused")
 	protected void addAxiom(final OWLAxiom axiom) throws OWLException
 	{
-		OntologyUtils.addAxioms(m_Ontology, Collections.singleton(axiom));
+		OntologyUtils.addAxioms(_ontology, Collections.singleton(axiom));
 	}
 }

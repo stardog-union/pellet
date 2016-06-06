@@ -18,7 +18,6 @@ import org.junit.Test;
 import org.mindswap.pellet.utils.MultiValueMap;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
-import org.semanticweb.owlapi.model.OWLException;
 
 /**
  * <p>
@@ -38,7 +37,7 @@ import org.semanticweb.owlapi.model.OWLException;
  */
 public abstract class SimpleModularityTest extends AbstractModularityTest
 {
-	private MultiValueMap<OWLEntity, OWLEntity> modules;
+	private MultiValueMap<OWLEntity, OWLEntity> _modules;
 
 	public SimpleModularityTest()
 	{
@@ -53,11 +52,10 @@ public abstract class SimpleModularityTest extends AbstractModularityTest
 	 * @param axioms that will be used to construct the ontology
 	 * @throws OWLException if ontology cannot be created
 	 */
-	private void extractModules(final OWLAxiom[] axioms) throws OWLException
+	private void extractModules(final OWLAxiom[] axioms)
 	{
-		modExtractor.addAxioms(Arrays.asList(axioms));
-
-		modules = modExtractor.extractModules();
+		_modExtractor.addAxioms(Arrays.stream(axioms));
+		_modules = _modExtractor.extractModules();
 	}
 
 	/**
@@ -68,69 +66,69 @@ public abstract class SimpleModularityTest extends AbstractModularityTest
 	 */
 	private void testModule(final OWLEntity entity, final OWLEntity... expectedModule)
 	{
-		final OWLEntity[] computedModule = modules.get(entity).toArray(new OWLEntity[0]);
+		final OWLEntity[] computedModule = _modules.get(entity).toArray(new OWLEntity[0]);
 
-		final String msg = "Extractor " + modExtractor.getClass().getSimpleName() + " failed for " + entity;
+		final String msg = "Extractor " + _modExtractor.getClass().getSimpleName() + " failed for " + entity;
 		TestUtils.assertToStringEquals(msg, expectedModule, computedModule);
 	}
 
 	@Test
-	public void intersectionTest() throws OWLException
+	public void intersectionTest()
 	{
-		final OWLAxiom[] axioms = { equivalentClasses(A, and(B, C)) };
+		final OWLAxiom[] axioms = { equivalentClasses(_A, and(_B, _C)) };
 
 		extractModules(axioms);
 
-		testModule(A, A, B, C);
-		testModule(B, B);
-		testModule(C, C);
+		testModule(_A, _A, _B, _C);
+		testModule(_B, _B);
+		testModule(_C, _C);
 	}
 
 	@Test
-	public void unionTest() throws OWLException
+	public void unionTest()
 	{
-		final OWLAxiom[] axioms = { equivalentClasses(A, or(B, C)) };
+		final OWLAxiom[] axioms = { equivalentClasses(_A, or(_B, _C)) };
 
 		extractModules(axioms);
 
-		testModule(A, A, B, C);
-		testModule(B, A, B, C);
-		testModule(C, A, B, C);
+		testModule(_A, _A, _B, _C);
+		testModule(_B, _A, _B, _C);
+		testModule(_C, _A, _B, _C);
 	}
 
 	@Test
-	public void nestedUnionTest() throws OWLException
+	public void nestedUnionTest()
 	{
-		final OWLAxiom[] axioms = { equivalentClasses(A, and(B, or(C, D))), equivalentClasses(E, and(B, C)) };
+		final OWLAxiom[] axioms = { equivalentClasses(_A, and(_B, or(_C, _D))), equivalentClasses(_E, and(_B, _C)) };
 
 		extractModules(axioms);
 
-		testModule(A, A, B, C, D, E);
-		testModule(B, B);
-		testModule(C, C);
-		testModule(D, D);
-		testModule(E, A, B, C, D, E);
+		testModule(_A, _A, _B, _C, _D, _E);
+		testModule(_B, _B);
+		testModule(_C, _C);
+		testModule(_D, _D);
+		testModule(_E, _A, _B, _C, _D, _E);
 	}
 
 	@Test
-	public void someValuesTest() throws OWLException
+	public void someValuesTest()
 	{
-		final OWLAxiom[] axioms = { equivalentClasses(A, some(p, B)) };
+		final OWLAxiom[] axioms = { equivalentClasses(_A, some(_p, _B)) };
 
 		extractModules(axioms);
 
-		testModule(A, A, p, B);
-		testModule(B, B);
+		testModule(_A, _A, _p, _B);
+		testModule(_B, _B);
 	}
 
 	@Test
-	public void allValuesTest() throws OWLException
+	public void allValuesTest()
 	{
-		final OWLAxiom[] axioms = { equivalentClasses(A, all(p, B)) };
+		final OWLAxiom[] axioms = { equivalentClasses(_A, all(_p, _B)) };
 
 		extractModules(axioms);
 
-		testModule(A, A, p, B);
-		testModule(B, A, p, B);
+		testModule(_A, _A, _p, _B);
+		testModule(_B, _A, _p, _B);
 	}
 }

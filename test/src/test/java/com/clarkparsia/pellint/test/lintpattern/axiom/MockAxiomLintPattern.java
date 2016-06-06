@@ -21,8 +21,8 @@ import com.clarkparsia.pellint.lintpattern.axiom.AxiomLintPattern;
  */
 public class MockAxiomLintPattern extends AxiomLintPattern
 {
-	private int m_IntParam;
-	private String m_StringParam;
+	private int _intParam;
+	private String _stringParam;
 
 	@Override
 	public String getName()
@@ -50,22 +50,22 @@ public class MockAxiomLintPattern extends AxiomLintPattern
 
 	public void setIntParam(final int v)
 	{
-		m_IntParam = v;
+		_intParam = v;
 	}
 
 	public int getIntParam()
 	{
-		return m_IntParam;
+		return _intParam;
 	}
 
 	public void setStringParam(final String v)
 	{
-		m_StringParam = v;
+		_stringParam = v;
 	}
 
 	public String getStringParam()
 	{
-		return m_StringParam;
+		return _stringParam;
 	}
 
 }

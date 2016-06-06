@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
@@ -37,66 +36,66 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class EquivalentToComplementPatternTest extends PellintTestCase
 {
 
-	private EquivalentToComplementPattern m_Pattern;
+	private EquivalentToComplementPattern _pattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_Pattern = new EquivalentToComplementPattern();
+		_pattern = new EquivalentToComplementPattern();
 	}
 
 	@Test
-	public void testNone() throws OWLException
+	public void testNone()
 	{
-		assertTrue(m_Pattern.isFixable());
+		assertTrue(_pattern.isFixable());
 
-		final OWLClassExpression comp = OWL.not(m_Cls[0]);
-		OWLAxiom axiom = OWL.subClassOf(m_Cls[0], comp);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		final OWLClassExpression comp = OWL.not(_cls[0]);
+		OWLAxiom axiom = OWL.subClassOf(_cls[0], comp);
+		assertNull(_pattern.match(_ontology, axiom));
 
-		axiom = OWL.equivalentClasses(m_P0AllC0, comp);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		axiom = OWL.equivalentClasses(_P0AllC0, comp);
+		assertNull(_pattern.match(_ontology, axiom));
 
-		axiom = OWL.equivalentClasses(CollectionUtil.asSet(m_Cls[0], m_Cls[1], comp));
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		axiom = OWL.equivalentClasses(CollectionUtil.asSet(_cls[0], _cls[1], comp));
+		assertNull(_pattern.match(_ontology, axiom));
 
 		axiom = OWL.equivalentClasses(OWL.Nothing, OWL.Thing);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		assertNull(_pattern.match(_ontology, axiom));
 	}
 
 	@Test
-	public void testComplementOfItself() throws OWLException
+	public void testComplementOfItself()
 	{
-		final OWLClassExpression comp = OWL.not(m_Cls[0]);
-		final OWLAxiom axiom = OWL.equivalentClasses(m_Cls[0], comp);
+		final OWLClassExpression comp = OWL.not(_cls[0]);
+		final OWLAxiom axiom = OWL.equivalentClasses(_cls[0], comp);
 
-		final Lint lint = m_Pattern.match(m_Ontology, axiom);
+		final Lint lint = _pattern.match(_ontology, axiom);
 		assertNotNull(lint);
-		assertTrue(lint.getParticipatingClasses().contains(m_Cls[0]));
+		assertTrue(lint.getParticipatingClasses().contains(_cls[0]));
 
 		final LintFixer fixer = lint.getLintFixer();
 		assertTrue(fixer.getAxiomsToRemove().contains(axiom));
-		final OWLAxiom expectedAxiom = OWL.subClassOf(m_Cls[0], comp);
+		final OWLAxiom expectedAxiom = OWL.subClassOf(_cls[0], comp);
 		assertTrue(fixer.getAxiomsToAdd().contains(expectedAxiom));
 
 		assertNull(lint.getSeverity());
-		assertSame(m_Ontology, lint.getParticipatingOntology());
+		assertSame(_ontology, lint.getParticipatingOntology());
 	}
 
 	@Test
-	public void testComplementOfOthers() throws OWLException
+	public void testComplementOfOthers()
 	{
-		final OWLClassExpression comp = OWL.not(OWL.or(m_Cls[1], m_Cls[2]));
-		final OWLAxiom axiom = OWL.equivalentClasses(m_Cls[0], comp);
-		final Lint lint = m_Pattern.match(m_Ontology, axiom);
+		final OWLClassExpression comp = OWL.not(OWL.or(_cls[1], _cls[2]));
+		final OWLAxiom axiom = OWL.equivalentClasses(_cls[0], comp);
+		final Lint lint = _pattern.match(_ontology, axiom);
 		assertNotNull(lint);
-		assertTrue(lint.getParticipatingClasses().contains(m_Cls[0]));
+		assertTrue(lint.getParticipatingClasses().contains(_cls[0]));
 
 		final LintFixer fixer = lint.getLintFixer();
 		assertTrue(fixer.getAxiomsToRemove().contains(axiom));
-		final OWLAxiom expectedAxiom = OWL.subClassOf(m_Cls[0], comp);
+		final OWLAxiom expectedAxiom = OWL.subClassOf(_cls[0], comp);
 		assertTrue(fixer.getAxiomsToAdd().contains(expectedAxiom));
 	}
 }

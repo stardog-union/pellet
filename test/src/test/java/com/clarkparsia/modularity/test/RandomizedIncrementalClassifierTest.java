@@ -63,7 +63,7 @@ public abstract class RandomizedIncrementalClassifierTest extends AbstractModula
 		final List<OWLAxiom> deletions = axioms.subList(n, n * 2);
 		try
 		{
-			TestUtils.runUpdateTest(loadedOntology, modExtractor, additions, deletions);
+			TestUtils.runUpdateTest(loadedOntology, _modExtractor, additions, deletions);
 		}
 		catch (final AssertionError ex)
 		{

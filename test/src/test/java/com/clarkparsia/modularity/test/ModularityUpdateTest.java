@@ -20,10 +20,10 @@ import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.OntologyUtils;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.stream.Collectors;
 import org.junit.Test;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLException;
 
 /**
  * <p>
@@ -44,58 +44,58 @@ public abstract class ModularityUpdateTest extends AbstractModularityTest
 {
 
 	@Test
-	public void addNonLocal() throws OWLException
+	public void addNonLocal()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, B), subClassOf(C, D) };
+		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_C, _D) };
 		createOntology(axioms);
 
-		final IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(ontology);
+		final IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(_ontology);
 		modular.classify();
 
-		assertTrue(modular.isEntailed(subClassOf(A, B)));
-		assertFalse(modular.isEntailed(subClassOf(B, C)));
-		assertTrue(modular.isEntailed(subClassOf(C, D)));
+		assertTrue(modular.isEntailed(subClassOf(_A, _B)));
+		assertFalse(modular.isEntailed(subClassOf(_B, _C)));
+		assertTrue(modular.isEntailed(subClassOf(_C, _D)));
 
-		OntologyUtils.addAxioms(ontology, Arrays.asList(equivalentClasses(D, all(p, D)), subClassOf(B, C)));
+		OntologyUtils.addAxioms(_ontology, Arrays.asList(equivalentClasses(_D, all(_p, _D)), subClassOf(_B, _C)));
 		modular.classify();
-		assertTrue(modular.isEntailed(subClassOf(A, B)));
-		assertTrue(modular.isEntailed(subClassOf(B, C)));
-		assertTrue(modular.isEntailed(subClassOf(C, D)));
+		assertTrue(modular.isEntailed(subClassOf(_A, _B)));
+		assertTrue(modular.isEntailed(subClassOf(_B, _C)));
+		assertTrue(modular.isEntailed(subClassOf(_C, _D)));
 
-		OntologyUtils.removeAxioms(ontology, Arrays.asList(subClassOf(A, B)));
+		OntologyUtils.removeAxioms(_ontology, Arrays.asList(subClassOf(_A, _B)));
 		modular.classify();
-		assertFalse(modular.isEntailed(subClassOf(A, B)));
-		assertTrue(modular.isEntailed(subClassOf(B, C)));
-		assertTrue(modular.isEntailed(subClassOf(D, D)));
+		assertFalse(modular.isEntailed(subClassOf(_A, _B)));
+		assertTrue(modular.isEntailed(subClassOf(_B, _C)));
+		assertTrue(modular.isEntailed(subClassOf(_D, _D)));
 
 		modular.dispose();
 	}
 
 	@Test
-	public void deleteNonLocal() throws OWLException
+	public void deleteNonLocal()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, B), subClassOf(C, D), equivalentClasses(D, all(p, D)) };
+		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_C, _D), equivalentClasses(_D, all(_p, _D)) };
 		createOntology(axioms);
 
-		final IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(ontology);
+		final IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(_ontology);
 		modular.classify();
 
-		assertTrue(modular.isEntailed(subClassOf(A, B)));
-		assertFalse(modular.isEntailed(subClassOf(B, C)));
-		assertTrue(modular.isEntailed(subClassOf(C, D)));
+		assertTrue(modular.isEntailed(subClassOf(_A, _B)));
+		assertFalse(modular.isEntailed(subClassOf(_B, _C)));
+		assertTrue(modular.isEntailed(subClassOf(_C, _D)));
 
-		OntologyUtils.removeAxioms(ontology, Arrays.asList(equivalentClasses(D, all(p, D))));
-		OntologyUtils.addAxioms(ontology, Arrays.asList(subClassOf(B, C)));
+		OntologyUtils.removeAxioms(_ontology, Arrays.asList(equivalentClasses(_D, all(_p, _D))));
+		OntologyUtils.addAxioms(_ontology, Arrays.asList(subClassOf(_B, _C)));
 		modular.classify();
-		assertTrue(modular.isEntailed(subClassOf(A, B)));
-		assertTrue(modular.isEntailed(subClassOf(B, C)));
-		assertTrue(modular.isEntailed(subClassOf(C, D)));
+		assertTrue(modular.isEntailed(subClassOf(_A, _B)));
+		assertTrue(modular.isEntailed(subClassOf(_B, _C)));
+		assertTrue(modular.isEntailed(subClassOf(_C, _D)));
 
-		OntologyUtils.removeAxioms(ontology, Arrays.asList(subClassOf(A, B)));
+		OntologyUtils.removeAxioms(_ontology, Arrays.asList(subClassOf(_A, _B)));
 		modular.classify();
-		assertFalse(modular.isEntailed(subClassOf(A, B)));
-		assertTrue(modular.isEntailed(subClassOf(B, C)));
-		assertTrue(modular.isEntailed(subClassOf(D, D)));
+		assertFalse(modular.isEntailed(subClassOf(_A, _B)));
+		assertTrue(modular.isEntailed(subClassOf(_B, _C)));
+		assertTrue(modular.isEntailed(subClassOf(_D, _D)));
 
 		modular.dispose();
 	}
@@ -103,32 +103,32 @@ public abstract class ModularityUpdateTest extends AbstractModularityTest
 	@Test
 	public void testDeferredClassification()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, B), subClassOf(C, D) };
+		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_C, _D) };
 		createOntology(axioms);
 
-		final IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(ontology);
+		final IncrementalClassifier modular = PelletIncremantalReasonerFactory.getInstance().createReasoner(_ontology);
 		modular.classify();
 
 		assertTrue(modular.isClassified());
 
-		assertEquals(Collections.emptySet(), modular.getTypes(a, false).getFlattened());
+		assertEquals(Collections.emptySet(), modular.getTypes(_a, false).entities().collect(Collectors.toSet()));
 
 		assertTrue(modular.isRealized());
 
-		OntologyUtils.addAxioms(ontology, Arrays.asList(classAssertion(a, A)));
+		OntologyUtils.addAxioms(_ontology, Arrays.asList(classAssertion(_a, _A)));
 
 		// despite of having added a new fact, the classifier should still be in classified state (the axiom was an A-Box axiom)
 		assertTrue(modular.isClassified());
 		assertFalse(modular.isRealized());
 
-		assertEquals(SetUtils.create(A, B, OWL.Thing), modular.getTypes(a, false).getFlattened());
-		assertTrue(modular.isEntailed(subClassOf(A, B)));
-		assertFalse(modular.isEntailed(subClassOf(A, C)));
+		assertEquals(SetUtils.create(_A, _B, OWL.Thing), modular.getTypes(_a, false).entities().collect(Collectors.toSet()));
+		assertTrue(modular.isEntailed(subClassOf(_A, _B)));
+		assertFalse(modular.isEntailed(subClassOf(_A, _C)));
 
 		assertTrue(modular.isRealized());
 
 		// now try to add a T-Box axiom
-		OntologyUtils.addAxioms(ontology, Arrays.asList(subClassOf(A, C)));
+		OntologyUtils.addAxioms(_ontology, Arrays.asList(subClassOf(_A, _C)));
 
 		// the classifier should no longer be in classified state
 		assertFalse(modular.isClassified());
@@ -140,8 +140,8 @@ public abstract class ModularityUpdateTest extends AbstractModularityTest
 		// check whether the classifier returned to the classified state
 		assertTrue(modular.isClassified());
 
-		assertEquals(SetUtils.create(A, B, C, D, OWL.Thing), modular.getTypes(a, false).getFlattened());
-		assertTrue(modular.isEntailed(subClassOf(A, B)));
-		assertTrue(modular.isEntailed(subClassOf(A, C)));
+		assertEquals(SetUtils.create(_A, _B, _C, _D, OWL.Thing), modular.getTypes(_a, false).entities().collect(Collectors.toSet()));
+		assertTrue(modular.isEntailed(subClassOf(_A, _B)));
+		assertTrue(modular.isEntailed(subClassOf(_A, _C)));
 	}
 }

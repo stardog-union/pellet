@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
@@ -36,79 +35,79 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class LargeCardinalityPatternTest extends PellintTestCase
 {
 
-	private LargeCardinalityPattern m_Pattern;
+	private LargeCardinalityPattern _pattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_Pattern = new LargeCardinalityPattern();
+		_pattern = new LargeCardinalityPattern();
 	}
 
 	@Test
-	public void testNone() throws OWLException
+	public void testNone()
 	{
-		m_Pattern.setMaxAllowed(3);
+		_pattern.setMaxAllowed(3);
 
-		final OWLClassExpression maxCard = OWL.max(m_Pro[0], 2);
-		final OWLAxiom axiom = OWL.subClassOf(m_Cls[0], maxCard);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
-		assertFalse(m_Pattern.isFixable());
+		final OWLClassExpression maxCard = OWL.max(_pro[0], 2);
+		final OWLAxiom axiom = OWL.subClassOf(_cls[0], maxCard);
+		assertNull(_pattern.match(_ontology, axiom));
+		assertFalse(_pattern.isFixable());
 	}
 
 	@Test
-	public void testOneMax() throws OWLException
+	public void testOneMax()
 	{
-		m_Pattern.setMaxAllowed(2);
+		_pattern.setMaxAllowed(2);
 
-		final OWLClassExpression maxCard = OWL.max(m_Pro[0], 3);
-		final OWLAxiom axiom = OWL.disjointClasses(m_Cls[0], maxCard);
-		final Lint lint = m_Pattern.match(m_Ontology, axiom);
+		final OWLClassExpression maxCard = OWL.max(_pro[0], 3);
+		final OWLAxiom axiom = OWL.disjointClasses(_cls[0], maxCard);
+		final Lint lint = _pattern.match(_ontology, axiom);
 		assertNotNull(lint);
-		assertSame(m_Pattern, lint.getPattern());
+		assertSame(_pattern, lint.getPattern());
 		assertEquals(1, lint.getParticipatingAxioms().size());
 		assertNull(lint.getLintFixer());
 		assertEquals(3.0, lint.getSeverity().doubleValue(), DOUBLE_DELTA);
-		assertSame(m_Ontology, lint.getParticipatingOntology());
+		assertSame(_ontology, lint.getParticipatingOntology());
 	}
 
 	@Test
-	public void testTwoMin() throws OWLException
+	public void testTwoMin()
 	{
-		m_Pattern.setMaxAllowed(2);
+		_pattern.setMaxAllowed(2);
 
-		final OWLClassExpression minCard1 = OWL.min(m_Pro[0], 3, m_Cls[0]);
-		OWLAxiom axiom = OWL.equivalentClasses(m_Cls[1], minCard1);
-		assertNotNull(m_Pattern.match(m_Ontology, axiom));
+		final OWLClassExpression minCard1 = OWL.min(_pro[0], 3, _cls[0]);
+		OWLAxiom axiom = OWL.equivalentClasses(_cls[1], minCard1);
+		assertNotNull(_pattern.match(_ontology, axiom));
 
-		final OWLClassExpression minCard2 = OWL.min(m_Pro[0], 100, m_Cls[2]);
-		axiom = OWL.subClassOf(minCard2, m_Cls[3]);
-		assertNotNull(m_Pattern.match(m_Ontology, axiom));
+		final OWLClassExpression minCard2 = OWL.min(_pro[0], 100, _cls[2]);
+		axiom = OWL.subClassOf(minCard2, _cls[3]);
+		assertNotNull(_pattern.match(_ontology, axiom));
 	}
 
 	@Test
-	public void testNested() throws OWLException
+	public void testNested()
 	{
-		m_Pattern.setMaxAllowed(2);
+		_pattern.setMaxAllowed(2);
 
-		final OWLClassExpression exactCard = OWL.exactly(m_Pro[0], 3, m_Cls[0]);
-		final OWLClassExpression and = OWL.or(m_Cls[1], exactCard);
-		OWLAxiom axiom = OWL.subClassOf(and, m_Cls[2]);
-		assertNotNull(m_Pattern.match(m_Ontology, axiom));
+		final OWLClassExpression exactCard = OWL.exactly(_pro[0], 3, _cls[0]);
+		final OWLClassExpression and = OWL.or(_cls[1], exactCard);
+		OWLAxiom axiom = OWL.subClassOf(and, _cls[2]);
+		assertNotNull(_pattern.match(_ontology, axiom));
 
-		final OWLClassExpression minCard = OWL.min(m_Pro[0], 3, m_Cls[0]);
-		final OWLClassExpression union = OWL.or(m_Cls[1], minCard);
-		axiom = OWL.subClassOf(union, m_Cls[2]);
-		assertNotNull(m_Pattern.match(m_Ontology, axiom));
+		final OWLClassExpression minCard = OWL.min(_pro[0], 3, _cls[0]);
+		final OWLClassExpression union = OWL.or(_cls[1], minCard);
+		axiom = OWL.subClassOf(union, _cls[2]);
+		assertNotNull(_pattern.match(_ontology, axiom));
 
-		final OWLClassExpression maxCard1 = OWL.max(m_Pro[0], 3, m_Cls[1]);
-		final OWLClassExpression and2 = OWL.and(m_Cls[2], maxCard1);
-		axiom = OWL.subClassOf(and2, m_Cls[3]);
-		assertNotNull(m_Pattern.match(m_Ontology, axiom));
+		final OWLClassExpression maxCard1 = OWL.max(_pro[0], 3, _cls[1]);
+		final OWLClassExpression and2 = OWL.and(_cls[2], maxCard1);
+		axiom = OWL.subClassOf(and2, _cls[3]);
+		assertNotNull(_pattern.match(_ontology, axiom));
 
-		final OWLClassExpression maxCard2 = OWL.max(m_Pro[0], 2, m_Cls[2]);
-		axiom = OWL.subClassOf(m_Cls[4], maxCard2);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		final OWLClassExpression maxCard2 = OWL.max(_pro[0], 2, _cls[2]);
+		axiom = OWL.subClassOf(_cls[4], maxCard2);
+		assertNull(_pattern.match(_ontology, axiom));
 	}
 }

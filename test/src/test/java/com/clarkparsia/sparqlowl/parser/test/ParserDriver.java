@@ -27,7 +27,6 @@ import org.antlr.runtime.tree.Tree;
  */
 public class ParserDriver
 {
-
 	public static void main(final String[] args) throws IOException, RecognitionException
 	{
 		final SparqlOwlLexer lexer = new SparqlOwlLexer(new ANTLRReaderStream(new InputStreamReader(System.in)));

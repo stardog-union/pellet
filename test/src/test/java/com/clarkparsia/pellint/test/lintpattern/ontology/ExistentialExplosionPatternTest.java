@@ -47,15 +47,15 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 	@Test
 	public void testStage1SimpleCycle() throws OWLException
 	{
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[0], m_Cls[1])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.and(OWL.some(m_Pro[1], m_Cls[1]), OWL.some(m_Pro[1], m_Cls[2]))));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.some(m_Pro[1], m_Cls[3])));
-		addAxiom(OWL.subClassOf(m_Cls[3], OWL.some(m_Pro[1], m_Cls[0])));
-		addAxiom(OWL.subClassOf(OWL.some(m_Pro[2], m_Cls[1]), m_Cls[3]));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[0], _cls[1])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.and(OWL.some(_pro[1], _cls[1]), OWL.some(_pro[1], _cls[2]))));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.some(_pro[1], _cls[3])));
+		addAxiom(OWL.subClassOf(_cls[3], OWL.some(_pro[1], _cls[0])));
+		addAxiom(OWL.subClassOf(OWL.some(_pro[2], _cls[1]), _cls[3]));
 
 		final int EXPECTED_SIZE = 1;
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		final List<Lint> lints = m_Pattern.match(m_Ontology);
+		final List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(0, lints.size());
 		assertFalse(m_Pattern.isFixable());
 	}
@@ -63,98 +63,98 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 	@Test
 	public void testStage1ZeroCard() throws OWLException
 	{
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.or(OWL.min(m_Pro[0], 0, m_Cls[1]), OWL.min(m_Pro[0], 0, m_Cls[2]))));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.max(m_Pro[0], 0, m_Cls[0])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.max(m_Pro[0], 0, m_Cls[3])));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.exactly(m_Pro[0], 0, m_Cls[3])));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.exactly(m_Pro[0], 0, m_Cls[4])));
-		addAxiom(OWL.subClassOf(m_Cls[3], OWL.exactly(m_Pro[0], 0, m_Cls[0])));
-		addAxiom(OWL.subClassOf(m_Cls[4], OWL.exactly(m_Pro[0], 0, m_Cls[0])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.or(OWL.min(_pro[0], 0, _cls[1]), OWL.min(_pro[0], 0, _cls[2]))));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.max(_pro[0], 0, _cls[0])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.max(_pro[0], 0, _cls[3])));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.exactly(_pro[0], 0, _cls[3])));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.exactly(_pro[0], 0, _cls[4])));
+		addAxiom(OWL.subClassOf(_cls[3], OWL.exactly(_pro[0], 0, _cls[0])));
+		addAxiom(OWL.subClassOf(_cls[4], OWL.exactly(_pro[0], 0, _cls[0])));
 
 		final int EXPECTED_SIZE = 0;
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		final List<Lint> lints = m_Pattern.match(m_Ontology);
+		final List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(0, lints.size());
 	}
 
 	@Test
 	public void testStage1Depth2() throws OWLException
 	{
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[1], m_Cls[1])));
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[1], m_Cls[2])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.min(m_Pro[0], 2, m_Cls[0])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.min(m_Pro[0], 5, m_Cls[3])));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.exactly(m_Pro[0], 1, m_Cls[3])));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.exactly(m_Pro[0], 1, m_Cls[4])));
-		addAxiom(OWL.subClassOf(m_Cls[3], OWL.exactly(m_Pro[0], 1, m_Cls[0])));
-		addAxiom(OWL.subClassOf(m_Cls[4], OWL.exactly(m_Pro[0], 1, m_Cls[0])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[1], _cls[1])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[1], _cls[2])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.min(_pro[0], 2, _cls[0])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.min(_pro[0], 5, _cls[3])));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.exactly(_pro[0], 1, _cls[3])));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.exactly(_pro[0], 1, _cls[4])));
+		addAxiom(OWL.subClassOf(_cls[3], OWL.exactly(_pro[0], 1, _cls[0])));
+		addAxiom(OWL.subClassOf(_cls[4], OWL.exactly(_pro[0], 1, _cls[0])));
 
 		final int EXPECTED_SIZE = 2 * 2 * 2 * 1 * 1;
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		List<Lint> lints = m_Pattern.match(m_Ontology);
+		List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		lints = m_Pattern.match(m_Ontology);
+		lints = m_Pattern.match(_ontology);
 		assertEquals(1, lints.size());
 		final Lint lint = lints.get(0);
 		assertEquals(EXPECTED_SIZE, lint.getSeverity().doubleValue(), DOUBLE_DELTA);
 		assertEquals(5, lint.getParticipatingClasses().size());
-		assertSame(m_Ontology, lint.getParticipatingOntology());
+		assertSame(_ontology, lint.getParticipatingOntology());
 	}
 
 	@Test
 	public void testStage2IndirectCycle1() throws OWLException
 	{
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[0], m_Cls[1])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.some(m_Pro[1], m_Cls[2])));
-		addAxiom(OWL.subClassOf(m_Cls[2], m_Cls[0]));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[0], _cls[1])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.some(_pro[1], _cls[2])));
+		addAxiom(OWL.subClassOf(_cls[2], _cls[0]));
 
 		final int EXPECTED_SIZE = 1;
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		List<Lint> lints = m_Pattern.match(m_Ontology);
+		List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		lints = m_Pattern.match(m_Ontology);
+		lints = m_Pattern.match(_ontology);
 		assertEquals(1, lints.size());
 	}
 
 	@Test
 	public void testStage2IndirectCycle2() throws OWLException
 	{
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[0], m_Cls[1])));
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[1], m_Cls[2])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.some(m_Pro[1], m_Cls[3])));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.some(m_Pro[1], m_Cls[3])));
-		addAxiom(OWL.equivalentClasses(m_Cls[3], m_Cls[4]));
-		addAxiom(OWL.equivalentClasses(m_Cls[4], m_Cls[0]));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[0], _cls[1])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[1], _cls[2])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.some(_pro[1], _cls[3])));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.some(_pro[1], _cls[3])));
+		addAxiom(OWL.equivalentClasses(_cls[3], _cls[4]));
+		addAxiom(OWL.equivalentClasses(_cls[4], _cls[0]));
 
 		final int EXPECTED_SIZE = 2 * 1 * 1;
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		List<Lint> lints = m_Pattern.match(m_Ontology);
+		List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		lints = m_Pattern.match(m_Ontology);
+		lints = m_Pattern.match(_ontology);
 		assertEquals(1, lints.size());
 	}
 
 	@Test
 	public void testStage3Individuals() throws OWLException
 	{
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[0], m_Cls[1])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.some(m_Pro[1], m_Cls[2])));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.some(m_Pro[1], m_Cls[0])));
-		addAxiom(OWL.subClassOf(m_Cls[3], m_Cls[0]));
-		addAxiom(OWL.subClassOf(m_Cls[4], m_Cls[1]));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[0], _cls[1])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.some(_pro[1], _cls[2])));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.some(_pro[1], _cls[0])));
+		addAxiom(OWL.subClassOf(_cls[3], _cls[0]));
+		addAxiom(OWL.subClassOf(_cls[4], _cls[1]));
 
-		for (int i = 0; i < m_Cls.length; i++)
-			addAxiom(OWL.classAssertion(m_Ind[i], m_Cls[i]));
+		for (int i = 0; i < _cls.length; i++)
+			addAxiom(OWL.classAssertion(_ind[i], _cls[i]));
 
 		final int EXPECTED_SIZE = 1 * 5;
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		final List<Lint> lints = m_Pattern.match(m_Ontology);
+		final List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(1, lints.size());
 		final Lint lint = lints.get(0);
 		assertEquals(EXPECTED_SIZE, lint.getSeverity().doubleValue(), DOUBLE_DELTA);
@@ -165,16 +165,16 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 	@Test
 	public void testStage4RemoveCycles() throws OWLException
 	{
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[0], m_Cls[1])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.some(m_Pro[1], m_Cls[2])));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.some(m_Pro[1], m_Cls[0])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[0], _cls[1])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.some(_pro[1], _cls[2])));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.some(_pro[1], _cls[0])));
 
-		for (int i = 0; i < m_Cls.length; i++)
-			addAxiom(OWL.classAssertion(m_Ind[i], m_Cls[i]));
+		for (int i = 0; i < _cls.length; i++)
+			addAxiom(OWL.classAssertion(_ind[i], _cls[i]));
 
 		final int EXPECTED_SIZE = 3 + 3 + 4;
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		final List<Lint> lints = m_Pattern.match(m_Ontology);
+		final List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(1, lints.size());
 		final Lint lint = lints.get(0);
 		assertEquals(EXPECTED_SIZE, lint.getSeverity().doubleValue(), DOUBLE_DELTA);
@@ -184,27 +184,27 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 	@Test
 	public void testStage4Tree() throws OWLException
 	{
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[0], m_Cls[1])));
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.some(m_Pro[1], m_Cls[1])));
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.min(m_Pro[0], 1, m_Cls[2])));
-		addAxiom(OWL.subClassOf(m_Cls[0], OWL.min(m_Pro[1], 1, m_Cls[2])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.some(m_Pro[1], m_Cls[3])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.exactly(m_Pro[0], 1, m_Cls[4])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.exactly(m_Pro[1], 1, m_Cls[4])));
-		addAxiom(OWL.subClassOf(m_Cls[1], OWL.exactly(m_Pro[2], 1, m_Cls[4])));
-		addAxiom(OWL.subClassOf(m_Cls[2], OWL.exactly(m_Pro[3], 1, m_Cls[4])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[0], _cls[1])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.some(_pro[1], _cls[1])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.min(_pro[0], 1, _cls[2])));
+		addAxiom(OWL.subClassOf(_cls[0], OWL.min(_pro[1], 1, _cls[2])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.some(_pro[1], _cls[3])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.exactly(_pro[0], 1, _cls[4])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.exactly(_pro[1], 1, _cls[4])));
+		addAxiom(OWL.subClassOf(_cls[1], OWL.exactly(_pro[2], 1, _cls[4])));
+		addAxiom(OWL.subClassOf(_cls[2], OWL.exactly(_pro[3], 1, _cls[4])));
 
-		addAxiom(OWL.classAssertion(m_Ind[0], m_Cls[0]));
+		addAxiom(OWL.classAssertion(_ind[0], _cls[0]));
 
 		final int EXPECTED_SIZE_C2 = 1 + 1 * 1;
 		final int EXPECTED_SIZE_C1 = 1 + 1 * 1 + 3 * 1;
 		final int EXPECTED_SIZE_C0 = 1 + EXPECTED_SIZE_C1 * 2 + EXPECTED_SIZE_C2 * 2;
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE_C0);
-		List<Lint> lints = m_Pattern.match(m_Ontology);
+		List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
 		m_Pattern.setMaxTreeSize(EXPECTED_SIZE_C0 - 1);
-		lints = m_Pattern.match(m_Ontology);
+		lints = m_Pattern.match(_ontology);
 		assertEquals(1, lints.size());
 	}
 }

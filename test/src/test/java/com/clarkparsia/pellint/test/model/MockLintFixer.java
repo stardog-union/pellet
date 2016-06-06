@@ -25,7 +25,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  */
 public class MockLintFixer extends LintFixer
 {
-	public boolean applyCalled = false;
+	public boolean _applyCalled = false;
 
 	public MockLintFixer()
 	{
@@ -35,7 +35,7 @@ public class MockLintFixer extends LintFixer
 	@Override
 	public boolean apply(final OWLOntologyManager manager, final OWLOntology ontology) throws OWLOntologyChangeException
 	{
-		applyCalled = true;
+		_applyCalled = true;
 		return true;
 	}
 }

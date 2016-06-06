@@ -14,7 +14,6 @@ import com.clarkparsia.pellint.util.CollectionUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
@@ -36,46 +35,46 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class EquivalentToAllValuePatternTest extends PellintTestCase
 {
 
-	private EquivalentToAllValuePattern m_Pattern;
+	private EquivalentToAllValuePattern _pattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_Pattern = new EquivalentToAllValuePattern();
+		_pattern = new EquivalentToAllValuePattern();
 	}
 
 	@Test
-	public void testNone() throws OWLException
+	public void testNone()
 	{
-		assertTrue(m_Pattern.isFixable());
+		assertTrue(_pattern.isFixable());
 
-		OWLAxiom axiom = OWL.subClassOf(m_Cls[0], m_P0AllC0);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		OWLAxiom axiom = OWL.subClassOf(_cls[0], _P0AllC0);
+		assertNull(_pattern.match(_ontology, axiom));
 
-		axiom = OWL.disjointClasses(m_Cls[1], m_P0AllC0);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		axiom = OWL.disjointClasses(_cls[1], _P0AllC0);
+		assertNull(_pattern.match(_ontology, axiom));
 
-		axiom = OWL.equivalentClasses(CollectionUtil.asSet(m_Cls[0], m_P0AllC0, m_Cls[2]));
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		axiom = OWL.equivalentClasses(CollectionUtil.asSet(_cls[0], _P0AllC0, _cls[2]));
+		assertNull(_pattern.match(_ontology, axiom));
 	}
 
 	@Test
-	public void testOne() throws OWLException
+	public void testOne()
 	{
-		final OWLAxiom axiom = OWL.equivalentClasses(m_Cls[0], m_P0AllC0);
+		final OWLAxiom axiom = OWL.equivalentClasses(_cls[0], _P0AllC0);
 
-		final Lint lint = m_Pattern.match(m_Ontology, axiom);
+		final Lint lint = _pattern.match(_ontology, axiom);
 		assertNotNull(lint);
-		assertTrue(lint.getParticipatingClasses().contains(m_Cls[0]));
+		assertTrue(lint.getParticipatingClasses().contains(_cls[0]));
 
 		final LintFixer fixer = lint.getLintFixer();
 		assertTrue(fixer.getAxiomsToRemove().contains(axiom));
-		final OWLAxiom expectedAxiom = OWL.subClassOf(m_Cls[0], m_P0AllC0);
+		final OWLAxiom expectedAxiom = OWL.subClassOf(_cls[0], _P0AllC0);
 		assertTrue(fixer.getAxiomsToAdd().contains(expectedAxiom));
 
 		assertNull(lint.getSeverity());
-		assertSame(m_Ontology, lint.getParticipatingOntology());
+		assertSame(_ontology, lint.getParticipatingOntology());
 	}
 }

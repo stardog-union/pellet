@@ -17,27 +17,27 @@ import org.junit.Test;
  */
 public class SCCTests
 {
-	private ReachabilityGraph graph;
+	private ReachabilityGraph<Object> _graph;
 
-	private EntityNode[] nodes;
+	private EntityNode[] _nodes;
 
 	private void addEdge(final int in, final int out)
 	{
-		nodes[in].addOutput(nodes[out]);
+		_nodes[in].addOutput(_nodes[out]);
 	}
 
 	private void createGraph(final int n)
 	{
-		graph = new ReachabilityGraph();
+		_graph = new ReachabilityGraph<Object>();
 
-		nodes = new EntityNode[n];
+		_nodes = new EntityNode[n];
 		for (int i = 0; i < n; i++)
-			nodes[i] = graph.createEntityNode(OWL.Class("entity" + i));
+			_nodes[i] = _graph.createEntityNode(OWL.Class("entity" + i));
 	}
 
 	private void testSCC(final int[][] expectedSCC)
 	{
-		final List<Set<EntityNode<Object>>> computed = SCC.computeSCC((ReachabilityGraph<Object>) graph);
+		final List<Set<EntityNode<Object>>> computed = SCC.computeSCC(_graph);
 
 		assertEquals("SCC count", expectedSCC.length, computed.size());
 
@@ -45,7 +45,7 @@ public class SCCTests
 		{
 			final Set<EntityNode> set = new HashSet<>();
 			for (final int i : component)
-				set.add(nodes[i]);
+				set.add(_nodes[i]);
 
 			assertTrue(computed.contains(set));
 		}

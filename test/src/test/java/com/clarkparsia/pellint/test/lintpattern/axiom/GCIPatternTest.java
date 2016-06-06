@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
@@ -37,60 +36,60 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class GCIPatternTest extends PellintTestCase
 {
 
-	private GCIPattern m_Pattern;
+	private GCIPattern _pattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_Pattern = new GCIPattern();
+		_pattern = new GCIPattern();
 	}
 
 	@Test
-	public void testNone() throws OWLException
+	public void testNone()
 	{
-		assertFalse(m_Pattern.isFixable());
+		assertFalse(_pattern.isFixable());
 
-		OWLAxiom axiom = OWL.equivalentClasses(m_Cls[0], m_Cls[1]);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		OWLAxiom axiom = OWL.equivalentClasses(_cls[0], _cls[1]);
+		assertNull(_pattern.match(_ontology, axiom));
 
-		axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(m_Cls[0], m_Cls[1], m_Cls[2]));
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(_cls[0], _cls[1], _cls[2]));
+		assertNull(_pattern.match(_ontology, axiom));
 
-		axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(m_Cls[0], m_P0AllC0, m_Cls[2]));
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(_cls[0], _P0AllC0, _cls[2]));
+		assertNull(_pattern.match(_ontology, axiom));
 	}
 
 	@Test
-	public void testComplexEquivalence() throws OWLException
+	public void testComplexEquivalence()
 	{
-		final OWLAxiom axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(m_Cls[0], m_P0AllC0, m_P0SomeC1));
+		final OWLAxiom axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(_cls[0], _P0AllC0, _P0SomeC1));
 
-		final Lint lint = m_Pattern.match(m_Ontology, axiom);
+		final Lint lint = _pattern.match(_ontology, axiom);
 		assertNotNull(lint);
 		assertTrue(lint.getParticipatingClasses().isEmpty());
 		assertTrue(lint.getParticipatingAxioms().contains(axiom));
 
 		assertNull(lint.getSeverity());
-		assertSame(m_Ontology, lint.getParticipatingOntology());
+		assertSame(_ontology, lint.getParticipatingOntology());
 	}
 
 	@Test
-	public void testOneOf() throws OWLException
+	public void testOneOf()
 	{
-		final OWLClassExpression oneOf = OWL.oneOf(m_Ind);
-		final OWLAxiom axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(m_P0AllC0, oneOf));
+		final OWLClassExpression oneOf = OWL.oneOf(_ind);
+		final OWLAxiom axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(_P0AllC0, oneOf));
 
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		assertNull(_pattern.match(_ontology, axiom));
 	}
 
 	@Test
-	public void testGCI() throws OWLException
+	public void testGCI()
 	{
-		final OWLAxiom axiom = OWL.subClassOf(m_P0AllC0, m_Cls[1]);
+		final OWLAxiom axiom = OWL.subClassOf(_P0AllC0, _cls[1]);
 
-		final Lint lint = m_Pattern.match(m_Ontology, axiom);
+		final Lint lint = _pattern.match(_ontology, axiom);
 		assertNotNull(lint);
 		assertTrue(lint.getParticipatingClasses().isEmpty());
 		assertTrue(lint.getParticipatingAxioms().contains(axiom));

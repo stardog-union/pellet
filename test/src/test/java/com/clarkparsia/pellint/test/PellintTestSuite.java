@@ -29,9 +29,6 @@ import org.junit.runners.Suite;
  * Title: Pellint test suite
  * </p>
  * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>
@@ -44,10 +41,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({ DoubtfulSetTest.class, RDFModelTest.class, OptimizedDirectedMultigraphTest.class, LintTest.class, LintFixerTest.class, OntologyLintsTest.class, LintPatternLoaderTest.class, EquivalentToAllValuePatternTest.class, EquivalentToComplementPatternTest.class, EquivalentToTopPatternTest.class, GCIPatternTest.class, LargeCardinalityPatternTest.class, LargeDisjunctionPatternTest.class, EquivalentAndSubclassAxiomPatternTest.class, ExistentialExplosionPatternTest.class, TooManyDifferentIndividualsPatternTest.class, OWLSyntaxCheckerTest.class, OWLDatatypeTest.class, OWL2DLProfileViolationsTest.class })
 public class PellintTestSuite
 {
-
 	public static Test suite()
 	{
 		return new JUnit4TestAdapter(PellintTestSuite.class);
 	}
-
 }

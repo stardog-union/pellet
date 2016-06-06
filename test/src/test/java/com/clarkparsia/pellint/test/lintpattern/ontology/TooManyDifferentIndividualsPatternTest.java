@@ -48,11 +48,11 @@ public class TooManyDifferentIndividualsPatternTest extends PellintTestCase
 	@Test
 	public void testNone() throws OWLException
 	{
-		addAxiom(OWL.differentFrom(m_Ind[0], m_Ind[1]));
-		addAxiom(OWL.differentFrom(m_Ind[2], m_Ind[3]));
+		addAxiom(OWL.differentFrom(_ind[0], _ind[1]));
+		addAxiom(OWL.differentFrom(_ind[2], _ind[3]));
 
 		m_Pattern.setMaxAllowed(3);
-		final List<Lint> lints = m_Pattern.match(m_Ontology);
+		final List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(0, lints.size());
 		assertFalse(m_Pattern.isFixable());
 	}
@@ -60,18 +60,18 @@ public class TooManyDifferentIndividualsPatternTest extends PellintTestCase
 	@Test
 	public void testOne() throws OWLException
 	{
-		addAxiom(OWL.differentFrom(CollectionUtil.asSet(m_Ind[0], m_Ind[1], m_Ind[2])));
+		addAxiom(OWL.differentFrom(CollectionUtil.asSet(_ind[0], _ind[1], _ind[2])));
 
 		m_Pattern.setMaxAllowed(3);
-		List<Lint> lints = m_Pattern.match(m_Ontology);
+		List<Lint> lints = m_Pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
-		addAxiom(OWL.differentFrom(m_Ind[3], m_Ind[4]));
-		lints = m_Pattern.match(m_Ontology);
+		addAxiom(OWL.differentFrom(_ind[3], _ind[4]));
+		lints = m_Pattern.match(_ontology);
 		assertEquals(1, lints.size());
 		final Lint lint = lints.get(0);
 		assertNull(lint.getLintFixer());
 		assertEquals(6 + 2, lint.getSeverity().doubleValue(), DOUBLE_DELTA);
-		assertSame(m_Ontology, lint.getParticipatingOntology());
+		assertSame(_ontology, lint.getParticipatingOntology());
 	}
 }

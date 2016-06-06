@@ -24,8 +24,8 @@ import org.semanticweb.owlapi.model.OWLOntology;
  */
 public class MockOntologyLintPattern implements OntologyLintPattern
 {
-	private int m_IntParam;
-	private String m_StringParam;
+	private int _intParam;
+	private String _stringParam;
 
 	@Override
 	public String getName()
@@ -59,22 +59,22 @@ public class MockOntologyLintPattern implements OntologyLintPattern
 
 	public void setIntParam(final int v)
 	{
-		m_IntParam = v;
+		_intParam = v;
 	}
 
 	public int getIntParam()
 	{
-		return m_IntParam;
+		return _intParam;
 	}
 
 	public void setStringParam(final String v)
 	{
-		m_StringParam = v;
+		_stringParam = v;
 	}
 
 	public String getStringParam()
 	{
-		return m_StringParam;
+		return _stringParam;
 	}
 
 }

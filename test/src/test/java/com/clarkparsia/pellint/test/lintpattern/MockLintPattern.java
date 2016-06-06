@@ -21,7 +21,7 @@ import com.clarkparsia.pellint.lintpattern.LintPattern;
  */
 public class MockLintPattern implements LintPattern
 {
-	private final boolean m_IsFixable;
+	private final boolean _isFixable;
 
 	public MockLintPattern()
 	{
@@ -30,7 +30,7 @@ public class MockLintPattern implements LintPattern
 
 	public MockLintPattern(final boolean isFixable)
 	{
-		m_IsFixable = isFixable;
+		_isFixable = isFixable;
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class MockLintPattern implements LintPattern
 	@Override
 	public boolean isFixable()
 	{
-		return m_IsFixable;
+		return _isFixable;
 	}
 
 	@Override

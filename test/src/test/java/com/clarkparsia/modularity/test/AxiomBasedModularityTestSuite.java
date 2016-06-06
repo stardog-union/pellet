@@ -11,5 +11,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ AxiomBasedIncrementalClassifierTest.class, AxiomBasedModularityTest.class, AxiomBasedModularityUpdateTest.class, AxiomBasedRandomizedIncrementalClassifierTest.class, AxiomBasedRandomizedModularityTest.class })
 public class AxiomBasedModularityTestSuite
 {
-
+	// Nothing to do.
 }

@@ -29,88 +29,88 @@ import org.junit.Test;
  */
 public class DoubtfulSetTest
 {
-	private DoubtfulSet<String> m_Set;
-	private String[] m_Str;
+	private DoubtfulSet<String> _set;
+	private String[] _str;
 
 	@Before
 	public void setUp()
 	{
-		m_Set = new DoubtfulSet<>();
-		m_Str = new String[5];
-		for (int i = 0; i < m_Str.length; i++)
-			m_Str[i] = "A" + i;
+		_set = new DoubtfulSet<>();
+		_str = new String[5];
+		for (int i = 0; i < _str.length; i++)
+			_str[i] = "A" + i;
 	}
 
 	@Test
 	public void testAdd()
 	{
-		assertTrue(m_Set.isEmpty());
+		assertTrue(_set.isEmpty());
 
-		m_Set.add(m_Str[0]);
+		_set.add(_str[0]);
 
-		assertEquals(1, m_Set.size());
-		assertTrue(m_Set.contains(m_Str[0]));
-		assertFalse(m_Set.containsDefinite(m_Str[0]));
-		assertFalse(m_Set.contains(m_Str[1]));
-		assertFalse(m_Set.containsDefinite(m_Str[1]));
-		assertEquals(Collections.singleton(m_Str[0]), m_Set.getDoubtfulElements());
-		assertTrue(m_Set.getDefiniteElements().isEmpty());
+		assertEquals(1, _set.size());
+		assertTrue(_set.contains(_str[0]));
+		assertFalse(_set.containsDefinite(_str[0]));
+		assertFalse(_set.contains(_str[1]));
+		assertFalse(_set.containsDefinite(_str[1]));
+		assertEquals(Collections.singleton(_str[0]), _set.getDoubtfulElements());
+		assertTrue(_set.getDefiniteElements().isEmpty());
 
-		m_Set.add(m_Str[0]);
-		assertEquals(1, m_Set.size());
+		_set.add(_str[0]);
+		assertEquals(1, _set.size());
 	}
 
 	@Test
 	public void testAddDefinite()
 	{
-		m_Set.add(m_Str[0]);
-		m_Set.addDefinite(m_Str[1]);
-		m_Set.add(m_Str[2]);
-		m_Set.addDefinite(m_Str[2]);
-		m_Set.addDefinite(m_Str[3]);
-		m_Set.add(m_Str[3]);
+		_set.add(_str[0]);
+		_set.addDefinite(_str[1]);
+		_set.add(_str[2]);
+		_set.addDefinite(_str[2]);
+		_set.addDefinite(_str[3]);
+		_set.add(_str[3]);
 
-		assertEquals(4, m_Set.size());
-		assertFalse(m_Set.containsDefinite(m_Str[0]));
-		assertTrue(m_Set.containsDefinite(m_Str[1]));
-		assertTrue(m_Set.containsDefinite(m_Str[2]));
-		assertTrue(m_Set.containsDefinite(m_Str[3]));
-		assertEquals(Collections.singleton(m_Str[0]), m_Set.getDoubtfulElements());
-		assertEquals(CollectionUtil.asSet(m_Str[1], m_Str[2], m_Str[3]), m_Set.getDefiniteElements());
+		assertEquals(4, _set.size());
+		assertFalse(_set.containsDefinite(_str[0]));
+		assertTrue(_set.containsDefinite(_str[1]));
+		assertTrue(_set.containsDefinite(_str[2]));
+		assertTrue(_set.containsDefinite(_str[3]));
+		assertEquals(Collections.singleton(_str[0]), _set.getDoubtfulElements());
+		assertEquals(CollectionUtil.asSet(_str[1], _str[2], _str[3]), _set.getDefiniteElements());
 	}
 
 	@Test
 	public void testRemove()
 	{
-		m_Set.add(m_Str[0]);
-		m_Set.add(m_Str[1]);
-		m_Set.addDefinite(m_Str[2]);
-		m_Set.addDefinite(m_Str[3]);
-		m_Set.remove(m_Str[0]);
-		m_Set.remove(m_Str[2]);
-		m_Set.remove(m_Str[4]);
+		_set.add(_str[0]);
+		_set.add(_str[1]);
+		_set.addDefinite(_str[2]);
+		_set.addDefinite(_str[3]);
+		_set.remove(_str[0]);
+		_set.remove(_str[2]);
+		_set.remove(_str[4]);
 
-		assertEquals(Collections.singleton(m_Str[1]), m_Set.getDoubtfulElements());
-		assertEquals(Collections.singleton(m_Str[3]), m_Set.getDefiniteElements());
+		assertEquals(Collections.singleton(_str[1]), _set.getDoubtfulElements());
+		assertEquals(Collections.singleton(_str[3]), _set.getDefiniteElements());
 
-		m_Set.clear();
-		assertTrue(m_Set.getDoubtfulElements().isEmpty());
-		assertTrue(m_Set.getDefiniteElements().isEmpty());
+		_set.clear();
+		assertTrue(_set.getDoubtfulElements().isEmpty());
+		assertTrue(_set.getDefiniteElements().isEmpty());
 	}
 
 	@Test
 	public void testIteration()
 	{
-		m_Set.add(m_Str[0]);
-		m_Set.add(m_Str[1]);
-		m_Set.addDefinite(m_Str[2]);
-		m_Set.addDefinite(m_Str[3]);
+		_set.add(_str[0]);
+		_set.add(_str[1]);
+		_set.addDefinite(_str[2]);
+		_set.addDefinite(_str[3]);
 
 		final Set<String> set = CollectionUtil.makeSet();
 		for (int i = 0; i <= 3; i++)
-			set.add(m_Str[i]);
+			set.add(_str[i]);
 
-		assertTrue(set.equals(m_Set));
-		assertTrue(m_Set.equals(set));
+		assertTrue(set.equals(_set));
+		assertTrue(_set.equals(set));
 	}
 }

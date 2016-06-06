@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
@@ -37,33 +36,33 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class EquivalentToTopPatternTest extends PellintTestCase
 {
 
-	private EquivalentToTopPattern m_Pattern;
+	private EquivalentToTopPattern _pattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_Pattern = new EquivalentToTopPattern();
+		_pattern = new EquivalentToTopPattern();
 	}
 
 	@Test
-	public void testNone() throws OWLException
+	public void testNone()
 	{
-		assertTrue(m_Pattern.isFixable());
+		assertTrue(_pattern.isFixable());
 
-		OWLAxiom axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(OWL.Nothing, m_Cls[2], m_Cls[3]));
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		OWLAxiom axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(OWL.Nothing, _cls[2], _cls[3]));
+		assertNull(_pattern.match(_ontology, axiom));
 
-		axiom = OWL.subClassOf(OWL.Thing, m_Cls[1]);
-		assertNull(m_Pattern.match(m_Ontology, axiom));
+		axiom = OWL.subClassOf(OWL.Thing, _cls[1]);
+		assertNull(_pattern.match(_ontology, axiom));
 	}
 
 	@Test
-	public void testSimple() throws OWLException
+	public void testSimple()
 	{
-		final OWLAxiom axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(OWL.Thing, m_Cls[0], m_Cls[1]));
-		final Lint lint = m_Pattern.match(m_Ontology, axiom);
+		final OWLAxiom axiom = OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(OWL.Thing, _cls[0], _cls[1]));
+		final Lint lint = _pattern.match(_ontology, axiom);
 		assertNotNull(lint);
 
 		final LintFixer fixer = lint.getLintFixer();
@@ -71,7 +70,7 @@ public class EquivalentToTopPatternTest extends PellintTestCase
 		assertTrue(fixer.getAxiomsToAdd().isEmpty());
 
 		assertNull(lint.getSeverity());
-		assertSame(m_Ontology, lint.getParticipatingOntology());
+		assertSame(_ontology, lint.getParticipatingOntology());
 	}
 
 }

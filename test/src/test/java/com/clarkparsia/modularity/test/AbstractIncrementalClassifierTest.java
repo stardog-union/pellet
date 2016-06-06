@@ -27,7 +27,6 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.OWLAxiom;
-import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
@@ -51,90 +50,90 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	{
 	}
 
-	private void updateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions) throws OWLException
+	private void updateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions)
 	{
 		createOntology(axioms);
 
-		TestUtils.runUpdateTest(ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
+		TestUtils.runUpdateTest(_ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 	}
 
 	private void disjointnessTest(final OWLAxiom[] axioms)
 	{
 		createOntology(axioms);
 
-		TestUtils.runDisjointnessTest(ontology, createModuleExtractor());
+		TestUtils.runDisjointnessTest(_ontology, createModuleExtractor());
 	}
 
 	private void disjointnessUpdateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions)
 	{
 		createOntology(axioms);
 
-		TestUtils.runDisjointnessUpdateTest(ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
+		TestUtils.runDisjointnessUpdateTest(_ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 	}
 
 	private void instancesTest(final OWLAxiom[] axioms)
 	{
 		createOntology(axioms);
 
-		TestUtils.runInstancesTest(ontology, createModuleExtractor());
+		TestUtils.runInstancesTest(_ontology, createModuleExtractor());
 	}
 
 	private void typesTest(final OWLAxiom[] axioms)
 	{
 		createOntology(axioms);
 
-		TestUtils.runTypesTest(ontology, createModuleExtractor());
+		TestUtils.runTypesTest(_ontology, createModuleExtractor());
 	}
 
 	private void instancesUpdateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions)
 	{
 		createOntology(axioms);
 
-		TestUtils.runInstancesUpdateTest(ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
+		TestUtils.runInstancesUpdateTest(_ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 	}
 
 	private void typesUpdateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions)
 	{
 		createOntology(axioms);
 
-		TestUtils.runTypesUpdateTest(ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
+		TestUtils.runTypesUpdateTest(_ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 	}
 
 	@Test
-	public void unsatisfiableTest1() throws OWLException
+	public void unsatisfiableTest1()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, B), subClassOf(A, C), subClassOf(D, Thing) };
-		final OWLAxiom[] additions = { disjointClasses(B, C) };
+		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_A, _C), subClassOf(_D, Thing) };
+		final OWLAxiom[] additions = { disjointClasses(_B, _C) };
 		final OWLAxiom[] deletions = {};
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void unsatisfiableTest2() throws OWLException
+	public void unsatisfiableTest2()
 	{
-		final OWLAxiom[] axioms = { subClassOf(C, B), subClassOf(B, A), subClassOf(D, Thing) };
-		final OWLAxiom[] additions = { subClassOf(B, not(A)) };
+		final OWLAxiom[] axioms = { subClassOf(_C, _B), subClassOf(_B, _A), subClassOf(_D, Thing) };
+		final OWLAxiom[] additions = { subClassOf(_B, not(_A)) };
 		final OWLAxiom[] deletions = {};
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void indirectSubClassTest() throws OWLException
+	public void indirectSubClassTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), equivalentClasses(A, some(p, C)), equivalentClasses(B, some(p, D)), subClassOf(C, Thing), subClassOf(D, C), subClassOf(E, Thing), subClassOf(F, E) };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), equivalentClasses(_A, some(_p, _C)), equivalentClasses(_B, some(_p, _D)), subClassOf(_C, Thing), subClassOf(_D, _C), subClassOf(_E, Thing), subClassOf(_F, _E) };
 		final OWLAxiom[] additions = {};
-		final OWLAxiom[] deletions = { subClassOf(D, C) };
+		final OWLAxiom[] deletions = { subClassOf(_D, _C) };
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void leafAddTest() throws OWLException
+	public void leafAddTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), subClassOf(B, Thing), subClassOf(C, B) };
-		final OWLAxiom[] additions = { subClassOf(D, A) };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, Thing), subClassOf(_C, _B) };
+		final OWLAxiom[] additions = { subClassOf(_D, _A) };
 		final OWLAxiom[] deletions = {};
 
 		updateTest(axioms, additions, deletions);
@@ -146,61 +145,61 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	 * @throws OWLException
 	 */
 	@Test
-	public void makeSatisfiable() throws OWLException
+	public void makeSatisfiable()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, B), subClassOf(A, C), disjointClasses(B, C) };
+		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_A, _C), disjointClasses(_B, _C) };
 		final OWLAxiom[] additions = {};
-		final OWLAxiom[] deletions = { subClassOf(A, B) };
+		final OWLAxiom[] deletions = { subClassOf(_A, _B) };
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void annotationOnlyTest() throws OWLException
+	public void annotationOnlyTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), subClassOf(B, A), label(B, "B label") };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, _A), label(_B, "B label") };
 		final OWLAxiom[] additions = {};
-		final OWLAxiom[] deletions = { subClassOf(B, A) };
+		final OWLAxiom[] deletions = { subClassOf(_B, _A) };
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void internalAddTest() throws OWLException
+	public void internalAddTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), subClassOf(C, Thing), subClassOf(D, Thing) };
-		final OWLAxiom[] additions = { subClassOf(B, Thing), subClassOf(C, B), subClassOf(D, B) };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_C, Thing), subClassOf(_D, Thing) };
+		final OWLAxiom[] additions = { subClassOf(_B, Thing), subClassOf(_C, _B), subClassOf(_D, _B) };
 		final OWLAxiom[] deletions = {};
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void internalDeleteTest() throws OWLException
+	public void internalDeleteTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), subClassOf(B, Thing), subClassOf(C, B), subClassOf(D, B) };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, Thing), subClassOf(_C, _B), subClassOf(_D, _B) };
 		final OWLAxiom[] additions = {};
-		final OWLAxiom[] deletions = { subClassOf(B, Thing), subClassOf(C, B), subClassOf(D, B) };
+		final OWLAxiom[] deletions = { subClassOf(_B, Thing), subClassOf(_C, _B), subClassOf(_D, _B) };
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void internalMergeTest() throws OWLException
+	public void internalMergeTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), subClassOf(B, A), subClassOf(C, B), subClassOf(D, C), subClassOf(E, B) };
-		final OWLAxiom[] additions = { subClassOf(B, C) };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, _A), subClassOf(_C, _B), subClassOf(_D, _C), subClassOf(_E, _B) };
+		final OWLAxiom[] additions = { subClassOf(_B, _C) };
 		final OWLAxiom[] deletions = {};
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void internalSplitTest() throws OWLException
+	public void internalSplitTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), subClassOf(B, A), subClassOf(C, B), subClassOf(D, C), subClassOf(E, B), subClassOf(B, C) };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, _A), subClassOf(_C, _B), subClassOf(_D, _C), subClassOf(_E, _B), subClassOf(_B, _C) };
 		final OWLAxiom[] additions = {};
-		final OWLAxiom[] deletions = { subClassOf(B, C) };
+		final OWLAxiom[] deletions = { subClassOf(_B, _C) };
 
 		updateTest(axioms, additions, deletions);
 	}
@@ -212,31 +211,31 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	 * @throws OWLException
 	 */
 	@Test
-	public void addAndRename() throws OWLException
+	public void addAndRename()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), subClassOf(B, Thing) };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, Thing) };
 
-		final OWLAxiom[] additions = { declaration(C), subClassOf(C, A), declaration(D), subClassOf(D, A) };
-		final OWLAxiom[] deletions = { declaration(C), subClassOf(C, A) };
+		final OWLAxiom[] additions = { declaration(_C), subClassOf(_C, _A), declaration(_D), subClassOf(_D, _A) };
+		final OWLAxiom[] deletions = { declaration(_C), subClassOf(_C, _A) };
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void switchSubTreeTest() throws OWLException
+	public void switchSubTreeTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, Thing), subClassOf(B, A), subClassOf(E, A), subClassOf(C, B), subClassOf(D, C), subClassOf(F, E), subClassOf(G, F) };
-		final OWLAxiom[] additions = { subClassOf(C, E), subClassOf(F, B) };
-		final OWLAxiom[] deletions = { subClassOf(C, B), subClassOf(F, E) };
+		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, _A), subClassOf(_E, _A), subClassOf(_C, _B), subClassOf(_D, _C), subClassOf(_F, _E), subClassOf(_G, _F) };
+		final OWLAxiom[] additions = { subClassOf(_C, _E), subClassOf(_F, _B) };
+		final OWLAxiom[] deletions = { subClassOf(_C, _B), subClassOf(_F, _E) };
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void indirectModuleTest() throws OWLException
+	public void indirectModuleTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, and(B, C, some(p, C))), subClassOf(B, or(all(p, not(C)), D)), subClassOf(D, E) };
-		final OWLAxiom[] additions = { subClassOf(A, not(E)) };
+		final OWLAxiom[] axioms = { subClassOf(_A, and(_B, _C, some(_p, _C))), subClassOf(_B, or(all(_p, not(_C)), _D)), subClassOf(_D, _E) };
+		final OWLAxiom[] additions = { subClassOf(_A, not(_E)) };
 		final OWLAxiom[] deletions = {};
 
 		updateTest(axioms, additions, deletions);
@@ -250,11 +249,11 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	 * @throws OWLException
 	 */
 	@Test
-	public void deleteAllAxiomsInModuleTest() throws OWLException
+	public void deleteAllAxiomsInModuleTest()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, B), subClassOf(A, all(p, C)) };
+		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_A, all(_p, _C)) };
 		final OWLAxiom[] additions = {};
-		final OWLAxiom[] deletions = { subClassOf(A, B) };
+		final OWLAxiom[] deletions = { subClassOf(_A, _B) };
 
 		updateTest(axioms, additions, deletions);
 	}
@@ -265,11 +264,11 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	 * @throws OWLException
 	 */
 	@Test
-	public void deleteUnsatisfiable() throws OWLException
+	public void deleteUnsatisfiable()
 	{
-		final OWLAxiom[] axioms = { subClassOf(A, B), subClassOf(A, C), disjointClasses(B, C) };
+		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_A, _C), disjointClasses(_B, _C) };
 		final OWLAxiom[] additions = {};
-		final OWLAxiom[] deletions = { subClassOf(A, B), subClassOf(A, C) };
+		final OWLAxiom[] deletions = { subClassOf(_A, _B), subClassOf(_A, _C) };
 
 		updateTest(axioms, additions, deletions);
 	}
@@ -280,21 +279,21 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	 * @throws OWLException
 	 */
 	@Test
-	public void addNonLocal() throws OWLException
+	public void addNonLocal()
 	{
-		final OWLAxiom[] axioms = { declaration(A) };
-		final OWLAxiom[] additions = { equivalentClasses(B, all(p, B)) };
+		final OWLAxiom[] axioms = { declaration(_A) };
+		final OWLAxiom[] additions = { equivalentClasses(_B, all(_p, _B)) };
 		final OWLAxiom[] deletions = {};
 
 		updateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void deleteNonLocal() throws OWLException
+	public void deleteNonLocal()
 	{
-		final OWLAxiom[] axioms = { equivalentClasses(A, all(p, B)), subClassOf(C, all(p, B)), subClassOf(D, all(p, B)), subClassOf(D, C) };
+		final OWLAxiom[] axioms = { equivalentClasses(_A, all(_p, _B)), subClassOf(_C, all(_p, _B)), subClassOf(_D, all(_p, _B)), subClassOf(_D, _C) };
 		final OWLAxiom[] additions = {};
-		final OWLAxiom[] deletions = { subClassOf(C, all(p, B)) };
+		final OWLAxiom[] deletions = { subClassOf(_C, all(_p, _B)) };
 
 		updateTest(axioms, additions, deletions);
 	}
@@ -302,7 +301,7 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	@Test
 	public void basicDisjointnessTest()
 	{
-		final OWLAxiom[] axioms = { disjointClasses(A, B), subClassOf(C, A), subClassOf(D, B), equivalentClasses(E, A) };
+		final OWLAxiom[] axioms = { disjointClasses(_A, _B), subClassOf(_C, _A), subClassOf(_D, _B), equivalentClasses(_E, _A) };
 
 		disjointnessTest(axioms);
 	}
@@ -310,9 +309,9 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	@Test
 	public void basicDisjointnessUpdateTest()
 	{
-		final OWLAxiom[] axioms = { disjointClasses(A, B), subClassOf(C, A), subClassOf(D, B), equivalentClasses(E, A) };
-		final OWLAxiom[] additions = { disjointClasses(D, C) };
-		final OWLAxiom[] deletions = { disjointClasses(A, B) };
+		final OWLAxiom[] axioms = { disjointClasses(_A, _B), subClassOf(_C, _A), subClassOf(_D, _B), equivalentClasses(_E, _A) };
+		final OWLAxiom[] additions = { disjointClasses(_D, _C) };
+		final OWLAxiom[] deletions = { disjointClasses(_A, _B) };
 
 		disjointnessUpdateTest(axioms, additions, deletions);
 	}
@@ -320,7 +319,7 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	@Test
 	public void basicInstancesTest()
 	{
-		final OWLAxiom[] axioms = { classAssertion(a, A), classAssertion(b, B), domain(p, C), range(p, D), propertyAssertion(a, p, b) };
+		final OWLAxiom[] axioms = { classAssertion(_a, _A), classAssertion(_b, _B), domain(_p, _C), range(_p, _D), propertyAssertion(_a, _p, _b) };
 
 		instancesTest(axioms);
 	}
@@ -328,9 +327,9 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	@Test
 	public void basicInstancesUpdateTest()
 	{
-		final OWLAxiom[] axioms = { classAssertion(a, A), classAssertion(b, B), domain(p, C), range(p, D), propertyAssertion(a, p, b) };
-		final OWLAxiom[] additions = { range(p, E) };
-		final OWLAxiom[] deletions = { range(p, D) };
+		final OWLAxiom[] axioms = { classAssertion(_a, _A), classAssertion(_b, _B), domain(_p, _C), range(_p, _D), propertyAssertion(_a, _p, _b) };
+		final OWLAxiom[] additions = { range(_p, _E) };
+		final OWLAxiom[] deletions = { range(_p, _D) };
 
 		instancesUpdateTest(axioms, additions, deletions);
 	}
@@ -338,7 +337,7 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	@Test
 	public void basicTypesTest()
 	{
-		final OWLAxiom[] axioms = { classAssertion(a, A), classAssertion(b, B), domain(p, C), range(p, D), propertyAssertion(a, p, b) };
+		final OWLAxiom[] axioms = { classAssertion(_a, _A), classAssertion(_b, _B), domain(_p, _C), range(_p, _D), propertyAssertion(_a, _p, _b) };
 
 		typesTest(axioms);
 	}
@@ -346,19 +345,19 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	@Test
 	public void basicTypesUpdateTest()
 	{
-		final OWLAxiom[] axioms = { classAssertion(a, A), classAssertion(b, B), domain(p, C), range(p, D), propertyAssertion(a, p, b) };
-		final OWLAxiom[] additions = { range(p, E) };
-		final OWLAxiom[] deletions = { range(p, D) };
+		final OWLAxiom[] axioms = { classAssertion(_a, _A), classAssertion(_b, _B), domain(_p, _C), range(_p, _D), propertyAssertion(_a, _p, _b) };
+		final OWLAxiom[] additions = { range(_p, _E) };
+		final OWLAxiom[] deletions = { range(_p, _D) };
 
 		typesUpdateTest(axioms, additions, deletions);
 	}
 
 	@Test
-	public void importsTest() throws OWLException
+	public void importsTest()
 	{
-		final OWLAxiom[] axioms1 = { subClassOf(A, B) };
-		final OWLAxiom[] axioms2 = { subClassOf(B, C), subClassOf(D, E) };
-		final OWLAxiom[] additions = { subClassOf(A, D) };
+		final OWLAxiom[] axioms1 = { subClassOf(_A, _B) };
+		final OWLAxiom[] axioms2 = { subClassOf(_B, _C), subClassOf(_D, _E) };
+		final OWLAxiom[] additions = { subClassOf(_A, _D) };
 		final OWLAxiom[] deletions = {};
 
 		final OWLOntology ontology1 = OWL.Ontology(axioms1);

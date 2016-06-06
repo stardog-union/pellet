@@ -11,5 +11,5 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ GraphBasedIncrementalClassifierTest.class, GraphBasedModularityTest.class, GraphBasedModularityUpdateTest.class, GraphBasedRandomizedIncrementalClassifierTest.class, GraphBasedRandomizedModularityTest.class, GraphSimplifyTests.class, SCCTests.class })
 public class GraphBasedModularityTestSuite
 {
-
+	// Nothing to do
 }

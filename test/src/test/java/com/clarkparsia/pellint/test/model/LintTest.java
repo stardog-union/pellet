@@ -31,32 +31,32 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
  */
 public class LintTest extends PellintTestCase
 {
-	private LintPattern m_MockPattern;
+	private LintPattern _mockPattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_MockPattern = new MockLintPattern();
+		_mockPattern = new MockLintPattern();
 	}
 
 	@Test
 	public void testWithoutFixer() throws OWLOntologyChangeException
 	{
-		final Lint lint = new Lint(m_MockPattern, m_Ontology);
-		assertSame(m_MockPattern, lint.getPattern());
-		assertSame(m_Ontology, lint.getParticipatingOntology());
-		assertFalse(lint.applyFix(m_Manager));
+		final Lint lint = new Lint(_mockPattern, _ontology);
+		assertSame(_mockPattern, lint.getPattern());
+		assertSame(_ontology, lint.getParticipatingOntology());
+		assertFalse(lint.applyFix(_manager));
 	}
 
 	@Test
 	public void testWithFixer() throws OWLOntologyChangeException
 	{
-		final Lint lint = new Lint(m_MockPattern, m_Ontology);
+		final Lint lint = new Lint(_mockPattern, _ontology);
 		final MockLintFixer fixer = new MockLintFixer();
 		lint.setLintFixer(fixer);
-		assertTrue(lint.applyFix(m_Manager));
-		assertTrue(fixer.applyCalled);
+		assertTrue(lint.applyFix(_manager));
+		assertTrue(fixer._applyCalled);
 	}
 }

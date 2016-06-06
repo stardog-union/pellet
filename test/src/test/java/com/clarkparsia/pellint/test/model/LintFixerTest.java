@@ -9,6 +9,7 @@ import com.clarkparsia.pellint.model.LintFixer;
 import com.clarkparsia.pellint.test.PellintTestCase;
 import com.clarkparsia.pellint.util.CollectionUtil;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -33,7 +34,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
  */
 public class LintFixerTest extends PellintTestCase
 {
-	private OWLAxiom[] m_Axioms;
+	private OWLAxiom[] _axioms;
 
 	@Override
 	@Before
@@ -41,55 +42,55 @@ public class LintFixerTest extends PellintTestCase
 	{
 		super.setUp();
 
-		m_Axioms = new OWLAxiom[] { OWL.subClassOf(m_Cls[0], OWL.or(m_Cls[1], m_Cls[2], m_Cls[3])), OWL.equivalentClasses(m_Cls[0], m_Cls[1]), OWL.differentFrom(m_Ind[2], m_Ind[3]) };
+		_axioms = new OWLAxiom[] { OWL.subClassOf(_cls[0], OWL.or(_cls[1], _cls[2], _cls[3])), OWL.equivalentClasses(_cls[0], _cls[1]), OWL.differentFrom(_ind[2], _ind[3]) };
 	}
 
 	@Test
 	public void testRemoveAndAdd() throws OWLException
 	{
-		addAxiom(m_Axioms[0]);
-		addAxiom(m_Axioms[1]);
+		addAxiom(_axioms[0]);
+		addAxiom(_axioms[1]);
 
-		final Set<OWLAxiom> axiomsToRemove = CollectionUtil.asSet(m_Axioms[0], m_Axioms[1]);
-		final Set<OWLAxiom> axiomsToAdd = CollectionUtil.asSet(m_Axioms[2]);
+		final Set<OWLAxiom> axiomsToRemove = CollectionUtil.asSet(_axioms[0], _axioms[1]);
+		final Set<OWLAxiom> axiomsToAdd = CollectionUtil.asSet(_axioms[2]);
 		final LintFixer fixer = new LintFixer(axiomsToRemove, axiomsToAdd);
-		assertTrue(fixer.apply(m_Manager, m_Ontology));
+		assertTrue(fixer.apply(_manager, _ontology));
 
-		final Set<OWLAxiom> axioms = m_Ontology.getAxioms();
+		final Set<OWLAxiom> axioms = _ontology.axioms().collect(Collectors.toSet());
 		assertEquals(1, axioms.size());
-		assertTrue(axioms.contains(m_Axioms[2]));
+		assertTrue(axioms.contains(_axioms[2]));
 	}
 
 	@Test
 	public void testOldAxiomsDontExist() throws OWLException
 	{
-		addAxiom(m_Axioms[0]);
+		addAxiom(_axioms[0]);
 
-		final Set<OWLAxiom> axiomsToRemove = CollectionUtil.asSet(m_Axioms[0], m_Axioms[1]);
-		final Set<OWLAxiom> axiomsToAdd = CollectionUtil.asSet(m_Axioms[2]);
+		final Set<OWLAxiom> axiomsToRemove = CollectionUtil.asSet(_axioms[0], _axioms[1]);
+		final Set<OWLAxiom> axiomsToAdd = CollectionUtil.asSet(_axioms[2]);
 		final LintFixer fixer = new LintFixer(axiomsToRemove, axiomsToAdd);
-		assertFalse(fixer.apply(m_Manager, m_Ontology));
+		assertFalse(fixer.apply(_manager, _ontology));
 
-		final Set<OWLAxiom> axioms = m_Ontology.getAxioms();
+		final Set<OWLAxiom> axioms = _ontology.axioms().collect(Collectors.toSet());
 		assertEquals(1, axioms.size());
-		assertTrue(axioms.contains(m_Axioms[0]));
+		assertTrue(axioms.contains(_axioms[0]));
 	}
 
 	@Test
 	public void testNewAxiomsAlreadyExist() throws OWLException
 	{
-		addAxiom(m_Axioms[0]);
-		addAxiom(m_Axioms[1]);
-		addAxiom(m_Axioms[2]);
+		addAxiom(_axioms[0]);
+		addAxiom(_axioms[1]);
+		addAxiom(_axioms[2]);
 
-		final Set<OWLAxiom> axiomsToRemove = CollectionUtil.asSet(m_Axioms[0], m_Axioms[1]);
-		final Set<OWLAxiom> axiomsToAdd = CollectionUtil.asSet(m_Axioms[2]);
+		final Set<OWLAxiom> axiomsToRemove = CollectionUtil.asSet(_axioms[0], _axioms[1]);
+		final Set<OWLAxiom> axiomsToAdd = CollectionUtil.asSet(_axioms[2]);
 		final LintFixer fixer = new LintFixer(axiomsToRemove, axiomsToAdd);
-		assertTrue(fixer.apply(m_Manager, m_Ontology));
+		assertTrue(fixer.apply(_manager, _ontology));
 
-		final Set<OWLAxiom> axioms = m_Ontology.getAxioms();
+		final Set<OWLAxiom> axioms = _ontology.axioms().collect(Collectors.toSet());
 		assertEquals(1, axioms.size());
-		assertTrue(axioms.contains(m_Axioms[2]));
+		assertTrue(axioms.contains(_axioms[2]));
 	}
 
 }
