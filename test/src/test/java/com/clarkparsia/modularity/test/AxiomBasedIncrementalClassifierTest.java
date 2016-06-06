@@ -11,9 +11,6 @@ import com.clarkparsia.modularity.ModuleExtractor;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
  * Description: Test modular classification for correctness against unified classification
  * <p>
  * Copyright: Copyright (c) 2007

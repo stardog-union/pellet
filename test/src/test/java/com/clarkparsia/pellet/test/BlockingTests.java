@@ -116,7 +116,7 @@ public class BlockingTests extends AbstractKBTests
 	@Test
 	public void complexInconsistent()
 	{
-		_kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-inconsistent.owl");
+		_kb = new OWLAPILoader().createKB(MiscTests._base + "one+one-inconsistent.owl");
 
 		assertFalse(_kb.isConsistent());
 	}
@@ -124,7 +124,7 @@ public class BlockingTests extends AbstractKBTests
 	@Test
 	public void complexAllUnsat()
 	{
-		_kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-consistent-but-all-unsat.owl");
+		_kb = new OWLAPILoader().createKB(MiscTests._base + "one+one-consistent-but-all-unsat.owl");
 
 		assertTrue(_kb.isConsistent());
 
@@ -134,7 +134,7 @@ public class BlockingTests extends AbstractKBTests
 	@Test
 	public void complexAllInfSat()
 	{
-		_kb = new OWLAPILoader().createKB(MiscTests.base + "one+one-consistent-and-all-inf-sat.owl");
+		_kb = new OWLAPILoader().createKB(MiscTests._base + "one+one-consistent-and-all-inf-sat.owl");
 
 		assertTrue(_kb.isConsistent());
 

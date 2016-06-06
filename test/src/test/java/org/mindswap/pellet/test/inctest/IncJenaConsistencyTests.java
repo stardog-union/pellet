@@ -70,8 +70,8 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		return cases;
 	}
 
-	private final Properties newOptions;
-	private Properties oldOptions;
+	private final Properties _newOptions;
+	private Properties _oldOptions;
 
 	public static junit.framework.Test suite()
 	{
@@ -85,14 +85,14 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 		pb.set("USE_INCREMENTAL_CONSISTENCY", String.valueOf(uic));
 		pb.set("USE_INCREMENTAL_DELETION", String.valueOf(uid));
 
-		newOptions = pb.build();
+		_newOptions = pb.build();
 	}
 
 	@Override
 	@Before
 	public void before()
 	{
-		oldOptions = PelletOptions.setOptions(newOptions);
+		_oldOptions = PelletOptions.setOptions(_newOptions);
 
 		super.before();
 	}
@@ -101,7 +101,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 	@After
 	public void after()
 	{
-		PelletOptions.setOptions(oldOptions);
+		PelletOptions.setOptions(_oldOptions);
 
 		super.after();
 	}
@@ -483,7 +483,7 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 	@Test
 	public void testSimpleDataPropertyAssertion()
 	{
-		Assume.assumeFalse("true".equals(newOptions.getProperty("USE_INCREMENTAL_DELETION")));
+		Assume.assumeFalse("true".equals(_newOptions.getProperty("USE_INCREMENTAL_DELETION")));
 
 		final String ns = "urn:test:";
 
@@ -525,61 +525,61 @@ public class IncJenaConsistencyTests extends AbstractJenaTests
 	@Test
 	public void addTypeToMergedNode()
 	{
-		classes(A, B, C);
-		individuals(a, b, c);
+		classes(_A, _B, _C);
+		individuals(_a, _b, _c);
 
 		// a is either b or c
-		model.add(a, RDF.type, oneOf(b, c));
-		model.add(a, RDF.type, A);
-		model.add(b, RDF.type, B);
-		model.add(c, RDF.type, C);
+		_model.add(_a, RDF.type, oneOf(_b, _c));
+		_model.add(_a, RDF.type, _A);
+		_model.add(_b, RDF.type, _B);
+		_model.add(_c, RDF.type, _C);
 
 		assertConsistent();
 
-		assertTrue(model.contains(a, RDF.type, A));
+		assertTrue(_model.contains(_a, RDF.type, _A));
 		// we don't know which equality holds
-		assertFalse(model.contains(a, RDF.type, B));
-		assertFalse(model.contains(a, RDF.type, C));
-		assertFalse(model.contains(a, RDF.type, D));
+		assertFalse(_model.contains(_a, RDF.type, _B));
+		assertFalse(_model.contains(_a, RDF.type, _C));
+		assertFalse(_model.contains(_a, RDF.type, _D));
 
-		model.add(a, RDF.type, D);
+		_model.add(_a, RDF.type, _D);
 
 		assertConsistent();
 
-		assertTrue(model.contains(a, RDF.type, A));
-		assertFalse(model.contains(a, RDF.type, B));
-		assertFalse(model.contains(a, RDF.type, C));
-		assertTrue(model.contains(a, RDF.type, D));
+		assertTrue(_model.contains(_a, RDF.type, _A));
+		assertFalse(_model.contains(_a, RDF.type, _B));
+		assertFalse(_model.contains(_a, RDF.type, _C));
+		assertTrue(_model.contains(_a, RDF.type, _D));
 	}
 
 	@Test
 	public void removeTypeFromMergedNode()
 	{
-		classes(A, B, C, D);
-		individuals(a, b, c);
+		classes(_A, _B, _C, _D);
+		individuals(_a, _b, _c);
 
 		// a is either b or c
-		model.add(a, RDF.type, oneOf(b, c));
-		model.add(a, RDF.type, A);
-		model.add(b, RDF.type, B);
-		model.add(c, RDF.type, C);
-		model.add(a, RDF.type, D);
+		_model.add(_a, RDF.type, oneOf(_b, _c));
+		_model.add(_a, RDF.type, _A);
+		_model.add(_b, RDF.type, _B);
+		_model.add(_c, RDF.type, _C);
+		_model.add(_a, RDF.type, _D);
 
 		assertConsistent();
 
-		assertTrue(model.contains(a, RDF.type, A));
-		assertFalse(model.contains(a, RDF.type, B));
-		assertFalse(model.contains(a, RDF.type, C));
-		assertTrue(model.contains(a, RDF.type, D));
+		assertTrue(_model.contains(_a, RDF.type, _A));
+		assertFalse(_model.contains(_a, RDF.type, _B));
+		assertFalse(_model.contains(_a, RDF.type, _C));
+		assertTrue(_model.contains(_a, RDF.type, _D));
 
-		model.remove(a, RDF.type, D);
+		_model.remove(_a, RDF.type, _D);
 
 		assertConsistent();
 
-		assertTrue(model.contains(a, RDF.type, A));
-		assertFalse(model.contains(a, RDF.type, B));
-		assertFalse(model.contains(a, RDF.type, C));
-		assertFalse(model.contains(a, RDF.type, D));
+		assertTrue(_model.contains(_a, RDF.type, _A));
+		assertFalse(_model.contains(_a, RDF.type, _B));
+		assertFalse(_model.contains(_a, RDF.type, _C));
+		assertFalse(_model.contains(_a, RDF.type, _D));
 	}
 
 	public static void main(final String[] args)

@@ -1651,7 +1651,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	{
 		final String ns = "http://test#";
 
-		final OWLOntology ont = loadOntology(MiscTests.base + "ticket539.ofn");
+		final OWLOntology ont = loadOntology(MiscTests._base + "ticket539.ofn");
 
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createNonBufferingReasoner(ont);
 

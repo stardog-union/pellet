@@ -38,7 +38,7 @@ import org.semanticweb.owlapi.model.IRI;
 public class SWRLAbstract
 {
 
-	protected static String base;
+	protected static String _base;
 
 	protected void test(final String test)
 	{
@@ -87,7 +87,7 @@ public class SWRLAbstract
 
 	private String url(final String filename)
 	{
-		return base + filename;
+		return _base + filename;
 	}
 
 	@After

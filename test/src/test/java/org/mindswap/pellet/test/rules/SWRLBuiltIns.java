@@ -40,7 +40,7 @@ public class SWRLBuiltIns extends SWRLAbstract
 	@BeforeClass
 	public static void setUp()
 	{
-		base = "file:" + PelletTestSuite.base + "swrl-builtIns/";
+		_base = "file:" + PelletTestSuite.base + "swrl-builtIns/";
 	}
 
 	@Test

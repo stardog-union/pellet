@@ -52,43 +52,43 @@ import org.semanticweb.owlapi.vocab.OWL2Datatype;
  */
 public class OWLAPIObjectConversionTests
 {
-	public static String base = "file:" + PelletTestSuite.base + "misc/";
+	public static String _base = "file:" + PelletTestSuite.base + "misc/";
 
-	private static String ns = "urn:test:";
+	private static String _ns = "urn:test:";
 
-	private static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	private static OWLOntologyManager _manager = OWLManager.createOWLOntologyManager();
 
-	private static OWLDataFactory factory = manager.getOWLDataFactory();
+	private static OWLDataFactory _factory = _manager.getOWLDataFactory();
 
-	private static OWLClass c1 = factory.getOWLClass(IRI.create(ns + "c1"));
+	private static OWLClass _c1 = _factory.getOWLClass(IRI.create(_ns + "c1"));
 
-	private static OWLClass c2 = factory.getOWLClass(IRI.create(ns + "c2"));
+	private static OWLClass _c2 = _factory.getOWLClass(IRI.create(_ns + "c2"));
 
-	private static OWLObjectProperty op1 = factory.getOWLObjectProperty(IRI.create(ns + "op1"));
+	private static OWLObjectProperty _op1 = _factory.getOWLObjectProperty(IRI.create(_ns + "op1"));
 
-	private static OWLDataProperty dp1 = factory.getOWLDataProperty(IRI.create(ns + "dp1"));
+	private static OWLDataProperty _dp1 = _factory.getOWLDataProperty(IRI.create(_ns + "dp1"));
 
-	private static OWLIndividual ind1 = factory.getOWLNamedIndividual(IRI.create(ns + "ind1"));
+	private static OWLIndividual _ind1 = _factory.getOWLNamedIndividual(IRI.create(_ns + "ind1"));
 
-	private static OWLIndividual ind2 = factory.getOWLNamedIndividual(IRI.create(ns + "ind2"));
+	private static OWLIndividual _ind2 = _factory.getOWLNamedIndividual(IRI.create(_ns + "ind2"));
 
-	private static OWLIndividual ind3 = factory.getOWLAnonymousIndividual(ns + "ind3");
+	private static OWLIndividual _ind3 = _factory.getOWLAnonymousIndividual(_ns + "ind3");
 
-	private static OWLLiteral uc1 = factory.getOWLLiteral("lit1");
+	private static OWLLiteral _uc1 = _factory.getOWLLiteral("lit1");
 
-	private static OWLLiteral uc2 = factory.getOWLLiteral("lit2", "en");
+	private static OWLLiteral _uc2 = _factory.getOWLLiteral("lit2", "en");
 
-	private static OWLLiteral tc1 = factory.getOWLLiteral("lit3", OWL2Datatype.XSD_STRING);
+	private static OWLLiteral _tc1 = _factory.getOWLLiteral("lit3", OWL2Datatype.XSD_STRING);
 
-	private static OWLLiteral tc2 = factory.getOWLLiteral("1", OWL2Datatype.XSD_INTEGER);
+	private static OWLLiteral _tc2 = _factory.getOWLLiteral("1", OWL2Datatype.XSD_INTEGER);
 
-	private static OWLDatatype d1 = factory.getOWLDatatype(IRI.create(ns + "d1"));
+	private static OWLDatatype _d1 = _factory.getOWLDatatype(IRI.create(_ns + "d1"));
 
-	private final KnowledgeBase kb = new KnowledgeBase();
+	private final KnowledgeBase _kb = new KnowledgeBase();
 
-	private final PelletVisitor atermConverter = new PelletVisitor(kb);
+	private final PelletVisitor _atermConverter = new PelletVisitor(_kb);
 
-	private final ConceptConverter owlapiConverter = new ConceptConverter(kb, factory);
+	private final ConceptConverter _owlapiConverter = new ConceptConverter(_kb, _factory);
 
 	public static junit.framework.Test suite()
 	{
@@ -99,13 +99,13 @@ public class OWLAPIObjectConversionTests
 	{
 		try
 		{
-			kb.clear();
-			atermConverter.clear();
-			atermConverter.setAddAxiom(true);
+			_kb.clear();
+			_atermConverter.clear();
+			_atermConverter.setAddAxiom(true);
 
-			object.accept(atermConverter);
+			object.accept(_atermConverter);
 
-			final ATermAppl aterm = atermConverter.result();
+			final ATermAppl aterm = _atermConverter.result();
 
 			// for the ATerm->OWLObject translation to work we need
 			// all the entities referred in the ATerm to be defined
@@ -115,30 +115,30 @@ public class OWLAPIObjectConversionTests
 			if (object instanceof OWLClassExpression)
 			{
 				final OWLClassExpression c = (OWLClassExpression) object;
-				axiom = factory.getOWLSubClassOfAxiom(c, c);
+				axiom = _factory.getOWLSubClassOfAxiom(c, c);
 			}
 			else
 				if (object instanceof OWLObjectProperty)
 				{
 					final OWLObjectProperty p = (OWLObjectProperty) object;
-					axiom = factory.getOWLSubObjectPropertyOfAxiom(p, p);
+					axiom = _factory.getOWLSubObjectPropertyOfAxiom(p, p);
 				}
 				else
 					if (object instanceof OWLDataProperty)
 					{
 						final OWLDataProperty p = (OWLDataProperty) object;
-						axiom = factory.getOWLSubDataPropertyOfAxiom(p, p);
+						axiom = _factory.getOWLSubDataPropertyOfAxiom(p, p);
 					}
 					else
 						if (object instanceof OWLIndividual)
 						{
 							final OWLIndividual ind = (OWLIndividual) object;
-							axiom = factory.getOWLClassAssertionAxiom(factory.getOWLThing(), ind);
+							axiom = _factory.getOWLClassAssertionAxiom(_factory.getOWLThing(), ind);
 						}
 			if (axiom != null)
-				axiom.accept(atermConverter);
+				axiom.accept(_atermConverter);
 
-			final OWLObject converted = owlapiConverter.convert(aterm);
+			final OWLObject converted = _owlapiConverter.convert(aterm);
 
 			assertEquals(object, converted);
 		}
@@ -153,39 +153,39 @@ public class OWLAPIObjectConversionTests
 	@Test
 	public void testClass()
 	{
-		testConversion(c1);
+		testConversion(_c1);
 	}
 
 	@Test
 	public void testIntersectionOf()
 	{
-		testConversion(factory.getOWLObjectIntersectionOf(SetUtils.create(c1, c2)));
+		testConversion(_factory.getOWLObjectIntersectionOf(SetUtils.create(_c1, _c2)));
 	}
 
 	@Test
 	public void testUnionOf()
 	{
-		testConversion(factory.getOWLObjectUnionOf(SetUtils.create(c1, c2)));
+		testConversion(_factory.getOWLObjectUnionOf(SetUtils.create(_c1, _c2)));
 	}
 
 	@Test
 	public void testComplementOf()
 	{
-		testConversion(factory.getOWLObjectComplementOf(c1));
+		testConversion(_factory.getOWLObjectComplementOf(_c1));
 	}
 
 	@Test
 	public void testObjectSomeValuesFrom()
 	{
-		testConversion(factory.getOWLObjectSomeValuesFrom(op1, c1));
-		testConversion(factory.getOWLObjectSomeValuesFrom(op1.getInverseProperty(), c1));
+		testConversion(_factory.getOWLObjectSomeValuesFrom(_op1, _c1));
+		testConversion(_factory.getOWLObjectSomeValuesFrom(_op1.getInverseProperty(), _c1));
 	}
 
 	@Test
 	public void testObjectAllValuesFrom()
 	{
-		testConversion(factory.getOWLObjectAllValuesFrom(op1, c1));
-		testConversion(factory.getOWLObjectAllValuesFrom(op1.getInverseProperty(), c1));
+		testConversion(_factory.getOWLObjectAllValuesFrom(_op1, _c1));
+		testConversion(_factory.getOWLObjectAllValuesFrom(_op1.getInverseProperty(), _c1));
 	}
 
 	/**
@@ -193,102 +193,102 @@ public class OWLAPIObjectConversionTests
 	 */
 	public void testObjectValueRestriction()
 	{
-		testConversion(factory.getOWLObjectHasValue(op1, ind1));
-		testConversion(factory.getOWLObjectHasValue(op1.getInverseProperty(), ind1));
+		testConversion(_factory.getOWLObjectHasValue(_op1, _ind1));
+		testConversion(_factory.getOWLObjectHasValue(_op1.getInverseProperty(), _ind1));
 	}
 
 	@Test
 	public void testObjectMinCardinality()
 	{
-		testConversion(factory.getOWLObjectMinCardinality(1, op1));
-		testConversion(factory.getOWLObjectMinCardinality(1, op1, c1));
-		testConversion(factory.getOWLObjectMinCardinality(1, op1.getInverseProperty(), c1));
+		testConversion(_factory.getOWLObjectMinCardinality(1, _op1));
+		testConversion(_factory.getOWLObjectMinCardinality(1, _op1, _c1));
+		testConversion(_factory.getOWLObjectMinCardinality(1, _op1.getInverseProperty(), _c1));
 	}
 
 	@Test
 	public void testObjectExactCardinality()
 	{
-		testConversion(factory.getOWLObjectExactCardinality(1, op1));
-		testConversion(factory.getOWLObjectExactCardinality(1, op1, c1));
-		testConversion(factory.getOWLObjectExactCardinality(1, op1.getInverseProperty(), c1));
+		testConversion(_factory.getOWLObjectExactCardinality(1, _op1));
+		testConversion(_factory.getOWLObjectExactCardinality(1, _op1, _c1));
+		testConversion(_factory.getOWLObjectExactCardinality(1, _op1.getInverseProperty(), _c1));
 	}
 
 	@Test
 	public void testObjectMaxCardinality()
 	{
-		testConversion(factory.getOWLObjectMaxCardinality(1, op1));
-		testConversion(factory.getOWLObjectMaxCardinality(1, op1, c1));
-		testConversion(factory.getOWLObjectMaxCardinality(1, op1.getInverseProperty(), c1));
+		testConversion(_factory.getOWLObjectMaxCardinality(1, _op1));
+		testConversion(_factory.getOWLObjectMaxCardinality(1, _op1, _c1));
+		testConversion(_factory.getOWLObjectMaxCardinality(1, _op1.getInverseProperty(), _c1));
 	}
 
 	@Test
 	public void testSelfRestriction()
 	{
-		testConversion(factory.getOWLObjectHasSelf(op1));
-		testConversion(factory.getOWLObjectHasSelf(op1.getInverseProperty()));
+		testConversion(_factory.getOWLObjectHasSelf(_op1));
+		testConversion(_factory.getOWLObjectHasSelf(_op1.getInverseProperty()));
 	}
 
 	@Test
 	public void testObjectOneOf()
 	{
-		testConversion(factory.getOWLObjectOneOf(SetUtils.create(ind1, ind2)));
+		testConversion(_factory.getOWLObjectOneOf(SetUtils.create(_ind1, _ind2)));
 	}
 
 	@Test
 	public void testDataSomeValuesFrom()
 	{
-		testConversion(factory.getOWLDataSomeValuesFrom(dp1, d1));
+		testConversion(_factory.getOWLDataSomeValuesFrom(_dp1, _d1));
 	}
 
 	@Test
 	public void testDataAllValuesFrom()
 	{
-		testConversion(factory.getOWLDataAllValuesFrom(dp1, d1));
+		testConversion(_factory.getOWLDataAllValuesFrom(_dp1, _d1));
 	}
 
 	@Test
 	public void testDataValueRestriction()
 	{
-		testConversion(factory.getOWLDataHasValue(dp1, uc1));
-		testConversion(factory.getOWLDataHasValue(dp1, uc2));
-		testConversion(factory.getOWLDataHasValue(dp1, tc1));
-		testConversion(factory.getOWLDataHasValue(dp1, tc2));
+		testConversion(_factory.getOWLDataHasValue(_dp1, _uc1));
+		testConversion(_factory.getOWLDataHasValue(_dp1, _uc2));
+		testConversion(_factory.getOWLDataHasValue(_dp1, _tc1));
+		testConversion(_factory.getOWLDataHasValue(_dp1, _tc2));
 	}
 
 	@Test
 	public void testDataMinCardinality()
 	{
-		testConversion(factory.getOWLDataMinCardinality(1, dp1, d1));
+		testConversion(_factory.getOWLDataMinCardinality(1, _dp1, _d1));
 	}
 
 	@Test
 	public void testDataExactCardinality()
 	{
-		testConversion(factory.getOWLDataExactCardinality(1, dp1, d1));
+		testConversion(_factory.getOWLDataExactCardinality(1, _dp1, _d1));
 	}
 
 	@Test
 	public void testDataMaxCardinality()
 	{
-		testConversion(factory.getOWLDataMaxCardinality(1, dp1, d1));
+		testConversion(_factory.getOWLDataMaxCardinality(1, _dp1, _d1));
 	}
 
 	@Test
 	public void testDataType()
 	{
-		testConversion(d1);
+		testConversion(_d1);
 	}
 
 	@Test
 	public void testDataComplementOf()
 	{
-		testConversion(factory.getOWLDataComplementOf(d1));
+		testConversion(_factory.getOWLDataComplementOf(_d1));
 	}
 
 	@Test
 	public void testDataOneOf()
 	{
-		testConversion(factory.getOWLDataOneOf(SetUtils.create(uc1, uc2, tc1, tc2)));
+		testConversion(_factory.getOWLDataOneOf(SetUtils.create(_uc1, _uc2, _tc1, _tc2)));
 	}
 
 	@Ignore
@@ -300,44 +300,44 @@ public class OWLAPIObjectConversionTests
 	@Test
 	public void testTypedConstant()
 	{
-		testConversion(tc1);
-		testConversion(tc2);
+		testConversion(_tc1);
+		testConversion(_tc2);
 	}
 
 	@Test
 	public void testUntypedConstant()
 	{
-		testConversion(uc1);
-		testConversion(uc2);
+		testConversion(_uc1);
+		testConversion(_uc2);
 	}
 
 	@Test
 	public void testObjectProperty()
 	{
-		testConversion(op1);
+		testConversion(_op1);
 	}
 
 	@Test
 	public void testObjectPropertyInverse()
 	{
-		testConversion(op1.getInverseProperty());
+		testConversion(_op1.getInverseProperty());
 	}
 
 	@Test
 	public void testDataProperty()
 	{
-		testConversion(dp1);
+		testConversion(_dp1);
 	}
 
 	@Test
 	public void testIndividual()
 	{
-		testConversion(ind1);
+		testConversion(_ind1);
 	}
 
 	@Test
 	public void testAnonymousIndividual()
 	{
-		testConversion(ind3);
+		testConversion(_ind3);
 	}
 }

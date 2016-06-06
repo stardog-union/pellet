@@ -54,6 +54,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 import junit.framework.JUnit4TestAdapter;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -79,8 +80,10 @@ import org.semanticweb.owlapi.model.SWRLVariable;
 public class MiscRuleTests extends AbstractKBTests
 {
 
-	public final static String base = "file:" + PelletTestSuite.base + "swrl-test/misc/";
-	private static final IRI luigiFamily = IRI.create("http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily");
+	public final static String _base = "file:" + PelletTestSuite.base + "swrl-test/misc/";
+
+	@Deprecated
+	private static final IRI _luigiFamily = IRI.create("http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily");
 
 	public static junit.framework.Test suite()
 	{
@@ -387,7 +390,7 @@ public class MiscRuleTests extends AbstractKBTests
 	}
 
 	@Test
-	public void testRuleIndividuals() throws Exception
+	public void testRuleIndividuals()
 	{
 		final ATermAppl c = term("C"), d = term("D"), i = term("i");
 
@@ -426,15 +429,15 @@ public class MiscRuleTests extends AbstractKBTests
 		assertTrue(_kb.isDifferentFrom(i, j));
 	}
 
-	public void testLuigiFamilyJena() throws Exception
+	public void testLuigiFamilyJena()
 	{
 		final OntModel ontModel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
-		ontModel.read(base + "basicFamilyReference.owl");
-		ontModel.read(base + "basicFamilyRules.owl");
+		ontModel.read(_base + "basicFamilyReference.owl");
+		ontModel.read(_base + "basicFamilyRules.owl");
 
-		final Resource nella = ontModel.createResource(luigiFamily.resolve("#Nella").toString());
-		final Property hasUncle = ontModel.createProperty(luigiFamily.resolve("#hasUncle").toString());
-		final Resource dino = ontModel.createResource(luigiFamily.resolve("#Dino").toString());
+		final Resource nella = ontModel.createResource(_luigiFamily.resolve("#Nella").toString());
+		final Property hasUncle = ontModel.createProperty(_luigiFamily.resolve("#hasUncle").toString());
+		final Resource dino = ontModel.createResource(_luigiFamily.resolve("#Dino").toString());
 		assertFalse(ontModel.contains(nella, hasUncle, dino));
 
 	}
@@ -443,20 +446,16 @@ public class MiscRuleTests extends AbstractKBTests
 	{
 
 		final OWLOntologyManager manager = OWL.manager;
-		final OWLOntology familyRef = manager.loadOntology(IRI.create(base + "basicFamilyReference.owl"));
-		final OWLOntology familyRules = manager.loadOntology(IRI.create(base + "basicFamilyRules.owl"));
+		final OWLOntology familyRef = manager.loadOntology(IRI.create(_base + "basicFamilyReference.owl"));
+		final OWLOntology familyRules = manager.loadOntology(IRI.create(_base + "basicFamilyRules.owl"));
 
-		final Set<OWLAxiom> axioms = new HashSet<>();
-		axioms.addAll(familyRef.getAxioms());
-		axioms.addAll(familyRules.getAxioms());
-
-		final OWLOntology mergedOntology = OWL.Ontology(axioms);
+		final OWLOntology mergedOntology = OWL.Ontology(Stream.concat(familyRef.axioms(), familyRules.axioms()));
 
 		final PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance().createReasoner(mergedOntology);
 
-		final OWLIndividual nella = OWL.Individual(luigiFamily.resolve("#Nella"));
-		final OWLObjectProperty hasUncle = OWL.ObjectProperty(luigiFamily.resolve("#hasUncle"));
-		final OWLIndividual dino = OWL.Individual(luigiFamily.resolve("#Dino"));
+		final OWLIndividual nella = OWL.Individual(_luigiFamily.resolve("#Nella"));
+		final OWLObjectProperty hasUncle = OWL.ObjectProperty(_luigiFamily.resolve("#hasUncle"));
+		final OWLIndividual dino = OWL.Individual(_luigiFamily.resolve("#Dino"));
 
 		assertFalse(reasoner.isEntailed(OWL.propertyAssertion(nella, hasUncle, dino)));
 
@@ -1015,10 +1014,10 @@ public class MiscRuleTests extends AbstractKBTests
 	}
 
 	@Test
-	public void testDifferentFromInBody() throws Exception
+	public void testDifferentFromInBody()
 	{
 		final OntModel ontModel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
-		ontModel.read(base + "sibling-rule.n3", "TTL");
+		ontModel.read(_base + "sibling-rule.n3", "TTL");
 
 		final Resource alice = ontModel.createResource("family:alice");
 		final Property sibling = ontModel.createProperty("family:sibling");

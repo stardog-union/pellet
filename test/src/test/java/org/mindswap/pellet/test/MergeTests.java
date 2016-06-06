@@ -22,7 +22,7 @@ import org.junit.Test;
 
 public class MergeTests extends AbstractKBTests
 {
-	public static String base = "file:" + PelletTestSuite.base + "misc/";
+	public static String _base = "file:" + PelletTestSuite.base + "misc/";
 
 	public static junit.framework.Test suite()
 	{

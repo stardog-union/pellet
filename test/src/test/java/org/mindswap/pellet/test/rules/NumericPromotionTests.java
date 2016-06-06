@@ -35,7 +35,7 @@ import org.junit.Test;
 public class NumericPromotionTests
 {
 
-	private NumericPromotion promoter;
+	private NumericPromotion _promoter;
 
 	public static junit.framework.Test suite()
 	{
@@ -45,21 +45,21 @@ public class NumericPromotionTests
 	private static class EqualityAssertion implements NumericVisitor
 	{
 
-		private final Number[] charge;
+		private final Number[] _charge;
 
 		public EqualityAssertion(final Number[] charge)
 		{
-			this.charge = charge;
+			this._charge = charge;
 		}
 
 		private void test(final Number[] args)
 		{
-			assertEquals("Promoted results have wrong number of arguments", charge.length, args.length);
+			assertEquals("Promoted results have wrong number of arguments", _charge.length, args.length);
 
-			for (int i = 0; i < charge.length; i++)
+			for (int i = 0; i < _charge.length; i++)
 			{
-				assertEquals("Promoted results have wrong class", charge[i].getClass(), args[i].getClass());
-				assertEquals("Promoted results differ in position " + i, charge[i], args[i]);
+				assertEquals("Promoted results have wrong class", _charge[i].getClass(), args[i].getClass());
+				assertEquals("Promoted results differ in position " + i, _charge[i], args[i]);
 			}
 		}
 
@@ -97,8 +97,7 @@ public class NumericPromotionTests
 	@Before
 	public void setUp()
 	{
-		promoter = new NumericPromotion();
-
+		_promoter = new NumericPromotion();
 	}
 
 	@Test
@@ -109,11 +108,11 @@ public class NumericPromotionTests
 		final BigInteger bb = new BigInteger("" + b);
 		final BigInteger bs = new BigInteger("" + s);
 
-		promoter.promote(b, s);
-		promotionTester(promoter, bb, bs);
+		_promoter.promote(b, s);
+		promotionTester(_promoter, bb, bs);
 
-		promoter.promote(s, b);
-		promotionTester(promoter, bs, bb);
+		_promoter.promote(s, b);
+		promotionTester(_promoter, bs, bb);
 	}
 
 	@Test
@@ -123,11 +122,11 @@ public class NumericPromotionTests
 		final BigInteger big = new BigInteger("99999999999999999999999999999999999");
 		final BigInteger bigl = new BigInteger((new Long(l)).toString());
 
-		promoter.promote(l, big);
-		promotionTester(promoter, bigl, big);
+		_promoter.promote(l, big);
+		promotionTester(_promoter, bigl, big);
 
-		promoter.promote(big, l);
-		promotionTester(promoter, big, bigl);
+		_promoter.promote(big, l);
+		promotionTester(_promoter, big, bigl);
 	}
 
 	@Test
@@ -136,11 +135,11 @@ public class NumericPromotionTests
 		final double pi = Math.PI;
 		final BigDecimal pidec = new BigDecimal(pi).multiply(new BigDecimal(pi));
 
-		promoter.promote(pidec, pi);
-		promotionTester(promoter, pidec.doubleValue(), pi);
+		_promoter.promote(pidec, pi);
+		promotionTester(_promoter, pidec.doubleValue(), pi);
 
-		promoter.promote(pi, pidec);
-		promotionTester(promoter, pi, pidec.doubleValue());
+		_promoter.promote(pi, pidec);
+		promotionTester(_promoter, pi, pidec.doubleValue());
 	}
 
 	@Test
@@ -150,11 +149,11 @@ public class NumericPromotionTests
 		final float fl = 9876543210.0123456789f;
 		final float bigf = big.floatValue();
 
-		promoter.promote(big, fl);
-		promotionTester(promoter, bigf, fl);
+		_promoter.promote(big, fl);
+		promotionTester(_promoter, bigf, fl);
 
-		promoter.promote(fl, big);
-		promotionTester(promoter, fl, bigf);
+		_promoter.promote(fl, big);
+		promotionTester(_promoter, fl, bigf);
 	}
 
 }

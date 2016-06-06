@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
-import org.semanticweb.owlapi.model.OWLOntology;
 import pellet.PelletClassify;
 import pellet.PelletCmdApp;
 import pellet.PelletConsistency;
@@ -32,8 +31,7 @@ public class CLITests
 
 		public void run(final String... args)
 		{
-			for (final OWLOntology ont : OWL.manager.getOntologies())
-				OWL.manager.removeOntology(ont);
+			OWL.manager.ontologies().forEach(OWL.manager::removeOntology);
 			final PelletCmdApp app = create();
 			app.parseArgs(prepend(args, app.getAppCmd()));
 			app.run();
@@ -210,13 +208,13 @@ public class CLITests
 				return new PelletInfo();
 			}
 		},//
-		fileIRI("test/data/modularity/koala.owl"),//
-		fileIRI("test/data/modularity/galen.owl"),//
-		fileIRI("test/data/modularity/miniTambis.owl"),//
-		fileIRI("test/data/modularity/SUMO.owl"),//
-		fileIRI("test/data/modularity/SWEET.owl"),//
-		fileIRI("test/data/modularity/wine.owl")//
-		);
+				fileIRI("test/data/modularity/koala.owl"),//
+				fileIRI("test/data/modularity/galen.owl"),//
+				fileIRI("test/data/modularity/miniTambis.owl"),//
+				fileIRI("test/data/modularity/SUMO.owl"),//
+				fileIRI("test/data/modularity/SWEET.owl"),//
+				fileIRI("test/data/modularity/wine.owl")//
+				);
 	}
 
 	@Test

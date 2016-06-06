@@ -21,9 +21,9 @@ import org.mindswap.pellet.utils.AlphaNumericComparator;
 @RunWith(Parameterized.class)
 public class LiebigTestSuite
 {
-	public static String base = PelletTestSuite.base + "liebig-tests/";
+	public static String _base = PelletTestSuite.base + "liebig-tests/";
 
-	private static List TIMEOUTS = Arrays.asList(new String[] { "Manifest1b.rdf", "Manifest2b.rdf", "Manifest10a.rdf" });
+	private static List<String> TIMEOUTS = Arrays.asList(new String[] { "Manifest1b.rdf", "Manifest2b.rdf", "Manifest10a.rdf" });
 
 	@Parameters
 	public static List<Object[]> getParameters()
@@ -32,10 +32,10 @@ public class LiebigTestSuite
 
 		final WebOntTest test = new WebOntTest();
 		test.setAvoidFailTests(true);
-		test.setBase("http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/", "file:" + base);
+		test.setBase("http://www.informatik.uni-ulm.de/ki/Liebig/reasoner-eval/", "file:" + _base);
 		test.setShowStats(WebOntTest.NO_STATS);
 
-		final File testDir = new File(base);
+		final File testDir = new File(_base);
 
 		final File[] files = testDir.listFiles((FileFilter) file -> file.getName().indexOf("Manifest") != -1);
 
@@ -48,17 +48,17 @@ public class LiebigTestSuite
 		return parameters;
 	}
 
-	private final WebOntTestCase test;
+	private final WebOntTestCase _test;
 
 	public LiebigTestSuite(final WebOntTestCase test)
 	{
-		this.test = test;
+		this._test = test;
 	}
 
 	@Test
 	public void run() throws IOException
 	{
-		test.runTest();
+		_test.runTest();
 	}
 
 }

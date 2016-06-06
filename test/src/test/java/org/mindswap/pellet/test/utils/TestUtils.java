@@ -20,14 +20,7 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class TestUtils
 {
 
-	static Random rand;
-
-	static
-	{
-		//		get random number generator
-		rand = new Random(System.currentTimeMillis());
-
-	}
+	static Random _rand = new Random(System.currentTimeMillis());
 
 	/**
 	 * @param args
@@ -36,7 +29,7 @@ public class TestUtils
 	{
 
 		//get all classes
-		final Set types = ind.getTypes();
+		final Set<?> types = ind.getTypes();
 		ATermAppl clazz = null;
 		final int MAX = 20;
 		int count = 0;
@@ -44,10 +37,10 @@ public class TestUtils
 		{
 			count++;
 			//get _index for concept
-			final int index = rand.nextInt(types.size());
+			final int index = _rand.nextInt(types.size());
 
 			//get the concept
-			for (final Iterator it = types.iterator(); it.hasNext();)
+			for (final Iterator<?> it = types.iterator(); it.hasNext();)
 				clazz = (ATermAppl) it.next();
 		} while (((clazz == ATermUtils.TOP) || (clazz == ATermUtils.BOTTOM)) && count < MAX);
 
@@ -61,14 +54,14 @@ public class TestUtils
 	{
 
 		//get all classes
-		final List classes = new ArrayList(kb.getTBox().getAllClasses());
+		final List<?> classes = new ArrayList<Object>(kb.getTBox().getAllClasses());
 		ATermAppl clazz = null;
 
 		do
 		{
 
 			//get _index for concept
-			final int index = rand.nextInt(classes.size());
+			final int index = _rand.nextInt(classes.size());
 
 			clazz = (ATermAppl) classes.get(index);
 		} while ((clazz == ATermUtils.TOP) || (clazz == ATermUtils.BOTTOM));
@@ -83,13 +76,13 @@ public class TestUtils
 	{
 
 		//get all classes
-		final List roles = new ArrayList(kb.getRBox().getRoles());
+		final List<?> roles = new ArrayList<Object>(kb.getRBox().getRoles());
 		Role role = null;
 		do
 		{
 
 			//get _index for concept
-			final int index = rand.nextInt(roles.size());
+			final int index = _rand.nextInt(roles.size());
 
 			role = (Role) roles.get(index);
 
@@ -105,10 +98,10 @@ public class TestUtils
 	{
 
 		//get all ind
-		final List inds = new ArrayList(kb.getIndividuals());
+		final List<?> inds = new ArrayList<Object>(kb.getIndividuals());
 
 		//get _index for concept
-		final int index = rand.nextInt(inds.size());
+		final int index = _rand.nextInt(inds.size());
 
 		return (ATermAppl) inds.get(index);
 

@@ -26,27 +26,27 @@ import org.mindswap.pellet.jena.graph.loader.GraphLoader;
 
 public class JenaWebOntTester implements WebOntTester
 {
-	private OntModel model;
-	private final LocationMapper mapper;
+	private OntModel _model;
+	private final LocationMapper _mapper;
 
 	public JenaWebOntTester()
 	{
-		mapper = new LocationMapper();
+		_mapper = new LocationMapper();
 		final FileManager manager = OntDocumentManager.getInstance().getFileManager();
-		manager.setLocationMapper(mapper);
+		manager.setLocationMapper(_mapper);
 		manager.addLocator(new LocatorFile(null));
 	}
 
 	@Override
 	public void classify()
 	{
-		((PelletInfGraph) model.getGraph()).getKB().realize();
+		((PelletInfGraph) _model.getGraph()).getKB().realize();
 	}
 
 	@Override
 	public boolean isConsistent()
 	{
-		return ((PelletInfGraph) model.getGraph()).getKB().isConsistent();
+		return ((PelletInfGraph) _model.getGraph()).getKB().isConsistent();
 	}
 
 	@Override
@@ -56,15 +56,15 @@ public class JenaWebOntTester implements WebOntTester
 		entailments.read(entailmentFileURI, entailmentFileURI, fileType(entailmentFileURI));
 
 		final Graph entailmentsGraph = entailments.getGraph();
-		final PelletInfGraph pellet = (PelletInfGraph) model.getGraph();
+		final PelletInfGraph pellet = (PelletInfGraph) _model.getGraph();
 
 		final GraphLoader savedLoader = pellet.attachTemporaryGraph(entailmentsGraph);
 
-		final ExtendedIterator i = entailmentsGraph.find(Triple.ANY);
+		final ExtendedIterator<Triple> i = entailmentsGraph.find(Triple.ANY);
 
 		while (i.hasNext())
 		{
-			final Triple triple = (Triple) i.next();
+			final Triple triple = i.next();
 			if (!pellet.entails(triple))
 			{
 				assertFalse("Entailment failed for " + triple, positiveEntailment);
@@ -80,21 +80,21 @@ public class JenaWebOntTester implements WebOntTester
 	@Override
 	public void setInputOntology(final String inputFileURI)
 	{
-		model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(inputFileURI, inputFileURI, fileType(inputFileURI));
-		model.prepare();
+		_model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		_model.read(inputFileURI, inputFileURI, fileType(inputFileURI));
+		_model.prepare();
 	}
 
 	@Override
 	public void setTimeout(final long timeout)
 	{
-		((PelletInfGraph) model.getGraph()).getKB().setTimeout(timeout);
+		((PelletInfGraph) _model.getGraph()).getKB().setTimeout(timeout);
 	}
 
 	@Override
 	public void registerURIMapping(final String fromURI, final String toURI)
 	{
-		mapper.addAltEntry(fromURI, toURI);
+		_mapper.addAltEntry(fromURI, toURI);
 	}
 
 	private String fileType(final String fileURI)

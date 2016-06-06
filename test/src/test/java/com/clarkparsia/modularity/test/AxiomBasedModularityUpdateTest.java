@@ -27,7 +27,6 @@ import com.clarkparsia.modularity.ModuleExtractor;
  */
 public class AxiomBasedModularityUpdateTest extends ModularityUpdateTest
 {
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -36,5 +35,4 @@ public class AxiomBasedModularityUpdateTest extends ModularityUpdateTest
 	{
 		return new AxiomBasedModuleExtractor();
 	}
-
 }

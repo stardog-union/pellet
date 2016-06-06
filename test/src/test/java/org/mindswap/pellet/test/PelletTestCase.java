@@ -37,6 +37,7 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
 public final class PelletTestCase
 {
+	@SafeVarargs
 	public static <T> Set<T> set(final T... elements)
 	{
 		final Set<T> set = new HashSet<>();
@@ -124,6 +125,7 @@ public final class PelletTestCase
 	{
 		final Filter<Statement> predFilter = new Filter<Statement>()
 		{
+			@Deprecated
 			@Override
 			public boolean accept(final Statement stmt)
 			{

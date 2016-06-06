@@ -39,19 +39,19 @@ import org.mindswap.pellet.utils.Comparators;
 public class ATermTests
 {
 	// Constants to be used as concepts
-	public static ATermAppl a = term("a");
-	public static ATermAppl b = term("b");
-	public static ATermAppl c = term("c");
-	public static ATermAppl d = term("d");
+	public static ATermAppl _a = term("a");
+	public static ATermAppl _b = term("b");
+	public static ATermAppl _c = term("c");
+	public static ATermAppl _d = term("d");
 
 	// Constants to be used as roles
-	public static ATermAppl p = term("p");
-	public static ATermAppl q = term("q");
-	public static ATermAppl r = term("r");
+	public static ATermAppl _p = term("p");
+	public static ATermAppl _q = term("q");
+	public static ATermAppl _r = term("r");
 
-	public static ATermAppl d1 = restrict(Datatypes.INTEGER, minInclusive(literal(1)));
-	public static ATermAppl d2 = restrict(Datatypes.INTEGER, maxExclusive(literal(2)));
-	public static ATermAppl d3 = Datatypes.INTEGER;
+	public static ATermAppl _d1 = restrict(Datatypes.INTEGER, minInclusive(literal(1)));
+	public static ATermAppl _d2 = restrict(Datatypes.INTEGER, maxExclusive(literal(2)));
+	public static ATermAppl _d3 = Datatypes.INTEGER;
 
 	public static junit.framework.Test suite()
 	{
@@ -80,18 +80,18 @@ public class ATermTests
 	@Test
 	public void testNNF()
 	{
-		testNNF(not(some(p, c)), all(p, not(c)));
-		testNNF(not(all(p, c)), some(p, not(c)));
+		testNNF(not(some(_p, _c)), all(_p, not(_c)));
+		testNNF(not(all(_p, _c)), some(_p, not(_c)));
 
-		testNNF(not(min(p, 1, c)), max(p, 0, c));
+		testNNF(not(min(_p, 1, _c)), max(_p, 0, _c));
 
-		testNNF(not(max(p, 0, c)), min(p, 1, c));
-		testNNF(not(max(p, 1, not(some(p, c)))), min(p, 2, all(p, not(c))));
+		testNNF(not(max(_p, 0, _c)), min(_p, 1, _c));
+		testNNF(not(max(_p, 1, not(some(_p, _c)))), min(_p, 2, all(_p, not(_c))));
 
-		testNNF(and(d1, d2, d3), and(d1, d2, d3));
-		testNNF(not(and(d1, d2, d3)), or(not(d1), not(d2), not(d3)));
-		testNNF(some(p, and(d1, d3)), some(p, and(d1, d3)));
-		testNNF(not(some(p, and(d1, d3))), all(p, or(not(d1), not(d3))));
+		testNNF(and(_d1, _d2, _d3), and(_d1, _d2, _d3));
+		testNNF(not(and(_d1, _d2, _d3)), or(not(_d1), not(_d2), not(_d3)));
+		testNNF(some(_p, and(_d1, _d3)), some(_p, and(_d1, _d3)));
+		testNNF(not(some(_p, and(_d1, _d3))), all(_p, or(not(_d1), not(_d3))));
 	}
 
 	private void testNNF(final ATermAppl c, final ATermAppl expected)
@@ -102,27 +102,27 @@ public class ATermTests
 	@Test
 	public void testNormalize()
 	{
-		testNormalize(some(p, not(c)), not(all(p, c)));
+		testNormalize(some(_p, not(_c)), not(all(_p, _c)));
 
-		testNormalize(all(p, not(c)), all(p, not(c)));
-		testNormalize(all(p, some(q, c)), all(p, not(all(q, not(c)))));
+		testNormalize(all(_p, not(_c)), all(_p, not(_c)));
+		testNormalize(all(_p, some(_q, _c)), all(_p, not(all(_q, not(_c)))));
 
-		testNormalize(min(p, 1, not(not(c))), min(p, 1, c));
-		testNormalize(min(p, 1, some(p, c)), min(p, 1, not(all(p, not(c)))));
-		testNormalize(min(p, 0, c), ATermUtils.TOP);
-		testNormalize(min(p, 1, ATermUtils.BOTTOM), ATermUtils.BOTTOM);
+		testNormalize(min(_p, 1, not(not(_c))), min(_p, 1, _c));
+		testNormalize(min(_p, 1, some(_p, _c)), min(_p, 1, not(all(_p, not(_c)))));
+		testNormalize(min(_p, 0, _c), ATermUtils.TOP);
+		testNormalize(min(_p, 1, ATermUtils.BOTTOM), ATermUtils.BOTTOM);
 
-		testNormalize(max(p, 0, c), not(min(p, 1, c)));
-		testNormalize(max(p, 1, c), not(min(p, 2, c)));
-		testNormalize(max(p, 1, not(some(p, not(not(c))))), not(min(p, 2, all(p, not(c)))));
-		testNormalize(max(p, 1, ATermUtils.BOTTOM), ATermUtils.TOP);
+		testNormalize(max(_p, 0, _c), not(min(_p, 1, _c)));
+		testNormalize(max(_p, 1, _c), not(min(_p, 2, _c)));
+		testNormalize(max(_p, 1, not(some(_p, not(not(_c))))), not(min(_p, 2, all(_p, not(_c)))));
+		testNormalize(max(_p, 1, ATermUtils.BOTTOM), ATermUtils.TOP);
 
-		testNormalize(some(p, not(value(a))), not(all(p, value(a))));
+		testNormalize(some(_p, not(value(_a))), not(all(_p, value(_a))));
 
-		testNormalize(some(p, not(d1)), not(all(p, d1)));
+		testNormalize(some(_p, not(_d1)), not(all(_p, _d1)));
 
-		testNormalize(all(p, not(d1)), all(p, not(d1)));
-		testNormalize(all(p, some(q, d1)), all(p, not(all(q, not(d1)))));
+		testNormalize(all(_p, not(_d1)), all(_p, not(_d1)));
+		testNormalize(all(_p, some(_q, _d1)), all(_p, not(all(_q, not(_d1)))));
 	}
 
 	private void testNormalize(final ATermAppl c, final ATermAppl expected)
@@ -133,13 +133,13 @@ public class ATermTests
 	@Test
 	public void testDoubleNormalize()
 	{
-		testDoubleNormalize(and(a, b, c, d), and(d, c, a, b));
-		testDoubleNormalize(and(a, b, c, d), and(d, c, a, b, b, d, a, c));
-		testDoubleNormalize(and(a, and(b, c)), and(a, b, c));
+		testDoubleNormalize(and(_a, _b, _c, _d), and(_d, _c, _a, _b));
+		testDoubleNormalize(and(_a, _b, _c, _d), and(_d, _c, _a, _b, _b, _d, _a, _c));
+		testDoubleNormalize(and(_a, and(_b, _c)), and(_a, _b, _c));
 
-		testDoubleNormalize(or(a, b, c, d), or(d, c, a, b));
-		testDoubleNormalize(or(a, b, c, d), or(d, c, a, b, b, d, a, c));
-		testDoubleNormalize(or(a, or(b, c)), or(a, b, c));
+		testDoubleNormalize(or(_a, _b, _c, _d), or(_d, _c, _a, _b));
+		testDoubleNormalize(or(_a, _b, _c, _d), or(_d, _c, _a, _b, _b, _d, _a, _c));
+		testDoubleNormalize(or(_a, or(_b, _c)), or(_a, _b, _c));
 
 	}
 
@@ -151,15 +151,15 @@ public class ATermTests
 	@Test
 	public void testDNF()
 	{
-		testDNF(a, a);
-		testDNF(not(a), not(a));
-		testDNF(and(a, b), and(a, b));
-		testDNF(or(a, b), or(a, b));
-		testDNF(or(a, and(b, c)), or(a, and(b, c)));
-		testDNF(and(a, or(b, c)), or(and(a, b), and(a, c)));
-		testDNF(and(or(a, b), or(b, c)), or(and(a, b), and(a, c), b, and(b, c)));
-		testDNF(and(or(a, b), or(c, d)), or(and(a, c), and(a, d), and(b, c), and(b, d)));
-		testDNF(and(a, or(and(b, c), d)), or(and(a, b, c), and(a, d)));
+		testDNF(_a, _a);
+		testDNF(not(_a), not(_a));
+		testDNF(and(_a, _b), and(_a, _b));
+		testDNF(or(_a, _b), or(_a, _b));
+		testDNF(or(_a, and(_b, _c)), or(_a, and(_b, _c)));
+		testDNF(and(_a, or(_b, _c)), or(and(_a, _b), and(_a, _c)));
+		testDNF(and(or(_a, _b), or(_b, _c)), or(and(_a, _b), and(_a, _c), _b, and(_b, _c)));
+		testDNF(and(or(_a, _b), or(_c, _d)), or(and(_a, _c), and(_a, _d), and(_b, _c), and(_b, _d)));
+		testDNF(and(_a, or(and(_b, _c), _d)), or(and(_a, _b, _c), and(_a, _d)));
 	}
 
 	private void testDNF(final ATermAppl c, final ATermAppl expected)
@@ -187,15 +187,15 @@ public class ATermTests
 	@Test
 	public void testFindPrimitives()
 	{
-		testFindPrimitives(some(p, not(c)), new ATermAppl[] { c });
+		testFindPrimitives(some(_p, not(_c)), new ATermAppl[] { _c });
 
-		testFindPrimitives(and(c, b, all(p, a)), new ATermAppl[] { a, b, c });
-		testFindPrimitives(max(p, 1, not(some(p, or(a, b)))), new ATermAppl[] { a, b });
-		testFindPrimitives(min(p, 2, or(a, and(b, not(c)))), new ATermAppl[] { a, b, c });
-		testFindPrimitives(and(some(p, ATermUtils.TOP), all(p, a), and(some(p, value(r)), or(self(p), max(p, 1, b)))), new ATermAppl[] { ATermUtils.TOP, a, b });
-		testFindPrimitives(and(d1, d2, d3), new ATermAppl[] { d3 });
-		testFindPrimitives(not(and(not(d1), d2, d3)), new ATermAppl[] { d3 });
-		testFindPrimitives(some(p, and(d1, d3)), new ATermAppl[] { d3 });
+		testFindPrimitives(and(_c, _b, all(_p, _a)), new ATermAppl[] { _a, _b, _c });
+		testFindPrimitives(max(_p, 1, not(some(_p, or(_a, _b)))), new ATermAppl[] { _a, _b });
+		testFindPrimitives(min(_p, 2, or(_a, and(_b, not(_c)))), new ATermAppl[] { _a, _b, _c });
+		testFindPrimitives(and(some(_p, ATermUtils.TOP), all(_p, _a), and(some(_p, value(_r)), or(self(_p), max(_p, 1, _b)))), new ATermAppl[] { ATermUtils.TOP, _a, _b });
+		testFindPrimitives(and(_d1, _d2, _d3), new ATermAppl[] { _d3 });
+		testFindPrimitives(not(and(not(_d1), _d2, _d3)), new ATermAppl[] { _d3 });
+		testFindPrimitives(some(_p, and(_d1, _d3)), new ATermAppl[] { _d3 });
 	}
 
 	private void testFindPrimitives(final ATermAppl c, final ATermAppl[] expected)

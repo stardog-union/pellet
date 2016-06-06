@@ -38,7 +38,7 @@ public class SWRLClassAtom extends SWRLAbstract
 	@BeforeClass
 	public static void setUp()
 	{
-		base = "file:" + PelletTestSuite.base + "swrl-classAtom/";
+		_base = "file:" + PelletTestSuite.base + "swrl-classAtom/";
 	}
 
 	@Test

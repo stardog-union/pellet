@@ -29,82 +29,82 @@ import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 public abstract class AbstractJenaTests
 {
-	protected static final Resource A = ResourceFactory.createResource("A");
-	protected static final Resource B = ResourceFactory.createResource("B");
-	protected static final Resource C = ResourceFactory.createResource("C");
-	protected static final Resource D = ResourceFactory.createResource("D");
-	protected static final Resource E = ResourceFactory.createResource("E");
+	protected static final Resource _A = ResourceFactory.createResource("A");
+	protected static final Resource _B = ResourceFactory.createResource("B");
+	protected static final Resource _C = ResourceFactory.createResource("C");
+	protected static final Resource _D = ResourceFactory.createResource("D");
+	protected static final Resource _E = ResourceFactory.createResource("E");
 
-	protected static final Resource a = ResourceFactory.createResource("a");
-	protected static final Resource b = ResourceFactory.createResource("b");
-	protected static final Resource c = ResourceFactory.createResource("c");
-	protected static final Resource d = ResourceFactory.createResource("d");
-	protected static final Resource e = ResourceFactory.createResource("e");
+	protected static final Resource _a = ResourceFactory.createResource("a");
+	protected static final Resource _b = ResourceFactory.createResource("b");
+	protected static final Resource _c = ResourceFactory.createResource("c");
+	protected static final Resource _d = ResourceFactory.createResource("d");
+	protected static final Resource _e = ResourceFactory.createResource("e");
 
-	protected OntModel model;
-	protected OntModel reasoner;
+	protected OntModel _model;
+	protected OntModel _reasoner;
 
 	@Before
 	public void before()
 	{
-		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-		reasoner = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, model);
-		reasoner.setStrictMode(false);
+		_model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+		_reasoner = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, _model);
+		_reasoner.setStrictMode(false);
 	}
 
 	@After
 	public void after()
 	{
-		model.close();
+		_model.close();
 	}
 
 	protected void classes(final Resource... classes)
 	{
 		for (final Resource cls : classes)
-			model.add(cls, RDF.type, OWL.Class);
+			_model.add(cls, RDF.type, OWL.Class);
 	}
 
 	protected void objectProperties(final Resource... props)
 	{
 		for (final Resource p : props)
-			model.add(p, RDF.type, OWL.ObjectProperty);
+			_model.add(p, RDF.type, OWL.ObjectProperty);
 	}
 
 	protected void dataProperties(final Resource... props)
 	{
 		for (final Resource p : props)
-			model.add(p, RDF.type, OWL.DatatypeProperty);
+			_model.add(p, RDF.type, OWL.DatatypeProperty);
 	}
 
 	protected void annotationProperties(final Resource... props)
 	{
 		for (final Resource p : props)
-			model.add(p, RDF.type, OWL.AnnotationProperty);
+			_model.add(p, RDF.type, OWL.AnnotationProperty);
 	}
 
 	protected void individuals(final Resource... inds)
 	{
 		for (final Resource ind : inds)
-			model.add(ind, RDF.type, OWL.Thing);
+			_model.add(ind, RDF.type, OWL.Thing);
 	}
 
 	public Resource oneOf(final Resource... terms)
 	{
-		return model.createEnumeratedClass(null, model.createList(terms));
+		return _model.createEnumeratedClass(null, _model.createList(terms));
 	}
 
 	public Resource not(final Resource cls)
 	{
-		return model.createComplementClass(null, cls);
+		return _model.createComplementClass(null, cls);
 	}
 
 	public void assertConsistent()
 	{
-		assertTrue(((PelletInfGraph) reasoner.getGraph()).isConsistent());
+		assertTrue(((PelletInfGraph) _reasoner.getGraph()).isConsistent());
 	}
 
 	public void assertInconsistent()
 	{
-		assertFalse(((PelletInfGraph) reasoner.getGraph()).isConsistent());
+		assertFalse(((PelletInfGraph) _reasoner.getGraph()).isConsistent());
 	}
 }

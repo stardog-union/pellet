@@ -60,35 +60,35 @@ public class OWLAPIAxiomConversionTests
 
 	private static String ns = "urn:test#";
 
-	private static OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+	private static OWLOntologyManager _manager = OWLManager.createOWLOntologyManager();
 
-	private static OWLDataFactory factory = manager.getOWLDataFactory();
+	private static OWLDataFactory _factory = _manager.getOWLDataFactory();
 
-	private static OWLClass c1 = factory.getOWLClass(IRI.create(ns + "c1"));
+	private static OWLClass c1 = _factory.getOWLClass(IRI.create(ns + "c1"));
 
-	private static OWLClass c2 = factory.getOWLClass(IRI.create(ns + "c2"));
+	private static OWLClass c2 = _factory.getOWLClass(IRI.create(ns + "c2"));
 
-	private static OWLClass c3 = factory.getOWLClass(IRI.create(ns + "c3"));
+	private static OWLClass c3 = _factory.getOWLClass(IRI.create(ns + "c3"));
 
-	private static OWLObjectProperty op1 = factory.getOWLObjectProperty(IRI.create(ns + "op1"));
+	private static OWLObjectProperty _op1 = _factory.getOWLObjectProperty(IRI.create(ns + "op1"));
 
-	private static OWLObjectProperty op2 = factory.getOWLObjectProperty(IRI.create(ns + "op2"));
+	private static OWLObjectProperty _op2 = _factory.getOWLObjectProperty(IRI.create(ns + "op2"));
 
-	private static OWLDataProperty dp1 = factory.getOWLDataProperty(IRI.create(ns + "dp1"));
+	private static OWLDataProperty _dp1 = _factory.getOWLDataProperty(IRI.create(ns + "dp1"));
 
-	private static OWLDataProperty dp2 = factory.getOWLDataProperty(IRI.create(ns + "dp2"));
+	private static OWLDataProperty _dp2 = _factory.getOWLDataProperty(IRI.create(ns + "dp2"));
 
-	private static OWLIndividual ind1 = factory.getOWLNamedIndividual(IRI.create(ns + "ind1"));
+	private static OWLIndividual _ind1 = _factory.getOWLNamedIndividual(IRI.create(ns + "ind1"));
 
-	private static OWLIndividual ind2 = factory.getOWLNamedIndividual(IRI.create(ns + "ind2"));
+	private static OWLIndividual _ind2 = _factory.getOWLNamedIndividual(IRI.create(ns + "ind2"));
 
-	private static OWLIndividual ind3 = factory.getOWLNamedIndividual(IRI.create(ns + "ind3"));
+	private static OWLIndividual _ind3 = _factory.getOWLNamedIndividual(IRI.create(ns + "ind3"));
 
-	private static OWLIndividual ind4 = factory.getOWLNamedIndividual(IRI.create(ns + "ind4"));
+	private static OWLIndividual _ind4 = _factory.getOWLNamedIndividual(IRI.create(ns + "ind4"));
 
-	private static OWLLiteral lit1 = factory.getOWLLiteral("lit1", OWL2Datatype.XSD_STRING);
+	private static OWLLiteral _lit1 = _factory.getOWLLiteral("lit1", OWL2Datatype.XSD_STRING);
 
-	private static OWLDatatype d1 = factory.getOWLDatatype(IRI.create(ns + "d1"));
+	private static OWLDatatype _d1 = _factory.getOWLDatatype(IRI.create(ns + "d1"));
 
 	private static boolean DEFAULT_TRACING = PelletOptions.USE_TRACING;
 
@@ -131,45 +131,45 @@ public class OWLAPIAxiomConversionTests
 		finally
 		{
 			if (ont != null)
-				manager.removeOntology(ont);
+				_manager.removeOntology(ont);
 		}
 	}
 
 	@Test
 	public void testSubClassAxiom()
 	{
-		testExplanation(factory.getOWLSubClassOfAxiom(c1, c2));
+		testExplanation(_factory.getOWLSubClassOfAxiom(c1, c2));
 	}
 
 	@Test
 	public void testNegativeObjectPropertyAssertion()
 	{
-		testExplanation(factory.getOWLNegativeObjectPropertyAssertionAxiom(op1, ind1, ind2));
+		testExplanation(_factory.getOWLNegativeObjectPropertyAssertionAxiom(_op1, _ind1, _ind2));
 	}
 
 	@Test
 	public void testAntiSymmetricObjectPropertyAxiom()
 	{
-		testExplanation(factory.getOWLAsymmetricObjectPropertyAxiom(op1));
+		testExplanation(_factory.getOWLAsymmetricObjectPropertyAxiom(_op1));
 	}
 
 	@Test
 	public void testReflexiveObjectPropertyAxiom()
 	{
-		testExplanation(factory.getOWLReflexiveObjectPropertyAxiom(op1));
+		testExplanation(_factory.getOWLReflexiveObjectPropertyAxiom(_op1));
 	}
 
 	@Test
 	public void testDisjointClassesAxiom()
 	{
-		testExplanation(factory.getOWLDisjointClassesAxiom(SetUtils.create(c1, c2)));
-		testExplanation(factory.getOWLDisjointClassesAxiom(SetUtils.create(c1, c2, c3)));
+		testExplanation(_factory.getOWLDisjointClassesAxiom(SetUtils.create(c1, c2)));
+		testExplanation(_factory.getOWLDisjointClassesAxiom(SetUtils.create(c1, c2, c3)));
 	}
 
 	@Test
 	public void testDataPropertyDomainAxiom()
 	{
-		testExplanation(factory.getOWLDataPropertyDomainAxiom(dp1, c1));
+		testExplanation(_factory.getOWLDataPropertyDomainAxiom(_dp1, c1));
 	}
 
 	// Imports cannot be explained
@@ -181,67 +181,68 @@ public class OWLAPIAxiomConversionTests
 	@Test
 	public void testObjectPropertyDomainAxiom()
 	{
-		testExplanation(factory.getOWLObjectPropertyDomainAxiom(op1, c1));
+		testExplanation(_factory.getOWLObjectPropertyDomainAxiom(_op1, c1));
 	}
 
 	@Test
 	public void testEquivalentObjectPropertiesAxiom()
 	{
-		testExplanation(factory.getOWLEquivalentObjectPropertiesAxiom(SetUtils.create(op1, op2)));
+		testExplanation(_factory.getOWLEquivalentObjectPropertiesAxiom(SetUtils.create(_op1, _op2)));
 	}
 
 	@Test
 	public void testNegativeDataPropertyAssertion()
 	{
-		testExplanation(factory.getOWLNegativeDataPropertyAssertionAxiom(dp1, ind1, lit1));
+		testExplanation(_factory.getOWLNegativeDataPropertyAssertionAxiom(_dp1, _ind1, _lit1));
 	}
 
 	@Test
 	public void testDifferentIndividualsAxiom()
 	{
-		testExplanation(factory.getOWLDifferentIndividualsAxiom(SetUtils.create(ind1, ind2)));
-		testExplanation(factory.getOWLDifferentIndividualsAxiom(SetUtils.create(ind1, ind2, ind3)));
+		testExplanation(_factory.getOWLDifferentIndividualsAxiom(SetUtils.create(_ind1, _ind2)));
+		testExplanation(_factory.getOWLDifferentIndividualsAxiom(SetUtils.create(_ind1, _ind2, _ind3)));
 	}
 
 	@Test
 	public void testDisjointDataPropertiesAxiom()
 	{
-		testExplanation(factory.getOWLDisjointDataPropertiesAxiom(SetUtils.create(dp1, dp2)));
+		testExplanation(_factory.getOWLDisjointDataPropertiesAxiom(SetUtils.create(_dp1, _dp2)));
 	}
 
 	@Test
 	public void testDisjointObjectPropertiesAxiom()
 	{
-		testExplanation(factory.getOWLDisjointObjectPropertiesAxiom(SetUtils.create(op1, op2)));
+		testExplanation(_factory.getOWLDisjointObjectPropertiesAxiom(SetUtils.create(_op1, _op2)));
 	}
 
 	@Test
 	public void testObjectPropertyRangeAxiom()
 	{
-		testExplanation(factory.getOWLObjectPropertyRangeAxiom(op1, c1));
+		testExplanation(_factory.getOWLObjectPropertyRangeAxiom(_op1, c1));
 	}
 
 	@Test
 	public void testObjectPropertyAssertionAxiom()
 	{
-		testExplanation(factory.getOWLObjectPropertyAssertionAxiom(op1, ind1, ind2));
+		testExplanation(_factory.getOWLObjectPropertyAssertionAxiom(_op1, _ind1, _ind2));
 	}
 
 	@Test
 	public void testFunctionalObjectPropertyAxiom()
 	{
-		testExplanation(factory.getOWLFunctionalObjectPropertyAxiom(op1));
+		testExplanation(_factory.getOWLFunctionalObjectPropertyAxiom(_op1));
 	}
 
 	@Test
 	public void testObjectSubPropertyAxiom()
 	{
-		testExplanation(factory.getOWLSubObjectPropertyOfAxiom(op1, op2));
+		testExplanation(_factory.getOWLSubObjectPropertyOfAxiom(_op1, _op2));
 	}
 
 	// @Test
 	public void _testDisjointUnionAxiom()
 	{
+		// Nothing to do
 	}
 
 	// Annotations cannot be explained
@@ -256,91 +257,92 @@ public class OWLAPIAxiomConversionTests
 	@Test
 	public void testSymmetricObjectPropertyAxiom()
 	{
-		testExplanation(factory.getOWLSymmetricObjectPropertyAxiom(op1));
+		testExplanation(_factory.getOWLSymmetricObjectPropertyAxiom(_op1));
 	}
 
 	// @Test
 	public void testDataPropertyRangeAxiom()
 	{
-		testExplanation(factory.getOWLDataPropertyRangeAxiom(dp1, d1));
+		testExplanation(_factory.getOWLDataPropertyRangeAxiom(_dp1, _d1));
 	}
 
 	@Test
 	public void testFunctionalDataPropertyAxiom()
 	{
-		testExplanation(factory.getOWLFunctionalDataPropertyAxiom(dp1));
+		testExplanation(_factory.getOWLFunctionalDataPropertyAxiom(_dp1));
 	}
 
 	@Test
 	public void testEquivalentDataPropertiesAxiom()
 	{
-		testExplanation(factory.getOWLEquivalentDataPropertiesAxiom(SetUtils.create(dp1, dp2)));
+		testExplanation(_factory.getOWLEquivalentDataPropertiesAxiom(SetUtils.create(_dp1, _dp2)));
 	}
 
 	@Test
 	public void testClassAssertionAxiom()
 	{
-		testExplanation(factory.getOWLClassAssertionAxiom(c1, ind1));
+		testExplanation(_factory.getOWLClassAssertionAxiom(c1, _ind1));
 	}
 
 	@Test
 	@Ignore
 	public void testClassAssertionAnonymousIndividualAxiom()
 	{
-		testExplanation(factory.getOWLClassAssertionAxiom(c1, ind4));
+		testExplanation(_factory.getOWLClassAssertionAxiom(c1, _ind4));
 	}
 
 	@Test
 	public void testEquivalentClassesAxiom()
 	{
-		testExplanation(factory.getOWLEquivalentClassesAxiom(SetUtils.create(c1, c2)));
+		testExplanation(_factory.getOWLEquivalentClassesAxiom(SetUtils.create(c1, c2)));
 	}
 
 	@Test
 	public void testDataPropertyAssertionAxiom()
 	{
-		testExplanation(factory.getOWLDataPropertyAssertionAxiom(dp1, ind1, lit1));
+		testExplanation(_factory.getOWLDataPropertyAssertionAxiom(_dp1, _ind1, _lit1));
 	}
 
 	@Test
 	public void testTransitiveObjectPropertyAxiom()
 	{
-		testExplanation(factory.getOWLTransitiveObjectPropertyAxiom(op1));
+		testExplanation(_factory.getOWLTransitiveObjectPropertyAxiom(_op1));
 	}
 
 	@Test
 	public void testIrreflexiveObjectProperty()
 	{
-		testExplanation(factory.getOWLIrreflexiveObjectPropertyAxiom(op1));
+		testExplanation(_factory.getOWLIrreflexiveObjectPropertyAxiom(_op1));
 	}
 
 	@Test
 	public void testDataSubPropertyAxiom()
 	{
-		testExplanation(factory.getOWLSubDataPropertyOfAxiom(dp1, dp2));
+		testExplanation(_factory.getOWLSubDataPropertyOfAxiom(_dp1, _dp2));
 	}
 
 	@Test
 	public void testInverseFunctionalObjectPropertyAxiom()
 	{
-		testExplanation(factory.getOWLInverseFunctionalObjectPropertyAxiom(op1));
+		testExplanation(_factory.getOWLInverseFunctionalObjectPropertyAxiom(_op1));
 	}
 
 	@Test
 	public void testSameIndividualsAxiom()
 	{
-		testExplanation(factory.getOWLSameIndividualAxiom(SetUtils.create(ind1, ind2)));
+		testExplanation(_factory.getOWLSameIndividualAxiom(SetUtils.create(_ind1, _ind2)));
 	}
 
 	// @Test
 	public void _testObjectPropertyChainSubPropertyAxiom()
 	{
+		// Nothing to do
 	}
 
 	@Test
 	public void testInverseObjectPropertiesAxiom()
 	{
-		testExplanation(factory.getOWLInverseObjectPropertiesAxiom(op1, op2));
+		testExplanation(_factory.getOWLInverseObjectPropertiesAxiom(_op1, _op2));
 	}
 
 	// Rules cannot be explained

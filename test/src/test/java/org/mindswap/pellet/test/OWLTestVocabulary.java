@@ -32,35 +32,35 @@ import org.apache.jena.vocabulary.OWL;
 
 public class OWLTestVocabulary
 {
-	private static Model model = ModelFactory.createDefaultModel();
-	private static String otest = "http://www.w3.org/2002/03owlt/testOntology#";
-	private static String rtest = "http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#";
+	private static Model _model = ModelFactory.createDefaultModel();
+	private static String _otest = "http://www.w3.org/2002/03owlt/testOntology#";
+	private static String _rtest = "http://www.w3.org/2000/10/rdf-tests/rdfcore/testSchema#";
 
-	public static final Resource NotOwlFeatureTest = ResourceFactory.createResource(otest + "NotOwlFeatureTest");
-	public static final Resource PositiveEntailmentTest = ResourceFactory.createResource(otest + "PositiveEntailmentTest");
-	public static final Resource NegativeEntailmentTest = ResourceFactory.createResource(otest + "NegativeEntailmentTest");
-	public static final Resource TrueTest = ResourceFactory.createResource(otest + "TrueTest");
-	public static final Resource OWLforOWLTest = ResourceFactory.createResource(otest + "OWLforOWLTest");
-	public static final Resource ConsistencyTest = ResourceFactory.createResource(otest + "ConsistencyTest");
-	public static final Resource InconsistencyTest = ResourceFactory.createResource(otest + "InconsistencyTest");
-	public static final Resource ImportEntailmentTest = ResourceFactory.createResource(otest + "ImportEntailmentTest");
-	public static final Resource ImportLevelTest = ResourceFactory.createResource(otest + "ImportLevelTest");
-	public static final Resource DL = ResourceFactory.createResource(otest + "DL");
-	public static final Resource Lite = ResourceFactory.createResource(otest + "Lite");
-	public static final Resource Full = ResourceFactory.createResource(otest + "Full");
-	public static final Resource ClassificationTest = ResourceFactory.createResource(otest + "ClassificationTest");
-	public static final Literal Approved = model.createLiteral("APPROVED", null);
-	public static final Literal Proposed = model.createLiteral("PROPOSED", null);
-	public static final Literal Obsoleted = model.createLiteral("OBSOLETED", null);
-	public static final Literal ExtraCredit = model.createLiteral("EXTRACREDIT", null);
+	public static final Resource NotOwlFeatureTest = ResourceFactory.createResource(_otest + "NotOwlFeatureTest");
+	public static final Resource PositiveEntailmentTest = ResourceFactory.createResource(_otest + "PositiveEntailmentTest");
+	public static final Resource NegativeEntailmentTest = ResourceFactory.createResource(_otest + "NegativeEntailmentTest");
+	public static final Resource TrueTest = ResourceFactory.createResource(_otest + "TrueTest");
+	public static final Resource OWLforOWLTest = ResourceFactory.createResource(_otest + "OWLforOWLTest");
+	public static final Resource ConsistencyTest = ResourceFactory.createResource(_otest + "ConsistencyTest");
+	public static final Resource InconsistencyTest = ResourceFactory.createResource(_otest + "InconsistencyTest");
+	public static final Resource ImportEntailmentTest = ResourceFactory.createResource(_otest + "ImportEntailmentTest");
+	public static final Resource ImportLevelTest = ResourceFactory.createResource(_otest + "ImportLevelTest");
+	public static final Resource DL = ResourceFactory.createResource(_otest + "DL");
+	public static final Resource Lite = ResourceFactory.createResource(_otest + "Lite");
+	public static final Resource Full = ResourceFactory.createResource(_otest + "Full");
+	public static final Resource ClassificationTest = ResourceFactory.createResource(_otest + "ClassificationTest");
+	public static final Literal Approved = _model.createLiteral("APPROVED", null);
+	public static final Literal Proposed = _model.createLiteral("PROPOSED", null);
+	public static final Literal Obsoleted = _model.createLiteral("OBSOLETED", null);
+	public static final Literal ExtraCredit = _model.createLiteral("EXTRACREDIT", null);
 
-	public static final Property level = ResourceFactory.createProperty(otest, "level");
-	public static final Property status = ResourceFactory.createProperty(rtest, "status");
-	public static final Property premiseDocument = ResourceFactory.createProperty(rtest, "premiseDocument");
-	public static final Property conclusionDocument = ResourceFactory.createProperty(rtest, "conclusionDocument");
-	public static final Property inputDocument = ResourceFactory.createProperty(rtest, "inputDocument");
-	public static final Property supportedDatatype = ResourceFactory.createProperty(otest, "supportedDatatype");
-	public static final Property notSupportedDatatype = ResourceFactory.createProperty(otest, "notSupportedDatatype");
+	public static final Property level = ResourceFactory.createProperty(_otest, "level");
+	public static final Property status = ResourceFactory.createProperty(_rtest, "status");
+	public static final Property premiseDocument = ResourceFactory.createProperty(_rtest, "premiseDocument");
+	public static final Property conclusionDocument = ResourceFactory.createProperty(_rtest, "conclusionDocument");
+	public static final Property inputDocument = ResourceFactory.createProperty(_rtest, "inputDocument");
+	public static final Property supportedDatatype = ResourceFactory.createProperty(_otest, "supportedDatatype");
+	public static final Property notSupportedDatatype = ResourceFactory.createProperty(_otest, "notSupportedDatatype");
 
 	public static final Resource OWL_DataRange = ResourceFactory.createResource(OWL.getURI() + "DataRange");
 

@@ -84,7 +84,7 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
 
 public class MiscTests extends AbstractKBTests
 {
-	public static String base = "file:" + PelletTestSuite.base + "misc/";
+	public static String _base = "file:" + PelletTestSuite.base + "misc/";
 
 	public static void main(final String args[])
 	{
@@ -630,9 +630,9 @@ public class MiscTests extends AbstractKBTests
 	}
 
 	/**
-	 * Test for ticket #123 An axiom like A = B or (not B) cause problems in classification process (runtime exception in CD classification). Due to _disjunction
-	 * A is discovered to be a told subsumer of B. A is marked as non-primitive but since marking is done on unfolding map all we see is A = TOP and B is left
-	 * as CD. In phase 1, B is tried to be CD-classified but A is eft for phase 2 thus unclassified at that time causing the exception.
+	 * Test for ticket #123 An axiom like A = B or (not B) cause problems in classification process (runtime exception in CD classification). Due to
+	 * _disjunction A is discovered to be a told subsumer of B. A is marked as non-primitive but since marking is done on unfolding map all we see is A = TOP
+	 * and B is left as CD. In phase 1, B is tried to be CD-classified but A is eft for phase 2 thus unclassified at that time causing the exception.
 	 */
 	@Test
 	public void testTopClass2()
@@ -1379,7 +1379,7 @@ public class MiscTests extends AbstractKBTests
 		final KBLoader[] loaders = { new JenaLoader() };
 		for (final KBLoader loader : loaders)
 		{
-			final KnowledgeBase kb = loader.createKB(base + "invalidTransitivity.owl");
+			final KnowledgeBase kb = loader.createKB(_base + "invalidTransitivity.owl");
 
 			for (final Role r : kb.getRBox().getRoles())
 				if (!ATermUtils.isBuiltinProperty(r.getName()))
@@ -2013,7 +2013,7 @@ public class MiscTests extends AbstractKBTests
 		_kb.addEquivalentClass(_c, _d);
 		_kb.addSubClass(_e, _d);
 
-		final Set<Set<ATermAppl>> result = new HashSet<Set<ATermAppl>>();
+		final Set<Set<ATermAppl>> result = new HashSet<>();
 		result.add(Collections.singleton(ATermUtils.BOTTOM));
 		result.add(Collections.singleton(_e));
 		assertEquals(result, _kb.getSubClasses(_c, false));
@@ -2257,8 +2257,8 @@ public class MiscTests extends AbstractKBTests
 
 			_kb.realize();
 
-			assertEquals(SetUtils.create(_A, _B, TOP), IteratorUtils.toSet(new FlattenningIterator<ATermAppl>(_kb.getSuperClasses(some(_p, TOP)))));
-			assertEquals(SetUtils.create(_A, TOP), IteratorUtils.toSet(new FlattenningIterator<ATermAppl>(_kb.getSuperClasses(some(_q, TOP)))));
+			assertEquals(SetUtils.create(_A, _B, TOP), IteratorUtils.toSet(new FlattenningIterator<>(_kb.getSuperClasses(some(_p, TOP)))));
+			assertEquals(SetUtils.create(_A, TOP), IteratorUtils.toSet(new FlattenningIterator<>(_kb.getSuperClasses(some(_q, TOP)))));
 		}
 		finally
 		{

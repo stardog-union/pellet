@@ -105,7 +105,7 @@ public class DLBenchmarkTest
 		{
 			System.out.print((i + 1) + ") ");
 
-			final List<Comparable> data = new ArrayList<Comparable>();
+			final List<Comparable> data = new ArrayList<>();
 			data.add(files[i]);
 			try
 			{

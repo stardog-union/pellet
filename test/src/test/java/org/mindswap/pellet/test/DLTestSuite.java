@@ -15,20 +15,20 @@ import org.mindswap.pellet.utils.AlphaNumericComparator;
 
 public class DLTestSuite extends TestSuite
 {
-	public static String base = PelletTestSuite.base;
+	public static String _base = PelletTestSuite.base;
 
-	private final DLBenchmarkTest test = new DLBenchmarkTest();
+	private final DLBenchmarkTest _test = new DLBenchmarkTest();
 
 	class DLTestCase extends TestCase
 	{
-		File name;
-		boolean tbox;
+		File _name;
+		boolean _tbox;
 
 		DLTestCase(final File name, final boolean tbox)
 		{
 			super("DLTestCase-" + name.getName());
-			this.name = name;
-			this.tbox = tbox;
+			this._name = name;
+			this._tbox = tbox;
 		}
 
 		@Override
@@ -36,10 +36,10 @@ public class DLTestSuite extends TestSuite
 		{
 			boolean pass = false;
 
-			if (tbox)
-				pass = test.doTBoxTest(name.getAbsolutePath());
+			if (_tbox)
+				pass = _test.doTBoxTest(_name.getAbsolutePath());
 			else
-				pass = test.doABoxTest(name.getAbsolutePath());
+				pass = _test.doABoxTest(_name.getAbsolutePath());
 
 			assertTrue(pass);
 		}
@@ -49,7 +49,7 @@ public class DLTestSuite extends TestSuite
 	{
 		super(DLTestSuite.class.getName());
 
-		final File[] dirs = new File[] { new File(base + "dl-benchmark/tbox"), new File(base + "krss-tests"), };
+		final File[] dirs = new File[] { new File(_base + "dl-benchmark/tbox"), new File(_base + "krss-tests"), };
 
 		for (final File dir : dirs)
 		{

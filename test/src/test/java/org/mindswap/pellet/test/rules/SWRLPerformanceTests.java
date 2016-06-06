@@ -26,7 +26,7 @@ public class SWRLPerformanceTests
 		org.junit.runner.JUnitCore.main("org.mindswap.pellet.test.rules.SWRLPerformanceTests");
 	}
 
-	private final static String base = "file:" + PelletTestSuite.base + "swrl-test/misc/";
+	private final static String _base = "file:" + PelletTestSuite.base + "swrl-test/misc/";
 
 	@Test
 	public void testBasicFamily()
@@ -34,17 +34,13 @@ public class SWRLPerformanceTests
 		final String ns = "http://www.csc.liv.ac.uk/~luigi/ontologies/basicFamily#";
 
 		final OntModel ontModel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
-		ontModel.read(base + "basicFamilyReference.owl");
-		ontModel.read(base + "basicFamilyRules.owl");
+		ontModel.read(_base + "basicFamilyReference.owl");
+		ontModel.read(_base + "basicFamilyRules.owl");
 		ontModel.prepare();
 
 		final Property uncle = ontModel.getProperty(ns + "hasUncle");
-		int i = 0;
 		for (final Resource ind : ontModel.listIndividuals(OWL.Thing).toList())
-		{
-			i++;
 			System.out.println(ind.toString() + ": " + ontModel.getProperty(ind, uncle));
-		}
 
 		((PelletInfGraph) ontModel.getGraph()).getKB().timers.print();
 
@@ -57,17 +53,13 @@ public class SWRLPerformanceTests
 		final String ns = "https://mywebspace.wisc.edu/jpthielman/web/daycareontology#";
 
 		final OntModel ontModel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
-		ontModel.read(base + "daycare.swrl.owl");
+		ontModel.read(_base + "daycare.swrl.owl");
 		ontModel.prepare();
 
 		final Property exposedTo = ontModel.getProperty(ns + "is_exposed_to");
 
-		int i = 0;
 		for (final Resource ind : ontModel.listIndividuals(OWL.Thing).toList())
-		{
-			i++;
 			System.out.println(ind.toString() + ": " + ontModel.getProperty(ind, exposedTo));
-		}
 
 		((PelletInfGraph) ontModel.getGraph()).getKB().timers.print();
 
@@ -80,7 +72,7 @@ public class SWRLPerformanceTests
 		final String ns = "http://a.com/ontology#";
 
 		final OntModel ontModel = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
-		ontModel.read(base + "family.swrl.owl");
+		ontModel.read(_base + "family.swrl.owl");
 		ontModel.prepare();
 
 		final Property hasSibling = ontModel.getProperty(ns + "hasSibling");

@@ -26,9 +26,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * Title: Tests modularity results for simple hand-made ontologies.
  * </p>
  * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2007
  * </p>
  * <p>

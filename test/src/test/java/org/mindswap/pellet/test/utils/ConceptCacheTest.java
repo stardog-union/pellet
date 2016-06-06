@@ -17,45 +17,45 @@ import org.mindswap.pellet.utils.ATermUtils;
 
 public class ConceptCacheTest extends TestCase
 {
-	private ConceptCache cache;
+	private ConceptCache _cache;
 
-	private final ATermAppl p1 = ATermUtils.makeTermAppl("p1");
-	private final ATermAppl p2 = ATermUtils.makeTermAppl("p2");
-	private final ATermAppl p3 = ATermUtils.makeNot(p1);
-	private final ATermAppl p4 = ATermUtils.makeNot(p2);
+	private final ATermAppl _p1 = ATermUtils.makeTermAppl("p1");
+	private final ATermAppl _p2 = ATermUtils.makeTermAppl("p2");
+	private final ATermAppl _p3 = ATermUtils.makeNot(_p1);
+	private final ATermAppl _p4 = ATermUtils.makeNot(_p2);
 
-	private final ATermAppl np1 = ATermUtils.makeAnd(p1, p2);
-	private final ATermAppl np2 = ATermUtils.makeOr(p1, p2);
-	private final ATermAppl np3 = ATermUtils.makeAnd(p3, p4);
-	private final ATermAppl np4 = ATermUtils.makeOr(p3, p4);
+	private final ATermAppl _np1 = ATermUtils.makeAnd(_p1, _p2);
+	private final ATermAppl _np2 = ATermUtils.makeOr(_p1, _p2);
+	private final ATermAppl _np3 = ATermUtils.makeAnd(_p3, _p4);
+	private final ATermAppl _np4 = ATermUtils.makeOr(_p3, _p4);
 
-	private final CachedNode DUMMY = CachedNodeFactory.createSatisfiableNode();
+	private final CachedNode _DUMMY = CachedNodeFactory.createSatisfiableNode();
 
 	@Override
 	public void setUp()
 	{
-		cache = new ConceptCacheLRU(new KnowledgeBase(), 3);
+		_cache = new ConceptCacheLRU(new KnowledgeBase(), 3);
 	}
 
 	public void testPut()
 	{
-		cache.put(p1, DUMMY);
-		cache.put(p2, DUMMY);
-		cache.put(p3, DUMMY);
-		cache.put(p4, DUMMY);
-		cache.put(np1, DUMMY);
-		cache.put(np2, DUMMY);
-		cache.put(np3, DUMMY);
+		_cache.put(_p1, _DUMMY);
+		_cache.put(_p2, _DUMMY);
+		_cache.put(_p3, _DUMMY);
+		_cache.put(_p4, _DUMMY);
+		_cache.put(_np1, _DUMMY);
+		_cache.put(_np2, _DUMMY);
+		_cache.put(_np3, _DUMMY);
 
-		assertEquals(7, cache.size());
+		assertEquals(7, _cache.size());
 
-		cache.get(np1);
-		cache.get(np3);
-		cache.put(np4, DUMMY);
+		_cache.get(_np1);
+		_cache.get(_np3);
+		_cache.put(_np4, _DUMMY);
 
-		assertEquals(7, cache.size());
-		assertFalse(cache.containsKey(np2));
-		assertTrue(cache.containsKey(np4));
+		assertEquals(7, _cache.size());
+		assertFalse(_cache.containsKey(_np2));
+		assertTrue(_cache.containsKey(_np4));
 
 	}
 }

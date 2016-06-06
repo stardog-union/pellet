@@ -71,7 +71,7 @@ import org.mindswap.pellet.utils.ATermUtils;
 
 public class JenaTests
 {
-	public static String base = PelletTestSuite.base + "misc/";
+	public static String _base = PelletTestSuite.base + "misc/";
 
 	public static void main(final String args[])
 	{
@@ -189,7 +189,7 @@ public class JenaTests
 
 		final OntModel factory = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "owl2.owl");
+		model.read(_base + "owl2.owl");
 
 		final OntClass C = model.getOntClass(ns + "C");
 		final OntClass D = model.getOntClass(ns + "D");
@@ -262,7 +262,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "uncle.owl");
+		model.read(_base + "uncle.owl");
 
 		final Individual Bob = model.getIndividual(ns + "Bob");
 		final Individual Sam = model.getIndividual(ns + "Sam");
@@ -280,7 +280,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "qcr.owl");
+		model.read(_base + "qcr.owl");
 
 		final OntClass sub = model.getOntClass(ns + "sub");
 		final OntClass sup = model.getOntClass(ns + "sup");
@@ -380,7 +380,7 @@ public class JenaTests
 		final String foaf = "http://xmlns.com/foaf/0.1/";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "reflexive.owl");
+		model.read(_base + "reflexive.owl");
 
 		final ObjectProperty[] knows = { model.getObjectProperty(foaf + "knows"), model.getObjectProperty(ns + "knows2"), model.getObjectProperty(ns + "knows3") };
 
@@ -601,7 +601,7 @@ public class JenaTests
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		model.read(base + "ClosedUniverse.owl");
+		model.read(_base + "ClosedUniverse.owl");
 
 		model.prepare();
 
@@ -621,7 +621,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "/deprecatedSelf.owl");
+		model.read(_base + "/deprecatedSelf.owl");
 		model.prepare();
 		assertTrue(((PelletInfGraph) model.getGraph()).getKB().isConsistent());
 
@@ -642,7 +642,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "/entityDeclarations.owl");
+		model.read(_base + "/entityDeclarations.owl");
 		model.prepare();
 
 		final KnowledgeBase kb = ((PelletInfGraph) model.getGraph()).getKB();
@@ -683,7 +683,7 @@ public class JenaTests
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		model.read(base + "3Sat.owl");
+		model.read(_base + "3Sat.owl");
 
 		final String solution = "101";
 		final int n = solution.length();
@@ -838,7 +838,7 @@ public class JenaTests
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		model.read(base + "anon_inverse.owl");
+		model.read(_base + "anon_inverse.owl");
 
 		model.prepare();
 
@@ -1124,7 +1124,7 @@ public class JenaTests
 		final String ns = "http://sudoku.owl#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "sudaku.owl");
+		model.read(_base + "sudaku.owl");
 
 		final OntClass[][] C = new OntClass[4][4];
 		final Individual[][] V = new Individual[4][4];
@@ -1213,7 +1213,7 @@ public class JenaTests
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 		model.setStrictMode(false);
-		model.read(base + "infiniteChain.owl");
+		model.read(_base + "infiniteChain.owl");
 
 		model.prepare();
 
@@ -1232,7 +1232,7 @@ public class JenaTests
 	public void testInfiniteChainDP()
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "infiniteChainDP.owl");
+		model.read(_base + "infiniteChainDP.owl");
 
 		assertFalse(((PelletInfGraph) model.getGraph()).isConsistent());
 
@@ -1250,7 +1250,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "parents.owl");
+		model.read(_base + "parents.owl");
 
 		final Individual Bob = model.getIndividual(ns + "Bob");
 		final Individual Mom = model.getIndividual(ns + "Mom");
@@ -1287,7 +1287,7 @@ public class JenaTests
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		model.read(base + "teams.owl");
+		model.read(_base + "teams.owl");
 
 		final Individual t1 = model.getIndividual(ns + "OntologyFC");
 
@@ -1369,7 +1369,7 @@ public class JenaTests
 	public void testTransitive1()
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "agencies.owl");
+		model.read(_base + "agencies.owl");
 
 		model.prepare();
 
@@ -1390,7 +1390,7 @@ public class JenaTests
 	public void testTransitive2()
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "cyclic_transitive.owl");
+		model.read(_base + "cyclic_transitive.owl");
 
 		model.prepare();
 
@@ -1513,7 +1513,7 @@ public class JenaTests
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		model.read(base + "transitiveSub.owl");
+		model.read(_base + "transitiveSub.owl");
 
 		final OntClass ThingsThatpSomeC = model.getOntClass(ns + "ThingsThatpSomeC");
 		final OntClass A = model.getOntClass(ns + "A");
@@ -1533,7 +1533,7 @@ public class JenaTests
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		model.read(base + "nominals.owl");
+		model.read(_base + "nominals.owl");
 
 		final OntClass Color = model.getOntClass(ns + "Color");
 		final Individual red = model.getIndividual(ns + "red");
@@ -1595,10 +1595,10 @@ public class JenaTests
 	public void testDatatypeHierarchy()
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "all_datatypes.owl");
+		model.read(_base + "all_datatypes.owl");
 
 		final OntModel hierarchy = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-		model.read(base + "datatype_hierarchy.owl");
+		model.read(_base + "datatype_hierarchy.owl");
 
 		final Iterator<?> i = hierarchy.listClasses();
 		while (i.hasNext())
@@ -1699,7 +1699,7 @@ public class JenaTests
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 		model.getDocumentManager().setProcessImports(false);
 
-		model.read(base + "ESG1.1.owl");
+		model.read(_base + "ESG1.1.owl");
 
 		model.prepare();
 
@@ -1723,7 +1723,7 @@ public class JenaTests
 	public void testDatapropertyRange()
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "datataype_range.owl");
+		model.read(_base + "datataype_range.owl");
 
 		model.prepare();
 
@@ -1768,7 +1768,7 @@ public class JenaTests
 		final String ns = "http://www.lancs.ac.uk/ug/dobsong/owl/float_test.owl#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "float_test.owl");
+		model.read(_base + "float_test.owl");
 
 		model.prepare();
 
@@ -1796,7 +1796,7 @@ public class JenaTests
 		final String ns = "http://www.lancs.ac.uk/ug/dobsong/owl/decimal_test.owl#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "decimal_test.owl");
+		model.read(_base + "decimal_test.owl");
 
 		model.prepare();
 
@@ -1944,7 +1944,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/family#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
-		model.read(base + "family.owl");
+		model.read(_base + "family.owl");
 
 		final ObjectProperty hasBrother = model.getObjectProperty(ns + "hasBrother");
 		final ObjectProperty hasSon = model.getObjectProperty(ns + "hasSon");
@@ -2088,7 +2088,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "sibling.owl");
+		model.read(_base + "sibling.owl");
 
 		final Individual Bob = model.getIndividual(ns + "Bob");
 		final Individual John = model.getIndividual(ns + "John");
@@ -2107,7 +2107,7 @@ public class JenaTests
 		final String ns = "http://owldl.com/ontologies/dl-safe.owl#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
-		model.read(base + "dl-safe.owl");
+		model.read(_base + "dl-safe.owl");
 
 		// ObjectProperty father = model.getObjectProperty( ns + "father" );
 		final ObjectProperty hates = model.getObjectProperty(ns + "hates");
@@ -2168,7 +2168,7 @@ public class JenaTests
 		final String ns = "http://owldl.com/ontologies/dl-safe-constants.owl#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC, null);
-		model.read(base + "dl-safe-constants.owl");
+		model.read(_base + "dl-safe-constants.owl");
 
 		final OntClass DreamTeamMember = model.getOntClass(ns + "DreamTeamMember");
 		final OntClass DreamTeamMember1 = model.getOntClass(ns + "DreamTeamMember1");
@@ -2325,7 +2325,7 @@ public class JenaTests
 	{
 		final OntModel pellet = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-		pellet.read(base + "ticket-96-test-case.rdf");
+		pellet.read(_base + "ticket-96-test-case.rdf");
 
 		assertTrue(pellet.validate().isValid());
 	}
@@ -2342,7 +2342,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "disjoints.owl");
+		model.read(_base + "disjoints.owl");
 
 		Model inferences = ModelFactory.createDefaultModel();
 		addStatements(inferences, OWL.Nothing, OWL.disjointWith, OWL.Nothing);
@@ -2670,7 +2670,7 @@ public class JenaTests
 	public void testCardinalityParsing()
 	{
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "cardinality_parsing.owl");
+		model.read(_base + "cardinality_parsing.owl");
 		model.prepare();
 
 		assertTrue(((PelletInfGraph) model.getGraph()).getLoader().getUnpportedFeatures().isEmpty());
@@ -2845,7 +2845,7 @@ public class JenaTests
 		final String ns = "http://www.example.org/test#";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "/datatypeDefinition.ttl", "TTL");
+		model.read(_base + "/datatypeDefinition.ttl", "TTL");
 		model.prepare();
 
 		final Resource a = model.getResource(ns + "a");
@@ -3078,7 +3078,7 @@ public class JenaTests
 		final String ns = "urn:test:";
 
 		final OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-		model.read(base + "/float_intervals.ttl", "TTL");
+		model.read(_base + "/float_intervals.ttl", "TTL");
 		model.prepare();
 
 		final Resource C1 = model.getResource(ns + "46-60");

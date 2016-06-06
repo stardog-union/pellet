@@ -8,7 +8,6 @@ import com.clarkparsia.modularity.ModuleExtractor;
  */
 public class GraphBasedModularityUpdateTest extends ModularityUpdateTest
 {
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -17,5 +16,4 @@ public class GraphBasedModularityUpdateTest extends ModularityUpdateTest
 	{
 		return new GraphBasedModuleExtractor();
 	}
-
 }

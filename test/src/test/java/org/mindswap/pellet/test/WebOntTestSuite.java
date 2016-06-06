@@ -19,7 +19,7 @@ import org.mindswap.pellet.utils.Comparators;
 @RunWith(Parameterized.class)
 public class WebOntTestSuite
 {
-	public static String base = PelletTestSuite.base + "owl-test/";
+	public static String _base = PelletTestSuite.base + "owl-test/";
 
 	@Parameters(name = "{index}: {0}")
 	public static List<Object[]> getParameters()
@@ -28,10 +28,10 @@ public class WebOntTestSuite
 
 		final WebOntTest test = new WebOntTest();
 		test.setAvoidFailTests(true);
-		test.setBase("file:" + base);
+		test.setBase("file:" + _base);
 		test.setShowStats(WebOntTest.NO_STATS);
 
-		final File testDir = new File(base);
+		final File testDir = new File(_base);
 		final File[] dirs = testDir.listFiles();
 
 		Arrays.sort(dirs, Comparators.stringComparator);

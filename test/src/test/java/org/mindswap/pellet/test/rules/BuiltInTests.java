@@ -89,16 +89,16 @@ public class BuiltInTests
 		return new BigDecimal(String.valueOf(d));
 	}
 
-	private ABox abox;
-	private KnowledgeBase kb;
+	private ABox _abox;
+	private KnowledgeBase _kb;
 
 	private final ATermAppl li_1 = literal("-1", Datatypes.INTEGER), li0 = literal("0", Datatypes.NON_NEGATIVE_INTEGER), lf0 = literal("0.0", Datatypes.FLOAT), lf00 = literal("0.00", Datatypes.FLOAT), lp0 = literal("0"), ls0 = literal("0", Datatypes.STRING), len0 = literal("0", "en");
 
 	@Before
 	public void setUp()
 	{
-		kb = new KnowledgeBase();
-		abox = kb.getABox();
+		_kb = new KnowledgeBase();
+		_abox = _kb.getABox();
 	}
 
 	private boolean equal(final Literal l1, final Literal l2)
@@ -117,7 +117,7 @@ public class BuiltInTests
 		final Literal[] litArgs = new Literal[args.length];
 		for (int i = 0; i < args.length; i++)
 		{
-			litArgs[i] = abox.addLiteral(args[i]);
+			litArgs[i] = _abox.addLiteral(args[i]);
 			assertNotNull("Invalid iteral value: " + args[i], litArgs[i].getValue());
 		}
 		generalFunc(func, litArgs);
@@ -125,7 +125,7 @@ public class BuiltInTests
 
 	private void generalFunc(final GeneralFunction func, final Literal... args)
 	{
-		assertTrue("Full binding not accepted", func.apply(abox, args));
+		assertTrue("Full binding not accepted", func.apply(_abox, args));
 		for (int i = 0; i < args.length; i++)
 		{
 			final Literal[] copy = args.clone();
@@ -136,7 +136,7 @@ public class BuiltInTests
 
 			if (func.isApplicable(bound))
 			{
-				assertTrue("Function not accepted without argument " + i, func.apply(abox, copy));
+				assertTrue("Function not accepted without argument " + i, func.apply(_abox, copy));
 				assertTrue("Results not equal: Expected " + args[i] + ", got " + copy[i], equal(args[i], copy[i]));
 			}
 		}
@@ -196,7 +196,7 @@ public class BuiltInTests
 
 	private void stringFunc(final Function func, final ATermAppl term, final String... args)
 	{
-		final Literal expected = abox.addLiteral(term);
+		final Literal expected = _abox.addLiteral(term);
 		stringFunc(func, expected, args);
 	}
 
@@ -204,42 +204,42 @@ public class BuiltInTests
 	{
 		final Literal[] litArgs = new Literal[args.length];
 		for (int i = 0; i < args.length; i++)
-			litArgs[i] = abox.addLiteral(literal(args[i]));
+			litArgs[i] = _abox.addLiteral(literal(args[i]));
 		stringFunc(func, expected, litArgs);
 	}
 
 	private void stringFunc(final Function func, final Literal expected, final Literal... args)
 	{
-		final Literal result = func.apply(abox, null, args);
+		final Literal result = func.apply(_abox, null, args);
 		if (expected == null || result == null)
 			assertEquals("Unexpected function result.", expected, result);
 		else
 			assertTrue("Unexcepted resturn value. Expected " + expected + " but saw " + result, ComparisonTesters.equal.test(new Literal[] { expected, result }));
 
-		assertEquals("Wrong return value", expected, func.apply(abox, expected, args));
-		assertEquals("Unexpected equality", null, func.apply(abox, abox.addLiteral(DependencySet.INDEPENDENT), args));
+		assertEquals("Wrong return value", expected, func.apply(_abox, expected, args));
+		assertEquals("Unexpected equality", null, func.apply(_abox, _abox.addLiteral(DependencySet.INDEPENDENT), args));
 	}
 
 	private boolean stringTest(final Tester tester, final String... args)
 	{
 		final Literal[] litArgs = new Literal[args.length];
 		for (int i = 0; i < args.length; i++)
-			litArgs[i] = abox.addLiteral(literal(args[i]));
+			litArgs[i] = _abox.addLiteral(literal(args[i]));
 		return tester.test(litArgs);
 	}
 
 	@Test
 	public void testBooleans()
 	{
-		final Literal trueLit = abox.addLiteral(TermFactory.literal(true));
-		final Literal falseLit = abox.addLiteral(TermFactory.literal(false));
+		final Literal trueLit = _abox.addLiteral(TermFactory.literal(true));
+		final Literal falseLit = _abox.addLiteral(TermFactory.literal(false));
 
 		generalFunc(BooleanOperators.booleanNot, trueLit, falseLit);
 		generalFunc(BooleanOperators.booleanNot, falseLit, trueLit);
 
-		assertFalse(BooleanOperators.booleanNot.apply(abox, new Literal[] { trueLit, trueLit }));
-		assertFalse(BooleanOperators.booleanNot.apply(abox, new Literal[] { falseLit, falseLit }));
-		assertFalse(BooleanOperators.booleanNot.apply(abox, new Literal[] { null, null }));
+		assertFalse(BooleanOperators.booleanNot.apply(_abox, new Literal[] { trueLit, trueLit }));
+		assertFalse(BooleanOperators.booleanNot.apply(_abox, new Literal[] { falseLit, falseLit }));
+		assertFalse(BooleanOperators.booleanNot.apply(_abox, new Literal[] { null, null }));
 	}
 
 	@Test
@@ -247,8 +247,8 @@ public class BuiltInTests
 	{
 		Literal l1, l2;
 
-		l1 = abox.addLiteral(li_1);
-		l2 = abox.addLiteral(li0);
+		l1 = _abox.addLiteral(li_1);
+		l2 = _abox.addLiteral(li0);
 
 		assertFalse(equal(l1, l2));
 		assertFalse(greaterThan(l1, l2));
@@ -258,8 +258,8 @@ public class BuiltInTests
 		assertFalse(lessThan(l2, l1));
 		assertTrue(notEqual(l1, l2));
 
-		l1 = abox.addLiteral(lf0);
-		l2 = abox.addLiteral(lf00);
+		l1 = _abox.addLiteral(lf0);
+		l2 = _abox.addLiteral(lf00);
 
 		assertTrue(equal(l1, l2));
 		assertFalse(greaterThan(l1, l2));
@@ -268,8 +268,8 @@ public class BuiltInTests
 		assertTrue(lessThanOrEqual(l1, l2));
 		assertFalse(notEqual(l1, l2));
 
-		l1 = abox.addLiteral(lf0);
-		l2 = abox.addLiteral(li0);
+		l1 = _abox.addLiteral(lf0);
+		l2 = _abox.addLiteral(li0);
 
 		assertTrue(equal(l1, l2));
 		assertFalse(greaterThan(l1, l2));
@@ -278,8 +278,8 @@ public class BuiltInTests
 		assertTrue(lessThanOrEqual(l1, l2));
 		assertFalse(notEqual(l1, l2));
 
-		l1 = abox.addLiteral(lp0);
-		l2 = abox.addLiteral(li0);
+		l1 = _abox.addLiteral(lp0);
+		l2 = _abox.addLiteral(li0);
 
 		assertFalse(equal(l1, l2));
 		assertFalse(greaterThan(l1, l2));
@@ -288,8 +288,8 @@ public class BuiltInTests
 		assertFalse(lessThanOrEqual(l1, l2));
 		assertTrue(notEqual(l1, l2));
 
-		l1 = abox.addLiteral(lp0);
-		l2 = abox.addLiteral(ls0);
+		l1 = _abox.addLiteral(lp0);
+		l2 = _abox.addLiteral(ls0);
 		assertTrue(equal(l1, l2));
 		assertFalse(greaterThan(l1, l2));
 		assertTrue(greaterThanOrEqual(l1, l2));
@@ -297,8 +297,8 @@ public class BuiltInTests
 		assertTrue(lessThanOrEqual(l1, l2));
 		assertFalse(notEqual(l1, l2));
 
-		l1 = abox.addLiteral(lp0);
-		l2 = abox.addLiteral(len0);
+		l1 = _abox.addLiteral(lp0);
+		l2 = _abox.addLiteral(len0);
 		assertFalse(equal(l1, l2));
 		assertFalse(greaterThan(l1, l2));
 		assertFalse(greaterThanOrEqual(l1, l2));
@@ -306,8 +306,8 @@ public class BuiltInTests
 		assertFalse(lessThanOrEqual(l1, l2));
 		assertTrue(notEqual(l1, l2));
 
-		l1 = abox.addLiteral(literal("2000-01-01", Datatypes.DATE));
-		l2 = abox.addLiteral(literal("2010-01-01", Datatypes.DATE));
+		l1 = _abox.addLiteral(literal("2000-01-01", Datatypes.DATE));
+		l2 = _abox.addLiteral(literal("2010-01-01", Datatypes.DATE));
 
 		assertFalse(equal(l1, l2));
 		assertFalse(greaterThan(l1, l2));
@@ -317,8 +317,8 @@ public class BuiltInTests
 		assertFalse(lessThan(l2, l1));
 		assertTrue(notEqual(l1, l2));
 
-		l1 = abox.addLiteral(literal("2010-01-01T01:00:00Z", Datatypes.DATE_TIME));
-		l2 = abox.addLiteral(literal("2010-01-01T02:00:00Z", Datatypes.DATE_TIME));
+		l1 = _abox.addLiteral(literal("2010-01-01T01:00:00Z", Datatypes.DATE_TIME));
+		l2 = _abox.addLiteral(literal("2010-01-01T02:00:00Z", Datatypes.DATE_TIME));
 
 		assertFalse(equal(l1, l2));
 		assertFalse(greaterThan(l1, l2));
