@@ -28,7 +28,7 @@ public class SCCTests
 
 	private void createGraph(final int n)
 	{
-		_graph = new ReachabilityGraph<Object>();
+		_graph = new ReachabilityGraph<>();
 
 		_nodes = new EntityNode[n];
 		for (int i = 0; i < n; i++)

@@ -3,7 +3,6 @@
  */
 package com.clarkparsia.pellet.test.jena;
 
-import java.io.FileNotFoundException;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
@@ -34,37 +33,37 @@ public class MiscTests
 		PelletOptions.AUTO_REALIZE = false;
 	}
 
-	private OntModel model;
+	private OntModel _model;
 
 	@Test
-	public void dataAssertionTest() throws FileNotFoundException
+	public void dataAssertionTest()
 	{
-		model.read(this.getClass().getClassLoader().getResourceAsStream("test/data/misc/decimal-int.owl"), null);
-		final Individual entity = model.getIndividual("http://www.inmindcomputing.com/example/dataAssertion.owl#ENTITY");
-		final DatatypeProperty value = model.getDatatypeProperty("http://www.inmindcomputing.com/example/dataAssertion.owl#dataAssertionValue");
+		_model.read(this.getClass().getClassLoader().getResourceAsStream("test/data/misc/decimal-int.owl"), null);
+		final Individual entity = _model.getIndividual("http://www.inmindcomputing.com/example/dataAssertion.owl#ENTITY");
+		final DatatypeProperty value = _model.getDatatypeProperty("http://www.inmindcomputing.com/example/dataAssertion.owl#dataAssertionValue");
 		Assert.assertTrue(value.isFunctionalProperty());
 		Assert.assertEquals(1, entity.listPropertyValues(value).toSet().size());
 	}
 
 	@Test
-	public void incrementalDeletionTest() throws FileNotFoundException
+	public void incrementalDeletionTest()
 	{
-		final Individual entity = model.createIndividual("http://www.inmindcomputing.com/example/dataAssertion.owl#ENTITY", null);
-		final DatatypeProperty property = model.createDatatypeProperty("http://www.inmindcomputing.com/example/dataAssertion.owl#ENTITY", true);
+		final Individual entity = _model.createIndividual("http://www.inmindcomputing.com/example/dataAssertion.owl#ENTITY", null);
+		final DatatypeProperty property = _model.createDatatypeProperty("http://www.inmindcomputing.com/example/dataAssertion.owl#ENTITY", true);
 
-		final Statement firstValue = model.createLiteralStatement(entity, property, "1");
-		final Statement secondValue = model.createLiteralStatement(entity, property, "2");
+		final Statement firstValue = _model.createLiteralStatement(entity, property, "1");
+		final Statement secondValue = _model.createLiteralStatement(entity, property, "2");
 
 		// TODO: prepare registers PelletGraphListener. This implies a different behaviour of the whole graph before and
 		// after the first read operation. Please, delete comment if this is as designed.
-		model.prepare();
-		model.add(firstValue);
-		model.remove(firstValue);
-		model.add(secondValue);
+		_model.prepare();
+		_model.add(firstValue);
+		_model.remove(firstValue);
+		_model.add(secondValue);
 
 		try
 		{
-			model.listObjectsOfProperty(property).toSet();
+			_model.listObjectsOfProperty(property).toSet();
 		}
 		catch (final InconsistentOntologyException e)
 		{
@@ -74,9 +73,9 @@ public class MiscTests
 	}
 
 	@Before
-	public void setUp() throws Exception
+	public void setUp()
 	{
-		model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+		_model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 		configurePelletOptions();
 	}
 
@@ -84,18 +83,18 @@ public class MiscTests
 	 * @throws java.lang.Exception
 	 */
 	@After
-	public void tearDown() throws Exception
+	public void tearDown()
 	{
-		model.close();
+		_model.close();
 	}
 
 	@Test
 	public void universalTest()
 	{
-		model.read(this.getClass().getClassLoader().getResourceAsStream("test/data/misc/universal-property.owl"), null);
-		final ObjectProperty universal = model.getObjectProperty("http://www.inmindcomputing.com/example/universal.owl#universalProperty");
-		final ObjectProperty abstracT = model.getObjectProperty("http://www.inmindcomputing.com/example/universal.owl#abstractProperty");
-		final ObjectProperty concrete = model.getObjectProperty("http://www.inmindcomputing.com/example/universal.owl#concreteProperty");
+		_model.read(this.getClass().getClassLoader().getResourceAsStream("test/data/misc/universal-property.owl"), null);
+		final ObjectProperty universal = _model.getObjectProperty("http://www.inmindcomputing.com/example/universal.owl#universalProperty");
+		final ObjectProperty abstracT = _model.getObjectProperty("http://www.inmindcomputing.com/example/universal.owl#abstractProperty");
+		final ObjectProperty concrete = _model.getObjectProperty("http://www.inmindcomputing.com/example/universal.owl#concreteProperty");
 		Assert.assertTrue(universal.getEquivalentProperty().equals(OWL2.topObjectProperty));
 		Assert.assertTrue(universal.listSubProperties().toSet().contains(abstracT));
 		Assert.assertTrue(universal.listSubProperties().toSet().contains(concrete));

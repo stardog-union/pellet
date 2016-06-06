@@ -45,37 +45,46 @@ public class OWLAPIClassificationTest extends AbstractClassificationTest
 
 			final List<OWLAxiom> nonEntailments = new ArrayList<>();
 
-			for (final OWLSubClassOfAxiom axiom : conclusion.getAxioms(AxiomType.SUBCLASS_OF))
 			{
-				final boolean entailed = reasoner.getSubClasses(axiom.getSuperClass(), true).containsEntity((OWLClass) axiom.getSubClass());
+				final Iterable<OWLSubClassOfAxiom> it = conclusion.axioms(AxiomType.SUBCLASS_OF)::iterator;
+				for (final OWLSubClassOfAxiom axiom : it)
+				{
+					final boolean entailed = reasoner.getSubClasses(axiom.getSuperClass(), true).containsEntity((OWLClass) axiom.getSubClass());
 
-				if (!entailed)
-					if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
-						fail("Not entailed: " + axiom);
-					else
-						nonEntailments.add(axiom);
+					if (!entailed)
+						if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
+							fail("Not entailed: " + axiom);
+						else
+							nonEntailments.add(axiom);
+				}
 			}
 
-			for (final OWLEquivalentClassesAxiom axiom : conclusion.getAxioms(AxiomType.EQUIVALENT_CLASSES))
 			{
-				final boolean entailed = reasoner.isEntailed(axiom);
+				final Iterable<OWLEquivalentClassesAxiom> it = conclusion.axioms(AxiomType.EQUIVALENT_CLASSES)::iterator;
+				for (final OWLEquivalentClassesAxiom axiom : it)
+				{
+					final boolean entailed = reasoner.isEntailed(axiom);
 
-				if (!entailed)
-					if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
-						fail("Not entailed: " + axiom);
-					else
-						nonEntailments.add(axiom);
+					if (!entailed)
+						if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
+							fail("Not entailed: " + axiom);
+						else
+							nonEntailments.add(axiom);
+				}
 			}
 
-			for (final OWLClassAssertionAxiom axiom : conclusion.getAxioms(AxiomType.CLASS_ASSERTION))
 			{
-				final boolean entailed = reasoner.getInstances(axiom.getClassExpression(), true).containsEntity((OWLNamedIndividual) axiom.getIndividual());
+				final Iterable<OWLClassAssertionAxiom> it = conclusion.axioms(AxiomType.CLASS_ASSERTION)::iterator;
+				for (final OWLClassAssertionAxiom axiom : it)
+				{
+					final boolean entailed = reasoner.getInstances(axiom.getClassExpression(), true).containsEntity((OWLNamedIndividual) axiom.getIndividual());
 
-				if (!entailed)
-					if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
-						fail("Not entailed: " + axiom);
-					else
-						nonEntailments.add(axiom);
+					if (!entailed)
+						if (AbstractClassificationTest.FAIL_AT_FIRST_ERROR)
+							fail("Not entailed: " + axiom);
+						else
+							nonEntailments.add(axiom);
+				}
 			}
 
 			assertTrue(nonEntailments.size() + " " + nonEntailments.toString(), nonEntailments.isEmpty());

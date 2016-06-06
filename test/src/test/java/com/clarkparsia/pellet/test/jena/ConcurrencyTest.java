@@ -100,14 +100,14 @@ public class ConcurrencyTest
 	private static class QueryRunner implements Runnable
 	{
 
-		private final OntModel model_;
+		private final OntModel _model;
 
-		private final BlockingQueue<Iterable<Individual>> toDo_;
+		private final BlockingQueue<Iterable<Individual>> _toDo;
 
 		QueryRunner(final OntModel model, final BlockingQueue<Iterable<Individual>> toDo)
 		{
-			model_ = model;
-			toDo_ = toDo;
+			_model = model;
+			_toDo = toDo;
 		}
 
 		@Override
@@ -119,7 +119,7 @@ public class ConcurrencyTest
 
 				try
 				{
-					batch = toDo_.take();
+					batch = _toDo.take();
 				}
 				catch (final InterruptedException e)
 				{
@@ -133,7 +133,7 @@ public class ConcurrencyTest
 				for (final Individual ind : batch)
 				{
 					// querying for all object property values for each _individual
-					Iterator<? extends Property> propertyIter = model_.listObjectProperties();
+					Iterator<? extends Property> propertyIter = _model.listObjectProperties();
 
 					while (propertyIter.hasNext())
 					{
@@ -143,7 +143,7 @@ public class ConcurrencyTest
 					}
 
 					// querying for all _data property values for each _individual
-					propertyIter = model_.listDatatypeProperties();
+					propertyIter = _model.listDatatypeProperties();
 
 					while (propertyIter.hasNext())
 					{

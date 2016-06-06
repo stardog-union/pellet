@@ -14,6 +14,7 @@ import com.clarkparsia.owlapi.OWL;
 import com.clarkparsia.owlapi.OntologyUtils;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
 import java.util.Set;
+import java.util.stream.Collectors;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
@@ -64,7 +65,7 @@ public class OWLPrimerTests extends AbstractOWLAPITests
 		_reasoner = PelletReasonerFactory.getInstance().createReasoner(_ontology);
 	}
 
-	protected <T> Set<T> node(final T... inds)
+	protected <T> Set<T> node(@SuppressWarnings("unchecked") final T... inds)
 	{
 		return SetUtils.create(inds);
 	}
@@ -74,15 +75,17 @@ public class OWLPrimerTests extends AbstractOWLAPITests
 		return SetUtils.create(inds);
 	}
 
-	protected <E extends OWLObject> void assertEquals(final NodeSet<E> actual, final Set<E>... expected)
+	@SafeVarargs
+	final protected <E extends OWLObject> void assertEquals(final NodeSet<E> actual, final Set<E>... expected)
 	{
 		final Set<Set<E>> expectedSet = SetUtils.create(expected);
-		for (final Node<E> node : actual.getNodes())
-			assertTrue("Unexpected value: " + node.getEntities(), expectedSet.remove(node.getEntities()));
+
+		final Iterable<Node<E>> it = actual.nodes()::iterator;
+		for (final Node<E> node : it)
+			assertTrue("Unexpected value: " + node.entities(), expectedSet.remove(node.entities().collect(Collectors.toSet())));
 		assertTrue("Missing values: " + expectedSet, expectedSet.isEmpty());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testJackDifferents()
 	{
@@ -97,6 +100,9 @@ public class OWLPrimerTests extends AbstractOWLAPITests
 		assertTrue(_reasoner.isEntailed(OWL.disjointProperties(hasParent, child)));
 		assertTrue(_reasoner.isEntailed(OWL.disjointProperties(hasParent, hasChild)));
 		assertTrue(_reasoner.isEntailed(OWL.disjointProperties(hasParent, OWL.bottomObjectProperty)));
-		assertEquals(_reasoner.getDisjointObjectProperties(hasParent), nodeOP(hasSpouse), nodeOP(OWL.bottomObjectProperty), nodeOP(hasWife), nodeOP(hasChild, child));
+		assertEquals(//
+				_reasoner.getDisjointObjectProperties(hasParent),//
+				nodeOP(hasSpouse), nodeOP(OWL.bottomObjectProperty), nodeOP(hasWife), nodeOP(hasChild, child)//
+				);
 	}
 }
