@@ -2,7 +2,7 @@ package profiler.statistical;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import profiler.ProfileKB.Task;
 import profiler.Result;
 

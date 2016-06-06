@@ -39,6 +39,8 @@
     <owlapi.version>5.0.2</owlapi.version>
     <jena.version>3.0.1</jena.version>
     <commons-io.version>2.4</commons-io.version>
+    <org.jfree.jfreechart>1.0.19</org.jfree.jfreechart>
+    <org.apache.commons.commons-math3>3.6.1</org.apache.commons.commons-math3>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
@@ -113,6 +115,21 @@
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
         <version>${commons-io.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jfree</groupId>
+        <artifactId>jfreechart</artifactId>
+        <version>${org.jfree.jfreechart}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math3</artifactId>
+        <version>${org.apache.commons.commons-math3}</version>
+      </dependency>
+      <dependency>
+        <groupId>gnu.getopt</groupId>
+        <artifactId>java-getopt</artifactId>
+        <version>1.0.13</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
