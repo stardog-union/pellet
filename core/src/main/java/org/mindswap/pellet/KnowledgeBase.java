@@ -80,6 +80,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.mindswap.pellet.PelletOptions.InstanceRetrievalMethod;
 import org.mindswap.pellet.exceptions.InconsistentOntologyException;
@@ -2481,6 +2482,11 @@ public class KnowledgeBase
 		return Collections.unmodifiableSet(_individuals);
 	}
 
+	public Stream<ATermAppl> individuals()
+	{
+		return _individuals.stream();
+	}
+
 	/**
 	 * Returns the set of key values of the _annotations map
 	 *
@@ -4780,6 +4786,7 @@ public class KnowledgeBase
 	 */
 	public void setTimeout(final long timeout)
 	{
+		_logger.info(() -> "Timeout @ " + timeout + "sec");
 		timers.mainTimer.setTimeout(timeout);
 	}
 

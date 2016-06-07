@@ -11,25 +11,26 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
+import org.semanticweb.owlapi.model.OWLEntity;
 
 /**
  * @author Evren Sirin
  */
 public class SCCTests
 {
-	private ReachabilityGraph<Object> _graph;
+	private ReachabilityGraph<OWLEntity> _graph;
 
-	private EntityNode[] _nodes;
+	private EntityNode<OWLEntity>[] _nodes;
 
 	private void addEdge(final int in, final int out)
 	{
 		_nodes[in].addOutput(_nodes[out]);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createGraph(final int n)
 	{
 		_graph = new ReachabilityGraph<>();
-
 		_nodes = new EntityNode[n];
 		for (int i = 0; i < n; i++)
 			_nodes[i] = _graph.createEntityNode(OWL.Class("entity" + i));
@@ -37,13 +38,13 @@ public class SCCTests
 
 	private void testSCC(final int[][] expectedSCC)
 	{
-		final List<Set<EntityNode<Object>>> computed = SCC.computeSCC(_graph);
+		final List<Set<EntityNode<OWLEntity>>> computed = SCC.computeSCC(_graph);
 
 		assertEquals("SCC count", expectedSCC.length, computed.size());
 
 		for (final int[] component : expectedSCC)
 		{
-			final Set<EntityNode> set = new HashSet<>();
+			final Set<EntityNode<OWLEntity>> set = new HashSet<>();
 			for (final int i : component)
 				set.add(_nodes[i]);
 

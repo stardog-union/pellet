@@ -8,10 +8,8 @@ package org.mindswap.pellet.test.utils;
 
 import aterm.ATermAppl;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Role;
@@ -19,59 +17,38 @@ import org.mindswap.pellet.utils.ATermUtils;
 
 public class TestUtils
 {
-
 	static Random _rand = new Random(System.currentTimeMillis());
 
-	/**
-	 * @param args
-	 */
 	public static ATermAppl selectRandomConcept(final Individual ind)
 	{
-
-		//get all classes
-		final Set<?> types = ind.getTypes();
+		final ATermAppl[] types = ind.types()//
+				.filter(clazz -> !((clazz == ATermUtils.TOP) || (clazz == ATermUtils.BOTTOM)))//
+				.toArray(ATermAppl[]::new);
 		ATermAppl clazz = null;
 		final int MAX = 20;
 		int count = 0;
-		do
-		{
-			count++;
-			//get _index for concept
-			final int index = _rand.nextInt(types.size());
-
-			//get the concept
-			for (final Iterator<?> it = types.iterator(); it.hasNext();)
-				clazz = (ATermAppl) it.next();
-		} while (((clazz == ATermUtils.TOP) || (clazz == ATermUtils.BOTTOM)) && count < MAX);
+		if (types.length > 0)
+			do
+			{
+				count++;
+				clazz = types[_rand.nextInt(types.length)];
+			} while (count < MAX);
 
 		return clazz;
 	}
 
-	/**
-	 * @param args
-	 */
 	public static ATermAppl selectRandomConcept(final KnowledgeBase kb)
 	{
-
-		//get all classes
-		final List<?> classes = new ArrayList<Object>(kb.getTBox().getAllClasses());
+		final ATermAppl[] classes = kb.getTBox().allClasses().toArray(ATermAppl[]::new);
 		ATermAppl clazz = null;
-
 		do
 		{
-
-			//get _index for concept
-			final int index = _rand.nextInt(classes.size());
-
-			clazz = (ATermAppl) classes.get(index);
+			clazz = classes[_rand.nextInt(classes.length)];
 		} while ((clazz == ATermUtils.TOP) || (clazz == ATermUtils.BOTTOM));
 
 		return clazz;
 	}
 
-	/**
-	 * @param args
-	 */
 	public static ATermAppl selectRandomObjectProperty(final KnowledgeBase kb)
 	{
 
@@ -80,31 +57,15 @@ public class TestUtils
 		Role role = null;
 		do
 		{
-
-			//get _index for concept
-			final int index = _rand.nextInt(roles.size());
-
-			role = (Role) roles.get(index);
-
+			role = (Role) roles.get(_rand.nextInt(roles.size()));
 		} while (!role.isObjectRole());
 
 		return role.getName();
 	}
 
-	/**
-	 * @param args
-	 */
 	public static ATermAppl selectRandomIndividual(final KnowledgeBase kb)
 	{
-
-		//get all ind
-		final List<?> inds = new ArrayList<Object>(kb.getIndividuals());
-
-		//get _index for concept
-		final int index = _rand.nextInt(inds.size());
-
-		return (ATermAppl) inds.get(index);
-
+		final ATermAppl[] inds = kb.individuals().toArray(ATermAppl[]::new);
+		return inds[_rand.nextInt(inds.length)];
 	}
-
 }

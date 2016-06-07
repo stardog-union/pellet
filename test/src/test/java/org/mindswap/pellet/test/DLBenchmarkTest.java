@@ -85,7 +85,6 @@ public class DLBenchmarkTest
 	{
 		final KnowledgeBase kb = new KnowledgeBase();
 		kb.setTimeout(timeout * 1000);
-
 		return kb;
 	}
 
@@ -105,30 +104,17 @@ public class DLBenchmarkTest
 		{
 			System.out.print((i + 1) + ") ");
 
-			final List<Comparable> data = new ArrayList<>();
-			data.add(files[i]); // Adding a File
+			final List<Object> data = new ArrayList<>();
+			data.add(files[i]); // Adding a File (Name)
 			try
 			{
 				doTBoxTest(files[i].toString());
-				data.add(Integer.valueOf(_kb.getClasses().size())); // Adding an Integer.
-				data.add(_kb.timers.getTimer("test").getTotal() + ""); // Adding a String.
+				data.add(Integer.valueOf(_kb.getClasses().size())); // Adding an Integer. (Size)
+				data.add(_kb.timers.getTimer("test").getTotal() + ""); // Adding a String. (Time)
 			}
-			catch (final TimeoutException e)
+			catch (final Exception | OutOfMemoryError | StackOverflowError e)
 			{
-				System.out.println(" ** Timeout: " + e.getMessage() + " ** ");
-			}
-			catch (final Exception e)
-			{
-				e.printStackTrace(System.err);
-				System.out.println();
-			}
-			catch (final OutOfMemoryError e)
-			{
-				System.out.println(" ** Out of Memory ** ");
-			}
-			catch (final StackOverflowError e)
-			{
-				System.out.println(" ** Stack Overflow ** ");
+				Log.error(_logger, e);
 			}
 			catch (final Error e)
 			{
@@ -140,8 +126,9 @@ public class DLBenchmarkTest
 		System.out.print(table);
 	}
 
-	public boolean doTBoxTest(String file) throws Exception
+	public boolean doTBoxTest(final String fileParam) throws Exception
 	{
+		String file = fileParam;
 		String ext = ".tkb";
 		int index = file.lastIndexOf('.');
 		if (index != -1)
@@ -235,37 +222,39 @@ public class DLBenchmarkTest
 		}
 	}
 
-	public int doSatTest(final String file)
+	// TODO : check why is this disable.
+	public int doSatTest(@SuppressWarnings("unused") final String file)
 	{
 		final int count = 0;
 
-		System.err.println("Sat test currently disabled!");
-
+		//		System.err.println("Sat test currently disabled!");
+		//
 		//		final StreamTokenizer in = initTokenizer(file);
-		//		
-		//		final boolean result = file.endsWith("_n.alc");
 		//
-		//		for(; count < 21; count ++) {			
+		//		final boolean result = file.endsWith("n.alc");
+		//
+		//		for (; count < 21; count++)
+		//		{
 		//			_kb = initKB(SAT_LIMIT);
-		//			
 		//
-		//			ATermAppl c = parseExpr(in);
+		//			final ATermAppl c = parseExpr(in);
 		//
 		//			long time = System.currentTimeMillis();
-		//			boolean sat = _kb.isSatisfiable(c);	
+		//			final boolean sat = _kb.isSatisfiable(c);
 		//			time = System.currentTimeMillis() - time;
-		//			
-		//			if(sat != result)
-		//			    throw new RuntimeException("Consistency error");
+		//
+		//			if (sat != result)
+		//				throw new RuntimeException("Consistency error");
 		//			else
-		//			    System.out.print( "(" + (count+1) + ":" + time + ")" );
-		//		}	
+		//				System.out.print("(" + (count + 1) + ":" + time + ")");
+		//		}
 
 		return count;
 	}
 
-	public boolean doABoxTest(String file) throws Exception
+	public boolean doABoxTest(final String fileParam) throws Exception
 	{
+		String file = fileParam;
 		String ext = ".tkb";
 		int index = file.lastIndexOf('.');
 		if (index != -1)

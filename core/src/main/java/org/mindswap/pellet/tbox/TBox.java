@@ -34,6 +34,7 @@ import aterm.ATermAppl;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.mindswap.pellet.tbox.impl.Unfolding;
 
 public interface TBox
@@ -56,9 +57,25 @@ public interface TBox
 	public Set<ATermAppl> getAllClasses();
 
 	/**
+	 * Return all the named classes plus TOP and BOTTOM
+	 */
+	default Stream<ATermAppl> allClasses()
+	{
+		return getAllClasses().stream();
+	}
+
+	/**
 	 * Return all the axioms defined in this TBox (may include new axioms introduced during absorption)
 	 */
 	public Collection<ATermAppl> getAxioms();
+
+	/**
+	 * Return all the axioms defined in this TBox (may include new axioms introduced during absorption)
+	 */
+	default Stream<ATermAppl> axioms()
+	{
+		return getAxioms().stream();
+	}
 
 	/**
 	 * Return all the asserted axioms in this TBox

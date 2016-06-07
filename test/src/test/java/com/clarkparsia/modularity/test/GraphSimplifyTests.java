@@ -18,17 +18,17 @@ public class GraphSimplifyTests
 {
 	private ReachabilityGraph<OWLEntity> _graph;
 	private OWLEntity[] _entities;
-	private EntityNode[] _nodes;
+	private EntityNode<OWLEntity>[] _nodes;
 
 	private void addEdge(final int in, final int out)
 	{
 		_nodes[in].addOutput(_nodes[out]);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createGraph(final int n)
 	{
 		_graph = new ReachabilityGraph<>();
-
 		_entities = new OWLEntity[n];
 		_nodes = new EntityNode[n];
 		for (int i = 0; i < n; i++)

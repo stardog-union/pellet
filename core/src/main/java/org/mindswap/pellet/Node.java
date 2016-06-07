@@ -46,6 +46,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.tableau.completion.queue.NodeSelector;
@@ -377,28 +378,28 @@ public abstract class Node
 			final DependencySet d = getDepends(c);
 
 			final boolean removeType = PelletOptions.USE_SMART_RESTORE
-			//                ? ( !d.contains( _branch ) )
-			? (d.max() >= branch)
-					: (d.getBranch() > branch);
+					//                ? ( !d.contains( _branch ) )
+					? (d.max() >= branch)
+							: (d.getBranch() > branch);
 
-			if (removeType)
-			{
-				removed = true;
+					if (removeType)
+					{
+						removed = true;
 
-				if (_logger.isLoggable(Level.FINE))
-					_logger.fine("RESTORE: " + this + " remove type " + c + " " + d + " " + branch);
+						if (_logger.isLoggable(Level.FINE))
+							_logger.fine("RESTORE: " + this + " remove type " + c + " " + d + " " + branch);
 
-				//track that this _node is affected
-				if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && this instanceof Individual)
-					_abox.getIncrementalChangeTracker().addDeletedType(this, c);
+						//track that this _node is affected
+						if (PelletOptions.USE_INCREMENTAL_CONSISTENCY && this instanceof Individual)
+							_abox.getIncrementalChangeTracker().addDeletedType(this, c);
 
-				i.remove();
-				removeType(c);
-				restored = true;
-			}
-			else
-				if (PelletOptions.USE_SMART_RESTORE && ATermUtils.isAnd(c))
-					conjunctions.add(c);
+						i.remove();
+						removeType(c);
+						restored = true;
+					}
+					else
+						if (PelletOptions.USE_SMART_RESTORE && ATermUtils.isAnd(c))
+							conjunctions.add(c);
 		}
 
 		//update the _queue with things that could readd this type
@@ -626,6 +627,11 @@ public abstract class Node
 	public Set<ATermAppl> getTypes()
 	{
 		return _depends.keySet();
+	}
+
+	public Stream<ATermAppl> types()
+	{
+		return _depends.keySet().stream();
 	}
 
 	public void removeTypes()
