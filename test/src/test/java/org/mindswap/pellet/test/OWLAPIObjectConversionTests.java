@@ -8,8 +8,8 @@
 
 package org.mindswap.pellet.test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import aterm.ATermAppl;
 import com.clarkparsia.pellet.owlapi.ConceptConverter;
@@ -295,6 +295,7 @@ public class OWLAPIObjectConversionTests
 	@Test
 	public void testDataRangeRestriction()
 	{
+		// TODO : add a test.
 	}
 
 	@Test

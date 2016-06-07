@@ -106,12 +106,12 @@ public class DLBenchmarkTest
 			System.out.print((i + 1) + ") ");
 
 			final List<Comparable> data = new ArrayList<>();
-			data.add(files[i]);
+			data.add(files[i]); // Adding a File
 			try
 			{
 				doTBoxTest(files[i].toString());
-				data.add(Integer.valueOf(_kb.getClasses().size()));
-				data.add(_kb.timers.getTimer("test").getTotal() + "");
+				data.add(Integer.valueOf(_kb.getClasses().size())); // Adding an Integer.
+				data.add(_kb.timers.getTimer("test").getTotal() + ""); // Adding a String.
 			}
 			catch (final TimeoutException e)
 			{

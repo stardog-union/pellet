@@ -14,9 +14,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.semanticweb.owlapi.model.AxiomType;
@@ -128,28 +130,30 @@ public class EntailmentChecker implements OWLAxiomVisitor, FacetReasonerOWL
 		return _isDeferred || _isEntailed;
 	}
 
+	public boolean isEntailed(final Stream<? extends OWLAxiom> axioms)
+	{
+		_queryVisitor.reset();
+
+		final Optional<? extends OWLAxiom> unEntailed = axioms.filter(axiom -> !isEntailed(axiom)).findAny();
+		if (unEntailed.isPresent())
+		{
+			_logger.fine("Axiom not entailed: (" + unEntailed.get() + ")");
+			return false;
+		}
+
+		return _queryVisitor.isEntailed();
+	}
+
 	public boolean isEntailed(final Set<? extends OWLAxiom> axioms)
 	{
 
 		if (axioms.isEmpty())
-			_logger.warning("Empty ontologies are entailed by any premise document!");
-		else
 		{
-			_queryVisitor.reset();
-
-			for (final OWLAxiom axiom : axioms)
-				if (!isEntailed(axiom))
-				{
-					if (_logger.isLoggable(Level.FINE))
-						_logger.fine("Axiom not entailed: (" + axiom + ")");
-					return false;
-				}
-
-			return _queryVisitor.isEntailed();
-
+			_logger.warning("Empty ontologies are entailed by any premise document!");
+			return true;
 		}
-
-		return true;
+		else
+			return isEntailed(axioms.stream());
 	}
 
 	public Set<OWLAxiom> findNonEntailments(final Set<? extends OWLAxiom> axioms, final boolean findAll)

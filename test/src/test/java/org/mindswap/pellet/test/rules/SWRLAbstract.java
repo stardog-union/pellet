@@ -17,7 +17,10 @@ import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
 import org.junit.After;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
  * <p>
@@ -70,15 +73,15 @@ public class SWRLAbstract
 
 		try
 		{
-			manager = org.semanticweb.owlapi.apibinding.OWLManager.createOWLOntologyManager();
-			final org.semanticweb.owlapi.model.OWLOntology premise = manager.loadOntology(IRI.create(premiseURI));
-			manager = org.semanticweb.owlapi.apibinding.OWLManager.createOWLOntologyManager();
-			final org.semanticweb.owlapi.model.OWLOntology conclusion = manager.loadOntology(IRI.create(conclusionURI));
+			manager = OWLManager.createOWLOntologyManager();
+			final OWLOntology premise = manager.loadOntology(IRI.create(premiseURI));
+			manager = OWLManager.createOWLOntologyManager();
+			final OWLOntology conclusion = manager.loadOntology(IRI.create(conclusionURI));
 
 			final PelletReasoner reasoner = new com.clarkparsia.pellet.owlapi.PelletReasonerFactory().createReasoner(premise);
-			assertTrue(reasoner.isEntailed(conclusion.getAxioms()));
+			assertTrue(reasoner.isEntailed(conclusion.axioms()));
 		}
-		catch (final org.semanticweb.owlapi.model.OWLOntologyCreationException e)
+		catch (final OWLOntologyCreationException e)
 		{
 			throw new RuntimeException(e);
 		}

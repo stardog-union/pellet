@@ -85,15 +85,15 @@ public class IncConsistencyTests extends AbstractKBTests
 		return cases;
 	}
 
-	private boolean preUCQ;
-	private boolean preUIC;
-	private boolean preUSR;
-	private boolean preUT;
-	private boolean preUID;
+	private boolean _preUCQ;
+	private boolean _preUIC;
+	private boolean _preUSR;
+	private boolean _preUT;
+	private boolean _preUID;
 
-	private final boolean ucq;
-	private final boolean uic;
-	private final boolean uid;
+	private final boolean _ucq;
+	private final boolean _uic;
+	private final boolean _uid;
 
 	private static final boolean PRINT_ABOX = false;
 
@@ -129,9 +129,9 @@ public class IncConsistencyTests extends AbstractKBTests
 
 	public IncConsistencyTests(final boolean ucq, final boolean uic, final boolean uid)
 	{
-		this.ucq = ucq;
-		this.uic = uic;
-		this.uid = uid;
+		this._ucq = ucq;
+		this._uic = uic;
+		this._uid = uid;
 	}
 
 	/**
@@ -196,16 +196,16 @@ public class IncConsistencyTests extends AbstractKBTests
 	@Before
 	public void setUp()
 	{
-		preUCQ = PelletOptions.USE_COMPLETION_QUEUE;
-		preUIC = PelletOptions.USE_INCREMENTAL_CONSISTENCY;
-		preUSR = PelletOptions.USE_SMART_RESTORE;
-		preUID = PelletOptions.USE_INCREMENTAL_DELETION;
-		preUT = PelletOptions.USE_TRACING;
+		_preUCQ = PelletOptions.USE_COMPLETION_QUEUE;
+		_preUIC = PelletOptions.USE_INCREMENTAL_CONSISTENCY;
+		_preUSR = PelletOptions.USE_SMART_RESTORE;
+		_preUID = PelletOptions.USE_INCREMENTAL_DELETION;
+		_preUT = PelletOptions.USE_TRACING;
 
-		PelletOptions.USE_COMPLETION_QUEUE = ucq;
-		PelletOptions.USE_INCREMENTAL_CONSISTENCY = uic;
-		PelletOptions.USE_INCREMENTAL_DELETION = uid;
-		PelletOptions.USE_TRACING = uid;
+		PelletOptions.USE_COMPLETION_QUEUE = _ucq;
+		PelletOptions.USE_INCREMENTAL_CONSISTENCY = _uic;
+		PelletOptions.USE_INCREMENTAL_DELETION = _uid;
+		PelletOptions.USE_TRACING = _uid;
 		PelletOptions.USE_SMART_RESTORE = true;
 		PelletOptions.PRINT_ABOX = PRINT_ABOX;
 
@@ -215,15 +215,15 @@ public class IncConsistencyTests extends AbstractKBTests
 	}
 
 	@After
-	public void tearDown() throws Exception
+	public void tearDown()
 	{
 		super.disposeKB();
 
-		PelletOptions.USE_COMPLETION_QUEUE = preUCQ;
-		PelletOptions.USE_INCREMENTAL_CONSISTENCY = preUIC;
-		PelletOptions.USE_SMART_RESTORE = preUSR;
-		PelletOptions.USE_TRACING = preUT;
-		PelletOptions.USE_INCREMENTAL_DELETION = preUID;
+		PelletOptions.USE_COMPLETION_QUEUE = _preUCQ;
+		PelletOptions.USE_INCREMENTAL_CONSISTENCY = _preUIC;
+		PelletOptions.USE_SMART_RESTORE = _preUSR;
+		PelletOptions.USE_TRACING = _preUT;
+		PelletOptions.USE_INCREMENTAL_DELETION = _preUID;
 	}
 
 	@Test

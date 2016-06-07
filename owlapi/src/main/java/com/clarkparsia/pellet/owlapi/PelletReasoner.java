@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
@@ -995,7 +996,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener, F
 	}
 
 	@Override
-	public boolean isEntailed(final Set<? extends OWLAxiom> axioms) throws ReasonerInterruptedException, UnsupportedEntailmentTypeException, TimeOutException, AxiomNotInProfileException, FreshEntitiesException, InconsistentOntologyException
+	public boolean isEntailed(final Stream<? extends OWLAxiom> axioms) throws ReasonerInterruptedException, UnsupportedEntailmentTypeException, TimeOutException, AxiomNotInProfileException, FreshEntitiesException, InconsistentOntologyException
 	{
 		refreshCheck();
 		try
@@ -1007,6 +1008,12 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener, F
 		{
 			throw convert(e);
 		}
+	}
+
+	@Override
+	public boolean isEntailed(final Set<? extends OWLAxiom> axioms) throws ReasonerInterruptedException, UnsupportedEntailmentTypeException, TimeOutException, AxiomNotInProfileException, FreshEntitiesException, InconsistentOntologyException
+	{
+		return isEntailed(axioms.stream());
 	}
 
 	@Override

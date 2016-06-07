@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.Model;
@@ -30,7 +31,6 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.util.iterator.Filter;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.iterator.IteratorUtils;
@@ -69,6 +69,7 @@ public final class PelletTestCase
 		assertIteratorValues(it, (T[]) IteratorUtils.toList(expected).toArray());
 	}
 
+	@SafeVarargs
 	public static <T> void assertIteratorValues(final Iterator<? extends T> it, final T... expected)
 	{
 		final boolean[] found = new boolean[expected.length];
@@ -123,15 +124,7 @@ public final class PelletTestCase
 
 	public static void assertPropertyValues(final Model model, final Property pred, final Model inferences)
 	{
-		final Filter<Statement> predFilter = new Filter<Statement>()
-		{
-			@Deprecated
-			@Override
-			public boolean accept(final Statement stmt)
-			{
-				return stmt.getPredicate().equals(pred);
-			}
-		};
+		final Predicate<Statement> predFilter = stmt -> stmt.getPredicate().equals(pred);
 
 		for (final StmtIterator i = inferences.listStatements(); i.hasNext();)
 		{

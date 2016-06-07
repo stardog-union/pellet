@@ -20,7 +20,7 @@ import static com.clarkparsia.pellet.utils.TermFactory.self;
 import static com.clarkparsia.pellet.utils.TermFactory.some;
 import static com.clarkparsia.pellet.utils.TermFactory.term;
 import static com.clarkparsia.pellet.utils.TermFactory.value;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mindswap.pellet.test.PelletTestCase.assertIteratorValues;
