@@ -19,6 +19,8 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.TaxonomyNode;
@@ -29,11 +31,7 @@ import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLException;
-import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
@@ -160,29 +158,27 @@ public class TaxonomyPersistence
 
 	/**
 	 * Gets all the super classes of the given class in the ontology
-	 * 
+	 *
 	 * @param ontology ontology to be queried
 	 * @param owlClass the class whose super classes are to be retrieved
 	 * @return a set of super classes
 	 */
+	private static Stream<OWLClass> superClasses(final OWLOntology ontology, final OWLClass owlClass)
+	{
+		return ontology.subClassAxiomsForSubClass(owlClass) //
+				.map(OWLSubClassOfAxiom::getSuperClass) //
+				.filter(owlSuperDescription -> owlSuperDescription instanceof OWLClass) //
+				.map(x -> (OWLClass) x); //
+	}
+
 	private static Set<OWLClass> getSuperClasses(final OWLOntology ontology, final OWLClass owlClass)
 	{
-		final HashSet<OWLClass> superClasses = new HashSet<>();
-
-		for (final OWLSubClassOfAxiom superClassAxiom : ontology.getSubClassAxiomsForSubClass(owlClass))
-		{
-			final OWLClassExpression owlSuperDescription = superClassAxiom.getSuperClass();
-
-			if (owlSuperDescription instanceof OWLClass)
-				superClasses.add((OWLClass) owlSuperDescription);
-		}
-
-		return superClasses;
+		return superClasses(ontology, owlClass).collect(Collectors.toSet());
 	}
 
 	/**
 	 * Creates a taxonomy from the ontology.
-	 * 
+	 *
 	 * @param ontology the ontology containing the _data which is the source for the taxonomy
 	 * @return the created taxonomy
 	 */
@@ -196,36 +192,31 @@ public class TaxonomyPersistence
 
 		// first create all the _nodes in the taxonomy based on classes in the ontology and the equivalence relationships among them
 		// (only one _node in taxonomy for all the equivalent classes in the group)
-		for (final OWLClass owlClass : ontology.getClassesInSignature())
+		ontology.classesInSignature().filter(owlClass -> !processedEquivalentClasses.contains(owlClass)).forEach(owlClass ->
 		{
-			if (processedEquivalentClasses.contains(owlClass))
-				continue;
-
 			final HashSet<OWLClass> equivalentClasses = new HashSet<>();
-			boolean equivalentToThing = false;
-			boolean equivalentToNothing = false;
+			final boolean[] thing_Nothing = { false, false };
 
-			for (final OWLEquivalentClassesAxiom equivalentAxiom : ontology.getEquivalentClassesAxioms(owlClass))
+			ontology.equivalentClassesAxioms(owlClass).forEach(equivalentAxiom ->
 			{
-				equivalentClasses.addAll(equivalentAxiom.getNamedClasses());
+				equivalentAxiom.namedClasses().forEach(equivalentClasses::add);
 
 				if (equivalentAxiom.containsOWLNothing())
-					equivalentToNothing = true;
+					thing_Nothing[1] = true; //equivalentToNothing
 
 				if (equivalentAxiom.containsOWLThing())
-					equivalentToThing = true;
-			}
+					thing_Nothing[0] = true; //equivalentToThing
+			});
 
 			equivalentClasses.removeAll(processedEquivalentClasses);
 
-			if (equivalentToThing)
+			if (thing_Nothing[0])
 				taxonomy.addEquivalents(OWL.Thing, equivalentClasses);
 			else
-				if (equivalentToNothing)
+				if (thing_Nothing[1])
 					taxonomy.addEquivalents(OWL.Nothing, equivalentClasses);
 				else
 				{
-
 					if (equivalentClasses.contains(owlClass))
 						equivalentClasses.remove(owlClass);
 
@@ -235,7 +226,7 @@ public class TaxonomyPersistence
 
 			processedEquivalentClasses.add(owlClass);
 			processedEquivalentClasses.addAll(equivalentClasses);
-		}
+		});
 
 		// post process the top and bottom _nodes
 		for (final TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes())
@@ -256,22 +247,14 @@ public class TaxonomyPersistence
 		// read the instance _data (if available)
 		for (final TaxonomyNode<OWLClass> taxonomyNode : taxonomy.getNodes())
 		{
-			Set<OWLNamedIndividual> individuals = null;
+			final Set<OWLNamedIndividual> individuals = //
+			ontology.classAssertionAxioms(taxonomyNode.getName())//
+					.map(classAssertionAxiom -> classAssertionAxiom.getIndividual())//
+					.filter(individual -> individual.isNamed() && individual instanceof OWLNamedIndividual) //
+					.map(x -> (OWLNamedIndividual) x)//
+					.collect(Collectors.toSet());//
 
-			for (final OWLClassAssertionAxiom classAssertionAxiom : ontology.getClassAssertionAxioms(taxonomyNode.getName()))
-			{
-				final OWLIndividual individual = classAssertionAxiom.getIndividual();
-
-				if (individual.isNamed() && individual instanceof OWLNamedIndividual)
-				{
-					if (individuals == null)
-						individuals = new HashSet<>();
-
-					individuals.add((OWLNamedIndividual) individual);
-				}
-			}
-
-			if (individuals != null)
+			if (!individuals.isEmpty())
 				taxonomyNode.putDatum(TaxonomyUtils.INSTANCES_KEY, individuals);
 		}
 
@@ -280,7 +263,7 @@ public class TaxonomyPersistence
 
 	/**
 	 * Loads the taxonomy from a stream
-	 * 
+	 *
 	 * @param ontologyManager the ontology manager
 	 * @param is the stream containing the taxonomy in the form of an ontology
 	 * @return the read taxonomy
