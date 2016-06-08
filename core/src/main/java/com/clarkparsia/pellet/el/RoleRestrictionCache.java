@@ -34,13 +34,13 @@ import org.mindswap.pellet.utils.iterator.IteratorUtils;
  */
 public class RoleRestrictionCache
 {
-	private final Map<ATermAppl, ATermAppl> m_Domains;
-	private final Map<ATermAppl, ATermAppl> m_Ranges;
+	private final Map<ATermAppl, ATermAppl> _domains;
+	private final Map<ATermAppl, ATermAppl> _ranges;
 
 	public RoleRestrictionCache(final RBox rbox)
 	{
-		m_Domains = CollectionUtils.makeMap();
-		m_Ranges = CollectionUtils.makeMap();
+		_domains = CollectionUtils.makeMap();
+		_ranges = CollectionUtils.makeMap();
 
 		prepareDomainsRanges(rbox);
 	}
@@ -51,11 +51,11 @@ public class RoleRestrictionCache
 		{
 			final Iterator<ATermAppl> assertedDomains = rbox.getAssertedDomains(role);
 			if (assertedDomains.hasNext())
-				addTo(m_Domains, role.getName(), IteratorUtils.toSet(assertedDomains));
+				addTo(_domains, role.getName(), IteratorUtils.toSet(assertedDomains));
 
 			final Iterator<ATermAppl> assertedRanges = rbox.getAssertedRanges(role);
 			if (assertedRanges.hasNext())
-				addTo(m_Ranges, role.getName(), IteratorUtils.toSet(assertedRanges));
+				addTo(_ranges, role.getName(), IteratorUtils.toSet(assertedRanges));
 		}
 	}
 
@@ -77,21 +77,21 @@ public class RoleRestrictionCache
 
 	public Map<ATermAppl, ATermAppl> getDomains()
 	{
-		return m_Domains;
+		return _domains;
 	}
 
 	public Map<ATermAppl, ATermAppl> getRanges()
 	{
-		return m_Ranges;
+		return _ranges;
 	}
 
 	public ATermAppl getDomain(final ATermAppl prop)
 	{
-		return m_Domains.get(prop);
+		return _domains.get(prop);
 	}
 
 	public ATermAppl getRange(final ATermAppl prop)
 	{
-		return m_Ranges.get(prop);
+		return _ranges.get(prop);
 	}
 }

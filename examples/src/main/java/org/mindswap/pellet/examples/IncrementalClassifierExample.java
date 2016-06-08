@@ -48,7 +48,7 @@ public class IncrementalClassifierExample
 	public void run() throws OWLOntologyCreationException
 	{
 		// Load the ontology file into an OWL ontology object
-		final OWLOntology ontology = OWL.manager.loadOntology(IRI.create(file));
+		final OWLOntology ontology = OWL._manager.loadOntology(IRI.create(file));
 
 		// Get some entities
 		final OWLClass headache = OWL.Class(NS + "Headache");
@@ -74,7 +74,7 @@ public class IncrementalClassifierExample
 		final OWLAxiom axiom = OWL.subClassOf(headache, pain);
 
 		// Add the axiom to the ontology, which creates a change event
-		OWL.manager.applyChange(new AddAxiom(ontology, axiom));
+		OWL._manager.applyChange(new AddAxiom(ontology, axiom));
 
 		// Now we create a second timer to keep track of the performance of the
 		// second classification
@@ -87,7 +87,7 @@ public class IncrementalClassifierExample
 		System.out.println("Subclasses of " + pain + ": " + classifier.getSubClasses(pain, true).entities().map(OWLClass::toString).collect(Collectors.joining(",")) + "\n");
 
 		// Remove the axiom from the ontology, which creates a change event
-		OWL.manager.applyChange(new RemoveAxiom(ontology, axiom));
+		OWL._manager.applyChange(new RemoveAxiom(ontology, axiom));
 
 		// Now we create a third timer to keep track of the performance of the
 		// third classification

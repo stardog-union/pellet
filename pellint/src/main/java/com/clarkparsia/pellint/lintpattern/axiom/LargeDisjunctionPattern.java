@@ -40,24 +40,24 @@ public class LargeDisjunctionPattern extends AxiomLintPattern
 {
 	private static final LintFormat DEFAULT_LINT_FORMAT = new SimpleLintFormat();
 
-	private int m_MaxAllowed = 10;
-	private final DisjunctionSizeCollector m_Visitor;
+	private int _maxAllowed = 10;
+	private final DisjunctionSizeCollector _visitor;
 
 	public LargeDisjunctionPattern()
 	{
-		m_Visitor = new DisjunctionSizeCollector();
+		_visitor = new DisjunctionSizeCollector();
 	}
 
 	@Override
 	public String getName()
 	{
-		return getClass().getSimpleName() + " (MaxAllowed = " + m_MaxAllowed + ")";
+		return getClass().getSimpleName() + " (MaxAllowed = " + _maxAllowed + ")";
 	}
 
 	@Override
 	public String getDescription()
 	{
-		return "Too many disjuncts in a _disjunction - maximum recommended is " + m_MaxAllowed;
+		return "Too many disjuncts in a _disjunction - maximum recommended is " + _maxAllowed;
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class LargeDisjunctionPattern extends AxiomLintPattern
 
 	public void setMaxAllowed(final int value)
 	{
-		m_MaxAllowed = value;
+		_maxAllowed = value;
 	}
 
 	@Override
@@ -103,10 +103,10 @@ public class LargeDisjunctionPattern extends AxiomLintPattern
 
 	private void visitNaryClassAxiom(final OWLClassAxiom axiom)
 	{
-		m_Visitor.reset();
-		axiom.accept(m_Visitor);
-		final int disjunctionSize = m_Visitor.getDisjunctionSize();
-		if (disjunctionSize > m_MaxAllowed)
+		_visitor.reset();
+		axiom.accept(_visitor);
+		final long disjunctionSize = _visitor.getDisjunctionSize();
+		if (disjunctionSize > _maxAllowed)
 		{
 			final Lint lint = makeLint();
 			lint.addParticipatingAxiom(axiom);
@@ -118,24 +118,24 @@ public class LargeDisjunctionPattern extends AxiomLintPattern
 
 class DisjunctionSizeCollector extends OWLDeepEntityVisitorAdapter
 {
-	private int m_Size;
+	private long _size;
 
 	public void reset()
 	{
-		m_Size = 0;
+		_size = 0;
 	}
 
-	public int getDisjunctionSize()
+	public long getDisjunctionSize()
 	{
-		return m_Size;
+		return _size;
 	}
 
 	@Override
 	public Collection<OWLEntity> visit(final OWLObjectUnionOf union)
 	{
-		final int size = union.getOperands().size();
-		if (size > m_Size)
-			m_Size = size;
+		final long size = union.operands().count();
+		if (size > _size)
+			_size = size;
 		return super.visit(union);
 	}
 }

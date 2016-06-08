@@ -43,20 +43,20 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 {
 	private static Set<ATermAppl> TOP_SET = SetUtils.singleton(ATermUtils.TOP);
 
-	private final Visitor m_Visitor;
+	private final Visitor _visitor;
 
-	private Expressivity m_Expressivity;
+	private Expressivity _expressivity;
 
 	public DLExpressivityChecker(final KnowledgeBase kb)
 	{
 		super(kb);
-		m_Visitor = new Visitor();
+		_visitor = new Visitor();
 	}
 
 	@Override
 	public boolean compute(final Expressivity expressivity)
 	{
-		m_Expressivity = expressivity;
+		_expressivity = expressivity;
 
 		processIndividuals();
 		processClasses();
@@ -68,17 +68,17 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 	@Override
 	public boolean updateWith(final Expressivity expressivity, final ATermAppl term)
 	{
-		m_Expressivity = expressivity;
-		m_Visitor.visit(term);
+		_expressivity = expressivity;
+		_visitor.visit(term);
 		return true;
 	}
 
 	private void processIndividuals()
 	{
-		if (!m_KB.getABox().isEmpty())
-			m_Expressivity.setHasIndividual(true);
+		if (!_KB.getABox().isEmpty())
+			_expressivity.setHasIndividual(true);
 
-		final Iterator<Individual> i = m_KB.getABox().getIndIterator();
+		final Iterator<Individual> i = _KB.getABox().getIndIterator();
 		while (i.hasNext())
 		{
 			final Individual ind = i.next();
@@ -90,89 +90,89 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 
 				if (term.equals(nominal))
 					continue;
-				m_Visitor.visit(term);
+				_visitor.visit(term);
 			}
 		}
 	}
 
 	private void processClasses()
 	{
-		final TBox tbox = m_KB.getTBox();
+		final TBox tbox = _KB.getTBox();
 
-		for (final ATermAppl c : m_KB.getAllClasses())
+		for (final ATermAppl c : _KB.getAllClasses())
 		{
 			final Iterator<Unfolding> unfoldC = tbox.unfold(c);
 			while (unfoldC.hasNext())
 			{
 				final Unfolding unf = unfoldC.next();
-				m_Visitor.visit(unf.getResult());
+				_visitor.visit(unf.getResult());
 			}
 		}
 	}
 
 	private void processRoles()
 	{
-		for (final Role r : m_KB.getRBox().getRoles())
+		for (final Role r : _KB.getRBox().getRoles())
 		{
 			if (r.isBuiltin())
 				continue;
 
 			if (r.isDatatypeRole())
 			{
-				m_Expressivity.setHasDatatype(true);
+				_expressivity.setHasDatatype(true);
 				if (r.isInverseFunctional())
-					m_Expressivity.setHasKeys(true);
+					_expressivity.setHasKeys(true);
 			}
 
 			if (r.isAnon())
 				for (final Role subRole : r.getSubRoles())
 					if (!subRole.isAnon() && !subRole.isBottom())
-						m_Expressivity.setHasInverse(true);
+						_expressivity.setHasInverse(true);
 
 			// InverseFunctionalProperty declaration may mean that a named
 			// property has an anonymous inverse property which is functional
 			// The following _condition checks this case
 			if (r.isAnon() && r.isFunctional())
-				m_Expressivity.setHasInverse(true);
+				_expressivity.setHasInverse(true);
 			if (r.isFunctional())
 				if (r.isDatatypeRole())
-					m_Expressivity.setHasFunctionalityD(true);
+					_expressivity.setHasFunctionalityD(true);
 				else
 					if (r.isObjectRole())
-						m_Expressivity.setHasFunctionality(true);
+						_expressivity.setHasFunctionality(true);
 			if (r.isTransitive())
-				m_Expressivity.setHasTransitivity(true);
+				_expressivity.setHasTransitivity(true);
 			if (r.isReflexive())
-				m_Expressivity.setHasReflexivity(true);
+				_expressivity.setHasReflexivity(true);
 			if (r.isIrreflexive())
-				m_Expressivity.setHasIrreflexivity(true);
+				_expressivity.setHasIrreflexivity(true);
 			if (r.isAsymmetric())
-				m_Expressivity.setHasAsymmetry(true);
+				_expressivity.setHasAsymmetry(true);
 			if (!r.getDisjointRoles().isEmpty())
-				m_Expressivity.setHasDisjointRoles(true);
+				_expressivity.setHasDisjointRoles(true);
 			if (r.hasComplexSubRole())
-				m_Expressivity.setHasComplexSubRoles(true);
+				_expressivity.setHasComplexSubRoles(true);
 
 			// Each property has itself included in the subroles set. We need
 			// at least two properties in the set to conclude there is a role
 			// hierarchy defined in the ontology
 			if (r.getSubRoles().size() > 1)
-				m_Expressivity.setHasRoleHierarchy(true);
+				_expressivity.setHasRoleHierarchy(true);
 
 			final Set<ATermAppl> domains = r.getDomains();
 			if (!domains.isEmpty() && !domains.equals(TOP_SET))
 			{
-				m_Expressivity.setHasDomain(true);
+				_expressivity.setHasDomain(true);
 				for (final ATermAppl domain : domains)
-					m_Visitor.visit(domain);
+					_visitor.visit(domain);
 			}
 
 			final Set<ATermAppl> ranges = r.getRanges();
 			if (!ranges.isEmpty() && !ranges.equals(TOP_SET))
 			{
-				m_Expressivity.setHasRange(true);
+				_expressivity.setHasRange(true);
 				for (final ATermAppl range : ranges)
-					m_Visitor.visit(range);
+					_visitor.visit(range);
 			}
 		}
 	}
@@ -189,8 +189,8 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		{
 			if (!ATermUtils.isPrimitive(p))
 			{
-				m_Expressivity.setHasInverse(true);
-				m_Expressivity.addAnonInverse((ATermAppl) p.getArgument(0));
+				_expressivity.setHasInverse(true);
+				_expressivity.addAnonInverse((ATermAppl) p.getArgument(0));
 			}
 		}
 
@@ -203,14 +203,14 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		@Override
 		public void visitOr(final ATermAppl term)
 		{
-			m_Expressivity.setHasNegation(true);
+			_expressivity.setHasNegation(true);
 			visitList((ATermList) term.getArgument(0));
 		}
 
 		@Override
 		public void visitNot(final ATermAppl term)
 		{
-			m_Expressivity.setHasNegation(true);
+			_expressivity.setHasNegation(true);
 			visit((ATermAppl) term.getArgument(0));
 		}
 
@@ -224,7 +224,7 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		@Override
 		public void visitAll(final ATermAppl term)
 		{
-			m_Expressivity.setHasAllValues(true);
+			_expressivity.setHasAllValues(true);
 			final ATerm p = term.getArgument(0);
 			// it is possible that due to property chains, a list of properties might have been added
 			// to the restriction. this would only happen if we already performed consistency so these
@@ -245,42 +245,42 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		public void visitMin(final ATermAppl term)
 		{
 			visitRole((ATermAppl) term.getArgument(0));
-			final Role role = m_KB.getRole(term.getArgument(0));
+			final Role role = _KB.getRole(term.getArgument(0));
 			final ATermAppl c = (ATermAppl) term.getArgument(2);
 			if (!ATermUtils.isTop(c))
 			{
 				if (role.isDatatypeRole())
-					m_Expressivity.setHasCardinalityD(true);
+					_expressivity.setHasCardinalityD(true);
 				else
-					m_Expressivity.setHasCardinalityQ(true);
+					_expressivity.setHasCardinalityQ(true);
 			}
 			else
 				if (role.isDatatypeRole())
-					m_Expressivity.setHasCardinalityD(true);
+					_expressivity.setHasCardinalityD(true);
 				else
-					m_Expressivity.setHasCardinality(true);
+					_expressivity.setHasCardinality(true);
 		}
 
 		@Override
 		public void visitMax(final ATermAppl term)
 		{
 			visitRole((ATermAppl) term.getArgument(0));
-			final Role role = m_KB.getRole(term.getArgument(0));
+			final Role role = _KB.getRole(term.getArgument(0));
 			final int cardinality = ((ATermInt) term.getArgument(1)).getInt();
 			final ATermAppl c = (ATermAppl) term.getArgument(2);
 			if (!ATermUtils.isTop(c))
 			{
 				if (role.isDatatypeRole())
-					m_Expressivity.setHasCardinalityD(true);
+					_expressivity.setHasCardinalityD(true);
 				else
-					m_Expressivity.setHasCardinalityQ(true);
+					_expressivity.setHasCardinalityQ(true);
 			}
 			else
 				if (cardinality > 1)
 					if (role.isDatatypeRole())
-						m_Expressivity.setHasCardinalityD(true);
+						_expressivity.setHasCardinalityD(true);
 					else
-						m_Expressivity.setHasCardinality(true);
+						_expressivity.setHasCardinality(true);
 		}
 
 		@Override
@@ -295,15 +295,15 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		{
 			final ATermAppl nom = (ATermAppl) term.getArgument(0);
 			if (!ATermUtils.isLiteral(nom))
-				m_Expressivity.addNominal(nom);
+				_expressivity.addNominal(nom);
 			else
-				m_Expressivity.setHasUserDefinedDatatype(true);
+				_expressivity.setHasUserDefinedDatatype(true);
 		}
 
 		@Override
 		public void visitOneOf(final ATermAppl term)
 		{
-			m_Expressivity.setHasNegation(true);
+			_expressivity.setHasNegation(true);
 			visitList((ATermList) term.getArgument(0));
 		}
 
@@ -316,8 +316,8 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		@Override
 		public void visitSelf(final ATermAppl term)
 		{
-			m_Expressivity.setHasReflexivity(true);
-			m_Expressivity.setHasIrreflexivity(true);
+			_expressivity.setHasReflexivity(true);
+			_expressivity.setHasIrreflexivity(true);
 		}
 
 		public void visitSubClass(final ATermAppl term)
@@ -328,7 +328,7 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		@Override
 		public void visitInverse(final ATermAppl p)
 		{
-			m_Expressivity.setHasInverse(true);
+			_expressivity.setHasInverse(true);
 		}
 
 		/**
@@ -337,8 +337,8 @@ public class DLExpressivityChecker extends ProfileBasedExpressivityChecker
 		@Override
 		public void visitRestrictedDatatype(final ATermAppl dt)
 		{
-			m_Expressivity.setHasDatatype(true);
-			m_Expressivity.setHasUserDefinedDatatype(true);
+			_expressivity.setHasDatatype(true);
+			_expressivity.setHasUserDefinedDatatype(true);
 		}
 	}
 }

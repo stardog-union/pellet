@@ -31,45 +31,45 @@ import org.apache.jena.rdf.model.Statement;
  */
 public class RDFLints
 {
-	private final Map<String, List<String>> m_Report;
-	private final List<Statement> m_MissingStatements;
+	private final Map<String, List<String>> _report;
+	private final List<Statement> _missingStatements;
 
 	public RDFLints()
 	{
-		m_Report = new LinkedHashMap<>();
-		m_MissingStatements = CollectionUtil.makeList();
+		_report = new LinkedHashMap<>();
+		_missingStatements = CollectionUtil.makeList();
 	}
 
 	public void add(final String category, final List<String> msgs)
 	{
 		if (!msgs.isEmpty())
-			m_Report.put(category, msgs);
+			_report.put(category, msgs);
 	}
 
 	public void addMissingStatements(final List<Statement> stmts)
 	{
-		m_MissingStatements.addAll(stmts);
+		_missingStatements.addAll(stmts);
 	}
 
 	public List<Statement> getMissingStatements()
 	{
-		return m_MissingStatements;
+		return _missingStatements;
 	}
 
 	public boolean isEmpty()
 	{
-		return m_Report.isEmpty();
+		return _report.isEmpty();
 	}
 
 	@Override
 	public String toString()
 	{
-		if (m_Report.isEmpty())
+		if (_report.isEmpty())
 			return "No RDF lints found.";
 
 		final StringBuilder builder = new StringBuilder();
 
-		for (final Entry<String, List<String>> entry : m_Report.entrySet())
+		for (final Entry<String, List<String>> entry : _report.entrySet())
 		{
 			final String category = entry.getKey();
 			final List<String> msgs = entry.getValue();

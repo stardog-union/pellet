@@ -43,7 +43,7 @@ import org.mindswap.pellet.utils.ATermUtils;
 public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 {
 
-	private Expressivity m_Expressivity;
+	private Expressivity _expressivity;
 
 	public ELExpressivityChecker(final KnowledgeBase kb)
 	{
@@ -53,7 +53,7 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 	@Override
 	public boolean compute(final Expressivity expressivity)
 	{
-		m_Expressivity = expressivity;
+		_expressivity = expressivity;
 
 		if (!processIndividuals())
 			return false;
@@ -66,7 +66,7 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 
 	private boolean processIndividuals()
 	{
-		final IndividualIterator i = m_KB.getABox().getIndIterator();
+		final IndividualIterator i = _KB.getABox().getIndIterator();
 		while (i.hasNext())
 		{
 			final Individual ind = i.next();
@@ -86,13 +86,13 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 
 	private boolean processClasses()
 	{
-		for (final ATermAppl axiom : m_KB.getTBox().getAssertedAxioms())
+		for (final ATermAppl axiom : _KB.getTBox().getAssertedAxioms())
 		{
 			final AFun fun = axiom.getAFun();
 
 			if (fun.equals(ATermUtils.DISJOINTSFUN))
 			{
-				m_Expressivity.setHasDisjointClasses(true);
+				_expressivity.setHasDisjointClasses(true);
 
 				ATermList args = (ATermList) axiom.getArgument(0);
 				for (; !args.isEmpty(); args = args.getNext())
@@ -110,17 +110,17 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 				if (fun.equals(ATermUtils.SUBFUN))
 				{
 					if (ATermUtils.isBottom(simplify(sup)))
-						m_Expressivity.setHasDisjointClasses(true);
+						_expressivity.setHasDisjointClasses(true);
 				}
 				else
 					if (fun.equals(ATermUtils.EQCLASSFUN))
 					{
 						if (ATermUtils.isBottom(simplify(sub)) || ATermUtils.isBottom(simplify(sup)))
-							m_Expressivity.setHasDisjointClasses(true);
+							_expressivity.setHasDisjointClasses(true);
 					}
 					else
 						if (fun.equals(ATermUtils.DISJOINTFUN))
-							m_Expressivity.setHasDisjointClasses(true);
+							_expressivity.setHasDisjointClasses(true);
 						else
 							return false;
 			}
@@ -131,7 +131,7 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 
 	private boolean processRoles()
 	{
-		final Collection<Role> roles = m_KB.getRBox().getRoles();
+		final Collection<Role> roles = _KB.getRBox().getRoles();
 
 		for (final Role r : roles)
 		{
@@ -154,9 +154,9 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 			if (r.isFunctional())
 				return false;
 			if (r.isTransitive())
-				m_Expressivity.setHasTransitivity(true);
+				_expressivity.setHasTransitivity(true);
 			if (r.isReflexive())
-				m_Expressivity.setHasReflexivity(true);
+				_expressivity.setHasReflexivity(true);
 			if (r.isIrreflexive())
 				return false;
 			if (r.isAsymmetric())
@@ -165,7 +165,7 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 				return false;
 			if (r.hasComplexSubRole())
 			{
-				m_Expressivity.setHasComplexSubRoles(true);
+				_expressivity.setHasComplexSubRoles(true);
 
 				// if a property is named, all the properties in its subproperty chains should be named. since we have
 				// anonymous inverses automatically created, we can have chains with inverses. in this case all the
@@ -181,29 +181,29 @@ public class ELExpressivityChecker extends ProfileBasedExpressivityChecker
 			// at least two properties in the set to conclude there is a role
 			// hierarchy defined in the ontology
 			if (r.getSubRoles().size() > 1)
-				m_Expressivity.setHasRoleHierarchy(true);
+				_expressivity.setHasRoleHierarchy(true);
 		}
 
 		for (final Role r : roles)
 		{
-			final Iterator<ATermAppl> assertedDomains = m_KB.getRBox().getAssertedDomains(r);
+			final Iterator<ATermAppl> assertedDomains = _KB.getRBox().getAssertedDomains(r);
 			while (assertedDomains.hasNext())
 			{
 				final ATermAppl domain = assertedDomains.next();
 				if (!isEL(domain))
 					return false;
 
-				m_Expressivity.setHasDomain(true);
+				_expressivity.setHasDomain(true);
 			}
 
-			final Iterator<ATermAppl> assertedRanges = m_KB.getRBox().getAssertedRanges(r);
+			final Iterator<ATermAppl> assertedRanges = _KB.getRBox().getAssertedRanges(r);
 			while (assertedRanges.hasNext())
 			{
 				final ATermAppl range = assertedRanges.next();
 				if (!isEL(range))
 					return false;
 
-				m_Expressivity.setHasDomain(true);
+				_expressivity.setHasDomain(true);
 			}
 		}
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -71,19 +72,23 @@ public class EquivalentAndSubclassAxiomPattern implements OntologyLintPattern
 	public List<Lint> match(final OWLOntology ontology)
 	{
 		final List<Lint> allLints = new ArrayList<>();
-		for (final OWLClass owlClass : ontology.getClassesInSignature())
+		final Iterable<OWLClass> it = ontology.classesInSignature()::iterator;
+		for (final OWLClass owlClass : it)
 		{
-			final Set<OWLEquivalentClassesAxiom> equivalents = ontology.getEquivalentClassesAxioms(owlClass);
-			final Set<OWLSubClassOfAxiom> subclasses = ontology.getSubClassAxiomsForSubClass(owlClass);
+			final Set<OWLEquivalentClassesAxiom> equivalents = ontology.equivalentClassesAxioms(owlClass).collect(Collectors.toSet());
+			final Set<OWLSubClassOfAxiom> subclasses = ontology.subClassAxiomsForSubClass(owlClass).collect(Collectors.toSet());
 
 			final Set<OWLEquivalentClassesAxiom> badEquivalents = new HashSet<>();
 			for (final OWLEquivalentClassesAxiom equivalent : equivalents)
-				for (final OWLClassExpression desc : equivalent.getClassExpressions())
+			{
+				final Iterable<OWLClassExpression> expressions = equivalent.classExpressions()::iterator;
+				for (final OWLClassExpression desc : expressions)
 					if (OWLUtil.isComplex(desc))
 					{
 						badEquivalents.add(equivalent);
 						break;
 					}
+			}
 
 			if (badEquivalents.isEmpty())
 				continue;
@@ -108,7 +113,7 @@ public class EquivalentAndSubclassAxiomPattern implements OntologyLintPattern
 		final Set<OWLClassAxiom> fixes = new HashSet<>();
 		for (final OWLEquivalentClassesAxiom axiom : axioms)
 		{
-			final Set<OWLClassExpression> descs = new HashSet<>(axiom.getClassExpressions());
+			final Set<OWLClassExpression> descs = axiom.classExpressions().collect(Collectors.toSet());
 			descs.remove(classToFix);
 
 			if (descs.size() == 1)

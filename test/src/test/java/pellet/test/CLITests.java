@@ -31,7 +31,7 @@ public class CLITests
 
 		public void run(final String... args)
 		{
-			OWL.manager.ontologies().forEach(OWL.manager::removeOntology);
+			OWL._manager.ontologies().forEach(OWL._manager::removeOntology);
 			final PelletCmdApp app = create();
 			app.parseArgs(prepend(args, app.getAppCmd()));
 			app.run();

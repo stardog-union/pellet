@@ -61,20 +61,20 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 	private final Node TOP;
 	private final Node BOTTOM;
 
-	private final NameStore m_Names;
-	private final VariableStore m_Variables;
-	private final Set<Rule> m_Rules;
-	private final Graph m_Facts;
+	private final NameStore _names;
+	private final VariableStore _variables;
+	private final Set<Rule> _rules;
+	private final Graph _facts;
 
 	public JenaBasedELClassifier()
 	{
-		m_Names = new NameStore();
-		m_Variables = new VariableStore();
-		m_Rules = CollectionUtils.makeSet();
-		m_Facts = GraphFactory.createDefaultGraph();
+		_names = new NameStore();
+		_variables = new VariableStore();
+		_rules = CollectionUtils.makeSet();
+		_facts = GraphFactory.createDefaultGraph();
 
-		TOP = m_Names.get(ATermUtils.TOP);
-		BOTTOM = m_Names.get(ATermUtils.BOTTOM);
+		TOP = _names.get(ATermUtils.TOP);
+		BOTTOM = _names.get(ATermUtils.BOTTOM);
 		makeRuleAxioms();
 	}
 
@@ -82,9 +82,9 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 	{
 		for (final ATermAppl c : classes)
 		{
-			final Node n = m_Names.get(c);
-			m_Facts.add(Triple.create(n, PRED_SUB, n));
-			m_Facts.add(Triple.create(n, PRED_SUB, TOP));
+			final Node n = _names.get(c);
+			_facts.add(Triple.create(n, PRED_SUB, n));
+			_facts.add(Triple.create(n, PRED_SUB, TOP));
 		}
 	}
 
@@ -92,11 +92,11 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 	protected MultiValueMap<ATermAppl, ATermAppl> run(final Collection<ATermAppl> classes)
 	{
 		addClasses(classes);
-		addClasses(m_Names.getAllAnons());
+		addClasses(_names.getAllAnons());
 
-		final Reasoner reasoner = new GenericRuleReasoner(new ArrayList<>(m_Rules));
+		final Reasoner reasoner = new GenericRuleReasoner(new ArrayList<>(_rules));
 
-		final InfGraph inf = reasoner.bind(m_Facts);
+		final InfGraph inf = reasoner.bind(_facts);
 		inf.prepare();
 
 		final MultiValueMap<ATermAppl, ATermAppl> subsumers = getSubsumptions(inf);
@@ -159,7 +159,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 		body.add(makeSubOfSomeTriple(var0, p, var1));
 		translateSuper(head, domain, freeVar, var0);
 
-		m_Rules.add(new Rule(head, body));
+		_rules.add(new Rule(head, body));
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 		final ATermAppl someOfRange = ATermUtils.makeSomeValues(p, range);
 		translateSuper(head, someOfRange, freeVar, var0);
 
-		m_Rules.add(new Rule(head, body));
+		_rules.add(new Rule(head, body));
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 
 		final ClauseEntry head = makeSubOfSomeTriple(var[0], sup, var[var.length - 1]);
 
-		m_Rules.add(new Rule(Collections.singletonList(head), body));
+		_rules.add(new Rule(Collections.singletonList(head), body));
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 		body.add(makeSubclassTriple(var2, BOTTOM));
 		final ClauseEntry head = makeSubclassTriple(var0, BOTTOM);
 
-		m_Rules.add(new Rule(Collections.singletonList(head), body));
+		_rules.add(new Rule(Collections.singletonList(head), body));
 	}
 
 	private void addSubclassRule(final ATermAppl sub, final ATermAppl sup, final FreeVariableStore freeVar)
@@ -243,14 +243,14 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 		final Node var = freeVar.next();
 		translateSub(body, sub, freeVar, var);
 		translateSuper(head, sup, freeVar, var);
-		m_Rules.add(new Rule(head, body));
+		_rules.add(new Rule(head, body));
 	}
 
 	private void translateSub(final List<ClauseEntry> outBody, final ATermAppl sub, final FreeVariableStore freeVar, final Node currentVar)
 	{
 		final AFun fun = sub.getAFun();
 		if (ATermUtils.isPrimitive(sub) || ATermUtils.isBottom(sub))
-			outBody.add(makeSubclassTriple(currentVar, m_Names.get(sub)));
+			outBody.add(makeSubclassTriple(currentVar, _names.get(sub)));
 		else
 			if (fun.equals(ATermUtils.ANDFUN))
 			{
@@ -280,7 +280,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 	{
 		final AFun fun = sup.getAFun();
 		if (ATermUtils.isPrimitive(sup) || ATermUtils.isBottom(sup))
-			outHead.add(makeSubclassTriple(currentVar, m_Names.get(sup)));
+			outHead.add(makeSubclassTriple(currentVar, _names.get(sup)));
 		else
 			if (fun.equals(ATermUtils.ANDFUN))
 			{
@@ -302,13 +302,13 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 					if (!ATermUtils.isPrimitive(q) && !ATermUtils.isBottom(q))
 					{
 						//Normalization - breaking complex concepts within someValues
-						final ATermAppl anon = m_Names.getNextAnon();
+						final ATermAppl anon = _names.getNextAnon();
 						//				addSubclassRule(anon, q);
 						translateSuperSome(anon, q);
 						q = anon;
 					}
 
-					outHead.add(makeSubOfSomeTriple(currentVar, prop, m_Names.get(q)));
+					outHead.add(makeSubOfSomeTriple(currentVar, prop, _names.get(q)));
 				}
 				else
 					assert false;
@@ -318,7 +318,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 	{
 		final AFun fun = sup.getAFun();
 		if (ATermUtils.isPrimitive(sup) || ATermUtils.isBottom(sup))
-			m_Facts.add(makeSubclassFact(anon, sup));
+			_facts.add(makeSubclassFact(anon, sup));
 		else
 			if (fun.equals(ATermUtils.ANDFUN))
 			{
@@ -340,12 +340,12 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 					if (!ATermUtils.isPrimitive(q) && !ATermUtils.isBottom(q))
 					{
 						// Normalization - breaking complex concepts within someValues
-						final ATermAppl nextAnon = m_Names.getNextAnon();
+						final ATermAppl nextAnon = _names.getNextAnon();
 						translateSuperSome(nextAnon, q);
 						q = nextAnon;
 					}
 
-					m_Facts.add(makeSubOfSomeFact(anon, prop, q));
+					_facts.add(makeSubOfSomeFact(anon, prop, q));
 				}
 				else
 					assert false;
@@ -353,7 +353,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 
 	private Triple makeSubclassFact(final ATermAppl t1, final ATermAppl t2)
 	{
-		return makeSubclassFact(m_Names.get(t1), m_Names.get(t2));
+		return makeSubclassFact(_names.get(t1), _names.get(t2));
 	}
 
 	private Triple makeSubclassFact(final Node t1, final Node t2)
@@ -363,7 +363,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 
 	private Triple makeSubOfSomeFact(final ATermAppl t1, final ATermAppl t2, final ATermAppl t3)
 	{
-		return Triple.create(m_Names.get(t1), m_Names.get(t2), m_Names.get(t3));
+		return Triple.create(_names.get(t1), _names.get(t2), _names.get(t3));
 	}
 
 	private TriplePattern makeSubclassTriple(final Node t1, final Node t2)
@@ -373,7 +373,7 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 
 	private TriplePattern makeSubOfSomeTriple(final Node t1, final ATermAppl p, final Node t2)
 	{
-		return makeSubOfSomeTriple(t1, m_Names.get(p), t2);
+		return makeSubOfSomeTriple(t1, _names.get(p), t2);
 	}
 
 	private TriplePattern makeSubOfSomeTriple(final Node t1, final Node p, final Node t2)
@@ -393,32 +393,32 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 		private static final String ANON = "tag:clarkparsia.com,2008:pellet:el:anon:";
 		private static final int FIRST_ANON = 0;
 
-		private final Map<ATermAppl, Node> m_Constants = CollectionUtils.makeMap();
-		private int m_NextAnon = FIRST_ANON;
+		private final Map<ATermAppl, Node> _constants = CollectionUtils.makeMap();
+		private int _nextAnon = FIRST_ANON;
 
 		public Node get(final ATermAppl term)
 		{
-			Node c = m_Constants.get(term);
+			Node c = _constants.get(term);
 			if (c == null)
 			{
 				if (term == ATermUtils.BOTTOM)
 					c = NodeFactory.createURI("_BOTTOM_");
 				else
 					c = NodeFactory.createURI(term.getName());
-				m_Constants.put(term, c);
+				_constants.put(term, c);
 			}
 			return c;
 		}
 
 		public ATermAppl getNextAnon()
 		{
-			return makeAnon(m_NextAnon++);
+			return makeAnon(_nextAnon++);
 		}
 
 		public Set<ATermAppl> getAllAnons()
 		{
 			final Set<ATermAppl> anons = CollectionUtils.makeSet();
-			for (int i = FIRST_ANON; i < m_NextAnon; i++)
+			for (int i = FIRST_ANON; i < _nextAnon; i++)
 				anons.add(makeAnon(i));
 			return anons;
 		}
@@ -438,23 +438,23 @@ public class JenaBasedELClassifier extends RuleBasedELClassifier
 	{
 		private static final String PREFIX = "x";
 
-		private final List<Node> m_Variables = CollectionUtils.makeList();
+		private final List<Node> _variablesStore = CollectionUtils.makeList();
 
 		public Node get(final int target)
 		{
-			for (int size = m_Variables.size(); size <= target; size++)
-				m_Variables.add(new Node_RuleVariable(PREFIX + size, size));
-			return m_Variables.get(target);
+			for (int size = _variablesStore.size(); size <= target; size++)
+				_variablesStore.add(new Node_RuleVariable(PREFIX + size, size));
+			return _variablesStore.get(target);
 		}
 	}
 
 	class FreeVariableStore
 	{
-		private int m_Next = 0;
+		private int _next = 0;
 
 		public Node next()
 		{
-			return m_Variables.get(m_Next++);
+			return _variables.get(_next++);
 		}
 	}
 

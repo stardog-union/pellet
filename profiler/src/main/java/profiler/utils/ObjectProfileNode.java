@@ -15,31 +15,31 @@ final class ObjectProfileNode extends AbstractProfileNode
 	@Override
 	public Object object()
 	{
-		return m_obj;
+		return _obj;
 	}
 
 	@Override
 	public String name()
 	{
-		return m_link == null ? ObjectProfiler.INPUT_OBJECT_NAME : m_link.name();
+		return _link == null ? ObjectProfiler.INPUT_OBJECT_NAME : _link.name();
 	}
 
 	@Override
 	public IObjectProfileNode shell()
 	{
-		return m_shell;
+		return _shell;
 	}
 
 	@Override
 	public IObjectProfileNode[] children()
 	{
-		return m_children;
+		return _children;
 	}
 
 	@Override
 	public int refcount()
 	{
-		return m_refcount;
+		return _refcount;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ final class ObjectProfileNode extends AbstractProfileNode
 		{
 			visitor.previsit(this);
 
-			final IObjectProfileNode[] children = m_children;
+			final IObjectProfileNode[] children = _children;
 			for (final IObjectProfileNode element : children)
 				element.traverse(filter, visitor);
 
@@ -72,13 +72,13 @@ final class ObjectProfileNode extends AbstractProfileNode
 	{
 		// [m_size is the child count]
 
-		IObjectProfileNode[] children = m_children;
+		IObjectProfileNode[] children = _children;
 		final int childrenLength = children.length;
 		if (_size >= childrenLength)
 		{
 			final IObjectProfileNode[] newchildren = new IObjectProfileNode[Math.max(1, childrenLength << 1)];
 			System.arraycopy(children, 0, newchildren, 0, childrenLength);
-			m_children = children = newchildren;
+			_children = children = newchildren;
 		}
 		children[_size++] = node;
 	}
@@ -93,19 +93,19 @@ final class ObjectProfileNode extends AbstractProfileNode
 		final int childCount = _size; // m_size is the child count for a non-shell _node
 		if (childCount > 0)
 		{
-			if (childCount < m_children.length)
+			if (childCount < _children.length)
 			{
 				final IObjectProfileNode[] newadj = new IObjectProfileNode[childCount];
-				System.arraycopy(m_children, 0, newadj, 0, childCount);
+				System.arraycopy(_children, 0, newadj, 0, childCount);
 
-				m_children = newadj;
+				_children = newadj;
 			}
 
-			Arrays.sort(m_children);
+			Arrays.sort(_children);
 
 			int size = 0;
 			for (int i = 0; i < childCount; ++i)
-				size += m_children[i].size();
+				size += _children[i].size();
 			_size = size; // m_size is the full _node size for all _nodes
 		}
 	}
@@ -114,17 +114,17 @@ final class ObjectProfileNode extends AbstractProfileNode
 	{
 		super(parent);
 
-		m_obj = obj;
-		m_link = link;
-		m_refcount = 1;
-		m_children = EMPTY_OBJECTPROFILENODE_ARRAY;
+		_obj = obj;
+		_link = link;
+		_refcount = 1;
+		_children = EMPTY_OBJECTPROFILENODE_ARRAY;
 	}
 
-	final ILink m_link;
-	final Object m_obj;
-	int m_refcount;
-	AbstractShellProfileNode m_shell;
-	IObjectProfileNode[] m_children;
+	final ILink _link;
+	final Object _obj;
+	int _refcount;
+	AbstractShellProfileNode _shell;
+	IObjectProfileNode[] _children;
 
 	// private: ...............................................................
 

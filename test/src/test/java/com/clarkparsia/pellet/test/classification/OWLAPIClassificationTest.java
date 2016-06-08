@@ -35,8 +35,8 @@ public class OWLAPIClassificationTest extends AbstractClassificationTest
 	@Override
 	public void testClassification(final String inputOnt, final String classifiedOnt) throws OWLOntologyCreationException
 	{
-		final OWLOntology premise = OWL.manager.loadOntology(IRI.create(inputOnt));
-		final OWLOntology conclusion = OWL.manager.loadOntology(IRI.create(classifiedOnt));
+		final OWLOntology premise = OWL._manager.loadOntology(IRI.create(inputOnt));
+		final OWLOntology conclusion = OWL._manager.loadOntology(IRI.create(classifiedOnt));
 
 		try
 		{
@@ -91,8 +91,8 @@ public class OWLAPIClassificationTest extends AbstractClassificationTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(premise);
-			OWL.manager.removeOntology(conclusion);
+			OWL._manager.removeOntology(premise);
+			OWL._manager.removeOntology(conclusion);
 		}
 	}
 

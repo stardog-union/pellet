@@ -123,7 +123,7 @@ public class PersistenceRealizationTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 

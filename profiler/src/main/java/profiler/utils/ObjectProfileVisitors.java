@@ -81,7 +81,7 @@ public abstract class ObjectProfileVisitors
 			final StringBuffer sb = new StringBuffer();
 
 			for (int p = 0, pLimit = node.pathlength(); p < pLimit; ++p)
-				sb.append(m_indent);
+				sb.append(_indent);
 
 			final IObjectProfileNode root = node.root();
 
@@ -89,7 +89,7 @@ public abstract class ObjectProfileVisitors
 			if (node != root) // root _node is always 100% of the overall size
 			{
 				sb.append(" (");
-				sb.append(m_format.format((double) node.size() / root.size()));
+				sb.append(_format.format((double) node.size() / root.size()));
 				sb.append(")");
 			}
 			sb.append(" -> ");
@@ -97,7 +97,7 @@ public abstract class ObjectProfileVisitors
 			if (node.object() != null) // skip shell pseudo-_nodes
 			{
 				sb.append(" : ");
-				sb.append(ObjectProfiler.typeName(node.object().getClass(), m_shortClassNames));
+				sb.append(ObjectProfiler.typeName(node.object().getClass(), _shortClassNames));
 
 				if (node.refcount() > 1) // show refcount only when it's > 1
 				{
@@ -106,32 +106,32 @@ public abstract class ObjectProfileVisitors
 				}
 			}
 
-			m_out.println(sb);
-			m_out.flush();
+			_out.println(sb);
+			_out.flush();
 		}
 
 		DefaultNodePrinter(final PrintWriter out, final String indent, final DecimalFormat format, final boolean shortClassNames)
 		{
 			assert out != null : "null input: out";
 
-			m_out = out;
-			m_indent = indent != null ? indent : "  ";
+			_out = out;
+			_indent = indent != null ? indent : "  ";
 
 			if (format != null)
-				m_format = format;
+				_format = format;
 			else
 			{
-				m_format = (DecimalFormat) NumberFormat.getPercentInstance();
-				m_format.setMaximumFractionDigits(1);
+				_format = (DecimalFormat) NumberFormat.getPercentInstance();
+				_format.setMaximumFractionDigits(1);
 			}
 
-			m_shortClassNames = shortClassNames;
+			_shortClassNames = shortClassNames;
 		}
 
-		private final PrintWriter m_out;
-		private final String m_indent;
-		private final DecimalFormat m_format;
-		private final boolean m_shortClassNames;
+		private final PrintWriter _out;
+		private final String _indent;
+		private final DecimalFormat _format;
+		private final boolean _shortClassNames;
 
 	} // _end of nested class
 
@@ -149,13 +149,13 @@ public abstract class ObjectProfileVisitors
 
 			if (isRoot)
 			{
-				m_out.println("<?xml version=\"1.0\" encoding=\"" + ENCODING + "\"?>");
-				m_out.println("<input>");
+				_out.println("<?xml version=\"1.0\" encoding=\"" + ENCODING + "\"?>");
+				_out.println("<input>");
 			}
 
 			final StringBuffer indent = new StringBuffer();
 			for (int p = 0, pLimit = node.pathlength(); p < pLimit; ++p)
-				indent.append(m_indent);
+				indent.append(_indent);
 
 			final StringBuffer sb = new StringBuffer();
 			sb.append("<object");
@@ -167,7 +167,7 @@ public abstract class ObjectProfileVisitors
 			if (!isRoot)
 			{
 				sb.append(" part=\"");
-				sb.append(m_format.format((double) node.size() / root.size()));
+				sb.append(_format.format((double) node.size() / root.size()));
 				sb.append('\"');
 			}
 
@@ -179,7 +179,7 @@ public abstract class ObjectProfileVisitors
 			{
 				sb.append(" objclass=\"");
 
-				XMLEscape(ObjectProfiler.typeName(node.object().getClass(), m_shortClassNames), sb);
+				XMLEscape(ObjectProfiler.typeName(node.object().getClass(), _shortClassNames), sb);
 				sb.append('\"');
 
 				if (node.refcount() > 1)
@@ -191,8 +191,8 @@ public abstract class ObjectProfileVisitors
 			}
 
 			sb.append('>');
-			m_out.print(indent);
-			m_out.println(sb);
+			_out.print(indent);
+			_out.println(sb);
 		}
 
 		@Override
@@ -200,14 +200,14 @@ public abstract class ObjectProfileVisitors
 		{
 			final StringBuffer indent = new StringBuffer();
 			for (int p = 0, pLimit = node.pathlength(); p < pLimit; ++p)
-				indent.append(m_indent);
+				indent.append(_indent);
 
-			m_out.print(indent);
-			m_out.println("</object>");
+			_out.print(indent);
+			_out.println("</object>");
 			if (node.root() == node)
 			{
-				m_out.println("</input>");
-				m_out.flush();
+				_out.println("</input>");
+				_out.flush();
 			}
 		}
 
@@ -217,24 +217,24 @@ public abstract class ObjectProfileVisitors
 
 			try
 			{
-				m_out = new PrintWriter(new OutputStreamWriter(out, ENCODING));
+				_out = new PrintWriter(new OutputStreamWriter(out, ENCODING));
 			}
 			catch (final UnsupportedEncodingException uee)
 			{
 				throw new Error(uee);
 			}
 
-			m_indent = indent != null ? indent : "  ";
+			_indent = indent != null ? indent : "  ";
 
 			if (format != null)
-				m_format = format;
+				_format = format;
 			else
 			{
-				m_format = (DecimalFormat) NumberFormat.getPercentInstance();
-				m_format.setMaximumFractionDigits(2);
+				_format = (DecimalFormat) NumberFormat.getPercentInstance();
+				_format.setMaximumFractionDigits(2);
 			}
 
-			m_shortClassNames = shortClassNames;
+			_shortClassNames = shortClassNames;
 		}
 
 		private static void XMLEscape(final String s, final StringBuffer append)
@@ -269,10 +269,10 @@ public abstract class ObjectProfileVisitors
 			}
 		}
 
-		private final PrintWriter m_out;
-		private final String m_indent;
-		private final DecimalFormat m_format;
-		private final boolean m_shortClassNames;
+		private final PrintWriter _out;
+		private final String _indent;
+		private final DecimalFormat _format;
+		private final boolean _shortClassNames;
 
 		private static final String ENCODING = "UTF-8";
 

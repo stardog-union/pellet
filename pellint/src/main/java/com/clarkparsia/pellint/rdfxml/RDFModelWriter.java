@@ -7,7 +7,6 @@
 package com.clarkparsia.pellint.rdfxml;
 
 import java.io.OutputStream;
-import java.net.URI;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -16,12 +15,6 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
 
 /**
- * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
  * <p>
  * Copyright: Copyright (c) 2008
  * </p>
@@ -35,8 +28,11 @@ public class RDFModelWriter
 {
 
 	private static final String ANON_URI = "#anon";
-	private static final URI TMP_URI = URI.create("tag:clarkparsia.com,2008:pellint:tmp");
 
+	//private static final URI TMP_URI = URI.create("tag:clarkparsia.com,2008:pellint:tmp");
+
+	// Debuging method.
+	@SuppressWarnings("unused")
 	private static String toString(final RDFNode v)
 	{
 		if (v.isLiteral())

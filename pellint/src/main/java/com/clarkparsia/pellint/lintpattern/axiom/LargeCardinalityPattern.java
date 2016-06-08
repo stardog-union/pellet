@@ -43,24 +43,24 @@ public class LargeCardinalityPattern extends AxiomLintPattern
 {
 	private static final LintFormat DEFAULT_LINT_FORMAT = new SimpleLintFormat();
 
-	private int m_MaxAllowed = 10;
-	private final CardinalitySizeCollector m_Visitor;
+	private int _maxRecommended = 10;
+	private final CardinalitySizeCollector _Visitor;
 
 	public LargeCardinalityPattern()
 	{
-		m_Visitor = new CardinalitySizeCollector();
+		_Visitor = new CardinalitySizeCollector();
 	}
 
 	@Override
 	public String getName()
 	{
-		return getClass().getSimpleName() + " (MaxAllowed = " + m_MaxAllowed + ")";
+		return getClass().getSimpleName() + " (MaxRecommended = " + _maxRecommended + ")";
 	}
 
 	@Override
 	public String getDescription()
 	{
-		return "Cardinality restriction is too large - maximum recommended is " + m_MaxAllowed;
+		return "Cardinality restriction is too large - maximum recommended is " + _maxRecommended;
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class LargeCardinalityPattern extends AxiomLintPattern
 
 	public void setMaxAllowed(final int value)
 	{
-		m_MaxAllowed = value;
+		_maxRecommended = value;
 	}
 
 	@Override
@@ -106,10 +106,10 @@ public class LargeCardinalityPattern extends AxiomLintPattern
 
 	private void visitNaryClassAxiom(final OWLClassAxiom axiom)
 	{
-		m_Visitor.reset();
-		axiom.accept(m_Visitor);
-		final int cardinalitySize = m_Visitor.getCardinalitySize();
-		if (cardinalitySize > m_MaxAllowed)
+		_Visitor.reset();
+		axiom.accept(_Visitor);
+		final int cardinalitySize = _Visitor.getCardinalitySize();
+		if (cardinalitySize > _maxRecommended)
 		{
 			final Lint lint = makeLint();
 			lint.addParticipatingAxiom(axiom);
@@ -121,16 +121,16 @@ public class LargeCardinalityPattern extends AxiomLintPattern
 
 class CardinalitySizeCollector extends OWLDeepEntityVisitorAdapter
 {
-	private int m_Size;
+	private int _size;
 
 	public void reset()
 	{
-		m_Size = 0;
+		_size = 0;
 	}
 
 	public int getCardinalitySize()
 	{
-		return m_Size;
+		return _size;
 	}
 
 	@Override
@@ -157,7 +157,7 @@ class CardinalitySizeCollector extends OWLDeepEntityVisitorAdapter
 	protected void process(final OWLObjectCardinalityRestriction card)
 	{
 		final int size = card.getCardinality();
-		if (size > m_Size)
-			m_Size = size;
+		if (size > _size)
+			_size = size;
 	}
 }

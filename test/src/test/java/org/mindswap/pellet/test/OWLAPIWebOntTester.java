@@ -27,7 +27,7 @@ public class OWLAPIWebOntTester implements WebOntTester
 
 	public OWLAPIWebOntTester()
 	{
-		_manager = OWL.manager;
+		_manager = OWL._manager;
 		_mapper = new OWLOntologyIRIMapperImpl();
 	}
 

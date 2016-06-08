@@ -33,19 +33,19 @@ public class AndNode extends Node
 		//		if( _activatedInputs >= activationLimit )
 		//			throw new IllegalStateException();
 
-		return (++_activatedInputs == inputs.size());
+		return (++_activatedInputs == _inputs.size());
 	}
 
 	@Override
 	public boolean isActive()
 	{
-		return (_activatedInputs == inputs.size());
+		return (_activatedInputs == _inputs.size());
 	}
 
 	@Override
 	public boolean isRedundant()
 	{
-		return outputs.isEmpty() || inputs.size() == 1 || outputs.size() == 1 && outputs.iterator().next() instanceof AndNode;
+		return _outputs.isEmpty() || _inputs.size() == 1 || _outputs.size() == 1 && _outputs.iterator().next() instanceof AndNode;
 	}
 
 	@Override
@@ -57,6 +57,6 @@ public class AndNode extends Node
 	@Override
 	public String toString()
 	{
-		return "And(" + _id + ")[" + _activatedInputs + "," + inputs.size() + "]";
+		return "And(" + _id + ")[" + _activatedInputs + "," + _inputs.size() + "]";
 	}
 }

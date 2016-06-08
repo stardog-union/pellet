@@ -31,11 +31,11 @@ public class Severity implements Comparable<Severity>
 	private static final DecimalFormat FORMAT_NORMAL = new DecimalFormat("0");
 	private static final int STRING_LENGTH = 6;
 
-	private final Double m_Value;
+	private final Double _value;
 
 	public Severity(final double v)
 	{
-		m_Value = v;
+		_value = v;
 	}
 
 	@Override
@@ -47,12 +47,12 @@ public class Severity implements Comparable<Severity>
 	@Override
 	public int hashCode()
 	{
-		return m_Value.hashCode();
+		return _value.hashCode();
 	}
 
 	public double doubleValue()
 	{
-		return m_Value;
+		return _value;
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class Severity implements Comparable<Severity>
 		final StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append('[');
 
-		final String value = (m_Value >= Math.pow(10, STRING_LENGTH) - 0.5) ? FORMAT_EXP.format(m_Value) : FORMAT_NORMAL.format(m_Value);
+		final String value = (_value >= Math.pow(10, STRING_LENGTH) - 0.5) ? FORMAT_EXP.format(_value) : FORMAT_NORMAL.format(_value);
 
 		for (int i = STRING_LENGTH - value.length(); i > 0; i--)
 			strBuilder.append(' ');
@@ -72,6 +72,6 @@ public class Severity implements Comparable<Severity>
 	@Override
 	public int compareTo(final Severity other)
 	{
-		return m_Value.compareTo(other.m_Value);
+		return _value.compareTo(other._value);
 	}
 }

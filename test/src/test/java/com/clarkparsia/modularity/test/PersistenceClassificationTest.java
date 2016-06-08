@@ -91,7 +91,7 @@ public class PersistenceClassificationTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 

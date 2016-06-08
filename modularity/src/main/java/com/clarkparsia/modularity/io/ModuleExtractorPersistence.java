@@ -67,11 +67,11 @@ public class ModuleExtractorPersistence
 		{
 			final OWLOntology ontology = OWL.Ontology(axioms);
 
-			OWL.manager.saveOntology(ontology, new OWLXMLDocumentFormat(), outputStream);
+			OWL._manager.saveOntology(ontology, new OWLXMLDocumentFormat(), outputStream);
 
 			outputStream.flush();
 
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 		catch (final OWLException e)
 		{
@@ -168,7 +168,7 @@ public class ModuleExtractorPersistence
 	{
 		try
 		{
-			return OWL.manager.loadOntologyFromOntologyDocument(inputStream);
+			return OWL._manager.loadOntologyFromOntologyDocument(inputStream);
 		}
 		catch (final OWLOntologyCreationException e)
 		{

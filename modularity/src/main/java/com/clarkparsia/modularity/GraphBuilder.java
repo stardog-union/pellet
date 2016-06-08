@@ -311,7 +311,7 @@ public class GraphBuilder
 	private class BottomEvaluator implements OWLClassExpressionVisitor
 	{
 
-		private Node node;
+		private Node _node;
 
 		public BottomEvaluator()
 		{
@@ -320,76 +320,76 @@ public class GraphBuilder
 		public Node evaluate(final OWLClassExpression desc)
 		{
 			// reset the result first
-			node = null;
+			_node = null;
 
 			desc.accept(this);
 
 			// a null value indicates error
-			if (node == null)
+			if (_node == null)
 				throw new IllegalStateException("Evaluation returned null");
 
-			return node;
+			return _node;
 		}
 
 		@Override
 		public void visit(final OWLClass desc)
 		{
-			node = desc.equals(OWL.Nothing) ? START_NODE : desc.equals(OWL.Thing) ? NULL_NODE : _graph.createEntityNode(desc);
+			_node = desc.equals(OWL.Nothing) ? START_NODE : desc.equals(OWL.Thing) ? NULL_NODE : _graph.createEntityNode(desc);
 		}
 
 		@Override
 		public void visit(final OWLDataAllValuesFrom desc)
 		{
-			node = START_NODE;
+			_node = START_NODE;
 		}
 
 		@Override
 		public void visit(final OWLDataExactCardinality desc)
 		{
-			node = START_NODE;
+			_node = START_NODE;
 		}
 
 		@Override
 		public void visit(final OWLDataMaxCardinality desc)
 		{
-			node = (desc.getCardinality() == 0) ? _graph.createEntityNode(desc.getProperty().asOWLDataProperty()) : START_NODE;
+			_node = (desc.getCardinality() == 0) ? _graph.createEntityNode(desc.getProperty().asOWLDataProperty()) : START_NODE;
 		}
 
 		@Override
 		public void visit(final OWLDataMinCardinality desc)
 		{
 			// TODO: Special handling for the n == 0 case
-			node = _graph.createEntityNode(desc.getProperty().asOWLDataProperty());
+			_node = _graph.createEntityNode(desc.getProperty().asOWLDataProperty());
 		}
 
 		@Override
 		public void visit(final OWLDataSomeValuesFrom desc)
 		{
-			node = _graph.createEntityNode(desc.getProperty().asOWLDataProperty());
+			_node = _graph.createEntityNode(desc.getProperty().asOWLDataProperty());
 		}
 
 		@Override
 		public void visit(final OWLDataHasValue desc)
 		{
-			node = _graph.createEntityNode(desc.getProperty().asOWLDataProperty());
+			_node = _graph.createEntityNode(desc.getProperty().asOWLDataProperty());
 		}
 
 		@Override
 		public void visit(final OWLObjectAllValuesFrom desc)
 		{
-			node = START_NODE;
+			_node = START_NODE;
 		}
 
 		@Override
 		public void visit(final OWLObjectComplementOf desc)
 		{
-			node = _topEvaluator.evaluate(desc.getOperand());
+			_node = _topEvaluator.evaluate(desc.getOperand());
 		}
 
 		@Override
 		public void visit(final OWLObjectExactCardinality desc)
 		{
-			node = START_NODE;
+			_node = START_NODE;
 		}
 
 		@Override
@@ -398,32 +398,32 @@ public class GraphBuilder
 			final Set<Node> inputNodes = desc.operands().map(this::evaluate).collect(Collectors.toSet());
 
 			if (!inputNodes.isEmpty())
-				node = _graph.createAndNode(inputNodes);
+				_node = _graph.createAndNode(inputNodes);
 		}
 
 		@Override
 		public void visit(final OWLObjectMaxCardinality desc)
 		{
-			node = (desc.getCardinality() == 0) ? _graph.createEntityNode(desc.getProperty().getNamedProperty()) : START_NODE;
+			_node = (desc.getCardinality() == 0) ? _graph.createEntityNode(desc.getProperty().getNamedProperty()) : START_NODE;
 		}
 
 		@Override
 		public void visit(final OWLObjectMinCardinality desc)
 		{
 			// TODO: Special handling for the n == 0 case
-			node = _graph.createEntityNode(desc.getProperty().getNamedProperty());
+			_node = _graph.createEntityNode(desc.getProperty().getNamedProperty());
 		}
 
 		@Override
 		public void visit(final OWLObjectOneOf desc)
 		{
-			node = START_NODE;
+			_node = START_NODE;
 		}
 
 		@Override
 		public void visit(final OWLObjectHasSelf desc)
 		{
-			node = _graph.createEntityNode(desc.getProperty().getNamedProperty());
+			_node = _graph.createEntityNode(desc.getProperty().getNamedProperty());
 		}
 
 		@Override
@@ -434,20 +434,20 @@ public class GraphBuilder
 			inputNodes.add(_graph.createEntityNode(desc.getProperty().getNamedProperty()));
 			inputNodes.add(evaluate(desc.getFiller()));
 
-			node = _graph.createAndNode(inputNodes);
+			_node = _graph.createAndNode(inputNodes);
 		}
 
 		@Override
 		public void visit(final OWLObjectUnionOf desc)
 		{
 			final Set<Node> inputNodes = desc.operands().map(this::evaluate).collect(Collectors.toSet());
-			node = _graph.createOrNode(inputNodes);
+			_node = _graph.createOrNode(inputNodes);
 		}
 
 		@Override
 		public void visit(final OWLObjectHasValue desc)
 		{
-			node = _graph.createEntityNode(desc.getProperty().getNamedProperty());
+			_node = _graph.createEntityNode(desc.getProperty().getNamedProperty());
 		}
 	}
 

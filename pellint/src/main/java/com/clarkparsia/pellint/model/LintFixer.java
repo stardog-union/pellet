@@ -8,6 +8,7 @@ package com.clarkparsia.pellint.model;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -33,13 +34,13 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  */
 public class LintFixer
 {
-	private final Set<? extends OWLAxiom> m_AxiomsToRemove;
-	private final Set<? extends OWLAxiom> m_AxiomsToAdd;
+	private final Set<? extends OWLAxiom> _axiomsToRemove;
+	private final Set<? extends OWLAxiom> _axiomsToAdd;
 
 	public LintFixer(final Set<? extends OWLAxiom> axiomsToRemove, final Set<? extends OWLAxiom> axiomsToAdd)
 	{
-		m_AxiomsToRemove = axiomsToRemove;
-		m_AxiomsToAdd = axiomsToAdd;
+		_axiomsToRemove = axiomsToRemove;
+		_axiomsToAdd = axiomsToAdd;
 	}
 
 	public LintFixer(final OWLAxiom axiomToRemove, final OWLAxiom axiomToAdd)
@@ -49,12 +50,12 @@ public class LintFixer
 
 	public Set<? extends OWLAxiom> getAxiomsToRemove()
 	{
-		return m_AxiomsToRemove;
+		return _axiomsToRemove;
 	}
 
 	public Set<? extends OWLAxiom> getAxiomsToAdd()
 	{
-		return m_AxiomsToAdd;
+		return _axiomsToAdd;
 	}
 
 	/**
@@ -70,19 +71,19 @@ public class LintFixer
 	 */
 	public boolean apply(final OWLOntologyManager manager, final OWLOntology ontology) throws OWLOntologyChangeException
 	{
-		final Set<OWLAxiom> ALL_AXIOMS = ontology.getAxioms();
+		final Set<OWLAxiom> axioms = ontology.axioms().collect(Collectors.toSet());
 
-		if (!ALL_AXIOMS.containsAll(m_AxiomsToRemove))
+		if (!axioms.containsAll(_axiomsToRemove))
 			return false;
 
-		for (final OWLAxiom axiom : m_AxiomsToRemove)
+		for (final OWLAxiom axiom : _axiomsToRemove)
 		{
 			final RemoveAxiom remove = new RemoveAxiom(ontology, axiom);
 			manager.applyChange(remove);
 		}
 
-		for (final OWLAxiom axiom : m_AxiomsToAdd)
-			if (!ALL_AXIOMS.contains(axiom))
+		for (final OWLAxiom axiom : _axiomsToAdd)
+			if (!axioms.contains(axiom))
 			{
 				final AddAxiom add = new AddAxiom(ontology, axiom);
 				manager.applyChange(add);

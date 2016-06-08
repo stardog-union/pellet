@@ -9,22 +9,17 @@ package com.clarkparsia.reachability;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
- * @author Evren Sirin
+ * FIXME TODO : We need to add a strong type system for the class Node This is related to the kind of information carry by the EntityNode.
  */
 public abstract class Node
 {
 
-	protected Set<Node> outputs;
+	protected volatile Set<Node> _outputs = new HashSet<>();
 
-	protected Set<Node> inputs;
-
-	public Node()
-	{
-		this.outputs = new HashSet<>();
-		this.inputs = new HashSet<>();
-	}
+	protected volatile Set<Node> _inputs = new HashSet<>();
 
 	public void addOutput(final Node output)
 	{
@@ -32,23 +27,33 @@ public abstract class Node
 			return;
 
 		//		outputs.add( output );
-		if (outputs.add(output))
-			output.inputs.add(this);
+		if (_outputs.add(output))
+			output._inputs.add(this);
 	}
 
 	public boolean hasOutput(final Node node)
 	{
-		return outputs.contains(node);
+		return _outputs.contains(node);
 	}
 
 	public Set<Node> getInputs()
 	{
-		return Collections.unmodifiableSet(inputs);
+		return Collections.unmodifiableSet(_inputs);
+	}
+
+	public Stream<Node> inputs()
+	{
+		return _inputs.stream();
 	}
 
 	public Set<Node> getOutputs()
 	{
-		return Collections.unmodifiableSet(outputs);
+		return Collections.unmodifiableSet(_outputs);
+	}
+
+	public Stream<Node> outputs()
+	{
+		return _outputs.stream();
 	}
 
 	public abstract boolean inputActivated();
@@ -62,34 +67,41 @@ public abstract class Node
 
 	public void removeOutput(final Node output)
 	{
-		if (outputs.remove(output))
-			output.inputs.remove(output);
+		if (_outputs.remove(output))
+			output._inputs.remove(output);
 	}
 
 	public void removeInOuts()
 	{
-		for (final Node input : inputs)
-			input.outputs.remove(this);
-		inputs = null;
+		_inputs.forEach(input -> input._outputs.remove(Node.this));
+		_inputs = null;
 
-		for (final Node output : outputs)
-			output.inputs.remove(this);
-		outputs = null;
+		_outputs.forEach(input -> input._inputs.remove(Node.this));
+		_outputs = null;
 	}
 
 	public void remove()
 	{
-		for (final Node input : inputs)
+		_inputs.forEach(input ->
 		{
-			input.outputs.remove(this);
-			for (final Node output : outputs)
-				input.addOutput(output);
-		}
-		for (final Node output : outputs)
-			output.inputs.remove(this);
-		inputs = null;
-		outputs = null;
+			input._outputs.remove(Node.this);
+			_outputs.forEach(input::addOutput);
+		});
+		_outputs.forEach(output -> output._inputs.remove(Node.this));
+		_inputs = null;
+		_outputs = null;
 	}
 
 	public abstract void reset();
+
+	public boolean isEntityNode()
+	{
+		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <X> EntityNode<X> asEntityNode()
+	{
+		return (EntityNode<X>) this; // TODO add strong typing on every kind of node.
+	}
 }

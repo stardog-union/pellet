@@ -357,8 +357,7 @@ public class CombinedQueryEngine implements QueryExec
 					else
 						if (!ATermUtils.isVar(tI))
 						{
-							// classCandidates = flatten(TaxonomyUtils.getTypes(_kb
-							// .getTaxonomy(), tI, direct)); // TODO
+							// classCandidates = flatten(TaxonomyUtils.getTypes(_kb.getTaxonomy(), tI, direct)); // TODO
 							classCandidates = flatten(_kb.getTypes(tI, direct)); // TODO
 							instanceCandidates = Collections.singleton(tI);
 						}
@@ -613,10 +612,10 @@ public class CombinedQueryEngine implements QueryExec
 								runNext(binding, arguments, subject, property, aIL);
 
 				break;
-			// throw new IllegalArgumentException("The annotation atom "
-			// + _current + " should be ground, but is not.");
+				// throw new IllegalArgumentException("The annotation atom "
+				// + _current + " should be ground, but is not.");
 
-			// TBOX ATOMS
+				// TBOX ATOMS
 			case DirectSubClassOf:
 				direct = true;
 				//$FALL-THROUGH$
@@ -757,7 +756,7 @@ public class CombinedQueryEngine implements QueryExec
 					_logger.finer("Atom " + current + "cannot be satisfied in any consistent ontology.");
 				break;
 
-			// RBOX ATOMS
+				// RBOX ATOMS
 			case DirectSubPropertyOf:
 				direct = true;
 				//$FALL-THROUGH$

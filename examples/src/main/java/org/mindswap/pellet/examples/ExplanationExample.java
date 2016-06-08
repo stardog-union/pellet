@@ -59,7 +59,7 @@ public class ExplanationExample
 
 		// Create an OWLAPI manager that allows to load an ontology file and
 		// create OWLEntities
-		final OWLOntologyManager manager = OWL.manager;
+		final OWLOntologyManager manager = OWL._manager;
 		final OWLOntology ontology = manager.loadOntology(IRI.create(file));
 
 		// Create the reasoner and load the ontology

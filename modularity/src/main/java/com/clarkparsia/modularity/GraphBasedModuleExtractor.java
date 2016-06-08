@@ -44,6 +44,8 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 
 		axioms().forEach(builder::addAxiom);
 		final Reachability<AsOWLNamedIndividual> graph = new Reachability<>(builder.build());
+		// FIXME : this suppress warnings... not the error : but we need a clean project to work on true problems.
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		final Reachability<OWLEntity> engine = (Reachability) graph; // FIXME : this is wrong but type erasure mask it.
 		timer.stop();
 
@@ -113,10 +115,11 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 
 			// we will have cached module for the output _node only if it is
 			// an entity _node
-			if (output instanceof EntityNode)
+
+			if (output.isEntityNode())
 			{
 				// recursively extract the module for output _node
-				final Set<OWLEntity> outputModule = extractModule(engine, (EntityNode) output, entities, monitor);
+				final Set<OWLEntity> outputModule = extractModule(engine, output.asEntityNode(), entities, monitor);
 
 				_logger.fine(() -> "Cached module size " + outputModule.size());
 

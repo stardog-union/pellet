@@ -110,7 +110,7 @@ public class PersistenceUpdatesTest
 			final List<OWLAxiom> axiomsToRemove = new ArrayList<>(TestUtils.selectRandomAxioms(ontology, 1));
 
 			for (final OWLAxiom axiomToRemove : axiomsToRemove)
-				OWL.manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
+				OWL._manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
 
 			// at this point there should be a change to the ontology that is not applied yet to the classifier
 			// this should cause the save operation to fail
@@ -130,7 +130,7 @@ public class PersistenceUpdatesTest
 		finally
 		{
 			if (ontology != null)
-				OWL.manager.removeOntology(ontology);
+				OWL._manager.removeOntology(ontology);
 		}
 	}
 
@@ -149,7 +149,7 @@ public class PersistenceUpdatesTest
 			final List<OWLAxiom> axiomsToRemove = new ArrayList<>(TestUtils.selectRandomAxioms(ontology, 1));
 
 			for (final OWLAxiom axiomToRemove : axiomsToRemove)
-				OWL.manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
+				OWL._manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
 
 			// classify (i.e., update)
 			modular.classify();
@@ -157,7 +157,7 @@ public class PersistenceUpdatesTest
 			// add the axiom back but do not classify (do not cause an update)
 
 			for (final OWLAxiom axiomToAdd : axiomsToRemove)
-				OWL.manager.applyChange(new AddAxiom(ontology, axiomToAdd));
+				OWL._manager.applyChange(new AddAxiom(ontology, axiomToAdd));
 
 			// at this point there should be a change to the ontology that is not applied yet to the classifier
 			// this should cause the save operation to fail
@@ -178,7 +178,7 @@ public class PersistenceUpdatesTest
 		finally
 		{
 			if (ontology != null)
-				OWL.manager.removeOntology(ontology);
+				OWL._manager.removeOntology(ontology);
 		}
 	}
 
@@ -198,17 +198,17 @@ public class PersistenceUpdatesTest
 			final List<OWLAxiom> axiomsToRemove = new ArrayList<>(TestUtils.selectRandomAxioms(ontology, 1));
 
 			for (final OWLAxiom axiomToRemove : axiomsToRemove)
-				OWL.manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
+				OWL._manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
 
 			// add the axiom back but do not classify
 			for (final OWLAxiom axiomToAdd : axiomsToRemove)
-				OWL.manager.applyChange(new AddAxiom(ontology, axiomToAdd));
+				OWL._manager.applyChange(new AddAxiom(ontology, axiomToAdd));
 
 			// remove another random axiom
 			final List<OWLAxiom> axiomsToRemove2 = new ArrayList<>(TestUtils.selectRandomAxioms(ontology, 1));
 
 			for (final OWLAxiom axiomToRemove : axiomsToRemove2)
-				OWL.manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
+				OWL._manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
 
 			// classify (i.e., update)
 			modular.classify();
@@ -223,7 +223,7 @@ public class PersistenceUpdatesTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 
@@ -260,7 +260,7 @@ public class PersistenceUpdatesTest
 			final List<OWLAxiom> axiomsToRemove = new ArrayList<>(TestUtils.selectRandomAxioms(ontology, 1));
 
 			for (final OWLAxiom axiomToRemove : axiomsToRemove)
-				OWL.manager.applyChange(new RemoveAxiom(modular.getRootOntology(), axiomToRemove));
+				OWL._manager.applyChange(new RemoveAxiom(modular.getRootOntology(), axiomToRemove));
 
 			modular.classify();
 
@@ -270,7 +270,7 @@ public class PersistenceUpdatesTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 
@@ -305,7 +305,7 @@ public class PersistenceUpdatesTest
 			final List<OWLAxiom> axiomsToRemove = new ArrayList<>(TestUtils.selectRandomAxioms(ontology, 1));
 
 			for (final OWLAxiom axiomToRemove : axiomsToRemove)
-				OWL.manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
+				OWL._manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
 
 			modular.classify();
 
@@ -315,7 +315,7 @@ public class PersistenceUpdatesTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 
@@ -339,7 +339,7 @@ public class PersistenceUpdatesTest
 			final List<OWLAxiom> axiomsToRemove = new ArrayList<>(TestUtils.selectRandomAxioms(ontology, 1));
 
 			for (final OWLAxiom axiomToRemove : axiomsToRemove)
-				OWL.manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
+				OWL._manager.applyChange(new RemoveAxiom(ontology, axiomToRemove));
 
 			try (final FileInputStream fis = new FileInputStream(testFile))
 			{
@@ -352,7 +352,7 @@ public class PersistenceUpdatesTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 

@@ -23,10 +23,10 @@ final class ArrayIndexLink implements ILink
 			final ArrayIndexLink asl = (ArrayIndexLink) l;
 
 			s.insert(0, ']');
-			s.insert(0, asl.m_index);
+			s.insert(0, asl._index);
 			s.insert(0, '[');
 
-			l = asl.m_container;
+			l = asl._container;
 		}
 
 		s.insert(0, l != null ? l.name() : ObjectProfiler.INPUT_OBJECT_NAME);
@@ -40,14 +40,14 @@ final class ArrayIndexLink implements ILink
 
 	ArrayIndexLink(final ILink container, final int index)
 	{
-		m_container = container;
-		m_index = index;
+		_container = container;
+		_index = index;
 	}
 
 	// private: ...............................................................
 
-	private final ILink m_container;
-	private final int m_index;
+	private final ILink _container;
+	private final int _index;
 
 } // _end of class
 // ----------------------------------------------------------------------------

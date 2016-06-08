@@ -66,17 +66,17 @@ public class SWRL
 
 	public static SWRLBuiltInAtom builtIn(final SWRLBuiltInsVocabulary builtIn, final SWRLDArgument... args)
 	{
-		return OWL.factory.getSWRLBuiltInAtom(builtIn.getIRI(), Arrays.asList(args));
+		return OWL._factory.getSWRLBuiltInAtom(builtIn.getIRI(), Arrays.asList(args));
 	}
 
 	public static SWRLBuiltInAtom builtIn(final SWRLBuiltInsVocabulary builtIn, final List<SWRLDArgument> args)
 	{
-		return OWL.factory.getSWRLBuiltInAtom(builtIn.getIRI(), args);
+		return OWL._factory.getSWRLBuiltInAtom(builtIn.getIRI(), args);
 	}
 
 	public static SWRLClassAtom classAtom(final OWLClassExpression desc, final SWRLIArgument arg)
 	{
-		return OWL.factory.getSWRLClassAtom(desc, arg);
+		return OWL._factory.getSWRLClassAtom(desc, arg);
 	}
 
 	public static Set<SWRLAtom> consequent(final SWRLAtom... atoms)
@@ -86,145 +86,145 @@ public class SWRL
 
 	public static SWRLLiteralArgument constant(final boolean constant)
 	{
-		return OWL.factory.getSWRLLiteralArgument(OWL.constant(constant));
+		return OWL._factory.getSWRLLiteralArgument(OWL.constant(constant));
 	}
 
 	public static SWRLLiteralArgument constant(final double constant)
 	{
-		return OWL.factory.getSWRLLiteralArgument(OWL.constant(constant));
+		return OWL._factory.getSWRLLiteralArgument(OWL.constant(constant));
 	}
 
 	public static SWRLLiteralArgument constant(final float constant)
 	{
-		return OWL.factory.getSWRLLiteralArgument(OWL.constant(constant));
+		return OWL._factory.getSWRLLiteralArgument(OWL.constant(constant));
 	}
 
 	public static SWRLLiteralArgument constant(final int constant)
 	{
-		return OWL.factory.getSWRLLiteralArgument(OWL.constant(constant));
+		return OWL._factory.getSWRLLiteralArgument(OWL.constant(constant));
 	}
 
 	public static SWRLLiteralArgument constant(final OWLLiteral constant)
 	{
-		return OWL.factory.getSWRLLiteralArgument(constant);
+		return OWL._factory.getSWRLLiteralArgument(constant);
 	}
 
 	public static SWRLLiteralArgument constant(final String constant)
 	{
-		return OWL.factory.getSWRLLiteralArgument(OWL.constant(constant));
+		return OWL._factory.getSWRLLiteralArgument(OWL.constant(constant));
 	}
 
 	public static SWRLLiteralArgument constant(final String value, final OWLDatatype datatype)
 	{
-		return OWL.factory.getSWRLLiteralArgument(OWL.constant(value, datatype));
+		return OWL._factory.getSWRLLiteralArgument(OWL.constant(value, datatype));
 	}
 
 	public static SWRLLiteralArgument constant(final String value, final String lang)
 	{
-		return OWL.factory.getSWRLLiteralArgument(OWL.constant(value, lang));
+		return OWL._factory.getSWRLLiteralArgument(OWL.constant(value, lang));
 	}
 
 	public static SWRLDataRangeAtom dataRangeAtom(final OWLDataRange rng, final SWRLLiteralArgument arg)
 	{
-		return OWL.factory.getSWRLDataRangeAtom(rng, arg);
+		return OWL._factory.getSWRLDataRangeAtom(rng, arg);
 	}
 
 	public static SWRLDifferentIndividualsAtom differentFrom(final SWRLIArgument ind1, final SWRLIArgument ind2)
 	{
-		return OWL.factory.getSWRLDifferentIndividualsAtom(ind1, ind2);
+		return OWL._factory.getSWRLDifferentIndividualsAtom(ind1, ind2);
 	}
 
 	public static SWRLVariable variable(final IRI var)
 	{
-		return OWL.factory.getSWRLVariable(var);
+		return OWL._factory.getSWRLVariable(var);
 	}
 
 	public static SWRLVariable variable(final String var)
 	{
-		return OWL.factory.getSWRLVariable(IRI.create(var));
+		return OWL._factory.getSWRLVariable(IRI.create(var));
 	}
 
 	public static SWRLBuiltInAtom equal(final SWRLDArgument arg1, final SWRLDArgument arg2)
 	{
-		return OWL.factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.EQUAL.getIRI(), Arrays.asList(arg1, arg2));
+		return OWL._factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.EQUAL.getIRI(), Arrays.asList(arg1, arg2));
 	}
 
 	public static SWRLBuiltInAtom greaterThan(final SWRLDArgument arg1, final SWRLDArgument arg2)
 	{
-		return OWL.factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.GREATER_THAN.getIRI(), Arrays.asList(arg1, arg2));
+		return OWL._factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.GREATER_THAN.getIRI(), Arrays.asList(arg1, arg2));
 	}
 
 	public static SWRLBuiltInAtom greaterThanOrEqual(final SWRLDArgument arg1, final SWRLDArgument arg2)
 	{
-		return OWL.factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.GREATER_THAN_OR_EQUAL.getIRI(), Arrays.asList(arg1, arg2));
+		return OWL._factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.GREATER_THAN_OR_EQUAL.getIRI(), Arrays.asList(arg1, arg2));
 	}
 
 	public static SWRLIndividualArgument individual(final OWLIndividual individual)
 	{
-		return OWL.factory.getSWRLIndividualArgument(individual);
+		return OWL._factory.getSWRLIndividualArgument(individual);
 	}
 
 	public static SWRLIndividualArgument individual(final String individual)
 	{
-		return OWL.factory.getSWRLIndividualArgument(OWL.Individual(individual));
+		return OWL._factory.getSWRLIndividualArgument(OWL.Individual(individual));
 	}
 
 	public static SWRLBuiltInAtom lessThan(final SWRLDArgument arg1, final SWRLDArgument arg2)
 	{
-		return OWL.factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.LESS_THAN.getIRI(), Arrays.asList(arg1, arg2));
+		return OWL._factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.LESS_THAN.getIRI(), Arrays.asList(arg1, arg2));
 	}
 
 	public static SWRLBuiltInAtom lessThanOrEqual(final SWRLDArgument arg1, final SWRLDArgument arg2)
 	{
-		return OWL.factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.LESS_THAN_OR_EQUAL.getIRI(), Arrays.asList(arg1, arg2));
+		return OWL._factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.LESS_THAN_OR_EQUAL.getIRI(), Arrays.asList(arg1, arg2));
 	}
 
 	public static SWRLBuiltInAtom notEqual(final SWRLDArgument arg1, final SWRLDArgument arg2)
 	{
-		return OWL.factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.NOT_EQUAL.getIRI(), Arrays.asList(arg1, arg2));
+		return OWL._factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.NOT_EQUAL.getIRI(), Arrays.asList(arg1, arg2));
 	}
 
 	public static SWRLDataPropertyAtom propertyAtom(final OWLDataPropertyExpression property, final SWRLIArgument arg0, final SWRLDArgument arg1)
 	{
-		return OWL.factory.getSWRLDataPropertyAtom(property, arg0, arg1);
+		return OWL._factory.getSWRLDataPropertyAtom(property, arg0, arg1);
 	}
 
 	public static SWRLObjectPropertyAtom propertyAtom(final OWLObjectPropertyExpression property, final SWRLIArgument arg0, final SWRLIArgument arg1)
 	{
-		return OWL.factory.getSWRLObjectPropertyAtom(property, arg0, arg1);
+		return OWL._factory.getSWRLObjectPropertyAtom(property, arg0, arg1);
 	}
 
 	public static SWRLRule rule(final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
-		return OWL.factory.getSWRLRule(antecendent, consequent);
+		return OWL._factory.getSWRLRule(antecendent, consequent);
 	}
 
 	public static SWRLRule rule(@SuppressWarnings("unused") final IRI uri, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
-		return OWL.factory.getSWRLRule(antecendent, consequent);
+		return OWL._factory.getSWRLRule(antecendent, consequent);
 	}
 
 	public static SWRLRule rule(@SuppressWarnings("unused") final IRI uri, final boolean anonymous, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
 		if (anonymous)
-			return OWL.factory.getSWRLRule(antecendent, consequent);
-		return OWL.factory.getSWRLRule(antecendent, consequent);
+			return OWL._factory.getSWRLRule(antecendent, consequent);
+		return OWL._factory.getSWRLRule(antecendent, consequent);
 	}
 
 	public static SWRLRule rule(@SuppressWarnings("unused") final String uri, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
-		return OWL.factory.getSWRLRule(antecendent, consequent);
+		return OWL._factory.getSWRLRule(antecendent, consequent);
 	}
 
 	public static SWRLRule rule(@SuppressWarnings("unused") final String uri, final boolean anonymous, final Set<? extends SWRLAtom> antecendent, final Set<? extends SWRLAtom> consequent)
 	{
 		if (anonymous)
-			return OWL.factory.getSWRLRule(antecendent, consequent);
-		return OWL.factory.getSWRLRule(antecendent, consequent);
+			return OWL._factory.getSWRLRule(antecendent, consequent);
+		return OWL._factory.getSWRLRule(antecendent, consequent);
 	}
 
 	public static SWRLSameIndividualAtom sameAs(final SWRLIArgument ind1, final SWRLIArgument ind2)
 	{
-		return OWL.factory.getSWRLSameIndividualAtom(ind1, ind2);
+		return OWL._factory.getSWRLSameIndividualAtom(ind1, ind2);
 	}
 }

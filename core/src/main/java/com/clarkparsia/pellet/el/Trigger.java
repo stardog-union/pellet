@@ -26,13 +26,13 @@ import java.util.Arrays;
  */
 public class Trigger
 {
-	private final ConceptInfo[] m_Premises;
-	private final ConceptInfo m_Consequence;
+	private final ConceptInfo[] _premises;
+	private final ConceptInfo _consequence;
 
 	public Trigger(final ConceptInfo[] premises, final ConceptInfo consequence)
 	{
-		m_Premises = premises;
-		m_Consequence = consequence;
+		_premises = premises;
+		_consequence = consequence;
 	}
 
 	public Trigger(final ConceptInfo consequence)
@@ -42,17 +42,17 @@ public class Trigger
 
 	public ConceptInfo[] getPremises()
 	{
-		return m_Premises;
+		return _premises;
 	}
 
 	public ConceptInfo getConsequence()
 	{
-		return m_Consequence;
+		return _consequence;
 	}
 
 	public boolean isTriggered(final ConceptInfo ci)
 	{
-		for (final ConceptInfo premise : m_Premises)
+		for (final ConceptInfo premise : _premises)
 			if (!ci.hasSuperClass(premise))
 				return false;
 		return true;
@@ -61,6 +61,6 @@ public class Trigger
 	@Override
 	public String toString()
 	{
-		return Arrays.toString(m_Premises) + " -> " + m_Consequence;
+		return Arrays.toString(_premises) + " -> " + _consequence;
 	}
 }

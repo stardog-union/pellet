@@ -7,7 +7,6 @@
 package com.clarkparsia.pellint.lintpattern;
 
 import com.clarkparsia.pellint.format.LintFormat;
-import com.clarkparsia.pellint.model.LintFixer;
 
 /**
  * <p>

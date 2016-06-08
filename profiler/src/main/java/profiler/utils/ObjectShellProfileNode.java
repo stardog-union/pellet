@@ -13,7 +13,7 @@ final class ObjectShellProfileNode extends AbstractShellProfileNode
 	@Override
 	public String name()
 	{
-		return "<shell: " + m_primitiveFieldCount + " prim/" + m_refFieldCount + " ref fields>";
+		return "<shell: " + _primitiveFieldCount + " prim/" + _refFieldCount + " ref fields>";
 	}
 
 	// protected: .............................................................
@@ -24,13 +24,13 @@ final class ObjectShellProfileNode extends AbstractShellProfileNode
 	{
 		super(parent);
 
-		m_primitiveFieldCount = primitiveFieldCount;
-		m_refFieldCount = refFieldCount;
+		_primitiveFieldCount = primitiveFieldCount;
+		_refFieldCount = refFieldCount;
 	}
 
 	// private: ...............................................................
 
-	private final int m_primitiveFieldCount, m_refFieldCount;
+	private final int _primitiveFieldCount, _refFieldCount;
 
 } // _end of class
 // ----------------------------------------------------------------------------

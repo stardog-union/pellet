@@ -27,11 +27,11 @@ import org.mindswap.pellet.KnowledgeBase;
  */
 public abstract class ProfileBasedExpressivityChecker
 {
-	protected KnowledgeBase m_KB;
+	protected KnowledgeBase _KB;
 
 	public ProfileBasedExpressivityChecker(final KnowledgeBase kb)
 	{
-		m_KB = kb;
+		_KB = kb;
 	}
 
 	/**

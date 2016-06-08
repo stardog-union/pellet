@@ -357,8 +357,8 @@ public class GlassBoxExplanation extends SingleExplanationGeneratorImpl
 				// remove the listener and the ontology to avoid memory leaks
 				reasoner.dispose();
 
-			OWL.manager.removeOntology(debuggingOntology);
-			OWL.manager.removeOntologyChangeListener(defTracker);
+			OWL._manager.removeOntology(debuggingOntology);
+			OWL._manager.removeOntologyChangeListener(defTracker);
 
 			return prunedExplanation;
 		}

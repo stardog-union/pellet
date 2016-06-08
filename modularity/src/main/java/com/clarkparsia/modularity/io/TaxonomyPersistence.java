@@ -80,11 +80,11 @@ public class TaxonomyPersistence
 		{
 			final OWLOntology ontology = createTaxonomyOntology(taxonomy);
 
-			OWL.manager.saveOntology(ontology, new OWLXMLDocumentFormat(), new StreamDocumentTarget(outputStream));
+			OWL._manager.saveOntology(ontology, new OWLXMLDocumentFormat(), new StreamDocumentTarget(outputStream));
 
 			outputStream.flush();
 
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 		catch (final OWLException e)
 		{
@@ -141,7 +141,7 @@ public class TaxonomyPersistence
 			}
 
 			// save the individuals
-			final Collection<OWLNamedIndividual> individuals = (Collection<OWLNamedIndividual>) taxonomyNode.getDatum(TaxonomyUtils.INSTANCES_KEY);
+			final Collection<OWLNamedIndividual> individuals = getDatumInstanceAsCollectorOfOWLNamedIndividual(taxonomyNode);
 
 			if (individuals != null && !individuals.isEmpty())
 				for (final OWLNamedIndividual ind : individuals)
@@ -151,9 +151,15 @@ public class TaxonomyPersistence
 				}
 		}
 
-		OWL.manager.applyChanges(changes);
+		OWL._manager.applyChanges(changes);
 
 		return ontology;
+	}
+
+	@SuppressWarnings("unchecked")
+	private static Collection<OWLNamedIndividual> getDatumInstanceAsCollectorOfOWLNamedIndividual(final TaxonomyNode<OWLClass> taxonomyNode)
+	{
+		return (Collection<OWLNamedIndividual>) taxonomyNode.getDatum(TaxonomyUtils.INSTANCES_KEY);
 	}
 
 	/**
@@ -273,11 +279,11 @@ public class TaxonomyPersistence
 	{
 		try
 		{
-			final OWLOntology ontology = OWL.manager.loadOntologyFromOntologyDocument(is);
+			final OWLOntology ontology = OWL._manager.loadOntologyFromOntologyDocument(is);
 
 			final Taxonomy<OWLClass> result = createTaxonomy(ontology);
 
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 
 			return result;
 		}

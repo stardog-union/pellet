@@ -29,10 +29,10 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class ExpressivityChecker
 {
-	private final KnowledgeBase m_KB;
-	private final ELExpressivityChecker m_ELChecker;
-	private final DLExpressivityChecker m_DLChecker;
-	private Expressivity m_Expressivity;
+	private final KnowledgeBase _KB;
+	private final ELExpressivityChecker _ELChecker;
+	private final DLExpressivityChecker _DLChecker;
+	private Expressivity _expressivity;
 
 	public ExpressivityChecker(final KnowledgeBase kb)
 	{
@@ -41,36 +41,36 @@ public class ExpressivityChecker
 
 	public ExpressivityChecker(final KnowledgeBase kb, final Expressivity expr)
 	{
-		m_KB = kb;
-		m_ELChecker = new ELExpressivityChecker(m_KB);
-		m_DLChecker = new DLExpressivityChecker(m_KB);
-		m_Expressivity = expr;
+		_KB = kb;
+		_ELChecker = new ELExpressivityChecker(_KB);
+		_DLChecker = new DLExpressivityChecker(_KB);
+		_expressivity = expr;
 	}
 
 	public void prepare()
 	{
-		m_Expressivity = new Expressivity();
-		if (m_ELChecker.compute(m_Expressivity))
+		_expressivity = new Expressivity();
+		if (_ELChecker.compute(_expressivity))
 			return;
 
-		m_Expressivity = new Expressivity();
+		_expressivity = new Expressivity();
 		// force expressivity to be non-EL
-		m_Expressivity.setHasAllValues(true);
-		m_DLChecker.compute(m_Expressivity);
+		_expressivity.setHasAllValues(true);
+		_DLChecker.compute(_expressivity);
 	}
 
 	public Expressivity getExpressivity()
 	{
-		return m_Expressivity;
+		return _expressivity;
 	}
 
 	public Expressivity getExpressivityWith(final ATermAppl c)
 	{
 		if (c == null)
-			return m_Expressivity;
+			return _expressivity;
 
-		final Expressivity newExp = new Expressivity(m_Expressivity);
-		m_DLChecker.updateWith(newExp, c);
+		final Expressivity newExp = new Expressivity(_expressivity);
+		_DLChecker.updateWith(newExp, c);
 
 		return newExp;
 	}
@@ -85,6 +85,6 @@ public class ExpressivityChecker
 		if (concept.equals(nominal))
 			return;
 
-		m_DLChecker.updateWith(m_Expressivity, concept);
+		_DLChecker.updateWith(_expressivity, concept);
 	}
 }

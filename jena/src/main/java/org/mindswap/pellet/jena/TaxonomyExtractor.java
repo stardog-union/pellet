@@ -78,7 +78,7 @@ public class TaxonomyExtractor
 
 				if (_includeIndividuals)
 				{
-					final Collection<ATermAppl> individuals = (Collection<ATermAppl>) taxonomyNode.getDatum(TaxonomyUtils.INSTANCES_KEY);
+					final Collection<ATermAppl> individuals = getDatumInstanceAsCollectorOfATermAppl(taxonomyNode);
 
 					if ((individuals != null) && !individuals.isEmpty())
 						for (final ATermAppl individual : individuals)
@@ -88,6 +88,13 @@ public class TaxonomyExtractor
 		}
 
 		return model;
+	}
+
+	// FIXME me : add strong typing on taxonmy.
+	@SuppressWarnings("unchecked")
+	protected static Collection<ATermAppl> getDatumInstanceAsCollectorOfATermAppl(final TaxonomyNode<ATermAppl> taxonomyNode)
+	{
+		return (Collection<ATermAppl>) taxonomyNode.getDatum(TaxonomyUtils.INSTANCES_KEY);
 	}
 
 	private static Statement typeAssertion(final Model model, final ATermAppl individual, final ATermAppl type)

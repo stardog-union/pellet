@@ -29,47 +29,47 @@ public class DoubtfulSet<E> extends HashSet<E>
 {
 	private static final long serialVersionUID = 1L;
 
-	private final HashSet<E> m_Definite;
+	private final HashSet<E> _definite;
 
 	public DoubtfulSet()
 	{
-		m_Definite = new HashSet<>();
+		_definite = new HashSet<>();
 	}
 
 	@Override
 	public void clear()
 	{
 		super.clear();
-		m_Definite.clear();
+		_definite.clear();
 	}
 
 	@Override
 	public boolean remove(final Object o)
 	{
-		m_Definite.remove(o);
+		_definite.remove(o);
 		return super.remove(o);
 	}
 
 	public boolean addDefinite(final E o)
 	{
 		super.add(o);
-		return m_Definite.add(o);
+		return _definite.add(o);
 	}
 
 	public boolean containsDefinite(final E o)
 	{
-		return m_Definite.contains(o);
+		return _definite.contains(o);
 	}
 
 	public Set<E> getDefiniteElements()
 	{
-		return m_Definite;
+		return _definite;
 	}
 
 	public Set<E> getDoubtfulElements()
 	{
 		final Set<E> doubtfulSet = new HashSet<>(this);
-		doubtfulSet.removeAll(m_Definite);
+		doubtfulSet.removeAll(_definite);
 		return doubtfulSet;
 	}
 }

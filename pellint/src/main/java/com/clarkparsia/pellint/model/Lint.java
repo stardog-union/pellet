@@ -35,19 +35,19 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  */
 public class Lint
 {
-	private final LintPattern m_LintPattern;
-	private LintFixer m_LintFixer;
-	private Severity m_Severity;
-	private final Set<OWLClass> m_ParticipatingClasses;
-	private final Set<OWLClassAxiom> m_ParticipatingAxioms;
-	private final OWLOntology m_ParticipatingOntology;
+	private final LintPattern _lintPattern;
+	private LintFixer _lintFixer;
+	private Severity _severity;
+	private final Set<OWLClass> _participatingClasses;
+	private final Set<OWLClassAxiom> _participatingAxioms;
+	private final OWLOntology _participatingOntology;
 
 	public Lint(final LintPattern lintPattern, final OWLOntology participatingOntology)
 	{
-		m_LintPattern = lintPattern;
-		m_ParticipatingOntology = participatingOntology;
-		m_ParticipatingClasses = CollectionUtil.makeSet();
-		m_ParticipatingAxioms = CollectionUtil.makeSet();
+		_lintPattern = lintPattern;
+		_participatingOntology = participatingOntology;
+		_participatingClasses = CollectionUtil.makeSet();
+		_participatingAxioms = CollectionUtil.makeSet();
 	}
 
 	/**
@@ -55,22 +55,22 @@ public class Lint
 	 */
 	public LintPattern getPattern()
 	{
-		return m_LintPattern;
+		return _lintPattern;
 	}
 
 	public void setLintFixer(final LintFixer fixer)
 	{
-		m_LintFixer = fixer;
+		_lintFixer = fixer;
 	}
 
 	public LintFixer getLintFixer()
 	{
-		return m_LintFixer;
+		return _lintFixer;
 	}
 
 	public void setSeverity(final Severity v)
 	{
-		m_Severity = v;
+		_severity = v;
 	}
 
 	/**
@@ -79,42 +79,42 @@ public class Lint
 	 */
 	public Severity getSeverity()
 	{
-		return m_Severity;
+		return _severity;
 	}
 
 	public void addParticipatingClass(final OWLClass c)
 	{
-		m_ParticipatingClasses.add(c);
+		_participatingClasses.add(c);
 	}
 
 	public void addAllParticipatingClasses(final Collection<? extends OWLClass> c)
 	{
-		m_ParticipatingClasses.addAll(c);
+		_participatingClasses.addAll(c);
 	}
 
 	public Set<OWLClass> getParticipatingClasses()
 	{
-		return m_ParticipatingClasses;
+		return _participatingClasses;
 	}
 
 	public void addParticipatingAxiom(final OWLClassAxiom a)
 	{
-		m_ParticipatingAxioms.add(a);
+		_participatingAxioms.add(a);
 	}
 
 	public void addAllParticipatingAxioms(final Collection<? extends OWLClassAxiom> a)
 	{
-		m_ParticipatingAxioms.addAll(a);
+		_participatingAxioms.addAll(a);
 	}
 
 	public Set<OWLClassAxiom> getParticipatingAxioms()
 	{
-		return m_ParticipatingAxioms;
+		return _participatingAxioms;
 	}
 
 	public OWLOntology getParticipatingOntology()
 	{
-		return m_ParticipatingOntology;
+		return _participatingOntology;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class Lint
 	 */
 	public boolean applyFix(final OWLOntologyManager manager) throws OWLOntologyChangeException
 	{
-		return m_LintFixer != null && m_LintFixer.apply(manager, m_ParticipatingOntology);
+		return _lintFixer != null && _lintFixer.apply(manager, _participatingOntology);
 	}
 
 	/**

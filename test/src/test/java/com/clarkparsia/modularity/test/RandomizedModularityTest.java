@@ -53,7 +53,7 @@ public abstract class RandomizedModularityTest extends AbstractModularityTest
 		signature.addAll(TestUtils.selectRandomElements(ontology.classesInSignature().collect(Collectors.toList()), 5));
 		modularityTest(ontology, signature);
 
-		OWL.manager.removeOntology(ontology);
+		OWL._manager.removeOntology(ontology);
 	}
 
 	private void modularityTest(final OWLOntology ontology, final Set<OWLEntity> signature)
@@ -68,7 +68,7 @@ public abstract class RandomizedModularityTest extends AbstractModularityTest
 	{
 		final Set<OWLAxiom> computed = ModularityUtils.extractModule(ontology, signature, moduleType);
 
-		final OntologySegmenter segmenter = new SyntacticLocalityModuleExtractor(OWL.manager, ontology, moduleType);
+		final OntologySegmenter segmenter = new SyntacticLocalityModuleExtractor(OWL._manager, ontology, moduleType);
 		final Set<OWLAxiom> expected = segmenter.extract(signature);
 
 		// prune declarations to avoid mismatches related to declarations

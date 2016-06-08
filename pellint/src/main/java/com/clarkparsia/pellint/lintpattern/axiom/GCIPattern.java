@@ -10,7 +10,6 @@ import com.clarkparsia.pellint.format.LintFormat;
 import com.clarkparsia.pellint.format.SimpleLintFormat;
 import com.clarkparsia.pellint.model.Lint;
 import com.clarkparsia.pellint.util.OWLUtil;
-import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
@@ -61,11 +60,7 @@ public class GCIPattern extends AxiomLintPattern
 	@Override
 	public void visit(final OWLEquivalentClassesAxiom axiom)
 	{
-		int complexCount = 0;
-		for (final OWLClassExpression desc : axiom.getClassExpressions())
-			if (OWLUtil.isComplex(desc))
-				complexCount++;
-
+		final long complexCount = axiom.classExpressions().filter(OWLUtil::isComplex).count();
 		if (complexCount > 1)
 		{
 			final Lint lint = makeLint();

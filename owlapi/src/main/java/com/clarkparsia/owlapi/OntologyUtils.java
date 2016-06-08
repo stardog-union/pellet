@@ -49,7 +49,7 @@ import org.semanticweb.owlapi.model.parameters.Imports;
  */
 public class OntologyUtils
 {
-	private static OWLOntologyManager _manager = OWL.manager;
+	private static OWLOntologyManager _manager = OWL._manager;
 
 	public static void addAxioms(final OWLOntology ontology, final Collection<? extends OWLAxiom> axioms)
 	{

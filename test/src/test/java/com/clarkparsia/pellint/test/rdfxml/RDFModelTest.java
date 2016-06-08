@@ -75,12 +75,12 @@ public class RDFModelTest
 			_literals[i] = ResourceFactory.createPlainLiteral("lit" + i);
 
 		_statements = new Statement[] { model.createStatement(_names[0], _predicates[0], _bNodes[0]), model.createStatement(_names[0], _predicates[0], _names[1]), model.createStatement(_names[0], _predicates[0], _literals[0]), model.createStatement(_names[1], _predicates[1], _names[0]), model.createStatement(_names[1], _predicates[1], _bNodes[1]), model.createStatement(_names[2], _predicates[2], _names[3]), model.createStatement(_names[2], _predicates[3], _names[0]) };
-		for (final Statement m_Statement : _statements)
-			_model.addStatement(m_Statement);
+		for (final Statement statement : _statements)
+			_model.addStatement(statement);
 
 		_comments = new String[] { "comment1" };
-		for (final String m_Comment : _comments)
-			_model.addComment(m_Comment);
+		for (final String comment : _comments)
+			_model.addComment(comment);
 
 		_namespaces = CollectionUtil.makeMap();
 		_namespaces.put("ns1", "tag:clarkparsia.com,2008");
@@ -105,8 +105,8 @@ public class RDFModelTest
 	{
 		final Resource newBNode = ResourceFactory.createResource(AnonId.create().getLabelString());
 		assertFalse(_model.containsStatement(newBNode, _predicates[0], newBNode));
-		for (final Statement m_Statement : _statements)
-			assertTrue(_model.containsStatement(m_Statement.getSubject(), m_Statement.getPredicate(), m_Statement.getObject()));
+		for (final Statement statement : _statements)
+			assertTrue(_model.containsStatement(statement.getSubject(), statement.getPredicate(), statement.getObject()));
 	}
 
 	@Test
@@ -202,8 +202,8 @@ public class RDFModelTest
 		_model.addAllStatementsWithExistingBNodesOnly(statements);
 
 		assertEquals(oldSize + 3, _model.getStatements().size());
-		// assertEquals( newBNode, m_Model.getUniqueObject(
-		// (Resource)m_BNodes[0], m_Predicates[0] ) );
-		// assertNull( m_Model.getUniqueObject( newBNode, m_Predicates[0] ) );
+		// assertEquals( newBNode, _model.getUniqueObject(
+		// (Resource)_BNodes[0], _predicates[0] ) );
+		// assertNull( _Model.getUniqueObject( newBNode, predicates[0] ) );
 	}
 }

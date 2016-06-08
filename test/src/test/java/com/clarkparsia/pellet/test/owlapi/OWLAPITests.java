@@ -1103,7 +1103,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testAxiomConverterRules1()
 	{
 		final KnowledgeBase kb = new KnowledgeBase();
-		final AxiomConverter converter = new AxiomConverter(kb, OWL.manager.getOWLDataFactory());
+		final AxiomConverter converter = new AxiomConverter(kb, OWL._manager.getOWLDataFactory());
 
 		final ATermAppl C = ATermUtils.makeTermAppl("C");
 		final ATermAppl D = ATermUtils.makeTermAppl("D");
@@ -1134,7 +1134,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testAxiomConverterRules1b()
 	{
 		final KnowledgeBase kb = new KnowledgeBase();
-		final AxiomConverter converter = new AxiomConverter(kb, OWL.manager.getOWLDataFactory());
+		final AxiomConverter converter = new AxiomConverter(kb, OWL._manager.getOWLDataFactory());
 
 		final ATermAppl C = ATermUtils.makeTermAppl("C");
 		final ATermAppl D = ATermUtils.makeTermAppl("D");
@@ -1165,7 +1165,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testAxiomConverterRules1c()
 	{
 		final KnowledgeBase kb = new KnowledgeBase();
-		final AxiomConverter converter = new AxiomConverter(kb, OWL.manager.getOWLDataFactory());
+		final AxiomConverter converter = new AxiomConverter(kb, OWL._manager.getOWLDataFactory());
 
 		final ATermAppl C = ATermUtils.makeTermAppl("C");
 		final ATermAppl D = ATermUtils.makeTermAppl("D");
@@ -1197,7 +1197,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testAxiomConverterRules2()
 	{
 		final KnowledgeBase kb = new KnowledgeBase();
-		final AxiomConverter converter = new AxiomConverter(kb, OWL.manager.getOWLDataFactory());
+		final AxiomConverter converter = new AxiomConverter(kb, OWL._manager.getOWLDataFactory());
 
 		final ATermAppl C = ATermUtils.makeTermAppl("C");
 		final ATermAppl D = ATermUtils.makeTermAppl("D");
@@ -1263,7 +1263,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testAxiomConverterRules4()
 	{
 		final KnowledgeBase kb = new KnowledgeBase();
-		final AxiomConverter converter = new AxiomConverter(kb, OWL.manager.getOWLDataFactory());
+		final AxiomConverter converter = new AxiomConverter(kb, OWL._manager.getOWLDataFactory());
 
 		final ATermAppl r = ATermUtils.makeTermAppl("r");
 		final ATermAppl s = ATermUtils.makeTermAppl("s");

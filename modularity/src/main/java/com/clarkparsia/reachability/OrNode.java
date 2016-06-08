@@ -36,10 +36,10 @@ public class OrNode extends Node
 	@Override
 	public boolean isRedundant()
 	{
-		if (inputs.size() <= 1)
+		if (_inputs.size() <= 1)
 			return true;
 
-		for (final Node output : outputs)
+		for (final Node output : _outputs)
 			if (output instanceof AndNode)
 				return false;
 

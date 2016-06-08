@@ -35,14 +35,14 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class TooManyDifferentIndividualsPatternTest extends PellintTestCase
 {
 
-	private TooManyDifferentIndividualsPattern m_Pattern;
+	private TooManyDifferentIndividualsPattern _pattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_Pattern = new TooManyDifferentIndividualsPattern();
+		_pattern = new TooManyDifferentIndividualsPattern();
 	}
 
 	@Test
@@ -51,10 +51,10 @@ public class TooManyDifferentIndividualsPatternTest extends PellintTestCase
 		addAxiom(OWL.differentFrom(_ind[0], _ind[1]));
 		addAxiom(OWL.differentFrom(_ind[2], _ind[3]));
 
-		m_Pattern.setMaxAllowed(3);
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxAllowed(3);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
-		assertFalse(m_Pattern.isFixable());
+		assertFalse(_pattern.isFixable());
 	}
 
 	@Test
@@ -62,12 +62,12 @@ public class TooManyDifferentIndividualsPatternTest extends PellintTestCase
 	{
 		addAxiom(OWL.differentFrom(CollectionUtil.asSet(_ind[0], _ind[1], _ind[2])));
 
-		m_Pattern.setMaxAllowed(3);
-		List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxAllowed(3);
+		List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
 		addAxiom(OWL.differentFrom(_ind[3], _ind[4]));
-		lints = m_Pattern.match(_ontology);
+		lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 		final Lint lint = lints.get(0);
 		assertNull(lint.getLintFixer());

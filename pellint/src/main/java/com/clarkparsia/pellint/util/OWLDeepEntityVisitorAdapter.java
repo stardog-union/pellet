@@ -6,6 +6,7 @@
 
 package com.clarkparsia.pellint.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -14,7 +15,7 @@ import org.semanticweb.owlapi.model.OWLDatatype;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.util.DeprecatedOWLEntityCollector;
+import org.semanticweb.owlapi.util.OWLEntityCollector;
 
 /**
  * <p>
@@ -33,8 +34,12 @@ import org.semanticweb.owlapi.util.DeprecatedOWLEntityCollector;
  *
  * @author Harris Lin
  */
-public abstract class OWLDeepEntityVisitorAdapter extends DeprecatedOWLEntityCollector
+public abstract class OWLDeepEntityVisitorAdapter extends OWLEntityCollector
 {
+	public OWLDeepEntityVisitorAdapter()
+	{
+		super(new ArrayList<>());
+	}
 
 	@Override
 	public Collection<OWLEntity> visit(final OWLClass desc)

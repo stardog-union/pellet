@@ -70,23 +70,23 @@ public class OWLSyntaxChecker
 			SWRL_BUILT_INS.add(ResourceFactory.createResource(v.getIRI().toString()));
 	}
 
-	private Map<Resource, List<RDFNode>> m_Lists;
-	private OWLEntityDatabase m_OWLEntities;
-	private RDFModel m_Model = null;
+	private Map<Resource, List<RDFNode>> _lists;
+	private OWLEntityDatabase _OWLEntities;
+	private RDFModel _model = null;
 
-	private boolean excludeValidPunnings = false;
+	private boolean _excludeValidPunnings = false;
 
 	/**
 	 * Sets if valid punninga will be excluded from lint report. OWL 2 allows resources to have certain multiple types (known as punning), e.g. a resource can
-	 * be both a class and an _individual. However, certain punnings are not allowed under any _condition, e.g. a resource cannot be both a datatype property and
-	 * an object property. Invalid punnings are always returned. If this option is set to <code>true</code>, punnings valid for OWL 2 will be excluded from the
-	 * report. By default, these punnings are reported.
+	 * be both a class and an _individual. However, certain punnings are not allowed under any _condition, e.g. a resource cannot be both a datatype property
+	 * and an object property. Invalid punnings are always returned. If this option is set to <code>true</code>, punnings valid for OWL 2 will be excluded from
+	 * the report. By default, these punnings are reported.
 	 *
 	 * @param excludeValidPunning If <code>true</code> OWL 2 valid punnings will not be inluded in the result
 	 */
 	public void setExcludeValidPunnings(final boolean excludeValidPunning)
 	{
-		excludeValidPunnings = excludeValidPunning;
+		_excludeValidPunnings = excludeValidPunning;
 	}
 
 	/**
@@ -94,36 +94,36 @@ public class OWLSyntaxChecker
 	 */
 	public boolean isExcludeValidPunnings()
 	{
-		return excludeValidPunnings;
+		return _excludeValidPunnings;
 	}
 
 	public RDFLints validate(final RDFModel model)
 	{
-		m_Model = model;
+		_model = model;
 
-		m_OWLEntities = new OWLEntityDatabase();
-		m_OWLEntities.addAnnotationRole(RDFS.label);
-		m_OWLEntities.addAnnotationRole(RDFS.comment);
-		m_OWLEntities.addAnnotationRole(RDFS.seeAlso);
-		m_OWLEntities.addAnnotationRole(RDFS.isDefinedBy);
-		m_OWLEntities.addAnnotationRole(OWL.versionInfo);
-		m_OWLEntities.addOntologyRole(OWL.backwardCompatibleWith);
-		m_OWLEntities.addOntologyRole(OWL.priorVersion);
-		m_OWLEntities.addOntologyRole(OWL.incompatibleWith);
-		m_OWLEntities.addClass(OWL.Thing);
-		m_OWLEntities.addClass(OWL.Nothing);
+		_OWLEntities = new OWLEntityDatabase();
+		_OWLEntities.addAnnotationRole(RDFS.label);
+		_OWLEntities.addAnnotationRole(RDFS.comment);
+		_OWLEntities.addAnnotationRole(RDFS.seeAlso);
+		_OWLEntities.addAnnotationRole(RDFS.isDefinedBy);
+		_OWLEntities.addAnnotationRole(OWL.versionInfo);
+		_OWLEntities.addOntologyRole(OWL.backwardCompatibleWith);
+		_OWLEntities.addOntologyRole(OWL.priorVersion);
+		_OWLEntities.addOntologyRole(OWL.incompatibleWith);
+		_OWLEntities.addClass(OWL.Thing);
+		_OWLEntities.addClass(OWL.Nothing);
 
 		// Fixes #194
-		m_OWLEntities.addDatatype(RDFS.Literal);
+		_OWLEntities.addDatatype(RDFS.Literal);
 
 		// Fixes #457
-		m_OWLEntities.addDatatype(ResourceFactory.createResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral"));
+		_OWLEntities.addDatatype(ResourceFactory.createResource("http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral"));
 
 		for (final ATermAppl uri : new DatatypeReasonerImpl().listDataRanges())
-			m_OWLEntities.addDatatype(ResourceFactory.createResource(uri.getName()));
+			_OWLEntities.addDatatype(ResourceFactory.createResource(uri.getName()));
 
-		m_Lists = CollectionUtil.makeMap();
-		m_Lists.put(RDF.nil, CollectionUtil.<RDFNode> makeList());
+		_lists = CollectionUtil.makeMap();
+		_lists.put(RDF.nil, CollectionUtil.<RDFNode> makeList());
 
 		processTypes();
 		processTriples();
@@ -136,23 +136,23 @@ public class OWLSyntaxChecker
 	{
 		final RDFLints lints = new RDFLints();
 
-		lints.add("Untyped ontologies", toString(m_OWLEntities.getDoubtfulOntologies()));
-		lints.add("Untyped classes", toString(m_OWLEntities.getDoubtfulClasses()));
-		lints.add("Untyped datatypes", toString(m_OWLEntities.getDoubtfulDatatypes()));
-		lints.add("Untyped object properties", toString(m_OWLEntities.getDoubtfulObjectRoles()));
-		lints.add("Untyped datatype properties", toString(m_OWLEntities.getDoubtfulDatatypeRoles()));
-		lints.add("Untyped annotation properties", toString(m_OWLEntities.getDoubtfulAnnotaionRoles()));
-		lints.add("Untyped properties", toString(m_OWLEntities.getDoubtfulRoles()));
-		lints.add("Untyped individuals", toString(m_OWLEntities.getDoubtfulIndividuals()));
+		lints.add("Untyped ontologies", toString(_OWLEntities.getDoubtfulOntologies()));
+		lints.add("Untyped classes", toString(_OWLEntities.getDoubtfulClasses()));
+		lints.add("Untyped datatypes", toString(_OWLEntities.getDoubtfulDatatypes()));
+		lints.add("Untyped object properties", toString(_OWLEntities.getDoubtfulObjectRoles()));
+		lints.add("Untyped datatype properties", toString(_OWLEntities.getDoubtfulDatatypeRoles()));
+		lints.add("Untyped annotation properties", toString(_OWLEntities.getDoubtfulAnnotaionRoles()));
+		lints.add("Untyped properties", toString(_OWLEntities.getDoubtfulRoles()));
+		lints.add("Untyped individuals", toString(_OWLEntities.getDoubtfulIndividuals()));
 
-		lints.add("Using rdfs:Class instead of owl:Class", toString(m_OWLEntities.getAllRDFClasses()));
-		lints.add("Multiple typed resources", toString(m_OWLEntities.getMultiTypedResources(excludeValidPunnings)));
+		lints.add("Using rdfs:Class instead of owl:Class", toString(_OWLEntities.getAllRDFClasses()));
+		lints.add("Multiple typed resources", toString(_OWLEntities.getMultiTypedResources(_excludeValidPunnings)));
 
-		lints.add("Literals used where a class is _expected", toStringLiterals(m_OWLEntities.getLiteralsAsClass()));
-		lints.add("Literals used where an _individual is _expected", toStringLiterals(m_OWLEntities.getLiteralsAsIndividuals()));
-		lints.add("Resource used where a literal is _expected", toString(m_OWLEntities.getResourcesAsLiterals()));
+		lints.add("Literals used where a class is _expected", toStringLiterals(_OWLEntities.getLiteralsAsClass()));
+		lints.add("Literals used where an _individual is _expected", toStringLiterals(_OWLEntities.getLiteralsAsIndividuals()));
+		lints.add("Resource used where a literal is _expected", toString(_OWLEntities.getResourcesAsLiterals()));
 
-		lints.addMissingStatements(m_OWLEntities.getAllTypingStatements());
+		lints.addMissingStatements(_OWLEntities.getAllTypingStatements());
 
 		return lints;
 	}
@@ -200,8 +200,8 @@ public class OWLSyntaxChecker
 		if (head.equals(RDF.nil))
 			return;
 
-		final RDFNode first = m_Model.getUniqueObject(head, RDF.first);
-		final RDFNode rest = m_Model.getUniqueObject(head, RDF.rest);
+		final RDFNode first = _model.getUniqueObject(head, RDF.first);
+		final RDFNode rest = _model.getUniqueObject(head, RDF.rest);
 		if (first == null)
 			// report.addMessage(WARNING, "Invalid List", "The list " + r + "
 			// does not have a rdf:first property");
@@ -221,21 +221,25 @@ public class OWLSyntaxChecker
 
 	private void createList(final Resource head)
 	{
-		if (m_Lists.containsKey(head))
+		if (_lists.containsKey(head))
 			return;
 
 		final List<RDFNode> list = CollectionUtil.makeList();
-		m_Lists.put(head, list);
+		_lists.put(head, list);
 		createList(head, list);
 	}
+
+	// We manage the org.mindswap.pellet.jena.vocabulary.OWL2 so we can manage the code when removing will occure.
+	@SuppressWarnings("deprecation")
+	private static Resource _selfRestriction = OWL2.SelfRestriction;
 
 	private void processTypes()
 	{
 		// list pre-processing
-		for (final Statement stmt : m_Model.getStatementsByPredicate(RDF.first))
+		for (final Statement stmt : _model.getStatementsByPredicate(RDF.first))
 		{
 			final Resource s = stmt.getSubject();
-			for (final Statement aStmt : m_Model.getStatementsByObject(s))
+			for (final Statement aStmt : _model.getStatementsByObject(s))
 			{
 				final Property predicate = aStmt.getPredicate();
 				if (!predicate.equals(RDF.first) && !predicate.equals(RDF.rest))
@@ -247,28 +251,28 @@ public class OWLSyntaxChecker
 		}
 
 		final List<Statement> processLater = CollectionUtil.makeList();
-		for (final Statement stmt : m_Model.getStatementsByPredicate(RDF.type))
+		for (final Statement stmt : _model.getStatementsByPredicate(RDF.type))
 		{
 			final Resource s = stmt.getSubject();
 			final RDFNode o = stmt.getObject();
 
 			if (o.equals(OWL.Class) || o.equals(OWL.DeprecatedClass))
-				m_OWLEntities.addClass(s);
+				_OWLEntities.addClass(s);
 			else
 				if (o.equals(RDFS.Class))
 					processLater.add(stmt);
 				else
 					if (o.equals(RDFS.Datatype))
-						m_OWLEntities.addDatatype(s);
+						_OWLEntities.addDatatype(s);
 					else
 						if (o.equals(OWL.Thing))
-							m_OWLEntities.addIndividual(s);
+							_OWLEntities.addIndividual(s);
 						else
 							if (o.equals(OWL.Restriction))
-								m_OWLEntities.addRestriction(s);
+								_OWLEntities.addRestriction(s);
 							else
-								if (o.equals(OWL2.SelfRestriction))
-									m_OWLEntities.addRestriction(s);
+								if (o.equals(_selfRestriction))
+									_OWLEntities.addRestriction(s);
 								else
 									if (o.equals(OWL.AllDifferent))
 									{
@@ -276,74 +280,74 @@ public class OWLSyntaxChecker
 									}
 									else
 										if (o.equals(OWL.ObjectProperty))
-											m_OWLEntities.addObjectRole(s);
+											_OWLEntities.addObjectRole(s);
 										else
 											if (o.equals(OWL.DatatypeProperty))
-												m_OWLEntities.addDatatypeRole(s);
+												_OWLEntities.addDatatypeRole(s);
 											else
 												if (o.equals(OWL.AnnotationProperty))
-													m_OWLEntities.addAnnotationRole(s);
+													_OWLEntities.addAnnotationRole(s);
 												else
 													if (o.equals(OWL.DeprecatedProperty))
-														m_OWLEntities.addUntypedRole(s);
+														_OWLEntities.addUntypedRole(s);
 													else
 														if (o.equals(RDF.Property))
 															processLater.add(stmt);
 														else
 															if (o.equals(OWL.TransitiveProperty))
-																m_OWLEntities.addTransitiveRole(s);
+																_OWLEntities.addTransitiveRole(s);
 															else
 																if (o.equals(OWL.SymmetricProperty))
-																	m_OWLEntities.addSymmetricRole(s);
+																	_OWLEntities.addSymmetricRole(s);
 																else
 																	if (o.equals(OWL2.AsymmetricProperty))
-																		m_OWLEntities.addAntiSymmetricRole(s);
+																		_OWLEntities.addAntiSymmetricRole(s);
 																	else
 																		if (o.equals(OWL2.ReflexiveProperty))
-																			m_OWLEntities.addReflexiveRole(s);
+																			_OWLEntities.addReflexiveRole(s);
 																		else
 																			if (o.equals(OWL2.IrreflexiveProperty))
-																				m_OWLEntities.addIrreflexiveRole(s);
+																				_OWLEntities.addIrreflexiveRole(s);
 																			else
 																				if (o.equals(OWL.FunctionalProperty))
 																					processLater.add(stmt);
 																				else
 																					if (o.equals(OWL.InverseFunctionalProperty))
-																						m_OWLEntities.addInverseFunctionalRole(s);
+																						_OWLEntities.addInverseFunctionalRole(s);
 																					else
 																						if (o.equals(OWL.Ontology))
-																							m_OWLEntities.addOntology(s);
+																							_OWLEntities.addOntology(s);
 																						else
 																							if (o.equals(OWL.DataRange))
-																								m_OWLEntities.addDatatype(s);
+																								_OWLEntities.addDatatype(s);
 																							else
 																								if (o.equals(OWL2.NamedIndividual))
-																									m_OWLEntities.addIndividual(s);
+																									_OWLEntities.addIndividual(s);
 																								else
 																									if (o.equals(OWL2.NegativePropertyAssertion))
 																									{
-																										final RDFNode assertedSub = m_Model.getUniqueObject(s, OWL2.sourceIndividual);
-																										final RDFNode assertedPred = m_Model.getUniqueObject(s, OWL2.assertionProperty);
-																										final RDFNode assertedObjTV = m_Model.getUniqueObject(s, OWL2.targetValue);
-																										final RDFNode assertedObjTI = m_Model.getUniqueObject(s, OWL2.targetIndividual);
+																										final RDFNode assertedSub = _model.getUniqueObject(s, OWL2.sourceIndividual);
+																										final RDFNode assertedPred = _model.getUniqueObject(s, OWL2.assertionProperty);
+																										final RDFNode assertedObjTV = _model.getUniqueObject(s, OWL2.targetValue);
+																										final RDFNode assertedObjTI = _model.getUniqueObject(s, OWL2.targetIndividual);
 
 																										if (assertedSub != null)
-																											m_OWLEntities.addIndividual(assertedSub);
+																											_OWLEntities.addIndividual(assertedSub);
 																										if (assertedPred != null)
 																											if (assertedObjTV != null)
-																												m_OWLEntities.assumeDatatypeRole(assertedPred);
+																												_OWLEntities.assumeDatatypeRole(assertedPred);
 																											else
-																												m_OWLEntities.assumeObjectRole(assertedPred);
+																												_OWLEntities.assumeObjectRole(assertedPred);
 																										if (assertedObjTV != null)
 																										{
 																											if (assertedObjTV.isLiteral())
-																												m_OWLEntities.addLiteral(assertedObjTV);
+																												_OWLEntities.addLiteral(assertedObjTV);
 																											else
-																												m_OWLEntities.addIndividual(assertedObjTV);
+																												_OWLEntities.addIndividual(assertedObjTV);
 																										}
 																										else
 																											if (assertedObjTI != null)
-																												m_OWLEntities.addIndividual(assertedObjTI);
+																												_OWLEntities.addIndividual(assertedObjTI);
 																									}
 																									else
 																										if (o.equals(SWRL.Imp))
@@ -357,7 +361,7 @@ public class OWLSyntaxChecker
 																											}
 																											else
 																												if (o.equals(SWRL.Variable))
-																													m_OWLEntities.addSWRLVariable(s);
+																													_OWLEntities.addSWRLVariable(s);
 																												else
 																													if (o.equals(SWRL.ClassAtom) || o.equals(SWRL.DataRangeAtom) || o.equals(SWRL.IndividualPropertyAtom) || o.equals(SWRL.DatavaluedPropertyAtom) || o.equals(SWRL.SameIndividualAtom) || o.equals(SWRL.DifferentIndividualsAtom))
 																														processLater.add(stmt);
@@ -368,7 +372,7 @@ public class OWLSyntaxChecker
 																														}
 																														else
 																														{
-																															m_OWLEntities.addIndividual(s);
+																															_OWLEntities.addIndividual(s);
 
 																															// to check if o is a class
 																															processLater.add(stmt);
@@ -382,80 +386,80 @@ public class OWLSyntaxChecker
 
 			if (o.equals(RDFS.Class))
 			{
-				if (!m_Model.containsStatement(s, RDF.type, OWL.Restriction) && !m_Model.containsStatement(s, RDF.type, OWL.Class))
-					m_OWLEntities.addRDFSClass(s);
+				if (!_model.containsStatement(s, RDF.type, OWL.Restriction) && !_model.containsStatement(s, RDF.type, OWL.Class))
+					_OWLEntities.addRDFSClass(s);
 			}
 			else
 				if (o.equals(OWL.FunctionalProperty))
 				{
-					if (!m_OWLEntities.containsRole(s))
-						m_OWLEntities.assumeObjectRole(s);
+					if (!_OWLEntities.containsRole(s))
+						_OWLEntities.assumeObjectRole(s);
 				}
 				else
 					if (o.equals(RDF.Property))
 					{
-						if (!m_OWLEntities.containsRole(s))
-							m_OWLEntities.assumeObjectRole(s);
+						if (!_OWLEntities.containsRole(s))
+							_OWLEntities.assumeObjectRole(s);
 					}
 					else
 						if (o.equals(SWRL.ClassAtom))
 						{
-							final RDFNode assertedClass = m_Model.getUniqueObject(s, SWRL.classPredicate);
-							final RDFNode assertedObject = m_Model.getUniqueObject(s, SWRL.argument1);
+							final RDFNode assertedClass = _model.getUniqueObject(s, SWRL.classPredicate);
+							final RDFNode assertedObject = _model.getUniqueObject(s, SWRL.argument1);
 
-							m_OWLEntities.assumeClass(assertedClass);
-							if (!m_OWLEntities.containsIndividual(assertedObject))
-								m_OWLEntities.assumeSWRLVariable(assertedObject);
+							_OWLEntities.assumeClass(assertedClass);
+							if (!_OWLEntities.containsIndividual(assertedObject))
+								_OWLEntities.assumeSWRLVariable(assertedObject);
 						}
 						else
 							if (o.equals(SWRL.DataRangeAtom))
 							{
-								final RDFNode assertedDataRange = m_Model.getUniqueObject(s, SWRL.dataRange);
-								final RDFNode assertedObject = m_Model.getUniqueObject(s, SWRL.argument1);
+								final RDFNode assertedDataRange = _model.getUniqueObject(s, SWRL.dataRange);
+								final RDFNode assertedObject = _model.getUniqueObject(s, SWRL.argument1);
 
-								m_OWLEntities.assumeDatatype(assertedDataRange);
+								_OWLEntities.assumeDatatype(assertedDataRange);
 
 								if (!assertedObject.isLiteral())
-									m_OWLEntities.assumeSWRLVariable(assertedObject);
+									_OWLEntities.assumeSWRLVariable(assertedObject);
 							}
 							else
 								if (o.equals(SWRL.IndividualPropertyAtom))
 								{
-									final RDFNode assertedProperty = m_Model.getUniqueObject(s, SWRL.propertyPredicate);
-									final RDFNode assertedSubject = m_Model.getUniqueObject(s, SWRL.argument1);
-									final RDFNode assertedObject = m_Model.getUniqueObject(s, SWRL.argument2);
+									final RDFNode assertedProperty = _model.getUniqueObject(s, SWRL.propertyPredicate);
+									final RDFNode assertedSubject = _model.getUniqueObject(s, SWRL.argument1);
+									final RDFNode assertedObject = _model.getUniqueObject(s, SWRL.argument2);
 
-									m_OWLEntities.assumeObjectRole(assertedProperty);
+									_OWLEntities.assumeObjectRole(assertedProperty);
 
-									if (!m_OWLEntities.containsIndividual(assertedSubject))
-										m_OWLEntities.assumeSWRLVariable(assertedSubject);
-									if (!m_OWLEntities.containsIndividual(assertedObject))
-										m_OWLEntities.assumeSWRLVariable(assertedObject);
+									if (!_OWLEntities.containsIndividual(assertedSubject))
+										_OWLEntities.assumeSWRLVariable(assertedSubject);
+									if (!_OWLEntities.containsIndividual(assertedObject))
+										_OWLEntities.assumeSWRLVariable(assertedObject);
 								}
 								else
 									if (o.equals(SWRL.DatavaluedPropertyAtom))
 									{
-										final RDFNode assertedProperty = m_Model.getUniqueObject(s, SWRL.propertyPredicate);
-										final RDFNode assertedSubject = m_Model.getUniqueObject(s, SWRL.argument1);
-										final RDFNode assertedObject = m_Model.getUniqueObject(s, SWRL.argument2);
+										final RDFNode assertedProperty = _model.getUniqueObject(s, SWRL.propertyPredicate);
+										final RDFNode assertedSubject = _model.getUniqueObject(s, SWRL.argument1);
+										final RDFNode assertedObject = _model.getUniqueObject(s, SWRL.argument2);
 
-										m_OWLEntities.assumeDatatypeRole(assertedProperty);
+										_OWLEntities.assumeDatatypeRole(assertedProperty);
 
-										if (!m_OWLEntities.containsIndividual(assertedSubject))
-											m_OWLEntities.assumeSWRLVariable(assertedSubject);
+										if (!_OWLEntities.containsIndividual(assertedSubject))
+											_OWLEntities.assumeSWRLVariable(assertedSubject);
 										if (!assertedObject.isLiteral())
-											m_OWLEntities.assumeSWRLVariable(assertedObject);
+											_OWLEntities.assumeSWRLVariable(assertedObject);
 									}
 									else
 										if (o.equals(SWRL.SameIndividualAtom) || o.equals(SWRL.DifferentIndividualsAtom))
 										{
-											final RDFNode assertedObject1 = m_Model.getUniqueObject(s, SWRL.argument1);
-											final RDFNode assertedObject2 = m_Model.getUniqueObject(s, SWRL.argument2);
+											final RDFNode assertedObject1 = _model.getUniqueObject(s, SWRL.argument1);
+											final RDFNode assertedObject2 = _model.getUniqueObject(s, SWRL.argument2);
 
-											if (!m_OWLEntities.containsIndividual(assertedObject1))
-												m_OWLEntities.assumeSWRLVariable(assertedObject1);
-											if (!m_OWLEntities.containsIndividual(assertedObject2))
-												m_OWLEntities.assumeSWRLVariable(assertedObject2);
+											if (!_OWLEntities.containsIndividual(assertedObject1))
+												_OWLEntities.assumeSWRLVariable(assertedObject1);
+											if (!_OWLEntities.containsIndividual(assertedObject2))
+												_OWLEntities.assumeSWRLVariable(assertedObject2);
 										}
 										else
 											if (o.equals(OWL2.AllDisjointProperties) || o.equals(OWL2.AllDisjointClasses))
@@ -463,68 +467,68 @@ public class OWLSyntaxChecker
 												// Ignore, i don't think we want these things flagged.
 											}
 											else
-												m_OWLEntities.assumeClass(o);
+												_OWLEntities.assumeClass(o);
 		}
 	}
 
 	private void processRestrictions()
 	{
-		for (final Resource res : m_OWLEntities.getAllRestrictions())
+		for (final Resource res : _OWLEntities.getAllRestrictions())
 		{
-			final RDFNode prop = m_Model.getUniqueObject(res, OWL.onProperty);
+			final RDFNode prop = _model.getUniqueObject(res, OWL.onProperty);
 
 			if (prop == null)
 				continue;
 
 			RDFNode val = null;
 
-			val = m_Model.getUniqueObject(res, OWL2.onClass);
+			val = _model.getUniqueObject(res, OWL2.onClass);
 			if (val != null && val.isResource())
 			{
-				m_OWLEntities.assumeObjectRole(prop);
-				m_OWLEntities.assumeClass(val);
+				_OWLEntities.assumeObjectRole(prop);
+				_OWLEntities.assumeClass(val);
 			}
 
-			val = m_Model.getUniqueObject(res, OWL2.onDataRange);
+			val = _model.getUniqueObject(res, OWL2.onDataRange);
 			if (val != null && val.isResource())
 			{
-				m_OWLEntities.assumeDatatypeRole(prop);
-				m_OWLEntities.assumeDatatype(val);
+				_OWLEntities.assumeDatatypeRole(prop);
+				_OWLEntities.assumeDatatype(val);
 			}
 
-			val = m_Model.getUniqueObject(res, OWL.hasValue);
+			val = _model.getUniqueObject(res, OWL.hasValue);
 			if (val != null)
 				if (val.isResource())
-					m_OWLEntities.addIndividual(val);
+					_OWLEntities.addIndividual(val);
 				else
-					m_OWLEntities.assumeDatatypeRole(prop);
+					_OWLEntities.assumeDatatypeRole(prop);
 
-			if (!m_OWLEntities.containsRole(prop))
-				m_OWLEntities.assumeObjectRole(prop);
+			if (!_OWLEntities.containsRole(prop))
+				_OWLEntities.assumeObjectRole(prop);
 
-			val = m_Model.getUniqueObject(res, OWL.someValuesFrom);
+			val = _model.getUniqueObject(res, OWL.someValuesFrom);
 			if (val == null)
-				val = m_Model.getUniqueObject(res, OWL.allValuesFrom);
+				val = _model.getUniqueObject(res, OWL.allValuesFrom);
 			if (val != null && val.isResource())
-				if (m_OWLEntities.containsObjectRole(prop))
-					m_OWLEntities.assumeClass(val);
+				if (_OWLEntities.containsObjectRole(prop))
+					_OWLEntities.assumeClass(val);
 				else
-					if (m_OWLEntities.containsDatatypeRole(prop))
-						m_OWLEntities.assumeDatatype(val);
+					if (_OWLEntities.containsDatatypeRole(prop))
+						_OWLEntities.assumeDatatype(val);
 
 		}
 	}
 
 	private void processTriples()
 	{
-		for (final Statement stmt : m_Model.getStatements())
+		for (final Statement stmt : _model.getStatements())
 		{
 			final Resource s = stmt.getSubject();
 			final Property p = stmt.getPredicate();
 			final RDFNode o = stmt.getObject();
 
 			if (o.isLiteral())
-				m_OWLEntities.addLiteral(o);
+				_OWLEntities.addLiteral(o);
 
 			if (p.equals(RDF.type))
 			{
@@ -548,33 +552,33 @@ public class OWLSyntaxChecker
 						else
 							if (p.equals(OWL2.members))
 							{
-								if (m_Model.containsStatement(s, RDF.type, OWL.AllDifferent))
+								if (_model.containsStatement(s, RDF.type, OWL.AllDifferent))
 								{
-									if (m_Lists.containsKey(o))
-										for (final RDFNode r : m_Lists.get(o))
-											m_OWLEntities.addIndividual(r);
+									if (_lists.containsKey(o))
+										for (final RDFNode r : _lists.get(o))
+											_OWLEntities.addIndividual(r);
 									else
 									{
 										// TODO we probably want to warn about this case but it is not clear under which category
 									}
 								}
 								else
-									if (m_Model.containsStatement(s, RDF.type, OWL2.AllDisjointClasses))
+									if (_model.containsStatement(s, RDF.type, OWL2.AllDisjointClasses))
 									{
-										if (m_Lists.containsKey(o))
-											for (final RDFNode r : m_Lists.get(o))
-												m_OWLEntities.assumeClass(r);
+										if (_lists.containsKey(o))
+											for (final RDFNode r : _lists.get(o))
+												_OWLEntities.assumeClass(r);
 										else
 										{
 											// TODO we probably want to warn about this case but it is not clear under which category
 										}
 									}
 									else
-										if (m_Model.containsStatement(s, RDF.type, OWL2.AllDisjointProperties))
+										if (_model.containsStatement(s, RDF.type, OWL2.AllDisjointProperties))
 										{
-											if (m_Lists.containsKey(o))
-												for (final RDFNode r : m_Lists.get(o))
-													m_OWLEntities.addUntypedRole(r);
+											if (_lists.containsKey(o))
+												for (final RDFNode r : _lists.get(o))
+													_OWLEntities.addUntypedRole(r);
 											else
 											{
 												// TODO we probably want to warn about this case but it is not clear under which category
@@ -595,8 +599,8 @@ public class OWLSyntaxChecker
 									{
 
 										if (o.isResource())
-											for (final RDFNode node : m_Lists.get(o))
-												m_OWLEntities.assumeClass(node);
+											for (final RDFNode node : _lists.get(o))
+												_OWLEntities.assumeClass(node);
 										else
 										{
 											// TODO: _logger this
@@ -605,24 +609,24 @@ public class OWLSyntaxChecker
 									else
 										if (p.equals(OWL.complementOf))
 										{
-											if (m_OWLEntities.containsDatatype(s))
-												m_OWLEntities.assumeDatatype(o);
+											if (_OWLEntities.containsDatatype(s))
+												_OWLEntities.assumeDatatype(o);
 											else
 											{
-												m_OWLEntities.assumeClass(s);
-												m_OWLEntities.assumeClass(o);
+												_OWLEntities.assumeClass(s);
+												_OWLEntities.assumeClass(o);
 											}
 										}
 										else
 											if (p.equals(OWL.oneOf))
 											{
-												if (!m_OWLEntities.containsDatatype(s))
+												if (!_OWLEntities.containsDatatype(s))
 												{
-													m_OWLEntities.assumeClass(s);
+													_OWLEntities.assumeClass(s);
 
 													if (o.isResource())
-														for (final RDFNode node : m_Lists.get(o))
-															m_OWLEntities.addIndividual(node);
+														for (final RDFNode node : _lists.get(o))
+															_OWLEntities.addIndividual(node);
 													else
 													{
 														// TODO: _logger this
@@ -632,12 +636,12 @@ public class OWLSyntaxChecker
 											else
 												if (p.equals(OWL2.hasKey))
 												{
-													m_OWLEntities.assumeClass(s);
+													_OWLEntities.assumeClass(s);
 
 													if (o.isResource())
-														if (m_Lists.containsKey(o))
-															for (final RDFNode aProp : m_Lists.get(o))
-																m_OWLEntities.addUntypedRole(aProp);
+														if (_lists.containsKey(o))
+															for (final RDFNode aProp : _lists.get(o))
+																_OWLEntities.addUntypedRole(aProp);
 														else
 														{
 															// what is this case?  this is always supposed to be a list, maybe this never happens cause the parser
@@ -647,8 +651,8 @@ public class OWLSyntaxChecker
 												else
 													if (p.equals(RDFS.subClassOf))
 													{
-														m_OWLEntities.assumeClass(s);
-														m_OWLEntities.assumeClass(o);
+														_OWLEntities.assumeClass(s);
+														_OWLEntities.assumeClass(o);
 													}
 													else
 														if (p.equals(OWL.equivalentClass))
@@ -657,51 +661,51 @@ public class OWLSyntaxChecker
 															// owl:equivalentClass can also be used to relate equivalent datatypes. Make such an assumption only
 															// if both arguments are not datatypes
 
-															if (!m_OWLEntities.containsDatatype(s) && !m_OWLEntities.containsDatatype(o))
+															if (!_OWLEntities.containsDatatype(s) && !_OWLEntities.containsDatatype(o))
 															{
-																m_OWLEntities.assumeClass(s);
-																m_OWLEntities.assumeClass(o);
+																_OWLEntities.assumeClass(s);
+																_OWLEntities.assumeClass(o);
 															}
 														}
 														else
 															if (p.equals(OWL.disjointWith))
 															{
-																m_OWLEntities.assumeClass(s);
-																m_OWLEntities.assumeClass(o);
+																_OWLEntities.assumeClass(s);
+																_OWLEntities.assumeClass(o);
 															}
 															else
 																if (p.equals(OWL.equivalentProperty))
 																{
 																	// TODO: i dont think these should be assume object role
-																	if (!m_OWLEntities.containsRole(s))
-																		m_OWLEntities.assumeObjectRole(s);
+																	if (!_OWLEntities.containsRole(s))
+																		_OWLEntities.assumeObjectRole(s);
 
-																	if (!m_OWLEntities.containsRole(o))
-																		m_OWLEntities.assumeObjectRole(o);
+																	if (!_OWLEntities.containsRole(o))
+																		_OWLEntities.assumeObjectRole(o);
 																}
 																else
 																	if (p.equals(RDFS.subPropertyOf))
 																	{
 																		// TODO: i dont think these should be assume object role either
-																		if (!m_OWLEntities.containsRole(s))
-																			m_OWLEntities.assumeObjectRole(s);
+																		if (!_OWLEntities.containsRole(s))
+																			_OWLEntities.assumeObjectRole(s);
 
-																		if (!m_OWLEntities.containsRole(o))
-																			m_OWLEntities.assumeObjectRole(o);
+																		if (!_OWLEntities.containsRole(o))
+																			_OWLEntities.assumeObjectRole(o);
 																	}
 																	else
 																		if (p.equals(OWL2.propertyDisjointWith))
 																		{
-																			m_OWLEntities.addUntypedRole(s);
-																			m_OWLEntities.addUntypedRole(o);
+																			_OWLEntities.addUntypedRole(s);
+																			_OWLEntities.addUntypedRole(o);
 																		}
 																		else
 																			if (p.equals(OWL2.propertyChainAxiom))
 																			{
-																				m_OWLEntities.assumeObjectRole(s);
+																				_OWLEntities.assumeObjectRole(s);
 																				if (o.isResource())
-																					for (final RDFNode node : m_Lists.get(o))
-																						m_OWLEntities.assumeObjectRole(node);
+																					for (final RDFNode node : _lists.get(o))
+																						_OWLEntities.assumeObjectRole(node);
 																				else
 																				{
 																					// TODO: _logger this
@@ -710,21 +714,21 @@ public class OWLSyntaxChecker
 																			else
 																				if (p.equals(OWL2.onDatatype))
 																				{
-																					if (!m_Model.containsStatement(s, RDF.type, RDFS.Datatype))
-																						m_OWLEntities.assumeDatatype(s);
+																					if (!_model.containsStatement(s, RDF.type, RDFS.Datatype))
+																						_OWLEntities.assumeDatatype(s);
 																					else
-																						m_OWLEntities.addDatatype(s);
+																						_OWLEntities.addDatatype(s);
 																				}
 																				else
 																					if (p.equals(OWL2.withRestrictions))
 																					{
-																						if (!m_Model.containsStatement(s, RDF.type, RDFS.Datatype))
-																							m_OWLEntities.assumeDatatype(s);
+																						if (!_model.containsStatement(s, RDF.type, RDFS.Datatype))
+																							_OWLEntities.assumeDatatype(s);
 																						else
-																							m_OWLEntities.addDatatype(s);
+																							_OWLEntities.addDatatype(s);
 
-																						if (o.isResource() && m_Lists.containsKey(o))
-																							for (final RDFNode aType : m_Lists.get(o))
+																						if (o.isResource() && _lists.containsKey(o))
+																							for (final RDFNode aType : _lists.get(o))
 																								processWithRestrictionNode(aType);
 																						else
 																							if (o.isResource())
@@ -738,28 +742,28 @@ public class OWLSyntaxChecker
 																					else
 																						if (p.equals(OWL.inverseOf))
 																						{
-																							if (!m_OWLEntities.containsRole(s))
+																							if (!_OWLEntities.containsRole(s))
 																								if (s.isAnon())
-																									m_OWLEntities.addObjectRole(o);
+																									_OWLEntities.addObjectRole(o);
 																								else
-																									m_OWLEntities.assumeObjectRole(s);
+																									_OWLEntities.assumeObjectRole(s);
 
-																							if (!m_OWLEntities.containsRole(o))
-																								m_OWLEntities.assumeObjectRole(o);
+																							if (!_OWLEntities.containsRole(o))
+																								_OWLEntities.assumeObjectRole(o);
 																						}
 																						else
 																							if (p.equals(OWL.sameAs))
 																							{
-																								m_OWLEntities.addIndividual(s);
-																								m_OWLEntities.addIndividual(o);
+																								_OWLEntities.addIndividual(s);
+																								_OWLEntities.addIndividual(o);
 																							}
 																							else
 																								if (p.equals(OWL2.onClass))
-																									m_OWLEntities.assumeClass(o);
+																									_OWLEntities.assumeClass(o);
 																								else
 																									if (p.equals(OWL.differentFrom))
 																									{
-
+																										// Nothing to do.
 																									}
 																									else
 																										if (p.equals(RDFS.domain))
@@ -770,10 +774,10 @@ public class OWLSyntaxChecker
 																													// "rdfs:domain is used on built-in property %1%", st);
 																													continue;
 
-																											if (!m_OWLEntities.containsRole(s))
-																												m_OWLEntities.assumeObjectRole(s);
+																											if (!_OWLEntities.containsRole(s))
+																												_OWLEntities.assumeObjectRole(s);
 
-																											m_OWLEntities.assumeClass(o);
+																											_OWLEntities.assumeClass(o);
 																										}
 																										else
 																											if (p.equals(RDFS.range))
@@ -797,49 +801,49 @@ public class OWLSyntaxChecker
 																												// s is undefined & o is undefined -> s is OP, o is class
 																												// any other case error!
 
-																												if (!m_OWLEntities.containsResource(s))
+																												if (!_OWLEntities.containsResource(s))
 																												{
-																													if (m_OWLEntities.containsDatatype(o))
+																													if (_OWLEntities.containsDatatype(o))
 																													{
-																														if (!m_OWLEntities.containsRole(s))
-																															m_OWLEntities.assumeDatatypeRole(s);
+																														if (!_OWLEntities.containsRole(s))
+																															_OWLEntities.assumeDatatypeRole(s);
 																													}
 																													else
-																														if (m_OWLEntities.containsClass(o))
+																														if (_OWLEntities.containsClass(o))
 																														{
-																															if (!m_OWLEntities.containsRole(s))
-																																m_OWLEntities.assumeObjectRole(s);
+																															if (!_OWLEntities.containsRole(s))
+																																_OWLEntities.assumeObjectRole(s);
 																														}
 																														else
-																															if (m_OWLEntities.containsIndividual(o) || m_OWLEntities.containsRole(o))
+																															if (_OWLEntities.containsIndividual(o) || _OWLEntities.containsRole(o))
 																															{
 																																// report.addMessage(FULL, "Untyped Resource", "%1% is
 																																// used in an rdfs:range restriction", st, ot);
 																															}
 																															else
 																															{
-																																if (!m_OWLEntities.containsRole(s))
-																																	m_OWLEntities.assumeObjectRole(s);
-																																m_OWLEntities.assumeClass(o);
+																																if (!_OWLEntities.containsRole(s))
+																																	_OWLEntities.assumeObjectRole(s);
+																																_OWLEntities.assumeClass(o);
 																															}
 																												}
 																												else
-																													if (!m_OWLEntities.containsResource(o))
-																														if (m_OWLEntities.containsObjectRole(s))
-																															m_OWLEntities.assumeClass(o);
+																													if (!_OWLEntities.containsResource(o))
+																														if (_OWLEntities.containsObjectRole(s))
+																															_OWLEntities.assumeClass(o);
 																														else
-																															if (m_OWLEntities.containsDatatypeRole(s))
-																																m_OWLEntities.assumeDatatype(o);
+																															if (_OWLEntities.containsDatatypeRole(s))
+																																_OWLEntities.assumeDatatype(o);
 																											}
 																											else
 																												if (p.equals(OWL2.onDataRange))
-																													m_OWLEntities.assumeDatatype(s);
+																													_OWLEntities.assumeDatatype(s);
 																												else
 																													if (p.equals(OWL.distinctMembers))
 																													{
 																														if (o.isResource())
-																															for (final RDFNode node : m_Lists.get(o))
-																																m_OWLEntities.addIndividual(node);
+																															for (final RDFNode node : _lists.get(o))
+																																_OWLEntities.addIndividual(node);
 																														else
 																														{
 																															// TODO: _logger this
@@ -848,8 +852,8 @@ public class OWLSyntaxChecker
 																													else
 																														if (p.equals(OWL.imports))
 																														{
-																															m_OWLEntities.assumeOntology(o);
-																															m_OWLEntities.assumeOntology(s);
+																															_OWLEntities.assumeOntology(o);
+																															_OWLEntities.assumeOntology(s);
 																														}
 																														else
 																															if (p.equals(RDF.first))
@@ -862,10 +866,10 @@ public class OWLSyntaxChecker
 																																	// Ignore
 																																}
 																																else
-																																	if (m_OWLEntities.containsOntologyRole(p))
+																																	if (_OWLEntities.containsOntologyRole(p))
 																																	{
-																																		m_OWLEntities.assumeOntology(o);
-																																		m_OWLEntities.assumeOntology(s);
+																																		_OWLEntities.assumeOntology(o);
+																																		_OWLEntities.assumeOntology(s);
 
 																																	}
 																																	else
@@ -880,22 +884,22 @@ public class OWLSyntaxChecker
 																																			}
 																																			else
 																																			{
-																																				if (m_OWLEntities.containsAnnotaionRole(p))
+																																				if (_OWLEntities.containsAnnotaionRole(p))
 																																					continue;
 																																				else
-																																					if (!m_OWLEntities.containsRole(p))
+																																					if (!_OWLEntities.containsRole(p))
 																																						if (o.isLiteral())
-																																							m_OWLEntities.assumeDatatypeRole(p);
+																																							_OWLEntities.assumeDatatypeRole(p);
 																																						else
-																																							if (!m_OWLEntities.containsIndividual(s))
-																																								m_OWLEntities.assumeAnnotationRole(p);
+																																							if (!_OWLEntities.containsIndividual(s))
+																																								_OWLEntities.assumeAnnotationRole(p);
 																																							else
-																																								m_OWLEntities.assumeObjectRole(p);
+																																								_OWLEntities.assumeObjectRole(p);
 
-																																				if (m_OWLEntities.containsAnnotaionRole(p))
+																																				if (_OWLEntities.containsAnnotaionRole(p))
 																																					continue;
 
-																																				if (m_OWLEntities.containsDatatypeRole(p))
+																																				if (_OWLEntities.containsDatatypeRole(p))
 																																				{
 																																					if (o.isLiteral())
 																																					{
@@ -905,32 +909,40 @@ public class OWLSyntaxChecker
 																																						if (datatypeURI != null && !datatypeURI.equals(""))
 																																						{
 																																							final Resource datatype = ResourceFactory.createResource(datatypeURI);
-																																							if (!m_OWLEntities.containsDatatype(datatype))
-																																								m_OWLEntities.assumeDatatype(datatype);
+																																							if (!_OWLEntities.containsDatatype(datatype))
+																																								_OWLEntities.assumeDatatype(datatype);
 																																						}
 																																					}
 																																					else
-																																						m_OWLEntities.addResourcesAsLiteral(o.asResource());
+																																						_OWLEntities.addResourcesAsLiteral(o.asResource());
 
-																																					m_OWLEntities.assumeIndividual(s);
+																																					_OWLEntities.assumeIndividual(s);
 																																				}
 																																				else
 																																				{
-																																					m_OWLEntities.assumeIndividual(s);
+																																					_OWLEntities.assumeIndividual(s);
 																																					if (o.isLiteral())
-																																						m_OWLEntities.addLiteralAsIndividual(o.asLiteral());
+																																						_OWLEntities.addLiteralAsIndividual(o.asLiteral());
 																																					else
-																																						m_OWLEntities.assumeIndividual(o);
+																																						_OWLEntities.assumeIndividual(o);
 																																				}
 																																			}
 		}
 	}
 
-	private void processWithRestrictionNode(final RDFNode theNode)
+	/**
+	 * This method isn't implemented.
+	 * 
+	 * @param theNode not used.
+	 */
+	private void processWithRestrictionNode(@SuppressWarnings("unused") final RDFNode theNode)
 	{
 		// TODO: implement me
-		// for now, this will do nothing.  but the intent here is that theNode is an item from the withRestriction
-		// collection for an owl datatype restriction.  so we want this to validate that the facet described is
-		// valid.
+		/*
+		for now, this will do nothing.
+		The intent here is that theNode is an item from the withRestriction.
+		collection for an owl datatype restriction.  
+		so we want this to validate that the facet described is valid.
+		 */
 	}
 }

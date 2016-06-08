@@ -198,16 +198,16 @@ public abstract class ObjectProfiler
 	{
 		ClassMetadata(final int primitiveFieldCount, final int shellSize, final Field[] refFields)
 		{
-			m_primitiveFieldCount = primitiveFieldCount;
-			m_shellSize = shellSize;
-			m_refFields = refFields;
+			_primitiveFieldCount = primitiveFieldCount;
+			_shellSize = shellSize;
+			_refFields = refFields;
 		}
 
 		// all fields are inclusive of superclasses:
 
-		final int m_primitiveFieldCount;
-		final int m_shellSize; // class shell size
-		final Field[] m_refFields; // cached non-static fields (made accessible)
+		final int _primitiveFieldCount;
+		final int _shellSize; // class shell size
+		final Field[] _refFields; // cached non-static fields (made accessible)
 
 	} // _end of nested class
 
@@ -216,15 +216,15 @@ public abstract class ObjectProfiler
 		@Override
 		public Object run() throws Exception
 		{
-			return m_cls.getDeclaredFields();
+			return _cls.getDeclaredFields();
 		}
 
 		void setContext(final Class<?> cls)
 		{
-			m_cls = cls;
+			_cls = cls;
 		}
 
-		private Class<?> m_cls;
+		private Class<?> _cls;
 
 	} // _end of nested class
 
@@ -233,17 +233,17 @@ public abstract class ObjectProfiler
 		@Override
 		public Object run() throws Exception
 		{
-			m_field.setAccessible(true);
+			_field.setAccessible(true);
 
 			return null;
 		}
 
 		void setContext(final Field field)
 		{
-			m_field = field;
+			_field = field;
 		}
 
-		private Field m_field;
+		private Field _field;
 
 	} // _end of nested class
 
@@ -306,9 +306,9 @@ public abstract class ObjectProfiler
 				// the object is of a non-array type
 			{
 				final ClassMetadata metadata = getClassMetadata(objClass, metadataMap, caAction, faAction);
-				final Field[] fields = metadata.m_refFields;
+				final Field[] fields = metadata._refFields;
 
-				result += metadata.m_shellSize;
+				result += metadata._shellSize;
 
 				// traverse all non-null ref fields:
 
@@ -359,7 +359,7 @@ public abstract class ObjectProfiler
 		{
 			final ObjectProfileNode node = queue.removeFirst();
 
-			obj = node.m_obj;
+			obj = node._obj;
 			final Class<?> objClass = obj.getClass();
 
 			if (objClass.isArray())
@@ -371,7 +371,7 @@ public abstract class ObjectProfiler
 				final AbstractShellProfileNode shell = new ArrayShellProfileNode(node, objClass, arrayLength);
 				shell._size = sizeofArrayShell(arrayLength, componentType);
 
-				node.m_shell = shell;
+				node._shell = shell;
 				node.addFieldRef(shell);
 
 				if (!componentType.isPrimitive())
@@ -384,10 +384,10 @@ public abstract class ObjectProfiler
 						{
 							ObjectProfileNode child = visited.get(ref);
 							if (child != null)
-								++child.m_refcount;
+								++child._refcount;
 							else
 							{
-								child = new ObjectProfileNode(node, ref, new ArrayIndexLink(node.m_link, i));
+								child = new ObjectProfileNode(node, ref, new ArrayIndexLink(node._link, i));
 								node.addFieldRef(child);
 
 								queue.addLast(child);
@@ -400,13 +400,13 @@ public abstract class ObjectProfiler
 				// the object is of a non-array type
 			{
 				final ClassMetadata metadata = getClassMetadata(objClass, metadataMap, caAction, faAction);
-				final Field[] fields = metadata.m_refFields;
+				final Field[] fields = metadata._refFields;
 
 				// add shell pseudo-_node:
-				final AbstractShellProfileNode shell = new ObjectShellProfileNode(node, metadata.m_primitiveFieldCount, metadata.m_refFields.length);
-				shell._size = metadata.m_shellSize;
+				final AbstractShellProfileNode shell = new ObjectShellProfileNode(node, metadata._primitiveFieldCount, metadata._refFields.length);
+				shell._size = metadata._shellSize;
 
-				node.m_shell = shell;
+				node._shell = shell;
 				node.addFieldRef(shell);
 
 				// traverse all non-null ref fields:
@@ -427,7 +427,7 @@ public abstract class ObjectProfiler
 					{
 						ObjectProfileNode child = visited.get(ref);
 						if (child != null)
-							++child.m_refcount;
+							++child._refcount;
 						else
 						{
 							child = new ObjectProfileNode(node, ref, new ClassFieldLink(field));
@@ -460,7 +460,7 @@ public abstract class ObjectProfiler
 			// note that an unfinished non-shell _node has its child count
 			// in m_size and m_children[0] is its shell _node:
 
-			if ((node._size == 1) || (lastFinished == node.m_children[1]))
+			if ((node._size == 1) || (lastFinished == node._children[1]))
 			{
 				node.finish();
 				lastFinished = node;
@@ -470,7 +470,7 @@ public abstract class ObjectProfiler
 				queue.addFirst(node);
 				for (int i = 1; i < node._size; ++i)
 				{
-					final IObjectProfileNode child = node.m_children[i];
+					final IObjectProfileNode child = node._children[i];
 					queue.addFirst(child);
 				}
 			}
@@ -550,9 +550,9 @@ public abstract class ObjectProfiler
 		final ClassMetadata superMetadata = getClassMetadata(cls.getSuperclass(), metadataMap, caAction, faAction);
 		if (superMetadata != null)
 		{
-			primitiveFieldCount += superMetadata.m_primitiveFieldCount;
-			shellSize += superMetadata.m_shellSize - OBJECT_SHELL_SIZE;
-			refFields.addAll(Arrays.asList(superMetadata.m_refFields));
+			primitiveFieldCount += superMetadata._primitiveFieldCount;
+			shellSize += superMetadata._shellSize - OBJECT_SHELL_SIZE;
+			refFields.addAll(Arrays.asList(superMetadata._refFields));
 		}
 
 		final Field[] _refFields = new Field[refFields.size()];

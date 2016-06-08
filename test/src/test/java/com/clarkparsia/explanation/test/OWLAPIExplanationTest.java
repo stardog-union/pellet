@@ -128,7 +128,7 @@ public class OWLAPIExplanationTest extends AbstractExplanationTest
 		// avoid repeating the clean up code that sets it bakc to the old value
 		assertTrue(!_useGlassBox || PelletOptions.USE_TRACING);
 
-		_converter = new SatisfiabilityConverter(OWL.factory);
+		_converter = new SatisfiabilityConverter(OWL._factory);
 		_renderer = new ConciseExplanationRenderer();
 
 		final OWLOntology ontology = OWL.Ontology(ontologyAxioms);

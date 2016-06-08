@@ -1452,7 +1452,7 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 
 		public DisjointClassComparator(final Taxonomy<OWLClass> taxonomy, final OWLClassExpression originalClass)
 		{
-			_complementClass = OWL.factory.getOWLObjectComplementOf(originalClass);
+			_complementClass = OWL._factory.getOWLObjectComplementOf(originalClass);
 			_complementRepresentation = generateComplementRepresentation(taxonomy, originalClass);
 		}
 
@@ -1461,10 +1461,10 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 			OWLClass complementClass = null;
 
 			if (!originalClass.isAnonymous() && (originalClass instanceof OWLClass))
-				return OWL.factory.getOWLClass(IRI.create(((OWLClass) originalClass).getIRI() + COMPLEMENT_POSTFIX));
+				return OWL._factory.getOWLClass(IRI.create(((OWLClass) originalClass).getIRI() + COMPLEMENT_POSTFIX));
 
 			do
-				complementClass = OWL.factory.getOWLClass(IRI.create(ANONYMOUS_COMPLEMENT_REPRESENTATION_BASE + RND.nextLong()));
+				complementClass = OWL._factory.getOWLClass(IRI.create(ANONYMOUS_COMPLEMENT_REPRESENTATION_BASE + RND.nextLong()));
 			while (taxonomy.contains(complementClass));
 
 			return complementClass;
@@ -1487,8 +1487,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 			if (b.equals(_complementRepresentation))
 				bExpression = _complementClass;
 
-			final OWLAxiom aSubClassBAxiom = OWL.factory.getOWLSubClassOfAxiom(aExpression, bExpression);
-			final OWLAxiom bSubClassAAxiom = OWL.factory.getOWLSubClassOfAxiom(bExpression, aExpression);
+			final OWLAxiom aSubClassBAxiom = OWL._factory.getOWLSubClassOfAxiom(aExpression, bExpression);
+			final OWLAxiom bSubClassAAxiom = OWL._factory.getOWLSubClassOfAxiom(bExpression, aExpression);
 
 			final boolean aLessB = _reasoner.isEntailed(aSubClassBAxiom);
 			final boolean bLessA = _reasoner.isEntailed(bSubClassAAxiom);

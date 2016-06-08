@@ -95,7 +95,7 @@ public class PersistenceModularityTest extends AbstractModularityTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 

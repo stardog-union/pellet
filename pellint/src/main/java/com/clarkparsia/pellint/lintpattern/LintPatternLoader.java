@@ -59,13 +59,13 @@ public class LintPatternLoader
 
 	public static final List<OntologyLintPattern> DEFAULT_ONTOLOGY_LINT_PATTERNS = Arrays.asList(new EquivalentAndSubclassAxiomPattern(), new ExistentialExplosionPattern(), new TooManyDifferentIndividualsPattern());
 
-	private List<AxiomLintPattern> m_AxiomLintPatterns;
-	private List<OntologyLintPattern> m_OntologyLintPatterns;
+	private List<AxiomLintPattern> _axiomLintPatterns;
+	private List<OntologyLintPattern> _ontologyLintPatterns;
 
 	public LintPatternLoader()
 	{
-		m_AxiomLintPatterns = DEFAULT_AXIOM_LINT_PATTERNS;
-		m_OntologyLintPatterns = DEFAULT_ONTOLOGY_LINT_PATTERNS;
+		_axiomLintPatterns = DEFAULT_AXIOM_LINT_PATTERNS;
+		_ontologyLintPatterns = DEFAULT_ONTOLOGY_LINT_PATTERNS;
 	}
 
 	public LintPatternLoader(final Properties properties)
@@ -73,30 +73,30 @@ public class LintPatternLoader
 		final Collection<LintPattern> patterns = loadPatterns(formatProperties(properties));
 		if (patterns.isEmpty())
 		{
-			m_AxiomLintPatterns = DEFAULT_AXIOM_LINT_PATTERNS;
-			m_OntologyLintPatterns = DEFAULT_ONTOLOGY_LINT_PATTERNS;
+			_axiomLintPatterns = DEFAULT_AXIOM_LINT_PATTERNS;
+			_ontologyLintPatterns = DEFAULT_ONTOLOGY_LINT_PATTERNS;
 		}
 		else
 		{
-			m_AxiomLintPatterns = CollectionUtil.makeList();
-			m_OntologyLintPatterns = CollectionUtil.makeList();
+			_axiomLintPatterns = CollectionUtil.makeList();
+			_ontologyLintPatterns = CollectionUtil.makeList();
 			for (final LintPattern pattern : patterns)
 				if (pattern instanceof AxiomLintPattern)
-					m_AxiomLintPatterns.add((AxiomLintPattern) pattern);
+					_axiomLintPatterns.add((AxiomLintPattern) pattern);
 				else
 					if (pattern instanceof OntologyLintPattern)
-						m_OntologyLintPatterns.add((OntologyLintPattern) pattern);
+						_ontologyLintPatterns.add((OntologyLintPattern) pattern);
 		}
 	}
 
 	public List<AxiomLintPattern> getAxiomLintPatterns()
 	{
-		return m_AxiomLintPatterns;
+		return _axiomLintPatterns;
 	}
 
 	public List<OntologyLintPattern> getOntologyLintPatterns()
 	{
-		return m_OntologyLintPatterns;
+		return _ontologyLintPatterns;
 	}
 
 	private static Map<String, String> formatProperties(final Properties properties)

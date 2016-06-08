@@ -63,7 +63,7 @@ public class EquivalentToTopPattern extends AxiomLintPattern
 	@Override
 	public void visit(final OWLEquivalentClassesAxiom axiom)
 	{
-		if (axiom.getClassExpressions().contains(OWL.Thing))
+		if (axiom.classExpressions().anyMatch(OWL.Thing::equals))
 		{
 			final Lint lint = makeLint();
 			lint.addParticipatingAxiom(axiom);

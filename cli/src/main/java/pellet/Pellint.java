@@ -80,11 +80,11 @@ public class Pellint extends PelletCmdApp
 	private static final String DEFAULT_CONFIGURATION_FILE_NAME = "pellint.properties";
 	private static final IRI MERGED_ONTOLOGY_URI = IRI.create("tag:clarkparsia.com,2008:pellint:merged");
 
-	private boolean m_DoRDF = true;
-	private boolean m_DoOWL = true;
-	private boolean m_DoRootOnly = false;
-	private String m_InputOntologyPath;
-	private String m_OutputOntologyPath;
+	private boolean _doRDF = true;
+	private boolean _doOWL = true;
+	private boolean _doRootOnly = false;
+	private String _inputOntologyPath;
+	private String _outputOntologyPath;
 
 	public Pellint()
 	{
@@ -188,27 +188,27 @@ public class Pellint extends PelletCmdApp
 
 	public void setDoRDF(final boolean v)
 	{
-		m_DoRDF = v;
+		_doRDF = v;
 	}
 
 	public void setDoOWL(final boolean v)
 	{
-		m_DoOWL = v;
+		_doOWL = v;
 	}
 
 	public void setDoRootOnly(final boolean v)
 	{
-		m_DoRootOnly = v;
+		_doRootOnly = v;
 	}
 
 	public void setInputOntologyPath(final String v)
 	{
-		m_InputOntologyPath = v;
+		_inputOntologyPath = v;
 	}
 
 	public void setOutputOntologyPath(final String v)
 	{
-		m_OutputOntologyPath = v;
+		_outputOntologyPath = v;
 	}
 
 	public static OntologyLints lint(final List<AxiomLintPattern> axiomLintPatterns, final List<OntologyLintPattern> ontologyLintPatterns, final OWLOntology ontology)
@@ -266,13 +266,13 @@ public class Pellint extends PelletCmdApp
 	{
 		try
 		{
-			if (m_InputOntologyPath == null)
+			if (_inputOntologyPath == null)
 				throw new IllegalPellintArgumentException("Input ontology is not specified");
 
-			if (m_DoRDF)
+			if (_doRDF)
 				runLintForRDFXML();
 
-			if (m_DoOWL)
+			if (_doOWL)
 				runLintForOWL();
 		}
 		catch (final IllegalPellintArgumentException e)
@@ -307,7 +307,7 @@ public class Pellint extends PelletCmdApp
 		RDFModel rootModel = null;
 		try
 		{
-			rootModel = reader.read(m_InputOntologyPath, !m_DoRootOnly);
+			rootModel = reader.read(_inputOntologyPath, !_doRootOnly);
 		}
 		catch (final Exception e)
 		{
@@ -321,15 +321,15 @@ public class Pellint extends PelletCmdApp
 
 		output(lints.toString());
 
-		if (m_OutputOntologyPath != null && !m_DoOWL)
+		if (_outputOntologyPath != null && !_doOWL)
 		{
 			final List<Statement> missingStmts = lints.getMissingStatements();
 
 			rootModel.addAllStatementsWithExistingBNodesOnly(missingStmts);
 
 			final RDFModelWriter writer = new RDFModelWriter();
-			writer.write(new FileOutputStream(new File(m_OutputOntologyPath)), rootModel);
-			output("Saved to " + m_OutputOntologyPath);
+			writer.write(new FileOutputStream(new File(_outputOntologyPath)), rootModel);
+			output("Saved to " + _outputOntologyPath);
 		}
 	}
 
@@ -345,7 +345,7 @@ public class Pellint extends PelletCmdApp
 		OWLOntology rootOntology = null;
 		try
 		{
-			final String inputOntologyURI = FileUtils.toURI(m_InputOntologyPath);
+			final String inputOntologyURI = FileUtils.toURI(_inputOntologyPath);
 			rootOntology = manager.loadOntology(IRI.create(inputOntologyURI));
 		}
 		catch (final Exception e)
@@ -358,7 +358,7 @@ public class Pellint extends PelletCmdApp
 		final OntologyLints rootOntologyLints = lint(axiomLintPatterns, ontologyLintPatterns, rootOntology);
 		output(rootOntologyLints.toString());
 
-		if (!m_DoRootOnly)
+		if (!_doRootOnly)
 		{
 			final Set<OWLOntology> importClosures = manager.importsClosure(rootOntology).collect(Collectors.toSet());
 			importClosures.remove(rootOntology);
@@ -382,7 +382,7 @@ public class Pellint extends PelletCmdApp
 			}
 		}
 
-		if (m_OutputOntologyPath != null)
+		if (_outputOntologyPath != null)
 		{
 			final Set<Lint> unreparableLints = rootOntologyLints.applyFix(manager);
 			if (!unreparableLints.isEmpty())
@@ -391,8 +391,8 @@ public class Pellint extends PelletCmdApp
 				for (final Lint lint : unreparableLints)
 					output(lint.toString());
 			}
-			manager.saveOntology(rootOntologyLints.getOntology(), new StreamDocumentTarget(new FileOutputStream(m_OutputOntologyPath)));
-			output("Saved to " + m_OutputOntologyPath);
+			manager.saveOntology(rootOntologyLints.getOntology(), new StreamDocumentTarget(new FileOutputStream(_outputOntologyPath)));
+			output("Saved to " + _outputOntologyPath);
 
 		}
 	}

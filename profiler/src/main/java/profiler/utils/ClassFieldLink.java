@@ -17,7 +17,7 @@ final class ClassFieldLink implements ILink
 	@Override
 	public String name()
 	{
-		return ObjectProfiler.fieldName(m_field, ObjectProfiler.SHORT_TYPE_NAMES);
+		return ObjectProfiler.fieldName(_field, ObjectProfiler.SHORT_TYPE_NAMES);
 	}
 
 	// protected: .............................................................
@@ -26,12 +26,12 @@ final class ClassFieldLink implements ILink
 
 	ClassFieldLink(final Field field)
 	{
-		m_field = field;
+		_field = field;
 	}
 
 	// private: ...............................................................
 
-	private final Field m_field;
+	private final Field _field;
 
 } // _end of class
 // ----------------------------------------------------------------------------

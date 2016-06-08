@@ -16,9 +16,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * Title: Ontology-based Lint Pattern Interface
  * </p>
  * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>
@@ -29,12 +26,11 @@ import org.semanticweb.owlapi.model.OWLOntology;
  */
 public interface OntologyLintPattern extends LintPattern
 {
-
 	/**
 	 * Match an OWLOntology and returns a list of {@link com.clarkparsia.pellint.model.Lint} for the OWLOntology.
 	 *
 	 * @return A possibly empty list of {@link com.clarkparsia.pellint.model.Lint} for the OWLOntology. Never returns <code>null</code>.
 	 * @see com.clarkparsia.pellint.model.Lint
 	 */
-	List<Lint> match(OWLOntology ontology);
+	List<Lint> match(final OWLOntology ontology);
 }

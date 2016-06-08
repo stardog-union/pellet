@@ -34,14 +34,14 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class ExistentialExplosionPatternTest extends PellintTestCase
 {
 
-	private ExistentialExplosionPattern m_Pattern;
+	private ExistentialExplosionPattern _pattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_Pattern = new ExistentialExplosionPattern();
+		_pattern = new ExistentialExplosionPattern();
 	}
 
 	@Test
@@ -54,10 +54,10 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 		addAxiom(OWL.subClassOf(OWL.some(_pro[2], _cls[1]), _cls[3]));
 
 		final int EXPECTED_SIZE = 1;
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
-		assertFalse(m_Pattern.isFixable());
+		assertFalse(_pattern.isFixable());
 	}
 
 	@Test
@@ -72,8 +72,8 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 		addAxiom(OWL.subClassOf(_cls[4], OWL.exactly(_pro[0], 0, _cls[0])));
 
 		final int EXPECTED_SIZE = 0;
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 	}
 
@@ -90,12 +90,12 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 		addAxiom(OWL.subClassOf(_cls[4], OWL.exactly(_pro[0], 1, _cls[0])));
 
 		final int EXPECTED_SIZE = 2 * 2 * 2 * 1 * 1;
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE);
+		List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
+		lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 		final Lint lint = lints.get(0);
 		assertEquals(EXPECTED_SIZE, lint.getSeverity().doubleValue(), DOUBLE_DELTA);
@@ -111,12 +111,12 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 		addAxiom(OWL.subClassOf(_cls[2], _cls[0]));
 
 		final int EXPECTED_SIZE = 1;
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE);
+		List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
+		lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 	}
 
@@ -131,12 +131,12 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 		addAxiom(OWL.equivalentClasses(_cls[4], _cls[0]));
 
 		final int EXPECTED_SIZE = 2 * 1 * 1;
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE);
-		List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE);
+		List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
+		lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 	}
 
@@ -153,8 +153,8 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 			addAxiom(OWL.classAssertion(_ind[i], _cls[i]));
 
 		final int EXPECTED_SIZE = 1 * 5;
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 		final Lint lint = lints.get(0);
 		assertEquals(EXPECTED_SIZE, lint.getSeverity().doubleValue(), DOUBLE_DELTA);
@@ -173,8 +173,8 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 			addAxiom(OWL.classAssertion(_ind[i], _cls[i]));
 
 		final int EXPECTED_SIZE = 3 + 3 + 4;
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE - 1);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 		final Lint lint = lints.get(0);
 		assertEquals(EXPECTED_SIZE, lint.getSeverity().doubleValue(), DOUBLE_DELTA);
@@ -199,12 +199,12 @@ public class ExistentialExplosionPatternTest extends PellintTestCase
 		final int EXPECTED_SIZE_C2 = 1 + 1 * 1;
 		final int EXPECTED_SIZE_C1 = 1 + 1 * 1 + 3 * 1;
 		final int EXPECTED_SIZE_C0 = 1 + EXPECTED_SIZE_C1 * 2 + EXPECTED_SIZE_C2 * 2;
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE_C0);
-		List<Lint> lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE_C0);
+		List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 
-		m_Pattern.setMaxTreeSize(EXPECTED_SIZE_C0 - 1);
-		lints = m_Pattern.match(_ontology);
+		_pattern.setMaxTreeSize(EXPECTED_SIZE_C0 - 1);
+		lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 	}
 }

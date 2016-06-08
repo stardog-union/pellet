@@ -29,7 +29,7 @@ public class ReachabilityGraph<E>
 
 	private int _id = 0;
 
-	private final Node _startNode = new Node()
+	private final Node _startNode = new Node() // FIXME TODO : We need to add a strong type system for the class Node
 	{
 		@Override
 		public boolean inputActivated()

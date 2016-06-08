@@ -81,7 +81,7 @@ public abstract class RandomizedIncrementalClassifierTest extends AbstractModula
 		}
 		finally
 		{
-			OWL.manager.removeOntology(loadedOntology);
+			OWL._manager.removeOntology(loadedOntology);
 		}
 	}
 

@@ -68,15 +68,15 @@ public abstract class ObjectProfileFilters
 		@Override
 		public boolean accept(final IObjectProfileNode node)
 		{
-			return node.size() >= m_threshold;
+			return node.size() >= _threshold;
 		}
 
 		SizeFilter(final int threshold)
 		{
-			m_threshold = threshold;
+			_threshold = threshold;
 		}
 
-		private final int m_threshold;
+		private final int _threshold;
 
 	} // _end of nested class
 
@@ -90,7 +90,7 @@ public abstract class ObjectProfileFilters
 				return true;
 
 			final IObjectProfileNode[] siblings = parent.children();
-			for (int r = 0, rLimit = Math.min(siblings.length, m_threshold); r < rLimit; ++r)
+			for (int r = 0, rLimit = Math.min(siblings.length, _threshold); r < rLimit; ++r)
 				if (siblings[r] == node)
 					return true;
 
@@ -99,10 +99,10 @@ public abstract class ObjectProfileFilters
 
 		RankFilter(final int threshold)
 		{
-			m_threshold = threshold;
+			_threshold = threshold;
 		}
 
-		private final int m_threshold;
+		private final int _threshold;
 
 	} // _end of nested class
 
@@ -111,7 +111,7 @@ public abstract class ObjectProfileFilters
 		@Override
 		public boolean accept(final IObjectProfileNode node)
 		{
-			if (node.size() >= m_threshold * node.root().size())
+			if (node.size() >= _threshold * node.root().size())
 				return true;
 			else
 				return false;
@@ -119,10 +119,10 @@ public abstract class ObjectProfileFilters
 
 		SizeFractionFilter(final double threshold)
 		{
-			m_threshold = threshold;
+			_threshold = threshold;
 		}
 
-		private final double m_threshold;
+		private final double _threshold;
 
 	} // _end of nested class
 
@@ -135,7 +135,7 @@ public abstract class ObjectProfileFilters
 			if (parent == null)
 				return true; // always accept root _node
 			else
-				if (node.size() >= m_threshold * parent.size())
+				if (node.size() >= _threshold * parent.size())
 					return true;
 				else
 					return false;
@@ -143,10 +143,10 @@ public abstract class ObjectProfileFilters
 
 		ParentSizeFractionFilter(final double threshold)
 		{
-			m_threshold = threshold;
+			_threshold = threshold;
 		}
 
-		private final double m_threshold;
+		private final double _threshold;
 
 	} // _end of nested class
 

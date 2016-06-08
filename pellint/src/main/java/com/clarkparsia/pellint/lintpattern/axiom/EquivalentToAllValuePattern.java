@@ -12,6 +12,7 @@ import com.clarkparsia.pellint.format.LintFormat;
 import com.clarkparsia.pellint.model.Lint;
 import com.clarkparsia.pellint.model.LintFixer;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -66,7 +67,7 @@ public class EquivalentToAllValuePattern extends AxiomLintPattern
 	@Override
 	public void visit(final OWLEquivalentClassesAxiom axiom)
 	{
-		final Set<OWLClassExpression> owlDescs = axiom.getClassExpressions();
+		final Set<OWLClassExpression> owlDescs = axiom.classExpressions().collect(Collectors.toSet());
 		if (owlDescs.size() != 2)
 			return;
 

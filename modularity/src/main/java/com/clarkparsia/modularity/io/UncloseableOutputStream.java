@@ -35,7 +35,7 @@ public class UncloseableOutputStream extends OutputStream
 	/**
 	 * The underlying wrapped stream.
 	 */
-	private final OutputStream stream;
+	private final OutputStream _stream;
 
 	/**
 	 * Wraps an output stream with a wrapper that does not allow the underlying stream to be closed.
@@ -44,7 +44,7 @@ public class UncloseableOutputStream extends OutputStream
 	 */
 	public UncloseableOutputStream(final OutputStream stream)
 	{
-		this.stream = stream;
+		this._stream = stream;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class UncloseableOutputStream extends OutputStream
 	@Override
 	public void flush() throws IOException
 	{
-		stream.flush();
+		_stream.flush();
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class UncloseableOutputStream extends OutputStream
 	@Override
 	public void write(final byte[] b) throws IOException
 	{
-		stream.write(b);
+		_stream.write(b);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class UncloseableOutputStream extends OutputStream
 	@Override
 	public void write(final byte[] b, final int off, final int len) throws IOException
 	{
-		stream.write(b, off, len);
+		_stream.write(b, off, len);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class UncloseableOutputStream extends OutputStream
 	@Override
 	public void write(final int b) throws IOException
 	{
-		stream.write(b);
+		_stream.write(b);
 	}
 
 	/**
@@ -99,6 +99,6 @@ public class UncloseableOutputStream extends OutputStream
 	 */
 	public OutputStream getUnderlyingStream()
 	{
-		return stream;
+		return _stream;
 	}
 }

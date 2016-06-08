@@ -27,17 +27,17 @@ import org.semanticweb.owlapi.model.OWLOntology;
  */
 public class LintFactory
 {
-	private final LintPattern m_LintPattern;
-	private final OWLOntology m_ParticipatingOntology;
+	private final LintPattern _lintPattern;
+	private final OWLOntology _participatingOntology;
 
 	public LintFactory(final LintPattern lintPattern, final OWLOntology participatingOntology)
 	{
-		m_LintPattern = lintPattern;
-		m_ParticipatingOntology = participatingOntology;
+		_lintPattern = lintPattern;
+		_participatingOntology = participatingOntology;
 	}
 
 	public Lint make()
 	{
-		return new Lint(m_LintPattern, m_ParticipatingOntology);
+		return new Lint(_lintPattern, _participatingOntology);
 	}
 }

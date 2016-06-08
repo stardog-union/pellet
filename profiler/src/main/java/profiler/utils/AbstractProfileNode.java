@@ -31,7 +31,7 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable<Abs
 	@Override
 	public final IObjectProfileNode[] path()
 	{
-		IObjectProfileNode[] path = m_path;
+		IObjectProfileNode[] path = _profilePath;
 		if (path != null)
 			return path;
 		else
@@ -43,7 +43,7 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable<Abs
 			path = new IObjectProfileNode[_path.size()];
 			_path.toArray(path);
 
-			m_path = path;
+			_profilePath = path;
 			return path;
 		}
 	}
@@ -65,7 +65,7 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable<Abs
 	@Override
 	public final int pathlength()
 	{
-		final IObjectProfileNode[] path = m_path;
+		final IObjectProfileNode[] path = _profilePath;
 		if (path != null)
 			return path.length;
 		else
@@ -121,7 +121,7 @@ abstract class AbstractProfileNode implements IObjectProfileNode, Comparable<Abs
 	// private: ...............................................................
 
 	private final IObjectProfileNode _parent;
-	private transient IObjectProfileNode[] m_path;
+	private transient IObjectProfileNode[] _profilePath;
 
 } // _end of class
 // ----------------------------------------------------------------------------

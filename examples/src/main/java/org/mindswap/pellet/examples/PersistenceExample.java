@@ -52,7 +52,7 @@ public class PersistenceExample
 	public void run() throws OWLOntologyCreationException
 	{
 		// Load the ontology file into an OWL ontology object
-		final OWLOntology ontology = OWL.manager.loadOntology(IRI.create(file));
+		final OWLOntology ontology = OWL._manager.loadOntology(IRI.create(file));
 
 		// Get an instance of the incremental classifier
 		final IncrementalClassifier classifier = new IncrementalClassifier(ontology);
@@ -93,7 +93,7 @@ public class PersistenceExample
 		// Add the axiom to the ontology
 		// The copy of the classifier in memory, will receive the notification about this change.
 		// However, the state of the classifier saved to the file will become out-of-sync at this point
-		OWL.manager.applyChange(new AddAxiom(ontology, axiom));
+		OWL._manager.applyChange(new AddAxiom(ontology, axiom));
 
 		// Now let's restore the classifier from the saved file
 		IncrementalClassifier restoredClassifier = null;

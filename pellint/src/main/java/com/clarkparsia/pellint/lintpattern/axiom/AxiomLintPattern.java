@@ -31,17 +31,17 @@ import org.semanticweb.owlapi.model.OWLOntology;
  */
 public abstract class AxiomLintPattern implements LintPattern, OWLAxiomVisitor
 {
-	private Lint m_Lint;
-	private OWLOntology m_Ontology;
+	private Lint _Lint;
+	private OWLOntology _Ontology;
 
 	protected Lint makeLint()
 	{
-		return new Lint(this, m_Ontology);
+		return new Lint(this, _Ontology);
 	}
 
 	protected void setLint(final Lint lint)
 	{
-		m_Lint = lint;
+		_Lint = lint;
 	}
 
 	/**
@@ -54,9 +54,9 @@ public abstract class AxiomLintPattern implements LintPattern, OWLAxiomVisitor
 	 */
 	public final Lint match(final OWLOntology ontology, final OWLAxiom axiom)
 	{
-		m_Lint = null;
-		m_Ontology = ontology;
+		_Lint = null;
+		_Ontology = ontology;
 		axiom.accept(this);
-		return m_Lint;
+		return _Lint;
 	}
 }

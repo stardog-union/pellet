@@ -57,6 +57,7 @@ public class CollectionUtil
 		return new HashSet<>(a);
 	}
 
+	@SafeVarargs
 	public static <T> Set<T> asSet(final T... a)
 	{
 		return new HashSet<>(Arrays.asList(a));

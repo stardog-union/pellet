@@ -40,14 +40,14 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public class EquivalentAndSubclassAxiomPatternTest extends PellintTestCase
 {
 
-	private EquivalentAndSubclassAxiomPattern m_Pattern;
+	private EquivalentAndSubclassAxiomPattern _pattern;
 
 	@Override
 	@Before
 	public void setUp() throws OWLOntologyCreationException
 	{
 		super.setUp();
-		m_Pattern = new EquivalentAndSubclassAxiomPattern();
+		_pattern = new EquivalentAndSubclassAxiomPattern();
 	}
 
 	@Test
@@ -58,8 +58,8 @@ public class EquivalentAndSubclassAxiomPatternTest extends PellintTestCase
 		addAxiom(OWL.equivalentClasses(_cls[1], _cls[2]));
 		addAxiom(OWL.equivalentClasses(_cls[1], _cls[3]));
 
-		assertTrue(m_Pattern.isFixable());
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		assertTrue(_pattern.isFixable());
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 	}
 
@@ -70,7 +70,7 @@ public class EquivalentAndSubclassAxiomPatternTest extends PellintTestCase
 		addAxiom(OWL.equivalentClasses(_cls[0], _cls[1]));
 		addAxiom(OWL.equivalentClasses(_cls[0], OWL.Thing));
 
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 	}
 
@@ -79,7 +79,7 @@ public class EquivalentAndSubclassAxiomPatternTest extends PellintTestCase
 	{
 		addAxiom(OWL.equivalentClasses(_cls[0], _P0AllC0));
 
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 	}
 
@@ -95,7 +95,7 @@ public class EquivalentAndSubclassAxiomPatternTest extends PellintTestCase
 		addAxiom(OWL.equivalentClasses(_cls[0], OWL.Thing));
 		addAxiom(OWL.equivalentClasses(CollectionUtil.<OWLClassExpression> asSet(_cls[0], _cls[3], _cls[4])));
 
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 
 		final Lint lint = lints.get(0);
@@ -126,7 +126,7 @@ public class EquivalentAndSubclassAxiomPatternTest extends PellintTestCase
 		final OWLAxiom fixedAxiom1 = OWL.equivalentClasses(restOf);
 		final OWLAxiom fixedAxiom2 = OWL.subClassOf(_cls[0], OWL.and(restOf));
 
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 
 		final LintFixer fixer = lints.get(0).getLintFixer();
@@ -146,7 +146,7 @@ public class EquivalentAndSubclassAxiomPatternTest extends PellintTestCase
 		final OWLClassExpression oneOf = OWL.oneOf(_ind);
 		addAxiom(OWL.equivalentClasses(CollectionUtil.asSet(_cls[0], _cls[1], oneOf)));
 
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(0, lints.size());
 	}
 
@@ -161,7 +161,7 @@ public class EquivalentAndSubclassAxiomPatternTest extends PellintTestCase
 		addAxiom(badAxiom1);
 		addAxiom(badAxiom2);
 
-		final List<Lint> lints = m_Pattern.match(_ontology);
+		final List<Lint> lints = _pattern.match(_ontology);
 		assertEquals(1, lints.size());
 
 		final Lint lint = lints.get(0);

@@ -362,14 +362,14 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 
 		try
 		{
-			OWL.manager.applyChange(new AddImport(ontology1, OWL.factory.getOWLImportsDeclaration(ontology2.getOntologyID().getOntologyIRI().get())));
+			OWL._manager.applyChange(new AddImport(ontology1, OWL._factory.getOWLImportsDeclaration(ontology2.getOntologyID().getOntologyIRI().get())));
 
 			TestUtils.runUpdateTest(ontology1, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology1);
-			OWL.manager.removeOntology(ontology2);
+			OWL._manager.removeOntology(ontology1);
+			OWL._manager.removeOntology(ontology2);
 		}
 	}
 }

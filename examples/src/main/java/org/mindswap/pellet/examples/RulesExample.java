@@ -68,6 +68,8 @@ public class RulesExample
 	{
 		System.out.print(ind.getLocalName() + " has " + prop.getLocalName() + "(s): ");
 		final ExtendedIterator<RDFNode> rsc = ind.listPropertyValues(prop);
+		// FIXME : suppress warnings doesn't suppress 
+		@SuppressWarnings("rawtypes")
 		final ExtendedIterator<? extends Resource> rsc2 = (ExtendedIterator) rsc; // FIXME : there is a type error here : the modernized strong typing show it.  
 		printIterator(rsc2);
 	}

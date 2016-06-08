@@ -44,210 +44,210 @@ public class OWLEntityDatabase
 {
 	public final static Logger _logger = Log.getLogger(OWLEntityDatabase.class);
 
-	private final DoubtfulSet<RDFNode> m_Ontologies = new DoubtfulSet<>();
-	private final DoubtfulSet<RDFNode> m_Classes = new DoubtfulSet<>();
-	private final DoubtfulSet<RDFNode> m_Datatypes = new DoubtfulSet<>();
-	private final DoubtfulSet<RDFNode> m_Individuals = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> _ontologies = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> _classes = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> _datatypes = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> _individuals = new DoubtfulSet<>();
 
-	private final Set<RDFNode> m_AllRoles = CollectionUtil.makeSet();
-	private final DoubtfulSet<RDFNode> m_AnnotationRoles = new DoubtfulSet<>();
-	private final DoubtfulSet<RDFNode> m_OntologyRoles = new DoubtfulSet<>();
-	private final DoubtfulSet<RDFNode> m_ObjectRoles = new DoubtfulSet<>();
-	private final DoubtfulSet<RDFNode> m_DatatypeRoles = new DoubtfulSet<>();
+	private final Set<RDFNode> _allRoles = CollectionUtil.makeSet();
+	private final DoubtfulSet<RDFNode> _annotationRoles = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> _ontologyRoles = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> _objectRoles = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> _datatypeRoles = new DoubtfulSet<>();
 
-	private final DoubtfulSet<RDFNode> m_SWRLVariables = new DoubtfulSet<>();
+	private final DoubtfulSet<RDFNode> _SWRLVariables = new DoubtfulSet<>();
 
-	private final Set<RDFNode> m_RDFClasses = CollectionUtil.makeSet();
+	private final Set<RDFNode> _RDFClasses = CollectionUtil.makeSet();
 	// TODO: why is this Resource and everything else is RDFNode?  classes should be typed as Resource as well & Individuals, etc.
-	private final Set<Resource> m_Restrictions = CollectionUtil.makeSet();
-	private final Set<RDFNode> m_Literals = CollectionUtil.makeSet();
-	private final Set<Literal> m_LiteralsAsClass = CollectionUtil.makeSet();
-	private final Set<Literal> m_LiteralsAsIndividuals = CollectionUtil.makeSet();
-	private final Set<Resource> m_ResourcesAsLiterals = CollectionUtil.makeSet();
+	private final Set<Resource> _restrictions = CollectionUtil.makeSet();
+	private final Set<RDFNode> _literals = CollectionUtil.makeSet();
+	private final Set<Literal> _literalsAsClass = CollectionUtil.makeSet();
+	private final Set<Literal> _literalsAsIndividuals = CollectionUtil.makeSet();
+	private final Set<Resource> _resourcesAsLiterals = CollectionUtil.makeSet();
 
 	public void addOntology(final RDFNode s)
 	{
-		m_Ontologies.addDefinite(s);
+		_ontologies.addDefinite(s);
 	}
 
 	public void assumeOntology(final RDFNode s)
 	{
-		m_Ontologies.add(s);
+		_ontologies.add(s);
 	}
 
 	public boolean containsOntology(final RDFNode s)
 	{
-		return m_Ontologies.contains(s);
+		return _ontologies.contains(s);
 	}
 
 	public Set<RDFNode> getDoubtfulOntologies()
 	{
-		return m_Ontologies.getDoubtfulElements();
+		return _ontologies.getDoubtfulElements();
 	}
 
 	public void addRDFSClass(final RDFNode s)
 	{
-		m_RDFClasses.add(s);
+		_RDFClasses.add(s);
 	}
 
 	public Set<RDFNode> getAllRDFClasses()
 	{
-		return m_RDFClasses;
+		return _RDFClasses;
 	}
 
 	public void addRestriction(final Resource s)
 	{
-		m_Restrictions.add(s);
+		_restrictions.add(s);
 	}
 
 	public Set<Resource> getAllRestrictions()
 	{
-		return m_Restrictions;
+		return _restrictions;
 	}
 
 	public void addLiteral(final RDFNode s)
 	{
-		m_Literals.add(s);
+		_literals.add(s);
 	}
 
 	public void addClass(final RDFNode s)
 	{
-		m_Classes.addDefinite(s);
+		_classes.addDefinite(s);
 	}
 
 	public void assumeClass(final RDFNode s)
 	{
-		m_Classes.add(s);
+		_classes.add(s);
 
 		if (s instanceof Literal)
-			m_LiteralsAsClass.add((Literal) s);
+			_literalsAsClass.add((Literal) s);
 	}
 
 	public boolean containsClass(final RDFNode s)
 	{
-		return m_Classes.contains(s) || (s.isResource() && m_Restrictions.contains(s));
+		return _classes.contains(s) || (s.isResource() && _restrictions.contains(s));
 	}
 
 	public Set<RDFNode> getDoubtfulClasses()
 	{
-		final Set<RDFNode> classes = m_Classes.getDoubtfulElements();
-		classes.removeAll(m_Restrictions);
+		final Set<RDFNode> classes = _classes.getDoubtfulElements();
+		classes.removeAll(_restrictions);
 
 		return classes;
 	}
 
 	public void addDatatype(final RDFNode s)
 	{
-		m_Datatypes.addDefinite(s);
+		_datatypes.addDefinite(s);
 	}
 
 	public void assumeDatatype(final RDFNode s)
 	{
-		m_Datatypes.add(s);
+		_datatypes.add(s);
 	}
 
 	public boolean containsDatatype(final RDFNode s)
 	{
-		return m_Datatypes.contains(s);
+		return _datatypes.contains(s);
 	}
 
 	public Set<RDFNode> getDoubtfulDatatypes()
 	{
-		return m_Datatypes.getDoubtfulElements();
+		return _datatypes.getDoubtfulElements();
 	}
 
 	public void addIndividual(final RDFNode s)
 	{
-		m_Individuals.addDefinite(s);
+		_individuals.addDefinite(s);
 	}
 
 	public void assumeIndividual(final RDFNode s)
 	{
-		m_Individuals.add(s);
+		_individuals.add(s);
 	}
 
 	public boolean containsIndividual(final RDFNode s)
 	{
-		return m_Individuals.contains(s);
+		return _individuals.contains(s);
 	}
 
 	public Set<RDFNode> getDoubtfulIndividuals()
 	{
-		return m_Individuals.getDoubtfulElements();
+		return _individuals.getDoubtfulElements();
 	}
 
 	public void addUntypedRole(final RDFNode s)
 	{
-		m_AllRoles.add(s);
+		_allRoles.add(s);
 	}
 
 	public boolean containsRole(final RDFNode s)
 	{
-		return m_AllRoles.contains(s);
+		return _allRoles.contains(s);
 	}
 
 	public Set<RDFNode> getDoubtfulRoles()
 	{
-		final Set<RDFNode> roles = CollectionUtil.copy(m_AllRoles);
-		roles.removeAll(m_AnnotationRoles);
-		roles.removeAll(m_OntologyRoles);
-		roles.removeAll(m_ObjectRoles);
-		roles.removeAll(m_DatatypeRoles);
+		final Set<RDFNode> roles = CollectionUtil.copy(_allRoles);
+		roles.removeAll(_annotationRoles);
+		roles.removeAll(_ontologyRoles);
+		roles.removeAll(_objectRoles);
+		roles.removeAll(_datatypeRoles);
 
 		return roles;
 	}
 
 	public void addAnnotationRole(final RDFNode s)
 	{
-		m_AllRoles.add(s);
-		m_AnnotationRoles.addDefinite(s);
+		_allRoles.add(s);
+		_annotationRoles.addDefinite(s);
 	}
 
 	public void assumeAnnotationRole(final RDFNode s)
 	{
-		m_AnnotationRoles.add(s);
+		_annotationRoles.add(s);
 	}
 
 	public boolean containsAnnotaionRole(final RDFNode s)
 	{
-		return m_AnnotationRoles.contains(s);
+		return _annotationRoles.contains(s);
 	}
 
 	public Set<RDFNode> getDoubtfulAnnotaionRoles()
 	{
-		return m_AnnotationRoles.getDoubtfulElements();
+		return _annotationRoles.getDoubtfulElements();
 	}
 
 	public void addOntologyRole(final RDFNode s)
 	{
-		m_AllRoles.add(s);
-		m_OntologyRoles.addDefinite(s);
+		_allRoles.add(s);
+		_ontologyRoles.addDefinite(s);
 	}
 
 	public boolean containsOntologyRole(final RDFNode s)
 	{
-		return m_OntologyRoles.contains(s);
+		return _ontologyRoles.contains(s);
 	}
 
 	public void addObjectRole(final RDFNode s)
 	{
-		m_AllRoles.add(s);
-		m_ObjectRoles.addDefinite(s);
+		_allRoles.add(s);
+		_objectRoles.addDefinite(s);
 	}
 
 	public void assumeObjectRole(final RDFNode s)
 	{
-		m_ObjectRoles.add(s);
+		_objectRoles.add(s);
 	}
 
 	public boolean containsObjectRole(final RDFNode s)
 	{
-		return m_ObjectRoles.contains(s);
+		return _objectRoles.contains(s);
 	}
 
 	public Set<RDFNode> getDoubtfulObjectRoles()
 	{
-		return m_ObjectRoles.getDoubtfulElements();
+		return _objectRoles.getDoubtfulElements();
 	}
 
 	public void addInverseFunctionalRole(final RDFNode s)
@@ -282,78 +282,78 @@ public class OWLEntityDatabase
 
 	public void addDatatypeRole(final RDFNode s)
 	{
-		m_AllRoles.add(s);
-		m_DatatypeRoles.addDefinite(s);
+		_allRoles.add(s);
+		_datatypeRoles.addDefinite(s);
 	}
 
 	public void assumeDatatypeRole(final RDFNode s)
 	{
-		m_DatatypeRoles.add(s);
+		_datatypeRoles.add(s);
 	}
 
 	public boolean containsDatatypeRole(final RDFNode s)
 	{
-		return m_DatatypeRoles.contains(s);
+		return _datatypeRoles.contains(s);
 	}
 
 	public Set<RDFNode> getDoubtfulDatatypeRoles()
 	{
-		return m_DatatypeRoles.getDoubtfulElements();
+		return _datatypeRoles.getDoubtfulElements();
 	}
 
 	public void addSWRLVariable(final RDFNode s)
 	{
-		m_SWRLVariables.addDefinite(s);
+		_SWRLVariables.addDefinite(s);
 	}
 
 	public void assumeSWRLVariable(final RDFNode s)
 	{
-		m_SWRLVariables.add(s);
+		_SWRLVariables.add(s);
 	}
 
 	public boolean containsSWRLVariable(final RDFNode s)
 	{
-		return m_SWRLVariables.contains(s);
+		return _SWRLVariables.contains(s);
 	}
 
 	public Set<RDFNode> getDoubtfulSWRLVariables()
 	{
-		return m_SWRLVariables.getDoubtfulElements();
+		return _SWRLVariables.getDoubtfulElements();
 	}
 
 	public Set<Literal> getLiteralsAsClass()
 	{
-		return m_LiteralsAsClass;
+		return _literalsAsClass;
 	}
 
 	public void addLiteralAsClass(final Literal literal)
 	{
-		m_LiteralsAsClass.add(literal);
+		_literalsAsClass.add(literal);
 	}
 
 	public Set<Literal> getLiteralsAsIndividuals()
 	{
-		return m_LiteralsAsIndividuals;
+		return _literalsAsIndividuals;
 	}
 
 	public void addLiteralAsIndividual(final Literal literal)
 	{
-		m_LiteralsAsIndividuals.add(literal);
+		_literalsAsIndividuals.add(literal);
 	}
 
 	public Set<Resource> getResourcesAsLiterals()
 	{
-		return m_ResourcesAsLiterals;
+		return _resourcesAsLiterals;
 	}
 
 	public void addResourcesAsLiteral(final Resource resource)
 	{
-		m_ResourcesAsLiterals.add(resource);
+		_resourcesAsLiterals.add(resource);
 	}
 
 	public boolean containsResource(final RDFNode s)
 	{
-		return m_Ontologies.contains(s) || m_Classes.contains(s) || m_Datatypes.contains(s) || m_Individuals.contains(s) || m_AllRoles.contains(s) || m_RDFClasses.contains(s) || (s.isResource() && m_Restrictions.contains(s)) || m_Literals.contains(s) || m_SWRLVariables.contains(s);
+		return _ontologies.contains(s) || _classes.contains(s) || _datatypes.contains(s) || _individuals.contains(s) || _allRoles.contains(s) || _RDFClasses.contains(s) || (s.isResource() && _restrictions.contains(s)) || _literals.contains(s) || _SWRLVariables.contains(s);
 	}
 
 	public Map<RDFNode, List<String>> getAllMultiTypedResources()
@@ -374,19 +374,19 @@ public class OWLEntityDatabase
 		final Map<String, Set<RDFNode>> definiteResourcesByType = CollectionUtil.makeMap();
 		if (!excludeValidPunning)
 		{
-			definiteResourcesByType.put("Ontology", m_Ontologies.getDefiniteElements());
-			definiteResourcesByType.put("Class", m_Classes.getDefiniteElements());
-			definiteResourcesByType.put("Datatype", m_Datatypes.getDefiniteElements());
-			definiteResourcesByType.put("Individual", m_Individuals);
-			definiteResourcesByType.put("Literal", m_Literals);
+			definiteResourcesByType.put("Ontology", _ontologies.getDefiniteElements());
+			definiteResourcesByType.put("Class", _classes.getDefiniteElements());
+			definiteResourcesByType.put("Datatype", _datatypes.getDefiniteElements());
+			definiteResourcesByType.put("Individual", _individuals);
+			definiteResourcesByType.put("Literal", _literals);
 		}
 
-		definiteResourcesByType.put("Annotation Property", m_AnnotationRoles.getDefiniteElements());
-		definiteResourcesByType.put("Ontology Property", m_OntologyRoles.getDefiniteElements());
-		definiteResourcesByType.put("Datatype Property", m_DatatypeRoles.getDefiniteElements());
-		definiteResourcesByType.put("Object Property", m_ObjectRoles.getDefiniteElements());
+		definiteResourcesByType.put("Annotation Property", _annotationRoles.getDefiniteElements());
+		definiteResourcesByType.put("Ontology Property", _ontologyRoles.getDefiniteElements());
+		definiteResourcesByType.put("Datatype Property", _datatypeRoles.getDefiniteElements());
+		definiteResourcesByType.put("Object Property", _objectRoles.getDefiniteElements());
 
-		definiteResourcesByType.put("SWRL Variable", m_SWRLVariables.getDefiniteElements());
+		definiteResourcesByType.put("SWRL Variable", _SWRLVariables.getDefiniteElements());
 
 		final Set<RDFNode> allDefiniteResources = CollectionUtil.makeSet();
 		for (final Set<RDFNode> definiteResources : definiteResourcesByType.values())
@@ -407,8 +407,8 @@ public class OWLEntityDatabase
 		if (excludeValidPunning)
 		{
 			final List<String> classDatatypePunning = Arrays.asList("Class", "Datatype");
-			for (final RDFNode node : m_Datatypes.getDefiniteElements())
-				if (m_Classes.getDefiniteElements().contains(node))
+			for (final RDFNode node : _datatypes.getDefiniteElements())
+				if (_classes.getDefiniteElements().contains(node))
 					multiTypedResources.put(node, classDatatypePunning);
 		}
 

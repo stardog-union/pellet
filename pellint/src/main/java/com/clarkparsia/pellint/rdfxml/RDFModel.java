@@ -37,31 +37,31 @@ import org.apache.jena.rdf.model.Statement;
  */
 public class RDFModel
 {
-	private final List<String> m_Comments;
-	private final Map<String, String> m_Namespaces;
-	private final List<Statement> m_AllStatements;
-	private final Map<Resource, Map<Property, Set<RDFNode>>> m_Statements;
-	private final Map<Property, List<Statement>> m_StatementsByPredicate;
-	private final Map<RDFNode, List<Statement>> m_StatementsByObject;
-	private final Set<RDFNode> m_BNodes;
+	private final List<String> _comments;
+	private final Map<String, String> _namespaces;
+	private final List<Statement> _allStatements;
+	private final Map<Resource, Map<Property, Set<RDFNode>>> _statements;
+	private final Map<Property, List<Statement>> _statementsByPredicate;
+	private final Map<RDFNode, List<Statement>> _statementsByObject;
+	private final Set<RDFNode> _BNodes;
 
 	public RDFModel()
 	{
-		m_Comments = CollectionUtil.makeList();
-		m_Namespaces = CollectionUtil.makeMap();
-		m_AllStatements = CollectionUtil.makeList();
-		m_Statements = CollectionUtil.makeMap();
-		m_StatementsByPredicate = CollectionUtil.makeMap();
-		m_StatementsByObject = CollectionUtil.makeMap();
-		m_BNodes = CollectionUtil.makeSet();
+		_comments = CollectionUtil.makeList();
+		_namespaces = CollectionUtil.makeMap();
+		_allStatements = CollectionUtil.makeList();
+		_statements = CollectionUtil.makeMap();
+		_statementsByPredicate = CollectionUtil.makeMap();
+		_statementsByObject = CollectionUtil.makeMap();
+		_BNodes = CollectionUtil.makeSet();
 	}
 
 	public void add(final RDFModel other)
 	{
-		m_Comments.addAll(other.m_Comments);
-		m_Namespaces.putAll(other.m_Namespaces);
+		_comments.addAll(other._comments);
+		_namespaces.putAll(other._namespaces);
 		addAllStatements(other.getStatements());
-		m_BNodes.addAll(other.m_BNodes);
+		_BNodes.addAll(other._BNodes);
 	}
 
 	public void add(final Model jenaModel)
@@ -71,22 +71,22 @@ public class RDFModel
 
 	public void addComment(final String comment)
 	{
-		m_Comments.add(comment);
+		_comments.add(comment);
 	}
 
 	public List<String> getComments()
 	{
-		return m_Comments;
+		return _comments;
 	}
 
 	public void addNamespace(final String prefix, final String uri)
 	{
-		m_Namespaces.put(prefix, uri);
+		_namespaces.put(prefix, uri);
 	}
 
 	public Map<String, String> getNamespaces()
 	{
-		return m_Namespaces;
+		return _namespaces;
 	}
 
 	public void addAllStatements(final Iterator<Statement> stmts)
@@ -105,11 +105,11 @@ public class RDFModel
 		for (final Statement stmt : stmts)
 		{
 			final Resource s = stmt.getSubject();
-			if (s.isAnon() && !m_BNodes.contains(s))
+			if (s.isAnon() && !_BNodes.contains(s))
 				continue;
 
 			final RDFNode o = stmt.getObject();
-			if (o.isAnon() && !m_BNodes.contains(o))
+			if (o.isAnon() && !_BNodes.contains(o))
 				continue;
 
 			addStatement(stmt);
@@ -118,7 +118,7 @@ public class RDFModel
 
 	public void addStatement(final Statement stmt)
 	{
-		m_AllStatements.add(stmt);
+		_allStatements.add(stmt);
 		addToStatements(stmt);
 		addToStatementsByPredicate(stmt);
 		addToStatementsByObject(stmt);
@@ -129,17 +129,17 @@ public class RDFModel
 	private void addToBNodes(final RDFNode v)
 	{
 		if (v.isAnon())
-			m_BNodes.add(v);
+			_BNodes.add(v);
 	}
 
 	public List<Statement> getStatements()
 	{
-		return m_AllStatements;
+		return _allStatements;
 	}
 
 	public Collection<Statement> getStatementsByPredicate(final Property predicate)
 	{
-		final List<Statement> list = m_StatementsByPredicate.get(predicate);
+		final List<Statement> list = _statementsByPredicate.get(predicate);
 		if (list == null)
 			return Collections.emptyList();
 		else
@@ -148,7 +148,7 @@ public class RDFModel
 
 	public Collection<Statement> getStatementsByObject(final RDFNode object)
 	{
-		final List<Statement> list = m_StatementsByObject.get(object);
+		final List<Statement> list = _statementsByObject.get(object);
 		if (list == null)
 			return Collections.emptyList();
 		else
@@ -157,7 +157,7 @@ public class RDFModel
 
 	public Collection<RDFNode> getValues(final Resource subject, final Property predicate)
 	{
-		final Map<Property, Set<RDFNode>> pMap = m_Statements.get(subject);
+		final Map<Property, Set<RDFNode>> pMap = _statements.get(subject);
 		if (pMap == null)
 			return Collections.emptyList();
 
@@ -192,11 +192,11 @@ public class RDFModel
 		final Property p = stmt.getPredicate();
 		final RDFNode v = stmt.getObject();
 
-		Map<Property, Set<RDFNode>> pMap = m_Statements.get(s);
+		Map<Property, Set<RDFNode>> pMap = _statements.get(s);
 		if (pMap == null)
 		{
 			pMap = CollectionUtil.makeMap();
-			m_Statements.put(s, pMap);
+			_statements.put(s, pMap);
 		}
 		Set<RDFNode> values = pMap.get(p);
 		if (values == null)
@@ -211,11 +211,11 @@ public class RDFModel
 	{
 		final Property p = stmt.getPredicate();
 
-		List<Statement> list = m_StatementsByPredicate.get(p);
+		List<Statement> list = _statementsByPredicate.get(p);
 		if (list == null)
 		{
 			list = CollectionUtil.makeList();
-			m_StatementsByPredicate.put(p, list);
+			_statementsByPredicate.put(p, list);
 		}
 		list.add(stmt);
 	}
@@ -224,11 +224,11 @@ public class RDFModel
 	{
 		final RDFNode o = stmt.getObject();
 
-		List<Statement> list = m_StatementsByObject.get(o);
+		List<Statement> list = _statementsByObject.get(o);
 		if (list == null)
 		{
 			list = CollectionUtil.makeList();
-			m_StatementsByObject.put(o, list);
+			_statementsByObject.put(o, list);
 		}
 		list.add(stmt);
 	}

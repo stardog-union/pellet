@@ -37,13 +37,13 @@ public class RoleChainCache
 {
 	private static final String ANON_ROLE = "anonRole";
 
-	private int m_AnonRoleCount;
-	private final Map<ATermAppl, MultiValueMap<ATermAppl, ATermAppl>> m_BinaryRoleInclusions;
+	private int _anonRoleCount;
+	private final Map<ATermAppl, MultiValueMap<ATermAppl, ATermAppl>> _binaryRoleInclusions;
 
 	public RoleChainCache(final KnowledgeBase kb)
 	{
-		m_AnonRoleCount = 0;
-		m_BinaryRoleInclusions = CollectionUtils.makeMap();
+		_anonRoleCount = 0;
+		_binaryRoleInclusions = CollectionUtils.makeMap();
 
 		for (final Role supRole : kb.getRBox().getRoles())
 		{
@@ -82,7 +82,7 @@ public class RoleChainCache
 
 	public Set<ATermAppl> getAllSuperRoles(final ATermAppl r1, final ATermAppl r2)
 	{
-		final MultiValueMap<ATermAppl, ATermAppl> innerMap = m_BinaryRoleInclusions.get(r1);
+		final MultiValueMap<ATermAppl, ATermAppl> innerMap = _binaryRoleInclusions.get(r1);
 		if (innerMap == null)
 			return Collections.emptySet();
 
@@ -97,7 +97,7 @@ public class RoleChainCache
 	{
 		final Set<ATermAppl> superRoles = getAllSuperRoles(r1, r2);
 		if (superRoles.isEmpty())
-			return ATermUtils.makeTermAppl(ANON_ROLE + m_AnonRoleCount++);
+			return ATermUtils.makeTermAppl(ANON_ROLE + _anonRoleCount++);
 		else
 			return superRoles.iterator().next();
 	}
@@ -127,11 +127,11 @@ public class RoleChainCache
 
 	private boolean add(final ATermAppl r1, final ATermAppl r2, final ATermAppl superRole)
 	{
-		MultiValueMap<ATermAppl, ATermAppl> innerMap = m_BinaryRoleInclusions.get(r1);
+		MultiValueMap<ATermAppl, ATermAppl> innerMap = _binaryRoleInclusions.get(r1);
 		if (innerMap == null)
 		{
 			innerMap = new MultiValueMap<>();
-			m_BinaryRoleInclusions.put(r1, innerMap);
+			_binaryRoleInclusions.put(r1, innerMap);
 		}
 
 		return innerMap.add(r2, superRole);
@@ -140,6 +140,6 @@ public class RoleChainCache
 	public void print()
 	{
 		System.out.println("Role Chains:");
-		System.out.println(m_BinaryRoleInclusions);
+		System.out.println(_binaryRoleInclusions);
 	}
 }

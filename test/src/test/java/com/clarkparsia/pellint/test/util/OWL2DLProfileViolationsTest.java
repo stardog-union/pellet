@@ -24,7 +24,7 @@ public class OWL2DLProfileViolationsTest
 	@Test
 	public void testCorrectOntology() throws OWLOntologyCreationException
 	{
-		final OWLOntology ontology = OWL.manager.loadOntologyFromOntologyDocument(new File("test/data/misc/agencies.owl"));
+		final OWLOntology ontology = OWL._manager.loadOntologyFromOntologyDocument(new File("test/data/misc/agencies.owl"));
 
 		try
 		{
@@ -33,7 +33,7 @@ public class OWL2DLProfileViolationsTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 
@@ -41,30 +41,30 @@ public class OWL2DLProfileViolationsTest
 	public void testSuperPropertyTopDataProperty() throws OWLOntologyCreationException
 	{
 
-		final OWLOntology ontology = OWL.manager.createOntology();
+		final OWLOntology ontology = OWL._manager.createOntology();
 
 		try
 		{
-			final OWLDataProperty property = OWL.factory.getOWLDataProperty(IRI.create("tag:clarkparsia.com,2008:pellint:test:superProperty"));
-			final OWLDataProperty topProperty = OWL.factory.getOWLTopDataProperty();
+			final OWLDataProperty property = OWL._factory.getOWLDataProperty(IRI.create("tag:clarkparsia.com,2008:pellint:test:superProperty"));
+			final OWLDataProperty topProperty = OWL._factory.getOWLTopDataProperty();
 
-			final OWLAxiom axiom = OWL.factory.getOWLSubDataPropertyOfAxiom(topProperty, property);
+			final OWLAxiom axiom = OWL._factory.getOWLSubDataPropertyOfAxiom(topProperty, property);
 
-			OWL.manager.addAxiom(ontology, axiom);
+			OWL._manager.addAxiom(ontology, axiom);
 
 			final OWL2DLProfile owl2Profile = new OWL2DLProfile();
 			assertFalse(owl2Profile.checkOntology(ontology).isInProfile());
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 
 	@Test
 	public void testInvalidTransitivity() throws OWLOntologyCreationException
 	{
-		final OWLOntology ontology = OWL.manager.loadOntologyFromOntologyDocument(new File("test/data/misc/invalidTransitivity.owl"));
+		final OWLOntology ontology = OWL._manager.loadOntologyFromOntologyDocument(new File("test/data/misc/invalidTransitivity.owl"));
 
 		try
 		{
@@ -73,7 +73,7 @@ public class OWL2DLProfileViolationsTest
 		}
 		finally
 		{
-			OWL.manager.removeOntology(ontology);
+			OWL._manager.removeOntology(ontology);
 		}
 	}
 }

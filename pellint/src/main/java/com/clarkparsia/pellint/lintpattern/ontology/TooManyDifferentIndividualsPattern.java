@@ -13,7 +13,6 @@ import com.clarkparsia.pellint.model.Severity;
 import java.util.ArrayList;
 import java.util.List;
 import org.semanticweb.owlapi.model.AxiomType;
-import org.semanticweb.owlapi.model.OWLDifferentIndividualsAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
@@ -36,18 +35,18 @@ public class TooManyDifferentIndividualsPattern implements OntologyLintPattern
 {
 	private static final LintFormat DEFAULT_LINT_FORMAT = new CompactClassLintFormat();
 
-	private int m_MaxAllowed = 50;
+	private int _maxAllowed = 50;
 
 	@Override
 	public String getName()
 	{
-		return getClass().getSimpleName() + " (MaxAllowed = " + m_MaxAllowed + ")";
+		return getClass().getSimpleName() + " (MaxAllowed = " + _maxAllowed + ")";
 	}
 
 	@Override
 	public String getDescription()
 	{
-		return "Too many individuals involved in DifferentIndividuals axioms - maximum recommended is " + m_MaxAllowed;
+		return "Too many individuals involved in DifferentIndividuals axioms - maximum recommended is " + _maxAllowed;
 	}
 
 	@Override
@@ -64,18 +63,20 @@ public class TooManyDifferentIndividualsPattern implements OntologyLintPattern
 
 	public void setMaxAllowed(final int value)
 	{
-		m_MaxAllowed = value;
+		_maxAllowed = value;
 	}
 
 	@Override
 	public List<Lint> match(final OWLOntology ontology)
 	{
-		int totalEstimatedMemory = 0;
-		for (final OWLDifferentIndividualsAxiom axiom : ontology.getAxioms(AxiomType.DIFFERENT_INDIVIDUALS))
-			totalEstimatedMemory += estimateMemoryConcumption(axiom.getIndividuals().size());
+		final long totalEstimatedMemory = ontology//
+				.axioms(AxiomType.DIFFERENT_INDIVIDUALS)//
+				.map(axiom -> estimateMemoryConcumption(axiom.individuals().count()))//
+				.reduce((sum, cost) -> sum + cost)//
+				.orElse(0L);
 
 		final List<Lint> allLints = new ArrayList<>();
-		if (totalEstimatedMemory > estimateMemoryConcumption(m_MaxAllowed))
+		if (totalEstimatedMemory > estimateMemoryConcumption(_maxAllowed))
 		{
 			final Lint lint = new Lint(this, ontology);
 			lint.setSeverity(new Severity(totalEstimatedMemory));
@@ -84,7 +85,7 @@ public class TooManyDifferentIndividualsPattern implements OntologyLintPattern
 		return allLints;
 	}
 
-	private static int estimateMemoryConcumption(final int individualCount)
+	private static long estimateMemoryConcumption(final long individualCount)
 	{
 		return individualCount * (individualCount - 1);
 	}

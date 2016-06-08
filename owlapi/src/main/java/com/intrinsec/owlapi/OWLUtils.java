@@ -25,7 +25,7 @@ public class OWLUtils
 		return (!iri.startsWith("{")) ? iri : iri.replaceAll("[\\{\\}]", "");
 	}
 
-	static private OWLManagerGroup _owlManagerGroup = new OWLManagerGroup(Optional.of(OWL.manager), Optional.empty());
+	static private OWLManagerGroup _owlManagerGroup = new OWLManagerGroup(Optional.of(OWL._manager), Optional.empty());
 
 	static public OWLManagerGroup getOwlManagerGroup()
 	{
