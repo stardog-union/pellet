@@ -8,7 +8,13 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Mike Smith
  */
 @RunWith(Suite.class)
-@SuiteClasses({ AxiomBasedIncrementalClassifierTest.class, AxiomBasedModularityTest.class, AxiomBasedModularityUpdateTest.class, AxiomBasedRandomizedIncrementalClassifierTest.class, AxiomBasedRandomizedModularityTest.class })
+@SuiteClasses({ //
+		AxiomBasedIncrementalClassifierTest.class //
+		, AxiomBasedModularityTest.class //
+		, AxiomBasedModularityUpdateTest.class //
+		// ,AxiomBasedRandomizedIncrementalClassifierTest.class //
+		// ,AxiomBasedRandomizedModularityTest.class//
+})
 public class AxiomBasedModularityTestSuite
 {
 	// Nothing to do.
