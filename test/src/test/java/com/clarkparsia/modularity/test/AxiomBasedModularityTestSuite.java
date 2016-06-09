@@ -12,8 +12,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		AxiomBasedIncrementalClassifierTest.class //
 		, AxiomBasedModularityTest.class //
 		, AxiomBasedModularityUpdateTest.class //
-		// ,AxiomBasedRandomizedIncrementalClassifierTest.class //
-		// ,AxiomBasedRandomizedModularityTest.class//
+		// ,AxiomBasedRandomizedIncrementalClassifierTest.class // FIXME #4
+		// ,AxiomBasedRandomizedModularityTest.class// FIXME #4
 })
 public class AxiomBasedModularityTestSuite
 {

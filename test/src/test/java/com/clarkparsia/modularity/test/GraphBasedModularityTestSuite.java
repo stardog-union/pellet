@@ -12,8 +12,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		GraphBasedIncrementalClassifierTest.class //
 		, GraphBasedModularityTest.class //
 		, GraphBasedModularityUpdateTest.class //
-		// , GraphBasedRandomizedIncrementalClassifierTest.class //
-		// , GraphBasedRandomizedModularityTest.class //
+		// , GraphBasedRandomizedIncrementalClassifierTest.class // FIXME #4
+		// , GraphBasedRandomizedModularityTest.class // FIXME #4
 		, GraphSimplifyTests.class //
 		, SCCTests.class //
 })
