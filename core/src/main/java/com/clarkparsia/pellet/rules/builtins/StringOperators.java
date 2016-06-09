@@ -19,8 +19,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.utils.ATermUtils;
@@ -44,10 +47,10 @@ import org.mindswap.pellet.utils.Namespaces;
  */
 public class StringOperators
 {
+	private static Logger _logger = Log.getLogger(StringOperators.class);
 
 	private static class Contains extends BinaryTester
 	{
-		//@Override
 		@Override
 		protected boolean test(final Literal l1, final Literal l2)
 		{
@@ -63,7 +66,6 @@ public class StringOperators
 
 	private static class ContainsIgnoreCase extends BinaryTester
 	{
-		//@Override
 		@Override
 		protected boolean test(final Literal l1, final Literal l2)
 		{
@@ -109,7 +111,6 @@ public class StringOperators
 
 	private static class Matches extends BinaryTester
 	{
-		//@Override
 		@Override
 		protected boolean test(final Literal l1, final Literal l2)
 		{
@@ -127,7 +128,7 @@ public class StringOperators
 			}
 			catch (final PatternSyntaxException e)
 			{
-				ABox._logger.info("Bad regex from builtin rule: " + l2);
+				ABox._logger.log(Level.INFO, "Bad regex from builtin rule: " + l2, e);
 			}
 			return result;
 		}
@@ -165,7 +166,6 @@ public class StringOperators
 
 	private static class StartsWith extends BinaryTester
 	{
-		//@Override
 		@Override
 		protected boolean test(final Literal l1, final Literal l2)
 		{
@@ -252,6 +252,7 @@ public class StringOperators
 			}
 			catch (final NumberFormatException e)
 			{
+				_logger.log(Level.FINE, "", e);
 				return "";
 			}
 
@@ -319,7 +320,7 @@ public class StringOperators
 
 			public TokenizeBindingHelper(final BuiltInAtom atom)
 			{
-				this._atom = atom;
+				_atom = atom;
 				_head = null;
 				_match = null;
 				_tokens = null;

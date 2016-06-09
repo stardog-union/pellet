@@ -60,17 +60,16 @@ public class URIOperators
 			}
 			catch (final URISyntaxException e)
 			{
-				throw new InternalReasonerException("Relative URI reference is not a valid URI");
+				throw new InternalReasonerException("Relative URI reference is not a valid URI", e);
 			}
 
 			try
 			{
 				baseURI = new URI(base);
-
 			}
 			catch (final URISyntaxException e)
 			{
-				throw new InternalReasonerException("Base URI reference is not a valid URI");
+				throw new InternalReasonerException("Base URI reference is not a valid URI", e);
 			}
 
 			try
@@ -81,7 +80,7 @@ public class URIOperators
 			}
 			catch (final URISyntaxException e)
 			{
-				throw new InternalReasonerException("Evaluation of base and relative URI is not a URI");
+				throw new InternalReasonerException("Evaluation of base and relative URI is not a URI", e);
 			}
 		}
 	}
@@ -122,13 +121,11 @@ public class URIOperators
 
 			try
 			{
-				final URI uri = new URI(schema + host + port + path + query + fragment);
-
-				return uri.toASCIIString();
+				return (new URI(schema + host + port + path + query + fragment)).toASCIIString();
 			}
 			catch (final URISyntaxException e)
 			{
-				throw new InternalReasonerException("Returned string is not a URI");
+				throw new InternalReasonerException("Returned string is not a URI", e);
 			}
 		}
 	}

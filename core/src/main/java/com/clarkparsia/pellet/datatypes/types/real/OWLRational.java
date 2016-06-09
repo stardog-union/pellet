@@ -95,7 +95,7 @@ public class OWLRational extends AbstractBaseDatatype<Number>
 		}
 		catch (final NumberFormatException e)
 		{
-			throw new InvalidLiteralException(getName(), lexicalForm);
+			throw new InvalidLiteralException(getName(), lexicalForm, e);
 		}
 	}
 

@@ -92,7 +92,7 @@ public class XSDDuration extends AbstractBaseDatatype<Duration>
 			 * newXMLGregorianCalendar will throw an IllegalArgumentException if
 			 * the lexical form is not one of the XML Schema datetime types
 			 */
-			throw new InvalidLiteralException(getName(), lexicalForm);
+			throw new InvalidLiteralException(getName(), lexicalForm, e);
 		}
 		catch (final IllegalStateException e)
 		{
@@ -101,7 +101,7 @@ public class XSDDuration extends AbstractBaseDatatype<Duration>
 			 * combination of fields set in the calendar object doesn't match
 			 * one of the XML Schema datetime types
 			 */
-			throw new InvalidLiteralException(getName(), lexicalForm);
+			throw new InvalidLiteralException(getName(), lexicalForm, e);
 		}
 	}
 

@@ -15,8 +15,11 @@ import com.clarkparsia.pellet.datatypes.types.datetime.XSDDate;
 import com.clarkparsia.pellet.datatypes.types.datetime.XSDDateTime;
 import com.clarkparsia.pellet.datatypes.types.datetime.XSDTime;
 import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.utils.ATermUtils;
@@ -39,6 +42,7 @@ import org.mindswap.pellet.utils.ATermUtils;
  */
 public class DateTimeOperators
 {
+	private static Logger _logger = Log.getLogger(DateTimeOperators.class);
 
 	private static class Date implements GeneralFunction, StringToStringFunction
 	{
@@ -191,8 +195,8 @@ public class DateTimeOperators
 
 			DURATIONTYPE(final int start, final int end)
 			{
-				this._start = start;
-				this._end = end;
+				_start = start;
+				_end = end;
 			}
 
 		}
@@ -204,7 +208,7 @@ public class DateTimeOperators
 
 		public Duration(final DURATIONTYPE dur)
 		{
-			this.granularity = dur;
+			granularity = dur;
 			allBound = new StringFunctionAdapter(this, XSD + "duration");
 		}
 
@@ -382,6 +386,7 @@ public class DateTimeOperators
 		}
 		catch (final InvalidLiteralException e)
 		{
+			_logger.log(Level.FINE, "", e);
 			return false;
 		}
 	}

@@ -86,7 +86,7 @@ public class XSDAnyURI extends AbstractBaseDatatype<ATermAppl>
 		}
 		catch (final URISyntaxException e)
 		{
-			throw new InvalidLiteralException(NAME, lexicalForm);
+			throw new InvalidLiteralException(NAME, lexicalForm, e);
 		}
 	}
 

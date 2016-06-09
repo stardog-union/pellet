@@ -18,7 +18,7 @@ public abstract class AbstractTimelineDatatype extends AbstractBaseDatatype<XMLG
 	public AbstractTimelineDatatype(final ATermAppl name, final QName schemaType)
 	{
 		super(name);
-		this._schemaType = schemaType;
+		_schemaType = schemaType;
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public abstract class AbstractTimelineDatatype extends AbstractBaseDatatype<XMLG
 			 * newXMLGregorianCalendar will throw an IllegalArgumentException if
 			 * the lexical form is not one of the XML Schema datetime types
 			 */
-			throw new InvalidLiteralException(getName(), lexicalForm);
+			throw new InvalidLiteralException(getName(), lexicalForm, e);
 		}
 		catch (final IllegalStateException e)
 		{
@@ -79,7 +79,7 @@ public abstract class AbstractTimelineDatatype extends AbstractBaseDatatype<XMLG
 			 * combination of fields set in the calendar object doesn't match
 			 * one of the XML Schema datetime types
 			 */
-			throw new InvalidLiteralException(getName(), lexicalForm);
+			throw new InvalidLiteralException(getName(), lexicalForm, e);
 		}
 	}
 

@@ -123,7 +123,7 @@ public class XSDLong implements Datatype<Number>
 		}
 		catch (final NumberFormatException e)
 		{
-			throw new InvalidLiteralException(name, lexicalForm);
+			throw new InvalidLiteralException(name, lexicalForm, e);
 		}
 	}
 

@@ -96,7 +96,7 @@ public class FileUtils
 		}
 		catch (final MalformedURLException e)
 		{
-			throw new RuntimeException(fileName + " is not a valid URI");
+			throw new RuntimeException(fileName + " is not a valid URI", e);
 		}
 	}
 

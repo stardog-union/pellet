@@ -4,6 +4,9 @@
 package org.mindswap.pellet.utils;
 
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * Utility functions for URI's.
@@ -12,6 +15,8 @@ import java.net.URI;
  */
 public class URIUtils
 {
+	public final static Logger _logger = Log.getLogger(URIUtils.class);
+
 	public static String getQName(final String uri)
 	{
 		return getFilePart(uri) + ":" + getLocalName(uri);
@@ -26,6 +31,7 @@ public class URIUtils
 		}
 		catch (final Exception e)
 		{
+			_logger.log(Level.FINE, "", e);
 			return "http://invalid/uri/";
 		}
 

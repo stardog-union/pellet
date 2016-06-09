@@ -9,6 +9,9 @@ package com.clarkparsia.pellet.rules.builtins;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * <p>
@@ -28,6 +31,7 @@ import java.math.MathContext;
  */
 public class NumericOperators
 {
+	private static Logger _logger = Log.getLogger(NumericOperators.class);
 
 	private static class Abs implements NumericFunction
 	{
@@ -466,8 +470,9 @@ public class NumericOperators
 			}
 			catch (final ArithmeticException e)
 			{
+				_logger.log(Level.FINE, "", e);
 				// TODO If we found (or made) an implementation of pow for decimals, we could return a result.
-						return null;
+				return null;
 			}
 
 		}

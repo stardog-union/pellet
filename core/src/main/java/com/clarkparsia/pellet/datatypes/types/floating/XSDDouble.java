@@ -93,7 +93,7 @@ public class XSDDouble extends AbstractBaseDatatype<Double>
 		}
 		catch (final NumberFormatException e)
 		{
-			throw new InvalidLiteralException(getName(), lexicalForm);
+			throw new InvalidLiteralException(getName(), lexicalForm, e);
 		}
 	}
 

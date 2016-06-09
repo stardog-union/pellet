@@ -195,8 +195,8 @@ public class Rational extends Number implements Comparable<Rational>
 		if (!OWLRealUtils.isInteger(denominator))
 			throw new IllegalArgumentException();
 
-		this._numerator = numerator;
-		this._denominator = denominator;
+		_numerator = numerator;
+		_denominator = denominator;
 
 		final BigDecimal n = OWLRealUtils.bigDecimal(numerator);
 		final BigDecimal d = OWLRealUtils.bigDecimal(denominator);
@@ -208,7 +208,7 @@ public class Rational extends Number implements Comparable<Rational>
 			q = n.divide(d);
 			ex = true;
 		}
-		catch (final ArithmeticException e)
+		catch (@SuppressWarnings("unused") final ArithmeticException e)
 		{
 			/*
 			 * TODO: Consider if this MathContext is appropriate
@@ -216,8 +216,8 @@ public class Rational extends Number implements Comparable<Rational>
 			q = n.divide(d, MathContext.DECIMAL32);
 			ex = false;
 		}
-		this.quotient = q;
-		this.exact = ex;
+		quotient = q;
+		exact = ex;
 	}
 
 	@Override

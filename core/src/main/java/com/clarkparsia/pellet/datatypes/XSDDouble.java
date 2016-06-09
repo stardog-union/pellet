@@ -135,7 +135,7 @@ public class XSDDouble implements Datatype<Double>
 		}
 		catch (final NumberFormatException e)
 		{
-			throw new InvalidLiteralException(name, lexicalForm);
+			throw new InvalidLiteralException(name, lexicalForm, e);
 		}
 	}
 

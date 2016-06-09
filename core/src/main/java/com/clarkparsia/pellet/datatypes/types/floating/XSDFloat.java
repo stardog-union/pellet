@@ -93,7 +93,7 @@ public class XSDFloat extends AbstractBaseDatatype<Float>
 		}
 		catch (final NumberFormatException e)
 		{
-			throw new InvalidLiteralException(getName(), lexicalForm);
+			throw new InvalidLiteralException(getName(), lexicalForm, e);
 		}
 	}
 

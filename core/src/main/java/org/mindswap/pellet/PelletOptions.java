@@ -73,7 +73,7 @@ public class PelletOptions
 
 		private MonitorType(final Class<? extends ProgressMonitor> c)
 		{
-			this._c = c;
+			_c = c;
 		}
 
 		@Override
@@ -263,7 +263,7 @@ public class PelletOptions
 			}
 			catch (final NumberFormatException e)
 			{
-				_logger.severe("Ignoring invalid double value (" + value + ") for the configuration option " + property);
+				Log.error(_logger, "Ignoring invalid double value (" + value + ") for the configuration option " + property, e);
 			}
 
 		properties.setProperty(property, String.valueOf(doubleValue));
@@ -284,7 +284,7 @@ public class PelletOptions
 			}
 			catch (final NumberFormatException e)
 			{
-				_logger.severe("Ignoring invalid int value (" + value + ") for the configuration option " + property);
+				Log.error(_logger, "Ignoring invalid int value (" + value + ") for the configuration option " + property, e);
 			}
 
 		properties.setProperty(property, String.valueOf(intValue));
@@ -307,7 +307,7 @@ public class PelletOptions
 			}
 			catch (final IllegalArgumentException e)
 			{
-				_logger.severe("Ignoring invalid value (" + value + ") for the configuration option " + property);
+				Log.error(_logger, "Ignoring invalid value (" + value + ") for the configuration option " + property, e);
 			}
 		}
 
@@ -722,11 +722,11 @@ public class PelletOptions
 			}
 			catch (final FileNotFoundException e)
 			{
-				_logger.severe("Pellet configuration file cannot be found");
+				Log.error(_logger, "Pellet configuration file cannot be found", e);
 			}
 			catch (final IOException e)
 			{
-				_logger.severe("I/O error while reading Pellet configuration file");
+				Log.error(_logger, "I/O error while reading Pellet configuration file", e);
 			}
 	}
 }

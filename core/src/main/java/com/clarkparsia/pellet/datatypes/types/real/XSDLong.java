@@ -45,7 +45,7 @@ public class XSDLong extends AbstractDerivedIntegerType
 		}
 		catch (final NumberFormatException e)
 		{
-			throw new InvalidLiteralException(getName(), lexicalForm);
+			throw new InvalidLiteralException(getName(), lexicalForm, e);
 		}
 	}
 }
