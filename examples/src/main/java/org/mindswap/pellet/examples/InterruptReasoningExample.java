@@ -1,6 +1,8 @@
 package org.mindswap.pellet.examples;
 
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
@@ -27,38 +29,37 @@ import org.mindswap.pellet.utils.Timers;
  * </p>
  * <p>
  * Sample output from this program looks like this:
- * 
+ *
  * <pre>
  * Parsing the ontology...finished
- * 
+ *
  * Consistency Timeout: 5000ms
  * Checking consistency...finished in 1965
- * 
+ *
  * Classify Timeout: 50000ms
  * Classifying...finished in 12668ms
  * Classified: true
- * 
+ *
  * Realize Timeout: 1000ms
  * Realizing...interrupted after 1545ms
  * Realized: false
- * 
+ *
  * Query Timeout: 0ms
  * Retrieving instances of AmericanWine...completed in 484ms (24 results)
  * Running SPARQL query...completed in 11801ms (23 results)
- * 
+ *
  * Query Timeout: 200ms
  * Retrieving instances of AmericanWine...interrupted after 201ms
  * Running SPARQL query...interrupted after 201ms
- * 
+ *
  * Query Timeout: 2000ms
  * Retrieving instances of AmericanWine...completed in 417ms (24 results)
  * Running SPARQL query...interrupted after 2001ms
- * 
+ *
  * Query Timeout: 20000ms
  * Retrieving instances of AmericanWine...completed in 426ms (24 results)
  * Running SPARQL query...completed in 11790ms (23 results)
  * </pre>
- *
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -71,6 +72,8 @@ import org.mindswap.pellet.utils.Timers;
  */
 public class InterruptReasoningExample
 {
+	private static final Logger _logger = Log.getLogger(InterruptReasoningExample.class);
+
 	// various different constants to control the timeout values. typically
 	// it is desirable to set different timeouts for classification and realization
 	// since they are done only once and take more time compared to answering
@@ -180,6 +183,7 @@ public class InterruptReasoningExample
 		}
 		catch (final TimeoutException e)
 		{
+			Log.error(_logger, e);
 			System.out.println("interrupted after " + timers.getTimer("classify").getElapsed() + "ms");
 		}
 
@@ -203,6 +207,7 @@ public class InterruptReasoningExample
 		}
 		catch (final TimeoutException e)
 		{
+			Log.error(_logger, e);
 			System.out.println("interrupted after " + timers.getTimer("realize").getElapsed() + "ms");
 		}
 
@@ -251,6 +256,7 @@ public class InterruptReasoningExample
 		}
 		catch (final TimeoutException e)
 		{
+			Log.error(_logger, e);
 			System.out.println("interrupted after " + timers.mainTimer.getElapsed() + "ms");
 		}
 	}
@@ -273,6 +279,7 @@ public class InterruptReasoningExample
 		}
 		catch (final TimeoutException e)
 		{
+			Log.error(_logger, e);
 			System.out.println("interrupted after " + timers.mainTimer.getElapsed() + "ms");
 		}
 	}

@@ -11,6 +11,9 @@ import aterm.ATermAppl;
 import aterm.ATermList;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.rdf.model.InfModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -31,12 +34,14 @@ import org.mindswap.pellet.utils.QNameProvider;
  */
 public class NodeFormatter
 {
-	private final QNameProvider qnames;
-	private final StringWriter sw;
-	private final ATermRenderer renderer;
-	private final PrintWriter formatter;
+	protected static Logger _logger = Log.getLogger(NodeFormatter.class);
 
-	private Model rawModel;
+	private final QNameProvider _qnames;
+	private final StringWriter _sw;
+	private final ATermRenderer _renderer;
+	private final PrintWriter _formatter;
+
+	private Model _rawModel;
 
 	private final static Resource NULL = null;
 
@@ -47,28 +52,28 @@ public class NodeFormatter
 		if (model == null)
 			throw new NullPointerException("No model given!");
 
-		//renderer = new ATermAbstractSyntaxRenderer();
-		renderer = new ATermManchesterSyntaxRenderer();
-		sw = new StringWriter();
+		//_renderer = new ATermAbstractSyntaxRenderer();
+		_renderer = new ATermManchesterSyntaxRenderer();
+		_sw = new StringWriter();
 
-		formatter = new PrintWriter(sw);
-		renderer.setWriter(formatter);
+		_formatter = new PrintWriter(_sw);
+		_renderer.setWriter(_formatter);
 
-		qnames = JenaUtils.makeQNameProvider(model);
-		//        formatter.setQNames(_qnames);
+		_qnames = JenaUtils.makeQNameProvider(model);
+		//        _formatter.setQNames(_qnames);
 
 		if (model instanceof InfModel)
 		{
 			final InfGraph graph = (InfGraph) model.getGraph();
-			rawModel = ModelFactory.createModelForGraph(graph.getRawGraph());
+			_rawModel = ModelFactory.createModelForGraph(graph.getRawGraph());
 		}
 		else
-			rawModel = model;
+			_rawModel = model;
 	}
 
 	public QNameProvider getQNames()
 	{
-		return qnames;
+		return _qnames;
 	}
 
 	public String format(final RDFNode node)
@@ -76,20 +81,20 @@ public class NodeFormatter
 		if (node == null)
 			return "<<null>>";
 		//        usedStatements = new HashSet();
-		sw.getBuffer().setLength(0);
+		_sw.getBuffer().setLength(0);
 
 		final ATerm term = node2term(node);
 
 		if (term instanceof ATermAppl)
-			renderer.visit((ATermAppl) term);
+			_renderer.visit((ATermAppl) term);
 		else
 		{
-			sw.write("{");
-			renderer.visitList((ATermList) term);
-			sw.write("}");
+			_sw.write("{");
+			_renderer.visitList((ATermList) term);
+			_sw.write("}");
 		}
 
-		return sw.toString();
+		return _sw.toString();
 	}
 
 	public ATerm node2term(final RDFNode node)
@@ -128,29 +133,29 @@ public class NodeFormatter
 									{
 										final Resource r = (Resource) node;
 
-										if (rawModel.contains(r, OWL.onProperty, NULL))
+										if (_rawModel.contains(r, OWL.onProperty, NULL))
 											aTerm = createRestriction(r);
 										else
 											if (r.isAnon())
 											{
-												if (rawModel.contains(r, RDF.first, NULL))
+												if (_rawModel.contains(r, RDF.first, NULL))
 													aTerm = createList(r);
 												else
-													if (rawModel.contains(r, OWL.intersectionOf))
+													if (_rawModel.contains(r, OWL.intersectionOf))
 													{
-														final ATermList list = createList(rawModel.getProperty(r, OWL.intersectionOf).getResource());
+														final ATermList list = createList(_rawModel.getProperty(r, OWL.intersectionOf).getResource());
 														aTerm = ATermUtils.makeAnd(list);
 													}
 													else
-														if (rawModel.contains(r, OWL.unionOf))
+														if (_rawModel.contains(r, OWL.unionOf))
 														{
-															final ATermList list = createList(rawModel.getProperty(r, OWL.unionOf).getResource());
+															final ATermList list = createList(_rawModel.getProperty(r, OWL.unionOf).getResource());
 															aTerm = ATermUtils.makeOr(list);
 														}
 														else
-															if (rawModel.contains(r, OWL.oneOf))
+															if (_rawModel.contains(r, OWL.oneOf))
 															{
-																final ATermList list = createList(rawModel.getProperty(r, OWL.oneOf).getResource());
+																final ATermList list = createList(_rawModel.getProperty(r, OWL.oneOf).getResource());
 																ATermList result = ATermUtils.EMPTY_LIST;
 																for (ATermList l = list; !l.isEmpty(); l = l.getNext())
 																{
@@ -162,9 +167,9 @@ public class NodeFormatter
 																aTerm = ATermUtils.makeOr(result);
 															}
 															else
-																if (rawModel.contains(r, OWL.complementOf))
+																if (_rawModel.contains(r, OWL.complementOf))
 																{
-																	final ATerm complement = node2term(rawModel.getProperty(r, OWL.complementOf).getResource());
+																	final ATerm complement = node2term(_rawModel.getProperty(r, OWL.complementOf).getResource());
 																	aTerm = ATermUtils.makeNot(complement);
 																}
 																else
@@ -181,7 +186,7 @@ public class NodeFormatter
 	{
 		ATermAppl aTerm = ATermUtils.BOTTOM;
 
-		Statement stmt = rawModel.getProperty(s, OWL.onProperty);
+		Statement stmt = _rawModel.getProperty(s, OWL.onProperty);
 		//        usedStatements.add(stmt);
 
 		final Resource p = stmt.getResource();
@@ -189,7 +194,7 @@ public class NodeFormatter
 
 		if (s.hasProperty(OWL.hasValue))
 		{
-			stmt = rawModel.getProperty(s, OWL.hasValue);
+			stmt = _rawModel.getProperty(s, OWL.hasValue);
 			final RDFNode o = stmt.getObject();
 			//	        usedStatements.add(stmt);
 
@@ -199,7 +204,7 @@ public class NodeFormatter
 		else
 			if (s.hasProperty(OWL.allValuesFrom))
 			{
-				stmt = rawModel.getProperty(s, OWL.allValuesFrom);
+				stmt = _rawModel.getProperty(s, OWL.allValuesFrom);
 				//	        usedStatements.add(stmt);
 
 				final Resource o = stmt.getResource();
@@ -209,7 +214,7 @@ public class NodeFormatter
 			else
 				if (s.hasProperty(OWL.someValuesFrom))
 				{
-					stmt = rawModel.getProperty(s, OWL.someValuesFrom);
+					stmt = _rawModel.getProperty(s, OWL.someValuesFrom);
 					//	        usedStatements.add(stmt);
 
 					final Resource o = stmt.getResource();
@@ -219,7 +224,7 @@ public class NodeFormatter
 				else
 					if (s.hasProperty(OWL.minCardinality))
 					{
-						stmt = rawModel.getProperty(s, OWL.minCardinality);
+						stmt = _rawModel.getProperty(s, OWL.minCardinality);
 						//	        usedStatements.add(stmt);
 
 						int cardinality = 0;
@@ -229,6 +234,7 @@ public class NodeFormatter
 						} // try
 						catch (final Exception ex)
 						{
+							_logger.log(Level.FINER, "", ex);
 							cardinality = Integer.parseInt(stmt.getLiteral().getLexicalForm());
 						} // catch
 						aTerm = ATermUtils.makeDisplayMin(pt, cardinality, ATermUtils.EMPTY);
@@ -236,7 +242,7 @@ public class NodeFormatter
 					else
 						if (s.hasProperty(OWL.maxCardinality))
 						{
-							stmt = rawModel.getProperty(s, OWL.maxCardinality);
+							stmt = _rawModel.getProperty(s, OWL.maxCardinality);
 							//	        usedStatements.add(stmt);
 
 							int cardinality = 0;
@@ -246,6 +252,7 @@ public class NodeFormatter
 							} // try
 							catch (final Exception ex)
 							{
+								_logger.log(Level.FINER, "", ex);
 								cardinality = Integer.parseInt(stmt.getLiteral().getLexicalForm());
 							} // catch
 							aTerm = ATermUtils.makeDisplayMax(pt, cardinality, ATermUtils.EMPTY);
@@ -253,7 +260,7 @@ public class NodeFormatter
 						else
 							if (s.hasProperty(OWL.cardinality))
 							{
-								stmt = rawModel.getProperty(s, OWL.cardinality);
+								stmt = _rawModel.getProperty(s, OWL.cardinality);
 								//	        usedStatements.add(stmt);
 
 								int cardinality = 0;
@@ -263,6 +270,7 @@ public class NodeFormatter
 								} // try
 								catch (final Exception ex)
 								{
+									_logger.log(Level.FINER, "", ex);
 									cardinality = Integer.parseInt(stmt.getLiteral().getLexicalForm());
 								} // catch
 								aTerm = ATermUtils.makeDisplayCard(pt, cardinality, ATermUtils.EMPTY);
@@ -280,14 +288,14 @@ public class NodeFormatter
 		if (r.equals(RDF.nil))
 			return ATermUtils.EMPTY_LIST;
 		else
-			if (!rawModel.contains(r, RDF.first))
+			if (!_rawModel.contains(r, RDF.first))
 			{
 				System.err.println("Invalid list structure: List " + r + " does not have a rdf:first property. Ignoring rest of the list.");
 				return ATermUtils.EMPTY_LIST;
 			}
 
-		final ATerm first = node2term(rawModel.getProperty(r, RDF.first).getObject());
-		final Resource rest = rawModel.getProperty(r, RDF.rest).getResource();
+		final ATerm first = node2term(_rawModel.getProperty(r, RDF.first).getObject());
+		final Resource rest = _rawModel.getProperty(r, RDF.rest).getResource();
 		return ATermUtils.makeList(first, createList(rest));
 	} // createList
 

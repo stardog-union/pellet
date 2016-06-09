@@ -244,7 +244,7 @@ public class PelletQuery extends PelletCmdApp
 		}
 		catch (final IllegalArgumentException e)
 		{
-			throw new PelletCmdException("Unknown query engine: " + s);
+			throw new PelletCmdException("Unknown query engine: " + s, e);
 		}
 	}
 
@@ -274,7 +274,7 @@ public class PelletQuery extends PelletCmdApp
 		}
 		catch (final InconsistentOntologyException e)
 		{
-			throw new PelletCmdException("Cannot query inconsistent ontology!");
+			throw new PelletCmdException("Cannot query inconsistent ontology!", e);
 		}
 	}
 

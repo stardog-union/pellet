@@ -179,7 +179,7 @@ public class LintPatternLoader
 			final Constructor<? extends LintPattern> ctor = lpClazz.getConstructor();
 			return ctor.newInstance();
 		}
-		catch (final Exception e)
+		catch (@SuppressWarnings("unused") final Exception e)
 		{
 			// No error logging here because properties file have entries for
 			// the configuration patterns

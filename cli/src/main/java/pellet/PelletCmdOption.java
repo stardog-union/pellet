@@ -42,8 +42,8 @@ public class PelletCmdOption
 		if (longOption == null)
 			throw new PelletCmdException("A long option must be defined for a command line option");
 
-		this._longOption = removeHyphen(longOption);
-		this._defaultValue = null;
+		_longOption = removeHyphen(longOption);
+		_defaultValue = null;
 	}
 
 	public String getShortOption()
@@ -58,7 +58,7 @@ public class PelletCmdOption
 
 	public void setShortOption(final String shortOption)
 	{
-		this._shortOption = removeHyphen(shortOption);
+		_shortOption = removeHyphen(shortOption);
 	}
 
 	public String getType()
@@ -68,12 +68,12 @@ public class PelletCmdOption
 
 	public void setType(final String type)
 	{
-		this._type = type;
+		_type = type;
 	}
 
 	public void setDescription(final String description)
 	{
-		this._description = description;
+		_description = description;
 	}
 
 	public String getDescription()
@@ -83,7 +83,7 @@ public class PelletCmdOption
 
 	public void setDefaultValue(final Object defaultValue)
 	{
-		this._defaultValue = defaultValue;
+		_defaultValue = defaultValue;
 	}
 
 	public Object getDefaultValue()
@@ -167,7 +167,7 @@ public class PelletCmdOption
 		}
 		catch (final NumberFormatException e)
 		{
-			throw new PelletCmdException(String.format("The _value for option <%s> is not a valid integer: %s%n", _longOption, value));
+			throw new PelletCmdException(String.format("The _value for option <%s> is not a valid integer: %s%n", _longOption, value), e);
 		}
 	}
 
@@ -185,17 +185,17 @@ public class PelletCmdOption
 
 	public void setValue(final String value)
 	{
-		this._value = value;
+		_value = value;
 	}
 
 	public void setValue(final Boolean value)
 	{
-		this._value = value;
+		_value = value;
 	}
 
 	public void setIsMandatory(final boolean isMandatory)
 	{
-		this._isMandatory = isMandatory;
+		_isMandatory = isMandatory;
 	}
 
 	public boolean isMandatory()
@@ -245,7 +245,7 @@ public class PelletCmdOption
 
 	public void setArg(final PelletCmdOptionArg arg)
 	{
-		this._arg = arg;
+		_arg = arg;
 	}
 
 	public PelletCmdOptionArg getArg()
@@ -256,7 +256,7 @@ public class PelletCmdOption
 	/**
 	 * Returns if the option _exists in the command-line arguments. If the argument for this option is mandatory then this implies {@link #getValue()} will
 	 * return a non-null _value. If the argument for this option is optional then {@link #getValue()} may still return null.
-	 * 
+	 *
 	 * @return if the option _exists in the command-line argument
 	 */
 	public boolean exists()
@@ -266,7 +266,7 @@ public class PelletCmdOption
 
 	public void setExists(final boolean exists)
 	{
-		this._exists = exists;
+		_exists = exists;
 	}
 
 }

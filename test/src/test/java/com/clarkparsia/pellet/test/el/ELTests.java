@@ -22,7 +22,9 @@ import com.clarkparsia.pellet.el.SimplifiedELClassifier;
 import com.clarkparsia.pellet.utils.PropertiesBuilder;
 import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.Properties;
+import java.util.logging.Logger;
 import junit.framework.JUnit4TestAdapter;
+import net.katk.tools.Log;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindswap.pellet.KBLoader;
@@ -55,6 +57,8 @@ import org.mindswap.pellet.utils.progress.SilentProgressMonitor;
  */
 public class ELTests extends AbstractKBTests
 {
+	private static final Logger _logger = Log.getLogger(AbstractKBTests.class);
+
 	private static final ATermAppl[] X = new ATermAppl[5];
 
 	@BeforeClass
@@ -73,7 +77,7 @@ public class ELTests extends AbstractKBTests
 
 	public ELTests()
 	{
-		this.builderClass = SimplifiedELClassifier.class;
+		builderClass = SimplifiedELClassifier.class;
 	}
 
 	public Taxonomy<ATermAppl> getHierarchy()
@@ -922,7 +926,8 @@ public class ELTests extends AbstractKBTests
 		}
 		catch (final NullPointerException e)
 		{
-			fail("Caught NullPointerException when querying the told taxonomy: ticket #424");
+			Log.error(_logger, e);
+			fail("Caught NullPointerException when querying the told taxonomy.");
 		}
 	}
 

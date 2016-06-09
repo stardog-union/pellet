@@ -109,7 +109,7 @@ public class ARQParser implements QueryParser
 
 	public ARQParser(final boolean handleVariableSPO)
 	{
-		this._handleVariableSPO = handleVariableSPO;
+		_handleVariableSPO = handleVariableSPO;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class ARQParser implements QueryParser
 		catch (final IOException e)
 		{
 			final String message = "Error creating a reader from the input stream.";
-			_logger.severe(message);
+			_logger.log(Level.SEVERE, message, e);
 			throw new RuntimeException(message);
 		}
 	}
@@ -159,7 +159,7 @@ public class ARQParser implements QueryParser
 	@Override
 	public Query parse(final org.apache.jena.query.Query sparql, final KnowledgeBase kb)
 	{
-		this._kb = kb;
+		_kb = kb;
 
 		if (sparql.isDescribeType())
 			throw new UnsupportedQueryException("DESCRIBE queries cannot be answered with PelletQueryEngine");
@@ -216,7 +216,7 @@ public class ARQParser implements QueryParser
 
 	public Query parse(final List<Triple> basicPattern, final Collection<?> resultVars, final KnowledgeBase kb, final boolean isDistinct) throws UnsupportedQueryException
 	{
-		this._kb = kb;
+		_kb = kb;
 
 		// This set contains predicates that are distinguished variables. The
 		// elements are accumulated for PropertyValueAtom and removed if used in
@@ -995,7 +995,7 @@ public class ARQParser implements QueryParser
 
 	public void setInitialBinding(final QuerySolution initialBinding)
 	{
-		this._initialBinding = initialBinding;
+		_initialBinding = initialBinding;
 	}
 
 	private void ensureDistinguished(final Node pred)
@@ -1046,10 +1046,8 @@ public class ARQParser implements QueryParser
 	private boolean hasObject(final Node subj, final Node pred)
 	{
 		for (final Triple t : _triples)
-		{
 			if (subj.equals(t.getSubject()) && pred.equals(t.getPredicate()))
 				return true;
-		}
 
 		return false;
 	}

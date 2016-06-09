@@ -46,7 +46,7 @@ public class OntologyLints
 	public OntologyLints(final OWLOntology ontology)
 	{
 		_ontology = ontology;
-		_lints = new TreeMap<LintPattern, List<Lint>>((p0, p1) -> p0.getName().compareTo(p1.getName()));
+		_lints = new TreeMap<>((p0, p1) -> p0.getName().compareTo(p1.getName()));
 	}
 
 	public OWLOntology getOntology()
@@ -107,7 +107,7 @@ public class OntologyLints
 
 	/**
 	 * Fix all reparable lints.
-	 * 
+	 *
 	 * @param manager
 	 * @return Returns the set of unfixable lints.
 	 * @throws OWLOntologyChangeException

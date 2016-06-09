@@ -31,17 +31,21 @@ package aterm.stream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 
 /**
  * This is an unsynchronized buffered outputstream writer. By using this you can
  * bypass most of the (unnecessary) synchronization and method calls that occur
  * in its standard library equivalent. Data will be written into the underlaying
  * _stream using the system's default character encoding.
- * 
+ *
  * @author Arnold Lankamp
  */
 public class BufferedOutputStreamWriter extends Writer
 {
+	public final static Logger _logger = Log.getLogger(BufferedOutputStreamWriter.class);
+
 	private final static int DEFAULTBUFFERSIZE = 8192;
 
 	private final OutputStream _stream;
@@ -54,7 +58,7 @@ public class BufferedOutputStreamWriter extends Writer
 
 	/**
 	 * Contructor.
-	 * 
+	 *
 	 * @param _stream
 	 *            The _stream to write too.
 	 */
@@ -65,7 +69,7 @@ public class BufferedOutputStreamWriter extends Writer
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param _stream
 	 *            The _stream to write too.
 	 * @param bufferSize
@@ -81,7 +85,7 @@ public class BufferedOutputStreamWriter extends Writer
 
 	/**
 	 * Writes a single character.
-	 * 
+	 *
 	 * @param c
 	 *            The character to write.
 	 */
@@ -95,7 +99,7 @@ public class BufferedOutputStreamWriter extends Writer
 
 	/**
 	 * Bulk write function.
-	 * 
+	 *
 	 * @see Writer#write(char[], int, int)
 	 */
 	@Override
@@ -106,7 +110,7 @@ public class BufferedOutputStreamWriter extends Writer
 
 	/**
 	 * Bulk write function, specificly meant for strings.
-	 * 
+	 *
 	 * @see Writer#write(java.lang.String)
 	 */
 	@Override
@@ -136,7 +140,7 @@ public class BufferedOutputStreamWriter extends Writer
 
 	/**
 	 * Forces the writing of all buffered data.
-	 * 
+	 *
 	 * @see Writer#flush()
 	 */
 	@Override
@@ -151,6 +155,7 @@ public class BufferedOutputStreamWriter extends Writer
 		catch (final IOException ioex)
 		{
 			_failures = true;
+			Log.error(_logger, ioex);
 		}
 	}
 
@@ -168,12 +173,13 @@ public class BufferedOutputStreamWriter extends Writer
 		catch (final IOException ioex)
 		{
 			_failures = true;
+			Log.error(_logger, ioex);
 		}
 	}
 
 	/**
 	 * Returns whether or not an error occured during operation of this writer.
-	 * 
+	 *
 	 * @return True if a error occured, false otherwise.
 	 */
 	public boolean hasFailed()

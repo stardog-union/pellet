@@ -293,7 +293,7 @@ public class PelletClassify extends PelletCmdApp
 		}
 		catch (final NoSuchAlgorithmException e)
 		{
-			throw new PelletCmdException("MD5 digest algorithm is not available.");
+			throw new PelletCmdException("MD5 digest algorithm is not available.", e);
 		}
 
 		final byte[] hashBytes = MD5.digest(uriBytes);

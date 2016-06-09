@@ -63,8 +63,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import junit.framework.JUnit4TestAdapter;
+import net.katk.tools.Log;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;
@@ -118,6 +121,8 @@ import org.semanticweb.owlapi.search.EntitySearcher;
  */
 public class OWLAPITests extends AbstractOWLAPITests
 {
+	private static final Logger _logger = Log.getLogger(OWLAPITests.class);
+
 	public static junit.framework.Test suite()
 	{
 		return new JUnit4TestAdapter(OWLAPITests.class);
@@ -686,7 +691,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	//		/* FIXME: There is no positive check here because OWLAPI does not support annotation property declaration. */
 	//		assertFalse( reasoner.isDefined( DataProperty( ns + "p" ) ) );
 	//		assertFalse( reasoner.isDefined( ObjectProperty( ns + "p" ) ) );
-	//		
+	//
 	//		assertTrue( reasoner.isDefined( ObjectProperty( ns + "q" ) ) );
 	//		assertEquals( 2 + 1, reasoner.getObjectProperties().size() );
 	//		assertFalse( _kb.isAnnotationProperty( ATermUtils.makeTermAppl( ns + "r" ) ) );
@@ -973,7 +978,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 
 		public TimedProgressMonitor(final int limit)
 		{
-			this._limit = limit;
+			_limit = limit;
 		}
 
 		@Override
@@ -1049,6 +1054,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 		}
 		catch (final TimeoutException e)
 		{
+			_logger.log(Level.FINER, "", e);
 			timeout = true;
 		}
 
@@ -1078,6 +1084,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 		}
 		catch (final TimeoutException e)
 		{
+			_logger.log(Level.FINER, "", e);
 			timeout = true;
 		}
 
@@ -1092,6 +1099,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 		}
 		catch (final TimeoutException e)
 		{
+			_logger.log(Level.FINER, "", e);
 			timeout = true;
 		}
 

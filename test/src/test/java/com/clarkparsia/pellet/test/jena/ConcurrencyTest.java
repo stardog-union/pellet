@@ -14,6 +14,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.ontology.ConversionException;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;
@@ -31,6 +34,7 @@ import org.mindswap.pellet.jena.PelletReasonerFactory;
  */
 public class ConcurrencyTest
 {
+	private static final Logger _logger = Log.getLogger(ConcurrencyTest.class);
 
 	private static final String ONTOLOGY_PATH_ = "/test/data/concurrency/vicodi.ttl";
 
@@ -123,6 +127,7 @@ public class ConcurrencyTest
 				}
 				catch (final InterruptedException e)
 				{
+					_logger.log(Level.FINER, "", e);
 					break;
 				}
 
@@ -165,7 +170,7 @@ public class ConcurrencyTest
 					}
 					catch (final ConversionException e)
 					{
-						// swallow, this is due to the lack of OWL 2 support
+						_logger.log(Level.FINE, "swallow, this is due to the lack of OWL 2 support", e);
 					}
 		}
 

@@ -65,7 +65,7 @@ public class ProfileKB
 
 		Task(final boolean requiresInstances)
 		{
-			this._requiresInstances = requiresInstances;
+			_requiresInstances = requiresInstances;
 		}
 
 		boolean requiresInstances()
@@ -114,17 +114,17 @@ public class ProfileKB
 
 	public void setMemoryProfiling(final MemoryProfiling memoryProfiling)
 	{
-		this._memoryProfiling = memoryProfiling;
+		_memoryProfiling = memoryProfiling;
 	}
 
 	public void setTask(final Task task)
 	{
-		this._task = task;
+		_task = task;
 	}
 
 	public void setLoaderType(final LoaderType loaderType)
 	{
-		this._loaderType = loaderType;
+		_loaderType = loaderType;
 	}
 
 	public List<String> parseArgs(final String[] args) throws Exception
@@ -156,7 +156,7 @@ public class ProfileKB
 						System.exit(0);
 					}
 
-					//$FALL-THROUGH$
+						//$FALL-THROUGH$
 					case 'l':
 						final String interfaceName = g.getOptarg().toUpperCase();
 						try
@@ -165,7 +165,7 @@ public class ProfileKB
 						}
 						catch (final IllegalArgumentException e)
 						{
-							error("Task " + interfaceName + " is not one of " + Arrays.toString(LoaderType.values()));
+							error("Task " + interfaceName + " is not one of " + Arrays.toString(LoaderType.values()), e);
 						}
 						break;
 
@@ -177,7 +177,7 @@ public class ProfileKB
 						}
 						catch (final IllegalArgumentException e)
 						{
-							error("Task " + taskName + " is not one of " + Arrays.toString(Task.values()));
+							error("Task " + taskName + " is not one of " + Arrays.toString(Task.values()), e);
 						}
 						break;
 
@@ -193,7 +193,7 @@ public class ProfileKB
 						}
 						catch (final IllegalArgumentException e)
 						{
-							error("Memory profiling " + s + " is not one of " + Arrays.toString(MemoryProfiling.values()));
+							error("Memory profiling " + s + " is not one of " + Arrays.toString(MemoryProfiling.values()), e);
 						}
 						break;
 
@@ -424,7 +424,7 @@ public class ProfileKB
 
 				for (final String dataset : datasets)
 					try
-				{
+					{
 						final String[] files = dataset.split(" ");
 						final String name = files[0];
 
@@ -435,11 +435,11 @@ public class ProfileKB
 						System.out.println("\n\n\nRESULT " + (i + 1) + ":");
 						System.out.println("Version: " + VersionInfo.getInstance().getVersionString());
 						results.print();
-				}
-				catch (final RuntimeException e)
-				{
-					e.printStackTrace();
-				}
+					}
+					catch (final RuntimeException e)
+					{
+						e.printStackTrace();
+					}
 
 				//				MemUtils.runGC();
 			}

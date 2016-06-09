@@ -6,18 +6,14 @@
 
 package profiler;
 
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.Node;
 
 /**
- * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
  * <p>
  * Copyright: Copyright (c) 2007
  * </p>
@@ -29,6 +25,8 @@ import org.mindswap.pellet.Node;
  */
 public class ProfileUtils
 {
+	private static final Logger _logger = Log.getLogger(ProfileUtils.class);
+
 	/**
 	 * Prints an error message and terminates the VM.
 	 *
@@ -40,6 +38,12 @@ public class ProfileUtils
 		System.exit(0);
 	}
 
+	public static void error(final String msg, final Throwable t)
+	{
+		Log.error(_logger, t);
+		error(msg);
+	}
+
 	/**
 	 * Turns the given file path into a more user-friendly format. Strips the file extension and makes sure the formatted string does not exceed the given
 	 * length limit.
@@ -48,7 +52,7 @@ public class ProfileUtils
 	 * @param length max length of the formatted string
 	 * @return formatted name
 	 */
-	public static String formatFileName(String fileNameParam, final int length)
+	public static String formatFileName(final String fileNameParam, final int length)
 	{
 		String fileName = fileNameParam;
 		final int lastSlash = fileName.lastIndexOf('/') + 1;

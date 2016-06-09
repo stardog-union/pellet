@@ -33,7 +33,7 @@ public class DescriptionSorter
 	 */
 	public static <N extends OWLObject> Set<N> toSortedSet(final Collection<N> set)
 	{
-		final Set<N> sorted = new TreeSet<N>((o1, o2) ->
+		final Set<N> sorted = new TreeSet<>((o1, o2) ->
 		{
 			final boolean named1 = o1 instanceof OWLNamedObject;
 			final boolean named2 = o2 instanceof OWLNamedObject;

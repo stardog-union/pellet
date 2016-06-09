@@ -3,6 +3,8 @@
  */
 package com.clarkparsia.pellet.test.jena;
 
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.ontology.DatatypeProperty;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.ObjectProperty;
@@ -23,6 +25,7 @@ import org.mindswap.pellet.jena.PelletReasonerFactory;
  */
 public class MiscTests
 {
+	private static final Logger _logger = Log.getLogger(MiscTests.class);
 
 	public static void configurePelletOptions()
 	{
@@ -67,6 +70,7 @@ public class MiscTests
 		}
 		catch (final InconsistentOntologyException e)
 		{
+			Log.error(_logger, e);
 			Assert.fail("Both values are contained in the knowledge base.");
 		}
 

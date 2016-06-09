@@ -343,7 +343,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 			}
 			catch (final NumberFormatException e)
 			{
-				throw new ParseError("malformed int");
+				throw new ParseError("malformed int", e);
 			}
 			result = makeInt(val);
 		}
@@ -358,7 +358,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 				}
 				catch (final NumberFormatException e)
 				{
-					throw new ParseError("malformed long");
+					throw new ParseError("malformed long", e);
 				}
 				result = makeLong(val);
 			}
@@ -398,7 +398,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 				}
 				catch (final NumberFormatException e)
 				{
-					throw new ParseError("malformed real");
+					throw new ParseError("malformed real", e);
 				}
 				result = makeReal(val);
 			}
@@ -714,7 +714,7 @@ public class PureFactory extends SharedObjectFactory implements ATermFactory
 		}
 		catch (final IOException e)
 		{
-			throw new ParseError("premature end of string");
+			throw new ParseError("premature end of string", e);
 		}
 	}
 

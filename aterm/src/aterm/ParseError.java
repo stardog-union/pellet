@@ -52,4 +52,9 @@ public class ParseError extends RuntimeException
 		super(msg);
 	}
 
+	public ParseError(final String msg, final Throwable e)
+	{
+		super(msg, e);
+	}
+
 }

@@ -26,12 +26,6 @@ package pellet;
  */
 public class PelletCmdException extends RuntimeException
 {
-
-	/**
-	 * TODO
-	 *
-	 * @since
-	 */
 	private static final long serialVersionUID = -5472994436987740189L;
 
 	/**
@@ -48,4 +42,10 @@ public class PelletCmdException extends RuntimeException
 	{
 		super(cause);
 	}
+
+	public PelletCmdException(final String msg, final Throwable cause)
+	{
+		super(msg, cause);
+	}
+
 }

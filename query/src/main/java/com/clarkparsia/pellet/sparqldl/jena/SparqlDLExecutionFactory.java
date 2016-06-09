@@ -9,6 +9,9 @@
 package com.clarkparsia.pellet.sparqldl.jena;
 
 import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;
@@ -25,12 +28,6 @@ import org.mindswap.pellet.jena.PelletInfGraph;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2007
  * </p>
  * <p>
@@ -41,6 +38,8 @@ import org.mindswap.pellet.jena.PelletInfGraph;
  */
 public class SparqlDLExecutionFactory
 {
+	private static final Logger _logger = Log.getLogger(SparqlDLExecutionFactory.class);
+
 	/**
 	 * Different types of query engine that can be used for answering queries.
 	 */
@@ -114,6 +113,7 @@ public class SparqlDLExecutionFactory
 				}
 				catch (final UnsupportedQueryException e)
 				{
+					_logger.log(Level.FINER, "", e);
 					// parsing failed so we will use the mixed engine
 					engineType = QueryEngineType.MIXED;
 				}
@@ -149,7 +149,6 @@ public class SparqlDLExecutionFactory
 	 * @param handleVariableSPO If this variable is true then queries with variable SPO statements are not handled by the SPARQL-DL engine but fall back to ARQ
 	 * @return a <code>QueryExecution</code> that will answer the query with the given dataset
 	 */
-	@SuppressWarnings("resource")
 	public static QueryExecution create(final Query query, final Dataset dataset, final QuerySolution initialBinding, final QueryEngineType queryEngineType, final boolean handleVariableSPO) throws QueryException
 	{
 		// the engine we will return

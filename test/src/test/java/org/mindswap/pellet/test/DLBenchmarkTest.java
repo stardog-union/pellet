@@ -204,6 +204,7 @@ public class DLBenchmarkTest
 			{
 				System.out.println(" ** Timeout ** ");
 				System.out.println();
+				Log.error(_logger, e);
 			}
 			catch (final Exception e)
 			{
@@ -214,6 +215,7 @@ public class DLBenchmarkTest
 			{
 				System.out.println(" ** Out of Memory ** ");
 				System.out.println();
+				Log.error(_logger, e);
 			}
 			catch (final Error e)
 			{
@@ -322,6 +324,7 @@ public class DLBenchmarkTest
 			{
 				System.out.println(" ***** Timeout ***** ");
 				System.out.println();
+				Log.error(_logger, e);
 			}
 			catch (final Exception e)
 			{
@@ -332,6 +335,7 @@ public class DLBenchmarkTest
 			{
 				System.out.println(" ***** Out of Memory ***** ");
 				System.out.println();
+				Log.error(_logger, e);
 			}
 			catch (final Error e)
 			{

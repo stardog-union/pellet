@@ -25,6 +25,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.katk.tools.Log;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.semanticweb.owlapi.model.AddAxiom;
@@ -50,6 +53,8 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
  */
 public class PersistenceUpdatesTest
 {
+	private static final Logger _logger = Log.getLogger(PersistenceUpdatesTest.class);
+
 	public static final String base = PelletTestSuite.base + "modularity/";
 
 	private static final String TEST_FILE = "test-persistence-classification.zip";
@@ -122,6 +127,7 @@ public class PersistenceUpdatesTest
 			}
 			catch (final IllegalStateException e)
 			{
+				_logger.log(Level.FINE, "", e);
 				assertTrue(testFile.delete());
 				// correct behavior
 			}
@@ -169,6 +175,7 @@ public class PersistenceUpdatesTest
 			}
 			catch (final IllegalStateException e)
 			{
+				_logger.log(Level.FINE, "", e);
 				assertTrue(testFile.delete());
 				// correct behavior
 			}

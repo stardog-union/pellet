@@ -608,7 +608,7 @@ public class PelletExplain extends PelletCmdApp
 					}
 					catch (final ParserException e)
 					{
-						throw new PelletCmdException("Not a valid literal: " + names[2]);
+						throw new PelletCmdException("Not a valid literal: " + names[2], e);
 					}
 				}
 
@@ -651,7 +651,7 @@ public class PelletExplain extends PelletCmdApp
 
 		private RendererExplanationProgressMonitor(final OWLAxiom axiom)
 		{
-			this._axiom = axiom;
+			_axiom = axiom;
 			_pw = new PrintWriter(System.out);
 
 			_setExplanations = new HashSet<>();

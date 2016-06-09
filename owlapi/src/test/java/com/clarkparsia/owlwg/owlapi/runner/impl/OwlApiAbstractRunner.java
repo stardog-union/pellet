@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.katk.tools.Log;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -45,7 +46,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
  * <p>
  * Company: Clark & Parsia, LLC. <a href="http://clarkparsia.com/"/>http://clarkparsia.com/</a>
  * </p>
- * 
+ *
  * @author Mike Smith &lt;msmith@clarkparsia.com&gt;
  */
 public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
@@ -61,7 +62,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		protected Throwable _throwable;
 		protected final RunTestType _type;
 
-		public AbstractTestAsRunnable(T testcase, RunTestType type)
+		public AbstractTestAsRunnable(final T testcase, final RunTestType type)
 		{
 			this._testcase = testcase;
 
@@ -74,7 +75,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		}
 
 		@Override
-		public TestRunResult getErrorResult(Throwable th)
+		public TestRunResult getErrorResult(final Throwable th)
 		{
 			th.printStackTrace();
 			return new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, th.getMessage(), th);
@@ -103,7 +104,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 
 		private TestRunResult[] results;
 
-		public List<TestRunResult> getResults(OwlApiCase testcase)
+		public List<TestRunResult> getResults(final OwlApiCase testcase)
 		{
 			results = null;
 			testcase.accept(this);
@@ -111,21 +112,21 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		}
 
 		@Override
-		public void visit(ConsistencyTest<OWLOntology> testcase)
+		public void visit(final ConsistencyTest<OWLOntology> testcase)
 		{
 			results = new TestRunResult[1];
 			results[0] = runConsistencyTest(testcase);
 		}
 
 		@Override
-		public void visit(InconsistencyTest<OWLOntology> testcase)
+		public void visit(final InconsistencyTest<OWLOntology> testcase)
 		{
 			results = new TestRunResult[1];
 			results[0] = runInconsistencyTest(testcase);
 		}
 
 		@Override
-		public void visit(NegativeEntailmentTest<OWLOntology> testcase)
+		public void visit(final NegativeEntailmentTest<OWLOntology> testcase)
 		{
 			results = new TestRunResult[2];
 			results[0] = runConsistencyTest(testcase);
@@ -133,7 +134,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		}
 
 		@Override
-		public void visit(PositiveEntailmentTest<OWLOntology> testcase)
+		public void visit(final PositiveEntailmentTest<OWLOntology> testcase)
 		{
 			results = new TestRunResult[2];
 			results[0] = runConsistencyTest(testcase);
@@ -153,7 +154,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 	protected class XConsistencyTest extends AbstractTestAsRunnable<PremisedTest<OWLOntology>>
 	{
 
-		public XConsistencyTest(PremisedTest<OWLOntology> testcase, RunTestType type)
+		public XConsistencyTest(final PremisedTest<OWLOntology> testcase, final RunTestType type)
 		{
 			super(testcase, type);
 
@@ -166,13 +167,11 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		{
 			SerializationFormat fmt = null;
 			for (final SerializationFormat f : formatList)
-			{
 				if (_testcase.getPremiseFormats().contains(f))
 				{
 					fmt = f;
 					break;
 				}
-			}
 			if (fmt == null)
 			{
 				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for premise ontology.");
@@ -213,7 +212,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 	protected class XEntailmentTest extends AbstractTestAsRunnable<EntailmentTest<OWLOntology>>
 	{
 
-		public XEntailmentTest(EntailmentTest<OWLOntology> testcase, RunTestType type)
+		public XEntailmentTest(final EntailmentTest<OWLOntology> testcase, final RunTestType type)
 		{
 			super(testcase, type);
 
@@ -226,26 +225,22 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 		{
 			SerializationFormat pFmt = null, cFmt = null;
 			for (final SerializationFormat f : formatList)
-			{
 				if (_testcase.getPremiseFormats().contains(f))
 				{
 					pFmt = f;
 					break;
 				}
-			}
 			if (pFmt == null)
 			{
 				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for premise ontology.");
 				return;
 			}
 			for (final SerializationFormat f : formatList)
-			{
 				if (_testcase.getConclusionFormats().contains(f))
 				{
 					cFmt = f;
 					break;
 				}
-			}
 			if (cFmt == null)
 			{
 				_result = new ReasoningRun(_testcase, INCOMPLETE, _type, OwlApiAbstractRunner.this, "No acceptable serialization formats found for conclusion ontology.");
@@ -299,7 +294,7 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 	protected abstract boolean isEntailed(OWLOntology premise, OWLOntology conclusion);
 
 	@SuppressWarnings("deprecation")
-	protected TestRunResult run(TestAsRunnable runnable)
+	protected TestRunResult run(final TestAsRunnable runnable)
 	{
 		final Thread t = new Thread(runnable);
 		t.start();
@@ -312,7 +307,6 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			return runnable.getErrorResult(e);
 		}
 		if (t.isAlive())
-		{
 			try
 			{
 				t.stop();
@@ -320,13 +314,11 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			}
 			catch (final OutOfMemoryError oome)
 			{
-				_logger.warning("Out of memory allocating _timeout response. Retrying.");
+				_logger.log(Level.WARNING, "Out of memory allocating _timeout response. Retrying.", oome);
 				System.gc();
 				return runnable.getTimeoutResult();
 			}
-		}
 		else
-		{
 			try
 			{
 				return runnable.getResult();
@@ -335,35 +327,34 @@ public abstract class OwlApiAbstractRunner implements TestRunner<OWLOntology>
 			{
 				return runnable.getErrorResult(th);
 			}
-		}
 	}
 
 	@Override
-	public Collection<TestRunResult> run(TestCase<OWLOntology> testcase, long timeout)
+	public Collection<TestRunResult> run(final TestCase<OWLOntology> testcase, final long timeout)
 	{
-		this._timeout = timeout;
+		_timeout = timeout;
 		if (testcase instanceof OwlApiCase)
 			return _runner.getResults((OwlApiCase) testcase);
 		else
 			throw new IllegalArgumentException();
 	}
 
-	protected TestRunResult runConsistencyTest(PremisedTest<OWLOntology> testcase)
+	protected TestRunResult runConsistencyTest(final PremisedTest<OWLOntology> testcase)
 	{
 		return run(new XConsistencyTest(testcase, CONSISTENCY));
 	}
 
-	protected TestRunResult runEntailmentTest(NegativeEntailmentTest<OWLOntology> testcase)
+	protected TestRunResult runEntailmentTest(final NegativeEntailmentTest<OWLOntology> testcase)
 	{
 		return run(new XEntailmentTest(testcase, NEGATIVE_ENTAILMENT));
 	}
 
-	protected TestRunResult runEntailmentTest(PositiveEntailmentTest<OWLOntology> testcase)
+	protected TestRunResult runEntailmentTest(final PositiveEntailmentTest<OWLOntology> testcase)
 	{
 		return run(new XEntailmentTest(testcase, POSITIVE_ENTAILMENT));
 	}
 
-	protected TestRunResult runInconsistencyTest(InconsistencyTest<OWLOntology> testcase)
+	protected TestRunResult runInconsistencyTest(final InconsistencyTest<OWLOntology> testcase)
 	{
 		return run(new XConsistencyTest(testcase, INCONSISTENCY));
 	}

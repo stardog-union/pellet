@@ -72,11 +72,11 @@ public abstract class PelletCmdApp implements Logging
 
 	public PelletCmdApp()
 	{
-		this._options = getOptions();
-		this._appId = getAppId();
-		this._appCmd = getAppCmd();
-		this._inputFiles = new ArrayList<>();
-		this._timers = new Timers();
+		_options = getOptions();
+		_appId = getAppId();
+		_appCmd = getAppCmd();
+		_inputFiles = new ArrayList<>();
+		_timers = new Timers();
 
 		buildHelp();
 	}
@@ -135,9 +135,7 @@ public abstract class PelletCmdApp implements Logging
 		final Set<PelletCmdOption> mandatory = _options.getMandatoryOptions();
 
 		for (final PelletCmdOption option : mandatory)
-		{
 			ret.append("-" + option.getShortOption() + " _arg ");
-		}
 
 		return ret.toString();
 	}
@@ -289,7 +287,7 @@ public abstract class PelletCmdApp implements Logging
 				}
 				catch (final NoReaderForLangException e)
 				{
-					throw new PelletCmdException("Unrecognized input format: " + inputFormat);
+					throw new PelletCmdException("Unrecognized input format: " + inputFormat, e);
 				}
 			}
 			else
@@ -414,23 +412,23 @@ public abstract class PelletCmdApp implements Logging
 
 		if (configFile != null)
 			try
-		{
+			{
 				final URL url = new URL("file:" + configFile);
 
 				PelletOptions.load(url);
-		}
-		catch (final MalformedURLException e)
-		{
-			throw new PelletCmdException("Invalid URL given for the config file: " + configFile);
-		}
-		catch (final FileNotFoundException e)
-		{
-			throw new PelletCmdException("The specified configuration file cannot be found: " + configFile);
-		}
-		catch (final IOException e)
-		{
-			throw new PelletCmdException("I/O error while reading the configuration file: " + e.toString());
-		}
+			}
+			catch (final MalformedURLException e)
+			{
+				throw new PelletCmdException("Invalid URL given for the config file: " + configFile, e);
+			}
+			catch (final FileNotFoundException e)
+			{
+				throw new PelletCmdException("The specified configuration file cannot be found: " + configFile, e);
+			}
+			catch (final IOException e)
+			{
+				throw new PelletCmdException("I/O error while reading the configuration file : " + configFile, e);
+			}
 	}
 
 	public void help()
@@ -447,7 +445,7 @@ public abstract class PelletCmdApp implements Logging
 
 		public HelpTable(final PelletCmdOptions options)
 		{
-			this._helpOptions = options;
+			_helpOptions = options;
 		}
 
 		public String print()
