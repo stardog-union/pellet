@@ -80,6 +80,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.mindswap.pellet.PelletOptions.InstanceRetrievalMethod;
@@ -1914,14 +1915,14 @@ public class KnowledgeBase
 
 		// classification may notbve repeated if ...
 		final boolean reuseTaxonomy =
-		// classification has been previously done
-		_state.contains(ReasoningState.CLASSIFY)
-		// TBox did not change since classification
-				&& !isTBoxChanged()
-				// RBox did not change since classification
-				&& !isRBoxChanged()
-				// there are no nominals
-				&& (!_expChecker.getExpressivity().hasNominal() || PelletOptions.USE_PSEUDO_NOMINALS);
+				// classification has been previously done
+				_state.contains(ReasoningState.CLASSIFY)
+						// TBox did not change since classification
+						&& !isTBoxChanged()
+						// RBox did not change since classification
+						&& !isRBoxChanged()
+						// there are no nominals
+						&& (!_expChecker.getExpressivity().hasNominal() || PelletOptions.USE_PSEUDO_NOMINALS);
 
 		if (isRBoxChanged())
 		{
@@ -2991,12 +2992,12 @@ public class KnowledgeBase
 			handleUndefinedEntity( d1 + " is not a known datatype" );
 			return false;
 		}
-
+	
 		if( !_isDatatype( d2 ) ) {
 			handleUndefinedEntity( d2 + " is not a known datatype" );
 			return false;
 		}
-
+	
 		return getDatatypeReasoner().isSubTypeOf( d1, d2 );
 	}
 	 */
@@ -3421,8 +3422,9 @@ public class KnowledgeBase
 	 * @param c class whose superclasses are returned
 	 * @return A set of sets, where each set in the collection represents an equivalence class. The elements of the inner class are ATermAppl objects.
 	 */
-	public Set<Set<ATermAppl>> getSuperClasses(ATermAppl c, final boolean direct)
+	public Set<Set<ATermAppl>> getSuperClasses(final ATermAppl cParam, final boolean direct)
 	{
+		ATermAppl c = cParam;
 		if (!isClass(c))
 		{
 			handleUndefinedEntity(c + " is not a class!");
@@ -3438,15 +3440,11 @@ public class KnowledgeBase
 		if (!taxonomy.contains(c))
 			_builder.classify(c);
 
-		final Set<Set<ATermAppl>> supers = new HashSet<>();
-		for (final Set<ATermAppl> s : taxonomy.getSupers(c, direct))
-		{
-			final Set<ATermAppl> supEqSet = ATermUtils.primitiveOrBottom(s);
-			if (!supEqSet.isEmpty())
-				supers.add(supEqSet);
-		}
-
-		return supers;
+		return taxonomy//
+				.supers(c, direct)//
+				.map(ATermUtils::primitiveOrBottom)//
+				.filter(supEqSet -> !supEqSet.isEmpty())//
+				.collect(Collectors.toSet());
 	}
 
 	/**

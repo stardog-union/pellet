@@ -75,18 +75,18 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	private final Set<OWLAxiom> _deletions = new HashSet<>();
 
 	/**
-	 * The types of changes that are pending in _additions and _deletions
+	 * The types of changes that are pending in additions and deletions
 	 */
-	protected EnumSet<ChangeType> changes = EnumSet.noneOf(ChangeType.class);
+	protected EnumSet<ChangeType> _changes = EnumSet.noneOf(ChangeType.class);
 
 	/**
 	 * Map to find _axioms that references an axiom
 	 */
-	protected MultiValueMap<OWLEntity, OWLAxiom> entityAxioms = new MultiValueMap<>();
+	protected MultiValueMap<OWLEntity, OWLAxiom> _entityAxioms = new MultiValueMap<>();
 
 	private LocalityEvaluator _localityEvaluator = null;
 
-	protected MultiValueMap<OWLEntity, OWLEntity> modules = null;
+	protected MultiValueMap<OWLEntity, OWLEntity> _modules = null;
 
 	/**
 	 * Flag to check if a non-local axiom has been updated
@@ -113,8 +113,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		if (_axioms.contains(axiom))
 			return;
 
-		if (_logger.isLoggable(Level.FINE))
-			_logger.fine("Adding " + axiom);
+		_logger.fine(() -> "Adding " + axiom);
 
 		_deletions.remove(axiom);
 		_additions.add(axiom);
@@ -129,7 +128,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	@Override
 	public boolean canUpdate()
 	{
-		return modules != null && !_nonLocalAxioms;
+		return _modules != null && !_nonLocalAxioms;
 	}
 
 	/**
@@ -161,13 +160,11 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		if (!_axioms.contains(axiom))
 		{
 			if (_additions.remove(axiom))
-				if (_logger.isLoggable(Level.FINE))
-					_logger.fine("Deleted axiom from add _queue before processing " + axiom);
+				_logger.fine(() -> "Deleted axiom from add _queue before processing " + axiom);
 			return;
 		}
 
-		if (_logger.isLoggable(Level.FINE))
-			_logger.fine("Deleting " + axiom);
+		_logger.fine(() -> "Deleting " + axiom);
 
 		_additions.remove(axiom);
 		_deletions.add(axiom);
@@ -177,7 +174,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	@Override
 	public MultiValueMap<OWLEntity, OWLEntity> getModules()
 	{
-		return modules;
+		return _modules;
 	}
 
 	/**
@@ -196,17 +193,17 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 		// no need to consider _deletions for initial module extraction
 		_deletions.clear();
-		changes.clear();
+		_changes.clear();
 
 		_nonLocalAxioms = false;
 
-		modules = new MultiValueMap<>();
+		_modules = new MultiValueMap<>();
 
-		extractModuleSignatures(entityAxioms.keySet());
+		extractModuleSignatures(_entityAxioms.keySet());
 
 		timer.stop();
 
-		return modules;
+		return _modules;
 	}
 
 	/**
@@ -217,23 +214,22 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	 */
 	private void extractModuleSignatures(final Set<? extends OWLEntity> entities)
 	{
-		if (_logger.isLoggable(Level.FINE))
-			_logger.fine("Extracting module for each of " + entities);
+		_logger.fine(() -> "Extracting module for each of " + entities);
 
 		if (entities.isEmpty())
 			return;
 
 		final ProgressMonitor monitor = new ConsoleProgressMonitor();
 		monitor.setProgressTitle("Extracting");
-		monitor.setProgressLength(entities.size());
+		// monitor.setProgressLength(entities.size());
+		monitor.setProgressLength(10);
 		monitor.taskStarted();
 
 		extractModuleSignatures(entities, monitor);
 
 		monitor.taskFinished();
 
-		if (_logger.isLoggable(Level.FINER))
-			_logger.finer("Modules: " + modules);
+		_logger.finer(() -> "Modules: " + _modules);
 	}
 
 	protected abstract void extractModuleSignatures(Set<? extends OWLEntity> entities, ProgressMonitor monitor);
@@ -258,7 +254,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		if (!add && roots.isEmpty())
 			for (final OWLClass unsat : taxonomy.getEquivalents(OWL.Nothing))
 			{
-				final Set<OWLEntity> signature = modules.get(unsat);
+				final Set<OWLEntity> signature = _modules.get(unsat);
 
 				if ((signature != null) && signature.containsAll(getSignature(axiom)))
 					roots.add(unsat);
@@ -288,7 +284,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		final OWLEntity entity = node.getName();
 
 		// get the sig for this module
-		final Set<OWLEntity> signature = modules.get(entity);
+		final Set<OWLEntity> signature = _modules.get(entity);
 
 		boolean outdated = false;
 
@@ -313,7 +309,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		else
 			// recursive call to children
 			for (final TaxonomyNode<OWLClass> next : node.getSubs())
-				getAffectedRoots(axiom, next, effects, add, visited);
+			getAffectedRoots(axiom, next, effects, add, visited);
 	}
 
 	/**
@@ -325,7 +321,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	@Override
 	public Stream<OWLAxiom> axioms(final OWLEntity entity)
 	{
-		final Set<OWLAxiom> axioms = entityAxioms.get(entity);
+		final Set<OWLAxiom> axioms = _entityAxioms.get(entity);
 
 		if (axioms == null)
 			return Stream.empty();
@@ -337,7 +333,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	@Override
 	public Set<OWLAxiom> getAxioms(final OWLEntity entity)
 	{
-		Set<OWLAxiom> axioms = entityAxioms.get(entity);
+		Set<OWLAxiom> axioms = _entityAxioms.get(entity);
 
 		if (axioms == null)
 			axioms = Collections.emptySet();
@@ -348,7 +344,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	@Override
 	public OWLOntology getModule(final OWLEntity entity)
 	{
-		return getModuleFromSignature(modules.get(entity));
+		return getModuleFromSignature(_modules.get(entity));
 	}
 
 	protected Set<OWLAxiom> getModuleAxioms(final Set<OWLEntity> signature)
@@ -393,7 +389,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		final Set<OWLEntity> notReferenced = new HashSet<>(signature);
 		notReferenced.removeAll(referenced);
 		for (final OWLEntity e : notReferenced)
-			if (entityAxioms.get(e) != null)
+			if (_entityAxioms.get(e) != null)
 				axioms.add(OWL.declaration(e));
 
 		return axioms;
@@ -467,12 +463,12 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 			_axioms.add(axiom);
 			axiom.signature().forEach(entity ->
 			{
-				entityAxioms.add(entity, axiom);
+				_entityAxioms.add(entity, axiom);
 
 				if (entity instanceof OWLClass)
 				{
 					final OWLClass cls = (OWLClass) entity;
-					if (modules != null && !modules.containsKey(cls))
+					if (_modules != null && !_modules.containsKey(cls))
 						_newClasses.add(cls);
 				}
 			});
@@ -486,12 +482,12 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 			_axioms.remove(axiom);
 			axiom.signature().forEach(entity ->
 			{
-				entityAxioms.remove(entity, axiom);
+				_entityAxioms.remove(entity, axiom);
 
-				if (!entityAxioms.containsKey(entity))
+				if (!_entityAxioms.containsKey(entity))
 				{
 					_logger.fine(() -> "Remove " + entity + " which is not mentioned anymore");
-					modules.remove(entity);
+					_modules.remove(entity);
 				}
 			});
 		}
@@ -534,20 +530,20 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 			if (nextRoot instanceof OWLClass)
 				// collect all the descendants of this class
 				if (taxonomy.contains((OWLClass) nextRoot))
-					affected.addAll(taxonomy.getFlattenedSubs((OWLClass) nextRoot, false));
+				affected.addAll(taxonomy.getFlattenedSubs((OWLClass) nextRoot, false));
 		}
 
 		_logger.fine(() -> "Affected entities " + affected);
 
 		for (final OWLEntity entity : affected)
-			modules.remove(entity);
+			_modules.remove(entity);
 
 		// Next update mods of all affected _nodes
 		extractModuleSignatures(affected);
 
 		for (final OWLEntity entity : affected)
 		{
-			final Set<OWLEntity> module = modules.get(entity);
+			final Set<OWLEntity> module = _modules.get(entity);
 			if (module == null)
 			{
 				final String msg = "No module for " + entity;
@@ -583,7 +579,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		_deletions.clear();
 
 		// clear the pending change types
-		changes.clear();
+		_changes.clear();
 
 		// clear new classes as well
 		_newClasses.clear();
@@ -615,7 +611,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	@Override
 	public Set<OWLEntity> getEntities()
 	{
-		return Collections.unmodifiableSet(entityAxioms.keySet());
+		return Collections.unmodifiableSet(_entityAxioms.keySet());
 	}
 
 	public void resetModules()
@@ -626,11 +622,11 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 
 		// no need to consider _deletions for initial module extraction
 		_deletions.clear();
-		changes.clear();
+		_changes.clear();
 
 		_nonLocalAxioms = false;
 
-		modules = new MultiValueMap<>();
+		_modules = new MultiValueMap<>();
 	}
 
 	/**
@@ -654,7 +650,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	 */
 	public boolean isTBoxChanged()
 	{
-		return changes.contains(ChangeType.TBOX_ADD) || changes.contains(ChangeType.TBOX_DEL);
+		return _changes.contains(ChangeType.TBOX_ADD) || _changes.contains(ChangeType.TBOX_DEL);
 	}
 
 	/**
@@ -664,7 +660,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	 */
 	public boolean isRBoxChanged()
 	{
-		return changes.contains(ChangeType.RBOX_ADD) || changes.contains(ChangeType.RBOX_DEL);
+		return _changes.contains(ChangeType.RBOX_ADD) || _changes.contains(ChangeType.RBOX_DEL);
 	}
 
 	/**
@@ -674,7 +670,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	 */
 	public boolean isABoxChanged()
 	{
-		return changes.contains(ChangeType.ABOX_ADD) || changes.contains(ChangeType.ABOX_DEL);
+		return _changes.contains(ChangeType.ABOX_ADD) || _changes.contains(ChangeType.ABOX_DEL);
 	}
 
 	/**
@@ -686,13 +682,13 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	private void categorizeAddedAxiom(final OWLAxiom axiom)
 	{
 		if (ChangeTypeDetector.isTBoxAxiom(axiom))
-			changes.add(ChangeType.TBOX_ADD);
+			_changes.add(ChangeType.TBOX_ADD);
 		else
 			if (ChangeTypeDetector.isRBoxAxiom(axiom))
-				changes.add(ChangeType.RBOX_ADD);
+				_changes.add(ChangeType.RBOX_ADD);
 			else
 				if (ChangeTypeDetector.isABoxAxiom(axiom))
-					changes.add(ChangeType.ABOX_ADD);
+					_changes.add(ChangeType.ABOX_ADD);
 	}
 
 	/**
@@ -704,13 +700,13 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 	private void categorizeRemovedAxiom(final OWLAxiom axiom)
 	{
 		if (ChangeTypeDetector.isTBoxAxiom(axiom))
-			changes.add(ChangeType.TBOX_DEL);
+			_changes.add(ChangeType.TBOX_DEL);
 		else
 			if (ChangeTypeDetector.isRBoxAxiom(axiom))
-				changes.add(ChangeType.RBOX_DEL);
+				_changes.add(ChangeType.RBOX_DEL);
 			else
 				if (ChangeTypeDetector.isABoxAxiom(axiom))
-					changes.add(ChangeType.ABOX_DEL);
+					_changes.add(ChangeType.ABOX_DEL);
 	}
 
 	// I/O code to persist the state of the AbstractModuleExtractor
@@ -744,7 +740,7 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		final ZipEntry modulesEntry = new ZipEntry(MODULE_EXTRACTOR_MODULES_FILE_NAME);
 		outputStream.putNextEntry(modulesEntry);
 
-		ModuleExtractorPersistence.saveModules(modules, new UncloseableOutputStream(outputStream));
+		ModuleExtractorPersistence.saveModules(_modules, new UncloseableOutputStream(outputStream));
 
 		outputStream.flush();
 	}
@@ -774,6 +770,6 @@ public abstract class AbstractModuleExtractor implements ModuleExtractor
 		if (!(MODULE_EXTRACTOR_MODULES_FILE_NAME.equals(zipEntry.getName())))
 			throw new IllegalArgumentException(String.format("Unexpected entry (%s) in ZipInputStream. Expected %s", zipEntry.getName(), MODULE_EXTRACTOR_MODULES_FILE_NAME));
 
-		modules = ModuleExtractorPersistence.loadModules(inputStream);
+		_modules = ModuleExtractorPersistence.loadModules(inputStream);
 	}
 }

@@ -65,18 +65,12 @@ public abstract class RandomizedIncrementalClassifierTest extends AbstractModula
 		{
 			TestUtils.runUpdateTest(loadedOntology, _modExtractor, additions, deletions);
 		}
-		catch (final AssertionError ex)
+		catch (final AssertionError | RuntimeException ex)
 		{
 			System.err.println("Additions: " + additions);
 			System.err.println("Deletions: " + deletions);
-			System.err.println("#axioms:" + size);
-			throw ex;
-		}
-		catch (final RuntimeException ex)
-		{
-			System.err.println("Additions: " + additions);
-			System.err.println("Deletions: " + deletions);
-			System.err.println("#axioms:" + size);
+			System.err.println("#axioms:" + size + " " + loadedOntology.getAxiomCount());
+			System.err.println("ex message : " + ex.getMessage());
 			throw ex;
 		}
 		finally

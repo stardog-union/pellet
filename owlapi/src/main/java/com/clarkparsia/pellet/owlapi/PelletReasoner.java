@@ -748,12 +748,18 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener, F
 		}
 	}
 
+	/**
+	 * Return an empty set.
+	 */
 	@Override
 	public Set<OWLAxiom> getPendingAxiomAdditions()
 	{
 		return Collections.emptySet();
 	}
 
+	/**
+	 * Return an empty set.
+	 */
 	@Override
 	public Set<OWLAxiom> getPendingAxiomRemovals()
 	{
@@ -856,8 +862,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener, F
 		refreshCheck();
 		try
 		{
-			final Set<Set<ATermAppl>> result = _kb.getSuperClasses(term(ce), direct);
-			return toClassNodeSet(result);
+			return toClassNodeSet(_kb.getSuperClasses(term(ce), direct));
 		}
 		catch (final PelletRuntimeException e)
 		{
@@ -1149,10 +1154,7 @@ public class PelletReasoner implements OWLReasoner, OWLOntologyChangeListener, F
 
 	private NodeSet<OWLClass> toClassNodeSet(final Set<Set<ATermAppl>> termSets)
 	{
-		final Set<Node<OWLClass>> nodes = new HashSet<>();
-		for (final Set<ATermAppl> termSet : termSets)
-			nodes.add(toClassNode(termSet));
-		return new OWLClassNodeSet(nodes);
+		return new OWLClassNodeSet(termSets.stream().map(this::toClassNode).collect(Collectors.toSet()));
 	}
 
 	private Node<OWLClass> toClassNode(final Set<ATermAppl> terms)

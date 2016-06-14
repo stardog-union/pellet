@@ -46,6 +46,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 import net.katk.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.utils.Bool;
@@ -645,7 +646,7 @@ public class Taxonomy<T>
 	}
 
 	/**
-	 * Use {@link #getSubs(Object, boolean)} or {@link #getSupers(Object, boolean)} this method will become private
+	 * Use {@link #getSubs(Object, boolean)} or {@link #getSupers(Object, boolean)}.
 	 */
 	private Set<Set<T>> getSubSupers(final T t, final boolean direct, final boolean subOrSuper)
 	{
@@ -708,6 +709,11 @@ public class Taxonomy<T>
 	public Set<Set<T>> getSupers(final T t, final boolean direct)
 	{
 		return getSubSupers(t, direct, SUPER);
+	}
+
+	public Stream<Set<T>> supers(final T t, final boolean direct)
+	{
+		return getSubSupers(t, direct, SUPER).stream();
 	}
 
 	public TaxonomyNode<T> getTop()

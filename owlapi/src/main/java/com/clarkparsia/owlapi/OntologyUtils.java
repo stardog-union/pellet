@@ -22,7 +22,6 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyChangeException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -32,12 +31,6 @@ import org.semanticweb.owlapi.model.RemoveAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
 
 /**
- * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
  * <p>
  * Copyright: Copyright (c) 2007
  * </p>
@@ -220,11 +213,10 @@ public class OntologyUtils
 	 */
 	public static void updateOntology(final OWLOntology ontology, final Stream<? extends OWLAxiom> axioms, final boolean add)
 	{
-		final List<OWLOntologyChange> changes = axioms//
-				.map(axiom -> add ? new AddAxiom(ontology, axiom) : new RemoveAxiom(ontology, axiom))//
-				.collect(Collectors.toList());
-
-		_manager.applyChanges(changes);
+		if (add)
+			ontology.addAxioms(axioms.collect(Collectors.toList()));
+		else
+			ontology.removeAxioms(axioms);
 	}
 
 	public static void updateOntology(final OWLOntology ontology, final Collection<? extends OWLAxiom> axioms, final boolean add)
@@ -300,13 +292,20 @@ public class OntologyUtils
 	{
 		try
 		{
-			final Stream<OWLEntity> referencedEntities = Stream.concat(//
-					Stream.concat(ontology.classesInSignature(), ontology.objectPropertiesInSignature()),//
+			final Set<OWLEntity> referencedEntities = Stream.concat(//
+					Stream.concat(ontology.classesInSignature(), ontology.objectPropertiesInSignature()), //
 					Stream.concat(ontology.dataPropertiesInSignature(), ontology.individualsInSignature())//
-					);
+			).collect(Collectors.toSet());
 
-			manager.applyChanges(ontology.axioms().filter(axiom -> !axiom.isLogicalAxiom()).map(axiom -> new RemoveAxiom(ontology, axiom)).collect(Collectors.toList()));
-			manager.applyChanges(referencedEntities.filter(entity -> !ontology.containsEntityInSignature(entity)).map(entity -> new AddAxiom(ontology, manager.getOWLDataFactory().getOWLDeclarationAxiom(entity))).collect(Collectors.toList()));
+			// Remove every thing that is not logical.
+			ontology.removeAxioms(ontology.axioms().filter(axiom -> !axiom.isLogicalAxiom()));
+
+			// Add exactly once declaration per entity.
+			final List<OWLAxiom> axioms = referencedEntities.stream()//
+					.filter(entity -> !ontology.containsEntityInSignature(entity))//
+					.map(entity -> manager.getOWLDataFactory().getOWLDeclarationAxiom(entity))//
+					.collect(Collectors.toList());
+			ontology.addAxioms(axioms);
 
 		}
 		catch (final OWLOntologyChangeException e)

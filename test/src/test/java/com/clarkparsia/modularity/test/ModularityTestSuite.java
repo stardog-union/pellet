@@ -16,9 +16,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * Title: ModularityTestSuite
  * </p>
  * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>
@@ -36,8 +33,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		AxiomBasedModularityTestSuite.class, //
 		GraphBasedModularityTestSuite.class, //
 		PersistenceModularityTest.class, //
-		// PersistenceClassificationTest.class, // FIXME #4
-		// PersistenceRealizationTest.class, // FIXME #4
+		PersistenceClassificationTest.class, // FIXME #4
+		PersistenceRealizationTest.class, // FIXME #4
 		PersistenceUpdatesTest.class //
 })
 public class ModularityTestSuite

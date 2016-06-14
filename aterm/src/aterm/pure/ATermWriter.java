@@ -59,7 +59,7 @@ class ATermWriter extends ATermFwdVoid
 
 	private int next_abbrev;
 
-	ATermWriter(OutputStream stream)
+	ATermWriter(final OutputStream stream)
 	{
 		this.stream = new BufferedOutputStreamWriter(stream);
 	}
@@ -91,7 +91,7 @@ class ATermWriter extends ATermFwdVoid
 		position += txt.length();
 	}
 
-	public void voidVisitChild(ATerm child)
+	public void voidVisitChild(final ATerm child)
 	{
 		if (table != null)
 		{
@@ -138,7 +138,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitAppl(ATermAppl appl)
+	public void voidVisitAppl(final ATermAppl appl)
 	{
 		final AFun fun = appl.getAFun();
 		int nameLength;
@@ -185,7 +185,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitPlaceholder(ATermPlaceholder ph)
+	public void voidVisitPlaceholder(final ATermPlaceholder ph)
 	{
 		stream.write('<');
 		position++;
@@ -195,7 +195,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitInt(ATermInt i)
+	public void voidVisitInt(final ATermInt i)
 	{
 		final String txt = String.valueOf(i.getInt());
 		stream.write(txt);
@@ -203,7 +203,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitLong(ATermLong i)
+	public void voidVisitLong(final ATermLong i)
 	{
 		final String txt = String.valueOf(i.getLong());
 		stream.write(txt);
@@ -211,7 +211,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitReal(ATermReal r)
+	public void voidVisitReal(final ATermReal r)
 	{
 		final String txt = String.valueOf(r.getReal());
 		stream.write(txt);
@@ -219,7 +219,7 @@ class ATermWriter extends ATermFwdVoid
 	}
 
 	@Override
-	public void voidVisitBlob(ATermBlob blob)
+	public void voidVisitBlob(final ATermBlob blob)
 	{
 		final String txt = String.valueOf(blob.getBlobSize()) + '#' + String.valueOf(blob.hashCode());
 		stream.write(txt);

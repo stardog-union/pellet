@@ -52,18 +52,25 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 		_logger.finer(() -> format("Built graph in %d ms", timer.getLast()));
 
 		//		DisplayGraph.display( entities, engine.getGraph(), null );
+		final int size = entities.size() / 10;
+		int ping = 0;
 
 		for (final OWLEntity ent : entities)
 		{
 			if (!(ent instanceof OWLClass))
 			{
-				monitor.incrementProgress();
+				ping++;
+				if (ping > size)
+				{
+					monitor.incrementProgress();
+					ping = 0;
+				}
 				continue;
 			}
 
 			_logger.fine(() -> "Compute module for " + ent);
 
-			final Set<OWLEntity> module = modules.get(ent);
+			final Set<OWLEntity> module = _modules.get(ent);
 
 			if (module != null)
 			{
@@ -81,7 +88,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 				// not used in any logical axiom which implies its module contains
 				// just itself.
 				// so, update the module
-				modules.put(ent, /*module =*/Collections.singleton(ent));
+				_modules.put(ent, /*module =*/Collections.singleton(ent));
 			}
 			else
 				extractModule(engine, node, entities, monitor);
@@ -102,7 +109,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 		// the same module as the other entity
 		for (final Object n : node.getEntities())
 		{
-			module = modules.get(n);
+			module = _modules.get(n);
 			if (module != null)
 				break;
 		}
@@ -140,7 +147,7 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 		{
 			// update the module for every entity even though some of them
 			// might have already their module
-			final Set<OWLEntity> prevModule = modules.put(n, module);
+			final Set<OWLEntity> prevModule = _modules.put(n, module);
 
 			if (prevModule != null)
 			{

@@ -12,8 +12,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		AxiomBasedIncrementalClassifierTest.class //
 		, AxiomBasedModularityTest.class //
 		, AxiomBasedModularityUpdateTest.class //
-		// ,AxiomBasedRandomizedIncrementalClassifierTest.class // FIXME #4
-		// ,AxiomBasedRandomizedModularityTest.class// FIXME #4
+		, AxiomBasedRandomizedIncrementalClassifierTest.class // 
+		, AxiomBasedRandomizedModularityTest.class// FIXME : this test produce an enormous output at compile time.
 })
 public class AxiomBasedModularityTestSuite
 {

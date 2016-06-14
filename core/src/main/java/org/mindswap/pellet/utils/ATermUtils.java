@@ -44,6 +44,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.output.ATermManchesterSyntaxRenderer;
@@ -1207,7 +1208,7 @@ public class ATermUtils
 
 		if (af.equals(ATermUtils.NOTFUN))
 		{ // Function is a NOT
-			// Take the first argument to the NOT, then check
+				// Take the first argument to the NOT, then check
 			// the type of that argument to determine what needs to be done.
 			ATermUtils.assertTrue(af.getArity() == 1);
 			final ATermAppl arg = (ATermAppl) term.getArgument(0);
@@ -1622,24 +1623,12 @@ public class ATermUtils
 
 	public static Collection<ATermAppl> primitiveOrBottom(final Collection<ATermAppl> collection)
 	{
-		final List<ATermAppl> ret = new ArrayList<>();
-		for (ATermAppl a : collection)
-		{
-			if (isPrimitive(a) || a == ATermUtils.BOTTOM)
-				ret.add(a);
-		}
-		return ret;
+		return collection.stream().filter(a -> isPrimitive(a) || a == ATermUtils.BOTTOM).collect(Collectors.toList());
 	}
 
 	public static Set<ATermAppl> primitiveOrBottom(final Set<ATermAppl> collection)
 	{
-		final Set<ATermAppl> ret = new HashSet<>();
-		for (ATermAppl a : collection)
-		{
-			if (isPrimitive(a) || a == ATermUtils.BOTTOM)
-				ret.add(a);
-		}
-		return ret;
+		return collection.stream().filter(a -> isPrimitive(a) || a == ATermUtils.BOTTOM).collect(Collectors.toSet());
 	}
 
 	public static ATermAppl makeRule(final ATermAppl[] head, final ATermAppl[] body)
