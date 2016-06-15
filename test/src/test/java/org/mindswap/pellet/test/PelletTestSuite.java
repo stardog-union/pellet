@@ -33,9 +33,14 @@ import org.mindswap.pellet.test.rules.RulesTestSuite;
 @RunWith(Suite.class)
 @SuiteClasses({ ATermTests.class, PellintTestSuite.class, TracingTests.class, MiscTests.class, MergeTests.class, RBoxTestSuite.class, BlockingTests.class, CacheSafetyTests.class, JenaTests.class, OWLAPITests.class, OWLPrimerTests.class, OWLAPIObjectConversionTests.class, OWLAPIAxiomConversionTests.class, IncConsistencyTests.class, IncJenaConsistencyTests.class, RulesTestSuite.class, TBoxTests.class, DatatypesSuite.class, ELTests.class, ExplanationTestSuite.class, TestIsClass.class, TestKnowledgeBase.class, TestATermManchesterSyntaxRenderer.class, AnnotationsTestSuite.class, TransTreeTestSuite.class, LiebigTestSuite.class, QueryTestSuite.class, WebOntTestSuite.class, DLTestSuite.class, ClassificationTestSuite.class, ModularityTestSuite.class,
 
-	// CLI Tests must go last, since some of them muck with PelletOptions!
-	pellet.test.CLITests.class })
+		// CLI Tests must go last, since some of them muck with PelletOptions!
+		pellet.test.CLITests.class })
 public class PelletTestSuite
 {
 	public static String base = "test/data/";
+
+	static
+	{
+		System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "WARN");
+	}
 }

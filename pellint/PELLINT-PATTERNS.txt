@@ -284,7 +284,7 @@ Example:
 
 Reasoning complexity:
 
-        Pellet keeps track of DifferentIndividuals for each individual separately.
+        Openllet keeps track of DifferentIndividuals for each individual separately.
         This means the memory consumption required to represent a DifferentIndividuals
         axiom is quadratically proportional to the number of individuals involved in 
         the axiom; for owl:differentFrom there are only 2 individuals involved whereas
@@ -294,5 +294,5 @@ Reasoning complexity:
 
 Action: Pellint will only issue a warning about this pattern; the ontology
 should be changed to reduce the number of DifferentIndividuals axioms. A
-possible solution is to use the Pellet configuration option to turn on 
-Unique Name Assumption (see Pellet FAQ for details). 
+possible solution is to use the Openllet configuration option to turn on 
+Unique Name Assumption (see Openllet FAQ for details). 

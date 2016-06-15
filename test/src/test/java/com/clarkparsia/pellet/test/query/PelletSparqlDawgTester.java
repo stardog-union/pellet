@@ -47,15 +47,7 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 	public static boolean CLASSIFY_KB_IN_ADVANCE = false;
 
 	private final List<String> _avoidList = Arrays.asList(new String[] {
-			// FIXME
-			// with some
-			// effort
-			// some of
-			// the
-			// following
-			// queries
-			// can be
-			// handled
+			// FIXME with some effort some of the following queries can be handled
 
 			// The following test assumes simple entailment but Pellet does
 			// D-entailment
@@ -126,32 +118,32 @@ public class PelletSparqlDawgTester extends ARQSparqlDawgTester
 		final boolean useQueryGraphs = !_query.getGraphURIs().isEmpty() || !_query.getNamedGraphURIs().isEmpty();
 
 		final Collection<String> graphURIs = useQueryGraphs ? _query.getGraphURIs() : this._graphURIs;
-				// this handler will intercept all import resolution failures and will
-				// try to load imports from resources (helps run these tests with maven)
-				OntDocumentManager.getInstance().setReadFailureHandler(new ResourceImportLoader());
+		// this handler will intercept all import resolution failures and will
+		// try to load imports from resources (helps run these tests with maven)
+		OntDocumentManager.getInstance().setReadFailureHandler(new ResourceImportLoader());
 
 		OntModel model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
 
-				for (final String dataURI : graphURIs)
-					model.read(dataURI, FileUtils.guessLang(dataURI));
+		for (final String dataURI : graphURIs)
+			model.read(dataURI, FileUtils.guessLang(dataURI));
 
-				model.prepare();
+		model.prepare();
 
-				if (PelletSparqlDawgTester.CLASSIFY_KB_IN_ADVANCE)
-					((PelletInfGraph) (model.getGraph())).getKB().classify();
+		if (PelletSparqlDawgTester.CLASSIFY_KB_IN_ADVANCE)
+			((PelletInfGraph) (model.getGraph())).getKB().classify();
 
-				final Dataset dataset = DatasetFactory.create(model);
+		final Dataset dataset = DatasetFactory.create(model);
 
-				final Collection<String> namedGraphURIs = useQueryGraphs ? _query.getNamedGraphURIs() : this._namedGraphURIs;
+		final Collection<String> namedGraphURIs = useQueryGraphs ? _query.getNamedGraphURIs() : this._namedGraphURIs;
 
-						for (final String graphURI : namedGraphURIs)
+		for (final String graphURI : namedGraphURIs)
 		{
-							model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
-							FileManager.get().readModel(model, graphURI);
-							dataset.addNamedModel(graphURI, model);
-						}
+			model = ModelFactory.createOntologyModel(PelletReasonerFactory.THE_SPEC);
+			FileManager.get().readModel(model, graphURI);
+			dataset.addNamedModel(graphURI, model);
+		}
 
-						return dataset;
+		return dataset;
 	}
 
 	@Override

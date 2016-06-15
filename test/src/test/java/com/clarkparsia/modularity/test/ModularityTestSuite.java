@@ -33,8 +33,8 @@ import org.junit.runners.Suite.SuiteClasses;
 		AxiomBasedModularityTestSuite.class, //
 		GraphBasedModularityTestSuite.class, //
 		PersistenceModularityTest.class, //
-		PersistenceClassificationTest.class, // FIXME #4
-		PersistenceRealizationTest.class, // FIXME #4
+		PersistenceClassificationTest.class, //
+		PersistenceRealizationTest.class, // 
 		PersistenceUpdatesTest.class //
 })
 public class ModularityTestSuite

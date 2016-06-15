@@ -1,16 +1,16 @@
 Pellint
 -------
 
-Pellint (short for "pellet lint" command) is a lint tool for OWL ontologies 
+Pellint (short for "openllet lint" command) is a lint tool for OWL ontologies 
 that detects problematic modeling constructs (patterns) that may have an 
-impact on the ontology's reasoning performance in Pellet and which, upon 
+impact on the ontology's reasoning performance in Openllet and which, upon 
 request, repairs them where possible. In addition, if the ontology is in 
 RDF/XML format, Pellint also checks that all RDF resources are properly 
 typed.                                       
 
 Pellint currently supports detection of 9 easily configurable patterns.     
 To find out more information on these patterns and how to configure them,   
-please see PELLET-PATTERNS.txt.                                                    
+please see OPENLLET-PATTERNS.txt.                                                    
 
 See "Extending Pellint" section below for more info about adding new        
 patterns to Pellint.
@@ -18,9 +18,9 @@ patterns to Pellint.
 
 Running
 -------
-Pellint is intregrated into the Pellet command line tool. To run pellint,
+Pellint is intregrated into the Openllet command line tool. To run pellint,
 type:
-pellet.bat (or pellint.sh on Unix) lint [OPTIONS] ONTOLOGY
+openllet.bat (or openllet.sh on Unix) lint [OPTIONS] ONTOLOGY
    ONTOLOGY       The input ontology file/URI to analyze
 
  OPTIONS:
@@ -38,10 +38,10 @@ Extending Pellint
 -----------------
 
 The following is a step-by-step guide on how to implement your own pattern  
-for use in Pellint.  For convenience <PELLET> stands for Pellet's    
+for use in Pellint.  For convenience <OPENELLET> stands for Openllet's    
 root directory.                                                             
 
-(1) Make sure you can build Pellet using "ant dist".
+(1) Make sure you can build Openllet using "ant dist".
 
 (2) Implement your pattern as a Java class in a new file:
 
@@ -55,11 +55,11 @@ root directory.
 
 Refer to the Javadocs on these interfaces for further details.
 
-(3) Place your new pattern file anywhere under <PELLET>/pellint/src so that Ant    
+(3) Place your new pattern file anywhere under <OPENLETT>/pellint/src so that Ant    
 can include it in the build.  Run "ant dist" to rebuild Pellint with the    
 new pattern.                                                                
 
-(4) Update <PELLET>/pellint/src/pellint.properties and add your new pattern to    
+(4) Update <OPENLETT>/pellint/src/pellint.properties and add your new pattern to    
 the configuration.  Please refer to the comments included in the head of    
 this file for details.                                                      
 
@@ -67,7 +67,7 @@ this file for details.
 command so that it runs the newly built Pellint and uses the modified       
 configuration file:                                                         
 
-    java -Dpellint.configuration=file:<PELLET>/pellint/src/pellint.properties -jar dist/lib/pellet.jar lint [OPTIONS] ONTOLOGY
+    java -Dpellint.configuration=file:<OPENLETT>/pellint/src/pellint.properties -jar dist/lib/pellet.jar lint [OPTIONS] ONTOLOGY
 
 
 Support

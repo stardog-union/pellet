@@ -1,4 +1,4 @@
-package com.clarkparsia.pellet.owlapiv3.test;
+package com.clarkparsia.pellet.owlapi.test;
 
 import static com.clarkparsia.owlwg.Constants.OWLWG_TEST_CASES_IRI;
 import static com.clarkparsia.owlwg.Constants.RESULTS_ONTOLOGY_PHYSICAL_IRI;

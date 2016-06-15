@@ -18,20 +18,8 @@ package com.clarkparsia.owlwg;
  */
 public class Constants
 {
-	public static final String OWLWG_BASE_PHYSICAL_URI;
-	public static final String RESULTS_ONTOLOGY_PHYSICAL_IRI;
-	public static final String TEST_ONTOLOGY_PHYSICAL_IRI;
-	public static final String OWLWG_TEST_CASES_IRI;
-
-	static
-	{
-		//File f = new File( "owlapiv3/test_data/owlwg/" );
-		OWLWG_BASE_PHYSICAL_URI = "/test_data/owlwg/";
-
-		TEST_ONTOLOGY_PHYSICAL_IRI = OWLWG_BASE_PHYSICAL_URI + "ontologies/test-ontology.owl";
-
-		RESULTS_ONTOLOGY_PHYSICAL_IRI = OWLWG_BASE_PHYSICAL_URI + "ontologies/results-ontology.owl";
-
-		OWLWG_TEST_CASES_IRI = OWLWG_BASE_PHYSICAL_URI + "semantics-direct.rdf";
-	}
+	public static final String OWLWG_BASE_PHYSICAL_URI = "/test_data/owlwg/";
+	public static final String RESULTS_ONTOLOGY_PHYSICAL_IRI = OWLWG_BASE_PHYSICAL_URI + "ontologies/results-ontology.owl";
+	public static final String TEST_ONTOLOGY_PHYSICAL_IRI = OWLWG_BASE_PHYSICAL_URI + "ontologies/test-ontology.owl";
+	public static final String OWLWG_TEST_CASES_IRI = OWLWG_BASE_PHYSICAL_URI + "semantics-direct.rdf";
 }

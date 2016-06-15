@@ -21,7 +21,7 @@ import org.mindswap.pellet.utils.VersionInfo;
  * Title: PelletMain
  * </p>
  * <p>
- * Description: Pellet main command line entry point
+ * Description: Openllet main command line entry point
  * </p>
  * <p>
  * Copyright: Copyright (c) 2008
@@ -90,7 +90,7 @@ public class Pellet
 	private void run(final String[] args)
 	{
 		if (args.length == 0)
-			throw new PelletCmdException("Type 'pellet help' for usage.");
+			throw new PelletCmdException("Type 'openllet help' for usage.");
 
 		final String arg = args[0];
 
@@ -121,8 +121,8 @@ public class Pellet
 		final StringBuffer buf = new StringBuffer();
 		final String version = getVersionInfo().getVersionString();
 
-		buf.append("Usage: pellet <subcommand> [_options] <file URI>...\n");
-		buf.append("Pellet command-line client, version " + version + "." + "\n");
+		buf.append("Usage: openllet <subcommand> [options] <file URI>...\n");
+		buf.append("Openllet command-line client, version " + version + "." + "\n");
 		buf.append("Type 'pellet help <subcommand>' for help on a specific subcommand.\n");
 		buf.append("\n");
 		buf.append("Available subcommands:\n");
@@ -135,8 +135,8 @@ public class Pellet
 		}
 
 		buf.append("\n");
-		buf.append("Pellet is an OWL ontology reasoner.\n");
-		buf.append("For more information, see http://clarkparsia.com/pellet");
+		buf.append("Openllet is an OWL2 ontology (DL)reasoner.\n");
+		buf.append("For more information, see https://www.w3.org/TR/owl2-profiles/");
 
 		System.out.println(buf);
 		System.exit(0);
