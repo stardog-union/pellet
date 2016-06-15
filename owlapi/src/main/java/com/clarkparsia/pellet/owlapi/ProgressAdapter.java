@@ -5,11 +5,18 @@ import org.semanticweb.owlapi.reasoner.ReasonerProgressMonitor;
 
 public class ProgressAdapter implements ProgressMonitor
 {
-
 	private final ReasonerProgressMonitor _monitor;
 	private int _length;
 	private int _progress;
 	private String _title;
+
+	private volatile int _echo = 0;
+
+	@Override
+	public int getLastEcho()
+	{
+		return _echo;
+	}
 
 	public ProgressAdapter(final ReasonerProgressMonitor monitor)
 	{

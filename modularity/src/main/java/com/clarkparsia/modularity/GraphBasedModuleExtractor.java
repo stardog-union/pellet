@@ -52,19 +52,12 @@ public class GraphBasedModuleExtractor extends AbstractModuleExtractor
 		_logger.finer(() -> format("Built graph in %d ms", timer.getLast()));
 
 		//		DisplayGraph.display( entities, engine.getGraph(), null );
-		final int size = entities.size() / 10;
-		int ping = 0;
 
 		for (final OWLEntity ent : entities)
 		{
 			if (!(ent instanceof OWLClass))
 			{
-				ping++;
-				if (ping > size)
-				{
-					monitor.incrementProgress();
-					ping = 0;
-				}
+				monitor.incrementProgress();
 				continue;
 			}
 

@@ -8,12 +8,6 @@ package org.mindswap.pellet.utils.progress;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2006
  * </p>
  * <p>
@@ -24,6 +18,12 @@ package org.mindswap.pellet.utils.progress;
  */
 public class SilentProgressMonitor extends AbstractProgressMonitor
 {
+	@Override
+	public int getLastEcho()
+	{
+		return 0;
+	}
+
 	public SilentProgressMonitor()
 	{
 	}

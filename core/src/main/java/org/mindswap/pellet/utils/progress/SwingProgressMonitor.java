@@ -26,6 +26,13 @@ import javax.swing.SwingUtilities;
  */
 public class SwingProgressMonitor extends AbstractProgressMonitor
 {
+	private volatile int _echo = 0;
+
+	@Override
+	public int getLastEcho()
+	{
+		return _echo;
+	}
 
 	private javax.swing.ProgressMonitor _monitor = null;
 
@@ -70,6 +77,10 @@ public class SwingProgressMonitor extends AbstractProgressMonitor
 	@Override
 	protected void updateProgress()
 	{
-		SwingUtilities.invokeLater(() -> _monitor.setProgress(_progress));
+		SwingUtilities.invokeLater(() ->
+		{
+			_echo = _progress;
+			_monitor.setProgress(_progress);
+		});
 	}
 }

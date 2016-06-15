@@ -30,9 +30,6 @@ import org.mindswap.pellet.utils.progress.AbstractProgressMonitor;
  * Title: TestKnowledgeBase
  * </p>
  * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>
@@ -43,7 +40,6 @@ import org.mindswap.pellet.utils.progress.AbstractProgressMonitor;
  */
 public class TestKnowledgeBase
 {
-
 	@BeforeClass
 	public static void setUp()
 	{
@@ -387,23 +383,31 @@ public class TestKnowledgeBase
 
 	private static class TestProgressMonitor extends AbstractProgressMonitor
 	{
-		private boolean progressLengthExceeded;
+		private boolean _progressLengthExceeded;
+
+		private volatile int _echo = 0;
+
+		@Override
+		public int getLastEcho()
+		{
+			return _echo;
+		}
 
 		public TestProgressMonitor()
 		{
-			progressLengthExceeded = false;
+			_progressLengthExceeded = false;
 		}
 
 		@Override
 		protected void updateProgress()
 		{
 			if (getProgress() > getProgressLength())
-				progressLengthExceeded = true;
+				_progressLengthExceeded = true;
 		}
 
 		public boolean isProgressLengthExceeded()
 		{
-			return progressLengthExceeded;
+			return _progressLengthExceeded;
 		}
 	}
 }

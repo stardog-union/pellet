@@ -250,17 +250,9 @@ public class AxiomBasedModuleExtractor extends AbstractModuleExtractor
 				.forEach(axiom -> nonLocalModule.addAll(OntologyUtils.signature(axiom).collect(Collectors.toList())));
 
 		// iterate over classes passed in, and extract all their modules
-		final int size = entities.size() / 10;
-		int ping = 0;
-
 		for (final OWLEntity ent : entities)
 		{
-			ping++;
-			if (ping > size)
-			{
-				monitor.incrementProgress();
-				ping = 0;
-			}
+			monitor.incrementProgress();
 
 			if (!(ent instanceof OWLClass))
 				continue;

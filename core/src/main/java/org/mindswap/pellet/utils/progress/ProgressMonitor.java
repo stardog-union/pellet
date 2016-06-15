@@ -8,12 +8,6 @@ package org.mindswap.pellet.utils.progress;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2006
  * </p>
  * <p>
@@ -24,6 +18,12 @@ package org.mindswap.pellet.utils.progress;
  */
 public interface ProgressMonitor
 {
+	default int getEchoInterval()
+	{
+		return 10;
+	}
+
+	public int getLastEcho();
 
 	public int getProgress();
 

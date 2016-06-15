@@ -29,6 +29,14 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor
 {
 	private final PrintStream _out;
 
+	private volatile int _echo = 0;
+
+	@Override
+	public int getLastEcho()
+	{
+		return _echo;
+	}
+
 	public ConsoleProgressMonitor()
 	{
 		this(System.err, 0);
@@ -46,7 +54,7 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor
 
 	public ConsoleProgressMonitor(final PrintStream out, final int length)
 	{
-		this._out = out;
+		_out = out;
 
 		setProgressLength(length);
 		setProgressTitle("");
@@ -75,6 +83,11 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor
 			return;
 
 		_progressPercent = pc;
+
+		if (pc < _echo)
+			return;
+
+		_echo += getEchoInterval();
 
 		// delete the previous line
 		_out.print('\r');
@@ -107,4 +120,5 @@ public class ConsoleProgressMonitor extends AbstractProgressMonitor
 		_out.print(" finished in ");
 		_out.println(DurationFormat.SHORT.format(_timer.getLast()));
 	}
+
 }
