@@ -446,7 +446,13 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	{
 		final OWLOntology ontology = getRootOntology();
 
-		if (!ontology.getOWLOntologyManager().ontologies().anyMatch(o -> o.getOntologyID().equals(ontology.getOntologyID()))) // TODO : need a comment.
+		if (!ontology//
+				.getOWLOntologyManager()//
+				.ontologies()//
+				.filter(o -> o != null)//
+				.anyMatch(o -> o.getOntologyID()//
+						.equals(ontology.getOntologyID())//
+		)) // TODO : need a comment.
 			return;
 
 		final Set<OWLOntology> ontologies = getRootOntology().importsClosure().collect(Collectors.toSet());

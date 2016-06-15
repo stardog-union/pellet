@@ -219,7 +219,7 @@ public class PelletClassify extends PelletCmdApp
 		}
 		catch (final IOException e)
 		{
-			_logger.log(Level.WARNING, "Unable to persist the _current classifier state: " + e.toString());
+			_logger.log(Level.WARNING, "Unable to persist the current classifier state.", e);
 		}
 	}
 
