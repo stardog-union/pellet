@@ -132,10 +132,9 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testOWL2()
 	{
 		final String ns = "http://www.example.org/test#";
-
 		final OWLOntology ont = loadOntology(_base + "owl2.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
+
 		try
 		{
 			testOWL2Reasoner(ns, reasoner);
@@ -150,18 +149,14 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testOWL2Incremental()
 	{
 		final String ns = "http://www.example.org/test#";
-
 		final OWLOntology ont = loadOntology(_base + "owl2.owl");
-
 		final IncrementalClassifier classifier = new IncrementalClassifier(ont);
 
 		try
 		{
-			// force classification
-			classifier.classify();
-			// force realization
+			classifier.classify(); // force classification
 			final OWLNamedIndividual ind1 = Individual(ns + "ind1");
-			classifier.getTypes(ind1, true);
+			classifier.getTypes(ind1, true);// force realization
 			testOWL2Reasoner(ns, classifier);
 		}
 		finally
@@ -242,9 +237,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testUncle()
 	{
 		final String ns = "http://www.example.org/test#";
-
 		final OWLOntology ont = loadOntology(_base + "uncle.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		final OWLNamedIndividual Bob = Individual(ns + "Bob");
@@ -259,9 +252,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testSibling()
 	{
 		final String ns = "http://www.example.org/test#";
-
 		final OWLOntology ont = loadOntology(_base + "sibling.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		final OWLNamedIndividual Bob = Individual(ns + "Bob");
@@ -301,9 +292,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testPropertyChain()
 	{
 		final String ns = "http://www.example.org/test#";
-
 		final OWLOntology ont = loadOntology(_base + "propertyChain.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		final OWLClass C = Class(ns + "C");
@@ -337,16 +326,13 @@ public class OWLAPITests extends AbstractOWLAPITests
 		assertIteratorValues(reasoner.getObjectPropertyValues(a[1], r).entities().iterator(), new OWLIndividual[] { a[2], a[3], a[4], a[5], a[6] });
 
 		assertIteratorValues(reasoner.getObjectPropertyValues(a[0], s).entities().iterator(), theList);
-
 	}
 
 	@Test
 	public void testQualifiedCardinality1()
 	{
 		final String ns = "http://www.example.org/test#";
-
 		final OWLOntology ont = loadOntology(_base + "qcr.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		final OWLClass sub = Class(ns + "sub");
@@ -364,9 +350,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	{
 		final String ns = "http://www.example.org/test#";
 		final String foaf = "http://xmlns.com/foaf/0.1/";
-
 		final OWLOntology ont = loadOntology(_base + "reflexive.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		final OWLObjectProperty[] knows = { ObjectProperty(foaf + "knows"), ObjectProperty(ns + "knows2"), ObjectProperty(ns + "knows3") };
@@ -422,9 +406,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testRemoveLiteral(final String indName, final boolean buffering) throws Exception
 	{
 		final String ns = "http://www.example.org/test#";
-
 		final OWLOntology ont = loadOntology(_base + "RemoveLiteral.owl");
-
 		final PelletReasoner reasoner = buffering ? PelletReasonerFactory.getInstance().createReasoner(ont) : PelletReasonerFactory.getInstance().createNonBufferingReasoner(ont);
 
 		final OWLDataProperty pInt = DataProperty(ns + "pInt");
@@ -477,18 +459,13 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testFamily()
 	{
 		final String ns = "http://www.example.org/family#";
-
 		final OWLOntology ont = loadOntology(_base + "family.owl");
-		ont.axioms().map(OWLAxiom::toString).sorted().forEach(System.out::println);
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		try
 		{
 			testFamily(ns, reasoner);
-
 			reasoner.getKB().realize();
-
 			testFamily(ns, reasoner);
 		}
 		finally
@@ -501,22 +478,18 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testFamilyIncremental()
 	{
 		final String ns = "http://www.example.org/family#";
-
 		final OWLOntology ont = loadOntology(_base + "family.owl");
-
 		final IncrementalClassifier classifier = new IncrementalClassifier(ont);
 
 		try
 		{
 			// force classification
 			classifier.classify();
-
 			testFamily(ns, classifier);
 
 			// force realization
 			final OWLNamedIndividual ind1 = Individual(ns + "ind1");
 			classifier.getTypes(ind1, true);
-
 			testFamily(ns, classifier);
 		}
 		finally
@@ -707,15 +680,13 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testAnonInverse()
 	{
 		final String ns = "http://www.example.org/test#";
-
 		final OWLOntology ont = loadOntology(_base + "anon_inverse.owl");
+		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		final OWLClass C = Class(ns + "C");
 		final OWLClass D = Class(ns + "D");
 		final OWLObjectProperty r = ObjectProperty(ns + "r");
 		final OWLClassExpression desc = some(inverse(r), D);
-
-		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		assertStreamAsSetEquals(Stream.of(C), reasoner.getSubClasses(desc, true).entities());
 
@@ -745,9 +716,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testDLSafeRules()
 	{
 		final String ns = "http://owldl.com/ontologies/dl-safe.owl#";
-
 		final OWLOntology ont = loadOntology(_base + "dl-safe.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		// OWLObjectProperty father = _factory.getOWLObjectProperty( URI.create(
@@ -805,9 +774,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testDLSafeConstants()
 	{
 		final String ns = "http://owldl.com/ontologies/dl-safe-constants.owl#";
-
 		final OWLOntology ont = loadOntology(_base + "dl-safe-constants.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		final OWLClass DreamTeamMember = Class(ns + "DreamTeamMember");
@@ -824,9 +791,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 				reasoner.prepareReasoner();
 
 			assertIteratorValues(reasoner.getInstances(DreamTeamMember, false).entities().iterator(), new Object[] { Alice, Bob, Charlie });
-
 			assertIteratorValues(reasoner.getInstances(DreamTeamMember1, false).entities().iterator(), new Object[] { Alice, Bob, Charlie });
-
 			assertIteratorValues(reasoner.getInstances(DreamTeamMember2, false).entities().iterator(), new Object[] { Alice, Bob, Charlie });
 		}
 	}
@@ -870,9 +835,7 @@ public class OWLAPITests extends AbstractOWLAPITests
 	public void testInvalidTransitivity2()
 	{
 		final OWLOntology ont = loadOntology(_base + "invalidTransitivity.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
-
 		final KnowledgeBase kb = reasoner.getKB();
 		kb.prepare();
 
@@ -1041,7 +1004,6 @@ public class OWLAPITests extends AbstractOWLAPITests
 		boolean timeout = false;
 
 		final OWLOntology ont = loadOntology(_base + "food.owl");
-
 		final PelletReasoner pellet = PelletReasonerFactory.getInstance().createReasoner(ont);
 		final KnowledgeBase kb = pellet.getKB();
 
@@ -1413,14 +1375,10 @@ public class OWLAPITests extends AbstractOWLAPITests
 
 	@Ignore
 	@Test
-	public void testSetTheory()
+	public void testSetTheory() // This test doesn't work, the url isn't available.
 	{
-		// This tests #388
-
 		final String ns = "http://www.integratedmodelling.org/ks/tarassandbox/set-theory.owl#";
-
 		final OWLOntology ont = loadOntology(_base + "set-theory.owl");
-
 		final PelletReasoner reasoner = PelletReasonerFactory.getInstance().createReasoner(ont);
 
 		reasoner.getKB().classify();
