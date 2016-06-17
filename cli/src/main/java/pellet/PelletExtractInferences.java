@@ -37,6 +37,7 @@ import org.mindswap.pellet.utils.SetUtils;
  */
 public class PelletExtractInferences extends PelletCmdApp
 {
+	private static final transient boolean _debug = false;
 
 	private EnumSet<StatementType> selector;
 
@@ -110,12 +111,13 @@ public class PelletExtractInferences extends PelletCmdApp
 
 		if (SetUtils.intersects(selector, ModelExtractor.StatementType.ALL_INDIVIDUAL_STATEMENTS))
 		{
-			startTask("Extracting _individual statements");
+			startTask("Extracting individual statements");
 			extractor.extractIndividualModel(extracted);
-			finishTask("Extracting _individual statements");
+			finishTask("Extracting individual statements");
 		}
 
-		output(extracted);
+		if (_debug)
+			output(extracted);
 	}
 
 	private String validStatementArguments()

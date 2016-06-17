@@ -297,7 +297,7 @@ public class WebOntTest
 								}
 		}
 
-		System.out.println("Reading _manifest file " + manifestFile);
+		System.out.println("Reading manifest file " + manifestFile);
 		System.out.println();
 
 		long time = System.currentTimeMillis();

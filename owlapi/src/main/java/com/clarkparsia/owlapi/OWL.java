@@ -162,10 +162,7 @@ public class OWL implements FacetManagerOWL, FacetFactoryOWL, Logging
 
 	public static OWLOntology Ontology(final Stream<? extends OWLAxiom> axioms)
 	{
-		_logger.info("Using an test method.");
-		final IRI uri = IRI.create("http://www.example.org/ontology" + UUID.randomUUID());
-
-		return Ontology(axioms, uri);
+		return Ontology(axioms, IRI.create("http://www.example.org/ontology" + UUID.randomUUID()));
 	}
 
 	public static OWLOntology Ontology(final Collection<? extends OWLAxiom> axioms, final IRI iri)

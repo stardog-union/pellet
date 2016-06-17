@@ -2032,7 +2032,7 @@ public class KnowledgeBase
 	}
 
 	/**
-	 * Returns true if the consistency check has been done and nothing in th KB has changed after that.
+	 * Returns true if the consistency check has been done and nothing in the KB has changed after that.
 	 */
 	public boolean isConsistencyDone()
 	{

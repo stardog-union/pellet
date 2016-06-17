@@ -159,7 +159,6 @@ public class CLITests
 	{
 		runAppVerbose(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
@@ -173,7 +172,6 @@ public class CLITests
 	{
 		runAppVerbose(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
@@ -187,7 +185,6 @@ public class CLITests
 	{
 		runWithIgnore(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
@@ -201,20 +198,19 @@ public class CLITests
 	{
 		runAppSimple(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
 				return new PelletInfo();
 			}
-		},//
-				fileIRI("test/data/modularity/koala.owl"),//
-				fileIRI("test/data/modularity/galen.owl"),//
-				fileIRI("test/data/modularity/miniTambis.owl"),//
-				fileIRI("test/data/modularity/SUMO.owl"),//
-				fileIRI("test/data/modularity/SWEET.owl"),//
+		}, //
+				fileIRI("test/data/modularity/koala.owl"), //
+				fileIRI("test/data/modularity/galen.owl"), //
+				fileIRI("test/data/modularity/miniTambis.owl"), //
+				fileIRI("test/data/modularity/SUMO.owl"), //
+				fileIRI("test/data/modularity/SWEET.owl"), //
 				fileIRI("test/data/modularity/wine.owl")//
-				);
+		);
 	}
 
 	@Test
@@ -222,7 +218,6 @@ public class CLITests
 	{
 		runAppVerbose(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
@@ -236,7 +231,6 @@ public class CLITests
 	{
 		runAppVerbose(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
@@ -250,7 +244,6 @@ public class CLITests
 	{
 		runAppVerbose(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
@@ -264,7 +257,6 @@ public class CLITests
 	{
 		runWithIgnore(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
@@ -278,7 +270,6 @@ public class CLITests
 	{
 		runAppVerbose(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{
@@ -306,7 +297,6 @@ public class CLITests
 	{
 		runWithLoaders(new CLIMaker()
 		{
-
 			@Override
 			protected PelletCmdApp create()
 			{

@@ -66,6 +66,8 @@ public class JenaExplanationTest extends AbstractExplanationTest
 {
 	private static final Logger _logger = Log.getLogger(JenaExplanationTest.class);
 
+	private static final boolean _debug = false;
+
 	@Parameters
 	public static Collection<Object[]> getParameters()
 	{
@@ -91,7 +93,7 @@ public class JenaExplanationTest extends AbstractExplanationTest
 	{
 		final StringDocumentTarget output = new StringDocumentTarget();
 
-		manager.saveOntology(ontology, new TurtleDocumentFormat(), output);
+		_manager.saveOntology(ontology, new TurtleDocumentFormat(), output);
 
 		final Model model = ModelFactory.createDefaultModel();
 		model.read(new StringReader(output.toString()), ontologyURI.toString(), "TTL");
@@ -215,9 +217,10 @@ public class JenaExplanationTest extends AbstractExplanationTest
 
 		final Set<OWLAxiom> expectedExplanation = expectedExplanations.iterator().next();
 		final StringWriter sw = new StringWriter();
-		ModelFactory.createModelForGraph(actual).write(System.out, "TTL");
+		if (_debug)
+			ModelFactory.createModelForGraph(actual).write(System.out, "TTL");
 		ModelFactory.createModelForGraph(actual).write(sw, "RDF/XML");
-		final OWLOntology ont = manager.loadOntologyFromOntologyDocument(new StringDocumentSource(sw.toString()));
+		final OWLOntology ont = _manager.loadOntologyFromOntologyDocument(new StringDocumentSource(sw.toString()));
 		final Set<? extends OWLAxiom> actualExplanation = ont.logicalAxioms().collect(Collectors.toSet());
 
 		System.out.println(actualExplanation);

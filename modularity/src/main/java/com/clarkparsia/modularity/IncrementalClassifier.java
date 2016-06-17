@@ -445,6 +445,8 @@ public class IncrementalClassifier implements OWLReasoner, OWLOntologyChangeList
 	public void ontologiesChanged(final List<? extends OWLOntologyChange> changes)
 	{
 		final OWLOntology ontology = getRootOntology();
+		if (ontology == null || ontology.getOWLOntologyManager() == null || ontology.getOWLOntologyManager().ontologies() == null)
+			return;
 
 		if (!ontology//
 				.getOWLOntologyManager()//

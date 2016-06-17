@@ -32,7 +32,8 @@ public class QuerySubsumptionExample
 {
 	String ont = "http://owldl.com/ontologies/family.owl";
 	String family = "http://www.example.org/family#";
-	String prefix = "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n" + "PREFIX family: <" + family + ">\r\n" + "SELECT * { ";
+	String prefix = "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\r\n"// 
+			+ "PREFIX family: <" + family + ">\r\n" + "SELECT * { ";
 	String suffix = " }";
 	KnowledgeBase kb;
 	QueryParser parser;

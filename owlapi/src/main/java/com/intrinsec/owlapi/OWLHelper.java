@@ -412,7 +412,7 @@ public interface OWLHelper extends Logging, OWLManagementObject
 	}
 
 	/**
-	 * @return the axioms as a single blol string.
+	 * @return the axioms as a single blob string.
 	 * @throws OWLOntologyStorageException if we can't store the ontology.
 	 * @throws IOException if there is an problem when reading. * @since 1.2
 	 * @since 2.5.1
@@ -447,7 +447,7 @@ public interface OWLHelper extends Logging, OWLManagementObject
 			final Stream<OWLAxiom> axioms = Stream.of( //
 					getFactory().getOWLDeclarationAxiom(individual), //
 					getFactory().getOWLSameIndividualAxiom(individual, param) // The temporary named is the same as the anonymous one.
-					);
+			);
 			getManager().addAxioms(getOntology(), axioms);
 			final NodeSet<OWLClass> result = getReasoner().getTypes(individual, false);
 			getManager().removeAxioms(getOntology(), axioms);

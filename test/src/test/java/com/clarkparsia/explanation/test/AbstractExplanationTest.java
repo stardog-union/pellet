@@ -43,7 +43,7 @@ import org.semanticweb.owlapi.vocab.SWRLBuiltInsVocabulary;
 public abstract class AbstractExplanationTest
 {
 	static final String BASEPATH = "file:data/";
-	static final OWLOntologyManager manager = OWL._manager;
+	static final OWLOntologyManager _manager = OWL._manager;
 	static final URI ontologyURI = URI.create("http://www.example.org/test#");
 
 	protected boolean _classify;
@@ -129,7 +129,7 @@ public abstract class AbstractExplanationTest
 	@After
 	public void after()
 	{
-		manager.ontologies().forEach(manager::removeOntology);
+		_manager.ontologies().forEach(_manager::removeOntology);
 	}
 
 	/**
@@ -239,7 +239,7 @@ public abstract class AbstractExplanationTest
 	public void koalaHardWorkingDomain() throws Exception
 	{
 		final String ns = "http://protege.stanford.edu/plugins/owl/owl-library/koala.owl#";
-		final OWLOntology ontology = manager.loadOntologyFromOntologyDocument(ClassLoader.getSystemResourceAsStream("test/data/modularity/koala.owl"));
+		final OWLOntology ontology = _manager.loadOntologyFromOntologyDocument(ClassLoader.getSystemResourceAsStream("test/data/modularity/koala.owl"));
 		final OWLClass animal = OWL.Class(ns + "Animal");
 		final OWLClass person = OWL.Class(ns + "Person");
 		final OWLDataProperty hardWorking = OWL.DataProperty(ns + "isHardWorking");

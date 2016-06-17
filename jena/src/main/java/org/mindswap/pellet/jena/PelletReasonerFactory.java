@@ -46,29 +46,27 @@ public class PelletReasonerFactory implements ReasonerFactory
 {
 	private static final String URI = "http://pellet.owldl.com";
 
-	private static PelletReasonerFactory theInstance;
+	private static PelletReasonerFactory _theInstance = new PelletReasonerFactory();
 
-	public static OntModelSpec THE_SPEC;
+	public static OntModelSpec THE_SPEC = new OntModelSpec(OntModelSpec.OWL_MEM);
 
 	static
 	{
-		theInstance = new PelletReasonerFactory();
-
-		THE_SPEC = new OntModelSpec(OntModelSpec.OWL_MEM);
-		THE_SPEC.setReasonerFactory(theInstance);
+		THE_SPEC.setReasonerFactory(_theInstance);
 
 		ReasonerRegistry.theRegistry().register(PelletReasonerFactory.theInstance());
 	}
 
 	public static PelletReasonerFactory theInstance()
 	{
-		return theInstance;
+		return _theInstance;
 	}
 
-	private Model reasonerCapabilities;
+	private Model _reasonerCapabilities;
 
 	private PelletReasonerFactory()
 	{
+		//
 	}
 
 	public PelletReasoner create()
@@ -85,16 +83,24 @@ public class PelletReasonerFactory implements ReasonerFactory
 	@Override
 	public Model getCapabilities()
 	{
-		if (reasonerCapabilities == null)
+		if (_reasonerCapabilities == null)
 		{
-			reasonerCapabilities = ModelFactory.createDefaultModel();
-			final Resource base = reasonerCapabilities.createResource(URI);
-			base.addProperty(ReasonerVocabulary.nameP, "Pellet Reasoner").addProperty(ReasonerVocabulary.descriptionP, "Reasoner that is backed by the OWL DL reasoner Pellet.").addProperty(ReasonerVocabulary.supportsP, RDFS.subClassOf).addProperty(ReasonerVocabulary.supportsP, RDFS.subPropertyOf).addProperty(ReasonerVocabulary.supportsP, RDFS.member).addProperty(ReasonerVocabulary.supportsP, RDFS.range).addProperty(ReasonerVocabulary.supportsP, RDFS.domain)
-
-			.addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.individualAsThingP).addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directSubClassOf).addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directSubPropertyOf).addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directRDFType);
+			_reasonerCapabilities = ModelFactory.createDefaultModel();
+			final Resource base = _reasonerCapabilities.createResource(URI);
+			base.addProperty(ReasonerVocabulary.nameP, "Openllet Reasoner")//
+					.addProperty(ReasonerVocabulary.descriptionP, "Reasoner that is backed by the OWL DL reasoner Openllet.")//
+					.addProperty(ReasonerVocabulary.supportsP, RDFS.subClassOf)//
+					.addProperty(ReasonerVocabulary.supportsP, RDFS.subPropertyOf)//
+					.addProperty(ReasonerVocabulary.supportsP, RDFS.member)//
+					.addProperty(ReasonerVocabulary.supportsP, RDFS.range)//
+					.addProperty(ReasonerVocabulary.supportsP, RDFS.domain)//
+					.addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.individualAsThingP)//
+					.addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directSubClassOf)//
+					.addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directSubPropertyOf)//
+					.addProperty(ReasonerVocabulary.supportsP, ReasonerVocabulary.directRDFType);//
 		}
 
-		return reasonerCapabilities;
+		return _reasonerCapabilities;
 	}
 
 	@Override

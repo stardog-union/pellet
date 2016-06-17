@@ -71,7 +71,7 @@ public class PelletClassify extends PelletCmdApp
 	/**
 	 * Boolean flag whether the state of the classifier saved on disk is up-to-date
 	 */
-	private boolean currentStateSaved = false;
+	private boolean _currentStateSaved = false;
 
 	public PelletClassify()
 	{
@@ -147,7 +147,7 @@ public class PelletClassify extends PelletCmdApp
 		final String loaderName = _options.getOption("loader").getValueAsString();
 
 		if (!"OWLAPI".equals(loaderName))
-			_logger.log(Level.WARNING, "Ignoring -l " + loaderName + " option. When using --persist the only allowed _loader is OWLAPI");
+			_logger.log(Level.WARNING, "Ignoring -l " + loaderName + " option. When using --persist the only allowed loader is OWLAPI");
 
 		final OWLAPILoader loader = (OWLAPILoader) getLoader("OWLAPI");
 
@@ -163,7 +163,7 @@ public class PelletClassify extends PelletCmdApp
 			finishTask("consistency check");
 
 			if (!isConsistent)
-				throw new PelletCmdException("Ontology is inconsistent, run \"pellet explain\" to get the reason");
+				throw new PelletCmdException("Ontology is inconsistent, run \"openllet explain\" to get the reason");
 
 			startTask("classification");
 			incrementalClassifier.classify();
@@ -173,7 +173,7 @@ public class PelletClassify extends PelletCmdApp
 		final TaxonomyPrinter<OWLClass> printer = new OWLClassTreePrinter();
 		printer.print(incrementalClassifier.getTaxonomy());
 
-		if (!currentStateSaved)
+		if (!_currentStateSaved)
 			persistIncrementalClassifier(incrementalClassifier, ontology);
 	}
 
@@ -250,7 +250,7 @@ public class PelletClassify extends PelletCmdApp
 				result.ontologiesChanged(new LinkedList<>(ontologyDiff.getChanges(ontology)));
 			}
 			else
-				currentStateSaved = true;
+				_currentStateSaved = true;
 
 			return result;
 		}

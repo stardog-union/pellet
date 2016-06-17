@@ -56,7 +56,7 @@ public class OWLManagerGroup implements AutoCloseable
 	{
 		if (_volatileManager == null)
 		{
-			_volatileManager = OWLManager.createOWLOntologyManager();
+			_volatileManager = OWLManager.createConcurrentOWLOntologyManager();
 		}
 
 		return _volatileManager;
@@ -72,7 +72,7 @@ public class OWLManagerGroup implements AutoCloseable
 	{
 		if (_storageManager == null)
 		{
-			_storageManager = OWLManager.createOWLOntologyManager();
+			_storageManager = OWLManager.createConcurrentOWLOntologyManager();
 
 			if (!getOntologiesDirectory().isPresent())
 			{
