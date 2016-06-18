@@ -5,12 +5,6 @@ import com.clarkparsia.pellint.lintpattern.axiom.AxiomLintPattern;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>

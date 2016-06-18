@@ -6,12 +6,6 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>

@@ -38,7 +38,26 @@ import org.junit.runners.Suite;
  * @author Harris Lin
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ DoubtfulSetTest.class, RDFModelTest.class, OptimizedDirectedMultigraphTest.class, LintTest.class, LintFixerTest.class, OntologyLintsTest.class, LintPatternLoaderTest.class, EquivalentToAllValuePatternTest.class, EquivalentToComplementPatternTest.class, EquivalentToTopPatternTest.class, GCIPatternTest.class, LargeCardinalityPatternTest.class, LargeDisjunctionPatternTest.class, EquivalentAndSubclassAxiomPatternTest.class, ExistentialExplosionPatternTest.class, TooManyDifferentIndividualsPatternTest.class, OWLSyntaxCheckerTest.class, OWLDatatypeTest.class, OWL2DLProfileViolationsTest.class })
+@Suite.SuiteClasses({ // 
+		DoubtfulSetTest.class, //
+		RDFModelTest.class, //
+		OptimizedDirectedMultigraphTest.class, //
+		LintTest.class, //
+		LintFixerTest.class, //
+		OntologyLintsTest.class, //
+		LintPatternLoaderTest.class, //
+		EquivalentToAllValuePatternTest.class, //
+		EquivalentToComplementPatternTest.class, //
+		EquivalentToTopPatternTest.class, //
+		GCIPatternTest.class, //
+		LargeCardinalityPatternTest.class, //
+		LargeDisjunctionPatternTest.class, //
+		EquivalentAndSubclassAxiomPatternTest.class, //
+		ExistentialExplosionPatternTest.class, //
+		TooManyDifferentIndividualsPatternTest.class, //
+		OWLSyntaxCheckerTest.class, //
+		OWLDatatypeTest.class, //
+		OWL2DLProfileViolationsTest.class })
 public class PellintTestSuite
 {
 	public static Test suite()

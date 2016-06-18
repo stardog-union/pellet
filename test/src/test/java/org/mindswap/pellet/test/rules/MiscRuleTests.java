@@ -65,6 +65,7 @@ import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.jena.PelletReasonerFactory;
 import org.mindswap.pellet.test.AbstractKBTests;
 import org.mindswap.pellet.test.PelletTestSuite;
+import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -1032,7 +1033,32 @@ public class MiscRuleTests extends AbstractKBTests
 	@Test
 	public void testRepeatedVars() throws Exception
 	{
-		final StringDocumentSource source = new StringDocumentSource("Prefix(owl:=<http://www.w3.org/2002/07/owl#>)\n" + "Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\n" + "Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)\n" + "Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)\n" + "Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n" + "\n" + "Ontology(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215>\n" + "Import(<http://www.w3.org/2006/time>)\n" + "\n" + "EquivalentClasses(<http://www.w3.org/2006/time#Instant> ObjectHasSelf(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant>))\n" + "Declaration(ObjectProperty(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant>))\n" + "Declaration(NamedIndividual(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1>))\n" + "ClassAssertion(<http://www.w3.org/2006/time#Instant> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1>)\n" + "DataPropertyAssertion(<http://www.w3.org/2006/time#inXSDDateTime> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1> \"2000-01-01T00:00:00\"^^xsd:dateTime)\n" + "Declaration(NamedIndividual(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2>))\n" + "ClassAssertion(<http://www.w3.org/2006/time#Instant> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2>)\n" + "DataPropertyAssertion(<http://www.w3.org/2006/time#inXSDDateTime> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2> \"2003-01-01T00:00:00\"^^xsd:dateTime)\n" + "DLSafeRule(Body(ObjectPropertyAtom(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant> Variable(<urn:swrl#x>) Variable(<urn:swrl#x>)) " + "ObjectPropertyAtom(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant> Variable(<urn:swrl#z>) Variable(<urn:swrl#z>)) " + "DataPropertyAtom(<http://www.w3.org/2006/time#inXSDDateTime> Variable(<urn:swrl#x>) Variable(<urn:swrl#y>)) " + "DataPropertyAtom(<http://www.w3.org/2006/time#inXSDDateTime> Variable(<urn:swrl#z>) Variable(<urn:swrl#w>)) " + "BuiltInAtom(<http://www.w3.org/2003/11/swrlb#lessThan> Variable(<urn:swrl#y>) Variable(<urn:swrl#w>)))" + "Head(ObjectPropertyAtom(<http://www.w3.org/2006/time#before> Variable(<urn:swrl#x>) Variable(<urn:swrl#z>))))\n" + ")");
+		final StringDocumentSource source = new StringDocumentSource(//
+				"Prefix(owl:=<http://www.w3.org/2002/07/owl#>)\n" + //
+						"Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)\n" + //
+						"Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)\n" + //
+						"Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)\n" + //
+						"Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)\n" + //
+						"\n" + //
+						"Ontology(" + //
+						"<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215>\n" + //
+						"Import(<http://www.w3.org/2006/time>)\n" + //
+						"\n" + //
+						"EquivalentClasses(<http://www.w3.org/2006/time#Instant> ObjectHasSelf(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant>))\n" + // 
+						"Declaration(ObjectProperty(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant>))\n" + //
+						"Declaration(NamedIndividual(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1>))\n" + //
+						"ClassAssertion(<http://www.w3.org/2006/time#Instant> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1>)\n" + // 
+						"DataPropertyAssertion(<http://www.w3.org/2006/time#inXSDDateTime> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant1> \"2000-01-01T00:00:00\"^^xsd:dateTime)\n" + //
+						"Declaration(NamedIndividual(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2>))\n" + //
+						"ClassAssertion(<http://www.w3.org/2006/time#Instant> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2>)\n" + //
+						"DataPropertyAssertion(<http://www.w3.org/2006/time#inXSDDateTime> <http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#Instant2> \"2003-01-01T00:00:00\"^^xsd:dateTime)\n" + // 
+						"DLSafeRule(Body(ObjectPropertyAtom(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant> Variable(<urn:swrl#x>) Variable(<urn:swrl#x>)) " + //
+						"ObjectPropertyAtom(<http://www.semanticweb.org/ontologies/2014/3/untitled-ontology-215#R_Instant> Variable(<urn:swrl#z>) Variable(<urn:swrl#z>)) " + //
+						"DataPropertyAtom(<http://www.w3.org/2006/time#inXSDDateTime> Variable(<urn:swrl#x>) Variable(<urn:swrl#y>)) " + //
+						"DataPropertyAtom(<http://www.w3.org/2006/time#inXSDDateTime> Variable(<urn:swrl#z>) Variable(<urn:swrl#w>)) " + //
+						"BuiltInAtom(<http://www.w3.org/2003/11/swrlb#lessThan> Variable(<urn:swrl#y>) Variable(<urn:swrl#w>)))" + //
+						"Head(ObjectPropertyAtom(<http://www.w3.org/2006/time#before> Variable(<urn:swrl#x>) Variable(<urn:swrl#z>))))\n" + //
+						")");
 
 		final OWLOntology ont = OWL._manager.loadOntologyFromOntologyDocument(source);
 		final PelletReasoner reasoner = com.clarkparsia.pellet.owlapi.PelletReasonerFactory.getInstance().createReasoner(ont);
@@ -1208,4 +1234,37 @@ public class MiscRuleTests extends AbstractKBTests
 		assertIteratorValues(_kb.getObjectPropertyValues(_q, _c).iterator());
 		assertIteratorValues(_kb.getObjectPropertyValues(_q, _d).iterator());
 	}
+
+	/**
+	 * This test produce twice the warning.
+	 * 
+	 * @throws Exception
+	 * @since 2.5.1
+	 */
+	@Test
+	public void testSimpleStringDocumentCreation() throws Exception
+	{
+		// [main] WARN org.semanticweb.owlapi.util.SAXParsers - http://www.oracle.com/xml/jaxp/properties/entityExpansionLimit not supported by parser type org.apache.xerces.jaxp.SAXParserImpl, error message: Property 'http://www.oracle.com/xml/jaxp/properties/entityExpansionLimit' is not recognized.
+		// [main] WARN org.semanticweb.owlapi.util.SAXParsers - entityExpansionLimit not supported by parser type org.apache.xerces.jaxp.SAXParserImpl, error message: Property 'entityExpansionLimit' is not recognized.
+
+		OWLManager.createOWLOntologyManager().loadOntologyFromOntologyDocument(new StringDocumentSource(""));
+	}
+
+	/**
+	 * This test produce three time the warning.
+	 * 
+	 * @throws Exception
+	 * @since 2.5.1
+	 */
+	@Test
+	public void testSimpleStringDocumentCreationWithTime() throws Exception
+	{
+		OWLManager.createOWLOntologyManager()
+				.loadOntologyFromOntologyDocument(new StringDocumentSource("Ontology(" + //
+						"<http://www.semanticweb.org/ontologies/2016/6/untitled-ontology-018>\n" + //
+						"Import(<http://www.w3.org/2006/time>)\n" + //
+						")" //
+		));
+	}
+
 }

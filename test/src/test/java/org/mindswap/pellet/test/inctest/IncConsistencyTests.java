@@ -56,9 +56,6 @@ import org.mindswap.pellet.utils.Timer;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
  * Description: Unit tests for incremental consistency checking.
  * </p>
  * <p>
@@ -107,7 +104,7 @@ public class IncConsistencyTests extends AbstractKBTests
 			_relative = term("relative"), //
 			_sibling = term("sibling"), //
 			_person = term("person"), // 
-			_animalOwner = term("animalOwner"),// 
+			_animalOwner = term("animalOwner"), // 
 			_owns = term("owns"), //
 			_ownedBy = term("ownedBy"), // 
 			_knows = term("knows"), //

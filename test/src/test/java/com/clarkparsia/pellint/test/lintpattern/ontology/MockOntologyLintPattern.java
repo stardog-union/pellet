@@ -8,12 +8,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
  * <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
  * Copyright: Copyright (c) 2008
  * </p>
  * <p>
