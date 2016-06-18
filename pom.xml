@@ -43,6 +43,7 @@
     <org.apache.commons.commons-math3>3.6.1</org.apache.commons.commons-math3>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <org.antlr.antlr-runtime>3.5.2</org.antlr.antlr-runtime>
   </properties>
 
   <prerequisites>
@@ -80,6 +81,11 @@
         <groupId>xerces</groupId>
         <artifactId>xercesImpl</artifactId>
         <version>2.11.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr-runtime</artifactId>
+        <version>${org.antlr.antlr-runtime}</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>

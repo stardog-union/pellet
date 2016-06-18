@@ -45,54 +45,48 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 {
 	public AbstractIncrementalClassifierTest()
 	{
+		//
 	}
 
 	private void updateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions)
 	{
 		createOntology(axioms);
-
 		TestUtils.runUpdateTest(_ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 	}
 
 	private void disjointnessTest(final OWLAxiom[] axioms)
 	{
 		createOntology(axioms);
-
 		TestUtils.runDisjointnessTest(_ontology, createModuleExtractor());
 	}
 
 	private void disjointnessUpdateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions)
 	{
 		createOntology(axioms);
-
 		TestUtils.runDisjointnessUpdateTest(_ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 	}
 
 	private void instancesTest(final OWLAxiom[] axioms)
 	{
 		createOntology(axioms);
-
 		TestUtils.runInstancesTest(_ontology, createModuleExtractor());
 	}
 
 	private void typesTest(final OWLAxiom[] axioms)
 	{
 		createOntology(axioms);
-
 		TestUtils.runTypesTest(_ontology, createModuleExtractor());
 	}
 
 	private void instancesUpdateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions)
 	{
 		createOntology(axioms);
-
 		TestUtils.runInstancesUpdateTest(_ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 	}
 
 	private void typesUpdateTest(final OWLAxiom[] axioms, final OWLAxiom[] additions, final OWLAxiom[] deletions)
 	{
 		createOntology(axioms);
-
 		TestUtils.runTypesUpdateTest(_ontology, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 	}
 
@@ -112,7 +106,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_C, _B), subClassOf(_B, _A), subClassOf(_D, Thing) };
 		final OWLAxiom[] additions = { subClassOf(_B, not(_A)) };
 		final OWLAxiom[] deletions = {};
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -122,7 +115,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, Thing), equivalentClasses(_A, some(_p, _C)), equivalentClasses(_B, some(_p, _D)), subClassOf(_C, Thing), subClassOf(_D, _C), subClassOf(_E, Thing), subClassOf(_F, _E) };
 		final OWLAxiom[] additions = {};
 		final OWLAxiom[] deletions = { subClassOf(_D, _C) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -147,7 +139,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_A, _C), disjointClasses(_B, _C) };
 		final OWLAxiom[] additions = {};
 		final OWLAxiom[] deletions = { subClassOf(_A, _B) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -157,7 +148,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, _A), label(_B, "B label") };
 		final OWLAxiom[] additions = {};
 		final OWLAxiom[] deletions = { subClassOf(_B, _A) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -167,7 +157,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_C, Thing), subClassOf(_D, Thing) };
 		final OWLAxiom[] additions = { subClassOf(_B, Thing), subClassOf(_C, _B), subClassOf(_D, _B) };
 		final OWLAxiom[] deletions = {};
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -177,7 +166,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, Thing), subClassOf(_C, _B), subClassOf(_D, _B) };
 		final OWLAxiom[] additions = {};
 		final OWLAxiom[] deletions = { subClassOf(_B, Thing), subClassOf(_C, _B), subClassOf(_D, _B) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -187,7 +175,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, _A), subClassOf(_C, _B), subClassOf(_D, _C), subClassOf(_E, _B) };
 		final OWLAxiom[] additions = { subClassOf(_B, _C) };
 		final OWLAxiom[] deletions = {};
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -197,7 +184,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, _A), subClassOf(_C, _B), subClassOf(_D, _C), subClassOf(_E, _B), subClassOf(_B, _C) };
 		final OWLAxiom[] additions = {};
 		final OWLAxiom[] deletions = { subClassOf(_B, _C) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -211,10 +197,8 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	public void addAndRename()
 	{
 		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, Thing) };
-
 		final OWLAxiom[] additions = { declaration(_C), subClassOf(_C, _A), declaration(_D), subClassOf(_D, _A) };
 		final OWLAxiom[] deletions = { declaration(_C), subClassOf(_C, _A) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -224,7 +208,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, Thing), subClassOf(_B, _A), subClassOf(_E, _A), subClassOf(_C, _B), subClassOf(_D, _C), subClassOf(_F, _E), subClassOf(_G, _F) };
 		final OWLAxiom[] additions = { subClassOf(_C, _E), subClassOf(_F, _B) };
 		final OWLAxiom[] deletions = { subClassOf(_C, _B), subClassOf(_F, _E) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -234,7 +217,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, and(_B, _C, some(_p, _C))), subClassOf(_B, or(all(_p, not(_C)), _D)), subClassOf(_D, _E) };
 		final OWLAxiom[] additions = { subClassOf(_A, not(_E)) };
 		final OWLAxiom[] deletions = {};
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -251,7 +233,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_A, all(_p, _C)) };
 		final OWLAxiom[] additions = {};
 		final OWLAxiom[] deletions = { subClassOf(_A, _B) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -266,7 +247,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { subClassOf(_A, _B), subClassOf(_A, _C), disjointClasses(_B, _C) };
 		final OWLAxiom[] additions = {};
 		final OWLAxiom[] deletions = { subClassOf(_A, _B), subClassOf(_A, _C) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -281,7 +261,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { declaration(_A) };
 		final OWLAxiom[] additions = { equivalentClasses(_B, all(_p, _B)) };
 		final OWLAxiom[] deletions = {};
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -291,7 +270,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { equivalentClasses(_A, all(_p, _B)), subClassOf(_C, all(_p, _B)), subClassOf(_D, all(_p, _B)), subClassOf(_D, _C) };
 		final OWLAxiom[] additions = {};
 		final OWLAxiom[] deletions = { subClassOf(_C, all(_p, _B)) };
-
 		updateTest(axioms, additions, deletions);
 	}
 
@@ -299,7 +277,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	public void basicDisjointnessTest()
 	{
 		final OWLAxiom[] axioms = { disjointClasses(_A, _B), subClassOf(_C, _A), subClassOf(_D, _B), equivalentClasses(_E, _A) };
-
 		disjointnessTest(axioms);
 	}
 
@@ -309,7 +286,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { disjointClasses(_A, _B), subClassOf(_C, _A), subClassOf(_D, _B), equivalentClasses(_E, _A) };
 		final OWLAxiom[] additions = { disjointClasses(_D, _C) };
 		final OWLAxiom[] deletions = { disjointClasses(_A, _B) };
-
 		disjointnessUpdateTest(axioms, additions, deletions);
 	}
 
@@ -317,7 +293,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	public void basicInstancesTest()
 	{
 		final OWLAxiom[] axioms = { classAssertion(_a, _A), classAssertion(_b, _B), domain(_p, _C), range(_p, _D), propertyAssertion(_a, _p, _b) };
-
 		instancesTest(axioms);
 	}
 
@@ -327,7 +302,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { classAssertion(_a, _A), classAssertion(_b, _B), domain(_p, _C), range(_p, _D), propertyAssertion(_a, _p, _b) };
 		final OWLAxiom[] additions = { range(_p, _E) };
 		final OWLAxiom[] deletions = { range(_p, _D) };
-
 		instancesUpdateTest(axioms, additions, deletions);
 	}
 
@@ -335,7 +309,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 	public void basicTypesTest()
 	{
 		final OWLAxiom[] axioms = { classAssertion(_a, _A), classAssertion(_b, _B), domain(_p, _C), range(_p, _D), propertyAssertion(_a, _p, _b) };
-
 		typesTest(axioms);
 	}
 
@@ -345,7 +318,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		final OWLAxiom[] axioms = { classAssertion(_a, _A), classAssertion(_b, _B), domain(_p, _C), range(_p, _D), propertyAssertion(_a, _p, _b) };
 		final OWLAxiom[] additions = { range(_p, _E) };
 		final OWLAxiom[] deletions = { range(_p, _D) };
-
 		typesUpdateTest(axioms, additions, deletions);
 	}
 
@@ -363,7 +335,6 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 		try
 		{
 			OWL._manager.applyChange(new AddImport(ontology1, OWL._factory.getOWLImportsDeclaration(ontology2.getOntologyID().getOntologyIRI().get())));
-
 			TestUtils.runUpdateTest(ontology1, createModuleExtractor(), Arrays.asList(additions), Arrays.asList(deletions));
 		}
 		finally
@@ -372,4 +343,5 @@ public abstract class AbstractIncrementalClassifierTest extends AbstractModulari
 			OWL._manager.removeOntology(ontology2);
 		}
 	}
+
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import com.clarkparsia.owlapi.OWL;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Arrays;
 import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import pellet.PelletClassify;
@@ -38,18 +39,9 @@ public class CLITests
 		}
 	}
 
-	// Not in Arrays as of 1.5
-	private static String[] copyOf(final String[] arr, final int len)
-	{
-		final String[] ret = new String[len];
-		for (int i = 0; i < len && i < arr.length; i++)
-			ret[i] = arr[i];
-		return ret;
-	}
-
 	private static String[] prepend(final String[] strs, final String... prefix)
 	{
-		final String[] value = copyOf(prefix, strs.length + prefix.length);
+		final String[] value = Arrays.copyOf(prefix, strs.length + prefix.length);
 		for (int i = prefix.length; i < value.length; i++)
 			value[i] = strs[i - prefix.length];
 		return value;
