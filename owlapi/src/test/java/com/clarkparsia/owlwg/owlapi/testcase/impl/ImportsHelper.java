@@ -4,7 +4,7 @@ import static java.lang.String.format;
 
 import com.clarkparsia.owlwg.testcase.SerializationFormat;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.semanticweb.owlapi.io.StringDocumentSource;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;

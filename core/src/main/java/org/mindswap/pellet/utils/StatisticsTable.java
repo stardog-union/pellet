@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 
 public class StatisticsTable<ROW, COL>
 {

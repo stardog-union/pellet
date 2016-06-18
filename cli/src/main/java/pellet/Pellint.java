@@ -39,7 +39,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.apache.jena.rdf.model.Statement;
 import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;

@@ -1,4 +1,4 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 import com.clarkparsia.pellet.owlapi.PelletReasoner;
 import com.clarkparsia.pellet.owlapi.PelletReasonerFactory;
@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;

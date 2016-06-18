@@ -1,9 +1,9 @@
 package com.clarkparsia.pellet.owlapi;
 
-import com.intrinsec.owlapi.OWLException;
 import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Set;
+import openllet.owlapi.OWLException;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.taxonomy.printer.TreeTaxonomyPrinter;
 import org.mindswap.pellet.utils.QNameProvider;

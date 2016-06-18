@@ -7,7 +7,7 @@
 package org.mindswap.pellet.tableau.completion.rule;
 
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.Node;

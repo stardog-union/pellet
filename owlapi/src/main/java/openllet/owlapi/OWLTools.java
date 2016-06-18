@@ -1,11 +1,11 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;

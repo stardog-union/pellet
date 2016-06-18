@@ -27,7 +27,7 @@ import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 
 /**

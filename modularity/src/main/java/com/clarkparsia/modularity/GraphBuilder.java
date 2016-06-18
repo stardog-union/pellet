@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.utils.SetUtils;
 import org.semanticweb.owlapi.model.AsOWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLAxiom;

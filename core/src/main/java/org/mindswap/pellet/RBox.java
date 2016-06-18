@@ -43,7 +43,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.UnsupportedFeatureException;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.utils.ATermUtils;

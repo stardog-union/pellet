@@ -32,7 +32,7 @@ package org.mindswap.pellet.tableau.completion.queue;
 
 import aterm.ATermAppl;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.IndividualIterator;
 import org.mindswap.pellet.Node;

@@ -31,7 +31,7 @@
 package org.mindswap.pellet.utils;
 
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.exceptions.TimeoutException;
 import org.mindswap.pellet.exceptions.TimerInterruptedException;
 

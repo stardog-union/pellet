@@ -1,4 +1,4 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 import com.intrinsec.owlapi.facet.FacetFactoryOWL;
 import com.intrinsec.owlapi.facet.FacetManagerOWL;

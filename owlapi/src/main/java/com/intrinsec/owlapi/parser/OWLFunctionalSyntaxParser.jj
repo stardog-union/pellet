@@ -22,7 +22,7 @@ options {
 
 PARSER_BEGIN(OWLFunctionalSyntaxParser)
 
-package com.intrinsec.owlapi.parser;
+package openllet.owlapi.parser;
 
 import java.net.*;
 import java.util.*;

@@ -1,6 +1,6 @@
 package com.intrinsec.owlapi.facet;
 
-import com.intrinsec.owlapi.OWLHelper;
+import openllet.owlapi.OWLHelper;
 
 /**
  * An object that is not itself an ontology but have one.

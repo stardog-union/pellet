@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.KnowledgeBase.ChangeType;
 import org.mindswap.pellet.PelletOptions;
 import org.mindswap.pellet.taxonomy.Taxonomy;

@@ -11,7 +11,7 @@ package com.clarkparsia.pellet.sparqldl.jena;
 import com.clarkparsia.pellet.sparqldl.parser.ARQParser;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Dataset;

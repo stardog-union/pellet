@@ -67,7 +67,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import junit.framework.JUnit4TestAdapter;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mindswap.pellet.KnowledgeBase;

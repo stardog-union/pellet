@@ -6,7 +6,7 @@ import aterm.ATermAppl;
 import com.clarkparsia.pellet.datatypes.exceptions.InvalidLiteralException;
 import java.util.logging.Logger;
 import javax.xml.bind.DatatypeConverter;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.Namespaces;
 

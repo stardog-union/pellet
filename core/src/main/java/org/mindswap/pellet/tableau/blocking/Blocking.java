@@ -32,7 +32,7 @@ package org.mindswap.pellet.tableau.blocking;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.Edge;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.Node;

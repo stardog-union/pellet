@@ -1,4 +1,4 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 import com.intrinsec.owlapi.parser.OWLFunctionalSyntaxParser;
 import java.io.BufferedReader;
@@ -21,7 +21,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.semanticweb.owlapi.io.ToStringRenderer;
 import org.semanticweb.owlapi.model.AddAxiom;
 import org.semanticweb.owlapi.model.AddImport;

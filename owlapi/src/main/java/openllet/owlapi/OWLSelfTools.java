@@ -1,4 +1,4 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;

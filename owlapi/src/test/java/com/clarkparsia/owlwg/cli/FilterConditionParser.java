@@ -15,7 +15,7 @@ import com.clarkparsia.owlwg.testcase.filter.UnsatisfiedSyntaxConstraintFilter;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 
 /**
  * <p>

@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.math.MathContext;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 
 /**
  * <p>

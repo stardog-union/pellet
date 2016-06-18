@@ -29,7 +29,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /**

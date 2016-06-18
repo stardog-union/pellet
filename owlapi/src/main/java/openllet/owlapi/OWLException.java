@@ -1,4 +1,4 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 /**
  * throw a exception for OWL related problems.

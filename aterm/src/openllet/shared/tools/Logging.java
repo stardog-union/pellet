@@ -1,4 +1,4 @@
-package net.katk.tools;
+package openllet.shared.tools;
 
 import java.util.logging.Logger;
 

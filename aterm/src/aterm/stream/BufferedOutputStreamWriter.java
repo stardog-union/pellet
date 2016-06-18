@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 
 /**
  * This is an unsynchronized buffered outputstream writer. By using this you can

@@ -12,7 +12,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 
 /**
  * Computes reachability in a directed _graph with and/or _nodes.

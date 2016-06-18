@@ -1,4 +1,4 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.stream.Stream;
-import net.katk.tools.Logging;
+import openllet.shared.tools.Logging;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.dlsyntax.renderer.DLSyntaxObjectRenderer;
 import org.semanticweb.owlapi.formats.OWLXMLDocumentFormatFactory;

@@ -6,7 +6,7 @@ package org.mindswap.pellet.utils;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 
 /**
  * Utility functions for URI's.

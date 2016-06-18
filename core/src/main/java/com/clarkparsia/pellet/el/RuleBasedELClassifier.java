@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.Role;
 import org.mindswap.pellet.taxonomy.CDOptimizedTaxonomyBuilder;
 import org.mindswap.pellet.taxonomy.TaxonomyBuilder;

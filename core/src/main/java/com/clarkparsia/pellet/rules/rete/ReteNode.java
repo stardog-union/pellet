@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 
 /**
  * @author Evren Sirin

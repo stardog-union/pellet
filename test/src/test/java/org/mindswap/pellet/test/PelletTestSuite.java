@@ -23,6 +23,7 @@ import com.clarkparsia.pellet.test.rbox.RBoxTestSuite;
 import com.clarkparsia.pellet.test.tbox.TBoxTests;
 import com.clarkparsia.pellet.test.transtree.TransTreeTestSuite;
 import com.clarkparsia.pellint.test.PellintTestSuite;
+import java.io.File;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -66,8 +67,7 @@ import org.mindswap.pellet.test.rules.RulesTestSuite;
 		pellet.test.CLITests.class })
 public class PelletTestSuite
 {
-	//public static String base = "test/data/";
-	public static String base = "src/test/resources/test/data/";
+	public static String base = ((new File("test/data/")).exists()) ? "test/data/" : "src/test/resources/test/data";
 
 	static
 	{

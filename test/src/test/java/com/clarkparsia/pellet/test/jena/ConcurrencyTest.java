@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.apache.jena.ontology.ConversionException;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.ontology.OntModel;

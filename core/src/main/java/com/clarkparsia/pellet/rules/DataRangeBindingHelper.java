@@ -13,7 +13,7 @@ import com.clarkparsia.pellet.rules.model.DataRangeAtom;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Literal;
 import org.mindswap.pellet.exceptions.InternalReasonerException;

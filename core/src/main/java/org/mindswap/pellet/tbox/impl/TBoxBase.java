@@ -35,8 +35,8 @@ import aterm.ATermAppl;
 import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.Map;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
-import net.katk.tools.Logging;
+import openllet.shared.tools.Log;
+import openllet.shared.tools.Logging;
 import org.mindswap.pellet.KnowledgeBase;
 
 public class TBoxBase implements Logging

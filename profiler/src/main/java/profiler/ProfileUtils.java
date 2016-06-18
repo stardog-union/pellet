@@ -7,7 +7,7 @@
 package profiler;
 
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.ABox;
 import org.mindswap.pellet.Individual;
 import org.mindswap.pellet.KnowledgeBase;

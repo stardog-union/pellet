@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.junit.Test;
 import org.mindswap.pellet.test.PelletTestSuite;
 import org.semanticweb.owlapi.model.AddAxiom;

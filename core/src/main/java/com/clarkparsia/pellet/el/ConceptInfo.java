@@ -11,7 +11,7 @@ import com.clarkparsia.pellet.utils.CollectionUtils;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.utils.ATermUtils;
 import org.mindswap.pellet.utils.MultiValueMap;
 

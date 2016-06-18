@@ -38,7 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.KRSSLoader;
 import org.mindswap.pellet.KnowledgeBase;
 import org.mindswap.pellet.exceptions.TimeoutException;

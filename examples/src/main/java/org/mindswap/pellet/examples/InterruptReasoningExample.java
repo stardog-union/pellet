@@ -2,7 +2,7 @@ package org.mindswap.pellet.examples;
 
 import com.clarkparsia.pellet.sparqldl.jena.SparqlDLExecutionFactory;
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;

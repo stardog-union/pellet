@@ -1,4 +1,4 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 import com.clarkparsia.owlapi.OWL;
 import java.io.File;

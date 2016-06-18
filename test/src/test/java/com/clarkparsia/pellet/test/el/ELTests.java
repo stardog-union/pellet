@@ -24,7 +24,7 @@ import com.clarkparsia.pellet.utils.TermFactory;
 import java.util.Properties;
 import java.util.logging.Logger;
 import junit.framework.JUnit4TestAdapter;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mindswap.pellet.KBLoader;

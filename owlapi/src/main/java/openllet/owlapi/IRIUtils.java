@@ -1,4 +1,4 @@
-package com.intrinsec.owlapi;
+package openllet.owlapi;
 
 import java.util.Random;
 import org.semanticweb.owlapi.model.IRI;

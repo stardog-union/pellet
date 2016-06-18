@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.utils.DisjointSet;
 import org.mindswap.pellet.utils.SetUtils;
 import org.mindswap.pellet.utils.progress.ProgressMonitor;

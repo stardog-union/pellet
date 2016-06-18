@@ -31,7 +31,7 @@
 package org.mindswap.pellet.jena;
 
 import java.util.logging.Logger;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.apache.jena.graph.Capabilities;
 import org.apache.jena.graph.Graph;
 import org.apache.jena.rdf.model.InfModel;

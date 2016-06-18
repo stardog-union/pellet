@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
-import net.katk.tools.Log;
+import openllet.shared.tools.Log;
 import org.mindswap.pellet.taxonomy.Taxonomy;
 import org.mindswap.pellet.utils.TaxonomyUtils;
 import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
